@@ -110,30 +110,30 @@ export function validateAssetBundle(
   // Validate each scenario asset
   for (const assetRef of scenarioAssets) {
     const result = validateAsset(assetRef);
-    results.push(result);
+    results?.push(result: any);
     
-    if (result.status === 'missing' || result.status === 'invalid') {
-      allIssues.push(`${assetRef.id}: ${result.issues.join(', ')}`);
+    if (result?.status === 'missing' || result?.status === 'invalid') {
+      allIssues?.push(`${assetRef?.id}: ${result?.issues.join(', ')}`);
     }
     
-    if (result.warnings.length > 0) {
-      recommendations.push(`${assetRef.id}: ${result.warnings.join(', ')}`);
+    if (result?.warnings.length > 0) {
+      recommendations?.push(`${assetRef?.id}: ${result?.warnings.join(', ')}`);
     }
   }
 
   // Check for orphaned manifest assets
   const orphanedAssets = findOrphanedAssets(scenarioAssets, manifestAssets);
   for (const orphaned of orphanedAssets) {
-    results.push({
-      id: orphaned.id,
-      path: orphaned.path,
-      type: orphaned.type,
+    results?.push({
+      id: orphaned?.id,
+      path: orphaned?.path,
+      type: orphaned?.type,
       status: 'warning',
       issues: [],
       warnings: ['Asset not referenced by any scenario'],
       metadata: {
-        license: orphaned.license,
-        platform: orphaned.platform
+        license: orphaned?.license,
+        platform: orphaned?.platform
       }
     });
   }
@@ -145,8 +145,8 @@ export function validateAssetBundle(
   const status = determineOverallStatus(summary, strictMode);
   
   // Check remix-safe compliance
-  const compliance = checkRemixSafeCompliance(results, manifestAssets, context.platform);
-  const remixSafe = compliance.licensing && compliance.attribution && compliance.platformSupport && summary.missing === 0;
+  const compliance = checkRemixSafeCompliance(results, manifestAssets, context?.platform);
+  const remixSafe = compliance?.licensing && compliance?.attribution && compliance?.platformSupport && summary?.missing === 0;
 
   return {
     op: 'validate',
@@ -168,9 +168,9 @@ function validateAsset(
   context: ValidationContext
 ): AssetValidationResult {
   const result: AssetValidationResult = {
-    id: assetRef.id,
-    path: assetRef.path,
-    type: assetRef.type,
+    id: assetRef?.id,
+    path: assetRef?.path,
+    type: assetRef?.type,
     status: 'valid',
     issues: [],
     warnings: [],
@@ -178,68 +178,68 @@ function validateAsset(
   };
 
   // Find asset in manifest
-  const manifestAsset = context.manifestAssets.assets.find(a => a.id === assetRef.id);
+  const manifestAsset = context?.manifestAssets.assets?.find(a => a?.id === assetRef?.id);
   
   if (!manifestAsset) {
-    result.status = 'missing';
-    result.issues.push('Asset not found in manifest');
+    result?.status = 'missing';
+    result?.issues?.push('Asset not found in manifest');
     return result;
   }
 
   // Validate asset properties
-  const validationRule = context.rules[assetRef.type] || context.rules.default;
+  const validationRule = context?.rules[assetRef?.type] || context?.rules.default;
   
   // Check required properties
-  if (validationRule.requiredProperties) {
-    for (const prop of validationRule.requiredProperties) {
+  if (validationRule?.requiredProperties) {
+    for (const prop of validationRule?.requiredProperties) {
       if (prop === 'license') {
         // License is at the asset level, not in properties
-        if (!manifestAsset.license) {
-          result.issues.push(`Missing required property: ${prop}`);
+        if (!manifestAsset?.license) {
+          result?.issues?.push(`Missing required property: ${prop}`);
         }
-      } else if (!manifestAsset.properties || !manifestAsset.properties[prop!]) {
-        result.issues.push(`Missing required property: ${prop}`);
+      } else if (!manifestAsset?.properties || !manifestAsset?.properties[prop!]) {
+        result?.issues?.push(`Missing required property: ${prop}`);
       }
     }
   }
 
   // Check license compliance
-  if (validationRule.licenseWhitelist && !validationRule.licenseWhitelist.includes(manifestAsset.license)) {
-    result.issues.push(`License '${manifestAsset.license}' not in whitelist`);
+  if (validationRule?.licenseWhitelist && !validationRule?.licenseWhitelist.includes(manifestAsset?.license)) {
+    result?.issues?.push(`License '${manifestAsset?.license}' not in whitelist`);
   }
 
   // Check platform compatibility
-  if (manifestAsset.platform && manifestAsset.platform !== 'all' && manifestAsset.platform !== context.platform) {
-    result.issues.push(`Platform mismatch: expected ${context.platform}, got ${manifestAsset.platform}`);
+  if (manifestAsset?.platform && manifestAsset?.platform !== 'all' && manifestAsset?.platform !== context?.platform) {
+    result?.issues?.push(`Platform mismatch: expected ${context?.platform}, got ${manifestAsset?.platform}`);
   }
 
   // Check dependencies
-  if (manifestAsset.dependencies) {
-    for (const depId of manifestAsset.dependencies) {
-      const depAsset = context.manifestAssets.assets.find(a => a.id === depId);
+  if (manifestAsset?.dependencies) {
+    for (const depId of manifestAsset?.dependencies) {
+      const depAsset = context?.manifestAssets.assets?.find(a => a?.id === depId);
       if (!depAsset) {
-        result.issues.push(`Missing dependency: ${depId}`);
+        result?.issues?.push(`Missing dependency: ${depId}`);
       }
     }
   }
 
   // Check attribution for remix-safe compliance
-  if (!manifestAsset.attribution && context.strictMode) {
-    result.warnings?.push('Missing attribution information');
+  if (!manifestAsset?.attribution && context?.strictMode) {
+    result?.warnings?.push('Missing attribution information');
   }
 
   // Set metadata
-  result.metadata = {
-    license: manifestAsset.license,
-    platform: manifestAsset.platform,
-    properties: manifestAsset.properties
+  result?.metadata = {
+    license: manifestAsset?.license,
+    platform: manifestAsset?.platform,
+    properties: manifestAsset?.properties
   };
 
   // Determine final status
-  if (result.issues.length > 0) {
-    result.status = 'invalid';
-  } else if (result.warnings.length > 0) {
-    result.status = 'warning';
+  if (result?.issues.length > 0) {
+    result?.status = 'invalid';
+  } else if (result?.warnings.length > 0) {
+    result?.status = 'warning';
   }
 
   return result;
@@ -252,8 +252,8 @@ function findOrphanedAssets(
   scenarioAssets: AssetReference[],
   manifestAssets: AssetManifest
 ): AssetManifest['assets'] {
-  const referencedIds = new Set(scenarioAssets.map((a: any) => a.id));
-  return manifestAssets.assets.filter((asset: any) => !referencedIds.has(asset.id));
+  const referencedIds = new Set(scenarioAssets?.map((a: any) => a?.id));
+  return manifestAssets?.assets.filter((asset: any) => !referencedIds?.has(asset?.id));
 }
 
 /**
@@ -261,11 +261,11 @@ function findOrphanedAssets(
  */
 function generateSummary(results: AssetValidationResult[]): ValidationReport['summary'] {
   return {
-    total: results.length,
-    valid: results.filter((r: any) => r.status === 'valid').length,
-    missing: results.filter((r: any) => r.status === 'missing').length,
-    invalid: results.filter((r: any) => r.status === 'invalid').length,
-    warnings: results.filter((r: any) => r.status === 'warning').length
+    total: results?.length,
+    valid: results?.filter((r: any) => r?.status === 'valid').length,
+    missing: results?.filter((r: any) => r?.status === 'missing').length,
+    invalid: results?.filter((r: any) => r?.status === 'invalid').length,
+    warnings: results?.filter((r: any) => r?.status === 'warning').length
   };
 }
 
@@ -276,11 +276,11 @@ function determineOverallStatus(
   summary: ValidationReport['summary'],
   strictMode: boolean
 ): ValidationReport['status'] {
-  if (summary.missing > 0 || summary.invalid > 0) {
+  if (summary?.missing > 0 || summary?.invalid > 0) {
     return 'error';
   }
   
-  if (strictMode && summary.warnings > 0) {
+  if (strictMode && summary?.warnings > 0) {
     return 'warning';
   }
   
@@ -296,27 +296,27 @@ function checkRemixSafeCompliance(
   targetPlatform: string
 ): ValidationReport['compliance'] {
   // Only check assets that are present (not missing)
-  const presentAssets = results.filter((r: any) => r.status !== 'missing');
+  const presentAssets = results?.filter((r: any) => r?.status !== 'missing');
   
-  const licensing = presentAssets.every(r => 
-    r.metadata?.license && 
-    ['cc0', 'cc-by', 'cc-by-sa', 'public-domain', 'ofl'].includes(r.metadata.license)
+  const licensing = presentAssets?.every(r => 
+    r?.metadata?.license && 
+    ['cc0', 'cc-by', 'cc-by-sa', 'public-domain', 'ofl'].includes(r?.metadata.license)
   );
 
-  const attribution = presentAssets.every(r => {
-    if (r.metadata?.license === 'cc0' || r.metadata?.license === 'public-domain') {
+  const attribution = presentAssets?.every(r => {
+    if (r?.metadata?.license === 'cc0' || r?.metadata?.license === 'public-domain') {
       return true; // No attribution required
     }
     return true; // Attribution checked in individual validation
   });
 
-  const platformSupport = presentAssets.every(r => 
-    !r.metadata?.platform || 
-    r.metadata.platform === 'all' || 
-    r.metadata.platform === targetPlatform
+  const platformSupport = presentAssets?.every(r => 
+    !r?.metadata?.platform || 
+    r?.metadata.platform === 'all' || 
+    r?.metadata.platform === targetPlatform
   );
 
-  const schemaValidation = results.every(r => r.status !== 'invalid' && r.status !== 'missing');
+  const schemaValidation = results?.every(r => r?.status !== 'invalid' && r?.status !== 'missing');
 
   return {
     licensing,
@@ -386,7 +386,7 @@ export function validateScenarioAssets(
   const scenarioAssets: AssetReference[] = [
     {
       id: 'placeholder',
-      path: 'assets/placeholder.png',
+      path: 'assets/placeholder?.png',
       type: 'sprite',
       required: true,
       source: 'scenario'
@@ -407,33 +407,33 @@ export function generateAssetReport(report: ValidationReport): string {
   let output = `Asset Validation Report\n`;
   output += `======================\n\n`;
   
-  output += `Status: ${report.status.toUpperCase()}\n`;
-  output += `Remix-Safe: ${report.remixSafe ? 'YES' : 'NO'}\n\n`;
+  output += `Status: ${report?.status.toUpperCase()}\n`;
+  output += `Remix-Safe: ${report?.remixSafe ? 'YES' : 'NO'}\n\n`;
   
   output += `Summary:\n`;
-  output += `  Total Assets: ${report.summary.total}\n`;
-  output += `  Valid: ${report.summary.valid}\n`;
-  output += `  Missing: ${report.summary.missing}\n`;
-  output += `  Invalid: ${report.summary.invalid}\n`;
-  output += `  Warnings: ${report.summary.warnings}\n\n`;
+  output += `  Total Assets: ${report?.summary.total}\n`;
+  output += `  Valid: ${report?.summary.valid}\n`;
+  output += `  Missing: ${report?.summary.missing}\n`;
+  output += `  Invalid: ${report?.summary.invalid}\n`;
+  output += `  Warnings: ${report?.summary.warnings}\n\n`;
   
-  if (report.issues.length > 0) {
+  if (report?.issues.length > 0) {
     output += `Issues:\n`;
-    report.issues.forEach((issue: any) => output += `  - ${issue}\n`);
+    report?.issues.forEach((issue: any) => output += `  - ${issue}\n`);
     output += `\n`;
   }
   
-  if (report.recommendations.length > 0) {
+  if (report?.recommendations.length > 0) {
     output += `Recommendations:\n`;
-    report.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
+    report?.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
     output += `\n`;
   }
   
   output += `Compliance:\n`;
-  output += `  Licensing: ${report.compliance.licensing ? '✓' : '✗'}\n`;
-  output += `  Attribution: ${report.compliance.attribution ? '✓' : '✗'}\n`;
-  output += `  Platform Support: ${report.compliance.platformSupport ? '✓' : '✗'}\n`;
-  output += `  Schema Validation: ${report.compliance.schemaValidation ? '✓' : '✗'}\n`;
+  output += `  Licensing: ${report?.compliance.licensing ? '✓' : '✗'}\n`;
+  output += `  Attribution: ${report?.compliance.attribution ? '✓' : '✗'}\n`;
+  output += `  Platform Support: ${report?.compliance.platformSupport ? '✓' : '✗'}\n`;
+  output += `  Schema Validation: ${report?.compliance.schemaValidation ? '✓' : '✗'}\n`;
   
   return output;
 }

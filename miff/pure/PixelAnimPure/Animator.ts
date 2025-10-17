@@ -17,7 +17,7 @@ export class PixelAnimator {
   private playingByObject: Map<string, string> = new Map();
 
   playAnimation(objectId: string, animation: Animation): void {
-    this.animations.set(animation.id, animation);
+    this?.animations.set(animation?.id, animation);
     this.playingByObject.set(objectId, animation.id);
   }
 

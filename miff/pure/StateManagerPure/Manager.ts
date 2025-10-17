@@ -876,7 +876,7 @@ export class StateManagerPure {
 
   constructor(config: Partial<StateManagerConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableStateManagement: true,
       enableStatePersistence: true,
       enableStateSynchronization: true,
@@ -893,7 +893,7 @@ export class StateManagerPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalStates: 0,
       activeStates: 0,
       totalTransitions: 0,
@@ -906,7 +906,7 @@ export class StateManagerPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalStates: 0,
       totalTransitions: 0,
       averageStateSize: 0,
@@ -920,7 +920,7 @@ export class StateManagerPure {
    * Create a new state manager
    */
   createManager(): StateManagerOutput {
-    if (!this.config.enableStateManagement) {
+    if (!this?.config.enableStateManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -930,8 +930,8 @@ export class StateManagerPure {
 
     const manager: StateManagerManager = {
       id: managerData.id || `statemanager-${Date.now()}`,
-      name: managerData.name || 'Unnamed State Manager',
-      type: managerData.type || 'local',
+      name: managerData?.name || 'Unnamed State Manager',
+      type: managerData?.type || 'local',
       status: 'active',
       states: [],
       transitions: [],
@@ -996,7 +996,7 @@ export class StateManagerPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1009,7 +1009,7 @@ export class StateManagerPure {
    * Get manager by ID
    */
   getManager(): StateManagerOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1029,14 +1029,14 @@ export class StateManagerPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): StateManagerPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): StateManagerAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1050,7 +1050,7 @@ export class StateManagerPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalStates = 0;
     let activeStates = 0;
     let totalTransitions = 0;
@@ -1058,21 +1058,21 @@ export class StateManagerPure {
     let totalSubscriptions = 0;
     let totalHistoryEntries = 0;
 
-    for (const manager of this.managers.values()) {
-      totalStates += manager.states.length;
-      activeStates += manager.states.filter((s: any) => s.status === 'active').length;
-      totalTransitions += manager.transitions.length;
-      totalValidators += manager.validators.length;
-      totalSubscriptions += manager.subscriptions.length;
-      totalHistoryEntries += manager.history.reduce((sum, h) => sum + h.entries.length, 0);
+    for (const manager of this?.managers.values()) {
+      totalStates += manager?.states.length;
+      activeStates += manager?.states.filter((s: any) => s?.status === 'active').length;
+      totalTransitions += manager?.transitions.length;
+      totalValidators += manager?.validators.length;
+      totalSubscriptions += manager?.subscriptions.length;
+      totalHistoryEntries += manager?.history.reduce((sum, h) => sum + h?.entries.length, 0);
     }
 
-    this.performanceMetrics.totalStates = totalStates;
-    this.performanceMetrics.activeStates = activeStates;
-    this.performanceMetrics.totalTransitions = totalTransitions;
-    this.performanceMetrics.totalValidators = totalValidators;
-    this.performanceMetrics.totalSubscriptions = totalSubscriptions;
-    this.performanceMetrics.totalHistoryEntries = totalHistoryEntries;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalStates = totalStates;
+    this?.performanceMetrics.activeStates = activeStates;
+    this?.performanceMetrics.totalTransitions = totalTransitions;
+    this?.performanceMetrics.totalValidators = totalValidators;
+    this?.performanceMetrics.totalSubscriptions = totalSubscriptions;
+    this?.performanceMetrics.totalHistoryEntries = totalHistoryEntries;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

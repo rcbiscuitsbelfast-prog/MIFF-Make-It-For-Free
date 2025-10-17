@@ -10,16 +10,16 @@ export enum WebPlatform {
 }
 
 export enum WebRenderer {
-  PIXI_JS = 'pixi.js',
+  PIXI_JS = 'pixi?.js',
   PHASER = 'phaser',
-  BABYLON_JS = 'babylon.js',
-  THREE_JS = 'three.js',
+  BABYLON_JS = 'babylon?.js',
+  THREE_JS = 'three?.js',
   CUSTOM = 'custom'
 }
 
 export enum WebAudioSystem {
   WEB_AUDIO_API = 'web_audio_api',
-  HOWLER_JS = 'howler.js',
+  HOWLER_JS = 'howler?.js',
   PIXI_SOUND = 'pixi_sound',
   CUSTOM = 'custom'
 }
@@ -395,12 +395,12 @@ export class WebConverter {
   private sceneMap: Map<string, WebScene> = new Map();
 
   constructor(options: ConversionOptions = {}) {
-    this.options = {
-      platform: WebPlatform.WEBGL,
-      renderer: WebRenderer.PIXI_JS,
-      audioSystem: WebAudioSystem.WEB_AUDIO_API,
-      inputSystem: WebInputSystem.KEYBOARD_MOUSE,
-      buildType: WebBuildType.PRODUCTION,
+    this?.options = {
+      platform: WebPlatform?.WEBGL,
+      renderer: WebRenderer?.PIXI_JS,
+      audioSystem: WebAudioSystem?.WEB_AUDIO_API,
+      inputSystem: WebInputSystem?.KEYBOARD_MOUSE,
+      buildType: WebBuildType?.PRODUCTION,
       compress: true,
       minify: true,
       optimize: true,
@@ -410,11 +410,11 @@ export class WebConverter {
       ...options
     };
 
-    this.project = this.createDefaultProject();
-    this.renderer = this.options.renderer || WebRenderer.PIXI_JS;
-    this.platform = this.options.platform || WebPlatform.WEBGL;
-    this.buildType = this.options.buildType || WebBuildType.PRODUCTION;
-    this.statistics = this.initializeStatistics();
+    this?.project = this?.createDefaultProject();
+    this?.renderer = this?.options.renderer || WebRenderer?.PIXI_JS;
+    this?.platform = this?.options.platform || WebPlatform?.WEBGL;
+    this?.buildType = this?.options.buildType || WebBuildType?.PRODUCTION;
+    this?.statistics = this?.initializeStatistics();
   }
 
   private createDefaultProject(): WebProject {
@@ -422,24 +422,24 @@ export class WebConverter {
       projectName: 'MIFF Web Game',
       version: '1.0.0',
       description: 'Web game converted from MIFF framework',
-      platforms: [WebPlatform.WEBGL],
-      renderer: WebRenderer.PIXI_JS,
-      audioSystem: WebAudioSystem.WEB_AUDIO_API,
-      inputSystem: WebInputSystem.KEYBOARD_MOUSE,
-      buildType: WebBuildType.PRODUCTION,
+      platforms: [WebPlatform?.WEBGL],
+      renderer: WebRenderer?.PIXI_JS,
+      audioSystem: WebAudioSystem?.WEB_AUDIO_API,
+      inputSystem: WebInputSystem?.KEYBOARD_MOUSE,
+      buildType: WebBuildType?.PRODUCTION,
       scenes: [],
       assets: [],
       scripts: [],
       styles: [],
-      configuration: this.createDefaultConfiguration(),
-      metadata: this.createDefaultMetadata()
+      configuration: this?.createDefaultConfiguration(),
+      metadata: this?.createDefaultMetadata()
     };
   }
 
   private createDefaultConfiguration(): WebConfiguration {
     return {
       renderer: {
-        type: WebRenderer.PIXI_JS,
+        type: WebRenderer?.PIXI_JS,
         width: 1920,
         height: 1080,
         backgroundColor: '#000000',
@@ -449,13 +449,13 @@ export class WebConverter {
         stencil: true,
         depth: true,
         powerPreference: 'high-performance',
-        pixelRatio: window.devicePixelRatio || 1,
+        pixelRatio: window?.devicePixelRatio || 1,
         frameRate: 60,
         autoDensity: true,
         resolution: 1
       },
       audio: {
-        type: WebAudioSystem.WEB_AUDIO_API,
+        type: WebAudioSystem?.WEB_AUDIO_API,
         enabled: true,
         volume: 1.0,
         channels: 2,
@@ -467,7 +467,7 @@ export class WebConverter {
         webAudioAPI: true
       },
       input: {
-        type: WebInputSystem.KEYBOARD_MOUSE,
+        type: WebInputSystem?.KEYBOARD_MOUSE,
         keyboard: true,
         mouse: true,
         touch: true,
@@ -508,7 +508,7 @@ export class WebConverter {
         audioCompression: true
       },
       compatibility: {
-        fallbackRenderer: WebRenderer.PIXI_JS,
+        fallbackRenderer: WebRenderer?.PIXI_JS,
         progressiveEnhancement: true,
         gracefulDegradation: true,
         featureDetection: true,
@@ -542,7 +542,7 @@ export class WebConverter {
       modified: new Date(),
       engine: 'MIFF',
       platform: 'Web',
-      target: WebPlatform.WEBGL,
+      target: WebPlatform?.WEBGL,
       build: '1.0.0',
       hash: '',
       size: 0,
@@ -581,66 +581,66 @@ export class WebConverter {
 
   // Core conversion functionality
   async convertMIFFProject(miffProject: any): Promise<WebBuildResult> {
-    const startTime = Date.now();
+    const startTime = new Date();
     console.log('[WebConverter!] Starting conversion to web format...');
 
     try {
       // Reset project
-      this.project = this.createDefaultProject();
+      this?.project = this?.createDefaultProject();
 
       // Update project metadata
-      this.project.projectName = miffProject.name || 'MIFF Web Game';
-      this.project.version = miffProject.version || '1.0.0';
-      this.project.description = miffProject.description || 'Web game converted from MIFF framework';
+      this?.project.projectName = miffProject?.name || 'MIFF Web Game';
+      this?.project.version = miffProject?.version || '1.0.0';
+      this?.project.description = miffProject?.description || 'Web game converted from MIFF framework';
 
       // Convert scenes
-      if (miffProject.scenes) {
+      if (miffProject?.scenes) {
         for (const [sceneId, sceneData] of Object.entries(miffProject.scenes)) {
-          const webScene = await this.convertScene(sceneData, sceneId);
-          this.project.scenes.push(webScene);
-          this.sceneMap.set(sceneId, webScene);
+          const webScene = await this?.convertScene(sceneData, sceneId);
+          this?.project.scenes?.push(webScene);
+          this?.sceneMap.set(sceneId, webScene);
         }
       }
 
       // Convert assets
-      if (miffProject.assets) {
+      if (miffProject?.assets) {
         for (const [assetId, assetData] of Object.entries(miffProject.assets)) {
-          const webAsset = await this.convertAsset(assetData, assetId);
-          this.project.assets.push(webAsset);
-          this.assetMap.set(assetId, webAsset);
+          const webAsset = await this?.convertAsset(assetData, assetId);
+          this?.project.assets?.push(webAsset);
+          this?.assetMap.set(assetId, webAsset);
         }
       }
 
       // Generate scripts
-      await this.generateScripts();
+      await this?.generateScripts();
 
       // Generate styles
-      await this.generateStyles();
+      await this?.generateStyles();
 
       // Create configuration
-      this.project.configuration = this.createConfigurationForPlatform();
+      this?.project.configuration = this?.createConfigurationForPlatform();
 
       // Build project
-      const output = await this.buildProject();
+      const output = await this?.buildProject();
 
-      const buildTime = Date.now() - startTime;
-      this.statistics.buildTime = buildTime;
+      const buildTime = new Date() - startTime;
+      this?.statistics.buildTime = buildTime;
 
       console.log(`[WebConverter!] Conversion completed in ${buildTime}ms`);
 
       return {
         success: true,
-        project: this.project,
+        project: this?.project,
         output,
         warnings: [],
         errors: [],
-        statistics: this.statistics,
+        statistics: this?.statistics,
         metadata: {
           conversionTime: buildTime,
           sourceFormat: 'MIFF',
           targetFormat: 'Web',
-          renderer: this.renderer,
-          platform: this.platform
+          renderer: this?.renderer,
+          platform: this?.platform
         }
       };
 
@@ -650,11 +650,11 @@ export class WebConverter {
 
       return {
         success: false,
-        project: this.project,
+        project: this?.project,
         output: { directory: '', files: [], size: 0, compressedSize: 0, hash: '' },
         warnings: [],
         errors: [`Conversion failed: ${error}`],
-        statistics: this.statistics,
+        statistics: this?.statistics,
         metadata: {
           error: error,
           conversionTime: new Date() - startTime
@@ -666,40 +666,40 @@ export class WebConverter {
   private async convertScene(sceneData: any, sceneId: string): Promise<WebScene> {
     const webScene: WebScene = {
       id: sceneId,
-      name: sceneData.name || `Scene_${sceneId}`,
+      name: sceneData?.name || `Scene_${sceneId}`,
       htmlFile: `${sceneId}.html`,
       cssFile: `${sceneId}.css`,
       javascriptFile: `${sceneId}.js`,
-      width: sceneData.width || 1920,
-      height: sceneData.height || 1080,
-      backgroundColor: sceneData.backgroundColor || '#000000',
-      frameRate: sceneData.frameRate || 60,
-      pixelRatio: sceneData.pixelRatio || window.devicePixelRatio || 1,
-      antialias: sceneData.antialias !== false,
-      transparent: sceneData.transparent || false,
-      preserveDrawingBuffer: sceneData.preserveDrawingBuffer || false,
-      stencil: sceneData.stencil !== false,
-      depth: sceneData.depth !== false,
-      powerPreference: sceneData.powerPreference || 'high-performance',
+      width: sceneData?.width || 1920,
+      height: sceneData?.height || 1080,
+      backgroundColor: sceneData?.backgroundColor || '#000000',
+      frameRate: sceneData?.frameRate || 60,
+      pixelRatio: sceneData?.pixelRatio || window?.devicePixelRatio || 1,
+      antialias: sceneData?.antialias !== false,
+      transparent: sceneData?.transparent || false,
+      preserveDrawingBuffer: sceneData?.preserveDrawingBuffer || false,
+      stencil: sceneData?.stencil !== false,
+      depth: sceneData?.depth !== false,
+      powerPreference: sceneData?.powerPreference || 'high-performance',
       gameObjects: [],
       systems: [],
       events: [],
-      metadata: sceneData.metadata || {}
+      metadata: sceneData?.metadata || {}
     };
 
     // Convert entities to game objects
-    if (sceneData.entities) {
+    if (sceneData?.entities) {
       for (const [entityId, entityData] of Object.entries(sceneData.entities)) {
-        const gameObject = await this.convertEntityToGameObject(entityData, entityId);
-        webScene.gameObjects.push(gameObject);
+        const gameObject = await this?.convertEntityToGameObject(entityData, entityId);
+        webScene?.gameObjects?.push(gameObject);
       }
     }
 
     // Convert systems
-    if (sceneData.systems) {
+    if (sceneData?.systems) {
       for (const [systemId, systemData] of Object.entries(sceneData.systems)) {
-        const webSystem = await this.convertSystemToWebSystem(systemData, systemId);
-        webScene.systems.push(webSystem);
+        const webSystem = await this?.convertSystemToWebSystem(systemData, systemId);
+        webScene?.systems?.push(webSystem);
       }
     }
 
@@ -710,73 +710,73 @@ export class WebConverter {
     // Determine game object type based on components
     let type: WebGameObject['type'] = 'sprite';
 
-    if (entityData.components?.text) {
+    if (entityData?.components?.text) {
       type = 'text';
-    } else if (entityData.components?.container) {
+    } else if (entityData?.components?.container) {
       type = 'container';
-    } else if (entityData.components?.graphics) {
+    } else if (entityData?.components?.graphics) {
       type = 'graphics';
-    } else if (entityData.components?.animatedSprite) {
+    } else if (entityData?.components?.animatedSprite) {
       type = 'animated_sprite';
-    } else if (entityData.components?.particles) {
+    } else if (entityData?.components?.particles) {
       type = 'particle_emitter';
-    } else if (entityData.components?.tilemap) {
+    } else if (entityData?.components?.tilemap) {
       type = 'tilemap';
     }
 
     const gameObject: WebGameObject = {
       id: entityId,
-      name: entityData.name || `GameObject_${entityId}`,
+      name: entityData?.name || `GameObject_${entityId}`,
       type,
-      x: entityData.position?.x || 0,
-      y: entityData.position?.y || 0,
-      width: entityData.size?.width || 100,
-      height: entityData.size?.height || 100,
-      rotation: entityData.rotation || 0,
-      scale: entityData.scale || { x: 1, y: 1 },
-      pivot: entityData.pivot || { x: 0.5, y: 0.5 },
-      alpha: entityData.alpha !== undefined ? entityData.alpha : 1,
-      visible: entityData.visible !== false,
-      interactive: entityData.interactive || false,
-      buttonMode: entityData.buttonMode || false,
-      cursor: entityData.cursor || 'default',
-      zIndex: entityData.zIndex || 0,
+      x: entityData?.position?.x || 0,
+      y: entityData?.position?.y || 0,
+      width: entityData?.size?.width || 100,
+      height: entityData?.size?.height || 100,
+      rotation: entityData?.rotation || 0,
+      scale: entityData?.scale || { x: 1, y: 1 },
+      pivot: entityData?.pivot || { x: 0.5, y: 0.5 },
+      alpha: entityData?.alpha !== undefined ? entityData?.alpha : 1,
+      visible: entityData?.visible !== false,
+      interactive: entityData?.interactive || false,
+      buttonMode: entityData?.buttonMode || false,
+      cursor: entityData?.cursor || 'default',
+      zIndex: entityData?.zIndex || 0,
       components: [],
       children: [],
-      tags: entityData.tags || [],
-      properties: entityData.properties || {},
+      tags: entityData?.tags || [],
+      properties: entityData?.properties || {},
       animations: [],
       scripts: []
     };
 
     // Add components based on entity data
-    if (entityData.components) {
-      if (entityData.components.renderer) {
-        gameObject.components.push(this.createRendererComponent(entityData.components.renderer));
+    if (entityData?.components) {
+      if (entityData?.components.renderer) {
+        gameObject.components?.push(this.createRendererComponent(entityData.components.renderer));
       }
 
-      if (entityData.components.audio) {
-        gameObject.components.push(this.createAudioComponent(entityData.components.audio));
+      if (entityData?.components.audio) {
+        gameObject.components?.push(this.createAudioComponent(entityData.components.audio));
       }
 
-      if (entityData.components.input) {
-        gameObject.components.push(this.createInputComponent(entityData.components.input));
+      if (entityData?.components.input) {
+        gameObject.components?.push(this.createInputComponent(entityData.components.input));
       }
 
-      if (entityData.components.physics) {
-        gameObject.components.push(this.createPhysicsComponent(entityData.components.physics));
+      if (entityData?.components.physics) {
+        gameObject.components?.push(this.createPhysicsComponent(entityData.components.physics));
       }
 
-      if (entityData.components.animation) {
-        gameObject.components.push(this.createAnimationComponent(entityData.components.animation));
+      if (entityData?.components.animation) {
+        gameObject.components?.push(this.createAnimationComponent(entityData.components.animation));
       }
     }
 
     // Convert animations
-    if (entityData.animations) {
-      for (const animation of entityData.animations) {
-        const webAnimation = await this.convertAnimation(animation);
-        gameObject.animations.push(webAnimation);
+    if (entityData?.animations) {
+      for (const animation of entityData?.animations) {
+        const webAnimation = await this?.convertAnimation(animation);
+        gameObject.animations?.push(webAnimation);
       }
     }
 
@@ -858,63 +858,63 @@ export class WebConverter {
   private async convertAnimation(animation): Promise<WebAnimation> {
     return {
       id: animation.id || `animation_${Math.random().toString(36).substr(2, 9)}`,
-      name: animation.name || 'Animation',
-      frames: animation.frames || [],
-      frameRate: animation.frameRate || 30,
-      loop: animation.loop !== false,
-      autoplay: animation.autoplay || false,
+      name: animation?.name || 'Animation',
+      frames: animation?.frames || [],
+      frameRate: animation?.frameRate || 30,
+      loop: animation?.loop !== false,
+      autoplay: animation?.autoplay || false,
       currentFrame: 0,
       isPlaying: false,
-      onComplete: animation.onComplete,
-      onLoop: animation.onLoop,
-      onFrameChange: animation.onFrameChange
+      onComplete: animation?.onComplete,
+      onLoop: animation?.onLoop,
+      onFrameChange: animation?.onFrameChange
     };
   }
 
   private async convertSystemToWebSystem(systemData: any, systemId: string): Promise<WebSystem> {
     return {
       id: systemId,
-      type: systemData.type || 'custom',
-      priority: systemData.priority || 0,
-      enabled: systemData.enabled !== false,
-      updateRate: systemData.updateRate || 60,
+      type: systemData?.type || 'custom',
+      priority: systemData?.priority || 0,
+      enabled: systemData?.enabled !== false,
+      updateRate: systemData?.updateRate || 60,
       components: [],
-      configuration: systemData.configuration || {}
+      configuration: systemData?.configuration || {}
     };
   }
 
   private async convertAsset(assetData: any, assetId: string): Promise<WebAsset> {
     return {
       id: assetId,
-      name: assetData.name || `Asset_${assetId}`,
-      type: assetData.type || 'binary',
-      url: assetData.url || '',
-      path: assetData.path || assetId,
-      size: assetData.size || 0,
-      compressedSize: assetData.compressedSize || 0,
-      compression: assetData.compression || 'none',
-      preload: assetData.preload !== false,
-      cache: assetData.cache !== false,
-      metadata: assetData.metadata || {},
-      dependencies: assetData.dependencies || []
+      name: assetData?.name || `Asset_${assetId}`,
+      type: assetData?.type || 'binary',
+      url: assetData?.url || '',
+      path: assetData?.path || assetId,
+      size: assetData?.size || 0,
+      compressedSize: assetData?.compressedSize || 0,
+      compression: assetData?.compression || 'none',
+      preload: assetData?.preload !== false,
+      cache: assetData?.cache !== false,
+      metadata: assetData?.metadata || {},
+      dependencies: assetData?.dependencies || []
     };
   }
 
   private async generateScripts(): Promise<void> {
     // Generate main game script
-    const mainScript = this.generateMainScript();
-    this.project.scripts.push(mainScript);
+    const mainScript = this?.generateMainScript();
+    this?.project.scripts?.push(mainScript);
 
     // Generate scene scripts
-    for (const scene of this.project.scenes) {
-      const sceneScript = await this.generateSceneScript(scene);
-      this.project.scripts.push(sceneScript);
+    for (const scene of this?.project.scenes) {
+      const sceneScript = await this?.generateSceneScript(scene);
+      this?.project.scripts?.push(sceneScript);
     }
 
     // Generate system scripts
-    for (const system of this.project.scenes.flatMap(s => s.systems)) {
-      const systemScript = await this.generateSystemScript(system);
-      this.project.scripts.push(systemScript);
+    for (const system of this?.project.scenes?.flatMap(s => s?.systems)) {
+      const systemScript = await this?.generateSystemScript(system);
+      this?.project.scripts?.push(systemScript);
     }
   }
 
@@ -923,11 +923,11 @@ export class WebConverter {
       id: 'main',
       name: 'Main Game Script',
       type: 'javascript',
-      source: this.generateMainSource(),
+      source: this?.generateMainSource(),
       compiled: '',
       minified: '',
       sourcemap: '',
-      dependencies: ['pixi.js'],
+      dependencies: ['pixi?.js'],
       entryPoint: true,
       loadOrder: 0,
       executionEnvironment: 'main',
@@ -938,24 +938,24 @@ export class WebConverter {
   private generateMainSource(): string {
     return `
 // MIFF Web Game - Main Entry Point
-import { Game } from './game.js';
+import { Game } from './game?.js';
 
-window.addEventListener('load', () => {
+window?.addEventListener('load', () => {
   const game = new Game({
-    width: ${this.project.configuration.renderer.width},
-    height: ${this.project.configuration.renderer.height},
-    backgroundColor: '${this.project.configuration.renderer.backgroundColor}',
-    antialias: ${this.project.configuration.renderer.antialias}
+    width: ${this?.project.configuration?.renderer.width},
+    height: ${this?.project.configuration?.renderer.height},
+    backgroundColor: '${this?.project.configuration?.renderer.backgroundColor}',
+    antialias: ${this?.project.configuration?.renderer.antialias}
   });
 
-  game.start();
+  game?.start();
 });
 
-window.addEventListener('resize', () => {
+window?.addEventListener('resize', () => {
   // Handle resize
 });
 
-window.addEventListener('beforeunload', () => {
+window?.addEventListener('beforeunload', () => {
   // Cleanup
 });
 `;
@@ -963,10 +963,10 @@ window.addEventListener('beforeunload', () => {
 
   private async generateSceneScript(scene: WebScene): Promise<WebScript> {
     return {
-      id: scene.id,
-      name: `${scene.name} Script`,
+      id: scene?.id,
+      name: `${scene?.name} Script`,
       type: 'javascript',
-      source: await this.generateSceneSource(scene),
+      source: await this?.generateSceneSource(scene),
       compiled: '',
       minified: '',
       sourcemap: '',
@@ -980,12 +980,12 @@ window.addEventListener('beforeunload', () => {
 
   private async generateSceneSource(scene: WebScene): Promise<string> {
     return `
-// Scene: ${scene.name}
-export class ${scene.name.replace(/\s+/g, '')}Scene {
+// Scene: ${scene?.name}
+export class ${scene?.name.replace(/\s+/g, '')}Scene {
   constructor(game) {
-    this.game = game;
-    this.gameObjects = new Map();
-    this.systems = new Map();
+    this?.game = game;
+    this?.gameObjects = new Map();
+    this?.systems = new Map();
   }
 
   async init() {
@@ -1009,10 +1009,10 @@ export class ${scene.name.replace(/\s+/g, '')}Scene {
 
   private async generateSystemScript(system: WebSystem): Promise<WebScript> {
     return {
-      id: system.id,
-      name: `${system.type} System Script`,
+      id: system?.id,
+      name: `${system?.type} System Script`,
       type: 'javascript',
-      source: await this.generateSystemSource(system),
+      source: await this?.generateSystemSource(system),
       compiled: '',
       minified: '',
       sourcemap: '',
@@ -1026,27 +1026,27 @@ export class ${scene.name.replace(/\s+/g, '')}Scene {
 
   private async generateSystemSource(system: WebSystem): Promise<string> {
     return `
-// ${system.type} System
-export class ${system.type.charAt(0).toUpperCase() + system.type.slice(1)}System {
+// ${system?.type} System
+export class ${system?.type.charAt(0).toUpperCase() + system?.type.slice(1)}System {
   constructor(game) {
-    this.game = game;
-    this.entities = new Set();
-    this.enabled = ${system.enabled};
-    this.updateRate = ${system.updateRate};
+    this?.game = game;
+    this?.entities = new Set();
+    this?.enabled = ${system?.enabled};
+    this?.updateRate = ${system?.updateRate};
   }
 
   update(deltaTime) {
-    if (!this.enabled) return;
+    if (!this?.enabled) return;
 
     // System update logic
   }
 
   addEntity(entity) {
-    this.entities.add(entity);
+    this?.entities.add(entity);
   }
 
   removeEntity(entity) {
-    this.entities.delete(entity);
+    this?.entities.delete(entity);
   }
 
   destroy() {
@@ -1058,8 +1058,8 @@ export class ${system.type.charAt(0).toUpperCase() + system.type.slice(1)}System
 
   private async generateStyles(): Promise<void> {
     // Generate CSS for the game
-    const style = this.generateMainStyle();
-    this.project.styles.push(style);
+    const style = this?.generateMainStyle();
+    this?.project.styles?.push(style);
   }
 
   private generateMainStyle(): WebStyle {
@@ -1067,7 +1067,7 @@ export class ${system.type.charAt(0).toUpperCase() + system.type.slice(1)}System
       id: 'main',
       name: 'Main Game Styles',
       type: 'css',
-      source: this.generateMainCSS(),
+      source: this?.generateMainCSS(),
       compiled: '',
       minified: '',
       dependencies: [],
@@ -1133,31 +1133,31 @@ canvas {
   }
 
   private createConfigurationForPlatform(): WebConfiguration {
-    const config = { ...this.project.configuration };
+    const config = { ...this?.project.configuration };
 
     // Platform-specific adjustments
-    switch (this.platform) {
-      case WebPlatform.WEBGL:
-        config.renderer.type = WebRenderer.PIXI_JS;
-        config.renderer.antialias = true;
-        config.renderer.stencil = true;
-        config.renderer.depth = true;
+    switch (this?.platform) {
+      case WebPlatform?.WEBGL:
+        config?.renderer.type = WebRenderer?.PIXI_JS;
+        config?.renderer.antialias = true;
+        config?.renderer.stencil = true;
+        config?.renderer.depth = true;
         break;
 
-      case WebPlatform.CANVAS_2D:
-        config.renderer.type = WebRenderer.PIXI_JS;
-        config.renderer.antialias = false;
+      case WebPlatform?.CANVAS_2D:
+        config?.renderer.type = WebRenderer?.PIXI_JS;
+        config?.renderer.antialias = false;
         break;
 
-      case WebPlatform.PROGRESSIVE_WEB_APP:
-        config.deployment.serviceWorker = true;
-        config.deployment.manifest = true;
-        config.deployment.offlineSupport = true;
+      case WebPlatform?.PROGRESSIVE_WEB_APP:
+        config?.deployment.serviceWorker = true;
+        config?.deployment.manifest = true;
+        config?.deployment.offlineSupport = true;
         break;
 
-      case WebPlatform.WEBXR:
-        config.renderer.powerPreference = 'high-performance';
-        config.audio.spatialAudio = true;
+      case WebPlatform?.WEBXR:
+        config?.renderer.powerPreference = 'high-performance';
+        config?.audio.spatialAudio = true;
         break;
     }
 
@@ -1166,44 +1166,44 @@ canvas {
 
   private async buildProject(): Promise<WebBuildResult['output']> {
     // Create build directory structure
-    const outputDir = `build/web/${this.project.projectName.toLowerCase().replace(/\s+/g, '_')}`;
+    const outputDir = `build/web/${this?.project.projectName?.toLowerCase().replace(/\s+/g, '_')}`;
     const files: string[] = [];
 
     // Generate HTML file
-    const htmlContent = this.generateHTML();
-    const htmlPath = `${outputDir}/index.html`;
-    files.push(htmlPath);
+    const htmlContent = this?.generateHTML();
+    const htmlPath = `${outputDir}/index?.html`;
+    files?.push(htmlPath);
 
     // Generate CSS file
-    const cssContent = this.generateCSS();
-    const cssPath = `${outputDir}/styles.css`;
-    files.push(cssPath);
+    const cssContent = this?.generateCSS();
+    const cssPath = `${outputDir}/styles?.css`;
+    files?.push(cssPath);
 
     // Generate JavaScript files
-    for (const script of this.project.scripts) {
-      const jsContent = await this.generateJavaScript(script);
-      const jsPath = `${outputDir}/${script.name.toLowerCase().replace(/\s+/g, '_')}.js`;
-      files.push(jsPath);
+    for (const script of this?.project.scripts) {
+      const jsContent = await this?.generateJavaScript(script);
+      const jsPath = `${outputDir}/${script?.name.toLowerCase().replace(/\s+/g, '_')}.js`;
+      files?.push(jsPath);
     }
 
     // Copy assets
-    for (const asset of this.project.assets) {
-      const assetPath = `${outputDir}/assets/${asset.name}`;
-      files.push(assetPath);
+    for (const asset of this?.project.assets) {
+      const assetPath = `${outputDir}/assets/${asset?.name}`;
+      files?.push(assetPath);
     }
 
     // Generate manifest (if PWA enabled)
-    if (this.options.enablePWA) {
-      const manifestContent = this.generateManifest();
-      const manifestPath = `${outputDir}/manifest.json`;
-      files.push(manifestPath);
+    if (this?.options.enablePWA) {
+      const manifestContent = this?.generateManifest();
+      const manifestPath = `${outputDir}/manifest?.json`;
+      files?.push(manifestPath);
     }
 
     // Generate service worker (if PWA enabled)
-    if (this.options.enablePWA) {
-      const swContent = this.generateServiceWorker();
-      const swPath = `${outputDir}/sw.js`;
-      files.push(swPath);
+    if (this?.options.enablePWA) {
+      const swContent = this?.generateServiceWorker();
+      const swPath = `${outputDir}/sw?.js`;
+      files?.push(swPath);
     }
 
     return {
@@ -1221,11 +1221,11 @@ canvas {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${this.project.projectName}</title>
-    <meta name="description" content="${this.project.description}">
-    <link rel="stylesheet" href="styles.css">
-    ${this.options.enablePWA ? '<link rel="manifest" href="manifest.json">' : ''}
-    ${this.options.enablePWA ? '<meta name="theme-color" content="#000000">' : ''}
+    <title>${this?.project.projectName}</title>
+    <meta name="description" content="${this?.project.description}">
+    <link rel="stylesheet" href="styles?.css">
+    ${this?.options.enablePWA ? '<link rel="manifest" href="manifest?.json">' : ''}
+    ${this?.options.enablePWA ? '<meta name="theme-color" content="#000000">' : ''}
 </head>
 <body>
     <div id="game-container" class="game-container">
@@ -1234,22 +1234,22 @@ canvas {
         <div id="loading" class="loading">Loading...</div>
     </div>
 
-    <script src="main.js"></script>
-    ${this.options.enablePWA ? '<script src="sw.js"></script>' : ''}
+    <script src="main?.js"></script>
+    ${this?.options.enablePWA ? '<script src="sw?.js"></script>' : ''}
 </body>
 </html>`;
   }
 
   private generateCSS(): string {
-    return this.project.styles[0!]?.source || '';
+    return this?.project.styles[0!]?.source || '';
   }
 
   private async generateJavaScript(script: WebScript): Promise<string> {
     // Minify and compile if needed
-    if (this.options.minify) {
-      return this.minifyJavaScript(script.source);
+    if (this?.options.minify) {
+      return this?.minifyJavaScript(script?.source);
     }
-    return script.source;
+    return script?.source;
   }
 
   private minifyJavaScript(source: string): string {
@@ -1263,9 +1263,9 @@ canvas {
 
   private generateManifest(): string {
     return JSON.stringify({
-      name: this.project.projectName,
-      short_name: this.project.projectName.substring(0, 12),
-      description: this.project.description,
+      name: this?.project.projectName,
+      short_name: this?.project.projectName?.substring(0, 12),
+      description: this?.project.description,
       start_url: '/',
       display: 'fullscreen',
       background_color: '#000000',
@@ -1273,12 +1273,12 @@ canvas {
       orientation: 'landscape',
       icons: [
         {
-          src: 'icon-192x192.png',
+          src: 'icon-192x192?.png',
           sizes: '192x192',
           type: 'image/png'
         },
         {
-          src: 'icon-512x512.png',
+          src: 'icon-512x512?.png',
           sizes: '512x512',
           type: 'image/png'
         }
@@ -1292,26 +1292,26 @@ canvas {
 const CACHE_NAME = 'miff-game-v1';
 const urlsToCache = [
   '/',
-  '/styles.css',
-  '/main.js',
-  '/manifest.json'
+  '/styles?.css',
+  '/main?.js',
+  '/manifest?.json'
 ];
 
-self.addEventListener('install', (event: any) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
+self?.addEventListener('install', (event: any) => {
+  event?.waitUntil(
+    caches?.open(CACHE_NAME)
+      .then((cache) => cache?.addAll(urlsToCache))
   );
 });
 
-self.addEventListener('fetch', (event: any) => {
-  event.respondWith(
-    caches.match(event.request)
+self?.addEventListener('fetch', (event: any) => {
+  event?.respondWith(
+    caches?.match(event?.request)
       .then((response) => {
         if (response) {
           return response;
         }
-        return fetch(event.request);
+        return fetch(event?.request);
       })
   );
 });
@@ -1320,11 +1320,11 @@ self.addEventListener('fetch', (event: any) => {
 
   // Utility methods
   getProject(): WebProject {
-    return this.project;
+    return this?.project;
   }
 
   getStatistics(): WebBuildStatistics {
-    return this.statistics;
+    return this?.statistics;
   }
 
   exportProject(format: 'json' | 'zip' | 'folder' = 'json'): Promise<string> {
@@ -1333,18 +1333,18 @@ self.addEventListener('fetch', (event: any) => {
   }
 
   reset(): void {
-    this.project = this.createDefaultProject();
-    this.statistics = this.initializeStatistics();
-    this.assetMap.clear();
-    this.scriptMap.clear();
-    this.sceneMap.clear();
-    this.eventQueue = [];
+    this?.project = this?.createDefaultProject();
+    this?.statistics = this?.initializeStatistics();
+    this?.assetMap.clear();
+    this?.scriptMap.clear();
+    this?.sceneMap.clear();
+    this?.eventQueue = [];
 
     console.log('[WebConverter!] Reset to initial state');
   }
 
   dispose(): void {
-    this.reset();
+    this?.reset();
     console.log('[WebConverter!] Disposed successfully');
   }
 }

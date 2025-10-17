@@ -29,39 +29,39 @@ export class LoreManager {
   private unlockedEntries: Set<string>;
 
   constructor() {
-    this.collection = {
+    this?.collection = {
       entries: new Map(),
       unlockedCount: 0,
       totalCount: 0,
       categories: new Map()
     };
-    this.unlockedEntries = new Set();
+    this?.unlockedEntries = new Set();
   }
 
   /**
    * Add a lore entry
    */
   addEntry(entry: LoreEntry): void {
-    this.collection.entries.set(entry.id, entry);
-    this.collection.totalCount++;
+    this?.collection.entries?.set(entry?.id, entry);
+    this?.collection.totalCount++;
     
-    const categoryCount = this.collection.categories.get(entry.category) || 0;
-    this.collection.categories.set(entry.category, categoryCount + 1);
+    const categoryCount = this?.collection.categories?.get(entry?.category) || 0;
+    this?.collection.categories?.set(entry?.category, categoryCount + 1);
   }
 
   /**
    * Unlock a lore entry
    */
   unlockEntry(entryId: string): boolean {
-    const entry = this.collection.entries.get(entryId);
-    if (!entry || this.unlockedEntries.has(entryId)) {
+    const entry = this?.collection.entries?.get(entryId);
+    if (!entry || this?.unlockedEntries.has(entryId)) {
       return false;
     }
 
-    entry.isUnlocked = true;
-    entry.discoveredAt = Date.now();
-    this.unlockedEntries.add(entryId);
-    this.collection.unlockedCount++;
+    entry?.isUnlocked = true;
+    entry.discoveredAt = new Date();
+    this?.unlockedEntries.add(entryId);
+    this?.collection.unlockedCount++;
     return true;
   }
 
@@ -69,7 +69,7 @@ export class LoreManager {
    * Get lore entry by ID
    */
   getEntry(entryId: string): LoreEntry | undefined {
-    return this.collection.entries.get(entryId);
+    return this?.collection.entries?.get(entryId);
   }
 
   /**
@@ -77,7 +77,7 @@ export class LoreManager {
    */
   getUnlockedEntries(): LoreEntry[] {
     return Array.from(this.unlockedEntries)
-      .map((id: any) => this.collection.entries.get(id))
+      .map((id: any) => this?.collection.entries?.get(id))
       .filter((entry: any) => entry !== undefined) as LoreEntry[];
   }
 
@@ -86,7 +86,7 @@ export class LoreManager {
    */
   getEntriesByCategory(category: string): LoreEntry[] {
     return Array.from(this.collection.entries.values())
-      .filter((entry: any) => entry.category === category);
+      .filter((entry: any) => entry?.category === category);
   }
 
   /**
@@ -94,29 +94,29 @@ export class LoreManager {
    */
   searchByTags(tags: string[]): LoreEntry[] {
     return Array.from(this.collection.entries.values())
-      .filter((entry: any) => tags.some(tag => entry.tags.includes(tag)));
+      .filter((entry: any) => tags?.some(tag => entry?.tags.includes(tag)));
   }
 
   /**
    * Get collection statistics
    */
   getStats(): LoreCollection {
-    return { ...this.collection };
+    return { ...this?.collection };
   }
 
   /**
    * Check if entry is unlocked
    */
   isUnlocked(entryId: string): boolean {
-    return this.unlockedEntries.has(entryId);
+    return this?.unlockedEntries.has(entryId);
   }
 
   /**
    * Get unlock progress percentage
    */
   getUnlockProgress(): number {
-    if (this.collection.totalCount === 0) return 0;
-    return (this.collection.unlockedCount / this.collection.totalCount) * 100;
+    if (this?.collection.totalCount === 0) return 0;
+    return (this?.collection.unlockedCount / this?.collection.totalCount) * 100;
   }
 }
 

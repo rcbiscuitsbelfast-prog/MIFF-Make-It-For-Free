@@ -4,7 +4,7 @@
  * Tests crafting management, recipe creation, crafting sessions,
  * and export functionality with comprehensive scenarios.
  * 
- * @module CraftingPure/tests/golden_CraftingPure.test
+ * @module CraftingPure/tests/golden_CraftingPure?.test
  * @version 1.0.0
  * @license MIT
  */
@@ -39,13 +39,13 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 1
       };
 
-      const createResult = manager.createRecipe(recipe);
-      expect(createResult.status).toBe('ok');
-      expect(createResult.result?.id).toBe('test_sword');
+      const createResult = manager?.createRecipe(recipe);
+      expect(createResult?.status).toBe('ok');
+      expect(createResult?.result?.id).toBe('test_sword');
 
-      const getResult = manager.getRecipe('test_sword');
-      expect(getResult.status).toBe('ok');
-      expect(getResult.result?.name).toBe('Test Sword');
+      const getResult = manager?.getRecipe('test_sword');
+      expect(getResult?.status).toBe('ok');
+      expect(getResult?.result?.name).toBe('Test Sword');
     });
 
     test('should handle recipe updates', () => {
@@ -65,18 +65,18 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 1
       };
 
-      manager.createRecipe(recipe);
+      manager?.createRecipe(recipe);
       
-      const updateResult = manager.updateRecipe('updatable_sword', {
+      const updateResult = manager?.updateRecipe('updatable_sword', {
         name: 'Updated Sword',
         difficulty: 'medium',
         skillLevel: 2
       });
       
-      expect(updateResult.status).toBe('ok');
-      expect(updateResult.result?.name).toBe('Updated Sword');
-      expect(updateResult.result?.difficulty).toBe('medium');
-      expect(updateResult.result?.skillLevel).toBe(2);
+      expect(updateResult?.status).toBe('ok');
+      expect(updateResult?.result?.name).toBe('Updated Sword');
+      expect(updateResult?.result?.difficulty).toBe('medium');
+      expect(updateResult?.result?.skillLevel).toBe(2);
     });
 
     test('should handle recipe deletion', () => {
@@ -96,13 +96,13 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 1
       };
 
-      manager.createRecipe(recipe);
+      manager?.createRecipe(recipe);
       
-      const deleteResult = manager.deleteRecipe('deletable_sword');
-      expect(deleteResult.status).toBe('ok');
+      const deleteResult = manager?.deleteRecipe('deletable_sword');
+      expect(deleteResult?.status).toBe('ok');
 
-      const getResult = manager.getRecipe('deletable_sword');
-      expect(getResult.status).toBe('error');
+      const getResult = manager?.getRecipe('deletable_sword');
+      expect(getResult?.status).toBe('error');
     });
 
     test('should list recipes with filters', () => {
@@ -139,12 +139,12 @@ describe('CraftingPure Golden Tests', () => {
         }
       ];
 
-      recipes.forEach(recipe => manager.createRecipe(recipe));
+      recipes?.forEach(recipe => manager?.createRecipe(recipe));
 
-      const listResult = manager.listRecipes({ category: 'weapon' });
-      expect(listResult.status).toBe('ok');
-      expect(listResult.result?.length).toBeGreaterThanOrEqual(1);
-      expect(listResult.result?.some(recipe => recipe.id === 'iron_sword')).toBe(true);
+      const listResult = manager?.listRecipes({ category: 'weapon' });
+      expect(listResult?.status).toBe('ok');
+      expect(listResult?.result?.length).toBeGreaterThanOrEqual(1);
+      expect(listResult?.result?.some(recipe => recipe?.id === 'iron_sword')).toBe(true);
     });
   });
 
@@ -166,16 +166,16 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 1
       };
 
-      manager.createRecipe(recipe);
+      manager?.createRecipe(recipe);
 
       const inventory: Inventory = { 'iron_ingot': 5, 'wood': 3 };
-      const startResult = manager.startCrafting('session_sword', 'test_crafter', inventory);
-      expect(startResult.status).toBe('ok');
-      expect(startResult.result?.status).toBe('active');
+      const startResult = manager?.startCrafting('session_sword', 'test_crafter', inventory);
+      expect(startResult?.status).toBe('ok');
+      expect(startResult?.result?.status).toBe('active');
 
-      const completeResult = manager.completeCrafting(startResult.result?.id || 'test_session', inventory);
-      expect(completeResult.status).toBe('ok');
-      expect(completeResult.result?.success).toBeDefined();
+      const completeResult = manager?.completeCrafting(startResult?.result?.id || 'test_session', inventory);
+      expect(completeResult?.status).toBe('ok');
+      expect(completeResult?.result?.success).toBeDefined();
     });
 
     test('should handle insufficient materials', () => {
@@ -195,12 +195,12 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 5
       };
 
-      manager.createRecipe(recipe);
+      manager?.createRecipe(recipe);
 
       const insufficientInventory: Inventory = { 'iron_ingot': 2, 'wood': 1 };
-      const startResult = manager.startCrafting('expensive_sword', 'test_crafter', insufficientInventory);
-      expect(startResult.status).toBe('error');
-      expect(startResult.issues).toContain('Insufficient iron_ingot: need 10, have 2');
+      const startResult = manager?.startCrafting('expensive_sword', 'test_crafter', insufficientInventory);
+      expect(startResult?.status).toBe('error');
+      expect(startResult?.issues).toContain('Insufficient iron_ingot: need 10, have 2');
     });
 
     test('should cancel crafting sessions', () => {
@@ -220,15 +220,15 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 1
       };
 
-      manager.createRecipe(recipe);
+      manager?.createRecipe(recipe);
 
       const inventory: Inventory = { 'iron_ingot': 5, 'wood': 3 };
-      const startResult = manager.startCrafting('cancellable_sword', 'test_crafter', inventory);
-      expect(startResult.status).toBe('ok');
+      const startResult = manager?.startCrafting('cancellable_sword', 'test_crafter', inventory);
+      expect(startResult?.status).toBe('ok');
 
-      const cancelResult = manager.cancelCrafting(startResult.result?.id || 'test_session');
-      expect(cancelResult.status).toBe('ok');
-      expect(cancelResult.result?.status).toBe('cancelled');
+      const cancelResult = manager?.cancelCrafting(startResult?.result?.id || 'test_session');
+      expect(cancelResult?.status).toBe('ok');
+      expect(cancelResult?.result?.status).toBe('cancelled');
     });
   });
 
@@ -267,13 +267,13 @@ describe('CraftingPure Golden Tests', () => {
         }
       ];
 
-      recipes.forEach(recipe => manager.createRecipe(recipe));
+      recipes?.forEach(recipe => manager?.createRecipe(recipe));
 
-      const statsResult = manager.getCraftingStats();
-      expect(statsResult.status).toBe('ok');
-      expect(statsResult.result?.totalRecipes).toBeGreaterThanOrEqual(2);
-      expect(statsResult.result?.recipesByCategory).toBeDefined();
-      expect(statsResult.result?.difficultyDistribution).toBeDefined();
+      const statsResult = manager?.getCraftingStats();
+      expect(statsResult?.status).toBe('ok');
+      expect(statsResult?.result?.totalRecipes).toBeGreaterThanOrEqual(2);
+      expect(statsResult?.result?.recipesByCategory).toBeDefined();
+      expect(statsResult?.result?.difficultyDistribution).toBeDefined();
     });
   });
 
@@ -295,49 +295,49 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 3
       };
 
-      manager.createRecipe(recipe);
+      manager?.createRecipe(recipe);
 
       // JSON export
-      const jsonResult = manager.exportCrafting('json');
-      expect(jsonResult.status).toBe('ok');
-      expect(jsonResult.result?.total).toBeGreaterThanOrEqual(1);
+      const jsonResult = manager?.exportCrafting('json');
+      expect(jsonResult?.status).toBe('ok');
+      expect(jsonResult?.result?.total).toBeGreaterThanOrEqual(1);
 
       // Manifest export
-      const manifestResult = manager.exportCrafting('manifest');
-      expect(manifestResult.status).toBe('ok');
-      expect(manifestResult.result?.schema).toBe('miff.crafting.export.v1');
+      const manifestResult = manager?.exportCrafting('manifest');
+      expect(manifestResult?.status).toBe('ok');
+      expect(manifestResult?.result?.schema).toBe('miff?.crafting.export?.v1');
 
       // Summary export
-      const summaryResult = manager.exportCrafting('summary');
-      expect(summaryResult.status).toBe('ok');
-      expect(summaryResult.result?.summary).toBeDefined();
+      const summaryResult = manager?.exportCrafting('summary');
+      expect(summaryResult?.status).toBe('ok');
+      expect(summaryResult?.result?.summary).toBeDefined();
 
       // Sessions export
-      const sessionsResult = manager.exportCrafting('sessions');
-      expect(sessionsResult.status).toBe('ok');
-      expect(sessionsResult.result?.total).toBeGreaterThanOrEqual(0);
+      const sessionsResult = manager?.exportCrafting('sessions');
+      expect(sessionsResult?.status).toBe('ok');
+      expect(sessionsResult?.result?.total).toBeGreaterThanOrEqual(0);
     });
   });
 
   describe('Error Handling', () => {
     test('should handle invalid recipe operations', () => {
-      const getResult = manager.getRecipe('nonexistent');
-      expect(getResult.status).toBe('error');
-      expect(getResult.issues).toContain('Recipe nonexistent not found');
+      const getResult = manager?.getRecipe('nonexistent');
+      expect(getResult?.status).toBe('error');
+      expect(getResult?.issues).toContain('Recipe nonexistent not found');
 
-      const updateResult = manager.updateRecipe('nonexistent', { name: 'Updated' });
-      expect(updateResult.status).toBe('error');
-      expect(updateResult.issues).toContain('Recipe nonexistent not found');
+      const updateResult = manager?.updateRecipe('nonexistent', { name: 'Updated' });
+      expect(updateResult?.status).toBe('error');
+      expect(updateResult?.issues).toContain('Recipe nonexistent not found');
     });
 
     test('should handle invalid crafting operations', () => {
-      const startResult = manager.startCrafting('nonexistent', 'crafter', {});
-      expect(startResult.status).toBe('error');
-      expect(startResult.issues).toContain('Recipe nonexistent not found');
+      const startResult = manager?.startCrafting('nonexistent', 'crafter', {});
+      expect(startResult?.status).toBe('error');
+      expect(startResult?.issues).toContain('Recipe nonexistent not found');
 
-      const completeResult = manager.completeCrafting('nonexistent_session', {});
-      expect(completeResult.status).toBe('error');
-      expect(completeResult.issues).toContain('Crafting session nonexistent_session not found');
+      const completeResult = manager?.completeCrafting('nonexistent_session', {});
+      expect(completeResult?.status).toBe('error');
+      expect(completeResult?.issues).toContain('Crafting session nonexistent_session not found');
     });
 
     test('should handle duplicate recipe creation', () => {
@@ -357,10 +357,10 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 1
       };
 
-      manager.createRecipe(recipe);
-      const duplicateResult = manager.createRecipe(recipe);
-      expect(duplicateResult.status).toBe('error');
-      expect(duplicateResult.issues).toContain('Recipe duplicate_sword already exists');
+      manager?.createRecipe(recipe);
+      const duplicateResult = manager?.createRecipe(recipe);
+      expect(duplicateResult?.status).toBe('error');
+      expect(duplicateResult?.issues).toContain('Recipe duplicate_sword already exists');
     });
   });
 
@@ -386,30 +386,30 @@ describe('CraftingPure Golden Tests', () => {
         unlockLevel: 3
       };
 
-      const createResult = manager.createRecipe(recipe);
-      expect(createResult.status).toBe('ok');
+      const createResult = manager?.createRecipe(recipe);
+      expect(createResult?.status).toBe('ok');
 
       // Start crafting
       const inventory: Inventory = { 'iron_ingot': 10, 'wood': 5 };
-      const startResult = manager.startCrafting('workflow_sword', 'workflow_crafter', inventory);
-      expect(startResult.status).toBe('ok');
+      const startResult = manager?.startCrafting('workflow_sword', 'workflow_crafter', inventory);
+      expect(startResult?.status).toBe('ok');
 
       // Complete crafting
-      const completeResult = manager.completeCrafting(startResult.result?.id || 'workflow_session', inventory);
-      expect(completeResult.status).toBe('ok');
+      const completeResult = manager?.completeCrafting(startResult?.result?.id || 'workflow_session', inventory);
+      expect(completeResult?.status).toBe('ok');
 
       // Get statistics
-      const statsResult = manager.getCraftingStats();
-      expect(statsResult.status).toBe('ok');
+      const statsResult = manager?.getCraftingStats();
+      expect(statsResult?.status).toBe('ok');
 
       // Export data
-      const exportResult = manager.exportCrafting('manifest');
-      expect(exportResult.status).toBe('ok');
+      const exportResult = manager?.exportCrafting('manifest');
+      expect(exportResult?.status).toBe('ok');
 
       // List recipes
-      const listResult = manager.listRecipes();
-      expect(listResult.status).toBe('ok');
-      expect(listResult.result?.length).toBeGreaterThanOrEqual(1);
+      const listResult = manager?.listRecipes();
+      expect(listResult?.status).toBe('ok');
+      expect(listResult?.result?.length).toBeGreaterThanOrEqual(1);
     });
   });
 });

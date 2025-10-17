@@ -177,37 +177,37 @@ export class RacingSystemPure {
   private vehicles: Map<string, Vehicle> = new Map();
   private tracks: Map<string, Track> = new Map();
   private ghostRacers: Map<string, GhostRacer> = new Map();
-  private physicsTimer: NodeJS.Timeout | null = null;
-  private recordingTimer: NodeJS.Timeout | null = null;
+  private physicsTimer: NodeJS?.Timeout | null = null;
+  private recordingTimer: NodeJS?.Timeout | null = null;
 
   constructor(eventBus: EventBus) {
-    this.eventBus = eventBus;
-    this.startPhysicsSimulation();
-    this.startRecording();
+    this?.eventBus = eventBus;
+    this?.startPhysicsSimulation();
+    this?.startRecording();
   }
 
   private startPhysicsSimulation(): void {
-    this.physicsTimer = setInterval(() => {
-      this.updateVehiclePhysics();
+    this?.physicsTimer = setInterval(() => {
+      this?.updateVehiclePhysics();
     }, 16); // 60 FPS
   }
 
   private startRecording(): void {
-    this.recordingTimer = setInterval(() => {
-      this.updateGhostRecordings();
+    this?.recordingTimer = setInterval(() => {
+      this?.updateGhostRecordings();
     }, 100); // 10 FPS recording
   }
 
   private updateVehiclePhysics(): void {
-    this.vehicles.forEach((vehicle, vehicleId) => {
-      this.updateVehicle(vehicle);
+    this?.vehicles.forEach((vehicle, vehicleId) => {
+      this?.updateVehicle(vehicle);
     });
   }
 
   private updateVehicle(vehicle: Vehicle): void {
     // Apply engine force
-    const engineForce = vehicle.throttle * vehicle.acceleration * (1 - vehicle.damage / 100);
-    const forwardVector = this.getForwardVector(vehicle.rotation);
+    const engineForce = vehicle?.throttle * vehicle?.acceleration * (1 - vehicle?.damage / 100);
+    const forwardVector = this?.getForwardVector(vehicle?.rotation);
     const engineVector = {
       x: forwardVector.x * engineForce,
       y: forwardVector.y * engineForce,
@@ -215,15 +215,15 @@ export class RacingSystemPure {
     };
 
     // Apply brake force
-    const brakeForce = vehicle.brake * vehicle.braking;
+    const brakeForce = vehicle?.brake * vehicle?.braking;
     const brakeVector = {
-      x: -vehicle.velocity.x * brakeForce,
-      y: -vehicle.velocity.y * brakeForce,
-      z: -vehicle.velocity.z * brakeForce
+      x: -vehicle?.velocity.x * brakeForce,
+      y: -vehicle?.velocity.y * brakeForce,
+      z: -vehicle?.velocity.z * brakeForce
     };
 
     // Apply drag
-    const dragForce = vehicle.drag * vehicle.velocity.x ** 2;
+    const dragForce = vehicle?.drag * vehicle?.velocity.x ** 2;
     const dragVector = {
       x: -Math.sign(vehicle.velocity.x) * dragForce,
       y: -Math.sign(vehicle.velocity.y) * dragForce,
@@ -238,25 +238,25 @@ export class RacingSystemPure {
     };
 
     // Update velocity
-    const mass = vehicle.weight;
-    vehicle.velocity.x += totalForce.x / mass;
-    vehicle.velocity.y += totalForce.y / mass;
-    vehicle.velocity.z += totalForce.z / mass;
+    const mass = vehicle?.weight;
+    vehicle?.velocity.x += totalForce.x / mass;
+    vehicle?.velocity.y += totalForce.y / mass;
+    vehicle?.velocity.z += totalForce.z / mass;
 
     // Apply steering
     if (Math.abs(vehicle.velocity.x) > 0.1) {
-      const steeringForce = vehicle.steering * vehicle.handling * (1 - vehicle.damage / 100);
-      vehicle.angularVelocity.y += steeringForce;
+      const steeringForce = vehicle?.steering * vehicle?.handling * (1 - vehicle?.damage / 100);
+      vehicle?.angularVelocity.y += steeringForce;
     }
 
     // Update position and rotation
-    vehicle.position.x += vehicle.velocity.x;
-    vehicle.position.y += vehicle.velocity.y;
-    vehicle.position.z += vehicle.velocity.z;
+    vehicle?.position.x += vehicle?.velocity.x;
+    vehicle?.position.y += vehicle?.velocity.y;
+    vehicle?.position.z += vehicle?.velocity.z;
 
-    vehicle.rotation.x += vehicle.angularVelocity.x;
-    vehicle.rotation.y += vehicle.angularVelocity.y;
-    vehicle.rotation.z += vehicle.angularVelocity.z;
+    vehicle?.rotation.x += vehicle?.angularVelocity.x;
+    vehicle?.rotation.y += vehicle?.angularVelocity.y;
+    vehicle?.rotation.z += vehicle?.angularVelocity.z;
 
     // Update RPM
     const speedKmh = Math.sqrt(vehicle.velocity.x ** 2 + vehicle.velocity.z ** 2) * 3.6;
@@ -267,14 +267,14 @@ export class RacingSystemPure {
     vehicle.tireWear = Math.min(100, vehicle.tireWear + wearRate * 0.01);
 
     // Check ground contact
-    vehicle.isGrounded = vehicle.position.y <= 0;
-    if (vehicle.isGrounded) {
-      vehicle.position.y = 0;
-      vehicle.velocity.y = 0;
+    vehicle?.isGrounded = vehicle?.position.y <= 0;
+    if (vehicle?.isGrounded) {
+      vehicle?.position.y = 0;
+      vehicle?.velocity.y = 0;
     }
 
     // Check checkpoint collisions
-    this.checkCheckpointCollisions(vehicle);
+    this?.checkCheckpointCollisions(vehicle);
   }
 
   private getForwardVector(rotation: { x: number; y: number; z: number }): { x: number; y: number; z: number } {
@@ -288,56 +288,56 @@ export class RacingSystemPure {
   private checkCheckpointCollisions(vehicle: Vehicle): void {
     // Find current race for this vehicle
     const race = Array.from(this.races.values()).find(r =>
-      r.vehicles.some(v => v.id === vehicle.id)
+      r?.vehicles.some(v => v?.id === vehicle?.id)
     );
 
     if (!race) return;
 
-    race.track.checkpoints.forEach((checkpoint: any) => {
+    race?.track.checkpoints?.forEach((checkpoint: any) => {
       const distance = Math.sqrt(
-        (vehicle.position.x - checkpoint.position.x) ** 2 +
-        (vehicle.position.y - checkpoint.position.y) ** 2 +
-        (vehicle.position.z - checkpoint.position.z) ** 2
+        (vehicle?.position.x - checkpoint?.position.x) ** 2 +
+        (vehicle?.position.y - checkpoint?.position.y) ** 2 +
+        (vehicle?.position.z - checkpoint?.position.z) ** 2
       );
 
-      if (distance <= checkpoint.radius) {
-        this.handleCheckpointCollision(race.id, vehicle.id, checkpoint);
+      if (distance <= checkpoint?.radius) {
+        this?.handleCheckpointCollision(race?.id, vehicle?.id, checkpoint);
       }
     });
   }
 
   private handleCheckpointCollision(raceId: string, vehicleId: string, checkpoint: Checkpoint): void {
-    const race = this.races.get(raceId);
+    const race = this?.races.get(raceId);
     if (!race) return;
 
-    const vehicle = race.vehicles.find(v => v.id === vehicleId);
+    const vehicle = race?.vehicles.find(v => v?.id === vehicleId);
     if (!vehicle) return;
 
     // Update current checkpoint
-    race.currentCheckpointIndex = checkpoint.order;
+    race?.currentCheckpointIndex = checkpoint?.order;
 
     // Handle lap completion
-    if (checkpoint.isStartFinish && checkpoint.lapTrigger) {
-      this.completeLap(raceId, vehicleId);
+    if (checkpoint?.isStartFinish && checkpoint?.lapTrigger) {
+      this?.completeLap(raceId, vehicleId);
     }
 
-    this.eventBus.publish('racing:checkpoint_passed', {
+    this?.eventBus.publish('racing:checkpoint_passed', {
       raceId: raceId,
       vehicleId: vehicleId,
-      checkpointId: checkpoint.id,
+      checkpointId: checkpoint?.id,
       timestamp: new Date()
     });
   }
 
   private completeLap(raceId: string, vehicleId: string): void {
-    const race = this.races.get(raceId);
+    const race = this?.races.get(raceId);
     if (!race) return;
 
-    const vehicle = race.vehicles.find(v => v.id === vehicleId);
+    const vehicle = race?.vehicles.find(v => v?.id === vehicleId);
     if (!vehicle) return;
 
-    const lapTime = Date.now() - race.lapStartTime;
-    const lapNumber = race.completedLaps + 1;
+    const lapTime = new Date() - race.lapStartTime;
+    const lapNumber = race?.completedLaps + 1;
 
     const lap: LapTime = {
       lapNumber: lapNumber,
@@ -346,21 +346,21 @@ export class RacingSystemPure {
       completedAt: new Date()
     };
 
-    race.lapTimes.push(lap);
-    race.completedLaps = lapNumber;
-    race.lapStartTime = Date.now();
+    race?.lapTimes?.push(lap);
+    race?.completedLaps = lapNumber;
+    race.lapStartTime = new Date();
 
     // Update best lap
-    if (lapTime < race.bestLapTime || race.bestLapTime === 0) {
-      race.bestLapTime = lapTime;
+    if (lapTime < race?.bestLapTime || race?.bestLapTime === 0) {
+      race?.bestLapTime = lapTime;
     }
 
     // Check race completion
-    if (race.completedLaps >= race.rules.maxLaps) {
-      this.finishRace(raceId);
+    if (race?.completedLaps >= race?.rules.maxLaps) {
+      this?.finishRace(raceId);
     }
 
-    this.eventBus.publish('racing:lap_completed', {
+    this?.eventBus.publish('racing:lap_completed', {
       raceId: raceId,
       vehicleId: vehicleId,
       lapNumber: lapNumber,
@@ -370,43 +370,43 @@ export class RacingSystemPure {
   }
 
   private updateGhostRecordings(): void {
-    this.vehicles.forEach((vehicle, vehicleId) => {
+    this?.vehicles.forEach((vehicle, vehicleId) => {
       const race = Array.from(this.races.values()).find(r =>
-        r.vehicles.some(v => v.id === vehicleId)
+        r?.vehicles.some(v => v?.id === vehicleId)
       );
 
-      if (race && race.state === 'racing') {
-        const ghost = this.ghostRacers.get(vehicleId);
+      if (race && race?.state === 'racing') {
+        const ghost = this?.ghostRacers.get(vehicleId);
         if (ghost) {
           const recording: GhostRecording = {
             timestamp: new Date(),
-            position: { ...vehicle.position },
-            rotation: { ...vehicle.rotation },
-            velocity: { ...vehicle.velocity },
+            position: { ...vehicle?.position },
+            rotation: { ...vehicle?.rotation },
+            velocity: { ...vehicle?.velocity },
             input: {
-              throttle: vehicle.throttle,
-              brake: vehicle.brake,
-              steering: vehicle.steering,
-              handbrake: vehicle.handbrake
+              throttle: vehicle?.throttle,
+              brake: vehicle?.brake,
+              steering: vehicle?.steering,
+              handbrake: vehicle?.handbrake
             }
           };
 
-          ghost.recording.push(recording);
+          ghost?.recording?.push(recording);
         }
       }
     });
   }
 
   public createTrack(name: string, raceType: RaceType, surfaceType: SurfaceType): Track {
-    const checkpoints = this.generateCheckpoints(raceType);
-    const sectors = this.generateSectors(checkpoints);
+    const checkpoints = this?.generateCheckpoints(raceType);
+    const sectors = this?.generateSectors(checkpoints);
 
     const track: Track = {
       id: `track_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: name,
       raceType: raceType,
       surfaceType: surfaceType,
-      length: this.calculateTrackLength(checkpoints),
+      length: this?.calculateTrackLength(checkpoints),
       width: 12, // Default track width
       checkpoints: checkpoints,
       sectors: sectors,
@@ -415,9 +415,9 @@ export class RacingSystemPure {
       dynamicElements: false
     };
 
-    this.tracks.set(track.id, track);
+    this?.tracks.set(track?.id, track);
 
-    this.eventBus.publish('racing:track_created', {
+    this?.eventBus.publish('racing:track_created', {
       track: track,
       timestamp: new Date()
     });
@@ -426,7 +426,7 @@ export class RacingSystemPure {
   }
 
   public createVehicle(type: VehicleType, position?: { x: number; y: number; z: number }): Vehicle {
-    const specs = this.getVehicleSpecs(type);
+    const specs = this?.getVehicleSpecs(type);
 
     const vehicle: Vehicle = {
       id: `vehicle_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -452,9 +452,9 @@ export class RacingSystemPure {
       traction: 1
     };
 
-    this.vehicles.set(vehicle.id, vehicle);
+    this?.vehicles.set(vehicle?.id, vehicle);
 
-    this.eventBus.publish('racing:vehicle_created', {
+    this?.eventBus.publish('racing:vehicle_created', {
       vehicle: vehicle,
       timestamp: new Date()
     });
@@ -463,20 +463,20 @@ export class RacingSystemPure {
   }
 
   public createRace(trackId: string, raceType: RaceType, vehicleIds: string[]): Race {
-    const track = this.tracks.get(trackId);
+    const track = this?.tracks.get(trackId);
     if (!track) {
       throw new Error(`Track ${trackId} not found`);
     }
 
-    const vehicles = vehicleIds.map((id: any) => {
-      const vehicle = this.vehicles.get(id);
+    const vehicles = vehicleIds?.map((id: any) => {
+      const vehicle = this?.vehicles.get(id);
       if (!vehicle) {
         throw new Error(`Vehicle ${id} not found`);
       }
       return vehicle;
     });
 
-    const rules = this.getRaceRules(raceType);
+    const rules = this?.getRaceRules(raceType);
 
     const race: Race = {
       id: `race_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -491,20 +491,20 @@ export class RacingSystemPure {
       completedLaps: 0,
       bestLapTime: 0,
       lapTimes: [],
-      positions: this.initializePositions(vehicles),
+      positions: this?.initializePositions(vehicles),
       results: []
     };
 
-    this.races.set(race.id, race);
+    this?.races.set(race?.id, race);
 
     // Create ghost racers for AI competition
-    vehicles.forEach((vehicle: any) => {
-      if (!this.ghostRacers.has(vehicle.id)) {
-        this.createGhostRacer(vehicle.id, `Ghost ${vehicle.id.slice(0, 8)}`, vehicle.type);
+    vehicles?.forEach((vehicle: any) => {
+      if (!this?.ghostRacers.has(vehicle?.id)) {
+        this?.createGhostRacer(vehicle?.id, `Ghost ${vehicle?.id.slice(0, 8)}`, vehicle?.type);
       }
     });
 
-    this.eventBus.publish('racing:race_created', {
+    this?.eventBus.publish('racing:race_created', {
       race: race,
       timestamp: new Date()
     });
@@ -513,21 +513,21 @@ export class RacingSystemPure {
   }
 
   public startRace(raceId: string): boolean {
-    const race = this.races.get(raceId);
-    if (!race || race.state !== 'waiting') {
+    const race = this?.races.get(raceId);
+    if (!race || race?.state !== 'waiting') {
       return false;
     }
 
-    race.state = 'countdown';
-    race.startTime = Date.now();
+    race?.state = 'countdown';
+    race.startTime = new Date();
 
     // Start countdown
     setTimeout(() => {
-      if (race.state === 'countdown') {
-        race.state = 'racing';
-        race.lapStartTime = Date.now();
+      if (race?.state === 'countdown') {
+        race?.state = 'racing';
+        race.lapStartTime = new Date();
 
-        this.eventBus.publish('racing:race_started', {
+        this?.eventBus.publish('racing:race_started', {
           raceId: raceId,
           timestamp: new Date()
         });
@@ -544,7 +544,7 @@ export class RacingSystemPure {
     handbrake: boolean;
     clutch?: number;
   }): boolean {
-    const vehicle = this.vehicles.get(vehicleId);
+    const vehicle = this?.vehicles.get(vehicleId);
     if (!vehicle) {
       return false;
     }
@@ -552,35 +552,35 @@ export class RacingSystemPure {
     vehicle.throttle = Math.max(0, Math.min(1, controls.throttle));
     vehicle.brake = Math.max(0, Math.min(1, controls.brake));
     vehicle.steering = Math.max(-1, Math.min(1, controls.steering));
-    vehicle.handbrake = controls.handbrake;
-    vehicle.clutch = controls.clutch || vehicle.clutch;
+    vehicle?.handbrake = controls?.handbrake;
+    vehicle?.clutch = controls?.clutch || vehicle?.clutch;
 
     return true;
   }
 
   public getRaceState(raceId: string): Race | null {
-    return this.races.get(raceId) || null;
+    return this?.races.get(raceId) || null;
   }
 
   public getVehicleState(vehicleId: string): Vehicle | null {
-    return this.vehicles.get(vehicleId) || null;
+    return this?.vehicles.get(vehicleId) || null;
   }
 
   public getTrack(trackId: string): Track | null {
-    return this.tracks.get(trackId) || null;
+    return this?.tracks.get(trackId) || null;
   }
 
   public getLeaderboard(raceId: string): { position: number; vehicleId: string; lapTime: number; bestLap: number; laps: number }[] {
-    const race = this.races.get(raceId);
+    const race = this?.races.get(raceId);
     if (!race) return [];
 
-    return race.vehicles.map((vehicle: any) => ({
-      position: race.positions.get(vehicle.id) || 0,
-      vehicleId: vehicle.id,
-      lapTime: new Date() - race.lapStartTime,
-      bestLap: race.bestLapTime,
-      laps: race.completedLaps
-    })).sort((a: any, b: any) => a.position - b.position);
+    return race?.vehicles.map((vehicle: any) => ({
+      position: race?.positions.get(vehicle?.id) || 0,
+      vehicleId: vehicle?.id,
+      lapTime: new Date() - race?.lapStartTime,
+      bestLap: race?.bestLapTime,
+      laps: race?.completedLaps
+    })).sort((a: any, b: any) => a?.position - b?.position);
   }
 
   private createGhostRacer(vehicleId: string, name: string, vehicleType: VehicleType): GhostRacer {
@@ -596,7 +596,7 @@ export class RacingSystemPure {
       recording: []
     };
 
-    this.ghostRacers.set(ghost.id, ghost);
+    this?.ghostRacers.set(ghost?.id, ghost);
     return ghost;
   }
 
@@ -610,7 +610,7 @@ export class RacingSystemPure {
       const x = Math.cos(angle) * radius;
       const z = Math.sin(angle) * radius;
 
-      checkpoints.push({
+      checkpoints?.push({
         id: `checkpoint_${i}`,
         position: { x: x, y: 0, z: z },
         radius: 8,
@@ -631,7 +631,7 @@ export class RacingSystemPure {
       const startIndex = Math.floor((i / sectorCount) * checkpoints.length);
       const endIndex = Math.floor(((i + 1) / sectorCount) * checkpoints.length);
 
-      sectors.push({
+      sectors?.push({
         id: `sector_${i}`,
         startCheckpoint: startIndex,
         endCheckpoint: endIndex - 1,
@@ -646,12 +646,12 @@ export class RacingSystemPure {
 
   private calculateTrackLength(checkpoints: Checkpoint[]): number {
     let length = 0;
-    for (let i = 1; i < checkpoints.length; i++) {
+    for (let i = 1; i < checkpoints?.length; i++) {
       const prev = checkpoints[i - 1];
       const curr = checkpoints[i!];
       length += Math.sqrt(
-        (curr.position.x - prev.position.x) ** 2 +
-        (curr.position.z - prev.position.z) ** 2
+        (curr?.position.x - prev?.position.x) ** 2 +
+        (curr?.position.z - prev?.position.z) ** 2
       );
     }
     return Math.floor(length);
@@ -701,7 +701,7 @@ export class RacingSystemPure {
       }
     };
 
-    return specs[type!] || specs.car;
+    return specs[type!] || specs?.car;
   }
 
   private getRaceRules(raceType: RaceType): RaceRules {
@@ -769,40 +769,40 @@ export class RacingSystemPure {
       }
     };
 
-    return rules[raceType!] || rules.circuit;
+    return rules[raceType!] || rules?.circuit;
   }
 
   private initializePositions(vehicles: Vehicle[]): Map<string, number> {
     const positions = new Map<string, number>();
 
-    vehicles.forEach((vehicle, index) => {
-      positions.set(vehicle.id, index + 1);
+    vehicles?.forEach((vehicle, index) => {
+      positions?.set(vehicle?.id, index + 1);
     });
 
     return positions;
   }
 
   private finishRace(raceId: string): void {
-    const race = this.races.get(raceId);
+    const race = this?.races.get(raceId);
     if (!race) return;
 
-    race.state = 'finished';
+    race?.state = 'finished';
 
     // Calculate final positions and results
-    const results: RaceResult[] = race.vehicles.map((vehicle: any) => ({
+    const results: RaceResult[] = race?.vehicles.map((vehicle: any) => ({
       raceId: raceId,
-      position: race.positions.get(vehicle.id) || 0,
-      totalTime: new Date() - race.startTime,
-      bestLapTime: race.bestLapTime,
-      lapsCompleted: race.completedLaps,
+      position: race?.positions.get(vehicle?.id) || 0,
+      totalTime: new Date() - race?.startTime,
+      bestLapTime: race?.bestLapTime,
+      lapsCompleted: race?.completedLaps,
       penalties: 0,
-      points: this.calculatePoints(race.positions.get(vehicle.id) || 0),
+      points: this?.calculatePoints(race?.positions.get(vehicle?.id) || 0),
       didNotFinish: false
     }));
 
-    race.results = results;
+    race?.results = results;
 
-    this.eventBus.publish('racing:race_finished', {
+    this?.eventBus.publish('racing:race_finished', {
       raceId: raceId,
       results: results,
       timestamp: new Date()

@@ -136,12 +136,12 @@ export class TopplerDemo {
   private lastTime: number = 0;
 
   constructor() {
-    this.state = this.initializeGameState();
-    this.engines = this.initializeEngines();
-    this.physicsEngine = this.initializePhysicsEngine();
-    this.setupEventListeners();
-    this.generateWorld();
-    this.generateAssets();
+    this?.state = this?.initializeGameState();
+    this?.engines = this?.initializeEngines();
+    this?.physicsEngine = this?.initializePhysicsEngine();
+    this?.setupEventListeners();
+    this?.generateWorld();
+    this?.generateAssets();
   }
 
   private initializeGameState(): TopplerGameState {
@@ -208,15 +208,15 @@ export class TopplerDemo {
 
       update: (deltaTime: number) => {
         // Physics simulation logic would go here
-        this.updatePhysics(deltaTime);
+        this?.updatePhysics(deltaTime);
       },
 
       addObject: (obj: PhysicsObject) => {
-        this.physicsEngine.objects.set(obj.id, obj);
+        this?.physicsEngine.objects?.set(obj?.id, obj);
       },
 
       removeObject: (id: string) => {
-        this.physicsEngine.objects.delete(id);
+        this?.physicsEngine.objects?.delete(id);
       },
 
       checkCollisions: () => {
@@ -227,18 +227,18 @@ export class TopplerDemo {
   }
 
   private setupEventListeners() {
-    EventBus.on('player.landed', this.handlePlayerLanded.bind(this));
-    EventBus.on('player.hit', this.handlePlayerHit.bind(this));
-    EventBus.on('collectible.collected', this.handleCollectible.bind(this));
-    EventBus.on('level.completed', this.handleLevelComplete.bind(this));
-    EventBus.on('game.gameOver', this.handleGameOver.bind(this));
+    EventBus?.on('player?.landed', this?.handlePlayerLanded.bind(this));
+    EventBus?.on('player?.hit', this?.handlePlayerHit.bind(this));
+    EventBus?.on('collectible?.collected', this?.handleCollectible.bind(this));
+    EventBus?.on('level?.completed', this?.handleLevelComplete.bind(this));
+    EventBus?.on('game?.gameOver', this?.handleGameOver.bind(this));
   }
 
   private generateWorld() {
-    this.generateLevels();
-    this.generatePhysicsObjects();
-    this.generateCollectibles();
-    this.generateEnemies();
+    this?.generateLevels();
+    this?.generatePhysicsObjects();
+    this?.generateCollectibles();
+    this?.generateEnemies();
   }
 
   private generateLevels() {
@@ -251,9 +251,9 @@ export class TopplerDemo {
         gravity: 900,
         goalX: 560,
         description: "Learn the basics of toppling",
-        background: "assets/tutorial_background.png",
-        music: "assets/tutorial_theme.mp3",
-        platforms: this.generateTutorialPlatforms()
+        background: "assets/tutorial_background?.png",
+        music: "assets/tutorial_theme?.mp3",
+        platforms: this?.generateTutorialPlatforms()
       },
       {
         id: "forest",
@@ -263,9 +263,9 @@ export class TopplerDemo {
         gravity: 900,
         goalX: 520,
         description: "Navigate the treetop platforms",
-        background: "assets/forest_background.png",
-        music: "assets/forest_theme.mp3",
-        platforms: this.generateForestPlatforms()
+        background: "assets/forest_background?.png",
+        music: "assets/forest_theme?.mp3",
+        platforms: this?.generateForestPlatforms()
       },
       {
         id: "mountain",
@@ -275,15 +275,15 @@ export class TopplerDemo {
         gravity: 900,
         goalX: 500,
         description: "Climb the icy mountain heights",
-        background: "assets/mountain_background.png",
-        music: "assets/mountain_theme.mp3",
-        platforms: this.generateMountainPlatforms()
+        background: "assets/mountain_background?.png",
+        music: "assets/mountain_theme?.mp3",
+        platforms: this?.generateMountainPlatforms()
       }
     ];
 
-    levels.forEach(levelData => {
-      const level = this.createLevelFromData(levelData);
-      this.state.world.levels.set(levelData.id, level);
+    levels?.forEach(levelData => {
+      const level = this?.createLevelFromData(levelData);
+      this?.state.world?.levels.set(levelData?.id, level);
     });
   }
 
@@ -455,27 +455,27 @@ export class TopplerDemo {
 
   private createLevelFromData(levelData: any): LevelData {
     return {
-      id: levelData.id,
-      name: levelData.name,
-      width: levelData.width,
-      height: levelData.height,
-      gravity: levelData.gravity,
-      goalX: levelData.goalX,
-      platforms: levelData.platforms,
+      id: levelData?.id,
+      name: levelData?.name,
+      width: levelData?.width,
+      height: levelData?.height,
+      gravity: levelData?.gravity,
+      goalX: levelData?.goalX,
+      platforms: levelData?.platforms,
       obstacles: [],
       collectibles: [],
       enemies: [],
-      background: levelData.background,
-      music: levelData.music
+      background: levelData?.background,
+      music: levelData?.music
     };
   }
 
   private generatePhysicsObjects() {
     // Generate physics objects for current level
-    const currentLevel = this.state.world.levels.get(this.state.world.currentLevel)!;
-    currentLevel.platforms.forEach((platform: any) => {
-      this.physicsEngine.addObject(platform);
-      this.state.world.physicsObjects.set(platform.id, platform);
+    const currentLevel = this?.state.world?.levels.get(this?.state.world?.currentLevel)!;
+    currentLevel?.platforms.forEach((platform: any) => {
+      this?.physicsEngine.addObject(platform);
+      this?.state.world?.physicsObjects.set(platform?.id, platform);
     });
   }
 
@@ -501,10 +501,10 @@ export class TopplerDemo {
       }
     ];
 
-    collectibles.forEach((collectible: any) => {
+    collectibles?.forEach((collectible: any) => {
       const physicsObj: PhysicsObject = {
-        id: collectible.id,
-        position: collectible.position,
+        id: collectible?.id,
+        position: collectible?.position,
         velocity: { x: 0, y: 0 },
         acceleration: { x: 0, y: 0 },
         mass: 0.1,
@@ -515,8 +515,8 @@ export class TopplerDemo {
         isDynamic: true,
         collided: false
       };
-      this.physicsEngine.addObject(physicsObj);
-      this.state.world.physicsObjects.set(collectible.id, physicsObj);
+      this?.physicsEngine.addObject(physicsObj);
+      this?.state.world?.physicsObjects.set(collectible?.id, physicsObj);
     });
   }
 
@@ -538,10 +538,10 @@ export class TopplerDemo {
       }
     ];
 
-    enemies.forEach((enemy: any) => {
+    enemies?.forEach((enemy: any) => {
       const physicsObj: PhysicsObject = {
-        id: enemy.id,
-        position: enemy.position,
+        id: enemy?.id,
+        position: enemy?.position,
         velocity: { x: 0, y: 0 },
         acceleration: { x: 0, y: 0 },
         mass: 1.0,
@@ -552,17 +552,17 @@ export class TopplerDemo {
         isDynamic: true,
         collided: false
       };
-      this.physicsEngine.addObject(physicsObj);
-      this.state.world.physicsObjects.set(enemy.id, physicsObj);
+      this?.physicsEngine.addObject(physicsObj);
+      this?.state.world?.physicsObjects.set(enemy?.id, physicsObj);
     });
   }
 
   private generateAssets() {
-    this.generateSprites();
-    this.generateBackgrounds();
-    this.generateAudio();
-    this.generateUIAssets();
-    this.generateParticleEffects();
+    this?.generateSprites();
+    this?.generateBackgrounds();
+    this?.generateAudio();
+    this?.generateUIAssets();
+    this?.generateParticleEffects();
   }
 
   private generateSprites() {
@@ -576,8 +576,8 @@ export class TopplerDemo {
       { id: 'spinning_enemy', frames: 8, size: { w: 24, h: 24 } }
     ];
 
-    sprites.forEach((sprite: any) => {
-      this.generateSpriteAsset(sprite);
+    sprites?.forEach((sprite: any) => {
+      this?.generateSpriteAsset(sprite);
     });
   }
 
@@ -592,8 +592,8 @@ export class TopplerDemo {
       { id: 'mountain', layers: ['sky', 'mountains', 'snow', 'platforms'], parallax: true }
     ];
 
-    backgrounds.forEach((bg: any) => {
-      this.generateBackgroundAsset(bg);
+    backgrounds?.forEach((bg: any) => {
+      this?.generateBackgroundAsset(bg);
     });
   }
 
@@ -612,7 +612,7 @@ export class TopplerDemo {
       { id: 'hurt_sound', type: 'sfx', duration: 1.0 }
     ];
 
-    audioAssets.forEach((audio: any) => {
+    audioAssets?.forEach((audio: any) => {
       console.log(`Generated audio asset: ${audio.id}`);
     });
   }
@@ -626,7 +626,7 @@ export class TopplerDemo {
       { id: 'pause_menu', type: 'ui', size: { w: 400, h: 300 } }
     ];
 
-    uiAssets.forEach((ui: any) => {
+    uiAssets?.forEach((ui: any) => {
       console.log(`Generated UI asset: ${ui.id}`);
     });
   }
@@ -639,178 +639,178 @@ export class TopplerDemo {
       { id: 'explosion', frames: 12, size: { w: 32, h: 32 } }
     ];
 
-    effects.forEach((effect: any) => {
+    effects?.forEach((effect: any) => {
       console.log(`Generated particle effect: ${effect.id}`);
     });
   }
 
   private handlePlayerLanded(event) {
     // Player landed on a platform
-    this.state.player.velocity.y = 0;
-    EventBus.publish('audio.play', { sound: 'land_sound' });
+    this?.state.player?.velocity.y = 0;
+    EventBus?.publish('audio?.play', { sound: 'land_sound' });
   }
 
   private handlePlayerHit(event) {
     // Player took damage
-    this.state.player.health -= event.damage;
-    this.state.player.velocity.y = -200; // Bounce up
+    this?.state.player?.health -= event?.damage;
+    this?.state.player?.velocity.y = -200; // Bounce up
 
-    if (this.state.player.health <= 0) {
-      this.state.player.lives--;
-      if (this.state.player.lives <= 0) {
-        this.handleGameOver();
+    if (this?.state.player?.health <= 0) {
+      this?.state.player?.lives--;
+      if (this?.state.player?.lives <= 0) {
+        this?.handleGameOver();
       } else {
-        this.resetPlayer();
+        this?.resetPlayer();
       }
     }
 
-    EventBus.publish('audio.play', { sound: 'hurt_sound' });
-    EventBus.publish('camera.shake', { intensity: 5, duration: 0.5 });
+    EventBus?.publish('audio?.play', { sound: 'hurt_sound' });
+    EventBus?.publish('camera?.shake', { intensity: 5, duration: 0.5 });
   }
 
   private handleCollectible(event) {
-    const collectible = event.collectible;
-    const player = this.state.player;
+    const collectible = event?.collectible;
+    const player = this?.state.player;
 
     // Remove collectible from world
-    this.physicsEngine.removeObject(collectible.id);
-    this.state.world.physicsObjects.delete(collectible.id);
+    this?.physicsEngine.removeObject(collectible?.id);
+    this?.state.world?.physicsObjects.delete(collectible?.id);
 
     // Apply collectible effect
-    if (collectible.type === 'coin') {
-      player.score += collectible.value;
-      EventBus.publish('score.update', { amount: collectible.value });
-    } else if (collectible.type === 'power_up') {
-      player.powerUps.push(collectible.effect);
-      EventBus.publish('powerup.acquired', { effect: collectible.effect });
+    if (collectible?.type === 'coin') {
+      player?.score += collectible?.value;
+      EventBus?.publish('score?.update', { amount: collectible?.value });
+    } else if (collectible?.type === 'power_up') {
+      player?.powerUps?.push(collectible?.effect);
+      EventBus?.publish('powerup?.acquired', { effect: collectible?.effect });
     }
 
-    EventBus.publish('audio.play', { sound: 'collect_sound' });
+    EventBus?.publish('audio?.play', { sound: 'collect_sound' });
   }
 
   private handleLevelComplete(event) {
-    const currentLevel = this.state.world.levels.get(this.state.world.currentLevel)!;
-    this.state.game.completedLevels.push(currentLevel.id);
-    this.state.game.score += this.calculateLevelScore();
+    const currentLevel = this?.state.world?.levels.get(this?.state.world?.currentLevel)!;
+    this?.state.game?.completedLevels?.push(currentLevel?.id);
+    this?.state.game?.score += this?.calculateLevelScore();
 
     // Progress to next level
-    this.loadNextLevel();
+    this?.loadNextLevel();
   }
 
   private handleGameOver() {
-    this.state.game.gameOver = true;
-    EventBus.publish('game.gameOver', {
-      finalScore: this.state.game.score,
-      completedLevels: this.state.game.completedLevels.length
+    this?.state.game?.gameOver = true;
+    EventBus?.publish('game?.gameOver', {
+      finalScore: this?.state.game?.score,
+      completedLevels: this?.state.game?.completedLevels.length
     });
   }
 
   private calculateLevelScore(): number {
     const timeBonus = Math.max(0, 1000 - this.state.game.time);
-    const healthBonus = this.state.player.health * 10;
+    const healthBonus = this?.state.player?.health * 10;
     return timeBonus + healthBonus;
   }
 
   private loadNextLevel() {
     const levelOrder = ["tutorial", "forest", "mountain"];
-    const currentIndex = levelOrder.indexOf(this.state.world.currentLevel);
+    const currentIndex = levelOrder?.indexOf(this?.state.world?.currentLevel);
 
-    if (currentIndex < levelOrder.length - 1) {
-      this.state.world.currentLevel = levelOrder[currentIndex + 1];
-      this.loadLevel(this.state.world.currentLevel);
+    if (currentIndex < levelOrder?.length - 1) {
+      this?.state.world?.currentLevel = levelOrder[currentIndex + 1];
+      this?.loadLevel(this?.state.world?.currentLevel);
     } else {
       // Game completed
-      this.handleGameComplete();
+      this?.handleGameComplete();
     }
   }
 
   private loadLevel(levelId: string) {
-    const level = this.state.world.levels.get(levelId);
+    const level = this?.state.world?.levels.get(levelId);
     if (!level) return;
 
     // Clear current physics objects
-    this.physicsEngine.objects.clear();
-    this.state.world.physicsObjects.clear();
+    this?.physicsEngine.objects?.clear();
+    this?.state.world?.physicsObjects.clear();
 
     // Load new level objects
-    level.platforms.forEach((platform: any) => {
-      this.physicsEngine.addObject(platform);
-      this.state.world.physicsObjects.set(platform.id, platform);
+    level?.platforms.forEach((platform: any) => {
+      this?.physicsEngine.addObject(platform);
+      this?.state.world?.physicsObjects.set(platform?.id, platform);
     });
 
     // Reset player position
-    this.resetPlayer();
+    this?.resetPlayer();
   }
 
   private resetPlayer() {
-    this.state.player.health = this.state.player.maxHealth;
-    this.state.player.position = { x: 50, y: 50 };
-    this.state.player.velocity = { x: 0, y: 0 };
-    this.state.player.powerUps = [];
+    this?.state.player?.health = this?.state.player?.maxHealth;
+    this?.state.player?.position = { x: 50, y: 50 };
+    this?.state.player?.velocity = { x: 0, y: 0 };
+    this?.state.player?.powerUps = [];
   }
 
   private handleGameComplete() {
-    this.state.game.gameOver = true;
-    EventBus.publish('game.completed', {
-      finalScore: this.state.game.score,
-      completionTime: this.state.game.time,
-      perfectLevels: this.calculatePerfectLevels()
+    this?.state.game?.gameOver = true;
+    EventBus?.publish('game?.completed', {
+      finalScore: this?.state.game?.score,
+      completionTime: this?.state.game?.time,
+      perfectLevels: this?.calculatePerfectLevels()
     });
   }
 
   private calculatePerfectLevels(): number {
-    return this.state.game.completedLevels.length;
+    return this?.state.game?.completedLevels.length;
   }
 
   private updatePhysics(deltaTime: number) {
     // Update player physics
-    this.updatePlayerPhysics(deltaTime);
+    this?.updatePlayerPhysics(deltaTime);
 
     // Update all physics objects
-    this.state.world.physicsObjects.forEach((obj, id) => {
-      this.updateObjectPhysics(obj, deltaTime);
+    this?.state.world?.physicsObjects.forEach((obj, id) => {
+      this?.updateObjectPhysics(obj, deltaTime);
     });
 
     // Check collisions
-    this.checkCollisions();
+    this?.checkCollisions();
   }
 
   private updatePlayerPhysics(deltaTime: number) {
-    const player = this.state.player;
+    const player = this?.state.player;
 
     // Apply gravity
-    player.velocity.y += 900 * deltaTime;
+    player?.velocity.y += 900 * deltaTime;
 
     // Apply velocity
-    player.position.x += player.velocity.x * deltaTime;
-    player.position.y += player.velocity.y * deltaTime;
+    player?.position.x += player?.velocity.x * deltaTime;
+    player?.position.y += player?.velocity.y * deltaTime;
 
     // Check bounds
-    if (player.position.y > 480) {
-      this.handlePlayerHit({ damage: 50 });
+    if (player?.position.y > 480) {
+      this?.handlePlayerHit({ damage: 50 });
     }
   }
 
   private updateObjectPhysics(obj: PhysicsObject, deltaTime: number) {
-    if (obj.isStatic) return;
+    if (obj?.isStatic) return;
 
     // Apply gravity
-    obj.velocity.y += 900 * deltaTime;
+    obj?.velocity.y += 900 * deltaTime;
 
     // Apply velocity
-    obj.position.x += obj.velocity.x * deltaTime;
-    obj.position.y += obj.velocity.y * deltaTime;
+    obj?.position.x += obj?.velocity.x * deltaTime;
+    obj?.position.y += obj?.velocity.y * deltaTime;
   }
 
   private checkCollisions() {
-    const player = this.state.player;
+    const player = this?.state.player;
     const playerObj: PhysicsObject = {
       id: 'player',
-      position: player.position,
-      velocity: player.velocity,
+      position: player?.position,
+      velocity: player?.velocity,
       acceleration: { x: 0, y: 0 },
-      mass: player.mass,
-      radius: player.radius,
+      mass: player?.mass,
+      radius: player?.radius,
       restitution: 0.3,
       friction: 0.7,
       isStatic: false,
@@ -819,44 +819,44 @@ export class TopplerDemo {
     };
 
     // Check player collisions with platforms
-    this.state.world.physicsObjects.forEach((obj: any) => {
-      if (this.checkCollision(playerObj, obj)) {
-        this.handleCollision(playerObj, obj);
+    this?.state.world?.physicsObjects.forEach((obj: any) => {
+      if (this?.checkCollision(playerObj, obj)) {
+        this?.handleCollision(playerObj, obj);
       }
     });
   }
 
   private checkCollision(obj1: PhysicsObject, obj2: PhysicsObject): boolean {
-    const dx = obj1.position.x - obj2.position.x;
-    const dy = obj1.position.y - obj2.position.y;
+    const dx = obj1?.position.x - obj2?.position.x;
+    const dy = obj1?.position.y - obj2?.position.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    const minDistance = obj1.radius + obj2.radius;
+    const minDistance = obj1?.radius + obj2?.radius;
 
     return distance < minDistance;
   }
 
   private handleCollision(obj1: PhysicsObject, obj2: PhysicsObject) {
-    if (obj1.id === 'player') {
+    if (obj1?.id === 'player') {
       // Player landed on platform
-      this.state.player.position.y = obj2.position.y - obj2.radius - obj1.radius;
-      this.state.player.velocity.y = 0;
-      EventBus.publish('player.landed', { platform: obj2 });
+      this?.state.player?.position.y = obj2?.position.y - obj2?.radius - obj1?.radius;
+      this?.state.player?.velocity.y = 0;
+      EventBus?.publish('player?.landed', { platform: obj2 });
     }
   }
 
   // Public API methods
   public getGameState(): TopplerGameState {
-    return this.state;
+    return this?.state;
   }
 
   public update(deltaTime: number) {
-    if (this.state.game.paused || this.state.game.gameOver) return;
+    if (this?.state.game?.paused || this?.state.game?.gameOver) return;
 
-    this.state.game.time += deltaTime;
-    this.physicsEngine.update(deltaTime);
-    this.updatePlayer();
-    this.updateWorld();
-    this.updateUI();
+    this?.state.game?.time += deltaTime;
+    this?.physicsEngine.update(deltaTime);
+    this?.updatePlayer();
+    this?.updateWorld();
+    this?.updateUI();
   }
 
   private updatePlayer() {
@@ -868,33 +868,33 @@ export class TopplerDemo {
   }
 
   private updateUI() {
-    if (this.state.ui.hudVisible) {
-      this.renderHUD();
+    if (this?.state.ui?.hudVisible) {
+      this?.renderHUD();
     }
   }
 
   private renderHUD() {
     const hudData = {
       player: {
-        health: this.state.player.health,
-        maxHealth: this.state.player.maxHealth,
-        score: this.state.player.score,
-        lives: this.state.player.lives
+        health: this?.state.player?.health,
+        maxHealth: this?.state.player?.maxHealth,
+        score: this?.state.player?.score,
+        lives: this?.state.player?.lives
       },
       game: {
-        level: this.state.game.level,
-        time: this.state.game.time,
-        score: this.state.game.score
+        level: this?.state.game?.level,
+        time: this?.state.game?.time,
+        score: this?.state.game?.score
       }
     };
 
-    this.engines.hud.updateModel(hudData);
+    this?.engines.hud?.updateModel(hudData);
   }
 
   public render() {
-    this.renderWorld();
-    this.renderUI();
-    this.renderEffects();
+    this?.renderWorld();
+    this?.renderUI();
+    this?.renderEffects();
   }
 
   private renderWorld() {
@@ -915,7 +915,7 @@ export class TopplerDemo {
       op: 'scenario',
       status: 'ok',
       name: 'TopplerDemoPure',
-      timeline: this.generateDemoTimeline(),
+      timeline: this?.generateDemoTimeline(),
       issues: []
     };
   }
@@ -954,7 +954,7 @@ export class TopplerDemo {
         collided = false;
       }
 
-      timeline.push({
+      timeline?.push({
         t,
         position: { x, y },
         velocity: { x: vx, y: vy },
@@ -969,5 +969,5 @@ export class TopplerDemo {
 // Export for CLI harness
 export function topplerDemo(): any {
   const game = new TopplerDemo();
-  return game.runDemo();
+  return game?.runDemo();
 }

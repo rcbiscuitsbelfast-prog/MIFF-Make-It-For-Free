@@ -16,7 +16,7 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
-import { FusionManager, FusionRules, PlayerContext } from './index.js';
+import { FusionManager, FusionRules, PlayerContext } from './index?.js';
 
 interface CliCommand {
   command: string;
@@ -33,8 +33,8 @@ class FusionCli {
   private context: PlayerContext;
 
   constructor() {
-    this.eventBus = new EventBus();
-    this.context = {
+    this?.eventBus = new EventBus();
+    this?.context = {
       playerId: 'cli_player',
       energy: 100,
       level: 25,
@@ -42,92 +42,92 @@ class FusionCli {
       lastFusionTime: 0
     };
 
-    this.manager = new FusionManager(this.eventBus, this.context);
-    this.rules = new FusionRules();
+    this?.manager = new FusionManager(this?.eventBus, this?.context);
+    this?.rules = new FusionRules();
 
-    this.setupCommands();
-    this.setupEventListeners();
+    this?.setupCommands();
+    this?.setupEventListeners();
 
     console.log('🔬 FusionPure CLI - AAA Spirit Fusion System');
     console.log('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
-    this.commands.set('create-spirit', {
+    this?.commands.set('create-spirit', {
       command: 'create-spirit <species> <level>',
       description: 'Create a test spirit for fusion',
-      handler: (args) => this.handleCreateSpirit(args)
+      handler: (args) => this?.handleCreateSpirit(args)
     });
 
-    this.commands.set('list-spirits', {
+    this?.commands.set('list-spirits', {
       command: 'list-spirits',
       description: 'List all available spirits',
-      handler: (args) => this.handleListSpirits(args)
+      handler: (args) => this?.handleListSpirits(args)
     });
 
-    this.commands.set('list-rules', {
+    this?.commands.set('list-rules', {
       command: 'list-rules',
       description: 'List all fusion rules',
-      handler: (args) => this.handleListRules(args)
+      handler: (args) => this?.handleListRules(args)
     });
 
-    this.commands.set('check-fusion', {
+    this?.commands.set('check-fusion', {
       command: 'check-fusion <speciesA> <speciesB>',
       description: 'Check if two species can fuse',
-      handler: (args) => this.handleCheckFusion(args)
+      handler: (args) => this?.handleCheckFusion(args)
     });
 
-    this.commands.set('fuse', {
+    this?.commands.set('fuse', {
       command: 'fuse <spiritIdA> <spiritIdB>',
       description: 'Attempt to fuse two spirits',
-      handler: (args) => this.handleFuse(args)
+      handler: (args) => this?.handleFuse(args)
     });
 
-    this.commands.set('show-stats', {
+    this?.commands.set('show-stats', {
       command: 'show-stats',
       description: 'Display fusion statistics',
-      handler: (args) => this.handleShowStats(args)
+      handler: (args) => this?.handleShowStats(args)
     });
 
-    this.commands.set('show-rules-stats', {
+    this?.commands.set('show-rules-stats', {
       command: 'show-rules-stats',
       description: 'Display fusion rules statistics',
-      handler: (args) => this.handleShowRulesStats(args)
+      handler: (args) => this?.handleShowRulesStats(args)
     });
 
-    this.commands.set('simulate', {
+    this?.commands.set('simulate', {
       command: 'simulate <attempts>',
       description: 'Run automated fusion simulation',
-      handler: (args) => this.handleSimulate(args)
+      handler: (args) => this?.handleSimulate(args)
     });
 
-    this.commands.set('benchmark', {
+    this?.commands.set('benchmark', {
       command: 'benchmark <operations>',
       description: 'Run performance benchmark',
-      handler: (args) => this.handleBenchmark(args)
+      handler: (args) => this?.handleBenchmark(args)
     });
 
-    this.commands.set('energy', {
+    this?.commands.set('energy', {
       command: 'energy [amount!]',
       description: 'Set player energy level',
-      handler: (args) => this.handleEnergy(args)
+      handler: (args) => this?.handleEnergy(args)
     });
 
-    this.commands.set('help', {
+    this?.commands.set('help', {
       command: 'help',
       description: 'Show available commands',
-      handler: (args) => this.handleHelp(args)
+      handler: (args) => this?.handleHelp(args)
     });
 
-    this.commands.set('quit', {
+    this?.commands.set('quit', {
       command: 'quit',
       description: 'Exit the CLI',
-      handler: (args) => this.handleQuit(args)
+      handler: (args) => this?.handleQuit(args)
     });
   }
 
   private setupEventListeners(): void {
-    this.eventBus.on('fusion:performed', (data) => {
+    this?.eventBus.on('fusion:performed', (data: any) => {
       console.log(`✨ Fusion successful! New spirit: ${data.resultSpiritId}`);
       console.log(`   Species A: ${data.spiritAId}`);
       console.log(`   Species B: ${data.spiritBId}`);
@@ -135,7 +135,7 @@ class FusionCli {
   }
 
   private handleCreateSpirit(args: string[]): void {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.log('Usage: create-spirit <species> <level>');
       return;
     }
@@ -148,8 +148,8 @@ class FusionCli {
       instanceId: `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       speciesId: species,
       level: level,
-      name: `${species.charAt(0).toUpperCase() + species.slice(1)} Spirit`,
-      type: this.getSpiritType(species)
+      name: `${species?.charAt(0).toUpperCase() + species?.slice(1)} Spirit`,
+      type: this?.getSpiritType(species)
     };
 
     console.log(`✅ Spirit created: ${spirit.name}`);
@@ -166,11 +166,11 @@ class FusionCli {
     console.log('─'.repeat(40));
 
     const species = ['fire_spirit', 'water_spirit', 'grass_spirit', 'electric_spirit', 'poison_spirit', 'steel_spirit'];
-    species.forEach((species: any) => {
-      const compatible = this.getCompatibleSpecies(species);
-      const speciesName = species.padEnd(15);
-      const type = this.getSpiritType(species).padEnd(10);
-      const compatStr = compatible.slice(0, 3).join(', ');
+    species?.forEach((species: any) => {
+      const compatible = this?.getCompatibleSpecies(species);
+      const speciesName = species?.padEnd(15);
+      const type = this?.getSpiritType(species).padEnd(10);
+      const compatStr = compatible?.slice(0, 3).join(', ');
 
       console.log(`${speciesName} | ${type} | ${compatStr}`);
     });
@@ -178,19 +178,19 @@ class FusionCli {
   }
 
   private handleListRules(args: string[]): void {
-    const rules = this.rules.getAvailablePairs();
+    const rules = this?.rules.getAvailablePairs();
 
     console.log(`\n🔬 Fusion Rules (${rules.length}):`);
     console.log('─'.repeat(70));
     console.log('Species A       | Species B       | Result          | Success | Energy');
     console.log('─'.repeat(70));
 
-    rules.forEach((rule: any) => {
-      const speciesA = rule.speciesA.padEnd(15);
-      const speciesB = rule.speciesB.padEnd(15);
-      const result = rule.resultSpeciesId.padEnd(15);
-      const success = `${rule.successRate}%`.padEnd(7);
-      const energy = rule.energyCost.toString().padEnd(6);
+    rules?.forEach((rule: any) => {
+      const speciesA = rule?.speciesA.padEnd(15);
+      const speciesB = rule?.speciesB.padEnd(15);
+      const result = rule?.resultSpeciesId.padEnd(15);
+      const success = `${rule?.successRate}%`.padEnd(7);
+      const energy = rule?.energyCost.toString().padEnd(6);
 
       console.log(`${speciesA} | ${speciesB} | ${result} | ${success} | ${energy}`);
     });
@@ -198,20 +198,20 @@ class FusionCli {
   }
 
   private handleCheckFusion(args: string[]): void {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.log('Usage: check-fusion <speciesA> <speciesB>');
       return;
     }
 
     const [speciesA, speciesB] = args;
-    const validation = this.rules.validateRuleCompatibility(speciesA, speciesB);
+    const validation = this?.rules.validateRuleCompatibility(speciesA, speciesB);
 
     console.log(`\n🔍 Fusion Compatibility: ${speciesA} + ${speciesB}`);
     console.log('─'.repeat(50));
 
-    if (validation.compatible) {
+    if (validation?.compatible) {
       console.log('✅ Compatible!');
-      if (validation.rule) {
+      if (validation?.rule) {
         console.log(`   Result: ${validation.rule.resultSpeciesId}`);
         console.log(`   Success Rate: ${validation.rule.successRate}%`);
         console.log(`   Energy Cost: ${validation.rule.energyCost}`);
@@ -219,11 +219,11 @@ class FusionCli {
     } else {
       console.log('❌ Not Compatible');
       console.log('   Missing Constraints:');
-      validation.missingConstraints.forEach((constraint: any) => {
+      validation?.missingConstraints.forEach((constraint: any) => {
         console.log(`   - ${constraint}`);
       });
       console.log('   Recommendations:');
-      validation.recommendations.forEach((rec: any) => {
+      validation?.recommendations.forEach((rec: any) => {
         console.log(`   - ${rec}`);
       });
     }
@@ -231,7 +231,7 @@ class FusionCli {
   }
 
   private handleFuse(args: string[]): void {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.log('Usage: fuse <spiritIdA> <spiritIdB>');
       return;
     }
@@ -239,8 +239,8 @@ class FusionCli {
     const [spiritIdA, spiritIdB] = args;
 
     // Create mock spirits for testing
-    const spiritA = this.createMockSpirit(spiritIdA.split('_')[0!] || 'fire_spirit', 25);
-    const spiritB = this.createMockSpirit(spiritIdB.split('_')[0!] || 'water_spirit', 25);
+    const spiritA = this?.createMockSpirit(spiritIdA?.split('_')[0!] || 'fire_spirit', 25);
+    const spiritB = this?.createMockSpirit(spiritIdB?.split('_')[0!] || 'water_spirit', 25);
 
     if (!spiritA || !spiritB) {
       console.log('❌ Invalid spirit IDs. Use species names like fire_spirit, water_spirit.');
@@ -252,13 +252,13 @@ class FusionCli {
     console.log(`   Spirit B Level: ${spiritB.level}`);
     console.log(`   Player Energy: ${this.context.energy}`);
 
-    const result = this.manager.fuse(spiritA, spiritB);
+    const result = this?.manager.fuse(spiritA, spiritB);
 
-    if (result.success) {
+    if (result?.success) {
       console.log(`✅ ${result.message}`);
-      if (result.inheritedTraits) {
+      if (result?.inheritedTraits) {
         console.log('   Inherited Traits:');
-        result.inheritedTraits.forEach((trait: any) => {
+        result?.inheritedTraits.forEach((trait: any) => {
           console.log(`   - ${trait.name}: ${trait.description}`);
         });
       }
@@ -268,7 +268,7 @@ class FusionCli {
   }
 
   private handleShowStats(args: string[]): void {
-    const stats = this.manager.getFusionStats();
+    const stats = this?.manager.getFusionStats();
 
     console.log('\n📊 Fusion Statistics:');
     console.log('─'.repeat(30));
@@ -285,7 +285,7 @@ class FusionCli {
   }
 
   private handleShowRulesStats(args: string[]): void {
-    const stats = this.rules.getRulesStats();
+    const stats = this?.rules.getRulesStats();
 
     console.log('\n🔬 Fusion Rules Statistics:');
     console.log('─'.repeat(35));
@@ -317,12 +317,12 @@ class FusionCli {
       const spiritA = this.createMockSpirit(speciesA, 10 + Math.random() * 20);
       const spiritB = this.createMockSpirit(speciesB, 10 + Math.random() * 20);
 
-      const rule = this.rules.findMatch(speciesA, speciesB);
-      if (rule && this.context.energy >= rule.energyCost) {
-        const result = this.manager.fuse(spiritA, spiritB);
-        if (result.success) {
+      const rule = this?.rules.findMatch(speciesA, speciesB);
+      if (rule && this?.context.energy >= rule?.energyCost) {
+        const result = this?.manager.fuse(spiritA, spiritB);
+        if (result?.success) {
           successCount++;
-          energySpent += rule.energyCost;
+          energySpent += rule?.energyCost;
         }
       }
 
@@ -331,7 +331,7 @@ class FusionCli {
         this.context.energy = Math.min(100, this.context.energy + 20);
       }
 
-      await this.sleep(100); // Brief pause between attempts
+      await this?.sleep(100); // Brief pause between attempts
     }
 
     console.log('\n✅ Simulation completed!');
@@ -340,32 +340,32 @@ class FusionCli {
     console.log(`Energy Spent: ${energySpent}`);
     console.log(`Remaining Energy: ${this.context.energy}`);
 
-    this.showStats([]);
+    this?.showStats([]);
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
     const operations = parseInt(args[0!]) || 100;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
-    const startTime = performance.now();
+    const startTime = performance?.now();
 
     for (let i = 0; i < operations; i++) {
       // Test rule validation
-      this.rules.findMatch('fire_spirit', 'water_spirit');
+      this?.rules.findMatch('fire_spirit', 'water_spirit');
 
       // Test constraint checking
-      this.rules.constraintsMet(
+      this?.rules.constraintsMet(
         { speciesA: 'fire_spirit', speciesB: 'water_spirit', minCombinedSync: 20, energyCost: 50 } as any,
-        this.context,
+        this?.context,
         'spirit1',
         'spirit2'
       );
 
       // Test fusion history tracking
-      this.context.fusionHistory.push(`fire_spirit+water_spirit_${i}`);
+      this?.context.fusionHistory?.push(`fire_spirit+water_spirit_${i}`);
     }
 
-    const endTime = performance.now();
+    const endTime = performance?.now();
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
@@ -375,7 +375,7 @@ class FusionCli {
     console.log(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
 
     // Cleanup
-    this.context.fusionHistory = [];
+    this?.context.fusionHistory = [];
   }
 
   private handleEnergy(args: string[]): void {
@@ -388,7 +388,7 @@ class FusionCli {
   private handleHelp(args: string[]): void {
     console.log('\n🛠️ Available Commands:');
     console.log('─'.repeat(50));
-    this.commands.forEach((cmd, key) => {
+    this?.commands.forEach((cmd, key) => {
       console.log(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
     });
     console.log('─'.repeat(50));
@@ -396,7 +396,7 @@ class FusionCli {
 
   private handleQuit(args: string[]): void {
     console.log('👋 Goodbye!');
-    this.isRunning = false;
+    this?.isRunning = false;
   }
 
   private createMockSpirit(speciesId: string, level: number): any {
@@ -404,7 +404,7 @@ class FusionCli {
       instanceId: `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       speciesId: speciesId,
       level: level,
-      name: `${speciesId.charAt(0).toUpperCase() + speciesId.slice(1)} Spirit`
+      name: `${speciesId?.charAt(0).toUpperCase() + speciesId?.slice(1)} Spirit`
     };
   }
 
@@ -440,37 +440,37 @@ class FusionCli {
 
   public async run(): Promise<void> {
     const readline = await import('readline');
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    const rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout,
       prompt: 'fusion> '
     });
 
-    rl.prompt();
+    rl?.prompt();
 
-    rl.on('line', (line) => {
-      const input = line.trim();
+    rl?.on('line', (line) => {
+      const input = line?.trim();
       if (input) {
-        const [command, ...args] = input.split(' ');
-        const cmd = this.commands.get(command);
+        const [command, ...args] = input?.split(' ');
+        const cmd = this?.commands.get(command);
 
         if (cmd) {
-          cmd.handler(args);
+          cmd?.handler(args);
         } else {
           console.log(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
-      if (this.isRunning) {
-        rl.prompt();
+      if (this?.isRunning) {
+        rl?.prompt();
       } else {
-        rl.close();
+        rl?.close();
       }
     });
 
-    rl.on('close', () => {
+    rl?.on('close', () => {
       console.log('CLI session ended.');
-      process.exit(0);
+      process?.exit(0);
     });
   }
 }
@@ -478,21 +478,21 @@ class FusionCli {
 // CLI entry point
 async function main() {
   const cli = new FusionCli();
-  await cli.run();
+  await cli?.run();
 }
 
 // Handle process termination
-process.on('SIGINT', () => {
+process?.on('SIGINT', () => {
   console.log('\n👋 Received SIGINT. Exiting...');
-  process.exit(0);
+  process?.exit(0);
 });
 
-process.on('SIGTERM', () => {
+process?.on('SIGTERM', () => {
   console.log('\n👋 Received SIGTERM. Exiting...');
-  process.exit(0);
+  process?.exit(0);
 });
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }
 

@@ -11,11 +11,11 @@ export interface WebConvertedPayload {
 
 export class ConvertToWebManager {
   convert(payload: RenderPayload): WebConvertedPayload {
-    const issues = BridgeSchemaValidator.validateRenderPayload(payload);
-    const items = (payload.renderData || []).map((rd: RenderData) => BridgeSchemaValidator.convertToWeb(rd));
+    const issues = BridgeSchemaValidator?.validateRenderPayload(payload);
+    const items = (payload?.renderData || []).map((rd: RenderData) => BridgeSchemaValidator?.convertToWeb(rd));
     return {
       op: 'convert',
-      status: issues.length === 0 ? 'ok' : 'error',
+      status: issues?.length === 0 ? 'ok' : 'error',
       engine: 'web',
       items,
       issues

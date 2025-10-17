@@ -50,24 +50,24 @@ export type RenderPayload = RenderFrame;
 export function generateRenderPayload(gameState: GameState): RenderPayload[] {
   const frames: RenderPayload[] = [];
 
-  gameState.frames.forEach((fs, idx) => {
-    const sprites: RenderSprite[] = fs.entities
-      .map((e: any) => ({ id: e.spriteId, x: round(e.x), y: round(e.y), layer: e.layer }))
+  gameState?.frames.forEach((fs, idx) => {
+    const sprites: RenderSprite[] = fs?.entities
+      .map((e: any) => ({ id: e?.spriteId, x: round(e.x), y: round(e.y), layer: e?.layer }))
       .sort((a: any, b: any) => {
-        const la = a.layer ?? 0;
-        const lb = b.layer ?? 0;
+        const la = a?.layer ?? 0;
+        const lb = b?.layer ?? 0;
         if (la !== lb) return la - lb;
-        return a.id.localeCompare(b.id);
+        return a?.id.localeCompare(b?.id);
       })
-      .map((s: any) => ({ id: s.id, x: s.x, y: s.y, ...(s.layer !== undefined ? { layer: s.layer } : {}) }));
+      .map((s: any) => ({ id: s?.id, x: s.x, y: s.y, ...(s?.layer !== undefined ? { layer: s?.layer } : {}) }));
 
     const frame: RenderFrame = {
       frameIndex: idx,
       sprites,
-      camera: { x: round(fs.camera.x), y: round(fs.camera.y), ...(fs.camera.zoom !== undefined ? { zoom: round(fs.camera.zoom) } : {}) },
-      ...(fs.backgroundColor ? { backgroundColor: fs.backgroundColor } : {})
+      camera: { x: round(fs?.camera.x), y: round(fs?.camera.y), ...(fs?.camera.zoom !== undefined ? { zoom: round(fs?.camera.zoom) } : {}) },
+      ...(fs?.backgroundColor ? { backgroundColor: fs?.backgroundColor } : {})
     };
-    frames.push(frame);
+    frames?.push(frame);
   });
 
   return frames;

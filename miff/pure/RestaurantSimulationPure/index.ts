@@ -16,7 +16,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 // ============================================================================
 // RESTAURANT SYSTEM TYPES & INTERFACES
@@ -337,30 +337,30 @@ export class RestaurantSimulationPure {
     performanceMode: 'high',
     debugMode: false
   }) {
-    this.eventBus = eventBus;
-    this.config = config;
+    this?.eventBus = eventBus;
+    this?.config = config;
 
-    this.initializeSystem();
-    this.startUpdateLoop();
+    this?.initializeSystem();
+    this?.startUpdateLoop();
   }
 
   /**
    * Initialize the restaurant system
    */
   private initializeSystem(): void {
-    this.initializeFacilities();
-    this.initializeMenu();
-    this.initializeIngredients();
-    this.initializeEquipment();
-    this.initializeTables();
+    this?.initializeFacilities();
+    this?.initializeMenu();
+    this?.initializeIngredients();
+    this?.initializeEquipment();
+    this?.initializeTables();
 
-    this.setupEventListeners();
+    this?.setupEventListeners();
 
     // Emit initialization event
-    this.eventBus.emit('restaurant:system_initialized', {
-      config: this.config,
-      facilities: this.facilities.size,
-      menuItems: this.menuItems.size,
+    this?.eventBus.emit('restaurant:system_initialized', {
+      config: this?.config,
+      facilities: this?.facilities.size,
+      menuItems: this?.menuItems.size,
       timestamp: new Date()
     });
   }
@@ -412,8 +412,8 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    facilities.forEach((facility: any) => {
-      this.facilities.set(facility.id, facility);
+    facilities?.forEach((facility: any) => {
+      this?.facilities.set(facility?.id, facility);
     });
   }
 
@@ -478,8 +478,8 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    menuItems.forEach((item: any) => {
-      this.menuItems.set(item.id, item);
+    menuItems?.forEach((item: any) => {
+      this?.menuItems.set(item?.id, item);
     });
   }
 
@@ -541,8 +541,8 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    ingredients.forEach((ingredient: any) => {
-      this.ingredients.set(ingredient.id, ingredient);
+    ingredients?.forEach((ingredient: any) => {
+      this?.ingredients.set(ingredient?.id, ingredient);
     });
   }
 
@@ -592,8 +592,8 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    equipment.forEach((item: any) => {
-      this.equipment.set(item.id, item);
+    equipment?.forEach((item: any) => {
+      this?.equipment.set(item?.id, item);
     });
   }
 
@@ -608,33 +608,33 @@ export class RestaurantSimulationPure {
    * Set up event listeners
    */
   private setupEventListeners(): void {
-    if (this.integrations.onOrderPlaced) {
-      this.eventBus.on('restaurant:order_placed', (data: { order: CustomerOrder }) => {
-        this.integrations.onOrderPlaced!(data.order);
+    if (this?.integrations.onOrderPlaced) {
+      this?.eventBus.on('restaurant:order_placed', (data: { order: CustomerOrder }) => {
+        this?.integrations.onOrderPlaced!(data?.order);
       });
     }
 
-    if (this.integrations.onOrderCompleted) {
-      this.eventBus.on('restaurant:order_completed', (data: { order: CustomerOrder }) => {
-        this.integrations.onOrderCompleted!(data.order);
+    if (this?.integrations.onOrderCompleted) {
+      this?.eventBus.on('restaurant:order_completed', (data: { order: CustomerOrder }) => {
+        this?.integrations.onOrderCompleted!(data?.order);
       });
     }
 
-    if (this.integrations.onCustomerSatisfied) {
-      this.eventBus.on('restaurant:customer_satisfied', (data: { customerId: string, satisfaction: number }) => {
-        this.integrations.onCustomerSatisfied!(data.customerId, data.satisfaction);
+    if (this?.integrations.onCustomerSatisfied) {
+      this?.eventBus.on('restaurant:customer_satisfied', (data: { customerId: string, satisfaction: number }) => {
+        this?.integrations.onCustomerSatisfied!(data?.customerId, data?.satisfaction);
       });
     }
 
-    if (this.integrations.onCustomerDissatisfied) {
-      this.eventBus.on('restaurant:customer_dissatisfied', (data: { customerId: string, reason: string }) => {
-        this.integrations.onCustomerDissatisfied!(data.customerId, data.reason);
+    if (this?.integrations.onCustomerDissatisfied) {
+      this?.eventBus.on('restaurant:customer_dissatisfied', (data: { customerId: string, reason: string }) => {
+        this?.integrations.onCustomerDissatisfied!(data?.customerId, data?.reason);
       });
     }
 
-    if (this.integrations.onIngredientDepleted) {
-      this.eventBus.on('restaurant:ingredient_depleted', (data: { ingredientId: string }) => {
-        this.integrations.onIngredientDepleted!(data.ingredientId);
+    if (this?.integrations.onIngredientDepleted) {
+      this?.eventBus.on('restaurant:ingredient_depleted', (data: { ingredientId: string }) => {
+        this?.integrations.onIngredientDepleted!(data?.ingredientId);
       });
     }
   }
@@ -644,59 +644,59 @@ export class RestaurantSimulationPure {
    */
   private startUpdateLoop(): void {
     setInterval(() => {
-      if (!this.isPaused) {
-        this.updateRestaurant();
+      if (!this?.isPaused) {
+        this?.updateRestaurant();
       }
-    }, this.config.updateInterval);
+    }, this?.config.updateInterval);
   }
 
   /**
    * Update restaurant operations
    */
   private updateRestaurant(): void {
-    const now = Date.now();
-    const deltaTime = (now - this.lastUpdateTime) / 3600000; // Convert to hours
-    this.lastUpdateTime = now;
+    const now = new Date();
+    const deltaTime = (now - this?.lastUpdateTime) / 3600000; // Convert to hours
+    this?.lastUpdateTime = now;
 
     if (deltaTime <= 0) return;
 
     // Generate customers
-    this.generateCustomers(deltaTime);
+    this?.generateCustomers(deltaTime);
 
     // Process customer queue
-    this.processCustomerQueue();
+    this?.processCustomerQueue();
 
     // Update orders
-    this.updateOrders(deltaTime);
+    this?.updateOrders(deltaTime);
 
     // Update ingredients
-    this.updateIngredients(deltaTime);
+    this?.updateIngredients(deltaTime);
 
     // Update staff
-    this.updateStaff(deltaTime);
+    this?.updateStaff(deltaTime);
 
     // Update equipment
-    this.updateEquipment(deltaTime);
+    this?.updateEquipment(deltaTime);
 
     // Check customer satisfaction
-    this.checkCustomerSatisfaction();
+    this?.checkCustomerSatisfaction();
 
     // Update reputation
-    this.updateReputation();
+    this?.updateReputation();
   }
 
   /**
    * Generate customers based on time and conditions
    */
   private generateCustomers(deltaTime: number): void {
-    const facilities = this.facilities.get('main_restaurant');
-    if (!facilities || !facilities.operational) return;
+    const facilities = this?.facilities.get('main_restaurant');
+    if (!facilities || !facilities?.operational) return;
 
     // Base customer generation rate
     let generationRate = 2; // 2 customers per hour base
 
     // Rush hour bonus
-    if (this.config.enableRushHours) {
+    if (this?.config.enableRushHours) {
       const hour = new Date().getHours();
       if ((hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)) {
         generationRate *= 3; // 3x during rush hours
@@ -704,13 +704,13 @@ export class RestaurantSimulationPure {
     }
 
     // Reputation bonus
-    const reputationBonus = 1 + (facilities.reputation / 200); // +0.5 max
+    const reputationBonus = 1 + (facilities?.reputation / 200); // +0.5 max
     generationRate *= reputationBonus;
 
     const customersToGenerate = Math.floor(generationRate * deltaTime);
 
     for (let i = 0; i < customersToGenerate; i++) {
-      this.generateCustomer();
+      this?.generateCustomer();
     }
   }
 
@@ -722,21 +722,21 @@ export class RestaurantSimulationPure {
     const customerType = customerTypes[Math.floor(Math.random() * customerTypes.length)];
 
     const customer: RestaurantCustomer = {
-      id: `customer_${this.nextCustomerId++}`,
-      name: `Customer ${this.nextCustomerId}`,
+      id: `customer_${this?.nextCustomerId++}`,
+      name: `Customer ${this?.nextCustomerId}`,
       type: customerType,
       satisfaction: 75,
-      patience: this.getPatienceForType(customerType),
+      patience: this?.getPatienceForType(customerType),
       groupSize: Math.floor(Math.random() * 4) + 1,
       arrivalTime: new Date(),
       waitTime: 0,
       specialRequirements: [],
-      behavior: this.getBehaviorForType(customerType)
+      behavior: this?.getBehaviorForType(customerType)
     };
 
-    this.customerQueue.push(customer);
+    this?.customerQueue?.push(customer);
 
-    this.eventBus.emit('restaurant:customer_arrived', {
+    this?.eventBus.emit('restaurant:customer_arrived', {
       customer: customer,
       timestamp: new Date()
     });
@@ -776,18 +776,18 @@ export class RestaurantSimulationPure {
    * Process customer queue
    */
   private processCustomerQueue(): void {
-    if (this.availableTables.length === 0 || this.customerQueue.length === 0) return;
+    if (this?.availableTables.length === 0 || this?.customerQueue.length === 0) return;
 
-    const customer = this.customerQueue.shift()!;
-    const tableNumber = this.availableTables.shift()!;
+    const customer = this?.customerQueue.shift()!;
+    const tableNumber = this?.availableTables.shift()!;
 
-    customer.tableNumber = tableNumber;
-    customer.orderTime = Date.now();
+    customer?.tableNumber = tableNumber;
+    customer.orderTime = new Date();
 
-    this.customers.set(customer.id, customer);
+    this?.customers.set(customer?.id, customer);
 
     // Generate order for customer
-    this.generateOrder(customer);
+    this?.generateOrder(customer);
   }
 
   /**
@@ -801,8 +801,8 @@ export class RestaurantSimulationPure {
 
     for (let i = 0; i < orderSize; i++) {
       const menuItem = availableItems[Math.floor(Math.random() * availableItems.length)];
-      orderItems.push({
-        menuItemId: menuItem.id,
+      orderItems?.push({
+        menuItemId: menuItem?.id,
         quantity: 1,
         customizations: [],
         specialInstructions: '',
@@ -810,29 +810,29 @@ export class RestaurantSimulationPure {
       });
     }
 
-    const totalPrice = orderItems.reduce((sum, item) => {
-      const menuItem = this.menuItems.get(item.menuItemId);
-      return sum + (menuItem?.price || 0) * item.quantity;
+    const totalPrice = orderItems?.reduce((sum, item) => {
+      const menuItem = this?.menuItems.get(item?.menuItemId);
+      return sum + (menuItem?.price || 0) * item?.quantity;
     }, 0);
 
     const order: CustomerOrder = {
-      id: `order_${this.nextOrderId++}`,
-      customerId: customer.id,
-      customerType: customer.type,
+      id: `order_${this?.nextOrderId++}`,
+      customerId: customer?.id,
+      customerType: customer?.type,
       items: orderItems,
-      orderTime: customer.orderTime!,
+      orderTime: customer?.orderTime!,
       status: 'pending',
-      priority: this.getOrderPriority(customer.type),
-      tableNumber: customer.tableNumber,
-      specialRequests: customer.specialRequirements,
-      satisfaction: customer.satisfaction,
+      priority: this?.getOrderPriority(customer?.type),
+      tableNumber: customer?.tableNumber,
+      specialRequests: customer?.specialRequirements,
+      satisfaction: customer?.satisfaction,
       totalPrice: totalPrice,
-      tip: totalPrice * this.getTipPercentage(customer.type)
+      tip: totalPrice * this?.getTipPercentage(customer?.type)
     };
 
-    this.orders.set(order.id, order);
+    this?.orders.set(order?.id, order);
 
-    this.eventBus.emit('restaurant:order_placed', {
+    this?.eventBus.emit('restaurant:order_placed', {
       order: order,
       timestamp: new Date()
     });
@@ -872,20 +872,20 @@ export class RestaurantSimulationPure {
    * Update orders
    */
   private updateOrders(deltaTime: number): void {
-    this.orders.forEach((order, orderId) => {
-      if (order.status === 'pending') {
+    this?.orders.forEach((order, orderId) => {
+      if (order?.status === 'pending') {
         // Check if can start preparing
-        if (this.canPrepareOrder(order)) {
-          order.status = 'preparing';
-          this.startPreparingOrder(order);
+        if (this?.canPrepareOrder(order)) {
+          order?.status = 'preparing';
+          this?.startPreparingOrder(order);
         }
-      } else if (order.status === 'preparing' || order.status === 'cooking') {
+      } else if (order?.status === 'preparing' || order?.status === 'cooking') {
         // Update cooking progress
-        this.updateOrderProgress(order, deltaTime);
-      } else if (order.status === 'ready') {
+        this?.updateOrderProgress(order, deltaTime);
+      } else if (order?.status === 'ready') {
         // Check if served
-        if (order.servedTime) {
-          this.completeOrder(order);
+        if (order?.servedTime) {
+          this?.completeOrder(order);
         }
       }
     });
@@ -896,13 +896,13 @@ export class RestaurantSimulationPure {
    */
   private canPrepareOrder(order: CustomerOrder): boolean {
     // Check ingredient availability
-    for (const orderItem of order.items) {
-      const menuItem = this.menuItems.get(orderItem.menuItemId);
+    for (const orderItem of order?.items) {
+      const menuItem = this?.menuItems.get(orderItem?.menuItemId);
       if (!menuItem) continue;
 
-      for (const requirement of menuItem.ingredients) {
-        const ingredient = this.ingredients.get(requirement.ingredientId);
-        if (!ingredient || ingredient.currentStock < requirement.quantity) {
+      for (const requirement of menuItem?.ingredients) {
+        const ingredient = this?.ingredients.get(requirement?.ingredientId);
+        if (!ingredient || ingredient?.currentStock < requirement?.quantity) {
           return false;
         }
       }
@@ -916,44 +916,44 @@ export class RestaurantSimulationPure {
    */
   private startPreparingOrder(order: CustomerOrder): void {
     // Deduct ingredients
-    for (const orderItem of order.items) {
-      const menuItem = this.menuItems.get(orderItem.menuItemId);
+    for (const orderItem of order?.items) {
+      const menuItem = this?.menuItems.get(orderItem?.menuItemId);
       if (!menuItem) continue;
 
-      for (const requirement of menuItem.ingredients) {
-        const ingredient = this.ingredients.get(requirement.ingredientId);
+      for (const requirement of menuItem?.ingredients) {
+        const ingredient = this?.ingredients.get(requirement?.ingredientId);
         if (ingredient) {
-          ingredient.currentStock -= requirement.quantity;
-          ingredient.freshness *= 0.95; // Slight freshness reduction
+          ingredient?.currentStock -= requirement?.quantity;
+          ingredient?.freshness *= 0.95; // Slight freshness reduction
 
-          if (ingredient.currentStock <= ingredient.reorderPoint && ingredient.autoReorder) {
-            this.reorderIngredient(ingredient);
+          if (ingredient?.currentStock <= ingredient?.reorderPoint && ingredient?.autoReorder) {
+            this?.reorderIngredient(ingredient);
           }
         }
       }
     }
 
     // Calculate preparation time
-    const totalPrepTime = order.items.reduce((sum, item) => {
-      const menuItem = this.menuItems.get(item.menuItemId);
+    const totalPrepTime = order?.items.reduce((sum, item) => {
+      const menuItem = this?.menuItems.get(item?.menuItemId);
       return sum + (menuItem?.preparationTime || 0);
     }, 0);
 
-    order.readyTime = Date.now() + (totalPrepTime * 1000);
+    order.readyTime = new Date() + (totalPrepTime * 1000);
   }
 
   /**
    * Update order progress
    */
   private updateOrderProgress(order: CustomerOrder, deltaTime: number): void {
-    if (!order.readyTime) return;
+    if (!order?.readyTime) return;
 
     const progress = (Date.now() - order.orderTime) / (order.readyTime - order.orderTime);
 
     if (progress >= 1) {
-      order.status = 'ready';
-    } else if (progress >= 0.7 && order.status === 'preparing') {
-      order.status = 'cooking';
+      order?.status = 'ready';
+    } else if (progress >= 0.7 && order?.status === 'preparing') {
+      order?.status = 'cooking';
     }
   }
 
@@ -962,9 +962,9 @@ export class RestaurantSimulationPure {
    */
   private completeOrder(order: CustomerOrder): void {
     // Calculate final satisfaction
-    const waitTime = (order.servedTime! - order.orderTime) / 1000; // In seconds
-    const expectedTime = order.items.reduce((sum, item) => {
-      const menuItem = this.menuItems.get(item.menuItemId);
+    const waitTime = (order?.servedTime! - order?.orderTime) / 1000; // In seconds
+    const expectedTime = order?.items.reduce((sum, item) => {
+      const menuItem = this?.menuItems.get(item?.menuItemId);
       return sum + (menuItem?.preparationTime || 0);
     }, 0);
 
@@ -972,28 +972,28 @@ export class RestaurantSimulationPure {
     order.satisfaction = Math.max(0, Math.min(100, order.satisfaction + satisfactionBonus));
 
     // Generate revenue
-    this.totalRevenue += order.totalPrice + order.tip;
+    this?.totalRevenue += order?.totalPrice + order?.tip;
 
     // Update customer satisfaction
-    const customer = this.customers.get(order.customerId);
+    const customer = this?.customers.get(order?.customerId);
     if (customer) {
-      customer.satisfaction = order.satisfaction;
+      customer?.satisfaction = order?.satisfaction;
 
-      if (order.satisfaction >= 80) {
-        this.integrations.onCustomerSatisfied?.(customer.id, order.satisfaction);
-      } else if (order.satisfaction <= 40) {
-        this.integrations.onCustomerDissatisfied?.(customer.id, 'long_wait_time');
+      if (order?.satisfaction >= 80) {
+        this?.integrations.onCustomerSatisfied?.(customer?.id, order?.satisfaction);
+      } else if (order?.satisfaction <= 40) {
+        this?.integrations.onCustomerDissatisfied?.(customer?.id, 'long_wait_time');
       }
     }
 
     // Remove order and free table
-    this.orders.delete(order.id);
+    this?.orders.delete(order?.id);
 
-    if (order.tableNumber) {
-      this.availableTables.push(order.tableNumber);
+    if (order?.tableNumber) {
+      this?.availableTables?.push(order?.tableNumber);
     }
 
-    this.eventBus.emit('restaurant:order_completed', {
+    this?.eventBus.emit('restaurant:order_completed', {
       order: order,
       timestamp: new Date()
     });
@@ -1004,10 +1004,10 @@ export class RestaurantSimulationPure {
    */
   private reorderIngredient(ingredient: Ingredient): void {
     // This would trigger a supplier order in a full implementation
-    this.eventBus.emit('restaurant:ingredient_reorder', {
-      ingredientId: ingredient.id,
-      quantity: ingredient.reorderQuantity,
-      supplier: ingredient.supplier,
+    this?.eventBus.emit('restaurant:ingredient_reorder', {
+      ingredientId: ingredient?.id,
+      quantity: ingredient?.reorderQuantity,
+      supplier: ingredient?.supplier,
       timestamp: new Date()
     });
   }
@@ -1016,13 +1016,13 @@ export class RestaurantSimulationPure {
    * Update ingredients
    */
   private updateIngredients(deltaTime: number): void {
-    this.ingredients.forEach((ingredient, ingredientId) => {
+    this?.ingredients.forEach((ingredient, ingredientId) => {
       // Reduce freshness over time
       ingredient.freshness = Math.max(0, ingredient.freshness - (deltaTime * 5));
 
       // Check for depletion
-      if (ingredient.currentStock <= 0 && ingredient.freshness <= 0) {
-        this.integrations.onIngredientDepleted?.(ingredientId);
+      if (ingredient?.currentStock <= 0 && ingredient?.freshness <= 0) {
+        this?.integrations.onIngredientDepleted?.(ingredientId);
       }
     });
   }
@@ -1031,14 +1031,14 @@ export class RestaurantSimulationPure {
    * Update staff
    */
   private updateStaff(deltaTime: number): void {
-    this.staff.forEach((staffMember, staffId) => {
+    this?.staff.forEach((staffMember, staffId) => {
       // Update morale and performance
       staffMember.morale = Math.max(0, Math.min(100,
         staffMember.morale + (Math.random() - 0.5) * 2 * deltaTime
       ));
 
-      staffMember.efficiency = (staffMember.skill / 100) * (staffMember.morale / 100) * 0.9 + 0.1;
-      staffMember.performance = (staffMember.skill + staffMember.experience) / 2;
+      staffMember?.efficiency = (staffMember?.skill / 100) * (staffMember?.morale / 100) * 0.9 + 0.1;
+      staffMember?.performance = (staffMember?.skill + staffMember?.experience) / 2;
     });
   }
 
@@ -1046,7 +1046,7 @@ export class RestaurantSimulationPure {
    * Update equipment
    */
   private updateEquipment(deltaTime: number): void {
-    this.equipment.forEach((equipment, equipmentId) => {
+    this?.equipment.forEach((equipment, equipmentId) => {
       // Equipment degrades over time
       equipment.efficiency = Math.max(0.1, equipment.efficiency - (deltaTime * 0.01));
     });
@@ -1056,16 +1056,16 @@ export class RestaurantSimulationPure {
    * Check customer satisfaction
    */
   private checkCustomerSatisfaction(): void {
-    this.customers.forEach((customer, customerId) => {
+    this?.customers.forEach((customer, customerId) => {
       // Update wait time
-      if (customer.tableNumber) {
+      if (customer?.tableNumber) {
         customer.waitTime = (Date.now() - customer.orderTime!) / 1000;
       } else {
         customer.waitTime = (Date.now() - customer.arrivalTime) / 1000;
       }
 
       // Reduce satisfaction over time
-      if (customer.waitTime > 300) { // 5 minutes
+      if (customer?.waitTime > 300) { // 5 minutes
         customer.satisfaction = Math.max(0, customer.satisfaction - 0.5);
       }
     });
@@ -1075,7 +1075,7 @@ export class RestaurantSimulationPure {
    * Update reputation
    */
   private updateReputation(): void {
-    const facilities = this.facilities.get('main_restaurant');
+    const facilities = this?.facilities.get('main_restaurant');
     if (!facilities) return;
 
     // Base reputation calculation
@@ -1083,25 +1083,25 @@ export class RestaurantSimulationPure {
 
     // Customer satisfaction bonus
     const satisfiedCustomers = Array.from(this.customers.values())
-      .filter((c: any) => c.satisfaction >= 80).length;
-    const totalCustomers = this.customers.size;
+      .filter((c: any) => c?.satisfaction >= 80).length;
+    const totalCustomers = this?.customers.size;
     if (totalCustomers > 0) {
       const satisfactionRate = satisfiedCustomers / totalCustomers;
       reputationChange += satisfactionRate * 2;
     }
 
     // Cleanliness bonus
-    reputationChange += (facilities.cleanliness - 50) / 50;
+    reputationChange += (facilities?.cleanliness - 50) / 50;
 
     // Update reputation
     this.reputation = Math.max(0, Math.min(100, this.reputation + reputationChange));
-    facilities.reputation = this.reputation;
+    facilities?.reputation = this?.reputation;
 
     // Emit reputation change event
     if (Math.abs(reputationChange) > 1) {
-      this.eventBus.emit('restaurant:reputation_change', {
-        oldReputation: this.reputation - reputationChange,
-        newReputation: this.reputation,
+      this?.eventBus.emit('restaurant:reputation_change', {
+        oldReputation: this?.reputation - reputationChange,
+        newReputation: this?.reputation,
         change: reputationChange,
         timestamp: new Date()
       });
@@ -1116,49 +1116,49 @@ export class RestaurantSimulationPure {
    * Get restaurant facilities
    */
   public getFacilities(): Map<string, RestaurantFacility> {
-    return new Map(this.facilities);
+    return new Map(this?.facilities);
   }
 
   /**
    * Get menu items
    */
   public getMenuItems(): Map<string, MenuItem> {
-    return new Map(this.menuItems);
+    return new Map(this?.menuItems);
   }
 
   /**
    * Get current orders
    */
   public getOrders(): Map<string, CustomerOrder> {
-    return new Map(this.orders);
+    return new Map(this?.orders);
   }
 
   /**
    * Get customers
    */
   public getCustomers(): Map<string, RestaurantCustomer> {
-    return new Map(this.customers);
+    return new Map(this?.customers);
   }
 
   /**
    * Get staff
    */
   public getStaff(): Map<string, RestaurantStaff> {
-    return new Map(this.staff);
+    return new Map(this?.staff);
   }
 
   /**
    * Get ingredients
    */
   public getIngredients(): Map<string, Ingredient> {
-    return new Map(this.ingredients);
+    return new Map(this?.ingredients);
   }
 
   /**
    * Get kitchen equipment
    */
   public getEquipment(): Map<string, KitchenEquipment> {
-    return new Map(this.equipment);
+    return new Map(this?.equipment);
   }
 
   /**
@@ -1166,18 +1166,18 @@ export class RestaurantSimulationPure {
    */
   public getStats(): RestaurantStats {
     return {
-      totalRevenue: this.totalRevenue,
-      totalExpenses: this.totalExpenses,
-      netProfit: this.totalRevenue - this.totalExpenses,
-      customerCount: this.customers.size,
-      averageSatisfaction: this.calculateAverageSatisfaction(),
-      averageWaitTime: this.calculateAverageWaitTime(),
+      totalRevenue: this?.totalRevenue,
+      totalExpenses: this?.totalExpenses,
+      netProfit: this?.totalRevenue - this?.totalExpenses,
+      customerCount: this?.customers.size,
+      averageSatisfaction: this?.calculateAverageSatisfaction(),
+      averageWaitTime: this?.calculateAverageWaitTime(),
       ordersCompleted: Array.from(this.orders.values()).filter((o: any) => o.status === 'served').length,
       ordersCancelled: Array.from(this.orders.values()).filter((o: any) => o.status === 'cancelled').length,
-      menuItemsSold: this.calculateMenuItemsSold(),
-      staffPerformance: this.calculateAverageStaffPerformance(),
-      equipmentEfficiency: this.calculateAverageEquipmentEfficiency(),
-      inventoryTurnover: this.calculateInventoryTurnover(),
+      menuItemsSold: this?.calculateMenuItemsSold(),
+      staffPerformance: this?.calculateAverageStaffPerformance(),
+      equipmentEfficiency: this?.calculateAverageEquipmentEfficiency(),
+      inventoryTurnover: this?.calculateInventoryTurnover(),
       updateTime: new Date()
     };
   }
@@ -1186,16 +1186,16 @@ export class RestaurantSimulationPure {
    * Set integrations
    */
   public setIntegrations(integrations: RestaurantIntegration): void {
-    this.integrations = { ...this.integrations, ...integrations };
+    this?.integrations = { ...this?.integrations, ...integrations };
   }
 
   /**
    * Set paused state
    */
   public setPaused(paused: boolean): void {
-    this.isPaused = paused;
+    this?.isPaused = paused;
 
-    this.eventBus.emit('restaurant:paused', {
+    this?.eventBus.emit('restaurant:paused', {
       paused: paused,
       timestamp: new Date()
     });
@@ -1204,73 +1204,73 @@ export class RestaurantSimulationPure {
   // Helper methods for calculations
   private calculateAverageSatisfaction(): number {
     const customers = Array.from(this.customers.values());
-    if (customers.length === 0) return 0;
+    if (customers?.length === 0) return 0;
 
-    const totalSatisfaction = customers.reduce((sum, customer) => sum + customer.satisfaction, 0);
-    return totalSatisfaction / customers.length;
+    const totalSatisfaction = customers?.reduce((sum, customer) => sum + customer?.satisfaction, 0);
+    return totalSatisfaction / customers?.length;
   }
 
   private calculateAverageWaitTime(): number {
     const customers = Array.from(this.customers.values());
-    if (customers.length === 0) return 0;
+    if (customers?.length === 0) return 0;
 
-    const totalWaitTime = customers.reduce((sum, customer) => sum + customer.waitTime, 0);
-    return totalWaitTime / customers.length;
+    const totalWaitTime = customers?.reduce((sum, customer) => sum + customer?.waitTime, 0);
+    return totalWaitTime / customers?.length;
   }
 
   private calculateMenuItemsSold(): number {
     return Array.from(this.orders.values()).reduce((sum, order) => {
-      return sum + order.items.reduce((itemSum, item) => itemSum + item.quantity, 0);
+      return sum + order?.items.reduce((itemSum, item) => itemSum + item?.quantity, 0);
     }, 0);
   }
 
   private calculateAverageStaffPerformance(): number {
     const staff = Array.from(this.staff.values());
-    if (staff.length === 0) return 0;
+    if (staff?.length === 0) return 0;
 
-    const totalPerformance = staff.reduce((sum, staffMember) => sum + staffMember.performance, 0);
-    return totalPerformance / staff.length;
+    const totalPerformance = staff?.reduce((sum, staffMember) => sum + staffMember?.performance, 0);
+    return totalPerformance / staff?.length;
   }
 
   private calculateAverageEquipmentEfficiency(): number {
     const equipment = Array.from(this.equipment.values());
-    if (equipment.length === 0) return 0;
+    if (equipment?.length === 0) return 0;
 
-    const totalEfficiency = equipment.reduce((sum, eq) => sum + eq.efficiency, 0);
-    return totalEfficiency / equipment.length;
+    const totalEfficiency = equipment?.reduce((sum, eq) => sum + eq?.efficiency, 0);
+    return totalEfficiency / equipment?.length;
   }
 
   private calculateInventoryTurnover(): number {
     const ingredients = Array.from(this.ingredients.values());
-    if (ingredients.length === 0) return 0;
+    if (ingredients?.length === 0) return 0;
 
-    const totalTurnover = ingredients.reduce((sum, ingredient) => {
-      const turnover = ingredient.consumptionRate / ingredient.maxStock;
+    const totalTurnover = ingredients?.reduce((sum, ingredient) => {
+      const turnover = ingredient?.consumptionRate / ingredient?.maxStock;
       return sum + turnover;
     }, 0);
 
-    return totalTurnover / ingredients.length;
+    return totalTurnover / ingredients?.length;
   }
 
   /**
    * Reset restaurant
    */
   public resetRestaurant(): void {
-    this.facilities.clear();
-    this.menuItems.clear();
-    this.orders.clear();
-    this.customers.clear();
-    this.staff.clear();
-    this.ingredients.clear();
-    this.equipment.clear();
-    this.customerQueue = [];
-    this.availableTables = [];
-    this.totalRevenue = 0;
-    this.totalExpenses = 0;
-    this.nextOrderId = 1;
-    this.nextCustomerId = 1;
+    this?.facilities.clear();
+    this?.menuItems.clear();
+    this?.orders.clear();
+    this?.customers.clear();
+    this?.staff.clear();
+    this?.ingredients.clear();
+    this?.equipment.clear();
+    this?.customerQueue = [];
+    this?.availableTables = [];
+    this?.totalRevenue = 0;
+    this?.totalExpenses = 0;
+    this?.nextOrderId = 1;
+    this?.nextCustomerId = 1;
 
-    this.initializeSystem();
+    this?.initializeSystem();
   }
 }
 

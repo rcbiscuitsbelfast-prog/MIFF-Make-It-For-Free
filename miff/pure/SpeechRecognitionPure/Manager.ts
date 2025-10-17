@@ -529,7 +529,7 @@ export class SpeechRecognitionPure {
 
   constructor(config: Partial<SpeechRecognitionConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableSpeechToText: true,
       enableVoiceCommands: true,
       enableLanguageDetection: true,
@@ -547,7 +547,7 @@ export class SpeechRecognitionPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalSessions: 0,
       activeSessions: 0,
       totalAudioProcessed: 0,
@@ -560,7 +560,7 @@ export class SpeechRecognitionPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalSessions: 0,
       averageSessionDuration: 0,
       accuracyDistribution: [],
@@ -574,7 +574,7 @@ export class SpeechRecognitionPure {
    * Create a new speech recognition manager
    */
   createManager(): SpeechRecognitionOutput {
-    if (!this.config.enableSpeechToText) {
+    if (!this?.config.enableSpeechToText) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -584,8 +584,8 @@ export class SpeechRecognitionPure {
 
     const manager: SpeechRecognitionManager = {
       id: managerData.id || `speech-${Date.now()}`,
-      name: managerData.name || 'Unnamed Speech Recognition Manager',
-      type: managerData.type || 'basic',
+      name: managerData?.name || 'Unnamed Speech Recognition Manager',
+      type: managerData?.type || 'basic',
       status: 'active',
       models: [],
       sessions: [],
@@ -649,7 +649,7 @@ export class SpeechRecognitionPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -662,7 +662,7 @@ export class SpeechRecognitionPure {
    * Get manager by ID
    */
   getManager(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -682,7 +682,7 @@ export class SpeechRecognitionPure {
    * Start recognition session
    */
   startSession(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'start-session',
@@ -691,7 +691,7 @@ export class SpeechRecognitionPure {
       };
     }
 
-    if (manager.sessions.length >= this.config.maxConcurrentSessions) {
+    if (manager?.sessions.length >= this?.config.maxConcurrentSessions) {
       return {
         op: 'start-session',
         status: 'error',
@@ -728,10 +728,10 @@ export class SpeechRecognitionPure {
       metadata: {}
     };
 
-    manager.sessions.push(session);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalSessions++;
-    this.performanceMetrics.activeSessions++;
+    manager?.sessions?.push(session);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalSessions++;
+    this?.performanceMetrics.activeSessions++;
 
     return {
       op: 'start-session',
@@ -744,7 +744,7 @@ export class SpeechRecognitionPure {
    * Process audio
    */
   processAudio(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'process-audio',
@@ -753,7 +753,7 @@ export class SpeechRecognitionPure {
       };
     }
 
-    const session = manager.sessions.find(s => s.id === sessionId);
+    const session = manager?.sessions.find(s => s?.id === sessionId);
     if (!session) {
       return {
         op: 'process-audio',
@@ -762,7 +762,7 @@ export class SpeechRecognitionPure {
       };
     }
 
-    if (audioData.duration > this.config.maxAudioLength) {
+    if (audioData?.duration > this?.config.maxAudioLength) {
       return {
         op: 'process-audio',
         status: 'error',
@@ -770,28 +770,28 @@ export class SpeechRecognitionPure {
       };
     }
 
-    const startTime = Date.now();
+    const startTime = new Date();
     
     // Simulate speech recognition processing
-    const transcript = this.performSpeechRecognition(audioData, session.language);
-    const confidence = this.calculateConfidence(transcript);
+    const transcript = this?.performSpeechRecognition(audioData, session?.language);
+    const confidence = this?.calculateConfidence(transcript);
     
-    const processingTime = Date.now() - startTime;
+    const processingTime = new Date() - startTime;
     
     // Update session
-    session.audioData = audioData;
-    session.transcript = transcript;
-    session.confidence = confidence;
-    session.duration = audioData.duration;
+    session?.audioData = audioData;
+    session?.transcript = transcript;
+    session?.confidence = confidence;
+    session?.duration = audioData?.duration;
     
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalAudioProcessed += audioData.duration;
-    this.performanceMetrics.averageProcessingTime = 
-      (this.performanceMetrics.averageProcessingTime * (this.performanceMetrics.totalSessions - 1) + processingTime) / 
-      this.performanceMetrics.totalSessions;
-    this.performanceMetrics.averageAccuracy = 
-      (this.performanceMetrics.averageAccuracy * (this.performanceMetrics.totalSessions - 1) + confidence) / 
-      this.performanceMetrics.totalSessions;
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalAudioProcessed += audioData?.duration;
+    this?.performanceMetrics.averageProcessingTime = 
+      (this?.performanceMetrics.averageProcessingTime * (this?.performanceMetrics.totalSessions - 1) + processingTime) / 
+      this?.performanceMetrics.totalSessions;
+    this?.performanceMetrics.averageAccuracy = 
+      (this?.performanceMetrics.averageAccuracy * (this?.performanceMetrics.totalSessions - 1) + confidence) / 
+      this?.performanceMetrics.totalSessions;
 
     return {
       op: 'process-audio',
@@ -808,7 +808,7 @@ export class SpeechRecognitionPure {
    * Add voice command
    */
   addVoiceCommand(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-voice-command',
@@ -819,27 +819,27 @@ export class SpeechRecognitionPure {
 
     const newCommand: VoiceCommand = {
       id: command.id || `command-${Date.now()}`,
-      name: command.name || 'Unnamed Command',
-      pattern: command.pattern || '',
-      action: command.action || {
+      name: command?.name || 'Unnamed Command',
+      pattern: command?.pattern || '',
+      action: command?.action || {
         type: 'function',
         target: '',
         parameters: {}
       },
-      parameters: command.parameters || {
+      parameters: command?.parameters || {
         confidence: 0.8,
         timeout: 5000,
         retries: 3,
         fallback: ''
       },
       enabled: true,
-      priority: command.priority || 1,
+      priority: command?.priority || 1,
       metadata: {},
       ...command
     };
 
-    manager.commands.push(newCommand);
-    manager.updatedAt = Date.now();
+    manager?.commands?.push(newCommand);
+    manager.updatedAt = new Date();
 
     return {
       op: 'add-voice-command',
@@ -852,7 +852,7 @@ export class SpeechRecognitionPure {
    * Process voice command
    */
   processVoiceCommand(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'process-voice-command',
@@ -861,7 +861,7 @@ export class SpeechRecognitionPure {
       };
     }
 
-    const session = manager.sessions.find(s => s.id === sessionId);
+    const session = manager?.sessions.find(s => s?.id === sessionId);
     if (!session) {
       return {
         op: 'process-voice-command',
@@ -871,7 +871,7 @@ export class SpeechRecognitionPure {
     }
 
     // Find matching command
-    const command = this.findMatchingCommand(manager.commands, text);
+    const command = this?.findMatchingCommand(manager?.commands, text);
     if (!command) {
       return {
         op: 'process-voice-command',
@@ -881,11 +881,11 @@ export class SpeechRecognitionPure {
     }
 
     // Execute command
-    const result = this.executeCommand(command, text);
+    const result = this?.executeCommand(command, text);
     
-    this.performanceMetrics.totalCommands++;
-    if (result.success) {
-      this.performanceMetrics.successfulCommands++;
+    this?.performanceMetrics.totalCommands++;
+    if (result?.success) {
+      this?.performanceMetrics.successfulCommands++;
     }
 
     return {
@@ -893,7 +893,7 @@ export class SpeechRecognitionPure {
       status: 'ok',
       result: {
         matched: true,
-        command: command.name,
+        command: command?.name,
         result,
         text
       }
@@ -905,13 +905,13 @@ export class SpeechRecognitionPure {
    */
   private performSpeechRecognition(audioData: AudioData, language: string): Transcript {
     // Simple speech recognition simulation
-    const words = this.generateWords(audioData.duration);
-    const text = words.map((w: any) => w.text).join(' ');
+    const words = this?.generateWords(audioData?.duration);
+    const text = words?.map((w: any) => w?.text).join(' ');
     
     return {
       text,
       words,
-      sentences: this.generateSentences(words),
+      sentences: this?.generateSentences(words),
       confidence: 0.85 + Math.random() * 0.1,
       language,
       timestamp: new Date()
@@ -928,7 +928,7 @@ export class SpeechRecognitionPure {
     
     for (let i = 0; i < wordCount; i++) {
       const word = words[Math.floor(Math.random() * words.length)];
-      result.push({
+      result?.push({
         text: word,
         startTime: i * 0.5,
         endTime: (i + 1) * 0.5,
@@ -947,13 +947,13 @@ export class SpeechRecognitionPure {
     let currentSentence: Word[] = [];
     
     for (const word of words) {
-      currentSentence.push(word);
-      if (word.text.endsWith('.') || word.text.endsWith('!') || word.text.endsWith('?')) {
-        sentences.push({
-          text: currentSentence.map((w: any) => w.text).join(' '),
+      currentSentence?.push(word);
+      if (word?.text.endsWith('.') || word?.text.endsWith('!') || word?.text.endsWith('?')) {
+        sentences?.push({
+          text: currentSentence?.map((w: any) => w?.text).join(' '),
           startTime: currentSentence[0!].startTime,
-          endTime: currentSentence[currentSentence.length - 1].endTime,
-          confidence: currentSentence.reduce((sum, w) => sum + w.confidence, 0) / currentSentence.length,
+          endTime: currentSentence[currentSentence?.length - 1].endTime,
+          confidence: currentSentence?.reduce((sum, w) => sum + w?.confidence, 0) / currentSentence?.length,
           words: [...currentSentence]
         });
         currentSentence = [];
@@ -967,7 +967,7 @@ export class SpeechRecognitionPure {
    * Calculate confidence
    */
   private calculateConfidence(transcript: Transcript): number {
-    return transcript.words.reduce((sum, word) => sum + word.confidence, 0) / transcript.words.length;
+    return transcript?.words.reduce((sum, word) => sum + word?.confidence, 0) / transcript?.words.length;
   }
 
   /**
@@ -975,7 +975,7 @@ export class SpeechRecognitionPure {
    */
   private findMatchingCommand(commands: VoiceCommand[], text: string): VoiceCommand | null {
     for (const command of commands) {
-      if (command.enabled && this.matchesPattern(command.pattern, text)) {
+      if (command?.enabled && this?.matchesPattern(command?.pattern, text)) {
         return command;
       }
     }
@@ -988,7 +988,7 @@ export class SpeechRecognitionPure {
   private matchesPattern(pattern: string, text: string): boolean {
     // Simple pattern matching - in reality this would be more sophisticated
     const regex = new RegExp(pattern, 'i');
-    return regex.test(text);
+    return regex?.test(text);
   }
 
   /**
@@ -999,9 +999,9 @@ export class SpeechRecognitionPure {
     return {
       success: true,
       result: {
-        action: command.action.type,
-        target: command.action.target,
-        parameters: command.action.parameters,
+        action: command?.action.type,
+        target: command?.action.target,
+        parameters: command?.action.parameters,
         text
       }
     };
@@ -1011,14 +1011,14 @@ export class SpeechRecognitionPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): SpeechRecognitionPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): SpeechRecognitionAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1032,23 +1032,23 @@ export class SpeechRecognitionPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalSessions = 0;
     let activeSessions = 0;
     let totalCommands = 0;
     let successfulCommands = 0;
 
-    for (const manager of this.managers.values()) {
-      totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter((s: any) => s.status === 'active').length;
-      totalCommands += manager.commands.length;
-      successfulCommands += manager.commands.filter((c: any) => c.enabled).length;
+    for (const manager of this?.managers.values()) {
+      totalSessions += manager?.sessions.length;
+      activeSessions += manager?.sessions.filter((s: any) => s?.status === 'active').length;
+      totalCommands += manager?.commands.length;
+      successfulCommands += manager?.commands.filter((c: any) => c?.enabled).length;
     }
 
-    this.performanceMetrics.totalSessions = totalSessions;
-    this.performanceMetrics.activeSessions = activeSessions;
-    this.performanceMetrics.totalCommands = totalCommands;
-    this.performanceMetrics.successfulCommands = successfulCommands;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalSessions = totalSessions;
+    this?.performanceMetrics.activeSessions = activeSessions;
+    this?.performanceMetrics.totalCommands = totalCommands;
+    this?.performanceMetrics.successfulCommands = successfulCommands;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

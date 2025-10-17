@@ -41,7 +41,7 @@ export class BuildOptimizer {
   private analysis: BundleAnalysis | null = null;
 
   private constructor(config: Partial<BuildConfig> = {}) {
-    this.config = {
+    this?.config = {
       target: 'es2020',
       module: 'commonjs',
       outDir: 'dist',
@@ -61,10 +61,10 @@ export class BuildOptimizer {
    * Get singleton instance
    */
   static getInstance(config?: Partial<BuildConfig>): BuildOptimizer {
-    if (!BuildOptimizer.instance) {
-      BuildOptimizer.instance = new BuildOptimizer(config);
+    if (!BuildOptimizer?.instance) {
+      BuildOptimizer?.instance = new BuildOptimizer(config);
     }
-    return BuildOptimizer.instance;
+    return BuildOptimizer?.instance;
   }
 
   /**
@@ -73,18 +73,18 @@ export class BuildOptimizer {
   optimizeTypeScriptConfig(): any {
     return {
       compilerOptions: {
-        target: this.config.target,
-        module: this.config.module,
+        target: this?.config.target,
+        module: this?.config.module,
         lib: ['es2020', 'dom'],
-        outDir: this.config.outDir,
-        rootDir: this.config.rootDir,
+        outDir: this?.config.outDir,
+        rootDir: this?.config.rootDir,
         strict: true,
         esModuleInterop: true,
         skipLibCheck: true,
         forceConsistentCasingInFileNames: true,
-        declaration: this.config.declaration,
-        sourceMap: this.config.sourceMap,
-        removeComments: this.config.removeComments,
+        declaration: this?.config.declaration,
+        sourceMap: this?.config.sourceMap,
+        removeComments: this?.config.removeComments,
         noImplicitAny: true,
         noUnusedLocals: true,
         noUnusedParameters: true,
@@ -95,7 +95,7 @@ export class BuildOptimizer {
         noImplicitOverride: true,
         allowUnusedLabels: false,
         allowUnreachableCode: false,
-        ...(this.config.treeShaking && {
+        ...(this?.config.treeShaking && {
           moduleResolution: 'node',
           allowSyntheticDefaultImports: true,
           experimentalDecorators: true,
@@ -111,8 +111,8 @@ export class BuildOptimizer {
         'node_modules',
         'dist',
         'coverage',
-        '**/*.test.ts',
-        '**/*.spec.ts'
+        '**/*.test?.ts',
+        '**/*.spec?.ts'
       ]
     };
   }
@@ -123,13 +123,13 @@ export class BuildOptimizer {
   optimizeWebpackConfig(): any {
     return {
       mode: 'production',
-      entry: './miff/pure/index.ts',
+      entry: './miff/pure/index?.ts',
       output: {
-        path: require('path').resolve(__dirname, this.config.outDir),
-        filename: this.config.codeSplitting ? '[name!].[contenthash!].js' : 'bundle.js',
-        chunkFilename: this.config.codeSplitting ? '[name!].[contenthash!].chunk.js' : undefined,
+        path: require('path').resolve(__dirname, this?.config.outDir),
+        filename: this?.config.codeSplitting ? '[name!].[contenthash!].js' : 'bundle?.js',
+        chunkFilename: this?.config.codeSplitting ? '[name!].[contenthash!].chunk?.js' : undefined,
         clean: true,
-        ...(this.config.treeShaking && {
+        ...(this?.config.treeShaking && {
           library: {
             type: 'umd',
             name: 'MIFF'
@@ -153,7 +153,7 @@ export class BuildOptimizer {
               loader: 'ts-loader',
               options: {
                 transpileOnly: true,
-                configFile: 'tsconfig.json'
+                configFile: 'tsconfig?.json'
               }
             },
             exclude: /node_modules/
@@ -161,12 +161,12 @@ export class BuildOptimizer {
         ]
       },
       optimization: {
-        minimize: this.config.minify,
-        ...(this.config.treeShaking && {
+        minimize: this?.config.minify,
+        ...(this?.config.treeShaking && {
           usedExports: true,
           sideEffects: false
         }),
-        ...(this.config.codeSplitting && {
+        ...(this?.config.codeSplitting && {
           splitChunks: {
             chunks: 'all',
             cacheGroups: {
@@ -185,9 +185,9 @@ export class BuildOptimizer {
         })
       },
       plugins: [
-        ...(this.config.compression !== 'none' ? [
+        ...(this?.config.compression !== 'none' ? [
           require('compression-webpack-plugin')({
-            algorithm: this.config.compression === 'gzip' ? 'gzip' : 'brotli',
+            algorithm: this?.config.compression === 'gzip' ? 'gzip' : 'brotli',
             test: /\.(js|css|html|svg)$/,
             threshold: 10240,
             minRatio: 0.8
@@ -231,7 +231,7 @@ export class BuildOptimizer {
       unused: ['moment']
     };
 
-    this.analysis = mockAnalysis;
+    this?.analysis = mockAnalysis;
     return mockAnalysis;
   }
 
@@ -241,34 +241,34 @@ export class BuildOptimizer {
   getOptimizationRecommendations(): string[] {
     const recommendations: string[] = [];
 
-    if (!this.config.treeShaking) {
-      recommendations.push('Enable tree shaking to reduce bundle size');
+    if (!this?.config.treeShaking) {
+      recommendations?.push('Enable tree shaking to reduce bundle size');
     }
 
-    if (!this.config.codeSplitting) {
-      recommendations.push('Enable code splitting for better loading performance');
+    if (!this?.config.codeSplitting) {
+      recommendations?.push('Enable code splitting for better loading performance');
     }
 
-    if (this.config.compression === 'none') {
-      recommendations.push('Enable compression (gzip/brotli) to reduce transfer size');
+    if (this?.config.compression === 'none') {
+      recommendations?.push('Enable compression (gzip/brotli) to reduce transfer size');
     }
 
-    if (!this.config.minify) {
-      recommendations.push('Enable minification to reduce bundle size');
+    if (!this?.config.minify) {
+      recommendations?.push('Enable minification to reduce bundle size');
     }
 
-    if (this.analysis) {
-      if (this.analysis.duplicates.length > 0) {
-        recommendations.push(`Remove duplicate dependencies: ${this.analysis.duplicates.join(', ')}`);
+    if (this?.analysis) {
+      if (this?.analysis.duplicates?.length > 0) {
+        recommendations?.push(`Remove duplicate dependencies: ${this?.analysis.duplicates?.join(', ')}`);
       }
 
-      if (this.analysis.unused.length > 0) {
-        recommendations.push(`Remove unused dependencies: ${this.analysis.unused.join(', ')}`);
+      if (this?.analysis.unused?.length > 0) {
+        recommendations?.push(`Remove unused dependencies: ${this?.analysis.unused?.join(', ')}`);
       }
 
-      const compressionRatio = this.analysis.gzippedSize / this.analysis.totalSize;
+      const compressionRatio = this?.analysis.gzippedSize / this?.analysis.totalSize;
       if (compressionRatio > 0.5) {
-        recommendations.push('Bundle size is large, consider further optimization');
+        recommendations?.push('Bundle size is large, consider further optimization');
       }
     }
 
@@ -279,32 +279,32 @@ export class BuildOptimizer {
    * Generate build report
    */
   generateBuildReport(): string {
-    const recommendations = this.getOptimizationRecommendations();
-    const analysis = this.analysis;
+    const recommendations = this?.getOptimizationRecommendations();
+    const analysis = this?.analysis;
 
     return `
 🔧 MIFF Build Optimization Report
 ================================
 Configuration:
-- Target: ${this.config.target}
-- Module: ${this.config.module}
-- Minify: ${this.config.minify}
-- Tree Shaking: ${this.config.treeShaking}
-- Code Splitting: ${this.config.codeSplitting}
-- Compression: ${this.config.compression}
+- Target: ${this?.config.target}
+- Module: ${this?.config.module}
+- Minify: ${this?.config.minify}
+- Tree Shaking: ${this?.config.treeShaking}
+- Code Splitting: ${this?.config.codeSplitting}
+- Compression: ${this?.config.compression}
 
 ${analysis ? `
 Bundle Analysis:
-- Total Size: ${(analysis.totalSize / 1024).toFixed(2)} KB
-- Gzipped Size: ${(analysis.gzippedSize / 1024).toFixed(2)} KB
-- Brotli Size: ${(analysis.brotliSize / 1024).toFixed(2)} KB
-- Compression Ratio: ${((1 - analysis.gzippedSize / analysis.totalSize) * 100).toFixed(2)}%
-- Modules: ${analysis.modules.length}
-- Chunks: ${analysis.chunks.length}
+- Total Size: ${(analysis?.totalSize / 1024).toFixed(2)} KB
+- Gzipped Size: ${(analysis?.gzippedSize / 1024).toFixed(2)} KB
+- Brotli Size: ${(analysis?.brotliSize / 1024).toFixed(2)} KB
+- Compression Ratio: ${((1 - analysis?.gzippedSize / analysis?.totalSize) * 100).toFixed(2)}%
+- Modules: ${analysis?.modules.length}
+- Chunks: ${analysis?.chunks.length}
 ` : 'No bundle analysis available'}
 
 Recommendations:
-${recommendations.length > 0 ? recommendations.map((r: any) => `- ${r}`).join('\n') : '- No recommendations'}
+${recommendations?.length > 0 ? recommendations?.map((r: any) => `- ${r}`).join('\n') : '- No recommendations'}
 
 ================================
     `.trim();
@@ -314,18 +314,18 @@ ${recommendations.length > 0 ? recommendations.map((r: any) => `- ${r}`).join('\
    * Update configuration
    */
   updateConfig(newConfig: Partial<BuildConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+    this?.config = { ...this?.config, ...newConfig };
   }
 
   /**
    * Get current configuration
    */
   getConfig(): BuildConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 }
 
 // Export convenience functions
-export const buildOptimizer = BuildOptimizer.getInstance();
-export const optimizeBuild = () => buildOptimizer.optimizeTypeScriptConfig();
-export const analyzeBundle = () => buildOptimizer.analyzeBundleSize();
+export const buildOptimizer = BuildOptimizer?.getInstance();
+export const optimizeBuild = () => buildOptimizer?.optimizeTypeScriptConfig();
+export const analyzeBundle = () => buildOptimizer?.analyzeBundleSize();

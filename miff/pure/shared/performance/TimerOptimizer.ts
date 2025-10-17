@@ -51,14 +51,14 @@ export class TimerOptimizer {
   };
 
   constructor() {
-    this.logger = StructuredLogger.getInstance('TimerOptimizer');
+    this?.logger = StructuredLogger?.getInstance('TimerOptimizer');
   }
 
   static getInstance(): TimerOptimizer {
-    if (!TimerOptimizer.instance) {
-      TimerOptimizer.instance = new TimerOptimizer();
+    if (!TimerOptimizer?.instance) {
+      TimerOptimizer?.instance = new TimerOptimizer();
     }
-    return TimerOptimizer.instance;
+    return TimerOptimizer?.instance;
   }
 
   /**
@@ -68,34 +68,34 @@ export class TimerOptimizer {
     const timerId = config?.id || `timer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (config?.enableLogging) {
-      StructuredLogger.debug('Timer created', { context: { message: { timerId, delay, priority: config.priority } } });
+      StructuredLogger?.debug('Timer created', { context: { message: { timerId, delay, priority: config?.priority } } });
     }
 
-    const startTime = performance.now();
+    const startTime = performance?.now();
     
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = window?.setTimeout(() => {
       try {
-        const duration = performance.now() - startTime;
-        this.updateMetrics(duration);
+        const duration = performance?.now() - startTime;
+        this?.updateMetrics(duration);
         
         if (config?.enableLogging) {
-          StructuredLogger.debug('Timer completed', { context: { message: { timerId, duration } } });
+          StructuredLogger?.debug('Timer completed', { context: { message: { timerId, duration } } });
         }
         
         callback();
         config?.onComplete?.();
         
-        this.activeTimers.delete(timerId);
+        this?.activeTimers.delete(timerId);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Timer callback error', { context: { message: { timerId, error: error.message } } });
+        StructuredLogger?.error('Timer callback error', { context: { message: { timerId, error: error?.message } } });
         config?.onError?.(error as Error);
       }
     }, delay);
 
-    this.activeTimers.set(timerId, timeoutId);
-    this.performanceMetrics.totalTimers++;
-    this.performanceMetrics.activeTimers++;
+    this?.activeTimers.set(timerId, timeoutId);
+    this?.performanceMetrics.totalTimers++;
+    this?.performanceMetrics.activeTimers++;
 
     return timerId;
   }
@@ -107,19 +107,19 @@ export class TimerOptimizer {
     const timerId = config?.id || `interval_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (config?.enableLogging) {
-      StructuredLogger.debug('Interval created', { context: { message: { timerId, interval, priority: config.priority } } });
+      StructuredLogger?.debug('Interval created', { context: { message: { timerId, interval, priority: config?.priority } } });
     }
 
-    const startTime = performance.now();
+    const startTime = performance?.now();
     let executionCount = 0;
     
-    const intervalId = window.setInterval(() => {
+    const intervalId = window?.setInterval(() => {
       try {
         executionCount++;
-        const duration = performance.now() - startTime;
+        const duration = performance?.now() - startTime;
         
         if (config?.enableLogging) {
-          StructuredLogger.debug('Interval execution', { context: { message: { timerId, executionCount, duration } } });
+          StructuredLogger?.debug('Interval execution', { context: { message: { timerId, executionCount, duration } } });
         }
         
         callback();
@@ -127,15 +127,15 @@ export class TimerOptimizer {
         
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Interval callback error', { context: { message: { timerId, error: error.message } } });
+        StructuredLogger?.error('Interval callback error', { context: { message: { timerId, error: error?.message } } });
         config?.onError?.(error as Error);
-        this.clearInterval(timerId);
+        this?.clearInterval(timerId);
       }
     }, interval);
 
-    this.activeIntervals.set(timerId, intervalId);
-    this.performanceMetrics.totalTimers++;
-    this.performanceMetrics.activeTimers++;
+    this?.activeIntervals.set(timerId, intervalId);
+    this?.performanceMetrics.totalTimers++;
+    this?.performanceMetrics.activeTimers++;
 
     return timerId;
   }
@@ -147,46 +147,46 @@ export class TimerOptimizer {
     const frameId = config?.id || `frame_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (config?.enableLogging) {
-      StructuredLogger.debug('Animation frame requested', { context: { message: { frameId } } });
+      StructuredLogger?.debug('Animation frame requested', { context: { message: { frameId } } });
     }
 
-    const startTime = performance.now();
+    const startTime = performance?.now();
     let frameCount = 0;
     
     const animate = (timestamp: number) => {
       try {
         frameCount++;
-        const duration = performance.now() - startTime;
+        const duration = performance?.now() - startTime;
         
         if (config?.enableLogging) {
-          StructuredLogger.debug('Animation frame executed', { context: { message: { frameId, frameCount, duration } } });
+          StructuredLogger?.debug('Animation frame executed', { context: { message: { frameId, frameCount, duration } } });
         }
         
         callback(timestamp);
         config?.onFrame?.(timestamp);
         
         // Check if duration limit is reached
-        if (config?.duration && duration >= config.duration) {
-          this.cancelAnimationFrame(frameId);
+        if (config?.duration && duration >= config?.duration) {
+          this?.cancelAnimationFrame(frameId);
           config?.onComplete?.();
           return;
         }
         
         // Continue animation loop
-        const nextFrameId = window.requestAnimationFrame(animate);
-        this.activeAnimationFrames.set(frameId, nextFrameId);
+        const nextFrameId = window?.requestAnimationFrame(animate);
+        this?.activeAnimationFrames.set(frameId, nextFrameId);
         
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Animation frame error', { context: { message: { frameId, error: error.message } } });
-        this.cancelAnimationFrame(frameId);
+        StructuredLogger?.error('Animation frame error', { context: { message: { frameId, error: error?.message } } });
+        this?.cancelAnimationFrame(frameId);
       }
     };
 
-    const initialFrameId = window.requestAnimationFrame(animate);
-    this.activeAnimationFrames.set(frameId, initialFrameId);
-    this.performanceMetrics.totalTimers++;
-    this.performanceMetrics.activeTimers++;
+    const initialFrameId = window?.requestAnimationFrame(animate);
+    this?.activeAnimationFrames.set(frameId, initialFrameId);
+    this?.performanceMetrics.totalTimers++;
+    this?.performanceMetrics.activeTimers++;
 
     return frameId;
   }
@@ -195,14 +195,14 @@ export class TimerOptimizer {
    * Clear timeout by ID
    */
   clearTimeout(timerId: string): boolean {
-    const timeoutId = this.activeTimers.get(timerId);
+    const timeoutId = this?.activeTimers.get(timerId);
     if (timeoutId) {
-      window.clearTimeout(timeoutId);
-      this.activeTimers.delete(timerId);
-      this.performanceMetrics.activeTimers--;
-      this.performanceMetrics.completedTimers++;
+      window?.clearTimeout(timeoutId);
+      this?.activeTimers.delete(timerId);
+      this?.performanceMetrics.activeTimers--;
+      this?.performanceMetrics.completedTimers++;
       
-      StructuredLogger.debug('Timer cleared', { context: { message: { timerId } } });
+      StructuredLogger?.debug('Timer cleared', { context: { message: { timerId } } });
       return true;
     }
     return false;
@@ -212,14 +212,14 @@ export class TimerOptimizer {
    * Clear interval by ID
    */
   clearInterval(timerId: string): boolean {
-    const intervalId = this.activeIntervals.get(timerId);
+    const intervalId = this?.activeIntervals.get(timerId);
     if (intervalId) {
-      window.clearInterval(intervalId);
-      this.activeIntervals.delete(timerId);
-      this.performanceMetrics.activeTimers--;
-      this.performanceMetrics.completedTimers++;
+      window?.clearInterval(intervalId);
+      this?.activeIntervals.delete(timerId);
+      this?.performanceMetrics.activeTimers--;
+      this?.performanceMetrics.completedTimers++;
       
-      StructuredLogger.debug('Interval cleared', { context: { message: { timerId } } });
+      StructuredLogger?.debug('Interval cleared', { context: { message: { timerId } } });
       return true;
     }
     return false;
@@ -229,14 +229,14 @@ export class TimerOptimizer {
    * Cancel animation frame by ID
    */
   cancelAnimationFrame(frameId: string): boolean {
-    const animationFrameId = this.activeAnimationFrames.get(frameId);
+    const animationFrameId = this?.activeAnimationFrames.get(frameId);
     if (animationFrameId) {
-      window.cancelAnimationFrame(animationFrameId);
-      this.activeAnimationFrames.delete(frameId);
-      this.performanceMetrics.activeTimers--;
-      this.performanceMetrics.completedTimers++;
+      window?.cancelAnimationFrame(animationFrameId);
+      this?.activeAnimationFrames.delete(frameId);
+      this?.performanceMetrics.activeTimers--;
+      this?.performanceMetrics.completedTimers++;
       
-      StructuredLogger.debug('Animation frame cancelled', { context: { message: { frameId } } });
+      StructuredLogger?.debug('Animation frame cancelled', { context: { message: { frameId } } });
       return true;
     }
     return false;
@@ -247,27 +247,27 @@ export class TimerOptimizer {
    */
   clearAllTimers(): void {
     // Clear timeouts
-    for (const [timerId, timeoutId] of this.activeTimers) {
-      window.clearTimeout(timeoutId);
+    for (const [timerId, timeoutId] of this?.activeTimers) {
+      window?.clearTimeout(timeoutId);
     }
-    this.activeTimers.clear();
+    this?.activeTimers.clear();
 
     // Clear intervals
-    for (const [timerId, intervalId] of this.activeIntervals) {
-      window.clearInterval(intervalId);
+    for (const [timerId, intervalId] of this?.activeIntervals) {
+      window?.clearInterval(intervalId);
     }
-    this.activeIntervals.clear();
+    this?.activeIntervals.clear();
 
     // Cancel animation frames
-    for (const [frameId, animationFrameId] of this.activeAnimationFrames) {
-      window.cancelAnimationFrame(animationFrameId);
+    for (const [frameId, animationFrameId] of this?.activeAnimationFrames) {
+      window?.cancelAnimationFrame(animationFrameId);
     }
-    this.activeAnimationFrames.clear();
+    this?.activeAnimationFrames.clear();
 
-    this.performanceMetrics.activeTimers = 0;
-    StructuredLogger.info('All timers cleared', { 
-      totalTimers: this.performanceMetrics.totalTimers,
-      completedTimers: this.performanceMetrics.completedTimers
+    this?.performanceMetrics.activeTimers = 0;
+    StructuredLogger?.info('All timers cleared', { 
+      totalTimers: this?.performanceMetrics.totalTimers,
+      completedTimers: this?.performanceMetrics.completedTimers
     });
   }
 
@@ -276,10 +276,10 @@ export class TimerOptimizer {
    */
   getMetrics() {
     return {
-      ...this.performanceMetrics,
-      activeTimeouts: this.activeTimers.size,
-      activeIntervals: this.activeIntervals.size,
-      activeAnimationFrames: this.activeAnimationFrames.size
+      ...this?.performanceMetrics,
+      activeTimeouts: this?.activeTimers.size,
+      activeIntervals: this?.activeIntervals.size,
+      activeAnimationFrames: this?.activeAnimationFrames.size
     };
   }
 
@@ -287,12 +287,12 @@ export class TimerOptimizer {
    * Update performance metrics
    */
   private updateMetrics(duration: number): void {
-    this.performanceMetrics.completedTimers++;
-    this.performanceMetrics.activeTimers--;
+    this?.performanceMetrics.completedTimers++;
+    this?.performanceMetrics.activeTimers--;
     
     // Update average duration
-    const totalDuration = this.performanceMetrics.averageDuration * (this.performanceMetrics.completedTimers - 1) + duration;
-    this.performanceMetrics.averageDuration = totalDuration / this.performanceMetrics.completedTimers;
+    const totalDuration = this?.performanceMetrics.averageDuration * (this?.performanceMetrics.completedTimers - 1) + duration;
+    this?.performanceMetrics.averageDuration = totalDuration / this?.performanceMetrics.completedTimers;
   }
 
   /**
@@ -300,32 +300,32 @@ export class TimerOptimizer {
    */
   checkForLeaks(): { hasLeaks: boolean; leakCount: number; details: string[] } {
     const leaks: string[] = [];
-    const totalActive = this.activeTimers.size + this.activeIntervals.size + this.activeAnimationFrames.size;
+    const totalActive = this?.activeTimers.size + this?.activeIntervals.size + this?.activeAnimationFrames.size;
     
     if (totalActive > 100) {
-      leaks.push(`High number of active timers: ${totalActive}`);
+      leaks?.push(`High number of active timers: ${totalActive}`);
     }
     
-    if (this.activeTimers.size > 50) {
-      leaks.push(`High number of active timeouts: ${this.activeTimers.size}`);
+    if (this?.activeTimers.size > 50) {
+      leaks?.push(`High number of active timeouts: ${this?.activeTimers.size}`);
     }
     
-    if (this.activeIntervals.size > 20) {
-      leaks.push(`High number of active intervals: ${this.activeIntervals.size}`);
+    if (this?.activeIntervals.size > 20) {
+      leaks?.push(`High number of active intervals: ${this?.activeIntervals.size}`);
     }
     
-    if (this.activeAnimationFrames.size > 10) {
-      leaks.push(`High number of active animation frames: ${this.activeAnimationFrames.size}`);
+    if (this?.activeAnimationFrames.size > 10) {
+      leaks?.push(`High number of active animation frames: ${this?.activeAnimationFrames.size}`);
     }
 
     return {
-      hasLeaks: leaks.length > 0,
-      leakCount: leaks.length,
+      hasLeaks: leaks?.length > 0,
+      leakCount: leaks?.length,
       details: leaks
     };
   }
 }
 
 // Export singleton instance
-export const timerOptimizer = TimerOptimizer.getInstance();
+export const timerOptimizer = TimerOptimizer?.getInstance();
 export default timerOptimizer;

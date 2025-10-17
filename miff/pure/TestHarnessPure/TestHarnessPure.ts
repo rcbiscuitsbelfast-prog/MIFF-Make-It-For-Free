@@ -1,5 +1,5 @@
 /**
- * TestHarnessPure.ts
+ * TestHarnessPure?.ts
  * 
  * Inspired by Delta Engine hot-reload and live code injection patterns.
  * Provides pure, remix-safe testing harness and live code injection for MIFF games.
@@ -102,41 +102,41 @@ export class TestHarness {
   private codeInjections: Map<string, CodeInjection>;
 
   constructor(config: TestConfig, hotReloadConfig?: HotReloadConfig) {
-    this.config = config;
-    this.suites = new Map();
-    this.results = [];
-    this.observers = [];
-    this.isRunning = false;
-    this.hotReloadConfig = hotReloadConfig || {
+    this?.config = config;
+    this?.suites = new Map();
+    this?.results = [];
+    this?.observers = [];
+    this?.isRunning = false;
+    this?.hotReloadConfig = hotReloadConfig || {
       enabled: false,
       watchPaths: [],
       reloadDelay: 1000,
       validateBeforeReload: true,
       backupBeforeReload: true
     };
-    this.codeInjections = new Map();
+    this?.codeInjections = new Map();
 
-    if (config.autoRun) {
-      this.runAll();
+    if (config?.autoRun) {
+      this?.runAll();
     }
   }
 
   // Test Suite Management
   addSuite(suite: TestSuite): void {
-    this.suites.set(suite.id, suite);
-    this.notifyObservers('suiteAdded', suite);
+    this?.suites.set(suite?.id, suite);
+    this?.notifyObservers('suiteAdded', suite);
   }
 
   removeSuite(suiteId: string): void {
-    const suite = this.suites.get(suiteId);
+    const suite = this?.suites.get(suiteId);
     if (suite) {
-      this.suites.delete(suiteId);
-      this.notifyObservers('suiteRemoved', suite);
+      this?.suites.delete(suiteId);
+      this?.notifyObservers('suiteRemoved', suite);
     }
   }
 
   getSuite(suiteId: string): TestSuite | undefined {
-    return this.suites.get(suiteId);
+    return this?.suites.get(suiteId);
   }
 
   getAllSuites(): TestSuite[] {
@@ -145,94 +145,94 @@ export class TestHarness {
 
   // Test Execution
   async runAll(): Promise<TestReport> {
-    if (this.isRunning) {
+    if (this?.isRunning) {
       throw new Error('Test harness is already running');
     }
 
-    this.isRunning = true;
-    this.results = [];
-    this.notifyObservers('testRunStarted', null);
+    this?.isRunning = true;
+    this?.results = [];
+    this?.notifyObservers('testRunStarted', null);
 
-    const startTime = performance.now();
+    const startTime = performance?.now();
 
     try {
       const suiteIds = Array.from(this.suites.keys());
       
-      if (this.config.parallel) {
-        await Promise.all(suiteIds.map(suiteId => this.runSuite(suiteId)));
+      if (this?.config.parallel) {
+        await Promise?.all(suiteIds?.map(suiteId => this?.runSuite(suiteId)));
       } else {
         for (const suiteId of suiteIds) {
-          await this.runSuite(suiteId);
+          await this?.runSuite(suiteId);
         }
       }
     } finally {
-      this.isRunning = false;
-      const duration = performance.now() - startTime;
-      this.notifyObservers('testRunCompleted', { duration });
+      this?.isRunning = false;
+      const duration = performance?.now() - startTime;
+      this?.notifyObservers('testRunCompleted', { duration });
     }
 
-    return this.generateReport();
+    return this?.generateReport();
   }
 
   async runSuite(suiteId: string): Promise<TestResult[]> {
-    const suite = this.suites.get(suiteId);
+    const suite = this?.suites.get(suiteId);
     if (!suite) {
       throw new Error(`Test suite not found: ${suiteId}`);
     }
 
-    this.notifyObservers('suiteStarted', suite);
-    const suiteStartTime = performance.now();
+    this?.notifyObservers('suiteStarted', suite);
+    const suiteStartTime = performance?.now();
 
     try {
       // Run suite setup
-      if (suite.setup) {
-        await suite.setup();
+      if (suite?.setup) {
+        await suite?.setup({});
       }
 
       const results: TestResult[] = [];
 
       // Run tests
-      for (const testCase of suite.tests) {
-        const result = await this.runTest(testCase, suite);
-        results.push(result);
-        this.results.push(result);
+      for (const testCase of suite?.tests) {
+        const result = await this?.runTest(testCase, suite);
+        results?.push(result: any);
+        this?.results?.push(result: any);
       }
 
       // Run suite teardown
-      if (suite.teardown) {
-        await suite.teardown();
+      if (suite?.teardown) {
+        await suite?.teardown();
       }
 
-      const suiteDuration = performance.now() - suiteStartTime;
-      this.notifyObservers('suiteCompleted', { suite, duration: suiteDuration, results });
+      const suiteDuration = performance?.now() - suiteStartTime;
+      this?.notifyObservers('suiteCompleted', { suite, duration: suiteDuration, results });
 
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.notifyObservers('suiteFailed', { suite, error });
+      this?.notifyObservers('suiteFailed', { suite, error });
       throw error;
     }
   }
 
   async runTest(testCase: TestCase, suite?: TestSuite): Promise<TestResult> {
-    const startTime = performance.now();
+    const startTime = performance?.now();
     let retries = 0;
-    const maxRetries = testCase.retries || this.config.retries;
+    const maxRetries = testCase?.retries || this?.config.retries;
 
-    this.notifyObservers('testStarted', testCase);
+    this?.notifyObservers('testStarted', testCase);
 
     while (retries <= maxRetries) {
       try {
         // Run test setup
-        if (testCase.setup) {
-          await testCase.setup();
+        if (testCase?.setup) {
+          await testCase?.setup({});
         }
 
         // Execute test with timeout
-        const timeout = testCase.timeout || this.config.timeout;
-        const testPromise = testCase.test();
+        const timeout = testCase?.timeout || this?.config.timeout;
+        const testPromise = testCase?.test();
         
-        const result = await Promise.race([
+        const result = await Promise?.race([
           testPromise,
           new Promise((_, reject) => 
             setTimeout(() => reject(new Error('Test timeout')), timeout)
@@ -240,23 +240,23 @@ export class TestHarness {
         ]);
 
         // Run test teardown
-        if (testCase.teardown) {
-          await testCase.teardown();
+        if (testCase?.teardown) {
+          await testCase?.teardown();
         }
 
-        const duration = performance.now() - startTime;
+        const duration = performance?.now() - startTime;
         const testResult: TestResult = {
-          testId: testCase.id,
-          name: testCase.name,
-          category: testCase.category,
+          testId: testCase?.id,
+          name: testCase?.name,
+          category: testCase?.category,
           status: 'passed',
           duration,
           retries,
-          metadata: testCase.metadata,
+          metadata: testCase?.metadata,
           timestamp: new Date()
         };
 
-        this.notifyObservers('testPassed', testResult);
+        this?.notifyObservers('testPassed', testResult);
         return testResult;
 
       } catch (error: unknown) {
@@ -264,20 +264,20 @@ export class TestHarness {
         retries++;
         
         if (retries > maxRetries) {
-          const duration = performance.now() - startTime;
+          const duration = performance?.now() - startTime;
           const testResult: TestResult = {
-            testId: testCase.id,
-            name: testCase.name,
-            category: testCase.category,
-            status: error instanceof Error && error.message === 'Test timeout' ? 'timeout' : 'failed',
+            testId: testCase?.id,
+            name: testCase?.name,
+            category: testCase?.category,
+            status: error instanceof Error && error?.message === 'Test timeout' ? 'timeout' : 'failed',
             duration,
             error: error as Error,
             retries,
-            metadata: testCase.metadata,
+            metadata: testCase?.metadata,
             timestamp: new Date()
           };
 
-          this.notifyObservers('testFailed', testResult);
+          this?.notifyObservers('testFailed', testResult);
           return testResult;
         }
 
@@ -291,20 +291,20 @@ export class TestHarness {
 
   // Hot Reload Management
   enableHotReload(config: HotReloadConfig): void {
-    this.hotReloadConfig = { ...this.hotReloadConfig, ...config };
+    this?.hotReloadConfig = { ...this?.hotReloadConfig, ...config };
     
-    if (this.hotReloadConfig.enabled) {
-      this.startFileWatcher();
+    if (this?.hotReloadConfig.enabled) {
+      this?.startFileWatcher();
     }
   }
 
   disableHotReload(): void {
-    this.hotReloadConfig.enabled = false;
-    this.stopFileWatcher();
+    this?.hotReloadConfig.enabled = false;
+    this?.stopFileWatcher();
   }
 
   private startFileWatcher(): void {
-    // In a real implementation, this would use fs.watch or similar
+    // In a real implementation, this would use fs?.watch or similar
     console.log('[TestHarnessPure!] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
   }
 
@@ -314,22 +314,22 @@ export class TestHarness {
 
   // Code Injection Management
   injectCode(injection: CodeInjection): void {
-    this.codeInjections.set(injection.id, injection);
-    this.applyCodeInjection(injection);
-    this.notifyObservers('codeInjected', injection);
+    this?.codeInjections.set(injection?.id, injection);
+    this?.applyCodeInjection(injection);
+    this?.notifyObservers('codeInjected', injection);
   }
 
   removeCodeInjection(injectionId: string): void {
-    const injection = this.codeInjections.get(injectionId);
+    const injection = this?.codeInjections.get(injectionId);
     if (injection) {
-      this.revertCodeInjection(injection);
-      this.codeInjections.delete(injectionId);
-      this.notifyObservers('codeInjectionRemoved', injection);
+      this?.revertCodeInjection(injection);
+      this?.codeInjections.delete(injectionId);
+      this?.notifyObservers('codeInjectionRemoved', injection);
     }
   }
 
   private applyCodeInjection(injection: CodeInjection): void {
-    if (!injection.enabled) return;
+    if (!injection?.enabled) return;
 
     try {
       // In a real implementation, this would modify the actual code
@@ -337,34 +337,34 @@ export class TestHarness {
       console.log(`[TestHarnessPure!] Code injection applied: ${injection.id} -> ${injection.target}`);
       
       // Store original function if it exists
-      const target = (globalThis as any)[injection.target];
+      const target = (globalThis as any)[injection?.target];
       if (target && typeof target === 'function') {
-        (globalThis as any)[`__original_${injection.target}`] = target;
+        (globalThis as any)[`__original_${injection?.target}`] = target;
       }
 
       // Apply injection based on type
-      switch (injection.type) {
+      switch (injection?.type) {
         case 'replace':
-          (globalThis as any)[injection.target] = new Function(injection.code);
+          (globalThis as any)[injection?.target] = new Function(injection?.code);
           break;
         case 'before':
-          const originalBefore = (globalThis as any)[injection.target];
-          (globalThis as any)[injection.target] = function(...args: any[]) {
-            new Function(injection.code)();
-            return originalBefore.apply(this, args);
+          const originalBefore = (globalThis as any)[injection?.target];
+          (globalThis as any)[injection?.target] = function(...args: any[]) {
+            new Function(injection?.code)();
+            return originalBefore?.apply(this, args);
           };
           break;
         case 'after':
-          const originalAfter = (globalThis as any)[injection.target];
-          (globalThis as any)[injection.target] = function(...args: any[]) {
-            const result = originalAfter.apply(this, args);
-            new Function(injection.code)();
+          const originalAfter = (globalThis as any)[injection?.target];
+          (globalThis as any)[injection?.target] = function(...args: any[]) {
+            const result = originalAfter?.apply(this, args);
+            new Function(injection?.code)();
             return result;
           };
           break;
         case 'wrap':
-          const originalWrap = (globalThis as any)[injection.target];
-          (globalThis as any)[injection.target] = new Function('original', injection.code)(originalWrap);
+          const originalWrap = (globalThis as any)[injection?.target];
+          (globalThis as any)[injection?.target] = new Function('original', injection?.code)(originalWrap);
           break;
       }
     } catch (error: unknown) {
@@ -375,14 +375,14 @@ export class TestHarness {
 
   private revertCodeInjection(injection: CodeInjection): void {
     try {
-      const originalKey = `__original_${injection.target}`;
+      const originalKey = `__original_${injection?.target}`;
       const original = (globalThis as any)[originalKey!];
       
       if (original) {
-        (globalThis as any)[injection.target] = original;
+        (globalThis as any)[injection?.target] = original;
         delete (globalThis as any)[originalKey!];
       } else {
-        delete (globalThis as any)[injection.target];
+        delete (globalThis as any)[injection?.target];
       }
       
       console.log(`[TestHarnessPure!] Code injection reverted: ${injection.id}`);
@@ -394,55 +394,55 @@ export class TestHarness {
 
   // Observer Management
   addObserver(observer: TestObserver): void {
-    this.observers.push(observer);
+    this?.observers?.push(observer);
   }
 
   removeObserver(observerId: string): void {
-    const index = this.observers.findIndex(o => o.id === observerId);
+    const index = this?.observers.findIndex(o => o?.id === observerId);
     if (index > -1) {
-      this.observers.splice(index, 1);
+      this?.observers.splice(index, 1);
     }
   }
 
   private notifyObservers(event: string, data: any): void {
-    this.observers.forEach((observer: any) => {
+    this?.observers.forEach((observer: any) => {
       try {
         switch (event) {
           case 'testRunStarted':
-            observer.onTestRunStarted?.();
+            observer?.onTestRunStarted?.();
             break;
           case 'testRunCompleted':
-            observer.onTestRunCompleted?.(data);
+            observer?.onTestRunCompleted?.(data: any);
             break;
           case 'suiteAdded':
-            observer.onSuiteAdded?.(data);
+            observer?.onSuiteAdded?.(data: any);
             break;
           case 'suiteRemoved':
-            observer.onSuiteRemoved?.(data);
+            observer?.onSuiteRemoved?.(data: any);
             break;
           case 'suiteStarted':
-            observer.onSuiteStarted?.(data);
+            observer?.onSuiteStarted?.(data: any);
             break;
           case 'suiteCompleted':
-            observer.onSuiteCompleted?.(data);
+            observer?.onSuiteCompleted?.(data: any);
             break;
           case 'suiteFailed':
-            observer.onSuiteFailed?.(data);
+            observer?.onSuiteFailed?.(data: any);
             break;
           case 'testStarted':
-            observer.onTestStarted?.(data);
+            observer?.onTestStarted?.(data: any);
             break;
           case 'testPassed':
-            observer.onTestPassed?.(data);
+            observer?.onTestPassed?.(data: any);
             break;
           case 'testFailed':
-            observer.onTestFailed?.(data);
+            observer?.onTestFailed?.(data: any);
             break;
           case 'codeInjected':
-            observer.onCodeInjected?.(data);
+            observer?.onCodeInjected?.(data: any);
             break;
           case 'codeInjectionRemoved':
-            observer.onCodeInjectionRemoved?.(data);
+            observer?.onCodeInjectionRemoved?.(data: any);
             break;
         }
       } catch (error: unknown) {
@@ -455,12 +455,12 @@ export class TestHarness {
   // Report Generation
   generateReport(): TestReport {
     const summary = {
-      total: this.results.length,
-      passed: this.results.filter((r: any) => r.status === 'passed').length,
-      failed: this.results.filter((r: any) => r.status === 'failed').length,
-      skipped: this.results.filter((r: any) => r.status === 'skipped').length,
-      timeout: this.results.filter((r: any) => r.status === 'timeout').length,
-      duration: this.results.reduce((sum, r) => sum + r.duration, 0)
+      total: this?.results.length,
+      passed: this?.results.filter((r: any) => r?.status === 'passed').length,
+      failed: this?.results.filter((r: any) => r?.status === 'failed').length,
+      skipped: this?.results.filter((r: any) => r?.status === 'skipped').length,
+      timeout: this?.results.filter((r: any) => r?.status === 'timeout').length,
+      duration: this?.results.reduce((sum, r) => sum + r?.duration, 0)
     };
 
     // Calculate suite statistics
@@ -473,62 +473,62 @@ export class TestHarness {
       duration: number;
     }>();
 
-    for (const suite of this.suites.values()) {
-      const suiteResults = this.results.filter((r: any) => 
-        suite.tests.some(t => t.id === r.testId)
+    for (const suite of this?.suites.values()) {
+      const suiteResults = this?.results.filter((r: any) => 
+        suite?.tests.some(t => t?.id === r?.testId)
       );
 
-      suites.set(suite.id, {
-        name: suite.name,
-        total: suiteResults.length,
-        passed: suiteResults.filter((r: any) => r.status === 'passed').length,
-        failed: suiteResults.filter((r: any) => r.status === 'failed').length,
-        skipped: suiteResults.filter((r: any) => r.status === 'skipped').length,
-        duration: suiteResults.reduce((sum, r) => sum + r.duration, 0)
+      suites?.set(suite?.id, {
+        name: suite?.name,
+        total: suiteResults?.length,
+        passed: suiteResults?.filter((r: any) => r?.status === 'passed').length,
+        failed: suiteResults?.filter((r: any) => r?.status === 'failed').length,
+        skipped: suiteResults?.filter((r: any) => r?.status === 'skipped').length,
+        duration: suiteResults?.reduce((sum, r) => sum + r?.duration, 0)
       });
     }
 
     // Generate recommendations
     const recommendations: string[] = [];
     
-    if (summary.failed > 0) {
-      recommendations.push(`${summary.failed} tests failed. Review test results for details.`);
+    if (summary?.failed > 0) {
+      recommendations?.push(`${summary?.failed} tests failed. Review test results for details.`);
     }
     
-    if (summary.timeout > 0) {
-      recommendations.push(`${summary.timeout} tests timed out. Consider increasing timeout values.`);
+    if (summary?.timeout > 0) {
+      recommendations?.push(`${summary?.timeout} tests timed out. Consider increasing timeout values.`);
     }
 
-    const slowTests = this.results
-      .filter((r: any) => r.duration > 1000)
-      .sort((a: any, b: any) => b.duration - a.duration)
+    const slowTests = this?.results
+      .filter((r: any) => r?.duration > 1000)
+      .sort((a: any, b: any) => b?.duration - a?.duration)
       .slice(0, 5);
     
-    if (slowTests.length > 0) {
-      recommendations.push(`Slow tests detected: ${slowTests.map((t: any) => t.name).join(', ')}`);
+    if (slowTests?.length > 0) {
+      recommendations?.push(`Slow tests detected: ${slowTests?.map((t: any) => t?.name).join(', ')}`);
     }
 
     return {
       summary,
       suites,
-      results: [...this.results],
+      results: [...this?.results],
       recommendations
     };
   }
 
   // Export Methods
   exportReport(format: 'json' | 'junit' | 'console' = 'json'): string {
-    const report = this.generateReport();
+    const report = this?.generateReport();
 
     switch (format) {
       case 'json':
         return JSON.stringify(report, null, 2);
       
       case 'junit':
-        return this.exportToJUnit(report);
+        return this?.exportToJUnit(report);
       
       case 'console':
-        return this.exportToConsole(report);
+        return this?.exportToConsole(report);
       
       default:
         return JSON.stringify(report, null, 2);
@@ -539,18 +539,18 @@ export class TestHarness {
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<testsuites>\n';
     
-    for (const [suiteId, suiteStats] of report.suites) {
-      const suite = this.suites.get(suiteId);
-      xml += `  <testsuite name="${suite?.name || suiteId}" tests="${suiteStats.total}" failures="${suiteStats.failed}" time="${(suiteStats.duration / 1000).toFixed(3)}">\n`;
+    for (const [suiteId, suiteStats] of report?.suites) {
+      const suite = this?.suites.get(suiteId);
+      xml += `  <testsuite name="${suite?.name || suiteId}" tests="${suiteStats?.total}" failures="${suiteStats?.failed}" time="${(suiteStats?.duration / 1000).toFixed(3)}">\n`;
       
-      const suiteResults = this.results.filter((r: any) => 
-        suite?.tests.some(t => t.id === r.testId)
+      const suiteResults = this?.results.filter((r: any) => 
+        suite?.tests?.some(t => t?.id === r?.testId)
       );
       
       for (const result of suiteResults) {
-        xml += `    <testcase name="${result.name}" time="${(result.duration / 1000).toFixed(3)}">\n`;
-        if (result.status === 'failed' && result.error) {
-          xml += `      <failure message="${result.error.message}">${result.error.stack}</failure>\n`;
+        xml += `    <testcase name="${result?.name}" time="${(result?.duration / 1000).toFixed(3)}">\n`;
+        if (result?.status === 'failed' && result?.error) {
+          xml += `      <failure message="${result?.error.message}">${result?.error.stack}</failure>\n`;
         }
         xml += '    </testcase>\n';
       }
@@ -566,21 +566,21 @@ export class TestHarness {
     let output = '=== Test Report ===\n\n';
     
     output += `Summary:\n`;
-    output += `  Total: ${report.summary.total}\n`;
-    output += `  Passed: ${report.summary.passed}\n`;
-    output += `  Failed: ${report.summary.failed}\n`;
-    output += `  Skipped: ${report.summary.skipped}\n`;
-    output += `  Timeout: ${report.summary.timeout}\n`;
-    output += `  Duration: ${(report.summary.duration / 1000).toFixed(2)}s\n\n`;
+    output += `  Total: ${report?.summary.total}\n`;
+    output += `  Passed: ${report?.summary.passed}\n`;
+    output += `  Failed: ${report?.summary.failed}\n`;
+    output += `  Skipped: ${report?.summary.skipped}\n`;
+    output += `  Timeout: ${report?.summary.timeout}\n`;
+    output += `  Duration: ${(report?.summary.duration / 1000).toFixed(2)}s\n\n`;
     
     output += `Suites:\n`;
-    for (const [suiteId, stats] of report.suites) {
-      output += `  ${stats.name}: ${stats.passed}/${stats.total} passed (${(stats.duration / 1000).toFixed(2)}s)\n`;
+    for (const [suiteId, stats] of report?.suites) {
+      output += `  ${stats?.name}: ${stats?.passed}/${stats?.total} passed (${(stats?.duration / 1000).toFixed(2)}s)\n`;
     }
     
-    if (report.recommendations.length > 0) {
+    if (report?.recommendations.length > 0) {
       output += `\nRecommendations:\n`;
-      report.recommendations.forEach((rec: any) => {
+      report?.recommendations.forEach((rec: any) => {
         output += `  - ${rec}\n`;
       });
     }
@@ -590,15 +590,15 @@ export class TestHarness {
 
   // Utility Methods
   getResults(): TestResult[] {
-    return [...this.results];
+    return [...this?.results];
   }
 
   clearResults(): void {
-    this.results = [];
+    this?.results = [];
   }
 
   getRunningStatus(): boolean {
-    return this.isRunning;
+    return this?.isRunning;
   }
 }
 

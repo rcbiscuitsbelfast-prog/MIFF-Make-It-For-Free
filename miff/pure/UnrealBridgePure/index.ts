@@ -1038,42 +1038,42 @@ export class UnrealBridgeManager {
   private maxReconnectAttempts = 10;
 
   constructor(configuration: UnrealBridgeConfiguration) {
-    this.validateConfiguration(configuration);
-    this.configuration = {
+    this?.validateConfiguration(configuration);
+    this?.configuration = {
       ...configuration,
-      enableAssetBundles: configuration.enableAssetBundles ?? true,
-      enableStreamingAssets: configuration.enableStreamingAssets ?? true,
-      enableAssetValidation: configuration.enableAssetValidation ?? true,
-      enableAssetOptimization: configuration.enableAssetOptimization ?? true,
-      enableAssetCompression: configuration.enableAssetCompression ?? true,
-      enableAssetEncryption: configuration.enableAssetEncryption ?? false,
-      enableEventBatching: configuration.enableEventBatching ?? true,
-      enableEventCompression: configuration.enableEventCompression ?? true,
-      enableEventEncryption: configuration.enableEventEncryption ?? false,
-      enableSceneValidation: configuration.enableSceneValidation ?? true,
-      enableSceneOptimization: configuration.enableSceneOptimization ?? true,
-      enableSceneCompression: configuration.enableSceneCompression ?? true,
-      enableSceneEncryption: configuration.enableSceneEncryption ?? false,
-      priorityQueues: configuration.priorityQueues ?? ['high', 'medium', 'low', 'background'],
-      maxBufferSize: configuration.maxBufferSize ?? 1000,
-      tickGroup: configuration.tickGroup ?? 'TG_PostPhysics',
-      replicationMode: configuration.replicationMode ?? 'none',
-      collisionChannels: configuration.collisionChannels ?? []
+      enableAssetBundles: configuration?.enableAssetBundles ?? true,
+      enableStreamingAssets: configuration?.enableStreamingAssets ?? true,
+      enableAssetValidation: configuration?.enableAssetValidation ?? true,
+      enableAssetOptimization: configuration?.enableAssetOptimization ?? true,
+      enableAssetCompression: configuration?.enableAssetCompression ?? true,
+      enableAssetEncryption: configuration?.enableAssetEncryption ?? false,
+      enableEventBatching: configuration?.enableEventBatching ?? true,
+      enableEventCompression: configuration?.enableEventCompression ?? true,
+      enableEventEncryption: configuration?.enableEventEncryption ?? false,
+      enableSceneValidation: configuration?.enableSceneValidation ?? true,
+      enableSceneOptimization: configuration?.enableSceneOptimization ?? true,
+      enableSceneCompression: configuration?.enableSceneCompression ?? true,
+      enableSceneEncryption: configuration?.enableSceneEncryption ?? false,
+      priorityQueues: configuration?.priorityQueues ?? ['high', 'medium', 'low', 'background'],
+      maxBufferSize: configuration?.maxBufferSize ?? 1000,
+      tickGroup: configuration?.tickGroup ?? 'TG_PostPhysics',
+      replicationMode: configuration?.replicationMode ?? 'none',
+      collisionChannels: configuration?.collisionChannels ?? []
     };
-    this.performanceMetrics = this.initializePerformanceMetrics();
-    this.statistics = this.initializeStatistics();
-    this.initializeBridge();
+    this?.performanceMetrics = this?.initializePerformanceMetrics();
+    this?.statistics = this?.initializeStatistics();
+    this?.initializeBridge();
   }
 
   private validateConfiguration(config: UnrealBridgeConfiguration): void {
-    if (!config.unrealVersion! || config.unrealVersion.trim() === '') {
+    if (!config?.unrealVersion! || config?.unrealVersion.trim() === '') {
       throw new Error('UnrealBridgeConfiguration: unrealVersion cannot be empty.');
     }
     if (!Object.values(UnrealBridgeType).includes(config.bridgeType)) {
-      throw new Error(`UnrealBridgeConfiguration: Invalid bridgeType '${config.bridgeType}'.`);
+      throw new Error(`UnrealBridgeConfiguration: Invalid bridgeType '${config?.bridgeType}'.`);
     }
     if (!Object.values(UnrealCommunicationProtocol).includes(config.communicationProtocol)) {
-      throw new Error(`UnrealBridgeConfiguration: Invalid communicationProtocol '${config.communicationProtocol}'.`);
+      throw new Error(`UnrealBridgeConfiguration: Invalid communicationProtocol '${config?.communicationProtocol}'.`);
     }
     // Add more validation rules as needed
   }
@@ -1201,7 +1201,7 @@ export class UnrealBridgeManager {
       aiControllerCount: 0,
       pawnCount: 0,
       characterCount: 0,
-      performanceMetrics: this.performanceMetrics
+      performanceMetrics: this?.performanceMetrics
     };
   }
 
@@ -1210,18 +1210,18 @@ export class UnrealBridgeManager {
 
     try {
       // Initialize communication protocol
-      await this.initializeCommunicationProtocol();
+      await this?.initializeCommunicationProtocol();
 
       // Initialize subsystems
-      await this.initializeSubsystems();
+      await this?.initializeSubsystems();
 
       // Start message processing
-      this.startMessageProcessing();
+      this?.startMessageProcessing();
 
       // Start heartbeat
-      this.startHeartbeat();
+      this?.startHeartbeat();
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.log('[UnrealBridgeManager!] Unreal bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -1231,54 +1231,54 @@ export class UnrealBridgeManager {
   }
 
   private async initializeCommunicationProtocol(): Promise<void> {
-    switch (this.configuration.communicationProtocol) {
-      case UnrealCommunicationProtocol.MESSAGE_PASSING:
-        await this.initializeMessagePassing();
+    switch (this?.configuration.communicationProtocol) {
+      case UnrealCommunicationProtocol?.MESSAGE_PASSING:
+        await this?.initializeMessagePassing();
         break;
-      case UnrealCommunicationProtocol.SHARED_MEMORY:
-        await this.initializeSharedMemory();
+      case UnrealCommunicationProtocol?.SHARED_MEMORY:
+        await this?.initializeSharedMemory();
         break;
-      case UnrealCommunicationProtocol.NETWORK_SOCKETS:
-        await this.initializeNetworkSockets();
+      case UnrealCommunicationProtocol?.NETWORK_SOCKETS:
+        await this?.initializeNetworkSockets();
         break;
-      case UnrealCommunicationProtocol.FILE_SYSTEM:
-        await this.initializeFileSystem();
+      case UnrealCommunicationProtocol?.FILE_SYSTEM:
+        await this?.initializeFileSystem();
         break;
-      case UnrealCommunicationProtocol.DATABASE:
-        await this.initializeDatabase();
+      case UnrealCommunicationProtocol?.DATABASE:
+        await this?.initializeDatabase();
         break;
-      case UnrealCommunicationProtocol.DIRECT_CALL:
-        await this.initializeDirectCall();
+      case UnrealCommunicationProtocol?.DIRECT_CALL:
+        await this?.initializeDirectCall();
         break;
-      case UnrealCommunicationProtocol.BLUEPRINT_EVENT:
-        await this.initializeBlueprintEvent();
+      case UnrealCommunicationProtocol?.BLUEPRINT_EVENT:
+        await this?.initializeBlueprintEvent();
         break;
-      case UnrealCommunicationProtocol.DELEGATE_BINDING:
-        await this.initializeDelegateBinding();
+      case UnrealCommunicationProtocol?.DELEGATE_BINDING:
+        await this?.initializeDelegateBinding();
         break;
-      case UnrealCommunicationProtocol.INTERFACE_MESSAGING:
-        await this.initializeInterfaceMessaging();
+      case UnrealCommunicationProtocol?.INTERFACE_MESSAGING:
+        await this?.initializeInterfaceMessaging();
         break;
-      case UnrealCommunicationProtocol.WORLD_CONTEXT:
-        await this.initializeWorldContext();
+      case UnrealCommunicationProtocol?.WORLD_CONTEXT:
+        await this?.initializeWorldContext();
         break;
-      case UnrealCommunicationProtocol.GAME_INSTANCE:
-        await this.initializeGameInstance();
+      case UnrealCommunicationProtocol?.GAME_INSTANCE:
+        await this?.initializeGameInstance();
         break;
-      case UnrealCommunicationProtocol.SUBSYSTEM:
-        await this.initializeSubsystem();
+      case UnrealCommunicationProtocol?.SUBSYSTEM:
+        await this?.initializeSubsystem();
         break;
-      case UnrealCommunicationProtocol.NETWORK_REPLICATION:
-        await this.initializeNetworkReplication();
+      case UnrealCommunicationProtocol?.NETWORK_REPLICATION:
+        await this?.initializeNetworkReplication();
         break;
-      case UnrealCommunicationProtocol.CUSTOM_EVENT:
-        await this.initializeCustomEvent();
+      case UnrealCommunicationProtocol?.CUSTOM_EVENT:
+        await this?.initializeCustomEvent();
         break;
-      case UnrealCommunicationProtocol.FUNCTION_LIBRARY:
-        await this.initializeFunctionLibrary();
+      case UnrealCommunicationProtocol?.FUNCTION_LIBRARY:
+        await this?.initializeFunctionLibrary();
         break;
       default:
-        throw new Error(`Unsupported communication protocol: ${this.configuration.communicationProtocol}`);
+        throw new Error(`Unsupported communication protocol: ${this?.configuration.communicationProtocol}`);
     }
   }
 
@@ -1376,7 +1376,7 @@ export class UnrealBridgeManager {
       metadata: {}
     };
 
-    this.systems.set('engine_subsystem', engineSubsystem);
+    this?.systems.set('engine_subsystem', engineSubsystem);
 
     // Initialize editor subsystem
     const editorSubsystem: UnrealSystemBridge = {
@@ -1385,7 +1385,7 @@ export class UnrealBridgeManager {
       subsystemName: 'MIFFBridgeEditorSubsystem',
       moduleName: 'MIFFBridgeEditor',
       priority: 500,
-      enabled: this.configuration.enableLiveReload,
+      enabled: this?.configuration.enableLiveReload,
       updateRate: 30,
       executionOrder: 0,
       dependencies: ['engine_subsystem'],
@@ -1394,37 +1394,37 @@ export class UnrealBridgeManager {
       metadata: { editorMode: true }
     };
 
-    this.systems.set('editor_subsystem', editorSubsystem);
+    this?.systems.set('editor_subsystem', editorSubsystem);
 
     console.log('[UnrealBridgeManager!] Subsystems initialized');
   }
 
   private startMessageProcessing(): void {
     setInterval(() => {
-      this.processMessageQueue();
+      this?.processMessageQueue();
     }, 16); // 60 FPS
 
     setInterval(() => {
-      this.processEventQueue();
+      this?.processEventQueue();
     }, 100); // 10 FPS for event processing
 
     setInterval(() => {
-      this.processCommandQueue();
+      this?.processCommandQueue();
     }, 50); // 20 FPS for command processing
 
     setInterval(() => {
-      this.processQueryQueue();
+      this?.processQueryQueue();
     }, 200); // 5 FPS for query processing
 
     setInterval(() => {
-      this.updateStatistics();
+      this?.updateStatistics();
     }, 1000); // 1 FPS for statistics updates
   }
 
   private startHeartbeat(): void {
     setInterval(() => {
-      this.sendHeartbeat();
-    }, this.configuration.heartbeatInterval);
+      this?.sendHeartbeat();
+    }, this?.configuration.heartbeatInterval);
   }
 
   // Core bridge functionality
@@ -1437,21 +1437,21 @@ export class UnrealBridgeManager {
         type: 'local',
         status: 'connecting',
         endpoint: target,
-        protocol: protocol || this.configuration.communicationProtocol,
+        protocol: protocol || this?.configuration.communicationProtocol,
         lastActivity: new Date(),
         messageCount: 0,
         errorCount: 0,
         reconnectAttempts: 0,
-        maxReconnectAttempts: this.configuration.retryAttempts,
+        maxReconnectAttempts: this?.configuration.retryAttempts,
         metadata: {}
       };
 
-      this.connections.set(connection.id, connection);
+      this?.connections.set(connection?.id, connection);
 
       // For testing purposes, simulate successful connection
-      connection.status = 'connected';
-      this.isConnected = true;
-      this.reconnectAttempts = 0;
+      connection?.status = 'connected';
+      this?.isConnected = true;
+      this?.reconnectAttempts = 0;
       console.log(`[UnrealBridgeManager!] Successfully connected to Unreal instance: ${target}`);
       return connection;
     } catch (error: unknown) {
@@ -1462,27 +1462,27 @@ export class UnrealBridgeManager {
   }
 
   private async establishConnection(connection: UnrealConnection): Promise<boolean> {
-    switch (connection.protocol) {
-      case UnrealCommunicationProtocol.DIRECT_CALL:
-        return await this.establishDirectCallConnection(connection);
-      case UnrealCommunicationProtocol.BLUEPRINT_EVENT:
-        return await this.establishBlueprintEventConnection(connection);
-      case UnrealCommunicationProtocol.DELEGATE_BINDING:
-        return await this.establishDelegateBindingConnection(connection);
-      case UnrealCommunicationProtocol.INTERFACE_MESSAGING:
-        return await this.establishInterfaceMessagingConnection(connection);
-      case UnrealCommunicationProtocol.WORLD_CONTEXT:
-        return await this.establishWorldContextConnection(connection);
-      case UnrealCommunicationProtocol.GAME_INSTANCE:
-        return await this.establishGameInstanceConnection(connection);
-      case UnrealCommunicationProtocol.SUBSYSTEM:
-        return await this.establishSubsystemConnection(connection);
-      case UnrealCommunicationProtocol.NETWORK_REPLICATION:
-        return await this.establishNetworkReplicationConnection(connection);
-      case UnrealCommunicationProtocol.CUSTOM_EVENT:
-        return await this.establishCustomEventConnection(connection);
-      case UnrealCommunicationProtocol.FUNCTION_LIBRARY:
-        return await this.establishFunctionLibraryConnection(connection);
+    switch (connection?.protocol) {
+      case UnrealCommunicationProtocol?.DIRECT_CALL:
+        return await this?.establishDirectCallConnection(connection);
+      case UnrealCommunicationProtocol?.BLUEPRINT_EVENT:
+        return await this?.establishBlueprintEventConnection(connection);
+      case UnrealCommunicationProtocol?.DELEGATE_BINDING:
+        return await this?.establishDelegateBindingConnection(connection);
+      case UnrealCommunicationProtocol?.INTERFACE_MESSAGING:
+        return await this?.establishInterfaceMessagingConnection(connection);
+      case UnrealCommunicationProtocol?.WORLD_CONTEXT:
+        return await this?.establishWorldContextConnection(connection);
+      case UnrealCommunicationProtocol?.GAME_INSTANCE:
+        return await this?.establishGameInstanceConnection(connection);
+      case UnrealCommunicationProtocol?.SUBSYSTEM:
+        return await this?.establishSubsystemConnection(connection);
+      case UnrealCommunicationProtocol?.NETWORK_REPLICATION:
+        return await this?.establishNetworkReplicationConnection(connection);
+      case UnrealCommunicationProtocol?.CUSTOM_EVENT:
+        return await this?.establishCustomEventConnection(connection);
+      case UnrealCommunicationProtocol?.FUNCTION_LIBRARY:
+        return await this?.establishFunctionLibraryConnection(connection);
       default:
         return false;
     }
@@ -1542,20 +1542,20 @@ export class UnrealBridgeManager {
     console.log('[UnrealBridgeManager!] Disconnecting from Unreal...');
 
     if (connectionId) {
-      const connection = this.connections.get(connectionId);
+      const connection = this?.connections.get(connectionId);
       if (connection) {
-        connection.status = 'disconnected';
-        this.connections.delete(connectionId);
+        connection?.status = 'disconnected';
+        this?.connections.delete(connectionId);
         console.log(`[UnrealBridgeManager!] Disconnected connection: ${connectionId}`);
         return true;
       }
       return false;
     } else {
-      for (const connection of this.connections.values()) {
-        connection.status = 'disconnected';
+      for (const connection of this?.connections.values()) {
+        connection?.status = 'disconnected';
       }
-      this.connections.clear();
-      this.isConnected = false;
+      this?.connections.clear();
+      this?.isConnected = false;
       console.log('[UnrealBridgeManager!] Disconnected from Unreal');
       return true;
     }
@@ -1566,18 +1566,18 @@ export class UnrealBridgeManager {
   }
 
   async sendMessage(message: UnrealMessage): Promise<boolean> {
-    if (!this.isConnected) {
+    if (!this?.isConnected) {
       throw new Error('Unreal bridge is not connected');
     }
 
     try {
       // Add to message queue
-      this.messageQueue.push(message);
-      this.statistics.totalMessages++;
+      this?.messageQueue?.push(message);
+      this?.statistics.totalMessages++;
 
       // Process immediately if queue is small
-      if (this.messageQueue.length <= this.configuration.batchSize) {
-        await this.processMessage(message);
+      if (this?.messageQueue.length <= this?.configuration.batchSize) {
+        await this?.processMessage(message);
       }
 
       return true;
@@ -1589,30 +1589,30 @@ export class UnrealBridgeManager {
   }
 
   private async processMessage(message: UnrealMessage): Promise<void> {
-    switch (message.type) {
+    switch (message?.type) {
       case 'command':
-        await this.processCommandMessage(message);
+        await this?.processCommandMessage(message);
         break;
       case 'query':
-        await this.processQueryMessage(message);
+        await this?.processQueryMessage(message);
         break;
       case 'event':
-        await this.processEventMessage(message);
+        await this?.processEventMessage(message);
         break;
       case 'response':
-        await this.processResponseMessage(message);
+        await this?.processResponseMessage(message);
         break;
       case 'heartbeat':
-        await this.processHeartbeatMessage(message);
+        await this?.processHeartbeatMessage(message);
         break;
       case 'broadcast':
-        await this.processBroadcastMessage(message);
+        await this?.processBroadcastMessage(message);
         break;
       case 'rpc':
-        await this.processRPCMessage(message);
+        await this?.processRPCMessage(message);
         break;
       case 'property_sync':
-        await this.processPropertySyncMessage(message);
+        await this?.processPropertySyncMessage(message);
         break;
       default:
         console.warn(`[UnrealBridgeManager!] Unknown message type: ${message.type}`);
@@ -1620,35 +1620,35 @@ export class UnrealBridgeManager {
   }
 
   private async processCommandMessage(message: UnrealMessage): Promise<void> {
-    const command = message.payload as UnrealCommand;
-    this.statistics.totalCommands++;
+    const command = message?.payload as UnrealCommand;
+    this?.statistics.totalCommands++;
 
     try {
-      const result = await this.executeCommand(command);
+      const result = await this?.executeCommand(command);
 
       const response: UnrealResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
-        success: result.success,
-        data: result.data,
-        error: result.error,
-        executionTime: result.executionTime,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
+        success: result?.success,
+        data: result?.data,
+        error: result?.error,
+        executionTime: result?.executionTime,
         timestamp: new Date(),
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: UnrealResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
         success: false,
         data: null,
         error: {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
-          context: { commandId: command.id },
+          context: { commandId: command?.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1660,7 +1660,7 @@ export class UnrealBridgeManager {
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     }
   }
 
@@ -1670,15 +1670,15 @@ export class UnrealBridgeManager {
   }
 
   private async processQueryMessage(message: UnrealMessage): Promise<void> {
-    const query = message.payload as UnrealQuery;
-    this.statistics.totalQueries++;
+    const query = message?.payload as UnrealQuery;
+    this?.statistics.totalQueries++;
 
     try {
-      const result = await this.executeQuery(query);
+      const result = await this?.executeQuery(query);
 
       const response: UnrealResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
         success: true,
         data: result,
         executionTime: 0,
@@ -1686,18 +1686,18 @@ export class UnrealBridgeManager {
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: UnrealResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
         success: false,
         data: null,
         error: {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
-          context: { queryId: query.id },
+          context: { queryId: query?.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1709,7 +1709,7 @@ export class UnrealBridgeManager {
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     }
   }
 
@@ -1719,14 +1719,14 @@ export class UnrealBridgeManager {
   }
 
   private async processEventMessage(message: UnrealMessage): Promise<void> {
-    const event = message.payload as UnrealEvent;
-    this.statistics.totalEvents++;
+    const event = message?.payload as UnrealEvent;
+    this?.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event);
+    this?.eventQueue?.push(event);
 
     // Process immediately
-    await this.handleEvent(event);
+    await this?.handleEvent(event);
   }
 
   private async handleEvent(event: UnrealEvent): Promise<void> {
@@ -1735,16 +1735,16 @@ export class UnrealBridgeManager {
   }
 
   private async processResponseMessage(message: UnrealMessage): Promise<void> {
-    const response = message.payload as UnrealResponse;
-    this.statistics.totalResponses++;
+    const response = message?.payload as UnrealResponse;
+    this?.statistics.totalResponses++;
 
     // Add to response queue
-    this.responseQueue.push(response);
+    this?.responseQueue?.push(response);
   }
 
   private async processHeartbeatMessage(message: UnrealMessage): Promise<void> {
-    this.lastHeartbeat = Date.now();
-    this.reconnectAttempts = 0;
+    this.lastHeartbeat = new Date();
+    this?.reconnectAttempts = 0;
   }
 
   private async processBroadcastMessage(message: UnrealMessage): Promise<void> {
@@ -1764,7 +1764,7 @@ export class UnrealBridgeManager {
 
   private async sendResponse(response: UnrealResponse): Promise<void> {
     const message: UnrealMessage = {
-      id: response.id,
+      id: response?.id,
       type: 'response',
       source: 'bridge',
       destination: 'unreal',
@@ -1778,11 +1778,11 @@ export class UnrealBridgeManager {
       metadata: {}
     };
 
-    await this.sendMessage(message);
+    await this?.sendMessage(message);
   }
 
   private async sendHeartbeat(): Promise<void> {
-    if (!this.isConnected) return;
+    if (!this?.isConnected) return;
 
     const message: UnrealMessage = {
       id: `heartbeat_${Date.now()}`,
@@ -1793,7 +1793,7 @@ export class UnrealBridgeManager {
       payload: {
         timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0!],
-        statistics: this.statistics
+        statistics: this?.statistics
       },
       priority: 0,
       ttl: 5000,
@@ -1803,252 +1803,252 @@ export class UnrealBridgeManager {
       metadata: {}
     };
 
-    await this.sendMessage(message);
+    await this?.sendMessage(message);
   }
 
   // Bridge management
   registerActor(actor: UnrealActorBridge): void {
-    this.actors.set(actor.id, actor);
+    this?.actors.set(actor?.id, actor);
   }
 
   unregisterActor(actorId: string): void {
-    this.actors.delete(actorId);
+    this?.actors.delete(actorId);
   }
 
   getActor(actorId: string): UnrealActorBridge | undefined {
-    return this.actors.get(actorId);
+    return this?.actors.get(actorId);
   }
 
   registerComponent(component: UnrealComponentBridge): void {
-    this.components.set(component.id, component);
+    this?.components.set(component?.id, component);
   }
 
   unregisterComponent(componentId: string): void {
-    this.components.delete(componentId);
+    this?.components.delete(componentId);
   }
 
   getComponent(componentId: string): UnrealComponentBridge | undefined {
-    return this.components.get(componentId);
+    return this?.components.get(componentId);
   }
 
   registerAsset(asset: UnrealAssetBridge): void {
-    this.assets.set(asset.id, asset);
+    this?.assets.set(asset?.id, asset);
   }
 
   unregisterAsset(assetId: string): void {
-    this.assets.delete(assetId);
+    this?.assets.delete(assetId);
   }
 
   getAsset(assetId: string): UnrealAssetBridge | undefined {
-    return this.assets.get(assetId);
+    return this?.assets.get(assetId);
   }
 
   registerScene(scene: UnrealSceneBridge): void {
-    this.scenes.set(scene.id, scene);
+    this?.scenes.set(scene?.id, scene);
   }
 
   unregisterScene(sceneId: string): void {
-    this.scenes.delete(sceneId);
+    this?.scenes.delete(sceneId);
   }
 
   getScene(sceneId: string): UnrealSceneBridge | undefined {
-    return this.scenes.get(sceneId);
+    return this?.scenes.get(sceneId);
   }
 
   registerSystem(system: UnrealSystemBridge): void {
-    this.systems.set(system.id, system);
+    this?.systems.set(system?.id, system);
   }
 
   unregisterSystem(systemId: string): void {
-    this.systems.delete(systemId);
+    this?.systems.delete(systemId);
   }
 
   getSystem(systemId: string): UnrealSystemBridge | undefined {
-    return this.systems.get(systemId);
+    return this?.systems.get(systemId);
   }
 
   registerService(service: UnrealServiceBridge): void {
-    this.services.set(service.id, service);
+    this?.services.set(service?.id, service);
   }
 
   unregisterService(serviceId: string): void {
-    this.services.delete(serviceId);
+    this?.services.delete(serviceId);
   }
 
   getService(serviceId: string): UnrealServiceBridge | undefined {
-    return this.services.get(serviceId);
+    return this?.services.get(serviceId);
   }
 
   registerBlueprint(blueprint: UnrealBlueprintBridge): void {
-    this.blueprints.set(blueprint.id, blueprint);
+    this?.blueprints.set(blueprint?.id, blueprint);
   }
 
   unregisterBlueprint(blueprintId: string): void {
-    this.blueprints.delete(blueprintId);
+    this?.blueprints.delete(blueprintId);
   }
 
   getBlueprint(blueprintId: string): UnrealBlueprintBridge | undefined {
-    return this.blueprints.get(blueprintId);
+    return this?.blueprints.get(blueprintId);
   }
 
   registerLevel(level: UnrealLevelBridge): void {
-    this.levels.set(level.id, level);
+    this?.levels.set(level?.id, level);
   }
 
   unregisterLevel(levelId: string): void {
-    this.levels.delete(levelId);
+    this?.levels.delete(levelId);
   }
 
   getLevel(levelId: string): UnrealLevelBridge | undefined {
-    return this.levels.get(levelId);
+    return this?.levels.get(levelId);
   }
 
   registerWorld(world: UnrealWorldBridge): void {
-    this.worlds.set(world.id, world);
+    this?.worlds.set(world?.id, world);
   }
 
   unregisterWorld(worldId: string): void {
-    this.worlds.delete(worldId);
+    this?.worlds.delete(worldId);
   }
 
   getWorld(worldId: string): UnrealWorldBridge | undefined {
-    return this.worlds.get(worldId);
+    return this?.worlds.get(worldId);
   }
 
   registerGameMode(gameMode: UnrealGameModeBridge): void {
-    this.gameModes.set(gameMode.id, gameMode);
+    this?.gameModes.set(gameMode?.id, gameMode);
   }
 
   unregisterGameMode(gameModeId: string): void {
-    this.gameModes.delete(gameModeId);
+    this?.gameModes.delete(gameModeId);
   }
 
   getGameMode(gameModeId: string): UnrealGameModeBridge | undefined {
-    return this.gameModes.get(gameModeId);
+    return this?.gameModes.get(gameModeId);
   }
 
   registerGameState(gameState: UnrealGameStateBridge): void {
-    this.gameStates.set(gameState.id, gameState);
+    this?.gameStates.set(gameState?.id, gameState);
   }
 
   unregisterGameState(gameStateId: string): void {
-    this.gameStates.delete(gameStateId);
+    this?.gameStates.delete(gameStateId);
   }
 
   getGameState(gameStateId: string): UnrealGameStateBridge | undefined {
-    return this.gameStates.get(gameStateId);
+    return this?.gameStates.get(gameStateId);
   }
 
   registerPlayerController(playerController: UnrealPlayerControllerBridge): void {
-    this.playerControllers.set(playerController.id, playerController);
+    this?.playerControllers.set(playerController?.id, playerController);
   }
 
   unregisterPlayerController(playerControllerId: string): void {
-    this.playerControllers.delete(playerControllerId);
+    this?.playerControllers.delete(playerControllerId);
   }
 
   getPlayerController(playerControllerId: string): UnrealPlayerControllerBridge | undefined {
-    return this.playerControllers.get(playerControllerId);
+    return this?.playerControllers.get(playerControllerId);
   }
 
   registerAIController(aiController: UnrealAIControllerBridge): void {
-    this.aiControllers.set(aiController.id, aiController);
+    this?.aiControllers.set(aiController?.id, aiController);
   }
 
   unregisterAIController(aiControllerId: string): void {
-    this.aiControllers.delete(aiControllerId);
+    this?.aiControllers.delete(aiControllerId);
   }
 
   getAIController(aiControllerId: string): UnrealAIControllerBridge | undefined {
-    return this.aiControllers.get(aiControllerId);
+    return this?.aiControllers.get(aiControllerId);
   }
 
   registerPawn(pawn: UnrealPawnBridge): void {
-    this.pawns.set(pawn.id, pawn);
+    this?.pawns.set(pawn?.id, pawn);
   }
 
   unregisterPawn(pawnId: string): void {
-    this.pawns.delete(pawnId);
+    this?.pawns.delete(pawnId);
   }
 
   getPawn(pawnId: string): UnrealPawnBridge | undefined {
-    return this.pawns.get(pawnId);
+    return this?.pawns.get(pawnId);
   }
 
   registerCharacter(character: UnrealCharacterBridge): void {
-    this.characters.set(character.id, character);
+    this?.characters.set(character?.id, character);
   }
 
   unregisterCharacter(characterId: string): void {
-    this.characters.delete(characterId);
+    this?.characters.delete(characterId);
   }
 
   getCharacter(characterId: string): UnrealCharacterBridge | undefined {
-    return this.characters.get(characterId);
+    return this?.characters.get(characterId);
   }
 
   // Statistics and monitoring
   getStatistics(): UnrealBridgeStatistics {
-    this.updateStatistics();
-    return { ...this.statistics };
+    this?.updateStatistics();
+    return { ...this?.statistics };
   }
 
   private updateStatistics(): void {
     this.statistics.messagesPerSecond = this.statistics.totalMessages / Math.max(1, (Date.now() - this.statistics.connectionUptime) / 1000);
     this.statistics.errorRate = this.statistics.totalErrors / Math.max(1, this.statistics.totalMessages);
     this.statistics.averageMessageSize = this.statistics.dataTransferred / Math.max(1, this.statistics.totalMessages);
-    this.statistics.queueDepth = this.messageQueue.length + this.eventQueue.length + this.commandQueue.length + this.queryQueue.length;
+    this?.statistics.queueDepth = this?.messageQueue.length + this?.eventQueue.length + this?.commandQueue.length + this?.queryQueue.length;
     this.statistics.activeConnections = Array.from(this.connections.values()).filter((c: any) => c.status === 'connected').length;
-    this.statistics.actorCount = this.actors.size;
-    this.statistics.componentCount = this.components.size;
-    this.statistics.systemCount = this.systems.size;
-    this.statistics.serviceCount = this.services.size;
-    this.statistics.bridgeCount = 1; // This bridge
-    this.statistics.blueprintCount = this.blueprints.size;
-    this.statistics.levelCount = this.levels.size;
-    this.statistics.worldCount = this.worlds.size;
-    this.statistics.gameModeCount = this.gameModes.size;
-    this.statistics.gameStateCount = this.gameStates.size;
-    this.statistics.playerControllerCount = this.playerControllers.size;
-    this.statistics.aiControllerCount = this.aiControllers.size;
-    this.statistics.pawnCount = this.pawns.size;
-    this.statistics.characterCount = this.characters.size;
+    this?.statistics.actorCount = this?.actors.size;
+    this?.statistics.componentCount = this?.components.size;
+    this?.statistics.systemCount = this?.systems.size;
+    this?.statistics.serviceCount = this?.services.size;
+    this?.statistics.bridgeCount = 1; // This bridge
+    this?.statistics.blueprintCount = this?.blueprints.size;
+    this?.statistics.levelCount = this?.levels.size;
+    this?.statistics.worldCount = this?.worlds.size;
+    this?.statistics.gameModeCount = this?.gameModes.size;
+    this?.statistics.gameStateCount = this?.gameStates.size;
+    this?.statistics.playerControllerCount = this?.playerControllers.size;
+    this?.statistics.aiControllerCount = this?.aiControllers.size;
+    this?.statistics.pawnCount = this?.pawns.size;
+    this?.statistics.characterCount = this?.characters.size;
   }
 
   // Message queue processing
   private async processMessageQueue(): Promise<void> {
-    if (this.messageQueue.length === 0) return;
+    if (this?.messageQueue.length === 0) return;
 
-    const batch = this.messageQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.messageQueue.splice(0, this?.configuration.batchSize);
     for (const message of batch) {
-      await this.processMessage(message);
+      await this?.processMessage(message);
     }
   }
 
   private async processEventQueue(): Promise<void> {
-    if (this.eventQueue.length === 0) return;
+    if (this?.eventQueue.length === 0) return;
 
-    const batch = this.eventQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.eventQueue.splice(0, this?.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event);
+      await this?.handleEvent(event);
     }
   }
 
   private async processCommandQueue(): Promise<void> {
-    if (this.commandQueue.length === 0) return;
+    if (this?.commandQueue.length === 0) return;
 
-    const batch = this.commandQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.commandQueue.splice(0, this?.configuration.batchSize);
     for (const command of batch) {
-      await this.executeCommand(command);
+      await this?.executeCommand(command);
     }
   }
 
   private async processQueryQueue(): Promise<void> {
-    if (this.queryQueue.length === 0) return;
+    if (this?.queryQueue.length === 0) return;
 
-    const batch = this.queryQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.queryQueue.splice(0, this?.configuration.batchSize);
     for (const query of batch) {
-      await this.executeQuery(query);
+      await this?.executeQuery(query);
     }
   }
 
@@ -2058,28 +2058,28 @@ export class UnrealBridgeManager {
   }
 
   getConfiguration(): UnrealBridgeConfiguration {
-    return { ...this.configuration };
+    return { ...this?.configuration };
   }
 
   // Utility methods
   isConnectedToUnreal(): boolean {
-    return this.isConnected;
+    return this?.isConnected;
   }
 
   getConnectionStatus(): 'connected' | 'disconnected' | 'connecting' | 'error' {
-    if (!this.isConnected) return 'disconnected';
+    if (!this?.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0!];
     return connection?.status || 'disconnected';
   }
 
   getPerformanceMetrics(): UnrealPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      configuration: this.configuration,
+      configuration: this?.configuration,
       connections: Array.from(this.connections.values()),
       actors: Array.from(this.actors.values()),
       components: Array.from(this.components.values()),
@@ -2096,62 +2096,62 @@ export class UnrealBridgeManager {
       aiControllers: Array.from(this.aiControllers.values()),
       pawns: Array.from(this.pawns.values()),
       characters: Array.from(this.characters.values()),
-      statistics: this.statistics,
-      performanceMetrics: this.performanceMetrics,
+      statistics: this?.statistics,
+      performanceMetrics: this?.performanceMetrics,
       timestamp: new Date()
     };
 
     if (format === 'json') {
       return JSON.stringify(data, null, 2);
     } else if (format === 'xml') {
-      return this.convertToXML(data);
+      return this?.convertToXML(data: any);
     } else {
-      return this.convertToBinary(data);
+      return this?.convertToBinary(data: any);
     }
   }
 
-  private convertToXML(data): string {
+  private convertToXML(data: any): string {
     // Simple XML conversion - in production this would be more robust
     return '<unreal_bridge_data><!-- XML export not fully implemented --></unreal_bridge_data>';
   }
 
-  private convertToBinary(data): string {
+  private convertToBinary(data: any): string {
     // Simple binary conversion - in production this would use proper serialization
-    return JSON.stringify(data);
+    return JSON.stringify(data: any);
   }
 
   reset(): void {
-    this.connections.clear();
-    this.actors.clear();
-    this.components.clear();
-    this.assets.clear();
-    this.scenes.clear();
-    this.systems.clear();
-    this.services.clear();
-    this.blueprints.clear();
-    this.levels.clear();
-    this.worlds.clear();
-    this.gameModes.clear();
-    this.gameStates.clear();
-    this.playerControllers.clear();
-    this.aiControllers.clear();
-    this.pawns.clear();
-    this.characters.clear();
-    this.messageQueue = [];
-    this.eventQueue = [];
-    this.commandQueue = [];
-    this.queryQueue = [];
-    this.responseQueue = [];
-    this.isConnected = false;
-    this.lastHeartbeat = 0;
-    this.reconnectAttempts = 0;
+    this?.connections.clear();
+    this?.actors.clear();
+    this?.components.clear();
+    this?.assets.clear();
+    this?.scenes.clear();
+    this?.systems.clear();
+    this?.services.clear();
+    this?.blueprints.clear();
+    this?.levels.clear();
+    this?.worlds.clear();
+    this?.gameModes.clear();
+    this?.gameStates.clear();
+    this?.playerControllers.clear();
+    this?.aiControllers.clear();
+    this?.pawns.clear();
+    this?.characters.clear();
+    this?.messageQueue = [];
+    this?.eventQueue = [];
+    this?.commandQueue = [];
+    this?.queryQueue = [];
+    this?.responseQueue = [];
+    this?.isConnected = false;
+    this?.lastHeartbeat = 0;
+    this?.reconnectAttempts = 0;
 
     console.log('[UnrealBridgeManager!] Reset to initial state');
   }
 
   dispose(): void {
-    this.reset();
-    this.isInitialized = false;
+    this?.reset();
+    this?.isInitialized = false;
     console.log('[UnrealBridgeManager!] Disposed successfully');
   }
 }

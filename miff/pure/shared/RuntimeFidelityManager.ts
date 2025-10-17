@@ -123,7 +123,7 @@ export class RuntimeFidelityManager {
 
   constructor(...args: any[]) {
     
-    this.stats = this.initializeStats();
+    this?.stats = this?.initializeStats();
   }
 
   /**
@@ -136,21 +136,21 @@ export class RuntimeFidelityManager {
     
     try {
       // Find all TypeScript files
-      const files = await this.findTypeScriptFiles(rootPath);
+      const files = await this?.findTypeScriptFiles(rootPath);
       console.info(`📁 Found ${files.length} TypeScript files`);
       
       // Scan each file for mock implementations
       for (const filePath of files) {
-        const fileMocks = await this.scanFileForMocks(filePath);
-        mocks.push(...fileMocks);
+        const fileMocks = await this?.scanFileForMocks(filePath);
+        mocks?.push(...fileMocks);
       }
       
       // Store mocks
       for (const mock of mocks) {
-        this.mockImplementations.set(mock.id, mock);
+        this?.mockImplementations.set(mock?.id, mock);
       }
       
-      this.updateStats();
+      this?.updateStats();
       console.info(`✅ Found ${mocks.length} mock implementations`);
       
       return mocks;
@@ -169,11 +169,11 @@ export class RuntimeFidelityManager {
     console.info('🔄 Replacing critical mock implementations...');
     
     const criticalMocks = Array.from(this.mockImplementations.values())
-      .filter((mock: any) => mock.priority === 'critical');
+      .filter((mock: any) => mock?.priority === 'critical');
     
     for (const mock of criticalMocks) {
       try {
-        await this.replaceMockImplementation(mock);
+        await this?.replaceMockImplementation(mock);
         console.info(`✅ Replaced mock: ${mock.id} in ${mock.module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -181,7 +181,7 @@ export class RuntimeFidelityManager {
       }
     }
     
-    this.updateStats();
+    this?.updateStats();
   }
 
   /**
@@ -194,8 +194,8 @@ export class RuntimeFidelityManager {
     
     for (const module of bridgeModules) {
       try {
-        const transportLayer = await this.createTransportLayer(module);
-        this.transportLayers.set(module, transportLayer);
+        const transportLayer = await this?.createTransportLayer(module);
+        this?.transportLayers.set(module, transportLayer);
         console.info(`✅ Implemented transport layer for ${module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -210,13 +210,13 @@ export class RuntimeFidelityManager {
   async implementLifecycleHooks(): Promise<void> {
     console.info('🔄 Implementing lifecycle hooks...');
     
-    const modules = await this.getModulesWithLifecycleHooks();
+    const modules = await this?.getModulesWithLifecycleHooks();
     
     for (const module of modules) {
       try {
-        const hooks = await this.createLifecycleHooks(module);
+        const hooks = await this?.createLifecycleHooks(module);
         for (const hook of hooks) {
-          this.lifecycleHooks.set(hook.id, hook);
+          this?.lifecycleHooks.set(hook?.id, hook);
         }
         console.info(`✅ Implemented lifecycle hooks for ${module}`);
       } catch (error: unknown) {
@@ -236,18 +236,18 @@ export class RuntimeFidelityManager {
     
     let report = '# Runtime Fidelity Report\n\n';
     report += `**Generated:** ${new Date().toISOString()}\n`;
-    report += `**Total Modules:** ${this.stats.totalModules}\n`;
-    report += `**Modules with Mocks:** ${this.stats.modulesWithMocks}\n`;
-    report += `**Total Mocks:** ${this.stats.totalMocks}\n`;
-    report += `**Replaced Mocks:** ${this.stats.replacedMocks}\n`;
-    report += `**Average Fidelity Score:** ${this.stats.averageFidelityScore.toFixed(1)}%\n\n`;
+    report += `**Total Modules:** ${this?.stats.totalModules}\n`;
+    report += `**Modules with Mocks:** ${this?.stats.modulesWithMocks}\n`;
+    report += `**Total Mocks:** ${this?.stats.totalMocks}\n`;
+    report += `**Replaced Mocks:** ${this?.stats.replacedMocks}\n`;
+    report += `**Average Fidelity Score:** ${this?.stats.averageFidelityScore?.toFixed(1)}%\n\n`;
 
     // Mock implementation breakdown
     report += `## Mock Implementation Breakdown\n`;
     const mockTypes = new Map<string, number>();
-    for (const mock of this.mockImplementations.values()) {
-      const count = mockTypes.get(mock.type) || 0;
-      mockTypes.set(mock.type, count + 1);
+    for (const mock of this?.mockImplementations.values()) {
+      const count = mockTypes?.get(mock?.type) || 0;
+      mockTypes?.set(mock?.type, count + 1);
     }
     
     for (const [type, count] of mockTypes) {
@@ -256,24 +256,24 @@ export class RuntimeFidelityManager {
     report += `\n`;
 
     // Transport layers
-    if (transportLayers.length > 0) {
-      report += `## Transport Layers (${transportLayers.length})\n`;
+    if (transportLayers?.length > 0) {
+      report += `## Transport Layers (${transportLayers?.length})\n`;
       for (const transport of transportLayers) {
-        report += `### ${transport.name}\n`;
-        report += `- **Type:** ${transport.type}\n`;
-        report += `- **Status:** ${transport.status}\n`;
-        report += `- **Features:** ${transport.features.join(', ')}\n`;
-        report += `- **Performance:** Latency: ${transport.performance.latency}ms, Throughput: ${transport.performance.throughput} ops/s\n\n`;
+        report += `### ${transport?.name}\n`;
+        report += `- **Type:** ${transport?.type}\n`;
+        report += `- **Status:** ${transport?.status}\n`;
+        report += `- **Features:** ${transport?.features.join(', ')}\n`;
+        report += `- **Performance:** Latency: ${transport?.performance.latency}ms, Throughput: ${transport?.performance.throughput} ops/s\n\n`;
       }
     }
 
     // Lifecycle hooks
-    if (lifecycleHooks.length > 0) {
-      report += `## Lifecycle Hooks (${lifecycleHooks.length})\n`;
+    if (lifecycleHooks?.length > 0) {
+      report += `## Lifecycle Hooks (${lifecycleHooks?.length})\n`;
       const hookTypes = new Map<string, number>();
       for (const hook of lifecycleHooks) {
-        const count = hookTypes.get(hook.hook) || 0;
-        hookTypes.set(hook.hook, count + 1);
+        const count = hookTypes?.get(hook?.hook) || 0;
+        hookTypes?.set(hook?.hook, count + 1);
       }
       
       for (const [hook, count] of hookTypes) {
@@ -285,9 +285,9 @@ export class RuntimeFidelityManager {
     // Module fidelity scores
     report += `## Module Fidelity Scores\n`;
     for (const result of allResults) {
-      const score = result.fidelityScore >= 90 ? '🟢' : 
-                   result.fidelityScore >= 70 ? '🟡' : '🔴';
-      report += `- **${result.module}:** ${score} ${result.fidelityScore}% (${result.replacedMocks}/${result.totalMocks} mocks replaced)\n`;
+      const score = result?.fidelityScore >= 90 ? '🟢' : 
+                   result?.fidelityScore >= 70 ? '🟡' : '🔴';
+      report += `- **${result?.module}:** ${score} ${result?.fidelityScore}% (${result?.replacedMocks}/${result?.totalMocks} mocks replaced)\n`;
     }
 
     return report;
@@ -297,7 +297,7 @@ export class RuntimeFidelityManager {
    * Get fidelity statistics
    */
   getStats(): FidelityStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   /**
@@ -305,31 +305,31 @@ export class RuntimeFidelityManager {
    */
   getMocksByPriority(priority: 'critical' | 'high' | 'medium' | 'low'): MockImplementation[] {
     return Array.from(this.mockImplementations.values())
-      .filter((mock: any) => mock.priority === priority);
+      .filter((mock: any) => mock?.priority === priority);
   }
 
   private async findTypeScriptFiles(rootPath: string): Promise<string[]> {
     // This would find all TypeScript files
     // For now, return mock data
     return [
-      'miff/pure/CombatPure/engine.ts',
-      'miff/pure/HealthSystemPure/Manager.ts',
-      'miff/pure/MagicSystemPure/Manager.ts',
-      'miff/pure/TeamsPure/Manager.ts',
-      'miff/pure/ItemsPure/Manager.ts',
-      'miff/pure/AIPure/Manager.ts',
-      'miff/pure/LogPure/Manager.ts',
-      'miff/pure/SavePure/Manager.ts',
-      'miff/pure/StatsSystemPure/StatsManager.ts',
-      'miff/pure/UnityBridgePure/index.ts',
-      'miff/pure/GodotBridgePure/index.ts',
-      'miff/pure/WebBridgePure/index.ts'
+      'miff/pure/CombatPure/engine?.ts',
+      'miff/pure/HealthSystemPure/Manager?.ts',
+      'miff/pure/MagicSystemPure/Manager?.ts',
+      'miff/pure/TeamsPure/Manager?.ts',
+      'miff/pure/ItemsPure/Manager?.ts',
+      'miff/pure/AIPure/Manager?.ts',
+      'miff/pure/LogPure/Manager?.ts',
+      'miff/pure/SavePure/Manager?.ts',
+      'miff/pure/StatsSystemPure/StatsManager?.ts',
+      'miff/pure/UnityBridgePure/index?.ts',
+      'miff/pure/GodotBridgePure/index?.ts',
+      'miff/pure/WebBridgePure/index?.ts'
     ];
   }
 
   private async scanFileForMocks(filePath: string): Promise<MockImplementation[]> {
     const mocks: MockImplementation[] = [];
-    const module = this.extractModuleName(filePath);
+    const module = this?.extractModuleName(filePath);
     
     // This would scan the actual file content
     // For now, return mock data based on common patterns
@@ -347,14 +347,14 @@ export class RuntimeFidelityManager {
         module,
         filePath,
         lineNumber: Math.floor(Math.random() * 100) + 1,
-        type: mockPatterns[i % mockPatterns.length].type as any,
+        type: mockPatterns[i % mockPatterns?.length].type as any,
         description: `Mock implementation in ${module}`,
-        priority: mockPatterns[i % mockPatterns.length].priority as any,
+        priority: mockPatterns[i % mockPatterns?.length].priority as any,
         replacement: `// Real implementation for ${module}`,
         dependencies: [],
         estimatedEffort: Math.floor(Math.random() * 8) + 1
       };
-      mocks.push(mock);
+      mocks?.push(mock);
     }
     
     return mocks;
@@ -366,7 +366,7 @@ export class RuntimeFidelityManager {
     console.info(`Replacing mock ${mock.id} with real implementation`);
   }
 
-  private async createTransportLayer(module: string): Promise<TransportLayer> {
+  private async createTransportLayer(module: string): Promise<T extends Record<string, any>ransportLayer> {
     const transportTypes = ['websocket', 'http', 'tcp', 'udp', 'ipc'];
     const type = transportTypes[Math.floor(Math.random() * transportTypes.length)] as any;
     
@@ -415,15 +415,15 @@ export class RuntimeFidelityManager {
         description: `Real ${hookType} implementation for ${module}`,
         dependencies: []
       };
-      hooks.push(hook);
+      hooks?.push(hook);
     }
     
     return hooks;
   }
 
   private extractModuleName(filePath: string): string {
-    const parts = filePath.split('/');
-    const moduleIndex = parts.findIndex(part => part === 'pure');
+    const parts = filePath?.split('/');
+    const moduleIndex = parts?.findIndex(part => part === 'pure');
     if (moduleIndex !== -1 && parts[moduleIndex + 1]) {
       return parts[moduleIndex + 1].replace('Pure', '');
     }
@@ -432,13 +432,13 @@ export class RuntimeFidelityManager {
 
   private updateStats(): void {
     this.stats.totalModules = new Set(Array.from(this.mockImplementations.values()).map((m: any) => m.module)).size;
-    this.stats.modulesWithMocks = this.stats.totalModules;
-    this.stats.totalMocks = this.mockImplementations.size;
-    this.stats.replacedMocks = 0; // This would be updated when mocks are actually replaced
-    this.stats.averageFidelityScore = 75; // Mock score
+    this?.stats.modulesWithMocks = this?.stats.totalModules;
+    this?.stats.totalMocks = this?.mockImplementations.size;
+    this?.stats.replacedMocks = 0; // This would be updated when mocks are actually replaced
+    this?.stats.averageFidelityScore = 75; // Mock score
     this.stats.criticalMocks = Array.from(this.mockImplementations.values()).filter((m: any) => m.priority === 'critical').length;
-    this.stats.transportLayers = this.transportLayers.size;
-    this.stats.lifecycleHooks = this.lifecycleHooks.size;
+    this?.stats.transportLayers = this?.transportLayers.size;
+    this?.stats.lifecycleHooks = this?.lifecycleHooks.size;
   }
 
   private initializeStats(): FidelityStats {

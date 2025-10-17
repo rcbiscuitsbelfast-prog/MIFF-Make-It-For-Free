@@ -43,7 +43,7 @@ export class SplashScreenPure {
   private onCompleteCallback: (() => void) | null = null;
 
   constructor(config: Partial<SplashScreenConfig> = {}) {
-    this.config = {
+    this?.config = {
       duration: 3000,
       fadeInTime: 1000,
       fadeOutTime: 1000,
@@ -58,7 +58,7 @@ export class SplashScreenPure {
       ...config
     };
 
-    this.state = {
+    this?.state = {
       isVisible: false,
       isAnimating: false,
       startTime: 0,
@@ -66,64 +66,64 @@ export class SplashScreenPure {
       currentPhase: 'fade-in'
     };
 
-    this.setupEventListeners();
+    this?.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    EventBus.on('splashscreen.show', this.show.bind(this));
-    EventBus.on('splashscreen.hide', this.hide.bind(this));
-    EventBus.on('splashscreen.updateConfig', this.updateConfig.bind(this));
+    EventBus?.on('splashscreen?.show', this?.show.bind(this));
+    EventBus?.on('splashscreen?.hide', this?.hide.bind(this));
+    EventBus?.on('splashscreen?.updateConfig', this?.updateConfig.bind(this));
   }
 
   private updateConfig(newConfig: Partial<SplashScreenConfig>): void {
-    this.config = { ...this.config, ...newConfig };
-    if (this.container) {
-      this.updateVisualElements();
+    this?.config = { ...this?.config, ...newConfig };
+    if (this?.container) {
+      this?.updateVisualElements();
     }
   }
 
   public async show(onComplete?: () => void): Promise<void> {
-    if (this.state.isVisible) return;
+    if (this?.state.isVisible) return;
 
-    this.onCompleteCallback = onComplete || null;
-    this.state.isVisible = true;
-    this.state.isAnimating = true;
-    this.state.startTime = Date.now();
-    this.state.endTime = this.state.startTime + this.config.duration;
-    this.state.currentPhase = 'fade-in';
+    this?.onCompleteCallback = onComplete || null;
+    this?.state.isVisible = true;
+    this?.state.isAnimating = true;
+    this.state.startTime = new Date();
+    this?.state.endTime = this?.state.startTime + this?.config.duration;
+    this?.state.currentPhase = 'fade-in';
 
-    await this.createContainer();
-    this.renderSplashScreen();
-    this.startAnimationLoop();
+    await this?.createContainer();
+    this?.renderSplashScreen();
+    this?.startAnimationLoop();
 
     // Auto-dismiss if enabled
-    if (this.config.autoDismiss) {
+    if (this?.config.autoDismiss) {
       setTimeout(() => {
-        this.hide();
-      }, this.config.duration);
+        this?.hide();
+      }, this?.config.duration);
     }
   }
 
   public async hide(): Promise<void> {
-    if (!this.state.isVisible) return;
+    if (!this?.state.isVisible) return;
 
-    this.state.isVisible = false;
-    this.state.currentPhase = 'fade-out';
+    this?.state.isVisible = false;
+    this?.state.currentPhase = 'fade-out';
 
     // Wait for fade-out animation
-    await new Promise(resolve => setTimeout(resolve, this.config.fadeOutTime));
+    await new Promise(resolve => setTimeout(resolve, this?.config.fadeOutTime));
 
-    this.cleanup();
-    this.onCompleteCallback?.();
-    EventBus.publish('splashscreen.complete');
+    this?.cleanup();
+    this?.onCompleteCallback?.();
+    EventBus?.publish('splashscreen?.complete');
   }
 
   private createContainer(): void {
-    if (this.container) return;
+    if (this?.container) return;
 
-    this.container = document.createElement('div');
-    this.container.id = 'miff-splash-screen';
-    this.container.style.cssText = `
+    this?.container = document?.createElement('div');
+    this?.container.id = 'miff-splash-screen';
+    this?.container.style?.cssText = `
       position: fixed;
       top: 0;
       left: 0;
@@ -135,34 +135,34 @@ export class SplashScreenPure {
       align-items: center;
       z-index: 10000;
       opacity: 0;
-      transition: opacity ${this.config.fadeInTime}ms ease-in-out;
-      pointer-events: ${this.config.clickToDismiss ? 'auto' : 'none'};
-      background: ${this.config.backgroundColor};
+      transition: opacity ${this?.config.fadeInTime}ms ease-in-out;
+      pointer-events: ${this?.config.clickToDismiss ? 'auto' : 'none'};
+      background: ${this?.config.backgroundColor};
       font-family: 'JetBrains Mono', monospace, sans-serif;
       user-select: none;
     `;
 
     // Add click handler if enabled
-    if (this.config.clickToDismiss) {
-      this.container.addEventListener('click', () => {
-        if (this.state.currentPhase === 'hold') {
-          this.hide();
+    if (this?.config.clickToDismiss) {
+      this?.container.addEventListener('click', () => {
+        if (this?.state.currentPhase === 'hold') {
+          this?.hide();
         }
       });
 
-      this.container.style.cursor = 'pointer';
+      this?.container.style?.cursor = 'pointer';
     }
 
-    document.body.appendChild(this.container);
+    document?.body.appendChild(this?.container);
   }
 
   private renderSplashScreen(): void {
-    if (!this.container) return;
+    if (!this?.container) return;
 
-    const logoHtml = this.generateLogoHTML();
-    const textHtml = this.generateTextHTML();
+    const logoHtml = this?.generateLogoHTML();
+    const textHtml = this?.generateTextHTML();
 
-    this.container.innerHTML = `
+    this?.container.innerHTML = `
       <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
         ${logoHtml}
         ${textHtml}
@@ -170,22 +170,22 @@ export class SplashScreenPure {
     `;
 
     // Apply theme-specific styling
-    this.applyThemeStyling();
+    this?.applyThemeStyling();
   }
 
   private generateLogoHTML(): string {
-    if (this.config.customLogo) {
-      return `<img src="${this.config.customLogo}" alt="MIFF Logo" style="width: ${120 * this.config.logoScale}px; height: ${120 * this.config.logoScale}px; margin-bottom: 20px;">`;
+    if (this?.config.customLogo) {
+      return `<img src="${this?.config.customLogo}" alt="MIFF Logo" style="width: ${120 * this?.config.logoScale}px; height: ${120 * this?.config.logoScale}px; margin-bottom: 20px;">`;
     }
 
     return `
       <div style="margin-bottom: 20px; position: relative;">
-        <svg width="${120 * this.config.logoScale}" height="${120 * this.config.logoScale}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <svg width="${120 * this?.config.logoScale}" height="${120 * this?.config.logoScale}" viewBox="0 0 120 120" xmlns="http://www?.w3.org/2000/svg">
           <!-- Brain-shaped puzzle composed of four interlocking pieces -->
           <defs>
             <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:${this.config.accentColor};stop-opacity:0.8" />
-              <stop offset="100%" style="stop-color:${this.config.accentColor};stop-opacity:1" />
+              <stop offset="0%" style="stop-color:${this?.config.accentColor};stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:${this?.config.accentColor};stop-opacity:1" />
             </linearGradient>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -226,19 +226,19 @@ export class SplashScreenPure {
           </circle>
 
           <!-- Glow effects -->
-          <circle cx="30" cy="30" r="4" fill="${this.config.accentColor}" opacity="0.3">
+          <circle cx="30" cy="30" r="4" fill="${this?.config.accentColor}" opacity="0.3">
             <animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite"/>
           </circle>
 
-          <circle cx="50" cy="30" r="3" fill="${this.config.accentColor}" opacity="0.4">
+          <circle cx="50" cy="30" r="3" fill="${this?.config.accentColor}" opacity="0.4">
             <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.5s" repeatCount="indefinite"/>
           </circle>
 
-          <circle cx="50" cy="50" r="4" fill="${this.config.accentColor}" opacity="0.3">
+          <circle cx="50" cy="50" r="4" fill="${this?.config.accentColor}" opacity="0.3">
             <animate attributeName="opacity" values="0.1;0.4;0.1" dur="1.8s" repeatCount="indefinite"/>
           </circle>
 
-          <circle cx="30" cy="50" r="3" fill="${this.config.accentColor}" opacity="0.4">
+          <circle cx="30" cy="50" r="3" fill="${this?.config.accentColor}" opacity="0.4">
             <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.2s" repeatCount="indefinite"/>
           </circle>
         </svg>
@@ -247,66 +247,66 @@ export class SplashScreenPure {
   }
 
   private generateTextHTML(): string {
-    const textColor = this.config.textColor;
-    const accentColor = this.config.accentColor;
+    const textColor = this?.config.textColor;
+    const accentColor = this?.config.accentColor;
 
     return `
       <div style="display: flex; align-items: center; margin-bottom: 15px;">
         <h1 style="font-size: 4rem; font-weight: 900; color: ${textColor}; margin: 0; text-shadow: 0 0 20px ${accentColor}40;">MIFF</h1>
       </div>
       <h2 style="font-size: 1.5rem; font-weight: 600; color: ${textColor}; margin: 0 0 10px 0; letter-spacing: 0.1em;">MAKE IT FOR FREE</h2>
-      ${this.config.showSubtitle ? `<p style="font-size: 1rem; color: ${textColor}aa; margin: 0; opacity: 0.8;">Modular Interactive Framework for the Future</p>` : ''}
+      ${this?.config.showSubtitle ? `<p style="font-size: 1rem; color: ${textColor}aa; margin: 0; opacity: 0.8;">Modular Interactive Framework for the Future</p>` : ''}
     `;
   }
 
   private applyThemeStyling(): void {
-    if (!this.container) return;
+    if (!this?.container) return;
 
     // Apply theme-specific adjustments
-    if (this.config.theme === 'light') {
-      this.config.textColor = '#00cc66';
-      this.config.backgroundColor = '#ffffff';
-      this.config.accentColor = '#00cc66';
+    if (this?.config.theme === 'light') {
+      this?.config.textColor = '#00cc66';
+      this?.config.backgroundColor = '#ffffff';
+      this?.config.accentColor = '#00cc66';
     } else {
-      this.config.textColor = '#00ff88';
-      this.config.backgroundColor = '#000000';
-      this.config.accentColor = '#00ff88';
+      this?.config.textColor = '#00ff88';
+      this?.config.backgroundColor = '#000000';
+      this?.config.accentColor = '#00ff88';
     }
 
     // Re-render with updated theme
-    this.renderSplashScreen();
+    this?.renderSplashScreen();
   }
 
   private startAnimationLoop(): void {
     const animate = () => {
-      if (!this.state.isVisible) return;
+      if (!this?.state.isVisible) return;
 
-      const now = Date.now();
-      const elapsed = now - this.state.startTime;
-      const totalDuration = this.config.duration;
+      const now = new Date();
+      const elapsed = now - this?.state.startTime;
+      const totalDuration = this?.config.duration;
 
       // Update animation phases
-      if (elapsed < this.config.fadeInTime) {
-        this.state.currentPhase = 'fade-in';
-        const progress = elapsed / this.config.fadeInTime;
-        if (this.container) {
-          this.container.style.opacity = progress.toString();
+      if (elapsed < this?.config.fadeInTime) {
+        this?.state.currentPhase = 'fade-in';
+        const progress = elapsed / this?.config.fadeInTime;
+        if (this?.container) {
+          this?.container.style?.opacity = progress?.toString();
         }
-      } else if (elapsed < totalDuration - this.config.fadeOutTime) {
-        this.state.currentPhase = 'hold';
-        if (this.container) {
-          this.container.style.opacity = '1';
+      } else if (elapsed < totalDuration - this?.config.fadeOutTime) {
+        this?.state.currentPhase = 'hold';
+        if (this?.container) {
+          this?.container.style?.opacity = '1';
         }
       } else {
-        this.state.currentPhase = 'fade-out';
-        const fadeProgress = (elapsed - (totalDuration - this.config.fadeOutTime)) / this.config.fadeOutTime;
+        this?.state.currentPhase = 'fade-out';
+        const fadeProgress = (elapsed - (totalDuration - this?.config.fadeOutTime)) / this?.config.fadeOutTime;
         const opacity = Math.max(0, 1 - fadeProgress);
-        if (this.container) {
-          this.container.style.opacity = opacity.toString();
+        if (this?.container) {
+          this?.container.style?.opacity = opacity?.toString();
         }
       }
 
-      if (this.state.isVisible) {
+      if (this?.state.isVisible) {
         requestAnimationFrame(animate);
       }
     };
@@ -315,29 +315,29 @@ export class SplashScreenPure {
   }
 
   private cleanup(): void {
-    if (this.container && this.container.parentNode) {
-      this.container.parentNode.removeChild(this.container);
-      this.container = null;
+    if (this?.container && this?.container.parentNode) {
+      this?.container.parentNode?.removeChild(this?.container);
+      this?.container = null;
     }
-    this.state.isVisible = false;
-    this.state.isAnimating = false;
+    this?.state.isVisible = false;
+    this?.state.isAnimating = false;
   }
 
   // Public API methods
   public getConfig(): SplashScreenConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 
   public setConfig(newConfig: Partial<SplashScreenConfig>): void {
-    this.updateConfig(newConfig);
+    this?.updateConfig(newConfig);
   }
 
   public isVisible(): boolean {
-    return this.state.isVisible;
+    return this?.state.isVisible;
   }
 
   public getState(): SplashScreenState {
-    return { ...this.state };
+    return { ...this?.state };
   }
 
   // Static utility methods
@@ -358,11 +358,11 @@ export class SplashScreenPure {
   }
 
   public static injectSplashScreen(htmlContent: string, config: Partial<SplashScreenConfig> = {}): string {
-    const splashConfig = { ...this.createDefaultConfig(), ...config };
-    const splashHTML = this.generateSplashScreenHTML(splashConfig);
+    const splashConfig = { ...this?.createDefaultConfig(), ...config };
+    const splashHTML = this?.generateSplashScreenHTML(splashConfig);
 
     // Insert splash screen before closing body tag
-    return htmlContent.replace('</body>', `${splashHTML}\n</body>`);
+    return htmlContent?.replace('</body>', `${splashHTML}\n</body>`);
   }
 
   private static generateSplashScreenHTML(config: SplashScreenConfig): string {
@@ -380,52 +380,52 @@ export class SplashScreenPure {
   align-items: center;
   z-index: 10000;
   opacity: 0;
-  transition: opacity ${config.fadeInTime}ms ease-in-out;
-  pointer-events: ${config.clickToDismiss ? 'auto' : 'none'};
-  background: ${config.backgroundColor};
+  transition: opacity ${config?.fadeInTime}ms ease-in-out;
+  pointer-events: ${config?.clickToDismiss ? 'auto' : 'none'};
+  background: ${config?.backgroundColor};
   font-family: 'JetBrains Mono', monospace, sans-serif;
   user-select: none;
-  ${config.clickToDismiss ? 'cursor: pointer;' : ''}
+  ${config?.clickToDismiss ? 'cursor: pointer;' : ''}
 ">
   <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-    ${this.generateLogoHTML(config)}
-    ${this.generateTextHTML(config)}
+    ${this?.generateLogoHTML(config)}
+    ${this?.generateTextHTML(config)}
   </div>
 </div>
 
 <script>
 (function() {
-  const splashScreen = document.getElementById('miff-splash-screen');
+  const splashScreen = document?.getElementById('miff-splash-screen');
   if (!splashScreen) return;
 
-  let startTime = Date.now();
+  let startTime = new Date();
 
   // Fade in
   setTimeout(() => {
-    splashScreen.style.opacity = '1';
+    splashScreen?.style.opacity = '1';
   }, 100);
 
   // Auto-dismiss after duration
-  if (${config.autoDismiss}) {
+  if (${config?.autoDismiss}) {
     setTimeout(() => {
-      splashScreen.style.opacity = '0';
+      splashScreen?.style.opacity = '0';
       setTimeout(() => {
-        if (splashScreen.parentNode) {
-          splashScreen.parentNode.removeChild(splashScreen);
+        if (splashScreen?.parentNode) {
+          splashScreen?.parentNode.removeChild(splashScreen);
         }
-      }, ${config.fadeOutTime});
-    }, ${config.duration});
+      }, ${config?.fadeOutTime});
+    }, ${config?.duration});
   }
 
   // Click to dismiss
-  if (${config.clickToDismiss}) {
-    splashScreen.addEventListener('click', () => {
-      splashScreen.style.opacity = '0';
+  if (${config?.clickToDismiss}) {
+    splashScreen?.addEventListener('click', () => {
+      splashScreen?.style.opacity = '0';
       setTimeout(() => {
-        if (splashScreen.parentNode) {
-          splashScreen.parentNode.removeChild(splashScreen);
+        if (splashScreen?.parentNode) {
+          splashScreen?.parentNode.removeChild(splashScreen);
         }
-      }, ${config.fadeOutTime});
+      }, ${config?.fadeOutTime});
     });
   }
 })();
@@ -436,11 +436,11 @@ export class SplashScreenPure {
   private static generateLogoHTML(config: SplashScreenConfig): string {
     return `
       <div style="margin-bottom: 20px; position: relative;">
-        <svg width="${120 * config.logoScale}" height="${120 * config.logoScale}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <svg width="${120 * config?.logoScale}" height="${120 * config?.logoScale}" viewBox="0 0 120 120" xmlns="http://www?.w3.org/2000/svg">
           <defs>
             <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:${config.accentColor};stop-opacity:0.8" />
-              <stop offset="100%" style="stop-color:${config.accentColor};stop-opacity:1" />
+              <stop offset="0%" style="stop-color:${config?.accentColor};stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:${config?.accentColor};stop-opacity:1" />
             </linearGradient>
           </defs>
           <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
@@ -460,10 +460,10 @@ export class SplashScreenPure {
   private static generateTextHTML(config: SplashScreenConfig): string {
     return `
       <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <h1 style="font-size: 4rem; font-weight: 900; color: ${config.textColor}; margin: 0; text-shadow: 0 0 20px ${config.accentColor}40;">MIFF</h1>
+        <h1 style="font-size: 4rem; font-weight: 900; color: ${config?.textColor}; margin: 0; text-shadow: 0 0 20px ${config?.accentColor}40;">MIFF</h1>
       </div>
-      <h2 style="font-size: 1.5rem; font-weight: 600; color: ${config.textColor}; margin: 0 0 10px 0; letter-spacing: 0.1em;">MAKE IT FOR FREE</h2>
-      ${config.showSubtitle ? `<p style="font-size: 1rem; color: ${config.textColor}aa; margin: 0; opacity: 0.8;">Modular Interactive Framework for the Future</p>` : ''}
+      <h2 style="font-size: 1.5rem; font-weight: 600; color: ${config?.textColor}; margin: 0 0 10px 0; letter-spacing: 0.1em;">MAKE IT FOR FREE</h2>
+      ${config?.showSubtitle ? `<p style="font-size: 1rem; color: ${config?.textColor}aa; margin: 0; opacity: 0.8;">Modular Interactive Framework for the Future</p>` : ''}
     `;
   }
 }

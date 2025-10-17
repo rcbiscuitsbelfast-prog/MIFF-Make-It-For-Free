@@ -88,7 +88,7 @@ export class ButtonStyleManager {
   private currentTheme: string = 'default';
 
   constructor() {
-    this.initializeDefaultThemes();
+    this?.initializeDefaultThemes();
   }
 
   /**
@@ -96,11 +96,11 @@ export class ButtonStyleManager {
    */
   private initializeDefaultThemes(): void {
     // Default theme
-    this.addTheme({
+    this?.addTheme({
       name: 'default',
       description: 'Clean, modern button styles',
       baseStyles: {
-        [ButtonVariant.PRIMARY]: {
+        [ButtonVariant?.PRIMARY]: {
           backgroundColor: '#007bff',
           textColor: '#ffffff',
           borderColor: '#007bff',
@@ -116,7 +116,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.SECONDARY]: {
+        [ButtonVariant?.SECONDARY]: {
           backgroundColor: '#6c757d',
           textColor: '#ffffff',
           borderColor: '#6c757d',
@@ -132,7 +132,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.SUCCESS]: {
+        [ButtonVariant?.SUCCESS]: {
           backgroundColor: '#28a745',
           textColor: '#ffffff',
           borderColor: '#28a745',
@@ -148,7 +148,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.WARNING]: {
+        [ButtonVariant?.WARNING]: {
           backgroundColor: '#ffc107',
           textColor: '#212529',
           borderColor: '#ffc107',
@@ -164,7 +164,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.DANGER]: {
+        [ButtonVariant?.DANGER]: {
           backgroundColor: '#dc3545',
           textColor: '#ffffff',
           borderColor: '#dc3545',
@@ -180,7 +180,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.INFO]: {
+        [ButtonVariant?.INFO]: {
           backgroundColor: '#17a2b8',
           textColor: '#ffffff',
           borderColor: '#17a2b8',
@@ -196,7 +196,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.GHOST]: {
+        [ButtonVariant?.GHOST]: {
           backgroundColor: 'transparent',
           textColor: '#007bff',
           borderColor: 'transparent',
@@ -212,7 +212,7 @@ export class ButtonStyleManager {
           boxShadow: 'none',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.OUTLINE]: {
+        [ButtonVariant?.OUTLINE]: {
           backgroundColor: 'transparent',
           textColor: '#007bff',
           borderColor: '#007bff',
@@ -228,7 +228,7 @@ export class ButtonStyleManager {
           boxShadow: 'none',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.LINK]: {
+        [ButtonVariant?.LINK]: {
           backgroundColor: 'transparent',
           textColor: '#007bff',
           borderColor: 'transparent',
@@ -246,30 +246,30 @@ export class ButtonStyleManager {
         }
       },
       sizeMultipliers: {
-        [ButtonSize.SMALL]: 0.8,
-        [ButtonSize.MEDIUM]: 1.0,
-        [ButtonSize.LARGE]: 1.2,
-        [ButtonSize.EXTRA_LARGE]: 1.5
+        [ButtonSize?.SMALL]: 0.8,
+        [ButtonSize?.MEDIUM]: 1.0,
+        [ButtonSize?.LARGE]: 1.2,
+        [ButtonSize?.EXTRA_LARGE]: 1.5
       },
       stateModifiers: {
-        [ButtonState.NORMAL]: {},
-        [ButtonState.HOVER]: {
+        [ButtonState?.NORMAL]: {},
+        [ButtonState?.HOVER]: {
           transform: 'translateY(-1px)',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
         },
-        [ButtonState.ACTIVE]: {
+        [ButtonState?.ACTIVE]: {
           transform: 'translateY(0px)',
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)'
         },
-        [ButtonState.FOCUSED]: {
+        [ButtonState?.FOCUSED]: {
           boxShadow: '0 0 0 3px rgba(0, 123, 255, 0.25)'
         },
-        [ButtonState.DISABLED]: {
+        [ButtonState?.DISABLED]: {
           opacity: 0.6,
           cursor: 'not-allowed',
           transform: 'none'
         },
-        [ButtonState.LOADING]: {
+        [ButtonState?.LOADING]: {
           opacity: 0.8,
           cursor: 'wait'
         }
@@ -283,11 +283,11 @@ export class ButtonStyleManager {
     });
 
     // Dark theme
-    this.addTheme({
+    this?.addTheme({
       name: 'dark',
       description: 'Dark theme for low-light environments',
       baseStyles: {
-        [ButtonVariant.PRIMARY]: {
+        [ButtonVariant?.PRIMARY]: {
           backgroundColor: '#0d6efd',
           textColor: '#ffffff',
           borderColor: '#0d6efd',
@@ -303,7 +303,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.SECONDARY]: {
+        [ButtonVariant?.SECONDARY]: {
           backgroundColor: '#6c757d',
           textColor: '#ffffff',
           borderColor: '#6c757d',
@@ -319,7 +319,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.SUCCESS]: {
+        [ButtonVariant?.SUCCESS]: {
           backgroundColor: '#198754',
           textColor: '#ffffff',
           borderColor: '#198754',
@@ -335,7 +335,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.WARNING]: {
+        [ButtonVariant?.WARNING]: {
           backgroundColor: '#fd7e14',
           textColor: '#000000',
           borderColor: '#fd7e14',
@@ -351,7 +351,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.DANGER]: {
+        [ButtonVariant?.DANGER]: {
           backgroundColor: '#dc3545',
           textColor: '#ffffff',
           borderColor: '#dc3545',
@@ -367,7 +367,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.INFO]: {
+        [ButtonVariant?.INFO]: {
           backgroundColor: '#0dcaf0',
           textColor: '#000000',
           borderColor: '#0dcaf0',
@@ -383,7 +383,7 @@ export class ButtonStyleManager {
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.GHOST]: {
+        [ButtonVariant?.GHOST]: {
           backgroundColor: 'transparent',
           textColor: '#0d6efd',
           borderColor: 'transparent',
@@ -399,7 +399,7 @@ export class ButtonStyleManager {
           boxShadow: 'none',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.OUTLINE]: {
+        [ButtonVariant?.OUTLINE]: {
           backgroundColor: 'transparent',
           textColor: '#0d6efd',
           borderColor: '#0d6efd',
@@ -415,7 +415,7 @@ export class ButtonStyleManager {
           boxShadow: 'none',
           transition: 'all 0.2s ease'
         },
-        [ButtonVariant.LINK]: {
+        [ButtonVariant?.LINK]: {
           backgroundColor: 'transparent',
           textColor: '#0d6efd',
           borderColor: 'transparent',
@@ -433,30 +433,30 @@ export class ButtonStyleManager {
         }
       },
       sizeMultipliers: {
-        [ButtonSize.SMALL]: 0.8,
-        [ButtonSize.MEDIUM]: 1.0,
-        [ButtonSize.LARGE]: 1.2,
-        [ButtonSize.EXTRA_LARGE]: 1.5
+        [ButtonSize?.SMALL]: 0.8,
+        [ButtonSize?.MEDIUM]: 1.0,
+        [ButtonSize?.LARGE]: 1.2,
+        [ButtonSize?.EXTRA_LARGE]: 1.5
       },
       stateModifiers: {
-        [ButtonState.NORMAL]: {},
-        [ButtonState.HOVER]: {
+        [ButtonState?.NORMAL]: {},
+        [ButtonState?.HOVER]: {
           transform: 'translateY(-1px)',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.4)'
         },
-        [ButtonState.ACTIVE]: {
+        [ButtonState?.ACTIVE]: {
           transform: 'translateY(0px)',
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
         },
-        [ButtonState.FOCUSED]: {
+        [ButtonState?.FOCUSED]: {
           boxShadow: '0 0 0 3px rgba(13, 110, 253, 0.25)'
         },
-        [ButtonState.DISABLED]: {
+        [ButtonState?.DISABLED]: {
           opacity: 0.4,
           cursor: 'not-allowed',
           transform: 'none'
         },
-        [ButtonState.LOADING]: {
+        [ButtonState?.LOADING]: {
           opacity: 0.6,
           cursor: 'wait'
         }
@@ -474,22 +474,22 @@ export class ButtonStyleManager {
    * Add a new theme
    */
   addTheme(theme: ButtonTheme): void {
-    this.themes.set(theme.name, theme);
+    this?.themes.set(theme?.name, theme);
   }
 
   /**
    * Get a theme by name
    */
   getTheme(name: string): ButtonTheme | undefined {
-    return this.themes.get(name);
+    return this?.themes.get(name);
   }
 
   /**
    * Set the current theme
    */
   setCurrentTheme(name: string): boolean {
-    if (!this.themes.has(name)) return false;
-    this.currentTheme = name;
+    if (!this?.themes.has(name)) return false;
+    this?.currentTheme = name;
     return true;
   }
 
@@ -497,7 +497,7 @@ export class ButtonStyleManager {
    * Get the current theme
    */
   getCurrentTheme(): ButtonTheme | undefined {
-    return this.themes.get(this.currentTheme);
+    return this?.themes.get(this?.currentTheme);
   }
 
   /**
@@ -506,26 +506,26 @@ export class ButtonStyleManager {
   generateStyle(
     variant: ButtonVariant,
     size: ButtonSize,
-    state: ButtonState = ButtonState.NORMAL,
+    state: ButtonState = ButtonState?.NORMAL,
     customOverrides?: Partial<ButtonStyle>
   ): ButtonStyle {
-    const theme = this.getCurrentTheme();
+    const theme = this?.getCurrentTheme();
     if (!theme) {
       throw new Error('No theme available');
     }
 
     // Start with base style for variant
-    const baseStyle = theme.baseStyles[variant!];
+    const baseStyle = theme?.baseStyles[variant!];
     if (!baseStyle) {
       throw new Error(`Variant ${variant} not found in theme`);
     }
 
     // Apply size multiplier
-    const sizeMultiplier = theme.sizeMultipliers[size!] || 1.0;
-    const scaledStyle = this.applySizeMultiplier(baseStyle, sizeMultiplier);
+    const sizeMultiplier = theme?.sizeMultipliers[size!] || 1.0;
+    const scaledStyle = this?.applySizeMultiplier(baseStyle, sizeMultiplier);
 
     // Apply state modifiers
-    const stateModifier = theme.stateModifiers[state!] || {};
+    const stateModifier = theme?.stateModifiers[state!] || {};
     const stateStyle = { ...scaledStyle, ...stateModifier };
 
     // Apply custom overrides
@@ -540,15 +540,15 @@ export class ButtonStyleManager {
   private applySizeMultiplier(style: Partial<ButtonStyle>, multiplier: number): Partial<ButtonStyle> {
     return {
       ...style,
-      padding: style.padding ? {
-        top: style.padding.top * multiplier,
-        right: style.padding.right * multiplier,
-        bottom: style.padding.bottom * multiplier,
-        left: style.padding.left * multiplier
+      padding: style?.padding ? {
+        top: style?.padding.top * multiplier,
+        right: style?.padding.right * multiplier,
+        bottom: style?.padding.bottom * multiplier,
+        left: style?.padding.left * multiplier
       } : undefined,
-      fontSize: style.fontSize ? style.fontSize * multiplier : undefined,
-      borderRadius: style.borderRadius ? style.borderRadius * multiplier : undefined,
-      borderWidth: style.borderWidth ? style.borderWidth * multiplier : undefined
+      fontSize: style?.fontSize ? style?.fontSize * multiplier : undefined,
+      borderRadius: style?.borderRadius ? style?.borderRadius * multiplier : undefined,
+      borderWidth: style?.borderWidth ? style?.borderWidth * multiplier : undefined
     };
   }
 
@@ -557,19 +557,19 @@ export class ButtonStyleManager {
    */
   generateCSS(style: ButtonStyle): string {
     const css = `
-      background-color: ${style.backgroundColor};
-      color: ${style.textColor};
-      border: ${style.borderWidth}px solid ${style.borderColor};
-      border-radius: ${style.borderRadius}px;
-      padding: ${style.padding.top}px ${style.padding.right}px ${style.padding.bottom}px ${style.padding.left}px;
-      font-size: ${style.fontSize}px;
-      font-weight: ${style.fontWeight};
-      text-align: ${style.textAlign};
-      cursor: ${style.cursor};
-      opacity: ${style.opacity};
-      transform: ${style.transform};
-      box-shadow: ${style.boxShadow};
-      transition: ${style.transition};
+      background-color: ${style?.backgroundColor};
+      color: ${style?.textColor};
+      border: ${style?.borderWidth}px solid ${style?.borderColor};
+      border-radius: ${style?.borderRadius}px;
+      padding: ${style?.padding.top}px ${style?.padding.right}px ${style?.padding.bottom}px ${style?.padding.left}px;
+      font-size: ${style?.fontSize}px;
+      font-weight: ${style?.fontWeight};
+      text-align: ${style?.textAlign};
+      cursor: ${style?.cursor};
+      opacity: ${style?.opacity};
+      transform: ${style?.transform};
+      box-shadow: ${style?.boxShadow};
+      transition: ${style?.transition};
     `.trim();
 
     return css;
@@ -581,11 +581,11 @@ export class ButtonStyleManager {
   generateCSSClass(
     variant: ButtonVariant,
     size: ButtonSize,
-    state: ButtonState = ButtonState.NORMAL,
+    state: ButtonState = ButtonState?.NORMAL,
     customOverrides?: Partial<ButtonStyle>
   ): string {
-    const style = this.generateStyle(variant, size, state, customOverrides);
-    return this.generateCSS(style);
+    const style = this?.generateStyle(variant, size, state, customOverrides);
+    return this?.generateCSS(style);
   }
 
   /**
@@ -620,7 +620,7 @@ export class ButtonStyleManager {
    * Export theme configuration
    */
   exportTheme(name: string): string | null {
-    const theme = this.themes.get(name);
+    const theme = this?.themes.get(name);
     if (!theme) return null;
     
     return JSON.stringify(theme, null, 2);
@@ -632,7 +632,7 @@ export class ButtonStyleManager {
   importTheme(themeJson: string): boolean {
     try {
       const theme = JSON.parse(themeJson) as ButtonTheme;
-      this.addTheme(theme);
+      this?.addTheme(theme);
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));

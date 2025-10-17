@@ -54,71 +54,71 @@ export class AvatarSystemPure {
     }
 
     // Validate style
-    if (!AvatarSystemPure.SUPPORTED_STYLES.includes(manifest.style)) {
-      errors.push(`Unsupported style: ${manifest.style}. Supported: ${AvatarSystemPure.SUPPORTED_STYLES.join(', ')}`);
+    if (!AvatarSystemPure?.SUPPORTED_STYLES.includes(manifest?.style)) {
+      errors?.push(`Unsupported style: ${manifest?.style}. Supported: ${AvatarSystemPure?.SUPPORTED_STYLES.join(', ')}`);
     }
 
     // Validate clothing array
     if (!Array.isArray(manifest.clothing)) {
-      errors.push('clothing must be an array');
+      errors?.push('clothing must be an array');
     }
 
     // Validate base
-    if (!manifest.base || typeof manifest.base !== 'string') {
-      errors.push('base must be a non-empty string');
+    if (!manifest?.base || typeof manifest?.base !== 'string') {
+      errors?.push('base must be a non-empty string');
     }
 
     // Validate face
-    if (!manifest.face || typeof manifest.face !== 'string') {
-      errors.push('face must be a non-empty string');
+    if (!manifest?.face || typeof manifest?.face !== 'string') {
+      errors?.push('face must be a non-empty string');
     }
 
     // Validate customization if present
-    if (manifest.customization) {
-      const customErrors = AvatarSystemPure.validateCustomization(manifest.customization);
-      errors.push(...customErrors);
+    if (manifest?.customization) {
+      const customErrors = AvatarSystemPure?.validateCustomization(manifest?.customization);
+      errors?.push(...customErrors);
     }
 
     // Validate animation if present
-    if (manifest.animation) {
-      const animErrors = AvatarSystemPure.validateAnimation(manifest.animation);
-      errors.push(...animErrors);
+    if (manifest?.animation) {
+      const animErrors = AvatarSystemPure?.validateAnimation(manifest?.animation);
+      errors?.push(...animErrors);
     }
 
     // Validate performance options
-    if (manifest.performance) {
-      if (manifest.performance.polyCount && manifest.performance.polyCount < 0) {
-        errors.push('polyCount must be non-negative');
+    if (manifest?.performance) {
+      if (manifest?.performance.polyCount && manifest?.performance.polyCount < 0) {
+        errors?.push('polyCount must be non-negative');
       }
-      if (manifest.performance.lodLevels && manifest.performance.lodLevels < 1) {
-        errors.push('lodLevels must be at least 1');
+      if (manifest?.performance.lodLevels && manifest?.performance.lodLevels < 1) {
+        errors?.push('lodLevels must be at least 1');
       }
     }
 
-    return { ok: errors.length === 0, errors };
+    return { ok: errors?.length === 0, errors };
   }
 
   private static validateCustomization(customization: AvatarCustomization): string[] {
     const errors: string[] = [];
 
-    if (customization.skinTone && !/^[a-f0-9]{6}$/i.test(customization.skinTone)) {
-      errors.push('skinTone must be a valid hex color');
+    if (customization?.skinTone && !/^[a-f0-9]{6}$/i?.test(customization?.skinTone)) {
+      errors?.push('skinTone must be a valid hex color');
     }
 
-    if (customization.hairColor && !/^[a-f0-9]{6}$/i.test(customization.hairColor)) {
-      errors.push('hairColor must be a valid hex color');
+    if (customization?.hairColor && !/^[a-f0-9]{6}$/i?.test(customization?.hairColor)) {
+      errors?.push('hairColor must be a valid hex color');
     }
 
-    if (customization.eyeColor && !/^[a-f0-9]{6}$/i.test(customization.eyeColor)) {
-      errors.push('eyeColor must be a valid hex color');
+    if (customization?.eyeColor && !/^[a-f0-9]{6}$/i?.test(customization?.eyeColor)) {
+      errors?.push('eyeColor must be a valid hex color');
     }
 
-    if (customization.bodyScale && (customization.bodyScale <= 0 || customization.bodyScale > 2)) {
-      errors.push('bodyScale must be between 0 and 2');
+    if (customization?.bodyScale && (customization?.bodyScale <= 0 || customization?.bodyScale > 2)) {
+      errors?.push('bodyScale must be between 0 and 2');
     }
 
-    if (customization.height && customization.height <= 0) {
-      errors.push('height must be positive');
+    if (customization?.height && customization?.height <= 0) {
+      errors?.push('height must be positive');
     }
 
     return errors;
@@ -127,24 +127,24 @@ export class AvatarSystemPure {
   private static validateAnimation(animation: AvatarAnimation): string[] {
     const errors: string[] = [];
 
-    for (const state of AvatarSystemPure.ANIMATION_STATES) {
+    for (const state of AvatarSystemPure?.ANIMATION_STATES) {
       if (animation[state as keyof AvatarAnimation] && typeof animation[state as keyof AvatarAnimation] !== 'string') {
-        errors.push(`${state} animation must be a string URL`);
+        errors?.push(`${state} animation must be a string URL`);
       }
     }
 
-    if (animation.emote) {
+    if (animation?.emote) {
       for (const [key, value] of Object.entries(animation.emote)) {
         if (typeof value !== 'string') {
-          errors.push(`emote.${key} must be a string URL`);
+          errors?.push(`emote.${key} must be a string URL`);
         }
       }
     }
 
-    if (animation.parameters) {
+    if (animation?.parameters) {
       for (const [key, value] of Object.entries(animation.parameters)) {
         if (typeof value !== 'number') {
-          errors.push(`animation parameter ${key} must be a number`);
+          errors?.push(`animation parameter ${key} must be a number`);
         }
       }
     }
@@ -155,28 +155,28 @@ export class AvatarSystemPure {
   public static validateComponent(component: AvatarComponent): { ok: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!AvatarSystemPure.COMPONENT_KINDS.includes(component.kind)) {
-      errors.push(`Invalid component kind: ${component.kind}`);
+    if (!AvatarSystemPure?.COMPONENT_KINDS.includes(component?.kind)) {
+      errors?.push(`Invalid component kind: ${component?.kind}`);
     }
 
-    if (!component.id || typeof component.id !== 'string') {
-      errors.push('Component id must be a non-empty string');
+    if (!component?.id || typeof component?.id !== 'string') {
+      errors?.push('Component id must be a non-empty string');
     }
 
-    if (component.variant && typeof component.variant !== 'string') {
-      errors.push('Component variant must be a string');
+    if (component?.variant && typeof component?.variant !== 'string') {
+      errors?.push('Component variant must be a string');
     }
 
-    if (component.color && !/^[a-f0-9]{6}$/i.test(component.color)) {
-      errors.push('Component color must be a valid hex color');
+    if (component?.color && !/^[a-f0-9]{6}$/i?.test(component?.color)) {
+      errors?.push('Component color must be a valid hex color');
     }
 
-    if (component.animation) {
-      const animErrors = AvatarSystemPure.validateAnimation(component.animation);
-      errors.push(...animErrors.map((e: any) => `animation: ${e}`));
+    if (component?.animation) {
+      const animErrors = AvatarSystemPure?.validateAnimation(component?.animation);
+      errors?.push(...animErrors?.map((e: any) => `animation: ${e}`));
     }
 
-    return { ok: errors.length === 0, errors };
+    return { ok: errors?.length === 0, errors };
   }
 
   public static translateStyle(manifest: AvatarManifest, to: AvatarStyle): AvatarManifest {
@@ -184,38 +184,38 @@ export class AvatarSystemPure {
   }
 
   public static resolve(manifest: AvatarManifest, opts: ResolveOptions): ResolvedAvatar {
-    const components = AvatarSystemPure.toComponents(manifest);
+    const components = AvatarSystemPure?.toComponents(manifest);
     const entries: Array<{ anchor: string; url: string; meta?: Record<string, unknown> }> = [];
 
     for (const comp of components) {
-      const anchor = AvatarSystemPure.anchorFor(comp);
-      const url = AvatarSystemPure.findAssetURL(anchor, opts.registry, opts.style);
-      entries.push({
+      const anchor = AvatarSystemPure?.anchorFor(comp);
+      const url = AvatarSystemPure?.findAssetURL(anchor, opts?.registry, opts?.style);
+      entries?.push({
         anchor,
         url,
         meta: {
-          component: comp.id,
-          variant: comp.variant,
-          color: comp.color,
-          material: comp.material,
-          animation: comp.animation
+          component: comp?.id,
+          variant: comp?.variant,
+          color: comp?.color,
+          material: comp?.material,
+          animation: comp?.animation
         }
       });
     }
 
     // Generate render data
-    const renderData = AvatarSystemPure.generateRenderData(manifest, components, opts.style);
+    const renderData = AvatarSystemPure?.generateRenderData(manifest, components, opts?.style);
 
     // Generate animation state
-    const animationState = AvatarSystemPure.generateAnimationState(manifest);
+    const animationState = AvatarSystemPure?.generateAnimationState(manifest);
 
     // Generate optimizations
-    const optimizations = AvatarSystemPure.generateOptimizations(manifest, opts.registry);
+    const optimizations = AvatarSystemPure?.generateOptimizations(manifest, opts?.registry);
 
     return {
       manifest,
       components,
-      assets: { style: opts.style, entries },
+      assets: { style: opts?.style, entries },
       renderData,
       animationState,
       optimizations
@@ -227,17 +227,17 @@ export class AvatarSystemPure {
     components: AvatarComponent[],
     style: AvatarStyle
   ): AvatarRenderData {
-    const bounds = AvatarSystemPure.calculateBounds(components, style);
-    const materials = AvatarSystemPure.generateMaterials(manifest, components);
-    const textures = AvatarSystemPure.generateTextures(manifest, components);
-    const meshes = AvatarSystemPure.generateMeshes(components, style);
+    const bounds = AvatarSystemPure?.calculateBounds(components, style);
+    const materials = AvatarSystemPure?.generateMaterials(manifest, components);
+    const textures = AvatarSystemPure?.generateTextures(manifest, components);
+    const meshes = AvatarSystemPure?.generateMeshes(components, style);
 
     return {
       bounds,
       materials,
       textures,
       meshes,
-      lodDistances: AvatarSystemPure.generateLODDistances(manifest)
+      lodDistances: AvatarSystemPure?.generateLODDistances(manifest)
     };
   }
 
@@ -251,13 +251,13 @@ export class AvatarSystemPure {
     // Adjust based on style
     switch (style) {
       case '3d':
-        return { ...baseBounds, min: { ...baseBounds.min, y: -0.2 }, max: { ...baseBounds.max, y: 2.0 } };
+        return { ...baseBounds, min: { ...baseBounds?.min, y: -0.2 }, max: { ...baseBounds?.max, y: 2.0 } };
       case '2d-side':
-        return { ...baseBounds, min: { ...baseBounds.min, z: 0 }, max: { ...baseBounds.max, z: 0 } };
+        return { ...baseBounds, min: { ...baseBounds?.min, z: 0 }, max: { ...baseBounds?.max, z: 0 } };
       case 'pixel-art':
-        return { ...baseBounds, min: { ...baseBounds.min, x: -0.4, z: -0.4 }, max: { ...baseBounds.max, x: 0.4, z: 0.4 } };
+        return { ...baseBounds, min: { ...baseBounds?.min, x: -0.4, z: -0.4 }, max: { ...baseBounds?.max, x: 0.4, z: 0.4 } };
       case 'voxel':
-        return { ...baseBounds, min: { ...baseBounds.min, x: -0.3, z: -0.3 }, max: { ...baseBounds.max, x: 0.3, z: 0.3 } };
+        return { ...baseBounds, min: { ...baseBounds?.min, x: -0.3, z: -0.3 }, max: { ...baseBounds?.max, x: 0.3, z: 0.3 } };
       default:
         return baseBounds;
     }
@@ -267,24 +267,24 @@ export class AvatarSystemPure {
     const materials: AvatarMaterial[] = [];
 
     // Base material
-    materials.push({
+    materials?.push({
       id: 'body',
       name: 'Body Material',
-      diffuse: `avatars/${manifest.base}/body_diffuse.png`,
-      normal: `avatars/${manifest.base}/body_normal.png`,
-      specular: `avatars/${manifest.base}/body_specular.png`,
+      diffuse: `avatars/${manifest?.base}/body_diffuse?.png`,
+      normal: `avatars/${manifest?.base}/body_normal?.png`,
+      specular: `avatars/${manifest?.base}/body_specular?.png`,
       metallic: 0.0,
       roughness: 0.8,
       opacity: 1.0
     });
 
     // Clothing materials
-    for (const clothing of manifest.clothing) {
-      materials.push({
+    for (const clothing of manifest?.clothing) {
+      materials?.push({
         id: `clothing_${clothing}`,
         name: `${clothing} Material`,
-        diffuse: `avatars/clothing/${clothing}_diffuse.png`,
-        normal: `avatars/clothing/${clothing}_normal.png`,
+        diffuse: `avatars/clothing/${clothing}_diffuse?.png`,
+        normal: `avatars/clothing/${clothing}_normal?.png`,
         metallic: 0.0,
         roughness: 0.9,
         opacity: 1.0
@@ -292,11 +292,11 @@ export class AvatarSystemPure {
     }
 
     // Face material
-    materials.push({
+    materials?.push({
       id: 'face',
       name: 'Face Material',
-      diffuse: `avatars/faces/${manifest.face}_diffuse.png`,
-      normal: `avatars/faces/${manifest.face}_normal.png`,
+      diffuse: `avatars/faces/${manifest?.face}_diffuse?.png`,
+      normal: `avatars/faces/${manifest?.face}_normal?.png`,
       metallic: 0.0,
       roughness: 0.6,
       opacity: 1.0
@@ -309,9 +309,9 @@ export class AvatarSystemPure {
     const textures: AvatarTexture[] = [];
 
     // Body texture
-    textures.push({
+    textures?.push({
       id: 'body_diffuse',
-      url: `avatars/${manifest.base}/body_diffuse.png`,
+      url: `avatars/${manifest?.base}/body_diffuse?.png`,
       type: 'diffuse',
       size: { width: 512, height: 512 },
       format: 'png',
@@ -319,10 +319,10 @@ export class AvatarSystemPure {
     });
 
     // Clothing textures
-    for (const clothing of manifest.clothing) {
-      textures.push({
+    for (const clothing of manifest?.clothing) {
+      textures?.push({
         id: `clothing_${clothing}_diffuse`,
-        url: `avatars/clothing/${clothing}_diffuse.png`,
+        url: `avatars/clothing/${clothing}_diffuse?.png`,
         type: 'diffuse',
         size: { width: 256, height: 256 },
         format: 'png',
@@ -337,7 +337,7 @@ export class AvatarSystemPure {
     const meshes: AvatarMesh[] = [];
 
     // Base mesh
-    meshes.push({
+    meshes?.push({
       id: 'body',
       vertices: style === '3d' ? 1024 : 256,
       triangles: style === '3d' ? 2048 : 512,
@@ -347,9 +347,9 @@ export class AvatarSystemPure {
     });
 
     // Clothing meshes
-    for (const clothing of components.filter((c: any) => c.kind === 'shirt' || c.kind === 'cloak')) {
-      meshes.push({
-        id: `clothing_${clothing.id}`,
+    for (const clothing of components?.filter((c: any) => c?.kind === 'shirt' || c?.kind === 'cloak')) {
+      meshes?.push({
+        id: `clothing_${clothing?.id}`,
         vertices: 512,
         triangles: 1024,
         uvs: 2
@@ -360,7 +360,7 @@ export class AvatarSystemPure {
   }
 
   private static generateLODDistances(manifest: AvatarManifest): number[] {
-    const lodLevels = manifest.performance?.lodLevels || 3;
+    const lodLevels = manifest?.performance?.lodLevels || 3;
     const baseDistance = 10;
 
     const distances: number[] = [];
@@ -403,12 +403,12 @@ export class AvatarSystemPure {
 
   private static generateOptimizations(manifest: AvatarManifest, registry: AvatarRegistry): AvatarOptimizations {
     return {
-      instancing: manifest.performance?.gpuInstancing ?? true,
+      instancing: manifest?.performance?.gpuInstancing ?? true,
       culling: true,
-      lod: (manifest.performance?.lodLevels ?? 1) > 1,
+      lod: (manifest?.performance?.lodLevels ?? 1) > 1,
       compression: true,
-      streaming: manifest.performance?.textureSize === 'high',
-      gpuSkinning: manifest.style === 'skeletal',
+      streaming: manifest?.performance?.textureSize === 'high',
+      gpuSkinning: manifest?.style === 'skeletal',
       textureAtlas: true
     };
   }
@@ -417,55 +417,55 @@ export class AvatarSystemPure {
     const components: AvatarComponent[] = [];
 
     // Base components
-    components.push(
+    components?.push(
       {
         kind: 'head',
-        id: `${manifest.base}_head`,
+        id: `${manifest?.base}_head`,
         variant: 'default',
         metadata: { base: true, required: true }
       },
       {
         kind: 'torso',
-        id: `${manifest.base}_torso`,
+        id: `${manifest?.base}_torso`,
         variant: 'default',
         metadata: { base: true, required: true }
       },
       {
         kind: 'legs',
-        id: `${manifest.base}_legs`,
+        id: `${manifest?.base}_legs`,
         variant: 'default',
         metadata: { base: true, required: true }
       }
     );
 
     // Face components
-    components.push({
+    components?.push({
       kind: 'eyes',
-      id: `eyes_${manifest.face}`,
+      id: `eyes_${manifest?.face}`,
       variant: 'default',
-      metadata: { facial: true, expression: manifest.face }
+      metadata: { facial: true, expression: manifest?.face }
     });
 
-    components.push({
+    components?.push({
       kind: 'mouth',
-      id: `mouth_${manifest.face}`,
+      id: `mouth_${manifest?.face}`,
       variant: 'default',
-      metadata: { facial: true, expression: manifest.face }
+      metadata: { facial: true, expression: manifest?.face }
     });
 
     // Hair component (if specified in layers)
-    if (manifest.layers?.hair) {
-      components.push({
+    if (manifest?.layers?.hair) {
+      components?.push({
         kind: 'hair',
-        id: manifest.layers.hair,
+        id: manifest?.layers.hair,
         variant: 'default',
         metadata: { customizable: true }
       });
     }
 
     // Clothing components
-    for (const clothing of (manifest.clothing || [])) {
-      components.push({
+    for (const clothing of (manifest?.clothing || [])) {
+      components?.push({
         kind: 'shirt',
         id: clothing,
         variant: 'default',
@@ -474,9 +474,9 @@ export class AvatarSystemPure {
     }
 
     // Accessories from layers
-    if (manifest.layers?.accessories) {
-      for (const accessory of manifest.layers.accessories) {
-        components.push({
+    if (manifest?.layers?.accessories) {
+      for (const accessory of manifest?.layers.accessories) {
+        components?.push({
           kind: 'accessory',
           id: accessory,
           variant: 'default',
@@ -486,13 +486,13 @@ export class AvatarSystemPure {
     }
 
     // Add customization components
-    if (manifest.customization) {
-      AvatarSystemPure.applyCustomization(components, manifest.customization);
+    if (manifest?.customization) {
+      AvatarSystemPure?.applyCustomization(components, manifest?.customization);
     }
 
     // Add animation to applicable components
-    if (manifest.animation) {
-      AvatarSystemPure.applyAnimation(components, manifest.animation);
+    if (manifest?.animation) {
+      AvatarSystemPure?.applyAnimation(components, manifest?.animation);
     }
 
     return components;
@@ -500,27 +500,27 @@ export class AvatarSystemPure {
 
   private static applyCustomization(components: AvatarComponent[], customization: AvatarCustomization): void {
     // Apply skin tone to body components
-    if (customization.skinTone) {
-      const bodyComponents = components.filter((c: any) => ['head', 'torso', 'legs'].includes(c.kind));
+    if (customization?.skinTone) {
+      const bodyComponents = components?.filter((c: any) => ['head', 'torso', 'legs'].includes(c?.kind));
       for (const component of bodyComponents) {
-        component.color = customization.skinTone;
-        component.metadata = { ...component.metadata, skinTone: customization.skinTone };
+        component?.color = customization?.skinTone;
+        component?.metadata = { ...component?.metadata, skinTone: customization?.skinTone };
       }
     }
 
     // Apply hair color to hair components
-    if (customization.hairColor) {
-      const hairComponents = components.filter((c: any) => c.kind === 'hair');
+    if (customization?.hairColor) {
+      const hairComponents = components?.filter((c: any) => c?.kind === 'hair');
       for (const component of hairComponents) {
-        component.color = customization.hairColor;
-        component.metadata = { ...component.metadata, hairColor: customization.hairColor };
+        component?.color = customization?.hairColor;
+        component?.metadata = { ...component?.metadata, hairColor: customization?.hairColor };
       }
     }
 
     // Apply body scaling
-    if (customization.bodyScale) {
+    if (customization?.bodyScale) {
       for (const component of components) {
-        component.metadata = { ...component.metadata, bodyScale: customization.bodyScale };
+        component?.metadata = { ...component?.metadata, bodyScale: customization?.bodyScale };
       }
     }
   }
@@ -528,17 +528,17 @@ export class AvatarSystemPure {
   private static applyAnimation(components: AvatarComponent[], animation: AvatarAnimation): void {
     // Apply animation to all components
     for (const component of components) {
-      component.animation = {
-        idle: animation.idle,
-        walk: animation.walk,
-        run: animation.run,
-        attack: animation.attack,
-        defend: animation.defend,
-        cast: animation.cast,
-        death: animation.death,
-        victory: animation.victory,
-        emote: animation.emote,
-        parameters: animation.parameters
+      component?.animation = {
+        idle: animation?.idle,
+        walk: animation?.walk,
+        run: animation?.run,
+        attack: animation?.attack,
+        defend: animation?.defend,
+        cast: animation?.cast,
+        death: animation?.death,
+        victory: animation?.victory,
+        emote: animation?.emote,
+        parameters: animation?.parameters
       };
     }
   }
@@ -548,7 +548,7 @@ export type AvatarComponentKind = 'head' | 'torso' | 'legs' | 'boots' | 'shirt' 
 
 export namespace AvatarSystemPure {
   export function anchorFor(comp: { kind: AvatarComponentKind; id: string }): string {
-    switch (comp.kind) {
+    switch (comp?.kind) {
       case 'head': return 'anchor_head';
       case 'torso': return 'anchor_torso';
       case 'legs': return 'anchor_legs';
@@ -567,8 +567,8 @@ export namespace AvatarSystemPure {
 
   export function findAssetURL(anchor: string, registry: AvatarRegistry, style: AvatarStyle): string {
     // Fallback chain: registry -> procedural -> template -> AI -> placeholder
-    for (const item of registry.items) {
-      const url = item.anchors[`${style}:${anchor}`] || item.anchors[anchor] || '';
+    for (const item of registry?.items) {
+      const url = item?.anchors[`${style}:${anchor}`] || item?.anchors[anchor] || '';
       if (url) return url;
     }
     // Procedural

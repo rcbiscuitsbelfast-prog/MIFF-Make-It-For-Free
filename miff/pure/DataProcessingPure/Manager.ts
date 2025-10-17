@@ -463,13 +463,13 @@ export class DataProcessingManager {
   constructor(config?: Partial<DataProcessingConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.logger = StructuredLogger.getInstance('DataProcessingManager');
-    this.startTime = Date.now();
+    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this?.memoryManager = new MemoryManager({});
+    this?.errorHandler = new StandardErrorHandler({});
+    this?.logger = StructuredLogger?.getInstance('DataProcessingManager');
+    this.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enableMultiPipelineSupport: true,
       enableDataTransformation: true,
       enablePerformanceOptimization: true,
@@ -488,30 +488,30 @@ export class DataProcessingManager {
    * Initialize the Data Processing System
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      StructuredLogger.warn('DataProcessingPure' ?? 'unknown', { context: { message: 'Data Processing System already initialized' } });
+    if (this?.isInitialized) {
+      StructuredLogger?.warn('DataProcessingPure' ?? 'unknown', { context: { message: 'Data Processing System already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('DataProcessingPure', { context: { message: 'Initializing Data Processing System...' } });
+      StructuredLogger?.info('DataProcessingPure', { context: { message: 'Initializing Data Processing System...' } });
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this?.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this.config.enableProfiling) {
+      if (this?.config.enableProfiling) {
         // MemoryManager initialization handled internally
       }
 
-      this.isInitialized = true;
-      StructuredLogger.info('DataProcessingPure', { context: { message: 'Data Processing System initialized successfully' } });
+      this?.isInitialized = true;
+      StructuredLogger?.info('DataProcessingPure', { context: { message: 'Data Processing System initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -520,14 +520,14 @@ export class DataProcessingManager {
    * Create a new data processing system
    */
   async createSystem(systemData: Omit<DataProcessing, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<DataProcessing> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
       const system: DataProcessing = {
         ...systemData,
-        id: this.generateSystemId(),
+        id: this?.generateSystemId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -543,15 +543,15 @@ export class DataProcessingManager {
         }
       };
 
-      this.systems.set(system.id, system);
-      this.updateAnalytics();
+      this?.systems.set(system?.id, system);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Data processing system created', { context: { message: { systemId: system.id, systemName: system.name } } });
+      StructuredLogger?.info('Data processing system created', { context: { message: { systemId: system?.id, systemName: system?.name } } });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -560,25 +560,25 @@ export class DataProcessingManager {
    * Get a data processing system by ID
    */
   getSystem(systemId: string): DataProcessing | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
-    return this.systems.get(systemId) || null;
+    return this?.systems.get(systemId) || null;
   }
 
   /**
    * Update a data processing system
    */
   async updateSystem(systemId: string, updates: Partial<DataProcessing>): Promise<DataProcessing | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -586,18 +586,18 @@ export class DataProcessingManager {
         ...system,
         ...updates,
         updatedAt: new Date(),
-        version: this.incrementVersion(system.version)
+        version: this?.incrementVersion(system?.version)
       };
 
-      this.systems.set(systemId, updatedSystem);
-      this.updateAnalytics();
+      this?.systems.set(systemId, updatedSystem);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Data processing system updated', { context: { message: { systemId, systemName: updatedSystem.name } } });
+      StructuredLogger?.info('Data processing system updated', { context: { message: { systemId, systemName: updatedSystem?.name } } });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -606,26 +606,26 @@ export class DataProcessingManager {
    * Delete a data processing system
    */
   async deleteSystem(systemId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      this.systems.delete(systemId);
-      this.updateAnalytics();
+      this?.systems.delete(systemId);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Data processing system deleted', { context: { message: { systemId, systemName: system.name } } });
+      StructuredLogger?.info('Data processing system deleted', { context: { message: { systemId, systemName: system?.name } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -634,7 +634,7 @@ export class DataProcessingManager {
    * Get all data processing systems
    */
   getAllSystems(): DataProcessing[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
@@ -645,7 +645,7 @@ export class DataProcessingManager {
    * Get systems by type
    */
   getSystemsByType(type: SystemType): DataProcessing[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
@@ -656,7 +656,7 @@ export class DataProcessingManager {
    * Get systems by status
    */
   getSystemsByStatus(status: SystemStatus): DataProcessing[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
@@ -667,31 +667,31 @@ export class DataProcessingManager {
    * Add a pipeline to a system
    */
   async addPipeline(systemId: string, pipelineData: Omit<DataPipeline, 'id'>): Promise<DataPipeline | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const pipeline: DataPipeline = {
         ...pipelineData,
-        id: this.generatePipelineId()
+        id: this?.generatePipelineId()
       };
 
-      system.pipelines.push(pipeline);
-      this.updateAnalytics();
+      system?.pipelines?.push(pipeline);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Pipeline added to system', { context: { message: { systemId, pipelineId: pipeline.id, pipelineName: pipeline.name } } });
+      StructuredLogger?.info('Pipeline added to system', { context: { message: { systemId, pipelineId: pipeline?.id, pipelineName: pipeline?.name } } });
       return pipeline;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -700,32 +700,32 @@ export class DataProcessingManager {
    * Remove a pipeline from a system
    */
   async removePipeline(systemId: string, pipelineId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const pipelineIndex = system.pipelines.findIndex(p => p.id === pipelineId);
+      const pipelineIndex = system?.pipelines.findIndex(p => p?.id === pipelineId);
       if (pipelineIndex === -1) {
-        StructuredLogger.warn('Pipeline not found' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
+        StructuredLogger?.warn('Pipeline not found' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
         return false;
       }
 
-      system.pipelines.splice(pipelineIndex, 1);
-      this.updateAnalytics();
+      system?.pipelines.splice(pipelineIndex, 1);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Pipeline removed from system', { context: { message: { systemId, pipelineId } } });
+      StructuredLogger?.info('Pipeline removed from system', { context: { message: { systemId, pipelineId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -734,40 +734,40 @@ export class DataProcessingManager {
    * Start a pipeline
    */
   async startPipeline(systemId: string, pipelineId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const pipeline = system.pipelines.find(p => p.id === pipelineId);
+      const pipeline = system?.pipelines.find(p => p?.id === pipelineId);
       if (!pipeline) {
-        StructuredLogger.warn('Pipeline not found' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
+        StructuredLogger?.warn('Pipeline not found' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
         return false;
       }
 
-      if (pipeline.status === 'running') {
-        StructuredLogger.warn('Pipeline already running' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
+      if (pipeline?.status === 'running') {
+        StructuredLogger?.warn('Pipeline already running' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
         return false;
       }
 
-      pipeline.status = 'running';
-      this.updateAnalytics();
+      pipeline?.status = 'running';
+      this?.updateAnalytics();
 
       // Start pipeline execution in background
-      this.executePipeline(systemId, pipelineId);
+      this?.executePipeline(systemId, pipelineId);
 
-      StructuredLogger.info('Pipeline started', { context: { message: { systemId, pipelineId } } });
+      StructuredLogger?.info('Pipeline started', { context: { message: { systemId, pipelineId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -776,37 +776,37 @@ export class DataProcessingManager {
    * Stop a pipeline
    */
   async stopPipeline(systemId: string, pipelineId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const pipeline = system.pipelines.find(p => p.id === pipelineId);
+      const pipeline = system?.pipelines.find(p => p?.id === pipelineId);
       if (!pipeline) {
-        StructuredLogger.warn('Pipeline not found' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
+        StructuredLogger?.warn('Pipeline not found' ?? 'unknown', { context: { message: { systemId, pipelineId } } });
         return false;
       }
 
-      if (pipeline.status !== 'running') {
-        StructuredLogger.warn('Pipeline not running' ?? 'unknown', { context: { message: { systemId, pipelineId, status: pipeline.status } } });
+      if (pipeline?.status !== 'running') {
+        StructuredLogger?.warn('Pipeline not running' ?? 'unknown', { context: { message: { systemId, pipelineId, status: pipeline?.status } } });
         return false;
       }
 
-      pipeline.status = 'paused';
-      this.updateAnalytics();
+      pipeline?.status = 'paused';
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Pipeline stopped', { context: { message: { systemId, pipelineId } } });
+      StructuredLogger?.info('Pipeline stopped', { context: { message: { systemId, pipelineId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -816,34 +816,34 @@ export class DataProcessingManager {
    */
   private async executePipeline(systemId: string, pipelineId: string): Promise<void> {
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) return;
 
-      const pipeline = system.pipelines.find(p => p.id === pipelineId);
+      const pipeline = system?.pipelines.find(p => p?.id === pipelineId);
       if (!pipeline) return;
 
       // Execute pipeline steps in order
-      for (const step of pipeline.steps.sort((a: any, b: any) => a.order - b.order)) {
-        if (!step.enabled) continue;
+      for (const step of pipeline?.steps.sort((a: any, b: any) => a?.order - b?.order)) {
+        if (!step?.enabled) continue;
 
-        await this.executeStep(systemId, pipelineId, step);
+        await this?.executeStep(systemId, pipelineId, step);
       }
 
-      pipeline.status = 'completed';
-      this.updateAnalytics();
+      pipeline?.status = 'completed';
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Pipeline execution completed', { context: { message: { systemId, pipelineId } } });
+      StructuredLogger?.info('Pipeline execution completed', { context: { message: { systemId, pipelineId } } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (system) {
-        const pipeline = system.pipelines.find(p => p.id === pipelineId);
+        const pipeline = system?.pipelines.find(p => p?.id === pipelineId);
         if (pipeline) {
-          pipeline.status = 'error';
+          pipeline?.status = 'error';
         }
       }
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
     }
   }
 
@@ -852,40 +852,40 @@ export class DataProcessingManager {
    */
   private async executeStep(systemId: string, pipelineId: string, step: PipelineStep): Promise<void> {
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) return;
 
-      const processor = system.processors.find(p => p.id === step.processor);
+      const processor = system?.processors.find(p => p?.id === step?.processor);
       if (!processor) {
-        throw new Error(`Processor not found: ${step.processor}`);
+        throw new Error(`Processor not found: ${step?.processor}`);
       }
 
       // Simulate step execution based on type
-      switch (step.type) {
+      switch (step?.type) {
         case 'input':
-          await this.executeInputStep(step, processor);
+          await this?.executeInputStep(step, processor);
           break;
         case 'transform':
-          await this.executeTransformStep(step, processor);
+          await this?.executeTransformStep(step, processor);
           break;
         case 'filter':
-          await this.executeFilterStep(step, processor);
+          await this?.executeFilterStep(step, processor);
           break;
         case 'aggregate':
-          await this.executeAggregateStep(step, processor);
+          await this?.executeAggregateStep(step, processor);
           break;
         case 'output':
-          await this.executeOutputStep(step, processor);
+          await this?.executeOutputStep(step, processor);
           break;
         default:
-          await this.executeCustomStep(step, processor);
+          await this?.executeCustomStep(step, processor);
       }
 
-      StructuredLogger.debug('Pipeline step executed', { context: { message: { systemId, pipelineId, stepId: step.id, stepType: step.type } } });
+      StructuredLogger?.debug('Pipeline step executed', { context: { message: { systemId, pipelineId, stepId: step?.id, stepType: step?.type } } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -895,7 +895,7 @@ export class DataProcessingManager {
    */
   private async executeInputStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate input processing
-    StructuredLogger.debug('Executing input step', { context: { message: { stepId: step.id, processorId: processor.id } } });
+    StructuredLogger?.debug('Executing input step', { context: { message: { stepId: step?.id, processorId: processor?.id } } });
   }
 
   /**
@@ -903,7 +903,7 @@ export class DataProcessingManager {
    */
   private async executeTransformStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate transformation processing
-    StructuredLogger.debug('Executing transform step', { context: { message: { stepId: step.id, processorId: processor.id } } });
+    StructuredLogger?.debug('Executing transform step', { context: { message: { stepId: step?.id, processorId: processor?.id } } });
   }
 
   /**
@@ -911,7 +911,7 @@ export class DataProcessingManager {
    */
   private async executeFilterStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate filtering processing
-    StructuredLogger.debug('Executing filter step', { context: { message: { stepId: step.id, processorId: processor.id } } });
+    StructuredLogger?.debug('Executing filter step', { context: { message: { stepId: step?.id, processorId: processor?.id } } });
   }
 
   /**
@@ -919,7 +919,7 @@ export class DataProcessingManager {
    */
   private async executeAggregateStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate aggregation processing
-    StructuredLogger.debug('Executing aggregate step', { context: { message: { stepId: step.id, processorId: processor.id } } });
+    StructuredLogger?.debug('Executing aggregate step', { context: { message: { stepId: step?.id, processorId: processor?.id } } });
   }
 
   /**
@@ -927,7 +927,7 @@ export class DataProcessingManager {
    */
   private async executeOutputStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate output processing
-    StructuredLogger.debug('Executing output step', { context: { message: { stepId: step.id, processorId: processor.id } } });
+    StructuredLogger?.debug('Executing output step', { context: { message: { stepId: step?.id, processorId: processor?.id } } });
   }
 
   /**
@@ -935,38 +935,38 @@ export class DataProcessingManager {
    */
   private async executeCustomStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate custom processing
-    StructuredLogger.debug('Executing custom step', { context: { message: { stepId: step.id, processorId: processor.id } } });
+    StructuredLogger?.debug('Executing custom step', { context: { message: { stepId: step?.id, processorId: processor?.id } } });
   }
 
   /**
    * Add a processor to a system
    */
   async addProcessor(systemId: string, processorData: Omit<DataProcessor, 'id'>): Promise<DataProcessor | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const processor: DataProcessor = {
         ...processorData,
-        id: this.generateProcessorId()
+        id: this?.generateProcessorId()
       };
 
-      system.processors.push(processor);
-      this.updateAnalytics();
+      system?.processors?.push(processor);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Processor added to system', { context: { message: { systemId, processorId: processor.id, processorName: processor.name } } });
+      StructuredLogger?.info('Processor added to system', { context: { message: { systemId, processorId: processor?.id, processorName: processor?.name } } });
       return processor;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -975,31 +975,31 @@ export class DataProcessingManager {
    * Add a transformer to a system
    */
   async addTransformer(systemId: string, transformerData: Omit<DataTransformer, 'id'>): Promise<DataTransformer | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const transformer: DataTransformer = {
         ...transformerData,
-        id: this.generateTransformerId()
+        id: this?.generateTransformerId()
       };
 
-      system.transformers.push(transformer);
-      this.updateAnalytics();
+      system?.transformers?.push(transformer);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Transformer added to system', { context: { message: { systemId, transformerId: transformer.id, transformerName: transformer.name } } });
+      StructuredLogger?.info('Transformer added to system', { context: { message: { systemId, transformerId: transformer?.id, transformerName: transformer?.name } } });
       return transformer;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -1036,7 +1036,7 @@ export class DataProcessingManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version.split('.');
+    const parts = version?.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -1046,18 +1046,18 @@ export class DataProcessingManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalPipelines = systems.reduce((sum: any, s: any) => sum + s.pipelines.length, 0);
-    const totalProcessors = systems.reduce((sum: any, s: any) => sum + s.processors.length, 0);
-    const totalTransformers = systems.reduce((sum: any, s: any) => sum + s.transformers.length, 0);
+    const totalPipelines = systems?.reduce((sum: any, s: any) => sum + s?.pipelines.length, 0);
+    const totalProcessors = systems?.reduce((sum: any, s: any) => sum + s?.processors.length, 0);
+    const totalTransformers = systems?.reduce((sum: any, s: any) => sum + s?.transformers.length, 0);
 
     for (const system of systems) {
-      system.analytics = {
-        totalSystems: systems.length,
-        activeSystems: systems.filter((s: any) => s.status === 'active').length,
-        totalPipelines: system.pipelines.length,
-        totalProcessors: system.processors.length,
-        totalTransformers: system.transformers.length,
-        totalRecordsProcessed: system.analytics.totalRecordsProcessed,
+      system?.analytics = {
+        totalSystems: systems?.length,
+        activeSystems: systems?.filter((s: any) => s?.status === 'active').length,
+        totalPipelines: system?.pipelines.length,
+        totalProcessors: system?.processors.length,
+        totalTransformers: system?.transformers.length,
+        totalRecordsProcessed: system?.analytics.totalRecordsProcessed,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };
@@ -1077,15 +1077,15 @@ export class DataProcessingManager {
     totalTransformers: number;
     uptime: number;
   } {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Processing System not initialized');
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter((s: any) => s.status === 'active');
-    const totalPipelines = systems.reduce((sum: any, s: any) => sum + s.pipelines.length, 0);
-    const totalProcessors = systems.reduce((sum: any, s: any) => sum + s.processors.length, 0);
-    const totalTransformers = systems.reduce((sum: any, s: any) => sum + s.transformers.length, 0);
+    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
+    const totalPipelines = systems?.reduce((sum: any, s: any) => sum + s?.pipelines.length, 0);
+    const totalProcessors = systems?.reduce((sum: any, s: any) => sum + s?.processors.length, 0);
+    const totalTransformers = systems?.reduce((sum: any, s: any) => sum + s?.transformers.length, 0);
 
     const systemsByType: Record<SystemType, number> = {
       batch: 0,
@@ -1102,19 +1102,19 @@ export class DataProcessingManager {
     };
 
     for (const system of systems) {
-      systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      systemsByType[system?.type]++;
+      systemsByStatus[system?.status]++;
     }
 
     return {
-      totalSystems: systems.length,
-      activeSystems: activeSystems.length,
+      totalSystems: systems?.length,
+      activeSystems: activeSystems?.length,
       systemsByType,
       systemsByStatus,
       totalPipelines,
       totalProcessors,
       totalTransformers,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: new Date() - this?.startTime.getTime()
     };
   }
 
@@ -1122,12 +1122,12 @@ export class DataProcessingManager {
    * Destroy the Data Processing System
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('DataProcessingPure', { context: { message: 'Destroying Data Processing System...' } });
+    StructuredLogger?.info('DataProcessingPure', { context: { message: 'Destroying Data Processing System...' } });
 
-    this.systems.clear();
-    this.isInitialized = false;
+    this?.systems.clear();
+    this?.isInitialized = false;
 
-    StructuredLogger.info('DataProcessingPure', { context: { message: 'Data Processing System destroyed' } });
+    StructuredLogger?.info('DataProcessingPure', { context: { message: 'Data Processing System destroyed' } });
   }
 }
 

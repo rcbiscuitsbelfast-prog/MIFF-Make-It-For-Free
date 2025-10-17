@@ -22,21 +22,21 @@ function parseArgs(argv: string[]): AndroidExportOptions {
     project: './docs/godot',
     output: './build/android'
   };
-  for (let i = 2; i < argv.length; i++) {
+  for (let i = 2; i < argv?.length; i++) {
     const k = argv[i!];
     const v = argv[i + 1];
     switch (k) {
-      case '--preset': opts.preset = v; i++; break;
-      case '--aab': opts.aab = true; break;
-      case '--apk': opts.aab = false; break;
-      case '--project': opts.project = v; i++; break;
-      case '--output': opts.output = v; i++; break;
-      case '--version-code': opts.versionCode = Number(v); i++; break;
-      case '--version-name': opts.versionName = v; i++; break;
-      case '--keystore': opts.keystore = v.startsWith('@env:') ? process.env[v.slice(5)] : v; i++; break;
-      case '--alias': opts.alias = v.startsWith('@env:') ? process.env[v.slice(5)] : v; i++; break;
-      case '--ks-pass': opts.ksPass = v.startsWith('@env:') ? process.env[v.slice(5)] : v; i++; break;
-      case '--key-pass': opts.keyPass = v.startsWith('@env:') ? process.env[v.slice(5)] : v; i++; break;
+      case '--preset': opts?.preset = v; i++; break;
+      case '--aab': opts?.aab = true; break;
+      case '--apk': opts?.aab = false; break;
+      case '--project': opts?.project = v; i++; break;
+      case '--output': opts?.output = v; i++; break;
+      case '--version-code': opts?.versionCode = Number(v); i++; break;
+      case '--version-name': opts?.versionName = v; i++; break;
+      case '--keystore': opts?.keystore = v?.startsWith('@env:') ? process?.env[v?.slice(5)] : v; i++; break;
+      case '--alias': opts?.alias = v?.startsWith('@env:') ? process?.env[v?.slice(5)] : v; i++; break;
+      case '--ks-pass': opts?.ksPass = v?.startsWith('@env:') ? process?.env[v?.slice(5)] : v; i++; break;
+      case '--key-pass': opts?.keyPass = v?.startsWith('@env:') ? process?.env[v?.slice(5)] : v; i++; break;
       default:
         break;
     }
@@ -45,20 +45,20 @@ function parseArgs(argv: string[]): AndroidExportOptions {
 }
 
 function main() {
-  const opts = parseArgs(process.argv);
+  const opts = parseArgs(process?.argv);
   // Placeholder validation: ensure project exists
-  const projectPath = path.resolve(process.cwd(), opts.project);
+  const projectPath = path?.resolve(process?.cwd(), opts?.project);
   console.log(JSON.stringify({
     log: [
       `ExportAndroidPure: project=${projectPath}`,
-      `preset=${opts.preset}`,
-      `format=${opts.aab ? 'aab' : 'apk'}`
+      `preset=${opts?.preset}`,
+      `format=${opts?.aab ? 'aab' : 'apk'}`
     ],
     outputs: [ { config: opts } ]
   }));
   // TODO: spawn Godot headless export in follow-up PR
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }

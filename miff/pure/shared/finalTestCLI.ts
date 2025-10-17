@@ -7,7 +7,7 @@
  * performance testing, security testing, and user acceptance testing.
  */
 
-import { FinalIntegrationTester, FinalValidationReport } from './FinalIntegrationTester.js';
+import { FinalIntegrationTester, FinalValidationReport } from './FinalIntegrationTester?.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -18,60 +18,60 @@ class FinalTestCLI {
 
   constructor(...args: any[]) {
     
-    this.tester = new FinalIntegrationTester();
+    this?.tester = new FinalIntegrationTester();
   }
 
   async run(): Promise<void> {
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'e2e':
-          await this.runEndToEndTesting(args.slice(1));
+          await this?.runEndToEndTesting(args?.slice(1));
           break;
         case 'integration':
-          await this.runIntegrationTesting(args.slice(1));
+          await this?.runIntegrationTesting(args?.slice(1));
           break;
         case 'performance':
-          await this.runPerformanceTesting(args.slice(1));
+          await this?.runPerformanceTesting(args?.slice(1));
           break;
         case 'security':
-          await this.runSecurityTesting(args.slice(1));
+          await this?.runSecurityTesting(args?.slice(1));
           break;
         case 'uat':
-          await this.runUserAcceptanceTesting(args.slice(1));
+          await this?.runUserAcceptanceTesting(args?.slice(1));
           break;
         case 'all':
-          await this.runAllTests(args.slice(1));
+          await this?.runAllTests(args?.slice(1));
           break;
         case 'report':
-          await this.generateReport(args.slice(1));
+          await this?.generateReport(args?.slice(1));
           break;
         case 'status':
-          await this.showStatus(args.slice(1));
+          await this?.showStatus(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
   private async runEndToEndTesting(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'e2e-test-results.json';
+    const outputFile = args[0!] || 'e2e-test-results?.json';
 
     console.info('🧪 Running comprehensive end-to-end testing...');
     
-    await this.tester.runEndToEndTesting();
+    await this?.tester.runEndToEndTesting();
     
-    const testSuites = this.tester.getTestSuites();
-    const e2eSuite = testSuites.find(ts => ts.type === 'end_to_end');
+    const testSuites = this?.tester.getTestSuites();
+    const e2eSuite = testSuites?.find(ts => ts?.type === 'end_to_end');
     
     if (e2eSuite) {
       fs.writeFileSync(outputFile, JSON.stringify(e2eSuite, null, 2));
@@ -92,13 +92,13 @@ class FinalTestCLI {
   }
 
   private async runIntegrationTesting(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'integration-test-results.json';
+    const outputFile = args[0!] || 'integration-test-results?.json';
 
     console.info('🔗 Running integration validation tests...');
     
-    await this.tester.runIntegrationValidation();
+    await this?.tester.runIntegrationValidation();
     
-    const integrationTests = this.tester.getIntegrationTests();
+    const integrationTests = this?.tester.getIntegrationTests();
     fs.writeFileSync(outputFile, JSON.stringify(integrationTests, null, 2));
     
     console.info('✅ Integration testing completed');
@@ -111,23 +111,23 @@ class FinalTestCLI {
     console.info(`Failed: ${integrationTests.filter((it: any) => it.status === 'failed').length}`);
     
     // Show failed tests
-    const failedTests = integrationTests.filter((it: any) => it.status === 'failed');
-    if (failedTests.length > 0) {
+    const failedTests = integrationTests?.filter((it: any) => it?.status === 'failed');
+    if (failedTests?.length > 0) {
       console.info('\n❌ Failed Integration Tests:');
-      failedTests.forEach((test: any) => {
+      failedTests?.forEach((test: any) => {
         console.info(`  - ${test.name}: ${test.errorMessage || 'Unknown error'}`);
       });
     }
   }
 
   private async runPerformanceTesting(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'performance-test-results.json';
+    const outputFile = args[0!] || 'performance-test-results?.json';
 
     console.info('⚡ Running performance and load testing...');
     
-    await this.tester.runPerformanceTesting();
+    await this?.tester.runPerformanceTesting();
     
-    const performanceTests = this.tester.getPerformanceTests();
+    const performanceTests = this?.tester.getPerformanceTests();
     fs.writeFileSync(outputFile, JSON.stringify(performanceTests, null, 2));
     
     console.info('✅ Performance testing completed');
@@ -135,11 +135,11 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Performance Testing Summary:');
-    performanceTests.forEach((test: any) => {
+    performanceTests?.forEach((test: any) => {
       console.info(`\n${test.name} (${test.type}):`);
       console.info(`  Status: ${test.status}`);
       console.info(`  Duration: ${test.duration}ms`);
-      if (test.results) {
+      if (test?.results) {
         console.info(`  Total Requests: ${test.results.totalRequests}`);
         console.info(`  Successful: ${test.results.successfulRequests}`);
         console.info(`  Failed: ${test.results.failedRequests}`);
@@ -151,13 +151,13 @@ class FinalTestCLI {
   }
 
   private async runSecurityTesting(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'security-test-results.json';
+    const outputFile = args[0!] || 'security-test-results?.json';
 
     console.info('🔒 Running security testing and validation...');
     
-    await this.tester.runSecurityTesting();
+    await this?.tester.runSecurityTesting();
     
-    const securityTests = this.tester.getSecurityTests();
+    const securityTests = this?.tester.getSecurityTests();
     fs.writeFileSync(outputFile, JSON.stringify(securityTests, null, 2));
     
     console.info('✅ Security testing completed');
@@ -165,18 +165,18 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Security Testing Summary:');
-    securityTests.forEach((test: any) => {
+    securityTests?.forEach((test: any) => {
       console.info(`\n${test.name} (${test.type}):`);
       console.info(`  Status: ${test.status}`);
       console.info(`  Duration: ${test.duration}ms`);
       console.info(`  Findings: ${test.findings.length}`);
       
-      if (test.findings.length > 0) {
+      if (test?.findings.length > 0) {
         console.info('  Security Findings:');
-        test.findings.forEach((finding: any) => {
-          const severityColor = finding.severity === 'critical' ? '🔴' : 
-                               finding.severity === 'high' ? '🟠' : 
-                               finding.severity === 'medium' ? '🟡' : '🟢';
+        test?.findings.forEach((finding: any) => {
+          const severityColor = finding?.severity === 'critical' ? '🔴' : 
+                               finding?.severity === 'high' ? '🟠' : 
+                               finding?.severity === 'medium' ? '🟡' : '🟢';
           console.info(`    ${severityColor} ${finding.title} (${finding.severity})`);
         });
       }
@@ -184,13 +184,13 @@ class FinalTestCLI {
   }
 
   private async runUserAcceptanceTesting(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'uat-test-results.json';
+    const outputFile = args[0!] || 'uat-test-results?.json';
 
     console.info('👥 Running user acceptance testing...');
     
-    await this.tester.runUserAcceptanceTesting();
+    await this?.tester.runUserAcceptanceTesting();
     
-    const uatTests = this.tester.getUserAcceptanceTests();
+    const uatTests = this?.tester.getUserAcceptanceTests();
     fs.writeFileSync(outputFile, JSON.stringify(uatTests, null, 2));
     
     console.info('✅ User acceptance testing completed');
@@ -203,33 +203,33 @@ class FinalTestCLI {
     console.info(`Failed: ${uatTests.filter((uat: any) => uat.status === 'failed').length}`);
     
     // Show test details
-    uatTests.forEach((test: any) => {
+    uatTests?.forEach((test: any) => {
       console.info(`\n${test.name}:`);
       console.info(`  Status: ${test.status}`);
       console.info(`  User Story: ${test.userStory}`);
       console.info(`  Expected: ${test.expectedOutcome}`);
       console.info(`  Actual: ${test.actualOutcome}`);
-      if (test.userFeedback) {
+      if (test?.userFeedback) {
         console.info(`  Feedback: ${test.userFeedback}`);
       }
     });
   }
 
   private async runAllTests(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'all-test-results.json';
+    const outputFile = args[0!] || 'all-test-results?.json';
 
     console.info('🚀 Running all test suites...');
     
     try {
       // Run all test types
-      await this.tester.runEndToEndTesting();
-      await this.tester.runIntegrationValidation();
-      await this.tester.runPerformanceTesting();
-      await this.tester.runSecurityTesting();
-      await this.tester.runUserAcceptanceTesting();
+      await this?.tester.runEndToEndTesting();
+      await this?.tester.runIntegrationValidation();
+      await this?.tester.runPerformanceTesting();
+      await this?.tester.runSecurityTesting();
+      await this?.tester.runUserAcceptanceTesting();
       
       // Generate final validation report
-      const report = this.tester.generateFinalValidationReport();
+      const report = this?.tester.generateFinalValidationReport();
       
       // Save report
       fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
@@ -245,23 +245,23 @@ class FinalTestCLI {
       console.info(`Critical Issues: ${report.criticalIssues.length}`);
       console.info(`Recommendations: ${report.recommendations.length}`);
       
-      if (report.criticalIssues.length > 0) {
+      if (report?.criticalIssues.length > 0) {
         console.info('\n🚨 Critical Issues:');
-        report.criticalIssues.forEach((issue: any) => {
+        report?.criticalIssues.forEach((issue: any) => {
           console.info(`  - ${issue}`);
         });
       }
       
-      if (report.recommendations.length > 0) {
+      if (report?.recommendations.length > 0) {
         console.info('\n💡 Recommendations:');
-        report.recommendations.forEach((rec: any) => {
+        report?.recommendations.forEach((rec: any) => {
           console.info(`  - ${rec}`);
         });
       }
       
-      if (report.nextSteps.length > 0) {
+      if (report?.nextSteps.length > 0) {
         console.info('\n🎯 Next Steps:');
-        report.nextSteps.forEach((step: any) => {
+        report?.nextSteps.forEach((step: any) => {
           console.info(`  - ${step}`);
         });
       }
@@ -274,15 +274,15 @@ class FinalTestCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'final-validation-report.html';
+    const outputFile = args[0!] || 'final-validation-report?.html';
 
     console.info('📊 Generating final validation report...');
     
-    const report = this.tester.generateFinalValidationReport();
-    const html = this.generateHTMLReport(report);
+    const report = this?.tester.generateFinalValidationReport();
+    const html = this?.generateHTMLReport(report);
     
     // Save report to file
-    fs.writeFileSync(outputFile, html);
+    fs?.writeFileSync(outputFile, html);
     
     console.info('✅ Final validation report generated');
     console.info(`📄 Report saved to ${outputFile}`);
@@ -302,11 +302,11 @@ class FinalTestCLI {
   private async showStatus(args: string[]): Promise<void> {
     console.info('📊 Showing test status...');
     
-    const testSuites = this.tester.getTestSuites();
-    const integrationTests = this.tester.getIntegrationTests();
-    const performanceTests = this.tester.getPerformanceTests();
-    const securityTests = this.tester.getSecurityTests();
-    const uatTests = this.tester.getUserAcceptanceTests();
+    const testSuites = this?.tester.getTestSuites();
+    const integrationTests = this?.tester.getIntegrationTests();
+    const performanceTests = this?.tester.getPerformanceTests();
+    const securityTests = this?.tester.getSecurityTests();
+    const uatTests = this?.tester.getUserAcceptanceTests();
     
     console.info('\n📊 Test Status Overview:');
     console.info(`Test Suites: ${testSuites.length}`);
@@ -317,53 +317,53 @@ class FinalTestCLI {
     
     // Show test suite status
     console.info('\n📋 Test Suite Status:');
-    testSuites.forEach((suite: any) => {
-      const statusIcon = suite.status === 'passed' ? '✅' : 
-                        suite.status === 'failed' ? '❌' : 
-                        suite.status === 'running' ? '🔄' : '⏳';
+    testSuites?.forEach((suite: any) => {
+      const statusIcon = suite?.status === 'passed' ? '✅' : 
+                        suite?.status === 'failed' ? '❌' : 
+                        suite?.status === 'running' ? '🔄' : '⏳';
       console.info(`  ${statusIcon} ${suite.name}: ${suite.status}`);
     });
     
     // Show integration test status
     console.info('\n🔗 Integration Test Status:');
-    integrationTests.forEach((test: any) => {
-      const statusIcon = test.status === 'passed' ? '✅' : 
-                        test.status === 'failed' ? '❌' : 
-                        test.status === 'running' ? '🔄' : '⏳';
+    integrationTests?.forEach((test: any) => {
+      const statusIcon = test?.status === 'passed' ? '✅' : 
+                        test?.status === 'failed' ? '❌' : 
+                        test?.status === 'running' ? '🔄' : '⏳';
       console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show performance test status
     console.info('\n⚡ Performance Test Status:');
-    performanceTests.forEach((test: any) => {
-      const statusIcon = test.status === 'passed' ? '✅' : 
-                        test.status === 'failed' ? '❌' : 
-                        test.status === 'running' ? '🔄' : '⏳';
+    performanceTests?.forEach((test: any) => {
+      const statusIcon = test?.status === 'passed' ? '✅' : 
+                        test?.status === 'failed' ? '❌' : 
+                        test?.status === 'running' ? '🔄' : '⏳';
       console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show security test status
     console.info('\n🔒 Security Test Status:');
-    securityTests.forEach((test: any) => {
-      const statusIcon = test.status === 'passed' ? '✅' : 
-                        test.status === 'failed' ? '❌' : 
-                        test.status === 'running' ? '🔄' : '⏳';
+    securityTests?.forEach((test: any) => {
+      const statusIcon = test?.status === 'passed' ? '✅' : 
+                        test?.status === 'failed' ? '❌' : 
+                        test?.status === 'running' ? '🔄' : '⏳';
       console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show UAT status
     console.info('\n👥 User Acceptance Test Status:');
-    uatTests.forEach((test: any) => {
-      const statusIcon = test.status === 'passed' ? '✅' : 
-                        test.status === 'failed' ? '❌' : 
-                        test.status === 'running' ? '🔄' : '⏳';
+    uatTests?.forEach((test: any) => {
+      const statusIcon = test?.status === 'passed' ? '✅' : 
+                        test?.status === 'failed' ? '❌' : 
+                        test?.status === 'running' ? '🔄' : '⏳';
       console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
   }
 
   private generateHTMLReport(report: FinalValidationReport): string {
-    const statusColor = report.overallStatus === 'ready' ? '#28a745' : 
-                       report.overallStatus === 'needs_attention' ? '#ffc107' : '#dc3545';
+    const statusColor = report?.overallStatus === 'ready' ? '#28a745' : 
+                       report?.overallStatus === 'needs_attention' ? '#ffc107' : '#dc3545';
     
     return `
 <!DOCTYPE html>
@@ -394,46 +394,46 @@ class FinalTestCLI {
 <body>
     <div class="header">
         <h1>🧪 MIFF Final Integration Testing Report</h1>
-        <p>Generated: ${report.timestamp.toLocaleString()}</p>
+        <p>Generated: ${report?.timestamp.toLocaleString()}</p>
     </div>
 
     <div class="status">
-        <div class="status-value">${report.overallStatus.toUpperCase()}</div>
+        <div class="status-value">${report?.overallStatus.toUpperCase()}</div>
         <div class="status-label">Overall Status</div>
     </div>
 
     <div class="score">
-        <div class="score-value">${report.readinessScore}</div>
+        <div class="score-value">${report?.readinessScore}</div>
         <div class="score-label">Readiness Score / 100</div>
     </div>
 
     <div class="tests">
-        <h3>Test Suite Results (${report.testSuites.length})</h3>
-        ${report.testSuites.map((suite: any) => `
-            <div class="test-item test-${suite.status}">
-                <div style="font-weight: bold;">${suite.name}</div>
-                <div style="color: #666; margin: 5px 0;">${suite.description}</div>
+        <h3>Test Suite Results (${report?.testSuites.length})</h3>
+        ${report?.testSuites.map((suite: any) => `
+            <div class="test-item test-${suite?.status}">
+                <div style="font-weight: bold;">${suite?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${suite?.description}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${suite.status === 'passed' ? '#28a745' : suite.status === 'failed' ? '#dc3545' : suite.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${suite.status.toUpperCase()}
+                    <span style="background: ${suite?.status === 'passed' ? '#28a745' : suite?.status === 'failed' ? '#dc3545' : suite?.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${suite?.status.toUpperCase()}
                     </span>
-                    <span style="margin-left: 10px;">Duration: ${suite.duration}ms</span>
-                    <span style="margin-left: 10px;">Test Cases: ${suite.testCases.length}</span>
+                    <span style="margin-left: 10px;">Duration: ${suite?.duration}ms</span>
+                    <span style="margin-left: 10px;">Test Cases: ${suite?.testCases.length}</span>
                 </div>
             </div>
         `).join('')}
     </div>
 
     <div class="test-section">
-        <h3>Integration Tests (${report.integrationTests.length})</h3>
-        ${report.integrationTests.map((test: any) => `
-            <div class="test-item test-${test.status}">
-                <div style="font-weight: bold;">${test.name}</div>
-                <div style="color: #666; margin: 5px 0;">${test.description}</div>
-                <div style="margin: 5px 0;">Modules: ${test.modules.join(', ')}</div>
+        <h3>Integration Tests (${report?.integrationTests.length})</h3>
+        ${report?.integrationTests.map((test: any) => `
+            <div class="test-item test-${test?.status}">
+                <div style="font-weight: bold;">${test?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test?.description}</div>
+                <div style="margin: 5px 0;">Modules: ${test?.modules.join(', ')}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${test.status.toUpperCase()}
+                    <span style="background: ${test?.status === 'passed' ? '#28a745' : test?.status === 'failed' ? '#dc3545' : test?.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${test?.status.toUpperCase()}
                     </span>
                 </div>
             </div>
@@ -441,22 +441,22 @@ class FinalTestCLI {
     </div>
 
     <div class="test-section">
-        <h3>Performance Tests (${report.performanceTests.length})</h3>
-        ${report.performanceTests.map((test: any) => `
-            <div class="test-item test-${test.status}">
-                <div style="font-weight: bold;">${test.name}</div>
-                <div style="color: #666; margin: 5px 0;">${test.description}</div>
-                <div style="margin: 5px 0;">Type: ${test.type}</div>
+        <h3>Performance Tests (${report?.performanceTests.length})</h3>
+        ${report?.performanceTests.map((test: any) => `
+            <div class="test-item test-${test?.status}">
+                <div style="font-weight: bold;">${test?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test?.description}</div>
+                <div style="margin: 5px 0;">Type: ${test?.type}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${test.status.toUpperCase()}
+                    <span style="background: ${test?.status === 'passed' ? '#28a745' : test?.status === 'failed' ? '#dc3545' : test?.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${test?.status.toUpperCase()}
                     </span>
                 </div>
-                ${test.results ? `
+                ${test?.results ? `
                     <div style="margin: 5px 0;">
-                        <strong>Results:</strong> ${test.results.totalRequests} requests, 
-                        ${test.results.averageResponseTime.toFixed(2)}ms avg response time,
-                        ${test.results.throughput.toFixed(2)} req/s throughput
+                        <strong>Results:</strong> ${test?.results.totalRequests} requests, 
+                        ${test?.results.averageResponseTime?.toFixed(2)}ms avg response time,
+                        ${test?.results.throughput?.toFixed(2)} req/s throughput
                     </div>
                 ` : ''}
             </div>
@@ -464,51 +464,51 @@ class FinalTestCLI {
     </div>
 
     <div class="test-section">
-        <h3>Security Tests (${report.securityTests.length})</h3>
-        ${report.securityTests.map((test: any) => `
-            <div class="test-item test-${test.status}">
-                <div style="font-weight: bold;">${test.name}</div>
-                <div style="color: #666; margin: 5px 0;">${test.description}</div>
-                <div style="margin: 5px 0;">Type: ${test.type}</div>
+        <h3>Security Tests (${report?.securityTests.length})</h3>
+        ${report?.securityTests.map((test: any) => `
+            <div class="test-item test-${test?.status}">
+                <div style="font-weight: bold;">${test?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test?.description}</div>
+                <div style="margin: 5px 0;">Type: ${test?.type}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${test.status.toUpperCase()}
+                    <span style="background: ${test?.status === 'passed' ? '#28a745' : test?.status === 'failed' ? '#dc3545' : test?.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${test?.status.toUpperCase()}
                     </span>
                 </div>
-                <div style="margin: 5px 0;">Findings: ${test.findings.length}</div>
+                <div style="margin: 5px 0;">Findings: ${test?.findings.length}</div>
             </div>
         `).join('')}
     </div>
 
     <div class="test-section">
-        <h3>User Acceptance Tests (${report.userAcceptanceTests.length})</h3>
-        ${report.userAcceptanceTests.map((test: any) => `
-            <div class="test-item test-${test.status}">
-                <div style="font-weight: bold;">${test.name}</div>
-                <div style="color: #666; margin: 5px 0;">${test.userStory}</div>
+        <h3>User Acceptance Tests (${report?.userAcceptanceTests.length})</h3>
+        ${report?.userAcceptanceTests.map((test: any) => `
+            <div class="test-item test-${test?.status}">
+                <div style="font-weight: bold;">${test?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test?.userStory}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${test.status.toUpperCase()}
+                    <span style="background: ${test?.status === 'passed' ? '#28a745' : test?.status === 'failed' ? '#dc3545' : test?.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${test?.status.toUpperCase()}
                     </span>
                 </div>
             </div>
         `).join('')}
     </div>
 
-    ${report.criticalIssues.length > 0 ? `
+    ${report?.criticalIssues.length > 0 ? `
         <div class="critical-issues">
-            <h3>🚨 Critical Issues (${report.criticalIssues.length})</h3>
+            <h3>🚨 Critical Issues (${report?.criticalIssues.length})</h3>
             <ul>
-                ${report.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
+                ${report?.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
 
-    ${report.recommendations.length > 0 ? `
+    ${report?.recommendations.length > 0 ? `
         <div class="recommendations">
-            <h3>💡 Recommendations (${report.recommendations.length})</h3>
+            <h3>💡 Recommendations (${report?.recommendations.length})</h3>
             <ul>
-                ${report.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
+                ${report?.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
@@ -516,12 +516,12 @@ class FinalTestCLI {
     <div class="next-steps">
         <h3>🎯 Next Steps</h3>
         <ul>
-            ${report.nextSteps.map((step: any) => `<li>${step}</li>`).join('')}
+            ${report?.nextSteps.map((step: any) => `<li>${step}</li>`).join('')}
         </ul>
     </div>
 
-    <div style="margin: 20px 0; text-align: center; font-size: 1.2em; font-weight: bold; color: ${report.releaseReadiness ? '#28a745' : '#dc3545'};">
-        Release Ready: ${report.releaseReadiness ? 'YES' : 'NO'}
+    <div style="margin: 20px 0; text-align: center; font-size: 1.2em; font-weight: bold; color: ${report?.releaseReadiness ? '#28a745' : '#dc3545'};">
+        Release Ready: ${report?.releaseReadiness ? 'YES' : 'NO'}
     </div>
 </body>
 </html>`;
@@ -531,7 +531,7 @@ class FinalTestCLI {
     console.info(`
 🧪 MIFF Final Integration Testing CLI
 
-Usage: tsx finalTestCLI.ts <command> [options!]
+Usage: tsx finalTestCLI?.ts <command> [options!]
 
 Commands:
   e2e [output!]                 Run end-to-end testing
@@ -545,15 +545,15 @@ Commands:
   help                        Show this help
 
 Examples:
-  tsx finalTestCLI.ts e2e
-  tsx finalTestCLI.ts e2e e2e-results.json
-  tsx finalTestCLI.ts integration integration-results.json
-  tsx finalTestCLI.ts performance perf-results.json
-  tsx finalTestCLI.ts security security-results.json
-  tsx finalTestCLI.ts uat uat-results.json
-  tsx finalTestCLI.ts all all-results.json
-  tsx finalTestCLI.ts report final-report.html
-  tsx finalTestCLI.ts status
+  tsx finalTestCLI?.ts e2e
+  tsx finalTestCLI?.ts e2e e2e-results?.json
+  tsx finalTestCLI?.ts integration integration-results?.json
+  tsx finalTestCLI?.ts performance perf-results?.json
+  tsx finalTestCLI?.ts security security-results?.json
+  tsx finalTestCLI?.ts uat uat-results?.json
+  tsx finalTestCLI?.ts all all-results?.json
+  tsx finalTestCLI?.ts report final-report?.html
+  tsx finalTestCLI?.ts status
 
 Test Types:
   - end_to_end: Complete application flow testing
@@ -578,7 +578,7 @@ Report Status:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new FinalTestCLI();
   cli.run().catch(console.error);
 }

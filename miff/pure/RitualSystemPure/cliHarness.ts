@@ -32,23 +32,23 @@ class MockRNG {
 }
 
 class RitualSystemCLI {
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
   private ritualSystem: RitualSystemPure;
   private isRunning: boolean = false;
   private currentRitual: RitualInstance | null = null;
 
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout
     });
 
     // Initialize mock systems
     const eventBus = new MockEventBus() as any;
     const rng = new MockRNG() as any;
 
-    this.ritualSystem = new RitualSystemPure(eventBus, rng);
-    this.setupDemoData();
+    this?.ritualSystem = new RitualSystemPure(eventBus, rng);
+    this?.setupDemoData();
   }
 
   /**
@@ -72,7 +72,7 @@ class RitualSystemCLI {
    * Start the CLI interface
    */
   start(): void {
-    this.isRunning = true;
+    this?.isRunning = true;
     console.log('🎭 Welcome to MIFF RitualSystemPure CLI!');
     console.log('=====================================');
     console.log('Available commands:');
@@ -89,15 +89,15 @@ class RitualSystemCLI {
     console.log('  exit           - Exit the CLI');
     console.log('');
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this.rl.question('ritual> ', (input) => {
-      this.processCommand(input.trim());
+    this?.rl.question('ritual> ', (input) => {
+      this?.processCommand(input?.trim());
     });
   }
 
@@ -105,60 +105,60 @@ class RitualSystemCLI {
    * Process user command
    */
   private async processCommand(input: string): Promise<void> {
-    if (!this.isRunning) return;
+    if (!this?.isRunning) return;
 
-    const parts = input.split(' ');
+    const parts = input?.split(' ');
     const command = parts[0!]?.toLowerCase();
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     try {
       switch (command) {
         case 'rituals':
-          this.showRituals();
+          this?.showRituals();
           break;
 
         case 'start':
-          if (args.length === 0) {
+          if (args?.length === 0) {
             console.log('❌ Usage: start <ritual-name>');
           } else {
-            await this.startRitual(args[0!]);
+            await this?.startRitual(args[0!]);
           }
           break;
 
         case 'progress':
-          this.progressRitual();
+          this?.progressRitual();
           break;
 
         case 'status':
-          this.showRitualStatus();
+          this?.showRitualStatus();
           break;
 
         case 'participants':
-          this.showParticipants();
+          this?.showParticipants();
           break;
 
         case 'contribute':
-          await this.contributeToRitual();
+          await this?.contributeToRitual();
           break;
 
         case 'cancel':
-          this.cancelRitual();
+          this?.cancelRitual();
           break;
 
         case 'stats':
-          this.showStats();
+          this?.showStats();
           break;
 
         case 'demo':
-          await this.runDemo();
+          await this?.runDemo();
           break;
 
         case 'help':
-          this.showHelp();
+          this?.showHelp();
           break;
 
         case 'exit':
-          this.exit();
+          this?.exit();
           return;
 
         default:
@@ -171,8 +171,8 @@ class RitualSystemCLI {
       console.error(`❌ Error: ${error.message}`);
     }
 
-    if (this.isRunning) {
-      this.showPrompt();
+    if (this?.isRunning) {
+      this?.showPrompt();
     }
   }
 
@@ -180,17 +180,17 @@ class RitualSystemCLI {
    * Show available rituals
    */
   private showRituals(): void {
-    const ritualDefinitions = this.getRitualDefinitions();
+    const ritualDefinitions = this?.getRitualDefinitions();
 
     console.log('\n📜 Available Rituals:');
     console.log('=====================');
 
-    if (ritualDefinitions.length === 0) {
+    if (ritualDefinitions?.length === 0) {
       console.log('No rituals available. The system will initialize with basic rituals.');
       return;
     }
 
-    ritualDefinitions.forEach((ritual: any) => {
+    ritualDefinitions?.forEach((ritual: any) => {
       console.log(`${ritual.name} (${ritual.id})`);
       console.log(`  Category: ${ritual.category} | Tier: ${ritual.tier}`);
       console.log(`  Participants: ${ritual.minParticipants}-${ritual.maxParticipants}`);
@@ -312,8 +312,8 @@ class RitualSystemCLI {
   private async startRitual(ritualName: string): Promise<void> {
     console.log(`🎭 Starting ritual: ${ritualName}`);
 
-    const rituals = this.getRitualDefinitions();
-    const ritual = rituals.find(r => r.name.toLowerCase() === ritualName.toLowerCase() || r.id === ritualName);
+    const rituals = this?.getRitualDefinitions();
+    const ritual = rituals?.find(r => r?.name.toLowerCase() === ritualName?.toLowerCase() || r?.id === ritualName);
 
     if (!ritual) {
       console.log(`❌ Ritual not found: ${ritualName}`);
@@ -321,9 +321,9 @@ class RitualSystemCLI {
     }
 
     // Start the ritual
-    this.currentRitual = this.ritualSystem.startRitual(ritual.id, 'mage-alice', ['apprentice-bob']);
+    this?.currentRitual = this?.ritualSystem.startRitual(ritual?.id, 'mage-alice', ['apprentice-bob']);
 
-    if (this.currentRitual) {
+    if (this?.currentRitual) {
       console.log(`✅ Ritual started: ${ritual.name}`);
       console.log(`   Leader: mage-alice`);
       console.log(`   Participants: ${this.currentRitual.participants.length}`);
@@ -337,31 +337,31 @@ class RitualSystemCLI {
    * Progress current ritual
    */
   private progressRitual(): void {
-    if (!this.currentRitual) {
+    if (!this?.currentRitual) {
       console.log('❌ No active ritual to progress');
       return;
     }
 
     console.log('🔄 Progressing ritual...');
 
-    const result = this.ritualSystem.progressRitual(this.currentRitual.id);
+    const result = this?.ritualSystem.progressRitual(this?.currentRitual.id);
 
-    if (result) {
+    if (result: any) {
       console.log(`✅ Step completed!`);
       console.log(`   Success: ${result.success}`);
       console.log(`   Energy spent: ${result.energySpent}`);
       console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
 
-      if (result.effectsApplied.length > 0) {
+      if (result?.effectsApplied.length > 0) {
         console.log('   Effects applied:');
-        result.effectsApplied.forEach((effect: any) => {
+        result?.effectsApplied.forEach((effect: any) => {
           console.log(`     - ${effect.description}`);
         });
       }
 
-      if (result.summonedEntities.length > 0) {
+      if (result?.summonedEntities.length > 0) {
         console.log('   Summoned entities:');
-        result.summonedEntities.forEach((entity: any) => {
+        result?.summonedEntities.forEach((entity: any) => {
           console.log(`     - ${entity.name} (${entity.type})`);
         });
       }
@@ -374,13 +374,13 @@ class RitualSystemCLI {
    * Show ritual status
    */
   private showRitualStatus(): void {
-    if (!this.currentRitual) {
+    if (!this?.currentRitual) {
       console.log('❌ No active ritual');
       return;
     }
 
-    const ritual = this.currentRitual;
-    const currentStep = ritual.definition.steps[ritual.currentStep];
+    const ritual = this?.currentRitual;
+    const currentStep = ritual?.definition.steps[ritual?.currentStep];
 
     console.log('\n📊 Ritual Status:');
     console.log('=================');
@@ -399,7 +399,7 @@ class RitualSystemCLI {
    * Show participants
    */
   private showParticipants(): void {
-    if (!this.currentRitual) {
+    if (!this?.currentRitual) {
       console.log('❌ No active ritual');
       return;
     }
@@ -407,7 +407,7 @@ class RitualSystemCLI {
     console.log('\n👥 Ritual Participants:');
     console.log('=======================');
 
-    this.currentRitual.participants.forEach((participant: any) => {
+    this?.currentRitual.participants?.forEach((participant: any) => {
       console.log(`${participant.name} (${participant.role})`);
       console.log(`  Status: ${participant.status}`);
       console.log(`  Mana Contribution: ${participant.manaContribution || 0}`);
@@ -421,7 +421,7 @@ class RitualSystemCLI {
    * Contribute to ritual
    */
   private async contributeToRitual(): Promise<void> {
-    if (!this.currentRitual) {
+    if (!this?.currentRitual) {
       console.log('❌ No active ritual');
       return;
     }
@@ -429,14 +429,14 @@ class RitualSystemCLI {
     console.log('\n🎁 Contributing to Ritual');
     console.log('=========================');
 
-    const participantId = await this.askQuestion('Participant ID: ');
-    const contributionType = await this.askQuestion('Contribution type (mana/item/time): ');
+    const participantId = await this?.askQuestion('Participant ID: ');
+    const contributionType = await this?.askQuestion('Contribution type (mana/item/time): ');
 
     if (contributionType === 'mana') {
-      const amount = parseInt(await this.askQuestion('Mana amount: ') || '50');
+      const amount = parseInt(await this?.askQuestion('Mana amount: ') || '50');
       console.log(`✅ Contributed ${amount} mana to the ritual`);
     } else if (contributionType === 'item') {
-      const itemId = await this.askQuestion('Item ID: ');
+      const itemId = await this?.askQuestion('Item ID: ');
       console.log(`✅ Contributed ${itemId} to the ritual`);
     } else {
       console.log(`✅ Contributed time/effort to the ritual`);
@@ -447,16 +447,16 @@ class RitualSystemCLI {
    * Cancel current ritual
    */
   private cancelRitual(): void {
-    if (!this.currentRitual) {
+    if (!this?.currentRitual) {
       console.log('❌ No active ritual to cancel');
       return;
     }
 
-    const success = this.ritualSystem.cancelRitual(this.currentRitual.id);
+    const success = this?.ritualSystem.cancelRitual(this?.currentRitual.id);
 
     if (success) {
       console.log(`❌ Cancelled ritual: ${this.currentRitual.definition.name}`);
-      this.currentRitual = null;
+      this?.currentRitual = null;
     } else {
       console.log('❌ Failed to cancel ritual');
     }
@@ -466,7 +466,7 @@ class RitualSystemCLI {
    * Show statistics
    */
   private showStats(): void {
-    const stats = this.ritualSystem.getStats();
+    const stats = this?.ritualSystem.getStats();
 
     console.log('\n📊 Ritual Statistics:');
     console.log('=====================');
@@ -487,18 +487,18 @@ class RitualSystemCLI {
 
     // Show available rituals
     console.log('\n📜 Available rituals:');
-    this.showRituals();
+    this?.showRituals();
 
     // Start a ritual
     console.log('\n🎭 Starting demo ritual...');
-    await this.startRitual('summon-familiar');
+    await this?.startRitual('summon-familiar');
 
     // Progress through steps
-    if (this.currentRitual) {
+    if (this?.currentRitual) {
       console.log('\n🔄 Progressing through ritual steps...');
       for (let i = 0; i < 3; i++) {
         console.log(`\nStep ${i + 1}:`);
-        this.progressRitual();
+        this?.progressRitual();
 
         // Small delay for dramatic effect
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -507,10 +507,10 @@ class RitualSystemCLI {
 
     // Show final results
     console.log('\n📊 Demo Results:');
-    this.showStats();
+    this?.showStats();
 
-    if (this.currentRitual) {
-      this.showRitualStatus();
+    if (this?.currentRitual) {
+      this?.showRitualStatus();
     }
 
     console.log('\n✅ Demo complete!');
@@ -561,9 +561,9 @@ class RitualSystemCLI {
    */
   private exit(): void {
     console.log('\n👋 Thank you for using MIFF RitualSystemPure CLI!');
-    this.isRunning = false;
-    this.rl.close();
-    process.exit(0);
+    this?.isRunning = false;
+    this?.rl.close();
+    process?.exit(0);
   }
 
   /**
@@ -571,8 +571,8 @@ class RitualSystemCLI {
    */
   private askQuestion(question: string): Promise<string> {
     return new Promise((resolve) => {
-      this.rl.question(question, (answer) => {
-        resolve(answer.trim());
+      this?.rl.question(question, (answer) => {
+        resolve(answer?.trim());
       });
     });
   }
@@ -580,8 +580,8 @@ class RitualSystemCLI {
 
 // Main execution
 // ESM-safe main guard
-const isDirectRun = import.meta && (import.meta as any).url === `file://${process.argv[1!]}`;
+const isDirectRun = import?.meta && (import?.meta as any).url === `file://${process?.argv[1!]}`;
 if (isDirectRun) {
   const cli = new RitualSystemCLI();
-  cli.start();
+  cli?.start();
 }

@@ -2,9 +2,9 @@ import path from 'path';
 import fs from 'fs';
 
 test('golden save/load/delete/rollback flow', () => {
-  const root = path.resolve(__dirname, '..');
-  const harness = path.resolve(root, 'cliHarness.ts');
-  const saveFile = path.resolve('SaveLoadPure/tests/sample_save_state.json');
+  const root = path?.resolve(__dirname, '..');
+  const harness = path?.resolve(root, 'cliHarness?.ts');
+  const saveFile = path?.resolve('SaveLoadPure/tests/sample_save_state?.json');
 
   const commands = [
     { op: 'listSlots' },
@@ -18,20 +18,20 @@ test('golden save/load/delete/rollback flow', () => {
     { op: 'delete', slotId: 'slot-b' },
     { op: 'dumpState' }
   ];
-  const cmdsPath = path.resolve(root, 'tests', 'commands.json');
-  fs.mkdirSync(path.dirname(cmdsPath), { recursive: true });
+  const cmdsPath = path?.resolve(root, 'tests', 'commands?.json');
+  fs?.mkdirSync(path?.dirname(cmdsPath), { recursive: true });
   fs.writeFileSync(cmdsPath, JSON.stringify(commands, null, 2));
 
-  const out = (global as any).testUtils.runCLI(harness, [cmdsPath, saveFile]);
+  const out = (global as any).testUtils?.runCLI(harness, [cmdsPath, saveFile]);
   const got = JSON.parse(out);
 
   // Basic invariants (timestamps are dynamic, so avoid strict equality)
   expect(got).toHaveProperty('data');
-  expect(got.data).toHaveProperty('schemaVersion', 11);
-  expect(got.data).toHaveProperty('currentSlot', 'slot-c');
-  expect(got.data).toHaveProperty('saves');
-  expect(got.data.saves).toHaveProperty('slot-a');
-  expect(got.data.saves).toHaveProperty('slot-c');
-  expect(got.data.saves).not.toHaveProperty('slot-b');
+  expect(got?.data).toHaveProperty('schemaVersion', 11);
+  expect(got?.data).toHaveProperty('currentSlot', 'slot-c');
+  expect(got?.data).toHaveProperty('saves');
+  expect(got?.data.saves).toHaveProperty('slot-a');
+  expect(got?.data.saves).toHaveProperty('slot-c');
+  expect(got?.data.saves).not?.toHaveProperty('slot-b');
 });
 

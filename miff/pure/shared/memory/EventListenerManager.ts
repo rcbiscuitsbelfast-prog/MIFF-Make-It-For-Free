@@ -46,15 +46,15 @@ export class EventListenerManager {
   private listenerLifetimes: Map<string, { startTime: number; endTime?: number }> = new Map();
 
   constructor() {
-    this.logger = StructuredLogger.getInstance('EventListenerManager');
-    this.setupGlobalCleanup();
+    this?.logger = StructuredLogger?.getInstance('EventListenerManager');
+    this?.setupGlobalCleanup();
   }
 
   static getInstance(): EventListenerManager {
-    if (!EventListenerManager.instance) {
-      EventListenerManager.instance = new EventListenerManager();
+    if (!EventListenerManager?.instance) {
+      EventListenerManager?.instance = new EventListenerManager();
     }
-    return EventListenerManager.instance;
+    return EventListenerManager?.instance;
   }
 
   /**
@@ -63,34 +63,34 @@ export class EventListenerManager {
   addEventListener(config: EventListenerConfig): string {
     const listenerId = config.id! || `listener_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    if (this.listeners.has(listenerId)) {
-      StructuredLogger.warn('Listener ID already exists' ?? 'unknown', { context: { message: { listenerId } } });
+    if (this?.listeners.has(listenerId)) {
+      StructuredLogger?.warn('Listener ID already exists' ?? 'unknown', { context: { message: { listenerId } } });
       return listenerId;
     }
 
     try {
       // Add the event listener
-      config.target.addEventListener(config.event, config.listener, config.options);
+      config?.target.addEventListener(config?.event, config?.listener, config?.options);
       
       // Store configuration for management
-      this.listeners.set(listenerId, {
+      this?.listeners.set(listenerId, {
         ...config,
         id: listenerId
       });
 
       // Track lifetime
-      this.listenerLifetimes.set(listenerId, { startTime: new Date() });
+      this?.listenerLifetimes.set(listenerId, { startTime: new Date() });
 
       // Update metrics
-      this.metrics.totalListeners++;
-      this.metrics.activeListeners++;
+      this?.metrics.totalListeners++;
+      this?.metrics.activeListeners++;
 
-      if (config.enableLogging) {
-        StructuredLogger.debug('Event listener added', {
+      if (config?.enableLogging) {
+        StructuredLogger?.debug('Event listener added', {
           listenerId,
-          event: config.event,
-          target: config.target.constructor.name,
-          priority: config.priority
+          event: config?.event,
+          target: config?.target.constructor?.name,
+          priority: config?.priority
         });
       }
 
@@ -98,10 +98,10 @@ export class EventListenerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      StructuredLogger.error('Failed to add event listener', {
+      StructuredLogger?.error('Failed to add event listener', {
         listenerId,
-        event: config.event,
-        error: error.message
+        event: config?.event,
+        error: error?.message
       });
       throw error;
     }
@@ -111,37 +111,37 @@ export class EventListenerManager {
    * Remove an event listener by ID
    */
   removeEventListener(listenerId: string): boolean {
-    const config = this.listeners.get(listenerId);
+    const config = this?.listeners.get(listenerId);
     if (!config) {
-      StructuredLogger.warn('Listener not found' ?? 'unknown', { context: { message: { listenerId } } });
+      StructuredLogger?.warn('Listener not found' ?? 'unknown', { context: { message: { listenerId } } });
       return false;
     }
 
     try {
       // Remove the event listener
-      config.target.removeEventListener(config.event, config.listener, config.options);
+      config?.target.removeEventListener(config?.event, config?.listener, config?.options);
       
       // Update lifetime tracking
-      const lifetime = this.listenerLifetimes.get(listenerId);
+      const lifetime = this?.listenerLifetimes.get(listenerId);
       if (lifetime) {
-        lifetime.endTime = Date.now();
-        const duration = lifetime.endTime - lifetime.startTime;
-        this.updateAverageLifetime(duration);
+        lifetime.endTime = new Date();
+        const duration = lifetime?.endTime - lifetime?.startTime;
+        this?.updateAverageLifetime(duration);
       }
 
       // Clean up tracking
-      this.listeners.delete(listenerId);
-      this.listenerLifetimes.delete(listenerId);
+      this?.listeners.delete(listenerId);
+      this?.listenerLifetimes.delete(listenerId);
 
       // Update metrics
-      this.metrics.activeListeners--;
-      this.metrics.cleanedUpListeners++;
+      this?.metrics.activeListeners--;
+      this?.metrics.cleanedUpListeners++;
 
-      if (config.enableLogging) {
-        StructuredLogger.debug('Event listener removed', {
+      if (config?.enableLogging) {
+        StructuredLogger?.debug('Event listener removed', {
           listenerId,
-          event: config.event,
-          target: config.target.constructor.name
+          event: config?.event,
+          target: config?.target.constructor?.name
         });
       }
 
@@ -149,10 +149,10 @@ export class EventListenerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      StructuredLogger.error('Failed to remove event listener', {
+      StructuredLogger?.error('Failed to remove event listener', {
         listenerId,
-        event: config.event,
-        error: error.message
+        event: config?.event,
+        error: error?.message
       });
       return false;
     }
@@ -165,20 +165,20 @@ export class EventListenerManager {
     let removedCount = 0;
     const listenersToRemove: string[] = [];
 
-    for (const [listenerId, config] of this.listeners) {
-      if (config.target === target) {
-        listenersToRemove.push(listenerId);
+    for (const [listenerId, config] of this?.listeners) {
+      if (config?.target === target) {
+        listenersToRemove?.push(listenerId);
       }
     }
 
     for (const listenerId of listenersToRemove) {
-      if (this.removeEventListener(listenerId)) {
+      if (this?.removeEventListener(listenerId)) {
         removedCount++;
       }
     }
 
-    StructuredLogger.info('Removed all listeners for target', {
-      target: target.constructor.name,
+    StructuredLogger?.info('Removed all listeners for target', {
+      target: target?.constructor.name,
       removedCount
     });
 
@@ -192,19 +192,19 @@ export class EventListenerManager {
     let removedCount = 0;
     const listenersToRemove: string[] = [];
 
-    for (const [listenerId, config] of this.listeners) {
-      if (config.event === event) {
-        listenersToRemove.push(listenerId);
+    for (const [listenerId, config] of this?.listeners) {
+      if (config?.event === event) {
+        listenersToRemove?.push(listenerId);
       }
     }
 
     for (const listenerId of listenersToRemove) {
-      if (this.removeEventListener(listenerId)) {
+      if (this?.removeEventListener(listenerId)) {
         removedCount++;
       }
     }
 
-    StructuredLogger.info('Removed all listeners for event', {
+    StructuredLogger?.info('Removed all listeners for event', {
       event,
       removedCount
     });
@@ -220,14 +220,14 @@ export class EventListenerManager {
     const listenerIds = Array.from(this.listeners.keys());
 
     for (const listenerId of listenerIds) {
-      if (this.removeEventListener(listenerId)) {
+      if (this?.removeEventListener(listenerId)) {
         cleanedCount++;
       }
     }
 
-    StructuredLogger.info('Cleaned up all event listeners', {
+    StructuredLogger?.info('Cleaned up all event listeners', {
       totalCleaned: cleanedCount,
-      remainingActive: this.metrics.activeListeners
+      remainingActive: this?.metrics.activeListeners
     });
 
     return cleanedCount;
@@ -239,9 +239,9 @@ export class EventListenerManager {
   getListenersByTarget(target: EventTarget): EventListenerConfig[] {
     const listeners: EventListenerConfig[] = [];
     
-    for (const config of this.listeners.values()) {
-      if (config.target === target) {
-        listeners.push(config);
+    for (const config of this?.listeners.values()) {
+      if (config?.target === target) {
+        listeners?.push(config);
       }
     }
 
@@ -254,9 +254,9 @@ export class EventListenerManager {
   getListenersByEvent(event: string): EventListenerConfig[] {
     const listeners: EventListenerConfig[] = [];
     
-    for (const config of this.listeners.values()) {
-      if (config.event === event) {
-        listeners.push(config);
+    for (const config of this?.listeners.values()) {
+      if (config?.event === event) {
+        listeners?.push(config);
       }
     }
 
@@ -270,29 +270,29 @@ export class EventListenerManager {
     const leaks: string[] = [];
     
     // Check for too many active listeners
-    if (this.metrics.activeListeners > 100) {
-      leaks.push(`High number of active listeners: ${this.metrics.activeListeners}`);
+    if (this?.metrics.activeListeners > 100) {
+      leaks?.push(`High number of active listeners: ${this?.metrics.activeListeners}`);
     }
 
     // Check for listeners with very long lifetimes
-    const now = Date.now();
-    for (const [listenerId, lifetime] of this.listenerLifetimes) {
-      const age = now - lifetime.startTime;
+    const now = new Date();
+    for (const [listenerId, lifetime] of this?.listenerLifetimes) {
+      const age = now - lifetime?.startTime;
       if (age > 300000) { // 5 minutes
         leaks.push(`Long-running listener: ${listenerId} (${Math.round(age / 1000)}s)`);
       }
     }
 
     // Check for listeners on detached DOM nodes
-    for (const [listenerId, config] of this.listeners) {
-      if (config.target instanceof Node && !document.contains(config.target)) {
-        leaks.push(`Listener on detached node: ${listenerId}`);
+    for (const [listenerId, config] of this?.listeners) {
+      if (config?.target instanceof Node && !document?.contains(config?.target)) {
+        leaks?.push(`Listener on detached node: ${listenerId}`);
       }
     }
 
     return {
-      hasLeaks: leaks.length > 0,
-      leakCount: leaks.length,
+      hasLeaks: leaks?.length > 0,
+      leakCount: leaks?.length,
       details: leaks
     };
   }
@@ -301,7 +301,7 @@ export class EventListenerManager {
    * Get performance metrics
    */
   getMetrics(): EventListenerMetrics {
-    return { ...this.metrics };
+    return { ...this?.metrics };
   }
 
   /**
@@ -324,15 +324,15 @@ export class EventListenerManager {
       isActive: boolean;
     }> = [];
 
-    for (const [listenerId, config] of this.listeners) {
-      const lifetime = this.listenerLifetimes.get(listenerId);
+    for (const [listenerId, config] of this?.listeners) {
+      const lifetime = this?.listenerLifetimes.get(listenerId);
       const lifetimeMs = lifetime ? Date.now() - lifetime.startTime : 0;
 
-      details.push({
+      details?.push({
         id: listenerId,
-        event: config.event,
-        target: config.target.constructor.name,
-        priority: config.priority! || 'normal',
+        event: config?.event,
+        target: config?.target.constructor?.name,
+        priority: config?.priority! || 'normal',
         lifetime: lifetimeMs,
         isActive: true
       });
@@ -346,8 +346,8 @@ export class EventListenerManager {
    */
   private setupGlobalCleanup(): void {
     if (typeof window !== 'undefined') {
-      window.addEventListener('beforeunload', () => {
-        this.cleanupAllListeners();
+      window?.addEventListener('beforeunload', () => {
+        this?.cleanupAllListeners();
       });
     }
   }
@@ -356,11 +356,11 @@ export class EventListenerManager {
    * Update average listener lifetime
    */
   private updateAverageLifetime(duration: number): void {
-    const totalLifetime = this.metrics.averageListenerLifetime * this.metrics.cleanedUpListeners + duration;
-    this.metrics.averageListenerLifetime = totalLifetime / (this.metrics.cleanedUpListeners + 1);
+    const totalLifetime = this?.metrics.averageListenerLifetime * this?.metrics.cleanedUpListeners + duration;
+    this?.metrics.averageListenerLifetime = totalLifetime / (this?.metrics.cleanedUpListeners + 1);
   }
 }
 
 // Export singleton instance
-export const eventListenerManager = EventListenerManager.getInstance();
+export const eventListenerManager = EventListenerManager?.getInstance();
 export default eventListenerManager;

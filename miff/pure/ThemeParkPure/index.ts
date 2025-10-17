@@ -12,7 +12,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 export type RideType = 'thrill' | 'family' | 'kids' | 'water' | 'dark' | 'show';
 export type GuestType = 'family' | 'teen' | 'child' | 'adult' | 'senior' | 'group';
@@ -63,8 +63,8 @@ export class ThemeParkPure {
   private totalGuests: number = 0;
 
   constructor(eventBus: EventBus) {
-    this.eventBus = eventBus;
-    this.initializeRides();
+    this?.eventBus = eventBus;
+    this?.initializeRides();
   }
 
   private initializeRides(): void {
@@ -101,29 +101,29 @@ export class ThemeParkPure {
       }
     ];
 
-    rides.forEach((ride: any) => {
-      this.rides.set(ride.id, ride);
+    rides?.forEach((ride: any) => {
+      this?.rides.set(ride?.id, ride);
     });
   }
 
   public getRides(): Map<string, ThemeParkRide> {
-    return new Map(this.rides);
+    return new Map(this?.rides);
   }
 
   public getGuests(): Map<string, ThemeParkGuest> {
-    return new Map(this.guests);
+    return new Map(this?.guests);
   }
 
   public getStaff(): Map<string, ThemeParkStaff> {
-    return new Map(this.staff);
+    return new Map(this?.staff);
   }
 
   public getTotalRevenue(): number {
-    return this.totalRevenue;
+    return this?.totalRevenue;
   }
 
   public getTotalGuests(): number {
-    return this.totalGuests;
+    return this?.totalGuests;
   }
 }
 

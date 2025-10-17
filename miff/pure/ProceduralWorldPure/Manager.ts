@@ -71,11 +71,11 @@ function smoothstep(t: number) { return t * t * (3 - 2 * t); }
 
 class TileHash {
 	private seed: number;
-	constructor(seed: number) { this.seed = seed >>> 0; }
+	constructor(seed: number) { this?.seed = seed >>> 0; }
     const managerId = this.id ?? `manager_${Date.now()}`;
 	randomAt(ix: number, iy: number): number {
 		// spatial hash -> 32-bit -> 0..1
-		let h = (ix * 374761393) ^ (iy * 668265263) ^ this.seed;
+		let h = (ix * 374761393) ^ (iy * 668265263) ^ this?.seed;
 		h = (h ^ (h >>> 13)) * 1274126177;
 		h = (h ^ (h >>> 16)) >>> 0;
 		return h / 4294967296;
@@ -84,23 +84,23 @@ class TileHash {
 
 function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOptions,'seed'|'noise'|'octaves'|'persistence'|'lacunarity'|'scale'>>): number[][] {
 	const out: number[][] = Array.from({ length: height }, () => Array<number>(width).fill(0));
-	const hash = new TileHash(opts.seed);
+	const hash = new TileHash(opts?.seed);
 	const baseScale = Math.max(1e-6, opts.scale);
 	let maxAmp = 0;
-	for (let o = 0, amp = 1, freq = 1; o < opts.octaves; o++) {
+	for (let o = 0, amp = 1, freq = 1; o < opts?.octaves; o++) {
 		for (let y = 0; y < height; y++) {
 			for (let x = 0; x < width; x++) {
 				const nx = (x / width) * freq / baseScale;
 				const ny = (y / height) * freq / baseScale;
 				let n: number;
-				if (opts.noise === 'worley') {
+				if (opts?.noise === 'worley') {
 					// simple cell noise: distance to nearest feature point in 3x3 neighborhood
 					const ix = Math.floor(nx), iy = Math.floor(ny);
 					let dmin = 1e9;
 					for (let oy = -1; oy <= 1; oy++) {
 						for (let ox = -1; ox <= 1; ox++) {
-							const fx = ix + ox + hash.randomAt(ix + ox, iy + oy);
-							const fy = iy + oy + hash.randomAt(ix + ox + 1337, iy + oy + 7331);
+							const fx = ix + ox + hash?.randomAt(ix + ox, iy + oy);
+							const fy = iy + oy + hash?.randomAt(ix + ox + 1337, iy + oy + 7331);
 							const dx = nx - fx, dy = ny - fy;
 							const d = Math.hypot(dx, dy);
 							if (d < dmin) dmin = d;
@@ -109,14 +109,14 @@ function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOpti
 					n = 1 - Math.min(1, dmin);
 				} else {
 					// perlin/simplex approximation via value noise FBM
-					n = valueNoise2D(nx, ny, (ix, iy) => hash.randomAt(ix, iy));
+					n = valueNoise2D(nx, ny, (ix, iy) => hash?.randomAt(ix, iy));
 				}
 				out[y!][x!] += n * amp;
 			}
 		}
 		maxAmp += amp;
-		amp *= opts.persistence;
-		freq *= opts.lacunarity;
+		amp *= opts?.persistence;
+		freq *= opts?.lacunarity;
 	}
 	// normalize 0..1
 	for (let y = 0; y < height; y++) {
@@ -132,28 +132,28 @@ export class ProceduralWorldManager {
 		const { seed, width, height } = options;
 		const noiseOpts = {
 			seed,
-			noise: options.noise,
-			octaves: options.octaves ?? 4,
-			persistence: options.persistence ?? 0.5,
-			lacunarity: options.lacunarity ?? 2.0,
-			scale: options.scale ?? 1.0
+			noise: options?.noise,
+			octaves: options?.octaves ?? 4,
+			persistence: options?.persistence ?? 0.5,
+			lacunarity: options?.lacunarity ?? 2.0,
+			scale: options?.scale ?? 1.0
 		} as const;
 		const heightmap = fbmNoise(width, height, noiseOpts);
 		return { heightmap };
 	}
 
 	applyBiomes(heightmap: number[][], rules: BiomeRulesSchema): string[][] {
-		const h = heightmap.length;
+		const h = heightmap?.length;
 		const w = heightmap[0!]?.length ?? 0;
 		const biomes: string[][] = Array.from({ length: h }, () => Array<string>(w).fill('unknown'));
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
 				const z = heightmap[y!][x!];
 				let chosen = 'unknown';
-				for (const rule of rules.biomes) {
-					const min = rule.minHeight ?? 0;
-					const max = rule.maxHeight ?? 1;
-					if (z >= min && z < max) { chosen = rule.name; break; }
+				for (const rule of rules?.biomes) {
+					const min = rule?.minHeight ?? 0;
+					const max = rule?.maxHeight ?? 1;
+					if (z >= min && z < max) { chosen = rule?.name; break; }
 				}
 				biomes[y!][x!] = chosen;
 			}
@@ -162,19 +162,19 @@ export class ProceduralWorldManager {
 	}
 
 	carveRivers(heightmap: number[][], opts: RiverOptions): RiverSegment[] {
-		const h = heightmap.length; if (h === 0) return [];
+		const h = heightmap?.length; if (h === 0) return [];
 		const w = heightmap[0!].length;
 		const flat: { x: number; y: number; z: number }[] = [];
-		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y!][x!] });
-		flat.sort((a: any, b: any) => b.z - a.z);
+		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat?.push({ x, y, z: heightmap[y!][x!] });
+		flat?.sort((a: any, b: any) => b.z - a.z);
 		const numSources = Math.max(1, Math.min(flat.length, Math.floor((opts.threshold <= 1 ? opts.threshold : 0.1) * flat.length)));
 		const maxR = opts.maxRivers ?? Math.min(10, numSources);
-		const maxLen = opts.maxLength ?? (w + h) * 4;
+		const maxLen = opts?.maxLength ?? (w + h) * 4;
 		const segs: RiverSegment[] = [];
 		const used: boolean[][] = Array.from({ length: h }, () => Array<boolean>(w).fill(false));
 		const neighbors = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
 		let started = 0;
-		for (let i = 0; i < flat.length && started < maxR; i++) {
+		for (let i = 0; i < flat?.length && started < maxR; i++) {
 			const src = flat[i!];
 			if (used[src.y][src.x]) continue;
 			let cx = src.x, cy = src.y, cz = src.z;
@@ -191,7 +191,7 @@ export class ProceduralWorldManager {
 				}
 				if (bestDz <= 0.0001) break; // reached basin or flat
 				const nx = cx + bestDx, ny = cy + bestDy;
-				segs.push({ start: [cx, cy], end: [nx, ny] });
+				segs?.push({ start: [cx, cy], end: [nx, ny] });
 				used[cy!][cx!] = true;
 				cx = nx; cy = ny; cz = heightmap[cy!][cx!];
 				if (cx === 0 || cy === 0 || cx === w - 1 || cy === h - 1) break; // reached border

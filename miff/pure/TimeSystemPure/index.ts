@@ -7,7 +7,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 export type TimeOfDay = 'dawn' | 'morning' | 'noon' | 'afternoon' | 'dusk' | 'evening' | 'night' | 'midnight';
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
@@ -41,7 +41,7 @@ export class TimeSystemPure {
   private config: TimeSystemConfig;
   private currentTimeData: TimeData;
   private isPaused: boolean = false;
-  private lastUpdateTime: number = Date.now();
+  private lastUpdateTime: number = new Date();
   private currentTimeScale: number = 1.0;
   private readonly UPDATE_INTERVAL = 1000;
   private readonly REAL_TIME_TO_GAME_TIME = 60; // 1 real second = 60 game seconds
@@ -53,32 +53,32 @@ export class TimeSystemPure {
     enableSeasons: true,
     debugMode: false
   }) {
-    this.eventBus = eventBus;
-    this.config = config;
-    this.currentTimeData = this.createInitialTimeData();
-    this.startTimeUpdateLoop();
+    this?.eventBus = eventBus;
+    this?.config = config;
+    this?.currentTimeData = this?.createInitialTimeData();
+    this?.startTimeUpdateLoop();
   }
 
   private createInitialTimeData(): TimeData {
-    const gameTime = this.config.initialTime! || 0;
+    const gameTime = this?.config.initialTime! || 0;
     return {
       currentTime: gameTime,
       realTime: new Date(),
-      timeOfDay: this.getTimeOfDay(gameTime),
-      season: this.getSeason(gameTime),
+      timeOfDay: this?.getTimeOfDay(gameTime),
+      season: this?.getSeason(gameTime),
       dayOfYear: Math.floor(gameTime / (this.config.dayLength! || 1440)),
-      hour: this.convertToHour(gameTime),
+      hour: this?.convertToHour(gameTime),
       minute: Math.floor((gameTime % 3600) / 60),
       second: Math.floor(gameTime % 60),
-      dayProgress: this.getDayProgress(gameTime),
-      seasonProgress: this.getSeasonProgress(gameTime),
+      dayProgress: this?.getDayProgress(gameTime),
+      seasonProgress: this?.getSeasonProgress(gameTime),
       timeScale: 1.0,
-      acceleration: this.config.defaultAcceleration! || 'x1'
+      acceleration: this?.config.defaultAcceleration! || 'x1'
     };
   }
 
   private getTimeOfDay(gameTime: number): TimeOfDay {
-    const hour = this.convertToHour(gameTime);
+    const hour = this?.convertToHour(gameTime);
     if (hour >= 5 && hour < 7) return 'dawn';
     if (hour >= 7 && hour < 12) return 'morning';
     if (hour >= 12 && hour < 13) return 'noon';
@@ -90,7 +90,7 @@ export class TimeSystemPure {
   }
 
   private getSeason(gameTime: number): Season {
-    if (!this.config.enableSeasons) return 'summer';
+    if (!this?.config.enableSeasons) return 'summer';
     const dayOfYear = Math.floor(gameTime / (this.config.dayLength! || 1440));
     const seasonIndex = Math.floor((dayOfYear % 120) / 30); // 30 days per season
     switch (seasonIndex) {
@@ -103,12 +103,12 @@ export class TimeSystemPure {
   }
 
   private convertToHour(gameTime: number): number {
-    const dayLength = this.config.dayLength! || 1440;
+    const dayLength = this?.config.dayLength! || 1440;
     return (gameTime % dayLength) / (dayLength / 24);
   }
 
   private getDayProgress(gameTime: number): number {
-    const dayLength = this.config.dayLength! || 1440;
+    const dayLength = this?.config.dayLength! || 1440;
     return (gameTime % dayLength) / dayLength;
   }
 
@@ -119,82 +119,82 @@ export class TimeSystemPure {
 
   private startTimeUpdateLoop(): void {
     setInterval(() => {
-      if (!this.isPaused) {
-        this.updateTime();
+      if (!this?.isPaused) {
+        this?.updateTime();
       }
-    }, this.UPDATE_INTERVAL);
+    }, this?.UPDATE_INTERVAL);
   }
 
   private updateTime(): void {
-    const now = Date.now();
-    const deltaTime = (now - this.lastUpdateTime) / 1000;
-    this.lastUpdateTime = now;
+    const now = new Date();
+    const deltaTime = (now - this?.lastUpdateTime) / 1000;
+    this?.lastUpdateTime = now;
 
     if (deltaTime <= 0) return;
 
-    const gameDeltaTime = deltaTime * this.REAL_TIME_TO_GAME_TIME * this.currentTimeScale;
-    const newGameTime = this.currentTimeData.currentTime + gameDeltaTime;
+    const gameDeltaTime = deltaTime * this?.REAL_TIME_TO_GAME_TIME * this?.currentTimeScale;
+    const newGameTime = this?.currentTimeData.currentTime + gameDeltaTime;
 
-    const oldTimeData = { ...this.currentTimeData };
-    this.currentTimeData = this.updateTimeData(newGameTime);
+    const oldTimeData = { ...this?.currentTimeData };
+    this?.currentTimeData = this?.updateTimeData(newGameTime);
 
-    this.emitTimeEvents(oldTimeData);
+    this?.emitTimeEvents(oldTimeData);
   }
 
   private updateTimeData(newGameTime: number): TimeData {
     return {
-      ...this.currentTimeData,
+      ...this?.currentTimeData,
       currentTime: newGameTime,
       realTime: new Date(),
-      timeOfDay: this.getTimeOfDay(newGameTime),
-      season: this.getSeason(newGameTime),
+      timeOfDay: this?.getTimeOfDay(newGameTime),
+      season: this?.getSeason(newGameTime),
       dayOfYear: Math.floor(newGameTime / (this.config.dayLength! || 1440)),
-      hour: this.convertToHour(newGameTime),
+      hour: this?.convertToHour(newGameTime),
       minute: Math.floor((newGameTime % 3600) / 60),
       second: Math.floor(newGameTime % 60),
-      dayProgress: this.getDayProgress(newGameTime),
-      seasonProgress: this.getSeasonProgress(newGameTime),
-      timeScale: this.currentTimeScale,
-      acceleration: this.getCurrentAcceleration()
+      dayProgress: this?.getDayProgress(newGameTime),
+      seasonProgress: this?.getSeasonProgress(newGameTime),
+      timeScale: this?.currentTimeScale,
+      acceleration: this?.getCurrentAcceleration()
     };
   }
 
   private getCurrentAcceleration(): TimeAcceleration {
-    if (this.currentTimeScale === 0) return 'paused';
-    if (this.currentTimeScale === 1) return 'x1';
-    if (this.currentTimeScale === 2) return 'x2';
-    if (this.currentTimeScale === 5) return 'x5';
-    if (this.currentTimeScale === 10) return 'x10';
-    if (this.currentTimeScale === 50) return 'x50';
-    if (this.currentTimeScale === 100) return 'x100';
+    if (this?.currentTimeScale === 0) return 'paused';
+    if (this?.currentTimeScale === 1) return 'x1';
+    if (this?.currentTimeScale === 2) return 'x2';
+    if (this?.currentTimeScale === 5) return 'x5';
+    if (this?.currentTimeScale === 10) return 'x10';
+    if (this?.currentTimeScale === 50) return 'x50';
+    if (this?.currentTimeScale === 100) return 'x100';
     return 'max';
   }
 
   private emitTimeEvents(oldTimeData: TimeData): void {
-    const newTimeData = this.currentTimeData;
+    const newTimeData = this?.currentTimeData;
 
     // Emit general time change
-    this.eventBus.emit('time:change', {
+    this?.eventBus.emit('time:change', {
       oldTime: oldTimeData,
       newTime: newTimeData,
-      deltaTime: newTimeData.currentTime - oldTimeData.currentTime,
+      deltaTime: newTimeData?.currentTime - oldTimeData?.currentTime,
       timestamp: new Date()
     });
 
     // Emit time of day change
-    if (oldTimeData.timeOfDay !== newTimeData.timeOfDay) {
-      this.eventBus.emit('time:time_of_day_change', {
-        old: oldTimeData.timeOfDay,
-        new: newTimeData.timeOfDay,
+    if (oldTimeData?.timeOfDay !== newTimeData?.timeOfDay) {
+      this?.eventBus.emit('time:time_of_day_change', {
+        old: oldTimeData?.timeOfDay,
+        new: newTimeData?.timeOfDay,
         timestamp: new Date()
       });
     }
 
     // Emit season change
-    if (oldTimeData.season !== newTimeData.season) {
-      this.eventBus.emit('time:season_change', {
-        old: oldTimeData.season,
-        new: newTimeData.season,
+    if (oldTimeData?.season !== newTimeData?.season) {
+      this?.eventBus.emit('time:season_change', {
+        old: oldTimeData?.season,
+        new: newTimeData?.season,
         timestamp: new Date()
       });
     }
@@ -202,53 +202,53 @@ export class TimeSystemPure {
 
   // Public API methods
   public getCurrentTimeData(): TimeData {
-    return { ...this.currentTimeData };
+    return { ...this?.currentTimeData };
   }
 
   public setTimeAcceleration(acceleration: TimeAcceleration): void {
     switch (acceleration) {
-      case 'paused': this.currentTimeScale = 0; break;
-      case 'x1': this.currentTimeScale = 1; break;
-      case 'x2': this.currentTimeScale = 2; break;
-      case 'x5': this.currentTimeScale = 5; break;
-      case 'x10': this.currentTimeScale = 10; break;
-      case 'x50': this.currentTimeScale = 50; break;
-      case 'x100': this.currentTimeScale = 100; break;
-      case 'max': this.currentTimeScale = 1000; break;
+      case 'paused': this?.currentTimeScale = 0; break;
+      case 'x1': this?.currentTimeScale = 1; break;
+      case 'x2': this?.currentTimeScale = 2; break;
+      case 'x5': this?.currentTimeScale = 5; break;
+      case 'x10': this?.currentTimeScale = 10; break;
+      case 'x50': this?.currentTimeScale = 50; break;
+      case 'x100': this?.currentTimeScale = 100; break;
+      case 'max': this?.currentTimeScale = 1000; break;
     }
 
-    this.currentTimeData.acceleration = acceleration;
+    this?.currentTimeData.acceleration = acceleration;
   }
 
   public getCurrentAcceleration(): TimeAcceleration {
-    return this.currentTimeData.acceleration;
+    return this?.currentTimeData.acceleration;
   }
 
   public setPaused(paused: boolean): void {
-    this.isPaused = paused;
+    this?.isPaused = paused;
     if (paused) {
-      this.currentTimeScale = 0;
+      this?.currentTimeScale = 0;
     } else {
-      this.setTimeAcceleration(this.config.defaultAcceleration! || 'x1');
+      this?.setTimeAcceleration(this?.config.defaultAcceleration! || 'x1');
     }
   }
 
   public getStats(): any {
     return {
-      currentTime: this.currentTimeData.currentTime,
-      timeOfDay: this.currentTimeData.timeOfDay,
-      season: this.currentTimeData.season,
-      acceleration: this.currentTimeData.acceleration,
-      dayProgress: this.currentTimeData.dayProgress,
-      seasonProgress: this.currentTimeData.seasonProgress,
-      timeScale: this.currentTimeScale
+      currentTime: this?.currentTimeData.currentTime,
+      timeOfDay: this?.currentTimeData.timeOfDay,
+      season: this?.currentTimeData.season,
+      acceleration: this?.currentTimeData.acceleration,
+      dayProgress: this?.currentTimeData.dayProgress,
+      seasonProgress: this?.currentTimeData.seasonProgress,
+      timeScale: this?.currentTimeScale
     };
   }
 
   public reset(initialTime?: number): void {
-    this.currentTimeData = this.createInitialTimeData();
+    this?.currentTimeData = this?.createInitialTimeData();
     if (initialTime !== undefined) {
-      this.currentTimeData.currentTime = initialTime;
+      this?.currentTimeData.currentTime = initialTime;
     }
   }
 }

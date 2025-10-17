@@ -13,7 +13,7 @@ import { handleError, handleSuccess, parseCLIArgs } from '../shared/cliHarnessUt
 import { runScenario } from './ScenarioPackOverlinkPure';
 
 function main() {
-  const { mode, args } = parseCLIArgs(process.argv);
+  const { mode, args } = parseCLIArgs(process?.argv);
   
   if (mode === 'demo') {
     // Demo mode for testing - use real scenario implementation
@@ -33,7 +33,7 @@ function main() {
   
   if (!configFile) {
     console.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -47,8 +47,8 @@ function main() {
     console.log(JSON.stringify(result, null, 2));
     
     // Exit with error code if scenario failed
-    if (result.status === 'error') {
-      process.exit(1);
+    if (result?.status === 'error') {
+      process?.exit(1);
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -56,4 +56,4 @@ function main() {
   }
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import?.meta.url === `file://${process?.argv[1!]}`) main();

@@ -1660,7 +1660,7 @@ export class DataLakePure {
 
   constructor(config: Partial<DataLakeConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableDataLakeManagement: true,
       enableDataIngestion: true,
       enableDataProcessing: true,
@@ -1679,7 +1679,7 @@ export class DataLakePure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalDatasets: 0,
       activeDatasets: 0,
       totalStorage: 0,
@@ -1694,7 +1694,7 @@ export class DataLakePure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalDatasets: 0,
       totalStorage: 0,
       averageQueryTime: 0,
@@ -1708,7 +1708,7 @@ export class DataLakePure {
    * Create a new data lake manager
    */
   createManager(): DataLakeOutput {
-    if (!this.config.enableDataLakeManagement) {
+    if (!this?.config.enableDataLakeManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1718,8 +1718,8 @@ export class DataLakePure {
 
     const manager: DataLakeManager = {
       id: managerData.id || `datalake-${Date.now()}`,
-      name: managerData.name || 'Unnamed Data Lake Manager',
-      type: managerData.type || 'enterprise',
+      name: managerData?.name || 'Unnamed Data Lake Manager',
+      type: managerData?.type || 'enterprise',
       status: 'active',
       datasets: [],
       storage: [],
@@ -1823,7 +1823,7 @@ export class DataLakePure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1836,7 +1836,7 @@ export class DataLakePure {
    * Get manager by ID
    */
   getManager(): DataLakeOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1856,14 +1856,14 @@ export class DataLakePure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DataLakePerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DataLakeAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1877,7 +1877,7 @@ export class DataLakePure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalDatasets = 0;
     let activeDatasets = 0;
     let totalStorage = 0;
@@ -1887,25 +1887,25 @@ export class DataLakePure {
     let totalPipelines = 0;
     let activePipelines = 0;
 
-    for (const manager of this.managers.values()) {
-      totalDatasets += manager.datasets.length;
-      activeDatasets += manager.datasets.filter((d: any) => d.status === 'ready').length;
-      totalStorage += manager.storage.reduce((sum: any, s: any) => sum + s.capacity.total, 0);
-      usedStorage += manager.storage.reduce((sum: any, s: any) => sum + s.capacity.used, 0);
-      totalProcessors += manager.processors.length;
-      activeProcessors += manager.processors.filter((p: any) => p.status === 'running').length;
-      totalPipelines += manager.pipelines.length;
-      activePipelines += manager.pipelines.filter((p: any) => p.status === 'active').length;
+    for (const manager of this?.managers.values()) {
+      totalDatasets += manager?.datasets.length;
+      activeDatasets += manager?.datasets.filter((d: any) => d?.status === 'ready').length;
+      totalStorage += manager?.storage.reduce((sum: any, s: any) => sum + s?.capacity.total, 0);
+      usedStorage += manager?.storage.reduce((sum: any, s: any) => sum + s?.capacity.used, 0);
+      totalProcessors += manager?.processors.length;
+      activeProcessors += manager?.processors.filter((p: any) => p?.status === 'running').length;
+      totalPipelines += manager?.pipelines.length;
+      activePipelines += manager?.pipelines.filter((p: any) => p?.status === 'active').length;
     }
 
-    this.performanceMetrics.totalDatasets = totalDatasets;
-    this.performanceMetrics.activeDatasets = activeDatasets;
-    this.performanceMetrics.totalStorage = totalStorage;
-    this.performanceMetrics.usedStorage = usedStorage;
-    this.performanceMetrics.totalProcessors = totalProcessors;
-    this.performanceMetrics.activeProcessors = activeProcessors;
-    this.performanceMetrics.totalPipelines = totalPipelines;
-    this.performanceMetrics.activePipelines = activePipelines;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalDatasets = totalDatasets;
+    this?.performanceMetrics.activeDatasets = activeDatasets;
+    this?.performanceMetrics.totalStorage = totalStorage;
+    this?.performanceMetrics.usedStorage = usedStorage;
+    this?.performanceMetrics.totalProcessors = totalProcessors;
+    this?.performanceMetrics.activeProcessors = activeProcessors;
+    this?.performanceMetrics.totalPipelines = totalPipelines;
+    this?.performanceMetrics.activePipelines = activePipelines;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

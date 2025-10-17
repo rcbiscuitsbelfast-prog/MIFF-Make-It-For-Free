@@ -50,7 +50,7 @@ export const PixelGenPure = {
 	} as Record<string, PixelGenPreset>,
 
 	generate(preset: string, seed: number = 12345, count: number = 1): PixelAsset[] {
-		const p = this.presets[preset!];
+		const p = this?.presets[preset!];
 		if (!p) throw new Error(`Unknown preset: ${preset}`);
 		
 		const assets: PixelAsset[] = [];
@@ -59,19 +59,19 @@ export const PixelGenPure = {
 			const color = p.colors[Math.floor(this.random(seed + i + 1000) * p.colors.length)];
 			
 			// Generate actual pixel data
-			const pixelData = this.generatePixelData(pattern, p, seed + i);
+			const pixelData = this?.generatePixelData(pattern, p, seed + i);
 			
-			assets.push({
+			assets?.push({
 				id: `${preset}_${pattern}_${i + 1}`,
-				style: p.style,
+				style: p?.style,
 				layer: pixelData, // Actual pixel data as base64
-				anchor: { x: p.width / 2, y: p.height - 2 },
+				anchor: { x: p?.width / 2, y: p?.height - 2 },
 				metadata: {
 					seed: seed + i,
 					preset,
 					generated: true,
-					width: p.width,
-					height: p.height
+					width: p?.width,
+					height: p?.height
 				}
 			});
 		}
@@ -82,26 +82,26 @@ export const PixelGenPure = {
 	generatePixelData(pattern: string, preset: PixelGenPreset, seed: number): string {
 		// Check if we're in a browser environment
 		if (typeof document === 'undefined') {
-			// Use Node.js canvas polyfill
+			// Use Node?.js canvas polyfill
 			try {
 				const { createCanvas } = require('canvas');
-				const canvas = createCanvas(preset.width, preset.height);
-				const ctx = canvas.getContext('2d');
+				const canvas = createCanvas(preset?.width, preset?.height);
+				const ctx = canvas?.getContext('2d');
 				
 				// Generate pixel art based on pattern
-				const imageData = ctx.createImageData(preset.width, preset.height);
-				const data = imageData.data;
+				const imageData = ctx?.createImageData(preset?.width, preset?.height);
+				const data = imageData?.data;
 				
 				// Use seeded random for consistent generation
-				const rng = (offset: number) => this.random(seed + offset);
+				const rng = (offset: number) => this?.random(seed + offset);
 				
-				for (let y = 0; y < preset.height; y++) {
-					for (let x = 0; x < preset.width; x++) {
-						const idx = (y * preset.width + x) * 4;
-						const pixelSeed = seed + x + y * preset.width;
+				for (let y = 0; y < preset?.height; y++) {
+					for (let x = 0; x < preset?.width; x++) {
+						const idx = (y * preset?.width + x) * 4;
+						const pixelSeed = seed + x + y * preset?.width;
 						
 						// Generate pattern-specific pixel data
-						const pixel = this.generatePatternPixel(pattern, x, y, preset, pixelSeed);
+						const pixel = this?.generatePatternPixel(pattern, x, y, preset, pixelSeed);
 						
 						data[idx!] = pixel.r;     // Red
 						data[idx + 1] = pixel.g; // Green
@@ -110,39 +110,39 @@ export const PixelGenPure = {
 					}
 				}
 				
-				ctx.putImageData(imageData, 0, 0);
-				return canvas.toDataURL('image/png');
+				ctx?.putImageData(imageData, 0, 0);
+				return canvas?.toDataURL('image/png');
 			} catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
 				// Fallback if canvas polyfill fails
-				return `data:image/png;base64,${this.generateFallbackPixelData(pattern, preset, seed)}`;
+				return `data:image/png;base64,${this?.generateFallbackPixelData(pattern, preset, seed)}`;
 			}
 		}
 		
-		const canvas = document.createElement('canvas');
-		canvas.width = preset.width;
-		canvas.height = preset.height;
-		const ctx = canvas.getContext('2d');
+		const canvas = document?.createElement('canvas');
+		canvas?.width = preset?.width;
+		canvas?.height = preset?.height;
+		const ctx = canvas?.getContext('2d');
 		
 		if (!ctx) {
 			// Fallback if canvas context creation fails
-			return `data:image/png;base64,${this.generateFallbackPixelData(pattern, preset, seed)}`;
+			return `data:image/png;base64,${this?.generateFallbackPixelData(pattern, preset, seed)}`;
 		}
 		
 		// Generate pixel art based on pattern
-		const imageData = ctx.createImageData(preset.width, preset.height);
-		const data = imageData.data;
+		const imageData = ctx?.createImageData(preset?.width, preset?.height);
+		const data = imageData?.data;
 		
 		// Use seeded random for consistent generation
-		const rng = (offset: number) => this.random(seed + offset);
+		const rng = (offset: number) => this?.random(seed + offset);
 		
-		for (let y = 0; y < preset.height; y++) {
-			for (let x = 0; x < preset.width; x++) {
-				const idx = (y * preset.width + x) * 4;
-				const pixelSeed = seed + x + y * preset.width;
+		for (let y = 0; y < preset?.height; y++) {
+			for (let x = 0; x < preset?.width; x++) {
+				const idx = (y * preset?.width + x) * 4;
+				const pixelSeed = seed + x + y * preset?.width;
 				
 				// Generate pattern-specific pixel data
-				const pixel = this.generatePatternPixel(pattern, x, y, preset, pixelSeed);
+				const pixel = this?.generatePatternPixel(pattern, x, y, preset, pixelSeed);
 				
 				data[idx!] = pixel.r;     // Red
 				data[idx + 1] = pixel.g; // Green
@@ -151,39 +151,39 @@ export const PixelGenPure = {
 			}
 		}
 		
-		ctx.putImageData(imageData, 0, 0);
-		return canvas.toDataURL('image/png');
+		ctx?.putImageData(imageData, 0, 0);
+		return canvas?.toDataURL('image/png');
 	},
 	
 	// Generate a single pixel for a pattern
 	generatePatternPixel(pattern: string, x: number, y: number, preset: PixelGenPreset, seed: number): { r: number; g: number; b: number; a: number } {
-		const rng = (offset: number) => this.random(seed + offset);
+		const rng = (offset: number) => this?.random(seed + offset);
 		
 		switch (pattern) {
 			case 'tree':
-				return this.generateTreePixel(x, y, preset, rng);
+				return this?.generateTreePixel(x, y, preset, rng);
 			case 'bush':
-				return this.generateBushPixel(x, y, preset, rng);
+				return this?.generateBushPixel(x, y, preset, rng);
 			case 'rock':
-				return this.generateRockPixel(x, y, preset, rng);
+				return this?.generateRockPixel(x, y, preset, rng);
 			case 'grass':
-				return this.generateGrassPixel(x, y, preset, rng);
+				return this?.generateGrassPixel(x, y, preset, rng);
 			case 'house':
-				return this.generateHousePixel(x, y, preset, rng);
+				return this?.generateHousePixel(x, y, preset, rng);
 			case 'fence':
-				return this.generateFencePixel(x, y, preset, rng);
+				return this?.generateFencePixel(x, y, preset, rng);
 			case 'path':
-				return this.generatePathPixel(x, y, preset, rng);
+				return this?.generatePathPixel(x, y, preset, rng);
 			case 'well':
-				return this.generateWellPixel(x, y, preset, rng);
+				return this?.generateWellPixel(x, y, preset, rng);
 			case 'wall':
-				return this.generateWallPixel(x, y, preset, rng);
+				return this?.generateWallPixel(x, y, preset, rng);
 			case 'door':
-				return this.generateDoorPixel(x, y, preset, rng);
+				return this?.generateDoorPixel(x, y, preset, rng);
 			case 'chest':
-				return this.generateChestPixel(x, y, preset, rng);
+				return this?.generateChestPixel(x, y, preset, rng);
 			case 'torch':
-				return this.generateTorchPixel(x, y, preset, rng);
+				return this?.generateTorchPixel(x, y, preset, rng);
 			default:
 				return { r: 128, g: 128, b: 128, a: 255 }; // Default gray
 		}
@@ -191,14 +191,14 @@ export const PixelGenPure = {
 	
 	// Pattern-specific pixel generators
 	generateTreePixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		const centerX = preset.width / 2;
-		const centerY = preset.height / 2;
+		const centerX = preset?.width / 2;
+		const centerY = preset?.height / 2;
 		const dist = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
 		
 		if (y > centerY + 1) {
 			// Trunk
 			return { r: 101, g: 67, b: 33, a: 255 };
-		} else if (dist < preset.width / 3) {
+		} else if (dist < preset?.width / 3) {
 			// Leaves
 			return { r: 34, g: 139, b: 34, a: 255 };
 		}
@@ -206,18 +206,18 @@ export const PixelGenPure = {
 	},
 	
 	generateBushPixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		if (y > preset.height / 2 && rng(x + y) > 0.3) {
+		if (y > preset?.height / 2 && rng(x + y) > 0.3) {
 			return { r: 0, g: 100, b: 0, a: 255 };
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
 	},
 	
 	generateRockPixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		const centerX = preset.width / 2;
-		const centerY = preset.height / 2;
+		const centerX = preset?.width / 2;
+		const centerY = preset?.height / 2;
 		const dist = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
 		
-		if (dist < preset.width / 4) {
+		if (dist < preset?.width / 4) {
 			return { r: 105, g: 105, b: 105, a: 255 };
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
@@ -231,16 +231,16 @@ export const PixelGenPure = {
 	},
 	
 	generateHousePixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		if (x > 2 && x < preset.width - 2 && y > 2 && y < preset.height - 2) {
+		if (x > 2 && x < preset?.width - 2 && y > 2 && y < preset?.height - 2) {
 			return { r: 160, g: 82, b: 45, a: 255 }; // House body
-		} else if (y <= 2 && x >= 1 && x < preset.width - 1) {
+		} else if (y <= 2 && x >= 1 && x < preset?.width - 1) {
 			return { r: 139, g: 69, b: 19, a: 255 }; // Roof
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
 	},
 	
 	generateFencePixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		if ((x === 0 || x === preset.width - 1) && y > 1) {
+		if ((x === 0 || x === preset?.width - 1) && y > 1) {
 			return { r: 101, g: 67, b: 33, a: 255 };
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
@@ -254,18 +254,18 @@ export const PixelGenPure = {
 	},
 	
 	generateWellPixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		const centerX = preset.width / 2;
-		const centerY = preset.height / 2;
+		const centerX = preset?.width / 2;
+		const centerY = preset?.height / 2;
 		const dist = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
 		
-		if (dist < preset.width / 3) {
+		if (dist < preset?.width / 3) {
 			return { r: 105, g: 105, b: 105, a: 255 };
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
 	},
 	
 	generateWallPixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		if (x === 0 || x === preset.width - 1 || y === 0 || y === preset.height - 1) {
+		if (x === 0 || x === preset?.width - 1 || y === 0 || y === preset?.height - 1) {
 			return { r: 105, g: 105, b: 105, a: 255 };
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
@@ -279,15 +279,15 @@ export const PixelGenPure = {
 	},
 	
 	generateChestPixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		if (x > 2 && x < preset.width - 2 && y > 2 && y < preset.height - 2) {
+		if (x > 2 && x < preset?.width - 2 && y > 2 && y < preset?.height - 2) {
 			return { r: 160, g: 82, b: 45, a: 255 };
 		}
 		return { r: 0, g: 0, b: 0, a: 0 };
 	},
 	
 	generateTorchPixel(x: number, y: number, preset: PixelGenPreset, rng: (offset: number) => number): { r: number; g: number; b: number; a: number } {
-		const centerX = preset.width / 2;
-		const centerY = preset.height / 2;
+		const centerX = preset?.width / 2;
+		const centerY = preset?.height / 2;
 		
 		if (x === centerX && y >= centerY) {
 			return { r: 101, g: 67, b: 33, a: 255 }; // Torch handle
@@ -297,7 +297,7 @@ export const PixelGenPure = {
 		return { r: 0, g: 0, b: 0, a: 0 };
 	},
 	
-	// Fallback for Node.js environment
+	// Fallback for Node?.js environment
 	generateFallbackPixelData(pattern: string, preset: PixelGenPreset, seed: number): string {
 		// Simple base64-encoded 1x1 pixel as fallback
 		return 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
@@ -311,7 +311,7 @@ export const PixelGenPure = {
 
 	exportManifest(assets: PixelAsset[]): unknown {
 		return {
-			schema: "miff.pixel.assets.v1",
+			schema: "miff?.pixel.assets?.v1",
 			generated: new Date().toISOString(),
 			assets
 		};

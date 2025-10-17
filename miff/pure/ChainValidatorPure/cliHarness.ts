@@ -18,16 +18,16 @@ type Operation =
   | { op: 'export'; format?: 'json' | 'yaml' | 'csv' }
   | { op: 'dump' };
 
-function readJSONFile<T = any>(filePath: string): T {
-  const abs = path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
+function readJSONFile<T extends Record<string, any> = any>(filePath: string): T {
+  const abs = path?.isAbsolute(filePath) ? filePath : path?.resolve(process?.cwd(), filePath);
   return JSON.parse(fs.readFileSync(abs, 'utf-8')) as T;
 }
 
 function main() {
-  const argv = process.argv.slice(2);
-  if (argv.length === 0) {
+  const argv = process?.argv.slice(2);
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!] [--format json|csv|markdown|html|yaml]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -35,7 +35,7 @@ function main() {
     const first = argv[0!];
     let operation: Operation;
 
-    if (first.endsWith('.json') && fs.existsSync(first)) {
+    if (first?.endsWith('.json') && fs?.existsSync(first)) {
       operation = readJSONFile<Operation>(first);
     } else {
       switch (first) {
@@ -43,7 +43,7 @@ function main() {
           const file = argv[1!];
           if (!file) throw new Error('create requires graph JSON file with { nodes, edges }');
           const payload = readJSONFile<{ nodes?: ChainNode[]; edges?: ChainEdge[] }>(file);
-          operation = { op: 'create', nodes: payload.nodes || [], edges: payload.edges || [] };
+          operation = { op: 'create', nodes: payload?.nodes || [], edges: payload?.edges || [] };
           break;
         }
         case 'addNode': {
@@ -112,50 +112,50 @@ function main() {
 
     // Apply operation
     let result: any;
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'create': {
         let created = 0;
-        for (const n of operation.nodes || []) {
-          const r = mgr.addNode(n);
-          if (r.status === 'ok') created++;
+        for (const n of operation?.nodes || []) {
+          const r = mgr?.addNode(n);
+          if (r?.status === 'ok') created++;
         }
         let linked = 0;
-        for (const e of operation.edges || []) {
-          const r = mgr.addEdge(e);
-          if (r.status === 'ok') linked++;
+        for (const e of operation?.edges || []) {
+          const r = mgr?.addEdge(e);
+          if (r?.status === 'ok') linked++;
         }
         result = { created, linked };
         break;
       }
       case 'addNode':
-        result = mgr.addNode(operation.node);
+        result = mgr?.addNode(operation?.node);
         break;
       case 'updateNode':
-        result = mgr.updateNode(operation.id, operation.updates);
+        result = mgr?.updateNode(operation?.id, operation?.updates);
         break;
       case 'removeNode':
-        result = mgr.removeNode(operation.id);
+        result = mgr?.removeNode(operation?.id);
         break;
       case 'addEdge':
-        result = mgr.addEdge(operation.edge);
+        result = mgr?.addEdge(operation?.edge);
         break;
       case 'removeEdge':
-        result = mgr.removeEdge(operation.from, operation.to);
+        result = mgr?.removeEdge(operation?.from, operation?.to);
         break;
       case 'get':
-        result = { node: mgr.getNode(operation.id) };
+        result = { node: mgr?.getNode(operation?.id) };
         break;
       case 'list':
-        result = { nodes: mgr.listNodes(), edges: mgr.listEdges() };
+        result = { nodes: mgr?.listNodes(), edges: mgr?.listEdges() };
         break;
       case 'validate':
-        result = mgr.validate({});
+        result = mgr?.validate({});
         break;
       case 'stats':
-        result = mgr.getStats();
+        result = mgr?.getStats();
         break;
       case 'export':
-        result = mgr.exportGraph(operation.format);
+        result = mgr?.exportGraph(operation?.format);
         break;
       case 'dump':
         result = {
@@ -166,20 +166,20 @@ function main() {
           ],
           description: 'ChainValidatorPure - Graph validation and chain analysis',
           examples: {
-            create: 'tsx cliHarness.ts create graph.json',
-            addNode: 'tsx cliHarness.ts addNode node.json',
-            addEdge: 'tsx cliHarness.ts addEdge edge.json',
-            stats: 'tsx cliHarness.ts stats',
-            export: 'tsx cliHarness.ts export yaml'
+            create: 'tsx cliHarness?.ts create graph?.json',
+            addNode: 'tsx cliHarness?.ts addNode node?.json',
+            addEdge: 'tsx cliHarness?.ts addEdge edge?.json',
+            stats: 'tsx cliHarness?.ts stats',
+            export: 'tsx cliHarness?.ts export yaml'
           }
         };
         break;
     }
 
     // Optional export formatting for stdout (wrapper)
-    const fmtArg = argv.find((a: string) => a.startsWith('--format='))?.split('=')[1!] || argv[argv.indexOf('--format') + 1];
+    const fmtArg = argv?.find((a: string) => a?.startsWith('--format='))?.split('=')[1!] || argv[argv?.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml'];
-    const exportFormat = validFormats.includes(fmtArg || '') ? fmtArg : undefined;
+    const exportFormat = validFormats?.includes(fmtArg || '') ? fmtArg : undefined;
     const { result: finalResult, exportData } = addExportSupport(
       result,
       exportFormat,
@@ -188,12 +188,12 @@ function main() {
     );
 
     const envelope: any = {
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
     };
-    if (operation.op === 'export') envelope.format = (operation as any).format || 'json';
+    if (operation?.op === 'export') envelope?.format = (operation as any).format || 'json';
 
     console.log(JSON.stringify(envelope, null, 2));
     if (exportData) {
@@ -204,14 +204,14 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }
 

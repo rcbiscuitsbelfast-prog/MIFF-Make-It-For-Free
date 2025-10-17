@@ -1029,7 +1029,7 @@ export class NeuralNetworkPure {
 
   constructor(config: Partial<NeuralNetworkConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableNeuralNetworkManagement: true,
       enableModelCreation: true,
       enableTrainingPipeline: true,
@@ -1047,7 +1047,7 @@ export class NeuralNetworkPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalModels: 0,
       activeModels: 0,
       totalDatasets: 0,
@@ -1060,7 +1060,7 @@ export class NeuralNetworkPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalModels: 0,
       totalTrainingJobs: 0,
       averageTrainingTime: 0,
@@ -1074,7 +1074,7 @@ export class NeuralNetworkPure {
    * Create a new neural network manager
    */
   createManager(): NeuralNetworkOutput {
-    if (!this.config.enableNeuralNetworkManagement) {
+    if (!this?.config.enableNeuralNetworkManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1084,8 +1084,8 @@ export class NeuralNetworkPure {
 
     const manager: NeuralNetworkManager = {
       id: managerData.id || `neuralnetwork-${Date.now()}`,
-      name: managerData.name || 'Unnamed Neural Network Manager',
-      type: managerData.type || 'research',
+      name: managerData?.name || 'Unnamed Neural Network Manager',
+      type: managerData?.type || 'research',
       status: 'active',
       models: [],
       datasets: [],
@@ -1149,7 +1149,7 @@ export class NeuralNetworkPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1162,7 +1162,7 @@ export class NeuralNetworkPure {
    * Get manager by ID
    */
   getManager(): NeuralNetworkOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1182,7 +1182,7 @@ export class NeuralNetworkPure {
    * Create neural network model
    */
   createModel(): NeuralNetworkOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-model',
@@ -1191,7 +1191,7 @@ export class NeuralNetworkPure {
       };
     }
 
-    if (manager.models.length >= this.config.maxModels) {
+    if (manager?.models.length >= this?.config.maxModels) {
       return {
         op: 'create-model',
         status: 'error',
@@ -1201,10 +1201,10 @@ export class NeuralNetworkPure {
 
     const newModel: NeuralNetworkModel = {
       id: model.id || `model-${Date.now()}`,
-      name: model.name || 'Unnamed Model',
-      type: model.type || 'feedforward',
+      name: model?.name || 'Unnamed Model',
+      type: model?.type || 'feedforward',
       status: 'draft',
-      architecture: model.architecture || {
+      architecture: model?.architecture || {
         layers: [],
         connections: [],
         activations: [],
@@ -1248,14 +1248,14 @@ export class NeuralNetworkPure {
           }
         }
       },
-      parameters: model.parameters || {
+      parameters: model?.parameters || {
         total: 0,
         trainable: 0,
         nonTrainable: 0,
         memory: 0,
         flops: 0
       },
-      training: model.training || {
+      training: model?.training || {
         epochs: 100,
         batchSize: 32,
         validationSplit: 0.2,
@@ -1268,7 +1268,7 @@ export class NeuralNetworkPure {
           weight: 1.0
         }
       },
-      performance: model.performance || {
+      performance: model?.performance || {
         accuracy: 0,
         precision: 0,
         recall: 0,
@@ -1283,9 +1283,9 @@ export class NeuralNetworkPure {
       ...model
     };
 
-    manager.models.push(newModel);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalModels++;
+    manager?.models?.push(newModel);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalModels++;
 
     return {
       op: 'create-model',
@@ -1298,14 +1298,14 @@ export class NeuralNetworkPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): NeuralNetworkPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): NeuralNetworkAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1319,26 +1319,26 @@ export class NeuralNetworkPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalModels = 0;
     let activeModels = 0;
     let totalDatasets = 0;
     let totalTrainingJobs = 0;
     let activeTrainingJobs = 0;
 
-    for (const manager of this.managers.values()) {
-      totalModels += manager.models.length;
-      activeModels += manager.models.filter((m: any) => m.status === 'trained' || m.status === 'deployed').length;
-      totalDatasets += manager.datasets.length;
-      totalTrainingJobs += manager.trainingJobs.length;
-      activeTrainingJobs += manager.trainingJobs.filter((j: any) => j.status === 'running').length;
+    for (const manager of this?.managers.values()) {
+      totalModels += manager?.models.length;
+      activeModels += manager?.models.filter((m: any) => m?.status === 'trained' || m?.status === 'deployed').length;
+      totalDatasets += manager?.datasets.length;
+      totalTrainingJobs += manager?.trainingJobs.length;
+      activeTrainingJobs += manager?.trainingJobs.filter((j: any) => j?.status === 'running').length;
     }
 
-    this.performanceMetrics.totalModels = totalModels;
-    this.performanceMetrics.activeModels = activeModels;
-    this.performanceMetrics.totalDatasets = totalDatasets;
-    this.performanceMetrics.totalTrainingJobs = totalTrainingJobs;
-    this.performanceMetrics.activeTrainingJobs = activeTrainingJobs;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalModels = totalModels;
+    this?.performanceMetrics.activeModels = activeModels;
+    this?.performanceMetrics.totalDatasets = totalDatasets;
+    this?.performanceMetrics.totalTrainingJobs = totalTrainingJobs;
+    this?.performanceMetrics.activeTrainingJobs = activeTrainingJobs;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

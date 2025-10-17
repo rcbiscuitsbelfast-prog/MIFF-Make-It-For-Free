@@ -882,7 +882,7 @@ export class CloudGamingPure {
 
   constructor(config: Partial<CloudGamingConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableGamingManagement: true,
       enableSessionManagement: true,
       enableStreamingOptimization: true,
@@ -899,7 +899,7 @@ export class CloudGamingPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalSessions: 0,
       activeSessions: 0,
       totalStreams: 0,
@@ -915,7 +915,7 @@ export class CloudGamingPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalSessions: 0,
       totalStreams: 0,
       averageFPS: 0,
@@ -929,7 +929,7 @@ export class CloudGamingPure {
    * Create a new cloud gaming manager
    */
   createManager(): CloudGamingOutput {
-    if (!this.config.enableGamingManagement) {
+    if (!this?.config.enableGamingManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -939,8 +939,8 @@ export class CloudGamingPure {
 
     const manager: CloudGamingManager = {
       id: managerData.id || `cloudgaming-${Date.now()}`,
-      name: managerData.name || 'Unnamed Cloud Gaming Manager',
-      type: managerData.type || 'streaming',
+      name: managerData?.name || 'Unnamed Cloud Gaming Manager',
+      type: managerData?.type || 'streaming',
       status: 'active',
       sessions: [],
       streams: [],
@@ -1007,7 +1007,7 @@ export class CloudGamingPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1020,7 +1020,7 @@ export class CloudGamingPure {
    * Get manager by ID
    */
   getManager(): CloudGamingOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1040,14 +1040,14 @@ export class CloudGamingPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): CloudGamingPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): CloudGamingAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1061,7 +1061,7 @@ export class CloudGamingPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalSessions = 0;
     let activeSessions = 0;
     let totalStreams = 0;
@@ -1071,25 +1071,25 @@ export class CloudGamingPure {
     let totalClients = 0;
     let connectedClients = 0;
 
-    for (const manager of this.managers.values()) {
-      totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter((s: any) => s.status === 'active').length;
-      totalStreams += manager.streams.length;
-      activeStreams += manager.streams.filter((s: any) => s.status === 'active').length;
-      totalServers += manager.servers.length;
-      activeServers += manager.servers.filter((s: any) => s.status === 'active').length;
-      totalClients += manager.clients.length;
-      connectedClients += manager.clients.filter((c: any) => c.status === 'connected').length;
+    for (const manager of this?.managers.values()) {
+      totalSessions += manager?.sessions.length;
+      activeSessions += manager?.sessions.filter((s: any) => s?.status === 'active').length;
+      totalStreams += manager?.streams.length;
+      activeStreams += manager?.streams.filter((s: any) => s?.status === 'active').length;
+      totalServers += manager?.servers.length;
+      activeServers += manager?.servers.filter((s: any) => s?.status === 'active').length;
+      totalClients += manager?.clients.length;
+      connectedClients += manager?.clients.filter((c: any) => c?.status === 'connected').length;
     }
 
-    this.performanceMetrics.totalSessions = totalSessions;
-    this.performanceMetrics.activeSessions = activeSessions;
-    this.performanceMetrics.totalStreams = totalStreams;
-    this.performanceMetrics.activeStreams = activeStreams;
-    this.performanceMetrics.totalServers = totalServers;
-    this.performanceMetrics.activeServers = activeServers;
-    this.performanceMetrics.totalClients = totalClients;
-    this.performanceMetrics.connectedClients = connectedClients;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalSessions = totalSessions;
+    this?.performanceMetrics.activeSessions = activeSessions;
+    this?.performanceMetrics.totalStreams = totalStreams;
+    this?.performanceMetrics.activeStreams = activeStreams;
+    this?.performanceMetrics.totalServers = totalServers;
+    this?.performanceMetrics.activeServers = activeServers;
+    this?.performanceMetrics.totalClients = totalClients;
+    this?.performanceMetrics.connectedClients = connectedClients;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

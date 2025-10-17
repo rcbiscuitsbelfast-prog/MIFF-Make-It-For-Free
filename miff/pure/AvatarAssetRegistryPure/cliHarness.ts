@@ -8,11 +8,11 @@
  */
 
 // Check for help command
-if (process.argv.includes('--help') || process.argv.includes('-h')) {
+if (process?.argv.includes('--help') || process?.argv.includes('-h')) {
   console.log(`
 AvatarAssetRegistryPure CLI Harness - Avatar Asset Registry System
 
-Usage: npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness?.ts [command!] [options!]
 
 Commands:
   test                     - Run basic asset registry tests
@@ -25,12 +25,12 @@ Commands:
   help                     - Show this help
 
 Examples:
-  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts test
-  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts resolve "head-001" "3d"
-  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts create-sample-registry
-  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts simulate
+  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness?.ts test
+  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness?.ts resolve "head-001" "3d"
+  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness?.ts create-sample-registry
+  npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness?.ts simulate
 `);
-  process.exit(0);
+  process?.exit(0);
 }
 
 import * as readline from 'readline';
@@ -39,61 +39,61 @@ import { AvatarStyle } from '../AvatarSystemPure/schema';
 
 class AvatarAssetRegistryCLI {
   private registry: AvatarAssetRegistry;
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
 
   constructor() {
-    this.registry = this.createSampleRegistryInternal();
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    this?.registry = this?.createSampleRegistryInternal();
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout,
       prompt: 'AssetRegistry> '
     });
 
-    this.setupEventHandlers();
+    this?.setupEventHandlers();
   }
 
   private setupEventHandlers(): void {
-    this.rl.on('line', (input) => {
-      this.handleCommand(input.trim());
+    this?.rl.on('line', (input) => {
+      this?.handleCommand(input?.trim());
     });
 
-    this.rl.on('close', () => {
+    this?.rl.on('close', () => {
       console.log('\n👋 Avatar Asset Registry CLI closed');
-      process.exit(0);
+      process?.exit(0);
     });
   }
 
   private async handleCommand(input: string): Promise<void> {
-    const [command, ...args] = input.split(' ');
+    const [command, ...args] = input?.split(' ');
 
-    switch (command.toLowerCase()) {
+    switch (command?.toLowerCase()) {
       case 'test':
-        await this.runTests();
+        await this?.runTests();
         break;
       case 'resolve':
-        await this.resolveAsset(args[0!], args[1!]);
+        await this?.resolveAsset(args[0!], args[1!]);
         break;
       case 'list-assets':
-        this.listAssets();
+        this?.listAssets();
         break;
       case 'add-asset':
-        await this.addAsset(args[0!]);
+        await this?.addAsset(args[0!]);
         break;
       case 'create-sample-registry':
-        await this.createSampleRegistry();
+        await this?.createSampleRegistry();
         break;
       case 'validate-registry':
-        this.validateRegistry();
+        this?.validateRegistry();
         break;
       case 'simulate':
-        await this.simulate();
+        await this?.simulate();
         break;
       case 'help':
-        this.showHelp();
+        this?.showHelp();
         break;
       case 'exit':
       case 'quit':
-        this.rl.close();
+        this?.rl.close();
         break;
       case '':
         // Empty line, just show prompt
@@ -103,7 +103,7 @@ class AvatarAssetRegistryCLI {
         console.log('Type "help" for available commands');
     }
 
-    this.rl.prompt();
+    this?.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
@@ -112,7 +112,7 @@ class AvatarAssetRegistryCLI {
     try {
       // Test 1: Registry validation
       console.log('1. Testing registry validation...');
-      const isValid = this.validateRegistryInternal();
+      const isValid = this?.validateRegistryInternal();
       console.log(`   ${isValid ? '✅' : '❌'} Registry validation: ${isValid ? 'Valid' : 'Invalid'}`);
 
       // Test 2: Asset resolution
@@ -126,7 +126,7 @@ class AvatarAssetRegistryCLI {
       ];
 
       for (const test of testAssets) {
-        const resolved = AvatarAssetRegistryPure.resolveVariant(test.id, test.style, this.registry);
+        const resolved = AvatarAssetRegistryPure?.resolveVariant(test?.id, test?.style, this?.registry);
         console.log(`   ${resolved ? '✅' : '❌'} ${test.id} (${test.style}): ${resolved || 'Not found'}`);
       }
 
@@ -139,7 +139,7 @@ class AvatarAssetRegistryCLI {
       console.log('4. Testing asset coverage...');
       const styles: AvatarStyle[] = ['3d', '2d-side', 'overlay'];
       for (const style of styles) {
-        const coverage = this.getStyleCoverage(style);
+        const coverage = this?.getStyleCoverage(style);
         console.log(`   ✅ ${style} coverage: ${coverage}%`);
       }
 
@@ -159,14 +159,14 @@ class AvatarAssetRegistryCLI {
     }
 
     try {
-      const resolved = AvatarAssetRegistryPure.resolveVariant(id, style as AvatarStyle, this.registry);
+      const resolved = AvatarAssetRegistryPure?.resolveVariant(id, style as AvatarStyle, this?.registry);
       
       if (resolved) {
         console.log(`✅ Asset resolved: ${id} (${style}) -> ${resolved}`);
       } else {
         console.log(`❌ Asset not found: ${id} (${style})`);
         console.log('   Available assets:');
-        this.registry.items.forEach((item: any) => {
+        this?.registry.items?.forEach((item: any) => {
           console.log(`   - ${item.id}`);
         });
       }
@@ -181,7 +181,7 @@ class AvatarAssetRegistryCLI {
     console.log(`   Registry Version: ${this.registry.version}`);
     console.log(`   Total Assets: ${this.registry.items.length}\n`);
 
-    this.registry.items.forEach((item, index) => {
+    this?.registry.items?.forEach((item, index) => {
       console.log(`${index + 1}. ${item.id}`);
       console.log(`   Remix Safety: ${item.remixSafety}`);
       console.log(`   Variants:`);
@@ -190,7 +190,7 @@ class AvatarAssetRegistryCLI {
         console.log(`     ${style}: ${url}`);
       });
       
-      if (item.generationHints) {
+      if (item?.generationHints) {
         console.log(`   Generation Hints: ${Object.keys(item.generationHints).join(', ')}`);
       }
       console.log('');
@@ -205,7 +205,7 @@ class AvatarAssetRegistryCLI {
 
     try {
       // Check if asset already exists
-      const existingAsset = this.registry.items.find(item => item.id === id);
+      const existingAsset = this?.registry.items?.find(item => item?.id === id);
       if (existingAsset) {
         console.log(`❌ Asset "${id}" already exists`);
         return;
@@ -215,9 +215,9 @@ class AvatarAssetRegistryCLI {
       const newAsset: VariantMap = {
         id,
         variants: {
-          '3d': `https://example.com/assets/${id}/3d.glb`,
-          '2d-side': `https://example.com/assets/${id}/2d-side.png`,
-          'overlay': `https://example.com/assets/${id}/overlay.png`
+          '3d': `https://example?.com/assets/${id}/3d?.glb`,
+          '2d-side': `https://example?.com/assets/${id}/2d-side?.png`,
+          'overlay': `https://example?.com/assets/${id}/overlay?.png`
         },
         remixSafety: 'CC0',
         generationHints: {
@@ -226,7 +226,7 @@ class AvatarAssetRegistryCLI {
         }
       };
 
-      this.registry.items.push(newAsset);
+      this?.registry.items?.push(newAsset);
       console.log(`✅ Asset "${id}" added to registry`);
       console.log(`   Variants: ${Object.keys(newAsset.variants).join(', ')}`);
       console.log(`   Remix Safety: ${newAsset.remixSafety}`);
@@ -238,7 +238,7 @@ class AvatarAssetRegistryCLI {
 
   private async createSampleRegistry(): Promise<void> {
     try {
-      this.registry = this.createSampleRegistryInternal();
+      this?.registry = this?.createSampleRegistryInternal();
       console.log('✅ Sample registry created');
       console.log(`   Assets: ${this.registry.items.length}`);
       console.log(`   Version: ${this.registry.version}`);
@@ -249,7 +249,7 @@ class AvatarAssetRegistryCLI {
   }
 
   private validateRegistry(): void {
-    const isValid = this.validateRegistryInternal();
+    const isValid = this?.validateRegistryInternal();
     
     if (isValid) {
       console.log('✅ Registry is valid');
@@ -257,20 +257,20 @@ class AvatarAssetRegistryCLI {
       console.log('❌ Registry validation failed');
       console.log('   Issues found:');
       
-      if (!this.registry.version) {
+      if (!this?.registry.version) {
         console.log('   - Missing version');
       }
       if (!this.registry.items || !Array.isArray(this.registry.items)) {
         console.log('   - Invalid items array');
       } else {
-        this.registry.items.forEach((item, index) => {
-          if (!item.id) {
+        this?.registry.items?.forEach((item, index) => {
+          if (!item?.id) {
             console.log(`   - Item ${index}: Missing ID`);
           }
-          if (!item.variants || typeof item.variants !== 'object') {
+          if (!item?.variants || typeof item?.variants !== 'object') {
             console.log(`   - Item ${index}: Invalid variants`);
           }
-          if (!item.remixSafety) {
+          if (!item?.remixSafety) {
             console.log(`   - Item ${index}: Missing remix safety`);
           }
         });
@@ -279,23 +279,23 @@ class AvatarAssetRegistryCLI {
   }
 
   private validateRegistryInternal(): boolean {
-    if (!this.registry.version) return false;
+    if (!this?.registry.version) return false;
     if (!this.registry.items || !Array.isArray(this.registry.items)) return false;
     
-    return this.registry.items.every(item => 
-      item.id && 
-      item.variants && 
-      typeof item.variants === 'object' && 
-      item.remixSafety
+    return this?.registry.items?.every(item => 
+      item?.id && 
+      item?.variants && 
+      typeof item?.variants === 'object' && 
+      item?.remixSafety
     );
   }
 
   private getStyleCoverage(style: AvatarStyle): number {
-    const totalAssets = this.registry.items.length;
+    const totalAssets = this?.registry.items?.length;
     if (totalAssets === 0) return 0;
     
-    const assetsWithStyle = this.registry.items.filter((item: any) => 
-      item.variants[style as keyof typeof item.variants]
+    const assetsWithStyle = this?.registry.items?.filter((item: any) => 
+      item?.variants[style as keyof typeof item?.variants]
     ).length;
     
     return Math.round((assetsWithStyle / totalAssets) * 100);
@@ -321,7 +321,7 @@ class AvatarAssetRegistryCLI {
       ];
 
       for (const testCase of testCases) {
-        const resolved = AvatarAssetRegistryPure.resolveVariant(testCase.id, testCase.style, this.registry);
+        const resolved = AvatarAssetRegistryPure?.resolveVariant(testCase?.id, testCase?.style, this?.registry);
         console.log(`   ${resolved ? '✅' : '❌'} ${testCase.id} (${testCase.style}): ${resolved || 'Not found'}`);
       }
 
@@ -333,9 +333,9 @@ class AvatarAssetRegistryCLI {
         const newAsset: VariantMap = {
           id: assetId,
           variants: {
-            '3d': `https://example.com/assets/${assetId}/3d.glb`,
-            '2d-side': `https://example.com/assets/${assetId}/2d-side.png`,
-            'overlay': `https://example.com/assets/${assetId}/overlay.png`
+            '3d': `https://example?.com/assets/${assetId}/3d?.glb`,
+            '2d-side': `https://example?.com/assets/${assetId}/2d-side?.png`,
+            'overlay': `https://example?.com/assets/${assetId}/overlay?.png`
           },
           remixSafety: 'CC0',
           generationHints: {
@@ -344,7 +344,7 @@ class AvatarAssetRegistryCLI {
           }
         };
 
-        this.registry.items.push(newAsset);
+        this?.registry.items?.push(newAsset);
         console.log(`   ✅ Added ${assetId}`);
       }
 
@@ -353,13 +353,13 @@ class AvatarAssetRegistryCLI {
       console.log(`   Assets: ${this.registry.items.length}`);
       
       const styleCoverage = ['3d', '2d-side', 'overlay'].map((style: any) => 
-        `${style}: ${this.getStyleCoverage(style as AvatarStyle)}%`
+        `${style}: ${this?.getStyleCoverage(style as AvatarStyle)}%`
       ).join(', ');
       console.log(`   Style Coverage: ${styleCoverage}`);
 
       // Test final resolution
       console.log('5. Testing final resolution...');
-      const finalTest = AvatarAssetRegistryPure.resolveVariant('hat-001', '3d', this.registry);
+      const finalTest = AvatarAssetRegistryPure?.resolveVariant('hat-001', '3d', this?.registry);
       console.log(`   ✅ New asset resolution: ${finalTest || 'Failed'}`);
 
       console.log('✅ Asset registry simulation completed successfully');
@@ -395,9 +395,9 @@ Remix Safety: CC0, restricted, custom
         {
           id: 'head-001',
           variants: {
-            '3d': 'https://example.com/assets/head-001/3d.glb',
-            '2d-side': 'https://example.com/assets/head-001/2d-side.png',
-            'overlay': 'https://example.com/assets/head-001/overlay.png'
+            '3d': 'https://example?.com/assets/head-001/3d?.glb',
+            '2d-side': 'https://example?.com/assets/head-001/2d-side?.png',
+            'overlay': 'https://example?.com/assets/head-001/overlay?.png'
           },
           remixSafety: 'CC0',
           generationHints: {
@@ -408,9 +408,9 @@ Remix Safety: CC0, restricted, custom
         {
           id: 'torso-001',
           variants: {
-            '3d': 'https://example.com/assets/torso-001/3d.glb',
-            '2d-side': 'https://example.com/assets/torso-001/2d-side.png',
-            'overlay': 'https://example.com/assets/torso-001/overlay.png'
+            '3d': 'https://example?.com/assets/torso-001/3d?.glb',
+            '2d-side': 'https://example?.com/assets/torso-001/2d-side?.png',
+            'overlay': 'https://example?.com/assets/torso-001/overlay?.png'
           },
           remixSafety: 'CC0',
           generationHints: {
@@ -421,9 +421,9 @@ Remix Safety: CC0, restricted, custom
         {
           id: 'legs-001',
           variants: {
-            '3d': 'https://example.com/assets/legs-001/3d.glb',
-            '2d-side': 'https://example.com/assets/legs-001/2d-side.png',
-            'overlay': 'https://example.com/assets/legs-001/overlay.png'
+            '3d': 'https://example?.com/assets/legs-001/3d?.glb',
+            '2d-side': 'https://example?.com/assets/legs-001/2d-side?.png',
+            'overlay': 'https://example?.com/assets/legs-001/overlay?.png'
           },
           remixSafety: 'CC0',
           generationHints: {
@@ -434,9 +434,9 @@ Remix Safety: CC0, restricted, custom
         {
           id: 'weapon-001',
           variants: {
-            '3d': 'https://example.com/assets/weapon-001/3d.glb',
-            '2d-side': 'https://example.com/assets/weapon-001/2d-side.png',
-            'overlay': 'https://example.com/assets/weapon-001/overlay.png'
+            '3d': 'https://example?.com/assets/weapon-001/3d?.glb',
+            '2d-side': 'https://example?.com/assets/weapon-001/2d-side?.png',
+            'overlay': 'https://example?.com/assets/weapon-001/overlay?.png'
           },
           remixSafety: 'restricted',
           generationHints: {
@@ -452,16 +452,16 @@ Remix Safety: CC0, restricted, custom
     console.log('🚀 Avatar Asset Registry CLI Started');
     console.log('Type "help" for available commands or "test" to run tests\n');
     
-    this.rl.prompt();
+    this?.rl.prompt();
   }
 }
 
 // Main execution
 async function main() {
   const cli = new AvatarAssetRegistryCLI();
-  await cli.start();
+  await cli?.start();
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

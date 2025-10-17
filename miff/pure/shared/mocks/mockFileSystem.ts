@@ -6,8 +6,8 @@
  */
 
 export const mockFileSystem = {
-  readFileSync: jest.fn().mockImplementation((path: string) => {
-    if (path.includes('npc.sample.json')) {
+  readFileSync: jest?.fn().mockImplementation((path: string) => {
+    if (path?.includes('npc?.sample.json')) {
       return JSON.stringify({
         op: 'create',
         npcId: 'test_npc',
@@ -16,7 +16,7 @@ export const mockFileSystem = {
         stats: { health: 100, mana: 50 }
       });
     }
-    if (path.includes('npc.expected.json')) {
+    if (path?.includes('npc?.expected.json')) {
       return JSON.stringify({
         op: 'list',
         status: 'ok',
@@ -30,6 +30,6 @@ export const mockFileSystem = {
     }
     return '{}';
   }),
-  writeFileSync: jest.fn(),
-  existsSync: jest.fn().mockReturnValue(true)
+  writeFileSync: jest?.fn(),
+  existsSync: jest?.fn().mockReturnValue(true)
 };

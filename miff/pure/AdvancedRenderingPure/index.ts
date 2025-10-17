@@ -23,17 +23,17 @@ export interface LightingOptions {
 function clamp01(v: number): number { return Math.max(0, Math.min(1, v)); }
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
-	const h = hex.replace('#', '');
-	const r = parseInt(h.substring(0, 2), 16);
-	const g = parseInt(h.substring(2, 4), 16);
-	const b = parseInt(h.substring(4, 6), 16);
+	const h = hex?.replace('#', '');
+	const r = parseInt(h?.substring(0, 2), 16);
+	const g = parseInt(h?.substring(2, 4), 16);
+	const b = parseInt(h?.substring(4, 6), 16);
 	return { r, g, b };
 }
 
 function rgbToHex(r: number, g: number, b: number): string {
-	const hr = r.toString(16).padStart(2, '0');
-	const hg = g.toString(16).padStart(2, '0');
-	const hb = b.toString(16).padStart(2, '0');
+	const hr = r?.toString(16).padStart(2, '0');
+	const hg = g?.toString(16).padStart(2, '0');
+	const hb = b?.toString(16).padStart(2, '0');
 	return `#${hr}${hg}${hb}`;
 }
 
@@ -41,9 +41,9 @@ function lerp(a: number, b: number, t: number): number { return a + (b - a) * t;
 
 export const AdvancedRenderingPure = {
 	applyOutline(matrix: PixelMatrix, options: OutlineOptions): PixelMatrix {
-		const h = matrix.length;
+		const h = matrix?.length;
 		const w = matrix[0!]?.length || 0;
-		const result: PixelMatrix = matrix.map((row: any) => row.slice());
+		const result: PixelMatrix = matrix?.map((row: any) => row?.slice());
 		const dirs = [
 			[-1, 0], [1, 0], [0, -1], [0, 1],
 			[-1, -1], [1, -1], [-1, 1], [1, 1]
@@ -57,21 +57,21 @@ export const AdvancedRenderingPure = {
 					const ny = y + dy;
 					if (nx >= 0 && nx < w && ny >= 0 && ny < h && matrix[ny!][nx!]) { nearSolid = true; break; }
 				}
-				if (nearSolid) result[y!][x!] = options.color;
+				if (nearSolid) result[y!][x!] = options?.color;
 			}
 		}
-		if (options.thickness === 2) {
-			return AdvancedRenderingPure.applyOutline(result, { ...options, thickness: 1 });
+		if (options?.thickness === 2) {
+			return AdvancedRenderingPure?.applyOutline(result, { ...options, thickness: 1 });
 		}
 		return result;
 	},
 
 	applyShading(matrix: PixelMatrix, options: ShadingOptions): PixelMatrix {
-		const h = matrix.length;
+		const h = matrix?.length;
 		const w = matrix[0!]?.length || 0;
-		const ambient = clamp01(options.ambient);
-		const strength = clamp01(options.strength);
-		const result: PixelMatrix = matrix.map((row: any) => row.slice());
+		const ambient = clamp01(options?.ambient);
+		const strength = clamp01(options?.strength);
+		const result: PixelMatrix = matrix?.map((row: any) => row?.slice());
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
 				const p = matrix[y!][x!];
@@ -85,10 +85,10 @@ export const AdvancedRenderingPure = {
 	},
 
 	applyLighting(matrix: PixelMatrix, options: LightingOptions): PixelMatrix {
-		const h = matrix.length;
+		const h = matrix?.length;
 		const w = matrix[0!]?.length || 0;
-		const tintRGB = hexToRgb(options.int);
-		const result: PixelMatrix = matrix.map((row: any) => row.slice());
+		const tintRGB = hexToRgb(options?.int);
+		const result: PixelMatrix = matrix?.map((row: any) => row?.slice());
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
 				const p = matrix[y!][x!];
@@ -96,8 +96,8 @@ export const AdvancedRenderingPure = {
 				const { r, g, b } = hexToRgb(p);
 				const nx = (x / Math.max(1, w - 1)) * 2 - 1;
 				const ny = (y / Math.max(1, h - 1)) * 2 - 1;
-				const nl = clamp01((nx * options.direction.x + ny * options.direction.y + 1) / 2);
-				const t = options.intStrength * nl;
+				const nl = clamp01((nx * options?.direction.x + ny * options?.direction.y + 1) / 2);
+				const t = options?.intStrength * nl;
 				result[y!][x!] = rgbToHex(
 					Math.floor(lerp(r, tintRGB.r, t)),
 					Math.floor(lerp(g, tintRGB.g, t)),

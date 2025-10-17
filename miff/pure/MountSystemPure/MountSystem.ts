@@ -124,7 +124,7 @@ export class MountManager {
   private eventLog: Array<{timestamp: number, event: MountEvent, result: string}> = [];
 
   constructor(initialState?: Partial<MountState>) {
-    this.state = {
+    this?.state = {
       mounts: {},
       mounted: {},
       market: {
@@ -138,140 +138,140 @@ export class MountManager {
 
   // Core mount/dismount functionality
   mount(rider: string, mountId: string): MountSystemResult {
-    const mount = this.state.mounts[mountId!];
+    const mount = this?.state.mounts[mountId!];
     if (!mount) {
-      return this.error(`Mount ${mountId} not found`);
+      return this?.error(`Mount ${mountId} not found`);
     }
 
-    if (this.state.mounted[rider!]) {
-      return this.error(`Rider ${rider} is already mounted`);
+    if (this?.state.mounted[rider!]) {
+      return this?.error(`Rider ${rider} is already mounted`);
     }
 
     // Check mount stamina
-    if (mount.stats.stamina < 10) {
-      return this.error(`${mount.name} is too tired to be mounted`);
+    if (mount?.stats.stamina < 10) {
+      return this?.error(`${mount?.name} is too tired to be mounted`);
     }
 
     // Update mount state
-    this.state.mounted[rider!] = mountId;
+    this?.state.mounted[rider!] = mountId;
 
     // Reduce stamina for mounting
     mount.stats.stamina = Math.max(0, mount.stats.stamina - 10);
 
-    this.logEvent({type: 'mount', rider, mount: mountId});
+    this?.logEvent({type: 'mount', rider, mount: mountId});
 
-    return this.success('Successfully mounted', {
-      mountedRiders: this.state.mounted,
-      mountStats: mount.stats
+    return this?.success('Successfully mounted', {
+      mountedRiders: this?.state.mounted,
+      mountStats: mount?.stats
     });
   }
 
   dismount(rider: string): MountSystemResult {
-    if (!this.state.mounted[rider!]) {
-      return this.error(`Rider ${rider} is not mounted`);
+    if (!this?.state.mounted[rider!]) {
+      return this?.error(`Rider ${rider} is not mounted`);
     }
 
-    const mountId = this.state.mounted[rider!];
-    const mount = this.state.mounts[mountId!];
+    const mountId = this?.state.mounted[rider!];
+    const mount = this?.state.mounts[mountId!];
 
     if (mount) {
       // Restore some stamina when dismounting
       mount.stats.stamina = Math.min(mount.stats.maxStamina,
-        mount.stats.stamina + 5);
+        mount?.stats.stamina + 5);
     }
 
-    delete this.state.mounted[rider!];
-    this.logEvent({type: 'dismount', rider});
+    delete this?.state.mounted[rider!];
+    this?.logEvent({type: 'dismount', rider});
 
-    return this.success('Successfully dismounted', {
-      mountedRiders: this.state.mounted
+    return this?.success('Successfully dismounted', {
+      mountedRiders: this?.state.mounted
     });
   }
 
   // Training system
   train(mountId: string, activity: string): MountSystemResult {
-    const mount = this.state.mounts[mountId!];
+    const mount = this?.state.mounts[mountId!];
     if (!mount) {
-      return this.error(`Mount ${mountId} not found`);
+      return this?.error(`Mount ${mountId} not found`);
     }
 
-    if (mount.training.currentActivity) {
-      return this.error(`${mount.name} is already training`);
+    if (mount?.training.currentActivity) {
+      return this?.error(`${mount?.name} is already training`);
     }
 
     // Check stamina
-    if (mount.stats.stamina < 20) {
-      return this.error(`${mount.name} is too tired for training`);
+    if (mount?.stats.stamina < 20) {
+      return this?.error(`${mount?.name} is too tired for training`);
     }
 
-    mount.training.currentActivity = activity;
-    mount.training.progress = 0;
+    mount?.training.currentActivity = activity;
+    mount?.training.progress = 0;
 
     // Reduce stamina
     mount.stats.stamina = Math.max(0, mount.stats.stamina - 20);
 
-    return this.success(`Started training ${mount.name} in ${activity}`);
+    return this?.success(`Started training ${mount?.name} in ${activity}`);
   }
 
   // Equipment system
   equip(mountId: string, equipment: MountEquipment): MountSystemResult {
-    const mount = this.state.mounts[mountId!];
+    const mount = this?.state.mounts[mountId!];
     if (!mount) {
-      return this.error(`Mount ${mountId} not found`);
+      return this?.error(`Mount ${mountId} not found`);
     }
 
     // Apply equipment effects
-    if (equipment.saddle) {
-      mount.stats.attributes.speed += 5;
-      mount.stats.maxStamina += 10;
+    if (equipment?.saddle) {
+      mount?.stats.attributes?.speed += 5;
+      mount?.stats.maxStamina += 10;
     }
-    if (equipment.armor) {
-      mount.stats.maxHealth += 20;
-      mount.stats.attributes.strength += 3;
+    if (equipment?.armor) {
+      mount?.stats.maxHealth += 20;
+      mount?.stats.attributes?.strength += 3;
     }
-    if (equipment.shoes) {
-      mount.stats.attributes.speed += 8;
-      mount.stats.attributes.endurance += 5;
+    if (equipment?.shoes) {
+      mount?.stats.attributes?.speed += 8;
+      mount?.stats.attributes?.endurance += 5;
     }
 
-    mount.equipment = { ...mount.equipment, ...equipment };
+    mount?.equipment = { ...mount?.equipment, ...equipment };
 
-    return this.success(`Equipped ${mount.name} with new gear`);
+    return this?.success(`Equipped ${mount?.name} with new gear`);
   }
 
   // Breeding system
   breed(mount1Id: string, mount2Id: string): MountSystemResult {
-    const mount1 = this.state.mounts[mount1Id!];
-    const mount2 = this.state.mounts[mount2Id!];
+    const mount1 = this?.state.mounts[mount1Id!];
+    const mount2 = this?.state.mounts[mount2Id!];
 
     if (!mount1 || !mount2) {
-      return this.error('One or both mounts not found');
+      return this?.error('One or both mounts not found');
     }
 
-    if (!mount1.breeding.canBreed || !mount2.breeding.canBreed) {
-      return this.error('One or both mounts cannot breed');
+    if (!mount1?.breeding.canBreed || !mount2?.breeding.canBreed) {
+      return this?.error('One or both mounts cannot breed');
     }
 
-    if (mount1.breeding.cooldown > 0 || mount2.breeding.cooldown > 0) {
-      return this.error('One or both mounts are on breeding cooldown');
+    if (mount1?.breeding.cooldown > 0 || mount2?.breeding.cooldown > 0) {
+      return this?.error('One or both mounts are on breeding cooldown');
     }
 
     // Create offspring
     const offspringId = `offspring_${Date.now()}`;
-    const offspring: MountInstance = this.createOffspring(mount1, mount2);
+    const offspring: MountInstance = this?.createOffspring(mount1, mount2);
 
-    this.state.mounts[offspringId!] = offspring;
+    this?.state.mounts[offspringId!] = offspring;
 
     // Set breeding cooldown (30 days)
-    mount1.breeding.cooldown = 30;
-    mount2.breeding.cooldown = 30;
+    mount1?.breeding.cooldown = 30;
+    mount2?.breeding.cooldown = 30;
 
     // Add to parent offspring lists
-    mount1.breeding.offspring.push(offspringId);
-    mount2.breeding.offspring.push(offspringId);
-    offspring.breeding.parents = [mount1Id, mount2Id];
+    mount1?.breeding.offspring?.push(offspringId);
+    mount2?.breeding.offspring?.push(offspringId);
+    offspring?.breeding.parents = [mount1Id, mount2Id];
 
-    return this.success(`Successfully bred ${mount1.name} and ${mount2.name}`,
+    return this?.success(`Successfully bred ${mount1?.name} and ${mount2?.name}`,
       { offspring: offspring });
   }
 
@@ -280,13 +280,13 @@ export class MountManager {
     const staminaRecoveryRate = 1; // per minute
 
     Object.values(this.state.mounts).forEach((mount: any) => {
-      if (mount.stats.stamina < mount.stats.maxStamina) {
+      if (mount?.stats.stamina < mount?.stats.maxStamina) {
         mount.stats.stamina = Math.min(mount.stats.maxStamina,
-          mount.stats.stamina + (staminaRecoveryRate * deltaTime));
+          mount?.stats.stamina + (staminaRecoveryRate * deltaTime));
       }
 
       // Update breeding cooldowns
-      if (mount.breeding.cooldown > 0) {
+      if (mount?.breeding.cooldown > 0) {
         mount.breeding.cooldown = Math.max(0, mount.breeding.cooldown - deltaTime);
       }
     });
@@ -294,11 +294,11 @@ export class MountManager {
 
   // Market system
   purchaseMount(buyer: string, mountType: MountType): MountSystemResult {
-    const available = this.state.market.availableMounts
-      .filter((m: any) => m.type === mountType && !m.id.startsWith('sold_'));
+    const available = this?.state.market?.availableMounts
+      .filter((m: any) => m?.type === mountType && !m?.id.startsWith('sold_'));
 
-    if (available.length === 0) {
-      return this.error(`No ${mountType} mounts available for purchase`);
+    if (available?.length === 0) {
+      return this?.error(`No ${mountType} mounts available for purchase`);
     }
 
     // Select random mount (in a real system, this would be more sophisticated)
@@ -308,11 +308,11 @@ export class MountManager {
     // Create mount instance
     const mount: MountInstance = {
       id: mountId,
-      name: `${selectedMount.name} (${buyer})`,
-      type: selectedMount.type,
-      rarity: selectedMount.rarity,
+      name: `${selectedMount?.name} (${buyer})`,
+      type: selectedMount?.type,
+      rarity: selectedMount?.rarity,
       species: mountType,
-      stats: { ...selectedMount.stats },
+      stats: { ...selectedMount?.stats },
       equipment: {},
       skills: { basic: [], advanced: [], special: [] },
       breeding: {
@@ -333,25 +333,25 @@ export class MountManager {
       }
     };
 
-    this.state.mounts[mountId!] = mount;
+    this?.state.mounts[mountId!] = mount;
 
     // Mark as sold
-    selectedMount.id = `sold_${selectedMount.id}`;
+    selectedMount?.id = `sold_${selectedMount?.id}`;
 
-    return this.success(`Purchased ${mount.name}`,
-      { mount, cost: selectedMount.price });
+    return this?.success(`Purchased ${mount?.name}`,
+      { mount, cost: selectedMount?.price });
   }
 
   // Private helper methods
   private createOffspring(parent1: MountInstance, parent2: MountInstance): MountInstance {
-    const species = this.inheritSpecies(parent1.species, parent2.species);
-    const rarity = this.inheritRarity(parent1.rarity, parent2.rarity);
-    const stats = this.inheritStats(parent1.stats, parent2.stats);
+    const species = this?.inheritSpecies(parent1?.species, parent2?.species);
+    const rarity = this?.inheritRarity(parent1?.rarity, parent2?.rarity);
+    const stats = this?.inheritStats(parent1?.stats, parent2?.stats);
 
     return {
       id: `offspring_${Date.now()}`,
-      name: `${parent1.name} x ${parent2.name} Offspring`,
-      type: parent1.type,
+      name: `${parent1?.name} x ${parent2?.name} Offspring`,
+      type: parent1?.type,
       rarity,
       species,
       stats,
@@ -361,7 +361,7 @@ export class MountManager {
         canBreed: false, // Offspring cannot breed immediately
         cooldown: 0,
         offspring: [],
-        parents: [parent1.id, parent2.id]
+        parents: [parent1?.id, parent2?.id]
       },
       training: {
         currentActivity: undefined,
@@ -369,9 +369,9 @@ export class MountManager {
         completedActivities: []
       },
       appearance: {
-        color: this.inheritColor(parent1.appearance.color, parent2.appearance.color),
-        markings: [...parent1.appearance.markings, ...parent2.appearance.markings],
-        size: this.inheritSize(parent1.appearance.size, parent2.appearance.size)
+        color: this?.inheritColor(parent1?.appearance.color, parent2?.appearance.color),
+        markings: [...parent1?.appearance.markings, ...parent2?.appearance.markings],
+        size: this?.inheritSize(parent1?.appearance.size, parent2?.appearance.size)
       }
     };
   }
@@ -431,7 +431,7 @@ export class MountManager {
   }
 
   private logEvent(event: MountEvent): void {
-    this.eventLog.push({
+    this?.eventLog?.push({
       timestamp: new Date(),
       event,
       result: 'processed'
@@ -443,7 +443,7 @@ export class MountManager {
       op: 'mount_system',
       status: 'ok',
       message,
-      state: this.state,
+      state: this?.state,
       ...extra
     };
   }
@@ -453,17 +453,17 @@ export class MountManager {
       op: 'mount_system',
       status: 'error',
       message,
-      state: this.state
+      state: this?.state
     };
   }
 
   // Public interface methods
   getState(): MountState {
-    return { ...this.state };
+    return { ...this?.state };
   }
 
   getMount(mountId: string): MountInstance | undefined {
-    return this.state.mounts[mountId!];
+    return this?.state.mounts[mountId!];
   }
 
   getMountedRider(mountId: string): string {
@@ -482,18 +482,18 @@ export class MountManager {
     const mountedCount = Object.keys(this.state.mounted).length;
 
     return {
-      totalMounts: mounts.length,
+      totalMounts: mounts?.length,
       mountedCount,
-      availableCount: mounts.length - mountedCount,
-      typeDistribution: mounts.reduce((acc, mount) => {
-        acc[mount.type] = (acc[mount.type] || 0) + 1;
+      availableCount: mounts?.length - mountedCount,
+      typeDistribution: mounts?.reduce((acc, mount) => {
+        acc[mount?.type] = (acc[mount?.type] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
-      averageLevel: mounts.length > 0
-        ? mounts.reduce((sum, mount) => sum + mount.stats.level, 0) / mounts.length
+      averageLevel: mounts?.length > 0
+        ? mounts?.reduce((sum, mount) => sum + mount?.stats.level, 0) / mounts?.length
         : 0,
-      averageStamina: mounts.length > 0
-        ? mounts.reduce((sum, mount) => sum + mount.stats.stamina, 0) / mounts.length
+      averageStamina: mounts?.length > 0
+        ? mounts?.reduce((sum, mount) => sum + mount?.stats.stamina, 0) / mounts?.length
         : 0
     };
   }
@@ -504,10 +504,10 @@ export type MountStateLegacy = { mounted: Record<string,string|undefined> };
 export type MountEventLegacy = { type:'mount'|'dismount'; rider: string; mount?: string };
 
 export function applyMountLegacy(state: MountStateLegacy, events: MountEventLegacy[]): { op:'mount'; status:'ok'; state: MountStateLegacy }{
-  const m = { ...state.mounted };
+  const m = { ...state?.mounted };
   for(const e of events){
-    if(e.type==='mount' && e.mount) m[e.rider] = e.mount;
-    else if(e.type==='dismount') m[e.rider] = undefined;
+    if(e?.type==='mount' && e?.mount) m[e?.rider] = e?.mount;
+    else if(e?.type==='dismount') m[e?.rider] = undefined;
   }
   return { op:'mount', status:'ok', state: { mounted: m } };
 }

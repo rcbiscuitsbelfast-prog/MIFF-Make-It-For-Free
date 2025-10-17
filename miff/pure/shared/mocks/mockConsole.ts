@@ -6,7 +6,7 @@
  */
 
 export const mockConsole = {
-  log: jest.fn(),
-  error: jest.fn(),
-  warn: jest.fn()
+  log: jest?.fn(),
+  error: jest?.fn(),
+  warn: jest?.fn()
 };

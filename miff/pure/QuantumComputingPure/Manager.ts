@@ -1343,7 +1343,7 @@ export class QuantumComputingPure {
 
   constructor(config: Partial<QuantumComputingConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableQuantumManagement: true,
       enableCircuitDesign: true,
       enableAlgorithmImplementation: true,
@@ -1361,7 +1361,7 @@ export class QuantumComputingPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalCircuits: 0,
       activeCircuits: 0,
       totalAlgorithms: 0,
@@ -1375,7 +1375,7 @@ export class QuantumComputingPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalCircuits: 0,
       totalAlgorithms: 0,
       averageExecutionTime: 0,
@@ -1389,7 +1389,7 @@ export class QuantumComputingPure {
    * Create a new quantum computing manager
    */
   createManager(): QuantumComputingOutput {
-    if (!this.config.enableQuantumManagement) {
+    if (!this?.config.enableQuantumManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1399,8 +1399,8 @@ export class QuantumComputingPure {
 
     const manager: QuantumComputingManager = {
       id: managerData.id || `quantumcomputing-${Date.now()}`,
-      name: managerData.name || 'Unnamed Quantum Computing Manager',
-      type: managerData.type || 'simulator',
+      name: managerData?.name || 'Unnamed Quantum Computing Manager',
+      type: managerData?.type || 'simulator',
       status: 'active',
       circuits: [],
       algorithms: [],
@@ -1466,7 +1466,7 @@ export class QuantumComputingPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1479,7 +1479,7 @@ export class QuantumComputingPure {
    * Get manager by ID
    */
   getManager(): QuantumComputingOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1499,14 +1499,14 @@ export class QuantumComputingPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): QuantumComputingPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): QuantumComputingAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1520,7 +1520,7 @@ export class QuantumComputingPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalCircuits = 0;
     let activeCircuits = 0;
     let totalAlgorithms = 0;
@@ -1528,21 +1528,21 @@ export class QuantumComputingPure {
     let totalSimulations = 0;
     let totalExperiments = 0;
 
-    for (const manager of this.managers.values()) {
-      totalCircuits += manager.circuits.length;
-      activeCircuits += manager.circuits.filter((c: any) => c.status === 'running' || c.status === 'ready').length;
-      totalAlgorithms += manager.algorithms.length;
-      totalHardware += manager.hardware.length;
-      totalSimulations += manager.simulations.length;
-      totalExperiments += manager.experiments.length;
+    for (const manager of this?.managers.values()) {
+      totalCircuits += manager?.circuits.length;
+      activeCircuits += manager?.circuits.filter((c: any) => c?.status === 'running' || c?.status === 'ready').length;
+      totalAlgorithms += manager?.algorithms.length;
+      totalHardware += manager?.hardware.length;
+      totalSimulations += manager?.simulations.length;
+      totalExperiments += manager?.experiments.length;
     }
 
-    this.performanceMetrics.totalCircuits = totalCircuits;
-    this.performanceMetrics.activeCircuits = activeCircuits;
-    this.performanceMetrics.totalAlgorithms = totalAlgorithms;
-    this.performanceMetrics.totalHardware = totalHardware;
-    this.performanceMetrics.totalSimulations = totalSimulations;
-    this.performanceMetrics.totalExperiments = totalExperiments;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalCircuits = totalCircuits;
+    this?.performanceMetrics.activeCircuits = activeCircuits;
+    this?.performanceMetrics.totalAlgorithms = totalAlgorithms;
+    this?.performanceMetrics.totalHardware = totalHardware;
+    this?.performanceMetrics.totalSimulations = totalSimulations;
+    this?.performanceMetrics.totalExperiments = totalExperiments;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

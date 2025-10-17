@@ -2,8 +2,8 @@
 import { handleSuccess, handleError, parseKeyValueArgs } from '../../shared/cliHarnessUtils';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
-const sessionPath = '/workspace/session/sessionState.json';
+const { mode, params } = parseKeyValueArgs(process?.argv);
+const sessionPath = '/workspace/session/sessionState?.json';
 
 try {
   switch (mode) {

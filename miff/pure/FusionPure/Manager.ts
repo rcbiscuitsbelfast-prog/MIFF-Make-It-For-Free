@@ -89,9 +89,9 @@ export class FusionManager {
 
   constructor(eventBus: EventBus, context: PlayerContext) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.eventBus = eventBus;
-    this.context = context;
-    this.initializeDefaultRules();
+    this?.eventBus = eventBus;
+    this?.context = context;
+    this?.initializeDefaultRules();
   }
 
   private initializeDefaultRules(): void {
@@ -131,100 +131,100 @@ export class FusionManager {
       }
     ];
 
-    this.rules = defaultRules;
+    this?.rules = defaultRules;
   }
 
   public setOnFusionPerformed(callback: (newSpiritId: string) => void): void {
-    this.onFusionPerformed = callback;
+    this?.onFusionPerformed = callback;
   }
 
   public canFuse(spiritA: any, spiritB: any): boolean {
     if (!spiritA || !spiritB) return false;
-    if (spiritA.instanceId === spiritB.instanceId) return false;
+    if (spiritA?.instanceId === spiritB?.instanceId) return false;
 
-    const rule = this.findMatchingRule(spiritA.speciesId, spiritB.speciesId);
+    const rule = this?.findMatchingRule(spiritA?.speciesId, spiritB?.speciesId);
     if (!rule) return false;
 
-    return this.constraintsMet(rule, spiritA.instanceId, spiritB.instanceId);
+    return this?.constraintsMet(rule, spiritA?.instanceId, spiritB?.instanceId);
   }
 
   public fuse(spiritA: any, spiritB: any): FusionResult {
     if (!spiritA || !spiritB) {
-      return this.createFailure('incompatible_pair', 'Missing fusion partner');
+      return this?.createFailure('incompatible_pair', 'Missing fusion partner');
     }
 
-    const rule = this.findMatchingRule(spiritA.speciesId, spiritB.speciesId);
+    const rule = this?.findMatchingRule(spiritA?.speciesId, spiritB?.speciesId);
     if (!rule) {
-      return this.createFailure('incompatible_pair', 'No matching fusion rule');
+      return this?.createFailure('incompatible_pair', 'No matching fusion rule');
     }
 
-    if (!this.constraintsMet(rule, spiritA.instanceId, spiritB.instanceId)) {
-      return this.createFailure('constraints_not_met', 'Fusion constraints not met');
+    if (!this?.constraintsMet(rule, spiritA?.instanceId, spiritB?.instanceId)) {
+      return this?.createFailure('constraints_not_met', 'Fusion constraints not met');
     }
 
     // Check if already fused before
-    if (this.hasFusedBefore(spiritA, spiritB)) {
-      return this.createFailure('already_fused', 'This pair has already been fused');
+    if (this?.hasFusedBefore(spiritA, spiritB)) {
+      return this?.createFailure('already_fused', 'This pair has already been fused');
     }
 
     // Check energy cost
-    if (this.context.energy < rule.energyCost) {
-      return this.createFailure('missing_requirements', 'Insufficient energy for fusion');
+    if (this?.context.energy < rule?.energyCost) {
+      return this?.createFailure('missing_requirements', 'Insufficient energy for fusion');
     }
 
     // Consume energy
-    this.context.energy -= rule.energyCost;
+    this?.context.energy -= rule?.energyCost;
 
     // Generate result spirit ID
     const newSpiritId = `fused_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Inherit traits
-    const inheritedTraits = this.getInheritedTraits(rule);
+    const inheritedTraits = this?.getInheritedTraits(rule);
 
     // Record fusion in history
-    this.recordFusion(spiritA, spiritB, newSpiritId);
+    this?.recordFusion(spiritA, spiritB, newSpiritId);
 
     // Trigger callback
-    if (this.onFusionPerformed) {
-      this.onFusionPerformed(newSpiritId);
+    if (this?.onFusionPerformed) {
+      this?.onFusionPerformed(newSpiritId);
     }
 
-    this.eventBus.publish('fusion:performed', {
-      playerId: this.context.playerId,
-      spiritAId: spiritA.instanceId,
-      spiritBId: spiritB.instanceId,
+    this?.eventBus.publish('fusion:performed', {
+      playerId: this?.context.playerId,
+      spiritAId: spiritA?.instanceId,
+      spiritBId: spiritB?.instanceId,
       resultSpiritId: newSpiritId,
-      ruleId: rule.id,
+      ruleId: rule?.id,
       timestamp: new Date()
     });
 
-    return this.createSuccess(newSpiritId, inheritedTraits, 'Fusion successful');
+    return this?.createSuccess(newSpiritId, inheritedTraits, 'Fusion successful');
   }
 
   private findMatchingRule(species1: string, species2: string): FusionRule | null {
-    return this.rules.find(rule =>
-      (rule.requiredSpecies1 === species1 && rule.requiredSpecies2 === species2) ||
-      (rule.requiredSpecies1 === species2 && rule.requiredSpecies2 === species1)
+    return this?.rules.find(rule =>
+      (rule?.requiredSpecies1 === species1 && rule?.requiredSpecies2 === species2) ||
+      (rule?.requiredSpecies1 === species2 && rule?.requiredSpecies2 === species1)
     ) || null;
   }
 
   private constraintsMet(rule: FusionRule, spiritAId: string, spiritBId: string): boolean {
-    return rule.constraints.every(constraint => {
-      return this.evaluateConstraint(constraint, spiritAId, spiritBId);
+    return rule?.constraints.every(constraint => {
+      return this?.evaluateConstraint(constraint, spiritAId, spiritBId);
     });
   }
 
   private evaluateConstraint(constraint: FusionConstraint, spiritAId: string, spiritBId: string): boolean {
-    switch (constraint.type) {
+    switch (constraint?.type) {
       case 'level':
         // Would check spirit levels
         return true; // Placeholder
 
       case 'energy':
-        return this.context.energy >= (constraint.value || 0);
+        return this?.context.energy >= (constraint?.value || 0);
 
       case 'item':
-        return this.context.inventory.includes(constraint.value);
+        return this?.context.inventory?.includes(constraint?.value);
 
       case 'location':
         // Would check player location
@@ -244,18 +244,18 @@ export class FusionManager {
   }
 
   private hasFusedBefore(spiritA: any, spiritB: any): boolean {
-    const pairKey = this.makePairKey(spiritA, spiritB);
-    return this.context.fusionHistory.includes(pairKey);
+    const pairKey = this?.makePairKey(spiritA, spiritB);
+    return this?.context.fusionHistory?.includes(pairKey);
   }
 
   private makePairKey(spiritA: any, spiritB: any): string {
-    const ids = [spiritA.instanceId, spiritB.instanceId].sort();
-    return ids.join('+');
+    const ids = [spiritA?.instanceId, spiritB?.instanceId].sort();
+    return ids?.join('+');
   }
 
   private getInheritedTraits(rule: FusionRule): FusionTrait[] {
     // Apply inheritance logic based on rule
-    return rule.inheritedTraits.map((trait: any) => ({
+    return rule?.inheritedTraits.map((trait: any) => ({
       ...trait,
       id: `trait_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       sourceSpiritId: 'fusion_process'
@@ -263,9 +263,9 @@ export class FusionManager {
   }
 
   private recordFusion(spiritA: any, spiritB: any, resultSpiritId: string): void {
-    const pairKey = this.makePairKey(spiritA, spiritB);
-    this.context.fusionHistory.push(pairKey);
-    this.context.lastFusionTime = Date.now();
+    const pairKey = this?.makePairKey(spiritA, spiritB);
+    this?.context.fusionHistory?.push(pairKey);
+    this.context.lastFusionTime = new Date();
   }
 
   private createFailure(status: FusionStatus, message: string): FusionResult {
@@ -287,11 +287,11 @@ export class FusionManager {
   }
 
   public getAvailableRules(): FusionRule[] {
-    return [...this.rules];
+    return [...this?.rules];
   }
 
   public getFusionStats(): FusionStats {
-    const totalFusions = this.context.fusionHistory.length;
+    const totalFusions = this?.context.fusionHistory?.length;
     const successfulFusions = totalFusions; // Would track separately
     const failedFusions = 0; // Would track separately
 
@@ -301,7 +301,7 @@ export class FusionManager {
       failedFusions: failedFusions,
       averageSuccessRate: 80, // Would calculate from history
       rareTraitsObtained: 0, // Would track from fusion results
-      uniqueCombinations: new Set(this.context.fusionHistory).size,
+      uniqueCombinations: new Set(this?.context.fusionHistory).size,
       favoriteFusionRule: 'fire_water_fusion', // Would calculate from usage
       fusionStreak: 5, // Would track consecutive successes
       bestStreak: 10 // Would track from history
@@ -310,20 +310,20 @@ export class FusionManager {
 
   public exportFusionHistory(): string {
     return JSON.stringify({
-      playerId: this.context.playerId,
-      fusionHistory: this.context.fusionHistory,
-      totalFusions: this.context.fusionHistory.length,
-      lastFusionTime: this.context.lastFusionTime,
+      playerId: this?.context.playerId,
+      fusionHistory: this?.context.fusionHistory,
+      totalFusions: this?.context.fusionHistory?.length,
+      lastFusionTime: this?.context.lastFusionTime,
       exportDate: new Date()
     }, null, 2);
   }
 
   public importFusionHistory(data: string): boolean {
     try {
-      const parsed = JSON.parse(data);
+      const parsed = JSON.parse(data: any);
 
       if (parsed.fusionHistory && Array.isArray(parsed.fusionHistory)) {
-        this.context.fusionHistory = parsed.fusionHistory;
+        this?.context.fusionHistory = parsed?.fusionHistory;
         return true;
       }
 

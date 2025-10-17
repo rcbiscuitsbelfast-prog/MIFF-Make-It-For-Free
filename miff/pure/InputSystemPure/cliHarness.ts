@@ -12,50 +12,50 @@
 import { InputSystemManager, InputEvent, InputAction, InputBinding, InputGesture } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
-const { mode, args } = parseCLIArgs(process.argv);
+const { mode, args } = parseCLIArgs(process?.argv);
 const manager = new InputSystemManager();
 
 // Parse additional arguments
-const profileId = args.find(arg => arg.startsWith('--profile-id='))?.split('=')[1!] || 'default';
-const actionId = args.find(arg => arg.startsWith('--action-id='))?.split('=')[1!] || 'test_action';
-const bindingId = args.find(arg => arg.startsWith('--binding-id='))?.split('=')[1!] || 'test_binding';
-const eventType = args.find(arg => arg.startsWith('--event-type='))?.split('=')[1!] as 'key' | 'mouse' | 'touch' | 'gamepad' | 'gesture' || 'key';
-const eventCode = args.find(arg => arg.startsWith('--event-code='))?.split('=')[1!] || 'Space';
-const eventValue = parseFloat(args.find(arg => arg.startsWith('--event-value='))?.split('=')[1!] || '1');
-const gestureType = args.find(arg => arg.startsWith('--gesture-type='))?.split('=')[1!] as 'swipe' | 'pinch' | 'rotate' | 'tap' | 'hold' | 'drag' || 'tap';
-const gestureDistance = parseFloat(args.find(arg => arg.startsWith('--gesture-distance='))?.split('=')[1!] || '100');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
+const profileId = args?.find(arg => arg?.startsWith('--profile-id='))?.split('=')[1!] || 'default';
+const actionId = args?.find(arg => arg?.startsWith('--action-id='))?.split('=')[1!] || 'test_action';
+const bindingId = args?.find(arg => arg?.startsWith('--binding-id='))?.split('=')[1!] || 'test_binding';
+const eventType = args?.find(arg => arg?.startsWith('--event-type='))?.split('=')[1!] as 'key' | 'mouse' | 'touch' | 'gamepad' | 'gesture' || 'key';
+const eventCode = args?.find(arg => arg?.startsWith('--event-code='))?.split('=')[1!] || 'Space';
+const eventValue = parseFloat(args?.find(arg => arg?.startsWith('--event-value='))?.split('=')[1!] || '1');
+const gestureType = args?.find(arg => arg?.startsWith('--gesture-type='))?.split('=')[1!] as 'swipe' | 'pinch' | 'rotate' | 'tap' | 'hold' | 'drag' || 'tap';
+const gestureDistance = parseFloat(args?.find(arg => arg?.startsWith('--gesture-distance='))?.split('=')[1!] || '100');
+const format = args?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
 
 let output: any;
 
 try {
   switch (mode) {
     case 'create-profile':
-      const profileName = args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Profile';
-      const profileDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'Test profile description';
-      output = manager.createProfile(profileId, profileName, profileDescription);
+      const profileName = args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!] || 'Test Profile';
+      const profileDescription = args?.find(arg => arg?.startsWith('--description='))?.split('=')[1!] || 'Test profile description';
+      output = manager?.createProfile(profileId, profileName, profileDescription);
       break;
 
     case 'set-profile':
-      output = manager.setActiveProfile(profileId);
+      output = manager?.setActiveProfile(profileId);
       break;
 
     case 'get-profile':
-      output = manager.getActiveProfile();
+      output = manager?.getActiveProfile();
       break;
 
     case 'add-action':
       const action: InputAction = {
         id: actionId,
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Action',
-        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'Test action description',
-        category: args.find(arg => arg.startsWith('--category='))?.split('=')[1!] || 'general',
+        name: args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!] || 'Test Action',
+        description: args?.find(arg => arg?.startsWith('--description='))?.split('=')[1!] || 'Test action description',
+        category: args?.find(arg => arg?.startsWith('--category='))?.split('=')[1!] || 'general',
         defaultBindings: [],
         modifiers: args.includes('--modifiers') ? JSON.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
-        priority: parseInt(args.find(arg => arg.startsWith('--priority='))?.split('=')[1!] || '1'),
-        enabled: !args.includes('--disabled')
+        priority: parseInt(args?.find(arg => arg?.startsWith('--priority='))?.split('=')[1!] || '1'),
+        enabled: !args?.includes('--disabled')
       };
-      output = manager.addAction(action);
+      output = manager?.addAction(action);
       break;
 
     case 'add-binding':
@@ -66,9 +66,9 @@ try {
         code: eventCode,
         modifiers: args.includes('--modifiers') ? JSON.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
         conditions: args.includes('--conditions') ? JSON.parse(args.find(arg => arg.startsWith('--conditions='))!.split('=')[1]) : [],
-        enabled: !args.includes('--disabled')
+        enabled: !args?.includes('--disabled')
       };
-      output = manager.addBinding(binding);
+      output = manager?.addBinding(binding);
       break;
 
     case 'process-event':
@@ -78,9 +78,9 @@ try {
         code: eventCode,
         value: eventValue,
         timestamp: new Date(),
-        source: args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'cli'
+        source: args?.find(arg => arg?.startsWith('--source='))?.split('=')[1!] || 'cli'
       };
-      output = manager.processInputEvent(event);
+      output = manager?.processInputEvent(event);
       break;
 
     case 'recognize-gesture':
@@ -91,37 +91,37 @@ try {
         endPosition: { x: gestureDistance, y: 0 },
         direction: 'right',
         distance: gestureDistance,
-        duration: parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1!] || '100'),
+        duration: parseInt(args?.find(arg => arg?.startsWith('--duration='))?.split('=')[1!] || '100'),
         timestamp: new Date()
       };
-      output = manager.recognizeGesture(gesture);
+      output = manager?.recognizeGesture(gesture);
       break;
 
     case 'stats':
-      output = manager.getInputStats();
+      output = manager?.getInputStats();
       break;
 
     case 'recent-events':
-      const limit = parseInt(args.find(arg => arg.startsWith('--limit='))?.split('=')[1!] || '100');
-      output = manager.getRecentEvents(limit);
+      const limit = parseInt(args?.find(arg => arg?.startsWith('--limit='))?.split('=')[1!] || '100');
+      output = manager?.getRecentEvents(limit);
       break;
 
     case 'clear-history':
-      output = manager.clearHistory();
+      output = manager?.clearHistory();
       break;
 
     case 'export':
-      output = manager.exportInput(format);
+      output = manager?.exportInput(format);
       break;
 
     case 'reset':
-      output = manager.resetInput();
+      output = manager?.resetInput();
       break;
 
     case 'demo':
       // Create demo input scenarios
-      manager.createProfile('demo_profile', 'Demo Profile', 'Demo input profile');
-      manager.setActiveProfile('demo_profile');
+      manager?.createProfile('demo_profile', 'Demo Profile', 'Demo input profile');
+      manager?.setActiveProfile('demo_profile');
 
       // Add demo actions
       const demoActions = [
@@ -157,7 +157,7 @@ try {
         }
       ];
 
-      demoActions.forEach((action: any) => manager.addAction(action));
+      demoActions?.forEach((action: any) => manager?.addAction(action));
 
       // Add demo bindings
       const demoBindings = [
@@ -190,7 +190,7 @@ try {
         }
       ];
 
-      demoBindings.forEach((binding: any) => manager.addBinding(binding));
+      demoBindings?.forEach((binding: any) => manager?.addBinding(binding));
 
       // Process demo events
       const demoEvents = [
@@ -200,16 +200,16 @@ try {
         { type: 'key', code: 'KeyW', value: 0 }
       ];
 
-      const eventResults = demoEvents.map(eventData => {
+      const eventResults = demoEvents?.map(eventData => {
         const event: InputEvent = {
           id: `demo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          type: eventData.type as any,
-          code: eventData.code,
-          value: eventData.value,
+          type: eventData?.type as any,
+          code: eventData?.code,
+          value: eventData?.value,
           timestamp: new Date(),
           source: 'demo'
         };
-        return manager.processInputEvent(event);
+        return manager?.processInputEvent(event);
       });
 
       // Recognize demo gestures
@@ -223,17 +223,17 @@ try {
         duration: 200,
         timestamp: new Date()
       };
-      const gestureResult = manager.recognizeGesture(demoGesture);
+      const gestureResult = manager?.recognizeGesture(demoGesture);
 
       output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo input scenarios completed',
-          profile: manager.getActiveProfile().result,
+          profile: manager?.getActiveProfile().result,
           eventResults,
-          gestureResult: gestureResult.result,
-          stats: manager.getInputStats().result
+          gestureResult: gestureResult?.result,
+          stats: manager?.getInputStats().result
         }
       };
       break;
@@ -273,16 +273,16 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => {
-        manager.createProfile(scenario.profile, `${scenario.profile} Profile`, `Sample ${scenario.profile} profile`);
-        manager.setActiveProfile(scenario.profile);
+      const scenarioResults = sampleScenarios?.map((scenario: any) => {
+        manager?.createProfile(scenario?.profile, `${scenario?.profile} Profile`, `Sample ${scenario?.profile} profile`);
+        manager?.setActiveProfile(scenario?.profile);
 
-        scenario.actions.forEach((action: any) => {
-          manager.addAction({
-            id: action.id,
-            name: action.name,
-            description: `${action.name} action`,
-            category: action.category,
+        scenario?.actions.forEach((action: any) => {
+          manager?.addAction({
+            id: action?.id,
+            name: action?.name,
+            description: `${action?.name} action`,
+            category: action?.category,
             defaultBindings: [],
             modifiers: [],
             priority: 1,
@@ -290,12 +290,12 @@ try {
           });
         });
 
-        scenario.bindings.forEach((binding: any) => {
-          manager.addBinding({
-            id: `${binding.actionId}_${binding.code}`,
-            actionId: binding.actionId,
-            inputType: binding.inputType as any,
-            code: binding.code,
+        scenario?.bindings.forEach((binding: any) => {
+          manager?.addBinding({
+            id: `${binding?.actionId}_${binding?.code}`,
+            actionId: binding?.actionId,
+            inputType: binding?.inputType as any,
+            code: binding?.code,
             modifiers: [],
             conditions: [],
             enabled: true
@@ -303,10 +303,10 @@ try {
         });
 
         return {
-          scenario: scenario.id,
-          profile: scenario.profile,
-          actions: scenario.actions.length,
-          bindings: scenario.bindings.length
+          scenario: scenario?.id,
+          profile: scenario?.profile,
+          actions: scenario?.actions.length,
+          bindings: scenario?.bindings.length
         };
       });
 
@@ -342,11 +342,11 @@ try {
             'sample'
           ],
           examples: [
-            'node cliHarness.ts create-profile --profile-id=game --name="Game Profile"',
-            'node cliHarness.ts add-action --action-id=jump --name="Jump" --category=action',
-            'node cliHarness.ts add-binding --binding-id=jump_space --action-id=jump --input-type=key --code=Space',
-            'node cliHarness.ts process-event --event-type=key --event-code=Space --event-value=1',
-            'node cliHarness.ts export --format=manifest'
+            'node cliHarness?.ts create-profile --profile-id=game --name="Game Profile"',
+            'node cliHarness?.ts add-action --action-id=jump --name="Jump" --category=action',
+            'node cliHarness?.ts add-binding --binding-id=jump_space --action-id=jump --input-type=key --code=Space',
+            'node cliHarness?.ts process-event --event-type=key --event-code=Space --event-value=1',
+            'node cliHarness?.ts export --format=manifest'
           ]
         }
       };
@@ -356,7 +356,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error.message : 'Unknown error']
+    issues: [error instanceof Error ? error?.message : 'Unknown error']
   };
 }
 

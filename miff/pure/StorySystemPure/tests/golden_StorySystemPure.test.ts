@@ -5,7 +5,7 @@ describe('StorySystemPure Golden', () => {
     const manager = new StoryManager();
 
     const nodes = new Map<string, StoryNode>();
-    nodes.set('start', {
+    nodes?.set('start', {
       id: 'start',
       title: 'Intro',
       content: 'Welcome!',
@@ -15,7 +15,7 @@ describe('StorySystemPure Golden', () => {
       nextNodes: ['choice_1'],
       metadata: {}
     });
-    nodes.set('choice_1', {
+    nodes?.set('choice_1', {
       id: 'choice_1',
       title: 'Path',
       content: 'Choose a path',
@@ -25,7 +25,7 @@ describe('StorySystemPure Golden', () => {
       nextNodes: ['end'],
       metadata: {}
     });
-    nodes.set('end', {
+    nodes?.set('end', {
       id: 'end',
       title: 'End',
       content: 'The end',
@@ -48,20 +48,20 @@ describe('StorySystemPure Golden', () => {
       metadata: {}
     };
 
-    const validate = manager.createArc(arc);
-    expect(validate.status).toBe('ok');
-    expect(validate.isValid).toBe(true);
+    const validate = manager?.createArc(arc);
+    expect(validate?.status).toBe('ok');
+    expect(validate?.isValid).toBe(true);
 
-    const started = manager.startArc('arc1');
-    expect(started?.currentNode.id).toBe('start');
+    const started = manager?.startArc('arc1');
+    expect(started?.currentNode?.id).toBe('start');
     expect(started?.nextNodes).toContain('choice_1');
 
-    const advanced = manager.advanceToNode('arc1', 'choice_1');
-    expect(advanced?.currentNode.id).toBe('choice_1');
+    const advanced = manager?.advanceToNode('arc1', 'choice_1');
+    expect(advanced?.currentNode?.id).toBe('choice_1');
 
-    const stats = manager.getStoryStatistics();
-    expect(stats.totalArcs).toBe(1);
-    expect(stats.totalNodes).toBe(3);
+    const stats = manager?.getStoryStatistics();
+    expect(stats?.totalArcs).toBe(1);
+    expect(stats?.totalNodes).toBe(3);
   });
 });
 

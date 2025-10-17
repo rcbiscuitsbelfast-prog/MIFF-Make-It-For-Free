@@ -106,54 +106,54 @@ export class AdvancedCombat {
   private phaseStartTime: number = 0;
 
   constructor() {
-    this.initializeDefaultCombos();
-    this.initializeDefaultEnvironmentalEffects();
-    this.initializeDefaultTacticalPositions();
-    this.initializeDefaultBattlePhases();
+    this?.initializeDefaultCombos();
+    this?.initializeDefaultEnvironmentalEffects();
+    this?.initializeDefaultTacticalPositions();
+    this?.initializeDefaultBattlePhases();
   }
 
   /**
    * Create a new combo system
    */
   createCombo(combo: ComboSystem): void {
-    this.combos.set(combo.id, combo);
+    this?.combos.set(combo?.id, combo);
   }
 
   /**
    * Check if a combo can be executed
    */
   canExecuteCombo(comboId: string, context: ComboContext): boolean {
-    const combo = this.combos.get(comboId);
+    const combo = this?.combos.get(comboId);
     if (!combo) return false;
 
-    if (combo.currentUses >= combo.maxUses) return false;
+    if (combo?.currentUses >= combo?.maxUses) return false;
 
     // Check all requirements
-    return combo.requirements.every(req => req.check(context));
+    return combo?.requirements.every(req => req?.check(context));
   }
 
   /**
    * Execute a combo
    */
   executeCombo(comboId: string, context: ComboContext): ComboEffect[] {
-    const combo = this.combos.get(comboId);
+    const combo = this?.combos.get(comboId);
     if (!combo) {
       throw new Error(`Combo ${comboId} not found`);
     }
 
-    if (!this.canExecuteCombo(comboId, context)) {
+    if (!this?.canExecuteCombo(comboId, context)) {
       throw new Error(`Combo ${comboId} cannot be executed`);
     }
 
     // Apply all combo effects
     const appliedEffects: ComboEffect[] = [];
-    for (const effect of combo.effects) {
-      effect.apply(context);
-      appliedEffects.push(effect);
+    for (const effect of combo?.effects) {
+      effect?.apply(context);
+      appliedEffects?.push(effect);
     }
 
     // Increment usage count
-    combo.currentUses++;
+    combo?.currentUses++;
 
     return appliedEffects;
   }
@@ -162,19 +162,19 @@ export class AdvancedCombat {
    * Create an environmental effect
    */
   createEnvironmentalEffect(effect: EnvironmentalEffect): void {
-    this.environmentalEffects.set(effect.id, effect);
+    this?.environmentalEffects.set(effect?.id, effect);
   }
 
   /**
    * Apply environmental effects to combatants
    */
   applyEnvironmentalEffects(combatants: Combatant[]): void {
-    for (const [effectId, effect] of this.environmentalEffects) {
+    for (const [effectId, effect] of this?.environmentalEffects) {
       for (const combatant of combatants) {
-        if (this.isCombatantInRange(combatant, effect)) {
-          for (const modifier of effect.effects) {
-            if (!modifier.condition || modifier.condition(combatant)) {
-              this.applyEnvironmentalModifier(combatant, modifier);
+        if (this?.isCombatantInRange(combatant, effect)) {
+          for (const modifier of effect?.effects) {
+            if (!modifier?.condition || modifier?.condition(combatant)) {
+              this?.applyEnvironmentalModifier(combatant, modifier);
             }
           }
         }
@@ -186,36 +186,36 @@ export class AdvancedCombat {
    * Create a tactical position
    */
   createTacticalPosition(position: TacticalPosition): void {
-    this.tacticalPositions.set(position.id, position);
+    this?.tacticalPositions.set(position?.id, position);
   }
 
   /**
    * Move combatant to tactical position
    */
   moveToTacticalPosition(combatant: Combatant, positionId: string): boolean {
-    const position = this.tacticalPositions.get(positionId);
+    const position = this?.tacticalPositions.get(positionId);
     if (!position) return false;
 
     // Check if combatant can afford the movement cost
-    if (combatant.stats.hp < position.movementCost) return false;
+    if (combatant?.stats.hp < position?.movementCost) return false;
 
     // Deduct movement cost
-    combatant.stats.hp -= position.movementCost;
+    combatant?.stats.hp -= position?.movementCost;
 
     // Update combatant position
-    combatant.position = position.position;
+    combatant?.position = position?.position;
 
     // Apply position advantages
-    for (const advantage of position.advantages) {
-      if (!advantage.condition || advantage.condition(combatant)) {
-        this.applyTacticalAdvantage(combatant, advantage);
+    for (const advantage of position?.advantages) {
+      if (!advantage?.condition || advantage?.condition(combatant)) {
+        this?.applyTacticalAdvantage(combatant, advantage);
       }
     }
 
     // Apply position disadvantages
-    for (const disadvantage of position.disadvantages) {
-      if (!disadvantage.condition || disadvantage.condition(combatant)) {
-        this.applyTacticalDisadvantage(combatant, disadvantage);
+    for (const disadvantage of position?.disadvantages) {
+      if (!disadvantage?.condition || disadvantage?.condition(combatant)) {
+        this?.applyTacticalDisadvantage(combatant, disadvantage);
       }
     }
 
@@ -226,37 +226,37 @@ export class AdvancedCombat {
    * Create a battle phase
    */
   createBattlePhase(phase: BattlePhase): void {
-    this.battlePhases.set(phase.id, phase);
+    this?.battlePhases.set(phase?.id, phase);
   }
 
   /**
    * Start a battle phase
    */
   startBattlePhase(phaseId: string): void {
-    const phase = this.battlePhases.get(phaseId);
+    const phase = this?.battlePhases.get(phaseId);
     if (!phase) {
       throw new Error(`Battle phase ${phaseId} not found`);
     }
 
-    this.activePhase = phaseId;
-    this.phaseStartTime = Date.now();
+    this?.activePhase = phaseId;
+    this.phaseStartTime = new Date();
   }
 
   /**
    * Update battle phase
    */
   updateBattlePhase(combatants: Combatant[]): string | null {
-    if (!this.activePhase) return null;
+    if (!this?.activePhase) return null;
 
-    const phase = this.battlePhases.get(this.activePhase);
+    const phase = this?.battlePhases.get(this?.activePhase);
     if (!phase) return null;
 
     // Check for phase transitions
-    for (const transition of phase.transitions) {
-      if (transition.condition({ combatants, phase: this.activePhase, time: new Date() - this.phaseStartTime })) {
-        if (transition.trigger === 'automatic') {
-          this.startBattlePhase(transition.nextPhase);
-          return transition.nextPhase;
+    for (const transition of phase?.transitions) {
+      if (transition?.condition({ combatants, phase: this?.activePhase, time: new Date() - this?.phaseStartTime })) {
+        if (transition?.trigger === 'automatic') {
+          this?.startBattlePhase(transition?.nextPhase);
+          return transition?.nextPhase;
         }
       }
     }
@@ -264,32 +264,32 @@ export class AdvancedCombat {
     // Check if phase duration has expired
     if (Date.now() - this.phaseStartTime >= phase.duration) {
       // Find next phase or end battle
-      const nextPhase = this.findNextPhase();
+      const nextPhase = this?.findNextPhase();
       if (nextPhase) {
-        this.startBattlePhase(nextPhase);
+        this?.startBattlePhase(nextPhase);
         return nextPhase;
       } else {
-        this.activePhase = null;
+        this?.activePhase = null;
         return null;
       }
     }
 
-    return this.activePhase;
+    return this?.activePhase;
   }
 
   /**
    * Apply battle phase effects
    */
   applyBattlePhaseEffects(combatants: Combatant[]): void {
-    if (!this.activePhase) return;
+    if (!this?.activePhase) return;
 
-    const phase = this.battlePhases.get(this.activePhase);
+    const phase = this?.battlePhases.get(this?.activePhase);
     if (!phase) return;
 
-    for (const effect of phase.effects) {
+    for (const effect of phase?.effects) {
       for (const combatant of combatants) {
-        if (this.shouldApplyPhaseEffect(combatant, effect)) {
-          this.applyPhaseEffect(combatant, effect);
+        if (this?.shouldApplyPhaseEffect(combatant, effect)) {
+          this?.applyPhaseEffect(combatant, effect);
         }
       }
     }
@@ -299,7 +299,7 @@ export class AdvancedCombat {
    * Check if combatant is in range of environmental effect
    */
   private isCombatantInRange(combatant: Combatant, effect: EnvironmentalEffect): boolean {
-    if (!effect.radius || !effect.position || !combatant.position) return true;
+    if (!effect?.radius || !effect?.position || !combatant?.position) return true;
 
     const distance = Math.sqrt(
       Math.pow(combatant.position.x - effect.position.x, 2) +
@@ -307,32 +307,32 @@ export class AdvancedCombat {
       Math.pow((combatant.position.z || 0) - (effect.position.z || 0), 2)
     );
 
-    return distance <= effect.radius;
+    return distance <= effect?.radius;
   }
 
   /**
    * Apply environmental modifier to combatant
    */
   private applyEnvironmentalModifier(combatant: Combatant, modifier: EnvironmentalModifier): void {
-    switch (modifier.type) {
+    switch (modifier?.type) {
       case 'damage':
-        combatant.stats.atk += modifier.magnitude;
+        combatant?.stats.atk += modifier?.magnitude;
         break;
       case 'accuracy':
-        combatant.stats.spd += modifier.magnitude;
+        combatant?.stats.spd += modifier?.magnitude;
         break;
       case 'speed':
-        combatant.stats.spd += modifier.magnitude;
+        combatant?.stats.spd += modifier?.magnitude;
         break;
       case 'defense':
-        combatant.stats.def += modifier.magnitude;
+        combatant?.stats.def += modifier?.magnitude;
         break;
       case 'special':
-        if (combatant.stats.specialAtk !== undefined) {
-          combatant.stats.specialAtk += modifier.magnitude;
+        if (combatant?.stats.specialAtk !== undefined) {
+          combatant?.stats.specialAtk += modifier?.magnitude;
         }
-        if (combatant.stats.specialDef !== undefined) {
-          combatant.stats.specialDef += modifier.magnitude;
+        if (combatant?.stats.specialDef !== undefined) {
+          combatant?.stats.specialDef += modifier?.magnitude;
         }
         break;
     }
@@ -342,15 +342,15 @@ export class AdvancedCombat {
    * Apply tactical advantage to combatant
    */
   private applyTacticalAdvantage(combatant: Combatant, advantage: TacticalAdvantage): void {
-    switch (advantage.type) {
+    switch (advantage?.type) {
       case 'damage_bonus':
-        combatant.stats.atk += advantage.magnitude;
+        combatant?.stats.atk += advantage?.magnitude;
         break;
       case 'accuracy_bonus':
-        combatant.stats.spd += advantage.magnitude;
+        combatant?.stats.spd += advantage?.magnitude;
         break;
       case 'defense_bonus':
-        combatant.stats.def += advantage.magnitude;
+        combatant?.stats.def += advantage?.magnitude;
         break;
     }
   }
@@ -359,15 +359,15 @@ export class AdvancedCombat {
    * Apply tactical disadvantage to combatant
    */
   private applyTacticalDisadvantage(combatant: Combatant, disadvantage: TacticalDisadvantage): void {
-    switch (disadvantage.type) {
+    switch (disadvantage?.type) {
       case 'damage_penalty':
-        combatant.stats.atk -= disadvantage.magnitude;
+        combatant?.stats.atk -= disadvantage?.magnitude;
         break;
       case 'accuracy_penalty':
-        combatant.stats.spd -= disadvantage.magnitude;
+        combatant?.stats.spd -= disadvantage?.magnitude;
         break;
       case 'defense_penalty':
-        combatant.stats.def -= disadvantage.magnitude;
+        combatant?.stats.def -= disadvantage?.magnitude;
         break;
     }
   }
@@ -376,15 +376,15 @@ export class AdvancedCombat {
    * Check if phase effect should be applied
    */
   private shouldApplyPhaseEffect(combatant: Combatant, effect: BattlePhaseEffect): boolean {
-    switch (effect.target) {
+    switch (effect?.target) {
       case 'all':
         return true;
       case 'player':
-        return combatant.metadata?.type === 'player';
+        return combatant?.metadata?.type === 'player';
       case 'enemy':
-        return combatant.metadata?.type === 'enemy';
+        return combatant?.metadata?.type === 'enemy';
       case 'specific':
-        return effect.condition ? effect.condition(combatant) : false;
+        return effect?.condition ? effect?.condition(combatant) : false;
       default:
         return false;
     }
@@ -394,11 +394,11 @@ export class AdvancedCombat {
    * Apply phase effect to combatant
    */
   private applyPhaseEffect(combatant: Combatant, effect: BattlePhaseEffect): void {
-    switch (effect.type) {
+    switch (effect?.type) {
       case 'stat_modifier':
-        combatant.stats.atk += effect.magnitude;
-        combatant.stats.def += effect.magnitude;
-        combatant.stats.spd += effect.magnitude;
+        combatant?.stats.atk += effect?.magnitude;
+        combatant?.stats.def += effect?.magnitude;
+        combatant?.stats.spd += effect?.magnitude;
         break;
       case 'move_restriction':
         // This would restrict certain moves
@@ -415,8 +415,8 @@ export class AdvancedCombat {
   private findNextPhase(): string | null {
     // Simple implementation - find the next phase alphabetically
     const phases = Array.from(this.battlePhases.keys()).sort();
-    const currentIndex = phases.indexOf(this.activePhase || '');
-    return currentIndex < phases.length - 1 ? phases[currentIndex + 1] : null;
+    const currentIndex = phases?.indexOf(this?.activePhase || '');
+    return currentIndex < phases?.length - 1 ? phases[currentIndex + 1] : null;
   }
 
   /**
@@ -424,7 +424,7 @@ export class AdvancedCombat {
    */
   private initializeDefaultCombos(): void {
     // Fire combo
-    this.createCombo({
+    this?.createCombo({
       id: 'fire_combo',
       name: 'Fire Combo',
       moves: ['ember', 'flame_thrower', 'fire_blast'],
@@ -433,8 +433,8 @@ export class AdvancedCombat {
           type: 'move_sequence',
           value: ['ember', 'flame_thrower', 'fire_blast'],
           check: (context) => {
-            const moveSequence = context.previousMoves.map((m: any) => m.moveId);
-            return moveSequence.length >= 3 && 
+            const moveSequence = context?.previousMoves.map((m: any) => m?.moveId);
+            return moveSequence?.length >= 3 && 
                    moveSequence[0] === 'ember' && 
                    moveSequence[1] === 'flame_thrower' && 
                    moveSequence[2] === 'fire_blast';
@@ -446,7 +446,7 @@ export class AdvancedCombat {
           type: 'damage_multiplier',
           magnitude: 2.0,
           apply: (context) => {
-            context.combatant.stats.atk *= 2.0;
+            context?.combatant.stats?.atk *= 2.0;
           }
         }
       ],
@@ -455,7 +455,7 @@ export class AdvancedCombat {
     });
 
     // Water combo
-    this.createCombo({
+    this?.createCombo({
       id: 'water_combo',
       name: 'Water Combo',
       moves: ['bubble', 'water_gun', 'hydro_pump'],
@@ -464,8 +464,8 @@ export class AdvancedCombat {
           type: 'move_sequence',
           value: ['bubble', 'water_gun', 'hydro_pump'],
           check: (context) => {
-            const moveSequence = context.previousMoves.map((m: any) => m.moveId);
-            return moveSequence.length >= 3 && 
+            const moveSequence = context?.previousMoves.map((m: any) => m?.moveId);
+            return moveSequence?.length >= 3 && 
                    moveSequence[0] === 'bubble' && 
                    moveSequence[1] === 'water_gun' && 
                    moveSequence[2] === 'hydro_pump';
@@ -477,8 +477,8 @@ export class AdvancedCombat {
           type: 'stat_boost',
           magnitude: 1.5,
           apply: (context) => {
-            if (context.combatant.stats.specialAtk !== undefined) {
-              context.combatant.stats.specialAtk *= 1.5;
+            if (context?.combatant.stats?.specialAtk !== undefined) {
+              context?.combatant.stats?.specialAtk *= 1.5;
             }
           }
         }
@@ -493,7 +493,7 @@ export class AdvancedCombat {
    */
   private initializeDefaultEnvironmentalEffects(): void {
     // Rain effect
-    this.createEnvironmentalEffect({
+    this?.createEnvironmentalEffect({
       id: 'rain',
       name: 'Rain',
       type: 'weather',
@@ -514,7 +514,7 @@ export class AdvancedCombat {
     });
 
     // Sandstorm effect
-    this.createEnvironmentalEffect({
+    this?.createEnvironmentalEffect({
       id: 'sandstorm',
       name: 'Sandstorm',
       type: 'weather',
@@ -522,7 +522,7 @@ export class AdvancedCombat {
         {
           type: 'accuracy',
           magnitude: -0.1,
-          condition: (combatant) => combatant.type !== 'ground' && combatant.type !== 'rock'
+          condition: (combatant) => combatant?.type !== 'ground' && combatant?.type !== 'rock'
         }
       ],
       duration: 300000,
@@ -535,7 +535,7 @@ export class AdvancedCombat {
    */
   private initializeDefaultTacticalPositions(): void {
     // High ground position
-    this.createTacticalPosition({
+    this?.createTacticalPosition({
       id: 'high_ground',
       name: 'High Ground',
       position: { x: 0, y: 10, z: 0 },
@@ -559,7 +559,7 @@ export class AdvancedCombat {
     });
 
     // Cover position
-    this.createTacticalPosition({
+    this?.createTacticalPosition({
       id: 'cover',
       name: 'Cover',
       position: { x: -5, y: 0, z: 0 },
@@ -584,7 +584,7 @@ export class AdvancedCombat {
    */
   private initializeDefaultBattlePhases(): void {
     // Opening phase
-    this.createBattlePhase({
+    this?.createBattlePhase({
       id: 'opening',
       name: 'Opening Phase',
       duration: 30000, // 30 seconds
@@ -597,7 +597,7 @@ export class AdvancedCombat {
       ],
       transitions: [
         {
-          condition: (battleState) => battleState.time >= 30000,
+          condition: (battleState) => battleState?.time >= 30000,
           nextPhase: 'main',
           trigger: 'automatic'
         }
@@ -605,14 +605,14 @@ export class AdvancedCombat {
     });
 
     // Main phase
-    this.createBattlePhase({
+    this?.createBattlePhase({
       id: 'main',
       name: 'Main Phase',
       duration: 120000, // 2 minutes
       effects: [],
       transitions: [
         {
-          condition: (battleState) => battleState.time >= 120000,
+          condition: (battleState) => battleState?.time >= 120000,
           nextPhase: 'climax',
           trigger: 'automatic'
         }
@@ -620,7 +620,7 @@ export class AdvancedCombat {
     });
 
     // Climax phase
-    this.createBattlePhase({
+    this?.createBattlePhase({
       id: 'climax',
       name: 'Climax Phase',
       duration: 60000, // 1 minute
@@ -639,7 +639,7 @@ export class AdvancedCombat {
    * Get combo system
    */
   getCombo(comboId: string): ComboSystem | null {
-    return this.combos.get(comboId) || null;
+    return this?.combos.get(comboId) || null;
   }
 
   /**
@@ -653,28 +653,28 @@ export class AdvancedCombat {
    * Get environmental effect
    */
   getEnvironmentalEffect(effectId: string): EnvironmentalEffect | null {
-    return this.environmentalEffects.get(effectId) || null;
+    return this?.environmentalEffects.get(effectId) || null;
   }
 
   /**
    * Get tactical position
    */
   getTacticalPosition(positionId: string): TacticalPosition | null {
-    return this.tacticalPositions.get(positionId) || null;
+    return this?.tacticalPositions.get(positionId) || null;
   }
 
   /**
    * Get battle phase
    */
   getBattlePhase(phaseId: string): BattlePhase | null {
-    return this.battlePhases.get(phaseId) || null;
+    return this?.battlePhases.get(phaseId) || null;
   }
 
   /**
    * Get current battle phase
    */
   getCurrentBattlePhase(): string | null {
-    return this.activePhase;
+    return this?.activePhase;
   }
 
   /**
@@ -682,11 +682,11 @@ export class AdvancedCombat {
    */
   getAdvancedCombatStatistics(): any {
     return {
-      combos: this.combos.size,
-      environmentalEffects: this.environmentalEffects.size,
-      tacticalPositions: this.tacticalPositions.size,
-      battlePhases: this.battlePhases.size,
-      activePhase: this.activePhase,
+      combos: this?.combos.size,
+      environmentalEffects: this?.environmentalEffects.size,
+      tacticalPositions: this?.tacticalPositions.size,
+      battlePhases: this?.battlePhases.size,
+      activePhase: this?.activePhase,
       phaseTime: this.activePhase ? Date.now() - this.phaseStartTime : 0
     };
   }

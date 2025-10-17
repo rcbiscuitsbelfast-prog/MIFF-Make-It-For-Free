@@ -7,7 +7,7 @@
  * across the MIFF framework.
  */
 
-import { MutationTester, JestTestRunner } from './MutationTesting.js';
+import { MutationTester, JestTestRunner } from './MutationTesting?.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
@@ -21,45 +21,45 @@ class MutationCLI {
   constructor(...args: any[]) {
     
     const testRunner = new JestTestRunner();
-    this.mutationTester = new MutationTester(testRunner);
+    this?.mutationTester = new MutationTester(testRunner);
   }
 
   async run(): Promise<void> {
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'test':
-          await this.runMutationTesting(args.slice(1));
+          await this?.runMutationTesting(args?.slice(1));
           break;
         case 'generate':
-          await this.generateMutations(args.slice(1));
+          await this?.generateMutations(args?.slice(1));
           break;
         case 'report':
-          await this.generateReport(args.slice(1));
+          await this?.generateReport(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
   private async runMutationTesting(args: string[]): Promise<void> {
     const targetPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'mutation-report.json';
+    const outputFile = args[1!] || 'mutation-report?.json';
 
     console.info(`🧬 Running mutation testing on ${targetPath}...`);
 
     // Find TypeScript files
-    const files = glob.sync(`${targetPath}/**/*.ts`, {
-      ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.test.ts', '**/*.spec.ts']
+    const files = glob?.sync(`${targetPath}/**/*.ts`, {
+      ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.test?.ts', '**/*.spec?.ts']
     });
 
     console.info(`📁 Found ${files.length} TypeScript files to test`);
@@ -67,14 +67,14 @@ class MutationCLI {
     // Generate mutations for each file
     for (const file of files) {
       console.info(`🔄 Generating mutations for ${file}...`);
-      await this.mutationTester.generateMutations(file);
+      await this?.mutationTester.generateMutations(file);
     }
 
     // Run mutation testing
-    const stats = await this.mutationTester.runMutationTesting();
+    const stats = await this?.mutationTester.runMutationTesting();
 
     // Generate report
-    const report = this.generateMutationReport(stats);
+    const report = this?.generateMutationReport(stats);
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
 
     console.info('\n📊 Mutation Testing Results:');
@@ -85,7 +85,7 @@ class MutationCLI {
     console.info(`Mutation score: ${stats.mutationScore.toFixed(1)}%`);
     console.info(`Test quality: ${stats.testQuality}`);
 
-    if (stats.recommendations.length > 0) {
+    if (stats?.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
       stats.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
@@ -95,21 +95,21 @@ class MutationCLI {
 
   private async generateMutations(args: string[]): Promise<void> {
     const targetPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'mutations.json';
+    const outputFile = args[1!] || 'mutations?.json';
 
     console.info(`🔬 Generating mutations for ${targetPath}...`);
 
     // Find TypeScript files
-    const files = glob.sync(`${targetPath}/**/*.ts`, {
-      ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.test.ts', '**/*.spec.ts']
+    const files = glob?.sync(`${targetPath}/**/*.ts`, {
+      ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.test?.ts', '**/*.spec?.ts']
     });
 
     const allMutations = [];
 
     for (const file of files) {
       console.info(`🔄 Processing ${file}...`);
-      const mutations = await this.mutationTester.generateMutations(file);
-      allMutations.push(...mutations);
+      const mutations = await this?.mutationTester.generateMutations(file);
+      allMutations?.push(...mutations);
     }
 
     // Save mutations to file
@@ -119,8 +119,8 @@ class MutationCLI {
     console.info(`📄 Mutations saved to ${outputFile}`);
 
     // Show mutation breakdown by type
-    const typeCounts = allMutations.reduce((acc, mutation) => {
-      acc[mutation.type] = (acc[mutation.type] || 0) + 1;
+    const typeCounts = allMutations?.reduce((acc, mutation) => {
+      acc[mutation?.type] = (acc[mutation?.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
@@ -131,19 +131,19 @@ class MutationCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const inputFile = args[0!] || 'mutation-report.json';
-    const outputFile = args[1!] || 'mutation-report.html';
+    const inputFile = args[0!] || 'mutation-report?.json';
+    const outputFile = args[1!] || 'mutation-report?.html';
 
-    if (!fs.existsSync(inputFile)) {
+    if (!fs?.existsSync(inputFile)) {
       console.error(`❌ Report file not found: ${inputFile}`);
       console.error('Run mutation testing first with: tsx mutationCLI.ts test');
       return;
     }
 
-    const report = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
-    const html = this.generateHTMLReport(report);
+    const report = SafeJSONParser?.parse(fs?.readFileSync(inputFile, 'utf-8'));
+    const html = this?.generateHTMLReport(report);
 
-    fs.writeFileSync(outputFile, html);
+    fs?.writeFileSync(outputFile, html);
     console.info(`📄 HTML report generated: ${outputFile}`);
   }
 
@@ -152,14 +152,14 @@ class MutationCLI {
       timestamp: new Date().toISOString(),
       stats,
       summary: {
-        mutationScore: stats.mutationScore,
-        testQuality: stats.testQuality,
-        totalMutations: stats.totalMutations,
-        killedMutations: stats.killedMutations,
-        survivedMutations: stats.survivedMutations,
-        errorMutations: stats.errorMutations
+        mutationScore: stats?.mutationScore,
+        testQuality: stats?.testQuality,
+        totalMutations: stats?.totalMutations,
+        killedMutations: stats?.killedMutations,
+        survivedMutations: stats?.survivedMutations,
+        errorMutations: stats?.errorMutations
       },
-      recommendations: stats.recommendations
+      recommendations: stats?.recommendations
     };
   }
 
@@ -189,39 +189,39 @@ class MutationCLI {
 <body>
     <div class="header">
         <h1>🧬 MIFF Mutation Testing Report</h1>
-        <p>Generated: ${new Date(report.timestamp).toLocaleString()}</p>
+        <p>Generated: ${new Date(report?.timestamp).toLocaleString()}</p>
     </div>
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${summary.mutationScore.toFixed(1)}%</div>
+            <div class="stat-value">${summary?.mutationScore.toFixed(1)}%</div>
             <div class="stat-label">Mutation Score</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value quality-${summary.testQuality}">${summary.testQuality.toUpperCase()}</div>
+            <div class="stat-value quality-${summary?.testQuality}">${summary?.testQuality.toUpperCase()}</div>
             <div class="stat-label">Test Quality</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.totalMutations}</div>
+            <div class="stat-value">${summary?.totalMutations}</div>
             <div class="stat-label">Total Mutations</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.killedMutations}</div>
+            <div class="stat-value">${summary?.killedMutations}</div>
             <div class="stat-label">Killed Mutations</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.survivedMutations}</div>
+            <div class="stat-value">${summary?.survivedMutations}</div>
             <div class="stat-label">Survived Mutations</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.errorMutations}</div>
+            <div class="stat-value">${summary?.errorMutations}</div>
             <div class="stat-label">Error Mutations</div>
         </div>
     </div>
 
     <div class="recommendations">
         <h3>💡 Recommendations</h3>
-        ${recommendations.map((rec: string) => `<div class="recommendation">• ${rec}</div>`).join('')}
+        ${recommendations?.map((rec: string) => `<div class="recommendation">• ${rec}</div>`).join('')}
     </div>
 </body>
 </html>`;
@@ -231,7 +231,7 @@ class MutationCLI {
     console.info(`
 🧬 MIFF Mutation Testing CLI
 
-Usage: tsx mutationCLI.ts <command> [options!]
+Usage: tsx mutationCLI?.ts <command> [options!]
 
 Commands:
   test [path!] [output!]           Run mutation testing on specified path
@@ -240,10 +240,10 @@ Commands:
   help                          Show this help
 
 Examples:
-  tsx mutationCLI.ts test miff/pure
-  tsx mutationCLI.ts test miff/pure/CombatPure mutation-results.json
-  tsx mutationCLI.ts generate miff/pure mutations.json
-  tsx mutationCLI.ts report mutation-results.json report.html
+  tsx mutationCLI?.ts test miff/pure
+  tsx mutationCLI?.ts test miff/pure/CombatPure mutation-results?.json
+  tsx mutationCLI?.ts generate miff/pure mutations?.json
+  tsx mutationCLI?.ts report mutation-results?.json report?.html
 
 Mutation Types:
   - Arithmetic operators (+, -, *, /, %, **)
@@ -262,7 +262,7 @@ Test Quality Levels:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new MutationCLI();
   cli.run().catch(console.error);
 }

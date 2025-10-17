@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { CombatCore, CombatState, CombatEntity } from './index';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 const core = new CombatCore();
 
 try {
@@ -112,28 +112,28 @@ try {
         shield: 0
       };
       
-      core.initCombat([player!], [enemy!]);
+      core?.initCombat([player!], [enemy!]);
       
       // Execute combat turns
       const turns = maxTurns || 20;
       let currentTurn = 0;
       const log = [];
       
-      while (currentTurn < turns && !core.isCombatOver()) {
-        const action = core.executeTurn();
-        log.push(action);
+      while (currentTurn < turns && !core?.isCombatOver()) {
+        const action = core?.executeTurn();
+        log?.push(action);
         currentTurn++;
       }
       
-      const result = core.getCombatResult();
+      const result = core?.getCombatResult();
       
       handleSuccess({
         mode: combatMode,
         turns: currentTurn,
         maxTurns: turns,
         result,
-        winner: result.winner,
-        log: log.slice(0, 5) // First 5 actions
+        winner: result?.winner,
+        log: log?.slice(0, 5) // First 5 actions
       }, 'executeCombat');
       break;
     }
@@ -154,7 +154,7 @@ try {
     }
 
     case 'getState': {
-      const state = core.getState();
+      const state = core?.getState();
       handleSuccess({ state }, 'getState');
       break;
     }

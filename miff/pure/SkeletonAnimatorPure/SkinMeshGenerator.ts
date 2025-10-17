@@ -2,7 +2,7 @@
  * Phase 3: Skin Mesh Generator
  * 
  * Wraps skeleton in procedural mesh with drag-based morphing
- * and texture presets, exports as .skin.json
+ * and texture presets, exports as .skin?.json
  */
 
 import { RigConfig, SkinConfig, MeshData, MaterialConfig, TextureConfig, MorphTarget, Vec3 } from './types';
@@ -13,13 +13,13 @@ export class SkinMeshGenerator {
   private nextId: number = 0;
 
   constructor(rigConfig: RigConfig, initialSkinConfig?: Partial<SkinConfig>) {
-    this.rigConfig = rigConfig;
-    this.skinConfig = {
-      id: initialSkinConfig?.id || this.generateId(),
+    this?.rigConfig = rigConfig;
+    this?.skinConfig = {
+      id: initialSkinConfig?.id || this?.generateId(),
       name: initialSkinConfig?.name || 'Generated Skin',
-      rigId: rigConfig.id,
-      meshData: initialSkinConfig?.meshData || this.generateBaseMesh(),
-      materials: initialSkinConfig?.materials || this.createDefaultMaterials(),
+      rigId: rigConfig?.id,
+      meshData: initialSkinConfig?.meshData || this?.generateBaseMesh(),
+      materials: initialSkinConfig?.materials || this?.createDefaultMaterials(),
       morphTargets: initialSkinConfig?.morphTargets || [],
       metadata: initialSkinConfig?.metadata || {}
     };
@@ -40,31 +40,31 @@ export class SkinMeshGenerator {
 
     // Generate mesh for each rig node
     Object.values(this.rigConfig.nodes).forEach((node: any) => {
-      const mesh = this.generateNodeMesh(node);
+      const mesh = this?.generateNodeMesh(node);
       
       // Add vertices
-      vertices.push(...mesh.vertices);
+      vertices?.push(...mesh?.vertices);
       
       // Add normals
-      normals.push(...mesh.normals);
+      normals?.push(...mesh?.normals);
       
       // Add UVs
-      uvs.push(...mesh.uvs);
+      uvs?.push(...mesh?.uvs);
       
       // Add indices (offset by current vertex count)
-      const nodeIndices = mesh.indices.map((i: any) => i + vertexOffset);
-      indices.push(...nodeIndices);
+      const nodeIndices = mesh?.indices.map((i: any) => i + vertexOffset);
+      indices?.push(...nodeIndices);
       
       // Add group
-      groups.push({
-        name: node.name,
+      groups?.push({
+        name: node?.name,
         start: indexOffset,
-        count: mesh.indices.length,
-        materialIndex: this.getMaterialIndexForNodeType(node.type)
+        count: mesh?.indices.length,
+        materialIndex: this?.getMaterialIndexForNodeType(node?.type)
       });
       
-      vertexOffset += mesh.vertices.length / 3;
-      indexOffset += mesh.indices.length;
+      vertexOffset += mesh?.vertices.length / 3;
+      indexOffset += mesh?.indices.length;
     });
 
     return {
@@ -80,28 +80,28 @@ export class SkinMeshGenerator {
    * Generate mesh for a specific rig node
    */
   private generateNodeMesh(node): { vertices: number[]; normals: number[]; uvs: number[]; indices: number[] } {
-    const { position, scale } = node.transform;
+    const { position, scale } = node?.transform;
     const vertices: number[] = [];
     const normals: number[] = [];
     const uvs: number[] = [];
     const indices: number[] = [];
 
     // Generate different mesh types based on node type
-    switch (node.type) {
+    switch (node?.type) {
       case 'head':
-        this.generateHeadMesh(position, scale, vertices, normals, uvs, indices);
+        this?.generateHeadMesh(position, scale, vertices, normals, uvs, indices);
         break;
       case 'neck':
-        this.generateCylinderMesh(position, scale, 8, vertices, normals, uvs, indices);
+        this?.generateCylinderMesh(position, scale, 8, vertices, normals, uvs, indices);
         break;
       case 'torso':
-        this.generateTorsoMesh(position, scale, vertices, normals, uvs, indices);
+        this?.generateTorsoMesh(position, scale, vertices, normals, uvs, indices);
         break;
       case 'limb':
-        this.generateLimbMesh(position, scale, vertices, normals, uvs, indices);
+        this?.generateLimbMesh(position, scale, vertices, normals, uvs, indices);
         break;
       default:
-        this.generateBoxMesh(position, scale, vertices, normals, uvs, indices);
+        this?.generateBoxMesh(position, scale, vertices, normals, uvs, indices);
     }
 
     return { vertices, normals, uvs, indices };
@@ -128,9 +128,9 @@ export class SkinMeshGenerator {
         const y = Math.cos(phi) * radius * scale.y + position.y;
         const z = Math.sin(phi) * Math.sin(theta) * radius * scale.z + position.z;
 
-        vertices.push(x, y, z);
+        vertices?.push(x, y, z);
         normals.push(Math.sin(phi) * Math.cos(theta), Math.cos(phi), Math.sin(phi) * Math.sin(theta));
-        uvs.push(u, v);
+        uvs?.push(u, v);
       }
     }
 
@@ -140,8 +140,8 @@ export class SkinMeshGenerator {
         const a = ring * (segments + 1) + segment;
         const b = a + segments + 1;
 
-        indices.push(a, b, a + 1);
-        indices.push(b, b + 1, a + 1);
+        indices?.push(a, b, a + 1);
+        indices?.push(b, b + 1, a + 1);
       }
     }
   }
@@ -171,8 +171,8 @@ export class SkinMeshGenerator {
     ];
 
     // Add vertices with position offset
-    boxVertices.forEach((vertex: any) => {
-      vertices.push(vertex[0!] + position.x, vertex[1!] + position.y, vertex[2!] + position.z);
+    boxVertices?.forEach((vertex: any) => {
+      vertices?.push(vertex[0!] + position.x, vertex[1!] + position.y, vertex[2!] + position.z);
     });
 
     // Add normals for each face
@@ -185,13 +185,13 @@ export class SkinMeshGenerator {
       [-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0] // Left
     ];
 
-    faceNormals.forEach((normal: any) => {
-      normals.push(normal[0!], normal[1!], normal[2!]);
+    faceNormals?.forEach((normal: any) => {
+      normals?.push(normal[0!], normal[1!], normal[2!]);
     });
 
     // Add UVs
     for (let i = 0; i < 6; i++) {
-      uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
+      uvs?.push(0, 0, 1, 0, 1, 1, 0, 1);
     }
 
     // Add indices
@@ -204,8 +204,8 @@ export class SkinMeshGenerator {
       [20, 21, 22], [20, 22, 23] // Left
     ];
 
-    faceIndices.forEach((face: any) => {
-      indices.push(face[0!], face[1!], face[2!]);
+    faceIndices?.forEach((face: any) => {
+      indices?.push(face[0!], face[1!], face[2!]);
     });
   }
 
@@ -223,14 +223,14 @@ export class SkinMeshGenerator {
       const z = Math.sin(angle) * radius + position.z;
 
       // Top vertex
-      vertices.push(x, position.y + height/2, z);
+      vertices?.push(x, position.y + height/2, z);
       normals.push(Math.cos(angle), 0, Math.sin(angle));
-      uvs.push(i / segments, 1);
+      uvs?.push(i / segments, 1);
 
       // Bottom vertex
-      vertices.push(x, position.y - height/2, z);
+      vertices?.push(x, position.y - height/2, z);
       normals.push(Math.cos(angle), 0, Math.sin(angle));
-      uvs.push(i / segments, 0);
+      uvs?.push(i / segments, 0);
     }
 
     // Generate indices
@@ -240,8 +240,8 @@ export class SkinMeshGenerator {
       const bottomLeft = i * 2 + 1;
       const bottomRight = (i + 1) * 2 + 1;
 
-      indices.push(topLeft, bottomLeft, topRight);
-      indices.push(topRight, bottomLeft, bottomRight);
+      indices?.push(topLeft, bottomLeft, topRight);
+      indices?.push(topRight, bottomLeft, bottomRight);
     }
   }
 
@@ -249,14 +249,14 @@ export class SkinMeshGenerator {
    * Generate limb mesh (cylinder with rounded ends)
    */
   private generateLimbMesh(position: Vec3, scale: Vec3, vertices: number[], normals: number[], uvs: number[], indices: number[]): void {
-    this.generateCylinderMesh(position, scale, 8, vertices, normals, uvs, indices);
+    this?.generateCylinderMesh(position, scale, 8, vertices, normals, uvs, indices);
   }
 
   /**
    * Generate box mesh
    */
   private generateBoxMesh(position: Vec3, scale: Vec3, vertices: number[], normals: number[], uvs: number[], indices: number[]): void {
-    this.generateTorsoMesh(position, scale, vertices, normals, uvs, indices);
+    this?.generateTorsoMesh(position, scale, vertices, normals, uvs, indices);
   }
 
   /**
@@ -310,14 +310,14 @@ export class SkinMeshGenerator {
    */
   addMorphTarget(name: string, vertices: number[], weight: number = 1.0): SkinMeshGenerator {
     const morphTarget: MorphTarget = {
-      id: this.generateId(),
+      id: this?.generateId(),
       name,
       vertices: [...vertices],
       weight,
       metadata: {}
     };
 
-    this.skinConfig.morphTargets.push(morphTarget);
+    this?.skinConfig.morphTargets?.push(morphTarget);
     return this;
   }
 
@@ -325,16 +325,16 @@ export class SkinMeshGenerator {
    * Apply morph target to mesh
    */
   applyMorphTarget(morphTargetId: string, strength: number): SkinMeshGenerator {
-    const morphTarget = this.skinConfig.morphTargets.find(mt => mt.id === morphTargetId);
+    const morphTarget = this?.skinConfig.morphTargets?.find(mt => mt?.id === morphTargetId);
     if (!morphTarget) throw new Error(`Morph target ${morphTargetId} not found`);
 
-    const baseVertices = this.skinConfig.meshData.vertices;
-    const morphedVertices = baseVertices.map((vertex, index) => {
-      const morphVertex = morphTarget.vertices[index!] || vertex;
-      return vertex + (morphVertex - vertex) * strength * morphTarget.weight;
+    const baseVertices = this?.skinConfig.meshData?.vertices;
+    const morphedVertices = baseVertices?.map((vertex, index) => {
+      const morphVertex = morphTarget?.vertices[index!] || vertex;
+      return vertex + (morphVertex - vertex) * strength * morphTarget?.weight;
     });
 
-    this.skinConfig.meshData.vertices = morphedVertices;
+    this?.skinConfig.meshData?.vertices = morphedVertices;
     return this;
   }
 
@@ -342,15 +342,15 @@ export class SkinMeshGenerator {
    * Add texture to material
    */
   addTexture(materialId: string, texture: Omit<TextureConfig, 'id'>): SkinMeshGenerator {
-    const material = this.skinConfig.materials.find(m => m.id === materialId);
+    const material = this?.skinConfig.materials?.find(m => m?.id === materialId);
     if (!material) throw new Error(`Material ${materialId} not found`);
 
     const textureConfig: TextureConfig = {
       ...texture,
-      id: this.generateId()
+      id: this?.generateId()
     };
 
-    material.textures.push(textureConfig);
+    material?.textures?.push(textureConfig);
     return this;
   }
 
@@ -358,10 +358,10 @@ export class SkinMeshGenerator {
    * Update material properties
    */
   updateMaterialProperties(materialId: string, properties: Record<string, any>): SkinMeshGenerator {
-    const material = this.skinConfig.materials.find(m => m.id === materialId);
+    const material = this?.skinConfig.materials?.find(m => m?.id === materialId);
     if (!material) throw new Error(`Material ${materialId} not found`);
 
-    material.properties = { ...material.properties, ...properties };
+    material?.properties = { ...material?.properties, ...properties };
     return this;
   }
 
@@ -369,7 +369,7 @@ export class SkinMeshGenerator {
    * Get skin configuration
    */
   getSkinConfig(): SkinConfig {
-    return { ...this.skinConfig };
+    return { ...this?.skinConfig };
   }
 
   /**
@@ -377,10 +377,10 @@ export class SkinMeshGenerator {
    */
   exportSkinJson(): string {
     const exportData = {
-      ...this.skinConfig,
+      ...this?.skinConfig,
       exportFormat: 'miff-skin-v1',
       timestamp: new Date().toISOString(),
-      checksum: this.calculateChecksum()
+      checksum: this?.calculateChecksum()
     };
     return JSON.stringify(exportData, null, 2);
   }
@@ -392,37 +392,37 @@ export class SkinMeshGenerator {
     const errors: string[] = [];
 
     // Check mesh data integrity
-    const { vertices, normals, uvs, indices } = this.skinConfig.meshData;
+    const { vertices, normals, uvs, indices } = this?.skinConfig.meshData;
     
-    if (vertices.length % 3 !== 0) {
-      errors.push('Invalid vertex count - must be divisible by 3');
+    if (vertices?.length % 3 !== 0) {
+      errors?.push('Invalid vertex count - must be divisible by 3');
     }
 
-    if (normals.length !== vertices.length) {
-      errors.push('Normal count must match vertex count');
+    if (normals?.length !== vertices?.length) {
+      errors?.push('Normal count must match vertex count');
     }
 
-    if (uvs.length !== vertices.length * 2 / 3) {
-      errors.push('UV count must match vertex count * 2/3');
+    if (uvs?.length !== vertices?.length * 2 / 3) {
+      errors?.push('UV count must match vertex count * 2/3');
     }
 
     // Check indices are within bounds
-    const maxIndex = vertices.length / 3 - 1;
-    indices.forEach((index, i) => {
+    const maxIndex = vertices?.length / 3 - 1;
+    indices?.forEach((index, i) => {
       if (index < 0 || index > maxIndex) {
-        errors.push(`Index ${index} at position ${i} is out of bounds`);
+        errors?.push(`Index ${index} at position ${i} is out of bounds`);
       }
     });
 
     // Check morph targets
-    this.skinConfig.morphTargets.forEach(morphTarget => {
-      if (morphTarget.vertices.length !== vertices.length) {
-        errors.push(`Morph target ${morphTarget.name} has incorrect vertex count`);
+    this?.skinConfig.morphTargets?.forEach(morphTarget => {
+      if (morphTarget?.vertices.length !== vertices?.length) {
+        errors?.push(`Morph target ${morphTarget?.name} has incorrect vertex count`);
       }
     });
 
     return {
-      valid: errors.length === 0,
+      valid: errors?.length === 0,
       errors
     };
   }
@@ -434,11 +434,11 @@ export class SkinMeshGenerator {
   private calculateChecksum(): string {
     const data = JSON.stringify(this.skinConfig);
     let hash = 0;
-    for (let i = 0; i < data.length; i++) {
-      const char = data.charCodeAt(i);
+    for (let i = 0; i < data?.length; i++) {
+      const char = data?.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }
-    return hash.toString(16);
+    return hash?.toString(16);
   }
 }

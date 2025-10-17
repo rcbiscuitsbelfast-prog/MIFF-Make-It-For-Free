@@ -533,10 +533,10 @@ export class UnityBridgeManager {
   private maxReconnectAttempts = 10;
 
   constructor(configuration: UnityBridgeConfiguration) {
-    this.configuration = configuration;
-    this.performanceMetrics = this.initializePerformanceMetrics();
-    this.statistics = this.initializeStatistics();
-    this.initializeBridge();
+    this?.configuration = configuration;
+    this?.performanceMetrics = this?.initializePerformanceMetrics();
+    this?.statistics = this?.initializeStatistics();
+    this?.initializeBridge();
   }
 
   private initializePerformanceMetrics(): UnityPerformanceMetrics {
@@ -731,7 +731,7 @@ export class UnityBridgeManager {
       serviceCount: 0,
       bridgeCount: 0,
       synchronizationContextCount: 0,
-      performanceMetrics: this.performanceMetrics
+      performanceMetrics: this?.performanceMetrics
     };
   }
 
@@ -740,21 +740,21 @@ export class UnityBridgeManager {
 
     try {
       // Initialize communication protocol
-      await this.initializeCommunicationProtocol();
+      await this?.initializeCommunicationProtocol();
 
       // Initialize synchronization contexts
-      await this.initializeSynchronizationContexts();
+      await this?.initializeSynchronizationContexts();
 
       // Initialize lifecycle event handlers
-      await this.initializeLifecycleEventHandlers();
+      await this?.initializeLifecycleEventHandlers();
 
       // Start message processing
-      this.startMessageProcessing();
+      this?.startMessageProcessing();
 
       // Start heartbeat
-      this.startHeartbeat();
+      this?.startHeartbeat();
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.log('[UnityBridgeManager!] Unity bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -764,24 +764,24 @@ export class UnityBridgeManager {
   }
 
   private async initializeCommunicationProtocol(): Promise<void> {
-    switch (this.configuration.communicationProtocol) {
-      case UnityCommunicationProtocol.MESSAGE_PASSING:
-        await this.initializeMessagePassing();
+    switch (this?.configuration.communicationProtocol) {
+      case UnityCommunicationProtocol?.MESSAGE_PASSING:
+        await this?.initializeMessagePassing();
         break;
-      case UnityCommunicationProtocol.SHARED_MEMORY:
-        await this.initializeSharedMemory();
+      case UnityCommunicationProtocol?.SHARED_MEMORY:
+        await this?.initializeSharedMemory();
         break;
-      case UnityCommunicationProtocol.NETWORK_SOCKET:
-        await this.initializeNetworkSocket();
+      case UnityCommunicationProtocol?.NETWORK_SOCKET:
+        await this?.initializeNetworkSocket();
         break;
-      case UnityCommunicationProtocol.FILE_SYSTEM:
-        await this.initializeFileSystem();
+      case UnityCommunicationProtocol?.FILE_SYSTEM:
+        await this?.initializeFileSystem();
         break;
-      case UnityCommunicationProtocol.DATABASE:
-        await this.initializeDatabase();
+      case UnityCommunicationProtocol?.DATABASE:
+        await this?.initializeDatabase();
         break;
       default:
-        throw new Error(`Unsupported communication protocol: ${this.configuration.communicationProtocol}`);
+        throw new Error(`Unsupported communication protocol: ${this?.configuration.communicationProtocol}`);
     }
   }
 
@@ -822,7 +822,7 @@ export class UnityBridgeManager {
       metadata: {}
     };
 
-    this.synchronizationContexts.set('main_thread', mainThreadContext);
+    this?.synchronizationContexts.set('main_thread', mainThreadContext);
 
     // Create background thread context
     const backgroundThreadContext: UnitySynchronizationContext = {
@@ -835,41 +835,41 @@ export class UnityBridgeManager {
       metadata: {}
     };
 
-    this.synchronizationContexts.set('background_thread', backgroundThreadContext);
+    this?.synchronizationContexts.set('background_thread', backgroundThreadContext);
   }
 
   private async initializeLifecycleEventHandlers(): Promise<void> {
     for (const event of Object.values(UnityLifecycleEvent)) {
-      this.lifecycleEventHandlers.set(event, []);
+      this?.lifecycleEventHandlers.set(event, []);
     }
   }
 
   private startMessageProcessing(): void {
     setInterval(() => {
-      this.processMessageQueue();
+      this?.processMessageQueue();
     }, 16); // 60 FPS
 
     setInterval(() => {
-      this.processEventQueue();
+      this?.processEventQueue();
     }, 100); // 10 FPS for event processing
 
     setInterval(() => {
-      this.processCommandQueue();
+      this?.processCommandQueue();
     }, 50); // 20 FPS for command processing
 
     setInterval(() => {
-      this.processQueryQueue();
+      this?.processQueryQueue();
     }, 200); // 5 FPS for query processing
 
     setInterval(() => {
-      this.updateStatistics();
+      this?.updateStatistics();
     }, 1000); // 1 FPS for statistics updates
   }
 
   private startHeartbeat(): void {
     setInterval(() => {
-      this.sendHeartbeat();
-    }, this.configuration.heartbeatInterval);
+      this?.sendHeartbeat();
+    }, this?.configuration.heartbeatInterval);
   }
 
   // Core bridge functionality
@@ -882,28 +882,28 @@ export class UnityBridgeManager {
         type: 'local',
         status: 'connecting',
         endpoint: target,
-        protocol: this.configuration.communicationProtocol,
+        protocol: this?.configuration.communicationProtocol,
         lastActivity: new Date(),
         messageCount: 0,
         errorCount: 0,
         reconnectAttempts: 0,
-        maxReconnectAttempts: this.configuration.retryAttempts,
+        maxReconnectAttempts: this?.configuration.retryAttempts,
         metadata: {}
       };
 
-      this.connections.set(connection.id, connection);
+      this?.connections.set(connection?.id, connection);
 
       // Attempt connection based on protocol
-      const connected = await this.establishConnection(connection);
+      const connected = await this?.establishConnection(connection);
 
       if (connected) {
-        connection.status = 'connected';
-        this.isConnected = true;
-        this.reconnectAttempts = 0;
+        connection?.status = 'connected';
+        this?.isConnected = true;
+        this?.reconnectAttempts = 0;
         console.log(`[UnityBridgeManager!] Successfully connected to Unity instance: ${target}`);
         return true;
       } else {
-        connection.status = 'error';
+        connection?.status = 'error';
         console.error(`[UnityBridgeManager!] Failed to connect to Unity instance: ${target}`);
         return false;
       }
@@ -915,17 +915,17 @@ export class UnityBridgeManager {
   }
 
   private async establishConnection(connection: UnityConnection): Promise<boolean> {
-    switch (connection.protocol) {
-      case UnityCommunicationProtocol.MESSAGE_PASSING:
-        return await this.establishMessagePassingConnection(connection);
-      case UnityCommunicationProtocol.SHARED_MEMORY:
-        return await this.establishSharedMemoryConnection(connection);
-      case UnityCommunicationProtocol.NETWORK_SOCKET:
-        return await this.establishNetworkSocketConnection(connection);
-      case UnityCommunicationProtocol.FILE_SYSTEM:
-        return await this.establishFileSystemConnection(connection);
-      case UnityCommunicationProtocol.DATABASE:
-        return await this.establishDatabaseConnection(connection);
+    switch (connection?.protocol) {
+      case UnityCommunicationProtocol?.MESSAGE_PASSING:
+        return await this?.establishMessagePassingConnection(connection);
+      case UnityCommunicationProtocol?.SHARED_MEMORY:
+        return await this?.establishSharedMemoryConnection(connection);
+      case UnityCommunicationProtocol?.NETWORK_SOCKET:
+        return await this?.establishNetworkSocketConnection(connection);
+      case UnityCommunicationProtocol?.FILE_SYSTEM:
+        return await this?.establishFileSystemConnection(connection);
+      case UnityCommunicationProtocol?.DATABASE:
+        return await this?.establishDatabaseConnection(connection);
       default:
         return false;
     }
@@ -959,12 +959,12 @@ export class UnityBridgeManager {
   async disconnect(): Promise<void> {
     console.log('[UnityBridgeManager!] Disconnecting from Unity...');
 
-    for (const connection of this.connections.values()) {
-      connection.status = 'disconnected';
-      await this.closeConnection(connection);
+    for (const connection of this?.connections.values()) {
+      connection?.status = 'disconnected';
+      await this?.closeConnection(connection);
     }
 
-    this.isConnected = false;
+    this?.isConnected = false;
     console.log('[UnityBridgeManager!] Disconnected from Unity');
   }
 
@@ -973,18 +973,18 @@ export class UnityBridgeManager {
   }
 
   async sendMessage(message: UnityMessage): Promise<boolean> {
-    if (!this.isConnected) {
+    if (!this?.isConnected) {
       throw new Error('Unity bridge is not connected');
     }
 
     try {
       // Add to message queue
-      this.messageQueue.push(message);
-      this.statistics.totalMessages++;
+      this?.messageQueue?.push(message);
+      this?.statistics.totalMessages++;
 
       // Process immediately if queue is small
-      if (this.messageQueue.length <= this.configuration.batchSize) {
-        await this.processMessage(message);
+      if (this?.messageQueue.length <= this?.configuration.batchSize) {
+        await this?.processMessage(message);
       }
 
       return true;
@@ -996,21 +996,21 @@ export class UnityBridgeManager {
   }
 
   private async processMessage(message: UnityMessage): Promise<void> {
-    switch (message.type) {
+    switch (message?.type) {
       case 'command':
-        await this.processCommandMessage(message);
+        await this?.processCommandMessage(message);
         break;
       case 'query':
-        await this.processQueryMessage(message);
+        await this?.processQueryMessage(message);
         break;
       case 'event':
-        await this.processEventMessage(message);
+        await this?.processEventMessage(message);
         break;
       case 'response':
-        await this.processResponseMessage(message);
+        await this?.processResponseMessage(message);
         break;
       case 'heartbeat':
-        await this.processHeartbeatMessage(message);
+        await this?.processHeartbeatMessage(message);
         break;
       default:
         console.warn(`[UnityBridgeManager!] Unknown message type: ${message.type}`);
@@ -1018,35 +1018,35 @@ export class UnityBridgeManager {
   }
 
   private async processCommandMessage(message: UnityMessage): Promise<void> {
-    const command = message.payload as UnityCommand;
-    this.statistics.totalCommands++;
+    const command = message?.payload as UnityCommand;
+    this?.statistics.totalCommands++;
 
     try {
-      const result = await this.executeCommand(command);
+      const result = await this?.executeCommand(command);
 
       const response: UnityResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
-        success: result.success,
-        data: result.data,
-        error: result.error,
-        executionTime: result.executionTime,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
+        success: result?.success,
+        data: result?.data,
+        error: result?.error,
+        executionTime: result?.executionTime,
         timestamp: new Date(),
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: UnityResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
         success: false,
         data: null,
         error: {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
-          context: { commandId: command.id },
+          context: { commandId: command?.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1057,7 +1057,7 @@ export class UnityBridgeManager {
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     }
   }
 
@@ -1067,15 +1067,15 @@ export class UnityBridgeManager {
   }
 
   private async processQueryMessage(message: UnityMessage): Promise<void> {
-    const query = message.payload as UnityQuery;
-    this.statistics.totalQueries++;
+    const query = message?.payload as UnityQuery;
+    this?.statistics.totalQueries++;
 
     try {
-      const result = await this.executeQuery(query);
+      const result = await this?.executeQuery(query);
 
       const response: UnityResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
         success: true,
         data: result,
         executionTime: 0,
@@ -1083,18 +1083,18 @@ export class UnityBridgeManager {
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: UnityResponse = {
-        id: `response_${message.id}`,
-        correlationId: message.id,
+        id: `response_${message?.id}`,
+        correlationId: message?.id,
         success: false,
         data: null,
         error: {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
-          context: { queryId: query.id },
+          context: { queryId: query?.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1105,7 +1105,7 @@ export class UnityBridgeManager {
         metadata: {}
       };
 
-      await this.sendResponse(response);
+      await this?.sendResponse(response);
     }
   }
 
@@ -1115,23 +1115,23 @@ export class UnityBridgeManager {
   }
 
   private async processEventMessage(message: UnityMessage): Promise<void> {
-    const event = message.payload as UnityEvent;
-    this.statistics.totalEvents++;
+    const event = message?.payload as UnityEvent;
+    this?.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event);
+    this?.eventQueue?.push(event);
 
     // Process immediately
-    await this.handleEvent(event);
+    await this?.handleEvent(event);
   }
 
   private async handleEvent(event: UnityEvent): Promise<void> {
-    const handlers = this.lifecycleEventHandlers.get(event.name as UnityLifecycleEvent);
+    const handlers = this?.lifecycleEventHandlers.get(event?.name as UnityLifecycleEvent);
 
     if (handlers) {
       for (const handler of handlers) {
         try {
-          await handler(event.data);
+          await handler(event?.data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`[UnityBridgeManager!] Event handler failed: ${error}`);
@@ -1141,21 +1141,21 @@ export class UnityBridgeManager {
   }
 
   private async processResponseMessage(message: UnityMessage): Promise<void> {
-    const response = message.payload as UnityResponse;
-    this.statistics.totalResponses++;
+    const response = message?.payload as UnityResponse;
+    this?.statistics.totalResponses++;
 
     // Add to response queue
-    this.responseQueue.push(response);
+    this?.responseQueue?.push(response);
   }
 
   private async processHeartbeatMessage(message: UnityMessage): Promise<void> {
-    this.lastHeartbeat = Date.now();
-    this.reconnectAttempts = 0;
+    this.lastHeartbeat = new Date();
+    this?.reconnectAttempts = 0;
   }
 
   private async sendResponse(response: UnityResponse): Promise<void> {
     const message: UnityMessage = {
-      id: response.id,
+      id: response?.id,
       type: 'response',
       source: 'bridge',
       destination: 'unity',
@@ -1169,11 +1169,11 @@ export class UnityBridgeManager {
       metadata: {}
     };
 
-    await this.sendMessage(message);
+    await this?.sendMessage(message);
   }
 
   private async sendHeartbeat(): Promise<void> {
-    if (!this.isConnected) return;
+    if (!this?.isConnected) return;
 
     const message: UnityMessage = {
       id: `heartbeat_${Date.now()}`,
@@ -1184,7 +1184,7 @@ export class UnityBridgeManager {
       payload: {
         timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0!],
-        statistics: this.statistics
+        statistics: this?.statistics
       },
       priority: 0,
       ttl: 5000,
@@ -1194,7 +1194,7 @@ export class UnityBridgeManager {
       metadata: {}
     };
 
-    await this.sendMessage(message);
+    await this?.sendMessage(message);
   }
 
   // Bridge management
@@ -1203,151 +1203,151 @@ export class UnityBridgeManager {
   }
 
   unregisterGameObject(gameObjectId: string): void {
-    this.gameObjects.delete(gameObjectId);
+    this?.gameObjects.delete(gameObjectId);
   }
 
   getGameObject(gameObjectId: string): UnityGameObjectBridge | undefined {
-    return this.gameObjects.get(gameObjectId);
+    return this?.gameObjects.get(gameObjectId);
   }
 
   registerComponent(component: UnityComponentBridge): void {
-    this.components.set(component.id, component);
+    this?.components.set(component?.id, component);
   }
 
   unregisterComponent(componentId: string): void {
-    this.components.delete(componentId);
+    this?.components.delete(componentId);
   }
 
   getComponent(componentId: string): UnityComponentBridge | undefined {
-    return this.components.get(componentId);
+    return this?.components.get(componentId);
   }
 
   registerAsset(asset: UnityAssetBridge): void {
-    this.assets.set(asset.id, asset);
+    this?.assets.set(asset?.id, asset);
   }
 
   unregisterAsset(assetId: string): void {
-    this.assets.delete(assetId);
+    this?.assets.delete(assetId);
   }
 
   getAsset(assetId: string): UnityAssetBridge | undefined {
-    return this.assets.get(assetId);
+    return this?.assets.get(assetId);
   }
 
   registerScene(scene: UnitySceneBridge): void {
-    this.scenes.set(scene.id, scene);
+    this?.scenes.set(scene?.id, scene);
   }
 
   unregisterScene(sceneId: string): void {
-    this.scenes.delete(sceneId);
+    this?.scenes.delete(sceneId);
   }
 
   getScene(sceneId: string): UnitySceneBridge | undefined {
-    return this.scenes.get(sceneId);
+    return this?.scenes.get(sceneId);
   }
 
   registerSystem(system: UnitySystemBridge): void {
-    this.systems.set(system.id, system);
+    this?.systems.set(system?.id, system);
   }
 
   unregisterSystem(systemId: string): void {
-    this.systems.delete(systemId);
+    this?.systems.delete(systemId);
   }
 
   getSystem(systemId: string): UnitySystemBridge | undefined {
-    return this.systems.get(systemId);
+    return this?.systems.get(systemId);
   }
 
   registerService(service: UnityServiceBridge): void {
-    this.services.set(service.id, service);
+    this?.services.set(service?.id, service);
   }
 
   unregisterService(serviceId: string): void {
-    this.services.delete(serviceId);
+    this?.services.delete(serviceId);
   }
 
   getService(serviceId: string): UnityServiceBridge | undefined {
-    return this.services.get(serviceId);
+    return this?.services.get(serviceId);
   }
 
   // Event handling
   addLifecycleEventHandler(event: UnityLifecycleEvent, handler: Function): void {
-    const handlers = this.lifecycleEventHandlers.get(event) || [];
-    handlers.push(handler);
-    this.lifecycleEventHandlers.set(event, handlers);
+    const handlers = this?.lifecycleEventHandlers.get(event) || [];
+    handlers?.push(handler);
+    this?.lifecycleEventHandlers.set(event, handlers);
   }
 
   removeLifecycleEventHandler(event: UnityLifecycleEvent, handler: Function): void {
-    const handlers = this.lifecycleEventHandlers.get(event) || [];
-    const index = handlers.indexOf(handler);
+    const handlers = this?.lifecycleEventHandlers.get(event) || [];
+    const index = handlers?.indexOf(handler);
 
     if (index !== -1) {
-      handlers.splice(index, 1);
-      this.lifecycleEventHandlers.set(event, handlers);
+      handlers?.splice(index, 1);
+      this?.lifecycleEventHandlers.set(event, handlers);
     }
   }
 
   // Statistics and monitoring
   getStatistics(): UnityBridgeStatistics {
-    this.updateStatistics();
-    return { ...this.statistics };
+    this?.updateStatistics();
+    return { ...this?.statistics };
   }
 
   private updateStatistics(): void {
     this.statistics.messagesPerSecond = this.statistics.totalMessages / Math.max(1, (Date.now() - this.statistics.connectionUptime) / 1000);
     this.statistics.errorRate = this.statistics.totalErrors / Math.max(1, this.statistics.totalMessages);
     this.statistics.averageMessageSize = this.statistics.dataTransferred / Math.max(1, this.statistics.totalMessages);
-    this.statistics.queueDepth = this.messageQueue.length + this.eventQueue.length + this.commandQueue.length + this.queryQueue.length;
+    this?.statistics.queueDepth = this?.messageQueue.length + this?.eventQueue.length + this?.commandQueue.length + this?.queryQueue.length;
     this.statistics.activeConnections = Array.from(this.connections.values()).filter((c: any) => c.status === 'connected').length;
-    this.statistics.assetCount = this.assets.size;
+    this?.statistics.assetCount = this?.assets.size;
     this.statistics.textureCount = Array.from(this.assets.values()).filter((a: any) => a.type === 'texture').length;
     this.statistics.meshCount = Array.from(this.assets.values()).filter((a: any) => a.type === 'mesh').length;
     this.statistics.materialCount = Array.from(this.assets.values()).filter((a: any) => a.type === 'material').length;
     this.statistics.shaderCount = Array.from(this.assets.values()).filter((a: any) => a.type === 'shader').length;
     this.statistics.animationCount = Array.from(this.assets.values()).filter((a: any) => a.type === 'animation').length;
     this.statistics.audioCount = Array.from(this.assets.values()).filter((a: any) => a.type === 'audio').length;
-    this.statistics.gameObjectCount = this.gameObjects.size;
-    this.statistics.componentCount = this.components.size;
-    this.statistics.systemCount = this.systems.size;
-    this.statistics.serviceCount = this.services.size;
-    this.statistics.bridgeCount = 1; // This bridge
-    this.statistics.synchronizationContextCount = this.synchronizationContexts.size;
+    this?.statistics.gameObjectCount = this?.gameObjects.size;
+    this?.statistics.componentCount = this?.components.size;
+    this?.statistics.systemCount = this?.systems.size;
+    this?.statistics.serviceCount = this?.services.size;
+    this?.statistics.bridgeCount = 1; // This bridge
+    this?.statistics.synchronizationContextCount = this?.synchronizationContexts.size;
   }
 
   // Message queue processing
   private async processMessageQueue(): Promise<void> {
-    if (this.messageQueue.length === 0) return;
+    if (this?.messageQueue.length === 0) return;
 
-    const batch = this.messageQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.messageQueue.splice(0, this?.configuration.batchSize);
     for (const message of batch) {
-      await this.processMessage(message);
+      await this?.processMessage(message);
     }
   }
 
   private async processEventQueue(): Promise<void> {
-    if (this.eventQueue.length === 0) return;
+    if (this?.eventQueue.length === 0) return;
 
-    const batch = this.eventQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.eventQueue.splice(0, this?.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event);
+      await this?.handleEvent(event);
     }
   }
 
   private async processCommandQueue(): Promise<void> {
-    if (this.commandQueue.length === 0) return;
+    if (this?.commandQueue.length === 0) return;
 
-    const batch = this.commandQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.commandQueue.splice(0, this?.configuration.batchSize);
     for (const command of batch) {
-      await this.executeCommand(command);
+      await this?.executeCommand(command);
     }
   }
 
   private async processQueryQueue(): Promise<void> {
-    if (this.queryQueue.length === 0) return;
+    if (this?.queryQueue.length === 0) return;
 
-    const batch = this.queryQueue.splice(0, this.configuration.batchSize);
+    const batch = this?.queryQueue.splice(0, this?.configuration.batchSize);
     for (const query of batch) {
-      await this.executeQuery(query);
+      await this?.executeQuery(query);
     }
   }
 
@@ -1357,28 +1357,28 @@ export class UnityBridgeManager {
   }
 
   getConfiguration(): UnityBridgeConfiguration {
-    return { ...this.configuration };
+    return { ...this?.configuration };
   }
 
   // Utility methods
   isConnectedToUnity(): boolean {
-    return this.isConnected;
+    return this?.isConnected;
   }
 
   getConnectionStatus(): 'connected' | 'disconnected' | 'connecting' | 'error' {
-    if (!this.isConnected) return 'disconnected';
+    if (!this?.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0!];
     return connection?.status || 'disconnected';
   }
 
   getPerformanceMetrics(): UnityPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      configuration: this.configuration,
+      configuration: this?.configuration,
       connections: Array.from(this.connections.values()),
       gameObjects: Array.from(this.gameObjects.values()),
       components: Array.from(this.components.values()),
@@ -1386,8 +1386,8 @@ export class UnityBridgeManager {
       scenes: Array.from(this.scenes.values()),
       systems: Array.from(this.systems.values()),
       services: Array.from(this.services.values()),
-      statistics: this.statistics,
-      performanceMetrics: this.performanceMetrics,
+      statistics: this?.statistics,
+      performanceMetrics: this?.performanceMetrics,
       synchronizationContexts: Array.from(this.synchronizationContexts.values()),
       timestamp: new Date()
     };
@@ -1395,45 +1395,45 @@ export class UnityBridgeManager {
     if (format === 'json') {
       return JSON.stringify(data, null, 2);
     } else if (format === 'xml') {
-      return this.convertToXML(data);
+      return this?.convertToXML(data: any);
     } else {
-      return this.convertToBinary(data);
+      return this?.convertToBinary(data: any);
     }
   }
 
-  private convertToXML(data): string {
+  private convertToXML(data: any): string {
     // Simple XML conversion - in production this would be more robust
     return '<unity_bridge_data><!-- XML export not fully implemented --></unity_bridge_data>';
   }
 
-  private convertToBinary(data): string {
+  private convertToBinary(data: any): string {
     // Simple binary conversion - in production this would use proper serialization
-    return JSON.stringify(data);
+    return JSON.stringify(data: any);
   }
 
   reset(): void {
-    this.connections.clear();
-    this.gameObjects.clear();
-    this.components.clear();
-    this.assets.clear();
-    this.scenes.clear();
-    this.systems.clear();
-    this.services.clear();
-    this.messageQueue = [];
-    this.eventQueue = [];
-    this.commandQueue = [];
-    this.queryQueue = [];
-    this.responseQueue = [];
-    this.isConnected = false;
-    this.lastHeartbeat = 0;
-    this.reconnectAttempts = 0;
+    this?.connections.clear();
+    this?.gameObjects.clear();
+    this?.components.clear();
+    this?.assets.clear();
+    this?.scenes.clear();
+    this?.systems.clear();
+    this?.services.clear();
+    this?.messageQueue = [];
+    this?.eventQueue = [];
+    this?.commandQueue = [];
+    this?.queryQueue = [];
+    this?.responseQueue = [];
+    this?.isConnected = false;
+    this?.lastHeartbeat = 0;
+    this?.reconnectAttempts = 0;
 
     console.log('[UnityBridgeManager!] Reset to initial state');
   }
 
   dispose(): void {
-    this.reset();
-    this.isInitialized = false;
+    this?.reset();
+    this?.isInitialized = false;
     console.log('[UnityBridgeManager!] Disposed successfully');
   }
 }

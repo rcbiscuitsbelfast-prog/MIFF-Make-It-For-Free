@@ -73,7 +73,7 @@ export class OverlinkZone {
   private creditsRenderer: CreditsRenderer;
 
   constructor() {
-    this.state = {
+    this?.state = {
       currentZone: '',
       activeModules: [],
       overlayLayers: new Map([
@@ -92,36 +92,36 @@ export class OverlinkZone {
     };
 
     // Initialize theme and lineage systems
-    this.themes = new OverlinkThemes();
-    this.lineageTracker = new RemixLineageTracker();
-    this.audioManager = new AudioManager();
-    this.badgeSystem = new BadgeSystem();
-    this.creditsRenderer = new CreditsRenderer(this.badgeSystem);
+    this?.themes = new OverlinkThemes();
+    this?.lineageTracker = new RemixLineageTracker();
+    this?.audioManager = new AudioManager();
+    this?.badgeSystem = new BadgeSystem();
+    this?.creditsRenderer = new CreditsRenderer(this?.badgeSystem);
     
     // Connect audio manager to themes
-    this.themes.setAudioManager(this.audioManager);
+    this?.themes.setAudioManager(this?.audioManager);
     
     // Load audio configuration
     this.audioManager.loadConfig().catch(console.error);
     
     // Initialize badge system with sample data
-    this.initializeBadgeSystem();
+    this?.initializeBadgeSystem();
   }
 
   // Zone Management
   registerZone(zoneId: ZoneId, name?: string, tags: string[] = []): void {
-    this.zoneRegistry.set(zoneId, { name: name || zoneId, tags });
+    this?.zoneRegistry.set(zoneId, { name: name || zoneId, tags });
   }
 
   enterZone(zoneId: ZoneId): void {
-    if (this.state.currentZone === zoneId) return;
+    if (this?.state.currentZone === zoneId) return;
     
-    const previousZone = this.state.currentZone;
-    this.state.currentZone = zoneId;
+    const previousZone = this?.state.currentZone;
+    this?.state.currentZone = zoneId;
     
     // Queue transition if coming from another zone
     if (previousZone) {
-      this.queueTransition({
+      this?.queueTransition({
         fromZone: previousZone,
         toZone: zoneId,
         type: 'fade',
@@ -140,22 +140,22 @@ export class OverlinkZone {
       remixMode: false
     };
     
-    this.moduleRegistry.set(moduleId, connection);
+    this?.moduleRegistry.set(moduleId, connection);
     return connection;
   }
 
   activateModule(moduleId: ModuleId): boolean {
-    const module = this.moduleRegistry.get(moduleId);
+    const module = this?.moduleRegistry.get(moduleId);
     if (!module) return false;
     
     // Check dependencies
-    const canActivate = module.dependencies.every(dep => 
-      this.moduleRegistry.get(dep)?.status === 'active'
+    const canActivate = module?.dependencies.every(dep => 
+      this?.moduleRegistry.get(dep)?.status === 'active'
     );
     
     if (canActivate) {
-      module.status = 'active';
-      this.updateActiveModules();
+      module?.status = 'active';
+      this?.updateActiveModules();
       return true;
     }
     
@@ -163,159 +163,159 @@ export class OverlinkZone {
   }
 
   deactivateModule(moduleId: ModuleId): void {
-    const module = this.moduleRegistry.get(moduleId);
+    const module = this?.moduleRegistry.get(moduleId);
     if (module) {
-      module.status = 'inactive';
-      this.updateActiveModules();
+      module?.status = 'inactive';
+      this?.updateActiveModules();
     }
   }
 
   // Draw Reducer Management
   addDrawReducer(reducer: DrawReducer): void {
-    this.state.drawReducers.push(reducer);
-    this.sortDrawReducers();
+    this?.state.drawReducers?.push(reducer);
+    this?.sortDrawReducers();
   }
 
   removeDrawReducer(reducerId: string): void {
-    this.state.drawReducers = this.state.drawReducers.filter((r: any) => r.id !== reducerId);
+    this?.state.drawReducers = this?.state.drawReducers?.filter((r: any) => r?.id !== reducerId);
   }
 
   toggleDrawReducer(reducerId: string): boolean {
-    const reducer = this.state.drawReducers.find(r => r.id === reducerId);
+    const reducer = this?.state.drawReducers?.find(r => r?.id === reducerId);
     if (reducer) {
-      reducer.enabled = !reducer.enabled;
-      return reducer.enabled;
+      reducer?.enabled = !reducer?.enabled;
+      return reducer?.enabled;
     }
     return false;
   }
 
   // Overlay Layer Management
   toggleOverlayLayer(layer: OverlayLayer): boolean {
-    const current = this.state.overlayLayers.get(layer) || false;
+    const current = this?.state.overlayLayers?.get(layer) || false;
     const newState = !current;
-    this.state.overlayLayers.set(layer, newState);
+    this?.state.overlayLayers?.set(layer, newState);
     return newState;
   }
 
   setOverlayLayer(layer: OverlayLayer, enabled: boolean): void {
-    this.state.overlayLayers.set(layer, enabled);
+    this?.state.overlayLayers?.set(layer, enabled);
   }
 
   // Asset Binding Management
   bindAsset(binding: AssetBinding): void {
-    this.state.assetBindings.push(binding);
+    this?.state.assetBindings?.push(binding);
   }
 
   unbindAsset(assetId: string): void {
-    this.state.assetBindings = this.state.assetBindings.filter((b: any) => b.id !== assetId);
+    this?.state.assetBindings = this?.state.assetBindings?.filter((b: any) => b?.id !== assetId);
   }
 
   getAssetBinding(assetId: string): AssetBinding | undefined {
-    return this.state.assetBindings.find(b => b.id === assetId);
+    return this?.state.assetBindings?.find(b => b?.id === assetId);
   }
 
   // Transition Management
   queueTransition(transition: TransitionConfig): void {
-    this.transitionQueue.push(transition);
+    this?.transitionQueue?.push(transition);
   }
 
   processTransitions(): TransitionConfig[] {
-    const processed = [...this.transitionQueue];
-    this.transitionQueue = [];
+    const processed = [...this?.transitionQueue];
+    this?.transitionQueue = [];
     return processed;
   }
 
   // Debug Mode
   toggleDebugMode(): boolean {
-    this.state.debugMode = !this.state.debugMode;
-    if (this.state.debugMode) {
-      this.setOverlayLayer('debug', true);
+    this?.state.debugMode = !this?.state.debugMode;
+    if (this?.state.debugMode) {
+      this?.setOverlayLayer('debug', true);
     }
-    return this.state.debugMode;
+    return this?.state.debugMode;
   }
 
   // State Queries
   getCurrentZone(): ZoneId {
-    return this.state.currentZone;
+    return this?.state.currentZone;
   }
 
   getActiveModules(): ModuleConnection[] {
-    return this.state.activeModules;
+    return this?.state.activeModules;
   }
 
   getDrawReducers(): DrawReducer[] {
-    return this.state.drawReducers.filter((r: any) => r.enabled);
+    return this?.state.drawReducers?.filter((r: any) => r?.enabled);
   }
 
   getOverlayLayers(): Map<OverlayLayer, boolean> {
-    return new Map(this.state.overlayLayers);
+    return new Map(this?.state.overlayLayers);
   }
 
   getAssetBindings(): AssetBinding[] {
-    return [...this.state.assetBindings];
+    return [...this?.state.assetBindings];
   }
 
   // Theme Management
   activateTheme(themeId: ThemeId): boolean {
-    const success = this.themes.activateTheme(themeId);
+    const success = this?.themes.activateTheme(themeId);
     if (success) {
-      this.state.activeTheme = themeId;
+      this?.state.activeTheme = themeId;
     }
     return success;
   }
 
   deactivateTheme(): void {
-    this.themes.deactivateTheme();
-    this.state.activeTheme = null;
+    this?.themes.deactivateTheme();
+    this?.state.activeTheme = null;
   }
 
   getActiveTheme(): ThemeId | null {
-    return this.themes.getActiveTheme();
+    return this?.themes.getActiveTheme();
   }
 
   getAvailableThemes(): ThemeId[] {
-    return this.themes.getAvailableThemes();
+    return this?.themes.getAvailableThemes();
   }
 
   getThemeConfig(themeId: ThemeId) {
-    return this.themes.getThemeConfig(themeId);
+    return this?.themes.getThemeConfig(themeId);
   }
 
   toggleThemeLayer(layer: string): boolean {
-    return this.themes.toggleLayer(layer as any);
+    return this?.themes.toggleLayer(layer as any);
   }
 
   getThemeCLIPreview(themeId: ThemeId): string {
-    return this.themes.getCLIPreview(themeId);
+    return this?.themes.getCLIPreview(themeId);
   }
 
   // Audio Management
   async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
-    return await this.themes.playThemeAudio(themeId, options);
+    return await this?.themes.playThemeAudio(themeId, options);
   }
 
   async stopThemeAudio(): Promise<void> {
-    await this.themes.stopThemeAudio();
+    await this?.themes.stopThemeAudio();
   }
 
   setThemeVolume(themeId: ThemeId, volume: number): void {
-    this.themes.setThemeVolume(themeId, volume);
+    this?.themes.setThemeVolume(themeId, volume);
   }
 
   getAudioPreview(themeId: ThemeId): string {
-    return this.themes.getAudioPreview(themeId);
+    return this?.themes.getAudioPreview(themeId);
   }
 
   validateAudioRemixSafety(themeId: ThemeId): any {
-    return this.themes.validateAudioRemixSafety(themeId);
+    return this?.themes.validateAudioRemixSafety(themeId);
   }
 
   setMasterVolume(volume: number): void {
-    this.audioManager.setMasterVolume(volume);
+    this?.audioManager.setMasterVolume(volume);
   }
 
   getAudioPlaybackState(): any {
-    return this.audioManager.getPlaybackState();
+    return this?.audioManager.getPlaybackState();
   }
 
   // Badge System Management
@@ -345,122 +345,122 @@ export class OverlinkZone {
       }
     ];
 
-    sampleAssignments.forEach((assignment: any) => {
-      this.badgeSystem.assignBadge(assignment);
+    sampleAssignments?.forEach((assignment: any) => {
+      this?.badgeSystem.assignBadge(assignment);
     });
   }
 
   assignBadge(assignment): any {
-    return this.badgeSystem.assignBadge(assignment);
+    return this?.badgeSystem.assignBadge(assignment);
   }
 
   getContributorBadges(contributorId: string): any[] {
-    return this.badgeSystem.getContributorBadges(contributorId);
+    return this?.badgeSystem.getContributorBadges(contributorId);
   }
 
   displayBadges(contributorId?: string, options?: any): any[] {
-    return this.badgeSystem.displayBadges(contributorId, options);
+    return this?.badgeSystem.displayBadges(contributorId, options);
   }
 
   getBadgePreview(contributorId?: string): string {
-    return this.badgeSystem.getCLIPreview(contributorId);
+    return this?.badgeSystem.getCLIPreview(contributorId);
   }
 
   // Credits and Badge Display
   renderCredits(options): any {
-    return this.creditsRenderer.renderCreditsWithBadges(options);
+    return this?.creditsRenderer.renderCreditsWithBadges(options);
   }
 
   renderCompactCredits(options): any {
-    return this.creditsRenderer.renderCompactCredits(options);
+    return this?.creditsRenderer.renderCompactCredits(options);
   }
 
   renderDetailedCredits(options): any {
-    return this.creditsRenderer.renderDetailedCredits(options);
+    return this?.creditsRenderer.renderDetailedCredits(options);
   }
 
   renderBadgeFocusedCredits(options): any {
-    return this.creditsRenderer.renderBadgeFocusedCredits(options);
+    return this?.creditsRenderer.renderBadgeFocusedCredits(options);
   }
 
   getCreditsPreview(options): string {
-    return this.creditsRenderer.getCLIPreview(options);
+    return this?.creditsRenderer.getCLIPreview(options);
   }
 
   // Lineage Tracking
   enableLineageTracking(): void {
-    this.state.lineageTracking = true;
+    this?.state.lineageTracking = true;
   }
 
   disableLineageTracking(): void {
-    this.state.lineageTracking = false;
+    this?.state.lineageTracking = false;
   }
 
   isLineageTrackingEnabled(): boolean {
-    return this.state.lineageTracking;
+    return this?.state.lineageTracking;
   }
 
   registerRemixOrigin(origin: RemixOrigin): void {
-    this.lineageTracker.registerRemixOrigin(origin);
+    this?.lineageTracker.registerRemixOrigin(origin);
   }
 
   registerAssetLineage(lineage: AssetLineage): void {
-    this.lineageTracker.registerAssetLineage(lineage);
+    this?.lineageTracker.registerAssetLineage(lineage);
   }
 
   getRemixOrigins() {
-    return this.lineageTracker.getRemixOrigins();
+    return this?.lineageTracker.getRemixOrigins();
   }
 
   getAllAssetLineages() {
-    return this.lineageTracker.getAllAssetLineages();
+    return this?.lineageTracker.getAllAssetLineages();
   }
 
   validateAllAssets() {
-    return this.lineageTracker.validateAllAssets();
+    return this?.lineageTracker.validateAllAssets();
   }
 
   getLineageCLISummary(): string {
-    return this.lineageTracker.getCLISummary();
+    return this?.lineageTracker.getCLISummary();
   }
 
   getLineageSamplerIntegration() {
-    return this.lineageTracker.getSamplerIntegration();
+    return this?.lineageTracker.getSamplerIntegration();
   }
 
   // Utility Methods
   private updateActiveModules(): void {
     this.state.activeModules = Array.from(this.moduleRegistry.values())
-      .filter((m: any) => m.status === 'active');
+      .filter((m: any) => m?.status === 'active');
   }
 
   private sortDrawReducers(): void {
-    this.state.drawReducers.sort((a: any, b: any) => a.priority - b.priority);
+    this?.state.drawReducers?.sort((a: any, b: any) => a?.priority - b?.priority);
   }
 
   // Export state for testing and serialization
   exportState(): OverlinkState {
     return {
-      ...this.state,
-      overlayLayers: new Map(this.state.overlayLayers),
-      drawReducers: [...this.state.drawReducers],
-      assetBindings: [...this.state.assetBindings],
-      transitions: [...this.state.transitions]
+      ...this?.state,
+      overlayLayers: new Map(this?.state.overlayLayers),
+      drawReducers: [...this?.state.drawReducers],
+      assetBindings: [...this?.state.assetBindings],
+      transitions: [...this?.state.transitions]
     };
   }
 
   // Import state for testing and deserialization
   importState(state: Partial<OverlinkState>): void {
-    if (state.currentZone !== undefined) this.state.currentZone = state.currentZone;
-    if (state.debugMode !== undefined) this.state.debugMode = state.debugMode;
-    if (state.overlayLayers) this.state.overlayLayers = new Map(state.overlayLayers);
-    if (state.drawReducers) this.state.drawReducers = [...state.drawReducers];
-    if (state.assetBindings) this.state.assetBindings = [...state.assetBindings];
-    if (state.transitions) this.state.transitions = [...state.transitions];
-    if (state.activeTheme !== undefined) this.state.activeTheme = state.activeTheme;
-    if (state.lineageTracking !== undefined) this.state.lineageTracking = state.lineageTracking;
+    if (state?.currentZone !== undefined) this?.state.currentZone = state?.currentZone;
+    if (state?.debugMode !== undefined) this?.state.debugMode = state?.debugMode;
+    if (state?.overlayLayers) this?.state.overlayLayers = new Map(state?.overlayLayers);
+    if (state?.drawReducers) this?.state.drawReducers = [...state?.drawReducers];
+    if (state?.assetBindings) this?.state.assetBindings = [...state?.assetBindings];
+    if (state?.transitions) this?.state.transitions = [...state?.transitions];
+    if (state?.activeTheme !== undefined) this?.state.activeTheme = state?.activeTheme;
+    if (state?.lineageTracking !== undefined) this?.state.lineageTracking = state?.lineageTracking;
     
-    this.updateActiveModules();
-    this.sortDrawReducers();
+    this?.updateActiveModules();
+    this?.sortDrawReducers();
   }
 }

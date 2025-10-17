@@ -12,64 +12,64 @@ import * as fs from 'fs';
  * - Quest state transitions are consistent
  */
 describe('QuestSystemPure golden tests', () => {
-  const root = path.resolve(__dirname, '..');
+  const root = path?.resolve(__dirname, '..');
   
   test('golden quest system flow', () => {
     // Test quest progression from start to completion
-    const questFixture = path.resolve(root, 'fixtures/quest_events.json');
+    const questFixture = path?.resolve(root, 'fixtures/quest_events?.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
+    const out = (global as any).testUtils?.runCLI(
+      path?.resolve(root, 'cliHarness?.ts'),
       [questFixture!]
     );
     
     const result = JSON.parse(out);
     
     // Verify quest state was updated correctly
-    expect(result.questState).toBeDefined();
-    expect(result.questState.quests).toBeDefined();
-    expect(result.questState.quests.quest_herb_collection).toBeDefined();
+    expect(result?.questState).toBeDefined();
+    expect(result?.questState.quests).toBeDefined();
+    expect(result?.questState.quests?.quest_herb_collection).toBeDefined();
     
-    const quest = result.questState.quests.quest_herb_collection;
+    const quest = result?.questState.quests?.quest_herb_collection;
     
     // Verify quest completion
-    expect(quest.status).toBe('completed');
-    expect(quest.progress).toBe(100);
-    expect(quest.currentStep).toBe('step_3');
+    expect(quest?.status).toBe('completed');
+    expect(quest?.progress).toBe(100);
+    expect(quest?.currentStep).toBe('step_3');
     
     // Verify all steps are completed
-    expect(quest.steps.step_1.completed).toBe(true);
-    expect(quest.steps.step_2.completed).toBe(true);
-    expect(quest.steps.step_3.completed).toBe(true);
+    expect(quest?.steps.step_1?.completed).toBe(true);
+    expect(quest?.steps.step_2?.completed).toBe(true);
+    expect(quest?.steps.step_3?.completed).toBe(true);
     
     // Verify triggers are completed
-    expect(quest.steps.step_1.triggers[0!].completed).toBe(true);
-    expect(quest.steps.step_2.triggers[0!].completed).toBe(true);
-    expect(quest.steps.step_3.triggers[0!].completed).toBe(true);
+    expect(quest?.steps.step_1?.triggers[0!].completed).toBe(true);
+    expect(quest?.steps.step_2?.triggers[0!].completed).toBe(true);
+    expect(quest?.steps.step_3?.triggers[0!].completed).toBe(true);
     
     // Verify rewards were granted
-    expect(result.rewardsGranted).toHaveLength(3);
-    expect(result.rewardsGranted).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ type: 'xp', amount: 100, granted: true }),
-        expect.objectContaining({ type: 'item', id: 'healing_potion', amount: 2, granted: true }),
-        expect.objectContaining({ type: 'reputation', id: 'village', amount: 10, granted: true })
+    expect(result?.rewardsGranted).toHaveLength(3);
+    expect(result?.rewardsGranted).toEqual(
+      expect?.arrayContaining([
+        expect?.objectContaining({ type: 'xp', amount: 100, granted: true }),
+        expect?.objectContaining({ type: 'item', id: 'healing_potion', amount: 2, granted: true }),
+        expect?.objectContaining({ type: 'reputation', id: 'village', amount: 10, granted: true })
       ])
     );
     
     // Verify player stats were updated
-    expect(result.questState.playerStats.xp).toBe(100);
-    expect(result.questState.playerStats.inventory.healing_potion).toBe(2);
-    expect(result.questState.playerStats.reputation.village).toBe(10);
+    expect(result?.questState.playerStats?.xp).toBe(100);
+    expect(result?.questState.playerStats?.inventory.healing_potion).toBe(2);
+    expect(result?.questState.playerStats?.reputation.village).toBe(10);
     
     // Verify quest moved to completed list
-    expect(result.questState.completedQuests).toContain('quest_herb_collection');
-    expect(result.questState.activeQuests).not.toContain('quest_herb_collection');
+    expect(result?.questState.completedQuests).toContain('quest_herb_collection');
+    expect(result?.questState.activeQuests).not?.toContain('quest_herb_collection');
     
     // Verify events were processed
-    expect(result.events).toHaveLength(4);
-    expect(result.completedQuests).toContain('quest_herb_collection');
-    expect(result.failedQuests).toHaveLength(0);
+    expect(result?.events).toHaveLength(4);
+    expect(result?.completedQuests).toContain('quest_herb_collection');
+    expect(result?.failedQuests).toHaveLength(0);
   });
   
   test('golden quest system - partial progress', () => {
@@ -171,38 +171,38 @@ describe('QuestSystemPure golden tests', () => {
     };
     
     // Write temporary fixture
-    const tempFixturePath = path.resolve(root, 'fixtures/temp_partial.json');
+    const tempFixturePath = path?.resolve(root, 'fixtures/temp_partial?.json');
     fs.writeFileSync(tempFixturePath, JSON.stringify(partialFixture, null, 2));
     
     try {
-      const out = (global as any).testUtils.runCLI(
-        path.resolve(root, 'cliHarness.ts'),
+      const out = (global as any).testUtils?.runCLI(
+        path?.resolve(root, 'cliHarness?.ts'),
         [tempFixturePath!]
       );
       
       const result = JSON.parse(out);
       
       // Verify quest is active but not complete
-      const quest = result.questState.quests.quest_herb_collection;
-      expect(quest.status).toBe('active');
-      expect(quest.progress).toBe(33); // 1 out of 3 steps
-      expect(quest.currentStep).toBe('step_2');
+      const quest = result?.questState.quests?.quest_herb_collection;
+      expect(quest?.status).toBe('active');
+      expect(quest?.progress).toBe(33); // 1 out of 3 steps
+      expect(quest?.currentStep).toBe('step_2');
       
       // Verify only first step is completed
-      expect(quest.steps.step_1.completed).toBe(true);
-      expect(quest.steps.step_2.completed).toBe(false);
-      expect(quest.steps.step_3.completed).toBe(false);
+      expect(quest?.steps.step_1?.completed).toBe(true);
+      expect(quest?.steps.step_2?.completed).toBe(false);
+      expect(quest?.steps.step_3?.completed).toBe(false);
       
       // Verify no rewards granted yet
-      expect(result.rewardsGranted).toHaveLength(0);
-      expect(result.completedQuests).toHaveLength(0);
+      expect(result?.rewardsGranted).toHaveLength(0);
+      expect(result?.completedQuests).toHaveLength(0);
       
       // Verify quest is in active list
-      expect(result.questState.activeQuests).toContain('quest_herb_collection');
+      expect(result?.questState.activeQuests).toContain('quest_herb_collection');
       
     } finally {
       // Cleanup
-      fs.unlinkSync(tempFixturePath);
+      fs?.unlinkSync(tempFixturePath);
     }
   });
   
@@ -269,33 +269,33 @@ describe('QuestSystemPure golden tests', () => {
     };
     
     // Write temporary fixture
-    const tempFixturePath = path.resolve(root, 'fixtures/temp_failure.json');
+    const tempFixturePath = path?.resolve(root, 'fixtures/temp_failure?.json');
     fs.writeFileSync(tempFixturePath, JSON.stringify(failureFixture, null, 2));
     
     try {
-      const out = (global as any).testUtils.runCLI(
-        path.resolve(root, 'cliHarness.ts'),
+      const out = (global as any).testUtils?.runCLI(
+        path?.resolve(root, 'cliHarness?.ts'),
         [tempFixturePath!]
       );
       
       const result = JSON.parse(out);
       
       // Verify quest failed
-      const quest = result.questState.quests.quest_timed;
-      expect(quest.status).toBe('failed');
+      const quest = result?.questState.quests?.quest_timed;
+      expect(quest?.status).toBe('failed');
       
       // Verify quest moved to failed list
-      expect(result.questState.failedQuests).toContain('quest_timed');
-      expect(result.questState.activeQuests).not.toContain('quest_timed');
+      expect(result?.questState.failedQuests).toContain('quest_timed');
+      expect(result?.questState.activeQuests).not?.toContain('quest_timed');
       
       // Verify no rewards granted
-      expect(result.rewardsGranted).toHaveLength(0);
-      expect(result.completedQuests).toHaveLength(0);
-      expect(result.failedQuests).toContain('quest_timed');
+      expect(result?.rewardsGranted).toHaveLength(0);
+      expect(result?.completedQuests).toHaveLength(0);
+      expect(result?.failedQuests).toContain('quest_timed');
       
     } finally {
       // Cleanup
-      fs.unlinkSync(tempFixturePath);
+      fs?.unlinkSync(tempFixturePath);
     }
   });
 });

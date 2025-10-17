@@ -4,13 +4,13 @@ import { PerfMetricsPure } from '../PerfMetricsPure';
 // Mock WebSocketBridgePure interface for ZoneServerPure
 interface WebSocketBridgePure {
   addMessageHandler(type: string, handler: (data: any) => void): void;
-  send(data): void;
+  send(data: any): void;
 }
 
 // Mock NetworkBridgePure interface for ZoneServerPure
 interface NetworkBridgePure {
   addMessageHandler(type: string, handler: (data: any) => void): void;
-  send(data): void;
+  send(data: any): void;
 }
 
 export enum ZoneType {
@@ -92,19 +92,19 @@ export class ZoneServerPure {
   private readonly zoneConnections: ZoneConnection[] = [];
   private readonly zoneEvents: ZoneEvent[] = [];
   private readonly transitions: ZoneTransition[] = [];
-  private lastTimeMs: number = Date.now();
+  private lastTimeMs: number = new Date();
   private bridge?: WebSocketBridgePure;
   private networkBridge?: NetworkBridgePure;
   private perf: PerfMetricsPure = new PerfMetricsPure();
-  private zoneStatus: ZoneStatus = ZoneStatus.ONLINE;
+  private zoneStatus: ZoneStatus = ZoneStatus?.ONLINE;
   private connectedZones: Set<string> = new Set();
   private zoneMetrics: ZoneMetrics;
   private eventSubscribers: Map<string, (event: any) => void> = new Map();
 
   constructor(config: ZoneServerConfig) {
-    this.config = config;
-    this.zoneMetrics = this.initializeMetrics();
-    this.initializeDefaultConnections();
+    this?.config = config;
+    this?.zoneMetrics = this?.initializeMetrics();
+    this?.initializeDefaultConnections();
   }
 
   private initializeMetrics(): ZoneMetrics {
@@ -121,40 +121,40 @@ export class ZoneServerPure {
 
   private initializeDefaultConnections(): void {
     // Add default zone connections based on zone type
-    switch (this.config.zoneType) {
-      case ZoneType.STARTING:
-        this.zoneConnections.push(
+    switch (this?.config.zoneType) {
+      case ZoneType?.STARTING:
+        this?.zoneConnections?.push(
           { zoneId: 'town_01', connectionType: 'portal', cost: 0 },
           { zoneId: 'wilderness_01', connectionType: 'walk', cost: 0 }
         );
         break;
-      case ZoneType.TOWN:
-        this.zoneConnections.push(
+      case ZoneType?.TOWN:
+        this?.zoneConnections?.push(
           { zoneId: 'starting_01', connectionType: 'portal', cost: 0 },
           { zoneId: 'dungeon_01', connectionType: 'portal', cost: 50 },
           { zoneId: 'wilderness_01', connectionType: 'walk', cost: 10 }
         );
         break;
-      case ZoneType.DUNGEON:
-        this.zoneConnections.push(
+      case ZoneType?.DUNGEON:
+        this?.zoneConnections?.push(
           { zoneId: 'town_01', connectionType: 'portal', requirements: ['dungeon_key'] },
           { zoneId: 'raid_01', connectionType: 'portal', requirements: ['boss_defeated'] }
         );
         break;
-      case ZoneType.WILDERNESS:
-        this.zoneConnections.push(
+      case ZoneType?.WILDERNESS:
+        this?.zoneConnections?.push(
           { zoneId: 'town_01', connectionType: 'walk', cost: 10 },
           { zoneId: 'pvp_01', connectionType: 'walk', cost: 25 }
         );
         break;
-      case ZoneType.PVP:
-        this.zoneConnections.push(
+      case ZoneType?.PVP:
+        this?.zoneConnections?.push(
           { zoneId: 'wilderness_01', connectionType: 'walk', cost: 25 },
           { zoneId: 'town_01', connectionType: 'portal', requirements: ['pvp_flag'] }
         );
         break;
-      case ZoneType.RAID:
-        this.zoneConnections.push(
+      case ZoneType?.RAID:
+        this?.zoneConnections?.push(
           { zoneId: 'dungeon_01', connectionType: 'portal', requirements: ['raid_ready'] },
           { zoneId: 'town_01', connectionType: 'portal', requirements: ['raid_completed'] }
         );
@@ -164,79 +164,79 @@ export class ZoneServerPure {
 
   // Core zone server functionality
   public setBridge(bridge: WebSocketBridgePure): void {
-    this.bridge = bridge;
-    this.setupBridgeHandlers();
+    this?.bridge = bridge;
+    this?.setupBridgeHandlers();
   }
 
   public setNetworkBridge(bridge: NetworkBridgePure): void {
-    this.networkBridge = bridge;
-    this.setupNetworkHandlers();
+    this?.networkBridge = bridge;
+    this?.setupNetworkHandlers();
   }
 
   private setupBridgeHandlers(): void {
-    if (!this.bridge) return;
+    if (!this?.bridge) return;
 
-    this.bridge.addMessageHandler('player_join', (data) => {
-      this.handlePlayerJoin(data);
+    this?.bridge.addMessageHandler('player_join', (data: any) => {
+      this?.handlePlayerJoin(data: any);
     });
 
-    this.bridge.addMessageHandler('player_leave', (data) => {
-      this.handlePlayerLeave(data);
+    this?.bridge.addMessageHandler('player_leave', (data: any) => {
+      this?.handlePlayerLeave(data: any);
     });
 
-    this.bridge.addMessageHandler('zone_transition', (data) => {
-      this.handleZoneTransition(data);
+    this?.bridge.addMessageHandler('zone_transition', (data: any) => {
+      this?.handleZoneTransition(data: any);
     });
 
-    this.bridge.addMessageHandler('heartbeat', (data) => {
-      this.handleHeartbeat(data);
+    this?.bridge.addMessageHandler('heartbeat', (data: any) => {
+      this?.handleHeartbeat(data: any);
     });
   }
 
   private setupNetworkHandlers(): void {
-    if (!this.networkBridge) return;
+    if (!this?.networkBridge) return;
 
-    this.networkBridge.addMessageHandler('inter_zone_message', (data) => {
-      this.handleInterZoneMessage(data);
+    this?.networkBridge.addMessageHandler('inter_zone_message', (data: any) => {
+      this?.handleInterZoneMessage(data: any);
     });
 
-    this.networkBridge.addMessageHandler('load_balance_request', (data) => {
-      this.handleLoadBalanceRequest(data);
+    this?.networkBridge.addMessageHandler('load_balance_request', (data: any) => {
+      this?.handleLoadBalanceRequest(data: any);
     });
 
-    this.networkBridge.addMessageHandler('zone_status_update', (data) => {
-      this.handleZoneStatusUpdate(data);
+    this?.networkBridge.addMessageHandler('zone_status_update', (data: any) => {
+      this?.handleZoneStatusUpdate(data: any);
     });
   }
 
   public addPlayer(state: PlayerStateSnapshot): { success: boolean; reason?: string } {
-    if (this.zoneStatus !== ZoneStatus.ONLINE) {
-      return { success: false, reason: `Zone ${this.config.zoneId} is ${this.zoneStatus}` };
+    if (this?.zoneStatus !== ZoneStatus?.ONLINE) {
+      return { success: false, reason: `Zone ${this?.config.zoneId} is ${this?.zoneStatus}` };
     }
 
-    if (this.players.size >= this.config.maxPlayers) {
+    if (this?.players.size >= this?.config.maxPlayers) {
       return { success: false, reason: 'Zone is full' };
     }
 
-    this.players.set(state.identity.playerId, state);
-    this.updateMetrics();
+    this?.players.set(state?.identity.playerId, state);
+    this?.updateMetrics();
 
     // Notify other systems
-    this.emitEvent('player_joined', { playerId: state.identity.playerId, zoneId: this.config.zoneId });
+    this?.emitEvent('player_joined', { playerId: state?.identity.playerId, zoneId: this?.config.zoneId });
 
     return { success: true };
   }
 
   public removePlayer(playerId: string): { success: boolean; reason?: string } {
-    if (!this.players.has(playerId)) {
+    if (!this?.players.has(playerId)) {
       return { success: false, reason: 'Player not in zone' };
     }
 
-    this.players.delete(playerId);
-    this.updateMetrics();
+    this?.players.delete(playerId);
+    this?.updateMetrics();
 
     // Notify other systems
-    this.emitEvent('player_left', { playerId, zoneId: this.config.zoneId });
+    this?.emitEvent('player_left', { playerId, zoneId: this?.config.zoneId });
 
     return { success: true };
   }
@@ -247,25 +247,25 @@ export class ZoneServerPure {
 
   public getPerfSnapshot(): any {
     return {
-      ...this.perf.snapshot(),
-      zoneMetrics: this.zoneMetrics,
-      zoneStatus: this.zoneStatus
+      ...this?.perf.snapshot(),
+      zoneMetrics: this?.zoneMetrics,
+      zoneStatus: this?.zoneStatus
     };
   }
 
   public tick(): void {
-    const now = Date.now();
+    const now = new Date();
     const dt = Math.min(0.05, (now - this.lastTimeMs) / 1000);
-    this.lastTimeMs = now;
+    this?.lastTimeMs = now;
 
-    const tickStart = performance.now();
+    const tickStart = performance?.now();
     let simulated = 0;
 
     // Update player states
     for (const [id, state] of Array.from(this.players.entries())) {
       try {
-        const next = PlayerStatePure.simulate(state, dt);
-        this.players.set(id, next);
+        const next = PlayerStatePure?.simulate(state, dt);
+        this?.players.set(id, next);
         simulated += 1;
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -274,72 +274,72 @@ export class ZoneServerPure {
     }
 
     // Process zone events
-    this.processZoneEvents(dt);
+    this?.processZoneEvents(dt);
 
     // Update metrics
-    const tickEnd = performance.now();
-    this.zoneMetrics.lastTickDuration = tickEnd - tickStart;
-    this.zoneMetrics.cpuUsage = this.calculateCpuUsage();
-    this.zoneMetrics.memoryUsage = this.calculateMemoryUsage();
-    this.perf.record((dt * 1000), tickStart, tickEnd, simulated);
+    const tickEnd = performance?.now();
+    this?.zoneMetrics.lastTickDuration = tickEnd - tickStart;
+    this?.zoneMetrics.cpuUsage = this?.calculateCpuUsage();
+    this?.zoneMetrics.memoryUsage = this?.calculateMemoryUsage();
+    this?.perf.record((dt * 1000), tickStart, tickEnd, simulated);
 
     // Broadcast state delta
-    if (this.bridge && this.players.size > 0) {
-      const snapshot = this.getSnapshot();
-      this.bridge.send({
+    if (this?.bridge && this?.players.size > 0) {
+      const snapshot = this?.getSnapshot();
+      this?.bridge.send({
         type: 'state-delta',
-        zoneId: this.config.zoneId,
-        players: snapshot.map((s: any) => ({
-          playerId: s.identity.playerId,
-          position: s.position,
-          velocity: s.velocity,
-          tick: s.tick
+        zoneId: this?.config.zoneId,
+        players: snapshot?.map((s: any) => ({
+          playerId: s?.identity.playerId,
+          position: s?.position,
+          velocity: s?.velocity,
+          tick: s?.tick
         })),
         timestamp: now
       });
     }
 
     // Check for zone transitions
-    this.checkZoneTransitions();
+    this?.checkZoneTransitions();
   }
 
   // Advanced zone management features
   public updateZoneStatus(status: ZoneStatus, reason?: string): void {
-    const oldStatus = this.zoneStatus;
-    this.zoneStatus = status;
+    const oldStatus = this?.zoneStatus;
+    this?.zoneStatus = status;
 
     // Notify connected systems
-    this.emitEvent('zone_status_changed', {
-      zoneId: this.config.zoneId,
+    this?.emitEvent('zone_status_changed', {
+      zoneId: this?.config.zoneId,
       oldStatus,
       newStatus: status,
       reason
     });
 
     // Broadcast to players if going offline
-    if (status === ZoneStatus.OFFLINE && this.bridge) {
-      this.bridge.send({
+    if (status === ZoneStatus?.OFFLINE && this?.bridge) {
+      this?.bridge.send({
         type: 'zone_shutdown',
-        zoneId: this.config.zoneId,
+        zoneId: this?.config.zoneId,
         reason: reason || 'Scheduled maintenance',
-        redirectZone: this.findBestRedirectZone()
+        redirectZone: this?.findBestRedirectZone()
       });
     }
   }
 
   public findBestRedirectZone(): string | null {
     // Find the most suitable zone to redirect players to
-    const suitableZones = this.zoneConnections
-      .filter((conn: any) => conn.connectionType === 'portal')
-      .map((conn: any) => conn.zoneId);
+    const suitableZones = this?.zoneConnections
+      .filter((conn: any) => conn?.connectionType === 'portal')
+      .map((conn: any) => conn?.zoneId);
 
-    if (suitableZones.length === 0) return null;
+    if (suitableZones?.length === 0) return null;
 
     // Use load balancing strategy
-    switch (this.config.loadBalanceStrategy) {
-      case LoadBalanceStrategy.ROUND_ROBIN:
+    switch (this?.config.loadBalanceStrategy) {
+      case LoadBalanceStrategy?.ROUND_ROBIN:
         return suitableZones[0!]; // Simplified - would track rotation in real implementation
-      case LoadBalanceStrategy.LEAST_CONNECTIONS:
+      case LoadBalanceStrategy?.LEAST_CONNECTIONS:
         return suitableZones[0!]; // Would check actual zone loads
       default:
         return suitableZones[Math.floor(Math.random() * suitableZones.length)];
@@ -349,24 +349,24 @@ export class ZoneServerPure {
   public handleZoneTransition(data: { playerId: string; targetZone: string; transitionType: string }): boolean {
     const { playerId, targetZone, transitionType } = data;
 
-    if (!this.players.has(playerId)) {
+    if (!this?.players.has(playerId)) {
       return false;
     }
 
-    const playerState = this.players.get(playerId);
+    const playerState = this?.players.get(playerId);
     if (!playerState) return false;
 
     // Check if transition is allowed
-    const connection = this.zoneConnections.find(conn => conn.zoneId === targetZone);
+    const connection = this?.zoneConnections.find(conn => conn?.zoneId === targetZone);
     if (!connection) {
       return false;
     }
 
     // Check requirements
-    if (connection.requirements) {
-      for (const req of connection.requirements) {
+    if (connection?.requirements) {
+      for (const req of connection?.requirements) {
         // In real implementation, would check player inventory/achievements
-        if (!this.checkRequirement(playerId, req)) {
+        if (!this?.checkRequirement(playerId, req)) {
           return false;
         }
       }
@@ -375,111 +375,111 @@ export class ZoneServerPure {
     // Record transition
     const transition: ZoneTransition = {
       playerId,
-      fromZone: this.config.zoneId,
+      fromZone: this?.config.zoneId,
       toZone: targetZone,
       transitionType: transitionType as any,
       timestamp: new Date(),
       position: {
-        x: (playerState.position as any).x || 0,
-        y: (playerState.position as any).y || 0,
-        z: (playerState.position as any).z || 0
+        x: (playerState?.position as any).x || 0,
+        y: (playerState?.position as any).y || 0,
+        z: (playerState?.position as any).z || 0
       }
     };
 
-    this.transitions.push(transition);
+    this?.transitions?.push(transition);
 
     // Remove player from current zone
-    this.removePlayer(playerId);
+    this?.removePlayer(playerId);
 
     // Notify target zone (would use network bridge in real implementation)
-    if (this.networkBridge) {
-      this.networkBridge.send({
+    if (this?.networkBridge) {
+      this?.networkBridge.send({
         type: 'player_transfer',
         playerId,
-        fromZone: this.config.zoneId,
+        fromZone: this?.config.zoneId,
         toZone: targetZone,
         playerState,
         transitionType
       });
     }
 
-    this.emitEvent('zone_transition', transition);
+    this?.emitEvent('zone_transition', transition);
     return true;
   }
 
   public createZoneConnection(connection: ZoneConnection): void {
-    this.zoneConnections.push(connection);
-    this.emitEvent('zone_connection_added', { connection, zoneId: this.config.zoneId });
+    this?.zoneConnections?.push(connection);
+    this?.emitEvent('zone_connection_added', { connection, zoneId: this?.config.zoneId });
   }
 
   public removeZoneConnection(zoneId: string): boolean {
-    const index = this.zoneConnections.findIndex(conn => conn.zoneId === zoneId);
+    const index = this?.zoneConnections.findIndex(conn => conn?.zoneId === zoneId);
     if (index === -1) return false;
 
-    const removed = this.zoneConnections.splice(index, 1)[0!];
-    this.emitEvent('zone_connection_removed', { connection: removed, zoneId: this.config.zoneId });
+    const removed = this?.zoneConnections.splice(index, 1)[0!];
+    this?.emitEvent('zone_connection_removed', { connection: removed, zoneId: this?.config.zoneId });
     return true;
   }
 
   public createZoneEvent(event: ZoneEvent): void {
-    this.zoneEvents.push(event);
-    this.emitEvent('zone_event_created', { event, zoneId: this.config.zoneId });
+    this?.zoneEvents?.push(event);
+    this?.emitEvent('zone_event_created', { event, zoneId: this?.config.zoneId });
 
     // Broadcast event to players
-    if (this.bridge && event.zoneWide) {
-      this.bridge.send({
+    if (this?.bridge && event?.zoneWide) {
+      this?.bridge.send({
         type: 'zone_event',
         eventId: event?.id,
-        eventType: event.type,
-        description: event.description,
-        startTime: event.startTime,
-        endTime: event.endTime
+        eventType: event?.type,
+        description: event?.description,
+        startTime: event?.startTime,
+        endTime: event?.endTime
       });
     }
   }
 
   public cancelZoneEvent(eventId: string): boolean {
-    const index = this.zoneEvents.findIndex(event => event?.id === eventId);
+    const index = this?.zoneEvents.findIndex(event => event?.id === eventId);
     if (index === -1) return false;
 
-    const cancelledEvent = this.zoneEvents.splice(index, 1)[0!];
-    this.emitEvent('zone_event_cancelled', { event: cancelledEvent, zoneId: this.config.zoneId });
+    const cancelledEvent = this?.zoneEvents.splice(index, 1)[0!];
+    this?.emitEvent('zone_event_cancelled', { event: cancelledEvent, zoneId: this?.config.zoneId });
     return true;
   }
 
   public getZoneConnections(): ZoneConnection[] {
-    return [...this.zoneConnections];
+    return [...this?.zoneConnections];
   }
 
   public getActiveZoneEvents(): ZoneEvent[] {
-    const now = Date.now();
-    return this.zoneEvents.filter((event: any) =>
-      event.startTime <= now && (!event.endTime || event.endTime >= now)
+    const now = new Date();
+    return this?.zoneEvents.filter((event: any) =>
+      event?.startTime <= now && (!event?.endTime || event?.endTime >= now)
     );
   }
 
   public getZoneMetrics(): ZoneMetrics {
-    return { ...this.zoneMetrics };
+    return { ...this?.zoneMetrics };
   }
 
   public getZoneStatus(): { status: ZoneStatus; config: ZoneServerConfig; metrics: ZoneMetrics } {
     return {
-      status: this.zoneStatus,
-      config: this.config,
-      metrics: this.getZoneMetrics()
+      status: this?.zoneStatus,
+      config: this?.config,
+      metrics: this?.getZoneMetrics()
     };
   }
 
   public connectToZone(zoneId: string): boolean {
-    if (this.connectedZones.has(zoneId)) {
+    if (this?.connectedZones.has(zoneId)) {
       return true; // Already connected
     }
 
     // In real implementation, would establish network connection
-    this.connectedZones.add(zoneId);
+    this?.connectedZones.add(zoneId);
 
-    this.emitEvent('zone_connected', {
-      fromZone: this.config.zoneId,
+    this?.emitEvent('zone_connected', {
+      fromZone: this?.config.zoneId,
       toZone: zoneId,
       timestamp: new Date()
     });
@@ -488,14 +488,14 @@ export class ZoneServerPure {
   }
 
   public disconnectFromZone(zoneId: string): boolean {
-    if (!this.connectedZones.has(zoneId)) {
+    if (!this?.connectedZones.has(zoneId)) {
       return true; // Already disconnected
     }
 
-    this.connectedZones.delete(zoneId);
+    this?.connectedZones.delete(zoneId);
 
-    this.emitEvent('zone_disconnected', {
-      fromZone: this.config.zoneId,
+    this?.emitEvent('zone_disconnected', {
+      fromZone: this?.config.zoneId,
       toZone: zoneId,
       timestamp: new Date()
     });
@@ -509,16 +509,16 @@ export class ZoneServerPure {
 
   // Load balancing functionality
   public canAcceptPlayer(): boolean {
-    return this.zoneStatus === ZoneStatus.ONLINE &&
-           this.players.size < this.config.maxPlayers;
+    return this?.zoneStatus === ZoneStatus?.ONLINE &&
+           this?.players.size < this?.config.maxPlayers;
   }
 
   public getLoadFactor(): number {
-    return this.players.size / this.config.maxPlayers;
+    return this?.players.size / this?.config.maxPlayers;
   }
 
   public getRecommendedAction(): 'accept' | 'redirect' | 'reject' {
-    const loadFactor = this.getLoadFactor();
+    const loadFactor = this?.getLoadFactor();
 
     if (loadFactor >= 1.0) return 'reject';
     if (loadFactor >= 0.8) return 'redirect';
@@ -527,23 +527,23 @@ export class ZoneServerPure {
 
   // Event system
   public addEventListener(eventType: string, callback: (event: any) => void): void {
-    if (!this.eventSubscribers.has(eventType)) {
-      this.eventSubscribers.set(eventType, callback);
+    if (!this?.eventSubscribers.has(eventType)) {
+      this?.eventSubscribers.set(eventType, callback);
     } else {
       // Multiple listeners - replace existing
-      this.eventSubscribers.set(eventType, callback);
+      this?.eventSubscribers.set(eventType, callback);
     }
   }
 
   public removeEventListener(eventType: string): void {
-    this.eventSubscribers.delete(eventType);
+    this?.eventSubscribers.delete(eventType);
   }
 
   private emitEvent(eventType: string, data: any): void {
-    const callback = this.eventSubscribers.get(eventType);
+    const callback = this?.eventSubscribers.get(eventType);
     if (callback) {
       try {
-        callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: new Date() });
+        callback({ type: eventType, data, zoneId: this?.config.zoneId, timestamp: new Date() });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error(`Error in event listener for ${eventType}:`, err instanceof Error ? err.message : String(err));
@@ -553,10 +553,10 @@ export class ZoneServerPure {
 
   // Private helper methods
   private updateMetrics(): void {
-    this.zoneMetrics.playerCount = this.players.size;
+    this?.zoneMetrics.playerCount = this?.players.size;
     // In real implementation, would calculate actual metrics
     this.zoneMetrics.avgLatency = Math.random() * 50 + 20; // Simulated 20-70ms
-    this.zoneMetrics.networkTraffic = this.players.size * 1024; // Simulated traffic
+    this?.zoneMetrics.networkTraffic = this?.players.size * 1024; // Simulated traffic
   }
 
   private calculateCpuUsage(): number {
@@ -574,18 +574,18 @@ export class ZoneServerPure {
   }
 
   private processZoneEvents(dt: number): void {
-    const now = Date.now();
+    const now = new Date();
 
     // Process active events
-    for (const event of this.getActiveZoneEvents()) {
+    for (const event of this?.getActiveZoneEvents()) {
       // Event-specific processing would go here
       // For example, weather effects, time-limited events, etc.
     }
 
     // Clean up expired events
-    this.zoneEvents.forEach((event, index) => {
-      if (event.endTime && event.endTime < now) {
-        this.zoneEvents.splice(index, 1);
+    this?.zoneEvents.forEach((event, index) => {
+      if (event?.endTime && event?.endTime < now) {
+        this?.zoneEvents.splice(index, 1);
       }
     });
   }
@@ -600,11 +600,11 @@ export class ZoneServerPure {
       const randomPlayer = players[Math.floor(Math.random() * players.length)];
 
       // Random transition to a connected zone
-      if (this.zoneConnections.length > 0) {
+      if (this?.zoneConnections.length > 0) {
         const randomConnection = this.zoneConnections[Math.floor(Math.random() * this.zoneConnections.length)];
-        this.handleZoneTransition({
+        this?.handleZoneTransition({
           playerId: randomPlayer,
-          targetZone: randomConnection.zoneId,
+          targetZone: randomConnection?.zoneId,
           transitionType: 'random'
         });
       }
@@ -617,57 +617,57 @@ export class ZoneServerPure {
     return true;
   }
 
-  private handlePlayerJoin(data): void {
+  private handlePlayerJoin(data: any): void {
     // Handle player joining the zone
-    if (data.playerState) {
-      this.addPlayer(data.playerState);
+    if (data?.playerState) {
+      this?.addPlayer(data?.playerState);
     }
   }
 
-  private handlePlayerLeave(data): void {
+  private handlePlayerLeave(data: any): void {
     // Handle player leaving the zone
-    if (data.playerId) {
-      this.removePlayer(data.playerId);
+    if (data?.playerId) {
+      this?.removePlayer(data?.playerId);
     }
   }
 
-  private handleHeartbeat(data): void {
+  private handleHeartbeat(data: any): void {
     // Handle heartbeat from clients
-    if (data.playerId && data.latency !== undefined) {
+    if (data?.playerId && data?.latency !== undefined) {
       // Update latency metrics
-      const currentLatency = this.zoneMetrics.avgLatency || 0;
-      const playerCount = this.players.size;
-      this.zoneMetrics.avgLatency = (currentLatency * (playerCount - 1) + data.latency) / playerCount;
+      const currentLatency = this?.zoneMetrics.avgLatency || 0;
+      const playerCount = this?.players.size;
+      this?.zoneMetrics.avgLatency = (currentLatency * (playerCount - 1) + data?.latency) / playerCount;
     }
   }
 
-  private handleInterZoneMessage(data): void {
+  private handleInterZoneMessage(data: any): void {
     // Handle messages from other zones
-    this.emitEvent('inter_zone_message', data);
+    this?.emitEvent('inter_zone_message', data);
   }
 
-  private handleLoadBalanceRequest(data): void {
+  private handleLoadBalanceRequest(data: any): void {
     // Handle load balancing requests
-    const canAccept = this.canAcceptPlayer();
-    const loadFactor = this.getLoadFactor();
+    const canAccept = this?.canAcceptPlayer();
+    const loadFactor = this?.getLoadFactor();
 
-    if (this.networkBridge) {
-      this.networkBridge.send({
+    if (this?.networkBridge) {
+      this?.networkBridge.send({
         type: 'load_balance_response',
-        zoneId: this.config.zoneId,
+        zoneId: this?.config.zoneId,
         canAccept,
         loadFactor,
-        playerCount: this.players.size,
-        maxPlayers: this.config.maxPlayers
+        playerCount: this?.players.size,
+        maxPlayers: this?.config.maxPlayers
       });
     }
   }
 
-  private handleZoneStatusUpdate(data): void {
+  private handleZoneStatusUpdate(data: any): void {
     // Handle zone status updates from other zones
-    if (data.zoneId && data.status) {
-      if (data.status === ZoneStatus.OFFLINE) {
-        this.disconnectFromZone(data.zoneId);
+    if (data?.zoneId && data?.status) {
+      if (data?.status === ZoneStatus?.OFFLINE) {
+        this?.disconnectFromZone(data?.zoneId);
       }
     }
   }

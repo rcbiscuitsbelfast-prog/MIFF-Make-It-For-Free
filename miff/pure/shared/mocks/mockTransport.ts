@@ -6,9 +6,9 @@
  */
 
 export const mockTransport = {
-  connect: jest.fn().mockReturnValue(Promise.resolve()),
-  disconnect: jest.fn().mockReturnValue(Promise.resolve()),
-  send: jest.fn().mockReturnValue(Promise.resolve()),
-  on: jest.fn(),
-  off: jest.fn()
+  connect: jest?.fn().mockReturnValue(Promise?.resolve()),
+  disconnect: jest?.fn().mockReturnValue(Promise?.resolve()),
+  send: jest?.fn().mockReturnValue(Promise?.resolve()),
+  on: jest?.fn(),
+  off: jest?.fn()
 };

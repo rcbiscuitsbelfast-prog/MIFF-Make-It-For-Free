@@ -312,13 +312,13 @@ export class AudioSystemManager {
   constructor(config?: Partial<AudioSystemConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.logger = StructuredLogger.getInstance('AudioSystemManager');
-    this.startTime = Date.now();
+    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this?.memoryManager = new MemoryManager({});
+    this?.errorHandler = new StandardErrorHandler({});
+    this?.logger = StructuredLogger?.getInstance('AudioSystemManager');
+    this.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enableDeviceManagement: true,
       enableContextManagement: true,
       enableProcessingPipeline: true,
@@ -338,30 +338,30 @@ export class AudioSystemManager {
    * Initialize the Audio System Manager
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      StructuredLogger.warn('AudioSystemPure' ?? 'unknown', { context: { context: { message: 'Audio System Manager already initialized' } } });
+    if (this?.isInitialized) {
+      StructuredLogger?.warn('AudioSystemPure' ?? 'unknown', { context: { context: { message: 'Audio System Manager already initialized' } } });
       return;
     }
 
     try {
-      StructuredLogger.info('AudioSystemPure', { context: { context: { message: 'Initializing Audio System Manager...' } } });
+      StructuredLogger?.info('AudioSystemPure', { context: { context: { message: 'Initializing Audio System Manager...' } } });
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this?.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this.config.enableMonitoring) {
+      if (this?.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
-      this.isInitialized = true;
-      StructuredLogger.info('AudioSystemPure', { context: { context: { message: 'Audio System Manager initialized successfully' } } });
+      this?.isInitialized = true;
+      StructuredLogger?.info('AudioSystemPure', { context: { context: { message: 'Audio System Manager initialized successfully' } } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -370,14 +370,14 @@ export class AudioSystemManager {
    * Create a new audio system
    */
   async createSystem(systemData: Omit<AudioSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<AudioSystem> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
       const system: AudioSystem = {
         ...systemData,
-        id: this.generateSystemId(),
+        id: this?.generateSystemId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -393,15 +393,15 @@ export class AudioSystemManager {
         }
       };
 
-      this.systems.set(system.id, system);
-      this.updateAnalytics();
+      this?.systems.set(system?.id, system);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Audio system created', { context: { context: { message: { systemId: system.id, systemName: system.name } } } });
+      StructuredLogger?.info('Audio system created', { context: { context: { message: { systemId: system?.id, systemName: system?.name } } } });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -410,25 +410,25 @@ export class AudioSystemManager {
    * Get an audio system by ID
    */
   getSystem(systemId: string): AudioSystem | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
-    return this.systems.get(systemId) || null;
+    return this?.systems.get(systemId) || null;
   }
 
   /**
    * Update an audio system
    */
   async updateSystem(systemId: string, updates: Partial<AudioSystem>): Promise<AudioSystem | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return null;
       }
 
@@ -436,18 +436,18 @@ export class AudioSystemManager {
         ...system,
         ...updates,
         updatedAt: new Date(),
-        version: this.incrementVersion(system.version)
+        version: this?.incrementVersion(system?.version)
       };
 
-      this.systems.set(systemId, updatedSystem);
-      this.updateAnalytics();
+      this?.systems.set(systemId, updatedSystem);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Audio system updated', { context: { context: { message: { systemId, systemName: updatedSystem.name } } } });
+      StructuredLogger?.info('Audio system updated', { context: { context: { message: { systemId, systemName: updatedSystem?.name } } } });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -456,26 +456,26 @@ export class AudioSystemManager {
    * Delete an audio system
    */
   async deleteSystem(systemId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return false;
       }
 
-      this.systems.delete(systemId);
-      this.updateAnalytics();
+      this?.systems.delete(systemId);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Audio system deleted', { context: { context: { message: { systemId, systemName: system.name } } } });
+      StructuredLogger?.info('Audio system deleted', { context: { context: { message: { systemId, systemName: system?.name } } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -484,7 +484,7 @@ export class AudioSystemManager {
    * Get all audio systems
    */
   getAllSystems(): AudioSystem[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
@@ -495,7 +495,7 @@ export class AudioSystemManager {
    * Get systems by type
    */
   getSystemsByType(type: SystemType): AudioSystem[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
@@ -506,7 +506,7 @@ export class AudioSystemManager {
    * Get systems by status
    */
   getSystemsByStatus(status: SystemStatus): AudioSystem[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
@@ -517,31 +517,31 @@ export class AudioSystemManager {
    * Add a device to a system
    */
   async addDevice(systemId: string, deviceData: Omit<AudioDevice, 'id'>): Promise<AudioDevice | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return null;
       }
 
       const device: AudioDevice = {
         ...deviceData,
-        id: this.generateDeviceId()
+        id: this?.generateDeviceId()
       };
 
-      system.devices.push(device);
-      this.updateAnalytics();
+      system?.devices?.push(device);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Device added to system', { context: { context: { message: { systemId, device.id: device.id, deviceName: device.name } } } });
+      StructuredLogger?.info('Device added to system', { context: { context: { message: { systemId, device?.id: device?.id, deviceName: device?.name } } } });
       return device;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -549,33 +549,33 @@ export class AudioSystemManager {
   /**
    * Remove a device from a system
    */
-  async removeDevice(systemId: string, device.id: string): Promise<boolean> {
-    if (!this.isInitialized) {
+  async removeDevice(systemId: string, device?.id: string): Promise<boolean> {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return false;
       }
 
-      const deviceIndex = system.devices.findIndex(device => device.id === device.id);
+      const deviceIndex = system?.devices.findIndex(device => device?.id === device?.id);
       if (deviceIndex === -1) {
-        StructuredLogger.warn('Device not found' ?? 'unknown', { context: { context: { message: { systemId, device.id } } } });
+        StructuredLogger?.warn('Device not found' ?? 'unknown', { context: { context: { message: { systemId, device?.id } } } });
         return false;
       }
 
-      system.devices.splice(deviceIndex, 1);
-      this.updateAnalytics();
+      system?.devices.splice(deviceIndex, 1);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Device removed from system', { context: { context: { message: { systemId, device.id } } } });
+      StructuredLogger?.info('Device removed from system', { context: { context: { message: { systemId, device?.id } } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -584,31 +584,31 @@ export class AudioSystemManager {
    * Add a context to a system
    */
   async addContext(systemId: string, contextData: Omit<AudioContext, 'id'>): Promise<AudioContext | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return null;
       }
 
       const context: AudioContext = {
         ...contextData,
-        id: this.generateContextId()
+        id: this?.generateContextId()
       };
 
-      system.contexts.push(context);
-      this.updateAnalytics();
+      system?.contexts?.push(context);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Context added to system', { context: { context: { message: { systemId, contextId: context.id, contextName: context.name } } } });
+      StructuredLogger?.info('Context added to system', { context: { context: { message: { systemId, contextId: context?.id, contextName: context?.name } } } });
       return context;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -617,32 +617,32 @@ export class AudioSystemManager {
    * Remove a context from a system
    */
   async removeContext(systemId: string, contextId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return false;
       }
 
-      const contextIndex = system.contexts.findIndex(context => context.id === contextId);
+      const contextIndex = system?.contexts.findIndex(context => context?.id === contextId);
       if (contextIndex === -1) {
-        StructuredLogger.warn('Context not found' ?? 'unknown', { context: { context: { message: { systemId, contextId } } } });
+        StructuredLogger?.warn('Context not found' ?? 'unknown', { context: { context: { message: { systemId, contextId } } } });
         return false;
       }
 
-      system.contexts.splice(contextIndex, 1);
-      this.updateAnalytics();
+      system?.contexts.splice(contextIndex, 1);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Context removed from system', { context: { context: { message: { systemId, contextId } } } });
+      StructuredLogger?.info('Context removed from system', { context: { context: { message: { systemId, contextId } } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -651,31 +651,31 @@ export class AudioSystemManager {
    * Add a processing stage to a system
    */
   async addProcessingStage(systemId: string, stageData: Omit<ProcessingStage, 'id'>): Promise<ProcessingStage | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return null;
       }
 
       const stage: ProcessingStage = {
         ...stageData,
-        id: this.generateStageId()
+        id: this?.generateStageId()
       };
 
-      system.pipeline.stages.push(stage);
-      this.updateAnalytics();
+      system?.pipeline.stages?.push(stage);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Processing stage added to system', { context: { context: { message: { systemId, stageId: stage.id, stageName: stage.name } } } });
+      StructuredLogger?.info('Processing stage added to system', { context: { context: { message: { systemId, stageId: stage?.id, stageName: stage?.name } } } });
       return stage;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -684,32 +684,32 @@ export class AudioSystemManager {
    * Remove a processing stage from a system
    */
   async removeProcessingStage(systemId: string, stageId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return false;
       }
 
-      const stageIndex = system.pipeline.stages.findIndex(stage => stage.id === stageId);
+      const stageIndex = system?.pipeline.stages?.findIndex(stage => stage?.id === stageId);
       if (stageIndex === -1) {
-        StructuredLogger.warn('Processing stage not found' ?? 'unknown', { context: { context: { message: { systemId, stageId } } } });
+        StructuredLogger?.warn('Processing stage not found' ?? 'unknown', { context: { context: { message: { systemId, stageId } } } });
         return false;
       }
 
-      system.pipeline.stages.splice(stageIndex, 1);
-      this.updateAnalytics();
+      system?.pipeline.stages?.splice(stageIndex, 1);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Processing stage removed from system', { context: { context: { message: { systemId, stageId } } } });
+      StructuredLogger?.info('Processing stage removed from system', { context: { context: { message: { systemId, stageId } } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -718,26 +718,26 @@ export class AudioSystemManager {
    * Start a system
    */
   async startSystem(systemId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return false;
       }
 
-      system.status = 'active';
-      this.updateAnalytics();
+      system?.status = 'active';
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Audio system started', { context: { context: { message: { systemId, systemName: system.name } } } });
+      StructuredLogger?.info('Audio system started', { context: { context: { message: { systemId, systemName: system?.name } } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -746,26 +746,26 @@ export class AudioSystemManager {
    * Stop a system
    */
   async stopSystem(systemId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { context: { message: { systemId } } } });
         return false;
       }
 
-      system.status = 'inactive';
-      this.updateAnalytics();
+      system?.status = 'inactive';
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Audio system stopped', { context: { context: { message: { systemId, systemName: system.name } } } });
+      StructuredLogger?.info('Audio system stopped', { context: { context: { message: { systemId, systemName: system?.name } } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -802,7 +802,7 @@ export class AudioSystemManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version.split('.');
+    const parts = version?.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -812,22 +812,22 @@ export class AudioSystemManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter((s: any) => s.status === 'active');
-    const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
-    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter((d: any) => d.status === 'connected').length, 0);
-    const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
-    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter((c: any) => c.status === 'active').length, 0);
-    const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
+    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
+    const totalDevices = systems?.reduce((sum, s) => sum + s?.devices.length, 0);
+    const activeDevices = systems?.reduce((sum, s) => sum + s?.devices.filter((d: any) => d?.status === 'connected').length, 0);
+    const totalContexts = systems?.reduce((sum, s) => sum + s?.contexts.length, 0);
+    const activeContexts = systems?.reduce((sum, s) => sum + s?.contexts.filter((c: any) => c?.status === 'active').length, 0);
+    const totalLatency = systems?.reduce((sum, s) => sum + s?.performance.latency, 0);
 
     for (const system of systems) {
-      system.analytics = {
-        totalSystems: systems.length,
-        activeSystems: activeSystems.length,
+      system?.analytics = {
+        totalSystems: systems?.length,
+        activeSystems: activeSystems?.length,
         totalDevices: totalDevices,
         activeDevices: activeDevices,
         totalContexts: totalContexts,
         activeContexts: activeContexts,
-        averageLatency: systems.length > 0 ? totalLatency / systems.length : 0,
+        averageLatency: systems?.length > 0 ? totalLatency / systems?.length : 0,
         lastUpdated: new Date()
       };
     }
@@ -848,17 +848,17 @@ export class AudioSystemManager {
     averageLatency: number;
     uptime: number;
   } {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter((s: any) => s.status === 'active');
-    const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
-    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter((d: any) => d.status === 'connected').length, 0);
-    const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
-    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter((c: any) => c.status === 'active').length, 0);
-    const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
+    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
+    const totalDevices = systems?.reduce((sum, s) => sum + s?.devices.length, 0);
+    const activeDevices = systems?.reduce((sum, s) => sum + s?.devices.filter((d: any) => d?.status === 'connected').length, 0);
+    const totalContexts = systems?.reduce((sum, s) => sum + s?.contexts.length, 0);
+    const activeContexts = systems?.reduce((sum, s) => sum + s?.contexts.filter((c: any) => c?.status === 'active').length, 0);
+    const totalLatency = systems?.reduce((sum, s) => sum + s?.performance.latency, 0);
 
     const systemsByType: Record<SystemType, number> = {
       master: 0,
@@ -876,21 +876,21 @@ export class AudioSystemManager {
     };
 
     for (const system of systems) {
-      systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      systemsByType[system?.type]++;
+      systemsByStatus[system?.status]++;
     }
 
     return {
-      totalSystems: systems.length,
-      activeSystems: activeSystems.length,
+      totalSystems: systems?.length,
+      activeSystems: activeSystems?.length,
       systemsByType,
       systemsByStatus,
       totalDevices,
       activeDevices,
       totalContexts,
       activeContexts,
-      averageLatency: systems.length > 0 ? totalLatency / systems.length : 0,
-      uptime: new Date() - this.startTime.getTime()
+      averageLatency: systems?.length > 0 ? totalLatency / systems?.length : 0,
+      uptime: new Date() - this?.startTime.getTime()
     };
   }
 
@@ -898,12 +898,12 @@ export class AudioSystemManager {
    * Destroy the Audio System Manager
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('AudioSystemPure', { context: { context: { message: 'Destroying Audio System Manager...' } } });
+    StructuredLogger?.info('AudioSystemPure', { context: { context: { message: 'Destroying Audio System Manager...' } } });
 
-    this.systems.clear();
-    this.isInitialized = false;
+    this?.systems.clear();
+    this?.isInitialized = false;
 
-    StructuredLogger.info('AudioSystemPure', { context: { context: { message: 'Audio System Manager destroyed' } } });
+    StructuredLogger?.info('AudioSystemPure', { context: { context: { message: 'Audio System Manager destroyed' } } });
   }
 }
 

@@ -18,20 +18,20 @@ type Cmd =
 
 function main(){
   try {
-    const sample = process.argv[2!] || 'CollisionSystemPure/sample_boxes.json';
-    const commands = process.argv[3!] || '';
+    const sample = process?.argv[2!] || 'CollisionSystemPure/sample_boxes?.json';
+    const commands = process?.argv[3!] || '';
     
-    if (process.argv[2] === 'help' || process.argv[2] === '--help') {
+    if (process?.argv[2] === 'help' || process?.argv[2] === '--help') {
       showHelp();
       return;
     }
     
     const mgr = new CollisionManager();
-    if (fs.existsSync(sample)){
+    if (fs?.existsSync(sample)){
       const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8'));
       // Support both legacy format and new format
-      const shapes = j.shapes || j.boxes || [];
-      mgr.load(shapes);
+      const shapes = j?.shapes || j?.boxes || [];
+      mgr?.load(shapes);
     }
     
     const cmds: Cmd[] = commands 
@@ -45,59 +45,59 @@ function main(){
       let result: any;
       
       try {
-        switch (c.op) {
+        switch (c?.op) {
           case 'list':
-            result = mgr.list();
-            outputs.push({ op: 'list', status: 'ok', timestamp, result });
+            result = mgr?.list();
+            outputs?.push({ op: 'list', status: 'ok', timestamp, result });
             break;
           case 'upsert':
-            result = mgr.upsert(c.shape);
-            outputs.push({ op: 'upsert', status: result.status, timestamp, result });
+            result = mgr?.upsert(c?.shape);
+            outputs?.push({ op: 'upsert', status: result?.status, timestamp, result });
             break;
           case 'remove':
-            result = mgr.remove(c.id);
-            outputs.push({ op: 'remove', status: result.status, timestamp, result });
+            result = mgr?.remove(c?.id);
+            outputs?.push({ op: 'remove', status: result?.status, timestamp, result });
             break;
           case 'clear':
-            result = mgr.clear();
-            outputs.push({ op: 'clear', status: result.status, timestamp, result });
+            result = mgr?.clear();
+            outputs?.push({ op: 'clear', status: result?.status, timestamp, result });
             break;
           case 'check':
-            result = mgr.check(c.filterTags);
-            outputs.push({ op: 'check', status: 'ok', timestamp, result });
+            result = mgr?.check(c?.filterTags);
+            outputs?.push({ op: 'check', status: 'ok', timestamp, result });
             break;
           case 'resolve':
-            result = mgr.resolve();
-            outputs.push({ op: 'resolve', status: 'ok', timestamp, result });
+            result = mgr?.resolve();
+            outputs?.push({ op: 'resolve', status: 'ok', timestamp, result });
             break;
           case 'dump':
-            result = mgr.dump(c.id);
-            outputs.push({ op: 'dump', status: 'ok', timestamp, result });
+            result = mgr?.dump(c?.id);
+            outputs?.push({ op: 'dump', status: 'ok', timestamp, result });
             break;
           case 'analytics':
-            result = mgr.analytics();
-            outputs.push({ op: 'analytics', status: 'ok', timestamp, result });
+            result = mgr?.analytics();
+            outputs?.push({ op: 'analytics', status: 'ok', timestamp, result });
             break;
           case 'export':
-            result = mgr.export(c.format);
-            outputs.push({ op: 'export', status: result.status, timestamp, result });
-            if (result.status === 'ok') {
+            result = mgr?.export(c?.format);
+            outputs?.push({ op: 'export', status: result?.status, timestamp, result });
+            if (result?.status === 'ok') {
               // Write export to file
               const filename = `collision_export_${c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
               fs.writeFileSync(filename, JSON.stringify(result.data, null, 2));
-              outputs[outputs.length - 1].result.filename = filename;
+              outputs[outputs?.length - 1].result?.filename = filename;
             }
             break;
           case 'demo':
             result = runDemo(mgr);
-            outputs.push({ op: 'demo', status: 'ok', timestamp, result });
+            outputs?.push({ op: 'demo', status: 'ok', timestamp, result });
             break;
           case 'help':
             showHelp();
-            outputs.push({ op: 'help', status: 'ok', timestamp, result: { message: 'Help displayed' } });
+            outputs?.push({ op: 'help', status: 'ok', timestamp, result: { message: 'Help displayed' } });
             break;
           default:
-            outputs.push({ 
+            outputs?.push({ 
               op: (c as any).op || 'unknown', 
               status: 'error', 
               timestamp, 
@@ -106,8 +106,8 @@ function main(){
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        outputs.push({ 
-          op: c.op, 
+        outputs?.push({ 
+          op: c?.op, 
           status: 'error', 
           timestamp, 
           issues: [String(error)] 
@@ -170,15 +170,15 @@ function runDemo(mgr: CollisionManager): any {
     tags: ['trigger']
   };
   
-  results.push(mgr.upsert(playerAABB));
-  results.push(mgr.upsert(enemyCircle));
-  results.push(mgr.upsert(wallAABB));
-  results.push(mgr.upsert(triggerCircle));
+  results?.push(mgr?.upsert(playerAABB));
+  results?.push(mgr?.upsert(enemyCircle));
+  results?.push(mgr?.upsert(wallAABB));
+  results?.push(mgr?.upsert(triggerCircle));
   
   // Check initial state
-  results.push(mgr.list());
-  results.push(mgr.check());
-  results.push(mgr.analytics());
+  results?.push(mgr?.list());
+  results?.push(mgr?.check());
+  results?.push(mgr?.analytics());
   
   // Move player closer to enemy
   const movedPlayer: AABB = {
@@ -187,22 +187,22 @@ function runDemo(mgr: CollisionManager): any {
     max: { x: 2.5, y: 2.5 }
   };
   
-  results.push(mgr.upsert(movedPlayer));
-  results.push(mgr.check());
+  results?.push(mgr?.upsert(movedPlayer));
+  results?.push(mgr?.check());
   
   // Resolve collisions
-  results.push(mgr.resolve());
+  results?.push(mgr?.resolve());
   
   // Check with tag filtering
-  results.push(mgr.check(['player']));
-  results.push(mgr.check(['enemy']));
+  results?.push(mgr?.check(['player']));
+  results?.push(mgr?.check(['enemy']));
   
   // Get final analytics
-  results.push(mgr.analytics());
+  results?.push(mgr?.analytics());
   
   return {
     message: 'Collision demo completed',
-    steps: results.length,
+    steps: results?.length,
     summary: 'Created AABB and Circle shapes, tested collisions, triggers, and spatial partitioning'
   };
 }
@@ -212,8 +212,8 @@ function showHelp() {
 CollisionSystemPure CLI - Advanced 2D Collision Detection
 
 USAGE:
-  node cliHarness.ts [shapes_file!] [commands_file!]
-  node cliHarness.ts help
+  node cliHarness?.ts [shapes_file!] [commands_file!]
+  node cliHarness?.ts help
 
 COMMANDS:
   list                    - List all collision shapes and spatial grid info
@@ -262,14 +262,14 @@ FEATURES:
 
 EXAMPLES:
   # Run demo
-  node cliHarness.ts
+  node cliHarness?.ts
 
   # Load shapes and run commands
-  node cliHarness.ts shapes.json commands.json
+  node cliHarness?.ts shapes?.json commands?.json
 
   # Get help
-  node cliHarness.ts help
+  node cliHarness?.ts help
 `);
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import?.meta.url === `file://${process?.argv[1!]}`) main();

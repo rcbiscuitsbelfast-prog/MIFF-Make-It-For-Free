@@ -23,11 +23,11 @@ interface PixelDrawOperation {
 }
 
 function main() {
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
   
-  if (argv.length === 0) {
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -35,7 +35,7 @@ function main() {
     let operation: PixelDrawOperation;
 
     // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
+    if (first?.endsWith('.json') && fs?.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as PixelDrawOperation;
     } else {
@@ -145,49 +145,49 @@ function main() {
 
     let result: any;
 
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'create':
-        const grid = PixelDrawPure.create(
-          operation.width!,
-          operation.height!,
-          operation.cellSize || 1
+        const grid = PixelDrawPure?.create(
+          operation?.width!,
+          operation?.height!,
+          operation?.cellSize || 1
         );
         
         result = {
           created: {
             grid,
             summary: {
-              width: grid.meta.width,
-              height: grid.meta.height,
-              cellSize: grid.meta.cellSize,
-              totalCells: grid.cells.length,
-              emptyCells: grid.cells.filter((c: any) => c === null).length
+              width: grid?.meta.width,
+              height: grid?.meta.height,
+              cellSize: grid?.meta.cellSize,
+              totalCells: grid?.cells.length,
+              emptyCells: grid?.cells.filter((c: any) => c === null).length
             }
           }
         };
         break;
 
       case 'set-color':
-        const setGrid = operation.grid!;
-        PixelDrawPure.setColor(setGrid, operation.x!, operation.y!, operation.color!);
+        const setGrid = operation?.grid!;
+        PixelDrawPure?.setColor(setGrid, operation.x!, operation.y!, operation?.color!);
         
         result = {
           action: 'color_set',
           x: operation.x,
           y: operation.y,
-          color: operation.color,
+          color: operation?.color,
           summary: {
-            width: setGrid.meta.width,
-            height: setGrid.meta.height,
-            filledCells: setGrid.cells.filter((c: any) => c !== null).length,
-            totalCells: setGrid.cells.length
+            width: setGrid?.meta.width,
+            height: setGrid?.meta.height,
+            filledCells: setGrid?.cells.filter((c: any) => c !== null).length,
+            totalCells: setGrid?.cells.length
           }
         };
         break;
 
       case 'get-color':
-        const getGrid = operation.grid!;
-        const color = PixelDrawPure.getColor(getGrid, operation.x!, operation.y!);
+        const getGrid = operation?.grid!;
+        const color = PixelDrawPure?.getColor(getGrid, operation.x!, operation.y!);
         
         result = {
           action: 'color_retrieved',
@@ -195,22 +195,22 @@ function main() {
           y: operation.y,
           color,
           summary: {
-            width: getGrid.meta.width,
-            height: getGrid.meta.height,
-            filledCells: getGrid.cells.filter((c: any) => c !== null).length
+            width: getGrid?.meta.width,
+            height: getGrid?.meta.height,
+            filledCells: getGrid?.cells.filter((c: any) => c !== null).length
           }
         };
         break;
 
       case 'draw-rect':
-        const rectGrid = operation.grid!;
+        const rectGrid = operation?.grid!;
         const rectCells: PixelCell[] = [];
         
-        for (let y = operation.y!; y < operation.y! + operation.height!; y++) {
-          for (let x = operation.x!; x < operation.x! + operation.width!; x++) {
-            if (x >= 0 && y >= 0 && x < rectGrid.meta.width && y < rectGrid.meta.height) {
-              PixelDrawPure.setColor(rectGrid, x, y, operation.color!);
-              rectCells.push({ x, y, color: operation.color! });
+        for (let y = operation.y!; y < operation.y! + operation?.height!; y++) {
+          for (let x = operation.x!; x < operation.x! + operation?.width!; x++) {
+            if (x >= 0 && y >= 0 && x < rectGrid?.meta.width && y < rectGrid?.meta.height) {
+              PixelDrawPure?.setColor(rectGrid, x, y, operation?.color!);
+              rectCells?.push({ x, y, color: operation?.color! });
             }
           }
         }
@@ -220,33 +220,33 @@ function main() {
           rectangle: {
             x: operation.x,
             y: operation.y,
-            width: operation.width,
-            height: operation.height,
-            color: operation.color,
-            cellsDrawn: rectCells.length
+            width: operation?.width,
+            height: operation?.height,
+            color: operation?.color,
+            cellsDrawn: rectCells?.length
           },
           summary: {
-            width: rectGrid.meta.width,
-            height: rectGrid.meta.height,
-            filledCells: rectGrid.cells.filter((c: any) => c !== null).length,
-            totalCells: rectGrid.cells.length
+            width: rectGrid?.meta.width,
+            height: rectGrid?.meta.height,
+            filledCells: rectGrid?.cells.filter((c: any) => c !== null).length,
+            totalCells: rectGrid?.cells.length
           }
         };
         break;
 
       case 'draw-circle':
-        const circleGrid = operation.grid!;
+        const circleGrid = operation?.grid!;
         const circleCells: PixelCell[] = [];
         const centerX = operation.x!;
         const centerY = operation.y!;
-        const radius = operation.radius!;
+        const radius = operation?.radius!;
         
         for (let y = centerY - radius; y <= centerY + radius; y++) {
           for (let x = centerX - radius; x <= centerX + radius; x++) {
             const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-            if (distance <= radius && x >= 0 && y >= 0 && x < circleGrid.meta.width && y < circleGrid.meta.height) {
-              PixelDrawPure.setColor(circleGrid, x, y, operation.color!);
-              circleCells.push({ x, y, color: operation.color! });
+            if (distance <= radius && x >= 0 && y >= 0 && x < circleGrid?.meta.width && y < circleGrid?.meta.height) {
+              PixelDrawPure?.setColor(circleGrid, x, y, operation?.color!);
+              circleCells?.push({ x, y, color: operation?.color! });
             }
           }
         }
@@ -257,25 +257,25 @@ function main() {
             x: centerX,
             y: centerY,
             radius,
-            color: operation.color,
-            cellsDrawn: circleCells.length
+            color: operation?.color,
+            cellsDrawn: circleCells?.length
           },
           summary: {
-            width: circleGrid.meta.width,
-            height: circleGrid.meta.height,
-            filledCells: circleGrid.cells.filter((c: any) => c !== null).length,
-            totalCells: circleGrid.cells.length
+            width: circleGrid?.meta.width,
+            height: circleGrid?.meta.height,
+            filledCells: circleGrid?.cells.filter((c: any) => c !== null).length,
+            totalCells: circleGrid?.cells.length
           }
         };
         break;
 
       case 'draw-line':
-        const lineGrid = operation.grid!;
+        const lineGrid = operation?.grid!;
         const lineCells: PixelCell[] = [];
-        const x1 = operation.x1!;
-        const y1 = operation.y1!;
-        const x2 = operation.x2!;
-        const y2 = operation.y2!;
+        const x1 = operation?.x1!;
+        const y1 = operation?.y1!;
+        const x2 = operation?.x2!;
+        const y2 = operation?.y2!;
         
         // Bresenham's line algorithm
         const dx = Math.abs(x2 - x1);
@@ -288,9 +288,9 @@ function main() {
         let y = y1;
         
         while (true) {
-          if (x >= 0 && y >= 0 && x < lineGrid.meta.width && y < lineGrid.meta.height) {
-            PixelDrawPure.setColor(lineGrid, x, y, operation.color!);
-            lineCells.push({ x, y, color: operation.color! });
+          if (x >= 0 && y >= 0 && x < lineGrid?.meta.width && y < lineGrid?.meta.height) {
+            PixelDrawPure?.setColor(lineGrid, x, y, operation?.color!);
+            lineCells?.push({ x, y, color: operation?.color! });
           }
           
           if (x === x2 && y === y2) break;
@@ -310,77 +310,77 @@ function main() {
           action: 'line_drawn',
           line: {
             x1, y1, x2, y2,
-            color: operation.color,
-            cellsDrawn: lineCells.length
+            color: operation?.color,
+            cellsDrawn: lineCells?.length
           },
           summary: {
-            width: lineGrid.meta.width,
-            height: lineGrid.meta.height,
-            filledCells: lineGrid.cells.filter((c: any) => c !== null).length,
-            totalCells: lineGrid.cells.length
+            width: lineGrid?.meta.width,
+            height: lineGrid?.meta.height,
+            filledCells: lineGrid?.cells.filter((c: any) => c !== null).length,
+            totalCells: lineGrid?.cells.length
           }
         };
         break;
 
       case 'fill':
-        const fillGrid = operation.grid!;
-        const originalFilled = fillGrid.cells.filter((c: any) => c !== null).length;
+        const fillGrid = operation?.grid!;
+        const originalFilled = fillGrid?.cells.filter((c: any) => c !== null).length;
         
-        for (let i = 0; i < fillGrid.cells.length; i++) {
-          fillGrid.cells[i!] = operation.color!;
+        for (let i = 0; i < fillGrid?.cells.length; i++) {
+          fillGrid?.cells[i!] = operation?.color!;
         }
         
         result = {
           action: 'grid_filled',
-          color: operation.color,
+          color: operation?.color,
           summary: {
-            width: fillGrid.meta.width,
-            height: fillGrid.meta.height,
-            cellsFilled: fillGrid.cells.length,
+            width: fillGrid?.meta.width,
+            height: fillGrid?.meta.height,
+            cellsFilled: fillGrid?.cells.length,
             originalFilled,
-            newFilled: fillGrid.cells.length
+            newFilled: fillGrid?.cells.length
           }
         };
         break;
 
       case 'clear':
-        const clearGrid = operation.grid!;
-        const originalFilledClear = clearGrid.cells.filter((c: any) => c !== null).length;
+        const clearGrid = operation?.grid!;
+        const originalFilledClear = clearGrid?.cells.filter((c: any) => c !== null).length;
         
-        for (let i = 0; i < clearGrid.cells.length; i++) {
-          clearGrid.cells[i!] = null;
+        for (let i = 0; i < clearGrid?.cells.length; i++) {
+          clearGrid?.cells[i!] = null;
         }
         
         result = {
           action: 'grid_cleared',
           summary: {
-            width: clearGrid.meta.width,
-            height: clearGrid.meta.height,
+            width: clearGrid?.meta.width,
+            height: clearGrid?.meta.height,
             cellsCleared: originalFilledClear,
-            totalCells: clearGrid.cells.length
+            totalCells: clearGrid?.cells.length
           }
         };
         break;
 
       case 'export-json':
-        const exportGrid = operation.grid!;
-        const exported = PixelDrawPure.exportJSON(exportGrid);
+        const exportGrid = operation?.grid!;
+        const exported = PixelDrawPure?.exportJSON(exportGrid);
         
         result = {
           exported,
           summary: {
-            width: exportGrid.meta.width,
-            height: exportGrid.meta.height,
-            cellSize: exportGrid.meta.cellSize,
-            filledCells: exportGrid.cells.filter((c: any) => c !== null).length,
-            totalCells: exportGrid.cells.length
+            width: exportGrid?.meta.width,
+            height: exportGrid?.meta.height,
+            cellSize: exportGrid?.meta.cellSize,
+            filledCells: exportGrid?.cells.filter((c: any) => c !== null).length,
+            totalCells: exportGrid?.cells.length
           }
         };
         break;
 
       case 'demo':
         // Create a comprehensive pixel drawing demo
-        const demoGrid = PixelDrawPure.create(32, 32, 1);
+        const demoGrid = PixelDrawPure?.create(32, 32, 1);
         
         // Draw a simple house
         const houseOperations = [];
@@ -388,8 +388,8 @@ function main() {
         // House base (rectangle)
         for (let y = 20; y < 30; y++) {
           for (let x = 10; x < 22; x++) {
-            PixelDrawPure.setColor(demoGrid, x, y, '#8B4513');
-            houseOperations.push({ x, y, color: '#8B4513', operation: 'house_base' });
+            PixelDrawPure?.setColor(demoGrid, x, y, '#8B4513');
+            houseOperations?.push({ x, y, color: '#8B4513', operation: 'house_base' });
           }
         }
         
@@ -397,24 +397,24 @@ function main() {
         for (let y = 15; y < 20; y++) {
           const width = 20 - y;
           for (let x = 16 - width; x < 16 + width; x++) {
-            PixelDrawPure.setColor(demoGrid, x, y, '#DC143C');
-            houseOperations.push({ x, y, color: '#DC143C', operation: 'house_roof' });
+            PixelDrawPure?.setColor(demoGrid, x, y, '#DC143C');
+            houseOperations?.push({ x, y, color: '#DC143C', operation: 'house_roof' });
           }
         }
         
         // Door
         for (let y = 20; y < 30; y++) {
           for (let x = 15; x < 17; x++) {
-            PixelDrawPure.setColor(demoGrid, x, y, '#654321');
-            houseOperations.push({ x, y, color: '#654321', operation: 'door' });
+            PixelDrawPure?.setColor(demoGrid, x, y, '#654321');
+            houseOperations?.push({ x, y, color: '#654321', operation: 'door' });
           }
         }
         
         // Windows
-        PixelDrawPure.setColor(demoGrid, 12, 22, '#87CEEB');
-        PixelDrawPure.setColor(demoGrid, 19, 22, '#87CEEB');
-        houseOperations.push({ x: 12, y: 22, color: '#87CEEB', operation: 'window' });
-        houseOperations.push({ x: 19, y: 22, color: '#87CEEB', operation: 'window' });
+        PixelDrawPure?.setColor(demoGrid, 12, 22, '#87CEEB');
+        PixelDrawPure?.setColor(demoGrid, 19, 22, '#87CEEB');
+        houseOperations?.push({ x: 12, y: 22, color: '#87CEEB', operation: 'window' });
+        houseOperations?.push({ x: 19, y: 22, color: '#87CEEB', operation: 'window' });
         
         // Sun (circle)
         const sunCells: PixelCell[] = [];
@@ -422,39 +422,39 @@ function main() {
           for (let x = 25; x <= 27; x++) {
             const distance = Math.sqrt((x - 26) ** 2 + (y - 8) ** 2);
             if (distance <= 3) {
-              PixelDrawPure.setColor(demoGrid, x, y, '#FFD700');
-              sunCells.push({ x, y, color: '#FFD700' });
+              PixelDrawPure?.setColor(demoGrid, x, y, '#FFD700');
+              sunCells?.push({ x, y, color: '#FFD700' });
             }
           }
         }
         
         // Ground line
         for (let x = 0; x < 32; x++) {
-          PixelDrawPure.setColor(demoGrid, x, 30, '#228B22');
+          PixelDrawPure?.setColor(demoGrid, x, 30, '#228B22');
         }
         
-        const exportedDemo = PixelDrawPure.exportJSON(demoGrid);
+        const exportedDemo = PixelDrawPure?.exportJSON(demoGrid);
         
         result = {
           demo: {
             grid: {
-              width: demoGrid.meta.width,
-              height: demoGrid.meta.height,
-              cellSize: demoGrid.meta.cellSize,
-              totalCells: demoGrid.cells.length
+              width: demoGrid?.meta.width,
+              height: demoGrid?.meta.height,
+              cellSize: demoGrid?.meta.cellSize,
+              totalCells: demoGrid?.cells.length
             },
             operations: {
-              houseOperations: houseOperations.length,
-              sunCells: sunCells.length,
+              houseOperations: houseOperations?.length,
+              sunCells: sunCells?.length,
               groundCells: 32
             },
             exported: exportedDemo,
             summary: {
-              totalOperations: houseOperations.length + sunCells.length + 32,
-              filledCells: demoGrid.cells.filter((c: any) => c !== null).length,
-              emptyCells: demoGrid.cells.filter((c: any) => c === null).length,
-              colors: [...new Set(demoGrid.cells.filter((c: any) => c !== null))],
-              fillPercentage: (demoGrid.cells.filter((c: any) => c !== null).length / demoGrid.cells.length * 100).toFixed(1) + '%'
+              totalOperations: houseOperations?.length + sunCells?.length + 32,
+              filledCells: demoGrid?.cells.filter((c: any) => c !== null).length,
+              emptyCells: demoGrid?.cells.filter((c: any) => c === null).length,
+              colors: [...new Set(demoGrid?.cells.filter((c: any) => c !== null))],
+              fillPercentage: (demoGrid?.cells.filter((c: any) => c !== null).length / demoGrid?.cells.length * 100).toFixed(1) + '%'
             }
           }
         };
@@ -474,7 +474,7 @@ function main() {
             'Bresenham line algorithm implementation'
           ],
           supportedShapes: ['rectangle', 'circle', 'line'],
-          exportFormat: 'miff.pixel.grid.v1',
+          exportFormat: 'miff?.pixel.grid?.v1',
           defaultCellSize: 1,
           colorFormat: 'RGB Hex (#RRGGBB)',
           algorithms: ['Bresenham line', 'Circle rasterization', 'Rectangle filling']
@@ -482,14 +482,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: ${operation?.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv.indexOf('--format') + 1];
+    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv?.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -501,7 +501,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -517,13 +517,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }

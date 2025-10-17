@@ -14,16 +14,16 @@
  * @license MIT
  */
 
-const args = process.argv.slice(2);
+const args = process?.argv.slice(2);
 const command = args[0!];
-const flags = parseFlags(args.slice(1));
+const flags = parseFlags(args?.slice(1));
 
 function parseFlags(args) {
   const flags = {};
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0; i < args?.length; i++) {
     const arg = args[i!];
-    if (arg.startsWith('--')) {
-      const key = arg.slice(2);
+    if (arg?.startsWith('--')) {
+      const key = arg?.slice(2);
       const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
       flags[key!] = value;
     }
@@ -71,21 +71,21 @@ Validation flags:
 
 Examples:
   # Preview cut scene in browser
-  miff-cli cutscene preview --input=./scenes/intro.json --fullscreen
+  miff-cli cutscene preview --input=./scenes/intro?.json --fullscreen
 
   # Export for Unity Timeline
-  miff-cli cutscene export --engine=unity --input=./scenes/intro.json --format=timeline
+  miff-cli cutscene export --engine=unity --input=./scenes/intro?.json --format=timeline
 
   # Validate cut scene definition
-  miff-cli cutscene validate --input=./scenes/intro.json --strict
+  miff-cli cutscene validate --input=./scenes/intro?.json --strict
 
   # Simulate cut scene timing
-  miff-cli cutscene simulate --input=./scenes/intro.json --verbose
+  miff-cli cutscene simulate --input=./scenes/intro?.json --verbose
 
   # Create demo cut scenes
   miff-cli cutscene demo --output=./demo-scenes/
 
-For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/
+For more information, visit: https://rcbiscuitsbelfast-prog?.github.io/renderworld-hub/
   `);
 }
 
@@ -98,7 +98,7 @@ async function handlePreview() {
   const skipAnimations = flags['skip-animations'];
   const debug = flags['debug'];
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`🎬 Previewing cut scene...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🖥️  Fullscreen: ${fullscreen ? 'yes' : 'no'}`);
@@ -125,7 +125,7 @@ async function handlePreview() {
     'Starting preview server'
   ];
 
-  for (let i = 0; i < steps.length; i++) {
+  for (let i = 0; i < steps?.length; i++) {
     console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
@@ -166,7 +166,7 @@ async function handleExport() {
   const noDialogue = flags['no-dialogue'];
   const skipAnimations = flags['skip-animations'];
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`📦 Exporting cut scene for ${engine} engine...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`📂 Output: ${outputDir}`);
@@ -183,10 +183,10 @@ async function handleExport() {
 
   // Validate engine support
   const supportedEngines = ['web', 'unity', 'unreal', 'godot'];
-  if (!supportedEngines.includes(engine)) {
+  if (!supportedEngines?.includes(engine)) {
     console.error(`❌ Unsupported engine: ${engine}`);
     console.error(`Supported engines: ${supportedEngines.join(', ')}`);
-    process.exit(1);
+    process?.exit(1);
   }
 
   console.log(`🎮 Exporting for ${engine.toUpperCase()}...`);
@@ -200,7 +200,7 @@ async function handleExport() {
     'Writing output files'
   ];
 
-  for (let i = 0; i < steps.length; i++) {
+  for (let i = 0; i < steps?.length; i++) {
     console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
     await new Promise(resolve => setTimeout(resolve, 400));
   }
@@ -232,36 +232,36 @@ function generateOutputFiles(engine, format, outputDir) {
 
   switch (engine) {
     case 'web':
-      files.push(`${outputDir}/cutscene.json`);
-      files.push(`${outputDir}/CutSceneWebPlayer.js`);
-      files.push(`${outputDir}/index.html`);
+      files?.push(`${outputDir}/cutscene?.json`);
+      files?.push(`${outputDir}/CutSceneWebPlayer?.js`);
+      files?.push(`${outputDir}/index?.html`);
       if (format === 'html') {
-        files.push(`${outputDir}/standalone.html`);
+        files?.push(`${outputDir}/standalone?.html`);
       }
       break;
 
     case 'unity':
-      files.push(`${outputDir}/CutScenePlayer.cs`);
-      files.push(`${outputDir}/CutSceneDefinition.cs`);
+      files?.push(`${outputDir}/CutScenePlayer?.cs`);
+      files?.push(`${outputDir}/CutSceneDefinition?.cs`);
       if (format === 'timeline') {
-        files.push(`${outputDir}/CutSceneTimeline.asset`);
+        files?.push(`${outputDir}/CutSceneTimeline?.asset`);
       }
       break;
 
     case 'godot':
-      files.push(`${outputDir}/CutSceneGodotPlayer.gd`);
-      files.push(`${outputDir}/cutscene.json`);
+      files?.push(`${outputDir}/CutSceneGodotPlayer?.gd`);
+      files?.push(`${outputDir}/cutscene?.json`);
       if (format === 'scene') {
-        files.push(`${outputDir}/CutScenePlayer.tscn`);
+        files?.push(`${outputDir}/CutScenePlayer?.tscn`);
       }
       break;
 
     case 'unreal':
-      files.push(`${outputDir}/CutScenePlayer.h`);
-      files.push(`${outputDir}/CutScenePlayer.cpp`);
-      files.push(`${outputDir}/CutSceneDefinition.h`);
+      files?.push(`${outputDir}/CutScenePlayer.h`);
+      files?.push(`${outputDir}/CutScenePlayer?.cpp`);
+      files?.push(`${outputDir}/CutSceneDefinition.h`);
       if (format === 'sequencer') {
-        files.push(`${outputDir}/CutSceneSequence.uasset`);
+        files?.push(`${outputDir}/CutSceneSequence?.uasset`);
       }
       break;
   }
@@ -274,7 +274,7 @@ async function handleValidate() {
   const strict = flags['strict'];
   const fix = flags['fix'];
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`🔍 Validating cut scene definition...`);
     console.log(`📁 Input: ${inputFile}`);
     console.log(`🔒 Strict mode: ${strict ? 'yes' : 'no'}`);
@@ -284,7 +284,7 @@ async function handleValidate() {
   if (!inputFile) {
     console.error('❌ Input file required for validation');
     console.error('Use --input or -i to specify the cut scene definition file');
-    process.exit(1);
+    process?.exit(1);
   }
 
   console.log('📋 Validating cut scene structure...');
@@ -297,7 +297,7 @@ async function handleValidate() {
     'Validating condition logic'
   ];
 
-  for (let i = 0; i < validationSteps.length; i++) {
+  for (let i = 0; i < validationSteps?.length; i++) {
     console.log(`   ${i + 1}/${validationSteps.length} ${validationSteps[i!]}...`);
     await new Promise(resolve => setTimeout(resolve, 200));
   }
@@ -307,25 +307,25 @@ async function handleValidate() {
 
   // Simulate validation results
   if (strict) {
-    warnings.push('Missing optional metadata field');
+    warnings?.push('Missing optional metadata field');
   }
 
   console.log(`✅ Validation completed`);
   console.log(`⚠️  Issues found: ${issues.length}`);
   console.log(`⚠️  Warnings: ${warnings.length}`);
 
-  if (issues.length > 0) {
+  if (issues?.length > 0) {
     console.log('\n❌ Issues:');
     issues.forEach((issue: any) => console.log(`   - ${issue}`));
-    process.exit(1);
+    process?.exit(1);
   }
 
-  if (warnings.length > 0) {
+  if (warnings?.length > 0) {
     console.log('\n⚠️  Warnings:');
     warnings.forEach((warning: any) => console.log(`   - ${warning}`));
   }
 
-  if (issues.length === 0) {
+  if (issues?.length === 0) {
     console.log('🎉 Cut scene definition is valid!');
   }
 
@@ -334,9 +334,9 @@ async function handleValidate() {
     input: inputFile,
     strict,
     fix,
-    issues: issues.length,
-    warnings: warnings.length,
-    valid: issues.length === 0,
+    issues: issues?.length,
+    warnings: warnings?.length,
+    valid: issues?.length === 0,
     status: 'success'
   };
 }
@@ -345,7 +345,7 @@ async function handleSimulate() {
   const inputFile = flags['input'] || flags['i'];
   const debug = flags['debug'];
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`🎭 Simulating cut scene timing...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
@@ -363,11 +363,11 @@ async function handleSimulate() {
     { time: 250, action: 'Start camera track transition' },
     { time: 500, action: 'Begin audio playback' },
     { time: 1000, action: 'Start dialogue track' },
-    { time: 1500, action: 'Trigger event: scene.dialogue_start' },
+    { time: 1500, action: 'Trigger event: scene?.dialogue_start' },
     { time: 2000, action: 'Update camera position (50% complete)' },
     { time: 2500, action: 'Complete camera transition' },
     { time: 3000, action: 'End dialogue track' },
-    { time: 3500, action: 'Trigger event: scene.dialogue_end' },
+    { time: 3500, action: 'Trigger event: scene?.dialogue_end' },
     { time: 4000, action: 'Stop audio playback' },
     { time: 4500, action: 'Fade out effects' },
     { time: 5000, action: 'Cut scene completed' }
@@ -409,7 +409,7 @@ async function handleSimulate() {
 async function handleDemo() {
   const outputDir = flags['output'] || flags['o'] || './demo-scenes';
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`🎬 Creating demo cut scene definitions...`);
     console.log(`📂 Output: ${outputDir}`);
   }
@@ -417,10 +417,10 @@ async function handleDemo() {
   console.log('🎭 Generating sample cut scenes...');
 
   const demoScenes = [
-    'welcome_cutscene.json',
-    'battle_intro.json',
-    'exploration_sequence.json',
-    'ending_credits.json'
+    'welcome_cutscene?.json',
+    'battle_intro?.json',
+    'exploration_sequence?.json',
+    'ending_credits?.json'
   ];
 
   const steps = [
@@ -430,7 +430,7 @@ async function handleDemo() {
     'Creating ending credits'
   ];
 
-  for (let i = 0; i < steps.length; i++) {
+  for (let i = 0; i < steps?.length; i++) {
     console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
@@ -482,10 +482,10 @@ async function main() {
       default:
         console.error(`❌ Unknown command: ${command}`);
         showHelp();
-        process.exit(1);
+        process?.exit(1);
     }
 
-    if (flags.verbose) {
+    if (flags?.verbose) {
       console.log('\n📊 Command Result:');
       console.log(JSON.stringify(result, null, 2));
     }
@@ -493,12 +493,12 @@ async function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error(`❌ Command failed: ${error.message}`);
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
 // Run CLI
 main().catch(error => {
   console.error(`💥 Unexpected error: ${error.message}`);
-  process.exit(1);
+  process?.exit(1);
 });

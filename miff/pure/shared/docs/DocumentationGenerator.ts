@@ -1,5 +1,5 @@
 /**
- * DocumentationGenerator.ts - Advanced Documentation Generation System
+ * DocumentationGenerator?.ts - Advanced Documentation Generation System
  *
  * Provides comprehensive documentation capabilities for:
  * - API documentation generation
@@ -250,8 +250,8 @@ export class DocumentationGenerator {
   };
 
   constructor(config: DocumentationConfig) {
-    this.config = config;
-    this.initialize();
+    this?.config = config;
+    this?.initialize({});
   }
 
   /**
@@ -259,39 +259,39 @@ export class DocumentationGenerator {
    */
   private initialize(): void {
     // Create output directory
-    if (!fs.existsSync(this.config.outputDir)) {
-      fs.mkdirSync(this.config.outputDir, { recursive: true });
+    if (!fs?.existsSync(this?.config.outputDir)) {
+      fs?.mkdirSync(this?.config.outputDir, { recursive: true });
     }
 
     // Generate navigation
-    this.generateNavigation();
+    this?.generateNavigation();
   }
 
   /**
    * Generate documentation for a module
    */
   generateModuleDocumentation(modulePath: string): ModuleDocumentation {
-    const moduleName = path.basename(modulePath, '.ts');
-    const sourceCode = fs.readFileSync(modulePath, 'utf8');
+    const moduleName = path?.basename(modulePath, '.ts');
+    const sourceCode = fs?.readFileSync(modulePath, 'utf8');
     
     const documentation: ModuleDocumentation = {
       name: moduleName,
       path: modulePath,
-      description: this.extractDescription(sourceCode),
-      version: this.extractVersion(sourceCode),
-      exports: this.extractExports(sourceCode),
-      classes: this.extractClasses(sourceCode),
-      interfaces: this.extractInterfaces(sourceCode),
-      enums: this.extractEnums(sourceCode),
-      functions: this.extractFunctions(sourceCode),
-      examples: this.extractExamples(sourceCode),
-      tests: this.extractTests(modulePath),
-      dependencies: this.extractDependencies(sourceCode),
-      changelog: this.extractChangelog(modulePath)
+      description: this?.extractDescription(sourceCode),
+      version: this?.extractVersion(sourceCode),
+      exports: this?.extractExports(sourceCode),
+      classes: this?.extractClasses(sourceCode),
+      interfaces: this?.extractInterfaces(sourceCode),
+      enums: this?.extractEnums(sourceCode),
+      functions: this?.extractFunctions(sourceCode),
+      examples: this?.extractExamples(sourceCode),
+      tests: this?.extractTests(modulePath),
+      dependencies: this?.extractDependencies(sourceCode),
+      changelog: this?.extractChangelog(modulePath)
     };
 
-    this.modules.set(moduleName, documentation);
-    this.updateSearchIndex(documentation);
+    this?.modules.set(moduleName, documentation);
+    this?.updateSearchIndex(documentation);
     
     return documentation;
   }
@@ -302,16 +302,16 @@ export class DocumentationGenerator {
   generateAllDocumentation(modulePaths: string[]): void {
     // Generate module documentation
     for (const modulePath of modulePaths) {
-      this.generateModuleDocumentation(modulePath);
+      this?.generateModuleDocumentation(modulePath);
     }
 
     // Generate documentation in all formats
-    for (const format of this.config.formats) {
-      this.generateFormatDocumentation(format);
+    for (const format of this?.config.formats) {
+      this?.generateFormatDocumentation(format);
     }
 
     // Generate index files
-    this.generateIndexFiles();
+    this?.generateIndexFiles();
   }
 
   /**
@@ -319,20 +319,20 @@ export class DocumentationGenerator {
    */
   generateFormatDocumentation(format: DocumentationFormat): void {
     switch (format) {
-      case DocumentationFormat.MARKDOWN:
-        this.generateMarkdownDocumentation();
+      case DocumentationFormat?.MARKDOWN:
+        this?.generateMarkdownDocumentation();
         break;
-      case DocumentationFormat.HTML:
-        this.generateHTMLDocumentation();
+      case DocumentationFormat?.HTML:
+        this?.generateHTMLDocumentation();
         break;
-      case DocumentationFormat.PDF:
-        this.generatePDFDocumentation();
+      case DocumentationFormat?.PDF:
+        this?.generatePDFDocumentation();
         break;
-      case DocumentationFormat.JSON:
-        this.generateJSONDocumentation();
+      case DocumentationFormat?.JSON:
+        this?.generateJSONDocumentation();
         break;
-      case DocumentationFormat.XML:
-        this.generateXMLDocumentation();
+      case DocumentationFormat?.XML:
+        this?.generateXMLDocumentation();
         break;
     }
   }
@@ -341,35 +341,35 @@ export class DocumentationGenerator {
    * Generate Markdown documentation
    */
   private generateMarkdownDocumentation(): void {
-    const outputDir = path.join(this.config.outputDir, 'markdown');
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    const outputDir = path?.join(this?.config.outputDir, 'markdown');
+    if (!fs?.existsSync(outputDir)) {
+      fs?.mkdirSync(outputDir, { recursive: true });
     }
 
     // Generate main README
-    const readme = this.generateMarkdownREADME();
-    fs.writeFileSync(path.join(outputDir, 'README.md'), readme);
+    const readme = this?.generateMarkdownREADME();
+    fs?.writeFileSync(path?.join(outputDir, 'README?.md'), readme);
 
     // Generate module documentation
-    for (const [moduleName, moduleDoc] of this.modules) {
-      const markdown = this.generateMarkdownModule(moduleDoc);
-      fs.writeFileSync(path.join(outputDir, `${moduleName}.md`), markdown);
+    for (const [moduleName, moduleDoc] of this?.modules) {
+      const markdown = this?.generateMarkdownModule(moduleDoc);
+      fs?.writeFileSync(path?.join(outputDir, `${moduleName}.md`), markdown);
     }
 
     // Generate API reference
-    const apiRef = this.generateMarkdownAPIReference();
-    fs.writeFileSync(path.join(outputDir, 'API.md'), apiRef);
+    const apiRef = this?.generateMarkdownAPIReference();
+    fs?.writeFileSync(path?.join(outputDir, 'API?.md'), apiRef);
 
     // Generate examples
-    if (this.config.includeExamples) {
-      const examples = this.generateMarkdownExamples();
-      fs.writeFileSync(path.join(outputDir, 'EXAMPLES.md'), examples);
+    if (this?.config.includeExamples) {
+      const examples = this?.generateMarkdownExamples();
+      fs?.writeFileSync(path?.join(outputDir, 'EXAMPLES?.md'), examples);
     }
 
     // Generate changelog
-    if (this.config.includeChangelog) {
-      const changelog = this.generateMarkdownChangelog();
-      fs.writeFileSync(path.join(outputDir, 'CHANGELOG.md'), changelog);
+    if (this?.config.includeChangelog) {
+      const changelog = this?.generateMarkdownChangelog();
+      fs?.writeFileSync(path?.join(outputDir, 'CHANGELOG?.md'), changelog);
     }
   }
 
@@ -377,28 +377,28 @@ export class DocumentationGenerator {
    * Generate HTML documentation
    */
   private generateHTMLDocumentation(): void {
-    const outputDir = path.join(this.config.outputDir, 'html');
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    const outputDir = path?.join(this?.config.outputDir, 'html');
+    if (!fs?.existsSync(outputDir)) {
+      fs?.mkdirSync(outputDir, { recursive: true });
     }
 
     // Generate main index
-    const index = this.generateHTMLIndex();
-    fs.writeFileSync(path.join(outputDir, 'index.html'), index);
+    const index = this?.generateHTMLIndex();
+    fs?.writeFileSync(path?.join(outputDir, 'index?.html'), index);
 
     // Generate module pages
-    for (const [moduleName, moduleDoc] of this.modules) {
-      const html = this.generateHTMLModule(moduleDoc);
-      fs.writeFileSync(path.join(outputDir, `${moduleName}.html`), html);
+    for (const [moduleName, moduleDoc] of this?.modules) {
+      const html = this?.generateHTMLModule(moduleDoc);
+      fs?.writeFileSync(path?.join(outputDir, `${moduleName}.html`), html);
     }
 
     // Generate CSS
-    const css = this.generateHTMLCSS();
-    fs.writeFileSync(path.join(outputDir, 'styles.css'), css);
+    const css = this?.generateHTMLCSS();
+    fs?.writeFileSync(path?.join(outputDir, 'styles?.css'), css);
 
     // Generate JavaScript
-    const js = this.generateHTMLJS();
-    fs.writeFileSync(path.join(outputDir, 'script.js'), js);
+    const js = this?.generateHTMLJS();
+    fs?.writeFileSync(path?.join(outputDir, 'script?.js'), js);
   }
 
   /**
@@ -414,21 +414,21 @@ export class DocumentationGenerator {
    * Generate JSON documentation
    */
   private generateJSONDocumentation(): void {
-    const outputDir = path.join(this.config.outputDir, 'json');
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    const outputDir = path?.join(this?.config.outputDir, 'json');
+    if (!fs?.existsSync(outputDir)) {
+      fs?.mkdirSync(outputDir, { recursive: true });
     }
 
     const documentation = {
-      config: this.config,
+      config: this?.config,
       modules: Array.from(this.modules.values()),
-      navigation: this.navigation,
-      searchIndex: this.searchIndex,
+      navigation: this?.navigation,
+      searchIndex: this?.searchIndex,
       generatedAt: new Date().toISOString()
     };
 
-    fs.writeFileSync(
-      path.join(outputDir, 'documentation.json'),
+    fs?.writeFileSync(
+      path?.join(outputDir, 'documentation?.json'),
       JSON.stringify(documentation, null, 2)
     );
   }
@@ -437,20 +437,20 @@ export class DocumentationGenerator {
    * Generate XML documentation
    */
   private generateXMLDocumentation(): void {
-    const outputDir = path.join(this.config.outputDir, 'xml');
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    const outputDir = path?.join(this?.config.outputDir, 'xml');
+    if (!fs?.existsSync(outputDir)) {
+      fs?.mkdirSync(outputDir, { recursive: true });
     }
 
-    const xml = this.generateXMLStructure();
-    fs.writeFileSync(path.join(outputDir, 'documentation.xml'), xml);
+    const xml = this?.generateXMLStructure();
+    fs?.writeFileSync(path?.join(outputDir, 'documentation?.xml'), xml);
   }
 
   /**
    * Extract description from source code
    */
   private extractDescription(sourceCode: string): string {
-    const match = sourceCode.match(/\/\*\*\s*\n\s*\*\s*(.+?)\s*\n\s*\*\//);
+    const match = sourceCode?.match(/\/\*\*\s*\n\s*\*\s*(.+?)\s*\n\s*\*\//);
     return match ? match[1!].trim() : '';
   }
 
@@ -458,7 +458,7 @@ export class DocumentationGenerator {
    * Extract version from source code
    */
   private extractVersion(sourceCode: string): string {
-    const match = sourceCode.match(/@version\s+([^\n]+)/);
+    const match = sourceCode?.match(/@version\s+([^\n]+)/);
     return match ? match[1!].trim() : '1.0.0';
   }
 
@@ -470,13 +470,13 @@ export class DocumentationGenerator {
     const exportRegex = /export\s+(?:default\s+)?(?:class|interface|enum|function|type|const)\s+(\w+)/g;
     let match;
 
-    while ((match = exportRegex.exec(sourceCode)) !== null) {
-      exports.push({
+    while ((match = exportRegex?.exec(sourceCode)) !== null) {
+      exports?.push({
         name: match[1!],
-        type: this.getExportType(sourceCode, match[1!]),
-        description: this.extractItemDescription(sourceCode, match[1!]),
+        type: this?.getExportType(sourceCode, match[1!]),
+        description: this?.extractItemDescription(sourceCode, match[1!]),
         exported: true,
-        default: sourceCode.includes(`export default ${match[1!]}`)
+        default: sourceCode?.includes(`export default ${match[1!]}`)
       });
     }
 
@@ -491,22 +491,22 @@ export class DocumentationGenerator {
     const classRegex = /export\s+(?:default\s+)?class\s+(\w+)(?:\s+extends\s+(\w+))?(?:\s+implements\s+([^{]+))?\s*{/g;
     let match;
 
-    while ((match = classRegex.exec(sourceCode)) !== null) {
+    while ((match = classRegex?.exec(sourceCode)) !== null) {
       const className = match[1!];
       const extendsClass = match[2!];
-      const implementsClasses = match[3] ? match[3].split(',').map((s: any) => s.trim()) : [];
+      const implementsClasses = match[3] ? match[3].split(',').map((s: any) => s?.trim()) : [];
 
-      classes.push({
+      classes?.push({
         name: className,
-        description: this.extractItemDescription(sourceCode, className),
+        description: this?.extractItemDescription(sourceCode, className),
         extends: extendsClass,
         implements: implementsClasses,
-        methods: this.extractClassMethods(sourceCode, className),
-        properties: this.extractClassProperties(sourceCode, className),
-        constructors: this.extractClassConstructors(sourceCode, className),
-        decorators: this.extractItemDecorators(sourceCode, className),
+        methods: this?.extractClassMethods(sourceCode, className),
+        properties: this?.extractClassProperties(sourceCode, className),
+        constructors: this?.extractClassConstructors(sourceCode, className),
+        decorators: this?.extractItemDecorators(sourceCode, className),
         access: 'public',
-        abstract: sourceCode.includes(`abstract class ${className}`),
+        abstract: sourceCode?.includes(`abstract class ${className}`),
         static: false
       });
     }
@@ -522,17 +522,17 @@ export class DocumentationGenerator {
     const interfaceRegex = /export\s+interface\s+(\w+)(?:\s+extends\s+([^{]+))?\s*{/g;
     let match;
 
-    while ((match = interfaceRegex.exec(sourceCode)) !== null) {
+    while ((match = interfaceRegex?.exec(sourceCode)) !== null) {
       const interfaceName = match[1!];
-      const extendsInterfaces = match[2] ? match[2].split(',').map((s: any) => s.trim()) : [];
+      const extendsInterfaces = match[2] ? match[2].split(',').map((s: any) => s?.trim()) : [];
 
-      interfaces.push({
+      interfaces?.push({
         name: interfaceName,
-        description: this.extractItemDescription(sourceCode, interfaceName),
+        description: this?.extractItemDescription(sourceCode, interfaceName),
         extends: extendsInterfaces,
-        properties: this.extractInterfaceProperties(sourceCode, interfaceName),
-        methods: this.extractInterfaceMethods(sourceCode, interfaceName),
-        generics: this.extractGenerics(sourceCode, interfaceName)
+        properties: this?.extractInterfaceProperties(sourceCode, interfaceName),
+        methods: this?.extractInterfaceMethods(sourceCode, interfaceName),
+        generics: this?.extractGenerics(sourceCode, interfaceName)
       });
     }
 
@@ -547,14 +547,14 @@ export class DocumentationGenerator {
     const enumRegex = /export\s+(?:const\s+)?enum\s+(\w+)\s*{/g;
     let match;
 
-    while ((match = enumRegex.exec(sourceCode)) !== null) {
+    while ((match = enumRegex?.exec(sourceCode)) !== null) {
       const enumName = match[1!];
-      const isConst = sourceCode.includes(`const enum ${enumName}`);
+      const isConst = sourceCode?.includes(`const enum ${enumName}`);
 
-      enums.push({
+      enums?.push({
         name: enumName,
-        description: this.extractItemDescription(sourceCode, enumName),
-        values: this.extractEnumValues(sourceCode, enumName),
+        description: this?.extractItemDescription(sourceCode, enumName),
+        values: this?.extractEnumValues(sourceCode, enumName),
         numeric: !isConst,
         string: false,
         const: isConst
@@ -572,20 +572,20 @@ export class DocumentationGenerator {
     const functionRegex = /export\s+(?:default\s+)?(?:async\s+)?function\s+(\w+)\s*\(/g;
     let match;
 
-    while ((match = functionRegex.exec(sourceCode)) !== null) {
+    while ((match = functionRegex?.exec(sourceCode)) !== null) {
       const functionName = match[1!];
-      const isAsync = sourceCode.includes(`async function ${functionName}`);
+      const isAsync = sourceCode?.includes(`async function ${functionName}`);
 
-      functions.push({
+      functions?.push({
         name: functionName,
-        description: this.extractItemDescription(sourceCode, functionName),
-        parameters: this.extractFunctionParameters(sourceCode, functionName),
-        returnType: this.extractReturnType(sourceCode, functionName),
-        returnDescription: this.extractReturnDescription(sourceCode, functionName),
-        throws: this.extractThrows(sourceCode, functionName),
-        examples: this.extractExamples(sourceCode, functionName),
-        deprecated: sourceCode.includes(`@deprecated`),
-        since: this.extractSince(sourceCode, functionName),
+        description: this?.extractItemDescription(sourceCode, functionName),
+        parameters: this?.extractFunctionParameters(sourceCode, functionName),
+        returnType: this?.extractReturnType(sourceCode, functionName),
+        returnDescription: this?.extractReturnDescription(sourceCode, functionName),
+        throws: this?.extractThrows(sourceCode, functionName),
+        examples: this?.extractExamples(sourceCode, functionName),
+        deprecated: sourceCode?.includes(`@deprecated`),
+        since: this?.extractSince(sourceCode, functionName),
         access: 'public',
         static: false,
         async: isAsync,
@@ -600,17 +600,17 @@ export class DocumentationGenerator {
    * Helper methods for extraction
    */
   private getExportType(sourceCode: string, name: string): 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const' {
-    if (sourceCode.includes(`class ${name}`)) return 'class';
-    if (sourceCode.includes(`interface ${name}`)) return 'interface';
-    if (sourceCode.includes(`enum ${name}`)) return 'enum';
-    if (sourceCode.includes(`function ${name}`)) return 'function';
-    if (sourceCode.includes(`type ${name}`)) return 'type';
+    if (sourceCode?.includes(`class ${name}`)) return 'class';
+    if (sourceCode?.includes(`interface ${name}`)) return 'interface';
+    if (sourceCode?.includes(`enum ${name}`)) return 'enum';
+    if (sourceCode?.includes(`function ${name}`)) return 'function';
+    if (sourceCode?.includes(`type ${name}`)) return 'type';
     return 'const';
   }
 
   private extractItemDescription(sourceCode: string, name: string): string {
     const regex = new RegExp(`/\\*\\*\\s*\\n\\s*\\*\\s*(.+?)\\s*\\n\\s*\\*\\s*@`, 's');
-    const match = sourceCode.match(regex);
+    const match = sourceCode?.match(regex);
     return match ? match[1!].trim() : '';
   }
 
@@ -618,8 +618,8 @@ export class DocumentationGenerator {
     const decorators: string[] = [];
     const decoratorRegex = /@(\w+)/g;
     let match;
-    while ((match = decoratorRegex.exec(sourceCode)) !== null) {
-      decorators.push(match[1!]);
+    while ((match = decoratorRegex?.exec(sourceCode)) !== null) {
+      decorators?.push(match[1!]);
     }
     return decorators;
   }
@@ -630,7 +630,7 @@ export class DocumentationGenerator {
    * Generate navigation structure
    */
   private generateNavigation(): void {
-    this.navigation = [
+    this?.navigation = [
       {
         title: 'Getting Started',
         path: '/getting-started',
@@ -656,14 +656,14 @@ export class DocumentationGenerator {
         path: '/examples',
         children: [],
         order: 3,
-        visible: this.config.includeExamples
+        visible: this?.config.includeExamples
       },
       {
         title: 'Changelog',
         path: '/changelog',
         children: [],
         order: 4,
-        visible: this.config.includeChangelog
+        visible: this?.config.includeChangelog
       }
     ];
   }
@@ -672,22 +672,22 @@ export class DocumentationGenerator {
    * Update search index
    */
   private updateSearchIndex(module: ModuleDocumentation): void {
-    this.searchIndex.modules.push(module.name);
+    this?.searchIndex.modules?.push(module?.name);
     
-    module.classes.forEach((cls: any) => {
-      this.searchIndex.classes.push(`${module.name}.${cls.name}`);
+    module?.classes.forEach((cls: any) => {
+      this?.searchIndex.classes?.push(`${module?.name}.${cls?.name}`);
     });
     
-    module.interfaces.forEach((iface: any) => {
-      this.searchIndex.interfaces.push(`${module.name}.${iface.name}`);
+    module?.interfaces.forEach((iface: any) => {
+      this?.searchIndex.interfaces?.push(`${module?.name}.${iface?.name}`);
     });
     
-    module.enums.forEach(enumItem => {
-      this.searchIndex.enums.push(`${module.name}.${enumItem.name}`);
+    module?.enums.forEach(enumItem => {
+      this?.searchIndex.enums?.push(`${module?.name}.${enumItem?.name}`);
     });
     
-    module.functions.forEach((func: any) => {
-      this.searchIndex.functions.push(`${module.name}.${func.name}`);
+    module?.functions.forEach((func: any) => {
+      this?.searchIndex.functions?.push(`${module?.name}.${func?.name}`);
     });
   }
 
@@ -696,11 +696,11 @@ export class DocumentationGenerator {
    */
   private generateIndexFiles(): void {
     // Generate search index
-    const searchIndexPath = path.join(this.config.outputDir, 'search-index.json');
+    const searchIndexPath = path?.join(this?.config.outputDir, 'search-index?.json');
     fs.writeFileSync(searchIndexPath, JSON.stringify(this.searchIndex, null, 2));
 
     // Generate navigation
-    const navigationPath = path.join(this.config.outputDir, 'navigation.json');
+    const navigationPath = path?.join(this?.config.outputDir, 'navigation?.json');
     fs.writeFileSync(navigationPath, JSON.stringify(this.navigation, null, 2));
   }
 
@@ -710,33 +710,33 @@ export class DocumentationGenerator {
    * Generate Markdown README
    */
   private generateMarkdownREADME(): string {
-    return `# ${this.config.title}
+    return `# ${this?.config.title}
 
-${this.config.description}
+${this?.config.description}
 
 ## Installation
 
 \`\`\`bash
-npm install ${this.config.repository}
+npm install ${this?.config.repository}
 \`\`\`
 
 ## Quick Start
 
 \`\`\`typescript
-import { ExampleClass } from '${this.config.repository}';
+import { ExampleClass } from '${this?.config.repository}';
 
 const example = new ExampleClass();
 \`\`\`
 
 ## Documentation
 
-- [API Reference](./API.md)
-- [Examples!](./EXAMPLES.md)
-- [Changelog!](./CHANGELOG.md)
+- [API Reference](./API?.md)
+- [Examples!](./EXAMPLES?.md)
+- [Changelog!](./CHANGELOG?.md)
 
 ## License
 
-${this.config.license}
+${this?.config.license}
 `;
   }
 
@@ -744,26 +744,26 @@ ${this.config.license}
    * Generate Markdown module documentation
    */
   private generateMarkdownModule(module: ModuleDocumentation): string {
-    let markdown = `# ${module.name}\n\n${module.description}\n\n`;
+    let markdown = `# ${module?.name}\n\n${module?.description}\n\n`;
 
-    if (module.classes.length > 0) {
+    if (module?.classes.length > 0) {
       markdown += `## Classes\n\n`;
-      module.classes.forEach((cls: any) => {
-        markdown += `### ${cls.name}\n\n${cls.description}\n\n`;
+      module?.classes.forEach((cls: any) => {
+        markdown += `### ${cls?.name}\n\n${cls?.description}\n\n`;
       });
     }
 
-    if (module.interfaces.length > 0) {
+    if (module?.interfaces.length > 0) {
       markdown += `## Interfaces\n\n`;
-      module.interfaces.forEach((iface: any) => {
-        markdown += `### ${iface.name}\n\n${iface.description}\n\n`;
+      module?.interfaces.forEach((iface: any) => {
+        markdown += `### ${iface?.name}\n\n${iface?.description}\n\n`;
       });
     }
 
-    if (module.functions.length > 0) {
+    if (module?.functions.length > 0) {
       markdown += `## Functions\n\n`;
-      module.functions.forEach((func: any) => {
-        markdown += `### ${func.name}\n\n${func.description}\n\n`;
+      module?.functions.forEach((func: any) => {
+        markdown += `### ${func?.name}\n\n${func?.description}\n\n`;
       });
     }
 
@@ -776,13 +776,13 @@ ${this.config.license}
   private generateMarkdownAPIReference(): string {
     let markdown = `# API Reference\n\n`;
 
-    for (const [moduleName, module] of this.modules) {
-      markdown += `## ${moduleName}\n\n${module.description}\n\n`;
+    for (const [moduleName, module] of this?.modules) {
+      markdown += `## ${moduleName}\n\n${module?.description}\n\n`;
       
-      if (module.classes.length > 0) {
+      if (module?.classes.length > 0) {
         markdown += `### Classes\n\n`;
-        module.classes.forEach((cls: any) => {
-          markdown += `#### ${cls.name}\n\n${cls.description}\n\n`;
+        module?.classes.forEach((cls: any) => {
+          markdown += `#### ${cls?.name}\n\n${cls?.description}\n\n`;
         });
       }
     }
@@ -796,12 +796,12 @@ ${this.config.license}
   private generateMarkdownExamples(): string {
     let markdown = `# Examples\n\n`;
 
-    for (const [moduleName, module] of this.modules) {
-      if (module.examples.length > 0) {
+    for (const [moduleName, module] of this?.modules) {
+      if (module?.examples.length > 0) {
         markdown += `## ${moduleName}\n\n`;
-        module.examples.forEach((example: any) => {
-          markdown += `### ${example.title}\n\n${example.description}\n\n`;
-          markdown += `\`\`\`${example.language}\n${example.code}\n\`\`\`\n\n`;
+        module?.examples.forEach((example: any) => {
+          markdown += `### ${example?.title}\n\n${example?.description}\n\n`;
+          markdown += `\`\`\`${example?.language}\n${example?.code}\n\`\`\`\n\n`;
         });
       }
     }
@@ -816,15 +816,15 @@ ${this.config.license}
     let markdown = `# Changelog\n\n`;
 
     const allEntries: ChangelogEntry[] = [];
-    for (const module of this.modules.values()) {
-      allEntries.push(...module.changelog);
+    for (const module of this?.modules.values()) {
+      allEntries?.push(...module?.changelog);
     }
 
-    allEntries.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    allEntries?.sort((a: any, b: any) => new Date(b?.date).getTime() - new Date(a?.date).getTime());
 
-    allEntries.forEach((entry: any) => {
-      markdown += `## ${entry.version} - ${entry.date}\n\n`;
-      markdown += `**${entry.type}** ${entry.description}\n\n`;
+    allEntries?.forEach((entry: any) => {
+      markdown += `## ${entry?.version} - ${entry?.date}\n\n`;
+      markdown += `**${entry?.type}** ${entry?.description}\n\n`;
     });
 
     return markdown;
@@ -839,18 +839,18 @@ ${this.config.license}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${this.config.title}</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>${this?.config.title}</title>
+    <link rel="stylesheet" href="styles?.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>${this.config.title}</h1>
-            <p>${this.config.description}</p>
+            <h1>${this?.config.title}</h1>
+            <p>${this?.config.description}</p>
         </header>
         <nav>
             <ul>
-                ${this.navigation.map((item: any) => `<li><a href="${item.path}">${item.title}</a></li>`).join('')}
+                ${this?.navigation.map((item: any) => `<li><a href="${item?.path}">${item?.title}</a></li>`).join('')}
             </ul>
         </nav>
         <main>
@@ -860,7 +860,7 @@ ${this.config.license}
             </ul>
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="script?.js"></script>
 </body>
 </html>`;
   }
@@ -874,20 +874,20 @@ ${this.config.license}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${module.name} - ${this.config.title}</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>${module?.name} - ${this?.config.title}</title>
+    <link rel="stylesheet" href="styles?.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>${module.name}</h1>
-            <p>${module.description}</p>
+            <h1>${module?.name}</h1>
+            <p>${module?.description}</p>
         </header>
         <main>
-            ${module.classes.map((cls: any) => `<h2>${cls.name}</h2><p>${cls.description}</p>`).join('')}
+            ${module?.classes.map((cls: any) => `<h2>${cls?.name}</h2><p>${cls?.description}</p>`).join('')}
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="script?.js"></script>
 </body>
 </html>`;
   }
@@ -985,12 +985,12 @@ function search(query) {
     const searchIndex = ${JSON.stringify(this.searchIndex)};
     
     // Simple search implementation
-    const terms = query.toLowerCase().split(' ');
+    const terms = query?.toLowerCase().split(' ');
     
-    terms.forEach((term: any) => {
-        searchIndex.modules.forEach((module: any) => {
-            if (module.toLowerCase().includes(term)) {
-                results.push({ type: 'module', name: module });
+    terms?.forEach((term: any) => {
+        searchIndex?.modules.forEach((module: any) => {
+            if (module?.toLowerCase().includes(term)) {
+                results?.push({ type: 'module', name: module });
             }
         });
     });
@@ -999,11 +999,11 @@ function search(query) {
 }
 
 // Initialize search
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search');
+document?.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document?.getElementById('search');
     if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            const results = search(e.target.value);
+        searchInput?.addEventListener('input', function(e) {
+            const results = search(e?.target.value);
             console.log('Search results:', results);
         });
     }
@@ -1018,22 +1018,22 @@ document.addEventListener('DOMContentLoaded', function() {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <documentation>
     <config>
-        <title>${this.config.title}</title>
-        <version>${this.config.version}</version>
-        <description>${this.config.description}</description>
+        <title>${this?.config.title}</title>
+        <version>${this?.config.version}</version>
+        <description>${this?.config.description}</description>
     </config>
     <modules>`;
 
-    for (const [moduleName, module] of this.modules) {
+    for (const [moduleName, module] of this?.modules) {
       xml += `
         <module name="${moduleName}">
-            <description>${module.description}</description>
+            <description>${module?.description}</description>
             <classes>`;
       
-      module.classes.forEach((cls: any) => {
+      module?.classes.forEach((cls: any) => {
         xml += `
-                <class name="${cls.name}">
-                    <description>${cls.description}</description>
+                <class name="${cls?.name}">
+                    <description>${cls?.description}</description>
                 </class>`;
       });
       
@@ -1126,7 +1126,7 @@ export const defaultDocumentationGenerator = new DocumentationGenerator({
   license: 'MIT',
   repository: 'miff-framework',
   outputDir: './docs',
-  formats: [DocumentationFormat.MARKDOWN, DocumentationFormat.HTML, DocumentationFormat.JSON],
+  formats: [DocumentationFormat?.MARKDOWN, DocumentationFormat?.HTML, DocumentationFormat?.JSON],
   includeExamples: true,
   includeTests: true,
   includeChangelog: true,

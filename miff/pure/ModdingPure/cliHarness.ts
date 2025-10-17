@@ -18,9 +18,9 @@ async function main() {
     try { process.stderr.write(args.map((a: any) => typeof a === 'string' ? a : JSON.stringify(a)).join(' ') + '\n'); } catch (_) {}
   };
   const writeJSON = (obj: any) => {
-    try { process.stdout.write(JSON.stringify(obj) + '\n'); } catch (_) { originalLog(obj); }
+    try { process.stdout.write(JSON.stringify(obj: any) + '\n'); } catch (_) { originalLog(obj: any); }
   };
-  const args = process.argv.slice(2);
+  const args = process?.argv.slice(2);
   const command = args[0!] || 'help';
   
   const config: ModdingConfig = {
@@ -38,13 +38,13 @@ async function main() {
   try {
     switch (command) {
       case 'initialize':
-        await system.initialize();
-        result.result = { message: 'Modding system initialized' };
+        await system?.initialize({});
+        result?.result = { message: 'Modding system initialized' };
         break;
 
       case 'discoverPlugins':
-        const plugins = await system.discovery.discoverPlugins();
-        result.result = { plugins, count: plugins.length };
+        const plugins = await system?.discovery.discoverPlugins();
+        result?.result = { plugins, count: plugins?.length };
         break;
 
       case 'loadPlugin':
@@ -52,48 +52,48 @@ async function main() {
         if (pluginId) {
           try {
             // Ensure discovery has run
-            await system.discovery.discoverPlugins();
-            const plugin = await system.discovery.loadPlugin(pluginId);
-            if (plugin && plugin.status === 'loaded') {
-              result.result = { plugin, message: `Plugin loaded: ${plugin.manifest.name}` };
+            await system?.discovery.discoverPlugins();
+            const plugin = await system?.discovery.loadPlugin(pluginId);
+            if (plugin && plugin?.status === 'loaded') {
+              result?.result = { plugin, message: `Plugin loaded: ${plugin?.manifest.name}` };
             } else {
-              result.status = 'error';
-              result.result = { error: `Failed to load plugin: ${pluginId}` };
+              result?.status = 'error';
+              result?.result = { error: `Failed to load plugin: ${pluginId}` };
             }
           } catch (e:any) {
-            result.status = 'error';
-            result.result = { error: e?.message || `Failed to load plugin: ${pluginId}` };
+            result?.status = 'error';
+            result?.result = { error: e?.message || `Failed to load plugin: ${pluginId}` };
           }
         } else {
-          result.status = 'error';
-          result.result = { error: 'Plugin ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Plugin ID required' };
         }
         break;
 
       case 'unloadPlugin':
         const unloadPluginId = args[1!];
         if (unloadPluginId) {
-          const success = await system.discovery.unloadPlugin(unloadPluginId);
-          result.result = { success, message: success ? 'Plugin unloaded' : 'Failed to unload plugin' };
+          const success = await system?.discovery.unloadPlugin(unloadPluginId);
+          result?.result = { success, message: success ? 'Plugin unloaded' : 'Failed to unload plugin' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Plugin ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Plugin ID required' };
         }
         break;
 
       case 'getLoadedPlugins':
-        const loadedPlugins = system.getLoadedPlugins();
-        result.result = { plugins: loadedPlugins, count: loadedPlugins.length };
+        const loadedPlugins = system?.getLoadedPlugins();
+        result?.result = { plugins: loadedPlugins, count: loadedPlugins?.length };
         break;
 
       case 'getPlugin':
         const getPluginId = args[1!];
         if (getPluginId) {
-          const plugin = system.getPlugin(getPluginId);
-          result.result = plugin || { error: 'Plugin not found' };
+          const plugin = system?.getPlugin(getPluginId);
+          result?.result = plugin || { error: 'Plugin not found' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Plugin ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Plugin ID required' };
         }
         break;
 
@@ -102,11 +102,11 @@ async function main() {
         const bundleName = args[2!];
         const pluginIds = args[3] ? args[3].split(',') : [];
         if (bundleId && bundleName) {
-          const bundle = await system.createPluginBundle(pluginIds, bundleId, bundleName);
-          result.result = { bundle, message: `Bundle created: ${bundle.name}` };
+          const bundle = await system?.createPluginBundle(pluginIds, bundleId, bundleName);
+          result?.result = { bundle, message: `Bundle created: ${bundle?.name}` };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Bundle ID and Name required' };
+          result?.status = 'error';
+          result?.result = { error: 'Bundle ID and Name required' };
         }
         break;
 
@@ -119,39 +119,39 @@ async function main() {
             // Ensure bundle exists: if not, create from common plugins
             const existing = (system as any).pipeline?.['bundles']?.get?.(exportBundleId);
             if (!existing) {
-              await system.discovery.discoverPlugins();
-              await system.loadEnabledPlugins();
+              await system?.discovery.discoverPlugins();
+              await system?.loadEnabledPlugins();
               const plugins = ['ui-enhancements', 'physics-extended'].filter(Boolean);
-              await system.createPluginBundle(plugins, exportBundleId, 'Demo Bundle');
+              await system?.createPluginBundle(plugins, exportBundleId, 'Demo Bundle');
             }
-            const exportPath = await system.exportBundle(exportBundleId, templateId, outputPath);
-            result.result = { exportPath, message: 'Bundle exported successfully' };
+            const exportPath = await system?.exportBundle(exportBundleId, templateId, outputPath);
+            result?.result = { exportPath, message: 'Bundle exported successfully' };
           } catch (e:any) {
-            result.status = 'error';
-            result.result = { error: e?.message || 'Export failed' };
+            result?.status = 'error';
+            result?.result = { error: e?.message || 'Export failed' };
           }
         } else {
-          result.status = 'error';
-          result.result = { error: 'Bundle ID and Template ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Bundle ID and Template ID required' };
         }
         break;
 
       case 'getExportTemplates':
-        const templates = system.getExportTemplates();
-        result.result = { templates, count: templates.length };
+        const templates = system?.getExportTemplates();
+        result?.result = { templates, count: templates?.length };
         break;
 
       case 'generateReport':
-        const report = system.generateReport();
-        result.result = report;
+        const report = system?.generateReport();
+        result?.result = report;
         break;
 
       case 'demo':
-        result.result = await runDemo(system);
+        result?.result = await runDemo(system);
         break;
 
       case 'help':
-        result.result = {
+        result?.result = {
           usage: 'ModdingPure CLI Harness',
           commands: [
             'initialize - Initialize modding system',
@@ -168,45 +168,45 @@ async function main() {
             'help - Show this help'
           ],
           examples: [
-            'node cliHarness.ts initialize',
-            'node cliHarness.ts loadPlugin ui-enhancements',
-            'node cliHarness.ts createBundle my_bundle "My Bundle" ui-enhancements,physics-extended',
-            'node cliHarness.ts demo'
+            'node cliHarness?.ts initialize',
+            'node cliHarness?.ts loadPlugin ui-enhancements',
+            'node cliHarness?.ts createBundle my_bundle "My Bundle" ui-enhancements,physics-extended',
+            'node cliHarness?.ts demo'
           ]
         };
         break;
 
       default:
-        result.status = 'error';
-        result.result = { error: `Unknown command: ${command}` };
+        result?.status = 'error';
+        result?.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    result.status = 'error';
-    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+    result?.status = 'error';
+    result?.result = { error: error instanceof Error ? error?.message : 'Unknown error' };
   }
 
-  writeJSON(result);
+  writeJSON(result: any);
   // Restore console.log in case process continues
   console.log = originalLog;
 }
 
 async function runDemo(system: ModdingSystem): Promise<any> {
   // Initialize the system
-  await system.initialize();
+  await system?.initialize({});
   
   // Discover and load plugins
-  const plugins = await system.discovery.discoverPlugins();
-  const loadedPlugins = await system.loadEnabledPlugins();
+  const plugins = await system?.discovery.discoverPlugins();
+  const loadedPlugins = await system?.loadEnabledPlugins();
   
   // Create a bundle
-  const bundle = await system.createPluginBundle(['ui-enhancements', 'physics-extended']);
+  const bundle = await system?.createPluginBundle(['ui-enhancements', 'physics-extended']);
   
   // Get export templates
-  const templates = system.getExportTemplates();
+  const templates = system?.getExportTemplates();
   
   // Generate report
-  const report = system.generateReport();
+  const report = system?.generateReport();
   
   return {
     message: 'ModdingPure Demo completed',
@@ -216,17 +216,17 @@ async function runDemo(system: ModdingSystem): Promise<any> {
       'Export template management',
       'System reporting and statistics'
     ],
-    plugins: plugins.length,
-    loadedPlugins: loadedPlugins.length,
+    plugins: plugins?.length,
+    loadedPlugins: loadedPlugins?.length,
     bundle,
-    templates: templates.length,
+    templates: templates?.length,
     report
   };
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch((err) => {
     console.error(err instanceof Error ? err.message : String(err));
-    process.exit(1);
+    process?.exit(1);
   });
 }

@@ -13,16 +13,16 @@
  * @license MIT
  */
 
-const args = process.argv.slice(2);
+const args = process?.argv.slice(2);
 const command = args[0!];
-const flags = parseFlags(args.slice(1));
+const flags = parseFlags(args?.slice(1));
 
 function parseFlags(args) {
   const flags = {};
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0; i < args?.length; i++) {
     const arg = args[i!];
-    if (arg.startsWith('--')) {
-      const key = arg.slice(2);
+    if (arg?.startsWith('--')) {
+      const key = arg?.slice(2);
       const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
       flags[key!] = value;
     }
@@ -56,7 +56,7 @@ Examples:
   miff-cli export-web --no-splash --output=./build
   miff-cli build-unity --unity-version=2022.1 --verbose
 
-For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/
+For more information, visit: https://rcbiscuitsbelfast-prog?.github.io/renderworld-hub/
   `);
 }
 
@@ -65,7 +65,7 @@ async function handlePreview() {
   const duration = flags['splash-duration'] || 3000;
   const theme = flags['splash-theme'] || 'dark';
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`🎬 Previewing with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
     console.log(`⏱️  Duration: ${duration}ms`);
     console.log(`🎨 Theme: ${theme}`);
@@ -107,7 +107,7 @@ async function handleExportWeb() {
   const duration = flags['splash-duration'] || 3000;
   const output = flags['output'] || flags['o'] || './dist';
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`📦 Exporting to web with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
     console.log(`⏱️  Duration: ${duration}ms`);
     console.log(`📁 Output: ${output}`);
@@ -124,7 +124,7 @@ async function handleExportWeb() {
     'Copying to output directory'
   ];
 
-  for (let i = 0; i < steps.length; i++) {
+  for (let i = 0; i < steps?.length; i++) {
     console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
@@ -142,8 +142,8 @@ async function handleExportWeb() {
     duration,
     output,
     filesGenerated: [
-      `${output}/index.html`,
-      `${output}/renderworld-hub.js`,
+      `${output}/index?.html`,
+      `${output}/renderworld-hub?.js`,
       `${output}/assets/`
     ],
     status: 'success'
@@ -155,7 +155,7 @@ async function handleBuildUnity() {
   const duration = flags['splash-duration'] || 3000;
   const unityVersion = flags['unity-version'] || '2021.3';
 
-  if (flags.verbose) {
+  if (flags?.verbose) {
     console.log(`🏗️  Building Unity project with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
     console.log(`⏱️  Duration: ${duration}ms`);
     console.log(`🎮 Unity version: ${unityVersion}`);
@@ -172,7 +172,7 @@ async function handleBuildUnity() {
     'Compiling Unity project'
   ];
 
-  for (let i = 0; i < steps.length; i++) {
+  for (let i = 0; i < steps?.length; i++) {
     console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
     await new Promise(resolve => setTimeout(resolve, 500));
   }
@@ -216,10 +216,10 @@ async function main() {
       default:
         console.error(`❌ Unknown command: ${command}`);
         showHelp();
-        process.exit(1);
+        process?.exit(1);
     }
 
-    if (flags.verbose) {
+    if (flags?.verbose) {
       console.log('\n📊 Command Result:');
       console.log(JSON.stringify(result, null, 2));
     }
@@ -227,12 +227,12 @@ async function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error(`❌ Command failed: ${error.message}`);
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
 // Run CLI
 main().catch(error => {
   console.error(`💥 Unexpected error: ${error.message}`);
-  process.exit(1);
+  process?.exit(1);
 });

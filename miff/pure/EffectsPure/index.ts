@@ -242,30 +242,30 @@ export class BattleEffect implements IBattleEffect {
     effectId: string,
     name: string,
     description: string,
-    effectType: EffectType = EffectType.STAT_MODIFIER,
-    targetStat: TargetStat = TargetStat.CUSTOM,
-    modifierType: ModifierType = ModifierType.FLAT,
+    effectType: EffectType = EffectType?.STAT_MODIFIER,
+    targetStat: TargetStat = TargetStat?.CUSTOM,
+    modifierType: ModifierType = ModifierType?.FLAT,
     value: number = 0,
     durationSeconds: number = 0,
     durationTurns: number = 0,
     stackable: boolean = true,
     maxStacks: number = 5,
     refreshOnStack: boolean = true,
-    triggers: EffectTrigger = EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
+    triggers: EffectTrigger = EffectTrigger?.ON_APPLY | EffectTrigger?.ON_TICK | EffectTrigger?.ON_REMOVE
   ) {
-    this.effectId = effectId;
-    this.name = name;
-    this.description = description;
-    this.effectType = effectType;
-    this.targetStat = targetStat;
-    this.modifierType = modifierType;
-    this.value = value;
-    this.durationSeconds = durationSeconds;
-    this.durationTurns = durationTurns;
-    this.stackable = stackable;
-    this.maxStacks = maxStacks;
-    this.refreshOnStack = refreshOnStack;
-    this.triggers = triggers;
+    this?.effectId = effectId;
+    this?.name = name;
+    this?.description = description;
+    this?.effectType = effectType;
+    this?.targetStat = targetStat;
+    this?.modifierType = modifierType;
+    this?.value = value;
+    this?.durationSeconds = durationSeconds;
+    this?.durationTurns = durationTurns;
+    this?.stackable = stackable;
+    this?.maxStacks = maxStacks;
+    this?.refreshOnStack = refreshOnStack;
+    this?.triggers = triggers;
   }
 
   /**
@@ -275,16 +275,16 @@ export class BattleEffect implements IBattleEffect {
     effectId: string,
     name: string,
     description: string,
-    effectType: EffectType = EffectType.STAT_MODIFIER,
-    targetStat: TargetStat = TargetStat.CUSTOM,
-    modifierType: ModifierType = ModifierType.FLAT,
+    effectType: EffectType = EffectType?.STAT_MODIFIER,
+    targetStat: TargetStat = TargetStat?.CUSTOM,
+    modifierType: ModifierType = ModifierType?.FLAT,
     value: number = 0,
     durationSeconds: number = 0,
     durationTurns: number = 0,
     stackable: boolean = true,
     maxStacks: number = 5,
     refreshOnStack: boolean = true,
-    triggers: EffectTrigger = EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
+    triggers: EffectTrigger = EffectTrigger?.ON_APPLY | EffectTrigger?.ON_TICK | EffectTrigger?.ON_REMOVE
   ): BattleEffect {
     return new BattleEffect(
       effectId,
@@ -322,7 +322,7 @@ export class BattleEffect implements IBattleEffect {
       effectId,
       name,
       description,
-      EffectType.STAT_MODIFIER,
+      EffectType?.STAT_MODIFIER,
       targetStat,
       modifierType,
       value,
@@ -331,7 +331,7 @@ export class BattleEffect implements IBattleEffect {
       stackable,
       maxStacks,
       true,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
+      EffectTrigger?.ON_APPLY | EffectTrigger?.ON_TICK | EffectTrigger?.ON_REMOVE
     );
   }
 
@@ -350,16 +350,16 @@ export class BattleEffect implements IBattleEffect {
       effectId,
       name,
       description,
-      EffectType.DAMAGE_OVER_TIME,
-      TargetStat.HP,
-      ModifierType.FLAT,
+      EffectType?.DAMAGE_OVER_TIME,
+      TargetStat?.HP,
+      ModifierType?.FLAT,
       damagePerTick,
       durationSeconds,
       durationTurns,
       false,
       1,
       false,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
+      EffectTrigger?.ON_APPLY | EffectTrigger?.ON_TICK | EffectTrigger?.ON_REMOVE
     );
   }
 
@@ -378,16 +378,16 @@ export class BattleEffect implements IBattleEffect {
       effectId,
       name,
       description,
-      EffectType.HEAL,
-      TargetStat.HP,
-      ModifierType.FLAT,
+      EffectType?.HEAL,
+      TargetStat?.HP,
+      ModifierType?.FLAT,
       healAmount,
       durationSeconds,
       durationTurns,
       false,
       1,
       false,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE
+      EffectTrigger?.ON_APPLY | EffectTrigger?.ON_REMOVE
     );
   }
 
@@ -405,16 +405,16 @@ export class BattleEffect implements IBattleEffect {
       effectId,
       name,
       description,
-      EffectType.STUN,
-      TargetStat.CUSTOM,
-      ModifierType.FLAT,
+      EffectType?.STUN,
+      TargetStat?.CUSTOM,
+      ModifierType?.FLAT,
       0,
       durationSeconds,
       durationTurns,
       false,
       1,
       false,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE
+      EffectTrigger?.ON_APPLY | EffectTrigger?.ON_REMOVE
     );
   }
 
@@ -433,16 +433,16 @@ export class BattleEffect implements IBattleEffect {
       effectId,
       name,
       description,
-      EffectType.SHIELD,
-      TargetStat.HP,
-      ModifierType.FLAT,
+      EffectType?.SHIELD,
+      TargetStat?.HP,
+      ModifierType?.FLAT,
       shieldAmount,
       durationSeconds,
       durationTurns,
       false,
       1,
       false,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE
+      EffectTrigger?.ON_APPLY | EffectTrigger?.ON_REMOVE
     );
   }
 
@@ -450,32 +450,32 @@ export class BattleEffect implements IBattleEffect {
    * Check if effect has specific trigger
    */
   hasTrigger(trigger: EffectTrigger): boolean {
-    return (this.triggers & trigger) !== 0;
+    return (this?.triggers & trigger) !== 0;
   }
 
   /**
    * Get effect description
    */
   getEffectDescription(): string {
-    switch (this.effectType) {
-      case EffectType.STAT_MODIFIER:
-        const modType = this.modifierType === ModifierType.FLAT ? 'flat' : 'percent';
-        const sign = this.value >= 0 ? '+' : '';
-        const displayValue = this.modifierType === ModifierType.PERCENT ?
+    switch (this?.effectType) {
+      case EffectType?.STAT_MODIFIER:
+        const modType = this?.modifierType === ModifierType?.FLAT ? 'flat' : 'percent';
+        const sign = this?.value >= 0 ? '+' : '';
+        const displayValue = this?.modifierType === ModifierType?.PERCENT ?
           `${Math.round(this.value * 100)}%` : `${this.value}`;
-        return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat.toUpperCase()}`;
-      case EffectType.DAMAGE_OVER_TIME:
-        return `${this.name}: ${this.value} damage per tick`;
-      case EffectType.HEAL:
-        return `${this.name}: ${this.value} healing`;
-      case EffectType.STUN:
-        return `${this.name}: Stunned for ${this.getDurationDescription()}`;
-      case EffectType.SHIELD:
-        return `${this.name}: ${this.value} shield`;
-      case EffectType.CUSTOM:
-        return `${this.name}: ${this.description}`;
+        return `${this?.name}: ${sign}${displayValue} ${modType} to ${this?.targetStat.toUpperCase()}`;
+      case EffectType?.DAMAGE_OVER_TIME:
+        return `${this?.name}: ${this?.value} damage per tick`;
+      case EffectType?.HEAL:
+        return `${this?.name}: ${this?.value} healing`;
+      case EffectType?.STUN:
+        return `${this?.name}: Stunned for ${this?.getDurationDescription()}`;
+      case EffectType?.SHIELD:
+        return `${this?.name}: ${this?.value} shield`;
+      case EffectType?.CUSTOM:
+        return `${this?.name}: ${this?.description}`;
       default:
-        return `${this.name}: ${this.description}`;
+        return `${this?.name}: ${this?.description}`;
     }
   }
 
@@ -485,15 +485,15 @@ export class BattleEffect implements IBattleEffect {
   getDurationDescription(): string {
     const parts: string[] = [];
 
-    if (this.durationSeconds > 0) {
-      parts.push(`${this.durationSeconds}s`);
+    if (this?.durationSeconds > 0) {
+      parts?.push(`${this?.durationSeconds}s`);
     }
 
-    if (this.durationTurns > 0) {
-      parts.push(`${this.durationTurns} turns`);
+    if (this?.durationTurns > 0) {
+      parts?.push(`${this?.durationTurns} turns`);
     }
 
-    return parts.length > 0 ? parts.join(' or ') : 'permanent';
+    return parts?.length > 0 ? parts?.join(' or ') : 'permanent';
   }
 
   /**
@@ -502,31 +502,31 @@ export class BattleEffect implements IBattleEffect {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.effectId || this.effectId.trim() === '') {
-      errors.push('Effect ID cannot be empty');
+    if (!this?.effectId || this?.effectId.trim() === '') {
+      errors?.push('Effect ID cannot be empty');
     }
 
-    if (!this.name || this.name.trim() === '') {
-      errors.push('Effect name cannot be empty');
+    if (!this?.name || this?.name.trim() === '') {
+      errors?.push('Effect name cannot be empty');
     }
 
-    if (!this.description || this.description.trim() === '') {
-      errors.push('Effect description cannot be empty');
+    if (!this?.description || this?.description.trim() === '') {
+      errors?.push('Effect description cannot be empty');
     }
 
-    if (this.durationSeconds < 0) {
-      errors.push('Duration seconds cannot be negative');
+    if (this?.durationSeconds < 0) {
+      errors?.push('Duration seconds cannot be negative');
     }
 
-    if (this.durationTurns < 0) {
-      errors.push('Duration turns cannot be negative');
+    if (this?.durationTurns < 0) {
+      errors?.push('Duration turns cannot be negative');
     }
 
-    if (this.maxStacks < 1) {
-      errors.push('Max stacks must be at least 1');
+    if (this?.maxStacks < 1) {
+      errors?.push('Max stacks must be at least 1');
     }
 
-    if (this.value === 0 && this.effectType !== EffectType.STUN) {
+    if (this?.value === 0 && this?.effectType !== EffectType?.STUN) {
       // Some effects might legitimately have 0 value, but warn about it
       console.warn(`Effect ${this.effectId} has value of 0`);
     }
@@ -539,19 +539,19 @@ export class BattleEffect implements IBattleEffect {
    */
   clone(): BattleEffect {
     return new BattleEffect(
-      this.effectId,
-      this.name,
-      this.description,
-      this.effectType,
-      this.targetStat,
-      this.modifierType,
-      this.value,
-      this.durationSeconds,
-      this.durationTurns,
-      this.stackable,
-      this.maxStacks,
-      this.refreshOnStack,
-      this.triggers
+      this?.effectId,
+      this?.name,
+      this?.description,
+      this?.effectType,
+      this?.targetStat,
+      this?.modifierType,
+      this?.value,
+      this?.durationSeconds,
+      this?.durationTurns,
+      this?.stackable,
+      this?.maxStacks,
+      this?.refreshOnStack,
+      this?.triggers
     );
   }
 
@@ -560,19 +560,19 @@ export class BattleEffect implements IBattleEffect {
    */
   toJSON(): Record<string, any> {
     return {
-      effectId: this.effectId,
-      name: this.name,
-      description: this.description,
-      durationSeconds: this.durationSeconds,
-      durationTurns: this.durationTurns,
-      stackable: this.stackable,
-      maxStacks: this.maxStacks,
-      refreshOnStack: this.refreshOnStack,
-      triggers: this.triggers,
-      effectType: this.effectType,
-      targetStat: this.targetStat,
-      modifierType: this.modifierType,
-      value: this.value
+      effectId: this?.effectId,
+      name: this?.name,
+      description: this?.description,
+      durationSeconds: this?.durationSeconds,
+      durationTurns: this?.durationTurns,
+      stackable: this?.stackable,
+      maxStacks: this?.maxStacks,
+      refreshOnStack: this?.refreshOnStack,
+      triggers: this?.triggers,
+      effectType: this?.effectType,
+      targetStat: this?.targetStat,
+      modifierType: this?.modifierType,
+      value: this?.value
     };
   }
 
@@ -581,19 +581,19 @@ export class BattleEffect implements IBattleEffect {
    */
   static fromJSON(data: Record<string, any>): BattleEffect {
     return new BattleEffect(
-      data.effectId,
-      data.name,
-      data.description,
-      data.effectType || EffectType.STAT_MODIFIER,
-      data.targetStat || TargetStat.CUSTOM,
-      data.modifierType || ModifierType.FLAT,
-      data.value || 0,
-      data.durationSeconds || 0,
-      data.durationTurns || 0,
-      data.stackable !== false,
-      data.maxStacks || 5,
-      data.refreshOnStack !== false,
-      data.triggers || (EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE)
+      data?.effectId,
+      data?.name,
+      data?.description,
+      data?.effectType || EffectType?.STAT_MODIFIER,
+      data?.targetStat || TargetStat?.CUSTOM,
+      data?.modifierType || ModifierType?.FLAT,
+      data?.value || 0,
+      data?.durationSeconds || 0,
+      data?.durationTurns || 0,
+      data?.stackable !== false,
+      data?.maxStacks || 5,
+      data?.refreshOnStack !== false,
+      data?.triggers || (EffectTrigger?.ON_APPLY | EffectTrigger?.ON_TICK | EffectTrigger?.ON_REMOVE)
     );
   }
 }
@@ -617,13 +617,13 @@ export class ActiveEffect implements IActiveEffect {
     remainingSeconds: number = 0,
     remainingTurns: number = 0
   ) {
-    this.effect = effect;
-    this.entityId = entityId;
+    this?.effect = effect;
+    this?.entityId = entityId;
     this.stacks = Math.max(1, Math.min(stacks, effect.maxStacks));
-    this.remainingSeconds = remainingSeconds;
-    this.remainingTurns = remainingTurns;
-    this.appliedTime = Date.now();
-    this.lastTickTime = this.appliedTime;
+    this?.remainingSeconds = remainingSeconds;
+    this?.remainingTurns = remainingTurns;
+    this.appliedTime = new Date();
+    this?.lastTickTime = this?.appliedTime;
   }
 
   /**
@@ -644,22 +644,22 @@ export class ActiveEffect implements IActiveEffect {
    */
   isExpired(): boolean {
     // Effects with no duration are expired unless explicitly permanent
-    if (this.effect.durationSeconds === 0 && this.effect.durationTurns === 0) {
+    if (this?.effect.durationSeconds === 0 && this?.effect.durationTurns === 0) {
       // Check if this is explicitly a permanent effect
-      if (this.effect.name.toLowerCase().includes('permanent') ||
-          this.effect.description.toLowerCase().includes('permanent')) {
+      if (this?.effect.name?.toLowerCase().includes('permanent') ||
+          this?.effect.description?.toLowerCase().includes('permanent')) {
         return false; // Permanent effects never expire
       }
       return true; // Non-permanent effects with no duration are expired
     }
 
     // Check time-based expiration
-    if (this.effect.durationSeconds > 0 && this.remainingSeconds <= 0) {
+    if (this?.effect.durationSeconds > 0 && this?.remainingSeconds <= 0) {
       return true;
     }
 
     // Check turn-based expiration
-    if (this.effect.durationTurns > 0 && this.remainingTurns <= 0) {
+    if (this?.effect.durationTurns > 0 && this?.remainingTurns <= 0) {
       return true;
     }
 
@@ -670,18 +670,18 @@ export class ActiveEffect implements IActiveEffect {
    * Tick effect (update time-based duration)
    */
   tick(deltaTime: number): void {
-    if (this.effect.durationSeconds > 0) {
+    if (this?.effect.durationSeconds > 0) {
       this.remainingSeconds = Math.max(0, this.remainingSeconds - deltaTime);
     }
 
-    this.lastTickTime = Date.now();
+    this.lastTickTime = new Date();
   }
 
   /**
    * Advance turn (update turn-based duration)
    */
   advanceTurn(): void {
-    if (this.effect.durationTurns > 0) {
+    if (this?.effect.durationTurns > 0) {
       this.remainingTurns = Math.max(0, this.remainingTurns - 1);
     }
   }
@@ -690,19 +690,19 @@ export class ActiveEffect implements IActiveEffect {
    * Check if effect can stack
    */
   canStack(): boolean {
-    return this.effect.stackable && this.stacks < this.effect.maxStacks;
+    return this?.effect.stackable && this?.stacks < this?.effect.maxStacks;
   }
 
   /**
    * Add stack
    */
   addStack(): boolean {
-    if (this.canStack()) {
-      this.stacks++;
-      if (this.effect.refreshOnStack) {
+    if (this?.canStack()) {
+      this?.stacks++;
+      if (this?.effect.refreshOnStack) {
         // Refresh duration on stack
-        this.remainingSeconds = this.effect.durationSeconds;
-        this.remainingTurns = this.effect.durationTurns;
+        this?.remainingSeconds = this?.effect.durationSeconds;
+        this?.remainingTurns = this?.effect.durationTurns;
       }
       return true;
     }
@@ -713,10 +713,10 @@ export class ActiveEffect implements IActiveEffect {
    * Remove stack
    */
   removeStack(): number {
-    if (this.stacks > 1) {
-      this.stacks--;
+    if (this?.stacks > 1) {
+      this?.stacks--;
     }
-    return this.stacks;
+    return this?.stacks;
   }
 
   /**
@@ -724,15 +724,15 @@ export class ActiveEffect implements IActiveEffect {
    */
   clone(): ActiveEffect {
     const cloned = new ActiveEffect(
-      this.effect.clone(),
-      this.entityId,
-      this.stacks,
-      this.remainingSeconds,
-      this.remainingTurns
+      this?.effect.clone(),
+      this?.entityId,
+      this?.stacks,
+      this?.remainingSeconds,
+      this?.remainingTurns
     );
 
-    cloned.appliedTime = this.appliedTime;
-    cloned.lastTickTime = this.lastTickTime;
+    cloned?.appliedTime = this?.appliedTime;
+    cloned?.lastTickTime = this?.lastTickTime;
 
     return cloned;
   }
@@ -741,11 +741,11 @@ export class ActiveEffect implements IActiveEffect {
    * Get effect duration as percentage (0-1)
    */
   getDurationPercentage(): number {
-    if (this.effect.durationSeconds > 0) {
+    if (this?.effect.durationSeconds > 0) {
       return Math.max(0, this.remainingSeconds / this.effect.durationSeconds);
     }
 
-    if (this.effect.durationTurns > 0) {
+    if (this?.effect.durationTurns > 0) {
       return Math.max(0, this.remainingTurns / this.effect.durationTurns);
     }
 
@@ -756,9 +756,9 @@ export class ActiveEffect implements IActiveEffect {
    * Get effect summary
    */
   getSummary(): string {
-    const duration = this.getDurationPercentage();
+    const duration = this?.getDurationPercentage();
     const durationStr = duration < 1 ? ` (${Math.round(duration * 100)}%)` : '';
-    return `${this.effect.name} x${this.stacks}${durationStr}`;
+    return `${this?.effect.name} x${this?.stacks}${durationStr}`;
   }
 }
 
@@ -770,8 +770,8 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   private readonly multiplicative: Array<{ type: ModifierType; value: number }>;
 
   constructor() {
-    this.additive = [];
-    this.multiplicative = [];
+    this?.additive = [];
+    this?.multiplicative = [];
   }
 
   /**
@@ -785,8 +785,8 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    * Clear all modifiers
    */
   clear(): void {
-    this.additive.length = 0;
-    this.multiplicative.length = 0;
+    this?.additive.length = 0;
+    this?.multiplicative.length = 0;
   }
 
   /**
@@ -794,9 +794,9 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    */
   add(type: ModifierType, value: number, isMultiplicative: boolean): void {
     if (isMultiplicative) {
-      this.multiplicative.push({ type, value });
+      this?.multiplicative?.push({ type, value });
     } else {
-      this.additive.push({ type, value });
+      this?.additive?.push({ type, value });
     }
   }
 
@@ -808,30 +808,30 @@ export class StatModifierAggregator implements IStatModifierAggregator {
     let result = baseValue;
 
     // Apply additive flat modifiers
-    for (const mod of this.additive) {
-      if (mod.type === ModifierType.FLAT) {
-        result += mod.value;
+    for (const mod of this?.additive) {
+      if (mod?.type === ModifierType?.FLAT) {
+        result += mod?.value;
       }
     }
 
     // Apply additive percent modifiers
-    for (const mod of this.additive) {
-      if (mod.type === ModifierType.PERCENT) {
-        result *= (1 + mod.value);
+    for (const mod of this?.additive) {
+      if (mod?.type === ModifierType?.PERCENT) {
+        result *= (1 + mod?.value);
       }
     }
 
     // Apply multiplicative flat modifiers
-    for (const mod of this.multiplicative) {
-      if (mod.type === ModifierType.FLAT) {
-        result += mod.value;
+    for (const mod of this?.multiplicative) {
+      if (mod?.type === ModifierType?.FLAT) {
+        result += mod?.value;
       }
     }
 
     // Apply multiplicative percent modifiers
-    for (const mod of this.multiplicative) {
-      if (mod.type === ModifierType.PERCENT) {
-        result *= (1 + mod.value);
+    for (const mod of this?.multiplicative) {
+      if (mod?.type === ModifierType?.PERCENT) {
+        result *= (1 + mod?.value);
       }
     }
 
@@ -842,14 +842,14 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    * Get additive modifiers
    */
   getAdditiveModifiers(): Array<{ type: ModifierType; value: number }> {
-    return [...this.additive];
+    return [...this?.additive];
   }
 
   /**
    * Get multiplicative modifiers
    */
   getMultiplicativeModifiers(): Array<{ type: ModifierType; value: number }> {
-    return [...this.multiplicative];
+    return [...this?.multiplicative];
   }
 
   /**
@@ -857,8 +857,8 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    */
   clone(): StatModifierAggregator {
     const cloned = new StatModifierAggregator();
-    cloned.additive.push(...this.additive);
-    cloned.multiplicative.push(...this.multiplicative);
+    cloned?.additive?.push(...this?.additive);
+    cloned?.multiplicative?.push(...this?.multiplicative);
     return cloned;
   }
 
@@ -866,18 +866,18 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    * Get total additive bonus (only flat modifiers)
    */
   getTotalAdditive(): number {
-    return this.additive
-      .filter((mod: any) => mod.type === ModifierType.FLAT)
-      .reduce((sum, mod) => sum + mod.value, 0);
+    return this?.additive
+      .filter((mod: any) => mod?.type === ModifierType?.FLAT)
+      .reduce((sum, mod) => sum + mod?.value, 0);
   }
 
   /**
    * Get total multiplicative bonus (only percent modifiers)
    */
   getTotalMultiplicative(): number {
-    return this.multiplicative
-      .filter((mod: any) => mod.type === ModifierType.PERCENT)
-      .reduce((product, mod) => product * (1 + mod.value), 1);
+    return this?.multiplicative
+      .filter((mod: any) => mod?.type === ModifierType?.PERCENT)
+      .reduce((product, mod) => product * (1 + mod?.value), 1);
   }
 }
 
@@ -901,13 +901,13 @@ export class EffectEvent implements IEffectEvent {
     phase: EffectPhase,
     metadata?: Record<string, any>
   ) {
-    this.type = type;
-    this.entityId = entityId;
-    this.effect = effect;
-    this.activeEffect = activeEffect;
-    this.timestamp = Date.now();
-    this.phase = phase;
-    this.metadata = metadata;
+    this?.type = type;
+    this?.entityId = entityId;
+    this?.effect = effect;
+    this?.activeEffect = activeEffect;
+    this.timestamp = new Date();
+    this?.phase = phase;
+    this?.metadata = metadata;
   }
 
   /**
@@ -995,12 +995,12 @@ export class EffectResolution implements IEffectResolution {
     events: EffectEvent[] = [],
     shouldContinue: boolean = true
   ) {
-    this.resolvedEffects = [...resolvedEffects];
-    this.appliedEffects = [...appliedEffects];
-    this.expiredEffects = [...expiredEffects];
-    this.statChanges = new Map(statChanges);
-    this.events = [...events];
-    this.shouldContinue = shouldContinue;
+    this?.resolvedEffects = [...resolvedEffects];
+    this?.appliedEffects = [...appliedEffects];
+    this?.expiredEffects = [...expiredEffects];
+    this?.statChanges = new Map(statChanges);
+    this?.events = [...events];
+    this?.shouldContinue = shouldContinue;
   }
 
   /**
@@ -1021,36 +1021,36 @@ export class EffectResolution implements IEffectResolution {
    * Add resolved effect
    */
   addResolvedEffect(effect: IActiveEffect): void {
-    this.resolvedEffects.push(effect);
+    this?.resolvedEffects?.push(effect);
   }
 
   /**
    * Add applied effect
    */
   addAppliedEffect(effect: IActiveEffect, result: EffectApplicationResult): void {
-    this.appliedEffects.push({ effect, result });
+    this?.appliedEffects?.push({ effect, result });
   }
 
   /**
    * Add expired effect
    */
   addExpiredEffect(effect: IActiveEffect, reason: EffectRemovalReason): void {
-    this.expiredEffects.push({ effect, reason });
+    this?.expiredEffects?.push({ effect, reason });
   }
 
   /**
    * Add stat change
    */
   addStatChange(stat: string, change: number): void {
-    const current = this.statChanges.get(stat) || 0;
-    this.statChanges.set(stat, current + change);
+    const current = this?.statChanges.get(stat) || 0;
+    this?.statChanges.set(stat, current + change);
   }
 
   /**
    * Add event
    */
   addEvent(event: EffectEvent): void {
-    this.events.push(event);
+    this?.events?.push(event);
   }
 
   /**
@@ -1058,7 +1058,7 @@ export class EffectResolution implements IEffectResolution {
    */
   getTotalStatChanges(): Record<string, number> {
     const changes: Record<string, number> = {};
-    this.statChanges.forEach((value, key) => {
+    this?.statChanges.forEach((value, key) => {
       changes[key!] = value;
     });
     return changes;
@@ -1068,28 +1068,28 @@ export class EffectResolution implements IEffectResolution {
    * Check if any effects were applied
    */
   hasAppliedEffects(): boolean {
-    return this.appliedEffects.length > 0;
+    return this?.appliedEffects.length > 0;
   }
 
   /**
    * Check if any effects expired
    */
   hasExpiredEffects(): boolean {
-    return this.expiredEffects.length > 0;
+    return this?.expiredEffects.length > 0;
   }
 
   /**
    * Get effects applied count
    */
   getAppliedCount(): number {
-    return this.appliedEffects.length;
+    return this?.appliedEffects.length;
   }
 
   /**
    * Get effects expired count
    */
   getExpiredCount(): number {
-    return this.expiredEffects.length;
+    return this?.expiredEffects.length;
   }
 }
 
@@ -1105,20 +1105,20 @@ export class EffectResolver implements IEffectResolver {
     const immuneTags = new Set(targetImmunities);
 
     // Filter out immune effects
-    resolvedEffects = resolvedEffects.filter((effect: any) => {
+    resolvedEffects = resolvedEffects?.filter((effect: any) => {
       // Check if effect has immunity tags
-      const effectTags = effect.effect.triggers || 0;
-      const effectName = effect.effect.name.toLowerCase();
+      const effectTags = effect?.effect.triggers || 0;
+      const effectName = effect?.effect.name?.toLowerCase();
 
       // Check immunity against effect tags and name
       for (const immuneTag of immuneTags) {
-        if ((effectTags & EffectTrigger.ON_HIT) !== 0 && immuneTag.includes('hit')) {
+        if ((effectTags & EffectTrigger?.ON_HIT) !== 0 && immuneTag?.includes('hit')) {
           return false;
         }
-        if (effect.effect.effectType === EffectType.DAMAGE_OVER_TIME && immuneTag.includes('damage')) {
+        if (effect?.effect.effectType === EffectType?.DAMAGE_OVER_TIME && immuneTag?.includes('damage')) {
           return false;
         }
-        if (effectName.includes(immuneTag.toLowerCase()) || immuneTag.toLowerCase().includes(effectName)) {
+        if (effectName?.includes(immuneTag?.toLowerCase()) || immuneTag?.toLowerCase().includes(effectName)) {
           return false;
         }
       }
@@ -1127,24 +1127,24 @@ export class EffectResolver implements IEffectResolver {
     });
 
     // Handle cleanse effects (remove debuffs if cleanse is present)
-    if (phase === EffectPhase.END_TURN) {
-      const hasCleanse = resolvedEffects.some(effect =>
-        effect.effect.name.toLowerCase().includes('cleanse') ||
-        effect.effect.description.toLowerCase().includes('cleanse')
+    if (phase === EffectPhase?.END_TURN) {
+      const hasCleanse = resolvedEffects?.some(effect =>
+        effect?.effect.name?.toLowerCase().includes('cleanse') ||
+        effect?.effect.description?.toLowerCase().includes('cleanse')
       );
 
       if (hasCleanse) {
-        resolvedEffects = resolvedEffects.filter((effect: any) =>
-          effect.effect.effectType !== EffectType.STUN
+        resolvedEffects = resolvedEffects?.filter((effect: any) =>
+          effect?.effect.effectType !== EffectType?.STUN
         );
       }
     }
 
     // Handle effect overwriting (keep strongest effect of each type)
-    resolvedEffects = this.resolveOverwrites(resolvedEffects);
+    resolvedEffects = this?.resolveOverwrites(resolvedEffects);
 
     // Sort by effect order
-    resolvedEffects.sort((a: any, b: any) => {
+    resolvedEffects?.sort((a: any, b: any) => {
       // Custom ordering logic could be added here
       return 0;
     });
@@ -1159,26 +1159,26 @@ export class EffectResolver implements IEffectResolver {
     const effectGroups = new Map<string, IActiveEffect[]>();
 
     // Group effects by ID
-    effects.forEach((effect: any) => {
-      const key = effect.effect.effectId;
-      if (!effectGroups.has(key)) {
-        effectGroups.set(key, []);
+    effects?.forEach((effect: any) => {
+      const key = effect?.effect.effectId;
+      if (!effectGroups?.has(key)) {
+        effectGroups?.set(key, []);
       }
-      effectGroups.get(key)!.push(effect);
+      effectGroups?.get(key)!.push(effect);
     });
 
     const resolvedEffects: IActiveEffect[] = [];
 
     // For each group, keep the effect with highest absolute value
-    effectGroups.forEach((group: any) => {
-      if (group.length === 1) {
-        resolvedEffects.push(group[0!]);
+    effectGroups?.forEach((group: any) => {
+      if (group?.length === 1) {
+        resolvedEffects?.push(group[0!]);
       } else {
         // Find effect with highest absolute value
-        const bestEffect = group.reduce((best, current) =>
+        const bestEffect = group?.reduce((best, current) =>
           Math.abs(current.effect.value) > Math.abs(best.effect.value) ? current : best
         );
-        resolvedEffects.push(bestEffect);
+        resolvedEffects?.push(bestEffect);
       }
     });
 
@@ -1189,24 +1189,24 @@ export class EffectResolver implements IEffectResolver {
    * Resolve effects with context
    */
   resolveEffects(phase: EffectPhase, entityId: string, effects: IActiveEffect[], context: IEntityContext): EffectResolution {
-    const resolution = EffectResolution.create();
-    const resolvedEffects = this.resolveQueue(phase, effects, context.getEntityImmunities(entityId));
+    const resolution = EffectResolution?.create();
+    const resolvedEffects = this?.resolveQueue(phase, effects, context?.getEntityImmunities(entityId));
 
     // Process each resolved effect
     for (const effect of resolvedEffects) {
-      const statChanges = this.applyEffect(effect, context);
+      const statChanges = this?.applyEffect(effect, context);
 
       // Create event
-      const event = EffectEvent.tick(entityId, effect.effect, effect, phase);
-      resolution.addEvent(event);
+      const event = EffectEvent?.tick(entityId, effect?.effect, effect, phase);
+      resolution?.addEvent(event);
 
       // Add stat changes
-      statChanges.forEach((change, stat) => {
-        resolution.addStatChange(stat, change);
+      statChanges?.forEach((change, stat) => {
+        resolution?.addStatChange(stat, change);
       });
     }
 
-    resolution.resolvedEffects = resolvedEffects;
+    resolution?.resolvedEffects = resolvedEffects;
     return resolution;
   }
 
@@ -1216,30 +1216,30 @@ export class EffectResolver implements IEffectResolver {
   private applyEffect(effect: IActiveEffect, context: IEntityContext): Map<string, number> {
     const statChanges = new Map<string, number>();
 
-    switch (effect.effect.effectType) {
-      case EffectType.STAT_MODIFIER:
-        const currentValue = context.getEntityStat(effect.entityId, effect.effect.targetStat);
-        const modifiedValue = this.calculateStatModification(effect.effect, currentValue);
+    switch (effect?.effect.effectType) {
+      case EffectType?.STAT_MODIFIER:
+        const currentValue = context?.getEntityStat(effect?.entityId, effect?.effect.targetStat);
+        const modifiedValue = this?.calculateStatModification(effect?.effect, currentValue);
         const change = modifiedValue - currentValue;
         if (change !== 0) {
-          statChanges.set(effect.effect.targetStat, change);
+          statChanges?.set(effect?.effect.targetStat, change);
         }
         break;
 
-      case EffectType.DAMAGE_OVER_TIME:
+      case EffectType?.DAMAGE_OVER_TIME:
         // Damage over time would be handled by the battle system
-        statChanges.set(TargetStat.HP, -effect.effect.value * effect.stacks);
+        statChanges?.set(TargetStat?.HP, -effect?.effect.value * effect?.stacks);
         break;
 
-      case EffectType.HEAL:
-        statChanges.set(TargetStat.HP, effect.effect.value * effect.stacks);
+      case EffectType?.HEAL:
+        statChanges?.set(TargetStat?.HP, effect?.effect.value * effect?.stacks);
         break;
 
-      case EffectType.SHIELD:
+      case EffectType?.SHIELD:
         // Shield effects might add temporary HP
         break;
 
-      case EffectType.STUN:
+      case EffectType?.STUN:
         // Stun effects don't directly change stats
         break;
     }
@@ -1253,16 +1253,16 @@ export class EffectResolver implements IEffectResolver {
   private calculateStatModification(effect: IBattleEffect, baseValue: number): number {
     let result = baseValue;
 
-    if (effect.effectType !== EffectType.STAT_MODIFIER) {
+    if (effect?.effectType !== EffectType?.STAT_MODIFIER) {
       return result;
     }
 
-    switch (effect.modifierType) {
-      case ModifierType.FLAT:
-        result += effect.value;
+    switch (effect?.modifierType) {
+      case ModifierType?.FLAT:
+        result += effect?.value;
         break;
-      case ModifierType.PERCENT:
-        result *= (1 + effect.value);
+      case ModifierType?.PERCENT:
+        result *= (1 + effect?.value);
         break;
     }
 
@@ -1284,7 +1284,7 @@ export class EffectManager implements IEffectManager {
   public onEffectTick?: (entityId: string, effect: IBattleEffect, activeEffect: IActiveEffect) => void;
 
   constructor(effectResolver?: IEffectResolver) {
-    this.effectResolver = effectResolver || new EffectResolver();
+    this?.effectResolver = effectResolver || new EffectResolver();
   }
 
   /**
@@ -1299,56 +1299,56 @@ export class EffectManager implements IEffectManager {
    */
   applyEffect(entityId: string, effect: IBattleEffect): EffectApplicationResult {
     if (!entityId || !effect) {
-      return EffectApplicationResult.REJECTED;
+      return EffectApplicationResult?.REJECTED;
     }
 
-    const errors = effect.validate({});
-    if (errors.length > 0) {
+    const errors = effect?.validate({});
+    if (errors?.length > 0) {
       console.warn(`Invalid effect ${effect.effectId}:`, errors);
-      return EffectApplicationResult.REJECTED;
+      return EffectApplicationResult?.REJECTED;
     }
 
-    const activeEffects = this.getOrCreateActiveEffects(entityId);
-    const existingEffect = activeEffects.find(active => active.effect.effectId === effect.effectId);
+    const activeEffects = this?.getOrCreateActiveEffects(entityId);
+    const existingEffect = activeEffects?.find(active => active?.effect.effectId === effect?.effectId);
 
     if (existingEffect) {
-      if (existingEffect.canStack()) {
-        if (existingEffect.addStack()) {
-          this.onEffectRefreshed?.(entityId, effect, existingEffect);
-          return EffectApplicationResult.REFRESHED;
+      if (existingEffect?.canStack()) {
+        if (existingEffect?.addStack()) {
+          this?.onEffectRefreshed?.(entityId, effect, existingEffect);
+          return EffectApplicationResult?.REFRESHED;
         }
       }
-      return EffectApplicationResult.REJECTED;
+      return EffectApplicationResult?.REJECTED;
     }
 
     // Create new active effect
-    const activeEffect = ActiveEffect.create(effect, entityId);
-    activeEffects.push(activeEffect);
+    const activeEffect = ActiveEffect?.create(effect, entityId);
+    activeEffects?.push(activeEffect);
 
-    this.onEffectApplied?.(entityId, effect, activeEffect);
-    return EffectApplicationResult.APPLIED;
+    this?.onEffectApplied?.(entityId, effect, activeEffect);
+    return EffectApplicationResult?.APPLIED;
   }
 
   /**
    * Remove effect from entity
    */
-  removeEffect(entityId: string, effectId: string, reason: EffectRemovalReason = EffectRemovalReason.REMOVED): boolean {
+  removeEffect(entityId: string, effectId: string, reason: EffectRemovalReason = EffectRemovalReason?.REMOVED): boolean {
     if (!entityId || !effectId) {
       return false;
     }
 
-    const activeEffects = this.entityEffects.get(entityId);
+    const activeEffects = this?.entityEffects.get(entityId);
     if (!activeEffects) {
       return false;
     }
 
-    const effectIndex = activeEffects.findIndex(active => active.effect.effectId === effectId);
+    const effectIndex = activeEffects?.findIndex(active => active?.effect.effectId === effectId);
     if (effectIndex === -1) {
       return false;
     }
 
-    const removedEffect = activeEffects.splice(effectIndex, 1)[0!];
-    this.onEffectRemoved?.(entityId, removedEffect.effect, removedEffect);
+    const removedEffect = activeEffects?.splice(effectIndex, 1)[0!];
+    this?.onEffectRemoved?.(entityId, removedEffect?.effect, removedEffect);
     return true;
   }
 
@@ -1356,74 +1356,74 @@ export class EffectManager implements IEffectManager {
    * Get active effects for entity
    */
   getActiveEffects(entityId: string): IActiveEffect[] {
-    return this.entityEffects.get(entityId) || [];
+    return this?.entityEffects.get(entityId) || [];
   }
 
   /**
    * Get effects by type
    */
   getEffectsByType(entityId: string, effectType: EffectType): IActiveEffect[] {
-    const activeEffects = this.getActiveEffects(entityId);
-    return activeEffects.filter((effect: any) => effect.effect.effectType === effectType);
+    const activeEffects = this?.getActiveEffects(entityId);
+    return activeEffects?.filter((effect: any) => effect?.effect.effectType === effectType);
   }
 
   /**
    * Check if entity has effect
    */
   hasEffect(entityId: string, effectId: string): boolean {
-    const activeEffects = this.getActiveEffects(entityId);
-    return activeEffects.some(effect => effect.effect.effectId === effectId);
+    const activeEffects = this?.getActiveEffects(entityId);
+    return activeEffects?.some(effect => effect?.effect.effectId === effectId);
   }
 
   /**
    * Update effects for all entities
    */
   updateEffects(deltaTime: number, context: IEntityContext): IEffectResolution {
-    const resolution = EffectResolution.create();
+    const resolution = EffectResolution?.create();
     const entitiesToRemove: string[] = [];
 
-    for (const [entityId, activeEffects] of this.entityEffects) {
-      if (!context.isEntityAlive(entityId)) {
-        entitiesToRemove.push(entityId);
+    for (const [entityId, activeEffects] of this?.entityEffects) {
+      if (!context?.isEntityAlive(entityId)) {
+        entitiesToRemove?.push(entityId);
         continue;
       }
 
-      const entityResolution = this.updateEntityEffects(entityId, activeEffects, deltaTime, context);
+      const entityResolution = this?.updateEntityEffects(entityId, activeEffects, deltaTime, context);
 
       // Resolve effects for this entity
-      const effectResolution = this.effectResolver.resolveEffects(context.getCurrentPhase(), entityId, activeEffects, context);
-      entityResolution.resolvedEffects.push(...effectResolution.resolvedEffects);
-      entityResolution.events.push(...effectResolution.events);
+      const effectResolution = this?.effectResolver.resolveEffects(context?.getCurrentPhase(), entityId, activeEffects, context);
+      entityResolution?.resolvedEffects?.push(...effectResolution?.resolvedEffects);
+      entityResolution?.events?.push(...effectResolution?.events);
 
       // Merge stat changes from both update and resolve
-      effectResolution.statChanges.forEach((change, stat) => {
-        const current = entityResolution.statChanges.get(stat) || 0;
-        entityResolution.statChanges.set(stat, current + change);
+      effectResolution?.statChanges.forEach((change, stat) => {
+        const current = entityResolution?.statChanges.get(stat) || 0;
+        entityResolution?.statChanges.set(stat, current + change);
       });
 
-      resolution.resolvedEffects.push(...entityResolution.resolvedEffects);
-      resolution.appliedEffects.push(...entityResolution.appliedEffects);
-      resolution.expiredEffects.push(...entityResolution.expiredEffects);
-      resolution.events.push(...entityResolution.events);
+      resolution?.resolvedEffects?.push(...entityResolution?.resolvedEffects);
+      resolution?.appliedEffects?.push(...entityResolution?.appliedEffects);
+      resolution?.expiredEffects?.push(...entityResolution?.expiredEffects);
+      resolution?.events?.push(...entityResolution?.events);
 
       // Merge stat changes
-      entityResolution.statChanges.forEach((change, stat) => {
-        const current = resolution.statChanges.get(stat) || 0;
-        resolution.statChanges.set(stat, current + change);
+      entityResolution?.statChanges.forEach((change, stat) => {
+        const current = resolution?.statChanges.get(stat) || 0;
+        resolution?.statChanges.set(stat, current + change);
       });
 
       // Remove expired effects
-      const remainingEffects = activeEffects.filter((effect: any) => !effect.isExpired());
-      this.entityEffects.set(entityId, remainingEffects);
+      const remainingEffects = activeEffects?.filter((effect: any) => !effect?.isExpired());
+      this?.entityEffects.set(entityId, remainingEffects);
 
-      if (remainingEffects.length === 0) {
-        entitiesToRemove.push(entityId);
+      if (remainingEffects?.length === 0) {
+        entitiesToRemove?.push(entityId);
       }
     }
 
     // Remove empty entity entries
     for (const entityId of entitiesToRemove) {
-      this.entityEffects.delete(entityId);
+      this?.entityEffects.delete(entityId);
     }
 
     return resolution;
@@ -1438,34 +1438,34 @@ export class EffectManager implements IEffectManager {
     deltaTime: number,
     context: IEntityContext
   ): EffectResolution {
-    const resolution = EffectResolution.create();
-    const currentPhase = context.getCurrentPhase();
+    const resolution = EffectResolution?.create();
+    const currentPhase = context?.getCurrentPhase();
 
     // Tick time-based effects
     for (const effect of activeEffects) {
-      effect.tick(deltaTime);
+      effect?.tick(deltaTime);
 
-      if ((effect.effect.triggers & EffectTrigger.ON_TICK) !== 0) {
-        this.onEffectTick?.(entityId, effect.effect, effect);
-        resolution.addEvent(EffectEvent.tick(entityId, effect.effect, effect, currentPhase));
+      if ((effect?.effect.triggers & EffectTrigger?.ON_TICK) !== 0) {
+        this?.onEffectTick?.(entityId, effect?.effect, effect);
+        resolution?.addEvent(EffectEvent?.tick(entityId, effect?.effect, effect, currentPhase));
       }
     }
 
     // Advance turn-based effects
     for (const effect of activeEffects) {
-      effect.advanceTurn();
+      effect?.advanceTurn();
 
-      if (effect.isExpired()) {
-        this.onEffectExpired?.(entityId, effect.effect, effect);
-        resolution.addExpiredEffect(effect, EffectRemovalReason.EXPIRED);
-        resolution.addEvent(EffectEvent.expired(entityId, effect.effect, effect, currentPhase));
+      if (effect?.isExpired()) {
+        this?.onEffectExpired?.(entityId, effect?.effect, effect);
+        resolution?.addExpiredEffect(effect, EffectRemovalReason?.EXPIRED);
+        resolution?.addEvent(EffectEvent?.expired(entityId, effect?.effect, effect, currentPhase));
       }
     }
 
     // Resolve effects for current phase
-    const entityResolution = this.effectResolver.resolveEffects(currentPhase, entityId, activeEffects, context);
-    resolution.resolvedEffects.push(...entityResolution.resolvedEffects);
-    resolution.events.push(...entityResolution.events);
+    const entityResolution = this?.effectResolver.resolveEffects(currentPhase, entityId, activeEffects, context);
+    resolution?.resolvedEffects?.push(...entityResolution?.resolvedEffects);
+    resolution?.events?.push(...entityResolution?.events);
 
     return resolution;
   }
@@ -1474,12 +1474,12 @@ export class EffectManager implements IEffectManager {
    * Clear effects for entity
    */
   clearEffects(entityId: string): void {
-    const activeEffects = this.entityEffects.get(entityId);
+    const activeEffects = this?.entityEffects.get(entityId);
     if (activeEffects) {
       for (const effect of activeEffects) {
-        this.onEffectRemoved?.(entityId, effect.effect, effect);
+        this?.onEffectRemoved?.(entityId, effect?.effect, effect);
       }
-      this.entityEffects.delete(entityId);
+      this?.entityEffects.delete(entityId);
     }
   }
 
@@ -1487,19 +1487,19 @@ export class EffectManager implements IEffectManager {
    * Clear all effects
    */
   clearAllEffects(): void {
-    for (const [entityId, activeEffects] of this.entityEffects) {
+    for (const [entityId, activeEffects] of this?.entityEffects) {
       for (const effect of activeEffects) {
-        this.onEffectRemoved?.(entityId, effect.effect, effect);
+        this?.onEffectRemoved?.(entityId, effect?.effect, effect);
       }
     }
-    this.entityEffects.clear();
+    this?.entityEffects.clear();
   }
 
   /**
    * Get effect count for entity
    */
   getEffectCount(entityId: string): number {
-    return this.getActiveEffects(entityId).length;
+    return this?.getActiveEffects(entityId).length;
   }
 
   /**
@@ -1507,8 +1507,8 @@ export class EffectManager implements IEffectManager {
    */
   getTotalEffectCount(): number {
     let total = 0;
-    for (const activeEffects of this.entityEffects.values()) {
-      total += activeEffects.length;
+    for (const activeEffects of this?.entityEffects.values()) {
+      total += activeEffects?.length;
     }
     return total;
   }
@@ -1517,10 +1517,10 @@ export class EffectManager implements IEffectManager {
    * Get or create active effects for entity
    */
   private getOrCreateActiveEffects(entityId: string): IActiveEffect[] {
-    if (!this.entityEffects.has(entityId)) {
-      this.entityEffects.set(entityId, []);
+    if (!this?.entityEffects.has(entityId)) {
+      this?.entityEffects.set(entityId, []);
     }
-    return this.entityEffects.get(entityId)!;
+    return this?.entityEffects.get(entityId)!;
   }
 }
 
@@ -1536,19 +1536,19 @@ export const EffectUtils = {
 
     return {
       getEntityStat: (entityId: string, stat: TargetStat) => {
-        const stats = entityStats.get(entityId) || new Map();
-        return stats.get(stat) || 0;
+        const stats = entityStats?.get(entityId) || new Map();
+        return stats?.get(stat) || 0;
       },
       setEntityStat: (entityId: string, stat: TargetStat, value: number) => {
-        if (!entityStats.has(entityId)) {
-          entityStats.set(entityId, new Map());
+        if (!entityStats?.has(entityId)) {
+          entityStats?.set(entityId, new Map());
         }
         entityStats.get(entityId)!.set(stat, Math.max(0, value));
       },
       hasImmunity: (entityId: string, immunityTag: string) => false,
       getEntityImmunities: (entityId: string) => [],
       isEntityAlive: (entityId: string) => true,
-      getCurrentPhase: () => EffectPhase.PRE_TURN
+      getCurrentPhase: () => EffectPhase?.PRE_TURN
     };
   },
 
@@ -1558,28 +1558,28 @@ export const EffectUtils = {
   validateBattleEffect(effect: IBattleEffect): string[] {
     const errors: string[] = [];
 
-    if (!effect.effectId || effect.effectId.trim() === '') {
-      errors.push('Effect ID cannot be empty');
+    if (!effect?.effectId || effect?.effectId.trim() === '') {
+      errors?.push('Effect ID cannot be empty');
     }
 
-    if (!effect.name || effect.name.trim() === '') {
-      errors.push('Effect name cannot be empty');
+    if (!effect?.name || effect?.name.trim() === '') {
+      errors?.push('Effect name cannot be empty');
     }
 
-    if (!effect.description || effect.description.trim() === '') {
-      errors.push('Effect description cannot be empty');
+    if (!effect?.description || effect?.description.trim() === '') {
+      errors?.push('Effect description cannot be empty');
     }
 
-    if (effect.durationSeconds < 0) {
-      errors.push('Duration seconds cannot be negative');
+    if (effect?.durationSeconds < 0) {
+      errors?.push('Duration seconds cannot be negative');
     }
 
-    if (effect.durationTurns < 0) {
-      errors.push('Duration turns cannot be negative');
+    if (effect?.durationTurns < 0) {
+      errors?.push('Duration turns cannot be negative');
     }
 
-    if (effect.maxStacks < 1) {
-      errors.push('Max stacks must be at least 1');
+    if (effect?.maxStacks < 1) {
+      errors?.push('Max stacks must be at least 1');
     }
 
     return errors;
@@ -1596,8 +1596,8 @@ export const EffectUtils = {
    * Calculate effect duration in milliseconds
    */
   calculateEffectDuration(effect: IBattleEffect): number {
-    const seconds = effect.durationSeconds > 0 ? effect.durationSeconds * 1000 : 0;
-    const turns = effect.durationTurns > 0 ? effect.durationTurns * 2000 : 0; // Assume 2 seconds per turn
+    const seconds = effect?.durationSeconds > 0 ? effect?.durationSeconds * 1000 : 0;
+    const turns = effect?.durationTurns > 0 ? effect?.durationTurns * 2000 : 0; // Assume 2 seconds per turn
     return Math.max(seconds, turns);
   },
 
@@ -1606,14 +1606,14 @@ export const EffectUtils = {
    */
   shouldTriggerOnPhase(effect: IBattleEffect, phase: EffectPhase): boolean {
     switch (phase) {
-      case EffectPhase.PRE_TURN:
-        return effect.hasTrigger(EffectTrigger.ON_APPLY);
-      case EffectPhase.SELECT_ACTION:
-        return effect.hasTrigger(EffectTrigger.ON_CAST);
-      case EffectPhase.RESOLVE_ACTION:
-        return effect.hasTrigger(EffectTrigger.ON_HIT) || effect.hasTrigger(EffectTrigger.ON_CRIT);
-      case EffectPhase.END_TURN:
-        return effect.hasTrigger(EffectTrigger.ON_TICK) || effect.hasTrigger(EffectTrigger.ON_REMOVE);
+      case EffectPhase?.PRE_TURN:
+        return effect?.hasTrigger(EffectTrigger?.ON_APPLY);
+      case EffectPhase?.SELECT_ACTION:
+        return effect?.hasTrigger(EffectTrigger?.ON_CAST);
+      case EffectPhase?.RESOLVE_ACTION:
+        return effect?.hasTrigger(EffectTrigger?.ON_HIT) || effect?.hasTrigger(EffectTrigger?.ON_CRIT);
+      case EffectPhase?.END_TURN:
+        return effect?.hasTrigger(EffectTrigger?.ON_TICK) || effect?.hasTrigger(EffectTrigger?.ON_REMOVE);
       default:
         return false;
     }
@@ -1624,18 +1624,18 @@ export const EffectUtils = {
    */
   getEffectPriority(effect: IBattleEffect): number {
     // Base priority on effect type
-    switch (effect.effectType) {
-      case EffectType.STUN:
+    switch (effect?.effectType) {
+      case EffectType?.STUN:
         return 100; // Highest priority
-      case EffectType.SHIELD:
+      case EffectType?.SHIELD:
         return 90;
-      case EffectType.HEAL:
+      case EffectType?.HEAL:
         return 80;
-      case EffectType.DAMAGE_OVER_TIME:
+      case EffectType?.DAMAGE_OVER_TIME:
         return 70;
-      case EffectType.STAT_MODIFIER:
+      case EffectType?.STAT_MODIFIER:
         return 50;
-      case EffectType.CUSTOM:
+      case EffectType?.CUSTOM:
         return 25;
       default:
         return 0;
@@ -1647,8 +1647,8 @@ export const EffectUtils = {
    */
   sortEffectsByPriority(effects: IActiveEffect[]): IActiveEffect[] {
     return [...effects].sort((a: any, b: any) => {
-      const priorityA = this.getEffectPriority(a.effect);
-      const priorityB = this.getEffectPriority(b.effect);
+      const priorityA = this?.getEffectPriority(a?.effect);
+      const priorityB = this?.getEffectPriority(b?.effect);
       return priorityB - priorityA;
     });
   },
@@ -1657,21 +1657,21 @@ export const EffectUtils = {
    * Filter effects by type
    */
   filterEffectsByType(effects: IActiveEffect[], effectType: EffectType): IActiveEffect[] {
-    return effects.filter((effect: any) => effect.effect.effectType === effectType);
+    return effects?.filter((effect: any) => effect?.effect.effectType === effectType);
   },
 
   /**
    * Filter effects by target stat
    */
   filterEffectsByStat(effects: IActiveEffect[], targetStat: TargetStat): IActiveEffect[] {
-    return effects.filter((effect: any) => effect.effect.targetStat === targetStat);
+    return effects?.filter((effect: any) => effect?.effect.targetStat === targetStat);
   },
 
   /**
    * Get effects that modify specific stat
    */
   getStatModifyingEffects(effects: IActiveEffect[]): IActiveEffect[] {
-    return effects.filter((effect: any) => effect.effect.effectType === EffectType.STAT_MODIFIER);
+    return effects?.filter((effect: any) => effect?.effect.effectType === EffectType?.STAT_MODIFIER);
   }
 };
 
@@ -1679,9 +1679,9 @@ export const EffectUtils = {
  * Default instances
  */
 export const defaultBattleEffect = new BattleEffect('default', 'Default Effect', 'Default effect');
-export const defaultActiveEffect = ActiveEffect.create(defaultBattleEffect, 'default_entity');
+export const defaultActiveEffect = ActiveEffect?.create(defaultBattleEffect, 'default_entity');
 export const defaultStatModifierAggregator = new StatModifierAggregator();
 export const defaultEffectResolver = new EffectResolver();
 export const defaultEffectManager = new EffectManager();
-export const defaultEffectEvent = EffectEvent.applied('default', defaultBattleEffect, defaultActiveEffect, EffectPhase.PRE_TURN);
-export const defaultEffectResolution = EffectResolution.create();
+export const defaultEffectEvent = EffectEvent?.applied('default', defaultBattleEffect, defaultActiveEffect, EffectPhase?.PRE_TURN);
+export const defaultEffectResolution = EffectResolution?.create();

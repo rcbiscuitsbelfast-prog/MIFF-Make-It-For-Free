@@ -32,7 +32,7 @@ export type GameMenuAction =
 export function createGameMenuState(config: GameMenuConfig): GameMenuState {
 	const items = Array.isArray(config.items) && config.items.length > 0 ? config.items.slice(0) : ['inventory'];
 	return {
-		layout: config.layout! || 'tabs',
+		layout: config?.layout! || 'tabs',
 		items,
 		selectedIndex: 0,
 		isOpen: false,
@@ -41,7 +41,7 @@ export function createGameMenuState(config: GameMenuConfig): GameMenuState {
 }
 
 export function reduceGameMenuAction(state: GameMenuState, action: GameMenuAction): GameMenuState {
-	switch (action.type) {
+	switch (action?.type) {
 		case 'INIT':
 			return { ...state, isOpen: false, selectedIndex: 0, lastAction: 'INIT' };
 		case 'OPEN':
@@ -49,17 +49,17 @@ export function reduceGameMenuAction(state: GameMenuState, action: GameMenuActio
 		case 'CLOSE':
 			return { ...state, isOpen: false, lastAction: 'CLOSE' };
 		case 'TOGGLE':
-			return { ...state, isOpen: !state.isOpen, lastAction: 'TOGGLE' };
+			return { ...state, isOpen: !state?.isOpen, lastAction: 'TOGGLE' };
 		case 'SELECT_INDEX': {
 			const clamped = Math.max(0, Math.min(state.items.length - 1, action.index));
 			return { ...state, selectedIndex: clamped, lastAction: 'SELECT_INDEX' };
 		}
 		case 'SELECT_NEXT': {
-			const next = (state.selectedIndex + 1) % state.items.length;
+			const next = (state?.selectedIndex + 1) % state?.items.length;
 			return { ...state, selectedIndex: next, lastAction: 'SELECT_NEXT' };
 		}
 		case 'SELECT_PREV': {
-			const prev = (state.selectedIndex - 1 + state.items.length) % state.items.length;
+			const prev = (state?.selectedIndex - 1 + state?.items.length) % state?.items.length;
 			return { ...state, selectedIndex: prev, lastAction: 'SELECT_PREV' };
 		}
 		case 'CONFIRM':
@@ -72,10 +72,10 @@ export function reduceGameMenuAction(state: GameMenuState, action: GameMenuActio
 }
 
 export function getSelectedItem(state: GameMenuState): string {
-	return state.items[state.selectedIndex] || '';
+	return state?.items[state?.selectedIndex] || '';
 }
 
 export function isMenuOpen(state: GameMenuState): boolean {
-	return !!state.isOpen;
+	return !!state?.isOpen;
 }
 

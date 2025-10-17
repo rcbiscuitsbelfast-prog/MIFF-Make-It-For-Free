@@ -335,20 +335,20 @@ export class SpiritFilter implements ISpiritFilter {
     region?: string,
     generation?: number
   ) {
-    this.type = type;
-    this.captured = captured;
-    this.minSync = minSync;
-    this.maxSync = maxSync;
-    this.loreUnlocked = loreUnlocked;
-    this.hasEvolved = hasEvolved;
-    this.minLevel = minLevel;
-    this.maxLevel = maxLevel;
-    this.rarity = rarity;
-    this.nameContains = nameContains;
-    this.hasMoves = hasMoves;
-    this.isFavorite = isFavorite;
-    this.region = region;
-    this.generation = generation;
+    this?.type = type;
+    this?.captured = captured;
+    this?.minSync = minSync;
+    this?.maxSync = maxSync;
+    this?.loreUnlocked = loreUnlocked;
+    this?.hasEvolved = hasEvolved;
+    this?.minLevel = minLevel;
+    this?.maxLevel = maxLevel;
+    this?.rarity = rarity;
+    this?.nameContains = nameContains;
+    this?.hasMoves = hasMoves;
+    this?.isFavorite = isFavorite;
+    this?.region = region;
+    this?.generation = generation;
   }
 
   /**
@@ -478,33 +478,33 @@ export class SpiritFilter implements ISpiritFilter {
     let filtered = [...spirits];
 
     // Filter by type
-    if (this.type && this.type !== SpiritType.NONE) {
-      filtered = filtered.filter((spirit: any) =>
-        spirit.primaryType === this.type || spirit.secondaryType === this.type
+    if (this?.type && this?.type !== SpiritType?.NONE) {
+      filtered = filtered?.filter((spirit: any) =>
+        spirit?.primaryType === this?.type || spirit?.secondaryType === this?.type
       );
     }
 
     // Filter by capture status
-    if (this.captured !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.isCaptured === this.captured);
+    if (this?.captured !== undefined) {
+      filtered = filtered?.filter((spirit: any) => spirit?.isCaptured === this?.captured);
     }
 
     // Filter by evolution status
-    if (this.hasEvolved !== undefined) {
-      filtered = filtered.filter((spirit: any) => {
-        const hasEvolved = spirit.evolutionStage > 1;
-        return this.hasEvolved ? hasEvolved : !hasEvolved;
+    if (this?.hasEvolved !== undefined) {
+      filtered = filtered?.filter((spirit: any) => {
+        const hasEvolved = spirit?.evolutionStage > 1;
+        return this?.hasEvolved ? hasEvolved : !hasEvolved;
       });
     }
 
     // Filter by sync level
-    if (this.minSync !== undefined || this.maxSync !== undefined) {
-      const min = this.minSync ?? 0;
-      const max = this.maxSync ?? 100;
+    if (this?.minSync !== undefined || this?.maxSync !== undefined) {
+      const min = this?.minSync ?? 0;
+      const max = this?.maxSync ?? 100;
 
       if (spiritIdToSync) {
-        filtered = filtered.filter((spirit: any) => {
-          const sync = spiritIdToSync.get(spirit.spiritId) ?? 0;
+        filtered = filtered?.filter((spirit: any) => {
+          const sync = spiritIdToSync?.get(spirit?.spiritId) ?? 0;
           return sync >= min && sync <= max;
         });
       } else {
@@ -514,59 +514,59 @@ export class SpiritFilter implements ISpiritFilter {
     }
 
     // Filter by lore unlocked status
-    if (this.loreUnlocked !== undefined && unlockedLoreIds) {
-      filtered = filtered.filter((spirit: any) => {
-        const loreIds = spirit.getAllLoreIds();
-        const hasUnlockedLore = loreIds.some(loreId => unlockedLoreIds.has(loreId));
-        return this.loreUnlocked ? hasUnlockedLore : !hasUnlockedLore;
+    if (this?.loreUnlocked !== undefined && unlockedLoreIds) {
+      filtered = filtered?.filter((spirit: any) => {
+        const loreIds = spirit?.getAllLoreIds();
+        const hasUnlockedLore = loreIds?.some(loreId => unlockedLoreIds?.has(loreId));
+        return this?.loreUnlocked ? hasUnlockedLore : !hasUnlockedLore;
       });
     }
 
     // Filter by level range
-    if (this.minLevel !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.level >= this.minLevel);
+    if (this?.minLevel !== undefined) {
+      filtered = filtered?.filter((spirit: any) => spirit?.level >= this?.minLevel);
     }
 
-    if (this.maxLevel !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.level <= this.maxLevel);
+    if (this?.maxLevel !== undefined) {
+      filtered = filtered?.filter((spirit: any) => spirit?.level <= this?.maxLevel);
     }
 
     // Filter by rarity
-    if (this.rarity !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.rarity === this.rarity);
+    if (this?.rarity !== undefined) {
+      filtered = filtered?.filter((spirit: any) => spirit?.rarity === this?.rarity);
     }
 
     // Filter by name contains
-    if (this.nameContains) {
-      const query = this.nameContains.toLowerCase();
-      filtered = filtered.filter((spirit: any) =>
-        spirit.spiritName.toLowerCase().includes(query) ||
-        spirit.description.toLowerCase().includes(query) ||
-        spirit.nickname?.toLowerCase().includes(query)
+    if (this?.nameContains) {
+      const query = this?.nameContains.toLowerCase();
+      filtered = filtered?.filter((spirit: any) =>
+        spirit?.spiritName.toLowerCase().includes(query) ||
+        spirit?.description.toLowerCase().includes(query) ||
+        spirit?.nickname?.toLowerCase().includes(query)
       );
     }
 
     // Filter by moves
-    if (this.hasMoves !== undefined) {
-      filtered = filtered.filter((spirit: any) => {
-        const hasMoves = spirit.moves.length > 0;
-        return this.hasMoves ? hasMoves : !hasMoves;
+    if (this?.hasMoves !== undefined) {
+      filtered = filtered?.filter((spirit: any) => {
+        const hasMoves = spirit?.moves.length > 0;
+        return this?.hasMoves ? hasMoves : !hasMoves;
       });
     }
 
     // Filter by favorite status
-    if (this.isFavorite !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.isFavorite === this.isFavorite);
+    if (this?.isFavorite !== undefined) {
+      filtered = filtered?.filter((spirit: any) => spirit?.isFavorite === this?.isFavorite);
     }
 
     // Filter by region
-    if (this.region) {
-      filtered = filtered.filter((spirit: any) => spirit.region === this.region);
+    if (this?.region) {
+      filtered = filtered?.filter((spirit: any) => spirit?.region === this?.region);
     }
 
     // Filter by generation
-    if (this.generation !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.generation === this.generation);
+    if (this?.generation !== undefined) {
+      filtered = filtered?.filter((spirit: any) => spirit?.generation === this?.generation);
     }
 
     return filtered;
@@ -578,26 +578,26 @@ export class SpiritFilter implements ISpiritFilter {
   getDescription(): string {
     const parts: string[] = [];
 
-    if (this.type) parts.push(`Type: ${this.type}`);
-    if (this.captured !== undefined) parts.push(`Captured: ${this.captured ? 'Yes' : 'No'}`);
-    if (this.minSync !== undefined || this.maxSync !== undefined) {
-      parts.push(`Sync: ${this.minSync || 0}-${this.maxSync || 100}`);
+    if (this?.type) parts?.push(`Type: ${this?.type}`);
+    if (this?.captured !== undefined) parts?.push(`Captured: ${this?.captured ? 'Yes' : 'No'}`);
+    if (this?.minSync !== undefined || this?.maxSync !== undefined) {
+      parts?.push(`Sync: ${this?.minSync || 0}-${this?.maxSync || 100}`);
     }
-    if (this.loreUnlocked !== undefined) {
-      parts.push(`Lore: ${this.loreUnlocked ? 'Unlocked' : 'Locked'}`);
+    if (this?.loreUnlocked !== undefined) {
+      parts?.push(`Lore: ${this?.loreUnlocked ? 'Unlocked' : 'Locked'}`);
     }
-    if (this.hasEvolved !== undefined) {
-      parts.push(`Evolved: ${this.hasEvolved ? 'Yes' : 'No'}`);
+    if (this?.hasEvolved !== undefined) {
+      parts?.push(`Evolved: ${this?.hasEvolved ? 'Yes' : 'No'}`);
     }
-    if (this.minLevel !== undefined || this.maxLevel !== undefined) {
-      parts.push(`Level: ${this.minLevel || 1}-${this.maxLevel || 100}`);
+    if (this?.minLevel !== undefined || this?.maxLevel !== undefined) {
+      parts?.push(`Level: ${this?.minLevel || 1}-${this?.maxLevel || 100}`);
     }
-    if (this.rarity !== undefined) parts.push(`Rarity: ${SpiritRarity[this.rarity]}`);
-    if (this.nameContains) parts.push(`Name: "${this.nameContains}"`);
-    if (this.region) parts.push(`Region: ${this.region}`);
-    if (this.generation !== undefined) parts.push(`Generation: ${this.generation}`);
+    if (this?.rarity !== undefined) parts?.push(`Rarity: ${SpiritRarity[this?.rarity]}`);
+    if (this?.nameContains) parts?.push(`Name: "${this?.nameContains}"`);
+    if (this?.region) parts?.push(`Region: ${this?.region}`);
+    if (this?.generation !== undefined) parts?.push(`Generation: ${this?.generation}`);
 
-    return parts.join(', ') || 'No filters applied';
+    return parts?.join(', ') || 'No filters applied';
   }
 
   /**
@@ -605,20 +605,20 @@ export class SpiritFilter implements ISpiritFilter {
    */
   toJSON(): Record<string, any> {
     return {
-      type: this.type,
-      captured: this.captured,
-      minSync: this.minSync,
-      maxSync: this.maxSync,
-      loreUnlocked: this.loreUnlocked,
-      hasEvolved: this.hasEvolved,
-      minLevel: this.minLevel,
-      maxLevel: this.maxLevel,
-      rarity: this.rarity,
-      nameContains: this.nameContains,
-      hasMoves: this.hasMoves,
-      isFavorite: this.isFavorite,
-      region: this.region,
-      generation: this.generation
+      type: this?.type,
+      captured: this?.captured,
+      minSync: this?.minSync,
+      maxSync: this?.maxSync,
+      loreUnlocked: this?.loreUnlocked,
+      hasEvolved: this?.hasEvolved,
+      minLevel: this?.minLevel,
+      maxLevel: this?.maxLevel,
+      rarity: this?.rarity,
+      nameContains: this?.nameContains,
+      hasMoves: this?.hasMoves,
+      isFavorite: this?.isFavorite,
+      region: this?.region,
+      generation: this?.generation
     };
   }
 
@@ -627,20 +627,20 @@ export class SpiritFilter implements ISpiritFilter {
    */
   static fromJSON(data: Record<string, any>): SpiritFilter {
     return new SpiritFilter(
-      data.type,
-      data.captured,
-      data.minSync,
-      data.maxSync,
-      data.loreUnlocked,
-      data.hasEvolved,
-      data.minLevel,
-      data.maxLevel,
-      data.rarity,
-      data.nameContains,
-      data.hasMoves,
-      data.isFavorite,
-      data.region,
-      data.generation
+      data?.type,
+      data?.captured,
+      data?.minSync,
+      data?.maxSync,
+      data?.loreUnlocked,
+      data?.hasEvolved,
+      data?.minLevel,
+      data?.maxLevel,
+      data?.rarity,
+      data?.nameContains,
+      data?.hasMoves,
+      data?.isFavorite,
+      data?.region,
+      data?.generation
     );
   }
 
@@ -648,38 +648,38 @@ export class SpiritFilter implements ISpiritFilter {
    * Clone filter
    */
   clone(): SpiritFilter {
-    return SpiritFilter.fromJSON(this.toJSON());
+    return SpiritFilter?.fromJSON(this?.toJSON());
   }
 
   /**
    * Check if filter is empty
    */
   isEmpty(): boolean {
-    return !this.type && this.captured === undefined && !this.minSync && !this.maxSync &&
-           this.loreUnlocked === undefined && this.hasEvolved === undefined &&
-           !this.minLevel && !this.maxLevel && !this.rarity && !this.nameContains &&
-           this.hasMoves === undefined && this.isFavorite === undefined &&
-           !this.region && this.generation === undefined;
+    return !this?.type && this?.captured === undefined && !this?.minSync && !this?.maxSync &&
+           this?.loreUnlocked === undefined && this?.hasEvolved === undefined &&
+           !this?.minLevel && !this?.maxLevel && !this?.rarity && !this?.nameContains &&
+           this?.hasMoves === undefined && this?.isFavorite === undefined &&
+           !this?.region && this?.generation === undefined;
   }
 
   /**
    * Reset filter
    */
   reset(): void {
-    this.type = undefined;
-    this.captured = undefined;
-    this.minSync = undefined;
-    this.maxSync = undefined;
-    this.loreUnlocked = undefined;
-    this.hasEvolved = undefined;
-    this.minLevel = undefined;
-    this.maxLevel = undefined;
-    this.rarity = undefined;
-    this.nameContains = undefined;
-    this.hasMoves = undefined;
-    this.isFavorite = undefined;
-    this.region = undefined;
-    this.generation = undefined;
+    this?.type = undefined;
+    this?.captured = undefined;
+    this?.minSync = undefined;
+    this?.maxSync = undefined;
+    this?.loreUnlocked = undefined;
+    this?.hasEvolved = undefined;
+    this?.minLevel = undefined;
+    this?.maxLevel = undefined;
+    this?.rarity = undefined;
+    this?.nameContains = undefined;
+    this?.hasMoves = undefined;
+    this?.isFavorite = undefined;
+    this?.region = undefined;
+    this?.generation = undefined;
   }
 }
 
@@ -699,12 +699,12 @@ export class SpiritSorter {
   ): ISpirit[] {
     const sorted = [...spirits];
 
-    const sortFn = this.getSortFunction(sortOption, spiritIdToSync, spiritIdToCaptureDate);
+    const sortFn = this?.getSortFunction(sortOption, spiritIdToSync, spiritIdToCaptureDate);
 
     if (ascending) {
-      sorted.sort(sortFn);
+      sorted?.sort(sortFn);
     } else {
-      sorted.sort((a: any, b: any) => -sortFn(a, b));
+      sorted?.sort((a: any, b: any) => -sortFn(a, b));
     }
 
     return sorted;
@@ -719,36 +719,36 @@ export class SpiritSorter {
     spiritIdToCaptureDate?: Map<string, Date>
   ): (a: ISpirit, b: ISpirit) => number {
     switch (sortOption) {
-      case SortOption.ALPHABETICAL_ASC:
-      case SortOption.ALPHABETICAL_DESC:
-        return (a, b) => a.spiritName.localeCompare(b.spiritName);
+      case SortOption?.ALPHABETICAL_ASC:
+      case SortOption?.ALPHABETICAL_DESC:
+        return (a, b) => a?.spiritName.localeCompare(b?.spiritName);
 
-      case SortOption.SYNC_ASC:
-      case SortOption.SYNC_DESC:
+      case SortOption?.SYNC_ASC:
+      case SortOption?.SYNC_DESC:
         return (a, b) => {
-          const syncA = spiritIdToSync?.get(a.spiritId) ?? 0;
-          const syncB = spiritIdToSync?.get(b.spiritId) ?? 0;
+          const syncA = spiritIdToSync?.get(a?.spiritId) ?? 0;
+          const syncB = spiritIdToSync?.get(b?.spiritId) ?? 0;
           return syncA - syncB;
         };
 
-      case SortOption.RARITY_ASC:
-      case SortOption.RARITY_DESC:
-        return (a, b) => a.rarity - b.rarity;
+      case SortOption?.RARITY_ASC:
+      case SortOption?.RARITY_DESC:
+        return (a, b) => a?.rarity - b?.rarity;
 
-      case SortOption.LEVEL_ASC:
-      case SortOption.LEVEL_DESC:
-        return (a, b) => a.level - b.level;
+      case SortOption?.LEVEL_ASC:
+      case SortOption?.LEVEL_DESC:
+        return (a, b) => a?.level - b?.level;
 
-      case SortOption.CAPTURE_DATE_ASC:
-      case SortOption.CAPTURE_DATE_DESC:
+      case SortOption?.CAPTURE_DATE_ASC:
+      case SortOption?.CAPTURE_DATE_DESC:
         return (a, b) => {
-          const dateA = a.captureDate?.getTime() ?? 0;
-          const dateB = b.captureDate?.getTime() ?? 0;
+          const dateA = a?.captureDate?.getTime() ?? 0;
+          const dateB = b?.captureDate?.getTime() ?? 0;
           return dateA - dateB;
         };
 
       default:
-        return (a, b) => a.spiritName.localeCompare(b.spiritName);
+        return (a, b) => a?.spiritName.localeCompare(b?.spiritName);
     }
   }
 
@@ -764,22 +764,22 @@ export class SpiritSorter {
     const sorted = [...spirits];
 
     const sortFunctions = [
-      this.getSortFunction(criteria.primarySort, spiritIdToSync, spiritIdToCaptureDate)
+      this?.getSortFunction(criteria?.primarySort, spiritIdToSync, spiritIdToCaptureDate)
     ];
 
-    if (criteria.secondarySort) {
-      sortFunctions.push(this.getSortFunction(criteria.secondarySort, spiritIdToSync, spiritIdToCaptureDate));
+    if (criteria?.secondarySort) {
+      sortFunctions?.push(this?.getSortFunction(criteria?.secondarySort, spiritIdToSync, spiritIdToCaptureDate));
     }
 
-    if (criteria.tertiarySort) {
-      sortFunctions.push(this.getSortFunction(criteria.tertiarySort, spiritIdToSync, spiritIdToCaptureDate));
+    if (criteria?.tertiarySort) {
+      sortFunctions?.push(this?.getSortFunction(criteria?.tertiarySort, spiritIdToSync, spiritIdToCaptureDate));
     }
 
-    sorted.sort((a: any, b: any) => {
+    sorted?.sort((a: any, b: any) => {
       for (const sortFn of sortFunctions) {
         const result = sortFn(a, b);
         if (result !== 0) {
-          return criteria.ascending ? result : -result;
+          return criteria?.ascending ? result : -result;
         }
       }
       return 0;
@@ -793,25 +793,25 @@ export class SpiritSorter {
    */
   getSortDescription(sortOption: SortOption): string {
     switch (sortOption) {
-      case SortOption.ALPHABETICAL_ASC:
+      case SortOption?.ALPHABETICAL_ASC:
         return 'Alphabetical (A-Z)';
-      case SortOption.ALPHABETICAL_DESC:
+      case SortOption?.ALPHABETICAL_DESC:
         return 'Alphabetical (Z-A)';
-      case SortOption.SYNC_ASC:
+      case SortOption?.SYNC_ASC:
         return 'Sync Level (Low to High)';
-      case SortOption.SYNC_DESC:
+      case SortOption?.SYNC_DESC:
         return 'Sync Level (High to Low)';
-      case SortOption.RARITY_ASC:
+      case SortOption?.RARITY_ASC:
         return 'Rarity (Common to Mythical)';
-      case SortOption.RARITY_DESC:
+      case SortOption?.RARITY_DESC:
         return 'Rarity (Mythical to Common)';
-      case SortOption.LEVEL_ASC:
+      case SortOption?.LEVEL_ASC:
         return 'Level (Low to High)';
-      case SortOption.LEVEL_DESC:
+      case SortOption?.LEVEL_DESC:
         return 'Level (High to Low)';
-      case SortOption.CAPTURE_DATE_ASC:
+      case SortOption?.CAPTURE_DATE_ASC:
         return 'Capture Date (Oldest First)';
-      case SortOption.CAPTURE_DATE_DESC:
+      case SortOption?.CAPTURE_DATE_DESC:
         return 'Capture Date (Newest First)';
       default:
         return 'Unknown Sort';
@@ -881,20 +881,20 @@ export class Spirit implements ISpirit {
     description: string,
     primaryType: SpiritType,
     secondaryType: SpiritType | undefined = undefined,
-    rarity: SpiritRarity = SpiritRarity.COMMON
+    rarity: SpiritRarity = SpiritRarity?.COMMON
   ) {
-    this.spiritId = spiritId;
-    this.spiritName = spiritName;
-    this.description = description;
-    this.primaryType = primaryType;
-    this.secondaryType = secondaryType;
-    this.rarity = rarity;
-    this.level = 1;
-    this.experience = 0;
-    this.maxExperience = 1000;
-    this.evolutionStage = 1;
-    this.evolutions = [];
-    this.stats = {
+    this?.spiritId = spiritId;
+    this?.spiritName = spiritName;
+    this?.description = description;
+    this?.primaryType = primaryType;
+    this?.secondaryType = secondaryType;
+    this?.rarity = rarity;
+    this?.level = 1;
+    this?.experience = 0;
+    this?.maxExperience = 1000;
+    this?.evolutionStage = 1;
+    this?.evolutions = [];
+    this?.stats = {
       hp: 50,
       attack: 50,
       defense: 50,
@@ -902,36 +902,36 @@ export class Spirit implements ISpirit {
       specialDefense: 50,
       speed: 50
     };
-    this.moves = [];
-    this.abilities = [];
-    this.hiddenAbilities = [];
-    this.height = 1.0;
-    this.weight = 10.0;
-    this.genderRatio = { male: 50, female: 50 };
-    this.eggGroups = ['undiscovered'];
-    this.hatchSteps = 5120;
-    this.friendship = 70;
-    this.growthRate = 'medium_fast';
-    this.catchRate = 255;
-    this.baseExperience = 64;
-    this.evYield = {};
-    this.habitat = ['grassland'];
-    this.region = 'kanto';
-    this.generation = 1;
-    this.isCaptured = false;
-    this.isFavorite = false;
-    this.syncLevel = 0;
-    this.loreEntries = [];
-    this.sprites = {
+    this?.moves = [];
+    this?.abilities = [];
+    this?.hiddenAbilities = [];
+    this?.height = 1.0;
+    this?.weight = 10.0;
+    this?.genderRatio = { male: 50, female: 50 };
+    this?.eggGroups = ['undiscovered'];
+    this?.hatchSteps = 5120;
+    this?.friendship = 70;
+    this?.growthRate = 'medium_fast';
+    this?.catchRate = 255;
+    this?.baseExperience = 64;
+    this?.evYield = {};
+    this?.habitat = ['grassland'];
+    this?.region = 'kanto';
+    this?.generation = 1;
+    this?.isCaptured = false;
+    this?.isFavorite = false;
+    this?.syncLevel = 0;
+    this?.loreEntries = [];
+    this?.sprites = {
       normal: '',
       front: '',
       back: '',
       icon: ''
     };
-    this.cries = {
+    this?.cries = {
       normal: ''
     };
-    this.metadata = {};
+    this?.metadata = {};
   }
 
   /**
@@ -954,40 +954,40 @@ export class Spirit implements ISpirit {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.spiritId || this.spiritId.trim() === '') {
-      errors.push('Spirit ID is required');
+    if (!this?.spiritId || this?.spiritId.trim() === '') {
+      errors?.push('Spirit ID is required');
     }
 
-    if (!this.spiritName || this.spiritName.trim() === '') {
-      errors.push('Spirit name is required');
+    if (!this?.spiritName || this?.spiritName.trim() === '') {
+      errors?.push('Spirit name is required');
     }
 
-    if (!this.description || this.description.trim() === '') {
-      errors.push('Description is required');
+    if (!this?.description || this?.description.trim() === '') {
+      errors?.push('Description is required');
     }
 
-    if (this.primaryType === SpiritType.NONE) {
-      errors.push('Primary type cannot be NONE');
+    if (this?.primaryType === SpiritType?.NONE) {
+      errors?.push('Primary type cannot be NONE');
     }
 
-    if (this.level < 1 || this.level > 100) {
-      errors.push('Level must be between 1 and 100');
+    if (this?.level < 1 || this?.level > 100) {
+      errors?.push('Level must be between 1 and 100');
     }
 
-    if (this.syncLevel < 0 || this.syncLevel > 100) {
-      errors.push('Sync level must be between 0 and 100');
+    if (this?.syncLevel < 0 || this?.syncLevel > 100) {
+      errors?.push('Sync level must be between 0 and 100');
     }
 
-    if (this.experience < 0) {
-      errors.push('Experience cannot be negative');
+    if (this?.experience < 0) {
+      errors?.push('Experience cannot be negative');
     }
 
-    if (this.maxExperience <= 0) {
-      errors.push('Max experience must be positive');
+    if (this?.maxExperience <= 0) {
+      errors?.push('Max experience must be positive');
     }
 
-    if (this.evolutionStage < 1) {
-      errors.push('Evolution stage must be at least 1');
+    if (this?.evolutionStage < 1) {
+      errors?.push('Evolution stage must be at least 1');
     }
 
     return errors;
@@ -999,7 +999,7 @@ export class Spirit implements ISpirit {
   computeExperienceForLevel(level: number): number {
     if (level <= 1) return 0;
 
-    switch (this.growthRate) {
+    switch (this?.growthRate) {
       case 'slow':
         return Math.floor((5 * Math.pow(level, 3)) / 4);
       case 'medium_slow':
@@ -1026,21 +1026,21 @@ export class Spirit implements ISpirit {
    * Check if spirit can evolve
    */
   canEvolve(): boolean {
-    return this.evolutions.length > 0;
+    return this?.evolutions.length > 0;
   }
 
   /**
    * Get next evolution
    */
   getNextEvolution(): ISpiritEvolution | null {
-    const nextEvolution = this.evolutions.find(evolution =>
-      evolution.level <= this.level &&
-      (!evolution.item || this.hasItem(evolution.item)) &&
-      (!evolution.location || this.captureLocation === evolution.location) &&
-      (!evolution.timeOfDay || this.isTimeOfDay(evolution.timeOfDay)) &&
-      (!evolution.weather || this.isWeather(evolution.weather)) &&
-      (!evolution.happiness || this.friendship >= evolution.happiness) &&
-      (!evolution.gender || this.getGender() === evolution.gender)
+    const nextEvolution = this?.evolutions.find(evolution =>
+      evolution?.level <= this?.level &&
+      (!evolution?.item || this?.hasItem(evolution?.item)) &&
+      (!evolution?.location || this?.captureLocation === evolution?.location) &&
+      (!evolution?.timeOfDay || this?.isTimeOfDay(evolution?.timeOfDay)) &&
+      (!evolution?.weather || this?.isWeather(evolution?.weather)) &&
+      (!evolution?.happiness || this?.friendship >= evolution?.happiness) &&
+      (!evolution?.gender || this?.getGender() === evolution?.gender)
     );
 
     return nextEvolution || null;
@@ -1050,7 +1050,7 @@ export class Spirit implements ISpirit {
    * Get effective stats (with level scaling)
    */
   getEffectiveStats(): ISpiritStats {
-    const levelMultiplier = this.level / 50; // Simple level scaling
+    const levelMultiplier = this?.level / 50; // Simple level scaling
     return {
       hp: Math.floor(this.stats.hp * levelMultiplier),
       attack: Math.floor(this.stats.attack * levelMultiplier),
@@ -1058,9 +1058,9 @@ export class Spirit implements ISpirit {
       specialAttack: Math.floor(this.stats.specialAttack * levelMultiplier),
       specialDefense: Math.floor(this.stats.specialDefense * levelMultiplier),
       speed: Math.floor(this.stats.speed * levelMultiplier),
-      accuracy: this.stats.accuracy,
-      evasion: this.stats.evasion,
-      criticalHit: this.stats.criticalHit
+      accuracy: this?.stats.accuracy,
+      evasion: this?.stats.evasion,
+      criticalHit: this?.stats.criticalHit
     };
   }
 
@@ -1070,34 +1070,34 @@ export class Spirit implements ISpirit {
   getTypeEffectiveness(attackingType: SpiritType): number {
     // This would be a complex lookup table in a real implementation
     // For now, return a simple effectiveness value
-    if (this.primaryType === attackingType || this.secondaryType === attackingType) {
+    if (this?.primaryType === attackingType || this?.secondaryType === attackingType) {
       return 0.5; // Not very effective
     }
 
     // Check for super effective combinations
     const superEffective: Record<string, string[]> = {
-      [SpiritType.FIRE]: [SpiritType.GRASS, SpiritType.ICE, SpiritType.BUG, SpiritType.STEEL],
-      [SpiritType.WATER]: [SpiritType.FIRE, SpiritType.GROUND, SpiritType.ROCK],
-      [SpiritType.GRASS]: [SpiritType.WATER, SpiritType.GROUND, SpiritType.ROCK],
-      [SpiritType.ELECTRIC]: [SpiritType.WATER, SpiritType.FLYING],
-      [SpiritType.ICE]: [SpiritType.GRASS, SpiritType.GROUND, SpiritType.FLYING, SpiritType.DRAGON],
-      [SpiritType.FIGHTING]: [SpiritType.NORMAL, SpiritType.ICE, SpiritType.ROCK, SpiritType.DARK, SpiritType.STEEL],
-      [SpiritType.POISON]: [SpiritType.GRASS, SpiritType.FAIRY],
-      [SpiritType.GROUND]: [SpiritType.FIRE, SpiritType.ELECTRIC, SpiritType.POISON, SpiritType.ROCK, SpiritType.STEEL],
-      [SpiritType.FLYING]: [SpiritType.GRASS, SpiritType.FIGHTING, SpiritType.BUG],
-      [SpiritType.PSYCHIC]: [SpiritType.FIGHTING, SpiritType.POISON],
-      [SpiritType.BUG]: [SpiritType.GRASS, SpiritType.PSYCHIC, SpiritType.DARK],
-      [SpiritType.ROCK]: [SpiritType.FIRE, SpiritType.FLYING, SpiritType.BUG],
-      [SpiritType.GHOST]: [SpiritType.PSYCHIC, SpiritType.GHOST],
-      [SpiritType.DRAGON]: [SpiritType.DRAGON],
-      [SpiritType.DARK]: [SpiritType.PSYCHIC, SpiritType.GHOST],
-      [SpiritType.STEEL]: [SpiritType.ICE, SpiritType.ROCK, SpiritType.FAIRY],
-      [SpiritType.FAIRY]: [SpiritType.FIGHTING, SpiritType.DRAGON, SpiritType.DARK]
+      [SpiritType?.FIRE]: [SpiritType?.GRASS, SpiritType?.ICE, SpiritType?.BUG, SpiritType?.STEEL],
+      [SpiritType?.WATER]: [SpiritType?.FIRE, SpiritType?.GROUND, SpiritType?.ROCK],
+      [SpiritType?.GRASS]: [SpiritType?.WATER, SpiritType?.GROUND, SpiritType?.ROCK],
+      [SpiritType?.ELECTRIC]: [SpiritType?.WATER, SpiritType?.FLYING],
+      [SpiritType?.ICE]: [SpiritType?.GRASS, SpiritType?.GROUND, SpiritType?.FLYING, SpiritType?.DRAGON],
+      [SpiritType?.FIGHTING]: [SpiritType?.NORMAL, SpiritType?.ICE, SpiritType?.ROCK, SpiritType?.DARK, SpiritType?.STEEL],
+      [SpiritType?.POISON]: [SpiritType?.GRASS, SpiritType?.FAIRY],
+      [SpiritType?.GROUND]: [SpiritType?.FIRE, SpiritType?.ELECTRIC, SpiritType?.POISON, SpiritType?.ROCK, SpiritType?.STEEL],
+      [SpiritType?.FLYING]: [SpiritType?.GRASS, SpiritType?.FIGHTING, SpiritType?.BUG],
+      [SpiritType?.PSYCHIC]: [SpiritType?.FIGHTING, SpiritType?.POISON],
+      [SpiritType?.BUG]: [SpiritType?.GRASS, SpiritType?.PSYCHIC, SpiritType?.DARK],
+      [SpiritType?.ROCK]: [SpiritType?.FIRE, SpiritType?.FLYING, SpiritType?.BUG],
+      [SpiritType?.GHOST]: [SpiritType?.PSYCHIC, SpiritType?.GHOST],
+      [SpiritType?.DRAGON]: [SpiritType?.DRAGON],
+      [SpiritType?.DARK]: [SpiritType?.PSYCHIC, SpiritType?.GHOST],
+      [SpiritType?.STEEL]: [SpiritType?.ICE, SpiritType?.ROCK, SpiritType?.FAIRY],
+      [SpiritType?.FAIRY]: [SpiritType?.FIGHTING, SpiritType?.DRAGON, SpiritType?.DARK]
     };
 
-    const typesToCheck = [this.primaryType];
-    if (this.secondaryType) {
-      typesToCheck.push(this.secondaryType);
+    const typesToCheck = [this?.primaryType];
+    if (this?.secondaryType) {
+      typesToCheck?.push(this?.secondaryType);
     }
 
     let effectiveness = 1;
@@ -1114,22 +1114,22 @@ export class Spirit implements ISpirit {
    * Check if spirit has move
    */
   hasMove(moveId: string): boolean {
-    return this.moves.some(move => move.id === moveId);
+    return this?.moves.some(move => move?.id === moveId);
   }
 
   /**
    * Learn move
    */
   learnMove(move: ISpiritMove): boolean {
-    if (this.hasMove(move.id)) {
+    if (this?.hasMove(move?.id)) {
       return false; // Already knows move
     }
 
-    if (this.moves.length >= 4) {
+    if (this?.moves.length >= 4) {
       return false; // No space for new move
     }
 
-    this.moves.push(move);
+    this?.moves?.push(move);
     return true;
   }
 
@@ -1137,9 +1137,9 @@ export class Spirit implements ISpirit {
    * Forget move
    */
   forgetMove(moveId: string): boolean {
-    const index = this.moves.findIndex(move => move.id === moveId);
+    const index = this?.moves.findIndex(move => move?.id === moveId);
     if (index >= 0) {
-      this.moves.splice(index, 1);
+      this?.moves.splice(index, 1);
       return true;
     }
     return false;
@@ -1149,23 +1149,23 @@ export class Spirit implements ISpirit {
    * Get move by ID
    */
   getMoveById(moveId: string): ISpiritMove | null {
-    return this.moves.find(move => move.id === moveId) || null;
+    return this?.moves.find(move => move?.id === moveId) || null;
   }
 
   /**
    * Get lore entry
    */
   getLoreEntry(loreId: string): ISpiritLore | null {
-    return this.loreEntries.find(lore => lore.id === loreId) || null;
+    return this?.loreEntries.find(lore => lore?.id === loreId) || null;
   }
 
   /**
    * Unlock lore
    */
   unlockLore(loreId: string): boolean {
-    const lore = this.getLoreEntry(loreId);
-    if (lore && !lore.unlocked) {
-      lore.unlocked = true;
+    const lore = this?.getLoreEntry(loreId);
+    if (lore && !lore?.unlocked) {
+      lore?.unlocked = true;
       return true;
     }
     return false;
@@ -1175,7 +1175,7 @@ export class Spirit implements ISpirit {
    * Check if lore is unlocked
    */
   isLoreUnlocked(loreId: string): boolean {
-    const lore = this.getLoreEntry(loreId);
+    const lore = this?.getLoreEntry(loreId);
     return lore?.unlocked || false;
   }
 
@@ -1183,25 +1183,25 @@ export class Spirit implements ISpirit {
    * Get all lore IDs
    */
   getAllLoreIds(): string[] {
-    return this.loreEntries.map((lore: any) => lore.id);
+    return this?.loreEntries.map((lore: any) => lore?.id);
   }
 
   /**
    * Get unlocked lore IDs
    */
   getUnlockedLoreIds(): string[] {
-    return this.loreEntries.filter((lore: any) => lore.unlocked).map((lore: any) => lore.id);
+    return this?.loreEntries.filter((lore: any) => lore?.unlocked).map((lore: any) => lore?.id);
   }
 
   /**
    * Get sync description
    */
   getSyncDescription(): string {
-    if (this.syncLevel >= 90) return 'Perfect Harmony';
-    if (this.syncLevel >= 70) return 'Strong Bond';
-    if (this.syncLevel >= 50) return 'Good Connection';
-    if (this.syncLevel >= 30) return 'Growing Bond';
-    if (this.syncLevel >= 10) return 'New Friendship';
+    if (this?.syncLevel >= 90) return 'Perfect Harmony';
+    if (this?.syncLevel >= 70) return 'Strong Bond';
+    if (this?.syncLevel >= 50) return 'Good Connection';
+    if (this?.syncLevel >= 30) return 'Growing Bond';
+    if (this?.syncLevel >= 10) return 'New Friendship';
     return 'Just Met';
   }
 
@@ -1209,14 +1209,14 @@ export class Spirit implements ISpirit {
    * Get rarity description
    */
   getRarityDescription(): string {
-    switch (this.rarity) {
-      case SpiritRarity.COMMON: return 'Common';
-      case SpiritRarity.UNCOMMON: return 'Uncommon';
-      case SpiritRarity.RARE: return 'Rare';
-      case SpiritRarity.EPIC: return 'Epic';
-      case SpiritRarity.LEGENDARY: return 'Legendary';
-      case SpiritRarity.MYTHICAL: return 'Mythical';
-      case SpiritRarity.UNIQUE: return 'Unique';
+    switch (this?.rarity) {
+      case SpiritRarity?.COMMON: return 'Common';
+      case SpiritRarity?.UNCOMMON: return 'Uncommon';
+      case SpiritRarity?.RARE: return 'Rare';
+      case SpiritRarity?.EPIC: return 'Epic';
+      case SpiritRarity?.LEGENDARY: return 'Legendary';
+      case SpiritRarity?.MYTHICAL: return 'Mythical';
+      case SpiritRarity?.UNIQUE: return 'Unique';
       default: return 'Unknown';
     }
   }
@@ -1225,18 +1225,18 @@ export class Spirit implements ISpirit {
    * Get type description
    */
   getTypeDescription(): string {
-    const types = [this.primaryType];
-    if (this.secondaryType) {
-      types.push(this.secondaryType);
+    const types = [this?.primaryType];
+    if (this?.secondaryType) {
+      types?.push(this?.secondaryType);
     }
-    return types.join('/');
+    return types?.join('/');
   }
 
   /**
    * Get habitat description
    */
   getHabitatDescription(): string {
-    return this.habitat.join(', ');
+    return this?.habitat.join(', ');
   }
 
   /**
@@ -1244,47 +1244,47 @@ export class Spirit implements ISpirit {
    */
   toJSON(): Record<string, any> {
     return {
-      spiritId: this.spiritId,
-      spiritName: this.spiritName,
-      description: this.description,
-      primaryType: this.primaryType,
-      secondaryType: this.secondaryType,
-      rarity: this.rarity,
-      level: this.level,
-      experience: this.experience,
-      maxExperience: this.maxExperience,
-      evolutionStage: this.evolutionStage,
-      evolutions: this.evolutions,
-      stats: this.stats,
-      moves: this.moves,
-      abilities: this.abilities,
-      hiddenAbilities: this.hiddenAbilities,
-      height: this.height,
-      weight: this.weight,
-      genderRatio: this.genderRatio,
-      eggGroups: this.eggGroups,
-      hatchSteps: this.hatchSteps,
-      friendship: this.friendship,
-      growthRate: this.growthRate,
-      catchRate: this.catchRate,
-      baseExperience: this.baseExperience,
-      evYield: this.evYield,
-      habitat: this.habitat,
-      region: this.region,
-      generation: this.generation,
-      isCaptured: this.isCaptured,
-      captureDate: this.captureDate?.toISOString(),
-      captureLocation: this.captureLocation,
-      captureLevel: this.captureLevel,
-      isFavorite: this.isFavorite,
-      nickname: this.nickname,
-      trainerId: this.trainerId,
-      trainerName: this.trainerName,
-      syncLevel: this.syncLevel,
-      loreEntries: this.loreEntries,
-      sprites: this.sprites,
-      cries: this.cries,
-      metadata: this.metadata
+      spiritId: this?.spiritId,
+      spiritName: this?.spiritName,
+      description: this?.description,
+      primaryType: this?.primaryType,
+      secondaryType: this?.secondaryType,
+      rarity: this?.rarity,
+      level: this?.level,
+      experience: this?.experience,
+      maxExperience: this?.maxExperience,
+      evolutionStage: this?.evolutionStage,
+      evolutions: this?.evolutions,
+      stats: this?.stats,
+      moves: this?.moves,
+      abilities: this?.abilities,
+      hiddenAbilities: this?.hiddenAbilities,
+      height: this?.height,
+      weight: this?.weight,
+      genderRatio: this?.genderRatio,
+      eggGroups: this?.eggGroups,
+      hatchSteps: this?.hatchSteps,
+      friendship: this?.friendship,
+      growthRate: this?.growthRate,
+      catchRate: this?.catchRate,
+      baseExperience: this?.baseExperience,
+      evYield: this?.evYield,
+      habitat: this?.habitat,
+      region: this?.region,
+      generation: this?.generation,
+      isCaptured: this?.isCaptured,
+      captureDate: this?.captureDate?.toISOString(),
+      captureLocation: this?.captureLocation,
+      captureLevel: this?.captureLevel,
+      isFavorite: this?.isFavorite,
+      nickname: this?.nickname,
+      trainerId: this?.trainerId,
+      trainerName: this?.trainerName,
+      syncLevel: this?.syncLevel,
+      loreEntries: this?.loreEntries,
+      sprites: this?.sprites,
+      cries: this?.cries,
+      metadata: this?.metadata
     };
   }
 
@@ -1293,16 +1293,16 @@ export class Spirit implements ISpirit {
    */
   static fromJSON(data: Record<string, any>): Spirit {
     const spirit = new Spirit(
-      data.spiritId,
-      data.spiritName,
-      data.description,
-      data.primaryType,
-      data.secondaryType,
-      data.rarity
+      data?.spiritId,
+      data?.spiritName,
+      data?.description,
+      data?.primaryType,
+      data?.secondaryType,
+      data?.rarity
     );
 
     Object.assign(spirit, data);
-    spirit.captureDate = data.captureDate ? new Date(data.captureDate) : undefined;
+    spirit?.captureDate = data?.captureDate ? new Date(data?.captureDate) : undefined;
 
     return spirit;
   }
@@ -1311,7 +1311,7 @@ export class Spirit implements ISpirit {
    * Clone spirit
    */
   clone(): Spirit {
-    return Spirit.fromJSON(this.toJSON());
+    return Spirit?.fromJSON(this?.toJSON());
   }
 
   // Helper methods
@@ -1352,8 +1352,8 @@ export class SpiritCollection implements ISpiritCollection {
   public favoriteSpirits: ISpirit[];
 
   constructor(spirits: ISpirit[] = []) {
-    this.spirits = [...spirits];
-    this.updateCollections();
+    this?.spirits = [...spirits];
+    this?.updateCollections();
   }
 
   /**
@@ -1367,33 +1367,33 @@ export class SpiritCollection implements ISpiritCollection {
    * Update collections
    */
   private updateCollections(): void {
-    this.capturedSpirits = this.spirits.filter((spirit: any) => spirit.isCaptured);
-    this.uncapturedSpirits = this.spirits.filter((spirit: any) => !spirit.isCaptured);
-    this.favoriteSpirits = this.spirits.filter((spirit: any) => spirit.isFavorite);
+    this?.capturedSpirits = this?.spirits.filter((spirit: any) => spirit?.isCaptured);
+    this?.uncapturedSpirits = this?.spirits.filter((spirit: any) => !spirit?.isCaptured);
+    this?.favoriteSpirits = this?.spirits.filter((spirit: any) => spirit?.isFavorite);
   }
 
   /**
    * Get collection properties
    */
   get totalSpirits(): number {
-    return this.spirits.length;
+    return this?.spirits.length;
   }
 
   get capturedCount(): number {
-    return this.capturedSpirits.length;
+    return this?.capturedSpirits.length;
   }
 
   get completionPercentage(): number {
-    return this.totalSpirits > 0 ? (this.capturedCount / this.totalSpirits) * 100 : 0;
+    return this?.totalSpirits > 0 ? (this?.capturedCount / this?.totalSpirits) * 100 : 0;
   }
 
   /**
    * Add spirit
    */
   addSpirit(spirit: ISpirit): void {
-    if (!this.hasSpirit(spirit.spiritId)) {
-      this.spirits.push(spirit);
-      this.updateCollections();
+    if (!this?.hasSpirit(spirit?.spiritId)) {
+      this?.spirits?.push(spirit);
+      this?.updateCollections();
     }
   }
 
@@ -1401,10 +1401,10 @@ export class SpiritCollection implements ISpiritCollection {
    * Remove spirit
    */
   removeSpirit(spiritId: string): boolean {
-    const index = this.spirits.findIndex(spirit => spirit.spiritId === spiritId);
+    const index = this?.spirits.findIndex(spirit => spirit?.spiritId === spiritId);
     if (index >= 0) {
-      this.spirits.splice(index, 1);
-      this.updateCollections();
+      this?.spirits.splice(index, 1);
+      this?.updateCollections();
       return true;
     }
     return false;
@@ -1414,21 +1414,21 @@ export class SpiritCollection implements ISpiritCollection {
    * Get spirit
    */
   getSpirit(spiritId: string): ISpirit | null {
-    return this.spirits.find(spirit => spirit.spiritId === spiritId) || null;
+    return this?.spirits.find(spirit => spirit?.spiritId === spiritId) || null;
   }
 
   /**
    * Check if collection has spirit
    */
   hasSpirit(spiritId: string): boolean {
-    return this.spirits.some(spirit => spirit.spiritId === spiritId);
+    return this?.spirits.some(spirit => spirit?.spiritId === spiritId);
   }
 
   /**
    * Update spirit
    */
   updateSpirit(spiritId: string, updates: Partial<ISpirit>): boolean {
-    const spirit = this.getSpirit(spiritId);
+    const spirit = this?.getSpirit(spiritId);
     if (spirit) {
       Object.assign(spirit, updates);
       return true;
@@ -1440,8 +1440,8 @@ export class SpiritCollection implements ISpiritCollection {
    * Get spirits by type
    */
   getSpiritsByType(type: SpiritType): ISpirit[] {
-    return this.spirits.filter((spirit: any) =>
-      spirit.primaryType === type || spirit.secondaryType === type
+    return this?.spirits.filter((spirit: any) =>
+      spirit?.primaryType === type || spirit?.secondaryType === type
     );
   }
 
@@ -1449,61 +1449,61 @@ export class SpiritCollection implements ISpiritCollection {
    * Get spirits by rarity
    */
   getSpiritsByRarity(rarity: SpiritRarity): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.rarity === rarity);
+    return this?.spirits.filter((spirit: any) => spirit?.rarity === rarity);
   }
 
   /**
    * Get spirits by region
    */
   getSpiritsByRegion(region: string): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.region === region);
+    return this?.spirits.filter((spirit: any) => spirit?.region === region);
   }
 
   /**
    * Get spirits by generation
    */
   getSpiritsByGeneration(generation: number): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.generation === generation);
+    return this?.spirits.filter((spirit: any) => spirit?.generation === generation);
   }
 
   /**
    * Get spirits by sync level
    */
   getSpiritsBySyncLevel(minSync: number, maxSync: number): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.syncLevel >= minSync && spirit.syncLevel <= maxSync);
+    return this?.spirits.filter((spirit: any) => spirit?.syncLevel >= minSync && spirit?.syncLevel <= maxSync);
   }
 
   /**
    * Get spirits by level
    */
   getSpiritsByLevel(minLevel: number, maxLevel: number): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.level >= minLevel && spirit.level <= maxLevel);
+    return this?.spirits.filter((spirit: any) => spirit?.level >= minLevel && spirit?.level <= maxLevel);
   }
 
   /**
    * Get evolved spirits
    */
   getEvolvedSpirits(): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.evolutionStage > 1);
+    return this?.spirits.filter((spirit: any) => spirit?.evolutionStage > 1);
   }
 
   /**
    * Get unevolved spirits
    */
   getUnevolvedSpirits(): ISpirit[] {
-    return this.spirits.filter((spirit: any) => spirit.evolutionStage === 1);
+    return this?.spirits.filter((spirit: any) => spirit?.evolutionStage === 1);
   }
 
   /**
    * Search spirits
    */
   searchSpirits(query: string): ISpirit[] {
-    const lowerQuery = query.toLowerCase();
-    return this.spirits.filter((spirit: any) =>
-      spirit.spiritName.toLowerCase().includes(lowerQuery) ||
-      spirit.description.toLowerCase().includes(lowerQuery) ||
-      spirit.spiritId.toLowerCase().includes(lowerQuery) ||
-      spirit.nickname?.toLowerCase().includes(lowerQuery)
+    const lowerQuery = query?.toLowerCase();
+    return this?.spirits.filter((spirit: any) =>
+      spirit?.spiritName.toLowerCase().includes(lowerQuery) ||
+      spirit?.description.toLowerCase().includes(lowerQuery) ||
+      spirit?.spiritId.toLowerCase().includes(lowerQuery) ||
+      spirit?.nickname?.toLowerCase().includes(lowerQuery)
     );
   }
 
@@ -1512,14 +1512,14 @@ export class SpiritCollection implements ISpiritCollection {
    */
   sortSpirits(sortOption: SortOption, ascending: boolean = true): ISpirit[] {
     const sorter = new SpiritSorter();
-    return sorter.sort(this.spirits, sortOption, ascending);
+    return sorter?.sort(this?.spirits, sortOption, ascending);
   }
 
   /**
    * Filter spirits
    */
   filterSpirits(filter: ISpiritFilter): ISpirit[] {
-    return filter.apply(this.spirits);
+    return filter?.apply(this?.spirits);
   }
 
   /**
@@ -1527,21 +1527,21 @@ export class SpiritCollection implements ISpiritCollection {
    */
   getStatistics(): Record<string, number> {
     const stats = {
-      total: this.totalSpirits,
-      captured: this.capturedCount,
-      uncaptured: this.uncapturedSpirits.length,
-      favorites: this.favoriteSpirits.length,
-      completionPercentage: this.completionPercentage,
-      averageLevel: this.spirits.reduce((sum, spirit) => sum + spirit.level, 0) / this.totalSpirits,
-      averageSync: this.spirits.reduce((sum, spirit) => sum + spirit.syncLevel, 0) / this.totalSpirits,
+      total: this?.totalSpirits,
+      captured: this?.capturedCount,
+      uncaptured: this?.uncapturedSpirits.length,
+      favorites: this?.favoriteSpirits.length,
+      completionPercentage: this?.completionPercentage,
+      averageLevel: this?.spirits.reduce((sum, spirit) => sum + spirit?.level, 0) / this?.totalSpirits,
+      averageSync: this?.spirits.reduce((sum, spirit) => sum + spirit?.syncLevel, 0) / this?.totalSpirits,
       highestLevel: Math.max(...this.spirits.map((spirit: any) => spirit.level), 0),
       highestSync: Math.max(...this.spirits.map((spirit: any) => spirit.syncLevel), 0),
-      totalTypes: new Set([...this.spirits.map((s: any) => s.primaryType), ...this.spirits.map((s: any) => s.secondaryType).filter(Boolean)]).size,
-      uniqueRarities: new Set(this.spirits.map((s: any) => s.rarity)).size,
-      uniqueRegions: new Set(this.spirits.map((s: any) => s.region)).size,
-      uniqueGenerations: new Set(this.spirits.map((s: any) => s.generation)).size,
-      evolvedCount: this.getEvolvedSpirits().length,
-      unevolvedCount: this.getUnevolvedSpirits().length
+      totalTypes: new Set([...this?.spirits.map((s: any) => s?.primaryType), ...this?.spirits.map((s: any) => s?.secondaryType).filter(Boolean)]).size,
+      uniqueRarities: new Set(this?.spirits.map((s: any) => s?.rarity)).size,
+      uniqueRegions: new Set(this?.spirits.map((s: any) => s?.region)).size,
+      uniqueGenerations: new Set(this?.spirits.map((s: any) => s?.generation)).size,
+      evolvedCount: this?.getEvolvedSpirits().length,
+      unevolvedCount: this?.getUnevolvedSpirits().length
     };
 
     return stats;
@@ -1554,9 +1554,9 @@ export class SpiritCollection implements ISpiritCollection {
     const types = Object.values(SpiritType);
     const completion: Record<string, { total: number; captured: number; percentage: number }> = {};
 
-    types.forEach((type: any) => {
-      const total = this.getSpiritsByType(type).length;
-      const captured = this.getSpiritsByType(type).filter((s: any) => s.isCaptured).length;
+    types?.forEach((type: any) => {
+      const total = this?.getSpiritsByType(type).length;
+      const captured = this?.getSpiritsByType(type).filter((s: any) => s?.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
 
       completion[type!] = { total, captured, percentage };
@@ -1572,9 +1572,9 @@ export class SpiritCollection implements ISpiritCollection {
     const rarities = Object.values(SpiritRarity).filter((r: any) => typeof r === 'number') as SpiritRarity[];
     const completion: Record<string, { total: number; captured: number; percentage: number }> = {};
 
-    rarities.forEach((rarity: any) => {
-      const total = this.getSpiritsByRarity(rarity).length;
-      const captured = this.getSpiritsByRarity(rarity).filter((s: any) => s.isCaptured).length;
+    rarities?.forEach((rarity: any) => {
+      const total = this?.getSpiritsByRarity(rarity).length;
+      const captured = this?.getSpiritsByRarity(rarity).filter((s: any) => s?.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
 
       completion[SpiritRarity[rarity!]] = { total, captured, percentage };
@@ -1588,10 +1588,10 @@ export class SpiritCollection implements ISpiritCollection {
    */
   exportCollection(): Record<string, any> {
     return {
-      spirits: this.spirits.map((spirit: any) => spirit.toJSON()),
-      totalSpirits: this.totalSpirits,
-      capturedCount: this.capturedCount,
-      completionPercentage: this.completionPercentage,
+      spirits: this?.spirits.map((spirit: any) => spirit?.toJSON()),
+      totalSpirits: this?.totalSpirits,
+      capturedCount: this?.capturedCount,
+      completionPercentage: this?.completionPercentage,
       exportDate: new Date().toISOString(),
       version: '1.0'
     };
@@ -1602,8 +1602,8 @@ export class SpiritCollection implements ISpiritCollection {
    */
   importCollection(data: Record<string, any>): void {
     if (data.spirits && Array.isArray(data.spirits)) {
-      this.spirits = data.spirits.map((spiritData: any) => Spirit.fromJSON(spiritData));
-      this.updateCollections();
+      this?.spirits = data?.spirits.map((spiritData: any) => Spirit?.fromJSON(spiritData));
+      this?.updateCollections();
     }
   }
 
@@ -1613,10 +1613,10 @@ export class SpiritCollection implements ISpiritCollection {
   validateCollection(): string[] {
     const errors: string[] = [];
 
-    this.spirits.forEach((spirit, index) => {
-      const spiritErrors = spirit.validate({});
-      if (spiritErrors.length > 0) {
-        errors.push(`Spirit ${index} (${spirit.spiritName}): ${spiritErrors.join(', ')}`);
+    this?.spirits.forEach((spirit, index) => {
+      const spiritErrors = spirit?.validate({});
+      if (spiritErrors?.length > 0) {
+        errors?.push(`Spirit ${index} (${spirit?.spiritName}): ${spiritErrors?.join(', ')}`);
       }
     });
 
@@ -1667,35 +1667,35 @@ export const SpiritUtils = {
     }
 
     const superEffective: Record<SpiritType, SpiritType[]> = {
-      [SpiritType.FIRE]: [SpiritType.GRASS, SpiritType.ICE, SpiritType.BUG],
-      [SpiritType.WATER]: [SpiritType.FIRE, SpiritType.GROUND, SpiritType.ROCK],
-      [SpiritType.GRASS]: [SpiritType.WATER, SpiritType.GROUND, SpiritType.ROCK],
-      [SpiritType.ELECTRIC]: [SpiritType.WATER, SpiritType.FLYING],
-      [SpiritType.ICE]: [SpiritType.GRASS, SpiritType.GROUND, SpiritType.FLYING, SpiritType.DRAGON],
-      [SpiritType.FIGHTING]: [SpiritType.NORMAL, SpiritType.ICE, SpiritType.ROCK],
-      [SpiritType.POISON]: [SpiritType.GRASS, SpiritType.FAIRY],
-      [SpiritType.GROUND]: [SpiritType.FIRE, SpiritType.ELECTRIC, SpiritType.POISON],
-      [SpiritType.FLYING]: [SpiritType.GRASS, SpiritType.FIGHTING, SpiritType.BUG],
-      [SpiritType.PSYCHIC]: [SpiritType.FIGHTING, SpiritType.POISON],
-      [SpiritType.BUG]: [SpiritType.GRASS, SpiritType.PSYCHIC, SpiritType.DARK],
-      [SpiritType.ROCK]: [SpiritType.FIRE, SpiritType.FLYING, SpiritType.BUG],
-      [SpiritType.GHOST]: [SpiritType.PSYCHIC, SpiritType.GHOST],
-      [SpiritType.DRAGON]: [SpiritType.DRAGON],
-      [SpiritType.DARK]: [SpiritType.PSYCHIC, SpiritType.GHOST],
-      [SpiritType.STEEL]: [SpiritType.ICE, SpiritType.ROCK, SpiritType.FAIRY],
-      [SpiritType.FAIRY]: [SpiritType.FIGHTING, SpiritType.DRAGON, SpiritType.DARK],
-      [SpiritType.NONE]: [],
-      [SpiritType.NORMAL]: [],
-      [SpiritType.LIGHT]: [SpiritType.DARK, SpiritType.GHOST],
-      [SpiritType.SHADOW]: [SpiritType.LIGHT, SpiritType.FAIRY],
-      [SpiritType.TIME]: [SpiritType.NONE],
-      [SpiritType.SPACE]: [SpiritType.NONE],
-      [SpiritType.SOUND]: [SpiritType.NONE],
-      [SpiritType.CHAOS]: [SpiritType.ORDER],
-      [SpiritType.ORDER]: [SpiritType.CHAOS],
-      [SpiritType.LIFE]: [SpiritType.DEATH],
-      [SpiritType.DEATH]: [SpiritType.LIFE],
-      [SpiritType.BALANCE]: []
+      [SpiritType?.FIRE]: [SpiritType?.GRASS, SpiritType?.ICE, SpiritType?.BUG],
+      [SpiritType?.WATER]: [SpiritType?.FIRE, SpiritType?.GROUND, SpiritType?.ROCK],
+      [SpiritType?.GRASS]: [SpiritType?.WATER, SpiritType?.GROUND, SpiritType?.ROCK],
+      [SpiritType?.ELECTRIC]: [SpiritType?.WATER, SpiritType?.FLYING],
+      [SpiritType?.ICE]: [SpiritType?.GRASS, SpiritType?.GROUND, SpiritType?.FLYING, SpiritType?.DRAGON],
+      [SpiritType?.FIGHTING]: [SpiritType?.NORMAL, SpiritType?.ICE, SpiritType?.ROCK],
+      [SpiritType?.POISON]: [SpiritType?.GRASS, SpiritType?.FAIRY],
+      [SpiritType?.GROUND]: [SpiritType?.FIRE, SpiritType?.ELECTRIC, SpiritType?.POISON],
+      [SpiritType?.FLYING]: [SpiritType?.GRASS, SpiritType?.FIGHTING, SpiritType?.BUG],
+      [SpiritType?.PSYCHIC]: [SpiritType?.FIGHTING, SpiritType?.POISON],
+      [SpiritType?.BUG]: [SpiritType?.GRASS, SpiritType?.PSYCHIC, SpiritType?.DARK],
+      [SpiritType?.ROCK]: [SpiritType?.FIRE, SpiritType?.FLYING, SpiritType?.BUG],
+      [SpiritType?.GHOST]: [SpiritType?.PSYCHIC, SpiritType?.GHOST],
+      [SpiritType?.DRAGON]: [SpiritType?.DRAGON],
+      [SpiritType?.DARK]: [SpiritType?.PSYCHIC, SpiritType?.GHOST],
+      [SpiritType?.STEEL]: [SpiritType?.ICE, SpiritType?.ROCK, SpiritType?.FAIRY],
+      [SpiritType?.FAIRY]: [SpiritType?.FIGHTING, SpiritType?.DRAGON, SpiritType?.DARK],
+      [SpiritType?.NONE]: [],
+      [SpiritType?.NORMAL]: [],
+      [SpiritType?.LIGHT]: [SpiritType?.DARK, SpiritType?.GHOST],
+      [SpiritType?.SHADOW]: [SpiritType?.LIGHT, SpiritType?.FAIRY],
+      [SpiritType?.TIME]: [SpiritType?.NONE],
+      [SpiritType?.SPACE]: [SpiritType?.NONE],
+      [SpiritType?.SOUND]: [SpiritType?.NONE],
+      [SpiritType?.CHAOS]: [SpiritType?.ORDER],
+      [SpiritType?.ORDER]: [SpiritType?.CHAOS],
+      [SpiritType?.LIFE]: [SpiritType?.DEATH],
+      [SpiritType?.DEATH]: [SpiritType?.LIFE],
+      [SpiritType?.BALANCE]: []
     };
 
     if (superEffective[attackingType!]?.includes(defendingType)) {
@@ -1724,13 +1724,13 @@ export const SpiritUtils = {
    */
   getRarityName(rarity: SpiritRarity): string {
     switch (rarity) {
-      case SpiritRarity.COMMON: return 'Common';
-      case SpiritRarity.UNCOMMON: return 'Uncommon';
-      case SpiritRarity.RARE: return 'Rare';
-      case SpiritRarity.EPIC: return 'Epic';
-      case SpiritRarity.LEGENDARY: return 'Legendary';
-      case SpiritRarity.MYTHICAL: return 'Mythical';
-      case SpiritRarity.UNIQUE: return 'Unique';
+      case SpiritRarity?.COMMON: return 'Common';
+      case SpiritRarity?.UNCOMMON: return 'Uncommon';
+      case SpiritRarity?.RARE: return 'Rare';
+      case SpiritRarity?.EPIC: return 'Epic';
+      case SpiritRarity?.LEGENDARY: return 'Legendary';
+      case SpiritRarity?.MYTHICAL: return 'Mythical';
+      case SpiritRarity?.UNIQUE: return 'Unique';
       default: return 'Unknown';
     }
   },
@@ -1768,19 +1768,19 @@ export const SpiritUtils = {
    * Create demo spirit
    */
   createDemoSpirit(): Spirit {
-    const spirit = Spirit.create(
+    const spirit = Spirit?.create(
       'demo_spirit',
       'Demo Spirit',
       'A demonstration spirit for testing purposes',
-      SpiritType.FIRE,
+      SpiritType?.FIRE,
       undefined,
-      SpiritRarity.COMMON
+      SpiritRarity?.COMMON
     );
 
-    spirit.level = 5;
-    spirit.experience = 1250;
-    spirit.maxExperience = 1500;
-    spirit.stats = {
+    spirit?.level = 5;
+    spirit?.experience = 1250;
+    spirit?.maxExperience = 1500;
+    spirit?.stats = {
       hp: 60,
       attack: 55,
       defense: 40,
@@ -1799,22 +1799,22 @@ export const SpiritUtils = {
     const collection = new SpiritCollection();
 
     // Add various demo spirits
-    collection.addSpirit(Spirit.create('fire_spirit', 'Fire Spirit', 'A fiery spirit', SpiritType.FIRE, undefined, SpiritRarity.COMMON));
-    collection.addSpirit(Spirit.create('water_spirit', 'Water Spirit', 'A watery spirit', SpiritType.WATER, undefined, SpiritRarity.UNCOMMON));
-    collection.addSpirit(Spirit.create('grass_spirit', 'Grass Spirit', 'A grassy spirit', SpiritType.GRASS, undefined, SpiritRarity.RARE));
-    collection.addSpirit(Spirit.create('electric_spirit', 'Electric Spirit', 'A shocking spirit', SpiritType.ELECTRIC, undefined, SpiritRarity.EPIC));
+    collection?.addSpirit(Spirit?.create('fire_spirit', 'Fire Spirit', 'A fiery spirit', SpiritType?.FIRE, undefined, SpiritRarity?.COMMON));
+    collection?.addSpirit(Spirit?.create('water_spirit', 'Water Spirit', 'A watery spirit', SpiritType?.WATER, undefined, SpiritRarity?.UNCOMMON));
+    collection?.addSpirit(Spirit?.create('grass_spirit', 'Grass Spirit', 'A grassy spirit', SpiritType?.GRASS, undefined, SpiritRarity?.RARE));
+    collection?.addSpirit(Spirit?.create('electric_spirit', 'Electric Spirit', 'A shocking spirit', SpiritType?.ELECTRIC, undefined, SpiritRarity?.EPIC));
 
     // Mark some as captured
-    const fireSpirit = collection.getSpirit('fire_spirit');
-    const waterSpirit = collection.getSpirit('water_spirit');
+    const fireSpirit = collection?.getSpirit('fire_spirit');
+    const waterSpirit = collection?.getSpirit('water_spirit');
     if (fireSpirit) {
-      fireSpirit.isCaptured = true;
-      fireSpirit.syncLevel = 75;
-      fireSpirit.captureDate = new Date();
+      fireSpirit?.isCaptured = true;
+      fireSpirit?.syncLevel = 75;
+      fireSpirit?.captureDate = new Date();
     }
     if (waterSpirit) {
-      waterSpirit.isCaptured = true;
-      waterSpirit.syncLevel = 45;
+      waterSpirit?.isCaptured = true;
+      waterSpirit?.syncLevel = 45;
       waterSpirit.captureDate = new Date(Date.now() - 86400000); // 1 day ago
     }
 
@@ -1828,4 +1828,4 @@ export const SpiritUtils = {
 export const defaultSpiritFilter = new SpiritFilter();
 export const defaultSpiritSorter = new SpiritSorter();
 export const defaultSpiritCollection = new SpiritCollection();
-export const defaultSpirit = Spirit.create('default', 'Default Spirit', 'Default spirit', SpiritType.NORMAL);
+export const defaultSpirit = Spirit?.create('default', 'Default Spirit', 'Default spirit', SpiritType?.NORMAL);

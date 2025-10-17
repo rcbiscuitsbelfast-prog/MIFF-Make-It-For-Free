@@ -70,10 +70,10 @@ export class AudioManager {
   private currentAudio: Map<string, any> = new Map();
   private audioContext: any = null;
   private gainNodes: Map<string, any> = new Map();
-  private fadeTimers: Map<string, NodeJS.Timeout> = new Map();
+  private fadeTimers: Map<string, NodeJS?.Timeout> = new Map();
 
   constructor() {
-    this.playbackState = {
+    this?.playbackState = {
       isPlaying: false,
       currentTheme: null,
       currentVolume: 1.0,
@@ -86,17 +86,17 @@ export class AudioManager {
   }
 
   // Configuration Management
-  async loadConfig(configPath: string = 'assets/audioBindings.json'): Promise<void> {
+  async loadConfig(configPath: string = 'assets/audioBindings?.json'): Promise<void> {
     try {
       // In a real implementation, this would load from file
       // For now, we'll use the embedded config structure
-      this.config = {
+      this?.config = {
         themeAudioBindings: {
           neonGrid: {
             ambient: {
               id: 'neon_ambient',
-              path: 'assets/themes/neon_grid/ambient_synth.ogg',
-              fallback: 'assets/themes/fallback/silence.ogg',
+              path: 'assets/themes/neon_grid/ambient_synth?.ogg',
+              fallback: 'assets/themes/fallback/silence?.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Cyberpunk synth ambient with electric pulses',
@@ -108,8 +108,8 @@ export class AudioManager {
             },
             effects: {
               id: 'neon_effects',
-              path: 'assets/themes/neon_grid/effect_pulses.ogg',
-              fallback: 'assets/themes/fallback/silence.ogg',
+              path: 'assets/themes/neon_grid/effect_pulses?.ogg',
+              fallback: 'assets/themes/fallback/silence?.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Neon grid effect pulses and glitches',
@@ -123,8 +123,8 @@ export class AudioManager {
           forestGlade: {
             ambient: {
               id: 'forest_ambient',
-              path: 'assets/themes/forest_glade/ambient_nature.ogg',
-              fallback: 'assets/themes/fallback/silence.ogg',
+              path: 'assets/themes/forest_glade/ambient_nature?.ogg',
+              fallback: 'assets/themes/fallback/silence?.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Peaceful forest sounds with birds and wind',
@@ -136,8 +136,8 @@ export class AudioManager {
             },
             effects: {
               id: 'forest_effects',
-              path: 'assets/themes/forest_glade/effect_leaves.ogg',
-              fallback: 'assets/themes/fallback/silence.ogg',
+              path: 'assets/themes/forest_glade/effect_leaves?.ogg',
+              fallback: 'assets/themes/fallback/silence?.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Rustling leaves and gentle nature effects',
@@ -151,8 +151,8 @@ export class AudioManager {
           cosmicVoid: {
             ambient: {
               id: 'cosmic_ambient',
-              path: 'assets/themes/cosmic_void/ambient_space.ogg',
-              fallback: 'assets/themes/fallback/silence.ogg',
+              path: 'assets/themes/cosmic_void/ambient_space?.ogg',
+              fallback: 'assets/themes/fallback/silence?.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Deep space ambient with cosmic drones',
@@ -164,8 +164,8 @@ export class AudioManager {
             },
             effects: {
               id: 'cosmic_effects',
-              path: 'assets/themes/fallback/silence.ogg',
-              fallback: 'assets/themes/fallback/silence.ogg',
+              path: 'assets/themes/fallback/silence?.ogg',
+              fallback: 'assets/themes/fallback/silence?.ogg',
               remixSafe: true,
               license: 'CC0',
               description: 'Twinkling star effects and cosmic pulses',
@@ -189,13 +189,13 @@ export class AudioManager {
         },
         fallbackAssets: {
           silence: {
-            path: 'assets/themes/fallback/silence.ogg',
+            path: 'assets/themes/fallback/silence?.ogg',
             description: 'Silent audio file for fallback scenarios',
             remixSafe: true,
             license: 'CC0'
           },
           whiteNoise: {
-            path: 'assets/themes/fallback/white_noise.ogg',
+            path: 'assets/themes/fallback/white_noise?.ogg',
             description: 'Gentle white noise for fallback scenarios',
             remixSafe: true,
             license: 'CC0'
@@ -211,42 +211,42 @@ export class AudioManager {
 
   // Theme Audio Management
   async playThemeAudio(themeId: string, options: AudioManagerOptions = {}): Promise<boolean> {
-    if (!this.config) {
+    if (!this?.config) {
       console.warn('Audio config not loaded');
-      this.playbackState.errorCount++;
+      this?.playbackState.errorCount++;
       return false;
     }
 
-    const themeBindings = this.config.themeAudioBindings[themeId!];
+    const themeBindings = this?.config.themeAudioBindings[themeId!];
     if (!themeBindings) {
       console.warn(`No audio bindings found for theme: ${themeId}`);
-      this.playbackState.errorCount++;
+      this?.playbackState.errorCount++;
       return false;
     }
 
     // Stop current audio if playing
-    if (this.playbackState.isPlaying) {
-      await this.stopCurrentAudio();
+    if (this?.playbackState.isPlaying) {
+      await this?.stopCurrentAudio();
     }
 
     // Determine which audio to play based on options
-    const shouldPlayAmbient = this.shouldPlayAudio(themeBindings.ambient, options);
-    const shouldPlayEffects = this.shouldPlayAudio(themeBindings.effects, options);
+    const shouldPlayAmbient = this?.shouldPlayAudio(themeBindings?.ambient, options);
+    const shouldPlayEffects = this?.shouldPlayAudio(themeBindings?.effects, options);
 
     let success = false;
 
     if (shouldPlayAmbient) {
-      success = await this.playAudioBinding(themeBindings.ambient, 'ambient', options) || success;
+      success = await this?.playAudioBinding(themeBindings?.ambient, 'ambient', options) || success;
     }
 
     if (shouldPlayEffects) {
-      success = await this.playAudioBinding(themeBindings.effects, 'effects', options) || success;
+      success = await this?.playAudioBinding(themeBindings?.effects, 'effects', options) || success;
     }
 
     if (success) {
-      this.playbackState.currentTheme = themeId;
-      this.playbackState.isPlaying = true;
-      this.playbackState.lastPlayed = themeId;
+      this?.playbackState.currentTheme = themeId;
+      this?.playbackState.isPlaying = true;
+      this?.playbackState.lastPlayed = themeId;
     }
 
     return success;
@@ -254,12 +254,12 @@ export class AudioManager {
 
   private shouldPlayAudio(binding: AudioBinding, options: AudioManagerOptions): boolean {
     // Check debug mode
-    if (options.debug && !this.config?.globalAudioSettings.debugModeAudio) {
+    if (options?.debug && !this?.config?.globalAudioSettings?.debugModeAudio) {
       return false;
     }
 
     // Check zone state (could be extended for specific zone requirements)
-    if (options.zoneState === 'silent') {
+    if (options?.zoneState === 'silent') {
       return false;
     }
 
@@ -270,27 +270,27 @@ export class AudioManager {
   private async playAudioBinding(binding: AudioBinding, type: string, options: AudioManagerOptions): Promise<boolean> {
     try {
       // Determine actual audio path based on remix safety and fallbacks
-      let audioPath = binding.path;
+      let audioPath = binding?.path;
       
-      if (options.remix && !binding.remixSafe) {
-        audioPath = binding.fallback;
+      if (options?.remix && !binding?.remixSafe) {
+        audioPath = binding?.fallback;
         console.log(`Using fallback audio for remix mode: ${binding.fallback}`);
       }
 
       // Simulate audio playback (in real implementation, this would use Web Audio API)
-      const audioId = `${binding.id}_${type}`;
+      const audioId = `${binding?.id}_${type}`;
       
       // Create gain node for volume control
-      const gainNode = this.createGainNode(audioId, binding.volume);
-      this.gainNodes.set(audioId, gainNode);
+      const gainNode = this?.createGainNode(audioId, binding?.volume);
+      this?.gainNodes.set(audioId, gainNode);
 
       // Start fade in
-      if (binding.fadeIn > 0) {
-        this.startFadeIn(audioId, binding.fadeIn);
+      if (binding?.fadeIn > 0) {
+        this?.startFadeIn(audioId, binding?.fadeIn);
       }
 
       // Store current audio reference
-      this.currentAudio.set(audioId, {
+      this?.currentAudio.set(audioId, {
         binding,
         type,
         gainNode,
@@ -303,72 +303,72 @@ export class AudioManager {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error(`Failed to play audio binding ${binding.id}:`, err instanceof Error ? err.message : String(err));
-      this.playbackState.errorCount++;
+      this?.playbackState.errorCount++;
       return false;
     }
   }
 
   // Audio Control Methods
   async stopCurrentAudio(): Promise<void> {
-    if (!this.playbackState.isPlaying) return;
+    if (!this?.playbackState.isPlaying) return;
 
-    for (const [audioId, audio] of this.currentAudio) {
-      const binding = audio.binding;
+    for (const [audioId, audio] of this?.currentAudio) {
+      const binding = audio?.binding;
       
       // Start fade out
-      if (binding.fadeOut > 0) {
-        await this.startFadeOut(audioId, binding.fadeOut);
+      if (binding?.fadeOut > 0) {
+        await this?.startFadeOut(audioId, binding?.fadeOut);
       }
 
       // Clean up
-      this.currentAudio.delete(audioId);
-      this.gainNodes.delete(audioId);
+      this?.currentAudio.delete(audioId);
+      this?.gainNodes.delete(audioId);
       
       // Clear fade timers
-      const fadeTimer = this.fadeTimers.get(audioId);
+      const fadeTimer = this?.fadeTimers.get(audioId);
       if (fadeTimer) {
         clearTimeout(fadeTimer);
-        this.fadeTimers.delete(audioId);
+        this?.fadeTimers.delete(audioId);
       }
     }
 
-    this.playbackState.isPlaying = false;
-    this.playbackState.currentTheme = null;
-    this.playbackState.fadeInProgress = false;
-    this.playbackState.fadeOutProgress = false;
+    this?.playbackState.isPlaying = false;
+    this?.playbackState.currentTheme = null;
+    this?.playbackState.fadeInProgress = false;
+    this?.playbackState.fadeOutProgress = false;
   }
 
   async pauseAudio(): Promise<void> {
-    if (!this.playbackState.isPlaying) return;
+    if (!this?.playbackState.isPlaying) return;
 
-    for (const [audioId, audio] of this.currentAudio) {
+    for (const [audioId, audio] of this?.currentAudio) {
       // In real implementation, this would pause the audio
       console.log(`Paused audio: ${audioId}`);
     }
 
-    this.playbackState.isPlaying = false;
+    this?.playbackState.isPlaying = false;
   }
 
   async resumeAudio(): Promise<void> {
-    if (this.playbackState.isPlaying) return;
+    if (this?.playbackState.isPlaying) return;
 
-    for (const [audioId, audio] of this.currentAudio) {
+    for (const [audioId, audio] of this?.currentAudio) {
       // In real implementation, this would resume the audio
       console.log(`Resumed audio: ${audioId}`);
     }
 
-    this.playbackState.isPlaying = true;
+    this?.playbackState.isPlaying = true;
   }
 
   // Volume Control
   setMasterVolume(volume: number): void {
     const clampedVolume = Math.max(0, Math.min(1, volume));
-    this.playbackState.currentVolume = clampedVolume;
+    this?.playbackState.currentVolume = clampedVolume;
 
     // Apply to all gain nodes
-    for (const gainNode of this.gainNodes.values()) {
-      if (gainNode && gainNode.gain) {
-        gainNode.gain.value = clampedVolume;
+    for (const gainNode of this?.gainNodes.values()) {
+      if (gainNode && gainNode?.gain) {
+        gainNode?.gain.value = clampedVolume;
       }
     }
 
@@ -376,24 +376,24 @@ export class AudioManager {
   }
 
   setThemeVolume(themeId: string, volume: number): void {
-    if (!this.config) return;
+    if (!this?.config) return;
 
-    const themeBindings = this.config.themeAudioBindings[themeId!];
+    const themeBindings = this?.config.themeAudioBindings[themeId!];
     if (!themeBindings) return;
 
     const clampedVolume = Math.max(0, Math.min(1, volume));
 
     // Update config
-    themeBindings.ambient.volume = clampedVolume;
-    themeBindings.effects.volume = clampedVolume * 0.6; // Effects slightly quieter
+    themeBindings?.ambient.volume = clampedVolume;
+    themeBindings?.effects.volume = clampedVolume * 0.6; // Effects slightly quieter
 
     // Apply to current audio if playing
-    if (this.playbackState.currentTheme === themeId) {
-      for (const [audioId, audio] of this.currentAudio) {
-        if (audio.binding.id.startsWith(themeId)) {
-          const gainNode = this.gainNodes.get(audioId);
-          if (gainNode && gainNode.gain) {
-            gainNode.gain.value = clampedVolume;
+    if (this?.playbackState.currentTheme === themeId) {
+      for (const [audioId, audio] of this?.currentAudio) {
+        if (audio?.binding.id?.startsWith(themeId)) {
+          const gainNode = this?.gainNodes.get(audioId);
+          if (gainNode && gainNode?.gain) {
+            gainNode?.gain.value = clampedVolume;
           }
         }
       }
@@ -404,10 +404,10 @@ export class AudioManager {
 
   // Fade Control
   private startFadeIn(audioId: string, duration: number): void {
-    const gainNode = this.gainNodes.get(audioId);
+    const gainNode = this?.gainNodes.get(audioId);
     if (!gainNode) return;
 
-    this.playbackState.fadeInProgress = true;
+    this?.playbackState.fadeInProgress = true;
     
     // Simulate fade in
     const steps = 20;
@@ -418,24 +418,24 @@ export class AudioManager {
       currentStep++;
       const progress = currentStep / steps;
       
-      if (gainNode.gain) {
-        gainNode.gain.value = progress;
+      if (gainNode?.gain) {
+        gainNode?.gain.value = progress;
       }
 
       if (currentStep >= steps) {
         clearInterval(fadeTimer);
-        this.playbackState.fadeInProgress = false;
+        this?.playbackState.fadeInProgress = false;
       }
     }, stepDuration);
 
-    this.fadeTimers.set(audioId, fadeTimer as any);
+    this?.fadeTimers.set(audioId, fadeTimer as any);
   }
 
   private async startFadeOut(audioId: string, duration: number): Promise<void> {
-    const gainNode = this.gainNodes.get(audioId);
+    const gainNode = this?.gainNodes.get(audioId);
     if (!gainNode) return;
 
-    this.playbackState.fadeOutProgress = true;
+    this?.playbackState.fadeOutProgress = true;
     
     // Simulate fade out
     const steps = 20;
@@ -447,18 +447,18 @@ export class AudioManager {
         currentStep++;
         const progress = 1 - (currentStep / steps);
         
-        if (gainNode.gain) {
+        if (gainNode?.gain) {
           gainNode.gain.value = Math.max(0, progress);
         }
 
         if (currentStep >= steps) {
           clearInterval(fadeTimer);
-          this.playbackState.fadeOutProgress = false;
+          this?.playbackState.fadeOutProgress = false;
           resolve();
         }
       }, stepDuration);
 
-      this.fadeTimers.set(audioId, fadeTimer as any);
+      this?.fadeTimers.set(audioId, fadeTimer as any);
     });
   }
 
@@ -475,56 +475,56 @@ export class AudioManager {
 
   // State Queries
   getPlaybackState(): AudioPlaybackState {
-    return { ...this.playbackState };
+    return { ...this?.playbackState };
   }
 
   isPlaying(): boolean {
-    return this.playbackState.isPlaying;
+    return this?.playbackState.isPlaying;
   }
 
   getCurrentTheme(): string | null {
-    return this.playbackState.currentTheme;
+    return this?.playbackState.currentTheme;
   }
 
   getCurrentVolume(): number {
-    return this.playbackState.currentVolume;
+    return this?.playbackState.currentVolume;
   }
 
   // CLI Preview Mode
   getCLIPreview(themeId?: string): string {
-    if (!this.config) {
+    if (!this?.config) {
       return 'Audio config not loaded';
     }
 
     let output = '=== Audio Manager Status ===\n';
-    output += `Playing: ${this.playbackState.isPlaying ? 'Yes' : 'No'}\n`;
-    output += `Current Theme: ${this.playbackState.currentTheme || 'None'}\n`;
-    output += `Master Volume: ${this.playbackState.currentVolume}\n`;
-    output += `Muted: ${this.playbackState.isMuted ? 'Yes' : 'No'}\n`;
-    output += `Errors: ${this.playbackState.errorCount}\n\n`;
+    output += `Playing: ${this?.playbackState.isPlaying ? 'Yes' : 'No'}\n`;
+    output += `Current Theme: ${this?.playbackState.currentTheme || 'None'}\n`;
+    output += `Master Volume: ${this?.playbackState.currentVolume}\n`;
+    output += `Muted: ${this?.playbackState.isMuted ? 'Yes' : 'No'}\n`;
+    output += `Errors: ${this?.playbackState.errorCount}\n\n`;
 
     if (themeId) {
-      const themeBindings = this.config.themeAudioBindings[themeId!];
+      const themeBindings = this?.config.themeAudioBindings[themeId!];
       if (themeBindings) {
         output += `=== Theme: ${themeId} ===\n`;
-        output += `Ambient: ${themeBindings.ambient.description}\n`;
-        output += `  Path: ${themeBindings.ambient.path}\n`;
-        output += `  Remix Safe: ${themeBindings.ambient.remixSafe ? 'Yes' : 'No'}\n`;
-        output += `  Volume: ${themeBindings.ambient.volume}\n`;
-        output += `  Loop: ${themeBindings.ambient.loop ? 'Yes' : 'No'}\n\n`;
+        output += `Ambient: ${themeBindings?.ambient.description}\n`;
+        output += `  Path: ${themeBindings?.ambient.path}\n`;
+        output += `  Remix Safe: ${themeBindings?.ambient.remixSafe ? 'Yes' : 'No'}\n`;
+        output += `  Volume: ${themeBindings?.ambient.volume}\n`;
+        output += `  Loop: ${themeBindings?.ambient.loop ? 'Yes' : 'No'}\n\n`;
         
-        output += `Effects: ${themeBindings.effects.description}\n`;
-        output += `  Path: ${themeBindings.effects.path}\n`;
-        output += `  Remix Safe: ${themeBindings.effects.remixSafe ? 'Yes' : 'No'}\n`;
-        output += `  Volume: ${themeBindings.effects.volume}\n`;
-        output += `  Loop: ${themeBindings.effects.loop ? 'Yes' : 'No'}\n`;
+        output += `Effects: ${themeBindings?.effects.description}\n`;
+        output += `  Path: ${themeBindings?.effects.path}\n`;
+        output += `  Remix Safe: ${themeBindings?.effects.remixSafe ? 'Yes' : 'No'}\n`;
+        output += `  Volume: ${themeBindings?.effects.volume}\n`;
+        output += `  Loop: ${themeBindings?.effects.loop ? 'Yes' : 'No'}\n`;
       } else {
         output += `Theme '${themeId}' not found\n`;
       }
     } else {
       output += '=== Available Themes ===\n';
       for (const [id, bindings] of Object.entries(this.config.themeAudioBindings)) {
-        output += `${id}: ${bindings.ambient.description}\n`;
+        output += `${id}: ${bindings?.ambient.description}\n`;
       }
     }
 
@@ -538,7 +538,7 @@ export class AudioManager {
     effects: { safe: boolean; license: string; fallback: string };
     overall: boolean;
   } {
-    if (!this.config) {
+    if (!this?.config) {
       return {
         theme: themeId,
         ambient: { safe: false, license: 'Unknown', fallback: 'None' },
@@ -547,7 +547,7 @@ export class AudioManager {
       };
     }
 
-    const themeBindings = this.config.themeAudioBindings[themeId!];
+    const themeBindings = this?.config.themeAudioBindings[themeId!];
     if (!themeBindings) {
       return {
         theme: themeId,
@@ -558,18 +558,18 @@ export class AudioManager {
     }
 
     const ambient = {
-      safe: themeBindings.ambient.remixSafe,
-      license: themeBindings.ambient.license,
-      fallback: themeBindings.ambient.fallback
+      safe: themeBindings?.ambient.remixSafe,
+      license: themeBindings?.ambient.license,
+      fallback: themeBindings?.ambient.fallback
     };
 
     const effects = {
-      safe: themeBindings.effects.remixSafe,
-      license: themeBindings.effects.license,
-      fallback: themeBindings.effects.fallback
+      safe: themeBindings?.effects.remixSafe,
+      license: themeBindings?.effects.license,
+      fallback: themeBindings?.effects.fallback
     };
 
-    const overall = ambient.safe && effects.safe;
+    const overall = ambient?.safe && effects?.safe;
 
     return { theme: themeId, ambient, effects, overall };
   }
@@ -577,35 +577,35 @@ export class AudioManager {
   // State Management
   exportState(): any {
     return {
-      config: this.config,
-      playbackState: { ...this.playbackState }, // Deep copy to prevent reference sharing
+      config: this?.config,
+      playbackState: { ...this?.playbackState }, // Deep copy to prevent reference sharing
       currentAudio: Array.from(this.currentAudio.entries()),
       gainNodes: Array.from(this.gainNodes.entries())
     };
   }
 
   importState(state): void {
-    if (state.config) this.config = state.config;
-    if (state.playbackState) {
+    if (state?.config) this?.config = state?.config;
+    if (state?.playbackState) {
       // Deep copy the playback state to ensure proper restoration
-      this.playbackState = {
-        isPlaying: state.playbackState.isPlaying,
-        currentTheme: state.playbackState.currentTheme,
-        currentVolume: state.playbackState.currentVolume,
-        isMuted: state.playbackState.isMuted,
-        fadeInProgress: state.playbackState.fadeInProgress,
-        fadeOutProgress: state.playbackState.fadeOutProgress,
-        lastPlayed: state.playbackState.lastPlayed,
-        errorCount: state.playbackState.errorCount
+      this?.playbackState = {
+        isPlaying: state?.playbackState.isPlaying,
+        currentTheme: state?.playbackState.currentTheme,
+        currentVolume: state?.playbackState.currentVolume,
+        isMuted: state?.playbackState.isMuted,
+        fadeInProgress: state?.playbackState.fadeInProgress,
+        fadeOutProgress: state?.playbackState.fadeOutProgress,
+        lastPlayed: state?.playbackState.lastPlayed,
+        errorCount: state?.playbackState.errorCount
       };
     }
-    if (state.currentAudio) this.currentAudio = new Map(state.currentAudio);
-    if (state.gainNodes) this.gainNodes = new Map(state.gainNodes);
+    if (state?.currentAudio) this?.currentAudio = new Map(state?.currentAudio);
+    if (state?.gainNodes) this?.gainNodes = new Map(state?.gainNodes);
     
     // Clear fade timers when importing state
-    for (const timer of this.fadeTimers.values()) {
+    for (const timer of this?.fadeTimers.values()) {
       if (timer) clearTimeout(timer);
     }
-    this.fadeTimers.clear();
+    this?.fadeTimers.clear();
   }
 }

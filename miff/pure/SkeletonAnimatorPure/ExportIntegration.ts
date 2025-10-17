@@ -20,7 +20,7 @@ export class ExportIntegration {
   private nextId: number = 0;
 
   constructor(skeletonState: SkeletonState) {
-    this.skeletonState = skeletonState;
+    this?.skeletonState = skeletonState;
   }
 
   /**
@@ -37,19 +37,19 @@ export class ExportIntegration {
     } = {}
   ): ExportConfig {
     const exportConfig: ExportConfig = {
-      id: this.generateId(),
+      id: this?.generateId(),
       name,
       format,
-      rig: this.skeletonState.rig,
-      skin: this.skeletonState.skin,
-      face: this.skeletonState.face,
+      rig: this?.skeletonState.rig,
+      skin: this?.skeletonState.skin,
+      face: this?.skeletonState.face,
       animations: options.includeAnimations ? Object.values(this.skeletonState.animations) : [],
       metadata: {
-        ...options.metadata,
+        ...options?.metadata,
         exportVersion: '1.0.0',
         timestamp: new Date().toISOString(),
-        compressionLevel: options.compressionLevel || 6,
-        includeMorphTargets: options.includeMorphTargets || false
+        compressionLevel: options?.compressionLevel || 6,
+        includeMorphTargets: options?.includeMorphTargets || false
       }
     };
 
@@ -63,15 +63,15 @@ export class ExportIntegration {
     const gbpkgData = {
       format: 'gbpkg-v1',
       version: '1.0.0',
-      metadata: exportConfig.metadata,
+      metadata: exportConfig?.metadata,
       content: {
-        rig: this.serializeRig(exportConfig.rig),
-        skin: exportConfig.skin ? this.serializeSkin(exportConfig.skin) : null,
-        face: exportConfig.face ? this.serializeFace(exportConfig.face) : null,
-        animations: exportConfig.animations.map((anim: any) => this.serializeAnimation(anim)),
-        integration: this.generateIntegrationData(exportConfig)
+        rig: this?.serializeRig(exportConfig?.rig),
+        skin: exportConfig?.skin ? this?.serializeSkin(exportConfig?.skin) : null,
+        face: exportConfig?.face ? this?.serializeFace(exportConfig?.face) : null,
+        animations: exportConfig?.animations.map((anim: any) => this?.serializeAnimation(anim)),
+        integration: this?.generateIntegrationData(exportConfig)
       },
-      checksum: this.calculateChecksum(exportConfig)
+      checksum: this?.calculateChecksum(exportConfig)
     };
 
     return JSON.stringify(gbpkgData, null, 2);
@@ -90,14 +90,14 @@ export class ExportIntegration {
       scenes: [{
         nodes: [0!]
       }],
-      nodes: this.generateGLTFNodes(exportConfig),
-      meshes: exportConfig.skin ? this.generateGLTFMeshes(exportConfig.skin) : [],
-      materials: exportConfig.skin ? this.generateGLTFMaterials(exportConfig.skin) : [],
-      animations: exportConfig.animations.map((anim: any) => this.generateGLTFAnimation(anim)),
-      skins: exportConfig.skin ? this.generateGLTFSkins(exportConfig) : [],
+      nodes: this?.generateGLTFNodes(exportConfig),
+      meshes: exportConfig?.skin ? this?.generateGLTFMeshes(exportConfig?.skin) : [],
+      materials: exportConfig?.skin ? this?.generateGLTFMaterials(exportConfig?.skin) : [],
+      animations: exportConfig?.animations.map((anim: any) => this?.generateGLTFAnimation(anim)),
+      skins: exportConfig?.skin ? this?.generateGLTFSkins(exportConfig) : [],
       extensionsUsed: ['MIFF_creature_data'],
       extensions: {
-        MIFF_creature_data: this.generateMIFFExtensions(exportConfig)
+        MIFF_creature_data: this?.generateMIFFExtensions(exportConfig)
       }
     };
 
@@ -110,30 +110,30 @@ export class ExportIntegration {
   generateRenderWorldIntegration(exportConfig: ExportConfig): any {
     return {
       type: 'creature',
-      id: exportConfig.id,
-      name: exportConfig.name,
+      id: exportConfig?.id,
+      name: exportConfig?.name,
       components: {
         transform: {
           position: { x: 0, y: 0, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         },
-        mesh: exportConfig.skin ? {
+        mesh: exportConfig?.skin ? {
           geometry: 'creature_geometry',
           material: 'creature_material',
-          morphTargets: exportConfig.skin.morphTargets.map((mt: any) => ({
-            name: mt.name,
-            weight: mt.weight
+          morphTargets: exportConfig?.skin.morphTargets?.map((mt: any) => ({
+            name: mt?.name,
+            weight: mt?.weight
           }))
         } : null,
         skeleton: {
-          rig: exportConfig.rig.id,
-          bones: this.generateBoneMapping(exportConfig.rig),
-          animations: exportConfig.animations.map((anim: any) => ({
-            name: anim.name,
-            type: anim.type,
-            duration: anim.duration,
-            loop: anim.loop
+          rig: exportConfig?.rig.id,
+          bones: this?.generateBoneMapping(exportConfig?.rig),
+          animations: exportConfig?.animations.map((anim: any) => ({
+            name: anim?.name,
+            type: anim?.type,
+            duration: anim?.duration,
+            loop: anim?.loop
           }))
         },
         physics: {
@@ -154,8 +154,8 @@ export class ExportIntegration {
   generateCombatCoreIntegration(exportConfig: ExportConfig): any {
     return {
       type: 'combat_creature',
-      id: exportConfig.id,
-      name: exportConfig.name,
+      id: exportConfig?.id,
+      name: exportConfig?.name,
       combat: {
         stats: {
           health: 100,
@@ -182,11 +182,11 @@ export class ExportIntegration {
             animation: 'Attack_kick'
           }
         ],
-        hitboxes: this.generateHitboxes(exportConfig.rig),
+        hitboxes: this?.generateHitboxes(exportConfig?.rig),
         animations: {
-          attack: exportConfig.animations.filter((anim: any) => anim.type === 'attack'),
-          hit: exportConfig.animations.filter((anim: any) => anim.type === 'emote'),
-          death: exportConfig.animations.filter((anim: any) => anim.type === 'emote')
+          attack: exportConfig?.animations.filter((anim: any) => anim?.type === 'attack'),
+          hit: exportConfig?.animations.filter((anim: any) => anim?.type === 'emote'),
+          death: exportConfig?.animations.filter((anim: any) => anim?.type === 'emote')
         }
       }
     };
@@ -198,8 +198,8 @@ export class ExportIntegration {
   generateDialogueIntegration(exportConfig: ExportConfig): any {
     return {
       type: 'dialogue_creature',
-      id: exportConfig.id,
-      name: exportConfig.name,
+      id: exportConfig?.id,
+      name: exportConfig?.name,
       dialogue: {
         voice: {
           pitch: 1.0,
@@ -217,10 +217,10 @@ export class ExportIntegration {
           talking: 'Emote_wave',
           listening: 'Idle'
         },
-        morphTargets: exportConfig.face?.features.map((feature: any) => ({
-          name: feature.name,
-          type: feature.type,
-          morphTargets: feature.morphTargets
+        morphTargets: exportConfig?.face?.features?.map((feature: any) => ({
+          name: feature?.name,
+          type: feature?.type,
+          morphTargets: feature?.morphTargets
         })) || []
       }
     };
@@ -232,18 +232,18 @@ export class ExportIntegration {
   generateStartMenuIntegration(exportConfig: ExportConfig): any {
     return {
       type: 'character_preset',
-      id: exportConfig.id,
-      name: exportConfig.name,
+      id: exportConfig?.id,
+      name: exportConfig?.name,
       preview: {
-        thumbnail: `creatures/${exportConfig.id}/preview.png`,
-        description: `Generated creature: ${exportConfig.name}`,
+        thumbnail: `creatures/${exportConfig?.id}/preview?.png`,
+        description: `Generated creature: ${exportConfig?.name}`,
         tags: ['generated', 'custom', 'creature']
       },
       data: {
-        rig: exportConfig.rig.id,
-        skin: exportConfig.skin?.id,
-        face: exportConfig.face?.id,
-        animations: exportConfig.animations.map((anim: any) => anim.id)
+        rig: exportConfig?.rig.id,
+        skin: exportConfig?.skin?.id,
+        face: exportConfig?.face?.id,
+        animations: exportConfig?.animations.map((anim: any) => anim?.id)
       },
       metadata: {
         created: new Date().toISOString(),
@@ -259,16 +259,16 @@ export class ExportIntegration {
   generateSaveLoadIntegration(exportConfig: ExportConfig): any {
     return {
       type: 'creature_save',
-      id: exportConfig.id,
-      name: exportConfig.name,
+      id: exportConfig?.id,
+      name: exportConfig?.name,
       saveData: {
-        rig: this.serializeRig(exportConfig.rig),
-        skin: exportConfig.skin ? this.serializeSkin(exportConfig.skin) : null,
-        face: exportConfig.face ? this.serializeFace(exportConfig.face) : null,
-        animations: exportConfig.animations.map((anim: any) => this.serializeAnimation(anim)),
+        rig: this?.serializeRig(exportConfig?.rig),
+        skin: exportConfig?.skin ? this?.serializeSkin(exportConfig?.skin) : null,
+        face: exportConfig?.face ? this?.serializeFace(exportConfig?.face) : null,
+        animations: exportConfig?.animations.map((anim: any) => this?.serializeAnimation(anim)),
         state: {
           currentAnimation: 'Idle',
-          morphWeights: this.generateMorphWeights(exportConfig),
+          morphWeights: this?.generateMorphWeights(exportConfig),
           transform: {
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: 0, z: 0, w: 1 },
@@ -286,22 +286,22 @@ export class ExportIntegration {
    */
   private serializeRig(rig: RigConfig): any {
     return {
-      id: rig.id,
-      name: rig.name,
-      version: rig.version,
+      id: rig?.id,
+      name: rig?.name,
+      version: rig?.version,
       nodes: Object.values(rig.nodes).map((node: any) => ({
-        id: node.id,
-        name: node.name,
-        type: node.type,
-        transform: node.transform,
-        parent: node.parent,
-        children: node.children,
-        snapPoints: node.snapPoints,
-        constraints: node.constraints,
-        metadata: node.metadata
+        id: node?.id,
+        name: node?.name,
+        type: node?.type,
+        transform: node?.transform,
+        parent: node?.parent,
+        children: node?.children,
+        snapPoints: node?.snapPoints,
+        constraints: node?.constraints,
+        metadata: node?.metadata
       })),
-      rootNode: rig.rootNode,
-      metadata: rig.metadata
+      rootNode: rig?.rootNode,
+      metadata: rig?.metadata
     };
   }
 
@@ -310,19 +310,19 @@ export class ExportIntegration {
    */
   private serializeSkin(skin: SkinConfig): any {
     return {
-      id: skin.id,
-      name: skin.name,
-      rigId: skin.rigId,
+      id: skin?.id,
+      name: skin?.name,
+      rigId: skin?.rigId,
       meshData: {
-        vertices: skin.meshData.vertices,
-        normals: skin.meshData.normals,
-        uvs: skin.meshData.uvs,
-        indices: skin.meshData.indices,
-        groups: skin.meshData.groups
+        vertices: skin?.meshData.vertices,
+        normals: skin?.meshData.normals,
+        uvs: skin?.meshData.uvs,
+        indices: skin?.meshData.indices,
+        groups: skin?.meshData.groups
       },
-      materials: skin.materials,
-      morphTargets: skin.morphTargets,
-      metadata: skin.metadata
+      materials: skin?.materials,
+      morphTargets: skin?.morphTargets,
+      metadata: skin?.metadata
     };
   }
 
@@ -331,21 +331,21 @@ export class ExportIntegration {
    */
   private serializeFace(face: FaceConfig): any {
     return {
-      id: face.id,
-      name: face.name,
-      rigId: face.rigId,
-      features: face.features.map((feature: any) => ({
-        id: feature.id,
-        type: feature.type,
-        position: feature.position,
-        scale: feature.scale,
-        rotation: feature.rotation,
-        morphTargets: feature.morphTargets,
-        symmetry: feature.symmetry,
-        metadata: feature.metadata
+      id: face?.id,
+      name: face?.name,
+      rigId: face?.rigId,
+      features: face?.features.map((feature: any) => ({
+        id: feature?.id,
+        type: feature?.type,
+        position: feature?.position,
+        scale: feature?.scale,
+        rotation: feature?.rotation,
+        morphTargets: feature?.morphTargets,
+        symmetry: feature?.symmetry,
+        metadata: feature?.metadata
       })),
-      symmetry: face.symmetry,
-      metadata: face.metadata
+      symmetry: face?.symmetry,
+      metadata: face?.metadata
     };
   }
 
@@ -354,14 +354,14 @@ export class ExportIntegration {
    */
   private serializeAnimation(anim: AnimationConfig): any {
     return {
-      id: anim.id,
-      name: anim.name,
-      type: anim.type,
-      duration: anim.duration,
-      loop: anim.loop,
-      keyframes: anim.keyframes,
-      rigId: anim.rigId,
-      metadata: anim.metadata
+      id: anim?.id,
+      name: anim?.name,
+      type: anim?.type,
+      duration: anim?.duration,
+      loop: anim?.loop,
+      keyframes: anim?.keyframes,
+      rigId: anim?.rigId,
+      metadata: anim?.metadata
     };
   }
 
@@ -370,11 +370,11 @@ export class ExportIntegration {
    */
   private generateIntegrationData(exportConfig: ExportConfig): any {
     return {
-      renderWorld: this.generateRenderWorldIntegration(exportConfig),
-      combatCore: this.generateCombatCoreIntegration(exportConfig),
-      dialogueSystem: this.generateDialogueIntegration(exportConfig),
-      startMenu: this.generateStartMenuIntegration(exportConfig),
-      saveLoad: this.generateSaveLoadIntegration(exportConfig)
+      renderWorld: this?.generateRenderWorldIntegration(exportConfig),
+      combatCore: this?.generateCombatCoreIntegration(exportConfig),
+      dialogueSystem: this?.generateDialogueIntegration(exportConfig),
+      startMenu: this?.generateStartMenuIntegration(exportConfig),
+      saveLoad: this?.generateSaveLoadIntegration(exportConfig)
     };
   }
 
@@ -385,22 +385,22 @@ export class ExportIntegration {
     const nodes: any[] = [];
     
     // Root node
-    nodes.push({
-      name: exportConfig.name,
-      mesh: exportConfig.skin ? 0 : undefined,
+    nodes?.push({
+      name: exportConfig?.name,
+      mesh: exportConfig?.skin ? 0 : undefined,
       children: Object.values(exportConfig.rig.nodes)
-        .filter((node: any) => !node.parent)
-        .map((node: any) => this.findNodeIndex(exportConfig.rig, node.id))
+        .filter((node: any) => !node?.parent)
+        .map((node: any) => this?.findNodeIndex(exportConfig?.rig, node?.id))
     });
 
     // Rig nodes
     Object.values(exportConfig.rig.nodes).forEach((node: any) => {
-      nodes.push({
-        name: node.name,
-        translation: [node.transform.position.x, node.transform.position.y, node.transform.position.z],
-        rotation: [node.transform.rotation.x, node.transform.rotation.y, node.transform.rotation.z, node.transform.rotation.w],
-        scale: [node.transform.scale.x, node.transform.scale.y, node.transform.scale.z],
-        children: node.children.map(childId => this.findNodeIndex(exportConfig.rig, childId))
+      nodes?.push({
+        name: node?.name,
+        translation: [node?.transform.position.x, node?.transform.position.y, node?.transform.position.z],
+        rotation: [node?.transform.rotation.x, node?.transform.rotation.y, node?.transform.rotation.z, node?.transform.rotation.w],
+        scale: [node?.transform.scale.x, node?.transform.scale.y, node?.transform.scale.z],
+        children: node?.children.map(childId => this?.findNodeIndex(exportConfig?.rig, childId))
       });
     });
 
@@ -429,17 +429,17 @@ export class ExportIntegration {
    * Generate GLTF materials
    */
   private generateGLTFMaterials(skin: SkinConfig): any[] {
-    return skin.materials.map((material: any) => ({
-      name: material.name,
+    return skin?.materials.map((material: any) => ({
+      name: material?.name,
       pbrMetallicRoughness: {
         baseColorFactor: [
-          material.properties.color?.r || 1,
-          material.properties.color?.g || 1,
-          material.properties.color?.b || 1,
+          material?.properties.color?.r || 1,
+          material?.properties.color?.g || 1,
+          material?.properties.color?.b || 1,
           1
         ],
-        metallicFactor: material.properties.metallic || 0,
-        roughnessFactor: material.properties.roughness || 0.5
+        metallicFactor: material?.properties.metallic || 0,
+        roughnessFactor: material?.properties.roughness || 0.5
       }
     }));
   }
@@ -453,29 +453,29 @@ export class ExportIntegration {
 
     // Group keyframes by node
     const nodeKeyframes = new Map<string, Keyframe[]>();
-    anim.keyframes.forEach((kf: any) => {
-      if (!nodeKeyframes.has(kf.nodeId)) {
-        nodeKeyframes.set(kf.nodeId, []);
+    anim?.keyframes.forEach((kf: any) => {
+      if (!nodeKeyframes?.has(kf?.nodeId)) {
+        nodeKeyframes?.set(kf?.nodeId, []);
       }
-      nodeKeyframes.get(kf.nodeId)!.push(kf);
+      nodeKeyframes?.get(kf?.nodeId)!.push(kf);
     });
 
     let samplerIndex = 0;
-    nodeKeyframes.forEach((keyframes, nodeId) => {
-      const times = keyframes.map((kf: any) => kf.time / 1000); // Convert to seconds
-      const positions = keyframes.map((kf: any) => [kf.transform.position.x, kf.transform.position.y, kf.transform.position.z]);
-      const rotations = keyframes.map((kf: any) => [kf.transform.rotation.x, kf.transform.rotation.y, kf.transform.rotation.z, kf.transform.rotation.w]);
-      const scales = keyframes.map((kf: any) => [kf.transform.scale.x, kf.transform.scale.y, kf.transform.scale.z]);
+    nodeKeyframes?.forEach((keyframes, nodeId) => {
+      const times = keyframes?.map((kf: any) => kf?.time / 1000); // Convert to seconds
+      const positions = keyframes?.map((kf: any) => [kf?.transform.position.x, kf?.transform.position.y, kf?.transform.position.z]);
+      const rotations = keyframes?.map((kf: any) => [kf?.transform.rotation.x, kf?.transform.rotation.y, kf?.transform.rotation.z, kf?.transform.rotation.w]);
+      const scales = keyframes?.map((kf: any) => [kf?.transform.scale.x, kf?.transform.scale.y, kf?.transform.scale.z]);
 
       // Position channel
-      channels.push({
+      channels?.push({
         sampler: samplerIndex,
         target: {
-          node: this.findNodeIndex(this.skeletonState.rig, nodeId),
+          node: this?.findNodeIndex(this?.skeletonState.rig, nodeId),
           path: 'translation'
         }
       });
-      samplers.push({
+      samplers?.push({
         input: samplerIndex,
         output: samplerIndex + 1,
         interpolation: 'LINEAR'
@@ -483,14 +483,14 @@ export class ExportIntegration {
       samplerIndex += 2;
 
       // Rotation channel
-      channels.push({
+      channels?.push({
         sampler: samplerIndex,
         target: {
-          node: this.findNodeIndex(this.skeletonState.rig, nodeId),
+          node: this?.findNodeIndex(this?.skeletonState.rig, nodeId),
           path: 'rotation'
         }
       });
-      samplers.push({
+      samplers?.push({
         input: samplerIndex,
         output: samplerIndex + 1,
         interpolation: 'LINEAR'
@@ -498,14 +498,14 @@ export class ExportIntegration {
       samplerIndex += 2;
 
       // Scale channel
-      channels.push({
+      channels?.push({
         sampler: samplerIndex,
         target: {
-          node: this.findNodeIndex(this.skeletonState.rig, nodeId),
+          node: this?.findNodeIndex(this?.skeletonState.rig, nodeId),
           path: 'scale'
         }
       });
-      samplers.push({
+      samplers?.push({
         input: samplerIndex,
         output: samplerIndex + 1,
         interpolation: 'LINEAR'
@@ -514,7 +514,7 @@ export class ExportIntegration {
     });
 
     return {
-      name: anim.name,
+      name: anim?.name,
       channels,
       samplers
     };
@@ -537,11 +537,11 @@ export class ExportIntegration {
   private generateMIFFExtensions(exportConfig: ExportConfig): any {
     return {
       creature: {
-        rig: exportConfig.rig,
-        face: exportConfig.face,
-        morphTargets: exportConfig.skin?.morphTargets || [],
-        animations: exportConfig.animations,
-        integration: this.generateIntegrationData(exportConfig)
+        rig: exportConfig?.rig,
+        face: exportConfig?.face,
+        morphTargets: exportConfig?.skin?.morphTargets || [],
+        animations: exportConfig?.animations,
+        integration: this?.generateIntegrationData(exportConfig)
       }
     };
   }
@@ -552,12 +552,12 @@ export class ExportIntegration {
   private generateBoneMapping(rig: RigConfig): any {
     const mapping: any = {};
     Object.values(rig.nodes).forEach((node: any) => {
-      mapping[node.id] = {
-        name: node.name,
-        type: node.type,
-        transform: node.transform,
-        parent: node.parent,
-        children: node.children
+      mapping[node?.id] = {
+        name: node?.name,
+        type: node?.type,
+        transform: node?.transform,
+        parent: node?.parent,
+        children: node?.children
       };
     });
     return mapping;
@@ -570,18 +570,18 @@ export class ExportIntegration {
     const hitboxes: any[] = [];
     
     Object.values(rig.nodes).forEach((node: any) => {
-      if (node.type === 'head' || node.type === 'torso' || node.metadata?.limbType) {
-        hitboxes.push({
-          nodeId: node.id,
-          name: node.name,
+      if (node?.type === 'head' || node?.type === 'torso' || node?.metadata?.limbType) {
+        hitboxes?.push({
+          nodeId: node?.id,
+          name: node?.name,
           type: 'capsule',
           size: {
-            x: node.transform.scale.x,
-            y: node.transform.scale.y,
-            z: node.transform.scale.z
+            x: node?.transform.scale.x,
+            y: node?.transform.scale.y,
+            z: node?.transform.scale.z
           },
-          offset: node.transform.position,
-          damageMultiplier: node.type === 'head' ? 2.0 : 1.0
+          offset: node?.transform.position,
+          damageMultiplier: node?.type === 'head' ? 2.0 : 1.0
         });
       }
     });
@@ -595,16 +595,16 @@ export class ExportIntegration {
   private generateMorphWeights(exportConfig: ExportConfig): any {
     const weights: any = {};
     
-    if (exportConfig.skin) {
-      exportConfig.skin.morphTargets.forEach((mt: any) => {
-        weights[mt.name] = mt.weight;
+    if (exportConfig?.skin) {
+      exportConfig?.skin.morphTargets?.forEach((mt: any) => {
+        weights[mt?.name] = mt?.weight;
       });
     }
 
-    if (exportConfig.face) {
-      exportConfig.face.features.forEach((feature: any) => {
-        feature.morphTargets.forEach((mt: any) => {
-          weights[`${feature.name}_${mt.name}`] = mt.weight;
+    if (exportConfig?.face) {
+      exportConfig?.face.features?.forEach((feature: any) => {
+        feature?.morphTargets.forEach((mt: any) => {
+          weights[`${feature?.name}_${mt?.name}`] = mt?.weight;
         });
       });
     }
@@ -617,7 +617,7 @@ export class ExportIntegration {
    */
   private findNodeIndex(rig: RigConfig, nodeId: string): number {
     const nodeIds = Object.keys(rig.nodes);
-    return nodeIds.indexOf(nodeId);
+    return nodeIds?.indexOf(nodeId);
   }
 
   /**
@@ -626,12 +626,12 @@ export class ExportIntegration {
   private calculateChecksum(exportConfig: ExportConfig): string {
     const data = JSON.stringify(exportConfig);
     let hash = 0;
-    for (let i = 0; i < data.length; i++) {
-      const char = data.charCodeAt(i);
+    for (let i = 0; i < data?.length; i++) {
+      const char = data?.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }
-    return hash.toString(16);
+    return hash?.toString(16);
   }
 
   private generateId(): string {

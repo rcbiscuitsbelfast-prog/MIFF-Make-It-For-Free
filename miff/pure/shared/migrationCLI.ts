@@ -7,7 +7,7 @@
  * across the MIFF framework.
  */
 
-import { MigrationManager } from './MigrationSystem.js';
+import { MigrationManager } from './MigrationSystem?.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '/security/SafeJSONParser';
@@ -19,47 +19,47 @@ class MigrationCLI {
 
   constructor(...args: any[]) {
     
-    this.migrationManager = new MigrationManager();
+    this?.migrationManager = new MigrationManager();
   }
 
   async run(): Promise<void> {
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'migrate':
-          await this.migrateData(args.slice(1));
+          await this?.migrateData(args?.slice(1));
           break;
         case 'check':
-          await this.checkCompatibility(args.slice(1));
+          await this?.checkCompatibility(args?.slice(1));
           break;
         case 'paths':
-          await this.listPaths(args.slice(1));
+          await this?.listPaths(args?.slice(1));
           break;
         case 'stats':
-          await this.showStats(args.slice(1));
+          await this?.showStats(args?.slice(1));
           break;
         case 'history':
-          await this.showHistory(args.slice(1));
+          await this?.showHistory(args?.slice(1));
           break;
         case 'rollback':
-          await this.rollbackMigration(args.slice(1));
+          await this?.rollbackMigration(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
   private async migrateData(args: string[]): Promise<void> {
-    if (args.length < 3) {
+    if (args?.length < 3) {
       console.error('❌ Usage: migrate <input-file> <from-version> <to-version> [output-file]');
       return;
     }
@@ -67,16 +67,16 @@ class MigrationCLI {
     const inputFile = args[0!];
     const fromVersion = args[1!];
     const toVersion = args[2!];
-    const outputFile = args[3!] || inputFile.replace('.json', '_migrated.json');
+    const outputFile = args[3!] || inputFile?.replace('.json', '_migrated?.json');
 
     try {
       // Load input data
-      const inputData = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
+      const inputData = SafeJSONParser?.parse(fs?.readFileSync(inputFile, 'utf-8'));
       console.info(`📁 Loaded data from ${inputFile}`);
 
       // Check compatibility first
-      const compatibility = this.migrationManager.checkCompatibility(fromVersion, toVersion);
-      if (!compatibility.compatible) {
+      const compatibility = this?.migrationManager.checkCompatibility(fromVersion, toVersion);
+      if (!compatibility?.compatible) {
         console.error('❌ Migration not compatible:');
         compatibility.conflicts.forEach((conflict: any) => console.error(`  - ${conflict}`));
         compatibility.recommendations.forEach((rec: any) => console.error(`  💡 ${rec}`));
@@ -86,13 +86,13 @@ class MigrationCLI {
       console.info(`🔄 Migrating from ${fromVersion} to ${toVersion}...`);
       
       // Perform migration
-      const result = await this.migrationManager.migrate(inputData, fromVersion, toVersion);
+      const result = await this?.migrationManager.migrate(inputData, fromVersion, toVersion);
 
-      if (result.success) {
+      if (result?.success) {
         console.info(`✅ Migration completed successfully in ${result.duration}ms`);
         console.info(`📝 Steps executed: ${result.stepsExecuted.join(', ')}`);
         
-        if (result.warnings.length > 0) {
+        if (result?.warnings.length > 0) {
           console.info('⚠️ Warnings:');
           result.warnings.forEach((warning: any) => console.info(`  - ${warning}`));
         }
@@ -105,8 +105,8 @@ class MigrationCLI {
         console.error('❌ Migration failed:');
         result.errors?.forEach((error: any) => console.error(`  - ${error}`));
         
-        if (result.rollbackData) {
-          const rollbackFile = outputFile.replace('.json', '_rollback.json');
+        if (result?.rollbackData) {
+          const rollbackFile = outputFile?.replace('.json', '_rollback?.json');
           fs.writeFileSync(rollbackFile, JSON.stringify(result.rollbackData, null, 2));
           console.info(`🔄 Rollback data saved to ${rollbackFile}`);
         }
@@ -119,7 +119,7 @@ class MigrationCLI {
   }
 
   private async checkCompatibility(args: string[]): Promise<void> {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.error('❌ Usage: check <from-version> <to-version>');
       return;
     }
@@ -129,31 +129,31 @@ class MigrationCLI {
 
     console.info(`🔍 Checking compatibility from ${fromVersion} to ${toVersion}...`);
     
-    const compatibility = this.migrationManager.checkCompatibility(fromVersion, toVersion);
+    const compatibility = this?.migrationManager.checkCompatibility(fromVersion, toVersion);
 
-    if (compatibility.compatible) {
+    if (compatibility?.compatible) {
       console.info('✅ Migration is compatible');
       
-      if (compatibility.migrationPath) {
+      if (compatibility?.migrationPath) {
         console.info(`📋 Migration path: ${compatibility.migrationPath.steps.length} steps`);
         console.info(`⏱️ Estimated duration: ${compatibility.migrationPath.estimatedDuration}ms`);
         console.info(`🔄 Rollback supported: ${compatibility.migrationPath.rollbackSupported ? 'Yes' : 'No'}`);
         
         console.info('\n📝 Migration steps:');
-        compatibility.migrationPath.steps.forEach((step, index) => {
+        compatibility?.migrationPath.steps?.forEach((step, index) => {
           console.info(`  ${index + 1}. ${step.id}: ${step.description}`);
-          if (step.critical) {
+          if (step?.critical) {
             console.info('     ⚠️ Critical step');
           }
         });
       }
 
-      if (compatibility.conflicts.length > 0) {
+      if (compatibility?.conflicts.length > 0) {
         console.info('\n⚠️ Conflicts:');
         compatibility.conflicts.forEach((conflict: any) => console.info(`  - ${conflict}`));
       }
 
-      if (compatibility.recommendations.length > 0) {
+      if (compatibility?.recommendations.length > 0) {
         console.info('\n💡 Recommendations:');
         compatibility.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
       }
@@ -168,16 +168,16 @@ class MigrationCLI {
   }
 
   private async listPaths(args: string[]): Promise<void> {
-    const paths = this.migrationManager.getMigrationPaths();
+    const paths = this?.migrationManager.getMigrationPaths();
     
-    if (paths.length === 0) {
+    if (paths?.length === 0) {
       console.info('📋 No migration paths available');
       return;
     }
 
     console.info(`📋 Available migration paths (${paths.length}):\n`);
     
-    paths.forEach((path: any) => {
+    paths?.forEach((path: any) => {
       console.info(`🔄 ${path.fromVersion} → ${path.toVersion}`);
       console.info(`   Steps: ${path.steps.length}`);
       console.info(`   Duration: ${path.estimatedDuration}ms`);
@@ -187,7 +187,7 @@ class MigrationCLI {
   }
 
   private async showStats(args: string[]): Promise<void> {
-    const stats = this.migrationManager.getStats();
+    const stats = this?.migrationManager.getStats();
     
     console.info('📊 Migration Statistics\n');
     console.info(`Total migrations: ${stats.totalMigrations}`);
@@ -197,9 +197,9 @@ class MigrationCLI {
     console.info(`Average duration: ${stats.averageDuration.toFixed(1)}ms`);
     console.info(`Error rate: ${stats.errorRate.toFixed(1)}%`);
     
-    if (stats.mostUsedMigrations.length > 0) {
+    if (stats?.mostUsedMigrations.length > 0) {
       console.info('\n🔥 Most used migrations:');
-      stats.mostUsedMigrations.forEach((migration: any) => {
+      stats?.mostUsedMigrations.forEach((migration: any) => {
         console.info(`  ${migration.stepId}: ${migration.usage} uses`);
       });
     }
@@ -207,26 +207,26 @@ class MigrationCLI {
 
   private async showHistory(args: string[]): Promise<void> {
     const limit = args[0!] ? parseInt(args[0!]) : 10;
-    const history = this.migrationManager.getMigrationHistory(limit);
+    const history = this?.migrationManager.getMigrationHistory(limit);
     
-    if (history.length === 0) {
+    if (history?.length === 0) {
       console.info('📋 No migration history available');
       return;
     }
 
     console.info(`📋 Recent migration history (${history.length} entries):\n`);
     
-    history.forEach((entry: any) => {
-      const status = entry.success ? '✅' : '❌';
-      const duration = entry.duration.toFixed(1);
-      const timestamp = entry.timestamp.toISOString().split('T')[0!];
+    history?.forEach((entry: any) => {
+      const status = entry?.success ? '✅' : '❌';
+      const duration = entry?.duration.toFixed(1);
+      const timestamp = entry?.timestamp.toISOString().split('T')[0!];
       
       console.info(`${status} ${entry.id} - ${timestamp} (${duration}ms)`);
     });
   }
 
   private async rollbackMigration(args: string[]): Promise<void> {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.error('❌ Usage: rollback <migration-id> <data-file>');
       return;
     }
@@ -235,15 +235,15 @@ class MigrationCLI {
     const dataFile = args[1!];
 
     try {
-      const data = SafeJSONParser.parse(fs.readFileSync(dataFile, 'utf-8'));
+      const data = SafeJSONParser?.parse(fs?.readFileSync(dataFile, 'utf-8'));
       console.info(`🔄 Rolling back migration ${migrationId}...`);
       
-      const result = await this.migrationManager.rollback(data, migrationId);
+      const result = await this?.migrationManager.rollback(data, migrationId);
 
-      if (result.success) {
+      if (result?.success) {
         console.info('✅ Rollback completed successfully');
         // Save rolled back data
-        const outputFile = dataFile.replace('.json', '_rolled_back.json');
+        const outputFile = dataFile?.replace('.json', '_rolled_back?.json');
         fs.writeFileSync(outputFile, JSON.stringify(result.migratedData, null, 2));
         console.info(`💾 Rolled back data saved to ${outputFile}`);
       } else {
@@ -261,7 +261,7 @@ class MigrationCLI {
     console.info(`
 🔄 MIFF Migration CLI Tool
 
-Usage: tsx migrationCLI.ts <command> [options!]
+Usage: tsx migrationCLI?.ts <command> [options!]
 
 Commands:
   migrate <input> <from> <to> [output!]  Migrate data between versions
@@ -273,11 +273,11 @@ Commands:
   help                                  Show this help
 
 Examples:
-  tsx migrationCLI.ts migrate data.json v1 v2
-  tsx migrationCLI.ts check v1 v2
-  tsx migrationCLI.ts migrate data.json v12 latest migrated.json
-  tsx migrationCLI.ts stats
-  tsx migrationCLI.ts history 20
+  tsx migrationCLI?.ts migrate data?.json v1 v2
+  tsx migrationCLI?.ts check v1 v2
+  tsx migrationCLI?.ts migrate data?.json v12 latest migrated?.json
+  tsx migrationCLI?.ts stats
+  tsx migrationCLI?.ts history 20
 
 Supported Versions:
   - Schema: v1, v2, v3, latest
@@ -289,7 +289,7 @@ Supported Versions:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new MigrationCLI();
   cli.run().catch(console.error);
 }

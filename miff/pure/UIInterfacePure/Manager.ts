@@ -1165,7 +1165,7 @@ export class UIInterfacePure {
 
   constructor(config: Partial<UIInterfaceConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableUIManagement: true,
       enableComponentSystem: true,
       enableLayoutSystem: true,
@@ -1183,7 +1183,7 @@ export class UIInterfacePure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalComponents: 0,
       activeComponents: 0,
       totalLayouts: 0,
@@ -1195,7 +1195,7 @@ export class UIInterfacePure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalComponents: 0,
       totalEvents: 0,
       averageRenderTime: 0,
@@ -1209,7 +1209,7 @@ export class UIInterfacePure {
    * Create a new UI interface manager
    */
   createManager(): UIInterfaceOutput {
-    if (!this.config.enableUIManagement) {
+    if (!this?.config.enableUIManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1219,8 +1219,8 @@ export class UIInterfacePure {
 
     const manager: UIInterfaceManager = {
       id: managerData.id || `ui-${Date.now()}`,
-      name: managerData.name || 'Unnamed UI Interface Manager',
-      type: managerData.type || 'web',
+      name: managerData?.name || 'Unnamed UI Interface Manager',
+      type: managerData?.type || 'web',
       status: 'active',
       components: [],
       layouts: [],
@@ -1283,7 +1283,7 @@ export class UIInterfacePure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1296,7 +1296,7 @@ export class UIInterfacePure {
    * Get manager by ID
    */
   getManager(): UIInterfaceOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1316,7 +1316,7 @@ export class UIInterfacePure {
    * Create UI component
    */
   createComponent(): UIInterfaceOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-component',
@@ -1325,7 +1325,7 @@ export class UIInterfacePure {
       };
     }
 
-    if (manager.components.length >= this.config.maxComponents) {
+    if (manager?.components.length >= this?.config.maxComponents) {
       return {
         op: 'create-component',
         status: 'error',
@@ -1335,10 +1335,10 @@ export class UIInterfacePure {
 
     const newComponent: UIComponent = {
       id: component.id || `component-${Date.now()}`,
-      name: component.name || 'Unnamed Component',
-      type: component.type || 'container',
+      name: component?.name || 'Unnamed Component',
+      type: component?.type || 'container',
       status: 'active',
-      properties: component.properties || {
+      properties: component?.properties || {
         visible: true,
         enabled: true,
         focusable: true,
@@ -1348,9 +1348,9 @@ export class UIInterfacePure {
         ariaDescription: '',
         custom: {}
       },
-      children: component.children || [],
-      parent: component.parent || '',
-      layout: component.layout || {
+      children: component?.children || [],
+      parent: component?.parent || '',
+      layout: component?.layout || {
         position: {
           type: 'relative',
           x: 0,
@@ -1400,7 +1400,7 @@ export class UIInterfacePure {
           origin: { x: 0, y: 0, z: 0 }
         }
       },
-      style: component.style || {
+      style: component?.style || {
         backgroundColor: { r: 1, g: 1, b: 1, a: 1 },
         color: { r: 0, g: 0, b: 0, a: 1 },
         font: {
@@ -1451,15 +1451,15 @@ export class UIInterfacePure {
           delay: 0
         }
       },
-      events: component.events || [],
+      events: component?.events || [],
       metadata: {},
       ...component
     };
 
-    manager.components.push(newComponent);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalComponents++;
-    this.performanceMetrics.activeComponents++;
+    manager?.components?.push(newComponent);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalComponents++;
+    this?.performanceMetrics.activeComponents++;
 
     return {
       op: 'create-component',
@@ -1472,7 +1472,7 @@ export class UIInterfacePure {
    * Create UI layout
    */
   createLayout(): UIInterfaceOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-layout',
@@ -1481,7 +1481,7 @@ export class UIInterfacePure {
       };
     }
 
-    if (manager.layouts.length >= this.config.maxLayouts) {
+    if (manager?.layouts.length >= this?.config.maxLayouts) {
       return {
         op: 'create-layout',
         status: 'error',
@@ -1491,10 +1491,10 @@ export class UIInterfacePure {
 
     const newLayout: UILayout = {
       id: layout.id || `layout-${Date.now()}`,
-      name: layout.name || 'Unnamed Layout',
-      type: layout.type || 'flex',
-      components: layout.components || [],
-      properties: layout.properties || {
+      name: layout?.name || 'Unnamed Layout',
+      type: layout?.type || 'flex',
+      components: layout?.components || [],
+      properties: layout?.properties || {
         position: {
           type: 'relative',
           x: 0,
@@ -1544,7 +1544,7 @@ export class UIInterfacePure {
           origin: { x: 0, y: 0, z: 0 }
         }
       },
-      responsive: layout.responsive || {
+      responsive: layout?.responsive || {
         breakpoints: [],
         rules: []
       },
@@ -1552,9 +1552,9 @@ export class UIInterfacePure {
       ...layout
     };
 
-    manager.layouts.push(newLayout);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalLayouts++;
+    manager?.layouts?.push(newLayout);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalLayouts++;
 
     return {
       op: 'create-layout',
@@ -1567,14 +1567,14 @@ export class UIInterfacePure {
    * Get performance metrics
    */
   getPerformanceMetrics(): UIInterfacePerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): UIInterfaceAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1588,23 +1588,23 @@ export class UIInterfacePure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalComponents = 0;
     let activeComponents = 0;
     let totalLayouts = 0;
     let totalEvents = 0;
 
-    for (const manager of this.managers.values()) {
-      totalComponents += manager.components.length;
-      activeComponents += manager.components.filter((c: any) => c.status === 'active').length;
-      totalLayouts += manager.layouts.length;
-      totalEvents += manager.events.length;
+    for (const manager of this?.managers.values()) {
+      totalComponents += manager?.components.length;
+      activeComponents += manager?.components.filter((c: any) => c?.status === 'active').length;
+      totalLayouts += manager?.layouts.length;
+      totalEvents += manager?.events.length;
     }
 
-    this.performanceMetrics.totalComponents = totalComponents;
-    this.performanceMetrics.activeComponents = activeComponents;
-    this.performanceMetrics.totalLayouts = totalLayouts;
-    this.performanceMetrics.totalEvents = totalEvents;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalComponents = totalComponents;
+    this?.performanceMetrics.activeComponents = activeComponents;
+    this?.performanceMetrics.totalLayouts = totalLayouts;
+    this?.performanceMetrics.totalEvents = totalEvents;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

@@ -314,7 +314,7 @@ export class DebugOverlayManager {
   private alerts: DebugAlert[] = [];
   private recommendations: DebugRecommendation[] = [];
   private visualizations: DebugVisualization[] = [];
-  private autoRefreshTimer?: NodeJS.Timeout;
+  private autoRefreshTimer?: NodeJS?.Timeout;
   private memoryTracker?: MemoryTracker;
   private frameProfiler?: FrameProfiler;
   private inputAnalyzer?: InputAnalyzer;
@@ -323,32 +323,32 @@ export class DebugOverlayManager {
 
   constructor(config: DebugConfig) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = config;
-    this.startTime = Date.now();
-    this.sessionId = this.generateSessionId();
+    this?.config = config;
+    this.startTime = new Date();
+    this?.sessionId = this?.generateSessionId();
 
-    if (config.autoRefresh) {
-      this.startAutoRefresh();
+    if (config?.autoRefresh) {
+      this?.startAutoRefresh();
     }
 
-    if (config.enableMemoryTracking) {
-      this.memoryTracker = new MemoryTracker();
+    if (config?.enableMemoryTracking) {
+      this?.memoryTracker = new MemoryTracker();
     }
 
-    if (config.enableFrameCapture) {
-      this.frameProfiler = new FrameProfiler();
+    if (config?.enableFrameCapture) {
+      this?.frameProfiler = new FrameProfiler();
     }
 
-    if (config.enableInputLogging) {
-      this.inputAnalyzer = new InputAnalyzer();
+    if (config?.enableInputLogging) {
+      this?.inputAnalyzer = new InputAnalyzer();
     }
 
-    if (config.enableAudioVisualization) {
-      this.audioAnalyzer = new AudioAnalyzer();
+    if (config?.enableAudioVisualization) {
+      this?.audioAnalyzer = new AudioAnalyzer();
     }
 
-    if (config.enableNetworkMonitoring) {
-      this.networkMonitor = new NetworkMonitor();
+    if (config?.enableNetworkMonitoring) {
+      this?.networkMonitor = new NetworkMonitor();
     }
   }
 
@@ -357,75 +357,75 @@ export class DebugOverlayManager {
    */
   createOverlay(payload: RenderPayload): DebugOverlayOutput {
     try {
-      this.frameCounter++;
+      this?.frameCounter++;
 
       // Validate payload
-      const validationIssues = BridgeSchemaValidator.validateRenderPayload(payload);
-      if (validationIssues.length > 0) {
-        const alert = this.createAlert('error', 'validation', 'Payload validation failed', validationIssues.join(', '), 'critical');
-        this.alerts.push(alert);
+      const validationIssues = BridgeSchemaValidator?.validateRenderPayload(payload);
+      if (validationIssues?.length > 0) {
+        const alert = this?.createAlert('error', 'validation', 'Payload validation failed', validationIssues?.join(', '), 'critical');
+        this?.alerts?.push(alert);
 
         return {
           op: 'debug',
           status: 'error',
-          overlay: this.createEmptyOverlay(),
+          overlay: this?.createEmptyOverlay(),
           issues: validationIssues,
-          config: this.config,
-          session: this.getSessionInfo()
+          config: this?.config,
+          session: this?.getSessionInfo()
         };
       }
 
       // Collect comprehensive debug information
-      const debugInfo = this.extractAdvancedDebugInfo(payload);
-      const renderData = this.extractRenderData(payload);
-      const issues = payload.issues || [];
-      const annotations = this.generateAnnotations(payload);
-      const visualizations = this.generateVisualizations(payload);
-      const alerts = [...this.alerts];
-      const recommendations = [...this.recommendations];
-      const metrics = this.calculateMetricsSummary();
+      const debugInfo = this?.extractAdvancedDebugInfo(payload);
+      const renderData = this?.extractRenderData(payload);
+      const issues = payload?.issues || [];
+      const annotations = this?.generateAnnotations(payload);
+      const visualizations = this?.generateVisualizations(payload);
+      const alerts = [...this?.alerts];
+      const recommendations = [...this?.recommendations];
+      const metrics = this?.calculateMetricsSummary();
 
       // Update history
-      if (debugInfo.performance) {
-        this.performanceHistory.push(debugInfo.performance);
-        if (this.performanceHistory.length > this.config.maxHistorySamples) {
-          this.performanceHistory.shift();
+      if (debugInfo?.performance) {
+        this?.performanceHistory?.push(debugInfo?.performance);
+        if (this?.performanceHistory.length > this?.config.maxHistorySamples) {
+          this?.performanceHistory.shift();
         }
       }
 
-      if (debugInfo.memory) {
-        this.memoryHistory.push(debugInfo.memory);
-        if (this.memoryHistory.length > this.config.maxHistorySamples) {
-          this.memoryHistory.shift();
+      if (debugInfo?.memory) {
+        this?.memoryHistory?.push(debugInfo?.memory);
+        if (this?.memoryHistory.length > this?.config.maxHistorySamples) {
+          this?.memoryHistory.shift();
         }
       }
 
-      if (debugInfo.frame) {
-        this.frameHistory.push(debugInfo.frame);
-        if (this.frameHistory.length > this.config.maxHistorySamples) {
-          this.frameHistory.shift();
+      if (debugInfo?.frame) {
+        this?.frameHistory?.push(debugInfo?.frame);
+        if (this?.frameHistory.length > this?.config.maxHistorySamples) {
+          this?.frameHistory.shift();
         }
       }
 
       // Generate new alerts and recommendations
-      this.checkForAlerts(debugInfo);
-      this.generateRecommendations(debugInfo);
+      this?.checkForAlerts(debugInfo);
+      this?.generateRecommendations(debugInfo);
 
       const overlay: DebugOverlay = {
         debugInfo: {
           ...debugInfo,
           history: {
-            performance: [...this.performanceHistory],
-            memory: [...this.memoryHistory],
-            frames: [...this.frameHistory]
+            performance: [...this?.performanceHistory],
+            memory: [...this?.memoryHistory],
+            frames: [...this?.frameHistory]
           }
         },
         renderData,
         issues,
         annotations,
         visualizations,
-        alerts: alerts.slice(-10), // Keep only recent alerts
-        recommendations: recommendations.slice(-5), // Keep only recent recommendations
+        alerts: alerts?.slice(-10), // Keep only recent alerts
+        recommendations: recommendations?.slice(-5), // Keep only recent recommendations
         metrics
       };
 
@@ -434,22 +434,22 @@ export class DebugOverlayManager {
         status: 'ok',
         overlay,
         issues: [],
-        config: this.config,
-        session: this.getSessionInfo()
+        config: this?.config,
+        session: this?.getSessionInfo()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      const alert = this.createAlert('error', 'system', 'Debug overlay generation failed',
-        error instanceof Error ? error.message : 'Unknown error', 'critical');
-      this.alerts.push(alert);
+      const alert = this?.createAlert('error', 'system', 'Debug overlay generation failed',
+        error instanceof Error ? error?.message : 'Unknown error', 'critical');
+      this?.alerts?.push(alert);
 
       return {
         op: 'debug',
         status: 'error',
-        overlay: this.createEmptyOverlay(),
-        issues: [`Debug overlay failed: ${error instanceof Error ? error.message : 'Unknown error'}`],
-        config: this.config,
-        session: this.getSessionInfo()
+        overlay: this?.createEmptyOverlay(),
+        issues: [`Debug overlay failed: ${error instanceof Error ? error?.message : 'Unknown error'}`],
+        config: this?.config,
+        session: this?.getSessionInfo()
       };
     }
   }
@@ -460,14 +460,14 @@ export class DebugOverlayManager {
   createOverlayFromCLI(cliOutput: string): DebugOverlayOutput {
     try {
       // Parse CLI output
-      const lines = cliOutput.split('\n');
+      const lines = cliOutput?.split('\n');
       const payloads: RenderPayload[] = [];
 
-      lines.forEach((line: any) => {
+      lines?.forEach((line: any) => {
         try {
           const parsed = JSON.parse(line.trim());
           if (parsed.renderData && Array.isArray(parsed.renderData)) {
-            payloads.push(parsed);
+            payloads?.push(parsed);
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -475,24 +475,24 @@ export class DebugOverlayManager {
         }
       });
 
-      if (payloads.length === 0) {
+      if (payloads?.length === 0) {
         return {
           op: 'debug',
           status: 'error',
-          overlay: this.createEmptyOverlay(),
+          overlay: this?.createEmptyOverlay(),
           issues: ['No renderData found in CLI output']
         };
       }
 
       // Create overlay from first payload (or combine multiple)
-      return this.createOverlay(payloads[0!]);
+      return this?.createOverlay(payloads[0!]);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'debug',
         status: 'error',
-        overlay: this.createEmptyOverlay(),
-        issues: [`CLI debug overlay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        overlay: this?.createEmptyOverlay(),
+        issues: [`CLI debug overlay failed: ${error instanceof Error ? error?.message : 'Unknown error'}`]
       };
     }
   }
@@ -503,36 +503,36 @@ export class DebugOverlayManager {
   createOverlayFromGoldenTest(testPath: string): DebugOverlayOutput {
     try {
       // Load golden test data
-      const testData = this.loadGoldenTest(testPath);
+      const testData = this?.loadGoldenTest(testPath);
       if (!testData) {
         return {
           op: 'debug',
           status: 'error',
-          overlay: this.createEmptyOverlay(),
+          overlay: this?.createEmptyOverlay(),
           issues: [`Failed to load golden test: ${testPath}`]
         };
       }
 
       // Extract renderData from test
-      const renderPayloads = this.extractRenderPayloads(testData);
-      if (renderPayloads.length === 0) {
+      const renderPayloads = this?.extractRenderPayloads(testData);
+      if (renderPayloads?.length === 0) {
         return {
           op: 'debug',
           status: 'error',
-          overlay: this.createEmptyOverlay(),
+          overlay: this?.createEmptyOverlay(),
           issues: ['No renderData found in golden test']
         };
       }
 
       // Create overlay from first payload
-      return this.createOverlay(renderPayloads[0!]);
+      return this?.createOverlay(renderPayloads[0!]);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'debug',
         status: 'error',
-        overlay: this.createEmptyOverlay(),
-        issues: [`Golden test debug overlay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        overlay: this?.createEmptyOverlay(),
+        issues: [`Golden test debug overlay failed: ${error instanceof Error ? error?.message : 'Unknown error'}`]
       };
     }
   }
@@ -544,35 +544,35 @@ export class DebugOverlayManager {
     try {
       let content: string;
 
-      switch (this.config.outputFormat) {
+      switch (this?.config.outputFormat) {
         case 'text':
-          content = this.generateTextReport(overlay);
+          content = this?.generateTextReport(overlay);
           break;
         case 'json':
           content = JSON.stringify(overlay, null, 2);
           break;
         case 'html':
-          content = this.generateHTMLReport(overlay);
+          content = this?.generateHTMLReport(overlay);
           break;
         default:
-          throw new Error(`Unsupported output format: ${this.config.outputFormat}`);
+          throw new Error(`Unsupported output format: ${this?.config.outputFormat}`);
       }
 
       // Ensure output directory exists
-      const outputDir = path.dirname(outputPath);
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+      const outputDir = path?.dirname(outputPath);
+      if (!fs?.existsSync(outputDir)) {
+        fs?.mkdirSync(outputDir, { recursive: true });
       }
 
       // Write file
-      fs.writeFileSync(outputPath, content, 'utf-8');
+      fs?.writeFileSync(outputPath, content, 'utf-8');
 
       return { success: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Export failed: ${error instanceof Error ? error?.message : 'Unknown error'}`]
       };
     }
   }
@@ -584,138 +584,138 @@ export class DebugOverlayManager {
     const lines: string[] = [];
 
     // Header
-    if (this.config.colorize) {
-      lines.push('🔍 \x1b[36mDEBUG OVERLAY\x1b[0m');
+    if (this?.config.colorize) {
+      lines?.push('🔍 \x1b[36mDEBUG OVERLAY\x1b[0m');
     } else {
-      lines.push('🔍 DEBUG OVERLAY');
+      lines?.push('🔍 DEBUG OVERLAY');
     }
-    lines.push('');
+    lines?.push('');
 
     // Debug Info
-    if (this.config.showOp) {
-      const opLine = `Operation: ${overlay.debugInfo.op}`;
-      lines.push(this.config.colorize ? `\x1b[33m${opLine}\x1b[0m` : opLine);
+    if (this?.config.showOp) {
+      const opLine = `Operation: ${overlay?.debugInfo.op}`;
+      lines?.push(this?.config.colorize ? `\x1b[33m${opLine}\x1b[0m` : opLine);
     }
 
-    if (this.config.showStatus) {
-      const statusColor = overlay.debugInfo.status === 'ok' ? '\x1b[32m' : '\x1b[31m';
-      const statusLine = `Status: ${overlay.debugInfo.status}`;
-      lines.push(this.config.colorize ? `${statusColor}${statusLine}\x1b[0m` : statusLine);
+    if (this?.config.showStatus) {
+      const statusColor = overlay?.debugInfo.status === 'ok' ? '\x1b[32m' : '\x1b[31m';
+      const statusLine = `Status: ${overlay?.debugInfo.status}`;
+      lines?.push(this?.config.colorize ? `${statusColor}${statusLine}\x1b[0m` : statusLine);
     }
 
-    if (this.config.showTimestamps) {
-      const timestampLine = `Timestamp: ${overlay.debugInfo.timestamp}`;
-      lines.push(this.config.colorize ? `\x1b[90m${timestampLine}\x1b[0m` : timestampLine);
+    if (this?.config.showTimestamps) {
+      const timestampLine = `Timestamp: ${overlay?.debugInfo.timestamp}`;
+      lines?.push(this?.config.colorize ? `\x1b[90m${timestampLine}\x1b[0m` : timestampLine);
     }
 
-    if (this.config.showRenderData) {
-      const renderDataLine = `RenderData: ${overlay.debugInfo.renderDataCount} items`;
-      lines.push(this.config.colorize ? `\x1b[34m${renderDataLine}\x1b[0m` : renderDataLine);
+    if (this?.config.showRenderData) {
+      const renderDataLine = `RenderData: ${overlay?.debugInfo.renderDataCount} items`;
+      lines?.push(this?.config.colorize ? `\x1b[34m${renderDataLine}\x1b[0m` : renderDataLine);
     }
 
-    if (this.config.showEngineHints && overlay.debugInfo.engineHints) {
-      const hintsLine = `Engine Hints: ${overlay.debugInfo.engineHints.join(', ')}`;
-      lines.push(this.config.colorize ? `\x1b[35m${hintsLine}\x1b[0m` : hintsLine);
+    if (this?.config.showEngineHints && overlay?.debugInfo.engineHints) {
+      const hintsLine = `Engine Hints: ${overlay?.debugInfo.engineHints?.join(', ')}`;
+      lines?.push(this?.config.colorize ? `\x1b[35m${hintsLine}\x1b[0m` : hintsLine);
     }
 
-    if (this.config.showSignals) {
-      const signalsLine = `Signals: ${overlay.debugInfo.signalsCount}`;
-      lines.push(this.config.colorize ? `\x1b[36m${signalsLine}\x1b[0m` : signalsLine);
+    if (this?.config.showSignals) {
+      const signalsLine = `Signals: ${overlay?.debugInfo.signalsCount}`;
+      lines?.push(this?.config.colorize ? `\x1b[36m${signalsLine}\x1b[0m` : signalsLine);
     }
 
-    lines.push('');
+    lines?.push('');
 
     // Issues
-    if (this.config.showIssues && overlay.issues.length > 0) {
-      if (this.config.colorize) {
-        lines.push('\x1b[31m⚠️ ISSUES:\x1b[0m');
+    if (this?.config.showIssues && overlay?.issues.length > 0) {
+      if (this?.config.colorize) {
+        lines?.push('\x1b[31m⚠️ ISSUES:\x1b[0m');
       } else {
-        lines.push('⚠️ ISSUES:');
+        lines?.push('⚠️ ISSUES:');
       }
 
-      overlay.issues.forEach((issue: any) => {
-        const truncatedIssue = this.config.maxIssueLength > 0
-          ? issue.substring(0, this.config.maxIssueLength) + (issue.length > this.config.maxIssueLength ? '...' : '')
+      overlay?.issues.forEach((issue: any) => {
+        const truncatedIssue = this?.config.maxIssueLength > 0
+          ? issue?.substring(0, this?.config.maxIssueLength) + (issue?.length > this?.config.maxIssueLength ? '...' : '')
           : issue;
         const issueLine = `  - ${truncatedIssue}`;
-        lines.push(this.config.colorize ? `\x1b[31m${issueLine}\x1b[0m` : issueLine);
+        lines?.push(this?.config.colorize ? `\x1b[31m${issueLine}\x1b[0m` : issueLine);
       });
-      lines.push('');
+      lines?.push('');
     }
 
     // Annotations
-    if (overlay.annotations.length > 0) {
-      if (this.config.colorize) {
-        lines.push('\x1b[32m📝 ANNOTATIONS:\x1b[0m');
+    if (overlay?.annotations.length > 0) {
+      if (this?.config.colorize) {
+        lines?.push('\x1b[32m📝 ANNOTATIONS:\x1b[0m');
       } else {
-        lines.push('📝 ANNOTATIONS:');
+        lines?.push('📝 ANNOTATIONS:');
       }
 
-      overlay.annotations.forEach((annotation: any) => {
+      overlay?.annotations.forEach((annotation: any) => {
         const annotationLine = `  - ${annotation}`;
-        lines.push(this.config.colorize ? `\x1b[32m${annotationLine}\x1b[0m` : annotationLine);
+        lines?.push(this?.config.colorize ? `\x1b[32m${annotationLine}\x1b[0m` : annotationLine);
       });
-      lines.push('');
+      lines?.push('');
     }
 
     // RenderData Preview
-    if (this.config.showRenderData && overlay.renderData.length > 0) {
-      if (this.config.colorize) {
-        lines.push('\x1b[34m🎨 RENDERDATA PREVIEW:\x1b[0m');
+    if (this?.config.showRenderData && overlay?.renderData.length > 0) {
+      if (this?.config.colorize) {
+        lines?.push('\x1b[34m🎨 RENDERDATA PREVIEW:\x1b[0m');
       } else {
-        lines.push('🎨 RENDERDATA PREVIEW:');
+        lines?.push('🎨 RENDERDATA PREVIEW:');
       }
 
-      const maxItems = this.config.maxRenderDataItems > 0 ? this.config.maxRenderDataItems : overlay.renderData.length;
-      const itemsToShow = overlay.renderData.slice(0, maxItems);
+      const maxItems = this?.config.maxRenderDataItems > 0 ? this?.config.maxRenderDataItems : overlay?.renderData.length;
+      const itemsToShow = overlay?.renderData.slice(0, maxItems);
 
-      itemsToShow.forEach((data, index) => {
-        const dataLine = `  ${index + 1}. ${data.type} (${data.id})`;
-        lines.push(this.config.colorize ? `\x1b[34m${dataLine}\x1b[0m` : dataLine);
+      itemsToShow?.forEach((data, index) => {
+        const dataLine = `  ${index + 1}. ${data?.type} (${data?.id})`;
+        lines?.push(this?.config.colorize ? `\x1b[34m${dataLine}\x1b[0m` : dataLine);
 
-        if (data.position) {
+        if (data?.position) {
           const posLine = `     Position: ${JSON.stringify(data.position)}`;
-          lines.push(this.config.colorize ? `\x1b[90m${posLine}\x1b[0m` : posLine);
+          lines?.push(this?.config.colorize ? `\x1b[90m${posLine}\x1b[0m` : posLine);
         }
 
-        if (data.asset) {
-          const assetLine = `     Asset: ${data.asset}`;
-          lines.push(this.config.colorize ? `\x1b[90m${assetLine}\x1b[0m` : assetLine);
+        if (data?.asset) {
+          const assetLine = `     Asset: ${data?.asset}`;
+          lines?.push(this?.config.colorize ? `\x1b[90m${assetLine}\x1b[0m` : assetLine);
         }
       });
 
-      if (overlay.renderData.length > maxItems) {
-        const moreLine = `  ... and ${overlay.renderData.length - maxItems} more items`;
-        lines.push(this.config.colorize ? `\x1b[90m${moreLine}\x1b[0m` : moreLine);
+      if (overlay?.renderData.length > maxItems) {
+        const moreLine = `  ... and ${overlay?.renderData.length - maxItems} more items`;
+        lines?.push(this?.config.colorize ? `\x1b[90m${moreLine}\x1b[0m` : moreLine);
       }
     }
 
-    return lines.join('\n');
+    return lines?.join('\n');
   }
 
   private extractDebugInfo(payload: RenderPayload): DebugInfo {
-    const duration = Date.now() - this.startTime;
+    const duration = new Date() - this.startTime;
 
-    const engineHints = payload.renderData
-      ?.map((data: any) => data.engineHints)
+    const engineHints = payload?.renderData
+      ?.map((data: any) => data?.engineHints)
       .filter((hints: any) => hints)
       .map((hints: any) => Object.keys(hints || {}))
       .flat() || [];
 
     const uniqueEngineHints = Array.from(new Set(engineHints));
 
-    const signalsCount = payload.renderData
-      ?.reduce((total, data) => total + (data.signals?.length || 0), 0) || 0;
+    const signalsCount = payload?.renderData
+      ?.reduce((total, data) => total + (data?.signals?.length || 0), 0) || 0;
 
     return {
-      op: payload.op,
-      status: payload.status,
-      issues: payload.issues,
+      op: payload?.op,
+      status: payload?.status,
+      issues: payload?.issues,
       timestamp: new Date().toISOString(),
-      renderDataCount: payload.renderData?.length || 0,
+      renderDataCount: payload?.renderData?.length || 0,
       engineHints: uniqueEngineHints,
       signalsCount,
-      metadata: payload.metadata,
+      metadata: payload?.metadata,
       performance: {
         duration,
         memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : undefined,
@@ -725,53 +725,53 @@ export class DebugOverlayManager {
   }
 
   private extractRenderData(payload: RenderPayload): RenderData[] {
-    return payload.renderData || [];
+    return payload?.renderData || [];
   }
 
   private generateAnnotations(payload: RenderPayload): string[] {
     const annotations: string[] = [];
 
     // Add operation annotation
-    annotations.push(`Operation: ${payload.op}`);
+    annotations?.push(`Operation: ${payload?.op}`);
 
     // Add status annotation
-    annotations.push(`Status: ${payload.status}`);
+    annotations?.push(`Status: ${payload?.status}`);
 
     // Add renderData count annotation
-    if (payload.renderData) {
-      annotations.push(`RenderData Count: ${payload.renderData.length}`);
+    if (payload?.renderData) {
+      annotations?.push(`RenderData Count: ${payload?.renderData.length}`);
     }
 
     // Add engine-specific annotations
-    if (payload.renderData && payload.renderData.length > 0) {
-      const engineHints = payload.renderData
-        .map((data: any) => data.engineHints)
+    if (payload?.renderData && payload?.renderData.length > 0) {
+      const engineHints = payload?.renderData
+        .map((data: any) => data?.engineHints)
         .filter((hints: any) => hints)
         .map((hints: any) => Object.keys(hints || {}))
         .flat();
 
       const uniqueEngines = Array.from(new Set(engineHints));
-      if (uniqueEngines.length > 0) {
-        annotations.push(`Engine Hints: ${uniqueEngines.join(', ')}`);
+      if (uniqueEngines?.length > 0) {
+        annotations?.push(`Engine Hints: ${uniqueEngines?.join(', ')}`);
       }
     }
 
     // Add metadata annotations
-    if (payload.metadata) {
-      if (payload.metadata.schemaVersion) {
-        annotations.push(`Schema Version: ${payload.metadata.schemaVersion}`);
+    if (payload?.metadata) {
+      if (payload?.metadata.schemaVersion) {
+        annotations?.push(`Schema Version: ${payload?.metadata.schemaVersion}`);
       }
-      if (payload.metadata.module) {
-        annotations.push(`Module: ${payload.metadata.module}`);
+      if (payload?.metadata.module) {
+        annotations?.push(`Module: ${payload?.metadata.module}`);
       }
-      if (payload.metadata.engine) {
-        annotations.push(`Engine: ${payload.metadata.engine}`);
+      if (payload?.metadata.engine) {
+        annotations?.push(`Engine: ${payload?.metadata.engine}`);
       }
     }
 
     // Add performance annotations
-    const duration = Date.now() - this.startTime;
-    annotations.push(`Duration: ${duration}ms`);
+    const duration = new Date() - this.startTime;
+    annotations?.push(`Duration: ${duration}ms`);
 
     return annotations;
   }
@@ -781,28 +781,28 @@ export class DebugOverlayManager {
   }
 
   private startAutoRefresh(): void {
-    if (this.autoRefreshTimer) {
-      clearInterval(this.autoRefreshTimer);
+    if (this?.autoRefreshTimer) {
+      clearInterval(this?.autoRefreshTimer);
     }
 
-    const interval = this.config.autoRefreshInterval! || 1000;
-    this.autoRefreshTimer = setInterval(() => {
+    const interval = this?.config.autoRefreshInterval! || 1000;
+    this?.autoRefreshTimer = setInterval(() => {
       // Auto-refresh logic would trigger overlay updates
       console.log(`[DebugOverlay!] Auto-refresh tick: ${this.frameCounter}`);
     }, interval);
   }
 
   private extractAdvancedDebugInfo(payload: RenderPayload): DebugInfo {
-    const baseInfo = this.extractDebugInfo(payload);
-    const performance = this.extractPerformanceMetrics();
-    const memory = this.extractMemoryAnalysis();
-    const frame = this.extractFrameAnalysis();
-    const input = this.extractInputAnalysis();
-    const audio = this.extractAudioAnalysis();
-    const network = this.extractNetworkStats();
-    const heatmaps = this.generateHeatmaps();
-    const flameGraph = this.generateFlameGraph();
-    const callStack = this.generateCallStack();
+    const baseInfo = this?.extractDebugInfo(payload);
+    const performance = this?.extractPerformanceMetrics();
+    const memory = this?.extractMemoryAnalysis();
+    const frame = this?.extractFrameAnalysis();
+    const input = this?.extractInputAnalysis();
+    const audio = this?.extractAudioAnalysis();
+    const network = this?.extractNetworkStats();
+    const heatmaps = this?.generateHeatmaps();
+    const flameGraph = this?.generateFlameGraph();
+    const callStack = this?.generateCallStack();
 
     return {
       ...baseInfo,
@@ -819,7 +819,7 @@ export class DebugOverlayManager {
   }
 
   private extractPerformanceMetrics(): DebugPerformanceMetrics {
-    const now = performance.now();
+    const now = performance?.now();
 
     return {
       frameTime: 16.67, // 60 FPS
@@ -843,11 +843,11 @@ export class DebugOverlayManager {
     if (typeof performance !== 'undefined' && (performance as any).memory) {
       const memory = (performance as any).memory;
       return {
-        heapUsed: memory.usedJSHeapSize,
-        heapTotal: memory.totalJSHeapSize,
-        external: memory.external,
-        rss: 0, // Node.js specific
-        arrayBuffers: memory.jsArrays || 0,
+        heapUsed: memory?.usedJSHeapSize,
+        heapTotal: memory?.totalJSHeapSize,
+        external: memory?.external,
+        rss: 0, // Node?.js specific
+        arrayBuffers: memory?.jsArrays || 0,
         leakSuspects: [],
         gcCollections: 0,
         gcTime: 0,
@@ -869,10 +869,10 @@ export class DebugOverlayManager {
   }
 
   private extractFrameAnalysis(): DebugFrameAnalysis {
-    const now = Date.now();
+    const now = new Date();
 
     return {
-      frameId: this.frameCounter,
+      frameId: this?.frameCounter,
       startTime: now - 16.67,
       endTime: now,
       duration: 16.67,
@@ -935,24 +935,24 @@ export class DebugOverlayManager {
   private generateVisualizations(payload: RenderPayload): DebugVisualization[] {
     const visualizations: DebugVisualization[] = [];
 
-    if (this.config.enableHeatmaps) {
-      visualizations.push({
+    if (this?.config.enableHeatmaps) {
+      visualizations?.push({
         id: 'performance_heatmap',
         type: 'heatmap',
         title: 'Performance Heatmap',
-        data: this.generatePerformanceHeatmap(),
+        data: this?.generatePerformanceHeatmap(),
         config: { width: 200, height: 100 },
         interactive: true,
         realTime: true
       });
     }
 
-    if (this.config.enableFlameGraphs) {
-      visualizations.push({
+    if (this?.config.enableFlameGraphs) {
+      visualizations?.push({
         id: 'flame_graph',
         type: 'flamegraph',
         title: 'Call Stack Flame Graph',
-        data: this.generateFlameGraphData(),
+        data: this?.generateFlameGraphData(),
         config: {},
         interactive: true,
         realTime: false
@@ -968,7 +968,7 @@ export class DebugOverlayManager {
     const height = 100;
     const data = new Float32Array(width * height);
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data?.length; i++) {
       data[i!] = Math.random();
     }
 
@@ -1017,7 +1017,7 @@ export class DebugOverlayManager {
   }
 
   private generateHeatmaps(): DebugHeatmapData[] {
-    if (!this.config.enableHeatmaps) return [];
+    if (!this?.config.enableHeatmaps) return [];
 
     return [
       {
@@ -1033,18 +1033,18 @@ export class DebugOverlayManager {
   }
 
   private generateFlameGraph(): DebugFlameGraphNode | undefined {
-    if (!this.config.enableFlameGraphs) return undefined;
-    return this.generateFlameGraphData();
+    if (!this?.config.enableFlameGraphs) return undefined;
+    return this?.generateFlameGraphData();
   }
 
   private generateCallStack(): DebugCallStack | undefined {
-    if (!this.config.enableCallStacks) return undefined;
+    if (!this?.config.enableCallStacks) return undefined;
 
     return {
       frames: [
         {
-          function: 'DebugOverlayManager.createOverlay',
-          file: 'DebugOverlayPure/Manager.ts',
+          function: 'DebugOverlayManager?.createOverlay',
+          file: 'DebugOverlayPure/Manager?.ts',
           line: 356,
           column: 10,
           source: 'export class DebugOverlayManager {'
@@ -1057,25 +1057,25 @@ export class DebugOverlayManager {
   }
 
   private checkForAlerts(debugInfo: DebugInfo): void {
-    if (debugInfo.performance && debugInfo.performance.fps < 30) {
-      this.createAlert('performance', 'fps', 'Low FPS detected',
-        `FPS dropped to ${debugInfo.performance.fps.toFixed(1)}`, 'critical');
+    if (debugInfo?.performance && debugInfo?.performance.fps < 30) {
+      this?.createAlert('performance', 'fps', 'Low FPS detected',
+        `FPS dropped to ${debugInfo?.performance.fps?.toFixed(1)}`, 'critical');
     }
 
-    if (debugInfo.memory && debugInfo.memory.heapUsed > debugInfo.memory.heapTotal * 0.9) {
-      this.createAlert('memory', 'heap', 'High memory usage',
-        `Heap usage at ${((debugInfo.memory.heapUsed / debugInfo.memory.heapTotal) * 100).toFixed(1)}%`, 'high');
+    if (debugInfo?.memory && debugInfo?.memory.heapUsed > debugInfo?.memory.heapTotal * 0.9) {
+      this?.createAlert('memory', 'heap', 'High memory usage',
+        `Heap usage at ${((debugInfo?.memory.heapUsed / debugInfo?.memory.heapTotal) * 100).toFixed(1)}%`, 'high');
     }
 
-    if (debugInfo.frame && debugInfo.frame.longFrame) {
-      this.createAlert('performance', 'frame', 'Long frame detected',
-        `Frame time: ${debugInfo.frame.duration.toFixed(1)}ms`, 'medium');
+    if (debugInfo?.frame && debugInfo?.frame.longFrame) {
+      this?.createAlert('performance', 'frame', 'Long frame detected',
+        `Frame time: ${debugInfo?.frame.duration?.toFixed(1)}ms`, 'medium');
     }
   }
 
   private generateRecommendations(debugInfo: DebugInfo): void {
-    if (debugInfo.performance && debugInfo.performance.fps < 45) {
-      this.addRecommendation({
+    if (debugInfo?.performance && debugInfo?.performance.fps < 45) {
+      this?.addRecommendation({
         id: `fps_optimization_${Date.now()}`,
         type: 'optimization',
         priority: 'high',
@@ -1088,8 +1088,8 @@ export class DebugOverlayManager {
       });
     }
 
-    if (debugInfo.memory && debugInfo.memory.leakSuspects.length > 0) {
-      this.addRecommendation({
+    if (debugInfo?.memory && debugInfo?.memory.leakSuspects?.length > 0) {
+      this?.addRecommendation({
         id: `memory_leak_${Date.now()}`,
         type: 'fix',
         priority: 'urgent',
@@ -1120,26 +1120,26 @@ export class DebugOverlayManager {
 
   private addRecommendation(recommendation: DebugRecommendation): void {
     // Avoid duplicate recommendations
-    const existing = this.recommendations.find(r =>
-      r.type === recommendation.type &&
-      r.title === recommendation.title
+    const existing = this?.recommendations.find(r =>
+      r?.type === recommendation?.type &&
+      r?.title === recommendation?.title
     );
 
     if (!existing) {
-      this.recommendations.push(recommendation);
+      this?.recommendations?.push(recommendation);
 
       // Keep only recent recommendations
-      if (this.recommendations.length > 20) {
-        this.recommendations.shift();
+      if (this?.recommendations.length > 20) {
+        this?.recommendations.shift();
       }
     }
   }
 
   private calculateMetricsSummary(): DebugMetricsSummary {
-    const performanceScore = this.calculatePerformanceScore();
-    const stabilityScore = this.calculateStabilityScore();
-    const memoryScore = this.calculateMemoryScore();
-    const renderingScore = this.calculateRenderingScore();
+    const performanceScore = this?.calculatePerformanceScore();
+    const stabilityScore = this?.calculateStabilityScore();
+    const memoryScore = this?.calculateMemoryScore();
+    const renderingScore = this?.calculateRenderingScore();
 
     const overallScore = (performanceScore + stabilityScore + memoryScore + renderingScore) / 4;
 
@@ -1174,35 +1174,35 @@ export class DebugOverlayManager {
       },
       performance: {
         score: performanceScore,
-        trends: this.analyzePerformanceTrends(),
-        issues: this.alerts.filter((a: any) => a.type === 'performance').length
+        trends: this?.analyzePerformanceTrends(),
+        issues: this?.alerts.filter((a: any) => a?.type === 'performance').length
       },
       stability: {
         score: stabilityScore,
         crashes: 0,
-        errors: this.alerts.filter((a: any) => a.type === 'error').length,
-        warnings: this.alerts.filter((a: any) => a.type === 'warning').length
+        errors: this?.alerts.filter((a: any) => a?.type === 'error').length,
+        warnings: this?.alerts.filter((a: any) => a?.type === 'warning').length
       },
       memory: {
         score: memoryScore,
-        leaks: this.memoryHistory.reduce((count, m) => count + m.leakSuspects.length, 0),
+        leaks: this?.memoryHistory.reduce((count, m) => count + m?.leakSuspects.length, 0),
         efficiency: memoryScore
       },
       rendering: {
         score: renderingScore,
-        bottlenecks: this.identifyBottlenecks(),
-        optimizations: this.recommendations.filter((r: any) => r.category === 'rendering').length
+        bottlenecks: this?.identifyBottlenecks(),
+        optimizations: this?.recommendations.filter((r: any) => r?.category === 'rendering').length
       }
     };
   }
 
   private calculatePerformanceScore(): number {
-    const recent = this.performanceHistory.slice(-10);
-    if (recent.length === 0) return 100;
+    const recent = this?.performanceHistory.slice(-10);
+    if (recent?.length === 0) return 100;
 
-    const avgFPS = recent.reduce((sum, p) => sum + p.fps, 0) / recent.length;
-    const avgFrameTime = recent.reduce((sum, p) => sum + p.frameTime, 0) / recent.length;
-    const frameDrops = recent.reduce((sum, p) => sum + p.frameDrops, 0);
+    const avgFPS = recent?.reduce((sum, p) => sum + p?.fps, 0) / recent?.length;
+    const avgFrameTime = recent?.reduce((sum, p) => sum + p?.frameTime, 0) / recent?.length;
+    const frameDrops = recent?.reduce((sum, p) => sum + p?.frameDrops, 0);
 
     let score = 100;
 
@@ -1219,9 +1219,9 @@ export class DebugOverlayManager {
   }
 
   private calculateStabilityScore(): number {
-    const totalAlerts = this.alerts.length;
-    const criticalAlerts = this.alerts.filter((a: any) => a.severity === 'critical').length;
-    const errorAlerts = this.alerts.filter((a: any) => a.type === 'error').length;
+    const totalAlerts = this?.alerts.length;
+    const criticalAlerts = this?.alerts.filter((a: any) => a?.severity === 'critical').length;
+    const errorAlerts = this?.alerts.filter((a: any) => a?.type === 'error').length;
 
     let score = 100;
 
@@ -1233,11 +1233,11 @@ export class DebugOverlayManager {
   }
 
   private calculateMemoryScore(): number {
-    const recent = this.memoryHistory.slice(-10);
-    if (recent.length === 0) return 100;
+    const recent = this?.memoryHistory.slice(-10);
+    if (recent?.length === 0) return 100;
 
-    const avgHeapUsage = recent.reduce((sum, m) => sum + (m.heapUsed / m.heapTotal), 0) / recent.length;
-    const totalLeaks = recent.reduce((sum, m) => sum + m.leakSuspects.length, 0);
+    const avgHeapUsage = recent?.reduce((sum, m) => sum + (m?.heapUsed / m?.heapTotal), 0) / recent?.length;
+    const totalLeaks = recent?.reduce((sum, m) => sum + m?.leakSuspects.length, 0);
 
     let score = 100;
 
@@ -1251,12 +1251,12 @@ export class DebugOverlayManager {
   }
 
   private calculateRenderingScore(): number {
-    const recent = this.performanceHistory.slice(-10);
-    if (recent.length === 0) return 100;
+    const recent = this?.performanceHistory.slice(-10);
+    if (recent?.length === 0) return 100;
 
-    const avgDrawCalls = recent.reduce((sum, p) => sum + p.drawCalls, 0) / recent.length;
-    const avgTriangles = recent.reduce((sum, p) => sum + p.triangles, 0) / recent.length;
-    const shaderSwitches = recent.reduce((sum, p) => sum + p.shaderSwitches, 0) / recent.length;
+    const avgDrawCalls = recent?.reduce((sum, p) => sum + p?.drawCalls, 0) / recent?.length;
+    const avgTriangles = recent?.reduce((sum, p) => sum + p?.triangles, 0) / recent?.length;
+    const shaderSwitches = recent?.reduce((sum, p) => sum + p?.shaderSwitches, 0) / recent?.length;
 
     let score = 100;
 
@@ -1272,13 +1272,13 @@ export class DebugOverlayManager {
   }
 
   private analyzePerformanceTrends(): 'improving' | 'stable' | 'declining' {
-    if (this.performanceHistory.length < 10) return 'stable';
+    if (this?.performanceHistory.length < 10) return 'stable';
 
-    const recent = this.performanceHistory.slice(-5);
-    const older = this.performanceHistory.slice(-10, -5);
+    const recent = this?.performanceHistory.slice(-5);
+    const older = this?.performanceHistory.slice(-10, -5);
 
-    const recentAvg = recent.reduce((sum, p) => sum + p.fps, 0) / recent.length;
-    const olderAvg = older.reduce((sum, p) => sum + p.fps, 0) / older.length;
+    const recentAvg = recent?.reduce((sum, p) => sum + p?.fps, 0) / recent?.length;
+    const olderAvg = older?.reduce((sum, p) => sum + p?.fps, 0) / older?.length;
 
     const change = ((recentAvg - olderAvg) / olderAvg) * 100;
 
@@ -1289,36 +1289,36 @@ export class DebugOverlayManager {
 
   private identifyBottlenecks(): string[] {
     const bottlenecks: string[] = [];
-    const recent = this.performanceHistory.slice(-10);
+    const recent = this?.performanceHistory.slice(-10);
 
-    if (recent.length === 0) return bottlenecks;
+    if (recent?.length === 0) return bottlenecks;
 
-    const avgCPU = recent.reduce((sum, p) => sum + p.cpuUsage, 0) / recent.length;
-    const avgGPU = recent.reduce((sum, p) => sum + p.gpuMemoryUsage, 0) / recent.length;
-    const avgMemory = recent.reduce((sum, p) => sum + p.memoryUsage, 0) / recent.length;
+    const avgCPU = recent?.reduce((sum, p) => sum + p?.cpuUsage, 0) / recent?.length;
+    const avgGPU = recent?.reduce((sum, p) => sum + p?.gpuMemoryUsage, 0) / recent?.length;
+    const avgMemory = recent?.reduce((sum, p) => sum + p?.memoryUsage, 0) / recent?.length;
 
-    if (avgCPU > 80) bottlenecks.push('High CPU usage');
-    if (avgGPU > 80) bottlenecks.push('High GPU memory usage');
-    if (avgMemory > 80) bottlenecks.push('High memory usage');
+    if (avgCPU > 80) bottlenecks?.push('High CPU usage');
+    if (avgGPU > 80) bottlenecks?.push('High GPU memory usage');
+    if (avgMemory > 80) bottlenecks?.push('High memory usage');
 
     return bottlenecks;
   }
 
   private getSessionInfo(): DebugSessionInfo {
-    const now = Date.now();
-    const duration = now - this.startTime;
+    const now = new Date();
+    const duration = now - this?.startTime;
 
     return {
-      sessionId: this.sessionId,
-      startTime: this.startTime,
+      sessionId: this?.sessionId,
+      startTime: this?.startTime,
       duration,
-      events: this.frameCounter,
-      frames: this.frameCounter,
+      events: this?.frameCounter,
+      frames: this?.frameCounter,
       memoryPeak: Math.max(...this.memoryHistory.map((m: any) => m.heapUsed)),
-      performanceAverage: this.performanceHistory.length > 0
-        ? this.performanceHistory.reduce((sum, p) => sum + p.fps, 0) / this.performanceHistory.length
+      performanceAverage: this?.performanceHistory.length > 0
+        ? this?.performanceHistory.reduce((sum, p) => sum + p?.fps, 0) / this?.performanceHistory.length
         : 0,
-      alertsGenerated: this.alerts.length,
+      alertsGenerated: this?.alerts.length,
       recommendationsApplied: 0
     };
   }
@@ -1351,24 +1351,24 @@ export class DebugOverlayManager {
 
 // Helper methods for advanced debugging features
   private initializeAdvancedDebugging(): void {
-    if (this.config.enableMemoryTracking) {
-      this.initializeMemoryTracking();
+    if (this?.config.enableMemoryTracking) {
+      this?.initializeMemoryTracking();
     }
 
-    if (this.config.enableFrameCapture) {
-      this.initializeFrameProfiling();
+    if (this?.config.enableFrameCapture) {
+      this?.initializeFrameProfiling();
     }
 
-    if (this.config.enableInputLogging) {
-      this.initializeInputAnalysis();
+    if (this?.config.enableInputLogging) {
+      this?.initializeInputAnalysis();
     }
 
-    if (this.config.enableAudioVisualization) {
-      this.initializeAudioAnalysis();
+    if (this?.config.enableAudioVisualization) {
+      this?.initializeAudioAnalysis();
     }
 
-    if (this.config.enableNetworkMonitoring) {
-      this.initializeNetworkMonitoring();
+    if (this?.config.enableNetworkMonitoring) {
+      this?.initializeNetworkMonitoring();
     }
   }
 
@@ -1399,11 +1399,11 @@ export class DebugOverlayManager {
 
   private loadGoldenTest(testPath: string): any {
     try {
-      if (!fs.existsSync(testPath)) {
+      if (!fs?.existsSync(testPath)) {
         return null;
       }
 
-      const content = fs.readFileSync(testPath, 'utf-8');
+      const content = fs?.readFileSync(testPath, 'utf-8');
       return JSON.parse(content);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -1415,137 +1415,137 @@ export class DebugOverlayManager {
     const payloads: RenderPayload[] = [];
 
     // Extract from various test data structures
-    if (testData.renderData) {
-      payloads.push(testData);
+    if (testData?.renderData) {
+      payloads?.push(testData);
     }
 
-    if (testData.expected_output) {
+    if (testData?.expected_output) {
       if (Array.isArray(testData.expected_output)) {
-        payloads.push(...testData.expected_output);
+        payloads?.push(...testData?.expected_output);
       } else {
-        payloads.push(testData.expected_output);
+        payloads?.push(testData?.expected_output);
       }
     }
 
-    if (testData.examples) {
+    if (testData?.examples) {
       Object.values(testData.examples).forEach((example: any) => {
-        if (example.unified) {
-          payloads.push(example.unified);
+        if (example?.unified) {
+          payloads?.push(example?.unified);
         }
-        if (example.renderData) {
-          payloads.push(example);
+        if (example?.renderData) {
+          payloads?.push(example);
         }
       });
     }
 
-    return payloads.filter((payload: any) =>
+    return payloads?.filter((payload: any) =>
       payload.renderData && Array.isArray(payload.renderData)
     );
   }
 
   private generateTextReport(overlay: DebugOverlay): string {
-    return this.generateDebugDisplay(overlay);
+    return this?.generateDebugDisplay(overlay);
   }
 
   private generateHTMLReport(overlay: DebugOverlay): string {
     const lines: string[] = [];
 
-    lines.push('<!DOCTYPE html>');
-    lines.push('<html>');
-    lines.push('<head>');
-    lines.push('<title>Debug Overlay Report</title>');
-    lines.push('<style>');
-    lines.push('body { font-family: monospace; margin: 20px; background: #1e1e1e; color: #ffffff; }');
-    lines.push('.header { color: #00ffff; font-size: 18px; font-weight: bold; margin-bottom: 20px; }');
-    lines.push('.info { margin: 10px 0; }');
-    lines.push('.op { color: #ffff00; }');
-    lines.push('.status-ok { color: #00ff00; }');
-    lines.push('.status-error { color: #ff0000; }');
-    lines.push('.timestamp { color: #888888; }');
-    lines.push('.renderdata { color: #0080ff; }');
-    lines.push('.hints { color: #ff00ff; }');
-    lines.push('.signals { color: #00ffff; }');
-    lines.push('.performance { color: #888888; }');
-    lines.push('.issues { color: #ff0000; }');
-    lines.push('.annotations { color: #00ff00; }');
-    lines.push('.section { margin: 20px 0; }');
-    lines.push('.section-title { font-weight: bold; margin-bottom: 10px; }');
-    lines.push('.item { margin: 5px 0; padding-left: 20px; }');
-    lines.push('</style>');
-    lines.push('</head>');
-    lines.push('<body>');
+    lines?.push('<!DOCTYPE html>');
+    lines?.push('<html>');
+    lines?.push('<head>');
+    lines?.push('<title>Debug Overlay Report</title>');
+    lines?.push('<style>');
+    lines?.push('body { font-family: monospace; margin: 20px; background: #1e1e1e; color: #ffffff; }');
+    lines?.push('.header { color: #00ffff; font-size: 18px; font-weight: bold; margin-bottom: 20px; }');
+    lines?.push('.info { margin: 10px 0; }');
+    lines?.push('.op { color: #ffff00; }');
+    lines?.push('.status-ok { color: #00ff00; }');
+    lines?.push('.status-error { color: #ff0000; }');
+    lines?.push('.timestamp { color: #888888; }');
+    lines?.push('.renderdata { color: #0080ff; }');
+    lines?.push('.hints { color: #ff00ff; }');
+    lines?.push('.signals { color: #00ffff; }');
+    lines?.push('.performance { color: #888888; }');
+    lines?.push('.issues { color: #ff0000; }');
+    lines?.push('.annotations { color: #00ff00; }');
+    lines?.push('.section { margin: 20px 0; }');
+    lines?.push('.section-title { font-weight: bold; margin-bottom: 10px; }');
+    lines?.push('.item { margin: 5px 0; padding-left: 20px; }');
+    lines?.push('</style>');
+    lines?.push('</head>');
+    lines?.push('<body>');
 
-    lines.push('<div class="header">🔍 DEBUG OVERLAY</div>');
+    lines?.push('<div class="header">🔍 DEBUG OVERLAY</div>');
 
     // Debug Info
-    lines.push('<div class="section">');
-    lines.push('<div class="section-title">Debug Information:</div>');
-    lines.push(`<div class="info op">Operation: ${overlay.debugInfo.op}</div>`);
-    lines.push(`<div class="info status-${overlay.debugInfo.status}">Status: ${overlay.debugInfo.status}</div>`);
-    lines.push(`<div class="info timestamp">Timestamp: ${overlay.debugInfo.timestamp}</div>`);
-    lines.push(`<div class="info renderdata">RenderData: ${overlay.debugInfo.renderDataCount} items</div>`);
+    lines?.push('<div class="section">');
+    lines?.push('<div class="section-title">Debug Information:</div>');
+    lines?.push(`<div class="info op">Operation: ${overlay?.debugInfo.op}</div>`);
+    lines?.push(`<div class="info status-${overlay?.debugInfo.status}">Status: ${overlay?.debugInfo.status}</div>`);
+    lines?.push(`<div class="info timestamp">Timestamp: ${overlay?.debugInfo.timestamp}</div>`);
+    lines?.push(`<div class="info renderdata">RenderData: ${overlay?.debugInfo.renderDataCount} items</div>`);
 
-    if (overlay.debugInfo.engineHints && overlay.debugInfo.engineHints.length > 0) {
-      lines.push(`<div class="info hints">Engine Hints: ${overlay.debugInfo.engineHints.join(', ')}</div>`);
+    if (overlay?.debugInfo.engineHints && overlay?.debugInfo.engineHints?.length > 0) {
+      lines?.push(`<div class="info hints">Engine Hints: ${overlay?.debugInfo.engineHints?.join(', ')}</div>`);
     }
 
-    lines.push(`<div class="info signals">Signals: ${overlay.debugInfo.signalsCount}</div>`);
+    lines?.push(`<div class="info signals">Signals: ${overlay?.debugInfo.signalsCount}</div>`);
 
-    if (overlay.debugInfo.performance) {
-      lines.push(`<div class="info performance">Duration: ${overlay.debugInfo.performance.duration}ms</div>`);
+    if (overlay?.debugInfo.performance) {
+      lines?.push(`<div class="info performance">Duration: ${overlay?.debugInfo.performance?.duration}ms</div>`);
     }
-    lines.push('</div>');
+    lines?.push('</div>');
 
     // Issues
-    if (overlay.issues.length > 0) {
-      lines.push('<div class="section">');
-      lines.push('<div class="section-title issues">⚠️ ISSUES:</div>');
-      overlay.issues.forEach((issue: any) => {
-        lines.push(`<div class="item issues">- ${issue}</div>`);
+    if (overlay?.issues.length > 0) {
+      lines?.push('<div class="section">');
+      lines?.push('<div class="section-title issues">⚠️ ISSUES:</div>');
+      overlay?.issues.forEach((issue: any) => {
+        lines?.push(`<div class="item issues">- ${issue}</div>`);
       });
-      lines.push('</div>');
+      lines?.push('</div>');
     }
 
     // Annotations
-    if (overlay.annotations.length > 0) {
-      lines.push('<div class="section">');
-      lines.push('<div class="section-title annotations">📝 ANNOTATIONS:</div>');
-      overlay.annotations.forEach((annotation: any) => {
-        lines.push(`<div class="item annotations">- ${annotation}</div>`);
+    if (overlay?.annotations.length > 0) {
+      lines?.push('<div class="section">');
+      lines?.push('<div class="section-title annotations">📝 ANNOTATIONS:</div>');
+      overlay?.annotations.forEach((annotation: any) => {
+        lines?.push(`<div class="item annotations">- ${annotation}</div>`);
       });
-      lines.push('</div>');
+      lines?.push('</div>');
     }
 
     // RenderData Preview
-    if (overlay.renderData.length > 0) {
-      lines.push('<div class="section">');
-      lines.push('<div class="section-title renderdata">🎨 RENDERDATA PREVIEW:</div>');
+    if (overlay?.renderData.length > 0) {
+      lines?.push('<div class="section">');
+      lines?.push('<div class="section-title renderdata">🎨 RENDERDATA PREVIEW:</div>');
 
-      const maxItems = this.config.maxRenderDataItems > 0 ? this.config.maxRenderDataItems : overlay.renderData.length;
-      const itemsToShow = overlay.renderData.slice(0, maxItems);
+      const maxItems = this?.config.maxRenderDataItems > 0 ? this?.config.maxRenderDataItems : overlay?.renderData.length;
+      const itemsToShow = overlay?.renderData.slice(0, maxItems);
 
-      itemsToShow.forEach((data, index) => {
-        lines.push(`<div class="item renderdata">${index + 1}. ${data.type} (${data.id})</div>`);
+      itemsToShow?.forEach((data, index) => {
+        lines?.push(`<div class="item renderdata">${index + 1}. ${data?.type} (${data?.id})</div>`);
 
-        if (data.position) {
+        if (data?.position) {
           lines.push(`<div class="item timestamp">   Position: ${JSON.stringify(data.position)}</div>`);
         }
 
-        if (data.asset) {
-          lines.push(`<div class="item timestamp">   Asset: ${data.asset}</div>`);
+        if (data?.asset) {
+          lines?.push(`<div class="item timestamp">   Asset: ${data?.asset}</div>`);
         }
       });
 
-      if (overlay.renderData.length > maxItems) {
-        lines.push(`<div class="item timestamp">... and ${overlay.renderData.length - maxItems} more items</div>`);
+      if (overlay?.renderData.length > maxItems) {
+        lines?.push(`<div class="item timestamp">... and ${overlay?.renderData.length - maxItems} more items</div>`);
       }
-      lines.push('</div>');
+      lines?.push('</div>');
     }
 
-    lines.push('</body>');
-    lines.push('</html>');
+    lines?.push('</body>');
+    lines?.push('</html>');
 
-    return lines.join('\n');
+    return lines?.join('\n');
   }
 
 }

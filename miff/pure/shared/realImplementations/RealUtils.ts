@@ -52,18 +52,18 @@ export interface ArrayUtils {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  unique<T extends object>(arr: T[]): T[];
-  chunk<T extends object>(arr: T[], size: number): T[][];
-  flatten<T extends object>(arr: T[][]): T[];
-  groupBy<T extends object>(arr: T[], key: keyof T): Record<string, T[]>;
-  sortBy<T extends object>(arr: T[], key: keyof T): T[];
-  shuffle<T extends object>(arr: T[]): T[];
-  sample<T extends object>(arr: T[], count: number): T[];
-  difference<T extends object>(arr1: T[], arr2: T[]): T[];
-  intersection<T extends object>(arr1: T[], arr2: T[]): T[];
-  union<T extends object>(arr1: T[], arr2: T[]): T[];
-  zip<T, U>(arr1: T[], arr2: U[]): [T, U][];
-  unzip<T, U>(arr: [T, U][]): [T[], U[]];
+  unique<T extends Record<string, any> extends object>(arr: T[]): T[];
+  chunk<T extends Record<string, any> extends object>(arr: T[], size: number): T[][];
+  flatten<T extends Record<string, any> extends object>(arr: T[][]): T[];
+  groupBy<T extends Record<string, any> extends object>(arr: T[], key: keyof T): Record<string, T[]>;
+  sortBy<T extends Record<string, any> extends object>(arr: T[], key: keyof T): T[];
+  shuffle<T extends Record<string, any> extends object>(arr: T[]): T[];
+  sample<T extends Record<string, any> extends object>(arr: T[], count: number): T[];
+  difference<T extends Record<string, any> extends object>(arr1: T[], arr2: T[]): T[];
+  intersection<T extends Record<string, any> extends object>(arr1: T[], arr2: T[]): T[];
+  union<T extends Record<string, any> extends object>(arr1: T[], arr2: T[]): T[];
+  zip<T extends Record<string, any>, U>(arr1: T[], arr2: U[]): [T, U][];
+  unzip<T extends Record<string, any>, U>(arr: [T, U][]): [T[], U[]];
 }
 
 export interface ObjectUtils {
@@ -79,18 +79,18 @@ export interface ObjectUtils {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  deepClone<T extends object>(obj: T): T;
-  deepMerge<T extends object>(target: T, source: Partial<T extends object>): T;
-  pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
-  omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>;
-  isEmpty(obj): boolean;
+  deepClone<T extends Record<string, any> extends object>(obj: T): T;
+  deepMerge<T extends Record<string, any> extends object>(target: T, source: Partial<T extends Record<string, any> extends object>): T;
+  pick<T extends Record<string, any> extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T extends Record<string, any>, K>;
+  omit<T extends Record<string, any> extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T extends Record<string, any>, K>;
+  isEmpty(obj: any): boolean;
   isEqual(obj1: any, obj2: any): boolean;
-  keys<T extends object>(obj: T): (keyof T)[];
-  values<T extends object>(obj: T): T[keyof T][];
-  entries<T extends object>(obj: T): [keyof T, T[keyof T]][];
-  fromEntries<T extends object>(entries: [string, any][]): T;
-  mapKeys<T extends object>(obj: T, fn: (key: keyof T) => string): Record<string, any>;
-  mapValues<T extends object>(obj: T, fn: (value: T[keyof T]) => any): Record<keyof T, any>;
+  keys<T extends Record<string, any> extends object>(obj: T): (keyof T)[];
+  values<T extends Record<string, any> extends object>(obj: T): T[keyof T][];
+  entries<T extends Record<string, any> extends object>(obj: T): [keyof T, T[keyof T]][];
+  fromEntries<T extends Record<string, any> extends object>(entries: [string, any][]): T;
+  mapKeys<T extends Record<string, any> extends object>(obj: T, fn: (key: keyof T) => string): Record<string, any>;
+  mapValues<T extends Record<string, any> extends object>(obj: T, fn: (value: T[keyof T]) => any): Record<keyof T, any>;
 }
 
 export interface DateUtils {
@@ -172,95 +172,95 @@ export class RealUtils {
 
   constructor(...args: any[]) {
     
-    this.initialize();
+    this?.initialize({});
   }
 
   /**
    * Initialize utils
    */
   private initialize(): void {
-    this.isInitialized = true;
-    this.emit('initialized', {});
+    this?.isInitialized = true;
+    this?.emit('initialized', {});
   }
 
   /**
    * String utilities
    */
   string: StringUtils = {
-    capitalize: (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(),
-    camelCase: (str: string) => str.replace(/[-_\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : ''),
-    kebabCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '-').toLowerCase(),
-    snakeCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '_').toLowerCase(),
-    pascalCase: (str: string) => str.replace(/(?:^|[-_\s])(.)/g, (_, c) => c.toUpperCase()),
-    truncate: (str: string, length: number) => str.length > length ? str.slice(0, length) + '...' : str,
-    padLeft: (str: string, length: number, char: string = ' ') => str.padStart(length, char),
-    padRight: (str: string, length: number, char: string = ' ') => str.padEnd(length, char),
-    removeWhitespace: (str: string) => str.replace(/\s/g, ''),
-    reverse: (str: string) => str.split('').reverse().join(''),
+    capitalize: (str: string) => str?.charAt(0).toUpperCase() + str?.slice(1).toLowerCase(),
+    camelCase: (str: string) => str?.replace(/[-_\s]+(.)?/g, (_, c) => c ? c?.toUpperCase() : ''),
+    kebabCase: (str: string) => str?.replace(/([a-z])([A-Z])/g, '-').toLowerCase(),
+    snakeCase: (str: string) => str?.replace(/([a-z])([A-Z])/g, '_').toLowerCase(),
+    pascalCase: (str: string) => str?.replace(/(?:^|[-_\s])(.)/g, (_, c) => c?.toUpperCase()),
+    truncate: (str: string, length: number) => str?.length > length ? str?.slice(0, length) + '...' : str,
+    padLeft: (str: string, length: number, char: string = ' ') => str?.padStart(length, char),
+    padRight: (str: string, length: number, char: string = ' ') => str?.padEnd(length, char),
+    removeWhitespace: (str: string) => str?.replace(/\s/g, ''),
+    reverse: (str: string) => str?.split('').reverse().join(''),
     isEmail: (str: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str),
     isUrl: (str: string) => /^https?:\/\/.+/.test(str),
     isPhoneNumber: (str: string) => /^\+?[\d\s\-\(\)]+$/.test(str),
-    extractNumbers: (str: string) => str.match(/\d+/g)?.map(Number) || [],
-    extractWords: (str: string) => str.match(/\b\w+\b/g) || []
+    extractNumbers: (str: string) => str?.match(/\d+/g)?.map(Number) || [],
+    extractWords: (str: string) => str?.match(/\b\w+\b/g) || []
   };
 
   /**
    * Array utilities
    */
   array: ArrayUtils = {
-    unique: <T extends object>(arr: T[]) => [...new Set(arr)],
-    chunk: <T extends object>(arr: T[], size: number) => {
+    unique: <T extends Record<string, any> extends object>(arr: T[]) => [...new Set(arr)],
+    chunk: <T extends Record<string, any> extends object>(arr: T[], size: number) => {
       const chunks: T[][] = [];
-      for (let i = 0; i < arr.length; i += size) {
-        chunks.push(arr.slice(i, i + size));
+      for (let i = 0; i < arr?.length; i += size) {
+        chunks?.push(arr?.slice(i, i + size));
       }
       return chunks;
     },
-    flatten: <T extends object>(arr: T[][]) => arr.reduce((acc, val) => acc.concat(val), []),
-    groupBy: <T extends object>(arr: T[], key: keyof T) => {
-      return arr.reduce((groups, item) => {
+    flatten: <T extends Record<string, any> extends object>(arr: T[][]) => arr?.reduce((acc, val) => acc?.concat(val), []),
+    groupBy: <T extends Record<string, any> extends object>(arr: T[], key: keyof T) => {
+      return arr?.reduce((groups, item) => {
         const group = String(item[key!]);
         groups[group!] = groups[group!] || [];
-        groups[group!].push(item);
+        groups[group!].push(item: any);
         return groups;
       }, {} as Record<string, T[]>);
     },
-    sortBy: <T extends object>(arr: T[], key: keyof T) => {
+    sortBy: <T extends Record<string, any> extends object>(arr: T[], key: keyof T) => {
       return [...arr].sort((a: any, b: any) => {
         const aVal = a[key!];
         const bVal = b[key!];
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       });
     },
-    shuffle: <T extends object>(arr: T[]) => {
+    shuffle: <T extends Record<string, any> extends object>(arr: T[]) => {
       const shuffled = [...arr];
-      for (let i = shuffled.length - 1; i > 0; i--) {
+      for (let i = shuffled?.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
       }
       return shuffled;
     },
-    sample: <T extends object>(arr: T[], count: number) => {
-      const shuffled = this.array.shuffle(arr);
-      return shuffled.slice(0, count);
+    sample: <T extends Record<string, any> extends object>(arr: T[], count: number) => {
+      const shuffled = this?.array.shuffle(arr);
+      return shuffled?.slice(0, count);
     },
-    difference: <T extends object>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => !arr2.includes(item)),
-    intersection: <T extends object>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => arr2.includes(item)),
-    union: <T extends object>(arr1: T[], arr2: T[]) => this.array.unique([...arr1, ...arr2]),
-    zip: <T, U>(arr1: T[], arr2: U[]) => {
+    difference: <T extends Record<string, any> extends object>(arr1: T[], arr2: T[]) => arr1?.filter((item: any) => !arr2?.includes(item: any)),
+    intersection: <T extends Record<string, any> extends object>(arr1: T[], arr2: T[]) => arr1?.filter((item: any) => arr2?.includes(item: any)),
+    union: <T extends Record<string, any> extends object>(arr1: T[], arr2: T[]) => this?.array.unique([...arr1, ...arr2]),
+    zip: <T extends Record<string, any>, U>(arr1: T[], arr2: U[]) => {
       const length = Math.min(arr1.length, arr2.length);
       const result: [T, U][] = [];
       for (let i = 0; i < length; i++) {
-        result.push([arr1[i!], arr2[i!]]);
+        result?.push([arr1[i!], arr2[i!]]);
       }
       return result;
     },
-    unzip: <T, U>(arr: [T, U][]) => {
+    unzip: <T extends Record<string, any>, U>(arr: [T, U][]) => {
       const first: T[] = [];
       const second: U[] = [];
       for (const [a, b] of arr) {
-        first.push(a);
-        second.push(b);
+        first?.push(a);
+        second?.push(b);
       }
       return [first, second];
     }
@@ -270,31 +270,31 @@ export class RealUtils {
    * Object utilities
    */
   object: ObjectUtils = {
-    deepClone: <T extends object>(obj: T): T => {
+    deepClone: <T extends Record<string, any> extends object>(obj: T): T => {
       if (obj === null || typeof obj !== 'object') return obj;
-      if (obj instanceof Date) return new Date(obj.getTime()) as any;
-      if (obj instanceof Array) return obj.map((item: any) => this.object.deepClone(item)) as any;
+      if (obj instanceof Date) return new Date(obj?.getTime()) as any;
+      if (obj instanceof Array) return obj?.map((item: any) => this?.object.deepClone(item: any)) as any;
       if (typeof obj === 'object') {
         const cloned: any = {};
         for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            cloned[key!] = this.object.deepClone(obj[key!]);
+          if (obj?.hasOwnProperty(key)) {
+            cloned[key!] = this?.object.deepClone(obj[key!]);
           }
         }
         return cloned;
       }
       return obj;
     },
-    deepMerge: <T extends object>(target: T, source: Partial<T extends object>): T => {
+    deepMerge: <T extends Record<string, any> extends object>(target: T, source: Partial<T extends Record<string, any> extends object>): T => {
       const result = { ...target };
       for (const key in source) {
-        if (source.hasOwnProperty(key)) {
+        if (source?.hasOwnProperty(key)) {
           const sourceValue = source[key!];
           const targetValue = result[key!];
-          if (this.object.isEqual(targetValue, sourceValue)) {
+          if (this?.object.isEqual(targetValue, sourceValue)) {
             result[key!] = sourceValue as T[Extract<keyof T, string>];
           } else if (typeof sourceValue === 'object' && sourceValue !== null) {
-            result[key!] = this.object.deepMerge(targetValue, sourceValue) as T[Extract<keyof T, string>];
+            result[key!] = this?.object.deepMerge(targetValue, sourceValue) as T[Extract<keyof T, string>];
           } else {
             result[key!] = sourceValue as T[Extract<keyof T, string>];
           }
@@ -302,8 +302,8 @@ export class RealUtils {
       }
       return result;
     },
-    pick: <T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
-      const result = {} as Pick<T, K>;
+    pick: <T extends Record<string, any> extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T extends Record<string, any>, K> => {
+      const result = {} as Pick<T extends Record<string, any>, K>;
       for (const key of keys) {
         if (key in obj) {
           (result as any)[key!] = obj[key!];
@@ -311,7 +311,7 @@ export class RealUtils {
       }
       return result;
     },
-    omit: <T, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> => {
+    omit: <T extends Record<string, any>, K extends keyof T>(obj: T, keys: K[]): Omit<T extends Record<string, any>, K> => {
       const result = { ...obj };
       for (const key of keys) {
         delete result[key!];
@@ -320,8 +320,8 @@ export class RealUtils {
     },
     isEmpty: (obj: any) => {
       if (obj == null) return true;
-      if (typeof obj === 'string' || Array.isArray(obj)) return obj.length === 0;
-      if (typeof obj === 'object') return Object.keys(obj).length === 0;
+      if (typeof obj === 'string' || Array.isArray(obj: any)) return obj.length === 0;
+      if (typeof obj === 'object') return Object.keys(obj: any).length === 0;
       return false;
     },
     isEqual: (obj1: any, obj2: any) => {
@@ -333,29 +333,29 @@ export class RealUtils {
       
       const keys1 = Object.keys(obj1);
       const keys2 = Object.keys(obj2);
-      if (keys1.length !== keys2.length) return false;
+      if (keys1?.length !== keys2?.length) return false;
       
       for (const key of keys1) {
-        if (!keys2.includes(key)) return false;
-        if (!this.object.isEqual(obj1[key!], obj2[key!])) return false;
+        if (!keys2?.includes(key)) return false;
+        if (!this?.object.isEqual(obj1[key!], obj2[key!])) return false;
       }
       return true;
     },
-    keys: <T extends object>(obj: T) => Object.keys(obj) as (keyof T)[],
-    values: <T extends object>(obj: T) => Object.values(obj) as T[keyof T][],
-    entries: <T extends object>(obj: T) => Object.entries(obj) as [keyof T, T[keyof T]][],
-    fromEntries: <T extends object>(entries: [string, any][]) => Object.fromEntries(entries) as T,
-    mapKeys: <T extends object>(obj: T, fn: (key: keyof T) => string) => {
+    keys: <T extends Record<string, any> extends object>(obj: T) => Object.keys(obj: any) as (keyof T)[],
+    values: <T extends Record<string, any> extends object>(obj: T) => Object.values(obj: any) as T[keyof T][],
+    entries: <T extends Record<string, any> extends object>(obj: T) => Object.entries(obj: any) as [keyof T, T[keyof T]][],
+    fromEntries: <T extends Record<string, any> extends object>(entries: [string, any][]) => Object.fromEntries(entries) as T,
+    mapKeys: <T extends Record<string, any> extends object>(obj: T, fn: (key: keyof T) => string) => {
       const result: Record<string, any> = {};
-      for (const [key, value] of this.object.entries(obj as object)) {
+      for (const [key, value] of this?.object.entries(obj as object)) {
         result[fn(key)] = value;
       }
       return result;
     },
-    mapValues: <T extends object>(obj: T, fn: (value: T[keyof T]) => any) => {
+    mapValues: <T extends Record<string, any> extends object>(obj: T, fn: (value: T[keyof T]) => any) => {
       const result: Record<keyof T, any> = {} as Record<keyof T, any>;
-      for (const [key, value] of this.object.entries(obj as object)) {
-        (result as any)[key!] = fn(value);
+      for (const [key, value] of this?.object.entries(obj as object)) {
+        (result as any)[key!] = fn(value: any);
       }
       return result;
     }
@@ -368,16 +368,16 @@ export class RealUtils {
     now: () => new Date(),
     today: () => {
       const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      today?.setHours(0, 0, 0, 0);
       return today;
     },
     format: (date: Date, format: string) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
+      const year = date?.getFullYear();
+      const month = String(date?.getMonth() + 1).padStart(2, '0');
+      const day = String(date?.getDate()).padStart(2, '0');
+      const hours = String(date?.getHours()).padStart(2, '0');
+      const minutes = String(date?.getMinutes()).padStart(2, '0');
+      const seconds = String(date?.getSeconds()).padStart(2, '0');
       
       return format
         .replace('YYYY', String(year))
@@ -393,17 +393,17 @@ export class RealUtils {
     },
     addDays: (date: Date, days: number) => {
       const result = new Date(date);
-      result.setDate(result.getDate() + days);
+      result?.setDate(result?.getDate() + days);
       return result;
     },
     addMonths: (date: Date, months: number) => {
       const result = new Date(date);
-      result.setMonth(result.getMonth() + months);
+      result?.setMonth(result?.getMonth() + months);
       return result;
     },
     addYears: (date: Date, years: number) => {
       const result = new Date(date);
-      result.setFullYear(result.getFullYear() + years);
+      result?.setFullYear(result?.getFullYear() + years);
       return result;
     },
     differenceInDays: (date1: Date, date2: Date) => {
@@ -418,61 +418,61 @@ export class RealUtils {
       const diffTime = Math.abs(date2.getTime() - date1.getTime());
       return Math.ceil(diffTime / (1000 * 60));
     },
-    isBefore: (date1: Date, date2: Date) => date1.getTime() < date2.getTime(),
-    isAfter: (date1: Date, date2: Date) => date1.getTime() > date2.getTime(),
+    isBefore: (date1: Date, date2: Date) => date1?.getTime() < date2?.getTime(),
+    isAfter: (date1: Date, date2: Date) => date1?.getTime() > date2?.getTime(),
     isSameDay: (date1: Date, date2: Date) => {
-      return date1.getFullYear() === date2.getFullYear() &&
-             date1.getMonth() === date2.getMonth() &&
-             date1.getDate() === date2.getDate();
+      return date1?.getFullYear() === date2?.getFullYear() &&
+             date1?.getMonth() === date2?.getMonth() &&
+             date1?.getDate() === date2?.getDate();
     },
     startOfDay: (date: Date) => {
       const result = new Date(date);
-      result.setHours(0, 0, 0, 0);
+      result?.setHours(0, 0, 0, 0);
       return result;
     },
     endOfDay: (date: Date) => {
       const result = new Date(date);
-      result.setHours(23, 59, 59, 999);
+      result?.setHours(23, 59, 59, 999);
       return result;
     },
     startOfWeek: (date: Date) => {
       const result = new Date(date);
-      const day = result.getDay();
-      const diff = result.getDate() - day;
-      result.setDate(diff);
-      result.setHours(0, 0, 0, 0);
+      const day = result?.getDay();
+      const diff = result?.getDate() - day;
+      result?.setDate(diff);
+      result?.setHours(0, 0, 0, 0);
       return result;
     },
     endOfWeek: (date: Date) => {
       const result = new Date(date);
-      const day = result.getDay();
-      const diff = result.getDate() - day + 6;
-      result.setDate(diff);
-      result.setHours(23, 59, 59, 999);
+      const day = result?.getDay();
+      const diff = result?.getDate() - day + 6;
+      result?.setDate(diff);
+      result?.setHours(23, 59, 59, 999);
       return result;
     },
     startOfMonth: (date: Date) => {
       const result = new Date(date);
-      result.setDate(1);
-      result.setHours(0, 0, 0, 0);
+      result?.setDate(1);
+      result?.setHours(0, 0, 0, 0);
       return result;
     },
     endOfMonth: (date: Date) => {
       const result = new Date(date);
-      result.setMonth(result.getMonth() + 1, 0);
-      result.setHours(23, 59, 59, 999);
+      result?.setMonth(result?.getMonth() + 1, 0);
+      result?.setHours(23, 59, 59, 999);
       return result;
     },
     startOfYear: (date: Date) => {
       const result = new Date(date);
-      result.setMonth(0, 1);
-      result.setHours(0, 0, 0, 0);
+      result?.setMonth(0, 1);
+      result?.setHours(0, 0, 0, 0);
       return result;
     },
     endOfYear: (date: Date) => {
       const result = new Date(date);
-      result.setMonth(11, 31);
-      result.setHours(23, 59, 59, 999);
+      result?.setMonth(11, 31);
+      result?.setHours(23, 59, 59, 999);
       return result;
     }
   };
@@ -486,17 +486,17 @@ export class RealUtils {
     clamp: (value: number, min: number, max: number) => Math.min(Math.max(value, min), max),
     lerp: (a: number, b: number, t: number) => a + (b - a) * t,
     round: (value: number, decimals: number) => Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals),
-    ceil: (value: number) => Math.ceil(value),
-    floor: (value: number) => Math.floor(value),
-    abs: (value: number) => Math.abs(value),
+    ceil: (value: number) => Math.ceil(value: any),
+    floor: (value: number) => Math.floor(value: any),
+    abs: (value: number) => Math.abs(value: any),
     max: (...values: number[]) => Math.max(...values),
     min: (...values: number[]) => Math.min(...values),
-    sum: (...values: number[]) => values.reduce((sum, val) => sum + val, 0),
-    average: (...values: number[]) => values.reduce((sum, val) => sum + val, 0) / values.length,
+    sum: (...values: number[]) => values?.reduce((sum, val) => sum + val, 0),
+    average: (...values: number[]) => values?.reduce((sum, val) => sum + val, 0) / values?.length,
     median: (...values: number[]) => {
-      const sorted = values.sort((a: any, b: any) => a - b);
+      const sorted = values?.sort((a: any, b: any) => a - b);
       const mid = Math.floor(sorted.length / 2);
-      return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+      return sorted?.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
     },
     mode: (...values: number[]) => {
       const frequency: Record<number, number> = {};
@@ -513,9 +513,9 @@ export class RealUtils {
       return mode;
     },
     variance: (...values: number[]) => {
-      const avg = this.math.average(...values);
+      const avg = this?.math.average(...values);
       const squaredDiffs = values.map((val: any) => Math.pow(val - avg, 2));
-      return this.math.average(...squaredDiffs);
+      return this?.math.average(...squaredDiffs);
     },
     standardDeviation: (...values: number[]) => Math.sqrt(this.math.variance(...values)),
     factorial: (n: number) => {
@@ -563,28 +563,28 @@ export class RealUtils {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event)) {
-      this.eventHandlers.set(event, []);
+    if (!this?.eventHandlers.has(event)) {
+      this?.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)?.push(handler);
+    this?.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this?.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers.indexOf(handler);
+      const index = handlers?.indexOf(handler);
       if (index > -1) {
-        handlers.splice(index, 1);
+        handlers?.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this?.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach((handler: any) => {
+      handlers?.forEach((handler: any) => {
         try {
-          handler(data);
+          handler(data: any);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in utils event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -601,8 +601,8 @@ export class RealUtils {
     eventHandlers: number;
   } {
     return {
-      isInitialized: this.isInitialized,
-      eventHandlers: this.eventHandlers.size
+      isInitialized: this?.isInitialized,
+      eventHandlers: this?.eventHandlers.size
     };
   }
 
@@ -610,17 +610,17 @@ export class RealUtils {
    * Reset utils
    */
   reset(): void {
-    this.eventHandlers.clear();
-    this.isInitialized = false;
-    this.initialize();
+    this?.eventHandlers.clear();
+    this?.isInitialized = false;
+    this?.initialize({});
   }
 
   /**
    * Cleanup resources
    */
   cleanup(): void {
-    this.eventHandlers.clear();
-    this.isInitialized = false;
+    this?.eventHandlers.clear();
+    this?.isInitialized = false;
   }
 }
 

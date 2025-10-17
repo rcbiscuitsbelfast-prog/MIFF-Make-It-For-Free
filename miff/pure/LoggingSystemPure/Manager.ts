@@ -827,7 +827,7 @@ export class LoggingSystemPure {
 
   constructor(config: Partial<LoggingSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableLoggingManagement: true,
       enableLogCollection: true,
       enableLogProcessing: true,
@@ -846,7 +846,7 @@ export class LoggingSystemPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalLoggers: 0,
       activeLoggers: 0,
       totalAppenders: 0,
@@ -862,7 +862,7 @@ export class LoggingSystemPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalLogs: 0,
       logsPerSecond: 0,
       averageLatency: 0,
@@ -876,7 +876,7 @@ export class LoggingSystemPure {
    * Create a new logging system manager
    */
   createManager(): LoggingSystemOutput {
-    if (!this.config.enableLoggingManagement) {
+    if (!this?.config.enableLoggingManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -886,8 +886,8 @@ export class LoggingSystemPure {
 
     const manager: LoggingSystemManager = {
       id: managerData.id || `loggingsystem-${Date.now()}`,
-      name: managerData.name || 'Unnamed Logging System Manager',
-      type: managerData.type || 'centralized',
+      name: managerData?.name || 'Unnamed Logging System Manager',
+      type: managerData?.type || 'centralized',
       status: 'active',
       loggers: [],
       appenders: [],
@@ -955,7 +955,7 @@ export class LoggingSystemPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -968,7 +968,7 @@ export class LoggingSystemPure {
    * Get manager by ID
    */
   getManager(): LoggingSystemOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -988,14 +988,14 @@ export class LoggingSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): LoggingSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): LoggingSystemAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1009,7 +1009,7 @@ export class LoggingSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalLoggers = 0;
     let activeLoggers = 0;
     let totalAppenders = 0;
@@ -1018,23 +1018,23 @@ export class LoggingSystemPure {
     let totalFormatters = 0;
     let totalDestinations = 0;
 
-    for (const manager of this.managers.values()) {
-      totalLoggers += manager.loggers.length;
-      activeLoggers += manager.loggers.filter((l: any) => l.status === 'active').length;
-      totalAppenders += manager.appenders.length;
-      activeAppenders += manager.appenders.filter((a: any) => a.status === 'active').length;
-      totalFilters += manager.filters.length;
-      totalFormatters += manager.formatters.length;
-      totalDestinations += manager.destinations.length;
+    for (const manager of this?.managers.values()) {
+      totalLoggers += manager?.loggers.length;
+      activeLoggers += manager?.loggers.filter((l: any) => l?.status === 'active').length;
+      totalAppenders += manager?.appenders.length;
+      activeAppenders += manager?.appenders.filter((a: any) => a?.status === 'active').length;
+      totalFilters += manager?.filters.length;
+      totalFormatters += manager?.formatters.length;
+      totalDestinations += manager?.destinations.length;
     }
 
-    this.performanceMetrics.totalLoggers = totalLoggers;
-    this.performanceMetrics.activeLoggers = activeLoggers;
-    this.performanceMetrics.totalAppenders = totalAppenders;
-    this.performanceMetrics.activeAppenders = activeAppenders;
-    this.performanceMetrics.totalFilters = totalFilters;
-    this.performanceMetrics.totalFormatters = totalFormatters;
-    this.performanceMetrics.totalDestinations = totalDestinations;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalLoggers = totalLoggers;
+    this?.performanceMetrics.activeLoggers = activeLoggers;
+    this?.performanceMetrics.totalAppenders = totalAppenders;
+    this?.performanceMetrics.activeAppenders = activeAppenders;
+    this?.performanceMetrics.totalFilters = totalFilters;
+    this?.performanceMetrics.totalFormatters = totalFormatters;
+    this?.performanceMetrics.totalDestinations = totalDestinations;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

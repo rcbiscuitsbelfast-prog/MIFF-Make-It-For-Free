@@ -873,7 +873,7 @@ export class ResourceManagerPure {
 
   constructor(config: Partial<ResourceManagerConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableResourceManagement: true,
       enableResourceLoading: true,
       enableResourceCaching: true,
@@ -892,7 +892,7 @@ export class ResourceManagerPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalResources: 0,
       loadedResources: 0,
       totalPools: 0,
@@ -906,7 +906,7 @@ export class ResourceManagerPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalResources: 0,
       loadedResources: 0,
       averageLoadTime: 0,
@@ -920,7 +920,7 @@ export class ResourceManagerPure {
    * Create a new resource manager
    */
   createManager(): ResourceManagerOutput {
-    if (!this.config.enableResourceManagement) {
+    if (!this?.config.enableResourceManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -930,8 +930,8 @@ export class ResourceManagerPure {
 
     const manager: ResourceManager = {
       id: managerData.id || `resourcemanager-${Date.now()}`,
-      name: managerData.name || 'Unnamed Resource Manager',
-      type: managerData.type || 'game',
+      name: managerData?.name || 'Unnamed Resource Manager',
+      type: managerData?.type || 'game',
       status: 'active',
       resources: [],
       pools: [],
@@ -996,7 +996,7 @@ export class ResourceManagerPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1009,7 +1009,7 @@ export class ResourceManagerPure {
    * Get manager by ID
    */
   getManager(): ResourceManagerOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1029,14 +1029,14 @@ export class ResourceManagerPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): ResourceManagerPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): ResourceManagerAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1050,26 +1050,26 @@ export class ResourceManagerPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalResources = 0;
     let loadedResources = 0;
     let totalPools = 0;
     let totalCaches = 0;
     let totalStreams = 0;
 
-    for (const manager of this.managers.values()) {
-      totalResources += manager.resources.length;
-      loadedResources += manager.resources.filter((r: any) => r.status === 'loaded').length;
-      totalPools += manager.pools.length;
-      totalCaches += manager.caches.length;
-      totalStreams += manager.streams.length;
+    for (const manager of this?.managers.values()) {
+      totalResources += manager?.resources.length;
+      loadedResources += manager?.resources.filter((r: any) => r?.status === 'loaded').length;
+      totalPools += manager?.pools.length;
+      totalCaches += manager?.caches.length;
+      totalStreams += manager?.streams.length;
     }
 
-    this.performanceMetrics.totalResources = totalResources;
-    this.performanceMetrics.loadedResources = loadedResources;
-    this.performanceMetrics.totalPools = totalPools;
-    this.performanceMetrics.totalCaches = totalCaches;
-    this.performanceMetrics.totalStreams = totalStreams;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalResources = totalResources;
+    this?.performanceMetrics.loadedResources = loadedResources;
+    this?.performanceMetrics.totalPools = totalPools;
+    this?.performanceMetrics.totalCaches = totalCaches;
+    this?.performanceMetrics.totalStreams = totalStreams;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

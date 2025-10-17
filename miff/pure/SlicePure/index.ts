@@ -266,8 +266,8 @@ export interface IRNGProvider {
   nextInt(min?: number, max?: number): number;
   nextFloat(min?: number, max?: number): number;
   nextBoolean(chance?: number): boolean;
-  shuffle<T extends object>(array: T[]): T[];
-  choose<T extends object>(array: T[]): T;
+  shuffle<T extends Record<string, any> extends object>(array: T[]): T[];
+  choose<T extends Record<string, any> extends object>(array: T[]): T;
   seed: number;
 }
 
@@ -339,17 +339,17 @@ export class PlayerState implements IPlayerState {
   constructor(
     zoneId: string = 'newhaven',
     tileType: string = 'grass',
-    timeOfDay: TimeOfDay = TimeOfDay.DAY,
+    timeOfDay: TimeOfDay = TimeOfDay?.DAY,
     stepsSinceLastEncounter: number = 0,
     position: { x: number; y: number } = { x: 0, y: 0 },
     weather: string = 'clear'
   ) {
-    this.zoneId = zoneId;
-    this.tileType = tileType;
-    this.timeOfDay = timeOfDay;
-    this.stepsSinceLastEncounter = stepsSinceLastEncounter;
-    this.position = { ...position };
-    this.weather = weather;
+    this?.zoneId = zoneId;
+    this?.tileType = tileType;
+    this?.timeOfDay = timeOfDay;
+    this?.stepsSinceLastEncounter = stepsSinceLastEncounter;
+    this?.position = { ...position };
+    this?.weather = weather;
   }
 
   /**
@@ -370,37 +370,37 @@ export class PlayerState implements IPlayerState {
    * Move player to new position
    */
   moveTo(x: number, y: number): void {
-    this.position.x = x;
-    this.position.y = y;
-    this.stepsSinceLastEncounter++;
+    this?.position.x = x;
+    this?.position.y = y;
+    this?.stepsSinceLastEncounter++;
   }
 
   /**
    * Set time of day
    */
   setTimeOfDay(timeOfDay: TimeOfDay): void {
-    this.timeOfDay = timeOfDay;
+    this?.timeOfDay = timeOfDay;
   }
 
   /**
    * Set weather
    */
   setWeather(weather: string): void {
-    this.weather = weather;
+    this?.weather = weather;
   }
 
   /**
    * Reset encounter counter
    */
   resetEncounterCounter(): void {
-    this.stepsSinceLastEncounter = 0;
+    this?.stepsSinceLastEncounter = 0;
   }
 
   /**
    * Get current time of day
    */
   getCurrentTimeOfDay(): TimeOfDay {
-    return this.timeOfDay;
+    return this?.timeOfDay;
   }
 
   /**
@@ -408,12 +408,12 @@ export class PlayerState implements IPlayerState {
    */
   toJSON(): Record<string, any> {
     return {
-      zoneId: this.zoneId,
-      tileType: this.tileType,
-      timeOfDay: this.timeOfDay,
-      stepsSinceLastEncounter: this.stepsSinceLastEncounter,
-      position: this.position,
-      weather: this.weather
+      zoneId: this?.zoneId,
+      tileType: this?.tileType,
+      timeOfDay: this?.timeOfDay,
+      stepsSinceLastEncounter: this?.stepsSinceLastEncounter,
+      position: this?.position,
+      weather: this?.weather
     };
   }
 
@@ -422,12 +422,12 @@ export class PlayerState implements IPlayerState {
    */
   static fromJSON(data: Record<string, any>): PlayerState {
     return new PlayerState(
-      data.zoneId || 'newhaven',
-      data.tileType || 'grass',
-      data.timeOfDay || TimeOfDay.DAY,
-      data.stepsSinceLastEncounter || 0,
-      data.position || { x: 0, y: 0 },
-      data.weather || 'clear'
+      data?.zoneId || 'newhaven',
+      data?.tileType || 'grass',
+      data?.timeOfDay || TimeOfDay?.DAY,
+      data?.stepsSinceLastEncounter || 0,
+      data?.position || { x: 0, y: 0 },
+      data?.weather || 'clear'
     );
   }
 
@@ -435,7 +435,7 @@ export class PlayerState implements IPlayerState {
    * Clone player state
    */
   clone(): PlayerState {
-    return PlayerState.fromJSON(this.toJSON());
+    return PlayerState?.fromJSON(this?.toJSON());
   }
 }
 
@@ -458,12 +458,12 @@ export class EncounterTableEntry implements IEncounterTableEntry {
     maxLevel: number = 100,
     conditions?: Record<string, any>
   ) {
-    this.zoneId = zoneId;
-    this.spiritId = spiritId;
-    this.weight = weight;
-    this.minLevel = minLevel;
-    this.maxLevel = maxLevel;
-    this.conditions = conditions;
+    this?.zoneId = zoneId;
+    this?.spiritId = spiritId;
+    this?.weight = weight;
+    this?.minLevel = minLevel;
+    this?.maxLevel = maxLevel;
+    this?.conditions = conditions;
   }
 
   /**
@@ -486,28 +486,28 @@ export class EncounterTableEntry implements IEncounterTableEntry {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.zoneId || this.zoneId.trim() === '') {
-      errors.push('Zone ID is required');
+    if (!this?.zoneId || this?.zoneId.trim() === '') {
+      errors?.push('Zone ID is required');
     }
 
-    if (!this.spiritId || this.spiritId.trim() === '') {
-      errors.push('Spirit ID is required');
+    if (!this?.spiritId || this?.spiritId.trim() === '') {
+      errors?.push('Spirit ID is required');
     }
 
-    if (this.weight <= 0) {
-      errors.push('Weight must be positive');
+    if (this?.weight <= 0) {
+      errors?.push('Weight must be positive');
     }
 
-    if (this.minLevel < 1 || this.minLevel > 100) {
-      errors.push('Min level must be between 1 and 100');
+    if (this?.minLevel < 1 || this?.minLevel > 100) {
+      errors?.push('Min level must be between 1 and 100');
     }
 
-    if (this.maxLevel < 1 || this.maxLevel > 100) {
-      errors.push('Max level must be between 1 and 100');
+    if (this?.maxLevel < 1 || this?.maxLevel > 100) {
+      errors?.push('Max level must be between 1 and 100');
     }
 
-    if (this.minLevel > this.maxLevel) {
-      errors.push('Min level cannot be greater than max level');
+    if (this?.minLevel > this?.maxLevel) {
+      errors?.push('Min level cannot be greater than max level');
     }
 
     return errors;
@@ -517,14 +517,14 @@ export class EncounterTableEntry implements IEncounterTableEntry {
    * Get level range description
    */
   getLevelRangeDescription(): string {
-    return `${this.minLevel}-${this.maxLevel}`;
+    return `${this?.minLevel}-${this?.maxLevel}`;
   }
 
   /**
    * Check if level is in range
    */
   isLevelInRange(level: number): boolean {
-    return level >= this.minLevel && level <= this.maxLevel;
+    return level >= this?.minLevel && level <= this?.maxLevel;
   }
 
   /**
@@ -532,12 +532,12 @@ export class EncounterTableEntry implements IEncounterTableEntry {
    */
   toJSON(): Record<string, any> {
     return {
-      zoneId: this.zoneId,
-      spiritId: this.spiritId,
-      weight: this.weight,
-      minLevel: this.minLevel,
-      maxLevel: this.maxLevel,
-      conditions: this.conditions
+      zoneId: this?.zoneId,
+      spiritId: this?.spiritId,
+      weight: this?.weight,
+      minLevel: this?.minLevel,
+      maxLevel: this?.maxLevel,
+      conditions: this?.conditions
     };
   }
 
@@ -546,12 +546,12 @@ export class EncounterTableEntry implements IEncounterTableEntry {
    */
   static fromJSON(data: Record<string, any>): EncounterTableEntry {
     return new EncounterTableEntry(
-      data.zoneId,
-      data.spiritId,
-      data.weight,
-      data.minLevel,
-      data.maxLevel,
-      data.conditions
+      data?.zoneId,
+      data?.spiritId,
+      data?.weight,
+      data?.minLevel,
+      data?.maxLevel,
+      data?.conditions
     );
   }
 
@@ -559,7 +559,7 @@ export class EncounterTableEntry implements IEncounterTableEntry {
    * Clone entry
    */
   clone(): EncounterTableEntry {
-    return EncounterTableEntry.fromJSON(this.toJSON());
+    return EncounterTableEntry?.fromJSON(this?.toJSON());
   }
 }
 
@@ -572,9 +572,9 @@ export class EncounterTable implements IEncounterTable {
   public totalWeight: number;
 
   constructor(zoneId: string, entries: IEncounterTableEntry[] = []) {
-    this.zoneId = zoneId;
-    this.entries = [...entries];
-    this.totalWeight = this.calculateTotalWeight();
+    this?.zoneId = zoneId;
+    this?.entries = [...entries];
+    this?.totalWeight = this?.calculateTotalWeight();
   }
 
   /**
@@ -588,18 +588,18 @@ export class EncounterTable implements IEncounterTable {
    * Add entry
    */
   addEntry(entry: IEncounterTableEntry): void {
-    this.entries.push(entry);
-    this.totalWeight = this.calculateTotalWeight();
+    this?.entries?.push(entry);
+    this?.totalWeight = this?.calculateTotalWeight();
   }
 
   /**
    * Remove entry
    */
   removeEntry(spiritId: string): boolean {
-    const index = this.entries.findIndex(entry => entry.spiritId === spiritId);
+    const index = this?.entries.findIndex(entry => entry?.spiritId === spiritId);
     if (index >= 0) {
-      this.entries.splice(index, 1);
-      this.totalWeight = this.calculateTotalWeight();
+      this?.entries.splice(index, 1);
+      this?.totalWeight = this?.calculateTotalWeight();
       return true;
     }
     return false;
@@ -609,26 +609,26 @@ export class EncounterTable implements IEncounterTable {
    * Get random entry
    */
   getRandomEntry(rng: IRNGProvider): IEncounterTableEntry | null {
-    if (this.entries.length === 0) return null;
+    if (this?.entries.length === 0) return null;
 
-    const roll = rng.nextInt(1, this.totalWeight);
+    const roll = rng?.nextInt(1, this?.totalWeight);
     let currentWeight = 0;
 
-    for (const entry of this.entries) {
-      currentWeight += entry.weight;
+    for (const entry of this?.entries) {
+      currentWeight += entry?.weight;
       if (roll <= currentWeight) {
         return entry;
       }
     }
 
-    return this.entries[this.entries.length - 1]; // Fallback
+    return this?.entries[this?.entries.length - 1]; // Fallback
   }
 
   /**
    * Calculate total weight
    */
   private calculateTotalWeight(): number {
-    return this.entries.reduce((sum, entry) => sum + entry.weight, 0);
+    return this?.entries.reduce((sum, entry) => sum + entry?.weight, 0);
   }
 
   /**
@@ -637,18 +637,18 @@ export class EncounterTable implements IEncounterTable {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.zoneId || this.zoneId.trim() === '') {
-      errors.push('Zone ID is required');
+    if (!this?.zoneId || this?.zoneId.trim() === '') {
+      errors?.push('Zone ID is required');
     }
 
-    if (this.entries.length === 0) {
-      errors.push('Encounter table must have at least one entry');
+    if (this?.entries.length === 0) {
+      errors?.push('Encounter table must have at least one entry');
     }
 
-    this.entries.forEach((entry, index) => {
-      const entryErrors = entry.validate({});
-      if (entryErrors.length > 0) {
-        errors.push(`Entry ${index} (${entry.spiritId}): ${entryErrors.join(', ')}`);
+    this?.entries.forEach((entry, index) => {
+      const entryErrors = entry?.validate({});
+      if (entryErrors?.length > 0) {
+        errors?.push(`Entry ${index} (${entry?.spiritId}): ${entryErrors?.join(', ')}`);
       }
     });
 
@@ -660,9 +660,9 @@ export class EncounterTable implements IEncounterTable {
    */
   toJSON(): Record<string, any> {
     return {
-      zoneId: this.zoneId,
-      entries: this.entries.map((entry: any) => entry.toJSON()),
-      totalWeight: this.totalWeight
+      zoneId: this?.zoneId,
+      entries: this?.entries.map((entry: any) => entry?.toJSON()),
+      totalWeight: this?.totalWeight
     };
   }
 
@@ -671,8 +671,8 @@ export class EncounterTable implements IEncounterTable {
    */
   static fromJSON(data: Record<string, any>): EncounterTable {
     const entries = Array.isArray(data.entries) ? data.entries.map((entryData: any) => EncounterTableEntry.fromJSON(entryData)) : [];
-    const table = new EncounterTable(data.zoneId, entries);
-    table.totalWeight = data.totalWeight || 0;
+    const table = new EncounterTable(data?.zoneId, entries);
+    table?.totalWeight = data?.totalWeight || 0;
     return table;
   }
 
@@ -680,7 +680,7 @@ export class EncounterTable implements IEncounterTable {
    * Clone table
    */
   clone(): EncounterTable {
-    return EncounterTable.fromJSON(this.toJSON());
+    return EncounterTable?.fromJSON(this?.toJSON());
   }
 }
 
@@ -697,9 +697,9 @@ export class EncounterTrigger implements IEncounterTrigger {
     triggerType: TriggerType,
     triggerParams: Record<string, any> = {}
   ) {
-    this.zoneId = zoneId;
-    this.triggerType = triggerType;
-    this.triggerParams = { ...triggerParams };
+    this?.zoneId = zoneId;
+    this?.triggerType = triggerType;
+    this?.triggerParams = { ...triggerParams };
   }
 
   /**
@@ -717,50 +717,50 @@ export class EncounterTrigger implements IEncounterTrigger {
    * Create tile type trigger
    */
   static tileType(zoneId: string, tileType: string): EncounterTrigger {
-    return new EncounterTrigger(zoneId, TriggerType.TILE_TYPE, { tile: tileType });
+    return new EncounterTrigger(zoneId, TriggerType?.TILE_TYPE, { tile: tileType });
   }
 
   /**
    * Create step count trigger
    */
   static stepCount(zoneId: string, stepInterval: number): EncounterTrigger {
-    return new EncounterTrigger(zoneId, TriggerType.STEP_COUNT, { interval: stepInterval });
+    return new EncounterTrigger(zoneId, TriggerType?.STEP_COUNT, { interval: stepInterval });
   }
 
   /**
    * Create time-based trigger
    */
   static timeBased(zoneId: string, timeOfDay: TimeOfDay): EncounterTrigger {
-    return new EncounterTrigger(zoneId, TriggerType.TIME_BASED, { timeOfDay });
+    return new EncounterTrigger(zoneId, TriggerType?.TIME_BASED, { timeOfDay });
   }
 
   /**
    * Create random trigger
    */
   static random(zoneId: string, probability: number): EncounterTrigger {
-    return new EncounterTrigger(zoneId, TriggerType.RANDOM, { probability });
+    return new EncounterTrigger(zoneId, TriggerType?.RANDOM, { probability });
   }
 
   /**
    * Should trigger based on state and RNG
    */
   shouldTrigger(state: IPlayerState, rng: IRNGProvider): boolean {
-    switch (this.triggerType) {
-      case TriggerType.TILE_TYPE:
-        return state.tileType === this.triggerParams.tile;
+    switch (this?.triggerType) {
+      case TriggerType?.TILE_TYPE:
+        return state?.tileType === this?.triggerParams.tile;
 
-      case TriggerType.STEP_COUNT:
-        const interval = this.triggerParams.interval || 10;
-        return state.stepsSinceLastEncounter >= interval;
+      case TriggerType?.STEP_COUNT:
+        const interval = this?.triggerParams.interval || 10;
+        return state?.stepsSinceLastEncounter >= interval;
 
-      case TriggerType.TIME_BASED:
-        return state.timeOfDay === this.triggerParams.timeOfDay;
+      case TriggerType?.TIME_BASED:
+        return state?.timeOfDay === this?.triggerParams.timeOfDay;
 
-      case TriggerType.RANDOM:
-        const probability = this.triggerParams.probability || 0.1;
-        return rng.nextFloat() < probability;
+      case TriggerType?.RANDOM:
+        const probability = this?.triggerParams.probability || 0.1;
+        return rng?.nextFloat() < probability;
 
-      case TriggerType.ZONE_ENTRY:
+      case TriggerType?.ZONE_ENTRY:
         return true; // Always trigger on zone entry
 
       default:
@@ -774,32 +774,32 @@ export class EncounterTrigger implements IEncounterTrigger {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.zoneId || this.zoneId.trim() === '') {
-      errors.push('Zone ID is required');
+    if (!this?.zoneId || this?.zoneId.trim() === '') {
+      errors?.push('Zone ID is required');
     }
 
-    switch (this.triggerType) {
-      case TriggerType.TILE_TYPE:
-        if (!this.triggerParams.tile) {
-          errors.push('Tile type trigger requires tile parameter');
+    switch (this?.triggerType) {
+      case TriggerType?.TILE_TYPE:
+        if (!this?.triggerParams.tile) {
+          errors?.push('Tile type trigger requires tile parameter');
         }
         break;
 
-      case TriggerType.STEP_COUNT:
-        if (!this.triggerParams.interval || this.triggerParams.interval <= 0) {
-          errors.push('Step count trigger requires positive interval');
+      case TriggerType?.STEP_COUNT:
+        if (!this?.triggerParams.interval || this?.triggerParams.interval <= 0) {
+          errors?.push('Step count trigger requires positive interval');
         }
         break;
 
-      case TriggerType.TIME_BASED:
-        if (!this.triggerParams.timeOfDay) {
-          errors.push('Time-based trigger requires timeOfDay parameter');
+      case TriggerType?.TIME_BASED:
+        if (!this?.triggerParams.timeOfDay) {
+          errors?.push('Time-based trigger requires timeOfDay parameter');
         }
         break;
 
-      case TriggerType.RANDOM:
-        if (this.triggerParams.probability === undefined || this.triggerParams.probability < 0 || this.triggerParams.probability > 1) {
-          errors.push('Random trigger requires probability between 0 and 1');
+      case TriggerType?.RANDOM:
+        if (this?.triggerParams.probability === undefined || this?.triggerParams.probability < 0 || this?.triggerParams.probability > 1) {
+          errors?.push('Random trigger requires probability between 0 and 1');
         }
         break;
     }
@@ -812,9 +812,9 @@ export class EncounterTrigger implements IEncounterTrigger {
    */
   toJSON(): Record<string, any> {
     return {
-      zoneId: this.zoneId,
-      triggerType: this.triggerType,
-      triggerParams: this.triggerParams
+      zoneId: this?.zoneId,
+      triggerType: this?.triggerType,
+      triggerParams: this?.triggerParams
     };
   }
 
@@ -823,9 +823,9 @@ export class EncounterTrigger implements IEncounterTrigger {
    */
   static fromJSON(data: Record<string, any>): EncounterTrigger {
     return new EncounterTrigger(
-      data.zoneId,
-      data.triggerType,
-      data.triggerParams
+      data?.zoneId,
+      data?.triggerType,
+      data?.triggerParams
     );
   }
 
@@ -833,7 +833,7 @@ export class EncounterTrigger implements IEncounterTrigger {
    * Clone trigger
    */
   clone(): EncounterTrigger {
-    return EncounterTrigger.fromJSON(this.toJSON());
+    return EncounterTrigger?.fromJSON(this?.toJSON());
   }
 }
 
@@ -856,12 +856,12 @@ export class EncounterResult implements IEncounterResult {
     tableEntry?: IEncounterTableEntry,
     stepsUntilNext?: number
   ) {
-    this.triggered = triggered;
-    this.zoneId = zoneId;
-    this.spiritId = spiritId;
-    this.level = level;
-    this.tableEntry = tableEntry;
-    this.stepsUntilNext = stepsUntilNext;
+    this?.triggered = triggered;
+    this?.zoneId = zoneId;
+    this?.spiritId = spiritId;
+    this?.level = level;
+    this?.tableEntry = tableEntry;
+    this?.stepsUntilNext = stepsUntilNext;
   }
 
   /**
@@ -888,11 +888,11 @@ export class EncounterResult implements IEncounterResult {
    * Get encounter description
    */
   getDescription(): string {
-    if (!this.triggered) {
+    if (!this?.triggered) {
       return 'No encounter';
     }
 
-    return `Encounter with ${this.spiritId} (Level ${this.level}) in ${this.zoneId}`;
+    return `Encounter with ${this?.spiritId} (Level ${this?.level}) in ${this?.zoneId}`;
   }
 }
 
@@ -902,8 +902,8 @@ export class EncounterResult implements IEncounterResult {
 export class RNGProvider implements IRNGProvider {
   public seed: number;
 
-  constructor(seed: number = Date.now()) {
-    this.seed = seed;
+  constructor(seed: number = new Date()) {
+    this?.seed = seed;
   }
 
   /**
@@ -918,8 +918,8 @@ export class RNGProvider implements IRNGProvider {
    */
   nextInt(min: number = 0, max: number = 100): number {
     // Simple LCG (Linear Congruential Generator)
-    this.seed = (this.seed * 9301 + 49297) % 233280;
-    const rnd = this.seed / 233280;
+    this?.seed = (this?.seed * 9301 + 49297) % 233280;
+    const rnd = this?.seed / 233280;
     return Math.floor(rnd * (max - min + 1)) + min;
   }
 
@@ -927,8 +927,8 @@ export class RNGProvider implements IRNGProvider {
    * Generate next float
    */
   nextFloat(min: number = 0, max: number = 1): number {
-    this.seed = (this.seed * 9301 + 49297) % 233280;
-    const rnd = this.seed / 233280;
+    this?.seed = (this?.seed * 9301 + 49297) % 233280;
+    const rnd = this?.seed / 233280;
     return rnd * (max - min) + min;
   }
 
@@ -936,16 +936,16 @@ export class RNGProvider implements IRNGProvider {
    * Generate boolean
    */
   nextBoolean(chance: number = 0.5): boolean {
-    return this.nextFloat() < chance;
+    return this?.nextFloat() < chance;
   }
 
   /**
    * Shuffle array
    */
-  shuffle<T extends object>(array: T[]): T[] {
+  shuffle<T extends Record<string, any> extends object>(array: T[]): T[] {
     const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = this.nextInt(0, i);
+    for (let i = shuffled?.length - 1; i > 0; i--) {
+      const j = this?.nextInt(0, i);
       [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
     }
     return shuffled;
@@ -954,11 +954,11 @@ export class RNGProvider implements IRNGProvider {
   /**
    * Choose random element from array
    */
-  choose<T extends object>(array: T[]): T {
-    if (array.length === 0) {
+  choose<T extends Record<string, any> extends object>(array: T[]): T {
+    if (array?.length === 0) {
       throw new Error('Cannot choose from empty array');
     }
-    return array[this.nextInt(0, array.length - 1)];
+    return array[this?.nextInt(0, array?.length - 1)];
   }
 }
 
@@ -969,7 +969,7 @@ export class TypeEffectiveness implements ITypeEffectiveness {
   private effectivenessMap: Map<string, Map<string, number>>;
 
   constructor() {
-    this.effectivenessMap = this.initializeEffectivenessMap();
+    this?.effectivenessMap = this?.initializeEffectivenessMap();
   }
 
   /**
@@ -987,69 +987,69 @@ export class TypeEffectiveness implements ITypeEffectiveness {
 
     // Fire type effectiveness
     const fire = new Map<string, number>();
-    fire.set('grass', 2.0); // Super effective
-    fire.set('water', 0.5); // Not very effective
-    fire.set('fire', 0.5);  // Not very effective
-    map.set('fire', fire);
+    fire?.set('grass', 2.0); // Super effective
+    fire?.set('water', 0.5); // Not very effective
+    fire?.set('fire', 0.5);  // Not very effective
+    map?.set('fire', fire);
 
     // Water type effectiveness
     const water = new Map<string, number>();
-    water.set('fire', 2.0);   // Super effective
-    water.set('grass', 0.5);  // Not very effective
-    water.set('water', 0.5);  // Not very effective
-    map.set('water', water);
+    water?.set('fire', 2.0);   // Super effective
+    water?.set('grass', 0.5);  // Not very effective
+    water?.set('water', 0.5);  // Not very effective
+    map?.set('water', water);
 
     // Grass type effectiveness
     const grass = new Map<string, number>();
-    grass.set('water', 2.0);  // Super effective
-    grass.set('fire', 0.5);   // Not very effective
-    grass.set('grass', 0.5);  // Not very effective
-    map.set('grass', grass);
+    grass?.set('water', 2.0);  // Super effective
+    grass?.set('fire', 0.5);   // Not very effective
+    grass?.set('grass', 0.5);  // Not very effective
+    map?.set('grass', grass);
 
     // Electric type effectiveness
     const electric = new Map<string, number>();
-    electric.set('water', 2.0); // Super effective
-    electric.set('ground', 0.0); // No effect
-    map.set('electric', electric);
+    electric?.set('water', 2.0); // Super effective
+    electric?.set('ground', 0.0); // No effect
+    map?.set('electric', electric);
 
     // Psychic type effectiveness
     const psychic = new Map<string, number>();
-    psychic.set('fighting', 2.0); // Super effective
-    psychic.set('poison', 2.0);   // Super effective
-    psychic.set('psychic', 0.5);  // Not very effective
-    map.set('psychic', psychic);
+    psychic?.set('fighting', 2.0); // Super effective
+    psychic?.set('poison', 2.0);   // Super effective
+    psychic?.set('psychic', 0.5);  // Not very effective
+    map?.set('psychic', psychic);
 
     // Ice type effectiveness
     const ice = new Map<string, number>();
-    ice.set('grass', 2.0);  // Super effective
-    ice.set('fire', 0.5);   // Not very effective
-    ice.set('water', 0.5);  // Not very effective
-    ice.set('ice', 0.5);    // Not very effective
-    map.set('ice', ice);
+    ice?.set('grass', 2.0);  // Super effective
+    ice?.set('fire', 0.5);   // Not very effective
+    ice?.set('water', 0.5);  // Not very effective
+    ice?.set('ice', 0.5);    // Not very effective
+    map?.set('ice', ice);
 
     // Dragon type effectiveness
     const dragon = new Map<string, number>();
-    dragon.set('dragon', 2.0); // Super effective
-    map.set('dragon', dragon);
+    dragon?.set('dragon', 2.0); // Super effective
+    map?.set('dragon', dragon);
 
     // Dark type effectiveness
     const dark = new Map<string, number>();
-    dark.set('psychic', 2.0); // Super effective
-    dark.set('ghost', 2.0);   // Super effective
-    dark.set('dark', 0.5);    // Not very effective
-    map.set('dark', dark);
+    dark?.set('psychic', 2.0); // Super effective
+    dark?.set('ghost', 2.0);   // Super effective
+    dark?.set('dark', 0.5);    // Not very effective
+    map?.set('dark', dark);
 
     // Fairy type effectiveness
     const fairy = new Map<string, number>();
-    fairy.set('fighting', 2.0); // Super effective
-    fairy.set('dragon', 2.0);   // Super effective
-    fairy.set('poison', 0.5);   // Not very effective
-    map.set('fairy', fairy);
+    fairy?.set('fighting', 2.0); // Super effective
+    fairy?.set('dragon', 2.0);   // Super effective
+    fairy?.set('poison', 0.5);   // Not very effective
+    map?.set('fairy', fairy);
 
     // Add default effectiveness for types not explicitly defined
     for (const type of ['normal', 'fighting', 'poison', 'ground', 'flying', 'bug', 'rock', 'ghost', 'steel', 'neutral']) {
-      if (!map.has(type)) {
-        map.set(type, new Map());
+      if (!map?.has(type)) {
+        map?.set(type, new Map());
       }
     }
 
@@ -1060,9 +1060,9 @@ export class TypeEffectiveness implements ITypeEffectiveness {
    * Get effectiveness multiplier
    */
   getMultiplier(attackingType: string, defendingType: string): number {
-    const typeMap = this.effectivenessMap.get(attackingType);
+    const typeMap = this?.effectivenessMap.get(attackingType);
     if (typeMap) {
-      return typeMap.get(defendingType) ?? 1.0;
+      return typeMap?.get(defendingType) ?? 1.0;
     }
     return 1.0; // Neutral effectiveness
   }
@@ -1071,35 +1071,35 @@ export class TypeEffectiveness implements ITypeEffectiveness {
    * Check if super effective
    */
   isSuperEffective(attackingType: string, defendingType: string): boolean {
-    return this.getMultiplier(attackingType, defendingType) > 1.0;
+    return this?.getMultiplier(attackingType, defendingType) > 1.0;
   }
 
   /**
    * Check if not very effective
    */
   isNotVeryEffective(attackingType: string, defendingType: string): boolean {
-    return this.getMultiplier(attackingType, defendingType) < 1.0 && this.getMultiplier(attackingType, defendingType) > 0.0;
+    return this?.getMultiplier(attackingType, defendingType) < 1.0 && this?.getMultiplier(attackingType, defendingType) > 0.0;
   }
 
   /**
    * Check if neutral
    */
   isNeutral(attackingType: string, defendingType: string): boolean {
-    return this.getMultiplier(attackingType, defendingType) === 1.0;
+    return this?.getMultiplier(attackingType, defendingType) === 1.0;
   }
 
   /**
    * Check if immune
    */
   isImmune(attackingType: string, defendingType: string): boolean {
-    return this.getMultiplier(attackingType, defendingType) === 0.0;
+    return this?.getMultiplier(attackingType, defendingType) === 0.0;
   }
 
   /**
    * Get effectiveness description
    */
   getEffectivenessDescription(attackingType: string, defendingType: string): string {
-    const multiplier = this.getMultiplier(attackingType, defendingType);
+    const multiplier = this?.getMultiplier(attackingType, defendingType);
 
     if (multiplier === 0.0) return 'No effect';
     if (multiplier === 0.5) return 'Not very effective';
@@ -1124,16 +1124,16 @@ export class OverworldBattleSliceTool {
     console.log('='.repeat(80));
 
     // 1) Setup Encounter table and triggers for Newhaven
-    const encounterController = this.setupEncounterSystem();
+    const encounterController = this?.setupEncounterSystem();
 
-    const playerState = new PlayerState('newhaven', 'grass', TimeOfDay.DAY, 0, { x: 0, y: 0 }, 'clear');
+    const playerState = new PlayerState('newhaven', 'grass', TimeOfDay?.DAY, 0, { x: 0, y: 0 }, 'clear');
 
     console.log(`🗺️ Roaming in ${playerState.zoneId} on ${playerState.tileType} tiles...`);
 
     // 2) Roam until encounter
-    const encounterResult = this.roamUntilEncounter(encounterController, playerState, rng, 50);
+    const encounterResult = this?.roamUntilEncounter(encounterController, playerState, rng, 50);
 
-    if (!encounterResult.triggered) {
+    if (!encounterResult?.triggered) {
       console.log('❌ No encounter occurred within 50 steps.');
       return;
     }
@@ -1142,10 +1142,10 @@ export class OverworldBattleSliceTool {
     console.log('='.repeat(80));
 
     // 3) Setup Battle System
-    const battleSystem = this.setupBattleSystem(rng);
+    const battleSystem = this?.setupBattleSystem(rng);
 
     // 4) Execute Battle
-    this.executeBattle(battleSystem, encounterResult, rng);
+    this?.executeBattle(battleSystem, encounterResult, rng);
 
     console.log('='.repeat(80));
     console.log('🎮 Overworld battle slice demonstration complete!');
@@ -1162,22 +1162,22 @@ export class OverworldBattleSliceTool {
       registerTrigger: (trigger: IEncounterTrigger) => console.log(`Registered trigger for ${trigger.zoneId}`),
       checkForEncounter: (state: IPlayerState, rng: IRNGProvider) => {
         // Simple encounter logic for demo
-        if (state.stepsSinceLastEncounter >= 5 && rng.nextFloat() < 0.3) {
-          return EncounterResult.triggered(
-            state.zoneId,
+        if (state?.stepsSinceLastEncounter >= 5 && rng?.nextFloat() < 0.3) {
+          return EncounterResult?.triggered(
+            state?.zoneId,
             'ember', // Random spirit for demo
-            rng.nextInt(3, 5), // Level 3-5
+            rng?.nextInt(3, 5), // Level 3-5
             {
-              zoneId: state.zoneId,
+              zoneId: state?.zoneId,
               spiritId: 'ember',
               weight: 40,
               minLevel: 3,
               maxLevel: 5
             } as IEncounterTableEntry,
-            5 + rng.nextInt(1, 10) // Next encounter in 5-15 steps
+            5 + rng?.nextInt(1, 10) // Next encounter in 5-15 steps
           );
         }
-        return EncounterResult.notTriggered();
+        return EncounterResult?.notTriggered();
       },
       getEncounterRate: (zoneId: string, state: IPlayerState) => 0.3,
       getAvailableSpirits: (zoneId: string) => ['ember', 'ripple', 'sprout'],
@@ -1196,20 +1196,20 @@ export class OverworldBattleSliceTool {
     maxSteps: number
   ): IEncounterResult {
     for (let steps = 1; steps <= maxSteps; steps++) {
-      playerState.stepsSinceLastEncounter++;
+      playerState?.stepsSinceLastEncounter++;
 
       // Random movement
-      const direction = rng.nextInt(0, 3);
+      const direction = rng?.nextInt(0, 3);
       switch (direction) {
-        case 0: playerState.position.x++; break;
-        case 1: playerState.position.x--; break;
-        case 2: playerState.position.y++; break;
-        case 3: playerState.position.y--; break;
+        case 0: playerState?.position.x++; break;
+        case 1: playerState?.position.x--; break;
+        case 2: playerState?.position.y++; break;
+        case 3: playerState?.position.y--; break;
       }
 
-      const result = encounterController.checkForEncounter(playerState, rng);
+      const result = encounterController?.checkForEncounter(playerState, rng);
 
-      if (result.triggered) {
+      if (result?.triggered) {
         console.log(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y})`);
         console.log(`🎯 Encounter triggered after ${steps} steps!`);
         return result;
@@ -1220,7 +1220,7 @@ export class OverworldBattleSliceTool {
       }
     }
 
-    return EncounterResult.notTriggered();
+    return EncounterResult?.notTriggered();
   }
 
   /**
@@ -1236,44 +1236,44 @@ export class OverworldBattleSliceTool {
         console.log(`📊 ${wildSpirit.name}: HP ${wildSpirit.currentHp}/${wildSpirit.maxHp}, Type: ${wildSpirit.typeTag}`);
 
         const typeEffectiveness = new TypeEffectiveness();
-        const effectiveness = typeEffectiveness.getMultiplier(playerSpirit.typeTag, wildSpirit.typeTag);
+        const effectiveness = typeEffectiveness?.getMultiplier(playerSpirit?.typeTag, wildSpirit?.typeTag);
 
         let battleLog: string[] = [];
 
         // Simple battle simulation
         let turn = 1;
-        while (playerSpirit.isAlive() && wildSpirit.isAlive()) {
+        while (playerSpirit?.isAlive() && wildSpirit?.isAlive()) {
           console.log(`\n🔄 Turn ${turn}:`);
 
           // Player attacks
           const playerDamage = Math.max(1, Math.floor(playerSpirit.attack * effectiveness * (0.8 + rng.nextFloat() * 0.4)));
-          wildSpirit.takeDamage(playerDamage);
-          battleLog.push(`${playerSpirit.name} attacks for ${playerDamage} damage!`);
+          wildSpirit?.takeDamage(playerDamage);
+          battleLog?.push(`${playerSpirit?.name} attacks for ${playerDamage} damage!`);
 
-          if (!wildSpirit.isAlive()) {
-            battleLog.push(`${wildSpirit.name} fainted!`);
+          if (!wildSpirit?.isAlive()) {
+            battleLog?.push(`${wildSpirit?.name} fainted!`);
             break;
           }
 
           // Wild spirit attacks
           const wildDamage = Math.max(1, Math.floor(wildSpirit.attack * (0.8 + rng.nextFloat() * 0.4)));
-          playerSpirit.takeDamage(wildDamage);
-          battleLog.push(`${wildSpirit.name} attacks for ${wildDamage} damage!`);
+          playerSpirit?.takeDamage(wildDamage);
+          battleLog?.push(`${wildSpirit?.name} attacks for ${wildDamage} damage!`);
 
-          if (!playerSpirit.isAlive()) {
-            battleLog.push(`${playerSpirit.name} fainted!`);
+          if (!playerSpirit?.isAlive()) {
+            battleLog?.push(`${playerSpirit?.name} fainted!`);
             break;
           }
 
           turn++;
         }
 
-        const winner = playerSpirit.isAlive() ? playerSpirit : wildSpirit;
-        const loser = playerSpirit.isAlive() ? wildSpirit : playerSpirit;
+        const winner = playerSpirit?.isAlive() ? playerSpirit : wildSpirit;
+        const loser = playerSpirit?.isAlive() ? wildSpirit : playerSpirit;
 
         console.log(`\n🏆 Battle Result: ${winner.name} wins!`);
         console.log(`📝 Battle Log:`);
-        battleLog.forEach((entry, index) => {
+        battleLog?.forEach((entry, index) => {
           console.log(`  ${index + 1}. ${entry}`);
         });
 
@@ -1292,22 +1292,22 @@ export class OverworldBattleSliceTool {
    */
   private static executeBattle(battleSystem: any, encounterResult: IEncounterResult, rng: IRNGProvider): void {
     // Create player and wild spirits
-    const playerSpirit = this.createPlayerSpirit('waterling', 'water', 6);
-    const wildSpirit = this.createWildSpirit(encounterResult.spiritId!, encounterResult.level!);
+    const playerSpirit = this?.createPlayerSpirit('waterling', 'water', 6);
+    const wildSpirit = this?.createWildSpirit(encounterResult?.spiritId!, encounterResult?.level!);
 
     console.log(`\n⚔️ Starting Battle...`);
     console.log(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
     console.log(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
 
     // Execute battle
-    const result = battleSystem.executeBattle(playerSpirit, wildSpirit, rng);
+    const result = battleSystem?.executeBattle(playerSpirit, wildSpirit, rng);
 
     console.log(`\n🎉 Battle completed in ${result.turns} turns!`);
     console.log(`🏆 Winner: ${result.winner.name}`);
     console.log(`💔 Loser: ${result.loser.name}`);
 
     // Experience and rewards
-    const experienceGained = result.loser.level * 10;
+    const experienceGained = result?.loser.level * 10;
     console.log(`\n🎖️ Rewards:`);
     console.log(`📈 Experience gained: ${experienceGained}`);
     console.log(`💰 Gold earned: ${result.loser.level * 25}`);
@@ -1333,7 +1333,7 @@ export class OverworldBattleSliceTool {
       statusEffects: [],
       isPlayerControlled: true,
 
-      isAlive: () => this.currentHp > 0,
+      isAlive: () => this?.currentHp > 0,
       takeDamage: (damage: number) => {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
@@ -1343,23 +1343,23 @@ export class OverworldBattleSliceTool {
         return amount;
       },
       addStatusEffect: (effect: string) => {
-        if (!this.statusEffects.includes(effect)) {
-          this.statusEffects.push(effect);
+        if (!this?.statusEffects.includes(effect)) {
+          this?.statusEffects?.push(effect);
         }
       },
       removeStatusEffect: (effect: string) => {
-        const index = this.statusEffects.indexOf(effect);
+        const index = this?.statusEffects.indexOf(effect);
         if (index >= 0) {
-          this.statusEffects.splice(index, 1);
+          this?.statusEffects.splice(index, 1);
           return true;
         }
         return false;
       },
-      hasStatusEffect: (effect: string) => this.statusEffects.includes(effect),
-      getEffectiveAttack: () => this.attack,
-      getEffectiveDefense: () => this.defense,
-      getEffectiveSpecialAttack: () => this.specialAttack,
-      getEffectiveSpecialDefense: () => this.specialDefense,
+      hasStatusEffect: (effect: string) => this?.statusEffects.includes(effect),
+      getEffectiveAttack: () => this?.attack,
+      getEffectiveDefense: () => this?.defense,
+      getEffectiveSpecialAttack: () => this?.specialAttack,
+      getEffectiveSpecialDefense: () => this?.specialDefense,
       clone: () => ({ ...this }),
       toJSON: () => ({ ...this })
     } as ISpiritInstance;
@@ -1395,7 +1395,7 @@ export class OverworldBattleSliceTool {
       statusEffects: [],
       isPlayerControlled: false,
 
-      isAlive: () => this.currentHp > 0,
+      isAlive: () => this?.currentHp > 0,
       takeDamage: (damage: number) => {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
@@ -1405,23 +1405,23 @@ export class OverworldBattleSliceTool {
         return amount;
       },
       addStatusEffect: (effect: string) => {
-        if (!this.statusEffects.includes(effect)) {
-          this.statusEffects.push(effect);
+        if (!this?.statusEffects.includes(effect)) {
+          this?.statusEffects?.push(effect);
         }
       },
       removeStatusEffect: (effect: string) => {
-        const index = this.statusEffects.indexOf(effect);
+        const index = this?.statusEffects.indexOf(effect);
         if (index >= 0) {
-          this.statusEffects.splice(index, 1);
+          this?.statusEffects.splice(index, 1);
           return true;
         }
         return false;
       },
-      hasStatusEffect: (effect: string) => this.statusEffects.includes(effect),
-      getEffectiveAttack: () => this.attack,
-      getEffectiveDefense: () => this.defense,
-      getEffectiveSpecialAttack: () => this.specialAttack,
-      getEffectiveSpecialDefense: () => this.specialDefense,
+      hasStatusEffect: (effect: string) => this?.statusEffects.includes(effect),
+      getEffectiveAttack: () => this?.attack,
+      getEffectiveDefense: () => this?.defense,
+      getEffectiveSpecialAttack: () => this?.specialAttack,
+      getEffectiveSpecialDefense: () => this?.specialDefense,
       clone: () => ({ ...this }),
       toJSON: () => ({ ...this })
     } as ISpiritInstance;
@@ -1443,7 +1443,7 @@ export const SliceUtils = {
    * Create demo player state
    */
   createDemoPlayerState(): PlayerState {
-    return new PlayerState('newhaven', 'grass', TimeOfDay.DAY, 0, { x: 10, y: 10 }, 'sunny');
+    return new PlayerState('newhaven', 'grass', TimeOfDay?.DAY, 0, { x: 10, y: 10 }, 'sunny');
   },
 
   /**
@@ -1452,9 +1452,9 @@ export const SliceUtils = {
   createDemoEncounterTable(): EncounterTable {
     const table = new EncounterTable('newhaven');
 
-    table.addEntry(EncounterTableEntry.create('newhaven', 'ember', 40, 3, 5));
-    table.addEntry(EncounterTableEntry.create('newhaven', 'ripple', 35, 3, 5));
-    table.addEntry(EncounterTableEntry.create('newhaven', 'sprout', 25, 2, 4));
+    table?.addEntry(EncounterTableEntry?.create('newhaven', 'ember', 40, 3, 5));
+    table?.addEntry(EncounterTableEntry?.create('newhaven', 'ripple', 35, 3, 5));
+    table?.addEntry(EncounterTableEntry?.create('newhaven', 'sprout', 25, 2, 4));
 
     return table;
   },
@@ -1463,14 +1463,14 @@ export const SliceUtils = {
    * Create demo encounter trigger
    */
   createDemoEncounterTrigger(): EncounterTrigger {
-    return EncounterTrigger.tileType('newhaven', 'grass');
+    return EncounterTrigger?.tileType('newhaven', 'grass');
   },
 
   /**
    * Format battle result for display
    */
-  formatBattleResult(result): string {
-    return `Battle completed: ${result.winner.name} defeated ${result.loser.name} in ${result.turns} turns`;
+  formatBattleResult(result: any): string {
+    return `Battle completed: ${result?.winner.name} defeated ${result?.loser.name} in ${result?.turns} turns`;
   },
 
   /**
@@ -1480,17 +1480,17 @@ export const SliceUtils = {
     let probability = baseRate;
 
     // Adjust based on tile type
-    if (state.tileType === 'grass') probability *= 1.2;
-    if (state.tileType === 'water') probability *= 0.8;
-    if (state.tileType === 'mountain') probability *= 0.5;
+    if (state?.tileType === 'grass') probability *= 1.2;
+    if (state?.tileType === 'water') probability *= 0.8;
+    if (state?.tileType === 'mountain') probability *= 0.5;
 
     // Adjust based on time of day
-    if (state.timeOfDay === TimeOfDay.NIGHT) probability *= 1.1;
-    if (state.timeOfDay === TimeOfDay.DAWN || state.timeOfDay === TimeOfDay.DUSK) probability *= 0.9;
+    if (state?.timeOfDay === TimeOfDay?.NIGHT) probability *= 1.1;
+    if (state?.timeOfDay === TimeOfDay?.DAWN || state?.timeOfDay === TimeOfDay?.DUSK) probability *= 0.9;
 
     // Adjust based on weather
-    if (state.weather === 'rain') probability *= 1.3;
-    if (state.weather === 'fog') probability *= 0.7;
+    if (state?.weather === 'rain') probability *= 1.3;
+    if (state?.weather === 'fog') probability *= 0.7;
 
     return Math.min(probability, 1.0);
   },
@@ -1507,12 +1507,12 @@ export const SliceUtils = {
       { x: -1, y: 0 }   // West
     ];
 
-    const direction = rng.choose(directions);
-    state.moveTo(state.position.x + direction.x, state.position.y + direction.y);
+    const direction = rng?.choose(directions);
+    state?.moveTo(state?.position.x + direction.x, state?.position.y + direction.y);
 
     // Check for random encounter
-    const encounterRate = this.calculateEncounterProbability(state);
-    const encounterTriggered = rng.nextFloat() < encounterRate;
+    const encounterRate = this?.calculateEncounterProbability(state);
+    const encounterTriggered = rng?.nextFloat() < encounterRate;
 
     return { state, encounterTriggered };
   }
@@ -1521,6 +1521,6 @@ export const SliceUtils = {
 // Export default instances for convenience
 export const defaultRNGProvider = new RNGProvider();
 export const defaultTypeEffectiveness = new TypeEffectiveness();
-export const defaultPlayerState = PlayerState.create();
-export const defaultEncounterTable = EncounterTable.create('demo');
-export const defaultEncounterTrigger = EncounterTrigger.tileType('demo', 'grass');
+export const defaultPlayerState = PlayerState?.create();
+export const defaultEncounterTable = EncounterTable?.create('demo');
+export const defaultEncounterTrigger = EncounterTrigger?.tileType('demo', 'grass');

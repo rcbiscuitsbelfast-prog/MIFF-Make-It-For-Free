@@ -89,7 +89,7 @@ export class CraftingManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.initializeDefaultRecipes();
+    this?.initializeDefaultRecipes();
   }
 
   private initializeDefaultRecipes() {
@@ -168,7 +168,7 @@ export class CraftingManager {
       }
     ];
 
-    defaultRecipes.forEach((recipe: any) => this.recipes.set(recipe.id, recipe));
+    defaultRecipes?.forEach((recipe: any) => this?.recipes.set(recipe?.id, recipe));
   }
 
   // Shims expected by cliHarnessWrapper
@@ -176,50 +176,50 @@ export class CraftingManager {
     // Map minimal wrapper recipe to rich Recipe shape
     const normalized: Recipe = {
       id: recipe.id || recipe.name || `recipe_${Date.now()}`,
-      name: recipe.name || recipe.id || 'Custom Recipe',
-      description: recipe.description || '',
+      name: recipe?.name || recipe?.id || 'Custom Recipe',
+      description: recipe?.description || '',
       category: 'material',
-      inputs: recipe.inputs || recipe.materials || {},
-      outputs: recipe.outputs || { [recipe.id || 'crafted_item']: 1 },
-      craftingTime: recipe.craftTime || recipe.craftingTime || 10,
+      inputs: recipe?.inputs || recipe?.materials || {},
+      outputs: recipe?.outputs || { [recipe?.id || 'crafted_item']: 1 },
+      craftingTime: recipe?.craftTime || recipe?.craftingTime || 10,
       difficulty: 'easy',
       quality: 'normal'
     };
-    this.recipes.set(normalized.id, normalized);
+    this?.recipes.set(normalized?.id, normalized);
   }
 
   simulate(recipeId: string, inventory: Inventory) {
-    const started = this.startCrafting(recipeId, 'cli', inventory);
-    if (started.status !== 'ok' || !started.result) {
+    const started = this?.startCrafting(recipeId, 'cli', inventory);
+    if (started?.status !== 'ok' || !started?.result) {
       return { success: false, issues: (started as any).issues };
     }
-    const completed = this.completeCrafting((started.result as any).id, inventory);
-    return completed.result;
+    const completed = this?.completeCrafting((started?.result as any).id, inventory);
+    return completed?.result;
   }
 
   /**
    * Create a new recipe
    */
   createRecipe(recipe: Recipe): CraftingOutput {
-    if (this.recipes.has(recipe.id)) {
+    if (this?.recipes.has(recipe?.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`Recipe ${recipe.id} already exists`]
+        issues: [`Recipe ${recipe?.id} already exists`]
       };
     }
 
     // Validate recipe
-    const validation = this.validateRecipe(recipe);
-    if (!validation.valid) {
+    const validation = this?.validateRecipe(recipe);
+    if (!validation?.valid) {
       return {
         op: 'create',
         status: 'error',
-        issues: validation.errors
+        issues: validation?.errors
       };
     }
 
-    this.recipes.set(recipe.id, recipe);
+    this?.recipes.set(recipe?.id, recipe);
     return {
       op: 'create',
       status: 'ok',
@@ -231,7 +231,7 @@ export class CraftingManager {
    * Update recipe
    */
   updateRecipe(recipeId: string, updates: Partial<Recipe>): CraftingOutput {
-    const recipe = this.recipes.get(recipeId);
+    const recipe = this?.recipes.get(recipeId);
     if (!recipe) {
       return {
         op: 'update',
@@ -243,16 +243,16 @@ export class CraftingManager {
     const updatedRecipe = { ...recipe, ...updates };
     
     // Validate updated recipe
-    const validation = this.validateRecipe(updatedRecipe);
-    if (!validation.valid) {
+    const validation = this?.validateRecipe(updatedRecipe);
+    if (!validation?.valid) {
       return {
         op: 'update',
         status: 'error',
-        issues: validation.errors
+        issues: validation?.errors
       };
     }
 
-    this.recipes.set(recipeId, updatedRecipe);
+    this?.recipes.set(recipeId, updatedRecipe);
     return {
       op: 'update',
       status: 'ok',
@@ -264,7 +264,7 @@ export class CraftingManager {
    * Delete recipe
    */
   deleteRecipe(recipeId: string): CraftingOutput {
-    if (!this.recipes.has(recipeId)) {
+    if (!this?.recipes.has(recipeId)) {
       return {
         op: 'delete',
         status: 'error',
@@ -272,7 +272,7 @@ export class CraftingManager {
       };
     }
 
-    this.recipes.delete(recipeId);
+    this?.recipes.delete(recipeId);
     return {
       op: 'delete',
       status: 'ok'
@@ -283,7 +283,7 @@ export class CraftingManager {
    * Get recipe by ID
    */
   getRecipe(recipeId: string): CraftingOutput {
-    const recipe = this.recipes.get(recipeId);
+    const recipe = this?.recipes.get(recipeId);
     if (!recipe) {
       return {
         op: 'get',
@@ -306,15 +306,15 @@ export class CraftingManager {
     let recipes = Array.from(this.recipes.values());
 
     if (filter) {
-      recipes = recipes.filter((recipe: any) => {
-        if (filter.category && recipe.category !== filter.category) return false;
-        if (filter.difficulty && recipe.difficulty !== filter.difficulty) return false;
-        if (filter.skillRequired && recipe.skillRequired !== filter.skillRequired) return false;
-        if (filter.minLevel !== undefined && (recipe.skillLevel || 0) < filter.minLevel) return false;
-        if (filter.maxLevel !== undefined && (recipe.skillLevel || 0) > filter.maxLevel) return false;
-        if (filter.hasPrerequisites !== undefined) {
-          const hasPrereqs = recipe.prerequisites && recipe.prerequisites.length > 0;
-          if (filter.hasPrerequisites !== hasPrereqs) return false;
+      recipes = recipes?.filter((recipe: any) => {
+        if (filter?.category && recipe?.category !== filter?.category) return false;
+        if (filter?.difficulty && recipe?.difficulty !== filter?.difficulty) return false;
+        if (filter?.skillRequired && recipe?.skillRequired !== filter?.skillRequired) return false;
+        if (filter?.minLevel !== undefined && (recipe?.skillLevel || 0) < filter?.minLevel) return false;
+        if (filter?.maxLevel !== undefined && (recipe?.skillLevel || 0) > filter?.maxLevel) return false;
+        if (filter?.hasPrerequisites !== undefined) {
+          const hasPrereqs = recipe?.prerequisites && recipe?.prerequisites.length > 0;
+          if (filter?.hasPrerequisites !== hasPrereqs) return false;
         }
         return true;
       });
@@ -331,7 +331,7 @@ export class CraftingManager {
    * Start a crafting session
    */
   startCrafting(recipeId: string, crafterId: string, inventory: Inventory): CraftingOutput {
-    const recipe = this.recipes.get(recipeId);
+    const recipe = this?.recipes.get(recipeId);
     if (!recipe) {
       return {
         op: 'start_crafting',
@@ -358,13 +358,13 @@ export class CraftingManager {
       startTime: new Date(),
       status: 'active',
       crafterId,
-      quality: this.calculateBaseQuality(recipe),
-      materials: { ...recipe.inputs },
-      outputs: { ...recipe.outputs },
+      quality: this?.calculateBaseQuality(recipe),
+      materials: { ...recipe?.inputs },
+      outputs: { ...recipe?.outputs },
       experience: 0
     };
 
-    this.sessions.set(sessionId, session);
+    this?.sessions.set(sessionId, session);
     return {
       op: 'start_crafting',
       status: 'ok',
@@ -376,7 +376,7 @@ export class CraftingManager {
    * Complete a crafting session
    */
   completeCrafting(sessionId: string, inventory: Inventory): CraftingOutput {
-    const session = this.sessions.get(sessionId);
+    const session = this?.sessions.get(sessionId);
     if (!session) {
       return {
         op: 'complete_crafting',
@@ -385,7 +385,7 @@ export class CraftingManager {
       };
     }
 
-    if (session.status !== 'active') {
+    if (session?.status !== 'active') {
       return {
         op: 'complete_crafting',
         status: 'error',
@@ -393,19 +393,19 @@ export class CraftingManager {
       };
     }
 
-    const recipe = this.recipes.get(session.recipeId);
+    const recipe = this?.recipes.get(session?.recipeId);
     if (!recipe) {
       return {
         op: 'complete_crafting',
         status: 'error',
-        issues: [`Recipe ${session.recipeId} not found`]
+        issues: [`Recipe ${session?.recipeId} not found`]
       };
     }
 
     // Calculate final quality and success
-    const finalQuality = this.calculateFinalQuality(session, recipe);
-    const success = this.calculateSuccess(session, recipe, finalQuality);
-    const experience = this.calculateExperience(session, recipe, success);
+    const finalQuality = this?.calculateFinalQuality(session, recipe);
+    const success = this?.calculateSuccess(session, recipe, finalQuality);
+    const experience = this?.calculateExperience(session, recipe, success);
 
     // Update inventory
     const remaining: Inventory = { ...inventory };
@@ -428,27 +428,27 @@ export class CraftingManager {
     const result: CraftResult = {
       crafted,
       remaining,
-      statMods: recipe.statMods,
+      statMods: recipe?.statMods,
       quality: finalQuality,
       experience,
       success,
       sessionId,
-      craftingTime: new Date() - session.startTime,
+      craftingTime: new Date() - session?.startTime,
       metadata: {
-        recipeId: session.recipeId,
-        crafterId: session.crafterId,
-        difficulty: recipe.difficulty
+        recipeId: session?.recipeId,
+        crafterId: session?.crafterId,
+        difficulty: recipe?.difficulty
       }
     };
 
     // Update session
-    session.status = success ? 'completed' : 'failed';
-    session.endTime = Date.now();
-    session.quality = finalQuality;
-    session.experience = experience;
+    session?.status = success ? 'completed' : 'failed';
+    session.endTime = new Date();
+    session?.quality = finalQuality;
+    session?.experience = experience;
 
     // Record in history
-    this.craftingHistory.push(result);
+    this?.craftingHistory?.push(result: any);
 
     return {
       op: 'complete_crafting',
@@ -461,7 +461,7 @@ export class CraftingManager {
    * Cancel a crafting session
    */
   cancelCrafting(sessionId: string): CraftingOutput {
-    const session = this.sessions.get(sessionId);
+    const session = this?.sessions.get(sessionId);
     if (!session) {
       return {
         op: 'cancel_crafting',
@@ -470,8 +470,8 @@ export class CraftingManager {
       };
     }
 
-    session.status = 'cancelled';
-    session.endTime = Date.now();
+    session?.status = 'cancelled';
+    session.endTime = new Date();
 
     return {
       op: 'cancel_crafting',
@@ -484,7 +484,7 @@ export class CraftingManager {
    * Get crafting session
    */
   getSession(sessionId: string): CraftingOutput {
-    const session = this.sessions.get(sessionId);
+    const session = this?.sessions.get(sessionId);
     if (!session) {
       return {
         op: 'get_session',
@@ -506,29 +506,29 @@ export class CraftingManager {
   getCraftingStats(): CraftingOutput {
     const recipes = Array.from(this.recipes.values());
     const sessions = Array.from(this.sessions.values());
-    const completedSessions = sessions.filter((s: any) => s.status === 'completed');
-    const failedSessions = sessions.filter((s: any) => s.status === 'failed');
+    const completedSessions = sessions?.filter((s: any) => s?.status === 'completed');
+    const failedSessions = sessions?.filter((s: any) => s?.status === 'failed');
 
     const stats: CraftingStats = {
-      totalRecipes: recipes.length,
-      totalSessions: sessions.length,
-      completedSessions: completedSessions.length,
-      failedSessions: failedSessions.length,
+      totalRecipes: recipes?.length,
+      totalSessions: sessions?.length,
+      completedSessions: completedSessions?.length,
+      failedSessions: failedSessions?.length,
       averageQuality: 0,
       totalExperience: 0,
       recipesByCategory: {},
       difficultyDistribution: {}
     };
 
-    if (completedSessions.length > 0) {
-      stats.averageQuality = completedSessions.reduce((sum, s) => sum + s.quality, 0) / completedSessions.length;
-      stats.totalExperience = completedSessions.reduce((sum, s) => sum + s.experience, 0);
+    if (completedSessions?.length > 0) {
+      stats?.averageQuality = completedSessions?.reduce((sum, s) => sum + s?.quality, 0) / completedSessions?.length;
+      stats?.totalExperience = completedSessions?.reduce((sum, s) => sum + s?.experience, 0);
     }
 
     // Calculate category distribution
-    recipes.forEach((recipe: any) => {
-      stats.recipesByCategory[recipe.category] = (stats.recipesByCategory[recipe.category] || 0) + 1;
-      stats.difficultyDistribution[recipe.difficulty] = (stats.difficultyDistribution[recipe.difficulty] || 0) + 1;
+    recipes?.forEach((recipe: any) => {
+      stats?.recipesByCategory[recipe?.category] = (stats?.recipesByCategory[recipe?.category] || 0) + 1;
+      stats?.difficultyDistribution[recipe?.difficulty] = (stats?.difficultyDistribution[recipe?.difficulty] || 0) + 1;
     });
 
     return {
@@ -561,11 +561,11 @@ export class CraftingManager {
         };
       
       case 'summary':
-        const stats = this.getCraftingStats();
+        const stats = this?.getCraftingStats();
         return {
           op: 'export',
           status: 'ok',
-          result: stats.result
+          result: stats?.result
         };
       
       case 'sessions':
@@ -588,10 +588,10 @@ export class CraftingManager {
    * Reset all crafting data
    */
   resetCrafting(): CraftingOutput {
-    this.recipes.clear();
-    this.sessions.clear();
-    this.craftingHistory = [];
-    this.initializeDefaultRecipes();
+    this?.recipes.clear();
+    this?.sessions.clear();
+    this?.craftingHistory = [];
+    this?.initializeDefaultRecipes();
     return {
       op: 'reset',
       status: 'ok',
@@ -605,31 +605,31 @@ export class CraftingManager {
   private validateRecipe(recipe: Recipe): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!recipe.id || recipe.id.trim() === '') {
-      errors.push('Recipe ID is required');
+    if (!recipe?.id || recipe?.id.trim() === '') {
+      errors?.push('Recipe ID is required');
     }
 
-    if (!recipe.name || recipe.name.trim() === '') {
-      errors.push('Recipe name is required');
+    if (!recipe?.name || recipe?.name.trim() === '') {
+      errors?.push('Recipe name is required');
     }
 
     if (!recipe.inputs || Object.keys(recipe.inputs).length === 0) {
-      errors.push('Recipe must have at least one input material');
+      errors?.push('Recipe must have at least one input material');
     }
 
     if (!recipe.outputs || Object.keys(recipe.outputs).length === 0) {
-      errors.push('Recipe must have at least one output item');
+      errors?.push('Recipe must have at least one output item');
     }
 
-    if (recipe.craftingTime <= 0) {
-      errors.push('Crafting time must be positive');
+    if (recipe?.craftingTime <= 0) {
+      errors?.push('Crafting time must be positive');
     }
 
-    if (!['easy', 'medium', 'hard', 'expert', 'master'].includes(recipe.difficulty)) {
-      errors.push('Invalid difficulty level');
+    if (!['easy', 'medium', 'hard', 'expert', 'master'].includes(recipe?.difficulty)) {
+      errors?.push('Invalid difficulty level');
     }
 
-    return { valid: errors.length === 0, errors };
+    return { valid: errors?.length === 0, errors };
   }
 
   private calculateBaseQuality(recipe: Recipe): number {
@@ -640,12 +640,12 @@ export class CraftingManager {
       'excellent': 85,
       'perfect': 100
     };
-    return qualityMap[recipe.quality] || 50;
+    return qualityMap[recipe?.quality] || 50;
   }
 
   private calculateFinalQuality(session: CraftingSession, recipe: Recipe): number {
-    const baseQuality = session.quality;
-    const difficultyModifier = this.getDifficultyModifier(recipe.difficulty);
+    const baseQuality = session?.quality;
+    const difficultyModifier = this?.getDifficultyModifier(recipe?.difficulty);
     const randomFactor = Math.random() * 20 - 10; // -10 to +10
     
     return Math.max(0, Math.min(100, baseQuality + difficultyModifier + randomFactor));
@@ -665,7 +665,7 @@ export class CraftingManager {
   private calculateSuccess(session: CraftingSession, recipe: Recipe, quality: number): boolean {
     const baseSuccessRate = 0.8;
     const qualityBonus = (quality - 50) / 100;
-    const difficultyPenalty = this.getDifficultyModifier(recipe.difficulty) / 100;
+    const difficultyPenalty = this?.getDifficultyModifier(recipe?.difficulty) / 100;
     
     const successRate = Math.max(0.1, Math.min(0.95, baseSuccessRate + qualityBonus + difficultyPenalty));
     return Math.random() < successRate;
@@ -673,7 +673,7 @@ export class CraftingManager {
 
   private calculateExperience(session: CraftingSession, recipe: Recipe, success: boolean): number {
     const baseExp = 10;
-    const difficultyMultiplier = this.getDifficultyMultiplier(recipe.difficulty);
+    const difficultyMultiplier = this?.getDifficultyMultiplier(recipe?.difficulty);
     const qualityBonus = Math.floor((session.quality - 50) / 10);
     const successBonus = success ? 1.5 : 0.5;
     

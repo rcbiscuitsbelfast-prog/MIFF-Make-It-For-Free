@@ -31,11 +31,11 @@ interface EventBusOperation {
 }
 
 async function main() {
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
   
-  if (argv.length === 0) {
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -43,7 +43,7 @@ async function main() {
     let operation: EventBusOperation;
 
     // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
+    if (first?.endsWith('.json') && fs?.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as EventBusOperation;
     } else {
@@ -51,7 +51,7 @@ async function main() {
       switch (first) {
         case 'create':
           const configFile = argv[1!];
-          const config = configFile && fs.existsSync(configFile) 
+          const config = configFile && fs?.existsSync(configFile) 
             ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
             : { enableLogging: true, maxEvents: 1000 };
           operation = { op: 'create', config };
@@ -76,7 +76,7 @@ async function main() {
             eventType: argv[1!], 
             data,
             source: argv[3!] || 'cli',
-            priority: argv[4!] as EventPriority || EventPriority.NORMAL
+            priority: argv[4!] as EventPriority || EventPriority?.NORMAL
           };
           break;
         case 'get-events':
@@ -107,7 +107,7 @@ async function main() {
     }
 
     // Create event bus instance
-    const eventBus = createEventBus(operation.config || { enableLogging: true });
+    const eventBus = createEventBus(operation?.config || { enableLogging: true });
     const router = createEventRouter(eventBus);
     const filter = createEventFilter();
     const replicator = createEventReplicator(eventBus);
@@ -115,99 +115,99 @@ async function main() {
 
     let result: any;
 
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'create':
         result = {
           eventBus: {
             config: eventBus['config'],
-            stats: eventBus.getStats(),
-            subscriptionCount: eventBus.getSubscriptionCount()
+            stats: eventBus?.getStats(),
+            subscriptionCount: eventBus?.getSubscriptionCount()
           },
           components: {
             router: { routes: Array.from(router.getRoutes().entries()) },
             filter: { filters: Array.from(filter.getFilters().entries()) },
             replicator: { rules: Array.from(replicator['replicationRules'].entries()) },
-            scheduler: { scheduledEvents: scheduler.getScheduledEvents().length }
+            scheduler: { scheduledEvents: scheduler?.getScheduledEvents().length }
           }
         };
         break;
 
       case 'subscribe':
-        const handlerId = eventBus.subscribe(
-          operation.eventType!,
+        const handlerId = eventBus?.subscribe(
+          operation?.eventType!,
           (event: any) => {
             console.log(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
           },
           {
-            id: operation.handlerId,
-            priority: EventPriority.NORMAL
+            id: operation?.handlerId,
+            priority: EventPriority?.NORMAL
           }
         );
         result = {
-          eventType: operation.eventType,
+          eventType: operation?.eventType,
           handlerId,
-          subscriptionCount: eventBus.getSubscriptionCount(operation.eventType),
-          allSubscriptions: eventBus.getSubscriptions().length
+          subscriptionCount: eventBus?.getSubscriptionCount(operation?.eventType),
+          allSubscriptions: eventBus?.getSubscriptions().length
         };
         break;
 
       case 'unsubscribe':
-        const success = eventBus.unsubscribe(operation.handlerId!);
+        const success = eventBus?.unsubscribe(operation?.handlerId!);
         result = {
-          handlerId: operation.handlerId,
+          handlerId: operation?.handlerId,
           success,
-          remainingSubscriptions: eventBus.getSubscriptions().length
+          remainingSubscriptions: eventBus?.getSubscriptions().length
         };
         break;
 
       case 'publish':
-        const eventId = await eventBus.publish(
-          operation.eventType!,
-          operation.data,
+        const eventId = await eventBus?.publish(
+          operation?.eventType!,
+          operation?.data,
           {
-            source: operation.source,
-            priority: operation.priority
+            source: operation?.source,
+            priority: operation?.priority
           }
         );
         result = {
           eventId,
-          eventType: operation.eventType,
-          data: operation.data,
-          source: operation.source,
-          priority: operation.priority,
-          stats: eventBus.getStats()
+          eventType: operation?.eventType,
+          data: operation?.data,
+          source: operation?.source,
+          priority: operation?.priority,
+          stats: eventBus?.getStats()
         };
         break;
 
       case 'get-events':
-        const events = operation.eventType 
-          ? eventBus.getEventsByType(operation.eventType, operation.limit!)
-          : eventBus.getRecentEvents(operation.limit!);
+        const events = operation?.eventType 
+          ? eventBus?.getEventsByType(operation?.eventType, operation?.limit!)
+          : eventBus?.getRecentEvents(operation?.limit!);
         result = {
-          eventType: operation.eventType || 'all',
-          limit: operation.limit,
+          eventType: operation?.eventType || 'all',
+          limit: operation?.limit,
           events,
-          count: events.length,
-          stats: eventBus.getStats()
+          count: events?.length,
+          stats: eventBus?.getStats()
         };
         break;
 
       case 'get-stats':
         result = {
-          stats: eventBus.getStats(),
-          subscriptions: eventBus.getSubscriptions(),
-          subscriptionCount: eventBus.getSubscriptionCount(),
-          recentEvents: eventBus.getRecentEvents(10)
+          stats: eventBus?.getStats(),
+          subscriptions: eventBus?.getSubscriptions(),
+          subscriptionCount: eventBus?.getSubscriptionCount(),
+          recentEvents: eventBus?.getRecentEvents(10)
         };
         break;
 
       case 'clear-events':
-        const clearedCount = eventBus.clearOldEvents(operation.maxAge!);
+        const clearedCount = eventBus?.clearOldEvents(operation?.maxAge!);
         result = {
-          maxAge: operation.maxAge,
+          maxAge: operation?.maxAge,
           clearedCount,
-          remainingEvents: eventBus.getRecentEvents().length,
-          stats: eventBus.getStats()
+          remainingEvents: eventBus?.getRecentEvents().length,
+          stats: eventBus?.getStats()
         };
         break;
 
@@ -219,47 +219,47 @@ async function main() {
         const demoScheduler = createEventScheduler(demoBus);
 
         // Add some subscriptions
-        const sub1 = demoBus.subscribe('player.move', (event: any) => {
+        const sub1 = demoBus?.subscribe('player?.move', (event: any) => {
           console.log(`Player moved: ${event.data.x}, ${event.data.y}`);
         }, { id: 'player-move-handler' });
 
-        const sub2 = demoBus.subscribe('player.action', (event: any) => {
+        const sub2 = demoBus?.subscribe('player?.action', (event: any) => {
           console.log(`Player action: ${event.data.action}`);
         }, { id: 'player-action-handler' });
 
         // Add a filter
-        demoFilter.addFilter('high-priority-only', (event: any) => event.priority >= EventPriority.HIGH);
+        demoFilter?.addFilter('high-priority-only', (event: any) => event?.priority >= EventPriority?.HIGH);
 
         // Add a route
-        demoRouter.addRoute('player.move', ['world.update', 'camera.follow']);
+        demoRouter?.addRoute('player?.move', ['world?.update', 'camera?.follow']);
 
         // Publish some events
         const publishedEvents = [];
-        publishedEvents.push(await demoBus.publish('player.move', { x: 100, y: 200 }, { 
+        publishedEvents?.push(await demoBus?.publish('player?.move', { x: 100, y: 200 }, { 
           source: 'player1', 
-          priority: EventPriority.NORMAL 
+          priority: EventPriority?.NORMAL 
         }));
-        publishedEvents.push(await demoBus.publish('player.action', { action: 'jump' }, { 
+        publishedEvents?.push(await demoBus?.publish('player?.action', { action: 'jump' }, { 
           source: 'player1', 
-          priority: EventPriority.HIGH 
+          priority: EventPriority?.HIGH 
         }));
-        publishedEvents.push(await demoBus.publish('system.shutdown', { reason: 'demo' }, { 
+        publishedEvents?.push(await demoBus?.publish('system?.shutdown', { reason: 'demo' }, { 
           source: 'system', 
-          priority: EventPriority.CRITICAL 
+          priority: EventPriority?.CRITICAL 
         }));
 
         // Schedule a delayed event
-        const scheduledId = demoScheduler.scheduleDelayed('demo.delayed', { message: 'Hello from the future!' }, 1000);
+        const scheduledId = demoScheduler?.scheduleDelayed('demo?.delayed', { message: 'Hello from the future!' }, 1000);
 
         result = {
           subscriptions: [
-            { id: sub1, eventType: 'player.move' },
-            { id: sub2, eventType: 'player.action' }
+            { id: sub1, eventType: 'player?.move' },
+            { id: sub2, eventType: 'player?.action' }
           ],
           publishedEvents: publishedEvents,
           scheduledEvent: scheduledId,
-          stats: demoBus.getStats(),
-          recentEvents: demoBus.getRecentEvents(10),
+          stats: demoBus?.getStats(),
+          recentEvents: demoBus?.getRecentEvents(10),
           router: {
             routes: Array.from(demoRouter.getRoutes().entries())
           },
@@ -267,15 +267,15 @@ async function main() {
             filters: Array.from(demoFilter.getFilters().keys())
           },
           summary: {
-            totalEvents: demoBus.getStats().totalEvents,
+            totalEvents: demoBus?.getStats().totalEvents,
             eventTypes: Object.keys(demoBus.getStats().eventsByType),
-            activeSubscriptions: demoBus.getSubscriptions().length,
-            scheduledEvents: demoScheduler.getScheduledEvents().length
+            activeSubscriptions: demoBus?.getSubscriptions().length,
+            scheduledEvents: demoScheduler?.getScheduledEvents().length
           }
         };
 
         // Clean up
-        demoScheduler.stopScheduler();
+        demoScheduler?.stopScheduler();
         break;
 
       case 'dump':
@@ -310,14 +310,14 @@ async function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: ${operation?.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv.indexOf('--format') + 1];
+    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv?.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -329,7 +329,7 @@ async function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -345,13 +345,13 @@ async function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

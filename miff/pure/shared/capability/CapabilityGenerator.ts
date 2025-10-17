@@ -46,11 +46,11 @@ export class CapabilityGenerator {
     
     try {
       // Discover all modules
-      await this.discoverModules();
+      await this?.discoverModules();
       
       // Generate capability files
-      for (const [moduleName, moduleInfo] of this.modules) {
-        await this.generateCapabilityFile(moduleName, moduleInfo);
+      for (const [moduleName, moduleInfo] of this?.modules) {
+        await this?.generateCapabilityFile(moduleName, moduleInfo);
       }
       
       console.info(`Generated capability files for ${this.modules.size} modules`);
@@ -69,15 +69,15 @@ export class CapabilityGenerator {
     console.info('Discovering modules...');
     
     const pureDir = './miff/pure';
-    const entries = fs.readdirSync(pureDir);
+    const entries = fs?.readdirSync(pureDir);
     
     for (const entry of entries) {
-      const entryPath = path.join(pureDir, entry);
-      const stat = fs.statSync(entryPath);
+      const entryPath = path?.join(pureDir, entry);
+      const stat = fs?.statSync(entryPath);
       
-      if (stat.isDirectory() && entry.endsWith('Pure')) {
-        const moduleInfo = await this.analyzeModule(entry, entryPath);
-        this.modules.set(entry, moduleInfo);
+      if (stat?.isDirectory() && entry?.endsWith('Pure')) {
+        const moduleInfo = await this?.analyzeModule(entry, entryPath);
+        this?.modules.set(entry, moduleInfo);
       }
     }
     
@@ -101,26 +101,26 @@ export class CapabilityGenerator {
     };
 
     try {
-      // Check for Manager.ts
-      const managerPath = path.join(modulePath, 'Manager.ts');
-      if (fs.existsSync(managerPath)) {
-        moduleInfo.hasManager = true;
-        const managerContent = fs.readFileSync(managerPath, 'utf8');
-        this.extractModuleInfo(managerContent, moduleInfo);
+      // Check for Manager?.ts
+      const managerPath = path?.join(modulePath, 'Manager?.ts');
+      if (fs?.existsSync(managerPath)) {
+        moduleInfo?.hasManager = true;
+        const managerContent = fs?.readFileSync(managerPath, 'utf8');
+        this?.extractModuleInfo(managerContent, moduleInfo);
       }
 
-      // Check for cliHarness.ts
-      const cliPath = path.join(modulePath, 'cliHarness.ts');
-      if (fs.existsSync(cliPath)) {
-        moduleInfo.hasCLI = true;
+      // Check for cliHarness?.ts
+      const cliPath = path?.join(modulePath, 'cliHarness?.ts');
+      if (fs?.existsSync(cliPath)) {
+        moduleInfo?.hasCLI = true;
       }
 
-      // Check for index.ts
-      const indexPath = path.join(modulePath, 'index.ts');
-      if (fs.existsSync(indexPath)) {
-        moduleInfo.hasIndex = true;
-        const indexContent = fs.readFileSync(indexPath, 'utf8');
-        this.extractExports(indexContent, moduleInfo);
+      // Check for index?.ts
+      const indexPath = path?.join(modulePath, 'index?.ts');
+      if (fs?.existsSync(indexPath)) {
+        moduleInfo?.hasIndex = true;
+        const indexContent = fs?.readFileSync(indexPath, 'utf8');
+        this?.extractExports(indexContent, moduleInfo);
       }
 
     } catch (error: unknown) {
@@ -136,38 +136,38 @@ export class CapabilityGenerator {
    */
   private extractModuleInfo(content: string, moduleInfo: ModuleInfo): void {
     // Extract interfaces
-    const interfaceMatches = content.match(/interface\s+(\w+)/g);
+    const interfaceMatches = content?.match(/interface\s+(\w+)/g);
     if (interfaceMatches) {
-      moduleInfo.interfaces = interfaceMatches.map((match: any) => 
-        match.replace('interface ', '')
+      moduleInfo?.interfaces = interfaceMatches?.map((match: any) => 
+        match?.replace('interface ', '')
       );
     }
 
     // Extract classes
-    const classMatches = content.match(/class\s+(\w+)/g);
+    const classMatches = content?.match(/class\s+(\w+)/g);
     if (classMatches) {
-      moduleInfo.classes = classMatches.map((match: any) => 
-        match.replace('class ', '')
+      moduleInfo?.classes = classMatches?.map((match: any) => 
+        match?.replace('class ', '')
       );
     }
 
     // Extract functions
-    const functionMatches = content.match(/function\s+(\w+)/g);
+    const functionMatches = content?.match(/function\s+(\w+)/g);
     if (functionMatches) {
-      moduleInfo.functions = functionMatches.map((match: any) => 
-        match.replace('function ', '')
+      moduleInfo?.functions = functionMatches?.map((match: any) => 
+        match?.replace('function ', '')
       );
     }
   }
 
   /**
-   * Extract exports from index.ts
+   * Extract exports from index?.ts
    */
   private extractExports(content: string, moduleInfo: ModuleInfo): void {
-    const exportMatches = content.match(/export\s+(?:const|function|class|interface|type)\s+(\w+)/g);
+    const exportMatches = content?.match(/export\s+(?:const|function|class|interface|type)\s+(\w+)/g);
     if (exportMatches) {
-      moduleInfo.exports = exportMatches.map((match: any) => 
-        match.replace(/export\s+(?:const|function|class|interface|type)\s+/, '')
+      moduleInfo?.exports = exportMatches?.map((match: any) => 
+        match?.replace(/export\s+(?:const|function|class|interface|type)\s+/, '')
       );
     }
   }
@@ -176,13 +176,13 @@ export class CapabilityGenerator {
    * Generate capability file for a module
    */
   private async generateCapabilityFile(moduleName: string, moduleInfo: ModuleInfo): Promise<void> {
-    const capabilityPath = path.join(moduleInfo.path, 'capabilities.ts');
+    const capabilityPath = path?.join(moduleInfo?.path, 'capabilities?.ts');
     
     try {
-      const capability = this.createCapability(moduleName, moduleInfo);
-      const capabilityContent = this.generateCapabilityContent(capability);
+      const capability = this?.createCapability(moduleName, moduleInfo);
+      const capabilityContent = this?.generateCapabilityContent(capability);
       
-      fs.writeFileSync(capabilityPath, capabilityContent);
+      fs?.writeFileSync(capabilityPath, capabilityContent);
       console.info(`Generated capability file for ${moduleName}`);
       
     } catch (error: unknown) {
@@ -196,25 +196,25 @@ export class CapabilityGenerator {
    */
   private createCapability(moduleName: string, moduleInfo: ModuleInfo): Capability {
     const capability: Capability = {
-      id: moduleName.toLowerCase().replace('pure', ''),
+      id: moduleName?.toLowerCase().replace('pure', ''),
       name: moduleName,
-      description: this.generateDescription(moduleName, moduleInfo),
+      description: this?.generateDescription(moduleName, moduleInfo),
       version: '1.0.0',
-      type: this.determineType(moduleName),
-      category: this.determineCategory(moduleName),
-      tags: this.generateTags(moduleName, moduleInfo),
-      dependencies: this.generateDependencies(moduleInfo),
-      interfaces: moduleInfo.interfaces,
-      methods: this.generateMethods(moduleInfo),
-      properties: this.generateProperties(moduleInfo),
-      events: this.generateEvents(moduleInfo),
+      type: this?.determineType(moduleName),
+      category: this?.determineCategory(moduleName),
+      tags: this?.generateTags(moduleName, moduleInfo),
+      dependencies: this?.generateDependencies(moduleInfo),
+      interfaces: moduleInfo?.interfaces,
+      methods: this?.generateMethods(moduleInfo),
+      properties: this?.generateProperties(moduleInfo),
+      events: this?.generateEvents(moduleInfo),
       metadata: {
-        hasManager: moduleInfo.hasManager,
-        hasCLI: moduleInfo.hasCLI,
-        hasIndex: moduleInfo.hasIndex,
-        classes: moduleInfo.classes,
-        functions: moduleInfo.functions,
-        exports: moduleInfo.exports
+        hasManager: moduleInfo?.hasManager,
+        hasCLI: moduleInfo?.hasCLI,
+        hasIndex: moduleInfo?.hasIndex,
+        classes: moduleInfo?.classes,
+        functions: moduleInfo?.functions,
+        exports: moduleInfo?.exports
       },
       status: 'active',
       createdAt: new Date(),
@@ -228,8 +228,8 @@ export class CapabilityGenerator {
    * Generate description for a module
    */
   private generateDescription(moduleName: string, moduleInfo: ModuleInfo): string {
-    const baseName = moduleName.replace('Pure', '');
-    return `${baseName} module providing ${this.getModulePurpose(baseName)} functionality`;
+    const baseName = moduleName?.replace('Pure', '');
+    return `${baseName} module providing ${this?.getModulePurpose(baseName)} functionality`;
   }
 
   /**
@@ -252,7 +252,7 @@ export class CapabilityGenerator {
     };
 
     for (const [key, purpose] of Object.entries(purposes)) {
-      if (name.includes(key)) {
+      if (name?.includes(key)) {
         return purpose;
       }
     }
@@ -264,13 +264,13 @@ export class CapabilityGenerator {
    * Determine capability type
    */
   private determineType(moduleName: string): 'core' | 'feature' | 'integration' | 'utility' {
-    if (moduleName.includes('Core') || moduleName.includes('System')) {
+    if (moduleName?.includes('Core') || moduleName?.includes('System')) {
       return 'core';
     }
-    if (moduleName.includes('Bridge') || moduleName.includes('Integration')) {
+    if (moduleName?.includes('Bridge') || moduleName?.includes('Integration')) {
       return 'integration';
     }
-    if (moduleName.includes('Pure') && !moduleName.includes('Bridge')) {
+    if (moduleName?.includes('Pure') && !moduleName?.includes('Bridge')) {
       return 'feature';
     }
     return 'utility';
@@ -296,7 +296,7 @@ export class CapabilityGenerator {
     };
 
     for (const [key, category] of Object.entries(categories)) {
-      if (moduleName.includes(key)) {
+      if (moduleName?.includes(key)) {
         return category;
       }
     }
@@ -311,13 +311,13 @@ export class CapabilityGenerator {
     const tags = ['miff', 'module'];
     
     // Add type-based tags
-    if (moduleInfo.hasManager) tags.push('manager');
-    if (moduleInfo.hasCLI) tags.push('cli');
-    if (moduleInfo.hasIndex) tags.push('exported');
+    if (moduleInfo?.hasManager) tags?.push('manager');
+    if (moduleInfo?.hasCLI) tags?.push('cli');
+    if (moduleInfo?.hasIndex) tags?.push('exported');
     
     // Add functionality tags
-    const baseName = moduleName.replace('Pure', '').toLowerCase();
-    tags.push(baseName);
+    const baseName = moduleName?.replace('Pure', '').toLowerCase();
+    tags?.push(baseName);
     
     return tags;
   }
@@ -328,11 +328,11 @@ export class CapabilityGenerator {
   private generateDependencies(moduleInfo: ModuleInfo): string[] {
     const dependencies = [];
     
-    if (moduleInfo.hasManager) {
-      dependencies.push('core-manager');
+    if (moduleInfo?.hasManager) {
+      dependencies?.push('core-manager');
     }
     
-    dependencies.push('core-logging');
+    dependencies?.push('core-logging');
     
     return dependencies;
   }
@@ -343,25 +343,25 @@ export class CapabilityGenerator {
   private generateMethods(moduleInfo: ModuleInfo): CapabilityMethod[] {
     const methods: CapabilityMethod[] = [];
     
-    if (moduleInfo.hasManager) {
-      methods.push({
+    if (moduleInfo?.hasManager) {
+      methods?.push({
         name: 'initialize',
         description: 'Initialize the module manager',
         parameters: [],
         returnType: 'Promise<void>',
         isAsync: true,
         isPublic: true,
-        examples: ['await manager.initialize();']
+        examples: ['await manager?.initialize({});']
       });
       
-      methods.push({
+      methods?.push({
         name: 'destroy',
         description: 'Destroy the module manager',
         parameters: [],
         returnType: 'Promise<void>',
         isAsync: true,
         isPublic: true,
-        examples: ['await manager.destroy();']
+        examples: ['await manager?.destroy();']
       });
     }
     
@@ -374,8 +374,8 @@ export class CapabilityGenerator {
   private generateProperties(moduleInfo: ModuleInfo): CapabilityProperty[] {
     const properties: CapabilityProperty[] = [];
     
-    if (moduleInfo.hasManager) {
-      properties.push({
+    if (moduleInfo?.hasManager) {
+      properties?.push({
         name: 'isInitialized',
         type: 'boolean',
         description: 'Whether the module is initialized',
@@ -394,7 +394,7 @@ export class CapabilityGenerator {
     const events: CapabilityEvent[] = [];
     
     // Add common events based on module type
-    events.push({
+    events?.push({
       name: 'moduleReady',
       description: 'Module is ready for use',
       payload: 'ModuleInfo',
@@ -409,7 +409,7 @@ export class CapabilityGenerator {
    */
   private generateCapabilityContent(capability: Capability): string {
     return `/**
- * Capability definition for ${capability.name}
+ * Capability definition for ${capability?.name}
  * Generated automatically by CapabilityGenerator
  */
 
@@ -417,7 +417,7 @@ import { Capability } from '../shared/capability/CapabilitySystem';
 
 export const ${capability.id}Capability: Capability = ${JSON.stringify(capability, null, 2)};
 
-export default ${capability.id}Capability;
+export default ${capability?.id}Capability;
 `;
   }
 
@@ -433,18 +433,18 @@ export default ${capability.id}Capability;
   } {
     const modules = Array.from(this.modules.values());
     
-    const withManager = modules.filter((m: any) => m.hasManager).length;
-    const withCLI = modules.filter((m: any) => m.hasCLI).length;
-    const withIndex = modules.filter((m: any) => m.hasIndex).length;
+    const withManager = modules?.filter((m: any) => m?.hasManager).length;
+    const withCLI = modules?.filter((m: any) => m?.hasCLI).length;
+    const withIndex = modules?.filter((m: any) => m?.hasIndex).length;
     
-    const byType = modules.reduce((acc, module) => {
-      const type = this.determineType(module.name);
+    const byType = modules?.reduce((acc, module) => {
+      const type = this?.determineType(module?.name);
       acc[type!] = (acc[type!] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     
     return {
-      total: modules.length,
+      total: modules?.length,
       withManager,
       withCLI,
       withIndex,

@@ -20,11 +20,11 @@ class DialogueCLI {
   private log: string[] = [];
 
   constructor() {
-    this.initializeSampleDialogue();
+    this?.initializeSampleDialogue();
   }
 
   private initializeSampleDialogue() {
-    this.currentDialogue = {
+    this?.currentDialogue = {
       start: 'greeting',
       nodes: {
         greeting: {
@@ -266,109 +266,109 @@ class DialogueCLI {
         }
       }
     };
-    this.currentNode = this.currentDialogue.start;
+    this?.currentNode = this?.currentDialogue.start;
   }
 
   async execute(operation: DialogueOperation): Promise<any> {
     try {
-      switch (operation.op) {
+      switch (operation?.op) {
         case 'start':
-          return this.startDialogue(operation);
+          return this?.startDialogue(operation);
         
         case 'next':
-          return this.nextNode(operation);
+          return this?.nextNode(operation);
         
         case 'dump':
-          return this.dump();
+          return this?.dump();
         
         case 'simulate':
-          return this.simulate();
+          return this?.simulate();
         
         case 'export':
-          return this.export(operation.format || 'json');
+          return this?.export(operation?.format || 'json');
         
         case 'validate':
-          return this.validate(operation.dialogue);
+          return this?.validate(operation?.dialogue);
         
         case 'reset':
-          return this.reset();
+          return this?.reset();
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${operation?.op}`);
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: operation?.op,
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error?.message : 'Unknown error',
         timestamp: new Date()
       };
     }
   }
 
   private startDialogue(op: DialogueOperation): any {
-    if (op.dialogue) {
-      this.currentDialogue = op.dialogue;
+    if (op?.dialogue) {
+      this?.currentDialogue = op?.dialogue;
     }
     
-    if (!this.currentDialogue) {
+    if (!this?.currentDialogue) {
       throw new Error('No dialogue loaded');
     }
 
-    this.currentNode = this.currentDialogue.start;
-    this.history = [];
-    this.log = [];
+    this?.currentNode = this?.currentDialogue.start;
+    this?.history = [];
+    this?.log = [];
     
-    this.history.push({ node: this.currentNode, timestamp: new Date() });
-    this.log.push(`Started dialogue: ${this.currentDialogue.start}`);
+    this?.history?.push({ node: this?.currentNode, timestamp: new Date() });
+    this?.log?.push(`Started dialogue: ${this?.currentDialogue.start}`);
 
     return {
       op: 'start',
       status: 'ok',
       result: {
-        currentNode: this.currentNode,
-        node: this.currentDialogue.nodes[this.currentNode],
+        currentNode: this?.currentNode,
+        node: this?.currentDialogue.nodes[this?.currentNode],
         totalNodes: Object.keys(this.currentDialogue.nodes).length,
-        history: this.history
+        history: this?.history
       },
       timestamp: new Date()
     };
   }
 
   private nextNode(op: DialogueOperation): any {
-    if (!this.currentDialogue || !this.currentNode) {
+    if (!this?.currentDialogue || !this?.currentNode) {
       throw new Error('No active dialogue');
     }
 
-    const choiceIndex = op.choiceIndex || 0;
-    const result = nextNode(this.currentDialogue, this.currentNode, choiceIndex);
+    const choiceIndex = op?.choiceIndex || 0;
+    const result = nextNode(this?.currentDialogue, this?.currentNode, choiceIndex);
     
-    if (result.status === 'ok' && result.id) {
-      const previousNode = this.currentNode;
-      this.currentNode = result.id;
+    if (result?.status === 'ok' && result?.id) {
+      const previousNode = this?.currentNode;
+      this?.currentNode = result?.id;
       
-      const previousNodeData = this.currentDialogue.nodes[previousNode!];
-      const choiceText = previousNodeData.choices?.[choiceIndex!]?.text || 'Unknown choice';
+      const previousNodeData = this?.currentDialogue.nodes[previousNode!];
+      const choiceText = previousNodeData?.choices?.[choiceIndex!]?.text || 'Unknown choice';
       
-      this.history.push({ 
-        node: this.currentNode, 
+      this?.history?.push({ 
+        node: this?.currentNode, 
         choice: choiceText,
         timestamp: new Date() 
       });
       
-      this.log.push(`Moved from ${previousNode} to ${this.currentNode} via "${choiceText}"`);
+      this?.log?.push(`Moved from ${previousNode} to ${this?.currentNode} via "${choiceText}"`);
     }
 
     return {
       op: 'next',
-      status: result.status,
+      status: result?.status,
       result: {
         ...result,
-        currentNode: this.currentNode,
-        node: this.currentNode ? this.currentDialogue.nodes[this.currentNode] : null,
-        history: this.history,
-        log: this.log
+        currentNode: this?.currentNode,
+        node: this?.currentNode ? this?.currentDialogue.nodes[this?.currentNode] : null,
+        history: this?.history,
+        log: this?.log
       },
       timestamp: new Date()
     };
@@ -379,15 +379,15 @@ class DialogueCLI {
       op: 'dump',
       status: 'ok',
       result: {
-        dialogue: this.currentDialogue,
-        currentNode: this.currentNode,
-        history: this.history,
-        log: this.log,
+        dialogue: this?.currentDialogue,
+        currentNode: this?.currentNode,
+        history: this?.history,
+        log: this?.log,
         statistics: {
           totalNodes: this.currentDialogue ? Object.keys(this.currentDialogue.nodes).length : 0,
-          nodesVisited: this.history.length,
-          currentDepth: this.history.length,
-          hasChoices: this.currentNode && this.currentDialogue?.nodes[this.currentNode]?.choices?.length > 0
+          nodesVisited: this?.history.length,
+          currentDepth: this?.history.length,
+          hasChoices: this?.currentNode && this?.currentDialogue?.nodes[this?.currentNode]?.choices?.length > 0
         }
       },
       timestamp: new Date()
@@ -395,55 +395,55 @@ class DialogueCLI {
   }
 
   private simulate(): any {
-    if (!this.currentDialogue) {
+    if (!this?.currentDialogue) {
       throw new Error('No dialogue loaded');
     }
 
-    this.reset();
+    this?.reset();
     const simulation = [];
-    let currentNode = this.currentDialogue.start;
+    let currentNode = this?.currentDialogue.start;
     let depth = 0;
     const maxDepth = 20; // Prevent infinite loops
 
     while (currentNode && depth < maxDepth) {
-      const node = this.currentDialogue.nodes[currentNode!];
-      if (!node || !node.choices || node.choices.length === 0) {
+      const node = this?.currentDialogue.nodes[currentNode!];
+      if (!node || !node?.choices || node?.choices.length === 0) {
         break; // End of dialogue
       }
 
       // Randomly choose a path
       const choiceIndex = Math.floor(Math.random() * node.choices.length);
-      const choice = node.choices[choiceIndex!];
+      const choice = node?.choices[choiceIndex!];
       
-      simulation.push({
+      simulation?.push({
         depth,
         node: currentNode,
-        nodeText: node.text,
-        choice: choice.text,
-        nextNode: choice.next
+        nodeText: node?.text,
+        choice: choice?.text,
+        nextNode: choice?.next
       });
 
-      currentNode = choice.next;
+      currentNode = choice?.next;
       depth++;
     }
 
-    this.log.push(`Simulated dialogue path with ${simulation.length} steps`);
+    this?.log?.push(`Simulated dialogue path with ${simulation?.length} steps`);
 
     return {
       op: 'simulate',
       status: 'ok',
       result: {
         simulation,
-        totalSteps: simulation.length,
+        totalSteps: simulation?.length,
         finalNode: currentNode,
-        dialogue: this.currentDialogue
+        dialogue: this?.currentDialogue
       },
       timestamp: new Date()
     };
   }
 
   private validate(dialogue?: Dialogue): any {
-    const targetDialogue = dialogue || this.currentDialogue;
+    const targetDialogue = dialogue || this?.currentDialogue;
     
     if (!targetDialogue) {
       throw new Error('No dialogue to validate');
@@ -453,24 +453,24 @@ class DialogueCLI {
     const warnings: string[] = [];
 
     // Check if start node exists
-    if (!targetDialogue.nodes[targetDialogue.start]) {
-      issues.push(`Start node '${targetDialogue.start}' does not exist`);
+    if (!targetDialogue?.nodes[targetDialogue?.start]) {
+      issues?.push(`Start node '${targetDialogue?.start}' does not exist`);
     }
 
     // Check all nodes
     for (const [nodeId, node] of Object.entries(targetDialogue.nodes)) {
-      if (!node.text || node.text.trim() === '') {
-        issues.push(`Node '${nodeId}' has empty text`);
+      if (!node?.text || node?.text.trim() === '') {
+        issues?.push(`Node '${nodeId}' has empty text`);
       }
 
-      if (node.choices) {
-        for (let i = 0; i < node.choices.length; i++) {
-          const choice = node.choices[i!];
-          if (!choice.text || choice.text.trim() === '') {
-            issues.push(`Node '${nodeId}' choice ${i} has empty text`);
+      if (node?.choices) {
+        for (let i = 0; i < node?.choices.length; i++) {
+          const choice = node?.choices[i!];
+          if (!choice?.text || choice?.text.trim() === '') {
+            issues?.push(`Node '${nodeId}' choice ${i} has empty text`);
           }
-          if (!choice.next || !targetDialogue.nodes[choice.next]) {
-            issues.push(`Node '${nodeId}' choice ${i} points to non-existent node '${choice.next}'`);
+          if (!choice?.next || !targetDialogue?.nodes[choice?.next]) {
+            issues?.push(`Node '${nodeId}' choice ${i} points to non-existent node '${choice?.next}'`);
           }
         }
       }
@@ -478,26 +478,26 @@ class DialogueCLI {
 
     // Check for unreachable nodes
     const reachable = new Set<string>();
-    const queue = [targetDialogue.start];
+    const queue = [targetDialogue?.start];
     
-    while (queue.length > 0) {
-      const current = queue.shift()!;
-      if (reachable.has(current)) continue;
+    while (queue?.length > 0) {
+      const current = queue?.shift()!;
+      if (reachable?.has(current)) continue;
       
-      reachable.add(current);
-      const node = targetDialogue.nodes[current!];
-      if (node.choices) {
-        for (const choice of node.choices) {
-          if (!reachable.has(choice.next)) {
-            queue.push(choice.next);
+      reachable?.add(current);
+      const node = targetDialogue?.nodes[current!];
+      if (node?.choices) {
+        for (const choice of node?.choices) {
+          if (!reachable?.has(choice?.next)) {
+            queue?.push(choice?.next);
           }
         }
       }
     }
 
     for (const nodeId of Object.keys(targetDialogue.nodes)) {
-      if (!reachable.has(nodeId)) {
-        warnings.push(`Node '${nodeId}' is unreachable from start node`);
+      if (!reachable?.has(nodeId)) {
+        warnings?.push(`Node '${nodeId}' is unreachable from start node`);
       }
     }
 
@@ -505,15 +505,15 @@ class DialogueCLI {
       op: 'validate',
       status: 'ok',
       result: {
-        valid: issues.length === 0,
+        valid: issues?.length === 0,
         issues,
         warnings,
         statistics: {
           totalNodes: Object.keys(targetDialogue.nodes).length,
-          reachableNodes: reachable.size,
+          reachableNodes: reachable?.size,
           unreachableNodes: Object.keys(targetDialogue.nodes).length - reachable.size,
           totalChoices: Object.values(targetDialogue.nodes).reduce((sum, node) => 
-            sum + (node.choices?.length || 0), 0)
+            sum + (node?.choices?.length || 0), 0)
         }
       },
       timestamp: new Date()
@@ -521,31 +521,31 @@ class DialogueCLI {
   }
 
   private reset(): any {
-    this.currentNode = this.currentDialogue?.start || null;
-    this.history = [];
-    this.log = [];
+    this?.currentNode = this?.currentDialogue?.start || null;
+    this?.history = [];
+    this?.log = [];
 
     return {
       op: 'reset',
       status: 'ok',
       result: {
         message: 'Dialogue reset to start',
-        currentNode: this.currentNode
+        currentNode: this?.currentNode
       },
       timestamp: new Date()
     };
   }
 
   private export(format: string): any {
-    const data = this.dump().result;
+    const data = this?.dump().result;
 
     switch (format) {
       case 'csv':
-        return this.exportCSV(data);
+        return this?.exportCSV(data: any);
       case 'markdown':
-        return this.exportMarkdown(data);
+        return this?.exportMarkdown(data: any);
       case 'html':
-        return this.exportHTML(data);
+        return this?.exportHTML(data: any);
       default:
         return {
           op: 'export',
@@ -557,12 +557,12 @@ class DialogueCLI {
     }
   }
 
-  private exportCSV(data): any {
+  private exportCSV(data: any): any {
     const csv = [
       'Node ID,Text,Choices Count,Choices',
       ...Object.entries(data.dialogue.nodes).map(([id, node]: [string, any]) => {
-        const choices = node.choices ? node.choices.map((c: any) => `${c.text}->${c.next}`).join(';') : '';
-        return `"${id}","${node.text.replace(/"/g, '""')}",${node.choices?.length || 0},"${choices}"`;
+        const choices = node?.choices ? node?.choices.map((c: any) => `${c?.text}->${c?.next}`).join(';') : '';
+        return `"${id}","${node?.text.replace(/"/g, '""')}",${node?.choices?.length || 0},"${choices}"`;
       })
     ].join('\n');
 
@@ -575,26 +575,26 @@ class DialogueCLI {
     };
   }
 
-  private exportMarkdown(data): any {
+  private exportMarkdown(data: any): any {
     const md = [
       '# Dialogue System Report',
       '',
-      `**Current Node**: ${data.currentNode}`,
-      `**Total Nodes**: ${data.statistics.totalNodes}`,
-      `**Nodes Visited**: ${data.statistics.nodesVisited}`,
+      `**Current Node**: ${data?.currentNode}`,
+      `**Total Nodes**: ${data?.statistics.totalNodes}`,
+      `**Nodes Visited**: ${data?.statistics.nodesVisited}`,
       '',
       '## Dialogue Tree',
       '',
       ...Object.entries(data.dialogue.nodes).map(([id, node]: [string, any]) => [
         `### ${id}`,
         '',
-        node.text,
+        node?.text,
         '',
-        ...(node.choices ? [
+        ...(node?.choices ? [
           '**Choices:**',
           '',
-          ...node.choices.map((choice: any, i: number) => 
-            `${i + 1}. ${choice.text} → ${choice.next}`
+          ...node?.choices.map((choice: any, i: number) => 
+            `${i + 1}. ${choice?.text} → ${choice?.next}`
           ),
           ''
         ] : ['*End of dialogue*', ''])
@@ -610,7 +610,7 @@ class DialogueCLI {
     };
   }
 
-  private exportHTML(data): any {
+  private exportHTML(data: any): any {
     const html = `
 <!DOCTYPE html>
 <html>
@@ -629,22 +629,22 @@ class DialogueCLI {
     
     <div class="stats">
         <h3>Statistics</h3>
-        <p><strong>Current Node</strong>: ${data.currentNode}</p>
-        <p><strong>Total Nodes</strong>: ${data.statistics.totalNodes}</p>
-        <p><strong>Nodes Visited</strong>: ${data.statistics.nodesVisited}</p>
-        <p><strong>Current Depth</strong>: ${data.statistics.currentDepth}</p>
+        <p><strong>Current Node</strong>: ${data?.currentNode}</p>
+        <p><strong>Total Nodes</strong>: ${data?.statistics.totalNodes}</p>
+        <p><strong>Nodes Visited</strong>: ${data?.statistics.nodesVisited}</p>
+        <p><strong>Current Depth</strong>: ${data?.statistics.currentDepth}</p>
     </div>
     
     <h2>Dialogue Tree</h2>
     ${Object.entries(data.dialogue.nodes).map(([id, node]: [string, any]) => `
-    <div class="node ${id === data.currentNode ? 'current' : ''}">
+    <div class="node ${id === data?.currentNode ? 'current' : ''}">
         <h3>${id}</h3>
-        <p>${node.text}</p>
-        ${node.choices ? `
+        <p>${node?.text}</p>
+        ${node?.choices ? `
         <h4>Choices:</h4>
-        ${node.choices.map((choice: any, i: number) => `
+        ${node?.choices.map((choice: any, i: number) => `
         <div class="choice">
-            ${i + 1}. ${choice.text} → ${choice.next}
+            ${i + 1}. ${choice?.text} → ${choice?.next}
         </div>
         `).join('')}
         ` : '<p><em>End of dialogue</em></p>'}
@@ -665,40 +665,40 @@ class DialogueCLI {
 
 async function main() {
   const cli = new DialogueCLI();
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
 
   // Legacy mode: single JSON path argument triggers one deterministic next step
-  if (argv.length === 1 && argv[0!].endsWith('.json')) {
+  if (argv?.length === 1 && argv[0!].endsWith('.json')) {
     try {
       const jsonPath = argv[0!];
       const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
-      const data: Dialogue = (raw && raw.dialogue) ? raw.dialogue : raw;
-      const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw.choiceIndex : 0;
+      const data: Dialogue = (raw && raw?.dialogue) ? raw?.dialogue : raw;
+      const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw?.choiceIndex : 0;
       // Start then take first choice deterministically
-      await cli.execute({ op: 'start', dialogue: data });
-      const step = await cli.execute({ op: 'next', choiceIndex });
-      const id = step.result?.id;
-      const issue = step.result?.issue;
-      const status = step.status;
-      const out = { op: 'dialogue.next', status, id, issue };
+      await cli?.execute({ op: 'start', dialogue: data });
+      const step = await cli?.execute({ op: 'next', choiceIndex });
+      const id = step?.result?.id;
+      const issue = step?.result?.issue;
+      const status = step?.status;
+      const out = { op: 'dialogue?.next', status, id, issue };
       console.log(JSON.stringify(out));
       return;
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Unknown error';
-      const out = { op: 'dialogue.next', status: 'error', issue: message };
+      const message = e instanceof Error ? e?.message : 'Unknown error';
+      const out = { op: 'dialogue?.next', status: 'error', issue: message };
       console.log(JSON.stringify(out));
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
-  if (process.argv.length < 3) {
+  if (process?.argv.length < 3) {
     console.error('Usage: cliHarness.ts <operation> [args...]');
     console.error('Operations: start, next [choiceIndex!], dump, simulate, validate, reset, export [format!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
-  const operation = process.argv[2!];
-  const args = process.argv.slice(3);
+  const operation = process?.argv[2!];
+  const args = process?.argv.slice(3);
 
   let op: DialogueOperation;
   
@@ -726,13 +726,13 @@ async function main() {
       break;
     default:
       console.error(`Unknown operation: ${operation}`);
-      process.exit(1);
+      process?.exit(1);
   }
 
-  const result = await cli.execute(op);
+  const result = await cli?.execute(op);
   console.log(JSON.stringify(result, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

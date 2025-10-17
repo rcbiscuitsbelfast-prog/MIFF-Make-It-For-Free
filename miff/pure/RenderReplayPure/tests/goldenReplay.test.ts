@@ -5,95 +5,95 @@ import fs from 'fs';
 import { RenderPayload } from '../../BridgeSchemaPure/schema';
 
 describe('RenderReplayPure Golden Tests', () => {
-  const cliPath = path.resolve(__dirname, '../cliHarness.ts');
-  const samplePath = path.resolve(__dirname, '../sample_replay.json');
+  const cliPath = path?.resolve(__dirname, '../cliHarness?.ts');
+  const samplePath = path?.resolve(__dirname, '../sample_replay?.json');
 
   beforeAll(() => {
-    expect(fs.existsSync(cliPath)).toBe(true);
-    expect(fs.existsSync(samplePath)).toBe(true);
+    expect(fs?.existsSync(cliPath)).toBe(true);
+    expect(fs?.existsSync(samplePath)).toBe(true);
   });
 
   describe('CLI Commands', () => {
     test('✓ replay-golden command with Unity engine', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-golden',
-        'sample_replay.json',
+        'sample_replay?.json',
         '--engine', 'unity',
         '--speed', '1.0',
         '--format', 'json'
       ]);
 
-      expect(result).toContain('✅ Replay successful!');
-      expect(result).toContain('🎯 Engine: unity');
-      expect(result).toContain('📈 Steps:');
-      expect(result).toContain('🎨 RenderData:');
-      expect(result).toContain('📄 JSON Output:');
+      expect(result: any).toContain('✅ Replay successful!');
+      expect(result: any).toContain('🎯 Engine: unity');
+      expect(result: any).toContain('📈 Steps:');
+      expect(result: any).toContain('🎨 RenderData:');
+      expect(result: any).toContain('📄 JSON Output:');
       
       // Parse JSON output
-      const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
+      const jsonMatch = result?.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
       const jsonOutput = JSON.parse(jsonMatch![1!]);
-      expect(jsonOutput.op).toBe('replay');
-      expect(jsonOutput.status).toBe('ok');
-      expect(jsonOutput.session).toBeDefined();
-      expect(jsonOutput.session.summary.engine).toBe('unity');
+      expect(jsonOutput?.op).toBe('replay');
+      expect(jsonOutput?.status).toBe('ok');
+      expect(jsonOutput?.session).toBeDefined();
+      expect(jsonOutput?.session.summary?.engine).toBe('unity');
     });
 
     test('✓ replay-golden command with Web engine', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-golden',
-        'sample_replay.json',
+        'sample_replay?.json',
         '--engine', 'web',
         '--speed', '2.0',
         '--loop',
         '--format', 'html'
       ]);
 
-      expect(result).toContain('✅ Replay successful!');
-      expect(result).toContain('🎯 Engine: web');
-      expect(result).toContain('⚡ Speed: 2x');
-      expect(result).toContain('🔄 Loop: Yes');
-      expect(result).toContain('📄 JSON Output:');
+      expect(result: any).toContain('✅ Replay successful!');
+      expect(result: any).toContain('🎯 Engine: web');
+      expect(result: any).toContain('⚡ Speed: 2x');
+      expect(result: any).toContain('🔄 Loop: Yes');
+      expect(result: any).toContain('📄 JSON Output:');
       
       // Parse JSON output
-      const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
+      const jsonMatch = result?.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
       const jsonOutput = JSON.parse(jsonMatch![1!]);
-      expect(jsonOutput.op).toBe('replay');
-      expect(jsonOutput.status).toBe('ok');
-      expect(jsonOutput.session.config.engine).toBe('web');
-      expect(jsonOutput.session.config.speed).toBe(2.0);
-      expect(jsonOutput.session.config.loop).toBe(true);
+      expect(jsonOutput?.op).toBe('replay');
+      expect(jsonOutput?.status).toBe('ok');
+      expect(jsonOutput?.session.config?.engine).toBe('web');
+      expect(jsonOutput?.session.config?.speed).toBe(2.0);
+      expect(jsonOutput?.session.config?.loop).toBe(true);
     });
 
     test('✓ replay-golden command with Godot engine', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-golden',
-        'sample_replay.json',
+        'sample_replay?.json',
         '--engine', 'godot',
         '--speed', '0.5',
         '--no-debug',
         '--format', 'markdown'
       ]);
 
-      expect(result).toContain('✅ Replay successful!');
-      expect(result).toContain('🎯 Engine: godot');
-      expect(result).toContain('⚡ Speed: 0.5x');
-      expect(result).toContain('🐛 Debug: No');
-      expect(result).toContain('📄 JSON Output:');
+      expect(result: any).toContain('✅ Replay successful!');
+      expect(result: any).toContain('🎯 Engine: godot');
+      expect(result: any).toContain('⚡ Speed: 0.5x');
+      expect(result: any).toContain('🐛 Debug: No');
+      expect(result: any).toContain('📄 JSON Output:');
       
       // Parse JSON output
-      const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
+      const jsonMatch = result?.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
       const jsonOutput = JSON.parse(jsonMatch![1!]);
-      expect(jsonOutput.op).toBe('replay');
-      expect(jsonOutput.status).toBe('ok');
-      expect(jsonOutput.session.config.engine).toBe('godot');
-      expect(jsonOutput.session.config.speed).toBe(0.5);
-      expect(jsonOutput.session.config.showDebug).toBe(false);
+      expect(jsonOutput?.op).toBe('replay');
+      expect(jsonOutput?.status).toBe('ok');
+      expect(jsonOutput?.session.config?.engine).toBe('godot');
+      expect(jsonOutput?.session.config?.speed).toBe(0.5);
+      expect(jsonOutput?.session.config?.showDebug).toBe(false);
     });
 
     test('✓ replay-cli command with sample output', () => {
@@ -106,41 +106,41 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'test_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'test.png'
+            asset: 'test?.png'
           }
         ]
       });
 
-      const tempFile = path.join(__dirname, 'temp_cli_output.json');
-      fs.writeFileSync(tempFile, sampleCLIOutput);
+      const tempFile = path?.join(__dirname, 'temp_cli_output?.json');
+      fs?.writeFileSync(tempFile, sampleCLIOutput);
 
       try {
-        const result = (global as any).testUtils.runCLI(cliPath, [
+        const result = (global as any).testUtils?.runCLI(cliPath, [
           'replay-cli',
           tempFile,
           '--engine', 'web'
         ]);
 
-        expect(result).toContain('✅ Replay successful!');
-        expect(result).toContain('🎯 Engine: web');
-        expect(result).toContain('📈 Steps: 1');
-        expect(result).toContain('🎨 RenderData: 1');
-        expect(result).toContain('📄 JSON Output:');
+        expect(result: any).toContain('✅ Replay successful!');
+        expect(result: any).toContain('🎯 Engine: web');
+        expect(result: any).toContain('📈 Steps: 1');
+        expect(result: any).toContain('🎨 RenderData: 1');
+        expect(result: any).toContain('📄 JSON Output:');
         
         // Parse JSON output
-        const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
+        const jsonMatch = result?.match(/📄 JSON Output:\s*\n([\s\S]*)/);
         expect(jsonMatch).toBeTruthy();
         
         const jsonOutput = JSON.parse(jsonMatch![1!]);
-        expect(jsonOutput.op).toBe('replay');
-        expect(jsonOutput.status).toBe('ok');
-        expect(jsonOutput.session.steps).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData[0!].id).toBe('test_sprite');
+        expect(jsonOutput?.op).toBe('replay');
+        expect(jsonOutput?.status).toBe('ok');
+        expect(jsonOutput?.session.steps).toHaveLength(1);
+        expect(jsonOutput?.session.steps[0!].renderData).toHaveLength(1);
+        expect(jsonOutput?.session.steps[0!].renderData[0!].id).toBe('test_sprite');
       } finally {
         // Clean up temp file
-        if (fs.existsSync(tempFile)) {
-          fs.unlinkSync(tempFile);
+        if (fs?.existsSync(tempFile)) {
+          fs?.unlinkSync(tempFile);
         }
       }
     });
@@ -155,75 +155,75 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'payload_sprite',
             type: 'sprite',
             position: { x: 300, y: 400 },
-            asset: 'payload.png',
-            props: { texture: 'payload.png' }
+            asset: 'payload?.png',
+            props: { texture: 'payload?.png' }
           }
         ]
       };
 
-      const tempFile = path.join(__dirname, 'temp_payload.json');
+      const tempFile = path?.join(__dirname, 'temp_payload?.json');
       fs.writeFileSync(tempFile, JSON.stringify(samplePayload));
 
       try {
-        const result = (global as any).testUtils.runCLI(cliPath, [
+        const result = (global as any).testUtils?.runCLI(cliPath, [
           'replay-payload',
           tempFile,
           '--engine', 'unity'
         ]);
 
-        expect(result).toContain('✅ Replay successful!');
-        expect(result).toContain('🎯 Engine: unity');
-        expect(result).toContain('📈 Steps: 1');
-        expect(result).toContain('🎨 RenderData: 1');
-        expect(result).toContain('📄 JSON Output:');
+        expect(result: any).toContain('✅ Replay successful!');
+        expect(result: any).toContain('🎯 Engine: unity');
+        expect(result: any).toContain('📈 Steps: 1');
+        expect(result: any).toContain('🎨 RenderData: 1');
+        expect(result: any).toContain('📄 JSON Output:');
         
         // Parse JSON output
-        const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
+        const jsonMatch = result?.match(/📄 JSON Output:\s*\n([\s\S]*)/);
         expect(jsonMatch).toBeTruthy();
         
         const jsonOutput = JSON.parse(jsonMatch![1!]);
-        expect(jsonOutput.op).toBe('replay');
-        expect(jsonOutput.status).toBe('ok');
-        expect(jsonOutput.session.steps).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData[0!].id).toBe('payload_sprite');
+        expect(jsonOutput?.op).toBe('replay');
+        expect(jsonOutput?.status).toBe('ok');
+        expect(jsonOutput?.session.steps).toHaveLength(1);
+        expect(jsonOutput?.session.steps[0!].renderData).toHaveLength(1);
+        expect(jsonOutput?.session.steps[0!].renderData[0!].id).toBe('payload_sprite');
       } finally {
         // Clean up temp file
-        if (fs.existsSync(tempFile)) {
-          fs.unlinkSync(tempFile);
+        if (fs?.existsSync(tempFile)) {
+          fs?.unlinkSync(tempFile);
         }
       }
     });
 
     test('✓ export command with session', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'export',
         'test_session_123',
-        'test_export.json',
+        'test_export?.json',
         '--format', 'json'
       ]);
 
-      expect(result).toContain('📤 Exporting session: test_session_123');
-      expect(result).toContain('📁 Output: test_export.json');
-      expect(result).toContain('📄 Format: json');
-      expect(result).toContain('✅ Export successful: test_export.json');
+      expect(result: any).toContain('📤 Exporting session: test_session_123');
+      expect(result: any).toContain('📁 Output: test_export?.json');
+      expect(result: any).toContain('📄 Format: json');
+      expect(result: any).toContain('✅ Export successful: test_export?.json');
       
       // Clean up exported file
-      if (fs.existsSync('test_export.json')) {
-        fs.unlinkSync('test_export.json');
+      if (fs?.existsSync('test_export?.json')) {
+        fs?.unlinkSync('test_export?.json');
       }
     });
 
     test('✓ help command displays usage', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'help'
       ]);
 
-      expect(result).toContain('RenderReplayPure CLI - Visual replay tool for MIFF engine bridges');
-      expect(result).toContain('Usage:');
-      expect(result).toContain('Commands:');
-      expect(result).toContain('Options:');
-      expect(result).toContain('Examples:');
+      expect(result: any).toContain('RenderReplayPure CLI - Visual replay tool for MIFF engine bridges');
+      expect(result: any).toContain('Usage:');
+      expect(result: any).toContain('Commands:');
+      expect(result: any).toContain('Options:');
+      expect(result: any).toContain('Examples:');
     });
   });
 
@@ -239,15 +239,15 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const result = manager.replayFromGoldenTest('BridgeSchemaPure/sample_render.json');
+      const result = manager?.replayFromGoldenTest('BridgeSchemaPure/sample_render?.json');
 
-      expect(result.op).toBe('replay');
-      expect(result.status).toBe('ok');
-      expect(result.session).toBeDefined();
-      expect(result.session.sessionId).toMatch(/^replay_\d+$/);
-      expect(result.session.config.engine).toBe('web');
-      expect(result.session.summary.engine).toBe('web');
-      expect(result.session.steps.length).toBeGreaterThan(0);
+      expect(result?.op).toBe('replay');
+      expect(result?.status).toBe('ok');
+      expect(result?.session).toBeDefined();
+      expect(result?.session.sessionId).toMatch(/^replay_\d+$/);
+      expect(result?.session.config?.engine).toBe('web');
+      expect(result?.session.summary?.engine).toBe('web');
+      expect(result?.session.steps?.length).toBeGreaterThan(0);
     });
 
     test('✓ creates replay session from CLI output', () => {
@@ -269,22 +269,22 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'cli_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'cli.png'
+            asset: 'cli?.png'
           }
         ]
       });
 
-      const result = manager.replayFromCLIOutput(cliOutput);
+      const result = manager?.replayFromCLIOutput(cliOutput);
 
-      expect(result.op).toBe('replay');
-      expect(result.status).toBe('ok');
-      expect(result.session.config.engine).toBe('unity');
-      expect(result.session.config.speed).toBe(2.0);
-      expect(result.session.config.loop).toBe(true);
-      expect(result.session.config.showDebug).toBe(false);
-      expect(result.session.steps).toHaveLength(1);
-      expect(result.session.steps[0!].renderData).toHaveLength(1);
-      expect(result.session.steps[0!].renderData[0!].id).toBe('cli_sprite');
+      expect(result?.op).toBe('replay');
+      expect(result?.status).toBe('ok');
+      expect(result?.session.config?.engine).toBe('unity');
+      expect(result?.session.config?.speed).toBe(2.0);
+      expect(result?.session.config?.loop).toBe(true);
+      expect(result?.session.config?.showDebug).toBe(false);
+      expect(result?.session.steps).toHaveLength(1);
+      expect(result?.session.steps[0!].renderData).toHaveLength(1);
+      expect(result?.session.steps[0!].renderData[0!].id).toBe('cli_sprite');
     });
 
     test('✓ creates replay session from payload', () => {
@@ -306,20 +306,20 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'payload_sprite',
             type: 'sprite',
             position: { x: 300, y: 400 },
-            asset: 'payload.png'
+            asset: 'payload?.png'
           }
         ]
       };
 
-      const result = manager.replayFromPayload(payload);
+      const result = manager?.replayFromPayload(payload);
 
-      expect(result.op).toBe('replay');
-      expect(result.status).toBe('ok');
-      expect(result.session.config.engine).toBe('godot');
-      expect(result.session.config.speed).toBe(0.5);
-      expect(result.session.steps).toHaveLength(1);
-      expect(result.session.steps[0!].renderData).toHaveLength(1);
-      expect(result.session.steps[0!].renderData[0!].id).toBe('payload_sprite');
+      expect(result?.op).toBe('replay');
+      expect(result?.status).toBe('ok');
+      expect(result?.session.config?.engine).toBe('godot');
+      expect(result?.session.config?.speed).toBe(0.5);
+      expect(result?.session.steps).toHaveLength(1);
+      expect(result?.session.steps[0!].renderData).toHaveLength(1);
+      expect(result?.session.steps[0!].renderData[0!].id).toBe('payload_sprite');
     });
 
     test('✓ handles invalid golden test gracefully', () => {
@@ -333,13 +333,13 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const result = manager.replayFromGoldenTest('nonexistent_file.json');
+      const result = manager?.replayFromGoldenTest('nonexistent_file?.json');
 
-      expect(result.op).toBe('replay');
-      expect(result.status).toBe('error');
-      expect(result.issues).toBeDefined();
-      expect(result.issues!.length).toBeGreaterThan(0);
-      expect(result.issues![0!]).toContain('Failed to load golden test');
+      expect(result?.op).toBe('replay');
+      expect(result?.status).toBe('error');
+      expect(result?.issues).toBeDefined();
+      expect(result?.issues!.length).toBeGreaterThan(0);
+      expect(result?.issues![0!]).toContain('Failed to load golden test');
     });
 
     test('✓ handles invalid CLI output gracefully', () => {
@@ -353,13 +353,13 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const result = manager.replayFromCLIOutput('invalid json content');
+      const result = manager?.replayFromCLIOutput('invalid json content');
 
-      expect(result.op).toBe('replay');
-      expect(result.status).toBe('error');
-      expect(result.issues).toBeDefined();
-      expect(result.issues!.length).toBeGreaterThan(0);
-      expect(result.issues![0!]).toContain('No renderData found in CLI output');
+      expect(result?.op).toBe('replay');
+      expect(result?.status).toBe('error');
+      expect(result?.issues).toBeDefined();
+      expect(result?.issues!.length).toBeGreaterThan(0);
+      expect(result?.issues![0!]).toContain('No renderData found in CLI output');
     });
 
     test('✓ handles invalid payload gracefully', () => {
@@ -385,14 +385,14 @@ describe('RenderReplayPure Golden Tests', () => {
         ]
       };
 
-      const result = manager.replayFromPayload(invalidPayload);
+      const result = manager?.replayFromPayload(invalidPayload);
 
-      expect(result.op).toBe('replay');
-      expect(result.status).toBe('error');
-      expect(result.issues).toBeDefined();
-      expect(result.issues!.length).toBeGreaterThan(0);
-      expect(result.issues!.some(issue => issue.includes('Invalid render type'))).toBe(true);
-      expect(result.issues!.some(issue => issue.includes('Position x must be a number'))).toBe(true);
+      expect(result?.op).toBe('replay');
+      expect(result?.status).toBe('error');
+      expect(result?.issues).toBeDefined();
+      expect(result?.issues!.length).toBeGreaterThan(0);
+      expect(result?.issues!.some(issue => issue?.includes('Invalid render type'))).toBe(true);
+      expect(result?.issues!.some(issue => issue?.includes('Position x must be a number'))).toBe(true);
     });
 
     test('✓ exports replay session to JSON', () => {
@@ -414,26 +414,26 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'export_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'sprite.png'
+            asset: 'sprite?.png'
           }
         ]
       };
 
-      const replayResult = manager.replayFromPayload(payload);
-      expect(replayResult.status).toBe('ok');
+      const replayResult = manager?.replayFromPayload(payload);
+      expect(replayResult?.status).toBe('ok');
 
-      const exportResult = manager.exportReplay(replayResult.session, 'test_export.json');
-      expect(exportResult.success).toBe(true);
+      const exportResult = manager?.exportReplay(replayResult?.session, 'test_export?.json');
+      expect(exportResult?.success).toBe(true);
 
       // Verify exported file
-      expect(fs.existsSync('test_export.json')).toBe(true);
+      expect(fs?.existsSync('test_export?.json')).toBe(true);
       const exportedContent = JSON.parse(fs.readFileSync('test_export.json', 'utf-8'));
-      expect(exportedContent.sessionId).toBe(replayResult.session.sessionId);
-      expect(exportedContent.config.engine).toBe('web');
-      expect(exportedContent.steps).toHaveLength(1);
+      expect(exportedContent?.sessionId).toBe(replayResult?.session.sessionId);
+      expect(exportedContent?.config.engine).toBe('web');
+      expect(exportedContent?.steps).toHaveLength(1);
 
       // Clean up
-      fs.unlinkSync('test_export.json');
+      fs?.unlinkSync('test_export?.json');
     });
 
     test('✓ exports replay session to Markdown', () => {
@@ -455,27 +455,27 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'markdown_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'markdown.png'
+            asset: 'markdown?.png'
           }
         ]
       };
 
-      const replayResult = manager.replayFromPayload(payload);
-      expect(replayResult.status).toBe('ok');
+      const replayResult = manager?.replayFromPayload(payload);
+      expect(replayResult?.status).toBe('ok');
 
-      const exportResult = manager.exportReplay(replayResult.session, 'test_export.md');
-      expect(exportResult.success).toBe(true);
+      const exportResult = manager?.exportReplay(replayResult?.session, 'test_export?.md');
+      expect(exportResult?.success).toBe(true);
 
       // Verify exported file
-      expect(fs.existsSync('test_export.md')).toBe(true);
-      const exportedContent = fs.readFileSync('test_export.md', 'utf-8');
+      expect(fs?.existsSync('test_export?.md')).toBe(true);
+      const exportedContent = fs?.readFileSync('test_export?.md', 'utf-8');
       expect(exportedContent).toContain('# Render Replay Session:');
       expect(exportedContent).toContain('Engine: unity');
       expect(exportedContent).toContain('Steps: 1');
       expect(exportedContent).toContain('RenderData: 1');
 
       // Clean up
-      fs.unlinkSync('test_export.md');
+      fs?.unlinkSync('test_export?.md');
     });
 
     test('✓ exports replay session to HTML', () => {
@@ -497,27 +497,27 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'html_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'html.png'
+            asset: 'html?.png'
           }
         ]
       };
 
-      const replayResult = manager.replayFromPayload(payload);
-      expect(replayResult.status).toBe('ok');
+      const replayResult = manager?.replayFromPayload(payload);
+      expect(replayResult?.status).toBe('ok');
 
-      const exportResult = manager.exportReplay(replayResult.session, 'test_export.html');
-      expect(exportResult.success).toBe(true);
+      const exportResult = manager?.exportReplay(replayResult?.session, 'test_export?.html');
+      expect(exportResult?.success).toBe(true);
 
       // Verify exported file
-      expect(fs.existsSync('test_export.html')).toBe(true);
-      const exportedContent = fs.readFileSync('test_export.html', 'utf-8');
+      expect(fs?.existsSync('test_export?.html')).toBe(true);
+      const exportedContent = fs?.readFileSync('test_export?.html', 'utf-8');
       expect(exportedContent).toContain('<!DOCTYPE html>');
       expect(exportedContent).toContain('<title>Render Replay Report</title>');
       expect(exportedContent).toContain('Render Replay Session:');
       expect(exportedContent).toContain('Engine: godot');
 
       // Clean up
-      fs.unlinkSync('test_export.html');
+      fs?.unlinkSync('test_export?.html');
     });
 
     test('✓ generates annotated log', () => {
@@ -539,7 +539,7 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'log_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'log.png',
+            asset: 'log?.png',
             signals: [
               {
                 name: 'click',
@@ -552,10 +552,10 @@ describe('RenderReplayPure Golden Tests', () => {
         ]
       };
 
-      const replayResult = manager.replayFromPayload(payload);
-      expect(replayResult.status).toBe('ok');
+      const replayResult = manager?.replayFromPayload(payload);
+      expect(replayResult?.status).toBe('ok');
 
-      const annotatedLog = manager.generateAnnotatedLog(replayResult.session);
+      const annotatedLog = manager?.generateAnnotatedLog(replayResult?.session);
       expect(annotatedLog).toContain('# Render Replay Session:');
       expect(annotatedLog).toContain('Engine: web');
       expect(annotatedLog).toContain('Steps: 1');
@@ -572,49 +572,49 @@ describe('RenderReplayPure Golden Tests', () => {
 
   describe('Error Handling', () => {
     test('✓ handles missing test file', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-golden',
-        'nonexistent_file.json'
+        'nonexistent_file?.json'
       ]);
 
-      expect(result).toContain('❌ Replay failed:');
-      expect(result).toContain('Failed to load golden test');
+      expect(result: any).toContain('❌ Replay failed:');
+      expect(result: any).toContain('Failed to load golden test');
     });
 
     test('✓ handles missing CLI output file', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-cli',
-        'nonexistent_file.json'
+        'nonexistent_file?.json'
       ]);
 
-      expect(result).toContain('Error reading CLI output file:');
+      expect(result: any).toContain('Error reading CLI output file:');
     });
 
     test('✓ handles missing payload file', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-payload',
-        'nonexistent_file.json'
+        'nonexistent_file?.json'
       ]);
 
-      expect(result).toContain('Error reading JSON payload file:');
+      expect(result: any).toContain('Error reading JSON payload file:');
     });
 
     test('✓ handles invalid command', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'invalid-command'
       ]);
 
-      expect(result).toContain('Error: Unknown command');
-      expect(result).toContain('Usage:');
+      expect(result: any).toContain('Error: Unknown command');
+      expect(result: any).toContain('Usage:');
     });
 
     test('✓ handles missing arguments', () => {
-      const result = (global as any).testUtils.runCLI(cliPath, [
+      const result = (global as any).testUtils?.runCLI(cliPath, [
         'replay-golden'
       ]);
 
-      expect(result).toContain('Error: Test path required');
-      expect(result).toContain('Usage:');
+      expect(result: any).toContain('Error: Test path required');
+      expect(result: any).toContain('Usage:');
     });
   });
 });

@@ -110,7 +110,7 @@ export class EncounterManager {
 
   constructor(config: Partial<EncounterConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       baseEncounterRate: 0.1,
       maxEncountersPerArea: 10,
       enableRareEncounters: true,
@@ -123,14 +123,14 @@ export class EncounterManager {
    * Initialize the encounter system
    */
   initialize(): void {
-    if (this.isInitialized) return;
+    if (this?.isInitialized) return;
 
     console.log('[EncounterManager!] Initializing encounter system...');
     
     // Initialize default areas
-    this.initializeDefaultAreas();
+    this?.initializeDefaultAreas();
     
-    this.isInitialized = true;
+    this?.isInitialized = true;
     console.log('[EncounterManager!] Encounter system initialized successfully');
   }
 
@@ -187,7 +187,7 @@ export class EncounterManager {
     ];
 
     for (const area of defaultAreas) {
-      this.areas.set(area.id, area);
+      this?.areas.set(area?.id, area);
     }
   }
 
@@ -195,12 +195,12 @@ export class EncounterManager {
    * Add an encounter area
    */
   addArea(area: EncounterArea): boolean {
-    if (!area.id || !area.name) {
+    if (!area?.id || !area?.name) {
       console.error('[EncounterManager!] Invalid area: missing required fields');
       return false;
     }
 
-    this.areas.set(area.id, area);
+    this?.areas.set(area?.id, area);
     console.log(`[EncounterManager!] Added area: ${area.name}`);
     return true;
   }
@@ -209,7 +209,7 @@ export class EncounterManager {
    * Get encounter area by ID
    */
   getArea(areaId: string): EncounterArea | undefined {
-    return this.areas.get(areaId);
+    return this?.areas.get(areaId);
   }
 
   /**
@@ -223,7 +223,7 @@ export class EncounterManager {
    * Trigger a random encounter in an area
    */
   triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
-    const area = this.areas.get(areaId);
+    const area = this?.areas.get(areaId);
     if (!area) {
       console.warn(`[EncounterManager!] Area not found: ${areaId}`);
       return null;
@@ -231,28 +231,28 @@ export class EncounterManager {
 
     // Check if encounter should trigger
     const roll = Math.random();
-    if (roll > area.encounterRate) {
+    if (roll > area?.encounterRate) {
       return null;
     }
 
     // Filter encounters by level and requirements
-    const availableEncounters = area.encounters.filter((encounter: any) => {
-      return encounter.level <= playerLevel + 5 && 
-             encounter.level >= playerLevel - 2;
+    const availableEncounters = area?.encounters.filter((encounter: any) => {
+      return encounter?.level <= playerLevel + 5 && 
+             encounter?.level >= playerLevel - 2;
     });
 
-    if (availableEncounters.length === 0) {
+    if (availableEncounters?.length === 0) {
       return null;
     }
 
     // Select encounter based on probability
-    const totalProbability = availableEncounters.reduce((sum, enc) => sum + enc.probability, 0);
+    const totalProbability = availableEncounters?.reduce((sum, enc) => sum + enc?.probability, 0);
     let random = Math.random() * totalProbability;
 
     for (const encounter of availableEncounters) {
-      random -= encounter.probability;
+      random -= encounter?.probability;
       if (random <= 0) {
-        this.encounterHistory.push(encounter.id);
+        this?.encounterHistory?.push(encounter?.id);
         return encounter;
       }
     }
@@ -264,22 +264,22 @@ export class EncounterManager {
    * Get encounter history
    */
   getEncounterHistory(): string[] {
-    return [...this.encounterHistory];
+    return [...this?.encounterHistory];
   }
 
   /**
    * Clear encounter history
    */
   clearHistory(): void {
-    this.encounterHistory = [];
+    this?.encounterHistory = [];
   }
 
   /**
    * Get encounter statistics
    */
   getStatistics(): Record<string, any> {
-    const totalEncounters = this.encounterHistory.length;
-    const encounterCounts = this.encounterHistory.reduce((counts, id) => {
+    const totalEncounters = this?.encounterHistory.length;
+    const encounterCounts = this?.encounterHistory.reduce((counts, id) => {
       counts[id!] = (counts[id!] || 0) + 1;
       return counts;
     }, {} as Record<string, number>);
@@ -287,8 +287,8 @@ export class EncounterManager {
     return {
       totalEncounters,
       encounterCounts,
-      areasCount: this.areas.size,
-      isInitialized: this.isInitialized
+      areasCount: this?.areas.size,
+      isInitialized: this?.isInitialized
     };
   }
 
@@ -296,9 +296,9 @@ export class EncounterManager {
    * Reset the encounter system
    */
   reset(): void {
-    this.areas.clear();
-    this.encounterHistory = [];
-    this.isInitialized = false;
+    this?.areas.clear();
+    this?.encounterHistory = [];
+    this?.isInitialized = false;
     console.log('[EncounterManager!] Encounter system reset');
   }
 
@@ -306,7 +306,7 @@ export class EncounterManager {
    * Dispose of the encounter system
    */
   dispose(): void {
-    this.reset();
+    this?.reset();
     console.log('[EncounterManager!] Encounter system disposed');
   }
 }
@@ -320,8 +320,8 @@ export class EncounterController {
 
   constructor(rng?: IRNGProvider) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.manager = new EncounterManager();
-    this.rng = rng || {
+    this?.manager = new EncounterManager();
+    this?.rng = rng || {
       nextInt: (min, max) => Math.floor(Math.random() * (max - min)) + min,
       nextBool: (probability) => Math.random() < probability
     };
@@ -331,24 +331,24 @@ export class EncounterController {
    * Initialize the encounter system
    */
   initialize(): void {
-    this.manager.initialize();
+    this?.manager.initialize({});
   }
 
   /**
    * Process an encounter attempt
    */
   processEncounter(playerState: PlayerState): EncounterResult {
-    this.manager.initialize();
+    this?.manager.initialize({});
 
-    const area = this.manager.getArea(playerState.currentZone);
+    const area = this?.manager.getArea(playerState?.currentZone);
     if (!area) {
       return {
         success: false,
-        error: `Area not found: ${playerState.currentZone}`
+        error: `Area not found: ${playerState?.currentZone}`
       };
     }
 
-    const encounter = this.manager.triggerEncounter(playerState.currentZone, playerState.level);
+    const encounter = this?.manager.triggerEncounter(playerState?.currentZone, playerState?.level);
     if (!encounter) {
       return {
         success: false,
@@ -358,10 +358,10 @@ export class EncounterController {
 
     return {
       success: true,
-      encounterId: encounter.id,
-      spiritId: encounter.id,
-      level: encounter.level,
-      message: encounter.description
+      encounterId: encounter?.id,
+      spiritId: encounter?.id,
+      level: encounter?.level,
+      message: encounter?.description
     };
   }
 
@@ -369,21 +369,21 @@ export class EncounterController {
    * Get all available areas
    */
   getAreas(): any[] {
-    return this.manager.getAreas();
+    return this?.manager.getAreas();
   }
 
   /**
    * Get statistics
    */
   getStatistics(): Record<string, any> {
-    return this.manager.getStatistics();
+    return this?.manager.getStatistics();
   }
 
   /**
    * Reset the system
    */
   reset(): void {
-    this.manager.reset();
+    this?.manager.reset();
   }
 }
 
@@ -397,63 +397,63 @@ export class EncounterTable {
     public name: string = '',
     public entries: EncounterTableEntry[] = []
   ) {
-    this.calculateTotalWeight();
+    this?.calculateTotalWeight();
   }
 
   private calculateTotalWeight(): void {
-    this.totalWeight = this.entries.reduce((sum, entry) => sum + entry.weight, 0);
+    this?.totalWeight = this?.entries.reduce((sum, entry) => sum + entry?.weight, 0);
   }
 
   addEntry(entry: EncounterTableEntry): boolean {
-    if (!entry.spiritId || entry.spiritId.trim() === '') {
+    if (!entry?.spiritId || entry?.spiritId.trim() === '') {
       console.warn('Invalid entry: Spirit ID cannot be empty');
       return false;
     }
 
-    if (entry.weight < 0) {
+    if (entry?.weight < 0) {
       console.warn('Invalid entry: Weight cannot be negative');
       return false;
     }
 
-    this.entries.push(entry);
-    this.calculateTotalWeight();
+    this?.entries?.push(entry);
+    this?.calculateTotalWeight();
     return true;
   }
 
   removeEntry(spiritId: string): boolean {
-    const index = this.entries.findIndex(entry => entry.spiritId === spiritId);
+    const index = this?.entries.findIndex(entry => entry?.spiritId === spiritId);
     if (index === -1) return false;
 
-    this.entries.splice(index, 1);
-    this.calculateTotalWeight();
+    this?.entries.splice(index, 1);
+    this?.calculateTotalWeight();
     return true;
   }
 
   getEntriesForLevel(level: number): EncounterTableEntry[] {
-    return this.entries.filter((entry: any) => {
-      const minLevel = entry.minLevel || 1;
-      const maxLevel = entry.maxLevel || 100;
+    return this?.entries.filter((entry: any) => {
+      const minLevel = entry?.minLevel || 1;
+      const maxLevel = entry?.maxLevel || 100;
       return level >= minLevel && level <= maxLevel;
     });
   }
 
   sortByWeight(): void {
-    this.entries.sort((a: any, b: any) => b.weight - a.weight);
+    this?.entries.sort((a: any, b: any) => b?.weight - a?.weight);
   }
 
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.tableId || this.tableId.trim() === '') {
-      errors.push('Table ID cannot be empty');
+    if (!this?.tableId || this?.tableId.trim() === '') {
+      errors?.push('Table ID cannot be empty');
     }
 
-    if (!this.name || this.name.trim() === '') {
-      errors.push('Table name cannot be empty');
+    if (!this?.name || this?.name.trim() === '') {
+      errors?.push('Table name cannot be empty');
     }
 
-    if (this.entries.length === 0) {
-      errors.push('Table must have at least one entry');
+    if (this?.entries.length === 0) {
+      errors?.push('Table must have at least one entry');
     }
 
     return errors;
@@ -461,9 +461,9 @@ export class EncounterTable {
 
   clone(): EncounterTable {
     return new EncounterTable(
-      this.tableId,
-      this.name,
-      [...this.entries]
+      this?.tableId,
+      this?.name,
+      [...this?.entries]
     );
   }
 }
@@ -476,7 +476,7 @@ export class EncounterTrigger {
     const managerId = this.id ?? `manager_${Date.now()}`;
     public triggerId: string = '',
     public name: string = '',
-    public type: TriggerType = TriggerType.ZONE_ENTRY,
+    public type: TriggerType = TriggerType?.ZONE_ENTRY,
     public zone?: string,
     public tileType?: string,
     public timeOfDay?: string,
@@ -486,35 +486,35 @@ export class EncounterTrigger {
   ) {}
 
   matchesZone(zone: string): boolean {
-    return this.type === TriggerType.ZONE_ENTRY && this.zone === zone;
+    return this?.type === TriggerType?.ZONE_ENTRY && this?.zone === zone;
   }
 
   matchesTileType(tileType: string): boolean {
-    return this.type === TriggerType.TILE_TYPE && this.tileType === tileType;
+    return this?.type === TriggerType?.TILE_TYPE && this?.tileType === tileType;
   }
 
   matchesTimeOfDay(timeOfDay: string): boolean {
-    return this.type === TriggerType.TIME_OF_DAY && this.timeOfDay === timeOfDay;
+    return this?.type === TriggerType?.TIME_OF_DAY && this?.timeOfDay === timeOfDay;
   }
 
   matchesLevel(level: number): boolean {
-    if (!this.minLevel && !this.maxLevel) return true;
-    const min = this.minLevel || 1;
-    const max = this.maxLevel || 100;
+    if (!this?.minLevel && !this?.maxLevel) return true;
+    const min = this?.minLevel || 1;
+    const max = this?.maxLevel || 100;
     return level >= min && level <= max;
   }
 
   matches(playerState: PlayerState): boolean {
-    switch (this.type) {
-      case TriggerType.ZONE_ENTRY:
-        return this.matchesZone(playerState.currentZone);
-      case TriggerType.TILE_TYPE:
-        return this.matchesTileType(playerState.currentTileType);
-      case TriggerType.TIME_OF_DAY:
-        return this.matchesTimeOfDay(playerState.timeOfDay);
-      case TriggerType.PLAYER_LEVEL:
-        return this.matchesLevel(playerState.level);
-      case TriggerType.RANDOM_CHANCE:
+    switch (this?.type) {
+      case TriggerType?.ZONE_ENTRY:
+        return this?.matchesZone(playerState?.currentZone);
+      case TriggerType?.TILE_TYPE:
+        return this?.matchesTileType(playerState?.currentTileType);
+      case TriggerType?.TIME_OF_DAY:
+        return this?.matchesTimeOfDay(playerState?.timeOfDay);
+      case TriggerType?.PLAYER_LEVEL:
+        return this?.matchesLevel(playerState?.level);
+      case TriggerType?.RANDOM_CHANCE:
         return Math.random() < (this.chance || 0.1);
       default:
         return false;
@@ -524,12 +524,12 @@ export class EncounterTrigger {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.triggerId || this.triggerId.trim() === '') {
-      errors.push('Trigger ID cannot be empty');
+    if (!this?.triggerId || this?.triggerId.trim() === '') {
+      errors?.push('Trigger ID cannot be empty');
     }
 
-    if (!this.name || this.name.trim() === '') {
-      errors.push('Trigger name cannot be empty');
+    if (!this?.name || this?.name.trim() === '') {
+      errors?.push('Trigger name cannot be empty');
     }
 
     return errors;
@@ -537,15 +537,15 @@ export class EncounterTrigger {
 
   clone(): EncounterTrigger {
     return new EncounterTrigger(
-      this.triggerId,
-      this.name,
-      this.type,
-      this.zone,
-      this.tileType,
-      this.timeOfDay,
-      this.minLevel,
-      this.maxLevel,
-      this.chance
+      this?.triggerId,
+      this?.name,
+      this?.type,
+      this?.zone,
+      this?.tileType,
+      this?.timeOfDay,
+      this?.minLevel,
+      this?.maxLevel,
+      this?.chance
     );
   }
 }
@@ -565,29 +565,29 @@ export class PlayerState {
   ) {}
 
   incrementSteps(): void {
-    this.stepsSinceLastEncounter++;
+    this?.stepsSinceLastEncounter++;
   }
 
   resetSteps(): void {
-    this.stepsSinceLastEncounter = 0;
+    this?.stepsSinceLastEncounter = 0;
   }
 
   setFlag(flag: string, value: boolean = true): void {
-    this.flags[flag!] = value;
+    this?.flags[flag!] = value;
   }
 
   hasFlag(flag: string): boolean {
-    return this.flags[flag!] || false;
+    return this?.flags[flag!] || false;
   }
 
   clone(): PlayerState {
     return new PlayerState(
-      this.currentZone,
-      this.currentTileType,
-      this.stepsSinceLastEncounter,
-      this.timeOfDay,
-      this.level,
-      { ...this.flags }
+      this?.currentZone,
+      this?.currentTileType,
+      this?.stepsSinceLastEncounter,
+      this?.timeOfDay,
+      this?.level,
+      { ...this?.flags }
     );
   }
 }
@@ -620,12 +620,12 @@ export class EncounterResult {
 
   clone(): EncounterResult {
     return new EncounterResult(
-      this.success,
-      this.encounterId,
-      this.spiritId,
-      this.level,
-      this.message,
-      this.error
+      this?.success,
+      this?.encounterId,
+      this?.spiritId,
+      this?.level,
+      this?.message,
+      this?.error
     );
   }
 }
@@ -640,14 +640,14 @@ export class EncounterUtils {
   static createStandardTable(): EncounterTable {
     const table = new EncounterTable('standard', 'Standard Encounters');
 
-    table.addEntry({
+    table?.addEntry({
       spiritId: 'fire_spirit',
       name: 'Fire Spirit',
       level: 5,
       weight: 100
     });
 
-    table.addEntry({
+    table?.addEntry({
       spiritId: 'water_spirit',
       name: 'Water Spirit',
       level: 5,
@@ -664,7 +664,7 @@ export class EncounterUtils {
     return new EncounterTrigger(
       `tile_${tileType}_${zone}`,
       `Tile Trigger: ${tileType}`,
-      TriggerType.TILE_TYPE,
+      TriggerType?.TILE_TYPE,
       zone,
       tileType
     );
@@ -677,7 +677,7 @@ export class EncounterUtils {
     return new EncounterTrigger(
       `time_${timeOfDay}`,
       `Time Trigger: ${timeOfDay}`,
-      TriggerType.TIME_OF_DAY,
+      TriggerType?.TIME_OF_DAY,
       undefined,
       undefined,
       timeOfDay
@@ -691,7 +691,7 @@ export class EncounterUtils {
     return new EncounterTrigger(
       `zone_${zone}`,
       `Zone Trigger: ${zone}`,
-      TriggerType.ZONE_ENTRY,
+      TriggerType?.ZONE_ENTRY,
       zone
     );
   }
@@ -716,20 +716,20 @@ export class EncounterUtils {
   static validatePlayerState(state: PlayerState): string[] {
     const errors: string[] = [];
 
-    if (!state.currentZone || state.currentZone.trim() === '') {
-      errors.push('Current zone cannot be empty');
+    if (!state?.currentZone || state?.currentZone.trim() === '') {
+      errors?.push('Current zone cannot be empty');
     }
 
-    if (!state.currentTileType || state.currentTileType.trim() === '') {
-      errors.push('Current tile type cannot be empty');
+    if (!state?.currentTileType || state?.currentTileType.trim() === '') {
+      errors?.push('Current tile type cannot be empty');
     }
 
-    if (state.stepsSinceLastEncounter < 0) {
-      errors.push('Steps since last encounter cannot be negative');
+    if (state?.stepsSinceLastEncounter < 0) {
+      errors?.push('Steps since last encounter cannot be negative');
     }
 
-    if (state.level < 1) {
-      errors.push('Player level must be at least 1');
+    if (state?.level < 1) {
+      errors?.push('Player level must be at least 1');
     }
 
     return errors;

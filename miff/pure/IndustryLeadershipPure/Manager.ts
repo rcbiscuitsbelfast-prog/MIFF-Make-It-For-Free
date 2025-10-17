@@ -711,7 +711,7 @@ export class IndustryLeadershipPure {
 
   constructor(config: Partial<IndustryLeadershipConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableIndustryAnalysis: true,
       enableCompetitiveIntelligence: true,
       enableMarketPositioning: true,
@@ -729,7 +729,7 @@ export class IndustryLeadershipPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalIndustries: 0,
       totalCompetitors: 0,
       totalStrategies: 0,
@@ -745,7 +745,7 @@ export class IndustryLeadershipPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       industryCoverage: [],
       competitivePosition: [],
       contentPerformance: [],
@@ -758,7 +758,7 @@ export class IndustryLeadershipPure {
    * Create a new industry leadership manager
    */
   createManager(managerData: any = {}): IndustryLeadershipOutput {
-    if (!this.config.enableIndustryAnalysis) {
+    if (!this?.config.enableIndustryAnalysis) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -768,8 +768,8 @@ export class IndustryLeadershipPure {
 
     const manager: IndustryLeadershipManager = {
       id: managerData.id || `industry-${Date.now()}`,
-      name: managerData.name || 'Unnamed Industry Leadership Manager',
-      type: managerData.type || 'startup',
+      name: managerData?.name || 'Unnamed Industry Leadership Manager',
+      type: managerData?.type || 'startup',
       status: 'active',
       industries: [],
       competitors: [],
@@ -836,7 +836,7 @@ export class IndustryLeadershipPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -849,7 +849,7 @@ export class IndustryLeadershipPure {
    * Get manager by ID
    */
   getManager(managerId: string): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -869,7 +869,7 @@ export class IndustryLeadershipPure {
    * Add industry
    */
   addIndustry(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-industry',
@@ -878,7 +878,7 @@ export class IndustryLeadershipPure {
       };
     }
 
-    if (manager.industries.length >= this.config.maxIndustries) {
+    if (manager?.industries.length >= this?.config.maxIndustries) {
       return {
         op: 'add-industry',
         status: 'error',
@@ -888,33 +888,33 @@ export class IndustryLeadershipPure {
 
     const newIndustry: Industry = {
       id: industry.id || `industry-${Date.now()}`,
-      name: industry.name || 'Unnamed Industry',
-      description: industry.description || '',
-      size: industry.size || {
+      name: industry?.name || 'Unnamed Industry',
+      description: industry?.description || '',
+      size: industry?.size || {
         marketValue: 0,
         revenue: 0,
         companies: 0,
         employees: 0,
         growthRate: 0
       },
-      growth: industry.growth || {
+      growth: industry?.growth || {
         historical: [],
         projected: [],
         drivers: [],
         barriers: []
       },
-      trends: industry.trends || [],
-      opportunities: industry.opportunities || [],
-      threats: industry.threats || [],
-      keyPlayers: industry.keyPlayers || [],
-      regulations: industry.regulations || [],
+      trends: industry?.trends || [],
+      opportunities: industry?.opportunities || [],
+      threats: industry?.threats || [],
+      keyPlayers: industry?.keyPlayers || [],
+      regulations: industry?.regulations || [],
       metadata: {},
       ...industry
     };
 
-    manager.industries.push(newIndustry);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalIndustries++;
+    manager?.industries?.push(newIndustry);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalIndustries++;
 
     return {
       op: 'add-industry',
@@ -927,7 +927,7 @@ export class IndustryLeadershipPure {
    * Add competitor
    */
   addCompetitor(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-competitor',
@@ -936,7 +936,7 @@ export class IndustryLeadershipPure {
       };
     }
 
-    if (manager.competitors.length >= this.config.maxCompetitors) {
+    if (manager?.competitors.length >= this?.config.maxCompetitors) {
       return {
         op: 'add-competitor',
         status: 'error',
@@ -946,28 +946,28 @@ export class IndustryLeadershipPure {
 
     const newCompetitor: Competitor = {
       id: competitor.id || `competitor-${Date.now()}`,
-      name: competitor.name || 'Unknown Competitor',
-      industry: competitor.industry || 'Unknown',
-      size: competitor.size || 'medium',
-      position: competitor.position || 'follower',
-      strengths: competitor.strengths || [],
-      weaknesses: competitor.weaknesses || [],
-      strategies: competitor.strategies || [],
-      financials: competitor.financials || {
+      name: competitor?.name || 'Unknown Competitor',
+      industry: competitor?.industry || 'Unknown',
+      size: competitor?.size || 'medium',
+      position: competitor?.position || 'follower',
+      strengths: competitor?.strengths || [],
+      weaknesses: competitor?.weaknesses || [],
+      strategies: competitor?.strategies || [],
+      financials: competitor?.financials || {
         revenue: 0,
         profit: 0,
         growth: 0,
         marketCap: 0,
         employees: 0
       },
-      products: competitor.products || [],
+      products: competitor?.products || [],
       metadata: {},
       ...competitor
     };
 
-    manager.competitors.push(newCompetitor);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalCompetitors++;
+    manager?.competitors?.push(newCompetitor);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalCompetitors++;
 
     return {
       op: 'add-competitor',
@@ -980,7 +980,7 @@ export class IndustryLeadershipPure {
    * Create strategy
    */
   createStrategy(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-strategy',
@@ -991,22 +991,22 @@ export class IndustryLeadershipPure {
 
     const newStrategy: Strategy = {
       id: strategy.id || `strategy-${Date.now()}`,
-      name: strategy.name || 'Unnamed Strategy',
-      type: strategy.type || 'market_penetration',
-      objective: strategy.objective || '',
-      description: strategy.description || '',
-      timeline: strategy.timeline || '12 months',
-      budget: strategy.budget || 0,
-      resources: strategy.resources || [],
-      milestones: strategy.milestones || [],
+      name: strategy?.name || 'Unnamed Strategy',
+      type: strategy?.type || 'market_penetration',
+      objective: strategy?.objective || '',
+      description: strategy?.description || '',
+      timeline: strategy?.timeline || '12 months',
+      budget: strategy?.budget || 0,
+      resources: strategy?.resources || [],
+      milestones: strategy?.milestones || [],
       status: 'planning',
       metadata: {},
       ...strategy
     };
 
-    manager.strategies.push(newStrategy);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalStrategies++;
+    manager?.strategies?.push(newStrategy);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalStrategies++;
 
     return {
       op: 'create-strategy',
@@ -1019,7 +1019,7 @@ export class IndustryLeadershipPure {
    * Create content
    */
   createContent(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-content',
@@ -1030,11 +1030,11 @@ export class IndustryLeadershipPure {
 
     const newContent: Content = {
       id: content.id || `content-${Date.now()}`,
-      title: content.title || 'Untitled Content',
-      type: content.type || 'article',
-      topic: content.topic || 'General',
-      audience: content.audience || 'General',
-      format: content.format || 'text',
+      title: content?.title || 'Untitled Content',
+      type: content?.type || 'article',
+      topic: content?.topic || 'General',
+      audience: content?.audience || 'General',
+      format: content?.format || 'text',
       status: 'draft',
       performance: {
         views: 0,
@@ -1048,9 +1048,9 @@ export class IndustryLeadershipPure {
       ...content
     };
 
-    manager.content.push(newContent);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalContent++;
+    manager?.content?.push(newContent);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalContent++;
 
     return {
       op: 'create-content',
@@ -1063,14 +1063,14 @@ export class IndustryLeadershipPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): IndustryLeadershipPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): IndustryLeadershipAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1084,7 +1084,7 @@ export class IndustryLeadershipPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalIndustries = 0;
     let totalCompetitors = 0;
     let totalStrategies = 0;
@@ -1094,25 +1094,25 @@ export class IndustryLeadershipPure {
     let totalPartnerships = 0;
     let activePartnerships = 0;
 
-    for (const manager of this.managers.values()) {
-      totalIndustries += manager.industries.length;
-      totalCompetitors += manager.competitors.length;
-      totalStrategies += manager.strategies.length;
-      activeStrategies += manager.strategies.filter((s: any) => s.status === 'active').length;
-      totalContent += manager.content.length;
-      publishedContent += manager.content.filter((c: any) => c.status === 'published').length;
-      totalPartnerships += manager.partnerships.length;
-      activePartnerships += manager.partnerships.filter((p: any) => p.status === 'active').length;
+    for (const manager of this?.managers.values()) {
+      totalIndustries += manager?.industries.length;
+      totalCompetitors += manager?.competitors.length;
+      totalStrategies += manager?.strategies.length;
+      activeStrategies += manager?.strategies.filter((s: any) => s?.status === 'active').length;
+      totalContent += manager?.content.length;
+      publishedContent += manager?.content.filter((c: any) => c?.status === 'published').length;
+      totalPartnerships += manager?.partnerships.length;
+      activePartnerships += manager?.partnerships.filter((p: any) => p?.status === 'active').length;
     }
 
-    this.performanceMetrics.totalIndustries = totalIndustries;
-    this.performanceMetrics.totalCompetitors = totalCompetitors;
-    this.performanceMetrics.totalStrategies = totalStrategies;
-    this.performanceMetrics.activeStrategies = activeStrategies;
-    this.performanceMetrics.totalContent = totalContent;
-    this.performanceMetrics.publishedContent = publishedContent;
-    this.performanceMetrics.totalPartnerships = totalPartnerships;
-    this.performanceMetrics.activePartnerships = activePartnerships;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalIndustries = totalIndustries;
+    this?.performanceMetrics.totalCompetitors = totalCompetitors;
+    this?.performanceMetrics.totalStrategies = totalStrategies;
+    this?.performanceMetrics.activeStrategies = activeStrategies;
+    this?.performanceMetrics.totalContent = totalContent;
+    this?.performanceMetrics.publishedContent = publishedContent;
+    this?.performanceMetrics.totalPartnerships = totalPartnerships;
+    this?.performanceMetrics.activePartnerships = activePartnerships;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

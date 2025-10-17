@@ -65,14 +65,14 @@ export interface Achievement {
  */
 export class SimpleGameBuilder {
   private static readonly MODULE_DEPENDENCIES: Record<GameType, string[]> = {
-    [GameType.CLICKER]: [
+    [GameType?.CLICKER]: [
       'InputPure',
       'EventBusPure',
       'LogPure',
       'SaveLoadPure',
       'AudioPure'
     ],
-    [GameType.PLATFORMER]: [
+    [GameType?.PLATFORMER]: [
       'InputPure',
       'PhysicsSystemPure',
       'CollisionSystemPure',
@@ -81,7 +81,7 @@ export class SimpleGameBuilder {
       'SaveLoadPure',
       'DebugOverlayPure'
     ],
-    [GameType.ARCADE]: [
+    [GameType?.ARCADE]: [
       'InputPure',
       'CollisionSystemPure',
       'PhysicsSystemPure',
@@ -89,7 +89,7 @@ export class SimpleGameBuilder {
       'SaveLoadPure',
       'RNGPure'
     ],
-    [GameType.RPG]: [
+    [GameType?.RPG]: [
       'InputPure',
       'CombatPure',
       'ItemsPure',
@@ -98,20 +98,20 @@ export class SimpleGameBuilder {
       'SaveLoadPure',
       'EventBusPure'
     ],
-    [GameType.PUZZLE]: [
+    [GameType?.PUZZLE]: [
       'InputPure',
       'CollisionSystemPure',
       'AudioPure',
       'SaveLoadPure',
       'RNGPure'
     ],
-    [GameType.IDLE]: [
+    [GameType?.IDLE]: [
       'EventBusPure',
       'SaveLoadPure',
       'AudioPure',
       'RNGPure'
     ],
-    [GameType.CUSTOM]: []
+    [GameType?.CUSTOM]: []
   };
 
   /**
@@ -119,13 +119,13 @@ export class SimpleGameBuilder {
    */
   static createClickerGame(config: Partial<SimpleGameConfig> = {}): SimpleClickerGame {
     const gameConfig: SimpleGameConfig = {
-      gameType: GameType.CLICKER,
-      title: config.title! || 'My Clicker Game',
-      difficulty: config.difficulty! || DifficultyLevel.EASY,
-      startingCurrency: config.startingCurrency! || 0,
-      enableSaving: config.enableSaving !== false,
-      enableAudio: config.enableAudio !== false,
-      customModules: config.customModules! || []
+      gameType: GameType?.CLICKER,
+      title: config?.title! || 'My Clicker Game',
+      difficulty: config?.difficulty! || DifficultyLevel?.EASY,
+      startingCurrency: config?.startingCurrency! || 0,
+      enableSaving: config?.enableSaving !== false,
+      enableAudio: config?.enableAudio !== false,
+      customModules: config?.customModules! || []
     };
 
     return new SimpleClickerGame(gameConfig);
@@ -136,13 +136,13 @@ export class SimpleGameBuilder {
    */
   static createPlatformer(config: Partial<SimpleGameConfig> = {}): SimplePlatformerGame {
     const gameConfig: SimpleGameConfig = {
-      gameType: GameType.PLATFORMER,
-      title: config.title! || 'My Platformer',
-      difficulty: config.difficulty! || DifficultyLevel.MEDIUM,
-      startingCurrency: config.startingCurrency! || 0,
-      enableSaving: config.enableSaving !== false,
-      enableAudio: config.enableAudio !== false,
-      customModules: config.customModules! || []
+      gameType: GameType?.PLATFORMER,
+      title: config?.title! || 'My Platformer',
+      difficulty: config?.difficulty! || DifficultyLevel?.MEDIUM,
+      startingCurrency: config?.startingCurrency! || 0,
+      enableSaving: config?.enableSaving !== false,
+      enableAudio: config?.enableAudio !== false,
+      customModules: config?.customModules! || []
     };
 
     return new SimplePlatformerGame(gameConfig);
@@ -153,13 +153,13 @@ export class SimpleGameBuilder {
    */
   static createArcadeGame(config: Partial<SimpleGameConfig> = {}): SimpleArcadeGame {
     const gameConfig: SimpleGameConfig = {
-      gameType: GameType.ARCADE,
-      title: config.title! || 'My Arcade Game',
-      difficulty: config.difficulty! || DifficultyLevel.MEDIUM,
-      startingCurrency: config.startingCurrency! || 100,
-      enableSaving: config.enableSaving !== false,
-      enableAudio: config.enableAudio !== false,
-      customModules: config.customModules! || []
+      gameType: GameType?.ARCADE,
+      title: config?.title! || 'My Arcade Game',
+      difficulty: config?.difficulty! || DifficultyLevel?.MEDIUM,
+      startingCurrency: config?.startingCurrency! || 100,
+      enableSaving: config?.enableSaving !== false,
+      enableAudio: config?.enableAudio !== false,
+      customModules: config?.customModules! || []
     };
 
     return new SimpleArcadeGame(gameConfig);
@@ -170,13 +170,13 @@ export class SimpleGameBuilder {
    */
   static createRPG(config: Partial<SimpleGameConfig> = {}): SimpleRPGGame {
     const gameConfig: SimpleGameConfig = {
-      gameType: GameType.RPG,
-      title: config.title! || 'My RPG',
-      difficulty: config.difficulty! || DifficultyLevel.MEDIUM,
-      startingCurrency: config.startingCurrency! || 50,
-      enableSaving: config.enableSaving !== false,
-      enableAudio: config.enableAudio !== false,
-      customModules: config.customModules! || []
+      gameType: GameType?.RPG,
+      title: config?.title! || 'My RPG',
+      difficulty: config?.difficulty! || DifficultyLevel?.MEDIUM,
+      startingCurrency: config?.startingCurrency! || 50,
+      enableSaving: config?.enableSaving !== false,
+      enableAudio: config?.enableAudio !== false,
+      customModules: config?.customModules! || []
     };
 
     return new SimpleRPGGame(gameConfig);
@@ -193,18 +193,18 @@ export class SimpleGameBuilder {
    * Get required modules for a game type
    */
   static getRequiredModules(gameType: GameType): string[] {
-    return this.MODULE_DEPENDENCIES[gameType!] || [];
+    return this?.MODULE_DEPENDENCIES[gameType!] || [];
   }
 
   /**
    * Check if all required modules are available
    */
   static validateGameType(gameType: GameType, availableModules: string[]): string[] {
-    const required = this.getRequiredModules(gameType);
-    const missing = required.filter((module: any) => !availableModules.includes(module));
+    const required = this?.getRequiredModules(gameType);
+    const missing = required?.filter((module: any) => !availableModules?.includes(module));
 
-    if (missing.length > 0) {
-      return [`Missing required modules: ${missing.join(', ')}`];
+    if (missing?.length > 0) {
+      return [`Missing required modules: ${missing?.join(', ')}`];
     }
 
     return [];
@@ -222,12 +222,12 @@ export abstract class SimpleGame {
   protected startTime: number = 0;
 
   constructor(config: SimpleGameConfig) {
-    this.config = config;
-    this.stats = {
+    this?.config = config;
+    this?.stats = {
       playTime: 0,
       score: 0,
       level: 1,
-      currency: config.startingCurrency,
+      currency: config?.startingCurrency,
       itemsCollected: 0,
       achievements: []
     };
@@ -237,58 +237,58 @@ export abstract class SimpleGame {
    * Start the game
    */
   start(): void {
-    this.isRunning = true;
-    this.startTime = Date.now();
-    this.onStart();
+    this?.isRunning = true;
+    this.startTime = new Date();
+    this?.onStart();
   }
 
   /**
    * Stop the game
    */
   stop(): void {
-    this.isRunning = false;
-    this.updatePlayTime();
-    this.onStop();
+    this?.isRunning = false;
+    this?.updatePlayTime();
+    this?.onStop();
   }
 
   /**
    * Update game state (called every frame)
    */
   update(deltaTime: number): void {
-    if (!this.isRunning) return;
+    if (!this?.isRunning) return;
 
-    this.updatePlayTime();
-    this.onUpdate(deltaTime);
+    this?.updatePlayTime();
+    this?.onUpdate(deltaTime);
   }
 
   /**
    * Get current game statistics
    */
   getStats(): Readonly<GameStats> {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   /**
    * Get current configuration
    */
   getConfig(): Readonly<SimpleGameConfig> {
-    return { ...this.config };
+    return { ...this?.config };
   }
 
   /**
    * Add currency
    */
   addCurrency(amount: number): void {
-    this.stats.currency += amount;
-    this.checkAchievements();
+    this?.stats.currency += amount;
+    this?.checkAchievements();
   }
 
   /**
    * Spend currency
    */
   spendCurrency(amount: number): boolean {
-    if (this.stats.currency >= amount) {
-      this.stats.currency -= amount;
+    if (this?.stats.currency >= amount) {
+      this?.stats.currency -= amount;
       return true;
     }
     return false;
@@ -298,18 +298,18 @@ export abstract class SimpleGame {
    * Add score
    */
   addScore(points: number): void {
-    this.stats.score += points;
-    this.checkAchievements();
+    this?.stats.score += points;
+    this?.checkAchievements();
   }
 
   /**
    * Add achievement
    */
   unlockAchievement(achievement: Achievement): void {
-    if (!this.achievements.some(a => a.id === achievement.id)) {
-      this.achievements.push(achievement);
-      this.stats.achievements.push(achievement.id);
-      this.onAchievementUnlocked(achievement);
+    if (!this?.achievements.some(a => a?.id === achievement?.id)) {
+      this?.achievements?.push(achievement);
+      this?.stats.achievements?.push(achievement?.id);
+      this?.onAchievementUnlocked(achievement);
     }
   }
 
@@ -317,12 +317,12 @@ export abstract class SimpleGame {
    * Get all achievements
    */
   getAchievements(): readonly Achievement[] {
-    return this.achievements;
+    return this?.achievements;
   }
 
   protected updatePlayTime(): void {
-    if (this.isRunning) {
-      this.stats.playTime = Date.now() - this.startTime;
+    if (this?.isRunning) {
+      this.stats.playTime = new Date() - this.startTime;
     }
   }
 
@@ -358,9 +358,9 @@ export class SimpleClickerGame extends SimpleGame {
 
   protected onUpdate(deltaTime: number): void {
     // Auto-clickers generate currency
-    if (this.autoClickers > 0) {
-      const autoGenerated = this.autoClickers * this.autoClickerPower * (deltaTime / 1000);
-      this.addCurrency(autoGenerated);
+    if (this?.autoClickers > 0) {
+      const autoGenerated = this?.autoClickers * this?.autoClickerPower * (deltaTime / 1000);
+      this?.addCurrency(autoGenerated);
     }
   }
 
@@ -370,14 +370,14 @@ export class SimpleClickerGame extends SimpleGame {
 
   // Clicker-specific methods
   click(): void {
-    this.addCurrency(this.clickPower);
-    this.addScore(this.clickPower);
+    this?.addCurrency(this?.clickPower);
+    this?.addScore(this?.clickPower);
   }
 
   upgradeClickPower(): boolean {
-    const cost = this.upgradeCosts.clickPower;
-    if (this.spendCurrency(cost)) {
-      this.clickPower += 1;
+    const cost = this?.upgradeCosts.clickPower;
+    if (this?.spendCurrency(cost)) {
+      this?.clickPower += 1;
       this.upgradeCosts.clickPower = Math.floor(cost * 1.5);
       return true;
     }
@@ -385,20 +385,20 @@ export class SimpleClickerGame extends SimpleGame {
   }
 
   buyAutoClicker(): boolean {
-    const cost = this.upgradeCosts.autoClicker;
-    if (this.spendCurrency(cost)) {
-      this.autoClickers += 1;
-      this.autoClickerPower += 0.5;
+    const cost = this?.upgradeCosts.autoClicker;
+    if (this?.spendCurrency(cost)) {
+      this?.autoClickers += 1;
+      this?.autoClickerPower += 0.5;
       this.upgradeCosts.autoClicker = Math.floor(cost * 1.8);
       return true;
     }
     return false;
   }
 
-  getClickPower(): number { return this.clickPower; }
-  getAutoClickers(): number { return this.autoClickers; }
-  getAutoClickerPower(): number { return this.autoClickerPower; }
-  getUpgradeCosts(): Record<string, number> { return { ...this.upgradeCosts }; }
+  getClickPower(): number { return this?.clickPower; }
+  getAutoClickers(): number { return this?.autoClickers; }
+  getAutoClickerPower(): number { return this?.autoClickerPower; }
+  getUpgradeCosts(): Record<string, number> { return { ...this?.upgradeCosts }; }
 }
 
 /**
@@ -414,7 +414,7 @@ export class SimplePlatformerGame extends SimpleGame {
   private platforms: Array<{ x: number; y: number; width: number; height: number }> = [];
 
   protected onStart(): void {
-    this.initializePlatforms();
+    this?.initializePlatforms();
     console.log(`🕹️ ${this.config.title} started! Use WASD to move, Space to jump`);
   }
 
@@ -433,7 +433,7 @@ export class SimplePlatformerGame extends SimpleGame {
 
   private initializePlatforms(): void {
     // Create some basic platforms
-    this.platforms = [
+    this?.platforms = [
       { x: 0, y: 350, width: 800, height: 50 },    // Ground
       { x: 200, y: 250, width: 200, height: 20 },  // Platform 1
       { x: 500, y: 200, width: 200, height: 20 },  // Platform 2
@@ -443,36 +443,36 @@ export class SimplePlatformerGame extends SimpleGame {
 
   // Platformer-specific methods
   moveLeft(): void {
-    this.velocityX = -5;
+    this?.velocityX = -5;
   }
 
   moveRight(): void {
-    this.velocityX = 5;
+    this?.velocityX = 5;
   }
 
   stopMoving(): void {
-    this.velocityX = 0;
+    this?.velocityX = 0;
   }
 
   jump(): void {
-    if (this.onGround) {
-      this.velocityY = -12;
-      this.onGround = false;
+    if (this?.onGround) {
+      this?.velocityY = -12;
+      this?.onGround = false;
     }
   }
 
   collectCoin(): void {
-    this.coins++;
-    this.addCurrency(10);
-    this.addScore(100);
+    this?.coins++;
+    this?.addCurrency(10);
+    this?.addScore(100);
   }
 
   getPlayerPosition(): { x: number; y: number } {
-    return { x: this.playerX, y: this.playerY };
+    return { x: this?.playerX, y: this?.playerY };
   }
 
-  getCoins(): number { return this.coins; }
-  getPlatforms(): readonly typeof this.platforms { return this.platforms; }
+  getCoins(): number { return this?.coins; }
+  getPlatforms(): readonly typeof this?.platforms { return this?.platforms; }
 }
 
 /**
@@ -485,7 +485,7 @@ export class SimpleArcadeGame extends SimpleGame {
   private lastShotTime: number = 0;
 
   protected onStart(): void {
-    this.spawnEnemies();
+    this?.spawnEnemies();
     console.log(`👾 ${this.config.title} started! Use Space to shoot, avoid enemies`);
   }
 
@@ -495,9 +495,9 @@ export class SimpleArcadeGame extends SimpleGame {
 
   protected onUpdate(deltaTime: number): void {
     // Move enemies and bullets
-    this.updateEnemies(deltaTime);
-    this.updateBullets(deltaTime);
-    this.checkCollisions();
+    this?.updateEnemies(deltaTime);
+    this?.updateBullets(deltaTime);
+    this?.checkCollisions();
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
@@ -507,7 +507,7 @@ export class SimpleArcadeGame extends SimpleGame {
   private spawnEnemies(): void {
     // Spawn initial enemies
     for (let i = 0; i < 5; i++) {
-      this.enemies.push({
+      this?.enemies?.push({
         x: 100 + i * 150,
         y: 50 + Math.random() * 100,
         speed: 1 + Math.random() * 2
@@ -516,38 +516,38 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   private updateEnemies(deltaTime: number): void {
-    this.enemies.forEach((enemy: any) => {
-      enemy.x += enemy.speed * (deltaTime / 16); // 60fps target
+    this?.enemies.forEach((enemy: any) => {
+      enemy.x += enemy?.speed * (deltaTime / 16); // 60fps target
 
       // Bounce off screen edges
       if (enemy.x < 0 || enemy.x > 800) {
-        enemy.speed *= -1;
+        enemy?.speed *= -1;
         enemy.y += 50; // Move down when bouncing
       }
     });
   }
 
   private updateBullets(deltaTime: number): void {
-    this.bullets.forEach((bullet, index) => {
-      bullet.y -= bullet.speed * (deltaTime / 16);
+    this?.bullets.forEach((bullet, index) => {
+      bullet.y -= bullet?.speed * (deltaTime / 16);
 
       // Remove bullets that go off screen
       if (bullet.y < 0) {
-        this.bullets.splice(index, 1);
+        this?.bullets.splice(index, 1);
       }
     });
   }
 
   private checkCollisions(): void {
     // Check bullet-enemy collisions
-    this.bullets.forEach((bullet, bulletIndex) => {
-      this.enemies.forEach((enemy, enemyIndex) => {
-        if (this.checkCollision(bullet, enemy, 10)) {
+    this?.bullets.forEach((bullet, bulletIndex) => {
+      this?.enemies.forEach((enemy, enemyIndex) => {
+        if (this?.checkCollision(bullet, enemy, 10)) {
           // Hit!
-          this.bullets.splice(bulletIndex, 1);
-          this.enemies.splice(enemyIndex, 1);
-          this.addScore(100);
-          this.addCurrency(25);
+          this?.bullets.splice(bulletIndex, 1);
+          this?.enemies.splice(enemyIndex, 1);
+          this?.addScore(100);
+          this?.addCurrency(25);
         }
       });
     });
@@ -559,11 +559,11 @@ export class SimpleArcadeGame extends SimpleGame {
 
   // Arcade-specific methods
   shoot(): boolean {
-    const now = Date.now();
-    if (now - this.lastShotTime < 200) return false; // Rate limit
+    const now = new Date();
+    if (now - this?.lastShotTime < 200) return false; // Rate limit
 
-    this.lastShotTime = now;
-    this.bullets.push({
+    this?.lastShotTime = now;
+    this?.bullets?.push({
       x: 400, // Player position
       y: 350,
       speed: 10
@@ -573,20 +573,20 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   takeDamage(): void {
-    this.playerLives--;
-    if (this.playerLives <= 0) {
-      this.gameOver();
+    this?.playerLives--;
+    if (this?.playerLives <= 0) {
+      this?.gameOver();
     }
   }
 
   private gameOver(): void {
     console.log('💀 Game Over!');
-    this.stop();
+    this?.stop();
   }
 
-  getLives(): number { return this.playerLives; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
-  getBullets(): readonly typeof this.bullets { return this.bullets; }
+  getLives(): number { return this?.playerLives; }
+  getEnemies(): readonly typeof this?.enemies { return this?.enemies; }
+  getBullets(): readonly typeof this?.bullets { return this?.bullets; }
 }
 
 /**
@@ -618,7 +618,7 @@ export class SimpleRPGGame extends SimpleGame {
 
   constructor(config: SimpleGameConfig) {
     super(config);
-    this.player = {
+    this?.player = {
       health: 100,
       maxHealth: 100,
       attack: 10,
@@ -629,7 +629,7 @@ export class SimpleRPGGame extends SimpleGame {
   }
 
   protected onStart(): void {
-    this.spawnEnemies();
+    this?.spawnEnemies();
     console.log(`⚔️ ${this.config.title} started! Explore and fight enemies`);
   }
 
@@ -654,14 +654,14 @@ export class SimpleRPGGame extends SimpleGame {
 
     for (let i = 0; i < 5; i++) {
       const type = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
-      this.enemies.push({
+      this?.enemies?.push({
         id: `enemy_${i}`,
-        name: type.name,
-        health: type.health,
-        maxHealth: type.health,
-        attack: type.attack,
-        defense: type.defense,
-        experienceReward: type.exp,
+        name: type?.name,
+        health: type?.health,
+        maxHealth: type?.health,
+        attack: type?.attack,
+        defense: type?.defense,
+        experienceReward: type?.exp,
         position: {
           x: 100 + i * 150,
           y: 100 + Math.random() * 200
@@ -672,21 +672,21 @@ export class SimpleRPGGame extends SimpleGame {
 
   // RPG-specific methods
   attack(): boolean {
-    if (!this.currentEnemy || !this.inCombat) return false;
+    if (!this?.currentEnemy || !this?.inCombat) return false;
 
     const damage = Math.max(1, this.player.attack - this.currentEnemy.defense);
-    this.currentEnemy.health -= damage;
+    this?.currentEnemy.health -= damage;
 
-    if (this.currentEnemy.health <= 0) {
-      this.defeatEnemy();
+    if (this?.currentEnemy.health <= 0) {
+      this?.defeatEnemy();
       return true;
     }
 
     // Enemy counterattack
     setTimeout(() => {
-      if (this.inCombat && this.currentEnemy) {
+      if (this?.inCombat && this?.currentEnemy) {
         const enemyDamage = Math.max(1, this.currentEnemy.attack - this.player.defense);
-        this.takeDamage(enemyDamage);
+        this?.takeDamage(enemyDamage);
       }
     }, 1000);
 
@@ -694,65 +694,65 @@ export class SimpleRPGGame extends SimpleGame {
   }
 
   takeDamage(damage: number): void {
-    this.player.health -= damage;
-    if (this.player.health <= 0) {
-      this.gameOver();
+    this?.player.health -= damage;
+    if (this?.player.health <= 0) {
+      this?.gameOver();
     }
   }
 
   private defeatEnemy(): void {
-    if (!this.currentEnemy) return;
+    if (!this?.currentEnemy) return;
 
-    this.addExperience(this.currentEnemy.experienceReward);
+    this?.addExperience(this?.currentEnemy.experienceReward);
     this.addCurrency(10 + Math.floor(Math.random() * 20));
-    this.addScore(this.currentEnemy.experienceReward * 2);
+    this?.addScore(this?.currentEnemy.experienceReward * 2);
 
-    this.inCombat = false;
-    this.currentEnemy = null;
+    this?.inCombat = false;
+    this?.currentEnemy = null;
     console.log('🎉 Enemy defeated!');
   }
 
   private gameOver(): void {
     console.log('💀 Game Over! You died.');
-    this.stop();
+    this?.stop();
   }
 
   private addExperience(amount: number): void {
-    this.player.experience += amount;
+    this?.player.experience += amount;
 
-    while (this.player.experience >= this.player.experienceToNext) {
-      this.levelUp();
+    while (this?.player.experience >= this?.player.experienceToNext) {
+      this?.levelUp();
     }
   }
 
   private levelUp(): void {
-    this.player.experience -= this.player.experienceToNext;
-    this.stats.level++;
+    this?.player.experience -= this?.player.experienceToNext;
+    this?.stats.level++;
     this.player.experienceToNext = Math.floor(this.player.experienceToNext * 1.2);
 
     // Increase stats
-    this.player.maxHealth += 10;
-    this.player.health = this.player.maxHealth; // Full heal
-    this.player.attack += 2;
-    this.player.defense += 1;
+    this?.player.maxHealth += 10;
+    this?.player.health = this?.player.maxHealth; // Full heal
+    this?.player.attack += 2;
+    this?.player.defense += 1;
 
     console.log(`🎉 Leveled up to ${this.stats.level}!`);
   }
 
   startCombat(enemyId: string): boolean {
-    const enemy = this.enemies.find(e => e.id === enemyId);
+    const enemy = this?.enemies.find(e => e?.id === enemyId);
     if (!enemy) return false;
 
-    this.currentEnemy = enemy;
-    this.inCombat = true;
+    this?.currentEnemy = enemy;
+    this?.inCombat = true;
     console.log(`⚔️ Combat started with ${enemy.name}!`);
     return true;
   }
 
-  getPlayer(): Readonly<typeof this.player> { return this.player; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
-  getCurrentEnemy(): any { return this.currentEnemy; }
-  isInCombat(): boolean { return this.inCombat; }
+  getPlayer(): Readonly<typeof this?.player> { return this?.player; }
+  getEnemies(): readonly typeof this?.enemies { return this?.enemies; }
+  getCurrentEnemy(): any { return this?.currentEnemy; }
+  isInCombat(): boolean { return this?.inCombat; }
 }
 
 /**
@@ -819,7 +819,7 @@ export const SimpleGameUtils = {
     } else if (amount >= 1000) {
       return `${(amount / 1000).toFixed(1)}K`;
     } else {
-      return amount.toString();
+      return amount?.toString();
     }
   },
 
@@ -828,10 +828,10 @@ export const SimpleGameUtils = {
    */
   checkCollision(a: { x: number; y: number; width: number; height: number },
                  b: { x: number; y: number; width: number; height: number }): boolean {
-    return a.x < b.x + b.width &&
-           a.x + a.width > b.x &&
-           a.y < b.y + b.height &&
-           a.y + a.height > b.y;
+    return a.x < b.x + b?.width &&
+           a.x + a?.width > b.x &&
+           a.y < b.y + b?.height &&
+           a.y + a?.height > b.y;
   },
 
   /**
@@ -850,9 +850,9 @@ export const GameTemplates = {
    * Basic clicker game template
    */
   basicClicker: (): SimpleGameConfig => ({
-    gameType: GameType.CLICKER,
+    gameType: GameType?.CLICKER,
     title: 'Cookie Clicker Clone',
-    difficulty: DifficultyLevel.EASY,
+    difficulty: DifficultyLevel?.EASY,
     startingCurrency: 0,
     enableSaving: true,
     enableAudio: true
@@ -862,9 +862,9 @@ export const GameTemplates = {
    * Basic platformer template
    */
   basicPlatformer: (): SimpleGameConfig => ({
-    gameType: GameType.PLATFORMER,
+    gameType: GameType?.PLATFORMER,
     title: 'Super Mario Clone',
-    difficulty: DifficultyLevel.MEDIUM,
+    difficulty: DifficultyLevel?.MEDIUM,
     startingCurrency: 0,
     enableSaving: true,
     enableAudio: true
@@ -874,9 +874,9 @@ export const GameTemplates = {
    * Basic arcade template
    */
   basicArcade: (): SimpleGameConfig => ({
-    gameType: GameType.ARCADE,
+    gameType: GameType?.ARCADE,
     title: 'Space Invaders Clone',
-    difficulty: DifficultyLevel.MEDIUM,
+    difficulty: DifficultyLevel?.MEDIUM,
     startingCurrency: 100,
     enableSaving: true,
     enableAudio: true
@@ -886,9 +886,9 @@ export const GameTemplates = {
    * Basic RPG template
    */
   basicRPG: (): SimpleGameConfig => ({
-    gameType: GameType.RPG,
+    gameType: GameType?.RPG,
     title: 'Simple RPG',
-    difficulty: DifficultyLevel.MEDIUM,
+    difficulty: DifficultyLevel?.MEDIUM,
     startingCurrency: 50,
     enableSaving: true,
     enableAudio: true

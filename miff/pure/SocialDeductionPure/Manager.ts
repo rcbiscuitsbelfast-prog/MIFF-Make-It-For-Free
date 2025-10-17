@@ -12,7 +12,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 // Types are defined in this file to avoid circular imports
 
 export enum GamePhase {
@@ -132,13 +132,13 @@ export class SocialDeductionManager {
   private eventBus: EventBus;
   private config: SocialDeductionConfig;
   private stats: GameStats;
-  private phaseTimer: NodeJS.Timeout | null = null;
+  private phaseTimer: NodeJS?.Timeout | null = null;
   private gameStartTime: number = 0;
 
   constructor(eventBus: EventBus, config: SocialDeductionConfig = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.eventBus = eventBus;
-    this.config = {
+    this?.eventBus = eventBus;
+    this?.config = {
       maxPlayers: 10,
       minPlayers: 4,
       traitorCount: 1,
@@ -150,10 +150,10 @@ export class SocialDeductionManager {
       ...config
     };
 
-    this.game = new SocialDeductionPure(eventBus);
-    this.stats = this.initializeStats();
+    this?.game = new SocialDeductionPure(eventBus);
+    this?.stats = this?.initializeStats();
 
-    this.setupEventListeners();
+    this?.setupEventListeners();
   }
 
   private initializeStats(): GameStats {
@@ -169,27 +169,27 @@ export class SocialDeductionManager {
   }
 
   private setupEventListeners(): void {
-    this.eventBus.on('social:player_joined', (data) => {
-      this.stats.totalPlayers++;
+    this?.eventBus.on('social:player_joined', (data: any) => {
+      this?.stats.totalPlayers++;
     });
 
-    this.eventBus.on('social:game_started', (data) => {
-      this.gameStartTime = Date.now();
-      this.startPhaseTimer();
+    this?.eventBus.on('social:game_started', (data: any) => {
+      this.gameStartTime = new Date();
+      this?.startPhaseTimer();
     });
 
-    this.eventBus.on('social:game_ended', (data) => {
-      this.endPhaseTimer();
-      this.updateStats();
+    this?.eventBus.on('social:game_ended', (data: any) => {
+      this?.endPhaseTimer();
+      this?.updateStats();
     });
 
-    this.eventBus.on('social:ability_used', (data) => {
-      this.handleAbilityEffects(data.effect);
+    this?.eventBus.on('social:ability_used', (data: any) => {
+      this?.handleAbilityEffects(data?.effect);
     });
   }
 
   public addPlayer(playerId: string, playerName: string): SocialOutput {
-    const success = this.game.addPlayer(playerId, playerName);
+    const success = this?.game.addPlayer(playerId, playerName);
 
     if (success) {
       return {
@@ -208,7 +208,7 @@ export class SocialDeductionManager {
   }
 
   public assignRoles(): SocialOutput {
-    const success = this.game.assignRoles();
+    const success = this?.game.assignRoles();
 
     if (success) {
       return {
@@ -226,7 +226,7 @@ export class SocialDeductionManager {
   }
 
   public startGame(): SocialOutput {
-    const success = this.game.startGame();
+    const success = this?.game.startGame();
 
     if (success) {
       return {
@@ -244,7 +244,7 @@ export class SocialDeductionManager {
   }
 
   public castVote(voterId: string, targetId: string, voteType: string, reason?: string): SocialOutput {
-    const success = this.game.castVote(voterId, targetId, voteType as any, reason);
+    const success = this?.game.castVote(voterId, targetId, voteType as any, reason);
 
     if (success) {
       return {
@@ -263,7 +263,7 @@ export class SocialDeductionManager {
   }
 
   public useAbility(playerId: string, abilityId: string, targetId?: string): SocialOutput {
-    const success = this.game.useAbility(playerId, abilityId, targetId);
+    const success = this?.game.useAbility(playerId, abilityId, targetId);
 
     if (success) {
       return {
@@ -282,73 +282,73 @@ export class SocialDeductionManager {
   }
 
   public getPlayers(): Map<string, GamePlayer> {
-    return this.game.getPlayers();
+    return this?.game.getPlayers();
   }
 
   public getCurrentPhase(): GamePhase {
-    return this.game.getCurrentPhase();
+    return this?.game.getCurrentPhase();
   }
 
   public getGameStats(): GameStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   public getVotes(): GameVote[] {
-    return this.game.getVotes();
+    return this?.game.getVotes();
   }
 
   public getDiscussionRounds(): DiscussionRound[] {
-    return this.game.getDiscussionRounds();
+    return this?.game.getDiscussionRounds();
   }
 
   private startPhaseTimer(): void {
-    if (this.phaseTimer) {
-      clearTimeout(this.phaseTimer);
+    if (this?.phaseTimer) {
+      clearTimeout(this?.phaseTimer);
     }
 
-    this.phaseTimer = setTimeout(() => {
-      this.advancePhase();
-    }, this.config.phaseDuration);
+    this?.phaseTimer = setTimeout(() => {
+      this?.advancePhase();
+    }, this?.config.phaseDuration);
   }
 
   private endPhaseTimer(): void {
-    if (this.phaseTimer) {
-      clearTimeout(this.phaseTimer);
-      this.phaseTimer = null;
+    if (this?.phaseTimer) {
+      clearTimeout(this?.phaseTimer);
+      this?.phaseTimer = null;
     }
   }
 
   private advancePhase(): void {
-    const currentPhase = this.game.getCurrentPhase();
+    const currentPhase = this?.game.getCurrentPhase();
 
     switch (currentPhase) {
       case 'discussion':
-        this.game['currentPhase'] = 'voting';
-        this.eventBus.emit('social:phase_advanced', {
+        this?.game['currentPhase'] = 'voting';
+        this?.eventBus.emit('social:phase_advanced', {
           from: 'discussion',
           to: 'voting',
           timestamp: new Date()
         });
         break;
       case 'voting':
-        this.game['currentPhase'] = 'night';
-        this.eventBus.emit('social:phase_advanced', {
+        this?.game['currentPhase'] = 'night';
+        this?.eventBus.emit('social:phase_advanced', {
           from: 'voting',
           to: 'night',
           timestamp: new Date()
         });
         break;
       case 'night':
-        this.game['currentPhase'] = 'day';
-        this.eventBus.emit('social:phase_advanced', {
+        this?.game['currentPhase'] = 'day';
+        this?.eventBus.emit('social:phase_advanced', {
           from: 'night',
           to: 'day',
           timestamp: new Date()
         });
         break;
       default:
-        this.game['currentPhase'] = 'ended';
-        this.eventBus.emit('social:phase_advanced', {
+        this?.game['currentPhase'] = 'ended';
+        this?.eventBus.emit('social:phase_advanced', {
           from: currentPhase,
           to: 'ended',
           timestamp: new Date()
@@ -357,10 +357,10 @@ export class SocialDeductionManager {
   }
 
   private handleAbilityEffects(effect: AbilityEffect): void {
-    switch (effect.effectType) {
+    switch (effect?.effectType) {
       case 'kill':
-        if (effect.success) {
-          this.checkWinConditions();
+        if (effect?.success) {
+          this?.checkWinConditions();
         }
         break;
       case 'investigate':
@@ -370,36 +370,36 @@ export class SocialDeductionManager {
   }
 
   private checkWinConditions(): void {
-    const players = this.game.getPlayers();
+    const players = this?.game.getPlayers();
     const alivePlayers = Array.from(players.values()).filter((p: any) => p.isAlive);
-    const traitors = alivePlayers.filter((p: any) => p.role === 'traitor');
-    const innocents = alivePlayers.filter((p: any) => p.role === 'innocent' || p.role === 'detective');
+    const traitors = alivePlayers?.filter((p: any) => p?.role === 'traitor');
+    const innocents = alivePlayers?.filter((p: any) => p?.role === 'innocent' || p?.role === 'detective');
 
-    if (traitors.length === 0) {
-      this.game.endGame('innocent');
-    } else if (traitors.length >= innocents.length) {
-      this.game.endGame('traitor');
+    if (traitors?.length === 0) {
+      this?.game.endGame('innocent');
+    } else if (traitors?.length >= innocents?.length) {
+      this?.game.endGame('traitor');
     }
   }
 
   private updateStats(): void {
-    this.stats.totalGames++;
+    this?.stats.totalGames++;
 
-    const gameDuration = Date.now() - this.gameStartTime;
-    this.stats.averageGameDuration =
-      (this.stats.averageGameDuration * (this.stats.totalGames - 1) + gameDuration) / this.stats.totalGames;
+    const gameDuration = new Date() - this.gameStartTime;
+    this?.stats.averageGameDuration =
+      (this?.stats.averageGameDuration * (this?.stats.totalGames - 1) + gameDuration) / this?.stats.totalGames;
 
     // Update role distribution
-    const players = this.game.getPlayers();
+    const players = this?.game.getPlayers();
     Array.from(players.values()).forEach((player: any) => {
-      const count = this.stats.roleDistribution.get(player.role) || 0;
-      this.stats.roleDistribution.set(player.role, count + 1);
+      const count = this?.stats.roleDistribution?.get(player?.role) || 0;
+      this?.stats.roleDistribution?.set(player?.role, count + 1);
     });
   }
 
   public resetGame(): SocialOutput {
-    this.game.resetGame();
-    this.stats = this.initializeStats();
+    this?.game.resetGame();
+    this?.stats = this?.initializeStats();
 
     return {
       success: true,
@@ -411,10 +411,10 @@ export class SocialDeductionManager {
   public exportGameState(): string {
     return JSON.stringify({
       players: Array.from(this.game.getPlayers().entries()),
-      phase: this.game.getCurrentPhase(),
-      votes: this.game.getVotes(),
-      rounds: this.game.getDiscussionRounds(),
-      stats: this.stats,
+      phase: this?.game.getCurrentPhase(),
+      votes: this?.game.getVotes(),
+      rounds: this?.game.getDiscussionRounds(),
+      stats: this?.stats,
       timestamp: new Date()
     });
   }

@@ -14,18 +14,18 @@ interface UnityBridgeOperation {
 }
 
 function main() {
-  const argv = process.argv.slice(2);
-  if (argv.length === 0) {
+  const argv = process?.argv.slice(2);
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
     let input: UnityBridgeOperation;
-    if (argv.length >= 2 && !argv[2!]?.endsWith('.json')) {
+    if (argv?.length >= 2 && !argv[2!]?.endsWith('.json')) {
       // subcommand style without payload file
       input = { op: argv[0] as any, module: argv[1] } as UnityBridgeOperation;
-    } else if (argv.length >= 3) {
+    } else if (argv?.length >= 3) {
       const payload = argv[2!] && fs.existsSync(argv[2!]) ? JSON.parse(fs.readFileSync(argv[2!], 'utf-8')) : {};
       input = { op: argv[0] as any, module: argv[1], data: payload } as UnityBridgeOperation;
     } else {
@@ -38,12 +38,12 @@ function main() {
       throw new Error('Invalid input: expected JSON object');
     }
     
-    if (!input.op || !input.module) {
+    if (!input?.op || !input?.module) {
       throw new Error('Invalid input: missing required fields "op" and "module"');
     }
     
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2022.3',
       targetPlatform: 'windows',
@@ -63,23 +63,23 @@ function main() {
       queueSize: 100,
       batchSize: 10,
       threadPoolSize: 4,
-      customSettings: input.config || {}
+      customSettings: input?.config || {}
     };
 
     const bridge = new UnityBridgeManager(config);
 
     let result;
-    switch (input.op) {
+    switch (input?.op) {
       case 'simulate':
         result = {
           op: 'simulate',
           status: 'ok',
-          module: input.module,
+          module: input?.module,
           platform: 'unity',
           config,
           result: {
             simulation: 'unity_simulation',
-            data: input.data || {},
+            data: input?.data || {},
             performance: {
               fps: 60,
               memoryUsage: 'low',
@@ -92,7 +92,7 @@ function main() {
         result = {
           op: 'render',
           status: 'ok',
-          module: input.module,
+          module: input?.module,
           platform: 'unity',
           config,
           result: {
@@ -114,7 +114,7 @@ function main() {
         result = {
           op: 'interop',
           status: 'ok',
-          module: input.module,
+          module: input?.module,
           platform: 'unity',
           config,
           result: {
@@ -134,11 +134,11 @@ function main() {
           scripts: [],
           scenes: []
         };
-        const fmt = input.format || 'json';
+        const fmt = input?.format || 'json';
         if (fmt === 'csv') {
           const entitiesCsv = [
             'id,name,active,layer,tag',
-            ...renderData.entities.map((e: any) => `${e.id},"${e.gameObject?.name || ''}",${e.gameObject?.active || false},${e.gameObject?.layer || 0},"${e.gameObject?.tag || ''}"`)
+            ...renderData?.entities.map((e: any) => `${e?.id},"${e?.gameObject?.name || ''}",${e?.gameObject?.active || false},${e?.gameObject?.layer || 0},"${e?.gameObject?.tag || ''}"`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'csv', result: { entities: entitiesCsv } };
         } else if (fmt === 'markdown') {
@@ -149,11 +149,11 @@ function main() {
             '',
             '| id | name | active | layer | tag |',
             '|----|------|--------|-------|-----|',
-            ...renderData.entities.map((e: any) => `| ${e.id} | ${e.gameObject?.name || ''} | ${e.gameObject?.active || false} | ${e.gameObject?.layer || 0} | ${e.gameObject?.tag || ''} |`),
+            ...renderData?.entities.map((e: any) => `| ${e?.id} | ${e?.gameObject?.name || ''} | ${e?.gameObject?.active || false} | ${e?.gameObject?.layer || 0} | ${e?.gameObject?.tag || ''} |`),
             '',
             '## Prefabs/Scripts',
             '',
-            ...(renderData.scripts||[]).map((s:string)=>`- ${s}`)
+            ...(renderData?.scripts||[]).map((s:string)=>`- ${s}`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'markdown', result: { markdown: md } };
         } else if (fmt === 'html') {
@@ -163,10 +163,10 @@ function main() {
 <h1>UnityBridge Render Export</h1>
 <h2>Entities</h2>
 <table><tr><th>id</th><th>name</th><th>active</th><th>layer</th><th>tag</th></tr>
-${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name || ''}</td><td>${e.gameObject?.active || false}</td><td>${e.gameObject?.layer || 0}</td><td>${e.gameObject?.tag || ''}</td></tr>`).join('')}
+${renderData?.entities.map((e:any)=>`<tr><td>${e?.id}</td><td>${e?.gameObject?.name || ''}</td><td>${e?.gameObject?.active || false}</td><td>${e?.gameObject?.layer || 0}</td><td>${e?.gameObject?.tag || ''}</td></tr>`).join('')}
 </table>
 <h2>Scripts</h2>
-<ul>${(renderData.scripts||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
+<ul>${(renderData?.scripts||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
 </body></html>`;
           result = { op: 'export', status: 'ok', format: 'html', result: { html } };
         } else {
@@ -185,7 +185,7 @@ ${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name
             scripts: ['NPCController', 'ZoneController', 'CombatController']
           },
           info: {
-            module: input.module,
+            module: input?.module,
             config,
             capabilities: ['simulate', 'render', 'interop'],
             engine: 'unity'
@@ -193,7 +193,7 @@ ${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name
         };
         break;
       default:
-        throw new Error(`Unknown operation: ${input.op}`);
+        throw new Error(`Unknown operation: ${input?.op}`);
     }
     
     console.log(JSON.stringify(result, null, 2));
@@ -201,14 +201,14 @@ ${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', err instanceof Error ? err.message : String(err));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
 try {
-  const invoked = fs.realpathSync(process.argv[1!]);
-  const here = fs.realpathSync(fileURLToPath(import.meta.url));
+  const invoked = fs?.realpathSync(process?.argv[1!]);
+  const here = fs?.realpathSync(fileURLToPath(import?.meta.url));
   if (invoked === here) main();
 } catch {
-  if(import.meta.url === `file://${process.argv[1!]}`) main();
+  if(import?.meta.url === `file://${process?.argv[1!]}`) main();
 }

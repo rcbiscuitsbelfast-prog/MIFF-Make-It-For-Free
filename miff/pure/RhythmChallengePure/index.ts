@@ -165,15 +165,15 @@ export class RhythmChallengePure {
   private metronome: Metronome;
 
   constructor(eventBus?: EventBus) {
-    this.eventBus = eventBus || ({} as any);
-    this.metronome = new Metronome();
-    this.initializeTimingWindows();
-    this.initializeAudio();
-    this.loadDefaultBeatMaps();
+    this?.eventBus = eventBus || ({} as any);
+    this?.metronome = new Metronome();
+    this?.initializeTimingWindows();
+    this?.initializeAudio();
+    this?.loadDefaultBeatMaps();
   }
 
   private initializeTimingWindows(): void {
-    this.timingWindows = [
+    this?.timingWindows = [
       {
         judgment: 'perfect',
         earlyTime: 16,
@@ -216,11 +216,11 @@ export class RhythmChallengePure {
     try {
       // Guard for Node environments without window/audio
       if (typeof window === 'undefined') {
-        this.audioContext = null;
+        this?.audioContext = null;
         return;
       }
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      this.calibrationData = {
+      this?.audioContext = new (window?.AudioContext || (window as any).webkitAudioContext)();
+      this?.calibrationData = {
         audioLatency: 0,
         videoLatency: 0,
         inputLatency: 0,
@@ -256,13 +256,13 @@ export class RhythmChallengePure {
       effects: [],
       metadata: {}
     };
-    this.beatMaps.set(beatMap.id, beatMap);
+    this?.beatMaps.set(beatMap?.id, beatMap);
   }
 
   public play(config: { perfectHits: number; goodHits: number; missedHits: number }): { score: number; accuracy: number; grade: string } {
-    const total = config.perfectHits + config.goodHits + config.missedHits;
-    const score = config.perfectHits * 1000 + config.goodHits * 500;
-    const accuracy = total > 0 ? ((config.perfectHits + 0.7 * config.goodHits) / total) * 100 : 100;
+    const total = config?.perfectHits + config?.goodHits + config?.missedHits;
+    const score = config?.perfectHits * 1000 + config?.goodHits * 500;
+    const accuracy = total > 0 ? ((config?.perfectHits + 0.7 * config?.goodHits) / total) * 100 : 100;
     const grade = accuracy >= 95 ? 'S' : accuracy >= 90 ? 'A' : accuracy >= 80 ? 'B' : 'C';
     return { score, accuracy, grade } as any;
   }
@@ -277,14 +277,14 @@ export class RhythmChallengePure {
         bpm: 120,
         duration: 60000, // 1 minute
         difficulty: 'easy',
-        notes: this.generateTutorialNotes(),
+        notes: this?.generateTutorialNotes(),
         effects: [],
         metadata: { type: 'tutorial' }
       }
     ];
 
-    defaultMaps.forEach((map: any) => {
-      this.beatMaps.set(map.id, map);
+    defaultMaps?.forEach((map: any) => {
+      this?.beatMaps.set(map?.id, map);
     });
   }
 
@@ -295,9 +295,9 @@ export class RhythmChallengePure {
 
     for (let i = 0; i < 32; i++) {
       const time = i * beatInterval;
-      const position = this.getTutorialPosition(i);
+      const position = this?.getTutorialPosition(i);
 
-      notes.push({
+      notes?.push({
         id: `tutorial_note_${i}`,
         type: 'tap',
         position: position,
@@ -318,7 +318,7 @@ export class RhythmChallengePure {
       { x: 1, y: 1 }
     ];
 
-    return positions[index % positions.length];
+    return positions[index % positions?.length];
   }
 
   public createBeatMap(data: {
@@ -333,19 +333,19 @@ export class RhythmChallengePure {
   }): BeatMap {
     const beatMap: BeatMap = {
       id: `beatmap_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: data.name,
-      artist: data.artist,
-      bpm: data.bpm,
-      duration: data.duration,
-      difficulty: data.difficulty,
-      notes: data.notes,
-      effects: data.effects || [],
-      metadata: data.metadata || {}
+      name: data?.name,
+      artist: data?.artist,
+      bpm: data?.bpm,
+      duration: data?.duration,
+      difficulty: data?.difficulty,
+      notes: data?.notes,
+      effects: data?.effects || [],
+      metadata: data?.metadata || {}
     };
 
-    this.beatMaps.set(beatMap.id, beatMap);
+    this?.beatMaps.set(beatMap?.id, beatMap);
 
-    this.eventBus.publish('rhythm:beatmap_created', {
+    this?.eventBus.publish('rhythm:beatmap_created', {
       beatMap: beatMap,
       timestamp: new Date()
     });
@@ -354,7 +354,7 @@ export class RhythmChallengePure {
   }
 
   public startGame(playerId: string, beatMapId: string, mode: GameMode = 'single'): GameState {
-    const beatMap = this.beatMaps.get(beatMapId);
+    const beatMap = this?.beatMaps.get(beatMapId);
     if (!beatMap) {
       throw new Error(`Beat map ${beatMapId} not found`);
     }
@@ -387,10 +387,10 @@ export class RhythmChallengePure {
       startTime: new Date()
     };
 
-    this.games.set(gameState.id, gameState);
+    this?.games.set(gameState?.id, gameState);
 
-    this.eventBus.publish('rhythm:game_started', {
-      gameId: gameState.id,
+    this?.eventBus.publish('rhythm:game_started', {
+      gameId: gameState?.id,
       beatMapId: beatMapId,
       playerId: playerId,
       timestamp: new Date()
@@ -405,34 +405,34 @@ export class RhythmChallengePure {
     pressure?: number;
     timestamp: number;
   }): Judgment | null {
-    const game = this.games.get(gameId);
-    if (!game || game.state !== 'playing') {
+    const game = this?.games.get(gameId);
+    if (!game || game?.state !== 'playing') {
       return null;
     }
 
-    const player = game.players.find(p => p.playerId === playerId);
+    const player = game?.players.find(p => p?.playerId === playerId);
     if (!player) {
       return null;
     }
 
     // Find the next note that can be hit
-    const nextNote = this.getNextHittableNote(game, input.timestamp);
+    const nextNote = this?.getNextHittableNote(game, input?.timestamp);
     if (!nextNote) {
       return null;
     }
 
     // Calculate timing accuracy
-    const timingOffset = input.timestamp - (game.startTime + nextNote.time);
+    const timingOffset = input?.timestamp - (game?.startTime + nextNote?.time);
     const judgment = this.judgeTiming(Math.abs(timingOffset));
 
     if (judgment !== 'miss') {
       // Successful hit
-      this.processHit(game, player, nextNote, judgment, timingOffset);
+      this?.processHit(game, player, nextNote, judgment, timingOffset);
 
-      this.eventBus.publish('rhythm:note_hit', {
+      this?.eventBus.publish('rhythm:note_hit', {
         gameId: gameId,
         playerId: playerId,
-        noteId: nextNote.id,
+        noteId: nextNote?.id,
         judgment: judgment,
         timingOffset: timingOffset,
         timestamp: new Date()
@@ -445,16 +445,16 @@ export class RhythmChallengePure {
   }
 
   private getNextHittableNote(game: GameState, currentTime: number): RhythmNote | null {
-    const gameTime = currentTime - game.startTime;
+    const gameTime = currentTime - game?.startTime;
 
     // Find the earliest note that can still be hit
-    for (const note of game.beatMap.notes) {
-      const noteTime = game.startTime + note.time;
+    for (const note of game?.beatMap.notes) {
+      const noteTime = game?.startTime + note?.time;
       const timingOffset = currentTime - noteTime;
 
       // Check if note is within hittable window
       const canHit = timingOffset >= -150 && timingOffset <= 150;
-      if (canHit && !this.isNoteHit(game, note.id)) {
+      if (canHit && !this?.isNoteHit(game, note?.id)) {
         return note;
       }
     }
@@ -469,9 +469,9 @@ export class RhythmChallengePure {
   }
 
   private judgeTiming(timingOffset: number): Judgment {
-    for (const window of this.timingWindows) {
-      if (timingOffset <= window.lateTime && timingOffset >= -window.earlyTime) {
-        return window.judgment;
+    for (const window of this?.timingWindows) {
+      if (timingOffset <= window?.lateTime && timingOffset >= -window?.earlyTime) {
+        return window?.judgment;
       }
     }
 
@@ -479,50 +479,50 @@ export class RhythmChallengePure {
   }
 
   private processHit(game: GameState, player: PlayerPerformance, note: RhythmNote, judgment: Judgment, timingOffset: number): void {
-    const window = this.timingWindows.find(w => w.judgment === judgment)!;
-    const baseScore = note.scoreValue;
-    const multiplier = window.scoreMultiplier * game.multiplier;
+    const window = this?.timingWindows.find(w => w?.judgment === judgment)!;
+    const baseScore = note?.scoreValue;
+    const multiplier = window?.scoreMultiplier * game?.multiplier;
 
     // Update player stats
     player.score += Math.floor(baseScore * multiplier);
-    player.combo += 1;
+    player?.combo += 1;
     player.maxCombo = Math.max(player.maxCombo, player.combo);
     player.health = Math.min(100, player.health + window.healthChange);
 
     // Update judgment counts
     switch (judgment) {
       case 'perfect':
-        player.perfectHits++;
+        player?.perfectHits++;
         break;
       case 'great':
-        player.greatHits++;
+        player?.greatHits++;
         break;
       case 'good':
-        player.goodHits++;
+        player?.goodHits++;
         break;
       case 'okay':
-        player.okayHits++;
+        player?.okayHits++;
         break;
     }
 
     // Update accuracy
-    const totalHits = player.perfectHits + player.greatHits + player.goodHits + player.okayHits + player.misses;
-    player.accuracy = ((player.perfectHits * 100 + player.greatHits * 90 + player.goodHits * 70 + player.okayHits * 50) / (totalHits * 100)) * 100;
+    const totalHits = player?.perfectHits + player?.greatHits + player?.goodHits + player?.okayHits + player?.misses;
+    player?.accuracy = ((player?.perfectHits * 100 + player?.greatHits * 90 + player?.goodHits * 70 + player?.okayHits * 50) / (totalHits * 100)) * 100;
 
     // Update grade
-    player.grade = this.calculateGrade(player.accuracy, player.combo);
+    player?.grade = this?.calculateGrade(player?.accuracy, player?.combo);
 
     // Apply effects
-    game.effects.forEach((effect: any) => {
-      this.applyEffect(effect, game, player, note, judgment);
+    game?.effects.forEach((effect: any) => {
+      this?.applyEffect(effect, game, player, note, judgment);
     });
 
     // Check for combo milestones
-    if (player.combo % 50 === 0) {
-      this.eventBus.publish('rhythm:combo_milestone', {
-        gameId: game.id,
-        playerId: player.playerId,
-        combo: player.combo,
+    if (player?.combo % 50 === 0) {
+      this?.eventBus.publish('rhythm:combo_milestone', {
+        gameId: game?.id,
+        playerId: player?.playerId,
+        combo: player?.combo,
         timestamp: new Date()
       });
     }
@@ -540,9 +540,9 @@ export class RhythmChallengePure {
   }
 
   private applyEffect(effect: ActiveEffect, game: GameState, player: PlayerPerformance, note: RhythmNote, judgment: Judgment): void {
-    switch (effect.type) {
+    switch (effect?.type) {
       case 'score_multiplier':
-        game.multiplier += effect.intensity * 0.1;
+        game?.multiplier += effect?.intensity * 0.1;
         break;
       case 'health_boost':
         player.health = Math.min(100, player.health + effect.intensity);
@@ -560,49 +560,49 @@ export class RhythmChallengePure {
   }
 
   public updateGameState(gameId: string, deltaTime: number): void {
-    const game = this.games.get(gameId);
-    if (!game || game.state !== 'playing') return;
+    const game = this?.games.get(gameId);
+    if (!game || game?.state !== 'playing') return;
 
-    game.currentTime += deltaTime;
+    game?.currentTime += deltaTime;
 
     // Update effects
-    game.effects = game.effects.filter((effect: any) => {
-      effect.remainingTime -= deltaTime;
-      return effect.remainingTime > 0;
+    game?.effects = game?.effects.filter((effect: any) => {
+      effect?.remainingTime -= deltaTime;
+      return effect?.remainingTime > 0;
     });
 
     // Check for game end conditions
-    if (game.health <= 0) {
-      game.state = 'failed';
-      this.endGame(gameId);
-    } else if (game.currentTime >= game.beatMap.duration) {
-      game.state = 'finished';
-      this.endGame(gameId);
+    if (game?.health <= 0) {
+      game?.state = 'failed';
+      this?.endGame(gameId);
+    } else if (game?.currentTime >= game?.beatMap.duration) {
+      game?.state = 'finished';
+      this?.endGame(gameId);
     }
 
     // Spawn notes that are coming up
-    this.spawnUpcomingNotes(game);
+    this?.spawnUpcomingNotes(game);
 
-    this.eventBus.publish('rhythm:game_updated', {
+    this?.eventBus.publish('rhythm:game_updated', {
       gameId: gameId,
-      currentTime: game.currentTime,
-      score: game.players[0!]?.score || 0,
-      health: game.health,
+      currentTime: game?.currentTime,
+      score: game?.players[0!]?.score || 0,
+      health: game?.health,
       timestamp: new Date()
     });
   }
 
   private spawnUpcomingNotes(game: GameState): void {
-    const spawnTime = game.currentTime + 2000; // Spawn notes 2 seconds early
+    const spawnTime = game?.currentTime + 2000; // Spawn notes 2 seconds early
 
-    const upcomingNotes = game.beatMap.notes.filter((note: any) =>
-      note.time <= spawnTime && note.time > game.currentTime - 100
+    const upcomingNotes = game?.beatMap.notes?.filter((note: any) =>
+      note?.time <= spawnTime && note?.time > game?.currentTime - 100
     );
 
-    upcomingNotes.forEach((note: any) => {
-      this.eventBus.publish('rhythm:note_spawned', {
-        gameId: game.id,
-        noteId: note.id,
+    upcomingNotes?.forEach((note: any) => {
+      this?.eventBus.publish('rhythm:note_spawned', {
+        gameId: game?.id,
+        noteId: note?.id,
         note: note,
         timestamp: new Date()
       });
@@ -610,30 +610,30 @@ export class RhythmChallengePure {
   }
 
   private endGame(gameId: string): void {
-    const game = this.games.get(gameId);
+    const game = this?.games.get(gameId);
     if (!game) return;
 
-    game.endTime = Date.now();
-    game.state = game.state === 'failed' ? 'failed' : 'finished';
+    game.endTime = new Date();
+    game?.state = game?.state === 'failed' ? 'failed' : 'finished';
 
     // Calculate final results
-    const player = game.players[0!];
+    const player = game?.players[0!];
     if (player) {
       const result: ChallengeResult = {
         gameId: gameId,
-        playerId: player.playerId,
-        score: player.score,
-        grade: player.grade,
-        accuracy: player.accuracy,
-        maxCombo: player.maxCombo,
-        notesHit: player.perfectHits + player.greatHits + player.goodHits + player.okayHits,
-        notesTotal: game.beatMap.notes.length,
-        perfectPercentage: (player.perfectHits / game.beatMap.notes.length) * 100,
-        completionTime: game.endTime - game.startTime,
-        newRecords: this.checkForNewRecords(game, player)
+        playerId: player?.playerId,
+        score: player?.score,
+        grade: player?.grade,
+        accuracy: player?.accuracy,
+        maxCombo: player?.maxCombo,
+        notesHit: player?.perfectHits + player?.greatHits + player?.goodHits + player?.okayHits,
+        notesTotal: game?.beatMap.notes?.length,
+        perfectPercentage: (player?.perfectHits / game?.beatMap.notes?.length) * 100,
+        completionTime: game?.endTime - game?.startTime,
+        newRecords: this?.checkForNewRecords(game, player)
       };
 
-      this.eventBus.publish('rhythm:game_ended', {
+      this?.eventBus.publish('rhythm:game_ended', {
         gameId: gameId,
         result: result,
         timestamp: new Date()
@@ -651,24 +651,24 @@ export class RhythmChallengePure {
   }
 
   public calibrateTiming(inputLatency: number, audioLatency: number): CalibrationData {
-    const testTones = this.generateCalibrationTones();
-    const testResults = this.runCalibrationTest(inputLatency, audioLatency);
+    const testTones = this?.generateCalibrationTones();
+    const testResults = this?.runCalibrationTest(inputLatency, audioLatency);
 
-    this.calibrationData = {
+    this?.calibrationData = {
       audioLatency: audioLatency,
       videoLatency: 0, // Would be calculated from test
       inputLatency: inputLatency,
-      userOffset: testResults.optimalOffset,
+      userOffset: testResults?.optimalOffset,
       lastCalibrated: new Date(),
-      calibrationScore: testResults.accuracy
+      calibrationScore: testResults?.accuracy
     };
 
-    this.eventBus.publish('rhythm:calibrated', {
-      calibrationData: this.calibrationData,
+    this?.eventBus.publish('rhythm:calibrated', {
+      calibrationData: this?.calibrationData,
       timestamp: new Date()
     });
 
-    return this.calibrationData;
+    return this?.calibrationData;
   }
 
   private generateCalibrationTones(): any[] {
@@ -693,9 +693,9 @@ export class RhythmChallengePure {
       deadzone: 0.1
     };
 
-    this.inputDevices.set(device.id, device);
+    this?.inputDevices.set(device?.id, device);
 
-    this.eventBus.publish('rhythm:input_device_created', {
+    this?.eventBus.publish('rhythm:input_device_created', {
       device: device,
       timestamp: new Date()
     });
@@ -704,11 +704,11 @@ export class RhythmChallengePure {
   }
 
   public getBeatMap(beatMapId: string): BeatMap | null {
-    return this.beatMaps.get(beatMapId) || null;
+    return this?.beatMaps.get(beatMapId) || null;
   }
 
   public getGameState(gameId: string): GameState | null {
-    return this.games.get(gameId) || null;
+    return this?.games.get(gameId) || null;
   }
 
   public getAvailableBeatMaps(): BeatMap[] {
@@ -716,21 +716,21 @@ export class RhythmChallengePure {
   }
 
   public getTimingWindows(): TimingWindow[] {
-    return [...this.timingWindows];
+    return [...this?.timingWindows];
   }
 
   public getCalibrationData(): CalibrationData {
-    return { ...this.calibrationData };
+    return { ...this?.calibrationData };
   }
 
   public exportBeatMap(beatMapId: string): string {
-    const beatMap = this.beatMaps.get(beatMapId);
+    const beatMap = this?.beatMaps.get(beatMapId);
     if (!beatMap) return '{}';
 
     return JSON.stringify({
       beatMap: beatMap,
-      timingWindows: this.timingWindows,
-      calibrationData: this.calibrationData,
+      timingWindows: this?.timingWindows,
+      calibrationData: this?.calibrationData,
       exportDate: new Date()
     }, null, 2);
   }
@@ -739,8 +739,8 @@ export class RhythmChallengePure {
     try {
       const data = JSON.parse(beatMapData);
 
-      if (data.beatMap) {
-        this.beatMaps.set(data.beatMap.id, data.beatMap);
+      if (data?.beatMap) {
+        this?.beatMaps.set(data?.beatMap.id, data?.beatMap);
         return true;
       }
 
@@ -759,39 +759,39 @@ class Metronome {
   private bpm: number = 120;
 
   start(bpm: number): void {
-    this.bpm = bpm;
-    this.stop();
+    this?.bpm = bpm;
+    this?.stop();
 
-    if (this.audioContext) {
-      this.interval = window.setInterval(() => {
-        this.playTick();
+    if (this?.audioContext) {
+      this?.interval = window?.setInterval(() => {
+        this?.playTick();
       }, 60000 / bpm);
     }
   }
 
   stop(): void {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
+    if (this?.interval) {
+      clearInterval(this?.interval);
+      this?.interval = null;
     }
   }
 
   private playTick(): void {
-    if (this.audioContext) {
-      const oscillator = this.audioContext.createOscillator();
-      const gainNode = this.audioContext.createGain();
+    if (this?.audioContext) {
+      const oscillator = this?.audioContext.createOscillator();
+      const gainNode = this?.audioContext.createGain();
 
-      oscillator.connect(gainNode);
-      gainNode.connect(this.audioContext.destination);
+      oscillator?.connect(gainNode);
+      gainNode?.connect(this?.audioContext.destination);
 
-      oscillator.frequency.setValueAtTime(1000, this.audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+      oscillator?.frequency.setValueAtTime(1000, this?.audioContext.currentTime);
+      oscillator?.frequency.exponentialRampToValueAtTime(0.01, this?.audioContext.currentTime + 0.1);
 
-      gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+      gainNode?.gain.setValueAtTime(0.3, this?.audioContext.currentTime);
+      gainNode?.gain.exponentialRampToValueAtTime(0.01, this?.audioContext.currentTime + 0.1);
 
-      oscillator.start(this.audioContext.currentTime);
-      oscillator.stop(this.audioContext.currentTime + 0.1);
+      oscillator?.start(this?.audioContext.currentTime);
+      oscillator?.stop(this?.audioContext.currentTime + 0.1);
     }
   }
 }

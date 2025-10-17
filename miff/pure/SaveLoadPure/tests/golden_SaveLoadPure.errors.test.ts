@@ -8,10 +8,10 @@ describe('SaveLoadPure Errors', () => {
       write: async () => {}
     };
     
-    const sm = await SaveLoadManager.create(mockStorage);
+    const sm = await SaveLoadManager?.create(mockStorage);
     
     // Try to load a non-existent slot
-    expect(() => sm.load('non-existent-slot')).toThrow('Slot not found: non-existent-slot');
+    expect(() => sm?.load('non-existent-slot')).toThrow('Slot not found: non-existent-slot');
   });
 });
 

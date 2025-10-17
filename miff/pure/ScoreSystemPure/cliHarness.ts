@@ -12,30 +12,30 @@
 import { ScoreManager, ScoreEvent, ScoreBonus, ScorePenalty, Achievement } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
-const { mode, args } = parseCLIArgs(process.argv);
+const { mode, args } = parseCLIArgs(process?.argv);
 const manager = new ScoreManager();
 
 // Parse additional arguments
-const scoreId = args.find(arg => arg.startsWith('--score-id='))?.split('=')[1!] || 'test_score';
-const category = args.find(arg => arg.startsWith('--category='))?.split('=')[1!] || 'general';
-const initialScore = parseInt(args.find(arg => arg.startsWith('--initial-score='))?.split('=')[1!] || '0');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'leaderboards' || 'json';
+const scoreId = args?.find(arg => arg?.startsWith('--score-id='))?.split('=')[1!] || 'test_score';
+const category = args?.find(arg => arg?.startsWith('--category='))?.split('=')[1!] || 'general';
+const initialScore = parseInt(args?.find(arg => arg?.startsWith('--initial-score='))?.split('=')[1!] || '0');
+const format = args?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'leaderboards' || 'json';
 
 let output: any;
 
 try {
   switch (mode) {
     case 'create-score':
-      output = manager.createScore(scoreId, category, initialScore);
+      output = manager?.createScore(scoreId, category, initialScore);
       break;
 
     case 'get-score':
-      output = manager.getScore(scoreId);
+      output = manager?.getScore(scoreId);
       break;
 
     case 'update-score':
       const updates = args.includes('--updates') ? JSON.parse(args.find(arg => arg.startsWith('--updates='))!.split('=')[1!]) : {};
-      output = manager.updateScore(scoreId, updates);
+      output = manager?.updateScore(scoreId, updates);
       break;
 
     case 'apply-events':
@@ -43,39 +43,39 @@ try {
         { id: 'evt1', type: 'add', value: 100, category: 'general', source: 'test', timestamp: new Date() },
         { id: 'evt2', type: 'multiply', value: 1.5, category: 'bonus', source: 'test', timestamp: new Date() }
       ];
-      output = manager.applyEvents(scoreId, events);
+      output = manager?.applyEvents(scoreId, events);
       break;
 
     case 'add-bonus':
       const bonus: ScoreBonus = {
-        id: args.find(arg => arg.startsWith('--bonus-id='))?.split('=')[1!] || 'bonus_1',
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Bonus',
-        multiplier: parseFloat(args.find(arg => arg.startsWith('--multiplier='))?.split('=')[1!] || '1.2'),
-        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1!]) : undefined,
-        source: args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'test',
+        id: args?.find(arg => arg?.startsWith('--bonus-id='))?.split('=')[1!] || 'bonus_1',
+        name: args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!] || 'Test Bonus',
+        multiplier: parseFloat(args?.find(arg => arg?.startsWith('--multiplier='))?.split('=')[1!] || '1.2'),
+        duration: args?.includes('--duration') ? parseInt(args?.find(arg => arg?.startsWith('--duration='))!.split('=')[1!]) : undefined,
+        source: args?.find(arg => arg?.startsWith('--source='))?.split('=')[1!] || 'test',
         metadata: args.includes('--metadata') ? JSON.parse(args.find(arg => arg.startsWith('--metadata='))!.split('=')[1!]) : undefined
       };
-      output = manager.addBonus(scoreId, bonus);
+      output = manager?.addBonus(scoreId, bonus);
       break;
 
     case 'add-penalty':
       const penalty: ScorePenalty = {
-        id: args.find(arg => arg.startsWith('--penalty-id='))?.split('=')[1!] || 'penalty_1',
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Penalty',
-        reduction: parseFloat(args.find(arg => arg.startsWith('--reduction='))?.split('=')[1!] || '50'),
-        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1!]) : undefined,
-        source: args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'test',
+        id: args?.find(arg => arg?.startsWith('--penalty-id='))?.split('=')[1!] || 'penalty_1',
+        name: args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!] || 'Test Penalty',
+        reduction: parseFloat(args?.find(arg => arg?.startsWith('--reduction='))?.split('=')[1!] || '50'),
+        duration: args?.includes('--duration') ? parseInt(args?.find(arg => arg?.startsWith('--duration='))!.split('=')[1!]) : undefined,
+        source: args?.find(arg => arg?.startsWith('--source='))?.split('=')[1!] || 'test',
         metadata: args.includes('--metadata') ? JSON.parse(args.find(arg => arg.startsWith('--metadata='))!.split('=')[1!]) : undefined
       };
-      output = manager.addPenalty(scoreId, penalty);
+      output = manager?.addPenalty(scoreId, penalty);
       break;
 
     case 'register-achievement':
       const achievement: Achievement = {
-        id: args.find(arg => arg.startsWith('--achievement-id='))?.split('=')[1!] || 'achievement_1',
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Achievement',
-        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'Test achievement description',
-        category: args.find(arg => arg.startsWith('--category='))?.split('=')[1!] || 'general',
+        id: args?.find(arg => arg?.startsWith('--achievement-id='))?.split('=')[1!] || 'achievement_1',
+        name: args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!] || 'Test Achievement',
+        description: args?.find(arg => arg?.startsWith('--description='))?.split('=')[1!] || 'Test achievement description',
+        category: args?.find(arg => arg?.startsWith('--category='))?.split('=')[1!] || 'general',
         requirements: args.includes('--requirements') ? JSON.parse(args.find(arg => arg.startsWith('--requirements='))!.split('=')[1!]) : [
           { type: 'score_threshold', value: 1000, category: 'general' }
         ],
@@ -85,65 +85,65 @@ try {
         unlocked: false,
         metadata: args.includes('--metadata') ? JSON.parse(args.find(arg => arg.startsWith('--metadata='))!.split('=')[1!]) : undefined
       };
-      output = manager.registerAchievement(achievement);
+      output = manager?.registerAchievement(achievement);
       break;
 
     case 'check-achievements':
-      output = manager.checkAchievements(scoreId);
+      output = manager?.checkAchievements(scoreId);
       break;
 
     case 'update-leaderboard':
-      const leaderboardId = args.find(arg => arg.startsWith('--leaderboard-id='))?.split('=')[1!] || 'general';
-      const playerId = args.find(arg => arg.startsWith('--player-id='))?.split('=')[1!] || 'player_1';
-      const playerName = args.find(arg => arg.startsWith('--player-name='))?.split('=')[1!] || 'Test Player';
-      const score = parseInt(args.find(arg => arg.startsWith('--score='))?.split('=')[1!] || '1000');
-      output = manager.updateLeaderboard(leaderboardId, playerId, playerName, score);
+      const leaderboardId = args?.find(arg => arg?.startsWith('--leaderboard-id='))?.split('=')[1!] || 'general';
+      const playerId = args?.find(arg => arg?.startsWith('--player-id='))?.split('=')[1!] || 'player_1';
+      const playerName = args?.find(arg => arg?.startsWith('--player-name='))?.split('=')[1!] || 'Test Player';
+      const score = parseInt(args?.find(arg => arg?.startsWith('--score='))?.split('=')[1!] || '1000');
+      output = manager?.updateLeaderboard(leaderboardId, playerId, playerName, score);
       break;
 
     case 'get-leaderboard':
-      const leaderboardId2 = args.find(arg => arg.startsWith('--leaderboard-id='))?.split('=')[1!] || 'general';
-      const limit = args.includes('--limit') ? parseInt(args.find(arg => arg.startsWith('--limit='))!.split('=')[1!]) : undefined;
-      output = manager.getLeaderboard(leaderboardId2, limit);
+      const leaderboardId2 = args?.find(arg => arg?.startsWith('--leaderboard-id='))?.split('=')[1!] || 'general';
+      const limit = args?.includes('--limit') ? parseInt(args?.find(arg => arg?.startsWith('--limit='))!.split('=')[1!]) : undefined;
+      output = manager?.getLeaderboard(leaderboardId2, limit);
       break;
 
     case 'list-scores':
       const filter: any = {};
-      if (args.includes('--category')) filter.category = category;
-      if (args.includes('--min-score')) filter.minScore = parseInt(args.find(arg => arg.startsWith('--min-score='))!.split('=')[1!]);
-      if (args.includes('--max-score')) filter.maxScore = parseInt(args.find(arg => arg.startsWith('--max-score='))!.split('=')[1!]);
-      if (args.includes('--has-achievements')) filter.hasAchievements = true;
-      if (args.includes('--level')) filter.level = parseInt(args.find(arg => arg.startsWith('--level='))!.split('=')[1!]);
-      if (args.includes('--source')) filter.source = args.find(arg => arg.startsWith('--source='))!.split('=')[1!];
+      if (args?.includes('--category')) filter?.category = category;
+      if (args?.includes('--min-score')) filter?.minScore = parseInt(args?.find(arg => arg?.startsWith('--min-score='))!.split('=')[1!]);
+      if (args?.includes('--max-score')) filter?.maxScore = parseInt(args?.find(arg => arg?.startsWith('--max-score='))!.split('=')[1!]);
+      if (args?.includes('--has-achievements')) filter?.hasAchievements = true;
+      if (args?.includes('--level')) filter?.level = parseInt(args?.find(arg => arg?.startsWith('--level='))!.split('=')[1!]);
+      if (args?.includes('--source')) filter?.source = args?.find(arg => arg?.startsWith('--source='))!.split('=')[1!];
       
-      output = manager.listScores(filter);
+      output = manager?.listScores(filter);
       break;
 
     case 'stats':
-      output = manager.getStats();
+      output = manager?.getStats();
       break;
 
     case 'export':
-      output = manager.exportScores(format);
+      output = manager?.exportScores(format);
       break;
 
     case 'reset':
-      output = manager.resetScores();
+      output = manager?.resetScores();
       break;
 
     case 'demo':
       // Create demo score scenarios
-      manager.createScore('demo_player_1', 'combat', 500);
-      manager.createScore('demo_player_2', 'exploration', 750);
-      manager.createScore('demo_player_3', 'crafting', 300);
+      manager?.createScore('demo_player_1', 'combat', 500);
+      manager?.createScore('demo_player_2', 'exploration', 750);
+      manager?.createScore('demo_player_3', 'crafting', 300);
 
       // Apply events
-      manager.applyEvents('demo_player_1', [
+      manager?.applyEvents('demo_player_1', [
         { id: 'combat_win', type: 'add', value: 200, category: 'combat', source: 'battle', timestamp: new Date() },
         { id: 'bonus_multiplier', type: 'multiply', value: 1.5, category: 'bonus', source: 'achievement', timestamp: new Date() }
       ]);
 
       // Add bonuses and penalties
-      manager.addBonus('demo_player_1', {
+      manager?.addBonus('demo_player_1', {
         id: 'streak_bonus',
         name: 'Win Streak Bonus',
         multiplier: 1.2,
@@ -151,7 +151,7 @@ try {
         source: 'streak'
       });
 
-      manager.addPenalty('demo_player_2', {
+      manager?.addPenalty('demo_player_2', {
         id: 'time_penalty',
         name: 'Time Penalty',
         reduction: 50,
@@ -160,7 +160,7 @@ try {
       });
 
       // Register achievements
-      manager.registerAchievement({
+      manager?.registerAchievement({
         id: 'first_blood',
         name: 'First Blood',
         description: 'Win your first battle',
@@ -171,25 +171,25 @@ try {
       });
 
       // Check achievements
-      manager.checkAchievements('demo_player_1');
+      manager?.checkAchievements('demo_player_1');
 
       // Update leaderboards
-      manager.updateLeaderboard('combat_leaderboard', 'demo_player_1', 'Player 1', 750);
-      manager.updateLeaderboard('exploration_leaderboard', 'demo_player_2', 'Player 2', 750);
-      manager.updateLeaderboard('crafting_leaderboard', 'demo_player_3', 'Player 3', 300);
+      manager?.updateLeaderboard('combat_leaderboard', 'demo_player_1', 'Player 1', 750);
+      manager?.updateLeaderboard('exploration_leaderboard', 'demo_player_2', 'Player 2', 750);
+      manager?.updateLeaderboard('crafting_leaderboard', 'demo_player_3', 'Player 3', 300);
 
       output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo score scenarios completed',
-          scores: manager.listScores().result,
+          scores: manager?.listScores().result,
           leaderboards: {
-            combat: manager.getLeaderboard('combat_leaderboard').result,
-            exploration: manager.getLeaderboard('exploration_leaderboard').result,
-            crafting: manager.getLeaderboard('crafting_leaderboard').result
+            combat: manager?.getLeaderboard('combat_leaderboard').result,
+            exploration: manager?.getLeaderboard('exploration_leaderboard').result,
+            crafting: manager?.getLeaderboard('crafting_leaderboard').result
           },
-          stats: manager.getStats().result
+          stats: manager?.getStats().result
         }
       };
       break;
@@ -215,15 +215,15 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => {
-        scenario.scores.forEach((score: any) => {
-          manager.createScore(score.id, score.category, score.initialScore);
+      const scenarioResults = sampleScenarios?.map((scenario: any) => {
+        scenario?.scores.forEach((score: any) => {
+          manager?.createScore(score?.id, score?.category, score?.initialScore);
         });
 
         return {
-          scenario: scenario.id,
-          scores: scenario.scores.length,
-          scoreIds: scenario.scores.map((s: any) => s.id)
+          scenario: scenario?.id,
+          scores: scenario?.scores.length,
+          scoreIds: scenario?.scores.map((s: any) => s?.id)
         };
       });
 
@@ -261,10 +261,10 @@ try {
             'sample'
           ],
           examples: [
-            'node cliHarness.ts create-score --score-id=player1 --category=combat --initial-score=100',
-            'node cliHarness.ts apply-events --score-id=player1 --events=[{"type":"add","value":50}]',
-            'node cliHarness.ts add-bonus --score-id=player1 --bonus-id=streak --name="Win Streak" --multiplier=1.5',
-            'node cliHarness.ts export --format=manifest'
+            'node cliHarness?.ts create-score --score-id=player1 --category=combat --initial-score=100',
+            'node cliHarness?.ts apply-events --score-id=player1 --events=[{"type":"add","value":50}]',
+            'node cliHarness?.ts add-bonus --score-id=player1 --bonus-id=streak --name="Win Streak" --multiplier=1.5',
+            'node cliHarness?.ts export --format=manifest'
           ]
         }
       };
@@ -274,7 +274,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error.message : 'Unknown error']
+    issues: [error instanceof Error ? error?.message : 'Unknown error']
   };
 }
 

@@ -880,7 +880,7 @@ export class EcosystemExpansionPure {
 
   constructor(config: Partial<EcosystemExpansionConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableEcosystemGrowth: true,
       enableCommunityBuilding: true,
       enablePartnershipManagement: true,
@@ -898,7 +898,7 @@ export class EcosystemExpansionPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalPartnerships: 0,
       activePartnerships: 0,
       totalIntegrations: 0,
@@ -912,7 +912,7 @@ export class EcosystemExpansionPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       partnershipSuccessRate: 0,
       integrationAdoptionRate: 0,
       communityGrowthRate: 0,
@@ -926,7 +926,7 @@ export class EcosystemExpansionPure {
    * Create a new ecosystem expansion manager
    */
   createManager(): EcosystemExpansionOutput {
-    if (!this.config.enableEcosystemGrowth) {
+    if (!this?.config.enableEcosystemGrowth) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -936,8 +936,8 @@ export class EcosystemExpansionPure {
 
     const manager: EcosystemExpansionManager = {
       id: managerData.id || `ecosystem-${Date.now()}`,
-      name: managerData.name || 'Unnamed Ecosystem Expansion Manager',
-      type: managerData.type || 'startup',
+      name: managerData?.name || 'Unnamed Ecosystem Expansion Manager',
+      type: managerData?.type || 'startup',
       status: 'active',
       partnerships: [],
       integrations: [],
@@ -1002,7 +1002,7 @@ export class EcosystemExpansionPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1015,7 +1015,7 @@ export class EcosystemExpansionPure {
    * Get manager by ID
    */
   getManager(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1035,7 +1035,7 @@ export class EcosystemExpansionPure {
    * Create partnership
    */
   createPartnership(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-partnership',
@@ -1044,7 +1044,7 @@ export class EcosystemExpansionPure {
       };
     }
 
-    if (manager.partnerships.length >= this.config.maxPartnerships) {
+    if (manager?.partnerships.length >= this?.config.maxPartnerships) {
       return {
         op: 'create-partnership',
         status: 'error',
@@ -1054,16 +1054,16 @@ export class EcosystemExpansionPure {
 
     const newPartnership: Partnership = {
       id: partnership.id || `partnership-${Date.now()}`,
-      name: partnership.name || 'Unnamed Partnership',
-      type: partnership.type || 'strategic',
-      partner: partnership.partner || {
+      name: partnership?.name || 'Unnamed Partnership',
+      type: partnership?.type || 'strategic',
+      partner: partnership?.partner || {
         id: `partner-${Date.now()}`,
         name: 'Unknown Partner',
         type: 'company',
         industry: 'technology',
         size: 'medium',
         location: 'Unknown',
-        contact: { email: 'contact@partner.com' },
+        contact: { email: 'contact@partner?.com' },
         reputation: {
           overall: 0.8,
           reliability: 0.8,
@@ -1074,13 +1074,13 @@ export class EcosystemExpansionPure {
         metadata: {}
       },
       status: 'proposal',
-      value: partnership.value || {
+      value: partnership?.value || {
         financial: { revenue: 0, costSavings: 0, investment: 0, roi: 0 },
         strategic: { marketAccess: 0, brandValue: 0, competitiveAdvantage: 0, riskReduction: 0 },
         technical: { technologyTransfer: 0, skillDevelopment: 0, innovation: 0, efficiency: 0 },
         market: { customerBase: 0, marketShare: 0, geographicExpansion: 0, productDiversification: 0 }
       },
-      terms: partnership.terms || {
+      terms: partnership?.terms || {
         duration: 12,
         exclusivity: false,
         intellectualProperty: {
@@ -1096,16 +1096,16 @@ export class EcosystemExpansionPure {
           penalties: []
         }
       },
-      milestones: partnership.milestones || [],
+      milestones: partnership?.milestones || [],
       createdAt: new Date(),
       updatedAt: new Date(),
       metadata: {},
       ...partnership
     };
 
-    manager.partnerships.push(newPartnership);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalPartnerships++;
+    manager?.partnerships?.push(newPartnership);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalPartnerships++;
 
     return {
       op: 'create-partnership',
@@ -1118,7 +1118,7 @@ export class EcosystemExpansionPure {
    * Create integration
    */
   createIntegration(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-integration',
@@ -1127,7 +1127,7 @@ export class EcosystemExpansionPure {
       };
     }
 
-    if (manager.integrations.length >= this.config.maxIntegrations) {
+    if (manager?.integrations.length >= this?.config.maxIntegrations) {
       return {
         op: 'create-integration',
         status: 'error',
@@ -1137,11 +1137,11 @@ export class EcosystemExpansionPure {
 
     const newIntegration: Integration = {
       id: integration.id || `integration-${Date.now()}`,
-      name: integration.name || 'Unnamed Integration',
-      type: integration.type || 'api',
-      partnerId: integration.partnerId || '',
+      name: integration?.name || 'Unnamed Integration',
+      type: integration?.type || 'api',
+      partnerId: integration?.partnerId || '',
       status: 'planned',
-      technical: integration.technical || {
+      technical: integration?.technical || {
         protocol: 'https',
         endpoints: [],
         authentication: 'api_key',
@@ -1149,7 +1149,7 @@ export class EcosystemExpansionPure {
         versioning: 'v1',
         documentation: ''
       },
-      business: integration.business || {
+      business: integration?.business || {
         pricing: {
           type: 'free',
           amount: 0,
@@ -1170,7 +1170,7 @@ export class EcosystemExpansionPure {
         },
         compliance: []
       },
-      performance: integration.performance || {
+      performance: integration?.performance || {
         uptime: 100,
         responseTime: 0,
         throughput: 0,
@@ -1182,9 +1182,9 @@ export class EcosystemExpansionPure {
       ...integration
     };
 
-    manager.integrations.push(newIntegration);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalIntegrations++;
+    manager?.integrations?.push(newIntegration);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalIntegrations++;
 
     return {
       op: 'create-integration',
@@ -1197,7 +1197,7 @@ export class EcosystemExpansionPure {
    * Create community
    */
   createCommunity(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-community',
@@ -1208,11 +1208,11 @@ export class EcosystemExpansionPure {
 
     const newCommunity: Community = {
       id: community.id || `community-${Date.now()}`,
-      name: community.name || 'Unnamed Community',
-      type: community.type || 'developer',
-      platform: community.platform || 'discord',
+      name: community?.name || 'Unnamed Community',
+      type: community?.type || 'developer',
+      platform: community?.platform || 'discord',
       members: 0,
-      activity: community.activity || {
+      activity: community?.activity || {
         posts: 0,
         comments: 0,
         shares: 0,
@@ -1220,14 +1220,14 @@ export class EcosystemExpansionPure {
         events: 0,
         contributions: 0
       },
-      engagement: community.engagement || {
+      engagement: community?.engagement || {
         dailyActiveUsers: 0,
         monthlyActiveUsers: 0,
         retentionRate: 0,
         engagementRate: 0,
         satisfactionScore: 0
       },
-      growth: community.growth || {
+      growth: community?.growth || {
         memberGrowth: 0,
         activityGrowth: 0,
         engagementGrowth: 0,
@@ -1237,9 +1237,9 @@ export class EcosystemExpansionPure {
       ...community
     };
 
-    manager.communities.push(newCommunity);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalCommunities++;
+    manager?.communities?.push(newCommunity);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalCommunities++;
 
     return {
       op: 'create-community',
@@ -1252,14 +1252,14 @@ export class EcosystemExpansionPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): EcosystemExpansionPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): EcosystemExpansionAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1273,7 +1273,7 @@ export class EcosystemExpansionPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalPartnerships = 0;
     let activePartnerships = 0;
     let totalIntegrations = 0;
@@ -1281,21 +1281,21 @@ export class EcosystemExpansionPure {
     let totalCommunities = 0;
     let totalMembers = 0;
 
-    for (const manager of this.managers.values()) {
-      totalPartnerships += manager.partnerships.length;
-      activePartnerships += manager.partnerships.filter((p: any) => p.status === 'active').length;
-      totalIntegrations += manager.integrations.length;
-      activeIntegrations += manager.integrations.filter((i: any) => i.status === 'deployed').length;
-      totalCommunities += manager.communities.length;
-      totalMembers += manager.communities.reduce((sum, c) => sum + c.members, 0);
+    for (const manager of this?.managers.values()) {
+      totalPartnerships += manager?.partnerships.length;
+      activePartnerships += manager?.partnerships.filter((p: any) => p?.status === 'active').length;
+      totalIntegrations += manager?.integrations.length;
+      activeIntegrations += manager?.integrations.filter((i: any) => i?.status === 'deployed').length;
+      totalCommunities += manager?.communities.length;
+      totalMembers += manager?.communities.reduce((sum, c) => sum + c?.members, 0);
     }
 
-    this.performanceMetrics.totalPartnerships = totalPartnerships;
-    this.performanceMetrics.activePartnerships = activePartnerships;
-    this.performanceMetrics.totalIntegrations = totalIntegrations;
-    this.performanceMetrics.activeIntegrations = activeIntegrations;
-    this.performanceMetrics.totalCommunities = totalCommunities;
-    this.performanceMetrics.totalMembers = totalMembers;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalPartnerships = totalPartnerships;
+    this?.performanceMetrics.activePartnerships = activePartnerships;
+    this?.performanceMetrics.totalIntegrations = totalIntegrations;
+    this?.performanceMetrics.activeIntegrations = activeIntegrations;
+    this?.performanceMetrics.totalCommunities = totalCommunities;
+    this?.performanceMetrics.totalMembers = totalMembers;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

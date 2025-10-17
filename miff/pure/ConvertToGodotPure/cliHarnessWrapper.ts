@@ -6,7 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 
 try {
   switch (mode) {
@@ -19,10 +19,10 @@ try {
         godotVersion: godotVersion || '4.2',
         format: format || 'tscn',
         files: [
-          'main_scene.tscn',
-          'player.tscn',
-          'scripts/game_manager.gd',
-          'scripts/player_controller.gd'
+          'main_scene?.tscn',
+          'player?.tscn',
+          'scripts/game_manager?.gd',
+          'scripts/player_controller?.gd'
         ],
         success: true,
         timestamp: new Date().toISOString()
@@ -31,7 +31,7 @@ try {
       handleSuccess({
         conversion,
         message: 'Godot project created successfully',
-        projectPath: `${outputPath || '/export/godot'}/project.godot`
+        projectPath: `${outputPath || '/export/godot'}/project?.godot`
       }, 'convertToGodot');
       break;
     }
@@ -50,14 +50,14 @@ try {
 
     case 'generateScripts': {
       const scripts = [
-        'game_manager.gd',
-        'player_controller.gd',
-        'camera_controller.gd'
+        'game_manager?.gd',
+        'player_controller?.gd',
+        'camera_controller?.gd'
       ];
       
       handleSuccess({
         scripts,
-        count: scripts.length,
+        count: scripts?.length,
         generated: true,
         language: 'GDScript'
       }, 'generateScripts');

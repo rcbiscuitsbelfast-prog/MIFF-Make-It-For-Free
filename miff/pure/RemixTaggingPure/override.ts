@@ -4,8 +4,8 @@ export function getOverride(): RemixTaggingOverride {
   return {
     validateTag: (tag: ModuleTag): boolean => {
       // Custom validation: remix-required tags must have detailed reasons
-      if (tag.remixLevel === 'remix-required') {
-        return tag.reason.length > 20;
+      if (tag?.remixLevel === 'remix-required') {
+        return tag?.reason.length > 20;
       }
       return true;
     },

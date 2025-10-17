@@ -10,9 +10,9 @@ function run(cmds:Cmd[]){
   let currentMap = '';
   const log:string[]=[];
   for(const c of cmds){
-    if(c.op==='loadMap'){ currentMap = c.name; log.push(`LOAD ${c.name}`); }
-    else if(c.op==='defineZone'){ const z:Zone={id:c.id,name:c.name,bounds:c.bounds,tags:c.tags||[]}; zones[z.id]=z; log.push(`ZONE ${z.id}`); }
-    else if(c.op==='linkTrigger'){ if(zones[c.id]){ log.push(`LINK ${c.id} ${c.onEnter}/${c.onExit}`);} }
+    if(c?.op==='loadMap'){ currentMap = c?.name; log?.push(`LOAD ${c?.name}`); }
+    else if(c?.op==='defineZone'){ const z:Zone={id:c?.id,name:c?.name,bounds:c?.bounds,tags:c?.tags||[]}; zones[z?.id]=z; log?.push(`ZONE ${z?.id}`); }
+    else if(c?.op==='linkTrigger'){ if(zones[c?.id]){ log?.push(`LINK ${c?.id} ${c?.onEnter}/${c?.onExit}`);} }
   }
   return { log, map: currentMap, zones };
 }
@@ -23,4 +23,4 @@ function main(){
   const out = run(cmds);
   console.log(JSON.stringify(out,null,2));
 }
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import?.meta.url === `file://${process?.argv[1!]}`) main();

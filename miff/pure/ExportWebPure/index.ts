@@ -499,9 +499,9 @@ export class WebExporter {
   private isInitialized = false;
 
   constructor(projectSettings: WebProjectSettings, buildConfiguration: WebBuildConfiguration) {
-    this.projectSettings = projectSettings;
-    this.buildConfiguration = buildConfiguration;
-    this.initializeExporter();
+    this?.projectSettings = projectSettings;
+    this?.buildConfiguration = buildConfiguration;
+    this?.initializeExporter();
   }
 
   private async initializeExporter(): Promise<void> {
@@ -509,15 +509,15 @@ export class WebExporter {
 
     try {
       // Validate project settings
-      await this.validateProjectSettings();
+      await this?.validateProjectSettings();
 
       // Validate build configuration
-      await this.validateBuildConfiguration();
+      await this?.validateBuildConfiguration();
 
       // Initialize Web project
-      await this.initializeWebProject();
+      await this?.initializeWebProject();
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.log('[WebExporter!] Web exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -539,12 +539,12 @@ export class WebExporter {
   }
 
   async exportProject(): Promise<WebExportReport> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Web exporter not initialized');
     }
 
     const exportId = `export_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const startTime = Date.now();
+    const startTime = new Date();
 
     console.log(`[WebExporter!] Starting export: ${exportId}`);
 
@@ -564,33 +564,33 @@ export class WebExporter {
 
     try {
       // Export project settings
-      await this.exportProjectSettings();
+      await this?.exportProjectSettings();
 
       // Export pages
-      await this.exportPages();
+      await this?.exportPages();
 
       // Export assets
-      await this.exportAssets();
+      await this?.exportAssets();
 
       // Export resources
-      await this.exportResources();
+      await this?.exportResources();
 
       // Generate build files
-      await this.generateBuildFiles();
+      await this?.generateBuildFiles();
 
       // Export project
-      await this.exportProjectFiles();
+      await this?.exportProjectFiles();
 
-      report.endTime = Date.now();
-      report.duration = report.endTime - startTime;
-      report.exportStatus = 'success';
+      report.endTime = new Date();
+      report?.duration = report?.endTime - startTime;
+      report?.exportStatus = 'success';
 
       console.log(`[WebExporter!] Export completed: ${exportId}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      report.endTime = Date.now();
-      report.duration = report.endTime - startTime;
-      report.exportStatus = 'failed';
+      report.endTime = new Date();
+      report?.duration = report?.endTime - startTime;
+      report?.exportStatus = 'failed';
 
       const exportError: WebExportError = {
         sourcePath: '',
@@ -604,12 +604,12 @@ export class WebExporter {
         context: { exportId }
       };
 
-      report.exportErrors.push(exportError);
+      report?.exportErrors?.push(exportError);
 
       console.error(`[WebExporter!] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
     }
 
-    this.exportReports.push(report);
+    this?.exportReports?.push(report);
     return report;
   }
 
@@ -638,7 +638,7 @@ export class WebExporter {
   }
 
   async buildProject(): Promise<any> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Web exporter not initialized');
     }
 
@@ -650,17 +650,17 @@ export class WebExporter {
     return {
       buildStatus: 'success',
       buildTime: new Date(),
-      outputPath: this.buildConfiguration.outputPath,
-      buildType: this.buildConfiguration.buildType
+      outputPath: this?.buildConfiguration.outputPath,
+      buildType: this?.buildConfiguration.buildType
     };
   }
 
   getExportReports(): WebExportReport[] {
-    return [...this.exportReports];
+    return [...this?.exportReports];
   }
 
   getProjectSettings(): WebProjectSettings {
-    return { ...this.projectSettings };
+    return { ...this?.projectSettings };
   }
 
   updateProjectSettings(settings: Partial<WebProjectSettings>): void {
@@ -668,7 +668,7 @@ export class WebExporter {
   }
 
   getBuildConfiguration(): WebBuildConfiguration {
-    return { ...this.buildConfiguration };
+    return { ...this?.buildConfiguration };
   }
 
   updateBuildConfiguration(configuration: Partial<WebBuildConfiguration>): void {
@@ -677,37 +677,37 @@ export class WebExporter {
 
   exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      projectSettings: this.projectSettings,
-      buildConfiguration: this.buildConfiguration,
-      exportReports: this.exportReports,
+      projectSettings: this?.projectSettings,
+      buildConfiguration: this?.buildConfiguration,
+      exportReports: this?.exportReports,
       timestamp: new Date()
     };
 
     if (format === 'json') {
       return JSON.stringify(data, null, 2);
     } else if (format === 'xml') {
-      return this.convertToXML(data);
+      return this?.convertToXML(data: any);
     } else {
-      return this.convertToBinary(data);
+      return this?.convertToBinary(data: any);
     }
   }
 
-  private convertToXML(data): string {
+  private convertToXML(data: any): string {
     return '<web_exporter_data><!-- XML export not fully implemented --></web_exporter_data>';
   }
 
-  private convertToBinary(data): string {
-    return JSON.stringify(data);
+  private convertToBinary(data: any): string {
+    return JSON.stringify(data: any);
   }
 
   reset(): void {
-    this.exportReports = [];
+    this?.exportReports = [];
     console.log('[WebExporter!] Reset to initial state');
   }
 
   dispose(): void {
-    this.reset();
-    this.isInitialized = false;
+    this?.reset();
+    this?.isInitialized = false;
     console.log('[WebExporter!] Disposed successfully');
   }
 }

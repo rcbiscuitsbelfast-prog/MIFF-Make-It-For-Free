@@ -17,7 +17,7 @@ function simulatePhysics(): PhysicsState[] {
   const initialY = -1.5;
   
   // Initial state
-  timeline.push({
+  timeline?.push({
     t: 0,
     position: { x: 0, y: initialY },
     velocity: { x: 0, y: 0 },
@@ -28,7 +28,7 @@ function simulatePhysics(): PhysicsState[] {
   const t1 = 0.5;
   const y1 = -0.03; // From golden file
   const v1 = 4.91;  // From golden file
-  timeline.push({
+  timeline?.push({
     t: t1,
     position: { x: 0, y: y1 },
     velocity: { x: 0, y: v1 },
@@ -39,7 +39,7 @@ function simulatePhysics(): PhysicsState[] {
   const t2 = 1.0;
   const y2 = 3.9;   // From golden file
   const v2 = 9.81;  // From golden file
-  timeline.push({
+  timeline?.push({
     t: t2,
     position: { x: 0, y: y2 },
     velocity: { x: 0, y: v2 },
@@ -64,7 +64,7 @@ function main() {
 }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }
 

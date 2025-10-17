@@ -1008,7 +1008,7 @@ export class SecuritySystemPure {
 
   constructor(config: Partial<SecuritySystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableSecurityManagement: true,
       enableAuthentication: true,
       enableAuthorization: true,
@@ -1027,7 +1027,7 @@ export class SecuritySystemPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalUsers: 0,
       activeUsers: 0,
       totalSessions: 0,
@@ -1043,7 +1043,7 @@ export class SecuritySystemPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalUsers: 0,
       totalSessions: 0,
       totalThreats: 0,
@@ -1057,7 +1057,7 @@ export class SecuritySystemPure {
    * Create a new security system manager
    */
   createManager(): SecuritySystemOutput {
-    if (!this.config.enableSecurityManagement) {
+    if (!this?.config.enableSecurityManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1067,8 +1067,8 @@ export class SecuritySystemPure {
 
     const manager: SecuritySystemManager = {
       id: managerData.id || `securitysystem-${Date.now()}`,
-      name: managerData.name || 'Unnamed Security System Manager',
-      type: managerData.type || 'local',
+      name: managerData?.name || 'Unnamed Security System Manager',
+      type: managerData?.type || 'local',
       status: 'active',
       users: [],
       sessions: [],
@@ -1137,7 +1137,7 @@ export class SecuritySystemPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1150,7 +1150,7 @@ export class SecuritySystemPure {
    * Get manager by ID
    */
   getManager(): SecuritySystemOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1170,14 +1170,14 @@ export class SecuritySystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): SecuritySystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): SecuritySystemAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1191,7 +1191,7 @@ export class SecuritySystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalUsers = 0;
     let activeUsers = 0;
     let totalSessions = 0;
@@ -1201,25 +1201,25 @@ export class SecuritySystemPure {
     let totalPolicies = 0;
     let totalThreats = 0;
 
-    for (const manager of this.managers.values()) {
-      totalUsers += manager.users.length;
-      activeUsers += manager.users.filter((u: any) => u.status === 'active').length;
-      totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter((s: any) => s.status === 'active').length;
-      totalRoles += manager.roles.length;
-      totalPermissions += manager.permissions.length;
-      totalPolicies += manager.policies.length;
-      totalThreats += manager.threats.length;
+    for (const manager of this?.managers.values()) {
+      totalUsers += manager?.users.length;
+      activeUsers += manager?.users.filter((u: any) => u?.status === 'active').length;
+      totalSessions += manager?.sessions.length;
+      activeSessions += manager?.sessions.filter((s: any) => s?.status === 'active').length;
+      totalRoles += manager?.roles.length;
+      totalPermissions += manager?.permissions.length;
+      totalPolicies += manager?.policies.length;
+      totalThreats += manager?.threats.length;
     }
 
-    this.performanceMetrics.totalUsers = totalUsers;
-    this.performanceMetrics.activeUsers = activeUsers;
-    this.performanceMetrics.totalSessions = totalSessions;
-    this.performanceMetrics.activeSessions = activeSessions;
-    this.performanceMetrics.totalRoles = totalRoles;
-    this.performanceMetrics.totalPermissions = totalPermissions;
-    this.performanceMetrics.totalPolicies = totalPolicies;
-    this.performanceMetrics.totalThreats = totalThreats;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalUsers = totalUsers;
+    this?.performanceMetrics.activeUsers = activeUsers;
+    this?.performanceMetrics.totalSessions = totalSessions;
+    this?.performanceMetrics.activeSessions = activeSessions;
+    this?.performanceMetrics.totalRoles = totalRoles;
+    this?.performanceMetrics.totalPermissions = totalPermissions;
+    this?.performanceMetrics.totalPolicies = totalPolicies;
+    this?.performanceMetrics.totalThreats = totalThreats;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

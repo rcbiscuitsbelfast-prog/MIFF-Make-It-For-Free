@@ -7,7 +7,7 @@
  * environment configuration, and monitoring system management.
  */
 
-import { ProductionReadinessManager, ProductionReadinessReport } from './ProductionReadinessManager.js';
+import { ProductionReadinessManager, ProductionReadinessReport } from './ProductionReadinessManager?.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -18,60 +18,60 @@ class ProductionCLI {
 
   constructor(...args: any[]) {
     
-    this.manager = new ProductionReadinessManager();
+    this?.manager = new ProductionReadinessManager();
   }
 
   async run(): Promise<void> {
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'assess':
-          await this.assessReadiness(args.slice(1));
+          await this?.assessReadiness(args?.slice(1));
           break;
         case 'setup':
-          await this.setupPipeline(args.slice(1));
+          await this?.setupPipeline(args?.slice(1));
           break;
         case 'configure':
-          await this.configureEnvironment(args.slice(1));
+          await this?.configureEnvironment(args?.slice(1));
           break;
         case 'monitor':
-          await this.setupMonitoring(args.slice(1));
+          await this?.setupMonitoring(args?.slice(1));
           break;
         case 'security':
-          await this.performSecurityAudit(args.slice(1));
+          await this?.performSecurityAudit(args?.slice(1));
           break;
         case 'environments':
-          await this.listEnvironments(args.slice(1));
+          await this?.listEnvironments(args?.slice(1));
           break;
         case 'pipelines':
-          await this.listPipelines(args.slice(1));
+          await this?.listPipelines(args?.slice(1));
           break;
         case 'report':
-          await this.generateReport(args.slice(1));
+          await this?.generateReport(args?.slice(1));
           break;
         case 'deploy':
-          await this.deployToEnvironment(args.slice(1));
+          await this?.deployToEnvironment(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
   private async assessReadiness(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'production-readiness-report.json';
+    const outputFile = args[0!] || 'production-readiness-report?.json';
 
     console.info('🔍 Assessing production readiness...');
     
-    const report = await this.manager.assessProductionReadiness();
+    const report = await this?.manager.assessProductionReadiness();
     
     // Save report to file
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
@@ -89,76 +89,76 @@ class ProductionCLI {
     console.info(`Warning Checks: ${report.checks.filter((c: any) => c.status === 'warning').length}`);
 
     // Show critical issues
-    if (report.criticalIssues.length > 0) {
+    if (report?.criticalIssues.length > 0) {
       console.info('\n🚨 Critical Issues:');
-      report.criticalIssues.forEach((issue: any) => {
+      report?.criticalIssues.forEach((issue: any) => {
         console.info(`  - ${issue}`);
       });
     }
 
     // Show recommendations
-    if (report.recommendations.length > 0) {
+    if (report?.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
-      report.recommendations.slice(0, 5).forEach((rec: any) => {
+      report?.recommendations.slice(0, 5).forEach((rec: any) => {
         console.info(`  - ${rec}`);
       });
-      if (report.recommendations.length > 5) {
+      if (report?.recommendations.length > 5) {
         console.info(`  ... and ${report.recommendations.length - 5} more`);
       }
     }
 
     // Show next steps
-    if (report.nextSteps.length > 0) {
+    if (report?.nextSteps.length > 0) {
       console.info('\n🎯 Next Steps:');
-      report.nextSteps.forEach((step: any) => {
+      report?.nextSteps.forEach((step: any) => {
         console.info(`  - ${step}`);
       });
     }
   }
 
   private async setupPipeline(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'deployment-pipeline-config.json';
+    const outputFile = args[0!] || 'deployment-pipeline-config?.json';
 
     console.info('🚀 Setting up deployment pipeline...');
     
-    await this.manager.setupDeploymentPipeline();
+    await this?.manager.setupDeploymentPipeline();
     
     console.info('✅ Deployment pipeline setup completed');
     console.info(`📄 Configuration saved to ${outputFile}`);
 
     // Show pipeline status
-    const pipelines = this.manager.getDeploymentPipelines();
+    const pipelines = this?.manager.getDeploymentPipelines();
     console.info('\n📊 Deployment Pipelines:');
-    pipelines.forEach((pipeline: any) => {
+    pipelines?.forEach((pipeline: any) => {
       console.info(`  ${pipeline.name}: ${pipeline.status} (${pipeline.successRate.toFixed(1)}% success rate)`);
     });
   }
 
   private async configureEnvironment(args: string[]): Promise<void> {
     const environment = args[0!] || 'production';
-    const outputFile = args[1!] || `${environment}-config.json`;
+    const outputFile = args[1!] || `${environment}-config?.json`;
 
     console.info(`⚙️ Configuring ${environment} environment...`);
     
-    await this.manager.configureProductionEnvironment();
+    await this?.manager.configureProductionEnvironment();
     
     console.info(`✅ ${environment} environment configuration completed`);
     console.info(`📄 Configuration saved to ${outputFile}`);
 
     // Show environment status
-    const environments = this.manager.getDeploymentEnvironments();
+    const environments = this?.manager.getDeploymentEnvironments();
     console.info('\n📊 Deployment Environments:');
-    environments.forEach((env: any) => {
+    environments?.forEach((env: any) => {
       console.info(`  ${env.name} (${env.type}): ${env.status} - ${env.url}`);
     });
   }
 
   private async setupMonitoring(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'monitoring-config.json';
+    const outputFile = args[0!] || 'monitoring-config?.json';
 
     console.info('📊 Setting up monitoring and alerting...');
     
-    await this.manager.setupMonitoringAndAlerting();
+    await this?.manager.setupMonitoringAndAlerting();
     
     console.info('✅ Monitoring and alerting setup completed');
     console.info(`📄 Configuration saved to ${outputFile}`);
@@ -172,11 +172,11 @@ class ProductionCLI {
   }
 
   private async performSecurityAudit(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'security-audit-report.json';
+    const outputFile = args[0!] || 'security-audit-report?.json';
 
     console.info('🔒 Performing security audit...');
     
-    await this.manager.performSecurityAudit();
+    await this?.manager.performSecurityAudit();
     
     console.info('✅ Security audit completed');
     console.info(`📄 Report saved to ${outputFile}`);
@@ -193,10 +193,10 @@ class ProductionCLI {
 
     console.info('🌐 Listing deployment environments...');
     
-    const environments = this.manager.getDeploymentEnvironments();
+    const environments = this?.manager.getDeploymentEnvironments();
     
     console.info(`\n📊 Deployment Environments (${environments.length}):`);
-    environments.forEach((env: any) => {
+    environments?.forEach((env: any) => {
       console.info(`\n${env.name} (${env.type})`);
       console.info(`  Status: ${env.status}`);
       console.info(`  URL: ${env.url}`);
@@ -218,16 +218,16 @@ class ProductionCLI {
 
     console.info('🚀 Listing deployment pipelines...');
     
-    const pipelines = this.manager.getDeploymentPipelines();
+    const pipelines = this?.manager.getDeploymentPipelines();
     
     console.info(`\n📊 Deployment Pipelines (${pipelines.length}):`);
-    pipelines.forEach((pipeline: any) => {
+    pipelines?.forEach((pipeline: any) => {
       console.info(`\n${pipeline.name}`);
       console.info(`  Status: ${pipeline.status}`);
       console.info(`  Success Rate: ${pipeline.successRate.toFixed(1)}%`);
       console.info(`  Last Run: ${pipeline.lastRun.toLocaleString()}`);
       console.info(`  Stages: ${pipeline.stages.length}`);
-      pipeline.stages.forEach((stage: any) => {
+      pipeline?.stages.forEach((stage: any) => {
         console.info(`    - ${stage.name} (${stage.type}): ${stage.status}`);
       });
     });
@@ -239,20 +239,20 @@ class ProductionCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'production-deployment-report.html';
+    const outputFile = args[0!] || 'production-deployment-report?.html';
 
     console.info('📊 Generating production deployment report...');
     
-    const report = this.manager.getProductionReadinessReport();
+    const report = this?.manager.getProductionReadinessReport();
     if (!report) {
       console.info('❌ No production readiness report available. Run "assess" first.');
       return;
     }
     
-    const html = this.generateHTMLReport(report);
+    const html = this?.generateHTMLReport(report);
     
     // Save report to file
-    fs.writeFileSync(outputFile, html);
+    fs?.writeFileSync(outputFile, html);
     
     console.info('✅ Production deployment report generated');
     console.info(`📄 Report saved to ${outputFile}`);
@@ -285,9 +285,9 @@ class ProductionCLI {
   }
 
   private generateHTMLReport(report: ProductionReadinessReport): string {
-    const readinessColor = report.overallScore >= 90 ? '#28a745' : 
-                          report.overallScore >= 75 ? '#ffc107' : 
-                          report.overallScore >= 50 ? '#fd7e14' : '#dc3545';
+    const readinessColor = report?.overallScore >= 90 ? '#28a745' : 
+                          report?.overallScore >= 75 ? '#ffc107' : 
+                          report?.overallScore >= 50 ? '#fd7e14' : '#dc3545';
     
     return `
 <!DOCTYPE html>
@@ -317,35 +317,35 @@ class ProductionCLI {
 <body>
     <div class="header">
         <h1>🚀 MIFF Production Deployment Report</h1>
-        <p>Generated: ${report.timestamp.toLocaleString()}</p>
+        <p>Generated: ${report?.timestamp.toLocaleString()}</p>
     </div>
 
     <div class="score">
-        <div class="score-value">${report.overallScore}</div>
+        <div class="score-value">${report?.overallScore}</div>
         <div class="score-label">Production Readiness Score</div>
         <div style="font-size: 1.5em; margin-top: 10px; color: ${readinessColor};">
-            ${report.readinessLevel.replace('_', ' ').toUpperCase()}
+            ${report?.readinessLevel.replace('_', ' ').toUpperCase()}
         </div>
     </div>
 
     <div class="checks">
-        <h3>Production Readiness Checks (${report.checks.length})</h3>
-        ${report.checks.map((check: any) => `
-            <div class="check-item check-${check.status}">
-                <div style="font-weight: bold;">${check.name}</div>
-                <div style="color: #666; margin: 5px 0;">${check.description}</div>
+        <h3>Production Readiness Checks (${report?.checks.length})</h3>
+        ${report?.checks.map((check: any) => `
+            <div class="check-item check-${check?.status}">
+                <div style="font-weight: bold;">${check?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${check?.description}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${check.status === 'pass' ? '#28a745' : check.status === 'fail' ? '#dc3545' : check.status === 'warning' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${check.status.toUpperCase()}
+                    <span style="background: ${check?.status === 'pass' ? '#28a745' : check?.status === 'fail' ? '#dc3545' : check?.status === 'warning' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${check?.status.toUpperCase()}
                     </span>
-                    <span style="margin-left: 10px; color: #666;">${check.severity.toUpperCase()}</span>
+                    <span style="margin-left: 10px; color: #666;">${check?.severity.toUpperCase()}</span>
                 </div>
-                <div style="margin: 5px 0;">${check.details}</div>
-                ${check.recommendations.length > 0 ? `
+                <div style="margin: 5px 0;">${check?.details}</div>
+                ${check?.recommendations.length > 0 ? `
                     <div style="margin: 5px 0;">
                         <strong>Recommendations:</strong>
                         <ul style="margin: 5px 0; padding-left: 20px;">
-                            ${check.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
+                            ${check?.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
                         </ul>
                     </div>
                 ` : ''}
@@ -354,60 +354,60 @@ class ProductionCLI {
     </div>
 
     <div class="environments">
-        <h3>Deployment Environments (${report.environments.length})</h3>
-        ${report.environments.map((env: any) => `
+        <h3>Deployment Environments (${report?.environments.length})</h3>
+        ${report?.environments.map((env: any) => `
             <div class="environment-item">
-                <div style="font-weight: bold;">${env.name}</div>
-                <div style="color: #666; margin: 5px 0;">${env.type.toUpperCase()} - ${env.url}</div>
+                <div style="font-weight: bold;">${env?.name}</div>
+                <div style="color: #666; margin: 5px 0;">${env?.type.toUpperCase()} - ${env?.url}</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${env.status === 'active' ? '#28a745' : '#dc3545'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${env.status.toUpperCase()}
+                    <span style="background: ${env?.status === 'active' ? '#28a745' : '#dc3545'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${env?.status.toUpperCase()}
                     </span>
                 </div>
                 <div style="margin: 5px 0;">
-                    <strong>Configuration:</strong> Node ${env.configuration.nodeVersion}, 
-                    ${env.configuration.memoryLimit} RAM, ${env.configuration.cpuLimit} CPU
+                    <strong>Configuration:</strong> Node ${env?.configuration.nodeVersion}, 
+                    ${env?.configuration.memoryLimit} RAM, ${env?.configuration.cpuLimit} CPU
                 </div>
                 <div style="margin: 5px 0;">
-                    <strong>Monitoring:</strong> ${env.monitoring.enabled ? 'Enabled' : 'Disabled'} | 
-                    <strong>SSL:</strong> ${env.security.sslEnabled ? 'Enabled' : 'Disabled'}
+                    <strong>Monitoring:</strong> ${env?.monitoring.enabled ? 'Enabled' : 'Disabled'} | 
+                    <strong>SSL:</strong> ${env?.security.sslEnabled ? 'Enabled' : 'Disabled'}
                 </div>
             </div>
         `).join('')}
     </div>
 
     <div class="pipelines">
-        <h3>Deployment Pipelines (${report.pipelines.length})</h3>
-        ${report.pipelines.map((pipeline: any) => `
+        <h3>Deployment Pipelines (${report?.pipelines.length})</h3>
+        ${report?.pipelines.map((pipeline: any) => `
             <div class="pipeline-item">
-                <div style="font-weight: bold;">${pipeline.name}</div>
-                <div style="color: #666; margin: 5px 0;">Success Rate: ${pipeline.successRate.toFixed(1)}%</div>
+                <div style="font-weight: bold;">${pipeline?.name}</div>
+                <div style="color: #666; margin: 5px 0;">Success Rate: ${pipeline?.successRate.toFixed(1)}%</div>
                 <div style="margin: 5px 0;">
-                    <span style="background: ${pipeline.status === 'active' ? '#28a745' : '#dc3545'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
-                        ${pipeline.status.toUpperCase()}
+                    <span style="background: ${pipeline?.status === 'active' ? '#28a745' : '#dc3545'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
+                        ${pipeline?.status.toUpperCase()}
                     </span>
                 </div>
                 <div style="margin: 5px 0;">
-                    <strong>Stages:</strong> ${pipeline.stages.map((stage: any) => `${stage.name} (${stage.status})`).join(', ')}
+                    <strong>Stages:</strong> ${pipeline?.stages.map((stage: any) => `${stage?.name} (${stage?.status})`).join(', ')}
                 </div>
             </div>
         `).join('')}
     </div>
 
-    ${report.criticalIssues.length > 0 ? `
+    ${report?.criticalIssues.length > 0 ? `
         <div class="critical-issues">
-            <h3>🚨 Critical Issues (${report.criticalIssues.length})</h3>
+            <h3>🚨 Critical Issues (${report?.criticalIssues.length})</h3>
             <ul>
-                ${report.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
+                ${report?.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
 
-    ${report.recommendations.length > 0 ? `
+    ${report?.recommendations.length > 0 ? `
         <div class="recommendations">
-            <h3>💡 Recommendations (${report.recommendations.length})</h3>
+            <h3>💡 Recommendations (${report?.recommendations.length})</h3>
             <ul>
-                ${report.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
+                ${report?.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
@@ -415,7 +415,7 @@ class ProductionCLI {
     <div style="margin: 20px 0;">
         <h3>🎯 Next Steps</h3>
         <ul>
-            ${report.nextSteps.map((step: any) => `<li>${step}</li>`).join('')}
+            ${report?.nextSteps.map((step: any) => `<li>${step}</li>`).join('')}
         </ul>
     </div>
 </body>
@@ -426,7 +426,7 @@ class ProductionCLI {
     console.info(`
 🚀 MIFF Production Deployment CLI
 
-Usage: tsx productionCLI.ts <command> [options!]
+Usage: tsx productionCLI?.ts <command> [options!]
 
 Commands:
   assess [output!]              Assess production readiness
@@ -441,16 +441,16 @@ Commands:
   help                        Show this help
 
 Examples:
-  tsx productionCLI.ts assess
-  tsx productionCLI.ts assess readiness-report.json
-  tsx productionCLI.ts setup pipeline-config.json
-  tsx productionCLI.ts configure production prod-config.json
-  tsx productionCLI.ts monitor monitoring-config.json
-  tsx productionCLI.ts security security-audit.json
-  tsx productionCLI.ts environments env-list.json
-  tsx productionCLI.ts pipelines pipeline-list.json
-  tsx productionCLI.ts report deployment-report.html
-  tsx productionCLI.ts deploy production v1.0.0
+  tsx productionCLI?.ts assess
+  tsx productionCLI?.ts assess readiness-report?.json
+  tsx productionCLI?.ts setup pipeline-config?.json
+  tsx productionCLI?.ts configure production prod-config?.json
+  tsx productionCLI?.ts monitor monitoring-config?.json
+  tsx productionCLI?.ts security security-audit?.json
+  tsx productionCLI?.ts environments env-list?.json
+  tsx productionCLI?.ts pipelines pipeline-list?.json
+  tsx productionCLI?.ts report deployment-report?.html
+  tsx productionCLI?.ts deploy production v1.0.0
 
 Production Readiness Categories:
   - security: SSL/TLS, authentication, authorization, encryption
@@ -475,7 +475,7 @@ Environment Types:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new ProductionCLI();
   cli.run().catch(console.error);
 }

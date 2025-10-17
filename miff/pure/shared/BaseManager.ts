@@ -6,7 +6,7 @@
  */
 
 import { EventEmitter } from 'events';
-import { MIFFCapable } from './MIFFCapable.js';
+import { MIFFCapable } from './MIFFCapable?.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ManagerConfig {
@@ -98,12 +98,12 @@ export abstract class BaseManager extends EventEmitter {
   protected metrics: ManagerMetrics;
   protected operations: Map<string, ManagerOperation> = new Map();
   protected cache: Map<string, unknown> = new Map();
-  protected timers: Map<string, NodeJS.Timeout> = new Map();
+  protected timers: Map<string, NodeJS?.Timeout> = new Map();
 
   constructor(config: ManagerConfig) {
     
     super();
-    this.config = {
+    this?.config = {
       enableLogging: true,
       enableEvents: true,
       enableMetrics: true,
@@ -112,7 +112,7 @@ export abstract class BaseManager extends EventEmitter {
       ...config
     };
 
-    this.state = {
+    this?.state = {
       initialized: false,
       running: false,
       paused: false,
@@ -121,7 +121,7 @@ export abstract class BaseManager extends EventEmitter {
       cacheSize: 0
     };
 
-    this.metrics = {
+    this?.metrics = {
       operationsPerSecond: 0,
       averageResponseTime: 0,
       errorRate: 0,
@@ -131,8 +131,8 @@ export abstract class BaseManager extends EventEmitter {
     };
 
     // Set up metrics collection if enabled
-    if (this.config.enableMetrics) {
-      this.startMetricsCollection();
+    if (this?.config.enableMetrics) {
+      this?.startMetricsCollection();
     }
   }
 
@@ -140,21 +140,21 @@ export abstract class BaseManager extends EventEmitter {
    * Initialize the manager - must be implemented by subclasses
    */
   public async initialize(): Promise<void> {
-    if (this.state.initialized) {
-      throw new Error(`Manager ${this.config.id} is already initialized`);
+    if (this?.state.initialized) {
+      throw new Error(`Manager ${this?.config.id} is already initialized`);
     }
 
     try {
-      this.log('info', 'Initializing manager');
-      await this.onInitialize();
-      this.state.initialized = true;
-      this.state.running = true;
-      this.emit('initialized', { managerId: this.config.id });
-      this.log('info', 'Manager initialized successfully');
+      this?.log('info', 'Initializing manager');
+      await this?.onInitialize();
+      this?.state.initialized = true;
+      this?.state.running = true;
+      this?.emit('initialized', { managerId: this?.config.id });
+      this?.log('info', 'Manager initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this?.state.error = error as Error;
+      this?.emit('error', { managerId: this?.config.id, error });
       throw error;
     }
   }
@@ -163,26 +163,26 @@ export abstract class BaseManager extends EventEmitter {
    * Start the manager operations
    */
   public async start(): Promise<void> {
-    if (!this.state.initialized) {
-      throw new Error(`Manager ${this.config.id} must be initialized before starting`);
+    if (!this?.state.initialized) {
+      throw new Error(`Manager ${this?.config.id} must be initialized before starting`);
     }
 
-    if (this.state.running) {
-      this.log('warn', 'Manager is already running');
+    if (this?.state.running) {
+      this?.log('warn', 'Manager is already running');
       return;
     }
 
     try {
-      this.log('info', 'Starting manager');
-      await this.onStart();
-      this.state.running = true;
-      this.state.paused = false;
-      this.emit('started', { managerId: this.config.id });
-      this.log('info', 'Manager started successfully');
+      this?.log('info', 'Starting manager');
+      await this?.onStart();
+      this?.state.running = true;
+      this?.state.paused = false;
+      this?.emit('started', { managerId: this?.config.id });
+      this?.log('info', 'Manager started successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this?.state.error = error as Error;
+      this?.emit('error', { managerId: this?.config.id, error });
       throw error;
     }
   }
@@ -191,20 +191,20 @@ export abstract class BaseManager extends EventEmitter {
    * Pause the manager operations
    */
   public async pause(): Promise<void> {
-    if (!this.state.running) {
-      throw new Error(`Manager ${this.config.id} is not running`);
+    if (!this?.state.running) {
+      throw new Error(`Manager ${this?.config.id} is not running`);
     }
 
     try {
-      this.log('info', 'Pausing manager');
-      await this.onPause();
-      this.state.paused = true;
-      this.emit('paused', { managerId: this.config.id });
-      this.log('info', 'Manager paused successfully');
+      this?.log('info', 'Pausing manager');
+      await this?.onPause();
+      this?.state.paused = true;
+      this?.emit('paused', { managerId: this?.config.id });
+      this?.log('info', 'Manager paused successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this?.state.error = error as Error;
+      this?.emit('error', { managerId: this?.config.id, error });
       throw error;
     }
   }
@@ -213,20 +213,20 @@ export abstract class BaseManager extends EventEmitter {
    * Resume the manager operations
    */
   public async resume(): Promise<void> {
-    if (!this.state.paused) {
-      throw new Error(`Manager ${this.config.id} is not paused`);
+    if (!this?.state.paused) {
+      throw new Error(`Manager ${this?.config.id} is not paused`);
     }
 
     try {
-      this.log('info', 'Resuming manager');
-      await this.onResume();
-      this.state.paused = false;
-      this.emit('resumed', { managerId: this.config.id });
-      this.log('info', 'Manager resumed successfully');
+      this?.log('info', 'Resuming manager');
+      await this?.onResume();
+      this?.state.paused = false;
+      this?.emit('resumed', { managerId: this?.config.id });
+      this?.log('info', 'Manager resumed successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this?.state.error = error as Error;
+      this?.emit('error', { managerId: this?.config.id, error });
       throw error;
     }
   }
@@ -236,28 +236,28 @@ export abstract class BaseManager extends EventEmitter {
    */
   public async destroy(): Promise<void> {
     try {
-      this.log('info', 'Destroying manager');
+      this?.log('info', 'Destroying manager');
       
       // Clear all timers
-      for (const timer of this.timers.values()) {
+      for (const timer of this?.timers.values()) {
         clearTimeout(timer);
       }
-      this.timers.clear();
+      this?.timers.clear();
 
       // Clear cache
-      this.cache.clear();
+      this?.cache.clear();
 
       // Call subclass cleanup
-      await this.onDestroy();
+      await this?.onDestroy();
 
-      this.state.running = false;
-      this.state.initialized = false;
-      this.emit('destroyed', { managerId: this.config.id });
-      this.log('info', 'Manager destroyed successfully');
+      this?.state.running = false;
+      this?.state.initialized = false;
+      this?.emit('destroyed', { managerId: this?.config.id });
+      this?.log('info', 'Manager destroyed successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this?.state.error = error as Error;
+      this?.emit('error', { managerId: this?.config.id, error });
       throw error;
     }
   }
@@ -265,11 +265,11 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Execute an operation with standardized tracking and error handling
    */
-  protected async executeOperation<T extends object>(
+  protected async executeOperation<T extends Record<string, any> extends object>(
     operationName: string,
-    operation: () => Promise<T extends object>,
+    operation: () => Promise<T extends Record<string, any> extends object>,
     metadata?: Record<string, unknown>
-  ): Promise<T extends object> {
+  ): Promise<T extends Record<string, any> extends object> {
     const operationId = `${operationName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const operationRecord: ManagerOperation = {
       id: operationId,
@@ -278,53 +278,53 @@ export abstract class BaseManager extends EventEmitter {
       metadata
     };
 
-    this.operations.set(operationId, operationRecord);
-    this.state.operationCount++;
-    this.state.lastActivity = new Date();
+    this?.operations.set(operationId, operationRecord);
+    this?.state.operationCount++;
+    this?.state.lastActivity = new Date();
 
     try {
-      this.log('debug', `Starting operation: ${operationName}`, { operationId, metadata });
+      this?.log('debug', `Starting operation: ${operationName}`, { operationId, metadata });
       
       const result = await operation();
       
-      operationRecord.endTime = new Date();
-      operationRecord.success = true;
+      operationRecord?.endTime = new Date();
+      operationRecord?.success = true;
       
-      this.emit('operationCompleted', { 
-        managerId: this.config.id, 
+      this?.emit('operationCompleted', { 
+        managerId: this?.config.id, 
         operationId, 
         operationName,
-        duration: operationRecord.endTime.getTime() - operationRecord.startTime.getTime()
+        duration: operationRecord?.endTime.getTime() - operationRecord?.startTime.getTime()
       });
       
-      this.log('debug', `Completed operation: ${operationName}`, { operationId });
+      this?.log('debug', `Completed operation: ${operationName}`, { operationId });
       
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      operationRecord.endTime = new Date();
-      operationRecord.success = false;
-      operationRecord.error = error as Error;
+      operationRecord?.endTime = new Date();
+      operationRecord?.success = false;
+      operationRecord?.error = error as Error;
       
-      this.emit('operationFailed', { 
-        managerId: this.config.id, 
+      this?.emit('operationFailed', { 
+        managerId: this?.config.id, 
         operationId, 
         operationName, 
         error 
       });
       
-      this.log('error', `Failed operation: ${operationName}`, { operationId, error });
+      this?.log('error', `Failed operation: ${operationName}`, { operationId, error });
       
       throw error;
     } finally {
       // Clean up old operations to prevent memory leaks
-      if (this.operations.size > 1000) {
+      if (this?.operations.size > 1000) {
         const oldestOperations = Array.from(this.operations.entries())
-          .sort(([, a], [, b]) => a.startTime.getTime() - b.startTime.getTime())
+          .sort(([, a], [, b]) => a?.startTime.getTime() - b?.startTime.getTime())
           .slice(0, 500);
         
         for (const [id!] of oldestOperations) {
-          this.operations.delete(id);
+          this?.operations.delete(id);
         }
       }
     }
@@ -334,54 +334,54 @@ export abstract class BaseManager extends EventEmitter {
    * Cache management utilities
    */
   protected setCacheValue(key: string, value: unknown, ttl?: number): void {
-    if (this.cache.size >= this.config.maxCacheSize!) {
+    if (this?.cache.size >= this?.config.maxCacheSize!) {
       // Remove oldest entry
-      const firstKey = this.cache.keys().next().value;
+      const firstKey = this?.cache.keys().next().value;
       if (firstKey) {
-        this.cache.delete(firstKey);
+        this?.cache.delete(firstKey);
       }
     }
 
-    this.cache.set(key, value);
-    this.state.cacheSize = this.cache.size;
+    this?.cache.set(key, value);
+    this?.state.cacheSize = this?.cache.size;
 
     if (ttl) {
       const timer = setTimeout(() => {
-        this.cache.delete(key);
-        this.state.cacheSize = this.cache.size;
-        this.timers.delete(key);
+        this?.cache.delete(key);
+        this?.state.cacheSize = this?.cache.size;
+        this?.timers.delete(key);
       }, ttl);
       
-      this.timers.set(key, timer);
+      this?.timers.set(key, timer);
     }
   }
 
-  protected getCacheValue<T extends object>(key: string): T! {
-    return this.cache.get(key) as T!;
+  protected getCacheValue<T extends Record<string, any> extends object>(key: string): T! {
+    return this?.cache.get(key) as T!;
   }
 
   protected clearCache(): void {
-    this.cache.clear();
-    this.state.cacheSize = 0;
+    this?.cache.clear();
+    this?.state.cacheSize = 0;
   }
 
   /**
    * Logging utility
    */
   protected log(level: 'debug' | 'info' | 'warn' | 'error', message: string, metadata?: Record<string, unknown>): void {
-    if (!this.config.enableLogging) return;
+    if (!this?.config.enableLogging) return;
 
     const logEntry = {
       timestamp: new Date().toISOString(),
       level,
-      managerId: this.config.id,
+      managerId: this?.config.id,
       message,
       metadata
     };
 
     // Emit log event for external logging systems
-    if (this.config.enableEvents) {
-      this.emit('log', logEntry);
+    if (this?.config.enableEvents) {
+      this?.emit('log', logEntry);
     }
 
     // Basic console logging (can be replaced with proper logging system)
@@ -392,30 +392,30 @@ export abstract class BaseManager extends EventEmitter {
    * Get current manager state
    */
   public getState(): ManagerState {
-    return { ...this.state };
+    return { ...this?.state };
   }
 
   /**
    * Get current manager metrics
    */
   public getMetrics(): ManagerMetrics {
-    return { ...this.metrics };
+    return { ...this?.metrics };
   }
 
   /**
    * Get manager configuration
    */
   public getConfig(): ManagerConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 
   /**
    * Health check
    */
   public isHealthy(): boolean {
-    return this.state.initialized && 
-           this.state.running && 
-           !this.state.error &&
+    return this?.state.initialized && 
+           this?.state.running && 
+           !this?.state.error &&
            (Date.now() - this.state.lastActivity.getTime()) < (this.config.timeout! * 2);
   }
 
@@ -424,40 +424,40 @@ export abstract class BaseManager extends EventEmitter {
    */
   private startMetricsCollection(): void {
     const metricsInterval = setInterval(() => {
-      this.updateMetrics();
+      this?.updateMetrics();
     }, 10000); // Update every 10 seconds
 
-    this.timers.set('metrics', metricsInterval as any);
+    this?.timers.set('metrics', metricsInterval as any);
   }
 
   /**
    * Update performance metrics
    */
   private updateMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     const recentOperations = Array.from(this.operations.values())
-      .filter((op: any) => op.endTime && (now - op.endTime.getTime()) < 60000); // Last minute
+      .filter((op: any) => op?.endTime && (now - op?.endTime.getTime()) < 60000); // Last minute
 
-    if (recentOperations.length > 0) {
-      this.metrics.operationsPerSecond = recentOperations.length / 60;
+    if (recentOperations?.length > 0) {
+      this?.metrics.operationsPerSecond = recentOperations?.length / 60;
       
-      const totalResponseTime = recentOperations.reduce((sum, op) => {
-        return sum + (op.endTime?.getTime() - op.startTime.getTime());
+      const totalResponseTime = recentOperations?.reduce((sum, op) => {
+        return sum + (op?.endTime?.getTime() - op?.startTime.getTime());
       }, 0);
-      this.metrics.averageResponseTime = totalResponseTime / recentOperations.length;
+      this?.metrics.averageResponseTime = totalResponseTime / recentOperations?.length;
       
-      const failedOperations = recentOperations.filter((op: any) => !op.success);
-      this.metrics.errorRate = failedOperations.length / recentOperations.length;
+      const failedOperations = recentOperations?.filter((op: any) => !op?.success);
+      this?.metrics.errorRate = failedOperations?.length / recentOperations?.length;
     }
 
     // Calculate cache hit rate (simplified)
-    this.metrics.cacheHitRate = this.cache.size > 0 ? 0.8 : 0; // Placeholder calculation
+    this?.metrics.cacheHitRate = this?.cache.size > 0 ? 0.8 : 0; // Placeholder calculation
     
     // Memory usage (simplified)
-    this.metrics.memory = process.memoryUsage().heapUsed / 1024 / 1024; // MB
+    this?.metrics.memory = process?.memoryUsage().heapUsed / 1024 / 1024; // MB
     
     // Uptime
-    this.metrics.uptime = this.state.initialized ? now - this.state.lastActivity.getTime() : 0;
+    this?.metrics.uptime = this?.state.initialized ? now - this?.state.lastActivity?.getTime() : 0;
   }
 
   // Abstract methods that must be implemented by subclasses

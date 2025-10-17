@@ -73,7 +73,7 @@ export class RealImplementationGenerator {
 
   constructor(config: Partial<GenerationConfig> = {}) {
     
-    this.config = {
+    this?.config = {
       targetModules: [],
       templateCategories: ['manager', 'processor', 'validator', 'bridge', 'converter'],
       includeTests: true,
@@ -83,7 +83,7 @@ export class RealImplementationGenerator {
       ...config
     };
     
-    this.initializeTemplates();
+    this?.initializeTemplates();
   }
 
   /**
@@ -94,10 +94,10 @@ export class RealImplementationGenerator {
     
     const results: GeneratedImplementation[] = [];
     
-    for (const moduleId of this.config.targetModules) {
+    for (const moduleId of this?.config.targetModules) {
       try {
-        const implementations = await this.generateModuleImplementations(moduleId);
-        results.push(...implementations);
+        const implementations = await this?.generateModuleImplementations(moduleId);
+        results?.push(...implementations);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error(`❌ Error generating implementations for ${moduleId}:`, err instanceof Error ? err.message : String(err));
@@ -116,11 +116,11 @@ export class RealImplementationGenerator {
     
     const implementations: GeneratedImplementation[] = [];
     
-    for (const template of this.templates.values()) {
-      if (this.config.templateCategories.includes(template.category)) {
+    for (const template of this?.templates.values()) {
+      if (this?.config.templateCategories?.includes(template?.category)) {
         try {
-          const implementation = await this.generateImplementation(moduleId, template);
-          implementations.push(implementation);
+          const implementation = await this?.generateImplementation(moduleId, template);
+          implementations?.push(implementation);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`❌ Error generating ${template.name} for ${moduleId}:`, err instanceof Error ? err.message : String(err));
@@ -135,38 +135,38 @@ export class RealImplementationGenerator {
    * Generate a specific implementation
    */
   async generateImplementation(moduleId: string, template: ImplementationTemplate): Promise<GeneratedImplementation> {
-    const implementationId = `${moduleId}_${template.id}`;
+    const implementationId = `${moduleId}_${template?.id}`;
     
     // Render template with module-specific data
-    const content = await this.renderTemplate(template, {
+    const content = await this?.renderTemplate(template, {
       moduleId,
-      moduleName: moduleId.replace('Pure', ''),
+      moduleName: moduleId?.replace('Pure', ''),
       timestamp: new Date().toISOString(),
-      includeTests: this.config.includeTests,
-      includeDocumentation: this.config.includeDocumentation
+      includeTests: this?.config.includeTests,
+      includeDocumentation: this?.config.includeDocumentation
     });
     
     const implementation: GeneratedImplementation = {
       id: implementationId,
       moduleId,
-      templateId: template.id,
+      templateId: template?.id,
       content,
-      dependencies: template.dependencies,
-      config: this.config,
+      dependencies: template?.dependencies,
+      config: this?.config,
       generatedAt: new Date(),
       status: 'generated'
     };
     
     // Validate implementation
-    const validation = await this.validateImplementation(implementation);
-    if (validation.valid) {
-      implementation.status = 'validated';
+    const validation = await this?.validateImplementation(implementation);
+    if (validation?.valid) {
+      implementation?.status = 'validated';
     } else {
-      implementation.status = 'failed';
+      implementation?.status = 'failed';
       console.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
     }
     
-    this.generatedImplementations.set(implementationId, implementation);
+    this?.generatedImplementations.set(implementationId, implementation);
     return implementation;
   }
 
@@ -174,12 +174,12 @@ export class RealImplementationGenerator {
    * Render template with data
    */
   private async renderTemplate(template: ImplementationTemplate, data: any): Promise<string> {
-    let content = template.template;
+    let content = template?.template;
     
     // Replace placeholders with actual data
-    for (const [key, value] of Object.entries(data)) {
+    for (const [key, value] of Object.entries(data: any)) {
       const placeholder = `{{${key}}}`;
-      content = content.replace(new RegExp(placeholder, 'g'), String(value));
+      content = content?.replace(new RegExp(placeholder, 'g'), String(value: any));
     }
     
     return content;
@@ -194,8 +194,8 @@ export class RealImplementationGenerator {
     
     try {
       // Basic validation
-      if (!implementation.content || implementation.content.trim().length === 0) {
-        errors.push('Implementation content is empty');
+      if (!implementation?.content || implementation?.content.trim().length === 0) {
+        errors?.push('Implementation content is empty');
       }
       
       // Check for required patterns
@@ -206,25 +206,25 @@ export class RealImplementationGenerator {
       ];
       
       for (const pattern of requiredPatterns) {
-        if (!pattern.test(implementation.content)) {
-          warnings.push(`Missing required pattern: ${pattern}`);
+        if (!pattern?.test(implementation?.content)) {
+          warnings?.push(`Missing required pattern: ${pattern}`);
         }
       }
       
       // Check for TODO comments
-      const todoMatches = implementation.content.match(/TODO|FIXME|HACK/g);
+      const todoMatches = implementation?.content.match(/TODO|FIXME|HACK/g);
       if (todoMatches) {
-        warnings.push(`Found ${todoMatches.length} TODO/FIXME/HACK comments`);
+        warnings?.push(`Found ${todoMatches?.length} TODO/FIXME/HACK comments`);
       }
       
       // Check error limit
-      if (errors.length > this.config.maxErrors) {
-        errors.splice(this.config.maxErrors);
-        errors.push(`Too many errors (limited to ${this.config.maxErrors})`);
+      if (errors?.length > this?.config.maxErrors) {
+        errors?.splice(this?.config.maxErrors);
+        errors?.push(`Too many errors (limited to ${this?.config.maxErrors})`);
       }
       
       return {
-        valid: errors.length === 0,
+        valid: errors?.length === 0,
         errors,
         warnings
       };
@@ -233,7 +233,7 @@ export class RealImplementationGenerator {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         valid: false,
-        errors: [`Validation error: ${error instanceof Error ? error.message : error}`],
+        errors: [`Validation error: ${error instanceof Error ? error?.message : error}`],
         warnings
       };
     }
@@ -250,7 +250,7 @@ export class RealImplementationGenerator {
    * Get implementation by ID
    */
   getImplementation(id: string): GeneratedImplementation! {
-    return this.generatedImplementations.get(id);
+    return this?.generatedImplementations.get(id);
   }
 
   /**
@@ -258,7 +258,7 @@ export class RealImplementationGenerator {
    */
   getModuleImplementations(moduleId: string): GeneratedImplementation[] {
     return Array.from(this.generatedImplementations.values())
-      .filter((impl: any) => impl.moduleId === moduleId);
+      .filter((impl: any) => impl?.moduleId === moduleId);
   }
 
   /**
@@ -277,13 +277,13 @@ export class RealImplementationGenerator {
     const byTemplate: Record<string, number> = {};
     
     for (const impl of implementations) {
-      byStatus[impl.status] = (byStatus[impl.status] || 0) + 1;
-      byModule[impl.moduleId] = (byModule[impl.moduleId] || 0) + 1;
-      byTemplate[impl.templateId] = (byTemplate[impl.templateId] || 0) + 1;
+      byStatus[impl?.status] = (byStatus[impl?.status] || 0) + 1;
+      byModule[impl?.moduleId] = (byModule[impl?.moduleId] || 0) + 1;
+      byTemplate[impl?.templateId] = (byTemplate[impl?.templateId] || 0) + 1;
     }
     
     return {
-      total: implementations.length,
+      total: implementations?.length,
       byStatus,
       byModule,
       byTemplate
@@ -295,7 +295,7 @@ export class RealImplementationGenerator {
    */
   private initializeTemplates(): void {
     // Manager Template
-    this.templates.set('manager', {
+    this?.templates.set('manager', {
       id: 'manager',
       name: 'Manager Implementation',
       description: 'Standard manager class for module management',
@@ -311,8 +311,8 @@ export class {{moduleName}}Manager {
   private config: any = {};
 
   constructor(config: any = {}) {
-    this.config = { ...this.getDefaultConfig(), ...config };
-    this.initialize();
+    this?.config = { ...this?.getDefaultConfig(), ...config };
+    this?.initialize({});
   }
 
   private getDefaultConfig(): any {
@@ -328,24 +328,24 @@ export class {{moduleName}}Manager {
     console.info('{{moduleName}}Manager initialized');
   }
 
-  async process(data): Promise<any> {
+  async process(data: any): Promise<any> {
     // Real processing logic
     return { processed: true, data };
   }
 
-  async validate(data): Promise<boolean> {
+  async validate(data: any): Promise<boolean> {
     // Real validation logic
     return data && typeof data === 'object';
   }
 
-  async save(data): Promise<void> {
+  async save(data: any): Promise<void> {
     // Real save logic
-    this.data.set('lastSave', data);
+    this?.data.set('lastSave', data);
   }
 
   async load(): Promise<any> {
     // Real load logic
-    return this.data.get('lastSave') || null;
+    return this?.data.get('lastSave') || null;
   }
 }`,
       dependencies: [],
@@ -353,7 +353,7 @@ export class {{moduleName}}Manager {
     });
 
     // Processor Template
-    this.templates.set('processor', {
+    this?.templates.set('processor', {
       id: 'processor',
       name: 'Processor Implementation',
       description: 'Standard processor class for data processing',
@@ -368,7 +368,7 @@ export class {{moduleName}}Processor {
   private config: any = {};
 
   constructor(config: any = {}) {
-    this.config = { ...this.getDefaultConfig(), ...config };
+    this?.config = { ...this?.getDefaultConfig(), ...config };
   }
 
   private getDefaultConfig(): any {
@@ -379,7 +379,7 @@ export class {{moduleName}}Processor {
     };
   }
 
-  async process(data): Promise<any> {
+  async process(data: any): Promise<any> {
     // Real processing logic
     return { processed: true, data, timestamp: new Date() };
   }
@@ -388,8 +388,8 @@ export class {{moduleName}}Processor {
     // Real batch processing logic
     const results = [];
     for (const item of items) {
-      const result = await this.process(item);
-      results.push(result);
+      const result = await this?.process(item: any);
+      results?.push(result: any);
     }
     return results;
   }
@@ -399,7 +399,7 @@ export class {{moduleName}}Processor {
     });
 
     // Validator Template
-    this.templates.set('validator', {
+    this?.templates.set('validator', {
       id: 'validator',
       name: 'Validator Implementation',
       description: 'Standard validator class for data validation',
@@ -414,28 +414,28 @@ export class {{moduleName}}Validator {
   private schema: any = {};
 
   constructor(schema: any = {}) {
-    this.schema = schema;
+    this?.schema = schema;
   }
 
-  async validate(data): Promise<{valid: boolean, errors: string[]}> {
+  async validate(data: any): Promise<{valid: boolean, errors: string[]}> {
     const errors: string[] = [];
     
     // Real validation logic
     if (!data) {
-      errors.push('Data is required');
+      errors?.push('Data is required');
     }
     
     if (typeof data !== 'object') {
-      errors.push('Data must be an object');
+      errors?.push('Data must be an object');
     }
     
     return {
-      valid: errors.length === 0,
+      valid: errors?.length === 0,
       errors
     };
   }
 
-  async validateSchema(data): Promise<boolean> {
+  async validateSchema(data: any): Promise<boolean> {
     // Real schema validation logic
     return true;
   }

@@ -940,7 +940,7 @@ export class EdgeComputingPure {
 
   constructor(config: Partial<EdgeComputingConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableNodeManagement: true,
       enableDistributedComputing: true,
       enableDataSynchronization: true,
@@ -957,7 +957,7 @@ export class EdgeComputingPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalNodes: 0,
       activeNodes: 0,
       totalTasks: 0,
@@ -971,7 +971,7 @@ export class EdgeComputingPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalTasks: 0,
       averageTaskDuration: 0,
       successRate: 0,
@@ -985,7 +985,7 @@ export class EdgeComputingPure {
    * Create a new edge computing manager
    */
   createManager(): EdgeComputingOutput {
-    if (!this.config.enableNodeManagement) {
+    if (!this?.config.enableNodeManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -995,8 +995,8 @@ export class EdgeComputingPure {
 
     const manager: EdgeComputingManager = {
       id: managerData.id || `edge-${Date.now()}`,
-      name: managerData.name || 'Unnamed Edge Computing Manager',
-      type: managerData.type || 'iot',
+      name: managerData?.name || 'Unnamed Edge Computing Manager',
+      type: managerData?.type || 'iot',
       status: 'active',
       nodes: [],
       tasks: [],
@@ -1061,7 +1061,7 @@ export class EdgeComputingPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1074,7 +1074,7 @@ export class EdgeComputingPure {
    * Get manager by ID
    */
   getManager(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1094,7 +1094,7 @@ export class EdgeComputingPure {
    * Add edge node
    */
   addNode(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-node',
@@ -1103,7 +1103,7 @@ export class EdgeComputingPure {
       };
     }
 
-    if (manager.nodes.length >= this.config.maxNodes) {
+    if (manager?.nodes.length >= this?.config.maxNodes) {
       return {
         op: 'add-node',
         status: 'error',
@@ -1113,10 +1113,10 @@ export class EdgeComputingPure {
 
     const newNode: EdgeNode = {
       id: node.id || `node-${Date.now()}`,
-      name: node.name || 'Unnamed Node',
-      type: node.type || 'processor',
+      name: node?.name || 'Unnamed Node',
+      type: node?.type || 'processor',
       status: 'online',
-      location: node.location || {
+      location: node?.location || {
         latitude: 0,
         longitude: 0,
         altitude: 0,
@@ -1124,7 +1124,7 @@ export class EdgeComputingPure {
         region: 'Unknown',
         timezone: 'UTC'
       },
-      capabilities: node.capabilities || {
+      capabilities: node?.capabilities || {
         compute: {
           cpu: { cores: 4, frequency: 2.4, architecture: 'x86_64', features: [] },
           memory: { total: 8192, available: 8192, type: 'DDR4', speed: 2400 },
@@ -1142,14 +1142,14 @@ export class EdgeComputingPure {
         sensors: [],
         actuators: []
       },
-      resources: node.resources || {
+      resources: node?.resources || {
         cpu: { used: 0, available: 100, percentage: 0, peak: 0, average: 0 },
         memory: { used: 0, available: 100, percentage: 0, peak: 0, average: 0 },
         storage: { used: 0, available: 100, percentage: 0, peak: 0, average: 0 },
         network: { used: 0, available: 100, percentage: 0, peak: 0, average: 0 },
         power: { used: 0, available: 100, percentage: 0, peak: 0, average: 0 }
       },
-      performance: node.performance || {
+      performance: node?.performance || {
         throughput: 0,
         latency: 0,
         efficiency: 0,
@@ -1157,7 +1157,7 @@ export class EdgeComputingPure {
         errorRate: 0,
         responseTime: 0
       },
-      health: node.health || {
+      health: node?.health || {
         status: 'healthy',
         score: 100,
         issues: [],
@@ -1168,10 +1168,10 @@ export class EdgeComputingPure {
       ...node
     };
 
-    manager.nodes.push(newNode);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalNodes++;
-    this.performanceMetrics.activeNodes++;
+    manager?.nodes?.push(newNode);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalNodes++;
+    this?.performanceMetrics.activeNodes++;
 
     return {
       op: 'add-node',
@@ -1184,7 +1184,7 @@ export class EdgeComputingPure {
    * Create edge task
    */
   createTask(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-task',
@@ -1193,7 +1193,7 @@ export class EdgeComputingPure {
       };
     }
 
-    if (manager.tasks.length >= this.config.maxTasks) {
+    if (manager?.tasks.length >= this?.config.maxTasks) {
       return {
         op: 'create-task',
         status: 'error',
@@ -1203,12 +1203,12 @@ export class EdgeComputingPure {
 
     const newNode: EdgeTask = {
       id: task.id || `task-${Date.now()}`,
-      name: task.name || 'Unnamed Task',
-      type: task.type || 'compute',
-      priority: task.priority || 'normal',
+      name: task?.name || 'Unnamed Task',
+      type: task?.type || 'compute',
+      priority: task?.priority || 'normal',
       status: 'pending',
-      nodeId: task.nodeId || '',
-      requirements: task.requirements || {
+      nodeId: task?.nodeId || '',
+      requirements: task?.requirements || {
         cpu: 1,
         memory: 100,
         storage: 10,
@@ -1217,14 +1217,14 @@ export class EdgeComputingPure {
         sensors: [],
         actuators: []
       },
-      input: task.input || {
+      input: task?.input || {
         format: 'json',
         size: 0,
         encoding: 'utf-8',
         compression: 'none',
         checksum: ''
       },
-      output: task.output || {
+      output: task?.output || {
         format: 'json',
         size: 0,
         encoding: 'utf-8',
@@ -1237,9 +1237,9 @@ export class EdgeComputingPure {
       ...task
     };
 
-    manager.tasks.push(newNode);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalTasks++;
+    manager?.tasks?.push(newNode);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalTasks++;
 
     return {
       op: 'create-task',
@@ -1252,7 +1252,7 @@ export class EdgeComputingPure {
    * Execute task
    */
   executeTask(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'execute-task',
@@ -1261,7 +1261,7 @@ export class EdgeComputingPure {
       };
     }
 
-    const task = manager.tasks.find(t => t.id === taskId);
+    const task = manager?.tasks.find(t => t?.id === taskId);
     if (!task) {
       return {
         op: 'execute-task',
@@ -1270,7 +1270,7 @@ export class EdgeComputingPure {
       };
     }
 
-    if (task.status !== 'pending') {
+    if (task?.status !== 'pending') {
       return {
         op: 'execute-task',
         status: 'error',
@@ -1279,7 +1279,7 @@ export class EdgeComputingPure {
     }
 
     // Find suitable node
-    const node = this.findSuitableNode(manager, task);
+    const node = this?.findSuitableNode(manager, task);
     if (!node) {
       return {
         op: 'execute-task',
@@ -1288,19 +1288,19 @@ export class EdgeComputingPure {
       };
     }
 
-    task.status = 'running';
-    task.nodeId = node.id;
-    task.startedAt = Date.now();
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.runningTasks++;
+    task?.status = 'running';
+    task?.nodeId = node?.id;
+    task.startedAt = new Date();
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.runningTasks++;
 
     // Simulate task execution
     setTimeout(() => {
-      task.status = 'completed';
-      task.completedAt = Date.now();
-      task.progress = 100;
-      this.performanceMetrics.runningTasks--;
-      this.performanceMetrics.completedTasks++;
+      task?.status = 'completed';
+      task.completedAt = new Date();
+      task?.progress = 100;
+      this?.performanceMetrics.runningTasks--;
+      this?.performanceMetrics.completedTasks++;
     }, 1000);
 
     return {
@@ -1308,7 +1308,7 @@ export class EdgeComputingPure {
       status: 'ok',
       result: {
         taskId,
-        nodeId: node.id,
+        nodeId: node?.id,
         estimatedDuration: 1000
       }
     };
@@ -1318,15 +1318,15 @@ export class EdgeComputingPure {
    * Find suitable node for task
    */
   private findSuitableNode(manager: EdgeComputingManager, task: EdgeTask): EdgeNode | null {
-    for (const node of manager.nodes) {
-      if (node.status !== 'online') continue;
+    for (const node of manager?.nodes) {
+      if (node?.status !== 'online') continue;
       
-      const resources = node.resources;
-      const requirements = task.requirements;
+      const resources = node?.resources;
+      const requirements = task?.requirements;
       
-      if (resources.cpu.available >= requirements.cpu &&
-          resources.memory.available >= requirements.memory &&
-          resources.storage.available >= requirements.storage) {
+      if (resources?.cpu.available >= requirements?.cpu &&
+          resources?.memory.available >= requirements?.memory &&
+          resources?.storage.available >= requirements?.storage) {
         return node;
       }
     }
@@ -1338,14 +1338,14 @@ export class EdgeComputingPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): EdgeComputingPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): EdgeComputingAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1359,7 +1359,7 @@ export class EdgeComputingPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalNodes = 0;
     let activeNodes = 0;
     let totalTasks = 0;
@@ -1367,21 +1367,21 @@ export class EdgeComputingPure {
     let completedTasks = 0;
     let failedTasks = 0;
 
-    for (const manager of this.managers.values()) {
-      totalNodes += manager.nodes.length;
-      activeNodes += manager.nodes.filter((n: any) => n.status === 'online').length;
-      totalTasks += manager.tasks.length;
-      runningTasks += manager.tasks.filter((t: any) => t.status === 'running').length;
-      completedTasks += manager.tasks.filter((t: any) => t.status === 'completed').length;
-      failedTasks += manager.tasks.filter((t: any) => t.status === 'failed').length;
+    for (const manager of this?.managers.values()) {
+      totalNodes += manager?.nodes.length;
+      activeNodes += manager?.nodes.filter((n: any) => n?.status === 'online').length;
+      totalTasks += manager?.tasks.length;
+      runningTasks += manager?.tasks.filter((t: any) => t?.status === 'running').length;
+      completedTasks += manager?.tasks.filter((t: any) => t?.status === 'completed').length;
+      failedTasks += manager?.tasks.filter((t: any) => t?.status === 'failed').length;
     }
 
-    this.performanceMetrics.totalNodes = totalNodes;
-    this.performanceMetrics.activeNodes = activeNodes;
-    this.performanceMetrics.totalTasks = totalTasks;
-    this.performanceMetrics.runningTasks = runningTasks;
-    this.performanceMetrics.completedTasks = completedTasks;
-    this.performanceMetrics.failedTasks = failedTasks;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalNodes = totalNodes;
+    this?.performanceMetrics.activeNodes = activeNodes;
+    this?.performanceMetrics.totalTasks = totalTasks;
+    this?.performanceMetrics.runningTasks = runningTasks;
+    this?.performanceMetrics.completedTasks = completedTasks;
+    this?.performanceMetrics.failedTasks = failedTasks;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

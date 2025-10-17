@@ -409,11 +409,11 @@ export class UnrealSceneBuilderPure {
     payloadAdapter: UnrealPayloadAdapterPure,
     renderPayloadManager: RenderPayloadManager
   ) {
-    this.sceneBuilderManager = sceneBuilderManager;
-    this.bridgeManager = bridgeManager;
-    this.payloadAdapter = payloadAdapter;
-    this.renderPayloadManager = renderPayloadManager;
-    this.initializeDefaultConfigurations();
+    this?.sceneBuilderManager = sceneBuilderManager;
+    this?.bridgeManager = bridgeManager;
+    this?.payloadAdapter = payloadAdapter;
+    this?.renderPayloadManager = renderPayloadManager;
+    this?.initializeDefaultConfigurations();
   }
 
   private initializeDefaultConfigurations(): void {
@@ -421,24 +421,24 @@ export class UnrealSceneBuilderPure {
 
     // Default Game Scene Configuration
     const defaultGameConfig: UnrealSceneBuildConfiguration = {
-      sceneType: UnrealSceneType.LEVEL,
-      worldPartitionType: UnrealWorldPartitionType.GRID,
-      navigationSystem: UnrealNavigationSystem.DEFAULT,
-      lightingSystem: UnrealLightingSystem.LUMEN,
-      physicsSystem: UnrealPhysicsSystem.CHAOS,
-      audioSystem: UnrealAudioSystem.DEFAULT,
+      sceneType: UnrealSceneType?.LEVEL,
+      worldPartitionType: UnrealWorldPartitionType?.GRID,
+      navigationSystem: UnrealNavigationSystem?.DEFAULT,
+      lightingSystem: UnrealLightingSystem?.LUMEN,
+      physicsSystem: UnrealPhysicsSystem?.CHAOS,
+      audioSystem: UnrealAudioSystem?.DEFAULT,
       name: 'DefaultGameScene',
       description: 'Default Unreal game scene with full feature set',
       dimensions: { width: 10000, height: 10000, depth: 10000 },
       layers: [
-        SceneLayer.BACKGROUND,
-        SceneLayer.TERRAIN,
-        SceneLayer.STRUCTURES,
-        SceneLayer.INTERACTABLES,
-        SceneLayer.CHARACTERS,
-        SceneLayer.EFFECTS,
-        SceneLayer.UI,
-        SceneLayer.OVERLAY
+        SceneLayer?.BACKGROUND,
+        SceneLayer?.TERRAIN,
+        SceneLayer?.STRUCTURES,
+        SceneLayer?.INTERACTABLES,
+        SceneLayer?.CHARACTERS,
+        SceneLayer?.EFFECTS,
+        SceneLayer?.UI,
+        SceneLayer?.OVERLAY
       ],
       optimizationMode: 'culling',
       exportFormats: ['unity', 'godot', 'json'],
@@ -521,25 +521,25 @@ export class UnrealSceneBuilderPure {
       customSettings: {}
     };
 
-    this.sceneConfigurations.set('default_game', defaultGameConfig);
+    this?.sceneConfigurations.set('default_game', defaultGameConfig);
 
     // Combat Arena Configuration
     const combatArenaConfig: UnrealSceneBuildConfiguration = {
-      sceneType: UnrealSceneType.LEVEL,
-      worldPartitionType: UnrealWorldPartitionType.NONE,
-      navigationSystem: UnrealNavigationSystem.DEFAULT,
-      lightingSystem: UnrealLightingSystem.DYNAMIC,
-      physicsSystem: UnrealPhysicsSystem.CHAOS,
-      audioSystem: UnrealAudioSystem.DEFAULT,
+      sceneType: UnrealSceneType?.LEVEL,
+      worldPartitionType: UnrealWorldPartitionType?.NONE,
+      navigationSystem: UnrealNavigationSystem?.DEFAULT,
+      lightingSystem: UnrealLightingSystem?.DYNAMIC,
+      physicsSystem: UnrealPhysicsSystem?.CHAOS,
+      audioSystem: UnrealAudioSystem?.DEFAULT,
       name: 'CombatArena',
       description: 'Combat arena for battles and fights',
       dimensions: { width: 5000, height: 5000, depth: 1000 },
       layers: [
-        SceneLayer.TERRAIN,
-        SceneLayer.STRUCTURES,
-        SceneLayer.INTERACTABLES,
-        SceneLayer.CHARACTERS,
-        SceneLayer.EFFECTS
+        SceneLayer?.TERRAIN,
+        SceneLayer?.STRUCTURES,
+        SceneLayer?.INTERACTABLES,
+        SceneLayer?.CHARACTERS,
+        SceneLayer?.EFFECTS
       ],
       optimizationMode: 'culling',
       exportFormats: ['unity', 'godot', 'json'],
@@ -646,7 +646,7 @@ export class UnrealSceneBuilderPure {
       customSettings: {}
     };
 
-    this.sceneConfigurations.set('combat_arena', combatArenaConfig);
+    this?.sceneConfigurations.set('combat_arena', combatArenaConfig);
 
     console.log(`[UnrealSceneBuilderPure!] Initialized ${this.sceneConfigurations.size} scene configurations`);
   }
@@ -662,23 +662,23 @@ export class UnrealSceneBuilderPure {
       // Get or create configuration
       let config: UnrealSceneBuildConfiguration;
       if (configurationId) {
-        const existingConfig = this.sceneConfigurations.get(configurationId);
+        const existingConfig = this?.sceneConfigurations.get(configurationId);
         if (!existingConfig) {
           throw new Error(`Scene configuration not found: ${configurationId}`);
         }
         config = { ...existingConfig, ...options };
       } else {
         config = {
-          sceneType: UnrealSceneType.LEVEL,
-          worldPartitionType: UnrealWorldPartitionType.NONE,
-          navigationSystem: UnrealNavigationSystem.DEFAULT,
-          lightingSystem: UnrealLightingSystem.DYNAMIC,
-          physicsSystem: UnrealPhysicsSystem.PHYSICS,
-          audioSystem: UnrealAudioSystem.DEFAULT,
+          sceneType: UnrealSceneType?.LEVEL,
+          worldPartitionType: UnrealWorldPartitionType?.NONE,
+          navigationSystem: UnrealNavigationSystem?.DEFAULT,
+          lightingSystem: UnrealLightingSystem?.DYNAMIC,
+          physicsSystem: UnrealPhysicsSystem?.PHYSICS,
+          audioSystem: UnrealAudioSystem?.DEFAULT,
           name: 'UnrealScene',
           description: 'Unreal scene built from MIFF data',
           dimensions: { width: 10000, height: 10000, depth: 10000 },
-          layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
+          layers: [SceneLayer?.BACKGROUND, SceneLayer?.TERRAIN, SceneLayer?.CHARACTERS],
           optimizationMode: 'culling',
           exportFormats: ['unity', 'godot', 'json'],
           enablePhysics: true,
@@ -762,64 +762,64 @@ export class UnrealSceneBuilderPure {
         };
       }
 
-      const startTime = Date.now();
+      const startTime = new Date();
 
       // Convert payload to Unreal format
       console.log('[UnrealSceneBuilderPure!] Converting render payload to Unreal format...');
-      const conversionResult = await this.payloadAdapter.convertRenderPayload(payloadId, configurationId, config);
+      const conversionResult = await this?.payloadAdapter.convertRenderPayload(payloadId, configurationId, config);
 
-      if (!conversionResult.success) {
-        throw new Error(`Payload conversion failed: ${conversionResult.errors.join(', ')}`);
+      if (!conversionResult?.success) {
+        throw new Error(`Payload conversion failed: ${conversionResult?.errors.join(', ')}`);
       }
 
       // Build scene composition
       console.log('[UnrealSceneBuilderPure!] Building scene composition...');
-      const composition = await this.buildSceneComposition(config, conversionResult);
+      const composition = await this?.buildSceneComposition(config, conversionResult);
 
       // Create world and level structures
       console.log('[UnrealSceneBuilderPure!] Creating world and level structures...');
-      const world = this.createUnrealWorld(config, composition);
-      const persistentLevel = this.createUnrealLevel(config, composition);
+      const world = this?.createUnrealWorld(config, composition);
+      const persistentLevel = this?.createUnrealLevel(config, composition);
 
       // Create navigation system
       console.log('[UnrealSceneBuilderPure!] Creating navigation system...');
-      const navigationSystem = this.createNavigationSystem(config);
+      const navigationSystem = this?.createNavigationSystem(config);
 
       // Create lighting system
       console.log('[UnrealSceneBuilderPure!] Creating lighting system...');
-      const lightingSystem = this.createLightingSystem(config);
+      const lightingSystem = this?.createLightingSystem(config);
 
       // Create physics system
       console.log('[UnrealSceneBuilderPure!] Creating physics system...');
-      const physicsSystem = this.createPhysicsSystem(config);
+      const physicsSystem = this?.createPhysicsSystem(config);
 
       // Create audio system
       console.log('[UnrealSceneBuilderPure!] Creating audio system...');
-      const audioSystem = this.createAudioSystem(config);
+      const audioSystem = this?.createAudioSystem(config);
 
       // Register all components with bridge manager
       console.log('[UnrealSceneBuilderPure!] Registering components with bridge manager...');
-      this.registerSceneComponents(composition);
+      this?.registerSceneComponents(composition);
 
-      const buildTime = Date.now() - startTime;
+      const buildTime = new Date() - startTime;
 
       const result: UnrealSceneBuildResult = {
         success: true,
         sceneId: `unreal_scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        worldId: world.id,
+        worldId: world?.id,
         buildTime,
         composition,
-        warnings: conversionResult.warnings,
-        errors: conversionResult.errors,
+        warnings: conversionResult?.warnings,
+        errors: conversionResult?.errors,
         metadata: {
           configuration: config,
           sourcePayloadId: payloadId,
           conversionResult,
           buildDuration: buildTime,
-          actorCount: composition.actors.length,
-          componentCount: composition.components.length,
-          systemCount: composition.systems.length,
-          serviceCount: composition.services.length
+          actorCount: composition?.actors.length,
+          componentCount: composition?.components.length,
+          systemCount: composition?.systems.length,
+          serviceCount: composition?.services.length
         }
       };
 
@@ -843,7 +843,7 @@ export class UnrealSceneBuilderPure {
         buildTime: 0,
         composition: null as any,
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? error?.message : 'Unknown error'],
         metadata: {
           configuration: null,
           sourcePayloadId: payloadId,
@@ -869,8 +869,8 @@ export class UnrealSceneBuilderPure {
       lightingSystem: null as any,
       physicsSystem: null as any,
       audioSystem: null as any,
-      actors: conversionResult.convertedActors,
-      components: conversionResult.convertedComponents,
+      actors: conversionResult?.convertedActors,
+      components: conversionResult?.convertedComponents,
       systems: [],
       services: [],
       gameMode: null,
@@ -892,7 +892,7 @@ export class UnrealSceneBuilderPure {
   private createUnrealWorld(config: UnrealSceneBuildConfiguration, composition: UnrealSceneComposition): UnrealWorldBridge {
     return {
       id: `world_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: config.name,
+      name: config?.name,
       worldType: 'game',
       timeSeconds: 0,
       realTimeSeconds: 0,
@@ -904,8 +904,8 @@ export class UnrealSceneBuilderPure {
       bWorldOriginShifted: false,
       bIsWorldInitialized: false,
       bIsDefaultLevel: true,
-      bIsPartitionedWorld: config.enableWorldPartition,
-      bShouldSimulatePhysics: config.enablePhysics,
+      bIsPartitionedWorld: config?.enableWorldPartition,
+      bShouldSimulatePhysics: config?.enablePhysics,
       bShouldTick: true,
       bIsTearingDown: false,
       bIsBuilt: false,
@@ -915,9 +915,9 @@ export class UnrealSceneBuilderPure {
       bHasBegunPlay: false,
       bIsInSeamlessTravel: false,
       bIsDefaultLevelVisible: true,
-      bIsPartitioned: config.enableWorldPartition,
-      bIsWorldPartitioned: config.enableWorldPartition,
-      bCanBePartitioned: config.enableWorldPartition,
+      bIsPartitioned: config?.enableWorldPartition,
+      bIsWorldPartitioned: config?.enableWorldPartition,
+      bCanBePartitioned: config?.enableWorldPartition,
       bIsVisibleInSceneOutliner: true,
       metadata: {
         configuration: config,
@@ -930,30 +930,30 @@ export class UnrealSceneBuilderPure {
   private createUnrealLevel(config: UnrealSceneBuildConfiguration, composition: UnrealSceneComposition): UnrealLevelBridge {
     return {
       id: `level_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: `${config.name}_Level`,
-      path: `/Game/MIFF/Levels/${config.name}_Level`,
+      name: `${config?.name}_Level`,
+      path: `/Game/MIFF/Levels/${config?.name}_Level`,
       persistentLevel: '',
       streamedLevels: [],
       levelScriptBlueprint: '',
       worldSettings: null,
-      gameMode: config.gameMode,
-      defaultPawn: config.defaultPawn,
-      hudClass: config.hud,
-      playerController: config.playerController,
-      gameState: config.gameState,
-      spectatorClass: config.spectator,
+      gameMode: config?.gameMode,
+      defaultPawn: config?.defaultPawn,
+      hudClass: config?.hud,
+      playerController: config?.playerController,
+      gameState: config?.gameState,
+      spectatorClass: config?.spectator,
       defaultPhysicsVolume: 'DefaultPhysicsVolume',
-      defaultGameMode: config.gameMode,
+      defaultGameMode: config?.gameMode,
       globalGravity: -980.0,
       levelBounds: {
-        min: { x: -config.dimensions.width / 2, y: -config.dimensions.height / 2, z: -config.dimensions.depth! / 2 },
-        max: { x: config.dimensions.width / 2, y: config.dimensions.height / 2, z: config.dimensions.depth! / 2 }
+        min: { x: -config?.dimensions.width / 2, y: -config?.dimensions.height / 2, z: -config?.dimensions.depth! / 2 },
+        max: { x: config?.dimensions.width / 2, y: config?.dimensions.height / 2, z: config?.dimensions.depth! / 2 }
       },
       numTextureStreamingUnbuiltComponents: 0,
       numTextureStreamingDirtyResources: 0,
       bIsVisible: true,
       bIsLocked: false,
-      bIsPartitioned: config.enableWorldPartition,
+      bIsPartitioned: config?.enableWorldPartition,
       levelColor: { r: 0.5, g: 0.5, b: 0.5 },
       metadata: {
         configuration: config,
@@ -1008,51 +1008,51 @@ export class UnrealSceneBuilderPure {
     return {
       id: `lighting_system_${Date.now()}`,
       name: 'LightingSystem',
-      lightingSystemType: config.lightingSystem === UnrealLightingSystem.LUMEN ? 'lumen' : 'static',
-      globalIlluminationType: config.enableLumen ? 'lumen' : 'lightmass',
-      reflectionType: config.enableLumen ? 'lumen' : 'reflection_captures',
+      lightingSystemType: config?.lightingSystem === UnrealLightingSystem?.LUMEN ? 'lumen' : 'static',
+      globalIlluminationType: config?.enableLumen ? 'lumen' : 'lightmass',
+      reflectionType: config?.enableLumen ? 'lumen' : 'reflection_captures',
       shadowType: 'baked',
-      volumetricLightingType: config.enableVolumetricClouds ? 'clouds' : 'none',
-      skyLightType: config.enableSkyAtmosphere ? 'real_time_capture' : 'static',
-      ambientOcclusionType: config.enableDistanceFieldAO ? 'distance_field' : 'none',
-      lightmapType: config.enableLumen ? 'lumen' : 'lightmass',
-      lightmapResolution: config.lightmapResolution,
+      volumetricLightingType: config?.enableVolumetricClouds ? 'clouds' : 'none',
+      skyLightType: config?.enableSkyAtmosphere ? 'real_time_capture' : 'static',
+      ambientOcclusionType: config?.enableDistanceFieldAO ? 'distance_field' : 'none',
+      lightmapType: config?.enableLumen ? 'lumen' : 'lightmass',
+      lightmapResolution: config?.lightmapResolution,
       numLightmapCoefficients: 4,
-      bUseAmbientOcclusion: config.enableAmbientOcclusion,
-      bUseDistanceFieldAmbientOcclusion: config.enableDistanceFieldAO,
-      bUseRayTracedAmbientOcclusion: config.enableRayTracing,
-      bUseGlobalIllumination: config.enableGlobalIllumination,
-      bUseReflections: config.enableReflections,
-      bUseTranslucencyVolume: config.enableTranslucency,
-      bUseVolumetricLightmap: config.enableLumen,
-      bUseVirtualShadowMaps: config.enableVirtualTextures,
+      bUseAmbientOcclusion: config?.enableAmbientOcclusion,
+      bUseDistanceFieldAmbientOcclusion: config?.enableDistanceFieldAO,
+      bUseRayTracedAmbientOcclusion: config?.enableRayTracing,
+      bUseGlobalIllumination: config?.enableGlobalIllumination,
+      bUseReflections: config?.enableReflections,
+      bUseTranslucencyVolume: config?.enableTranslucency,
+      bUseVolumetricLightmap: config?.enableLumen,
+      bUseVirtualShadowMaps: config?.enableVirtualTextures,
       bCompressLightmaps: true,
-      bGenerateDistanceField: config.enableDistanceField,
-      bGenerateMeshDistanceFields: config.enableMeshDistanceFields,
-      bGenerateGlobalDistanceField: config.enableGlobalDistanceField,
-      bGenerateStaticMeshDistanceFields: config.enableStaticMeshDistanceFields,
-      bGenerateSkeletalMeshDistanceFields: config.enableSkeletalMeshDistanceFields,
-      bGenerateLandscapeDistanceFields: config.enableLandscapeDistanceFields,
-      bGenerateVirtualShadowMaps: config.enableVirtualTextures,
-      bGenerateSignedDistanceFields: config.enableSignedDistanceField,
+      bGenerateDistanceField: config?.enableDistanceField,
+      bGenerateMeshDistanceFields: config?.enableMeshDistanceFields,
+      bGenerateGlobalDistanceField: config?.enableGlobalDistanceField,
+      bGenerateStaticMeshDistanceFields: config?.enableStaticMeshDistanceFields,
+      bGenerateSkeletalMeshDistanceFields: config?.enableSkeletalMeshDistanceFields,
+      bGenerateLandscapeDistanceFields: config?.enableLandscapeDistanceFields,
+      bGenerateVirtualShadowMaps: config?.enableVirtualTextures,
+      bGenerateSignedDistanceFields: config?.enableSignedDistanceField,
       bGenerateLightmapAtlas: true,
-      bGenerateVolumetricLightmap: config.enableLumen,
+      bGenerateVolumetricLightmap: config?.enableLumen,
       bUseLightmapAtlas: true,
-      bUseVolumetricLightmap: config.enableLumen,
-      bUseVirtualTextures: config.enableVirtualTextures,
-      bUseRuntimeVirtualTextures: config.enableVirtualTextures,
-      bUseNanite: config.enableNanite,
-      bUseLumen: config.enableLumen,
-      bUseHardwareRayTracing: config.enableRayTracing,
-      bUseRayTracing: config.enableRayTracing,
-      bUsePathTracing: config.enablePathTracing,
-      bUseVirtualShadowMaps: config.enableVirtualTextures,
-      bUseSignedDistanceFields: config.enableSignedDistanceField,
-      bUseMeshDistanceFields: config.enableMeshDistanceFields,
-      bUseGlobalDistanceField: config.enableGlobalDistanceField,
-      bUseStaticMeshDistanceFields: config.enableStaticMeshDistanceFields,
-      bUseSkeletalMeshDistanceFields: config.enableSkeletalMeshDistanceFields,
-      bUseLandscapeDistanceFields: config.enableLandscapeDistanceFields,
+      bUseVolumetricLightmap: config?.enableLumen,
+      bUseVirtualTextures: config?.enableVirtualTextures,
+      bUseRuntimeVirtualTextures: config?.enableVirtualTextures,
+      bUseNanite: config?.enableNanite,
+      bUseLumen: config?.enableLumen,
+      bUseHardwareRayTracing: config?.enableRayTracing,
+      bUseRayTracing: config?.enableRayTracing,
+      bUsePathTracing: config?.enablePathTracing,
+      bUseVirtualShadowMaps: config?.enableVirtualTextures,
+      bUseSignedDistanceFields: config?.enableSignedDistanceField,
+      bUseMeshDistanceFields: config?.enableMeshDistanceFields,
+      bUseGlobalDistanceField: config?.enableGlobalDistanceField,
+      bUseStaticMeshDistanceFields: config?.enableStaticMeshDistanceFields,
+      bUseSkeletalMeshDistanceFields: config?.enableSkeletalMeshDistanceFields,
+      bUseLandscapeDistanceFields: config?.enableLandscapeDistanceFields,
       metadata: {
         configuration: config,
         creationTime: new Date()
@@ -1064,7 +1064,7 @@ export class UnrealSceneBuilderPure {
     return {
       id: `physics_system_${Date.now()}`,
       name: 'PhysicsSystem',
-      physicsSystemType: config.physicsSystem === UnrealPhysicsSystem.CHAOS ? 'chaos' : 'physics',
+      physicsSystemType: config?.physicsSystem === UnrealPhysicsSystem?.CHAOS ? 'chaos' : 'physics',
       gravity: { x: 0, y: 0, z: -980 },
       defaultFluidFriction: 0.3,
       defaultTerminalVelocity: 4000.0,
@@ -1119,7 +1119,7 @@ export class UnrealSceneBuilderPure {
     return {
       id: `audio_system_${Date.now()}`,
       name: 'AudioSystem',
-      audioSystemType: config.audioSystem === UnrealAudioSystem.DEFAULT ? 'default' : 'default',
+      audioSystemType: config?.audioSystem === UnrealAudioSystem?.DEFAULT ? 'default' : 'default',
       masterVolume: 1.0,
       musicVolume: 0.8,
       sfxVolume: 1.0,
@@ -1144,22 +1144,22 @@ export class UnrealSceneBuilderPure {
       maxActiveLayers: 64,
       maxActivePositions: 32,
       maxActivePositioning: 64,
-      bEnableSpatialAudio: config.enableSpatialization,
-      bEnableReverb: config.enableReverb,
-      bEnableOcclusion: config.enableOcclusion,
-      bEnableObstruction: config.enableObstruction,
-      bEnableVirtualization: config.enableVirtualization,
-      bEnableHRTF: config.enableHRTF,
-      bEnableAmbisonics: config.enableAmbisonics,
+      bEnableSpatialAudio: config?.enableSpatialization,
+      bEnableReverb: config?.enableReverb,
+      bEnableOcclusion: config?.enableOcclusion,
+      bEnableObstruction: config?.enableObstruction,
+      bEnableVirtualization: config?.enableVirtualization,
+      bEnableHRTF: config?.enableHRTF,
+      bEnableAmbisonics: config?.enableAmbisonics,
       bEnableBinaural: false,
       bEnablePersonalizedHRTF: false,
-      bEnable3DAudio: config.enableSpatialization,
+      bEnable3DAudio: config?.enableSpatialization,
       bEnableDynamicRoomModeling: false,
       bEnableDynamicRoomCorrection: false,
-      bEnableSoundPropagation: config.enableSpatialization,
-      bEnableSoundOcclusion: config.enableOcclusion,
-      bEnableSoundObstruction: config.enableObstruction,
-      bEnableSoundVirtualization: config.enableVirtualization,
+      bEnableSoundPropagation: config?.enableSpatialization,
+      bEnableSoundOcclusion: config?.enableOcclusion,
+      bEnableSoundObstruction: config?.enableObstruction,
+      bEnableSoundVirtualization: config?.enableVirtualization,
       bEnableSoundAttenuation: true,
       bEnableSoundConcurrency: true,
       bEnableSoundLimiting: true,
@@ -1189,31 +1189,31 @@ export class UnrealSceneBuilderPure {
 
   private registerSceneComponents(composition: UnrealSceneComposition): void {
     // Register world
-    this.bridgeManager.registerWorld(composition.world);
+    this?.bridgeManager.registerWorld(composition?.world);
 
     // Register persistent level
-    this.bridgeManager.registerLevel(composition.persistentLevel);
+    this?.bridgeManager.registerLevel(composition?.persistentLevel);
 
     // Register streaming levels
-    for (const level of composition.streamingLevels) {
-      this.bridgeManager.registerLevel(level);
+    for (const level of composition?.streamingLevels) {
+      this?.bridgeManager.registerLevel(level);
     }
 
     // Register navigation system
-    this.bridgeManager.registerSystem(composition.navigationSystem);
+    this?.bridgeManager.registerSystem(composition?.navigationSystem);
 
     // Register lighting system
-    this.bridgeManager.registerSystem(composition.lightingSystem);
+    this?.bridgeManager.registerSystem(composition?.lightingSystem);
 
     // Register physics system
-    this.bridgeManager.registerSystem(composition.physicsSystem);
+    this?.bridgeManager.registerSystem(composition?.physicsSystem);
 
     // Register audio system
-    this.bridgeManager.registerSystem(composition.audioSystem);
+    this?.bridgeManager.registerSystem(composition?.audioSystem);
 
     // Register actors
-    for (const actor of composition.actors) {
-      this.bridgeManager.registerActor(actor);
+    for (const actor of composition?.actors) {
+      this?.bridgeManager.registerActor(actor);
     }
 
     console.log(`[UnrealSceneBuilderPure!] Registered ${composition.actors.length} actors and ${composition.systems.length} systems`);
@@ -1221,22 +1221,22 @@ export class UnrealSceneBuilderPure {
 
   // Configuration management
   addConfiguration(name: string, config: UnrealSceneBuildConfiguration): void {
-    this.sceneConfigurations.set(name, config);
+    this?.sceneConfigurations.set(name, config);
   }
 
   getConfiguration(name: string): UnrealSceneBuildConfiguration | undefined {
-    return this.sceneConfigurations.get(name);
+    return this?.sceneConfigurations.get(name);
   }
 
   updateConfiguration(name: string, updates: Partial<UnrealSceneBuildConfiguration>): void {
-    const existing = this.sceneConfigurations.get(name);
+    const existing = this?.sceneConfigurations.get(name);
     if (existing) {
       Object.assign(existing, updates);
     }
   }
 
   removeConfiguration(name: string): void {
-    this.sceneConfigurations.delete(name);
+    this?.sceneConfigurations.delete(name);
   }
 
   getAllConfigurations(): string[] {
@@ -1246,24 +1246,24 @@ export class UnrealSceneBuilderPure {
   // Utility methods
   getSceneBuildStats(): any {
     return {
-      configurations: this.sceneConfigurations.size,
+      configurations: this?.sceneConfigurations.size,
       sceneBuilderManager: {
-        nodeCount: this.sceneBuilderManager.getNodeCount(),
-        assetCount: this.sceneBuilderManager.getAssetCount()
+        nodeCount: this?.sceneBuilderManager.getNodeCount(),
+        assetCount: this?.sceneBuilderManager.getAssetCount()
       },
       bridgeManager: {
-        actors: this.bridgeManager['actors']?.size || 0,
-        components: this.bridgeManager['components']?.size || 0,
-        systems: this.bridgeManager['systems']?.size || 0,
-        worlds: this.bridgeManager['worlds']?.size || 0,
-        levels: this.bridgeManager['levels']?.size || 0
+        actors: this?.bridgeManager['actors']?.size || 0,
+        components: this?.bridgeManager['components']?.size || 0,
+        systems: this?.bridgeManager['systems']?.size || 0,
+        worlds: this?.bridgeManager['worlds']?.size || 0,
+        levels: this?.bridgeManager['levels']?.size || 0
       }
     };
   }
 
   dispose(): void {
     console.log('[UnrealSceneBuilderPure!] Disposing scene builder...');
-    this.sceneConfigurations.clear();
+    this?.sceneConfigurations.clear();
     console.log('[UnrealSceneBuilderPure!] Scene builder disposed successfully');
   }
 }

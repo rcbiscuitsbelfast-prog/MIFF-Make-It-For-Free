@@ -35,19 +35,19 @@ class MockPlayerContext implements IPlayerContext {
   private capturedSpirits = new Set<string>();
 
   hasQuestFlag(flagId: string): boolean {
-    return this.questFlags.has(flagId);
+    return this?.questFlags.has(flagId);
   }
 
   hasLoreFlag(flagId: string): boolean {
-    return this.loreFlags.has(flagId);
+    return this?.loreFlags.has(flagId);
   }
 
   getCurrentLocationId(): string {
-    return this.currentLocation;
+    return this?.currentLocation;
   }
 
   getPlayerLevel(): number {
-    return this.playerLevel;
+    return this?.playerLevel;
   }
 
   getCompletedChallenges(): string[] {
@@ -63,51 +63,51 @@ class MockPlayerContext implements IPlayerContext {
   }
 
   setQuestFlag(flagId: string): void {
-    this.questFlags.add(flagId);
+    this?.questFlags.add(flagId);
   }
 
   setLoreFlag(flagId: string): void {
-    this.loreFlags.add(flagId);
+    this?.loreFlags.add(flagId);
   }
 
   setLocation(locationId: string): void {
-    this.currentLocation = locationId;
+    this?.currentLocation = locationId;
   }
 
   setPlayerLevel(level: number): void {
-    this.playerLevel = level;
+    this?.playerLevel = level;
   }
 
   completeChallenge(challengeId: string): void {
-    this.completedChallenges.add(challengeId);
+    this?.completedChallenges.add(challengeId);
   }
 
   unlockLocation(locationId: string): void {
-    this.unlockedLocations.add(locationId);
+    this?.unlockedLocations.add(locationId);
   }
 
   captureSpirit(spiritId: string): void {
-    this.capturedSpirits.add(spiritId);
+    this?.capturedSpirits.add(spiritId);
   }
 }
 
 // CLI Application
 class ChallengesPureCLI {
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
   private challengeManager: ChallengeManager;
   private playerContext: MockPlayerContext;
   private currentFilter: IChallengeFilter = {};
 
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout
     });
 
-    this.challengeManager = new ChallengeManager();
-    this.playerContext = new MockPlayerContext();
+    this?.challengeManager = new ChallengeManager();
+    this?.playerContext = new MockPlayerContext();
 
-    this.initializeDemoData();
+    this?.initializeDemoData();
   }
 
   /**
@@ -117,15 +117,15 @@ class ChallengesPureCLI {
     console.log('Initializing ChallengesPure CLI with demo data...');
 
     // Create sample challenges
-    this.createDemoChallenges();
+    this?.createDemoChallenges();
 
     // Set up player context
-    this.playerContext.setQuestFlag('tutorial_complete');
-    this.playerContext.setLoreFlag('fire_spirit_defeated');
-    this.playerContext.setLocation('forest_village');
-    this.playerContext.setPlayerLevel(5);
-    this.playerContext.captureSpirit('fire_spirit');
-    this.playerContext.unlockLocation('mountain_peak');
+    this?.playerContext.setQuestFlag('tutorial_complete');
+    this?.playerContext.setLoreFlag('fire_spirit_defeated');
+    this?.playerContext.setLocation('forest_village');
+    this?.playerContext.setPlayerLevel(5);
+    this?.playerContext.captureSpirit('fire_spirit');
+    this?.playerContext.unlockLocation('mountain_peak');
 
     console.log('Demo data created. Use "list" to see available challenges.');
   }
@@ -135,7 +135,7 @@ class ChallengesPureCLI {
    */
   private createDemoChallenges(): void {
     // Tutorial challenges
-    const tutorial1 = BattleChallenge.tutorial(
+    const tutorial1 = BattleChallenge?.tutorial(
       'tutorial_001',
       'First Steps',
       'Learn the basics of spirit combat',
@@ -143,7 +143,7 @@ class ChallengesPureCLI {
       10
     );
 
-    const tutorial2 = BattleChallenge.tutorial(
+    const tutorial2 = BattleChallenge?.tutorial(
       'tutorial_002',
       'Elemental Reactions',
       'Discover how different elements interact',
@@ -152,7 +152,7 @@ class ChallengesPureCLI {
     );
 
     // Main story challenges
-    const story1 = BattleChallenge.mainStory(
+    const story1 = BattleChallenge?.mainStory(
       'story_001',
       'The Fire Guardian',
       'Defeat the guardian of the ancient flames',
@@ -160,7 +160,7 @@ class ChallengesPureCLI {
       ['tutorial_complete']
     );
 
-    const story2 = BattleChallenge.mainStory(
+    const story2 = BattleChallenge?.mainStory(
       'story_002',
       'Mountain Trial',
       'Prove your worth on the mountain peak',
@@ -168,7 +168,7 @@ class ChallengesPureCLI {
       ['fire_spirit_defeated', 'mountain_peak']
     );
 
-    const boss1 = BattleChallenge.boss(
+    const boss1 = BattleChallenge?.boss(
       'boss_001',
       'The Elder Dragon',
       'Face the legendary elder dragon in combat',
@@ -177,14 +177,14 @@ class ChallengesPureCLI {
     );
 
     // Daily challenges
-    const daily1 = BattleChallenge.daily(
+    const daily1 = BattleChallenge?.daily(
       'daily_001',
       'Daily Sparring',
       'Test your skills against random opponents',
       ['random_spirit_1', 'random_spirit_2']
     );
 
-    const daily2 = BattleChallenge.daily(
+    const daily2 = BattleChallenge?.daily(
       'daily_002',
       'Elemental Training',
       'Focus on elemental mastery',
@@ -192,14 +192,14 @@ class ChallengesPureCLI {
     );
 
     // Achievement challenges
-    const achievement1 = BattleChallenge.achievement(
+    const achievement1 = BattleChallenge?.achievement(
       'achievement_001',
       'Spirit Master',
       'Defeat 100 different spirits',
       ['spirit_master_100_defeated']
     );
 
-    const achievement2 = BattleChallenge.achievement(
+    const achievement2 = BattleChallenge?.achievement(
       'achievement_002',
       'Perfect Victory',
       'Win a challenge without taking damage',
@@ -207,15 +207,15 @@ class ChallengesPureCLI {
     );
 
     // Special challenge with custom rules
-    const special1 = BattleChallenge.create(
+    const special1 = BattleChallenge?.create(
       'special_001',
       'No Items Challenge',
       'Defeat the opponent without using any items',
       ['challenge_master'],
-      ChallengeRuleset.itemBan(['healing_potion', 'attack_boost']),
+      ChallengeRuleset?.itemBan(['healing_potion', 'attack_boost']),
       { experience: 500, gold: 200 },
-      ChallengeCategory.SPECIAL,
-      ChallengeDifficulty.HARD,
+      ChallengeCategory?.SPECIAL,
+      ChallengeDifficulty?.HARD,
       20,
       9,
       ['no_items', 'special'],
@@ -224,23 +224,23 @@ class ChallengesPureCLI {
     );
 
     // Register all challenges
-    this.challengeManager.registerChallenge(tutorial1);
-    this.challengeManager.registerChallenge(tutorial2);
-    this.challengeManager.registerChallenge(story1);
-    this.challengeManager.registerChallenge(story2);
-    this.challengeManager.registerChallenge(boss1);
-    this.challengeManager.registerChallenge(daily1);
-    this.challengeManager.registerChallenge(daily2);
-    this.challengeManager.registerChallenge(achievement1);
-    this.challengeManager.registerChallenge(achievement2);
-    this.challengeManager.registerChallenge(special1);
+    this?.challengeManager.registerChallenge(tutorial1);
+    this?.challengeManager.registerChallenge(tutorial2);
+    this?.challengeManager.registerChallenge(story1);
+    this?.challengeManager.registerChallenge(story2);
+    this?.challengeManager.registerChallenge(boss1);
+    this?.challengeManager.registerChallenge(daily1);
+    this?.challengeManager.registerChallenge(daily2);
+    this?.challengeManager.registerChallenge(achievement1);
+    this?.challengeManager.registerChallenge(achievement2);
+    this?.challengeManager.registerChallenge(special1);
 
     // Set up event handlers
-    this.challengeManager.onChallengeStarted = (challenge) => {
+    this?.challengeManager.onChallengeStarted = (challenge) => {
       console.log(`🎯 Challenge started: ${challenge.name}`);
     };
 
-    this.challengeManager.onChallengeCompleted = (challenge, result) => {
+    this?.challengeManager.onChallengeCompleted = (challenge, result) => {
       console.log(`🏆 Challenge completed: ${challenge.name} (${result.outcome})`);
       if (result.itemRewards && Object.keys(result.itemRewards).length > 0) {
         console.log(`  Rewards: ${Object.entries(result.itemRewards).map(([item, amount]) => `${amount} ${item}`).join(', ')}`);
@@ -277,15 +277,15 @@ class ChallengesPureCLI {
     console.log('  exit              - Exit application');
     console.log('');
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this.rl.question('ChallengesPure> ', (input) => {
-      this.processCommand(input.trim());
+    this?.rl.question('ChallengesPure> ', (input) => {
+      this?.processCommand(input?.trim());
     });
   }
 
@@ -294,83 +294,83 @@ class ChallengesPureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this.showPrompt();
+      this?.showPrompt();
       return;
     }
 
-    const parts = input.split(' ');
+    const parts = input?.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this.showHelp();
+          this?.showHelp();
           break;
         case 'list':
         case 'l':
-          this.listChallenges(args);
+          this?.listChallenges(args);
           break;
         case 'show':
         case 's':
-          this.showChallenge(args[0!]);
+          this?.showChallenge(args[0!]);
           break;
         case 'start':
-          this.startChallenge(args[0!]);
+          this?.startChallenge(args[0!]);
           break;
         case 'complete':
         case 'c':
-          this.completeChallenge(args[0!], args.slice(1));
+          this?.completeChallenge(args[0!], args?.slice(1));
           break;
         case 'search':
-          this.searchChallenges(args.join(' '));
+          this?.searchChallenges(args?.join(' '));
           break;
         case 'filter':
         case 'f':
-          this.setFilter(args);
+          this?.setFilter(args);
           break;
         case 'stats':
-          this.showStatistics();
+          this?.showStatistics();
           break;
         case 'progress':
         case 'p':
-          this.showProgress();
+          this?.showProgress();
           break;
         case 'setflag':
-          this.setFlag(args[0!]);
+          this?.setFlag(args[0!]);
           break;
         case 'setlocation':
         case 'sl':
-          this.setLocation(args[0!]);
+          this?.setLocation(args[0!]);
           break;
         case 'setlevel':
         case 'lvl':
-          this.setLevel(args[0!]);
+          this?.setLevel(args[0!]);
           break;
         case 'capturespirit':
         case 'cs':
-          this.captureSpirit(args[0!]);
+          this?.captureSpirit(args[0!]);
           break;
         case 'export':
         case 'e':
-          this.exportChallenges(args[0!]);
+          this?.exportChallenges(args[0!]);
           break;
         case 'import':
         case 'i':
-          this.importChallenges(args[0!]);
+          this?.importChallenges(args[0!]);
           break;
         case 'clear':
-          this.clearChallengeData();
+          this?.clearChallengeData();
           break;
         case 'demo':
         case 'd':
-          this.resetDemo();
+          this?.resetDemo();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this.exit();
+          this?.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -381,7 +381,7 @@ class ChallengesPureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
@@ -397,57 +397,57 @@ class ChallengesPureCLI {
    */
   private listChallenges(args: string[]): void {
     const filterType = args[0!] || 'all';
-    let filter: IChallengeFilter = { ...this.currentFilter };
+    let filter: IChallengeFilter = { ...this?.currentFilter };
 
-    switch (filterType.toLowerCase()) {
+    switch (filterType?.toLowerCase()) {
       case 'available':
-        filter.status = ChallengeStatus.AVAILABLE;
+        filter?.status = ChallengeStatus?.AVAILABLE;
         break;
       case 'completed':
-        filter.status = ChallengeStatus.COMPLETED;
+        filter?.status = ChallengeStatus?.COMPLETED;
         break;
       case 'locked':
-        filter.status = ChallengeStatus.LOCKED;
+        filter?.status = ChallengeStatus?.LOCKED;
         break;
       case 'progress':
-        filter.status = ChallengeStatus.IN_PROGRESS;
+        filter?.status = ChallengeStatus?.IN_PROGRESS;
         break;
       case 'tutorial':
-        filter.category = ChallengeCategory.TUTORIAL;
+        filter?.category = ChallengeCategory?.TUTORIAL;
         break;
       case 'story':
-        filter.category = ChallengeCategory.MAIN_STORY;
+        filter?.category = ChallengeCategory?.MAIN_STORY;
         break;
       case 'daily':
-        filter.category = ChallengeCategory.DAILY;
+        filter?.category = ChallengeCategory?.DAILY;
         break;
       case 'boss':
-        filter.difficulty = ChallengeDifficulty.HARD;
+        filter?.difficulty = ChallengeDifficulty?.HARD;
         break;
       case 'easy':
-        filter.difficulty = ChallengeDifficulty.EASY;
+        filter?.difficulty = ChallengeDifficulty?.EASY;
         break;
       case 'all':
       default:
         break;
     }
 
-    const challenges = this.challengeManager.getFilteredChallenges(filter);
+    const challenges = this?.challengeManager.getFilteredChallenges(filter);
 
     console.log('='.repeat(70));
     console.log(`⚔️ Challenges (${challenges.length} found)`);
     console.log('='.repeat(70));
 
-    if (challenges.length === 0) {
+    if (challenges?.length === 0) {
       console.log('No challenges match the filter criteria.');
       return;
     }
 
-    challenges.forEach((challenge, index) => {
-      const statusIcon = this.getStatusIcon(challenge.status);
-      const difficultyIcon = this.getDifficultyIcon(challenge.difficulty);
-      const categoryIcon = this.getCategoryIcon(challenge.category);
-      const availability = challenge.isAvailable(this.playerContext) ? '✓' : '✗';
+    challenges?.forEach((challenge, index) => {
+      const statusIcon = this?.getStatusIcon(challenge?.status);
+      const difficultyIcon = this?.getDifficultyIcon(challenge?.difficulty);
+      const categoryIcon = this?.getCategoryIcon(challenge?.category);
+      const availability = challenge?.isAvailable(this?.playerContext) ? '✓' : '✗';
 
       console.log(`${index + 1}. ${statusIcon} ${difficultyIcon} ${categoryIcon} ${challenge.name}`);
       console.log(`   ID: ${challenge.challengeId} | Available: ${availability} | Priority: ${challenge.priority}`);
@@ -468,7 +468,7 @@ class ChallengesPureCLI {
       return;
     }
 
-    const challenge = this.challengeManager.getChallenge(challengeId);
+    const challenge = this?.challengeManager.getChallenge(challengeId);
     if (!challenge) {
       console.log(`❌ Challenge not found: ${challengeId}`);
       return;
@@ -489,15 +489,15 @@ class ChallengesPureCLI {
     console.log(`Estimated Duration: ${challenge.getEstimatedDuration()} minutes`);
     console.log(`Completion: ${challenge.getCompletionPercentage()}%`);
 
-    if (challenge.requiredFlags.length > 0) {
+    if (challenge?.requiredFlags.length > 0) {
       console.log(`Required Flags: ${challenge.requiredFlags.join(', ')}`);
     }
 
-    if (challenge.requiredLocationId) {
+    if (challenge?.requiredLocationId) {
       console.log(`Required Location: ${challenge.requiredLocationId}`);
     }
 
-    if (challenge.tags.length > 0) {
+    if (challenge?.tags.length > 0) {
       console.log(`Tags: ${challenge.tags.join(', ')}`);
     }
 
@@ -513,7 +513,7 @@ class ChallengesPureCLI {
     console.log('Rewards:');
     console.log(`  ${challenge.getRewardDescription()}`);
 
-    if (challenge.loreFlagsToSet.length > 0) {
+    if (challenge?.loreFlagsToSet.length > 0) {
       console.log(`  Lore Flags: ${challenge.loreFlagsToSet.join(', ')}`);
     }
 
@@ -531,23 +531,23 @@ class ChallengesPureCLI {
       return;
     }
 
-    const challenge = this.challengeManager.getChallenge(challengeId);
+    const challenge = this?.challengeManager.getChallenge(challengeId);
     if (!challenge) {
       console.log(`❌ Challenge not found: ${challengeId}`);
       return;
     }
 
-    if (challenge.status !== ChallengeStatus.AVAILABLE) {
+    if (challenge?.status !== ChallengeStatus?.AVAILABLE) {
       console.log(`❌ Challenge is not available (status: ${challenge.status})`);
       return;
     }
 
-    if (!challenge.isAvailable(this.playerContext)) {
+    if (!challenge?.isAvailable(this?.playerContext)) {
       console.log('❌ Challenge requirements not met');
       return;
     }
 
-    if (this.challengeManager.startChallenge(challengeId)) {
+    if (this?.challengeManager.startChallenge(challengeId)) {
       console.log(`✅ Started challenge: ${challenge.name}`);
     } else {
       console.log('❌ Failed to start challenge');
@@ -563,13 +563,13 @@ class ChallengesPureCLI {
       return;
     }
 
-    const challenge = this.challengeManager.getChallenge(challengeId);
+    const challenge = this?.challengeManager.getChallenge(challengeId);
     if (!challenge) {
       console.log(`❌ Challenge not found: ${challengeId}`);
       return;
     }
 
-    if (challenge.status !== ChallengeStatus.IN_PROGRESS) {
+    if (challenge?.status !== ChallengeStatus?.IN_PROGRESS) {
       console.log(`❌ Challenge is not in progress (status: ${challenge.status})`);
       return;
     }
@@ -577,7 +577,7 @@ class ChallengesPureCLI {
     const outcomeStr = args[0!] || 'victory';
     const turnsStr = args[1!] || '10';
 
-    const outcome = this.parseOutcome(outcomeStr);
+    const outcome = this?.parseOutcome(outcomeStr);
     const turns = parseInt(turnsStr);
 
     if (isNaN(turns) || turns < 0) {
@@ -589,30 +589,30 @@ class ChallengesPureCLI {
     let message = '';
 
     switch (outcome) {
-      case ChallengeOutcome.VICTORY:
-        result = ChallengeResult.victory(challenge.rewards, challenge.loreFlagsToSet, challenge.syncBoosts, 'Challenge completed successfully!', turns);
-        message = `✅ Completed challenge: ${challenge.name}`;
+      case ChallengeOutcome?.VICTORY:
+        result = ChallengeResult?.victory(challenge?.rewards, challenge?.loreFlagsToSet, challenge?.syncBoosts, 'Challenge completed successfully!', turns);
+        message = `✅ Completed challenge: ${challenge?.name}`;
         break;
-      case ChallengeOutcome.DEFEAT:
-        result = ChallengeResult.defeat('Challenge failed', turns);
-        message = `❌ Failed challenge: ${challenge.name}`;
+      case ChallengeOutcome?.DEFEAT:
+        result = ChallengeResult?.defeat('Challenge failed', turns);
+        message = `❌ Failed challenge: ${challenge?.name}`;
         break;
-      case ChallengeOutcome.TIMEOUT:
-        result = ChallengeResult.timeout(turns, 'Challenge timed out');
-        message = `⏰ Timed out: ${challenge.name}`;
+      case ChallengeOutcome?.TIMEOUT:
+        result = ChallengeResult?.timeout(turns, 'Challenge timed out');
+        message = `⏰ Timed out: ${challenge?.name}`;
         break;
-      case ChallengeOutcome.FORFEIT:
-        result = ChallengeResult.forfeit('Challenge forfeited', turns);
-        message = `🏳️ Forfeited: ${challenge.name}`;
+      case ChallengeOutcome?.FORFEIT:
+        result = ChallengeResult?.forfeit('Challenge forfeited', turns);
+        message = `🏳️ Forfeited: ${challenge?.name}`;
         break;
       default:
         console.log('❌ Invalid outcome');
         return;
     }
 
-    if (this.challengeManager.completeChallenge(challengeId, result)) {
+    if (this?.challengeManager.completeChallenge(challengeId, result)) {
       console.log(message);
-      this.playerContext.completeChallenge(challengeId);
+      this?.playerContext.completeChallenge(challengeId);
     } else {
       console.log('❌ Failed to complete challenge');
     }
@@ -628,20 +628,20 @@ class ChallengesPureCLI {
     }
 
     const filter: IChallengeFilter = { searchText };
-    const challenges = this.challengeManager.getFilteredChallenges(filter);
+    const challenges = this?.challengeManager.getFilteredChallenges(filter);
 
     console.log('='.repeat(70));
     console.log(`🔍 Search Results for "${searchText}" (${challenges.length} found)`);
     console.log('='.repeat(70));
 
-    if (challenges.length === 0) {
+    if (challenges?.length === 0) {
       console.log('No challenges found matching the search text.');
       return;
     }
 
-    challenges.forEach((challenge, index) => {
-      const statusIcon = this.getStatusIcon(challenge.status);
-      const difficultyIcon = this.getDifficultyIcon(challenge.difficulty);
+    challenges?.forEach((challenge, index) => {
+      const statusIcon = this?.getStatusIcon(challenge?.status);
+      const difficultyIcon = this?.getDifficultyIcon(challenge?.difficulty);
       console.log(`${index + 1}. ${statusIcon} ${difficultyIcon} ${challenge.name}`);
       console.log(`   ${challenge.getSummary()}`);
       console.log('');
@@ -652,7 +652,7 @@ class ChallengesPureCLI {
    * Set filter
    */
   private setFilter(args: string[]): void {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.log('❌ Usage: filter [type!] [value!]');
       return;
     }
@@ -660,12 +660,12 @@ class ChallengesPureCLI {
     const filterType = args[0!].toLowerCase();
     const filterValue = args[1!];
 
-    this.currentFilter = {};
+    this?.currentFilter = {};
 
     switch (filterType) {
       case 'category':
         if (Object.values(ChallengeCategory).includes(filterValue as ChallengeCategory)) {
-          this.currentFilter.category = filterValue as ChallengeCategory;
+          this?.currentFilter.category = filterValue as ChallengeCategory;
         } else {
           console.log('❌ Invalid category. Available: tutorial, main_story, daily, etc.');
           return;
@@ -673,7 +673,7 @@ class ChallengesPureCLI {
         break;
       case 'difficulty':
         if (Object.values(ChallengeDifficulty).includes(filterValue as ChallengeDifficulty)) {
-          this.currentFilter.difficulty = filterValue as ChallengeDifficulty;
+          this?.currentFilter.difficulty = filterValue as ChallengeDifficulty;
         } else {
           console.log('❌ Invalid difficulty. Available: easy, medium, hard, expert, legendary');
           return;
@@ -681,7 +681,7 @@ class ChallengesPureCLI {
         break;
       case 'status':
         if (Object.values(ChallengeStatus).includes(filterValue as ChallengeStatus)) {
-          this.currentFilter.status = filterValue as ChallengeStatus;
+          this?.currentFilter.status = filterValue as ChallengeStatus;
         } else {
           console.log('❌ Invalid status. Available: locked, available, in_progress, completed');
           return;
@@ -696,7 +696,7 @@ class ChallengesPureCLI {
    * Show statistics
    */
   private showStatistics(): void {
-    const stats = this.challengeManager.getStatistics();
+    const stats = this?.challengeManager.getStatistics();
 
     console.log('='.repeat(70));
     console.log('📊 Challenge Statistics');
@@ -737,8 +737,8 @@ class ChallengesPureCLI {
    * Show progress
    */
   private showProgress(): void {
-    const stats = this.challengeManager.getStatistics();
-    const progress = ChallengeUtils.getCompletionPercentage(stats.totalChallenges, stats.completedChallenges);
+    const stats = this?.challengeManager.getStatistics();
+    const progress = ChallengeUtils?.getCompletionPercentage(stats?.totalChallenges, stats?.completedChallenges);
 
     console.log('='.repeat(70));
     console.log('📈 Challenge Progress');
@@ -747,18 +747,18 @@ class ChallengesPureCLI {
     console.log(`Completion: ${progress.percentage.toFixed(1)}% (${stats.completedChallenges}/${stats.totalChallenges})`);
     console.log(`Remaining: ${progress.remaining} challenges`);
 
-    const progressBar = this.createProgressBar(progress.percentage / 100, 20);
+    const progressBar = this?.createProgressBar(progress?.percentage / 100, 20);
     console.log(`Progress: ${progressBar}`);
 
     console.log('');
     console.log('Completion Status:');
-    if (progress.percentage >= 90) {
+    if (progress?.percentage >= 90) {
       console.log('🏆 Excellent! Almost complete!');
-    } else if (progress.percentage >= 75) {
+    } else if (progress?.percentage >= 75) {
       console.log('🎉 Great progress! Keep going!');
-    } else if (progress.percentage >= 50) {
+    } else if (progress?.percentage >= 50) {
       console.log('⚔️ Good progress! Halfway there!');
-    } else if (progress.percentage >= 25) {
+    } else if (progress?.percentage >= 25) {
       console.log('🛡️ Making progress! Keep challenging!');
     } else {
       console.log('🌟 Just getting started!');
@@ -774,8 +774,8 @@ class ChallengesPureCLI {
       return;
     }
 
-    this.playerContext.setQuestFlag(flagId);
-    this.playerContext.setLoreFlag(flagId);
+    this?.playerContext.setQuestFlag(flagId);
+    this?.playerContext.setLoreFlag(flagId);
     console.log(`✅ Flag "${flagId}" set`);
   }
 
@@ -788,7 +788,7 @@ class ChallengesPureCLI {
       return;
     }
 
-    this.playerContext.setLocation(locationId);
+    this?.playerContext.setLocation(locationId);
     console.log(`✅ Current location set to "${locationId}"`);
   }
 
@@ -807,7 +807,7 @@ class ChallengesPureCLI {
       return;
     }
 
-    this.playerContext.setPlayerLevel(level);
+    this?.playerContext.setPlayerLevel(level);
     console.log(`✅ Player level set to ${level}`);
   }
 
@@ -820,7 +820,7 @@ class ChallengesPureCLI {
       return;
     }
 
-    this.playerContext.captureSpirit(spiritId);
+    this?.playerContext.captureSpirit(spiritId);
     console.log(`✅ Spirit "${spiritId}" captured`);
   }
 
@@ -834,9 +834,9 @@ class ChallengesPureCLI {
     }
 
     try {
-      const challenges = this.challengeManager.getAllChallenges();
+      const challenges = this?.challengeManager.getAllChallenges();
       const jsonData = JSON.stringify(challenges.map((c: any) => c.toJSON()), null, 2);
-      fs.writeFileSync(filename, jsonData);
+      fs?.writeFileSync(filename, jsonData);
       console.log(`✅ Challenges exported to ${filename} (${jsonData.length} bytes)`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -854,22 +854,22 @@ class ChallengesPureCLI {
     }
 
     try {
-      if (!fs.existsSync(filename)) {
+      if (!fs?.existsSync(filename)) {
         console.log(`❌ File not found: ${filename}`);
         return;
       }
 
-      const jsonData = fs.readFileSync(filename, 'utf8');
+      const jsonData = fs?.readFileSync(filename, 'utf8');
       const challengesData: any[] = JSON.parse(jsonData);
 
-      const oldCount = this.challengeManager.getAllChallenges().length;
+      const oldCount = this?.challengeManager.getAllChallenges().length;
 
-      challengesData.forEach(challengeData => {
-        const challenge = BattleChallenge.fromJSON(challengeData);
-        this.challengeManager.registerChallenge(challenge);
+      challengesData?.forEach(challengeData => {
+        const challenge = BattleChallenge?.fromJSON(challengeData);
+        this?.challengeManager.registerChallenge(challenge);
       });
 
-      const newCount = this.challengeManager.getAllChallenges().length;
+      const newCount = this?.challengeManager.getAllChallenges().length;
 
       console.log(`✅ Challenges imported from ${filename}`);
       console.log(`📊 Challenges: ${oldCount} → ${newCount}`);
@@ -883,9 +883,9 @@ class ChallengesPureCLI {
    * Clear challenge data
    */
   private clearChallengeData(): void {
-    const challengeCount = this.challengeManager.getAllChallenges().length;
+    const challengeCount = this?.challengeManager.getAllChallenges().length;
     // Note: ChallengeManager doesn't have a clear method, so we'll recreate it
-    this.challengeManager = new ChallengeManager();
+    this?.challengeManager = new ChallengeManager();
     console.log(`🗑️ Cleared ${challengeCount} challenges`);
   }
 
@@ -893,8 +893,8 @@ class ChallengesPureCLI {
    * Reset demo data
    */
   private resetDemo(): void {
-    this.clearChallengeData();
-    this.initializeDemoData();
+    this?.clearChallengeData();
+    this?.initializeDemoData();
     console.log('🔄 Demo data reset');
   }
 
@@ -902,17 +902,17 @@ class ChallengesPureCLI {
    * Parse outcome string
    */
   private parseOutcome(outcomeStr: string): ChallengeOutcome {
-    switch (outcomeStr.toLowerCase()) {
+    switch (outcomeStr?.toLowerCase()) {
       case 'victory':
-        return ChallengeOutcome.VICTORY;
+        return ChallengeOutcome?.VICTORY;
       case 'defeat':
-        return ChallengeOutcome.DEFEAT;
+        return ChallengeOutcome?.DEFEAT;
       case 'timeout':
-        return ChallengeOutcome.TIMEOUT;
+        return ChallengeOutcome?.TIMEOUT;
       case 'forfeit':
-        return ChallengeOutcome.FORFEIT;
+        return ChallengeOutcome?.FORFEIT;
       default:
-        return ChallengeOutcome.VICTORY;
+        return ChallengeOutcome?.VICTORY;
     }
   }
 
@@ -921,10 +921,10 @@ class ChallengesPureCLI {
    */
   private getStatusIcon(status: ChallengeStatus): string {
     switch (status) {
-      case ChallengeStatus.LOCKED: return '🔒';
-      case ChallengeStatus.AVAILABLE: return '⚔️';
-      case ChallengeStatus.IN_PROGRESS: return '⚡';
-      case ChallengeStatus.COMPLETED: return '🏆';
+      case ChallengeStatus?.LOCKED: return '🔒';
+      case ChallengeStatus?.AVAILABLE: return '⚔️';
+      case ChallengeStatus?.IN_PROGRESS: return '⚡';
+      case ChallengeStatus?.COMPLETED: return '🏆';
       default: return '❓';
     }
   }
@@ -934,11 +934,11 @@ class ChallengesPureCLI {
    */
   private getDifficultyIcon(difficulty: ChallengeDifficulty): string {
     switch (difficulty) {
-      case ChallengeDifficulty.EASY: return '🟢';
-      case ChallengeDifficulty.MEDIUM: return '🟡';
-      case ChallengeDifficulty.HARD: return '🟠';
-      case ChallengeDifficulty.EXPERT: return '🔴';
-      case ChallengeDifficulty.LEGENDARY: return '🟣';
+      case ChallengeDifficulty?.EASY: return '🟢';
+      case ChallengeDifficulty?.MEDIUM: return '🟡';
+      case ChallengeDifficulty?.HARD: return '🟠';
+      case ChallengeDifficulty?.EXPERT: return '🔴';
+      case ChallengeDifficulty?.LEGENDARY: return '🟣';
       default: return '⚪';
     }
   }
@@ -948,13 +948,13 @@ class ChallengesPureCLI {
    */
   private getCategoryIcon(category: ChallengeCategory): string {
     switch (category) {
-      case ChallengeCategory.TUTORIAL: return '📚';
-      case ChallengeCategory.MAIN_STORY: return '📜';
-      case ChallengeCategory.SIDE_QUEST: return '📖';
-      case ChallengeCategory.DAILY: return '🌅';
-      case ChallengeCategory.WEEKLY: return '📅';
-      case ChallengeCategory.SPECIAL: return '✨';
-      case ChallengeCategory.ACHIEVEMENT: return '🏅';
+      case ChallengeCategory?.TUTORIAL: return '📚';
+      case ChallengeCategory?.MAIN_STORY: return '📜';
+      case ChallengeCategory?.SIDE_QUEST: return '📖';
+      case ChallengeCategory?.DAILY: return '🌅';
+      case ChallengeCategory?.WEEKLY: return '📅';
+      case ChallengeCategory?.SPECIAL: return '✨';
+      case ChallengeCategory?.ACHIEVEMENT: return '🏅';
       default: return '📄';
     }
   }
@@ -964,10 +964,10 @@ class ChallengesPureCLI {
    */
   private getStatusDisplay(status: ChallengeStatus): string {
     switch (status) {
-      case ChallengeStatus.LOCKED: return '🔒 Locked';
-      case ChallengeStatus.AVAILABLE: return '⚔️ Available';
-      case ChallengeStatus.IN_PROGRESS: return '⚡ In Progress';
-      case ChallengeStatus.COMPLETED: return '🏆 Completed';
+      case ChallengeStatus?.LOCKED: return '🔒 Locked';
+      case ChallengeStatus?.AVAILABLE: return '⚔️ Available';
+      case ChallengeStatus?.IN_PROGRESS: return '⚡ In Progress';
+      case ChallengeStatus?.COMPLETED: return '🏆 Completed';
       default: return 'Unknown';
     }
   }
@@ -977,11 +977,11 @@ class ChallengesPureCLI {
    */
   private getDifficultyDisplay(difficulty: ChallengeDifficulty): string {
     switch (difficulty) {
-      case ChallengeDifficulty.EASY: return '🟢 Easy';
-      case ChallengeDifficulty.MEDIUM: return '🟡 Medium';
-      case ChallengeDifficulty.HARD: return '🟠 Hard';
-      case ChallengeDifficulty.EXPERT: return '🔴 Expert';
-      case ChallengeDifficulty.LEGENDARY: return '🟣 Legendary';
+      case ChallengeDifficulty?.EASY: return '🟢 Easy';
+      case ChallengeDifficulty?.MEDIUM: return '🟡 Medium';
+      case ChallengeDifficulty?.HARD: return '🟠 Hard';
+      case ChallengeDifficulty?.EXPERT: return '🔴 Expert';
+      case ChallengeDifficulty?.LEGENDARY: return '🟣 Legendary';
       default: return 'Unknown';
     }
   }
@@ -991,13 +991,13 @@ class ChallengesPureCLI {
    */
   private getCategoryDisplay(category: ChallengeCategory): string {
     switch (category) {
-      case ChallengeCategory.TUTORIAL: return '📚 Tutorial';
-      case ChallengeCategory.MAIN_STORY: return '📜 Main Story';
-      case ChallengeCategory.SIDE_QUEST: return '📖 Side Quest';
-      case ChallengeCategory.DAILY: return '🌅 Daily';
-      case ChallengeCategory.WEEKLY: return '📅 Weekly';
-      case ChallengeCategory.SPECIAL: return '✨ Special';
-      case ChallengeCategory.ACHIEVEMENT: return '🏅 Achievement';
+      case ChallengeCategory?.TUTORIAL: return '📚 Tutorial';
+      case ChallengeCategory?.MAIN_STORY: return '📜 Main Story';
+      case ChallengeCategory?.SIDE_QUEST: return '📖 Side Quest';
+      case ChallengeCategory?.DAILY: return '🌅 Daily';
+      case ChallengeCategory?.WEEKLY: return '📅 Weekly';
+      case ChallengeCategory?.SPECIAL: return '✨ Special';
+      case ChallengeCategory?.ACHIEVEMENT: return '🏅 Achievement';
       default: return 'Unknown';
     }
   }
@@ -1019,15 +1019,15 @@ class ChallengesPureCLI {
   private exit(): void {
     console.log('');
     console.log('👋 Thank you for using ChallengesPure CLI!');
-    this.rl.close();
-    process.exit(0);
+    this?.rl.close();
+    process?.exit(0);
   }
 }
 
 // Start CLI if run directly
-if (require.main === module) {
+if (require?.main === module) {
   const cli = new ChallengesPureCLI();
-  cli.start();
+  cli?.start();
 }
 
 export { ChallengesPureCLI };

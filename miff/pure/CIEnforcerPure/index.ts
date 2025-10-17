@@ -86,27 +86,27 @@ export async function enforceCIStandards(modulePath: string): Promise<ModuleCIRe
 
   for (const rule of rules) {
     try {
-      const result = await rule.check(context);
-      results.push(result);
+      const result = await rule?.check(context);
+      results?.push(result: any);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      results.push({
-        ruleId: rule.id,
+      results?.push({
+        ruleId: rule?.id,
         passed: false,
         severity: 'critical',
         message: `Rule execution failed: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? error?.stack : String(error),
         category: 'standards' // Default category for error cases
       });
     }
   }
 
   const status = determineModuleCIStatus(results);
-  const ciCompliant = results.every(r => r.passed || r.severity === 'info');
-  const onboardingReady = results.every(r => r.passed || r.severity === 'info');
+  const ciCompliant = results?.every(r => r?.passed || r?.severity === 'info');
+  const onboardingReady = results?.every(r => r?.passed || r?.severity === 'info');
 
   return {
-    moduleName: context.moduleName,
+    moduleName: context?.moduleName,
     path: modulePath,
     validationResults: results,
     status,
@@ -128,8 +128,8 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
   for (const modulePath of modulePaths) {
     try {
       const result = await enforceCIStandards(modulePath);
-      moduleResults.push(result);
-      allResults.push(...result.validationResults);
+      moduleResults?.push(result: any);
+      allResults?.push(...result?.validationResults);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const errorResult: CIValidationResult = {
@@ -137,12 +137,12 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
         passed: false,
         severity: 'critical',
         message: `Failed to enforce CI standards: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? error?.stack : String(error),
         filePath: modulePath,
         category: 'standards' // Default category for error cases
       };
-      allResults.push(errorResult);
-      criticalIssues.push(`CI enforcement failed: ${modulePath}`);
+      allResults?.push(errorResult);
+      criticalIssues?.push(`CI enforcement failed: ${modulePath}`);
     }
   }
 
@@ -154,23 +154,23 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
   
   // Check compliance
   const compliance = checkCICompliance(allResults);
-  const ciCompliant = compliance.testing && compliance.documentation && 
-                     compliance.executability && compliance.coverage && 
-                     compliance.standards && summary.critical === 0;
+  const ciCompliant = compliance?.testing && compliance?.documentation && 
+                     compliance?.executability && compliance?.coverage && 
+                     compliance?.standards && summary?.critical === 0;
   
-  const onboardingReady = ciCompliant && summary.warnings === 0;
+  const onboardingReady = ciCompliant && summary?.warnings === 0;
 
   // Collect issues and recommendations
   for (const result of allResults) {
-    if (!result.passed) {
-      if (result.severity === 'critical') {
-        criticalIssues.push(`${result.ruleId}: ${result.message}`);
-      } else if (result.severity === 'warning') {
-        warnings.push(`${result.ruleId}: ${result.message}`);
+    if (!result?.passed) {
+      if (result?.severity === 'critical') {
+        criticalIssues?.push(`${result?.ruleId}: ${result?.message}`);
+      } else if (result?.severity === 'warning') {
+        warnings?.push(`${result?.ruleId}: ${result?.message}`);
       }
       
-      if (result.remediation) {
-        recommendations.push(`${result.ruleId}: ${result.remediation}`);
+      if (result?.remediation) {
+        recommendations?.push(`${result?.ruleId}: ${result?.remediation}`);
       }
     }
   }
@@ -180,7 +180,7 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
     status,
     summary,
     results: allResults,
-    modules: moduleResults.map((r: any) => r.moduleName),
+    modules: moduleResults?.map((r: any) => r?.moduleName),
     criticalIssues,
     warnings,
     recommendations,
@@ -196,22 +196,22 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
 async function buildCIValidationContext(modulePath: string): Promise<CIValidationContext> {
   // This would typically read files and analyze content
   // For now, we'll use a placeholder implementation
-  const moduleName = modulePath.split('/').pop() || 'unknown';
+  const moduleName = modulePath?.split('/').pop() || 'unknown';
   
   return {
     modulePath,
     moduleName,
-    files: ['index.ts', 'cliHarness.ts', 'README.md', 'tests/golden_test.ts', 'fixtures/sample.json'],
+    files: ['index?.ts', 'cliHarness?.ts', 'README?.md', 'tests/golden_test?.ts', 'fixtures/sample?.json'],
     hasIndex: true,
     hasCliHarness: true,
     hasReadme: true,
     hasTests: true,
     hasFixtures: true,
-    testFiles: ['tests/golden_test.ts'],
-    fixtureFiles: ['fixtures/sample.json'],
+    testFiles: ['tests/golden_test?.ts'],
+    fixtureFiles: ['fixtures/sample?.json'],
     readmeContent: '# Module Documentation\n\nThis is a sample README.',
     packageJson: {
-      name: moduleName.toLowerCase(),
+      name: moduleName?.toLowerCase(),
       version: '1.0.0',
       description: 'Module description'
     }
@@ -231,7 +231,7 @@ function getCIValidationRules(): CIValidationRule[] {
       severity: 'critical',
       category: 'testing',
       check: async (context) => {
-        const hasGoldenTests = context.testFiles.some(f => f.includes('golden_'));
+        const hasGoldenTests = context?.testFiles.some(f => f?.includes('golden_'));
         
         return {
           ruleId: 'golden_tests_present',
@@ -239,10 +239,10 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'critical',
           message: hasGoldenTests ? 'Golden tests are present' : 'Missing golden test files',
           remediation: hasGoldenTests ? undefined : 'Create golden test files in tests/ directory',
-          filePath: `${context.modulePath}/tests/`,
+          filePath: `${context?.modulePath}/tests/`,
           category: 'testing',
           metrics: {
-            testCount: context.testFiles.length
+            testCount: context?.testFiles.length
           }
         };
       }
@@ -256,10 +256,10 @@ function getCIValidationRules(): CIValidationRule[] {
       severity: 'critical',
       category: 'documentation',
       check: async (context) => {
-        const readmeLength = context.readmeContent.length;
-        const hasSchema = context.readmeContent.includes('## Schema');
-        const hasUsage = context.readmeContent.includes('## Usage');
-        const hasExamples = context.readmeContent.includes('```typescript');
+        const readmeLength = context?.readmeContent.length;
+        const hasSchema = context?.readmeContent.includes('## Schema');
+        const hasUsage = context?.readmeContent.includes('## Usage');
+        const hasExamples = context?.readmeContent.includes('```typescript');
         
         const isComplete = readmeLength > 500 && hasSchema && hasUsage && hasExamples;
         
@@ -269,7 +269,7 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'critical',
           message: isComplete ? 'README is complete and comprehensive' : 'README is incomplete or missing key sections',
           remediation: isComplete ? undefined : 'Add Schema, Usage, and Examples sections to README',
-          filePath: `${context.modulePath}/README.md`,
+          filePath: `${context?.modulePath}/README?.md`,
           category: 'documentation',
           metrics: {
             readmeLength
@@ -286,16 +286,16 @@ function getCIValidationRules(): CIValidationRule[] {
       severity: 'critical',
       category: 'executability',
       check: async (context) => {
-        const hasCliHarness = context.hasCliHarness;
-        const hasShebang = context.files.includes('cliHarness.ts');
+        const hasCliHarness = context?.hasCliHarness;
+        const hasShebang = context?.files.includes('cliHarness?.ts');
         
         return {
           ruleId: 'cli_harness_executable',
           passed: hasCliHarness && hasShebang,
           severity: 'critical',
           message: (hasCliHarness && hasShebang) ? 'CLI harness is present and executable' : 'Missing or non-executable CLI harness',
-          remediation: (hasCliHarness && hasShebang) ? undefined : 'Create cliHarness.ts with proper shebang and executable permissions',
-          filePath: `${context.modulePath}/cliHarness.ts`,
+          remediation: (hasCliHarness && hasShebang) ? undefined : 'Create cliHarness?.ts with proper shebang and executable permissions',
+          filePath: `${context?.modulePath}/cliHarness?.ts`,
           category: 'executability'
         };
       }
@@ -309,9 +309,9 @@ function getCIValidationRules(): CIValidationRule[] {
       severity: 'warning',
       category: 'coverage',
       check: async (context) => {
-        const testCount = context.testFiles.length;
-        const fixtureCount = context.fixtureFiles.length;
-        const hasGoldenTests = context.testFiles.some(f => f.includes('golden_'));
+        const testCount = context?.testFiles.length;
+        const fixtureCount = context?.fixtureFiles.length;
+        const hasGoldenTests = context?.testFiles.some(f => f?.includes('golden_'));
         const hasFixtures = fixtureCount > 0;
         
         const isAdequate = testCount >= 2 && hasGoldenTests && hasFixtures;
@@ -322,7 +322,7 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'warning',
           message: isAdequate ? 'Test coverage is adequate' : 'Test coverage is insufficient',
           remediation: isAdequate ? undefined : 'Add more tests and fixtures to improve coverage',
-          filePath: `${context.modulePath}/tests/`,
+          filePath: `${context?.modulePath}/tests/`,
           category: 'coverage',
           metrics: {
             testCount,
@@ -341,45 +341,45 @@ function getCIValidationRules(): CIValidationRule[] {
       severity: 'warning',
       category: 'standards',
       check: async (context) => {
-        const hasStandardStructure = context.hasIndex && 
-                                   context.hasCliHarness && 
-                                   context.hasReadme && 
-                                   context.hasTests && 
-                                   context.hasFixtures;
+        const hasStandardStructure = context?.hasIndex && 
+                                   context?.hasCliHarness && 
+                                   context?.hasReadme && 
+                                   context?.hasTests && 
+                                   context?.hasFixtures;
         
         return {
           ruleId: 'module_structure_standard',
           passed: hasStandardStructure,
           severity: 'warning',
           message: hasStandardStructure ? 'Module follows standard structure' : 'Module structure is non-standard',
-          remediation: hasStandardStructure ? undefined : 'Ensure module has index.ts, cliHarness.ts, README.md, tests/, and fixtures/',
-          filePath: context.modulePath,
+          remediation: hasStandardStructure ? undefined : 'Ensure module has index?.ts, cliHarness?.ts, README?.md, tests/, and fixtures/',
+          filePath: context?.modulePath,
           category: 'standards'
         };
       }
     },
     
-    // Package.json rules
+    // Package?.json rules
     {
       id: 'package_json_valid',
-      name: 'Package.json Valid',
-      description: 'Module must have valid package.json if present',
+      name: 'Package?.json Valid',
+      description: 'Module must have valid package?.json if present',
       severity: 'info',
       category: 'standards',
       check: async (context) => {
-        if (!context.packageJson) {
+        if (!context?.packageJson) {
           return {
             ruleId: 'package_json_valid',
             passed: true,
             severity: 'info',
-            message: 'No package.json required for this module',
+            message: 'No package?.json required for this module',
             category: 'standards'
           };
         }
         
-        const hasName = context.packageJson.name;
-        const hasVersion = context.packageJson.version;
-        const hasDescription = context.packageJson.description;
+        const hasName = context?.packageJson.name;
+        const hasVersion = context?.packageJson.version;
+        const hasDescription = context?.packageJson.description;
         
         const isValid = hasName && hasVersion && hasDescription;
         
@@ -387,9 +387,9 @@ function getCIValidationRules(): CIValidationRule[] {
           ruleId: 'package_json_valid',
           passed: isValid,
           severity: 'info',
-          message: isValid ? 'Package.json is valid' : 'Package.json is missing required fields',
-          remediation: isValid ? undefined : 'Add name, version, and description to package.json',
-          filePath: `${context.modulePath}/package.json`,
+          message: isValid ? 'Package?.json is valid' : 'Package?.json is missing required fields',
+          remediation: isValid ? undefined : 'Add name, version, and description to package?.json',
+          filePath: `${context?.modulePath}/package?.json`,
           category: 'standards'
         };
       }
@@ -401,10 +401,10 @@ function getCIValidationRules(): CIValidationRule[] {
  * determineModuleCIStatus - Determine CI status for a single module
  */
 function determineModuleCIStatus(results: CIValidationResult[]): 'pass' | 'fail' | 'warning' {
-  if (results.some(r => !r.passed && r.severity === 'critical')) {
+  if (results?.some(r => !r?.passed && r?.severity === 'critical')) {
     return 'fail';
   }
-  if (results.some(r => !r.passed && r.severity === 'warning')) {
+  if (results?.some(r => !r?.passed && r?.severity === 'warning')) {
     return 'warning';
   }
   return 'pass';
@@ -414,10 +414,10 @@ function determineModuleCIStatus(results: CIValidationResult[]): 'pass' | 'fail'
  * determineOverallCIStatus - Determine overall CI enforcement status
  */
 function determineOverallCIStatus(summary: CIEnforcementReport['summary']): CIEnforcementReport['status'] {
-  if (summary.critical > 0) {
+  if (summary?.critical > 0) {
     return 'fail';
   }
-  if (summary.warnings > 0) {
+  if (summary?.warnings > 0) {
     return 'warning';
   }
   return 'pass';
@@ -428,11 +428,11 @@ function determineOverallCIStatus(summary: CIEnforcementReport['summary']): CIEn
  */
 function generateCIValidationSummary(results: CIValidationResult[]): CIEnforcementReport['summary'] {
   return {
-    total: results.length,
-    passed: results.filter((r: any) => r.passed).length,
-    failed: results.filter((r: any) => !r.passed).length,
-    warnings: results.filter((r: any) => !r.passed && r.severity === 'warning').length,
-    critical: results.filter((r: any) => !r.passed && r.severity === 'critical').length
+    total: results?.length,
+    passed: results?.filter((r: any) => r?.passed).length,
+    failed: results?.filter((r: any) => !r?.passed).length,
+    warnings: results?.filter((r: any) => !r?.passed && r?.severity === 'warning').length,
+    critical: results?.filter((r: any) => !r?.passed && r?.severity === 'critical').length
   };
 }
 
@@ -440,11 +440,11 @@ function generateCIValidationSummary(results: CIValidationResult[]): CIEnforceme
  * checkCICompliance - Check compliance across different categories
  */
 function checkCICompliance(results: CIValidationResult[]): CIEnforcementReport['compliance'] {
-  const testing = results.filter((r: any) => r.category === 'testing').every(r => r.passed);
-  const documentation = results.filter((r: any) => r.category === 'documentation').every(r => r.passed);
-  const executability = results.filter((r: any) => r.category === 'executability').every(r => r.passed);
-  const coverage = results.filter((r: any) => r.category === 'coverage').every(r => r.passed);
-  const standards = results.filter((r: any) => r.category === 'standards').every(r => r.passed);
+  const testing = results?.filter((r: any) => r?.category === 'testing').every(r => r?.passed);
+  const documentation = results?.filter((r: any) => r?.category === 'documentation').every(r => r?.passed);
+  const executability = results?.filter((r: any) => r?.category === 'executability').every(r => r?.passed);
+  const coverage = results?.filter((r: any) => r?.category === 'coverage').every(r => r?.passed);
+  const standards = results?.filter((r: any) => r?.category === 'standards').every(r => r?.passed);
 
   return {
     testing,
@@ -462,41 +462,41 @@ export function generateCIEnforcementReport(report: CIEnforcementReport): string
   let output = `CI Standards Enforcement Report\n`;
   output += `================================\n\n`;
   
-  output += `Status: ${report.status.toUpperCase()}\n`;
-  output += `CI Compliant: ${report.ciCompliant ? 'YES' : 'NO'}\n`;
-  output += `Onboarding Ready: ${report.onboardingReady ? 'YES' : 'NO'}\n\n`;
+  output += `Status: ${report?.status.toUpperCase()}\n`;
+  output += `CI Compliant: ${report?.ciCompliant ? 'YES' : 'NO'}\n`;
+  output += `Onboarding Ready: ${report?.onboardingReady ? 'YES' : 'NO'}\n\n`;
   
   output += `Summary:\n`;
-  output += `  Total Rules: ${report.summary.total}\n`;
-  output += `  Passed: ${report.summary.passed}\n`;
-  output += `  Failed: ${report.summary.failed}\n`;
-  output += `  Warnings: ${report.summary.warnings}\n`;
-  output += `  Critical: ${report.summary.critical}\n\n`;
+  output += `  Total Rules: ${report?.summary.total}\n`;
+  output += `  Passed: ${report?.summary.passed}\n`;
+  output += `  Failed: ${report?.summary.failed}\n`;
+  output += `  Warnings: ${report?.summary.warnings}\n`;
+  output += `  Critical: ${report?.summary.critical}\n\n`;
   
-  if (report.criticalIssues.length > 0) {
+  if (report?.criticalIssues.length > 0) {
     output += `Critical Issues:\n`;
-    report.criticalIssues.forEach((issue: any) => output += `  - ${issue}\n`);
+    report?.criticalIssues.forEach((issue: any) => output += `  - ${issue}\n`);
     output += `\n`;
   }
   
-  if (report.warnings.length > 0) {
+  if (report?.warnings.length > 0) {
     output += `Warnings:\n`;
-    report.warnings.forEach((warning: any) => output += `  - ${warning}\n`);
+    report?.warnings.forEach((warning: any) => output += `  - ${warning}\n`);
     output += `\n`;
   }
   
-  if (report.recommendations.length > 0) {
+  if (report?.recommendations.length > 0) {
     output += `Recommendations:\n`;
-    report.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
+    report?.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
     output += `\n`;
   }
   
   output += `Compliance:\n`;
-  output += `  Testing: ${report.compliance.testing ? '✓' : '✗'}\n`;
-  output += `  Documentation: ${report.compliance.documentation ? '✓' : '✗'}\n`;
-  output += `  Executability: ${report.compliance.executability ? '✓' : '✗'}\n`;
-  output += `  Coverage: ${report.compliance.coverage ? '✓' : '✗'}\n`;
-  output += `  Standards: ${report.compliance.standards ? '✓' : '✗'}\n`;
+  output += `  Testing: ${report?.compliance.testing ? '✓' : '✗'}\n`;
+  output += `  Documentation: ${report?.compliance.documentation ? '✓' : '✗'}\n`;
+  output += `  Executability: ${report?.compliance.executability ? '✓' : '✗'}\n`;
+  output += `  Coverage: ${report?.compliance.coverage ? '✓' : '✗'}\n`;
+  output += `  Standards: ${report?.compliance.standards ? '✓' : '✗'}\n`;
   
   return output;
 }

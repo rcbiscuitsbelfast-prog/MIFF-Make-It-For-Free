@@ -71,16 +71,16 @@ export class RealBrowserAPIs {
   private isInitialized: boolean = false;
 
   constructor() {
-    this.logger = StructuredLogger.getInstance({ module: 'RealBrowserAPIs' });
-    this.initialize();
+    this?.logger = StructuredLogger?.getInstance({ module: 'RealBrowserAPIs' });
+    this?.initialize({});
   }
 
   /**
    * Initialize browser APIs
    */
   private initialize(): void {
-    this.isInitialized = true;
-    this.emit('initialized', {});
+    this?.isInitialized = true;
+    this?.emit('initialized', {});
   }
 
   /**
@@ -88,17 +88,17 @@ export class RealBrowserAPIs {
    */
   getBrowserInfo(): BrowserInfo {
     return {
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      language: navigator.language,
-      cookieEnabled: navigator.cookieEnabled,
-      onLine: navigator.onLine,
-      vendor: navigator.vendor,
-      appName: navigator.appName,
-      appVersion: navigator.appVersion,
-      product: navigator.product,
-      productSub: navigator.productSub,
-      vendorSub: navigator.vendorSub
+      userAgent: navigator?.userAgent,
+      platform: navigator?.platform,
+      language: navigator?.language,
+      cookieEnabled: navigator?.cookieEnabled,
+      onLine: navigator?.onLine,
+      vendor: navigator?.vendor,
+      appName: navigator?.appName,
+      appVersion: navigator?.appVersion,
+      product: navigator?.product,
+      productSub: navigator?.productSub,
+      vendorSub: navigator?.vendorSub
     };
   }
 
@@ -110,12 +110,12 @@ export class RealBrowserAPIs {
       localStorage: {
         available: typeof Storage !== 'undefined',
         quota: 5 * 1024 * 1024, // 5MB
-        usage: this.getLocalStorageUsage()
+        usage: this?.getLocalStorageUsage()
       },
       sessionStorage: {
         available: typeof Storage !== 'undefined',
         quota: 5 * 1024 * 1024, // 5MB
-        usage: this.getSessionStorageUsage()
+        usage: this?.getSessionStorageUsage()
       },
       indexedDB: {
         available: typeof indexedDB !== 'undefined',
@@ -132,8 +132,8 @@ export class RealBrowserAPIs {
     
     let total = 0;
     for (let key in localStorage) {
-      if (localStorage.hasOwnProperty(key)) {
-        total += localStorage[key!].length + key.length;
+      if (localStorage?.hasOwnProperty(key)) {
+        total += localStorage[key!].length + key?.length;
       }
     }
     return total;
@@ -147,8 +147,8 @@ export class RealBrowserAPIs {
     
     let total = 0;
     for (let key in sessionStorage) {
-      if (sessionStorage.hasOwnProperty(key)) {
-        total += sessionStorage[key!].length + key.length;
+      if (sessionStorage?.hasOwnProperty(key)) {
+        total += sessionStorage[key!].length + key?.length;
       }
     }
     return total;
@@ -160,14 +160,14 @@ export class RealBrowserAPIs {
   setLocalStorageItem(key: string, value: string): boolean {
     try {
       if (typeof Storage !== 'undefined') {
-        localStorage.setItem(key, value);
-        this.emit('localStorageSet', { key, value });
+        localStorage?.setItem(key, value);
+        this?.emit('localStorageSet', { key, value });
         return true;
       }
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('localStorageError', { key, value, error });
+      this?.emit('localStorageError', { key, value, error });
       return false;
     }
   }
@@ -178,12 +178,12 @@ export class RealBrowserAPIs {
   getLocalStorageItem(key: string): string | null {
     try {
       if (typeof Storage !== 'undefined') {
-        return localStorage.getItem(key);
+        return localStorage?.getItem(key);
       }
       return null;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('localStorageError', { key, error });
+      this?.emit('localStorageError', { key, error });
       return null;
     }
   }
@@ -194,14 +194,14 @@ export class RealBrowserAPIs {
   removeLocalStorageItem(key: string): boolean {
     try {
       if (typeof Storage !== 'undefined') {
-        localStorage.removeItem(key);
-        this.emit('localStorageRemoved', { key });
+        localStorage?.removeItem(key);
+        this?.emit('localStorageRemoved', { key });
         return true;
       }
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('localStorageError', { key, error });
+      this?.emit('localStorageError', { key, error });
       return false;
     }
   }
@@ -212,14 +212,14 @@ export class RealBrowserAPIs {
   clearLocalStorage(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
-        localStorage.clear();
-        this.emit('localStorageCleared', {});
+        localStorage?.clear();
+        this?.emit('localStorageCleared', {});
         return true;
       }
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('localStorageError', { error });
+      this?.emit('localStorageError', { error });
       return false;
     }
   }
@@ -230,14 +230,14 @@ export class RealBrowserAPIs {
   setSessionStorageItem(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
-        sessionStorage.setItem(key, value);
-        this.emit('sessionStorageSet', { key, value });
+        sessionStorage?.setItem(key, value);
+        this?.emit('sessionStorageSet', { key, value });
         return true;
       }
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('sessionStorageError', { key, value, error });
+      this?.emit('sessionStorageError', { key, value, error });
       return false;
     }
   }
@@ -248,12 +248,12 @@ export class RealBrowserAPIs {
   getSessionStorageItem(key: string): string | null {
     try {
       if (typeof Storage !== 'undefined') {
-        return sessionStorage.getItem(key);
+        return sessionStorage?.getItem(key);
       }
       return null;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('sessionStorageError', { key, error });
+      this?.emit('sessionStorageError', { key, error });
       return null;
     }
   }
@@ -264,14 +264,14 @@ export class RealBrowserAPIs {
   removeSessionStorageItem(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
-        sessionStorage.removeItem(key);
-        this.emit('sessionStorageRemoved', { key });
+        sessionStorage?.removeItem(key);
+        this?.emit('sessionStorageRemoved', { key });
         return true;
       }
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('sessionStorageError', { key, error });
+      this?.emit('sessionStorageError', { key, error });
       return false;
     }
   }
@@ -282,14 +282,14 @@ export class RealBrowserAPIs {
   clearSessionStorage(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
-        sessionStorage.clear();
-        this.emit('sessionStorageCleared', {});
+        sessionStorage?.clear();
+        this?.emit('sessionStorageCleared', {});
         return true;
       }
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('sessionStorageError', { error });
+      this?.emit('sessionStorageError', { error });
       return false;
     }
   }
@@ -299,9 +299,9 @@ export class RealBrowserAPIs {
    */
   createElement(): DOMElement {
     const element: DOMElement = {
-      id: this.generateId(),
-      tagName: tagName.toLowerCase(),
-      className: attributes.class || '',
+      id: this?.generateId(),
+      tagName: tagName?.toLowerCase(),
+      className: attributes?.class || '',
       textContent: '',
       innerHTML: '',
       attributes: { ...attributes },
@@ -309,8 +309,8 @@ export class RealBrowserAPIs {
       parent: null
     };
 
-    this.domElements.set(element.id, element);
-    this.emit('elementCreated', { element });
+    this?.domElements.set(element?.id, element);
+    this?.emit('elementCreated', { element });
     
     return element;
   }
@@ -319,7 +319,7 @@ export class RealBrowserAPIs {
    * Get DOM element by ID
    */
   getElementById(id: string): DOMElement | null {
-    return this.domElements.get(id) || null;
+    return this?.domElements.get(id) || null;
   }
 
   /**
@@ -327,7 +327,7 @@ export class RealBrowserAPIs {
    */
   getElementsByClassName(className: string): DOMElement[] {
     return Array.from(this.domElements.values()).filter(
-      element => element.className.includes(className)
+      element => element?.className.includes(className)
     );
   }
 
@@ -336,7 +336,7 @@ export class RealBrowserAPIs {
    */
   getElementsByTagName(tagName: string): DOMElement[] {
     return Array.from(this.domElements.values()).filter(
-      element => element.tagName === tagName.toLowerCase()
+      element => element?.tagName === tagName?.toLowerCase()
     );
   }
 
@@ -344,11 +344,11 @@ export class RealBrowserAPIs {
    * Set element attribute
    */
   setAttribute(): boolean {
-    const element = this.domElements.get(elementId);
+    const element = this?.domElements.get(elementId);
     if (!element) return false;
 
-    element.attributes[name!] = value;
-    this.emit('attributeSet', { elementId, name, value });
+    element?.attributes[name!] = value;
+    this?.emit('attributeSet', { elementId, name, value });
     return true;
   }
 
@@ -356,21 +356,21 @@ export class RealBrowserAPIs {
    * Get element attribute
    */
   getAttribute(elementId: string, name: string): string | null {
-    const element = this.domElements.get(elementId);
+    const element = this?.domElements.get(elementId);
     if (!element) return null;
 
-    return element.attributes[name!] || null;
+    return element?.attributes[name!] || null;
   }
 
   /**
    * Set element text content
    */
   setTextContent(): boolean {
-    const element = this.domElements.get(elementId);
+    const element = this?.domElements.get(elementId);
     if (!element) return false;
 
-    element.textContent = text;
-    this.emit('textContentSet', { elementId, text });
+    element?.textContent = text;
+    this?.emit('textContentSet', { elementId, text });
     return true;
   }
 
@@ -378,11 +378,11 @@ export class RealBrowserAPIs {
    * Set element inner HTML
    */
   setInnerHTML(): boolean {
-    const element = this.domElements.get(elementId);
+    const element = this?.domElements.get(elementId);
     if (!element) return false;
 
-    element.innerHTML = html;
-    this.emit('innerHTMLSet', { elementId, html });
+    element?.innerHTML = html;
+    this?.emit('innerHTMLSet', { elementId, html });
     return true;
   }
 
@@ -390,14 +390,14 @@ export class RealBrowserAPIs {
    * Append child element
    */
   appendChild(): boolean {
-    const parent = this.domElements.get(parentId);
-    const child = this.domElements.get(childId);
+    const parent = this?.domElements.get(parentId);
+    const child = this?.domElements.get(childId);
     
     if (!parent || !child) return false;
 
-    child.parent = parent;
-    parent.children.push(child);
-    this.emit('childAppended', { parentId, childId });
+    child?.parent = parent;
+    parent?.children?.push(child);
+    this?.emit('childAppended', { parentId, childId });
     return true;
   }
 
@@ -405,16 +405,16 @@ export class RealBrowserAPIs {
    * Remove child element
    */
   removeChild(): boolean {
-    const parent = this.domElements.get(parentId);
+    const parent = this?.domElements.get(parentId);
     if (!parent) return false;
 
-    const childIndex = parent.children.findIndex(child => child.id === childId);
+    const childIndex = parent?.children.findIndex(child => child?.id === childId);
     if (childIndex === -1) return false;
 
-    const child = parent.children[childIndex!];
-    child.parent = null;
-    parent.children.splice(childIndex, 1);
-    this.emit('childRemoved', { parentId, childId });
+    const child = parent?.children[childIndex!];
+    child?.parent = null;
+    parent?.children.splice(childIndex, 1);
+    this?.emit('childRemoved', { parentId, childId });
     return true;
   }
 
@@ -422,16 +422,16 @@ export class RealBrowserAPIs {
    * Add event listener
    */
   addEventListener(): boolean {
-    const element = this.domElements.get(elementId);
+    const element = this?.domElements.get(elementId);
     if (!element) return false;
 
     const eventKey = `${elementId}:${eventType}`;
-    if (!this.eventHandlers.has(eventKey)) {
-      this.eventHandlers.set(eventKey, []);
+    if (!this?.eventHandlers.has(eventKey)) {
+      this?.eventHandlers.set(eventKey, []);
     }
     
-    this.eventHandlers.get(eventKey)?.push(handler);
-    this.emit('eventListenerAdded', { elementId, eventType });
+    this?.eventHandlers.get(eventKey)?.push(handler);
+    this?.emit('eventListenerAdded', { elementId, eventType });
     return true;
   }
 
@@ -440,15 +440,15 @@ export class RealBrowserAPIs {
    */
   removeEventListener(): boolean {
     const eventKey = `${elementId}:${eventType}`;
-    const handlers = this.eventHandlers.get(eventKey);
+    const handlers = this?.eventHandlers.get(eventKey);
     
     if (!handlers) return false;
 
-    const index = handlers.indexOf(handler);
+    const index = handlers?.indexOf(handler);
     if (index === -1) return false;
 
-    handlers.splice(index, 1);
-    this.emit('eventListenerRemoved', { elementId, eventType });
+    handlers?.splice(index, 1);
+    this?.emit('eventListenerRemoved', { elementId, eventType });
     return true;
   }
 
@@ -457,7 +457,7 @@ export class RealBrowserAPIs {
    */
   triggerEvent(): boolean {
     const eventKey = `${elementId}:${eventType}`;
-    const handlers = this.eventHandlers.get(eventKey);
+    const handlers = this?.eventHandlers.get(eventKey);
     
     if (!handlers) return false;
 
@@ -474,7 +474,7 @@ export class RealBrowserAPIs {
       data: eventData
     };
 
-    handlers.forEach((handler: any) => {
+    handlers?.forEach((handler: any) => {
       try {
         handler(eventInfo);
       } catch (error: unknown) {
@@ -483,7 +483,7 @@ export class RealBrowserAPIs {
       }
     });
 
-    this.emit('eventTriggered', { elementId, eventType, eventInfo });
+    this?.emit('eventTriggered', { elementId, eventType, eventInfo });
     return true;
   }
 
@@ -498,21 +498,21 @@ export class RealBrowserAPIs {
    * Remove element
    */
   removeElement(): boolean {
-    const element = this.domElements.get(elementId);
+    const element = this?.domElements.get(elementId);
     if (!element) return false;
 
     // Remove from parent
-    if (element.parent) {
-      this.removeChild(element.parent.id, elementId);
+    if (element?.parent) {
+      this?.removeChild(element?.parent.id, elementId);
     }
 
     // Remove all children
-    element.children.forEach((child: any) => {
-      this.removeElement(child.id);
+    element?.children.forEach((child: any) => {
+      this?.removeElement(child?.id);
     });
 
-    this.domElements.delete(elementId);
-    this.emit('elementRemoved', { elementId });
+    this?.domElements.delete(elementId);
+    this?.emit('elementRemoved', { elementId });
     return true;
   }
 
@@ -520,28 +520,28 @@ export class RealBrowserAPIs {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event)) {
-      this.eventHandlers.set(event, []);
+    if (!this?.eventHandlers.has(event)) {
+      this?.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)?.push(handler);
+    this?.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this?.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers.indexOf(handler);
+      const index = handlers?.indexOf(handler);
       if (index > -1) {
-        handlers.splice(index, 1);
+        handlers?.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this?.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach((handler: any) => {
+      handlers?.forEach((handler: any) => {
         try {
-          handler(data);
+          handler(data: any);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in browser API event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -567,9 +567,9 @@ export class RealBrowserAPIs {
     storageAvailable: boolean;
   } {
     return {
-      isInitialized: this.isInitialized,
-      elementCount: this.domElements.size,
-      eventHandlerCount: this.eventHandlers.size,
+      isInitialized: this?.isInitialized,
+      elementCount: this?.domElements.size,
+      eventHandlerCount: this?.eventHandlers.size,
       storageAvailable: typeof Storage !== 'undefined'
     };
   }
@@ -578,21 +578,21 @@ export class RealBrowserAPIs {
    * Reset browser APIs
    */
   reset(): void {
-    this.domElements.clear();
-    this.eventHandlers.clear();
-    this.storageData.clear();
-    this.isInitialized = false;
-    this.initialize();
+    this?.domElements.clear();
+    this?.eventHandlers.clear();
+    this?.storageData.clear();
+    this?.isInitialized = false;
+    this?.initialize({});
   }
 
   /**
    * Cleanup resources
    */
   cleanup(): void {
-    this.domElements.clear();
-    this.eventHandlers.clear();
-    this.storageData.clear();
-    this.isInitialized = false;
+    this?.domElements.clear();
+    this?.eventHandlers.clear();
+    this?.storageData.clear();
+    this?.isInitialized = false;
   }
 }
 

@@ -22,11 +22,11 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
   
-  if (argv.length === 0) {
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -34,7 +34,7 @@ function main() {
     let operation: Cmd;
 
     // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
+    if (first?.endsWith('.json') && fs?.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as Cmd;
     } else {
@@ -137,20 +137,20 @@ function main() {
     const raidManager = new RaidManager();
     let result: any;
 
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'createBoss':
-        result = raidManager.createBoss(operation.boss);
+        result = raidManager?.createBoss(operation?.boss);
         break;
 
       case 'createParty':
-        result = raidManager.createParty(operation.party);
+        result = raidManager?.createParty(operation?.party);
         break;
 
       case 'startEncounter':
-        const encounter = raidManager.startEncounter(
-          operation.bossId, 
-          operation.partyId, 
-          operation.difficulty as any
+        const encounter = raidManager?.startEncounter(
+          operation?.bossId, 
+          operation?.partyId, 
+          operation?.difficulty as any
         );
         result = {
           started: encounter !== null,
@@ -159,7 +159,7 @@ function main() {
         break;
 
       case 'processEncounter':
-        const updatedEncounter = raidManager.processEncounter(operation.encounterId, operation.events);
+        const updatedEncounter = raidManager?.processEncounter(operation?.encounterId, operation?.events);
         result = {
           processed: updatedEncounter !== null,
           encounter: updatedEncounter || null
@@ -167,7 +167,7 @@ function main() {
         break;
 
       case 'completeEncounter':
-        const raidResult = raidManager.completeEncounter(operation.encounterId);
+        const raidResult = raidManager?.completeEncounter(operation?.encounterId);
         result = {
           completed: raidResult !== null,
           result: raidResult || null
@@ -175,7 +175,7 @@ function main() {
         break;
 
       case 'getBoss':
-        const boss = raidManager.getBoss(operation.bossId);
+        const boss = raidManager?.getBoss(operation?.bossId);
         result = {
           found: boss !== null,
           boss: boss || null
@@ -183,7 +183,7 @@ function main() {
         break;
 
       case 'getParty':
-        const party = raidManager.getParty(operation.partyId);
+        const party = raidManager?.getParty(operation?.partyId);
         result = {
           found: party !== null,
           party: party || null
@@ -191,7 +191,7 @@ function main() {
         break;
 
       case 'getEncounter':
-        const encounterData = raidManager.getEncounter(operation.encounterId);
+        const encounterData = raidManager?.getEncounter(operation?.encounterId);
         result = {
           found: encounterData !== null,
           encounter: encounterData || null
@@ -200,35 +200,35 @@ function main() {
 
       case 'getAllBosses':
         result = {
-          bosses: raidManager.getAllBosses(),
-          count: raidManager.getAllBosses().length
+          bosses: raidManager?.getAllBosses(),
+          count: raidManager?.getAllBosses().length
         };
         break;
 
       case 'getAllParties':
         result = {
-          parties: raidManager.getAllParties(),
-          count: raidManager.getAllParties().length
+          parties: raidManager?.getAllParties(),
+          count: raidManager?.getAllParties().length
         };
         break;
 
       case 'getActiveEncounters':
         result = {
-          encounters: raidManager.getActiveEncounters(),
-          count: raidManager.getActiveEncounters().length
+          encounters: raidManager?.getActiveEncounters(),
+          count: raidManager?.getActiveEncounters().length
         };
         break;
 
       case 'getStatistics':
-        result = raidManager.getRaidStatistics();
+        result = raidManager?.getRaidStatistics();
         break;
 
       case 'simulateRaid':
         // Simulate a complete raid encounter
-        const simEncounter = raidManager.startEncounter(
-          operation.bossId, 
-          operation.partyId, 
-          operation.difficulty as any
+        const simEncounter = raidManager?.startEncounter(
+          operation?.bossId, 
+          operation?.partyId, 
+          operation?.difficulty as any
         );
         
         if (!simEncounter) {
@@ -238,22 +238,22 @@ function main() {
 
         // Generate simulated events
         const simulatedEvents: RaidEvent[] = [];
-        const startTime = Date.now();
+        const startTime = new Date();
         
         for (let i = 0; i < 10; i++) {
-          simulatedEvents.push({
+          simulatedEvents?.push({
             timestamp: startTime + (i * 1000),
             type: 'damage',
             source: `member_${i % 4}`,
-            target: operation.bossId,
+            target: operation?.bossId,
             value: Math.floor(Math.random() * 100) + 50,
             description: `Attack ${i + 1}`
           });
         }
 
         // Process events and complete encounter
-        raidManager.processEncounter(simEncounter.id, simulatedEvents);
-        const simResult = raidManager.completeEncounter(simEncounter.id);
+        raidManager?.processEncounter(simEncounter?.id, simulatedEvents);
+        const simResult = raidManager?.completeEncounter(simEncounter?.id);
         
         result = {
           simulation: {
@@ -265,7 +265,7 @@ function main() {
         break;
 
       case 'exportRaidStats':
-        result = raidManager.exportRaidStats();
+        result = raidManager?.exportRaidStats();
         break;
 
       case 'dump':
@@ -313,14 +313,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: ${operation?.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv.indexOf('--format') + 1];
+    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv?.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -332,7 +332,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -348,13 +348,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }

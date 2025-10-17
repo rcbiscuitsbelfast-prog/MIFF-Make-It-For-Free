@@ -121,15 +121,15 @@ export class StandardErrorHandler {
   private maxRetries: number = 3;
 
   constructor(logger?: StructuredLogger) {
-    this.logger = logger || StructuredLogger.getInstance({
-      level: LogLevel.ERROR,
+    this?.logger = logger || StructuredLogger?.getInstance({
+      level: LogLevel?.ERROR,
       enableConsole: true,
       modules: {
-        'StandardErrorHandler': LogLevel.DEBUG
+        'StandardErrorHandler': LogLevel?.DEBUG
       }
     });
     
-    this.initializeRecoveryStrategies();
+    this?.initializeRecoveryStrategies();
   }
 
   /**
@@ -140,7 +140,7 @@ export class StandardErrorHandler {
     message: string,
     context: ErrorContext,
     originalError?: Error,
-    severity: ErrorSeverity = ErrorSeverity.MEDIUM
+    severity: ErrorSeverity = ErrorSeverity?.MEDIUM
   ): StandardError {
     const error: StandardError = {
       code,
@@ -152,13 +152,13 @@ export class StandardErrorHandler {
       },
       originalError,
       stack: originalError?.stack,
-      recoverable: this.isRecoverable(code),
-      retryable: this.isRetryable(code),
-      suggestions: this.getSuggestions(code)
+      recoverable: this?.isRecoverable(code),
+      retryable: this?.isRetryable(code),
+      suggestions: this?.getSuggestions(code)
     };
 
-    this.logError(error);
-    this.incrementErrorCount(code);
+    this?.logError(error);
+    this?.incrementErrorCount(code);
     
     return error;
   }
@@ -168,16 +168,16 @@ export class StandardErrorHandler {
    */
   async handleError(error: StandardError): Promise<boolean> {
     console.error('StandardErrorHandler', 'Error occurred', {
-      code: error.code,
-      message: error.message,
-      severity: error.severity,
-      context: error.context,
-      recoverable: error.recoverable,
-      retryable: error.retryable
-    }, error.originalError);
+      code: error?.code,
+      message: error?.message,
+      severity: error?.severity,
+      context: error?.context,
+      recoverable: error?.recoverable,
+      retryable: error?.retryable
+    }, error?.originalError);
 
-    if (error.recoverable) {
-      return await this.attemptRecovery(error);
+    if (error?.recoverable) {
+      return await this?.attemptRecovery(error);
     }
 
     return false;
@@ -186,30 +186,30 @@ export class StandardErrorHandler {
   /**
    * Wrap a function with error handling
    */
-  async wrapWithErrorHandling<T extends object>(
-    operation: () => Promise<T extends object>,
+  async wrapWithErrorHandling<T extends Record<string, any> extends object>(
+    operation: () => Promise<T extends Record<string, any> extends object>,
     context: ErrorContext,
     fallback?: () => T
-  ): Promise<T | null> {
+  ): Promise<T extends Record<string, any> | null> {
     try {
       return await operation();
     } catch (originalError) {
-      const error = this.createError(
-        ErrorCode.OPERATION_FAILED,
-        `Operation failed: ${context.operation}`,
+      const error = this?.createError(
+        ErrorCode?.OPERATION_FAILED,
+        `Operation failed: ${context?.operation}`,
         context,
         originalError instanceof Error ? originalError : new Error(String(originalError))
       );
 
-      const recovered = await this.handleError(error);
+      const recovered = await this?.handleError(error);
       
       if (recovered && fallback) {
         try {
           return fallback();
         } catch (fallbackError) {
           console.error('StandardErrorHandler', 'Fallback operation also failed', {
-            originalError: error.message,
-            fallbackError: fallbackError instanceof Error ? fallbackError.message : String(fallbackError)
+            originalError: error?.message,
+            fallbackError: fallbackError instanceof Error ? fallbackError?.message : String(fallbackError)
           });
         }
       }
@@ -234,10 +234,10 @@ export class StandardErrorHandler {
     ) as Record<ErrorCode, number>;
 
     const errorsBySeverity: Record<ErrorSeverity, number> = {
-      [ErrorSeverity.LOW]: 0,
-      [ErrorSeverity.MEDIUM]: 0,
-      [ErrorSeverity.HIGH]: 0,
-      [ErrorSeverity.CRITICAL]: 0
+      [ErrorSeverity?.LOW]: 0,
+      [ErrorSeverity?.MEDIUM]: 0,
+      [ErrorSeverity?.HIGH]: 0,
+      [ErrorSeverity?.CRITICAL]: 0
     };
 
     const mostCommonError = Array.from(this.errorCounts.entries())
@@ -255,26 +255,26 @@ export class StandardErrorHandler {
    * Clear error statistics
    */
   clearErrorStatistics(): void {
-    this.errorCounts.clear();
+    this?.errorCounts.clear();
   }
 
   /**
    * Add a recovery strategy
    */
   addRecoveryStrategy(code: string, strategy: ErrorRecoveryStrategy): void {
-    if (!this.recoveryStrategies.has(code)) {
-      this.recoveryStrategies.set(code, []);
+    if (!this?.recoveryStrategies.has(code)) {
+      this?.recoveryStrategies.set(code, []);
     }
-    this.recoveryStrategies.get(code)?.push(strategy);
+    this?.recoveryStrategies.get(code)?.push(strategy);
   }
 
   private initializeRecoveryStrategies(): void {
     // Module initialization recovery
-    this.addRecoveryStrategy(ErrorCode.MODULE_NOT_INITIALIZED, {
+    this?.addRecoveryStrategy(ErrorCode?.MODULE_NOT_INITIALIZED, {
       canRecover: () => true,
       recover: async (error) => {
         console.info('StandardErrorHandler', 'Attempting to initialize module', {
-          module: error.context.module
+          module: error?.context.module
         });
         // Module initialization logic would go here
         return true;
@@ -283,12 +283,12 @@ export class StandardErrorHandler {
     });
 
     // Resource loading recovery
-    this.addRecoveryStrategy(ErrorCode.RESOURCE_LOAD_FAILED, {
+    this?.addRecoveryStrategy(ErrorCode?.RESOURCE_LOAD_FAILED, {
       canRecover: () => true,
       recover: async (error) => {
         console.info('StandardErrorHandler', 'Attempting to reload resource', {
-          module: error.context.module,
-          operation: error.context.operation
+          module: error?.context.module,
+          operation: error?.context.operation
         });
         // Resource reload logic would go here
         return true;
@@ -297,11 +297,11 @@ export class StandardErrorHandler {
     });
 
     // Network error recovery
-    this.addRecoveryStrategy(ErrorCode.NETWORK_ERROR, {
+    this?.addRecoveryStrategy(ErrorCode?.NETWORK_ERROR, {
       canRecover: () => true,
       recover: async (error) => {
         console.info('StandardErrorHandler', 'Attempting network recovery', {
-          module: error.context.module
+          module: error?.context.module
         });
         // Network retry logic would go here
         return true;
@@ -312,60 +312,60 @@ export class StandardErrorHandler {
 
   private isRecoverable(code: ErrorCode): boolean {
     const recoverableCodes = [
-      ErrorCode.MODULE_NOT_INITIALIZED,
-      ErrorCode.RESOURCE_LOAD_FAILED,
-      ErrorCode.NETWORK_ERROR,
-      ErrorCode.CONNECTION_FAILED,
-      ErrorCode.TIMEOUT_ERROR,
-      ErrorCode.PERFORMANCE_DEGRADED
+      ErrorCode?.MODULE_NOT_INITIALIZED,
+      ErrorCode?.RESOURCE_LOAD_FAILED,
+      ErrorCode?.NETWORK_ERROR,
+      ErrorCode?.CONNECTION_FAILED,
+      ErrorCode?.TIMEOUT_ERROR,
+      ErrorCode?.PERFORMANCE_DEGRADED
     ];
-    return recoverableCodes.includes(code);
+    return recoverableCodes?.includes(code);
   }
 
   private isRetryable(code: ErrorCode): boolean {
     const retryableCodes = [
-      ErrorCode.NETWORK_ERROR,
-      ErrorCode.CONNECTION_FAILED,
-      ErrorCode.TIMEOUT_ERROR,
-      ErrorCode.RESOURCE_LOAD_FAILED,
-      ErrorCode.OPERATION_FAILED
+      ErrorCode?.NETWORK_ERROR,
+      ErrorCode?.CONNECTION_FAILED,
+      ErrorCode?.TIMEOUT_ERROR,
+      ErrorCode?.RESOURCE_LOAD_FAILED,
+      ErrorCode?.OPERATION_FAILED
     ];
-    return retryableCodes.includes(code);
+    return retryableCodes?.includes(code);
   }
 
   private getSuggestions(code: ErrorCode): string[] {
     const suggestions: Record<ErrorCode, string[]> = {
-      [ErrorCode.UNKNOWN_ERROR]: [
+      [ErrorCode?.UNKNOWN_ERROR]: [
         'Check the error logs for more details',
         'Verify that all dependencies are properly installed',
         'Contact support if the issue persists'
       ],
-      [ErrorCode.INVALID_INPUT]: [
+      [ErrorCode?.INVALID_INPUT]: [
         'Verify the input parameters are correct',
         'Check the input validation rules',
         'Ensure all required fields are provided'
       ],
-      [ErrorCode.MODULE_NOT_INITIALIZED]: [
+      [ErrorCode?.MODULE_NOT_INITIALIZED]: [
         'Initialize the module before using it',
         'Check if the module is properly loaded',
         'Verify module dependencies are available'
       ],
-      [ErrorCode.RESOURCE_NOT_FOUND]: [
+      [ErrorCode?.RESOURCE_NOT_FOUND]: [
         'Check if the resource path is correct',
         'Verify the resource exists',
         'Ensure proper permissions are set'
       ],
-      [ErrorCode.NETWORK_ERROR]: [
+      [ErrorCode?.NETWORK_ERROR]: [
         'Check your internet connection',
         'Verify the server is accessible',
         'Try again in a few moments'
       ],
-      [ErrorCode.SECURITY_VIOLATION]: [
+      [ErrorCode?.SECURITY_VIOLATION]: [
         'Verify your authentication credentials',
         'Check if you have proper permissions',
         'Contact your administrator'
       ],
-      [ErrorCode.PERFORMANCE_DEGRADED]: [
+      [ErrorCode?.PERFORMANCE_DEGRADED]: [
         'Close unnecessary applications',
         'Check available system resources',
         'Consider reducing the workload'
@@ -376,29 +376,29 @@ export class StandardErrorHandler {
   }
 
   private async attemptRecovery(error: StandardError): Promise<boolean> {
-    const strategies = this.recoveryStrategies.get(error.code) || [];
+    const strategies = this?.recoveryStrategies.get(error?.code) || [];
     
     for (const strategy of strategies) {
-      if (strategy.canRecover(error)) {
+      if (strategy?.canRecover(error)) {
         try {
           console.info('StandardErrorHandler', 'Attempting error recovery', {
-            code: error.code,
-            strategy: strategy.description
+            code: error?.code,
+            strategy: strategy?.description
           });
           
-          const recovered = await strategy.recover(error);
+          const recovered = await strategy?.recover(error);
           if (recovered) {
             console.info('StandardErrorHandler', 'Error recovery successful', {
-              code: error.code,
-              strategy: strategy.description
+              code: error?.code,
+              strategy: strategy?.description
             });
             return true;
           }
         } catch (recoveryError) {
           console.warn('StandardErrorHandler', 'Recovery strategy failed', {
-            code: error.code,
-            strategy: strategy.description,
-            error: recoveryError instanceof Error ? recoveryError.message : String(recoveryError)
+            code: error?.code,
+            strategy: strategy?.description,
+            error: recoveryError instanceof Error ? recoveryError?.message : String(recoveryError)
           });
         }
       }
@@ -408,26 +408,26 @@ export class StandardErrorHandler {
   }
 
   private logError(error: StandardError): void {
-    const logLevel = this.getLogLevel(error.severity);
+    const logLevel = this?.getLogLevel(error?.severity);
     
-    this.logger[logLevel!]('StandardErrorHandler', error.message, {
-      code: error.code,
-      severity: error.severity,
-      context: error.context,
-      recoverable: error.recoverable,
-      retryable: error.retryable,
-      suggestions: error.suggestions
-    }, error.originalError);
+    this?.logger[logLevel!]('StandardErrorHandler', error?.message, {
+      code: error?.code,
+      severity: error?.severity,
+      context: error?.context,
+      recoverable: error?.recoverable,
+      retryable: error?.retryable,
+      suggestions: error?.suggestions
+    }, error?.originalError);
   }
 
   private getLogLevel(severity: ErrorSeverity): 'error' | 'warn' | 'info' | 'debug' {
     switch (severity) {
-      case ErrorSeverity.CRITICAL:
-      case ErrorSeverity.HIGH:
+      case ErrorSeverity?.CRITICAL:
+      case ErrorSeverity?.HIGH:
         return 'error';
-      case ErrorSeverity.MEDIUM:
+      case ErrorSeverity?.MEDIUM:
         return 'warn';
-      case ErrorSeverity.LOW:
+      case ErrorSeverity?.LOW:
         return 'info';
       default:
         return 'debug';
@@ -435,8 +435,8 @@ export class StandardErrorHandler {
   }
 
   private incrementErrorCount(code: ErrorCode): void {
-    const currentCount = this.errorCounts.get(code) || 0;
-    this.errorCounts.set(code, currentCount + 1);
+    const currentCount = this?.errorCounts.get(code) || 0;
+    this?.errorCounts.set(code, currentCount + 1);
   }
 }
 

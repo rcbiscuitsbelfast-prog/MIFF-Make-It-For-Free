@@ -49,7 +49,7 @@ export class MiffAttributionManager {
   private override: AttributionOverride | null = null;
   
   setOverride(ovr: AttributionOverride) { 
-    this.override = ovr; 
+    this?.override = ovr; 
   }
 
   private getDefaultContributors(): Contributor[] {
@@ -57,7 +57,7 @@ export class MiffAttributionManager {
       {
         name: "R.C. Biscuits",
         role: "Framework Architect",
-        contact: "miff@yourdomain.dev",
+        contact: "miff@yourdomain?.dev",
         license: "CC-BY-SA 4.0"
       }
     ];
@@ -67,7 +67,7 @@ export class MiffAttributionManager {
     return {
       type: "AGPLv3 + Commercial",
       version: "3.0",
-      url: "https://www.gnu.org/licenses/agpl-3.0.en.html",
+      url: "https://www?.gnu.org/licenses/agpl-3.0?.en.html",
       requirements: [
         "Attribution required",
         "Source code must be open",
@@ -83,8 +83,8 @@ export class MiffAttributionManager {
 
   showAttribution(cfg: AttributionConfig): AttributionOutput {
     const issues: AttributionOutput['issues'] = [];
-    const enabled = cfg.enabled !== false;
-    const should = this.override?.shouldShow ? this.override.shouldShow(cfg) : enabled;
+    const enabled = cfg?.enabled !== false;
+    const should = this?.override?.shouldShow ? this?.override.shouldShow(cfg) : enabled;
     
     if (!should) { 
       return { 
@@ -96,29 +96,29 @@ export class MiffAttributionManager {
     }
     
     try {
-      if (this.override?.render) this.override.render(cfg);
+      if (this?.override?.render) this?.override.render(cfg);
       
-      const contributors = this.override?.getContributors?.() || this.getDefaultContributors();
-      const license = this.override?.getLicenseInfo?.() || this.getDefaultLicenseInfo();
-      const remixStatus = this.getRemixStatus();
+      const contributors = this?.override?.getContributors?.() || this?.getDefaultContributors();
+      const license = this?.override?.getLicenseInfo?.() || this?.getDefaultLicenseInfo();
+      const remixStatus = this?.getRemixStatus();
       
       const rendered: AttributionOutput['rendered'] = {
-        message: cfg.message,
-        style: cfg.style,
-        durationMs: cfg.durationMs,
+        message: cfg?.message,
+        style: cfg?.style,
+        durationMs: cfg?.durationMs,
         remixStatus: remixStatus
       };
 
-      if (cfg.showLicense !== false) {
-        rendered.license = license;
+      if (cfg?.showLicense !== false) {
+        rendered?.license = license;
       }
       
-      if (cfg.showContributors !== false) {
-        rendered.contributors = contributors;
+      if (cfg?.showContributors !== false) {
+        rendered?.contributors = contributors;
       }
       
-      if (cfg.showRemixStatus !== false) {
-        rendered.remixStatus = remixStatus;
+      if (cfg?.showRemixStatus !== false) {
+        rendered?.remixStatus = remixStatus;
       }
 
       return { 
@@ -129,7 +129,7 @@ export class MiffAttributionManager {
         rendered 
       };
     } catch (e) { 
-      issues.push({ code: 'render_error', message: String(e?.message || e) }); 
+      issues?.push({ code: 'render_error', message: String(e?.message || e) }); 
       return { 
         op: 'showAttribution', 
         status: 'skipped', 
@@ -140,15 +140,15 @@ export class MiffAttributionManager {
   }
 
   getLicenseMetadata(): LicenseInfo {
-    return this.override?.getLicenseInfo?.() || this.getDefaultLicenseInfo();
+    return this?.override?.getLicenseInfo?.() || this?.getDefaultLicenseInfo();
   }
 
   getContributorInfo(): Contributor[] {
-    return this.override?.getContributors?.() || this.getDefaultContributors();
+    return this?.override?.getContributors?.() || this?.getDefaultContributors();
   }
 
   getRemixSafetyInfo(): { status: 'remix-required' | 'remix-optional' | 'remix-safe'; details: string } {
-    const status = this.getRemixStatus();
+    const status = this?.getRemixStatus();
     const details = status === 'remix-safe' 
       ? "This module is designed for safe remixing and distribution"
       : status === 'remix-optional'

@@ -184,12 +184,12 @@ export class AnimationSystemManager {
   constructor(config?: Partial<AnimationSystemConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.startTime = Date.now();
+    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this?.memoryManager = new MemoryManager({});
+    this?.errorHandler = new StandardErrorHandler({});
+    this.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enableAnimationCreation: true,
       enableTimelineControl: true,
       enableKeyframeControl: true,
@@ -211,7 +211,7 @@ export class AnimationSystemManager {
    * Initialize the Animation System Manager
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
+    if (this?.isInitialized) {
       console.warn('AnimationSystemPure', 'Animation System Manager already initialized');
       return;
     }
@@ -220,21 +220,21 @@ export class AnimationSystemManager {
       console.info('AnimationSystemPure', 'Initializing Animation System Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this?.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this.config.enableMonitoring) {
+      if (this?.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.info('AnimationSystemPure', 'Animation System Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -243,14 +243,14 @@ export class AnimationSystemManager {
    * Create a new animation
    */
   async createAnimation(animationData: Omit<Animation, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<Animation> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
       const animation: Animation = {
         ...animationData,
-        id: this.generateAnimationId(),
+        id: this?.generateAnimationId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -264,15 +264,15 @@ export class AnimationSystemManager {
         }
       };
 
-      this.animations.set(animation.id, animation);
-      this.updateAnalytics();
+      this?.animations.set(animation?.id, animation);
+      this?.updateAnalytics();
 
       console.info('Animation created', { animationId: animation.id, animationName: animation.name });
       return animation;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -281,23 +281,23 @@ export class AnimationSystemManager {
    * Get an animation by ID
    */
   getAnimation(animationId: string): Animation | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
-    return this.animations.get(animationId) || null;
+    return this?.animations.get(animationId) || null;
   }
 
   /**
    * Update an animation
    */
   async updateAnimation(animationId: string, updates: Partial<Animation>): Promise<Animation | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const animation = this.animations.get(animationId);
+      const animation = this?.animations.get(animationId);
       if (!animation) {
         console.warn('Animation not found', { animationId });
         return null;
@@ -307,18 +307,18 @@ export class AnimationSystemManager {
         ...animation,
         ...updates,
         updatedAt: new Date(),
-        version: this.incrementVersion(animation.version)
+        version: this?.incrementVersion(animation?.version)
       };
 
-      this.animations.set(animationId, updatedAnimation);
-      this.updateAnalytics();
+      this?.animations.set(animationId, updatedAnimation);
+      this?.updateAnalytics();
 
       console.info('Animation updated', { animationId, animationName: updatedAnimation.name });
       return updatedAnimation;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -327,26 +327,26 @@ export class AnimationSystemManager {
    * Delete an animation
    */
   async deleteAnimation(animationId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const animation = this.animations.get(animationId);
+      const animation = this?.animations.get(animationId);
       if (!animation) {
         console.warn('Animation not found', { animationId });
         return false;
       }
 
-      this.animations.delete(animationId);
-      this.updateAnalytics();
+      this?.animations.delete(animationId);
+      this?.updateAnalytics();
 
       console.info('Animation deleted', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -355,7 +355,7 @@ export class AnimationSystemManager {
    * Get all animations
    */
   getAllAnimations(): Animation[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
@@ -366,7 +366,7 @@ export class AnimationSystemManager {
    * Get animations by type
    */
   getAnimationsByType(type: AnimationType): Animation[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
@@ -377,7 +377,7 @@ export class AnimationSystemManager {
    * Get animations by status
    */
   getAnimationsByStatus(status: AnimationStatus): Animation[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
@@ -388,26 +388,26 @@ export class AnimationSystemManager {
    * Play an animation
    */
   async playAnimation(animationId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const animation = this.animations.get(animationId);
+      const animation = this?.animations.get(animationId);
       if (!animation) {
         console.warn('Animation not found', { animationId });
         return false;
       }
 
-      animation.status = 'playing';
-      animation.timeline.currentTime = 0;
+      animation?.status = 'playing';
+      animation?.timeline.currentTime = 0;
 
       console.debug('Animation started', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -416,19 +416,19 @@ export class AnimationSystemManager {
    * Pause an animation
    */
   async pauseAnimation(animationId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const animation = this.animations.get(animationId);
+      const animation = this?.animations.get(animationId);
       if (!animation) {
         console.warn('Animation not found', { animationId });
         return false;
       }
 
-      if (animation.status === 'playing') {
-        animation.status = 'paused';
+      if (animation?.status === 'playing') {
+        animation?.status = 'paused';
         console.debug('Animation paused', { animationId, animationName: animation.name });
       }
 
@@ -436,7 +436,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -445,26 +445,26 @@ export class AnimationSystemManager {
    * Stop an animation
    */
   async stopAnimation(animationId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const animation = this.animations.get(animationId);
+      const animation = this?.animations.get(animationId);
       if (!animation) {
         console.warn('Animation not found', { animationId });
         return false;
       }
 
-      animation.status = 'stopped';
-      animation.timeline.currentTime = 0;
+      animation?.status = 'stopped';
+      animation?.timeline.currentTime = 0;
 
       console.debug('Animation stopped', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -473,41 +473,41 @@ export class AnimationSystemManager {
    * Update animation timeline
    */
   async updateTimeline(animationId: string, deltaTime: number): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const animation = this.animations.get(animationId);
+      const animation = this?.animations.get(animationId);
       if (!animation) {
         console.warn('Animation not found', { animationId });
         return false;
       }
 
-      if (animation.status !== 'playing') {
+      if (animation?.status !== 'playing') {
         return false;
       }
 
       // Update current time
-      animation.timeline.currentTime += deltaTime * animation.timeline.speed;
+      animation?.timeline.currentTime += deltaTime * animation?.timeline.speed;
 
       // Check if animation is complete
-      if (animation.timeline.currentTime >= animation.timeline.duration) {
-        if (animation.timeline.loop) {
-          animation.timeline.currentTime = 0;
+      if (animation?.timeline.currentTime >= animation?.timeline.duration) {
+        if (animation?.timeline.loop) {
+          animation?.timeline.currentTime = 0;
         } else {
-          animation.status = 'completed';
+          animation?.status = 'completed';
         }
       }
 
       // Update keyframe values
-      this.updateKeyframeValues(animation);
+      this?.updateKeyframeValues(animation);
 
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -516,14 +516,14 @@ export class AnimationSystemManager {
    * Update keyframe values based on current time
    */
   private updateKeyframeValues(animation: Animation): void {
-    const currentTime = animation.timeline.currentTime;
-    const keyframes = animation.keyframes.sort((a: any, b: any) => a.time - b.time);
+    const currentTime = animation?.timeline.currentTime;
+    const keyframes = animation?.keyframes.sort((a: any, b: any) => a?.time - b?.time);
 
     // Find current keyframe
     let currentKeyframe: Keyframe | null = null;
     let nextKeyframe: Keyframe | null = null;
 
-    for (let i = 0; i < keyframes.length; i++) {
+    for (let i = 0; i < keyframes?.length; i++) {
       if (keyframes[i!].time <= currentTime) {
         currentKeyframe = keyframes[i!];
         nextKeyframe = keyframes[i + 1] || null;
@@ -532,19 +532,19 @@ export class AnimationSystemManager {
 
     if (currentKeyframe && nextKeyframe) {
       // Interpolate between keyframes
-      const progress = (currentTime - currentKeyframe.time) / (nextKeyframe.time - currentKeyframe.time);
-      const interpolatedValue = this.interpolateValue(
-        currentKeyframe.value,
-        nextKeyframe.value,
+      const progress = (currentTime - currentKeyframe?.time) / (nextKeyframe?.time - currentKeyframe?.time);
+      const interpolatedValue = this?.interpolateValue(
+        currentKeyframe?.value,
+        nextKeyframe?.value,
         progress,
-        currentKeyframe.interpolation
+        currentKeyframe?.interpolation
       );
 
       // Update animation value
-      animation.metadata?.currentValue = interpolatedValue;
+      animation?.metadata?.currentValue = interpolatedValue;
     } else if (currentKeyframe) {
       // Use current keyframe value
-      animation.metadata?.currentValue = currentKeyframe.value;
+      animation?.metadata?.currentValue = currentKeyframe?.value;
     }
   }
 
@@ -554,13 +554,13 @@ export class AnimationSystemManager {
   private interpolateValue(startValue: any, endValue: any, progress: number, interpolation: InterpolationType): any {
     switch (interpolation) {
       case 'linear':
-        return this.linearInterpolation(startValue, endValue, progress);
+        return this?.linearInterpolation(startValue, endValue, progress);
       case 'bezier':
-        return this.bezierInterpolation(startValue, endValue, progress);
+        return this?.bezierInterpolation(startValue, endValue, progress);
       case 'step':
         return progress < 1 ? startValue : endValue;
       case 'smooth':
-        return this.smoothInterpolation(startValue, endValue, progress);
+        return this?.smoothInterpolation(startValue, endValue, progress);
       default:
         return startValue;
     }
@@ -614,7 +614,7 @@ export class AnimationSystemManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version.split('.');
+    const parts = version?.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -624,16 +624,16 @@ export class AnimationSystemManager {
    */
   private updateAnalytics(): void {
     const animations = Array.from(this.animations.values());
-    const activeAnimations = animations.filter((a: any) => a.status === 'playing');
-    const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
-    const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
-    const totalTransitions = animations.reduce((sum, a) => sum + (a.transitions.enabled ? 1 : 0), 0);
+    const activeAnimations = animations?.filter((a: any) => a?.status === 'playing');
+    const totalDuration = animations?.reduce((sum, a) => sum + a?.timeline.duration, 0);
+    const totalKeyframes = animations?.reduce((sum, a) => sum + a?.keyframes.length, 0);
+    const totalTransitions = animations?.reduce((sum, a) => sum + (a?.transitions.enabled ? 1 : 0), 0);
 
     for (const animation of animations) {
-      animation.analytics = {
-        totalAnimations: animations.length,
-        activeAnimations: activeAnimations.length,
-        averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
+      animation?.analytics = {
+        totalAnimations: animations?.length,
+        activeAnimations: activeAnimations?.length,
+        averageDuration: animations?.length > 0 ? totalDuration / animations?.length : 0,
         keyframeCount: totalKeyframes,
         transitionCount: totalTransitions,
         lastUpdated: new Date()
@@ -653,14 +653,14 @@ export class AnimationSystemManager {
     totalKeyframes: number;
     uptime: number;
   } {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Animation System Manager not initialized');
     }
 
     const animations = Array.from(this.animations.values());
-    const activeAnimations = animations.filter((a: any) => a.status === 'playing');
-    const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
-    const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
+    const activeAnimations = animations?.filter((a: any) => a?.status === 'playing');
+    const totalDuration = animations?.reduce((sum, a) => sum + a?.timeline.duration, 0);
+    const totalKeyframes = animations?.reduce((sum, a) => sum + a?.keyframes.length, 0);
 
     const animationsByType: Record<AnimationType, number> = {
       position: 0,
@@ -680,18 +680,18 @@ export class AnimationSystemManager {
     };
 
     for (const animation of animations) {
-      animationsByType[animation.type]++;
-      animationsByStatus[animation.status]++;
+      animationsByType[animation?.type]++;
+      animationsByStatus[animation?.status]++;
     }
 
     return {
-      totalAnimations: animations.length,
-      activeAnimations: activeAnimations.length,
+      totalAnimations: animations?.length,
+      activeAnimations: activeAnimations?.length,
       animationsByType,
       animationsByStatus,
-      averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
+      averageDuration: animations?.length > 0 ? totalDuration / animations?.length : 0,
       totalKeyframes,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: new Date() - this?.startTime.getTime()
     };
   }
 
@@ -701,8 +701,8 @@ export class AnimationSystemManager {
   async destroy(): Promise<void> {
     console.info('AnimationSystemPure', 'Destroying Animation System Manager...');
 
-    this.animations.clear();
-    this.isInitialized = false;
+    this?.animations.clear();
+    this?.isInitialized = false;
 
     console.info('AnimationSystemPure', 'Animation System Manager destroyed');
   }

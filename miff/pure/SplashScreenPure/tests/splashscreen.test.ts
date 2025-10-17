@@ -22,12 +22,12 @@ describe('SplashScreenPure', () => {
 
   beforeEach(() => {
     // Create mock DOM environment
-    mockContainer = document.createElement('div');
-    mockContainer.id = 'test-container';
-    document.body.appendChild(mockContainer);
+    mockContainer = document?.createElement('div');
+    mockContainer?.id = 'test-container';
+    document?.body.appendChild(mockContainer);
 
     // Mock EventBus for testing
-    EventBus.listeners.clear();
+    EventBus?.listeners.clear();
 
     // Initialize splash screen with default config
     splashScreen = new SplashScreenPure();
@@ -35,23 +35,23 @@ describe('SplashScreenPure', () => {
 
   afterEach(() => {
     // Clean up
-    if (mockContainer.parentNode) {
-      mockContainer.parentNode.removeChild(mockContainer);
+    if (mockContainer?.parentNode) {
+      mockContainer?.parentNode.removeChild(mockContainer);
     }
-    EventBus.listeners.clear();
+    EventBus?.listeners.clear();
   });
 
   describe('Initialization', () => {
     test('should initialize with default configuration', () => {
-      const config = splashScreen.getConfig();
+      const config = splashScreen?.getConfig();
 
-      expect(config.duration).toBe(3000);
-      expect(config.fadeInTime).toBe(1000);
-      expect(config.fadeOutTime).toBe(1000);
-      expect(config.theme).toBe('dark');
-      expect(config.showSubtitle).toBe(true);
-      expect(config.autoDismiss).toBe(true);
-      expect(config.clickToDismiss).toBe(true);
+      expect(config?.duration).toBe(3000);
+      expect(config?.fadeInTime).toBe(1000);
+      expect(config?.fadeOutTime).toBe(1000);
+      expect(config?.theme).toBe('dark');
+      expect(config?.showSubtitle).toBe(true);
+      expect(config?.autoDismiss).toBe(true);
+      expect(config?.clickToDismiss).toBe(true);
     });
 
     test('should initialize with custom configuration', () => {
@@ -62,54 +62,54 @@ describe('SplashScreenPure', () => {
       };
 
       const customSplashScreen = new SplashScreenPure(customConfig);
-      const config = customSplashScreen.getConfig();
+      const config = customSplashScreen?.getConfig();
 
-      expect(config.duration).toBe(5000);
-      expect(config.theme).toBe('light');
-      expect(config.showSubtitle).toBe(false);
+      expect(config?.duration).toBe(5000);
+      expect(config?.theme).toBe('light');
+      expect(config?.showSubtitle).toBe(false);
     });
   });
 
   describe('Splash Screen Display', () => {
     test('should show splash screen', async () => {
-      const showPromise = splashScreen.show();
+      const showPromise = splashScreen?.show();
 
       // Check if splash screen container was created
-      const splashContainer = document.getElementById('miff-splash-screen');
+      const splashContainer = document?.getElementById('miff-splash-screen');
       expect(splashContainer).toBeTruthy();
 
       // Wait for show to complete
       await showPromise;
 
-      expect(splashScreen.isVisible()).toBe(true);
+      expect(splashScreen?.isVisible()).toBe(true);
     });
 
     test('should hide splash screen', async () => {
-      await splashScreen.show();
-      expect(splashScreen.isVisible()).toBe(true);
+      await splashScreen?.show();
+      expect(splashScreen?.isVisible()).toBe(true);
 
-      await splashScreen.hide();
-      expect(splashScreen.isVisible()).toBe(false);
+      await splashScreen?.hide();
+      expect(splashScreen?.isVisible()).toBe(false);
 
       // Container should be removed after fade out
-      const splashContainer = document.getElementById('miff-splash-screen');
+      const splashContainer = document?.getElementById('miff-splash-screen');
       expect(splashContainer).toBeFalsy();
     });
 
     test('should handle multiple show/hide calls correctly', async () => {
       // First show/hide cycle
-      await splashScreen.show();
-      expect(splashScreen.isVisible()).toBe(true);
+      await splashScreen?.show();
+      expect(splashScreen?.isVisible()).toBe(true);
 
-      await splashScreen.hide();
-      expect(splashScreen.isVisible()).toBe(false);
+      await splashScreen?.hide();
+      expect(splashScreen?.isVisible()).toBe(false);
 
       // Second show/hide cycle
-      await splashScreen.show();
-      expect(splashScreen.isVisible()).toBe(true);
+      await splashScreen?.show();
+      expect(splashScreen?.isVisible()).toBe(true);
 
-      await splashScreen.hide();
-      expect(splashScreen.isVisible()).toBe(false);
+      await splashScreen?.hide();
+      expect(splashScreen?.isVisible()).toBe(false);
     });
   });
 
@@ -121,60 +121,60 @@ describe('SplashScreenPure', () => {
         showSubtitle: false
       };
 
-      splashScreen.setConfig(newConfig);
-      const config = splashScreen.getConfig();
+      splashScreen?.setConfig(newConfig);
+      const config = splashScreen?.getConfig();
 
-      expect(config.duration).toBe(2000);
-      expect(config.theme).toBe('light');
-      expect(config.showSubtitle).toBe(false);
+      expect(config?.duration).toBe(2000);
+      expect(config?.theme).toBe('light');
+      expect(config?.showSubtitle).toBe(false);
     });
 
     test('should reflect configuration changes in UI', async () => {
-      await splashScreen.show();
+      await splashScreen?.show();
 
       const newConfig = {
         theme: 'light',
         textColor: '#00cc66'
       };
 
-      splashScreen.setConfig(newConfig);
+      splashScreen?.setConfig(newConfig);
 
       // Verify the changes are reflected (mocked for this test)
-      const config = splashScreen.getConfig();
-      expect(config.theme).toBe('light');
-      expect(config.textColor).toBe('#00cc66');
+      const config = splashScreen?.getConfig();
+      expect(config?.theme).toBe('light');
+      expect(config?.textColor).toBe('#00cc66');
     });
   });
 
   describe('Event System Integration', () => {
     test('should respond to EventBus show event', async () => {
-      const showSpy = jest.fn();
-      splashScreen.show = showSpy;
+      const showSpy = jest?.fn();
+      splashScreen?.show = showSpy;
 
-      EventBus.publish('splashscreen.show');
+      EventBus?.publish('splashscreen?.show');
 
       // Should trigger show method
       expect(showSpy).toHaveBeenCalled();
     });
 
     test('should respond to EventBus hide event', async () => {
-      await splashScreen.show();
+      await splashScreen?.show();
 
-      const hideSpy = jest.fn();
-      splashScreen.hide = hideSpy;
+      const hideSpy = jest?.fn();
+      splashScreen?.hide = hideSpy;
 
-      EventBus.publish('splashscreen.hide');
+      EventBus?.publish('splashscreen?.hide');
 
       // Should trigger hide method
       expect(hideSpy).toHaveBeenCalled();
     });
 
     test('should respond to EventBus config update event', () => {
-      const updateSpy = jest.fn();
-      splashScreen.updateConfig = updateSpy;
+      const updateSpy = jest?.fn();
+      splashScreen?.updateConfig = updateSpy;
 
       const newConfig = { duration: 1500 };
-      EventBus.publish('splashscreen.updateConfig', newConfig);
+      EventBus?.publish('splashscreen?.updateConfig', newConfig);
 
       expect(updateSpy).toHaveBeenCalledWith(newConfig);
     });
@@ -191,8 +191,8 @@ describe('SplashScreenPure', () => {
 
     test('should handle missing DOM elements gracefully', () => {
       // Remove body element for this test
-      const body = document.body;
-      document.body = null as any;
+      const body = document?.body;
+      document?.body = null as any;
 
       const splashScreen = new SplashScreenPure();
 
@@ -200,90 +200,90 @@ describe('SplashScreenPure', () => {
       expect(splashScreen).toBeTruthy();
 
       // Restore body
-      document.body = body;
+      document?.body = body;
     });
   });
 
   describe('Performance', () => {
     test('should not cause memory leaks', async () => {
-      const initialListeners = EventBus.listeners.size;
+      const initialListeners = EventBus?.listeners.size;
 
       // Multiple show/hide cycles
       for (let i = 0; i < 5; i++) {
-        await splashScreen.show();
-        await splashScreen.hide();
+        await splashScreen?.show();
+        await splashScreen?.hide();
       }
 
       // EventBus should not have accumulated listeners
-      expect(EventBus.listeners.size).toBe(initialListeners);
+      expect(EventBus?.listeners.size).toBe(initialListeners);
     });
 
     test('should clean up DOM elements properly', async () => {
-      await splashScreen.show();
-      expect(document.getElementById('miff-splash-screen')).toBeTruthy();
+      await splashScreen?.show();
+      expect(document?.getElementById('miff-splash-screen')).toBeTruthy();
 
-      await splashScreen.hide();
-      expect(document.getElementById('miff-splash-screen')).toBeFalsy();
+      await splashScreen?.hide();
+      expect(document?.getElementById('miff-splash-screen')).toBeFalsy();
     });
   });
 
   describe('Theme Support', () => {
     test('should support dark theme', () => {
       const splashScreen = new SplashScreenPure({ theme: 'dark' });
-      const config = splashScreen.getConfig();
+      const config = splashScreen?.getConfig();
 
-      expect(config.theme).toBe('dark');
-      expect(config.textColor).toBe('#00ff88');
-      expect(config.backgroundColor).toBe('#000000');
+      expect(config?.theme).toBe('dark');
+      expect(config?.textColor).toBe('#00ff88');
+      expect(config?.backgroundColor).toBe('#000000');
     });
 
     test('should support light theme', () => {
       const splashScreen = new SplashScreenPure({ theme: 'light' });
-      const config = splashScreen.getConfig();
+      const config = splashScreen?.getConfig();
 
-      expect(config.theme).toBe('light');
-      expect(config.textColor).toBe('#00cc66');
-      expect(config.backgroundColor).toBe('#ffffff');
+      expect(config?.theme).toBe('light');
+      expect(config?.textColor).toBe('#00cc66');
+      expect(config?.backgroundColor).toBe('#ffffff');
     });
 
     test('should switch themes dynamically', async () => {
-      await splashScreen.show();
+      await splashScreen?.show();
 
-      splashScreen.setConfig({ theme: 'light' });
-      let config = splashScreen.getConfig();
-      expect(config.theme).toBe('light');
+      splashScreen?.setConfig({ theme: 'light' });
+      let config = splashScreen?.getConfig();
+      expect(config?.theme).toBe('light');
 
-      splashScreen.setConfig({ theme: 'dark' });
-      config = splashScreen.getConfig();
-      expect(config.theme).toBe('dark');
+      splashScreen?.setConfig({ theme: 'dark' });
+      config = splashScreen?.getConfig();
+      expect(config?.theme).toBe('dark');
     });
   });
 
   describe('Accessibility', () => {
     test('should support keyboard navigation', async () => {
-      await splashScreen.show();
+      await splashScreen?.show();
 
       // Should be able to tab to splash screen
-      const splashContainer = document.getElementById('miff-splash-screen');
+      const splashContainer = document?.getElementById('miff-splash-screen');
       expect(splashContainer).toBeTruthy();
 
       // Should respond to keyboard events
       const keyboardEvent = new KeyboardEvent('keydown', { key: 'Escape' });
-      document.dispatchEvent(keyboardEvent);
+      document?.dispatchEvent(keyboardEvent);
 
       // Container should still exist (would be removed by hide logic)
       expect(splashContainer).toBeTruthy();
     });
 
     test('should support screen readers', async () => {
-      await splashScreen.show();
+      await splashScreen?.show();
 
-      const splashContainer = document.getElementById('miff-splash-screen');
+      const splashContainer = document?.getElementById('miff-splash-screen');
       expect(splashContainer).toBeTruthy();
 
       // Should have proper ARIA attributes (would be added in real implementation)
-      // expect(splashContainer.getAttribute('role')).toBe('dialog');
-      // expect(splashContainer.getAttribute('aria-label')).toBe('MIFF Splash Screen');
+      // expect(splashContainer?.getAttribute('role')).toBe('dialog');
+      // expect(splashContainer?.getAttribute('aria-label')).toBe('MIFF Splash Screen');
     });
   });
 
@@ -291,26 +291,26 @@ describe('SplashScreenPure', () => {
     test('should handle invalid configurations gracefully', () => {
       expect(() => {
         new SplashScreenPure({ duration: -1000 });
-      }).not.toThrow();
+      }).not?.toThrow();
 
       expect(() => {
         new SplashScreenPure({ fadeInTime: 'invalid' as any });
-      }).not.toThrow();
+      }).not?.toThrow();
     });
 
     test('should handle DOM manipulation errors', () => {
-      // Mock document.body.appendChild to throw
-      const originalAppendChild = document.body.appendChild;
-      document.body.appendChild = jest.fn(() => {
+      // Mock document?.body.appendChild to throw
+      const originalAppendChild = document?.body.appendChild;
+      document?.body.appendChild = jest?.fn(() => {
         throw new Error('DOM Error');
       });
 
       expect(() => {
         new SplashScreenPure();
-      }).not.toThrow();
+      }).not?.toThrow();
 
       // Restore original method
-      document.body.appendChild = originalAppendChild;
+      document?.body.appendChild = originalAppendChild;
     });
   });
 });

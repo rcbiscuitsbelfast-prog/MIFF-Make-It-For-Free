@@ -77,7 +77,7 @@ export class LootTablesManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.initializeDefaultTables();
+    this?.initializeDefaultTables();
   }
 
   private initializeDefaultTables() {
@@ -154,32 +154,32 @@ export class LootTablesManager {
       }
     ];
 
-    defaultTables.forEach((table: any) => this.tables.set(table.id, table));
+    defaultTables?.forEach((table: any) => this?.tables.set(table?.id, table));
   }
 
   /**
    * Create a new loot table
    */
   createTable(table: LootTable): LootOutput {
-    if (this.tables.has(table.id)) {
+    if (this?.tables.has(table?.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`Loot table ${table.id} already exists`]
+        issues: [`Loot table ${table?.id} already exists`]
       };
     }
 
     // Validate table
-    const validation = this.validateTable(table);
-    if (!validation.valid) {
+    const validation = this?.validateTable(table);
+    if (!validation?.valid) {
       return {
         op: 'create',
         status: 'error',
-        issues: validation.errors
+        issues: validation?.errors
       };
     }
 
-    this.tables.set(table.id, table);
+    this?.tables.set(table?.id, table);
     return {
       op: 'create',
       status: 'ok',
@@ -191,7 +191,7 @@ export class LootTablesManager {
    * Update loot table
    */
   updateTable(tableId: string, updates: Partial<LootTable>): LootOutput {
-    const table = this.tables.get(tableId);
+    const table = this?.tables.get(tableId);
     if (!table) {
       return {
         op: 'update',
@@ -203,16 +203,16 @@ export class LootTablesManager {
     const updatedTable = { ...table, ...updates };
     
     // Validate updated table
-    const validation = this.validateTable(updatedTable);
-    if (!validation.valid) {
+    const validation = this?.validateTable(updatedTable);
+    if (!validation?.valid) {
       return {
         op: 'update',
         status: 'error',
-        issues: validation.errors
+        issues: validation?.errors
       };
     }
 
-    this.tables.set(tableId, updatedTable);
+    this?.tables.set(tableId, updatedTable);
     return {
       op: 'update',
       status: 'ok',
@@ -224,7 +224,7 @@ export class LootTablesManager {
    * Delete loot table
    */
   deleteTable(tableId: string): LootOutput {
-    if (!this.tables.has(tableId)) {
+    if (!this?.tables.has(tableId)) {
       return {
         op: 'delete',
         status: 'error',
@@ -232,7 +232,7 @@ export class LootTablesManager {
       };
     }
 
-    this.tables.delete(tableId);
+    this?.tables.delete(tableId);
     return {
       op: 'delete',
       status: 'ok'
@@ -243,7 +243,7 @@ export class LootTablesManager {
    * Get loot table by ID
    */
   getTable(tableId: string): LootOutput {
-    const table = this.tables.get(tableId);
+    const table = this?.tables.get(tableId);
     if (!table) {
       return {
         op: 'get',
@@ -266,22 +266,22 @@ export class LootTablesManager {
     let tables = Array.from(this.tables.values());
 
     if (filter) {
-      tables = tables.filter((table: any) => {
-        if (filter.rarity) {
-          const hasRarity = table.entries.some(entry => entry.rarity === filter.rarity);
+      tables = tables?.filter((table: any) => {
+        if (filter?.rarity) {
+          const hasRarity = table?.entries.some(entry => entry?.rarity === filter?.rarity);
           if (!hasRarity) return false;
         }
-        if (filter.minWeight !== undefined) {
-          const hasMinWeight = table.entries.some(entry => entry.weight >= filter.minWeight!);
+        if (filter?.minWeight !== undefined) {
+          const hasMinWeight = table?.entries.some(entry => entry?.weight >= filter?.minWeight!);
           if (!hasMinWeight) return false;
         }
-        if (filter.maxWeight !== undefined) {
-          const hasMaxWeight = table.entries.some(entry => entry.weight <= filter.maxWeight!);
+        if (filter?.maxWeight !== undefined) {
+          const hasMaxWeight = table?.entries.some(entry => entry?.weight <= filter?.maxWeight!);
           if (!hasMaxWeight) return false;
         }
-        if (filter.hasConditions !== undefined) {
-          const hasConditions = table.entries.some(entry => entry.conditions && entry.conditions.length > 0);
-          if (filter.hasConditions !== hasConditions) return false;
+        if (filter?.hasConditions !== undefined) {
+          const hasConditions = table?.entries.some(entry => entry?.conditions && entry?.conditions.length > 0);
+          if (filter?.hasConditions !== hasConditions) return false;
         }
         return true;
       });
@@ -298,7 +298,7 @@ export class LootTablesManager {
    * Roll loot from a table
    */
   rollLoot(tableId: string, count: number = 1, seed?: number): LootOutput {
-    const table = this.tables.get(tableId);
+    const table = this?.tables.get(tableId);
     if (!table) {
       return {
         op: 'roll',
@@ -307,7 +307,7 @@ export class LootTablesManager {
       };
     }
 
-    const maxRolls = table.maxRolls || table.entries.length;
+    const maxRolls = table?.maxRolls || table?.entries.length;
     const actualCount = Math.min(count, maxRolls);
     
     const drops: LootDrop[] = [];
@@ -315,14 +315,14 @@ export class LootTablesManager {
     let totalValue = 0;
 
     // Add guaranteed drops first
-    if (table.guaranteedDrops) {
-      for (const entryId of table.guaranteedDrops) {
-        const entry = table.entries.find(e => e.id === entryId);
+    if (table?.guaranteedDrops) {
+      for (const entryId of table?.guaranteedDrops) {
+        const entry = table?.entries.find(e => e?.id === entryId);
         if (entry) {
-          const drop = this.createLootDrop(entry, seed);
-          drops.push(drop);
-          rarityDistribution[entry.rarity] = (rarityDistribution[entry.rarity] || 0) + 1;
-          totalValue += drop.value;
+          const drop = this?.createLootDrop(entry, seed);
+          drops?.push(drop);
+          rarityDistribution[entry?.rarity] = (rarityDistribution[entry?.rarity] || 0) + 1;
+          totalValue += drop?.value;
         }
       }
     }
@@ -330,12 +330,12 @@ export class LootTablesManager {
     // Roll remaining drops
     const remainingCount = Math.max(0, actualCount - (table.guaranteedDrops?.length || 0));
     for (let i = 0; i < remainingCount; i++) {
-      const entry = this.selectWeightedEntry(table.entries, seed);
+      const entry = this?.selectWeightedEntry(table?.entries, seed);
       if (entry) {
-        const drop = this.createLootDrop(entry, seed);
-        drops.push(drop);
-        rarityDistribution[entry.rarity] = (rarityDistribution[entry.rarity] || 0) + 1;
-        totalValue += drop.value;
+        const drop = this?.createLootDrop(entry, seed);
+        drops?.push(drop);
+        rarityDistribution[entry?.rarity] = (rarityDistribution[entry?.rarity] || 0) + 1;
+        totalValue += drop?.value;
       }
     }
 
@@ -343,12 +343,12 @@ export class LootTablesManager {
       drops,
       totalValue,
       rarityDistribution,
-      rollCount: drops.length,
+      rollCount: drops?.length,
       seed
     };
 
     // Record roll history
-    this.rollHistory.push({
+    this?.rollHistory?.push({
       tableId,
       result,
       timestamp: new Date()
@@ -366,31 +366,31 @@ export class LootTablesManager {
    */
   getLootStats(): LootOutput {
     const tables = Array.from(this.tables.values());
-    const allEntries = tables.flatMap(table => table.entries);
+    const allEntries = tables?.flatMap(table => table?.entries);
     
     const stats: LootStats = {
-      totalTables: tables.length,
-      totalEntries: allEntries.length,
-      averageWeight: allEntries.reduce((sum, entry) => sum + entry.weight, 0) / allEntries.length,
+      totalTables: tables?.length,
+      totalEntries: allEntries?.length,
+      averageWeight: allEntries?.reduce((sum, entry) => sum + entry?.weight, 0) / allEntries?.length,
       rarityDistribution: {},
       mostCommonItems: [],
       totalValue: 0
     };
 
     // Calculate rarity distribution
-    allEntries.forEach((entry: any) => {
-      stats.rarityDistribution[entry.rarity] = (stats.rarityDistribution[entry.rarity] || 0) + 1;
+    allEntries?.forEach((entry: any) => {
+      stats?.rarityDistribution[entry?.rarity] = (stats?.rarityDistribution[entry?.rarity] || 0) + 1;
     });
 
     // Calculate most common items
     const itemFrequency: Record<string, number> = {};
-    allEntries.forEach((entry: any) => {
-      itemFrequency[entry.id] = (itemFrequency[entry.id] || 0) + 1;
+    allEntries?.forEach((entry: any) => {
+      itemFrequency[entry?.id] = (itemFrequency[entry?.id] || 0) + 1;
     });
 
     stats.mostCommonItems = Object.entries(itemFrequency)
       .map(([id, frequency]) => ({ id, frequency }))
-      .sort((a: any, b: any) => b.frequency - a.frequency)
+      .sort((a: any, b: any) => b?.frequency - a?.frequency)
       .slice(0, 10);
 
     return {
@@ -411,7 +411,7 @@ export class LootTablesManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { tables, total: tables.length }
+          result: { tables, total: tables?.length }
         };
       
       case 'manifest':
@@ -419,27 +419,27 @@ export class LootTablesManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff.loot.export.v1',
+            schema: 'miff?.loot.export?.v1',
             tables,
-            rollHistory: this.rollHistory.slice(-100), // Last 100 rolls
+            rollHistory: this?.rollHistory.slice(-100), // Last 100 rolls
             exportedAt: new Date().toISOString(),
-            total: tables.length
+            total: tables?.length
           }
         };
       
       case 'summary':
-        const stats = this.getLootStats();
+        const stats = this?.getLootStats();
         return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats.result,
-            tables: tables.map((table: any) => ({
-              id: table.id,
-              name: table.name,
-              entryCount: table.entries.length,
-              maxRolls: table.maxRolls,
-              guaranteedDrops: table.guaranteedDrops?.length || 0
+            summary: stats?.result,
+            tables: tables?.map((table: any) => ({
+              id: table?.id,
+              name: table?.name,
+              entryCount: table?.entries.length,
+              maxRolls: table?.maxRolls,
+              guaranteedDrops: table?.guaranteedDrops?.length || 0
             }))
           }
         };
@@ -449,8 +449,8 @@ export class LootTablesManager {
           op: 'export',
           status: 'ok',
           result: {
-            rollHistory: this.rollHistory,
-            total: this.rollHistory.length
+            rollHistory: this?.rollHistory,
+            total: this?.rollHistory.length
           }
         };
       
@@ -467,9 +467,9 @@ export class LootTablesManager {
    * Reset all loot tables
    */
   resetTables(): LootOutput {
-    this.tables.clear();
-    this.rollHistory = [];
-    this.initializeDefaultTables();
+    this?.tables.clear();
+    this?.rollHistory = [];
+    this?.initializeDefaultTables();
     return {
       op: 'reset',
       status: 'ok',
@@ -483,39 +483,39 @@ export class LootTablesManager {
   private validateTable(table: LootTable): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!table.id || table.id.trim() === '') {
-      errors.push('Table ID is required');
+    if (!table?.id || table?.id.trim() === '') {
+      errors?.push('Table ID is required');
     }
 
-    if (!table.name || table.name.trim() === '') {
-      errors.push('Table name is required');
+    if (!table?.name || table?.name.trim() === '') {
+      errors?.push('Table name is required');
     }
 
-    if (!table.entries || table.entries.length === 0) {
-      errors.push('Table must have at least one entry');
+    if (!table?.entries || table?.entries.length === 0) {
+      errors?.push('Table must have at least one entry');
     }
 
-    if (table.entries) {
-      table.entries.forEach((entry, index) => {
-        if (!entry.id || entry.id.trim() === '') {
-          errors.push(`Entry ${index} must have an ID`);
+    if (table?.entries) {
+      table?.entries.forEach((entry, index) => {
+        if (!entry?.id || entry?.id.trim() === '') {
+          errors?.push(`Entry ${index} must have an ID`);
         }
-        if (entry.weight <= 0) {
-          errors.push(`Entry ${entry.id} must have a positive weight`);
+        if (entry?.weight <= 0) {
+          errors?.push(`Entry ${entry?.id} must have a positive weight`);
         }
-        if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(entry.rarity)) {
-          errors.push(`Entry ${entry.id} has invalid rarity: ${entry.rarity}`);
+        if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(entry?.rarity)) {
+          errors?.push(`Entry ${entry?.id} has invalid rarity: ${entry?.rarity}`);
         }
       });
     }
 
-    return { valid: errors.length === 0, errors };
+    return { valid: errors?.length === 0, errors };
   }
 
   private selectWeightedEntry(entries: LootEntry[], seed?: number): LootEntry | null {
-    if (entries.length === 0) return null;
+    if (entries?.length === 0) return null;
 
-    const totalWeight = entries.reduce((sum, entry) => sum + entry.weight, 0);
+    const totalWeight = entries?.reduce((sum, entry) => sum + entry?.weight, 0);
     if (totalWeight === 0) return entries[0!]; // Fallback to first entry
 
     // Use seed for deterministic results
@@ -524,38 +524,38 @@ export class LootTablesManager {
 
     let currentWeight = 0;
     for (const entry of entries) {
-      currentWeight += entry.weight;
+      currentWeight += entry?.weight;
       if (currentWeight >= target) {
         return entry;
       }
     }
 
-    return entries[entries.length - 1]; // Fallback to last entry
+    return entries[entries?.length - 1]; // Fallback to last entry
   }
 
   private createLootDrop(entry: LootEntry, seed?: number): LootDrop {
     const rolledStats: Record<string, number> = {};
     
-    if (entry.statRolls) {
-      entry.statRolls.forEach((stat: any) => {
+    if (entry?.statRolls) {
+      entry?.statRolls.forEach((stat: any) => {
         const random = seed ? this.seededRandom(seed + stat.key.length) : Math.random();
-        const value = stat.min + (random * (stat.max - stat.min));
+        const value = stat?.min + (random * (stat?.max - stat?.min));
         rolledStats[stat.key] = Math.round(value * 100) / 100;
       });
     }
 
     // Calculate value based on rarity and stats
-    const baseValue = this.getRarityBaseValue(entry.rarity);
+    const baseValue = this?.getRarityBaseValue(entry?.rarity);
     const statValue = Object.values(rolledStats).reduce((sum, val) => sum + val, 0);
     const value = baseValue + statValue;
 
     return {
-      id: entry.id,
-      rarity: entry.rarity,
+      id: entry?.id,
+      rarity: entry?.rarity,
       quantity: 1,
       rolledStats: Object.keys(rolledStats).length > 0 ? rolledStats : undefined,
       value: Math.round(value * 100) / 100,
-      metadata: entry.metadata
+      metadata: entry?.metadata
     };
   }
 

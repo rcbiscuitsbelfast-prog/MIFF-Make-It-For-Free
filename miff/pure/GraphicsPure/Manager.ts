@@ -1241,7 +1241,7 @@ export class GraphicsPure {
 
   constructor(config: Partial<GraphicsConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableGraphicsManagement: true,
       enableRenderingPipeline: true,
       enableShaderSystem: true,
@@ -1262,7 +1262,7 @@ export class GraphicsPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalRenderers: 0,
       activeRenderers: 0,
       totalShaders: 0,
@@ -1279,7 +1279,7 @@ export class GraphicsPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalRenderers: 0,
       totalShaders: 0,
       averageFPS: 0,
@@ -1293,7 +1293,7 @@ export class GraphicsPure {
    * Create a new graphics manager
    */
   createManager(): GraphicsOutput {
-    if (!this.config.enableGraphicsManagement) {
+    if (!this?.config.enableGraphicsManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1303,8 +1303,8 @@ export class GraphicsPure {
 
     const manager: GraphicsManager = {
       id: managerData.id || `graphics-${Date.now()}`,
-      name: managerData.name || 'Unnamed Graphics Manager',
-      type: managerData.type || 'opengl',
+      name: managerData?.name || 'Unnamed Graphics Manager',
+      type: managerData?.type || 'opengl',
       status: 'active',
       renderers: [],
       shaders: [],
@@ -1376,7 +1376,7 @@ export class GraphicsPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1389,7 +1389,7 @@ export class GraphicsPure {
    * Get manager by ID
    */
   getManager(): GraphicsOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1409,14 +1409,14 @@ export class GraphicsPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): GraphicsPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): GraphicsAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1430,7 +1430,7 @@ export class GraphicsPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalRenderers = 0;
     let activeRenderers = 0;
     let totalShaders = 0;
@@ -1441,27 +1441,27 @@ export class GraphicsPure {
     let totalCameras = 0;
     let totalPostProcessors = 0;
 
-    for (const manager of this.managers.values()) {
-      totalRenderers += manager.renderers.length;
-      activeRenderers += manager.renderers.filter((r: any) => r.status === 'active').length;
-      totalShaders += manager.shaders.length;
-      totalMaterials += manager.materials.length;
-      totalTextures += manager.textures.length;
-      totalModels += manager.models.length;
-      totalLights += manager.lights.length;
-      totalCameras += manager.cameras.length;
-      totalPostProcessors += manager.postProcessors.length;
+    for (const manager of this?.managers.values()) {
+      totalRenderers += manager?.renderers.length;
+      activeRenderers += manager?.renderers.filter((r: any) => r?.status === 'active').length;
+      totalShaders += manager?.shaders.length;
+      totalMaterials += manager?.materials.length;
+      totalTextures += manager?.textures.length;
+      totalModels += manager?.models.length;
+      totalLights += manager?.lights.length;
+      totalCameras += manager?.cameras.length;
+      totalPostProcessors += manager?.postProcessors.length;
     }
 
-    this.performanceMetrics.totalRenderers = totalRenderers;
-    this.performanceMetrics.activeRenderers = activeRenderers;
-    this.performanceMetrics.totalShaders = totalShaders;
-    this.performanceMetrics.totalMaterials = totalMaterials;
-    this.performanceMetrics.totalTextures = totalTextures;
-    this.performanceMetrics.totalModels = totalModels;
-    this.performanceMetrics.totalLights = totalLights;
-    this.performanceMetrics.totalCameras = totalCameras;
-    this.performanceMetrics.totalPostProcessors = totalPostProcessors;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalRenderers = totalRenderers;
+    this?.performanceMetrics.activeRenderers = activeRenderers;
+    this?.performanceMetrics.totalShaders = totalShaders;
+    this?.performanceMetrics.totalMaterials = totalMaterials;
+    this?.performanceMetrics.totalTextures = totalTextures;
+    this?.performanceMetrics.totalModels = totalModels;
+    this?.performanceMetrics.totalLights = totalLights;
+    this?.performanceMetrics.totalCameras = totalCameras;
+    this?.performanceMetrics.totalPostProcessors = totalPostProcessors;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

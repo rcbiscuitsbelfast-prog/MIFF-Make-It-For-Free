@@ -106,15 +106,15 @@ export class CLIInterfaceStandardizer {
 
   constructor(config: CLIConfig) {
     
-    this.errorHandler = new StandardErrorHandler({});
-    this.config = config;
+    this?.errorHandler = new StandardErrorHandler({});
+    this?.config = config;
   }
 
   /**
    * Initialize the CLI interface standardizer
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
+    if (this?.isInitialized) {
       console.warn('CLI interface standardizer already initialized');
       return;
     }
@@ -123,14 +123,14 @@ export class CLIInterfaceStandardizer {
       console.info('Initializing CLI interface standardizer...');
       
       // Validate configuration
-      this.validateConfiguration();
+      this?.validateConfiguration();
       
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.info('CLI interface standardizer initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError(error, 'Failed to initialize CLI interface standardizer');
+      this?.errorHandler.handleError(error, 'Failed to initialize CLI interface standardizer');
       throw error;
     }
   }
@@ -139,7 +139,7 @@ export class CLIInterfaceStandardizer {
    * Parse command line arguments
    */
   parseArguments(): CLIParseResult {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('CLI interface standardizer not initialized');
     }
 
@@ -154,36 +154,36 @@ export class CLIInterfaceStandardizer {
 
     try {
       // Skip node/tsx and script name
-      const args = argv.slice(2);
+      const args = argv?.slice(2);
       
-      if (args.length === 0) {
-        result.errors?.push('No command provided');
-        result.isValid = false;
+      if (args?.length === 0) {
+        result?.errors?.push('No command provided');
+        result?.isValid = false;
         return result;
       }
 
       // Parse command
-      result.command = args[0!];
+      result?.command = args[0!];
       
       // Validate command exists
-      const command = this.config.commands.find(cmd => cmd.name === result.command);
+      const command = this?.config.commands?.find(cmd => cmd?.name === result?.command);
       if (!command) {
-        result.errors?.push(`Unknown command: ${result.command}`);
-        result.isValid = false;
+        result?.errors?.push(`Unknown command: ${result?.command}`);
+        result?.isValid = false;
         return result;
       }
 
       // Parse options and arguments
-      this.parseOptionsAndArguments(args.slice(1), command, result);
+      this?.parseOptionsAndArguments(args?.slice(1), command, result);
       
       // Validate required options and arguments
-      this.validateRequiredFields(command, result);
+      this?.validateRequiredFields(command, result);
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError(error, 'Failed to parse CLI arguments');
-      result.errors?.push(`Parse error: ${error.message}`);
-      result.isValid = false;
+      this?.errorHandler.handleError(error, 'Failed to parse CLI arguments');
+      result?.errors?.push(`Parse error: ${error?.message}`);
+      result?.isValid = false;
     }
 
     return result;
@@ -198,7 +198,7 @@ export class CLIInterfaceStandardizer {
     arguments: Record<string, any>,
     handler: (cmd: string, opts: Record<string, any>, args: Record<string, any>) => Promise<any>
   ): Promise<CLIExecutionResult> {
-    const startTime = Date.now();
+    const startTime = new Date();
     const result: CLIExecutionResult = {
       success: false,
       output: null,
@@ -212,18 +212,18 @@ export class CLIInterfaceStandardizer {
       console.info('Executing CLI command', { command, options, arguments });
       
       // Execute the command
-      result.output = await handler(command, options, arguments);
-      result.success = true;
-      result.exitCode = 0;
+      result?.output = await handler(command, options, arguments);
+      result?.success = true;
+      result?.exitCode = 0;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError(error, `Failed to execute command: ${command}`);
-      result.errors?.push(error.message);
-      result.success = false;
-      result.exitCode = 1;
+      this?.errorHandler.handleError(error, `Failed to execute command: ${command}`);
+      result?.errors?.push(error?.message);
+      result?.success = false;
+      result?.exitCode = 1;
     } finally {
-      result.executionTime = Date.now() - startTime;
+      result.executionTime = new Date() - startTime;
     }
 
     return result;
@@ -234,36 +234,36 @@ export class CLIInterfaceStandardizer {
    */
   generateHelp(): CLIHelpInfo {
     const help: CLIHelpInfo = {
-      moduleName: this.config.moduleName,
-      version: this.config.version,
-      description: this.config.description,
-      usage: this.generateUsage(),
+      moduleName: this?.config.moduleName,
+      version: this?.config.version,
+      description: this?.config.description,
+      usage: this?.generateUsage(),
       commands: [],
       options: [],
       examples: []
     };
 
     // Add commands
-    for (const cmd of this.config.commands) {
-      if (!command || cmd.name === command) {
-        help.commands.push({
-          name: cmd.name,
-          description: cmd.description,
-          usage: this.generateCommandUsage(cmd)
+    for (const cmd of this?.config.commands) {
+      if (!command || cmd?.name === command) {
+        help?.commands?.push({
+          name: cmd?.name,
+          description: cmd?.description,
+          usage: this?.generateCommandUsage(cmd)
         });
         
         // Add examples for this command
-        help.examples.push(...cmd.examples);
+        help?.examples?.push(...cmd?.examples);
       }
     }
 
     // Add global options
-    for (const option of this.config.globalOptions) {
-      help.options.push({
-        name: option.name,
-        description: option.description,
-        type: option.type,
-        required: option.required
+    for (const option of this?.config.globalOptions) {
+      help?.options?.push({
+        name: option?.name,
+        description: option?.description,
+        type: option?.type,
+        required: option?.required
       });
     }
 
@@ -282,62 +282,62 @@ export class CLIInterfaceStandardizer {
     const recommendations: string[] = [];
 
     try {
-      // Check if cliHarness.ts exists
-      const cliPath = path.join(modulePath, 'cliHarness.ts');
-      if (!fs.existsSync(cliPath)) {
-        issues.push('Missing cliHarness.ts file');
-        recommendations.push('Create cliHarness.ts file with standardized interface');
+      // Check if cliHarness?.ts exists
+      const cliPath = path?.join(modulePath, 'cliHarness?.ts');
+      if (!fs?.existsSync(cliPath)) {
+        issues?.push('Missing cliHarness?.ts file');
+        recommendations?.push('Create cliHarness?.ts file with standardized interface');
         return { compliant: false, issues, recommendations };
       }
 
       // Read and analyze the CLI harness
-      const cliContent = fs.readFileSync(cliPath, 'utf-8');
+      const cliContent = fs?.readFileSync(cliPath, 'utf-8');
       
       // Check for required patterns
-      if (!cliContent.includes('#!/usr/bin/env')) {
-        issues.push('Missing shebang line');
-        recommendations.push('Add shebang line: #!/usr/bin/env tsx');
+      if (!cliContent?.includes('#!/usr/bin/env')) {
+        issues?.push('Missing shebang line');
+        recommendations?.push('Add shebang line: #!/usr/bin/env tsx');
       }
 
-      if (!cliContent.includes('StructuredLogger')) {
-        issues.push('Not using StructuredLogger');
-        recommendations.push('Import and use StructuredLogger for consistent logging');
+      if (!cliContent?.includes('StructuredLogger')) {
+        issues?.push('Not using StructuredLogger');
+        recommendations?.push('Import and use StructuredLogger for consistent logging');
       }
 
-      if (!cliContent.includes('SafeJSONParser')) {
-        issues.push('Not using SafeJSONParser');
-        recommendations.push('Import and use SafeJSONParser for safe JSON parsing');
+      if (!cliContent?.includes('SafeJSONParser')) {
+        issues?.push('Not using SafeJSONParser');
+        recommendations?.push('Import and use SafeJSONParser for safe JSON parsing');
       }
 
-      if (!cliContent.includes('StandardErrorHandler')) {
-        issues.push('Not using StandardErrorHandler');
-        recommendations.push('Import and use StandardErrorHandler for consistent error handling');
+      if (!cliContent?.includes('StandardErrorHandler')) {
+        issues?.push('Not using StandardErrorHandler');
+        recommendations?.push('Import and use StandardErrorHandler for consistent error handling');
       }
 
-      if (!cliContent.includes('process.exit(')) {
-        issues.push('Missing proper exit handling');
-        recommendations.push('Add proper process.exit() calls for error conditions');
+      if (!cliContent?.includes('process?.exit(')) {
+        issues?.push('Missing proper exit handling');
+        recommendations?.push('Add proper process?.exit() calls for error conditions');
       }
 
       // Check for help functionality
-      if (!cliContent.includes('--help') && !cliContent.includes('help')) {
-        issues.push('Missing help functionality');
-        recommendations.push('Add --help option and help display');
+      if (!cliContent?.includes('--help') && !cliContent?.includes('help')) {
+        issues?.push('Missing help functionality');
+        recommendations?.push('Add --help option and help display');
       }
 
       // Check for version functionality
-      if (!cliContent.includes('--version') && !cliContent.includes('version')) {
-        issues.push('Missing version functionality');
-        recommendations.push('Add --version option and version display');
+      if (!cliContent?.includes('--version') && !cliContent?.includes('version')) {
+        issues?.push('Missing version functionality');
+        recommendations?.push('Add --version option and version display');
       }
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      issues.push(`Error analyzing CLI interface: ${error.message}`);
+      issues?.push(`Error analyzing CLI interface: ${error?.message}`);
     }
 
     return {
-      compliant: issues.length === 0,
+      compliant: issues?.length === 0,
       issues,
       recommendations
     };
@@ -348,20 +348,20 @@ export class CLIInterfaceStandardizer {
    */
   async standardizeCLIHarness(modulePath: string, moduleName: string): Promise<boolean> {
     try {
-      const cliPath = path.join(modulePath, 'cliHarness.ts');
+      const cliPath = path?.join(modulePath, 'cliHarness?.ts');
       
       // Create standardized CLI harness
-      const standardizedContent = this.generateStandardizedCLIHarness(moduleName);
+      const standardizedContent = this?.generateStandardizedCLIHarness(moduleName);
       
       // Write the standardized file
-      fs.writeFileSync(cliPath, standardizedContent);
+      fs?.writeFileSync(cliPath, standardizedContent);
       
       console.info('CLI harness standardized', { moduleName, cliPath });
       return true;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError(error, `Failed to standardize CLI harness: ${moduleName}`);
+      this?.errorHandler.handleError(error, `Failed to standardize CLI harness: ${moduleName}`);
       return false;
     }
   }
@@ -375,85 +375,85 @@ export class CLIInterfaceStandardizer {
     result: CLIParseResult
   ): void {
     let i = 0;
-    const allOptions = [...this.config.globalOptions, ...command.options];
+    const allOptions = [...this?.config.globalOptions, ...command?.options];
     
-    while (i < args.length) {
+    while (i < args?.length) {
       const arg = args[i!];
       
-      if (arg.startsWith('--')) {
+      if (arg?.startsWith('--')) {
         // Long option
-        const optionName = arg.slice(2);
-        const option = allOptions.find(opt => opt.name === optionName);
+        const optionName = arg?.slice(2);
+        const option = allOptions?.find(opt => opt?.name === optionName);
         
         if (!option) {
-          result.errors?.push(`Unknown option: ${arg}`);
+          result?.errors?.push(`Unknown option: ${arg}`);
           i++;
           continue;
         }
         
         // Parse option value
-        if (option.type === 'boolean') {
-          result.options[optionName!] = true;
+        if (option?.type === 'boolean') {
+          result?.options[optionName!] = true;
         } else {
-          if (i + 1 >= args.length) {
-            result.errors?.push(`Option ${arg} requires a value`);
+          if (i + 1 >= args?.length) {
+            result?.errors?.push(`Option ${arg} requires a value`);
             i++;
             continue;
           }
           
-          const value = this.parseOptionValue(args[i + 1], option);
+          const value = this?.parseOptionValue(args[i + 1], option);
           if (value !== null) {
-            result.options[optionName!] = value;
+            result?.options[optionName!] = value;
           } else {
-            result.errors?.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
+            result?.errors?.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
           }
           i += 2;
         }
-      } else if (arg.startsWith('-')) {
+      } else if (arg?.startsWith('-')) {
         // Short option
-        const shortName = arg.slice(1);
-        const option = allOptions.find(opt => opt.shortName === shortName);
+        const shortName = arg?.slice(1);
+        const option = allOptions?.find(opt => opt?.shortName === shortName);
         
         if (!option) {
-          result.errors?.push(`Unknown option: ${arg}`);
+          result?.errors?.push(`Unknown option: ${arg}`);
           i++;
           continue;
         }
         
         // Parse option value
-        if (option.type === 'boolean') {
-          result.options[option.name] = true;
+        if (option?.type === 'boolean') {
+          result?.options[option?.name] = true;
         } else {
-          if (i + 1 >= args.length) {
-            result.errors?.push(`Option ${arg} requires a value`);
+          if (i + 1 >= args?.length) {
+            result?.errors?.push(`Option ${arg} requires a value`);
             i++;
             continue;
           }
           
-          const value = this.parseOptionValue(args[i + 1], option);
+          const value = this?.parseOptionValue(args[i + 1], option);
           if (value !== null) {
-            result.options[option.name] = value;
+            result?.options[option?.name] = value;
           } else {
-            result.errors?.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
+            result?.errors?.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
           }
           i += 2;
         }
       } else {
         // Argument
-        const argIndex = i - args.filter((a: any) => !a.startsWith('-')).length;
-        const argument = command.arguments[argIndex!];
+        const argIndex = i - args?.filter((a: any) => !a?.startsWith('-')).length;
+        const argument = command?.arguments[argIndex!];
         
         if (!argument) {
-          result.errors?.push(`Unexpected argument: ${arg}`);
+          result?.errors?.push(`Unexpected argument: ${arg}`);
           i++;
           continue;
         }
         
-        const value = this.parseArgumentValue(arg, argument);
+        const value = this?.parseArgumentValue(arg, argument);
         if (value !== null) {
-          result.arguments[argument.name] = value;
+          result?.arguments[argument?.name] = value;
         } else {
-          result.errors?.push(`Invalid argument value: ${arg}`);
+          result?.errors?.push(`Invalid argument value: ${arg}`);
         }
         i++;
       }
@@ -465,17 +465,17 @@ export class CLIInterfaceStandardizer {
    */
   private parseOptionValue(value: string, option: CLIOption): any {
     try {
-      switch (option.type) {
+      switch (option?.type) {
         case 'string':
           return value;
         case 'number':
-          const num = parseFloat(value);
+          const num = parseFloat(value: any);
           if (isNaN(num)) return null;
           return num;
         case 'boolean':
-          return value.toLowerCase() === 'true';
+          return value?.toLowerCase() === 'true';
         case 'array':
-          return value.split(',').map((v: any) => v.trim());
+          return value?.split(',').map((v: any) => v?.trim());
         default:
           return value;
       }
@@ -489,22 +489,22 @@ export class CLIInterfaceStandardizer {
    */
   private parseArgumentValue(value: string, argument: CLIArgument): any {
     try {
-      switch (argument.type) {
+      switch (argument?.type) {
         case 'string':
           return value;
         case 'number':
-          const num = parseFloat(value);
+          const num = parseFloat(value: any);
           if (isNaN(num)) return null;
           return num;
         case 'boolean':
-          return value.toLowerCase() === 'true';
+          return value?.toLowerCase() === 'true';
         case 'file':
-          if (!fs.existsSync(value)) {
+          if (!fs?.existsSync(value: any)) {
             return null;
           }
           return value;
         case 'directory':
-          if (!fs.existsSync(value) || !fs.statSync(value).isDirectory()) {
+          if (!fs?.existsSync(value: any) || !fs?.statSync(value: any).isDirectory()) {
             return null;
           }
           return value;
@@ -521,18 +521,18 @@ export class CLIInterfaceStandardizer {
    */
   private validateRequiredFields(command: CLICommand, result: CLIParseResult): void {
     // Check required options
-    for (const option of command.options) {
-      if (option.required && !(option.name in result.options)) {
-        result.errors?.push(`Required option --${option.name} is missing`);
-        result.isValid = false;
+    for (const option of command?.options) {
+      if (option?.required && !(option?.name in result?.options)) {
+        result?.errors?.push(`Required option --${option?.name} is missing`);
+        result?.isValid = false;
       }
     }
 
     // Check required arguments
-    for (const argument of command.arguments) {
-      if (argument.required && !(argument.name in result.arguments)) {
-        result.errors?.push(`Required argument ${argument.name} is missing`);
-        result.isValid = false;
+    for (const argument of command?.arguments) {
+      if (argument?.required && !(argument?.name in result?.arguments)) {
+        result?.errors?.push(`Required argument ${argument?.name} is missing`);
+        result?.isValid = false;
       }
     }
   }
@@ -541,28 +541,28 @@ export class CLIInterfaceStandardizer {
    * Generate usage string
    */
   private generateUsage(): string {
-    return `${this.config.moduleName} <command> [options!] [arguments!]`;
+    return `${this?.config.moduleName} <command> [options!] [arguments!]`;
   }
 
   /**
    * Generate command usage string
    */
   private generateCommandUsage(command: CLICommand): string {
-    let usage = `${this.config.moduleName} ${command.name}`;
+    let usage = `${this?.config.moduleName} ${command?.name}`;
     
     // Add required arguments
-    for (const arg of command.arguments) {
-      if (arg.required) {
-        usage += ` <${arg.name}>`;
+    for (const arg of command?.arguments) {
+      if (arg?.required) {
+        usage += ` <${arg?.name}>`;
       } else {
-        usage += ` [${arg.name}]`;
+        usage += ` [${arg?.name}]`;
       }
     }
     
     // Add required options
-    for (const option of command.options) {
-      if (option.required) {
-        usage += ` --${option.name}`;
+    for (const option of command?.options) {
+      if (option?.required) {
+        usage += ` --${option?.name}`;
       }
     }
     
@@ -615,8 +615,8 @@ const cliConfig = {
         }
       ],
       examples: [
-        \`\${moduleName} run --config config.json input.txt\`,
-        \`\${moduleName} run -v input.txt\`
+        \`\${moduleName} run --config config?.json input?.txt\`,
+        \`\${moduleName} run -v input?.txt\`
       ],
       category: 'main',
       version: '1.0.0'
@@ -645,63 +645,63 @@ const cliConfig = {
 };
 
 async function main(...args: any[]) {
-  const logger = StructuredLogger.getInstance({ module: '${moduleName}CLI' });
+  const logger = StructuredLogger?.getInstance({ module: '${moduleName}CLI' });
   const errorHandler = new StandardErrorHandler({});
   
   try {
     // Initialize CLI standardizer
     const cliStandardizer = new CLIInterfaceStandardizer(cliConfig);
-    await cliStandardizer.initialize();
+    await cliStandardizer?.initialize({});
     
     // Parse arguments
-    const parseResult = cliStandardizer.parseArguments(process.argv);
+    const parseResult = cliStandardizer?.parseArguments(process?.argv);
     
-    if (!parseResult.isValid) {
+    if (!parseResult?.isValid) {
       console.error('Error:', parseResult.errors.join(', '));
-      process.exit(1);
+      process?.exit(1);
     }
     
     // Handle help and version
-    if (parseResult.options.help) {
-      const help = cliStandardizer.generateHelp();
+    if (parseResult?.options.help) {
+      const help = cliStandardizer?.generateHelp();
       console.log(JSON.stringify(help, null, 2));
-      process.exit(0);
+      process?.exit(0);
     }
     
-    if (parseResult.options.version) {
+    if (parseResult?.options.version) {
       console.log(cliConfig.version);
-      process.exit(0);
+      process?.exit(0);
     }
     
     // Execute command
-    const result = await cliStandardizer.executeCommand(
-      parseResult.command,
-      parseResult.options,
-      parseResult.arguments,
+    const result = await cliStandardizer?.executeCommand(
+      parseResult?.command,
+      parseResult?.options,
+      parseResult?.arguments,
       async (cmd, opts, args) => {
-        logger.info('Executing command', { command: cmd, options: opts, arguments: args });
+        logger?.info('Executing command', { command: cmd, options: opts, arguments: args });
         return { success: true, message: 'Command executed successfully' };
       }
     );
     
-    if (result.success) {
+    if (result?.success) {
       console.log(JSON.stringify(result.output, null, 2));
-      process.exit(0);
+      process?.exit(0);
     } else {
       console.error('Error:', result.errors?.join(', '));
-      process.exit(result.exitCode);
+      process?.exit(result?.exitCode);
     }
     
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    errorHandler.handleError(error, 'CLI execution failed');
+    errorHandler?.handleError(error, 'CLI execution failed');
     console.error('Fatal error:', error.message);
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
 // Run if called directly
-if (import.meta.url === \`file://\${process.argv[1!]}\`) {
+if (import?.meta.url === \`file://\${process?.argv[1!]}\`) {
   main();
 }
 `;
@@ -711,24 +711,24 @@ if (import.meta.url === \`file://\${process.argv[1!]}\`) {
    * Validate configuration
    */
   private validateConfiguration(): void {
-    if (!this.config.moduleName) {
+    if (!this?.config.moduleName) {
       throw new Error('Module name is required');
     }
     
-    if (!this.config.version) {
+    if (!this?.config.version) {
       throw new Error('Version is required');
     }
     
-    if (!this.config.commands! || this.config.commands.length === 0) {
+    if (!this?.config.commands! || this?.config.commands?.length === 0) {
       throw new Error('At least one command is required');
     }
     
-    for (const command of this.config.commands) {
-      if (!command.name) {
+    for (const command of this?.config.commands) {
+      if (!command?.name) {
         throw new Error('Command name is required');
       }
       
-      if (!command.description) {
+      if (!command?.description) {
         throw new Error('Command description is required');
       }
     }
@@ -739,7 +739,7 @@ if (import.meta.url === \`file://\${process.argv[1!]}\`) {
    */
   async destroy(): Promise<void> {
     console.info('Destroying CLI interface standardizer...');
-    this.isInitialized = false;
+    this?.isInitialized = false;
     console.info('CLI interface standardizer destroyed');
   }
 }

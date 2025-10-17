@@ -13,7 +13,7 @@ export class LimbAttachment {
   private nextId: number = 0;
 
   constructor(rigConfig: RigConfig) {
-    this.rigConfig = rigConfig;
+    this?.rigConfig = rigConfig;
   }
 
   /**
@@ -30,22 +30,22 @@ export class LimbAttachment {
       metadata?: Record<string, any>;
     } = {}
   ): LimbAttachment {
-    const limbId = this.generateId();
+    const limbId = this?.generateId();
     const limbConfig: LimbConfig = {
       id: limbId,
       name,
       type,
       segments: [],
       attachmentPoint: attachmentPointId,
-      constraints: (options.constraints || []).map((c: any) => ({ ...c, id: this.generateId() })),
-      symmetry: options.symmetry,
-      metadata: options.metadata || {}
+      constraints: (options?.constraints || []).map((c: any) => ({ ...c, id: this?.generateId() })),
+      symmetry: options?.symmetry,
+      metadata: options?.metadata || {}
     };
 
     // Create limb segments
     let parentSegmentId: string;
-    segments.forEach((segmentData, index) => {
-      const segmentId = this.generateId();
+    segments?.forEach((segmentData, index) => {
+      const segmentId = this?.generateId();
       const segment: LimbSegment = {
         ...segmentData,
         id: segmentId,
@@ -55,20 +55,20 @@ export class LimbAttachment {
 
       // Update parent's children list
       if (parentSegmentId) {
-        const parentSegment = limbConfig.segments.find(s => s.id === parentSegmentId);
+        const parentSegment = limbConfig?.segments.find(s => s?.id === parentSegmentId);
         if (parentSegment) {
-          parentSegment.children.push(segmentId);
+          parentSegment?.children?.push(segmentId);
         }
       }
 
-      limbConfig.segments.push(segment);
+      limbConfig?.segments?.push(segment);
       parentSegmentId = segmentId;
     });
 
-    this.limbs.set(limbId, limbConfig);
+    this?.limbs.set(limbId, limbConfig);
 
     // Create rig nodes for each segment
-    this.createLimbNodes(limbConfig);
+    this?.createLimbNodes(limbConfig);
 
     return this;
   }
@@ -78,7 +78,7 @@ export class LimbAttachment {
    */
   addHumanoidArms(): LimbAttachment {
     // Left arm
-    this.addLimb('Left Arm', 'arm', 'torso_left_shoulder', [
+    this?.addLimb('Left Arm', 'arm', 'torso_left_shoulder', [
       {
         name: 'Upper Arm',
         length: 0.8,
@@ -125,7 +125,7 @@ export class LimbAttachment {
     });
 
     // Right arm (symmetric)
-    this.addLimb('Right Arm', 'arm', 'torso_right_shoulder', [
+    this?.addLimb('Right Arm', 'arm', 'torso_right_shoulder', [
       {
         name: 'Upper Arm',
         length: 0.8,
@@ -180,7 +180,7 @@ export class LimbAttachment {
    */
   addHumanoidLegs(): LimbAttachment {
     // Left leg
-    this.addLimb('Left Leg', 'leg', 'torso_left_hip', [
+    this?.addLimb('Left Leg', 'leg', 'torso_left_hip', [
       {
         name: 'Thigh',
         length: 0.9,
@@ -227,7 +227,7 @@ export class LimbAttachment {
     });
 
     // Right leg (symmetric)
-    this.addLimb('Right Leg', 'leg', 'torso_right_hip', [
+    this?.addLimb('Right Leg', 'leg', 'torso_right_hip', [
       {
         name: 'Thigh',
         length: 0.9,
@@ -282,7 +282,7 @@ export class LimbAttachment {
    */
   addWings(attachmentPointId: string): LimbAttachment {
     // Left wing
-    this.addLimb('Left Wing', 'wing', attachmentPointId, [
+    this?.addLimb('Left Wing', 'wing', attachmentPointId, [
       {
         name: 'Wing Base',
         length: 0.3,
@@ -329,7 +329,7 @@ export class LimbAttachment {
     });
 
     // Right wing (symmetric)
-    this.addLimb('Right Wing', 'wing', attachmentPointId, [
+    this?.addLimb('Right Wing', 'wing', attachmentPointId, [
       {
         name: 'Wing Base',
         length: 0.3,
@@ -386,7 +386,7 @@ export class LimbAttachment {
     const tailSegments: Omit<LimbSegment, 'id' | 'parent' | 'children'>[] = [];
     
     for (let i = 0; i < segments; i++) {
-      tailSegments.push({
+      tailSegments?.push({
         name: `Tail Segment ${i + 1}`,
         length: 0.3 - (i * 0.05), // Decreasing length
         thickness: 0.1 - (i * 0.015), // Decreasing thickness
@@ -399,7 +399,7 @@ export class LimbAttachment {
       });
     }
 
-    this.addLimb('Tail', 'tail', attachmentPointId, tailSegments, {
+    this?.addLimb('Tail', 'tail', attachmentPointId, tailSegments, {
       constraints: [
         {
           type: 'ball',
@@ -418,35 +418,35 @@ export class LimbAttachment {
    * Create rig nodes for limb segments
    */
   private createLimbNodes(limbConfig: LimbConfig): void {
-    const attachmentNode = this.rigConfig.nodes[limbConfig.attachmentPoint];
+    const attachmentNode = this?.rigConfig.nodes[limbConfig?.attachmentPoint];
     if (!attachmentNode) {
-      throw new Error(`Attachment point ${limbConfig.attachmentPoint} not found`);
+      throw new Error(`Attachment point ${limbConfig?.attachmentPoint} not found`);
     }
 
-    limbConfig.segments.forEach((segment, index) => {
-      const nodeId = `${limbConfig.id}_${segment.id}`;
+    limbConfig?.segments.forEach((segment, index) => {
+      const nodeId = `${limbConfig?.id}_${segment?.id}`;
       const node: RigNode = {
         id: nodeId,
-        name: segment.name,
+        name: segment?.name,
         type: 'limb',
-        transform: segment.transform,
-        parent: index === 0 ? limbConfig.attachmentPoint : `${limbConfig.id}_${limbConfig.segments[index - 1].id}`,
-        children: segment.children.map(childId => `${limbConfig.id}_${childId}`),
+        transform: segment?.transform,
+        parent: index === 0 ? limbConfig?.attachmentPoint : `${limbConfig?.id}_${limbConfig?.segments[index - 1].id}`,
+        children: segment?.children.map(childId => `${limbConfig?.id}_${childId}`),
         snapPoints: [],
-        constraints: limbConfig.constraints,
+        constraints: limbConfig?.constraints,
         metadata: {
-          limbId: limbConfig.id,
-          segmentId: segment.id,
-          limbType: limbConfig.type,
-          ...segment.metadata
+          limbId: limbConfig?.id,
+          segmentId: segment?.id,
+          limbType: limbConfig?.type,
+          ...segment?.metadata
         }
       };
 
-      this.rigConfig.nodes[nodeId!] = node;
+      this?.rigConfig.nodes[nodeId!] = node;
 
       // Update parent's children list
-      if (node.parent && this.rigConfig.nodes[node.parent]) {
-        this.rigConfig.nodes[node.parent].children.push(nodeId);
+      if (node?.parent && this?.rigConfig.nodes[node?.parent]) {
+        this?.rigConfig.nodes[node?.parent].children?.push(nodeId);
       }
     });
   }
@@ -455,7 +455,7 @@ export class LimbAttachment {
    * Get limb by ID
    */
   getLimb(limbId: string): LimbConfig | undefined {
-    return this.limbs.get(limbId);
+    return this?.limbs.get(limbId);
   }
 
   /**
@@ -475,21 +475,21 @@ export class LimbAttachment {
   /**
    * Update limb segment transform
    */
-  updateLimbSegmentTransform(limbId: string, segmentId: string, transform: Partial<Transform>): LimbAttachment {
-    const limb = this.limbs.get(limbId);
+  updateLimbSegmentTransform(limbId: string, segmentId: string, transform: Partial<T extends Record<string, any>ransform>): LimbAttachment {
+    const limb = this?.limbs.get(limbId);
     if (!limb) throw new Error(`Limb ${limbId} not found`);
 
-    const segment = limb.segments.find(s => s.id === segmentId);
+    const segment = limb?.segments.find(s => s?.id === segmentId);
     if (!segment) throw new Error(`Segment ${segmentId} not found in limb ${limbId}`);
 
-    if (transform.position) segment.transform.position = { ...segment.transform.position, ...transform.position };
-    if (transform.rotation) segment.transform.rotation = { ...segment.transform.rotation, ...transform.rotation };
-    if (transform.scale) segment.transform.scale = { ...segment.transform.scale, ...transform.scale };
+    if (transform?.position) segment?.transform.position = { ...segment?.transform.position, ...transform?.position };
+    if (transform?.rotation) segment?.transform.rotation = { ...segment?.transform.rotation, ...transform?.rotation };
+    if (transform?.scale) segment?.transform.scale = { ...segment?.transform.scale, ...transform?.scale };
 
     // Update corresponding rig node
     const nodeId = `${limbId}_${segmentId}`;
-    if (this.rigConfig.nodes[nodeId!]) {
-      this.rigConfig.nodes[nodeId!].transform = segment.transform;
+    if (this?.rigConfig.nodes[nodeId!]) {
+      this?.rigConfig.nodes[nodeId!].transform = segment?.transform;
     }
 
     return this;
@@ -499,24 +499,24 @@ export class LimbAttachment {
    * Delete limb
    */
   deleteLimb(limbId: string): LimbAttachment {
-    const limb = this.limbs.get(limbId);
+    const limb = this?.limbs.get(limbId);
     if (!limb) throw new Error(`Limb ${limbId} not found`);
 
     // Delete all segment nodes
-    limb.segments.forEach((segment: any) => {
-      const nodeId = `${limbId}_${segment.id}`;
-      delete this.rigConfig.nodes[nodeId!];
+    limb?.segments.forEach((segment: any) => {
+      const nodeId = `${limbId}_${segment?.id}`;
+      delete this?.rigConfig.nodes[nodeId!];
     });
 
     // Remove from parent's children list
-    const attachmentNode = this.rigConfig.nodes[limb.attachmentPoint];
+    const attachmentNode = this?.rigConfig.nodes[limb?.attachmentPoint];
     if (attachmentNode) {
-      attachmentNode.children = attachmentNode.children.filter(
-        childId => !childId.startsWith(`${limbId}_`)
+      attachmentNode?.children = attachmentNode?.children.filter(
+        childId => !childId?.startsWith(`${limbId}_`)
       );
     }
 
-    this.limbs.delete(limbId);
+    this?.limbs.delete(limbId);
     return this;
   }
 
@@ -524,7 +524,7 @@ export class LimbAttachment {
    * Get updated rig configuration
    */
   getRigConfig(): RigConfig {
-    return { ...this.rigConfig };
+    return { ...this?.rigConfig };
   }
 
   /**

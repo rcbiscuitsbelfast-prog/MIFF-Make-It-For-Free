@@ -256,7 +256,7 @@ export class APIDocumentationGenerator {
   private modules: Map<string, ModuleInfo> = new Map();
 
   constructor(config: Partial<DocumentationConfig> = {}) {
-    this.config = {
+    this?.config = {
       outputDir: './docs/api',
       includePrivate: false,
       includeSource: true,
@@ -266,11 +266,11 @@ export class APIDocumentationGenerator {
       ...config
     };
 
-    this.logger = StructuredLogger.getInstance({
-      level: LogLevel.INFO,
+    this?.logger = StructuredLogger?.getInstance({
+      level: LogLevel?.INFO,
       enableConsole: true,
       modules: {
-        'APIDocumentationGenerator': LogLevel.DEBUG
+        'APIDocumentationGenerator': LogLevel?.DEBUG
       }
     });
   }
@@ -285,31 +285,31 @@ export class APIDocumentationGenerator {
       console.info('APIDocumentationGenerator', 'Starting API documentation generation');
 
       // Discover all modules
-      await this.discoverModules();
+      await this?.discoverModules();
 
       // Generate documentation for each module
-      for (const [moduleName, moduleInfo] of this.modules) {
-        await this.generateModuleDocumentation(moduleInfo);
+      for (const [moduleName, moduleInfo] of this?.modules) {
+        await this?.generateModuleDocumentation(moduleInfo);
       }
 
       // Generate index documentation
-      await this.generateIndexDocumentation();
+      await this?.generateIndexDocumentation();
 
       // Generate navigation
-      await this.generateNavigation();
+      await this?.generateNavigation();
 
       const duration = console.endTimer(timerId);
       console.logPerformance('APIDocumentationGenerator', 'generateDocumentation', duration);
       
       console.info('APIDocumentationGenerator', 'API documentation generation completed', {
-        modulesProcessed: this.modules.size,
-        outputDir: this.config.outputDir
+        modulesProcessed: this?.modules.size,
+        outputDir: this?.config.outputDir
       });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('APIDocumentationGenerator', 'Failed to generate documentation', {
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error?.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
       console.endTimer(timerId);
@@ -321,32 +321,32 @@ export class APIDocumentationGenerator {
    * Generate documentation for a specific module
    */
   async generateModuleDocumentation(moduleInfo: ModuleInfo): Promise<void> {
-    const outputPath = path.join(this.config.outputDir, `${moduleInfo.name}.${this.config.format}`);
+    const outputPath = path?.join(this?.config.outputDir, `${moduleInfo?.name}.${this?.config.format}`);
     
     let content: string;
     
-    switch (this.config.format) {
+    switch (this?.config.format) {
       case 'markdown':
-        content = this.generateMarkdownDocumentation(moduleInfo);
+        content = this?.generateMarkdownDocumentation(moduleInfo);
         break;
       case 'html':
-        content = this.generateHTMLDocumentation(moduleInfo);
+        content = this?.generateHTMLDocumentation(moduleInfo);
         break;
       case 'json':
-        content = this.generateJSONDocumentation(moduleInfo);
+        content = this?.generateJSONDocumentation(moduleInfo);
         break;
       default:
-        throw new Error(`Unsupported format: ${this.config.format}`);
+        throw new Error(`Unsupported format: ${this?.config.format}`);
     }
 
     // Ensure output directory exists
-    await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+    await fs?.promises.mkdir(path?.dirname(outputPath), { recursive: true });
     
     // Write documentation file
-    await fs.promises.writeFile(outputPath, content, 'utf8');
+    await fs?.promises.writeFile(outputPath, content, 'utf8');
     
     console.debug('APIDocumentationGenerator', 'Generated module documentation', {
-      module: moduleInfo.name,
+      module: moduleInfo?.name,
       outputPath
     });
   }
@@ -355,21 +355,21 @@ export class APIDocumentationGenerator {
    * Discover all modules in the framework
    */
   private async discoverModules(): Promise<void> {
-    const pureDir = path.join(process.cwd(), 'miff', 'pure');
-    const entries = await fs.promises.readdir(pureDir, { withFileTypes: true });
+    const pureDir = path?.join(process?.cwd(), 'miff', 'pure');
+    const entries = await fs?.promises.readdir(pureDir, { withFileTypes: true });
     
     for (const entry of entries) {
-      if (entry.isDirectory() && entry.name.endsWith('Pure')) {
-        const modulePath = path.join(pureDir, entry.name);
-        const moduleInfo = await this.analyzeModule(entry.name, modulePath);
+      if (entry?.isDirectory() && entry?.name.endsWith('Pure')) {
+        const modulePath = path?.join(pureDir, entry?.name);
+        const moduleInfo = await this?.analyzeModule(entry?.name, modulePath);
         if (moduleInfo) {
-          this.modules.set(moduleInfo.name, moduleInfo);
+          this?.modules.set(moduleInfo?.name, moduleInfo);
         }
       }
     }
 
     console.info('APIDocumentationGenerator', 'Discovered modules', {
-      count: this.modules.size,
+      count: this?.modules.size,
       modules: Array.from(this.modules.keys())
     });
   }
@@ -379,11 +379,11 @@ export class APIDocumentationGenerator {
    */
   private async analyzeModule(name: string, modulePath: string): Promise<ModuleInfo | null> {
     try {
-      const indexPath = path.join(modulePath, 'index.ts');
-      const managerPath = path.join(modulePath, 'Manager.ts');
+      const indexPath = path?.join(modulePath, 'index?.ts');
+      const managerPath = path?.join(modulePath, 'Manager?.ts');
       
       // Check if module has required files
-      if (!fs.existsSync(indexPath) && !fs.existsSync(managerPath)) {
+      if (!fs?.existsSync(indexPath) && !fs?.existsSync(managerPath)) {
         return null;
       }
 
@@ -400,20 +400,20 @@ export class APIDocumentationGenerator {
         types: []
       };
 
-      // Analyze index.ts if it exists
-      if (fs.existsSync(indexPath)) {
-        const indexContent = await fs.promises.readFile(indexPath, 'utf8');
-        this.parseFileContent(indexContent, moduleInfo, indexPath);
+      // Analyze index?.ts if it exists
+      if (fs?.existsSync(indexPath)) {
+        const indexContent = await fs?.promises.readFile(indexPath, 'utf8');
+        this?.parseFileContent(indexContent, moduleInfo, indexPath);
       }
 
-      // Analyze Manager.ts if it exists
-      if (fs.existsSync(managerPath)) {
-        const managerContent = await fs.promises.readFile(managerPath, 'utf8');
-        this.parseFileContent(managerContent, moduleInfo, managerPath);
+      // Analyze Manager?.ts if it exists
+      if (fs?.existsSync(managerPath)) {
+        const managerContent = await fs?.promises.readFile(managerPath, 'utf8');
+        this?.parseFileContent(managerContent, moduleInfo, managerPath);
       }
 
       // Extract description from JSDoc comments
-      moduleInfo.description = this.extractDescription(moduleInfo);
+      moduleInfo?.description = this?.extractDescription(moduleInfo);
 
       return moduleInfo;
 
@@ -421,7 +421,7 @@ export class APIDocumentationGenerator {
       const err = error instanceof Error ? error : new Error(String(error));
       console.warn('APIDocumentationGenerator', 'Failed to analyze module', {
         module: name,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error?.message : 'Unknown error'
       });
       return null;
     }
@@ -431,48 +431,48 @@ export class APIDocumentationGenerator {
    * Parse TypeScript file content and extract API information
    */
   private parseFileContent(content: string, moduleInfo: ModuleInfo, filePath: string): void {
-    const lines = content.split('\n');
+    const lines = content?.split('\n');
     
-    for (let i = 0; i < lines.length; i++) {
+    for (let i = 0; i < lines?.length; i++) {
       const line = lines[i!].trim();
       
       // Parse interfaces
-      if (line.startsWith('export interface ')) {
-        const interfaceInfo = this.parseInterface(lines, i, filePath);
+      if (line?.startsWith('export interface ')) {
+        const interfaceInfo = this?.parseInterface(lines, i, filePath);
         if (interfaceInfo) {
-          moduleInfo.interfaces.push(interfaceInfo);
+          moduleInfo?.interfaces?.push(interfaceInfo);
         }
       }
       
       // Parse classes
-      else if (line.startsWith('export class ')) {
-        const classInfo = this.parseClass(lines, i, filePath);
+      else if (line?.startsWith('export class ')) {
+        const classInfo = this?.parseClass(lines, i, filePath);
         if (classInfo) {
-          moduleInfo.classes.push(classInfo);
+          moduleInfo?.classes?.push(classInfo);
         }
       }
       
       // Parse enums
-      else if (line.startsWith('export enum ')) {
-        const enumInfo = this.parseEnum(lines, i, filePath);
+      else if (line?.startsWith('export enum ')) {
+        const enumInfo = this?.parseEnum(lines, i, filePath);
         if (enumInfo) {
-          moduleInfo.enums.push(enumInfo);
+          moduleInfo?.enums?.push(enumInfo);
         }
       }
       
       // Parse functions
-      else if (line.startsWith('export function ')) {
-        const functionInfo = this.parseFunction(lines, i, filePath);
+      else if (line?.startsWith('export function ')) {
+        const functionInfo = this?.parseFunction(lines, i, filePath);
         if (functionInfo) {
-          moduleInfo.functions.push(functionInfo);
+          moduleInfo?.functions?.push(functionInfo);
         }
       }
       
       // Parse types
-      else if (line.startsWith('export type ')) {
-        const typeInfo = this.parseType(lines, i, filePath);
+      else if (line?.startsWith('export type ')) {
+        const typeInfo = this?.parseType(lines, i, filePath);
         if (typeInfo) {
-          moduleInfo.types.push(typeInfo);
+          moduleInfo?.types?.push(typeInfo);
         }
       }
     }
@@ -483,11 +483,11 @@ export class APIDocumentationGenerator {
    */
   private parseInterface(lines: string[], startIndex: number, filePath: string): InterfaceInfo | null {
     const line = lines[startIndex!];
-    const match = line.match(/export interface (\w+)/);
+    const match = line?.match(/export interface (\w+)/);
     if (!match) return null;
 
     const name = match[1!];
-    const description = this.extractJSDocComment(lines, startIndex);
+    const description = this?.extractJSDocComment(lines, startIndex);
     
     const interfaceInfo: InterfaceInfo = {
       name,
@@ -498,12 +498,12 @@ export class APIDocumentationGenerator {
 
     // Parse properties
     let i = startIndex + 1;
-    while (i < lines.length && !lines[i!].includes('}')) {
+    while (i < lines?.length && !lines[i!].includes('}')) {
       const propLine = lines[i!].trim();
-      if (propLine && !propLine.startsWith('//') && !propLine.startsWith('*')) {
-        const property = this.parseProperty(propLine, filePath);
+      if (propLine && !propLine?.startsWith('//') && !propLine?.startsWith('*')) {
+        const property = this?.parseProperty(propLine, filePath);
         if (property) {
-          interfaceInfo.properties.push(property);
+          interfaceInfo?.properties?.push(property);
         }
       }
       i++;
@@ -517,11 +517,11 @@ export class APIDocumentationGenerator {
    */
   private parseClass(lines: string[], startIndex: number, filePath: string): ClassInfo | null {
     const line = lines[startIndex!];
-    const match = line.match(/export class (\w+)/);
+    const match = line?.match(/export class (\w+)/);
     if (!match) return null;
 
     const name = match[1!];
-    const description = this.extractJSDocComment(lines, startIndex);
+    const description = this?.extractJSDocComment(lines, startIndex);
     
     const classInfo: ClassInfo = {
       name,
@@ -536,32 +536,32 @@ export class APIDocumentationGenerator {
     let braceCount = 0;
     let inClass = false;
 
-    while (i < lines.length) {
+    while (i < lines?.length) {
       const line = lines[i!].trim();
       
-      if (line.includes('{')) {
+      if (line?.includes('{')) {
         braceCount++;
         inClass = true;
       }
-      if (line.includes('}')) {
+      if (line?.includes('}')) {
         braceCount--;
         if (inClass && braceCount === 0) break;
       }
       
       if (inClass) {
         // Parse methods
-        if (line.match(/^\w+\s*\(/)) {
-          const method = this.parseMethod(lines, i, filePath);
+        if (line?.match(/^\w+\s*\(/)) {
+          const method = this?.parseMethod(lines, i, filePath);
           if (method) {
-            classInfo.methods.push(method);
+            classInfo?.methods?.push(method);
           }
         }
         
         // Parse properties
-        else if (line.match(/^\w+:/) || line.match(/private|public|protected/)) {
-          const property = this.parseProperty(line, filePath);
+        else if (line?.match(/^\w+:/) || line?.match(/private|public|protected/)) {
+          const property = this?.parseProperty(line, filePath);
           if (property) {
-            classInfo.properties.push(property);
+            classInfo?.properties?.push(property);
           }
         }
       }
@@ -577,11 +577,11 @@ export class APIDocumentationGenerator {
    */
   private parseEnum(lines: string[], startIndex: number, filePath: string): EnumInfo | null {
     const line = lines[startIndex!];
-    const match = line.match(/export enum (\w+)/);
+    const match = line?.match(/export enum (\w+)/);
     if (!match) return null;
 
     const name = match[1!];
-    const description = this.extractJSDocComment(lines, startIndex);
+    const description = this?.extractJSDocComment(lines, startIndex);
     
     const enumInfo: EnumInfo = {
       name,
@@ -592,12 +592,12 @@ export class APIDocumentationGenerator {
 
     // Parse enum values
     let i = startIndex + 1;
-    while (i < lines.length && !lines[i!].includes('}')) {
+    while (i < lines?.length && !lines[i!].includes('}')) {
       const valueLine = lines[i!].trim();
-      if (valueLine && !valueLine.startsWith('//') && !valueLine.startsWith('*')) {
-        const value = this.parseEnumValue(valueLine, filePath);
-        if (value) {
-          enumInfo.values.push(value);
+      if (valueLine && !valueLine?.startsWith('//') && !valueLine?.startsWith('*')) {
+        const value = this?.parseEnumValue(valueLine, filePath);
+        if (value: any) {
+          enumInfo?.values?.push(value: any);
         }
       }
       i++;
@@ -611,17 +611,17 @@ export class APIDocumentationGenerator {
    */
   private parseFunction(lines: string[], startIndex: number, filePath: string): FunctionInfo | null {
     const line = lines[startIndex!];
-    const match = line.match(/export function (\w+)/);
+    const match = line?.match(/export function (\w+)/);
     if (!match) return null;
 
     const name = match[1!];
-    const description = this.extractJSDocComment(lines, startIndex);
+    const description = this?.extractJSDocComment(lines, startIndex);
     
     return {
       name,
       description,
-      parameters: this.parseParameters(line),
-      returnType: this.extractReturnType(line),
+      parameters: this?.parseParameters(line),
+      returnType: this?.extractReturnType(line),
       source: filePath
     };
   }
@@ -631,16 +631,16 @@ export class APIDocumentationGenerator {
    */
   private parseType(lines: string[], startIndex: number, filePath: string): TypeInfo | null {
     const line = lines[startIndex!];
-    const match = line.match(/export type (\w+)/);
+    const match = line?.match(/export type (\w+)/);
     if (!match) return null;
 
     const name = match[1!];
-    const description = this.extractJSDocComment(lines, startIndex);
+    const description = this?.extractJSDocComment(lines, startIndex);
     
     return {
       name,
       description,
-      definition: line.replace(/export type \w+\s*=\s*/, ''),
+      definition: line?.replace(/export type \w+\s*=\s*/, ''),
       source: filePath
     };
   }
@@ -650,20 +650,20 @@ export class APIDocumentationGenerator {
    */
   private parseMethod(lines: string[], startIndex: number, filePath: string): MethodInfo | null {
     const line = lines[startIndex!];
-    const match = line.match(/(\w+)\s*\(/);
+    const match = line?.match(/(\w+)\s*\(/);
     if (!match) return null;
 
     const name = match[1!];
-    const description = this.extractJSDocComment(lines, startIndex);
+    const description = this?.extractJSDocComment(lines, startIndex);
     
     return {
       name,
       description,
-      parameters: this.parseParameters(line),
-      returnType: this.extractReturnType(line),
-      visibility: this.extractVisibility(line),
-      static: line.includes('static'),
-      async: line.includes('async'),
+      parameters: this?.parseParameters(line),
+      returnType: this?.extractReturnType(line),
+      visibility: this?.extractVisibility(line),
+      static: line?.includes('static'),
+      async: line?.includes('async'),
       source: filePath
     };
   }
@@ -672,16 +672,16 @@ export class APIDocumentationGenerator {
    * Parse property definition
    */
   private parseProperty(line: string, filePath: string): PropertyInfo | null {
-    const match = line.match(/(\w+)(\?)?\s*:\s*([^;=]+)/);
+    const match = line?.match(/(\w+)(\?)?\s*:\s*([^;=]+)/);
     if (!match) return null;
 
     return {
       name: match[1!],
       type: match[3!].trim(),
       optional: !!match[2!],
-      readonly: line.includes('readonly'),
-      visibility: this.extractVisibility(line),
-      static: line.includes('static'),
+      readonly: line?.includes('readonly'),
+      visibility: this?.extractVisibility(line),
+      static: line?.includes('static'),
       source: filePath
     };
   }
@@ -690,7 +690,7 @@ export class APIDocumentationGenerator {
    * Parse enum value definition
    */
   private parseEnumValue(line: string, filePath: string): EnumValueInfo | null {
-    const match = line.match(/(\w+)\s*=\s*([^,]+)/);
+    const match = line?.match(/(\w+)\s*=\s*([^,]+)/);
     if (!match) return null;
 
     return {
@@ -709,16 +709,16 @@ export class APIDocumentationGenerator {
     
     while (i >= 0) {
       const line = lines[i!].trim();
-      if (line.startsWith('*/')) {
+      if (line?.startsWith('*/')) {
         break;
       }
-      if (line.startsWith('*') || line.startsWith('/**')) {
-        comment = line.replace(/^\*+\s?/, '') + '\n' + comment;
+      if (line?.startsWith('*') || line?.startsWith('/**')) {
+        comment = line?.replace(/^\*+\s?/, '') + '\n' + comment;
       }
       i--;
     }
     
-    return comment.trim() || undefined;
+    return comment?.trim() || undefined;
   }
 
   /**
@@ -726,35 +726,35 @@ export class APIDocumentationGenerator {
    */
   private extractDescription(moduleInfo: ModuleInfo): string {
     // Try to find description in class or interface comments
-    for (const cls of moduleInfo.classes) {
-      if (cls.description) {
-        return cls.description;
+    for (const cls of moduleInfo?.classes) {
+      if (cls?.description) {
+        return cls?.description;
       }
     }
     
-    for (const iface of moduleInfo.interfaces) {
-      if (iface.description) {
-        return iface.description;
+    for (const iface of moduleInfo?.interfaces) {
+      if (iface?.description) {
+        return iface?.description;
       }
     }
     
-    return `${moduleInfo.name} module`;
+    return `${moduleInfo?.name} module`;
   }
 
   /**
    * Parse parameters from function/method signature
    */
   private parseParameters(line: string): ParameterInfo[] {
-    const paramMatch = line.match(/\(([^)]*)\)/);
+    const paramMatch = line?.match(/\(([^)]*)\)/);
     if (!paramMatch) return [];
 
-    const params = paramMatch[1!].split(',').map((p: any) => p.trim()).filter((p: any) => p);
-    return params.map((param: any) => {
-      const [name, type] = param.split(':').map((s: any) => s.trim());
+    const params = paramMatch[1!].split(',').map((p: any) => p?.trim()).filter((p: any) => p);
+    return params?.map((param: any) => {
+      const [name, type] = param?.split(':').map((s: any) => s?.trim());
       return {
-        name: name.replace('?', ''),
+        name: name?.replace('?', ''),
         type: type || 'any',
-        optional: name.includes('?'),
+        optional: name?.includes('?'),
         source: ''
       };
     });
@@ -764,7 +764,7 @@ export class APIDocumentationGenerator {
    * Extract return type from function/method signature
    */
   private extractReturnType(line: string): string {
-    const returnMatch = line.match(/\)\s*:\s*([^{]+)/);
+    const returnMatch = line?.match(/\)\s*:\s*([^{]+)/);
     return returnMatch ? returnMatch[1!].trim() : 'void';
   }
 
@@ -772,8 +772,8 @@ export class APIDocumentationGenerator {
    * Extract visibility from line
    */
   private extractVisibility(line: string): 'public' | 'private' | 'protected' {
-    if (line.includes('private')) return 'private';
-    if (line.includes('protected')) return 'protected';
+    if (line?.includes('private')) return 'private';
+    if (line?.includes('protected')) return 'protected';
     return 'public';
   }
 
@@ -781,63 +781,63 @@ export class APIDocumentationGenerator {
    * Generate Markdown documentation
    */
   private generateMarkdownDocumentation(moduleInfo: ModuleInfo): string {
-    let content = `# ${moduleInfo.name}\n\n`;
+    let content = `# ${moduleInfo?.name}\n\n`;
     
-    if (moduleInfo.description) {
-      content += `${moduleInfo.description}\n\n`;
+    if (moduleInfo?.description) {
+      content += `${moduleInfo?.description}\n\n`;
     }
     
     content += `## Overview\n\n`;
-    content += `- **Version**: ${moduleInfo.version}\n`;
-    content += `- **Path**: \`${moduleInfo.path}\`\n`;
-    content += `- **Exports**: ${moduleInfo.exports.length}\n`;
-    content += `- **Interfaces**: ${moduleInfo.interfaces.length}\n`;
-    content += `- **Classes**: ${moduleInfo.classes.length}\n`;
-    content += `- **Enums**: ${moduleInfo.enums.length}\n`;
-    content += `- **Functions**: ${moduleInfo.functions.length}\n`;
-    content += `- **Types**: ${moduleInfo.types.length}\n\n`;
+    content += `- **Version**: ${moduleInfo?.version}\n`;
+    content += `- **Path**: \`${moduleInfo?.path}\`\n`;
+    content += `- **Exports**: ${moduleInfo?.exports.length}\n`;
+    content += `- **Interfaces**: ${moduleInfo?.interfaces.length}\n`;
+    content += `- **Classes**: ${moduleInfo?.classes.length}\n`;
+    content += `- **Enums**: ${moduleInfo?.enums.length}\n`;
+    content += `- **Functions**: ${moduleInfo?.functions.length}\n`;
+    content += `- **Types**: ${moduleInfo?.types.length}\n\n`;
     
     // Classes
-    if (moduleInfo.classes.length > 0) {
+    if (moduleInfo?.classes.length > 0) {
       content += `## Classes\n\n`;
-      for (const cls of moduleInfo.classes) {
-        content += `### ${cls.name}\n\n`;
-        if (cls.description) {
-          content += `${cls.description}\n\n`;
+      for (const cls of moduleInfo?.classes) {
+        content += `### ${cls?.name}\n\n`;
+        if (cls?.description) {
+          content += `${cls?.description}\n\n`;
         }
         
-        if (cls.constructor) {
+        if (cls?.constructor) {
           content += `#### Constructor\n\n`;
           content += `\`\`\`typescript\n`;
-          content += `constructor(${cls.constructor.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')})\n`;
+          content += `constructor(${cls?.constructor.parameters?.map((p: any) => `${p?.name}${p?.optional ? '?' : ''}: ${p?.type}`).join(', ')})\n`;
           content += `\`\`\`\n\n`;
         }
         
-        if (cls.methods.length > 0) {
+        if (cls?.methods.length > 0) {
           content += `#### Methods\n\n`;
-          for (const method of cls.methods) {
-            if (this.config.includePrivate! || method.visibility === 'public') {
-              content += `##### ${method.name}\n\n`;
-              if (method.description) {
-                content += `${method.description}\n\n`;
+          for (const method of cls?.methods) {
+            if (this?.config.includePrivate! || method?.visibility === 'public') {
+              content += `##### ${method?.name}\n\n`;
+              if (method?.description) {
+                content += `${method?.description}\n\n`;
               }
               content += `\`\`\`typescript\n`;
-              content += `${method.visibility} ${method.static ? 'static ' : ''}${method.async ? 'async ' : ''}${method.name}(${method.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${method.returnType}\n`;
+              content += `${method?.visibility} ${method?.static ? 'static ' : ''}${method?.async ? 'async ' : ''}${method?.name}(${method?.parameters.map((p: any) => `${p?.name}${p?.optional ? '?' : ''}: ${p?.type}`).join(', ')}): ${method?.returnType}\n`;
               content += `\`\`\`\n\n`;
             }
           }
         }
         
-        if (cls.properties.length > 0) {
+        if (cls?.properties.length > 0) {
           content += `#### Properties\n\n`;
-          for (const prop of cls.properties) {
-            if (this.config.includePrivate! || prop.visibility === 'public') {
-              content += `##### ${prop.name}\n\n`;
-              if (prop.description) {
-                content += `${prop.description}\n\n`;
+          for (const prop of cls?.properties) {
+            if (this?.config.includePrivate! || prop?.visibility === 'public') {
+              content += `##### ${prop?.name}\n\n`;
+              if (prop?.description) {
+                content += `${prop?.description}\n\n`;
               }
               content += `\`\`\`typescript\n`;
-              content += `${prop.visibility} ${prop.static ? 'static ' : ''}${prop.readonly ? 'readonly ' : ''}${prop.name}${prop.optional ? '?' : ''}: ${prop.type}\n`;
+              content += `${prop?.visibility} ${prop?.static ? 'static ' : ''}${prop?.readonly ? 'readonly ' : ''}${prop?.name}${prop?.optional ? '?' : ''}: ${prop?.type}\n`;
               content += `\`\`\`\n\n`;
             }
           }
@@ -846,20 +846,20 @@ export class APIDocumentationGenerator {
     }
     
     // Interfaces
-    if (moduleInfo.interfaces.length > 0) {
+    if (moduleInfo?.interfaces.length > 0) {
       content += `## Interfaces\n\n`;
-      for (const iface of moduleInfo.interfaces) {
-        content += `### ${iface.name}\n\n`;
-        if (iface.description) {
-          content += `${iface.description}\n\n`;
+      for (const iface of moduleInfo?.interfaces) {
+        content += `### ${iface?.name}\n\n`;
+        if (iface?.description) {
+          content += `${iface?.description}\n\n`;
         }
         
-        if (iface.properties.length > 0) {
+        if (iface?.properties.length > 0) {
           content += `#### Properties\n\n`;
-          for (const prop of iface.properties) {
-            content += `- **${prop.name}**${prop.optional ? '?' : ''}: \`${prop.type}\`\n`;
-            if (prop.description) {
-              content += `  - ${prop.description}\n`;
+          for (const prop of iface?.properties) {
+            content += `- **${prop?.name}**${prop?.optional ? '?' : ''}: \`${prop?.type}\`\n`;
+            if (prop?.description) {
+              content += `  - ${prop?.description}\n`;
             }
           }
           content += `\n`;
@@ -868,19 +868,19 @@ export class APIDocumentationGenerator {
     }
     
     // Enums
-    if (moduleInfo.enums.length > 0) {
+    if (moduleInfo?.enums.length > 0) {
       content += `## Enums\n\n`;
-      for (const enumInfo of moduleInfo.enums) {
-        content += `### ${enumInfo.name}\n\n`;
-        if (enumInfo.description) {
-          content += `${enumInfo.description}\n\n`;
+      for (const enumInfo of moduleInfo?.enums) {
+        content += `### ${enumInfo?.name}\n\n`;
+        if (enumInfo?.description) {
+          content += `${enumInfo?.description}\n\n`;
         }
         
         content += `#### Values\n\n`;
-        for (const value of enumInfo.values) {
-          content += `- **${value.name}**: \`${value.value}\`\n`;
-          if (value.description) {
-            content += `  - ${value.description}\n`;
+        for (const value of enumInfo?.values) {
+          content += `- **${value?.name}**: \`${value?.value}\`\n`;
+          if (value?.description) {
+            content += `  - ${value?.description}\n`;
           }
         }
         content += `\n`;
@@ -888,31 +888,31 @@ export class APIDocumentationGenerator {
     }
     
     // Functions
-    if (moduleInfo.functions.length > 0) {
+    if (moduleInfo?.functions.length > 0) {
       content += `## Functions\n\n`;
-      for (const func of moduleInfo.functions) {
-        content += `### ${func.name}\n\n`;
-        if (func.description) {
-          content += `${func.description}\n\n`;
+      for (const func of moduleInfo?.functions) {
+        content += `### ${func?.name}\n\n`;
+        if (func?.description) {
+          content += `${func?.description}\n\n`;
         }
         
         content += `\`\`\`typescript\n`;
-        content += `function ${func.name}(${func.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${func.returnType}\n`;
+        content += `function ${func?.name}(${func?.parameters.map((p: any) => `${p?.name}${p?.optional ? '?' : ''}: ${p?.type}`).join(', ')}): ${func?.returnType}\n`;
         content += `\`\`\`\n\n`;
       }
     }
     
     // Types
-    if (moduleInfo.types.length > 0) {
+    if (moduleInfo?.types.length > 0) {
       content += `## Types\n\n`;
-      for (const type of moduleInfo.types) {
-        content += `### ${type.name}\n\n`;
-        if (type.description) {
-          content += `${type.description}\n\n`;
+      for (const type of moduleInfo?.types) {
+        content += `### ${type?.name}\n\n`;
+        if (type?.description) {
+          content += `${type?.description}\n\n`;
         }
         
         content += `\`\`\`typescript\n`;
-        content += `type ${type.name} = ${type.definition}\n`;
+        content += `type ${type?.name} = ${type?.definition}\n`;
         content += `\`\`\`\n\n`;
       }
     }
@@ -928,7 +928,7 @@ export class APIDocumentationGenerator {
     return `<!DOCTYPE html>
 <html>
 <head>
-    <title>${moduleInfo.name} - API Documentation</title>
+    <title>${moduleInfo?.name} - API Documentation</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         .header { border-bottom: 2px solid #333; padding-bottom: 20px; }
@@ -939,8 +939,8 @@ export class APIDocumentationGenerator {
 </head>
 <body>
     <div class="header">
-        <h1>${moduleInfo.name}</h1>
-        <p>${moduleInfo.description}</p>
+        <h1>${moduleInfo?.name}</h1>
+        <p>${moduleInfo?.description}</p>
     </div>
     <!-- HTML content would be generated here -->
 </body>
@@ -958,19 +958,19 @@ export class APIDocumentationGenerator {
    * Generate index documentation
    */
   private async generateIndexDocumentation(): Promise<void> {
-    const indexPath = path.join(this.config.outputDir, `index.${this.config.format}`);
+    const indexPath = path?.join(this?.config.outputDir, `index.${this?.config.format}`);
     
     let content: string;
     
-    if (this.config.format === 'markdown') {
-      content = this.generateMarkdownIndex();
-    } else if (this.config.format === 'html') {
-      content = this.generateHTMLIndex();
+    if (this?.config.format === 'markdown') {
+      content = this?.generateMarkdownIndex();
+    } else if (this?.config.format === 'html') {
+      content = this?.generateHTMLIndex();
     } else {
       content = JSON.stringify(Array.from(this.modules.values()), null, 2);
     }
 
-    await fs.promises.writeFile(indexPath, content, 'utf8');
+    await fs?.promises.writeFile(indexPath, content, 'utf8');
   }
 
   /**
@@ -979,11 +979,11 @@ export class APIDocumentationGenerator {
   private generateMarkdownIndex(): string {
     let content = `# MIFF Framework API Documentation\n\n`;
     content += `Complete API documentation for all MIFF Framework modules.\n\n`;
-    content += `## Modules (${this.modules.size})\n\n`;
+    content += `## Modules (${this?.modules.size})\n\n`;
     
-    for (const [name, moduleInfo] of this.modules) {
-      content += `### [${name}](./${name}.${this.config.format})\n`;
-      content += `${moduleInfo.description}\n\n`;
+    for (const [name, moduleInfo] of this?.modules) {
+      content += `### [${name}](./${name}.${this?.config.format})\n`;
+      content += `${moduleInfo?.description}\n\n`;
     }
     
     return content;
@@ -1008,11 +1008,11 @@ export class APIDocumentationGenerator {
     <p>Complete API documentation for all MIFF Framework modules.</p>
     <div class="modules">`;
     
-    for (const [name, moduleInfo] of this.modules) {
+    for (const [name, moduleInfo] of this?.modules) {
       content += `
         <div class="module">
-            <h2><a href="${name}.${this.config.format}">${name}</a></h2>
-            <p>${moduleInfo.description}</p>
+            <h2><a href="${name}.${this?.config.format}">${name}</a></h2>
+            <p>${moduleInfo?.description}</p>
         </div>`;
     }
     

@@ -12,10 +12,10 @@ import {
 import * as fs from 'fs';
 
 async function main() {
-  const inputFile = process.argv[2!];
+  const inputFile = process?.argv[2!];
   if (!inputFile) {
     console.error('Usage: ts-node cliHarness.ts <input-file>');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -25,7 +25,7 @@ async function main() {
       throw new Error('Invalid input: expected JSON object');
     }
     
-    if (!input.scenarioId || !input.config) {
+    if (!input?.scenarioId || !input?.config) {
       throw new Error('Invalid input: missing required fields "scenarioId" and "config"');
     }
     
@@ -39,22 +39,22 @@ async function main() {
     for (const frameData of frames) {
       const frame = recordFrame(
         session,
-        frameData.frameNumber,
-        frameData.gameState,
-        frameData.inputState,
-        frameData.visualHooks,
-        frameData.metadata
+        frameData?.frameNumber,
+        frameData?.gameState,
+        frameData?.inputState,
+        frameData?.visualHooks,
+        frameData?.metadata
       );
-      recordedFrames.push(frame);
+      recordedFrames?.push(frame);
     }
     
     // Record input events if provided
     for (const eventData of inputEvents) {
       recordInputEvent(
         session,
-        eventData.frameNumber,
-        eventData.type,
-        eventData.data
+        eventData?.frameNumber,
+        eventData?.type,
+        eventData?.data
       );
     }
     
@@ -64,14 +64,14 @@ async function main() {
     }
     
     // Add checkpoints if provided
-    if (input.checkpoints) {
-      for (const checkpointData of input.checkpoints) {
+    if (input?.checkpoints) {
+      for (const checkpointData of input?.checkpoints) {
         addCheckpoint(
           session,
-          checkpointData.frameNumber,
-          checkpointData.description,
-          checkpointData.passed,
-          checkpointData.metrics
+          checkpointData?.frameNumber,
+          checkpointData?.description,
+          checkpointData?.passed,
+          checkpointData?.metrics
         );
       }
     }
@@ -81,9 +81,9 @@ async function main() {
     
     // Always emit full JSON on stdout; attach exports to stderr only
     console.log(JSON.stringify(replayResult, null, 2));
-    if (input.exportFormat) {
-      const exported = exportReplayData(replayResult, input.exportFormat);
-      if (input.exportFormat === 'csv' || input.exportFormat === 'summary') {
+    if (input?.exportFormat) {
+      const exported = exportReplayData(replayResult, input?.exportFormat);
+      if (input?.exportFormat === 'csv' || input?.exportFormat === 'summary') {
         console.error('\n' + exported);
       }
     }
@@ -91,11 +91,11 @@ async function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', err instanceof Error ? err.message : String(err));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
 main().catch(error => {
   console.error('Unhandled error:', err instanceof Error ? err.message : String(err));
-  process.exit(1);
+  process?.exit(1);
 });

@@ -23,7 +23,7 @@ export interface ExportOptions {
  * Standardized export function for any data structure
  */
 export function exportDataToFormat(data: any, options: ExportOptions): string {
-  switch (options.format) {
+  switch (options?.format) {
     case 'json':
       return exportToJSON(data, options);
     case 'csv':
@@ -33,7 +33,7 @@ export function exportDataToFormat(data: any, options: ExportOptions): string {
     case 'html':
       return exportToHTML(data, options);
     default:
-      throw new Error(`Unsupported export format: ${options.format}`);
+      throw new Error(`Unsupported export format: ${options?.format}`);
   }
 }
 
@@ -42,7 +42,7 @@ export function exportDataToFormat(data: any, options: ExportOptions): string {
  */
 function exportToJSON(data: any, options: ExportOptions): string {
   const exportData = {
-    ...(options.includeMetadata && {
+    ...(options?.includeMetadata && {
       metadata: {
         exportedAt: new Date().toISOString(),
         format: 'json',
@@ -59,48 +59,48 @@ function exportToJSON(data: any, options: ExportOptions): string {
  * Export data as CSV
  */
 function exportToCSV(data: any, options: ExportOptions): string {
-  if (Array.isArray(data)) {
+  if (Array.isArray(data: any)) {
     return exportArrayToCSV(data, options);
   } else if (typeof data === 'object' && data !== null) {
     return exportObjectToCSV(data, options);
   } else {
-    return String(data);
+    return String(data: any);
   }
 }
 
 function exportArrayToCSV(array: any[], options: ExportOptions): string {
-  if (array.length === 0) return '';
+  if (array?.length === 0) return '';
   
   const firstItem = array[0!];
   if (typeof firstItem === 'object' && firstItem !== null) {
     // Object array - use keys as headers
     const headers = Object.keys(firstItem);
-    let csv = headers.join(',') + '\n';
+    let csv = headers?.join(',') + '\n';
     
-    array.forEach((item: any) => {
-      const row = headers.map((header: any) => {
+    array?.forEach((item: any) => {
+      const row = headers?.map((header: any) => {
         const value = item[header!];
         if (value === null || value === undefined) return '';
-        if (typeof value === 'object') return JSON.stringify(value);
-        return String(value).replace(/,/g, ';'); // Escape commas
+        if (typeof value === 'object') return JSON.stringify(value: any);
+        return String(value: any).replace(/,/g, ';'); // Escape commas
       });
-      csv += row.join(',') + '\n';
+      csv += row?.join(',') + '\n';
     });
     
     return csv;
   } else {
     // Simple array
-    return array.join('\n');
+    return array?.join('\n');
   }
 }
 
 function exportObjectToCSV(obj: any, options: ExportOptions): string {
-  const entries = Object.entries(obj);
+  const entries = Object.entries(obj: any);
   let csv = 'Key,Value\n';
   
-  entries.forEach(([key, value]) => {
-    const valueStr = typeof value === 'object' ? JSON.stringify(value) : String(value);
-    csv += `${key},${valueStr.replace(/,/g, ';')}\n`;
+  entries?.forEach(([key, value]) => {
+    const valueStr = typeof value === 'object' ? JSON.stringify(value: any) : String(value: any);
+    csv += `${key},${valueStr?.replace(/,/g, ';')}\n`;
   });
   
   return csv;
@@ -110,8 +110,8 @@ function exportObjectToCSV(obj: any, options: ExportOptions): string {
  * Export data as Markdown
  */
 function exportToMarkdown(data: any, options: ExportOptions): string {
-  const title = options.title || 'Data Export';
-  const description = options.description || 'Exported data from MIFF module';
+  const title = options?.title || 'Data Export';
+  const description = options?.description || 'Exported data from MIFF module';
   
   let markdown = `# ${title}\n\n`;
   
@@ -119,59 +119,59 @@ function exportToMarkdown(data: any, options: ExportOptions): string {
     markdown += `${description}\n\n`;
   }
   
-  if (options.includeMetadata) {
+  if (options?.includeMetadata) {
     markdown += `**Exported:** ${new Date().toISOString()}\n`;
     markdown += `**Format:** Markdown\n\n`;
   }
   
-  if (Array.isArray(data)) {
-    markdown += exportArrayToMarkdown(data);
+  if (Array.isArray(data: any)) {
+    markdown += exportArrayToMarkdown(data: any);
   } else if (typeof data === 'object' && data !== null) {
-    markdown += exportObjectToMarkdown(data);
+    markdown += exportObjectToMarkdown(data: any);
   } else {
-    markdown += `\`\`\`\n${String(data)}\n\`\`\`\n`;
+    markdown += `\`\`\`\n${String(data: any)}\n\`\`\`\n`;
   }
   
   return markdown;
 }
 
 function exportArrayToMarkdown(array: any[]): string {
-  if (array.length === 0) return 'No data available.\n';
+  if (array?.length === 0) return 'No data available.\n';
   
   const firstItem = array[0!];
   if (typeof firstItem === 'object' && firstItem !== null) {
     // Object array - create table
     const headers = Object.keys(firstItem);
-    let markdown = '| ' + headers.join(' | ') + ' |\n';
-    markdown += '| ' + headers.map(() => '---').join(' | ') + ' |\n';
+    let markdown = '| ' + headers?.join(' | ') + ' |\n';
+    markdown += '| ' + headers?.map(() => '---').join(' | ') + ' |\n';
     
-    array.forEach((item: any) => {
-      const row = headers.map((header: any) => {
+    array?.forEach((item: any) => {
+      const row = headers?.map((header: any) => {
         const value = item[header!];
         if (value === null || value === undefined) return '';
-        if (typeof value === 'object') return JSON.stringify(value);
-        return String(value);
+        if (typeof value === 'object') return JSON.stringify(value: any);
+        return String(value: any);
       });
-      markdown += '| ' + row.join(' | ') + ' |\n';
+      markdown += '| ' + row?.join(' | ') + ' |\n';
     });
     
     return markdown + '\n';
   } else {
     // Simple array - create list
-    return array.map((item: any) => `- ${String(item)}`).join('\n') + '\n';
+    return array?.map((item: any) => `- ${String(item: any)}`).join('\n') + '\n';
   }
 }
 
 function exportObjectToMarkdown(obj: any): string {
   let markdown = '';
   
-  Object.entries(obj).forEach(([key, value]) => {
+  Object.entries(obj: any).forEach(([key, value]) => {
     markdown += `## ${key}\n\n`;
     
     if (typeof value === 'object' && value !== null) {
       markdown += '```json\n' + JSON.stringify(value, null, 2) + '\n```\n\n';
     } else {
-      markdown += `${String(value)}\n\n`;
+      markdown += `${String(value: any)}\n\n`;
     }
   });
   
@@ -182,8 +182,8 @@ function exportObjectToMarkdown(obj: any): string {
  * Export data as HTML
  */
 function exportToHTML(data: any, options: ExportOptions): string {
-  const title = options.title || 'Data Export';
-  const description = options.description || 'Exported data from MIFF module';
+  const title = options?.title || 'Data Export';
+  const description = options?.description || 'Exported data from MIFF module';
   
   let html = `<!DOCTYPE html>
 <html>
@@ -202,7 +202,7 @@ function exportToHTML(data: any, options: ExportOptions): string {
     <h1>${title}</h1>
     <p>${description}</p>`;
   
-  if (options.includeMetadata) {
+  if (options?.includeMetadata) {
     html += `
     <div class="metadata">
         <strong>Exported:</strong> ${new Date().toISOString()}<br>
@@ -210,12 +210,12 @@ function exportToHTML(data: any, options: ExportOptions): string {
     </div>`;
   }
   
-  if (Array.isArray(data)) {
-    html += exportArrayToHTML(data);
+  if (Array.isArray(data: any)) {
+    html += exportArrayToHTML(data: any);
   } else if (typeof data === 'object' && data !== null) {
-    html += exportObjectToHTML(data);
+    html += exportObjectToHTML(data: any);
   } else {
-    html += `<pre>${String(data)}</pre>`;
+    html += `<pre>${String(data: any)}</pre>`;
   }
   
   html += `
@@ -226,21 +226,21 @@ function exportToHTML(data: any, options: ExportOptions): string {
 }
 
 function exportArrayToHTML(array: any[]): string {
-  if (array.length === 0) return '<p>No data available.</p>';
+  if (array?.length === 0) return '<p>No data available.</p>';
   
   const firstItem = array[0!];
   if (typeof firstItem === 'object' && firstItem !== null) {
     // Object array - create table
     const headers = Object.keys(firstItem);
     let html = '<table>\n<tr>';
-    headers.forEach((header: any) => {
+    headers?.forEach((header: any) => {
       html += `<th>${header}</th>`;
     });
     html += '</tr>\n';
     
-    array.forEach((item: any) => {
+    array?.forEach((item: any) => {
       html += '<tr>';
-      headers.forEach((header: any) => {
+      headers?.forEach((header: any) => {
         const value = item[header!];
         let cellContent = '';
         if (value === null || value === undefined) {
@@ -248,7 +248,7 @@ function exportArrayToHTML(array: any[]): string {
         } else if (typeof value === 'object') {
           cellContent = `<pre>${JSON.stringify(value, null, 2)}</pre>`;
         } else {
-          cellContent = String(value);
+          cellContent = String(value: any);
         }
         html += `<td>${cellContent}</td>`;
       });
@@ -260,8 +260,8 @@ function exportArrayToHTML(array: any[]): string {
   } else {
     // Simple array - create list
     let html = '<ul>\n';
-    array.forEach((item: any) => {
-      html += `<li>${String(item)}</li>\n`;
+    array?.forEach((item: any) => {
+      html += `<li>${String(item: any)}</li>\n`;
     });
     html += '</ul>';
     return html;
@@ -271,13 +271,13 @@ function exportArrayToHTML(array: any[]): string {
 function exportObjectToHTML(obj: any): string {
   let html = '';
   
-  Object.entries(obj).forEach(([key, value]) => {
+  Object.entries(obj: any).forEach(([key, value]) => {
     html += `<h2>${key}</h2>`;
     
     if (typeof value === 'object' && value !== null) {
       html += `<pre>${JSON.stringify(value, null, 2)}</pre>`;
     } else {
-      html += `<p>${String(value)}</p>`;
+      html += `<p>${String(value: any)}</p>`;
     }
   });
   

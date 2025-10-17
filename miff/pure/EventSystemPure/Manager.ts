@@ -761,7 +761,7 @@ export class EventSystemPure {
 
   constructor(config: Partial<EventSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableEventManagement: true,
       enableEventHandling: true,
       enableEventFiltering: true,
@@ -779,7 +779,7 @@ export class EventSystemPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalEvents: 0,
       processedEvents: 0,
       failedEvents: 0,
@@ -793,7 +793,7 @@ export class EventSystemPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalEvents: 0,
       processedEvents: 0,
       eventTypeDistribution: [],
@@ -806,7 +806,7 @@ export class EventSystemPure {
    * Create a new event system manager
    */
   createManager(): EventSystemOutput {
-    if (!this.config.enableEventManagement) {
+    if (!this?.config.enableEventManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -816,8 +816,8 @@ export class EventSystemPure {
 
     const manager: EventSystemManager = {
       id: managerData.id || `eventsystem-${Date.now()}`,
-      name: managerData.name || 'Unnamed Event System Manager',
-      type: managerData.type || 'game',
+      name: managerData?.name || 'Unnamed Event System Manager',
+      type: managerData?.type || 'game',
       status: 'active',
       events: [],
       handlers: [],
@@ -881,7 +881,7 @@ export class EventSystemPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -894,7 +894,7 @@ export class EventSystemPure {
    * Get manager by ID
    */
   getManager(): EventSystemOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -914,7 +914,7 @@ export class EventSystemPure {
    * Create event
    */
   createEvent(): EventSystemOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-event',
@@ -923,7 +923,7 @@ export class EventSystemPure {
       };
     }
 
-    if (manager.events.length >= this.config.maxEvents) {
+    if (manager?.events.length >= this?.config.maxEvents) {
       return {
         op: 'create-event',
         status: 'error',
@@ -933,10 +933,10 @@ export class EventSystemPure {
 
     const newEvent: Event = {
       id: event?.id || `event-${Date.now()}`,
-      name: event.name || 'Unnamed Event',
-      type: event.type || 'user',
+      name: event?.name || 'Unnamed Event',
+      type: event?.type || 'user',
       status: 'pending',
-      data: event.data || {
+      data: event?.data || {
         payload: {},
         schema: {
           type: 'object',
@@ -956,7 +956,7 @@ export class EventSystemPure {
           iv: ''
         }
       },
-      metadata: event.metadata || {
+      metadata: event?.metadata || {
         version: '1.0.0',
         category: 'general',
         tags: [],
@@ -967,22 +967,22 @@ export class EventSystemPure {
         requestId: ''
       },
       timestamp: new Date(),
-      source: event.source || {
+      source: event?.source || {
         id: 'system',
         type: 'system',
         name: 'System',
         version: '1.0.0',
         location: 'local'
       },
-      target: event.target || {
+      target: event?.target || {
         id: 'default',
         type: 'handler',
         name: 'Default Handler',
         endpoint: '',
         method: 'POST'
       },
-      priority: event.priority || 'normal',
-      persistence: event.persistence || {
+      priority: event?.priority || 'normal',
+      persistence: event?.persistence || {
         enabled: false,
         ttl: 3600000, // 1 hour
         storage: {
@@ -1002,9 +1002,9 @@ export class EventSystemPure {
       ...event
     };
 
-    manager.events.push(newEvent);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalEvents++;
+    manager?.events?.push(newEvent);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalEvents++;
 
     return {
       op: 'create-event',
@@ -1017,14 +1017,14 @@ export class EventSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): EventSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): EventSystemAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1038,26 +1038,26 @@ export class EventSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalEvents = 0;
     let processedEvents = 0;
     let failedEvents = 0;
     let totalHandlers = 0;
     let activeHandlers = 0;
 
-    for (const manager of this.managers.values()) {
-      totalEvents += manager.events.length;
-      processedEvents += manager.events.filter((e: any) => e.status === 'completed').length;
-      failedEvents += manager.events.filter((e: any) => e.status === 'failed').length;
-      totalHandlers += manager.handlers.length;
-      activeHandlers += manager.handlers.filter((h: any) => h.status === 'active').length;
+    for (const manager of this?.managers.values()) {
+      totalEvents += manager?.events.length;
+      processedEvents += manager?.events.filter((e: any) => e?.status === 'completed').length;
+      failedEvents += manager?.events.filter((e: any) => e?.status === 'failed').length;
+      totalHandlers += manager?.handlers.length;
+      activeHandlers += manager?.handlers.filter((h: any) => h?.status === 'active').length;
     }
 
-    this.performanceMetrics.totalEvents = totalEvents;
-    this.performanceMetrics.processedEvents = processedEvents;
-    this.performanceMetrics.failedEvents = failedEvents;
-    this.performanceMetrics.totalHandlers = totalHandlers;
-    this.performanceMetrics.activeHandlers = activeHandlers;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalEvents = totalEvents;
+    this?.performanceMetrics.processedEvents = processedEvents;
+    this?.performanceMetrics.failedEvents = failedEvents;
+    this?.performanceMetrics.totalHandlers = totalHandlers;
+    this?.performanceMetrics.activeHandlers = activeHandlers;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

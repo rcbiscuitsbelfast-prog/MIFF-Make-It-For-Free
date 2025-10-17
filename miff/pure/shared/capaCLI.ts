@@ -19,21 +19,21 @@ class CAPACLI {
 
   constructor(...args: any[]) {
     
-    this.eventBus = new EventBus();
-    this.registry = new CAPARegistryManager(this.eventBus);
+    this?.eventBus = new EventBus();
+    this?.registry = new CAPARegistryManager(this?.eventBus);
   }
 
   async run(): Promise<void> {
-    await this.registry.initialize();
+    await this?.registry.initialize({});
 
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'list':
           try {
-            await this.listEntries(args.slice(1));
+            await this?.listEntries(args?.slice(1));
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
             console.error('Error listing entries:', err instanceof Error ? err.message : String(err));
@@ -41,29 +41,29 @@ class CAPACLI {
           }
           break;
         case 'create':
-          await this.createEntry(args.slice(1));
+          await this?.createEntry(args?.slice(1));
           break;
         case 'update':
-          await this.updateEntry(args.slice(1));
+          await this?.updateEntry(args?.slice(1));
           break;
         case 'show':
-          await this.showEntry(args.slice(1));
+          await this?.showEntry(args?.slice(1));
           break;
         case 'report':
-          await this.generateReport(args.slice(1));
+          await this?.generateReport(args?.slice(1));
           break;
         case 'check':
-          await this.checkPR(args.slice(1));
+          await this?.checkPR(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
@@ -71,32 +71,32 @@ class CAPACLI {
     const filter: any = {};
     
     // Parse filter arguments
-    for (let i = 0; i < args.length; i += 2) {
+    for (let i = 0; i < args?.length; i += 2) {
       const key = args[i!];
       const value = args[i + 1];
       
       switch (key) {
         case '--category':
-          filter.category = value as CAPACategory;
+          filter?.category = value as CAPACategory;
           break;
         case '--severity':
-          filter.severity = value as CAPASeverity;
+          filter?.severity = value as CAPASeverity;
           break;
         case '--status':
-          filter.status = value as CAPAStatus;
+          filter?.status = value as CAPAStatus;
           break;
         case '--module':
-          filter.module = value;
+          filter?.module = value;
           break;
         case '--assigned-to':
-          filter.assignedTo = value;
+          filter?.assignedTo = value;
           break;
       }
     }
 
-    const entries = this.registry.getEntries(filter);
+    const entries = this?.registry.getEntries(filter);
     
-    if (entries.length === 0) {
+    if (entries?.length === 0) {
       console.info('📝 No CAPA entries found matching criteria');
       return;
     }
@@ -104,13 +104,13 @@ class CAPACLI {
     console.info(`📝 Found ${entries.length} CAPA entries:\n`);
     
     for (const entry of entries) {
-      const statusIcon = this.getStatusIcon(entry.status);
-      const severityIcon = this.getSeverityIcon(entry.severity);
+      const statusIcon = this?.getStatusIcon(entry?.status);
+      const severityIcon = this?.getSeverityIcon(entry?.severity);
       
       console.info(`${statusIcon} ${severityIcon} ${entry.id}: ${entry.title}`);
       console.info(`   Category: ${entry.category} | Modules: ${entry.relatedModules.join(', ')}`);
       console.info(`   Discovered: ${entry.discoveredAt.toISOString().split('T')[0!]}`);
-      if (entry.assignedTo) {
+      if (entry?.assignedTo) {
         console.info(`   Assigned to: ${entry.assignedTo}`);
       }
       console.info('');
@@ -118,7 +118,7 @@ class CAPACLI {
   }
 
   private async createEntry(args: string[]): Promise<void> {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.error('❌ Usage: create <title> <description> [options!]');
       console.error('   Options: --category <category> --severity <severity> --module <module>');
       return;
@@ -130,8 +130,8 @@ class CAPACLI {
     const entry: any = {
       title,
       description,
-      category: CAPACategory.SCHEMA_DRIFT,
-      severity: CAPASeverity.MEDIUM,
+      category: CAPACategory?.SCHEMA_DRIFT,
+      severity: CAPASeverity?.MEDIUM,
       impact: {
         modulesAffected: [],
         usersAffected: ['Contributors'],
@@ -148,35 +148,35 @@ class CAPACLI {
     };
 
     // Parse options
-    for (let i = 2; i < args.length; i += 2) {
+    for (let i = 2; i < args?.length; i += 2) {
       const key = args[i!];
       const value = args[i + 1];
       
       switch (key) {
         case '--category':
-          entry.category = value as CAPACategory;
+          entry?.category = value as CAPACategory;
           break;
         case '--severity':
-          entry.severity = value as CAPASeverity;
+          entry?.severity = value as CAPASeverity;
           break;
         case '--module':
-          entry.relatedModules.push(value);
+          entry?.relatedModules?.push(value: any);
           break;
         case '--tag':
-          entry.tags.push(value);
+          entry?.tags?.push(value: any);
           break;
         case '--ci-blocking':
-          entry.ciBlocking = true;
+          entry?.ciBlocking = true;
           i--; // No value for this flag
           break;
         case '--pr-required':
-          entry.prRequired = true;
+          entry?.prRequired = true;
           i--; // No value for this flag
           break;
       }
     }
 
-    const created = await this.registry.createEntry(entry);
+    const created = await this?.registry.createEntry(entry);
     console.info(`✅ Created CAPA entry: ${created.id}`);
     console.info(`   Title: ${created.title}`);
     console.info(`   Severity: ${created.severity}`);
@@ -184,7 +184,7 @@ class CAPACLI {
   }
 
   private async updateEntry(args: string[]): Promise<void> {
-    if (args.length < 3) {
+    if (args?.length < 3) {
       console.error('❌ Usage: update <id> <status> [resolution!]');
       return;
     }
@@ -193,7 +193,7 @@ class CAPACLI {
     const status = args[1!] as CAPAStatus;
     const resolution = args[2!];
 
-    const success = await this.registry.updateStatus(id, status, resolution);
+    const success = await this?.registry.updateStatus(id, status, resolution);
     
     if (success) {
       console.info(`✅ Updated CAPA entry ${id} to ${status}`);
@@ -203,14 +203,14 @@ class CAPACLI {
   }
 
   private async showEntry(args: string[]): Promise<void> {
-    if (args.length < 1) {
+    if (args?.length < 1) {
       console.error('❌ Usage: show <id>');
       return;
     }
 
     const id = args[0!];
-    const entries = this.registry.getEntries();
-    const entry = entries.find(e => e.id === id);
+    const entries = this?.registry.getEntries();
+    const entry = entries?.find(e => e?.id === id);
 
     if (!entry) {
       console.error(`❌ CAPA entry not found: ${id}`);
@@ -223,10 +223,10 @@ class CAPACLI {
     console.info(`**Severity:** ${entry.severity}`);
     console.info(`**Status:** ${entry.status}`);
     console.info(`**Discovered:** ${entry.discoveredAt.toISOString()}`);
-    if (entry.resolvedAt) {
+    if (entry?.resolvedAt) {
       console.info(`**Resolved:** ${entry.resolvedAt.toISOString()}`);
     }
-    if (entry.assignedTo) {
+    if (entry?.assignedTo) {
       console.info(`**Assigned to:** ${entry.assignedTo}`);
     }
     console.info(`**Modules:** ${entry.relatedModules.join(', ')}`);
@@ -241,47 +241,47 @@ class CAPACLI {
     console.info(`- Technical Debt: ${entry.impact.technicalDebt}/10`);
     console.info(`- Risk Level: ${entry.impact.riskLevel}\n`);
 
-    if (entry.correctiveActions.length > 0) {
+    if (entry?.correctiveActions.length > 0) {
       console.info(`**Corrective Actions:**`);
-      for (const action of entry.correctiveActions) {
+      for (const action of entry?.correctiveActions) {
         console.info(`- ${action.description} (${action.status})`);
       }
       console.info('');
     }
 
-    if (entry.preventiveActions.length > 0) {
+    if (entry?.preventiveActions.length > 0) {
       console.info(`**Preventive Actions:**`);
-      for (const action of entry.preventiveActions) {
+      for (const action of entry?.preventiveActions) {
         console.info(`- ${action.description} (${action.status})`);
       }
       console.info('');
     }
 
-    if (entry.resolution) {
+    if (entry?.resolution) {
       console.info(`**Resolution:** ${entry.resolution}\n`);
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const report = this.registry.generateReport();
+    const report = this?.registry.generateReport();
     console.info(report);
   }
 
   private async checkPR(args: string[]): Promise<void> {
-    if (args.length < 1) {
+    if (args?.length < 1) {
       console.error('❌ Usage: check <module> [changes...]');
       return;
     }
 
     const module = args[0!];
-    const changes = args.slice(1);
+    const changes = args?.slice(1);
 
-    const result = this.registry.shouldBlockPR(module, changes);
+    const result = this?.registry.shouldBlockPR(module, changes);
     
-    if (result.blocked) {
+    if (result?.blocked) {
       console.info('🚫 PR should be BLOCKED');
       console.info('Reasons:');
-      for (const reason of result.reasons) {
+      for (const reason of result?.reasons) {
         console.info(`  - ${reason}`);
       }
     } else {
@@ -289,7 +289,7 @@ class CAPACLI {
     }
 
     // Generate impact statement
-    const impactStatement = this.registry.generateImpactStatement(module, changes);
+    const impactStatement = this?.registry.generateImpactStatement(module, changes);
     console.info('\n' + impactStatement);
   }
 
@@ -297,7 +297,7 @@ class CAPACLI {
     console.info(`
 🛡️ CAPA CLI Tool
 
-Usage: tsx capaCLI.ts <command> [options!]
+Usage: tsx capaCLI?.ts <command> [options!]
 
 Commands:
   list                    List CAPA entries
@@ -336,44 +336,44 @@ Severities: critical, high, medium, low
 Statuses: open, in_progress, review, resolved, closed, deferred
 
 Examples:
-  tsx capaCLI.ts list --severity critical
-  tsx capaCLI.ts create "Test Issue" "Description" --severity high --module TestPure
-  tsx capaCLI.ts update CAPA-123 resolved "Fixed in PR #456"
-  tsx capaCLI.ts check UnityBridgePure src/UnityBridgePure/index.ts
+  tsx capaCLI?.ts list --severity critical
+  tsx capaCLI?.ts create "Test Issue" "Description" --severity high --module TestPure
+  tsx capaCLI?.ts update CAPA-123 resolved "Fixed in PR #456"
+  tsx capaCLI?.ts check UnityBridgePure src/UnityBridgePure/index?.ts
 `);
   }
 
   private getStatusIcon(status: CAPAStatus): string {
     switch (status) {
-      case CAPAStatus.OPEN: return '🔴';
-      case CAPAStatus.IN_PROGRESS: return '🟡';
-      case CAPAStatus.REVIEW: return '🔵';
-      case CAPAStatus.RESOLVED: return '🟢';
-      case CAPAStatus.CLOSED: return '✅';
-      case CAPAStatus.DEFERRED: return '⏸️';
+      case CAPAStatus?.OPEN: return '🔴';
+      case CAPAStatus?.IN_PROGRESS: return '🟡';
+      case CAPAStatus?.REVIEW: return '🔵';
+      case CAPAStatus?.RESOLVED: return '🟢';
+      case CAPAStatus?.CLOSED: return '✅';
+      case CAPAStatus?.DEFERRED: return '⏸️';
       default: return '❓';
     }
   }
 
   private getSeverityIcon(severity: CAPASeverity): string {
     switch (severity) {
-      case CAPASeverity.CRITICAL: return '🚨';
-      case CAPASeverity.HIGH: return '⚠️';
-      case CAPASeverity.MEDIUM: return '📝';
-      case CAPASeverity.LOW: return 'ℹ️';
+      case CAPASeverity?.CRITICAL: return '🚨';
+      case CAPASeverity?.HIGH: return '⚠️';
+      case CAPASeverity?.MEDIUM: return '📝';
+      case CAPASeverity?.LOW: return 'ℹ️';
       default: return '❓';
     }
   }
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new CAPACLI();
-  cli.run().catch((error) => {
+  cli?.run().catch((error) => {
     console.error('CAPA CLI Error:', err instanceof Error ? err.message : String(err));
     // Only exit with code 1 for non-list commands
-    if (process.argv[2!] !== 'list') {
-      process.exit(1);
+    if (process?.argv[2!] !== 'list') {
+      process?.exit(1);
     }
   });
 }

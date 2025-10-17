@@ -14,15 +14,15 @@ class MockEventBus {
   private events: Map<string, Function[]> = new Map();
 
   emit(event: string, data: any) {
-    const handlers = this.events.get(event) || [];
-    handlers.forEach(handler => handler(data));
+    const handlers = this?.events.get(event) || [];
+    handlers?.forEach(handler => handler(data: any));
   }
 
   on(event: string, handler: Function) {
-    if (!this.events.has(event)) {
-      this.events.set(event, []);
+    if (!this?.events.has(event)) {
+      this?.events.set(event, []);
     }
-    this.events.get(event)!.push(handler);
+    this?.events.get(event)!.push(handler);
   }
 }
 
@@ -31,12 +31,12 @@ class MockRNG {
   private index = 0;
 
   setNextFloat(value: number) {
-    this.values.push(value);
+    this?.values?.push(value: any);
   }
 
   nextFloat(): number {
-    if (this.values.length > 0) {
-      return this.values[this.index++] || 0.5;
+    if (this?.values.length > 0) {
+      return this?.values[this?.index++] || 0.5;
     }
     return Math.random();
   }
@@ -174,42 +174,42 @@ describe('RitualSystemPure Golden Tests', () => {
 
   describe('Core System Initialization', () => {
     test('should initialize with default configuration', () => {
-      const config = ritualSystem.getConfig();
+      const config = ritualSystem?.getConfig();
 
-      expect(config.maxActiveRituals).toBe(10);
-      expect(config.maxParticipantsPerRitual).toBe(8);
-      expect(config.ritualTimeout).toBe(3600000);
-      expect(config.qualityThresholds.poor).toBe(0.2);
-      expect(config.qualityThresholds.average).toBe(0.5);
-      expect(config.qualityThresholds.good).toBe(0.7);
-      expect(config.qualityThresholds.excellent).toBe(0.9);
+      expect(config?.maxActiveRituals).toBe(10);
+      expect(config?.maxParticipantsPerRitual).toBe(8);
+      expect(config?.ritualTimeout).toBe(3600000);
+      expect(config?.qualityThresholds.poor).toBe(0.2);
+      expect(config?.qualityThresholds.average).toBe(0.5);
+      expect(config?.qualityThresholds.good).toBe(0.7);
+      expect(config?.qualityThresholds.excellent).toBe(0.9);
     });
 
     test('should initialize with empty statistics', () => {
-      const stats = ritualSystem.getStats();
+      const stats = ritualSystem?.getStats();
 
-      expect(stats.totalRituals).toBe(0);
-      expect(stats.activeRituals).toBe(0);
-      expect(stats.completedRituals).toBe(0);
-      expect(stats.averageQuality).toBe(0);
-      expect(stats.mostCommonCategory).toBe('none');
-      expect(stats.totalExperienceGranted).toBe(0);
+      expect(stats?.totalRituals).toBe(0);
+      expect(stats?.activeRituals).toBe(0);
+      expect(stats?.completedRituals).toBe(0);
+      expect(stats?.averageQuality).toBe(0);
+      expect(stats?.mostCommonCategory).toBe('none');
+      expect(stats?.totalExperienceGranted).toBe(0);
     });
 
     test('should initialize with basic ritual definitions', () => {
-      const ritualDef = ritualSystem.getRitualDefinition('summon-familiar');
+      const ritualDef = ritualSystem?.getRitualDefinition('summon-familiar');
 
       expect(ritualDef).toBeDefined();
       expect(ritualDef?.name).toBe('Summon Familiar');
       expect(ritualDef?.category).toBe('summoning');
-      expect(ritualDef?.steps.length).toBeGreaterThan(0);
+      expect(ritualDef?.steps?.length).toBeGreaterThan(0);
     });
   });
 
   describe('Ritual Definition Management', () => {
     test('should retrieve ritual definitions by ID', () => {
-      const retrievedRitual = ritualSystem.getRitualDefinition('summon-familiar');
-      const nonExistentRitual = ritualSystem.getRitualDefinition('non-existent-ritual');
+      const retrievedRitual = ritualSystem?.getRitualDefinition('summon-familiar');
+      const nonExistentRitual = ritualSystem?.getRitualDefinition('non-existent-ritual');
 
       expect(retrievedRitual).toBeDefined();
       expect(retrievedRitual?.id).toBe('summon-familiar');
@@ -225,9 +225,9 @@ describe('RitualSystemPure Golden Tests', () => {
 
       // This would normally validate in the manager
       // For now, just check that valid rituals can be accessed
-      const validRitual = ritualSystem.getRitualDefinition('summon-familiar');
+      const validRitual = ritualSystem?.getRitualDefinition('summon-familiar');
       expect(validRitual).toBeDefined();
-      expect(validRitual?.steps.length).toBeGreaterThan(0);
+      expect(validRitual?.steps?.length).toBeGreaterThan(0);
     });
 
     test('should support different ritual categories and tiers', () => {
@@ -235,81 +235,81 @@ describe('RitualSystemPure Golden Tests', () => {
       const categories = new Set<string>();
       const tiers = new Set<string>();
 
-      rituals.forEach(ritualId => {
-        const ritual = ritualSystem.getRitualDefinition(ritualId);
+      rituals?.forEach(ritualId => {
+        const ritual = ritualSystem?.getRitualDefinition(ritualId);
         if (ritual) {
-          categories.add(ritual.category);
-          tiers.add(ritual.tier);
+          categories?.add(ritual?.category);
+          tiers?.add(ritual?.tier);
         }
       });
 
-      expect(categories.size).toBeGreaterThan(1); // Multiple categories
-      expect(tiers.size).toBeGreaterThan(1); // Multiple tiers
+      expect(categories?.size).toBeGreaterThan(1); // Multiple categories
+      expect(tiers?.size).toBeGreaterThan(1); // Multiple tiers
     });
   });
 
   describe('Ritual Instance Management', () => {
     test('should start new rituals', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', ['test-participant']);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', ['test-participant']);
 
       expect(ritual).toBeDefined();
-      expect(ritual?.definition.id).toBe('summon-familiar');
+      expect(ritual?.definition?.id).toBe('summon-familiar');
       expect(ritual?.leaderId).toBe('test-leader');
-      expect(ritual?.participants.length).toBe(2); // Leader + 1 participant
+      expect(ritual?.participants?.length).toBe(2); // Leader + 1 participant
       expect(ritual?.status).toBe('preparing');
       expect(ritual?.currentStep).toBe(0);
     });
 
     test('should retrieve active rituals', () => {
-      ritualSystem.startRitual('summon-familiar', 'test-leader', ['test-participant']);
+      ritualSystem?.startRitual('summon-familiar', 'test-leader', ['test-participant']);
 
-      const activeRituals = ritualSystem.getActiveRituals();
-      expect(activeRituals.length).toBe(1);
-      expect(activeRituals[0!].definition.id).toBe('summon-familiar');
+      const activeRituals = ritualSystem?.getActiveRituals();
+      expect(activeRituals?.length).toBe(1);
+      expect(activeRituals[0!].definition?.id).toBe('summon-familiar');
     });
 
     test('should handle ritual limits', () => {
       // Start maximum number of rituals
-      const config = ritualSystem.getConfig();
-      config.maxActiveRituals = 2;
-      ritualSystem.updateConfig(config);
+      const config = ritualSystem?.getConfig();
+      config?.maxActiveRituals = 2;
+      ritualSystem?.updateConfig(config);
 
-      ritualSystem.startRitual('summon-familiar', 'leader-1', []);
-      ritualSystem.startRitual('binding-ceremony', 'leader-2', []);
+      ritualSystem?.startRitual('summon-familiar', 'leader-1', []);
+      ritualSystem?.startRitual('binding-ceremony', 'leader-2', []);
 
       // Try to start a third ritual (should fail)
-      const thirdRitual = ritualSystem.startRitual('summon-familiar', 'leader-3', []);
+      const thirdRitual = ritualSystem?.startRitual('summon-familiar', 'leader-3', []);
       expect(thirdRitual).toBeDefined(); // Should still work, just warning logged
     });
 
     test('should validate participant count limits', () => {
-      const largeRitual = ritualSystem.getRitualDefinition('binding-ceremony');
+      const largeRitual = ritualSystem?.getRitualDefinition('binding-ceremony');
       if (largeRitual) {
         // Try to start with too many participants
         const tooManyParticipants = [];
         for (let i = 0; i < 10; i++) {
-          tooManyParticipants.push(`participant-${i}`);
+          tooManyParticipants?.push(`participant-${i}`);
         }
 
-        const ritual = ritualSystem.startRitual('binding-ceremony', 'leader', tooManyParticipants);
+        const ritual = ritualSystem?.startRitual('binding-ceremony', 'leader', tooManyParticipants);
 
         // Should still work but log warnings about participant limits
         expect(ritual).toBeDefined();
         if (ritual) {
-          expect(ritual.participants.length).toBeGreaterThan(largeRitual.maxParticipants);
+          expect(ritual?.participants.length).toBeGreaterThan(largeRitual?.maxParticipants);
         }
       }
     });
 
     test('should create proper participant objects', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', ['test-participant']);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', ['test-participant']);
 
       expect(ritual).toBeDefined();
       if (ritual) {
-        expect(ritual.participants.length).toBe(2);
+        expect(ritual?.participants.length).toBe(2);
 
-        const leader = ritual.participants.find(p => p.role === 'leader');
-        const participant = ritual.participants.find(p => p.role === 'participant');
+        const leader = ritual?.participants.find(p => p?.role === 'leader');
+        const participant = ritual?.participants.find(p => p?.role === 'participant');
 
         expect(leader).toBeDefined();
         expect(leader?.id).toBe('test-leader');
@@ -324,53 +324,53 @@ describe('RitualSystemPure Golden Tests', () => {
 
   describe('Ritual Progression', () => {
     test('should progress through ritual steps', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        expect(ritual.currentStep).toBe(0);
-        expect(ritual.status).toBe('preparing');
+        expect(ritual?.currentStep).toBe(0);
+        expect(ritual?.status).toBe('preparing');
 
         // Progress to active
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
-        expect(result).toBeDefined();
+        expect(result: any).toBeDefined();
         expect(result?.success).toBe(true);
-        expect(result?.ritualId).toBe(ritual.id);
+        expect(result?.ritualId).toBe(ritual?.id);
         expect(result?.energySpent).toBeGreaterThan(0);
       }
     });
 
     test('should handle step requirements', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Set high success rate for first step
-        rng.setNextFloat(0.95);
+        rng?.setNextFloat(0.95);
 
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
         expect(result?.success).toBe(true);
-        expect(result?.effectsApplied.length).toBeGreaterThanOrEqual(0);
+        expect(result?.effectsApplied?.length).toBeGreaterThanOrEqual(0);
       }
     });
 
     test('should handle step failures', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Set low success rate to trigger failure
-        rng.setNextFloat(0.05);
+        rng?.setNextFloat(0.05);
 
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
         expect(result?.success).toBe(false);
         expect(result?.failureReason).toContain('failed');
@@ -378,17 +378,17 @@ describe('RitualSystemPure Golden Tests', () => {
     });
 
     test('should update ritual progress', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
-        ritual.progress = 0;
+        ritual?.status = 'active';
+        ritual?.progress = 0;
 
-        ritualSystem.progressRitual(ritual.id);
+        ritualSystem?.progressRitual(ritual?.id);
 
         // Progress should be updated
-        const updatedRitual = ritualSystem.getActiveRitual(ritual.id);
+        const updatedRitual = ritualSystem?.getActiveRitual(ritual?.id);
         expect(updatedRitual?.currentStep).toBe(1);
         expect(updatedRitual?.progress).toBeGreaterThan(0);
       }
@@ -397,87 +397,87 @@ describe('RitualSystemPure Golden Tests', () => {
 
   describe('Ritual Effects and Outcomes', () => {
     test('should apply ritual effects', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Set high success rate
-        rng.setNextFloat(0.9);
+        rng?.setNextFloat(0.9);
 
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
-        if (result?.success && result.effectsApplied.length > 0) {
-          expect(result.effectsApplied.some(effect => effect.type === 'summon')).toBe(true);
+        if (result?.success && result?.effectsApplied.length > 0) {
+          expect(result?.effectsApplied.some(effect => effect?.type === 'summon')).toBe(true);
         }
       }
     });
 
     test('should apply failure effects', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Set low success rate
-        rng.setNextFloat(0.05);
+        rng?.setNextFloat(0.05);
 
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
-        if (!result?.success && result?.effectsApplied.length > 0) {
-          expect(result.effectsApplied.some(effect => effect.type === 'damage')).toBe(true);
+        if (!result?.success && result?.effectsApplied?.length > 0) {
+          expect(result?.effectsApplied.some(effect => effect?.type === 'damage')).toBe(true);
         }
       }
     });
 
     test('should handle summoned entities', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Set high success rate for summoning
-        rng.setNextFloat(0.9);
-        rng.setNextFloat(0.95); // Also high for summon effect
+        rng?.setNextFloat(0.9);
+        rng?.setNextFloat(0.95); // Also high for summon effect
 
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
-        if (result?.success && result.summonedEntities.length > 0) {
-          const entity = result.summonedEntities[0!];
-          expect(entity.name).toContain('familiar');
-          expect(entity.type).toBeDefined();
-          expect(entity.level).toBeGreaterThan(0);
+        if (result?.success && result?.summonedEntities.length > 0) {
+          const entity = result?.summonedEntities[0!];
+          expect(entity?.name).toContain('familiar');
+          expect(entity?.type).toBeDefined();
+          expect(entity?.level).toBeGreaterThan(0);
         }
       }
     });
 
     test('should calculate ritual quality', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
         // Simulate good participant contributions
-        ritual.participants.forEach(p => {
-          p.manaContribution = 100;
+        ritual?.participants.forEach(p => {
+          p?.manaContribution = 100;
         });
 
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Progress through all steps
-        let result = ritualSystem.progressRitual(ritual.id);
+        let result = ritualSystem?.progressRitual(ritual?.id);
         if (result?.success) {
-          result = ritualSystem.progressRitual(ritual.id);
+          result = ritualSystem?.progressRitual(ritual?.id);
         }
 
         // Complete the ritual
         if (result?.success) {
-          const finalResult = ritualSystem.progressRitual(ritual.id);
+          const finalResult = ritualSystem?.progressRitual(ritual?.id);
           if (finalResult?.success) {
-            expect(finalResult.quality).toBeGreaterThanOrEqual(0);
-            expect(finalResult.quality).toBeLessThanOrEqual(1);
+            expect(finalResult?.quality).toBeGreaterThanOrEqual(0);
+            expect(finalResult?.quality).toBeLessThanOrEqual(1);
           }
         }
       }
@@ -486,20 +486,20 @@ describe('RitualSystemPure Golden Tests', () => {
 
   describe('Ritual Cancellation and Management', () => {
     test('should cancel rituals', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        const cancelled = ritualSystem.cancelRitual(ritual.id);
+        const cancelled = ritualSystem?.cancelRitual(ritual?.id);
         expect(cancelled).toBe(true);
 
-        const activeRituals = ritualSystem.getActiveRituals();
-        expect(activeRituals.length).toBe(0);
+        const activeRituals = ritualSystem?.getActiveRituals();
+        expect(activeRituals?.length).toBe(0);
       }
     });
 
     test('should not cancel non-existent rituals', () => {
-      const cancelled = ritualSystem.cancelRitual('non-existent-ritual');
+      const cancelled = ritualSystem?.cancelRitual('non-existent-ritual');
       expect(cancelled).toBe(false);
     });
 
@@ -510,50 +510,50 @@ describe('RitualSystemPure Golden Tests', () => {
         enableEnvironmentalEffects: false
       };
 
-      ritualSystem.updateConfig(newConfig);
+      ritualSystem?.updateConfig(newConfig);
 
-      const updatedConfig = ritualSystem.getConfig();
-      expect(updatedConfig.maxActiveRituals).toBe(20);
-      expect(updatedConfig.maxParticipantsPerRitual).toBe(12);
-      expect(updatedConfig.enableEnvironmentalEffects).toBe(false);
+      const updatedConfig = ritualSystem?.getConfig();
+      expect(updatedConfig?.maxActiveRituals).toBe(20);
+      expect(updatedConfig?.maxParticipantsPerRitual).toBe(12);
+      expect(updatedConfig?.enableEnvironmentalEffects).toBe(false);
     });
   });
 
   describe('Statistics and Analytics', () => {
     test('should track ritual statistics', () => {
       // Start and complete a ritual
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Progress through steps
-        ritualSystem.progressRitual(ritual.id);
-        ritualSystem.progressRitual(ritual.id);
+        ritualSystem?.progressRitual(ritual?.id);
+        ritualSystem?.progressRitual(ritual?.id);
 
         // Complete the ritual
-        ritualSystem.progressRitual(ritual.id);
+        ritualSystem?.progressRitual(ritual?.id);
       }
 
-      const stats = ritualSystem.getStats();
+      const stats = ritualSystem?.getStats();
 
-      expect(stats.totalRituals).toBeGreaterThan(0);
-      expect(stats.activeRituals).toBe(0); // Should be completed
-      expect(stats.completedRituals).toBeGreaterThan(0);
-      expect(stats.totalExperienceGranted).toBeGreaterThanOrEqual(0);
+      expect(stats?.totalRituals).toBeGreaterThan(0);
+      expect(stats?.activeRituals).toBe(0); // Should be completed
+      expect(stats?.completedRituals).toBeGreaterThan(0);
+      expect(stats?.totalExperienceGranted).toBeGreaterThanOrEqual(0);
     });
 
     test('should track multiple rituals', () => {
       // Start multiple rituals
-      ritualSystem.startRitual('summon-familiar', 'leader-1', []);
-      ritualSystem.startRitual('binding-ceremony', 'leader-2', []);
+      ritualSystem?.startRitual('summon-familiar', 'leader-1', []);
+      ritualSystem?.startRitual('binding-ceremony', 'leader-2', []);
 
-      const stats = ritualSystem.getStats();
+      const stats = ritualSystem?.getStats();
 
-      expect(stats.totalRituals).toBe(2);
-      expect(stats.activeRituals).toBe(2);
-      expect(stats.completedRituals).toBe(0);
+      expect(stats?.totalRituals).toBe(2);
+      expect(stats?.activeRituals).toBe(2);
+      expect(stats?.completedRituals).toBe(0);
     });
   });
 
@@ -562,30 +562,30 @@ describe('RitualSystemPure Golden Tests', () => {
       let ritualStarted = false;
       let ritualCompleted = false;
 
-      eventBus.on('ritual:started', (data) => {
+      eventBus?.on('ritual:started', (data: any) => {
         ritualStarted = true;
-        expect(data.ritualType).toBe('summon-familiar');
-        expect(data.leaderId).toBe('test-leader');
-        expect(data.participantCount).toBe(1);
+        expect(data?.ritualType).toBe('summon-familiar');
+        expect(data?.leaderId).toBe('test-leader');
+        expect(data?.participantCount).toBe(1);
       });
 
-      eventBus.on('ritual:completed', (data) => {
+      eventBus?.on('ritual:completed', (data: any) => {
         ritualCompleted = true;
-        expect(data.ritualId).toBeDefined();
-        expect(data.quality).toBeGreaterThanOrEqual(0);
+        expect(data?.ritualId).toBeDefined();
+        expect(data?.quality).toBeGreaterThanOrEqual(0);
       });
 
       // Start and complete a ritual
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritualStarted).toBe(true);
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
         // Progress through steps to completion
-        ritualSystem.progressRitual(ritual.id);
-        ritualSystem.progressRitual(ritual.id);
-        ritualSystem.progressRitual(ritual.id);
+        ritualSystem?.progressRitual(ritual?.id);
+        ritualSystem?.progressRitual(ritual?.id);
+        ritualSystem?.progressRitual(ritual?.id);
       }
 
       // Events should have been emitted
@@ -595,19 +595,19 @@ describe('RitualSystemPure Golden Tests', () => {
     test('should emit step completion events', () => {
       let stepCompleted = false;
 
-      eventBus.on('ritual:step-completed', (data) => {
+      eventBus?.on('ritual:step-completed', (data: any) => {
         stepCompleted = true;
-        expect(data.ritualId).toBeDefined();
-        expect(data.stepId).toBeDefined();
-        expect(data.energyConsumed).toBeGreaterThan(0);
+        expect(data?.ritualId).toBeDefined();
+        expect(data?.stepId).toBeDefined();
+        expect(data?.energyConsumed).toBeGreaterThan(0);
       });
 
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
 
       if (ritual) {
-        ritual.status = 'active';
+        ritual?.status = 'active';
 
-        ritualSystem.progressRitual(ritual.id);
+        ritualSystem?.progressRitual(ritual?.id);
 
         expect(stepCompleted).toBe(true);
       }
@@ -616,43 +616,43 @@ describe('RitualSystemPure Golden Tests', () => {
 
   describe('Performance and Scalability', () => {
     test('should handle multiple concurrent rituals efficiently', () => {
-      const startTime = performance.now();
+      const startTime = performance?.now();
 
       // Start many rituals
       for (let i = 0; i < 50; i++) {
-        const ritual = ritualSystem.startRitual('summon-familiar', `leader-${i}`, [`participant-${i}`]);
+        const ritual = ritualSystem?.startRitual('summon-familiar', `leader-${i}`, [`participant-${i}`]);
         expect(ritual).toBeDefined();
       }
 
-      const endTime = performance.now();
+      const endTime = performance?.now();
       const duration = endTime - startTime;
 
       expect(duration).toBeLessThan(500); // Should be reasonably fast
 
-      const activeRituals = ritualSystem.getActiveRituals();
-      expect(activeRituals.length).toBe(50);
+      const activeRituals = ritualSystem?.getActiveRituals();
+      expect(activeRituals?.length).toBe(50);
     });
 
     test('should handle ritual progression without memory leaks', () => {
-      const initialMemory = process.memoryUsage().heapUsed;
+      const initialMemory = process?.memoryUsage().heapUsed;
 
       // Progress many ritual steps
       for (let i = 0; i < 100; i++) {
-        const ritual = ritualSystem.startRitual('summon-familiar', `leader-${i}`, []);
+        const ritual = ritualSystem?.startRitual('summon-familiar', `leader-${i}`, []);
         if (ritual) {
-          ritual.status = 'active';
+          ritual?.status = 'active';
 
           // Progress through multiple steps
-          ritualSystem.progressRitual(ritual.id);
-          ritualSystem.progressRitual(ritual.id);
-          ritualSystem.progressRitual(ritual.id);
+          ritualSystem?.progressRitual(ritual?.id);
+          ritualSystem?.progressRitual(ritual?.id);
+          ritualSystem?.progressRitual(ritual?.id);
 
           // Cancel the ritual
-          ritualSystem.cancelRitual(ritual.id);
+          ritualSystem?.cancelRitual(ritual?.id);
         }
       }
 
-      const finalMemory = process.memoryUsage().heapUsed;
+      const finalMemory = process?.memoryUsage().heapUsed;
       const memoryIncrease = finalMemory - initialMemory;
 
       // Should not have excessive memory usage
@@ -662,74 +662,74 @@ describe('RitualSystemPure Golden Tests', () => {
 
   describe('Error Handling and Edge Cases', () => {
     test('should handle invalid ritual IDs gracefully', () => {
-      const result = ritualSystem.progressRitual('invalid-ritual-id');
+      const result = ritualSystem?.progressRitual('invalid-ritual-id');
 
-      expect(result).toBeNull();
+      expect(result: any).toBeNull();
     });
 
     test('should handle inactive rituals', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
       expect(ritual).toBeDefined();
 
       if (ritual) {
         // Try to progress without activating
-        const result = ritualSystem.progressRitual(ritual.id);
+        const result = ritualSystem?.progressRitual(ritual?.id);
 
         // Should not progress
-        expect(result).toBeNull();
+        expect(result: any).toBeNull();
       }
     });
 
     test('should handle ritual timeouts', () => {
-      const config = ritualSystem.getConfig();
-      config.ritualTimeout = 1000; // Very short timeout
-      ritualSystem.updateConfig(config);
+      const config = ritualSystem?.getConfig();
+      config?.ritualTimeout = 1000; // Very short timeout
+      ritualSystem?.updateConfig(config);
 
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
 
       if (ritual) {
         // Wait for timeout (this would normally be handled by a timer system)
         // For testing, we just verify the timeout is configured
-        expect(config.ritualTimeout).toBe(1000);
+        expect(config?.ritualTimeout).toBe(1000);
       }
     });
 
     test('should handle participant contribution validation', () => {
-      const ritual = ritualSystem.startRitual('summon-familiar', 'test-leader', []);
+      const ritual = ritualSystem?.startRitual('summon-familiar', 'test-leader', []);
 
       if (ritual) {
         // This would normally validate participant contributions
         // For now, just verify the structure exists
-        expect(ritual.participants.length).toBeGreaterThan(0);
-        expect(ritual.participants[0!].requirements).toBeDefined();
+        expect(ritual?.participants.length).toBeGreaterThan(0);
+        expect(ritual?.participants[0!].requirements).toBeDefined();
       }
     });
   });
 
   describe('Advanced Features', () => {
     test('should support ritual prerequisites', () => {
-      const advancedRitual = ritualSystem.getRitualDefinition('binding-ceremony');
+      const advancedRitual = ritualSystem?.getRitualDefinition('binding-ceremony');
 
       if (advancedRitual) {
-        expect(advancedRitual.prerequisites).toBeDefined();
+        expect(advancedRitual?.prerequisites).toBeDefined();
         expect(Array.isArray(advancedRitual.prerequisites)).toBe(true);
 
         // The binding ceremony should require the summon familiar ritual
-        expect(advancedRitual.prerequisites).toContain('summon-familiar');
+        expect(advancedRitual?.prerequisites).toContain('summon-familiar');
       }
     });
 
     test('should support different participant roles', () => {
-      const largeRitual = ritualSystem.getRitualDefinition('binding-ceremony');
+      const largeRitual = ritualSystem?.getRitualDefinition('binding-ceremony');
 
       if (largeRitual) {
-        expect(largeRitual.minParticipants).toBe(2);
-        expect(largeRitual.maxParticipants).toBeGreaterThan(2);
+        expect(largeRitual?.minParticipants).toBe(2);
+        expect(largeRitual?.maxParticipants).toBeGreaterThan(2);
 
         // Should support multiple participant roles
-        const allSteps = largeRitual.steps;
-        const hasMultipleRoles = allSteps.some(step =>
-          step.participantRoles.length > 1
+        const allSteps = largeRitual?.steps;
+        const hasMultipleRoles = allSteps?.some(step =>
+          step?.participantRoles.length > 1
         );
 
         expect(hasMultipleRoles).toBe(true);
@@ -737,26 +737,26 @@ describe('RitualSystemPure Golden Tests', () => {
     });
 
     test('should support item and environmental requirements', () => {
-      const ritual = ritualSystem.getRitualDefinition('summon-familiar');
+      const ritual = ritualSystem?.getRitualDefinition('summon-familiar');
 
       if (ritual) {
-        expect(ritual.itemRequirements).toBeDefined();
+        expect(ritual?.itemRequirements).toBeDefined();
         expect(Array.isArray(ritual.itemRequirements)).toBe(true);
-        expect(ritual.itemRequirements.length).toBeGreaterThan(0);
+        expect(ritual?.itemRequirements.length).toBeGreaterThan(0);
 
-        expect(ritual.environmentRequirements).toBeDefined();
+        expect(ritual?.environmentRequirements).toBeDefined();
         expect(Array.isArray(ritual.environmentRequirements)).toBe(true);
-        expect(ritual.environmentRequirements.length).toBeGreaterThan(0);
+        expect(ritual?.environmentRequirements.length).toBeGreaterThan(0);
       }
     });
 
     test('should support different failure consequences', () => {
-      const minorFailureRitual = ritualSystem.getRitualDefinition('summon-familiar');
-      const majorFailureRitual = ritualSystem.getRitualDefinition('binding-ceremony');
+      const minorFailureRitual = ritualSystem?.getRitualDefinition('summon-familiar');
+      const majorFailureRitual = ritualSystem?.getRitualDefinition('binding-ceremony');
 
       if (minorFailureRitual && majorFailureRitual) {
-        expect(minorFailureRitual.failureConsequences).toBe('minor');
-        expect(majorFailureRitual.failureConsequences).toBe('moderate');
+        expect(minorFailureRitual?.failureConsequences).toBe('minor');
+        expect(majorFailureRitual?.failureConsequences).toBe('moderate');
       }
     });
   });

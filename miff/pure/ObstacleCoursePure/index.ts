@@ -11,7 +11,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 export type ObstacleType = 'jump' | 'climb' | 'swing' | 'balance' | 'speed' | 'precision';
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
@@ -49,8 +49,8 @@ export class ObstacleCoursePure {
   private currentPlayerPosition: { x: number; y: number } = { x: 0, y: 0 };
 
   constructor(eventBus: EventBus) {
-    this.eventBus = eventBus;
-    this.initializeCourse();
+    this?.eventBus = eventBus;
+    this?.initializeCourse();
   }
 
   private initializeCourse(): void {
@@ -95,46 +95,46 @@ export class ObstacleCoursePure {
       }
     ];
 
-    obstacles.forEach((obstacle: any) => {
-      this.obstacles.set(obstacle.id, obstacle);
+    obstacles?.forEach((obstacle: any) => {
+      this?.obstacles.set(obstacle?.id, obstacle);
     });
 
-    checkpoints.forEach((checkpoint: any) => {
-      this.checkpoints.set(checkpoint.id, checkpoint);
+    checkpoints?.forEach((checkpoint: any) => {
+      this?.checkpoints.set(checkpoint?.id, checkpoint);
     });
   }
 
   public getObstacles(): Map<string, Obstacle> {
-    return new Map(this.obstacles);
+    return new Map(this?.obstacles);
   }
 
   public getCheckpoints(): Map<string, Checkpoint> {
-    return new Map(this.checkpoints);
+    return new Map(this?.checkpoints);
   }
 
   public getAttempts(): Map<string, CourseAttempt> {
-    return new Map(this.attempts);
+    return new Map(this?.attempts);
   }
 
   public getPlayerPosition(): { x: number; y: number } {
-    return { ...this.currentPlayerPosition };
+    return { ...this?.currentPlayerPosition };
   }
 
   public setPlayerPosition(position: { x: number; y: number }): void {
-    this.currentPlayerPosition = position;
-    this.checkCollisions();
+    this?.currentPlayerPosition = position;
+    this?.checkCollisions();
   }
 
   private checkCollisions(): void {
     // Check for obstacle interactions
-    this.obstacles.forEach((obstacle, obstacleId) => {
+    this?.obstacles.forEach((obstacle, obstacleId) => {
       const distance = Math.sqrt(
         Math.pow(this.currentPlayerPosition.x - obstacle.position.x, 2) +
         Math.pow(this.currentPlayerPosition.y - obstacle.position.y, 2)
       );
 
       if (distance < 10) { // Player reached obstacle
-        this.eventBus.emit('obstacle:reached', {
+        this?.eventBus.emit('obstacle:reached', {
           obstacleId: obstacleId,
           obstacle: obstacle,
           timestamp: new Date()
@@ -143,14 +143,14 @@ export class ObstacleCoursePure {
     });
 
     // Check for checkpoint interactions
-    this.checkpoints.forEach((checkpoint, checkpointId) => {
+    this?.checkpoints.forEach((checkpoint, checkpointId) => {
       const distance = Math.sqrt(
         Math.pow(this.currentPlayerPosition.x - checkpoint.position.x, 2) +
         Math.pow(this.currentPlayerPosition.y - checkpoint.position.y, 2)
       );
 
       if (distance < 15) { // Player reached checkpoint
-        this.eventBus.emit('checkpoint:reached', {
+        this?.eventBus.emit('checkpoint:reached', {
           checkpointId: checkpointId,
           checkpoint: checkpoint,
           timestamp: new Date()
@@ -160,8 +160,8 @@ export class ObstacleCoursePure {
   }
 
   public startAttempt(playerId: string): boolean {
-    const existingAttempt = this.attempts.get(playerId);
-    if (existingAttempt && !existingAttempt.completed) {
+    const existingAttempt = this?.attempts.get(playerId);
+    if (existingAttempt && !existingAttempt?.completed) {
       return false; // Player already has active attempt
     }
 
@@ -173,9 +173,9 @@ export class ObstacleCoursePure {
       completed: false
     };
 
-    this.attempts.set(playerId, attempt);
+    this?.attempts.set(playerId, attempt);
 
-    this.eventBus.emit('course:attempt_started', {
+    this?.eventBus.emit('course:attempt_started', {
       playerId: playerId,
       attempt: attempt,
       timestamp: new Date()
@@ -185,16 +185,16 @@ export class ObstacleCoursePure {
   }
 
   public completeAttempt(playerId: string, score: number): boolean {
-    const attempt = this.attempts.get(playerId);
-    if (!attempt || attempt.completed) {
+    const attempt = this?.attempts.get(playerId);
+    if (!attempt || attempt?.completed) {
       return false;
     }
 
-    attempt.endTime = Date.now();
-    attempt.score = score;
-    attempt.completed = true;
+    attempt.endTime = new Date();
+    attempt?.score = score;
+    attempt?.completed = true;
 
-    this.eventBus.emit('course:attempt_completed', {
+    this?.eventBus.emit('course:attempt_completed', {
       playerId: playerId,
       attempt: attempt,
       finalScore: score,

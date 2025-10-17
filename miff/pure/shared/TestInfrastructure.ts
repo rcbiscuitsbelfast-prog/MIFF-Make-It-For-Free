@@ -124,7 +124,7 @@ export class TestInfrastructureManager {
 
   constructor(...args: any[]) {
     
-    this.stats = this.initializeStats();
+    this?.stats = this?.initializeStats();
   }
 
   /**
@@ -137,17 +137,17 @@ export class TestInfrastructureManager {
     
     try {
       // Find all modules with tests
-      const moduleDirs = await this.findModuleDirectories(rootPath);
+      const moduleDirs = await this?.findModuleDirectories(rootPath);
       
       for (const moduleDir of moduleDirs) {
-        const module = await this.analyzeModule(moduleDir);
+        const module = await this?.analyzeModule(moduleDir);
         if (module) {
-          modules.push(module);
-          this.modules.set(module.name, module);
+          modules?.push(module);
+          this?.modules.set(module?.name, module);
         }
       }
       
-      this.updateStats();
+      this?.updateStats();
       console.info(`✅ Scanned ${modules.length} modules`);
       
       return modules;
@@ -167,12 +167,12 @@ export class TestInfrastructureManager {
     
     const replacements: MockReplacement[] = [];
     
-    for (const [name, module] of this.modules) {
-      for (const mockFile of module.mockFiles) {
-        const replacement = await this.analyzeMockFile(mockFile, name);
+    for (const [name, module] of this?.modules) {
+      for (const mockFile of module?.mockFiles) {
+        const replacement = await this?.analyzeMockFile(mockFile, name);
         if (replacement) {
-          replacements.push(replacement);
-          this.mockReplacements.set(replacement.id, replacement);
+          replacements?.push(replacement);
+          this?.mockReplacements.set(replacement?.id, replacement);
         }
       }
     }
@@ -189,10 +189,10 @@ export class TestInfrastructureManager {
     
     const coverage: TestCoverage[] = [];
     
-    for (const [name, module] of this.modules) {
-      const moduleCoverage = await this.calculateModuleCoverage(module);
-      coverage.push(moduleCoverage);
-      this.testCoverage.set(name, moduleCoverage);
+    for (const [name, module] of this?.modules) {
+      const moduleCoverage = await this?.calculateModuleCoverage(module);
+      coverage?.push(moduleCoverage);
+      this?.testCoverage.set(name, moduleCoverage);
     }
     
     console.info(`✅ Generated coverage for ${coverage.length} modules`);
@@ -207,10 +207,10 @@ export class TestInfrastructureManager {
     
     const quality: TestQuality[] = [];
     
-    for (const [name, module] of this.modules) {
-      const moduleQuality = await this.assessModuleQuality(module);
-      quality.push(moduleQuality);
-      this.testQuality.set(name, moduleQuality);
+    for (const [name, module] of this?.modules) {
+      const moduleQuality = await this?.assessModuleQuality(module);
+      quality?.push(moduleQuality);
+      this?.testQuality.set(name, moduleQuality);
     }
     
     console.info(`✅ Assessed quality for ${quality.length} modules`);
@@ -224,21 +224,21 @@ export class TestInfrastructureManager {
     console.info('🔄 Replacing critical mocks...');
     
     const criticalReplacements = Array.from(this.mockReplacements.values())
-      .filter((r: any) => r.priority === 'critical' && r.status === 'pending');
+      .filter((r: any) => r?.priority === 'critical' && r?.status === 'pending');
     
     for (const replacement of criticalReplacements) {
       try {
-        await this.executeMockReplacement(replacement);
-        replacement.status = 'completed';
+        await this?.executeMockReplacement(replacement);
+        replacement?.status = 'completed';
         console.info(`✅ Replaced mock: ${replacement.id}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        replacement.status = 'failed';
+        replacement?.status = 'failed';
         console.error(`❌ Failed to replace mock: ${replacement.id}`, err instanceof Error ? err.message : String(err));
       }
     }
     
-    this.updateStats();
+    this?.updateStats();
   }
 
   /**
@@ -252,54 +252,54 @@ export class TestInfrastructureManager {
     
     let report = '# Test Infrastructure Report\n\n';
     report += `**Generated:** ${new Date().toISOString()}\n`;
-    report += `**Total Modules:** ${this.stats.totalModules}\n`;
-    report += `**Modules with Tests:** ${this.stats.modulesWithTests}\n`;
-    report += `**Modules with Mocks:** ${this.stats.modulesWithMocks}\n`;
-    report += `**Average Coverage:** ${this.stats.averageCoverage.toFixed(1)}%\n`;
-    report += `**Average Quality:** ${this.stats.averageQuality.toFixed(1)}%\n\n`;
+    report += `**Total Modules:** ${this?.stats.totalModules}\n`;
+    report += `**Modules with Tests:** ${this?.stats.modulesWithTests}\n`;
+    report += `**Modules with Mocks:** ${this?.stats.modulesWithMocks}\n`;
+    report += `**Average Coverage:** ${this?.stats.averageCoverage?.toFixed(1)}%\n`;
+    report += `**Average Quality:** ${this?.stats.averageQuality?.toFixed(1)}%\n\n`;
 
     // Module breakdown
     report += `## Module Breakdown\n`;
     for (const module of modules) {
-      report += `### ${module.name}\n`;
-      report += `- **Test Files:** ${module.testFiles.length}\n`;
-      report += `- **Mock Files:** ${module.mockFiles.length}\n`;
-      report += `- **Real Implementations:** ${module.realImplementations.length}\n`;
-      report += `- **Coverage:** ${module.coverage}%\n`;
-      report += `- **Quality:** ${module.quality}\n\n`;
+      report += `### ${module?.name}\n`;
+      report += `- **Test Files:** ${module?.testFiles.length}\n`;
+      report += `- **Mock Files:** ${module?.mockFiles.length}\n`;
+      report += `- **Real Implementations:** ${module?.realImplementations.length}\n`;
+      report += `- **Coverage:** ${module?.coverage}%\n`;
+      report += `- **Quality:** ${module?.quality}\n\n`;
     }
 
     // Mock replacements
-    const pendingReplacements = replacements.filter((r: any) => r.status === 'pending');
-    if (pendingReplacements.length > 0) {
-      report += `## Pending Mock Replacements (${pendingReplacements.length})\n`;
+    const pendingReplacements = replacements?.filter((r: any) => r?.status === 'pending');
+    if (pendingReplacements?.length > 0) {
+      report += `## Pending Mock Replacements (${pendingReplacements?.length})\n`;
       for (const replacement of pendingReplacements) {
-        report += `### ${replacement.id}\n`;
-        report += `- **Module:** ${replacement.module}\n`;
-        report += `- **Priority:** ${replacement.priority}\n`;
-        report += `- **Description:** ${replacement.description}\n`;
-        report += `- **Estimated Effort:** ${replacement.estimatedEffort} hours\n\n`;
+        report += `### ${replacement?.id}\n`;
+        report += `- **Module:** ${replacement?.module}\n`;
+        report += `- **Priority:** ${replacement?.priority}\n`;
+        report += `- **Description:** ${replacement?.description}\n`;
+        report += `- **Estimated Effort:** ${replacement?.estimatedEffort} hours\n\n`;
       }
     }
 
     // Coverage analysis
-    const lowCoverage = coverage.filter((c: any) => c.coveragePercentage < 70);
-    if (lowCoverage.length > 0) {
-      report += `## Low Coverage Modules (${lowCoverage.length})\n`;
+    const lowCoverage = coverage?.filter((c: any) => c?.coveragePercentage < 70);
+    if (lowCoverage?.length > 0) {
+      report += `## Low Coverage Modules (${lowCoverage?.length})\n`;
       for (const module of lowCoverage) {
-        report += `- **${module.module}:** ${module.coveragePercentage}% coverage\n`;
+        report += `- **${module?.module}:** ${module?.coveragePercentage}% coverage\n`;
       }
       report += `\n`;
     }
 
     // Quality analysis
-    const lowQuality = quality.filter((q: any) => q.mutationScore < 70);
-    if (lowQuality.length > 0) {
-      report += `## Low Quality Modules (${lowQuality.length})\n`;
+    const lowQuality = quality?.filter((q: any) => q?.mutationScore < 70);
+    if (lowQuality?.length > 0) {
+      report += `## Low Quality Modules (${lowQuality?.length})\n`;
       for (const module of lowQuality) {
-        report += `- **${module.module}:** ${module.mutationScore}% mutation score\n`;
-        if (module.recommendations.length > 0) {
-          report += `  - Recommendations: ${module.recommendations.join(', ')}\n`;
+        report += `- **${module?.module}:** ${module?.mutationScore}% mutation score\n`;
+        if (module?.recommendations.length > 0) {
+          report += `  - Recommendations: ${module?.recommendations.join(', ')}\n`;
         }
       }
       report += `\n`;
@@ -312,7 +312,7 @@ export class TestInfrastructureManager {
    * Get test infrastructure statistics
    */
   getStats(): TestInfrastructureStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   private async findModuleDirectories(rootPath: string): Promise<string[]> {
@@ -337,13 +337,13 @@ export class TestInfrastructureManager {
     // This would calculate test coverage for a module
     // For now, return mock data
     return {
-      module: module.name,
+      module: module?.name,
       totalLines: 1000,
       coveredLines: 700,
       coveragePercentage: 70,
       uncoveredLines: [1, 2, 3],
       criticalUncovered: [1!],
-      testFiles: module.testFiles,
+      testFiles: module?.testFiles,
       lastRun: new Date()
     };
   }
@@ -352,7 +352,7 @@ export class TestInfrastructureManager {
     // This would assess test quality for a module
     // For now, return mock data
     return {
-      module: module.name,
+      module: module?.name,
       mutationScore: 75,
       testReliability: 80,
       executionTime: 1000,
@@ -374,20 +374,20 @@ export class TestInfrastructureManager {
     const coverage = Array.from(this.testCoverage.values());
     const quality = Array.from(this.testQuality.values());
     
-    this.stats.totalModules = modules.length;
-    this.stats.modulesWithTests = modules.filter((m: any) => m.testFiles.length > 0).length;
-    this.stats.modulesWithMocks = modules.filter((m: any) => m.mockFiles.length > 0).length;
-    this.stats.totalTestFiles = modules.reduce((sum, m) => sum + m.testFiles.length, 0);
-    this.stats.totalMockFiles = modules.reduce((sum, m) => sum + m.mockFiles.length, 0);
-    this.stats.criticalMocks = replacements.filter((r: any) => r.priority === 'critical').length;
-    this.stats.completedReplacements = replacements.filter((r: any) => r.status === 'completed').length;
+    this?.stats.totalModules = modules?.length;
+    this?.stats.modulesWithTests = modules?.filter((m: any) => m?.testFiles.length > 0).length;
+    this?.stats.modulesWithMocks = modules?.filter((m: any) => m?.mockFiles.length > 0).length;
+    this?.stats.totalTestFiles = modules?.reduce((sum, m) => sum + m?.testFiles.length, 0);
+    this?.stats.totalMockFiles = modules?.reduce((sum, m) => sum + m?.mockFiles.length, 0);
+    this?.stats.criticalMocks = replacements?.filter((r: any) => r?.priority === 'critical').length;
+    this?.stats.completedReplacements = replacements?.filter((r: any) => r?.status === 'completed').length;
     
-    if (coverage.length > 0) {
-      this.stats.averageCoverage = coverage.reduce((sum, c) => sum + c.coveragePercentage, 0) / coverage.length;
+    if (coverage?.length > 0) {
+      this?.stats.averageCoverage = coverage?.reduce((sum, c) => sum + c?.coveragePercentage, 0) / coverage?.length;
     }
     
-    if (quality.length > 0) {
-      this.stats.averageQuality = quality.reduce((sum, q) => sum + q.mutationScore, 0) / quality.length;
+    if (quality?.length > 0) {
+      this?.stats.averageQuality = quality?.reduce((sum, q) => sum + q?.mutationScore, 0) / quality?.length;
     }
   }
 

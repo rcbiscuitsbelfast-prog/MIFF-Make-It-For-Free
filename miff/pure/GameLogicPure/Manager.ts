@@ -1110,7 +1110,7 @@ export class GameLogicPure {
 
   constructor(config: Partial<GameLogicConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableGameLogicManagement: true,
       enableGameStateManagement: true,
       enablePlayerManagement: true,
@@ -1127,7 +1127,7 @@ export class GameLogicPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalGameStates: 0,
       activeGameStates: 0,
       totalPlayers: 0,
@@ -1144,7 +1144,7 @@ export class GameLogicPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalGameStates: 0,
       totalPlayers: 0,
       totalEvents: 0,
@@ -1158,7 +1158,7 @@ export class GameLogicPure {
    * Create a new game logic manager
    */
   createManager(): GameLogicOutput {
-    if (!this.config.enableGameLogicManagement) {
+    if (!this?.config.enableGameLogicManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1168,8 +1168,8 @@ export class GameLogicPure {
 
     const manager: GameLogicManager = {
       id: managerData.id || `gamelogic-${Date.now()}`,
-      name: managerData.name || 'Unnamed Game Logic Manager',
-      type: managerData.type || 'singleplayer',
+      name: managerData?.name || 'Unnamed Game Logic Manager',
+      type: managerData?.type || 'singleplayer',
       status: 'active',
       gameStates: [],
       players: [],
@@ -1238,7 +1238,7 @@ export class GameLogicPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1251,7 +1251,7 @@ export class GameLogicPure {
    * Get manager by ID
    */
   getManager(): GameLogicOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1271,14 +1271,14 @@ export class GameLogicPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): GameLogicPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): GameLogicAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1292,7 +1292,7 @@ export class GameLogicPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalGameStates = 0;
     let activeGameStates = 0;
     let totalPlayers = 0;
@@ -1304,29 +1304,29 @@ export class GameLogicPure {
     let totalEvents = 0;
     let processedEvents = 0;
 
-    for (const manager of this.managers.values()) {
-      totalGameStates += manager.gameStates.length;
-      activeGameStates += manager.gameStates.filter((gs: any) => gs.status === 'active').length;
-      totalPlayers += manager.players.length;
-      onlinePlayers += manager.players.filter((p: any) => p.status === 'online').length;
-      totalMechanics += manager.mechanics.length;
-      activeMechanics += manager.mechanics.filter((m: any) => m.status === 'active').length;
-      totalRules += manager.rules.length;
-      activeRules += manager.rules.filter((r: any) => r.status === 'active').length;
-      totalEvents += manager.events.length;
-      processedEvents += manager.events.filter((e: any) => e.status === 'completed').length;
+    for (const manager of this?.managers.values()) {
+      totalGameStates += manager?.gameStates.length;
+      activeGameStates += manager?.gameStates.filter((gs: any) => gs?.status === 'active').length;
+      totalPlayers += manager?.players.length;
+      onlinePlayers += manager?.players.filter((p: any) => p?.status === 'online').length;
+      totalMechanics += manager?.mechanics.length;
+      activeMechanics += manager?.mechanics.filter((m: any) => m?.status === 'active').length;
+      totalRules += manager?.rules.length;
+      activeRules += manager?.rules.filter((r: any) => r?.status === 'active').length;
+      totalEvents += manager?.events.length;
+      processedEvents += manager?.events.filter((e: any) => e?.status === 'completed').length;
     }
 
-    this.performanceMetrics.totalGameStates = totalGameStates;
-    this.performanceMetrics.activeGameStates = activeGameStates;
-    this.performanceMetrics.totalPlayers = totalPlayers;
-    this.performanceMetrics.onlinePlayers = onlinePlayers;
-    this.performanceMetrics.totalMechanics = totalMechanics;
-    this.performanceMetrics.activeMechanics = activeMechanics;
-    this.performanceMetrics.totalRules = totalRules;
-    this.performanceMetrics.activeRules = activeRules;
-    this.performanceMetrics.totalEvents = totalEvents;
-    this.performanceMetrics.processedEvents = processedEvents;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalGameStates = totalGameStates;
+    this?.performanceMetrics.activeGameStates = activeGameStates;
+    this?.performanceMetrics.totalPlayers = totalPlayers;
+    this?.performanceMetrics.onlinePlayers = onlinePlayers;
+    this?.performanceMetrics.totalMechanics = totalMechanics;
+    this?.performanceMetrics.activeMechanics = activeMechanics;
+    this?.performanceMetrics.totalRules = totalRules;
+    this?.performanceMetrics.activeRules = activeRules;
+    this?.performanceMetrics.totalEvents = totalEvents;
+    this?.performanceMetrics.processedEvents = processedEvents;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

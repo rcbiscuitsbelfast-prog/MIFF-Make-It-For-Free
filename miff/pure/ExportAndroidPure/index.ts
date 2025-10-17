@@ -831,9 +831,9 @@ export class AndroidExporter {
   private isInitialized = false;
 
   constructor(projectSettings: AndroidProjectSettings, buildConfiguration: AndroidBuildConfiguration) {
-    this.projectSettings = projectSettings;
-    this.buildConfiguration = buildConfiguration;
-    this.initializeExporter();
+    this?.projectSettings = projectSettings;
+    this?.buildConfiguration = buildConfiguration;
+    this?.initializeExporter();
   }
 
   private async initializeExporter(): Promise<void> {
@@ -841,15 +841,15 @@ export class AndroidExporter {
 
     try {
       // Validate project settings
-      await this.validateProjectSettings();
+      await this?.validateProjectSettings();
 
       // Validate build configuration
-      await this.validateBuildConfiguration();
+      await this?.validateBuildConfiguration();
 
       // Initialize Android project
-      await this.initializeAndroidProject();
+      await this?.initializeAndroidProject();
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.log('[AndroidExporter!] Android exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -874,12 +874,12 @@ export class AndroidExporter {
   }
 
   async exportProject(): Promise<AndroidExportReport> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Android exporter not initialized');
     }
 
     const exportId = `export_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const startTime = Date.now();
+    const startTime = new Date();
 
     console.log(`[AndroidExporter!] Starting export: ${exportId}`);
 
@@ -899,33 +899,33 @@ export class AndroidExporter {
 
     try {
       // Export project settings
-      await this.exportProjectSettings();
+      await this?.exportProjectSettings();
 
       // Export scenes
-      await this.exportScenes();
+      await this?.exportScenes();
 
       // Export assets
-      await this.exportAssets();
+      await this?.exportAssets();
 
       // Export resources
-      await this.exportResources();
+      await this?.exportResources();
 
       // Generate build files
-      await this.generateBuildFiles();
+      await this?.generateBuildFiles();
 
       // Export project
-      await this.exportProjectFiles();
+      await this?.exportProjectFiles();
 
-      report.endTime = Date.now();
-      report.duration = report.endTime - startTime;
-      report.exportStatus = 'success';
+      report.endTime = new Date();
+      report?.duration = report?.endTime - startTime;
+      report?.exportStatus = 'success';
 
       console.log(`[AndroidExporter!] Export completed: ${exportId}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      report.endTime = Date.now();
-      report.duration = report.endTime - startTime;
-      report.exportStatus = 'failed';
+      report.endTime = new Date();
+      report?.duration = report?.endTime - startTime;
+      report?.exportStatus = 'failed';
 
       const exportError: AndroidExportError = {
         sourcePath: '',
@@ -939,12 +939,12 @@ export class AndroidExporter {
         context: { exportId }
       };
 
-      report.exportErrors.push(exportError);
+      report?.exportErrors?.push(exportError);
 
       console.error(`[AndroidExporter!] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
     }
 
-    this.exportReports.push(report);
+    this?.exportReports?.push(report);
     return report;
   }
 
@@ -979,7 +979,7 @@ export class AndroidExporter {
   }
 
   async buildProject(): Promise<AndroidBuildReport> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Android exporter not initialized');
     }
 
@@ -990,7 +990,7 @@ export class AndroidExporter {
         platform: 'Android',
         platformGroup: 'Android',
         options: JSON.stringify(this.buildConfiguration.buildOptions),
-        outputPath: this.buildConfiguration.outputPath,
+        outputPath: this?.buildConfiguration.outputPath,
         buildStartedAt: new Date(),
         buildEndedAt: 0,
         totalTime: 0,
@@ -1002,14 +1002,14 @@ export class AndroidExporter {
         type: 'build',
         buildTarget: 'Android',
         buildTargetGroup: 'Android',
-        buildType: this.buildConfiguration.buildType,
+        buildType: this?.buildConfiguration.buildType,
         buildPlatform: 'Android',
-        buildConfiguration: this.buildConfiguration.buildType,
+        buildConfiguration: this?.buildConfiguration.buildType,
         buildNumber: '1.0.0',
         buildVersion: '1.0.0',
         unityVersion: '2021.3',
         buildMachine: 'MIFF-Exporter',
-        buildPath: this.buildConfiguration.outputPath,
+        buildPath: this?.buildConfiguration.outputPath,
         buildGUID: `build_${Date.now()}`,
         buildTargetPlatform: 'Android',
         buildTargetPlatformGroup: 'Android',
@@ -1034,7 +1034,7 @@ export class AndroidExporter {
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
         buildTarget: 'Android',
-        buildConfiguration: this.buildConfiguration.buildType,
+        buildConfiguration: this?.buildConfiguration.buildType,
         buildNumber: '1.0.0',
         buildDate: new Date().toISOString(),
         buildDuration: 0,
@@ -1128,11 +1128,11 @@ export class AndroidExporter {
       buildResult: 'success',
       buildPlatform: 'Android',
       buildTarget: 'Android',
-      buildType: this.buildConfiguration.buildType,
-      buildVersion: this.projectSettings.packageVersion,
+      buildType: this?.buildConfiguration.buildType,
+      buildVersion: this?.projectSettings.packageVersion,
       unityVersion: '2021.3',
       buildMachine: 'MIFF-Exporter',
-      buildPath: this.buildConfiguration.outputPath,
+      buildPath: this?.buildConfiguration.outputPath,
       buildGUID: `build_${Date.now()}`,
       buildTargetGroup: 'Android',
       buildTargetPlatform: 'Android',
@@ -1158,7 +1158,7 @@ export class AndroidExporter {
       buildTargetRemoteBuild: false,
       buildTargetCustomBuild: false,
       buildTarget: 'Android',
-      buildConfiguration: this.buildConfiguration.buildType,
+      buildConfiguration: this?.buildConfiguration.buildType,
       buildNumber: '1.0.0',
       buildDate: new Date().toISOString(),
       buildDuration: 1000,
@@ -1170,7 +1170,7 @@ export class AndroidExporter {
         platform: 'Android',
         platformGroup: 'Android',
         options: JSON.stringify(this.buildConfiguration.buildOptions),
-        outputPath: this.buildConfiguration.outputPath,
+        outputPath: this?.buildConfiguration.outputPath,
         buildStartedAt: new Date(),
         buildEndedAt: 0,
         totalTime: 0,
@@ -1182,14 +1182,14 @@ export class AndroidExporter {
         type: 'build',
         buildTarget: 'Android',
         buildTargetGroup: 'Android',
-        buildType: this.buildConfiguration.buildType,
+        buildType: this?.buildConfiguration.buildType,
         buildPlatform: 'Android',
-        buildConfiguration: this.buildConfiguration.buildType,
+        buildConfiguration: this?.buildConfiguration.buildType,
         buildNumber: '1.0.0',
         buildVersion: '1.0.0',
         unityVersion: '2021.3',
         buildMachine: 'MIFF-Exporter',
-        buildPath: this.buildConfiguration.outputPath,
+        buildPath: this?.buildConfiguration.outputPath,
         buildGUID: `build_${Date.now()}`,
         buildTargetPlatform: 'Android',
         buildTargetPlatformGroup: 'Android',
@@ -1214,7 +1214,7 @@ export class AndroidExporter {
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
         buildTarget: 'Android',
-        buildConfiguration: this.buildConfiguration.buildType,
+        buildConfiguration: this?.buildConfiguration.buildType,
         buildNumber: '1.0.0',
         buildDate: new Date().toISOString(),
         buildDuration: 0,
@@ -1380,11 +1380,11 @@ export class AndroidExporter {
   }
 
   getExportReports(): AndroidExportReport[] {
-    return [...this.exportReports];
+    return [...this?.exportReports];
   }
 
   getProjectSettings(): AndroidProjectSettings {
-    return { ...this.projectSettings };
+    return { ...this?.projectSettings };
   }
 
   updateProjectSettings(settings: Partial<AndroidProjectSettings>): void {
@@ -1392,7 +1392,7 @@ export class AndroidExporter {
   }
 
   getBuildConfiguration(): AndroidBuildConfiguration {
-    return { ...this.buildConfiguration };
+    return { ...this?.buildConfiguration };
   }
 
   updateBuildConfiguration(configuration: Partial<AndroidBuildConfiguration>): void {
@@ -1401,39 +1401,39 @@ export class AndroidExporter {
 
   exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      projectSettings: this.projectSettings,
-      buildConfiguration: this.buildConfiguration,
-      exportReports: this.exportReports,
+      projectSettings: this?.projectSettings,
+      buildConfiguration: this?.buildConfiguration,
+      exportReports: this?.exportReports,
       timestamp: new Date()
     };
 
     if (format === 'json') {
       return JSON.stringify(data, null, 2);
     } else if (format === 'xml') {
-      return this.convertToXML(data);
+      return this?.convertToXML(data: any);
     } else {
-      return this.convertToBinary(data);
+      return this?.convertToBinary(data: any);
     }
   }
 
-  private convertToXML(data): string {
+  private convertToXML(data: any): string {
     // Simple XML conversion - in production this would be more robust
     return '<android_exporter_data><!-- XML export not fully implemented --></android_exporter_data>';
   }
 
-  private convertToBinary(data): string {
+  private convertToBinary(data: any): string {
     // Simple binary conversion - in production this would use proper serialization
-    return JSON.stringify(data);
+    return JSON.stringify(data: any);
   }
 
   reset(): void {
-    this.exportReports = [];
+    this?.exportReports = [];
     console.log('[AndroidExporter!] Reset to initial state');
   }
 
   dispose(): void {
-    this.reset();
-    this.isInitialized = false;
+    this?.reset();
+    this?.isInitialized = false;
     console.log('[AndroidExporter!] Disposed successfully');
   }
 }

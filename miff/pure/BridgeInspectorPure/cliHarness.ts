@@ -16,7 +16,7 @@ import {
 } from '../shared/cliHarnessUtils';
 
 function main(): void {
-  const { command, args, options } = parseComplexCLIArgs(process.argv);
+  const { command, args, options } = parseComplexCLIArgs(process?.argv);
 
   if (!command || command === 'help' || command === '--help' || command === '-h') {
     console.log('BridgeInspectorPure CLI - Bridge compatibility inspector');
@@ -36,6 +36,6 @@ function main(): void {
   handleSuccess(result, 'bridge_inspection');
 }
 
-if (require.main === module) {
+if (require?.main === module) {
   main();
 }

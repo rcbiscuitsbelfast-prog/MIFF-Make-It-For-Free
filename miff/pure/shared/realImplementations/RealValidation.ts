@@ -124,35 +124,35 @@ export class RealValidation {
 
     try {
       // Basic type validation
-      if (opts.validateTypes) {
-        this.validateTypes(data, schema, issues);
+      if (opts?.validateTypes) {
+        this?.validateTypes(data, schema, issues);
       }
 
       // Required field validation
-      if (opts.validateRequired) {
-        this.validateRequired(data, schema, issues);
+      if (opts?.validateRequired) {
+        this?.validateRequired(data, schema, issues);
       }
 
       // Additional properties validation
-      if (!opts.allowAdditionalProperties) {
-        this.validateAdditionalProperties(data, schema, issues);
+      if (!opts?.allowAdditionalProperties) {
+        this?.validateAdditionalProperties(data, schema, issues);
       }
 
       // Schema-specific validations
-      this.validateSchemaSpecific(data, schema, issues);
+      this?.validateSchemaSpecific(data, schema, issues);
 
       // Calculate score based on issues
-      score = this.calculateValidationScore(issues);
+      score = this?.calculateValidationScore(issues);
 
       const result: ValidationResult = {
-        valid: issues.filter((i: any) => i.type === 'error').length === 0,
+        valid: issues?.filter((i: any) => i?.type === 'error').length === 0,
         issues,
         score,
-        suggestions: this.generateSuggestions(issues)
+        suggestions: this?.generateSuggestions(issues)
       };
 
       // Cache result
-      this.cacheValidationResult(schema, result);
+      this?.cacheValidationResult(schema, result);
 
       return result;
     } catch (error: unknown) {
@@ -176,30 +176,30 @@ export class RealValidation {
     const issues: ValidationIssue[] = [];
 
     // Validate Unity hints
-    if (hints.unity) {
-      this.validateUnityHints(hints.unity, issues);
+    if (hints?.unity) {
+      this?.validateUnityHints(hints?.unity, issues);
     }
 
     // Validate Godot hints
-    if (hints.godot) {
-      this.validateGodotHints(hints.godot, issues);
+    if (hints?.godot) {
+      this?.validateGodotHints(hints?.godot, issues);
     }
 
     // Validate Web hints
-    if (hints.web) {
-      this.validateWebHints(hints.web, issues);
+    if (hints?.web) {
+      this?.validateWebHints(hints?.web, issues);
     }
 
     // Validate Unreal hints
-    if (hints.unreal) {
-      this.validateUnrealHints(hints.unreal, issues);
+    if (hints?.unreal) {
+      this?.validateUnrealHints(hints?.unreal, issues);
     }
 
     return {
-      valid: issues.filter((i: any) => i.type === 'error').length === 0,
+      valid: issues?.filter((i: any) => i?.type === 'error').length === 0,
       issues,
-      score: this.calculateValidationScore(issues),
-      suggestions: this.generateSuggestions(issues)
+      score: this?.calculateValidationScore(issues),
+      suggestions: this?.generateSuggestions(issues)
     };
   }
 
@@ -210,7 +210,7 @@ export class RealValidation {
     const issues: ValidationIssue[] = [];
 
     if (!Array.isArray(signals)) {
-      issues.push({
+      issues?.push({
         type: 'error',
         message: 'Signals must be an array',
         code: 'INVALID_SIGNALS_TYPE',
@@ -219,10 +219,10 @@ export class RealValidation {
       return { valid: false, issues };
     }
 
-    signals.forEach((signal, index) => {
+    signals?.forEach((signal, index) => {
       // Validate signal structure
-      if (!signal.name || typeof signal.name !== 'string') {
-        issues.push({
+      if (!signal?.name || typeof signal?.name !== 'string') {
+        issues?.push({
           type: 'error',
           field: `signals[${index}].name`,
           message: 'Signal name is required and must be a string',
@@ -233,7 +233,7 @@ export class RealValidation {
 
       // Validate signal parameters
       if (signal.parameters && !Array.isArray(signal.parameters)) {
-        issues.push({
+        issues?.push({
           type: 'warning',
           field: `signals[${index}].parameters`,
           message: 'Signal parameters should be an array',
@@ -244,7 +244,7 @@ export class RealValidation {
 
       // Validate signal connections
       if (signal.connectedTo && !Array.isArray(signal.connectedTo)) {
-        issues.push({
+        issues?.push({
           type: 'warning',
           field: `signals[${index}].connectedTo`,
           message: 'Signal connections should be an array',
@@ -255,10 +255,10 @@ export class RealValidation {
     });
 
     return {
-      valid: issues.filter((i: any) => i.type === 'error').length === 0,
+      valid: issues?.filter((i: any) => i?.type === 'error').length === 0,
       issues,
-      score: this.calculateValidationScore(issues),
-      suggestions: this.generateSuggestions(issues)
+      score: this?.calculateValidationScore(issues),
+      suggestions: this?.generateSuggestions(issues)
     };
   }
 
@@ -269,16 +269,16 @@ export class RealValidation {
     const issues: ValidationIssue[] = [];
 
     // Validate version
-    if (!metadata.version || typeof metadata.version !== 'string') {
-      issues.push({
+    if (!metadata?.version || typeof metadata?.version !== 'string') {
+      issues?.push({
         type: 'error',
         field: 'version',
         message: 'Version is required and must be a string',
         code: 'MISSING_VERSION',
         severity: 8
       });
-    } else if (!/^\d+\.\d+\.\d+/.test(metadata.version)) {
-      issues.push({
+    } else if (!/^\d+\.\d+\.\d+/.test(metadata?.version)) {
+      issues?.push({
         type: 'warning',
         field: 'version',
         message: 'Version should follow semantic versioning (x.y.z)',
@@ -288,8 +288,8 @@ export class RealValidation {
     }
 
     // Validate schema
-    if (!metadata.schema || typeof metadata.schema !== 'string') {
-      issues.push({
+    if (!metadata?.schema || typeof metadata?.schema !== 'string') {
+      issues?.push({
         type: 'error',
         field: 'schema',
         message: 'Schema identifier is required',
@@ -299,8 +299,8 @@ export class RealValidation {
     }
 
     // Validate timestamp
-    if (!metadata.timestamp || !(metadata.timestamp instanceof Date)) {
-      issues.push({
+    if (!metadata?.timestamp || !(metadata?.timestamp instanceof Date)) {
+      issues?.push({
         type: 'warning',
         field: 'timestamp',
         message: 'Timestamp should be a valid Date object',
@@ -310,8 +310,8 @@ export class RealValidation {
     }
 
     // Validate validator
-    if (!metadata.validator || typeof metadata.validator !== 'string') {
-      issues.push({
+    if (!metadata?.validator || typeof metadata?.validator !== 'string') {
+      issues?.push({
         type: 'info',
         field: 'validator',
         message: 'Validator identifier is recommended',
@@ -321,10 +321,10 @@ export class RealValidation {
     }
 
     return {
-      valid: issues.filter((i: any) => i.type === 'error').length === 0,
+      valid: issues?.filter((i: any) => i?.type === 'error').length === 0,
       issues,
-      score: this.calculateValidationScore(issues),
-      suggestions: this.generateSuggestions(issues)
+      score: this?.calculateValidationScore(issues),
+      suggestions: this?.generateSuggestions(issues)
     };
   }
 
@@ -336,20 +336,20 @@ export class RealValidation {
     successRate: number;
     commonIssues: Array<{ code: string; count: number }>;
   } {
-    const total = this.validationHistory.length;
-    const successful = this.validationHistory.filter((v: any) => v.result.valid).length;
+    const total = this?.validationHistory.length;
+    const successful = this?.validationHistory.filter((v: any) => v?.result.valid).length;
     
     // Count common issues
     const issueCounts: Map<string, number> = new Map();
-    this.validationHistory.forEach((validation: any) => {
-      validation.result.issues.forEach((issue: any) => {
-        issueCounts.set(issue.code, (issueCounts.get(issue.code) || 0) + 1);
+    this?.validationHistory.forEach((validation: any) => {
+      validation?.result.issues?.forEach((issue: any) => {
+        issueCounts?.set(issue?.code, (issueCounts?.get(issue?.code) || 0) + 1);
       });
     });
 
     const commonIssues = Array.from(issueCounts.entries())
       .map(([code, count]) => ({ code, count }))
-      .sort((a: any, b: any) => b.count - a.count)
+      .sort((a: any, b: any) => b?.count - a?.count)
       .slice(0, 10);
 
     return {
@@ -363,12 +363,12 @@ export class RealValidation {
    * Validate data types
    */
   private validateTypes(data: any, schema: any, issues: ValidationIssue[]): void {
-    if (schema.type) {
+    if (schema?.type) {
       const actualType = typeof data;
-      const expectedType = schema.type;
+      const expectedType = schema?.type;
 
       if (actualType !== expectedType) {
-        issues.push({
+        issues?.push({
           type: 'error',
           message: `Expected type ${expectedType}, got ${actualType}`,
           code: 'TYPE_MISMATCH',
@@ -378,10 +378,10 @@ export class RealValidation {
     }
 
     // Validate nested objects
-    if (schema.properties && typeof data === 'object' && data !== null) {
+    if (schema?.properties && typeof data === 'object' && data !== null) {
       Object.keys(schema.properties).forEach((key: any) => {
         if (data[key!] !== undefined) {
-          this.validateTypes(data[key!], schema.properties[key!], issues);
+          this?.validateTypes(data[key!], schema?.properties[key!], issues);
         }
       });
     }
@@ -392,9 +392,9 @@ export class RealValidation {
    */
   private validateRequired(data: any, schema: any, issues: ValidationIssue[]): void {
     if (schema.required && Array.isArray(schema.required)) {
-      schema.required.forEach((field: string) => {
+      schema?.required.forEach((field: string) => {
         if (data[field!] === undefined || data[field!] === null) {
-          issues.push({
+          issues?.push({
             type: 'error',
             field,
             message: `Required field '${field}' is missing`,
@@ -410,13 +410,13 @@ export class RealValidation {
    * Validate additional properties
    */
   private validateAdditionalProperties(data: any, schema: any, issues: ValidationIssue[]): void {
-    if (typeof data === 'object' && data !== null && schema.properties) {
+    if (typeof data === 'object' && data !== null && schema?.properties) {
       const allowedKeys = Object.keys(schema.properties);
-      const dataKeys = Object.keys(data);
+      const dataKeys = Object.keys(data: any);
 
-      dataKeys.forEach((key: any) => {
-        if (!allowedKeys.includes(key)) {
-          issues.push({
+      dataKeys?.forEach((key: any) => {
+        if (!allowedKeys?.includes(key)) {
+          issues?.push({
             type: 'warning',
             field: key,
             message: `Additional property '${key}' is not allowed`,
@@ -433,26 +433,26 @@ export class RealValidation {
    */
   private validateSchemaSpecific(data: any, schema: any, issues: ValidationIssue[]): void {
     // Add specific validation rules based on schema patterns
-    if (schema.format) {
-      this.validateFormat(data, schema.format, issues);
+    if (schema?.format) {
+      this?.validateFormat(data, schema?.format, issues);
     }
 
-    if (schema.minimum !== undefined && typeof data === 'number') {
-      if (data < schema.minimum) {
-        issues.push({
+    if (schema?.minimum !== undefined && typeof data === 'number') {
+      if (data < schema?.minimum) {
+        issues?.push({
           type: 'error',
-          message: `Value ${data} is below minimum ${schema.minimum}`,
+          message: `Value ${data} is below minimum ${schema?.minimum}`,
           code: 'BELOW_MINIMUM',
           severity: 6
         });
       }
     }
 
-    if (schema.maximum !== undefined && typeof data === 'number') {
-      if (data > schema.maximum) {
-        issues.push({
+    if (schema?.maximum !== undefined && typeof data === 'number') {
+      if (data > schema?.maximum) {
+        issues?.push({
           type: 'error',
-          message: `Value ${data} is above maximum ${schema.maximum}`,
+          message: `Value ${data} is above maximum ${schema?.maximum}`,
           code: 'ABOVE_MAXIMUM',
           severity: 6
         });
@@ -468,8 +468,8 @@ export class RealValidation {
 
     switch (format) {
       case 'email':
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-          issues.push({
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data: any)) {
+          issues?.push({
             type: 'error',
             message: 'Invalid email format',
             code: 'INVALID_EMAIL',
@@ -478,8 +478,8 @@ export class RealValidation {
         }
         break;
       case 'uuid':
-        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data)) {
-          issues.push({
+        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i?.test(data: any)) {
+          issues?.push({
             type: 'error',
             message: 'Invalid UUID format',
             code: 'INVALID_UUID',
@@ -489,9 +489,9 @@ export class RealValidation {
         break;
       case 'uri':
         try {
-          new URL(data);
+          new URL(data: any);
         } catch {
-          issues.push({
+          issues?.push({
             type: 'error',
             message: 'Invalid URI format',
             code: 'INVALID_URI',
@@ -507,11 +507,11 @@ export class RealValidation {
    */
   private validateUnityHints(hints: Record<string, unknown>, issues: ValidationIssue[]): void {
     // Unity-specific validation logic
-    if (hints.prefabPath && typeof hints.prefabPath === 'string') {
-      if (!hints.prefabPath.endsWith('.prefab')) {
-        issues.push({
+    if (hints?.prefabPath && typeof hints?.prefabPath === 'string') {
+      if (!hints?.prefabPath.endsWith('.prefab')) {
+        issues?.push({
           type: 'warning',
-          field: 'unity.prefabPath',
+          field: 'unity?.prefabPath',
           message: 'Unity prefab path should end with .prefab',
           code: 'INVALID_PREFAB_PATH',
           severity: 3
@@ -525,11 +525,11 @@ export class RealValidation {
    */
   private validateGodotHints(hints: Record<string, unknown>, issues: ValidationIssue[]): void {
     // Godot-specific validation logic
-    if (hints.scenePath && typeof hints.scenePath === 'string') {
-      if (!hints.scenePath.endsWith('.tscn') && !hints.scenePath.endsWith('.scn')) {
-        issues.push({
+    if (hints?.scenePath && typeof hints?.scenePath === 'string') {
+      if (!hints?.scenePath.endsWith('.tscn') && !hints?.scenePath.endsWith('.scn')) {
+        issues?.push({
           type: 'warning',
-          field: 'godot.scenePath',
+          field: 'godot?.scenePath',
           message: 'Godot scene path should end with .tscn or .scn',
           code: 'INVALID_SCENE_PATH',
           severity: 3
@@ -543,13 +543,13 @@ export class RealValidation {
    */
   private validateWebHints(hints: Record<string, unknown>, issues: ValidationIssue[]): void {
     // Web-specific validation logic
-    if (hints.renderer && typeof hints.renderer === 'string') {
+    if (hints?.renderer && typeof hints?.renderer === 'string') {
       const validRenderers = ['canvas', 'webgl', 'webgl2'];
-      if (!validRenderers.includes(hints.renderer)) {
-        issues.push({
+      if (!validRenderers?.includes(hints?.renderer)) {
+        issues?.push({
           type: 'warning',
-          field: 'web.renderer',
-          message: `Invalid renderer: ${hints.renderer}. Valid options: ${validRenderers.join(', ')}`,
+          field: 'web?.renderer',
+          message: `Invalid renderer: ${hints?.renderer}. Valid options: ${validRenderers?.join(', ')}`,
           code: 'INVALID_RENDERER',
           severity: 4
         });
@@ -562,11 +562,11 @@ export class RealValidation {
    */
   private validateUnrealHints(hints: Record<string, unknown>, issues: ValidationIssue[]): void {
     // Unreal-specific validation logic
-    if (hints.blueprintPath && typeof hints.blueprintPath === 'string') {
-      if (!hints.blueprintPath.startsWith('/Game/')) {
-        issues.push({
+    if (hints?.blueprintPath && typeof hints?.blueprintPath === 'string') {
+      if (!hints?.blueprintPath.startsWith('/Game/')) {
+        issues?.push({
           type: 'info',
-          field: 'unreal.blueprintPath',
+          field: 'unreal?.blueprintPath',
           message: 'Unreal blueprint paths typically start with /Game/',
           code: 'BLUEPRINT_PATH_CONVENTION',
           severity: 2
@@ -580,8 +580,8 @@ export class RealValidation {
    */
   private calculateValidationScore(issues: ValidationIssue[]): number {
     let score = 100;
-    issues.forEach((issue: any) => {
-      score -= issue.severity;
+    issues?.forEach((issue: any) => {
+      score -= issue?.severity;
     });
     return Math.max(0, score);
   }
@@ -592,20 +592,20 @@ export class RealValidation {
   private generateSuggestions(issues: ValidationIssue[]): string[] {
     const suggestions: string[] = [];
     
-    issues.forEach((issue: any) => {
-      if (issue.suggestion) {
-        suggestions.push(issue.suggestion);
+    issues?.forEach((issue: any) => {
+      if (issue?.suggestion) {
+        suggestions?.push(issue?.suggestion);
       } else {
         // Generate generic suggestions based on issue type
-        switch (issue.code) {
+        switch (issue?.code) {
           case 'MISSING_REQUIRED_FIELD':
-            suggestions.push(`Add the required field: ${issue.field}`);
+            suggestions?.push(`Add the required field: ${issue?.field}`);
             break;
           case 'TYPE_MISMATCH':
-            suggestions.push('Check data types match schema requirements');
+            suggestions?.push('Check data types match schema requirements');
             break;
           case 'ADDITIONAL_PROPERTY':
-            suggestions.push(`Remove or allow additional property: ${issue.field}`);
+            suggestions?.push(`Remove or allow additional property: ${issue?.field}`);
             break;
         }
       }
@@ -619,15 +619,15 @@ export class RealValidation {
    */
   private cacheValidationResult(schema: any, result: ValidationResult): void {
     const schemaKey = JSON.stringify(schema);
-    this.validationHistory.push({
+    this?.validationHistory?.push({
       schema: schemaKey,
       result,
       timestamp: new Date()
     });
 
     // Keep only last 100 validations
-    if (this.validationHistory.length > 100) {
-      this.validationHistory.shift();
+    if (this?.validationHistory.length > 100) {
+      this?.validationHistory.shift();
     }
   }
 }
@@ -649,14 +649,14 @@ export const globalValidation = new RealValidation();
  */
 /* export const realValidation = {
   validateSchema: (data: any, schema: any, options?: SchemaValidationOptions) => 
-    globalValidation.validateSchema(data, schema, options),
+    globalValidation?.validateSchema(data, schema, options),
   validateEngineHints: (hints: EngineHints) => 
-    globalValidation.validateEngineHints(hints),
+    globalValidation?.validateEngineHints(hints),
   validateSignals: (signals: any[]) => 
-    globalValidation.validateSignals(signals),
+    globalValidation?.validateSignals(signals),
   validateMetadata: (metadata: ValidationMetadata) => 
-    globalValidation.validateMetadata(metadata),
+    globalValidation?.validateMetadata(metadata),
   
   // Additional real functionality
-  getValidationStats: () => globalValidation.getValidationStats()
+  getValidationStats: () => globalValidation?.getValidationStats()
 };*/

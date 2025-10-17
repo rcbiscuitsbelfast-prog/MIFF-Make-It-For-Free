@@ -23,7 +23,7 @@ export class WebSocketServerPure extends EventEmitter {
 
   constructor(options: WebSocketServerOptions = {}) {
     super();
-    this.options = {
+    this?.options = {
       port: 8080,
       host: 'localhost',
       enableRealWebSocket: false,
@@ -32,23 +32,23 @@ export class WebSocketServerPure extends EventEmitter {
   }
 
   public async start(): Promise<void> {
-    if (this.isRunning) return;
+    if (this?.isRunning) return;
     
-    if (!this.options.enableRealWebSocket) {
+    if (!this?.options.enableRealWebSocket) {
       // Fallback to in-memory simulation
-      this.isRunning = true;
-      this.emit('ready', { port: 'simulation', host: 'memory' });
+      this?.isRunning = true;
+      this?.emit('ready', { port: 'simulation', host: 'memory' });
       return;
     }
 
     try {
-      this.server = new WebSocketServer({
-        port: this.options.port,
-        host: this.options.host
+      this?.server = new WebSocketServer({
+        port: this?.options.port,
+        host: this?.options.host
       });
 
-      this.server.on('connection', (ws: WebSocket, req: any) => {
-        const clientId = this.generateClientId();
+      this?.server.on('connection', (ws: WebSocket, req: any) => {
+        const clientId = this?.generateClientId();
         const client: ClientConnection = {
           id: clientId,
           ws,
@@ -56,59 +56,59 @@ export class WebSocketServerPure extends EventEmitter {
           channels: new Set()
         };
 
-        this.clients.set(clientId, client);
-        this.emit('clientConnected', { clientId, address: req.socket.remoteAddress });
+        this?.clients.set(clientId, client);
+        this?.emit('clientConnected', { clientId, address: req?.socket.remoteAddress });
 
-        ws.on('message', (data: Buffer) => {
+        ws?.on('message', (data: Buffer) => {
           try {
             const message = JSON.parse(data.toString());
-            this.handleMessage(clientId, message);
+            this?.handleMessage(clientId, message);
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            this.emit('error', { clientId, error: 'Invalid JSON message' });
+            this?.emit('error', { clientId, error: 'Invalid JSON message' });
           }
         });
 
-        ws.on('close', () => {
-          this.handleClientDisconnect(clientId);
+        ws?.on('close', () => {
+          this?.handleClientDisconnect(clientId);
         });
 
-        ws.on('error', (error: any) => {
-          this.emit('error', { clientId, error: error.message });
+        ws?.on('error', (error: any) => {
+          this?.emit('error', { clientId, error: error?.message });
         });
       });
 
-      this.server.on('error', (error: any) => {
-        this.emit('error', { error: error.message });
+      this?.server.on('error', (error: any) => {
+        this?.emit('error', { error: error?.message });
       });
 
-      this.isRunning = true;
-      this.emit('ready', { port: this.options.port, host: this.options.host });
+      this?.isRunning = true;
+      this?.emit('ready', { port: this?.options.port, host: this?.options.host });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('error', { error: `Failed to start server: ${error}` });
+      this?.emit('error', { error: `Failed to start server: ${error}` });
       throw error;
     }
   }
 
   public async stop(): Promise<void> {
-    if (!this.isRunning) return;
+    if (!this?.isRunning) return;
 
-    if (this.server) {
-      this.server.close();
-      this.server = undefined;
+    if (this?.server) {
+      this?.server.close();
+      this?.server = undefined;
     }
 
-    this.clients.clear();
-    this.channels.clear();
-    this.isRunning = false;
-    this.emit('stopped');
+    this?.clients.clear();
+    this?.channels.clear();
+    this?.isRunning = false;
+    this?.emit('stopped');
   }
 
   public broadcast(channel: string, payload: unknown, excludeClientId?: string): void {
-    if (!this.isRunning) return;
+    if (!this?.isRunning) return;
 
-    const channelClients = this.channels.get(channel);
+    const channelClients = this?.channels.get(channel);
     if (!channelClients) return;
 
     const message = JSON.stringify({
@@ -121,18 +121,18 @@ export class WebSocketServerPure extends EventEmitter {
     for (const clientId of channelClients) {
       if (excludeClientId && clientId === excludeClientId) continue;
       
-      const client = this.clients.get(clientId);
-      if (client && client.ws.readyState === WebSocket.OPEN) {
-        client.ws.send(message);
+      const client = this?.clients.get(clientId);
+      if (client && client?.ws.readyState === WebSocket?.OPEN) {
+        client?.ws.send(message);
       }
     }
   }
 
   public sendToClient(clientId: string, payload: unknown): boolean {
-    if (!this.isRunning) return false;
+    if (!this?.isRunning) return false;
 
-    const client = this.clients.get(clientId);
-    if (!client || client.ws.readyState !== WebSocket.OPEN) return false;
+    const client = this?.clients.get(clientId);
+    if (!client || client?.ws.readyState !== WebSocket?.OPEN) return false;
 
     const message = JSON.stringify({
       type: 'direct',
@@ -140,56 +140,56 @@ export class WebSocketServerPure extends EventEmitter {
       timestamp: new Date()
     });
 
-    client.ws.send(message);
+    client?.ws.send(message);
     return true;
   }
 
   public joinChannel(clientId: string, channel: string): boolean {
-    if (!this.isRunning) return false;
+    if (!this?.isRunning) return false;
 
-    const client = this.clients.get(clientId);
+    const client = this?.clients.get(clientId);
     if (!client) return false;
 
-    client.channels.add(channel);
+    client?.channels.add(channel);
     
-    if (!this.channels.has(channel)) {
-      this.channels.set(channel, new Set());
+    if (!this?.channels.has(channel)) {
+      this?.channels.set(channel, new Set());
     }
-    this.channels.get(channel)!.add(clientId);
+    this?.channels.get(channel)!.add(clientId);
 
-    this.emit('channelJoined', { clientId, channel });
+    this?.emit('channelJoined', { clientId, channel });
     return true;
   }
 
   public leaveChannel(clientId: string, channel: string): boolean {
-    if (!this.isRunning) return false;
+    if (!this?.isRunning) return false;
 
-    const client = this.clients.get(clientId);
+    const client = this?.clients.get(clientId);
     if (!client) return false;
 
-    client.channels.delete(channel);
-    const channelClients = this.channels.get(channel);
+    client?.channels.delete(channel);
+    const channelClients = this?.channels.get(channel);
     if (channelClients) {
-      channelClients.delete(clientId);
-      if (channelClients.size === 0) {
-        this.channels.delete(channel);
+      channelClients?.delete(clientId);
+      if (channelClients?.size === 0) {
+        this?.channels.delete(channel);
       }
     }
 
-    this.emit('channelLeft', { clientId, channel });
+    this?.emit('channelLeft', { clientId, channel });
     return true;
   }
 
   public getClientCount(): number {
-    return this.clients.size;
+    return this?.clients.size;
   }
 
   public getChannelCount(): number {
-    return this.channels.size;
+    return this?.channels.size;
   }
 
   public getChannelClients(channel: string): string[] {
-    const channelClients = this.channels.get(channel);
+    const channelClients = this?.channels.get(channel);
     return channelClients ? Array.from(channelClients) : [];
   }
 
@@ -198,25 +198,25 @@ export class WebSocketServerPure extends EventEmitter {
   }
 
   private handleMessage(clientId: string, message: any): void {
-    const client = this.clients.get(clientId);
+    const client = this?.clients.get(clientId);
     if (!client) return;
 
-    client.lastSeen = Date.now();
+    client.lastSeen = new Date();
 
-    switch (message.type) {
+    switch (message?.type) {
       case 'join':
-        if (message.channel) {
-          this.joinChannel(clientId, message.channel);
+        if (message?.channel) {
+          this?.joinChannel(clientId, message?.channel);
         }
         break;
       case 'leave':
-        if (message.channel) {
-          this.leaveChannel(clientId, message.channel);
+        if (message?.channel) {
+          this?.leaveChannel(clientId, message?.channel);
         }
         break;
       case 'broadcast':
-        if (message.channel && message.payload) {
-          this.broadcast(message.channel, message.payload, clientId);
+        if (message?.channel && message?.payload) {
+          this?.broadcast(message?.channel, message?.payload, clientId);
         }
         break;
       case 'ping':
@@ -224,20 +224,20 @@ export class WebSocketServerPure extends EventEmitter {
         this.sendToClient(clientId, { type: 'pong', t: message.t || Date.now() });
         break;
       default:
-        this.emit('message', { clientId, message });
+        this?.emit('message', { clientId, message });
     }
   }
 
   private handleClientDisconnect(clientId: string): void {
-    const client = this.clients.get(clientId);
+    const client = this?.clients.get(clientId);
     if (!client) return;
 
     // Leave all channels
-    for (const channel of client.channels) {
-      this.leaveChannel(clientId, channel);
+    for (const channel of client?.channels) {
+      this?.leaveChannel(clientId, channel);
     }
 
-    this.clients.delete(clientId);
-    this.emit('clientDisconnected', { clientId });
+    this?.clients.delete(clientId);
+    this?.emit('clientDisconnected', { clientId });
   }
 }

@@ -1088,10 +1088,10 @@ export class UnityConverter {
   private isInitialized = false;
 
   constructor(projectSettings: UnityProjectSettings, exportConfiguration: UnityExportConfiguration) {
-    this.projectSettings = projectSettings;
-    this.exportConfiguration = exportConfiguration;
-    this.buildOptions = this.initializeBuildOptions();
-    this.initializeConverter();
+    this?.projectSettings = projectSettings;
+    this?.exportConfiguration = exportConfiguration;
+    this?.buildOptions = this?.initializeBuildOptions();
+    this?.initializeConverter();
   }
 
   private initializeBuildOptions(): UnityBuildOptions {
@@ -1198,15 +1198,15 @@ export class UnityConverter {
 
     try {
       // Validate project settings
-      await this.validateProjectSettings();
+      await this?.validateProjectSettings();
 
       // Validate export configuration
-      await this.validateExportConfiguration();
+      await this?.validateExportConfiguration();
 
       // Initialize Unity project
-      await this.initializeUnityProject();
+      await this?.initializeUnityProject();
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.log('[UnityConverter!] Unity converter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -1231,12 +1231,12 @@ export class UnityConverter {
   }
 
   async convertProject(): Promise<UnityConversionReport> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Unity converter not initialized');
     }
 
     const conversionId = `conversion_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const startTime = Date.now();
+    const startTime = new Date();
 
     console.log(`[UnityConverter!] Starting conversion: ${conversionId}`);
 
@@ -1256,33 +1256,33 @@ export class UnityConverter {
 
     try {
       // Convert project settings
-      await this.convertProjectSettings();
+      await this?.convertProjectSettings();
 
       // Convert scenes
-      await this.convertScenes();
+      await this?.convertScenes();
 
       // Convert assets
-      await this.convertAssets();
+      await this?.convertAssets();
 
       // Convert scripts
-      await this.convertScripts();
+      await this?.convertScripts();
 
       // Generate build files
-      await this.generateBuildFiles();
+      await this?.generateBuildFiles();
 
       // Export project
-      await this.exportProject();
+      await this?.exportProject();
 
-      report.endTime = Date.now();
-      report.duration = report.endTime - startTime;
-      report.conversionStatus = 'success';
+      report.endTime = new Date();
+      report?.duration = report?.endTime - startTime;
+      report?.conversionStatus = 'success';
 
       console.log(`[UnityConverter!] Conversion completed: ${conversionId}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      report.endTime = Date.now();
-      report.duration = report.endTime - startTime;
-      report.conversionStatus = 'failed';
+      report.endTime = new Date();
+      report?.duration = report?.endTime - startTime;
+      report?.conversionStatus = 'failed';
 
       const conversionError: UnityConversionError = {
         sourcePath: '',
@@ -1296,12 +1296,12 @@ export class UnityConverter {
         context: { conversionId }
       };
 
-      report.conversionErrors.push(conversionError);
+      report?.conversionErrors?.push(conversionError);
 
       console.error(`[UnityConverter!] Conversion failed: ${conversionId}`, err instanceof Error ? err.message : String(err));
     }
 
-    this.conversionReports.push(report);
+    this?.conversionReports?.push(report);
     return report;
   }
 
@@ -1336,7 +1336,7 @@ export class UnityConverter {
   }
 
   async buildProject(): Promise<UnityBuildReport> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Unity converter not initialized');
     }
 
@@ -1344,10 +1344,10 @@ export class UnityConverter {
 
     const report: UnityBuildReport = {
       summary: {
-        platform: this.exportConfiguration.target,
-        platformGroup: this.getPlatformGroup(),
+        platform: this?.exportConfiguration.target,
+        platformGroup: this?.getPlatformGroup(),
         options: JSON.stringify(this.buildOptions),
-        outputPath: this.exportConfiguration.outputPath,
+        outputPath: this?.exportConfiguration.outputPath,
         buildStartedAt: new Date(),
         buildEndedAt: 0,
         totalTime: 0,
@@ -1357,19 +1357,19 @@ export class UnityConverter {
         totalWarnings: 0,
         totalMessages: 0,
         type: 'build',
-        buildTarget: this.exportConfiguration.target,
-        buildTargetGroup: this.getTargetGroup(),
-        buildType: this.exportConfiguration.configuration,
-        buildPlatform: this.exportConfiguration.target,
-        buildConfiguration: this.exportConfiguration.configuration,
+        buildTarget: this?.exportConfiguration.target,
+        buildTargetGroup: this?.getTargetGroup(),
+        buildType: this?.exportConfiguration.configuration,
+        buildPlatform: this?.exportConfiguration.target,
+        buildConfiguration: this?.exportConfiguration.configuration,
         buildNumber: '1.0.0',
         buildVersion: '1.0.0',
-        unityVersion: this.projectSettings.unityVersion,
+        unityVersion: this?.projectSettings.unityVersion,
         buildMachine: 'MIFF-Converter',
-        buildPath: this.exportConfiguration.outputPath,
+        buildPath: this?.exportConfiguration.outputPath,
         buildGUID: `build_${Date.now()}`,
-        buildTargetPlatform: this.exportConfiguration.target,
-        buildTargetPlatformGroup: this.getPlatformGroup(),
+        buildTargetPlatform: this?.exportConfiguration.target,
+        buildTargetPlatformGroup: this?.getPlatformGroup(),
         buildTargetPlatformVersion: '1.0',
         buildTargetArchitecture: 'x64',
         buildTargetGraphicsAPIs: ['DirectX11', 'OpenGL'],
@@ -1377,15 +1377,15 @@ export class UnityConverter {
         buildTargetAR: false,
         buildTargetMR: false,
         buildTargetXR: false,
-        buildTargetIL2CPP: this.projectSettings.scriptingBackend === UnityScriptingBackend.IL2CPP,
-        buildTargetMono: this.projectSettings.scriptingBackend === UnityScriptingBackend.MONO,
-        buildTargetWebGL: this.exportConfiguration.target === UnityExportTarget.WEBGL,
-        buildTargetAndroid: this.exportConfiguration.target === UnityExportTarget.ANDROID,
-        buildTargetIOS: this.exportConfiguration.target === UnityExportTarget.IOS,
+        buildTargetIL2CPP: this?.projectSettings.scriptingBackend === UnityScriptingBackend?.IL2CPP,
+        buildTargetMono: this?.projectSettings.scriptingBackend === UnityScriptingBackend?.MONO,
+        buildTargetWebGL: this?.exportConfiguration.target === UnityExportTarget?.WEBGL,
+        buildTargetAndroid: this?.exportConfiguration.target === UnityExportTarget?.ANDROID,
+        buildTargetIOS: this?.exportConfiguration.target === UnityExportTarget?.IOS,
         buildTargetTizen: false,
-        buildTargetXbox: this.exportConfiguration.target === UnityExportTarget.XBOX,
-        buildTargetPlayStation: this.exportConfiguration.target === UnityExportTarget.PLAYSTATION,
-        buildTargetNintendoSwitch: this.exportConfiguration.target === UnityExportTarget.NINTENDO_SWITCH,
+        buildTargetXbox: this?.exportConfiguration.target === UnityExportTarget?.XBOX,
+        buildTargetPlayStation: this?.exportConfiguration.target === UnityExportTarget?.PLAYSTATION,
+        buildTargetNintendoSwitch: this?.exportConfiguration.target === UnityExportTarget?.NINTENDO_SWITCH,
         buildTargetCloudBuild: false,
         buildTargetLocalBuild: true,
         buildTargetRemoteBuild: false,
@@ -1811,16 +1811,16 @@ export class UnityConverter {
       totalSize: 0,
       totalTime: 1000,
       buildResult: 'success',
-      buildPlatform: this.exportConfiguration.target,
-      buildType: this.exportConfiguration.configuration,
-      buildVersion: this.projectSettings.version,
-      unityVersion: this.projectSettings.unityVersion,
+      buildPlatform: this?.exportConfiguration.target,
+      buildType: this?.exportConfiguration.configuration,
+      buildVersion: this?.projectSettings.version,
+      unityVersion: this?.projectSettings.unityVersion,
       buildMachine: 'MIFF-Converter',
-      buildPath: this.exportConfiguration.outputPath,
+      buildPath: this?.exportConfiguration.outputPath,
       buildGUID: `build_${Date.now()}`,
-      buildTargetGroup: this.getTargetGroup(),
-      buildTargetPlatform: this.exportConfiguration.target,
-      buildTargetPlatformGroup: this.getPlatformGroup(),
+      buildTargetGroup: this?.getTargetGroup(),
+      buildTargetPlatform: this?.exportConfiguration.target,
+      buildTargetPlatformGroup: this?.getPlatformGroup(),
       buildTargetPlatformVersion: '1.0',
       buildTargetArchitecture: 'x64',
       buildTargetGraphicsAPIs: ['DirectX11', 'OpenGL'],
@@ -1828,21 +1828,21 @@ export class UnityConverter {
       buildTargetAR: false,
       buildTargetMR: false,
       buildTargetXR: false,
-      buildTargetIL2CPP: this.projectSettings.scriptingBackend === UnityScriptingBackend.IL2CPP,
-      buildTargetMono: this.projectSettings.scriptingBackend === UnityScriptingBackend.MONO,
-      buildTargetWebGL: this.exportConfiguration.target === UnityExportTarget.WEBGL,
-      buildTargetAndroid: this.exportConfiguration.target === UnityExportTarget.ANDROID,
-      buildTargetIOS: this.exportConfiguration.target === UnityExportTarget.IOS,
+      buildTargetIL2CPP: this?.projectSettings.scriptingBackend === UnityScriptingBackend?.IL2CPP,
+      buildTargetMono: this?.projectSettings.scriptingBackend === UnityScriptingBackend?.MONO,
+      buildTargetWebGL: this?.exportConfiguration.target === UnityExportTarget?.WEBGL,
+      buildTargetAndroid: this?.exportConfiguration.target === UnityExportTarget?.ANDROID,
+      buildTargetIOS: this?.exportConfiguration.target === UnityExportTarget?.IOS,
       buildTargetTizen: false,
-      buildTargetXbox: this.exportConfiguration.target === UnityExportTarget.XBOX,
-      buildTargetPlayStation: this.exportConfiguration.target === UnityExportTarget.PLAYSTATION,
-      buildTargetNintendoSwitch: this.exportConfiguration.target === UnityExportTarget.NINTENDO_SWITCH,
+      buildTargetXbox: this?.exportConfiguration.target === UnityExportTarget?.XBOX,
+      buildTargetPlayStation: this?.exportConfiguration.target === UnityExportTarget?.PLAYSTATION,
+      buildTargetNintendoSwitch: this?.exportConfiguration.target === UnityExportTarget?.NINTENDO_SWITCH,
       buildTargetCloudBuild: false,
       buildTargetLocalBuild: true,
       buildTargetRemoteBuild: false,
       buildTargetCustomBuild: false,
-      buildTarget: this.exportConfiguration.target,
-      buildConfiguration: this.exportConfiguration.configuration,
+      buildTarget: this?.exportConfiguration.target,
+      buildConfiguration: this?.exportConfiguration.configuration,
       buildNumber: '1.0.0',
       buildDate: new Date().toISOString(),
       buildDuration: 1000,
@@ -2026,24 +2026,24 @@ export class UnityConverter {
   }
 
   private getPlatformGroup(): string {
-    switch (this.exportConfiguration.target) {
-      case UnityExportTarget.WINDOWS:
-      case UnityExportTarget.MACOS:
-      case UnityExportTarget.LINUX:
+    switch (this?.exportConfiguration.target) {
+      case UnityExportTarget?.WINDOWS:
+      case UnityExportTarget?.MACOS:
+      case UnityExportTarget?.LINUX:
         return 'Standalone';
-      case UnityExportTarget.ANDROID:
+      case UnityExportTarget?.ANDROID:
         return 'Android';
-      case UnityExportTarget.IOS:
+      case UnityExportTarget?.IOS:
         return 'iOS';
-      case UnityExportTarget.WEBGL:
+      case UnityExportTarget?.WEBGL:
         return 'WebGL';
-      case UnityExportTarget.XBOX:
+      case UnityExportTarget?.XBOX:
         return 'Xbox';
-      case UnityExportTarget.PLAYSTATION:
+      case UnityExportTarget?.PLAYSTATION:
         return 'PlayStation';
-      case UnityExportTarget.NINTENDO_SWITCH:
+      case UnityExportTarget?.NINTENDO_SWITCH:
         return 'NintendoSwitch';
-      case UnityExportTarget.HOLOLENS:
+      case UnityExportTarget?.HOLOLENS:
         return 'HoloLens';
       default:
         return 'Standalone';
@@ -2051,15 +2051,15 @@ export class UnityConverter {
   }
 
   private getTargetGroup(): string {
-    return this.getPlatformGroup();
+    return this?.getPlatformGroup();
   }
 
   getConversionReports(): UnityConversionReport[] {
-    return [...this.conversionReports];
+    return [...this?.conversionReports];
   }
 
   getProjectSettings(): UnityProjectSettings {
-    return { ...this.projectSettings };
+    return { ...this?.projectSettings };
   }
 
   updateProjectSettings(settings: Partial<UnityProjectSettings>): void {
@@ -2067,7 +2067,7 @@ export class UnityConverter {
   }
 
   getExportConfiguration(): UnityExportConfiguration {
-    return { ...this.exportConfiguration };
+    return { ...this?.exportConfiguration };
   }
 
   updateExportConfiguration(configuration: Partial<UnityExportConfiguration>): void {
@@ -2076,40 +2076,40 @@ export class UnityConverter {
 
   exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      projectSettings: this.projectSettings,
-      exportConfiguration: this.exportConfiguration,
-      buildOptions: this.buildOptions,
-      conversionReports: this.conversionReports,
+      projectSettings: this?.projectSettings,
+      exportConfiguration: this?.exportConfiguration,
+      buildOptions: this?.buildOptions,
+      conversionReports: this?.conversionReports,
       timestamp: new Date()
     };
 
     if (format === 'json') {
       return JSON.stringify(data, null, 2);
     } else if (format === 'xml') {
-      return this.convertToXML(data);
+      return this?.convertToXML(data: any);
     } else {
-      return this.convertToBinary(data);
+      return this?.convertToBinary(data: any);
     }
   }
 
-  private convertToXML(data): string {
+  private convertToXML(data: any): string {
     // Simple XML conversion - in production this would be more robust
     return '<unity_converter_data><!-- XML export not fully implemented --></unity_converter_data>';
   }
 
-  private convertToBinary(data): string {
+  private convertToBinary(data: any): string {
     // Simple binary conversion - in production this would use proper serialization
-    return JSON.stringify(data);
+    return JSON.stringify(data: any);
   }
 
   reset(): void {
-    this.conversionReports = [];
+    this?.conversionReports = [];
     console.log('[UnityConverter!] Reset to initial state');
   }
 
   dispose(): void {
-    this.reset();
-    this.isInitialized = false;
+    this?.reset();
+    this?.isInitialized = false;
     console.log('[UnityConverter!] Disposed successfully');
   }
 }

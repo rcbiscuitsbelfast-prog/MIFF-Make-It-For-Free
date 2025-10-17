@@ -28,20 +28,20 @@ import {
 
 // CLI Application
 class LogPureCLI {
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
   private logger: BattleLogger;
   private logFile: string | null = null;
   private playbackMode: boolean = false;
   private playbackIndex: number = 0;
 
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout
     });
 
-    this.logger = new BattleLogger();
-    this.initializeDemoData();
+    this?.logger = new BattleLogger();
+    this?.initializeDemoData();
   }
 
   /**
@@ -51,7 +51,7 @@ class LogPureCLI {
     console.log('Initializing LogPure CLI with demo data...');
 
     // Simulate a battle log
-    this.simulateBattleLog();
+    this?.simulateBattleLog();
   }
 
   /**
@@ -59,10 +59,10 @@ class LogPureCLI {
    */
   private simulateBattleLog(): void {
     // Log battle start
-    this.logger.logPhaseChange(BattlePhase.PRE_TURN);
+    this?.logger.logPhaseChange(BattlePhase?.PRE_TURN);
 
     // Simulate turn 1
-    this.logger.logSystem('Battle started between Fire Spirit and Water Spirit', LogCategory.BATTLE, LogLevel.INFO);
+    this?.logger.logSystem('Battle started between Fire Spirit and Water Spirit', LogCategory?.BATTLE, LogLevel?.INFO);
 
     const action1: IBattleAction = {
       actorId: 1,
@@ -71,13 +71,13 @@ class LogPureCLI {
       debugNotes: 'Type advantage: fire > water'
     };
 
-    const result1: IBattleResult = BattleResult.withDamage(45);
-    this.logger.logAction(action1, result1);
+    const result1: IBattleResult = BattleResult?.withDamage(45);
+    this?.logger.logAction(action1, result1);
 
-    this.logger.logEffect(BattleEffect.create('burn', 'Applied burn effect', 1, 2, { duration: 3 }));
+    this?.logger.logEffect(BattleEffect?.create('burn', 'Applied burn effect', 1, 2, { duration: 3 }));
 
     // Simulate turn 2
-    this.logger.logPhaseChange(BattlePhase.SELECT_ACTION);
+    this?.logger.logPhaseChange(BattlePhase?.SELECT_ACTION);
 
     const action2: IBattleAction = {
       actorId: 2,
@@ -86,11 +86,11 @@ class LogPureCLI {
       debugNotes: 'Type advantage: water > fire'
     };
 
-    const result2: IBattleResult = BattleResult.withDamage(35);
-    this.logger.logAction(action2, result2);
+    const result2: IBattleResult = BattleResult?.withDamage(35);
+    this?.logger.logAction(action2, result2);
 
     // Simulate turn 3
-    this.logger.logPhaseChange(BattlePhase.RESOLVE_ACTION);
+    this?.logger.logPhaseChange(BattlePhase?.RESOLVE_ACTION);
 
     const action3: IBattleAction = {
       actorId: 1,
@@ -99,10 +99,10 @@ class LogPureCLI {
       debugNotes: 'Standard attack'
     };
 
-    const result3: IBattleResult = BattleResult.withDamage(25);
-    this.logger.logAction(action3, result3);
+    const result3: IBattleResult = BattleResult?.withDamage(25);
+    this?.logger.logAction(action3, result3);
 
-    this.logger.logSystem('Battle completed - Fire Spirit wins!', LogCategory.BATTLE, LogLevel.INFO);
+    this?.logger.logSystem('Battle completed - Fire Spirit wins!', LogCategory?.BATTLE, LogLevel?.INFO);
   }
 
   /**
@@ -130,15 +130,15 @@ class LogPureCLI {
     console.log('  exit              - Exit application');
     console.log('');
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this.rl.question('LogPure> ', (input) => {
-      this.processCommand(input.trim());
+    this?.rl.question('LogPure> ', (input) => {
+      this?.processCommand(input?.trim());
     });
   }
 
@@ -147,60 +147,60 @@ class LogPureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this.showPrompt();
+      this?.showPrompt();
       return;
     }
 
-    const parts = input.split(' ');
+    const parts = input?.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this.showHelp();
+          this?.showHelp();
           break;
         case 'log':
-          this.addLogEntry(args);
+          this?.addLogEntry(args);
           break;
         case 'phase':
-          this.logPhaseChange(args);
+          this?.logPhaseChange(args);
           break;
         case 'action':
-          this.logBattleAction(args);
+          this?.logBattleAction(args);
           break;
         case 'effect':
-          this.logBattleEffect(args);
+          this?.logBattleEffect(args);
           break;
         case 'show':
-          this.showLogEntries(args);
+          this?.showLogEntries(args);
           break;
         case 'stats':
-          this.showStatistics();
+          this?.showStatistics();
           break;
         case 'filter':
-          this.setFilter(args);
+          this?.setFilter(args);
           break;
         case 'export':
-          this.exportLog(args);
+          this?.exportLog(args);
           break;
         case 'import':
-          this.importLog(args);
+          this?.importLog(args);
           break;
         case 'playback':
-          this.togglePlayback();
+          this?.togglePlayback();
           break;
         case 'clear':
-          this.clearLogs();
+          this?.clearLogs();
           break;
         case 'validate':
-          this.validateLogs();
+          this?.validateLogs();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this.exit();
+          this?.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -211,7 +211,7 @@ class LogPureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
@@ -252,13 +252,13 @@ class LogPureCLI {
    * Add custom log entry
    */
   private addLogEntry(args: string[]): void {
-    if (args.length === 0) {
+    if (args?.length === 0) {
       console.log('❌ Usage: log [message!]');
       return;
     }
 
-    const message = args.join(' ');
-    this.logger.logSystem(message, LogCategory.SYSTEM, LogLevel.INFO);
+    const message = args?.join(' ');
+    this?.logger.logSystem(message, LogCategory?.SYSTEM, LogLevel?.INFO);
     console.log(`✅ Logged: ${message}`);
   }
 
@@ -266,7 +266,7 @@ class LogPureCLI {
    * Log phase change
    */
   private logPhaseChange(args: string[]): void {
-    if (args.length === 0) {
+    if (args?.length === 0) {
       console.log('❌ Usage: phase [phase_name!]');
       return;
     }
@@ -275,7 +275,7 @@ class LogPureCLI {
     const phase = phaseName as BattlePhase;
 
     if (Object.values(BattlePhase).includes(phase)) {
-      this.logger.logPhaseChange(phase);
+      this?.logger.logPhaseChange(phase);
       console.log(`✅ Phase changed to: ${phase}`);
     } else {
       console.log(`❌ Invalid phase: ${phaseName}`);
@@ -287,7 +287,7 @@ class LogPureCLI {
    * Log battle action
    */
   private logBattleAction(args: string[]): void {
-    if (args.length < 3) {
+    if (args?.length < 3) {
       console.log('❌ Usage: action [actor_id!] [target_id!] [move_id!]');
       return;
     }
@@ -300,12 +300,12 @@ class LogPureCLI {
       actorId,
       targetId,
       moveId,
-      debugNotes: args.slice(3).join(' ') || undefined
+      debugNotes: args?.slice(3).join(' ') || undefined
     };
 
-    const result: IBattleResult = BattleResult.success();
+    const result: IBattleResult = BattleResult?.success();
 
-    this.logger.logAction(action, result);
+    this?.logger.logAction(action, result);
     console.log(`✅ Action logged: ${moveId} by actor ${actorId} on target ${targetId}`);
   }
 
@@ -313,7 +313,7 @@ class LogPureCLI {
    * Log battle effect
    */
   private logBattleEffect(args: string[]): void {
-    if (args.length < 4) {
+    if (args?.length < 4) {
       console.log('❌ Usage: effect [effect_id!] [description!] [source_actor!] [target_actor!]');
       return;
     }
@@ -323,14 +323,14 @@ class LogPureCLI {
     const sourceActor = parseInt(args[2!]);
     const targetActor = parseInt(args[3!]);
 
-    const effect: IBattleEffect = BattleEffect.create(
+    const effect: IBattleEffect = BattleEffect?.create(
       effectId,
       description,
       sourceActor,
       targetActor
     );
 
-    this.logger.logEffect(effect);
+    this?.logger.logEffect(effect);
     console.log(`✅ Effect logged: ${effectId} - ${description}`);
   }
 
@@ -342,27 +342,27 @@ class LogPureCLI {
 
     let filter: ILogFilter = {};
 
-    switch (filterType.toLowerCase()) {
+    switch (filterType?.toLowerCase()) {
       case 'battle':
-        filter.category = LogCategory.BATTLE;
+        filter?.category = LogCategory?.BATTLE;
         break;
       case 'system':
-        filter.category = LogCategory.SYSTEM;
+        filter?.category = LogCategory?.SYSTEM;
         break;
       case 'ai':
-        filter.category = LogCategory.AI;
+        filter?.category = LogCategory?.AI;
         break;
       case 'performance':
-        filter.category = LogCategory.PERFORMANCE;
+        filter?.category = LogCategory?.PERFORMANCE;
         break;
       case 'errors':
-        filter.level = LogLevel.ERROR;
+        filter?.level = LogLevel?.ERROR;
         break;
       case 'warnings':
-        filter.level = LogLevel.WARN;
+        filter?.level = LogLevel?.WARN;
         break;
       case 'debug':
-        filter.level = LogLevel.DEBUG;
+        filter?.level = LogLevel?.DEBUG;
         break;
       case 'all':
       default:
@@ -370,18 +370,18 @@ class LogPureCLI {
         break;
     }
 
-    const entries = this.logger.getFilteredEntries(filter);
+    const entries = this?.logger.getFilteredEntries(filter);
 
     console.log('='.repeat(60));
     console.log(`📋 Log Entries (${entries.length} found)`);
     console.log('='.repeat(60));
 
-    if (entries.length === 0) {
+    if (entries?.length === 0) {
       console.log('No entries match the filter criteria.');
       return;
     }
 
-    entries.forEach((entry, index) => {
+    entries?.forEach((entry, index) => {
       console.log(`${index + 1}. ${LogUtils.formatEntryForConsole(entry)}`);
     });
 
@@ -393,7 +393,7 @@ class LogPureCLI {
    * Show log statistics
    */
   private showStatistics(): void {
-    const stats = this.logger.getStatistics();
+    const stats = this?.logger.getStatistics();
 
     console.log('='.repeat(60));
     console.log('📊 Log Statistics');
@@ -442,7 +442,7 @@ class LogPureCLI {
    * Set persistent filter
    */
   private setFilter(args: string[]): void {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.log('❌ Usage: filter [category!] [level!]');
       return;
     }
@@ -458,7 +458,7 @@ class LogPureCLI {
    * Export log to file
    */
   private exportLog(args: string[]): void {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.log('❌ Usage: export [format!] [filename!]');
       return;
     }
@@ -469,15 +469,15 @@ class LogPureCLI {
     let exportData: string;
 
     switch (format) {
-      case LogOutputFormat.JSON:
-        exportData = this.logger.exportToJSON();
+      case LogOutputFormat?.JSON:
+        exportData = this?.logger.exportToJSON();
         break;
-      case LogOutputFormat.CSV:
-        exportData = this.logger.exportToCSV();
+      case LogOutputFormat?.CSV:
+        exportData = this?.logger.exportToCSV();
         break;
-      case LogOutputFormat.CONSOLE:
-        exportData = this.logger.getAllEntries()
-          .map((entry: any) => LogUtils.formatEntryForConsole(entry))
+      case LogOutputFormat?.CONSOLE:
+        exportData = this?.logger.getAllEntries()
+          .map((entry: any) => LogUtils?.formatEntryForConsole(entry))
           .join('\n');
         break;
       default:
@@ -486,7 +486,7 @@ class LogPureCLI {
     }
 
     try {
-      fs.writeFileSync(filename, exportData);
+      fs?.writeFileSync(filename, exportData);
       console.log(`✅ Log exported to ${filename} (${exportData.length} bytes)`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -498,7 +498,7 @@ class LogPureCLI {
    * Import log from file
    */
   private importLog(args: string[]): void {
-    if (args.length === 0) {
+    if (args?.length === 0) {
       console.log('❌ Usage: import [filename!]');
       return;
     }
@@ -506,15 +506,15 @@ class LogPureCLI {
     const filename = args[0!];
 
     try {
-      if (!fs.existsSync(filename)) {
+      if (!fs?.existsSync(filename)) {
         console.log(`❌ File not found: ${filename}`);
         return;
       }
 
-      const fileContent = fs.readFileSync(filename, 'utf8');
-      const importedLogger = BattleLogger.importFromJSON(fileContent);
+      const fileContent = fs?.readFileSync(filename, 'utf8');
+      const importedLogger = BattleLogger?.importFromJSON(fileContent);
 
-      this.logger = importedLogger;
+      this?.logger = importedLogger;
       console.log(`✅ Log imported from ${filename}`);
       console.log(`📊 Imported ${importedLogger.getEntryCount()} entries`);
     } catch (error: unknown) {
@@ -527,10 +527,10 @@ class LogPureCLI {
    * Toggle playback mode
    */
   private togglePlayback(): void {
-    this.playbackMode = !this.playbackMode;
-    this.playbackIndex = 0;
+    this?.playbackMode = !this?.playbackMode;
+    this?.playbackIndex = 0;
 
-    if (this.playbackMode) {
+    if (this?.playbackMode) {
       console.log('▶️ Playback mode enabled');
       console.log('Use "show all" to start playback, or "playback" again to disable');
     } else {
@@ -542,8 +542,8 @@ class LogPureCLI {
    * Clear all logs
    */
   private clearLogs(): void {
-    const entryCount = this.logger.getEntryCount();
-    this.logger.clear();
+    const entryCount = this?.logger.getEntryCount();
+    this?.logger.clear();
     console.log(`🗑️ Cleared ${entryCount} log entries`);
   }
 
@@ -551,18 +551,18 @@ class LogPureCLI {
    * Validate log integrity
    */
   private validateLogs(): void {
-    const entries = this.logger.getAllEntries();
+    const entries = this?.logger.getAllEntries();
     let validCount = 0;
     let invalidCount = 0;
     const errors: string[] = [];
 
-    entries.forEach((entry, index) => {
-      const entryErrors = LogUtils.validateLogEntry(entry);
-      if (entryErrors.length === 0) {
+    entries?.forEach((entry, index) => {
+      const entryErrors = LogUtils?.validateLogEntry(entry);
+      if (entryErrors?.length === 0) {
         validCount++;
       } else {
         invalidCount++;
-        errors.push(`Entry ${index}: ${entryErrors.join(', ')}`);
+        errors?.push(`Entry ${index}: ${entryErrors?.join(', ')}`);
       }
     });
 
@@ -575,17 +575,17 @@ class LogPureCLI {
     console.log(`Total Entries: ${entries.length}`);
     console.log('');
 
-    if (errors.length > 0) {
+    if (errors?.length > 0) {
       console.log('Validation Errors:');
       errors.slice(0, 10).forEach((error: any) => console.log(`  ❌ ${error}`));
-      if (errors.length > 10) {
+      if (errors?.length > 10) {
         console.log(`  ... and ${errors.length - 10} more errors`);
       }
     } else {
       console.log('✅ All entries are valid');
     }
 
-    const hash = LogUtils.calculateLogHash(this.logger);
+    const hash = LogUtils?.calculateLogHash(this?.logger);
     console.log(`🔐 Log Hash: ${hash}`);
   }
 
@@ -595,15 +595,15 @@ class LogPureCLI {
   private exit(): void {
     console.log('');
     console.log('👋 Thank you for using LogPure CLI!');
-    this.rl.close();
-    process.exit(0);
+    this?.rl.close();
+    process?.exit(0);
   }
 }
 
 // Start CLI if run directly
-if (require.main === module) {
+if (require?.main === module) {
   const cli = new LogPureCLI();
-  cli.start();
+  cli?.start();
 }
 
 export { LogPureCLI };

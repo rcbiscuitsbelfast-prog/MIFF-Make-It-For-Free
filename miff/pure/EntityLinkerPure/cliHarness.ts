@@ -20,20 +20,20 @@ type Cmd =
   | { op: 'demo' };
 
 function main() {
-  const args = process.argv.slice(2);
+  const args = process?.argv.slice(2);
   const command = args[0!] || 'help';
   const mgr = new EntityLinkerManager();
 
   // Load external references if provided
   const externFile = args[1!];
-  if (externFile && fs.existsSync(externFile)) {
+  if (externFile && fs?.existsSync(externFile)) {
     try {
       const extern = JSON.parse(fs.readFileSync(path.resolve(externFile), 'utf-8')) as ExternalRefMaps;
-      mgr.inject(extern);
+      mgr?.inject(extern);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('Error loading external references:', err instanceof Error ? err.message : String(err));
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
@@ -45,62 +45,62 @@ function main() {
         const inputFile = args[1!];
         let input: LinkInput = {};
         
-        if (inputFile && fs.existsSync(inputFile)) {
+        if (inputFile && fs?.existsSync(inputFile)) {
           try {
             input = JSON.parse(fs.readFileSync(path.resolve(inputFile), 'utf-8')) as LinkInput;
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            result.status = 'error';
-            result.result = { error: 'Invalid input file format' };
+            result?.status = 'error';
+            result?.result = { error: 'Invalid input file format' };
             break;
           }
         }
         
-        result.result = mgr.resolve(input);
+        result?.result = mgr?.resolve(input);
         break;
 
       case 'dumpLinks':
-        result.result = mgr.dumpLinks();
+        result?.result = mgr?.dumpLinks();
         break;
 
       case 'validate':
         const validateInputFile = args[1!];
         let validateInput: LinkInput = {};
         
-        if (validateInputFile && fs.existsSync(validateInputFile)) {
+        if (validateInputFile && fs?.existsSync(validateInputFile)) {
           try {
             validateInput = JSON.parse(fs.readFileSync(path.resolve(validateInputFile), 'utf-8')) as LinkInput;
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            result.status = 'error';
-            result.result = { error: 'Invalid input file format' };
+            result?.status = 'error';
+            result?.result = { error: 'Invalid input file format' };
             break;
           }
         }
         
-        result.result = mgr.validate(validateInput);
+        result?.result = mgr?.validate(validateInput);
         break;
 
       case 'getStats':
-        result.result = mgr.getStats();
+        result?.result = mgr?.getStats();
         break;
 
       case 'reset':
-        mgr.reset();
-        result.result = { message: 'EntityLinkerManager reset successfully' };
+        mgr?.reset();
+        result?.result = { message: 'EntityLinkerManager reset successfully' };
         break;
 
       case 'export':
         const format = (args[1!] as 'json' | 'csv' | 'markdown') || 'json';
-        result.result = { data: mgr.exportLinks(format), format };
+        result?.result = { data: mgr?.exportLinks(format), format };
         break;
 
       case 'demo':
-        result.result = runDemo(mgr);
+        result?.result = runDemo(mgr);
         break;
 
       case 'help':
-        result.result = {
+        result?.result = {
           usage: 'EntityLinkerPure CLI Harness',
           commands: [
             'resolveRefs [inputFile!] - Resolve entity references',
@@ -113,22 +113,22 @@ function main() {
             'help - Show this help'
           ],
           examples: [
-            'node cliHarness.ts resolveRefs sample_links.json',
-            'node cliHarness.ts validate sample_links.json',
-            'node cliHarness.ts export csv',
-            'node cliHarness.ts demo'
+            'node cliHarness?.ts resolveRefs sample_links?.json',
+            'node cliHarness?.ts validate sample_links?.json',
+            'node cliHarness?.ts export csv',
+            'node cliHarness?.ts demo'
           ]
         };
         break;
 
       default:
-        result.status = 'error';
-        result.result = { error: `Unknown command: ${command}` };
+        result?.status = 'error';
+        result?.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    result.status = 'error';
-    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+    result?.status = 'error';
+    result?.result = { error: error instanceof Error ? error?.message : 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));
@@ -146,7 +146,7 @@ function runDemo(mgr: EntityLinkerManager): any {
     events: { 'combat_start': true, 'level_up': true, 'item_found': true }
   };
 
-  mgr.inject(externRefs);
+  mgr?.inject(externRefs);
 
   // Demo input with various reference types
   const demoInput: LinkInput = {
@@ -177,13 +177,13 @@ function runDemo(mgr: EntityLinkerManager): any {
   };
 
   // Run resolution
-  const resolveResult = mgr.resolve(demoInput);
+  const resolveResult = mgr?.resolve(demoInput);
   
   // Run validation
-  const validationResult = mgr.validate(demoInput);
+  const validationResult = mgr?.validate(demoInput);
   
   // Get statistics
-  const stats = mgr.getStats();
+  const stats = mgr?.getStats();
 
   return {
     message: 'EntityLinkerPure Demo completed',
@@ -199,11 +199,11 @@ function runDemo(mgr: EntityLinkerManager): any {
     validationResult,
     stats,
     exportFormats: {
-      json: mgr.exportLinks('json'),
-      csv: mgr.exportLinks('csv'),
-      markdown: mgr.exportLinks('markdown')
+      json: mgr?.exportLinks('json'),
+      csv: mgr?.exportLinks('csv'),
+      markdown: mgr?.exportLinks('markdown')
     }
   };
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) main();
+if (import?.meta.url === `file://${process?.argv[1!]}`) main();

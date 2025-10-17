@@ -29,7 +29,7 @@ export type StartMenuAction =
 export function createStartMenuState(config: StartMenuConfig): StartMenuState {
 	const items = Array.isArray(config.items) && config.items.length > 0 ? config.items.slice(0) : ['newGame'];
 	return {
-		layout: config.layout! || 'tabs',
+		layout: config?.layout! || 'tabs',
 		items,
 		selectedIndex: 0,
 		isActive: true,
@@ -38,7 +38,7 @@ export function createStartMenuState(config: StartMenuConfig): StartMenuState {
 }
 
 export function reduceStartMenuAction(state: StartMenuState, action: StartMenuAction): StartMenuState {
-	switch (action.type) {
+	switch (action?.type) {
 		case 'INIT':
 			return { ...state, isActive: true, selectedIndex: 0, lastAction: 'INIT' };
 		case 'SELECT_INDEX': {
@@ -46,11 +46,11 @@ export function reduceStartMenuAction(state: StartMenuState, action: StartMenuAc
 			return { ...state, selectedIndex: clamped, lastAction: 'SELECT_INDEX' };
 		}
 		case 'SELECT_NEXT': {
-			const next = (state.selectedIndex + 1) % state.items.length;
+			const next = (state?.selectedIndex + 1) % state?.items.length;
 			return { ...state, selectedIndex: next, lastAction: 'SELECT_NEXT' };
 		}
 		case 'SELECT_PREV': {
-			const prev = (state.selectedIndex - 1 + state.items.length) % state.items.length;
+			const prev = (state?.selectedIndex - 1 + state?.items.length) % state?.items.length;
 			return { ...state, selectedIndex: prev, lastAction: 'SELECT_PREV' };
 		}
 		case 'CONFIRM': {
@@ -67,10 +67,10 @@ export function reduceStartMenuAction(state: StartMenuState, action: StartMenuAc
 }
 
 export function getSelectedItem(state: StartMenuState): string {
-	return state.items[state.selectedIndex] || '';
+	return state?.items[state?.selectedIndex] || '';
 }
 
 export function isMenuOpen(state: StartMenuState): boolean {
-	return !!state.isActive;
+	return !!state?.isActive;
 }
 

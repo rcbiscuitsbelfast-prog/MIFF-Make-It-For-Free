@@ -85,43 +85,43 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
   const failedQuests: string[] = [];
   const rewardsGranted: QuestReward[] = [];
 
-  const quest = newState.quests[event.questId];
+  const quest = newState?.quests[event?.questId];
   if (!quest) {
     return { questState: newState, events: newEvents, completedQuests, failedQuests, rewardsGranted };
   }
 
-  switch (event.type) {
+  switch (event?.type) {
     case 'start':
       if (canStartQuest(quest, newState)) {
-        quest.status = 'active';
-        quest.currentStep = quest.start;
-        quest.progress = 0;
-        if (quest.timed) {
-          quest.timed.startTime = event.timestamp;
+        quest?.status = 'active';
+        quest?.currentStep = quest?.start;
+        quest?.progress = 0;
+        if (quest?.timed) {
+          quest?.timed.startTime = event?.timestamp;
         }
-        newState.activeQuests.push(event.questId);
-        newEvents.push(event);
+        newState?.activeQuests?.push(event?.questId);
+        newEvents?.push(event);
       }
       break;
 
     case 'progress':
-      if (quest.status === 'active' && event.stepId) {
-        const step = quest.steps[event.stepId];
-        if (step && !step.completed) {
+      if (quest?.status === 'active' && event?.stepId) {
+        const step = quest?.steps[event?.stepId];
+        if (step && !step?.completed) {
           // Check if trigger conditions are met
-          if (checkTriggerConditions(step, event.triggerData, newState)) {
-            step.completed = true;
-            step.triggers.forEach((t: any) => t.completed = true);
+          if (checkTriggerConditions(step, event?.triggerData, newState)) {
+            step?.completed = true;
+            step?.triggers.forEach((t: any) => t?.completed = true);
             
             // Move to next step or complete quest
-            if (step.next) {
-              if (typeof step.next === 'string') {
-                quest.currentStep = step.next;
+            if (step?.next) {
+              if (typeof step?.next === 'string') {
+                quest?.currentStep = step?.next;
               } else {
                 // Handle branching logic
-                const nextStep = determineNextStep(step.next, newState);
+                const nextStep = determineNextStep(step?.next, newState);
                 if (nextStep) {
-                  quest.currentStep = nextStep;
+                  quest?.currentStep = nextStep;
                 }
               }
             }
@@ -135,33 +135,33 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
             }
           }
         }
-        newEvents.push(event);
+        newEvents?.push(event);
       }
       break;
 
     case 'complete':
-      if (quest.status === 'active') {
+      if (quest?.status === 'active') {
         completeQuest(quest, newState, completedQuests, rewardsGranted);
-        newEvents.push(event);
+        newEvents?.push(event);
       }
       break;
 
     case 'fail':
-      if (quest.status === 'active') {
-        quest.status = 'failed';
-        newState.failedQuests.push(event.questId);
-        const index = newState.activeQuests.indexOf(event.questId);
+      if (quest?.status === 'active') {
+        quest?.status = 'failed';
+        newState?.failedQuests?.push(event?.questId);
+        const index = newState?.activeQuests.indexOf(event?.questId);
         if (index > -1) {
-          newState.activeQuests.splice(index, 1);
+          newState?.activeQuests.splice(index, 1);
         }
-        failedQuests.push(event.questId);
-        newEvents.push(event);
+        failedQuests?.push(event?.questId);
+        newEvents?.push(event);
       }
       break;
 
     case 'reset':
       resetQuest(quest);
-      newEvents.push(event);
+      newEvents?.push(event);
       break;
   }
 
@@ -186,11 +186,11 @@ export function applyQuestEvents(state: QuestState, events: QuestEvent[]): Quest
 
   for (const event of events) {
     const result = applyQuestEvent(currentState, event);
-    currentState = result.questState;
-    allEvents.push(...result.events);
-    allCompletedQuests.push(...result.completedQuests);
-    allFailedQuests.push(...result.failedQuests);
-    allRewardsGranted.push(...result.rewardsGranted);
+    currentState = result?.questState;
+    allEvents?.push(...result?.events);
+    allCompletedQuests?.push(...result?.completedQuests);
+    allFailedQuests?.push(...result?.failedQuests);
+    allRewardsGranted?.push(...result?.rewardsGranted);
   }
 
   return {
@@ -216,11 +216,11 @@ export function createQuest(
   timed?: { seconds: number }
 ): Quest {
   const stepMap: Record<string, QuestStep> = {};
-  steps.forEach((step: any) => {
-    stepMap[step.id] = {
+  steps?.forEach((step: any) => {
+    stepMap[step?.id] = {
       ...step,
       completed: false,
-      requiredTriggers: step.triggers.length
+      requiredTriggers: step?.triggers.length
     };
   });
 
@@ -230,7 +230,7 @@ export function createQuest(
     description,
     steps: stepMap,
     start,
-    rewards: rewards.map((r: any) => ({ ...r, granted: false })),
+    rewards: rewards?.map((r: any) => ({ ...r, granted: false })),
     status: 'available',
     currentStep: start,
     progress: 0,
@@ -241,10 +241,10 @@ export function createQuest(
 
 // Helper functions
 function canStartQuest(quest: Quest, state: QuestState): boolean {
-  if (quest.status !== 'available') return false;
-  if (quest.requirements) {
-    return quest.requirements.every(reqId => 
-      state.completedQuests.includes(reqId)
+  if (quest?.status !== 'available') return false;
+  if (quest?.requirements) {
+    return quest?.requirements.every(reqId => 
+      state?.completedQuests.includes(reqId)
     );
   }
   return true;
@@ -257,35 +257,35 @@ function checkTriggerConditions(
 ): boolean {
   if (!triggerData) return false;
   
-  return step.triggers.some(trigger => {
-    switch (trigger.type) {
+  return step?.triggers.some(trigger => {
+    switch (trigger?.type) {
       case 'talk':
-        return triggerData.type === 'talk' && triggerData.target === trigger.target;
+        return triggerData?.type === 'talk' && triggerData?.target === trigger?.target;
       case 'collect':
-        return triggerData.type === 'collect' && 
-               triggerData.target === trigger.target && 
-               (triggerData.amount || 1) >= (trigger.amount || 1);
+        return triggerData?.type === 'collect' && 
+               triggerData?.target === trigger?.target && 
+               (triggerData?.amount || 1) >= (trigger?.amount || 1);
       case 'defeat':
-        return triggerData.type === 'defeat' && 
-               triggerData.target === trigger.target && 
-               (triggerData.amount || 1) >= (trigger.amount || 1);
+        return triggerData?.type === 'defeat' && 
+               triggerData?.target === trigger?.target && 
+               (triggerData?.amount || 1) >= (trigger?.amount || 1);
       case 'location':
         if (
-          triggerData.type === 'location' &&
-          trigger.location &&
-          state?.playerStats.location &&
-          triggerData.location
+          triggerData?.type === 'location' &&
+          trigger?.location &&
+          state?.playerStats?.location &&
+          triggerData?.location
         ) {
-          const dx = triggerData.location.x - trigger.location.x;
-          const dy = triggerData.location.y - trigger.location.y;
+          const dx = triggerData?.location.x - trigger?.location.x;
+          const dy = triggerData?.location.y - trigger?.location.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          return distance <= trigger.location.radius;
+          return distance <= trigger?.location.radius;
         }
         return false;
       case 'timer':
-        return triggerData.type === 'timer';
+        return triggerData?.type === 'timer';
       case 'interact':
-        return triggerData.type === 'interact' && triggerData.target === trigger.target;
+        return triggerData?.type === 'interact' && triggerData?.target === trigger?.target;
       default:
         return false;
     }
@@ -297,9 +297,9 @@ function determineNextStep(branch: QuestStep['next'], state: QuestState): string
   
   if (branch && 'branch' in branch) {
     // Simple branching logic - could be enhanced with more complex conditions
-    for (const rule of branch.branch) {
-      if (rule.when === 'default' || rule.when === 'success') {
-        return rule.next;
+    for (const rule of branch?.branch) {
+      if (rule?.when === 'default' || rule?.when === 'success') {
+        return rule?.next;
       }
     }
   }
@@ -322,60 +322,60 @@ function completeQuest(
   completedQuests: string[],
   rewardsGranted: QuestReward[]
 ): void {
-  quest.status = 'completed';
-  quest.progress = 100;
+  quest?.status = 'completed';
+  quest?.progress = 100;
   
   // Grant rewards
-  quest.rewards.forEach((reward: any) => {
-    if (!reward.granted) {
-      reward.granted = true;
-      rewardsGranted.push(reward);
+  quest?.rewards.forEach((reward: any) => {
+    if (!reward?.granted) {
+      reward?.granted = true;
+      rewardsGranted?.push(reward);
       
       // Apply reward effects
-      switch (reward.type) {
+      switch (reward?.type) {
         case 'xp':
-          state.playerStats.xp += reward.amount || 0;
+          state?.playerStats.xp += reward?.amount || 0;
           break;
         case 'item':
-          if (reward.id) {
-            state.playerStats.inventory[reward.id] = (state.playerStats.inventory[reward.id] || 0) + (reward.amount || 1);
+          if (reward?.id) {
+            state?.playerStats.inventory[reward?.id] = (state?.playerStats.inventory[reward?.id] || 0) + (reward?.amount || 1);
           }
           break;
         case 'currency':
-          if (reward.id) {
-            state.playerStats.inventory[reward.id] = (state.playerStats.inventory[reward.id] || 0) + (reward.amount || 0);
+          if (reward?.id) {
+            state?.playerStats.inventory[reward?.id] = (state?.playerStats.inventory[reward?.id] || 0) + (reward?.amount || 0);
           }
           break;
         case 'reputation':
-          if (reward.id) {
-            state.playerStats.reputation[reward.id] = (state.playerStats.reputation[reward.id] || 0) + (reward.amount || 1);
+          if (reward?.id) {
+            state?.playerStats.reputation[reward?.id] = (state?.playerStats.reputation[reward?.id] || 0) + (reward?.amount || 1);
           }
           break;
       }
     }
   });
   
-  completedQuests.push(quest.id);
-  const index = state.activeQuests.indexOf(quest.id);
+  completedQuests?.push(quest?.id);
+  const index = state?.activeQuests.indexOf(quest?.id);
   if (index > -1) {
-    state.activeQuests.splice(index, 1);
+    state?.activeQuests.splice(index, 1);
   }
   // Also add to the state's completedQuests array
-  if (!state.completedQuests.includes(quest.id)) {
-    state.completedQuests.push(quest.id);
+  if (!state?.completedQuests.includes(quest?.id)) {
+    state?.completedQuests?.push(quest?.id);
   }
 }
 
 function resetQuest(quest: Quest): void {
-  quest.status = 'available';
-  quest.progress = 0;
-  quest.currentStep = quest.start;
-  quest.rewards.forEach((r: any) => r.granted = false);
+  quest?.status = 'available';
+  quest?.progress = 0;
+  quest?.currentStep = quest?.start;
+  quest?.rewards.forEach((r: any) => r?.granted = false);
   Object.values(quest.steps).forEach((step: any) => {
-    step.completed = false;
-    step.triggers.forEach((t: any) => t.completed = false);
+    step?.completed = false;
+    step?.triggers.forEach((t: any) => t?.completed = false);
   });
-  if (quest.timed) {
-    quest.timed.startTime = undefined;
+  if (quest?.timed) {
+    quest?.timed.startTime = undefined;
   }
 }

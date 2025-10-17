@@ -124,7 +124,7 @@ export class InputSystemManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.settings = {
+    this?.settings = {
       sensitivity: 1.0,
       deadzone: 0.1,
       bufferTime: 100,
@@ -134,7 +134,7 @@ export class InputSystemManager {
       enableModifiers: true
     };
 
-    this.stats = {
+    this?.stats = {
       totalEvents: 0,
       eventsByType: {},
       actionsTriggered: 0,
@@ -144,14 +144,14 @@ export class InputSystemManager {
       errorRate: 0
     };
 
-    this.loadDefaultProfile();
+    this?.loadDefaultProfile();
   }
 
   /**
    * Create a new input profile
    */
   createProfile(id: string, name: string, description: string = ''): InputOutput {
-    if (this.profiles.has(id)) {
+    if (this?.profiles.has(id)) {
       return {
         op: 'create-profile',
         status: 'error',
@@ -167,10 +167,10 @@ export class InputSystemManager {
       bindings: new Map(),
       gestures: new Map(),
       buffers: new Map(),
-      settings: { ...this.settings }
+      settings: { ...this?.settings }
     };
 
-    this.profiles.set(id, profile);
+    this?.profiles.set(id, profile);
     return {
       op: 'create-profile',
       status: 'ok',
@@ -182,7 +182,7 @@ export class InputSystemManager {
    * Set active profile
    */
   setActiveProfile(id: string): InputOutput {
-    if (!this.profiles.has(id)) {
+    if (!this?.profiles.has(id)) {
       return {
         op: 'set-profile',
         status: 'error',
@@ -190,7 +190,7 @@ export class InputSystemManager {
       };
     }
 
-    this.currentProfile = id;
+    this?.currentProfile = id;
     return {
       op: 'set-profile',
       status: 'ok',
@@ -202,7 +202,7 @@ export class InputSystemManager {
    * Get active profile
    */
   getActiveProfile(): InputOutput {
-    if (!this.currentProfile) {
+    if (!this?.currentProfile) {
       return {
         op: 'get-profile',
         status: 'error',
@@ -210,7 +210,7 @@ export class InputSystemManager {
       };
     }
 
-    const profile = this.profiles.get(this.currentProfile);
+    const profile = this?.profiles.get(this?.currentProfile);
     return {
       op: 'get-profile',
       status: 'ok',
@@ -222,7 +222,7 @@ export class InputSystemManager {
    * Add input action
    */
   addAction(action: InputAction): InputOutput {
-    if (!this.currentProfile) {
+    if (!this?.currentProfile) {
       return {
         op: 'add-action',
         status: 'error',
@@ -230,8 +230,8 @@ export class InputSystemManager {
       };
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
-    profile.actions.set(action.id, action);
+    const profile = this?.profiles.get(this?.currentProfile)!;
+    profile?.actions.set(action?.id, action);
     
     return {
       op: 'add-action',
@@ -244,7 +244,7 @@ export class InputSystemManager {
    * Add input binding
    */
   addBinding(binding: InputBinding): InputOutput {
-    if (!this.currentProfile) {
+    if (!this?.currentProfile) {
       return {
         op: 'add-binding',
         status: 'error',
@@ -252,8 +252,8 @@ export class InputSystemManager {
       };
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
-    profile.bindings.set(binding.id, binding);
+    const profile = this?.profiles.get(this?.currentProfile)!;
+    profile?.bindings.set(binding?.id, binding);
     
     return {
       op: 'add-binding',
@@ -266,7 +266,7 @@ export class InputSystemManager {
    * Process input event
    */
   processInputEvent(event: InputEvent): InputOutput {
-    if (!this.currentProfile) {
+    if (!this?.currentProfile) {
       return {
         op: 'process-event',
         status: 'error',
@@ -274,39 +274,39 @@ export class InputSystemManager {
       };
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
+    const profile = this?.profiles.get(this?.currentProfile)!;
     
     // Update stats
-    this.stats.totalEvents++;
-    this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
+    this?.stats.totalEvents++;
+    this?.stats.eventsByType[event?.type] = (this?.stats.eventsByType[event?.type] || 0) + 1;
 
     // Add to event history
-    this.eventHistory.push(event);
-    if (this.eventHistory.length > 1000) {
-      this.eventHistory.shift();
+    this?.eventHistory?.push(event);
+    if (this?.eventHistory.length > 1000) {
+      this?.eventHistory.shift();
     }
 
     // Find matching bindings
-    const matchingBindings = this.findMatchingBindings(event, profile);
+    const matchingBindings = this?.findMatchingBindings(event, profile);
     
     // Process actions
     const triggeredActions: string[] = [];
     for (const binding of matchingBindings) {
-      const action = profile.actions.get(binding.actionId);
-      if (action && action.enabled) {
-        triggeredActions.push(action.id);
-        this.stats.actionsTriggered++;
+      const action = profile?.actions.get(binding?.actionId);
+      if (action && action?.enabled) {
+        triggeredActions?.push(action?.id);
+        this?.stats.actionsTriggered++;
       }
     }
 
     // Process gestures
-    if (this.settings.enableGestures) {
-      this.processGestures(event);
+    if (this?.settings.enableGestures) {
+      this?.processGestures(event);
     }
 
     // Process buffering
-    if (this.settings.enableBuffering) {
-      this.processBuffering(event);
+    if (this?.settings.enableBuffering) {
+      this?.processBuffering(event);
     }
 
     return {
@@ -324,7 +324,7 @@ export class InputSystemManager {
    * Recognize gesture
    */
   recognizeGesture(gesture: InputGesture): InputOutput {
-    if (!this.currentProfile) {
+    if (!this?.currentProfile) {
       return {
         op: 'recognize-gesture',
         status: 'error',
@@ -332,10 +332,10 @@ export class InputSystemManager {
       };
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
+    const profile = this?.profiles.get(this?.currentProfile)!;
     
     // Check if gesture meets threshold
-    if (gesture.distance && gesture.distance < this.settings.gestureThreshold) {
+    if (gesture?.distance && gesture?.distance < this?.settings.gestureThreshold) {
       return {
         op: 'recognize-gesture',
         status: 'ok',
@@ -344,10 +344,10 @@ export class InputSystemManager {
     }
 
     // Store gesture
-    this.activeGestures.set(gesture.id, gesture);
-    profile.gestures.set(gesture.id, gesture);
+    this?.activeGestures.set(gesture?.id, gesture);
+    profile?.gestures.set(gesture?.id, gesture);
     
-    this.stats.gesturesRecognized++;
+    this?.stats.gesturesRecognized++;
 
     return {
       op: 'recognize-gesture',
@@ -363,7 +363,7 @@ export class InputSystemManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: { ...this.stats }
+      result: { ...this?.stats }
     };
   }
 
@@ -371,7 +371,7 @@ export class InputSystemManager {
    * Get recent events
    */
   getRecentEvents(limit: number = 100): InputOutput {
-    const events = this.eventHistory.slice(-limit);
+    const events = this?.eventHistory.slice(-limit);
     return {
       op: 'recent-events',
       status: 'ok',
@@ -383,7 +383,7 @@ export class InputSystemManager {
    * Clear event history
    */
   clearHistory(): InputOutput {
-    this.eventHistory = [];
+    this?.eventHistory = [];
     return {
       op: 'clear-history',
       status: 'ok',
@@ -395,7 +395,7 @@ export class InputSystemManager {
    * Export input data
    */
   exportInput(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): InputOutput {
-    const activeProfile = this.currentProfile ? this.profiles.get(this.currentProfile) : null;
+    const activeProfile = this?.currentProfile ? this?.profiles.get(this?.currentProfile) : null;
 
     switch (format) {
       case 'json':
@@ -405,8 +405,8 @@ export class InputSystemManager {
           result: {
             profiles: Array.from(this.profiles.values()),
             activeProfile,
-            events: this.eventHistory.slice(-100),
-            stats: this.stats
+            events: this?.eventHistory.slice(-100),
+            stats: this?.stats
           }
         };
       
@@ -415,11 +415,11 @@ export class InputSystemManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff.input.export.v1',
+            schema: 'miff?.input.export?.v1',
             profiles: Array.from(this.profiles.values()),
             activeProfile,
             exportedAt: new Date().toISOString(),
-            total: this.profiles.size
+            total: this?.profiles.size
           }
         };
       
@@ -428,13 +428,13 @@ export class InputSystemManager {
           op: 'export',
           status: 'ok',
           result: {
-            summary: this.stats,
+            summary: this?.stats,
             activeProfile: activeProfile ? {
-              id: activeProfile.id,
-              name: activeProfile.name,
-              actions: activeProfile.actions.size,
-              bindings: activeProfile.bindings.size,
-              gestures: activeProfile.gestures.size
+              id: activeProfile?.id,
+              name: activeProfile?.name,
+              actions: activeProfile?.actions.size,
+              bindings: activeProfile?.bindings.size,
+              gestures: activeProfile?.gestures.size
             } : null
           }
         };
@@ -444,8 +444,8 @@ export class InputSystemManager {
           op: 'export',
           status: 'ok',
           result: {
-            events: this.eventHistory,
-            total: this.eventHistory.length
+            events: this?.eventHistory,
+            total: this?.eventHistory.length
           }
         };
       
@@ -462,11 +462,11 @@ export class InputSystemManager {
    * Reset input system
    */
   resetInput(): InputOutput {
-    this.profiles.clear();
-    this.currentProfile = null;
-    this.eventHistory = [];
-    this.activeGestures.clear();
-    this.stats = {
+    this?.profiles.clear();
+    this?.currentProfile = null;
+    this?.eventHistory = [];
+    this?.activeGestures.clear();
+    this?.stats = {
       totalEvents: 0,
       eventsByType: {},
       actionsTriggered: 0,
@@ -489,9 +489,9 @@ export class InputSystemManager {
    * Private helper methods
    */
   private loadDefaultProfile(): void {
-    const defaultProfile = this.createProfile('default', 'Default Profile', 'Default input profile');
-    if (defaultProfile.status === 'ok') {
-      this.setActiveProfile('default');
+    const defaultProfile = this?.createProfile('default', 'Default Profile', 'Default input profile');
+    if (defaultProfile?.status === 'ok') {
+      this?.setActiveProfile('default');
       
       // Add default actions
       const defaultActions: InputAction[] = [
@@ -537,24 +537,24 @@ export class InputSystemManager {
         }
       ];
 
-      defaultActions.forEach((action: any) => this.addAction(action));
+      defaultActions?.forEach((action: any) => this?.addAction(action));
     }
   }
 
   private findMatchingBindings(event: InputEvent, profile: InputProfile): InputBinding[] {
     const matching: InputBinding[] = [];
     
-    for (const binding of profile.bindings.values()) {
-      if (binding.enabled && binding.inputType === event.type && binding.code === event.code) {
+    for (const binding of profile?.bindings.values()) {
+      if (binding?.enabled && binding?.inputType === event?.type && binding?.code === event?.code) {
         // Check modifiers
-        if (this.settings.enableModifiers && binding.modifiers.length > 0) {
+        if (this?.settings.enableModifiers && binding?.modifiers.length > 0) {
           // Simplified modifier check - would need more complex logic in real implementation
           continue;
         }
         
         // Check conditions
-        if (this.checkConditions(event, binding.conditions)) {
-          matching.push(binding);
+        if (this?.checkConditions(event, binding?.conditions)) {
+          matching?.push(binding);
         }
       }
     }
@@ -564,18 +564,18 @@ export class InputSystemManager {
 
   private checkConditions(event: InputEvent, conditions: InputCondition[]): boolean {
     for (const condition of conditions) {
-      switch (condition.type) {
+      switch (condition?.type) {
         case 'press':
-          return event.value > 0;
+          return event?.value > 0;
         case 'release':
-          return event.value === 0;
+          return event?.value === 0;
         case 'hold':
-          return event.value > 0 && condition.duration ? true : false; // Simplified
+          return event?.value > 0 && condition?.duration ? true : false; // Simplified
         case 'double':
           // Would need to track previous events for double-tap detection
           return false;
         case 'long':
-          return event.value > 0 && condition.duration ? true : false; // Simplified
+          return event?.value > 0 && condition?.duration ? true : false; // Simplified
         case 'sequence':
           // Would need to track input sequences
           return false;
@@ -588,28 +588,28 @@ export class InputSystemManager {
 
   private processGestures(event: InputEvent): void {
     // Simplified gesture processing
-    if (event.type === 'touch' && event.value > 0) {
+    if (event?.type === 'touch' && event?.value > 0) {
       const gesture: InputGesture = {
         id: `gesture_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         type: 'tap',
         startPosition: { x: 0, y: 0 }, // Would need actual position data
         duration: 0,
-        timestamp: event.timestamp
+        timestamp: event?.timestamp
       };
       
-      this.recognizeGesture(gesture);
+      this?.recognizeGesture(gesture);
     }
   }
 
   private processBuffering(event: InputEvent): void {
     // Simplified buffering - would need more complex logic for real implementation
-    if (this.eventHistory.length > 0) {
-      const lastEvent = this.eventHistory[this.eventHistory.length - 1];
-      const timeDiff = event.timestamp - lastEvent.timestamp;
+    if (this?.eventHistory.length > 0) {
+      const lastEvent = this?.eventHistory[this?.eventHistory.length - 1];
+      const timeDiff = event?.timestamp - lastEvent?.timestamp;
       
-      if (timeDiff < this.settings.bufferTime) {
+      if (timeDiff < this?.settings.bufferTime) {
         // Event is within buffer time
-        this.stats.bufferUtilization++;
+        this?.stats.bufferUtilization++;
       }
     }
   }

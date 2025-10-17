@@ -24,11 +24,11 @@ interface StatsOperation {
 }
 
 async function main() {
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
   
-  if (argv.length === 0) {
+  if (argv?.length === 0) {
     console.error('Usage: tsx cli.ts <op> [args!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -71,29 +71,29 @@ async function main() {
     const statsManager = new StatsManager();
     let result: any;
 
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'create-entity':
-        const createResult = statsManager.createEntity(operation.entityId!, []);
-        result = { action: 'entity_created', success: createResult.status === 'ok' };
+        const createResult = statsManager?.createEntity(operation?.entityId!, []);
+        result = { action: 'entity_created', success: createResult?.status === 'ok' };
         break;
 
       case 'set-stat':
-        const setResult = statsManager.setStat(
-          operation.entityId!, 
-          operation.statKey!, 
-          operation.baseValue!
+        const setResult = statsManager?.setStat(
+          operation?.entityId!, 
+          operation?.statKey!, 
+          operation?.baseValue!
         );
-        result = { action: 'stat_set', success: setResult.status === 'ok' };
+        result = { action: 'stat_set', success: setResult?.status === 'ok' };
         break;
 
       case 'get-entity':
-        const getResult = statsManager.getEntityStats(operation.entityId!);
-        result = { action: 'entity_retrieved', entity: getResult.result };
+        const getResult = statsManager?.getEntityStats(operation?.entityId!);
+        result = { action: 'entity_retrieved', entity: getResult?.result };
         break;
 
       case 'get-analytics':
-        const analyticsResult = statsManager.getAnalytics();
-        result = { action: 'analytics_retrieved', analytics: analyticsResult.result };
+        const analyticsResult = statsManager?.getAnalytics();
+        result = { action: 'analytics_retrieved', analytics: analyticsResult?.result };
         break;
 
       case 'demo':
@@ -109,7 +109,7 @@ async function main() {
     }
 
     console.log(JSON.stringify({
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result,
       timestamp: new Date()
@@ -120,13 +120,13 @@ async function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

@@ -622,7 +622,7 @@ export class DataMiningPure {
 
   constructor(config: Partial<DataMiningConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableDataPreprocessing: true,
       enablePatternDiscovery: true,
       enableModelTraining: true,
@@ -641,7 +641,7 @@ export class DataMiningPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalDatasets: 0,
       totalModels: 0,
       trainedModels: 0,
@@ -653,7 +653,7 @@ export class DataMiningPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalModels: 0,
       averageAccuracy: 0,
       modelTypeDistribution: [],
@@ -666,7 +666,7 @@ export class DataMiningPure {
    * Create a new data mining manager
    */
   createManager(): DataMiningOutput {
-    if (!this.config.enableDataPreprocessing) {
+    if (!this?.config.enableDataPreprocessing) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -676,8 +676,8 @@ export class DataMiningPure {
 
     const manager: DataMiningManager = {
       id: managerData.id || `datamining-${Date.now()}`,
-      name: managerData.name || 'Unnamed Data Mining Manager',
-      type: managerData.type || 'basic',
+      name: managerData?.name || 'Unnamed Data Mining Manager',
+      type: managerData?.type || 'basic',
       status: 'active',
       datasets: [],
       models: [],
@@ -739,7 +739,7 @@ export class DataMiningPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -752,7 +752,7 @@ export class DataMiningPure {
    * Get manager by ID
    */
   getManager(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -772,7 +772,7 @@ export class DataMiningPure {
    * Create dataset
    */
   createDataset(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-dataset',
@@ -781,7 +781,7 @@ export class DataMiningPure {
       };
     }
 
-    if (manager.datasets.length >= this.config.maxDatasets) {
+    if (manager?.datasets.length >= this?.config.maxDatasets) {
       return {
         op: 'create-dataset',
         status: 'error',
@@ -791,18 +791,18 @@ export class DataMiningPure {
 
     const newDataset: Dataset = {
       id: dataset.id || `dataset-${Date.now()}`,
-      name: dataset.name || 'Unnamed Dataset',
-      description: dataset.description || '',
-      type: dataset.type || 'tabular',
-      size: dataset.records?.length || 0,
-      records: dataset.records || [],
-      schema: dataset.schema || {
+      name: dataset?.name || 'Unnamed Dataset',
+      description: dataset?.description || '',
+      type: dataset?.type || 'tabular',
+      size: dataset?.records?.length || 0,
+      records: dataset?.records || [],
+      schema: dataset?.schema || {
         fields: [],
         primaryKey: [],
         indexes: [],
         constraints: []
       },
-      quality: dataset.quality || {
+      quality: dataset?.quality || {
         completeness: 1.0,
         accuracy: 1.0,
         consistency: 1.0,
@@ -814,9 +814,9 @@ export class DataMiningPure {
       ...dataset
     };
 
-    manager.datasets.push(newDataset);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalDatasets++;
+    manager?.datasets?.push(newDataset);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalDatasets++;
 
     return {
       op: 'create-dataset',
@@ -829,7 +829,7 @@ export class DataMiningPure {
    * Train model
    */
   trainModel(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'train-model',
@@ -838,7 +838,7 @@ export class DataMiningPure {
       };
     }
 
-    if (manager.models.length >= this.config.maxModels) {
+    if (manager?.models.length >= this?.config.maxModels) {
       return {
         op: 'train-model',
         status: 'error',
@@ -846,22 +846,22 @@ export class DataMiningPure {
       };
     }
 
-    const dataset = manager.datasets.find(ds => ds.id === model.datasetId);
+    const dataset = manager?.datasets.find(ds => ds?.id === model?.datasetId);
     if (!dataset) {
       return {
         op: 'train-model',
         status: 'error',
-        issues: [`Dataset ${model.datasetId} not found`]
+        issues: [`Dataset ${model?.datasetId} not found`]
       };
     }
 
     const newModel: MiningModel = {
       id: model.id || `model-${Date.now()}`,
-      name: model.name || 'Unnamed Model',
-      type: model.type || 'classification',
-      algorithm: model.algorithm || 'decision_tree',
-      datasetId: model.datasetId || '',
-      parameters: model.parameters || {
+      name: model?.name || 'Unnamed Model',
+      type: model?.type || 'classification',
+      algorithm: model?.algorithm || 'decision_tree',
+      datasetId: model?.datasetId || '',
+      parameters: model?.parameters || {
         algorithm: 'decision_tree',
         hyperparameters: {},
         preprocessing: {
@@ -900,16 +900,16 @@ export class DataMiningPure {
       ...model
     };
 
-    manager.models.push(newModel);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalModels++;
+    manager?.models?.push(newModel);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalModels++;
 
     // Simulate model training
     setTimeout(() => {
-      newModel.status = 'trained';
-      newModel.trainedAt = Date.now();
-      newModel.performance = this.calculateModelPerformance(dataset);
-      this.performanceMetrics.trainedModels++;
+      newModel?.status = 'trained';
+      newModel.trainedAt = new Date();
+      newModel?.performance = this?.calculateModelPerformance(dataset);
+      this?.performanceMetrics.trainedModels++;
     }, 3000);
 
     return {
@@ -923,7 +923,7 @@ export class DataMiningPure {
    * Discover patterns
    */
   discoverPatterns(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'discover-patterns',
@@ -932,7 +932,7 @@ export class DataMiningPure {
       };
     }
 
-    const dataset = manager.datasets.find(ds => ds.id === datasetId);
+    const dataset = manager?.datasets.find(ds => ds?.id === datasetId);
     if (!dataset) {
       return {
         op: 'discover-patterns',
@@ -941,30 +941,30 @@ export class DataMiningPure {
       };
     }
 
-    const patterns = this.findFrequentPatterns(dataset, minSupport);
+    const patterns = this?.findFrequentPatterns(dataset, minSupport);
     
     for (const pattern of patterns) {
-      manager.patterns.push({
+      manager?.patterns?.push({
         id: `pattern-${Date.now()}-${Math.random()}`,
-        name: `Pattern ${manager.patterns.length + 1}`,
+        name: `Pattern ${manager?.patterns.length + 1}`,
         type: 'frequent',
         datasetId,
-        support: pattern.support,
-        confidence: pattern.confidence,
-        lift: pattern.lift,
-        items: pattern.items,
-        description: this.generatePatternDescription(pattern),
+        support: pattern?.support,
+        confidence: pattern?.confidence,
+        lift: pattern?.lift,
+        items: pattern?.items,
+        description: this?.generatePatternDescription(pattern),
         metadata: {}
       });
     }
 
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalPatterns += patterns.length;
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalPatterns += patterns?.length;
 
     return {
       op: 'discover-patterns',
       status: 'ok',
-      result: { patterns: patterns.length, discovered: patterns }
+      result: { patterns: patterns?.length, discovered: patterns }
     };
   }
 
@@ -1005,7 +1005,7 @@ export class DataMiningPure {
     const numPatterns = Math.floor(Math.random() * 10) + 5; // 5-15 patterns
     
     for (let i = 0; i < numPatterns; i++) {
-      patterns.push({
+      patterns?.push({
         support: minSupport + Math.random() * (1 - minSupport),
         confidence: 0.5 + Math.random() * 0.4,
         lift: 1 + Math.random() * 2,
@@ -1023,22 +1023,22 @@ export class DataMiningPure {
    * Generate pattern description
    */
   private generatePatternDescription(pattern): string {
-    const items = pattern.items.map((item: any) => `${item.field}=${item.value}`).join(' AND ');
-    return `Pattern: ${items} (Support: ${(pattern.support * 100).toFixed(1)}%, Confidence: ${(pattern.confidence * 100).toFixed(1)}%)`;
+    const items = pattern?.items.map((item: any) => `${item?.field}=${item?.value}`).join(' AND ');
+    return `Pattern: ${items} (Support: ${(pattern?.support * 100).toFixed(1)}%, Confidence: ${(pattern?.confidence * 100).toFixed(1)}%)`;
   }
 
   /**
    * Get performance metrics
    */
   getPerformanceMetrics(): DataMiningPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DataMiningAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1052,26 +1052,26 @@ export class DataMiningPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalDatasets = 0;
     let totalModels = 0;
     let trainedModels = 0;
     let totalPatterns = 0;
     let totalRules = 0;
 
-    for (const manager of this.managers.values()) {
-      totalDatasets += manager.datasets.length;
-      totalModels += manager.models.length;
-      trainedModels += manager.models.filter((m: any) => m.status === 'trained').length;
-      totalPatterns += manager.patterns.length;
-      totalRules += manager.rules.length;
+    for (const manager of this?.managers.values()) {
+      totalDatasets += manager?.datasets.length;
+      totalModels += manager?.models.length;
+      trainedModels += manager?.models.filter((m: any) => m?.status === 'trained').length;
+      totalPatterns += manager?.patterns.length;
+      totalRules += manager?.rules.length;
     }
 
-    this.performanceMetrics.totalDatasets = totalDatasets;
-    this.performanceMetrics.totalModels = totalModels;
-    this.performanceMetrics.trainedModels = trainedModels;
-    this.performanceMetrics.totalPatterns = totalPatterns;
-    this.performanceMetrics.totalRules = totalRules;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalDatasets = totalDatasets;
+    this?.performanceMetrics.totalModels = totalModels;
+    this?.performanceMetrics.trainedModels = trainedModels;
+    this?.performanceMetrics.totalPatterns = totalPatterns;
+    this?.performanceMetrics.totalRules = totalRules;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

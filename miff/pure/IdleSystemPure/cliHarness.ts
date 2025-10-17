@@ -16,9 +16,9 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
-import IdleSystemPure from './index.js';
-import IdleManagerPure from './Manager.js';
+import { EventBus } from '../EventBusPure/index?.js';
+import IdleSystemPure from './index?.js';
+import IdleManagerPure from './Manager?.js';
 import * as fs from 'fs';
 
 // ============================================================================
@@ -63,9 +63,9 @@ export class IdleSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
-    this.options = options;
-    this.eventBus = new EventBus();
-    this.idleSystem = new IdleSystemPure(this.eventBus, {
+    this?.options = options;
+    this?.eventBus = new EventBus();
+    this?.idleSystem = new IdleSystemPure(this?.eventBus, {
       enableOfflineProgress: true,
       offlineProgressMultiplier: 1.0,
       saveInterval: 60,
@@ -73,31 +73,31 @@ export class IdleSystemCLI {
       enableAchievements: true,
       enablePrestige: true,
       performanceMode: 'high',
-      debugMode: options.verbose || false
+      debugMode: options?.verbose || false
     });
 
-    this.idleManager = new IdleManagerPure(this.eventBus, {
+    this?.idleManager = new IdleManagerPure(this?.eventBus, {
       enableAutoSave: true,
       saveInterval: 60,
       enableAnalytics: true,
       enableAchievements: true,
       enablePrestige: true,
       performanceMode: 'high',
-      debugMode: options.verbose || false
+      debugMode: options?.verbose || false
     });
 
-    this.gameState = this.initializeGameState();
-    this.setupEventHandlers();
-    this.initializeInterface();
+    this?.gameState = this?.initializeGameState();
+    this?.setupEventHandlers();
+    this?.initializeInterface();
 
-    if (options.autoBuyEnabled) {
-      this.autoBuyEnabled = true;
+    if (options?.autoBuyEnabled) {
+      this?.autoBuyEnabled = true;
     }
   }
 
   private initializeGameState(): GameState {
     return {
-      currency: this.options.initialCurrency || 0,
+      currency: this?.options.initialCurrency || 0,
       generators: {},
       upgrades: {},
       achievements: [],
@@ -107,185 +107,185 @@ export class IdleSystemCLI {
   }
 
   private setupEventHandlers(): void {
-    this.eventBus.on('idle:resource_change', (data) => {
-      if (data.resourceId === 'currency') {
-        this.gameState.currency = data.newAmount;
-        this.gameState.totalProduction = this.idleSystem.getTotalProduction();
+    this?.eventBus.on('idle:resource_change', (data: any) => {
+      if (data?.resourceId === 'currency') {
+        this?.gameState.currency = data?.newAmount;
+        this?.gameState.totalProduction = this?.idleSystem.getTotalProduction();
       }
     });
 
-    this.eventBus.on('idle:generator_purchase', (data) => {
-      this.gameState.generators[data.generatorId] = data.newOwned;
+    this?.eventBus.on('idle:generator_purchase', (data: any) => {
+      this?.gameState.generators[data?.generatorId] = data?.newOwned;
 
-      if (this.options.verbose) {
-        this.log(`🛒 Purchased ${data.amount}x ${data.generatorId} (${data.newOwned} total)`);
+      if (this?.options.verbose) {
+        this?.log(`🛒 Purchased ${data?.amount}x ${data?.generatorId} (${data?.newOwned} total)`);
       }
     });
 
-    this.eventBus.on('idle:upgrade_purchase', (data) => {
-      this.gameState.upgrades[data.upgradeId] = data.level;
+    this?.eventBus.on('idle:upgrade_purchase', (data: any) => {
+      this?.gameState.upgrades[data?.upgradeId] = data?.level;
 
-      if (this.options.verbose) {
-        this.log(`⬆️  Upgraded ${data.upgradeId} to level ${data.level}`);
+      if (this?.options.verbose) {
+        this?.log(`⬆️  Upgraded ${data?.upgradeId} to level ${data?.level}`);
       }
     });
 
-    this.eventBus.on('idle:achievement_unlock', (data) => {
-      this.gameState.achievements.push(data.achievementId);
+    this?.eventBus.on('idle:achievement_unlock', (data: any) => {
+      this?.gameState.achievements?.push(data?.achievementId);
 
-      if (this.options.verbose) {
-        this.log(`🏆 Unlocked achievement: ${data.achievementId}`);
+      if (this?.options.verbose) {
+        this?.log(`🏆 Unlocked achievement: ${data?.achievementId}`);
       }
     });
 
-    this.eventBus.on('idle:offline_progress', (data) => {
-      this.log(`💤 Earned ${data.production.toFixed(2)} currency from offline progress (${data.offlineTime.toFixed(1)}s)`);
+    this?.eventBus.on('idle:offline_progress', (data: any) => {
+      this?.log(`💤 Earned ${data?.production.toFixed(2)} currency from offline progress (${data?.offlineTime.toFixed(1)}s)`);
     });
   }
 
   private initializeInterface(): void {
     if (typeof window === 'undefined') {
-      this.readline = require('readline');
-      this.setupReadline();
+      this?.readline = require('readline');
+      this?.setupReadline();
     } else {
-      this.isInteractive = false;
+      this?.isInteractive = false;
     }
   }
 
   private setupReadline(): void {
-    const rl = this.readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    const rl = this?.readline.createInterface({
+      input: process?.stdin,
+      output: process?.stdout,
       prompt: 'Idle> '
     });
 
-    rl.on('line', (line: string) => {
-      this.processCommand(line.trim());
-      rl.prompt();
+    rl?.on('line', (line: string) => {
+      this?.processCommand(line?.trim());
+      rl?.prompt();
     });
 
-    rl.on('SIGINT', () => {
-      this.log('\n🛑 Shutting down idle system...');
-      this.shutdown();
+    rl?.on('SIGINT', () => {
+      this?.log('\n🛑 Shutting down idle system...');
+      this?.shutdown();
     });
 
-    this.isInteractive = true;
+    this?.isInteractive = true;
   }
 
   private processCommand(command: string): void {
-    const parts = command.split(' ');
+    const parts = command?.split(' ');
     const cmd = parts[0!].toLowerCase();
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     switch (cmd) {
       case 'status':
       case 's':
-        this.showStatus();
+        this?.showStatus();
         break;
 
       case 'buy':
-        this.buyGenerator(args);
+        this?.buyGenerator(args);
         break;
 
       case 'upgrade':
       case 'up':
-        this.buyUpgrade(args);
+        this?.buyUpgrade(args);
         break;
 
       case 'auto':
-        this.toggleAutoBuy();
+        this?.toggleAutoBuy();
         break;
 
       case 'click':
       case 'c':
-        this.manualClick();
+        this?.manualClick();
         break;
 
       case 'prestige':
       case 'p':
-        this.prestige();
+        this?.prestige();
         break;
 
       case 'optimize':
       case 'o':
-        this.optimize();
+        this?.optimize();
         break;
 
       case 'simulate':
-        this.runSimulation();
+        this?.runSimulation();
         break;
 
       case 'stats':
-        this.showStats();
+        this?.showStats();
         break;
 
       case 'achievements':
       case 'ach':
-        this.showAchievements();
+        this?.showAchievements();
         break;
 
       case 'save':
-        this.saveGame();
+        this?.saveGame();
         break;
 
       case 'load':
-        this.loadGame();
+        this?.loadGame();
         break;
 
       case 'reset':
-        this.resetGame();
+        this?.resetGame();
         break;
 
       case 'export':
-        this.exportData(args[0!]);
+        this?.exportData(args[0!]);
         break;
 
       case 'quit':
       case 'q':
       case 'exit':
-        this.shutdown();
+        this?.shutdown();
         break;
 
       default:
-        this.showHelp();
+        this?.showHelp();
     }
   }
 
   private showStatus(): void {
-    const resources = this.idleSystem.getResources();
-    const generators = this.idleSystem.getGenerators();
-    const timeData = this.idleSystem.getCurrentTimeData();
+    const resources = this?.idleSystem.getResources();
+    const generators = this?.idleSystem.getGenerators();
+    const timeData = this?.idleSystem.getCurrentTimeData();
 
-    this.log('\n=== IDLE GAME STATUS ===');
-    this.log(`💰 Currency: ${this.gameState.currency.toFixed(2)}`);
-    this.log(`⚡ Production: ${this.gameState.totalProduction.toFixed(2)}/sec`);
+    this?.log('\n=== IDLE GAME STATUS ===');
+    this?.log(`💰 Currency: ${this?.gameState.currency?.toFixed(2)}`);
+    this?.log(`⚡ Production: ${this?.gameState.totalProduction?.toFixed(2)}/sec`);
     this.log(`🕐 Play Time: ${Math.floor(this.gameState.playTime / 60)}m ${this.gameState.playTime % 60}s`);
-    this.log(`🏆 Achievements: ${this.gameState.achievements.length}`);
-    this.log(`🔄 Auto-buy: ${this.autoBuyEnabled ? 'ON' : 'OFF'}`);
+    this?.log(`🏆 Achievements: ${this?.gameState.achievements?.length}`);
+    this?.log(`🔄 Auto-buy: ${this?.autoBuyEnabled ? 'ON' : 'OFF'}`);
 
-    this.log('\n📊 RESOURCES:');
-    resources.forEach((resource, id) => {
-      if (resource.unlocked) {
-        this.log(`   ${resource.name}: ${resource.currentAmount.toFixed(2)}${resource.maxAmount ? `/${resource.maxAmount}` : ''}`);
+    this?.log('\n📊 RESOURCES:');
+    resources?.forEach((resource, id) => {
+      if (resource?.unlocked) {
+        this?.log(`   ${resource?.name}: ${resource?.currentAmount.toFixed(2)}${resource?.maxAmount ? `/${resource?.maxAmount}` : ''}`);
       }
     });
 
-    this.log('\n🏭 GENERATORS:');
-    generators.forEach((generator, id) => {
-      if (generator.unlocked) {
-        const owned = generator.owned;
-        const production = generator.baseProduction * owned;
-        this.log(`   ${generator.name}: ${owned} owned (${production.toFixed(2)}/sec) - Cost: ${generator.currentCost.toFixed(0)}`);
+    this?.log('\n🏭 GENERATORS:');
+    generators?.forEach((generator, id) => {
+      if (generator?.unlocked) {
+        const owned = generator?.owned;
+        const production = generator?.baseProduction * owned;
+        this?.log(`   ${generator?.name}: ${owned} owned (${production?.toFixed(2)}/sec) - Cost: ${generator?.currentCost.toFixed(0)}`);
       }
     });
 
-    this.log('');
+    this?.log('');
   }
 
   private buyGenerator(args: string[]): void {
-    if (args.length === 0) {
-      this.log('❌ Usage: buy <generator> [amount!]');
-      this.log('   Available: clicker, auto_clicker, farm, mine');
+    if (args?.length === 0) {
+      this?.log('❌ Usage: buy <generator> [amount!]');
+      this?.log('   Available: clicker, auto_clicker, farm, mine');
       return;
     }
 
@@ -293,177 +293,177 @@ export class IdleSystemCLI {
     const amount = args[1!] ? parseInt(args[1!]) : 1;
 
     if (isNaN(amount) || amount <= 0) {
-      this.log('❌ Invalid amount');
+      this?.log('❌ Invalid amount');
       return;
     }
 
-    const success = this.idleSystem.purchaseGenerator(generatorId, amount);
+    const success = this?.idleSystem.purchaseGenerator(generatorId, amount);
 
     if (success) {
-      this.log(`✅ Purchased ${amount}x ${generatorId}`);
+      this?.log(`✅ Purchased ${amount}x ${generatorId}`);
     } else {
-      this.log('❌ Cannot purchase generator (insufficient funds or not unlocked)');
+      this?.log('❌ Cannot purchase generator (insufficient funds or not unlocked)');
     }
   }
 
   private buyUpgrade(args: string[]): void {
-    if (args.length === 0) {
-      this.log('❌ Usage: upgrade <upgrade>');
-      this.log('   Available: click_power, auto_efficiency, farm_multiplier');
+    if (args?.length === 0) {
+      this?.log('❌ Usage: upgrade <upgrade>');
+      this?.log('   Available: click_power, auto_efficiency, farm_multiplier');
       return;
     }
 
     const upgradeId = args[0!];
-    const success = this.idleSystem.purchaseUpgrade(upgradeId);
+    const success = this?.idleSystem.purchaseUpgrade(upgradeId);
 
     if (success) {
-      this.log(`✅ Upgraded ${upgradeId}`);
+      this?.log(`✅ Upgraded ${upgradeId}`);
     } else {
-      this.log('❌ Cannot upgrade (insufficient funds, max level, or not unlocked)');
+      this?.log('❌ Cannot upgrade (insufficient funds, max level, or not unlocked)');
     }
   }
 
   private toggleAutoBuy(): void {
-    this.autoBuyEnabled = !this.autoBuyEnabled;
-    this.log(`🔄 Auto-buy ${this.autoBuyEnabled ? 'enabled' : 'disabled'}`);
+    this?.autoBuyEnabled = !this?.autoBuyEnabled;
+    this?.log(`🔄 Auto-buy ${this?.autoBuyEnabled ? 'enabled' : 'disabled'}`);
   }
 
   private manualClick(): void {
     // Simulate manual clicking
-    this.gameState.currency += 1;
-    this.log('👆 Manual click! (+1 currency)');
+    this?.gameState.currency += 1;
+    this?.log('👆 Manual click! (+1 currency)');
   }
 
   private prestige(): void {
-    const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-    const currencyResource = this.idleSystem.getResource('currency');
+    const prestigeConfigs = this?.idleSystem.getPrestigeConfigs();
+    const currencyResource = this?.idleSystem.getResource('currency');
 
     if (!currencyResource) return;
 
     for (const [tier, config] of prestigeConfigs) {
-      if (this.idleManager.canPrestige(tier)) {
-        this.log(`⭐ Prestiging to ${tier} tier...`);
+      if (this?.idleManager.canPrestige(tier)) {
+        this?.log(`⭐ Prestiging to ${tier} tier...`);
         // In a real implementation, this would call the prestige function
-        this.log(`✅ Prestige successful! Bonus: ${config.multiplier}x`);
+        this?.log(`✅ Prestige successful! Bonus: ${config?.multiplier}x`);
         return;
       }
     }
 
-    this.log('❌ Cannot prestige (insufficient currency or no available tiers)');
+    this?.log('❌ Cannot prestige (insufficient currency or no available tiers)');
   }
 
   private optimize(): void {
-    this.log('🔧 Optimizing...');
+    this?.log('🔧 Optimizing...');
 
     // Balance resources
-    this.idleManager.balanceResources();
+    this?.idleManager.balanceResources();
 
     // Auto-buy optimal generators
-    if (this.autoBuyEnabled) {
-      const purchased = this.idleManager.autoBuyGenerators();
-      if (purchased.length > 0) {
-        this.log(`🛒 Auto-purchased: ${purchased.join(', ')}`);
+    if (this?.autoBuyEnabled) {
+      const purchased = this?.idleManager.autoBuyGenerators();
+      if (purchased?.length > 0) {
+        this?.log(`🛒 Auto-purchased: ${purchased?.join(', ')}`);
       }
     }
 
     // Get optimal upgrade order
-    const upgradeOrder = this.idleManager.getOptimalUpgradeOrder();
-    this.log(`📈 Optimal upgrade order: ${upgradeOrder.slice(0, 3).join(', ')}`);
+    const upgradeOrder = this?.idleManager.getOptimalUpgradeOrder();
+    this?.log(`📈 Optimal upgrade order: ${upgradeOrder?.slice(0, 3).join(', ')}`);
 
-    this.log('✅ Optimization complete');
+    this?.log('✅ Optimization complete');
   }
 
   private runSimulation(): void {
-    const duration = this.options.simulationTime || 300; // 5 minutes default
-    this.log(`🚀 Starting simulation (${duration}s)...`);
+    const duration = this?.options.simulationTime || 300; // 5 minutes default
+    this?.log(`🚀 Starting simulation (${duration}s)...`);
 
-    this.startTime = Date.now();
-    this.isRunning = true;
+    this.startTime = new Date();
+    this?.isRunning = true;
 
     const interval = setInterval(() => {
-      if (!this.isRunning) {
+      if (!this?.isRunning) {
         clearInterval(interval);
         return;
       }
 
       const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
-      this.gameState.playTime = elapsed;
+      this?.gameState.playTime = elapsed;
 
       if (elapsed >= duration) {
-        this.log(`✅ Simulation complete!`);
-        this.log(`   Currency: ${this.gameState.currency.toFixed(2)}`);
-        this.log(`   Production: ${this.gameState.totalProduction.toFixed(2)}/sec`);
+        this?.log(`✅ Simulation complete!`);
+        this?.log(`   Currency: ${this?.gameState.currency?.toFixed(2)}`);
+        this?.log(`   Production: ${this?.gameState.totalProduction?.toFixed(2)}/sec`);
         this.log(`   Play Time: ${Math.floor(elapsed / 60)}m ${elapsed % 60}s`);
-        this.isRunning = false;
+        this?.isRunning = false;
         clearInterval(interval);
-        this.showStats();
+        this?.showStats();
         return;
       }
 
       // Auto-buy every 30 seconds
-      if (elapsed % 30 === 0 && this.autoBuyEnabled) {
-        this.optimize();
+      if (elapsed % 30 === 0 && this?.autoBuyEnabled) {
+        this?.optimize();
       }
 
       // Update display every 10 seconds
       if (elapsed % 10 === 0) {
-        const currency = this.gameState.currency;
-        this.log(`⏰ ${elapsed}s: ${currency.toFixed(2)} currency (${this.gameState.totalProduction.toFixed(2)}/sec)`);
+        const currency = this?.gameState.currency;
+        this?.log(`⏰ ${elapsed}s: ${currency?.toFixed(2)} currency (${this?.gameState.totalProduction?.toFixed(2)}/sec)`);
       }
     }, 1000);
   }
 
   private showStats(): void {
-    const stats = this.idleManager.getStats();
+    const stats = this?.idleManager.getStats();
 
-    this.log('\n=== GAME STATISTICS ===');
-    this.log(`💰 Currency: ${this.gameState.currency.toFixed(2)}`);
-    this.log(`⚡ Production: ${stats.currentProduction.toFixed(2)}/sec`);
+    this?.log('\n=== GAME STATISTICS ===');
+    this?.log(`💰 Currency: ${this?.gameState.currency?.toFixed(2)}`);
+    this?.log(`⚡ Production: ${stats?.currentProduction.toFixed(2)}/sec`);
     this.log(`🕐 Play Time: ${Math.floor(stats.totalPlayTime / 60)}m ${stats.totalPlayTime % 60}s`);
     this.log(`💤 Idle Time: ${Math.floor(stats.totalIdleTime / 60)}m ${stats.totalIdleTime % 60}s`);
-    this.log(`🏆 Achievements: ${stats.unlockedAchievements}/${stats.totalAchievements}`);
-    this.log(`⭐ Prestige Count: ${stats.totalPrestige}`);
-    this.log(`🔧 Resources: ${stats.totalResources}`);
-    this.log(`🏭 Generators: ${stats.totalGenerators}`);
-    this.log(`⬆️  Upgrades: ${stats.totalUpgrades}`);
-    this.log('');
+    this?.log(`🏆 Achievements: ${stats?.unlockedAchievements}/${stats?.totalAchievements}`);
+    this?.log(`⭐ Prestige Count: ${stats?.totalPrestige}`);
+    this?.log(`🔧 Resources: ${stats?.totalResources}`);
+    this?.log(`🏭 Generators: ${stats?.totalGenerators}`);
+    this?.log(`⬆️  Upgrades: ${stats?.totalUpgrades}`);
+    this?.log('');
   }
 
   private showAchievements(): void {
-    const achievements = this.idleSystem.getAchievements();
+    const achievements = this?.idleSystem.getAchievements();
 
-    this.log('\n=== ACHIEVEMENTS ===');
-    achievements.forEach((achievement, id) => {
-      const status = achievement.unlocked ? '✅' : achievement.progress >= achievement.maxProgress ? '🔓' : '🔒';
-      this.log(`${status} ${achievement.name}: ${achievement.progress}/${achievement.maxProgress}`);
-      if (achievement.description) {
-        this.log(`   ${achievement.description}`);
+    this?.log('\n=== ACHIEVEMENTS ===');
+    achievements?.forEach((achievement, id) => {
+      const status = achievement?.unlocked ? '✅' : achievement?.progress >= achievement?.maxProgress ? '🔓' : '🔒';
+      this?.log(`${status} ${achievement?.name}: ${achievement?.progress}/${achievement?.maxProgress}`);
+      if (achievement?.description) {
+        this?.log(`   ${achievement?.description}`);
       }
     });
-    this.log('');
+    this?.log('');
   }
 
   private saveGame(): void {
-    this.idleManager.saveGame();
-    this.log('💾 Game saved');
+    this?.idleManager.saveGame();
+    this?.log('💾 Game saved');
   }
 
   private loadGame(): void {
-    this.idleManager.loadGame();
-    this.updateGameState();
-    this.log('📂 Game loaded');
+    this?.idleManager.loadGame();
+    this?.updateGameState();
+    this?.log('📂 Game loaded');
   }
 
   private resetGame(): void {
-    this.idleManager.resetGame();
-    this.gameState = this.initializeGameState();
-    this.log('🔄 Game reset');
+    this?.idleManager.resetGame();
+    this?.gameState = this?.initializeGameState();
+    this?.log('🔄 Game reset');
   }
 
   private exportData(filename?: string): void {
     const data = {
-      gameState: this.gameState,
-      stats: this.idleManager.getStats(),
+      gameState: this?.gameState,
+      stats: this?.idleManager.getStats(),
       resources: Array.from(this.idleSystem.getResources().entries()),
       generators: Array.from(this.idleSystem.getGenerators().entries()),
       timestamp: new Date()
@@ -472,42 +472,42 @@ export class IdleSystemCLI {
     const outputFile = filename || `idle_export_${Date.now()}.json`;
     fs.writeFileSync(outputFile, JSON.stringify(data, null, 2));
 
-    this.log(`💾 Game data exported to: ${outputFile}`);
+    this?.log(`💾 Game data exported to: ${outputFile}`);
   }
 
   private updateGameState(): void {
-    const resources = this.idleSystem.getResources();
-    const currencyResource = resources.get('currency');
+    const resources = this?.idleSystem.getResources();
+    const currencyResource = resources?.get('currency');
 
     if (currencyResource) {
-      this.gameState.currency = currencyResource.currentAmount;
+      this?.gameState.currency = currencyResource?.currentAmount;
     }
 
-    this.gameState.totalProduction = this.idleSystem.getTotalProduction();
+    this?.gameState.totalProduction = this?.idleSystem.getTotalProduction();
   }
 
   private showHelp(): void {
-    this.log('\n=== IDLE SYSTEM CLI COMMANDS ===');
-    this.log('📊 status/s              - Show game status');
-    this.log('💰 buy <gen> [amt!]       - Buy generator');
-    this.log('⬆️  upgrade/up <upgrade>  - Buy upgrade');
-    this.log('🔄 auto                  - Toggle auto-buy');
-    this.log('👆 click/c               - Manual click (+1)');
-    this.log('⭐ prestige/p            - Prestige (if available)');
-    this.log('🔧 optimize/o             - Optimize purchases');
-    this.log('🚀 simulate              - Run simulation');
-    this.log('📈 stats                 - Show statistics');
-    this.log('🏆 achievements/ach       - Show achievements');
-    this.log('💾 save                  - Save game');
-    this.log('📂 load                  - Load game');
-    this.log('🔄 reset                 - Reset game');
-    this.log('💾 export <file>         - Export game data');
-    this.log('❓ help/h                - Show this help');
-    this.log('👋 quit/q/exit           - Exit CLI');
-    this.log('');
-    this.log('💰 Available generators: clicker, auto_clicker, farm, mine');
-    this.log('⬆️  Available upgrades: click_power, auto_efficiency, farm_multiplier');
-    this.log('');
+    this?.log('\n=== IDLE SYSTEM CLI COMMANDS ===');
+    this?.log('📊 status/s              - Show game status');
+    this?.log('💰 buy <gen> [amt!]       - Buy generator');
+    this?.log('⬆️  upgrade/up <upgrade>  - Buy upgrade');
+    this?.log('🔄 auto                  - Toggle auto-buy');
+    this?.log('👆 click/c               - Manual click (+1)');
+    this?.log('⭐ prestige/p            - Prestige (if available)');
+    this?.log('🔧 optimize/o             - Optimize purchases');
+    this?.log('🚀 simulate              - Run simulation');
+    this?.log('📈 stats                 - Show statistics');
+    this?.log('🏆 achievements/ach       - Show achievements');
+    this?.log('💾 save                  - Save game');
+    this?.log('📂 load                  - Load game');
+    this?.log('🔄 reset                 - Reset game');
+    this?.log('💾 export <file>         - Export game data');
+    this?.log('❓ help/h                - Show this help');
+    this?.log('👋 quit/q/exit           - Exit CLI');
+    this?.log('');
+    this?.log('💰 Available generators: clicker, auto_clicker, farm, mine');
+    this?.log('⬆️  Available upgrades: click_power, auto_efficiency, farm_multiplier');
+    this?.log('');
   }
 
   private log(message: string): void {
@@ -516,59 +516,59 @@ export class IdleSystemCLI {
   }
 
   private shutdown(): void {
-    this.log('👋 Shutting down IdleSystem CLI...');
-    if (this.isInteractive) {
-      this.readline.close();
+    this?.log('👋 Shutting down IdleSystem CLI...');
+    if (this?.isInteractive) {
+      this?.readline.close();
     }
-    process.exit(0);
+    process?.exit(0);
   }
 
   // Public API methods
   public async run(): Promise<void> {
-    this.log('🕹️  IdleSystemPure CLI Harness v1.0.0');
-    this.log('💡 Type "help" for available commands');
-    this.log('');
+    this?.log('🕹️  IdleSystemPure CLI Harness v1.0.0');
+    this?.log('💡 Type "help" for available commands');
+    this?.log('');
 
-    if (this.options.mode === 'interactive') {
-      if (this.isInteractive) {
-        this.readline.prompt();
+    if (this?.options.mode === 'interactive') {
+      if (this?.isInteractive) {
+        this?.readline.prompt();
       } else {
-        this.log('❌ Interactive mode not available in browser environment');
-        this.shutdown();
+        this?.log('❌ Interactive mode not available in browser environment');
+        this?.shutdown();
       }
-    } else if (this.options.mode === 'simulate') {
-      await this.runSimulation();
-      this.shutdown();
-    } else if (this.options.mode === 'auto') {
-      this.log('🤖 Auto mode - running optimization loop...');
-      this.startAutoMode();
+    } else if (this?.options.mode === 'simulate') {
+      await this?.runSimulation();
+      this?.shutdown();
+    } else if (this?.options.mode === 'auto') {
+      this?.log('🤖 Auto mode - running optimization loop...');
+      this?.startAutoMode();
     } else {
-      this.log(`❌ Unsupported mode: ${this.options.mode}`);
-      this.shutdown();
+      this?.log(`❌ Unsupported mode: ${this?.options.mode}`);
+      this?.shutdown();
     }
   }
 
   private startAutoMode(): void {
-    this.isRunning = true;
-    this.autoBuyEnabled = true;
+    this?.isRunning = true;
+    this?.autoBuyEnabled = true;
 
     const interval = setInterval(() => {
-      if (!this.isRunning) {
+      if (!this?.isRunning) {
         clearInterval(interval);
         return;
       }
 
-      this.optimize();
-      this.showStatus();
+      this?.optimize();
+      this?.showStatus();
 
       // Stop after 10 minutes
       const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
       if (elapsed >= 600) {
-        this.log('⏰ Auto mode complete');
-        this.isRunning = false;
+        this?.log('⏰ Auto mode complete');
+        this?.isRunning = false;
         clearInterval(interval);
-        this.showStats();
-        this.shutdown();
+        this?.showStats();
+        this?.shutdown();
       }
     }, 30000); // Optimize every 30 seconds
   }
@@ -576,7 +576,7 @@ export class IdleSystemCLI {
 
 // CLI entry point
 async function main(): Promise<void> {
-  const args = process.argv.slice(2);
+  const args = process?.argv.slice(2);
   const options: CLIOptions = {
     mode: 'interactive',
     initialCurrency: 0,
@@ -585,27 +585,27 @@ async function main(): Promise<void> {
     verbose: false
   };
 
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0; i < args?.length; i++) {
     switch (args[i!]) {
       case '--mode':
       case '-m':
-        options.mode = args[++i] as CLIOptions['mode'];
+        options?.mode = args[++i] as CLIOptions['mode'];
         break;
       case '--currency':
       case '-c':
-        options.initialCurrency = parseFloat(args[++i]);
+        options?.initialCurrency = parseFloat(args[++i]);
         break;
       case '--auto':
       case '-a':
-        options.autoBuyEnabled = true;
+        options?.autoBuyEnabled = true;
         break;
       case '--time':
       case '-t':
-        options.simulationTime = parseInt(args[++i]);
+        options?.simulationTime = parseInt(args[++i]);
         break;
       case '--verbose':
       case '-v':
-        options.verbose = true;
+        options?.verbose = true;
         break;
       case '--help':
       case '-h':
@@ -619,15 +619,15 @@ async function main(): Promise<void> {
         console.log('  --verbose, -v              Enable verbose output');
         console.log('  --help, -h                 Show this help');
         console.log('');
-        process.exit(0);
+        process?.exit(0);
     }
   }
 
   const cli = new IdleSystemCLI(options);
-  await cli.run();
+  await cli?.run();
 }
 
-if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1!]}`) {
+if (typeof window === 'undefined' && import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }
 

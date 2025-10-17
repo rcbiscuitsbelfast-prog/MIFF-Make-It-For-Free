@@ -632,9 +632,9 @@ export class TimeSeriesAnalysisPure {
   private performanceMetrics: TimeSeriesAnalysisPerformanceMetrics;
   private analytics: TimeSeriesAnalysisAnalytics;
 
-  constructor(config: Partial<TimeSeriesAnalysisConfig> = {}) {
+  constructor(config: Partial<T extends Record<string, any>imeSeriesAnalysisConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableDataProcessing: true,
       enableStatisticalAnalysis: true,
       enableForecasting: true,
@@ -653,7 +653,7 @@ export class TimeSeriesAnalysisPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalTimeSeries: 0,
       totalDataPoints: 0,
       totalAnalyses: 0,
@@ -666,7 +666,7 @@ export class TimeSeriesAnalysisPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalAnalyses: 0,
       averageProcessingTime: 0,
       analysisTypeDistribution: [],
@@ -680,7 +680,7 @@ export class TimeSeriesAnalysisPure {
    * Create a new time series analysis manager
    */
   createManager(): TimeSeriesAnalysisOutput {
-    if (!this.config.enableDataProcessing) {
+    if (!this?.config.enableDataProcessing) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -690,8 +690,8 @@ export class TimeSeriesAnalysisPure {
 
     const manager: TimeSeriesAnalysisManager = {
       id: managerData.id || `timeseries-${Date.now()}`,
-      name: managerData.name || 'Unnamed Time Series Analysis Manager',
-      type: managerData.type || 'basic',
+      name: managerData?.name || 'Unnamed Time Series Analysis Manager',
+      type: managerData?.type || 'basic',
       status: 'active',
       timeSeries: [],
       analyses: [],
@@ -755,7 +755,7 @@ export class TimeSeriesAnalysisPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -768,7 +768,7 @@ export class TimeSeriesAnalysisPure {
    * Get manager by ID
    */
   getManager(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -788,7 +788,7 @@ export class TimeSeriesAnalysisPure {
    * Create time series
    */
   createTimeSeries(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-time-series',
@@ -797,7 +797,7 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    if (manager.timeSeries.length >= this.config.maxTimeSeries) {
+    if (manager?.timeSeries.length >= this?.config.maxTimeSeries) {
       return {
         op: 'create-time-series',
         status: 'error',
@@ -807,20 +807,20 @@ export class TimeSeriesAnalysisPure {
 
     const newTimeSeries: TimeSeries = {
       id: timeSeries.id || `ts-${Date.now()}`,
-      name: timeSeries.name || 'Unnamed Time Series',
-      description: timeSeries.description || '',
-      dataPoints: timeSeries.dataPoints || [],
-      frequency: timeSeries.frequency || 'hour',
+      name: timeSeries?.name || 'Unnamed Time Series',
+      description: timeSeries?.description || '',
+      dataPoints: timeSeries?.dataPoints || [],
+      frequency: timeSeries?.frequency || 'hour',
       startTime: timeSeries.startTime || Date.now(),
       endTime: timeSeries.endTime || Date.now(),
       metadata: {},
       ...timeSeries
     };
 
-    manager.timeSeries.push(newTimeSeries);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalTimeSeries++;
-    this.performanceMetrics.totalDataPoints += newTimeSeries.dataPoints.length;
+    manager?.timeSeries?.push(newTimeSeries);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalTimeSeries++;
+    this?.performanceMetrics.totalDataPoints += newTimeSeries?.dataPoints.length;
 
     return {
       op: 'create-time-series',
@@ -833,7 +833,7 @@ export class TimeSeriesAnalysisPure {
    * Add data points to time series
    */
   addDataPoints(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-data-points',
@@ -842,7 +842,7 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    const timeSeries = manager.timeSeries.find(ts => ts.id === timeSeriesId);
+    const timeSeries = manager?.timeSeries.find(ts => ts?.id === timeSeriesId);
     if (!timeSeries) {
       return {
         op: 'add-data-points',
@@ -851,7 +851,7 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    if (timeSeries.dataPoints.length + dataPoints.length > this.config.maxDataPoints) {
+    if (timeSeries?.dataPoints.length + dataPoints?.length > this?.config.maxDataPoints) {
       return {
         op: 'add-data-points',
         status: 'error',
@@ -859,17 +859,17 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    timeSeries.dataPoints.push(...dataPoints);
-    timeSeries.dataPoints.sort((a: any, b: any) => a.timestamp - b.timestamp);
+    timeSeries?.dataPoints?.push(...dataPoints);
+    timeSeries?.dataPoints.sort((a: any, b: any) => a?.timestamp - b?.timestamp);
     timeSeries.endTime = Math.max(timeSeries.endTime, ...dataPoints.map((dp: any) => dp.timestamp));
     
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalDataPoints += dataPoints.length;
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalDataPoints += dataPoints?.length;
 
     return {
       op: 'add-data-points',
       status: 'ok',
-      result: { added: dataPoints.length, total: timeSeries.dataPoints.length }
+      result: { added: dataPoints?.length, total: timeSeries?.dataPoints.length }
     };
   }
 
@@ -877,7 +877,7 @@ export class TimeSeriesAnalysisPure {
    * Perform analysis
    */
   performAnalysis(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'perform-analysis',
@@ -886,7 +886,7 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    const timeSeries = manager.timeSeries.find(ts => ts.id === timeSeriesId);
+    const timeSeries = manager?.timeSeries.find(ts => ts?.id === timeSeriesId);
     if (!timeSeries) {
       return {
         op: 'perform-analysis',
@@ -901,8 +901,8 @@ export class TimeSeriesAnalysisPure {
       type: analysisType,
       parameters: parameters || {},
       results: {
-        statistics: this.calculateStatistics(timeSeries.dataPoints),
-        patterns: this.detectPatterns(timeSeries.dataPoints),
+        statistics: this?.calculateStatistics(timeSeries?.dataPoints),
+        patterns: this?.detectPatterns(timeSeries?.dataPoints),
         insights: [],
         confidence: 0.95,
         metadata: {}
@@ -912,15 +912,15 @@ export class TimeSeriesAnalysisPure {
       metadata: {}
     };
 
-    manager.analyses.push(analysis);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalAnalyses++;
+    manager?.analyses?.push(analysis);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalAnalyses++;
 
     // Simulate analysis completion
     setTimeout(() => {
-      analysis.status = 'completed';
-      analysis.completedAt = Date.now();
-      this.performanceMetrics.completedAnalyses++;
+      analysis?.status = 'completed';
+      analysis.completedAt = new Date();
+      this?.performanceMetrics.completedAnalyses++;
     }, 1000);
 
     return {
@@ -934,7 +934,7 @@ export class TimeSeriesAnalysisPure {
    * Create forecast
    */
   createForecast(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-forecast',
@@ -943,7 +943,7 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    const timeSeries = manager.timeSeries.find(ts => ts.id === timeSeriesId);
+    const timeSeries = manager?.timeSeries.find(ts => ts?.id === timeSeriesId);
     if (!timeSeries) {
       return {
         op: 'create-forecast',
@@ -957,7 +957,7 @@ export class TimeSeriesAnalysisPure {
       timeSeriesId,
       method,
       horizon,
-      predictions: this.generateForecast(timeSeries.dataPoints, method, horizon),
+      predictions: this?.generateForecast(timeSeries?.dataPoints, method, horizon),
       confidenceInterval: {
         level: 0.95,
         lowerBound: [],
@@ -975,13 +975,13 @@ export class TimeSeriesAnalysisPure {
       metadata: {}
     };
 
-    manager.forecasts.push(forecast);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalForecasts++;
+    manager?.forecasts?.push(forecast);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalForecasts++;
 
     // Simulate forecast completion
     setTimeout(() => {
-      forecast.status = 'completed';
+      forecast?.status = 'completed';
     }, 2000);
 
     return {
@@ -995,8 +995,8 @@ export class TimeSeriesAnalysisPure {
    * Calculate statistics
    */
   private calculateStatistics(dataPoints: DataPoint[]): StatisticalResults {
-    const values = dataPoints.map((dp: any) => dp.value);
-    const n = values.length;
+    const values = dataPoints?.map((dp: any) => dp?.value);
+    const n = values?.length;
     
     if (n === 0) {
       return {
@@ -1005,7 +1005,7 @@ export class TimeSeriesAnalysisPure {
       };
     }
 
-    const mean = values.reduce((sum, val) => sum + val, 0) / n;
+    const mean = values?.reduce((sum, val) => sum + val, 0) / n;
     const sortedValues = [...values].sort((a: any, b: any) => a - b);
     const median = n % 2 === 0 
       ? (sortedValues[n/2 - 1] + sortedValues[n/2]) / 2 
@@ -1021,11 +1021,11 @@ export class TimeSeriesAnalysisPure {
     return {
       mean,
       median,
-      mode: this.calculateMode(values),
+      mode: this?.calculateMode(values),
       standardDeviation,
       variance,
-      skewness: this.calculateSkewness(values, mean, standardDeviation),
-      kurtosis: this.calculateKurtosis(values, mean, standardDeviation),
+      skewness: this?.calculateSkewness(values, mean, standardDeviation),
+      kurtosis: this?.calculateKurtosis(values, mean, standardDeviation),
       min,
       max,
       range
@@ -1037,7 +1037,7 @@ export class TimeSeriesAnalysisPure {
    */
   private calculateMode(values: number[]): number {
     const frequency: Record<number, number> = {};
-    values.forEach((val: any) => {
+    values?.forEach((val: any) => {
       frequency[val!] = (frequency[val!] || 0) + 1;
     });
     
@@ -1058,7 +1058,7 @@ export class TimeSeriesAnalysisPure {
    */
   private calculateSkewness(values: number[], mean: number, stdDev: number): number {
     if (stdDev === 0) return 0;
-    const n = values.length;
+    const n = values?.length;
     const skewness = values.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 3), 0) / n;
     return skewness;
   }
@@ -1068,7 +1068,7 @@ export class TimeSeriesAnalysisPure {
    */
   private calculateKurtosis(values: number[], mean: number, stdDev: number): number {
     if (stdDev === 0) return 0;
-    const n = values.length;
+    const n = values?.length;
     const kurtosis = values.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 4), 0) / n - 3;
     return kurtosis;
   }
@@ -1077,13 +1077,13 @@ export class TimeSeriesAnalysisPure {
    * Detect patterns
    */
   private detectPatterns(dataPoints: DataPoint[]): PatternResults {
-    const values = dataPoints.map((dp: any) => dp.value);
+    const values = dataPoints?.map((dp: any) => dp?.value);
     
     return {
-      trend: this.detectTrend(values),
-      seasonality: this.detectSeasonality(values),
-      cycles: this.detectCycles(values),
-      anomalies: this.detectAnomalies(dataPoints)
+      trend: this?.detectTrend(values),
+      seasonality: this?.detectSeasonality(values),
+      cycles: this?.detectCycles(values),
+      anomalies: this?.detectAnomalies(dataPoints)
     };
   }
 
@@ -1091,18 +1091,18 @@ export class TimeSeriesAnalysisPure {
    * Detect trend
    */
   private detectTrend(values: number[]): TrendPattern {
-    if (values.length < 2) {
+    if (values?.length < 2) {
       return { direction: 'stable', strength: 0, slope: 0, rSquared: 0 };
     }
 
-    const n = values.length;
+    const n = values?.length;
     const x = Array.from({ length: n }, (_, i) => i);
     const y = values;
 
-    const sumX = x.reduce((sum, val) => sum + val, 0);
-    const sumY = y.reduce((sum, val) => sum + val, 0);
-    const sumXY = x.reduce((sum, val, i) => sum + val * y[i!], 0);
-    const sumXX = x.reduce((sum, val) => sum + val * val, 0);
+    const sumX = x?.reduce((sum, val) => sum + val, 0);
+    const sumY = y?.reduce((sum, val) => sum + val, 0);
+    const sumXY = x?.reduce((sum, val, i) => sum + val * y[i!], 0);
+    const sumXX = x?.reduce((sum, val) => sum + val * val, 0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
     const intercept = (sumY - slope * sumX) / n;
@@ -1145,23 +1145,23 @@ export class TimeSeriesAnalysisPure {
    * Detect anomalies
    */
   private detectAnomalies(dataPoints: DataPoint[]): AnomalyPattern[] {
-    const values = dataPoints.map((dp: any) => dp.value);
-    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const values = dataPoints?.map((dp: any) => dp?.value);
+    const mean = values?.reduce((sum, val) => sum + val, 0) / values?.length;
     const stdDev = Math.sqrt(values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length);
     
     const anomalies: AnomalyPattern[] = [];
     const threshold = 2 * stdDev; // 2-sigma rule
 
-    dataPoints.forEach((dp, index) => {
+    dataPoints?.forEach((dp, index) => {
       const deviation = Math.abs(dp.value - mean);
       if (deviation > threshold) {
-        anomalies.push({
-          timestamp: dp.timestamp,
-          value: dp.value,
+        anomalies?.push({
+          timestamp: dp?.timestamp,
+          value: dp?.value,
           expectedValue: mean,
           deviation,
           severity: deviation > 3 * stdDev ? 'critical' : 'high',
-          type: dp.value > mean ? 'spike' : 'drop'
+          type: dp?.value > mean ? 'spike' : 'drop'
         });
       }
     });
@@ -1173,16 +1173,16 @@ export class TimeSeriesAnalysisPure {
    * Generate forecast
    */
   private generateForecast(dataPoints: DataPoint[], method: ForecastMethod, horizon: number): ForecastPoint[] {
-    const values = dataPoints.map((dp: any) => dp.value);
-    const lastValue = values[values.length - 1] || 0;
+    const values = dataPoints?.map((dp: any) => dp?.value);
+    const lastValue = values[values?.length - 1] || 0;
     const predictions: ForecastPoint[] = [];
 
     for (let i = 1; i <= horizon; i++) {
       // Simple linear trend forecast
-      const trend = this.detectTrend(values).slope;
+      const trend = this?.detectTrend(values).slope;
       const predictedValue = lastValue + (trend * i);
       
-      predictions.push({
+      predictions?.push({
         timestamp: new Date() + (i * 3600000), // Assuming hourly data
         value: predictedValue,
         lowerBound: predictedValue * 0.9,
@@ -1198,14 +1198,14 @@ export class TimeSeriesAnalysisPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): TimeSeriesAnalysisPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): TimeSeriesAnalysisAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1219,7 +1219,7 @@ export class TimeSeriesAnalysisPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalTimeSeries = 0;
     let totalDataPoints = 0;
     let totalAnalyses = 0;
@@ -1227,21 +1227,21 @@ export class TimeSeriesAnalysisPure {
     let totalForecasts = 0;
     let totalAnomalies = 0;
 
-    for (const manager of this.managers.values()) {
-      totalTimeSeries += manager.timeSeries.length;
-      totalDataPoints += manager.timeSeries.reduce((sum, ts) => sum + ts.dataPoints.length, 0);
-      totalAnalyses += manager.analyses.length;
-      completedAnalyses += manager.analyses.filter((a: any) => a.status === 'completed').length;
-      totalForecasts += manager.forecasts.length;
-      totalAnomalies += manager.anomalies.length;
+    for (const manager of this?.managers.values()) {
+      totalTimeSeries += manager?.timeSeries.length;
+      totalDataPoints += manager?.timeSeries.reduce((sum, ts) => sum + ts?.dataPoints.length, 0);
+      totalAnalyses += manager?.analyses.length;
+      completedAnalyses += manager?.analyses.filter((a: any) => a?.status === 'completed').length;
+      totalForecasts += manager?.forecasts.length;
+      totalAnomalies += manager?.anomalies.length;
     }
 
-    this.performanceMetrics.totalTimeSeries = totalTimeSeries;
-    this.performanceMetrics.totalDataPoints = totalDataPoints;
-    this.performanceMetrics.totalAnalyses = totalAnalyses;
-    this.performanceMetrics.completedAnalyses = completedAnalyses;
-    this.performanceMetrics.totalForecasts = totalForecasts;
-    this.performanceMetrics.totalAnomalies = totalAnomalies;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalTimeSeries = totalTimeSeries;
+    this?.performanceMetrics.totalDataPoints = totalDataPoints;
+    this?.performanceMetrics.totalAnalyses = totalAnalyses;
+    this?.performanceMetrics.completedAnalyses = completedAnalyses;
+    this?.performanceMetrics.totalForecasts = totalForecasts;
+    this?.performanceMetrics.totalAnomalies = totalAnomalies;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

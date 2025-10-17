@@ -26,8 +26,8 @@ class SessionManifestCLI {
   private manager: SessionManifestManager;
 
   constructor(config?: SessionConfig) {
-    this.manager = new SessionManifestManager(config);
-    this.initializeSampleSessions();
+    this?.manager = new SessionManifestManager(config);
+    this?.initializeSampleSessions();
   }
 
   private initializeSampleSessions() {
@@ -37,224 +37,224 @@ class SessionManifestCLI {
         id: 'demo-toppler',
         zone: 'toppler',
         players: [
-          { playerId: 'player1', avatar: 'presets/avatars/barbarian.json', style: '2d-side' as const },
-          { playerId: 'player2', avatar: 'presets/avatars/mage.json', style: '2d-side' as const }
+          { playerId: 'player1', avatar: 'presets/avatars/barbarian?.json', style: '2d-side' as const },
+          { playerId: 'player2', avatar: 'presets/avatars/mage?.json', style: '2d-side' as const }
         ]
       },
       {
         id: 'demo-grove',
         zone: 'witcher_grove',
         players: [
-          { playerId: 'explorer1', avatar: 'presets/avatars/rogue.json', style: '3d' as const, team: 'red' },
-          { playerId: 'explorer2', avatar: 'presets/avatars/barbarian.json', style: '3d' as const, team: 'blue' }
+          { playerId: 'explorer1', avatar: 'presets/avatars/rogue?.json', style: '3d' as const, team: 'red' },
+          { playerId: 'explorer2', avatar: 'presets/avatars/barbarian?.json', style: '3d' as const, team: 'blue' }
         ]
       }
     ];
 
-    sampleSessions.forEach((session: any) => {
-      this.manager.createSession(session.id, session.zone, session.players);
+    sampleSessions?.forEach((session: any) => {
+      this?.manager.createSession(session?.id, session?.zone, session?.players);
     });
   }
 
   async execute(operation: SessionOperation): Promise<any> {
     try {
-      switch (operation.op) {
+      switch (operation?.op) {
         case 'create':
-          return this.createSession(operation);
+          return this?.createSession(operation);
         
         case 'get':
-          return this.getSession(operation);
+          return this?.getSession(operation);
         
         case 'list':
-          return this.listSessions(operation);
+          return this?.listSessions(operation);
         
         case 'addPlayer':
-          return this.addPlayer(operation);
+          return this?.addPlayer(operation);
         
         case 'removePlayer':
-          return this.removePlayer(operation);
+          return this?.removePlayer(operation);
         
         case 'updateStatus':
-          return this.updatePlayerStatus(operation);
+          return this?.updatePlayerStatus(operation);
         
         case 'delete':
-          return this.deleteSession(operation);
+          return this?.deleteSession(operation);
         
         case 'cleanup':
-          return this.cleanupExpiredSessions();
+          return this?.cleanupExpiredSessions();
         
         case 'stats':
-          return this.getStats();
+          return this?.getStats();
         
         case 'simulate':
-          return this.simulate(operation);
+          return this?.simulate(operation);
         
         case 'export':
-          return this.export(operation);
+          return this?.export(operation);
         
         case 'validate':
-          return this.validate(operation);
+          return this?.validate(operation);
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${operation?.op}`);
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: operation?.op,
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error?.message : 'Unknown error',
         timestamp: new Date()
       };
     }
   }
 
   private createSession(op: SessionOperation): any {
-    if (!op.sessionId || !op.zone) {
+    if (!op?.sessionId || !op?.zone) {
       throw new Error('Missing required fields: sessionId, zone');
     }
 
-    const result = this.manager.createSession(
-      op.sessionId,
-      op.zone,
-      op.players || [],
-      op.seed
+    const result = this?.manager.createSession(
+      op?.sessionId,
+      op?.zone,
+      op?.players || [],
+      op?.seed
     );
 
     return {
       op: 'create',
-      status: result.ok ? 'ok' : 'error',
-      result: result.ok ? {
-        session: result.session,
-        message: `Session ${op.sessionId} created successfully`
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.ok ? {
+        session: result?.session,
+        message: `Session ${op?.sessionId} created successfully`
       } : undefined,
-      errors: result.errors,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private getSession(op: SessionOperation): any {
-    if (!op.sessionId) {
+    if (!op?.sessionId) {
       throw new Error('Missing required field: sessionId');
     }
 
-    const result = this.manager.getSession(op.sessionId);
+    const result = this?.manager.getSession(op?.sessionId);
 
     return {
       op: 'get',
-      status: result.ok ? 'ok' : 'error',
-      result: result.session,
-      errors: result.errors,
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.session,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private listSessions(op: SessionOperation): any {
-    const result = this.manager.listSessions(op.filter);
+    const result = this?.manager.listSessions(op?.filter);
 
     return {
       op: 'list',
       status: 'ok',
       result: {
-        sessions: result.sessions,
-        total: result.total,
-        filter: op.filter || null
+        sessions: result?.sessions,
+        total: result?.total,
+        filter: op?.filter || null
       },
       timestamp: new Date()
     };
   }
 
   private addPlayer(op: SessionOperation): any {
-    if (!op.sessionId || !op.player) {
+    if (!op?.sessionId || !op?.player) {
       throw new Error('Missing required fields: sessionId, player');
     }
 
-    const result = this.manager.addPlayer(op.sessionId, op.player);
+    const result = this?.manager.addPlayer(op?.sessionId, op?.player);
 
     return {
       op: 'addPlayer',
-      status: result.ok ? 'ok' : 'error',
-      result: result.ok ? {
-        session: result.session,
-        message: `Player ${op.player.playerId} added to session ${op.sessionId}`
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.ok ? {
+        session: result?.session,
+        message: `Player ${op?.player.playerId} added to session ${op?.sessionId}`
       } : undefined,
-      errors: result.errors,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private removePlayer(op: SessionOperation): any {
-    if (!op.sessionId || !op.playerId) {
+    if (!op?.sessionId || !op?.playerId) {
       throw new Error('Missing required fields: sessionId, playerId');
     }
 
-    const result = this.manager.removePlayer(op.sessionId, op.playerId);
+    const result = this?.manager.removePlayer(op?.sessionId, op?.playerId);
 
     return {
       op: 'removePlayer',
-      status: result.ok ? 'ok' : 'error',
-      result: result.ok ? {
-        session: result.session,
-        message: `Player ${op.playerId} removed from session ${op.sessionId}`
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.ok ? {
+        session: result?.session,
+        message: `Player ${op?.playerId} removed from session ${op?.sessionId}`
       } : undefined,
-      errors: result.errors,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private updatePlayerStatus(op: SessionOperation): any {
-    if (!op.sessionId || !op.playerId || !op.status) {
+    if (!op?.sessionId || !op?.playerId || !op?.status) {
       throw new Error('Missing required fields: sessionId, playerId, status');
     }
 
-    const result = this.manager.updatePlayerStatus(op.sessionId, op.playerId, op.status);
+    const result = this?.manager.updatePlayerStatus(op?.sessionId, op?.playerId, op?.status);
 
     return {
       op: 'updateStatus',
-      status: result.ok ? 'ok' : 'error',
-      result: result.ok ? {
-        session: result.session,
-        message: `Player ${op.playerId} status updated to ${op.status}`
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.ok ? {
+        session: result?.session,
+        message: `Player ${op?.playerId} status updated to ${op?.status}`
       } : undefined,
-      errors: result.errors,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private deleteSession(op: SessionOperation): any {
-    if (!op.sessionId) {
+    if (!op?.sessionId) {
       throw new Error('Missing required field: sessionId');
     }
 
-    const result = this.manager.deleteSession(op.sessionId);
+    const result = this?.manager.deleteSession(op?.sessionId);
 
     return {
       op: 'delete',
-      status: result.ok ? 'ok' : 'error',
-      result: result.ok ? {
-        message: `Session ${op.sessionId} deleted successfully`
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.ok ? {
+        message: `Session ${op?.sessionId} deleted successfully`
       } : undefined,
-      errors: result.errors,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private cleanupExpiredSessions(): any {
-    const result = this.manager.cleanupExpiredSessions();
+    const result = this?.manager.cleanupExpiredSessions();
 
     return {
       op: 'cleanup',
       status: 'ok',
       result: {
-        cleaned: result.cleaned,
-        message: `Cleaned up ${result.cleaned} expired sessions`
+        cleaned: result?.cleaned,
+        message: `Cleaned up ${result?.cleaned} expired sessions`
       },
       timestamp: new Date()
     };
   }
 
   private getStats(): any {
-    const stats = this.manager.getStats();
+    const stats = this?.manager.getStats();
 
     return {
       op: 'stats',
@@ -262,8 +262,8 @@ class SessionManifestCLI {
       result: {
         statistics: stats,
         summary: {
-          message: `${stats.activeSessions}/${stats.totalSessions} active sessions, ${stats.totalPlayers} total players`,
-          averageDuration: `${stats.averageSessionDuration.toFixed(1)} minutes`
+          message: `${stats?.activeSessions}/${stats?.totalSessions} active sessions, ${stats?.totalPlayers} total players`,
+          averageDuration: `${stats?.averageSessionDuration.toFixed(1)} minutes`
         }
       },
       timestamp: new Date()
@@ -271,61 +271,61 @@ class SessionManifestCLI {
   }
 
   private simulate(op: SessionOperation): any {
-    if (!op.sessionId) {
+    if (!op?.sessionId) {
       throw new Error('Missing required field: sessionId');
     }
 
-    const result = this.manager.simulate(op.sessionId, op.duration || 30);
+    const result = this?.manager.simulate(op?.sessionId, op?.duration || 30);
 
     return {
       op: 'simulate',
-      status: result.ok ? 'ok' : 'error',
-      result: result.simulation,
-      errors: result.errors,
+      status: result?.ok ? 'ok' : 'error',
+      result: result?.simulation,
+      errors: result?.errors,
       timestamp: new Date()
     };
   }
 
   private export(op: SessionOperation): any {
-    if (!op.sessionId) {
+    if (!op?.sessionId) {
       throw new Error('Missing required field: sessionId');
     }
 
-    const format = op.format || 'json';
+    const format = op?.format || 'json';
     
     // Handle special session export formats
     if (['manifest', 'summary'].includes(format)) {
-      const result = this.manager.exportSession(op.sessionId, format as any);
+      const result = this?.manager.exportSession(op?.sessionId, format as any);
       return {
         op: 'export',
-        status: result.ok ? 'ok' : 'error',
-        result: result.data,
+        status: result?.ok ? 'ok' : 'error',
+        result: result?.data,
         format,
-        errors: result.errors,
+        errors: result?.errors,
         timestamp: new Date()
       };
     }
 
     // Handle standard export formats
-    const sessionResult = this.manager.getSession(op.sessionId);
-    if (!sessionResult.ok) {
+    const sessionResult = this?.manager.getSession(op?.sessionId);
+    if (!sessionResult?.ok) {
       return {
         op: 'export',
         status: 'error',
-        errors: sessionResult.errors,
+        errors: sessionResult?.errors,
         timestamp: new Date()
       };
     }
 
-    const data = sessionResult.session;
+    const data = sessionResult?.session;
 
     switch (format) {
       case 'yaml': {
-        const yaml = this.toYAML(data);
+        const yaml = this?.toYAML(data: any);
         return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
-        const xml = this.toXML(data, 'session');
+        const xml = this?.toXML(data, 'session');
         return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
@@ -335,7 +335,7 @@ class SessionManifestCLI {
           format: format as ExportFormat,
           includeMetadata: true,
           includeTimestamp: true,
-          title: `Session ${op.sessionId}`,
+          title: `Session ${op?.sessionId}`,
           description: `Session manifest for ${data?.zone} zone`
         });
         return { 
@@ -358,19 +358,19 @@ class SessionManifestCLI {
   }
 
   private validate(op: SessionOperation): any {
-    if (!op.data) {
+    if (!op?.data) {
       throw new Error('Missing required field: data');
     }
 
-    const validation = SessionManifestPure.validate(op.data);
+    const validation = SessionManifestPure?.validate(op?.data);
 
     return {
       op: 'validate',
       status: 'ok',
       result: {
-        valid: validation.ok,
-        errors: validation.errors,
-        manifest: validation.ok ? op.data : null
+        valid: validation?.ok,
+        errors: validation?.errors,
+        manifest: validation?.ok ? op?.data : null
       },
       timestamp: new Date()
     };
@@ -379,21 +379,21 @@ class SessionManifestCLI {
   private toYAML(obj: any, indent = 0): string {
     const pad = '  '.repeat(indent);
     if (obj === null || obj === undefined) return 'null';
-    if (typeof obj !== 'object') return String(obj);
-    if (Array.isArray(obj)) {
-      return obj.map((v: any) => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+    if (typeof obj !== 'object') return String(obj: any);
+    if (Array.isArray(obj: any)) {
+      return obj?.map((v: any) => `${pad}- ${this?.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
     }
-    return Object.entries(obj).map(([k, v]) => {
-      const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
+    return Object.entries(obj: any).map(([k, v]) => {
+      const val = typeof v === 'object' && v !== null ? `\n${this?.toYAML(v, indent + 1)}` : `${this?.toYAML(v, 0)}`;
       return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
     }).join('\n');
   }
 
   private toXML(obj: any, tag = 'root'): string {
     if (obj === null || obj === undefined) return `<${tag}/>`;
-    if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
-    if (Array.isArray(obj)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
-    const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
+    if (typeof obj !== 'object') return `<${tag}>${String(obj: any)}</${tag}>`;
+    if (Array.isArray(obj: any)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
+    const children = Object.entries(obj: any).map(([k, v]) => this.toXML(v as any, k)).join('');
     return `<${tag}>${children}</${tag}>`;
   }
 }
@@ -401,7 +401,7 @@ class SessionManifestCLI {
 async function main() {
   const cli = new SessionManifestCLI();
   
-  if (process.argv.length < 3) {
+  if (process?.argv.length < 3) {
     console.error('Usage: cliHarness.ts <operation> [args...]');
     console.error('Operations: create, get, list, addPlayer, removePlayer, updateStatus, delete, cleanup, stats, simulate, export, validate');
     console.error('Examples:');
@@ -410,18 +410,18 @@ async function main() {
     console.error('  cliHarness.ts stats');
     console.error('  cliHarness.ts simulate demo-toppler 60');
     console.error('  cliHarness.ts export demo-toppler yaml');
-    process.exit(1);
+    process?.exit(1);
   }
 
-  const operation = process.argv[2!];
-  const args = process.argv.slice(3);
+  const operation = process?.argv[2!];
+  const args = process?.argv.slice(3);
 
   let op: SessionOperation;
   
   try {
     switch (operation) {
       case 'create':
-        if (args.length < 2) throw new Error('create requires sessionId and zone');
+        if (args?.length < 2) throw new Error('create requires sessionId and zone');
         op = { 
           op: 'create', 
           sessionId: args[0!], 
@@ -431,19 +431,19 @@ async function main() {
         break;
         
       case 'get':
-        if (args.length < 1) throw new Error('get requires sessionId');
+        if (args?.length < 1) throw new Error('get requires sessionId');
         op = { op: 'get', sessionId: args[0!] };
         break;
         
       case 'list':
         const filter: any = {};
-        if (args[0!]) filter.zone = args[0!];
-        if (args[1!]) filter.status = args[1!];
+        if (args[0!]) filter?.zone = args[0!];
+        if (args[1!]) filter?.status = args[1!];
         op = { op: 'list', filter: Object.keys(filter).length > 0 ? filter : undefined };
         break;
         
       case 'addPlayer':
-        if (args.length < 4) throw new Error('addPlayer requires sessionId, playerId, avatar, style');
+        if (args?.length < 4) throw new Error('addPlayer requires sessionId, playerId, avatar, style');
         op = { 
           op: 'addPlayer', 
           sessionId: args[0!],
@@ -457,12 +457,12 @@ async function main() {
         break;
         
       case 'removePlayer':
-        if (args.length < 2) throw new Error('removePlayer requires sessionId and playerId');
+        if (args?.length < 2) throw new Error('removePlayer requires sessionId and playerId');
         op = { op: 'removePlayer', sessionId: args[0], playerId: args[1] };
         break;
         
       case 'updateStatus':
-        if (args.length < 3) throw new Error('updateStatus requires sessionId, playerId, and status');
+        if (args?.length < 3) throw new Error('updateStatus requires sessionId, playerId, and status');
         op = { 
           op: 'updateStatus', 
           sessionId: args[0!], 
@@ -472,7 +472,7 @@ async function main() {
         break;
         
       case 'delete':
-        if (args.length < 1) throw new Error('delete requires sessionId');
+        if (args?.length < 1) throw new Error('delete requires sessionId');
         op = { op: 'delete', sessionId: args[0!] };
         break;
         
@@ -485,7 +485,7 @@ async function main() {
         break;
         
       case 'simulate':
-        if (args.length < 1) throw new Error('simulate requires sessionId');
+        if (args?.length < 1) throw new Error('simulate requires sessionId');
         op = { 
           op: 'simulate', 
           sessionId: args[0!], 
@@ -494,7 +494,7 @@ async function main() {
         break;
         
       case 'export':
-        if (args.length < 1) throw new Error('export requires sessionId');
+        if (args?.length < 1) throw new Error('export requires sessionId');
         op = { 
           op: 'export', 
           sessionId: args[0!], 
@@ -503,7 +503,7 @@ async function main() {
         break;
         
       case 'validate':
-        if (args.length < 1) throw new Error('validate requires JSON file path');
+        if (args?.length < 1) throw new Error('validate requires JSON file path');
         const data = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
         op = { op: 'validate', data };
         break;
@@ -512,15 +512,15 @@ async function main() {
         throw new Error(`Unknown operation: ${operation}`);
     }
 
-    const result = await cli.execute(op);
+    const result = await cli?.execute(op);
     console.log(JSON.stringify(result, null, 2));
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', error instanceof Error ? error.message : error);
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

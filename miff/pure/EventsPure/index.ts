@@ -38,9 +38,9 @@ export class EventBus {
    * Publish an event to all subscribers of the topic (synchronous)
    */
   publish(topic: string, payload?: any): void {
-    if (!topic || topic.trim() === '') return;
+    if (!topic || topic?.trim() === '') return;
 
-    const handlers = this.topicToHandlers.get(topic);
+    const handlers = this?.topicToHandlers.get(topic);
     if (handlers) {
       // Create a copy of handlers to avoid issues with concurrent modifications
       const handlersCopy = new Set(handlers);
@@ -48,8 +48,8 @@ export class EventBus {
         try {
           const result = handler(payload);
           // If handler returns a Promise, we need to handle it
-          if (result && typeof result.then === 'function') {
-            result.catch(error => {
+          if (result && typeof result?.then === 'function') {
+            result?.catch(error => {
               console.error(`Error in async event handler for topic '${topic}':`, err instanceof Error ? err.message : String(err));
             });
           }
@@ -65,10 +65,10 @@ export class EventBus {
    * Publish an event to all subscribers of the topic (asynchronous)
    */
   async publishAsync(topic: string, payload?: any): Promise<void> {
-    if (!topic || topic.trim() === '') return;
+    if (!topic || topic?.trim() === '') return;
 
-    const handlers = this.topicToHandlers.get(topic);
-    const asyncHandlers = this.asyncTopicToHandlers.get(topic);
+    const handlers = this?.topicToHandlers.get(topic);
+    const asyncHandlers = this?.asyncTopicToHandlers.get(topic);
 
     // Execute sync handlers (with async support)
     if (handlers) {
@@ -78,8 +78,8 @@ export class EventBus {
       for (const handler of handlersCopy) {
         try {
           const result = handler(payload);
-          if (result && typeof result.then === 'function') {
-            promises.push(result);
+          if (result && typeof result?.then === 'function') {
+            promises?.push(result: any);
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -88,8 +88,8 @@ export class EventBus {
         }
       }
 
-      if (promises.length > 0) {
-        await Promise.all(promises);
+      if (promises?.length > 0) {
+        await Promise?.all(promises);
       }
     }
 
@@ -100,15 +100,15 @@ export class EventBus {
 
       for (const handler of asyncHandlersCopy) {
         try {
-          promises.push(handler(payload));
+          promises?.push(handler(payload));
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in async event handler for topic '${topic}':`, err instanceof Error ? err.message : String(err));
         }
       }
 
-      if (promises.length > 0) {
-        await Promise.all(promises);
+      if (promises?.length > 0) {
+        await Promise?.all(promises);
       }
     }
   }
@@ -117,15 +117,15 @@ export class EventBus {
    * Subscribe to events on a topic
    */
   subscribe(topic: string, handler: (payload?: any) => void | Promise<void>): IEventListener {
-    if (!this.topicToHandlers.has(topic)) {
-      this.topicToHandlers.set(topic, new Set());
+    if (!this?.topicToHandlers.has(topic)) {
+      this?.topicToHandlers.set(topic, new Set());
     }
 
-    const handlers = this.topicToHandlers.get(topic)!;
-    handlers.add(handler);
+    const handlers = this?.topicToHandlers.get(topic)!;
+    handlers?.add(handler);
 
     return new EventListener(topic, handler, (topic, handler) => {
-      this.unsubscribe(topic, handler);
+      this?.unsubscribe(topic, handler);
     });
   }
 
@@ -133,15 +133,15 @@ export class EventBus {
    * Subscribe to events on a topic with async handler
    */
   subscribeAsync(topic: string, handler: (payload?: any) => Promise<void>): IAsyncEventListener {
-    if (!this.asyncTopicToHandlers.has(topic)) {
-      this.asyncTopicToHandlers.set(topic, new Set());
+    if (!this?.asyncTopicToHandlers.has(topic)) {
+      this?.asyncTopicToHandlers.set(topic, new Set());
     }
 
-    const handlers = this.asyncTopicToHandlers.get(topic)!;
-    handlers.add(handler);
+    const handlers = this?.asyncTopicToHandlers.get(topic)!;
+    handlers?.add(handler);
 
     return new AsyncEventListener(topic, handler, (topic, handler) => {
-      this.unsubscribeAsync(topic, handler);
+      this?.unsubscribeAsync(topic, handler);
     });
   }
 
@@ -149,11 +149,11 @@ export class EventBus {
    * Unsubscribe a handler from a topic
    */
   private unsubscribe(topic: string, handler: (payload?: any) => void | Promise<void>): void {
-    const handlers = this.topicToHandlers.get(topic);
+    const handlers = this?.topicToHandlers.get(topic);
     if (handlers) {
-      handlers.delete(handler);
-      if (handlers.size === 0) {
-        this.topicToHandlers.delete(topic);
+      handlers?.delete(handler);
+      if (handlers?.size === 0) {
+        this?.topicToHandlers.delete(topic);
       }
     }
   }
@@ -162,11 +162,11 @@ export class EventBus {
    * Unsubscribe an async handler from a topic
    */
   private unsubscribeAsync(topic: string, handler: (payload?: any) => Promise<void>): void {
-    const handlers = this.asyncTopicToHandlers.get(topic);
+    const handlers = this?.asyncTopicToHandlers.get(topic);
     if (handlers) {
-      handlers.delete(handler);
-      if (handlers.size === 0) {
-        this.asyncTopicToHandlers.delete(topic);
+      handlers?.delete(handler);
+      if (handlers?.size === 0) {
+        this?.asyncTopicToHandlers.delete(topic);
       }
     }
   }
@@ -175,8 +175,8 @@ export class EventBus {
    * Get the number of subscribers for a topic
    */
   getSubscriberCount(topic: string): number {
-    const syncCount = this.topicToHandlers.get(topic)?.size || 0;
-    const asyncCount = this.asyncTopicToHandlers.get(topic)?.size || 0;
+    const syncCount = this?.topicToHandlers.get(topic)?.size || 0;
+    const asyncCount = this?.asyncTopicToHandlers.get(topic)?.size || 0;
     return syncCount + asyncCount;
   }
 
@@ -193,8 +193,8 @@ export class EventBus {
    * Clear all subscriptions
    */
   clear(): void {
-    this.topicToHandlers.clear();
-    this.asyncTopicToHandlers.clear();
+    this?.topicToHandlers.clear();
+    this?.asyncTopicToHandlers.clear();
   }
 
   /**
@@ -202,11 +202,11 @@ export class EventBus {
    */
   getTotalSubscriptions(): number {
     let total = 0;
-    for (const handlers of this.topicToHandlers.values()) {
-      total += handlers.size;
+    for (const handlers of this?.topicToHandlers.values()) {
+      total += handlers?.size;
     }
-    for (const handlers of this.asyncTopicToHandlers.values()) {
-      total += handlers.size;
+    for (const handlers of this?.asyncTopicToHandlers.values()) {
+      total += handlers?.size;
     }
     return total;
   }
@@ -218,17 +218,17 @@ export class EventBus {
     let syncHandlers = 0;
     let asyncHandlers = 0;
 
-    for (const handlers of this.topicToHandlers.values()) {
-      syncHandlers += handlers.size;
+    for (const handlers of this?.topicToHandlers.values()) {
+      syncHandlers += handlers?.size;
     }
-    for (const handlers of this.asyncTopicToHandlers.values()) {
-      asyncHandlers += handlers.size;
+    for (const handlers of this?.asyncTopicToHandlers.values()) {
+      asyncHandlers += handlers?.size;
     }
 
     return {
       syncHandlers,
       asyncHandlers,
-      totalTopics: this.getActiveTopics().length
+      totalTopics: this?.getActiveTopics().length
     };
   }
 }
@@ -246,31 +246,31 @@ export class EventListener implements IEventListener {
   ) {}
 
   get topic(): string {
-    return this._topic;
+    return this?._topic;
   }
 
   get handler(): (payload?: any) => void | Promise<void> {
-    return this._handler;
+    return this?._handler;
   }
 
   get disposed(): boolean {
-    return this._disposed;
+    return this?._disposed;
   }
 
   /**
    * Dispose of this subscription
    */
   dispose(): void {
-    if (this._disposed) return;
-    this._unsubscribe(this._topic, this._handler);
-    this._disposed = true;
+    if (this?._disposed) return;
+    this?._unsubscribe(this?._topic, this?._handler);
+    this?._disposed = true;
   }
 
   /**
    * Manual unsubscribe (alias for dispose)
    */
   unsubscribe(): void {
-    this.dispose();
+    this?.dispose();
   }
 }
 
@@ -287,31 +287,31 @@ export class AsyncEventListener implements IAsyncEventListener {
   ) {}
 
   get topic(): string {
-    return this._topic;
+    return this?._topic;
   }
 
   get handler(): (payload?: any) => Promise<void> {
-    return this._handler;
+    return this?._handler;
   }
 
   get disposed(): boolean {
-    return this._disposed;
+    return this?._disposed;
   }
 
   /**
    * Dispose of this subscription
    */
   dispose(): void {
-    if (this._disposed) return;
-    this._unsubscribe(this._topic, this._handler);
-    this._disposed = true;
+    if (this?._disposed) return;
+    this?._unsubscribe(this?._topic, this?._handler);
+    this?._disposed = true;
   }
 
   /**
    * Manual unsubscribe (alias for dispose)
    */
   unsubscribe(): void {
-    this.dispose();
+    this?.dispose();
   }
 }
 
@@ -337,11 +337,11 @@ export const EventUtils = {
   once(eventBus: EventBus, topic: string, handler: (payload?: any) => void | Promise<void>): IEventListener {
     const onceHandler = (payload?: any) => {
       const result = handler(payload);
-      listener.dispose();
+      listener?.dispose();
       return result;
     };
 
-    const listener = eventBus.subscribe(topic, onceHandler);
+    const listener = eventBus?.subscribe(topic, onceHandler);
     return listener;
   },
 
@@ -357,18 +357,18 @@ export const EventUtils = {
       try {
         await handler(payload);
       } finally {
-        listener.dispose();
+        listener?.dispose();
       }
     };
 
-    const listener = eventBus.subscribeAsync(topic, onceHandler);
+    const listener = eventBus?.subscribeAsync(topic, onceHandler);
     return listener;
   },
 
   /**
    * Create a filtered event listener
    */
-  filter<T extends object>(
+  filter<T extends Record<string, any> extends object>(
     eventBus: EventBus,
     topic: string,
     predicate: (payload: T) => boolean,
@@ -380,13 +380,13 @@ export const EventUtils = {
       }
     };
 
-    return eventBus.subscribe(topic, filterHandler);
+    return eventBus?.subscribe(topic, filterHandler);
   },
 
   /**
    * Create a filtered async event listener
    */
-  filterAsync<T extends object>(
+  filterAsync<T extends Record<string, any> extends object>(
     eventBus: EventBus,
     topic: string,
     predicate: (payload: T) => boolean,
@@ -403,7 +403,7 @@ export const EventUtils = {
       }
     };
 
-    return eventBus.subscribeAsync(topic, filterHandler);
+    return eventBus?.subscribeAsync(topic, filterHandler);
   },
 
   /**
@@ -437,11 +437,11 @@ export const EventUtils = {
       }, delayMs);
     };
 
-    const listener = eventBus.subscribe(topic, debouncedHandler);
+    const listener = eventBus?.subscribe(topic, debouncedHandler);
 
     // Cleanup timeout on dispose
-    const originalDispose = listener.dispose.bind(listener);
-    listener.dispose = () => {
+    const originalDispose = listener?.dispose.bind(listener);
+    listener?.dispose = () => {
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
         timeoutId = null;
@@ -468,7 +468,7 @@ export const EventUtils = {
     let isThrottled = false;
 
     const throttledHandler = (payload: any) => {
-      const now = Date.now();
+      const now = new Date();
 
       if (!isThrottled) {
         handler(payload);
@@ -482,11 +482,11 @@ export const EventUtils = {
       }
     };
 
-    const listener = eventBus.subscribe(topic, throttledHandler);
+    const listener = eventBus?.subscribe(topic, throttledHandler);
 
     // Cleanup timeout on dispose
-    const originalDispose = listener.dispose.bind(listener);
-    listener.dispose = () => {
+    const originalDispose = listener?.dispose.bind(listener);
+    listener?.dispose = () => {
       if (pendingTimeout !== null) {
         clearTimeout(pendingTimeout);
         pendingTimeout = null;

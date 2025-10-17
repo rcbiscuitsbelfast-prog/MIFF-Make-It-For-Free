@@ -41,7 +41,7 @@ function printUsage(): void {
 DebugOverlayPure CLI - Real-time debug overlay for MIFF engine bridges
 
 Usage:
-  npx ts-node DebugOverlayPure/cliHarness.ts <command> [options!]
+  npx ts-node DebugOverlayPure/cliHarness?.ts <command> [options!]
 
 Commands:
   demo                           Run demo mode for testing
@@ -67,73 +67,73 @@ Options:
 
 Examples:
   # Run demo mode
-  npx ts-node DebugOverlayPure/cliHarness.ts demo
+  npx ts-node DebugOverlayPure/cliHarness?.ts demo
 
   # Create debug overlay from JSON payload
-  npx ts-node DebugOverlayPure/cliHarness.ts overlay payload.json --color --max-items 5
+  npx ts-node DebugOverlayPure/cliHarness?.ts overlay payload?.json --color --max-items 5
 
   # Create debug overlay from CLI output
-  npx ts-node DebugOverlayPure/cliHarness.ts overlay-cli cli_output.json --no-color --compact
+  npx ts-node DebugOverlayPure/cliHarness?.ts overlay-cli cli_output?.json --no-color --compact
 
   # Create debug overlay from golden test
-  npx ts-node DebugOverlayPure/cliHarness.ts overlay-golden BridgeSchemaPure/sample_render.json --format html
+  npx ts-node DebugOverlayPure/cliHarness?.ts overlay-golden BridgeSchemaPure/sample_render?.json --format html
 
   # Export debug overlay
-  npx ts-node DebugOverlayPure/cliHarness.ts export debug_1234567890 debug_report.html --format html
+  npx ts-node DebugOverlayPure/cliHarness?.ts export debug_1234567890 debug_report?.html --format html
 `);
 }
 
 function parseArgs(): { command: string; args: string[]; options: any } {
-  return parseComplexCLIArgs(process.argv);
+  return parseComplexCLIArgs(process?.argv);
 }
 
 function updateConfig(options: any): void {
-  if (options.showOp !== undefined) {
-    manager['config'].showOp = options.showOp;
+  if (options?.showOp !== undefined) {
+    manager['config'].showOp = options?.showOp;
   }
-  if (options.showStatus !== undefined) {
-    manager['config'].showStatus = options.showStatus;
+  if (options?.showStatus !== undefined) {
+    manager['config'].showStatus = options?.showStatus;
   }
-  if (options.showIssues !== undefined) {
-    manager['config'].showIssues = options.showIssues;
+  if (options?.showIssues !== undefined) {
+    manager['config'].showIssues = options?.showIssues;
   }
-  if (options.showTimestamps !== undefined) {
-    manager['config'].showTimestamps = options.showTimestamps;
+  if (options?.showTimestamps !== undefined) {
+    manager['config'].showTimestamps = options?.showTimestamps;
   }
-  if (options.showRenderData !== undefined) {
-    manager['config'].showRenderData = options.showRenderData;
+  if (options?.showRenderData !== undefined) {
+    manager['config'].showRenderData = options?.showRenderData;
   }
-  if (options.showEngineHints !== undefined) {
-    manager['config'].showEngineHints = options.showEngineHints;
+  if (options?.showEngineHints !== undefined) {
+    manager['config'].showEngineHints = options?.showEngineHints;
   }
-  if (options.showSignals !== undefined) {
-    manager['config'].showSignals = options.showSignals;
+  if (options?.showSignals !== undefined) {
+    manager['config'].showSignals = options?.showSignals;
   }
-  if (options.showMetadata !== undefined) {
-    manager['config'].showMetadata = options.showMetadata;
+  if (options?.showMetadata !== undefined) {
+    manager['config'].showMetadata = options?.showMetadata;
   }
-  if (options.colorize !== undefined) {
-    manager['config'].colorize = options.colorize;
+  if (options?.colorize !== undefined) {
+    manager['config'].colorize = options?.colorize;
   }
-  if (options.compact !== undefined) {
-    manager['config'].compact = options.compact;
+  if (options?.compact !== undefined) {
+    manager['config'].compact = options?.compact;
   }
-  if (options.maxRenderDataItems !== undefined) {
-    manager['config'].maxRenderDataItems = options.maxRenderDataItems;
+  if (options?.maxRenderDataItems !== undefined) {
+    manager['config'].maxRenderDataItems = options?.maxRenderDataItems;
   }
-  if (options.maxIssueLength !== undefined) {
-    manager['config'].maxIssueLength = options.maxIssueLength;
+  if (options?.maxIssueLength !== undefined) {
+    manager['config'].maxIssueLength = options?.maxIssueLength;
   }
-  if (options.outputFormat) {
-    manager['config'].outputFormat = options.outputFormat;
+  if (options?.outputFormat) {
+    manager['config'].outputFormat = options?.outputFormat;
   }
 }
 
 function overlay(args: string[], options: any): void {
-  if (args.length < 1) {
+  if (args?.length < 1) {
     console.error('Error: JSON file required');
     printUsage();
-    process.exit(1);
+    process?.exit(1);
   }
 
   const jsonFile = args[0!];
@@ -146,10 +146,10 @@ function overlay(args: string[], options: any): void {
   console.log('');
 
   try {
-    const payloadContent = fs.readFileSync(jsonFile, 'utf-8');
+    const payloadContent = fs?.readFileSync(jsonFile, 'utf-8');
     const payload = JSON.parse(payloadContent);
-    const result = manager.createOverlay(payload);
-    outputResult(result);
+    const result = manager?.createOverlay(payload);
+    outputResult(result: any);
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     handleError(error, 1);
@@ -157,10 +157,10 @@ function overlay(args: string[], options: any): void {
 }
 
 function overlayCLI(args: string[], options: any): void {
-  if (args.length < 1) {
+  if (args?.length < 1) {
     console.error('Error: CLI output file required');
     printUsage();
-    process.exit(1);
+    process?.exit(1);
   }
 
   const outputFile = args[0!];
@@ -173,9 +173,9 @@ function overlayCLI(args: string[], options: any): void {
   console.log('');
 
   try {
-    const cliOutput = fs.readFileSync(outputFile, 'utf-8');
-    const result = manager.createOverlayFromCLI(cliOutput);
-    outputResult(result);
+    const cliOutput = fs?.readFileSync(outputFile, 'utf-8');
+    const result = manager?.createOverlayFromCLI(cliOutput);
+    outputResult(result: any);
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     handleError(error, 1);
@@ -183,10 +183,10 @@ function overlayCLI(args: string[], options: any): void {
 }
 
 function overlayGolden(args: string[], options: any): void {
-  if (args.length < 1) {
+  if (args?.length < 1) {
     console.error('Error: Test path required');
     printUsage();
-    process.exit(1);
+    process?.exit(1);
   }
 
   const testPath = args[0!];
@@ -198,15 +198,15 @@ function overlayGolden(args: string[], options: any): void {
   console.log(`📄 Format: ${manager['config'].outputFormat}`);
   console.log('');
 
-  const result = manager.createOverlayFromGoldenTest(testPath);
-  outputResult(result);
+  const result = manager?.createOverlayFromGoldenTest(testPath);
+  outputResult(result: any);
 }
 
 function exportOverlay(args: string[], options: any): void {
-  if (args.length < 2) {
+  if (args?.length < 2) {
     console.error('Error: Overlay ID and output path required');
     printUsage();
-    process.exit(1);
+    process?.exit(1);
   }
 
   const overlayId = args[0!];
@@ -228,7 +228,7 @@ function exportOverlay(args: string[], options: any): void {
         id: 'demo_sprite',
         type: 'sprite',
         position: { x: 100, y: 200 },
-        asset: 'demo.png',
+        asset: 'demo?.png',
         engineHints: {
           web: {
             element: 'sprite',
@@ -245,32 +245,32 @@ function exportOverlay(args: string[], options: any): void {
     }
   };
 
-  const overlayResult = manager.createOverlay(samplePayload);
-  if (overlayResult.status === 'ok') {
-    const exportResult = manager.exportOverlay(overlayResult.overlay, outputPath);
+  const overlayResult = manager?.createOverlay(samplePayload);
+  if (overlayResult?.status === 'ok') {
+    const exportResult = manager?.exportOverlay(overlayResult?.overlay, outputPath);
     
-    if (exportResult.success) {
+    if (exportResult?.success) {
       console.log(`✅ Export successful: ${outputPath}`);
     } else {
       console.error(`❌ Export failed: ${exportResult.issues?.join(', ')}`);
-      process.exit(1);
+      process?.exit(1);
     }
   } else {
     console.error(`❌ Overlay creation failed: ${overlayResult.issues?.join(', ')}`);
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
 function outputResult(result: DebugOverlayOutput): void {
-  if (result.status === 'error') {
+  if (result?.status === 'error') {
     console.error(`❌ Debug overlay failed:`);
-    result.issues?.forEach((issue: any) => {
+    result?.issues?.forEach((issue: any) => {
       console.error(`  - ${issue}`);
     });
-    process.exit(1);
+    process?.exit(1);
   }
 
-  const overlay = result.overlay;
+  const overlay = result?.overlay;
   
   console.log(`✅ Debug overlay created successfully!`);
   console.log(`📊 Operation: ${overlay.debugInfo.op}`);
@@ -281,7 +281,7 @@ function outputResult(result: DebugOverlayOutput): void {
   console.log('');
 
   // Show debug display
-  const debugDisplay = manager.generateDebugDisplay(overlay);
+  const debugDisplay = manager?.generateDebugDisplay(overlay);
   console.log(debugDisplay);
 
   // Show JSON output if requested
@@ -322,10 +322,10 @@ function main(): void {
     default:
       console.error(`Error: Unknown command '${command}'`);
       printUsage();
-      process.exit(1);
+      process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }

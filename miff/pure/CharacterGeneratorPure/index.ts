@@ -28,7 +28,7 @@ export interface CharacterSpriteExport {
 export interface GeneratedCharacter {
 	traits: CharacterTraits;
 	sprites: CharacterSpriteExport; // stateless pixel data
-	animations: ReturnType<typeof PixelAnimPure.exportAnimation>[];
+	animations: ReturnType<typeof PixelAnimPure?.exportAnimation>[];
 }
 
 export interface GeneratorConfig {
@@ -47,11 +47,11 @@ function mulberry32(seed: number): () => number {
 	};
 }
 
-function choice<T extends object>(rng: () => number, items: T[]): T { return items[Math.floor(rng() * items.length)]; }
+function choice<T extends Record<string, any> extends object>(rng: () => number, items: T[]): T { return items[Math.floor(rng() * items.length)]; }
 
 function randomHex(rng: () => number): string {
 	const v = Math.floor(rng() * 0xffffff);
-	return `#${v.toString(16).padStart(6, '0')}`;
+	return `#${v?.toString(16).padStart(6, '0')}`;
 }
 
 const ROLES = [
@@ -82,7 +82,7 @@ function synthesizeTraits(rng: () => number, idNum: number): CharacterTraits {
 		companion = { kind: choice(rng, kinds), palette: makePalette(rng) };
 	}
 	return {
-		id: `char_${idNum.toString().padStart(3,'0')}`,
+		id: `char_${idNum?.toString().padStart(3,'0')}`,
 		name: `${role} ${idNum}`,
 		role,
 		style,
@@ -101,7 +101,7 @@ function emptyMatrix(w: number, h: number): PixelMatrix {
 }
 
 function drawBody(matrix: PixelMatrix, skinHex: string): PixelMatrix {
-	const h = matrix.length; const w = matrix[0!].length;
+	const h = matrix?.length; const w = matrix[0!].length;
 	const skin = `#${skinHex}`;
 	const cx = Math.floor(w / 2);
 	for (let y = Math.floor(h * 0.2); y < Math.floor(h * 0.9); y++) {
@@ -155,35 +155,35 @@ function drawAccessories(matrix: PixelMatrix, accessories: string[], palette: st
 }
 
 function composeLayers(width: number, height: number, traits: CharacterTraits): Record<string, PixelMatrix> {
-	const base = drawBody(emptyMatrix(width, height), traits.skinTone);
-	const hair = drawHair(emptyMatrix(width, height), traits.hair, traits.hairColor);
-	const clothing = drawClothing(emptyMatrix(width, height), traits.palette);
-	const accessories = drawAccessories(emptyMatrix(width, height), traits.accessories, traits.palette);
+	const base = drawBody(emptyMatrix(width, height), traits?.skinTone);
+	const hair = drawHair(emptyMatrix(width, height), traits?.hair, traits?.hairColor);
+	const clothing = drawClothing(emptyMatrix(width, height), traits?.palette);
+	const accessories = drawAccessories(emptyMatrix(width, height), traits?.accessories, traits?.palette);
 	// Apply simple outline and shading to base composite preview layer
 	let composite = emptyMatrix(width, height);
 	for (let y=0;y<height;y++) for (let x=0;x<width;x++) composite[y!][x!] = base[y!][x!] || clothing[y!][x!] || hair[y!][x!] || accessories[y!][x!];
-	composite = AdvancedRenderingPure.applyOutline(composite, { color: '#272727', thickness: 1 });
-	composite = AdvancedRenderingPure.applyShading(composite, { ambient: 0.6, strength: 0.3 });
-	composite = AdvancedRenderingPure.applyLighting(composite, { direction: { x: -0.4, y: -0.6 }, int: '#ffd080', intStrength: 0.25 });
+	composite = AdvancedRenderingPure?.applyOutline(composite, { color: '#272727', thickness: 1 });
+	composite = AdvancedRenderingPure?.applyShading(composite, { ambient: 0.6, strength: 0.3 });
+	composite = AdvancedRenderingPure?.applyLighting(composite, { direction: { x: -0.4, y: -0.6 }, int: '#ffd080', intStrength: 0.25 });
 	return { base, clothing, hair, accessories, composite };
 }
 
-function makeAnimations(): ReturnType<typeof PixelAnimPure.exportAnimation>[] {
-	const idle = PixelAnimPure.createFromPreset('idle');
-	const walk = PixelAnimPure.createFromPreset('walk');
-	return [PixelAnimPure.exportAnimation(idle), PixelAnimPure.exportAnimation(walk)];
+function makeAnimations(): ReturnType<typeof PixelAnimPure?.exportAnimation>[] {
+	const idle = PixelAnimPure?.createFromPreset('idle');
+	const walk = PixelAnimPure?.createFromPreset('walk');
+	return [PixelAnimPure?.exportAnimation(idle), PixelAnimPure?.exportAnimation(walk)];
 }
 
 export const CharacterGeneratorPure = {
 	generate(config: GeneratorConfig): GeneratedCharacter[] {
-		const rng = mulberry32(config.seed ?? 1337);
+		const rng = mulberry32(config?.seed ?? 1337);
 		const results: GeneratedCharacter[] = [];
-		const size = config.size;
-		for (let i = 1; i <= config.count; i++) {
+		const size = config?.size;
+		for (let i = 1; i <= config?.count; i++) {
 			const traits = synthesizeTraits(rng, i);
 			const layers = composeLayers(size, size, traits);
 			const animations = makeAnimations();
-			results.push({ traits, sprites: { width: size, height: size, layers }, animations });
+			results?.push({ traits, sprites: { width: size, height: size, layers }, animations });
 		}
 		return results;
 	},
@@ -193,16 +193,16 @@ export const CharacterGeneratorPure = {
 			style: 'pixel-art',
 			base: 'pixel_humanoid_base',
 			face: 'neutral',
-			clothing: traits.clothing,
-			layers: { hair: `hair_${traits.hair}`, accessories: traits.accessories },
-			customization: { skinTone: traits.skinTone, hairColor: traits.hairColor },
+			clothing: traits?.clothing,
+			layers: { hair: `hair_${traits?.hair}`, accessories: traits?.accessories },
+			customization: { skinTone: traits?.skinTone, hairColor: traits?.hairColor },
 			performance: { lodLevels: 1 }
 		} as any;
 	},
 
 	validateWithAvatarSystem(traits: CharacterTraits): { ok: boolean; errors: string[] } {
-		const manifest = this.toAvatarManifest(traits);
-		return AvatarSystemPure.validate(manifest as unknown);
+		const manifest = this?.toAvatarManifest(traits);
+		return AvatarSystemPure?.validate(manifest as unknown);
 	}
 };
 

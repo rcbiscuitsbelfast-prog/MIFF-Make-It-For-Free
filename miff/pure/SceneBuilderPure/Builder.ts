@@ -17,13 +17,13 @@ export class SceneBuilder {
   private scenes: Map<string, Scene> = new Map();
 
   createScene(scene: Scene): void {
-    this.scenes.set(scene.id, scene);
+    this?.scenes.set(scene?.id, scene);
   }
 
   addObject(sceneId: string, obj: SceneObject): void {
-    const scene = this.scenes.get(sceneId);
+    const scene = this?.scenes.get(sceneId);
     if (!scene) return;
-    scene.objects.push(obj);
+    scene?.objects?.push(obj: any);
   }
 
   getAllScenes(): Scene[] {
@@ -31,7 +31,7 @@ export class SceneBuilder {
   }
 
   getScene(sceneId: string): Scene | undefined {
-    return this.scenes.get(sceneId);
+    return this?.scenes.get(sceneId);
   }
 }
 

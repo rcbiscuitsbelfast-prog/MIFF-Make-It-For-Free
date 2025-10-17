@@ -2,7 +2,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { createRigState, reduceAnim, RigConfig } from './index';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 
 const config: RigConfig = {
   joints: ['root','spine','neck','head','shoulder_l','shoulder_r','elbow_l','elbow_r','hand_l','hand_r','hip_l','hip_r','knee_l','knee_r','foot_l','foot_r'],

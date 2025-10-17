@@ -12,31 +12,31 @@ import fs from 'fs';
  * - State updates are immutable and predictable
  */
 test('golden mount system flow', () => {
-  const root = path.resolve(__dirname, '..');
-  const mounts = path.resolve(root, 'fixtures/mounts.json');
+  const root = path?.resolve(__dirname, '..');
+  const mounts = path?.resolve(root, 'fixtures/mounts?.json');
   
   // Run CLI harness with mount events
-  const out = (global as any).testUtils.runCLI(
-    path.resolve(root, 'cliHarness.ts'), 
+  const out = (global as any).testUtils?.runCLI(
+    path?.resolve(root, 'cliHarness?.ts'), 
     [mounts!]
   );
   
   const got = JSON.parse(out);
   
   // Verify expected structure
-  expect(got.op).toBe('mount');
-  expect(got.status).toBe('ok');
-  expect(got.state).toBeDefined();
-  expect(got.state.mounted).toBeDefined();
+  expect(got?.op).toBe('mount');
+  expect(got?.status).toBe('ok');
+  expect(got?.state).toBeDefined();
+  expect(got?.state.mounted).toBeDefined();
   
   // Verify deterministic mount state changes
-  const mounted = got.state.mounted;
+  const mounted = got?.state.mounted;
   
   // player_002 should be mounted on horse_002
-  expect(mounted.player_002).toBe('horse_002');
+  expect(mounted?.player_002).toBe('horse_002');
   
   // npc_001 should be mounted on cart_001
-  expect(mounted.npc_001).toBe('cart_001');
+  expect(mounted?.npc_001).toBe('cart_001');
   
   // Verify only affected riders are present in output
   // Note: The system only returns riders that were affected by events

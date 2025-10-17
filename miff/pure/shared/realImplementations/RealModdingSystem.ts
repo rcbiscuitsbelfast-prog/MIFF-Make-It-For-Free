@@ -205,15 +205,15 @@ export class RealModdingSystem {
 
   constructor(...args: any[]) {
     
-    this.initialize();
+    this?.initialize({});
   }
 
   /**
    * Initialize modding system
    */
   private initialize(): void {
-    this.isInitialized = true;
-    this.emit('initialized', {});
+    this?.isInitialized = true;
+    this?.emit('initialized', {});
   }
 
   /**
@@ -221,55 +221,55 @@ export class RealModdingSystem {
    */
   async loadMod(modPath: string): Promise<ModLoadResult> {
     try {
-      const mod = await this.parseModFile(modPath);
-      const validation = await this.validateMod(mod);
+      const mod = await this?.parseModFile(modPath);
+      const validation = await this?.validateMod(mod);
       
-      if (!validation.valid) {
+      if (!validation?.valid) {
         return {
           success: false,
           mod,
-          errors: validation.errors,
-          warnings: validation.warnings,
+          errors: validation?.errors,
+          warnings: validation?.warnings,
           loadedFiles: [],
           failedFiles: []
         };
       }
 
       // Check for conflicts
-      const conflicts = this.checkConflicts(mod);
-      if (conflicts.length > 0) {
+      const conflicts = this?.checkConflicts(mod);
+      if (conflicts?.length > 0) {
         return {
           success: false,
           mod,
           errors: conflicts,
-          warnings: validation.warnings,
+          warnings: validation?.warnings,
           loadedFiles: [],
           failedFiles: []
         };
       }
 
       // Load mod files
-      const loadResult = await this.loadModFiles(mod);
+      const loadResult = await this?.loadModFiles(mod);
       
-      this.mods.set(mod.id, mod);
-      this.updateLoadOrder();
+      this?.mods.set(mod?.id, mod);
+      this?.updateLoadOrder();
       
-      this.emit('modLoaded', { mod, result: loadResult });
+      this?.emit('modLoaded', { mod, result: loadResult });
       
       return {
         success: true,
         mod,
         errors: [],
-        warnings: validation.warnings,
-        loadedFiles: loadResult.loadedFiles,
-        failedFiles: loadResult.failedFiles
+        warnings: validation?.warnings,
+        loadedFiles: loadResult?.loadedFiles,
+        failedFiles: loadResult?.failedFiles
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         mod: {} as Mod,
-        errors: [error instanceof Error ? error.message : String(error)],
+        errors: [error instanceof Error ? error?.message : String(error)],
         warnings: [],
         loadedFiles: [],
         failedFiles: []
@@ -281,22 +281,22 @@ export class RealModdingSystem {
    * Unload a mod
    */
   async unloadMod(modId: string): Promise<boolean> {
-    const mod = this.mods.get(modId);
+    const mod = this?.mods.get(modId);
     if (!mod) return false;
 
     try {
       // Unload mod files
-      await this.unloadModFiles(mod);
+      await this?.unloadModFiles(mod);
       
-      this.mods.delete(modId);
-      this.loadedMods.delete(modId);
-      this.updateLoadOrder();
+      this?.mods.delete(modId);
+      this?.loadedMods.delete(modId);
+      this?.updateLoadOrder();
       
-      this.emit('modUnloaded', { mod });
+      this?.emit('modUnloaded', { mod });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('modUnloadError', { mod, error });
+      this?.emit('modUnloadError', { mod, error });
       return false;
     }
   }
@@ -305,13 +305,13 @@ export class RealModdingSystem {
    * Enable a mod
    */
   enableMod(): boolean {
-    const mod = this.mods.get(modId);
+    const mod = this?.mods.get(modId);
     if (!mod) return false;
 
-    mod.enabled = true;
-    this.updateLoadOrder();
+    mod?.enabled = true;
+    this?.updateLoadOrder();
     
-    this.emit('modEnabled', { mod });
+    this?.emit('modEnabled', { mod });
     return true;
   }
 
@@ -319,13 +319,13 @@ export class RealModdingSystem {
    * Disable a mod
    */
   disableMod(): boolean {
-    const mod = this.mods.get(modId);
+    const mod = this?.mods.get(modId);
     if (!mod) return false;
 
-    mod.enabled = false;
-    this.updateLoadOrder();
+    mod?.enabled = false;
+    this?.updateLoadOrder();
     
-    this.emit('modDisabled', { mod });
+    this?.emit('modDisabled', { mod });
     return true;
   }
 
@@ -333,7 +333,7 @@ export class RealModdingSystem {
    * Get mod by ID
    */
   getMod(modId: string): Mod! {
-    return this.mods.get(modId);
+    return this?.mods.get(modId);
   }
 
   /**
@@ -361,7 +361,7 @@ export class RealModdingSystem {
    * Get mod load order
    */
   getLoadOrder(): string[] {
-    return [...this.modOrder];
+    return [...this?.modOrder];
   }
 
   /**
@@ -370,11 +370,11 @@ export class RealModdingSystem {
   setLoadOrder(): boolean {
     // Validate all mod IDs exist
     for (const id of modIds) {
-      if (!this.mods.has(id)) return false;
+      if (!this?.mods.has(id)) return false;
     }
 
-    this.modOrder = [...modIds];
-    this.emit('loadOrderChanged', { order: this.modOrder });
+    this?.modOrder = [...modIds];
+    this?.emit('loadOrderChanged', { order: this?.modOrder });
     return true;
   }
 
@@ -384,17 +384,17 @@ export class RealModdingSystem {
   checkConflicts(mod: Mod): string[] {
     const conflicts: string[] = [];
     
-    for (const existingMod of this.mods.values()) {
-      if (!existingMod.enabled) continue;
+    for (const existingMod of this?.mods.values()) {
+      if (!existingMod?.enabled) continue;
       
       // Check if mod conflicts with existing mod
-      if (mod.conflicts.includes(existingMod.id)) {
-        conflicts.push(`Mod ${mod.name} conflicts with ${existingMod.name}`);
+      if (mod?.conflicts.includes(existingMod?.id)) {
+        conflicts?.push(`Mod ${mod?.name} conflicts with ${existingMod?.name}`);
       }
       
       // Check if existing mod conflicts with new mod
-      if (existingMod.conflicts.includes(mod.id)) {
-        conflicts.push(`Mod ${existingMod.name} conflicts with ${mod.name}`);
+      if (existingMod?.conflicts.includes(mod?.id)) {
+        conflicts?.push(`Mod ${existingMod?.name} conflicts with ${mod?.name}`);
       }
     }
     
@@ -410,50 +410,50 @@ export class RealModdingSystem {
     const suggestions: string[] = [];
 
     // Validate mod metadata
-    if (!mod.name) errors.push('Mod name is required');
-    if (!mod.version) errors.push('Mod version is required');
-    if (!mod.author) errors.push('Mod author is required');
-    if (!mod.description) errors.push('Mod description is required');
+    if (!mod?.name) errors?.push('Mod name is required');
+    if (!mod?.version) errors?.push('Mod version is required');
+    if (!mod?.author) errors?.push('Mod author is required');
+    if (!mod?.description) errors?.push('Mod description is required');
 
     // Validate version format
-    if (mod.version && !/^\d+\.\d+\.\d+$/.test(mod.version)) {
-      warnings.push('Version should follow semantic versioning (x.y.z)');
+    if (mod?.version && !/^\d+\.\d+\.\d+$/.test(mod?.version)) {
+      warnings?.push('Version should follow semantic versioning (x.y.z)');
     }
 
     // Validate dependencies
-    for (const dep of mod.metadata.dependencies as ModDependency[]) {
-      if (!this.mods.has(dep.id)) {
-        if (dep.optional) {
-          warnings.push(`Optional dependency ${dep.id} not found`);
+    for (const dep of mod?.metadata.dependencies as ModDependency[]) {
+      if (!this?.mods.has(dep?.id)) {
+        if (dep?.optional) {
+          warnings?.push(`Optional dependency ${dep?.id} not found`);
         } else {
-          errors.push(`Required dependency ${dep.id} not found`);
+          errors?.push(`Required dependency ${dep?.id} not found`);
         }
       }
     }
 
     // Validate files
-    for (const file of mod.files) {
-      if (!file.path) errors.push('File path is required');
-      if (!file.type) errors.push('File type is required');
-      if (file.size <= 0) warnings.push(`File ${file.path} has zero size`);
+    for (const file of mod?.files) {
+      if (!file?.path) errors?.push('File path is required');
+      if (!file?.type) errors?.push('File type is required');
+      if (file?.size <= 0) warnings?.push(`File ${file?.path} has zero size`);
     }
 
     // Validate scripts
-    for (const script of mod.scripts) {
-      if (!script.path) errors.push('Script path is required');
-      if (!script.type) errors.push('Script type is required');
-      if (!script.content) warnings.push(`Script ${script.path} has no content`);
+    for (const script of mod?.scripts) {
+      if (!script?.path) errors?.push('Script path is required');
+      if (!script?.type) errors?.push('Script type is required');
+      if (!script?.content) warnings?.push(`Script ${script?.path} has no content`);
     }
 
     // Validate assets
-    for (const asset of mod.assets) {
-      if (!asset.path) errors.push('Asset path is required');
-      if (!asset.type) errors.push('Asset type is required');
-      if (asset.size <= 0) warnings.push(`Asset ${asset.path} has zero size`);
+    for (const asset of mod?.assets) {
+      if (!asset?.path) errors?.push('Asset path is required');
+      if (!asset?.type) errors?.push('Asset type is required');
+      if (asset?.size <= 0) warnings?.push(`Asset ${asset?.path} has zero size`);
     }
 
     return {
-      valid: errors.length === 0,
+      valid: errors?.length === 0,
       errors,
       warnings,
       suggestions
@@ -506,33 +506,33 @@ export class RealModdingSystem {
     const loadedFiles: string[] = [];
     const failedFiles: string[] = [];
 
-    for (const file of mod.files) {
+    for (const file of mod?.files) {
       try {
         // Simulate file loading
-        loadedFiles.push(file.path);
+        loadedFiles?.push(file?.path);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        failedFiles.push(file.path);
+        failedFiles?.push(file?.path);
       }
     }
 
-    for (const script of mod.scripts) {
+    for (const script of mod?.scripts) {
       try {
         // Simulate script loading
-        loadedFiles.push(script.path);
+        loadedFiles?.push(script?.path);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        failedFiles.push(script.path);
+        failedFiles?.push(script?.path);
       }
     }
 
-    for (const asset of mod.assets) {
+    for (const asset of mod?.assets) {
       try {
         // Simulate asset loading
-        loadedFiles.push(asset.path);
+        loadedFiles?.push(asset?.path);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        failedFiles.push(asset.path);
+        failedFiles?.push(asset?.path);
       }
     }
 
@@ -544,15 +544,15 @@ export class RealModdingSystem {
    */
   private async unloadModFiles(mod: Mod): Promise<void> {
     // Simulate file unloading
-    for (const file of mod.files) {
+    for (const file of mod?.files) {
       // Unload file
     }
 
-    for (const script of mod.scripts) {
+    for (const script of mod?.scripts) {
       // Unload script
     }
 
-    for (const asset of mod.assets) {
+    for (const asset of mod?.assets) {
       // Unload asset
     }
   }
@@ -562,27 +562,27 @@ export class RealModdingSystem {
    */
   private updateLoadOrder(): void {
     const enabledMods = Array.from(this.mods.values())
-      .filter((mod: any) => mod.enabled)
-      .sort((a: any, b: any) => a.loadOrder - b.loadOrder);
+      .filter((mod: any) => mod?.enabled)
+      .sort((a: any, b: any) => a?.loadOrder - b?.loadOrder);
     
-    this.modOrder = enabledMods.map((mod: any) => mod.id);
+    this?.modOrder = enabledMods?.map((mod: any) => mod?.id);
   }
 
   /**
    * Hot reload mod
    */
   async hotReloadMod(modId: string): Promise<boolean> {
-    const mod = this.mods.get(modId);
+    const mod = this?.mods.get(modId);
     if (!mod) return false;
 
     try {
-      await this.unloadMod(modId);
-      await this.loadMod(mod.path);
-      this.emit('modHotReloaded', { mod });
+      await this?.unloadMod(modId);
+      await this?.loadMod(mod?.path);
+      this?.emit('modHotReloaded', { mod });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.emit('modHotReloadError', { mod, error });
+      this?.emit('modHotReloadError', { mod, error });
       return false;
     }
   }
@@ -599,17 +599,17 @@ export class RealModdingSystem {
     totalAssets: number;
   } {
     const mods = Array.from(this.mods.values());
-    const enabledMods = mods.filter((mod: any) => mod.enabled);
-    const loadedMods = mods.filter((mod: any) => this.loadedMods.has(mod.id));
+    const enabledMods = mods?.filter((mod: any) => mod?.enabled);
+    const loadedMods = mods?.filter((mod: any) => this?.loadedMods.has(mod?.id));
     
-    const totalFiles = mods.reduce((sum, mod) => sum + mod.files.length, 0);
-    const totalScripts = mods.reduce((sum, mod) => sum + mod.scripts.length, 0);
-    const totalAssets = mods.reduce((sum, mod) => sum + mod.assets.length, 0);
+    const totalFiles = mods?.reduce((sum, mod) => sum + mod?.files.length, 0);
+    const totalScripts = mods?.reduce((sum, mod) => sum + mod?.scripts.length, 0);
+    const totalAssets = mods?.reduce((sum, mod) => sum + mod?.assets.length, 0);
 
     return {
-      totalMods: mods.length,
-      enabledMods: enabledMods.length,
-      loadedMods: loadedMods.length,
+      totalMods: mods?.length,
+      enabledMods: enabledMods?.length,
+      loadedMods: loadedMods?.length,
       totalFiles,
       totalScripts,
       totalAssets
@@ -620,28 +620,28 @@ export class RealModdingSystem {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event)) {
-      this.eventHandlers.set(event, []);
+    if (!this?.eventHandlers.has(event)) {
+      this?.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)?.push(handler);
+    this?.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this?.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers.indexOf(handler);
+      const index = handlers?.indexOf(handler);
       if (index > -1) {
-        handlers.splice(index, 1);
+        handlers?.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this?.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach((handler: any) => {
+      handlers?.forEach((handler: any) => {
         try {
-          handler(data);
+          handler(data: any);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in modding system event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -660,10 +660,10 @@ export class RealModdingSystem {
     loadedMods: number;
   } {
     return {
-      isInitialized: this.isInitialized,
-      modCount: this.mods.size,
+      isInitialized: this?.isInitialized,
+      modCount: this?.mods.size,
       enabledMods: Array.from(this.mods.values()).filter((mod: any) => mod.enabled).length,
-      loadedMods: this.loadedMods.size
+      loadedMods: this?.loadedMods.size
     };
   }
 
@@ -671,23 +671,23 @@ export class RealModdingSystem {
    * Reset modding system
    */
   reset(): void {
-    this.mods.clear();
-    this.loadedMods.clear();
-    this.modOrder = [];
-    this.eventHandlers.clear();
-    this.isInitialized = false;
-    this.initialize();
+    this?.mods.clear();
+    this?.loadedMods.clear();
+    this?.modOrder = [];
+    this?.eventHandlers.clear();
+    this?.isInitialized = false;
+    this?.initialize({});
   }
 
   /**
    * Cleanup resources
    */
   cleanup(): void {
-    this.mods.clear();
-    this.loadedMods.clear();
-    this.modOrder = [];
-    this.eventHandlers.clear();
-    this.isInitialized = false;
+    this?.mods.clear();
+    this?.loadedMods.clear();
+    this?.modOrder = [];
+    this?.eventHandlers.clear();
+    this?.isInitialized = false;
   }
 }
 

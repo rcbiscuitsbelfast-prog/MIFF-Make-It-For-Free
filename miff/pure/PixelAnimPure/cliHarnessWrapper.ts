@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { PixelAnimator, Animation, AnimationFrame } from './Animator';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 const animator = new PixelAnimator();
 
 try {
@@ -29,8 +29,8 @@ try {
       for (let i = 0; i < frameCount; i++) {
         const t = i / frameCount;
         const y = Math.sin(t * Math.PI * 2) * 10; // Float up and down
-        anim.frames.push({
-          time: t * anim.duration,
+        anim?.frames?.push({
+          time: t * anim?.duration,
           properties: {
             y,
             opacity: 1
@@ -38,14 +38,14 @@ try {
         });
       }
       
-      animator.playAnimation(objectId || 'object_001', anim);
+      animator?.playAnimation(objectId || 'object_001', anim);
       
       handleSuccess({
         objectId,
         animation: anim,
-        frameCount: anim.frames.length,
-        duration: anim.duration,
-        easing: anim.easing,
+        frameCount: anim?.frames.length,
+        duration: anim?.duration,
+        easing: anim?.easing,
         playing: true
       }, 'animateObject');
       break;
@@ -53,27 +53,27 @@ try {
 
     case 'play': {
       const { animationId, objectId } = params;
-      animator.play(objectId || 'object_001', animationId || 'anim_001');
+      animator?.play(objectId || 'object_001', animationId || 'anim_001');
       handleSuccess({ objectId, animationId, playing: true }, 'play');
       break;
     }
 
     case 'stop': {
       const { objectId } = params;
-      animator.stop(objectId || 'object_001');
+      animator?.stop(objectId || 'object_001');
       handleSuccess({ objectId, stopped: true }, 'stop');
       break;
     }
 
     case 'listAnimations': {
-      const animations = animator.getAnimations();
-      handleSuccess({ animations, count: animations.length }, 'listAnimations');
+      const animations = animator?.getAnimations();
+      handleSuccess({ animations, count: animations?.length }, 'listAnimations');
       break;
     }
 
     case 'update': {
       const { deltaTime } = params;
-      animator.update(deltaTime || 0.016); // ~60fps
+      animator?.update(deltaTime || 0.016); // ~60fps
       handleSuccess({ deltaTime, updated: true }, 'update');
       break;
     }

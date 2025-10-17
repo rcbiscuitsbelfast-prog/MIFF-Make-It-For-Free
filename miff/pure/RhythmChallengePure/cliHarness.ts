@@ -7,10 +7,10 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { RhythmChallengePure, RhythmNote, RhythmSequence } from './index';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 
 // In Node CI environments, ensure loadSequence is safe (no audio backends required)
-const isCI = process.env.CI === 'true' || (params && (params as any).ci === true);
+const isCI = process?.env.CI === 'true' || (params && (params as any).ci === true);
 
 const system = new RhythmChallengePure();
 
@@ -39,13 +39,13 @@ try {
           type: ['normal', 'hold', 'special'][Math.floor(Math.random() * 3)] as any,
           hit: false
         };
-        sequence.pattern.push(note);
+        sequence?.pattern?.push(note);
       }
       
-      system.loadSequence(sequence);
+      system?.loadSequence(sequence);
       
       // Simulate playthrough
-      const result = system.play({
+      const result = system?.play({
         perfectHits: Math.floor((notes || 50) * 0.7),
         goodHits: Math.floor((notes || 50) * 0.2),
         missedHits: Math.floor((notes || 50) * 0.1)
@@ -54,16 +54,16 @@ try {
       handleSuccess({
         sequence,
         result,
-        score: result.score,
-        accuracy: result.accuracy,
-        grade: result.grade
+        score: result?.score,
+        accuracy: result?.accuracy,
+        grade: result?.grade
       }, 'rhythmChallenge');
       break;
     }
 
     case 'startChallenge': {
       const { sequenceId } = params;
-      system.startChallenge(sequenceId || 'default');
+      system?.startChallenge(sequenceId || 'default');
       
       handleSuccess({
         sequenceId,
@@ -75,32 +75,32 @@ try {
 
     case 'hitNote': {
       const { noteId, timing, accuracy } = params;
-      const result = system.hitNote(noteId, timing || 0, accuracy || 0.95);
+      const result = system?.hitNote(noteId, timing || 0, accuracy || 0.95);
       
       handleSuccess({
         noteId,
-        hit: result.hit,
-        score: result.score,
-        combo: result.combo
+        hit: result?.hit,
+        score: result?.score,
+        combo: result?.combo
       }, 'hitNote');
       break;
     }
 
     case 'getScore': {
-      const score = system.getCurrentScore();
+      const score = system?.getCurrentScore();
       handleSuccess({
         score,
-        combo: system.getCurrentCombo(),
-        accuracy: system.getAccuracy()
+        combo: system?.getCurrentCombo(),
+        accuracy: system?.getAccuracy()
       }, 'getScore');
       break;
     }
 
     case 'listSequences': {
-      const sequences = system.getAvailableSequences();
+      const sequences = system?.getAvailableSequences();
       handleSuccess({
         sequences,
-        count: sequences.length
+        count: sequences?.length
       }, 'listSequences');
       break;
     }
@@ -108,8 +108,8 @@ try {
     default:
       // Default: show status
       handleSuccess({
-        availableSequences: system.getAvailableSequences().length,
-        highScore: system.getHighScore(),
+        availableSequences: system?.getAvailableSequences().length,
+        highScore: system?.getHighScore(),
         status: 'Ready'
       }, mode || 'status');
       break;

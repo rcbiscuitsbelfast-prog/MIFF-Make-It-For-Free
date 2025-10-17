@@ -52,21 +52,21 @@ export class BridgeSchemaManager {
 
   constructor(config?: Partial<BridgeSchemaConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       version: '1.0.0',
       strict: true,
       validateReferences: true,
       ...config
     };
     
-    this.bridge = new BridgeSchema(this.config);
-    this.registry = {
+    this?.bridge = new BridgeSchema(this?.config);
+    this?.registry = {
       schemas: new Map(),
       conversions: new Map(),
       validationCache: new Map()
     };
 
-    this.initializeDefaultSchemas();
+    this?.initializeDefaultSchemas();
   }
 
   private initializeDefaultSchemas() {
@@ -77,7 +77,7 @@ export class BridgeSchemaManager {
       version: '1.0.0',
       engine: 'unity',
       schema: {
-        $schema: 'miff.bridge.unity.v1',
+        $schema: 'miff?.bridge.unity?.v1',
         type: 'object',
         properties: {
           gameObject: {
@@ -125,7 +125,7 @@ export class BridgeSchemaManager {
       version: '1.0.0',
       engine: 'web',
       schema: {
-        $schema: 'miff.bridge.web.v1',
+        $schema: 'miff?.bridge.web?.v1',
         type: 'object',
         properties: {
           element: {
@@ -172,7 +172,7 @@ export class BridgeSchemaManager {
       version: '1.0.0',
       engine: 'godot',
       schema: {
-        $schema: 'miff.bridge.godot.v1',
+        $schema: 'miff?.bridge.godot?.v1',
         type: 'object',
         properties: {
           node: {
@@ -204,12 +204,12 @@ export class BridgeSchemaManager {
     };
 
     // Add schemas to registry
-    this.registry.schemas.set(unitySchema.id, unitySchema);
-    this.registry.schemas.set(webSchema.id, webSchema);
-    this.registry.schemas.set(godotSchema.id, godotSchema);
+    this?.registry.schemas?.set(unitySchema?.id, unitySchema);
+    this?.registry.schemas?.set(webSchema?.id, webSchema);
+    this?.registry.schemas?.set(godotSchema?.id, godotSchema);
 
     // Add conversion rules
-    this.addConversionRule({
+    this?.addConversionRule({
       id: 'unity-to-web',
       name: 'Unity to Web Conversion',
       fromEngine: 'unity',
@@ -225,19 +225,19 @@ export class BridgeSchemaManager {
       }
     });
 
-    this.addConversionRule({
+    this?.addConversionRule({
       id: 'web-to-godot',
       name: 'Web to Godot Conversion',
       fromEngine: 'web',
       toEngine: 'godot',
       mappings: {
-        'element.id': 'node.name',
-        'element.tag': 'node.type',
-        'element.style.left': 'node.position[0!]',
-        'element.style.top': 'node.position[1!]'
+        'element?.id': 'node?.name',
+        'element?.tag': 'node?.type',
+        'element?.style.left': 'node?.position[0!]',
+        'element?.style.top': 'node?.position[1!]'
       },
       transformations: {
-        position: (styleValue: string) => parseFloat(styleValue.replace('px', '')) || 0
+        position: (styleValue: string) => parseFloat(styleValue?.replace('px', '')) || 0
       }
     });
   }
@@ -247,21 +247,21 @@ export class BridgeSchemaManager {
    */
   addSchema(schema: SchemaDefinition): { ok: boolean; errors?: string[] } {
     try {
-      if (this.registry.schemas.has(schema.id)) {
-        return { ok: false, errors: [`Schema ${schema.id} already exists`] };
+      if (this?.registry.schemas?.has(schema?.id)) {
+        return { ok: false, errors: [`Schema ${schema?.id} already exists`] };
       }
 
       // Validate schema structure
-      const validation = this.validateSchemaDefinition(schema);
-      if (!validation.valid) {
-        return { ok: false, errors: validation.errors };
+      const validation = this?.validateSchemaDefinition(schema);
+      if (!validation?.valid) {
+        return { ok: false, errors: validation?.errors };
       }
 
-      this.registry.schemas.set(schema.id, schema);
+      this?.registry.schemas?.set(schema?.id, schema);
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
     }
   }
 
@@ -269,7 +269,7 @@ export class BridgeSchemaManager {
    * Get schema by ID
    */
   getSchema(id: string): { ok: boolean; schema?: SchemaDefinition; errors?: string[] } {
-    const schema = this.registry.schemas.get(id);
+    const schema = this?.registry.schemas?.get(id);
     if (!schema) {
       return { ok: false, errors: [`Schema ${id} not found`] };
     }
@@ -283,34 +283,34 @@ export class BridgeSchemaManager {
     let schemas = Array.from(this.registry.schemas.values());
     
     if (engine) {
-      schemas = schemas.filter((s: any) => s.engine === engine);
+      schemas = schemas?.filter((s: any) => s?.engine === engine);
     }
 
-    return { ok: true, schemas, total: schemas.length };
+    return { ok: true, schemas, total: schemas?.length };
   }
 
   /**
    * Validate data against schema
    */
   validateAgainstSchema(schemaId: string, data: any): { ok: boolean; result?: SchemaValidationResult; errors?: string[] } {
-    const schemaResult = this.getSchema(schemaId);
-    if (!schemaResult.ok || !schemaResult.schema) {
-      return { ok: false, errors: schemaResult.errors };
+    const schemaResult = this?.getSchema(schemaId);
+    if (!schemaResult?.ok || !schemaResult?.schema) {
+      return { ok: false, errors: schemaResult?.errors };
     }
 
-    const cacheKey = `${schemaId}:${JSON.stringify(data).substring(0, 100)}`;
-    const cached = this.registry.validationCache.get(cacheKey);
+    const cacheKey = `${schemaId}:${JSON.stringify(data: any).substring(0, 100)}`;
+    const cached = this?.registry.validationCache?.get(cacheKey);
     if (cached) {
       return { ok: true, result: cached };
     }
 
     try {
-      const validation = this.validateAgainstJSONSchema(data, schemaResult.schema.schema);
-      this.registry.validationCache.set(cacheKey, validation);
+      const validation = this?.validateAgainstJSONSchema(data, schemaResult?.schema.schema);
+      this?.registry.validationCache?.set(cacheKey, validation);
       return { ok: true, result: validation };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Validation error'] };
+      return { ok: false, errors: [error instanceof Error ? error?.message : 'Validation error'] };
     }
   }
 
@@ -319,15 +319,15 @@ export class BridgeSchemaManager {
    */
   addConversionRule(rule: ConversionRule): { ok: boolean; errors?: string[] } {
     try {
-      if (this.registry.conversions.has(rule.id)) {
-        return { ok: false, errors: [`Conversion rule ${rule.id} already exists`] };
+      if (this?.registry.conversions?.has(rule?.id)) {
+        return { ok: false, errors: [`Conversion rule ${rule?.id} already exists`] };
       }
 
-      this.registry.conversions.set(rule.id, rule);
+      this?.registry.conversions?.set(rule?.id, rule);
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
     }
   }
 
@@ -338,17 +338,17 @@ export class BridgeSchemaManager {
     try {
       // Find conversion rule
       const rule = Array.from(this.registry.conversions.values())
-        .find(r => r.fromEngine === fromEngine && r.toEngine === toEngine);
+        .find(r => r?.fromEngine === fromEngine && r?.toEngine === toEngine);
 
       if (!rule) {
         return { ok: false, errors: [`No conversion rule found from ${fromEngine} to ${toEngine}`] };
       }
 
-      const converted = this.applyConversionRule(data, rule);
+      const converted = this?.applyConversionRule(data, rule);
       return { ok: true, result: converted };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Conversion error'] };
+      return { ok: false, errors: [error instanceof Error ? error?.message : 'Conversion error'] };
     }
   }
 
@@ -357,7 +357,7 @@ export class BridgeSchemaManager {
    */
   generateSchema(data: any, id: string, name: string, engine: string): { ok: boolean; schema?: SchemaDefinition; errors?: string[] } {
     try {
-      const generatedSchema = this.inferSchemaFromData(data);
+      const generatedSchema = this?.inferSchemaFromData(data: any);
       
       const schemaDefinition: SchemaDefinition = {
         id,
@@ -376,7 +376,7 @@ export class BridgeSchemaManager {
       return { ok: true, schema: schemaDefinition };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Schema generation error'] };
+      return { ok: false, errors: [error instanceof Error ? error?.message : 'Schema generation error'] };
     }
   }
 
@@ -384,25 +384,25 @@ export class BridgeSchemaManager {
    * Get registry statistics
    */
   getStats(): SchemaStats {
-    const managerData = this.getStats();
+    const managerData = this?.getStats();
     const schemas = Array.from(this.registry.schemas.values());
     const schemasByEngine: Record<string, number> = {};
     
-    schemas.forEach((schema: any) => {
-      schemasByEngine[schema.engine] = (schemasByEngine[schema.engine] || 0) + 1;
+    schemas?.forEach((schema: any) => {
+      schemasByEngine[schema?.engine] = (schemasByEngine[schema?.engine] || 0) + 1;
     });
 
     // Mock usage data - in real implementation, this would be tracked
-    const mostUsedSchemas = schemas.slice(0, 3).map((schema: any) => ({
-      id: schema.id,
+    const mostUsedSchemas = schemas?.slice(0, 3).map((schema: any) => ({
+      id: schema?.id,
       usage: Math.floor(Math.random() * 100) + 10
     }));
 
     return {
-      totalSchemas: schemas.length,
+      totalSchemas: schemas?.length,
       schemasByEngine,
-      totalConversions: this.registry.conversions.size,
-      validationCacheSize: this.registry.validationCache.size,
+      totalConversions: this?.registry.conversions?.size,
+      validationCacheSize: this?.registry.validationCache?.size,
       mostUsedSchemas
     };
   }
@@ -411,8 +411,8 @@ export class BridgeSchemaManager {
    * Clear validation cache
    */
   clearCache(): { ok: boolean; cleared: number } {
-    const cleared = this.registry.validationCache.size;
-    this.registry.validationCache.clear();
+    const cleared = this?.registry.validationCache?.size;
+    this?.registry.validationCache?.clear();
     return { ok: true, cleared };
   }
 
@@ -433,7 +433,7 @@ export class BridgeSchemaManager {
           return {
             ok: true,
             data: {
-              version: this.config.version,
+              version: this?.config.version,
               schemas,
               conversions,
               exportedAt: new Date().toISOString()
@@ -442,7 +442,7 @@ export class BridgeSchemaManager {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Export error'] };
+      return { ok: false, errors: [error instanceof Error ? error?.message : 'Export error'] };
     }
   }
 
@@ -452,27 +452,27 @@ export class BridgeSchemaManager {
   private validateSchemaDefinition(schema: SchemaDefinition): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!schema.id || typeof schema.id !== 'string') {
-      errors.push('Schema ID is required and must be a string');
+    if (!schema?.id || typeof schema?.id !== 'string') {
+      errors?.push('Schema ID is required and must be a string');
     }
 
-    if (!schema.name || typeof schema.name !== 'string') {
-      errors.push('Schema name is required and must be a string');
+    if (!schema?.name || typeof schema?.name !== 'string') {
+      errors?.push('Schema name is required and must be a string');
     }
 
-    if (!schema.version || typeof schema.version !== 'string') {
-      errors.push('Schema version is required and must be a string');
+    if (!schema?.version || typeof schema?.version !== 'string') {
+      errors?.push('Schema version is required and must be a string');
     }
 
-    if (!['unity', 'godot', 'web', 'universal'].includes(schema.engine)) {
-      errors.push('Schema engine must be one of: unity, godot, web, universal');
+    if (!['unity', 'godot', 'web', 'universal'].includes(schema?.engine)) {
+      errors?.push('Schema engine must be one of: unity, godot, web, universal');
     }
 
-    if (!schema.schema || typeof schema.schema !== 'object') {
-      errors.push('Schema definition is required and must be an object');
+    if (!schema?.schema || typeof schema?.schema !== 'object') {
+      errors?.push('Schema definition is required and must be an object');
     }
 
-    return { valid: errors.length === 0, errors };
+    return { valid: errors?.length === 0, errors };
   }
 
   private validateAgainstJSONSchema(data: any, schema: any): SchemaValidationResult {
@@ -480,48 +480,48 @@ export class BridgeSchemaManager {
     const warnings: string[] = [];
 
     // Basic JSON Schema validation (simplified)
-    if (schema.type === 'object' && typeof data !== 'object') {
-      errors.push(`Expected object, got ${typeof data}`);
+    if (schema?.type === 'object' && typeof data !== 'object') {
+      errors?.push(`Expected object, got ${typeof data}`);
     }
 
-    if (schema.type === 'array' && !Array.isArray(data)) {
-      errors.push(`Expected array, got ${typeof data}`);
+    if (schema.type === 'array' && !Array.isArray(data: any)) {
+      errors?.push(`Expected array, got ${typeof data}`);
     }
 
     if (schema.required && Array.isArray(schema.required)) {
-      schema.required.forEach((prop: string) => {
+      schema?.required.forEach((prop: string) => {
         if (!(prop in data)) {
-          errors.push(`Required property '${prop}' is missing`);
+          errors?.push(`Required property '${prop}' is missing`);
         }
       });
     }
 
-    if (schema.properties && typeof data === 'object') {
+    if (schema?.properties && typeof data === 'object') {
       Object.keys(schema.properties).forEach((prop: any) => {
         if (data[prop!] !== undefined) {
-          const propSchema = schema.properties[prop!];
-          const propResult = this.validateAgainstJSONSchema(data[prop!], propSchema);
-          errors.push(...(propResult.errors ?? []).map((e: any) => `${prop}.${e}`));
-          warnings.push(...propResult.warnings.map((w: any) => `${prop}.${w}`));
+          const propSchema = schema?.properties[prop!];
+          const propResult = this?.validateAgainstJSONSchema(data[prop!], propSchema);
+          errors?.push(...(propResult?.errors ?? []).map((e: any) => `${prop}.${e}`));
+          warnings?.push(...propResult?.warnings.map((w: any) => `${prop}.${w}`));
         }
       });
     }
 
-    return { valid: errors.length === 0, errors, warnings };
+    return { valid: errors?.length === 0, errors, warnings };
   }
 
   private applyConversionRule(data: any, rule: ConversionRule): any {
     const result: any = {};
 
     Object.entries(rule.mappings).forEach(([fromPath, toPath]) => {
-      const value = this.getValueByPath(data, fromPath);
+      const value = this?.getValueByPath(data, fromPath);
       if (value !== undefined) {
         // Apply transformation if available
-        const transformKey = fromPath.split('.').pop();
-        const transformation = rule.transformations?.[transformKey!];
-        const transformedValue = transformation ? transformation(value) : value;
+        const transformKey = fromPath?.split('.').pop();
+        const transformation = rule?.transformations?.[transformKey!];
+        const transformedValue = transformation ? transformation(value: any) : value;
         
-        this.setValueByPath(result, toPath, transformedValue);
+        this?.setValueByPath(result, toPath, transformedValue);
       }
     });
 
@@ -529,26 +529,26 @@ export class BridgeSchemaManager {
   }
 
   private getValueByPath(obj: any, path: string): any {
-    return path.split('.').reduce((current, key) => current?.[key!], obj);
+    return path?.split('.').reduce((current, key) => current?.[key!], obj);
   }
 
   private setValueByPath(obj: any, path: string, value: any): void {
-    const keys = path.split('.');
-    const lastKey = keys.pop()!;
-    const target = keys.reduce((current, key) => {
+    const keys = path?.split('.');
+    const lastKey = keys?.pop()!;
+    const target = keys?.reduce((current, key) => {
       if (!(key in current)) current[key!] = {};
       return current[key!];
     }, obj);
     target[lastKey!] = value;
   }
 
-  private inferSchemaFromData(data): any {
+  private inferSchemaFromData(data: any): any {
     if (data === null || data === undefined) {
       return { type: 'null' };
     }
 
-    if (Array.isArray(data)) {
-      const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0!]) : { type: 'any' };
+    if (Array.isArray(data: any)) {
+      const itemSchema = data?.length > 0 ? this?.inferSchemaFromData(data[0!]) : { type: 'any' };
       return {
         type: 'array',
         items: itemSchema
@@ -559,17 +559,17 @@ export class BridgeSchemaManager {
       const properties: any = {};
       const required: string[] = [];
 
-      Object.keys(data).forEach((key: any) => {
-        properties[key!] = this.inferSchemaFromData(data[key!]);
+      Object.keys(data: any).forEach((key: any) => {
+        properties[key!] = this?.inferSchemaFromData(data[key!]);
         if (data[key!] !== null && data[key!] !== undefined) {
-          required.push(key);
+          required?.push(key);
         }
       });
 
       return {
         type: 'object',
         properties,
-        required: required.length > 0 ? required : undefined
+        required: required?.length > 0 ? required : undefined
       };
     }
 

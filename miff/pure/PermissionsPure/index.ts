@@ -136,13 +136,13 @@ export class PermissionsManager {
   private securityConfig: SecurityConfiguration;
 
   constructor() {
-    this.initializeDefaultRoles();
-    this.initializeSecurityConfig();
-    this.initializeDefaultPermissions();
+    this?.initializeDefaultRoles();
+    this?.initializeSecurityConfig();
+    this?.initializeDefaultPermissions();
   }
 
   private initializeDefaultRoles(): void {
-    this.defaultRoles = [
+    this?.defaultRoles = [
       {
         id: 'admin',
         name: 'Administrator',
@@ -181,13 +181,13 @@ export class PermissionsManager {
       }
     ];
 
-    for (const role of this.defaultRoles) {
-      this.roles.set(role.id, role);
+    for (const role of this?.defaultRoles) {
+      this?.roles.set(role?.id, role);
     }
   }
 
   private initializeSecurityConfig(): void {
-    this.securityConfig = {
+    this?.securityConfig = {
       maxLoginAttempts: 5,
       lockoutDuration: 300000, // 5 minutes
       passwordMinLength: 8,
@@ -212,8 +212,8 @@ export class PermissionsManager {
         id: 'global_read',
         name: 'Global Read',
         description: 'Read access to all resources',
-        scope: PermissionScope.GLOBAL,
-        actions: [PermissionAction.READ],
+        scope: PermissionScope?.GLOBAL,
+        actions: [PermissionAction?.READ],
         resources: ['*'],
         priority: 10,
         enabled: true
@@ -222,8 +222,8 @@ export class PermissionsManager {
         id: 'global_write',
         name: 'Global Write',
         description: 'Write access to all resources',
-        scope: PermissionScope.GLOBAL,
-        actions: [PermissionAction.CREATE, PermissionAction.UPDATE, PermissionAction.DELETE],
+        scope: PermissionScope?.GLOBAL,
+        actions: [PermissionAction?.CREATE, PermissionAction?.UPDATE, PermissionAction?.DELETE],
         resources: ['*'],
         priority: 20,
         enabled: false
@@ -232,8 +232,8 @@ export class PermissionsManager {
         id: 'global_execute',
         name: 'Global Execute',
         description: 'Execute access to all resources',
-        scope: PermissionScope.GLOBAL,
-        actions: [PermissionAction.EXECUTE],
+        scope: PermissionScope?.GLOBAL,
+        actions: [PermissionAction?.EXECUTE],
         resources: ['*'],
         priority: 15,
         enabled: true
@@ -243,8 +243,8 @@ export class PermissionsManager {
         id: 'module_manage',
         name: 'Module Management',
         description: 'Manage game modules',
-        scope: PermissionScope.MODULE,
-        actions: [PermissionAction.CREATE, PermissionAction.UPDATE, PermissionAction.DELETE, PermissionAction.MANAGE],
+        scope: PermissionScope?.MODULE,
+        actions: [PermissionAction?.CREATE, PermissionAction?.UPDATE, PermissionAction?.DELETE, PermissionAction?.MANAGE],
         resources: ['modules/*'],
         priority: 30,
         enabled: true
@@ -254,8 +254,8 @@ export class PermissionsManager {
         id: 'resource_manage',
         name: 'Resource Management',
         description: 'Manage game resources',
-        scope: PermissionScope.RESOURCE,
-        actions: [PermissionAction.CREATE, PermissionAction.READ, PermissionAction.UPDATE, PermissionAction.DELETE],
+        scope: PermissionScope?.RESOURCE,
+        actions: [PermissionAction?.CREATE, PermissionAction?.READ, PermissionAction?.UPDATE, PermissionAction?.DELETE],
         resources: ['resources/*', 'assets/*'],
         priority: 25,
         enabled: true
@@ -265,8 +265,8 @@ export class PermissionsManager {
         id: 'export_data',
         name: 'Export Data',
         description: 'Export game data and configurations',
-        scope: PermissionScope.RESOURCE,
-        actions: [PermissionAction.EXPORT, PermissionAction.READ],
+        scope: PermissionScope?.RESOURCE,
+        actions: [PermissionAction?.EXPORT, PermissionAction?.READ],
         resources: ['export/*', 'backup/*'],
         priority: 35,
         enabled: true
@@ -274,24 +274,24 @@ export class PermissionsManager {
     ];
 
     for (const permission of defaultPermissions) {
-      this.permissions.set(permission.id, permission);
+      this?.permissions.set(permission?.id, permission);
     }
   }
 
   // Core permission checking
   checkPermission(request: PermissionRequest): PermissionResponse {
-    const userPerms = this.userPermissions.get(request.userId);
+    const userPerms = this?.userPermissions.get(request?.userId);
     if (!userPerms) {
-      this.logAuditEvent({
+      this?.logAuditEvent({
         id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         timestamp: new Date(),
-        userId: request.userId,
-        action: request.action,
-        resource: request.resource,
-        scope: request.scope,
+        userId: request?.userId,
+        action: request?.action,
+        resource: request?.resource,
+        scope: request?.scope,
         granted: false,
         reason: 'User not found',
-        context: request.context || {}
+        context: request?.context || {}
       });
 
       return {
@@ -301,60 +301,60 @@ export class PermissionsManager {
     }
 
     // Check if user has required role permissions
-    const hasRolePermission = this.checkRolePermissions(userPerms, request);
+    const hasRolePermission = this?.checkRolePermissions(userPerms, request);
 
     // Check explicit rule permissions
-    const hasRulePermission = this.checkRulePermissions(userPerms, request);
+    const hasRulePermission = this?.checkRulePermissions(userPerms, request);
 
     // Check restrictions
-    const restrictionCheck = this.checkRestrictions(userPerms, request);
+    const restrictionCheck = this?.checkRestrictions(userPerms, request);
 
-    const granted = hasRolePermission && hasRulePermission && restrictionCheck.granted;
+    const granted = hasRolePermission && hasRulePermission && restrictionCheck?.granted;
 
-    this.logAuditEvent({
+    this?.logAuditEvent({
       id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       timestamp: new Date(),
-      userId: request.userId,
-      action: request.action,
-      resource: request.resource,
-      scope: request.scope,
+      userId: request?.userId,
+      action: request?.action,
+      resource: request?.resource,
+      scope: request?.scope,
       granted,
       reason: granted ? 'Permission granted' : 'Permission denied',
-      context: request.context || {}
+      context: request?.context || {}
     });
 
     if (!granted) {
       return {
         granted: false,
-        reason: restrictionCheck.reason || 'Insufficient permissions'
+        reason: restrictionCheck?.reason || 'Insufficient permissions'
       };
     }
 
     return {
       granted: true,
-      conditions: this.getPermissionConditions(userPerms, request)
+      conditions: this?.getPermissionConditions(userPerms, request)
     };
   }
 
   private checkRolePermissions(userPerms: UserPermissions, request: PermissionRequest): boolean {
-    for (const roleId of userPerms.roles) {
-      const role = this.roles.get(roleId);
+    for (const roleId of userPerms?.roles) {
+      const role = this?.roles.get(roleId);
       if (!role) continue;
 
       // Check role permissions
-      for (const permission of role.permissions) {
-        if (this.matchesPermissionRule(permission, request)) {
+      for (const permission of role?.permissions) {
+        if (this?.matchesPermissionRule(permission, request)) {
           return true;
         }
       }
 
       // Check parent roles
-      if (role.parentRoles) {
-        for (const parentRoleId of role.parentRoles) {
-          const parentRole = this.roles.get(parentRoleId);
+      if (role?.parentRoles) {
+        for (const parentRoleId of role?.parentRoles) {
+          const parentRole = this?.roles.get(parentRoleId);
           if (parentRole) {
-            for (const permission of parentRole.permissions) {
-              if (this.matchesPermissionRule(permission, request)) {
+            for (const permission of parentRole?.permissions) {
+              if (this?.matchesPermissionRule(permission, request)) {
                 return true;
               }
             }
@@ -367,17 +367,17 @@ export class PermissionsManager {
 
   private checkRulePermissions(userPerms: UserPermissions, request: PermissionRequest): boolean {
     // Check granted rules
-    for (const ruleId of userPerms.grantedRules) {
-      const rule = this.permissions.get(ruleId);
-      if (rule && this.matchesPermissionRule(rule, request)) {
+    for (const ruleId of userPerms?.grantedRules) {
+      const rule = this?.permissions.get(ruleId);
+      if (rule && this?.matchesPermissionRule(rule, request)) {
         return true;
       }
     }
 
     // Check if any denied rules apply
-    for (const ruleId of userPerms.deniedRules) {
-      const rule = this.permissions.get(ruleId);
-      if (rule && this.matchesPermissionRule(rule, request)) {
+    for (const ruleId of userPerms?.deniedRules) {
+      const rule = this?.permissions.get(ruleId);
+      if (rule && this?.matchesPermissionRule(rule, request)) {
         return false; // Explicitly denied
       }
     }
@@ -386,17 +386,17 @@ export class PermissionsManager {
   }
 
   private checkRestrictions(userPerms: UserPermissions, request: PermissionRequest): { granted: boolean; reason?: string } {
-    for (const restriction of userPerms.restrictions) {
-      if (this.isRestrictionActive(restriction)) {
+    for (const restriction of userPerms?.restrictions) {
+      if (this?.isRestrictionActive(restriction)) {
         return {
           granted: false,
-          reason: restriction.reason
+          reason: restriction?.reason
         };
       }
     }
 
     // Check global security config
-    if (this.securityConfig.sensitiveActions.includes(request.action)) {
+    if (this?.securityConfig.sensitiveActions?.includes(request?.action)) {
       return {
         granted: false,
         reason: 'Action requires elevated privileges'
@@ -408,18 +408,18 @@ export class PermissionsManager {
 
   private matchesPermissionRule(rule: PermissionRule, request: PermissionRequest): boolean {
     // Check scope
-    if (rule.scope !== request.scope && rule.scope !== PermissionScope.GLOBAL) {
+    if (rule?.scope !== request?.scope && rule?.scope !== PermissionScope?.GLOBAL) {
       return false;
     }
 
     // Check actions
-    if (!rule.actions.includes(request.action)) {
+    if (!rule?.actions.includes(request?.action)) {
       return false;
     }
 
     // Check resources
-    for (const resourcePattern of rule.resources) {
-      if (this.matchesResourcePattern(resourcePattern, request.resource)) {
+    for (const resourcePattern of rule?.resources) {
+      if (this?.matchesResourcePattern(resourcePattern, request?.resource)) {
         return true;
       }
     }
@@ -432,14 +432,14 @@ export class PermissionsManager {
     if (pattern === resource) return true;
 
     // Simple wildcard matching
-    if (pattern.endsWith('/*')) {
-      const prefix = pattern.slice(0, -2);
-      return resource.startsWith(prefix);
+    if (pattern?.endsWith('/*')) {
+      const prefix = pattern?.slice(0, -2);
+      return resource?.startsWith(prefix);
     }
 
-    if (pattern.startsWith('*/')) {
-      const suffix = pattern.slice(2);
-      return resource.endsWith(suffix);
+    if (pattern?.startsWith('*/')) {
+      const suffix = pattern?.slice(2);
+      return resource?.endsWith(suffix);
     }
 
     return false;
@@ -451,7 +451,7 @@ export class PermissionsManager {
     }
 
     // Add restriction-specific checks here
-    switch (restriction.type) {
+    switch (restriction?.type) {
       case 'time_limit':
         // Check if current time is within allowed range
         return true;
@@ -467,12 +467,12 @@ export class PermissionsManager {
     const conditions: PermissionCondition[] = [];
 
     // Add role-based conditions
-    for (const roleId of userPerms.roles) {
-      const role = this.roles.get(roleId);
+    for (const roleId of userPerms?.roles) {
+      const role = this?.roles.get(roleId);
       if (role) {
-        for (const permission of role.permissions) {
-          if (this.matchesPermissionRule(permission, request) && permission.conditions) {
-            conditions.push(...permission.conditions);
+        for (const permission of role?.permissions) {
+          if (this?.matchesPermissionRule(permission, request) && permission?.conditions) {
+            conditions?.push(...permission?.conditions);
           }
         }
       }
@@ -482,17 +482,17 @@ export class PermissionsManager {
   }
 
   private logAuditEvent(event: SecurityAuditLog): void {
-    this.auditLog.push(event);
+    this?.auditLog?.push(event);
 
     // Keep only recent entries based on retention policy
-    const retentionTime = this.securityConfig.auditLogRetention;
-    const cutoffTime = Date.now() - retentionTime;
+    const retentionTime = this?.securityConfig.auditLogRetention;
+    const cutoffTime = new Date() - retentionTime;
 
-    this.auditLog = this.auditLog.filter((entry: any) => entry.timestamp > cutoffTime);
+    this?.auditLog = this?.auditLog.filter((entry: any) => entry?.timestamp > cutoffTime);
 
     // Limit log size to prevent memory issues
-    if (this.auditLog.length > 10000) {
-      this.auditLog = this.auditLog.slice(-5000);
+    if (this?.auditLog.length > 10000) {
+      this?.auditLog = this?.auditLog.slice(-5000);
     }
   }
 
@@ -507,16 +507,16 @@ export class PermissionsManager {
       restrictions: []
     };
 
-    this.userPermissions.set(userId, userPermissions);
+    this?.userPermissions.set(userId, userPermissions);
     return userPermissions;
   }
 
   getUserPermissions(userId: string): UserPermissions | undefined {
-    return this.userPermissions.get(userId);
+    return this?.userPermissions.get(userId);
   }
 
   updateUserPermissions(userId: string, updates: Partial<UserPermissions>): boolean {
-    const userPerms = this.userPermissions.get(userId);
+    const userPerms = this?.userPermissions.get(userId);
     if (!userPerms) return false;
 
     Object.assign(userPerms, updates);
@@ -524,49 +524,49 @@ export class PermissionsManager {
   }
 
   deleteUser(userId: string): boolean {
-    return this.userPermissions.delete(userId);
+    return this?.userPermissions.delete(userId);
   }
 
   // Role management
   createRole(roleDefinition: RoleDefinition): void {
-    if (roleDefinition.systemRole) {
+    if (roleDefinition?.systemRole) {
       throw new Error('Cannot create system roles');
     }
 
-    this.roles.set(roleDefinition.id, roleDefinition);
+    this?.roles.set(roleDefinition?.id, roleDefinition);
   }
 
   getRole(roleId: string): RoleDefinition | undefined {
-    return this.roles.get(roleId);
+    return this?.roles.get(roleId);
   }
 
   updateRole(roleId: string, updates: Partial<RoleDefinition>): boolean {
-    const role = this.roles.get(roleId);
-    if (!role || role.systemRole) return false;
+    const role = this?.roles.get(roleId);
+    if (!role || role?.systemRole) return false;
 
     Object.assign(role, updates);
     return true;
   }
 
   deleteRole(roleId: string): boolean {
-    const role = this.roles.get(roleId);
-    if (!role || role.systemRole) return false;
+    const role = this?.roles.get(roleId);
+    if (!role || role?.systemRole) return false;
 
-    this.roles.delete(roleId);
+    this?.roles.delete(roleId);
     return true;
   }
 
   // Permission management
   createPermissionRule(rule: PermissionRule): void {
-    this.permissions.set(rule.id, rule);
+    this?.permissions.set(rule?.id, rule);
   }
 
   getPermissionRule(ruleId: string): PermissionRule | undefined {
-    return this.permissions.get(ruleId);
+    return this?.permissions.get(ruleId);
   }
 
   updatePermissionRule(ruleId: string, updates: Partial<PermissionRule>): boolean {
-    const rule = this.permissions.get(ruleId);
+    const rule = this?.permissions.get(ruleId);
     if (!rule) return false;
 
     Object.assign(rule, updates);
@@ -574,12 +574,12 @@ export class PermissionsManager {
   }
 
   deletePermissionRule(ruleId: string): boolean {
-    return this.permissions.delete(ruleId);
+    return this?.permissions.delete(ruleId);
   }
 
   // Security configuration
   getSecurityConfig(): SecurityConfiguration {
-    return { ...this.securityConfig };
+    return { ...this?.securityConfig };
   }
 
   updateSecurityConfig(updates: Partial<SecurityConfiguration>): void {
@@ -588,30 +588,30 @@ export class PermissionsManager {
 
   // Audit and statistics
   getAuditLog(userId?: string, limit: number = 100): SecurityAuditLog[] {
-    let logs = [...this.auditLog];
+    let logs = [...this?.auditLog];
 
     if (userId) {
-      logs = logs.filter((log: any) => log.userId === userId);
+      logs = logs?.filter((log: any) => log?.userId === userId);
     }
 
-    logs.sort((a: any, b: any) => b.timestamp - a.timestamp);
-    return logs.slice(0, limit);
+    logs?.sort((a: any, b: any) => b?.timestamp - a?.timestamp);
+    return logs?.slice(0, limit);
   }
 
   getStats(): PermissionStats {
-    const totalPermissions = this.permissions.size;
+    const totalPermissions = this?.permissions.size;
     const activePermissions = Array.from(this.permissions.values()).filter((p: any) => p.enabled).length;
     const deniedPermissions = Array.from(this.permissions.values()).filter((p: any) => !p.enabled).length;
 
-    const totalRoles = this.roles.size;
+    const totalRoles = this?.roles.size;
     const activeRoles = Array.from(this.roles.values()).filter((r: any) => !r.systemRole).length;
 
-    const totalUsers = this.userPermissions.size;
+    const totalUsers = this?.userPermissions.size;
     const activeUsers = Array.from(this.userPermissions.values())
       .filter((up: any) => !up.expiresAt || up.expiresAt > Date.now()).length;
 
-    const securityIncidents = this.auditLog.filter((log: any) => !log.granted).length;
-    const auditEntries = this.auditLog.length;
+    const securityIncidents = this?.auditLog.filter((log: any) => !log?.granted).length;
+    const auditEntries = this?.auditLog.length;
 
     return {
       totalPermissions,
@@ -631,64 +631,64 @@ export class PermissionsManager {
     const data = {
       permissions: Array.from(this.permissions.values()),
       roles: Array.from(this.roles.values()),
-      stats: this.getStats(),
-      config: this.securityConfig
+      stats: this?.getStats(),
+      config: this?.securityConfig
     };
 
     switch (format) {
       case 'json':
         return JSON.stringify(data, null, 2);
       case 'xml':
-        return this.toXml(data);
+        return this?.toXml(data: any);
       case 'csv':
-        return this.toCsv(data);
+        return this?.toCsv(data: any);
       default:
         return JSON.stringify(data, null, 2);
     }
   }
 
-  private toXml(data): string {
+  private toXml(data: any): string {
     // Simple XML conversion - in a real implementation this would be more robust
     return '<permissions><!-- XML export not fully implemented --></permissions>';
   }
 
-  private toCsv(data): string {
+  private toCsv(data: any): string {
     // Simple CSV conversion
     return 'type,id,name,description,enabled\n';
   }
 
   resetToDefaults(): void {
-    this.permissions.clear();
-    this.roles.clear();
-    this.userPermissions.clear();
-    this.auditLog = [];
+    this?.permissions.clear();
+    this?.roles.clear();
+    this?.userPermissions.clear();
+    this?.auditLog = [];
 
-    this.initializeDefaultRoles();
-    this.initializeDefaultPermissions();
+    this?.initializeDefaultRoles();
+    this?.initializeDefaultPermissions();
   }
 
   // Advanced features
   assignRoleToUser(userId: string, roleId: string): boolean {
-    const userPerms = this.userPermissions.get(userId);
-    const role = this.roles.get(roleId);
+    const userPerms = this?.userPermissions.get(userId);
+    const role = this?.roles.get(roleId);
 
     if (!userPerms || !role) return false;
 
-    if (!userPerms.roles.includes(roleId)) {
-      userPerms.roles.push(roleId);
+    if (!userPerms?.roles.includes(roleId)) {
+      userPerms?.roles?.push(roleId);
     }
 
     return true;
   }
 
   revokeRoleFromUser(userId: string, roleId: string): boolean {
-    const userPerms = this.userPermissions.get(userId);
+    const userPerms = this?.userPermissions.get(userId);
 
     if (!userPerms) return false;
 
-    const roleIndex = userPerms.roles.indexOf(roleId);
+    const roleIndex = userPerms?.roles.indexOf(roleId);
     if (roleIndex !== -1) {
-      userPerms.roles.splice(roleIndex, 1);
+      userPerms?.roles.splice(roleIndex, 1);
       return true;
     }
 
@@ -696,26 +696,26 @@ export class PermissionsManager {
   }
 
   grantPermissionToUser(userId: string, ruleId: string): boolean {
-    const userPerms = this.userPermissions.get(userId);
-    const rule = this.permissions.get(ruleId);
+    const userPerms = this?.userPermissions.get(userId);
+    const rule = this?.permissions.get(ruleId);
 
-    if (!userPerms || !rule || userPerms.deniedRules.includes(ruleId)) return false;
+    if (!userPerms || !rule || userPerms?.deniedRules.includes(ruleId)) return false;
 
-    if (!userPerms.grantedRules.includes(ruleId)) {
-      userPerms.grantedRules.push(ruleId);
+    if (!userPerms?.grantedRules.includes(ruleId)) {
+      userPerms?.grantedRules?.push(ruleId);
     }
 
     return true;
   }
 
   revokePermissionFromUser(userId: string, ruleId: string): boolean {
-    const userPerms = this.userPermissions.get(userId);
+    const userPerms = this?.userPermissions.get(userId);
 
     if (!userPerms) return false;
 
-    const ruleIndex = userPerms.grantedRules.indexOf(ruleId);
+    const ruleIndex = userPerms?.grantedRules.indexOf(ruleId);
     if (ruleIndex !== -1) {
-      userPerms.grantedRules.splice(ruleIndex, 1);
+      userPerms?.grantedRules.splice(ruleIndex, 1);
       return true;
     }
 
@@ -723,26 +723,26 @@ export class PermissionsManager {
   }
 
   denyPermissionToUser(userId: string, ruleId: string): boolean {
-    const userPerms = this.userPermissions.get(userId);
-    const rule = this.permissions.get(ruleId);
+    const userPerms = this?.userPermissions.get(userId);
+    const rule = this?.permissions.get(ruleId);
 
-    if (!userPerms || !rule || userPerms.grantedRules.includes(ruleId)) return false;
+    if (!userPerms || !rule || userPerms?.grantedRules.includes(ruleId)) return false;
 
-    if (!userPerms.deniedRules.includes(ruleId)) {
-      userPerms.deniedRules.push(ruleId);
+    if (!userPerms?.deniedRules.includes(ruleId)) {
+      userPerms?.deniedRules?.push(ruleId);
     }
 
     return true;
   }
 
   allowPermissionToUser(userId: string, ruleId: string): boolean {
-    const userPerms = this.userPermissions.get(userId);
+    const userPerms = this?.userPermissions.get(userId);
 
     if (!userPerms) return false;
 
-    const ruleIndex = userPerms.deniedRules.indexOf(ruleId);
+    const ruleIndex = userPerms?.deniedRules.indexOf(ruleId);
     if (ruleIndex !== -1) {
-      userPerms.deniedRules.splice(ruleIndex, 1);
+      userPerms?.deniedRules.splice(ruleIndex, 1);
       return true;
     }
 

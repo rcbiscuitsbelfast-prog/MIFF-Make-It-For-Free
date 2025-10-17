@@ -799,7 +799,7 @@ export class DeploymentSystemPure {
 
   constructor(config: Partial<DeploymentConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableApplicationDeployment: true,
       enableEnvironmentManagement: true,
       enableRollbackControl: true,
@@ -819,7 +819,7 @@ export class DeploymentSystemPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalApplications: 0,
       runningApplications: 0,
       totalDeployments: 0,
@@ -832,7 +832,7 @@ export class DeploymentSystemPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalDeployments: 0,
       successRate: 0,
       averageDeploymentTime: 0,
@@ -846,7 +846,7 @@ export class DeploymentSystemPure {
    * Create a new deployment manager
    */
   createManager(): DeploymentOutput {
-    if (!this.config.enableApplicationDeployment) {
+    if (!this?.config.enableApplicationDeployment) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -856,8 +856,8 @@ export class DeploymentSystemPure {
 
     const manager: DeploymentManager = {
       id: managerData.id || `deployment-${Date.now()}`,
-      name: managerData.name || 'Unnamed Deployment Manager',
-      type: managerData.type || 'kubernetes',
+      name: managerData?.name || 'Unnamed Deployment Manager',
+      type: managerData?.type || 'kubernetes',
       status: 'active',
       applications: [],
       environments: [],
@@ -924,7 +924,7 @@ export class DeploymentSystemPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -937,7 +937,7 @@ export class DeploymentSystemPure {
    * Get manager by ID
    */
   getManager(): DeploymentOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -957,7 +957,7 @@ export class DeploymentSystemPure {
    * Deploy application
    */
   deployApplication(): DeploymentOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'deploy-application',
@@ -966,7 +966,7 @@ export class DeploymentSystemPure {
       };
     }
 
-    if (manager.applications.length >= this.config.maxApplications) {
+    if (manager?.applications.length >= this?.config.maxApplications) {
       return {
         op: 'deploy-application',
         status: 'error',
@@ -976,20 +976,20 @@ export class DeploymentSystemPure {
 
     const newApplication: Application = {
       id: application.id || `app-${Date.now()}`,
-      name: application.name || 'Unnamed Application',
-      version: application.version || '1.0.0',
-      type: application.type || 'web',
+      name: application?.name || 'Unnamed Application',
+      version: application?.version || '1.0.0',
+      type: application?.type || 'web',
       status: 'deploying',
-      image: application.image || 'nginx:latest',
-      ports: application.ports || [],
+      image: application?.image || 'nginx:latest',
+      ports: application?.ports || [],
       environment: environmentId,
-      replicas: application.replicas || 1,
-      resources: application.resources || {
+      replicas: application?.replicas || 1,
+      resources: application?.resources || {
         cpu: { requests: 100, limits: 500, unit: 'm' },
         memory: { requests: 128, limits: 512, unit: 'Mi' },
         storage: { requests: 1, limits: 10, unit: 'Gi' }
       },
-      healthCheck: application.healthCheck || {
+      healthCheck: application?.healthCheck || {
         enabled: true,
         path: '/health',
         port: 80,
@@ -998,7 +998,7 @@ export class DeploymentSystemPure {
         retries: 3,
         initialDelay: 10
       },
-      scaling: application.scaling || {
+      scaling: application?.scaling || {
         enabled: false,
         minReplicas: 1,
         maxReplicas: 10,
@@ -1013,22 +1013,22 @@ export class DeploymentSystemPure {
       ...application
     };
 
-    manager.applications.push(newApplication);
-    manager.updatedAt = Date.now();
-    this.performanceMetrics.totalApplications++;
+    manager?.applications?.push(newApplication);
+    manager.updatedAt = new Date();
+    this?.performanceMetrics.totalApplications++;
 
     // Create deployment record
     const deployment: Deployment = {
       id: `deploy-${Date.now()}`,
-      applicationId: newApplication.id,
+      applicationId: newApplication?.id,
       environmentId: environmentId,
-      version: newApplication.version,
+      version: newApplication?.version,
       status: 'running',
       strategy: 'rolling',
-      replicas: newApplication.replicas,
+      replicas: newApplication?.replicas,
       progress: {
         current: 0,
-        total: newApplication.replicas,
+        total: newApplication?.replicas,
         percentage: 0,
         message: 'Starting deployment...'
       },
@@ -1037,21 +1037,21 @@ export class DeploymentSystemPure {
       updatedAt: new Date()
     };
 
-    manager.deployments.push(deployment);
-    this.performanceMetrics.totalDeployments++;
+    manager?.deployments?.push(deployment);
+    this?.performanceMetrics.totalDeployments++;
 
     // Simulate deployment completion
     setTimeout(() => {
-      newApplication.status = 'running';
-      deployment.status = 'completed';
-      deployment.progress = {
-        current: newApplication.replicas,
-        total: newApplication.replicas,
+      newApplication?.status = 'running';
+      deployment?.status = 'completed';
+      deployment?.progress = {
+        current: newApplication?.replicas,
+        total: newApplication?.replicas,
         percentage: 100,
         message: 'Deployment completed successfully'
       };
-      this.performanceMetrics.runningApplications++;
-      this.performanceMetrics.successfulDeployments++;
+      this?.performanceMetrics.runningApplications++;
+      this?.performanceMetrics.successfulDeployments++;
     }, 5000);
 
     return {
@@ -1065,14 +1065,14 @@ export class DeploymentSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DeploymentPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DeploymentAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1086,26 +1086,26 @@ export class DeploymentSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalApplications = 0;
     let runningApplications = 0;
     let totalDeployments = 0;
     let successfulDeployments = 0;
     let failedDeployments = 0;
 
-    for (const manager of this.managers.values()) {
-      totalApplications += manager.applications.length;
-      runningApplications += manager.applications.filter((app: any) => app.status === 'running').length;
-      totalDeployments += manager.deployments.length;
-      successfulDeployments += manager.deployments.filter((dep: any) => dep.status === 'completed').length;
-      failedDeployments += manager.deployments.filter((dep: any) => dep.status === 'failed').length;
+    for (const manager of this?.managers.values()) {
+      totalApplications += manager?.applications.length;
+      runningApplications += manager?.applications.filter((app: any) => app?.status === 'running').length;
+      totalDeployments += manager?.deployments.length;
+      successfulDeployments += manager?.deployments.filter((dep: any) => dep?.status === 'completed').length;
+      failedDeployments += manager?.deployments.filter((dep: any) => dep?.status === 'failed').length;
     }
 
-    this.performanceMetrics.totalApplications = totalApplications;
-    this.performanceMetrics.runningApplications = runningApplications;
-    this.performanceMetrics.totalDeployments = totalDeployments;
-    this.performanceMetrics.successfulDeployments = successfulDeployments;
-    this.performanceMetrics.failedDeployments = failedDeployments;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalApplications = totalApplications;
+    this?.performanceMetrics.runningApplications = runningApplications;
+    this?.performanceMetrics.totalDeployments = totalDeployments;
+    this?.performanceMetrics.successfulDeployments = successfulDeployments;
+    this?.performanceMetrics.failedDeployments = failedDeployments;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

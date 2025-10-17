@@ -1,5 +1,5 @@
 /**
- * PlatformBridgePure.ts - Cross-Genre & Platform Abstraction System
+ * PlatformBridgePure?.ts - Cross-Genre & Platform Abstraction System
  * 
  * Inspired by Irrlicht device-independent renderer and Godot HTML5/mobile exports.
  * Provides platform abstraction, render target management, and backend selection.
@@ -111,10 +111,10 @@ export class PlatformBridge {
   private networkBackend: any;
 
   constructor(config: PlatformConfig) {
-    this.config = config;
-    this.capabilities = this.detectCapabilities();
-    this.stats = this.initializeStats();
-    this.initializeBackends();
+    this?.config = config;
+    this?.capabilities = this?.detectCapabilities();
+    this?.stats = this?.initializeStats();
+    this?.initializeBackends();
   }
 
   /**
@@ -122,26 +122,26 @@ export class PlatformBridge {
    */
   private initializeBackends(): void {
     // Initialize render backend
-    this.renderBackend = this.createRenderBackend(this.config.renderBackend);
+    this?.renderBackend = this?.createRenderBackend(this?.config.renderBackend);
     
     // Initialize input backend
-    if (this.config.enableInput) {
-      this.inputBackend = this.createInputBackend();
+    if (this?.config.enableInput) {
+      this?.inputBackend = this?.createInputBackend();
     }
     
     // Initialize audio backend
-    if (this.config.enableAudio) {
-      this.audioBackend = this.createAudioBackend();
+    if (this?.config.enableAudio) {
+      this?.audioBackend = this?.createAudioBackend();
     }
     
     // Initialize storage backend
-    if (this.config.enableStorage) {
-      this.storageBackend = this.createStorageBackend();
+    if (this?.config.enableStorage) {
+      this?.storageBackend = this?.createStorageBackend();
     }
     
     // Initialize network backend
-    if (this.config.enableNetwork) {
-      this.networkBackend = this.createNetworkBackend();
+    if (this?.config.enableNetwork) {
+      this?.networkBackend = this?.createNetworkBackend();
     }
   }
 
@@ -157,7 +157,7 @@ export class PlatformBridge {
   ): Promise<RenderTarget> {
     console.log(`🎨 Creating render target: ${id} (${width}x${height})`);
 
-    const handle = await this.renderBackend.createTarget(type, width, height, format);
+    const handle = await this?.renderBackend.createTarget(type, width, height, format);
     
     const target: RenderTarget = {
       id,
@@ -165,11 +165,11 @@ export class PlatformBridge {
       width,
       height,
       format,
-      backend: this.config.renderBackend,
+      backend: this?.config.renderBackend,
       handle
     };
 
-    this.renderTargets.set(id, target);
+    this?.renderTargets.set(id, target);
     console.log(`✅ Render target created: ${id}`);
     
     return target;
@@ -179,20 +179,20 @@ export class PlatformBridge {
    * Get render target by ID
    */
   getRenderTarget(id: string): RenderTarget | undefined {
-    return this.renderTargets.get(id);
+    return this?.renderTargets.get(id);
   }
 
   /**
    * Destroy render target
    */
   destroyRenderTarget(id: string): boolean {
-    const target = this.renderTargets.get(id);
+    const target = this?.renderTargets.get(id);
     if (!target) {
       return false;
     }
 
-    this.renderBackend.destroyTarget(target.handle);
-    this.renderTargets.delete(id);
+    this?.renderBackend.destroyTarget(target?.handle);
+    this?.renderTargets.delete(id);
     console.log(`🗑️  Render target destroyed: ${id}`);
     
     return true;
@@ -202,33 +202,33 @@ export class PlatformBridge {
    * Render to target
    */
   async renderToTarget(targetId: string, renderFunction: (context: any) => void): Promise<void> {
-    const target = this.renderTargets.get(targetId);
+    const target = this?.renderTargets.get(targetId);
     if (!target) {
       throw new Error(`Render target not found: ${targetId}`);
     }
 
-    await this.renderBackend.renderToTarget(target.handle, renderFunction);
-    this.stats.renderCalls++;
+    await this?.renderBackend.renderToTarget(target?.handle, renderFunction);
+    this?.stats.renderCalls++;
   }
 
   /**
    * Register input device
    */
   registerInputDevice(device: InputDevice): void {
-    this.inputDevices.set(device.id, device);
+    this?.inputDevices.set(device?.id, device);
     console.log(`🎮 Input device registered: ${device.name} (${device.type})`);
   }
 
   /**
    * Unregister input device
    */
-  unregisterInputDevice(device.id: string): boolean {
-    const device = this.inputDevices.get(device.id);
+  unregisterInputDevice(device?.id: string): boolean {
+    const device = this?.inputDevices.get(device?.id);
     if (!device) {
       return false;
     }
 
-    this.inputDevices.delete(device.id);
+    this?.inputDevices.delete(device?.id);
     console.log(`🎮 Input device unregistered: ${device.name}`);
     
     return true;
@@ -237,8 +237,8 @@ export class PlatformBridge {
   /**
    * Get input device by ID
    */
-  getInputDevice(device.id: string): InputDevice | undefined {
-    return this.inputDevices.get(device.id);
+  getInputDevice(device?.id: string): InputDevice | undefined {
+    return this?.inputDevices.get(device?.id);
   }
 
   /**
@@ -252,12 +252,12 @@ export class PlatformBridge {
    * Process input events
    */
   processInputEvents(): any[] {
-    if (!this.inputBackend) {
+    if (!this?.inputBackend) {
       return [];
     }
 
-    const events = this.inputBackend.pollEvents();
-    this.stats.inputEvents += events.length;
+    const events = this?.inputBackend.pollEvents();
+    this?.stats.inputEvents += events?.length;
     
     return events;
   }
@@ -275,48 +275,48 @@ export class PlatformBridge {
       position?: { x: number; y: number; z: number };
     } = {}
   ): Promise<void> {
-    if (!this.audioBackend) {
+    if (!this?.audioBackend) {
       console.warn('Audio backend not available');
       return;
     }
 
-    await this.audioBackend.play(audioId, data, options);
-    this.stats.audioChannels++;
+    await this?.audioBackend.play(audioId, data, options);
+    this?.stats.audioChannels++;
   }
 
   /**
    * Stop audio
    */
   stopAudio(audioId: string): boolean {
-    if (!this.audioBackend) {
+    if (!this?.audioBackend) {
       return false;
     }
 
-    return this.audioBackend.stop(audioId);
+    return this?.audioBackend.stop(audioId);
   }
 
   /**
    * Save data to storage
    */
   async saveData(key: string, data: any): Promise<boolean> {
-    if (!this.storageBackend) {
+    if (!this?.storageBackend) {
       console.warn('Storage backend not available');
       return false;
     }
 
-    return await this.storageBackend.save(key, data);
+    return await this?.storageBackend.save(key, data);
   }
 
   /**
    * Load data from storage
    */
   async loadData(key: string): Promise<any> {
-    if (!this.storageBackend) {
+    if (!this?.storageBackend) {
       console.warn('Storage backend not available');
       return null;
     }
 
-    return await this.storageBackend.load(key);
+    return await this?.storageBackend.load(key);
   }
 
   /**
@@ -330,14 +330,14 @@ export class PlatformBridge {
       priority?: number;
     } = {}
   ): Promise<boolean> {
-    if (!this.networkBackend) {
+    if (!this?.networkBackend) {
       console.warn('Network backend not available');
       return false;
     }
 
-    const result = await this.networkBackend.send(target, message, options);
-    if (result) {
-      this.stats.networkLatency = this.networkBackend.getLatency();
+    const result = await this?.networkBackend.send(target, message, options);
+    if (result: any) {
+      this?.stats.networkLatency = this?.networkBackend.getLatency();
     }
     
     return result;
@@ -347,14 +347,14 @@ export class PlatformBridge {
    * Get platform capabilities
    */
   getCapabilities(): PlatformCapabilities {
-    return { ...this.capabilities };
+    return { ...this?.capabilities };
   }
 
   /**
    * Get platform statistics
    */
   getStats(): PlatformStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   /**
@@ -362,41 +362,41 @@ export class PlatformBridge {
    */
   updateStats(): void {
     // Update FPS and frame time
-    const now = performance.now();
-    const frameTime = now - (this.stats.frameTime || now);
-    this.stats.frameTime = frameTime;
-    this.stats.fps = 1000 / frameTime;
+    const now = performance?.now();
+    const frameTime = now - (this?.stats.frameTime || now);
+    this?.stats.frameTime = frameTime;
+    this?.stats.fps = 1000 / frameTime;
 
     // Update memory usage (if available)
     if ('memory' in performance && (performance as any).memory) {
-      this.stats.memoryUsage = (performance as any).memory.usedJSHeapSize;
+      this?.stats.memoryUsage = (performance as any).memory?.usedJSHeapSize;
     }
 
     // Reset counters
-    this.stats.renderCalls = 0;
-    this.stats.inputEvents = 0;
-    this.stats.audioChannels = 0;
+    this?.stats.renderCalls = 0;
+    this?.stats.inputEvents = 0;
+    this?.stats.audioChannels = 0;
   }
 
   /**
    * Check if feature is supported
    */
   isFeatureSupported(feature: string): boolean {
-    return this.capabilities.features.includes(feature);
+    return this?.capabilities.features?.includes(feature);
   }
 
   /**
    * Get platform configuration
    */
   getConfig(): PlatformConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 
   /**
    * Update platform configuration
    */
   updateConfig(updates: Partial<PlatformConfig>): void {
-    this.config = { ...this.config, ...updates };
+    this?.config = { ...this?.config, ...updates };
     console.log('⚙️  Platform configuration updated');
   }
 
@@ -404,17 +404,17 @@ export class PlatformBridge {
    * Detect platform capabilities
    */
   private detectCapabilities(): PlatformCapabilities {
-    const platform = this.config.platform! || this.detectPlatform();
+    const platform = this?.config.platform! || this?.detectPlatform();
     
     const capabilities: PlatformCapabilities = {
       platform,
-      renderBackends: this.detectRenderBackends(platform),
-      inputTypes: this.detectInputTypes(platform),
-      audioFormats: this.detectAudioFormats(platform),
-      storageTypes: this.detectStorageTypes(platform),
-      networkProtocols: this.detectNetworkProtocols(platform),
-      features: this.detectFeatures(platform),
-      limitations: this.detectLimitations(platform)
+      renderBackends: this?.detectRenderBackends(platform),
+      inputTypes: this?.detectInputTypes(platform),
+      audioFormats: this?.detectAudioFormats(platform),
+      storageTypes: this?.detectStorageTypes(platform),
+      networkProtocols: this?.detectNetworkProtocols(platform),
+      features: this?.detectFeatures(platform),
+      limitations: this?.detectLimitations(platform)
     };
 
     console.log(`🔍 Platform capabilities detected: ${platform}`);
@@ -427,19 +427,19 @@ export class PlatformBridge {
   private detectPlatform(): Platform {
     if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
       // Web platform
-      if (navigator.userAgent.includes('Mobile')) {
-        return Platform.MOBILE;
+      if (navigator?.userAgent.includes('Mobile')) {
+        return Platform?.MOBILE;
       }
-      return Platform.WEB;
+      return Platform?.WEB;
     }
     
-    // Node.js environment
+    // Node?.js environment
     if (typeof process !== 'undefined') {
       // For tests running under Node, treat as WEB to align with Canvas2D expectations
-      return Platform.WEB;
+      return Platform?.WEB;
     }
     
-    return Platform.DESKTOP;
+    return Platform?.DESKTOP;
   }
 
   /**
@@ -449,26 +449,26 @@ export class PlatformBridge {
     const backends: RenderBackend[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case Platform?.WEB:
         // In tests/headless, expose WEBGL alongside CANVAS_2D for broader compatibility
-        backends.push(RenderBackend.CANVAS_2D, RenderBackend.WEBGL);
+        backends?.push(RenderBackend?.CANVAS_2D, RenderBackend?.WEBGL);
         break;
-      case Platform.MOBILE:
-        backends.push(RenderBackend.CANVAS_2D);
-        if (this.isWebGLAvailable()) {
-          backends.push(RenderBackend.WEBGL);
+      case Platform?.MOBILE:
+        backends?.push(RenderBackend?.CANVAS_2D);
+        if (this?.isWebGLAvailable()) {
+          backends?.push(RenderBackend?.WEBGL);
         }
         break;
-      case Platform.DESKTOP:
-        backends.push(RenderBackend.CANVAS_2D, RenderBackend.OPENGL);
-        if (this.isVulkanAvailable()) {
-          backends.push(RenderBackend.VULKAN);
+      case Platform?.DESKTOP:
+        backends?.push(RenderBackend?.CANVAS_2D, RenderBackend?.OPENGL);
+        if (this?.isVulkanAvailable()) {
+          backends?.push(RenderBackend?.VULKAN);
         }
-        if (this.isDirectXAvailable()) {
-          backends.push(RenderBackend.DIRECTX);
+        if (this?.isDirectXAvailable()) {
+          backends?.push(RenderBackend?.DIRECTX);
         }
-        if (this.isMetalAvailable()) {
-          backends.push(RenderBackend.METAL);
+        if (this?.isMetalAvailable()) {
+          backends?.push(RenderBackend?.METAL);
         }
         break;
     }
@@ -483,17 +483,17 @@ export class PlatformBridge {
     const types: InputType[] = [];
 
     switch (platform) {
-      case Platform.WEB:
-        types.push(InputType.KEYBOARD, InputType.MOUSE, InputType.GAMEPAD);
-        if (this.isTouchAvailable()) {
-          types.push(InputType.TOUCH);
+      case Platform?.WEB:
+        types?.push(InputType?.KEYBOARD, InputType?.MOUSE, InputType?.GAMEPAD);
+        if (this?.isTouchAvailable()) {
+          types?.push(InputType?.TOUCH);
         }
         break;
-      case Platform.MOBILE:
-        types.push(InputType.TOUCH, InputType.GYROSCOPE, InputType.ACCELEROMETER);
+      case Platform?.MOBILE:
+        types?.push(InputType?.TOUCH, InputType?.GYROSCOPE, InputType?.ACCELEROMETER);
         break;
-      case Platform.DESKTOP:
-        types.push(InputType.KEYBOARD, InputType.MOUSE, InputType.GAMEPAD);
+      case Platform?.DESKTOP:
+        types?.push(InputType?.KEYBOARD, InputType?.MOUSE, InputType?.GAMEPAD);
         break;
     }
 
@@ -507,14 +507,14 @@ export class PlatformBridge {
     const formats: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
-        formats.push('mp3', 'ogg', 'wav', 'webm');
+      case Platform?.WEB:
+        formats?.push('mp3', 'ogg', 'wav', 'webm');
         break;
-      case Platform.MOBILE:
-        formats.push('mp3', 'aac', 'ogg');
+      case Platform?.MOBILE:
+        formats?.push('mp3', 'aac', 'ogg');
         break;
-      case Platform.DESKTOP:
-        formats.push('mp3', 'ogg', 'wav', 'flac');
+      case Platform?.DESKTOP:
+        formats?.push('mp3', 'ogg', 'wav', 'flac');
         break;
     }
 
@@ -528,14 +528,14 @@ export class PlatformBridge {
     const types: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
-        types.push('localStorage', 'sessionStorage', 'indexedDB');
+      case Platform?.WEB:
+        types?.push('localStorage', 'sessionStorage', 'indexedDB');
         break;
-      case Platform.MOBILE:
-        types.push('localStorage', 'sqlite');
+      case Platform?.MOBILE:
+        types?.push('localStorage', 'sqlite');
         break;
-      case Platform.DESKTOP:
-        types.push('fileSystem', 'sqlite', 'redis');
+      case Platform?.DESKTOP:
+        types?.push('fileSystem', 'sqlite', 'redis');
         break;
     }
 
@@ -549,14 +549,14 @@ export class PlatformBridge {
     const protocols: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
-        protocols.push('websocket', 'http', 'https');
+      case Platform?.WEB:
+        protocols?.push('websocket', 'http', 'https');
         break;
-      case Platform.MOBILE:
-        protocols.push('websocket', 'http', 'https', 'tcp', 'udp');
+      case Platform?.MOBILE:
+        protocols?.push('websocket', 'http', 'https', 'tcp', 'udp');
         break;
-      case Platform.DESKTOP:
-        protocols.push('websocket', 'http', 'https', 'tcp', 'udp', 'websocket');
+      case Platform?.DESKTOP:
+        protocols?.push('websocket', 'http', 'https', 'tcp', 'udp', 'websocket');
         break;
     }
 
@@ -570,17 +570,17 @@ export class PlatformBridge {
     const features: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
-        features.push('webgl', 'webassembly', 'serviceworker', 'push');
-        if (this.isWebGLAvailable()) {
-          features.push('webgl2');
+      case Platform?.WEB:
+        features?.push('webgl', 'webassembly', 'serviceworker', 'push');
+        if (this?.isWebGLAvailable()) {
+          features?.push('webgl2');
         }
         break;
-      case Platform.MOBILE:
-        features.push('touch', 'gyroscope', 'accelerometer', 'camera', 'microphone');
+      case Platform?.MOBILE:
+        features?.push('touch', 'gyroscope', 'accelerometer', 'camera', 'microphone');
         break;
-      case Platform.DESKTOP:
-        features.push('multithreading', 'filesystem', 'opengl', 'vulkan');
+      case Platform?.DESKTOP:
+        features?.push('multithreading', 'filesystem', 'opengl', 'vulkan');
         break;
     }
 
@@ -594,14 +594,14 @@ export class PlatformBridge {
     const limitations: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
-        limitations.push('no-filesystem', 'limited-memory', 'sandboxed');
+      case Platform?.WEB:
+        limitations?.push('no-filesystem', 'limited-memory', 'sandboxed');
         break;
-      case Platform.MOBILE:
-        limitations.push('limited-memory', 'battery-constraints', 'small-screen');
+      case Platform?.MOBILE:
+        limitations?.push('limited-memory', 'battery-constraints', 'small-screen');
         break;
-      case Platform.DESKTOP:
-        limitations.push('platform-specific', 'installation-required');
+      case Platform?.DESKTOP:
+        limitations?.push('platform-specific', 'installation-required');
         break;
     }
 
@@ -628,14 +628,14 @@ export class PlatformBridge {
    */
   private createRenderBackend(backend: RenderBackend): any {
     switch (backend) {
-      case RenderBackend.CANVAS_2D:
-        return this.createCanvas2DBackend();
-      case RenderBackend.WEBGL:
-        return this.createWebGLBackend();
-      case RenderBackend.OPENGL:
-        return this.createOpenGLBackend();
+      case RenderBackend?.CANVAS_2D:
+        return this?.createCanvas2DBackend();
+      case RenderBackend?.WEBGL:
+        return this?.createWebGLBackend();
+      case RenderBackend?.OPENGL:
+        return this?.createOpenGLBackend();
       default:
-        return this.createCanvas2DBackend(); // Fallback
+        return this?.createCanvas2DBackend(); // Fallback
     }
   }
 
@@ -646,7 +646,7 @@ export class PlatformBridge {
     return {
       pollEvents: () => [],
       registerDevice: (device: InputDevice) => {},
-      unregisterDevice: (device.id: string) => {}
+      unregisterDevice: (device?.id: string) => {}
     };
   }
 
@@ -688,12 +688,12 @@ export class PlatformBridge {
       createTarget: async (type: string, width: number, height: number, format: string) => {
         if (type === 'canvas') {
           if (typeof document !== 'undefined') {
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
+            const canvas = document?.createElement('canvas');
+            canvas?.width = width;
+            canvas?.height = height;
             return canvas;
           }
-          // Headless mock canvas for Node.js
+          // Headless mock canvas for Node?.js
           return {
             width,
             height,
@@ -707,8 +707,8 @@ export class PlatformBridge {
       },
       destroyTarget: (handle: any) => {},
       renderToTarget: async (handle: any, renderFunction: any) => {
-        if (handle && handle.getContext) {
-          const ctx = handle.getContext('2d');
+        if (handle && handle?.getContext) {
+          const ctx = handle?.getContext('2d');
           renderFunction(ctx);
         }
       }
@@ -723,9 +723,9 @@ export class PlatformBridge {
       createTarget: async (type: string, width: number, height: number, format: string) => {
         if (type === 'canvas') {
           if (typeof document !== 'undefined') {
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
+            const canvas = document?.createElement('canvas');
+            canvas?.width = width;
+            canvas?.height = height;
             return canvas;
           }
           // Headless mock for WebGL
@@ -739,8 +739,8 @@ export class PlatformBridge {
       },
       destroyTarget: (handle: any) => {},
       renderToTarget: async (handle: any, renderFunction: any) => {
-        if (handle && handle.getContext) {
-          const gl = handle.getContext('webgl') || handle.getContext('experimental-webgl');
+        if (handle && handle?.getContext) {
+          const gl = handle?.getContext('webgl') || handle?.getContext('experimental-webgl');
           if (gl) {
             renderFunction(gl);
           }
@@ -755,7 +755,7 @@ export class PlatformBridge {
   private createOpenGLBackend(): any {
     return {
       createTarget: async (type: string, width: number, height: number, format: string) => {
-        // Mock OpenGL backend for Node.js environment
+        // Mock OpenGL backend for Node?.js environment
         return { type, width, height, format };
       },
       destroyTarget: (handle: any) => {},
@@ -774,8 +774,8 @@ export class PlatformBridge {
       return false;
     }
     
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const canvas = document?.createElement('canvas');
+    const gl = canvas?.getContext('webgl') || canvas?.getContext('experimental-webgl');
     return !!gl;
   }
 
@@ -787,7 +787,7 @@ export class PlatformBridge {
       return false;
     }
     
-    return 'ontouchstart' in window || (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
+    return 'ontouchstart' in window || (typeof navigator !== 'undefined' && navigator?.maxTouchPoints > 0);
   }
 
   /**
@@ -823,17 +823,17 @@ export class PlatformManager {
   private config: PlatformConfig;
 
   constructor(config: PlatformConfig) {
-    this.config = config;
-    this.currentPlatform = config.platform;
-    this.initializePlatform();
+    this?.config = config;
+    this?.currentPlatform = config?.platform;
+    this?.initializePlatform();
   }
 
   /**
    * Initialize platform
    */
   private initializePlatform(): void {
-    const bridge = new PlatformBridge(this.config);
-    this.bridges.set(this.currentPlatform, bridge);
+    const bridge = new PlatformBridge(this?.config);
+    this?.bridges.set(this?.currentPlatform, bridge);
     console.log(`🚀 Platform initialized: ${this.currentPlatform}`);
   }
 
@@ -841,9 +841,9 @@ export class PlatformManager {
    * Get current platform bridge
    */
   getCurrentBridge(): PlatformBridge {
-    const bridge = this.bridges.get(this.currentPlatform);
+    const bridge = this?.bridges.get(this?.currentPlatform);
     if (!bridge) {
-      throw new Error(`Platform bridge not found: ${this.currentPlatform}`);
+      throw new Error(`Platform bridge not found: ${this?.currentPlatform}`);
     }
     return bridge;
   }
@@ -854,12 +854,12 @@ export class PlatformManager {
   async switchPlatform(platform: Platform, config?: Partial<PlatformConfig>): Promise<void> {
     console.log(`🔄 Switching platform: ${this.currentPlatform} -> ${platform}`);
 
-    const newConfig = { ...this.config, ...config, platform };
+    const newConfig = { ...this?.config, ...config, platform };
     const bridge = new PlatformBridge(newConfig);
     
-    this.bridges.set(platform, bridge);
-    this.currentPlatform = platform;
-    this.config = newConfig;
+    this?.bridges.set(platform, bridge);
+    this?.currentPlatform = platform;
+    this?.config = newConfig;
 
     console.log(`✅ Platform switched to: ${platform}`);
   }
@@ -868,7 +868,7 @@ export class PlatformManager {
    * Get platform bridge by type
    */
   getBridge(platform: Platform): PlatformBridge | undefined {
-    return this.bridges.get(platform);
+    return this?.bridges.get(platform);
   }
 
   /**
@@ -882,14 +882,14 @@ export class PlatformManager {
    * Get current platform
    */
   getCurrentPlatform(): Platform {
-    return this.currentPlatform;
+    return this?.currentPlatform;
   }
 
   /**
    * Get platform configuration
    */
   getConfig(): PlatformConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 }
 
@@ -921,18 +921,18 @@ export function createAutoPlatformBridge(): PlatformBridge {
  */
 function detectPlatform(): Platform {
   if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
-    if (navigator.userAgent.includes('Mobile')) {
-      return Platform.MOBILE;
+    if (navigator?.userAgent.includes('Mobile')) {
+      return Platform?.MOBILE;
     }
-    return Platform.WEB;
+    return Platform?.WEB;
   }
   
   if (typeof process !== 'undefined') {
     // In headless Node test environments, default to WEB for canvas2d expectations
-    return Platform.WEB;
+    return Platform?.WEB;
   }
   
-  return Platform.DESKTOP;
+  return Platform?.DESKTOP;
 }
 
 /**
@@ -941,7 +941,7 @@ function detectPlatform(): Platform {
 function getDefaultConfig(platform: Platform): PlatformConfig {
   const baseConfig: PlatformConfig = {
     platform,
-    renderBackend: RenderBackend.CANVAS_2D,
+    renderBackend: RenderBackend?.CANVAS_2D,
     enableAudio: true,
     enableInput: true,
     enableStorage: true,
@@ -954,18 +954,18 @@ function getDefaultConfig(platform: Platform): PlatformConfig {
   };
 
   switch (platform) {
-    case Platform.WEB:
-      baseConfig.renderBackend = RenderBackend.CANVAS_2D;
-      baseConfig.windowSize = { width: 800, height: 600 };
+    case Platform?.WEB:
+      baseConfig?.renderBackend = RenderBackend?.CANVAS_2D;
+      baseConfig?.windowSize = { width: 800, height: 600 };
       break;
-    case Platform.MOBILE:
-      baseConfig.renderBackend = RenderBackend.CANVAS_2D;
-      baseConfig.windowSize = { width: 360, height: 640 };
-      baseConfig.maxFPS = 30;
+    case Platform?.MOBILE:
+      baseConfig?.renderBackend = RenderBackend?.CANVAS_2D;
+      baseConfig?.windowSize = { width: 360, height: 640 };
+      baseConfig?.maxFPS = 30;
       break;
-    case Platform.DESKTOP:
-      baseConfig.renderBackend = RenderBackend.OPENGL;
-      baseConfig.windowSize = { width: 1024, height: 768 };
+    case Platform?.DESKTOP:
+      baseConfig?.renderBackend = RenderBackend?.OPENGL;
+      baseConfig?.windowSize = { width: 1024, height: 768 };
       break;
   }
 

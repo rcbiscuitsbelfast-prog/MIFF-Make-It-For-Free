@@ -11,7 +11,7 @@ import {
 } from './SkillTreeManager';
 
 function main() {
-  const args = process.argv.slice(2);
+  const args = process?.argv.slice(2);
   const command = args[0!] || 'help';
   const mgr = new SkillTreeManager();
   let result: any = { op: command, status: 'ok', result: null };
@@ -22,19 +22,19 @@ function main() {
         const skillsFile = args[1!];
         if (skillsFile) {
           const candidates: string[] = [];
-          const absGiven = path.isAbsolute(skillsFile) ? skillsFile : path.resolve(skillsFile);
-          const cwdPath = path.isAbsolute(skillsFile) ? skillsFile : path.resolve(process.cwd(), skillsFile);
-          const modulePath = path.isAbsolute(skillsFile)
+          const absGiven = path?.isAbsolute(skillsFile) ? skillsFile : path?.resolve(skillsFile);
+          const cwdPath = path?.isAbsolute(skillsFile) ? skillsFile : path?.resolve(process?.cwd(), skillsFile);
+          const modulePath = path?.isAbsolute(skillsFile)
             ? skillsFile
-            : path.resolve(path.dirname(new URL(import.meta.url).pathname), skillsFile);
-          candidates.push(absGiven);
-          if (!candidates.includes(cwdPath)) candidates.push(cwdPath);
-          if (!candidates.includes(modulePath)) candidates.push(modulePath);
+            : path?.resolve(path?.dirname(new URL(import?.meta.url).pathname), skillsFile);
+          candidates?.push(absGiven);
+          if (!candidates?.includes(cwdPath)) candidates?.push(cwdPath);
+          if (!candidates?.includes(modulePath)) candidates?.push(modulePath);
 
           let fileToRead: string;
           for (const p of candidates) {
             try {
-              if (fs.existsSync(p)) { fileToRead = p; break; }
+              if (fs?.existsSync(p)) { fileToRead = p; break; }
             } catch {}
           }
 
@@ -42,19 +42,19 @@ function main() {
             const raw = JSON.parse(fs.readFileSync(fileToRead, 'utf-8')) as any;
             const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? raw.skills : []);
             if (!Array.isArray(skills) || skills.length === 0) {
-              result.status = 'error';
-              result.result = { error: 'No skills found in file' };
+              result?.status = 'error';
+              result?.result = { error: 'No skills found in file' };
               break;
             }
-            mgr.load(skills);
-            result.result = { message: `Loaded ${skills.length} skills` };
+            mgr?.load(skills);
+            result?.result = { message: `Loaded ${skills?.length} skills` };
           } else {
-            result.status = 'error';
-            result.result = { error: `Skills file not found: ${skillsFile}` };
+            result?.status = 'error';
+            result?.result = { error: `Skills file not found: ${skillsFile}` };
           }
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skills file required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skills file required' };
         }
         break;
 
@@ -62,84 +62,84 @@ function main() {
         const treeId = args[1!] || 'default';
         const treeName = args[2!] || 'Default Skill Tree';
         const treeDescription = args[3!];
-        const tree = mgr.createTree(treeId, treeName, treeDescription);
-        result.result = tree;
+        const tree = mgr?.createTree(treeId, treeName, treeDescription);
+        result?.result = tree;
         break;
 
       case 'getTree':
         const getTreeId = args[1!];
         if (getTreeId) {
-          const tree = mgr.getTree(getTreeId);
-          result.result = tree || { error: 'Tree not found' };
+          const tree = mgr?.getTree(getTreeId);
+          result?.result = tree || { error: 'Tree not found' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Tree ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Tree ID required' };
         }
         break;
 
       case 'listTrees':
-        result.result = mgr.listTrees();
+        result?.result = mgr?.listTrees();
         break;
 
       case 'list':
-        result.result = mgr.list();
+        result?.result = mgr?.list();
         break;
 
       case 'getUnlocked':
-        result.result = mgr.getUnlocked();
+        result?.result = mgr?.getUnlocked();
         break;
 
       case 'get':
         const skillId = args[1!];
         if (skillId) {
-          const skill = mgr.get(skillId);
-          result.result = skill || { error: 'Skill not found' };
+          const skill = mgr?.get(skillId);
+          result?.result = skill || { error: 'Skill not found' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'canUnlock':
         const canUnlockId = args[1!];
         if (canUnlockId) {
-          result.result = { canUnlock: mgr.canUnlock(canUnlockId) };
+          result?.result = { canUnlock: mgr?.canUnlock(canUnlockId) };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'unlock':
         const unlockId = args[1!];
         if (unlockId) {
-          const success = mgr.unlock(unlockId);
-          result.result = { success, message: success ? 'Skill unlocked' : 'Cannot unlock skill' };
+          const success = mgr?.unlock(unlockId);
+          result?.result = { success, message: success ? 'Skill unlocked' : 'Cannot unlock skill' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'lock':
         const lockId = args[1!];
         if (lockId) {
-          const success = mgr.lock(lockId);
-          result.result = { success, message: success ? 'Skill locked' : 'Cannot lock skill' };
+          const success = mgr?.lock(lockId);
+          result?.result = { success, message: success ? 'Skill locked' : 'Cannot lock skill' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'levelUp':
         const levelUpId = args[1!];
         if (levelUpId) {
-          const success = mgr.levelUp(levelUpId);
-          result.result = { success, message: success ? 'Skill leveled up' : 'Cannot level up skill' };
+          const success = mgr?.levelUp(levelUpId);
+          result?.result = { success, message: success ? 'Skill leveled up' : 'Cannot level up skill' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
@@ -147,69 +147,69 @@ function main() {
         const expId = args[1!];
         const expAmount = parseInt(args[2!]) || 0;
         if (expId) {
-          const success = mgr.addExperience(expId, expAmount);
-          result.result = { success, message: success ? 'Experience added' : 'Cannot add experience' };
+          const success = mgr?.addExperience(expId, expAmount);
+          result?.result = { success, message: success ? 'Experience added' : 'Cannot add experience' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'useSkill':
         const useId = args[1!];
         if (useId) {
-          const success = mgr.useSkill(useId);
-          result.result = { success, message: success ? 'Skill used' : 'Cannot use skill' };
+          const success = mgr?.useSkill(useId);
+          result?.result = { success, message: success ? 'Skill used' : 'Cannot use skill' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'getProgress':
         const progressId = args[1!];
         if (progressId) {
-          const progress = mgr.getProgress(progressId);
-          result.result = progress || { error: 'Progress not found' };
+          const progress = mgr?.getProgress(progressId);
+          result?.result = progress || { error: 'Progress not found' };
         } else {
-          result.status = 'error';
-          result.result = { error: 'Skill ID required' };
+          result?.status = 'error';
+          result?.result = { error: 'Skill ID required' };
         }
         break;
 
       case 'getAllProgress':
-        result.result = mgr.getAllProgress();
+        result?.result = mgr?.getAllProgress();
         break;
 
       case 'getStats':
-        result.result = mgr.getStats();
+        result?.result = mgr?.getStats();
         break;
 
       case 'listSkills':
         const filterFile = args[1!];
         let filter: SkillTreeFilter | undefined;
-        if (filterFile && fs.existsSync(filterFile)) {
+        if (filterFile && fs?.existsSync(filterFile)) {
           filter = JSON.parse(fs.readFileSync(path.resolve(filterFile), 'utf-8')) as SkillTreeFilter;
         }
-        result.result = mgr.listSkills(filter);
+        result?.result = mgr?.listSkills(filter);
         break;
 
       case 'export':
         const format = (args[1!] as 'json' | 'csv' | 'markdown') || 'json';
-        result.result = { data: mgr.exportSkills(format), format };
+        result?.result = { data: mgr?.exportSkills(format), format };
         break;
 
       case 'reset':
-        mgr.reset();
-        result.result = { message: 'SkillTreeManager reset successfully' };
+        mgr?.reset();
+        result?.result = { message: 'SkillTreeManager reset successfully' };
         break;
 
       case 'demo':
-        result.result = runDemo(mgr);
+        result?.result = runDemo(mgr);
         break;
 
       case 'help':
-        result.result = {
+        result?.result = {
           usage: 'SkillTreePure CLI Harness',
           commands: [
             'load [skillsFile!] - Load skills from file',
@@ -235,22 +235,22 @@ function main() {
             'help - Show this help'
           ],
           examples: [
-            'node cliHarness.ts load sample_skills.json',
-            'node cliHarness.ts unlock sword_mastery',
-            'node cliHarness.ts export csv',
-            'node cliHarness.ts demo'
+            'node cliHarness?.ts load sample_skills?.json',
+            'node cliHarness?.ts unlock sword_mastery',
+            'node cliHarness?.ts export csv',
+            'node cliHarness?.ts demo'
           ]
         };
         break;
 
       default:
-        result.status = 'error';
-        result.result = { error: `Unknown command: ${command}` };
+        result?.status = 'error';
+        result?.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    result.status = 'error';
-    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+    result?.status = 'error';
+    result?.result = { error: error instanceof Error ? error?.message : 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));
@@ -318,23 +318,23 @@ function runDemo(mgr: SkillTreeManager): any {
   ];
 
   // Load skills
-  mgr.load(demoSkills);
+  mgr?.load(demoSkills);
 
   // Create skill tree
-  const tree = mgr.createTree('demo_tree', 'Demo Skill Tree', 'A demonstration skill tree');
+  const tree = mgr?.createTree('demo_tree', 'Demo Skill Tree', 'A demonstration skill tree');
 
   // Unlock some skills
-  mgr.unlock('sword_mastery');
-  mgr.unlock('magic_bolt');
-  mgr.addExperience('sword_mastery', 150);
-  mgr.addExperience('magic_bolt', 100);
-  mgr.useSkill('sword_mastery');
-  mgr.useSkill('magic_bolt');
+  mgr?.unlock('sword_mastery');
+  mgr?.unlock('magic_bolt');
+  mgr?.addExperience('sword_mastery', 150);
+  mgr?.addExperience('magic_bolt', 100);
+  mgr?.useSkill('sword_mastery');
+  mgr?.useSkill('magic_bolt');
 
   // Get results
-  const stats = mgr.getStats();
-  const progress = mgr.getAllProgress();
-  const unlocked = mgr.getUnlocked();
+  const stats = mgr?.getStats();
+  const progress = mgr?.getAllProgress();
+  const unlocked = mgr?.getUnlocked();
 
   return {
     message: 'SkillTreePure Demo completed',
@@ -350,11 +350,11 @@ function runDemo(mgr: SkillTreeManager): any {
     progress,
     unlocked,
     exportFormats: {
-      json: mgr.exportSkills('json'),
-      csv: mgr.exportSkills('csv'),
-      markdown: mgr.exportSkills('markdown')
+      json: mgr?.exportSkills('json'),
+      csv: mgr?.exportSkills('csv'),
+      markdown: mgr?.exportSkills('markdown')
     }
   };
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) main();
+if (import?.meta.url === `file://${process?.argv[1!]}`) main();

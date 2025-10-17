@@ -20,11 +20,11 @@ interface PixelGenOperation {
 }
 
 function main() {
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
   
-  if (argv.length === 0) {
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -32,7 +32,7 @@ function main() {
     let operation: PixelGenOperation;
 
     // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
+    if (first?.endsWith('.json') && fs?.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as PixelGenOperation;
     } else {
@@ -79,31 +79,31 @@ function main() {
 
     let result: any;
 
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'generate':
-        const assets = PixelGenPure.generate(
-          operation.preset!,
-          operation.seed || 12345,
-          operation.count || 1
+        const assets = PixelGenPure?.generate(
+          operation?.preset!,
+          operation?.seed || 12345,
+          operation?.count || 1
         );
         
         result = {
           generated: {
-            preset: operation.preset,
-            seed: operation.seed || 12345,
-            count: operation.count || 1,
-            assets: assets.map((asset: any) => ({
-              id: asset.id,
-              style: asset.style,
-              anchor: asset.anchor,
-              metadata: asset.metadata
+            preset: operation?.preset,
+            seed: operation?.seed || 12345,
+            count: operation?.count || 1,
+            assets: assets?.map((asset: any) => ({
+              id: asset?.id,
+              style: asset?.style,
+              anchor: asset?.anchor,
+              metadata: asset?.metadata
             }))
           },
           summary: {
-            totalAssets: assets.length,
-            styles: [...new Set(assets.map((a: any) => a.style))],
-            patterns: [...new Set(assets.map((a: any) => a.metadata?.preset))],
-            averageSize: assets.length > 0 ? 
+            totalAssets: assets?.length,
+            styles: [...new Set(assets?.map((a: any) => a?.style))],
+            patterns: [...new Set(assets?.map((a: any) => a?.metadata?.preset))],
+            averageSize: assets?.length > 0 ? 
               `${assets[0!].metadata?.width}x${assets[0!].metadata?.height}` : 'unknown'
           }
         };
@@ -112,38 +112,38 @@ function main() {
       case 'list-presets':
         const presets = Object.entries(PixelGenPure.presets).map(([key, preset]) => ({
           key,
-          name: preset.name,
-          style: preset.style,
-          dimensions: `${preset.width}x${preset.height}`,
-          colorCount: preset.colors.length,
-          patternCount: preset.patterns.length,
-          colors: preset.colors,
-          patterns: preset.patterns
+          name: preset?.name,
+          style: preset?.style,
+          dimensions: `${preset?.width}x${preset?.height}`,
+          colorCount: preset?.colors.length,
+          patternCount: preset?.patterns.length,
+          colors: preset?.colors,
+          patterns: preset?.patterns
         }));
         
         result = {
           presets,
           summary: {
-            totalPresets: presets.length,
-            styles: [...new Set(presets.map((p: any) => p.style))],
-            totalColors: presets.reduce((sum, p) => sum + p.colorCount, 0),
-            totalPatterns: presets.reduce((sum, p) => sum + p.patternCount, 0)
+            totalPresets: presets?.length,
+            styles: [...new Set(presets?.map((p: any) => p?.style))],
+            totalColors: presets?.reduce((sum, p) => sum + p?.colorCount, 0),
+            totalPatterns: presets?.reduce((sum, p) => sum + p?.patternCount, 0)
           }
         };
         break;
 
       case 'create-preset':
         const newPreset: PixelGenPreset = {
-          name: operation.name!,
-          style: operation.style!,
-          width: operation.width!,
-          height: operation.height!,
-          colors: operation.colors || ['#000000', '#FFFFFF'],
-          patterns: operation.patterns || ['default']
+          name: operation?.name!,
+          style: operation?.style!,
+          width: operation?.width!,
+          height: operation?.height!,
+          colors: operation?.colors || ['#000000', '#FFFFFF'],
+          patterns: operation?.patterns || ['default']
         };
         
         // Add to presets (this would be temporary in CLI)
-        PixelGenPure.presets[operation.name!] = newPreset;
+        PixelGenPure?.presets[operation?.name!] = newPreset;
         
         result = {
           created: {
@@ -151,11 +151,11 @@ function main() {
             addedToPresets: true
           },
           summary: {
-            name: newPreset.name,
-            style: newPreset.style,
-            dimensions: `${newPreset.width}x${newPreset.height}`,
-            colorCount: newPreset.colors.length,
-            patternCount: newPreset.patterns.length
+            name: newPreset?.name,
+            style: newPreset?.style,
+            dimensions: `${newPreset?.width}x${newPreset?.height}`,
+            colorCount: newPreset?.colors.length,
+            patternCount: newPreset?.patterns.length
           }
         };
         break;
@@ -166,21 +166,21 @@ function main() {
         
         // Generate assets from each preset
         for (const [presetName, preset] of Object.entries(PixelGenPure.presets)) {
-          const demoAssets = PixelGenPure.generate(presetName, 42, 3);
-          demoResults.push({
+          const demoAssets = PixelGenPure?.generate(presetName, 42, 3);
+          demoResults?.push({
             preset: presetName,
             presetInfo: {
-              name: preset.name,
-              style: preset.style,
-              dimensions: `${preset.width}x${preset.height}`,
-              colors: preset.colors,
-              patterns: preset.patterns
+              name: preset?.name,
+              style: preset?.style,
+              dimensions: `${preset?.width}x${preset?.height}`,
+              colors: preset?.colors,
+              patterns: preset?.patterns
             },
-            generatedAssets: demoAssets.map((asset: any) => ({
-              id: asset.id,
-              style: asset.style,
-              anchor: asset.anchor,
-              metadata: asset.metadata
+            generatedAssets: demoAssets?.map((asset: any) => ({
+              id: asset?.id,
+              style: asset?.style,
+              anchor: asset?.anchor,
+              metadata: asset?.metadata
             }))
           });
         }
@@ -195,27 +195,27 @@ function main() {
           patterns: ['character', 'enemy', 'item', 'decoration']
         };
         
-        PixelGenPure.presets['custom_demo'] = customPreset;
-        const customAssets = PixelGenPure.generate('custom_demo', 999, 2);
+        PixelGenPure?.presets['custom_demo'] = customPreset;
+        const customAssets = PixelGenPure?.generate('custom_demo', 999, 2);
         
         result = {
           demo: {
             presetGenerations: demoResults,
             customPreset: {
               preset: customPreset,
-              generatedAssets: customAssets.map((asset: any) => ({
-                id: asset.id,
-                style: asset.style,
-                anchor: asset.anchor,
-                metadata: asset.metadata
+              generatedAssets: customAssets?.map((asset: any) => ({
+                id: asset?.id,
+                style: asset?.style,
+                anchor: asset?.anchor,
+                metadata: asset?.metadata
               }))
             },
             summary: {
               totalPresets: Object.keys(PixelGenPure.presets).length,
-              totalAssetsGenerated: demoResults.reduce((sum, r) => sum + r.generatedAssets.length, 0) + customAssets.length,
-              styles: [...new Set([...demoResults.map((r: any) => r.presetInfo.style), customPreset.style])],
-              averageDimensions: demoResults.length > 0 ? 
-                demoResults[0!].presetInfo.dimensions : 'unknown'
+              totalAssetsGenerated: demoResults?.reduce((sum, r) => sum + r?.generatedAssets.length, 0) + customAssets?.length,
+              styles: [...new Set([...demoResults?.map((r: any) => r?.presetInfo.style), customPreset?.style])],
+              averageDimensions: demoResults?.length > 0 ? 
+                demoResults[0!].presetInfo?.dimensions : 'unknown'
             }
           }
         };
@@ -247,14 +247,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: ${operation?.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv.indexOf('--format') + 1];
+    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv?.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -266,7 +266,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -282,13 +282,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main();
 }

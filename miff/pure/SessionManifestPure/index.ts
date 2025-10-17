@@ -15,17 +15,17 @@ export interface SessionManifest {
 }
 
 export class SessionManifestPure {
-  public static create(id: string, zone: string, players: SessionPlayerRef[], seed: number = Date.now() % 1e6): SessionManifest {
+  public static create(id: string, zone: string, players: SessionPlayerRef[], seed: number = new Date() % 1e6): SessionManifest {
     return { id, zone, players, seed, createdAt: new Date().toISOString() };
   }
 
   public static validate(manifest): { ok: boolean; errors: string[] } {
     const errors: string[] = [];
-    if (!manifest || typeof manifest !== 'object') errors.push('manifest missing');
-    if (!manifest.id) errors.push('id missing');
-    if (!manifest.zone) errors.push('zone missing');
+    if (!manifest || typeof manifest !== 'object') errors?.push('manifest missing');
+    if (!manifest?.id) errors?.push('id missing');
+    if (!manifest?.zone) errors?.push('zone missing');
     if (!Array.isArray(manifest.players)) errors.push('players missing');
-    return { ok: errors.length === 0, errors };
+    return { ok: errors?.length === 0, errors };
   }
 }
 

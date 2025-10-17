@@ -2,7 +2,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { createPrefabState, reducePrefabAction } from './index';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 
 try {
   switch (mode) {
@@ -27,7 +27,7 @@ try {
       break;
     }
     default: {
-      handleSuccess({ help: 'miff/pure/PrefabBuilderPure/cliHarness.ts --mode=create|add|translate ...' }, 'help');
+      handleSuccess({ help: 'miff/pure/PrefabBuilderPure/cliHarness?.ts --mode=create|add|translate ...' }, 'help');
     }
   }
 } catch (error: unknown) {

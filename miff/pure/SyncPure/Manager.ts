@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 // ============================================================================
 // SYNC MANAGER INTERFACES
@@ -41,7 +41,7 @@ export interface SyncData {
   timestamp: Date;
   data: any;
   checksum: string;
-  device.id: string;
+  device?.id: string;
   userId: string;
   isDeleted: boolean;
 }
@@ -113,10 +113,10 @@ export class SyncManager {
 
   constructor(config: SyncManagerConfig) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.eventBus = config.eventBus;
-    this.config = config.config;
-    this.integrations = config.integrations;
-    this.stats = {
+    this?.eventBus = config?.eventBus;
+    this?.config = config?.config;
+    this?.integrations = config?.integrations;
+    this?.stats = {
       totalSyncs: 0,
       successfulSyncs: 0,
       failedSyncs: 0,
@@ -126,56 +126,56 @@ export class SyncManager {
       averageSyncTime: 0
     };
 
-    this.initialize();
+    this?.initialize({});
   }
 
   /**
    * Initialize sync manager
    */
   private initialize(): void {
-    this.eventBus.subscribe('network:online', () => {
-      this.isOnline = true;
-      if (this.config.autoSync) {
-        this.sync();
+    this?.eventBus.subscribe('network:online', () => {
+      this?.isOnline = true;
+      if (this?.config.autoSync) {
+        this?.sync();
       }
     });
 
-    this.eventBus.subscribe('network:offline', () => {
-      this.isOnline = false;
+    this?.eventBus.subscribe('network:offline', () => {
+      this?.isOnline = false;
     });
 
     // Start auto-sync if enabled
-    if (this.config.autoSync) {
+    if (this?.config.autoSync) {
       setInterval(() => {
-        if (this.isOnline && !this.syncInProgress) {
-          this.sync();
+        if (this?.isOnline && !this?.syncInProgress) {
+          this?.sync();
         }
-      }, this.config.syncInterval);
+      }, this?.config.syncInterval);
     }
   }
 
   /**
    * Add data to sync
    */
-  addData(data: any, device.id: string, userId: string): string {
-    const id = this.generateId();
+  addData(data: any, device?.id: string, userId: string): string {
+    const id = this?.generateId();
     const syncData: SyncData = {
       id,
       version: 1,
       timestamp: new Date(),
       data,
-      checksum: this.calculateChecksum(data),
-      device.id,
+      checksum: this?.calculateChecksum(data: any),
+      device?.id,
       userId,
       isDeleted: false
     };
 
-    this.data.set(id, syncData);
-    this.eventBus.publish('sync:dataAdded', syncData);
+    this?.data.set(id, syncData);
+    this?.eventBus.publish('sync:dataAdded', syncData);
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onDataChanged?.(syncData);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onDataChanged?.(syncData);
     });
 
     return id;
@@ -184,27 +184,27 @@ export class SyncManager {
   /**
    * Update existing data
    */
-  updateData(id: string, data: any, device.id: string): boolean {
-    const existingData = this.data.get(id);
+  updateData(id: string, data: any, device?.id: string): boolean {
+    const existingData = this?.data.get(id);
     if (!existingData) {
       return false;
     }
 
     const updatedData: SyncData = {
       ...existingData,
-      version: existingData.version + 1,
+      version: existingData?.version + 1,
       timestamp: new Date(),
       data,
-      checksum: this.calculateChecksum(data),
-      device.id
+      checksum: this?.calculateChecksum(data: any),
+      device?.id
     };
 
-    this.data.set(id, updatedData);
-    this.eventBus.publish('sync:dataUpdated', updatedData);
+    this?.data.set(id, updatedData);
+    this?.eventBus.publish('sync:dataUpdated', updatedData);
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onDataChanged?.(updatedData);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onDataChanged?.(updatedData);
     });
 
     return true;
@@ -213,22 +213,22 @@ export class SyncManager {
   /**
    * Delete data
    */
-  deleteData(id: string, device.id: string): boolean {
-    const existingData = this.data.get(id);
+  deleteData(id: string, device?.id: string): boolean {
+    const existingData = this?.data.get(id);
     if (!existingData) {
       return false;
     }
 
     const deletedData: SyncData = {
       ...existingData,
-      version: existingData.version + 1,
+      version: existingData?.version + 1,
       timestamp: new Date(),
       isDeleted: true,
-      device.id
+      device?.id
     };
 
-    this.data.set(id, deletedData);
-    this.eventBus.publish('sync:dataDeleted', deletedData);
+    this?.data.set(id, deletedData);
+    this?.eventBus.publish('sync:dataDeleted', deletedData);
 
     return true;
   }
@@ -237,7 +237,7 @@ export class SyncManager {
    * Get data by ID
    */
   getData(id: string): SyncData | null {
-    return this.data.get(id) || null;
+    return this?.data.get(id) || null;
   }
 
   /**
@@ -251,47 +251,47 @@ export class SyncManager {
    * Sync data with remote server
    */
   async sync(): Promise<boolean> {
-    if (this.syncInProgress || !this.isOnline) {
+    if (this?.syncInProgress || !this?.isOnline) {
       return false;
     }
 
-    this.syncInProgress = true;
-    const startTime = Date.now();
+    this?.syncInProgress = true;
+    const startTime = new Date();
 
     try {
-      this.eventBus.publish('sync:start');
+      this?.eventBus.publish('sync:start');
       
       // Notify integrations
-      this.integrations.forEach((integration: any) => {
-        integration.callbacks.onSyncStart?.();
+      this?.integrations.forEach((integration: any) => {
+        integration?.callbacks.onSyncStart?.();
       });
 
       // Simulate sync process
-      await this.performSync();
+      await this?.performSync();
 
-      const endTime = Date.now();
+      const endTime = new Date();
       const syncTime = endTime - startTime;
 
-      this.stats.totalSyncs++;
-      this.stats.successfulSyncs++;
-      this.stats.lastSyncTime = Date.now();
-      this.stats.averageSyncTime = (this.stats.averageSyncTime + syncTime) / 2;
+      this?.stats.totalSyncs++;
+      this?.stats.successfulSyncs++;
+      this.stats.lastSyncTime = new Date();
+      this?.stats.averageSyncTime = (this?.stats.averageSyncTime + syncTime) / 2;
 
-      this.eventBus.publish('sync:complete', this.stats);
+      this?.eventBus.publish('sync:complete', this?.stats);
 
       // Notify integrations
-      this.integrations.forEach((integration: any) => {
-        integration.callbacks.onSyncComplete?.(this.stats);
+      this?.integrations.forEach((integration: any) => {
+        integration?.callbacks.onSyncComplete?.(this?.stats);
       });
 
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.stats.failedSyncs++;
-      this.eventBus.publish('sync:error', error);
+      this?.stats.failedSyncs++;
+      this?.eventBus.publish('sync:error', error);
       return false;
     } finally {
-      this.syncInProgress = false;
+      this?.syncInProgress = false;
     }
   }
 
@@ -303,9 +303,9 @@ export class SyncManager {
     await new Promise(resolve => setTimeout(resolve, 100));
 
     // Simulate conflict detection
-    const conflicts = this.detectConflicts();
-    if (conflicts.length > 0) {
-      await this.resolveConflicts(conflicts);
+    const conflicts = this?.detectConflicts();
+    if (conflicts?.length > 0) {
+      await this?.resolveConflicts(conflicts);
     }
   }
 
@@ -326,7 +326,7 @@ export class SyncManager {
    */
   private async resolveConflicts(conflicts: SyncConflict[]): Promise<void> {
     for (const conflict of conflicts) {
-      await this.resolveConflict(conflict);
+      await this?.resolveConflict(conflict);
     }
   }
 
@@ -336,32 +336,32 @@ export class SyncManager {
   private async resolveConflict(conflict: SyncConflict): Promise<void> {
     let resolvedData: SyncData;
 
-    switch (conflict.resolution) {
-      case ConflictResolution.LAST_WRITE_WINS:
-        resolvedData = conflict.localData.timestamp > conflict.remoteData.timestamp 
-          ? conflict.localData 
-          : conflict.remoteData;
+    switch (conflict?.resolution) {
+      case ConflictResolution?.LAST_WRITE_WINS:
+        resolvedData = conflict?.localData.timestamp > conflict?.remoteData.timestamp 
+          ? conflict?.localData 
+          : conflict?.remoteData;
         break;
-      case ConflictResolution.MERGE:
-        resolvedData = this.mergeData(conflict.localData, conflict.remoteData);
+      case ConflictResolution?.MERGE:
+        resolvedData = this?.mergeData(conflict?.localData, conflict?.remoteData);
         break;
-      case ConflictResolution.AUTOMATIC:
-        resolvedData = this.autoResolveConflict(conflict);
+      case ConflictResolution?.AUTOMATIC:
+        resolvedData = this?.autoResolveConflict(conflict);
         break;
       default:
         // Manual resolution - emit event for user intervention
-        this.eventBus.publish('sync:conflictDetected', conflict);
+        this?.eventBus.publish('sync:conflictDetected', conflict);
         return;
     }
 
-    conflict.resolvedData = resolvedData;
-    conflict.resolvedAt = Date.now();
-    this.conflicts.set(conflict.id, conflict);
-    this.stats.conflictsResolved++;
+    conflict?.resolvedData = resolvedData;
+    conflict.resolvedAt = new Date();
+    this?.conflicts.set(conflict?.id, conflict);
+    this?.stats.conflictsResolved++;
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onConflictDetected?.(conflict);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onConflictDetected?.(conflict);
     });
   }
 
@@ -372,7 +372,7 @@ export class SyncManager {
     // Simple merge strategy - in real implementation, this would be more sophisticated
     return {
       ...local,
-      data: { ...local.data, ...remote.data },
+      data: { ...local?.data, ...remote?.data },
       version: Math.max(local.version, remote.version) + 1,
       timestamp: new Date()
     };
@@ -383,15 +383,15 @@ export class SyncManager {
    */
   private autoResolveConflict(conflict: SyncConflict): SyncData {
     // Simple auto-resolution - prefer local data
-    return conflict.localData;
+    return conflict?.localData;
   }
 
   /**
    * Get sync statistics
    */
   getStats(): SyncStats {
-    const managerData = this.getStats();
-    return { ...this.stats };
+    const managerData = this?.getStats();
+    return { ...this?.stats };
   }
 
   /**
@@ -405,39 +405,39 @@ export class SyncManager {
    * Get sync status
    */
   getStatus(): SyncStatus {
-    if (!this.isOnline) {
-      return SyncStatus.OFFLINE;
+    if (!this?.isOnline) {
+      return SyncStatus?.OFFLINE;
     }
-    if (this.syncInProgress) {
-      return SyncStatus.PENDING;
+    if (this?.syncInProgress) {
+      return SyncStatus?.PENDING;
     }
-    if (this.conflicts.size > 0) {
-      return SyncStatus.CONFLICT;
+    if (this?.conflicts.size > 0) {
+      return SyncStatus?.CONFLICT;
     }
-    return SyncStatus.SYNCED;
+    return SyncStatus?.SYNCED;
   }
 
   /**
    * Update configuration
    */
   updateConfig(config: Partial<SyncConfig>): void {
-    this.config = { ...this.config, ...config };
+    this?.config = { ...this?.config, ...config };
   }
 
   /**
    * Add integration
    */
   addIntegration(integration: SyncIntegration): void {
-    this.integrations.push(integration);
+    this?.integrations?.push(integration);
   }
 
   /**
    * Remove integration
    */
   removeIntegration(systemId: string): boolean {
-    const index = this.integrations.findIndex(i => i.systemId === systemId);
+    const index = this?.integrations.findIndex(i => i?.systemId === systemId);
     if (index >= 0) {
-      this.integrations.splice(index, 1);
+      this?.integrations.splice(index, 1);
       return true;
     }
     return false;
@@ -453,26 +453,26 @@ export class SyncManager {
   /**
    * Calculate data checksum
    */
-  private calculateChecksum(data): string {
+  private calculateChecksum(data: any): string {
     // Simple checksum calculation
-    return JSON.stringify(data).length.toString();
+    return JSON.stringify(data: any).length.toString();
   }
 
   /**
    * Validate data integrity
    */
   validateData(data: SyncData): boolean {
-    const calculatedChecksum = this.calculateChecksum(data.data);
-    return calculatedChecksum === data.checksum;
+    const calculatedChecksum = this?.calculateChecksum(data?.data);
+    return calculatedChecksum === data?.checksum;
   }
 
   /**
    * Clear all data
    */
   clear(): void {
-    this.data.clear();
-    this.conflicts.clear();
-    this.stats = {
+    this?.data.clear();
+    this?.conflicts.clear();
+    this?.stats = {
       totalSyncs: 0,
       successfulSyncs: 0,
       failedSyncs: 0,
@@ -490,8 +490,8 @@ export class SyncManager {
     return {
       data: Array.from(this.data.values()),
       conflicts: Array.from(this.conflicts.values()),
-      stats: this.stats,
-      config: this.config
+      stats: this?.stats,
+      config: this?.config
     };
   }
 
@@ -499,17 +499,17 @@ export class SyncManager {
    * Import data
    */
   importData(exportedData: any): void {
-    if (exportedData.data) {
-      this.data = new Map(exportedData.data.map((d: SyncData) => [d.id, d]));
+    if (exportedData?.data) {
+      this?.data = new Map(exportedData?.data.map((d: SyncData) => [d?.id, d]));
     }
-    if (exportedData.conflicts) {
-      this.conflicts = new Map(exportedData.conflicts.map((c: SyncConflict) => [c.id, c]));
+    if (exportedData?.conflicts) {
+      this?.conflicts = new Map(exportedData?.conflicts.map((c: SyncConflict) => [c?.id, c]));
     }
-    if (exportedData.stats) {
-      this.stats = exportedData.stats;
+    if (exportedData?.stats) {
+      this?.stats = exportedData?.stats;
     }
-    if (exportedData.config) {
-      this.config = exportedData.config;
+    if (exportedData?.config) {
+      this?.config = exportedData?.config;
     }
   }
 }
@@ -522,7 +522,7 @@ export const defaultSyncManager = new SyncManager({
   config: {
     autoSync: true,
     syncInterval: 30000,
-    conflictResolution: ConflictResolution.LAST_WRITE_WINS,
+    conflictResolution: ConflictResolution?.LAST_WRITE_WINS,
     maxRetries: 3,
     batchSize: 100,
     compressionEnabled: true,

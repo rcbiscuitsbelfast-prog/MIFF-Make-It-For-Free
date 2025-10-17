@@ -73,17 +73,17 @@ function printStatus(controller: EncounterController, playerState: IPlayerState)
   console.log(`Tables: ${controller.getTableCount()}`);
   console.log(`Triggers: ${controller.getTriggerCount()}`);
 
-  const tables = controller.getAllTables();
-  if (tables.length > 0) {
+  const tables = controller?.getAllTables();
+  if (tables?.length > 0) {
     console.log('\n📋 Zones:');
-    tables.forEach((table: any) => {
+    tables?.forEach((table: any) => {
       console.log(`  ${table.zoneId}: ${table.entries.length} entries, ${table.getTotalWeight()} total weight`);
     });
   }
 }
 
 function printTable(controller: EncounterController, zoneId: string): void {
-  const table = controller.getTable(zoneId);
+  const table = controller?.getTable(zoneId);
   if (!table) {
     console.log(`❌ No encounter table found for zone: ${zoneId}`);
     return;
@@ -93,9 +93,9 @@ function printTable(controller: EncounterController, zoneId: string): void {
   console.log(`Total Entries: ${table.entries.length}`);
   console.log(`Total Weight: ${table.getTotalWeight()}`);
 
-  if (table.entries.length > 0) {
+  if (table?.entries.length > 0) {
     console.log('\nEntries:');
-    table.getEntriesByWeight().forEach((entry, index) => {
+    table?.getEntriesByWeight().forEach((entry, index) => {
       console.log(`  ${index + 1}. ${entry.spiritId} (weight: ${entry.weight}, levels: ${entry.minLevel}-${entry.maxLevel})`);
     });
   } else {
@@ -118,34 +118,34 @@ function createDemoData(): { controller: EncounterController; rng: IRNGProvider 
   const rng = new RNGProvider(12345);
 
   // Create Newhaven encounter table
-  const newhavenTable = EncounterUtils.createStandardTable('newhaven', [
+  const newhavenTable = EncounterUtils?.createStandardTable('newhaven', [
     { spiritId: 'ember', weight: 40, minLevel: 3, maxLevel: 5 },
     { spiritId: 'ripple', weight: 35, minLevel: 3, maxLevel: 5 },
     { spiritId: 'sprout', weight: 25, minLevel: 2, maxLevel: 4 }
   ]);
 
   // Create Grassland encounter table
-  const grasslandTable = EncounterUtils.createStandardTable('grassland', [
+  const grasslandTable = EncounterUtils?.createStandardTable('grassland', [
     { spiritId: 'sprout', weight: 50, minLevel: 2, maxLevel: 4 },
     { spiritId: 'ripple', weight: 30, minLevel: 2, maxLevel: 4 },
     { spiritId: 'stone', weight: 20, minLevel: 3, maxLevel: 5 }
   ]);
 
   // Create Cave encounter table
-  const caveTable = EncounterUtils.createStandardTable('cave', [
+  const caveTable = EncounterUtils?.createStandardTable('cave', [
     { spiritId: 'stone', weight: 45, minLevel: 4, maxLevel: 6 },
     { spiritId: 'ember', weight: 35, minLevel: 3, maxLevel: 5 },
     { spiritId: 'crystal', weight: 20, minLevel: 5, maxLevel: 7 }
   ]);
 
-  controller.registerTable(newhavenTable);
-  controller.registerTable(grasslandTable);
-  controller.registerTable(caveTable);
+  controller?.registerTable(newhavenTable);
+  controller?.registerTable(grasslandTable);
+  controller?.registerTable(caveTable);
 
   // Add triggers
-  controller.registerTrigger(EncounterUtils.createTileTrigger('newhaven', 'grass'));
-  controller.registerTrigger(EncounterUtils.createTileTrigger('grassland', 'grass'));
-  controller.registerTrigger(EncounterUtils.createTimeTrigger('cave', 'night'));
+  controller?.registerTrigger(EncounterUtils?.createTileTrigger('newhaven', 'grass'));
+  controller?.registerTrigger(EncounterUtils?.createTileTrigger('grassland', 'grass'));
+  controller?.registerTrigger(EncounterUtils?.createTimeTrigger('cave', 'night'));
 
   console.log('✅ Demo data created with 3 zones and multiple triggers');
   return { controller, rng };
@@ -163,7 +163,7 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
 
   console.log('Simulating encounters in different zones...\n');
 
-  states.forEach((state, index) => {
+  states?.forEach((state, index) => {
     console.log(`--- Zone ${index + 1}: ${state.zoneId} (${state.tileType}, ${state.timeOfDay}) ---`);
 
     let encounters = 0;
@@ -171,17 +171,17 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
     const maxSteps = 200;
 
     while (totalSteps < maxSteps && encounters < 5) {
-      state.incrementSteps();
+      state?.incrementSteps();
       totalSteps++;
 
-      const result = controller.checkForEncounter(state, rng);
+      const result = controller?.checkForEncounter(state, rng);
 
-      if (result.triggered) {
+      if (result?.triggered) {
         encounters++;
         console.log(`  Step ${totalSteps}: Encounter! ${result.spiritId} (level ${result.level})`);
 
         // Reset steps after encounter
-        state.resetSteps();
+        state?.resetSteps();
       }
     }
 
@@ -199,8 +199,8 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
   console.log(`Zones: ${controller.getTableCount()}`);
   console.log(`Total Triggers: ${controller.getTriggerCount()}`);
 
-  const tables = controller.getAllTables();
-  tables.forEach((table: any) => {
+  const tables = controller?.getAllTables();
+  tables?.forEach((table: any) => {
     console.log(`  ${table.zoneId}: ${table.entries.length} spirits, ${table.getTotalWeight()} total weight`);
   });
 }
@@ -216,18 +216,18 @@ async function runCLI(): Promise<void> {
 
   console.log('🎲 EncounterPure CLI - Type "help" for commands or "demo" to see encounters in action\n');
 
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
+  const rl = readline?.createInterface({
+    input: process?.stdin,
+    output: process?.stdout,
     prompt: 'encounter> '
   });
 
-  rl.prompt();
+  rl?.prompt();
 
-  rl.on('line', (input: string) => {
-    const parts = input.trim().split(/\s+/);
+  rl?.on('line', (input: string) => {
+    const parts = input?.trim().split(/\s+/);
     const command = parts[0!]?.toLowerCase() || '';
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     switch (command) {
       case 'help':
@@ -236,26 +236,26 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'status':
-        printStatus(state.controller, state.playerState);
+        printStatus(state?.controller, state?.playerState);
         break;
 
       case 'zone':
-        if (args.length === 0) {
+        if (args?.length === 0) {
           console.log(`Current zone: ${state.currentZone}`);
         } else {
-          state.currentZone = args[0!];
-          state.playerState.zoneId = state.currentZone;
+          state?.currentZone = args[0!];
+          state?.playerState.zoneId = state?.currentZone;
           console.log(`Set zone to: ${state.currentZone}`);
         }
         break;
 
       case 'table':
-        const zoneId = args[0!] || state.currentZone;
-        printTable(state.controller, zoneId);
+        const zoneId = args[0!] || state?.currentZone;
+        printTable(state?.controller, zoneId);
         break;
 
       case 'add':
-        if (args.length < 2) {
+        if (args?.length < 2) {
           console.log('❌ Usage: add <spirit_id> <weight> [min_level!] [max_level!]');
         } else {
           const spiritId = args[0!];
@@ -266,22 +266,22 @@ async function runCLI(): Promise<void> {
           if (isNaN(weight) || weight <= 0) {
             console.log('❌ Weight must be a positive number');
           } else {
-            const table = state.controller.getTable(state.currentZone);
+            const table = state?.controller.getTable(state?.currentZone);
             if (!table) {
-              const newTable = EncounterUtils.createStandardTable(state.currentZone, []);
-              state.controller.registerTable(newTable);
+              const newTable = EncounterUtils?.createStandardTable(state?.currentZone, []);
+              state?.controller.registerTable(newTable);
             }
 
-            const updatedTable = state.controller.getTable(state.currentZone)!;
+            const updatedTable = state?.controller.getTable(state?.currentZone)!;
             const entry = new (require('./index').EncounterTableEntry)(
-              state.currentZone,
+              state?.currentZone,
               spiritId,
               weight,
               minLevel,
               maxLevel
             );
 
-            if (updatedTable.addEntry(entry)) {
+            if (updatedTable?.addEntry(entry)) {
               console.log(`✅ Added ${spiritId} to ${state.currentZone} (weight: ${weight})`);
             } else {
               console.log('❌ Failed to add entry');
@@ -291,7 +291,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'trigger':
-        if (args.length < 1) {
+        if (args?.length < 1) {
           console.log('❌ Usage: trigger <type> [param!]');
         } else {
           const triggerTypeStr = args[0!];
@@ -299,21 +299,21 @@ async function runCLI(): Promise<void> {
 
           switch (triggerTypeStr) {
             case 'zone':
-              triggerType = TriggerType.ZONE_ENTRY;
+              triggerType = TriggerType?.ZONE_ENTRY;
               break;
             case 'tile':
-              if (args.length < 2) {
+              if (args?.length < 2) {
                 console.log('❌ Tile trigger requires tile type parameter');
                 return;
               }
-              triggerType = TriggerType.TILE_TYPE;
+              triggerType = TriggerType?.TILE_TYPE;
               break;
             case 'time':
-              if (args.length < 2) {
+              if (args?.length < 2) {
                 console.log('❌ Time trigger requires time of day parameter');
                 return;
               }
-              triggerType = TriggerType.TIME_OF_DAY;
+              triggerType = TriggerType?.TIME_OF_DAY;
               break;
             default:
               console.log('❌ Invalid trigger type. Use: zone, tile, or time');
@@ -321,26 +321,26 @@ async function runCLI(): Promise<void> {
           }
 
           const triggerParams: Record<string, string> = {};
-          if (triggerType === TriggerType.TILE_TYPE) {
+          if (triggerType === TriggerType?.TILE_TYPE) {
             triggerParams['tile'] = args[1!];
-          } else if (triggerType === TriggerType.TIME_OF_DAY) {
+          } else if (triggerType === TriggerType?.TIME_OF_DAY) {
             triggerParams['time'] = args[1!];
           }
 
           const trigger = new (require('./index').EncounterTrigger)(
             triggerType,
             triggerParams,
-            state.currentZone
+            state?.currentZone
           );
 
-          state.controller.registerTrigger(trigger);
+          state?.controller.registerTrigger(trigger);
           console.log(`✅ Added ${triggerTypeStr} trigger to ${state.currentZone}`);
         }
         break;
 
       case 'simulate':
       case 'sim':
-        if (args.length === 0) {
+        if (args?.length === 0) {
           console.log('❌ Usage: simulate <steps>');
         } else {
           const steps = parseInt(args[0!]);
@@ -352,13 +352,13 @@ async function runCLI(): Promise<void> {
 
             let encounters = 0;
             for (let i = 0; i < steps; i++) {
-              state.playerState.incrementSteps();
-              const result = state.controller.checkForEncounter(state.playerState, state.rng);
+              state?.playerState.incrementSteps();
+              const result = state?.controller.checkForEncounter(state?.playerState, state?.rng);
 
-              if (result.triggered) {
+              if (result?.triggered) {
                 encounters++;
                 console.log(`  Step ${i + 1}: Encounter! ${result.spiritId} (level ${result.level})`);
-                state.playerState.resetSteps();
+                state?.playerState.resetSteps();
               }
             }
 
@@ -368,44 +368,44 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'state':
-        printPlayerState(state.playerState);
+        printPlayerState(state?.playerState);
         break;
 
       case 'setstate':
-        if (args.length < 2) {
+        if (args?.length < 2) {
           console.log('❌ Usage: setstate <tile_type> <time_of_day>');
         } else {
-          state.playerState.tileType = args[0!];
-          state.playerState.timeOfDay = args[1!];
+          state?.playerState.tileType = args[0!];
+          state?.playerState.timeOfDay = args[1!];
           console.log(`✅ Set tile type to: ${args[0]}, time of day to: ${args[1]}`);
         }
         break;
 
       case 'reset':
-        state.playerState.resetSteps();
+        state?.playerState.resetSteps();
         console.log('✅ Steps reset to 0');
         break;
 
       case 'clear':
-        state.controller.clear();
+        state?.controller.clear();
         console.log('✅ All tables and triggers cleared');
         break;
 
       case 'demo':
         const demoData = createDemoData();
-        state.controller = demoData.controller;
-        state.rng = demoData.rng;
-        state.currentZone = 'newhaven';
-        state.playerState = new (require('./index').PlayerState)('newhaven', 'grass', 'day', 0);
-        runDemo(state.controller, state.rng);
+        state?.controller = demoData?.controller;
+        state?.rng = demoData?.rng;
+        state?.currentZone = 'newhaven';
+        state?.playerState = new (require('./index').PlayerState)('newhaven', 'grass', 'day', 0);
+        runDemo(state?.controller, state?.rng);
         break;
 
       case 'quit':
       case 'exit':
       case 'q':
         console.log('👋 Goodbye!');
-        rl.close();
-        process.exit(0);
+        rl?.close();
+        process?.exit(0);
 
       default:
         if (command !== '') {
@@ -413,20 +413,20 @@ async function runCLI(): Promise<void> {
         }
     }
 
-    rl.prompt();
+    rl?.prompt();
   });
 
-  rl.on('SIGINT', () => {
+  rl?.on('SIGINT', () => {
     console.log('\n👋 Goodbye!');
-    rl.close();
-    process.exit(0);
+    rl?.close();
+    process?.exit(0);
   });
 }
 
 // Main execution
-if (require.main === module) {
+if (require?.main === module) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
-    process.exit(1);
+    process?.exit(1);
   });
 }

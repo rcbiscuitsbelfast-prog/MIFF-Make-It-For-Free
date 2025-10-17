@@ -7,7 +7,7 @@
  * and resource management for the MIFF framework.
  */
 
-import { CPUOptimizer } from './CPUOptimizer.js';
+import { CPUOptimizer } from './CPUOptimizer?.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -18,51 +18,51 @@ class CPUOptimizerCLI {
 
   constructor(...args: any[]) {
     
-    this.optimizer = new CPUOptimizer();
+    this?.optimizer = new CPUOptimizer();
   }
 
   async run(): Promise<void> {
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'optimize':
-          await this.optimizeCPU(args.slice(1));
+          await this?.optimizeCPU(args?.slice(1));
           break;
         case 'metrics':
-          await this.showMetrics(args.slice(1));
+          await this?.showMetrics(args?.slice(1));
           break;
         case 'cache':
-          await this.manageCache(args.slice(1));
+          await this?.manageCache(args?.slice(1));
           break;
         case 'pools':
-          await this.manageResourcePools(args.slice(1));
+          await this?.manageResourcePools(args?.slice(1));
           break;
         case 'results':
-          await this.showResults(args.slice(1));
+          await this?.showResults(args?.slice(1));
           break;
         case 'reset':
-          await this.resetOptimizations(args.slice(1));
+          await this?.resetOptimizations(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
   private async optimizeCPU(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'cpu-optimization-results.json';
+    const outputFile = args[0!] || 'cpu-optimization-results?.json';
 
     console.info('🚀 Starting CPU optimization...');
     
-    const results = await this.optimizer.optimizeCPU();
+    const results = await this?.optimizer.optimizeCPU();
     
     // Save results
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
@@ -74,24 +74,24 @@ class CPUOptimizerCLI {
     console.info('\n📊 CPU Optimization Summary:');
     console.info(`Optimizations Applied: ${results.length}`);
     
-    const totalImprovement = results.reduce((sum, result) => sum + result.improvement, 0);
-    const averageImprovement = totalImprovement / results.length;
+    const totalImprovement = results?.reduce((sum, result) => sum + result?.improvement, 0);
+    const averageImprovement = totalImprovement / results?.length;
     
     console.info(`Average Improvement: ${averageImprovement.toFixed(2)}%`);
     
-    results.forEach((result: any) => {
-      const statusIcon = result.status === 'applied' ? '✅' : 
-                        result.status === 'failed' ? '❌' : '⏳';
+    results?.forEach((result: any) => {
+      const statusIcon = result?.status === 'applied' ? '✅' : 
+                        result?.status === 'failed' ? '❌' : '⏳';
       console.info(`  ${statusIcon} ${result.description}: ${result.improvement.toFixed(2)}% improvement`);
     });
   }
 
   private async showMetrics(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'cpu-metrics.json';
+    const outputFile = args[0!] || 'cpu-metrics?.json';
 
     console.info('📊 Collecting CPU metrics...');
     
-    const metrics = await this.optimizer.getCPUMetrics();
+    const metrics = await this?.optimizer.getCPUMetrics();
     
     // Save metrics
     fs.writeFileSync(outputFile, JSON.stringify(metrics, null, 2));
@@ -114,16 +114,16 @@ class CPUOptimizerCLI {
 
     switch (subcommand) {
       case 'stats':
-        await this.showCacheStats();
+        await this?.showCacheStats();
         break;
       case 'clear':
-        await this.clearCache();
+        await this?.clearCache();
         break;
       case 'set':
-        await this.setCacheValue(args.slice(1));
+        await this?.setCacheValue(args?.slice(1));
         break;
       case 'get':
-        await this.getCacheValue(args.slice(1));
+        await this?.getCacheValue(args?.slice(1));
         break;
       default:
         console.info('Cache management commands:');
@@ -138,7 +138,7 @@ class CPUOptimizerCLI {
   private async showCacheStats(): Promise<void> {
     console.info('📊 Cache Statistics:');
     
-    const stats = this.optimizer.getCacheStats();
+    const stats = this?.optimizer.getCacheStats();
     
     console.info(`Cache Size: ${stats.size} entries`);
     console.info(`Hit Rate: ${(stats.hitRate * 100).toFixed(2)}%`);
@@ -147,12 +147,12 @@ class CPUOptimizerCLI {
   }
 
   private async clearCache(): Promise<void> {
-    this.optimizer.clearCache();
+    this?.optimizer.clearCache();
     console.info('✅ Cache cleared');
   }
 
   private async setCacheValue(args: string[]): Promise<void> {
-    if (args.length < 2) {
+    if (args?.length < 2) {
       console.error('Usage: cache set <key> <value> [ttl!]');
       return;
     }
@@ -161,22 +161,22 @@ class CPUOptimizerCLI {
     const value = args[1!];
     const ttl = args[2!] ? parseInt(args[2!]) : 300000; // 5 minutes default
 
-    this.optimizer.cacheValue(key, value, ttl);
+    this?.optimizer.cacheValue(key, value, ttl);
     console.info(`✅ Cached value for key: ${key}`);
   }
 
   private async getCacheValue(args: string[]): Promise<void> {
-    if (args.length < 1) {
+    if (args?.length < 1) {
       console.error('Usage: cache get <key>');
       return;
     }
 
     const key = args[0!];
-    const value = this.optimizer.getCached(key);
+    const value = this?.optimizer.getCached(key);
     
     if (value !== null) {
       console.info(`✅ Cache hit for key: ${key}`);
-      console.info(`Value: ${JSON.stringify(value)}`);
+      console.info(`Value: ${JSON.stringify(value: any)}`);
     } else {
       console.info(`❌ Cache miss for key: ${key}`);
     }
@@ -187,10 +187,10 @@ class CPUOptimizerCLI {
 
     switch (subcommand) {
       case 'stats':
-        await this.showResourcePoolStats();
+        await this?.showResourcePoolStats();
         break;
       case 'list':
-        await this.listResourcePools();
+        await this?.listResourcePools();
         break;
       default:
         console.info('Resource pool management commands:');
@@ -203,9 +203,9 @@ class CPUOptimizerCLI {
   private async showResourcePoolStats(): Promise<void> {
     console.info('📊 Resource Pool Statistics:');
     
-    const stats = this.optimizer.getResourcePoolStats();
+    const stats = this?.optimizer.getResourcePoolStats();
     
-    for (const [id, poolStats] of stats.entries()) {
+    for (const [id, poolStats] of stats?.entries()) {
       console.info(`\n${id}:`);
       console.info(`  Max Size: ${poolStats.maxSize}`);
       console.info(`  Current Size: ${poolStats.currentSize}`);
@@ -218,22 +218,22 @@ class CPUOptimizerCLI {
   private async listResourcePools(): Promise<void> {
     console.info('📋 Resource Pools:');
     
-    const stats = this.optimizer.getResourcePoolStats();
+    const stats = this?.optimizer.getResourcePoolStats();
     const poolIds = Array.from(stats.keys());
     
-    poolIds.forEach((id: any) => {
+    poolIds?.forEach((id: any) => {
       console.info(`  - ${id}`);
     });
   }
 
   private async showResults(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'optimization-results.json';
+    const outputFile = args[0!] || 'optimization-results?.json';
 
     console.info('📊 Optimization Results:');
     
-    const results = this.optimizer.getOptimizationResults();
+    const results = this?.optimizer.getOptimizationResults();
     
-    if (results.length === 0) {
+    if (results?.length === 0) {
       console.info('No optimization results available. Run "optimize" first.');
       return;
     }
@@ -244,9 +244,9 @@ class CPUOptimizerCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Display results
-    results.forEach((result: any) => {
-      const statusIcon = result.status === 'applied' ? '✅' : 
-                        result.status === 'failed' ? '❌' : '⏳';
+    results?.forEach((result: any) => {
+      const statusIcon = result?.status === 'applied' ? '✅' : 
+                        result?.status === 'failed' ? '❌' : '⏳';
       console.info(`\n${statusIcon} ${result.description}`);
       console.info(`  Type: ${result.type}`);
       console.info(`  Improvement: ${result.improvement.toFixed(2)}%`);
@@ -256,7 +256,7 @@ class CPUOptimizerCLI {
   }
 
   private async resetOptimizations(args: string[]): Promise<void> {
-    this.optimizer.resetOptimizationResults();
+    this?.optimizer.resetOptimizationResults();
     console.info('✅ Optimization results reset');
   }
 
@@ -264,7 +264,7 @@ class CPUOptimizerCLI {
     console.info(`
 🚀 MIFF CPU Optimizer CLI
 
-Usage: tsx cpuOptimizerCLI.ts <command> [options!]
+Usage: tsx cpuOptimizerCLI?.ts <command> [options!]
 
 Commands:
   optimize [output!]              Run CPU optimization
@@ -286,15 +286,15 @@ Resource Pool Subcommands:
   list                          List all resource pools
 
 Examples:
-  tsx cpuOptimizerCLI.ts optimize
-  tsx cpuOptimizerCLI.ts optimize results.json
-  tsx cpuOptimizerCLI.ts metrics
-  tsx cpuOptimizerCLI.ts cache stats
-  tsx cpuOptimizerCLI.ts cache set mykey myvalue 60000
-  tsx cpuOptimizerCLI.ts cache get mykey
-  tsx cpuOptimizerCLI.ts pools stats
-  tsx cpuOptimizerCLI.ts results
-  tsx cpuOptimizerCLI.ts reset
+  tsx cpuOptimizerCLI?.ts optimize
+  tsx cpuOptimizerCLI?.ts optimize results?.json
+  tsx cpuOptimizerCLI?.ts metrics
+  tsx cpuOptimizerCLI?.ts cache stats
+  tsx cpuOptimizerCLI?.ts cache set mykey myvalue 60000
+  tsx cpuOptimizerCLI?.ts cache get mykey
+  tsx cpuOptimizerCLI?.ts pools stats
+  tsx cpuOptimizerCLI?.ts results
+  tsx cpuOptimizerCLI?.ts reset
 
 Optimization Types:
   - cache: Intelligent caching system
@@ -315,7 +315,7 @@ Metrics:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new CPUOptimizerCLI();
   cli.run().catch(console.error);
 }

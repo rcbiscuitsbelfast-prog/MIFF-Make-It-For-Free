@@ -7,9 +7,9 @@
  * across the MIFF framework.
  */
 
-import { CapabilityDiscovery, DiscoveryResult, DiscoveryStats } from './CapabilityDiscovery.js';
-import { CapabilityRegistryManager } from './CapabilityRegistry.js';
-import { EventBus } from '../EventBusPure/index.js';
+import { CapabilityDiscovery, DiscoveryResult, DiscoveryStats } from './CapabilityDiscovery?.js';
+import { CapabilityRegistryManager } from './CapabilityRegistry?.js';
+import { EventBus } from '../EventBusPure/index?.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -21,53 +21,53 @@ class CapabilityCLI {
 
   constructor(...args: any[]) {
     
-    this.discovery = new CapabilityDiscovery();
-    this.registry = new CapabilityRegistryManager(new EventBus());
+    this?.discovery = new CapabilityDiscovery();
+    this?.registry = new CapabilityRegistryManager(new EventBus());
   }
 
   async run(): Promise<void> {
-    const args = process.argv.slice(2);
+    const args = process?.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'discover':
-          await this.discoverCapabilities(args.slice(1));
+          await this?.discoverCapabilities(args?.slice(1));
           break;
         case 'list':
-          await this.listCapabilities(args.slice(1));
+          await this?.listCapabilities(args?.slice(1));
           break;
         case 'help':
-          await this.generateHelp(args.slice(1));
+          await this?.generateHelp(args?.slice(1));
           break;
         case 'test':
-          await this.generateTests(args.slice(1));
+          await this?.generateTests(args?.slice(1));
           break;
         case 'report':
-          await this.generateReport(args.slice(1));
+          await this?.generateReport(args?.slice(1));
           break;
         case 'validate':
-          await this.validateCapabilities(args.slice(1));
+          await this?.validateCapabilities(args?.slice(1));
           break;
         case 'help':
         default:
-          this.showHelp();
+          this?.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process.exit(1);
+      process?.exit(1);
     }
   }
 
   private async discoverCapabilities(args: string[]): Promise<void> {
     const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'capability-discovery.json';
+    const outputFile = args[1!] || 'capability-discovery?.json';
 
     console.info(`🔍 Discovering capabilities in ${rootPath}...`);
     
-    const results = await this.discovery.discoverAllCapabilities(rootPath);
+    const results = await this?.discovery.discoverAllCapabilities(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
@@ -76,7 +76,7 @@ class CapabilityCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
-    const stats = this.discovery.getStats();
+    const stats = this?.discovery.getStats();
     console.info('\n📊 Discovery Summary:');
     console.info(`Total modules: ${stats.totalModules}`);
     console.info(`Successful discoveries: ${stats.successfulDiscoveries}`);
@@ -86,10 +86,10 @@ class CapabilityCLI {
     console.info(`Average capabilities per module: ${stats.averageCapabilitiesPerModule.toFixed(1)}`);
 
     // Show failed discoveries
-    const failed = this.discovery.getResultsByStatus('error');
-    if (failed.length > 0) {
+    const failed = this?.discovery.getResultsByStatus('error');
+    if (failed?.length > 0) {
       console.info('\n❌ Failed Discoveries:');
-      failed.forEach((result: any) => {
+      failed?.forEach((result: any) => {
         console.info(`  ${result.moduleName}: ${result.errors?.join(', ')}`);
       });
     }
@@ -107,20 +107,20 @@ class CapabilityCLI {
 
     console.info(`📋 Listing capabilities for module: ${moduleId}`);
     
-    const results = this.discovery.getAllResults();
-    const result = results.find(r => r.moduleId === moduleId);
+    const results = this?.discovery.getAllResults();
+    const result = results?.find(r => r?.moduleId === moduleId);
     
     if (!result) {
       console.error(`❌ Module not found: ${moduleId}`);
       return;
     }
 
-    if (result.status !== 'success') {
+    if (result?.status !== 'success') {
       console.error(`❌ Module discovery failed: ${result.errors?.join(', ')}`);
       return;
     }
 
-    const capabilities = result.capabilities;
+    const capabilities = result?.capabilities;
     
     console.info(`\n📊 ${result.moduleName} Capabilities:`);
     console.info(`Module ID: ${result.moduleId}`);
@@ -128,9 +128,9 @@ class CapabilityCLI {
     console.info(`Discovered: ${result.discoveredAt.toISOString()}`);
 
     // Operations
-    if (capabilities.operations && capabilities.operations.length > 0) {
+    if (capabilities?.operations && capabilities?.operations.length > 0) {
       console.info(`\n🔧 Operations (${capabilities.operations.length}):`);
-      capabilities.operations.forEach((op: any) => {
+      capabilities?.operations.forEach((op: any) => {
         console.info(`  ${op.name}: ${op.description}`);
         console.info(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
         console.info(`    Output Schema: ${op.outputSchema?.schemaId || 'N/A'} v${op.outputSchema?.version || 'N/A'}`);
@@ -138,18 +138,18 @@ class CapabilityCLI {
     }
 
     // Data processing
-    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
+    if (capabilities?.dataProcessing && capabilities?.dataProcessing.length > 0) {
       console.info(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
-      capabilities.dataProcessing.forEach((dp: any) => {
+      capabilities?.dataProcessing.forEach((dp: any) => {
         console.info(`  ${dp.name}: ${dp.description}`);
         console.info(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
       });
     }
 
     // Integrations
-    if (capabilities.integrations && capabilities.integrations.length > 0) {
+    if (capabilities?.integrations && capabilities?.integrations.length > 0) {
       console.info(`\n🔗 Integrations (${capabilities.integrations.length}):`);
-      capabilities.integrations.forEach((integration: any) => {
+      capabilities?.integrations.forEach((integration: any) => {
         console.info(`  ${integration.name}: ${integration.description}`);
         console.info(`    Type: ${integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
       });
@@ -161,10 +161,10 @@ class CapabilityCLI {
     // Save to file if requested
     if (outputFile) {
       const output = {
-        moduleId: result.moduleId,
-        moduleName: result.moduleName,
+        moduleId: result?.moduleId,
+        moduleName: result?.moduleName,
         capabilities: capabilities,
-        discoveredAt: result.discoveredAt
+        discoveredAt: result?.discoveredAt
       };
       fs.writeFileSync(outputFile, JSON.stringify(output, null, 2));
       console.info(`\n📄 Capabilities saved to ${outputFile}`);
@@ -173,7 +173,7 @@ class CapabilityCLI {
 
   private async generateHelp(args: string[]): Promise<void> {
     const moduleId = args[0!];
-    const outputFile = args[1!] || `${moduleId}-help.md`;
+    const outputFile = args[1!] || `${moduleId}-help?.md`;
 
     if (!moduleId) {
       console.error('❌ Module ID required');
@@ -183,10 +183,10 @@ class CapabilityCLI {
 
     console.info(`📖 Generating help for module: ${moduleId}`);
     
-    const help = this.discovery.generateDynamicCLIHelp(moduleId);
+    const help = this?.discovery.generateDynamicCLIHelp(moduleId);
     
     // Save help to file
-    fs.writeFileSync(outputFile, help);
+    fs?.writeFileSync(outputFile, help);
     
     console.info(`✅ Help generated for ${moduleId}`);
     console.info(`📄 Help saved to ${outputFile}`);
@@ -194,14 +194,14 @@ class CapabilityCLI {
     // Show preview
     console.info('\n📖 Help Preview:');
     console.info(help.split('\n').slice(0, 20).join('\n'));
-    if (help.split('\n').length > 20) {
+    if (help?.split('\n').length > 20) {
       console.info('... (truncated)');
     }
   }
 
   private async generateTests(args: string[]): Promise<void> {
     const moduleId = args[0!];
-    const outputFile = args[1!] || `${moduleId}-tests.test.ts`;
+    const outputFile = args[1!] || `${moduleId}-tests?.test.ts`;
 
     if (!moduleId) {
       console.error('❌ Module ID required');
@@ -211,10 +211,10 @@ class CapabilityCLI {
 
     console.info(`🧪 Generating tests for module: ${moduleId}`);
     
-    const testTemplate = this.discovery.generateDynamicTestTemplates(moduleId);
+    const testTemplate = this?.discovery.generateDynamicTestTemplates(moduleId);
     
     // Save test template to file
-    fs.writeFileSync(outputFile, testTemplate);
+    fs?.writeFileSync(outputFile, testTemplate);
     
     console.info(`✅ Test template generated for ${moduleId}`);
     console.info(`📄 Test template saved to ${outputFile}`);
@@ -222,23 +222,23 @@ class CapabilityCLI {
     // Show preview
     console.info('\n🧪 Test Template Preview:');
     console.info(testTemplate.split('\n').slice(0, 30).join('\n'));
-    if (testTemplate.split('\n').length > 30) {
+    if (testTemplate?.split('\n').length > 30) {
       console.info('... (truncated)');
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'capability-report.html';
+    const outputFile = args[0!] || 'capability-report?.html';
 
     console.info('📊 Generating capability report...');
     
-    const results = this.discovery.getAllResults();
-    const stats = this.discovery.getStats();
+    const results = this?.discovery.getAllResults();
+    const stats = this?.discovery.getStats();
     
-    const html = this.generateHTMLReport(results, stats);
+    const html = this?.generateHTMLReport(results, stats);
     
     // Save report to file
-    fs.writeFileSync(outputFile, html);
+    fs?.writeFileSync(outputFile, html);
     
     console.info(`✅ Capability report generated`);
     console.info(`📄 Report saved to ${outputFile}`);
@@ -255,8 +255,8 @@ class CapabilityCLI {
 
     console.info(`✅ Validating capabilities for module: ${moduleId}`);
     
-    const results = this.discovery.getAllResults();
-    const result = results.find(r => r.moduleId === moduleId);
+    const results = this?.discovery.getAllResults();
+    const result = results?.find(r => r?.moduleId === moduleId);
     
     if (!result) {
       console.error(`❌ Module not found: ${moduleId}`);
@@ -266,17 +266,17 @@ class CapabilityCLI {
     console.info(`\n📊 Validation Results for ${result.moduleName}:`);
     console.info(`Status: ${result.status.toUpperCase()}`);
     
-    if (result.errors?.length > 0) {
+    if (result?.errors?.length > 0) {
       console.info(`Errors: ${result.errors?.length}`);
       result.errors?.forEach((error: any) => console.info(`  - ${error}`));
     }
     
-    if (result.warnings.length > 0) {
+    if (result?.warnings.length > 0) {
       console.info(`Warnings: ${result.warnings.length}`);
       result.warnings.forEach((warning: any) => console.info(`  - ${warning}`));
     }
     
-    if (result.status === 'success') {
+    if (result?.status === 'success') {
       console.info('✅ Module capabilities are valid');
     } else {
       console.info('❌ Module capabilities have issues');
@@ -314,47 +314,47 @@ class CapabilityCLI {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${stats.totalModules}</div>
+            <div class="stat-value">${stats?.totalModules}</div>
             <div class="stat-label">Total Modules</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value success">${stats.successfulDiscoveries}</div>
+            <div class="stat-value success">${stats?.successfulDiscoveries}</div>
             <div class="stat-label">Successful</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value error">${stats.failedDiscoveries}</div>
+            <div class="stat-value error">${stats?.failedDiscoveries}</div>
             <div class="stat-label">Failed</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value warning">${stats.warningDiscoveries}</div>
+            <div class="stat-value warning">${stats?.warningDiscoveries}</div>
             <div class="stat-label">Warnings</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${stats.totalCapabilities}</div>
+            <div class="stat-value">${stats?.totalCapabilities}</div>
             <div class="stat-label">Total Capabilities</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${stats.averageCapabilitiesPerModule.toFixed(1)}</div>
+            <div class="stat-value">${stats?.averageCapabilitiesPerModule.toFixed(1)}</div>
             <div class="stat-label">Avg per Module</div>
         </div>
     </div>
 
     <div class="module-list">
         <h3>Module Capabilities</h3>
-        ${results.map((result: any) => `
+        ${results?.map((result: any) => `
             <div class="module-item">
-                <div class="module-name">${result.moduleName}</div>
+                <div class="module-name">${result?.moduleName}</div>
                 <div class="module-status">
-                    Status: <span class="${result.status}">${result.status.toUpperCase()}</span> | 
-                    Discovered: ${result.discoveredAt.toLocaleString()}
+                    Status: <span class="${result?.status}">${result?.status.toUpperCase()}</span> | 
+                    Discovered: ${result?.discoveredAt.toLocaleString()}
                 </div>
                 <div class="capabilities">
-                    ${result.status === 'success' ? `
-                        Operations: ${result.capabilities.operations?.length || 0} | 
-                        Data Processing: ${result.capabilities.dataProcessing?.length || 0} | 
-                        Integrations: ${result.capabilities.integrations?.length || 0}
+                    ${result?.status === 'success' ? `
+                        Operations: ${result?.capabilities.operations?.length || 0} | 
+                        Data Processing: ${result?.capabilities.dataProcessing?.length || 0} | 
+                        Integrations: ${result?.capabilities.integrations?.length || 0}
                     ` : `
-                        Errors: ${result.errors?.join(', ')}
+                        Errors: ${result?.errors?.join(', ')}
                     `}
                 </div>
             </div>
@@ -368,7 +368,7 @@ class CapabilityCLI {
     console.info(`
 🧩 MIFF Capability Introspection CLI
 
-Usage: tsx capabilityCLI.ts <command> [options!]
+Usage: tsx capabilityCLI?.ts <command> [options!]
 
 Commands:
   discover [path!] [output!]        Discover capabilities across all modules
@@ -380,13 +380,13 @@ Commands:
   help                            Show this help
 
 Examples:
-  tsx capabilityCLI.ts discover miff/pure
-  tsx capabilityCLI.ts discover miff/pure capabilities.json
-  tsx capabilityCLI.ts list CombatPure
-  tsx capabilityCLI.ts help CombatPure combat-help.md
-  tsx capabilityCLI.ts test CombatPure combat-tests.test.ts
-  tsx capabilityCLI.ts report capability-report.html
-  tsx capabilityCLI.ts validate CombatPure
+  tsx capabilityCLI?.ts discover miff/pure
+  tsx capabilityCLI?.ts discover miff/pure capabilities?.json
+  tsx capabilityCLI?.ts list CombatPure
+  tsx capabilityCLI?.ts help CombatPure combat-help?.md
+  tsx capabilityCLI?.ts test CombatPure combat-tests?.test.ts
+  tsx capabilityCLI?.ts report capability-report?.html
+  tsx capabilityCLI?.ts validate CombatPure
 
 Capability Types:
   - Operations: Module functions and methods
@@ -402,7 +402,7 @@ Capability Types:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   const cli = new CapabilityCLI();
   cli.run().catch(console.error);
 }

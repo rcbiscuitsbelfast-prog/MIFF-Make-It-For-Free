@@ -30,35 +30,35 @@ describe('Enhanced Scenario Orchestration', () => {
     
     test(`${moduleName} scenario`, async () => {
       const fixture = loadFixtureForScenario(moduleName);
-      const cliPath = path.resolve(`miff/pure/${moduleName}/cliHarness.ts`);
+      const cliPath = path?.resolve(`miff/pure/${moduleName}/cliHarness?.ts`);
       
       const result = await runCLI(cliPath, []);
-      const parsedResult = JSON.parse(result);
+      const parsedResult = JSON.parse(result: any);
       
       // Validate runCLI returns proper format with full payload
       if (scenarioId === 'visual_replay') {
-        expect(parsedResult.op).toBe("replay");
-        expect(parsedResult.session).toBeDefined();
-        expect(parsedResult.frames).toBeDefined();
-        expect(parsedResult.statistics).toBeDefined();
+        expect(parsedResult?.op).toBe("replay");
+        expect(parsedResult?.session).toBeDefined();
+        expect(parsedResult?.frames).toBeDefined();
+        expect(parsedResult?.statistics).toBeDefined();
       } else if (scenarioId === 'toppler_physics_demo') {
-        expect(parsedResult.op).toBe("scenario");
-        expect(parsedResult.timeline).toBeDefined();
-        expect(parsedResult.issues).toBeDefined();
+        expect(parsedResult?.op).toBe("scenario");
+        expect(parsedResult?.timeline).toBeDefined();
+        expect(parsedResult?.issues).toBeDefined();
       } else {
-        expect(validationChecklist.runCLIReturnsValidFormat(parsedResult)).toBe(true);
-        expect(parsedResult.op).toBe("runScenario");
-        expect(parsedResult.finalState).toBeDefined();
-        expect(parsedResult.outputs).toBeDefined();
-        expect(parsedResult.logs).toBeDefined();
+        expect(validationChecklist?.runCLIReturnsValidFormat(parsedResult)).toBe(true);
+        expect(parsedResult?.op).toBe("runScenario");
+        expect(parsedResult?.finalState).toBeDefined();
+        expect(parsedResult?.outputs).toBeDefined();
+        expect(parsedResult?.logs).toBeDefined();
       }
-      expect(parsedResult.scenarioId).toBe(scenarioId);
+      expect(parsedResult?.scenarioId).toBe(scenarioId);
     });
   });
 
   test('VisualReplaySystemPure hook registration', () => {
     const mockSystem = {
-      on: jest.fn(),
+      on: jest?.fn(),
       hooks: [
         { name: 'player_sprite', type: 'sprite', id: 'player_sprite' },
         { name: 'block_sprite', type: 'sprite', id: 'block_sprite' }
@@ -68,15 +68,15 @@ describe('Enhanced Scenario Orchestration', () => {
     registerReplayHooks(mockSystem);
 
     // Verify hook registration logging
-    expect(mockSystem.on).toHaveBeenCalledWith("hookRegistered", expect.any(Function));
-    expect(mockSystem.on).toHaveBeenCalledWith("replayStart", expect.any(Function));
-    expect(mockSystem.on).toHaveBeenCalledWith("replayEnd", expect.any(Function));
-    expect(mockSystem.on).toHaveBeenCalledWith("hookError", expect.any(Function));
+    expect(mockSystem?.on).toHaveBeenCalledWith("hookRegistered", expect?.any(Function));
+    expect(mockSystem?.on).toHaveBeenCalledWith("replayStart", expect?.any(Function));
+    expect(mockSystem?.on).toHaveBeenCalledWith("replayEnd", expect?.any(Function));
+    expect(mockSystem?.on).toHaveBeenCalledWith("hookError", expect?.any(Function));
   });
 
   test('Unresolved hooks detection', () => {
     const mockSystem = {
-      on: jest.fn(),
+      on: jest?.fn(),
       hooks: [
         { name: 'player_sprite', type: 'sprite', id: 'player_sprite' },
         { name: '', type: 'sprite', id: 'incomplete_hook' }, // Incomplete hook
@@ -84,29 +84,29 @@ describe('Enhanced Scenario Orchestration', () => {
       ]
     };
 
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const consoleSpy = jest?.spyOn(console, 'warn').mockImplementation();
     
     registerReplayHooks(mockSystem);
     
     // Simulate replay start to trigger unresolved hook detection
-    const replayStartHandler = mockSystem.on.mock.calls.find(call => call[0] === "replayStart")[1!];
+    const replayStartHandler = mockSystem?.on.mock?.calls.find(call => call[0] === "replayStart")[1!];
     replayStartHandler();
 
     // Verify unresolved hooks warning was logged
     expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining('[ReplayHook!] Unresolved hooks:'),
-      expect.any(Array)
+      expect?.stringContaining('[ReplayHook!] Unresolved hooks:'),
+      expect?.any(Array)
     );
 
-    consoleSpy.mockRestore();
+    consoleSpy?.mockRestore();
   });
 
   test('Fixture injection validation', () => {
     const scenarios = ['TimeSystemPure', 'SpiritTamerDemoPure', 'WitcherExplorerDemoPure', 'QuestScenarioPure'];
     
-    scenarios.forEach(scenario => {
+    scenarios?.forEach(scenario => {
       const fixture = loadFixtureForScenario(scenario);
-      expect(validationChecklist.fixturesInjected(scenario)).toBe(true);
+      expect(validationChecklist?.fixturesInjected(scenario)).toBe(true);
       expect(fixture).toBeDefined();
       expect(typeof fixture).toBe('object');
     });
@@ -116,24 +116,24 @@ describe('Enhanced Scenario Orchestration', () => {
     const testCases = [
       {
         module: 'CombatCorePure',
-        expectedState: { entities: expect.any(Object), combatLog: expect.any(Array) }
+        expectedState: { entities: expect?.any(Object), combatLog: expect?.any(Array) }
       },
       {
         module: 'SkillTreePure', 
-        expectedState: { unlocked: expect.any(Array), available: expect.any(Array), progression: expect.any(Number) }
+        expectedState: { unlocked: expect?.any(Array), available: expect?.any(Array), progression: expect?.any(Number) }
       },
       {
         module: 'TimeSystemPure',
-        expectedState: { time: expect.any(Number), timers: expect.any(Array), cooldowns: expect.any(Array) }
+        expectedState: { time: expect?.any(Number), timers: expect?.any(Array), cooldowns: expect?.any(Array) }
       }
     ];
 
     for (const testCase of testCases) {
-      const cliPath = path.resolve(`miff/pure/${testCase.module}/cliHarness.ts`);
+      const cliPath = path?.resolve(`miff/pure/${testCase?.module}/cliHarness?.ts`);
       const result = await runCLI(cliPath, []);
-      const parsedResult = JSON.parse(result);
+      const parsedResult = JSON.parse(result: any);
       
-      expect(parsedResult.finalState).toMatchObject(testCase.expectedState);
+      expect(parsedResult?.finalState).toMatchObject(testCase?.expectedState);
     }
   });
 
@@ -141,66 +141,66 @@ describe('Enhanced Scenario Orchestration', () => {
     const testCases = [
       {
         module: 'CombatCorePure',
-        expectedOutputs: expect.arrayContaining([
-          expect.objectContaining({ op: 'list' }),
-          expect.objectContaining({ attackerId: 'hero' }),
-          expect.objectContaining({ op: 'dump' })
+        expectedOutputs: expect?.arrayContaining([
+          expect?.objectContaining({ op: 'list' }),
+          expect?.objectContaining({ attackerId: 'hero' }),
+          expect?.objectContaining({ op: 'dump' })
         ])
       },
       {
         module: 'SkillTreePure',
-        expectedOutputs: expect.arrayContaining([
-          expect.objectContaining({ op: 'list' }),
-          expect.objectContaining({ op: 'unlock' }),
-          expect.objectContaining({ op: 'dump' })
+        expectedOutputs: expect?.arrayContaining([
+          expect?.objectContaining({ op: 'list' }),
+          expect?.objectContaining({ op: 'unlock' }),
+          expect?.objectContaining({ op: 'dump' })
         ])
       }
     ];
 
     for (const testCase of testCases) {
-      const cliPath = path.resolve(`miff/pure/${testCase.module}/cliHarness.ts`);
+      const cliPath = path?.resolve(`miff/pure/${testCase?.module}/cliHarness?.ts`);
       const result = await runCLI(cliPath, []);
-      const parsedResult = JSON.parse(result);
+      const parsedResult = JSON.parse(result: any);
       
-      expect(parsedResult.outputs).toEqual(testCase.expectedOutputs);
+      expect(parsedResult?.outputs).toEqual(testCase?.expectedOutputs);
     }
   });
 
   test('Log collection and formatting', async () => {
-    const cliPath = path.resolve('miff/pure/CombatCorePure/cliHarness.ts');
+    const cliPath = path?.resolve('miff/pure/CombatCorePure/cliHarness?.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = JSON.parse(result: any);
     
-    expect(parsedResult.logs).toBeDefined();
+    expect(parsedResult?.logs).toBeDefined();
     expect(Array.isArray(parsedResult.logs)).toBe(true);
-    expect(parsedResult.logs.length).toBeGreaterThan(0);
+    expect(parsedResult?.logs.length).toBeGreaterThan(0);
     
     // Verify log format
-    parsedResult.logs.forEach((log: string) => {
+    parsedResult?.logs.forEach((log: string) => {
       expect(log).toMatch(/^\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\]/);
     });
   });
 
   test('Error handling for unknown scenarios', async () => {
-    const cliPath = path.resolve('miff/pure/UnknownModule/cliHarness.ts');
+    const cliPath = path?.resolve('miff/pure/UnknownModule/cliHarness?.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = JSON.parse(result: any);
     
     // Should fall back to demo mode
-    expect(parsedResult.op).toBe('demo');
-    expect(parsedResult.status).toBe('ok');
-    expect(parsedResult.data).toBeDefined();
+    expect(parsedResult?.op).toBe('demo');
+    expect(parsedResult?.status).toBe('ok');
+    expect(parsedResult?.data).toBeDefined();
   });
 
   test('Backward compatibility with existing mock responses', async () => {
-    const cliPath = path.resolve('miff/pure/TopplerDemoPure/cliHarness.ts');
+    const cliPath = path?.resolve('miff/pure/TopplerDemoPure/cliHarness?.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = JSON.parse(result: any);
     
     // Should return scenario format for TopplerDemoPure
-    expect(parsedResult.op).toBe('scenario');
-    expect(parsedResult.timeline).toBeDefined();
-    expect(parsedResult.issues).toBeDefined();
+    expect(parsedResult?.op).toBe('scenario');
+    expect(parsedResult?.timeline).toBeDefined();
+    expect(parsedResult?.issues).toBeDefined();
   });
 });
 
@@ -210,38 +210,38 @@ describe('Enhanced Scenario Orchestration', () => {
 describe('VisualReplaySystemPure Integration', () => {
   
   test('Complete replay session with all hooks', async () => {
-    const cliPath = path.resolve('miff/pure/VisualReplaySystemPure/cliHarness.ts');
+    const cliPath = path?.resolve('miff/pure/VisualReplaySystemPure/cliHarness?.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = JSON.parse(result: any);
     
     // Should return replay format
-    expect(parsedResult.op).toBe('replay');
-    expect(parsedResult.session).toBeDefined();
-    expect(parsedResult.frames).toBeDefined();
-    expect(parsedResult.statistics).toBeDefined();
+    expect(parsedResult?.op).toBe('replay');
+    expect(parsedResult?.session).toBeDefined();
+    expect(parsedResult?.frames).toBeDefined();
+    expect(parsedResult?.statistics).toBeDefined();
     
     // Verify session structure
-    expect(parsedResult.session.id).toMatch(/^replay_/);
-    expect(parsedResult.session.scenarioId).toBe('toppler_physics_demo');
-    expect(parsedResult.session.version).toBe('1.0.0');
-    expect(parsedResult.session.frameCount).toBe(3);
+    expect(parsedResult?.session.id).toMatch(/^replay_/);
+    expect(parsedResult?.session.scenarioId).toBe('toppler_physics_demo');
+    expect(parsedResult?.session.version).toBe('1.0.0');
+    expect(parsedResult?.session.frameCount).toBe(3);
     
     // Verify frames have visual hooks
-    expect(parsedResult.frames).toHaveLength(3);
-    parsedResult.frames.forEach((frame: any) => {
-      expect(frame.visualHooks).toBeDefined();
+    expect(parsedResult?.frames).toHaveLength(3);
+    parsedResult?.frames.forEach((frame: any) => {
+      expect(frame?.visualHooks).toBeDefined();
       expect(Array.isArray(frame.visualHooks)).toBe(true);
     });
     
     // Verify statistics
-    expect(parsedResult.statistics.totalFrames).toBe(3);
-    expect(parsedResult.statistics.duration).toBe(32);
-    expect(parsedResult.statistics.frameRate).toBe(60);
+    expect(parsedResult?.statistics.totalFrames).toBe(3);
+    expect(parsedResult?.statistics.duration).toBe(32);
+    expect(parsedResult?.statistics.frameRate).toBe(60);
   });
 
   test('Hook registration with complete system', () => {
     const mockSystem = {
-      on: jest.fn(),
+      on: jest?.fn(),
       hooks: [
         { name: 'player_sprite', type: 'sprite', id: 'player_sprite' },
         { name: 'block_sprite', type: 'sprite', id: 'block_sprite' },
@@ -250,13 +250,13 @@ describe('VisualReplaySystemPure Integration', () => {
       ]
     };
 
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    const consoleSpy = jest?.spyOn(console, 'log').mockImplementation();
     
     registerReplayHooks(mockSystem);
     
     // Simulate hook registration
-    const hookRegisteredHandler = mockSystem.on.mock.calls.find(call => call[0] === "hookRegistered")[1!];
-    mockSystem.hooks.forEach(hook => hookRegisteredHandler(hook));
+    const hookRegisteredHandler = mockSystem?.on.mock?.calls.find(call => call[0] === "hookRegistered")[1!];
+    mockSystem?.hooks.forEach(hook => hookRegisteredHandler(hook));
 
     // Verify all hooks were logged
     expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: player_sprite');
@@ -264,7 +264,7 @@ describe('VisualReplaySystemPure Integration', () => {
     expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: jump_sound');
     expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: jump_particles');
 
-    consoleSpy.mockRestore();
+    consoleSpy?.mockRestore();
   });
 });
 
@@ -281,38 +281,38 @@ describe('Performance and Reliability', () => {
       'VisualReplaySystemPure'
     ];
 
-    const promises = scenarios.map(scenario => {
-      const cliPath = path.resolve(`miff/pure/${scenario}/cliHarness.ts`);
+    const promises = scenarios?.map(scenario => {
+      const cliPath = path?.resolve(`miff/pure/${scenario}/cliHarness?.ts`);
       return runCLI(cliPath, []);
     });
 
-    const results = await Promise.all(promises);
+    const results = await Promise?.all(promises);
     
     // All scenarios should complete successfully
-    results.forEach(result => {
-      const parsed = JSON.parse(result);
-      expect(parsed.status).toBe('ok');
+    results?.forEach(result => {
+      const parsed = JSON.parse(result: any);
+      expect(parsed?.status).toBe('ok');
     });
   });
 
   test('Memory usage with large scenarios', async () => {
-    const cliPath = path.resolve('miff/pure/VisualReplaySystemPure/cliHarness.ts');
+    const cliPath = path?.resolve('miff/pure/VisualReplaySystemPure/cliHarness?.ts');
     
     // Run multiple times to test memory stability
     for (let i = 0; i < 10; i++) {
       const result = await runCLI(cliPath, []);
-      const parsed = JSON.parse(result);
-      expect(parsed.op).toBe('replay');
+      const parsed = JSON.parse(result: any);
+      expect(parsed?.op).toBe('replay');
     }
   });
 
   test('Error recovery and graceful degradation', async () => {
     // Test with invalid path
-    const result = await runCLI('/invalid/path/cliHarness.ts', []);
-    const parsed = JSON.parse(result);
+    const result = await runCLI('/invalid/path/cliHarness?.ts', []);
+    const parsed = JSON.parse(result: any);
     
-    expect(parsed.op).toBe('error');
-    expect(parsed.status).toBe('error');
-    expect(parsed.error).toBeDefined();
+    expect(parsed?.op).toBe('error');
+    expect(parsed?.status).toBe('error');
+    expect(parsed?.error).toBeDefined();
   });
 });

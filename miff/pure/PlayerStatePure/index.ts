@@ -24,10 +24,10 @@ export type PlayerAction =
 export function createPlayerState(): PlayerState { return { pos: { x: 0, y: 0 }, vel: { x: 0, y: 0 }, facing: 'down', anim: 'idle' }; }
 
 export function reducePlayer(state: PlayerState, action: PlayerAction, cfg: PlayerConfig): PlayerState {
-  switch (action.type) {
+  switch (action?.type) {
     case 'move': {
-      const vx = clamp(action.dir.x, -1, 1) * cfg.speed;
-      const vy = clamp(action.dir.y, -1, 1) * cfg.speed;
+      const vx = clamp(action?.dir.x, -1, 1) * cfg?.speed;
+      const vy = clamp(action?.dir.y, -1, 1) * cfg?.speed;
       const facing: Facing = Math.abs(vx) > Math.abs(vy) ? (vx >= 0 ? 'right':'left') : (vy >= 0 ? 'down':'up');
       return { ...state, vel: { x: vx, y: vy }, anim: 'walk', facing };
     }
@@ -35,13 +35,13 @@ export function reducePlayer(state: PlayerState, action: PlayerAction, cfg: Play
       return { ...state, vel: { x: 0, y: 0 }, anim: 'idle' };
     }
     case 'tick': {
-      const nx = state.pos.x + state.vel.x * action.dt;
-      const ny = state.pos.y + state.vel.y * action.dt;
+      const nx = state?.pos.x + state?.vel.x * action?.dt;
+      const ny = state?.pos.y + state?.vel.y * action?.dt;
       const anim = (Math.abs(state.vel.x) + Math.abs(state.vel.y)) > 0 ? 'walk' : (state.anim === 'interact' ? 'interact' : 'idle');
       return { ...state, pos: { x: nx, y: ny }, anim };
     }
     case 'interact': {
-      return { ...state, anim: 'interact', interactable: action.target };
+      return { ...state, anim: 'interact', interactable: action?.target };
     }
     default:
       return state;
@@ -104,13 +104,13 @@ export class PlayerStatePure {
   public static simulate(state: PlayerStateSnapshot, dt: number): PlayerStateSnapshot {
     const next: PlayerStateSnapshot = JSON.parse(JSON.stringify(state));
     const speed = 120; // px/s
-    const vx = (next.input.left ? -1 : 0) + (next.input.right ? 1 : 0);
-    const vy = (next.input.up ? -1 : 0) + (next.input.down ? 1 : 0);
-    next.velocity.x = vx * speed;
-    next.velocity.y = vy * speed;
-    next.position.x += next.velocity.x * dt;
-    next.position.y += next.velocity.y * dt;
-    next.tick += 1;
+    const vx = (next?.input.left ? -1 : 0) + (next?.input.right ? 1 : 0);
+    const vy = (next?.input.up ? -1 : 0) + (next?.input.down ? 1 : 0);
+    next?.velocity.x = vx * speed;
+    next?.velocity.y = vy * speed;
+    next?.position.x += next?.velocity.x * dt;
+    next?.position.y += next?.velocity.y * dt;
+    next?.tick += 1;
     return next;
   }
 

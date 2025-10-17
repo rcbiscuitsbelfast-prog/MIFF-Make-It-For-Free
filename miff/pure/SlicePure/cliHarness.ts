@@ -23,7 +23,7 @@ import {
 
 // CLI Application
 class SlicePureCLI {
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
   private currentState: PlayerState;
   private encounterController: IEncounterController;
   private rng: RNGProvider;
@@ -31,21 +31,21 @@ class SlicePureCLI {
   private encounterCount: number = 0;
 
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout
     });
 
-    this.currentState = SliceUtils.createDemoPlayerState();
-    this.encounterController = this.createDemoEncounterController();
-    this.rng = new RNGProvider();
+    this?.currentState = SliceUtils?.createDemoPlayerState();
+    this?.encounterController = this?.createDemoEncounterController();
+    this?.rng = new RNGProvider();
   }
 
   /**
    * Create demo encounter controller
    */
   private createDemoEncounterController(): IEncounterController {
-    const encounterTable = SliceUtils.createDemoEncounterTable();
+    const encounterTable = SliceUtils?.createDemoEncounterTable();
 
     return {
       registerTable: (table: EncounterTable) => {
@@ -58,33 +58,33 @@ class SlicePureCLI {
 
       checkForEncounter: (state: PlayerState, rng: RNGProvider) => {
         // Simple encounter logic based on step count and random chance
-        const encounterRate = SliceUtils.calculateEncounterProbability(state, 0.15); // 15% base rate
+        const encounterRate = SliceUtils?.calculateEncounterProbability(state, 0.15); // 15% base rate
 
-        if (rng.nextFloat() < encounterRate) {
+        if (rng?.nextFloat() < encounterRate) {
           // Random encounter
-          const spiritId = rng.choose(['ember', 'ripple', 'sprout', 'chill', 'zap']);
-          const level = rng.nextInt(3, 8);
+          const spiritId = rng?.choose(['ember', 'ripple', 'sprout', 'chill', 'zap']);
+          const level = rng?.nextInt(3, 8);
 
-          return EncounterResult.triggered(
-            state.zoneId,
+          return EncounterResult?.triggered(
+            state?.zoneId,
             spiritId,
             level,
             {
-              zoneId: state.zoneId,
+              zoneId: state?.zoneId,
               spiritId: spiritId,
               weight: 30,
               minLevel: 3,
               maxLevel: 8
             } as any,
-            rng.nextInt(5, 15) // Steps until next encounter
+            rng?.nextInt(5, 15) // Steps until next encounter
           );
         }
 
-        return EncounterResult.notTriggered();
+        return EncounterResult?.notTriggered();
       },
 
       getEncounterRate: (zoneId: string, state: PlayerState) => {
-        return SliceUtils.calculateEncounterProbability(state, 0.15);
+        return SliceUtils?.calculateEncounterProbability(state, 0.15);
       },
 
       getAvailableSpirits: (zoneId: string) => {
@@ -130,16 +130,16 @@ class SlicePureCLI {
     console.log('🎮 Try "demo" for an automated demonstration!');
     console.log('');
 
-    this.showStatus();
-    this.showPrompt();
+    this?.showStatus();
+    this?.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this.rl.question('SlicePure> ', (input) => {
-      this.processCommand(input.trim());
+    this?.rl.question('SlicePure> ', (input) => {
+      this?.processCommand(input?.trim());
     });
   }
 
@@ -148,56 +148,56 @@ class SlicePureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this.showPrompt();
+      this?.showPrompt();
       return;
     }
 
-    const parts = input.split(' ');
+    const parts = input?.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this.showHelp();
+          this?.showHelp();
           break;
         case 'roam':
         case 'r':
           const steps = args[0!] ? parseInt(args[0!]) : 10;
-          await this.roamSteps(steps);
+          await this?.roamSteps(steps);
           break;
         case 'battle':
         case 'b':
-          this.triggerBattle();
+          this?.triggerBattle();
           break;
         case 'status':
         case 's':
-          this.showStatus();
+          this?.showStatus();
           break;
         case 'move':
         case 'm':
-          this.movePlayer(args[0!]);
+          this?.movePlayer(args[0!]);
           break;
         case 'time':
         case 't':
-          this.setTimeOfDay(args[0!]);
+          this?.setTimeOfDay(args[0!]);
           break;
         case 'weather':
         case 'w':
-          this.setWeather(args[0!]);
+          this?.setWeather(args[0!]);
           break;
         case 'reset':
-          this.resetState();
+          this?.resetState();
           break;
         case 'demo':
         case 'd':
-          await this.runDemo();
+          await this?.runDemo();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this.exit();
+          this?.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -208,7 +208,7 @@ class SlicePureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
@@ -245,22 +245,22 @@ class SlicePureCLI {
     let encounters = 0;
 
     for (let i = 1; i <= steps; i++) {
-      this.stepCount++;
+      this?.stepCount++;
 
       // Simulate step
-      const stepResult = SliceUtils.simulateOverworldStep(this.currentState, this.rng);
+      const stepResult = SliceUtils?.simulateOverworldStep(this?.currentState, this?.rng);
 
       // Check for encounter
-      const encounterResult = this.encounterController.checkForEncounter(stepResult.state, this.rng);
+      const encounterResult = this?.encounterController.checkForEncounter(stepResult?.state, this?.rng);
 
       // Display step info
-      if (i % 5 === 0 || encounterResult.triggered) {
+      if (i % 5 === 0 || encounterResult?.triggered) {
         console.log(`🚶 Step ${i}: (${stepResult.state.position.x}, ${stepResult.state.position.y})`);
       }
 
-      if (encounterResult.triggered) {
+      if (encounterResult?.triggered) {
         encounters++;
-        this.encounterCount++;
+        this?.encounterCount++;
         console.log('');
         console.log('🎯 ENCOUNTER TRIGGERED! 🎯');
         console.log(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
@@ -281,7 +281,7 @@ class SlicePureCLI {
       }
 
       // Update current state
-      this.currentState = stepResult.state;
+      this?.currentState = stepResult?.state;
     }
 
     console.log('='.repeat(60));
@@ -300,20 +300,20 @@ class SlicePureCLI {
     console.log('='.repeat(50));
 
     // Create player spirit
-    const playerSpirit = this.createDemoPlayerSpirit();
+    const playerSpirit = this?.createDemoPlayerSpirit();
 
     // Generate random wild spirit
     const wildSpirits = ['ember', 'ripple', 'sprout', 'chill', 'zap', 'aero'];
-    const wildSpiritId = this.rng.choose(wildSpirits);
-    const wildLevel = this.rng.nextInt(3, 8);
-    const wildSpirit = this.createDemoWildSpirit(wildSpiritId, wildLevel);
+    const wildSpiritId = this?.rng.choose(wildSpirits);
+    const wildLevel = this?.rng.nextInt(3, 8);
+    const wildSpirit = this?.createDemoWildSpirit(wildSpiritId, wildLevel);
 
     console.log(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
     console.log(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
     console.log('');
 
     // Simulate battle
-    this.simulateBattle(playerSpirit, wildSpirit);
+    this?.simulateBattle(playerSpirit, wildSpirit);
 
     console.log('='.repeat(50));
     console.log('🏁 Battle complete!');
@@ -329,29 +329,29 @@ class SlicePureCLI {
     let turn = 1;
     const maxTurns = 20; // Prevent infinite battles
 
-    while (playerSpirit.isAlive() && wildSpirit.isAlive() && turn <= maxTurns) {
+    while (playerSpirit?.isAlive() && wildSpirit?.isAlive() && turn <= maxTurns) {
       console.log(`🔄 Turn ${turn}:`);
 
       // Player attacks first
-      const playerDamage = this.calculateDamage(playerSpirit, wildSpirit);
-      wildSpirit.takeDamage(playerDamage);
+      const playerDamage = this?.calculateDamage(playerSpirit, wildSpirit);
+      wildSpirit?.takeDamage(playerDamage);
 
       console.log(`  ${playerSpirit.name} attacks for ${playerDamage} damage!`);
       console.log(`  ${wildSpirit.name}: ${wildSpirit.currentHp}/${wildSpirit.maxHp} HP remaining`);
 
-      if (!wildSpirit.isAlive()) {
+      if (!wildSpirit?.isAlive()) {
         console.log(`  ${wildSpirit.name} fainted!`);
         break;
       }
 
       // Wild spirit attacks
-      const wildDamage = this.calculateDamage(wildSpirit, playerSpirit);
-      playerSpirit.takeDamage(wildDamage);
+      const wildDamage = this?.calculateDamage(wildSpirit, playerSpirit);
+      playerSpirit?.takeDamage(wildDamage);
 
       console.log(`  ${wildSpirit.name} attacks for ${wildDamage} damage!`);
       console.log(`  ${playerSpirit.name}: ${playerSpirit.currentHp}/${playerSpirit.maxHp} HP remaining`);
 
-      if (!playerSpirit.isAlive()) {
+      if (!playerSpirit?.isAlive()) {
         console.log(`  ${playerSpirit.name} fainted!`);
         break;
       }
@@ -361,8 +361,8 @@ class SlicePureCLI {
     }
 
     // Determine winner
-    const winner = playerSpirit.isAlive() ? playerSpirit : wildSpirit;
-    const loser = playerSpirit.isAlive() ? wildSpirit : playerSpirit;
+    const winner = playerSpirit?.isAlive() ? playerSpirit : wildSpirit;
+    const loser = playerSpirit?.isAlive() ? wildSpirit : playerSpirit;
 
     console.log('');
     console.log('🏆 BATTLE RESULT:');
@@ -371,8 +371,8 @@ class SlicePureCLI {
     console.log(`  Turns: ${turn}`);
 
     // Calculate rewards
-    const experienceGained = loser.level * 15;
-    const goldGained = loser.level * 25;
+    const experienceGained = loser?.level * 15;
+    const goldGained = loser?.level * 25;
     const syncGained = Math.floor(turn * 3.5);
 
     console.log('');
@@ -387,9 +387,9 @@ class SlicePureCLI {
    * Calculate damage between spirits
    */
   private calculateDamage(attacker: ISpiritInstance, defender: ISpiritInstance): number {
-    const baseDamage = attacker.attack;
-    const defense = defender.defense;
-    const randomFactor = 0.8 + this.rng.nextFloat() * 0.4; // 0.8 to 1.2
+    const baseDamage = attacker?.attack;
+    const defense = defender?.defense;
+    const randomFactor = 0.8 + this?.rng.nextFloat() * 0.4; // 0.8 to 1.2
 
     // Simple damage calculation
     const damage = Math.max(1, Math.floor((baseDamage * randomFactor) - (defense * 0.5)));
@@ -406,28 +406,28 @@ class SlicePureCLI {
       return;
     }
 
-    const dir = direction.toLowerCase();
+    const dir = direction?.toLowerCase();
     let moved = false;
 
     switch (dir) {
       case 'n':
       case 'north':
-        this.currentState.position.y++;
+        this?.currentState.position.y++;
         moved = true;
         break;
       case 's':
       case 'south':
-        this.currentState.position.y--;
+        this?.currentState.position.y--;
         moved = true;
         break;
       case 'e':
       case 'east':
-        this.currentState.position.x++;
+        this?.currentState.position.x++;
         moved = true;
         break;
       case 'w':
       case 'west':
-        this.currentState.position.x--;
+        this?.currentState.position.x--;
         moved = true;
         break;
       default:
@@ -436,14 +436,14 @@ class SlicePureCLI {
     }
 
     if (moved) {
-      this.currentState.stepsSinceLastEncounter++;
-      this.stepCount++;
+      this?.currentState.stepsSinceLastEncounter++;
+      this?.stepCount++;
       console.log(`🚶 Moved ${dir.toUpperCase()} to (${this.currentState.position.x}, ${this.currentState.position.y})`);
       console.log(`📊 Steps since last encounter: ${this.currentState.stepsSinceLastEncounter}`);
 
       // Check for encounter after movement
-      const encounterResult = this.encounterController.checkForEncounter(this.currentState, this.rng);
-      if (encounterResult.triggered) {
+      const encounterResult = this?.encounterController.checkForEncounter(this?.currentState, this?.rng);
+      if (encounterResult?.triggered) {
         console.log('');
         console.log('🎯 ENCOUNTER TRIGGERED! 🎯');
         console.log(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
@@ -461,22 +461,22 @@ class SlicePureCLI {
       return;
     }
 
-    const time = timeStr.toLowerCase();
+    const time = timeStr?.toLowerCase();
     switch (time) {
       case 'dawn':
-        this.currentState.setTimeOfDay(TimeOfDay.DAWN);
+        this?.currentState.setTimeOfDay(TimeOfDay?.DAWN);
         console.log('🌅 Set time to DAWN');
         break;
       case 'day':
-        this.currentState.setTimeOfDay(TimeOfDay.DAY);
+        this?.currentState.setTimeOfDay(TimeOfDay?.DAY);
         console.log('☀️ Set time to DAY');
         break;
       case 'dusk':
-        this.currentState.setTimeOfDay(TimeOfDay.DUSK);
+        this?.currentState.setTimeOfDay(TimeOfDay?.DUSK);
         console.log('🌇 Set time to DUSK');
         break;
       case 'night':
-        this.currentState.setTimeOfDay(TimeOfDay.NIGHT);
+        this?.currentState.setTimeOfDay(TimeOfDay?.NIGHT);
         console.log('🌙 Set time to NIGHT');
         break;
       default:
@@ -494,8 +494,8 @@ class SlicePureCLI {
       return;
     }
 
-    const weather = weatherStr.toLowerCase();
-    this.currentState.setWeather(weather);
+    const weather = weatherStr?.toLowerCase();
+    this?.currentState.setWeather(weather);
     console.log(`🌤️ Set weather to ${weather.toUpperCase()}`);
   }
 
@@ -524,12 +524,12 @@ class SlicePureCLI {
    * Reset player state
    */
   private resetState(): void {
-    this.currentState = SliceUtils.createDemoPlayerState();
-    this.stepCount = 0;
-    this.encounterCount = 0;
-    this.rng = new RNGProvider();
+    this?.currentState = SliceUtils?.createDemoPlayerState();
+    this?.stepCount = 0;
+    this?.encounterCount = 0;
+    this?.rng = new RNGProvider();
     console.log('🔄 Reset to initial state');
-    this.showStatus();
+    this?.showStatus();
   }
 
   /**
@@ -546,30 +546,30 @@ class SlicePureCLI {
       console.log(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
 
       // Simulate step
-      const stepResult = SliceUtils.simulateOverworldStep(this.currentState, this.rng);
-      this.currentState = stepResult.state;
+      const stepResult = SliceUtils?.simulateOverworldStep(this?.currentState, this?.rng);
+      this?.currentState = stepResult?.state;
 
       // Check for encounter
-      const encounterResult = this.encounterController.checkForEncounter(this.currentState, this.rng);
+      const encounterResult = this?.encounterController.checkForEncounter(this?.currentState, this?.rng);
 
-      if (encounterResult.triggered) {
+      if (encounterResult?.triggered) {
         console.log('');
         console.log('🎯 ENCOUNTER! 🎯');
         console.log(`👻 ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
         console.log('');
 
         // Simulate battle
-        const playerSpirit = this.createDemoPlayerSpirit();
-        const wildSpirit = this.createDemoWildSpirit(encounterResult.spiritId!, encounterResult.level!);
+        const playerSpirit = this?.createDemoPlayerSpirit();
+        const wildSpirit = this?.createDemoWildSpirit(encounterResult?.spiritId!, encounterResult?.level!);
 
-        this.simulateBattle(playerSpirit, wildSpirit);
+        this?.simulateBattle(playerSpirit, wildSpirit);
 
         console.log('');
         console.log('🏁 Demo continues roaming...');
         console.log('');
 
         // Short pause
-        await this.sleep(1000);
+        await this?.sleep(1000);
       }
 
       // Show progress every 5 steps
@@ -611,7 +611,7 @@ class SlicePureCLI {
       statusEffects: [],
       isPlayerControlled: true,
 
-      isAlive: () => this.currentHp > 0,
+      isAlive: () => this?.currentHp > 0,
       takeDamage: (damage: number) => {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
@@ -621,23 +621,23 @@ class SlicePureCLI {
         return amount;
       },
       addStatusEffect: (effect: string) => {
-        if (!this.statusEffects.includes(effect)) {
-          this.statusEffects.push(effect);
+        if (!this?.statusEffects.includes(effect)) {
+          this?.statusEffects?.push(effect);
         }
       },
       removeStatusEffect: (effect: string) => {
-        const index = this.statusEffects.indexOf(effect);
+        const index = this?.statusEffects.indexOf(effect);
         if (index >= 0) {
-          this.statusEffects.splice(index, 1);
+          this?.statusEffects.splice(index, 1);
           return true;
         }
         return false;
       },
-      hasStatusEffect: (effect: string) => this.statusEffects.includes(effect),
-      getEffectiveAttack: () => this.attack,
-      getEffectiveDefense: () => this.defense,
-      getEffectiveSpecialAttack: () => this.specialAttack,
-      getEffectiveSpecialDefense: () => this.specialDefense,
+      hasStatusEffect: (effect: string) => this?.statusEffects.includes(effect),
+      getEffectiveAttack: () => this?.attack,
+      getEffectiveDefense: () => this?.defense,
+      getEffectiveSpecialAttack: () => this?.specialAttack,
+      getEffectiveSpecialDefense: () => this?.specialDefense,
       clone: () => ({ ...this }),
       toJSON: () => ({ ...this })
     } as ISpiritInstance;
@@ -674,7 +674,7 @@ class SlicePureCLI {
       statusEffects: [],
       isPlayerControlled: false,
 
-      isAlive: () => this.currentHp > 0,
+      isAlive: () => this?.currentHp > 0,
       takeDamage: (damage: number) => {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
@@ -684,23 +684,23 @@ class SlicePureCLI {
         return amount;
       },
       addStatusEffect: (effect: string) => {
-        if (!this.statusEffects.includes(effect)) {
-          this.statusEffects.push(effect);
+        if (!this?.statusEffects.includes(effect)) {
+          this?.statusEffects?.push(effect);
         }
       },
       removeStatusEffect: (effect: string) => {
-        const index = this.statusEffects.indexOf(effect);
+        const index = this?.statusEffects.indexOf(effect);
         if (index >= 0) {
-          this.statusEffects.splice(index, 1);
+          this?.statusEffects.splice(index, 1);
           return true;
         }
         return false;
       },
-      hasStatusEffect: (effect: string) => this.statusEffects.includes(effect),
-      getEffectiveAttack: () => this.attack,
-      getEffectiveDefense: () => this.defense,
-      getEffectiveSpecialAttack: () => this.specialAttack,
-      getEffectiveSpecialDefense: () => this.specialDefense,
+      hasStatusEffect: (effect: string) => this?.statusEffects.includes(effect),
+      getEffectiveAttack: () => this?.attack,
+      getEffectiveDefense: () => this?.defense,
+      getEffectiveSpecialAttack: () => this?.specialAttack,
+      getEffectiveSpecialDefense: () => this?.specialDefense,
       clone: () => ({ ...this }),
       toJSON: () => ({ ...this })
     } as ISpiritInstance;
@@ -727,15 +727,15 @@ class SlicePureCLI {
     console.log('   5. Experience and reward calculation');
     console.log('');
     console.log('🎯 All MIFF modules work together seamlessly!');
-    this.rl.close();
-    process.exit(0);
+    this?.rl.close();
+    process?.exit(0);
   }
 }
 
 // Start CLI if run directly
-if (require.main === module) {
+if (require?.main === module) {
   const cli = new SlicePureCLI();
-  cli.start();
+  cli?.start();
 }
 
 export { SlicePureCLI };

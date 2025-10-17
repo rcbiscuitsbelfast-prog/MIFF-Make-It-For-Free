@@ -278,13 +278,13 @@ export class RenderWorldPure {
   private lastFPSUpdate: number = 0;
 
   constructor() {
-    this.state = this.initializeGameState();
-    this.engines = this.initializeEngines();
-    this.setupEventListeners();
-    this.generateWorld();
-    this.setupSpiritLens();
-    this.setupNPCs();
-    this.initializeGameplaySystems();
+    this?.state = this?.initializeGameState();
+    this?.engines = this?.initializeEngines();
+    this?.setupEventListeners();
+    this?.generateWorld();
+    this?.setupSpiritLens();
+    this?.setupNPCs();
+    this?.initializeGameplaySystems();
   }
 
   private initializeGameState(): RenderWorldGameState {
@@ -384,8 +384,8 @@ export class RenderWorldPure {
         },
         // Gameplay systems
         gameplay: {
-          lensMode: LensMode.NORMAL,
-          perceptionMode: PerceptionMode.NORMAL,
+          lensMode: LensMode?.NORMAL,
+          perceptionMode: PerceptionMode?.NORMAL,
           overlayEffects: [],
           scanTargets: [],
           interactables: [],
@@ -448,22 +448,22 @@ export class RenderWorldPure {
   }
 
   private setupEventListeners() {
-      // EventBus.on not available, using placeholder
-      // EventBus.on('spiritLens.pickup', this.handleSpiritLensPickup.bind(this));
-      // EventBus.on('spiritLens.use', this.handleSpiritLensUse.bind(this));
-      // EventBus.on('portal.activate', this.handlePortalActivation.bind(this));
-      // EventBus.on('npc.interact', this.handleNPCInteraction.bind(this));
-      // EventBus.on('dialogue.trigger', this.handleDialogueTrigger.bind(this));
-      // EventBus.on('player.move', this.handlePlayerMovement.bind(this));
-      // EventBus.on('world.scan', this.handleWorldScan.bind(this));
+      // EventBus?.on not available, using placeholder
+      // EventBus?.on('spiritLens?.pickup', this?.handleSpiritLensPickup.bind(this));
+      // EventBus?.on('spiritLens?.use', this?.handleSpiritLensUse.bind(this));
+      // EventBus?.on('portal?.activate', this?.handlePortalActivation.bind(this));
+      // EventBus?.on('npc?.interact', this?.handleNPCInteraction.bind(this));
+      // EventBus?.on('dialogue?.trigger', this?.handleDialogueTrigger.bind(this));
+      // EventBus?.on('player?.move', this?.handlePlayerMovement.bind(this));
+      // EventBus?.on('world?.scan', this?.handleWorldScan.bind(this));
   }
 
   private generateWorld() {
     // Generate warehouse geometry using SceneBuilderPure
-    this.generateWarehouseStructure();
-    this.generateLightingSetup();
-    this.generatePortalFrames();
-    this.generateCentralTable();
+    this?.generateWarehouseStructure();
+    this?.generateLightingSetup();
+    this?.generatePortalFrames();
+    this?.generateCentralTable();
   }
 
   private generateWarehouseStructure() {
@@ -473,7 +473,7 @@ export class RenderWorldPure {
         type: 'plane',
         position: { x: 0, y: 0, z: 0 },
         scale: { x: 50, y: 1, z: 50 },
-        material: this.state.world.warehouse.materials.concrete,
+        material: this?.state.world?.warehouse.materials?.concrete,
         texture: 'concrete_floor'
       },
       walls: {
@@ -481,14 +481,14 @@ export class RenderWorldPure {
           type: 'plane',
           position: { x: 0, y: 7.5, z: -25 },
           scale: { x: 50, y: 15, z: 1 },
-          material: this.state.world.warehouse.materials.brick,
+          material: this?.state.world?.warehouse.materials?.brick,
           texture: 'brick_wall'
         },
         south: {
           type: 'plane',
           position: { x: 0, y: 7.5, z: 25 },
           scale: { x: 50, y: 15, z: 1 },
-          material: this.state.world.warehouse.materials.brick,
+          material: this?.state.world?.warehouse.materials?.brick,
           texture: 'brick_wall'
         },
         east: {
@@ -496,7 +496,7 @@ export class RenderWorldPure {
           position: { x: 25, y: 7.5, z: 0 },
           rotation: { x: 0, y: Math.PI / 2, z: 0 },
           scale: { x: 50, y: 15, z: 1 },
-          material: this.state.world.warehouse.materials.brick,
+          material: this?.state.world?.warehouse.materials?.brick,
           texture: 'brick_wall'
         },
         west: {
@@ -504,7 +504,7 @@ export class RenderWorldPure {
           position: { x: -25, y: 7.5, z: 0 },
           rotation: { x: 0, y: Math.PI / 2, z: 0 },
           scale: { x: 50, y: 15, z: 1 },
-          material: this.state.world.warehouse.materials.brick,
+          material: this?.state.world?.warehouse.materials?.brick,
           texture: 'brick_wall'
         }
       },
@@ -513,31 +513,31 @@ export class RenderWorldPure {
         position: { x: 0, y: 15, z: 0 },
         rotation: { x: Math.PI / 2, y: 0, z: 0 },
         scale: { x: 50, y: 1, z: 50 },
-        material: this.state.world.warehouse.materials.metal,
+        material: this?.state.world?.warehouse.materials?.metal,
         texture: 'metal_ceiling'
       },
-      beams: this.generateSupportBeams()
+      beams: this?.generateSupportBeams()
     };
 
     // Generate beams using SceneBuilderPure
-    this.engines.scene.addGeometry('warehouse', warehouseGeometry);
+    this?.engines.scene?.addGeometry('warehouse', warehouseGeometry);
   }
 
   private generateSupportBeams(): any[] {
     const beams = [];
     for (let i = 0; i < 5; i++) {
-      beams.push({
+      beams?.push({
         type: 'cylinder',
         position: { x: -20 + i * 10, y: 10, z: -20 },
         scale: { x: 0.5, y: 10, z: 0.5 },
-        material: this.state.world.warehouse.materials.metal,
+        material: this?.state.world?.warehouse.materials?.metal,
         texture: 'metal_beam'
       });
-      beams.push({
+      beams?.push({
         type: 'cylinder',
         position: { x: -20 + i * 10, y: 10, z: 20 },
         scale: { x: 0.5, y: 10, z: 0.5 },
-        material: this.state.world.warehouse.materials.metal,
+        material: this?.state.world?.warehouse.materials?.metal,
         texture: 'metal_beam'
       });
     }
@@ -548,58 +548,58 @@ export class RenderWorldPure {
     const lighting = {
       ambient: {
         type: 'ambient',
-        color: this.state.world.warehouse.lighting.ambient,
-        intensity: this.state.world.warehouse.lighting.ambient.intensity
+        color: this?.state.world?.warehouse.lighting?.ambient,
+        intensity: this?.state.world?.warehouse.lighting?.ambient.intensity
       },
       directional: {
         type: 'directional',
-        direction: this.state.world.warehouse.lighting.directional,
-        intensity: this.state.world.warehouse.lighting.directional.intensity,
+        direction: this?.state.world?.warehouse.lighting?.directional,
+        intensity: this?.state.world?.warehouse.lighting?.directional.intensity,
         color: { r: 1, g: 1, b: 1 }
       },
       spiritLens: {
         type: 'point',
-        position: this.state.world.spiritLens.position,
-        color: this.state.world.warehouse.lighting.spiritLensGlow,
-        radius: this.state.world.warehouse.lighting.spiritLensGlow.radius,
-        intensity: this.state.world.warehouse.lighting.spiritLensGlow.intensity
+        position: this?.state.world?.spiritLens.position,
+        color: this?.state.world?.warehouse.lighting?.spiritLensGlow,
+        radius: this?.state.world?.warehouse.lighting?.spiritLensGlow.radius,
+        intensity: this?.state.world?.warehouse.lighting?.spiritLensGlow.intensity
       },
       portalLights: [
         {
           type: 'point',
-          position: this.state.world.portals.spiritTamer.position,
-          color: this.state.world.portals.spiritTamer.aura,
+          position: this?.state.world?.portals.spiritTamer?.position,
+          color: this?.state.world?.portals.spiritTamer?.aura,
           radius: 8,
-          intensity: this.state.world.portals.spiritTamer.aura.intensity
+          intensity: this?.state.world?.portals.spiritTamer?.aura.intensity
         },
         {
           type: 'point',
-          position: this.state.world.portals.toppler.position,
-          color: this.state.world.portals.toppler.shimmer,
+          position: this?.state.world?.portals.toppler?.position,
+          color: this?.state.world?.portals.toppler?.shimmer,
           radius: 8,
-          intensity: this.state.world.portals.toppler.shimmer.intensity
+          intensity: this?.state.world?.portals.toppler?.shimmer.intensity
         },
         {
           type: 'point',
-          position: this.state.world.portals.witcher.position,
-          color: this.state.world.portals.witcher.glow,
+          position: this?.state.world?.portals.witcher?.position,
+          color: this?.state.world?.portals.witcher?.glow,
           radius: 8,
-          intensity: this.state.world.portals.witcher.glow.intensity
+          intensity: this?.state.world?.portals.witcher?.glow.intensity
         }
       ]
     };
 
-    this.engines.scene.addLighting('warehouse_lighting', lighting);
+    this?.engines.scene?.addLighting('warehouse_lighting', lighting);
   }
 
   private generatePortalFrames() {
     const portalGeometry = {
       spiritTamerFrame: {
         type: 'frame',
-        position: this.state.world.portals.spiritTamer.position,
+        position: this?.state.world?.portals.spiritTamer?.position,
         scale: { x: 4, y: 8, z: 0.5 },
-        material: this.state.world.warehouse.materials.metal,
-        emissive: this.state.world.portals.spiritTamer.aura,
+        material: this?.state.world?.warehouse.materials?.metal,
+        emissive: this?.state.world?.portals.spiritTamer?.aura,
         portalData: {
           destination: 'SpiritTamerDemoPure',
           theme: 'forest',
@@ -608,10 +608,10 @@ export class RenderWorldPure {
       },
       topplerFrame: {
         type: 'frame',
-        position: this.state.world.portals.toppler.position,
+        position: this?.state.world?.portals.toppler?.position,
         scale: { x: 4, y: 8, z: 0.5 },
-        material: this.state.world.warehouse.materials.metal,
-        emissive: this.state.world.portals.toppler.shimmer,
+        material: this?.state.world?.warehouse.materials?.metal,
+        emissive: this?.state.world?.portals.toppler?.shimmer,
         portalData: {
           destination: 'TopplerDemoPure',
           theme: 'physics',
@@ -620,10 +620,10 @@ export class RenderWorldPure {
       },
       witcherFrame: {
         type: 'frame',
-        position: this.state.world.portals.witcher.position,
+        position: this?.state.world?.portals.witcher?.position,
         scale: { x: 4, y: 8, z: 0.5 },
-        material: this.state.world.warehouse.materials.metal,
-        emissive: this.state.world.portals.witcher.glow,
+        material: this?.state.world?.warehouse.materials?.metal,
+        emissive: this?.state.world?.portals.witcher?.glow,
         portalData: {
           destination: 'WitcherExplorerDemoPure',
           theme: 'medieval',
@@ -632,7 +632,7 @@ export class RenderWorldPure {
       }
     };
 
-    this.engines.scene.addGeometry('portal_frames', portalGeometry);
+    this?.engines.scene?.addGeometry('portal_frames', portalGeometry);
   }
 
   private generateCentralTable() {
@@ -641,7 +641,7 @@ export class RenderWorldPure {
         type: 'cube',
         position: { x: 0, y: 1.2, z: 0 },
         scale: { x: 3, y: 0.2, z: 3 },
-        material: this.state.world.warehouse.materials.metal,
+        material: this?.state.world?.warehouse.materials?.metal,
         texture: 'metal_table'
       },
       tableLegs: [
@@ -649,30 +649,30 @@ export class RenderWorldPure {
           type: 'cylinder',
           position: { x: 1.2, y: 0.6, z: 1.2 },
           scale: { x: 0.1, y: 1.2, z: 0.1 },
-          material: this.state.world.warehouse.materials.metal
+          material: this?.state.world?.warehouse.materials?.metal
         },
         {
           type: 'cylinder',
           position: { x: -1.2, y: 0.6, z: 1.2 },
           scale: { x: 0.1, y: 1.2, z: 0.1 },
-          material: this.state.world.warehouse.materials.metal
+          material: this?.state.world?.warehouse.materials?.metal
         },
         {
           type: 'cylinder',
           position: { x: 1.2, y: 0.6, z: -1.2 },
           scale: { x: 0.1, y: 1.2, z: 0.1 },
-          material: this.state.world.warehouse.materials.metal
+          material: this?.state.world?.warehouse.materials?.metal
         },
         {
           type: 'cylinder',
           position: { x: -1.2, y: 0.6, z: -1.2 },
           scale: { x: 0.1, y: 1.2, z: 0.1 },
-          material: this.state.world.warehouse.materials.metal
+          material: this?.state.world?.warehouse.materials?.metal
         }
       ]
     };
 
-    this.engines.scene.addGeometry('central_table', tableGeometry);
+    this?.engines.scene?.addGeometry('central_table', tableGeometry);
   }
 
   private setupSpiritLens() {
@@ -680,23 +680,23 @@ export class RenderWorldPure {
     const spiritLens = new Item(
       'spirit_lens',
       'Spirit Lens',
-      ItemType.TOOL,
+      ItemType?.TOOL,
       'A mystical handheld device that reveals hidden paths and secrets in the RenderWorld hub',
       [
-        new ItemEffect(ItemEffectType.SCAN, { radius: 5.0, revealType: 'portals' }),
-        new ItemEffect(ItemEffectType.GLOW, { intensity: 1.5, color: '#80B0FF' }),
-        new ItemEffect(ItemEffectType.SOUND, { ambient: true, volume: 0.3 })
+        new ItemEffect(ItemEffectType?.SCAN, { radius: 5.0, revealType: 'portals' }),
+        new ItemEffect(ItemEffectType?.GLOW, { intensity: 1.5, color: '#80B0FF' }),
+        new ItemEffect(ItemEffectType?.SOUND, { ambient: true, volume: 0.3 })
       ]
     );
 
-    this.engines.items.registerItem(spiritLens);
-    this.state.world.spiritLens.active = true;
+    this?.engines.items?.registerItem(spiritLens);
+    this?.state.world?.spiritLens.active = true;
 
     // Add ambient sound for Spirit Lens
-    EventBus.publish('audio.ambient', {
+    EventBus?.publish('audio?.ambient', {
       source: 'spirit_lens',
       sound: 'lens_hum',
-      position: this.state.world.spiritLens.position,
+      position: this?.state.world?.spiritLens.position,
       volume: 0.3,
       loop: true
     });
@@ -705,7 +705,7 @@ export class RenderWorldPure {
   private setupNPCs() {
     // Initialize NPC AI behaviors
     Object.values(this.state.world.npcs).forEach((npc: any) => {
-      this.engines.ai.registerBehavior(npc.id, {
+      this?.engines.ai?.registerBehavior(npc?.id, {
         type: 'wander',
         parameters: {
           speed: 0.5,
@@ -718,11 +718,11 @@ export class RenderWorldPure {
   }
 
   private handleSpiritLensPickup(event) {
-    this.state.player.holdingSpiritLens = true;
-    this.state.world.spiritLens.active = false;
+    this?.state.player?.holdingSpiritLens = true;
+    this?.state.world?.spiritLens.active = false;
 
-    EventBus.publish('audio.play', { sound: 'lens_pickup', volume: 0.8 });
-    EventBus.publish('ui.notification', {
+    EventBus?.publish('audio?.play', { sound: 'lens_pickup', volume: 0.8 });
+    EventBus?.publish('ui?.notification', {
       message: 'Spirit Lens acquired - use it to scan for hidden paths',
       type: 'info',
       duration: 3000
@@ -730,12 +730,12 @@ export class RenderWorldPure {
   }
 
   private handleSpiritLensUse(event) {
-    if (!this.state.player.holdingSpiritLens) return;
+    if (!this?.state.player?.holdingSpiritLens) return;
 
-    const scanResult = this.performSpiritLensScan();
-    this.highlightNearbyElements(scanResult);
+    const scanResult = this?.performSpiritLensScan();
+    this?.highlightNearbyElements(scanResult);
 
-    EventBus.publish('world.scan', scanResult);
+    EventBus?.publish('world?.scan', scanResult);
   }
 
   private performSpiritLensScan(): any {
@@ -747,9 +747,9 @@ export class RenderWorldPure {
 
     // Scan for nearby portals
     Object.values(this.state.world.portals).forEach((portal: any) => {
-      const distance = this.calculateDistance(this.state.player.position, portal.position);
-      if (distance <= this.state.world.spiritLens.scanRadius) {
-        scanResults.portals.push({
+      const distance = this?.calculateDistance(this?.state.player?.position, portal?.position);
+      if (distance <= this?.state.world?.spiritLens.scanRadius) {
+        scanResults?.portals?.push({
           portal: portal,
           distance: distance,
           intensity: Math.max(0, 1 - (distance / this.state.world.spiritLens.scanRadius))
@@ -759,9 +759,9 @@ export class RenderWorldPure {
 
     // Scan for nearby NPCs
     Object.values(this.state.world.npcs).forEach((npc: any) => {
-      const distance = this.calculateDistance(this.state.player.position, npc.position);
-      if (distance <= this.state.world.spiritLens.scanRadius) {
-        scanResults.npcs.push({
+      const distance = this?.calculateDistance(this?.state.player?.position, npc?.position);
+      if (distance <= this?.state.world?.spiritLens.scanRadius) {
+        scanResults?.npcs?.push({
           npc: npc,
           distance: distance,
           canInteract: distance <= 3
@@ -774,23 +774,23 @@ export class RenderWorldPure {
 
   private highlightNearbyElements(scanResults: any) {
     // Increase portal glow intensity based on scan results
-    scanResults.portals.forEach((result: any) => {
-      const portal = result.portal;
-      const intensity = portal.aura ? portal.aura.intensity + result.intensity :
-                       portal.shimmer ? portal.shimmer.intensity + result.intensity :
-                       portal.glow.intensity + result.intensity;
+    scanResults?.portals.forEach((result: any) => {
+      const portal = result?.portal;
+      const intensity = portal?.aura ? portal?.aura.intensity + result?.intensity :
+                       portal?.shimmer ? portal?.shimmer.intensity + result?.intensity :
+                       portal?.glow.intensity + result?.intensity;
 
-      EventBus.publish('portal.highlight', {
-        portalId: portal.destination.toLowerCase(),
+      EventBus?.publish('portal?.highlight', {
+        portalId: portal?.destination.toLowerCase(),
         intensity: intensity,
         duration: 5000
       });
     });
 
     // Trigger NPC dialogue if close enough
-    scanResults.npcs.forEach((result: any) => {
-      if (result.canInteract) {
-        this.triggerNPCDialogue(result.npc);
+    scanResults?.npcs.forEach((result: any) => {
+      if (result?.canInteract) {
+        this?.triggerNPCDialogue(result?.npc);
       }
     });
   }
@@ -805,66 +805,66 @@ export class RenderWorldPure {
   private triggerNPCDialogue(npc) {
     if (Date.now() - npc.lastDialogueTime < 10000) return; // Cooldown
 
-    npc.lastDialogueTime = Date.now();
-    npc.state = 'dialogue';
+    npc.lastDialogueTime = new Date();
+    npc?.state = 'dialogue';
 
     const dialogue = npc.dialogueTree[Math.floor(Math.random() * npc.dialogueTree.length)];
 
-    EventBus.publish('dialogue.start', {
-      npcId: npc.id,
+    EventBus?.publish('dialogue?.start', {
+      npcId: npc?.id,
       dialogue: dialogue,
-      position: npc.position
+      position: npc?.position
     });
 
     // Reset NPC state after dialogue
     setTimeout(() => {
-      npc.state = 'idle';
+      npc?.state = 'idle';
     }, 5000);
   }
 
   private handlePortalActivation(event) {
-    const portalId = event.portalId;
+    const portalId = event?.portalId;
     const portal = Object.values(this.state.world.portals).find(p => p.destination.toLowerCase() === portalId);
 
-    if (!portal || !portal.active) return;
+    if (!portal || !portal?.active) return;
 
-    EventBus.publish('scene.transition', {
-      destination: portal.destination,
+    EventBus?.publish('scene?.transition', {
+      destination: portal?.destination,
       transitionType: 'portal',
       portalData: portal
     });
 
     // Play portal activation sound
-    EventBus.publish('audio.play', {
+    EventBus?.publish('audio?.play', {
       sound: 'portal_activate',
-      position: portal.position,
+      position: portal?.position,
       volume: 1.0
     });
   }
 
   private handleNPCInteraction(event) {
-    const npc = event.npc;
-    const player = this.state.player;
+    const npc = event?.npc;
+    const player = this?.state.player;
 
-    const distance = this.calculateDistance(player.position, npc.position);
+    const distance = this?.calculateDistance(player?.position, npc?.position);
     if (distance > 3) return;
 
-    this.triggerNPCDialogue(npc);
+    this?.triggerNPCDialogue(npc);
   }
 
   private handleDialogueTrigger(event) {
     // Handle dialogue system interactions
-    this.state.ui.dialogueVisible = true;
+    this?.state.ui?.dialogueVisible = true;
 
-    EventBus.publish('ui.dialogue', event.dialogue);
+    EventBus?.publish('ui?.dialogue', event?.dialogue);
   }
 
   private handlePlayerMovement(event) {
     // Update player position and handle physics
     const newPosition = {
-      x: this.state.player.position.x + event.velocity.x,
-      y: this.state.player.position.y + event.velocity.y,
-      z: this.state.player.position.z + event.velocity.z
+      x: this?.state.player?.position.x + event?.velocity.x,
+      y: this?.state.player?.position.y + event?.velocity.y,
+      z: this?.state.player?.position.z + event?.velocity.z
     };
 
     // Basic collision detection with warehouse bounds
@@ -872,23 +872,23 @@ export class RenderWorldPure {
     newPosition.z = Math.max(-24, Math.min(24, newPosition.z));
     newPosition.y = Math.max(0, Math.min(14, newPosition.y));
 
-    this.state.player.position = newPosition;
-    this.state.player.velocity = event.velocity;
+    this?.state.player?.position = newPosition;
+    this?.state.player?.velocity = event?.velocity;
 
     // Check for Spirit Lens pickup
-    if (!this.state.player.holdingSpiritLens) {
-      const lensDistance = this.calculateDistance(this.state.player.position, this.state.world.spiritLens.position);
+    if (!this?.state.player?.holdingSpiritLens) {
+      const lensDistance = this?.calculateDistance(this?.state.player?.position, this?.state.world?.spiritLens.position);
       if (lensDistance <= 2) {
-        EventBus.publish('spiritLens.pickup', { player: this.state.player });
+        EventBus?.publish('spiritLens?.pickup', { player: this?.state.player });
       }
     }
 
     // Check for portal proximity
     Object.values(this.state.world.portals).forEach((portal: any) => {
-      const portalDistance = this.calculateDistance(this.state.player.position, portal.position);
+      const portalDistance = this?.calculateDistance(this?.state.player?.position, portal?.position);
       if (portalDistance <= 3) {
-        EventBus.publish('portal.proximity', {
-          portalId: portal.destination.toLowerCase(),
+        EventBus?.publish('portal?.proximity', {
+          portalId: portal?.destination.toLowerCase(),
           distance: portalDistance
         });
       }
@@ -897,17 +897,17 @@ export class RenderWorldPure {
 
   private handleWorldScan(event) {
     // Process scan results and update world state
-    if (event.portals && event.portals.length > 0) {
-      EventBus.publish('ui.notification', {
-        message: `${event.portals.length} portals detected nearby`,
+    if (event?.portals && event?.portals.length > 0) {
+      EventBus?.publish('ui?.notification', {
+        message: `${event?.portals.length} portals detected nearby`,
         type: 'scan',
         duration: 2000
       });
     }
 
-    if (event.npcs && event.npcs.length > 0) {
-      EventBus.publish('ui.notification', {
-        message: `${event.npcs.length} entities detected - approach for interaction`,
+    if (event?.npcs && event?.npcs.length > 0) {
+      EventBus?.publish('ui?.notification', {
+        message: `${event?.npcs.length} entities detected - approach for interaction`,
         type: 'scan',
         duration: 3000
       });
@@ -916,63 +916,63 @@ export class RenderWorldPure {
 
   // Public API methods
   public getGameState(): RenderWorldGameState {
-    return this.state;
+    return this?.state;
   }
 
   public update(deltaTime: number) {
-    if (this.state.game.paused || this.state.game.gameOver) return;
+    if (this?.state.game?.paused || this?.state.game?.gameOver) return;
 
-    this.state.game.time += deltaTime;
-    this.updateFPS(deltaTime);
-    this.updatePlayer(deltaTime);
-    this.updateNPCs(deltaTime);
-    this.updateSpiritLens(deltaTime);
-    this.updateUI(deltaTime);
-    this.updatePerformanceMetrics(deltaTime);
+    this?.state.game?.time += deltaTime;
+    this?.updateFPS(deltaTime);
+    this?.updatePlayer(deltaTime);
+    this?.updateNPCs(deltaTime);
+    this?.updateSpiritLens(deltaTime);
+    this?.updateUI(deltaTime);
+    this?.updatePerformanceMetrics(deltaTime);
   }
 
   private updateFPS(deltaTime: number) {
-    this.frameCount++;
-    if (this.state.game.time - this.lastFPSUpdate >= 1000) {
+    this?.frameCount++;
+    if (this?.state.game?.time - this?.lastFPSUpdate >= 1000) {
       this.state.game.fps = Math.round(this.frameCount / ((this.state.game.time - this.lastFPSUpdate) / 1000));
-      this.frameCount = 0;
-      this.lastFPSUpdate = this.state.game.time;
+      this?.frameCount = 0;
+      this?.lastFPSUpdate = this?.state.game?.time;
     }
   }
 
   private updatePlayer(deltaTime: number) {
     // Apply gravity and physics
-    if (this.state.player.position.y > 1.7) {
-      this.state.player.velocity.y -= 9.81 * deltaTime;
+    if (this?.state.player?.position.y > 1.7) {
+      this?.state.player?.velocity.y -= 9.81 * deltaTime;
     } else {
-      this.state.player.velocity.y = 0;
-      this.state.player.position.y = 1.7;
+      this?.state.player?.velocity.y = 0;
+      this?.state.player?.position.y = 1.7;
     }
 
     // Apply movement
-    this.state.player.position.x += this.state.player.velocity.x * deltaTime;
-    this.state.player.position.z += this.state.player.velocity.z * deltaTime;
+    this?.state.player?.position.x += this?.state.player?.velocity.x * deltaTime;
+    this?.state.player?.position.z += this?.state.player?.velocity.z * deltaTime;
 
     // Damping
-    this.state.player.velocity.x *= 0.9;
-    this.state.player.velocity.z *= 0.9;
+    this?.state.player?.velocity.x *= 0.9;
+    this?.state.player?.velocity.z *= 0.9;
   }
 
   private updateNPCs(deltaTime: number) {
     Object.values(this.state.world.npcs).forEach((npc: any) => {
-      if (npc.state === 'wandering') {
+      if (npc?.state === 'wandering') {
         // Move towards target position
-        const dx = npc.targetPosition.x - npc.position.x;
-        const dz = npc.targetPosition.z - npc.position.z;
+        const dx = npc?.targetPosition.x - npc?.position.x;
+        const dz = npc?.targetPosition.z - npc?.position.z;
         const distance = Math.sqrt(dx * dx + dz * dz);
 
         if (distance > 0.1) {
           const moveSpeed = 0.5;
-          npc.position.x += (dx / distance) * moveSpeed * deltaTime;
-          npc.position.z += (dz / distance) * moveSpeed * deltaTime;
+          npc?.position.x += (dx / distance) * moveSpeed * deltaTime;
+          npc?.position.z += (dz / distance) * moveSpeed * deltaTime;
         } else {
           // Reach target, choose new behavior
-          this.updateNPCBehavior(npc);
+          this?.updateNPCBehavior(npc);
         }
       }
     });
@@ -984,145 +984,145 @@ export class RenderWorldPure {
 
     if (currentBehavior === 'wandering') {
       // Choose random target position within warehouse
-      npc.targetPosition = {
+      npc?.targetPosition = {
         x: (Math.random() - 0.5) * 30,
-        y: npc.position.y,
+        y: npc?.position.y,
         z: (Math.random() - 0.5) * 30
       };
-      npc.state = 'wandering';
+      npc?.state = 'wandering';
     } else if (currentBehavior === 'inspecting') {
       // Look at nearby objects (portals, Spirit Lens)
       const nearbyObjects = [
         ...Object.values(this.state.world.portals),
-        this.state.world.spiritLens
+        this?.state.world?.spiritLens
       ];
 
-      if (nearbyObjects.length > 0) {
+      if (nearbyObjects?.length > 0) {
         const target = nearbyObjects[Math.floor(Math.random() * nearbyObjects.length)];
-        npc.targetPosition = target.position;
-        npc.state = 'wandering';
+        npc?.targetPosition = target?.position;
+        npc?.state = 'wandering';
 
         // Trigger dialogue after reaching inspection target
         setTimeout(() => {
-          this.triggerNPCDialogue(npc);
+          this?.triggerNPCDialogue(npc);
         }, 2000);
       } else {
-        npc.state = 'idle';
+        npc?.state = 'idle';
       }
     } else {
-      npc.state = 'idle';
+      npc?.state = 'idle';
     }
   }
 
   private updateSpiritLens(deltaTime: number) {
-    if (!this.state.world.spiritLens.active) return;
+    if (!this?.state.world?.spiritLens.active) return;
 
     // Animate glow intensity
-    const time = this.state.game.time * 0.001;
+    const time = this?.state.game?.time * 0.001;
     this.state.world.spiritLens.glowIntensity = 0.8 + Math.sin(time * 2) * 0.2;
 
     // Update ambient sound
-    EventBus.publish('audio.update', {
+    EventBus?.publish('audio?.update', {
       source: 'spirit_lens',
-      volume: this.state.world.spiritLens.glowIntensity * 0.3
+      volume: this?.state.world?.spiritLens.glowIntensity * 0.3
     });
   }
 
   private updateUI(deltaTime: number) {
-    if (this.state.ui.hudVisible) {
-      this.renderHUD();
+    if (this?.state.ui?.hudVisible) {
+      this?.renderHUD();
     }
 
-    if (this.state.ui.debugVisible) {
-      this.renderDebugInfo();
+    if (this?.state.ui?.debugVisible) {
+      this?.renderDebugInfo();
     }
   }
 
   private updatePerformanceMetrics(deltaTime: number) {
     // Track performance metrics for DebugOverlayPure
-    this.state.game.renderTime = performance.now();
+    this?.state.game?.renderTime = performance?.now();
     // Add actual render time measurement here
-    this.state.game.renderTime = 0; // Placeholder
+    this?.state.game?.renderTime = 0; // Placeholder
 
-    this.state.game.physicsTime = 0; // Placeholder
-    this.state.game.aiTime = 0; // Placeholder
+    this?.state.game?.physicsTime = 0; // Placeholder
+    this?.state.game?.aiTime = 0; // Placeholder
   }
 
   private renderHUD() {
     const hudData = {
       player: {
-        position: this.state.player.position,
-        health: this.state.player.health,
-        maxHealth: this.state.player.maxHealth,
-        holdingSpiritLens: this.state.player.holdingSpiritLens
+        position: this?.state.player?.position,
+        health: this?.state.player?.health,
+        maxHealth: this?.state.player?.maxHealth,
+        holdingSpiritLens: this?.state.player?.holdingSpiritLens
       },
       game: {
-        fps: this.state.game.fps,
-        time: this.state.game.time,
+        fps: this?.state.game?.fps,
+        time: this?.state.game?.time,
         portalsActive: Object.values(this.state.world.portals).filter((p: any) => p.active).length
       },
       world: {
-        spiritLensActive: this.state.world.spiritLens.active,
+        spiritLensActive: this?.state.world?.spiritLens.active,
         npcCount: Object.keys(this.state.world.npcs).length
       }
     };
 
-    this.engines.hud.updateModel(hudData);
+    this?.engines.hud?.updateModel(hudData);
   }
 
   private renderDebugInfo() {
     const debugData = {
       performance: {
-        fps: this.state.game.fps,
-        renderTime: this.state.game.renderTime,
-        physicsTime: this.state.game.physicsTime,
-        aiTime: this.state.game.aiTime
+        fps: this?.state.game?.fps,
+        renderTime: this?.state.game?.renderTime,
+        physicsTime: this?.state.game?.physicsTime,
+        aiTime: this?.state.game?.aiTime
       },
       player: {
-        position: this.state.player.position,
-        velocity: this.state.player.velocity,
-        holdingSpiritLens: this.state.player.holdingSpiritLens
+        position: this?.state.player?.position,
+        velocity: this?.state.player?.velocity,
+        holdingSpiritLens: this?.state.player?.holdingSpiritLens
       },
       world: {
-        spiritLens: this.state.world.spiritLens,
+        spiritLens: this?.state.world?.spiritLens,
         activePortals: Object.values(this.state.world.portals).filter((p: any) => p.active)
       }
     };
 
-    EventBus.publish('debug.update', debugData);
+    EventBus?.publish('debug?.update', debugData);
   }
 
   public render() {
-    this.renderWorld();
-    this.renderUI();
-    this.renderEffects();
+    this?.renderWorld();
+    this?.renderUI();
+    this?.renderEffects();
   }
 
   private renderWorld() {
     // Render warehouse geometry with SceneBuilderPure
-    this.engines.scene.render();
+    this?.engines.scene?.render();
 
     // Render portals with special effects
     Object.values(this.state.world.portals).forEach((portal: any) => {
-      this.renderPortal(portal);
+      this?.renderPortal(portal);
     });
 
     // Render Spirit Lens if active
-    if (this.state.world.spiritLens.active) {
-      this.renderSpiritLens();
+    if (this?.state.world?.spiritLens.active) {
+      this?.renderSpiritLens();
     }
 
     // Render NPCs
     Object.values(this.state.world.npcs).forEach((npc: any) => {
-      this.renderNPC(npc);
+      this?.renderNPC(npc);
     });
   }
 
   private renderPortal(portal) {
     // Portal-specific rendering with emissive effects
-    const emissiveColor = portal.aura || portal.shimmer || portal.glow;
+    const emissiveColor = portal?.aura || portal?.shimmer || portal?.glow;
 
-    EventBus.publish('render.portal', {
+    EventBus?.publish('render?.portal', {
       portal: portal,
       emissive: emissiveColor,
       intensity: 1.0,
@@ -1131,38 +1131,38 @@ export class RenderWorldPure {
   }
 
   private renderSpiritLens() {
-    EventBus.publish('render.spiritLens', {
-      position: this.state.world.spiritLens.position,
-      glowIntensity: this.state.world.spiritLens.glowIntensity,
+    EventBus?.publish('render?.spiritLens', {
+      position: this?.state.world?.spiritLens.position,
+      glowIntensity: this?.state.world?.spiritLens.glowIntensity,
       color: { r: 0.8, g: 0.9, b: 1.0 },
       radius: 2
     });
   }
 
   private renderNPC(npc) {
-    EventBus.publish('render.npc', {
+    EventBus?.publish('render?.npc', {
       npc: npc,
-      state: npc.state,
-      position: npc.position,
-      animation: npc.state === 'wandering' ? 'walk' : 'idle'
+      state: npc?.state,
+      position: npc?.position,
+      animation: npc?.state === 'wandering' ? 'walk' : 'idle'
     });
   }
 
   private renderUI() {
     // Render HUD elements
-    if (this.state.ui.hudVisible) {
-      EventBus.publish('render.hud');
+    if (this?.state.ui?.hudVisible) {
+      EventBus?.publish('render?.hud');
     }
 
     // Render dialogue if active
-    if (this.state.ui.dialogueVisible) {
-      EventBus.publish('render.dialogue');
+    if (this?.state.ui?.dialogueVisible) {
+      EventBus?.publish('render?.dialogue');
     }
   }
 
   private renderEffects() {
     // Render particle effects, post-processing
-    EventBus.publish('render.effects', {
+    EventBus?.publish('render?.effects', {
       glowEffects: true,
       ambientOcclusion: true,
       bloom: true
@@ -1175,10 +1175,10 @@ export class RenderWorldPure {
       op: 'renderworld_hub',
       status: 'ok',
       scene: 'warehouse_hub',
-      player: this.state.player.position,
+      player: this?.state.player?.position,
       portals: Object.keys(this.state.world.portals),
       npcs: Object.keys(this.state.world.npcs),
-      fps: this.state.game.fps,
+      fps: this?.state.game?.fps,
       orchestrationReady: true,
       modulesIntegrated: [
         'SceneBuilderPure',
@@ -1212,25 +1212,25 @@ export class RenderWorldPure {
    */
   private initializeGameplaySystems(): void {
     // Initialize overlay effects
-    this.engines.overlayFX.createLayer('renderworld_effects', 'RenderWorld Effects', 5);
+    this?.engines.overlayFX?.createLayer('renderworld_effects', 'RenderWorld Effects', 5);
     
     // Initialize perception system
-    this.engines.perception.updatePlayerContext({
-      position: this.state.player.position,
-      inventory: this.state.player.inventory,
-      level: this.state.player.level,
-      quests: this.state.player.quests,
-      skills: this.state.player.skills
+    this?.engines.perception?.updatePlayerContext({
+      position: this?.state.player?.position,
+      inventory: this?.state.player?.inventory,
+      level: this?.state.player?.level,
+      quests: this?.state.player?.quests,
+      skills: this?.state.player?.skills
     });
 
     // Initialize scan targets
-    this.setupScanTargets();
+    this?.setupScanTargets();
     
     // Initialize interactables
-    this.setupInteractables();
+    this?.setupInteractables();
     
     // Initialize NPCs for perception system
-    this.setupPerceptionNPCs();
+    this?.setupPerceptionNPCs();
   }
 
   /**
@@ -1238,10 +1238,10 @@ export class RenderWorldPure {
    */
   private setupScanTargets(): void {
     // Add spirit lens as scan target
-    this.engines.scanFeedback.addTarget({
+    this?.engines.scanFeedback?.addTarget({
       id: 'spirit_lens',
-      type: ScanTargetType.ITEM,
-      position: this.state.world.spiritLens.position,
+      type: ScanTargetType?.ITEM,
+      position: this?.state.world?.spiritLens.position,
       radius: 2.0,
       isScanned: false,
       scanProgress: 0,
@@ -1259,10 +1259,10 @@ export class RenderWorldPure {
 
     // Add portals as scan targets
     Object.values(this.state.world.portals).forEach((portal: any) => {
-      this.engines.scanFeedback.addTarget({
-        id: `portal_${portal.destination}`,
-        type: ScanTargetType.PORTAL,
-        position: portal.position,
+      this?.engines.scanFeedback?.addTarget({
+        id: `portal_${portal?.destination}`,
+        type: ScanTargetType?.PORTAL,
+        position: portal?.position,
         radius: 3.0,
         isScanned: false,
         scanProgress: 0,
@@ -1272,9 +1272,9 @@ export class RenderWorldPure {
         pulseIntensity: 0.3,
         isInteractable: true,
         metadata: {
-          name: `Portal to ${portal.destination}`,
-          description: `A portal leading to ${portal.destination}`,
-          destination: portal.destination
+          name: `Portal to ${portal?.destination}`,
+          description: `A portal leading to ${portal?.destination}`,
+          destination: portal?.destination
         }
       });
     });
@@ -1285,15 +1285,15 @@ export class RenderWorldPure {
    */
   private setupInteractables(): void {
     // Add spirit lens as interactable
-    this.engines.interactables.register({
+    this?.engines.interactables?.register({
       id: 'spirit_lens',
-      type: InteractableType.ITEM,
+      type: InteractableType?.ITEM,
       name: 'Spirit Lens',
       description: 'A mystical lens that reveals hidden energies',
-      position: this.state.world.spiritLens.position,
+      position: this?.state.world?.spiritLens.position,
       radius: 2.0,
-      behaviors: [InteractionBehavior.PICKUP, InteractionBehavior.SCAN, InteractionBehavior.EXAMINE],
-      state: InteractionState.AVAILABLE,
+      behaviors: [InteractionBehavior?.PICKUP, InteractionBehavior?.SCAN, InteractionBehavior?.EXAMINE],
+      state: InteractionState?.AVAILABLE,
       requirements: [],
       cooldownDuration: 0,
       metadata: {
@@ -1315,20 +1315,20 @@ export class RenderWorldPure {
 
     // Add portals as interactables
     Object.entries(this.state.world.portals).forEach(([key, portal]) => {
-      this.engines.interactables.register({
+      this?.engines.interactables?.register({
         id: `portal_${key}`,
-        type: InteractableType.PORTAL,
-        name: `Portal to ${portal.destination}`,
-        description: `A portal leading to ${portal.destination}`,
-        position: portal.position,
+        type: InteractableType?.PORTAL,
+        name: `Portal to ${portal?.destination}`,
+        description: `A portal leading to ${portal?.destination}`,
+        position: portal?.position,
         radius: 3.0,
-        behaviors: [InteractionBehavior.USE, InteractionBehavior.SCAN, InteractionBehavior.EXAMINE],
-        state: portal.active ? InteractionState.AVAILABLE : InteractionState.LOCKED,
+        behaviors: [InteractionBehavior?.USE, InteractionBehavior?.SCAN, InteractionBehavior?.EXAMINE],
+        state: portal?.active ? InteractionState?.AVAILABLE : InteractionState?.LOCKED,
         requirements: [],
         cooldownDuration: 2000,
         metadata: {
-          destination: portal.destination,
-          active: portal.active
+          destination: portal?.destination,
+          active: portal?.active
         },
         visualIndicators: {
           highlightColor: '#ff8000',
@@ -1350,13 +1350,13 @@ export class RenderWorldPure {
    */
   private setupPerceptionNPCs(): void {
     Object.entries(this.state.world.npcs).forEach(([key, npc]) => {
-      this.engines.perception.addNPC({
-        id: npc.id,
-        type: this.getNPCType(key),
-        position: npc.position,
+      this?.engines.perception?.addNPC({
+        id: npc?.id,
+        type: this?.getNPCType(key),
+        position: npc?.position,
         radius: 2.0,
         isInteractable: true,
-        questId: this.getNPCQuestId(key)
+        questId: this?.getNPCQuestId(key)
       });
     });
   }
@@ -1388,11 +1388,11 @@ export class RenderWorldPure {
    * Switch lens mode
    */
   switchLensMode(mode: LensMode): boolean {
-    const success = this.engines.lensMode.switchToMode(mode);
+    const success = this?.engines.lensMode?.switchToMode(mode);
     if (success) {
-      this.state.world.gameplay.lensMode = mode;
-      this.state.world.gameplay.perceptionMode = this.engines.perception.getMode();
-      this.updateGameplayUI();
+      this?.state.world?.gameplay.lensMode = mode;
+      this?.state.world?.gameplay.perceptionMode = this?.engines.perception?.getMode();
+      this?.updateGameplayUI();
     }
     return success;
   }
@@ -1401,11 +1401,11 @@ export class RenderWorldPure {
    * Handle interaction with an object
    */
   interactWithObject(objectId: string, behavior: InteractionBehavior): InteractionResult {
-    const result = this.engines.interactables.interact(objectId, behavior);
+    const result = this?.engines.interactables?.interact(objectId, behavior);
     
-    if (result.success) {
+    if (result?.success) {
       // Update game state based on interaction
-      this.handleInteractionResult(objectId, behavior, result);
+      this?.handleInteractionResult(objectId, behavior, result);
     }
     
     return result;
@@ -1416,20 +1416,20 @@ export class RenderWorldPure {
    */
   private handleInteractionResult(objectId: string, behavior: InteractionBehavior, result: any): void {
     switch (behavior) {
-      case InteractionBehavior.PICKUP:
+      case InteractionBehavior?.PICKUP:
         if (objectId === 'spirit_lens') {
-          this.state.player.holdingSpiritLens = true;
-          this.state.world.spiritLens.active = false;
+          this?.state.player?.holdingSpiritLens = true;
+          this?.state.world?.spiritLens.active = false;
         }
         break;
-      case InteractionBehavior.USE:
-        if (objectId.startsWith('portal_')) {
-          this.handlePortalActivation({ portalId: objectId });
+      case InteractionBehavior?.USE:
+        if (objectId?.startsWith('portal_')) {
+          this?.handlePortalActivation({ portalId: objectId });
         }
         break;
-      case InteractionBehavior.SCAN:
+      case InteractionBehavior?.SCAN:
         // Update scan progress
-        this.engines.scanFeedback.updateScanProgress(1.0);
+        this?.engines.scanFeedback?.updateScanProgress(1.0);
         break;
     }
   }
@@ -1439,16 +1439,16 @@ export class RenderWorldPure {
    */
   private updateGameplayUI(): void {
     // Update overlay effects
-    this.state.world.gameplay.overlayEffects = this.engines.overlayFX.getActiveEffects();
+    this?.state.world?.gameplay.overlayEffects = this?.engines.overlayFX?.getActiveEffects();
     
     // Update scan targets
-    this.state.world.gameplay.scanTargets = this.engines.scanFeedback.getAllTargets();
+    this?.state.world?.gameplay.scanTargets = this?.engines.scanFeedback?.getAllTargets();
     
     // Update interactables
-    this.state.world.gameplay.interactables = this.engines.interactables.getAll().map((i: any) => i.type);
+    this?.state.world?.gameplay.interactables = this?.engines.interactables?.getAll().map((i: any) => i?.type);
     
     // Update NPCs
-    this.state.world.gameplay.npcs = this.engines.perception.getNPCs();
+    this?.state.world?.gameplay.npcs = this?.engines.perception?.getNPCs();
   }
 
   /**
@@ -1456,28 +1456,28 @@ export class RenderWorldPure {
    */
   updateGameplaySystems(deltaTime: number): void {
     // Update mobile performance monitoring
-    this.engines.mobilePerformance.updatePerformance(deltaTime);
+    this?.engines.mobilePerformance?.updatePerformance(deltaTime);
     
     // Update player context
-    this.engines.perception.updatePlayerContext({
-      position: this.state.player.position,
-      inventory: this.state.player.inventory,
-      level: this.state.player.level,
-      quests: this.state.player.quests,
-      skills: this.state.player.skills
+    this?.engines.perception?.updatePlayerContext({
+      position: this?.state.player?.position,
+      inventory: this?.state.player?.inventory,
+      level: this?.state.player?.level,
+      quests: this?.state.player?.quests,
+      skills: this?.state.player?.skills
     });
 
     // Update scan feedback
-    this.engines.scanFeedback.updatePulse(deltaTime);
+    this?.engines.scanFeedback?.updatePulse(deltaTime);
     
     // Update lens mode transition
-    this.engines.lensMode.updateTransition(deltaTime);
+    this?.engines.lensMode?.updateTransition(deltaTime);
     
     // Update gameplay UI
-    this.updateGameplayUI();
+    this?.updateGameplayUI();
     
     // Apply performance optimizations
-    this.applyPerformanceOptimizations();
+    this?.applyPerformanceOptimizations();
   }
 
   /**
@@ -1485,19 +1485,19 @@ export class RenderWorldPure {
    */
   handleGameplayInput(key: string): boolean {
     // Handle lens mode switching
-    if (this.engines.lensMode.handleKeyPress(key)) {
+    if (this?.engines.lensMode?.handleKeyPress(key)) {
       return true;
     }
 
     // Handle scan mode
-    if (key === 's' && this.state.player.holdingSpiritLens) {
-      this.switchLensMode(LensMode.SCAN);
+    if (key === 's' && this?.state.player?.holdingSpiritLens) {
+      this?.switchLensMode(LensMode?.SCAN);
       return true;
     }
 
     // Handle normal mode
     if (key === 'n') {
-      this.switchLensMode(LensMode.NORMAL);
+      this?.switchLensMode(LensMode?.NORMAL);
       return true;
     }
 
@@ -1508,29 +1508,29 @@ export class RenderWorldPure {
    * Apply performance optimizations based on mobile performance data
    */
   private applyPerformanceOptimizations(): void {
-    const config = this.engines.mobilePerformance.getConfig();
-    const stats = this.engines.mobilePerformance.getPerformanceStats();
+    const config = this?.engines.mobilePerformance?.getConfig();
+    const stats = this?.engines.mobilePerformance?.getPerformanceStats();
     
     // Adjust overlay effects based on performance
-    if (config.postProcessingQuality === 'low') {
+    if (config?.postProcessingQuality === 'low') {
       // Reduce overlay effect intensity
-      this.engines.overlayFX.getAllLayers().forEach((layer: any) => {
-        this.engines.overlayFX.setLayerOpacity(layer.id, layer.opacity * 0.5);
+      this?.engines.overlayFX?.getAllLayers().forEach((layer: any) => {
+        this?.engines.overlayFX?.setLayerOpacity(layer?.id, layer?.opacity * 0.5);
       });
     }
     
     // Adjust scan feedback based on performance
-    if (config.postProcessingQuality === 'low') {
+    if (config?.postProcessingQuality === 'low') {
       // Reduce pulse intensity
-      this.engines.scanFeedback.getAllTargets().forEach((target: any) => {
+      this?.engines.scanFeedback?.getAllTargets().forEach((target: any) => {
         target.pulseIntensity = Math.min(target.pulseIntensity, 0.3);
       });
     }
     
     // Log performance warnings if needed
-    if (!this.engines.mobilePerformance.isPerformanceAcceptable()) {
-      const recommendations = this.engines.mobilePerformance.getOptimizationRecommendations();
-      if (recommendations.length > 0) {
+    if (!this?.engines.mobilePerformance?.isPerformanceAcceptable()) {
+      const recommendations = this?.engines.mobilePerformance?.getOptimizationRecommendations();
+      if (recommendations?.length > 0) {
         console.warn('Performance optimization recommendations:', recommendations);
       }
     }
@@ -1547,16 +1547,16 @@ export class RenderWorldPure {
     isOptimizing: boolean;
     recommendations: string[];
   } {
-    const stats = this.engines.mobilePerformance.getPerformanceStats();
-    const capabilities = this.engines.mobilePerformance.getDeviceCapabilities();
+    const stats = this?.engines.mobilePerformance?.getPerformanceStats();
+    const capabilities = this?.engines.mobilePerformance?.getDeviceCapabilities();
     
     return {
-      level: this.engines.mobilePerformance.getPerformanceLevel(),
-      deviceType: capabilities.type,
-      fps: stats.avgFPS,
-      memoryUsage: stats.memoryUsage,
-      isOptimizing: stats.isOptimizing,
-      recommendations: this.engines.mobilePerformance.getOptimizationRecommendations()
+      level: this?.engines.mobilePerformance?.getPerformanceLevel(),
+      deviceType: capabilities?.type,
+      fps: stats?.avgFPS,
+      memoryUsage: stats?.memoryUsage,
+      isOptimizing: stats?.isOptimizing,
+      recommendations: this?.engines.mobilePerformance?.getOptimizationRecommendations()
     };
   }
 
@@ -1564,7 +1564,7 @@ export class RenderWorldPure {
    * Set mobile performance level
    */
   setMobilePerformanceLevel(level: PerformanceLevel): void {
-    this.engines.mobilePerformance.setPerformanceLevel(level);
+    this?.engines.mobilePerformance?.setPerformanceLevel(level);
   }
 
   // ============================================================================
@@ -1575,40 +1575,40 @@ export class RenderWorldPure {
    * Get current game state (for testing)
    */
   getGameState(): RenderWorldGameState {
-    return this.state;
+    return this?.state;
   }
 
   /**
    * Get engines (for testing)
    */
-  getEngines(): typeof this.engines {
-    return this.engines;
+  getEngines(): typeof this?.engines {
+    return this?.engines;
   }
 
   /**
    * Get current lens mode
    */
   getCurrentLensMode(): LensMode {
-    return this.state.world.gameplay.lensMode;
+    return this?.state.world?.gameplay.lensMode;
   }
 
   /**
    * Get current perception mode
    */
   getCurrentPerceptionMode(): PerceptionMode {
-    return this.state.world.gameplay.perceptionMode;
+    return this?.state.world?.gameplay.perceptionMode;
   }
 
   /**
    * Get gameplay state
    */
-  getGameplayState(): typeof this.state.world.gameplay {
-    return this.state.world.gameplay;
+  getGameplayState(): typeof this?.state.world?.gameplay {
+    return this?.state.world?.gameplay;
   }
 }
 
 // Export for CLI harness
 export function renderWorldDemo(): any {
   const scene = new RenderWorldPure();
-  return scene.runDemo();
+  return scene?.runDemo();
 }

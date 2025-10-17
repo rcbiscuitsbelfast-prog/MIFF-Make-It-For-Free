@@ -8,11 +8,11 @@
  */
 
 // Check for help command
-if (process.argv.includes('--help') || process.argv.includes('-h')) {
+if (process?.argv.includes('--help') || process?.argv.includes('-h')) {
   console.log(`
 AvatarRendererWebPure CLI Harness - Web Avatar Rendering System
 
-Usage: npx tsx miff/pure/AvatarRendererWebPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/AvatarRendererWebPure/cliHarness?.ts [command!] [options!]
 
 Commands:
   test                     - Run basic web renderer tests
@@ -23,11 +23,11 @@ Commands:
   help                     - Show this help
 
 Examples:
-  npx tsx miff/pure/AvatarRendererWebPure/cliHarness.ts test
-  npx tsx miff/pure/AvatarRendererWebPure/cliHarness.ts render-sample
-  npx tsx miff/pure/AvatarRendererWebPure/cliHarness.ts simulate-rendering
+  npx tsx miff/pure/AvatarRendererWebPure/cliHarness?.ts test
+  npx tsx miff/pure/AvatarRendererWebPure/cliHarness?.ts render-sample
+  npx tsx miff/pure/AvatarRendererWebPure/cliHarness?.ts simulate-rendering
 `);
-  process.exit(0);
+  process?.exit(0);
 }
 
 import * as readline from 'readline';
@@ -35,54 +35,54 @@ import { AvatarRendererWebPure } from './index';
 import { ResolvedAvatar, AvatarStyle } from '../AvatarSystemPure/schema';
 
 class AvatarRendererWebCLI {
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
 
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout,
       prompt: 'WebRenderer> '
     });
 
-    this.setupEventHandlers();
+    this?.setupEventHandlers();
   }
 
   private setupEventHandlers(): void {
-    this.rl.on('line', (input) => {
-      this.handleCommand(input.trim());
+    this?.rl.on('line', (input) => {
+      this?.handleCommand(input?.trim());
     });
 
-    this.rl.on('close', () => {
+    this?.rl.on('close', () => {
       console.log('\n👋 Web Avatar Renderer CLI closed');
-      process.exit(0);
+      process?.exit(0);
     });
   }
 
   private async handleCommand(input: string): Promise<void> {
-    const [command, ...args] = input.split(' ');
+    const [command, ...args] = input?.split(' ');
 
-    switch (command.toLowerCase()) {
+    switch (command?.toLowerCase()) {
       case 'test':
-        await this.runTests();
+        await this?.runTests();
         break;
       case 'render-sample':
-        await this.renderSample();
+        await this?.renderSample();
         break;
       case 'create-test-avatar':
-        await this.createTestAvatar();
+        await this?.createTestAvatar();
         break;
       case 'validate-renderer':
-        this.validateRenderer();
+        this?.validateRenderer();
         break;
       case 'simulate-rendering':
-        await this.simulateRendering();
+        await this?.simulateRendering();
         break;
       case 'help':
-        this.showHelp();
+        this?.showHelp();
         break;
       case 'exit':
       case 'quit':
-        this.rl.close();
+        this?.rl.close();
         break;
       case '':
         // Empty line, just show prompt
@@ -92,7 +92,7 @@ class AvatarRendererWebCLI {
         console.log('Type "help" for available commands');
     }
 
-    this.rl.prompt();
+    this?.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
@@ -106,27 +106,27 @@ class AvatarRendererWebCLI {
 
       // Test 2: Method availability
       console.log('2. Testing method availability...');
-      const hasRenderMethod = typeof renderer.renderToCanvas === 'function';
+      const hasRenderMethod = typeof renderer?.renderToCanvas === 'function';
       console.log(`   ${hasRenderMethod ? '✅' : '❌'} renderToCanvas method: ${hasRenderMethod ? 'Available' : 'Missing'}`);
 
       // Test 3: Test avatar creation
       console.log('3. Testing test avatar creation...');
-      const testAvatar = this.createTestAvatarData();
+      const testAvatar = this?.createTestAvatarData();
       console.log(`   ✅ Test avatar created with ${testAvatar.components.length} components`);
       console.log(`   ✅ Test avatar has ${testAvatar.assets.entries.length} asset entries`);
       console.log(`   ✅ Test avatar style: ${testAvatar.assets.style}`);
 
       // Test 4: Canvas context simulation
       console.log('4. Testing canvas context simulation...');
-      const mockContext = this.createMockCanvasContext();
+      const mockContext = this?.createMockCanvasContext();
       console.log('   ✅ Mock canvas context created');
 
       // Test 5: Rendering simulation
       console.log('5. Testing rendering simulation...');
       try {
-        // Note: We can't actually call renderToCanvas in Node.js without a real canvas
+        // Note: We can't actually call renderToCanvas in Node?.js without a real canvas
         // So we'll simulate the rendering process
-        this.simulateRenderingProcess(testAvatar, mockContext);
+        this?.simulateRenderingProcess(testAvatar, mockContext);
         console.log('   ✅ Rendering process simulated successfully');
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -135,12 +135,12 @@ class AvatarRendererWebCLI {
 
       // Test 6: Asset validation
       console.log('6. Testing asset validation...');
-      const assetCount = testAvatar.assets.entries.length;
+      const assetCount = testAvatar?.assets.entries?.length;
       console.log(`   ✅ Test avatar has ${assetCount} asset entries`);
 
       const anchorOrder = ['anchor_cloak', 'anchor_shirt', 'anchor_torso', 'anchor_head', 'anchor_hat', 'anchor_accessory'];
-      const hasAllAnchors = anchorOrder.every(anchor => 
-        testAvatar.assets.entries.some(entry => entry.anchor === anchor)
+      const hasAllAnchors = anchorOrder?.every(anchor => 
+        testAvatar?.assets.entries?.some(entry => entry?.anchor === anchor)
       );
       console.log(`   ${hasAllAnchors ? '✅' : '❌'} Anchor coverage: ${hasAllAnchors ? 'Complete' : 'Incomplete'}`);
 
@@ -156,8 +156,8 @@ class AvatarRendererWebCLI {
     try {
       console.log('🎨 Rendering sample avatar...');
       
-      const testAvatar = this.createTestAvatarData();
-      const mockContext = this.createMockCanvasContext();
+      const testAvatar = this?.createTestAvatarData();
+      const mockContext = this?.createMockCanvasContext();
       
       console.log('   📊 Avatar data:');
       console.log(`      Style: ${testAvatar.assets.style}`);
@@ -167,7 +167,7 @@ class AvatarRendererWebCLI {
       console.log(`      Manifest Style: ${testAvatar.manifest.style}`);
 
       console.log('   🎯 Rendering process:');
-      this.simulateRenderingProcess(testAvatar, mockContext);
+      this?.simulateRenderingProcess(testAvatar, mockContext);
 
       console.log('✅ Sample avatar rendered successfully');
 
@@ -179,7 +179,7 @@ class AvatarRendererWebCLI {
 
   private async createTestAvatar(): Promise<void> {
     try {
-      const testAvatar = this.createTestAvatarData();
+      const testAvatar = this?.createTestAvatarData();
       
       console.log('✅ Test avatar created:');
       console.log(`   Style: ${testAvatar.assets.style}`);
@@ -191,7 +191,7 @@ class AvatarRendererWebCLI {
       // Save to file for reference
       const fs = await import('fs');
       const avatarData = JSON.stringify(testAvatar, null, 2);
-      fs.writeFileSync('test-avatar.json', avatarData);
+      fs?.writeFileSync('test-avatar?.json', avatarData);
       console.log('   💾 Test avatar saved to test-avatar.json');
 
     } catch (error: unknown) {
@@ -209,23 +209,23 @@ class AvatarRendererWebCLI {
       console.log('   ✅ AvatarRendererWebPure class available');
 
       // Check method availability
-      const hasRenderMethod = typeof renderer.renderToCanvas === 'function';
+      const hasRenderMethod = typeof renderer?.renderToCanvas === 'function';
       console.log(`   ${hasRenderMethod ? '✅' : '❌'} renderToCanvas method: ${hasRenderMethod ? 'Available' : 'Missing'}`);
 
       // Check method signature
       if (hasRenderMethod) {
-        const methodString = renderer.renderToCanvas.toString();
-        const hasCanvasParam = methodString.includes('ctx: CanvasRenderingContext2D');
-        const hasAvatarParam = methodString.includes('avatar: ResolvedAvatar');
+        const methodString = renderer?.renderToCanvas.toString();
+        const hasCanvasParam = methodString?.includes('ctx: CanvasRenderingContext2D');
+        const hasAvatarParam = methodString?.includes('avatar: ResolvedAvatar');
         console.log(`   ${hasCanvasParam ? '✅' : '❌'} Canvas context parameter: ${hasCanvasParam ? 'Correct' : 'Missing'}`);
         console.log(`   ${hasAvatarParam ? '✅' : '❌'} Avatar parameter: ${hasAvatarParam ? 'Correct' : 'Missing'}`);
       }
 
       // Check rendering logic
-      const methodString = renderer.renderToCanvas.toString();
-      const hasAnchorOrdering = methodString.includes('anchor_cloak');
-      const hasImageLoading = methodString.includes('new Image()');
-      const hasDrawImage = methodString.includes('drawImage');
+      const methodString = renderer?.renderToCanvas.toString();
+      const hasAnchorOrdering = methodString?.includes('anchor_cloak');
+      const hasImageLoading = methodString?.includes('new Image()');
+      const hasDrawImage = methodString?.includes('drawImage');
       
       console.log(`   ${hasAnchorOrdering ? '✅' : '❌'} Anchor ordering logic: ${hasAnchorOrdering ? 'Present' : 'Missing'}`);
       console.log(`   ${hasImageLoading ? '✅' : '❌'} Image loading logic: ${hasImageLoading ? 'Present' : 'Missing'}`);
@@ -246,20 +246,20 @@ class AvatarRendererWebCLI {
       // Create multiple test avatars
       console.log('1. Creating test avatars...');
       const avatars = [
-        this.createTestAvatarData('avatar-1', '3d'),
-        this.createTestAvatarData('avatar-2', '2d-side'),
-        this.createTestAvatarData('avatar-3', 'overlay')
+        this?.createTestAvatarData('avatar-1', '3d'),
+        this?.createTestAvatarData('avatar-2', '2d-side'),
+        this?.createTestAvatarData('avatar-3', 'overlay')
       ];
       console.log(`   ✅ Created ${avatars.length} test avatars`);
 
       // Simulate rendering each avatar
       console.log('2. Simulating rendering process...');
-      for (let i = 0; i < avatars.length; i++) {
+      for (let i = 0; i < avatars?.length; i++) {
         const avatar = avatars[i!];
-        const mockContext = this.createMockCanvasContext();
+        const mockContext = this?.createMockCanvasContext();
         
         console.log(`   🎨 Rendering avatar ${i + 1} (${avatar.assets.style})...`);
-        this.simulateRenderingProcess(avatar, mockContext);
+        this?.simulateRenderingProcess(avatar, mockContext);
         
         // Simulate different rendering scenarios
         console.log(`      📊 Components: ${avatar.components.length}`);
@@ -270,24 +270,24 @@ class AvatarRendererWebCLI {
 
       // Simulate performance testing
       console.log('3. Simulating performance testing...');
-      const startTime = Date.now();
+      const startTime = new Date();
       
       for (let i = 0; i < 100; i++) {
-        const avatar = this.createTestAvatarData(`perf-avatar-${i}`, '3d');
-        const mockContext = this.createMockCanvasContext();
-        this.simulateRenderingProcess(avatar, mockContext);
+        const avatar = this?.createTestAvatarData(`perf-avatar-${i}`, '3d');
+        const mockContext = this?.createMockCanvasContext();
+        this?.simulateRenderingProcess(avatar, mockContext);
       }
       
-      const endTime = Date.now();
+      const endTime = new Date();
       const duration = endTime - startTime;
       console.log(`   ⚡ Rendered 100 avatars in ${duration}ms (${(duration / 100).toFixed(2)}ms per avatar)`);
 
       // Simulate error handling
       console.log('4. Simulating error handling...');
       try {
-        const invalidAvatar = { ...this.createTestAvatarData(), assets: { style: '3d' as AvatarStyle, entries: [] } };
-        const mockContext = this.createMockCanvasContext();
-        this.simulateRenderingProcess(invalidAvatar, mockContext);
+        const invalidAvatar = { ...this?.createTestAvatarData(), assets: { style: '3d' as AvatarStyle, entries: [] } };
+        const mockContext = this?.createMockCanvasContext();
+        this?.simulateRenderingProcess(invalidAvatar, mockContext);
         console.log('   ✅ Handled empty assets gracefully');
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -347,27 +347,27 @@ class AvatarRendererWebCLI {
         entries: [
           {
             anchor: 'anchor_cloak',
-            url: 'https://example.com/assets/cloak.png'
+            url: 'https://example?.com/assets/cloak?.png'
           },
           {
             anchor: 'anchor_shirt',
-            url: 'https://example.com/assets/shirt.png'
+            url: 'https://example?.com/assets/shirt?.png'
           },
           {
             anchor: 'anchor_torso',
-            url: 'https://example.com/assets/torso.png'
+            url: 'https://example?.com/assets/torso?.png'
           },
           {
             anchor: 'anchor_head',
-            url: 'https://example.com/assets/head.png'
+            url: 'https://example?.com/assets/head?.png'
           },
           {
             anchor: 'anchor_hat',
-            url: 'https://example.com/assets/hat.png'
+            url: 'https://example?.com/assets/hat?.png'
           },
           {
             anchor: 'anchor_accessory',
-            url: 'https://example.com/assets/accessory.png'
+            url: 'https://example?.com/assets/accessory?.png'
           }
         ]
       },
@@ -422,11 +422,11 @@ class AvatarRendererWebCLI {
     const order = ['anchor_cloak', 'anchor_shirt', 'anchor_torso', 'anchor_head', 'anchor_hat', 'anchor_accessory'];
     
     for (const anchor of order) {
-      const entry = avatar.assets.entries.find(e => e.anchor === anchor);
+      const entry = avatar?.assets.entries?.find(e => e?.anchor === anchor);
       if (entry) {
         console.log(`      📦 Rendering ${anchor}: ${entry.url}`);
         // Simulate image loading and drawing
-        mockContext.drawImage({ src: entry.url }, 0, 0);
+        mockContext?.drawImage({ src: entry?.url }, 0, 0);
       } else {
         console.log(`      ⚠️  No asset found for anchor: ${anchor}`);
       }
@@ -447,7 +447,7 @@ Available commands:
   exit/quit                - Exit the CLI
 
 Note: This renderer is designed for web browsers with Canvas API.
-Some features may not work in Node.js environment.
+Some features may not work in Node?.js environment.
 `);
   }
 
@@ -455,16 +455,16 @@ Some features may not work in Node.js environment.
     console.log('🚀 Web Avatar Renderer CLI Started');
     console.log('Type "help" for available commands or "test" to run tests\n');
     
-    this.rl.prompt();
+    this?.rl.prompt();
   }
 }
 
 // Main execution
 async function main() {
   const cli = new AvatarRendererWebCLI();
-  await cli.start();
+  await cli?.start();
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

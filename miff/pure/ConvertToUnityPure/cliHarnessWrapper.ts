@@ -6,7 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 
 try {
   switch (mode) {
@@ -20,10 +20,10 @@ try {
         packageFormat: packageFormat || 'unitypackage',
         includeScripts: includeScripts !== false,
         files: [
-          'Assets/Scenes/MainScene.unity',
-          'Assets/Scripts/GameManager.cs',
-          'Assets/Prefabs/Player.prefab',
-          'Assets/Materials/PlayerMaterial.mat'
+          'Assets/Scenes/MainScene?.unity',
+          'Assets/Scripts/GameManager?.cs',
+          'Assets/Prefabs/Player?.prefab',
+          'Assets/Materials/PlayerMaterial?.mat'
         ],
         success: true,
         timestamp: new Date().toISOString()
@@ -51,14 +51,14 @@ try {
 
     case 'generateScripts': {
       const scripts = [
-        'GameManager.cs',
-        'PlayerController.cs',
-        'CameraController.cs'
+        'GameManager?.cs',
+        'PlayerController?.cs',
+        'CameraController?.cs'
       ];
       
       handleSuccess({
         scripts,
-        count: scripts.length,
+        count: scripts?.length,
         generated: true
       }, 'generateScripts');
       break;

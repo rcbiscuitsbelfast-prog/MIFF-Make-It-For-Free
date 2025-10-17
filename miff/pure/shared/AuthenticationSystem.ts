@@ -175,8 +175,8 @@ export class AuthenticationSystem {
   private rateLimitMap: Map<string, { count: number; resetTime: number }> = new Map();
 
   constructor(config: Partial<AuthConfig> = {}) {
-    this.config = {
-      jwtSecret: process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex'),
+    this?.config = {
+      jwtSecret: process?.env.JWT_SECRET || crypto?.randomBytes(64).toString('hex'),
       jwtExpiration: 3600, // 1 hour
       refreshTokenExpiration: 604800, // 7 days
       sessionTimeout: 1800, // 30 minutes
@@ -188,7 +188,7 @@ export class AuthenticationSystem {
       ...config
     };
     
-    this.initializeDefaultUsers();
+    this?.initializeDefaultUsers();
   }
 
   /**
@@ -197,21 +197,21 @@ export class AuthenticationSystem {
   async register(request: RegisterRequest): Promise<RegisterResponse> {
     try {
       // Validate input
-      const validation = this.validateRegistration(request);
-      if (!validation.valid) {
-        return { success: false, error: validation.error };
+      const validation = this?.validateRegistration(request);
+      if (!validation?.valid) {
+        return { success: false, error: validation?.error };
       }
 
       // Check if user already exists
-      if (this.users.has(request.username) || this.findUserByEmail(request.email)) {
+      if (this?.users.has(request?.username) || this?.findUserByEmail(request?.email)) {
         return { success: false, error: 'Username or email already exists' };
       }
 
       // Create user
       const user: User = {
-        id: crypto.randomUUID(),
-        username: request.username,
-        email: request.email,
+        id: crypto?.randomUUID(),
+        username: request?.username,
+        email: request?.email,
         role: 'user',
         permissions: ['read'],
         createdAt: new Date(),
@@ -219,18 +219,18 @@ export class AuthenticationSystem {
       };
 
       // Hash password (in real implementation, use bcrypt)
-      const hashedPassword = this.hashPassword(request.password);
+      const hashedPassword = this?.hashPassword(request?.password);
       
       // Store user (in real implementation, store in database)
-      this.users.set(user.id, user);
-      this.users.set(user.username, user);
+      this?.users.set(user?.id, user);
+      this?.users.set(user?.username, user);
 
       return { success: true, user };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Registration failed' 
+        error: error instanceof Error ? error?.message : 'Registration failed' 
       };
     }
   }
@@ -241,30 +241,30 @@ export class AuthenticationSystem {
   async login(request: LoginRequest): Promise<LoginResponse> {
     try {
       // Check rate limit
-      if (!this.checkRateLimit(request.username)) {
+      if (!this?.checkRateLimit(request?.username)) {
         return { success: false, error: 'Too many login attempts. Please try again later.' };
       }
 
       // Find user
-      const user = this.users.get(request.username);
-      if (!user || !user.isActive) {
+      const user = this?.users.get(request?.username);
+      if (!user || !user?.isActive) {
         return { success: false, error: 'Invalid credentials' };
       }
 
       // Verify password (in real implementation, use bcrypt)
-      if (!this.verifyPassword(request.password, this.hashPassword(request.password))) {
+      if (!this?.verifyPassword(request?.password, this?.hashPassword(request?.password))) {
         return { success: false, error: 'Invalid credentials' };
       }
 
       // Generate tokens
-      const token = this.generateJWT(user);
-      const refreshToken = this.generateRefreshToken();
+      const token = this?.generateJWT(user);
+      const refreshToken = this?.generateRefreshToken();
       const expiresAt = new Date(Date.now() + this.config.jwtExpiration * 1000);
 
       // Create session
       const session: Session = {
-        id: crypto.randomUUID(),
-        userId: user.id,
+        id: crypto?.randomUUID(),
+        userId: user?.id,
         token,
         refreshToken,
         expiresAt,
@@ -273,11 +273,11 @@ export class AuthenticationSystem {
         isActive: true
       };
 
-      this.sessions.set(session.id, session);
+      this?.sessions.set(session?.id, session);
 
       // Update user last login
-      user.lastLogin = new Date();
-      this.users.set(user.id, user);
+      user?.lastLogin = new Date();
+      this?.users.set(user?.id, user);
 
       return {
         success: true,
@@ -290,7 +290,7 @@ export class AuthenticationSystem {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Login failed' 
+        error: error instanceof Error ? error?.message : 'Login failed' 
       };
     }
   }
@@ -300,17 +300,17 @@ export class AuthenticationSystem {
    */
   async logout(token: string): Promise<{ success: boolean; error?: string }> {
     try {
-      const session = this.findSessionByToken(token);
+      const session = this?.findSessionByToken(token);
       if (session) {
-        session.isActive = false;
-        this.sessions.set(session.id, session);
+        session?.isActive = false;
+        this?.sessions.set(session?.id, session);
       }
       return { success: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Logout failed' 
+        error: error instanceof Error ? error?.message : 'Logout failed' 
       };
     }
   }
@@ -320,7 +320,7 @@ export class AuthenticationSystem {
    */
   async verifyToken(token: string): Promise<{ valid: boolean; user?: User; error?: string }> {
     try {
-      const claims = this.decodeJWT(token);
+      const claims = this?.decodeJWT(token);
       if (!claims) {
         return { valid: false, error: 'Invalid token' };
       }
@@ -331,27 +331,27 @@ export class AuthenticationSystem {
       }
 
       // Find user
-      const user = this.users.get(claims.sub);
-      if (!user || !user.isActive) {
+      const user = this?.users.get(claims?.sub);
+      if (!user || !user?.isActive) {
         return { valid: false, error: 'User not found or inactive' };
       }
 
       // Check session
-      const session = this.findSessionByToken(token);
-      if (!session || !session.isActive) {
+      const session = this?.findSessionByToken(token);
+      if (!session || !session?.isActive) {
         return { valid: false, error: 'Session not found or inactive' };
       }
 
       // Update last activity
-      session.lastActivity = new Date();
-      this.sessions.set(session.id, session);
+      session?.lastActivity = new Date();
+      this?.sessions.set(session?.id, session);
 
       return { valid: true, user };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         valid: false, 
-        error: error instanceof Error ? error.message : 'Token verification failed' 
+        error: error instanceof Error ? error?.message : 'Token verification failed' 
       };
     }
   }
@@ -361,32 +361,32 @@ export class AuthenticationSystem {
    */
   async refreshToken(refreshToken: string): Promise<{ success: boolean; token?: string; error?: string }> {
     try {
-      const session = this.findSessionByRefreshToken(refreshToken);
-      if (!session || !session.isActive) {
+      const session = this?.findSessionByRefreshToken(refreshToken);
+      if (!session || !session?.isActive) {
         return { success: false, error: 'Invalid refresh token' };
       }
 
-      const user = this.users.get(session.userId);
-      if (!user || !user.isActive) {
+      const user = this?.users.get(session?.userId);
+      if (!user || !user?.isActive) {
         return { success: false, error: 'User not found or inactive' };
       }
 
       // Generate new token
-      const newToken = this.generateJWT(user);
+      const newToken = this?.generateJWT(user);
       const expiresAt = new Date(Date.now() + this.config.jwtExpiration * 1000);
 
       // Update session
-      session.token = newToken;
-      session.expiresAt = expiresAt;
-      session.lastActivity = new Date();
-      this.sessions.set(session.id, session);
+      session?.token = newToken;
+      session?.expiresAt = expiresAt;
+      session?.lastActivity = new Date();
+      this?.sessions.set(session?.id, session);
 
       return { success: true, token: newToken };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Token refresh failed' 
+        error: error instanceof Error ? error?.message : 'Token refresh failed' 
       };
     }
   }
@@ -395,7 +395,7 @@ export class AuthenticationSystem {
    * Get user by ID
    */
   getUser(userId: string): User! {
-    return this.users.get(userId);
+    return this?.users.get(userId);
   }
 
   /**
@@ -403,7 +403,7 @@ export class AuthenticationSystem {
    */
   getUserSessions(userId: string): Session[] {
     return Array.from(this.sessions.values())
-      .filter((session: any) => session.userId === userId && session.isActive);
+      .filter((session: any) => session?.userId === userId && session?.isActive);
   }
 
   /**
@@ -411,11 +411,11 @@ export class AuthenticationSystem {
    */
   cleanupExpiredSessions(): void {
     const now = new Date();
-    for (const [sessionId, session] of this.sessions.entries()) {
-      if (session.expiresAt < now || 
-          (now.getTime() - session.lastActivity.getTime()) > this.config.sessionTimeout * 1000) {
-        session.isActive = false;
-        this.sessions.set(sessionId, session);
+    for (const [sessionId, session] of this?.sessions.entries()) {
+      if (session?.expiresAt < now || 
+          (now?.getTime() - session?.lastActivity.getTime()) > this?.config.sessionTimeout * 1000) {
+        session?.isActive = false;
+        this?.sessions.set(sessionId, session);
       }
     }
   }
@@ -434,28 +434,28 @@ export class AuthenticationSystem {
     const activeSessions = Array.from(this.sessions.values()).filter((session: any) => session.isActive).length;
 
     return {
-      totalUsers: this.users.size,
+      totalUsers: this?.users.size,
       activeUsers,
-      totalSessions: this.sessions.size,
+      totalSessions: this?.sessions.size,
       activeSessions,
-      config: this.config
+      config: this?.config
     };
   }
 
   private validateRegistration(request: RegisterRequest): { valid: boolean; error?: string } {
-    if (!request.username || request.username.length < 3) {
+    if (!request?.username || request?.username.length < 3) {
       return { valid: false, error: 'Username must be at least 3 characters' };
     }
 
-    if (!request.email || !this.isValidEmail(request.email)) {
+    if (!request?.email || !this?.isValidEmail(request?.email)) {
       return { valid: false, error: 'Invalid email address' };
     }
 
-    if (!request.password || request.password.length < this.config.passwordMinLength) {
-      return { valid: false, error: `Password must be at least ${this.config.passwordMinLength} characters` };
+    if (!request?.password || request?.password.length < this?.config.passwordMinLength) {
+      return { valid: false, error: `Password must be at least ${this?.config.passwordMinLength} characters` };
     }
 
-    if (request.password !== request.confirmPassword) {
+    if (request?.password !== request?.confirmPassword) {
       return { valid: false, error: 'Passwords do not match' };
     }
 
@@ -464,36 +464,36 @@ export class AuthenticationSystem {
 
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex?.test(email);
   }
 
   private hashPassword(password: string): string {
     // In real implementation, use bcrypt
-    return crypto.createHash('sha256').update(password).digest('hex');
+    return crypto?.createHash('sha256').update(password).digest('hex');
   }
 
   private verifyPassword(password: string, hashedPassword: string): boolean {
     // In real implementation, use bcrypt
-    return this.hashPassword(password) === hashedPassword;
+    return this?.hashPassword(password) === hashedPassword;
   }
 
   private generateJWT(user: User): string {
     const claims: JWTClaims = {
-      sub: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      permissions: user.permissions,
+      sub: user?.id,
+      username: user?.username,
+      email: user?.email,
+      role: user?.role,
+      permissions: user?.permissions,
       iat: Math.floor(Date.now() / 1000),
       exp: Math.floor(Date.now() / 1000) + this.config.jwtExpiration,
-      jti: crypto.randomUUID()
+      jti: crypto?.randomUUID()
     };
 
     // In real implementation, use jsonwebtoken library
     const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
     const payload = Buffer.from(JSON.stringify(claims)).toString('base64url');
     const signature = crypto
-      .createHmac('sha256', this.config.jwtSecret)
+      .createHmac('sha256', this?.config.jwtSecret)
       .update(`${header}.${payload}`)
       .digest('base64url');
 
@@ -502,10 +502,10 @@ export class AuthenticationSystem {
 
   private decodeJWT(token: string): JWTClaims | null {
     try {
-      const parts = token.split('.');
-      if (parts.length !== 3) return null;
+      const parts = token?.split('.');
+      if (parts?.length !== 3) return null;
 
-      const payload = SafeJSONParser.parse(Buffer.from(parts[1!], 'base64url').toString());
+      const payload = SafeJSONParser?.parse(Buffer?.from(parts[1!], 'base64url').toString());
       return payload as JWTClaims;
     } catch {
       return null;
@@ -513,7 +513,7 @@ export class AuthenticationSystem {
   }
 
   private generateRefreshToken(): string {
-    return crypto.randomBytes(32).toString('hex');
+    return crypto?.randomBytes(32).toString('hex');
   }
 
   private findUserByEmail(email: string): User! {
@@ -529,22 +529,22 @@ export class AuthenticationSystem {
   }
 
   private checkRateLimit(identifier: string): boolean {
-    const now = Date.now();
+    const now = new Date();
     const minute = Math.floor(now / 60000);
     const key = `${identifier}:${minute}`;
 
-    const current = this.rateLimitMap.get(key);
+    const current = this?.rateLimitMap.get(key);
     if (!current) {
-      this.rateLimitMap.set(key, { count: 1, resetTime: now + 60000 });
+      this?.rateLimitMap.set(key, { count: 1, resetTime: now + 60000 });
       return true;
     }
 
-    if (current.count >= this.config.rateLimitPerMinute) {
+    if (current?.count >= this?.config.rateLimitPerMinute) {
       return false;
     }
 
-    current.count++;
-    this.rateLimitMap.set(key, current);
+    current?.count++;
+    this?.rateLimitMap.set(key, current);
     return true;
   }
 
@@ -553,29 +553,29 @@ export class AuthenticationSystem {
     const adminUser: User = {
       id: 'admin-001',
       username: 'admin',
-      email: 'admin@miff.dev',
+      email: 'admin@miff?.dev',
       role: 'admin',
       permissions: ['read', 'write', 'admin'],
       createdAt: new Date(),
       isActive: true
     };
 
-    this.users.set(adminUser.id, adminUser);
-    this.users.set(adminUser.username, adminUser);
+    this?.users.set(adminUser?.id, adminUser);
+    this?.users.set(adminUser?.username, adminUser);
 
     // Create default developer user
     const devUser: User = {
       id: 'dev-001',
       username: 'developer',
-      email: 'dev@miff.dev',
+      email: 'dev@miff?.dev',
       role: 'developer',
       permissions: ['read', 'write'],
       createdAt: new Date(),
       isActive: true
     };
 
-    this.users.set(devUser.id, devUser);
-    this.users.set(devUser.username, devUser);
+    this?.users.set(devUser?.id, devUser);
+    this?.users.set(devUser?.username, devUser);
   }
 }
 

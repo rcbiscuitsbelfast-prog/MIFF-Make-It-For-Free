@@ -120,11 +120,11 @@ export class WitcherExplorerDemo {
   };
 
   constructor() {
-    this.state = this.initializeGameState();
-    this.engines = this.initializeEngines();
-    this.setupEventListeners();
-    this.generateWorld();
-    this.generateAssets();
+    this?.state = this?.initializeGameState();
+    this?.engines = this?.initializeEngines();
+    this?.setupEventListeners();
+    this?.generateWorld();
+    this?.generateAssets();
   }
 
   private initializeGameState(): WitcherGameState {
@@ -188,7 +188,7 @@ export class WitcherExplorerDemo {
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: this.state.player.inventory,
+      inventory: this?.state.player?.inventory,
       flags: new Map()
     };
 
@@ -204,21 +204,21 @@ export class WitcherExplorerDemo {
   }
 
   private setupEventListeners() {
-    EventBus.on('npc.interaction', this.handleNPCInteraction.bind(this));
-    EventBus.on('monster.encountered', this.handleMonsterEncounter.bind(this));
-    EventBus.on('quest.updated', this.handleQuestUpdate.bind(this));
-    EventBus.on('item.acquired', this.handleItemAcquired.bind(this));
-    EventBus.on('location.discovered', this.handleLocationDiscovered.bind(this));
-    EventBus.on('dialogue.choice', this.handleDialogueChoice.bind(this));
+    EventBus?.on('npc?.interaction', this?.handleNPCInteraction.bind(this));
+    EventBus?.on('monster?.encountered', this?.handleMonsterEncounter.bind(this));
+    EventBus?.on('quest?.updated', this?.handleQuestUpdate.bind(this));
+    EventBus?.on('item?.acquired', this?.handleItemAcquired.bind(this));
+    EventBus?.on('location?.discovered', this?.handleLocationDiscovered.bind(this));
+    EventBus?.on('dialogue?.choice', this?.handleDialogueChoice.bind(this));
   }
 
   private generateWorld() {
-    this.generateZones();
-    this.generateNPCs();
-    this.generateMonsters();
-    this.generateLocations();
-    this.generateQuests();
-    this.generateItems();
+    this?.generateZones();
+    this?.generateNPCs();
+    this?.generateMonsters();
+    this?.generateLocations();
+    this?.generateQuests();
+    this?.generateItems();
   }
 
   private generateZones() {
@@ -228,29 +228,29 @@ export class WitcherExplorerDemo {
         name: "Kingdom of Temeria",
         description: "A war-torn kingdom in need of a hero",
         regions: ["white_orchard", "velen", "novigrad"],
-        background: "assets/temeria_background.png",
-        music: "assets/temeria_theme.mp3"
+        background: "assets/temeria_background?.png",
+        music: "assets/temeria_theme?.mp3"
       },
       {
         id: "kaer_morhen",
         name: "Kaer Morhen",
         description: "Ancient fortress of the Witchers",
         regions: ["courtyard", "great_hall", "training_grounds"],
-        background: "assets/kaer_morhen_background.png",
-        music: "assets/kaer_morhen_theme.mp3"
+        background: "assets/kaer_morhen_background?.png",
+        music: "assets/kaer_morhen_theme?.mp3"
       },
       {
         id: "skellige",
         name: "Skellige Isles",
         description: "Rugged islands of fierce warriors",
         regions: ["ard_skellig", "an_skellig", "spikeroog"],
-        background: "assets/skellige_background.png",
-        music: "assets/skellige_theme.mp3"
+        background: "assets/skellige_background?.png",
+        music: "assets/skellige_theme?.mp3"
       }
     ];
 
-    zones.forEach(zoneData => {
-      this.state.world.zones.set(zoneData.id, zoneData);
+    zones?.forEach(zoneData => {
+      this?.state.world?.zones.set(zoneData?.id, zoneData);
     });
   }
 
@@ -306,8 +306,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    npcs.forEach(npcData => {
-      this.state.world.npcs.set(npcData.id, npcData);
+    npcs?.forEach(npcData => {
+      this?.state.world?.npcs.set(npcData?.id, npcData);
     });
   }
 
@@ -367,8 +367,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    monsters.forEach(monsterData => {
-      this.state.world.monsters.set(monsterData.id, monsterData);
+    monsters?.forEach(monsterData => {
+      this?.state.world?.monsters.set(monsterData?.id, monsterData);
     });
   }
 
@@ -412,8 +412,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    locations.forEach(locationData => {
-      this.state.world.locations.set(locationData.id, locationData);
+    locations?.forEach(locationData => {
+      this?.state.world?.locations.set(locationData?.id, locationData);
     });
   }
 
@@ -497,61 +497,61 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    quests.forEach(questData => {
+    quests?.forEach(questData => {
       const quest = new Quest(
-        questData.id,
-        questData.title,
-        questData.description,
-        questData.objectives.map((obj: string) =>
+        questData?.id,
+        questData?.title,
+        questData?.description,
+        questData?.objectives.map((obj: string) =>
           new QuestObjective(obj, false)
         ),
-        questData.rewards,
-        questData.prerequisites
+        questData?.rewards,
+        questData?.prerequisites
       );
 
-      this.engines.quests.addQuest(quest);
-      this.state.player.questLog.push(quest);
+      this?.engines.quests?.addQuest(quest);
+      this?.state.player?.questLog?.push(quest);
     });
   }
 
   private generateItems() {
     const items = [
-      new Item('witcher_sword', 'Witcher Silver Sword', ItemType.WEAPON,
+      new Item('witcher_sword', 'Witcher Silver Sword', ItemType?.WEAPON,
         'A masterfully crafted silver sword for monster hunting',
         [
-          new ItemEffect(ItemEffectType.DAMAGE, { type: 'slash', value: 50 }),
-          new ItemEffect(ItemEffectType.SPECIAL, { effect: 'monster_damage', value: 25 })
+          new ItemEffect(ItemEffectType?.DAMAGE, { type: 'slash', value: 50 }),
+          new ItemEffect(ItemEffectType?.SPECIAL, { effect: 'monster_damage', value: 25 })
         ]
       ),
-      new Item('potion_kit', 'Alchemy Kit', ItemType.TOOL,
+      new Item('potion_kit', 'Alchemy Kit', ItemType?.TOOL,
         'Essential tools for brewing Witcher potions',
-        [new ItemEffect(ItemEffectType.SKILL, { skill: 'alchemy', value: 2 })]
+        [new ItemEffect(ItemEffectType?.SKILL, { skill: 'alchemy', value: 2 })]
       ),
-      new Item('monster_manual', 'Monster Compendium', ItemType.BOOK,
+      new Item('monster_manual', 'Monster Compendium', ItemType?.BOOK,
         'Comprehensive guide to monster weaknesses and behaviors',
-        [new ItemEffect(ItemEffectType.KNOWLEDGE, { category: 'monsters', value: 100 })]
+        [new ItemEffect(ItemEffectType?.KNOWLEDGE, { category: 'monsters', value: 100 })]
       ),
-      new Item('health_potion', 'Swallow Potion', ItemType.CONSUMABLE,
+      new Item('health_potion', 'Swallow Potion', ItemType?.CONSUMABLE,
         'Restores 100 HP over time',
-        [new ItemEffect(ItemEffectType.HEAL, { value: 100, duration: 30 })]
+        [new ItemEffect(ItemEffectType?.HEAL, { value: 100, duration: 30 })]
       ),
-      new Item('yrden_sign', 'Yrden Sign Stone', ItemType.MAGIC,
+      new Item('yrden_sign', 'Yrden Sign Stone', ItemType?.MAGIC,
         'Creates a magical trap that slows and damages enemies',
-        [new ItemEffect(ItemEffectType.SPELL, { spell: 'yrden', mana: 20 })]
+        [new ItemEffect(ItemEffectType?.SPELL, { spell: 'yrden', mana: 20 })]
       )
     ];
 
-    items.forEach((item: any) => {
-      this.engines.items.registerItem(item);
+    items?.forEach((item: any) => {
+      this?.engines.items?.registerItem(item: any);
     });
   }
 
   private generateAssets() {
-    this.generateCharacterAssets();
-    this.generateWorldAssets();
-    this.generateItemAssets();
-    this.generateUIAssets();
-    this.generateAudioAssets();
+    this?.generateCharacterAssets();
+    this?.generateWorldAssets();
+    this?.generateItemAssets();
+    this?.generateUIAssets();
+    this?.generateAudioAssets();
   }
 
   private generateCharacterAssets() {
@@ -566,8 +566,8 @@ export class WitcherExplorerDemo {
       { id: 'ciri_idle', type: 'npc', frames: 6, size: { w: 30, h: 46 } }
     ];
 
-    characters.forEach((char: any) => {
-      this.generateCharacterAsset(char);
+    characters?.forEach((char: any) => {
+      this?.generateCharacterAsset(char);
     });
   }
 
@@ -585,8 +585,8 @@ export class WitcherExplorerDemo {
       { id: 'novigrad_map', type: 'map', size: { w: 1000, h: 700 } }
     ];
 
-    worldAssets.forEach((asset: any) => {
-      this.generateWorldAsset(asset);
+    worldAssets?.forEach((asset: any) => {
+      this?.generateWorldAsset(asset);
     });
   }
 
@@ -603,7 +603,7 @@ export class WitcherExplorerDemo {
       { id: 'yrden_stone_icon', type: 'item', size: { w: 22, h: 22 } }
     ];
 
-    itemAssets.forEach((asset: any) => {
+    itemAssets?.forEach((asset: any) => {
       console.log(`Generated item asset: ${asset.id}`);
     });
   }
@@ -618,7 +618,7 @@ export class WitcherExplorerDemo {
       { id: 'character_sheet', type: 'ui', size: { w: 600, h: 400 } }
     ];
 
-    uiAssets.forEach((asset: any) => {
+    uiAssets?.forEach((asset: any) => {
       console.log(`Generated UI asset: ${asset.id}`);
     });
   }
@@ -637,37 +637,37 @@ export class WitcherExplorerDemo {
       { id: 'footstep_stone', type: 'sfx', duration: 0.4 }
     ];
 
-    audioAssets.forEach((asset: any) => {
+    audioAssets?.forEach((asset: any) => {
       console.log(`Generated audio asset: ${asset.id}`);
     });
   }
 
   private handleNPCInteraction(event) {
-    const npc = event.npc;
-    const player = this.state.player;
+    const npc = event?.npc;
+    const player = this?.state.player;
 
     // Check reputation requirements
-    if (npc.reputation > player.reputation) {
-      EventBus.publish('dialogue.start', {
-        npcId: npc.id,
+    if (npc?.reputation > player?.reputation) {
+      EventBus?.publish('dialogue?.start', {
+        npcId: npc?.id,
         attitude: 'hostile',
-        dialogue: `${npc.name}: You are not welcome here, outsider.`
+        dialogue: `${npc?.name}: You are not welcome here, outsider.`
       });
       return;
     }
 
     // Start dialogue
-    EventBus.publish('dialogue.start', {
-      npcId: npc.id,
-      attitude: npc.attitude,
-      dialogue: this.getNPCDialogue(npc.id, 'greeting')
+    EventBus?.publish('dialogue?.start', {
+      npcId: npc?.id,
+      attitude: npc?.attitude,
+      dialogue: this?.getNPCDialogue(npc?.id, 'greeting')
     });
 
     // Check for available quests
-    npc.quests.forEach((questId: string) => {
-      const quest = this.engines.quests.getQuest(questId);
-      if (quest && quest.status === QuestStatus.AVAILABLE) {
-        EventBus.publish('quest.offered', { quest, npc });
+    npc?.quests.forEach((questId: string) => {
+      const quest = this?.engines.quests?.getQuest(questId);
+      if (quest && quest?.status === QuestStatus?.AVAILABLE) {
+        EventBus?.publish('quest?.offered', { quest, npc });
       }
     });
   }
@@ -700,19 +700,19 @@ export class WitcherExplorerDemo {
   }
 
   private handleMonsterEncounter(event) {
-    const monster = event.monster;
-    const player = this.state.player;
+    const monster = event?.monster;
+    const player = this?.state.player;
 
     // Check if player can handle this monster
-    const difficulty = this.calculateMonsterDifficulty(monster, player);
-    const canHandle = difficulty <= player.level + 3;
+    const difficulty = this?.calculateMonsterDifficulty(monster, player);
+    const canHandle = difficulty <= player?.level + 3;
 
     if (canHandle) {
       // Start combat
-      this.startCombat(player, monster);
+      this?.startCombat(player, monster);
     } else {
       // Monster is too strong - flee or find help
-      EventBus.publish('monster.too_strong', {
+      EventBus?.publish('monster?.too_strong', {
         monster,
         player,
         recommendedLevel: difficulty
@@ -721,78 +721,78 @@ export class WitcherExplorerDemo {
   }
 
   private calculateMonsterDifficulty(monster: any, player: any): number {
-    const baseLevel = monster.level;
-    const healthFactor = monster.health / 100;
-    const damageFactor = monster.damage / 50;
+    const baseLevel = monster?.level;
+    const healthFactor = monster?.health / 100;
+    const damageFactor = monster?.damage / 50;
 
     return Math.round(baseLevel * (healthFactor + damageFactor) / 2);
   }
 
   private handleQuestUpdate(event) {
-    const quest = event.quest;
-    const player = this.state.player;
+    const quest = event?.quest;
+    const player = this?.state.player;
 
     // Update quest log
-    const questIndex = player.questLog.findIndex(q => q.id === quest.id);
+    const questIndex = player?.questLog.findIndex(q => q?.id === quest?.id);
     if (questIndex !== -1) {
-      player.questLog[questIndex!] = quest;
+      player?.questLog[questIndex!] = quest;
     }
 
     // Award experience if quest completed
-    if (quest.status === QuestStatus.COMPLETED) {
-      player.experience += quest.rewards.experience;
-      player.gold += quest.rewards.gold;
-      player.reputation += quest.rewards.reputation;
+    if (quest?.status === QuestStatus?.COMPLETED) {
+      player?.experience += quest?.rewards.experience;
+      player?.gold += quest?.rewards.gold;
+      player?.reputation += quest?.rewards.reputation;
 
       // Add items to inventory
-      quest.rewards.items.forEach((itemId: string) => {
-        const item = this.engines.items.getItem(itemId);
-        if (item) {
-          player.inventory.push(item);
+      quest?.rewards.items?.forEach((itemId: string) => {
+        const item = this?.engines.items?.getItem(itemId);
+        if (item: any) {
+          player?.inventory?.push(item: any);
         }
       });
 
-      EventBus.publish('quest.completed', { quest, player });
+      EventBus?.publish('quest?.completed', { quest, player });
     }
   }
 
   private handleItemAcquired(event) {
-    const item = event.item;
-    this.state.player.inventory.push(item);
+    const item = event?.item;
+    this?.state.player?.inventory?.push(item: any);
 
-    EventBus.publish('inventory.updated', {
+    EventBus?.publish('inventory?.updated', {
       item,
-      player: this.state.player
+      player: this?.state.player
     });
   }
 
   private handleLocationDiscovered(event) {
-    const location = event.location;
-    if (!this.state.world.discoveredLocations.includes(location.id)) {
-      this.state.world.discoveredLocations.push(location.id);
-      EventBus.publish('map.updated', { location });
+    const location = event?.location;
+    if (!this?.state.world?.discoveredLocations.includes(location?.id)) {
+      this?.state.world?.discoveredLocations?.push(location?.id);
+      EventBus?.publish('map?.updated', { location });
     }
   }
 
   private handleDialogueChoice(event) {
-    const choice = event.choice;
-    const npcId = event.npcId;
+    const choice = event?.choice;
+    const npcId = event?.npcId;
 
     // Process dialogue choice consequences
-    if (choice.effect === 'reputation_gain') {
-      this.state.player.reputation += choice.value;
-    } else if (choice.effect === 'reputation_loss') {
-      this.state.player.reputation -= choice.value;
-    } else if (choice.effect === 'quest_progress') {
-      this.engines.quests.updateQuestProgress(choice.questId, choice.objective);
+    if (choice?.effect === 'reputation_gain') {
+      this?.state.player?.reputation += choice?.value;
+    } else if (choice?.effect === 'reputation_loss') {
+      this?.state.player?.reputation -= choice?.value;
+    } else if (choice?.effect === 'quest_progress') {
+      this?.engines.quests?.updateQuestProgress(choice?.questId, choice?.objective);
     }
 
     // Get next dialogue
-    const nextDialogue = this.getNPCDialogue(npcId, choice.next);
-    EventBus.publish('dialogue.continue', {
+    const nextDialogue = this?.getNPCDialogue(npcId, choice?.next);
+    EventBus?.publish('dialogue?.continue', {
       npcId,
       dialogue: nextDialogue,
-      choices: this.getDialogueChoices(npcId, choice.next)
+      choices: this?.getDialogueChoices(npcId, choice?.next)
     });
   }
 
@@ -804,7 +804,7 @@ export class WitcherExplorerDemo {
   private startCombat(player: any, monster: any) {
     // Initialize combat with Witcher-specific mechanics
     // Include alchemy, signs, sword styles, etc.
-    EventBus.publish('combat.started', {
+    EventBus?.publish('combat?.started', {
       player,
       monster,
       type: 'witcher_combat'
@@ -813,22 +813,22 @@ export class WitcherExplorerDemo {
 
   // Public API methods
   public getGameState(): WitcherGameState {
-    return this.state;
+    return this?.state;
   }
 
   public update(deltaTime: number) {
-    if (this.state.game.paused || this.state.game.gameOver) return;
+    if (this?.state.game?.paused || this?.state.game?.gameOver) return;
 
-    this.state.game.time += deltaTime;
-    this.updateDayNightCycle();
-    this.updatePlayer();
-    this.updateWorld();
-    this.updateUI();
+    this?.state.game?.time += deltaTime;
+    this?.updateDayNightCycle();
+    this?.updatePlayer();
+    this?.updateWorld();
+    this?.updateUI();
   }
 
   private updateDayNightCycle() {
-    const timeOfDay = (this.state.game.time % 1440) / 60; // 1440 minutes = 24 hours
-    this.state.game.dayNightCycle = timeOfDay < 12 ? 'day' : 'night';
+    const timeOfDay = (this?.state.game?.time % 1440) / 60; // 1440 minutes = 24 hours
+    this?.state.game?.dayNightCycle = timeOfDay < 12 ? 'day' : 'night';
   }
 
   private updatePlayer() {
@@ -840,46 +840,46 @@ export class WitcherExplorerDemo {
   }
 
   private updateUI() {
-    if (this.state.ui.hudVisible) {
-      this.renderHUD();
+    if (this?.state.ui?.hudVisible) {
+      this?.renderHUD();
     }
   }
 
   private renderHUD() {
-    const player = this.state.player;
+    const player = this?.state.player;
     const hudData = {
       player: {
-        name: player.name,
-        level: player.level,
-        health: player.health,
-        maxHealth: player.maxHealth,
-        mana: player.mana,
-        maxMana: player.maxMana,
-        experience: player.experience,
-        gold: player.gold,
-        reputation: player.reputation
+        name: player?.name,
+        level: player?.level,
+        health: player?.health,
+        maxHealth: player?.maxHealth,
+        mana: player?.mana,
+        maxMana: player?.maxMana,
+        experience: player?.experience,
+        gold: player?.gold,
+        reputation: player?.reputation
       },
       game: {
-        time: this.state.game.time,
-        dayNightCycle: this.state.game.dayNightCycle,
-        weather: this.state.game.weather,
-        currentZone: this.state.world.currentZone
+        time: this?.state.game?.time,
+        dayNightCycle: this?.state.game?.dayNightCycle,
+        weather: this?.state.game?.weather,
+        currentZone: this?.state.world?.currentZone
       },
-      quests: this.state.player.questLog.slice(0, 5), // Show active quests
+      quests: this?.state.player?.questLog.slice(0, 5), // Show active quests
       minimap: {
-        visible: this.state.ui.minimapVisible,
-        currentLocation: this.state.player.position,
-        discoveredLocations: this.state.world.discoveredLocations
+        visible: this?.state.ui?.minimapVisible,
+        currentLocation: this?.state.player?.position,
+        discoveredLocations: this?.state.world?.discoveredLocations
       }
     };
 
-    this.engines.hud.updateModel(hudData);
+    this?.engines.hud?.updateModel(hudData);
   }
 
   public render() {
-    this.renderWorld();
-    this.renderUI();
-    this.renderEffects();
+    this?.renderWorld();
+    this?.renderUI();
+    this?.renderEffects();
   }
 
   private renderWorld() {
@@ -899,10 +899,10 @@ export class WitcherExplorerDemo {
     return {
       op: 'witcher_explorer_demo',
       status: 'ok',
-      zone: this.state.world.currentZone,
-      player: this.state.player.position,
+      zone: this?.state.world?.currentZone,
+      player: this?.state.player?.position,
       npcs: Array.from(this.state.world.npcs.keys()),
-      quests: this.state.player.questLog.length,
+      quests: this?.state.player?.questLog.length,
       orchestrationReady: true,
       modulesIntegrated: [
         'CombatPure',
@@ -932,5 +932,5 @@ export class WitcherExplorerDemo {
 // Export for CLI harness
 export function witcherExplorerDemo(): any {
   const game = new WitcherExplorerDemo();
-  return game.runDemo();
+  return game?.runDemo();
 }

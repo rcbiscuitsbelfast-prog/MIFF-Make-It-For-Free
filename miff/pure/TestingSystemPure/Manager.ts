@@ -967,7 +967,7 @@ export class TestingSystemPure {
 
   constructor(config: Partial<TestingSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableTestingManagement: true,
       enableTestAutomation: true,
       enableTestOrchestration: true,
@@ -984,7 +984,7 @@ export class TestingSystemPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalTestSuites: 0,
       activeTestSuites: 0,
       totalTestCases: 0,
@@ -999,7 +999,7 @@ export class TestingSystemPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalTestSuites: 0,
       totalTestCases: 0,
       totalTestRuns: 0,
@@ -1014,7 +1014,7 @@ export class TestingSystemPure {
    * Create a new testing system manager
    */
   createManager(): TestingSystemOutput {
-    if (!this.config.enableTestingManagement) {
+    if (!this?.config.enableTestingManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1024,8 +1024,8 @@ export class TestingSystemPure {
 
     const manager: TestingSystemManager = {
       id: managerData.id || `testingsystem-${Date.now()}`,
-      name: managerData.name || 'Unnamed Testing System Manager',
-      type: managerData.type || 'unit',
+      name: managerData?.name || 'Unnamed Testing System Manager',
+      type: managerData?.type || 'unit',
       status: 'active',
       testSuites: [],
       testCases: [],
@@ -1093,7 +1093,7 @@ export class TestingSystemPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1106,7 +1106,7 @@ export class TestingSystemPure {
    * Get manager by ID
    */
   getManager(): TestingSystemOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1126,14 +1126,14 @@ export class TestingSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): TestingSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): TestingSystemAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1147,7 +1147,7 @@ export class TestingSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalTestSuites = 0;
     let activeTestSuites = 0;
     let totalTestCases = 0;
@@ -1156,23 +1156,23 @@ export class TestingSystemPure {
     let totalReports = 0;
     let totalEnvironments = 0;
 
-    for (const manager of this.managers.values()) {
-      totalTestSuites += manager.testSuites.length;
-      activeTestSuites += manager.testSuites.filter((ts: any) => ts.status === 'running').length;
-      totalTestCases += manager.testCases.length;
-      totalTestRuns += manager.testRuns.length;
-      runningTestRuns += manager.testRuns.filter((tr: any) => tr.status === 'running').length;
-      totalReports += manager.reports.length;
-      totalEnvironments += manager.environments.length;
+    for (const manager of this?.managers.values()) {
+      totalTestSuites += manager?.testSuites.length;
+      activeTestSuites += manager?.testSuites.filter((ts: any) => ts?.status === 'running').length;
+      totalTestCases += manager?.testCases.length;
+      totalTestRuns += manager?.testRuns.length;
+      runningTestRuns += manager?.testRuns.filter((tr: any) => tr?.status === 'running').length;
+      totalReports += manager?.reports.length;
+      totalEnvironments += manager?.environments.length;
     }
 
-    this.performanceMetrics.totalTestSuites = totalTestSuites;
-    this.performanceMetrics.activeTestSuites = activeTestSuites;
-    this.performanceMetrics.totalTestCases = totalTestCases;
-    this.performanceMetrics.totalTestRuns = totalTestRuns;
-    this.performanceMetrics.runningTestRuns = runningTestRuns;
-    this.performanceMetrics.totalReports = totalReports;
-    this.performanceMetrics.totalEnvironments = totalEnvironments;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalTestSuites = totalTestSuites;
+    this?.performanceMetrics.activeTestSuites = activeTestSuites;
+    this?.performanceMetrics.totalTestCases = totalTestCases;
+    this?.performanceMetrics.totalTestRuns = totalTestRuns;
+    this?.performanceMetrics.runningTestRuns = runningTestRuns;
+    this?.performanceMetrics.totalReports = totalReports;
+    this?.performanceMetrics.totalEnvironments = totalEnvironments;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

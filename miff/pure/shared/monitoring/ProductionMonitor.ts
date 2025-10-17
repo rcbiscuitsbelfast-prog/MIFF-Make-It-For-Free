@@ -154,17 +154,17 @@ export class ProductionMonitor {
   private metrics: MonitoringMetrics[] = [];
   private alerts: Alert[] = [];
   private isInitialized: boolean = false;
-  private monitoringInterval?: NodeJS.Timeout;
+  private monitoringInterval?: NodeJS?.Timeout;
   private startTime: Date;
 
   constructor() {
-    this.logger = StructuredLogger.getInstance('ProductionMonitor');
-    this.performanceOptimizer = PerformanceOptimizer.getInstance();
-    this.memoryManager = MemoryManager.getInstance();
-    this.errorHandler = StandardErrorHandler.getInstance();
-    this.startTime = new Date();
+    this?.logger = StructuredLogger?.getInstance('ProductionMonitor');
+    this?.performanceOptimizer = PerformanceOptimizer?.getInstance();
+    this?.memoryManager = MemoryManager?.getInstance();
+    this?.errorHandler = StandardErrorHandler?.getInstance();
+    this?.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enabled: true,
       interval: 30000, // 30 seconds
       retention: 10000, // Keep last 10,000 metrics
@@ -187,40 +187,40 @@ export class ProductionMonitor {
   }
 
   static getInstance(): ProductionMonitor {
-    if (!ProductionMonitor.instance) {
-      ProductionMonitor.instance = new ProductionMonitor();
+    if (!ProductionMonitor?.instance) {
+      ProductionMonitor?.instance = new ProductionMonitor();
     }
-    return ProductionMonitor.instance;
+    return ProductionMonitor?.instance;
   }
 
   /**
    * Initialize the production monitor
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      StructuredLogger.warn('Production monitor already initialized');
+    if (this?.isInitialized) {
+      StructuredLogger?.warn('Production monitor already initialized');
       return;
     }
 
     try {
-      StructuredLogger.info('Initializing production monitor...');
+      StructuredLogger?.info('Initializing production monitor...');
 
       // Initialize dependencies
-      await this.performanceOptimizer.initialize();
-      await this.memoryManager.initialize();
-      await this.errorHandler.initialize();
+      await this?.performanceOptimizer.initialize({});
+      await this?.memoryManager.initialize({});
+      await this?.errorHandler.initialize({});
 
       // Start monitoring
-      if (this.config.enabled) {
-        await this.startMonitoring();
+      if (this?.config.enabled) {
+        await this?.startMonitoring();
       }
 
-      this.isInitialized = true;
-      StructuredLogger.info('Production monitor initialized successfully');
+      this?.isInitialized = true;
+      StructuredLogger?.info('Production monitor initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError(error);
+      this?.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -229,15 +229,15 @@ export class ProductionMonitor {
    * Get current monitoring metrics
    */
   async getMetrics(): Promise<MonitoringMetrics> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Production monitor not initialized');
     }
 
     const timestamp = new Date();
-    const system = await this.collectSystemMetrics();
-    const application = await this.collectApplicationMetrics();
-    const business = await this.collectBusinessMetrics();
-    const custom = await this.collectCustomMetrics();
+    const system = await this?.collectSystemMetrics();
+    const application = await this?.collectApplicationMetrics();
+    const business = await this?.collectBusinessMetrics();
+    const custom = await this?.collectCustomMetrics();
 
     const metrics: MonitoringMetrics = {
       timestamp,
@@ -248,8 +248,8 @@ export class ProductionMonitor {
     };
 
     // Store metrics
-    this.metrics.push(metrics);
-    this.trimMetrics();
+    this?.metrics?.push(metrics);
+    this?.trimMetrics();
 
     return metrics;
   }
@@ -258,28 +258,28 @@ export class ProductionMonitor {
    * Get dashboard data
    */
   async getDashboardData(): Promise<DashboardData> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Production monitor not initialized');
     }
 
-    const currentMetrics = await this.getMetrics();
-    const trends = this.calculateTrends();
-    const performance = await this.analyzePerformance();
+    const currentMetrics = await this?.getMetrics();
+    const trends = this?.calculateTrends();
+    const performance = await this?.analyzePerformance();
 
     return {
       overview: {
-        status: this.determineOverallStatus(),
-        uptime: new Date() - this.startTime.getTime(),
+        status: this?.determineOverallStatus(),
+        uptime: new Date() - this?.startTime.getTime(),
         lastUpdated: new Date(),
-        totalAlerts: this.alerts.length,
-        activeAlerts: this.alerts.filter((a: any) => !a.resolved).length,
-        resolvedAlerts: this.alerts.filter((a: any) => a.resolved).length
+        totalAlerts: this?.alerts.length,
+        activeAlerts: this?.alerts.filter((a: any) => !a?.resolved).length,
+        resolvedAlerts: this?.alerts.filter((a: any) => a?.resolved).length
       },
       metrics: {
         current: currentMetrics,
         trends
       },
-      alerts: this.getActiveAlerts(),
+      alerts: this?.getActiveAlerts(),
       performance
     };
   }
@@ -297,11 +297,11 @@ export class ProductionMonitor {
       actions: []
     };
 
-    this.alerts.push(newAlert);
-    StructuredLogger.warn('Alert created' ?? 'unknown', { context: { message: { id: newAlert.id, type: newAlert.type, severity: newAlert.severity } } });
+    this?.alerts?.push(newAlert);
+    StructuredLogger?.warn('Alert created' ?? 'unknown', { context: { message: { id: newAlert?.id, type: newAlert?.type, severity: newAlert?.severity } } });
 
     // Trigger alert actions
-    this.handleAlert(newAlert);
+    this?.handleAlert(newAlert);
 
     return newAlert;
   }
@@ -310,16 +310,16 @@ export class ProductionMonitor {
    * Acknowledge an alert
    */
   acknowledgeAlert(alertId: string, acknowledgedBy: string): boolean {
-    const alert = this.alerts.find(a => a.id === alertId);
+    const alert = this?.alerts.find(a => a?.id === alertId);
     if (!alert) {
       return false;
     }
 
-    alert.acknowledged = true;
-    alert.acknowledgedAt = new Date();
-    alert.acknowledgedBy = acknowledgedBy;
+    alert?.acknowledged = true;
+    alert?.acknowledgedAt = new Date();
+    alert?.acknowledgedBy = acknowledgedBy;
 
-    StructuredLogger.info('Alert acknowledged', { context: { message: { id: alertId, acknowledgedBy } } });
+    StructuredLogger?.info('Alert acknowledged', { context: { message: { id: alertId, acknowledgedBy } } });
     return true;
   }
 
@@ -327,15 +327,15 @@ export class ProductionMonitor {
    * Resolve an alert
    */
   resolveAlert(alertId: string): boolean {
-    const alert = this.alerts.find(a => a.id === alertId);
+    const alert = this?.alerts.find(a => a?.id === alertId);
     if (!alert) {
       return false;
     }
 
-    alert.resolved = true;
-    alert.resolvedAt = new Date();
+    alert?.resolved = true;
+    alert?.resolvedAt = new Date();
 
-    StructuredLogger.info('Alert resolved', { context: { message: { id: alertId } } });
+    StructuredLogger?.info('Alert resolved', { context: { message: { id: alertId } } });
     return true;
   }
 
@@ -344,9 +344,9 @@ export class ProductionMonitor {
    */
   getAlertHistory(limit?: number): Alert[] {
     if (limit) {
-      return this.alerts.slice(-limit);
+      return this?.alerts.slice(-limit);
     }
-    return [...this.alerts];
+    return [...this?.alerts];
   }
 
   /**
@@ -354,55 +354,55 @@ export class ProductionMonitor {
    */
   getMetricsHistory(limit?: number): MonitoringMetrics[] {
     if (limit) {
-      return this.metrics.slice(-limit);
+      return this?.metrics.slice(-limit);
     }
-    return [...this.metrics];
+    return [...this?.metrics];
   }
 
   /**
    * Start monitoring
    */
   async startMonitoring(): Promise<void> {
-    if (this.monitoringInterval) {
-      StructuredLogger.warn('Monitoring already started');
+    if (this?.monitoringInterval) {
+      StructuredLogger?.warn('Monitoring already started');
       return;
     }
 
-    StructuredLogger.info('Starting production monitoring...');
+    StructuredLogger?.info('Starting production monitoring...');
 
-    this.monitoringInterval = setInterval(async () => {
+    this?.monitoringInterval = setInterval(async () => {
       try {
-        const metrics = await this.getMetrics();
+        const metrics = await this?.getMetrics();
         
-        if (this.config.loggingEnabled) {
-          StructuredLogger.debug('Metrics collected', {
-            timestamp: metrics.timestamp,
-            cpu: metrics.system.cpu.usage,
-            memory: metrics.system.memory.usage,
-            responseTime: metrics.application.responseTime
+        if (this?.config.loggingEnabled) {
+          StructuredLogger?.debug('Metrics collected', {
+            timestamp: metrics?.timestamp,
+            cpu: metrics?.system.cpu?.usage,
+            memory: metrics?.system.memory?.usage,
+            responseTime: metrics?.application.responseTime
           });
         }
 
         // Check for alerts
-        await this.checkForAlerts(metrics);
+        await this?.checkForAlerts(metrics);
 
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        this.errorHandler.handleError(error);
+        this?.errorHandler.handleError(error);
       }
-    }, this.config.interval);
+    }, this?.config.interval);
 
-    StructuredLogger.info('Production monitoring started', { context: { message: { interval: this.config.interval } } });
+    StructuredLogger?.info('Production monitoring started', { context: { message: { interval: this?.config.interval } } });
   }
 
   /**
    * Stop monitoring
    */
   async stopMonitoring(): Promise<void> {
-    if (this.monitoringInterval) {
-      clearInterval(this.monitoringInterval);
-      this.monitoringInterval = undefined;
-      StructuredLogger.info('Production monitoring stopped');
+    if (this?.monitoringInterval) {
+      clearInterval(this?.monitoringInterval);
+      this?.monitoringInterval = undefined;
+      StructuredLogger?.info('Production monitoring stopped');
     }
   }
 
@@ -411,18 +411,18 @@ export class ProductionMonitor {
    */
   async destroy(): Promise<void> {
     try {
-      StructuredLogger.info('Destroying production monitor...');
+      StructuredLogger?.info('Destroying production monitor...');
 
-      await this.stopMonitoring();
-      this.metrics = [];
-      this.alerts = [];
+      await this?.stopMonitoring();
+      this?.metrics = [];
+      this?.alerts = [];
 
-      this.isInitialized = false;
-      StructuredLogger.info('Production monitor destroyed');
+      this?.isInitialized = false;
+      StructuredLogger?.info('Production monitor destroyed');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError(error);
+      this?.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -430,35 +430,35 @@ export class ProductionMonitor {
   // Private methods
 
   private async collectSystemMetrics(): Promise<MonitoringMetrics['system']> {
-    const cpu = await this.getCpuMetrics();
-    const memory = await this.getMemoryMetrics();
-    const disk = await this.getDiskMetrics();
-    const network = await this.getNetworkMetrics();
+    const cpu = await this?.getCpuMetrics();
+    const memory = await this?.getMemoryMetrics();
+    const disk = await this?.getDiskMetrics();
+    const network = await this?.getNetworkMetrics();
 
     return { cpu, memory, disk, network };
   }
 
   private async collectApplicationMetrics(): Promise<MonitoringMetrics['application']> {
     return {
-      responseTime: await this.getResponseTime(),
-      throughput: await this.getThroughput(),
-      errorRate: await this.getErrorRate(),
-      activeConnections: await this.getActiveConnections(),
-      requestsPerSecond: await this.getRequestsPerSecond(),
-      averageSessionDuration: await this.getAverageSessionDuration(),
-      cacheHitRate: await this.getCacheHitRate(),
-      databaseConnections: await this.getDatabaseConnections()
+      responseTime: await this?.getResponseTime(),
+      throughput: await this?.getThroughput(),
+      errorRate: await this?.getErrorRate(),
+      activeConnections: await this?.getActiveConnections(),
+      requestsPerSecond: await this?.getRequestsPerSecond(),
+      averageSessionDuration: await this?.getAverageSessionDuration(),
+      cacheHitRate: await this?.getCacheHitRate(),
+      databaseConnections: await this?.getDatabaseConnections()
     };
   }
 
   private async collectBusinessMetrics(): Promise<MonitoringMetrics['business']> {
     return {
-      activeUsers: await this.getActiveUsers(),
-      newUsers: await this.getNewUsers(),
-      transactions: await this.getTransactions(),
-      revenue: await this.getRevenue(),
-      conversionRate: await this.getConversionRate(),
-      bounceRate: await this.getBounceRate()
+      activeUsers: await this?.getActiveUsers(),
+      newUsers: await this?.getNewUsers(),
+      transactions: await this?.getTransactions(),
+      revenue: await this?.getRevenue(),
+      conversionRate: await this?.getConversionRate(),
+      bounceRate: await this?.getBounceRate()
     };
   }
 
@@ -471,68 +471,68 @@ export class ProductionMonitor {
   }
 
   private async checkForAlerts(metrics: MonitoringMetrics): Promise<void> {
-    const thresholds = this.config.alertThresholds;
+    const thresholds = this?.config.alertThresholds;
 
     // CPU alert
-    if (metrics.system.cpu.usage > thresholds.cpu) {
-      this.createAlert({
+    if (metrics?.system.cpu?.usage > thresholds?.cpu) {
+      this?.createAlert({
         type: 'warning',
         category: 'system',
         severity: 'high',
         title: 'High CPU Usage',
-        message: `CPU usage is ${metrics.system.cpu.usage.toFixed(2)}% (threshold: ${thresholds.cpu}%)`,
-        metadata: { cpu: metrics.system.cpu.usage, threshold: thresholds.cpu }
+        message: `CPU usage is ${metrics?.system.cpu?.usage.toFixed(2)}% (threshold: ${thresholds?.cpu}%)`,
+        metadata: { cpu: metrics?.system.cpu?.usage, threshold: thresholds?.cpu }
       });
     }
 
     // Memory alert
-    if (metrics.system.memory.usage > thresholds.memory) {
-      this.createAlert({
+    if (metrics?.system.memory?.usage > thresholds?.memory) {
+      this?.createAlert({
         type: 'warning',
         category: 'system',
         severity: 'high',
         title: 'High Memory Usage',
-        message: `Memory usage is ${metrics.system.memory.usage.toFixed(2)}% (threshold: ${thresholds.memory}%)`,
-        metadata: { memory: metrics.system.memory.usage, threshold: thresholds.memory }
+        message: `Memory usage is ${metrics?.system.memory?.usage.toFixed(2)}% (threshold: ${thresholds?.memory}%)`,
+        metadata: { memory: metrics?.system.memory?.usage, threshold: thresholds?.memory }
       });
     }
 
     // Response time alert
-    if (metrics.application.responseTime > thresholds.responseTime) {
-      this.createAlert({
+    if (metrics?.application.responseTime > thresholds?.responseTime) {
+      this?.createAlert({
         type: 'warning',
         category: 'security' // Changed from performance,
         severity: 'medium',
         title: 'High Response Time',
-        message: `Response time is ${metrics.application.responseTime}ms (threshold: ${thresholds.responseTime}ms)`,
-        metadata: { responseTime: metrics.application.responseTime, threshold: thresholds.responseTime }
+        message: `Response time is ${metrics?.application.responseTime}ms (threshold: ${thresholds?.responseTime}ms)`,
+        metadata: { responseTime: metrics?.application.responseTime, threshold: thresholds?.responseTime }
       });
     }
 
     // Error rate alert
-    if (metrics.application.errorRate > thresholds.errorRate) {
-      this.createAlert({
+    if (metrics?.application.errorRate > thresholds?.errorRate) {
+      this?.createAlert({
         type: 'error',
         category: 'security' // Changed from performance,
         severity: 'high',
         title: 'High Error Rate',
-        message: `Error rate is ${metrics.application.errorRate.toFixed(2)}% (threshold: ${thresholds.errorRate}%)`,
-        metadata: { errorRate: metrics.application.errorRate, threshold: thresholds.errorRate }
+        message: `Error rate is ${metrics?.application.errorRate?.toFixed(2)}% (threshold: ${thresholds?.errorRate}%)`,
+        metadata: { errorRate: metrics?.application.errorRate, threshold: thresholds?.errorRate }
       });
     }
   }
 
   private async handleAlert(alert: Alert): Promise<void> {
     // Add notification action
-    alert.actions.push({
+    alert?.actions?.push({
       type: 'notification',
       status: 'pending',
       timestamp: new Date()
     });
 
     // Add auto-response if enabled
-    if (this.config.autoResponseEnabled) {
-      alert.actions.push({
+    if (this?.config.autoResponseEnabled) {
+      alert?.actions?.push({
         type: 'auto_response',
         status: 'pending',
         timestamp: new Date()
@@ -540,89 +540,89 @@ export class ProductionMonitor {
     }
 
     // Execute actions
-    for (const action of alert.actions) {
+    for (const action of alert?.actions) {
       try {
-        await this.executeAction(action, alert);
-        action.status = 'completed';
+        await this?.executeAction(action, alert);
+        action?.status = 'completed';
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        action.status = 'failed';
-        StructuredLogger.error('Alert action failed', { context: { message: { alertId: alert.id, action: action.type, error: error.message } } });
+        action?.status = 'failed';
+        StructuredLogger?.error('Alert action failed', { context: { message: { alertId: alert?.id, action: action?.type, error: error?.message } } });
       }
     }
   }
 
   private async executeAction(action: Alert['actions'][0!], alert: Alert): Promise<void> {
-    switch (action.type) {
+    switch (action?.type) {
       case 'notification':
-        await this.sendNotification(alert);
+        await this?.sendNotification(alert);
         break;
       case 'auto_response':
-        await this.executeAutoResponse(alert);
+        await this?.executeAutoResponse(alert);
         break;
       case 'escalation':
-        await this.escalateAlert(alert);
+        await this?.escalateAlert(alert);
         break;
       case 'custom':
-        await this.executeCustomAction(alert, action.details);
+        await this?.executeCustomAction(alert, action?.details);
         break;
     }
   }
 
   private async sendNotification(alert: Alert): Promise<void> {
     // Send notification to configured channels
-    StructuredLogger.info('Sending notification', { context: { message: { alertId: alert.id, channels: this.config.notificationChannels } } });
+    StructuredLogger?.info('Sending notification', { context: { message: { alertId: alert?.id, channels: this?.config.notificationChannels } } });
   }
 
   private async executeAutoResponse(alert: Alert): Promise<void> {
     // Execute automatic response based on alert type
-    StructuredLogger.info('Executing auto-response', { context: { message: { alertId: alert.id, type: alert.type } } });
+    StructuredLogger?.info('Executing auto-response', { context: { message: { alertId: alert?.id, type: alert?.type } } });
   }
 
   private async escalateAlert(alert: Alert): Promise<void> {
     // Escalate alert to higher level
-    StructuredLogger.info('Escalating alert', { context: { message: { alertId: alert.id, severity: alert.severity } } });
+    StructuredLogger?.info('Escalating alert', { context: { message: { alertId: alert?.id, severity: alert?.severity } } });
   }
 
   private async executeCustomAction(alert: Alert, details?: Record<string, any>): Promise<void> {
     // Execute custom action
-    StructuredLogger.info('Executing custom action', { context: { message: { alertId: alert.id, details } } });
+    StructuredLogger?.info('Executing custom action', { context: { message: { alertId: alert?.id, details } } });
   }
 
   private determineOverallStatus(): DashboardData['overview']['status'] {
-    const activeAlerts = this.alerts.filter((a: any) => !a.resolved);
-    const criticalAlerts = activeAlerts.filter((a: any) => a.severity === 'critical');
-    const errorAlerts = activeAlerts.filter((a: any) => a.type === 'error');
+    const activeAlerts = this?.alerts.filter((a: any) => !a?.resolved);
+    const criticalAlerts = activeAlerts?.filter((a: any) => a?.severity === 'critical');
+    const errorAlerts = activeAlerts?.filter((a: any) => a?.type === 'error');
 
-    if (criticalAlerts.length > 0) {
+    if (criticalAlerts?.length > 0) {
       return 'critical';
-    } else if (errorAlerts.length > 0) {
+    } else if (errorAlerts?.length > 0) {
       return 'unhealthy';
-    } else if (activeAlerts.length > 0) {
+    } else if (activeAlerts?.length > 0) {
       return 'degraded';
     }
     return 'healthy';
   }
 
   private getActiveAlerts(): Alert[] {
-    return this.alerts.filter((a: any) => !a.resolved).slice(-10); // Last 10 active alerts
+    return this?.alerts.filter((a: any) => !a?.resolved).slice(-10); // Last 10 active alerts
   }
 
   private calculateTrends(): DashboardData['metrics']['trends'] {
-    const recentMetrics = this.metrics.slice(-100); // Last 100 metrics
+    const recentMetrics = this?.metrics.slice(-100); // Last 100 metrics
 
     return {
-      cpu: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.system.cpu.usage })),
-      memory: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.system.memory.usage })),
-      responseTime: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.application.responseTime })),
-      errorRate: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.application.errorRate }))
+      cpu: recentMetrics?.map((m: any) => ({ timestamp: m?.timestamp, value: m?.system.cpu?.usage })),
+      memory: recentMetrics?.map((m: any) => ({ timestamp: m?.timestamp, value: m?.system.memory?.usage })),
+      responseTime: recentMetrics?.map((m: any) => ({ timestamp: m?.timestamp, value: m?.application.responseTime })),
+      errorRate: recentMetrics?.map((m: any) => ({ timestamp: m?.timestamp, value: m?.application.errorRate }))
     };
   }
 
   private async analyzePerformance(): Promise<DashboardData['performance']> {
-    const recentMetrics = this.metrics.slice(-50); // Last 50 metrics
-    const avgResponseTime = recentMetrics.reduce((sum, m) => sum + m.application.responseTime, 0) / recentMetrics.length;
-    const avgErrorRate = recentMetrics.reduce((sum, m) => sum + m.application.errorRate, 0) / recentMetrics.length;
+    const recentMetrics = this?.metrics.slice(-50); // Last 50 metrics
+    const avgResponseTime = recentMetrics?.reduce((sum, m) => sum + m?.application.responseTime, 0) / recentMetrics?.length;
+    const avgErrorRate = recentMetrics?.reduce((sum, m) => sum + m?.application.errorRate, 0) / recentMetrics?.length;
 
     let score = 100;
     const recommendations: string[] = [];
@@ -630,26 +630,26 @@ export class ProductionMonitor {
 
     if (avgResponseTime > 1000) {
       score -= 20;
-      recommendations.push('Optimize response time');
-      bottlenecks.push('Response time');
+      recommendations?.push('Optimize response time');
+      bottlenecks?.push('Response time');
     }
 
     if (avgErrorRate > 2) {
       score -= 30;
-      recommendations.push('Reduce error rate');
-      bottlenecks.push('Error rate');
+      recommendations?.push('Reduce error rate');
+      bottlenecks?.push('Error rate');
     }
 
-    if (recentMetrics.some(m => m.system.cpu.usage > 80)) {
+    if (recentMetrics?.some(m => m?.system.cpu?.usage > 80)) {
       score -= 15;
-      recommendations.push('Optimize CPU usage');
-      bottlenecks.push('CPU usage');
+      recommendations?.push('Optimize CPU usage');
+      bottlenecks?.push('CPU usage');
     }
 
-    if (recentMetrics.some(m => m.system.memory.usage > 85)) {
+    if (recentMetrics?.some(m => m?.system.memory?.usage > 85)) {
       score -= 15;
-      recommendations.push('Optimize memory usage');
-      bottlenecks.push('Memory usage');
+      recommendations?.push('Optimize memory usage');
+      bottlenecks?.push('Memory usage');
     }
 
     return {
@@ -660,8 +660,8 @@ export class ProductionMonitor {
   }
 
   private trimMetrics(): void {
-    if (this.metrics.length > this.config.retention) {
-      this.metrics = this.metrics.slice(-this.config.retention);
+    if (this?.metrics.length > this?.config.retention) {
+      this?.metrics = this?.metrics.slice(-this?.config.retention);
     }
   }
 
@@ -772,5 +772,5 @@ export class ProductionMonitor {
 }
 
 // Export singleton instance
-export const productionMonitor = ProductionMonitor.getInstance();
+export const productionMonitor = ProductionMonitor?.getInstance();
 export default productionMonitor;

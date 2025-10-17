@@ -188,6 +188,6 @@ export interface AvatarOptimizations {
 }
 
 export function isAvatarManifest(value: any): value is AvatarManifest {
-  return !!value && typeof value === 'object' && typeof value.base === 'string' && typeof value.style === 'string';
+  return !!value && typeof value === 'object' && typeof value?.base === 'string' && typeof value?.style === 'string';
 }
 

@@ -55,8 +55,8 @@ export class RNGProvider implements IRNGProvider {
    * Constructs a new RNG provider with the given seed.
    */
   constructor(seed: number) {
-    this._seed = seed;
-    this._random = this.seedToFloat(seed);
+    this?._seed = seed;
+    this?._random = this?.seedToFloat(seed);
   }
 
   nextInt(minInclusive: number, maxExclusive: number): number {
@@ -64,9 +64,9 @@ export class RNGProvider implements IRNGProvider {
       throw new Error("maxExclusive must be greater than minInclusive");
     }
     
-    this.onBeforeNext();
+    this?.onBeforeNext();
     const range = maxExclusive - minInclusive;
-    const randomValue = this.nextRandom();
+    const randomValue = this?.nextRandom();
     return minInclusive + Math.floor(randomValue * range);
   }
 
@@ -75,8 +75,8 @@ export class RNGProvider implements IRNGProvider {
       throw new Error("maxExclusive must be greater than minInclusive");
     }
 
-    this.onBeforeNext();
-    const randomValue = this.nextRandom();
+    this?.onBeforeNext();
+    const randomValue = this?.nextRandom();
     return minInclusive + randomValue * (maxExclusive - minInclusive);
   }
 
@@ -84,18 +84,18 @@ export class RNGProvider implements IRNGProvider {
     if (probability <= 0) return false;
     if (probability >= 1) return true;
     
-    this.onBeforeNext();
-    const roll = this.nextRandom();
+    this?.onBeforeNext();
+    const roll = this?.nextRandom();
     return roll < probability;
   }
 
   getSeed(): number {
-    return this._seed;
+    return this?._seed;
   }
 
   reset(seed: number): void {
-    this._seed = seed;
-    this._random = this.seedToFloat(seed);
+    this?._seed = seed;
+    this?._random = this?.seedToFloat(seed);
   }
 
   /**
@@ -113,8 +113,8 @@ export class RNGProvider implements IRNGProvider {
   private nextRandom(): number {
     // Linear Congruential Generator (LCG)
     // Using constants from Numerical Recipes
-    this._random = (this._random * 1664525 + 1013904223) % 4294967296;
-    return this._random / 4294967296;
+    this?._random = (this?._random * 1664525 + 1013904223) % 4294967296;
+    return this?._random / 4294967296;
   }
 
   /**
@@ -149,10 +149,10 @@ export const RNGUtils = {
   /**
    * Shuffle an array using the given RNG provider
    */
-  shuffle<T extends object>(array: T[], rng: IRNGProvider): T[] {
+  shuffle<T extends Record<string, any> extends object>(array: T[], rng: IRNGProvider): T[] {
     const result = [...array];
-    for (let i = result.length - 1; i > 0; i--) {
-      const j = rng.nextInt(0, i + 1);
+    for (let i = result?.length - 1; i > 0; i--) {
+      const j = rng?.nextInt(0, i + 1);
       [result[i!], result[j!]] = [result[j!], result[i!]];
     }
     return result;
@@ -161,9 +161,9 @@ export const RNGUtils = {
   /**
    * Pick a random element from an array
    */
-  pickRandom<T extends object>(array: T[], rng: IRNGProvider): T | undefined {
-    if (array.length === 0) return undefined;
-    const index = rng.nextInt(0, array.length);
+  pickRandom<T extends Record<string, any> extends object>(array: T[], rng: IRNGProvider): T | undefined {
+    if (array?.length === 0) return undefined;
+    const index = rng?.nextInt(0, array?.length);
     return array[index!];
   },
 
@@ -173,7 +173,7 @@ export const RNGUtils = {
   randomString(length: number, rng: IRNGProvider, charset: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'): string {
     let result = '';
     for (let i = 0; i < length; i++) {
-      const index = rng.nextInt(0, charset.length);
+      const index = rng?.nextInt(0, charset?.length);
       result += charset[index!];
     }
     return result;

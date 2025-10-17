@@ -29,72 +29,72 @@ import {
 describe('CutScenePure Golden Tests', () => {
   describe('Core Module Functionality', () => {
     test('should create valid cut scene definition', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       expect(definition).toBeDefined();
-      expect(definition.config).toBeDefined();
-      expect(definition.config.id).toBeDefined();
-      expect(definition.config.name).toBeDefined();
-      expect(definition.config.duration).toBeGreaterThan(0);
-      expect(definition.tracks).toBeDefined();
-      expect(definition.actions).toBeDefined();
+      expect(definition?.config).toBeDefined();
+      expect(definition?.config.id).toBeDefined();
+      expect(definition?.config.name).toBeDefined();
+      expect(definition?.config.duration).toBeGreaterThan(0);
+      expect(definition?.tracks).toBeDefined();
+      expect(definition?.actions).toBeDefined();
     });
 
     test('should parse and validate cut scene JSON', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      const jsonString = CutScenePure.serializeToJSON(definition);
-      const parsedDefinition = CutScenePure.parseFromJSON(jsonString);
+      const definition = CutScenePure?.createSampleDefinition();
+      const jsonString = CutScenePure?.serializeToJSON(definition);
+      const parsedDefinition = CutScenePure?.parseFromJSON(jsonString);
 
       expect(parsedDefinition).toBeDefined();
-      expect(parsedDefinition.config.id).toBe(definition.config.id);
-      expect(parsedDefinition.config.name).toBe(definition.config.name);
-      expect(parsedDefinition.config.duration).toBe(definition.config.duration);
-      expect(parsedDefinition.tracks.length).toBe(definition.tracks.length);
-      expect(parsedDefinition.actions.length).toBe(definition.actions.length);
+      expect(parsedDefinition?.config.id).toBe(definition?.config.id);
+      expect(parsedDefinition?.config.name).toBe(definition?.config.name);
+      expect(parsedDefinition?.config.duration).toBe(definition?.config.duration);
+      expect(parsedDefinition?.tracks.length).toBe(definition?.tracks.length);
+      expect(parsedDefinition?.actions.length).toBe(definition?.actions.length);
     });
 
     test('should create cut scene engine from definition', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const engine = new CutSceneEngine(definition);
 
       expect(engine).toBeDefined();
-      expect(engine.getDuration()).toBe(definition.config.duration);
-      expect(engine.getTracks().length).toBe(definition.tracks.length);
-      expect(engine.getActions().length).toBe(definition.actions.length);
+      expect(engine?.getDuration()).toBe(definition?.config.duration);
+      expect(engine?.getTracks().length).toBe(definition?.tracks.length);
+      expect(engine?.getActions().length).toBe(definition?.actions.length);
     });
 
     test('should handle engine playback operations', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const engine = new CutSceneEngine(definition);
 
       // Test play/pause/stop operations
-      engine.play();
-      expect(engine.isPlaying()).toBe(true);
+      engine?.play();
+      expect(engine?.isPlaying()).toBe(true);
 
-      engine.pause();
-      expect(engine.isPlaying()).toBe(false);
+      engine?.pause();
+      expect(engine?.isPlaying()).toBe(false);
 
-      engine.stop();
-      expect(engine.isPlaying()).toBe(false);
-      expect(engine.getCurrentTime()).toBe(0);
+      engine?.stop();
+      expect(engine?.isPlaying()).toBe(false);
+      expect(engine?.getCurrentTime()).toBe(0);
     });
 
     test('should handle track and action management', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const engine = new CutSceneEngine(definition);
 
       // Test track access
-      const tracks = engine.getTracks();
-      expect(tracks.length).toBeGreaterThan(0);
+      const tracks = engine?.getTracks();
+      expect(tracks?.length).toBeGreaterThan(0);
 
-      const firstTrack = engine.getTrack(tracks[0!].id);
+      const firstTrack = engine?.getTrack(tracks[0!].id);
       expect(firstTrack).toBeDefined();
       expect(firstTrack?.id).toBe(tracks[0!].id);
 
       // Test action access
-      const actions = engine.getActions();
-      if (actions.length > 0) {
-        const firstAction = engine.getAction(actions[0!].id);
+      const actions = engine?.getActions();
+      if (actions?.length > 0) {
+        const firstAction = engine?.getAction(actions[0!].id);
         expect(firstAction).toBeDefined();
         expect(firstAction?.id).toBe(actions[0!].id);
       }
@@ -103,51 +103,51 @@ describe('CutScenePure Golden Tests', () => {
 
   describe('Bridge Implementations', () => {
     test('should create WebBridge for web platform', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const webBridge = new CutSceneWebBridge();
 
       expect(webBridge).toBeDefined();
 
-      const script = webBridge.generateCutSceneScript(definition);
+      const script = webBridge?.generateCutSceneScript(definition);
       expect(script).toContain('CutSceneWebBridge');
       expect(script).toContain('playCutScene');
       expect(script).toContain('pauseCutScene');
     });
 
     test('should create UnityBridge for Unity platform', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const unityBridge = new CutSceneUnityBridge();
 
       expect(unityBridge).toBeDefined();
 
-      const script = unityBridge.generateCutSceneScript(definition);
+      const script = unityBridge?.generateCutSceneScript(definition);
       expect(script).toContain('CutScenePlayer');
       expect(script).toContain('using UnityEngine');
       expect(script).toContain('PlayableDirector');
     });
 
     test('should create GodotBridge for Godot platform', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const godotBridge = new CutSceneGodotBridge();
 
       expect(godotBridge).toBeDefined();
 
-      const script = godotBridge.generateCutSceneScript(definition);
+      const script = godotBridge?.generateCutSceneScript(definition);
       expect(script).toContain('extends Node');
       expect(script).toContain('CutSceneGodotPlayer');
       expect(script).toContain('func _ready');
     });
 
     test('should create UnrealBridge for Unreal platform', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const unrealBridge = new CutSceneUnrealBridge();
 
       expect(unrealBridge).toBeDefined();
 
-      const header = unrealBridge.generateCutSceneHeader(definition);
-      const source = unrealBridge.generateCutSceneSource(definition);
+      const header = unrealBridge?.generateCutSceneHeader(definition);
+      const source = unrealBridge?.generateCutSceneSource(definition);
 
-      expect(header).toContain('CutScenePlayer.generated.h');
+      expect(header).toContain('CutScenePlayer?.generated.h');
       expect(header).toContain('UCLASS()');
       expect(source).toContain('CutScenePlayer.h');
       expect(source).toContain('PlayCutScene');
@@ -156,11 +156,11 @@ describe('CutScenePure Golden Tests', () => {
 
   describe('Advanced Features', () => {
     test('should handle branching logic', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      definition.config.name = 'Branching Cut Scene';
+      const definition = CutScenePure?.createSampleDefinition();
+      definition?.config.name = 'Branching Cut Scene';
 
       // Add conditional actions - need to add the main track first
-      definition.tracks.push({
+      definition?.tracks?.push({
         id: 'main',
         name: 'Main Track',
         type: 'camera',
@@ -170,7 +170,7 @@ describe('CutScenePure Golden Tests', () => {
         data: {}
       });
 
-      definition.actions.push({
+      definition?.actions?.push({
         id: 'branch_point',
         trackId: 'main',
         type: 'branch',
@@ -185,17 +185,17 @@ describe('CutScenePure Golden Tests', () => {
       const engine = new CutSceneEngine(definition);
 
       // Test branch evaluation
-      const branchAction = engine.getAction('branch_point');
+      const branchAction = engine?.getAction('branch_point');
       expect(branchAction).toBeDefined();
       expect(branchAction?.type).toBe('branch');
     });
 
     test('should handle complex timing', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      definition.config.duration = 5000;
+      const definition = CutScenePure?.createSampleDefinition();
+      definition?.config.duration = 5000;
 
       // Add overlapping tracks with complex timing
-      definition.tracks.push(
+      definition?.tracks?.push(
         {
           id: 'track1',
           type: 'camera',
@@ -224,12 +224,12 @@ describe('CutScenePure Golden Tests', () => {
 
       const engine = new CutSceneEngine(definition);
 
-      expect(engine.getTracks().length).toBeGreaterThan(3);
+      expect(engine?.getTracks().length).toBeGreaterThan(3);
 
       // Test timing calculations
-      const track1 = engine.getTrack('track1');
-      const track2 = engine.getTrack('track2');
-      const track3 = engine.getTrack('track3');
+      const track1 = engine?.getTrack('track1');
+      const track2 = engine?.getTrack('track2');
+      const track3 = engine?.getTrack('track3');
 
       expect(track1?.startTime).toBe(0);
       expect(track1?.endTime).toBe(2000);
@@ -240,10 +240,10 @@ describe('CutScenePure Golden Tests', () => {
     });
 
     test('should handle track properties and inheritance', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       // Add track with complex properties
-      definition.tracks.push({
+      definition?.tracks?.push({
         id: 'camera_track',
         type: 'camera',
         name: 'Camera Track',
@@ -258,22 +258,22 @@ describe('CutScenePure Golden Tests', () => {
       });
 
       const engine = new CutSceneEngine(definition);
-      const cameraTrack = engine.getTrack('camera_track');
+      const cameraTrack = engine?.getTrack('camera_track');
 
       expect(cameraTrack?.properties).toBeDefined();
-      expect(cameraTrack?.properties.position).toEqual({ x: 10, y: 5, z: 15 });
-      expect(cameraTrack?.properties.rotation).toEqual({ x: -10, y: 45, z: 0 });
-      expect(cameraTrack?.properties.fov).toBe(60);
+      expect(cameraTrack?.properties?.position).toEqual({ x: 10, y: 5, z: 15 });
+      expect(cameraTrack?.properties?.rotation).toEqual({ x: -10, y: 45, z: 0 });
+      expect(cameraTrack?.properties?.fov).toBe(60);
     });
   });
 
   describe('Performance and Scalability', () => {
     test('should handle large number of tracks efficiently', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       // Add many tracks
       for (let i = 0; i < 100; i++) {
-        definition.tracks.push({
+        definition?.tracks?.push({
           id: `track_${i}`,
           type: 'camera',
           name: `Track ${i}`,
@@ -286,19 +286,19 @@ describe('CutScenePure Golden Tests', () => {
         });
       }
 
-      const startTime = performance.now();
+      const startTime = performance?.now();
       const engine = new CutSceneEngine(definition);
-      const endTime = performance.now();
+      const endTime = performance?.now();
 
       expect(endTime - startTime).toBeLessThan(200); // Should initialize in < 200ms
-      expect(engine.getTracks().length).toBeGreaterThan(100); // Should have original + new tracks
+      expect(engine?.getTracks().length).toBeGreaterThan(100); // Should have original + new tracks
     });
 
     test('should handle many actions efficiently', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       // Add the required main track
-      definition.tracks.push({
+      definition?.tracks?.push({
         id: 'main',
         name: 'Main Track',
         type: 'camera',
@@ -310,7 +310,7 @@ describe('CutScenePure Golden Tests', () => {
 
       // Add many actions
       for (let i = 0; i < 500; i++) {
-        definition.actions.push({
+        definition?.actions?.push({
           id: `action_${i}`,
           trackId: 'main',
           type: 'camera_move',
@@ -323,32 +323,32 @@ describe('CutScenePure Golden Tests', () => {
         });
       }
 
-      const startTime = performance.now();
+      const startTime = performance?.now();
       const engine = new CutSceneEngine(definition);
-      const endTime = performance.now();
+      const endTime = performance?.now();
 
       expect(endTime - startTime).toBeLessThan(100); // Should initialize in < 100ms
-      expect(engine.getActions().length).toBeGreaterThan(500);
+      expect(engine?.getActions().length).toBeGreaterThan(500);
     });
 
     test('should handle rapid playback operations', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
       const engine = new CutSceneEngine(definition);
 
-      const startTime = performance.now();
+      const startTime = performance?.now();
 
       // Perform rapid operations
       for (let i = 0; i < 1000; i++) {
-        engine.play();
-        engine.pause();
-        engine.stop();
-        engine.setCurrentTime(i % definition.config.duration);
+        engine?.play();
+        engine?.pause();
+        engine?.stop();
+        engine?.setCurrentTime(i % definition?.config.duration);
       }
 
-      const endTime = performance.now();
+      const endTime = performance?.now();
 
       expect(endTime - startTime).toBeLessThan(500); // Should handle 1000 operations in < 500ms
-      expect(engine.getCurrentTime()).toBeLessThan(definition.config.duration);
+      expect(engine?.getCurrentTime()).toBeLessThan(definition?.config.duration);
     });
   });
 
@@ -365,7 +365,7 @@ describe('CutScenePure Golden Tests', () => {
         { config: { duration: 0 } }
       ];
 
-      invalidDefinitions.forEach((def, index) => {
+      invalidDefinitions?.forEach((def, index) => {
         expect(() => {
           new CutSceneEngine(def as any);
         }).toThrow();
@@ -373,10 +373,10 @@ describe('CutScenePure Golden Tests', () => {
     });
 
     test('should validate track timing', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       // Add invalid track
-      definition.tracks.push({
+      definition?.tracks?.push({
         id: 'invalid_track',
         type: 'camera',
         name: 'Invalid Track',
@@ -391,10 +391,10 @@ describe('CutScenePure Golden Tests', () => {
     });
 
     test('should handle missing track references', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       // Add action with invalid track reference
-      definition.actions.push({
+      definition?.actions?.push({
         id: 'invalid_action',
         trackId: 'nonexistent_track',
         type: 'camera_move',
@@ -405,18 +405,18 @@ describe('CutScenePure Golden Tests', () => {
       const engine = new CutSceneEngine(definition);
 
       expect(() => {
-        engine.getTrack('nonexistent_track');
+        engine?.getTrack('nonexistent_track');
       }).toThrow('Track not found');
     });
   });
 
   describe('Integration with MIFF Modules', () => {
     test('should integrate with SceneBuilderPure', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      definition.config.name = 'Scene Integration Test';
+      const definition = CutScenePure?.createSampleDefinition();
+      definition?.config.name = 'Scene Integration Test';
 
       // Add scene-specific tracks
-      definition.tracks.push(
+      definition?.tracks?.push(
         {
           id: 'scene_camera',
           type: 'camera',
@@ -444,17 +444,17 @@ describe('CutScenePure Golden Tests', () => {
 
       const engine = new CutSceneEngine(definition);
 
-      expect(engine.getTracks().length).toBeGreaterThan(2);
-      expect(engine.getTrack('scene_camera')).toBeDefined();
-      expect(engine.getTrack('environment_setup')).toBeDefined();
+      expect(engine?.getTracks().length).toBeGreaterThan(2);
+      expect(engine?.getTrack('scene_camera')).toBeDefined();
+      expect(engine?.getTrack('environment_setup')).toBeDefined();
     });
 
     test('should integrate with DialogueSystemPure', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      definition.config.name = 'Dialogue Integration Test';
+      const definition = CutScenePure?.createSampleDefinition();
+      definition?.config.name = 'Dialogue Integration Test';
 
       // Add dialogue-specific tracks
-      definition.tracks.push(
+      definition?.tracks?.push(
         {
           id: 'dialogue_track',
           type: 'dialogue',
@@ -484,17 +484,17 @@ describe('CutScenePure Golden Tests', () => {
 
       const engine = new CutSceneEngine(definition);
 
-      expect(engine.getTracks().length).toBeGreaterThan(2);
-      expect(engine.getTrack('dialogue_track')).toBeDefined();
-      expect(engine.getTrack('character_animation')).toBeDefined();
+      expect(engine?.getTracks().length).toBeGreaterThan(2);
+      expect(engine?.getTrack('dialogue_track')).toBeDefined();
+      expect(engine?.getTrack('character_animation')).toBeDefined();
     });
 
     test('should integrate with AudioPure', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      definition.config.name = 'Audio Integration Test';
+      const definition = CutScenePure?.createSampleDefinition();
+      definition?.config.name = 'Audio Integration Test';
 
       // Add audio-specific tracks
-      definition.tracks.push(
+      definition?.tracks?.push(
         {
           id: 'background_music',
           type: 'audio',
@@ -524,30 +524,30 @@ describe('CutScenePure Golden Tests', () => {
 
       const engine = new CutSceneEngine(definition);
 
-      expect(engine.getTracks().length).toBeGreaterThan(2);
-      expect(engine.getTrack('background_music')).toBeDefined();
-      expect(engine.getTrack('sound_effects')).toBeDefined();
+      expect(engine?.getTracks().length).toBeGreaterThan(2);
+      expect(engine?.getTrack('background_music')).toBeDefined();
+      expect(engine?.getTrack('sound_effects')).toBeDefined();
     });
   });
 
   describe('Export and Serialization', () => {
     test('should serialize to JSON correctly', () => {
-      const definition = CutScenePure.createSampleDefinition();
-      const jsonString = CutScenePure.serializeToJSON(definition);
+      const definition = CutScenePure?.createSampleDefinition();
+      const jsonString = CutScenePure?.serializeToJSON(definition);
 
       expect(jsonString).toBeDefined();
-      expect(jsonString).toContain(definition.config.id);
-      expect(jsonString).toContain(definition.config.name);
+      expect(jsonString).toContain(definition?.config.id);
+      expect(jsonString).toContain(definition?.config.name);
 
       // Verify it's valid JSON
       const parsed = JSON.parse(jsonString);
-      expect(parsed.config).toBeDefined();
-      expect(parsed.tracks).toBeDefined();
-      expect(parsed.actions).toBeDefined();
+      expect(parsed?.config).toBeDefined();
+      expect(parsed?.tracks).toBeDefined();
+      expect(parsed?.actions).toBeDefined();
     });
 
     test('should export to different formats', () => {
-      const definition = CutScenePure.createSampleDefinition();
+      const definition = CutScenePure?.createSampleDefinition();
 
       const webBridge = new CutSceneWebBridge();
       const unityBridge = new CutSceneUnityBridge();
@@ -555,11 +555,11 @@ describe('CutScenePure Golden Tests', () => {
       const unrealBridge = new CutSceneUnrealBridge();
 
       // Test all export formats
-      const webScript = webBridge.generateCutSceneScript(definition);
-      const unityScript = unityBridge.generateCutSceneScript(definition);
-      const godotScript = godotBridge.generateCutSceneScript(definition);
-      const unrealHeader = unrealBridge.generateCutSceneHeader(definition);
-      const unrealSource = unrealBridge.generateCutSceneSource(definition);
+      const webScript = webBridge?.generateCutSceneScript(definition);
+      const unityScript = unityBridge?.generateCutSceneScript(definition);
+      const godotScript = godotBridge?.generateCutSceneScript(definition);
+      const unrealHeader = unrealBridge?.generateCutSceneHeader(definition);
+      const unrealSource = unrealBridge?.generateCutSceneSource(definition);
 
       expect(webScript).toBeDefined();
       expect(unityScript).toBeDefined();

@@ -33,11 +33,11 @@ interface EconomyOperation {
 }
 
 async function main() {
-  const argv = process.argv.slice(2);
+  const argv = process?.argv.slice(2);
   
-  if (argv.length === 0) {
+  if (argv?.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process.exit(1);
+    process?.exit(1);
   }
 
   try {
@@ -45,15 +45,15 @@ async function main() {
     let operation: EconomyOperation;
 
     // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
+    if (first?.endsWith('.json') && fs?.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as EconomyOperation;
     } else {
       // Legacy compatibility: allow "op,arg1,arg2,..." packed in first token
-      if (first.includes(',')) {
-        const parts = first.split(',');
+      if (first?.includes(',')) {
+        const parts = first?.split(',');
         const op = parts[0!];
-        const rest = parts.slice(1);
+        const rest = parts?.slice(1);
         switch (op) {
           case 'create-rule':
             operation = { op: 'create-rule', rule: JSON.parse(rest.join(',')) };
@@ -156,27 +156,27 @@ async function main() {
     }
 
     // Create economy manager instance
-    const economyManager = new EconomyManager(operation.config);
+    const economyManager = new EconomyManager(operation?.config);
     let result: any;
 
-    switch (operation.op) {
+    switch (operation?.op) {
       case 'create-rule':
-        const ruleResult = economyManager.createRule(operation.rule!);
+        const ruleResult = economyManager?.createRule(operation?.rule!);
         result = {
           action: 'rule_created',
-          rule: operation.rule,
-          success: ruleResult.status === 'ok',
-          issues: ruleResult.issues || []
+          rule: operation?.rule,
+          success: ruleResult?.status === 'ok',
+          issues: ruleResult?.issues || []
         };
         break;
 
       case 'create-vendor':
-        const vendorResult = economyManager.createVendor(operation.vendor!);
+        const vendorResult = economyManager?.createVendor(operation?.vendor!);
         result = {
           action: 'vendor_created',
-          vendor: operation.vendor,
-          success: vendorResult.status === 'ok',
-          issues: vendorResult.issues || []
+          vendor: operation?.vendor,
+          success: vendorResult?.status === 'ok',
+          issues: vendorResult?.issues || []
         };
         break;
 
@@ -184,132 +184,132 @@ async function main() {
         // Note: Currency creation would need to be added to EnhancedManager
         result = {
           action: 'currency_created',
-          currency: operation.currency,
+          currency: operation?.currency,
           success: true,
           note: 'Currency creation not yet implemented in manager'
         };
         break;
 
       case 'create-event':
-        const eventResult = economyManager.createEconomicEvent(operation.event!);
+        const eventResult = economyManager?.createEconomicEvent(operation?.event!);
         result = {
           action: 'event_created',
-          event: operation.event,
-          success: eventResult.status === 'ok',
-          issues: eventResult.issues || []
+          event: operation?.event,
+          success: eventResult?.status === 'ok',
+          issues: eventResult?.issues || []
         };
         break;
 
       case 'calculate-price':
-        const priceResult = economyManager.calculatePrice(
-          operation.vendorId!, 
-          operation.itemId!, 
-          operation.quantity || 1
+        const priceResult = economyManager?.calculatePrice(
+          operation?.vendorId!, 
+          operation?.itemId!, 
+          operation?.quantity || 1
         );
         result = {
           action: 'price_calculated',
-          vendorId: operation.vendorId,
-          itemId: operation.itemId,
-          quantity: operation.quantity || 1,
-          success: priceResult.status === 'ok',
-          priceData: priceResult.result,
-          issues: priceResult.issues || []
+          vendorId: operation?.vendorId,
+          itemId: operation?.itemId,
+          quantity: operation?.quantity || 1,
+          success: priceResult?.status === 'ok',
+          priceData: priceResult?.result,
+          issues: priceResult?.issues || []
         };
         break;
 
       case 'execute-trade':
-        const tradeResult = economyManager.executeTrade(
-          operation.vendorId!,
-          operation.itemId!,
-          operation.quantity!,
-          operation.type!,
-          operation.playerId
+        const tradeResult = economyManager?.executeTrade(
+          operation?.vendorId!,
+          operation?.itemId!,
+          operation?.quantity!,
+          operation?.type!,
+          operation?.playerId
         );
         result = {
           action: 'trade_executed',
-          vendorId: operation.vendorId,
-          itemId: operation.itemId,
-          quantity: operation.quantity,
-          type: operation.type,
-          playerId: operation.playerId,
-          success: tradeResult.status === 'ok',
-          tradeData: tradeResult.result,
-          issues: tradeResult.issues || []
+          vendorId: operation?.vendorId,
+          itemId: operation?.itemId,
+          quantity: operation?.quantity,
+          type: operation?.type,
+          playerId: operation?.playerId,
+          success: tradeResult?.status === 'ok',
+          tradeData: tradeResult?.result,
+          issues: tradeResult?.issues || []
         };
         break;
 
       case 'get-market-data':
-        const marketResult = economyManager.getMarketData(operation.itemId!);
+        const marketResult = economyManager?.getMarketData(operation?.itemId!);
         result = {
           action: 'market_data_retrieved',
-          itemId: operation.itemId,
-          success: marketResult.status === 'ok',
-          marketData: marketResult.result,
-          issues: marketResult.issues || []
+          itemId: operation?.itemId,
+          success: marketResult?.status === 'ok',
+          marketData: marketResult?.result,
+          issues: marketResult?.issues || []
         };
         break;
 
       case 'get-stats':
-        const statsResult = economyManager.getEconomyStats();
+        const statsResult = economyManager?.getEconomyStats();
         result = {
           action: 'stats_retrieved',
-          success: statsResult.status === 'ok',
-          stats: statsResult.result,
-          issues: statsResult.issues || []
+          success: statsResult?.status === 'ok',
+          stats: statsResult?.result,
+          issues: statsResult?.issues || []
         };
         break;
 
       case 'list-rules':
-        const rulesResult = economyManager.listRules();
+        const rulesResult = economyManager?.listRules();
         result = {
           action: 'rules_listed',
-          success: rulesResult.status === 'ok',
-          rules: rulesResult.result,
+          success: rulesResult?.status === 'ok',
+          rules: rulesResult?.result,
           count: Array.isArray(rulesResult.result) ? rulesResult.result.length : 0,
-          issues: rulesResult.issues || []
+          issues: rulesResult?.issues || []
         };
         break;
 
       case 'list-vendors':
-        const vendorsResult = economyManager.listVendors();
+        const vendorsResult = economyManager?.listVendors();
         result = {
           action: 'vendors_listed',
-          success: vendorsResult.status === 'ok',
-          vendors: vendorsResult.result,
+          success: vendorsResult?.status === 'ok',
+          vendors: vendorsResult?.result,
           count: Array.isArray(vendorsResult.result) ? vendorsResult.result.length : 0,
-          issues: vendorsResult.issues || []
+          issues: vendorsResult?.issues || []
         };
         break;
 
       case 'list-currencies':
-        const currenciesResult = economyManager.listCurrencies();
+        const currenciesResult = economyManager?.listCurrencies();
         result = {
           action: 'currencies_listed',
-          success: currenciesResult.status === 'ok',
-          currencies: currenciesResult.result,
+          success: currenciesResult?.status === 'ok',
+          currencies: currenciesResult?.result,
           count: Array.isArray(currenciesResult.result) ? currenciesResult.result.length : 0,
-          issues: currenciesResult.issues || []
+          issues: currenciesResult?.issues || []
         };
         break;
 
       case 'export':
-        const exportResult = economyManager.exportEconomy(operation.exportFormat as any);
+        const exportResult = economyManager?.exportEconomy(operation?.exportFormat as any);
         result = {
           action: 'economy_exported',
-          format: operation.exportFormat,
-          success: exportResult.status === 'ok',
-          data: exportResult.result,
-          issues: exportResult.issues || []
+          format: operation?.exportFormat,
+          success: exportResult?.status === 'ok',
+          data: exportResult?.result,
+          issues: exportResult?.issues || []
         };
         break;
 
       case 'reset':
-        const resetResult = economyManager.resetEconomy();
+        const resetResult = economyManager?.resetEconomy();
         result = {
           action: 'economy_reset',
-          success: resetResult.status === 'ok',
-          message: resetResult.result?.message,
-          issues: resetResult.issues || []
+          success: resetResult?.status === 'ok',
+          message: resetResult?.result?.message,
+          issues: resetResult?.issues || []
         };
         break;
 
@@ -379,19 +379,19 @@ async function main() {
           ]
         };
 
-        demoManager.createRule(customRule);
-        demoManager.createVendor(customVendor);
-        demoManager.createEconomicEvent(economicEvent);
+        demoManager?.createRule(customRule);
+        demoManager?.createVendor(customVendor);
+        demoManager?.createEconomicEvent(economicEvent);
 
         // Execute some trades
-        const trade1 = demoManager.executeTrade('general_store', 'health_potion', 5, 'buy', 'player_1');
-        const trade2 = demoManager.executeTrade('black_market', 'rare_gem', 1, 'buy', 'player_1');
-        const trade3 = demoManager.executeTrade('magic_emporium', 'magic_scroll', 2, 'buy', 'player_2');
+        const trade1 = demoManager?.executeTrade('general_store', 'health_potion', 5, 'buy', 'player_1');
+        const trade2 = demoManager?.executeTrade('black_market', 'rare_gem', 1, 'buy', 'player_1');
+        const trade3 = demoManager?.executeTrade('magic_emporium', 'magic_scroll', 2, 'buy', 'player_2');
 
         // Get comprehensive data
-        const demoStats = demoManager.getEconomyStats();
-        const marketData = demoManager.getMarketData('rare_gem');
-        const exportData = demoManager.exportEconomy('summary');
+        const demoStats = demoManager?.getEconomyStats();
+        const marketData = demoManager?.getMarketData('rare_gem');
+        const exportData = demoManager?.exportEconomy('summary');
 
         result = {
           demo: {
@@ -410,32 +410,32 @@ async function main() {
             trades: [
               { 
                 description: 'Buy 5 health potions from general store',
-                result: trade1.result,
-                success: trade1.status === 'ok'
+                result: trade1?.result,
+                success: trade1?.status === 'ok'
               },
               { 
                 description: 'Buy 1 rare gem from black market',
-                result: trade2.result,
-                success: trade2.status === 'ok'
+                result: trade2?.result,
+                success: trade2?.status === 'ok'
               },
               { 
                 description: 'Buy 2 magic scrolls from magic emporium',
-                result: trade3.result,
-                success: trade3.status === 'ok'
+                result: trade3?.result,
+                success: trade3?.status === 'ok'
               }
             ],
             analysis: {
-              stats: demoStats.result,
-              rareGemMarket: marketData.result,
-              exportSample: exportData.result
+              stats: demoStats?.result,
+              rareGemMarket: marketData?.result,
+              exportSample: exportData?.result
             },
             summary: {
-              totalVendors: demoStats.result?.totalVendors || 0,
-              totalItems: demoStats.result?.totalItems || 0,
-              totalCurrencies: demoStats.result?.totalCurrencies || 0,
-              economicHealth: demoStats.result?.economicHealth || 0,
-              marketVolume: demoStats.result?.marketVolume || 0,
-              activeEvents: demoStats.result?.activeEvents || 0
+              totalVendors: demoStats?.result?.totalVendors || 0,
+              totalItems: demoStats?.result?.totalItems || 0,
+              totalCurrencies: demoStats?.result?.totalCurrencies || 0,
+              economicHealth: demoStats?.result?.economicHealth || 0,
+              marketVolume: demoStats?.result?.marketVolume || 0,
+              activeEvents: demoStats?.result?.activeEvents || 0
             }
           }
         };
@@ -469,14 +469,14 @@ async function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: ${operation?.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv.indexOf('--format') + 1];
+    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv?.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -488,7 +488,7 @@ async function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation.op,
+      op: operation?.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -504,13 +504,13 @@ async function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error?.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process.exit(1);
+    process?.exit(1);
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

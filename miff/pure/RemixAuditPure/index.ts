@@ -78,26 +78,26 @@ export async function auditModule(modulePath: string): Promise<ModuleScanResult>
 
   for (const rule of rules) {
     try {
-      const result = await rule.check(context);
-      results.push(result);
+      const result = await rule?.check(context);
+      results?.push(result: any);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      results.push({
-        ruleId: rule.id,
+      results?.push({
+        ruleId: rule?.id,
         passed: false,
         severity: 'critical',
         message: `Rule execution failed: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? error?.stack : String(error),
         category: 'documentation' // Default category for error cases
       });
     }
   }
 
   const status = determineModuleStatus(results);
-  const remixSafe = results.every(r => r.passed || r.severity === 'info');
+  const remixSafe = results?.every(r => r?.passed || r?.severity === 'info');
 
   return {
-    moduleName: context.moduleName,
+    moduleName: context?.moduleName,
     path: modulePath,
     auditResults: results,
     status,
@@ -118,8 +118,8 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
   for (const modulePath of modulePaths) {
     try {
       const result = await auditModule(modulePath);
-      moduleResults.push(result);
-      allResults.push(...result.auditResults);
+      moduleResults?.push(result: any);
+      allResults?.push(...result?.auditResults);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const errorResult: AuditResult = {
@@ -127,12 +127,12 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
         passed: false,
         severity: 'critical',
         message: `Failed to audit module: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? error?.stack : String(error),
         filePath: modulePath,
         category: 'documentation' // Default category for error cases
       };
-      allResults.push(errorResult);
-      criticalIssues.push(`Module scan failed: ${modulePath}`);
+      allResults?.push(errorResult);
+      criticalIssues?.push(`Module scan failed: ${modulePath}`);
     }
   }
 
@@ -144,21 +144,21 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
   
   // Check compliance
   const compliance = checkCompliance(allResults);
-  const remixSafe = compliance.licensing && compliance.attribution && 
-                   compliance.dependencies && compliance.documentation && 
-                   compliance.assets && summary.critical === 0;
+  const remixSafe = compliance?.licensing && compliance?.attribution && 
+                   compliance?.dependencies && compliance?.documentation && 
+                   compliance?.assets && summary?.critical === 0;
 
   // Collect issues and recommendations
   for (const result of allResults) {
-    if (!result.passed) {
-      if (result.severity === 'critical') {
-        criticalIssues.push(`${result.ruleId}: ${result.message}`);
-      } else if (result.severity === 'warning') {
-        warnings.push(`${result.ruleId}: ${result.message}`);
+    if (!result?.passed) {
+      if (result?.severity === 'critical') {
+        criticalIssues?.push(`${result?.ruleId}: ${result?.message}`);
+      } else if (result?.severity === 'warning') {
+        warnings?.push(`${result?.ruleId}: ${result?.message}`);
       }
       
-      if (result.remediation) {
-        recommendations.push(`${result.ruleId}: ${result.remediation}`);
+      if (result?.remediation) {
+        recommendations?.push(`${result?.ruleId}: ${result?.remediation}`);
       }
     }
   }
@@ -168,7 +168,7 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
     status,
     summary,
     results: allResults,
-    modules: moduleResults.map((r: any) => r.moduleName),
+    modules: moduleResults?.map((r: any) => r?.moduleName),
     criticalIssues,
     warnings,
     recommendations,
@@ -183,16 +183,16 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
 async function buildAuditContext(modulePath: string): Promise<AuditContext> {
   // This would typically read files and analyze content
   // For now, we'll use a placeholder implementation
-  const moduleName = modulePath.split('/').pop() || 'unknown';
+  const moduleName = modulePath?.split('/').pop() || 'unknown';
   
   return {
     modulePath,
     moduleName,
-    files: ['index.ts', 'cliHarness.ts', 'README.md'],
+    files: ['index?.ts', 'cliHarness?.ts', 'README?.md'],
     content: {
-      'index.ts': '// Module content would be read here',
-      'cliHarness.ts': '#!/usr/bin/env ts-node',
-      'README.md': '# Module Documentation'
+      'index?.ts': '// Module content would be read here',
+      'cliHarness?.ts': '#!/usr/bin/env ts-node',
+      'README?.md': '# Module Documentation'
     },
     dependencies: ['fs', 'path'],
     metadata: {
@@ -217,8 +217,8 @@ function getRemixAuditRules(): RemixAuditRule[] {
       severity: 'critical',
       category: 'licensing',
       check: async (context) => {
-        const hasLicense = !!(context.metadata.license && 
-                          ['MIT', 'Apache-2.0', 'CC0', 'CC-BY', 'CC-BY-SA'].includes(context.metadata.license));
+        const hasLicense = !!(context?.metadata.license && 
+                          ['MIT', 'Apache-2.0', 'CC0', 'CC-BY', 'CC-BY-SA'].includes(context?.metadata.license));
         
         return {
           ruleId: 'license_present',
@@ -226,7 +226,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
           severity: 'critical',
           message: hasLicense ? 'License is present and valid' : 'Missing or invalid license',
           remediation: hasLicense ? undefined : 'Add a valid open source license to module metadata',
-          filePath: `${context.modulePath}/README.md`,
+          filePath: `${context?.modulePath}/README?.md`,
           category: 'licensing'
         };
       }
@@ -240,7 +240,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
       severity: 'warning',
       category: 'attribution',
       check: async (context) => {
-        const hasAuthor = !!(context.metadata.author && context.metadata.author !== 'Contributor');
+        const hasAuthor = !!(context?.metadata.author && context?.metadata.author !== 'Contributor');
         
         return {
           ruleId: 'attribution_present',
@@ -248,7 +248,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
           severity: 'warning',
           message: hasAuthor ? 'Author attribution is present' : 'Missing or generic author attribution',
           remediation: hasAuthor ? undefined : 'Add proper author attribution in module metadata',
-          filePath: `${context.modulePath}/README.md`,
+          filePath: `${context?.modulePath}/README?.md`,
           category: 'attribution'
         };
       }
@@ -258,19 +258,19 @@ function getRemixAuditRules(): RemixAuditRule[] {
     {
       id: 'readme_present',
       name: 'README Present',
-      description: 'Module must have a README.md file',
+      description: 'Module must have a README?.md file',
       severity: 'critical',
       category: 'documentation',
       check: async (context) => {
-        const hasReadme = context.files.includes('README.md');
+        const hasReadme = context?.files.includes('README?.md');
         
         return {
           ruleId: 'readme_present',
           passed: hasReadme,
           severity: 'critical',
-          message: hasReadme ? 'README.md is present' : 'Missing README.md file',
-          remediation: hasReadme ? undefined : 'Create a README.md file with module documentation',
-          filePath: `${context.modulePath}/README.md`,
+          message: hasReadme ? 'README?.md is present' : 'Missing README?.md file',
+          remediation: hasReadme ? undefined : 'Create a README?.md file with module documentation',
+          filePath: `${context?.modulePath}/README?.md`,
           category: 'documentation'
         };
       }
@@ -284,15 +284,15 @@ function getRemixAuditRules(): RemixAuditRule[] {
       severity: 'critical',
       category: 'documentation',
       check: async (context) => {
-        const hasCliHarness = context.files.includes('cliHarness.ts');
+        const hasCliHarness = context?.files.includes('cliHarness?.ts');
         
         return {
           ruleId: 'cli_harness_present',
           passed: hasCliHarness,
           severity: 'critical',
           message: hasCliHarness ? 'CLI harness is present' : 'Missing CLI harness file',
-          remediation: hasCliHarness ? undefined : 'Create a cliHarness.ts file for CLI execution',
-          filePath: `${context.modulePath}/cliHarness.ts`,
+          remediation: hasCliHarness ? undefined : 'Create a cliHarness?.ts file for CLI execution',
+          filePath: `${context?.modulePath}/cliHarness?.ts`,
           category: 'documentation'
         };
       }
@@ -307,7 +307,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
       category: 'dependencies',
       check: async (context) => {
         const unsafeDeps = ['eval', 'Function', 'exec', 'spawn'];
-        const hasUnsafeDep = context.dependencies.some(dep => unsafeDeps.includes(dep));
+        const hasUnsafeDep = context?.dependencies.some(dep => unsafeDeps?.includes(dep));
         
         return {
           ruleId: 'safe_dependencies',
@@ -315,7 +315,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
           severity: 'warning',
           message: !hasUnsafeDep ? 'All dependencies are safe' : 'Unsafe dependencies detected',
           remediation: !hasUnsafeDep ? undefined : 'Remove or replace unsafe dependencies',
-          filePath: `${context.modulePath}/index.ts`,
+          filePath: `${context?.modulePath}/index?.ts`,
           category: 'dependencies'
         };
       }
@@ -338,7 +338,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
         let hasHardcodedAssets = false;
         for (const [filePath, content] of Object.entries(context.content)) {
           for (const pattern of hardcodedPatterns) {
-            if (pattern.test(content)) {
+            if (pattern?.test(content)) {
               hasHardcodedAssets = true;
               break;
             }
@@ -351,7 +351,7 @@ function getRemixAuditRules(): RemixAuditRule[] {
           severity: 'warning',
           message: !hasHardcodedAssets ? 'No hardcoded assets detected' : 'Hardcoded asset paths found',
           remediation: !hasHardcodedAssets ? undefined : 'Use asset manifest or configuration files instead of hardcoded paths',
-          filePath: `${context.modulePath}/index.ts`,
+          filePath: `${context?.modulePath}/index?.ts`,
           category: 'assets'
         };
       }
@@ -363,10 +363,10 @@ function getRemixAuditRules(): RemixAuditRule[] {
  * determineModuleStatus - Determine status for a single module
  */
 function determineModuleStatus(results: AuditResult[]): 'pass' | 'fail' | 'warning' {
-  if (results.some(r => !r.passed && r.severity === 'critical')) {
+  if (results?.some(r => !r?.passed && r?.severity === 'critical')) {
     return 'fail';
   }
-  if (results.some(r => !r.passed && r.severity === 'warning')) {
+  if (results?.some(r => !r?.passed && r?.severity === 'warning')) {
     return 'warning';
   }
   return 'pass';
@@ -376,10 +376,10 @@ function determineModuleStatus(results: AuditResult[]): 'pass' | 'fail' | 'warni
  * determineOverallStatus - Determine overall audit status
  */
 function determineOverallStatus(summary: RemixAuditReport['summary']): RemixAuditReport['status'] {
-  if (summary.critical > 0) {
+  if (summary?.critical > 0) {
     return 'fail';
   }
-  if (summary.warnings > 0) {
+  if (summary?.warnings > 0) {
     return 'warning';
   }
   return 'pass';
@@ -390,11 +390,11 @@ function determineOverallStatus(summary: RemixAuditReport['summary']): RemixAudi
  */
 function generateAuditSummary(results: AuditResult[]): RemixAuditReport['summary'] {
   return {
-    total: results.length,
-    passed: results.filter((r: any) => r.passed).length,
-    failed: results.filter((r: any) => !r.passed).length,
-    warnings: results.filter((r: any) => !r.passed && r.severity === 'warning').length,
-    critical: results.filter((r: any) => !r.passed && r.severity === 'critical').length
+    total: results?.length,
+    passed: results?.filter((r: any) => r?.passed).length,
+    failed: results?.filter((r: any) => !r?.passed).length,
+    warnings: results?.filter((r: any) => !r?.passed && r?.severity === 'warning').length,
+    critical: results?.filter((r: any) => !r?.passed && r?.severity === 'critical').length
   };
 }
 
@@ -402,11 +402,11 @@ function generateAuditSummary(results: AuditResult[]): RemixAuditReport['summary
  * checkCompliance - Check compliance across different categories
  */
 function checkCompliance(results: AuditResult[]): RemixAuditReport['compliance'] {
-  const licensing = results.filter((r: any) => r.category === 'licensing').every(r => r.passed);
-  const attribution = results.filter((r: any) => r.category === 'attribution').every(r => r.passed);
-  const dependencies = results.filter((r: any) => r.category === 'dependencies').every(r => r.passed);
-  const documentation = results.filter((r: any) => r.category === 'documentation').every(r => r.passed);
-  const assets = results.filter((r: any) => r.category === 'assets').every(r => r.passed);
+  const licensing = results?.filter((r: any) => r?.category === 'licensing').every(r => r?.passed);
+  const attribution = results?.filter((r: any) => r?.category === 'attribution').every(r => r?.passed);
+  const dependencies = results?.filter((r: any) => r?.category === 'dependencies').every(r => r?.passed);
+  const documentation = results?.filter((r: any) => r?.category === 'documentation').every(r => r?.passed);
+  const assets = results?.filter((r: any) => r?.category === 'assets').every(r => r?.passed);
 
   return {
     licensing,
@@ -424,40 +424,40 @@ export function generateAuditReport(report: RemixAuditReport): string {
   let output = `Remix Safety Audit Report\n`;
   output += `=========================\n\n`;
   
-  output += `Status: ${report.status.toUpperCase()}\n`;
-  output += `Remix-Safe: ${report.remixSafe ? 'YES' : 'NO'}\n\n`;
+  output += `Status: ${report?.status.toUpperCase()}\n`;
+  output += `Remix-Safe: ${report?.remixSafe ? 'YES' : 'NO'}\n\n`;
   
   output += `Summary:\n`;
-  output += `  Total Rules: ${report.summary.total}\n`;
-  output += `  Passed: ${report.summary.passed}\n`;
-  output += `  Failed: ${report.summary.failed}\n`;
-  output += `  Warnings: ${report.summary.warnings}\n`;
-  output += `  Critical: ${report.summary.critical}\n\n`;
+  output += `  Total Rules: ${report?.summary.total}\n`;
+  output += `  Passed: ${report?.summary.passed}\n`;
+  output += `  Failed: ${report?.summary.failed}\n`;
+  output += `  Warnings: ${report?.summary.warnings}\n`;
+  output += `  Critical: ${report?.summary.critical}\n\n`;
   
-  if (report.criticalIssues.length > 0) {
+  if (report?.criticalIssues.length > 0) {
     output += `Critical Issues:\n`;
-    report.criticalIssues.forEach((issue: any) => output += `  - ${issue}\n`);
+    report?.criticalIssues.forEach((issue: any) => output += `  - ${issue}\n`);
     output += `\n`;
   }
   
-  if (report.warnings.length > 0) {
+  if (report?.warnings.length > 0) {
     output += `Warnings:\n`;
-    report.warnings.forEach((warning: any) => output += `  - ${warning}\n`);
+    report?.warnings.forEach((warning: any) => output += `  - ${warning}\n`);
     output += `\n`;
   }
   
-  if (report.recommendations.length > 0) {
+  if (report?.recommendations.length > 0) {
     output += `Recommendations:\n`;
-    report.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
+    report?.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
     output += `\n`;
   }
   
   output += `Compliance:\n`;
-  output += `  Licensing: ${report.compliance.licensing ? '✓' : '✗'}\n`;
-  output += `  Attribution: ${report.compliance.attribution ? '✓' : '✗'}\n`;
-  output += `  Dependencies: ${report.compliance.dependencies ? '✓' : '✗'}\n`;
-  output += `  Documentation: ${report.compliance.documentation ? '✓' : '✗'}\n`;
-  output += `  Assets: ${report.compliance.assets ? '✓' : '✗'}\n`;
+  output += `  Licensing: ${report?.compliance.licensing ? '✓' : '✗'}\n`;
+  output += `  Attribution: ${report?.compliance.attribution ? '✓' : '✗'}\n`;
+  output += `  Dependencies: ${report?.compliance.dependencies ? '✓' : '✗'}\n`;
+  output += `  Documentation: ${report?.compliance.documentation ? '✓' : '✗'}\n`;
+  output += `  Assets: ${report?.compliance.assets ? '✓' : '✗'}\n`;
   
   return output;
 }

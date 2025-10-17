@@ -34,12 +34,12 @@ export class SafeObjectUtils {
   /**
    * Safely merge objects without prototype pollution
    */
-  static safeMerge<T extends Record<string, any>>(target: T, ...sources: Partial<T extends object>[]): T {
-    const result = this.createSafeObject(target);
+  static safeMerge<T extends Record<string, any> extends Record<string, any>>(target: T, ...sources: Partial<T extends Record<string, any> extends object>[]): T {
+    const result = this?.createSafeObject(target);
     
     for (const source of sources) {
       if (source && typeof source === 'object') {
-        this.mergeObject(result, source, { deep: true });
+        this?.mergeObject(result, source, { deep: true });
       }
     }
     
@@ -49,12 +49,12 @@ export class SafeObjectUtils {
   /**
    * Safely assign properties to an object
    */
-  static safeAssign<T extends Record<string, any>>(target: T, ...sources: Partial<T extends object>[]): T {
-    const result = this.createSafeObject(target);
+  static safeAssign<T extends Record<string, any> extends Record<string, any>>(target: T, ...sources: Partial<T extends Record<string, any> extends object>[]): T {
+    const result = this?.createSafeObject(target);
     
     for (const source of sources) {
       if (source && typeof source === 'object') {
-        this.mergeObject(result, source, { deep: false });
+        this?.mergeObject(result, source, { deep: false });
       }
     }
     
@@ -64,28 +64,28 @@ export class SafeObjectUtils {
   /**
    * Safely clone an object without prototype pollution
    */
-  static safeClone<T extends object>(obj: T): T {
+  static safeClone<T extends Record<string, any> extends object>(obj: T): T {
     if (obj === null || typeof obj !== 'object') {
       return obj;
     }
 
-    if (Array.isArray(obj)) {
-      return obj.map((item: any) => this.safeClone(item)) as T;
+    if (Array.isArray(obj: any)) {
+      return obj?.map((item: any) => this?.safeClone(item: any)) as T;
     }
 
-    const cloned = this.createSafeObject({});
-    this.mergeObject(cloned, obj, { deep: true });
+    const cloned = this?.createSafeObject({});
+    this?.mergeObject(cloned, obj, { deep: true });
     return cloned as T;
   }
 
   /**
    * Create a safe object without dangerous prototype properties
    */
-  static createSafeObject<T extends Record<string, any>>(obj: T): T {
+  static createSafeObject<T extends Record<string, any> extends Record<string, any>>(obj: T): T {
     const safe = Object.create(null);
     
     for (const key in obj) {
-      if (this.isSafeKey(key) && obj.hasOwnProperty(key)) {
+      if (this?.isSafeKey(key) && obj?.hasOwnProperty(key)) {
         safe[key!] = obj[key!];
       }
     }
@@ -102,7 +102,7 @@ export class SafeObjectUtils {
     }
 
     // Check for dangerous keys
-    if (this.DANGEROUS_KEYS.includes(key)) {
+    if (this?.DANGEROUS_KEYS.includes(key)) {
       return false;
     }
 
@@ -116,7 +116,7 @@ export class SafeObjectUtils {
     ];
 
     for (const pattern of dangerousPatterns) {
-      if (pattern.test(key)) {
+      if (pattern?.test(key)) {
         return false;
       }
     }
@@ -127,16 +127,16 @@ export class SafeObjectUtils {
   /**
    * Safely get a property value from an object
    */
-  static safeGet<T extends object>(obj: any, path: string, defaultValue?: T): T! {
+  static safeGet<T extends Record<string, any> extends object>(obj: any, path: string, defaultValue?: T): T! {
     if (!obj || typeof obj !== 'object') {
       return defaultValue;
     }
 
-    const keys = path.split('.');
+    const keys = path?.split('.');
     let current = obj;
 
     for (const key of keys) {
-      if (!this.isSafeKey(key)) {
+      if (!this?.isSafeKey(key)) {
         return defaultValue;
       }
 
@@ -153,27 +153,27 @@ export class SafeObjectUtils {
   /**
    * Safely set a property value on an object
    */
-  static safeSet<T extends Record<string, any>>(obj: T, path: string, value: any): boolean {
+  static safeSet<T extends Record<string, any> extends Record<string, any>>(obj: T, path: string, value: any): boolean {
     if (!obj || typeof obj !== 'object') {
       return false;
     }
 
-    const keys = path.split('.');
-    const lastKey = keys.pop();
+    const keys = path?.split('.');
+    const lastKey = keys?.pop();
     
-    if (!lastKey || !this.isSafeKey(lastKey)) {
+    if (!lastKey || !this?.isSafeKey(lastKey)) {
       return false;
     }
 
     let current = obj;
     
     for (const key of keys) {
-      if (!this.isSafeKey(key)) {
+      if (!this?.isSafeKey(key)) {
         return false;
       }
 
       if (!(key in current) || typeof current[key!] !== 'object') {
-        current[key!] = this.createSafeObject({});
+        current[key!] = this?.createSafeObject({});
       }
       
       current = current[key!];
@@ -186,15 +186,15 @@ export class SafeObjectUtils {
   /**
    * Validate an object for prototype pollution
    */
-  static validateObject(obj: any, maxDepth = this.MAX_DEPTH): { isValid: boolean; error?: string } {
+  static validateObject(obj: any, maxDepth = this?.MAX_DEPTH): { isValid: boolean; error?: string } {
     try {
       const visited = new WeakSet();
-      return this.validateObjectRecursive(obj, visited, 0, maxDepth);
+      return this?.validateObjectRecursive(obj, visited, 0, maxDepth);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
-        error: error instanceof Error ? error.message : 'Object validation failed'
+        error: error instanceof Error ? error?.message : 'Object validation failed'
       };
     }
   }
@@ -214,39 +214,39 @@ export class SafeObjectUtils {
       return { isValid: true };
     }
 
-    if (visited.has(obj)) {
+    if (visited?.has(obj: any)) {
       return { isValid: true }; // Circular reference, but not dangerous
     }
 
-    visited.add(obj);
+    visited?.add(obj: any);
 
-    if (Array.isArray(obj)) {
-      for (let i = 0; i < obj.length; i++) {
-        const result = this.validateObjectRecursive(obj[i!], visited, depth + 1, maxDepth);
-        if (!result.isValid) {
+    if (Array.isArray(obj: any)) {
+      for (let i = 0; i < obj?.length; i++) {
+        const result = this?.validateObjectRecursive(obj[i!], visited, depth + 1, maxDepth);
+        if (!result?.isValid) {
           return result;
         }
       }
     } else {
-      const keys = Object.keys(obj);
+      const keys = Object.keys(obj: any);
       
-      if (keys.length > this.MAX_KEYS) {
+      if (keys?.length > this?.MAX_KEYS) {
         return {
           isValid: false,
-          error: `Too many keys: ${keys.length} > ${this.MAX_KEYS}`
+          error: `Too many keys: ${keys?.length} > ${this?.MAX_KEYS}`
         };
       }
 
       for (const key of keys) {
-        if (!this.isSafeKey(key)) {
+        if (!this?.isSafeKey(key)) {
           return {
             isValid: false,
             error: `Dangerous key detected: ${key}`
           };
         }
 
-        const result = this.validateObjectRecursive(obj[key!], visited, depth + 1, maxDepth);
-        if (!result.isValid) {
+        const result = this?.validateObjectRecursive(obj[key!], visited, depth + 1, maxDepth);
+        if (!result?.isValid) {
           return result;
         }
       }
@@ -259,10 +259,10 @@ export class SafeObjectUtils {
    * Merge objects safely
    */
   private static mergeObject(target: any, source: any, options: SafeMergeOptions = {}): void {
-    const { deep = false, maxDepth = this.MAX_DEPTH } = options;
+    const { deep = false, maxDepth = this?.MAX_DEPTH } = options;
     
     for (const key in source) {
-      if (!this.isSafeKey(key) || !source.hasOwnProperty(key)) {
+      if (!this?.isSafeKey(key) || !source?.hasOwnProperty(key)) {
         continue;
       }
 
@@ -278,9 +278,9 @@ export class SafeObjectUtils {
           !Array.isArray(targetValue)) {
         
         if (!target[key!]) {
-          target[key!] = this.createSafeObject({});
+          target[key!] = this?.createSafeObject({});
         }
-        this.mergeObject(target[key!], sourceValue, { ...options, maxDepth: maxDepth - 1 });
+        this?.mergeObject(target[key!], sourceValue, { ...options, maxDepth: maxDepth - 1 });
       } else {
         target[key!] = sourceValue;
       }
@@ -290,15 +290,15 @@ export class SafeObjectUtils {
   /**
    * Sanitize an object by removing dangerous properties
    */
-  static sanitizeObject<T extends Record<string, any>>(obj: T): T {
-    const sanitized = this.createSafeObject({});
+  static sanitizeObject<T extends Record<string, any> extends Record<string, any>>(obj: T): T {
+    const sanitized = this?.createSafeObject({});
     
     for (const key in obj) {
-      if (this.isSafeKey(key) && obj.hasOwnProperty(key)) {
+      if (this?.isSafeKey(key) && obj?.hasOwnProperty(key)) {
         const value = obj[key!];
         
         if (value !== null && typeof value === 'object') {
-          sanitized[key!] = this.sanitizeObject(value);
+          sanitized[key!] = this?.sanitizeObject(value: any);
         } else {
           sanitized[key!] = value;
         }

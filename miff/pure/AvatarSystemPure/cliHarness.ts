@@ -8,11 +8,11 @@
  */
 
 // Check for help command
-if (process.argv.includes('--help') || process.argv.includes('-h')) {
+if (process?.argv.includes('--help') || process?.argv.includes('-h')) {
   console.log(`
 AvatarSystemPure CLI Harness - Avatar Management System
 
-Usage: npx tsx miff/pure/AvatarSystemPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/AvatarSystemPure/cliHarness?.ts [command!] [options!]
 
 Commands:
   test                     - Run basic avatar system tests
@@ -28,12 +28,12 @@ Commands:
   help                     - Show this help
 
 Examples:
-  npx tsx miff/pure/AvatarSystemPure/cliHarness.ts test
-  npx tsx miff/pure/AvatarSystemPure/cliHarness.ts validate sample.json
-  npx tsx miff/pure/AvatarSystemPure/cliHarness.ts resolve 3d
-  npx tsx miff/pure/AvatarSystemPure/cliHarness.ts create-manifest
+  npx tsx miff/pure/AvatarSystemPure/cliHarness?.ts test
+  npx tsx miff/pure/AvatarSystemPure/cliHarness?.ts validate sample?.json
+  npx tsx miff/pure/AvatarSystemPure/cliHarness?.ts resolve 3d
+  npx tsx miff/pure/AvatarSystemPure/cliHarness?.ts create-manifest
 `);
-  process.exit(0);
+  process?.exit(0);
 }
 
 import * as readline from 'readline';
@@ -44,73 +44,73 @@ import { AvatarManifest, AvatarStyle } from './schema';
 
 class AvatarSystemCLI {
   private avatarSystem: AvatarSystemPure;
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
   private registry: AvatarRegistry;
 
   constructor() {
-    this.avatarSystem = new AvatarSystemPure();
-    this.registry = this.createSampleRegistry();
+    this?.avatarSystem = new AvatarSystemPure();
+    this?.registry = this?.createSampleRegistry();
 
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout,
       prompt: 'Avatar> '
     });
 
-    this.setupEventHandlers();
+    this?.setupEventHandlers();
   }
 
   private setupEventHandlers(): void {
-    this.rl.on('line', (input) => {
-      this.handleCommand(input.trim());
+    this?.rl.on('line', (input) => {
+      this?.handleCommand(input?.trim());
     });
 
-    this.rl.on('close', () => {
+    this?.rl.on('close', () => {
       console.log('\n👋 Avatar System CLI closed');
-      process.exit(0);
+      process?.exit(0);
     });
   }
 
   private async handleCommand(input: string): Promise<void> {
-    const [command, ...args] = input.split(' ');
+    const [command, ...args] = input?.split(' ');
 
-    switch (command.toLowerCase()) {
+    switch (command?.toLowerCase()) {
       case 'test':
-        await this.runTests();
+        await this?.runTests();
         break;
       case 'validate':
-        await this.validateManifest(args[0!]);
+        await this?.validateManifest(args[0!]);
         break;
       case 'resolve':
-        await this.resolveAvatar(args[0!]);
+        await this?.resolveAvatar(args[0!]);
         break;
       case 'create-manifest':
-        await this.createManifest();
+        await this?.createManifest();
         break;
       case 'list-styles':
-        this.listStyles();
+        this?.listStyles();
         break;
       case 'list-components':
-        this.listComponents();
+        this?.listComponents();
         break;
       case 'list-animations':
-        this.listAnimations();
+        this?.listAnimations();
         break;
       case 'optimize':
-        await this.optimizeAvatar(args[0!]);
+        await this?.optimizeAvatar(args[0!]);
         break;
       case 'export':
-        await this.exportAvatar(args[0!]);
+        await this?.exportAvatar(args[0!]);
         break;
       case 'simulate':
-        await this.simulate();
+        await this?.simulate();
         break;
       case 'help':
-        this.showHelp();
+        this?.showHelp();
         break;
       case 'exit':
       case 'quit':
-        this.rl.close();
+        this?.rl.close();
         break;
       case '':
         // Empty line, just show prompt
@@ -120,7 +120,7 @@ class AvatarSystemCLI {
         console.log('Type "help" for available commands');
     }
 
-    this.rl.prompt();
+    this?.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
@@ -131,7 +131,7 @@ class AvatarSystemCLI {
       console.log('1. Testing style validation...');
       const validStyles = ['3d', '2d-side', 'overlay', 'pixel-art', 'voxel', 'skeletal'];
       for (const style of validStyles) {
-        const isValid = validStyles.includes(style);
+        const isValid = validStyles?.includes(style);
         console.log(`   ${isValid ? '✅' : '❌'} Style "${style}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
@@ -139,7 +139,7 @@ class AvatarSystemCLI {
       console.log('\n2. Testing component validation...');
       const validComponents = ['head', 'torso', 'legs', 'boots', 'shirt', 'cloak', 'hat'];
       for (const component of validComponents) {
-        const isValid = validComponents.includes(component);
+        const isValid = validComponents?.includes(component);
         console.log(`   ${isValid ? '✅' : '❌'} Component "${component}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
@@ -147,22 +147,22 @@ class AvatarSystemCLI {
       console.log('\n3. Testing animation state validation...');
       const validAnimations = ['idle', 'walk', 'run', 'attack', 'defend', 'cast', 'death', 'victory'];
       for (const animation of validAnimations) {
-        const isValid = validAnimations.includes(animation);
+        const isValid = validAnimations?.includes(animation);
         console.log(`   ${isValid ? '✅' : '❌'} Animation "${animation}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
       // Test 4: Registry operations
       console.log('\n4. Testing registry operations...');
-      const registrySize = this.registry.items.length;
+      const registrySize = this?.registry.items?.length;
       console.log(`   ✅ Registry size: ${registrySize} items`);
 
-      const compatibleItems = this.registry.items.filter((item: any) => item.compatibility.includes('web'));
+      const compatibleItems = this?.registry.items?.filter((item: any) => item?.compatibility.includes('web'));
       console.log(`   ✅ Web-compatible items: ${compatibleItems.length}`);
 
       // Test 5: Avatar resolution
       console.log('\n5. Testing avatar resolution...');
       const resolveOptions: ResolveOptions = {
-        registry: this.registry,
+        registry: this?.registry,
         style: '3d'
       };
 
@@ -173,7 +173,7 @@ class AvatarSystemCLI {
         style: '3d'
       };
 
-      const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
+      const resolvedAvatar = AvatarSystemPure?.resolve(testManifest, resolveOptions);
       if (resolvedAvatar) {
         console.log(`   ✅ Avatar resolved successfully`);
         console.log(`   📊 Components: ${resolvedAvatar.components.length}`);
@@ -197,12 +197,12 @@ class AvatarSystemCLI {
     }
 
     try {
-      const manifestContent = fs.readFileSync(manifestPath, 'utf-8');
+      const manifestContent = fs?.readFileSync(manifestPath, 'utf-8');
       const manifest = JSON.parse(manifestContent);
 
-      const result = AvatarSystemPure.validate(manifest);
+      const result = AvatarSystemPure?.validate(manifest);
       
-      if (result.ok) {
+      if (result?.ok) {
         console.log('✅ Manifest is valid');
       } else {
         console.log('❌ Manifest validation failed:');
@@ -222,7 +222,7 @@ class AvatarSystemCLI {
 
     try {
       const resolveOptions: ResolveOptions = {
-        registry: this.registry,
+        registry: this?.registry,
         style: style as AvatarStyle
       };
 
@@ -233,7 +233,7 @@ class AvatarSystemCLI {
         style: '3d'
       };
 
-      const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
+      const resolvedAvatar = AvatarSystemPure?.resolve(testManifest, resolveOptions);
       
       if (resolvedAvatar) {
         console.log('✅ Avatar resolved successfully:');
@@ -281,7 +281,7 @@ class AvatarSystemCLI {
         }
       };
 
-      const manifestPath = 'sample-avatar-manifest.json';
+      const manifestPath = 'sample-avatar-manifest?.json';
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
       console.log(`✅ Sample manifest created: ${manifestPath}`);
     } catch (error: unknown) {
@@ -293,7 +293,7 @@ class AvatarSystemCLI {
   private listStyles(): void {
     console.log('🎨 Supported Avatar Styles:');
     const styles = ['3d', '2d-side', 'overlay', 'pixel-art', 'voxel', 'skeletal'];
-    styles.forEach((style: any) => {
+    styles?.forEach((style: any) => {
       console.log(`   - ${style}`);
     });
   }
@@ -301,7 +301,7 @@ class AvatarSystemCLI {
   private listComponents(): void {
     console.log('🧩 Supported Component Kinds:');
     const components = ['head', 'torso', 'legs', 'boots', 'shirt', 'cloak', 'hat', 'accessory', 'weapon', 'shield', 'hair', 'eyes', 'mouth'];
-    components.forEach((component: any) => {
+    components?.forEach((component: any) => {
       console.log(`   - ${component}`);
     });
   }
@@ -309,7 +309,7 @@ class AvatarSystemCLI {
   private listAnimations(): void {
     console.log('🎭 Supported Animation States:');
     const animations = ['idle', 'walk', 'run', 'attack', 'defend', 'cast', 'death', 'victory'];
-    animations.forEach((animation: any) => {
+    animations?.forEach((animation: any) => {
       console.log(`   - ${animation}`);
     });
   }
@@ -345,7 +345,7 @@ class AvatarSystemCLI {
     try {
       const supportedFormats = ['json', 'gltf', 'fbx', 'obj'];
       
-      if (!supportedFormats.includes(format.toLowerCase())) {
+      if (!supportedFormats?.includes(format?.toLowerCase())) {
         console.log(`❌ Unsupported format: ${format}`);
         console.log(`   Supported formats: ${supportedFormats.join(', ')}`);
         return;
@@ -370,7 +370,7 @@ class AvatarSystemCLI {
       // Simulate avatar creation
       console.log('1. Creating avatar...');
       const resolveOptions: ResolveOptions = {
-        registry: this.registry,
+        registry: this?.registry,
         style: '3d'
       };
       
@@ -381,27 +381,27 @@ class AvatarSystemCLI {
         style: '3d'
       };
 
-      const avatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
+      const avatar = AvatarSystemPure?.resolve(testManifest, resolveOptions);
       console.log(`   ✅ Avatar created with style: ${avatar?.assets.style || 'unknown'}`);
 
       // Simulate component addition
       console.log('2. Adding components...');
       const components = ['head', 'torso', 'legs', 'boots', 'shirt'];
-      components.forEach((component: any) => {
+      components?.forEach((component: any) => {
         console.log(`   ✅ Added ${component} component`);
       });
 
       // Simulate animation setup
       console.log('3. Setting up animations...');
       const animations = ['idle', 'walk', 'run', 'attack'];
-      animations.forEach((animation: any) => {
+      animations?.forEach((animation: any) => {
         console.log(`   ✅ Configured ${animation} animation`);
       });
 
       // Simulate customization
       console.log('4. Applying customizations...');
       const customizations = ['hair-color', 'eye-color', 'skin-tone'];
-      customizations.forEach((customization: any) => {
+      customizations?.forEach((customization: any) => {
         console.log(`   ✅ Applied ${customization} customization`);
       });
 
@@ -446,9 +446,9 @@ Available commands:
           remixSafety: 'CC0',
           compatibility: ['web', 'godot', 'unity'],
           anchors: {
-            'head-top': 'https://example.com/head-top.glb',
-            'head-center': 'https://example.com/head-center.glb',
-            'head-bottom': 'https://example.com/head-bottom.glb'
+            'head-top': 'https://example?.com/head-top?.glb',
+            'head-center': 'https://example?.com/head-center?.glb',
+            'head-bottom': 'https://example?.com/head-bottom?.glb'
           },
           generationHints: {
             style: 'realistic',
@@ -460,9 +460,9 @@ Available commands:
           remixSafety: 'CC0',
           compatibility: ['web', 'godot', 'unity'],
           anchors: {
-            'torso-top': 'https://example.com/torso-top.glb',
-            'torso-center': 'https://example.com/torso-center.glb',
-            'torso-bottom': 'https://example.com/torso-bottom.glb'
+            'torso-top': 'https://example?.com/torso-top?.glb',
+            'torso-center': 'https://example?.com/torso-center?.glb',
+            'torso-bottom': 'https://example?.com/torso-bottom?.glb'
           }
         }
       ]
@@ -473,16 +473,16 @@ Available commands:
     console.log('🚀 Avatar System CLI Started');
     console.log('Type "help" for available commands or "test" to run tests\n');
     
-    this.rl.prompt();
+    this?.rl.prompt();
   }
 }
 
 // Main execution
 async function main() {
   const cli = new AvatarSystemCLI();
-  await cli.start();
+  await cli?.start();
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import?.meta.url === `file://${process?.argv[1!]}`) {
   main().catch(console.error);
 }

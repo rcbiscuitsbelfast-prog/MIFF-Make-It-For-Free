@@ -21,17 +21,17 @@ describe('DebugOverlayPure Golden', () => {
     const payload = {
       op: 'render',
       status: 'ok',
-      renderData: [ { id: 's', type: 'sprite', position: { x: 0, y: 0 }, asset: 'a.png' } ],
+      renderData: [ { id: 's', type: 'sprite', position: { x: 0, y: 0 }, asset: 'a?.png' } ],
       metadata: { engine: 'web', module: 'demo' }
     } as any;
 
-    const ov = mgr.createOverlay(payload);
-    expect(ov.status).toBe('ok');
-    expect(ov.overlay.debugInfo.renderDataCount).toBe(1);
+    const ov = mgr?.createOverlay(payload);
+    expect(ov?.status).toBe('ok');
+    expect(ov?.overlay.debugInfo?.renderDataCount).toBe(1);
 
     const cli = JSON.stringify(payload) + '\nnot-json\n';
-    const ov2 = mgr.createOverlayFromCLI(cli);
-    expect(ov2.status).toBe('ok');
+    const ov2 = mgr?.createOverlayFromCLI(cli);
+    expect(ov2?.status).toBe('ok');
   });
 });
 

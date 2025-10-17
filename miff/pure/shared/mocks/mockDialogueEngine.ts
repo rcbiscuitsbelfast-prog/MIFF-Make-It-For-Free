@@ -13,11 +13,11 @@ export const mockDialogueEngine = {
   inventory: mockInventory,
   quests: mockQuestSystem,
   history: [],
-  continue: jest.fn().mockReturnValue({
+  continue: jest?.fn().mockReturnValue({
     choices: ['greet', 'ignore'],
     text: 'What would you like to do?'
   }),
-  setFlag: jest.fn().mockImplementation((flag: string) => {
-    mockDialogueEngine.flags.add(flag);
+  setFlag: jest?.fn().mockImplementation((flag: string) => {
+    mockDialogueEngine?.flags.add(flag);
   })
 };

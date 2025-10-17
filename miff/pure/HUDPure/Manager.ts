@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 // ============================================================================
 // HUD MANAGER INTERFACES
@@ -170,11 +170,11 @@ export class HUDManager {
 
   constructor(config: HUDManagerConfig) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.eventBus = config.eventBus;
-    this.config = config.config;
-    this.integrations = config.integrations;
-    this.currentTheme = config.config.defaultTheme;
-    this.stats = {
+    this?.eventBus = config?.eventBus;
+    this?.config = config?.config;
+    this?.integrations = config?.integrations;
+    this?.currentTheme = config?.config.defaultTheme;
+    this?.stats = {
       totalElements: 0,
       visibleElements: 0,
       hiddenElements: 0,
@@ -185,7 +185,7 @@ export class HUDManager {
       performanceScore: 100
     };
 
-    this.initialize();
+    this?.initialize({});
   }
 
   /**
@@ -193,15 +193,15 @@ export class HUDManager {
    */
   private initialize(): void {
     // Set up default layout
-    this.setActiveLayout(this.config.defaultLayout);
+    this?.setActiveLayout(this?.config.defaultLayout);
 
     // Start animation loop
-    if (this.config.enableAnimations) {
-      this.startAnimationLoop();
+    if (this?.config.enableAnimations) {
+      this?.startAnimationLoop();
     }
 
     // Set up event listeners
-    this.setupEventListeners();
+    this?.setupEventListeners();
   }
 
   /**
@@ -209,22 +209,22 @@ export class HUDManager {
    */
   private setupEventListeners(): void {
     // Window resize handler
-    if (this.config.enableResponsive) {
-      window.addEventListener('resize', () => {
-        this.handleResize();
+    if (this?.config.enableResponsive) {
+      window?.addEventListener('resize', () => {
+        this?.handleResize();
       });
     }
 
     // Keyboard navigation
-    if (this.config.enableKeyboardNavigation) {
-      document.addEventListener('keydown', (event: any) => {
-        this.handleKeyboardNavigation(event);
+    if (this?.config.enableKeyboardNavigation) {
+      document?.addEventListener('keydown', (event: any) => {
+        this?.handleKeyboardNavigation(event);
       });
     }
 
     // Touch gestures
-    if (this.config.enableTouchGestures) {
-      this.setupTouchGestures();
+    if (this?.config.enableTouchGestures) {
+      this?.setupTouchGestures();
     }
   }
 
@@ -233,21 +233,21 @@ export class HUDManager {
    */
   createElement(elementData: Partial<HUDElement>): HUDElement {
     const element: HUDElement = {
-      id: this.generateId(),
-      type: elementData.type || HUDElementType.PANEL,
-      name: elementData.name || 'Unnamed Element',
-      visible: elementData.visible ?? true,
-      enabled: elementData.enabled ?? true,
-      position: elementData.position || { x: 0, y: 0 },
-      size: elementData.size || { width: 100, height: 100 },
-      zIndex: elementData.zIndex || 0,
-      parentId: elementData.parentId,
-      children: elementData.children || [],
-      properties: elementData.properties || {},
-      styles: elementData.styles || {},
-      animations: elementData.animations || [],
-      eventHandlers: elementData.eventHandlers || {},
-      accessibility: elementData.accessibility || {
+      id: this?.generateId(),
+      type: elementData?.type || HUDElementType?.PANEL,
+      name: elementData?.name || 'Unnamed Element',
+      visible: elementData?.visible ?? true,
+      enabled: elementData?.enabled ?? true,
+      position: elementData?.position || { x: 0, y: 0 },
+      size: elementData?.size || { width: 100, height: 100 },
+      zIndex: elementData?.zIndex || 0,
+      parentId: elementData?.parentId,
+      children: elementData?.children || [],
+      properties: elementData?.properties || {},
+      styles: elementData?.styles || {},
+      animations: elementData?.animations || [],
+      eventHandlers: elementData?.eventHandlers || {},
+      accessibility: elementData?.accessibility || {
         highContrastMode: false,
         fontSize: 'medium',
         colorBlindFriendly: false
@@ -257,15 +257,15 @@ export class HUDManager {
       ...elementData
     };
 
-    this.elements.set(element.id, element);
-    this.updateStats();
+    this?.elements.set(element?.id, element);
+    this?.updateStats();
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onElementCreated?.(element);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onElementCreated?.(element: any);
     });
 
-    this.eventBus.publish('hud:elementCreated', element);
+    this?.eventBus.publish('hud:elementCreated', element);
     return element;
   }
 
@@ -273,7 +273,7 @@ export class HUDManager {
    * Update HUD element
    */
   updateElement(elementId: string, updates: Partial<HUDElement>): boolean {
-    const element = this.elements.get(elementId);
+    const element = this?.elements.get(elementId);
     if (!element) {
       return false;
     }
@@ -284,15 +284,15 @@ export class HUDManager {
       updatedAt: new Date()
     };
 
-    this.elements.set(elementId, updatedElement);
-    this.updateStats();
+    this?.elements.set(elementId, updatedElement);
+    this?.updateStats();
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onElementUpdated?.(updatedElement);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onElementUpdated?.(updatedElement);
     });
 
-    this.eventBus.publish('hud:elementUpdated', updatedElement);
+    this?.eventBus.publish('hud:elementUpdated', updatedElement);
     return true;
   }
 
@@ -300,33 +300,33 @@ export class HUDManager {
    * Delete HUD element
    */
   deleteElement(elementId: string): boolean {
-    const element = this.elements.get(elementId);
+    const element = this?.elements.get(elementId);
     if (!element) {
       return false;
     }
 
     // Remove from parent's children
-    if (element.parentId) {
-      const parent = this.elements.get(element.parentId);
+    if (element?.parentId) {
+      const parent = this?.elements.get(element?.parentId);
       if (parent) {
-        parent.children = parent.children.filter((id: any) => id !== elementId);
+        parent?.children = parent?.children.filter((id: any) => id !== elementId);
       }
     }
 
     // Delete children recursively
-    element.children.forEach(childId => {
-      this.deleteElement(childId);
+    element?.children.forEach(childId => {
+      this?.deleteElement(childId);
     });
 
-    this.elements.delete(elementId);
-    this.updateStats();
+    this?.elements.delete(elementId);
+    this?.updateStats();
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onElementDeleted?.(elementId);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onElementDeleted?.(elementId);
     });
 
-    this.eventBus.publish('hud:elementDeleted', elementId);
+    this?.eventBus.publish('hud:elementDeleted', elementId);
     return true;
   }
 
@@ -334,7 +334,7 @@ export class HUDManager {
    * Get HUD element
    */
   getElement(elementId: string): HUDElement | null {
-    return this.elements.get(elementId) || null;
+    return this?.elements.get(elementId) || null;
   }
 
   /**
@@ -348,59 +348,59 @@ export class HUDManager {
    * Get visible elements
    */
   getVisibleElements(): HUDElement[] {
-    return this.getAllElements().filter((element: any) => element.visible);
+    return this?.getAllElements().filter((element: any) => element?.visible);
   }
 
   /**
    * Show element
    */
   showElement(elementId: string): boolean {
-    return this.updateElement(elementId, { visible: true });
+    return this?.updateElement(elementId, { visible: true });
   }
 
   /**
    * Hide element
    */
   hideElement(elementId: string): boolean {
-    return this.updateElement(elementId, { visible: false });
+    return this?.updateElement(elementId, { visible: false });
   }
 
   /**
    * Toggle element visibility
    */
   toggleElement(elementId: string): boolean {
-    const element = this.getElement(elementId);
+    const element = this?.getElement(elementId);
     if (!element) {
       return false;
     }
-    return this.updateElement(elementId, { visible: !element.visible });
+    return this?.updateElement(elementId, { visible: !element?.visible });
   }
 
   /**
    * Set element position
    */
   setElementPosition(elementId: string, position: { x: number; y: number }): boolean {
-    return this.updateElement(elementId, { position });
+    return this?.updateElement(elementId, { position });
   }
 
   /**
    * Set element size
    */
   setElementSize(elementId: string, size: { width: number; height: number }): boolean {
-    return this.updateElement(elementId, { size });
+    return this?.updateElement(elementId, { size });
   }
 
   /**
    * Add animation to element
    */
   addAnimation(elementId: string, animation: HUDAnimation): boolean {
-    const element = this.getElement(elementId);
+    const element = this?.getElement(elementId);
     if (!element) {
       return false;
     }
 
-    element.animations.push(animation);
-    this.updateElement(elementId, { animations: element.animations });
+    element?.animations?.push(animation);
+    this?.updateElement(elementId, { animations: element?.animations });
     return true;
   }
 
@@ -408,13 +408,13 @@ export class HUDManager {
    * Remove animation from element
    */
   removeAnimation(elementId: string, animationId: string): boolean {
-    const element = this.getElement(elementId);
+    const element = this?.getElement(elementId);
     if (!element) {
       return false;
     }
 
-    element.animations = element.animations.filter((anim: any) => anim.id !== animationId);
-    this.updateElement(elementId, { animations: element.animations });
+    element?.animations = element?.animations.filter((anim: any) => anim?.id !== animationId);
+    this?.updateElement(elementId, { animations: element?.animations });
     return true;
   }
 
@@ -423,21 +423,21 @@ export class HUDManager {
    */
   createLayout(layoutData: Partial<HUDLayout>): HUDLayout {
     const layout: HUDLayout = {
-      id: this.generateId(),
-      name: layoutData.name || 'Unnamed Layout',
-      type: layoutData.type || HUDLayout.DESKTOP,
-      elements: layoutData.elements || [],
-      breakpoints: layoutData.breakpoints || {},
-      responsive: layoutData.responsive ?? true,
-      theme: layoutData.theme || this.currentTheme,
-      customCSS: layoutData.customCSS,
-      isActive: layoutData.isActive ?? false,
+      id: this?.generateId(),
+      name: layoutData?.name || 'Unnamed Layout',
+      type: layoutData?.type || HUDLayout?.DESKTOP,
+      elements: layoutData?.elements || [],
+      breakpoints: layoutData?.breakpoints || {},
+      responsive: layoutData?.responsive ?? true,
+      theme: layoutData?.theme || this?.currentTheme,
+      customCSS: layoutData?.customCSS,
+      isActive: layoutData?.isActive ?? false,
       createdAt: new Date(),
       updatedAt: new Date(),
       ...layoutData
     };
 
-    this.layouts.set(layout.id, layout);
+    this?.layouts.set(layout?.id, layout);
     return layout;
   }
 
@@ -445,26 +445,26 @@ export class HUDManager {
    * Set active layout
    */
   setActiveLayout(layoutId: string): boolean {
-    const layout = this.layouts.get(layoutId);
+    const layout = this?.layouts.get(layoutId);
     if (!layout) {
       return false;
     }
 
     // Deactivate current layout
-    if (this.activeLayout) {
-      this.activeLayout.isActive = false;
+    if (this?.activeLayout) {
+      this?.activeLayout.isActive = false;
     }
 
     // Activate new layout
-    layout.isActive = true;
-    this.activeLayout = layout;
+    layout?.isActive = true;
+    this?.activeLayout = layout;
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onLayoutChanged?.(layout);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onLayoutChanged?.(layout);
     });
 
-    this.eventBus.publish('hud:layoutChanged', layout);
+    this?.eventBus.publish('hud:layoutChanged', layout);
     return true;
   }
 
@@ -472,45 +472,45 @@ export class HUDManager {
    * Get active layout
    */
   getActiveLayout(): HUDLayout | null {
-    return this.activeLayout || null;
+    return this?.activeLayout || null;
   }
 
   /**
    * Set theme
    */
   setTheme(theme: HUDTheme): void {
-    this.currentTheme = theme;
+    this?.currentTheme = theme;
     
     // Update active layout theme
-    if (this.activeLayout) {
-      this.activeLayout.theme = theme;
+    if (this?.activeLayout) {
+      this?.activeLayout.theme = theme;
     }
 
     // Notify integrations
-    this.integrations.forEach((integration: any) => {
-      integration.callbacks.onThemeChanged?.(theme);
+    this?.integrations.forEach((integration: any) => {
+      integration?.callbacks.onThemeChanged?.(theme);
     });
 
-    this.eventBus.publish('hud:themeChanged', theme);
+    this?.eventBus.publish('hud:themeChanged', theme);
   }
 
   /**
    * Get current theme
    */
   getCurrentTheme(): HUDTheme {
-    return this.currentTheme;
+    return this?.currentTheme;
   }
 
   /**
    * Handle window resize
    */
   private handleResize(): void {
-    if (!this.config.enableResponsive! || !this.activeLayout) {
+    if (!this?.config.enableResponsive! || !this?.activeLayout) {
       return;
     }
 
-    const width = window.innerWidth;
-    const breakpoints = this.activeLayout.breakpoints;
+    const width = window?.innerWidth;
+    const breakpoints = this?.activeLayout.breakpoints;
 
     // Determine current breakpoint
     let currentBreakpoint = 'desktop';
@@ -520,7 +520,7 @@ export class HUDManager {
       }
     }
 
-    this.eventBus.publish('hud:breakpointChanged', currentBreakpoint);
+    this?.eventBus.publish('hud:breakpointChanged', currentBreakpoint);
   }
 
   /**
@@ -528,10 +528,10 @@ export class HUDManager {
    */
   private handleKeyboardNavigation(event: KeyboardEvent): void {
     // Implement keyboard navigation logic
-    const focusedElement = document.activeElement;
+    const focusedElement = document?.activeElement;
     if (focusedElement) {
-      this.eventBus.publish('hud:keyboardNavigation', {
-        key: event.key,
+      this?.eventBus.publish('hud:keyboardNavigation', {
+        key: event?.key,
         element: focusedElement
       });
     }
@@ -545,21 +545,21 @@ export class HUDManager {
     let startX = 0;
     let startY = 0;
 
-    document.addEventListener('touchstart', (event: any) => {
-      const touch = event.touches[0!];
-      startX = touch.clientX;
-      startY = touch.clientY;
+    document?.addEventListener('touchstart', (event: any) => {
+      const touch = event?.touches[0!];
+      startX = touch?.clientX;
+      startY = touch?.clientY;
     });
 
-    document.addEventListener('touchend', (event: any) => {
-      const touch = event.changedTouches[0!];
-      const deltaX = touch.clientX - startX;
-      const deltaY = touch.clientY - startY;
+    document?.addEventListener('touchend', (event: any) => {
+      const touch = event?.changedTouches[0!];
+      const deltaX = touch?.clientX - startX;
+      const deltaY = touch?.clientY - startY;
 
-      this.eventBus.publish('hud:touchGesture', {
+      this?.eventBus.publish('hud:touchGesture', {
         deltaX,
         deltaY,
-        direction: this.getGestureDirection(deltaX, deltaY)
+        direction: this?.getGestureDirection(deltaX, deltaY)
       });
     });
   }
@@ -582,8 +582,8 @@ export class HUDManager {
    */
   private startAnimationLoop(): void {
     const animate = () => {
-      this.updateAnimations();
-      this.animationFrameId = requestAnimationFrame(animate);
+      this?.updateAnimations();
+      this?.animationFrameId = requestAnimationFrame(animate);
     };
     animate();
   }
@@ -594,25 +594,25 @@ export class HUDManager {
   private updateAnimations(): void {
     let activeAnimations = 0;
 
-    this.elements.forEach((element: any) => {
-      element.animations.forEach((animation: any) => {
-        if (this.isAnimationActive(animation)) {
+    this?.elements.forEach((element: any) => {
+      element?.animations.forEach((animation: any) => {
+        if (this?.isAnimationActive(animation)) {
           activeAnimations++;
-          this.updateAnimation(element, animation);
+          this?.updateAnimation(element, animation);
         }
       });
     });
 
-    this.stats.activeAnimations = activeAnimations;
+    this?.stats.activeAnimations = activeAnimations;
   }
 
   /**
    * Check if animation is active
    */
   private isAnimationActive(animation: HUDAnimation): boolean {
-    const now = Date.now();
-    const startTime = animation.delay;
-    const endTime = startTime + animation.duration;
+    const now = new Date();
+    const startTime = animation?.delay;
+    const endTime = startTime + animation?.duration;
     
     return now >= startTime && now <= endTime;
   }
@@ -621,23 +621,23 @@ export class HUDManager {
    * Update animation
    */
   private updateAnimation(element: HUDElement, animation: HUDAnimation): void {
-    const now = Date.now();
-    const elapsed = now - animation.delay;
+    const now = new Date();
+    const elapsed = now - animation?.delay;
     const progress = Math.min(elapsed / animation.duration, 1);
     
     // Apply animation based on type
-    switch (animation.type) {
+    switch (animation?.type) {
       case 'fade':
-        this.applyFadeAnimation(element, animation, progress);
+        this?.applyFadeAnimation(element, animation, progress);
         break;
       case 'slide':
-        this.applySlideAnimation(element, animation, progress);
+        this?.applySlideAnimation(element, animation, progress);
         break;
       case 'scale':
-        this.applyScaleAnimation(element, animation, progress);
+        this?.applyScaleAnimation(element, animation, progress);
         break;
       case 'rotate':
-        this.applyRotateAnimation(element, animation, progress);
+        this?.applyRotateAnimation(element, animation, progress);
         break;
     }
   }
@@ -646,52 +646,52 @@ export class HUDManager {
    * Apply fade animation
    */
   private applyFadeAnimation(element: HUDElement, animation: HUDAnimation, progress: number): void {
-    const opacity = animation.from.opacity + (animation.to.opacity - animation.from.opacity) * progress;
-    element.styles.opacity = opacity;
+    const opacity = animation?.from.opacity + (animation?.to.opacity - animation?.from.opacity) * progress;
+    element?.styles.opacity = opacity;
   }
 
   /**
    * Apply slide animation
    */
   private applySlideAnimation(element: HUDElement, animation: HUDAnimation, progress: number): void {
-    const x = animation.from.x + (animation.to.x - animation.from.x) * progress;
-    const y = animation.from.y + (animation.to.y - animation.from.y) * progress;
-    element.position = { x, y };
+    const x = animation?.from.x + (animation?.to.x - animation?.from.x) * progress;
+    const y = animation?.from.y + (animation?.to.y - animation?.from.y) * progress;
+    element?.position = { x, y };
   }
 
   /**
    * Apply scale animation
    */
   private applyScaleAnimation(element: HUDElement, animation: HUDAnimation, progress: number): void {
-    const scale = animation.from.scale + (animation.to.scale - animation.from.scale) * progress;
-    element.styles.transform = `scale(${scale})`;
+    const scale = animation?.from.scale + (animation?.to.scale - animation?.from.scale) * progress;
+    element?.styles.transform = `scale(${scale})`;
   }
 
   /**
    * Apply rotate animation
    */
   private applyRotateAnimation(element: HUDElement, animation: HUDAnimation, progress: number): void {
-    const rotation = animation.from.rotation + (animation.to.rotation - animation.from.rotation) * progress;
-    element.styles.transform = `rotate(${rotation}deg)`;
+    const rotation = animation?.from.rotation + (animation?.to.rotation - animation?.from.rotation) * progress;
+    element?.styles.transform = `rotate(${rotation}deg)`;
   }
 
   /**
    * Get HUD statistics
    */
   getStats(): HUDStats {
-    const managerData = this.getStats();
-    return { ...this.stats };
+    const managerData = this?.getStats();
+    return { ...this?.stats };
   }
 
   /**
    * Update statistics
    */
   private updateStats(): void {
-    const elements = this.getAllElements();
-    this.stats.totalElements = elements.length;
-    this.stats.visibleElements = elements.filter((e: any) => e.visible).length;
-    this.stats.hiddenElements = elements.filter((e: any) => !e.visible).length;
-    this.stats.lastUpdateTime = Date.now();
+    const elements = this?.getAllElements();
+    this?.stats.totalElements = elements?.length;
+    this?.stats.visibleElements = elements?.filter((e: any) => e?.visible).length;
+    this?.stats.hiddenElements = elements?.filter((e: any) => !e?.visible).length;
+    this.stats.lastUpdateTime = new Date();
   }
 
   /**
@@ -701,10 +701,10 @@ export class HUDManager {
     return {
       elements: Array.from(this.elements.values()),
       layouts: Array.from(this.layouts.values()),
-      activeLayout: this.activeLayout,
-      currentTheme: this.currentTheme,
-      config: this.config,
-      stats: this.stats
+      activeLayout: this?.activeLayout,
+      currentTheme: this?.currentTheme,
+      config: this?.config,
+      stats: this?.stats
     };
   }
 
@@ -712,32 +712,32 @@ export class HUDManager {
    * Import HUD state
    */
   importState(state): void {
-    if (state.elements) {
-      this.elements = new Map(state.elements.map((e: HUDElement) => [e.id, e]));
+    if (state?.elements) {
+      this?.elements = new Map(state?.elements.map((e: HUDElement) => [e?.id, e]));
     }
-    if (state.layouts) {
-      this.layouts = new Map(state.layouts.map((l: HUDLayout) => [l.id, l]));
+    if (state?.layouts) {
+      this?.layouts = new Map(state?.layouts.map((l: HUDLayout) => [l?.id, l]));
     }
-    if (state.activeLayout) {
-      this.activeLayout = state.activeLayout;
+    if (state?.activeLayout) {
+      this?.activeLayout = state?.activeLayout;
     }
-    if (state.currentTheme) {
-      this.currentTheme = state.currentTheme;
+    if (state?.currentTheme) {
+      this?.currentTheme = state?.currentTheme;
     }
-    if (state.config) {
-      this.config = state.config;
+    if (state?.config) {
+      this?.config = state?.config;
     }
-    this.updateStats();
+    this?.updateStats();
   }
 
   /**
    * Clear all elements
    */
   clear(): void {
-    this.elements.clear();
-    this.layouts.clear();
-    this.activeLayout = undefined;
-    this.updateStats();
+    this?.elements.clear();
+    this?.layouts.clear();
+    this?.activeLayout = undefined;
+    this?.updateStats();
   }
 
   /**
@@ -751,10 +751,10 @@ export class HUDManager {
    * Cleanup resources
    */
   destroy(): void {
-    if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
+    if (this?.animationFrameId) {
+      cancelAnimationFrame(this?.animationFrameId);
     }
-    this.clear();
+    this?.clear();
   }
 }
 
@@ -764,8 +764,8 @@ export class HUDManager {
 export const defaultHUDManager = new HUDManager({
   eventBus: {} as EventBus,
   config: {
-    defaultTheme: HUDTheme.DARK,
-    defaultLayout: HUDLayout.DESKTOP,
+    defaultTheme: HUDTheme?.DARK,
+    defaultLayout: HUDLayout?.DESKTOP,
     enableAnimations: true,
     enableAccessibility: true,
     enableResponsive: true,

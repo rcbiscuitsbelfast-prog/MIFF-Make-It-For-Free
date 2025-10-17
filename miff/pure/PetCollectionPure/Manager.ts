@@ -144,8 +144,8 @@ export class PetCollectionManager {
 
   constructor(eventBus: EventBus, config: PetCollectionConfig = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.eventBus = eventBus;
-    this.config = {
+    this?.eventBus = eventBus;
+    this?.config = {
       maxPetsPerPlayer: 100,
       maxEggsPerPlayer: 50,
       maxActiveTradesPerPlayer: 10,
@@ -156,10 +156,10 @@ export class PetCollectionManager {
       ...config
     };
 
-    this.petSystem = new PetCollectionPure(eventBus);
-    this.stats = this.initializeStats();
+    this?.petSystem = new PetCollectionPure(eventBus);
+    this?.stats = this?.initializeStats();
 
-    this.setupEventListeners();
+    this?.setupEventListeners();
   }
 
   private initializeStats(): CollectionStats {
@@ -176,39 +176,39 @@ export class PetCollectionManager {
   }
 
   private setupEventListeners(): void {
-    this.eventBus.on('pet:egg_created', (data) => {
-      this.updateStats();
+    this?.eventBus.on('pet:egg_created', (data: any) => {
+      this?.updateStats();
     });
 
-    this.eventBus.on('pet:egg_hatched', (data) => {
-      this.updateStats();
+    this?.eventBus.on('pet:egg_hatched', (data: any) => {
+      this?.updateStats();
     });
 
-    this.eventBus.on('pet:trade_created', (data) => {
-      this.stats.totalTrades++;
+    this?.eventBus.on('pet:trade_created', (data: any) => {
+      this?.stats.totalTrades++;
     });
 
-    this.eventBus.on('pet:trade_completed', (data) => {
-      this.updateStats();
+    this?.eventBus.on('pet:trade_completed', (data: any) => {
+      this?.updateStats();
     });
 
-    this.eventBus.on('pet:favorite_toggled', (data) => {
-      this.updateStats();
+    this?.eventBus.on('pet:favorite_toggled', (data: any) => {
+      this?.updateStats();
     });
   }
 
   public createEgg(ownerId: string, eggType: EggType, species: string): PetCollectionOutput {
     try {
-      const eggs = this.petSystem.getEggsByOwner(ownerId);
-      if (eggs.length >= this.config.maxEggsPerPlayer!) {
+      const eggs = this?.petSystem.getEggsByOwner(ownerId);
+      if (eggs?.length >= this?.config.maxEggsPerPlayer!) {
         return {
           success: false,
-          message: `Maximum eggs per player (${this.config.maxEggsPerPlayer}) reached`,
+          message: `Maximum eggs per player (${this?.config.maxEggsPerPlayer}) reached`,
           timestamp: new Date()
         };
       }
 
-      const egg = this.petSystem.createEgg(ownerId, eggType, species);
+      const egg = this?.petSystem.createEgg(ownerId, eggType, species);
 
       return {
         success: true,
@@ -220,7 +220,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create egg: ${error.message}`,
+        message: `Failed to create egg: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -228,8 +228,8 @@ export class PetCollectionManager {
 
   public hatchEgg(eggId: string, ownerId: string): PetCollectionOutput {
     try {
-      const eggs = this.petSystem.getEggsByOwner(ownerId);
-      const egg = eggs.find(e => e.id === eggId);
+      const eggs = this?.petSystem.getEggsByOwner(ownerId);
+      const egg = eggs?.find(e => e?.id === eggId);
 
       if (!egg) {
         return {
@@ -239,7 +239,7 @@ export class PetCollectionManager {
         };
       }
 
-      const pet = this.petSystem.hatchEgg(eggId);
+      const pet = this?.petSystem.hatchEgg(eggId);
 
       if (!pet) {
         return {
@@ -251,7 +251,7 @@ export class PetCollectionManager {
 
       return {
         success: true,
-        message: `Pet hatched successfully: ${pet.name}`,
+        message: `Pet hatched successfully: ${pet?.name}`,
         data: { pet },
         timestamp: new Date()
       };
@@ -259,7 +259,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to hatch egg: ${error.message}`,
+        message: `Failed to hatch egg: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -267,69 +267,69 @@ export class PetCollectionManager {
 
   public getPetsByOwner(ownerId: string, filter?: PetFilter, sort?: PetSortOption): PetCollectionOutput {
     try {
-      let pets = this.petSystem.getPetsByOwner(ownerId);
+      let pets = this?.petSystem.getPetsByOwner(ownerId);
 
       // Apply filters
       if (filter) {
-        if (filter.rarity) {
-          pets = pets.filter((pet: any) => filter.rarity!.includes(pet.rarity));
+        if (filter?.rarity) {
+          pets = pets?.filter((pet: any) => filter?.rarity!.includes(pet?.rarity));
         }
-        if (filter.type) {
-          pets = pets.filter((pet: any) => filter.type!.includes(pet.type));
+        if (filter?.type) {
+          pets = pets?.filter((pet: any) => filter?.type!.includes(pet?.type));
         }
-        if (filter.species) {
-          pets = pets.filter((pet: any) => filter.species!.includes(pet.species));
+        if (filter?.species) {
+          pets = pets?.filter((pet: any) => filter?.species!.includes(pet?.species));
         }
-        if (filter.level) {
-          pets = pets.filter((pet: any) =>
-            pet.level >= filter.level!.min && pet.level <= filter.level!.max
+        if (filter?.level) {
+          pets = pets?.filter((pet: any) =>
+            pet?.level >= filter?.level!.min && pet?.level <= filter?.level!.max
           );
         }
-        if (filter.isFavorite !== undefined) {
-          pets = pets.filter((pet: any) => pet.isFavorite === filter.isFavorite);
+        if (filter?.isFavorite !== undefined) {
+          pets = pets?.filter((pet: any) => pet?.isFavorite === filter?.isFavorite);
         }
-        if (filter.isLocked !== undefined) {
-          pets = pets.filter((pet: any) => pet.isLocked === filter.isLocked);
+        if (filter?.isLocked !== undefined) {
+          pets = pets?.filter((pet: any) => pet?.isLocked === filter?.isLocked);
         }
       }
 
       // Apply sorting
       if (sort) {
-        pets.sort((a: any, b: any) => {
+        pets?.sort((a: any, b: any) => {
           let aValue: any;
           let bValue: any;
 
-          switch (sort.field) {
+          switch (sort?.field) {
             case 'name':
-              aValue = a.name.toLowerCase();
-              bValue = b.name.toLowerCase();
+              aValue = a?.name.toLowerCase();
+              bValue = b?.name.toLowerCase();
               break;
             case 'rarity':
-              aValue = this.getRarityValue(a.rarity);
-              bValue = this.getRarityValue(b.rarity);
+              aValue = this?.getRarityValue(a?.rarity);
+              bValue = this?.getRarityValue(b?.rarity);
               break;
             case 'level':
-              aValue = a.level;
-              bValue = b.level;
+              aValue = a?.level;
+              bValue = b?.level;
               break;
             case 'happiness':
-              aValue = a.happiness;
-              bValue = b.happiness;
+              aValue = a?.happiness;
+              bValue = b?.happiness;
               break;
             case 'loyalty':
-              aValue = a.loyalty;
-              bValue = b.loyalty;
+              aValue = a?.loyalty;
+              bValue = b?.loyalty;
               break;
             case 'hatchDate':
-              aValue = a.hatchDate;
-              bValue = b.hatchDate;
+              aValue = a?.hatchDate;
+              bValue = b?.hatchDate;
               break;
             default:
-              aValue = a.name.toLowerCase();
-              bValue = b.name.toLowerCase();
+              aValue = a?.name.toLowerCase();
+              bValue = b?.name.toLowerCase();
           }
 
-          if (sort.direction === 'asc') {
+          if (sort?.direction === 'asc') {
             return aValue > bValue ? 1 : -1;
           } else {
             return aValue < bValue ? 1 : -1;
@@ -339,7 +339,7 @@ export class PetCollectionManager {
 
       return {
         success: true,
-        message: `Found ${pets.length} pets`,
+        message: `Found ${pets?.length} pets`,
         data: { pets },
         timestamp: new Date()
       };
@@ -347,7 +347,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to get pets: ${error.message}`,
+        message: `Failed to get pets: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -355,11 +355,11 @@ export class PetCollectionManager {
 
   public getEggsByOwner(ownerId: string): PetCollectionOutput {
     try {
-      const eggs = this.petSystem.getEggsByOwner(ownerId);
+      const eggs = this?.petSystem.getEggsByOwner(ownerId);
 
       return {
         success: true,
-        message: `Found ${eggs.length} eggs`,
+        message: `Found ${eggs?.length} eggs`,
         data: { eggs },
         timestamp: new Date()
       };
@@ -367,7 +367,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to get eggs: ${error.message}`,
+        message: `Failed to get eggs: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -375,7 +375,7 @@ export class PetCollectionManager {
 
   public getCollectionStats(ownerId: string): PetCollectionOutput {
     try {
-      const stats = this.petSystem.getCollectionStats(ownerId);
+      const stats = this?.petSystem.getCollectionStats(ownerId);
 
       return {
         success: true,
@@ -387,7 +387,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to get collection stats: ${error.message}`,
+        message: `Failed to get collection stats: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -395,8 +395,8 @@ export class PetCollectionManager {
 
   public createTradeOffer(ownerId: string, petId: string, requestedPetId?: string, requestedItems?: string[]): PetCollectionOutput {
     try {
-      const pets = this.petSystem.getPetsByOwner(ownerId);
-      const pet = pets.find(p => p.id === petId);
+      const pets = this?.petSystem.getPetsByOwner(ownerId);
+      const pet = pets?.find(p => p?.id === petId);
 
       if (!pet) {
         return {
@@ -407,17 +407,17 @@ export class PetCollectionManager {
       }
 
       const activeTrades = Array.from(this.petSystem['trades'].values())
-        .filter((trade: any) => trade.ownerId === ownerId && trade.status === 'pending');
+        .filter((trade: any) => trade?.ownerId === ownerId && trade?.status === 'pending');
 
-      if (activeTrades.length >= this.config.maxActiveTradesPerPlayer!) {
+      if (activeTrades?.length >= this?.config.maxActiveTradesPerPlayer!) {
         return {
           success: false,
-          message: `Maximum active trades per player (${this.config.maxActiveTradesPerPlayer}) reached`,
+          message: `Maximum active trades per player (${this?.config.maxActiveTradesPerPlayer}) reached`,
           timestamp: new Date()
         };
       }
 
-      const tradeOffer = this.petSystem.createTradeOffer(ownerId, petId, requestedPetId, requestedItems);
+      const tradeOffer = this?.petSystem.createTradeOffer(ownerId, petId, requestedPetId, requestedItems);
 
       if (!tradeOffer) {
         return {
@@ -437,7 +437,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create trade offer: ${error.message}`,
+        message: `Failed to create trade offer: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -445,7 +445,7 @@ export class PetCollectionManager {
 
   public acceptTradeOffer(tradeId: string, accepterId: string): PetCollectionOutput {
     try {
-      const success = this.petSystem.acceptTradeOffer(tradeId, accepterId);
+      const success = this?.petSystem.acceptTradeOffer(tradeId, accepterId);
 
       if (!success) {
         return {
@@ -465,7 +465,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to accept trade offer: ${error.message}`,
+        message: `Failed to accept trade offer: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -473,7 +473,7 @@ export class PetCollectionManager {
 
   public feedPet(petId: string, ownerId: string): PetCollectionOutput {
     try {
-      const success = this.petSystem.feedPet(petId, ownerId);
+      const success = this?.petSystem.feedPet(petId, ownerId);
 
       if (!success) {
         return {
@@ -493,7 +493,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to feed pet: ${error.message}`,
+        message: `Failed to feed pet: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -501,7 +501,7 @@ export class PetCollectionManager {
 
   public toggleFavorite(petId: string, ownerId: string): PetCollectionOutput {
     try {
-      const success = this.petSystem.toggleFavorite(petId, ownerId);
+      const success = this?.petSystem.toggleFavorite(petId, ownerId);
 
       if (!success) {
         return {
@@ -521,7 +521,7 @@ export class PetCollectionManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to toggle favorite: ${error.message}`,
+        message: `Failed to toggle favorite: ${error?.message}`,
         timestamp: new Date()
       };
     }
@@ -566,9 +566,9 @@ export class PetCollectionManager {
   }
 
   public exportCollection(ownerId: string): string {
-    const pets = this.petSystem.getPetsByOwner(ownerId);
-    const eggs = this.petSystem.getEggsByOwner(ownerId);
-    const stats = this.petSystem.getCollectionStats(ownerId);
+    const pets = this?.petSystem.getPetsByOwner(ownerId);
+    const eggs = this?.petSystem.getEggsByOwner(ownerId);
+    const stats = this?.petSystem.getCollectionStats(ownerId);
 
     return JSON.stringify({
       ownerId,
@@ -585,30 +585,30 @@ export class PetCollectionManager {
 
       // Import pets
       if (data.pets && Array.isArray(data.pets)) {
-        data.pets.forEach((petData: any) => {
+        data?.pets.forEach((petData: any) => {
           const pet: Pet = {
-            id: petData.id,
-            name: petData.name,
-            species: petData.species,
-            type: petData.type,
-            rarity: petData.rarity,
-            level: petData.level,
-            experience: petData.experience,
-            stats: petData.stats,
-            abilities: petData.abilities,
-            evolutionStage: petData.evolutionStage,
-            maxEvolutionStage: petData.maxEvolutionStage,
-            isLocked: petData.isLocked,
-            isFavorite: petData.isFavorite,
-            hatchDate: petData.hatchDate,
-            lastFed: petData.lastFed,
-            happiness: petData.happiness,
-            loyalty: petData.loyalty,
+            id: petData?.id,
+            name: petData?.name,
+            species: petData?.species,
+            type: petData?.type,
+            rarity: petData?.rarity,
+            level: petData?.level,
+            experience: petData?.experience,
+            stats: petData?.stats,
+            abilities: petData?.abilities,
+            evolutionStage: petData?.evolutionStage,
+            maxEvolutionStage: petData?.maxEvolutionStage,
+            isLocked: petData?.isLocked,
+            isFavorite: petData?.isFavorite,
+            hatchDate: petData?.hatchDate,
+            lastFed: petData?.lastFed,
+            happiness: petData?.happiness,
+            loyalty: petData?.loyalty,
             ownerId: ownerId,
-            metadata: petData.metadata
+            metadata: petData?.metadata
           };
 
-          this.petSystem['pets'].set(pet.id, pet);
+          this?.petSystem['pets'].set(pet?.id, pet);
         });
       }
 

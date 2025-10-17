@@ -333,7 +333,7 @@ export class DocumentationGenerator {
 
   constructor(...args: any[]) {
     
-    this.stats = this.initializeStats();
+    this?.stats = this?.initializeStats();
   }
 
   /**
@@ -344,19 +344,19 @@ export class DocumentationGenerator {
     
     try {
       // Generate API documentation
-      await this.generateAPIDocumentation(rootPath);
+      await this?.generateAPIDocumentation(rootPath);
       
       // Generate contributor guides
-      await this.generateContributorGuides();
+      await this?.generateContributorGuides();
       
       // Generate tutorials
-      await this.generateTutorials();
+      await this?.generateTutorials();
       
       // Generate code examples
-      await this.generateCodeExamples();
+      await this?.generateCodeExamples();
       
       // Update statistics
-      this.updateStats();
+      this?.updateStats();
       
       console.info('✅ Documentation generation completed');
       
@@ -372,12 +372,12 @@ export class DocumentationGenerator {
   async generateAPIDocumentation(rootPath: string): Promise<void> {
     console.info('📖 Generating API documentation...');
     
-    const modules = await this.getModulesForDocumentation(rootPath);
+    const modules = await this?.getModulesForDocumentation(rootPath);
     
     for (const module of modules) {
       try {
-        const apiDoc = await this.createAPIDocumentation(module);
-        this.apiDocs.set(module, apiDoc);
+        const apiDoc = await this?.createAPIDocumentation(module);
+        this?.apiDocs.set(module, apiDoc);
         console.info(`✅ Generated API documentation for ${module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -405,8 +405,8 @@ export class DocumentationGenerator {
     
     for (const topic of guideTopics) {
       try {
-        const guide = await this.createContributorGuide(topic);
-        this.contributorGuides.set(guide.id, guide);
+        const guide = await this?.createContributorGuide(topic);
+        this?.contributorGuides.set(guide?.id, guide);
         console.info(`✅ Generated contributor guide: ${guide.title}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -434,8 +434,8 @@ export class DocumentationGenerator {
     
     for (const topic of tutorialTopics) {
       try {
-        const tutorial = await this.createTutorial(topic);
-        this.tutorials.set(tutorial.id, tutorial);
+        const tutorial = await this?.createTutorial(topic);
+        this?.tutorials.set(tutorial?.id, tutorial);
         console.info(`✅ Generated tutorial: ${tutorial.title}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -463,9 +463,9 @@ export class DocumentationGenerator {
     
     for (const category of exampleCategories) {
       try {
-        const examples = await this.createCodeExamples(category);
+        const examples = await this?.createCodeExamples(category);
         for (const example of examples) {
-          this.codeExamples.set(example.id, example);
+          this?.codeExamples.set(example?.id, example);
         }
         console.info(`✅ Generated ${examples.length} code examples for ${category}`);
       } catch (error: unknown) {
@@ -487,55 +487,55 @@ export class DocumentationGenerator {
     
     let report = '# MIFF Documentation Report\n\n';
     report += `**Generated:** ${new Date().toISOString()}\n`;
-    report += `**Total Modules:** ${this.stats.totalModules}\n`;
-    report += `**Documented Modules:** ${this.stats.documentedModules}\n`;
-    report += `**API Documentation:** ${this.stats.apiDocumentation}\n`;
-    report += `**Contributor Guides:** ${this.stats.contributorGuides}\n`;
-    report += `**Tutorials:** ${this.stats.tutorials}\n`;
-    report += `**Code Examples:** ${this.stats.codeExamples}\n`;
-    report += `**Coverage Percentage:** ${this.stats.coveragePercentage.toFixed(1)}%\n\n`;
+    report += `**Total Modules:** ${this?.stats.totalModules}\n`;
+    report += `**Documented Modules:** ${this?.stats.documentedModules}\n`;
+    report += `**API Documentation:** ${this?.stats.apiDocumentation}\n`;
+    report += `**Contributor Guides:** ${this?.stats.contributorGuides}\n`;
+    report += `**Tutorials:** ${this?.stats.tutorials}\n`;
+    report += `**Code Examples:** ${this?.stats.codeExamples}\n`;
+    report += `**Coverage Percentage:** ${this?.stats.coveragePercentage?.toFixed(1)}%\n\n`;
 
     // API Documentation breakdown
-    if (apiDocs.length > 0) {
-      report += `## API Documentation (${apiDocs.length} modules)\n`;
+    if (apiDocs?.length > 0) {
+      report += `## API Documentation (${apiDocs?.length} modules)\n`;
       for (const apiDoc of apiDocs) {
-        report += `### ${apiDoc.module}\n`;
-        report += `- **Classes:** ${apiDoc.classes.length}\n`;
-        report += `- **Interfaces:** ${apiDoc.interfaces.length}\n`;
-        report += `- **Functions:** ${apiDoc.functions.length}\n`;
-        report += `- **Types:** ${apiDoc.types.length}\n`;
-        report += `- **Examples:** ${apiDoc.examples.length}\n\n`;
+        report += `### ${apiDoc?.module}\n`;
+        report += `- **Classes:** ${apiDoc?.classes.length}\n`;
+        report += `- **Interfaces:** ${apiDoc?.interfaces.length}\n`;
+        report += `- **Functions:** ${apiDoc?.functions.length}\n`;
+        report += `- **Types:** ${apiDoc?.types.length}\n`;
+        report += `- **Examples:** ${apiDoc?.examples.length}\n\n`;
       }
     }
 
     // Contributor Guides
-    if (contributorGuides.length > 0) {
-      report += `## Contributor Guides (${contributorGuides.length})\n`;
+    if (contributorGuides?.length > 0) {
+      report += `## Contributor Guides (${contributorGuides?.length})\n`;
       for (const guide of contributorGuides) {
-        report += `- **${guide.title}** (${guide.difficulty}, ${guide.estimatedTime}min)\n`;
-        report += `  ${guide.description}\n`;
-        report += `  Sections: ${guide.sections.length}\n\n`;
+        report += `- **${guide?.title}** (${guide?.difficulty}, ${guide?.estimatedTime}min)\n`;
+        report += `  ${guide?.description}\n`;
+        report += `  Sections: ${guide?.sections.length}\n\n`;
       }
     }
 
     // Tutorials
-    if (tutorials.length > 0) {
-      report += `## Tutorials (${tutorials.length})\n`;
+    if (tutorials?.length > 0) {
+      report += `## Tutorials (${tutorials?.length})\n`;
       for (const tutorial of tutorials) {
-        report += `- **${tutorial.title}** (${tutorial.difficulty}, ${tutorial.estimatedTime}min)\n`;
-        report += `  ${tutorial.description}\n`;
-        report += `  Steps: ${tutorial.steps.length}\n`;
-        report += `  Tags: ${tutorial.tags.join(', ')}\n\n`;
+        report += `- **${tutorial?.title}** (${tutorial?.difficulty}, ${tutorial?.estimatedTime}min)\n`;
+        report += `  ${tutorial?.description}\n`;
+        report += `  Steps: ${tutorial?.steps.length}\n`;
+        report += `  Tags: ${tutorial?.tags.join(', ')}\n\n`;
       }
     }
 
     // Code Examples
-    if (codeExamples.length > 0) {
-      report += `## Code Examples (${codeExamples.length})\n`;
+    if (codeExamples?.length > 0) {
+      report += `## Code Examples (${codeExamples?.length})\n`;
       const categories = new Map<string, number>();
       for (const example of codeExamples) {
-        const count = categories.get(example.category) || 0;
-        categories.set(example.category, count + 1);
+        const count = categories?.get(example?.category) || 0;
+        categories?.set(example?.category, count + 1);
       }
       
       for (const [category, count] of categories) {
@@ -551,14 +551,14 @@ export class DocumentationGenerator {
    * Get documentation statistics
    */
   getStats(): DocumentationStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   /**
    * Get API documentation for a module
    */
   getAPIDocumentation(module: string): APIDocumentation! {
-    return this.apiDocs.get(module);
+    return this?.apiDocs.get(module);
   }
 
   /**
@@ -617,7 +617,7 @@ export class DocumentationGenerator {
               parameters: [],
               returnType: 'Promise<void>',
               async: true,
-              examples: [`const manager = new ${module}Manager();\nawait manager.initialize();`]
+              examples: [`const manager = new ${module}Manager();\nawait manager?.initialize({});`]
             }
           ],
           properties: [
@@ -626,7 +626,7 @@ export class DocumentationGenerator {
               description: 'Whether the manager is initialized',
               type: 'boolean',
               optional: false,
-              examples: ['manager.isInitialized']
+              examples: ['manager?.isInitialized']
             }
           ],
           examples: [`const manager = new ${module}Manager();`]
@@ -678,7 +678,7 @@ export class DocumentationGenerator {
         {
           title: `Basic ${module} Usage`,
           description: `How to use ${module} in your application`,
-          code: `import { ${module}Manager } from './${module}';\n\nconst manager = new ${module}Manager();\nawait manager.initialize();`,
+          code: `import { ${module}Manager } from './${module}';\n\nconst manager = new ${module}Manager();\nawait manager?.initialize({});`,
           language: 'typescript',
           output: 'Manager initialized successfully'
         }
@@ -688,19 +688,19 @@ export class DocumentationGenerator {
 
   private async createContributorGuide(topic: string): Promise<ContributorGuide> {
     const guide: ContributorGuide = {
-      id: `guide_${topic.toLowerCase().replace(/\s+/g, '_')}`,
+      id: `guide_${topic?.toLowerCase().replace(/\s+/g, '_')}`,
       title: topic,
-      description: `Comprehensive guide for ${topic.toLowerCase()}`,
+      description: `Comprehensive guide for ${topic?.toLowerCase()}`,
       sections: [
         {
           title: 'Overview',
-          content: `This guide covers ${topic.toLowerCase()} in detail.`,
+          content: `This guide covers ${topic?.toLowerCase()} in detail.`,
           codeExamples: [`// Example code for ${topic}`],
-          exercises: [`Exercise 1: Practice ${topic.toLowerCase()}`],
-          tips: [`Tip: Always follow best practices for ${topic.toLowerCase()}`]
+          exercises: [`Exercise 1: Practice ${topic?.toLowerCase()}`],
+          tips: [`Tip: Always follow best practices for ${topic?.toLowerCase()}`]
         }
       ],
-      prerequisites: ['Basic TypeScript knowledge', 'Node.js experience'],
+      prerequisites: ['Basic TypeScript knowledge', 'Node?.js experience'],
       estimatedTime: Math.floor(Math.random() * 60) + 30,
       difficulty: 'intermediate'
     };
@@ -708,15 +708,15 @@ export class DocumentationGenerator {
     return guide;
   }
 
-  private async createTutorial(topic: string): Promise<Tutorial> {
+  private async createTutorial(topic: string): Promise<T extends Record<string, any>utorial> {
     const tutorial: Tutorial = {
-      id: `tutorial_${topic.toLowerCase().replace(/\s+/g, '_')}`,
+      id: `tutorial_${topic?.toLowerCase().replace(/\s+/g, '_')}`,
       title: topic,
-      description: `Step-by-step tutorial for ${topic.toLowerCase()}`,
+      description: `Step-by-step tutorial for ${topic?.toLowerCase()}`,
       steps: [
         {
           title: 'Step 1: Setup',
-          description: `Set up the environment for ${topic.toLowerCase()}`,
+          description: `Set up the environment for ${topic?.toLowerCase()}`,
           code: `// Setup code for ${topic}`,
           explanation: `This step prepares the environment.`,
           expectedOutput: 'Environment ready',
@@ -726,7 +726,7 @@ export class DocumentationGenerator {
       prerequisites: ['Basic programming knowledge'],
       estimatedTime: Math.floor(Math.random() * 120) + 60,
       difficulty: 'beginner',
-      tags: [topic.toLowerCase(), 'tutorial', 'guide']
+      tags: [topic?.toLowerCase(), 'tutorial', 'guide']
     };
     
     return tutorial;
@@ -737,31 +737,31 @@ export class DocumentationGenerator {
     
     for (let i = 0; i < 3; i++) {
       const example: CodeExample = {
-        id: `example_${category.toLowerCase().replace(/\s+/g, '_')}_${i + 1}`,
+        id: `example_${category?.toLowerCase().replace(/\s+/g, '_')}_${i + 1}`,
         title: `${category} Example ${i + 1}`,
-        description: `Example demonstrating ${category.toLowerCase()}`,
+        description: `Example demonstrating ${category?.toLowerCase()}`,
         code: `// ${category} example code\nconsole.info('Hello, MIFF!');`,
         language: 'typescript',
         category,
-        tags: [category.toLowerCase(), 'example'],
+        tags: [category?.toLowerCase(), 'example'],
         relatedModules: ['CombatPure', 'HealthSystemPure'],
         difficulty: 'beginner'
       };
-      examples.push(example);
+      examples?.push(example);
     }
     
     return examples;
   }
 
   private updateStats(): void {
-    this.stats.totalModules = 12; // Mock data
-    this.stats.documentedModules = this.apiDocs.size;
-    this.stats.apiDocumentation = this.apiDocs.size;
-    this.stats.contributorGuides = this.contributorGuides.size;
-    this.stats.tutorials = this.tutorials.size;
-    this.stats.codeExamples = this.codeExamples.size;
-    this.stats.coveragePercentage = (this.stats.documentedModules / this.stats.totalModules) * 100;
-    this.stats.lastUpdated = new Date();
+    this?.stats.totalModules = 12; // Mock data
+    this?.stats.documentedModules = this?.apiDocs.size;
+    this?.stats.apiDocumentation = this?.apiDocs.size;
+    this?.stats.contributorGuides = this?.contributorGuides.size;
+    this?.stats.tutorials = this?.tutorials.size;
+    this?.stats.codeExamples = this?.codeExamples.size;
+    this?.stats.coveragePercentage = (this?.stats.documentedModules / this?.stats.totalModules) * 100;
+    this?.stats.lastUpdated = new Date();
   }
 
   private initializeStats(): DocumentationStats {

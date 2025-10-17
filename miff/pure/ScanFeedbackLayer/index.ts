@@ -60,8 +60,8 @@ export class ScanFeedbackManager {
   private pulsePhase: number = 0;
 
   constructor(overlayManager: OverlayFXManager) {
-    this.overlayManager = overlayManager;
-    this.config = {
+    this?.overlayManager = overlayManager;
+    this?.config = {
       maxRange: 10.0,
       scanDuration: 2000,
       cooldownDuration: 5000,
@@ -76,18 +76,18 @@ export class ScanFeedbackManager {
    * Add a scan target
    */
   addTarget(target: ScanTarget): void {
-    this.targets.set(target.id, target);
-    this.updateTargetOverlays(target);
+    this?.targets.set(target?.id, target);
+    this?.updateTargetOverlays(target);
   }
 
   /**
    * Remove a scan target
    */
   removeTarget(targetId: string): void {
-    const target = this.targets.get(targetId);
+    const target = this?.targets.get(targetId);
     if (target) {
-      this.clearTargetOverlays(target);
-      this.targets.delete(targetId);
+      this?.clearTargetOverlays(target);
+      this?.targets.delete(targetId);
     }
   }
 
@@ -95,16 +95,16 @@ export class ScanFeedbackManager {
    * Start scanning a target
    */
   startScan(targetId: string): boolean {
-    const target = this.targets.get(targetId);
-    if (!target || this.isScanning) return false;
+    const target = this?.targets.get(targetId);
+    if (!target || this?.isScanning) return false;
 
-    this.isScanning = true;
-    this.currentScanTarget = targetId;
-    this.scanStartTime = Date.now();
-    target.scanProgress = 0;
+    this?.isScanning = true;
+    this?.currentScanTarget = targetId;
+    this.scanStartTime = new Date();
+    target?.scanProgress = 0;
 
     // Apply scanning effects
-    this.applyScanningEffects(target);
+    this?.applyScanningEffects(target);
     return true;
   }
 
@@ -112,19 +112,19 @@ export class ScanFeedbackManager {
    * Update scan progress
    */
   updateScanProgress(progress: number): void {
-    if (!this.isScanning || !this.currentScanTarget) return;
+    if (!this?.isScanning || !this?.currentScanTarget) return;
 
-    const target = this.targets.get(this.currentScanTarget);
+    const target = this?.targets.get(this?.currentScanTarget);
     if (!target) return;
 
     target.scanProgress = Math.max(0, Math.min(1, progress));
 
     // Update visual feedback
-    this.updateTargetOverlays(target);
+    this?.updateTargetOverlays(target);
 
     // Check if scan is complete
-    if (target.scanProgress >= 1.0) {
-      this.completeScan();
+    if (target?.scanProgress >= 1.0) {
+      this?.completeScan();
     }
   }
 
@@ -132,85 +132,85 @@ export class ScanFeedbackManager {
    * Complete the current scan
    */
   completeScan(): void {
-    if (!this.currentScanTarget) return;
+    if (!this?.currentScanTarget) return;
 
-    const target = this.targets.get(this.currentScanTarget);
+    const target = this?.targets.get(this?.currentScanTarget);
     if (!target) return;
 
-    target.isScanned = true;
-    target.lastScanned = Date.now();
-    target.scanProgress = 1.0;
+    target?.isScanned = true;
+    target.lastScanned = new Date();
+    target?.scanProgress = 1.0;
 
     // Apply completion effects
-    this.applyCompletionEffects(target);
+    this?.applyCompletionEffects(target);
 
-    this.isScanning = false;
-    this.currentScanTarget = undefined;
-    this.scanStartTime = undefined;
+    this?.isScanning = false;
+    this?.currentScanTarget = undefined;
+    this?.scanStartTime = undefined;
   }
 
   /**
    * Cancel the current scan
    */
   cancelScan(): void {
-    if (!this.currentScanTarget) return;
+    if (!this?.currentScanTarget) return;
 
-    const target = this.targets.get(this.currentScanTarget);
+    const target = this?.targets.get(this?.currentScanTarget);
     if (target) {
-      target.scanProgress = 0;
-      this.updateTargetOverlays(target);
+      target?.scanProgress = 0;
+      this?.updateTargetOverlays(target);
     }
 
-    this.isScanning = false;
-    this.currentScanTarget = undefined;
-    this.scanStartTime = undefined;
+    this?.isScanning = false;
+    this?.currentScanTarget = undefined;
+    this?.scanStartTime = undefined;
   }
 
   /**
    * Update target overlays based on current state
    */
   private updateTargetOverlays(target: ScanTarget): void {
-    const layerId = `scan_target_${target.id}`;
+    const layerId = `scan_target_${target?.id}`;
     
     // Clear existing effects
-    this.overlayManager.removeEffect(layerId, OverlayEffectType.CHROMATIC_ABERRATION);
-    this.overlayManager.removeEffect(layerId, OverlayEffectType.COLOR_SHIFT);
-    this.overlayManager.removeEffect(layerId, OverlayEffectType.VIGNETTE);
+    this?.overlayManager.removeEffect(layerId, OverlayEffectType?.CHROMATIC_ABERRATION);
+    this?.overlayManager.removeEffect(layerId, OverlayEffectType?.COLOR_SHIFT);
+    this?.overlayManager.removeEffect(layerId, OverlayEffectType?.VIGNETTE);
 
-    if (!target.isInteractable) return;
+    if (!target?.isInteractable) return;
 
     // Create layer for this target
-    this.overlayManager.createLayer(layerId, `Scan Target - ${target.id}`, 15);
+    this?.overlayManager.createLayer(layerId, `Scan Target - ${target?.id}`, 15);
 
-    if (target.isScanned) {
+    if (target?.isScanned) {
       // Apply scanned state effects
-      this.overlayManager.addEffect(layerId, {
-        type: OverlayEffectType.COLOR_SHIFT,
+      this?.overlayManager.addEffect(layerId, {
+        type: OverlayEffectType?.COLOR_SHIFT,
         intensity: 0.3,
         color: '#00ff00' // Green for scanned
       });
-    } else if (this.isScanning && this.currentScanTarget === target.id) {
+    } else if (this?.isScanning && this?.currentScanTarget === target?.id) {
       // Apply scanning effects
-      this.overlayManager.addEffect(layerId, {
-        type: OverlayEffectType.CHROMATIC_ABERRATION,
-        intensity: 0.5 * target.scanProgress,
-        color: target.highlightColor
+      this?.overlayManager.addEffect(layerId, {
+        type: OverlayEffectType?.CHROMATIC_ABERRATION,
+        intensity: 0.5 * target?.scanProgress,
+        color: target?.highlightColor
       });
-    } else if (this.isTargetInRange(target)) {
+    } else if (this?.isTargetInRange(target)) {
       // Apply highlight effects for unscanned targets in range
-      this.overlayManager.addEffect(layerId, {
-        type: OverlayEffectType.COLOR_SHIFT,
+      this?.overlayManager.addEffect(layerId, {
+        type: OverlayEffectType?.COLOR_SHIFT,
         intensity: 0.2,
-        color: target.highlightColor
+        color: target?.highlightColor
       });
     }
 
     // Apply pulse effects if enabled
-    if (this.config.pulseEnabled && !target.isScanned) {
-      this.overlayManager.addEffect(layerId, {
-        type: OverlayEffectType.VIGNETTE,
+    if (this?.config.pulseEnabled && !target?.isScanned) {
+      this?.overlayManager.addEffect(layerId, {
+        type: OverlayEffectType?.VIGNETTE,
         intensity: 0.3 * Math.sin(this.pulsePhase),
-        color: target.wireframeColor,
+        color: target?.wireframeColor,
         radius: 0.8
       });
     }
@@ -220,23 +220,23 @@ export class ScanFeedbackManager {
    * Clear overlays for a target
    */
   private clearTargetOverlays(target: ScanTarget): void {
-    const layerId = `scan_target_${target.id}`;
-    this.overlayManager.removeEffect(layerId, OverlayEffectType.CHROMATIC_ABERRATION);
-    this.overlayManager.removeEffect(layerId, OverlayEffectType.COLOR_SHIFT);
-    this.overlayManager.removeEffect(layerId, OverlayEffectType.VIGNETTE);
+    const layerId = `scan_target_${target?.id}`;
+    this?.overlayManager.removeEffect(layerId, OverlayEffectType?.CHROMATIC_ABERRATION);
+    this?.overlayManager.removeEffect(layerId, OverlayEffectType?.COLOR_SHIFT);
+    this?.overlayManager.removeEffect(layerId, OverlayEffectType?.VIGNETTE);
   }
 
   /**
    * Apply scanning effects
    */
   private applyScanningEffects(target: ScanTarget): void {
-    const layerId = `scan_target_${target.id}`;
-    this.overlayManager.createLayer(layerId, `Scanning - ${target.id}`, 20);
+    const layerId = `scan_target_${target?.id}`;
+    this?.overlayManager.createLayer(layerId, `Scanning - ${target?.id}`, 20);
     
-    this.overlayManager.addEffect(layerId, {
-      type: OverlayEffectType.CHROMATIC_ABERRATION,
+    this?.overlayManager.addEffect(layerId, {
+      type: OverlayEffectType?.CHROMATIC_ABERRATION,
       intensity: 0.6,
-      color: target.highlightColor
+      color: target?.highlightColor
     });
   }
 
@@ -244,11 +244,11 @@ export class ScanFeedbackManager {
    * Apply completion effects
    */
   private applyCompletionEffects(target: ScanTarget): void {
-    const layerId = `scan_target_${target.id}`;
+    const layerId = `scan_target_${target?.id}`;
     
     // Flash effect
-    this.overlayManager.addEffect(layerId, {
-      type: OverlayEffectType.COLOR_SHIFT,
+    this?.overlayManager.addEffect(layerId, {
+      type: OverlayEffectType?.COLOR_SHIFT,
       intensity: 1.0,
       color: '#00ff00',
       duration: 500
@@ -268,14 +268,14 @@ export class ScanFeedbackManager {
    * Update pulse animation
    */
   updatePulse(deltaTime: number): void {
-    if (!this.config.pulseEnabled) return;
+    if (!this?.config.pulseEnabled) return;
 
-    this.pulsePhase += deltaTime * 0.001; // Convert to seconds
+    this?.pulsePhase += deltaTime * 0.001; // Convert to seconds
     
     // Update all unscanned targets
-    for (const target of this.targets.values()) {
-      if (!target.isScanned && target.isInteractable) {
-        this.updateTargetOverlays(target);
+    for (const target of this?.targets.values()) {
+      if (!target?.isScanned && target?.isInteractable) {
+        this?.updateTargetOverlays(target);
       }
     }
   }
@@ -286,10 +286,10 @@ export class ScanFeedbackManager {
   getTargetsInRange(playerPosition: { x: number; y: number; z: number }): ScanTarget[] {
     const inRange: ScanTarget[] = [];
     
-    for (const target of this.targets.values()) {
-      const distance = this.calculateDistance(playerPosition, target.position);
-      if (distance <= this.config.maxRange) {
-        inRange.push(target);
+    for (const target of this?.targets.values()) {
+      const distance = this?.calculateDistance(playerPosition, target?.position);
+      if (distance <= this?.config.maxRange) {
+        inRange?.push(target);
       }
     }
     
@@ -310,9 +310,9 @@ export class ScanFeedbackManager {
    * Get scan progress for current target
    */
   getScanProgress(): number {
-    if (!this.currentScanTarget) return 0;
+    if (!this?.currentScanTarget) return 0;
     
-    const target = this.targets.get(this.currentScanTarget);
+    const target = this?.targets.get(this?.currentScanTarget);
     return target?.scanProgress || 0;
   }
 
@@ -320,29 +320,29 @@ export class ScanFeedbackManager {
    * Check if currently scanning
    */
   isCurrentlyScanning(): boolean {
-    return this.isScanning;
+    return this?.isScanning;
   }
 
   /**
    * Get current scan target
    */
   getCurrentScanTarget(): ScanTarget | undefined {
-    if (!this.currentScanTarget) return undefined;
-    return this.targets.get(this.currentScanTarget);
+    if (!this?.currentScanTarget) return undefined;
+    return this?.targets.get(this?.currentScanTarget);
   }
 
   /**
    * Update configuration
    */
   updateConfig(updates: Partial<ScanConfig>): void {
-    this.config = { ...this.config, ...updates };
+    this?.config = { ...this?.config, ...updates };
   }
 
   /**
    * Get current configuration
    */
   getConfig(): ScanConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 
   /**
@@ -356,10 +356,10 @@ export class ScanFeedbackManager {
    * Clear all targets
    */
   clearAllTargets(): void {
-    for (const target of this.targets.values()) {
-      this.clearTargetOverlays(target);
+    for (const target of this?.targets.values()) {
+      this?.clearTargetOverlays(target);
     }
-    this.targets.clear();
+    this?.targets.clear();
   }
 
   /**
@@ -367,15 +367,15 @@ export class ScanFeedbackManager {
    */
   exportScanData(): Record<string, any> {
     const data: Record<string, any> = {
-      config: this.config,
+      config: this?.config,
       targets: {}
     };
     
-    for (const [id, target] of this.targets) {
-      data.targets[id!] = {
+    for (const [id, target] of this?.targets) {
+      data?.targets[id!] = {
         ...target,
         // Don't serialize functions or complex objects
-        metadata: target.metadata || {}
+        metadata: target?.metadata || {}
       };
     }
     
@@ -386,15 +386,15 @@ export class ScanFeedbackManager {
    * Import scan data from serialized data
    */
   importScanData(data: Record<string, any>): void {
-    this.clearAllTargets();
+    this?.clearAllTargets();
     
-    if (data.config) {
-      this.config = { ...this.config, ...data.config };
+    if (data?.config) {
+      this?.config = { ...this?.config, ...data?.config };
     }
     
-    if (data.targets) {
+    if (data?.targets) {
       for (const [id, targetData] of Object.entries(data.targets)) {
-        this.addTarget(targetData as ScanTarget);
+        this?.addTarget(targetData as ScanTarget);
       }
     }
   }

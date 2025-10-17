@@ -13,20 +13,20 @@ import { ValidationManager, ValidationConfig, ValidationInput } from './Manager'
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import * as fsLocal from 'fs';
 
-const { mode, args } = parseCLIArgs(process.argv);
+const { mode, args } = parseCLIArgs(process?.argv);
 
 // Legacy compatibility: allow positional [inputPath!] ['' for config] [commandsPath!]
 let legacyInputPath: string | null = null;
 let legacyCommandsPath: string | null = null;
 try {
-  const ar = process.argv.slice(2);
-  if (ar.length >= 1 && ar[0!] && !ar[0!].startsWith('--')) legacyInputPath = ar[0!];
-  if (ar.length >= 3 && ar[2!] && !ar[2!].startsWith('--')) legacyCommandsPath = ar[2!];
+  const ar = process?.argv.slice(2);
+  if (ar?.length >= 1 && ar[0!] && !ar[0!].startsWith('--')) legacyInputPath = ar[0!];
+  if (ar?.length >= 3 && ar[2!] && !ar[2!].startsWith('--')) legacyCommandsPath = ar[2!];
 } catch {}
 const manager = new ValidationManager();
 
 // Parse additional arguments
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'report' || 'json';
+const format = args?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'report' || 'json';
 
 let output: any;
 
@@ -34,11 +34,11 @@ let output: any;
 // run validate-all and emit historical { outputs: [...] } envelope
 try {
   const candidatePath = legacyInputPath || mode;
-  if (candidatePath && !String(candidatePath).startsWith('--') && String(candidatePath).endsWith('.json') && fsLocal.existsSync(candidatePath)) {
+  if (candidatePath && !String(candidatePath).startsWith('--') && String(candidatePath).endsWith('.json') && fsLocal?.existsSync(candidatePath)) {
     const legacyInput = JSON.parse(fsLocal.readFileSync(candidatePath, 'utf-8')) as ValidationInput;
-    const legacyResult = manager.validateAll(legacyInput);
+    const legacyResult = manager?.validateAll(legacyInput);
     console.log(formatOutput({ outputs: [legacyResult!] }));
-    process.exit(0);
+    process?.exit(0);
   }
 } catch {}
 
@@ -49,15 +49,15 @@ try {
         rules: ['missing_refs', 'stat_bounds', 'zone_overlap'],
         combatExpectedStatKeys: ['hp', 'attack', 'defense']
       };
-      output = manager.configure(config);
+      output = manager?.configure(config);
       break;
 
     case 'validate-all': {
       let input: ValidationInput;
-      const inline = args.find(arg => arg.startsWith('--input='));
+      const inline = args?.find(arg => arg?.startsWith('--input='));
       if (inline) {
         input = JSON.parse(inline.split('=')[1!]);
-      } else if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
+      } else if (legacyInputPath && fsLocal?.existsSync(legacyInputPath)) {
         input = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
       } else {
         input = {
@@ -72,30 +72,30 @@ try {
             { id: 'entity2', name: 'Test Entity 2', type: 'character', position: { x: 30, y: 40 }, properties: { health: 150, level: 2 } }
           ],
           assets: [
-            { id: 'asset1', name: 'Test Asset 1', type: 'texture', path: '/assets/texture1.png', size: 1024, checksum: 'abc123' },
-            { id: 'asset2', name: 'Test Asset 2', type: 'model', path: '/assets/model1.obj', size: 2048, checksum: 'def456' }
+            { id: 'asset1', name: 'Test Asset 1', type: 'texture', path: '/assets/texture1?.png', size: 1024, checksum: 'abc123' },
+            { id: 'asset2', name: 'Test Asset 2', type: 'model', path: '/assets/model1?.obj', size: 2048, checksum: 'def456' }
           ],
           scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { console.log("test"); }', language: 'javascript', dependencies: ['library1'] } ]
         };
       }
-      output = manager.validateAll(input);
+      output = manager?.validateAll(input);
       break;
     }
 
     case 'report-issues':
-      output = manager.reportIssues();
+      output = manager?.reportIssues();
       break;
 
     case 'stats':
-      output = manager.getStats();
+      output = manager?.getStats();
       break;
 
     case 'export':
-      output = manager.exportValidation(format);
+      output = manager?.exportValidation(format);
       break;
 
     case 'reset':
-      output = manager.resetValidation();
+      output = manager?.resetValidation();
       break;
 
     case 'demo':
@@ -151,7 +151,7 @@ try {
             id: 'player_texture',
             name: 'Player Texture',
             type: 'texture',
-            path: '/assets/player.png',
+            path: '/assets/player?.png',
             size: 512,
             checksum: 'player123'
           },
@@ -159,7 +159,7 @@ try {
             id: 'large_model',
             name: 'Large Model',
             type: 'model',
-            path: '/assets/large.obj',
+            path: '/assets/large?.obj',
             size: 10240,
             checksum: 'large456'
           }
@@ -185,7 +185,7 @@ try {
       };
 
       // Configure validation rules
-      manager.configure({
+      manager?.configure({
         rules: ['missing_refs', 'stat_bounds', 'zone_overlap', 'combat_stat_keys', 'naming_convention', 'data_integrity', 'performance', 'security'],
         combatExpectedStatKeys: ['hp', 'attack', 'defense'],
         performanceThresholds: [
@@ -194,18 +194,18 @@ try {
       });
 
       // Run validation
-      const validationResult = manager.validateAll(demoInput);
-      const report = manager.reportIssues();
-      const stats = manager.getStats();
+      const validationResult = manager?.validateAll(demoInput);
+      const report = manager?.reportIssues();
+      const stats = manager?.getStats();
 
       output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo validation scenarios completed',
-          validation: validationResult.result,
-          report: report.result,
-          stats: stats.result
+          validation: validationResult?.result,
+          report: report?.result,
+          stats: stats?.result
         }
       };
       break;
@@ -235,19 +235,19 @@ try {
               { id: 'button2', name: 'Options Button', type: 'ui', position: { x: 100, y: 150 }, properties: { text: 'Options' } }
             ],
             assets: [
-              { id: 'button_texture', name: 'Button Texture', type: 'texture', path: '/ui/button.png', size: 256, checksum: 'btn123' }
+              { id: 'button_texture', name: 'Button Texture', type: 'texture', path: '/ui/button?.png', size: 256, checksum: 'btn123' }
             ]
           }
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => {
-        const result = manager.validateAll(scenario.input);
+      const scenarioResults = sampleScenarios?.map((scenario: any) => {
+        const result = manager?.validateAll(scenario?.input);
         return {
-          scenario: scenario.id,
-          valid: result.result?.valid || false,
-          issues: result.result?.issues?.length || 0,
-          warnings: result.result?.warnings?.length || 0
+          scenario: scenario?.id,
+          valid: result?.result?.valid || false,
+          issues: result?.result?.issues?.length || 0,
+          warnings: result?.result?.warnings?.length || 0
         };
       });
 
@@ -262,9 +262,9 @@ try {
       break;
 
     default: {
-      if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
+      if (legacyInputPath && fsLocal?.existsSync(legacyInputPath)) {
         const legacyInput = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
-        const legacyResult = manager.validateAll(legacyInput);
+        const legacyResult = manager?.validateAll(legacyInput);
         output = { outputs: [legacyResult!] };
       } else {
         output = {
@@ -282,10 +282,10 @@ try {
               'sample'
             ],
             examples: [
-              'node cliHarness.ts configure --config={"rules":["missing_refs","stat_bounds"]}',
-              'node cliHarness.ts validate-all --input={"refs":{"ref1":{"ok":true}}}',
-              'node cliHarness.ts report-issues',
-              'node cliHarness.ts export --format=manifest'
+              'node cliHarness?.ts configure --config={"rules":["missing_refs","stat_bounds"]}',
+              'node cliHarness?.ts validate-all --input={"refs":{"ref1":{"ok":true}}}',
+              'node cliHarness?.ts report-issues',
+              'node cliHarness?.ts export --format=manifest'
             ]
           }
         };
@@ -298,7 +298,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error.message : 'Unknown error']
+    issues: [error instanceof Error ? error?.message : 'Unknown error']
   };
 }
 

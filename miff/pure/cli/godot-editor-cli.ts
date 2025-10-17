@@ -21,11 +21,11 @@ export class GodotEditorCLI {
   private isConnected = false;
 
   constructor(projectPath: string = './godot-project') {
-    this.projectPath = path.resolve(projectPath);
-    this.scenePath = path.join(this.projectPath, 'scenes');
+    this?.projectPath = path?.resolve(projectPath);
+    this?.scenePath = path?.join(this?.projectPath, 'scenes');
 
     const config: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType.SCENE,
+      bridgeType: GodotBridgeType?.SCENE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'editor',
@@ -52,8 +52,8 @@ export class GodotEditorCLI {
       }
     };
 
-    this.bridge = new GodotBridgeManager(config);
-    this.initializeGodotProject();
+    this?.bridge = new GodotBridgeManager(config);
+    this?.initializeGodotProject();
   }
 
   private initializeGodotProject(): void {
@@ -62,12 +62,12 @@ export class GodotEditorCLI {
     console.log(`🎭 Scene Path: ${this.scenePath}`);
 
     // Ensure project directories exist
-    if (!fs.existsSync(this.projectPath)) {
-      fs.mkdirSync(this.projectPath, { recursive: true });
+    if (!fs?.existsSync(this?.projectPath)) {
+      fs?.mkdirSync(this?.projectPath, { recursive: true });
     }
 
-    if (!fs.existsSync(this.scenePath)) {
-      fs.mkdirSync(this.scenePath, { recursive: true });
+    if (!fs?.existsSync(this?.scenePath)) {
+      fs?.mkdirSync(this?.scenePath, { recursive: true });
     }
 
     console.log('✅ Godot Editor CLI initialized');
@@ -81,7 +81,7 @@ export class GodotEditorCLI {
       // For now, we'll simulate the connection
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      this.isConnected = true;
+      this?.isConnected = true;
       console.log('✅ Connected to Godot Editor');
       return true;
     } catch (error: unknown) {
@@ -107,7 +107,7 @@ export class GodotEditorCLI {
             name: 'Player',
             type: 'KinematicBody2D',
             position: { x: 100, y: 100 },
-            script: 'res://scripts/PlayerController.gd',
+            script: 'res://scripts/PlayerController?.gd',
             properties: {
               speed: 200,
               health: 100,
@@ -119,7 +119,7 @@ export class GodotEditorCLI {
             name: 'Enemy',
             type: 'KinematicBody2D',
             position: { x: 300, y: 100 },
-            script: 'res://scripts/EnemyController.gd',
+            script: 'res://scripts/EnemyController?.gd',
             properties: {
               speed: 150,
               health: 80,
@@ -130,7 +130,7 @@ export class GodotEditorCLI {
         ]
       };
 
-      const sceneFile = path.join(this.scenePath, 'combat_test_scene.tscn');
+      const sceneFile = path?.join(this?.scenePath, 'combat_test_scene?.tscn');
       fs.writeFileSync(sceneFile, JSON.stringify(combatScene, null, 2));
 
       console.log(`✅ Combat scene created: ${sceneFile}`);
@@ -196,14 +196,14 @@ export class GodotEditorCLI {
             type: 'TextureRect',
             position: { x: 50, y: 50 },
             properties: {
-              texture: 'res://assets/items/health_potion.png',
+              texture: 'res://assets/items/health_potion?.png',
               healAmount: 25
             }
           }
         ]
       };
 
-      const sceneFile = path.join(this.scenePath, 'inventory_test_scene.tscn');
+      const sceneFile = path?.join(this?.scenePath, 'inventory_test_scene?.tscn');
       fs.writeFileSync(sceneFile, JSON.stringify(inventoryScene, null, 2));
 
       console.log(`✅ Inventory scene created: ${sceneFile}`);
@@ -273,7 +273,7 @@ export class GodotEditorCLI {
             id: 'ai_controller',
             name: 'AIController',
             type: 'Node',
-            script: 'res://scripts/AIController.gd',
+            script: 'res://scripts/AIController?.gd',
             properties: {
               behaviorTree: 'aggressive',
               decisionInterval: 0.5,
@@ -297,7 +297,7 @@ export class GodotEditorCLI {
         ]
       };
 
-      const sceneFile = path.join(this.scenePath, 'ai_test_scene.tscn');
+      const sceneFile = path?.join(this?.scenePath, 'ai_test_scene?.tscn');
       fs.writeFileSync(sceneFile, JSON.stringify(aiScene, null, 2));
 
       console.log(`✅ AI scene created: ${sceneFile}`);
@@ -360,8 +360,8 @@ export class GodotEditorCLI {
   async runLiveValidation(): Promise<void> {
     console.log('🔍 Running live validation in Godot Editor...');
 
-    if (!this.isConnected) {
-      const connected = await this.connectToEditor();
+    if (!this?.isConnected) {
+      const connected = await this?.connectToEditor();
       if (!connected) {
         console.log('⚠️  Skipping live validation - not connected to Godot Editor');
         return;
@@ -370,13 +370,13 @@ export class GodotEditorCLI {
 
     try {
       // Test combat integration
-      await this.testCombatIntegration();
+      await this?.testCombatIntegration();
 
       // Test item integration
-      await this.testItemIntegration();
+      await this?.testItemIntegration();
 
       // Test AI integration
-      await this.testAIIntegration();
+      await this?.testAIIntegration();
 
       console.log('✅ Live validation completed successfully');
     } catch (error: unknown) {
@@ -388,9 +388,9 @@ export class GodotEditorCLI {
   async createEditorPlugin(): Promise<void> {
     console.log('🔧 Creating Godot Editor Plugin...');
 
-    const pluginDir = path.join(this.projectPath, 'addons', 'miff-bridge');
-    if (!fs.existsSync(pluginDir)) {
-      fs.mkdirSync(pluginDir, { recursive: true });
+    const pluginDir = path?.join(this?.projectPath, 'addons', 'miff-bridge');
+    if (!fs?.existsSync(pluginDir)) {
+      fs?.mkdirSync(pluginDir, { recursive: true });
     }
 
     // Create plugin configuration file
@@ -399,11 +399,11 @@ export class GodotEditorCLI {
       description: 'Integration bridge for MIFF framework',
       author: 'MIFF Team',
       version: '1.0.0',
-      script: 'miff_bridge.gd'
+      script: 'miff_bridge?.gd'
     };
 
-    fs.writeFileSync(
-      path.join(pluginDir, 'plugin.cfg'),
+    fs?.writeFileSync(
+      path?.join(pluginDir, 'plugin?.cfg'),
       `[plugin!]\n${Object.entries(pluginConfig).map(([k, v]) => `${k}="${v}"`).join('\n')}`
     );
 
@@ -414,16 +414,16 @@ var miff_bridge_panel
 
 func _enter_tree():
     print("MIFF Bridge Plugin loaded")
-    miff_bridge_panel = preload("res://addons/miff-bridge/MIFFBridgePanel.tscn").instance()
+    miff_bridge_panel = preload("res://addons/miff-bridge/MIFFBridgePanel?.tscn").instance()
     add_control_to_dock(DOCK_SLOT_LEFT_UL, miff_bridge_panel)
 
 func _exit_tree():
     if miff_bridge_panel:
         remove_control_from_docks(miff_bridge_panel)
-        miff_bridge_panel.queue_free()
+        miff_bridge_panel?.queue_free()
     print("MIFF Bridge Plugin unloaded")`;
 
-    fs.writeFileSync(path.join(pluginDir, 'miff_bridge.gd'), pluginScript);
+    fs?.writeFileSync(path?.join(pluginDir, 'miff_bridge?.gd'), pluginScript);
 
     console.log(`✅ Godot Editor Plugin created: ${pluginDir}`);
   }
@@ -431,7 +431,7 @@ func _exit_tree():
   async generateProjectFiles(): Promise<void> {
     console.log('📄 Generating Godot project files...');
 
-    // Create project.godot file
+    // Create project?.godot file
     const projectConfig = {
       config_version: 4,
       name: 'MIFF Integration Project',
@@ -456,24 +456,24 @@ func _exit_tree():
     };
 
     const projectGodot = `[application!]
-config/name="${projectConfig.name}"
+config/name="${projectConfig?.name}"
 config/description="MIFF Framework Integration Project"
 
 [window!]
-size=${projectConfig.window.size.width}x${projectConfig.window.size.height}
-title="${projectConfig.window.title}"
+size=${projectConfig?.window.size?.width}x${projectConfig?.window.size?.height}
+title="${projectConfig?.window.title}"
 
 [rendering!]
-quality/driver/driver_name="${projectConfig.rendering.quality.driver}"
+quality/driver/driver_name="${projectConfig?.rendering.quality?.driver}"
 quality/driver/fallback_to_gles2=true
 
 [physics!]
-common/physics_fps=${projectConfig.physics.common.physics_fps}
+common/physics_fps=${projectConfig?.physics.common?.physics_fps}
 
 [audio!]
-enabled=${projectConfig.audio.enabled}`;
+enabled=${projectConfig?.audio.enabled}`;
 
-    fs.writeFileSync(path.join(this.projectPath, 'project.godot'), projectGodot);
+    fs?.writeFileSync(path?.join(this?.projectPath, 'project?.godot'), projectGodot);
 
     console.log('✅ Godot project files generated');
   }
@@ -505,13 +505,13 @@ enabled=${projectConfig.audio.enabled}`;
     console.log('   - Optimization settings configure Godot renderer');
     console.log('');
 
-    await this.runLiveValidation();
+    await this?.runLiveValidation();
   }
 }
 
 // CLI Interface
 async function main() {
-  const args = process.argv.slice(2);
+  const args = process?.argv.slice(2);
   const command = args[0!] || 'help';
 
   const projectPath = args[1!] || './godot-project';
@@ -519,28 +519,28 @@ async function main() {
 
   switch (command) {
     case 'connect':
-      await cli.connectToEditor();
+      await cli?.connectToEditor();
       break;
     case 'combat':
-      await cli.testCombatIntegration();
+      await cli?.testCombatIntegration();
       break;
     case 'items':
-      await cli.testItemIntegration();
+      await cli?.testItemIntegration();
       break;
     case 'ai':
-      await cli.testAIIntegration();
+      await cli?.testAIIntegration();
       break;
     case 'validate':
-      await cli.runLiveValidation();
+      await cli?.runLiveValidation();
       break;
     case 'plugin':
-      await cli.createEditorPlugin();
+      await cli?.createEditorPlugin();
       break;
     case 'project':
-      await cli.generateProjectFiles();
+      await cli?.generateProjectFiles();
       break;
     case 'demo':
-      await cli.demo();
+      await cli?.demo();
       break;
     case 'help':
     default:
@@ -559,6 +559,6 @@ async function main() {
   }
 }
 
-if (require.main === module) {
+if (require?.main === module) {
   main().catch(console.error);
 }

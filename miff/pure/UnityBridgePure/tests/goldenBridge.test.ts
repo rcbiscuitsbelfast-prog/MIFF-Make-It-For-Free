@@ -4,7 +4,7 @@ describe('UnityBridgePure Golden Tests', () => {
 
   test('✓ UnityBridgeManager can be created with valid configuration', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -30,14 +30,14 @@ describe('UnityBridgePure Golden Tests', () => {
     const bridge = new UnityBridgeManager(config);
 
     expect(bridge).toBeDefined();
-    expect(bridge.getConfiguration()).toEqual(config);
-    expect(bridge.getStatistics()).toBeDefined();
-    expect(bridge.getConnectionStatus()).toBe('disconnected');
+    expect(bridge?.getConfiguration()).toEqual(config);
+    expect(bridge?.getStatistics()).toBeDefined();
+    expect(bridge?.getConnectionStatus()).toBe('disconnected');
   });
 
   test('✓ UnityBridgeManager supports different bridge types', () => {
     const gameObjectConfig: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -62,19 +62,19 @@ describe('UnityBridgePure Golden Tests', () => {
 
     const componentConfig: UnityBridgeConfiguration = {
       ...gameObjectConfig,
-      bridgeType: UnityBridgeType.COMPONENT
+      bridgeType: UnityBridgeType?.COMPONENT
     };
 
     const bridge1 = new UnityBridgeManager(gameObjectConfig);
     const bridge2 = new UnityBridgeManager(componentConfig);
 
-    expect(bridge1.getConfiguration().bridgeType).toBe('game_object');
-    expect(bridge2.getConfiguration().bridgeType).toBe('component');
+    expect(bridge1?.getConfiguration().bridgeType).toBe('game_object');
+    expect(bridge2?.getConfiguration().bridgeType).toBe('component');
   });
 
   test('✓ UnityBridgeManager handles communication protocols correctly', () => {
     const messagePassingConfig: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -105,13 +105,13 @@ describe('UnityBridgePure Golden Tests', () => {
     const bridge1 = new UnityBridgeManager(messagePassingConfig);
     const bridge2 = new UnityBridgeManager(sharedMemoryConfig);
 
-    expect(bridge1.getConfiguration().communicationProtocol).toBe('message_passing');
-    expect(bridge2.getConfiguration().communicationProtocol).toBe('shared_memory');
+    expect(bridge1?.getConfiguration().communicationProtocol).toBe('message_passing');
+    expect(bridge2?.getConfiguration().communicationProtocol).toBe('shared_memory');
   });
 
   test('✓ UnityBridgeManager performance metrics are initialized', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -135,17 +135,17 @@ describe('UnityBridgePure Golden Tests', () => {
     };
 
     const bridge = new UnityBridgeManager(config);
-    const metrics = bridge.getPerformanceMetrics();
+    const metrics = bridge?.getPerformanceMetrics();
 
     expect(metrics).toBeDefined();
-    expect(metrics.frameRate).toBe(0);
-    expect(metrics.targetFrameRate).toBe(60);
-    expect(metrics.vsyncEnabled).toBe(false);
+    expect(metrics?.frameRate).toBe(0);
+    expect(metrics?.targetFrameRate).toBe(60);
+    expect(metrics?.vsyncEnabled).toBe(false);
   });
 
   test('✓ UnityBridgeManager statistics tracking works', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -169,18 +169,18 @@ describe('UnityBridgePure Golden Tests', () => {
     };
 
     const bridge = new UnityBridgeManager(config);
-    const stats = bridge.getStatistics();
+    const stats = bridge?.getStatistics();
 
     expect(stats).toBeDefined();
-    expect(stats.totalMessages).toBe(0);
-    expect(stats.errorRate).toBe(0);
-    expect(stats.activeConnections).toBe(0);
-    expect(stats.queueDepth).toBe(0);
+    expect(stats?.totalMessages).toBe(0);
+    expect(stats?.errorRate).toBe(0);
+    expect(stats?.activeConnections).toBe(0);
+    expect(stats?.queueDepth).toBe(0);
   });
 
   test('✓ UnityBridgeManager handles lifecycle events', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -207,7 +207,7 @@ describe('UnityBridgePure Golden Tests', () => {
 
     // Test lifecycle event handling
     let eventReceived = false;
-    bridge.addLifecycleEventHandler('update', (data) => {
+    bridge?.addLifecycleEventHandler('update', (data: any) => {
       eventReceived = true;
     });
 

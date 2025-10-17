@@ -44,7 +44,7 @@ export class PerformanceMonitor {
   private static instance: PerformanceMonitor;
   private config: PerformanceConfig;
   private metrics: PerformanceMetrics[] = [];
-  private intervalId?: NodeJS.Timeout;
+  private intervalId?: NodeJS?.Timeout;
   private startTime: number;
   private networkStats = {
     requests: 0,
@@ -54,7 +54,7 @@ export class PerformanceMonitor {
   };
 
   private constructor(config: Partial<PerformanceConfig> = {}) {
-    this.config = {
+    this?.config = {
       enabled: true,
       sampleInterval: 5000, // 5 seconds
       maxSamples: 1000,
@@ -70,38 +70,38 @@ export class PerformanceMonitor {
       ...config
     };
 
-    this.startTime = Date.now();
-    this.startMonitoring();
+    this.startTime = new Date();
+    this?.startMonitoring();
   }
 
   /**
    * Get singleton instance
    */
   static getInstance(config?: Partial<PerformanceConfig>): PerformanceMonitor {
-    if (!PerformanceMonitor.instance) {
-      PerformanceMonitor.instance = new PerformanceMonitor(config);
+    if (!PerformanceMonitor?.instance) {
+      PerformanceMonitor?.instance = new PerformanceMonitor(config);
     }
-    return PerformanceMonitor.instance;
+    return PerformanceMonitor?.instance;
   }
 
   /**
    * Start performance monitoring
    */
   private startMonitoring(): void {
-    if (!this.config.enabled) return;
+    if (!this?.config.enabled) return;
 
-    this.intervalId = setInterval(() => {
-      this.collectMetrics();
-    }, this.config.sampleInterval);
+    this?.intervalId = setInterval(() => {
+      this?.collectMetrics();
+    }, this?.config.sampleInterval);
   }
 
   /**
    * Stop performance monitoring
    */
   stopMonitoring(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = undefined;
+    if (this?.intervalId) {
+      clearInterval(this?.intervalId);
+      this?.intervalId = undefined;
     }
   }
 
@@ -111,32 +111,32 @@ export class PerformanceMonitor {
   private collectMetrics(): void {
     const metrics: PerformanceMetrics = {
       timestamp: new Date(),
-      memory: this.getMemoryMetrics(),
-      cpu: this.getCPUMetrics(),
-      network: { ...this.networkStats },
+      memory: this?.getMemoryMetrics(),
+      cpu: this?.getCPUMetrics(),
+      network: { ...this?.networkStats },
       custom: {}
     };
 
-    this.metrics.push(metrics);
+    this?.metrics?.push(metrics);
 
     // Keep only the most recent samples
-    if (this.metrics.length > this.config.maxSamples) {
-      this.metrics = this.metrics.slice(-this.config.maxSamples);
+    if (this?.metrics.length > this?.config.maxSamples) {
+      this?.metrics = this?.metrics.slice(-this?.config.maxSamples);
     }
 
     // Check for alerts
-    this.checkAlerts(metrics);
+    this?.checkAlerts(metrics);
   }
 
   /**
    * Get memory usage metrics
    */
   private getMemoryMetrics(): PerformanceMetrics['memory'] {
-    if (!this.config.enableMemoryTracking) {
+    if (!this?.config.enableMemoryTracking) {
       return { used: 0, total: 0, percentage: 0, heapUsed: 0, heapTotal: 0 };
     }
 
-    const memUsage = process.memoryUsage();
+    const memUsage = process?.memoryUsage();
     const totalMemory = require('os').totalmem();
     const usedMemory = totalMemory - require('os').freemem();
 
@@ -144,8 +144,8 @@ export class PerformanceMonitor {
       used: usedMemory,
       total: totalMemory,
       percentage: (usedMemory / totalMemory) * 100,
-      heapUsed: memUsage.heapUsed,
-      heapTotal: memUsage.heapTotal
+      heapUsed: memUsage?.heapUsed,
+      heapTotal: memUsage?.heapTotal
     };
   }
 
@@ -153,7 +153,7 @@ export class PerformanceMonitor {
    * Get CPU usage metrics
    */
   private getCPUMetrics(): PerformanceMetrics['cpu'] {
-    if (!this.config.enableCPUTracking) {
+    if (!this?.config.enableCPUTracking) {
       return { usage: 0, loadAverage: [] };
     }
 
@@ -165,10 +165,10 @@ export class PerformanceMonitor {
     let totalTick = 0;
 
     for (const cpu of cpus) {
-      for (const type in cpu.times) {
-        totalTick += cpu.times[type as keyof typeof cpu.times];
+      for (const type in cpu?.times) {
+        totalTick += cpu?.times[type as keyof typeof cpu?.times];
       }
-      totalIdle += cpu.times.idle;
+      totalIdle += cpu?.times.idle;
     }
 
     const usage = 100 - ~~(100 * totalIdle / totalTick);
@@ -183,11 +183,11 @@ export class PerformanceMonitor {
    * Record custom metric
    */
   recordCustomMetric(name: string, value: number): void {
-    if (!this.config.enableCustomMetrics) return;
+    if (!this?.config.enableCustomMetrics) return;
 
-    if (this.metrics.length > 0) {
-      const lastMetric = this.metrics[this.metrics.length - 1];
-      lastMetric.custom[name!] = value;
+    if (this?.metrics.length > 0) {
+      const lastMetric = this?.metrics[this?.metrics.length - 1];
+      lastMetric?.custom[name!] = value;
     }
   }
 
@@ -195,32 +195,32 @@ export class PerformanceMonitor {
    * Record network request
    */
   recordNetworkRequest(bytesIn: number, bytesOut: number, latency: number): void {
-    if (!this.config.enableNetworkTracking) return;
+    if (!this?.config.enableNetworkTracking) return;
 
-    this.networkStats.requests++;
-    this.networkStats.bytesIn += bytesIn;
-    this.networkStats.bytesOut += bytesOut;
-    this.networkStats.latency = latency;
+    this?.networkStats.requests++;
+    this?.networkStats.bytesIn += bytesIn;
+    this?.networkStats.bytesOut += bytesOut;
+    this?.networkStats.latency = latency;
   }
 
   /**
    * Check for performance alerts
    */
   private checkAlerts(metrics: PerformanceMetrics): void {
-    const { alertThresholds } = this.config;
+    const { alertThresholds } = this?.config;
 
     // Memory usage alert
-    if (metrics.memory.percentage > alertThresholds.memoryUsage) {
+    if (metrics?.memory.percentage > alertThresholds?.memoryUsage) {
       console.warn(`⚠️ High memory usage: ${metrics.memory.percentage.toFixed(2)}%`);
     }
 
     // CPU usage alert
-    if (metrics.cpu.usage > alertThresholds.cpuUsage) {
+    if (metrics?.cpu.usage > alertThresholds?.cpuUsage) {
       console.warn(`⚠️ High CPU usage: ${metrics.cpu.usage.toFixed(2)}%`);
     }
 
     // Network latency alert
-    if (metrics.network.latency > alertThresholds.networkLatency) {
+    if (metrics?.network.latency > alertThresholds?.networkLatency) {
       console.warn(`⚠️ High network latency: ${metrics.network.latency}ms`);
     }
   }
@@ -229,14 +229,14 @@ export class PerformanceMonitor {
    * Get current metrics
    */
   getCurrentMetrics(): PerformanceMetrics | null {
-    return this.metrics.length > 0 ? this.metrics[this.metrics.length - 1] : null;
+    return this?.metrics.length > 0 ? this?.metrics[this?.metrics.length - 1] : null;
   }
 
   /**
    * Get all metrics
    */
   getAllMetrics(): PerformanceMetrics[] {
-    return [...this.metrics];
+    return [...this?.metrics];
   }
 
   /**
@@ -250,7 +250,7 @@ export class PerformanceMonitor {
     peakMemoryUsage: number;
     peakCPUUsage: number;
   } {
-    if (this.metrics.length === 0) {
+    if (this?.metrics.length === 0) {
       return {
         uptime: 0,
         averageMemoryUsage: 0,
@@ -261,15 +261,15 @@ export class PerformanceMonitor {
       };
     }
 
-    const uptime = Date.now() - this.startTime;
-    const memoryUsages = this.metrics.map((m: any) => m.memory.percentage);
-    const cpuUsages = this.metrics.map((m: any) => m.cpu.usage);
-    const totalRequests = this.metrics.reduce((sum, m) => sum + m.network.requests, 0);
+    const uptime = new Date() - this.startTime;
+    const memoryUsages = this?.metrics.map((m: any) => m?.memory.percentage);
+    const cpuUsages = this?.metrics.map((m: any) => m?.cpu.usage);
+    const totalRequests = this?.metrics.reduce((sum, m) => sum + m?.network.requests, 0);
 
     return {
       uptime,
-      averageMemoryUsage: memoryUsages.reduce((a, b) => a + b, 0) / memoryUsages.length,
-      averageCPUUsage: cpuUsages.reduce((a, b) => a + b, 0) / cpuUsages.length,
+      averageMemoryUsage: memoryUsages?.reduce((a, b) => a + b, 0) / memoryUsages?.length,
+      averageCPUUsage: cpuUsages?.reduce((a, b) => a + b, 0) / cpuUsages?.length,
       totalNetworkRequests: totalRequests,
       peakMemoryUsage: Math.max(...memoryUsages),
       peakCPUUsage: Math.max(...cpuUsages)
@@ -280,8 +280,8 @@ export class PerformanceMonitor {
    * Clear all metrics
    */
   clearMetrics(): void {
-    this.metrics = [];
-    this.networkStats = {
+    this?.metrics = [];
+    this?.networkStats = {
       requests: 0,
       bytesIn: 0,
       bytesOut: 0,
@@ -294,9 +294,9 @@ export class PerformanceMonitor {
    */
   exportMetrics(): string {
     return JSON.stringify({
-      config: this.config,
-      summary: this.getMetricsSummary(),
-      metrics: this.metrics
+      config: this?.config,
+      summary: this?.getMetricsSummary(),
+      metrics: this?.metrics
     }, null, 2);
   }
 
@@ -304,12 +304,12 @@ export class PerformanceMonitor {
    * Update configuration
    */
   updateConfig(newConfig: Partial<PerformanceConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+    this?.config = { ...this?.config, ...newConfig };
     
     // Restart monitoring if interval changed
-    if (newConfig.sampleInterval) {
-      this.stopMonitoring();
-      this.startMonitoring();
+    if (newConfig?.sampleInterval) {
+      this?.stopMonitoring();
+      this?.startMonitoring();
     }
   }
 
@@ -317,25 +317,25 @@ export class PerformanceMonitor {
    * Get performance report
    */
   getPerformanceReport(): string {
-    const summary = this.getMetricsSummary();
-    const current = this.getCurrentMetrics();
+    const summary = this?.getMetricsSummary();
+    const current = this?.getCurrentMetrics();
 
     return `
 🚀 MIFF Performance Report
 ========================
 Uptime: ${Math.round(summary.uptime / 1000)}s
-Memory Usage: ${summary.averageMemoryUsage.toFixed(2)}% (Peak: ${summary.peakMemoryUsage.toFixed(2)}%)
-CPU Usage: ${summary.averageCPUUsage.toFixed(2)}% (Peak: ${summary.peakCPUUsage.toFixed(2)}%)
-Network Requests: ${summary.totalNetworkRequests}
-Current Memory: ${current?.memory.percentage.toFixed(2)}%
-Current CPU: ${current?.cpu.usage.toFixed(2)}%
+Memory Usage: ${summary?.averageMemoryUsage.toFixed(2)}% (Peak: ${summary?.peakMemoryUsage.toFixed(2)}%)
+CPU Usage: ${summary?.averageCPUUsage.toFixed(2)}% (Peak: ${summary?.peakCPUUsage.toFixed(2)}%)
+Network Requests: ${summary?.totalNetworkRequests}
+Current Memory: ${current?.memory?.percentage.toFixed(2)}%
+Current CPU: ${current?.cpu?.usage.toFixed(2)}%
 ========================
     `.trim();
   }
 }
 
 // Export convenience functions
-export const performanceMonitor = PerformanceMonitor.getInstance();
-export const recordMetric = (name: string, value: number) => performanceMonitor.recordCustomMetric(name, value);
+export const performanceMonitor = PerformanceMonitor?.getInstance();
+export const recordMetric = (name: string, value: number) => performanceMonitor?.recordCustomMetric(name, value);
 export const recordNetworkRequest = (bytesIn: number, bytesOut: number, latency: number) => 
-  performanceMonitor.recordNetworkRequest(bytesIn, bytesOut, latency);
+  performanceMonitor?.recordNetworkRequest(bytesIn, bytesOut, latency);

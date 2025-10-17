@@ -369,14 +369,14 @@ export class CameraSystemPure {
     inputSystem: InputMapper,
     rng: RNGProvider
   ) {
-    this.eventBus = eventBus;
-    this.inputSystem = inputSystem;
-    this.rng = rng;
-    this.config = this.initializeConfig();
-    this.stats = this.initializeStats();
-    this.initializeDefaultCameras();
-    this.initializeDefaultPaths();
-    this.setupEventListeners();
+    this?.eventBus = eventBus;
+    this?.inputSystem = inputSystem;
+    this?.rng = rng;
+    this?.config = this?.initializeConfig();
+    this?.stats = this?.initializeStats();
+    this?.initializeDefaultCameras();
+    this?.initializeDefaultPaths();
+    this?.setupEventListeners();
   }
 
   /**
@@ -697,8 +697,8 @@ export class CameraSystemPure {
       }
     ];
 
-    cameras.forEach((camera: any) => {
-      this.cameraDefinitions.set(camera.id, camera);
+    cameras?.forEach((camera: any) => {
+      this?.cameraDefinitions.set(camera?.id, camera);
     });
   }
 
@@ -752,8 +752,8 @@ export class CameraSystemPure {
       }
     ];
 
-    paths.forEach((path: any) => {
-      this.cameraPaths.set(path.id, path);
+    paths?.forEach((path: any) => {
+      this?.cameraPaths.set(path?.id, path);
     });
   }
 
@@ -761,26 +761,26 @@ export class CameraSystemPure {
    * Create a camera instance
    */
   createCamera(cameraId: string, targetEntity?: string): CameraInstance | null {
-    const definition = this.cameraDefinitions.get(cameraId);
+    const definition = this?.cameraDefinitions.get(cameraId);
     if (!definition) {
       console.warn(`Camera definition not found: ${cameraId}`);
       return null;
     }
 
-    if (this.activeCameras.size >= this.config.maxActiveCameras) {
+    if (this?.activeCameras.size >= this?.config.maxActiveCameras) {
       console.warn('Maximum active cameras reached');
       return null;
     }
 
     const instance: CameraInstance = {
-      id: this.generateCameraId(),
+      id: this?.generateCameraId(),
       definition,
-      currentSettings: { ...definition.settings },
+      currentSettings: { ...definition?.settings },
       targetEntity,
       effects: new Map(),
       state: {
-        position: { ...definition.settings.position },
-        rotation: { ...definition.settings.rotation },
+        position: { ...definition?.settings.position },
+        rotation: { ...definition?.settings.rotation },
         velocity: { x: 0, y: 0, z: 0 },
         angularVelocity: { x: 0, y: 0, z: 0 },
         isMoving: false,
@@ -788,7 +788,7 @@ export class CameraSystemPure {
         isZooming: false,
         isFollowing: !!targetEntity,
         isConstrained: false,
-        mode: definition.mode.type,
+        mode: definition?.mode.type,
         activeTransitions: [],
         activeEffects: [],
         lastInputTime: new Date(),
@@ -809,16 +809,16 @@ export class CameraSystemPure {
       }
     };
 
-    this.activeCameras.set(instance.id, instance);
-    this.stats.totalCameras++;
+    this?.activeCameras.set(instance?.id, instance);
+    this?.stats.totalCameras++;
 
-    if (!this.mainCamera) {
-      this.mainCamera = instance.id;
+    if (!this?.mainCamera) {
+      this?.mainCamera = instance?.id;
     }
 
-    this.eventBus.publish('camera:created', {
-      cameraId: instance.id,
-      cameraType: definition.id,
+    this?.eventBus.publish('camera:created', {
+      cameraId: instance?.id,
+      cameraType: definition?.id,
       targetEntity
     });
 
@@ -830,77 +830,77 @@ export class CameraSystemPure {
    * Update camera system
    */
   updateCameraSystem(deltaTime: number): void {
-    const startTime = performance.now();
+    const startTime = performance?.now();
 
     // Update all active cameras
-    for (const [cameraId, camera] of this.activeCameras) {
-      this.updateCamera(camera, deltaTime);
+    for (const [cameraId, camera] of this?.activeCameras) {
+      this?.updateCamera(camera, deltaTime);
     }
 
     // Update cinematic sequences
-    this.updateCinematicSequences(deltaTime);
+    this?.updateCinematicSequences(deltaTime);
 
     // Update performance metrics
-    const updateTime = performance.now() - startTime;
-    this.updatePerformanceMetrics(updateTime);
+    const updateTime = performance?.now() - startTime;
+    this?.updatePerformanceMetrics(updateTime);
 
-    this.lastUpdateTime = Date.now();
+    this.lastUpdateTime = new Date();
   }
 
   /**
    * Update individual camera
    */
   private updateCamera(camera: CameraInstance, deltaTime: number): void {
-    const startTime = performance.now();
+    const startTime = performance?.now();
 
     // Update based on mode
-    switch (camera.definition.mode.type) {
+    switch (camera?.definition.mode?.type) {
       case 'chase':
-        this.updateChaseCamera(camera, deltaTime);
+        this?.updateChaseCamera(camera, deltaTime);
         break;
       case 'orbit':
-        this.updateOrbitCamera(camera, deltaTime);
+        this?.updateOrbitCamera(camera, deltaTime);
         break;
       case 'first-person':
-        this.updateFirstPersonCamera(camera, deltaTime);
+        this?.updateFirstPersonCamera(camera, deltaTime);
         break;
       case 'fixed':
-        this.updateFixedCamera(camera, deltaTime);
+        this?.updateFixedCamera(camera, deltaTime);
         break;
       case 'cinematic':
-        this.updateCinematicCamera(camera, deltaTime);
+        this?.updateCinematicCamera(camera, deltaTime);
         break;
       default:
-        this.updateCustomCamera(camera, deltaTime);
+        this?.updateCustomCamera(camera, deltaTime);
     }
 
     // Update effects
-    this.updateCameraEffects(camera, deltaTime);
+    this?.updateCameraEffects(camera, deltaTime);
 
     // Check constraints
-    this.checkCameraConstraints(camera);
+    this?.checkCameraConstraints(camera);
 
     // Update performance metrics
-    camera.updateCount++;
-    camera.performanceMetrics.updateTime = performance.now() - startTime;
+    camera?.updateCount++;
+    camera?.performanceMetrics.updateTime = performance?.now() - startTime;
   }
 
   /**
    * Update chase camera
    */
   private updateChaseCamera(camera: CameraInstance, deltaTime: number): void {
-    if (!camera.targetEntity) return;
+    if (!camera?.targetEntity) return;
 
     // Get target position (would integrate with entity system)
     const targetPosition = { x: 0, y: 0, z: 0 }; // Placeholder
     const targetVelocity = { x: 0, y: 0, z: 0 }; // Placeholder
 
     // Calculate desired position behind target
-    const distance = camera.currentSettings.distance;
-    const height = camera.currentSettings.trackingOffset.y;
+    const distance = camera?.currentSettings.distance;
+    const height = camera?.currentSettings.trackingOffset.y;
 
     // Offset behind target based on movement direction
-    const lookAhead = this.calculateLookAhead(targetVelocity, camera.currentSettings.predictionTime);
+    const lookAhead = this?.calculateLookAhead(targetVelocity, camera?.currentSettings.predictionTime);
 
     const desiredPosition = {
       x: targetPosition.x - lookAhead.x,
@@ -909,20 +909,20 @@ export class CameraSystemPure {
     };
 
     // Smoothly move camera to desired position
-    this.smoothMoveCamera(camera, desiredPosition, deltaTime);
+    this?.smoothMoveCamera(camera, desiredPosition, deltaTime);
 
     // Look at target
-    this.lookAtTarget(camera, targetPosition);
+    this?.lookAtTarget(camera, targetPosition);
   }
 
   /**
    * Update orbit camera
    */
   private updateOrbitCamera(camera: CameraInstance, deltaTime: number): void {
-    if (!camera.targetEntity) return;
+    if (!camera?.targetEntity) return;
 
-    const orbitRadius = camera.currentSettings.distance;
-    const orbitHeight = camera.currentSettings.trackingOffset.y;
+    const orbitRadius = camera?.currentSettings.distance;
+    const orbitHeight = camera?.currentSettings.trackingOffset.y;
     const angularSpeed = 0.5; // Radians per second
 
     // Calculate orbital position
@@ -935,24 +935,24 @@ export class CameraSystemPure {
     };
 
     // Smoothly move camera
-    this.smoothMoveCamera(camera, desiredPosition, deltaTime);
+    this?.smoothMoveCamera(camera, desiredPosition, deltaTime);
 
     // Look at target
-    this.lookAtTarget(camera, { x: 0, y: 0, z: 0 });
+    this?.lookAtTarget(camera, { x: 0, y: 0, z: 0 });
   }
 
   /**
    * Update first-person camera
    */
   private updateFirstPersonCamera(camera: CameraInstance, deltaTime: number): void {
-    if (!camera.targetEntity) return;
+    if (!camera?.targetEntity) return;
 
     // Get input for camera rotation
     const mouseX = 0; // Would get from input system
     const mouseY = 0;
 
     // Update camera rotation based on input
-    camera.state.rotation.y += mouseX * deltaTime * camera.currentSettings.rotationSpeed;
+    camera?.state.rotation.y += mouseX * deltaTime * camera?.currentSettings.rotationSpeed;
     camera.state.rotation.x = Math.max(
       -Math.PI / 2,
       Math.min(Math.PI / 2, camera.state.rotation.x + mouseY * deltaTime * camera.currentSettings.rotationSpeed)
@@ -960,17 +960,17 @@ export class CameraSystemPure {
 
     // Normalize rotation
     const length = Math.sqrt(
-      camera.state.rotation.x ** 2 +
-      camera.state.rotation.y ** 2 +
-      camera.state.rotation.z ** 2 +
-      camera.state.rotation.w ** 2
+      camera?.state.rotation.x ** 2 +
+      camera?.state.rotation.y ** 2 +
+      camera?.state.rotation.z ** 2 +
+      camera?.state.rotation.w ** 2
     );
 
     if (length > 0) {
-      camera.state.rotation.x /= length;
-      camera.state.rotation.y /= length;
-      camera.state.rotation.z /= length;
-      camera.state.rotation.w /= length;
+      camera?.state.rotation.x /= length;
+      camera?.state.rotation.y /= length;
+      camera?.state.rotation.z /= length;
+      camera?.state.rotation.w /= length;
     }
   }
 
@@ -986,8 +986,8 @@ export class CameraSystemPure {
    * Update cinematic camera
    */
   private updateCinematicCamera(camera: CameraInstance, deltaTime: number): void {
-    if (camera.path) {
-      this.updateCameraPath(camera, deltaTime);
+    if (camera?.path) {
+      this?.updateCameraPath(camera, deltaTime);
     }
   }
 
@@ -1003,16 +1003,16 @@ export class CameraSystemPure {
    * Smoothly move camera to desired position
    */
   private smoothMoveCamera(camera: CameraInstance, desiredPosition: Vector3, deltaTime: number): void {
-    const smoothing = camera.currentSettings.smoothingFactor;
-    const moveSpeed = camera.currentSettings.movementSpeed;
+    const smoothing = camera?.currentSettings.smoothingFactor;
+    const moveSpeed = camera?.currentSettings.movementSpeed;
 
     const lerpFactor = 1 - Math.exp(-moveSpeed * deltaTime);
 
-    camera.state.position.x += (desiredPosition.x - camera.state.position.x) * lerpFactor;
-    camera.state.position.y += (desiredPosition.y - camera.state.position.y) * lerpFactor;
-    camera.state.position.z += (desiredPosition.z - camera.state.position.z) * lerpFactor;
+    camera?.state.position.x += (desiredPosition.x - camera?.state.position.x) * lerpFactor;
+    camera?.state.position.y += (desiredPosition.y - camera?.state.position.y) * lerpFactor;
+    camera?.state.position.z += (desiredPosition.z - camera?.state.position.z) * lerpFactor;
 
-    camera.state.isMoving = lerpFactor > 0.01;
+    camera?.state.isMoving = lerpFactor > 0.01;
   }
 
   /**
@@ -1020,9 +1020,9 @@ export class CameraSystemPure {
    */
   private lookAtTarget(camera: CameraInstance, target: Vector3): void {
     const direction = {
-      x: target.x - camera.state.position.x,
-      y: target.y - camera.state.position.y,
-      z: target.z - camera.state.position.z
+      x: target.x - camera?.state.position.x,
+      y: target.y - camera?.state.position.y,
+      z: target.z - camera?.state.position.z
     };
 
     const length = Math.sqrt(direction.x ** 2 + direction.y ** 2 + direction.z ** 2);
@@ -1033,11 +1033,11 @@ export class CameraSystemPure {
     }
 
     // Create look-at rotation
-    const dot = camera.currentSettings.up.y; // Assuming up is (0,1,0)
+    const dot = camera?.currentSettings.up.y; // Assuming up is (0,1,0)
     const pitch = Math.asin(-direction.y);
     const yaw = Math.atan2(direction.x, direction.z);
 
-    camera.state.rotation = this.eulerToQuaternion(pitch, yaw, 0);
+    camera?.state.rotation = this?.eulerToQuaternion(pitch, yaw, 0);
   }
 
   /**
@@ -1074,7 +1074,7 @@ export class CameraSystemPure {
    * Update camera path
    */
   private updateCameraPath(camera: CameraInstance, deltaTime: number): void {
-    if (!camera.path) return;
+    if (!camera?.path) return;
 
     // This would interpolate along the camera path
     // Implementation depends on specific path requirements
@@ -1084,17 +1084,17 @@ export class CameraSystemPure {
    * Update camera effects
    */
   private updateCameraEffects(camera: CameraInstance, deltaTime: number): void {
-    for (const [effectId, effect] of camera.effects) {
+    for (const [effectId, effect] of camera?.effects) {
       // Update effect duration
-      effect.duration -= deltaTime;
+      effect?.duration -= deltaTime;
 
-      if (effect.duration <= 0) {
-        camera.effects.delete(effectId);
+      if (effect?.duration <= 0) {
+        camera?.effects.delete(effectId);
         continue;
       }
 
       // Apply effect based on type
-      this.applyCameraEffect(camera, effect, deltaTime);
+      this?.applyCameraEffect(camera, effect, deltaTime);
     }
   }
 
@@ -1102,20 +1102,20 @@ export class CameraSystemPure {
    * Apply camera effect
    */
   private applyCameraEffect(camera: CameraInstance, effect: CameraEffect, deltaTime: number): void {
-    const intensity = this.calculateEffectIntensity(effect, deltaTime);
+    const intensity = this?.calculateEffectIntensity(effect, deltaTime);
 
-    switch (effect.type) {
+    switch (effect?.type) {
       case 'shake':
-        this.applyShakeEffect(camera, effect, intensity);
+        this?.applyShakeEffect(camera, effect, intensity);
         break;
       case 'zoom':
-        this.applyZoomEffect(camera, effect, intensity);
+        this?.applyZoomEffect(camera, effect, intensity);
         break;
       case 'blur':
-        this.applyBlurEffect(camera, effect, intensity);
+        this?.applyBlurEffect(camera, effect, intensity);
         break;
       case 'chromatic':
-        this.applyChromaticAberration(camera, effect, intensity);
+        this?.applyChromaticAberration(camera, effect, intensity);
         break;
     }
   }
@@ -1124,20 +1124,20 @@ export class CameraSystemPure {
    * Apply shake effect
    */
   private applyShakeEffect(camera: CameraInstance, effect: CameraEffect, intensity: number): void {
-    const shakeAmount = effect.parameters.get('intensity') || 1;
+    const shakeAmount = effect?.parameters.get('intensity') || 1;
     const shakeX = (Math.random() - 0.5) * shakeAmount * intensity;
     const shakeY = (Math.random() - 0.5) * shakeAmount * intensity;
 
-    camera.state.position.x += shakeX;
-    camera.state.position.y += shakeY;
+    camera?.state.position.x += shakeX;
+    camera?.state.position.y += shakeY;
   }
 
   /**
    * Apply zoom effect
    */
   private applyZoomEffect(camera: CameraInstance, effect: CameraEffect, intensity: number): void {
-    const zoomAmount = effect.parameters.get('zoom') || 1;
-    camera.currentSettings.fov = 75 + (zoomAmount * intensity);
+    const zoomAmount = effect?.parameters.get('zoom') || 1;
+    camera?.currentSettings.fov = 75 + (zoomAmount * intensity);
   }
 
   /**
@@ -1160,11 +1160,11 @@ export class CameraSystemPure {
    * Calculate effect intensity
    */
   private calculateEffectIntensity(effect: CameraEffect, deltaTime: number): number {
-    let intensity = effect.intensity;
+    let intensity = effect?.intensity;
 
-    switch (effect.falloff) {
+    switch (effect?.falloff) {
       case 'linear':
-        intensity *= (effect.duration / effect.parameters.get('originalDuration') || effect.duration);
+        intensity *= (effect?.duration / effect?.parameters.get('originalDuration') || effect?.duration);
         break;
       case 'exponential':
         intensity *= Math.exp(-deltaTime * 2);
@@ -1182,31 +1182,31 @@ export class CameraSystemPure {
    */
   private checkCameraConstraints(camera: CameraInstance): void {
     // Check position bounds
-    if (camera.definition.constraints.positionBounds) {
-      const bounds = camera.definition.constraints.positionBounds;
+    if (camera?.definition.constraints?.positionBounds) {
+      const bounds = camera?.definition.constraints?.positionBounds;
       camera.state.position.x = Math.max(bounds.min.x, Math.min(bounds.max.x, camera.state.position.x));
       camera.state.position.y = Math.max(bounds.min.y, Math.min(bounds.max.y, camera.state.position.y));
       camera.state.position.z = Math.max(bounds.min.z, Math.min(bounds.max.z, camera.state.position.z));
     }
 
     // Check distance constraints
-    if (camera.definition.constraints.distanceLimits) {
+    if (camera?.definition.constraints?.distanceLimits) {
       const distance = Math.sqrt(
-        camera.state.position.x ** 2 +
-        camera.state.position.y ** 2 +
-        camera.state.position.z ** 2
+        camera?.state.position.x ** 2 +
+        camera?.state.position.y ** 2 +
+        camera?.state.position.z ** 2
       );
 
-      if (distance < camera.definition.constraints.distanceLimits.minDistance) {
-        const ratio = camera.definition.constraints.distanceLimits.minDistance / distance;
-        camera.state.position.x *= ratio;
-        camera.state.position.y *= ratio;
-        camera.state.position.z *= ratio;
-      } else if (distance > camera.definition.constraints.distanceLimits.maxDistance) {
-        const ratio = camera.definition.constraints.distanceLimits.maxDistance / distance;
-        camera.state.position.x *= ratio;
-        camera.state.position.y *= ratio;
-        camera.state.position.z *= ratio;
+      if (distance < camera?.definition.constraints?.distanceLimits.minDistance) {
+        const ratio = camera?.definition.constraints?.distanceLimits.minDistance / distance;
+        camera?.state.position.x *= ratio;
+        camera?.state.position.y *= ratio;
+        camera?.state.position.z *= ratio;
+      } else if (distance > camera?.definition.constraints?.distanceLimits.maxDistance) {
+        const ratio = camera?.definition.constraints?.distanceLimits.maxDistance / distance;
+        camera?.state.position.x *= ratio;
+        camera?.state.position.y *= ratio;
+        camera?.state.position.z *= ratio;
       }
     }
   }
@@ -1224,14 +1224,14 @@ export class CameraSystemPure {
    * Get camera instance by ID
    */
   getCameraInstance(cameraId: string): CameraInstance | null {
-    return this.activeCameras.get(cameraId) || null;
+    return this?.activeCameras.get(cameraId) || null;
   }
 
   /**
    * Switch camera mode
    */
   switchCameraMode(cameraId: string, mode: string, duration?: number): boolean {
-    const camera = this.activeCameras.get(cameraId);
+    const camera = this?.activeCameras.get(cameraId);
     if (camera) {
       // This would switch the camera mode
       return true;
@@ -1243,15 +1243,15 @@ export class CameraSystemPure {
    * Get camera statistics
    */
   getStats(): CameraStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   /**
    * Set main camera
    */
   setMainCamera(cameraId: string): boolean {
-    if (this.activeCameras.has(cameraId)) {
-      this.mainCamera = cameraId;
+    if (this?.activeCameras.has(cameraId)) {
+      this?.mainCamera = cameraId;
       return true;
     }
     return false;
@@ -1261,21 +1261,21 @@ export class CameraSystemPure {
    * Get main camera
    */
   getMainCamera(): CameraInstance | null {
-    return this.mainCamera ? this.activeCameras.get(this.mainCamera) || null : null;
+    return this?.mainCamera ? this?.activeCameras.get(this?.mainCamera) || null : null;
   }
 
   /**
    * Get all cameras
    */
   getAllCameras(): Map<string, CameraInstance> {
-    return new Map(this.activeCameras);
+    return new Map(this?.activeCameras);
   }
 
   /**
    * Get camera configuration
    */
   getConfig(): CameraConfig {
-    return { ...this.config };
+    return { ...this?.config };
   }
 
   /**
@@ -1296,11 +1296,11 @@ export class CameraSystemPure {
    * Update cinematic sequences
    */
   private updateCinematicSequences(deltaTime: number): void {
-    this.cinematicSequences.forEach((sequence, sequenceId) => {
-      if (sequence.isActive) {
-        sequence.currentTime += deltaTime * 1000;
-        if (sequence.currentTime >= sequence.duration) {
-          sequence.isActive = false;
+    this?.cinematicSequences.forEach((sequence, sequenceId) => {
+      if (sequence?.isActive) {
+        sequence?.currentTime += deltaTime * 1000;
+        if (sequence?.currentTime >= sequence?.duration) {
+          sequence?.isActive = false;
         }
       }
     });
@@ -1310,9 +1310,9 @@ export class CameraSystemPure {
    * Update performance metrics
    */
   private updatePerformanceMetrics(updateTime: number): void {
-    this.stats.averageFrameTime = (this.stats.averageFrameTime + updateTime) / 2;
+    this?.stats.averageFrameTime = (this?.stats.averageFrameTime + updateTime) / 2;
     this.stats.peakFrameTime = Math.max(this.stats.peakFrameTime, updateTime);
-    this.stats.totalPlayTime += updateTime;
+    this?.stats.totalPlayTime += updateTime;
   }
 
 }

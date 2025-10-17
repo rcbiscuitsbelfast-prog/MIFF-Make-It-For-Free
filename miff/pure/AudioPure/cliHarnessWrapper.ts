@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { AudioManager, AudioClip } from './Manager';
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 const manager = new AudioManager();
 
 try {
@@ -25,7 +25,7 @@ try {
         position: location ? { x: 0, y: 0, z: 0 } : undefined
       };
       
-      manager.play(audioClip);
+      manager?.play(audioClip);
       
       handleSuccess({
         soundId,
@@ -47,28 +47,28 @@ try {
         volume: volume || 1.0,
         loop: loop === true || loop === 'true'
       };
-      manager.play(clip);
+      manager?.play(clip);
       handleSuccess({ audioId, playing: true }, 'play');
       break;
     }
 
     case 'stop': {
       const { audioId } = params;
-      manager.stop(audioId || 'audio_001');
+      manager?.stop(audioId || 'audio_001');
       handleSuccess({ audioId, stopped: true }, 'stop');
       break;
     }
 
     case 'setVolume': {
       const { audioId, volume } = params;
-      manager.setVolume(audioId || 'audio_001', volume || 0.5);
+      manager?.setVolume(audioId || 'audio_001', volume || 0.5);
       handleSuccess({ audioId, volume }, 'setVolume');
       break;
     }
 
     case 'listPlaying': {
-      const playing = manager.getPlaying();
-      handleSuccess({ playing, count: playing.length }, 'listPlaying');
+      const playing = manager?.getPlaying();
+      handleSuccess({ playing, count: playing?.length }, 'listPlaying');
       break;
     }
 

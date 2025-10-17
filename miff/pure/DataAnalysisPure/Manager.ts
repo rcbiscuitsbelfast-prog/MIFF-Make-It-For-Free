@@ -332,12 +332,12 @@ export class DataAnalysisManager {
   constructor(config?: Partial<DataAnalysisConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.startTime = Date.now();
+    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this?.memoryManager = new MemoryManager({});
+    this?.errorHandler = new StandardErrorHandler({});
+    this.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enableMultiDatasetSupport: true,
       enableStatisticalAnalysis: true,
       enablePerformanceOptimization: true,
@@ -356,7 +356,7 @@ export class DataAnalysisManager {
    * Initialize the Data Analysis System
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
+    if (this?.isInitialized) {
       console.warn('DataAnalysisPure', 'Data Analysis System already initialized');
       return;
     }
@@ -365,21 +365,21 @@ export class DataAnalysisManager {
       console.info('DataAnalysisPure', 'Initializing Data Analysis System...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this?.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this.config.enableProfiling) {
+      if (this?.config.enableProfiling) {
         // MemoryManager initialization handled internally
       }
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.info('DataAnalysisPure', 'Data Analysis System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -388,14 +388,14 @@ export class DataAnalysisManager {
    * Create a new data analysis system
    */
   async createSystem(systemData: Omit<DataAnalysis, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<DataAnalysis> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     try {
       const system: DataAnalysis = {
         ...systemData,
-        id: this.generateSystemId(),
+        id: this?.generateSystemId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -411,15 +411,15 @@ export class DataAnalysisManager {
         }
       };
 
-      this.systems.set(system.id, system);
-      this.updateAnalytics();
+      this?.systems.set(system?.id, system);
+      this?.updateAnalytics();
 
       console.info('Data analysis system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -428,23 +428,23 @@ export class DataAnalysisManager {
    * Get a data analysis system by ID
    */
   getSystem(systemId: string): DataAnalysis | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
-    return this.systems.get(systemId) || null;
+    return this?.systems.get(systemId) || null;
   }
 
   /**
    * Update a data analysis system
    */
   async updateSystem(systemId: string, updates: Partial<DataAnalysis>): Promise<DataAnalysis | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
@@ -454,18 +454,18 @@ export class DataAnalysisManager {
         ...system,
         ...updates,
         updatedAt: new Date(),
-        version: this.incrementVersion(system.version)
+        version: this?.incrementVersion(system?.version)
       };
 
-      this.systems.set(systemId, updatedSystem);
-      this.updateAnalytics();
+      this?.systems.set(systemId, updatedSystem);
+      this?.updateAnalytics();
 
       console.info('Data analysis system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -474,26 +474,26 @@ export class DataAnalysisManager {
    * Delete a data analysis system
    */
   async deleteSystem(systemId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return false;
       }
 
-      this.systems.delete(systemId);
-      this.updateAnalytics();
+      this?.systems.delete(systemId);
+      this?.updateAnalytics();
 
       console.info('Data analysis system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -502,7 +502,7 @@ export class DataAnalysisManager {
    * Get all data analysis systems
    */
   getAllSystems(): DataAnalysis[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
@@ -513,7 +513,7 @@ export class DataAnalysisManager {
    * Get systems by type
    */
   getSystemsByType(type: SystemType): DataAnalysis[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
@@ -524,7 +524,7 @@ export class DataAnalysisManager {
    * Get systems by status
    */
   getSystemsByStatus(status: SystemStatus): DataAnalysis[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
@@ -535,12 +535,12 @@ export class DataAnalysisManager {
    * Add a dataset to a system
    */
   async addDataset(systemId: string, datasetData: Omit<Dataset, 'id' | 'statistics'>): Promise<Dataset | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
@@ -548,19 +548,19 @@ export class DataAnalysisManager {
 
       const dataset: Dataset = {
         ...datasetData,
-        id: this.generateDatasetId(),
-        statistics: this.calculateDatasetStatistics(datasetData.data, datasetData.schema)
+        id: this?.generateDatasetId(),
+        statistics: this?.calculateDatasetStatistics(datasetData?.data, datasetData?.schema)
       };
 
-      system.datasets.push(dataset);
-      this.updateAnalytics();
+      system?.datasets?.push(dataset);
+      this?.updateAnalytics();
 
       console.info('Dataset added to system', { systemId, datasetId: dataset.id, datasetName: dataset.name });
       return dataset;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -569,32 +569,32 @@ export class DataAnalysisManager {
    * Remove a dataset from a system
    */
   async removeDataset(systemId: string, datasetId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return false;
       }
 
-      const datasetIndex = system.datasets.findIndex(d => d.id === datasetId);
+      const datasetIndex = system?.datasets.findIndex(d => d?.id === datasetId);
       if (datasetIndex === -1) {
         console.warn('Dataset not found', { systemId, datasetId });
         return false;
       }
 
-      system.datasets.splice(datasetIndex, 1);
-      this.updateAnalytics();
+      system?.datasets.splice(datasetIndex, 1);
+      this?.updateAnalytics();
 
       console.info('Dataset removed from system', { systemId, datasetId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -603,18 +603,18 @@ export class DataAnalysisManager {
    * Run analysis on a dataset
    */
   async runAnalysis(systemId: string, analysisData: Omit<Analysis, 'id' | 'created' | 'status' | 'results'>): Promise<Analysis | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
       }
 
-      const dataset = system.datasets.find(d => d.id === analysisData.dataset);
+      const dataset = system?.datasets.find(d => d?.id === analysisData?.dataset);
       if (!dataset) {
         console.warn('Dataset not found', { systemId, datasetId: analysisData.dataset });
         return null;
@@ -622,7 +622,7 @@ export class DataAnalysisManager {
 
       const analysis: Analysis = {
         ...analysisData,
-        id: this.generateAnalysisId(),
+        id: this?.generateAnalysisId(),
         created: new Date(),
         status: 'pending',
         results: {
@@ -634,18 +634,18 @@ export class DataAnalysisManager {
         }
       };
 
-      system.analyses.push(analysis);
-      this.updateAnalytics();
+      system?.analyses?.push(analysis);
+      this?.updateAnalytics();
 
       // Start analysis in background
-      this.performAnalysis(systemId, analysis.id);
+      this?.performAnalysis(systemId, analysis?.id);
 
       console.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
       return analysis;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -655,49 +655,49 @@ export class DataAnalysisManager {
    */
   private async performAnalysis(systemId: string, analysisId: string): Promise<void> {
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) return;
 
-      const analysis = system.analyses.find(a => a.id === analysisId);
+      const analysis = system?.analyses.find(a => a?.id === analysisId);
       if (!analysis) return;
 
-      analysis.status = 'running';
+      analysis?.status = 'running';
 
       // Simulate analysis based on type
-      switch (analysis.type) {
+      switch (analysis?.type) {
         case 'descriptive':
-          await this.performDescriptiveAnalysis(analysis);
+          await this?.performDescriptiveAnalysis(analysis);
           break;
         case 'inferential':
-          await this.performInferentialAnalysis(analysis);
+          await this?.performInferentialAnalysis(analysis);
           break;
         case 'predictive':
-          await this.performPredictiveAnalysis(analysis);
+          await this?.performPredictiveAnalysis(analysis);
           break;
         case 'clustering':
-          await this.performClusteringAnalysis(analysis);
+          await this?.performClusteringAnalysis(analysis);
           break;
         default:
-          await this.performCustomAnalysis(analysis);
+          await this?.performCustomAnalysis(analysis);
       }
 
-      analysis.status = 'completed';
-      analysis.completed = Date.now();
-      this.updateAnalytics();
+      analysis?.status = 'completed';
+      analysis.completed = new Date();
+      this?.updateAnalytics();
 
       console.info('Analysis completed', { systemId, analysisId });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (system) {
-        const analysis = system.analyses.find(a => a.id === analysisId);
+        const analysis = system?.analyses.find(a => a?.id === analysisId);
         if (analysis) {
-          analysis.status = 'failed';
-          analysis.results.errors.push(error.message);
+          analysis?.status = 'failed';
+          analysis?.results.errors?.push(error?.message);
         }
       }
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
     }
   }
 
@@ -706,7 +706,7 @@ export class DataAnalysisManager {
    */
   private async performDescriptiveAnalysis(analysis: Analysis): Promise<void> {
     // Simulate descriptive analysis
-    analysis.results = {
+    analysis?.results = {
       success: true,
       data: {
         mean: 0,
@@ -731,7 +731,7 @@ export class DataAnalysisManager {
    */
   private async performInferentialAnalysis(analysis: Analysis): Promise<void> {
     // Simulate inferential analysis
-    analysis.results = {
+    analysis?.results = {
       success: true,
       data: {
         pValue: 0.05,
@@ -752,7 +752,7 @@ export class DataAnalysisManager {
    */
   private async performPredictiveAnalysis(analysis: Analysis): Promise<void> {
     // Simulate predictive analysis
-    analysis.results = {
+    analysis?.results = {
       success: true,
       data: {
         predictions: [],
@@ -775,7 +775,7 @@ export class DataAnalysisManager {
    */
   private async performClusteringAnalysis(analysis: Analysis): Promise<void> {
     // Simulate clustering analysis
-    analysis.results = {
+    analysis?.results = {
       success: true,
       data: {
         clusters: [],
@@ -796,7 +796,7 @@ export class DataAnalysisManager {
    */
   private async performCustomAnalysis(analysis: Analysis): Promise<void> {
     // Simulate custom analysis
-    analysis.results = {
+    analysis?.results = {
       success: true,
       data: {},
       metrics: {
@@ -811,8 +811,8 @@ export class DataAnalysisManager {
    * Calculate dataset statistics (internal method)
    */
   private calculateDatasetStatistics(data: any[], schema: DataSchema): DatasetStatistics {
-    const totalRows = data.length;
-    const totalColumns = schema.fields.length;
+    const totalRows = data?.length;
+    const totalColumns = schema?.fields.length;
     let missingValues = 0;
     let duplicateRows = 0;
     let numericFields = 0;
@@ -820,8 +820,8 @@ export class DataAnalysisManager {
     let dateFields = 0;
 
     // Count field types
-    for (const field of schema.fields) {
-      switch (field.type) {
+    for (const field of schema?.fields) {
+      switch (field?.type) {
         case 'number':
           numericFields++;
           break;
@@ -838,18 +838,18 @@ export class DataAnalysisManager {
     const seenRows = new Set();
     for (const row of data) {
       // Check for missing values
-      for (const field of schema.fields) {
-        if (row[field.name] === null || row[field.name] === undefined) {
+      for (const field of schema?.fields) {
+        if (row[field?.name] === null || row[field?.name] === undefined) {
           missingValues++;
         }
       }
 
       // Check for duplicates
       const rowKey = JSON.stringify(row);
-      if (seenRows.has(rowKey)) {
+      if (seenRows?.has(rowKey)) {
         duplicateRows++;
       } else {
-        seenRows.add(rowKey);
+        seenRows?.add(rowKey);
       }
     }
 
@@ -890,7 +890,7 @@ export class DataAnalysisManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version.split('.');
+    const parts = version?.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -900,20 +900,20 @@ export class DataAnalysisManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalDatasets = systems.reduce((sum: any, s: any) => sum + s.datasets.length, 0);
-    const totalAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.length, 0);
-    const totalVisualizations = systems.reduce((sum: any, s: any) => sum + s.visualizations.length, 0);
-    const completedAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.filter((a: any) => a.status === 'completed').length, 0);
+    const totalDatasets = systems?.reduce((sum: any, s: any) => sum + s?.datasets.length, 0);
+    const totalAnalyses = systems?.reduce((sum: any, s: any) => sum + s?.analyses.length, 0);
+    const totalVisualizations = systems?.reduce((sum: any, s: any) => sum + s?.visualizations.length, 0);
+    const completedAnalyses = systems?.reduce((sum: any, s: any) => sum + s?.analyses.filter((a: any) => a?.status === 'completed').length, 0);
 
     for (const system of systems) {
-      system.analytics = {
-        totalSystems: systems.length,
-        activeSystems: systems.filter((s: any) => s.status === 'active').length,
-        totalDatasets: system.datasets.length,
-        totalAnalyses: system.analyses.length,
-        totalVisualizations: system.visualizations.length,
-        averageAccuracy: system.analyses.length > 0 ? 
-          system.analyses.reduce((sum: any, a: any) => sum + (a.results.metrics.accuracy || 0), 0) / system.analyses.length : 0,
+      system?.analytics = {
+        totalSystems: systems?.length,
+        activeSystems: systems?.filter((s: any) => s?.status === 'active').length,
+        totalDatasets: system?.datasets.length,
+        totalAnalyses: system?.analyses.length,
+        totalVisualizations: system?.visualizations.length,
+        averageAccuracy: system?.analyses.length > 0 ? 
+          system?.analyses.reduce((sum: any, a: any) => sum + (a?.results.metrics?.accuracy || 0), 0) / system?.analyses.length : 0,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };
@@ -933,15 +933,15 @@ export class DataAnalysisManager {
     totalVisualizations: number;
     uptime: number;
   } {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter((s: any) => s.status === 'active');
-    const totalDatasets = systems.reduce((sum: any, s: any) => sum + s.datasets.length, 0);
-    const totalAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.length, 0);
-    const totalVisualizations = systems.reduce((sum: any, s: any) => sum + s.visualizations.length, 0);
+    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
+    const totalDatasets = systems?.reduce((sum: any, s: any) => sum + s?.datasets.length, 0);
+    const totalAnalyses = systems?.reduce((sum: any, s: any) => sum + s?.analyses.length, 0);
+    const totalVisualizations = systems?.reduce((sum: any, s: any) => sum + s?.visualizations.length, 0);
 
     const systemsByType: Record<SystemType, number> = {
       statistical: 0,
@@ -958,19 +958,19 @@ export class DataAnalysisManager {
     };
 
     for (const system of systems) {
-      systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      systemsByType[system?.type]++;
+      systemsByStatus[system?.status]++;
     }
 
     return {
-      totalSystems: systems.length,
-      activeSystems: activeSystems.length,
+      totalSystems: systems?.length,
+      activeSystems: activeSystems?.length,
       systemsByType,
       systemsByStatus,
       totalDatasets,
       totalAnalyses,
       totalVisualizations,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: new Date() - this?.startTime.getTime()
     };
   }
 
@@ -980,8 +980,8 @@ export class DataAnalysisManager {
   async destroy(): Promise<void> {
     console.info('DataAnalysisPure', 'Destroying Data Analysis System...');
 
-    this.systems.clear();
-    this.isInitialized = false;
+    this?.systems.clear();
+    this?.isInitialized = false;
 
     console.info('DataAnalysisPure', 'Data Analysis System destroyed');
   }

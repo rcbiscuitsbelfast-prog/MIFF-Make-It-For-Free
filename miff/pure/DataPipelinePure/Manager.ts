@@ -1176,7 +1176,7 @@ export class DataPipelinePure {
 
   constructor(config: Partial<DataPipelineConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enablePipelineManagement: true,
       enableDataIngestion: true,
       enableDataProcessing: true,
@@ -1194,7 +1194,7 @@ export class DataPipelinePure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalPipelines: 0,
       activePipelines: 0,
       totalDataSources: 0,
@@ -1211,7 +1211,7 @@ export class DataPipelinePure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalPipelines: 0,
       totalRecords: 0,
       averageProcessingTime: 0,
@@ -1225,7 +1225,7 @@ export class DataPipelinePure {
    * Create a new data pipeline manager
    */
   createManager(): DataPipelineOutput {
-    if (!this.config.enablePipelineManagement) {
+    if (!this?.config.enablePipelineManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1235,8 +1235,8 @@ export class DataPipelinePure {
 
     const manager: DataPipelineManager = {
       id: managerData.id || `datapipeline-${Date.now()}`,
-      name: managerData.name || 'Unnamed Data Pipeline Manager',
-      type: managerData.type || 'batch',
+      name: managerData?.name || 'Unnamed Data Pipeline Manager',
+      type: managerData?.type || 'batch',
       status: 'active',
       pipelines: [],
       dataSources: [],
@@ -1305,7 +1305,7 @@ export class DataPipelinePure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1318,7 +1318,7 @@ export class DataPipelinePure {
    * Get manager by ID
    */
   getManager(): DataPipelineOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1338,14 +1338,14 @@ export class DataPipelinePure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DataPipelinePerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DataPipelineAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1359,7 +1359,7 @@ export class DataPipelinePure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalPipelines = 0;
     let activePipelines = 0;
     let totalDataSources = 0;
@@ -1367,21 +1367,21 @@ export class DataPipelinePure {
     let totalTransformers = 0;
     let totalValidators = 0;
 
-    for (const manager of this.managers.values()) {
-      totalPipelines += manager.pipelines.length;
-      activePipelines += manager.pipelines.filter((p: any) => p.status === 'running').length;
-      totalDataSources += manager.dataSources.length;
-      totalProcessors += manager.processors.length;
-      totalTransformers += manager.transformers.length;
-      totalValidators += manager.validators.length;
+    for (const manager of this?.managers.values()) {
+      totalPipelines += manager?.pipelines.length;
+      activePipelines += manager?.pipelines.filter((p: any) => p?.status === 'running').length;
+      totalDataSources += manager?.dataSources.length;
+      totalProcessors += manager?.processors.length;
+      totalTransformers += manager?.transformers.length;
+      totalValidators += manager?.validators.length;
     }
 
-    this.performanceMetrics.totalPipelines = totalPipelines;
-    this.performanceMetrics.activePipelines = activePipelines;
-    this.performanceMetrics.totalDataSources = totalDataSources;
-    this.performanceMetrics.totalProcessors = totalProcessors;
-    this.performanceMetrics.totalTransformers = totalTransformers;
-    this.performanceMetrics.totalValidators = totalValidators;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalPipelines = totalPipelines;
+    this?.performanceMetrics.activePipelines = activePipelines;
+    this?.performanceMetrics.totalDataSources = totalDataSources;
+    this?.performanceMetrics.totalProcessors = totalProcessors;
+    this?.performanceMetrics.totalTransformers = totalTransformers;
+    this?.performanceMetrics.totalValidators = totalValidators;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

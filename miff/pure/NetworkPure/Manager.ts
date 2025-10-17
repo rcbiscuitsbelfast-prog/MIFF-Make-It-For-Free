@@ -999,7 +999,7 @@ export class NetworkPure {
 
   constructor(config: Partial<NetworkConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
+    this?.config = {
       enableNetworkManagement: true,
       enableConnectionManagement: true,
       enableNetworkMonitoring: true,
@@ -1016,7 +1016,7 @@ export class NetworkPure {
       ...config
     };
 
-    this.performanceMetrics = {
+    this?.performanceMetrics = {
       totalConnections: 0,
       activeConnections: 0,
       totalDevices: 0,
@@ -1032,7 +1032,7 @@ export class NetworkPure {
       uptime: 0
     };
 
-    this.analytics = {
+    this?.analytics = {
       totalConnections: 0,
       totalDevices: 0,
       averageLatency: 0,
@@ -1046,7 +1046,7 @@ export class NetworkPure {
    * Create a new network manager
    */
   createManager(): NetworkOutput {
-    if (!this.config.enableNetworkManagement) {
+    if (!this?.config.enableNetworkManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1056,8 +1056,8 @@ export class NetworkPure {
 
     const manager: NetworkManager = {
       id: managerData.id || `network-${Date.now()}`,
-      name: managerData.name || 'Unnamed Network Manager',
-      type: managerData.type || 'ethernet',
+      name: managerData?.name || 'Unnamed Network Manager',
+      type: managerData?.type || 'ethernet',
       status: 'active',
       connections: [],
       devices: [],
@@ -1125,7 +1125,7 @@ export class NetworkPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this?.managers.set(manager?.id, manager);
 
     return {
       op: 'create-manager',
@@ -1138,7 +1138,7 @@ export class NetworkPure {
    * Get manager by ID
    */
   getManager(): NetworkOutput {
-    const manager = this.managers.get(managerId);
+    const manager = this?.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1158,14 +1158,14 @@ export class NetworkPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): NetworkPerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this?.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): NetworkAnalytics {
-    return { ...this.analytics };
+    return { ...this?.analytics };
   }
 
   /**
@@ -1179,7 +1179,7 @@ export class NetworkPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = Date.now();
+    const now = new Date();
     let totalConnections = 0;
     let activeConnections = 0;
     let totalDevices = 0;
@@ -1189,25 +1189,25 @@ export class NetworkPure {
     let totalSecurityRules = 0;
     let totalMonitors = 0;
 
-    for (const manager of this.managers.values()) {
-      totalConnections += manager.connections.length;
-      activeConnections += manager.connections.filter((c: any) => c.status === 'connected').length;
-      totalDevices += manager.devices.length;
-      onlineDevices += manager.devices.filter((d: any) => d.status === 'online').length;
-      totalProtocols += manager.protocols.length;
-      activeProtocols += manager.protocols.filter((p: any) => p.status === 'active').length;
-      totalSecurityRules += manager.security.reduce((sum, s) => sum + s.rules.length, 0);
-      totalMonitors += manager.monitors.length;
+    for (const manager of this?.managers.values()) {
+      totalConnections += manager?.connections.length;
+      activeConnections += manager?.connections.filter((c: any) => c?.status === 'connected').length;
+      totalDevices += manager?.devices.length;
+      onlineDevices += manager?.devices.filter((d: any) => d?.status === 'online').length;
+      totalProtocols += manager?.protocols.length;
+      activeProtocols += manager?.protocols.filter((p: any) => p?.status === 'active').length;
+      totalSecurityRules += manager?.security.reduce((sum, s) => sum + s?.rules.length, 0);
+      totalMonitors += manager?.monitors.length;
     }
 
-    this.performanceMetrics.totalConnections = totalConnections;
-    this.performanceMetrics.activeConnections = activeConnections;
-    this.performanceMetrics.totalDevices = totalDevices;
-    this.performanceMetrics.onlineDevices = onlineDevices;
-    this.performanceMetrics.totalProtocols = totalProtocols;
-    this.performanceMetrics.activeProtocols = activeProtocols;
-    this.performanceMetrics.totalSecurityRules = totalSecurityRules;
-    this.performanceMetrics.totalMonitors = totalMonitors;
-    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+    this?.performanceMetrics.totalConnections = totalConnections;
+    this?.performanceMetrics.activeConnections = activeConnections;
+    this?.performanceMetrics.totalDevices = totalDevices;
+    this?.performanceMetrics.onlineDevices = onlineDevices;
+    this?.performanceMetrics.totalProtocols = totalProtocols;
+    this?.performanceMetrics.activeProtocols = activeProtocols;
+    this?.performanceMetrics.totalSecurityRules = totalSecurityRules;
+    this?.performanceMetrics.totalMonitors = totalMonitors;
+    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
   }
 }

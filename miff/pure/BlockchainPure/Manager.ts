@@ -288,12 +288,12 @@ export class BlockchainManager {
   constructor(config?: Partial<BlockchainConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.startTime = Date.now();
+    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this?.memoryManager = new MemoryManager({});
+    this?.errorHandler = new StandardErrorHandler({});
+    this.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enableSmartContracts: true,
       enableTransactionProcessing: true,
       enableConsensusMechanisms: true,
@@ -313,7 +313,7 @@ export class BlockchainManager {
    * Initialize the Blockchain Manager
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
+    if (this?.isInitialized) {
       console.warn('BlockchainPure', 'Blockchain Manager already initialized');
       return;
     }
@@ -322,21 +322,21 @@ export class BlockchainManager {
       console.info('BlockchainPure', 'Initializing Blockchain Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this?.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this.config.enableMonitoring) {
+      if (this?.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
-      this.isInitialized = true;
+      this?.isInitialized = true;
       console.info('BlockchainPure', 'Blockchain Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -345,14 +345,14 @@ export class BlockchainManager {
    * Create a new blockchain
    */
   async createBlockchain(blockchainData: Omit<Blockchain, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<Blockchain> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
       const blockchain: Blockchain = {
         ...blockchainData,
-        id: this.generateBlockchainId(),
+        id: this?.generateBlockchainId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -367,15 +367,15 @@ export class BlockchainManager {
         }
       };
 
-      this.blockchains.set(blockchain.id, blockchain);
-      this.updateAnalytics();
+      this?.blockchains.set(blockchain?.id, blockchain);
+      this?.updateAnalytics();
 
       console.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
       return blockchain;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -384,23 +384,23 @@ export class BlockchainManager {
    * Get a blockchain by ID
    */
   getBlockchain(blockchainId: string): Blockchain | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
-    return this.blockchains.get(blockchainId) || null;
+    return this?.blockchains.get(blockchainId) || null;
   }
 
   /**
    * Update a blockchain
    */
   async updateBlockchain(blockchainId: string, updates: Partial<Blockchain>): Promise<Blockchain | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return null;
@@ -410,18 +410,18 @@ export class BlockchainManager {
         ...blockchain,
         ...updates,
         updatedAt: new Date(),
-        version: this.incrementVersion(blockchain.version)
+        version: this?.incrementVersion(blockchain?.version)
       };
 
-      this.blockchains.set(blockchainId, updatedBlockchain);
-      this.updateAnalytics();
+      this?.blockchains.set(blockchainId, updatedBlockchain);
+      this?.updateAnalytics();
 
       console.info('Blockchain updated', { blockchainId, blockchainName: updatedBlockchain.name });
       return updatedBlockchain;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -430,26 +430,26 @@ export class BlockchainManager {
    * Delete a blockchain
    */
   async deleteBlockchain(blockchainId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
-      this.blockchains.delete(blockchainId);
-      this.updateAnalytics();
+      this?.blockchains.delete(blockchainId);
+      this?.updateAnalytics();
 
       console.info('Blockchain deleted', { blockchainId, blockchainName: blockchain.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -458,7 +458,7 @@ export class BlockchainManager {
    * Get all blockchains
    */
   getAllBlockchains(): Blockchain[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
@@ -469,7 +469,7 @@ export class BlockchainManager {
    * Get blockchains by type
    */
   getBlockchainsByType(type: BlockchainType): Blockchain[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
@@ -480,7 +480,7 @@ export class BlockchainManager {
    * Get blockchains by status
    */
   getBlockchainsByStatus(status: BlockchainStatus): Blockchain[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
@@ -491,12 +491,12 @@ export class BlockchainManager {
    * Create a new block
    */
   async createBlock(blockchainId: string, blockData: Omit<Block, 'id' | 'timestamp'>): Promise<Block | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return null;
@@ -504,19 +504,19 @@ export class BlockchainManager {
 
       const block: Block = {
         ...blockData,
-        id: this.generateBlockId(),
+        id: this?.generateBlockId(),
         timestamp: new Date()
       };
 
-      blockchain.blocks.push(block);
-      this.updateAnalytics();
+      blockchain?.blocks?.push(block);
+      this?.updateAnalytics();
 
       console.info('Block created', { blockchainId, blockId: block.id, blockIndex: block.index });
       return block;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -524,13 +524,13 @@ export class BlockchainManager {
   /**
    * Create a new transaction
    */
-  async createTransaction(blockchainId: string, transactionData: Omit<Transaction, 'id' | 'timestamp'>): Promise<Transaction | null> {
-    if (!this.isInitialized) {
+  async createTransaction(blockchainId: string, transactionData: Omit<T extends Record<string, any>ransaction, 'id' | 'timestamp'>): Promise<T extends Record<string, any>ransaction | null> {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return null;
@@ -538,19 +538,19 @@ export class BlockchainManager {
 
       const transaction: Transaction = {
         ...transactionData,
-        id: this.generateTransactionId(),
+        id: this?.generateTransactionId(),
         timestamp: new Date()
       };
 
-      blockchain.transactions.push(transaction);
-      this.updateAnalytics();
+      blockchain?.transactions?.push(transaction);
+      this?.updateAnalytics();
 
       console.info('Transaction created', { blockchainId, transactionId: transaction.id, transactionType: transaction.type });
       return transaction;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -559,12 +559,12 @@ export class BlockchainManager {
    * Deploy a smart contract
    */
   async deployContract(blockchainId: string, contractData: Omit<SmartContract, 'id' | 'deployedAt'>): Promise<SmartContract | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return null;
@@ -572,19 +572,19 @@ export class BlockchainManager {
 
       const contract: SmartContract = {
         ...contractData,
-        id: this.generateContractId(),
+        id: this?.generateContractId(),
         deployedAt: new Date()
       };
 
-      blockchain.contracts.push(contract);
-      this.updateAnalytics();
+      blockchain?.contracts?.push(contract);
+      this?.updateAnalytics();
 
       console.info('Smart contract deployed', { blockchainId, contractId: contract.id, contractName: contract.name });
       return contract;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -593,18 +593,18 @@ export class BlockchainManager {
    * Execute a smart contract function
    */
   async executeContractFunction(blockchainId: string, contractId: string, functionName: string, parameters: any[]): Promise<any> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
-      const contract = blockchain.contracts.find(c => c.id === contractId);
+      const contract = blockchain?.contracts.find(c => c?.id === contractId);
       if (!contract) {
         console.warn('Contract not found', { blockchainId, contractId });
         return null;
@@ -619,7 +619,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -628,18 +628,18 @@ export class BlockchainManager {
    * Mine a block
    */
   async mineBlock(blockchainId: string, blockId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
-      const block = blockchain.blocks.find(b => b.id === blockId);
+      const block = blockchain?.blocks.find(b => b?.id === blockId);
       if (!block) {
         console.warn('Block not found', { blockchainId, blockId });
         return false;
@@ -655,7 +655,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -664,18 +664,18 @@ export class BlockchainManager {
    * Validate a transaction
    */
   async validateTransaction(blockchainId: string, transactionId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     try {
-      const blockchain = this.blockchains.get(blockchainId);
+      const blockchain = this?.blockchains.get(blockchainId);
       if (!blockchain) {
         console.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
-      const transaction = blockchain.transactions.find(t => t.id === transactionId);
+      const transaction = blockchain?.transactions.find(t => t?.id === transactionId);
       if (!transaction) {
         console.warn('Transaction not found', { blockchainId, transactionId });
         return false;
@@ -690,7 +690,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -727,7 +727,7 @@ export class BlockchainManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version.split('.');
+    const parts = version?.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -737,20 +737,20 @@ export class BlockchainManager {
    */
   private updateAnalytics(): void {
     const blockchains = Array.from(this.blockchains.values());
-    const totalBlocks = blockchains.reduce((sum: any, b: any) => sum + b.blocks.length, 0);
-    const totalTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.length, 0);
-    const pendingTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.filter((t: any) => t.status === 'pending').length, 0);
-    const totalContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.length, 0);
-    const activeContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.filter((c: any) => c.status === 'active').length, 0);
+    const totalBlocks = blockchains?.reduce((sum: any, b: any) => sum + b?.blocks.length, 0);
+    const totalTransactions = blockchains?.reduce((sum: any, b: any) => sum + b?.transactions.length, 0);
+    const pendingTransactions = blockchains?.reduce((sum: any, b: any) => sum + b?.transactions.filter((t: any) => t?.status === 'pending').length, 0);
+    const totalContracts = blockchains?.reduce((sum: any, b: any) => sum + b?.contracts.length, 0);
+    const activeContracts = blockchains?.reduce((sum: any, b: any) => sum + b?.contracts.filter((c: any) => c?.status === 'active').length, 0);
 
     for (const blockchain of blockchains) {
-      blockchain.analytics = {
-        totalBlocks: blockchain.blocks.length,
-        totalTransactions: blockchain.transactions.length,
-        pendingTransactions: blockchain.transactions.filter((t: any) => t.status === 'pending').length,
-        totalContracts: blockchain.contracts.length,
-        activeContracts: blockchain.contracts.filter((c: any) => c.status === 'active').length,
-        averageBlockTime: blockchain.performance.blockTime,
+      blockchain?.analytics = {
+        totalBlocks: blockchain?.blocks.length,
+        totalTransactions: blockchain?.transactions.length,
+        pendingTransactions: blockchain?.transactions.filter((t: any) => t?.status === 'pending').length,
+        totalContracts: blockchain?.contracts.length,
+        activeContracts: blockchain?.contracts.filter((c: any) => c?.status === 'active').length,
+        averageBlockTime: blockchain?.performance.blockTime,
         lastUpdated: new Date()
       };
     }
@@ -770,16 +770,16 @@ export class BlockchainManager {
     averageTPS: number;
     uptime: number;
   } {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Blockchain Manager not initialized');
     }
 
     const blockchains = Array.from(this.blockchains.values());
-    const activeBlockchains = blockchains.filter((b: any) => b.status === 'active');
-    const totalBlocks = blockchains.reduce((sum: any, b: any) => sum + b.blocks.length, 0);
-    const totalTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.length, 0);
-    const totalContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.length, 0);
-    const totalTPS = blockchains.reduce((sum: any, b: any) => sum + b.performance.tps, 0);
+    const activeBlockchains = blockchains?.filter((b: any) => b?.status === 'active');
+    const totalBlocks = blockchains?.reduce((sum: any, b: any) => sum + b?.blocks.length, 0);
+    const totalTransactions = blockchains?.reduce((sum: any, b: any) => sum + b?.transactions.length, 0);
+    const totalContracts = blockchains?.reduce((sum: any, b: any) => sum + b?.contracts.length, 0);
+    const totalTPS = blockchains?.reduce((sum: any, b: any) => sum + b?.performance.tps, 0);
 
     const blockchainsByType: Record<BlockchainType, number> = {
       public: 0,
@@ -797,20 +797,20 @@ export class BlockchainManager {
     };
 
     for (const blockchain of blockchains) {
-      blockchainsByType[blockchain.type]++;
-      blockchainsByStatus[blockchain.status]++;
+      blockchainsByType[blockchain?.type]++;
+      blockchainsByStatus[blockchain?.status]++;
     }
 
     return {
-      totalBlockchains: blockchains.length,
-      activeBlockchains: activeBlockchains.length,
+      totalBlockchains: blockchains?.length,
+      activeBlockchains: activeBlockchains?.length,
       blockchainsByType,
       blockchainsByStatus,
       totalBlocks,
       totalTransactions,
       totalContracts,
-      averageTPS: blockchains.length > 0 ? totalTPS / blockchains.length : 0,
-      uptime: new Date() - this.startTime.getTime()
+      averageTPS: blockchains?.length > 0 ? totalTPS / blockchains?.length : 0,
+      uptime: new Date() - this?.startTime.getTime()
     };
   }
 
@@ -820,8 +820,8 @@ export class BlockchainManager {
   async destroy(): Promise<void> {
     console.info('BlockchainPure', 'Destroying Blockchain Manager...');
 
-    this.blockchains.clear();
-    this.isInitialized = false;
+    this?.blockchains.clear();
+    this?.isInitialized = false;
 
     console.info('BlockchainPure', 'Blockchain Manager destroyed');
   }

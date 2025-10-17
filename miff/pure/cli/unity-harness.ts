@@ -18,8 +18,8 @@ export class UnityBridgeHarness {
 
   constructor() {
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: UnityCommunicationProtocol.MESSAGE_PASSING,
+      bridgeType: UnityBridgeType?.GAME_OBJECT,
+      communicationProtocol: UnityCommunicationProtocol?.MESSAGE_PASSING,
       unityVersion: '2021.3',
       targetPlatform: 'windows',
       enableDebugLogging: true,
@@ -41,7 +41,7 @@ export class UnityBridgeHarness {
       customSettings: {}
     };
 
-    this.bridge = new UnityBridgeManager(config);
+    this?.bridge = new UnityBridgeManager(config);
   }
 
   async testCombatIntegration(): Promise<void> {
@@ -67,7 +67,7 @@ export class UnityBridgeHarness {
       const move = new MoveData(
         'unity_slash',
         'Unity Slash',
-        MoveCategory.PHYSICAL,
+        MoveCategory?.PHYSICAL,
         50,
         1.0,
         5,
@@ -84,10 +84,10 @@ export class UnityBridgeHarness {
         payload: {
           action: 'create_spirit',
           data: {
-            name: spirit.name,
-            typeTag: spirit.typeTag,
-            stats: spirit.stats,
-            moves: spirit.moves
+            name: spirit?.name,
+            typeTag: spirit?.typeTag,
+            stats: spirit?.stats,
+            moves: spirit?.moves
           }
         },
         priority: 1,
@@ -99,7 +99,7 @@ export class UnityBridgeHarness {
       };
 
       console.log('📤 Sending combat integration test...');
-      const success = await this.bridge.sendMessage(testMessage);
+      const success = await this?.bridge.sendMessage(testMessage);
 
       if (success) {
         console.log('✅ Combat integration test sent successfully');
@@ -120,9 +120,9 @@ export class UnityBridgeHarness {
       const item = new Item(
         'unity_potion',
         'Unity Health Potion',
-        ItemType.CONSUMABLE,
+        ItemType?.CONSUMABLE,
         {
-          type: ItemEffectType.HEAL,
+          type: ItemEffectType?.HEAL,
           amount: 25,
           duration: 0,
           param: '',
@@ -142,11 +142,11 @@ export class UnityBridgeHarness {
         payload: {
           action: 'create_item',
           data: {
-            name: item.name,
-            type: item.type,
-            effect: item.effect,
-            description: item.description,
-            value: item.value
+            name: item?.name,
+            type: item?.type,
+            effect: item?.effect,
+            description: item?.description,
+            value: item?.value
           }
         },
         priority: 1,
@@ -158,7 +158,7 @@ export class UnityBridgeHarness {
       };
 
       console.log('📤 Sending item integration test...');
-      const success = await this.bridge.sendMessage(testMessage);
+      const success = await this?.bridge.sendMessage(testMessage);
 
       if (success) {
         console.log('✅ Item integration test sent successfully');
@@ -176,7 +176,7 @@ export class UnityBridgeHarness {
 
     try {
       // Create sample AI policy
-      const policy = AIPolicy.aggressive('unity_ai');
+      const policy = AIPolicy?.aggressive('unity_ai');
 
       const testMessage = {
         id: 'ai_test_1',
@@ -187,11 +187,11 @@ export class UnityBridgeHarness {
         payload: {
           action: 'create_ai_policy',
           data: {
-            policyId: policy.policyId,
-            aggression: policy.aggression,
-            caution: policy.caution,
-            efficiency: policy.efficiency,
-            overrideRules: policy.overrideRules
+            policyId: policy?.policyId,
+            aggression: policy?.aggression,
+            caution: policy?.caution,
+            efficiency: policy?.efficiency,
+            overrideRules: policy?.overrideRules
           }
         },
         priority: 1,
@@ -203,7 +203,7 @@ export class UnityBridgeHarness {
       };
 
       console.log('📤 Sending AI integration test...');
-      const success = await this.bridge.sendMessage(testMessage);
+      const success = await this?.bridge.sendMessage(testMessage);
 
       if (success) {
         console.log('✅ AI integration test sent successfully');
@@ -223,20 +223,20 @@ export class UnityBridgeHarness {
     try {
       // Test connection
       console.log('1️⃣  Testing Unity connection...');
-      // const connected = await this.bridge.connect('localhost:8080');
+      // const connected = await this?.bridge.connect('localhost:8080');
       // console.log(connected ? '✅ Connected' : '❌ Connection failed');
 
       // Test combat integration
-      await this.testCombatIntegration();
+      await this?.testCombatIntegration();
 
       // Test item integration
-      await this.testItemIntegration();
+      await this?.testItemIntegration();
 
       // Test AI integration
-      await this.testAIIntegration();
+      await this?.testAIIntegration();
 
       // Get bridge statistics
-      const stats = this.bridge.getStatistics();
+      const stats = this?.bridge.getStatistics();
       console.log('📊 Bridge Statistics:');
       console.log(`   - Total Messages: ${stats.totalMessages}`);
       console.log(`   - Error Rate: ${stats.errorRate.toFixed(3)}`);
@@ -271,32 +271,32 @@ export class UnityBridgeHarness {
     console.log('   - Tactical analysis drives Unity formations');
     console.log('');
 
-    await this.runFullIntegrationTest();
+    await this?.runFullIntegrationTest();
   }
 }
 
 // CLI Interface
-if (require.main === module) {
+if (require?.main === module) {
   const harness = new UnityBridgeHarness();
 
-  const args = process.argv.slice(2);
+  const args = process?.argv.slice(2);
   const command = args[0!];
 
   switch (command) {
     case 'combat':
-      harness.testCombatIntegration();
+      harness?.testCombatIntegration();
       break;
     case 'items':
-      harness.testItemIntegration();
+      harness?.testItemIntegration();
       break;
     case 'ai':
-      harness.testAIIntegration();
+      harness?.testAIIntegration();
       break;
     case 'integration':
-      harness.runFullIntegrationTest();
+      harness?.runFullIntegrationTest();
       break;
     case 'demo':
-      harness.demo();
+      harness?.demo();
       break;
     default:
       console.log('Unity Bridge Harness');

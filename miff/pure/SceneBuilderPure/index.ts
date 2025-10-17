@@ -333,18 +333,18 @@ export class SceneBuilderManager {
   private buildProgress?: SceneBuilderProgress;
 
   constructor(configuration: SceneBuildConfiguration) {
-    this.configuration = configuration;
-    this.initializeBuilder();
+    this?.configuration = configuration;
+    this?.initializeBuilder();
   }
 
   private initializeBuilder(): void {
     console.log('[SceneBuilderManager!] Initializing scene builder...');
 
     // Initialize default templates
-    this.initializeDefaultTemplates();
+    this?.initializeDefaultTemplates();
 
     // Initialize optimization systems
-    this.initializeOptimizationSystems();
+    this?.initializeOptimizationSystems();
 
     console.log('[SceneBuilderManager!] Scene builder initialized successfully');
   }
@@ -358,9 +358,9 @@ export class SceneBuilderManager {
       category: 'basic',
       configuration: {
         dimensions: { width: 100, height: 100 },
-        layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
-        optimizationMode: SceneOptimizationMode.CULLING,
-        exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT],
+        layers: [SceneLayer?.BACKGROUND, SceneLayer?.TERRAIN, SceneLayer?.CHARACTERS],
+        optimizationMode: SceneOptimizationMode?.CULLING,
+        exportFormats: [SceneExportFormat?.UNITY, SceneExportFormat?.GODOT],
         enablePhysics: false,
         enableLighting: true,
         enableAudio: false,
@@ -385,7 +385,7 @@ export class SceneBuilderManager {
       metadata: {}
     };
 
-    this.templates.set('template_empty', emptyTemplate);
+    this?.templates.set('template_empty', emptyTemplate);
 
     // Basic 2D scene template
     const basic2DTemplate: SceneTemplate = {
@@ -395,9 +395,9 @@ export class SceneBuilderManager {
       category: '2d',
       configuration: {
         dimensions: { width: 1920, height: 1080 },
-        layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.INTERACTABLES, SceneLayer.CHARACTERS, SceneLayer.UI],
-        optimizationMode: SceneOptimizationMode.CULLING,
-        exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.WEBGL],
+        layers: [SceneLayer?.BACKGROUND, SceneLayer?.TERRAIN, SceneLayer?.INTERACTABLES, SceneLayer?.CHARACTERS, SceneLayer?.UI],
+        optimizationMode: SceneOptimizationMode?.CULLING,
+        exportFormats: [SceneExportFormat?.UNITY, SceneExportFormat?.GODOT, SceneExportFormat?.WEBGL],
         enablePhysics: true,
         enableLighting: true,
         enableAudio: true,
@@ -420,7 +420,7 @@ export class SceneBuilderManager {
         {
           id: 'main_camera',
           name: 'Main Camera',
-          layer: SceneLayer.CHARACTERS,
+          layer: SceneLayer?.CHARACTERS,
           type: 'camera',
           position: { x: 0, y: 0, z: -10 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
@@ -450,7 +450,7 @@ export class SceneBuilderManager {
         {
           id: 'directional_light',
           name: 'Directional Light',
-          layer: SceneLayer.BACKGROUND,
+          layer: SceneLayer?.BACKGROUND,
           type: 'light',
           position: { x: 0, y: 10, z: 0 },
           rotation: { x: 50, y: -30, z: 0, w: 1 },
@@ -483,24 +483,24 @@ export class SceneBuilderManager {
       metadata: {}
     };
 
-    this.templates.set('template_2d_basic', basic2DTemplate);
+    this?.templates.set('template_2d_basic', basic2DTemplate);
   }
 
   private initializeOptimizationSystems(): void {
     // Initialize optimization systems based on configuration
-    if (this.configuration && this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
+    if (this?.configuration && this?.configuration.optimizationMode !== SceneOptimizationMode?.NONE) {
       console.log(`[SceneBuilderManager!] Initializing optimization system: ${this.configuration.optimizationMode}`);
     }
   }
 
   // Core scene building functionality
   async buildScene(templateId?: string): Promise<SceneBuildResult> {
-    if (this.isBuilding) {
+    if (this?.isBuilding) {
       throw new Error('Scene building already in progress');
     }
 
-    this.isBuilding = true;
-    this.buildProgress = {
+    this?.isBuilding = true;
+    this?.buildProgress = {
       stage: 'initialization',
       progress: 0,
       message: 'Initializing scene build...',
@@ -514,42 +514,42 @@ export class SceneBuilderManager {
       console.log('[SceneBuilderManager!] Starting scene build...');
 
       // Initialize scene
-      this.updateProgress('initialization', 10, 'Setting up scene structure...');
-      await this.initializeScene(templateId);
+      this?.updateProgress('initialization', 10, 'Setting up scene structure...');
+      await this?.initializeScene(templateId);
 
       // Load assets
-      this.updateProgress('asset_loading', 25, 'Loading assets...');
-      await this.loadAssets();
+      this?.updateProgress('asset_loading', 25, 'Loading assets...');
+      await this?.loadAssets();
 
       // Build nodes
-      this.updateProgress('node_building', 50, 'Building scene nodes...');
-      await this.buildSceneNodes();
+      this?.updateProgress('node_building', 50, 'Building scene nodes...');
+      await this?.buildSceneNodes();
 
       // Apply optimizations
-      this.updateProgress('optimization', 75, 'Applying optimizations...');
-      await this.applyOptimizations();
+      this?.updateProgress('optimization', 75, 'Applying optimizations...');
+      await this?.applyOptimizations();
 
       // Export scene
-      this.updateProgress('export', 90, 'Exporting scene...');
-      const exportPaths = await this.exportScene();
+      this?.updateProgress('export', 90, 'Exporting scene...');
+      const exportPaths = await this?.exportScene();
 
       // Finalize
-      this.updateProgress('finalization', 100, 'Finalizing scene...');
-      await this.finalizeScene();
+      this?.updateProgress('finalization', 100, 'Finalizing scene...');
+      await this?.finalizeScene();
 
       const result: SceneBuildResult = {
         success: true,
         sceneId: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         buildTime: new Date(),
         fileSize: 0, // Would be calculated from actual files
-        assetCount: this.assets.size,
-        nodeCount: this.nodes.size,
-        optimizationStats: this.calculateOptimizationStats(),
+        assetCount: this?.assets.size,
+        nodeCount: this?.nodes.size,
+        optimizationStats: this?.calculateOptimizationStats(),
         exportPaths,
         warnings: [],
         errors: [],
         metadata: {
-          configuration: this.configuration,
+          configuration: this?.configuration,
           template: templateId,
           buildDuration: new Date()
         }
@@ -567,14 +567,14 @@ export class SceneBuilderManager {
         sceneId: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         buildTime: new Date(),
         fileSize: 0,
-        assetCount: this.assets.size,
-        nodeCount: this.nodes.size,
-        optimizationStats: this.calculateOptimizationStats(),
+        assetCount: this?.assets.size,
+        nodeCount: this?.nodes.size,
+        optimizationStats: this?.calculateOptimizationStats(),
         exportPaths: {},
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? error?.message : 'Unknown error'],
         metadata: {
-          configuration: this.configuration,
+          configuration: this?.configuration,
           template: templateId,
           buildDuration: new Date(),
           error: error
@@ -583,27 +583,27 @@ export class SceneBuilderManager {
 
       return result;
     } finally {
-      this.isBuilding = false;
-      this.buildProgress = undefined;
+      this?.isBuilding = false;
+      this?.buildProgress = undefined;
     }
   }
 
   private async initializeScene(templateId?: string): Promise<void> {
     // Clear existing scene data
-    this.nodes.clear();
-    this.assets.clear();
-    this.lights.clear();
-    this.cameras.clear();
-    this.audios.clear();
-    this.animations.clear();
-    this.particleSystems.clear();
-    this.triggers.clear();
-    this.colliders.clear();
-    this.postProcessing.clear();
+    this?.nodes.clear();
+    this?.assets.clear();
+    this?.lights.clear();
+    this?.cameras.clear();
+    this?.audios.clear();
+    this?.animations.clear();
+    this?.particleSystems.clear();
+    this?.triggers.clear();
+    this?.colliders.clear();
+    this?.postProcessing.clear();
 
     // Load template if specified
     if (templateId) {
-      const template = this.templates.get(templateId);
+      const template = this?.templates.get(templateId);
       if (template) {
         console.log(`[SceneBuilderManager!] Loading template: ${template.name}`);
 
@@ -611,13 +611,13 @@ export class SceneBuilderManager {
         Object.assign(this.configuration, template.configuration);
 
         // Load template nodes
-        for (const node of template.nodes) {
-          this.nodes.set(node.id, { ...node });
+        for (const node of template?.nodes) {
+          this?.nodes.set(node?.id, { ...node });
         }
 
         // Load template assets
-        for (const asset of template.assets) {
-          this.assets.set(asset.id, { ...asset });
+        for (const asset of template?.assets) {
+          this?.assets.set(asset?.id, { ...asset });
         }
       } else {
         throw new Error(`Template not found: ${templateId}`);
@@ -640,21 +640,21 @@ export class SceneBuilderManager {
   private async applyOptimizations(): Promise<void> {
     console.log(`[SceneBuilderManager!] Applying optimizations: ${this.configuration.optimizationMode}`);
 
-    switch (this.configuration.optimizationMode) {
-      case SceneOptimizationMode.CULLING:
-        await this.applyCullingOptimizations();
+    switch (this?.configuration.optimizationMode) {
+      case SceneOptimizationMode?.CULLING:
+        await this?.applyCullingOptimizations();
         break;
-      case SceneOptimizationMode.LOD:
-        await this.applyLODOptimizations();
+      case SceneOptimizationMode?.LOD:
+        await this?.applyLODOptimizations();
         break;
-      case SceneOptimizationMode.BATCHING:
-        await this.applyBatchingOptimizations();
+      case SceneOptimizationMode?.BATCHING:
+        await this?.applyBatchingOptimizations();
         break;
-      case SceneOptimizationMode.INSTANCING:
-        await this.applyInstancingOptimizations();
+      case SceneOptimizationMode?.INSTANCING:
+        await this?.applyInstancingOptimizations();
         break;
-      case SceneOptimizationMode.OCCLUSION:
-        await this.applyOcclusionOptimizations();
+      case SceneOptimizationMode?.OCCLUSION:
+        await this?.applyOcclusionOptimizations();
         break;
       default:
         console.log('[SceneBuilderManager!] No optimizations applied');
@@ -691,21 +691,21 @@ export class SceneBuilderManager {
   private async exportScene(): Promise<Record<SceneExportFormat, string>> {
     const exportPaths: Record<SceneExportFormat, string> = {} as Record<SceneExportFormat, string>;
 
-    for (const format of this.configuration.exportFormats) {
+    for (const format of this?.configuration.exportFormats) {
       console.log(`[SceneBuilderManager!] Exporting to ${format}...`);
 
       switch (format) {
-        case SceneExportFormat.UNITY:
-          exportPaths[format!] = await this.exportToUnity();
+        case SceneExportFormat?.UNITY:
+          exportPaths[format!] = await this?.exportToUnity();
           break;
-        case SceneExportFormat.GODOT:
-          exportPaths[format!] = await this.exportToGodot();
+        case SceneExportFormat?.GODOT:
+          exportPaths[format!] = await this?.exportToGodot();
           break;
-        case SceneExportFormat.WEBGL:
-          exportPaths[format!] = await this.exportToWebGL();
+        case SceneExportFormat?.WEBGL:
+          exportPaths[format!] = await this?.exportToWebGL();
           break;
-        case SceneExportFormat.JSON:
-          exportPaths[format!] = await this.exportToJSON();
+        case SceneExportFormat?.JSON:
+          exportPaths[format!] = await this?.exportToJSON();
           break;
         default:
           exportPaths[format!] = `export_${format}_${Date.now()}`;
@@ -755,17 +755,17 @@ export class SceneBuilderManager {
       instancedObjects: 0,
       memoryUsage: 0,
       compressionRatio: 1.0,
-      lodLevels: this.configuration.lodLevels,
+      lodLevels: this?.configuration.lodLevels,
       occlusionAreas: 0
     };
   }
 
   private updateProgress(stage: SceneBuilderProgress['stage'], progress: number, message: string): void {
-    if (this.buildProgress) {
-      this.buildProgress.stage = stage;
-      this.buildProgress.progress = progress;
-      this.buildProgress.message = message;
-      this.buildProgress.currentOperation = message;
+    if (this?.buildProgress) {
+      this?.buildProgress.stage = stage;
+      this?.buildProgress.progress = progress;
+      this?.buildProgress.message = message;
+      this?.buildProgress.currentOperation = message;
 
       console.log(`[SceneBuilderManager!] Progress: ${progress}% - ${message}`);
     }
@@ -773,51 +773,51 @@ export class SceneBuilderManager {
 
   // Scene management methods
   addNode(node: SceneNode): void {
-    this.nodes.set(node.id, node);
+    this?.nodes.set(node?.id, node);
   }
 
   removeNode(nodeId: string): void {
-    const node = this.nodes.get(nodeId);
+    const node = this?.nodes.get(nodeId);
     if (node) {
       // Remove from parent
-      if (node.parent) {
-        const parent = this.nodes.get(node.parent);
+      if (node?.parent) {
+        const parent = this?.nodes.get(node?.parent);
         if (parent) {
-          parent.children = parent.children.filter((id: any) => id !== nodeId);
+          parent?.children = parent?.children.filter((id: any) => id !== nodeId);
         }
       }
 
       // Remove children recursively
-      for (const childId of node.children) {
-        this.removeNode(childId);
+      for (const childId of node?.children) {
+        this?.removeNode(childId);
       }
 
-      this.nodes.delete(nodeId);
+      this?.nodes.delete(nodeId);
     }
   }
 
   getNode(nodeId: string): SceneNode | undefined {
-    return this.nodes.get(nodeId);
+    return this?.nodes.get(nodeId);
   }
 
   addAsset(asset: SceneAsset): void {
-    this.assets.set(asset.id, asset);
+    this?.assets.set(asset?.id, asset);
   }
 
   removeAsset(assetId: string): void {
-    this.assets.delete(assetId);
+    this?.assets.delete(assetId);
   }
 
   getAsset(assetId: string): SceneAsset | undefined {
-    return this.assets.get(assetId);
+    return this?.assets.get(assetId);
   }
 
   addTemplate(template: SceneTemplate): void {
-    this.templates.set(template.id, template);
+    this?.templates.set(template?.id, template);
   }
 
   getTemplate(templateId: string): SceneTemplate | undefined {
-    return this.templates.get(templateId);
+    return this?.templates.get(templateId);
   }
 
   getAllTemplates(): SceneTemplate[] {
@@ -831,36 +831,36 @@ export class SceneBuilderManager {
     const suggestions: string[] = [];
 
     // Validate nodes
-    for (const node of this.nodes.values()) {
-      if (!node.name || node.name.trim() === '') {
-        errors.push(`Node '${node.id}' has empty name`);
+    for (const node of this?.nodes.values()) {
+      if (!node?.name || node?.name.trim() === '') {
+        errors?.push(`Node '${node?.id}' has empty name`);
       }
 
-      if (node.parent && !this.nodes.has(node.parent)) {
-        errors.push(`Node '${node.id}' references non-existent parent '${node.parent}'`);
+      if (node?.parent && !this?.nodes.has(node?.parent)) {
+        errors?.push(`Node '${node?.id}' references non-existent parent '${node?.parent}'`);
       }
     }
 
     // Validate assets
-    for (const asset of this.assets.values()) {
-      if (!asset.path || asset.path.trim() === '') {
-        errors.push(`Asset '${asset.id}' has empty path`);
+    for (const asset of this?.assets.values()) {
+      if (!asset?.path || asset?.path.trim() === '') {
+        errors?.push(`Asset '${asset?.id}' has empty path`);
       }
     }
 
     // Performance suggestions
-    if (this.nodes.size > 1000) {
-      suggestions.push('Large number of nodes detected. Consider using LOD or culling.');
+    if (this?.nodes.size > 1000) {
+      suggestions?.push('Large number of nodes detected. Consider using LOD or culling.');
     }
 
-    if (this.assets.size > 500) {
-      suggestions.push('Large number of assets detected. Consider asset bundling.');
+    if (this?.assets.size > 500) {
+      suggestions?.push('Large number of assets detected. Consider asset bundling.');
     }
 
     const performanceScore = Math.max(0, 100 - errors.length * 10 - warnings.length * 2);
 
     return {
-      valid: errors.length === 0,
+      valid: errors?.length === 0,
       errors,
       warnings,
       suggestions,
@@ -879,19 +879,19 @@ export class SceneBuilderManager {
   }
 
   getConfiguration(): SceneBuildConfiguration {
-    return { ...this.configuration };
+    return { ...this?.configuration };
   }
 
   // Progress tracking
   getBuildProgress(): SceneBuilderProgress | undefined {
-    return this.buildProgress ? { ...this.buildProgress } : undefined;
+    return this?.buildProgress ? { ...this?.buildProgress } : undefined;
   }
 
   // Utility methods
   getSceneBounds(): { min: { x: number; y: number; z: number }; max: { x: number; y: number; z: number } } {
     const positions = Array.from(this.nodes.values()).map((node: any) => node.position);
 
-    if (positions.length === 0) {
+    if (positions?.length === 0) {
       return {
         min: { x: 0, y: 0, z: 0 },
         max: { x: 0, y: 0, z: 0 }
@@ -914,17 +914,17 @@ export class SceneBuilderManager {
   }
 
   getNodeCount(): number {
-    return this.nodes.size;
+    return this?.nodes.size;
   }
 
   getAssetCount(): number {
-    return this.assets.size;
+    return this?.assets.size;
   }
 
   // Export individual components
   exportSceneData(): string {
     const sceneData = {
-      configuration: this.configuration,
+      configuration: this?.configuration,
       nodes: Array.from(this.nodes.values()),
       assets: Array.from(this.assets.values()),
       lights: Array.from(this.lights.values()),
@@ -943,17 +943,17 @@ export class SceneBuilderManager {
 
   // Cleanup
   dispose(): void {
-    this.nodes.clear();
-    this.assets.clear();
-    this.lights.clear();
-    this.cameras.clear();
-    this.audios.clear();
-    this.animations.clear();
-    this.particleSystems.clear();
-    this.triggers.clear();
-    this.colliders.clear();
-    this.postProcessing.clear();
-    this.templates.clear();
+    this?.nodes.clear();
+    this?.assets.clear();
+    this?.lights.clear();
+    this?.cameras.clear();
+    this?.audios.clear();
+    this?.animations.clear();
+    this?.particleSystems.clear();
+    this?.triggers.clear();
+    this?.colliders.clear();
+    this?.postProcessing.clear();
+    this?.templates.clear();
 
     console.log('[SceneBuilderManager!] Disposed successfully');
   }

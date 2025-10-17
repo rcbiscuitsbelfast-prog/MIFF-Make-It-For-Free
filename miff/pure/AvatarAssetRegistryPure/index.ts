@@ -14,10 +14,10 @@ export interface AvatarAssetRegistry {
 
 export class AvatarAssetRegistryPure {
   public static resolveVariant(id: string, style: AvatarStyle, reg: AvatarAssetRegistry): string | null {
-    const item = reg.items.find(x=>x.id===id);
+    const item = reg?.items.find(x=>x?.id===id);
     if (!item) return null;
     const key = style === '3d' ? '3d' : (style === 'overlay' ? 'overlay' : style as '2d-side');
-    return (item.variants as any)[key!] || null;
+    return (item?.variants as any)[key!] || null;
   }
 }
 

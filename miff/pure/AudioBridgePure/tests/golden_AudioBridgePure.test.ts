@@ -12,30 +12,30 @@ import fs from 'fs';
  * - No actual audio playback, just command validation
  */
 test('golden audio bridge flow', () => {
-  const root = path.resolve(__dirname, '..');
-  const audio = path.resolve(root, 'fixtures/audio.json');
+  const root = path?.resolve(__dirname, '..');
+  const audio = path?.resolve(root, 'fixtures/audio?.json');
   
   // Run CLI harness with audio commands
-  const out = (global as any).testUtils.runCLI(
-    path.resolve(root, 'cliHarness.ts'), 
+  const out = (global as any).testUtils?.runCLI(
+    path?.resolve(root, 'cliHarness?.ts'), 
     [audio!]
   );
   
   const got = JSON.parse(out);
   
   // Verify expected structure
-  expect(got.outputs).toBeDefined();
-  expect(got.outputs).toBeInstanceOf(Array);
-  expect(got.outputs.length).toBeGreaterThan(0);
+  expect(got?.outputs).toBeDefined();
+  expect(got?.outputs).toBeInstanceOf(Array);
+  expect(got?.outputs.length).toBeGreaterThan(0);
   
-  const result = got.outputs[0!];
-  expect(result.op).toBe('audio');
-  expect(result.status).toBe('ok');
-  expect(result.applied).toBeDefined();
-  expect(result.applied).toHaveLength(4);
+  const result = got?.outputs[0!];
+  expect(result?.op).toBe('audio');
+  expect(result?.status).toBe('ok');
+  expect(result?.applied).toBeDefined();
+  expect(result?.applied).toHaveLength(4);
   
   // Verify deterministic command processing
-  const commands = result.applied;
+  const commands = result?.applied;
   
   // First command: play music_001
   expect(commands[0!].op).toBe('play');

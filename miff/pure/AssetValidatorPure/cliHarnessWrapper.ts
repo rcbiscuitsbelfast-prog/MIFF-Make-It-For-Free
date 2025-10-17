@@ -26,8 +26,8 @@ class AssetValidator {
   
   validate(asset): ValidationResult {
     return {
-      assetId: asset.id,
-      path: asset.path,
+      assetId: asset?.id,
+      path: asset?.path,
       valid: true,
       errors: [],
       warnings: []
@@ -35,11 +35,11 @@ class AssetValidator {
   }
   
   getRules() {
-    return this.rules;
+    return this?.rules;
   }
 }
 
-const { mode, params } = parseKeyValueArgs(process.argv);
+const { mode, params } = parseKeyValueArgs(process?.argv);
 const validator = new AssetValidator();
 
 try {
@@ -51,15 +51,15 @@ try {
       
       // Simulate validation of sample assets
       const sampleAssets = [
-        { id: 'texture_001', path: 'assets/textures/player.png', type: 'texture', format: 'png' },
-        { id: 'audio_001', path: 'assets/audio/music.mp3', type: 'audio', format: 'mp3' },
-        { id: 'model_001', path: 'assets/models/character.glb', type: 'model', format: 'glb' }
+        { id: 'texture_001', path: 'assets/textures/player?.png', type: 'texture', format: 'png' },
+        { id: 'audio_001', path: 'assets/audio/music?.mp3', type: 'audio', format: 'mp3' },
+        { id: 'model_001', path: 'assets/models/character?.glb', type: 'model', format: 'glb' }
       ];
       
       for (const asset of sampleAssets) {
         const result: ValidationResult = {
-          assetId: asset.id,
-          path: asset.path,
+          assetId: asset?.id,
+          path: asset?.path,
           valid: true,
           errors: [],
           warnings: []
@@ -67,25 +67,25 @@ try {
         
         if (checkIntegrity !== false) {
           // Simulate integrity check
-          result.integrityCheck = true;
+          result?.integrityCheck = true;
         }
         
         if (validateFormats !== false) {
           // Simulate format validation
           const validFormats = ['png', 'jpg', 'mp3', 'wav', 'glb', 'gltf'];
-          if (!validFormats.includes(asset.format)) {
-            result.errors?.push(`Invalid format: ${asset.format}`);
-            result.valid = false;
+          if (!validFormats?.includes(asset?.format)) {
+            result?.errors?.push(`Invalid format: ${asset?.format}`);
+            result?.valid = false;
           }
         }
         
-        results.push(result);
+        results?.push(result: any);
       }
       
       const summary = {
-        total: results.length,
-        valid: results.filter((r: any) => r.valid).length,
-        invalid: results.filter((r: any) => !r.valid).length,
+        total: results?.length,
+        valid: results?.filter((r: any) => r?.valid).length,
+        invalid: results?.filter((r: any) => !r?.valid).length,
         missing: reportMissing ? 0 : undefined
       };
       
@@ -102,7 +102,7 @@ try {
     case 'validateAsset': {
       const { assetId, assetPath } = params;
       
-      const result = validator.validate({
+      const result = validator?.validate({
         id: assetId || 'unknown',
         path: assetPath || 'unknown',
         type: 'unknown'
@@ -113,8 +113,8 @@ try {
     }
 
     case 'getRules': {
-      const rules = validator.getRules();
-      handleSuccess({ rules, count: rules.length }, 'getRules');
+      const rules = validator?.getRules();
+      handleSuccess({ rules, count: rules?.length }, 'getRules');
       break;
     }
 

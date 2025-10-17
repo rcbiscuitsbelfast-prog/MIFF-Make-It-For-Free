@@ -1,5 +1,5 @@
 /**
- * ModdingPure.test.ts - Tests for ModdingPure module
+ * ModdingPure?.test.ts - Tests for ModdingPure module
  * 
  * Tests plugin discovery, asset pipeline, and export functionality.
  */
@@ -30,10 +30,10 @@ describe('ModdingPure', () => {
   describe('PluginDiscovery', () => {
     it('should discover plugins', async () => {
       const discovery = createPluginDiscovery(config);
-      const plugins = await discovery.discoverPlugins();
+      const plugins = await discovery?.discoverPlugins();
 
       expect(plugins).toBeDefined();
-      expect(plugins.length).toBeGreaterThan(0);
+      expect(plugins?.length).toBeGreaterThan(0);
       expect(plugins[0!]).toHaveProperty('id');
       expect(plugins[0!]).toHaveProperty('manifest');
       expect(plugins[0!]).toHaveProperty('status');
@@ -41,24 +41,24 @@ describe('ModdingPure', () => {
 
     it('should load plugin successfully', async () => {
       const discovery = createPluginDiscovery(config);
-      await discovery.discoverPlugins();
+      await discovery?.discoverPlugins();
 
-      const plugin = await discovery.loadPlugin('ui-enhancements');
+      const plugin = await discovery?.loadPlugin('ui-enhancements');
       
-      expect(plugin.status).toBe('loaded');
-      expect(plugin.entryPoint).toBeDefined();
-      expect(plugin.assets.size).toBeGreaterThan(0);
+      expect(plugin?.status).toBe('loaded');
+      expect(plugin?.entryPoint).toBeDefined();
+      expect(plugin?.assets.size).toBeGreaterThan(0);
     });
 
     it('should handle plugin dependencies', async () => {
       const discovery = createPluginDiscovery(config);
-      await discovery.discoverPlugins();
+      await discovery?.discoverPlugins();
 
-      const plugin = await discovery.loadPlugin('physics-extended');
+      const plugin = await discovery?.loadPlugin('physics-extended');
       
-      expect(plugin.status).toBe('loaded');
-      expect(plugin.dependencies.length).toBeGreaterThan(0);
-      expect(plugin.dependencies[0!].id).toBe('core-physics');
+      expect(plugin?.status).toBe('loaded');
+      expect(plugin?.dependencies.length).toBeGreaterThan(0);
+      expect(plugin?.dependencies[0!].id).toBe('core-physics');
     });
 
     it('should fail to load plugin with missing dependency', async () => {
@@ -75,7 +75,7 @@ describe('ModdingPure', () => {
           author: 'Test',
           license: 'MIT',
           dependencies: ['non-existent-plugin'],
-          entryPoint: './broken.js',
+          entryPoint: './broken?.js',
           assets: [],
           metadata: {}
         },
@@ -92,36 +92,36 @@ describe('ModdingPure', () => {
       };
 
       // Mock the discoverPlugins method to return our broken plugin
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([mockPlugin!]);
-      jest.spyOn(discovery as any, 'createMockPlugins').mockReturnValue([mockPlugin!]);
+      jest?.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([mockPlugin!]);
+      jest?.spyOn(discovery as any, 'createMockPlugins').mockReturnValue([mockPlugin!]);
 
-      await discovery.discoverPlugins();
+      await discovery?.discoverPlugins();
       
-      await expect(discovery.loadPlugin('broken-plugin')).rejects.toThrow(/Plugin not found|Dependency not found/);
+      await expect(discovery?.loadPlugin('broken-plugin')).rejects?.toThrow(/Plugin not found|Dependency not found/);
     });
 
     it('should unload plugin successfully', async () => {
       const discovery = createPluginDiscovery(config);
-      await discovery.discoverPlugins();
-      await discovery.loadPlugin('ui-enhancements');
+      await discovery?.discoverPlugins();
+      await discovery?.loadPlugin('ui-enhancements');
 
-      const result = await discovery.unloadPlugin('ui-enhancements');
+      const result = await discovery?.unloadPlugin('ui-enhancements');
       
-      expect(result).toBe(true);
-      const plugin = discovery.getPlugin('ui-enhancements');
+      expect(result: any).toBe(true);
+      const plugin = discovery?.getPlugin('ui-enhancements');
       expect(plugin?.status).toBe('disabled');
     });
 
     it('should return loaded plugins only', async () => {
       const discovery = createPluginDiscovery(config);
-      await discovery.discoverPlugins();
-      await discovery.loadPlugin('ui-enhancements');
-      await discovery.loadPlugin('core-physics');
+      await discovery?.discoverPlugins();
+      await discovery?.loadPlugin('ui-enhancements');
+      await discovery?.loadPlugin('core-physics');
 
-      const loadedPlugins = discovery.getLoadedPlugins();
+      const loadedPlugins = discovery?.getLoadedPlugins();
       
-      expect(loadedPlugins.length).toBe(2);
-      expect(loadedPlugins.every(p => p.status === 'loaded')).toBe(true);
+      expect(loadedPlugins?.length).toBe(2);
+      expect(loadedPlugins?.every(p => p?.status === 'loaded')).toBe(true);
     });
   });
 
@@ -129,65 +129,65 @@ describe('ModdingPure', () => {
     it('should create asset bundle', async () => {
       const pipeline = createAssetPipeline();
       const assets = new Map([
-        ['test.png', { type: 'image', size: 1024, data: 'mock' }],
-        ['test.json', { type: 'data', size: 512, data: 'mock' }]
+        ['test?.png', { type: 'image', size: 1024, data: 'mock' }],
+        ['test?.json', { type: 'data', size: 512, data: 'mock' }]
       ]);
 
-      const bundle = await pipeline.createBundle(
+      const bundle = await pipeline?.createBundle(
         'test-bundle',
         'Test Bundle',
         assets,
         { version: '1.0.0' }
       );
 
-      expect(bundle.id).toBe('test-bundle');
-      expect(bundle.name).toBe('Test Bundle');
-      expect(bundle.assets.size).toBe(2);
-      expect(bundle.size).toBe(1536); // 1024 + 512
-      expect(bundle.checksum).toBeDefined();
+      expect(bundle?.id).toBe('test-bundle');
+      expect(bundle?.name).toBe('Test Bundle');
+      expect(bundle?.assets.size).toBe(2);
+      expect(bundle?.size).toBe(1536); // 1024 + 512
+      expect(bundle?.checksum).toBeDefined();
     });
 
     it('should export bundle for platform', async () => {
       const pipeline = createAssetPipeline();
       const assets = new Map([
-        ['test.png', { type: 'image', size: 1024, data: 'mock' }]
+        ['test?.png', { type: 'image', size: 1024, data: 'mock' }]
       ]);
 
-      const bundle = await pipeline.createBundle('test-bundle', 'Test Bundle', assets);
-      const exportPath = await pipeline.exportBundle('test-bundle', 'web-html5', './output');
+      const bundle = await pipeline?.createBundle('test-bundle', 'Test Bundle', assets);
+      const exportPath = await pipeline?.exportBundle('test-bundle', 'web-html5', './output');
 
-      expect(exportPath).toContain('test-bundle-web.json');
+      expect(exportPath).toContain('test-bundle-web?.json');
     });
 
     it('should fail to export non-existent bundle', async () => {
       const pipeline = createAssetPipeline();
       
       await expect(
-        pipeline.exportBundle('non-existent', 'web-html5', './output')
-      ).rejects.toThrow('Bundle not found');
+        pipeline?.exportBundle('non-existent', 'web-html5', './output')
+      ).rejects?.toThrow('Bundle not found');
     });
 
     it('should fail to export with non-existent template', async () => {
       const pipeline = createAssetPipeline();
       const assets = new Map([
-        ['test.png', { type: 'image', size: 1024, data: 'mock' }]
+        ['test?.png', { type: 'image', size: 1024, data: 'mock' }]
       ]);
 
-      const bundle = await pipeline.createBundle('test-bundle', 'Test Bundle', assets);
+      const bundle = await pipeline?.createBundle('test-bundle', 'Test Bundle', assets);
       
       await expect(
-        pipeline.exportBundle('test-bundle', 'non-existent', './output')
-      ).rejects.toThrow('Template not found');
+        pipeline?.exportBundle('test-bundle', 'non-existent', './output')
+      ).rejects?.toThrow('Template not found');
     });
 
     it('should return available export templates', () => {
       const pipeline = createAssetPipeline();
-      const templates = pipeline.getExportTemplates();
+      const templates = pipeline?.getExportTemplates();
 
-      expect(templates.length).toBeGreaterThan(0);
-      expect(templates.some(t => t.platform === 'web')).toBe(true);
-      expect(templates.some(t => t.platform === 'mobile')).toBe(true);
-      expect(templates.some(t => t.platform === 'desktop')).toBe(true);
+      expect(templates?.length).toBeGreaterThan(0);
+      expect(templates?.some(t => t?.platform === 'web')).toBe(true);
+      expect(templates?.some(t => t?.platform === 'mobile')).toBe(true);
+      expect(templates?.some(t => t?.platform === 'desktop')).toBe(true);
     });
 
     it('should add custom export template', () => {
@@ -202,30 +202,30 @@ describe('ModdingPure', () => {
         dependencies: []
       };
 
-      pipeline.addExportTemplate(customTemplate);
-      const templates = pipeline.getExportTemplates();
+      pipeline?.addExportTemplate(customTemplate);
+      const templates = pipeline?.getExportTemplates();
       
-      expect(templates.some(t => t.id === 'custom-template')).toBe(true);
+      expect(templates?.some(t => t?.id === 'custom-template')).toBe(true);
     });
 
     it('should apply platform-specific transformations', async () => {
       const pipeline = createAssetPipeline();
       const assets = new Map([
-        ['test.png', { type: 'image', size: 1024, data: 'mock' }]
+        ['test?.png', { type: 'image', size: 1024, data: 'mock' }]
       ]);
 
-      const bundle = await pipeline.createBundle('test-bundle', 'Test Bundle', assets);
+      const bundle = await pipeline?.createBundle('test-bundle', 'Test Bundle', assets);
       
       // Test web platform
-      const webPath = await pipeline.exportBundle('test-bundle', 'web-html5', './output');
+      const webPath = await pipeline?.exportBundle('test-bundle', 'web-html5', './output');
       expect(webPath).toContain('web');
       
       // Test mobile platform
-      const mobilePath = await pipeline.exportBundle('test-bundle', 'mobile-android', './output');
+      const mobilePath = await pipeline?.exportBundle('test-bundle', 'mobile-android', './output');
       expect(mobilePath).toContain('mobile');
       
       // Test desktop platform
-      const desktopPath = await pipeline.exportBundle('test-bundle', 'desktop-windows', './output');
+      const desktopPath = await pipeline?.exportBundle('test-bundle', 'desktop-windows', './output');
       expect(desktopPath).toContain('desktop');
     });
   });
@@ -233,170 +233,170 @@ describe('ModdingPure', () => {
   describe('ModdingSystem', () => {
     it('should initialize successfully', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
+      await system?.initialize({});
 
       // System should be initialized without errors
       expect(system).toBeDefined();
     });
 
     it('should load enabled plugins automatically', async () => {
-      config.autoLoad = true;
+      config?.autoLoad = true;
       const system = createModdingSystem(config);
-      await system.initialize();
+      await system?.initialize({});
 
-      const loadedPlugins = system.getLoadedPlugins();
-      expect(loadedPlugins.length).toBeGreaterThan(0);
+      const loadedPlugins = system?.getLoadedPlugins();
+      expect(loadedPlugins?.length).toBeGreaterThan(0);
     });
 
     it('should load enabled plugins manually', async () => {
-      config.autoLoad = false;
+      config?.autoLoad = false;
       const system = createModdingSystem(config);
-      await system.initialize();
+      await system?.initialize({});
 
-      const loadedPlugins = await system.loadEnabledPlugins();
-      expect(loadedPlugins.length).toBeGreaterThan(0);
+      const loadedPlugins = await system?.loadEnabledPlugins();
+      expect(loadedPlugins?.length).toBeGreaterThan(0);
     });
 
     it('should get plugin by ID', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
-      await system.loadEnabledPlugins();
+      await system?.initialize({});
+      await system?.loadEnabledPlugins();
 
-      const plugin = system.getPlugin('ui-enhancements');
+      const plugin = system?.getPlugin('ui-enhancements');
       expect(plugin).toBeDefined();
-      expect(plugin?.manifest.name).toBe('UI Enhancements');
+      expect(plugin?.manifest?.name).toBe('UI Enhancements');
     });
 
     it('should create plugin bundle', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
-      await system.loadEnabledPlugins();
+      await system?.initialize({});
+      await system?.loadEnabledPlugins();
 
-      const bundle = await system.createPluginBundle(['ui-enhancements', 'core-physics']);
+      const bundle = await system?.createPluginBundle(['ui-enhancements', 'core-physics']);
       
       expect(bundle).toBeDefined();
-      expect(bundle.name).toContain('Plugin Bundle');
-      expect(bundle.metadata.plugins).toContain('ui-enhancements');
-      expect(bundle.metadata.plugins).toContain('core-physics');
+      expect(bundle?.name).toContain('Plugin Bundle');
+      expect(bundle?.metadata.plugins).toContain('ui-enhancements');
+      expect(bundle?.metadata.plugins).toContain('core-physics');
     });
 
     it('should export bundle for platform', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
-      await system.loadEnabledPlugins();
+      await system?.initialize({});
+      await system?.loadEnabledPlugins();
 
-      const bundle = await system.createPluginBundle(['ui-enhancements']);
-      const exportPath = await system.exportBundle(bundle.id, 'web-html5', './output');
+      const bundle = await system?.createPluginBundle(['ui-enhancements']);
+      const exportPath = await system?.exportBundle(bundle?.id, 'web-html5', './output');
 
-      expect(exportPath).toContain(bundle.id);
+      expect(exportPath).toContain(bundle?.id);
       expect(exportPath).toContain('web');
     });
 
     it('should get available export templates', () => {
       const system = createModdingSystem(config);
-      const templates = system.getExportTemplates();
+      const templates = system?.getExportTemplates();
 
-      expect(templates.length).toBeGreaterThan(0);
-      expect(templates.some(t => t.platform === 'web')).toBe(true);
+      expect(templates?.length).toBeGreaterThan(0);
+      expect(templates?.some(t => t?.platform === 'web')).toBe(true);
     });
 
     it('should generate comprehensive report', () => {
       const system = createModdingSystem(config);
-      const report = system.generateReport();
+      const report = system?.generateReport();
 
       expect(report).toHaveProperty('system');
       expect(report).toHaveProperty('plugins');
       expect(report).toHaveProperty('assets');
       
-      expect(report.system).toHaveProperty('config');
-      expect(report.system).toHaveProperty('status');
-      expect(report.system).toHaveProperty('timestamp');
+      expect(report?.system).toHaveProperty('config');
+      expect(report?.system).toHaveProperty('status');
+      expect(report?.system).toHaveProperty('timestamp');
       
-      expect(report.plugins).toHaveProperty('total');
-      expect(report.plugins).toHaveProperty('loaded');
-      expect(report.plugins).toHaveProperty('errors');
-      expect(report.plugins).toHaveProperty('list');
+      expect(report?.plugins).toHaveProperty('total');
+      expect(report?.plugins).toHaveProperty('loaded');
+      expect(report?.plugins).toHaveProperty('errors');
+      expect(report?.plugins).toHaveProperty('list');
       
-      expect(report.assets).toHaveProperty('templates');
-      expect(report.assets).toHaveProperty('available');
+      expect(report?.assets).toHaveProperty('templates');
+      expect(report?.assets).toHaveProperty('available');
     });
   });
 
   describe('Integration Tests', () => {
     it('should handle complete plugin lifecycle', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
+      await system?.initialize({});
 
       // Discover and load plugins
-      const loadedPlugins = await system.loadEnabledPlugins();
-      expect(loadedPlugins.length).toBeGreaterThan(0);
+      const loadedPlugins = await system?.loadEnabledPlugins();
+      expect(loadedPlugins?.length).toBeGreaterThan(0);
 
       // Create bundle from loaded plugins
-      const pluginIds = loadedPlugins.map(p => p.id);
-      const bundle = await system.createPluginBundle(pluginIds);
-      expect(bundle.assets.size).toBeGreaterThan(0);
+      const pluginIds = loadedPlugins?.map(p => p?.id);
+      const bundle = await system?.createPluginBundle(pluginIds);
+      expect(bundle?.assets.size).toBeGreaterThan(0);
 
       // Export bundle for different platforms
-      const templates = system.getExportTemplates();
-      for (const template of templates.slice(0, 2)) { // Test first 2 templates
-        const exportPath = await system.exportBundle(bundle.id, template.id, './output');
-        expect(exportPath).toContain(template.platform);
+      const templates = system?.getExportTemplates();
+      for (const template of templates?.slice(0, 2)) { // Test first 2 templates
+        const exportPath = await system?.exportBundle(bundle?.id, template?.id, './output');
+        expect(exportPath).toContain(template?.platform);
       }
 
       // Generate final report
-      const report = system.generateReport();
-      expect(report.plugins.loaded).toBe(loadedPlugins.length);
-      expect(report.assets.templates).toBe(templates.length);
+      const report = system?.generateReport();
+      expect(report?.plugins.loaded).toBe(loadedPlugins?.length);
+      expect(report?.assets.templates).toBe(templates?.length);
     });
 
     it('should handle plugin dependency resolution', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
+      await system?.initialize({});
 
       // Provide minimal discovery stub to ensure plugin is present
       const discovery = (system as any).discovery;
-      if (discovery && typeof discovery.discoverPlugins === 'function') {
-        jest.spyOn(discovery, 'discoverPlugins').mockResolvedValue([
+      if (discovery && typeof discovery?.discoverPlugins === 'function') {
+        jest?.spyOn(discovery, 'discoverPlugins').mockResolvedValue([
           { id: 'core-physics', status: 'loaded', dependencies: [], manifest: { id: 'core-physics' } },
           { id: 'physics-extended', status: 'loaded', dependencies: ['core-physics'], manifest: { id: 'physics-extended' } }
         ] as any);
-        await discovery.discoverPlugins();
+        await discovery?.discoverPlugins();
       }
 
       // Load a plugin with dependencies
-      const plugin = system.getPlugin('physics-extended');
+      const plugin = system?.getPlugin('physics-extended');
       expect(plugin).toBeDefined();
 
       if (plugin) {
-        await system.loadEnabledPlugins();
-        const loadedPlugin = system.getPlugin('physics-extended');
+        await system?.loadEnabledPlugins();
+        const loadedPlugin = system?.getPlugin('physics-extended');
         expect(loadedPlugin?.status).toBe('loaded');
         expect((loadedPlugin as any)?.dependencies?.length || 0).toBeGreaterThanOrEqual(0);
         
         // Check that dependency is also loaded
-        const dependency = system.getPlugin('core-physics');
+        const dependency = system?.getPlugin('core-physics');
         expect(dependency?.status).toBe('loaded');
       }
     });
 
     it('should handle asset transformation for different platforms', async () => {
       const system = createModdingSystem(config);
-      await system.initialize();
-      await system.loadEnabledPlugins();
+      await system?.initialize({});
+      await system?.loadEnabledPlugins();
 
       // Create bundle with various asset types
       const assets = new Map([
-        ['image.png', { type: 'image', size: 1024, data: 'mock' }],
-        ['audio.mp3', { type: 'audio', size: 2048, data: 'mock' }],
-        ['data.json', { type: 'data', size: 512, data: 'mock' }]
+        ['image?.png', { type: 'image', size: 1024, data: 'mock' }],
+        ['audio?.mp3', { type: 'audio', size: 2048, data: 'mock' }],
+        ['data?.json', { type: 'data', size: 512, data: 'mock' }]
       ]);
 
-      const bundle = await system.createPluginBundle(['ui-enhancements']);
+      const bundle = await system?.createPluginBundle(['ui-enhancements']);
       
       // Test export for different platforms
-      const webExport = await system.exportBundle(bundle.id, 'web-html5', './output');
-      const mobileExport = await system.exportBundle(bundle.id, 'mobile-android', './output');
-      const desktopExport = await system.exportBundle(bundle.id, 'desktop-windows', './output');
+      const webExport = await system?.exportBundle(bundle?.id, 'web-html5', './output');
+      const mobileExport = await system?.exportBundle(bundle?.id, 'mobile-android', './output');
+      const desktopExport = await system?.exportBundle(bundle?.id, 'desktop-windows', './output');
 
       expect(webExport).toContain('web');
       expect(mobileExport).toContain('mobile');
@@ -419,7 +419,7 @@ describe('ModdingPure', () => {
           author: 'Test',
           license: 'MIT',
           dependencies: [],
-          entryPoint: './error.js',
+          entryPoint: './error?.js',
           assets: [],
           metadata: {}
         },
@@ -435,16 +435,16 @@ describe('ModdingPure', () => {
         status: 'loading' as const
       };
 
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([errorPlugin!]);
-      jest.spyOn(discovery as any, 'createMockEntryPoint').mockImplementation(() => {
+      jest?.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([errorPlugin!]);
+      jest?.spyOn(discovery as any, 'createMockEntryPoint').mockImplementation(() => {
         throw new Error('Plugin initialization failed');
       });
 
-      await discovery.discoverPlugins();
-      const plugin = await discovery.loadPlugin('error-plugin');
+      await discovery?.discoverPlugins();
+      const plugin = await discovery?.loadPlugin('error-plugin');
       
-      expect(plugin.status).toBe('error');
-      expect(plugin.error).toBeDefined();
+      expect(plugin?.status).toBe('error');
+      expect(plugin?.error).toBeDefined();
     });
 
     it('should handle invalid plugin manifests', async () => {
@@ -477,12 +477,12 @@ describe('ModdingPure', () => {
         status: 'loading' as const
       };
 
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([invalidPlugin!]);
+      jest?.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([invalidPlugin!]);
 
-      await discovery.discoverPlugins();
+      await discovery?.discoverPlugins();
       
       // Should fail to load due to missing dependency
-      await expect(discovery.loadPlugin('invalid-plugin')).rejects.toThrow(/Plugin not found|Dependency not found/);
+      await expect(discovery?.loadPlugin('invalid-plugin')).rejects?.toThrow(/Plugin not found|Dependency not found/);
     });
   });
 });

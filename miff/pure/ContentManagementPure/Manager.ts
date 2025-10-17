@@ -221,13 +221,13 @@ export class ContentManagementManager {
   constructor(config?: Partial<ContentManagementConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.logger = StructuredLogger.getInstance('ContentManagementManager');
-    this.startTime = Date.now();
+    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this?.memoryManager = new MemoryManager({});
+    this?.errorHandler = new StandardErrorHandler({});
+    this?.logger = StructuredLogger?.getInstance('ContentManagementManager');
+    this.startTime = new Date();
 
-    this.config = {
+    this?.config = {
       enableMultiContentSupport: true,
       enableContentVersioning: true,
       enablePerformanceOptimization: true,
@@ -246,30 +246,30 @@ export class ContentManagementManager {
    * Initialize the Content Management System
    */
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      StructuredLogger.warn('ContentManagementPure' ?? 'unknown', { context: { message: 'Content Management System already initialized' } });
+    if (this?.isInitialized) {
+      StructuredLogger?.warn('ContentManagementPure' ?? 'unknown', { context: { message: 'Content Management System already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('ContentManagementPure', { context: { message: 'Initializing Content Management System...' } });
+      StructuredLogger?.info('ContentManagementPure', { context: { message: 'Initializing Content Management System...' } });
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this?.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this.config.enableProfiling) {
+      if (this?.config.enableProfiling) {
         // MemoryManager initialization handled internally
       }
 
-      this.isInitialized = true;
-      StructuredLogger.info('ContentManagementPure', { context: { message: 'Content Management System initialized successfully' } });
+      this?.isInitialized = true;
+      StructuredLogger?.info('ContentManagementPure', { context: { message: 'Content Management System initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -278,14 +278,14 @@ export class ContentManagementManager {
    * Create a new content management system
    */
   async createSystem(systemData: Omit<ContentManagement, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<ContentManagement> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
       const system: ContentManagement = {
         ...systemData,
-        id: this.generateSystemId(),
+        id: this?.generateSystemId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -301,15 +301,15 @@ export class ContentManagementManager {
         }
       };
 
-      this.systems.set(system.id, system);
-      this.updateAnalytics();
+      this?.systems.set(system?.id, system);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content management system created', { context: { message: { systemId: system.id, systemName: system.name } } });
+      StructuredLogger?.info('Content management system created', { context: { message: { systemId: system?.id, systemName: system?.name } } });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -318,25 +318,25 @@ export class ContentManagementManager {
    * Get a content management system by ID
    */
   getSystem(systemId: string): ContentManagement | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
-    return this.systems.get(systemId) || null;
+    return this?.systems.get(systemId) || null;
   }
 
   /**
    * Update a content management system
    */
   async updateSystem(systemId: string, updates: Partial<ContentManagement>): Promise<ContentManagement | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -344,18 +344,18 @@ export class ContentManagementManager {
         ...system,
         ...updates,
         updatedAt: new Date(),
-        version: this.incrementVersion(system.version)
+        version: this?.incrementVersion(system?.version)
       };
 
-      this.systems.set(systemId, updatedSystem);
-      this.updateAnalytics();
+      this?.systems.set(systemId, updatedSystem);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content management system updated', { context: { message: { systemId, systemName: updatedSystem.name } } });
+      StructuredLogger?.info('Content management system updated', { context: { message: { systemId, systemName: updatedSystem?.name } } });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -364,26 +364,26 @@ export class ContentManagementManager {
    * Delete a content management system
    */
   async deleteSystem(systemId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      this.systems.delete(systemId);
-      this.updateAnalytics();
+      this?.systems.delete(systemId);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content management system deleted', { context: { message: { systemId, systemName: system.name } } });
+      StructuredLogger?.info('Content management system deleted', { context: { message: { systemId, systemName: system?.name } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       throw error;
     }
   }
@@ -392,7 +392,7 @@ export class ContentManagementManager {
    * Get all content management systems
    */
   getAllSystems(): ContentManagement[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
@@ -403,7 +403,7 @@ export class ContentManagementManager {
    * Get systems by type
    */
   getSystemsByType(type: SystemType): ContentManagement[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
@@ -414,7 +414,7 @@ export class ContentManagementManager {
    * Get systems by status
    */
   getSystemsByStatus(status: SystemStatus): ContentManagement[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
@@ -425,33 +425,33 @@ export class ContentManagementManager {
    * Add content to a system
    */
   async addContent(systemId: string, contentData: Omit<Content, 'id' | 'created' | 'modified'>): Promise<Content | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const content: Content = {
         ...contentData,
-        id: this.generateContentId(),
+        id: this?.generateContentId(),
         created: new Date(),
         modified: new Date()
       };
 
-      system.contents.push(content);
-      this.updateAnalytics();
+      system?.contents?.push(content);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content added to system', { context: { message: { systemId, contentId: content.id, contentName: content.name } } });
+      StructuredLogger?.info('Content added to system', { context: { message: { systemId, contentId: content?.id, contentName: content?.name } } });
       return content;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -460,32 +460,32 @@ export class ContentManagementManager {
    * Remove content from a system
    */
   async removeContent(systemId: string, contentId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const contentIndex = system.contents.findIndex(c => c.id === contentId);
+      const contentIndex = system?.contents.findIndex(c => c?.id === contentId);
       if (contentIndex === -1) {
-        StructuredLogger.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
+        StructuredLogger?.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
         return false;
       }
 
-      system.contents.splice(contentIndex, 1);
-      this.updateAnalytics();
+      system?.contents.splice(contentIndex, 1);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content removed from system', { context: { message: { systemId, contentId } } });
+      StructuredLogger?.info('Content removed from system', { context: { message: { systemId, contentId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -494,20 +494,20 @@ export class ContentManagementManager {
    * Update content
    */
   async updateContent(systemId: string, contentId: string, updates: Partial<Content>): Promise<Content | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
-      const content = system.contents.find(c => c.id === contentId);
+      const content = system?.contents.find(c => c?.id === contentId);
       if (!content) {
-        StructuredLogger.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
+        StructuredLogger?.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
         return null;
       }
 
@@ -515,19 +515,19 @@ export class ContentManagementManager {
         ...content,
         ...updates,
         modified: new Date(),
-        version: this.incrementVersion(content.version)
+        version: this?.incrementVersion(content?.version)
       };
 
-      const contentIndex = system.contents.findIndex(c => c.id === contentId);
-      system.contents[contentIndex!] = updatedContent;
-      this.updateAnalytics();
+      const contentIndex = system?.contents.findIndex(c => c?.id === contentId);
+      system?.contents[contentIndex!] = updatedContent;
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content updated', { context: { message: { systemId, contentId } } });
+      StructuredLogger?.info('Content updated', { context: { message: { systemId, contentId } } });
       return updatedContent;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -536,34 +536,34 @@ export class ContentManagementManager {
    * Publish content
    */
   async publishContent(systemId: string, contentId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const content = system.contents.find(c => c.id === contentId);
+      const content = system?.contents.find(c => c?.id === contentId);
       if (!content) {
-        StructuredLogger.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
+        StructuredLogger?.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
         return false;
       }
 
-      content.status = 'published';
-      content.published = Date.now();
-      content.modified = Date.now();
-      this.updateAnalytics();
+      content?.status = 'published';
+      content.published = new Date();
+      content.modified = new Date();
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content published', { context: { message: { systemId, contentId } } });
+      StructuredLogger?.info('Content published', { context: { message: { systemId, contentId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -572,33 +572,33 @@ export class ContentManagementManager {
    * Archive content
    */
   async archiveContent(systemId: string, contentId: string): Promise<boolean> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const content = system.contents.find(c => c.id === contentId);
+      const content = system?.contents.find(c => c?.id === contentId);
       if (!content) {
-        StructuredLogger.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
+        StructuredLogger?.warn('Content not found' ?? 'unknown', { context: { message: { systemId, contentId } } });
         return false;
       }
 
-      content.status = 'archived';
-      content.modified = Date.now();
-      this.updateAnalytics();
+      content?.status = 'archived';
+      content.modified = new Date();
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Content archived', { context: { message: { systemId, contentId } } });
+      StructuredLogger?.info('Content archived', { context: { message: { systemId, contentId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return false;
     }
   }
@@ -613,59 +613,59 @@ export class ContentManagementManager {
     tags?: string[];
     author?: string;
   }): Promise<Content[]> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return [];
       }
 
-      let results = system.contents;
+      let results = system?.contents;
 
       // Apply text search
       if (query) {
-        const searchQuery = query.toLowerCase();
-        results = results.filter((content: any) => 
-          content.name.toLowerCase().includes(searchQuery) ||
-          content.data.title.toLowerCase().includes(searchQuery) ||
-          content.data.description.toLowerCase().includes(searchQuery) ||
-          content.data.body.toLowerCase().includes(searchQuery)
+        const searchQuery = query?.toLowerCase();
+        results = results?.filter((content: any) => 
+          content?.name.toLowerCase().includes(searchQuery) ||
+          content?.data.title?.toLowerCase().includes(searchQuery) ||
+          content?.data.description?.toLowerCase().includes(searchQuery) ||
+          content?.data.body?.toLowerCase().includes(searchQuery)
         );
       }
 
       // Apply filters
       if (filters) {
-        if (filters.type) {
-          results = results.filter((content: any) => content.type === filters.type);
+        if (filters?.type) {
+          results = results?.filter((content: any) => content?.type === filters?.type);
         }
-        if (filters.status) {
-          results = results.filter((content: any) => content.status === filters.status);
+        if (filters?.status) {
+          results = results?.filter((content: any) => content?.status === filters?.status);
         }
-        if (filters.category) {
-          results = results.filter((content: any) => content.category === filters.category);
+        if (filters?.category) {
+          results = results?.filter((content: any) => content?.category === filters?.category);
         }
-        if (filters.tags && filters.tags.length > 0) {
-          results = results.filter((content: any) => 
-            filters.tags?.some(tag => content.tags.includes(tag))
+        if (filters?.tags && filters?.tags.length > 0) {
+          results = results?.filter((content: any) => 
+            filters?.tags?.some(tag => content?.tags.includes(tag))
           );
         }
-        if (filters.author) {
-          results = results.filter((content: any) => content.author === filters.author);
+        if (filters?.author) {
+          results = results?.filter((content: any) => content?.author === filters?.author);
         }
       }
 
-      this.updateAnalytics();
+      this?.updateAnalytics();
 
-      StructuredLogger.debug('Content search completed', { context: { message: { systemId, query, resultCount: results.length } } });
+      StructuredLogger?.debug('Content search completed', { context: { message: { systemId, query, resultCount: results?.length } } });
       return results;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return [];
     }
   }
@@ -674,33 +674,33 @@ export class ContentManagementManager {
    * Add a category to a system
    */
   async addCategory(systemId: string, categoryData: Omit<ContentCategory, 'id' | 'children' | 'contents'>): Promise<ContentCategory | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const category: ContentCategory = {
         ...categoryData,
-        id: this.generateCategoryId(),
+        id: this?.generateCategoryId(),
         children: [],
         contents: []
       };
 
-      system.categories.push(category);
-      this.updateAnalytics();
+      system?.categories?.push(category);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Category added to system', { context: { message: { systemId, categoryId: category.id, categoryName: category.name } } });
+      StructuredLogger?.info('Category added to system', { context: { message: { systemId, categoryId: category?.id, categoryName: category?.name } } });
       return category;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -709,32 +709,32 @@ export class ContentManagementManager {
    * Add a tag to a system
    */
   async addTag(systemId: string, tagData: Omit<ContentTag, 'id' | 'contents'>): Promise<ContentTag | null> {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const tag: ContentTag = {
         ...tagData,
-        id: this.generateTagId(),
+        id: this?.generateTagId(),
         contents: []
       };
 
-      system.tags.push(tag);
-      this.updateAnalytics();
+      system?.tags?.push(tag);
+      this?.updateAnalytics();
 
-      StructuredLogger.info('Tag added to system', { context: { message: { systemId, tagId: tag.id, tagName: tag.name } } });
+      StructuredLogger?.info('Tag added to system', { context: { message: { systemId, tagId: tag?.id, tagName: tag?.name } } });
       return tag;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -743,22 +743,22 @@ export class ContentManagementManager {
    * Get content by ID
    */
   getContent(systemId: string, contentId: string): Content | null {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
-      return system.contents.find(c => c.id === contentId) || null;
+      return system?.contents.find(c => c?.id === contentId) || null;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return null;
     }
   }
@@ -767,22 +767,22 @@ export class ContentManagementManager {
    * Get contents by type
    */
   getContentsByType(systemId: string, type: ContentType): Content[] {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     try {
-      const system = this.systems.get(systemId);
+      const system = this?.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return [];
       }
 
-      return system.contents.filter((c: any) => c.type === type);
+      return system?.contents.filter((c: any) => c?.type === type);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this?.errorHandler.handleError();
       return [];
     }
   }
@@ -819,7 +819,7 @@ export class ContentManagementManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version.split('.');
+    const parts = version?.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -829,18 +829,18 @@ export class ContentManagementManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalContents = systems.reduce((sum: any, s: any) => sum + s.contents.length, 0);
-    const totalCategories = systems.reduce((sum: any, s: any) => sum + s.categories.length, 0);
-    const totalTags = systems.reduce((sum: any, s: any) => sum + s.tags.length, 0);
+    const totalContents = systems?.reduce((sum: any, s: any) => sum + s?.contents.length, 0);
+    const totalCategories = systems?.reduce((sum: any, s: any) => sum + s?.categories.length, 0);
+    const totalTags = systems?.reduce((sum: any, s: any) => sum + s?.tags.length, 0);
 
     for (const system of systems) {
-      system.analytics = {
-        totalSystems: systems.length,
-        activeSystems: systems.filter((s: any) => s.status === 'active').length,
-        totalContents: system.contents.length,
-        totalCategories: system.categories.length,
-        totalTags: system.tags.length,
-        totalViews: system.analytics.totalViews,
+      system?.analytics = {
+        totalSystems: systems?.length,
+        activeSystems: systems?.filter((s: any) => s?.status === 'active').length,
+        totalContents: system?.contents.length,
+        totalCategories: system?.categories.length,
+        totalTags: system?.tags.length,
+        totalViews: system?.analytics.totalViews,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };
@@ -860,15 +860,15 @@ export class ContentManagementManager {
     totalTags: number;
     uptime: number;
   } {
-    if (!this.isInitialized) {
+    if (!this?.isInitialized) {
       throw new Error('Content Management System not initialized');
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter((s: any) => s.status === 'active');
-    const totalContents = systems.reduce((sum: any, s: any) => sum + s.contents.length, 0);
-    const totalCategories = systems.reduce((sum: any, s: any) => sum + s.categories.length, 0);
-    const totalTags = systems.reduce((sum: any, s: any) => sum + s.tags.length, 0);
+    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
+    const totalContents = systems?.reduce((sum: any, s: any) => sum + s?.contents.length, 0);
+    const totalCategories = systems?.reduce((sum: any, s: any) => sum + s?.categories.length, 0);
+    const totalTags = systems?.reduce((sum: any, s: any) => sum + s?.tags.length, 0);
 
     const systemsByType: Record<SystemType, number> = {
       cms: 0,
@@ -886,19 +886,19 @@ export class ContentManagementManager {
     };
 
     for (const system of systems) {
-      systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      systemsByType[system?.type]++;
+      systemsByStatus[system?.status]++;
     }
 
     return {
-      totalSystems: systems.length,
-      activeSystems: activeSystems.length,
+      totalSystems: systems?.length,
+      activeSystems: activeSystems?.length,
       systemsByType,
       systemsByStatus,
       totalContents,
       totalCategories,
       totalTags,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: new Date() - this?.startTime.getTime()
     };
   }
 
@@ -906,12 +906,12 @@ export class ContentManagementManager {
    * Destroy the Content Management System
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('ContentManagementPure', { context: { message: 'Destroying Content Management System...' } });
+    StructuredLogger?.info('ContentManagementPure', { context: { message: 'Destroying Content Management System...' } });
 
-    this.systems.clear();
-    this.isInitialized = false;
+    this?.systems.clear();
+    this?.isInitialized = false;
 
-    StructuredLogger.info('ContentManagementPure', { context: { message: 'Content Management System destroyed' } });
+    StructuredLogger?.info('ContentManagementPure', { context: { message: 'Content Management System destroyed' } });
   }
 }
 

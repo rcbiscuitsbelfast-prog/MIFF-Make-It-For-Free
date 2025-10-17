@@ -38,13 +38,13 @@ class MockGameEntity implements IGameEntity {
     stats: Record<string, number> = {},
     statusEffects: string[] = []
   ) {
-    this.id = id;
-    this.name = name;
-    this.level = level;
-    this.hp = hp;
-    this.maxHp = maxHp;
-    this.stats = stats;
-    this.statusEffects = statusEffects;
+    this?.id = id;
+    this?.name = name;
+    this?.level = level;
+    this?.hp = hp;
+    this?.maxHp = maxHp;
+    this?.stats = stats;
+    this?.statusEffects = statusEffects;
   }
 
   /**
@@ -95,22 +95,22 @@ class MockGameEntity implements IGameEntity {
    * Get stat value
    */
   getStat(stat: string): number {
-    return this.stats[stat!] || 0;
+    return this?.stats[stat!] || 0;
   }
 
   /**
    * Set stat value
    */
   setStat(stat: string, value: number): void {
-    this.stats[stat!] = value;
+    this?.stats[stat!] = value;
   }
 
   /**
    * Add status effect
    */
   addStatusEffect(effect: string): void {
-    if (!this.statusEffects.includes(effect)) {
-      this.statusEffects.push(effect);
+    if (!this?.statusEffects.includes(effect)) {
+      this?.statusEffects?.push(effect);
     }
   }
 
@@ -118,9 +118,9 @@ class MockGameEntity implements IGameEntity {
    * Remove status effect
    */
   removeStatusEffect(effect: string): boolean {
-    const index = this.statusEffects.indexOf(effect);
+    const index = this?.statusEffects.indexOf(effect);
     if (index >= 0) {
-      this.statusEffects.splice(index, 1);
+      this?.statusEffects.splice(index, 1);
       return true;
     }
     return false;
@@ -130,74 +130,74 @@ class MockGameEntity implements IGameEntity {
    * Check if alive
    */
   isAlive(): boolean {
-    return this.hp > 0;
+    return this?.hp > 0;
   }
 
   /**
    * Get summary
    */
   getSummary(): string {
-    return `${this.name} (Lv.${this.level}) - HP: ${this.hp}/${this.maxHp} - Status: ${this.statusEffects.join(', ') || 'none'}`;
+    return `${this?.name} (Lv.${this?.level}) - HP: ${this?.hp}/${this?.maxHp} - Status: ${this?.statusEffects.join(', ') || 'none'}`;
   }
 }
 
 // CLI Application
 class SavePureCLI {
-  private rl: readline.Interface;
+  private rl: readline?.Interface;
   private saveManager: SaveManager;
   private currentSnapshot: SaveSnapshot;
-  private saveFilePath: string = './savegame.json';
+  private saveFilePath: string = './savegame?.json';
 
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
+    this?.rl = readline?.createInterface({
+      input: process?.stdin,
+      output: process?.stdout
     });
 
-    this.saveManager = new SaveManager();
-    this.currentSnapshot = this.createDemoSnapshot();
+    this?.saveManager = new SaveManager();
+    this?.currentSnapshot = this?.createDemoSnapshot();
   }
 
   /**
    * Create demo snapshot
    */
   private createDemoSnapshot(): SaveSnapshot {
-    const snapshot = SaveSnapshot.create(
-      SaveUtils.generatePlayerId(),
+    const snapshot = SaveSnapshot?.create(
+      SaveUtils?.generatePlayerId(),
       'demo_town',
       'v1'
     );
 
     // Add demo party members
-    snapshot.addPartyMember(MockGameEntity.createHero('Alex'));
-    snapshot.addPartyMember(MockGameEntity.createHero('Jordan'));
-    snapshot.addPartyMember(MockGameEntity.createEnemy('Goblin'));
+    snapshot?.addPartyMember(MockGameEntity?.createHero('Alex'));
+    snapshot?.addPartyMember(MockGameEntity?.createHero('Jordan'));
+    snapshot?.addPartyMember(MockGameEntity?.createEnemy('Goblin'));
 
     // Add demo inventory
-    snapshot.addInventoryItem('health_potion', 5);
-    snapshot.addInventoryItem('mana_potion', 3);
-    snapshot.addInventoryItem('iron_sword', 1);
-    snapshot.addInventoryItem('magic_ring', 1);
+    snapshot?.addInventoryItem('health_potion', 5);
+    snapshot?.addInventoryItem('mana_potion', 3);
+    snapshot?.addInventoryItem('iron_sword', 1);
+    snapshot?.addInventoryItem('magic_ring', 1);
 
     // Add demo quest flags
-    snapshot.setQuestFlag('tutorial_complete', true);
-    snapshot.setQuestFlag('first_quest_active', true);
-    snapshot.setQuestFlag('boss_defeated', false);
+    snapshot?.setQuestFlag('tutorial_complete', true);
+    snapshot?.setQuestFlag('first_quest_active', true);
+    snapshot?.setQuestFlag('boss_defeated', false);
 
     // Add demo unlocked content
-    snapshot.unlockContent('town_area');
-    snapshot.unlockContent('forest_path');
-    snapshot.unlockContent('secret_cave');
+    snapshot?.unlockContent('town_area');
+    snapshot?.unlockContent('forest_path');
+    snapshot?.unlockContent('secret_cave');
 
     // Add demo statistics
-    snapshot.updateStatistic('enemies_defeated', 42);
-    snapshot.updateStatistic('total_play_time', 3600000); // 1 hour
-    snapshot.updateStatistic('gold_earned', 1500);
+    snapshot?.updateStatistic('enemies_defeated', 42);
+    snapshot?.updateStatistic('total_play_time', 3600000); // 1 hour
+    snapshot?.updateStatistic('gold_earned', 1500);
 
     // Add demo metadata
-    snapshot.addMetadata('difficulty', 'normal');
-    snapshot.addMetadata('game_version', '1.0.0');
-    snapshot.addMetadata('last_save_location', 'demo_town');
+    snapshot?.addMetadata('difficulty', 'normal');
+    snapshot?.addMetadata('game_version', '1.0.0');
+    snapshot?.addMetadata('last_save_location', 'demo_town');
 
     return snapshot;
   }
@@ -232,15 +232,15 @@ class SavePureCLI {
     console.log(`Zone: ${this.currentSnapshot.zoneId}`);
     console.log(`Version: ${this.currentSnapshot.version}`);
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this.rl.question('SavePure> ', (input) => {
-      this.processCommand(input.trim());
+    this?.rl.question('SavePure> ', (input) => {
+      this?.processCommand(input?.trim());
     });
   }
 
@@ -249,75 +249,75 @@ class SavePureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this.showPrompt();
+      this?.showPrompt();
       return;
     }
 
-    const parts = input.split(' ');
+    const parts = input?.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts.slice(1);
+    const args = parts?.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this.showHelp();
+          this?.showHelp();
           break;
         case 'save':
         case 's':
-          await this.saveGame(args[0!]);
+          await this?.saveGame(args[0!]);
           break;
         case 'load':
         case 'l':
-          await this.loadGame(args[0!]);
+          await this?.loadGame(args[0!]);
           break;
         case 'info':
         case 'i':
-          this.showSaveInfo();
+          this?.showSaveInfo();
           break;
         case 'validate':
         case 'v':
-          this.validateSnapshot();
+          this?.validateSnapshot();
           break;
         case 'migrate':
         case 'm':
-          this.migrateSnapshot(args[0!]);
+          this?.migrateSnapshot(args[0!]);
           break;
         case 'party':
         case 'p':
-          this.manageParty(args);
+          this?.manageParty(args);
           break;
         case 'inventory':
         case 'inv':
-          this.manageInventory(args);
+          this?.manageInventory(args);
           break;
         case 'quests':
         case 'q':
-          this.manageQuests(args);
+          this?.manageQuests(args);
           break;
         case 'unlock':
         case 'u':
-          this.manageUnlocks(args);
+          this?.manageUnlocks(args);
           break;
         case 'stats':
-          this.manageStats(args);
+          this?.manageStats(args);
           break;
         case 'settings':
         case 'set':
-          this.manageSettings(args);
+          this?.manageSettings(args);
           break;
         case 'metadata':
         case 'meta':
-          this.manageMetadata(args);
+          this?.manageMetadata(args);
           break;
         case 'demo':
         case 'd':
-          this.resetDemo();
+          this?.resetDemo();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this.exit();
+          this?.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -328,7 +328,7 @@ class SavePureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this.showPrompt();
+    this?.showPrompt();
   }
 
   /**
@@ -343,18 +343,18 @@ class SavePureCLI {
    * Save game to file
    */
   private async saveGame(filePath?: string): Promise<void> {
-    const targetPath = filePath || this.saveFilePath;
+    const targetPath = filePath || this?.saveFilePath;
 
-    if (!SaveUtils.validateFilePath(targetPath)) {
+    if (!SaveUtils?.validateFilePath(targetPath)) {
       console.log('❌ Invalid file path');
       return;
     }
 
     console.log(`💾 Saving game to ${targetPath}...`);
 
-    const result = await this.saveManager.saveGame(this.currentSnapshot, targetPath);
+    const result = await this?.saveManager.saveGame(this?.currentSnapshot, targetPath);
 
-    if (result.success) {
+    if (result?.success) {
       console.log(`✅ ${result.message}`);
       console.log(`📊 Save size: ${SaveUtils.formatFileSize(SaveUtils.calculateSaveSize(this.currentSnapshot))}`);
     } else {
@@ -366,21 +366,21 @@ class SavePureCLI {
    * Load game from file
    */
   private async loadGame(filePath?: string): Promise<void> {
-    const targetPath = filePath || this.saveFilePath;
+    const targetPath = filePath || this?.saveFilePath;
 
     console.log(`📂 Loading game from ${targetPath}...`);
 
-    const result = await this.saveManager.loadGame(targetPath);
+    const result = await this?.saveManager.loadGame(targetPath);
 
-    if (result.success && result.snapshot) {
-      this.currentSnapshot = result.snapshot;
+    if (result?.success && result?.snapshot) {
+      this?.currentSnapshot = result?.snapshot;
       console.log(`✅ ${result.message}`);
 
-      if (result.migrationResult && result.migrationResult.migrated) {
+      if (result?.migrationResult && result?.migrationResult.migrated) {
         console.log(`🔄 Migrated from ${result.migrationResult.oldVersion} to ${result.migrationResult.newVersion}`);
       }
 
-      this.showSaveInfo();
+      this?.showSaveInfo();
     } else {
       console.log(`❌ ${result.message}`);
     }
@@ -390,7 +390,7 @@ class SavePureCLI {
    * Show save information
    */
   private showSaveInfo(): void {
-    const summary = this.currentSnapshot.getSummary();
+    const summary = this?.currentSnapshot.getSummary();
 
     console.log('='.repeat(70));
     console.log('📊 Save Information');
@@ -410,9 +410,9 @@ class SavePureCLI {
     console.log('');
 
     // Show party details
-    if (this.currentSnapshot.partyRoster.length > 0) {
+    if (this?.currentSnapshot.partyRoster?.length > 0) {
       console.log('🎭 Party Members:');
-      this.currentSnapshot.partyRoster.forEach((member, index) => {
+      this?.currentSnapshot.partyRoster?.forEach((member, index) => {
         console.log(`  ${index + 1}. ${member.name} (Lv.${member.level}) - HP: ${member.hp}/${member.maxHp}`);
       });
       console.log('');
@@ -434,29 +434,29 @@ class SavePureCLI {
   private validateSnapshot(): void {
     console.log('🔍 Validating save snapshot...');
 
-    const validationResult = this.saveManager.validateSnapshot(this.currentSnapshot);
+    const validationResult = this?.saveManager.validateSnapshot(this?.currentSnapshot);
 
     console.log(`Validation Result: ${validationResult.isValid ? '✅ Valid' : '❌ Invalid'}`);
     console.log(`Version: ${validationResult.version}`);
     console.log(`Checksum Valid: ${validationResult.checksumValid ? '✅' : '❌'}`);
 
-    if (validationResult.errors.length > 0) {
+    if (validationResult?.errors.length > 0) {
       console.log('');
       console.log('❌ Errors:');
-      validationResult.errors.forEach((error: any) => {
+      validationResult?.errors.forEach((error: any) => {
         console.log(`  - ${error}`);
       });
     }
 
-    if (validationResult.warnings.length > 0) {
+    if (validationResult?.warnings.length > 0) {
       console.log('');
       console.log('⚠️ Warnings:');
-      validationResult.warnings.forEach((warning: any) => {
+      validationResult?.warnings.forEach((warning: any) => {
         console.log(`  - ${warning}`);
       });
     }
 
-    if (validationResult.isValid && validationResult.checksumValid) {
+    if (validationResult?.isValid && validationResult?.checksumValid) {
       console.log('✅ Save file is healthy and valid!');
     }
   }
@@ -474,15 +474,15 @@ class SavePureCLI {
     console.log(`🔄 Migrating from ${this.currentSnapshot.version} to ${targetVersion}...`);
 
     const migrator = new SaveMigrator();
-    const result = migrator.migrate(this.currentSnapshot, targetVersion as any);
+    const result = migrator?.migrate(this?.currentSnapshot, targetVersion as any);
 
-    if (result.migrated) {
-      this.currentSnapshot = result.snapshot;
+    if (result?.migrated) {
+      this?.currentSnapshot = result?.snapshot;
       console.log(`✅ Migration successful!`);
       console.log(`📊 New version: ${this.currentSnapshot.version}`);
       console.log(`⚠️ Warnings: ${result.warnings.length}`);
-      if (result.warnings.length > 0) {
-        result.warnings.forEach((warning: any) => {
+      if (result?.warnings.length > 0) {
+        result?.warnings.forEach((warning: any) => {
           console.log(`  - ${warning}`);
         });
       }
@@ -506,8 +506,8 @@ class SavePureCLI {
           return;
         }
 
-        const hero = MockGameEntity.createHero(entityName);
-        this.currentSnapshot.addPartyMember(hero);
+        const hero = MockGameEntity?.createHero(entityName);
+        this?.currentSnapshot.addPartyMember(hero);
         console.log(`✅ Added ${hero.name} to party`);
         break;
 
@@ -517,7 +517,7 @@ class SavePureCLI {
           return;
         }
 
-        const removed = this.currentSnapshot.removePartyMember(entityName);
+        const removed = this?.currentSnapshot.removePartyMember(entityName);
         if (removed) {
           console.log(`✅ Removed ${entityName} from party`);
         } else {
@@ -527,15 +527,15 @@ class SavePureCLI {
 
       case 'list':
         console.log('🎭 Party Members:');
-        this.currentSnapshot.partyRoster.forEach((member, index) => {
+        this?.currentSnapshot.partyRoster?.forEach((member, index) => {
           console.log(`  ${index + 1}. ${member.getSummary ? (member as any).getSummary() : member.name}`);
         });
         break;
 
       case 'damage':
         const damage = parseInt(args[1!]) || 10;
-        this.currentSnapshot.partyRoster.forEach((member: any) => {
-          if (member.takeDamage) {
+        this?.currentSnapshot.partyRoster?.forEach((member: any) => {
+          if (member?.takeDamage) {
             (member as any).takeDamage(damage);
           }
         });
@@ -544,8 +544,8 @@ class SavePureCLI {
 
       case 'heal':
         const heal = parseInt(args[1!]) || 20;
-        this.currentSnapshot.partyRoster.forEach((member: any) => {
-          if (member.heal) {
+        this?.currentSnapshot.partyRoster?.forEach((member: any) => {
+          if (member?.heal) {
             (member as any).heal(heal);
           }
         });
@@ -572,7 +572,7 @@ class SavePureCLI {
           return;
         }
 
-        this.currentSnapshot.addInventoryItem(itemId, quantity);
+        this?.currentSnapshot.addInventoryItem(itemId, quantity);
         console.log(`✅ Added ${quantity} x ${itemId} to inventory`);
         break;
 
@@ -582,7 +582,7 @@ class SavePureCLI {
           return;
         }
 
-        const removed = this.currentSnapshot.removeInventoryItem(itemId, quantity);
+        const removed = this?.currentSnapshot.removeInventoryItem(itemId, quantity);
         if (removed) {
           console.log(`✅ Removed ${quantity} x ${itemId} from inventory`);
         } else {
@@ -598,7 +598,7 @@ class SavePureCLI {
         break;
 
       case 'clear':
-        this.currentSnapshot.inventory = {};
+        this?.currentSnapshot.inventory = {};
         console.log('🗑️ Inventory cleared');
         break;
 
@@ -622,7 +622,7 @@ class SavePureCLI {
           return;
         }
 
-        this.currentSnapshot.setQuestFlag(flagId, value);
+        this?.currentSnapshot.setQuestFlag(flagId, value);
         console.log(`✅ Set ${flagId} = ${value}`);
         break;
 
@@ -634,7 +634,7 @@ class SavePureCLI {
         break;
 
       case 'clear':
-        this.currentSnapshot.questFlags = {};
+        this?.currentSnapshot.questFlags = {};
         console.log('🗑️ Quest flags cleared');
         break;
 
@@ -657,7 +657,7 @@ class SavePureCLI {
           return;
         }
 
-        this.currentSnapshot.unlockContent(contentId);
+        this?.currentSnapshot.unlockContent(contentId);
         console.log(`✅ Unlocked ${contentId}`);
         break;
 
@@ -667,19 +667,19 @@ class SavePureCLI {
           return;
         }
 
-        const unlocked = this.currentSnapshot.isContentUnlocked(contentId);
+        const unlocked = this?.currentSnapshot.isContentUnlocked(contentId);
         console.log(`${contentId}: ${unlocked ? '✅ Unlocked' : '❌ Locked'}`);
         break;
 
       case 'list':
         console.log('🔓 Unlocked Content:');
-        this.currentSnapshot.unlockedContent.forEach((content: any) => {
+        this?.currentSnapshot.unlockedContent?.forEach((content: any) => {
           console.log(`  ${content}`);
         });
         break;
 
       case 'clear':
-        this.currentSnapshot.unlockedContent = [];
+        this?.currentSnapshot.unlockedContent = [];
         console.log('🗑️ Unlocked content cleared');
         break;
 
@@ -703,7 +703,7 @@ class SavePureCLI {
           return;
         }
 
-        this.currentSnapshot.updateStatistic(statId, value);
+        this?.currentSnapshot.updateStatistic(statId, value);
         console.log(`✅ Set ${statId} = ${value}`);
         break;
 
@@ -713,7 +713,7 @@ class SavePureCLI {
           return;
         }
 
-        const statValue = this.currentSnapshot.getStatistic(statId);
+        const statValue = this?.currentSnapshot.getStatistic(statId);
         console.log(`${statId}: ${statValue}`);
         break;
 
@@ -730,8 +730,8 @@ class SavePureCLI {
           return;
         }
 
-        const currentValue = this.currentSnapshot.getStatistic(statId);
-        this.currentSnapshot.updateStatistic(statId, currentValue + 1);
+        const currentValue = this?.currentSnapshot.getStatistic(statId);
+        this?.currentSnapshot.updateStatistic(statId, currentValue + 1);
         console.log(`✅ Incremented ${statId} to ${currentValue + 1}`);
         break;
 
@@ -755,7 +755,7 @@ class SavePureCLI {
           return;
         }
 
-        this.currentSnapshot.setGameSetting(settingId, value);
+        this?.currentSnapshot.setGameSetting(settingId, value);
         console.log(`✅ Set ${settingId} = ${value}`);
         break;
 
@@ -765,7 +765,7 @@ class SavePureCLI {
           return;
         }
 
-        const settingValue = this.currentSnapshot.getGameSetting(settingId);
+        const settingValue = this?.currentSnapshot.getGameSetting(settingId);
         console.log(`${settingId}: ${settingValue}`);
         break;
 
@@ -796,7 +796,7 @@ class SavePureCLI {
           return;
         }
 
-        this.currentSnapshot.addMetadata(key, value);
+        this?.currentSnapshot.addMetadata(key, value);
         console.log(`✅ Set metadata ${key} = ${value}`);
         break;
 
@@ -806,7 +806,7 @@ class SavePureCLI {
           return;
         }
 
-        const metaValue = this.currentSnapshot.getMetadata(key);
+        const metaValue = this?.currentSnapshot.getMetadata(key);
         console.log(`${key}: ${metaValue}`);
         break;
 
@@ -818,7 +818,7 @@ class SavePureCLI {
         break;
 
       case 'clear':
-        this.currentSnapshot.metadata = {};
+        this?.currentSnapshot.metadata = {};
         console.log('🗑️ Metadata cleared');
         break;
 
@@ -831,9 +831,9 @@ class SavePureCLI {
    * Reset to demo data
    */
   private resetDemo(): void {
-    this.currentSnapshot = this.createDemoSnapshot();
+    this?.currentSnapshot = this?.createDemoSnapshot();
     console.log('🔄 Reset to demo data');
-    this.showSaveInfo();
+    this?.showSaveInfo();
   }
 
   /**
@@ -842,15 +842,15 @@ class SavePureCLI {
   private exit(): void {
     console.log('');
     console.log('👋 Thank you for using SavePure CLI!');
-    this.rl.close();
-    process.exit(0);
+    this?.rl.close();
+    process?.exit(0);
   }
 }
 
 // Start CLI if run directly
-if (require.main === module) {
+if (require?.main === module) {
   const cli = new SavePureCLI();
-  cli.start();
+  cli?.start();
 }
 
 export { SavePureCLI };

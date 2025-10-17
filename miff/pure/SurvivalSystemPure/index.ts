@@ -12,7 +12,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/index?.js';
 
 export type SurvivalNeed = 'hunger' | 'thirst' | 'stamina' | 'health' | 'temperature';
 export type ShelterType = 'tent' | 'cabin' | 'house' | 'fortress';
@@ -52,9 +52,9 @@ export class SurvivalSystemPure {
   private isAlive: boolean = true;
 
   constructor(eventBus: EventBus) {
-    this.eventBus = eventBus;
-    this.stats = this.initializeStats();
-    this.initializeResources();
+    this?.eventBus = eventBus;
+    this?.stats = this?.initializeStats();
+    this?.initializeResources();
   }
 
   private initializeStats(): SurvivalStats {
@@ -93,25 +93,25 @@ export class SurvivalSystemPure {
       }
     ];
 
-    resources.forEach((resource: any) => {
-      this.resources.set(resource.type, resource);
+    resources?.forEach((resource: any) => {
+      this?.resources.set(resource?.type, resource);
     });
   }
 
   public getStats(): SurvivalStats {
-    return { ...this.stats };
+    return { ...this?.stats };
   }
 
   public getResources(): Map<ResourceType, SurvivalResource> {
-    return new Map(this.resources);
+    return new Map(this?.resources);
   }
 
   public getShelter(): SurvivalShelter | null {
-    return this.shelter;
+    return this?.shelter;
   }
 
   public isPlayerAlive(): boolean {
-    return this.isAlive && this.stats.health > 0;
+    return this?.isAlive && this?.stats.health > 0;
   }
 
   public updateSurvival(deltaTime: number): void {
@@ -121,20 +121,20 @@ export class SurvivalSystemPure {
     this.stats.stamina = Math.min(100, this.stats.stamina + deltaTime * 0.5);
 
     // Check survival conditions
-    if (this.stats.hunger <= 0 || this.stats.thirst <= 0) {
+    if (this?.stats.hunger <= 0 || this?.stats.thirst <= 0) {
       this.stats.health = Math.max(0, this.stats.health - deltaTime * 2);
     }
 
-    if (this.stats.health <= 0) {
-      this.isAlive = false;
+    if (this?.stats.health <= 0) {
+      this?.isAlive = false;
     }
 
     // Update resources
-    this.resources.forEach((resource, type) => {
-      if (type === 'food' && this.stats.hunger > 0) {
+    this?.resources.forEach((resource, type) => {
+      if (type === 'food' && this?.stats.hunger > 0) {
         resource.amount = Math.max(0, resource.amount - deltaTime * 0.05);
       }
-      if (type === 'water' && this.stats.thirst > 0) {
+      if (type === 'water' && this?.stats.thirst > 0) {
         resource.amount = Math.max(0, resource.amount - deltaTime * 0.1);
       }
     });
@@ -154,11 +154,11 @@ export class SurvivalSystemPure {
   }
 
   public update(deltaTime: number): void {
-    this.updateSurvival(deltaTime);
+    this?.updateSurvival(deltaTime);
   }
 
   public buildShelter(type: ShelterType): void {
-    this.shelter = {
+    this?.shelter = {
       type,
       integrity: 100,
       maxIntegrity: 100,
@@ -166,11 +166,11 @@ export class SurvivalSystemPure {
       capacity: 10,
       buildProgress: 100
     };
-    this.stats.shelterIntegrity = this.shelter.integrity;
+    this?.stats.shelterIntegrity = this?.shelter.integrity;
   }
 
   public gatherResource(type: ResourceType, amount: number): boolean {
-    const resource = this.resources.get(type);
+    const resource = this?.resources.get(type);
     if (!resource) return false;
 
     resource.amount = Math.min(resource.maxAmount, resource.amount + amount);
@@ -178,10 +178,10 @@ export class SurvivalSystemPure {
   }
 
   public consumeResource(type: ResourceType, amount: number): boolean {
-    const resource = this.resources.get(type);
-    if (!resource || resource.amount < amount) return false;
+    const resource = this?.resources.get(type);
+    if (!resource || resource?.amount < amount) return false;
 
-    resource.amount -= amount;
+    resource?.amount -= amount;
     return true;
   }
 }

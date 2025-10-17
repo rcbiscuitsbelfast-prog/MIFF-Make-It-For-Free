@@ -37,11 +37,11 @@ export class RenderReplaySystem {
       metadata: {
         config,
         startTime: new Date(),
-        frameRate: config.frameRate
+        frameRate: config?.frameRate
       }
     };
     
-    this.sessions.set(sessionId, session);
+    this?.sessions.set(sessionId, session);
     
     return {
       op: 'record',
@@ -52,7 +52,7 @@ export class RenderReplaySystem {
   }
 
   playback(sessionId: string, config: RenderReplayConfig) {
-    const session = this.sessions.get(sessionId);
+    const session = this?.sessions.get(sessionId);
     if (!session) {
       return {
         op: 'playback',
@@ -65,13 +65,13 @@ export class RenderReplaySystem {
       op: 'playback',
       status: 'ok',
       sessionId,
-      frameCount: session.frames.length,
-      duration: session.frames.length / config.frameRate * 1000
+      frameCount: session?.frames.length,
+      duration: session?.frames.length / config?.frameRate * 1000
     };
   }
 
   analyze(sessionId: string, config: RenderReplayConfig) {
-    const session = this.sessions.get(sessionId);
+    const session = this?.sessions.get(sessionId);
     if (!session) {
       return {
         op: 'analyze',
@@ -85,16 +85,16 @@ export class RenderReplaySystem {
       status: 'ok',
       sessionId,
       analysis: {
-        frameCount: session.frames.length,
+        frameCount: session?.frames.length,
         averageFrameTime: 16.67, // 60fps
-        compressionRatio: config.compression ? 0.7 : 1.0,
-        quality: config.quality
+        compressionRatio: config?.compression ? 0.7 : 1.0,
+        quality: config?.quality
       }
     };
   }
 
   export(sessionId: string, config: RenderReplayConfig) {
-    const session = this.sessions.get(sessionId);
+    const session = this?.sessions.get(sessionId);
     if (!session) {
       return {
         op: 'export',
@@ -110,7 +110,7 @@ export class RenderReplaySystem {
       exportData: {
         session,
         format: 'json',
-        compressed: config.compression
+        compressed: config?.compression
       }
     };
   }

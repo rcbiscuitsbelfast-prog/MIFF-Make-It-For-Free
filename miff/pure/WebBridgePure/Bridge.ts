@@ -81,13 +81,13 @@ export class WebBridge {
   private economyManager: EconomyManager;
 
   constructor() {
-    this.npcsManager = new NPCsManager();
-    this.questsManager = new QuestsManager();
-    this.combatManager = new CombatManager();
-    this.statsManager = new StatsManager();
-    this.craftingManager = new CraftingManager();
-    this.lootManager = new LootTablesManager();
-    this.economyManager = new EconomyManager();
+    this?.npcsManager = new NPCsManager();
+    this?.questsManager = new QuestsManager();
+    this?.combatManager = new CombatManager();
+    this?.statsManager = new StatsManager();
+    this?.craftingManager = new CraftingManager();
+    this?.lootManager = new LootTablesManager();
+    this?.economyManager = new EconomyManager();
   }
 
   simulate(module: string, data: Record<string, unknown>, config: WebBridgeConfig): WebBridgeOutput {
@@ -95,27 +95,27 @@ export class WebBridge {
       let result: unknown;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.simulateNPC(String((data as any).npcId), Number((data as any).duration));
+          result = this?.npcsManager.simulateNPC(String((data as any).npcId), Number((data as any).duration));
           break;
         case 'combat':
-          result = this.combatManager.simulate((data as any).attacker, (data as any).defender);
+          result = this?.combatManager.simulate((data as any).attacker, (data as any).defender);
           break;
         case 'crafting':
-          result = this.craftingManager.simulateCraft(String((data as any).recipeId), (data as any).ingredients);
+          result = this?.craftingManager.simulateCraft(String((data as any).recipeId), (data as any).ingredients);
           break;
         case 'loot':
-          result = this.lootManager.rollLoot(String((data as any).tableId), Number((data as any).level));
+          result = this?.lootManager.rollLoot(String((data as any).tableId), Number((data as any).level));
           break;
         case 'economy':
-          result = this.economyManager.calculatePrice(String((data as any).itemId), String((data as any).quantity));
+          result = this?.economyManager.calculatePrice(String((data as any).itemId), String((data as any).quantity));
           break;
         default:
           return { op: 'simulate', status: 'error', issues: [`Unknown module: ${module}`] };
       }
-      return { op: 'simulate', status: 'ok', renderData: this.convertToWebRenderData(result, config) };
+      return { op: 'simulate', status: 'ok', renderData: this?.convertToWebRenderData(result, config) };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'simulate', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
+      return { op: 'simulate', status: 'error', issues: [error instanceof Error ? error?.message : String(error)] };
     }
   }
 
@@ -130,31 +130,31 @@ export class WebBridge {
 
       switch (module) {
         case 'npcs':
-          const npcs = this.npcsManager.listNPCs();
-          if (npcs.status === 'ok' && npcs.result) {
-            entities = (npcs.result as NPC[]).map((npc: any) => this.createWebEntity(npc, config));
-            components = this.createNPCComponents(npcs.result as NPC[]);
-            sprites = ['npc_sprite.png', 'quest_icon.png', 'merchant_icon.png'];
-            sounds = ['npc_greeting.mp3', 'quest_accept.mp3'];
-            scripts = ['NPCController.js', 'QuestSystem.js', 'MerchantUI.js'];
-            styles = ['npc-styles.css', 'quest-ui.css'];
+          const npcs = this?.npcsManager.listNPCs();
+          if (npcs?.status === 'ok' && npcs?.result) {
+            entities = (npcs?.result as NPC[]).map((npc: any) => this?.createWebEntity(npc, config));
+            components = this?.createNPCComponents(npcs?.result as NPC[]);
+            sprites = ['npc_sprite?.png', 'quest_icon?.png', 'merchant_icon?.png'];
+            sounds = ['npc_greeting?.mp3', 'quest_accept?.mp3'];
+            scripts = ['NPCController?.js', 'QuestSystem?.js', 'MerchantUI?.js'];
+            styles = ['npc-styles?.css', 'quest-ui?.css'];
           }
           break;
         case 'combat':
-          entities = this.createCombatEntities(data as CombatData, config);
-          components = this.createCombatComponents(data as CombatData);
-          sprites = ['sword_sprite.png', 'shield_sprite.png', 'effect_particles.png'];
-          sounds = ['sword_swing.mp3', 'hit_sound.mp3', 'victory_fanfare.mp3'];
-          scripts = ['CombatController.js', 'WeaponSystem.js', 'EffectManager.js'];
-          styles = ['combat-ui.css', 'effects.css'];
+          entities = this?.createCombatEntities(data as CombatData, config);
+          components = this?.createCombatComponents(data as CombatData);
+          sprites = ['sword_sprite?.png', 'shield_sprite?.png', 'effect_particles?.png'];
+          sounds = ['sword_swing?.mp3', 'hit_sound?.mp3', 'victory_fanfare?.mp3'];
+          scripts = ['CombatController?.js', 'WeaponSystem?.js', 'EffectManager?.js'];
+          styles = ['combat-ui?.css', 'effects?.css'];
           break;
         case 'ui':
-          entities = this.createUIEntities(data as UIData, config);
-          components = this.createUIComponents(data as UIData);
-          sprites = ['button_normal.png', 'button_hover.png', 'inventory_bg.png'];
-          sounds = ['button_click.mp3', 'menu_open.mp3'];
-          scripts = ['UIController.js', 'InventoryUI.js', 'MenuSystem.js'];
-          styles = ['ui-styles.css', 'inventory.css', 'menu.css'];
+          entities = this?.createUIEntities(data as UIData, config);
+          components = this?.createUIComponents(data as UIData);
+          sprites = ['button_normal?.png', 'button_hover?.png', 'inventory_bg?.png'];
+          sounds = ['button_click?.mp3', 'menu_open?.mp3'];
+          scripts = ['UIController?.js', 'InventoryUI?.js', 'MenuSystem?.js'];
+          styles = ['ui-styles?.css', 'inventory?.css', 'menu?.css'];
           break;
         default:
           return { op: 'render', status: 'error', issues: [`Unknown module: ${module}`] };
@@ -163,59 +163,59 @@ export class WebBridge {
       return { op: 'render', status: 'ok', renderData: { entities, components, sprites, sounds, scripts, styles } };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'render', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
+      return { op: 'render', status: 'error', issues: [error instanceof Error ? error?.message : String(error)] };
     }
   }
 
   interop(module: string, data: Record<string, unknown>, config: WebBridgeConfig): WebBridgeOutput {
     try {
-      const convertedData = this.convertFromWeb(data);
+      const convertedData = this?.convertFromWeb(data: any);
       let result: unknown;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.updateNPC(String((convertedData as any).id), convertedData);
+          result = this?.npcsManager.updateNPC(String((convertedData as any).id), convertedData);
           break;
         case 'quests':
-          result = this.questsManager.updateQuest(String((convertedData as any).id), convertedData);
+          result = this?.questsManager.updateQuest(String((convertedData as any).id), convertedData);
           break;
         case 'stats':
-          this.statsManager.setStat(String((convertedData as any).id), String((convertedData as any).key), Number((convertedData as any).base));
-          result = this.statsManager.get(String((convertedData as any).id));
+          this?.statsManager.setStat(String((convertedData as any).id), String((convertedData as any).key), Number((convertedData as any).base));
+          result = this?.statsManager.get(String((convertedData as any).id));
           break;
         default:
           return { op: 'interop', status: 'error', issues: [`Unknown module: ${module}`] };
       }
-      return { op: 'interop', status: 'ok', renderData: this.convertToWebRenderData(result, config) };
+      return { op: 'interop', status: 'ok', renderData: this?.convertToWebRenderData(result, config) };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'interop', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
+      return { op: 'interop', status: 'error', issues: [error instanceof Error ? error?.message : String(error)] };
     }
   }
 
   private createWebEntity(npc: NPC, config: WebBridgeConfig): WebEntity {
     const entity: WebEntity = {
-      id: npc.id,
+      id: npc?.id,
       type: 'sprite',
-      x: npc.location.x * 32,
-      y: npc.location.y * 32,
+      x: npc?.location.x * 32,
+      y: npc?.location.y * 32,
       width: 32,
       height: 32,
-      properties: { npcId: npc.id, behavior: npc.behavior.type, faction: npc.faction || 'neutral', hasQuests: npc.questIds.length > 0 }
+      properties: { npcId: npc?.id, behavior: npc?.behavior.type, faction: npc?.faction || 'neutral', hasQuests: npc?.questIds.length > 0 }
     };
-    if (npc.questIds.length > 0) {
-      entity.children = [{ id: `${npc.id}_quest_indicator`, type: 'sprite', x: 24, y: -8, width: 16, height: 16, properties: { questCount: npc.questIds.length, questIds: npc.questIds } }];
+    if (npc?.questIds.length > 0) {
+      entity?.children = [{ id: `${npc?.id}_quest_indicator`, type: 'sprite', x: 24, y: -8, width: 16, height: 16, properties: { questCount: npc?.questIds.length, questIds: npc?.questIds } }];
     }
     return entity;
   }
 
   private createNPCComponents(npcs: NPC[]): WebComponent[] {
-    return npcs.map((npc: any) => ({ type: 'NPCController', data: { npcId: npc.id, behavior: npc.behavior, movementPattern: npc.movementPattern, questIds: npc.questIds, stats: npc.stats }, enabled: true }));
+    return npcs?.map((npc: any) => ({ type: 'NPCController', data: { npcId: npc?.id, behavior: npc?.behavior, movementPattern: npc?.movementPattern, questIds: npc?.questIds, stats: npc?.stats }, enabled: true }));
   }
 
   private createCombatEntities(data: CombatData, config: WebBridgeConfig): WebEntity[] {
     return [
-      { id: data.attackerId, type: 'sprite', x: data.attackerX || 0, y: data.attackerY || 0, width: 64, height: 64, properties: { combatantId: data.attackerId, isAttacker: true, health: data.attackerStats?.health || 100 } },
-      { id: data.defenderId, type: 'sprite', x: data.defenderX || 100, y: data.defenderY || 0, width: 64, height: 64, properties: { combatantId: data.defenderId, isAttacker: false, health: data.defenderStats?.health || 100 } }
+      { id: data?.attackerId, type: 'sprite', x: data?.attackerX || 0, y: data?.attackerY || 0, width: 64, height: 64, properties: { combatantId: data?.attackerId, isAttacker: true, health: data?.attackerStats?.health || 100 } },
+      { id: data?.defenderId, type: 'sprite', x: data?.defenderX || 100, y: data?.defenderY || 0, width: 64, height: 64, properties: { combatantId: data?.defenderId, isAttacker: false, health: data?.defenderStats?.health || 100 } }
     ];
   }
 

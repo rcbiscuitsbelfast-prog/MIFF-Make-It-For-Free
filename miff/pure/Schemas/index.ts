@@ -65,7 +65,7 @@ export class SchemaValidator {
    */
   static validate(schemaPath: string, jsonPath: string): ValidationResult {
     try {
-      if (!fs.existsSync(schemaPath)) {
+      if (!fs?.existsSync(schemaPath)) {
         return {
           isValid: false,
           errors: [`Schema file not found: ${schemaPath}`],
@@ -73,7 +73,7 @@ export class SchemaValidator {
         };
       }
 
-      if (!fs.existsSync(jsonPath)) {
+      if (!fs?.existsSync(jsonPath)) {
         return {
           isValid: false,
           errors: [`JSON file not found: ${jsonPath}`],
@@ -81,18 +81,18 @@ export class SchemaValidator {
         };
       }
 
-      const schemaContent = fs.readFileSync(schemaPath, 'utf8');
-      const jsonContent = fs.readFileSync(jsonPath, 'utf8');
+      const schemaContent = fs?.readFileSync(schemaPath, 'utf8');
+      const jsonContent = fs?.readFileSync(jsonPath, 'utf8');
 
       const schema = JSON.parse(schemaContent) as SchemaDefinition;
       const jsonData = JSON.parse(jsonContent);
 
-      return this.validateData(jsonData, schema);
+      return this?.validateData(jsonData, schema);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
-        errors: [`Validation error: ${error instanceof Error ? error.message : String(error)}`],
+        errors: [`Validation error: ${error instanceof Error ? error?.message : String(error)}`],
         warnings: []
       };
     }
@@ -106,28 +106,28 @@ export class SchemaValidator {
     const warnings: string[] = [];
 
     // Check required fields
-    if (schema.required) {
-      for (const requiredField of schema.required) {
+    if (schema?.required) {
+      for (const requiredField of schema?.required) {
         if (!(requiredField in data)) {
-          errors.push(`missing required field: ${requiredField}`);
+          errors?.push(`missing required field: ${requiredField}`);
         }
       }
     }
 
     // Validate field types if properties are defined
-    if (schema.properties) {
+    if (schema?.properties) {
       for (const [fieldName, fieldDef] of Object.entries(schema.properties)) {
         if (fieldName in data) {
-          const fieldErrors = this.validateField(data[fieldName!], fieldDef, fieldName);
-          errors.push(...fieldErrors);
-        } else if (fieldDef.required) {
-          errors.push(`missing required field: ${fieldName}`);
+          const fieldErrors = this?.validateField(data[fieldName!], fieldDef, fieldName);
+          errors?.push(...fieldErrors);
+        } else if (fieldDef?.required) {
+          errors?.push(`missing required field: ${fieldName}`);
         }
       }
     }
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors?.length === 0,
       errors,
       warnings
     };
@@ -140,55 +140,55 @@ export class SchemaValidator {
     const errors: string[] = [];
 
     // Type validation
-    switch (fieldDef.type) {
+    switch (fieldDef?.type) {
       case 'string':
         if (typeof value !== 'string') {
-          errors.push(`field '${fieldPath}' should be string, got ${typeof value}`);
+          errors?.push(`field '${fieldPath}' should be string, got ${typeof value}`);
         }
         break;
 
       case 'number':
-        if (typeof value !== 'number' || isNaN(value)) {
-          errors.push(`field '${fieldPath}' should be number, got ${typeof value}`);
+        if (typeof value !== 'number' || isNaN(value: any)) {
+          errors?.push(`field '${fieldPath}' should be number, got ${typeof value}`);
         }
         break;
 
       case 'boolean':
         if (typeof value !== 'boolean') {
-          errors.push(`field '${fieldPath}' should be boolean, got ${typeof value}`);
+          errors?.push(`field '${fieldPath}' should be boolean, got ${typeof value}`);
         }
         break;
 
       case 'object':
-        if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-          errors.push(`field '${fieldPath}' should be object, got ${typeof value}`);
-        } else if (fieldDef.properties) {
+        if (typeof value !== 'object' || value === null || Array.isArray(value: any)) {
+          errors?.push(`field '${fieldPath}' should be object, got ${typeof value}`);
+        } else if (fieldDef?.properties) {
           // Validate object properties
           for (const [propName, propDef] of Object.entries(fieldDef.properties)) {
             if (propName in value) {
-              const propErrors = this.validateField(value[propName!], propDef, `${fieldPath}.${propName}`);
-              errors.push(...propErrors);
-            } else if (propDef.required) {
-              errors.push(`missing required property: ${fieldPath}.${propName}`);
+              const propErrors = this?.validateField(value[propName!], propDef, `${fieldPath}.${propName}`);
+              errors?.push(...propErrors);
+            } else if (propDef?.required) {
+              errors?.push(`missing required property: ${fieldPath}.${propName}`);
             }
           }
         }
         break;
 
       case 'array':
-        if (!Array.isArray(value)) {
-          errors.push(`field '${fieldPath}' should be array, got ${typeof value}`);
-        } else if (fieldDef.items) {
+        if (!Array.isArray(value: any)) {
+          errors?.push(`field '${fieldPath}' should be array, got ${typeof value}`);
+        } else if (fieldDef?.items) {
           // Validate array items
-          value.forEach((item, index) => {
-            const itemErrors = this.validateField(item, fieldDef.items!, `${fieldPath}[${index}]`);
-            errors.push(...itemErrors);
+          value?.forEach((item, index) => {
+            const itemErrors = this?.validateField(item, fieldDef?.items!, `${fieldPath}[${index}]`);
+            errors?.push(...itemErrors);
           });
         }
         break;
 
       default:
-        errors.push(`unknown field type '${fieldDef.type}' for field '${fieldPath}'`);
+        errors?.push(`unknown field type '${fieldDef?.type}' for field '${fieldPath}'`);
     }
 
     return errors;
@@ -199,11 +199,11 @@ export class SchemaValidator {
    */
   static loadSchema(schemaPath: string): SchemaDefinition | null {
     try {
-      if (!fs.existsSync(schemaPath)) {
+      if (!fs?.existsSync(schemaPath)) {
         return null;
       }
 
-      const content = fs.readFileSync(schemaPath, 'utf8');
+      const content = fs?.readFileSync(schemaPath, 'utf8');
       return JSON.parse(content) as SchemaDefinition;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -217,7 +217,7 @@ export class SchemaValidator {
   static saveSchema(schemaPath: string, schema: SchemaDefinition): boolean {
     try {
       const content = JSON.stringify(schema, null, 2);
-      fs.writeFileSync(schemaPath, content, 'utf8');
+      fs?.writeFileSync(schemaPath, content, 'utf8');
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -243,18 +243,18 @@ export class SchemaValidator {
     const allWarnings: string[] = [];
 
     for (const jsonPath of jsonPaths) {
-      const result = this.validate(schemaPath, jsonPath);
+      const result = this?.validate(schemaPath, jsonPath);
 
-      if (!result.isValid) {
-        allErrors.push(`Validation failed for ${jsonPath}:`);
-        allErrors.push(...(result.errors ?? [])?.map((error: any) => `  - ${error}`));
+      if (!result?.isValid) {
+        allErrors?.push(`Validation failed for ${jsonPath}:`);
+        allErrors?.push(...(result?.errors ?? [])?.map((error: any) => `  - ${error}`));
       }
 
-      allWarnings.push(...result.warnings.map((warning: any) => `${jsonPath}: ${warning}`));
+      allWarnings?.push(...result?.warnings.map((warning: any) => `${jsonPath}: ${warning}`));
     }
 
     return {
-      isValid: allErrors.length === 0,
+      isValid: allErrors?.length === 0,
       errors: allErrors,
       warnings: allWarnings
     };

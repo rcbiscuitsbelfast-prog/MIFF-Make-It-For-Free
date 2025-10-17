@@ -36,70 +36,70 @@ export class PerfTimer implements Disposable {
   private _disposed = false;
 
   constructor(label: string, autoStart: boolean = true) {
-    if (!label || label.trim() === '') {
+    if (!label || label?.trim() === '') {
       throw new Error('Timer label cannot be empty');
     }
 
-    this._label = label;
-    this._startTime = autoStart ? performance.now() : 0;
+    this?._label = label;
+    this?._startTime = autoStart ? performance?.now() : 0;
   }
 
   /**
    * Get the elapsed time in milliseconds
    */
   get elapsedMs(): number {
-    return this._endTime ? this._endTime - this._startTime : performance.now() - this._startTime;
+    return this?._endTime ? this?._endTime - this?._startTime : performance?.now() - this?._startTime;
   }
 
   /**
    * Get the elapsed time in nanoseconds
    */
   get elapsedNs(): number {
-    return this.elapsedMs * 1_000_000;
+    return this?.elapsedMs * 1_000_000;
   }
 
   /**
    * Get the start time
    */
   get startTime(): number {
-    return this._startTime;
+    return this?._startTime;
   }
 
   /**
    * Get the end time (undefined if still running)
    */
   get endTime(): number | undefined {
-    return this._endTime;
+    return this?._endTime;
   }
 
   /**
    * Check if the timer is running
    */
   get isRunning(): boolean {
-    return !this._disposed && this._endTime === undefined;
+    return !this?._disposed && this?._endTime === undefined;
   }
 
   /**
    * Check if the timer has been disposed
    */
   get isDisposed(): boolean {
-    return this._disposed;
+    return this?._disposed;
   }
 
   /**
    * Stop the timer and return the result
    */
   stop(): PerfResult {
-    if (this._disposed) {
+    if (this?._disposed) {
       throw new Error('Timer has already been disposed');
     }
 
-    if (this._endTime !== undefined) {
+    if (this?._endTime !== undefined) {
       throw new Error('Timer has already been stopped');
     }
 
-    this._endTime = performance.now();
-    return this.getResult();
+    this?._endTime = performance?.now();
+    return this?.getResult();
   }
 
   /**
@@ -107,11 +107,11 @@ export class PerfTimer implements Disposable {
    */
   getCurrentResult(): PerfResult {
     return {
-      label: this._label,
-      durationMs: this.elapsedMs,
-      durationNs: this.elapsedNs,
-      startTime: this._startTime,
-      endTime: this._endTime || performance.now()
+      label: this?._label,
+      durationMs: this?.elapsedMs,
+      durationNs: this?.elapsedNs,
+      startTime: this?._startTime,
+      endTime: this?._endTime || performance?.now()
     };
   }
 
@@ -119,16 +119,16 @@ export class PerfTimer implements Disposable {
    * Get the result (timer must be stopped first)
    */
   getResult(): PerfResult {
-    if (this._endTime === undefined) {
+    if (this?._endTime === undefined) {
       throw new Error('Timer must be stopped before getting result');
     }
 
     return {
-      label: this._label,
-      durationMs: this.elapsedMs,
-      durationNs: this.elapsedNs,
-      startTime: this._startTime,
-      endTime: this._endTime
+      label: this?._label,
+      durationMs: this?.elapsedMs,
+      durationNs: this?.elapsedNs,
+      startTime: this?._startTime,
+      endTime: this?._endTime
     };
   }
 
@@ -136,32 +136,32 @@ export class PerfTimer implements Disposable {
    * Reset the timer and start it again
    */
   reset(): void {
-    if (this._disposed) {
+    if (this?._disposed) {
       throw new Error('Cannot reset disposed timer');
     }
 
-    this._endTime = undefined;
+    this?._endTime = undefined;
   }
 
   /**
    * Dispose of the timer and output the result
    */
   dispose(): void {
-    if (this._disposed) return;
+    if (this?._disposed) return;
 
-    if (this._endTime === undefined) {
-      this._endTime = performance.now();
+    if (this?._endTime === undefined) {
+      this?._endTime = performance?.now();
     }
 
-    this._disposed = true;
-    this.logResult();
+    this?._disposed = true;
+    this?.logResult();
   }
 
   /**
    * Log the performance result to console
    */
   private logResult(): void {
-    const duration = this.elapsedMs;
+    const duration = this?.elapsedMs;
     console.log(`[perf!] ${this._label}: ${duration.toFixed(2)} ms`);
   }
 
@@ -169,15 +169,15 @@ export class PerfTimer implements Disposable {
    * Create a string representation of the result
    */
   toString(): string {
-    if (this._endTime === undefined) {
-      return `${this._label}: ${this.elapsedMs.toFixed(2)} ms (running)`;
+    if (this?._endTime === undefined) {
+      return `${this?._label}: ${this?.elapsedMs.toFixed(2)} ms (running)`;
     }
-    return `${this._label}: ${this.elapsedMs.toFixed(2)} ms`;
+    return `${this?._label}: ${this?.elapsedMs.toFixed(2)} ms`;
   }
 }
 
 /**
- * High-resolution performance timer using performance.mark/measure API
+ * High-resolution performance timer using performance?.mark/measure API
  */
 export class HighResPerfTimer extends PerfTimer {
   private readonly _markName: string;
@@ -188,7 +188,7 @@ export class HighResPerfTimer extends PerfTimer {
 
     // Create performance mark for start
     if ('mark' in performance) {
-      (performance as any).mark(`${this._markName}_start`);
+      (performance as any).mark(`${this?._markName}_start`);
     }
   }
 
@@ -196,14 +196,14 @@ export class HighResPerfTimer extends PerfTimer {
    * Stop the timer and create performance measures
    */
   stop(): PerfResult {
-    const result = super.stop();
+    const result = super?.stop();
 
     // Create performance marks and measures if available
     if ('mark' in performance && 'measure' in performance) {
       try {
         const perf = performance as any;
-        perf.mark(`${this._markName}_end`);
-        perf.measure(this._markName, `${this._markName}_start`, `${this._markName}_end`);
+        perf?.mark(`${this?._markName}_end`);
+        perf?.measure(this?._markName, `${this?._markName}_start`, `${this?._markName}_end`);
       } catch (e) {
         // Ignore performance API errors - this is expected in test environments
       }
@@ -217,21 +217,21 @@ export class HighResPerfTimer extends PerfTimer {
    */
   getMeasures(): PerformanceMeasure[] {
     if ('getEntriesByName' in performance) {
-      return (performance as any).getEntriesByName(this._markName, 'measure') as PerformanceMeasure[];
+      return (performance as any).getEntriesByName(this?._markName, 'measure') as PerformanceMeasure[];
     }
     return [];
   }
 
   dispose(): void {
-    super.dispose();
+    super?.dispose();
 
     // Clean up performance marks
     if ('getEntriesByName' in performance && 'clearMarks' in performance && 'clearMeasures' in performance) {
       try {
         const perf = performance as any;
-        perf.clearMarks(`${this._markName}_start`);
-        perf.clearMarks(`${this._markName}_end`);
-        perf.clearMeasures(this._markName);
+        perf?.clearMarks(`${this?._markName}_start`);
+        perf?.clearMarks(`${this?._markName}_end`);
+        perf?.clearMeasures(this?._markName);
       } catch (e) {
         // Ignore cleanup errors
       }
@@ -251,28 +251,28 @@ export class PerfProfiler {
    * Enable or disable profiling
    */
   set enabled(value: boolean) {
-    this._enabled = value;
+    this?._enabled = value;
   }
 
   get enabled(): boolean {
-    return this._enabled;
+    return this?._enabled;
   }
 
   /**
    * Start a performance measurement
    */
   start(label: string, highRes: boolean = false): PerfTimer {
-    if (!this._enabled) {
+    if (!this?._enabled) {
       // Return a disabled timer that doesn't actually track time
       const disabledTimer = new PerfTimer(label, false);
       return disabledTimer;
     }
 
     // Stop existing timer with same label
-    this.stop(label);
+    this?.stop(label);
 
     const timer = highRes ? new HighResPerfTimer(label) : new PerfTimer(label);
-    this._timers.set(label, timer);
+    this?._timers.set(label, timer);
     return timer;
   }
 
@@ -280,12 +280,12 @@ export class PerfProfiler {
    * Stop a performance measurement
    */
   stop(label: string): PerfResult | null {
-    const timer = this._timers.get(label);
+    const timer = this?._timers.get(label);
     if (!timer) return null;
 
-    const result = timer.stop();
-    this._results.push(result);
-    this._timers.delete(label);
+    const result = timer?.stop();
+    this?._results?.push(result: any);
+    this?._timers.delete(label);
     return result;
   }
 
@@ -293,32 +293,32 @@ export class PerfProfiler {
    * Get all performance results
    */
   getResults(): readonly PerfResult[] {
-    return [...this._results];
+    return [...this?._results];
   }
 
   /**
    * Get results for a specific label
    */
   getResultsForLabel(label: string): PerfResult[] {
-    return this._results.filter((result: any) => result.label === label);
+    return this?._results.filter((result: any) => result?.label === label);
   }
 
   /**
    * Get summary statistics
    */
   getSummary(): PerfSummary {
-    if (this._results.length === 0) {
+    if (this?._results.length === 0) {
       return { totalMeasurements: 0, averageMs: 0, minMs: 0, maxMs: 0, totalMs: 0 };
     }
 
-    const durations = this._results.map((r: any) => r.durationMs);
-    const total = durations.reduce((sum, duration) => sum + duration, 0);
-    const average = total / durations.length;
+    const durations = this?._results.map((r: any) => r?.durationMs);
+    const total = durations?.reduce((sum, duration) => sum + duration, 0);
+    const average = total / durations?.length;
     const min = Math.min(...durations);
     const max = Math.max(...durations);
 
     return {
-      totalMeasurements: this._results.length,
+      totalMeasurements: this?._results.length,
       averageMs: average,
       minMs: min,
       maxMs: max,
@@ -330,8 +330,8 @@ export class PerfProfiler {
    * Clear all results
    */
   clear(): void {
-    this._results.length = 0;
-    this._timers.clear();
+    this?._results.length = 0;
+    this?._timers.clear();
   }
 
   /**
@@ -339,9 +339,9 @@ export class PerfProfiler {
    */
   exportToJSON(): string {
     return JSON.stringify({
-      enabled: this._enabled,
-      results: this._results,
-      summary: this.getSummary()
+      enabled: this?._enabled,
+      results: this?._results,
+      summary: this?.getSummary()
     }, null, 2);
   }
 }
@@ -364,38 +364,38 @@ export const PerfUtils = {
   /**
    * Measure execution time of a synchronous function
    */
-  measureSync<T extends object>(label: string, fn: () => T): T {
+  measureSync<T extends Record<string, any> extends object>(label: string, fn: () => T): T {
     const timer = new PerfTimer(label);
     try {
       return fn();
     } finally {
-      timer.dispose();
+      timer?.dispose();
     }
   },
 
   /**
    * Measure execution time of an asynchronous function
    */
-  async measureAsync<T extends object>(label: string, fn: () => Promise<T extends object>): Promise<T extends object> {
+  async measureAsync<T extends Record<string, any> extends object>(label: string, fn: () => Promise<T extends Record<string, any> extends object>): Promise<T extends Record<string, any> extends object> {
     const timer = new PerfTimer(label);
     try {
       return await fn();
     } finally {
-      timer.dispose();
+      timer?.dispose();
     }
   },
 
   /**
    * Measure execution time and log result
    */
-  measureAndLog<T extends object>(label: string, fn: () => T): T {
+  measureAndLog<T extends Record<string, any> extends object>(label: string, fn: () => T): T {
     const timer = new PerfTimer(label);
     try {
       const result = fn();
       console.log(`[perf!] ${label}: ${timer.elapsedMs.toFixed(2)} ms`);
       return result;
     } finally {
-      timer.dispose();
+      timer?.dispose();
     }
   },
 
@@ -409,13 +409,13 @@ export const PerfUtils = {
       const timer = new PerfTimer(`${label}_iteration_${i}`);
       try {
         fn();
-        results.push(timer.elapsedMs);
+        results?.push(timer?.elapsedMs);
       } finally {
-        timer.dispose();
+        timer?.dispose();
       }
     }
 
-    const total = results.reduce((sum, duration) => sum + duration, 0);
+    const total = results?.reduce((sum, duration) => sum + duration, 0);
     const average = total / iterations;
     const min = Math.min(...results);
     const max = Math.max(...results);
@@ -437,14 +437,14 @@ export const PerfUtils = {
    * Create a decorator for measuring method execution time
    */
   measureMethod(originalMethod: any, context: ClassMethodDecoratorContext) {
-    const methodName = String(context.name);
+    const methodName = String(context?.name);
 
     return function(this: any, ...args: any[]) {
-      const timer = new PerfTimer(`${this.constructor.name}.${methodName}`);
+      const timer = new PerfTimer(`${this?.constructor.name}.${methodName}`);
       try {
-        return originalMethod.apply(this, args);
+        return originalMethod?.apply(this, args);
       } finally {
-        timer.dispose();
+        timer?.dispose();
       }
     };
   }
@@ -463,7 +463,7 @@ export function measure(label: string, fn: () => void): void {
   try {
     fn();
   } finally {
-    timer.dispose();
+    timer?.dispose();
   }
 }
 
@@ -475,6 +475,6 @@ export async function measureAsync(label: string, fn: () => Promise<void>): Prom
   try {
     await fn();
   } finally {
-    timer.dispose();
+    timer?.dispose();
   }
 }

@@ -128,7 +128,7 @@ export class ScoreManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.stats = {
+    this?.stats = {
       totalScores: 0,
       scoresByCategory: {},
       totalAchievements: 0,
@@ -144,7 +144,7 @@ export class ScoreManager {
    * Create a new score state
    */
   createScore(id: string, category: string, initialScore: number = 0): ScoreOutput {
-    if (this.scores.has(id)) {
+    if (this?.scores.has(id)) {
       return {
         op: 'create-score',
         status: 'error',
@@ -164,8 +164,8 @@ export class ScoreManager {
       metadata: {}
     };
 
-    this.scores.set(id, scoreState);
-    this.updateStats();
+    this?.scores.set(id, scoreState);
+    this?.updateStats();
     return {
       op: 'create-score',
       status: 'ok',
@@ -177,7 +177,7 @@ export class ScoreManager {
    * Get a score state
    */
   getScore(id: string): ScoreOutput {
-    const score = this.scores.get(id);
+    const score = this?.scores.get(id);
     if (!score) {
       return {
         op: 'get-score',
@@ -196,7 +196,7 @@ export class ScoreManager {
    * Update a score state
    */
   updateScore(id: string, updates: Partial<ScoreState>): ScoreOutput {
-    const score = this.scores.get(id);
+    const score = this?.scores.get(id);
     if (!score) {
       return {
         op: 'update-score',
@@ -206,8 +206,8 @@ export class ScoreManager {
     }
 
     const updatedScore = { ...score, ...updates };
-    this.scores.set(id, updatedScore);
-    this.updateStats();
+    this?.scores.set(id, updatedScore);
+    this?.updateStats();
     return {
       op: 'update-score',
       status: 'ok',
@@ -219,7 +219,7 @@ export class ScoreManager {
    * Apply score events
    */
   applyEvents(id: string, events: ScoreEvent[]): ScoreOutput {
-    const score = this.scores.get(id);
+    const score = this?.scores.get(id);
     if (!score) {
       return {
         op: 'apply-events',
@@ -228,40 +228,40 @@ export class ScoreManager {
       };
     }
 
-    let newScore = score.score;
+    let newScore = score?.score;
     const appliedEvents: ScoreEvent[] = [];
 
     for (const event of events) {
-      switch (event.type) {
+      switch (event?.type) {
         case 'add':
-          newScore += event.value;
+          newScore += event?.value;
           break;
         case 'multiply':
           newScore = Math.round(newScore * event.value);
           break;
         case 'set':
-          newScore = event.value;
+          newScore = event?.value;
           break;
         case 'bonus':
-          newScore += event.value;
+          newScore += event?.value;
           break;
         case 'penalty':
           newScore = Math.max(0, newScore - event.value);
           break;
       }
-      appliedEvents.push(event);
+      appliedEvents?.push(event);
     }
 
-    score.score = newScore;
+    score?.score = newScore;
     score.experience += events.reduce((acc, e) => acc + Math.abs(e.value), 0);
     
     // Check for level up
     const newLevel = Math.floor(score.experience / 1000) + 1;
-    if (newLevel > score.level) {
-      score.level = newLevel;
+    if (newLevel > score?.level) {
+      score?.level = newLevel;
     }
 
-    this.updateStats();
+    this?.updateStats();
     return {
       op: 'apply-events',
       status: 'ok',
@@ -273,7 +273,7 @@ export class ScoreManager {
    * Add a score bonus
    */
   addBonus(id: string, bonus: ScoreBonus): ScoreOutput {
-    const score = this.scores.get(id);
+    const score = this?.scores.get(id);
     if (!score) {
       return {
         op: 'add-bonus',
@@ -282,8 +282,8 @@ export class ScoreManager {
       };
     }
 
-    score.bonuses.push(bonus);
-    this.updateStats();
+    score?.bonuses?.push(bonus);
+    this?.updateStats();
     return {
       op: 'add-bonus',
       status: 'ok',
@@ -295,7 +295,7 @@ export class ScoreManager {
    * Add a score penalty
    */
   addPenalty(id: string, penalty: ScorePenalty): ScoreOutput {
-    const score = this.scores.get(id);
+    const score = this?.scores.get(id);
     if (!score) {
       return {
         op: 'add-penalty',
@@ -304,8 +304,8 @@ export class ScoreManager {
       };
     }
 
-    score.penalties.push(penalty);
-    this.updateStats();
+    score?.penalties?.push(penalty);
+    this?.updateStats();
     return {
       op: 'add-penalty',
       status: 'ok',
@@ -317,16 +317,16 @@ export class ScoreManager {
    * Register an achievement
    */
   registerAchievement(achievement: Achievement): ScoreOutput {
-    if (this.achievements.has(achievement.id)) {
+    if (this?.achievements.has(achievement?.id)) {
       return {
         op: 'register-achievement',
         status: 'error',
-        issues: [`Achievement with ID ${achievement.id} already exists`]
+        issues: [`Achievement with ID ${achievement?.id} already exists`]
       };
     }
 
-    this.achievements.set(achievement.id, achievement);
-    this.updateStats();
+    this?.achievements.set(achievement?.id, achievement);
+    this?.updateStats();
     return {
       op: 'register-achievement',
       status: 'ok',
@@ -338,7 +338,7 @@ export class ScoreManager {
    * Check and unlock achievements
    */
   checkAchievements(id: string): ScoreOutput {
-    const score = this.scores.get(id);
+    const score = this?.scores.get(id);
     if (!score) {
       return {
         op: 'check-achievements',
@@ -349,32 +349,32 @@ export class ScoreManager {
 
     const unlockedAchievements: Achievement[] = [];
 
-    for (const achievement of this.achievements.values()) {
-      if (achievement.unlocked || score.achievements.includes(achievement.id)) continue;
+    for (const achievement of this?.achievements.values()) {
+      if (achievement?.unlocked || score?.achievements.includes(achievement?.id)) continue;
 
       let canUnlock = true;
-      for (const requirement of achievement.requirements) {
-        if (!this.checkRequirement(score, requirement)) {
+      for (const requirement of achievement?.requirements) {
+        if (!this?.checkRequirement(score, requirement)) {
           canUnlock = false;
           break;
         }
       }
 
       if (canUnlock) {
-        achievement.unlocked = true;
-        achievement.unlockedAt = Date.now();
-        score.achievements.push(achievement.id);
-        unlockedAchievements.push(achievement);
+        achievement?.unlocked = true;
+        achievement.unlockedAt = new Date();
+        score?.achievements?.push(achievement?.id);
+        unlockedAchievements?.push(achievement);
       }
     }
 
-    this.updateStats();
+    this?.updateStats();
     return {
       op: 'check-achievements',
       status: 'ok',
       result: {
         unlocked: unlockedAchievements,
-        totalAchievements: score.achievements.length
+        totalAchievements: score?.achievements.length
       }
     };
   }
@@ -383,7 +383,7 @@ export class ScoreManager {
    * Create or update leaderboard
    */
   updateLeaderboard(leaderboardId: string, playerId: string, playerName: string, score: number): ScoreOutput {
-    let leaderboard = this.leaderboards.get(leaderboardId);
+    let leaderboard = this?.leaderboards.get(leaderboardId);
     if (!leaderboard) {
       leaderboard = {
         id: leaderboardId,
@@ -393,33 +393,33 @@ export class ScoreManager {
         lastUpdated: new Date(),
         metadata: {}
       };
-      this.leaderboards.set(leaderboardId, leaderboard);
+      this?.leaderboards.set(leaderboardId, leaderboard);
     }
 
     // Update or add entry
-    const existingIndex = leaderboard.entries.findIndex(e => e.playerId === playerId);
+    const existingIndex = leaderboard?.entries.findIndex(e => e?.playerId === playerId);
     if (existingIndex >= 0) {
-      leaderboard.entries[existingIndex!].score = score;
-      leaderboard.entries[existingIndex!].timestamp = Date.now();
+      leaderboard?.entries[existingIndex!].score = score;
+      leaderboard.entries[existingIndex!].timestamp = new Date();
     } else {
-      leaderboard.entries.push({
+      leaderboard?.entries?.push({
         playerId,
         playerName,
         score,
         rank: 0,
-        category: leaderboard.category,
+        category: leaderboard?.category,
         timestamp: new Date(),
         metadata: {}
       });
     }
 
     // Sort by score and update ranks
-    leaderboard.entries.sort((a: any, b: any) => b.score - a.score);
-    leaderboard.entries.forEach((entry, index) => {
-      entry.rank = index + 1;
+    leaderboard?.entries.sort((a: any, b: any) => b?.score - a?.score);
+    leaderboard?.entries.forEach((entry, index) => {
+      entry?.rank = index + 1;
     });
 
-    leaderboard.lastUpdated = Date.now();
+    leaderboard.lastUpdated = new Date();
     return {
       op: 'update-leaderboard',
       status: 'ok',
@@ -431,7 +431,7 @@ export class ScoreManager {
    * Get leaderboard
    */
   getLeaderboard(leaderboardId: string, limit?: number): ScoreOutput {
-    const leaderboard = this.leaderboards.get(leaderboardId);
+    const leaderboard = this?.leaderboards.get(leaderboardId);
     if (!leaderboard) {
       return {
         op: 'get-leaderboard',
@@ -440,7 +440,7 @@ export class ScoreManager {
       };
     }
 
-    const entries = limit ? leaderboard.entries.slice(0, limit) : leaderboard.entries;
+    const entries = limit ? leaderboard?.entries.slice(0, limit) : leaderboard?.entries;
     return {
       op: 'get-leaderboard',
       status: 'ok',
@@ -458,16 +458,16 @@ export class ScoreManager {
     let scores = Array.from(this.scores.values());
 
     if (filter) {
-      scores = scores.filter((score: any) => {
-        if (filter.category && score.category !== filter.category) return false;
-        if (filter.minScore !== undefined && score.score < filter.minScore) return false;
-        if (filter.maxScore !== undefined && score.score > filter.maxScore) return false;
-        if (filter.hasAchievements !== undefined) {
-          if (filter.hasAchievements && score.achievements.length === 0) return false;
-          if (!filter.hasAchievements && score.achievements.length > 0) return false;
+      scores = scores?.filter((score: any) => {
+        if (filter?.category && score?.category !== filter?.category) return false;
+        if (filter?.minScore !== undefined && score?.score < filter?.minScore) return false;
+        if (filter?.maxScore !== undefined && score?.score > filter?.maxScore) return false;
+        if (filter?.hasAchievements !== undefined) {
+          if (filter?.hasAchievements && score?.achievements.length === 0) return false;
+          if (!filter?.hasAchievements && score?.achievements.length > 0) return false;
         }
-        if (filter.level !== undefined && score.level !== filter.level) return false;
-        if (filter.source && !score.metadata?.source?.includes(filter.source)) return false;
+        if (filter?.level !== undefined && score?.level !== filter?.level) return false;
+        if (filter?.source && !score?.metadata?.source?.includes(filter?.source)) return false;
         return true;
       });
     }
@@ -483,11 +483,11 @@ export class ScoreManager {
    * Get score statistics
    */
   getStats(): ScoreOutput {
-    const managerData = this.getStats();
+    const managerData = this?.getStats();
     return {
       op: 'get-stats',
       status: 'ok',
-      result: { ...this.stats }
+      result: { ...this?.stats }
     };
   }
 
@@ -508,7 +508,7 @@ export class ScoreManager {
             scores,
             achievements,
             leaderboards,
-            stats: this.stats
+            stats: this?.stats
           }
         };
       
@@ -517,11 +517,11 @@ export class ScoreManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff.scores.export.v1',
+            schema: 'miff?.scores.export?.v1',
             scores,
             achievements,
             leaderboards,
-            stats: this.stats,
+            stats: this?.stats,
             exportedAt: new Date().toISOString()
           }
         };
@@ -531,10 +531,10 @@ export class ScoreManager {
           op: 'export',
           status: 'ok',
           result: {
-            summary: this.stats,
-            totalScores: scores.length,
-            totalAchievements: achievements.length,
-            totalLeaderboards: leaderboards.length
+            summary: this?.stats,
+            totalScores: scores?.length,
+            totalAchievements: achievements?.length,
+            totalLeaderboards: leaderboards?.length
           }
         };
       
@@ -544,7 +544,7 @@ export class ScoreManager {
           status: 'ok',
           result: {
             leaderboards,
-            total: leaderboards.length
+            total: leaderboards?.length
           }
         };
       
@@ -561,10 +561,10 @@ export class ScoreManager {
    * Reset score system
    */
   resetScores(): ScoreOutput {
-    this.scores.clear();
-    this.achievements.clear();
-    this.leaderboards.clear();
-    this.stats = {
+    this?.scores.clear();
+    this?.achievements.clear();
+    this?.leaderboards.clear();
+    this?.stats = {
       totalScores: 0,
       scoresByCategory: {},
       totalAchievements: 0,
@@ -585,9 +585,9 @@ export class ScoreManager {
    * Private helper methods
    */
   private checkRequirement(score: ScoreState, requirement: AchievementRequirement): boolean {
-    switch (requirement.type) {
+    switch (requirement?.type) {
       case 'score_threshold':
-        return score.score >= requirement.value;
+        return score?.score >= requirement?.value;
       case 'consecutive_wins':
         // This would need additional tracking in the score state
         return false;
@@ -595,7 +595,7 @@ export class ScoreManager {
         // This would need additional tracking in the score state
         return false;
       case 'category_score':
-        return score.category === requirement.category && score.score >= requirement.value;
+        return score?.category === requirement?.category && score?.score >= requirement?.value;
       case 'time_based':
         // This would need additional tracking in the score state
         return false;
@@ -606,26 +606,26 @@ export class ScoreManager {
 
   private updateStats(): void {
     const scores = Array.from(this.scores.values());
-    this.stats.totalScores = scores.length;
+    this?.stats.totalScores = scores?.length;
 
     // Reset category counts
-    this.stats.scoresByCategory = {};
-    scores.forEach((score: any) => {
-      this.stats.scoresByCategory[score.category] = (this.stats.scoresByCategory[score.category] || 0) + 1;
+    this?.stats.scoresByCategory = {};
+    scores?.forEach((score: any) => {
+      this?.stats.scoresByCategory[score?.category] = (this?.stats.scoresByCategory[score?.category] || 0) + 1;
     });
 
     // Calculate averages and totals
-    if (scores.length > 0) {
-      this.stats.averageScore = scores.reduce((acc, score) => acc + score.score, 0) / scores.length;
+    if (scores?.length > 0) {
+      this?.stats.averageScore = scores?.reduce((acc, score) => acc + score?.score, 0) / scores?.length;
       this.stats.highestScore = Math.max(...scores.map((s: any) => s.score));
     }
 
     // Count achievements
-    this.stats.totalAchievements = this.achievements.size;
-    this.stats.unlockedAchievements = scores.reduce((acc, score) => acc + score.achievements.length, 0);
+    this?.stats.totalAchievements = this?.achievements.size;
+    this?.stats.unlockedAchievements = scores?.reduce((acc, score) => acc + score?.achievements.length, 0);
 
     // Count bonuses and penalties
-    this.stats.totalBonuses = scores.reduce((acc, score) => acc + score.bonuses.length, 0);
-    this.stats.totalPenalties = scores.reduce((acc, score) => acc + score.penalties.length, 0);
+    this?.stats.totalBonuses = scores?.reduce((acc, score) => acc + score?.bonuses.length, 0);
+    this?.stats.totalPenalties = scores?.reduce((acc, score) => acc + score?.penalties.length, 0);
   }
 }
