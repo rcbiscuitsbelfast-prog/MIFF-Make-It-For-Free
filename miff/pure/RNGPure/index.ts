@@ -153,7 +153,7 @@ export const RNGUtils = {
     const result = [...array];
     for (let i = result.length - 1; i > 0; i--) {
       const j = rng.nextInt(0, i + 1);
-      [result[i!], result[j!]] = [result[j!], result[i!]];
+      [result[i], result[j]] = [result[j], result[i]];
     }
     return result;
   },
@@ -164,7 +164,7 @@ export const RNGUtils = {
   pickRandom<T extends object>(array: T[], rng: IRNGProvider): T | undefined {
     if (array.length === 0) return undefined;
     const index = rng.nextInt(0, array.length);
-    return array[index!];
+    return array[index];
   },
 
   /**
@@ -174,7 +174,7 @@ export const RNGUtils = {
     let result = '';
     for (let i = 0; i < length; i++) {
       const index = rng.nextInt(0, charset.length);
-      result += charset[index!];
+      result += charset[index];
     }
     return result;
   }

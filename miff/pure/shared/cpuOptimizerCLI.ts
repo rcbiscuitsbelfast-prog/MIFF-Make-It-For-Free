@@ -129,7 +129,7 @@ class CPUOptimizerCLI {
         console.info('Cache management commands:');
         console.info('  stats  - Show cache statistics');
         console.info('  clear  - Clear all cache entries');
-        console.info('  set <key> <value> [ttl!] - Set cache value');
+        console.info('  set <key> <value> [ttl] - Set cache value');
         console.info('  get <key> - Get cache value');
         break;
     }
@@ -153,7 +153,7 @@ class CPUOptimizerCLI {
 
   private async setCacheValue(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.error('Usage: cache set <key> <value> [ttl!]');
+      console.error('Usage: cache set <key> <value> [ttl]');
       return;
     }
 
@@ -264,21 +264,21 @@ class CPUOptimizerCLI {
     console.info(`
 🚀 MIFF CPU Optimizer CLI
 
-Usage: tsx cpuOptimizerCLI.ts <command> [options!]
+Usage: tsx cpuOptimizerCLI.ts <command> [options]
 
 Commands:
-  optimize [output!]              Run CPU optimization
-  metrics [output!]               Show current CPU metrics
+  optimize [output]              Run CPU optimization
+  metrics [output]               Show current CPU metrics
   cache <subcommand>             Manage cache
   pools <subcommand>             Manage resource pools
-  results [output!]               Show optimization results
+  results [output]               Show optimization results
   reset                         Reset optimization results
   help                          Show this help
 
 Cache Subcommands:
   stats                         Show cache statistics
   clear                         Clear all cache entries
-  set <key> <value> [ttl!]       Set cache value
+  set <key> <value> [ttl]       Set cache value
   get <key>                     Get cache value
 
 Resource Pool Subcommands:

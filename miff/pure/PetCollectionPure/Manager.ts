@@ -562,7 +562,7 @@ export class PetCollectionManager {
       mythic: 6
     };
 
-    return values[rarity!];
+    return values[rarity];
   }
 
   public exportCollection(ownerId: string): string {

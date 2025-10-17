@@ -45,7 +45,7 @@ export class ValidationManager {
 		if(this.config.rules.includes('zone_overlap')){
 			const zs = input.zones||[];
 			for(let i=0;i<zs.length;i++) for(let j=i+1;j<zs.length;j++){
-				const a = zs[i!], b = zs[j!];
+				const a = zs[i], b = zs[j];
 				const overlap = !(a.x+a.w<=b.x || b.x+b.w<=a.x || a.y+a.h<=b.y || b.y+b.h<=a.y);
 				if(overlap) issues.push({ code:'zone_overlap', message:`Zones ${a.id} and ${b.id} overlap`, ref:`${a.id}|${b.id}` });
 			}

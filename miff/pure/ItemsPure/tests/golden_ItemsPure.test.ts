@@ -237,9 +237,9 @@ describe('ItemsPure Golden Tests', () => {
       const noEffectItem = new Item('key', 'Mystery Key', ItemType.KEY_ITEM,
         new ItemEffect(ItemEffectType.NONE, 0), 'any');
 
-      expect(healItem.getDescription()).toBe('Health Potion (consumable) - Heal 50 HP [notfainted!]');
-      expect(reviveItem.getDescription()).toBe('Revive (consumable) - Revive with 50% HP [faintedonly!]');
-      expect(noEffectItem.getDescription()).toBe('Mystery Key (key_item) - No effect [any!]');
+      expect(healItem.getDescription()).toBe('Health Potion (consumable) - Heal 50 HP [notfainted]');
+      expect(reviveItem.getDescription()).toBe('Revive (consumable) - Revive with 50% HP [faintedonly]');
+      expect(noEffectItem.getDescription()).toBe('Mystery Key (key_item) - No effect [any]');
     });
 
     test('should clone correctly', () => {

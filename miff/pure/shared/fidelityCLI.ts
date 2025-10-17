@@ -294,15 +294,15 @@ class FidelityCLI {
     console.info(`
 ⚡ MIFF Runtime Fidelity CLI
 
-Usage: tsx fidelityCLI.ts <command> [options!]
+Usage: tsx fidelityCLI.ts <command> [options]
 
 Commands:
-  scan [path!] [output!]             Scan for mock implementations
-  replace [priority!]               Replace mock implementations
-  transport [output!]               Implement real transport layers
-  lifecycle [output!]               Implement lifecycle hooks
-  report [output!]                  Generate runtime fidelity report
-  analyze <module> [output!]        Analyze module runtime fidelity
+  scan [path] [output]             Scan for mock implementations
+  replace [priority]               Replace mock implementations
+  transport [output]               Implement real transport layers
+  lifecycle [output]               Implement lifecycle hooks
+  report [output]                  Generate runtime fidelity report
+  analyze <module> [output]        Analyze module runtime fidelity
   help                            Show this help
 
 Examples:

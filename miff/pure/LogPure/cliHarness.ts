@@ -114,15 +114,15 @@ class LogPureCLI {
     console.log('='.repeat(60));
     console.log('');
     console.log('Available commands:');
-    console.log('  log [message!]     - Add custom log entry');
-    console.log('  phase [phase!]     - Log phase change');
-    console.log('  action [actor!] [target!] [move!] - Log battle action');
-    console.log('  effect [id!] [desc!] [source!] [target!] - Log battle effect');
-    console.log('  show [filter!]     - Show log entries');
+    console.log('  log [message]     - Add custom log entry');
+    console.log('  phase [phase]     - Log phase change');
+    console.log('  action [actor] [target] [move] - Log battle action');
+    console.log('  effect [id] [desc] [source] [target] - Log battle effect');
+    console.log('  show [filter]     - Show log entries');
     console.log('  stats             - Show log statistics');
-    console.log('  filter [category!] [level!] - Set log filter');
-    console.log('  export [format!]   - Export log to file');
-    console.log('  import [file!]     - Import log from file');
+    console.log('  filter [category] [level] - Set log filter');
+    console.log('  export [format]   - Export log to file');
+    console.log('  import [file]     - Import log from file');
     console.log('  playback          - Toggle playback mode');
     console.log('  clear             - Clear all logs');
     console.log('  validate          - Validate log integrity');
@@ -224,15 +224,15 @@ class LogPureCLI {
     console.log('');
     console.log('Commands:');
     console.log('  help                    - Show this help');
-    console.log('  log [message!]           - Add custom log entry');
-    console.log('  phase [phase_name!]      - Log phase change');
-    console.log('  action [actor!] [target!] [move!] - Log battle action');
-    console.log('  effect [id!] [desc!] [source!] [target!] - Log battle effect');
-    console.log('  show [filter!]           - Show log entries (all, battle, system, etc.)');
+    console.log('  log [message]           - Add custom log entry');
+    console.log('  phase [phase_name]      - Log phase change');
+    console.log('  action [actor] [target] [move] - Log battle action');
+    console.log('  effect [id] [desc] [source] [target] - Log battle effect');
+    console.log('  show [filter]           - Show log entries (all, battle, system, etc.)');
     console.log('  stats                   - Show log statistics');
-    console.log('  filter [category!] [level!] - Set persistent filter');
-    console.log('  export [format!]         - Export log (json, csv, console)');
-    console.log('  import [file!]           - Import log from JSON file');
+    console.log('  filter [category] [level] - Set persistent filter');
+    console.log('  export [format]         - Export log (json, csv, console)');
+    console.log('  import [file]           - Import log from JSON file');
     console.log('  playback                - Toggle playback mode');
     console.log('  clear                   - Clear all logs');
     console.log('  validate                - Validate log integrity');
@@ -253,7 +253,7 @@ class LogPureCLI {
    */
   private addLogEntry(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: log [message!]');
+      console.log('❌ Usage: log [message]');
       return;
     }
 
@@ -267,7 +267,7 @@ class LogPureCLI {
    */
   private logPhaseChange(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: phase [phase_name!]');
+      console.log('❌ Usage: phase [phase_name]');
       return;
     }
 
@@ -288,7 +288,7 @@ class LogPureCLI {
    */
   private logBattleAction(args: string[]): void {
     if (args.length < 3) {
-      console.log('❌ Usage: action [actor_id!] [target_id!] [move_id!]');
+      console.log('❌ Usage: action [actor_id] [target_id] [move_id]');
       return;
     }
 
@@ -314,7 +314,7 @@ class LogPureCLI {
    */
   private logBattleEffect(args: string[]): void {
     if (args.length < 4) {
-      console.log('❌ Usage: effect [effect_id!] [description!] [source_actor!] [target_actor!]');
+      console.log('❌ Usage: effect [effect_id] [description] [source_actor] [target_actor]');
       return;
     }
 
@@ -443,7 +443,7 @@ class LogPureCLI {
    */
   private setFilter(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: filter [category!] [level!]');
+      console.log('❌ Usage: filter [category] [level]');
       return;
     }
 
@@ -459,7 +459,7 @@ class LogPureCLI {
    */
   private exportLog(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: export [format!] [filename!]');
+      console.log('❌ Usage: export [format] [filename]');
       return;
     }
 
@@ -499,7 +499,7 @@ class LogPureCLI {
    */
   private importLog(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: import [filename!]');
+      console.log('❌ Usage: import [filename]');
       return;
     }
 

@@ -129,8 +129,8 @@ describe('SyncPure Golden Tests', () => {
       const event1 = new SyncEvent(SyncTrigger.BATTLE_WIN, 15, 'boss_fight');
       const event2 = new SyncEvent(SyncTrigger.ITEM_USAGE, 25, 'legendary', 'unlock', 'evolve');
 
-      expect(event1.getSummary()).toBe('battle_win (+15 sync) [boss_fight!]');
-      expect(event2.getSummary()).toBe('item_usage (+25 sync) [legendary!] -> evolve');
+      expect(event1.getSummary()).toBe('battle_win (+15 sync) [boss_fight]');
+      expect(event2.getSummary()).toBe('item_usage (+25 sync) [legendary] -> evolve');
     });
   });
 
@@ -677,14 +677,14 @@ describe('SyncPure Golden Tests', () => {
       let totalSyncGained = 0;
 
       challenges.forEach((challenge, index) => {
-        const syncGain = challenge.evaluatePerformance(accuracies[index!]);
+        const syncGain = challenge.evaluatePerformance(accuracies[index]);
         const levelIncrease = syncManager.processSyncEvent(
           'musician',
-          SyncEvent.createRhythmChallenge(accuracies[index!], challenge.difficulty)
+          SyncEvent.createRhythmChallenge(accuracies[index], challenge.difficulty)
         );
 
         totalSyncGained += syncGain;
-        console.log(`Challenge ${index + 1}: +${syncGain} sync (${(accuracies[index!] * 100).toFixed(1)}% accuracy)`);
+        console.log(`Challenge ${index + 1}: +${syncGain} sync (${(accuracies[index] * 100).toFixed(1)}% accuracy)`);
       });
 
       const finalLevel = syncManager.getSyncLevel('musician');

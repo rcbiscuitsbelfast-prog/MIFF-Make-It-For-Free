@@ -231,12 +231,12 @@ class MutationCLI {
     console.info(`
 🧬 MIFF Mutation Testing CLI
 
-Usage: tsx mutationCLI.ts <command> [options!]
+Usage: tsx mutationCLI.ts <command> [options]
 
 Commands:
-  test [path!] [output!]           Run mutation testing on specified path
-  generate [path!] [output!]       Generate mutations without running tests
-  report [input!] [output!]        Generate HTML report from mutation results
+  test [path] [output]           Run mutation testing on specified path
+  generate [path] [output]       Generate mutations without running tests
+  report [input] [output]        Generate HTML report from mutation results
   help                          Show this help
 
 Examples:

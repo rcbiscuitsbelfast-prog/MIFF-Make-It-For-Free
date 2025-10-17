@@ -339,7 +339,7 @@ export class HapticEngine {
 
   private async initializeHapticSystem(): Promise<void> {
     try {
-      console.log('[HapticEngine!] Initializing haptic system...');
+      console.log('[HapticEngine] Initializing haptic system...');
 
       // Initialize default patterns
       await this.initializeDefaultPatterns();
@@ -354,10 +354,10 @@ export class HapticEngine {
       this.startEventProcessing();
 
       this.isInitialized = true;
-      console.log('[HapticEngine!] Haptic system initialized successfully');
+      console.log('[HapticEngine] Haptic system initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[HapticEngine!] Failed to initialize haptic system:', err instanceof Error ? err.message : String(err));
+      console.error('[HapticEngine] Failed to initialize haptic system:', err instanceof Error ? err.message : String(err));
       throw new Error(`Haptic initialization failed: ${error}`);
     }
   }
@@ -485,14 +485,14 @@ export class HapticEngine {
   }
 
   private async discoverDevices(): Promise<void> {
-    console.log('[HapticEngine!] Discovering haptic devices...');
+    console.log('[HapticEngine] Discovering haptic devices...');
 
     try {
       // Check for gamepad support
       if ('getGamepads' in navigator) {
         const gamepads = (navigator as any).getGamepads();
         for (let i = 0; i < gamepads.length; i++) {
-          const gamepad = gamepads[i!];
+          const gamepad = gamepads[i];
           if (gamepad && gamepad.vibrationActuator) {
             await this.registerDevice({
               id: `gamepad_${i}`,
@@ -546,10 +546,10 @@ export class HapticEngine {
         });
       }
 
-      console.log(`[HapticEngine!] Discovered ${this.devices.size} haptic devices`);
+      console.log(`[HapticEngine] Discovered ${this.devices.size} haptic devices`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.warn('[HapticEngine!] Device discovery failed:', error);
+      console.warn('[HapticEngine] Device discovery failed:', error);
     }
   }
 
@@ -584,7 +584,7 @@ export class HapticEngine {
     };
 
     this.configuration.deviceProfiles.set(deviceInfo.id, profile);
-    console.log(`[HapticEngine!] Registered device: ${deviceInfo.name}`);
+    console.log(`[HapticEngine] Registered device: ${deviceInfo.name}`);
   }
 
   private createDefaultPatternForType(patternType: HapticPatternType): HapticPattern {
@@ -604,7 +604,7 @@ export class HapticEngine {
       ],
       cooldown: 200,
       reusable: true,
-      tags: [patternType!],
+      tags: [patternType],
       metadata: {}
     };
 
@@ -659,7 +659,7 @@ export class HapticEngine {
     // Queue for processing
     await this.queueEffect(effect);
 
-    console.log(`[HapticEngine!] Playing pattern: ${pattern.name} on ${device.name}`);
+    console.log(`[HapticEngine] Playing pattern: ${pattern.name} on ${device.name}`);
     return effectId;
   }
 
@@ -700,7 +700,7 @@ export class HapticEngine {
     const priorities = [HapticPriority.URGENT, HapticPriority.CRITICAL, HapticPriority.HIGH, HapticPriority.MEDIUM, HapticPriority.LOW];
 
     for (let i = 0; i < this.eventQueue.length; i++) {
-      const queuedEvent = this.eventQueue[i!];
+      const queuedEvent = this.eventQueue[i];
       const eventPriority = priorities.indexOf(event.priority);
       const queuedPriority = priorities.indexOf(queuedEvent.priority);
 
@@ -718,7 +718,7 @@ export class HapticEngine {
 
     // Extract events that are ready to process
     for (let i = this.eventQueue.length - 1; i >= 0; i--) {
-      const event = this.eventQueue[i!];
+      const event = this.eventQueue[i];
       if (event.type === 'effect' && !event.processed) {
         eventsToProcess.push(event);
         this.eventQueue.splice(i, 1);
@@ -774,7 +774,7 @@ export class HapticEngine {
       effect.endTime = Date.now();
       this.configuration.statistics.completedEffects++;
 
-      console.log(`[HapticEngine!] Effect completed: ${effect.id}`);
+      console.log(`[HapticEngine] Effect completed: ${effect.id}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       effect.status = 'failed';
@@ -789,8 +789,8 @@ export class HapticEngine {
       const gamepads = (navigator as any).getGamepads();
       const gamepadIndex = device.metadata.gamepadIndex;
 
-      if (gamepadIndex !== undefined && gamepads[gamepadIndex!]) {
-        const gamepad = gamepads[gamepadIndex!];
+      if (gamepadIndex !== undefined && gamepads[gamepadIndex]) {
+        const gamepad = gamepads[gamepadIndex];
 
         if (gamepad.vibrationActuator && gamepad.vibrationActuator.playEffect) {
           // Use advanced vibration API if available
@@ -834,12 +834,12 @@ export class HapticEngine {
   private async executeWearableEffect(effect: HapticEffect, pattern: HapticPattern, device: HapticDevice): Promise<void> {
     // Wearable device implementation would go here
     // This is a placeholder for future implementation
-    console.log(`[HapticEngine!] Wearable effect not implemented: ${effect.id}`);
+    console.log(`[HapticEngine] Wearable effect not implemented: ${effect.id}`);
   }
 
   private async executeGenericEffect(effect: HapticEffect, pattern: HapticPattern, device: HapticDevice): Promise<void> {
     // Generic fallback implementation
-    console.log(`[HapticEngine!] Generic haptic effect: ${pattern.name} on ${device.name}`);
+    console.log(`[HapticEngine] Generic haptic effect: ${pattern.name} on ${device.name}`);
   }
 
   private async updateActiveEffects(): Promise<void> {
@@ -992,7 +992,7 @@ export class HapticEngine {
 
     device.isConnected = true;
     device.isActive = true;
-    console.log(`[HapticEngine!] Connected device: ${device.name}`);
+    console.log(`[HapticEngine] Connected device: ${device.name}`);
     return true;
   }
 
@@ -1010,7 +1010,7 @@ export class HapticEngine {
       }
     }
 
-    console.log(`[HapticEngine!] Disconnected device: ${device.name}`);
+    console.log(`[HapticEngine] Disconnected device: ${device.name}`);
     return true;
   }
 
@@ -1043,7 +1043,7 @@ export class HapticEngine {
       }
     }
 
-    console.log('[HapticEngine!] Stopped all active effects');
+    console.log('[HapticEngine] Stopped all active effects');
   }
 
   getActiveEffects(): HapticEffect[] {
@@ -1075,7 +1075,7 @@ export class HapticEngine {
     // Reinitialize
     this.initializeHapticSystem();
 
-    console.log('[HapticEngine!] Reset to initial state');
+    console.log('[HapticEngine] Reset to initial state');
   }
 
   dispose(): void {
@@ -1087,7 +1087,7 @@ export class HapticEngine {
     this.environments.clear();
     this.isInitialized = false;
 
-    console.log('[HapticEngine!] Disposed successfully');
+    console.log('[HapticEngine] Disposed successfully');
   }
 }
 
@@ -1134,7 +1134,7 @@ class HapticGestureRecognizer {
   async recognize(input: GestureInput): Promise<HapticGesture | null> {
     // Simple gesture recognition implementation
     // In a real implementation, this would use more sophisticated algorithms
-    console.log(`[HapticGestureRecognizer!] Recognizing gesture: ${input.type}`);
+    console.log(`[HapticGestureRecognizer] Recognizing gesture: ${input.type}`);
     return null;
   }
 }

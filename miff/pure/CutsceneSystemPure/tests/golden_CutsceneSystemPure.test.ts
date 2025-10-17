@@ -18,7 +18,7 @@ test('golden cutscene system flow', () => {
   // Run CLI harness with cutscene data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [cutscene!]
+    [cutscene]
   );
   
   const got = JSON.parse(out);

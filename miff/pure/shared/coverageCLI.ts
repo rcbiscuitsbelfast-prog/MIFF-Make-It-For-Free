@@ -175,12 +175,12 @@ class CoverageCLI {
     console.info(`
 📊 MIFF Test Coverage CLI
 
-Usage: tsx coverageCLI.ts <command> [options!]
+Usage: tsx coverageCLI.ts <command> [options]
 
 Commands:
-  analyze [path!] [output!]         Analyze test coverage for all modules
+  analyze [path] [output]         Analyze test coverage for all modules
   module <name>                   Show coverage details for specific module
-  export <format> [output!]        Export coverage data (json, html, csv)
+  export <format> [output]        Export coverage data (json, html, csv)
   recommendations                 Show coverage recommendations
   help                           Show this help
 

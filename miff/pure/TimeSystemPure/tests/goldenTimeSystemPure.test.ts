@@ -4,7 +4,7 @@ import fs from 'fs';
 test('golden time flow', () => {
 	const root = path.resolve(__dirname, '..');
 	const commands = path.resolve(root, 'tests/commands.json');
-	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [commands!]);
+	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [commands]);
 	const got = JSON.parse(out);
 	
 	// Define expected output directly in the test to avoid file system issues

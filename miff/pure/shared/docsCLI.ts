@@ -295,7 +295,7 @@ class DocsCLI {
     content += `\n`;
     
     for (let i = 0; i < tutorial.steps.length; i++) {
-      const step = tutorial.steps[i!];
+      const step = tutorial.steps[i];
       content += `## Step ${i + 1}: ${step.title}\n\n`;
       content += `${step.description}\n\n`;
       content += `### Code\n\n`;
@@ -356,7 +356,7 @@ Welcome to the MIFF (Make It For Free) Framework documentation!
 
 ## Getting Help
 
-- Check our [FAQ!](guides/faq.md)
+- Check our [FAQ](guides/faq.md)
 - Browse [Code Examples](examples/)
 - Join our [Community Discord](https://discord.gg/miff)
 
@@ -404,16 +404,16 @@ See our [Contributor Guide](guides/contributing.md) for information on how to co
     console.info(`
 📚 MIFF Documentation CLI
 
-Usage: tsx docsCLI.ts <command> [options!]
+Usage: tsx docsCLI.ts <command> [options]
 
 Commands:
-  generate [path!] [output!]         Generate comprehensive documentation
-  api [path!] [output!]              Generate API documentation only
-  guides [output!]                  Generate contributor guides
-  tutorials [output!]               Generate tutorials
-  examples [output!]                Generate code examples
-  report [output!]                  Generate documentation report
-  serve [port!] [root!]              Serve documentation locally
+  generate [path] [output]         Generate comprehensive documentation
+  api [path] [output]              Generate API documentation only
+  guides [output]                  Generate contributor guides
+  tutorials [output]               Generate tutorials
+  examples [output]                Generate code examples
+  report [output]                  Generate documentation report
+  serve [port] [root]              Serve documentation locally
   help                            Show this help
 
 Examples:

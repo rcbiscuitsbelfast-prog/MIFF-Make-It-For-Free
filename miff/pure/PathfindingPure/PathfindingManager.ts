@@ -262,7 +262,7 @@ export class PathfindingManager {
       // Find node with lowest f cost
       let currentIndex = 0;
       for (let i = 1; i < openSet.length; i++) {
-        if (openSet[i!].f! < openSet[currentIndex!].f!) {
+        if (openSet[i].f! < openSet[currentIndex].f!) {
           currentIndex = i;
         }
       }
@@ -372,7 +372,7 @@ export class PathfindingManager {
     };
     const popMin = () => {
       let idx = 0;
-      for (let i = 1; i < pq.length; i++) if (pq[i!].d < pq[idx!].d) idx = i;
+      for (let i = 1; i < pq.length; i++) if (pq[i].d < pq[idx].d) idx = i;
       return pq.splice(idx, 1)[0!];
     };
 

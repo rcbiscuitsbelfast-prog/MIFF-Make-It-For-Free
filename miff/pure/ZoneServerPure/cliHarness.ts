@@ -35,7 +35,7 @@ function showUsage(): void {
 ZoneServerPure CLI Harness
 
 USAGE:
-  node cliHarness.ts <command> [options!]
+  node cliHarness.ts <command> [options]
 
 COMMANDS:
   demo                    - Run comprehensive zone server demo
@@ -44,8 +44,8 @@ COMMANDS:
   add-player <id>         - Add a player to the zone
   remove-player <id>      - Remove a player from the zone
   update-status <status>  - Update zone status (online|offline|maintenance|full|loading)
-  create-connection <zoneId> <type> [requirements!] - Create zone connection
-  create-event <id> <type> <desc> [duration!] - Create zone event
+  create-connection <zoneId> <type> [requirements] - Create zone connection
+  create-event <id> <type> <desc> [duration] - Create zone event
   load-balance            - Test load balancing
   metrics                 - Show zone metrics
   transitions             - Show zone transitions
@@ -615,9 +615,9 @@ async function main(): Promise<void> {
       console.log('\nEstablishing network connections...');
       for (let i = 0; i < zones.length; i++) {
         for (let j = i + 1; j < zones.length; j++) {
-          zoneServers[i!].connectToZone(zones[j!].id);
-          zoneServers[j!].connectToZone(zones[i!].id);
-          console.log(`✅ Connected ${zones[i!].id} ↔ ${zones[j!].id}`);
+          zoneServers[i].connectToZone(zones[j].id);
+          zoneServers[j].connectToZone(zones[i].id);
+          console.log(`✅ Connected ${zones[i].id} ↔ ${zones[j].id}`);
         }
       }
 
@@ -639,8 +639,8 @@ async function main(): Promise<void> {
       // Add players to zones
       console.log('\nAdding players to zones...');
       for (let i = 0; i < zoneServers.length; i++) {
-        const zone = zoneServers[i!];
-        const zoneName = zones[i!].id;
+        const zone = zoneServers[i];
+        const zoneName = zones[i].id;
 
         for (let j = 0; j < 5; j++) {
           const playerId = `net_player_${i}_${j}`;

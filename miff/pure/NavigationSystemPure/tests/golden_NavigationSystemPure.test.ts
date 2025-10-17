@@ -18,7 +18,7 @@ test('golden navigation system flow', () => {
   // Run CLI harness with navigation data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [grid!]
+    [grid]
   );
   
   const got = JSON.parse(out);
@@ -53,7 +53,7 @@ test('golden navigation system flow', () => {
   // Path should be continuous (each step moves by 1 in x or y)
   for (let i = 1; i < pathResult.length; i++) {
     const prev = pathResult[i - 1];
-    const curr = pathResult[i!];
+    const curr = pathResult[i];
     const dx = Math.abs(curr.x - prev.x);
     const dy = Math.abs(curr.y - prev.y);
     expect(dx + dy).toBe(1); // Manhattan distance of 1

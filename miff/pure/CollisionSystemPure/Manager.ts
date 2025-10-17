@@ -172,8 +172,8 @@ export class CollisionManager {
       
       for (let i = 0; i < shapeIds.length; i++) {
         for (let j = i + 1; j < shapeIds.length; j++) {
-          const idA = shapeIds[i!];
-          const idB = shapeIds[j!];
+          const idA = shapeIds[i];
+          const idB = shapeIds[j];
           const pairKey = idA < idB ? `${idA}-${idB}` : `${idB}-${idA}`;
           
           if (testedPairs.has(pairKey)) continue;

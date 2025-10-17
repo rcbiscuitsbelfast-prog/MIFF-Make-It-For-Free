@@ -209,9 +209,9 @@ using System.Collections;
 
 public class MIFFSplashScreen : MonoBehaviour
 {
-    [SerializeField!] private float duration = ${splashConfig.duration / 1000}f;
-    [SerializeField!] private float fadeInTime = ${splashConfig.fadeInTime / 1000}f;
-    [SerializeField!] private float fadeOutTime = ${splashConfig.fadeOutTime / 1000}f;
+    [SerializeField] private float duration = ${splashConfig.duration / 1000}f;
+    [SerializeField] private float fadeInTime = ${splashConfig.fadeInTime / 1000}f;
+    [SerializeField] private float fadeOutTime = ${splashConfig.fadeOutTime / 1000}f;
 
     private Canvas splashCanvas;
     private UnityEngine.UI.Image splashImage;

@@ -118,7 +118,7 @@ export class SchemaValidator {
     if (schema.properties) {
       for (const [fieldName, fieldDef] of Object.entries(schema.properties)) {
         if (fieldName in data) {
-          const fieldErrors = this.validateField(data[fieldName!], fieldDef, fieldName);
+          const fieldErrors = this.validateField(data[fieldName], fieldDef, fieldName);
           errors.push(...fieldErrors);
         } else if (fieldDef.required) {
           errors.push(`missing required field: ${fieldName}`);
@@ -166,7 +166,7 @@ export class SchemaValidator {
           // Validate object properties
           for (const [propName, propDef] of Object.entries(fieldDef.properties)) {
             if (propName in value) {
-              const propErrors = this.validateField(value[propName!], propDef, `${fieldPath}.${propName}`);
+              const propErrors = this.validateField(value[propName], propDef, `${fieldPath}.${propName}`);
               errors.push(...propErrors);
             } else if (propDef.required) {
               errors.push(`missing required property: ${fieldPath}.${propName}`);

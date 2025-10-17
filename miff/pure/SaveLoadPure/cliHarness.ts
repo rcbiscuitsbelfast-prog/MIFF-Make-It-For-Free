@@ -54,7 +54,7 @@ async function main() {
       for (const c of cmds) {
         const ensureSlot = (slotId?: string) => {
           if (!slotId) return;
-          const exists = !!mgr.data.saves[slotId!];
+          const exists = !!mgr.data.saves[slotId];
           if (!exists) {
             mgr.save(slotId);
           }
@@ -91,7 +91,7 @@ async function main() {
         if (loadSlotId) {
           const loadResult = await SaveLoadManager.create(storage);
           manager = loadResult;
-          if (!manager.data.saves[loadSlotId!]) {
+          if (!manager.data.saves[loadSlotId]) {
             manager.save(loadSlotId);
           }
           const gameData = manager.load(loadSlotId);
@@ -135,7 +135,7 @@ async function main() {
         if (rollbackSlotId) {
           const rollbackResult = await SaveLoadManager.create(storage);
           manager = rollbackResult;
-          if (!manager.data.saves[rollbackSlotId!]) {
+          if (!manager.data.saves[rollbackSlotId]) {
             manager.save(rollbackSlotId);
           }
           manager.setRollback(rollbackSlotId);
@@ -151,7 +151,7 @@ async function main() {
         if (rollbackToSlotId) {
           const rollbackToResult = await SaveLoadManager.create(storage);
           manager = rollbackToResult;
-          if (!manager.data.saves[rollbackToSlotId!]) {
+          if (!manager.data.saves[rollbackToSlotId]) {
             manager.save(rollbackToSlotId);
             manager.setRollback(rollbackToSlotId);
           }
@@ -203,14 +203,14 @@ async function main() {
           commands: [
             'create - Create SaveLoadManager',
             'listSlots - List all save slots',
-            'load [slotId!] - Load save slot',
-            'save [slotId!] - Save to slot',
-            'delete [slotId!] - Delete save slot',
-            'setRollback [slotId!] - Set rollback checkpoint',
-            'rollback [slotId!] - Rollback to checkpoint',
+            'load [slotId] - Load save slot',
+            'save [slotId] - Save to slot',
+            'delete [slotId] - Delete save slot',
+            'setRollback [slotId] - Set rollback checkpoint',
+            'rollback [slotId] - Rollback to checkpoint',
             'getData - Get current game data',
             'persist - Persist data to storage',
-            'migrate [dataFile!] - Migrate data to V11',
+            'migrate [dataFile] - Migrate data to V11',
             'demo - Run demonstration scenarios',
             'help - Show this help'
           ],

@@ -219,16 +219,16 @@ export class RealUtils {
     flatten: <T extends object>(arr: T[][]) => arr.reduce((acc, val) => acc.concat(val), []),
     groupBy: <T extends object>(arr: T[], key: keyof T) => {
       return arr.reduce((groups, item) => {
-        const group = String(item[key!]);
-        groups[group!] = groups[group!] || [];
-        groups[group!].push(item);
+        const group = String(item[key]);
+        groups[group] = groups[group] || [];
+        groups[group].push(item);
         return groups;
       }, {} as Record<string, T[]>);
     },
     sortBy: <T extends object>(arr: T[], key: keyof T) => {
       return [...arr].sort((a: any, b: any) => {
-        const aVal = a[key!];
-        const bVal = b[key!];
+        const aVal = a[key];
+        const bVal = b[key];
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       });
     },
@@ -236,7 +236,7 @@ export class RealUtils {
       const shuffled = [...arr];
       for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
       return shuffled;
     },
@@ -251,7 +251,7 @@ export class RealUtils {
       const length = Math.min(arr1.length, arr2.length);
       const result: [T, U][] = [];
       for (let i = 0; i < length; i++) {
-        result.push([arr1[i!], arr2[i!]]);
+        result.push([arr1[i], arr2[i]]);
       }
       return result;
     },
@@ -278,7 +278,7 @@ export class RealUtils {
         const cloned: any = {};
         for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
-            cloned[key!] = this.object.deepClone(obj[key!]);
+            cloned[key] = this.object.deepClone(obj[key]);
           }
         }
         return cloned;
@@ -289,14 +289,14 @@ export class RealUtils {
       const result = { ...target };
       for (const key in source) {
         if (source.hasOwnProperty(key)) {
-          const sourceValue = source[key!];
-          const targetValue = result[key!];
+          const sourceValue = source[key];
+          const targetValue = result[key];
           if (this.object.isEqual(targetValue, sourceValue)) {
-            result[key!] = sourceValue as T[Extract<keyof T, string>];
+            result[key] = sourceValue as T[Extract<keyof T, string>];
           } else if (typeof sourceValue === 'object' && sourceValue !== null) {
-            result[key!] = this.object.deepMerge(targetValue, sourceValue) as T[Extract<keyof T, string>];
+            result[key] = this.object.deepMerge(targetValue, sourceValue) as T[Extract<keyof T, string>];
           } else {
-            result[key!] = sourceValue as T[Extract<keyof T, string>];
+            result[key] = sourceValue as T[Extract<keyof T, string>];
           }
         }
       }
@@ -306,7 +306,7 @@ export class RealUtils {
       const result = {} as Pick<T, K>;
       for (const key of keys) {
         if (key in obj) {
-          (result as any)[key!] = obj[key!];
+          (result as any)[key] = obj[key];
         }
       }
       return result;
@@ -314,7 +314,7 @@ export class RealUtils {
     omit: <T, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> => {
       const result = { ...obj };
       for (const key of keys) {
-        delete result[key!];
+        delete result[key];
       }
       return result;
     },
@@ -337,7 +337,7 @@ export class RealUtils {
       
       for (const key of keys1) {
         if (!keys2.includes(key)) return false;
-        if (!this.object.isEqual(obj1[key!], obj2[key!])) return false;
+        if (!this.object.isEqual(obj1[key], obj2[key])) return false;
       }
       return true;
     },
@@ -355,7 +355,7 @@ export class RealUtils {
     mapValues: <T extends object>(obj: T, fn: (value: T[keyof T]) => any) => {
       const result: Record<keyof T, any> = {} as Record<keyof T, any>;
       for (const [key, value] of this.object.entries(obj as object)) {
-        (result as any)[key!] = fn(value);
+        (result as any)[key] = fn(value);
       }
       return result;
     }
@@ -504,9 +504,9 @@ export class RealUtils {
       let mode = values[0!];
       
       for (const value of values) {
-        frequency[value!] = (frequency[value!] || 0) + 1;
-        if (frequency[value!] > maxFreq) {
-          maxFreq = frequency[value!];
+        frequency[value] = (frequency[value] || 0) + 1;
+        if (frequency[value] > maxFreq) {
+          maxFreq = frequency[value];
           mode = value;
         }
       }

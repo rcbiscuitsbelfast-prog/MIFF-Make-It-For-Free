@@ -102,8 +102,8 @@ describe('HUDPure Golden Tests', () => {
 
       expect(spirit1.getDisplayName()).toBe('Test Spirit');
       expect(spirit2.getDisplayName()).toBe('Test Spirit (Lv.15)');
-      expect(spirit3.getDisplayName()).toBe('Test Spirit (Lv.15) [fire!]');
-      expect(spirit4.getDisplayName()).toBe('Test Spirit (Lv.15) [fire!]');
+      expect(spirit3.getDisplayName()).toBe('Test Spirit (Lv.15) [fire]');
+      expect(spirit4.getDisplayName()).toBe('Test Spirit (Lv.15) [fire]');
     });
 
     test('should handle damage correctly', () => {
@@ -292,7 +292,7 @@ describe('HUDPure Golden Tests', () => {
       playerSpirit = new SpiritHUDState('player1', 'Player 1', 100, 100, ['regen'], 15, 'water', 1);
       opponentSpirit = new SpiritHUDState('opponent1', 'Opponent 1', 80, 100, ['poison'], 16, 'fire', 1);
       turnState = new TurnHUDState('SelectAction', 'player1', 'attack -> opponent1', 1, 1);
-      hudModel = new BattleHUDModel([playerSpirit], [opponentSpirit!], turnState);
+      hudModel = new BattleHUDModel([playerSpirit], [opponentSpirit], turnState);
     });
 
     test('should create model with spirits and turn state', () => {
@@ -466,7 +466,7 @@ describe('HUDPure Golden Tests', () => {
       const opponentSpirit = new SpiritHUDState('opponent1', 'Opponent 1', 45, 80, ['poison']);
       const turnState = new TurnHUDState('SelectAction', 'player1', 'attack -> opponent1', 1, 1);
 
-      hudModel = new BattleHUDModel([playerSpirit], [opponentSpirit!], turnState);
+      hudModel = new BattleHUDModel([playerSpirit], [opponentSpirit], turnState);
     });
 
     test('should render complete HUD', () => {
@@ -520,7 +520,7 @@ describe('HUDPure Golden Tests', () => {
       const playerSpirit = new SpiritHUDState('player1', 'Player 1', 100, 100);
       const opponentSpirit = new SpiritHUDState('opponent1', 'Opponent 1', 80, 100);
       const turnState = new TurnHUDState('SelectAction', 'player1');
-      const hudModel = new BattleHUDModel([playerSpirit], [opponentSpirit!], turnState);
+      const hudModel = new BattleHUDModel([playerSpirit], [opponentSpirit], turnState);
       const renderer = new CLIHUDRenderer();
 
       hudManager = new HUDManager(hudModel, renderer);
@@ -537,8 +537,8 @@ describe('HUDPure Golden Tests', () => {
       const newTurnState = new TurnHUDState('ResolveAction', 'player2');
 
       hudManager.updateModel({
-        player: [newPlayerSpirit!],
-        opponent: [newOpponentSpirit!],
+        player: [newPlayerSpirit],
+        opponent: [newOpponentSpirit],
         turn: newTurnState
       });
 
@@ -705,7 +705,7 @@ describe('HUDPure Golden Tests', () => {
       const playerSpirit = new SpiritHUDState('hero', 'Hero', 100, 100, [], 20);
       const enemySpirit = new SpiritHUDState('goblin', 'Goblin', 30, 30, [], 5);
 
-      const hudModel = new BattleHUDModel([playerSpirit], [enemySpirit!], new TurnHUDState('SelectAction', 'hero'));
+      const hudModel = new BattleHUDModel([playerSpirit], [enemySpirit], new TurnHUDState('SelectAction', 'hero'));
       const renderer = new CLIHUDRenderer();
       const hudManager = new HUDManager(hudModel, renderer);
 
@@ -768,7 +768,7 @@ describe('HUDPure Golden Tests', () => {
       const playerSpirit = new SpiritHUDState('hero', 'Hero', 10, 100, []);
       const enemySpirit = new SpiritHUDState('boss', 'Boss', 0, 200, []);
 
-      const hudModel = new BattleHUDModel([playerSpirit], [enemySpirit!], new TurnHUDState('ResolveAction'));
+      const hudModel = new BattleHUDModel([playerSpirit], [enemySpirit], new TurnHUDState('ResolveAction'));
       const hudManager = new HUDManager(hudModel, new CLIHUDRenderer());
 
       // Boss is already KO, player should win
@@ -787,7 +787,7 @@ describe('HUDPure Golden Tests', () => {
       const spirit1 = new SpiritHUDState('spirit1', 'Spirit 1', 100, 100, ['regen']);
       const spirit2 = new SpiritHUDState('spirit2', 'Spirit 2', 100, 100, []);
 
-      const hudModel = new BattleHUDModel([spirit1], [spirit2!], new TurnHUDState('SelectAction'));
+      const hudModel = new BattleHUDModel([spirit1], [spirit2], new TurnHUDState('SelectAction'));
       const hudManager = new HUDManager(hudModel, new CLIHUDRenderer());
 
       // Add multiple status effects

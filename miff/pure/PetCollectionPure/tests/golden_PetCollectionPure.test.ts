@@ -645,7 +645,7 @@ async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
   const results: TestResult[] = [];
 
   for (let i = 0; i < suite.tests.length; i++) {
-    const test = suite.tests[i!];
+    const test = suite.tests[i];
     const startTime = performance.now();
 
     try {

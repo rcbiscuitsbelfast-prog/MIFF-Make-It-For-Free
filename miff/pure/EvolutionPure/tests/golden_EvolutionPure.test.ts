@@ -1220,7 +1220,7 @@ describe('EvolutionPure Golden Tests', () => {
 
     test('should handle invalid condition types', () => {
       const invalidCondition = EvolutionCondition.create('invalid_type' as any, 0, '');
-      const invalidEvolution = SpeciesEvolutionData.create('invalid', 'invalid_target', [invalidCondition!]);
+      const invalidEvolution = SpeciesEvolutionData.create('invalid', 'invalid_target', [invalidCondition]);
       manager.registerSpeciesEvolution(invalidEvolution);
 
       const spirit = EvolutionUtils.createMockSpirit('invalid', 1);

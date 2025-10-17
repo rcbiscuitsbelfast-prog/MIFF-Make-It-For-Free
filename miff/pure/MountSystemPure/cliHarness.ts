@@ -16,7 +16,7 @@ function showUsage() {
 MountSystemPure CLI Harness
 
 USAGE:
-  ts-node cliHarness.ts <command> [options!]
+  ts-node cliHarness.ts <command> [options]
 
 COMMANDS:
   legacy <input-file>     - Run legacy mount/dismount system
@@ -303,7 +303,7 @@ async function main() {
         appearance: { color: 'brown', markings: [], size: 'medium' }
       };
 
-      manager.state.mounts[id!] = mount;
+      manager.state.mounts[id] = mount;
       console.log(`✅ Created mount: ${name} (${type} - ${rarity})`);
       console.log(`📊 Stats: Level ${mount.stats.level}, Health ${mount.stats.health}/${mount.stats.maxHealth}`);
       break;

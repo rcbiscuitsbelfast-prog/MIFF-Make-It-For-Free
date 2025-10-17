@@ -1194,7 +1194,7 @@ export class UnityConverter {
   }
 
   private async initializeConverter(): Promise<void> {
-    console.log('[UnityConverter!] Initializing Unity converter...');
+    console.log('[UnityConverter] Initializing Unity converter...');
 
     try {
       // Validate project settings
@@ -1207,27 +1207,27 @@ export class UnityConverter {
       await this.initializeUnityProject();
 
       this.isInitialized = true;
-      console.log('[UnityConverter!] Unity converter initialized successfully');
+      console.log('[UnityConverter] Unity converter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnityConverter!] Failed to initialize Unity converter:', err instanceof Error ? err.message : String(err));
+      console.error('[UnityConverter] Failed to initialize Unity converter:', err instanceof Error ? err.message : String(err));
       throw new Error(`Unity converter initialization failed: ${error}`);
     }
   }
 
   private async validateProjectSettings(): Promise<void> {
     // Validate project settings
-    console.log('[UnityConverter!] Validating project settings...');
+    console.log('[UnityConverter] Validating project settings...');
   }
 
   private async validateExportConfiguration(): Promise<void> {
     // Validate export configuration
-    console.log('[UnityConverter!] Validating export configuration...');
+    console.log('[UnityConverter] Validating export configuration...');
   }
 
   private async initializeUnityProject(): Promise<void> {
     // Initialize Unity project
-    console.log('[UnityConverter!] Initializing Unity project...');
+    console.log('[UnityConverter] Initializing Unity project...');
   }
 
   async convertProject(): Promise<UnityConversionReport> {
@@ -1238,7 +1238,7 @@ export class UnityConverter {
     const conversionId = `conversion_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    console.log(`[UnityConverter!] Starting conversion: ${conversionId}`);
+    console.log(`[UnityConverter] Starting conversion: ${conversionId}`);
 
     const report: UnityConversionReport = {
       conversionId,
@@ -1277,7 +1277,7 @@ export class UnityConverter {
       report.duration = report.endTime - startTime;
       report.conversionStatus = 'success';
 
-      console.log(`[UnityConverter!] Conversion completed: ${conversionId}`);
+      console.log(`[UnityConverter] Conversion completed: ${conversionId}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
@@ -1298,7 +1298,7 @@ export class UnityConverter {
 
       report.conversionErrors.push(conversionError);
 
-      console.error(`[UnityConverter!] Conversion failed: ${conversionId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnityConverter] Conversion failed: ${conversionId}`, err instanceof Error ? err.message : String(err));
     }
 
     this.conversionReports.push(report);
@@ -1306,32 +1306,32 @@ export class UnityConverter {
   }
 
   private async convertProjectSettings(): Promise<void> {
-    console.log('[UnityConverter!] Converting project settings...');
+    console.log('[UnityConverter] Converting project settings...');
     // Implementation for converting project settings
   }
 
   private async convertScenes(): Promise<void> {
-    console.log('[UnityConverter!] Converting scenes...');
+    console.log('[UnityConverter] Converting scenes...');
     // Implementation for converting scenes
   }
 
   private async convertAssets(): Promise<void> {
-    console.log('[UnityConverter!] Converting assets...');
+    console.log('[UnityConverter] Converting assets...');
     // Implementation for converting assets
   }
 
   private async convertScripts(): Promise<void> {
-    console.log('[UnityConverter!] Converting scripts...');
+    console.log('[UnityConverter] Converting scripts...');
     // Implementation for converting scripts
   }
 
   private async generateBuildFiles(): Promise<void> {
-    console.log('[UnityConverter!] Generating build files...');
+    console.log('[UnityConverter] Generating build files...');
     // Implementation for generating build files
   }
 
   private async exportProject(): Promise<void> {
-    console.log('[UnityConverter!] Exporting project...');
+    console.log('[UnityConverter] Exporting project...');
     // Implementation for exporting project
   }
 
@@ -1340,7 +1340,7 @@ export class UnityConverter {
       throw new Error('Unity converter not initialized');
     }
 
-    console.log('[UnityConverter!] Building Unity project...');
+    console.log('[UnityConverter] Building Unity project...');
 
     const report: UnityBuildReport = {
       summary: {
@@ -2020,7 +2020,7 @@ export class UnityConverter {
     };
 
     // Implementation for building Unity project
-    console.log('[UnityConverter!] Build completed successfully');
+    console.log('[UnityConverter] Build completed successfully');
 
     return report;
   }
@@ -2104,12 +2104,12 @@ export class UnityConverter {
 
   reset(): void {
     this.conversionReports = [];
-    console.log('[UnityConverter!] Reset to initial state');
+    console.log('[UnityConverter] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    console.log('[UnityConverter!] Disposed successfully');
+    console.log('[UnityConverter] Disposed successfully');
   }
 }

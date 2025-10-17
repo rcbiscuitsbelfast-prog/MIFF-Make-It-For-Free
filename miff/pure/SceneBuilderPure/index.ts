@@ -338,7 +338,7 @@ export class SceneBuilderManager {
   }
 
   private initializeBuilder(): void {
-    console.log('[SceneBuilderManager!] Initializing scene builder...');
+    console.log('[SceneBuilderManager] Initializing scene builder...');
 
     // Initialize default templates
     this.initializeDefaultTemplates();
@@ -346,7 +346,7 @@ export class SceneBuilderManager {
     // Initialize optimization systems
     this.initializeOptimizationSystems();
 
-    console.log('[SceneBuilderManager!] Scene builder initialized successfully');
+    console.log('[SceneBuilderManager] Scene builder initialized successfully');
   }
 
   private initializeDefaultTemplates(): void {
@@ -489,7 +489,7 @@ export class SceneBuilderManager {
   private initializeOptimizationSystems(): void {
     // Initialize optimization systems based on configuration
     if (this.configuration && this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
-      console.log(`[SceneBuilderManager!] Initializing optimization system: ${this.configuration.optimizationMode}`);
+      console.log(`[SceneBuilderManager] Initializing optimization system: ${this.configuration.optimizationMode}`);
     }
   }
 
@@ -511,7 +511,7 @@ export class SceneBuilderManager {
     };
 
     try {
-      console.log('[SceneBuilderManager!] Starting scene build...');
+      console.log('[SceneBuilderManager] Starting scene build...');
 
       // Initialize scene
       this.updateProgress('initialization', 10, 'Setting up scene structure...');
@@ -555,12 +555,12 @@ export class SceneBuilderManager {
         }
       };
 
-      console.log('[SceneBuilderManager!] Scene build completed successfully');
+      console.log('[SceneBuilderManager] Scene build completed successfully');
       return result;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[SceneBuilderManager!] Scene build failed:', err instanceof Error ? err.message : String(err));
+      console.error('[SceneBuilderManager] Scene build failed:', err instanceof Error ? err.message : String(err));
 
       const result: SceneBuildResult = {
         success: false,
@@ -605,7 +605,7 @@ export class SceneBuilderManager {
     if (templateId) {
       const template = this.templates.get(templateId);
       if (template) {
-        console.log(`[SceneBuilderManager!] Loading template: ${template.name}`);
+        console.log(`[SceneBuilderManager] Loading template: ${template.name}`);
 
         // Apply template configuration
         Object.assign(this.configuration, template.configuration);
@@ -627,18 +627,18 @@ export class SceneBuilderManager {
 
   private async loadAssets(): Promise<void> {
     // Simulate asset loading
-    console.log('[SceneBuilderManager!] Loading assets...');
+    console.log('[SceneBuilderManager] Loading assets...');
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
   private async buildSceneNodes(): Promise<void> {
     // Build scene hierarchy
-    console.log('[SceneBuilderManager!] Building scene nodes...');
+    console.log('[SceneBuilderManager] Building scene nodes...');
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
   private async applyOptimizations(): Promise<void> {
-    console.log(`[SceneBuilderManager!] Applying optimizations: ${this.configuration.optimizationMode}`);
+    console.log(`[SceneBuilderManager] Applying optimizations: ${this.configuration.optimizationMode}`);
 
     switch (this.configuration.optimizationMode) {
       case SceneOptimizationMode.CULLING:
@@ -657,34 +657,34 @@ export class SceneBuilderManager {
         await this.applyOcclusionOptimizations();
         break;
       default:
-        console.log('[SceneBuilderManager!] No optimizations applied');
+        console.log('[SceneBuilderManager] No optimizations applied');
     }
 
     await new Promise(resolve => setTimeout(resolve, 150));
   }
 
   private async applyCullingOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager!] Applying culling optimizations...');
+    console.log('[SceneBuilderManager] Applying culling optimizations...');
     // Implementation for frustum culling, occlusion culling, etc.
   }
 
   private async applyLODOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager!] Applying LOD optimizations...');
+    console.log('[SceneBuilderManager] Applying LOD optimizations...');
     // Implementation for level of detail optimizations
   }
 
   private async applyBatchingOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager!] Applying batching optimizations...');
+    console.log('[SceneBuilderManager] Applying batching optimizations...');
     // Implementation for static/dynamic batching
   }
 
   private async applyInstancingOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager!] Applying instancing optimizations...');
+    console.log('[SceneBuilderManager] Applying instancing optimizations...');
     // Implementation for GPU instancing
   }
 
   private async applyOcclusionOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager!] Applying occlusion optimizations...');
+    console.log('[SceneBuilderManager] Applying occlusion optimizations...');
     // Implementation for occlusion culling
   }
 
@@ -692,23 +692,23 @@ export class SceneBuilderManager {
     const exportPaths: Record<SceneExportFormat, string> = {} as Record<SceneExportFormat, string>;
 
     for (const format of this.configuration.exportFormats) {
-      console.log(`[SceneBuilderManager!] Exporting to ${format}...`);
+      console.log(`[SceneBuilderManager] Exporting to ${format}...`);
 
       switch (format) {
         case SceneExportFormat.UNITY:
-          exportPaths[format!] = await this.exportToUnity();
+          exportPaths[format] = await this.exportToUnity();
           break;
         case SceneExportFormat.GODOT:
-          exportPaths[format!] = await this.exportToGodot();
+          exportPaths[format] = await this.exportToGodot();
           break;
         case SceneExportFormat.WEBGL:
-          exportPaths[format!] = await this.exportToWebGL();
+          exportPaths[format] = await this.exportToWebGL();
           break;
         case SceneExportFormat.JSON:
-          exportPaths[format!] = await this.exportToJSON();
+          exportPaths[format] = await this.exportToJSON();
           break;
         default:
-          exportPaths[format!] = `export_${format}_${Date.now()}`;
+          exportPaths[format] = `export_${format}_${Date.now()}`;
       }
 
       await new Promise(resolve => setTimeout(resolve, 50));
@@ -738,7 +738,7 @@ export class SceneBuilderManager {
   }
 
   private async finalizeScene(): Promise<void> {
-    console.log('[SceneBuilderManager!] Finalizing scene...');
+    console.log('[SceneBuilderManager] Finalizing scene...');
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
@@ -767,7 +767,7 @@ export class SceneBuilderManager {
       this.buildProgress.message = message;
       this.buildProgress.currentOperation = message;
 
-      console.log(`[SceneBuilderManager!] Progress: ${progress}% - ${message}`);
+      console.log(`[SceneBuilderManager] Progress: ${progress}% - ${message}`);
     }
   }
 
@@ -955,7 +955,7 @@ export class SceneBuilderManager {
     this.postProcessing.clear();
     this.templates.clear();
 
-    console.log('[SceneBuilderManager!] Disposed successfully');
+    console.log('[SceneBuilderManager] Disposed successfully');
   }
 }
 

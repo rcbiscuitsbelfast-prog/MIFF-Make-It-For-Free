@@ -374,7 +374,7 @@ export class ConsolidatedSchemaManager {
     // Simple direct migration check
   const migrationKey = `${fromVersion}->${toVersion}`;
     if (this.migrations.has(migrationKey)) {
-      return [migrationKey!];
+      return [migrationKey];
     }
 
   return [];
@@ -568,7 +568,7 @@ export class ConsolidatedSchemaManager {
     // Check field types and constraints
     if (schema.properties) {
       for (const [fieldName, fieldDef] of Object.entries(schema.properties)) {
-        const value = data[fieldName!];
+        const value = data[fieldName];
         
         if (value !== undefined) {
           // Type checking

@@ -346,7 +346,7 @@ describe('CombatPure Golden Tests', () => {
       const summary = spirit.getCombatSummary();
       expect(summary).toContain('ember'); // Name is lowercase
       expect(summary).toContain('HP: 85/100');
-      expect(summary).toContain('[fire!]'); // Type tag
+      expect(summary).toContain('[fire]'); // Type tag
       expect(summary).toContain('Lv.1'); // Level
     });
 

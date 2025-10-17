@@ -472,7 +472,7 @@ export class RenderPayloadManager {
     const engineDistribution: Record<string, number> = {};
     frames.forEach((frame: any) => {
       const engine = frame.metadata?.engine || 'unified';
-      engineDistribution[engine!] = (engineDistribution[engine!] || 0) + 1;
+      engineDistribution[engine] = (engineDistribution[engine] || 0) + 1;
     });
 
     return {

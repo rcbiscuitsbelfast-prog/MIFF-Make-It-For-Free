@@ -8,7 +8,7 @@ function runCLI(grid: number[][]) {
   const blocks: { x: number; y: number }[] = [];
   for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[0!].length; x++) {
-      if (grid[y!][x] === 1) blocks.push({ x, y });
+      if (grid[y][x] === 1) blocks.push({ x, y });
     }
   }
   const payload = {
@@ -53,7 +53,7 @@ describe('PathfindingPure fuzz invariants', () => {
           const last = path[path.length - 1];
           expect([last.x, last.y]).toEqual(goal);
           for (const { x, y } of path) {
-            expect(grid[y!][x!]).toBe(0);
+            expect(grid[y][x]).toBe(0);
           }
         }
       }

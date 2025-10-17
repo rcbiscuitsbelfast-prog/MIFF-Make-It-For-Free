@@ -18,7 +18,7 @@ test('golden rhythm system flow', () => {
   // Run CLI harness with rhythm data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [beatmap!]
+    [beatmap]
   );
   
   const got = JSON.parse(out);

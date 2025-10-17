@@ -20,7 +20,7 @@ describe('RemixAuditPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [auditFixture!]
+      [auditFixture]
     );
     
     const result = JSON.parse(out);
@@ -83,7 +83,7 @@ describe('RemixAuditPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath!]
+        [tempFixturePath]
       );
       
       const result = JSON.parse(out);
@@ -110,7 +110,7 @@ describe('RemixAuditPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [auditFixture!]
+      [auditFixture]
     );
     
     const result = JSON.parse(out);
@@ -154,7 +154,7 @@ describe('RemixAuditPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [auditFixture!]
+      [auditFixture]
     );
     
     const result = JSON.parse(out);

@@ -20,11 +20,11 @@ const flags = parseFlags(args.slice(1));
 function parseFlags(args) {
   const flags = {};
   for (let i = 0; i < args.length; i++) {
-    const arg = args[i!];
+    const arg = args[i];
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
       const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
-      flags[key!] = value;
+      flags[key] = value;
     }
   }
   return flags;
@@ -35,7 +35,7 @@ function showHelp() {
 🎮 MIFF CLI - SplashScreen Commands
 
 Usage:
-  miff-cli <command> [flags!]
+  miff-cli <command> [flags]
 
 Commands:
   preview              Preview a MIFF scene with splash screen
@@ -125,7 +125,7 @@ async function handleExportWeb() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
@@ -173,7 +173,7 @@ async function handleBuildUnity() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 500));
   }
 

@@ -345,7 +345,7 @@ export class AssetPipeline {
           assetId,
           type: 'process',
           priority: this.calculateTaskPriority(asset),
-          dependencies: [assetId!], // Depends on load
+          dependencies: [assetId], // Depends on load
           status: 'pending',
           progress: 0
         }
@@ -356,7 +356,7 @@ export class AssetPipeline {
           assetId,
           type: 'compress',
           priority: this.calculateTaskPriority(asset),
-          dependencies: [assetId!], // Depends on process
+          dependencies: [assetId], // Depends on process
           status: 'pending',
           progress: 0
         });
@@ -366,7 +366,7 @@ export class AssetPipeline {
         assetId,
         type: 'cache',
         priority: this.calculateTaskPriority(asset),
-        dependencies: [assetId!], // Depends on compress or process
+        dependencies: [assetId], // Depends on compress or process
         status: 'pending',
         progress: 0
       });

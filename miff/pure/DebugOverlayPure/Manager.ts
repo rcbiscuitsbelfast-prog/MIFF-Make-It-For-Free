@@ -788,7 +788,7 @@ export class DebugOverlayManager {
     const interval = this.config.autoRefreshInterval! || 1000;
     this.autoRefreshTimer = setInterval(() => {
       // Auto-refresh logic would trigger overlay updates
-      console.log(`[DebugOverlay!] Auto-refresh tick: ${this.frameCounter}`);
+      console.log(`[DebugOverlay] Auto-refresh tick: ${this.frameCounter}`);
     }, interval);
   }
 
@@ -969,7 +969,7 @@ export class DebugOverlayManager {
     const data = new Float32Array(width * height);
 
     for (let i = 0; i < data.length; i++) {
-      data[i!] = Math.random();
+      data[i] = Math.random();
     }
 
     return {
@@ -1374,27 +1374,27 @@ export class DebugOverlayManager {
 
   private initializeMemoryTracking(): void {
     // Memory tracking initialization would go here
-    console.log('[DebugOverlay!] Memory tracking enabled');
+    console.log('[DebugOverlay] Memory tracking enabled');
   }
 
   private initializeFrameProfiling(): void {
     // Frame profiling initialization would go here
-    console.log('[DebugOverlay!] Frame profiling enabled');
+    console.log('[DebugOverlay] Frame profiling enabled');
   }
 
   private initializeInputAnalysis(): void {
     // Input analysis initialization would go here
-    console.log('[DebugOverlay!] Input analysis enabled');
+    console.log('[DebugOverlay] Input analysis enabled');
   }
 
   private initializeAudioAnalysis(): void {
     // Audio analysis initialization would go here
-    console.log('[DebugOverlay!] Audio analysis enabled');
+    console.log('[DebugOverlay] Audio analysis enabled');
   }
 
   private initializeNetworkMonitoring(): void {
     // Network monitoring initialization would go here
-    console.log('[DebugOverlay!] Network monitoring enabled');
+    console.log('[DebugOverlay] Network monitoring enabled');
   }
 
   private loadGoldenTest(testPath: string): any {

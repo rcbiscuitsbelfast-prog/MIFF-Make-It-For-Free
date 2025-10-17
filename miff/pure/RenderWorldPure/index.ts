@@ -1370,7 +1370,7 @@ export class RenderWorldPure {
       'guide': 'quest',
       'mystic': 'quest'
     };
-    return typeMap[key!] || 'neutral';
+    return typeMap[key] || 'neutral';
   }
 
   /**
@@ -1381,7 +1381,7 @@ export class RenderWorldPure {
       'guide': 'tutorial_quest',
       'mystic': 'spirit_lens_quest'
     };
-    return questMap[key!];
+    return questMap[key];
   }
 
   /**

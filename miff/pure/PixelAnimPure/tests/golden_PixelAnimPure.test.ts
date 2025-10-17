@@ -35,7 +35,7 @@ describe('PixelAnimPure Golden Tests', () => {
     result.animation?.frames.forEach((frame, index) => {
       expect(frame.frame).toBe(index);
       expect(frame.duration).toBe(1000 / 12); // 1000ms / 12fps
-      expect(frame.layer).toBe(frames[index!]);
+      expect(frame.layer).toBe(frames[index]);
     });
   });
 

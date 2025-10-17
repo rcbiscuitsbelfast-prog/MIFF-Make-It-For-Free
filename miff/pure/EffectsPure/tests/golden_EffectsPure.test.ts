@@ -895,7 +895,7 @@ describe('EffectsPure Golden Tests', () => {
       const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
-      const resolution = effectResolver.resolveEffects(EffectPhase.PRE_TURN, 'player', [activeEffect!], entityContext);
+      const resolution = effectResolver.resolveEffects(EffectPhase.PRE_TURN, 'player', [activeEffect], entityContext);
 
       expect(resolution.resolvedEffects).toHaveLength(1);
       expect(resolution.statChanges.has(TargetStat.ATK)).toBe(true);

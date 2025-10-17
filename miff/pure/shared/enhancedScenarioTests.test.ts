@@ -94,7 +94,7 @@ describe('Enhanced Scenario Orchestration', () => {
 
     // Verify unresolved hooks warning was logged
     expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining('[ReplayHook!] Unresolved hooks:'),
+      expect.stringContaining('[ReplayHook] Unresolved hooks:'),
       expect.any(Array)
     );
 
@@ -259,10 +259,10 @@ describe('VisualReplaySystemPure Integration', () => {
     mockSystem.hooks.forEach(hook => hookRegisteredHandler(hook));
 
     // Verify all hooks were logged
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: player_sprite');
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: block_sprite');
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: jump_sound');
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: jump_particles');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: player_sprite');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: block_sprite');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: jump_sound');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: jump_particles');
 
     consoleSpy.mockRestore();
   });

@@ -699,7 +699,7 @@ export class SimpleNeuralNetwork {
         layerBiases.push(0.1 * (Math.random() - 0.5));
 
         const neuronWeights: number[] = [];
-        for (let k = 0; k < layers[i!]; k++) {
+        for (let k = 0; k < layers[i]; k++) {
           neuronWeights.push(0.1 * (Math.random() - 0.5));
         }
         layerWeights.push(neuronWeights);
@@ -742,11 +742,11 @@ export class SimpleNeuralNetwork {
     for (let layer = 0; layer < this.weights.length; layer++) {
       const layerActivations: number[] = [];
 
-      for (let neuron = 0; neuron < this.weights[layer!].length; neuron++) {
-        let sum = this.biases[layer!][neuron!];
+      for (let neuron = 0; neuron < this.weights[layer].length; neuron++) {
+        let sum = this.biases[layer][neuron];
 
-        for (let weight = 0; weight < this.weights[layer!][neuron!].length; weight++) {
-          sum += this.activations[layer!][weight!] * this.weights[layer!][neuron!][weight!];
+        for (let weight = 0; weight < this.weights[layer][neuron].length; weight++) {
+          sum += this.activations[layer][weight] * this.weights[layer][neuron][weight];
         }
 
         layerActivations.push(this.activationFunction(sum));
@@ -770,7 +770,7 @@ export class SimpleNeuralNetwork {
     // Calculate output layer gradients
     const outputGradients: number[] = [];
     for (let i = 0; i < prediction.length; i++) {
-      outputGradients.push(error[i!] * this.activationDerivative(prediction[i!]));
+      outputGradients.push(error[i] * this.activationDerivative(prediction[i]));
     }
     gradients.push(outputGradients);
 
@@ -778,18 +778,18 @@ export class SimpleNeuralNetwork {
     for (let layer = this.weights.length - 1; layer > 0; layer--) {
       const layerGradients: number[] = [];
 
-      for (let neuron = 0; neuron < this.weights[layer!][0!].length; neuron++) {
+      for (let neuron = 0; neuron < this.weights[layer][0!].length; neuron++) {
         let gradient = 0;
 
-        for (let nextNeuron = 0; nextNeuron < this.weights[layer!].length; nextNeuron++) {
-          for (let weight = 0; weight < this.weights[layer!][nextNeuron!].length; weight++) {
+        for (let nextNeuron = 0; nextNeuron < this.weights[layer].length; nextNeuron++) {
+          for (let weight = 0; weight < this.weights[layer][nextNeuron].length; weight++) {
             if (weight === neuron) {
-              gradient += gradients[0!][nextNeuron!] * this.weights[layer!][nextNeuron!][weight!];
+              gradient += gradients[0!][nextNeuron] * this.weights[layer][nextNeuron][weight];
             }
           }
         }
 
-        gradient *= this.activationDerivative(this.activations[layer!][neuron!]);
+        gradient *= this.activationDerivative(this.activations[layer][neuron]);
         layerGradients.push(gradient);
       }
 
@@ -798,22 +798,22 @@ export class SimpleNeuralNetwork {
 
     // Update weights and biases
     for (let layer = 0; layer < this.weights.length; layer++) {
-      if (!weightDeltas[layer!]) weightDeltas[layer!] = [];
-      if (!biasDeltas[layer!]) biasDeltas[layer!] = [];
+      if (!weightDeltas[layer]) weightDeltas[layer] = [];
+      if (!biasDeltas[layer]) biasDeltas[layer] = [];
 
-      for (let neuron = 0; neuron < this.weights[layer!].length; neuron++) {
-        if (!weightDeltas[layer!][neuron!]) weightDeltas[layer!][neuron!] = [];
+      for (let neuron = 0; neuron < this.weights[layer].length; neuron++) {
+        if (!weightDeltas[layer][neuron]) weightDeltas[layer][neuron] = [];
 
-        biasDeltas[layer!][neuron!] = gradients[layer!][neuron!] * this.config.learningRate;
+        biasDeltas[layer][neuron] = gradients[layer][neuron] * this.config.learningRate;
 
-        for (let weight = 0; weight < this.weights[layer!][neuron!].length; weight++) {
-          const delta = gradients[layer!][neuron!] * this.activations[layer!][weight!] * this.config.learningRate;
-          weightDeltas[layer!][neuron!][weight!] = delta;
+        for (let weight = 0; weight < this.weights[layer][neuron].length; weight++) {
+          const delta = gradients[layer][neuron] * this.activations[layer][weight] * this.config.learningRate;
+          weightDeltas[layer][neuron][weight] = delta;
 
-          this.weights[layer!][neuron!][weight!] -= delta;
+          this.weights[layer][neuron][weight] -= delta;
         }
 
-        this.biases[layer!][neuron!] -= biasDeltas[layer!][neuron!];
+        this.biases[layer][neuron] -= biasDeltas[layer][neuron];
       }
     }
 
@@ -823,7 +823,7 @@ export class SimpleNeuralNetwork {
   private calculateError(prediction: number[], expected: number[]): number[] {
     const error: number[] = [];
     for (let i = 0; i < prediction.length; i++) {
-      error.push(expected[i!] - prediction[i!]);
+      error.push(expected[i] - prediction[i]);
     }
     return error;
   }
@@ -880,13 +880,13 @@ export class AIManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    console.log('[AIManager!] Initializing AI system...');
+    console.log('[AIManager] Initializing AI system...');
     
     // Initialize default behaviors
     this.initializeDefaultBehaviors();
     
     this.isInitialized = true;
-    console.log('[AIManager!] AI system initialized successfully');
+    console.log('[AIManager] AI system initialized successfully');
   }
 
   private initializeDefaultBehaviors(): void {
@@ -997,12 +997,12 @@ export class AIManager {
    */
   addBehavior(behavior: AIBehavior): boolean {
     if (!behavior.id || !behavior.name) {
-      console.error('[AIManager!] Invalid behavior: missing required fields');
+      console.error('[AIManager] Invalid behavior: missing required fields');
       return false;
     }
 
     this.behaviors.set(behavior.id, behavior);
-    console.log(`[AIManager!] Added behavior: ${behavior.name}`);
+    console.log(`[AIManager] Added behavior: ${behavior.name}`);
     return true;
   }
 
@@ -1012,7 +1012,7 @@ export class AIManager {
   removeBehavior(behaviorId: string): boolean {
     const removed = this.behaviors.delete(behaviorId);
     if (removed) {
-      console.log(`[AIManager!] Removed behavior: ${behaviorId}`);
+      console.log(`[AIManager] Removed behavior: ${behaviorId}`);
     }
     return removed;
   }
@@ -1093,7 +1093,7 @@ export class AIManager {
     this.behaviors.clear();
     this.decisions = [];
     this.isInitialized = false;
-    console.log('[AIManager!] AI system reset');
+    console.log('[AIManager] AI system reset');
   }
 
   /**
@@ -1103,7 +1103,7 @@ export class AIManager {
     this.reset();
     this.neuralNetworks.clear();
     this.trainingData.clear();
-    console.log('[AIManager!] AI system disposed');
+    console.log('[AIManager] AI system disposed');
   }
 
   /**
@@ -1111,7 +1111,7 @@ export class AIManager {
    */
   createNeuralNetwork(networkId: string, inputSize: number, outputSize: number): SimpleNeuralNetwork | null {
     if (!this.config.enableNeuralNetworks) {
-      console.warn('[AIManager!] Neural networks are disabled');
+      console.warn('[AIManager] Neural networks are disabled');
       return null;
     }
 
@@ -1125,7 +1125,7 @@ export class AIManager {
     });
 
     this.neuralNetworks.set(networkId, network);
-    console.log(`[AIManager!] Created neural network: ${networkId}`);
+    console.log(`[AIManager] Created neural network: ${networkId}`);
     return network;
   }
 
@@ -1142,7 +1142,7 @@ export class AIManager {
   trainNeuralNetwork(networkId: string, trainingData: TrainingData[]): boolean {
     const network = this.getNeuralNetwork(networkId);
     if (!network) {
-      console.error(`[AIManager!] Neural network not found: ${networkId}`);
+      console.error(`[AIManager] Neural network not found: ${networkId}`);
       return false;
     }
 
@@ -1163,7 +1163,7 @@ export class AIManager {
     this.trainingData.set(networkId, trainingData);
 
     const avgError = totalError / samples;
-    console.log(`[AIManager!] Training completed for ${networkId}. Average error: ${avgError.toFixed(4)}`);
+    console.log(`[AIManager] Training completed for ${networkId}. Average error: ${avgError.toFixed(4)}`);
 
     return avgError < 0.1; // Training successful if average error < 10%
   }
@@ -1174,7 +1174,7 @@ export class AIManager {
   predictWithNeuralNetwork(networkId: string, input: number[]): number[] | null {
     const network = this.getNeuralNetwork(networkId);
     if (!network) {
-      console.error(`[AIManager!] Neural network not found: ${networkId}`);
+      console.error(`[AIManager] Neural network not found: ${networkId}`);
       return null;
     }
 
@@ -1380,7 +1380,7 @@ export class AIPerformanceMonitor {
       this.collectMetrics();
     }, intervalMs);
 
-    console.log('[AIPerformanceMonitor!] Started monitoring AI performance');
+    console.log('[AIPerformanceMonitor] Started monitoring AI performance');
   }
 
   /**
@@ -1395,7 +1395,7 @@ export class AIPerformanceMonitor {
     }
 
     this.isMonitoring = false;
-    console.log('[AIPerformanceMonitor!] Stopped monitoring AI performance');
+    console.log('[AIPerformanceMonitor] Stopped monitoring AI performance');
   }
 
   /**
@@ -1423,15 +1423,15 @@ export class AIPerformanceMonitor {
    */
   private logMetricsIfNeeded(metrics): void {
     if (metrics.averageError > 0.5) {
-      console.warn(`[AIPerformanceMonitor!] High average error detected: ${metrics.averageError.toFixed(4)}`);
+      console.warn(`[AIPerformanceMonitor] High average error detected: ${metrics.averageError.toFixed(4)}`);
     }
 
     if (metrics.decisionAccuracy < 0.7) {
-      console.warn(`[AIPerformanceMonitor!] Low decision accuracy detected: ${(metrics.decisionAccuracy * 100).toFixed(1)}%`);
+      console.warn(`[AIPerformanceMonitor] Low decision accuracy detected: ${(metrics.decisionAccuracy * 100).toFixed(1)}%`);
     }
 
     if (metrics.neuralNetworksCount > 10) {
-      console.info(`[AIPerformanceMonitor!] High neural network count: ${metrics.neuralNetworksCount}`);
+      console.info(`[AIPerformanceMonitor] High neural network count: ${metrics.neuralNetworksCount}`);
     }
   }
 
@@ -1485,7 +1485,7 @@ Total Metrics Collected: ${this.metricsHistory.length}
    */
   resetHistory(): void {
     this.metricsHistory = [];
-    console.log('[AIPerformanceMonitor!] Metrics history reset');
+    console.log('[AIPerformanceMonitor] Metrics history reset');
   }
 }
 

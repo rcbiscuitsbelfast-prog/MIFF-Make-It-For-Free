@@ -193,7 +193,7 @@ export class SimpleGameBuilder {
    * Get required modules for a game type
    */
   static getRequiredModules(gameType: GameType): string[] {
-    return this.MODULE_DEPENDENCIES[gameType!] || [];
+    return this.MODULE_DEPENDENCIES[gameType] || [];
   }
 
   /**

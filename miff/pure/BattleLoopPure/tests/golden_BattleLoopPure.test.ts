@@ -41,7 +41,7 @@ class MockRNGProvider {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = this.nextInt(0, i + 1);
-      [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
   }
@@ -933,7 +933,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           actorId === 1 ? 2 : 1,
-          availableMoves[moveIndex!],
+          availableMoves[moveIndex],
           0,
           50,
           actorId === 1 ? ActionSource.PLAYER : ActionSource.AI
@@ -1148,7 +1148,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           actorId === 1 ? 2 : 1,
-          availableMoves[moveIndex!],
+          availableMoves[moveIndex],
           0,
           50,
           actorId === 1 ? ActionSource.PLAYER : ActionSource.AI

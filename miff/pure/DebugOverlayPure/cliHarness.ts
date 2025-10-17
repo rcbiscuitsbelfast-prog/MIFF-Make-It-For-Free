@@ -41,7 +41,7 @@ function printUsage(): void {
 DebugOverlayPure CLI - Real-time debug overlay for MIFF engine bridges
 
 Usage:
-  npx ts-node DebugOverlayPure/cliHarness.ts <command> [options!]
+  npx ts-node DebugOverlayPure/cliHarness.ts <command> [options]
 
 Commands:
   demo                           Run demo mode for testing

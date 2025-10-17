@@ -115,7 +115,7 @@ export class RealEventBus extends EventEmitter {
     for (const [event, subs] of this.subscriptions.entries()) {
       const index = subs.findIndex(sub => sub.id === subscriptionId);
       if (index !== -1) {
-        const subscription = subs[index!];
+        const subscription = subs[index];
         subs.splice(index, 1);
         
         // Remove from EventEmitter

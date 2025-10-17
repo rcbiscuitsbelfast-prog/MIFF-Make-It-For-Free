@@ -556,7 +556,7 @@ export class SportsSystemPure {
       bowling: { radius: 0.108, weight: 7.26 }
     };
 
-    const ballType = ballTypes[sportType!] || ballTypes.soccer;
+    const ballType = ballTypes[sportType] || ballTypes.soccer;
 
     return {
       id: `ball_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -595,7 +595,7 @@ export class SportsSystemPure {
       }
     };
 
-    const config = fieldConfigs[sportType!] || fieldConfigs.soccer;
+    const config = fieldConfigs[sportType] || fieldConfigs.soccer;
 
     return {
       id: `field_${sportType}_${Date.now()}`,
@@ -700,7 +700,7 @@ export class SportsSystemPure {
       }
     };
 
-    return rules[sportType!] || rules.soccer;
+    return rules[sportType] || rules.soccer;
   }
 }
 

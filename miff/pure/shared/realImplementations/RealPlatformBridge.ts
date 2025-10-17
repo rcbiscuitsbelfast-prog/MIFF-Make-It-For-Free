@@ -565,7 +565,7 @@ export class RealPlatformBridge {
    */
   private isStorageAvailable(type: string): boolean {
     try {
-      const storage = (window as any)[type!];
+      const storage = (window as any)[type];
       const x = '__storage_test__';
       storage.setItem(x, x);
       storage.removeItem(x);
@@ -793,7 +793,7 @@ export class RealPlatformBridge {
     
     for (const part of parts) {
       if (current && typeof current === 'object' && part in current) {
-        current = current[part!];
+        current = current[part];
       } else {
         return false;
       }

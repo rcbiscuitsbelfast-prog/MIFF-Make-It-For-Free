@@ -342,7 +342,7 @@ export class CraftingManager {
 
     // Check if materials are available
     for (const [material, required] of Object.entries(recipe.inputs)) {
-      if ((inventory[material!] || 0) < required) {
+      if ((inventory[material] || 0) < required) {
         return {
           op: 'start_crafting',
           status: 'error',
@@ -414,13 +414,13 @@ export class CraftingManager {
     if (success) {
       // Remove materials
       for (const [material, required] of Object.entries(recipe.inputs)) {
-        remaining[material!] = (remaining[material!] || 0) - required;
+        remaining[material] = (remaining[material] || 0) - required;
       }
 
       // Add outputs
       for (const [item, quantity] of Object.entries(recipe.outputs)) {
-        crafted[item!] = quantity;
-        remaining[item!] = (remaining[item!] || 0) + quantity;
+        crafted[item] = quantity;
+        remaining[item] = (remaining[item] || 0) + quantity;
       }
     }
 

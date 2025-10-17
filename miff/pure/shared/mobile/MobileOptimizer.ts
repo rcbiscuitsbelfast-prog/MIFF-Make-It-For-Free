@@ -199,7 +199,7 @@ export class MobileOptimizer {
    */
   setOptimizationEnabled(type: keyof MobileConfig, enabled: boolean): void {
     if (type in this.config) {
-      (this.config as any)[type!] = enabled;
+      (this.config as any)[type] = enabled;
       this.log(`Mobile optimization ${type}: ${enabled ? 'enabled' : 'disabled'}`);
     }
   }

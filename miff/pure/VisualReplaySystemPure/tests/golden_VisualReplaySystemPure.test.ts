@@ -21,7 +21,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const result = JSON.parse(out);
@@ -75,7 +75,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const result = JSON.parse(out);
@@ -124,7 +124,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const result = JSON.parse(out);
@@ -173,7 +173,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test JSON export (default)
     const jsonOut = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const jsonResult = JSON.parse(jsonOut);
@@ -196,7 +196,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     try {
       const csvOut = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempCsvFixture!]
+        [tempCsvFixture]
       );
       
       const csvResult = JSON.parse(csvOut);
@@ -217,7 +217,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     try {
       const summaryOut = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempSummaryFixture!]
+        [tempSummaryFixture]
       );
       
       const summaryResult = JSON.parse(summaryOut);
@@ -235,7 +235,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const result = JSON.parse(out);
@@ -286,7 +286,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const result = JSON.parse(out);
@@ -331,7 +331,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture!]
+      [replayFixture]
     );
     
     const result = JSON.parse(out);

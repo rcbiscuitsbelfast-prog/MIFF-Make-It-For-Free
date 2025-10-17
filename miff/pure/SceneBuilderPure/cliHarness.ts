@@ -15,7 +15,7 @@ interface SceneBuilderOperation {
 async function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op> [template!] [output!]');
+    console.error('Usage: tsx cliHarness.ts <op> [template] [output]');
     process.exit(1);
   }
 
@@ -149,7 +149,7 @@ async function exportScene(builder: SceneBuilderManager, format: SceneExportForm
   try {
     // Update configuration to include the desired format
     builder.updateConfiguration({
-      exportFormats: [format!]
+      exportFormats: [format]
     });
 
     const result = await builder.buildScene();

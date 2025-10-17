@@ -20,7 +20,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture!]
+      [enforcementFixture]
     );
     
     const result = JSON.parse(out);
@@ -86,7 +86,7 @@ describe('CIEnforcerPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath!]
+        [tempFixturePath]
       );
       
       const result = JSON.parse(out);
@@ -113,7 +113,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture!]
+      [enforcementFixture]
     );
     
     const result = JSON.parse(out);
@@ -171,7 +171,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture!]
+      [enforcementFixture]
     );
     
     const result = JSON.parse(out);
@@ -233,7 +233,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture!]
+      [enforcementFixture]
     );
     
     const result = JSON.parse(out);

@@ -74,10 +74,10 @@ function main() {
         result.result = {
           usage: 'InventoryPure CLI Harness',
           commands: [
-            'createInventory [entityId!] [maxWeight!] [maxSlots!] - Create inventory',
-            'getInventory [entityId!] - Get inventory',
-            'addItem [entityId!] [itemId!] [quantity!] [slot!] - Add item to inventory',
-            'removeItem [entityId!] [slot!] [quantity!] - Remove item from inventory',
+            'createInventory [entityId] [maxWeight] [maxSlots] - Create inventory',
+            'getInventory [entityId] - Get inventory',
+            'addItem [entityId] [itemId] [quantity] [slot] - Add item to inventory',
+            'removeItem [entityId] [slot] [quantity] - Remove item from inventory',
             'getStats - Get inventory statistics',
             'demo - Run demonstration scenarios',
             'help - Show this help'

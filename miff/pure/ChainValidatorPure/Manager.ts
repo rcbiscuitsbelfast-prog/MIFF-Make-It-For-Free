@@ -321,13 +321,13 @@ export class ChainValidatorManager {
     // rotate so smallest id lexicographically is first
     const body = cycle.slice(0, -1); // last equals first
     let minIdx = 0;
-    for (let i = 1; i < body.length; i++) if (body[i!] < body[minIdx!]) minIdx = i;
-    const rotated = [...body.slice(minIdx), ...body.slice(0, minIdx), body[minIdx!]];
+    for (let i = 1; i < body.length; i++) if (body[i] < body[minIdx]) minIdx = i;
+    const rotated = [...body.slice(minIdx), ...body.slice(0, minIdx), body[minIdx]];
     return rotated;
   }
 
   private cycleExists(bag: string[][], cycle: string[]): boolean {
-    return bag.some(c => c.length === cycle.length && c.every((id, i) => id === cycle[i!]));
+    return bag.some(c => c.length === cycle.length && c.every((id, i) => id === cycle[i]));
   }
 
   private topologicalSort(): { ok: boolean; order?: string[] } {
@@ -410,7 +410,7 @@ export class ChainValidatorManager {
     for (const n of payload.nodes) nodeRows.push(`${n.type},${n.id},${(n.label || '').replace(/,/g, ';')}`);
     const edgeRows = ['from,to'];
     for (const e of payload.edges) edgeRows.push(`${e.from},${e.to}`);
-    return ['[nodes!]', ...nodeRows, '', '[edges!]', ...edgeRows, '', '[stats!]', `nodes,${payload.stats.nodes}`, `edges,${payload.stats.edges}`, `cycles,${payload.stats.cycles}`, `components,${payload.stats.components}`].join('\n');
+    return ['[nodes]', ...nodeRows, '', '[edges]', ...edgeRows, '', '[stats]', `nodes,${payload.stats.nodes}`, `edges,${payload.stats.edges}`, `cycles,${payload.stats.cycles}`, `components,${payload.stats.components}`].join('\n');
   }
 }
 

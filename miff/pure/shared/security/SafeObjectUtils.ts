@@ -86,7 +86,7 @@ export class SafeObjectUtils {
     
     for (const key in obj) {
       if (this.isSafeKey(key) && obj.hasOwnProperty(key)) {
-        safe[key!] = obj[key!];
+        safe[key] = obj[key];
       }
     }
     
@@ -144,7 +144,7 @@ export class SafeObjectUtils {
         return defaultValue;
       }
 
-      current = current[key!];
+      current = current[key];
     }
 
     return current;
@@ -172,14 +172,14 @@ export class SafeObjectUtils {
         return false;
       }
 
-      if (!(key in current) || typeof current[key!] !== 'object') {
-        current[key!] = this.createSafeObject({});
+      if (!(key in current) || typeof current[key] !== 'object') {
+        current[key] = this.createSafeObject({});
       }
       
-      current = current[key!];
+      current = current[key];
     }
 
-    current[lastKey!] = value;
+    current[lastKey] = value;
     return true;
   }
 
@@ -222,7 +222,7 @@ export class SafeObjectUtils {
 
     if (Array.isArray(obj)) {
       for (let i = 0; i < obj.length; i++) {
-        const result = this.validateObjectRecursive(obj[i!], visited, depth + 1, maxDepth);
+        const result = this.validateObjectRecursive(obj[i], visited, depth + 1, maxDepth);
         if (!result.isValid) {
           return result;
         }
@@ -245,7 +245,7 @@ export class SafeObjectUtils {
           };
         }
 
-        const result = this.validateObjectRecursive(obj[key!], visited, depth + 1, maxDepth);
+        const result = this.validateObjectRecursive(obj[key], visited, depth + 1, maxDepth);
         if (!result.isValid) {
           return result;
         }
@@ -266,8 +266,8 @@ export class SafeObjectUtils {
         continue;
       }
 
-      const sourceValue = source[key!];
-      const targetValue = target[key!];
+      const sourceValue = source[key];
+      const targetValue = target[key];
 
       if (deep && 
           sourceValue !== null && 
@@ -277,12 +277,12 @@ export class SafeObjectUtils {
           typeof targetValue === 'object' && 
           !Array.isArray(targetValue)) {
         
-        if (!target[key!]) {
-          target[key!] = this.createSafeObject({});
+        if (!target[key]) {
+          target[key] = this.createSafeObject({});
         }
-        this.mergeObject(target[key!], sourceValue, { ...options, maxDepth: maxDepth - 1 });
+        this.mergeObject(target[key], sourceValue, { ...options, maxDepth: maxDepth - 1 });
       } else {
-        target[key!] = sourceValue;
+        target[key] = sourceValue;
       }
     }
   }
@@ -295,12 +295,12 @@ export class SafeObjectUtils {
     
     for (const key in obj) {
       if (this.isSafeKey(key) && obj.hasOwnProperty(key)) {
-        const value = obj[key!];
+        const value = obj[key];
         
         if (value !== null && typeof value === 'object') {
-          sanitized[key!] = this.sanitizeObject(value);
+          sanitized[key] = this.sanitizeObject(value);
         } else {
-          sanitized[key!] = value;
+          sanitized[key] = value;
         }
       }
     }

@@ -72,7 +72,7 @@ class CAPACLI {
     
     // Parse filter arguments
     for (let i = 0; i < args.length; i += 2) {
-      const key = args[i!];
+      const key = args[i];
       const value = args[i + 1];
       
       switch (key) {
@@ -119,7 +119,7 @@ class CAPACLI {
 
   private async createEntry(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.error('❌ Usage: create <title> <description> [options!]');
+      console.error('❌ Usage: create <title> <description> [options]');
       console.error('   Options: --category <category> --severity <severity> --module <module>');
       return;
     }
@@ -149,7 +149,7 @@ class CAPACLI {
 
     // Parse options
     for (let i = 2; i < args.length; i += 2) {
-      const key = args[i!];
+      const key = args[i];
       const value = args[i + 1];
       
       switch (key) {
@@ -185,7 +185,7 @@ class CAPACLI {
 
   private async updateEntry(args: string[]): Promise<void> {
     if (args.length < 3) {
-      console.error('❌ Usage: update <id> <status> [resolution!]');
+      console.error('❌ Usage: update <id> <status> [resolution]');
       return;
     }
 
@@ -297,7 +297,7 @@ class CAPACLI {
     console.info(`
 🛡️ CAPA CLI Tool
 
-Usage: tsx capaCLI.ts <command> [options!]
+Usage: tsx capaCLI.ts <command> [options]
 
 Commands:
   list                    List CAPA entries
@@ -316,7 +316,7 @@ Commands:
     --pr-required         Mark as PR required
 
   update <id> <status>    Update CAPA entry status
-    [resolution!]          Optional resolution text
+    [resolution]          Optional resolution text
 
   show <id>               Show detailed CAPA entry
 

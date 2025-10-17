@@ -93,13 +93,13 @@ function main() {
         result.result = {
           usage: 'PerfMetricsPure CLI Harness',
           commands: [
-            'record [sampleFile!] - Record performance samples',
+            'record [sampleFile] - Record performance samples',
             'snapshot - Get current performance snapshot',
             'getMetrics - Get comprehensive metrics',
             'getStats - Get performance statistics',
-            'export [format!] - Export metrics (json|csv|markdown)',
+            'export [format] - Export metrics (json|csv|markdown)',
             'reset - Reset performance metrics',
-            'updateConfig [configFile!] - Update configuration',
+            'updateConfig [configFile] - Update configuration',
             'demo - Run demonstration scenarios',
             'help - Show this help'
           ],

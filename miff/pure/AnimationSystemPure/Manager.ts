@@ -524,8 +524,8 @@ export class AnimationSystemManager {
     let nextKeyframe: Keyframe | null = null;
 
     for (let i = 0; i < keyframes.length; i++) {
-      if (keyframes[i!].time <= currentTime) {
-        currentKeyframe = keyframes[i!];
+      if (keyframes[i].time <= currentTime) {
+        currentKeyframe = keyframes[i];
         nextKeyframe = keyframes[i + 1] || null;
       }
     }

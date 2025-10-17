@@ -54,7 +54,7 @@ export function parseQuestText(text: string): ParseResult {
           if(rwds.length) (quest.rewards as QuestReward[]).push(...rwds);
         }
       }
-      (quest.steps as Record<string, QuestStep>)[stepId!] = step;
+      (quest.steps as Record<string, QuestStep>)[stepId] = step;
     }
   }
   const validation = validateQuest(quest as NormalizedQuest);

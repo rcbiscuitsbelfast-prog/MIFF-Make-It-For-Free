@@ -124,7 +124,7 @@ export class FusionRules {
       }
 
       if (context.gameData?.onboardingFlags) {
-        return context.gameData.onboardingFlags[value!] === true;
+        return context.gameData.onboardingFlags[value] === true;
       }
 
       return false;
@@ -215,7 +215,7 @@ export class FusionRules {
     }
 
     if (context.gameData?.onboardingFlags) {
-      return context.gameData.onboardingFlags[flag!] === true;
+      return context.gameData.onboardingFlags[flag] === true;
     }
 
     return false;

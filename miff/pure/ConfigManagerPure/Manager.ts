@@ -582,7 +582,7 @@ export class ConfigManagerManager {
       };
 
       const configIndex = manager.configs.findIndex(c => c.id === configId);
-      manager.configs[configIndex!] = updatedConfiguration;
+      manager.configs[configIndex] = updatedConfiguration;
       this.updateAnalytics();
 
       StructuredLogger.info('Configuration updated', { context: { message: { managerId, configId } } });

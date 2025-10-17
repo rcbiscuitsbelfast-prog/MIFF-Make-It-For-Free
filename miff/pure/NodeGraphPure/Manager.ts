@@ -31,7 +31,7 @@ export class NodeGraphManager {
 			const resolvedInputs = { ...(node.inputs||{}) } as any;
 			if (node.sources) {
 				for (const [k, fromId] of Object.entries(node.sources)) {
-					resolvedInputs[k!] = results[fromId!];
+					resolvedInputs[k] = results[fromId];
 				}
 			}
 			let out: any;

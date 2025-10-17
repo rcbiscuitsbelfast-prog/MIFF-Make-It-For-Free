@@ -1059,7 +1059,7 @@ export class EffectResolution implements IEffectResolution {
   getTotalStatChanges(): Record<string, number> {
     const changes: Record<string, number> = {};
     this.statChanges.forEach((value, key) => {
-      changes[key!] = value;
+      changes[key] = value;
     });
     return changes;
   }

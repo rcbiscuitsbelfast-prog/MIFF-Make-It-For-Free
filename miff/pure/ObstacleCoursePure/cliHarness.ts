@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 ObstacleCoursePure CLI Harness - Obstacle Course System
 
-Usage: npx tsx miff/pure/ObstacleCoursePure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/ObstacleCoursePure/cliHarness.ts [command] [options]
 
 Commands:
   test                     - Run basic obstacle course tests

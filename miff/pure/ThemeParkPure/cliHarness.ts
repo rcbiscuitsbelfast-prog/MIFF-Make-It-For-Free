@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 ThemeParkPure CLI Harness - Theme Park Management System
 
-Usage: npx tsx miff/pure/ThemeParkPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/ThemeParkPure/cliHarness.ts [command] [options]
 
 Commands:
   test                     - Run basic theme park tests
@@ -461,8 +461,8 @@ class ThemeParkCLI {
       for (let i = 0; i < 6; i++) {
         const ride: ThemeParkRide = {
           id: `sim-ride-${i + 1}`,
-          name: rideNames[i!],
-          type: rideTypes[i!],
+          name: rideNames[i],
+          type: rideTypes[i],
           capacity: Math.floor(Math.random() * 30) + 10,
           duration: Math.floor(Math.random() * 300) + 60,
           thrillLevel: Math.floor(Math.random() * 10) + 1,

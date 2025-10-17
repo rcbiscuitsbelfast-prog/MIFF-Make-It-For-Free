@@ -1102,7 +1102,7 @@ export class Spirit implements ISpirit {
 
     let effectiveness = 1;
     for (const type of typesToCheck) {
-      if (superEffective[attackingType!]?.includes(type)) {
+      if (superEffective[attackingType]?.includes(type)) {
         effectiveness *= 2;
       }
     }
@@ -1559,7 +1559,7 @@ export class SpiritCollection implements ISpiritCollection {
       const captured = this.getSpiritsByType(type).filter((s: any) => s.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
 
-      completion[type!] = { total, captured, percentage };
+      completion[type] = { total, captured, percentage };
     });
 
     return completion;
@@ -1577,7 +1577,7 @@ export class SpiritCollection implements ISpiritCollection {
       const captured = this.getSpiritsByRarity(rarity).filter((s: any) => s.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
 
-      completion[SpiritRarity[rarity!]] = { total, captured, percentage };
+      completion[SpiritRarity[rarity]] = { total, captured, percentage };
     });
 
     return completion;
@@ -1698,7 +1698,7 @@ export const SpiritUtils = {
       [SpiritType.BALANCE]: []
     };
 
-    if (superEffective[attackingType!]?.includes(defendingType)) {
+    if (superEffective[attackingType]?.includes(defendingType)) {
       return 2.0; // Super effective
     }
 
@@ -1716,7 +1716,7 @@ export const SpiritUtils = {
    * Get type name
    */
   getTypeName(type: SpiritType): string {
-    return SpiritType[type!].toUpperCase();
+    return SpiritType[type].toUpperCase();
   },
 
   /**

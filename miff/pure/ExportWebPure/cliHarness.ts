@@ -10,7 +10,7 @@ interface WebExportOptions {
 function parseArgs(argv: string[]): WebExportOptions {
   const opts: any = { project: './docs/godot', output: './build/web', deploy: 'none' };
   for (let i = 2; i < argv.length; i++) {
-    const k = argv[i!];
+    const k = argv[i];
     const v = argv[i + 1];
     switch (k) {
       case '--project': opts.project = v; i++; break;

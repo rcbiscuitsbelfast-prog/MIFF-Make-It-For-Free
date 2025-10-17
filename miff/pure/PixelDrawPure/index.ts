@@ -33,7 +33,7 @@ export const PixelDrawPure = {
 	setColor(grid: PixelGrid, x: number, y: number, color: RgbHex | null): void {
 		if (x < 0 || y < 0 || x >= grid.meta.width || y >= grid.meta.height) return;
 		const idx = this.indexOf(grid, x, y);
-		grid.cells[idx!] = color;
+		grid.cells[idx] = color;
 	},
 
 	getColor(grid: PixelGrid, x: number, y: number): RgbHex | null {

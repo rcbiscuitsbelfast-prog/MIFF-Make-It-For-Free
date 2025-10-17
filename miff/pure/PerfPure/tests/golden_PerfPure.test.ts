@@ -29,7 +29,7 @@ describe('PerfPure Golden Tests', () => {
       timer.dispose();
       expect(timer.isRunning).toBe(false);
       expect(timer.isDisposed).toBe(true);
-      expect(console.log).toHaveBeenCalledWith(expect.stringContaining('[perf!] Test Timer:'));
+      expect(console.log).toHaveBeenCalledWith(expect.stringContaining('[perf] Test Timer:'));
     });
 
     test('should measure elapsed time accurately', async () => {

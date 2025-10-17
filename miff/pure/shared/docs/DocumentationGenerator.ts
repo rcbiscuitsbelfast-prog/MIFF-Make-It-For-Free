@@ -731,8 +731,8 @@ const example = new ExampleClass();
 ## Documentation
 
 - [API Reference](./API.md)
-- [Examples!](./EXAMPLES.md)
-- [Changelog!](./CHANGELOG.md)
+- [Examples](./EXAMPLES.md)
+- [Changelog](./CHANGELOG.md)
 
 ## License
 

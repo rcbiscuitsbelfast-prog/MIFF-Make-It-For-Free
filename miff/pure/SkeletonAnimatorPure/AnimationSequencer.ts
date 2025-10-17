@@ -582,7 +582,7 @@ export class AnimationSequencer {
     this.animations.forEach((animation: any) => {
       // Check keyframes are in chronological order
       for (let i = 1; i < animation.keyframes.length; i++) {
-        if (animation.keyframes[i!].time < animation.keyframes[i - 1].time) {
+        if (animation.keyframes[i].time < animation.keyframes[i - 1].time) {
           errors.push(`Animation ${animation.name} has keyframes out of order`);
           break;
         }

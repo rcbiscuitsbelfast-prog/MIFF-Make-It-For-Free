@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 AIPure CLI Harness - AI Management System
 
-Usage: npx tsx miff/pure/AIPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/AIPure/cliHarness.ts [command] [options]
 
 Commands:
   test                     - Run basic AI tests
@@ -287,13 +287,13 @@ class AIPureCLI {
     console.log('  policies          - Show all AI policies');
     console.log('  spirits           - Show all spirits');
     console.log('  moves             - Show all moves');
-    console.log('  battle [spirit1!] [spirit2!] [policy!] - Simulate battle');
-    console.log('  decide [spirit!] [opponent!] [policy!] - Show AI decision');
-    console.log('  policy [id!]       - Show policy details');
-    console.log('  compare [policy1!] [policy2!] - Compare policies');
-    console.log('  damage [spirit1!] [spirit2!] [move!] - Calculate damage');
-    console.log('  heal [spirit!] [amount!] - Heal spirit');
-    console.log('  damage [spirit!] [amount!] - Damage spirit');
+    console.log('  battle [spirit1] [spirit2] [policy] - Simulate battle');
+    console.log('  decide [spirit] [opponent] [policy] - Show AI decision');
+    console.log('  policy [id]       - Show policy details');
+    console.log('  compare [policy1] [policy2] - Compare policies');
+    console.log('  damage [spirit1] [spirit2] [move] - Calculate damage');
+    console.log('  heal [spirit] [amount] - Heal spirit');
+    console.log('  damage [spirit] [amount] - Damage spirit');
     console.log('  status            - Show system status');
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
@@ -401,13 +401,13 @@ class AIPureCLI {
     console.log('  policies                - List all AI policies');
     console.log('  spirits                 - List all available spirits');
     console.log('  moves                   - List all available moves');
-    console.log('  battle [s1!] [s2!] [pol!]  - Simulate battle between spirits');
-    console.log('  decide [s!] [opp!] [pol!]  - Show AI decision for spirit');
-    console.log('  policy [id!]             - Show detailed policy info');
-    console.log('  compare [p1!] [p2!]       - Compare two policies');
-    console.log('  damage [s1!] [s2!] [mov!]  - Calculate damage from move');
-    console.log('  heal [spirit!] [amount!]  - Heal spirit (default: 20)');
-    console.log('  hurt [spirit!] [amount!]  - Damage spirit (default: 20)');
+    console.log('  battle [s1] [s2] [pol]  - Simulate battle between spirits');
+    console.log('  decide [s] [opp] [pol]  - Show AI decision for spirit');
+    console.log('  policy [id]             - Show detailed policy info');
+    console.log('  compare [p1] [p2]       - Compare two policies');
+    console.log('  damage [s1] [s2] [mov]  - Calculate damage from move');
+    console.log('  heal [spirit] [amount]  - Heal spirit (default: 20)');
+    console.log('  hurt [spirit] [amount]  - Damage spirit (default: 20)');
     console.log('  status                  - Show system statistics');
     console.log('  exit                    - Exit the application');
     console.log('');
@@ -494,7 +494,7 @@ class AIPureCLI {
    */
   private async simulateBattle(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: battle [spirit1!] [spirit2!] [policy!]');
+      console.log('❌ Usage: battle [spirit1] [spirit2] [policy]');
       return;
     }
 
@@ -605,7 +605,7 @@ class AIPureCLI {
    */
   private async showDecision(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: decide [spirit!] [opponent!] [policy!]');
+      console.log('❌ Usage: decide [spirit] [opponent] [policy]');
       return;
     }
 
@@ -684,7 +684,7 @@ class AIPureCLI {
    */
   private showPolicyDetails(policyId: string): void {
     if (!policyId) {
-      console.log('❌ Usage: policy [policy_id!]');
+      console.log('❌ Usage: policy [policy_id]');
       return;
     }
 
@@ -728,7 +728,7 @@ class AIPureCLI {
    */
   private comparePolicies(policyId1: string, policyId2: string): void {
     if (!policyId1 || !policyId2) {
-      console.log('❌ Usage: compare [policy1!] [policy2!]');
+      console.log('❌ Usage: compare [policy1] [policy2]');
       return;
     }
 
@@ -779,7 +779,7 @@ class AIPureCLI {
    */
   private async calculateDamage(args: string[]): Promise<void> {
     if (args.length < 3) {
-      console.log('❌ Usage: damage [attacker!] [defender!] [move!]');
+      console.log('❌ Usage: damage [attacker] [defender] [move]');
       return;
     }
 
@@ -831,7 +831,7 @@ class AIPureCLI {
 
     console.log('Damage Results:');
     results.forEach((damage, index) => {
-      const variance = rngValues[index!];
+      const variance = rngValues[index];
       console.log(`  ${variance.toFixed(2)} variance: ${damage} damage`);
     });
 

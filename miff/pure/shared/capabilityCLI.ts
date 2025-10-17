@@ -368,14 +368,14 @@ class CapabilityCLI {
     console.info(`
 🧩 MIFF Capability Introspection CLI
 
-Usage: tsx capabilityCLI.ts <command> [options!]
+Usage: tsx capabilityCLI.ts <command> [options]
 
 Commands:
-  discover [path!] [output!]        Discover capabilities across all modules
-  list <module-id> [output!]       List capabilities for specific module
-  help <module-id> [output!]       Generate dynamic CLI help for module
-  test <module-id> [output!]       Generate dynamic test templates
-  report [output!]                 Generate comprehensive capability report
+  discover [path] [output]        Discover capabilities across all modules
+  list <module-id> [output]       List capabilities for specific module
+  help <module-id> [output]       Generate dynamic CLI help for module
+  test <module-id> [output]       Generate dynamic test templates
+  report [output]                 Generate comprehensive capability report
   validate <module-id>            Validate module capabilities
   help                            Show this help
 

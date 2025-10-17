@@ -460,7 +460,7 @@ export class AIProfileManager {
     if (!profile.relationships) {
       profile.relationships = {};
     }
-    profile.relationships[targetId!] = relationship;
+    profile.relationships[targetId] = relationship;
     this.hooks.onRelationshipChange?.(npcId, targetId, relationship);
     this.updateStats();
     return {

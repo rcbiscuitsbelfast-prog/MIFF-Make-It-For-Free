@@ -261,14 +261,14 @@ class MigrationCLI {
     console.info(`
 🔄 MIFF Migration CLI Tool
 
-Usage: tsx migrationCLI.ts <command> [options!]
+Usage: tsx migrationCLI.ts <command> [options]
 
 Commands:
-  migrate <input> <from> <to> [output!]  Migrate data between versions
+  migrate <input> <from> <to> [output]  Migrate data between versions
   check <from> <to>                     Check migration compatibility
   paths                                 List all available migration paths
   stats                                 Show migration statistics
-  history [limit!]                       Show migration history
+  history [limit]                       Show migration history
   rollback <id> <data>                  Rollback a migration
   help                                  Show this help
 

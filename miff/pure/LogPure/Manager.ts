@@ -218,7 +218,7 @@ export class BattleResult implements IBattleResult {
   }
 
   static createWithStatus(message: string, statusEffect: string): BattleResult {
-    return new BattleResult(true, message, undefined, [statusEffect!]);
+    return new BattleResult(true, message, undefined, [statusEffect]);
   }
 
   static withDamage(damage: number, effects: string[] = []): BattleResult {
@@ -226,7 +226,7 @@ export class BattleResult implements IBattleResult {
   }
 
   static withEffect(message: string, effectType: string): BattleResult {
-    return new BattleResult(true, message, undefined, [effectType!]);
+    return new BattleResult(true, message, undefined, [effectType]);
   }
 
   toString(): string {
@@ -1422,7 +1422,7 @@ export class LogUtils {
 
   static getLogLevelName(level: LogLevel): string {
     const names = ['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL'];
-    return names[level!] || 'UNKNOWN';
+    return names[level] || 'UNKNOWN';
   }
 
   static getCategoryName(category: LogCategory): string {

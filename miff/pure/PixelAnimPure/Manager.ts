@@ -341,7 +341,7 @@ export class PixelAnimManager {
         events.push({
           timestamp: currentTime,
           frame: i,
-          layer: animation.frames[i!].layer,
+          layer: animation.frames[i].layer,
           cycle: cycles,
           progress: currentTime / duration
         });
@@ -385,7 +385,7 @@ export class PixelAnimManager {
     // Preset usage (simplified - would need tracking in real implementation)
     const presetUsage: Record<string, number> = {};
     this.presets.forEach((preset, id) => {
-      presetUsage[id!] = animations.filter((a: any) => a.name === preset.name).length;
+      presetUsage[id] = animations.filter((a: any) => a.name === preset.name).length;
     });
 
     // Category distribution

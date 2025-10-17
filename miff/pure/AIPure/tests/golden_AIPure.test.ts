@@ -768,7 +768,7 @@ describe('AIPure Golden Tests', () => {
 
       // Compare all policies to reference
       for (let i = 0; i < 100; i++) {
-        const policy = policies[i!];
+        const policy = policies[i];
         AIUtils.comparePolicies(referencePolicy, policy);
         AIUtils.getBehaviorDescription(policy);
         policy.validate({});

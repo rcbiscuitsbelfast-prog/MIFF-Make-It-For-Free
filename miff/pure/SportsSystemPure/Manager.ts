@@ -569,7 +569,7 @@ export class SportsManager {
 
       // Create matches
       for (let i = 0; i < players.length - 1; i += 2) {
-        const player1 = players[i!];
+        const player1 = players[i];
         const player2 = players[i + 1];
 
         // Check if they can form teams

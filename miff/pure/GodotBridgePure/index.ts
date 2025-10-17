@@ -942,7 +942,7 @@ export class GodotBridgeManager {
   }
 
   private async initializeBridge(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing Godot bridge...');
+    console.log('[GodotBridgeManager] Initializing Godot bridge...');
 
     try {
       // Initialize communication protocol
@@ -955,10 +955,10 @@ export class GodotBridgeManager {
       this.startHeartbeat();
 
       this.isInitialized = true;
-      console.log('[GodotBridgeManager!] Godot bridge initialized successfully');
+      console.log('[GodotBridgeManager] Godot bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotBridgeManager!] Failed to initialize Godot bridge:', err instanceof Error ? err.message : String(err));
+      console.error('[GodotBridgeManager] Failed to initialize Godot bridge:', err instanceof Error ? err.message : String(err));
       throw new Error(`Godot bridge initialization failed: ${error}`);
     }
   }
@@ -995,42 +995,42 @@ export class GodotBridgeManager {
   }
 
   private async initializeGDNative(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing GDNative protocol...');
+    console.log('[GodotBridgeManager] Initializing GDNative protocol...');
     // Implementation for GDNative communication
   }
 
   private async initializeGDScript(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing GDScript protocol...');
+    console.log('[GodotBridgeManager] Initializing GDScript protocol...');
     // Implementation for GDScript communication
   }
 
   private async initializeNetwork(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing network protocol...');
+    console.log('[GodotBridgeManager] Initializing network protocol...');
     // Implementation for network communication
   }
 
   private async initializeWebSocket(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing WebSocket protocol...');
+    console.log('[GodotBridgeManager] Initializing WebSocket protocol...');
     // Implementation for WebSocket communication
   }
 
   private async initializeHTTP(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing HTTP protocol...');
+    console.log('[GodotBridgeManager] Initializing HTTP protocol...');
     // Implementation for HTTP communication
   }
 
   private async initializeFileSystem(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing file system protocol...');
+    console.log('[GodotBridgeManager] Initializing file system protocol...');
     // Implementation for file system communication
   }
 
   private async initializeSharedMemory(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing shared memory protocol...');
+    console.log('[GodotBridgeManager] Initializing shared memory protocol...');
     // Implementation for shared memory communication
   }
 
   private async initializeMessageQueue(): Promise<void> {
-    console.log('[GodotBridgeManager!] Initializing message queue protocol...');
+    console.log('[GodotBridgeManager] Initializing message queue protocol...');
     // Implementation for message queue communication
   }
 
@@ -1072,7 +1072,7 @@ export class GodotBridgeManager {
 
   // Core bridge functionality
   async connect(target: string): Promise<boolean> {
-    console.log(`[GodotBridgeManager!] Connecting to Godot instance: ${target}`);
+    console.log(`[GodotBridgeManager] Connecting to Godot instance: ${target}`);
 
     try {
       const connection: GodotConnection = {
@@ -1098,16 +1098,16 @@ export class GodotBridgeManager {
         connection.status = 'connected';
         this.isConnected = true;
         this.reconnectAttempts = 0;
-        console.log(`[GodotBridgeManager!] Successfully connected to Godot instance: ${target}`);
+        console.log(`[GodotBridgeManager] Successfully connected to Godot instance: ${target}`);
         return true;
       } else {
         connection.status = 'error';
-        console.error(`[GodotBridgeManager!] Failed to connect to Godot instance: ${target}`);
+        console.error(`[GodotBridgeManager] Failed to connect to Godot instance: ${target}`);
         return false;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[GodotBridgeManager!] Connection failed: ${error}`);
+      console.error(`[GodotBridgeManager] Connection failed: ${error}`);
       return false;
     }
   }
@@ -1176,7 +1176,7 @@ export class GodotBridgeManager {
   }
 
   async disconnect(): Promise<void> {
-    console.log('[GodotBridgeManager!] Disconnecting from Godot...');
+    console.log('[GodotBridgeManager] Disconnecting from Godot...');
 
     for (const connection of this.connections.values()) {
       connection.status = 'disconnected';
@@ -1184,7 +1184,7 @@ export class GodotBridgeManager {
     }
 
     this.isConnected = false;
-    console.log('[GodotBridgeManager!] Disconnected from Godot');
+    console.log('[GodotBridgeManager] Disconnected from Godot');
   }
 
   private async closeConnection(connection: GodotConnection): Promise<void> {
@@ -1209,7 +1209,7 @@ export class GodotBridgeManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[GodotBridgeManager!] Failed to send message: ${error}`);
+      console.error(`[GodotBridgeManager] Failed to send message: ${error}`);
       return false;
     }
   }
@@ -1241,7 +1241,7 @@ export class GodotBridgeManager {
         await this.processMethodMessage(message);
         break;
       default:
-        console.warn(`[GodotBridgeManager!] Unknown message type: ${message.type}`);
+        console.warn(`[GodotBridgeManager] Unknown message type: ${message.type}`);
     }
   }
 
@@ -1355,7 +1355,7 @@ export class GodotBridgeManager {
 
   private async handleEvent(event: GodotEvent): Promise<void> {
     // Implementation for handling Godot events
-    console.log(`[GodotBridgeManager!] Handling event: ${event.name}`);
+    console.log(`[GodotBridgeManager] Handling event: ${event.name}`);
   }
 
   private async processResponseMessage(message: GodotMessage): Promise<void> {
@@ -1383,7 +1383,7 @@ export class GodotBridgeManager {
 
   private async handleSignal(signal): Promise<void> {
     // Implementation for handling Godot signals
-    console.log(`[GodotBridgeManager!] Handling signal: ${JSON.stringify(signal)}`);
+    console.log(`[GodotBridgeManager] Handling signal: ${JSON.stringify(signal)}`);
   }
 
   private async processPropertyMessage(message: GodotMessage): Promise<void> {
@@ -1395,7 +1395,7 @@ export class GodotBridgeManager {
 
   private async handleProperty(property): Promise<void> {
     // Implementation for handling Godot properties
-    console.log(`[GodotBridgeManager!] Handling property: ${JSON.stringify(property)}`);
+    console.log(`[GodotBridgeManager] Handling property: ${JSON.stringify(property)}`);
   }
 
   private async processMethodMessage(message: GodotMessage): Promise<void> {
@@ -1407,7 +1407,7 @@ export class GodotBridgeManager {
 
   private async handleMethod(method): Promise<void> {
     // Implementation for handling Godot method calls
-    console.log(`[GodotBridgeManager!] Handling method: ${JSON.stringify(method)}`);
+    console.log(`[GodotBridgeManager] Handling method: ${JSON.stringify(method)}`);
   }
 
   private async sendResponse(response: GodotResponse): Promise<void> {
@@ -1561,7 +1561,7 @@ export class GodotBridgeManager {
 
   private async handleInputEvent(inputEvent: GodotInputEventBridge): Promise<void> {
     // Implementation for handling Godot input events
-    console.log(`[GodotBridgeManager!] Handling input event: ${inputEvent.type}`);
+    console.log(`[GodotBridgeManager] Handling input event: ${inputEvent.type}`);
   }
 
   private async processSignalQueue(): Promise<void> {
@@ -1645,12 +1645,12 @@ export class GodotBridgeManager {
     this.lastHeartbeat = 0;
     this.reconnectAttempts = 0;
 
-    console.log('[GodotBridgeManager!] Reset to initial state');
+    console.log('[GodotBridgeManager] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    console.log('[GodotBridgeManager!] Disposed successfully');
+    console.log('[GodotBridgeManager] Disposed successfully');
   }
 }

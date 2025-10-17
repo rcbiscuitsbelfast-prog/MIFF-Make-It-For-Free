@@ -107,7 +107,7 @@ function interactiveSchemaCreation(): SchemaDefinition {
         const propReq = prompt(`  Required? (y/n): `, 'n').toLowerCase() === 'y';
         const propDesc = prompt(`  Description: `);
 
-        objectProps[propName!] = {
+        objectProps[propName] = {
           type: propType,
           required: propReq,
           ...(propDesc && { description: propDesc })
@@ -119,7 +119,7 @@ function interactiveSchemaCreation(): SchemaDefinition {
       fieldDef.items = { type: itemType };
     }
 
-    properties[fieldName!] = fieldDef;
+    properties[fieldName] = fieldDef;
   }
 
   if (Object.keys(properties).length > 0) {

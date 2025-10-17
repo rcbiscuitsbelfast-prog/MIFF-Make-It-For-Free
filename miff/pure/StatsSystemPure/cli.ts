@@ -27,7 +27,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cli.ts <op> [args!]');
+    console.error('Usage: tsx cli.ts <op> [args]');
     process.exit(1);
   }
 

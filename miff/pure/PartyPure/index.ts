@@ -190,7 +190,7 @@ export class PartyManager {
     });
 
     if (slotIndex !== -1) {
-      this._slots[slotIndex!].clear();
+      this._slots[slotIndex].clear();
       return true;
     }
 
@@ -205,8 +205,8 @@ export class PartyManager {
       return false;
     }
 
-    const slotA = this._slots[indexA!];
-    const slotB = this._slots[indexB!];
+    const slotA = this._slots[indexA];
+    const slotB = this._slots[indexB];
 
     // Swap the members
     const temp = slotA.member;
@@ -224,8 +224,8 @@ export class PartyManager {
       return false;
     }
 
-    const fromSlot = this._slots[fromIndex!];
-    const toSlot = this._slots[toIndex!];
+    const fromSlot = this._slots[fromIndex];
+    const toSlot = this._slots[toIndex];
 
     if (fromSlot.isEmpty || !toSlot.isEmpty) {
       return false; // Can only move to empty slots
@@ -244,7 +244,7 @@ export class PartyManager {
     if (!this.isValidIndex(index)) {
       return null;
     }
-    return this._slots[index!].member;
+    return this._slots[index].member;
   }
 
   /**
@@ -254,7 +254,7 @@ export class PartyManager {
     if (!this.isValidIndex(index)) {
       return null;
     }
-    return this._slots[index!].getActiveMember();
+    return this._slots[index].getActiveMember();
   }
 
   /**
@@ -265,7 +265,7 @@ export class PartyManager {
       return false;
     }
 
-    this._slots[index!].setMember(member);
+    this._slots[index].setMember(member);
     return true;
   }
 
@@ -279,7 +279,7 @@ export class PartyManager {
     });
 
     if (slotIndex !== -1) {
-      const slot = this._slots[slotIndex!];
+      const slot = this._slots[slotIndex];
       if (slot.member) {
         slot.member.currentHP = 0;
         return true;

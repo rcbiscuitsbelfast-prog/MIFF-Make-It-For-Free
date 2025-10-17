@@ -38,7 +38,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'init',
       description: 'Initialize skeleton animator system',
-      args: ['[characterType!]'],
+      args: ['[characterType]'],
       execute: async (args) => this.initSystem(args)
     });
 
@@ -74,7 +74,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'rig-export',
       description: 'Export rig as JSON',
-      args: ['[filename!]'],
+      args: ['[filename]'],
       execute: async (args) => this.exportRig(args)
     });
 
@@ -110,7 +110,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'limb-add-tail',
       description: 'Add tail',
-      args: ['<attachmentPoint>', '[segments!]'],
+      args: ['<attachmentPoint>', '[segments]'],
       execute: async (args) => this.addTail(args)
     });
 
@@ -132,7 +132,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'skin-export',
       description: 'Export skin as JSON',
-      args: ['[filename!]'],
+      args: ['[filename]'],
       execute: async (args) => this.exportSkin(args)
     });
 
@@ -176,7 +176,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'anim-walk',
       description: 'Generate walk animation',
-      args: ['[speed!]'],
+      args: ['[speed]'],
       execute: async (args) => this.generateWalkAnimation(args)
     });
 
@@ -212,14 +212,14 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'export-gbpg',
       description: 'Export as .gbpg format',
-      args: ['<name>', '[filename!]'],
+      args: ['<name>', '[filename]'],
       execute: async (args) => this.exportGbpkg(args)
     });
 
     this.registerCommand({
       name: 'export-gltf',
       description: 'Export as GLTF format',
-      args: ['<name>', '[filename!]'],
+      args: ['<name>', '[filename]'],
       execute: async (args) => this.exportGLTF(args)
     });
 
@@ -248,7 +248,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'ui-export',
       description: 'Export UI state',
-      args: ['[filename!]'],
+      args: ['[filename]'],
       execute: async (args) => this.exportUIState(args)
     });
 
@@ -256,7 +256,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'test-golden',
       description: 'Run golden tests',
-      args: ['[testName!]'],
+      args: ['[testName]'],
       execute: async (args) => this.runGoldenTests(args)
     });
 
@@ -271,7 +271,7 @@ export class SkeletonAnimatorCLI {
     this.registerCommand({
       name: 'help',
       description: 'Show help information',
-      args: ['[command!]'],
+      args: ['[command]'],
       execute: async (args) => this.showHelp(args)
     });
   }

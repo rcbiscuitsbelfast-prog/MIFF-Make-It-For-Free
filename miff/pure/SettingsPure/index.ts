@@ -156,10 +156,10 @@ export class SettingsManager {
         if (merged[key as keyof SettingsConfig] && typeof merged[key as keyof SettingsConfig] === 'object') {
           merged[key as keyof SettingsConfig] = { ...(merged[key as keyof SettingsConfig] as any), ...value };
         } else {
-          (merged as any)[key!] = value;
+          (merged as any)[key] = value;
         }
       } else {
-        (merged as any)[key!] = value;
+        (merged as any)[key] = value;
       }
     }
 
@@ -207,7 +207,7 @@ export class SettingsManager {
 
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
-        value = value[k!];
+        value = value[k];
       } else {
         return undefined;
       }
@@ -223,10 +223,10 @@ export class SettingsManager {
 
     // Navigate to the parent object
     for (const k of keys) {
-      if (!target[k!] || typeof target[k!] !== 'object') {
-        target[k!] = {};
+      if (!target[k] || typeof target[k] !== 'object') {
+        target[k] = {};
       }
-      target = target[k!];
+      target = target[k];
     }
 
     // Validate the value
@@ -236,15 +236,15 @@ export class SettingsManager {
     }
 
     // Store the old value for history
-    const oldValue = target[lastKey!];
+    const oldValue = target[lastKey];
 
     // Set the new value
-    target[lastKey!] = value;
+    target[lastKey] = value;
 
     // Record the change
     this.history.push({
       timestamp: new Date(),
-      changes: { [key!]: { old: oldValue, new: value } }
+      changes: { [key]: { old: oldValue, new: value } }
     });
 
     // Keep only last 100 changes
@@ -264,7 +264,7 @@ export class SettingsManager {
       return false;
     }
 
-    const oldValues = { ...(this.settings as any)[category!] };
+    const oldValues = { ...(this.settings as any)[category] };
 
     for (const [key, value] of Object.entries(values)) {
       const fullKey = `${category}.${key}`;
@@ -274,11 +274,11 @@ export class SettingsManager {
       }
     }
 
-    (this.settings as any)[category!] = { ...oldValues, ...values };
+    (this.settings as any)[category] = { ...oldValues, ...values };
 
     this.history.push({
       timestamp: new Date(),
-      changes: { [category!]: { old: oldValues, new: values } }
+      changes: { [category]: { old: oldValues, new: values } }
     });
 
     return true;
@@ -335,8 +335,8 @@ export class SettingsManager {
       return false;
     }
 
-    const oldValues = { ...(this.settings as any)[category!] };
-    (this.settings as any)[category!] = { ...(this.defaults as any)[category!] };
+    const oldValues = { ...(this.settings as any)[category] };
+    (this.settings as any)[category] = { ...(this.defaults as any)[category] };
 
     this.history.push({
       timestamp: new Date(),
@@ -357,9 +357,9 @@ export class SettingsManager {
 
     for (const [key, value] of Object.entries(this.settings)) {
       if (typeof value === 'object' && value !== null) {
-        categories[key!] = Object.keys(value).length;
+        categories[key] = Object.keys(value).length;
       } else {
-        categories[key!] = 1;
+        categories[key] = 1;
       }
     }
 

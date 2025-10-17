@@ -277,10 +277,10 @@ export class RealConsole {
   private updatePerformanceMetrics(level: LogEntry['level'], logTime: number): void {
     this.performanceMetrics.totalLogs++;
     
-    if (!this.performanceMetrics.logsByLevel[level!]) {
-      this.performanceMetrics.logsByLevel[level!] = 0;
+    if (!this.performanceMetrics.logsByLevel[level]) {
+      this.performanceMetrics.logsByLevel[level] = 0;
     }
-    this.performanceMetrics.logsByLevel[level!]++;
+    this.performanceMetrics.logsByLevel[level]++;
 
     if (level === 'error') {
       this.performanceMetrics.errorCount++;

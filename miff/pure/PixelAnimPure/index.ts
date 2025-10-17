@@ -58,7 +58,7 @@ export const PixelAnimPure = {
 	},
 
 	createFromPreset(presetName: string): Animation {
-		const preset = this.presets[presetName!];
+		const preset = this.presets[presetName];
 		if (!preset) throw new Error(`Unknown animation preset: ${presetName}`);
 		return this.createAnimation(preset.name, preset.frames, preset.fps, preset.loop);
 	},

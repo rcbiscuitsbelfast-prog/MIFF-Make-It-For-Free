@@ -237,10 +237,10 @@ export class AudioEngine {
       this.gainNodes.set('master', masterGain);
 
       this.isInitialized = true;
-      console.log('[AudioEngine!] Initialized successfully');
+      console.log('[AudioEngine] Initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AudioEngine!] Failed to initialize:', err instanceof Error ? err.message : String(err));
+      console.error('[AudioEngine] Failed to initialize:', err instanceof Error ? err.message : String(err));
       throw new Error(`Audio initialization failed: ${error}`);
     }
   }
@@ -261,10 +261,10 @@ export class AudioEngine {
 
       this.performanceMetrics.totalSources++;
 
-      console.log(`[AudioEngine!] Loaded audio source: ${source.name}`);
+      console.log(`[AudioEngine] Loaded audio source: ${source.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine!] Failed to load audio source ${source.name}:`, err instanceof Error ? err.message : String(err));
+      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, err instanceof Error ? err.message : String(err));
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -315,13 +315,13 @@ export class AudioEngine {
       audioSource.onended = () => {
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        console.log(`[AudioEngine!] Source ended: ${sourceId}`);
+        console.log(`[AudioEngine] Source ended: ${sourceId}`);
       };
 
-      console.log(`[AudioEngine!] Playing source: ${source.name}`);
+      console.log(`[AudioEngine] Playing source: ${source.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine!] Failed to play source ${sourceId}:`, err instanceof Error ? err.message : String(err));
+      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? err.message : String(err));
       throw new Error(`Audio playback failed: ${error}`);
     }
   }
@@ -353,10 +353,10 @@ export class AudioEngine {
         source.stop();
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        console.log(`[AudioEngine!] Stopped source: ${sourceId}`);
+        console.log(`[AudioEngine] Stopped source: ${sourceId}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn(`[AudioEngine!] Error stopping source ${sourceId}:`, error);
+        console.warn(`[AudioEngine] Error stopping source ${sourceId}:`, error);
       }
     }
   }
@@ -365,7 +365,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 0;
-      console.log(`[AudioEngine!] Paused source: ${sourceId}`);
+      console.log(`[AudioEngine] Paused source: ${sourceId}`);
     }
   }
 
@@ -373,7 +373,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 1;
-      console.log(`[AudioEngine!] Resumed source: ${sourceId}`);
+      console.log(`[AudioEngine] Resumed source: ${sourceId}`);
     }
   }
 
@@ -382,7 +382,7 @@ export class AudioEngine {
     if (source) {
       // Note: Volume control is now handled by gain nodes created during playback
       // This method is kept for API compatibility but doesn't directly control volume
-      console.log(`[AudioEngine!] Volume control for ${sourceId} should be set during playback: ${volume}`);
+      console.log(`[AudioEngine] Volume control for ${sourceId} should be set during playback: ${volume}`);
     }
   }
 
@@ -485,7 +485,7 @@ export class AudioEngine {
   private applyEffect(busId: string, effect: AudioEffect): void {
     // Apply audio effects - simplified implementation
     // In a real implementation, this would create actual audio nodes
-    console.log(`[AudioEngine!] Applying effect ${effect.type} to bus ${busId}`);
+    console.log(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
   }
 
   // Spatial audio
@@ -536,7 +536,7 @@ export class AudioEngine {
     let centroidSum = 0;
     let magnitudeSum = 0;
     for (let i = 0; i < frequencyData.length; i++) {
-      const magnitude = Math.abs(frequencyData[i!]);
+      const magnitude = Math.abs(frequencyData[i]);
       centroidSum += i * magnitude;
       magnitudeSum += magnitude;
     }
@@ -550,7 +550,7 @@ export class AudioEngine {
     let currentMagnitude = 0;
 
     for (let i = 0; i < frequencyData.length; i++) {
-      currentMagnitude += Math.abs(frequencyData[i!]);
+      currentMagnitude += Math.abs(frequencyData[i]);
       if (currentMagnitude >= rolloffMagnitude) {
         spectralRolloff = (i / frequencyData.length) * (this.audioContext?.sampleRate || 44100) / 2;
         break;
@@ -561,7 +561,7 @@ export class AudioEngine {
     let rmsSum = 0;
     let peak = 0;
     for (let i = 0; i < timeDomainData.length; i++) {
-      const sample = timeDomainData[i!];
+      const sample = timeDomainData[i];
       rmsSum += sample * sample;
       peak = Math.max(peak, Math.abs(sample));
     }
@@ -570,7 +570,7 @@ export class AudioEngine {
     // Calculate zero crossing rate
     let zeroCrossings = 0;
     for (let i = 1; i < timeDomainData.length; i++) {
-      if ((timeDomainData[i-1] >= 0) !== (timeDomainData[i!] >= 0)) {
+      if ((timeDomainData[i-1] >= 0) !== (timeDomainData[i] >= 0)) {
         zeroCrossings++;
       }
     }
@@ -648,7 +648,7 @@ export class AudioEngine {
     }
 
     this.isInitialized = false;
-    console.log('[AudioEngine!] Disposed successfully');
+    console.log('[AudioEngine] Disposed successfully');
   }
 }
 

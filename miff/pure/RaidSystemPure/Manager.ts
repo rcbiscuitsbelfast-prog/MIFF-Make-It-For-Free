@@ -136,7 +136,7 @@ export class RaidManager {
     const baseBoss = this.bosses.get(bossId);
     if (!baseBoss) return null;
 
-    const scalingFactor = this.scalingConfig[difficulty!];
+    const scalingFactor = this.scalingConfig[difficulty];
     const scaledBoss: RaidBoss = {
       ...baseBoss,
       level: Math.floor(baseBoss.level * scalingFactor),
@@ -188,7 +188,7 @@ export class RaidManager {
     const memberIndex = party.members.findIndex(m => m.id === memberId);
     if (memberIndex === -1) return false;
 
-    party.members[memberIndex!] = { ...party.members[memberIndex!], ...updates };
+    party.members[memberIndex] = { ...party.members[memberIndex], ...updates };
     
     // Recalculate party statistics
     party.totalHealth = party.members.reduce((sum, member) => sum + member.maxHealth, 0);

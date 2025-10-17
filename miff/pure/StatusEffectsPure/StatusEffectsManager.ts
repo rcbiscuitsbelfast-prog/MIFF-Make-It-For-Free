@@ -350,7 +350,7 @@ export class StatusEffectsManager {
 
     // Process each effect
     for (let i = entity.effects.length - 1; i >= 0; i--) {
-      const effect = entity.effects[i!];
+      const effect = entity.effects[i];
 
       // Check if effect has expired
       if (currentTime >= effect.expiresAt) {
@@ -549,7 +549,7 @@ export class StatusEffectsManager {
       };
     }
 
-    entity.resistances[category!] = Math.min(100, (entity.resistances[category!] || 0) + percentage);
+    entity.resistances[category] = Math.min(100, (entity.resistances[category] || 0) + percentage);
     entity.lastUpdate = Date.now();
 
     return {

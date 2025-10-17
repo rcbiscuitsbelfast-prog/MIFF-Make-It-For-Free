@@ -95,14 +95,14 @@ class MockGameEntity implements IGameEntity {
    * Get stat value
    */
   getStat(stat: string): number {
-    return this.stats[stat!] || 0;
+    return this.stats[stat] || 0;
   }
 
   /**
    * Set stat value
    */
   setStat(stat: string, value: number): void {
-    this.stats[stat!] = value;
+    this.stats[stat] = value;
   }
 
   /**
@@ -211,11 +211,11 @@ class SavePureCLI {
     console.log('='.repeat(70));
     console.log('');
     console.log('Available commands:');
-    console.log('  save [file!]       - Save current game state');
-    console.log('  load [file!]       - Load game state from file');
+    console.log('  save [file]       - Save current game state');
+    console.log('  load [file]       - Load game state from file');
     console.log('  info              - Show current save info');
     console.log('  validate          - Validate current snapshot');
-    console.log('  migrate [version!] - Migrate to specific version');
+    console.log('  migrate [version] - Migrate to specific version');
     console.log('  party             - Manage party members');
     console.log('  inventory         - Manage inventory items');
     console.log('  quests            - Manage quest flags');
@@ -466,7 +466,7 @@ class SavePureCLI {
    */
   private migrateSnapshot(targetVersion?: string): void {
     if (!targetVersion) {
-      console.log('❌ Usage: migrate [version!]');
+      console.log('❌ Usage: migrate [version]');
       console.log('Available versions: v1, v2, v3');
       return;
     }
@@ -502,7 +502,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'add':
         if (!entityName) {
-          console.log('❌ Usage: party add [name!]');
+          console.log('❌ Usage: party add [name]');
           return;
         }
 
@@ -513,7 +513,7 @@ class SavePureCLI {
 
       case 'remove':
         if (!entityName) {
-          console.log('❌ Usage: party remove [name!]');
+          console.log('❌ Usage: party remove [name]');
           return;
         }
 
@@ -568,7 +568,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'add':
         if (!itemId) {
-          console.log('❌ Usage: inventory add [item!] [quantity!]');
+          console.log('❌ Usage: inventory add [item] [quantity]');
           return;
         }
 
@@ -578,7 +578,7 @@ class SavePureCLI {
 
       case 'remove':
         if (!itemId) {
-          console.log('❌ Usage: inventory remove [item!] [quantity!]');
+          console.log('❌ Usage: inventory remove [item] [quantity]');
           return;
         }
 
@@ -618,7 +618,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'set':
         if (!flagId) {
-          console.log('❌ Usage: quests set [flag!] [true/false]');
+          console.log('❌ Usage: quests set [flag] [true/false]');
           return;
         }
 
@@ -653,7 +653,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'unlock':
         if (!contentId) {
-          console.log('❌ Usage: unlock unlock [content_id!]');
+          console.log('❌ Usage: unlock unlock [content_id]');
           return;
         }
 
@@ -663,7 +663,7 @@ class SavePureCLI {
 
       case 'check':
         if (!contentId) {
-          console.log('❌ Usage: unlock check [content_id!]');
+          console.log('❌ Usage: unlock check [content_id]');
           return;
         }
 
@@ -699,7 +699,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'set':
         if (!statId) {
-          console.log('❌ Usage: stats set [stat!] [value!]');
+          console.log('❌ Usage: stats set [stat] [value]');
           return;
         }
 
@@ -709,7 +709,7 @@ class SavePureCLI {
 
       case 'get':
         if (!statId) {
-          console.log('❌ Usage: stats get [stat!]');
+          console.log('❌ Usage: stats get [stat]');
           return;
         }
 
@@ -726,7 +726,7 @@ class SavePureCLI {
 
       case 'increment':
         if (!statId) {
-          console.log('❌ Usage: stats increment [stat!]');
+          console.log('❌ Usage: stats increment [stat]');
           return;
         }
 
@@ -751,7 +751,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'set':
         if (!settingId || value === undefined) {
-          console.log('❌ Usage: settings set [setting!] [value!]');
+          console.log('❌ Usage: settings set [setting] [value]');
           return;
         }
 
@@ -761,7 +761,7 @@ class SavePureCLI {
 
       case 'get':
         if (!settingId) {
-          console.log('❌ Usage: settings get [setting!]');
+          console.log('❌ Usage: settings get [setting]');
           return;
         }
 
@@ -792,7 +792,7 @@ class SavePureCLI {
     switch (subcommand) {
       case 'set':
         if (!key || value === undefined) {
-          console.log('❌ Usage: metadata set [key!] [value!]');
+          console.log('❌ Usage: metadata set [key] [value]');
           return;
         }
 
@@ -802,7 +802,7 @@ class SavePureCLI {
 
       case 'get':
         if (!key) {
-          console.log('❌ Usage: metadata get [key!]');
+          console.log('❌ Usage: metadata get [key]');
           return;
         }
 

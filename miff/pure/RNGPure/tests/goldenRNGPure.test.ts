@@ -17,7 +17,7 @@ test('golden RNG flow', () => {
 
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'),
-    [commands!]
+    [commands]
   );
 
   const got = JSON.parse(out);

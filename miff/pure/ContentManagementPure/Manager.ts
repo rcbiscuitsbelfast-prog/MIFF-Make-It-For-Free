@@ -519,7 +519,7 @@ export class ContentManagementManager {
       };
 
       const contentIndex = system.contents.findIndex(c => c.id === contentId);
-      system.contents[contentIndex!] = updatedContent;
+      system.contents[contentIndex] = updatedContent;
       this.updateAnalytics();
 
       StructuredLogger.info('Content updated', { context: { message: { systemId, contentId } } });

@@ -15,15 +15,15 @@ interface RenderReplayOperation {
 function parseFlags(argv: string[]): Record<string, any> {
   const out: Record<string, any> = {};
   for (let i = 0; i < argv.length; i++) {
-    const a = argv[i!];
+    const a = argv[i];
     if (!a.startsWith('--')) continue;
     const key = a.replace(/^--/, '');
     const next = argv[i + 1];
     if (next && !next.startsWith('--')) {
-      out[key!] = /^\d+(?:\.\d+)?$/.test(next) ? Number(next) : next;
+      out[key] = /^\d+(?:\.\d+)?$/.test(next) ? Number(next) : next;
       i++;
     } else {
-      out[key!] = true;
+      out[key] = true;
     }
   }
   return out;
@@ -33,7 +33,7 @@ function printHelp(): void {
   console.log('RenderReplayPure CLI - Visual replay tool for MIFF engine bridges');
   console.log('');
   console.log('Usage:');
-  console.log('  tsx cliHarness.ts <command> [args!] [--flags]');
+  console.log('  tsx cliHarness.ts <command> [args] [--flags]');
   console.log('');
   console.log('Commands:');
   console.log('  replay-golden <testPath> --engine <unity|web|godot> [--speed <n>] [--loop] [--no-debug] [--format <json|markdown|html>]');

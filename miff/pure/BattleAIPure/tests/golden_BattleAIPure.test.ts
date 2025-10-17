@@ -799,7 +799,7 @@ describe('BattleAIPure Golden Tests', () => {
 
       // Compare all profiles to reference
       for (let i = 0; i < 100; i++) {
-        const profile = profiles[i!];
+        const profile = profiles[i];
         BattleAIUtils.compareProfiles(referenceProfile, profile);
         BattleAIUtils.getBehaviorDescription(profile);
         profile.validate({});

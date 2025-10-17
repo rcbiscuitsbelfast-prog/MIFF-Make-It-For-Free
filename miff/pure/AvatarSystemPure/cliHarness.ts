@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 AvatarSystemPure CLI Harness - Avatar Management System
 
-Usage: npx tsx miff/pure/AvatarSystemPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/AvatarSystemPure/cliHarness.ts [command] [options]
 
 Commands:
   test                     - Run basic avatar system tests

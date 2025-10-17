@@ -815,8 +815,8 @@ describe('LogPure Golden Tests', () => {
 
       // Verify entry content matches
       for (let i = 0; i < originalEntries.length; i++) {
-        const original = originalEntries[i!];
-        const imported = importedEntries[i!];
+        const original = originalEntries[i];
+        const imported = importedEntries[i];
 
         expect(imported.actionType).toBe(original.actionType);
         expect(imported.result).toBe(original.result);

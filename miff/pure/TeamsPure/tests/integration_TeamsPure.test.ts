@@ -695,7 +695,7 @@ describe('TeamsPure Integration Tests', () => {
       const syncMap = new Map<string, number>();
       spiritInstances.forEach((spirit, index) => {
         // Higher sync for key roles
-        const syncLevel = spirits[index!].role === 'Tank' || spirits[index!].role === 'Support' ?
+        const syncLevel = spirits[index].role === 'Tank' || spirits[index].role === 'Support' ?
           80 : 60 + Math.floor(Math.random() * 20);
         syncMap.set(spirit.instanceId, syncLevel);
         syncManager.increaseSync(spirit.instanceId, syncLevel);
@@ -796,21 +796,21 @@ describe('TeamsPure Integration Tests', () => {
           case 1: // Remove spirit
             if (dynamicTeam.spirits.length > 0) {
               const randomIndex = Math.floor(Math.random() * dynamicTeam.spirits.length);
-              const spiritToRemove = dynamicTeam.spirits[randomIndex!];
+              const spiritToRemove = dynamicTeam.spirits[randomIndex];
               teamManager.removeSpiritFromTeam(dynamicTeam.teamId, spiritToRemove.instanceId);
             }
             break;
           case 2: // Move to reserve
             if (dynamicTeam.spirits.length > 0) {
               const randomIndex = Math.floor(Math.random() * dynamicTeam.spirits.length);
-              const spiritToMove = dynamicTeam.spirits[randomIndex!];
+              const spiritToMove = dynamicTeam.spirits[randomIndex];
               teamManager.moveSpiritToReserve(dynamicTeam.teamId, spiritToMove.instanceId);
             }
             break;
           case 3: // Move from reserve
             if (dynamicTeam.reserves.length > 0 && dynamicTeam.spirits.length < 5) {
               const randomIndex = Math.floor(Math.random() * dynamicTeam.reserves.length);
-              const spiritToMove = dynamicTeam.reserves[randomIndex!];
+              const spiritToMove = dynamicTeam.reserves[randomIndex];
               teamManager.moveSpiritFromReserve(dynamicTeam.teamId, spiritToMove.instanceId);
             }
             break;

@@ -297,15 +297,15 @@ export class AdvancedAI {
     let currentInputs = [...inputs];
 
     for (let layer = 0; layer < network.layers.length; layer++) {
-      const layerSize = network.layers[layer!];
+      const layerSize = network.layers[layer];
       const layerOutputs: number[] = [];
 
       for (let neuron = 0; neuron < layerSize; neuron++) {
-        let sum = (network.biases[layer!] && network.biases[layer!][neuron!]) || 0;
+        let sum = (network.biases[layer] && network.biases[layer][neuron]) || 0;
 
         for (let input = 0; input < currentInputs.length; input++) {
-          const weight = (network.weights[layer!] && network.weights[layer!][neuron!] && network.weights[layer!][neuron!][input!]) || 0;
-          sum += currentInputs[input!] * weight;
+          const weight = (network.weights[layer] && network.weights[layer][neuron] && network.weights[layer][neuron][input]) || 0;
+          sum += currentInputs[input] * weight;
         }
 
         layerOutputs.push(network.activationFunction(sum));
@@ -328,15 +328,15 @@ export class AdvancedAI {
 
     // Simple backpropagation implementation
     const outputs = this.forwardPropagate(network, inputs);
-    const errors = outputs.map((output, index) => expectedOutputs[index!] - output);
+    const errors = outputs.map((output, index) => expectedOutputs[index] - output);
 
     // Update weights and biases (simplified)
     for (let layer = 0; layer < network.layers.length; layer++) {
-      for (let neuron = 0; neuron < network.layers[layer!]; neuron++) {
-        for (let weight = 0; weight < network.weights[layer!][neuron!].length; weight++) {
-          network.weights[layer!][neuron!][weight!] += this.learningRate * errors[neuron!];
+      for (let neuron = 0; neuron < network.layers[layer]; neuron++) {
+        for (let weight = 0; weight < network.weights[layer][neuron].length; weight++) {
+          network.weights[layer][neuron][weight] += this.learningRate * errors[neuron];
         }
-        network.biases[layer!][neuron!] += this.learningRate * errors[neuron!];
+        network.biases[layer][neuron] += this.learningRate * errors[neuron];
       }
     }
   }

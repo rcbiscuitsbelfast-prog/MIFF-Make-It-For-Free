@@ -130,7 +130,7 @@ export class WebBridge {
   }
 
   private initializeWebEnvironment(): void {
-    console.log('[WebBridge!] Initializing web environment...');
+    console.log('[WebBridge] Initializing web environment...');
 
     // Initialize canvas
     if (this.config.useWebGL) {
@@ -152,13 +152,13 @@ export class WebBridge {
       this.initializeWebWorkers();
     }
 
-    console.log('[WebBridge!] Web environment initialized successfully');
+    console.log('[WebBridge] Web environment initialized successfully');
   }
 
   private initializeWebGL(): void {
     const canvas = document.getElementById(this.config.canvasId) as HTMLCanvasElement;
     if (!canvas) {
-      console.warn(`[WebBridge!] Canvas element '${this.config.canvasId}' not found`);
+      console.warn(`[WebBridge] Canvas element '${this.config.canvasId}' not found`);
       return;
     }
 
@@ -170,24 +170,24 @@ export class WebBridge {
                      canvas.getContext('experimental-webgl');
 
       if (!context) {
-        console.warn('[WebBridge!] WebGL context not available');
+        console.warn('[WebBridge] WebGL context not available');
         return;
       }
 
       this.gl = context as WebGLRenderingContext;
-      console.log(`[WebBridge!] WebGL initialized: ${this.gl.constructor.name}`);
+      console.log(`[WebBridge] WebGL initialized: ${this.gl.constructor.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge!] WebGL initialization failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebBridge] WebGL initialization failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
   private initializeWebAssembly(): void {
-    console.log('[WebBridge!] Initializing WebAssembly environment...');
+    console.log('[WebBridge] Initializing WebAssembly environment...');
 
     // Check WebAssembly support
     if (typeof WebAssembly !== 'object') {
-      console.warn('[WebBridge!] WebAssembly not supported');
+      console.warn('[WebBridge] WebAssembly not supported');
       this.config.enableWebAssembly = false;
       return;
     }
@@ -202,7 +202,7 @@ export class WebBridge {
       this.checkThreadsSupport();
     }
 
-    console.log('[WebBridge!] WebAssembly environment ready');
+    console.log('[WebBridge] WebAssembly environment ready');
   }
 
   private checkSIMDSupport(): void {
@@ -215,7 +215,7 @@ export class WebBridge {
       ]);
 
       WebAssembly.instantiate(simdTestModule).catch(() => {
-        console.warn('[WebBridge!] SIMD not supported, disabling...');
+        console.warn('[WebBridge] SIMD not supported, disabling...');
         this.config.enableSIMD = false;
       });
     } catch {
@@ -225,7 +225,7 @@ export class WebBridge {
 
   private checkThreadsSupport(): void {
     if (!('SharedArrayBuffer' in window)) {
-      console.warn('[WebBridge!] SharedArrayBuffer not available, disabling threads...');
+      console.warn('[WebBridge] SharedArrayBuffer not available, disabling threads...');
       this.config.enableThreads = false;
       return;
     }
@@ -235,7 +235,7 @@ export class WebBridge {
     const coep = (document as any).crossOriginEmbedderPolicy;
 
     if (coop !== 'same-origin' || coep !== 'require-corp') {
-      console.warn('[WebBridge!] COOP/COEP headers not set, disabling threads...');
+      console.warn('[WebBridge] COOP/COEP headers not set, disabling threads...');
       this.config.enableThreads = false;
     }
   }
@@ -245,35 +245,35 @@ export class WebBridge {
       navigator.serviceWorker.register('/sw.js')
         .then(registration => {
           this.serviceWorker = registration.active;
-          console.log('[WebBridge!] Service Worker registered');
+          console.log('[WebBridge] Service Worker registered');
         })
         .catch(error => {
-          console.warn('[WebBridge!] Service Worker registration failed:', error);
+          console.warn('[WebBridge] Service Worker registration failed:', error);
         });
     }
   }
 
   private initializeWebWorkers(): void {
-    console.log(`[WebBridge!] Initializing ${this.config.workerCount} web workers...`);
+    console.log(`[WebBridge] Initializing ${this.config.workerCount} web workers...`);
 
     for (let i = 0; i < this.config.workerCount; i++) {
       try {
         const worker = new Worker('/worker.js');
         worker.onmessage = (e) => this.handleWorkerMessage(e);
-        worker.onerror = (e) => console.error('[WebBridge!] Worker error:', e);
+        worker.onerror = (e) => console.error('[WebBridge] Worker error:', e);
         this.webWorkers.push(worker);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn(`[WebBridge!] Failed to create worker ${i}:`, error);
+        console.warn(`[WebBridge] Failed to create worker ${i}:`, error);
       }
     }
 
-    console.log(`[WebBridge!] Initialized ${this.webWorkers.length} web workers`);
+    console.log(`[WebBridge] Initialized ${this.webWorkers.length} web workers`);
   }
 
   private handleWorkerMessage(event: MessageEvent): void {
     // Handle messages from web workers
-    console.log('[WebBridge!] Worker message:', event.data);
+    console.log('[WebBridge] Worker message:', event.data);
   }
 
   async compileWebAssembly(sourceCode: string, config: Partial<WebAssemblyConfig> = {}): Promise<WebAssemblyModule> {
@@ -300,7 +300,7 @@ export class WebBridge {
       ...config
     };
 
-    console.log('[WebBridge!] Compiling WebAssembly module...');
+    console.log('[WebBridge] Compiling WebAssembly module...');
 
     try {
       // In a real implementation, this would use a WASM compiler like Binaryen
@@ -320,12 +320,12 @@ export class WebBridge {
 
       this.wasmModules.set(module.name, module);
 
-      console.log(`[WebBridge!] WebAssembly module compiled: ${module.name}`);
+      console.log(`[WebBridge] WebAssembly module compiled: ${module.name}`);
       return module;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge!] WebAssembly compilation failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebBridge] WebAssembly compilation failed:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }
@@ -335,7 +335,7 @@ export class WebBridge {
       throw new Error('WebAssembly is disabled');
     }
 
-    console.log(`[WebBridge!] Instantiating WebAssembly module: ${module.name}`);
+    console.log(`[WebBridge] Instantiating WebAssembly module: ${module.name}`);
 
     try {
       // Create import object for the module
@@ -343,12 +343,12 @@ export class WebBridge {
         env: {
           memory: module.memory,
           table: module.table,
-          abort: () => console.error('[WebAssembly!] Abort called'),
+          abort: () => console.error('[WebAssembly] Abort called'),
           log: (message: number) => {
             const memory = new Uint8Array(module.memory.buffer);
-            const len = memory[message!];
+            const len = memory[message];
             const str = String.fromCharCode(...memory.slice(message + 4, message + 4 + len));
-            console.log('[WebAssembly!]', str);
+            console.log('[WebAssembly]', str);
           }
         }
       };
@@ -359,18 +359,18 @@ export class WebBridge {
           memory: module.memory,
           add: (a: number, b: number) => a + b,
           multiply: (a: number, b: number) => a * b,
-          run: () => console.log('[WebAssembly!] Module running')
+          run: () => console.log('[WebAssembly] Module running')
         }
       } as WebAssembly.Instance;
 
       this.wasmInstances.set(module.name, instance);
 
-      console.log(`[WebBridge!] WebAssembly module instantiated: ${module.name}`);
+      console.log(`[WebBridge] WebAssembly module instantiated: ${module.name}`);
       return instance;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge!] WebAssembly instantiation failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebBridge] WebAssembly instantiation failed:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }
@@ -408,11 +408,11 @@ export class WebBridge {
 
   async optimizeForWebAssembly(module: string): Promise<void> {
     if (!this.config.enableWebAssembly) {
-      console.warn('[WebBridge!] WebAssembly optimization skipped - disabled');
+      console.warn('[WebBridge] WebAssembly optimization skipped - disabled');
       return;
     }
 
-    console.log(`[WebBridge!] Optimizing ${module} for WebAssembly...`);
+    console.log(`[WebBridge] Optimizing ${module} for WebAssembly...`);
 
     // Optimization strategies:
     // 1. Memory layout optimization
@@ -429,7 +429,7 @@ export class WebBridge {
       callOptimization: true
     };
 
-    console.log('[WebBridge!] Applied optimizations:', optimizations);
+    console.log('[WebBridge] Applied optimizations:', optimizations);
 
     await new Promise(resolve => setTimeout(resolve, 100));
   }
@@ -468,7 +468,7 @@ export class WebBridge {
     const manifestUrl = this.config.manifestUrl! || '/manifest.json';
     const manifestContent = JSON.stringify(manifest, null, 2);
 
-    console.log(`[WebBridge!] PWA manifest generated: ${manifestUrl}`);
+    console.log(`[WebBridge] PWA manifest generated: ${manifestUrl}`);
 
     return manifestContent;
   }
@@ -496,7 +496,7 @@ export class WebBridge {
   }
 
   dispose(): void {
-    console.log('[WebBridge!] Disposing web bridge...');
+    console.log('[WebBridge] Disposing web bridge...');
 
     // Terminate web workers
     for (const worker of this.webWorkers) {
@@ -513,7 +513,7 @@ export class WebBridge {
       this.serviceWorker.unregister();
     }
 
-    console.log('[WebBridge!] Web bridge disposed successfully');
+    console.log('[WebBridge] Web bridge disposed successfully');
   }
 
   render(module: string, data: Record<string, unknown>, config: WebBridgeConfig) {

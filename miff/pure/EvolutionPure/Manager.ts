@@ -649,7 +649,7 @@ export class EvolutionManager {
     if (!context || !flagKey) return false;
 
     if (context.gameData?.onboardingFlags) {
-      return context.gameData.onboardingFlags[flagKey!] === true;
+      return context.gameData.onboardingFlags[flagKey] === true;
     }
 
     return false;
@@ -674,7 +674,7 @@ export class EvolutionUtils {
     
     for (let i = 0; i < levels.length; i++) {
       const nextSpecies = `${speciesId}_evo_${i + 1}`;
-      const evolution = SpeciesEvolutionData.levelEvolution(currentSpecies, nextSpecies, levels[i!]);
+      const evolution = SpeciesEvolutionData.levelEvolution(currentSpecies, nextSpecies, levels[i]);
       chain.push(evolution);
       currentSpecies = nextSpecies;
     }

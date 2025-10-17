@@ -75,7 +75,7 @@ function createDemoTests(): CLITest[] {
         for (let i = 0; i < 1000; i++) {
           const arr = new Array(1000);
           for (let j = 0; j < 1000; j++) {
-            arr[j!] = Math.random();
+            arr[j] = Math.random();
           }
           arrays.push(arr);
         }
@@ -121,7 +121,7 @@ function createDemoTests(): CLITest[] {
 
         // Fill array
         for (let i = 0; i < size; i++) {
-          arr[i!] = Math.random();
+          arr[i] = Math.random();
         }
 
         // Sort
@@ -191,9 +191,9 @@ function createDemoTests(): CLITest[] {
         // Fill arrays with same data
         for (let i = 0; i < size; i++) {
           const val = Math.random();
-          arr1[i!] = val;
-          arr2[i!] = val;
-          arr3[i!] = val;
+          arr1[i] = val;
+          arr2[i] = val;
+          arr3[i] = val;
         }
 
         // Quick sort simulation (using built-in sort)
@@ -202,8 +202,8 @@ function createDemoTests(): CLITest[] {
         // Bubble sort simulation
         for (let i = 0; i < size - 1; i++) {
           for (let j = 0; j < size - i - 1; j++) {
-            if (arr2[j!] > arr2[j + 1]) {
-              [arr2[j!], arr2[j + 1]] = [arr2[j + 1], arr2[j!]];
+            if (arr2[j] > arr2[j + 1]) {
+              [arr2[j], arr2[j + 1]] = [arr2[j + 1], arr2[j]];
             }
           }
         }
@@ -213,7 +213,7 @@ function createDemoTests(): CLITest[] {
           const result: number[] = [];
           let i = 0, j = 0;
           while (i < left.length && j < right.length) {
-            if (left[i!] <= right[j!]) {
+            if (left[i] <= right[j]) {
               result.push(left[i++]);
             } else {
               result.push(right[j++]);

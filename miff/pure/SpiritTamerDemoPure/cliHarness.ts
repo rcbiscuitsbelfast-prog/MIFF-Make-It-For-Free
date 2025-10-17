@@ -367,7 +367,7 @@ class SpiritTamerCLI {
         return { 
           op: 'export', 
           status: 'ok', 
-          result: { [format!]: exportData }, 
+          result: { [format]: exportData }, 
           format, 
           timestamp: new Date() 
         };

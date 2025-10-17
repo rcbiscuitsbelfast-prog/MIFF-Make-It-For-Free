@@ -327,7 +327,7 @@ export class EvolutionPureCLI {
    */
   private async registerEvolution(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: register <species> <target> [condition_type!] [value!]');
+      console.log('❌ Usage: register <species> <target> [condition_type] [value]');
       console.log('Condition types: level, item, sync, friendship, battles');
       return;
     }
@@ -564,7 +564,7 @@ export const EvolutionPureCLIUtils = {
    */
   registerEvolutionFromArgs(manager: EvolutionManager, args: string[]): boolean {
     if (args.length < 2) {
-      console.error('❌ Usage: --register-evolution <species> <target> [condition_type!] [value!]');
+      console.error('❌ Usage: --register-evolution <species> <target> [condition_type] [value]');
       return false;
     }
 

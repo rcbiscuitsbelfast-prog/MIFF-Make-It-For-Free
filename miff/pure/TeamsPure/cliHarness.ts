@@ -9,7 +9,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 TeamsPure CLI Harness - Team Management System
 
-Usage: npx tsx miff/pure/TeamsPure/cliHarness.ts [command!] [options!]
+Usage: npx tsx miff/pure/TeamsPure/cliHarness.ts [command] [options]
 
 Commands:
   add <spiritId>           - Add spirit to team
@@ -110,7 +110,7 @@ class TeamManager {
       return false;
     }
     
-    [this.activeTeam[indexA!], this.activeTeam[indexB!]] = [this.activeTeam[indexB!], this.activeTeam[indexA!]];
+    [this.activeTeam[indexA], this.activeTeam[indexB]] = [this.activeTeam[indexB], this.activeTeam[indexA]];
     this.logOperation('swap', true);
     return true;
   }
@@ -193,7 +193,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 

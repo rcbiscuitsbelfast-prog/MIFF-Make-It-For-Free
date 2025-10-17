@@ -380,8 +380,8 @@ export class RealValidation {
     // Validate nested objects
     if (schema.properties && typeof data === 'object' && data !== null) {
       Object.keys(schema.properties).forEach((key: any) => {
-        if (data[key!] !== undefined) {
-          this.validateTypes(data[key!], schema.properties[key!], issues);
+        if (data[key] !== undefined) {
+          this.validateTypes(data[key], schema.properties[key], issues);
         }
       });
     }
@@ -393,7 +393,7 @@ export class RealValidation {
   private validateRequired(data: any, schema: any, issues: ValidationIssue[]): void {
     if (schema.required && Array.isArray(schema.required)) {
       schema.required.forEach((field: string) => {
-        if (data[field!] === undefined || data[field!] === null) {
+        if (data[field] === undefined || data[field] === null) {
           issues.push({
             type: 'error',
             field,

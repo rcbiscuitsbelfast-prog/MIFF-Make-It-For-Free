@@ -774,7 +774,7 @@ export class TeleportationSystemPure {
       environmental: 'The destination environment affects you'
     };
 
-    return descriptions[type!] || 'A mysterious effect occurs';
+    return descriptions[type] || 'A mysterious effect occurs';
   }
 
   /**

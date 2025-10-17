@@ -198,7 +198,7 @@ export class OverlayFXManager {
       'guard': '#0080ff'
     };
     
-    return colorMap[npcType!] || '#ffffff';
+    return colorMap[npcType] || '#ffffff';
   }
 
   /**
@@ -230,7 +230,7 @@ export class OverlayFXManager {
     const config: Record<string, any> = {};
     
     for (const [id, layer] of this.layers) {
-      config[id!] = {
+      config[id] = {
         name: layer.name,
         effects: layer.effects,
         enabled: layer.enabled,

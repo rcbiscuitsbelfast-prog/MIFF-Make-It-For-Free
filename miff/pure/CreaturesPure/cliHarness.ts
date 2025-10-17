@@ -19,7 +19,7 @@ class World {
     for(const s of data.species) this.species[s.id]=s;
   }
   create(speciesId:string, level:number){
-    const s = this.species[speciesId!];
+    const s = this.species[speciesId];
     const id = Math.random().toString(36).slice(2);
     const c: Creature = { id, nameId:s.nameId, speciesId:s.id, isCaptured:false,
       stats:{level, hp:s.baseHp+level*2, attack:s.baseAttack+level, defense:s.baseDefense+level, speed:s.baseSpeed+level},
@@ -28,10 +28,10 @@ class World {
     this.createdIds.push(id);
     return c;
   }
-  resolveId(val:string){ const m = /^\$(\d+)$/.exec(val||''); if(m){ const idx=Number(m[1!]); return this.createdIds[idx!]; } return val; }
+  resolveId(val:string){ const m = /^\$(\d+)$/.exec(val||''); if(m){ const idx=Number(m[1!]); return this.createdIds[idx]; } return val; }
   addToParty(id:string){ id=this.resolveId(id); if(!this.party.includes(id) && this.party.length<6){ this.party.push(id); return true;} return false; }
   removeFromParty(id:string){ id=this.resolveId(id); const i=this.party.indexOf(id); if(i>=0){ this.party.splice(i,1); return true;} return false; }
-  swap(a:number,b:number){ if(a<0||b<0||a>=this.party.length||b>=this.party.length) return false; [this.party[a!],this.party[b!]]=[this.party[b!],this.party[a!]]; return true; }
+  swap(a:number,b:number){ if(a<0||b<0||a>=this.party.length||b>=this.party.length) return false; [this.party[a],this.party[b]]=[this.party[b],this.party[a]]; return true; }
   encounter(speciesId:string, level:number){ const c=this.create(speciesId, level); return c; }
   attemptCapture(id:string){ id=this.resolveId(id); const cr=this.creatures.find(x=>x.id===id)!; const s=this.species[cr.speciesId]; const ok = rand(100)<s.captureRate; if(ok){ cr.isCaptured=true; this.addToParty(cr.id);} return ok; }
   dump(){ return { creatures:this.creatures, party:this.party }; }

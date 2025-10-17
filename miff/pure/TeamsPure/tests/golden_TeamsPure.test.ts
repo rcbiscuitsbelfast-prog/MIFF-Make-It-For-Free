@@ -1251,7 +1251,7 @@ describe('TeamsPure Golden Tests', () => {
       // Add spirits with various stats
       const spirits = Array.from({ length: 6 }, (_, i) => {
         const types = ['fire', 'water', 'grass', 'electric', 'psychic', 'normal'];
-        return new MockSpiritInstance(`Complex${i}`, types[i!], 25 + i);
+        return new MockSpiritInstance(`Complex${i}`, types[i], 25 + i);
       });
 
       spirits.forEach(spirit => {

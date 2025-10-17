@@ -1180,7 +1180,7 @@ export class CutScenePure {
   }
 
   public setVariable(key: string, value: any): void {
-    this.state.variables[key!] = value;
+    this.state.variables[key] = value;
     EventBus.publish('cutscene.variable.changed', {
       cutSceneId: this.config.id,
       variable: key,
@@ -1189,7 +1189,7 @@ export class CutScenePure {
   }
 
   public getVariable(key: string): any {
-    return this.state.variables[key!];
+    return this.state.variables[key];
   }
 
   public isPlaying(): boolean {

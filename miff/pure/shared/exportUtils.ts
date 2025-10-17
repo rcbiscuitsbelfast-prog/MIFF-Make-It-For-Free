@@ -79,7 +79,7 @@ function exportArrayToCSV(array: any[], options: ExportOptions): string {
     
     array.forEach((item: any) => {
       const row = headers.map((header: any) => {
-        const value = item[header!];
+        const value = item[header];
         if (value === null || value === undefined) return '';
         if (typeof value === 'object') return JSON.stringify(value);
         return String(value).replace(/,/g, ';'); // Escape commas
@@ -147,7 +147,7 @@ function exportArrayToMarkdown(array: any[]): string {
     
     array.forEach((item: any) => {
       const row = headers.map((header: any) => {
-        const value = item[header!];
+        const value = item[header];
         if (value === null || value === undefined) return '';
         if (typeof value === 'object') return JSON.stringify(value);
         return String(value);
@@ -241,7 +241,7 @@ function exportArrayToHTML(array: any[]): string {
     array.forEach((item: any) => {
       html += '<tr>';
       headers.forEach((header: any) => {
-        const value = item[header!];
+        const value = item[header];
         let cellContent = '';
         if (value === null || value === undefined) {
           cellContent = '';

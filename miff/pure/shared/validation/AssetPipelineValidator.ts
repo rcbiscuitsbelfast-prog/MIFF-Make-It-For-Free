@@ -215,7 +215,7 @@ export class AssetPipelineValidator {
       };
 
       // Initialize bridge breakdown
-      report.bridgeBreakdown[bridge!] = {
+      report.bridgeBreakdown[bridge] = {
         total: assets.length,
         valid: 0,
         invalid: 0,
@@ -229,17 +229,17 @@ export class AssetPipelineValidator {
         
         if (result.valid) {
           report.validAssets++;
-          report.bridgeBreakdown[bridge!].valid++;
+          report.bridgeBreakdown[bridge].valid++;
         } else {
           report.invalidAssets++;
-          report.bridgeBreakdown[bridge!].invalid++;
+          report.bridgeBreakdown[bridge].invalid++;
         }
         
         report.errors += result.errors ?? []?.length;
         report.warnings += result.warnings.length;
         report.suggestions += result.suggestions.length;
-        report.bridgeBreakdown[bridge!].errors += result.errors ?? []?.length;
-        report.bridgeBreakdown[bridge!].warnings += result.warnings.length;
+        report.bridgeBreakdown[bridge].errors += result.errors ?? []?.length;
+        report.bridgeBreakdown[bridge].warnings += result.warnings.length;
         
         // Add critical issues
         if (result.errors ?? []?.length > 0) {
@@ -278,10 +278,10 @@ export class AssetPipelineValidator {
 
     for (const bridge of bridges) {
       try {
-        results[bridge!] = await this.validateAsset(assetPath);
+        results[bridge] = await this.validateAsset(assetPath);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        results[bridge!] = {
+        results[bridge] = {
           valid: false,
           errors: [`Bridge validation failed: ${error.message}`],
           warnings: [],
@@ -338,7 +338,7 @@ export class AssetPipelineValidator {
     };
 
     // Get bridge-specific rules
-    const bridgeRules = this.config.bridgeSpecificRules[bridge!] || [];
+    const bridgeRules = this.config.bridgeSpecificRules[bridge] || [];
     
     // Run each rule
     for (const rule of bridgeRules) {

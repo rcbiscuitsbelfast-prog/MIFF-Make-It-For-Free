@@ -66,7 +66,7 @@ export function getOverride(): LicenseAuditOverride {
         }
       };
       
-      return specialLicenses[moduleId!] || null;
+      return specialLicenses[moduleId] || null;
     },
     
     checkCompatibility: (license1: LicenseType, license2: LicenseType): LicenseCompatibility => {
@@ -92,7 +92,7 @@ export function getOverride(): LicenseAuditOverride {
         }
       };
       
-      return compatibilityMatrix[license1!]?.[license2!] || 'unknown';
+      return compatibilityMatrix[license1]?.[license2] || 'unknown';
     }
   };
 }

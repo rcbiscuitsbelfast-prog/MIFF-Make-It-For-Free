@@ -21,7 +21,7 @@ describe('AssetValidatorPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [validationFixture!]
+      [validationFixture]
     );
     
     const result = JSON.parse(out);
@@ -144,7 +144,7 @@ describe('AssetValidatorPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath!]
+        [tempFixturePath]
       );
       
       const result = JSON.parse(out);
@@ -211,7 +211,7 @@ describe('AssetValidatorPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath!]
+        [tempFixturePath]
       );
       
       const result = JSON.parse(out);
@@ -275,7 +275,7 @@ describe('AssetValidatorPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath!]
+        [tempFixturePath]
       );
       
       const result = JSON.parse(out);

@@ -50,7 +50,7 @@ export const PixelGenPure = {
 	} as Record<string, PixelGenPreset>,
 
 	generate(preset: string, seed: number = 12345, count: number = 1): PixelAsset[] {
-		const p = this.presets[preset!];
+		const p = this.presets[preset];
 		if (!p) throw new Error(`Unknown preset: ${preset}`);
 		
 		const assets: PixelAsset[] = [];
@@ -103,7 +103,7 @@ export const PixelGenPure = {
 						// Generate pattern-specific pixel data
 						const pixel = this.generatePatternPixel(pattern, x, y, preset, pixelSeed);
 						
-						data[idx!] = pixel.r;     // Red
+						data[idx] = pixel.r;     // Red
 						data[idx + 1] = pixel.g; // Green
 						data[idx + 2] = pixel.b; // Blue
 						data[idx + 3] = pixel.a; // Alpha
@@ -144,7 +144,7 @@ export const PixelGenPure = {
 				// Generate pattern-specific pixel data
 				const pixel = this.generatePatternPixel(pattern, x, y, preset, pixelSeed);
 				
-				data[idx!] = pixel.r;     // Red
+				data[idx] = pixel.r;     // Red
 				data[idx + 1] = pixel.g; // Green
 				data[idx + 2] = pixel.b; // Blue
 				data[idx + 3] = pixel.a; // Alpha

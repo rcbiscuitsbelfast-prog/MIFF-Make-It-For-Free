@@ -48,8 +48,8 @@ export const BattleAIUtils = {
     const keys = new Set([...Object.keys(weightsA), ...Object.keys(weightsB)]);
     let diff = 0;
     keys.forEach((k: any) => {
-      const va = weightsA[k!] ?? 0.5;
-      const vb = weightsB[k!] ?? 0.5;
+      const va = weightsA[k] ?? 0.5;
+      const vb = weightsB[k] ?? 0.5;
       diff += Math.abs(va - vb);
     });
     const typePreferencesMatch = (a.preferredTypes || []).join(',') === (b.preferredTypes || []).join(',');

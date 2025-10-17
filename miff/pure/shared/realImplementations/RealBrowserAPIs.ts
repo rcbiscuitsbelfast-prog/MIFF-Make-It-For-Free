@@ -133,7 +133,7 @@ export class RealBrowserAPIs {
     let total = 0;
     for (let key in localStorage) {
       if (localStorage.hasOwnProperty(key)) {
-        total += localStorage[key!].length + key.length;
+        total += localStorage[key].length + key.length;
       }
     }
     return total;
@@ -148,7 +148,7 @@ export class RealBrowserAPIs {
     let total = 0;
     for (let key in sessionStorage) {
       if (sessionStorage.hasOwnProperty(key)) {
-        total += sessionStorage[key!].length + key.length;
+        total += sessionStorage[key].length + key.length;
       }
     }
     return total;
@@ -347,7 +347,7 @@ export class RealBrowserAPIs {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
-    element.attributes[name!] = value;
+    element.attributes[name] = value;
     this.emit('attributeSet', { elementId, name, value });
     return true;
   }
@@ -359,7 +359,7 @@ export class RealBrowserAPIs {
     const element = this.domElements.get(elementId);
     if (!element) return null;
 
-    return element.attributes[name!] || null;
+    return element.attributes[name] || null;
   }
 
   /**
@@ -411,7 +411,7 @@ export class RealBrowserAPIs {
     const childIndex = parent.children.findIndex(child => child.id === childId);
     if (childIndex === -1) return false;
 
-    const child = parent.children[childIndex!];
+    const child = parent.children[childIndex];
     child.parent = null;
     parent.children.splice(childIndex, 1);
     this.emit('childRemoved', { parentId, childId });

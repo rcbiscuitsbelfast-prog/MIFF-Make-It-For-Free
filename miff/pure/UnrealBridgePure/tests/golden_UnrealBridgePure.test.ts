@@ -817,7 +817,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     // Check that messages are processed in order
     expect(processed.length).toBe(5);
     for (let i = 0; i < processed.length; i++) {
-      expect(processed[i!].payload.index).toBe(i);
+      expect(processed[i].payload.index).toBe(i);
     }
   });
 

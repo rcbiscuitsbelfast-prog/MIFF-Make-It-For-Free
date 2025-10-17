@@ -242,11 +242,11 @@ export class RealQuestSystem {
       }
 
       // Update progress
-      questProgress.objectives[objectiveId!] = Math.min(progress, objective.quantity);
+      questProgress.objectives[objectiveId] = Math.min(progress, objective.quantity);
       questProgress.lastUpdated = new Date();
 
       // Check if objective is completed
-      if (questProgress.objectives[objectiveId!] >= objective.quantity) {
+      if (questProgress.objectives[objectiveId] >= objective.quantity) {
         this.emit('objectiveCompleted', { questId, playerId, objectiveId, objective });
       }
 

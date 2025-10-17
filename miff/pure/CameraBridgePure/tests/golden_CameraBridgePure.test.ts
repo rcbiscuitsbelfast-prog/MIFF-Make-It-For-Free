@@ -18,7 +18,7 @@ test('golden camera bridge flow', () => {
   // Run CLI harness with camera data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [camera!]
+    [camera]
   );
   
   const got = JSON.parse(out);

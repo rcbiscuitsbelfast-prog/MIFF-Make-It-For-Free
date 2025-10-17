@@ -36,7 +36,7 @@ export class AIDecisionProfile implements IAIDecisionProfile {
     if (typeof heal === 'number') this._hadInvalidHealing = heal < 0 || heal > 2;
     // Apply provided weights with clamping for known categories
     Object.entries(movePriorityWeights).forEach(([k, v]) => {
-      this.movePriorityWeights[k!] = clampWeight(v as number);
+      this.movePriorityWeights[k] = clampWeight(v as number);
     });
     this.preferredTypes = [...preferredTypes];
   }
@@ -120,15 +120,15 @@ export class AIDecisionProfile implements IAIDecisionProfile {
   }
 
   getMoveWeight(category: MoveCategory | string): number {
-    if (this.movePriorityWeights[category!]) return this.movePriorityWeights[category!];
+    if (this.movePriorityWeights[category]) return this.movePriorityWeights[category];
     // Default weight for unknown categories
     return typeof category === 'string' && category in this.movePriorityWeights
-      ? this.movePriorityWeights[category!]
+      ? this.movePriorityWeights[category]
       : 0.5;
   }
 
   setMoveWeight(category: MoveCategory | string, value: number): void {
-    this.movePriorityWeights[category!] = clampWeight(value);
+    this.movePriorityWeights[category] = clampWeight(value);
   }
 
   getStyleDescription(): string {

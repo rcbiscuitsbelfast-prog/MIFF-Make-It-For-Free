@@ -21,11 +21,11 @@ const flags = parseFlags(args.slice(1));
 function parseFlags(args) {
   const flags = {};
   for (let i = 0; i < args.length; i++) {
-    const arg = args[i!];
+    const arg = args[i];
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
       const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
-      flags[key!] = value;
+      flags[key] = value;
     }
   }
   return flags;
@@ -36,7 +36,7 @@ function showHelp() {
 🎬 MIFF CLI - CutScene Commands
 
 Usage:
-  miff-cli cutscene <command> [flags!]
+  miff-cli cutscene <command> [flags]
 
 Commands:
   preview              Preview cut scene in browser with WebBridgePure
@@ -126,7 +126,7 @@ async function handlePreview() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
@@ -201,7 +201,7 @@ async function handleExport() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 400));
   }
 
@@ -298,7 +298,7 @@ async function handleValidate() {
   ];
 
   for (let i = 0; i < validationSteps.length; i++) {
-    console.log(`   ${i + 1}/${validationSteps.length} ${validationSteps[i!]}...`);
+    console.log(`   ${i + 1}/${validationSteps.length} ${validationSteps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
@@ -431,7 +431,7 @@ async function handleDemo() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i!]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 

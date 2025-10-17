@@ -18,7 +18,7 @@ test('golden audio bridge flow', () => {
   // Run CLI harness with audio commands
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [audio!]
+    [audio]
   );
   
   const got = JSON.parse(out);

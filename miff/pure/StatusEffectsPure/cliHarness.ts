@@ -8,7 +8,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 StatusEffectsPure CLI Harness - Status Effects Management System
 
-Usage: npx tsx miff/pure/StatusEffectsPure/cliHarness.ts [statusFile!] [commandsFile!]
+Usage: npx tsx miff/pure/StatusEffectsPure/cliHarness.ts [statusFile] [commandsFile]
 
 Arguments:
   statusFile    - Path to status JSON file (default: StatusEffectsPure/sample_status.json)

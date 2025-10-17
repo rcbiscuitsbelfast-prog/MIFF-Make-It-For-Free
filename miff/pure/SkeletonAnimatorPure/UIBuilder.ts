@@ -271,7 +271,7 @@ export class UIBuilder {
    * Update rig node
    */
   private updateRigNode(nodeId: string, data: any): void {
-    const node = this.skeletonState.rig.nodes[nodeId!];
+    const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       if (data.transform) {
         node.transform = { ...node.transform, ...data.transform };
@@ -329,7 +329,7 @@ export class UIBuilder {
    * Delete rig node
    */
   private deleteRigNode(nodeId: string): void {
-    delete this.skeletonState.rig.nodes[nodeId!];
+    delete this.skeletonState.rig.nodes[nodeId];
     if (this.skeletonState.selectedNode === nodeId) {
       this.skeletonState.selectedNode = undefined;
     }
@@ -373,7 +373,7 @@ export class UIBuilder {
    * Update node position
    */
   private updateNodePosition(nodeId: string, deltaPosition: Vec3): void {
-    const node = this.skeletonState.rig.nodes[nodeId!];
+    const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       node.transform.position = {
         x: node.transform.position.x + deltaPosition.x,
@@ -387,7 +387,7 @@ export class UIBuilder {
    * Update node scale
    */
   private updateNodeScale(nodeId: string, deltaScale: Vec3): void {
-    const node = this.skeletonState.rig.nodes[nodeId!];
+    const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       node.transform.scale = {
         x: node.transform.scale.x * deltaScale.x,
@@ -401,7 +401,7 @@ export class UIBuilder {
    * Update node rotation
    */
   private updateNodeRotation(nodeId: string, deltaRotation: Quaternion): void {
-    const node = this.skeletonState.rig.nodes[nodeId!];
+    const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       // Quaternion multiplication (simplified)
       const q1 = node.transform.rotation;

@@ -221,7 +221,7 @@ export class EventBus {
 
     // Update stats
     this.stats.totalEvents++;
-    this.stats.eventsByType[eventType!] = (this.stats.eventsByType[eventType!] || 0) + 1;
+    this.stats.eventsByType[eventType] = (this.stats.eventsByType[eventType] || 0) + 1;
 
     if (this.config.enableLogging) {
       console.log(`📢 Event published: ${eventType} (${eventId})`);

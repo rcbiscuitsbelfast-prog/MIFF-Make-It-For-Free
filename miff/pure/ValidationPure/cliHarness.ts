@@ -15,7 +15,7 @@ import * as fsLocal from 'fs';
 
 const { mode, args } = parseCLIArgs(process.argv);
 
-// Legacy compatibility: allow positional [inputPath!] ['' for config] [commandsPath!]
+// Legacy compatibility: allow positional [inputPath] ['' for config] [commandsPath]
 let legacyInputPath: string | null = null;
 let legacyCommandsPath: string | null = null;
 try {
@@ -37,7 +37,7 @@ try {
   if (candidatePath && !String(candidatePath).startsWith('--') && String(candidatePath).endsWith('.json') && fsLocal.existsSync(candidatePath)) {
     const legacyInput = JSON.parse(fsLocal.readFileSync(candidatePath, 'utf-8')) as ValidationInput;
     const legacyResult = manager.validateAll(legacyInput);
-    console.log(formatOutput({ outputs: [legacyResult!] }));
+    console.log(formatOutput({ outputs: [legacyResult] }));
     process.exit(0);
   }
 } catch {}
@@ -265,7 +265,7 @@ try {
       if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
         const legacyInput = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
         const legacyResult = manager.validateAll(legacyInput);
-        output = { outputs: [legacyResult!] };
+        output = { outputs: [legacyResult] };
       } else {
         output = {
           op: 'help',

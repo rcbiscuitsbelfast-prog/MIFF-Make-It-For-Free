@@ -227,7 +227,7 @@ export class StructuredLogger {
 
     for (const key in sanitized) {
       if (sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive))) {
-        sanitized[key!] = '[REDACTED!]';
+        sanitized[key] = '[REDACTED]';
       }
     }
 

@@ -91,13 +91,13 @@ class WitcherExplorerDemo {
       op: 'navigate',
       status: 'ok',
       location: target,
-      description: this.scenario.locations[target!]?.description || 'Unknown location',
+      description: this.scenario.locations[target]?.description || 'Unknown location',
       player: this.state.player
     };
   }
 
   handleDialogue(npcId: string) {
-    const npc = this.state.npcs[npcId!];
+    const npc = this.state.npcs[npcId];
     if (!npc) {
       throw new Error(`NPC not found: ${npcId}`);
     }
@@ -118,7 +118,7 @@ class WitcherExplorerDemo {
   }
 
   parseQuest(questId: string) {
-    const quest = this.scenario.quests[questId!];
+    const quest = this.scenario.quests[questId];
     if (!quest) {
       throw new Error(`Quest not found: ${questId}`);
     }

@@ -21,7 +21,7 @@ function readJSON(file: string): any {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args!] [--format json|csv|markdown|html]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');
     process.exit(1);
   }
   try {

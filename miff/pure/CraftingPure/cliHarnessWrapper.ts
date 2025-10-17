@@ -38,11 +38,11 @@ try {
       const materialsList = typeof materials === 'string' ? JSON.parse(materials) : (materials || []);
       if (Array.isArray(materialsList)) {
         materialsList.forEach((mat: string) => {
-          inventory[mat!] = 10; // Assume we have enough
+          inventory[mat] = 10; // Assume we have enough
         });
       } else {
         Object.keys(materialsList).forEach((mat: any) => {
-          inventory[mat!] = 10;
+          inventory[mat] = 10;
         });
       }
       

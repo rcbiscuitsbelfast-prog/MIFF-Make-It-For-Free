@@ -378,14 +378,14 @@ class MagicSystemCLI {
     if (spells.length > 0) {
       // Learn first few spells
       for (let i = 0; i < Math.min(3, spells.length); i++) {
-        this.magicSystem.unlockSpell(this.currentCaster, spells[i!].id);
-        console.log(`📚 Learned: ${spells[i!].name}`);
+        this.magicSystem.unlockSpell(this.currentCaster, spells[i].id);
+        console.log(`📚 Learned: ${spells[i].name}`);
       }
 
       // Cast some spells
       console.log('\n🔥 Casting spells...');
       for (let i = 0; i < 3; i++) {
-        const spell = spells[i!];
+        const spell = spells[i];
         if (spell) {
           console.log(`\n🎯 Casting ${spell.name}...`);
           const result = this.magicSystem.castSpell(this.currentCaster, spell.id, ['demo-target']);

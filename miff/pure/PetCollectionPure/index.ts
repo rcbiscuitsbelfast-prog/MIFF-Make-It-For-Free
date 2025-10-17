@@ -340,7 +340,7 @@ export class PetCollectionPure {
       cosmic: { common: 0, uncommon: 0, rare: 0, epic: 30, legendary: 40, mythic: 30 }
     };
 
-    const chances = rarityChances[eggType!];
+    const chances = rarityChances[eggType];
     const random = Math.random() * 100;
 
     let cumulative = 0;
@@ -372,7 +372,7 @@ export class PetCollectionPure {
       mythic: 5
     };
 
-    return baseTimes[eggType!] * rarityMultiplier[rarity!];
+    return baseTimes[eggType] * rarityMultiplier[rarity];
   }
 
   private getBaseStatsForSpecies(species: string): PetStats {
@@ -386,7 +386,7 @@ export class PetCollectionPure {
       'pegasus': { health: 85, attack: 75, defense: 70, speed: 100, intelligence: 80, charisma: 85 }
     };
 
-    return speciesStats[species!] || { health: 50, attack: 50, defense: 50, speed: 50, intelligence: 50, charisma: 50 };
+    return speciesStats[species] || { health: 50, attack: 50, defense: 50, speed: 50, intelligence: 50, charisma: 50 };
   }
 
   private getRarityMultiplier(rarity: PetRarity): number {
@@ -399,7 +399,7 @@ export class PetCollectionPure {
       mythic: 2.5
     };
 
-    return multipliers[rarity!];
+    return multipliers[rarity];
   }
 
   private getAbilitiesForSpecies(species: string, rarity: PetRarity): string[] {
@@ -412,7 +412,7 @@ export class PetCollectionPure {
       'pegasus': ['speed_boost', 'healing_wings', 'wind_rush']
     };
 
-    const baseAbilities = speciesAbilities[species!] || ['basic_attack'];
+    const baseAbilities = speciesAbilities[species] || ['basic_attack'];
     const rarityBonusAbilities: Record<PetRarity, number> = {
       common: 1,
       uncommon: 1,
@@ -422,7 +422,7 @@ export class PetCollectionPure {
       mythic: 3
     };
 
-    return baseAbilities.slice(0, rarityBonusAbilities[rarity!]);
+    return baseAbilities.slice(0, rarityBonusAbilities[rarity]);
   }
 
   private getMaxEvolutionStage(rarity: PetRarity): number {
@@ -435,7 +435,7 @@ export class PetCollectionPure {
       mythic: 7
     };
 
-    return maxStages[rarity!];
+    return maxStages[rarity];
   }
 
   private getPetTypeForSpecies(species: string): PetType {
@@ -448,7 +448,7 @@ export class PetCollectionPure {
       'pegasus': 'air'
     };
 
-    return speciesTypes[species!] || 'neutral';
+    return speciesTypes[species] || 'neutral';
   }
 
   private generatePetName(species: string): string {
@@ -471,7 +471,7 @@ export class PetCollectionPure {
       mythic: 6
     };
 
-    return values[rarity!];
+    return values[rarity];
   }
 
   private calculatePetValue(pet: Pet): number {

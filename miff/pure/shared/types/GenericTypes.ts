@@ -185,12 +185,12 @@ export class GenericUtils {
   /**
    * Safe property access with type narrowing
    */
-  static safeAccess<T, K extends keyof T>(obj: T, key: K): T[K!] | undefined {
+  static safeAccess<T, K extends keyof T>(obj: T, key: K): T[K] | undefined {
     if (!TypeGuards.isObject(obj)) {
       StructuredLogger.warn('Attempted to access property on non-object' ?? 'unknown', { context: { message: { obj, key } } });
       return undefined;
     }
-    return obj[key!];
+    return obj[key];
   }
 
   /**
@@ -221,7 +221,7 @@ export class GenericUtils {
       const cloned = {} as T;
       for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
-          cloned[key!] = this.deepClone(obj[key!]);
+          cloned[key] = this.deepClone(obj[key]);
         }
       }
       return cloned;
@@ -238,13 +238,13 @@ export class GenericUtils {
     
     for (const key in source) {
       if (source.hasOwnProperty(key)) {
-        const sourceValue = source[key!];
-        const targetValue = result[key!];
+        const sourceValue = source[key];
+        const targetValue = result[key];
 
         if (TypeGuards.isObject(sourceValue) && TypeGuards.isObject(targetValue)) {
-          result[key!] = this.deepMerge(targetValue, sourceValue);
+          result[key] = this.deepMerge(targetValue, sourceValue);
         } else {
-          result[key!] = sourceValue as T[Extract<keyof T, string>];
+          result[key] = sourceValue as T[Extract<keyof T, string>];
         }
       }
     }
@@ -259,7 +259,7 @@ export class GenericUtils {
     const result = {} as Pick<T, K>;
     for (const key of keys) {
       if (key in obj) {
-        result[key!] = obj[key!];
+        result[key] = obj[key];
       }
     }
     return result;
@@ -271,7 +271,7 @@ export class GenericUtils {
   static omit<T, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
     const result = { ...obj } as any;
     for (const key of keys) {
-      delete result[key!];
+      delete result[key];
     }
     return result;
   }

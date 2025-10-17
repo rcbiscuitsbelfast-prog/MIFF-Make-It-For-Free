@@ -18,7 +18,7 @@ test('golden mount system flow', () => {
   // Run CLI harness with mount events
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [mounts!]
+    [mounts]
   );
   
   const got = JSON.parse(out);

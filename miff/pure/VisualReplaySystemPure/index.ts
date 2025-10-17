@@ -752,7 +752,7 @@ function findInputSpikes(inputEvents: InputEvent[]): Array<{ frameNumber: number
   const timeWindow = 50; // 50ms window
   
   for (let i = 0; i < inputEvents.length; i++) {
-    const event = inputEvents[i!];
+    const event = inputEvents[i];
     const nearbyEvents = inputEvents.filter((e: any) => 
       Math.abs(e.timestamp - event.timestamp) < timeWindow
     );
@@ -779,13 +779,13 @@ function findVisualIntensityChanges(frames: ReplayFrame[]): Array<{ frameNumber:
   
   for (let i = 1; i < frames.length; i++) {
     const prevIntensity = frames[i - 1].visualHooks.length;
-    const currIntensity = frames[i!].visualHooks.length;
+    const currIntensity = frames[i].visualHooks.length;
     const change = currIntensity - prevIntensity;
     
     if (Math.abs(change) > 2) { // Significant change threshold
       changes.push({
-        frameNumber: frames[i!].frameNumber,
-        timestamp: frames[i!].timestamp,
+        frameNumber: frames[i].frameNumber,
+        timestamp: frames[i].timestamp,
         change,
         intensity: currIntensity
       });
@@ -803,7 +803,7 @@ function findPerformanceDrops(frames: ReplayFrame[]): Array<{ frameNumber: numbe
   
   for (let i = 1; i < frames.length; i++) {
     const prevFrame = frames[i - 1];
-    const currFrame = frames[i!];
+    const currFrame = frames[i];
     
     // Check CPU usage drop
     const cpuDrop = ((prevFrame.metadata.performance.cpuUsage - currFrame.metadata.performance.cpuUsage) / prevFrame.metadata.performance.cpuUsage) * 100;

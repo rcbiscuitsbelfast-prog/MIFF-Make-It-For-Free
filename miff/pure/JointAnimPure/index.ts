@@ -25,7 +25,7 @@ export type AnimAction =
 
 export function createRigState(config: RigConfig): RigState {
   const j: Record<JointName, JointPose> = {} as any;
-  config.joints.forEach((n: any) => { j[n!] = config.defaultPose.joints[n!] || { rot: 0 }; });
+  config.joints.forEach((n: any) => { j[n] = config.defaultPose.joints[n] || { rot: 0 }; });
   return { current: config.defaultPose.name, blendMs: 0, tMs: 0, joints: j };
 }
 
@@ -76,9 +76,9 @@ function blendJoints(current: Record<JointName, JointPose>, from: PoseDefinition
   const out: Record<JointName, JointPose> = { ...current };
   const keys = new Set<JointName>([...Object.keys(from.joints), ...Object.keys(to.joints)] as any);
   keys.forEach((k: any) => {
-    const fa = from.joints[k!] || { rot: 0 };
-    const fb = to.joints[k!] || { rot: 0 };
-    out[k!] = { rot: blend(fa.rot, fb.rot, t), x: blend(fa.x || 0, fb.x || 0, t), y: blend(fa.y || 0, fb.y || 0, t) };
+    const fa = from.joints[k] || { rot: 0 };
+    const fb = to.joints[k] || { rot: 0 };
+    out[k] = { rot: blend(fa.rot, fb.rot, t), x: blend(fa.x || 0, fb.x || 0, t), y: blend(fa.y || 0, fb.y || 0, t) };
   });
   return out;
 }

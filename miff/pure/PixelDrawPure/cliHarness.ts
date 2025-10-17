@@ -26,7 +26,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -327,7 +327,7 @@ function main() {
         const originalFilled = fillGrid.cells.filter((c: any) => c !== null).length;
         
         for (let i = 0; i < fillGrid.cells.length; i++) {
-          fillGrid.cells[i!] = operation.color!;
+          fillGrid.cells[i] = operation.color!;
         }
         
         result = {
@@ -348,7 +348,7 @@ function main() {
         const originalFilledClear = clearGrid.cells.filter((c: any) => c !== null).length;
         
         for (let i = 0; i < clearGrid.cells.length; i++) {
-          clearGrid.cells[i!] = null;
+          clearGrid.cells[i] = null;
         }
         
         result = {

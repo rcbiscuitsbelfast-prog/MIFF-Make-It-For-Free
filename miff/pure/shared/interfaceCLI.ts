@@ -363,12 +363,12 @@ class InterfaceCLI {
     console.info(`
 🔧 MIFF Interface Standardization CLI
 
-Usage: tsx interfaceCLI.ts <command> [options!]
+Usage: tsx interfaceCLI.ts <command> [options]
 
 Commands:
-  standardize [path!] [output!]      Standardize interfaces across all modules
+  standardize [path] [output]      Standardize interfaces across all modules
   check <module>                   Check compliance for specific module
-  report [output!]                  Generate interface compliance report
+  report [output]                  Generate interface compliance report
   fix <module>                     Generate fix suggestions for module
   help                            Show this help
 

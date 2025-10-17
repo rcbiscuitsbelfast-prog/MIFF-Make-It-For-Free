@@ -950,19 +950,19 @@ window.addEventListener('load', initGame);
 ; since the parameters that go here are not all obvious.
 ;
 ; Format:
-;   [section!] ; section goes between []
+;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
 config_version=5
 
-[application!]
+[application]
 
 config/name="${config.projectName}"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
-[rendering!]
+[rendering]
 
 renderer/rendering_method="gl_compatibility"
 `;
@@ -1052,7 +1052,7 @@ public class Main : MonoBehaviour
 
   private log(level: string, message: string): void {
     if (this.config.logLevel === 'debug' || (this.config.logLevel === 'info' && level !== 'debug')) {
-      console.log(`[ExportPipeline!] ${level.toUpperCase()}: ${message}`);
+      console.log(`[ExportPipeline] ${level.toUpperCase()}: ${message}`);
     }
   }
 

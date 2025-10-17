@@ -14,7 +14,7 @@
  * Supported save file versions
  */
 export const SUPPORTED_VERSIONS = ['v1', 'v2', 'v3'] as const;
-export type SaveVersion = typeof SUPPORTED_VERSIONS[number!];
+export type SaveVersion = typeof SUPPORTED_VERSIONS[number];
 
 /**
  * Save validation result
@@ -263,7 +263,7 @@ export class SaveSnapshot implements ISaveSnapshot {
     } else {
       // Validate party members
       for (let i = 0; i < this.partyRoster.length; i++) {
-        const member = this.partyRoster[i!];
+        const member = this.partyRoster[i];
         if (!member.id || !member.name) {
           warnings.push(`Party member ${i} is missing required fields`);
         }
@@ -415,9 +415,9 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Add inventory item
    */
   addInventoryItem(itemId: string, quantity: number = 1): void {
-    this.inventory[itemId!] = (this.inventory[itemId!] || 0) + quantity;
-    if (this.inventory[itemId!] <= 0) {
-      delete this.inventory[itemId!];
+    this.inventory[itemId] = (this.inventory[itemId] || 0) + quantity;
+    if (this.inventory[itemId] <= 0) {
+      delete this.inventory[itemId];
     }
     this.updateTimestamp();
     this.computeChecksum();
@@ -427,11 +427,11 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Remove inventory item
    */
   removeInventoryItem(itemId: string, quantity: number = 1): boolean {
-    const currentQuantity = this.inventory[itemId!] || 0;
+    const currentQuantity = this.inventory[itemId] || 0;
     if (currentQuantity >= quantity) {
-      this.inventory[itemId!] -= quantity;
-      if (this.inventory[itemId!] <= 0) {
-        delete this.inventory[itemId!];
+      this.inventory[itemId] -= quantity;
+      if (this.inventory[itemId] <= 0) {
+        delete this.inventory[itemId];
       }
       this.updateTimestamp();
       this.computeChecksum();
@@ -444,7 +444,7 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Set quest flag
    */
   setQuestFlag(flagId: string, value: boolean): void {
-    this.questFlags[flagId!] = value;
+    this.questFlags[flagId] = value;
     this.updateTimestamp();
     this.computeChecksum();
   }
@@ -471,7 +471,7 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Update game statistics
    */
   updateStatistic(statId: string, value: number): void {
-    this.statistics[statId!] = value;
+    this.statistics[statId] = value;
     this.updateTimestamp();
     this.computeChecksum();
   }
@@ -480,14 +480,14 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Get game statistic
    */
   getStatistic(statId: string): number {
-    return this.statistics[statId!] || 0;
+    return this.statistics[statId] || 0;
   }
 
   /**
    * Set game setting
    */
   setGameSetting(settingId: string, value: any): void {
-    this.gameSettings[settingId!] = value;
+    this.gameSettings[settingId] = value;
     this.updateTimestamp();
     this.computeChecksum();
   }
@@ -496,14 +496,14 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Get game setting
    */
   getGameSetting(settingId: string): any {
-    return this.gameSettings[settingId!];
+    return this.gameSettings[settingId];
   }
 
   /**
    * Add metadata
    */
   addMetadata(key: string, value: any): void {
-    this.metadata[key!] = value;
+    this.metadata[key] = value;
     this.updateTimestamp();
     this.computeChecksum();
   }
@@ -512,7 +512,7 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Get metadata
    */
   getMetadata(key: string): any {
-    return this.metadata[key!];
+    return this.metadata[key];
   }
 
   /**
@@ -840,7 +840,7 @@ export class SaveMigrator implements ISaveMigrator {
     const warnings: string[] = [];
 
     for (let i = 0; i < migrationPath.length - 1; i++) {
-      const fromVersion = migrationPath[i!];
+      const fromVersion = migrationPath[i];
       const toVersion = migrationPath[i + 1];
       const migrationKey = `${fromVersion}->${toVersion}`;
 
@@ -896,12 +896,12 @@ export class SaveMigrator implements ISaveMigrator {
     if (fromIndex < toIndex) {
       // Forward migration
       for (let i = fromIndex + 1; i <= toIndex; i++) {
-        path.push(versions[i!]);
+        path.push(versions[i]);
       }
     } else {
       // Backward migration (not typically recommended)
       for (let i = fromIndex - 1; i >= toIndex; i--) {
-        path.push(versions[i!]);
+        path.push(versions[i]);
       }
     }
 
@@ -1300,7 +1300,7 @@ export const SaveUtils = {
     const sizes = ['B', 'KB', 'MB', 'GB'];
     if (bytes === 0) return '0 B';
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i!]}`;
+    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`;
   },
 
   /**
@@ -1329,11 +1329,11 @@ export const SaveUtils = {
     ];
 
     fieldsToCompare.forEach((field: any) => {
-      const value1 = (snapshot1 as any)[field!];
-      const value2 = (snapshot2 as any)[field!];
+      const value1 = (snapshot1 as any)[field];
+      const value2 = (snapshot2 as any)[field];
 
       if (JSON.stringify(value1) !== JSON.stringify(value2)) {
-        differences[field!] = {
+        differences[field] = {
           snapshot1: value1,
           snapshot2: value2
         };

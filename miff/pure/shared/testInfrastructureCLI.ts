@@ -267,15 +267,15 @@ class TestInfrastructureCLI {
     console.info(`
 🧪 MIFF Test Infrastructure CLI
 
-Usage: tsx testInfrastructureCLI.ts <command> [options!]
+Usage: tsx testInfrastructureCLI.ts <command> [options]
 
 Commands:
-  scan [path!] [output!]           Scan test infrastructure in specified path
-  mocks [output!]                 Identify mock replacements needed
-  coverage [output!]              Generate test coverage report
-  quality [output!]               Assess test quality and mutation scores
-  replace [priority!]             Replace mocks with real implementations
-  report [output!]                Generate comprehensive HTML report
+  scan [path] [output]           Scan test infrastructure in specified path
+  mocks [output]                 Identify mock replacements needed
+  coverage [output]              Generate test coverage report
+  quality [output]               Assess test quality and mutation scores
+  replace [priority]             Replace mocks with real implementations
+  report [output]                Generate comprehensive HTML report
   help                          Show this help
 
 Examples:

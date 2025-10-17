@@ -267,15 +267,15 @@ class EffectsPureCLI {
     console.log('='.repeat(70));
     console.log('');
     console.log('Available commands:');
-    console.log('  list [entity!]     - List active effects on entity');
-    console.log('  apply [effect!]    - Apply effect to current entity');
-    console.log('  remove [effect!]   - Remove effect from current entity');
-    console.log('  create [type!]     - Create new effect');
-    console.log('  stats [entity!]    - Show entity stats');
-    console.log('  update [time!]     - Update effects (simulate time passing)');
-    console.log('  switch [entity!]   - Switch current entity');
-    console.log('  phase [phase!]     - Set current phase');
-    console.log('  immunity [tag!]    - Add/remove immunity');
+    console.log('  list [entity]     - List active effects on entity');
+    console.log('  apply [effect]    - Apply effect to current entity');
+    console.log('  remove [effect]   - Remove effect from current entity');
+    console.log('  create [type]     - Create new effect');
+    console.log('  stats [entity]    - Show entity stats');
+    console.log('  update [time]     - Update effects (simulate time passing)');
+    console.log('  switch [entity]   - Switch current entity');
+    console.log('  phase [phase]     - Set current phase');
+    console.log('  immunity [tag]    - Add/remove immunity');
     console.log('  demo              - Reset demo data');
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
@@ -414,7 +414,7 @@ class EffectsPureCLI {
    */
   private applyEffect(effectId: string): void {
     if (!effectId) {
-      console.log('❌ Usage: apply [effect_id!]');
+      console.log('❌ Usage: apply [effect_id]');
       console.log('Available effects: strength_boost, defense_boost, poison, regeneration, shield, stun');
       return;
     }
@@ -445,7 +445,7 @@ class EffectsPureCLI {
    */
   private removeEffect(effectId: string): void {
     if (!effectId) {
-      console.log('❌ Usage: remove [effect_id!]');
+      console.log('❌ Usage: remove [effect_id]');
       return;
     }
 
@@ -463,7 +463,7 @@ class EffectsPureCLI {
    */
   private createEffect(args: string[]): void {
     if (args.length < 3) {
-      console.log('❌ Usage: create [type!] [name!] [description!] [value!]');
+      console.log('❌ Usage: create [type] [name] [description] [value]');
       console.log('Types: stat, dot, heal, stun, shield');
       return;
     }
@@ -574,7 +574,7 @@ class EffectsPureCLI {
     const deltaTime = deltaTimeStr ? parseFloat(deltaTimeStr) : 1.0;
 
     if (isNaN(deltaTime) || deltaTime <= 0) {
-      console.log('❌ Usage: update [delta_time_seconds!]');
+      console.log('❌ Usage: update [delta_time_seconds]');
       return;
     }
 
@@ -613,7 +613,7 @@ class EffectsPureCLI {
    */
   private switchEntity(entityId: string): void {
     if (!entityId) {
-      console.log('❌ Usage: switch [entity_id!]');
+      console.log('❌ Usage: switch [entity_id]');
       console.log('Available entities: player, enemy');
       return;
     }
@@ -636,7 +636,7 @@ class EffectsPureCLI {
    */
   private setPhase(phaseStr: string): void {
     if (!phaseStr) {
-      console.log('❌ Usage: phase [phase_name!]');
+      console.log('❌ Usage: phase [phase_name]');
       console.log('Available phases: pre_turn, select_action, resolve_action, end_turn');
       return;
     }
@@ -667,7 +667,7 @@ class EffectsPureCLI {
    */
   private toggleImmunity(immunityTag: string): void {
     if (!immunityTag) {
-      console.log('❌ Usage: immunity [immunity_tag!]');
+      console.log('❌ Usage: immunity [immunity_tag]');
       return;
     }
 

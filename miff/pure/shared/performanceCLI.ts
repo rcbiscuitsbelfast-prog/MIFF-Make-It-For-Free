@@ -362,18 +362,18 @@ class PerformanceCLI {
     console.info(`
 ⚡ MIFF Performance Optimization CLI
 
-Usage: tsx performanceCLI.ts <command> [options!]
+Usage: tsx performanceCLI.ts <command> [options]
 
 Commands:
-  analyze [output!]                 Analyze current performance metrics
-  targets [output!]                 Identify optimization targets
-  optimize [type!] [output!]         Optimize performance (all|memory|cpu|network|cache)
-  memory [output!]                  Implement memory optimizations
-  cpu [output!]                     Implement CPU optimizations
-  network [output!]                 Implement network optimizations
-  cache [output!]                   Implement caching strategies
-  report [output!]                  Generate performance report
-  monitor [interval!] [duration!]    Monitor performance in real-time
+  analyze [output]                 Analyze current performance metrics
+  targets [output]                 Identify optimization targets
+  optimize [type] [output]         Optimize performance (all|memory|cpu|network|cache)
+  memory [output]                  Implement memory optimizations
+  cpu [output]                     Implement CPU optimizations
+  network [output]                 Implement network optimizations
+  cache [output]                   Implement caching strategies
+  report [output]                  Generate performance report
+  monitor [interval] [duration]    Monitor performance in real-time
   help                            Show this help
 
 Examples:

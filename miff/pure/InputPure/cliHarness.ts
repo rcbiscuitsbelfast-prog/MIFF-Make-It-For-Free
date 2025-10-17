@@ -23,7 +23,7 @@ InputPure CLI - Input Management Testing
 
 Commands:
   help                    Show this help
-  actions [category!]      List actions (optionally by category)
+  actions [category]      List actions (optionally by category)
   bindings                Show current input bindings
   rebind <action> <input> Rebind an action to a new input
   test <input>            Test what action an input triggers
@@ -84,7 +84,7 @@ function printBindings(profile: InputProfile): void {
     return;
   }
 
-  const sortedBindings = Array.from(bindings.entries()).sort(([a], [b!]) => a.localeCompare(b));
+  const sortedBindings = Array.from(bindings.entries()).sort(([a], [b]) => a.localeCompare(b));
 
   for (const [input, actionId] of sortedBindings) {
     const action = profile.getAction(actionId);
@@ -215,7 +215,7 @@ async function runCLI(): Promise<void> {
 
       case 'add':
         if (args.length < 2) {
-          console.log('❌ Usage: add <id> <input> [category!]');
+          console.log('❌ Usage: add <id> <input> [category]');
         } else {
           const [actionId, defaultInput, category = state.currentCategory] = args;
           const action = new InputAction(actionId, defaultInput, true, category);
