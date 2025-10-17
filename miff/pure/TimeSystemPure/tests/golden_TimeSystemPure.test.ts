@@ -35,7 +35,7 @@ const createMockEventBus = (): EventBus => {
       const filtered = listeners.filter(l => l !== listener);
       events.set(event, filtered);
     }
-  } as EventBus;
+  } as unknown as EventBus;
 };
 
 describe('TimeSystemPure', () => {
@@ -144,10 +144,10 @@ describe('TimeSystemPure', () => {
     test('should emit time of day change events', (done) => {
       let eventReceived = false;
 
-      eventBus.on('time:time_of_day_change', (data) => {
+      eventBus.on('time:time_of_day_change', (event: any) => {
         eventReceived = true;
-        expect(data.old).toBe('midnight');
-        expect(data.new).toBe('dawn');
+        expect(event.data.old).toBe('midnight');
+        expect(event.data.new).toBe('dawn');
         done();
       });
 
@@ -187,10 +187,10 @@ describe('TimeSystemPure', () => {
     test('should emit season change events', (done) => {
       let eventReceived = false;
 
-      eventBus.on('time:season_change', (data) => {
+      eventBus.on('time:season_change', (event: any) => {
         eventReceived = true;
-        expect(data.old).toBe('spring');
-        expect(data.new).toBe('summer');
+        expect(event.data.old).toBe('spring');
+        expect(event.data.new).toBe('summer');
         done();
       });
 
@@ -251,10 +251,10 @@ describe('TimeSystemPure', () => {
     test('should emit acceleration change events', (done) => {
       let eventReceived = false;
 
-      eventBus.on('time:acceleration_change', (data) => {
+      eventBus.on('time:acceleration_change', (event: any) => {
         eventReceived = true;
-        expect(data.oldAcceleration).toBe('x1');
-        expect(data.newAcceleration).toBe('x5');
+        expect(event.data.oldAcceleration).toBe('x1');
+        expect(event.data.newAcceleration).toBe('x5');
         done();
       });
 

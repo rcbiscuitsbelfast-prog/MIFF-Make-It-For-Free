@@ -63,7 +63,7 @@ export class TimeSystemPure {
     const gameTime = this.config.initialTime! || 0;
     return {
       currentTime: gameTime,
-      realTime: new Date(),
+      realTime: Date.now(),
       timeOfDay: this.getTimeOfDay(gameTime),
       season: this.getSeason(gameTime),
       dayOfYear: Math.floor(gameTime / (this.config.dayLength! || 1440)),
@@ -145,7 +145,7 @@ export class TimeSystemPure {
     return {
       ...this.currentTimeData,
       currentTime: newGameTime,
-      realTime: new Date(),
+      realTime: Date.now(),
       timeOfDay: this.getTimeOfDay(newGameTime),
       season: this.getSeason(newGameTime),
       dayOfYear: Math.floor(newGameTime / (this.config.dayLength! || 1440)),
@@ -155,11 +155,11 @@ export class TimeSystemPure {
       dayProgress: this.getDayProgress(newGameTime),
       seasonProgress: this.getSeasonProgress(newGameTime),
       timeScale: this.currentTimeScale,
-      acceleration: this.getCurrentAcceleration()
+      acceleration: this.computeAccelerationFromScale()
     };
   }
 
-  private getCurrentAcceleration(): TimeAcceleration {
+  private computeAccelerationFromScale(): TimeAcceleration {
     if (this.currentTimeScale === 0) return 'paused';
     if (this.currentTimeScale === 1) return 'x1';
     if (this.currentTimeScale === 2) return 'x2';
