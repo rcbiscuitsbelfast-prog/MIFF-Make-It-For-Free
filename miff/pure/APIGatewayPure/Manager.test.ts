@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { APIGatewayPureManager } from './Manager';
+import { APIGatewayManager } from './Manager';
 
-describe('APIGatewayPureManager', () => {
-  let manager: APIGatewayPureManager;
+describe('APIGatewayManager', () => {
+  let manager: APIGatewayManager;
 
   beforeEach(async () => {
-    manager = new APIGatewayPureManager({
+    manager = new APIGatewayManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

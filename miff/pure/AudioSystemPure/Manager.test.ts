@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { AudioSystemPureManager } from './Manager';
+import { AudioSystemManager } from './Manager';
 
-describe('AudioSystemPureManager', () => {
-  let manager: AudioSystemPureManager;
+describe('AudioSystemManager', () => {
+  let manager: AudioSystemManager;
 
   beforeEach(async () => {
-    manager = new AudioSystemPureManager({
+    manager = new AudioSystemManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

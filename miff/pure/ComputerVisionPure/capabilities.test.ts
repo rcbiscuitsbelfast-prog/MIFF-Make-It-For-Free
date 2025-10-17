@@ -3,7 +3,7 @@
  * Generated test file for comprehensive coverage
  */
 
-import { capabilities } from 'capabilities';
+import { capabilities } from './capabilities';
 
 describe('capabilities', () => {
   let instance: capabilities;

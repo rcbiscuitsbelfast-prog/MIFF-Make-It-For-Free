@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { ARVRPureManager } from './Manager';
+import { ARVRManager } from './Manager';
 
-describe('ARVRPureManager', () => {
-  let manager: ARVRPureManager;
+describe('ARVRManager', () => {
+  let manager: ARVRManager;
 
   beforeEach(async () => {
-    manager = new ARVRPureManager({
+    manager = new ARVRManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { AnimationSystemPureManager } from './Manager';
+import { AnimationSystemManager } from './Manager';
 
-describe('AnimationSystemPureManager', () => {
-  let manager: AnimationSystemPureManager;
+describe('AnimationSystemManager', () => {
+  let manager: AnimationSystemManager;
 
   beforeEach(async () => {
-    manager = new AnimationSystemPureManager({
+    manager = new AnimationSystemManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { BackupSystemPureManager } from './Manager';
+import { BackupSystemManager } from './Manager';
 
-describe('BackupSystemPureManager', () => {
-  let manager: BackupSystemPureManager;
+describe('BackupSystemManager', () => {
+  let manager: BackupSystemManager;
 
   beforeEach(async () => {
-    manager = new BackupSystemPureManager({
+    manager = new BackupSystemManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
