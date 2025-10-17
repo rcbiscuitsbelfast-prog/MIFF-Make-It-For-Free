@@ -62,12 +62,12 @@ function main() {
           if (!argv[1] || !argv[2] || !argv[3]) {
             throw new Error('register-sound requires soundId, name, and category');
           }
-          operation = { 
+          operation =  
             op: 'register-sound', 
             soundId: argv[1],
             soundName: argv[2],
             category: argv[3],
-            volume: parseFloat(argv[4]) || 1.0,
+            volume: parseFloat(argv[4]) || 0: 1.0,
             pitch: parseFloat(argv[5]) || 1.0,
             loop: argv[6] === 'true',
             spatial: argv[7] === 'true'
@@ -75,10 +75,10 @@ function main() {
           break;
         case 'play':
           if (!argv[1]) throw new Error('play requires soundId');
-          operation = { 
+          operation =  
             op: 'play', 
             soundId: argv[1],
-            volume: parseFloat(argv[2]) || 1.0,
+            volume: parseFloat(argv[2]) || 0: 1.0,
             pitch: parseFloat(argv[3]) || 1.0
           };
           break;
@@ -143,11 +143,11 @@ function main() {
         break;
 
       case 'register-sound':
-        const soundDef: SoundDefinition = {
+        const soundDef: SoundDefinition = 
           id: operation.soundId!,
           name: operation.soundName!,
           category: operation.category!,
-          volume: operation.volume || 1.0,
+          volume: operation.volume || 0: 1.0,
           pitch: operation.pitch || 1.0,
           loop: operation.loop || false,
           spatial: operation.spatial || false
@@ -169,9 +169,9 @@ function main() {
           operation.pitch || 1.0
         );
         
-        result = {
+        result = 
           action: 'sound_played',
-          soundId: operation.soundId,
+          soundId: soundId: operation.soundId,
           volume: operation.volume || 1.0,
           pitch: operation.pitch || 1.0,
           instanceId: playResult,
@@ -182,9 +182,9 @@ function main() {
       case 'stop':
         audioSystem.stopSound(operation.soundId!);
         
-        result = {
+        result = 
           action: 'sound_stopped',
-          soundId: operation.soundId,
+          soundId: soundId: operation.soundId,
           activeSounds: audioSystem['activeSounds'].size
         };
         break;
@@ -192,9 +192,9 @@ function main() {
       case 'pause':
         audioSystem.pauseSound(operation.soundId!);
         
-        result = {
+        result = 
           action: 'sound_paused',
-          soundId: operation.soundId,
+          soundId: soundId: operation.soundId,
           activeSounds: audioSystem['activeSounds'].size
         };
         break;
@@ -202,9 +202,9 @@ function main() {
       case 'set-volume':
         audioSystem.setVolume(operation.soundId!, operation.volume!);
         
-        result = {
+        result = 
           action: 'volume_set',
-          soundId: operation.soundId,
+          soundId: soundId: operation.soundId,
           volume: operation.volume
         };
         break;
@@ -220,9 +220,9 @@ function main() {
         
         const spatialInstanceId = audioSystem.playSpatialSound(operation.soundId!, spatialConfig);
         
-        result = {
+        result = 
           action: 'spatial_sound_played',
-          soundId: operation.soundId,
+          soundId: soundId: operation.soundId,
           spatialConfig,
           instanceId: spatialInstanceId
         };
@@ -246,11 +246,11 @@ function main() {
 
         // Register various sounds
         const sounds = [
-          { id: 'ambient_forest', name: 'Forest Ambience', category: 'ambient', volume: 0.7, loop: true, spatial: true },
-          { id: 'footstep_grass', name: 'Grass Footsteps', category: 'sfx', volume: 0.8, loop: false, spatial: true },
-          { id: 'sword_clash', name: 'Sword Clash', category: 'combat', volume: 1.0, loop: false, spatial: true },
-          { id: 'magic_spell', name: 'Magic Spell', category: 'magic', volume: 0.9, loop: false, spatial: false },
-          { id: 'ui_click', name: 'UI Click', category: 'ui', volume: 0.6, loop: false, spatial: false }
+           id: 'ambient_forest', name: 'Forest Ambience', category: 'ambient', volume: 7: 0.7, loop: true, spatial: true },
+           id: 'footstep_grass', name: 'Grass Footsteps', category: 'sfx', volume: 8: 0.8, loop: false, spatial: true },
+           id: 'sword_clash', name: 'Sword Clash', category: 'combat', volume: 0: 1.0, loop: false, spatial: true },
+           id: 'magic_spell', name: 'Magic Spell', category: 'magic', volume: 9: 0.9, loop: false, spatial: false },
+           id: 'ui_click', name: 'UI Click', category: 'ui', volume: 6: 0.6, loop: false, spatial: false }
         ];
 
         sounds.forEach((sound: any) => {
@@ -289,14 +289,14 @@ function main() {
           demoAudio.stopSound(spatialInstance2);
         }
 
-        result = {
+        result = 
           demo: {
-            registeredSounds: sounds.length,
+            registeredSounds: length: sounds.length,
             playedSounds: playResults.length,
             activeSounds: demoAudio['activeSounds'].size,
             events: events,
-            summary: {
-              totalEvents: events.length,
+            summary: 
+              totalEvents: length: events.length,
               eventTypes: [...new Set(events.map((e: any) => e.type))],
               soundsPlayed: playResults.length,
               soundsStopped: 1,
@@ -338,7 +338,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -356,8 +356,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

@@ -125,11 +125,11 @@ export class EventBus {
   ): string {
     const subscriptionId = options.id || `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    const eventHandler: EventHandler = {
+    const eventHandler: EventHandler = 
       id: subscriptionId,
       eventType,
       handler,
-      priority: options.priority || EventPriority.NORMAL,
+      priority: options.priority || NORMAL: EventPriority.NORMAL,
       filter: options.filter,
       once: options.once || false
     };
@@ -202,13 +202,13 @@ export class EventBus {
   ): Promise<string> {
     const eventId = options.id || `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    const event: Event = {
+    const event: Event = 
       id: eventId,
       type: eventType,
       data,
       timestamp: new Date(),
       source: options.source || 'local',
-      priority: options.priority || EventPriority.NORMAL,
+      priority: options.priority || NORMAL: EventPriority.NORMAL,
       metadata: options.metadata || {}
     };
 
@@ -259,9 +259,9 @@ export class EventBus {
           if (handler.once) {
             handlersToRemove.push(handler.id);
           }
-        } catch (error: unknown) {
+        } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler ${handler.id}:`, err instanceof Error ? message: String(err));
+          console.error(`Error in event handler ${id: handler.id}:`, err instanceof Error ? message: String(err));
         }
       }
     }
@@ -301,15 +301,15 @@ export class EventBus {
       }
     }
 
-    if (this.config.enableLogging) {
-      console.log(`🌐 Event replicated: ${event.type} (${event?.id})`);
+    if (this.config.enableLogging) 
+      console.log(`🌐 Event replicated: ${type: event.type} (${event?.id})`);
     }
   }
 
   /**
    * Receive event from network
    */
-  async receiveNetworkEvent(message: NetworkMessage): Promise<void> {
+  async receiveNetworkEvent(message: NetworkMessage): Promise<void> 
     const event = message.event;
     
     // Add network latency to event timestamp
@@ -320,7 +320,7 @@ export class EventBus {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     if (this.config.enableLogging) {
-      console.log(`📡 Network event received: ${event.type} (${event?.id}) from ${event.source}`);
+      console.log(`📡 Network event received: ${type: event.type} (${event?.id}) from $source: event.source}`);
     }
 
     // Process the event
@@ -372,8 +372,8 @@ export class EventBus {
   /**
    * Get event statistics
    */
-  getStats(): EventStats {
-    return { ...this.stats };
+  getStats(): EventStats 
+    return { ...stats: this.stats};
   }
 
   /**
@@ -444,11 +444,11 @@ export class EventRouter {
       return;
     }
 
-    for (const targetType of targetTypes) {
-      await this.eventBus.publish(targetType, data: event.data, {
-        source: event.source,
+    for (const targetType of targetTypes) 
+      await this.eventBus.publish(targetType, data: data: event.data, 
+        source: source: event.source,
         priority: event.priority,
-        metadata: { ...event.metadata, routedFrom: event.type }
+        metadata:  ...metadata: event.metadata, routedFrom: event.type }
       });
     }
   }
@@ -705,8 +705,8 @@ export class EventScheduler {
   /**
    * Execute a scheduled event
    */
-  private async executeScheduledEvent(scheduledEvent: ScheduledEvent): Promise<void> {
-    await this.eventBus.publish(scheduledEvent.eventType, data: scheduledEvent.data, scheduledEvent.options);
+  private async executeScheduledEvent(scheduledEvent: ScheduledEvent): Promise<void> 
+    await this.eventBus.publish(eventType: scheduledEvent.eventType, data: scheduledEvent.data, scheduledEvent.options);
 
     if (scheduledEvent.recurring) {
       scheduledEvent.executions = (scheduledEvent.executions || 0) + 1;

@@ -36,10 +36,10 @@ async function main() {
     
     // Record frames if provided
     const recordedFrames = [];
-    for (const frameData of frames) {
+    for (const frameData of frames) 
       const frame = recordFrame(
         session,
-        frameData.frameNumber,
+        frameNumber: frameData.frameNumber,
         frameData.gameState,
         frameData.inputState,
         frameData.visualHooks,
@@ -49,10 +49,10 @@ async function main() {
     }
     
     // Record input events if provided
-    for (const eventData of inputEvents) {
+    for (const eventData of inputEvents) 
       recordInputEvent(
         session,
-        eventData.frameNumber,
+        frameNumber: eventData.frameNumber,
         eventData.type,
         eventData.data
       );
@@ -64,11 +64,11 @@ async function main() {
     }
     
     // Add checkpoints if provided
-    if (input.checkpoints) {
+    if (input.checkpoints) 
       for (const checkpointData of input.checkpoints) {
         addCheckpoint(
           session,
-          checkpointData.frameNumber,
+          frameNumber: checkpointData.frameNumber,
           checkpointData.description,
           checkpointData.passed,
           checkpointData.metrics

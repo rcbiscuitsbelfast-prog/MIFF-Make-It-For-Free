@@ -154,14 +154,14 @@ class MockSpiritInstance {
     this.currentHP = Math.max(0, this.currentHP - amount);
   }
 
-  heal(amount: number): void {
-    this.currentHP = Math.min(this.maxHP, this.currentHP + amount);
+  heal(amount: number): void 
+    this.currentHP = Math.min(maxHP: this.maxHP, this.currentHP + amount);
   }
 
-  getCombatSummary(): string {
+  getCombatSummary(): string 
     const hpBar = this.createHealthBar();
-    const syncInfo = this.syncLevel !== undefined ? ` | Sync: ${this.syncLevel}` : '';
-    return `${this.name} [${this.typeTag}] HP: ${this.currentHP}/${this.maxHP} ${hpBar}${syncInfo}`;
+    const syncInfo = this.syncLevel !== undefined ? ` | Sync: ${syncLevel: this.syncLevel}` : '';
+    return `$name: this.name} [$typeTag: this.typeTag}] HP: $currentHP: this.currentHP}/$maxHP: this.maxHP} ${hpBar}${syncInfo}`;
   }
 
   private createHealthBar(): string {
@@ -198,9 +198,9 @@ class MockSpiritInstance {
     return false; // Mock implementation
   }
 
-  getEffectiveStats(): any {
+  getEffectiveStats(): any 
     return {
-      hp: this.maxHP,
+      hp: maxHP: this.maxHP,
       attack: this.getEffectiveAttack(),
       defense: this.getEffectiveDefense(),
       specialAttack: this.getEffectiveSpecialAttack(),
@@ -211,7 +211,7 @@ class MockSpiritInstance {
 }
 
 // CLI Application
-class AIPureCLI {
+class AIPureCLI 
   private rl: readline.Interface;
   private aiManager: AIManager;
   private spirits: Map<string, MockSpiritInstance>;
@@ -220,7 +220,7 @@ class AIPureCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -235,7 +235,7 @@ class AIPureCLI {
   /**
    * Initialize test data
    */
-  private initializeData(): void {
+  private initializeData(): void 
     // Create standard policies
     this.aiManager.createStandardPolicies();
 
@@ -258,7 +258,7 @@ class AIPureCLI {
 
     // Create test moves
     const moves = [
-      new MoveData('basic_strike', 'Basic Strike', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral'),
+      new MoveData('basic_strike', 'Basic Strike', PHYSICAL: PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral'),
       new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 60, 9: 0.9, 8, 'fire'),
       new MoveData('water_burst', 'Water Burst', SPECIAL: MoveCategory.SPECIAL, 55, 95: 0.95, 6, 'water'),
       new MoveData('nature_heal', 'Nature Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 5, 'nature'),
@@ -268,11 +268,11 @@ class AIPureCLI {
       new MoveData('rest', 'Rest', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 0, 'neutral')
     ];
 
-    moves.forEach((move: any) => {
-      this.moves.set(move.moveId, move);
+    moves.forEach((move: any) => 
+      this.moves.set(moveId: move.moveId, move);
     });
 
-    console.log(`Loaded ${this.spirits.size} spirits and ${this.moves.size} moves`);
+    console.log(`Loaded $this.size: spirits.size} spirits and $this.size: moves.size} moves`);
   }
 
   /**
@@ -436,8 +436,8 @@ class AIPureCLI {
     policies.forEach((policy, index) => {
       console.log(`${index + 1}. ${this.getPolicyIcon(policy)} ${policy.getSummary()}`);
       console.log(`   Behavior: ${AIUtils.getBehaviorDescription(policy)}`);
-      if (policy.overrideRules.length > 0) {
-        console.log(`   Override Rules: ${policy.overrideRules.length}`);
+      if (policy.overrideRules.length > 0) 
+        console.log(`   Override Rules: ${  length: overrideRules.length}`);
       }
       console.log('');
     });
@@ -456,11 +456,11 @@ class AIPureCLI {
       return;
     }
 
-    Array.from(this.spirits.values()).forEach((spirit, index) => {
-      const hpBar = this.createHealthBar(spirit.currentHP, spirit.maxHP);
-      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
-      console.log(`${index + 1}. ${spirit.name} [${spirit.typeTag}]`);
-      console.log(`   HP: ${spirit.currentHP}/${spirit.maxHP} ${hpBar}`);
+    Array.from(this.spirits.values()).forEach((spirit, index) => 
+      const hpBar = this.createHealthBar(currentHP: spirit.currentHP, spirit.maxHP);
+      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: $syncLevel: spirit.syncLevel}` : '';
+      console.log(`${index + 1}. $name: spirit.name} [$typeTag: spirit.typeTag}]`);
+      console.log(`   HP: $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP} ${hpBar}`);
       console.log(`   ATK: ${spirit.getEffectiveAttack()} | DEF: ${spirit.getEffectiveDefense()}${syncInfo}`);
       console.log('');
     });
@@ -481,10 +481,10 @@ class AIPureCLI {
 
     Array.from(this.moves.values()).forEach((move, index) => {
       const categoryIcon = this.getMoveCategoryIcon(move.category);
-      console.log(`${index + 1}. ${categoryIcon} ${move.name}`);
-      console.log(`   ID: ${move.moveId}`);
-      console.log(`   Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}% | Cost: ${move.cost}`);
-      console.log(`   Type: ${move.typeTag}`);
+      console.log(`${index + 1}. ${categoryIcon} $name: move.name}`);
+      console.log(`   ID: $moveId: move.moveId}`);
+      console.log(`   Power: $power: move.power} | Accuracy: ${Math.round(move.accuracy * 100)}% | Cost: $cost: move.cost}`);
+      console.log(`   Type: $typeTag: move.typeTag}`);
       console.log('');
     });
   }
@@ -522,15 +522,15 @@ class AIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`⚔️ Battle: ${spirit1.name} vs ${spirit2.name}`);
+    console.log(`⚔️ Battle: $name: spirit1.name} vs $name: spirit2.name}`);
     console.log(`🤖 Policy: ${policy.getSummary()}`);
     console.log('='.repeat(60));
 
     const ai = this.aiManager.getAI(policyId);
     const availableMoves = Array.from(this.moves.values());
 
-    console.log(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
-    console.log(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
+    console.log(`$name: spirit1.name}: ${spirit1.getCombatSummary()}`);
+    console.log(`$name: spirit2.name}: ${spirit2.getCombatSummary()}`);
     console.log('');
 
     let turn = 1;
@@ -541,7 +541,7 @@ class AIPureCLI {
       const action1 = ai.selectAction(spirit1, spirit2, availableMoves, this.rng);
       const move1 = action1.moveId ? this.moves.get(action1.moveId) : null;
 
-      if (move1 && spirit1.resourcePoints >= move1.cost) {
+      if (move1 && spirit1.resourcePoints >= move1.cost) 
         const damageCalculator = new DamageCalculator(new TypeEffectiveness());
         this.rng.setNextFloat(1.0); // Max variance for demo
         this.rng.setNextBool(false); // No crit for demo
@@ -550,14 +550,14 @@ class AIPureCLI {
         spirit2.currentHP -= damageResult.damage;
         spirit1.resourcePoints -= move1.cost;
 
-        console.log(`🔥 ${spirit1.name} uses ${move1.name} for ${damageResult.damage} damage!`);
-      } else {
-        console.log(`💤 ${spirit1.name} cannot attack!`);
+        console.log(`🔥 ${name: spirit1.name} uses $name: move1.name} for $damage: damageResult.damage} damage!`);
+      } else 
+        console.log(`💤 ${name: spirit1.name} cannot attack!`);
       }
 
-      if (spirit2.currentHP <= 0) {
-        console.log(`💀 ${spirit2.name} fainted!`);
-        console.log(`🏆 ${spirit1.name} wins!`);
+      if (spirit2.currentHP <= 0) 
+        console.log(`💀 ${name: spirit2.name} fainted!`);
+        console.log(`🏆 $name: spirit1.name} wins!`);
         break;
       }
 
@@ -565,7 +565,7 @@ class AIPureCLI {
       const action2 = ai.selectAction(spirit2, spirit1, availableMoves, this.rng);
       const move2 = action2.moveId ? this.moves.get(action2.moveId) : null;
 
-      if (move2 && spirit2.resourcePoints >= move2.cost) {
+      if (move2 && spirit2.resourcePoints >= move2.cost) 
         const damageCalculator = new DamageCalculator(new TypeEffectiveness());
         this.rng.setNextFloat(1.0); // Max variance for demo
         this.rng.setNextBool(false); // No crit for demo
@@ -574,19 +574,19 @@ class AIPureCLI {
         spirit1.currentHP -= damageResult.damage;
         spirit2.resourcePoints -= move2.cost;
 
-        console.log(`💥 ${spirit2.name} uses ${move2.name} for ${damageResult.damage} damage!`);
-      } else {
-        console.log(`💤 ${spirit2.name} cannot attack!`);
+        console.log(`💥 ${name: spirit2.name} uses $name: move2.name} for $damage: damageResult.damage} damage!`);
+      } else 
+        console.log(`💤 ${name: spirit2.name} cannot attack!`);
       }
 
-      if (spirit1.currentHP <= 0) {
-        console.log(`💀 ${spirit1.name} fainted!`);
-        console.log(`🏆 ${spirit2.name} wins!`);
+      if (spirit1.currentHP <= 0) 
+        console.log(`💀 ${name: spirit1.name} fainted!`);
+        console.log(`🏆 $name: spirit2.name} wins!`);
         break;
       }
 
-      console.log(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
-      console.log(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
+      console.log(`$name: spirit1.name}: ${spirit1.getCombatSummary()}`);
+      console.log(`$name: spirit2.name}: ${spirit2.getCombatSummary()}`);
       console.log('');
 
       turn++;
@@ -633,32 +633,32 @@ class AIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`🤔 AI Decision: ${spirit.name} vs ${opponent.name}`);
+    console.log(`🤔 AI Decision: $name: spirit.name} vs $name: opponent.name}`);
     console.log(`🤖 Policy: ${policy.getSummary()}`);
     console.log('='.repeat(60));
 
     const ai = this.aiManager.getAI(policyId);
     const availableMoves = Array.from(this.moves.values());
 
-    console.log(`${spirit.name}: ${spirit.getCombatSummary()}`);
-    console.log(`${opponent.name}: ${opponent.getCombatSummary()}`);
+    console.log(`$name: spirit.name}: ${spirit.getCombatSummary()}`);
+    console.log(`$name: opponent.name}: ${opponent.getCombatSummary()}`);
     console.log('');
 
     console.log('Available moves:');
     availableMoves.forEach((move: any) => {
       const categoryIcon = this.getMoveCategoryIcon(move.category);
       const canAfford = spirit.resourcePoints >= move.cost ? '✅' : '❌';
-      console.log(`  ${categoryIcon} ${move.name} (${canAfford} Cost: ${move.cost})`);
+      console.log(`  ${categoryIcon} $name: move.name} (${canAfford} Cost: $cost: move.cost})`);
     });
     console.log('');
 
     const action = ai.selectAction(spirit, opponent, availableMoves, this.rng);
     const selectedMove = action.moveId ? this.moves.get(action.moveId) : null;
 
-    if (selectedMove) {
-      console.log(`🎯 AI chooses: ${selectedMove.name}`);
-      console.log(`   Power: ${selectedMove.power} | Accuracy: ${Math.round(selectedMove.accuracy * 100)}%`);
-      console.log(`   Type: ${selectedMove.typeTag} vs ${opponent.typeTag}`);
+    if (selectedMove) 
+      console.log(`🎯 AI chooses: ${name: selectedMove.name}`);
+      console.log(`   Power: $power: selectedMove.power} | Accuracy: ${Math.round(selectedMove.accuracy * 100)}%`);
+      console.log(`   Type: $typeTag: selectedMove.typeTag} vs $typeTag: opponent.typeTag}`);
 
       const typeEffectiveness = new TypeEffectiveness();
       const typeMultiplier = typeEffectiveness.getMultiplier(selectedMove.typeTag, opponent.typeTag);
@@ -695,7 +695,7 @@ class AIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`📋 Policy Details: ${policy.policyId}`);
+    console.log(`📋 Policy Details: $policyId: policy.policyId}`);
     console.log('='.repeat(60));
 
     console.log(`Aggression: ${policy.aggression.toFixed(2)} ${this.getMeterBar(policy.aggression)}`);
@@ -761,7 +761,7 @@ class AIPureCLI {
 
     console.log('Differences:');
     console.log(`  Attributes: ${comparison.attributeDifference.toFixed(3)}`);
-    console.log(`  Rules match: ${comparison.ruleMatch}`);
+    console.log(`  Rules match: $ruleMatch: comparison.ruleMatch}`);
     console.log(`  Total: ${comparison.totalDifference.toFixed(3)}`);
     console.log('');
 
@@ -810,8 +810,8 @@ class AIPureCLI {
     console.log(`💥 Damage Calculation`);
     console.log('='.repeat(60));
 
-    console.log(`${attacker.name} uses ${move.name} on ${defender.name}`);
-    console.log(`Attacker: ${attacker.typeTag} | Defender: ${defender.typeTag}`);
+    console.log(`$name: attacker.name} uses $name: move.name} on $name: defender.name}`);
+    console.log(`Attacker: $typeTag: attacker.typeTag} | Defender: $typeTag: defender.typeTag}`);
     console.log('');
 
     const typeEffectiveness = new TypeEffectiveness();
@@ -858,8 +858,8 @@ class AIPureCLI {
     const oldHP = spirit.currentHP;
     spirit.heal(amount);
 
-    console.log(`❤️ Healed ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.log(`❤️ Healed $name: spirit.name} by ${amount} HP`);
+    console.log(`📊 HP: ${oldHP} → $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
   }
 
   /**
@@ -875,32 +875,32 @@ class AIPureCLI {
     const oldHP = spirit.currentHP;
     spirit.takeDamage(amount);
 
-    console.log(`💔 Damaged ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.log(`💔 Damaged $name: spirit.name} by ${amount} HP`);
+    console.log(`📊 HP: ${oldHP} → $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
 
-    if (spirit.currentHP <= 0) {
-      console.log(`💀 ${spirit.name} fainted!`);
+    if (spirit.currentHP <= 0) 
+      console.log(`💀 ${name: spirit.name} fainted!`);
     }
   }
 
   /**
    * Show system status
    */
-  private showStatus(): void {
+  private showStatus(): void 
     const policies = this.aiManager.getAllPolicies();
 
     console.log('='.repeat(60));
     console.log('📊 System Status');
     console.log('='.repeat(60));
 
-    console.log(`Policies: ${policies.length}`);
-    console.log(`Spirits: ${this.spirits.size}`);
-    console.log(`Moves: ${this.moves.size}`);
+    console.log(`Policies: ${length: policies.length}`);
+    console.log(`Spirits: $this.size: spirits.size}`);
+    console.log(`Moves: $this.size: moves.size}`);
     console.log('');
 
     console.log('Policies:');
     policies.forEach((policy: any) => {
-      console.log(`  ${this.getPolicyIcon(policy)} ${policy.policyId}`);
+      console.log(`  ${this.getPolicyIcon(policy)} $policyId: policy.policyId}`);
     });
     console.log('');
 

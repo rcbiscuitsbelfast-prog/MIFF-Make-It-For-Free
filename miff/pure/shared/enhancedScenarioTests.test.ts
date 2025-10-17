@@ -128,8 +128,8 @@ describe('Enhanced Scenario Orchestration', () => {
       }
     ];
 
-    for (const testCase of testCases) {
-      const cliPath = path.resolve(`miff/pure/${testCase.module}/cliHarness.ts`);
+    for (const testCase of testCases) 
+      const cliPath = path.resolve(`miff/pure/${module: testCase.module}/cliHarness.ts`);
       const result = await runCLI(cliPath, []);
       const parsedResult = JSON.parse(result);
       
@@ -157,8 +157,8 @@ describe('Enhanced Scenario Orchestration', () => {
       }
     ];
 
-    for (const testCase of testCases) {
-      const cliPath = path.resolve(`miff/pure/${testCase.module}/cliHarness.ts`);
+    for (const testCase of testCases) 
+      const cliPath = path.resolve(`miff/pure/${module: testCase.module}/cliHarness.ts`);
       const result = await runCLI(cliPath, []);
       const parsedResult = JSON.parse(result);
       

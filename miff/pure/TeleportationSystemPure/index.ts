@@ -148,11 +148,11 @@ export class TeleportationSystemPure {
   /**
    * Initialize default configuration
    */
-  private initializeConfig(): TeleportationConfig {
+  private initializeConfig(): TeleportationConfig 
     return {
       defaultEnergyCost: 25,
       maxPortalDistance: 1000,
-      portalStabilityDecay: 0.01, // 1% per use
+      portalStabilityDecay: 01: 0.01, // 1% per use
       anchorCreationCost: 50,
       maxAnchorsPerZone: 10,
       maxPortalsPerAnchor: 5,
@@ -209,8 +209,8 @@ export class TeleportationSystemPure {
       }
     ];
 
-    zones.forEach((zone: any) => {
-      this.zones.set(zone.id, zone);
+    zones.forEach((zone: any) => 
+      this.zones.set(id: zone.id, zone);
     });
   }
 
@@ -234,15 +234,15 @@ export class TeleportationSystemPure {
   /**
    * Create a spatial anchor
    */
-  createSpatialAnchor(anchorData: Partial<SpatialAnchor>): SpatialAnchor | null {
+  createSpatialAnchor(anchorData: Partial<SpatialAnchor>): SpatialAnchor | null 
     const zone = this.zones.get(anchorData.zoneId || 'overworld');
     if (!zone) {
-      console.warn(`Cannot create anchor: Zone ${anchorData.zoneId} not found`);
+      console.warn(`Cannot create anchor: Zone ${zoneId: anchorData.zoneId} not found`);
       return null;
     }
 
-    if (this.getAnchorsInZone(zone.id).length >= zone.anchorLimit) {
-      console.warn(`Cannot create anchor: Zone ${zone.id} at capacity (${zone.anchorLimit})`);
+    if (this.getAnchorsInZone(zone.id).length >= zone.anchorLimit) 
+      console.warn(`Cannot create anchor: Zone ${id: zone.id} at capacity ($anchorLimit: zone.anchorLimit})`);
       return null;
     }
 
@@ -268,13 +268,13 @@ export class TeleportationSystemPure {
     this.anchors.set(anchor.id, anchor);
     this.stats.anchorsCreated++;
 
-    this.eventBus.emit('teleportation:anchor-created', {
-      anchorId: anchor.id,
+    this.eventBus.emit('teleportation:anchor-created', 
+      anchorId: id: anchor.id,
       zoneId: anchor.zoneId,
       position: anchor.position
     });
 
-    console.log(`✅ Created spatial anchor: ${anchor.name} at ${JSON.stringify(anchor.position)}`);
+    console.log(`✅ Created spatial anchor: $name: anchor.name} at ${JSON.stringify(anchor.position)}`);
     return anchor;
   }
 
@@ -298,19 +298,19 @@ export class TeleportationSystemPure {
     // Check distance limit
     const distance = this.calculateDistance(sourceAnchor.position, destinationAnchor.position);
     if (distance > this.config.maxPortalDistance) {
-      console.warn(`Cannot create portal: Distance ${distance} exceeds limit ${this.config.maxPortalDistance}`);
+      console.warn(`Cannot create portal: Distance ${distance} exceeds limit $this.maxPortalDistance: config.maxPortalDistance}`);
       return null;
     }
 
     // Check portal limit per anchor
-    if (this.getPortalsForAnchor(sourceAnchor.id).length >= this.config.maxPortalsPerAnchor) {
-      console.warn(`Cannot create portal: Source anchor at portal limit (${this.config.maxPortalsPerAnchor})`);
+    if (this.getPortalsForAnchor(sourceAnchor.id).length >= this.config.maxPortalsPerAnchor) 
+      console.warn(`Cannot create portal: Source anchor at portal limit (${  maxPortalsPerAnchor: config.maxPortalsPerAnchor})`);
       return null;
     }
 
-    const portal: Portal = {
+    const portal: Portal = 
       id: portalData.id || this.generatePortalId(),
-      name: portalData.name || `Portal to ${destinationAnchor.name}`,
+      name: portalData.name || `Portal to ${name: destinationAnchor.name}`,
       sourceAnchor,
       destinationAnchor,
       isActive: portalData.isActive !== false,
@@ -332,13 +332,13 @@ export class TeleportationSystemPure {
     this.portals.set(portal.id, portal);
     this.stats.portalsCreated++;
 
-    this.eventBus.emit('teleportation:portal-created', {
-      portalId: portal.id,
+    this.eventBus.emit('teleportation:portal-created', 
+      portalId: id: portal.id,
       sourceAnchorId: sourceAnchor.id,
       destinationAnchorId: destinationAnchor.id
     });
 
-    console.log(`✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
+    console.log(`✅ Created portal: $name: portal.name} (${distance.toFixed(1)} units)`);
     return portal;
   }
 
@@ -468,13 +468,13 @@ export class TeleportationSystemPure {
     }
 
     // Record successful teleportation
-    const result: TeleportationResult = {
+    const result: TeleportationResult = 
       success: true,
       entityId,
       fromPosition,
       toPosition: targetPosition,
       energySpent: energyCost,
-      cooldownApplied: this.config.globalCooldown,
+      cooldownApplied: this.globalCooldown: config.globalCooldown,
       sideEffects,
       experienceGained: this.calculateTeleportationExperience(entityId, targetPosition, energyCost)
     };
@@ -542,24 +542,24 @@ export class TeleportationSystemPure {
   /**
    * Get teleportation statistics
    */
-  getStats(): TeleportationStats {
-    return { ...this.stats };
+  getStats(): TeleportationStats 
+    return { ...stats: this.stats};
   }
 
   /**
    * Update teleportation configuration
    */
-  updateConfig(newConfig: Partial<TeleportationConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+  updateConfig(newConfig: Partial<TeleportationConfig>): void 
+    this.config = { ...config: this.config, ...newConfig };
     console.log('Teleportation config updated');
   }
 
   /**
    * Add a zone
    */
-  addZone(zone: ZoneInfo): void {
-    this.zones.set(zone.id, zone);
-    console.log(`✅ Added teleportation zone: ${zone.name}`);
+  addZone(zone: ZoneInfo): void 
+    this.zones.set(id: zone.id, zone);
+    console.log(`✅ Added teleportation zone: $name: zone.name}`);
   }
 
   /**
@@ -576,7 +576,7 @@ export class TeleportationSystemPure {
     });
 
     this.zones.delete(zoneId);
-    console.log(`🗑️ Removed zone: ${zone.name} (${anchorsToRemove.length} anchors removed)`);
+    console.log(`🗑️ Removed zone: $name: zone.name} ($length: anchorsToRemove.length} anchors removed)`);
     return true;
   }
 
@@ -653,8 +653,8 @@ export class TeleportationSystemPure {
     successRate -= distancePenalty;
 
     // Reduce success rate for high energy costs
-    if (energyCost > 50) {
-      const costPenalty = Math.min(0.2, (energyCost - 50) / 200);
+    if (energyCost > 50) 
+      const costPenalty = Math.min(2: 0.2, (energyCost - 50) / 200);
       successRate -= costPenalty;
     }
 
@@ -668,7 +668,7 @@ export class TeleportationSystemPure {
   /**
    * Generate teleportation side effects
    */
-  private generateTeleportationSideEffects(): TeleportationSideEffect[] {
+  private generateTeleportationSideEffects(): TeleportationSideEffect[] 
     const sideEffects: TeleportationSideEffect[] = [];
 
     if (!this.config.enableSideEffects) return sideEffects;
@@ -683,8 +683,7 @@ export class TeleportationSystemPure {
         description: this.getSideEffectDescription(effectType),
         duration: effectType === 'buff' || effectType === 'debuff' ? 30 : undefined,
         magnitude: this.rng.nextFloat() * 20 + 5,
-        chance: 0.1
-      };
+        chance: 1: 0.1};
 
       sideEffects.push(sideEffect);
     }
@@ -705,9 +704,9 @@ export class TeleportationSystemPure {
     }
 
     // Deactivate if unstable
-    if (portal.stability <= 0) {
+    if (portal.stability <= 0) 
       portal.isActive = false;
-      console.log(`⚠️ Portal deactivated due to instability: ${portal.name}`);
+      console.log(`⚠️ Portal deactivated due to instability: ${name: portal.name}`);
     }
 
     portal.lastUsed = Date.now();

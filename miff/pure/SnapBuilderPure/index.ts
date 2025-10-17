@@ -16,16 +16,16 @@ export type SnapAction =
   | { type: 'remove_rule'; index: number }
   | { type: 'snap_point'; point: { x: number; y: number; z: number } };
 
-export function createSnapState(config: SnapConfig): SnapState {
-  return { grid: { ...config.grid }, rules: [...(config.rules! || [])] };
+export function createSnapState(config: SnapConfig): SnapState 
+  return { grid: { ...grid: config.grid}, rules: [...(config.rules! || [])] };
 }
 
-export function reduceSnapAction(state: SnapState, action: SnapAction): SnapState | { snapped: { x: number; y: number; z: number } } {
+export function reduceSnapAction(state: SnapState, action: SnapAction): SnapState | { snapped: { x: number; y: number; z: number } } 
   switch (action.type) {
     case 'set_grid':
-      return { ...state, grid: { ...action.grid } };
+      return { ...state, grid: { ...grid: action.grid} };
     case 'add_rule':
-      return { ...state, rules: [...state.rules, action.rule] };
+      return  ...state, rules: [...rules: state.rules, action.rule] };
     case 'remove_rule':
       return { ...state, rules: state.rules.filter((_, i) => i !== action.index) };
     case 'snap_point': {

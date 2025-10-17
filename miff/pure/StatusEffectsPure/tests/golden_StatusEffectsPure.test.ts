@@ -223,8 +223,8 @@ describe('StatusEffectsPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, maxHp: entity.maxHp, entity.effects);
       });
 
       const simulateResult = manager.simulateAll();
@@ -279,8 +279,8 @@ describe('StatusEffectsPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, maxHp: entity.maxHp, entity.effects);
       });
 
       const filterResult = manager.listEntities({ category: 'poison' });
@@ -318,8 +318,8 @@ describe('StatusEffectsPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, maxHp: entity.maxHp, entity.effects);
       });
 
       // Simulate multiple times to reduce HP below 80
@@ -362,8 +362,8 @@ describe('StatusEffectsPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, maxHp: entity.maxHp, entity.effects);
       });
 
       const filterResult = manager.listEntities({ hasEffects: true });
@@ -462,8 +462,8 @@ describe('StatusEffectsPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, maxHp: entity.maxHp, entity.effects);
       });
 
       const statsResult = manager.getStatusStats();

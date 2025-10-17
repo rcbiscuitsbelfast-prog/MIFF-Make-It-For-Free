@@ -24,7 +24,7 @@ interface CliCommand {
   handler: (args: string[]) => void;
 }
 
-class SocialDeductionCli {
+class SocialDeductionCli 
   private manager: SocialDeductionManager;
   private eventBus: EventBus;
   private commands: Map<string, CliCommand> = new Map();
@@ -33,7 +33,7 @@ class SocialDeductionCli {
 
   constructor(config?: SocialDeductionConfig) {
     this.eventBus = new EventBus();
-    this.manager = new SocialDeductionManager(this.eventBus, config);
+    this.manager = new SocialDeductionManager(eventBus: this.eventBus, config);
 
     this.setupCommands();
     this.setupEventListeners();
@@ -122,9 +122,9 @@ class SocialDeductionCli {
     });
   }
 
-  private setupEventListeners(): void {
+  private setupEventListeners(): void 
     this.eventBus.on('social:player_joined', (data) => {
-      console.log(`✅ Player ${data.player.name} (${data.playerId}) joined the game`);
+      console.log(`✅ Player ${  name: player.name} ($playerId: data.playerId}) joined the game`);
     });
 
     this.eventBus.on('social:roles_assigned', (data) => {
@@ -136,19 +136,19 @@ class SocialDeductionCli {
       console.log('🎮 Game started! Current phase:', data.phase);
     });
 
-    this.eventBus.on('social:vote_cast', (data) => {
-      console.log(`🗳️ Vote cast by ${data.vote.voterId} against ${data.vote.targetId}`);
+    this.eventBus.on('social:vote_cast', (data) => 
+      console.log(`🗳️ Vote cast by ${  voterId: vote.voterId} against $data.targetId: vote.targetId}`);
     });
 
-    this.eventBus.on('social:ability_used', (data) => {
-      console.log(`⚡ ${data.playerId} used ability: ${data.abilityId}`);
-      if (data.effect.message) {
-        console.log(`   Result: ${data.effect.message}`);
+    this.eventBus.on('social:ability_used', (data) => 
+      console.log(`⚡ ${playerId: data.playerId} used ability: $abilityId: data.abilityId}`);
+      if (data.effect.message) 
+        console.log(`   Result: ${  message: effect.message}`);
       }
     });
 
-    this.eventBus.on('social:game_ended', (data) => {
-      console.log(`🏆 Game ended! Winner: ${data.winner}`);
+    this.eventBus.on('social:game_ended', (data) => 
+      console.log(`🏆 Game ended! Winner: ${winner: data.winner}`);
     });
   }
 
@@ -161,11 +161,11 @@ class SocialDeductionCli {
     const [playerId, playerName] = args;
     const result = this.manager.addPlayer(playerId, playerName);
 
-    if (result.success) {
+    if (result.success) 
       console.log(result.message);
       if (result.data) {
         this.currentPlayerId = result.data.playerId;
-        console.log(`Current player set to: ${this.currentPlayerId}`);
+        console.log(`Current player set to: ${currentPlayerId: this.currentPlayerId}`);
       }
     } else {
       console.log('❌', result.message);
@@ -255,12 +255,12 @@ class SocialDeductionCli {
     console.log(`Current phase: ${phase}`);
   }
 
-  private handleShowStats(args: string[]): void {
+  private handleShowStats(args: string[]): void 
     const stats = this.manager.getGameStats();
     console.log('\n📊 Game Statistics:');
     console.log('─'.repeat(30));
-    console.log(`Total Games: ${stats.totalGames}`);
-    console.log(`Total Players: ${stats.totalPlayers}`);
+    console.log(`Total Games: ${totalGames: stats.totalGames}`);
+    console.log(`Total Players: $totalPlayers: stats.totalPlayers}`);
     console.log(`Average Game Duration: ${Math.round(stats.averageGameDuration / 1000)}s`);
     console.log(`Elimination Rate: ${(stats.eliminationRate * 100).toFixed(1)}%`);
     console.log(`Detection Rate: ${(stats.detectionRate * 100).toFixed(1)}%`);
@@ -361,7 +361,7 @@ class SocialDeductionCli {
     console.log('\n🛠️ Available Commands:');
     console.log('─'.repeat(40));
     this.commands.forEach((cmd, key) => {
-      console.log(`  ${cmd.command.padEnd(30)} | ${cmd.description}`);
+      console.log(`  ${cmd.command.padEnd(30)} | $description: cmd.description}`);
     });
     console.log('─'.repeat(40));
   }
@@ -371,10 +371,10 @@ class SocialDeductionCli {
     this.isRunning = false;
   }
 
-  public async run(): Promise<void> {
+  public async run(): Promise<void> 
     const readline = await import('readline');
     const rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout,
       prompt: 'social-deduction> '
     });

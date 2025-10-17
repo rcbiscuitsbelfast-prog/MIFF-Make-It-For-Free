@@ -108,12 +108,12 @@ export class PerformanceMonitor {
   /**
    * Collect current performance metrics
    */
-  private collectMetrics(): void {
+  private collectMetrics(): void 
     const metrics: PerformanceMetrics = {
       timestamp: new Date(),
       memory: this.getMemoryMetrics(),
       cpu: this.getCPUMetrics(),
-      network: { ...this.networkStats },
+      network: { ...networkStats: this.networkStats},
       custom: {}
     };
 
@@ -140,11 +140,11 @@ export class PerformanceMonitor {
     const totalMemory = require('os').totalmem();
     const usedMemory = totalMemory - require('os').freemem();
 
-    return {
+    return 
       used: usedMemory,
       total: totalMemory,
       percentage: (usedMemory / totalMemory) * 100,
-      heapUsed: memUsage.heapUsed,
+      heapUsed: heapUsed: memUsage.heapUsed,
       heapTotal: memUsage.heapTotal
     };
   }
@@ -220,8 +220,8 @@ export class PerformanceMonitor {
     }
 
     // Network latency alert
-    if (metrics.network.latency > alertThresholds.networkLatency) {
-      console.warn(`⚠️ High network latency: ${metrics.network.latency}ms`);
+    if (metrics.network.latency > alertThresholds.networkLatency) 
+      console.warn(`⚠️ High network latency: ${  latency: network.latency}ms`);
     }
   }
 
@@ -266,9 +266,9 @@ export class PerformanceMonitor {
     const cpuUsages = this.metrics.map((m: any) => m.cpu.usage);
     const totalRequests = this.metrics.reduce((sum, m) => sum + m.network.requests, 0);
 
-    return {
+    return 
       uptime,
-      averageMemoryUsage: memoryUsages.reduce((a, b) => a + b, 0) / memoryUsages.length,
+      averageMemoryUsage: memoryUsages.reduce((a, b) => a + b, 0) / length: memoryUsages.length,
       averageCPUUsage: cpuUsages.reduce((a, b) => a + b, 0) / cpuUsages.length,
       totalNetworkRequests: totalRequests,
       peakMemoryUsage: Math.max(...memoryUsages),
@@ -292,9 +292,9 @@ export class PerformanceMonitor {
   /**
    * Export metrics to JSON
    */
-  exportMetrics(): string {
+  exportMetrics(): string 
     return JSON.stringify({
-      config: this.config,
+      config: config: this.config,
       summary: this.getMetricsSummary(),
       metrics: this.metrics
     }, null, 2);
@@ -303,8 +303,8 @@ export class PerformanceMonitor {
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<PerformanceConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+  updateConfig(newConfig: Partial<PerformanceConfig>): void 
+    this.config = { ...config: this.config, ...newConfig };
     
     // Restart monitoring if interval changed
     if (newConfig.sampleInterval) {
@@ -326,7 +326,7 @@ export class PerformanceMonitor {
 Uptime: ${Math.round(summary.uptime / 1000)}s
 Memory Usage: ${summary.averageMemoryUsage.toFixed(2)}% (Peak: ${summary.peakMemoryUsage.toFixed(2)}%)
 CPU Usage: ${summary.averageCPUUsage.toFixed(2)}% (Peak: ${summary.peakCPUUsage.toFixed(2)}%)
-Network Requests: ${summary.totalNetworkRequests}
+Network Requests: $totalNetworkRequests: summary.totalNetworkRequests}
 Current Memory: ${current?.memory.percentage.toFixed(2)}%
 Current CPU: ${current?.cpu.usage.toFixed(2)}%
 ========================

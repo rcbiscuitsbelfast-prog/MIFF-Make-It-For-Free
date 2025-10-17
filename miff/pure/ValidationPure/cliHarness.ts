@@ -198,12 +198,12 @@ try {
       const report = manager.reportIssues();
       const stats = manager.getStats();
 
-      output = {
+      output = 
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo validation scenarios completed',
-          validation: validationResult.result,
+          validation: result: validationResult.result,
           report: report.result,
           stats: stats.result
         }
@@ -241,10 +241,10 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => {
+      const scenarioResults = sampleScenarios.map((scenario: any) => 
         const result = manager.validateAll(scenario.input);
         return {
-          scenario: scenario.id,
+          scenario: id: scenario.id,
           valid: result.result?.valid || false,
           issues: result.result?.issues?.length || 0,
           warnings: result.result?.warnings?.length || 0

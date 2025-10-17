@@ -225,14 +225,14 @@ try {
       };
       const gestureResult = manager.recognizeGesture(demoGesture);
 
-      output = {
+      output = 
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo input scenarios completed',
           profile: manager.getActiveProfile().result,
           eventResults,
-          gestureResult: gestureResult.result,
+          gestureResult: result: gestureResult.result,
           stats: manager.getInputStats().result
         }
       };
@@ -273,15 +273,15 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => {
-        manager.createProfile(scenario.profile, `${scenario.profile} Profile`, `Sample ${scenario.profile} profile`);
+      const scenarioResults = sampleScenarios.map((scenario: any) => 
+        manager.createProfile(profile: scenario.profile, `$profile: scenario.profile} Profile`, `Sample $profile: scenario.profile} profile`);
         manager.setActiveProfile(scenario.profile);
 
-        scenario.actions.forEach((action: any) => {
+        scenario.actions.forEach((action: any) => 
           manager.addAction({
-            id: action.id,
+            id: id: action.id,
             name: action.name,
-            description: `${action.name} action`,
+            description: `$name: action.name} action`,
             category: action.category,
             defaultBindings: [],
             modifiers: [],
@@ -290,9 +290,9 @@ try {
           });
         });
 
-        scenario.bindings.forEach((binding: any) => {
+        scenario.bindings.forEach((binding: any) => 
           manager.addBinding({
-            id: `${binding.actionId}_${binding.code}`,
+            id: `${actionId: binding.actionId}_$code: binding.code}`,
             actionId: binding.actionId,
             inputType: binding.inputType as any,
             code: binding.code,
@@ -302,8 +302,8 @@ try {
           });
         });
 
-        return {
-          scenario: scenario.id,
+        return 
+          scenario: id: scenario.id,
           profile: scenario.profile,
           actions: scenario.actions.length,
           bindings: scenario.bindings.length

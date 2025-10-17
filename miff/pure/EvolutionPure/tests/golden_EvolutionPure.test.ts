@@ -50,9 +50,9 @@ class MockEvolutionSpirit implements IEvolutionSpiritInstance {
     this.inventory = options.inventory || new Map();
   }
 
-  evolve(newSpeciesId: string): void {
+  evolve(newSpeciesId: string): void 
     this.speciesId = newSpeciesId;
-    console.log(`Evolved ${this.speciesId} to ${newSpeciesId}`);
+    console.log(`Evolved ${speciesId: this.speciesId} to ${newSpeciesId}`);
   }
 
   getSyncPercentage(): number {
@@ -80,9 +80,9 @@ class MockEvolutionSpirit implements IEvolutionSpiritInstance {
     this.battleCount = Math.max(0, count);
   }
 
-  clone(): MockEvolutionSpirit {
-    return new MockEvolutionSpirit(this.speciesId, level: this.level, {
-      syncLevel: this.syncLevel,
+  clone(): MockEvolutionSpirit 
+    return new MockEvolutionSpirit(speciesId: this.speciesId, level: this.level, 
+      syncLevel: syncLevel: this.syncLevel,
       friendshipLevel: this.friendshipLevel,
       battleCount: this.battleCount,
       canEvolve: this.canEvolve,
@@ -90,9 +90,9 @@ class MockEvolutionSpirit implements IEvolutionSpiritInstance {
     });
   }
 
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      instanceId: this.instanceId,
+      instanceId: instanceId: this.instanceId,
       speciesId: this.speciesId,
       level: this.level,
       syncLevel: this.syncLevel,
@@ -103,8 +103,8 @@ class MockEvolutionSpirit implements IEvolutionSpiritInstance {
     };
   }
 
-  static fromJSON(data: Record<string, any>): MockEvolutionSpirit {
-    const spirit = new MockEvolutionSpirit(data.speciesId, data.level);
+  static fromJSON(data: Record<string, any>): MockEvolutionSpirit 
+    const spirit = new MockEvolutionSpirit(speciesId: data.speciesId, data.level);
     spirit.instanceId = data.instanceId;
     spirit.syncLevel = data.syncLevel || 0;
     spirit.friendshipLevel = data.friendshipLevel || 50;
@@ -174,28 +174,28 @@ class MockPlayerContext implements IPlayerContext {
     this.gameData.timeOfDay = timeOfDay;
   }
 
-  clone(): MockPlayerContext {
-    const cloned = new MockPlayerContext(this.playerId, currentLocationId: this.currentLocationId, this.gameData.timeOfDay);
+  clone(): MockPlayerContext 
+    const cloned = new MockPlayerContext(playerId: this.playerId, currentLocationId: this.currentLocationId, this.gameData.timeOfDay);
     cloned.gameData.onboardingFlags = new Map(this.gameData.onboardingFlags);
     cloned.gameData.inventory = new Map(this.gameData.inventory);
     return cloned;
   }
 
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      playerId: this.playerId,
+      playerId: playerId: this.playerId,
       currentLocationId: this.currentLocationId,
-      gameData: {
+      gameData: 
         onboardingFlags: Object.fromEntries(this.gameData.onboardingFlags),
-        timeOfDay: this.gameData.timeOfDay,
+        timeOfDay: this.timeOfDay: gameData.timeOfDay,
         inventory: Object.fromEntries(this.gameData.inventory)
       }
     };
   }
 
-  static fromJSON(data: Record<string, any>): MockPlayerContext {
+  static fromJSON(data: Record<string, any>): MockPlayerContext 
     const context = new MockPlayerContext(
-      data.playerId,
+      playerId: data.playerId,
       data.currentLocationId,
       data.gameData.timeOfDay
     );
@@ -238,8 +238,8 @@ describe('EvolutionPure Golden Tests', () => {
       expect(result.isSuccess).toBe(true);
     });
 
-    test('should create failed evolution result', () => {
-      const result = EvolutionResult.failure(EvolutionStatus.CONDITIONS_NOT_MET, 'Level too low');
+    test('should create failed evolution result', () => 
+      const result = EvolutionResult.failure(CONDITIONS_NOT_MET: EvolutionStatus.CONDITIONS_NOT_MET, 'Level too low');
 
       expect(result.status).toBe(EvolutionStatus.CONDITIONS_NOT_MET);
       expect(result.message).toBe('Level too low');
@@ -247,9 +247,9 @@ describe('EvolutionPure Golden Tests', () => {
       expect(result.isSuccess).toBe(false);
     });
 
-    test('should provide correct string representation', () => {
+    test('should provide correct string representation', () => 
       const success = EvolutionResult.success('final_form', 'Complete evolution');
-      const failure = EvolutionResult.failure(EvolutionStatus.ALREADY_EVOLVED, 'Already evolved');
+      const failure = EvolutionResult.failure(ALREADY_EVOLVED: EvolutionStatus.ALREADY_EVOLVED, 'Already evolved');
 
       expect(success.toString()).toBe('success: Complete evolution -> final_form');
       expect(failure.toString()).toBe('already_evolved: Already evolved');

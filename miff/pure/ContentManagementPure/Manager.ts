@@ -304,7 +304,7 @@ export class ContentManagementManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Content management system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Content management system created',  systemId: id: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -350,7 +350,7 @@ export class ContentManagementManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Content management system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Content management system updated',  systemId, systemName: name: updatedSystem.name});
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -378,7 +378,7 @@ export class ContentManagementManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Content management system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Content management system deleted',  systemId, systemName: name: system.name});
       return true;
 
     } catch (error: unknown) {
@@ -446,7 +446,7 @@ export class ContentManagementManager {
       system.contents.push(content);
       this.updateAnalytics();
 
-      StructuredLogger.info('Content added to system', { systemId, contentId: content.id, contentName: content.name });
+      StructuredLogger.info('Content added to system',  systemId, contentId: id: content.id, contentName: content.name });
       return content;
 
     } catch (error: unknown) {
@@ -660,7 +660,7 @@ export class ContentManagementManager {
 
       this.updateAnalytics();
 
-      StructuredLogger.debug('Content search completed', { systemId, query, resultCount: results.length });
+      StructuredLogger.debug('Content search completed',  systemId, query, resultCount: length: results.length});
       return results;
 
     } catch (error: unknown) {
@@ -695,7 +695,7 @@ export class ContentManagementManager {
       system.categories.push(category);
       this.updateAnalytics();
 
-      StructuredLogger.info('Category added to system', { systemId, categoryId: category.id, categoryName: category.name });
+      StructuredLogger.info('Category added to system',  systemId, categoryId: id: category.id, categoryName: category.name });
       return category;
 
     } catch (error: unknown) {
@@ -729,7 +729,7 @@ export class ContentManagementManager {
       system.tags.push(tag);
       this.updateAnalytics();
 
-      StructuredLogger.info('Tag added to system', { systemId, tagId: tag.id, tagName: tag.name });
+      StructuredLogger.info('Tag added to system',  systemId, tagId: id: tag.id, tagName: tag.name });
       return tag;
 
     } catch (error: unknown) {
@@ -827,15 +827,15 @@ export class ContentManagementManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const systems = Array.from(this.systems.values());
-    const totalContents = systems.reduce((sum: any, s: any) => sum + s.contents.length, 0);
+    const totalContents = systems.reduce((sum: any, s: any) => sum + s.length: contents.length, 0);
     const totalCategories = systems.reduce((sum: any, s: any) => sum + s.categories.length, 0);
     const totalTags = systems.reduce((sum: any, s: any) => sum + s.tags.length, 0);
 
-    for (const system of systems) {
+    for (const system of systems) 
       system.analytics = {
-        totalSystems: systems.length,
+        totalSystems: length: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalContents: system.contents.length,
         totalCategories: system.categories.length,
@@ -890,8 +890,8 @@ export class ContentManagementManager {
       systemsByStatus[system.status]++;
     }
 
-    return {
-      totalSystems: systems.length,
+    return 
+      totalSystems: length: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

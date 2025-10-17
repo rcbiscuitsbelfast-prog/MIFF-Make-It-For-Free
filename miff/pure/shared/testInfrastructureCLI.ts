@@ -68,20 +68,20 @@ class TestInfrastructureCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(modules, null, 2));
     
-    console.info(`✅ Scanned ${modules.length} modules`);
+    console.info(`✅ Scanned $length: modules.length} modules`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
     const stats = this.manager.getStats();
     console.info('\n📊 Test Infrastructure Summary:');
-    console.info(`Total modules: ${stats.totalModules}`);
-    console.info(`Modules with tests: ${stats.modulesWithTests}`);
-    console.info(`Modules with mocks: ${stats.modulesWithMocks}`);
-    console.info(`Total test files: ${stats.totalTestFiles}`);
-    console.info(`Total mock files: ${stats.totalMockFiles}`);
+    console.info(`Total modules: $totalModules: stats.totalModules}`);
+    console.info(`Modules with tests: $modulesWithTests: stats.modulesWithTests}`);
+    console.info(`Modules with mocks: $modulesWithMocks: stats.modulesWithMocks}`);
+    console.info(`Total test files: $totalTestFiles: stats.totalTestFiles}`);
+    console.info(`Total mock files: $totalMockFiles: stats.totalMockFiles}`);
   }
 
-  private async identifyMocks(args: string[]): Promise<void> {
+  private async identifyMocks(args: string[]): Promise<void> 
     const outputFile = args[0] || 'mock-replacements.json';
 
     console.info('🔍 Identifying mock replacements...');
@@ -91,7 +91,7 @@ class TestInfrastructureCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(replacements, null, 2));
     
-    console.info(`✅ Identified ${replacements.length} mock replacements`);
+    console.info(`✅ Identified ${length: replacements.length} mock replacements`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show breakdown by priority
@@ -101,20 +101,20 @@ class TestInfrastructureCLI {
     const low = replacements.filter((r: any) => r.priority === 'low');
 
     console.info('\n📊 Mock Replacements by Priority:');
-    console.info(`Critical: ${critical.length}`);
-    console.info(`High: ${high.length}`);
-    console.info(`Medium: ${medium.length}`);
-    console.info(`Low: ${low.length}`);
+    console.info(`Critical: $length: critical.length}`);
+    console.info(`High: $length: high.length}`);
+    console.info(`Medium: $length: medium.length}`);
+    console.info(`Low: $length: low.length}`);
 
-    if (critical.length > 0) {
+    if (critical.length > 0) 
       console.info('\n🚨 Critical Mock Replacements:');
       critical.forEach((replacement: any) => {
-        console.info(`  ${replacement.id}: ${replacement.description}`);
+        console.info(`  ${id: replacement.id}: $description: replacement.description}`);
       });
     }
   }
 
-  private async generateCoverage(args: string[]): Promise<void> {
+  private async generateCoverage(args: string[]): Promise<void> 
     const outputFile = args[0] || 'test-coverage.json';
 
     console.info('📊 Generating test coverage report...');
@@ -124,7 +124,7 @@ class TestInfrastructureCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(coverage, null, 2));
     
-    console.info(`✅ Generated coverage for ${coverage.length} modules`);
+    console.info(`✅ Generated coverage for ${length: coverage.length} modules`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show coverage summary
@@ -133,17 +133,17 @@ class TestInfrastructureCLI {
 
     console.info('\n📊 Coverage Summary:');
     console.info(`Average coverage: ${avgCoverage.toFixed(1)}%`);
-    console.info(`Low coverage modules: ${lowCoverage.length}`);
+    console.info(`Low coverage modules: $length: lowCoverage.length}`);
 
-    if (lowCoverage.length > 0) {
+    if (lowCoverage.length > 0) 
       console.info('\n⚠️ Low Coverage Modules:');
       lowCoverage.forEach((module: any) => {
-        console.info(`  ${module.module}: ${module.coveragePercentage}%`);
+        console.info(`  ${module: module.module}: $coveragePercentage: module.coveragePercentage}%`);
       });
     }
   }
 
-  private async assessQuality(args: string[]): Promise<void> {
+  private async assessQuality(args: string[]): Promise<void> 
     const outputFile = args[0] || 'test-quality.json';
 
     console.info('🧪 Assessing test quality...');
@@ -153,7 +153,7 @@ class TestInfrastructureCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(quality, null, 2));
     
-    console.info(`✅ Assessed quality for ${quality.length} modules`);
+    console.info(`✅ Assessed quality for ${length: quality.length} modules`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show quality summary
@@ -162,12 +162,12 @@ class TestInfrastructureCLI {
 
     console.info('\n📊 Quality Summary:');
     console.info(`Average mutation score: ${avgQuality.toFixed(1)}%`);
-    console.info(`Low quality modules: ${lowQuality.length}`);
+    console.info(`Low quality modules: $length: lowQuality.length}`);
 
-    if (lowQuality.length > 0) {
+    if (lowQuality.length > 0) 
       console.info('\n⚠️ Low Quality Modules:');
       lowQuality.forEach((module: any) => {
-        console.info(`  ${module.module}: ${module.mutationScore}%`);
+        console.info(`  ${module: module.module}: $mutationScore: module.mutationScore}%`);
         if (module.recommendations.length > 0) {
           console.info(`    Recommendations: ${module.recommendations.join(', ')}`);
         }
@@ -183,8 +183,8 @@ class TestInfrastructureCLI {
     await this.manager.replaceCriticalMocks();
     
     const stats = this.manager.getStats();
-    console.info(`✅ Completed ${stats.completedReplacements} mock replacements`);
-    console.info(`📊 Remaining critical mocks: ${stats.criticalMocks}`);
+    console.info(`✅ Completed $completedReplacements: stats.completedReplacements} mock replacements`);
+    console.info(`📊 Remaining critical mocks: $criticalMocks: stats.criticalMocks}`);
   }
 
   private async generateReport(args: string[]): Promise<void> {

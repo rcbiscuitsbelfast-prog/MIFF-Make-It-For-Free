@@ -156,8 +156,8 @@ export class SocialDeductionPure {
 
     this.currentPhase = 'role_assignment';
 
-    this.eventBus.publish('social:roles_assigned', {
-      players: this.players,
+    this.eventBus.publish('social:roles_assigned', 
+      players: players: this.players,
       timestamp: new Date()
     });
 
@@ -171,8 +171,8 @@ export class SocialDeductionPure {
 
     this.currentPhase = 'discussion';
 
-    this.eventBus.publish('social:game_started', {
-      phase: this.currentPhase,
+    this.eventBus.publish('social:game_started', 
+      phase: currentPhase: this.currentPhase,
       timestamp: new Date()
     });
 
@@ -233,7 +233,7 @@ export class SocialDeductionPure {
     return effect.success;
   }
 
-  private processAbility(playerId: string, abilityId: string, targetId?: string): AbilityEffect {
+  private processAbility(playerId: string, abilityId: string, targetId?: string): AbilityEffect 
     const player = this.players.get(playerId)!;
 
     switch (abilityId) {
@@ -247,7 +247,7 @@ export class SocialDeductionPure {
               targetId: targetId,
               effectType: 'kill',
               success: true,
-              message: `${player.name} eliminated ${target.name}`
+              message: `${name: player.name} eliminated $name: target.name}`
             };
           }
         }
@@ -296,12 +296,12 @@ export class SocialDeductionPure {
     return shuffled;
   }
 
-  public endGame(winner: GameRole): void {
+  public endGame(winner: GameRole): void 
     this.currentPhase = 'ended';
 
     this.eventBus.publish('social:game_ended', {
       winner: winner,
-      finalVotes: this.votes,
+      finalVotes: votes: this.votes,
       timestamp: new Date()
     });
   }

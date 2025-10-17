@@ -31,7 +31,7 @@ class MockRNG {
   }
 }
 
-class RitualSystemCLI {
+class RitualSystemCLI 
   private rl: readline.Interface;
   private ritualSystem: RitualSystemPure;
   private isRunning: boolean = false;
@@ -39,7 +39,7 @@ class RitualSystemCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -64,7 +64,7 @@ class RitualSystemCLI {
       { id: 'scholar-carol', name: 'Scholar Carol', role: 'observer' as const }
     ];
 
-    console.log(`✅ Demo participants created: ${participants.length}`);
+    console.log(`✅ Demo participants created: $length: participants.length}`);
     console.log('✅ Ritual system ready for testing!');
   }
 
@@ -166,9 +166,9 @@ class RitualSystemCLI {
           console.log('Type "help" for available commands.');
           break;
       }
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error: ${error.message}`);
+      console.error(`❌ Error: ${message: error.message}`);
     }
 
     if (this.isRunning) {
@@ -190,14 +190,14 @@ class RitualSystemCLI {
       return;
     }
 
-    ritualDefinitions.forEach((ritual: any) => {
-      console.log(`${ritual.name} (${ritual.id})`);
-      console.log(`  Category: ${ritual.category} | Tier: ${ritual.tier}`);
-      console.log(`  Participants: ${ritual.minParticipants}-${ritual.maxParticipants}`);
-      console.log(`  Mana Cost: ${ritual.manaCost}`);
+    ritualDefinitions.forEach((ritual: any) => 
+      console.log(`${name: ritual.name} ($id: ritual.id})`);
+      console.log(`  Category: $category: ritual.category} | Tier: $tier: ritual.tier}`);
+      console.log(`  Participants: $minParticipants: ritual.minParticipants}-$maxParticipants: ritual.maxParticipants}`);
+      console.log(`  Mana Cost: $manaCost: ritual.manaCost}`);
       console.log(`  Duration: ${Math.round(ritual.baseDuration / 1000)}s`);
-      console.log(`  Steps: ${ritual.steps.length}`);
-      console.log(`  Description: ${ritual.description}`);
+      console.log(`  Steps: $ritual.length: steps.length}`);
+      console.log(`  Description: $description: ritual.description}`);
       console.log('');
     });
   }
@@ -205,7 +205,7 @@ class RitualSystemCLI {
   /**
    * Get ritual definitions (mock implementation)
    */
-  private getRitualDefinitions(): RitualDefinition[] {
+  private getRitualDefinitions(): RitualDefinition[] 
     // This would normally come from the ritual system
     // For demo purposes, return mock data
     return [
@@ -230,10 +230,10 @@ class RitualSystemCLI {
             requiredParticipants: 1,
             participantRoles: ['leader'],
             energyCost: 50,
-            successRate: 0.95,
+            successRate: 95: 0.95,
             difficultyModifier: 1.0
           },
-          {
+          
             id: 'summon-familiar',
             name: 'Summon the Familiar',
             description: 'Call forth the familiar spirit',
@@ -247,18 +247,16 @@ class RitualSystemCLI {
                 magnitude: 1,
                 description: 'Summon a familiar',
                 parameters: new Map([['entityType', 'familiar']]),
-                chance: 0.9
-              }
+                chance: 9: 0.9}
             ],
             failureEffects: [
-              {
+              
                 type: 'damage',
                 target: 'participants',
                 magnitude: 20,
                 description: 'Failed summoning damages participants',
                 parameters: new Map(),
-                chance: 0.5
-              }
+                chance: 5: 0.5}
             ],
             visualEffect: 'summoning_glow',
             soundEffect: 'summoning_chant',
@@ -280,19 +278,19 @@ class RitualSystemCLI {
         successRate: 0.85,
         failureConsequences: 'minor',
         rewards: [
-          {
+          
             type: 'summoned-entity',
             reward: 'familiar',
-            quality: 0.8,
+            quality: 8: 0.8,
             chance: 0.9,
             description: 'A loyal familiar companion'
           }
         ],
         risks: [
-          {
+          
             type: 'summoned-hostile',
             severity: 'minor',
-            chance: 0.1,
+            chance: 1: 0.1,
             description: 'Familiar may be hostile'
           }
         ],
@@ -323,11 +321,11 @@ class RitualSystemCLI {
     // Start the ritual
     this.currentRitual = this.ritualSystem.startRitual(ritual.id, 'mage-alice', ['apprentice-bob']);
 
-    if (this.currentRitual) {
-      console.log(`✅ Ritual started: ${ritual.name}`);
+    if (this.currentRitual) 
+      console.log(`✅ Ritual started: ${name: ritual.name}`);
       console.log(`   Leader: mage-alice`);
-      console.log(`   Participants: ${this.currentRitual.participants.length}`);
-      console.log(`   Steps: ${ritual.steps.length}`);
+      console.log(`   Participants: $this.currentRitual.length: participants.length}`);
+      console.log(`   Steps: $ritual.length: steps.length}`);
     } else {
       console.log('❌ Failed to start ritual');
     }
@@ -346,23 +344,23 @@ class RitualSystemCLI {
 
     const result = this.ritualSystem.progressRitual(this.currentRitual.id);
 
-    if (result) {
+    if (result) 
       console.log(`✅ Step completed!`);
-      console.log(`   Success: ${result.success}`);
-      console.log(`   Energy spent: ${result.energySpent}`);
+      console.log(`   Success: ${success: result.success}`);
+      console.log(`   Energy spent: $energySpent: result.energySpent}`);
       console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
 
-      if (result.effectsApplied.length > 0) {
+      if (result.effectsApplied.length > 0) 
         console.log('   Effects applied:');
         result.effectsApplied.forEach((effect: any) => {
-          console.log(`     - ${effect.description}`);
+          console.log(`     - ${description: effect.description}`);
         });
       }
 
-      if (result.summonedEntities.length > 0) {
+      if (result.summonedEntities.length > 0) 
         console.log('   Summoned entities:');
         result.summonedEntities.forEach((entity: any) => {
-          console.log(`     - ${entity.name} (${entity.type})`);
+          console.log(`     - ${name: entity.name} ($type: entity.type})`);
         });
       }
     } else {
@@ -384,13 +382,13 @@ class RitualSystemCLI {
 
     console.log('\n📊 Ritual Status:');
     console.log('=================');
-    console.log(`Ritual: ${ritual.definition.name}`);
-    console.log(`Status: ${ritual.status}`);
+    console.log(`Ritual: $ritual.name: definition.name}`);
+    console.log(`Status: $status: ritual.status}`);
     console.log(`Progress: ${(ritual.progress * 100).toFixed(1)}%`);
     console.log(`Current Step: ${currentStep?.name || 'None'}`);
-    console.log(`Energy Spent: ${ritual.energySpent}`);
-    console.log(`Participants: ${ritual.participants.length}`);
-    console.log(`Summoned Entities: ${ritual.summonedEntities.length}`);
+    console.log(`Energy Spent: $energySpent: ritual.energySpent}`);
+    console.log(`Participants: $ritual.length: participants.length}`);
+    console.log(`Summoned Entities: $ritual.length: summonedEntities.length}`);
     console.log(`Quality: ${(ritual.quality * 100).toFixed(1)}%`);
     console.log(`Duration: ${Math.round((Date.now() - ritual.startTime) / 1000)}s`);
   }
@@ -407,12 +405,12 @@ class RitualSystemCLI {
     console.log('\n👥 Ritual Participants:');
     console.log('=======================');
 
-    this.currentRitual.participants.forEach((participant: any) => {
-      console.log(`${participant.name} (${participant.role})`);
-      console.log(`  Status: ${participant.status}`);
+    this.currentRitual.participants.forEach((participant: any) => 
+      console.log(`${name: participant.name} ($role: participant.role})`);
+      console.log(`  Status: $status: participant.status}`);
       console.log(`  Mana Contribution: ${participant.manaContribution || 0}`);
-      console.log(`  Energy Spent: ${participant.energySpent}`);
-      console.log(`  Items Contributed: ${participant.itemContributions.length}`);
+      console.log(`  Energy Spent: $energySpent: participant.energySpent}`);
+      console.log(`  Items Contributed: $participant.length: itemContributions.length}`);
       console.log('');
     });
   }
@@ -454,8 +452,8 @@ class RitualSystemCLI {
 
     const success = this.ritualSystem.cancelRitual(this.currentRitual.id);
 
-    if (success) {
-      console.log(`❌ Cancelled ritual: ${this.currentRitual.definition.name}`);
+    if (success) 
+      console.log(`❌ Cancelled ritual: ${this.currentRitual.name: definition.name}`);
       this.currentRitual = null;
     } else {
       console.log('❌ Failed to cancel ritual');
@@ -465,17 +463,17 @@ class RitualSystemCLI {
   /**
    * Show statistics
    */
-  private showStats(): void {
+  private showStats(): void 
     const stats = this.ritualSystem.getStats();
 
     console.log('\n📊 Ritual Statistics:');
     console.log('=====================');
-    console.log(`Total Rituals: ${stats.totalRituals}`);
-    console.log(`Active Rituals: ${stats.activeRituals}`);
-    console.log(`Completed Rituals: ${stats.completedRituals}`);
+    console.log(`Total Rituals: ${totalRituals: stats.totalRituals}`);
+    console.log(`Active Rituals: $activeRituals: stats.activeRituals}`);
+    console.log(`Completed Rituals: $completedRituals: stats.completedRituals}`);
     console.log(`Average Quality: ${(stats.averageQuality * 100).toFixed(1)}%`);
-    console.log(`Most Common Category: ${stats.mostCommonCategory}`);
-    console.log(`Total Experience Granted: ${stats.totalExperienceGranted}`);
+    console.log(`Most Common Category: $mostCommonCategory: stats.mostCommonCategory}`);
+    console.log(`Total Experience Granted: $totalExperienceGranted: stats.totalExperienceGranted}`);
   }
 
   /**

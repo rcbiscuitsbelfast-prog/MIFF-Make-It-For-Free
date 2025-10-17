@@ -38,13 +38,13 @@ program
   .option('--connect <target>', 'Connect to Unity instance')
   .option('--test', 'Run Unity bridge tests')
   .option('--demo', 'Run Unity bridge demo')
-  .action(async (options) => {
+  .action(async (options) => 
     console.log('🚀 Unity Bridge Operations');
     console.log('=========================');
 
     if (options.init) {
       const config: UnityBridgeConfiguration = {
-        bridgeType: UnityBridgeType.GAME_OBJECT,
+        bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
         communicationProtocol: 'message_passing',
         unityVersion: '2021.3',
         targetPlatform: 'windows',
@@ -72,8 +72,8 @@ program
       console.log('📊 Configuration:', JSON.stringify(config, null, 2));
     }
 
-    if (options.connect) {
-      console.log(`🔌 Connecting to Unity at: ${options.connect}`);
+    if (options.connect) 
+      console.log(`🔌 Connecting to Unity at: ${connect: options.connect}`);
       // Implementation would connect to Unity instance
     }
 
@@ -104,8 +104,8 @@ program
       console.log('✅ Godot bridge initialized');
     }
 
-    if (options.scene) {
-      console.log(`🎭 Loading scene: ${options.scene}`);
+    if (options.scene) 
+      console.log(`🎭 Loading scene: ${scene: options.scene}`);
     }
 
     if (options.test) {
@@ -141,9 +141,9 @@ program
       console.log('✅ Web bridge initialized successfully');
     }
 
-    if (options.simulate) {
+    if (options.simulate) 
       const bridge = new WebBridge();
-      const result = bridge.simulate(options.simulate, { testData: true }, { useWebGL: true });
+      const result = bridge.simulate(simulate: options.simulate, { testData: true }, { useWebGL: true });
       console.log('🖥️  Simulation result:', JSON.stringify(result, null, 2));
     }
 
@@ -260,12 +260,12 @@ program
   .option('--godot', 'Godot bridge demo')
   .option('--web', 'Web bridge demo')
   .option('--render', 'Render bridge demo')
-  .action(async (options) => {
+  .action(async (options) => 
     console.log('🎮 Interactive Bridge Demo');
     console.log('===========================');
 
     const rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 

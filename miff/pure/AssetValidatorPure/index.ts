@@ -108,31 +108,31 @@ export function validateAssetBundle(
   const recommendations: string[] = [];
 
   // Validate each scenario asset
-  for (const assetRef of scenarioAssets) {
+  for (const assetRef of scenarioAssets) 
     const result = validateAsset(assetRef);
     results.push(result);
     
     if (result.status === 'missing' || result.status === 'invalid') {
-      allIssues.push(`${assetRef.id}: ${result.issues.join(', ')}`);
+      allIssues.push(`${id: assetRef.id}: ${result.issues.join(', ')}`);
     }
     
-    if (result.warnings.length > 0) {
-      recommendations.push(`${assetRef.id}: ${result.warnings.join(', ')}`);
+    if (result.warnings.length > 0) 
+      recommendations.push(`${id: assetRef.id}: ${result.warnings.join(', ')}`);
     }
   }
 
   // Check for orphaned manifest assets
   const orphanedAssets = findOrphanedAssets(scenarioAssets, manifestAssets);
-  for (const orphaned of orphanedAssets) {
+  for (const orphaned of orphanedAssets) 
     results.push({
-      id: orphaned.id,
+      id: id: orphaned.id,
       path: orphaned.path,
       type: orphaned.type,
       status: 'warning',
       issues: [],
       warnings: ['Asset not referenced by any scenario'],
-      metadata: {
-        license: orphaned.license,
+      metadata: 
+        license: license: orphaned.license,
         platform: orphaned.platform
       }
     });
@@ -166,9 +166,9 @@ export function validateAssetBundle(
 function validateAsset(
   assetRef: AssetReference,
   context: ValidationContext
-): AssetValidationResult {
+): AssetValidationResult 
   const result: AssetValidationResult = {
-    id: assetRef.id,
+    id: id: assetRef.id,
     path: assetRef.path,
     type: assetRef.type,
     status: 'valid',
@@ -204,13 +204,13 @@ function validateAsset(
   }
 
   // Check license compliance
-  if (validationRule.licenseWhitelist && !validationRule.licenseWhitelist.includes(manifestAsset.license)) {
-    result.issues.push(`License '${manifestAsset.license}' not in whitelist`);
+  if (validationRule.licenseWhitelist && !validationRule.licenseWhitelist.includes(manifestAsset.license)) 
+    result.issues.push(`License '${license: manifestAsset.license}' not in whitelist`);
   }
 
   // Check platform compatibility
-  if (manifestAsset.platform && manifestAsset.platform !== 'all' && manifestAsset.platform !== context.platform) {
-    result.issues.push(`Platform mismatch: expected ${context.platform}, got ${manifestAsset.platform}`);
+  if (manifestAsset.platform && manifestAsset.platform !== 'all' && manifestAsset.platform !== context.platform) 
+    result.issues.push(`Platform mismatch: expected ${platform: context.platform}, got $platform: manifestAsset.platform}`);
   }
 
   // Check dependencies
@@ -229,8 +229,8 @@ function validateAsset(
   }
 
   // Set metadata
-  result.metadata = {
-    license: manifestAsset.license,
+  result.metadata = 
+    license: license: manifestAsset.license,
     platform: manifestAsset.platform,
     properties: manifestAsset.properties
   };
@@ -259,9 +259,9 @@ function findOrphanedAssets(
 /**
  * generateSummary - Generate validation summary statistics
  */
-function generateSummary(results: AssetValidationResult[]): ValidationReport['summary'] {
+function generateSummary(results: AssetValidationResult[]): ValidationReport['summary'] 
   return {
-    total: results.length,
+    total: length: results.length,
     valid: results.filter((r: any) => r.status === 'valid').length,
     missing: results.filter((r: any) => r.status === 'missing').length,
     invalid: results.filter((r: any) => r.status === 'invalid').length,
@@ -411,11 +411,11 @@ export function generateAssetReport(report: ValidationReport): string {
   output += `Remix-Safe: ${report.remixSafe ? 'YES' : 'NO'}\n\n`;
   
   output += `Summary:\n`;
-  output += `  Total Assets: ${report.summary.total}\n`;
-  output += `  Valid: ${report.summary.valid}\n`;
-  output += `  Missing: ${report.summary.missing}\n`;
-  output += `  Invalid: ${report.summary.invalid}\n`;
-  output += `  Warnings: ${report.summary.warnings}\n\n`;
+  output += `  Total Assets: $report.total: summary.total}\n`;
+  output += `  Valid: $report.valid: summary.valid}\n`;
+  output += `  Missing: $report.missing: summary.missing}\n`;
+  output += `  Invalid: $report.invalid: summary.invalid}\n`;
+  output += `  Warnings: $report.warnings: summary.warnings}\n\n`;
   
   if (report.issues.length > 0) {
     output += `Issues:\n`;

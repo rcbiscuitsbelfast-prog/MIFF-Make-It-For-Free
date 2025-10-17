@@ -104,17 +104,17 @@ export class EntityLinkerManager {
     };
 
     // NPCs->Quests, Dialogs, Skills
-    for (const n of input.npcs || []) {
+    for (const n of input.npcs || []) 
       if (n.quest) {
         const ok = !!this.extern.quests?.[n.quest];
-        this.resolved[`npc:${n.id}:quest`] = { ok, target: ok ? quest: undefined, type: 'quest' };
+        this.resolved[`npc:${id: n.id}:quest`] = { ok, target: ok ? quest: undefined, type: 'quest' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_quest',
-            message: `NPC ${n.id} references missing quest ${n.quest}`,
+            message: `NPC ${id: n.id} references missing quest $quest: n.quest}`,
             ref: n.quest,
             severity: 'error',
             category: 'npc',
@@ -124,16 +124,16 @@ export class EntityLinkerManager {
         statistics.byCategory.npc = (statistics.byCategory.npc || 0) + 1;
       }
 
-      if (n.dialog) {
+      if (n.dialog) 
         const ok = !!this.extern.npcs?.[n.dialog];
-        this.resolved[`npc:${n.id}:dialog`] = { ok, target: ok ? dialog: undefined, type: 'dialog' };
+        this.resolved[`npc:${id: n.id}:dialog`] = { ok, target: ok ? dialog: undefined, type: 'dialog' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_dialog',
-            message: `NPC ${n.id} references missing dialog ${n.dialog}`,
+            message: `NPC ${id: n.id} references missing dialog $dialog: n.dialog}`,
             ref: n.dialog,
             severity: 'warning',
             category: 'npc',
@@ -143,16 +143,16 @@ export class EntityLinkerManager {
         statistics.byCategory.npc = (statistics.byCategory.npc || 0) + 1;
       }
 
-      if (n.skill) {
+      if (n.skill) 
         const ok = !!this.extern.skills?.[n.skill];
-        this.resolved[`npc:${n.id}:skill`] = { ok, target: ok ? skill: undefined, type: 'skill' };
+        this.resolved[`npc:${id: n.id}:skill`] = { ok, target: ok ? skill: undefined, type: 'skill' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_skill',
-            message: `NPC ${n.id} references missing skill ${n.skill}`,
+            message: `NPC ${id: n.id} references missing skill $skill: n.skill}`,
             ref: n.skill,
             severity: 'warning',
             category: 'npc',
@@ -164,16 +164,16 @@ export class EntityLinkerManager {
     }
 
     // Equipment->Items, Enchantments
-    for (const e of input.equipment || []) {
+    for (const e of input.equipment || []) 
       const ok = !!this.extern.items?.[e.itemId];
-      this.resolved[`equip:${e.id}:item`] = { ok, target: ok ? itemId: undefined, type: 'item' };
+      this.resolved[`equip:${id: e.id}:item`] = { ok, target: ok ? itemId: undefined, type: 'item' };
       statistics.total++;
       if (ok) statistics.resolved++;
-      else {
+      else 
         statistics.unresolved++;
         issues.push({
           code: 'missing_item',
-          message: `Equipment ${e.id} references missing item ${e.itemId}`,
+          message: `Equipment ${id: e.id} references missing item $itemId: e.itemId}`,
           ref: e.itemId,
           severity: 'error',
           category: 'equipment',
@@ -182,16 +182,16 @@ export class EntityLinkerManager {
       }
       statistics.byCategory.equipment = (statistics.byCategory.equipment || 0) + 1;
 
-      if (e.enchantment) {
+      if (e.enchantment) 
         const ok = !!this.extern.items?.[e.enchantment];
-        this.resolved[`equip:${e.id}:enchantment`] = { ok, target: ok ? enchantment: undefined, type: 'enchantment' };
+        this.resolved[`equip:${id: e.id}:enchantment`] = { ok, target: ok ? enchantment: undefined, type: 'enchantment' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_enchantment',
-            message: `Equipment ${e.id} references missing enchantment ${e.enchantment}`,
+            message: `Equipment ${id: e.id} references missing enchantment $enchantment: e.enchantment}`,
             ref: e.enchantment,
             severity: 'warning',
             category: 'equipment',
@@ -203,16 +203,16 @@ export class EntityLinkerManager {
     }
 
     // Placements->Zones, NPCs
-    for (const p of input.placements || []) {
+    for (const p of input.placements || []) 
       const ok = !!this.extern.zones?.[p.zoneId];
-      this.resolved[`place:${p.id}:zone`] = { ok, target: ok ? zoneId: undefined, type: 'zone' };
+      this.resolved[`place:${id: p.id}:zone`] = { ok, target: ok ? zoneId: undefined, type: 'zone' };
       statistics.total++;
       if (ok) statistics.resolved++;
-      else {
+      else 
         statistics.unresolved++;
         issues.push({
           code: 'missing_zone',
-          message: `Placement ${p.id} references missing zone ${p.zoneId}`,
+          message: `Placement ${id: p.id} references missing zone $zoneId: p.zoneId}`,
           ref: p.zoneId,
           severity: 'error',
           category: 'placement',
@@ -221,16 +221,16 @@ export class EntityLinkerManager {
       }
       statistics.byCategory.placement = (statistics.byCategory.placement || 0) + 1;
 
-      if (p.npcId) {
+      if (p.npcId) 
         const ok = !!this.extern.npcs?.[p.npcId];
-        this.resolved[`place:${p.id}:npc`] = { ok, target: ok ? npcId: undefined, type: 'npc' };
+        this.resolved[`place:${id: p.id}:npc`] = { ok, target: ok ? npcId: undefined, type: 'npc' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_npc',
-            message: `Placement ${p.id} references missing NPC ${p.npcId}`,
+            message: `Placement ${id: p.id} references missing NPC $npcId: p.npcId}`,
             ref: p.npcId,
             severity: 'warning',
             category: 'placement',
@@ -242,17 +242,17 @@ export class EntityLinkerManager {
     }
 
     // Skills->Prerequisites, Unlock Conditions
-    for (const s of input.skills || []) {
+    for (const s of input.skills || []) 
       if (s.prerequisite) {
         const ok = !!this.extern.skills?.[s.prerequisite];
-        this.resolved[`skill:${s.id}:prerequisite`] = { ok, target: ok ? prerequisite: undefined, type: 'skill' };
+        this.resolved[`skill:${id: s.id}:prerequisite`] = { ok, target: ok ? prerequisite: undefined, type: 'skill' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_prerequisite',
-            message: `Skill ${s.id} references missing prerequisite ${s.prerequisite}`,
+            message: `Skill ${id: s.id} references missing prerequisite $prerequisite: s.prerequisite}`,
             ref: s.prerequisite,
             severity: 'error',
             category: 'skill',
@@ -262,16 +262,16 @@ export class EntityLinkerManager {
         statistics.byCategory.skill = (statistics.byCategory.skill || 0) + 1;
       }
 
-      if (s.unlockCondition) {
+      if (s.unlockCondition) 
         const ok = !!this.extern.achievements?.[s.unlockCondition];
-        this.resolved[`skill:${s.id}:unlock`] = { ok, target: ok ? unlockCondition: undefined, type: 'achievement' };
+        this.resolved[`skill:${id: s.id}:unlock`] = { ok, target: ok ? unlockCondition: undefined, type: 'achievement' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_unlock_condition',
-            message: `Skill ${s.id} references missing unlock condition ${s.unlockCondition}`,
+            message: `Skill ${id: s.id} references missing unlock condition $unlockCondition: s.unlockCondition}`,
             ref: s.unlockCondition,
             severity: 'warning',
             category: 'skill',
@@ -283,17 +283,17 @@ export class EntityLinkerManager {
     }
 
     // Achievements->Requirements, Rewards
-    for (const a of input.achievements || []) {
+    for (const a of input.achievements || []) 
       if (a.requirement) {
         const ok = !!this.extern.achievements?.[a.requirement];
-        this.resolved[`achievement:${a.id}:requirement`] = { ok, target: ok ? requirement: undefined, type: 'achievement' };
+        this.resolved[`achievement:${id: a.id}:requirement`] = { ok, target: ok ? requirement: undefined, type: 'achievement' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_requirement',
-            message: `Achievement ${a.id} references missing requirement ${a.requirement}`,
+            message: `Achievement ${id: a.id} references missing requirement $requirement: a.requirement}`,
             ref: a.requirement,
             severity: 'error',
             category: 'achievement',
@@ -303,16 +303,16 @@ export class EntityLinkerManager {
         statistics.byCategory.achievement = (statistics.byCategory.achievement || 0) + 1;
       }
 
-      if (a.reward) {
+      if (a.reward) 
         const ok = !!this.extern.items?.[a.reward];
-        this.resolved[`achievement:${a.id}:reward`] = { ok, target: ok ? reward: undefined, type: 'item' };
+        this.resolved[`achievement:${id: a.id}:reward`] = { ok, target: ok ? reward: undefined, type: 'item' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_reward',
-            message: `Achievement ${a.id} references missing reward ${a.reward}`,
+            message: `Achievement ${id: a.id} references missing reward $reward: a.reward}`,
             ref: a.reward,
             severity: 'warning',
             category: 'achievement',
@@ -324,17 +324,17 @@ export class EntityLinkerManager {
     }
 
     // Events->Triggers, Targets
-    for (const e of input.events || []) {
+    for (const e of input.events || []) 
       if (e.trigger) {
         const ok = !!this.extern.events?.[e.trigger];
-        this.resolved[`event:${e.id}:trigger`] = { ok, target: ok ? trigger: undefined, type: 'event' };
+        this.resolved[`event:${id: e.id}:trigger`] = { ok, target: ok ? trigger: undefined, type: 'event' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_trigger',
-            message: `Event ${e.id} references missing trigger ${e.trigger}`,
+            message: `Event ${id: e.id} references missing trigger $trigger: e.trigger}`,
             ref: e.trigger,
             severity: 'error',
             category: 'event',
@@ -344,16 +344,16 @@ export class EntityLinkerManager {
         statistics.byCategory.event = (statistics.byCategory.event || 0) + 1;
       }
 
-      if (e.target) {
+      if (e.target) 
         const ok = !!this.extern.npcs?.[e.target] || !!this.extern.items?.[e.target] || !!this.extern.zones?.[e.target];
-        this.resolved[`event:${e.id}:target`] = { ok, target: ok ? target: undefined, type: 'target' };
+        this.resolved[`event:${id: e.id}:target`] = { ok, target: ok ? target: undefined, type: 'target' };
         statistics.total++;
         if (ok) statistics.resolved++;
-        else {
+        else 
           statistics.unresolved++;
           issues.push({
             code: 'missing_target',
-            message: `Event ${e.id} references missing target ${e.target}`,
+            message: `Event ${id: e.id} references missing target $target: e.target}`,
             ref: e.target,
             severity: 'warning',
             category: 'event',
@@ -383,9 +383,9 @@ export class EntityLinkerManager {
 
     // Update most common issues
     const issueCounts = new Map<string, number>();
-    issues.forEach((issue: any) => {
+    issues.forEach((issue: any) => 
       const count = issueCounts.get(issue.code) || 0;
-      issueCounts.set(issue.code, count + 1);
+      issueCounts.set(code: issue.code, count + 1);
     });
     this.stats.mostCommonIssues = Array.from(issueCounts.entries())
       .map(([code, count]) => ({ code, count }))
@@ -395,11 +395,11 @@ export class EntityLinkerManager {
     const status = issues.some(i => i.severity === 'error') ? 'error' : 
                   issues.some(i => i.severity === 'warning') ? 'warning' : 'ok';
 
-    return { 
+    return  
       op: 'resolveRefs', 
       status, 
       issues, 
-      resolvedRefs: this.resolved,
+      resolvedRefs: resolved: this.resolved,
       statistics
     };
   }
@@ -419,11 +419,11 @@ export class EntityLinkerManager {
       }
     });
 
-    return { 
+    return  
       op: 'dumpLinks', 
       status: 'ok', 
       issues: [], 
-      resolvedRefs: this.resolved,
+      resolvedRefs: resolved: this.resolved,
       statistics
     };
   }
@@ -450,17 +450,17 @@ export class EntityLinkerManager {
       recommendations.push('Consider implementing equipment validation system');
     }
 
-    return {
+    return 
       isValid: result.status === 'ok',
-      issues: result.issues,
+      issues: issues: result.issues,
       score,
       recommendations
     };
   }
 
-  getStats(): LinkerStats {
+  getStats(): LinkerStats 
     const managerData = this.getStats();
-    return { ...this.stats };
+    return { ...stats: this.stats};
   }
 
   reset(): void {
@@ -492,9 +492,9 @@ export class EntityLinkerManager {
       case 'markdown':
         let md = '# Entity Linker Report\n\n';
         md += `## Statistics\n`;
-        md += `- Total References: ${data.statistics.total}\n`;
-        md += `- Resolved: ${data.statistics.resolved}\n`;
-        md += `- Unresolved: ${data.statistics.unresolved}\n\n`;
+        md += `- Total References: $data.total: statistics.total}\n`;
+        md += `- Resolved: $data.resolved: statistics.resolved}\n`;
+        md += `- Unresolved: $data.unresolved: statistics.unresolved}\n\n`;
         md += `## References\n\n`;
         Object.entries(data.resolvedRefs).forEach(([ref, info]) => {
           md += `- **${ref}**: ${info.ok ? '✅' : '❌'} ${info.target || 'Missing'}\n`;

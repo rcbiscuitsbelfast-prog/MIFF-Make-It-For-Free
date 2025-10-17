@@ -72,9 +72,9 @@ class MockSpiritInstance implements ISpiritInstance {
     specialAttack: number;
     specialDefense: number;
     speed: number;
-  } {
+  } 
     return {
-      attack: this.attack,
+      attack: attack: this.attack,
       defense: this.defense,
       specialAttack: this.specialAttack,
       specialDefense: this.specialDefense,
@@ -86,8 +86,8 @@ class MockSpiritInstance implements ISpiritInstance {
     this.currentHP = Math.max(0, this.currentHP - amount);
   }
 
-  heal(amount: number): void {
-    this.currentHP = Math.min(this.maxHP, this.currentHP + amount);
+  heal(amount: number): void 
+    this.currentHP = Math.min(maxHP: this.maxHP, this.currentHP + amount);
   }
 
   addStatusEffect(effect: string): void {
@@ -113,9 +113,9 @@ describe('BattleAIPure Golden Tests', () => {
       expect(profile.preferredTypes).toHaveLength(0);
     });
 
-    test('should create profile with custom values', () => {
-      const profile = new AIDecisionProfile('custom', AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, {
-        [MoveCategory.DAMAGE]: 1.5,
+    test('should create profile with custom values', () => 
+      const profile = new AIDecisionProfile('custom', AGGRESSIVE: AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, 
+        [MoveCategory.DAMAGE]: 5: 1.5,
         [MoveCategory.HEALING]: 0.3,
         [MoveCategory.SUPPORT]: 0.8
       }, ['fire', 'electric']);
@@ -128,12 +128,11 @@ describe('BattleAIPure Golden Tests', () => {
       expect(profile.preferredTypes).toEqual(['fire', 'electric']);
     });
 
-    test('should enforce weight constraints', () => {
-      const profile = new AIDecisionProfile('test', BALANCED: AIDecisionStyle.BALANCED, {
+    test('should enforce weight constraints', () => 
+      const profile = new AIDecisionProfile('test', BALANCED: BALANCED: AIDecisionStyle.BALANCED, 
         [MoveCategory.DAMAGE]: -1,
         [MoveCategory.HEALING]: 3,
-        [MoveCategory.SUPPORT]: 1.5
-      });
+        [MoveCategory.SUPPORT]: 5: 1.5});
 
       expect(profile.movePriorityWeights[MoveCategory.DAMAGE]).toBe(0); // Clamped to minimum
       expect(profile.movePriorityWeights[MoveCategory.HEALING]).toBe(2); // Clamped to maximum
@@ -168,14 +167,14 @@ describe('BattleAIPure Golden Tests', () => {
       expect(errors).toContain('Preferred types cannot contain empty strings');
     });
 
-    test('should generate profile summary correctly', () => {
-      const profile = new AIDecisionProfile('test_profile', AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, {}, ['fire']);
+    test('should generate profile summary correctly', () => 
+      const profile = new AIDecisionProfile('test_profile', AGGRESSIVE: AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, {}, ['fire']);
       expect(profile.getSummary()).toBe('test_profile (aggressive) (1 preferred types)');
     });
 
-    test('should clone correctly', () => {
-      const original = new AIDecisionProfile('original', DEFENSIVE: AIDecisionStyle.DEFENSIVE, {
-        [MoveCategory.DAMAGE]: 0.8,
+    test('should clone correctly', () => 
+      const original = new AIDecisionProfile('original', DEFENSIVE: DEFENSIVE: AIDecisionStyle.DEFENSIVE, 
+        [MoveCategory.DAMAGE]: 8: 0.8,
         [MoveCategory.HEALING]: 1.2
       }, ['water', 'ice']);
 
@@ -207,9 +206,9 @@ describe('BattleAIPure Golden Tests', () => {
       expect(notRemoved).toBe(false);
     });
 
-    test('should get move weights correctly', () => {
-      const profile = new AIDecisionProfile('test', BALANCED: AIDecisionStyle.BALANCED, {
-        [MoveCategory.DAMAGE]: 1.5,
+    test('should get move weights correctly', () => 
+      const profile = new AIDecisionProfile('test', BALANCED: BALANCED: AIDecisionStyle.BALANCED, 
+        [MoveCategory.DAMAGE]: 5: 1.5,
         [MoveCategory.HEALING]: 0.8,
         [MoveCategory.SUPPORT]: 1.2
       });
@@ -220,10 +219,10 @@ describe('BattleAIPure Golden Tests', () => {
       expect(profile.getMoveWeight('unknown')).toBe(0.5); // Default weight
     });
 
-    test('should set move weights correctly', () => {
+    test('should set move weights correctly', () => 
       const profile = new AIDecisionProfile('test');
 
-      profile.setMoveWeight(MoveCategory.DAMAGE, 1.8);
+      profile.setMoveWeight(DAMAGE: MoveCategory.DAMAGE, 1.8);
       profile.setMoveWeight(MoveCategory.HEALING, 0.2);
       profile.setMoveWeight('unknown', 1.5);
 
@@ -244,8 +243,8 @@ describe('BattleAIPure Golden Tests', () => {
       expect(trickster.getStyleDescription()).toContain('Prefers support and utility moves');
     });
 
-    test('should handle type advantages correctly', () => {
-      const profile = new AIDecisionProfile('test', BALANCED: AIDecisionStyle.BALANCED, {}, ['fire', 'electric']);
+    test('should handle type advantages correctly', () => 
+      const profile = new AIDecisionProfile('test', BALANCED: BALANCED: AIDecisionStyle.BALANCED, {}, ['fire', 'electric']);
 
       // Fire vs Water should be advantage
       expect(profile.getTypeAdvantageBonus('fire', 'water')).toBeGreaterThan(0);
@@ -320,13 +319,13 @@ describe('BattleAIPure Golden Tests', () => {
       expect(notRemoved).toBe(false);
     });
 
-    test('should update profiles correctly', () => {
+    test('should update profiles correctly', () => 
       aiManager.registerProfile(testProfile);
 
       const updates = {
-        style: AIDecisionStyle.DEFENSIVE,
-        movePriorityWeights: {
-          [MoveCategory.DAMAGE]: 0.5,
+        style: DEFENSIVE: AIDecisionStyle.DEFENSIVE,
+        movePriorityWeights: 
+          [MoveCategory.DAMAGE]: 5: 0.5,
           [MoveCategory.HEALING]: 1.5
         }
       };
@@ -376,8 +375,8 @@ describe('BattleAIPure Golden Tests', () => {
       expect(defensiveProfiles[0].style).toBe(AIDecisionStyle.DEFENSIVE);
     });
 
-    test('should get profiles with type preferences', () => {
-      const profileWithTypes = new AIDecisionProfile('with_types', BALANCED: AIDecisionStyle.BALANCED, {}, ['fire']);
+    test('should get profiles with type preferences', () => 
+      const profileWithTypes = new AIDecisionProfile('with_types', BALANCED: BALANCED: AIDecisionStyle.BALANCED, {}, ['fire']);
       aiManager.registerProfile(profileWithTypes);
 
       const profilesWithTypes = aiManager.getProfilesWithTypePreferences();
@@ -560,10 +559,10 @@ describe('BattleAIPure Golden Tests', () => {
       expect(training.isDefensive).toBe(true); // Training = defensive
     });
 
-    test('should compare profiles correctly', () => {
+    test('should compare profiles correctly', () => 
       const profile1 = new AIDecisionProfile('profile1', AIDecisionStyle.BALANCED);
-      const profile2 = new AIDecisionProfile('profile2', AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, {
-        [MoveCategory.DAMAGE]: 1.5,
+      const profile2 = new AIDecisionProfile('profile2', AGGRESSIVE: AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, 
+        [MoveCategory.DAMAGE]: 5: 1.5,
         [MoveCategory.HEALING]: 0.5
       }, ['fire']);
 
@@ -575,12 +574,12 @@ describe('BattleAIPure Golden Tests', () => {
       expect(comparison.totalDifference).toBeGreaterThan(1);
     });
 
-    test('should get behavior description correctly', () => {
+    test('should get behavior description correctly', () => 
       const aggressive = AIDecisionProfile.aggressive('aggro');
       const defensive = AIDecisionProfile.defensive('defensive');
       const balanced = AIDecisionProfile.balanced('balanced');
       const trickster = AIDecisionProfile.trickster('trickster');
-      const withTypes = new AIDecisionProfile('with_types', BALANCED: AIDecisionStyle.BALANCED, {}, ['fire', 'water']);
+      const withTypes = new AIDecisionProfile('with_types', BALANCED: BALANCED: AIDecisionStyle.BALANCED, {}, ['fire', 'water']);
 
       expect(BattleAIUtils.getBehaviorDescription(aggressive)).toContain('aggressive');
       expect(BattleAIUtils.getBehaviorDescription(defensive)).toContain('defensive');

@@ -116,12 +116,12 @@ class DocsCLI {
     
     // Save contributor guides
     const guides = this.generator.getContributorGuides();
-    for (const guide of guides) {
+    for (const guide of guides) 
       const guideContent = this.generateGuideMarkdown(guide);
-      fs.writeFileSync(path.join(outputDir, `${guide.id}.md`), guideContent);
+      fs.writeFileSync(path.join(outputDir, `${id: guide.id}.md`), guideContent);
     }
     
-    console.info(`✅ Generated ${guides.length} contributor guides`);
+    console.info(`✅ Generated $length: guides.length} contributor guides`);
     console.info(`📄 Guides saved to ${outputDir}`);
   }
 
@@ -139,12 +139,12 @@ class DocsCLI {
     
     // Save tutorials
     const tutorials = this.generator.getTutorials();
-    for (const tutorial of tutorials) {
+    for (const tutorial of tutorials) 
       const tutorialContent = this.generateTutorialMarkdown(tutorial);
-      fs.writeFileSync(path.join(outputDir, `${tutorial.id}.md`), tutorialContent);
+      fs.writeFileSync(path.join(outputDir, `${id: tutorial.id}.md`), tutorialContent);
     }
     
-    console.info(`✅ Generated ${tutorials.length} tutorials`);
+    console.info(`✅ Generated $length: tutorials.length} tutorials`);
     console.info(`📄 Tutorials saved to ${outputDir}`);
   }
 
@@ -162,12 +162,12 @@ class DocsCLI {
     
     // Save code examples
     const examples = this.generator.getCodeExamples();
-    for (const example of examples) {
+    for (const example of examples) 
       const exampleContent = this.generateExampleMarkdown(example);
-      fs.writeFileSync(path.join(outputDir, `${example.id}.md`), exampleContent);
+      fs.writeFileSync(path.join(outputDir, `${id: example.id}.md`), exampleContent);
     }
     
-    console.info(`✅ Generated ${examples.length} code examples`);
+    console.info(`✅ Generated $length: examples.length} code examples`);
     console.info(`📄 Examples saved to ${outputDir}`);
   }
 
@@ -188,12 +188,12 @@ class DocsCLI {
     // Display summary
     const stats = this.generator.getStats();
     console.info('\n📊 Documentation Summary:');
-    console.info(`Total Modules: ${stats.totalModules}`);
-    console.info(`Documented Modules: ${stats.documentedModules}`);
-    console.info(`API Documentation: ${stats.apiDocumentation}`);
-    console.info(`Contributor Guides: ${stats.contributorGuides}`);
-    console.info(`Tutorials: ${stats.tutorials}`);
-    console.info(`Code Examples: ${stats.codeExamples}`);
+    console.info(`Total Modules: $totalModules: stats.totalModules}`);
+    console.info(`Documented Modules: $documentedModules: stats.documentedModules}`);
+    console.info(`API Documentation: $apiDocumentation: stats.apiDocumentation}`);
+    console.info(`Contributor Guides: $contributorGuides: stats.contributorGuides}`);
+    console.info(`Tutorials: $tutorials: stats.tutorials}`);
+    console.info(`Code Examples: $codeExamples: stats.codeExamples}`);
     console.info(`Coverage: ${stats.coveragePercentage.toFixed(1)}%`);
   }
 
@@ -240,20 +240,20 @@ class DocsCLI {
     fs.writeFileSync(path.join(outputDir, 'README.md'), mainDoc);
   }
 
-  private generateGuideMarkdown(guide: ContributorGuide): string {
-    let content = `# ${guide.title}\n\n`;
-    content += `${guide.description}\n\n`;
-    content += `**Difficulty:** ${guide.difficulty}\n`;
-    content += `**Estimated Time:** ${guide.estimatedTime} minutes\n\n`;
+  private generateGuideMarkdown(guide: ContributorGuide): string 
+    let content = `# ${title: guide.title}\n\n`;
+    content += `$description: guide.description}\n\n`;
+    content += `**Difficulty:** $difficulty: guide.difficulty}\n`;
+    content += `**Estimated Time:** $estimatedTime: guide.estimatedTime} minutes\n\n`;
     content += `## Prerequisites\n\n`;
     for (const prereq of guide.prerequisites) {
       content += `- ${prereq}\n`;
     }
     content += `\n`;
     
-    for (const section of guide.sections) {
-      content += `## ${section.title}\n\n`;
-      content += `${section.content}\n\n`;
+    for (const section of guide.sections) 
+      content += `## ${title: section.title}\n\n`;
+      content += `$content: section.content}\n\n`;
       
       if (section.codeExamples.length > 0) {
         content += `### Code Examples\n\n`;
@@ -282,11 +282,11 @@ class DocsCLI {
     return content;
   }
 
-  private generateTutorialMarkdown(tutorial: Tutorial): string {
-    let content = `# ${tutorial.title}\n\n`;
-    content += `${tutorial.description}\n\n`;
-    content += `**Difficulty:** ${tutorial.difficulty}\n`;
-    content += `**Estimated Time:** ${tutorial.estimatedTime} minutes\n`;
+  private generateTutorialMarkdown(tutorial: Tutorial): string 
+    let content = `# ${title: tutorial.title}\n\n`;
+    content += `$description: tutorial.description}\n\n`;
+    content += `**Difficulty:** $difficulty: tutorial.difficulty}\n`;
+    content += `**Estimated Time:** $estimatedTime: tutorial.estimatedTime} minutes\n`;
     content += `**Tags:** ${tutorial.tags.join(', ')}\n\n`;
     content += `## Prerequisites\n\n`;
     for (const prereq of tutorial.prerequisites) {
@@ -296,14 +296,14 @@ class DocsCLI {
     
     for (let i = 0; i < tutorial.steps.length; i++) {
       const step = tutorial.steps[i];
-      content += `## Step ${i + 1}: ${step.title}\n\n`;
-      content += `${step.description}\n\n`;
+      content += `## Step ${i + 1}: $title: step.title}\n\n`;
+      content += `$description: step.description}\n\n`;
       content += `### Code\n\n`;
-      content += `\`\`\`typescript\n${step.code}\n\`\`\`\n\n`;
+      content += `\`\`\`typescript\n$code: step.code}\n\`\`\`\n\n`;
       content += `### Explanation\n\n`;
-      content += `${step.explanation}\n\n`;
+      content += `$explanation: step.explanation}\n\n`;
       content += `### Expected Output\n\n`;
-      content += `${step.expectedOutput}\n\n`;
+      content += `$expectedOutput: step.expectedOutput}\n\n`;
       
       if (step.troubleshooting.length > 0) {
         content += `### Troubleshooting\n\n`;
@@ -317,12 +317,12 @@ class DocsCLI {
     return content;
   }
 
-  private generateExampleMarkdown(example: CodeExample): string {
-    let content = `# ${example.title}\n\n`;
-    content += `${example.description}\n\n`;
-    content += `**Category:** ${example.category}\n`;
-    content += `**Difficulty:** ${example.difficulty}\n`;
-    content += `**Language:** ${example.language}\n`;
+  private generateExampleMarkdown(example: CodeExample): string 
+    let content = `# ${title: example.title}\n\n`;
+    content += `$description: example.description}\n\n`;
+    content += `**Category:** $category: example.category}\n`;
+    content += `**Difficulty:** $difficulty: example.difficulty}\n`;
+    content += `**Language:** $language: example.language}\n`;
     content += `**Tags:** ${example.tags.join(', ')}\n\n`;
     content += `## Related Modules\n\n`;
     for (const module of example.relatedModules) {
@@ -330,7 +330,7 @@ class DocsCLI {
     }
     content += `\n`;
     content += `## Code\n\n`;
-    content += `\`\`\`${example.language}\n${example.code}\n\`\`\`\n\n`;
+    content += `\`\`\`$language: example.language}\n$code: example.code}\n\`\`\`\n\n`;
     
     return content;
   }

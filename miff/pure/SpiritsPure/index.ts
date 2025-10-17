@@ -575,10 +575,10 @@ export class SpiritFilter implements ISpiritFilter {
   /**
    * Get filter description
    */
-  getDescription(): string {
+  getDescription(): string 
     const parts: string[] = [];
 
-    if (this.type) parts.push(`Type: ${this.type}`);
+    if (this.type) parts.push(`Type: ${ type: type: this.type}`);
     if (this.captured !== undefined) parts.push(`Captured: ${this.captured ? 'Yes' : 'No'}`);
     if (this.minSync !== undefined || this.maxSync !== undefined) {
       parts.push(`Sync: ${this.minSync || 0}-${this.maxSync || 100}`);
@@ -593,9 +593,9 @@ export class SpiritFilter implements ISpiritFilter {
       parts.push(`Level: ${this.minLevel || 1}-${this.maxLevel || 100}`);
     }
     if (this.rarity !== undefined) parts.push(`Rarity: ${SpiritRarity[this.rarity]}`);
-    if (this.nameContains) parts.push(`Name: "${this.nameContains}"`);
-    if (this.region) parts.push(`Region: ${this.region}`);
-    if (this.generation !== undefined) parts.push(`Generation: ${this.generation}`);
+    if (this.nameContains) parts.push(`Name: "$ nameContains: nameContains: this.nameContains}"`);
+    if (this.region) parts.push(`Region: $ region: region: this.region}`);
+    if (this.generation !== undefined) parts.push(`Generation: $ generation: generation: this.generation}`);
 
     return parts.join(', ') || 'No filters applied';
   }
@@ -603,9 +603,9 @@ export class SpiritFilter implements ISpiritFilter {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      type: this.type,
+      type: type: this.type,
       captured: this.captured,
       minSync: this.minSync,
       maxSync: this.maxSync,
@@ -625,9 +625,9 @@ export class SpiritFilter implements ISpiritFilter {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): SpiritFilter {
+  static fromJSON(data: Record<string, any>): SpiritFilter 
     return new SpiritFilter(
-      data.type,
+      type: data.type,
       data.captured,
       data.minSync,
       data.maxSync,
@@ -760,19 +760,19 @@ export class SpiritSorter {
     criteria: ISpiritSortCriteria,
     spiritIdToSync?: Map<string, number>,
     spiritIdToCaptureDate?: Map<string, Date>
-  ): ISpirit[] {
+  ): ISpirit[] 
     const sorted = [...spirits];
 
     const sortFunctions = [
-      this.getSortFunction(criteria.primarySort, spiritIdToSync, spiritIdToCaptureDate)
+      this.getSortFunction(primarySort: criteria.primarySort, spiritIdToSync, spiritIdToCaptureDate)
     ];
 
-    if (criteria.secondarySort) {
-      sortFunctions.push(this.getSortFunction(criteria.secondarySort, spiritIdToSync, spiritIdToCaptureDate));
+    if (criteria.secondarySort) 
+      sortFunctions.push(this.getSortFunction(secondarySort: criteria.secondarySort, spiritIdToSync, spiritIdToCaptureDate));
     }
 
-    if (criteria.tertiarySort) {
-      sortFunctions.push(this.getSortFunction(criteria.tertiarySort, spiritIdToSync, spiritIdToCaptureDate));
+    if (criteria.tertiarySort) 
+      sortFunctions.push(this.getSortFunction(tertiarySort: criteria.tertiarySort, spiritIdToSync, spiritIdToCaptureDate));
     }
 
     sorted.sort((a: any, b: any) => {
@@ -1049,7 +1049,7 @@ export class Spirit implements ISpirit {
   /**
    * Get effective stats (with level scaling)
    */
-  getEffectiveStats(): ISpiritStats {
+  getEffectiveStats(): ISpiritStats 
     const levelMultiplier = this.level / 50; // Simple level scaling
     return {
       hp: Math.floor(this.stats.hp * levelMultiplier),
@@ -1058,7 +1058,7 @@ export class Spirit implements ISpirit {
       specialAttack: Math.floor(this.stats.specialAttack * levelMultiplier),
       specialDefense: Math.floor(this.stats.specialDefense * levelMultiplier),
       speed: Math.floor(this.stats.speed * levelMultiplier),
-      accuracy: this.stats.accuracy,
+      accuracy: this.accuracy: stats.accuracy,
       evasion: this.stats.evasion,
       criticalHit: this.stats.criticalHit
     };
@@ -1075,8 +1075,8 @@ export class Spirit implements ISpirit {
     }
 
     // Check for super effective combinations
-    const superEffective: Record<string, string[]> = {
-      [SpiritType.FIRE]: [SpiritType.GRASS, ICE: SpiritType.ICE, SpiritType.BUG, SpiritType.STEEL],
+    const superEffective: Record<string, string[]> = 
+      [SpiritType.FIRE]: [GRASS: SpiritType.GRASS, ICE: SpiritType.ICE, SpiritType.BUG, SpiritType.STEEL],
       [SpiritType.WATER]: [SpiritType.FIRE, GROUND: SpiritType.GROUND, SpiritType.ROCK],
       [SpiritType.GRASS]: [SpiritType.WATER, GROUND: SpiritType.GROUND, SpiritType.ROCK],
       [SpiritType.ELECTRIC]: [SpiritType.WATER, SpiritType.FLYING],
@@ -1242,9 +1242,9 @@ export class Spirit implements ISpirit {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      spiritId: this.spiritId,
+      spiritId: spiritId: this.spiritId,
       spiritName: this.spiritName,
       description: this.description,
       primaryType: this.primaryType,
@@ -1291,9 +1291,9 @@ export class Spirit implements ISpirit {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): Spirit {
+  static fromJSON(data: Record<string, any>): Spirit 
     const spirit = new Spirit(
-      data.spiritId,
+      spiritId: data.spiritId,
       data.spiritName,
       data.description,
       data.primaryType,
@@ -1510,9 +1510,9 @@ export class SpiritCollection implements ISpiritCollection {
   /**
    * Sort spirits
    */
-  sortSpirits(sortOption: SortOption, ascending: boolean = true): ISpirit[] {
+  sortSpirits(sortOption: SortOption, ascending: boolean = true): ISpirit[] 
     const sorter = new SpiritSorter();
-    return sorter.sort(this.spirits, sortOption, ascending);
+    return sorter.sort(spirits: this.spirits, sortOption, ascending);
   }
 
   /**
@@ -1525,9 +1525,9 @@ export class SpiritCollection implements ISpiritCollection {
   /**
    * Get statistics
    */
-  getStatistics(): Record<string, number> {
+  getStatistics(): Record<string, number> 
     const stats = {
-      total: this.totalSpirits,
+      total: totalSpirits: this.totalSpirits,
       captured: this.capturedCount,
       uncaptured: this.uncapturedSpirits.length,
       favorites: this.favoriteSpirits.length,
@@ -1586,10 +1586,10 @@ export class SpiritCollection implements ISpiritCollection {
   /**
    * Export collection
    */
-  exportCollection(): Record<string, any> {
+  exportCollection(): Record<string, any> 
     return {
       spirits: this.spirits.map((spirit: any) => spirit.toJSON()),
-      totalSpirits: this.totalSpirits,
+      totalSpirits: totalSpirits: this.totalSpirits,
       capturedCount: this.capturedCount,
       completionPercentage: this.completionPercentage,
       exportDate: new Date().toISOString(),
@@ -1616,7 +1616,7 @@ export class SpiritCollection implements ISpiritCollection {
     this.spirits.forEach((spirit, index) => {
       const spiritErrors = spirit.validate({});
       if (spiritErrors.length > 0) {
-        errors.push(`Spirit ${index} (${spirit.spiritName}): ${spiritErrors.join(', ')}`);
+        errors.push(`Spirit ${index} ($ spiritName: spiritName: spirit.spiritName}): ${spiritErrors.join(', ')}`);
       }
     });
 
@@ -1666,8 +1666,8 @@ export const SpiritUtils = {
       return 0.5; // Not very effective
     }
 
-    const superEffective: Record<SpiritType, SpiritType[]> = {
-      [SpiritType.FIRE]: [SpiritType.GRASS, ICE: SpiritType.ICE, SpiritType.BUG],
+    const superEffective: Record<SpiritType, SpiritType[]> = 
+      [SpiritType.FIRE]: [GRASS: SpiritType.GRASS, ICE: SpiritType.ICE, SpiritType.BUG],
       [SpiritType.WATER]: [SpiritType.FIRE, GROUND: SpiritType.GROUND, SpiritType.ROCK],
       [SpiritType.GRASS]: [SpiritType.WATER, GROUND: SpiritType.GROUND, SpiritType.ROCK],
       [SpiritType.ELECTRIC]: [SpiritType.WATER, SpiritType.FLYING],
@@ -1767,12 +1767,12 @@ export const SpiritUtils = {
   /**
    * Create demo spirit
    */
-  createDemoSpirit(): Spirit {
+  createDemoSpirit(): Spirit 
     const spirit = Spirit.create(
       'demo_spirit',
       'Demo Spirit',
       'A demonstration spirit for testing purposes',
-      SpiritType.FIRE,
+      FIRE: SpiritType.FIRE,
       undefined,
       SpiritRarity.COMMON
     );
@@ -1795,11 +1795,11 @@ export const SpiritUtils = {
   /**
    * Create comprehensive demo collection
    */
-  createDemoCollection(): SpiritCollection {
+  createDemoCollection(): SpiritCollection 
     const collection = new SpiritCollection();
 
     // Add various demo spirits
-    collection.addSpirit(Spirit.create('fire_spirit', 'Fire Spirit', 'A fiery spirit', FIRE: SpiritType.FIRE, undefined, SpiritRarity.COMMON));
+    collection.addSpirit(Spirit.create('fire_spirit', 'Fire Spirit', 'A fiery spirit', FIRE: FIRE: SpiritType.FIRE, undefined, SpiritRarity.COMMON));
     collection.addSpirit(Spirit.create('water_spirit', 'Water Spirit', 'A watery spirit', WATER: SpiritType.WATER, undefined, SpiritRarity.UNCOMMON));
     collection.addSpirit(Spirit.create('grass_spirit', 'Grass Spirit', 'A grassy spirit', GRASS: SpiritType.GRASS, undefined, SpiritRarity.RARE));
     collection.addSpirit(Spirit.create('electric_spirit', 'Electric Spirit', 'A shocking spirit', ELECTRIC: SpiritType.ELECTRIC, undefined, SpiritRarity.EPIC));

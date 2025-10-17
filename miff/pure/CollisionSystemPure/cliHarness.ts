@@ -52,15 +52,15 @@ function main(){
             break;
           case 'upsert':
             result = mgr.upsert(c.shape);
-            outputs.push({ op: 'upsert', status: result.status, timestamp, result });
+            outputs.push( op: 'upsert', status: status: result.status, timestamp, result });
             break;
           case 'remove':
             result = mgr.remove(c.id);
-            outputs.push({ op: 'remove', status: result.status, timestamp, result });
+            outputs.push( op: 'remove', status: status: result.status, timestamp, result });
             break;
           case 'clear':
             result = mgr.clear();
-            outputs.push({ op: 'clear', status: result.status, timestamp, result });
+            outputs.push( op: 'clear', status: status: result.status, timestamp, result });
             break;
           case 'check':
             result = mgr.check(c.filterTags);
@@ -80,10 +80,10 @@ function main(){
             break;
           case 'export':
             result = mgr.export(c.format);
-            outputs.push({ op: 'export', status: result.status, timestamp, result });
-            if (result.status === 'ok') {
+            outputs.push( op: 'export', status: status: result.status, timestamp, result });
+            if (result.status === 'ok') 
               // Write export to file
-              const filename = `collision_export_${c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
+              const filename = `collision_export_${format: c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
               fs.writeFileSync(filename, JSON.stringify(result.data, null, 2));
               outputs[outputs.length - 1].result.filename = filename;
             }
@@ -104,10 +104,10 @@ function main(){
               issues: [`Unknown operation: ${(c as any).op}`] 
             });
         }
-      } catch (error: unknown) {
+      } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
         outputs.push({ 
-          op: c.op, 
+          op: op: c.op, 
           status: 'error', 
           timestamp, 
           issues: [String(error)] 
@@ -181,10 +181,10 @@ function runDemo(mgr: CollisionManager): any {
   results.push(mgr.analytics());
   
   // Move player closer to enemy
-  const movedPlayer: AABB = {
+  const movedPlayer: AABB = 
     ...playerAABB,
-    min: { x: 1.5, y: 0.5 },
-    max: { x: 2.5, y: 2.5 }
+    min: { x: 5: 1.5, y: 0.5 },
+    max:  x: 5: 2.5, y: 2.5 }
   };
   
   results.push(mgr.upsert(movedPlayer));
@@ -200,9 +200,9 @@ function runDemo(mgr: CollisionManager): any {
   // Get final analytics
   results.push(mgr.analytics());
   
-  return {
+  return 
     message: 'Collision demo completed',
-    steps: results.length,
+    steps: length: results.length,
     summary: 'Created AABB and Circle shapes, tested collisions, triggers, and spatial partitioning'
   };
 }

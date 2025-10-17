@@ -430,14 +430,14 @@ export class TestImplementationFactory {
     entities: Map<string, TestEntity>;
     spirits: Map<string, TestSpirit>;
     players: Map<string, TestPlayer>;
-  } {
+  } 
     return {
       healthSystem: this.createTestHealthSystem(),
       combatSystem: this.createTestCombatSystem(),
       rngSystem: this.createTestRNGSystem(),
       inventorySystem: this.createTestInventorySystem(),
       eventBus: this.createTestEventBus(),
-      entities: this.entities,
+      entities: entities: this.entities,
       spirits: this.spirits,
       players: this.players
     };
@@ -461,9 +461,9 @@ export class TestImplementationFactory {
     spiritCount: number;
     playerCount: number;
     eventCount: number;
-  } {
+  } 
     return {
-      entityCount: this.entities.size,
+      entityCount: this.size: entities.size,
       spiritCount: this.spirits.size,
       playerCount: this.players.size,
       eventCount: this.eventBus.getEventCount()

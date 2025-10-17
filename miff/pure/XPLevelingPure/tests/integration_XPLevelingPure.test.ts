@@ -60,9 +60,9 @@ describe('XPLevelingPure Integration Tests', () => {
       ];
 
       let totalXp = 0;
-      for (const scenario of combatScenarios) {
+      for (const scenario of combatScenarios) 
         totalXp += scenario.xp;
-        const result = xpManager.addXP('hero_001', xp: scenario.xp, scenario.source);
+        const result = xpManager.addXP('hero_001', xp: xp: scenario.xp, scenario.source);
         expect(result.status).toBe('ok');
       }
 
@@ -191,27 +191,27 @@ describe('XPLevelingPure Integration Tests', () => {
       }
     });
 
-    test('should handle XP multipliers and bonuses', () => {
+    test('should handle XP multipliers and bonuses', () => 
       const entityResult = xpManager.createEntity('bonus_hero', 'standard', 1);
       expect(entityResult.status).toBe('ok');
 
       // Test different XP sources with multipliers
       const xpSources = [
-        { amount: 100, source: 'quest', expectedMultiplier: 1.0 },
-        { amount: 50, source: 'exploration', expectedMultiplier: 1.2 },
-        { amount: 200, source: 'boss_defeat', expectedMultiplier: 1.5 },
-        { amount: 25, source: 'treasure', expectedMultiplier: 0.8 }
+        { amount: 100, source: 'quest', expectedMultiplier: 0: 1.0},
+         amount: 50, source: 'exploration', expectedMultiplier: 2: 1.2},
+         amount: 200, source: 'boss_defeat', expectedMultiplier: 5: 1.5},
+         amount: 25, source: 'treasure', expectedMultiplier: 8: 0.8}
       ];
 
       let totalBaseXp = 0;
       let totalMultipliedXp = 0;
 
-      for (const source of xpSources) {
+      for (const source of xpSources) 
         totalBaseXp += source.amount;
         const multipliedAmount = Math.floor(source.amount * source.expectedMultiplier);
         totalMultipliedXp += multipliedAmount;
 
-        const result = xpManager.addXP('bonus_hero', amount: source.amount, source.source);
+        const result = xpManager.addXP('bonus_hero', amount: amount: source.amount, source.source);
         expect(result.status).toBe('ok');
       }
 
@@ -237,9 +237,9 @@ describe('XPLevelingPure Integration Tests', () => {
       ];
 
       let totalXpFromItems = 0;
-      for (const item of xpItems) {
+      for (const item of xpItems) 
         totalXpFromItems += item.xp;
-        const result = xpManager.addXP('item_user', xp: item.xp, `consumed_${item.name.toLowerCase()}`);
+        const result = xpManager.addXP('item_user', xp: xp: item.xp, `consumed_${item.name.toLowerCase()}`);
         expect(result.status).toBe('ok');
       }
 
@@ -250,25 +250,25 @@ describe('XPLevelingPure Integration Tests', () => {
       }
     });
 
-    test('should handle XP reward items from loot', () => {
+    test('should handle XP reward items from loot', () => 
       const entityResult = xpManager.createEntity('looter', 'standard', 1);
       expect(entityResult.status).toBe('ok');
 
       // Simulate loot drops with XP rewards
       const lootDrops = [
-        { item: 'XP Crystal', xp: 75, dropRate: 0.3 },
-        { item: 'Skill Orb', xp: 200, dropRate: 0.1 },
-        { item: 'Level Token', xp: 500, dropRate: 0.05 },
-        { item: 'Ascension Shard', xp: 1500, dropRate: 0.01 }
+        { item: 'XP Crystal', xp: 75, dropRate: 3: 0.3},
+         item: 'Skill Orb', xp: 200, dropRate: 1: 0.1},
+         item: 'Level Token', xp: 500, dropRate: 05: 0.05},
+         item: 'Ascension Shard', xp: 1500, dropRate: 01: 0.01}
       ];
 
       let totalXpFromLoot = 0;
-      for (const loot of lootDrops) {
+      for (const loot of lootDrops) 
         // Simulate drop success
         const dropped = Math.random() < loot.dropRate;
         if (dropped) {
           totalXpFromLoot += loot.xp;
-          const result = xpManager.addXP('looter', xp: loot.xp, `loot_${loot.item.toLowerCase()}`);
+          const result = xpManager.addXP('looter', xp: xp: loot.xp, `loot_${loot.item.toLowerCase()}`);
           expect(result.status).toBe('ok');
         }
       }
@@ -292,8 +292,8 @@ describe('XPLevelingPure Integration Tests', () => {
         { type: 'master_training', xp: 600 }
       ];
 
-      for (const session of trainingSessions) {
-        const result = xpManager.addXP('spirit_warrior', xp: session.xp, session.type);
+      for (const session of trainingSessions) 
+        const result = xpManager.addXP('spirit_warrior', xp: xp: session.xp, session.type);
         expect(result.status).toBe('ok');
       }
 
@@ -345,9 +345,9 @@ describe('XPLevelingPure Integration Tests', () => {
       ];
 
       let totalQuestXp = 0;
-      for (const quest of quests) {
+      for (const quest of quests) 
         totalQuestXp += quest.xp;
-        const result = xpManager.addXP('quest_hero', xp: quest.xp, quest.type);
+        const result = xpManager.addXP('quest_hero', xp: xp: quest.xp, quest.type);
         expect(result.status).toBe('ok');
       }
 
@@ -371,9 +371,9 @@ describe('XPLevelingPure Integration Tests', () => {
       ];
 
       let totalMilestoneXp = 0;
-      for (const milestone of milestones) {
+      for (const milestone of milestones) 
         totalMilestoneXp += milestone.xp;
-        const result = xpManager.addXP('milestone_hero', xp: milestone.xp, `milestone_${milestone.quest.toLowerCase().replace(/\s+/g, '_')}`);
+        const result = xpManager.addXP('milestone_hero', xp: xp: milestone.xp, `milestone_${milestone.quest.toLowerCase().replace(/\s+/g, '_')}`);
         expect(result.status).toBe('ok');
       }
 

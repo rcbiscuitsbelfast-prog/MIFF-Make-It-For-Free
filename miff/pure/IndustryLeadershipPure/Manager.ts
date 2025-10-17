@@ -1062,15 +1062,15 @@ export class IndustryLeadershipPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): IndustryLeadershipPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): IndustryLeadershipPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): IndustryLeadershipAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): IndustryLeadershipAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

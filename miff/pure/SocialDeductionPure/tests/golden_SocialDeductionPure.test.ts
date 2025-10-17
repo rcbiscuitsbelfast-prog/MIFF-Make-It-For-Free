@@ -127,10 +127,10 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           };
         }
 
-        return {
+        return 
           passed: false,
           message: 'Player management failed',
-          data: { results: [result1, result2, result3], playerCount: players.size }
+          data: { results: [result1, result2, result3], playerCount: size: players.size}
         };
       },
 
@@ -237,10 +237,10 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           };
         }
 
-        return {
+        return 
           passed: false,
           message: 'Voting system failed',
-          data: { voteResult, voteCount: votes.length }
+          data: { voteResult, voteCount: length: votes.length}
         };
       },
 
@@ -335,10 +335,10 @@ function createEdgeCaseSuite(): GoldenTestSuite {
           };
         }
 
-        return {
+        return 
           passed: false,
           message: 'Maximum player limit failed',
-          data: { playerCount: players.size }
+          data: { playerCount: size: players.size}
         };
       },
 
@@ -626,8 +626,8 @@ function createIntegrationSuite(): GoldenTestSuite {
   };
 }
 
-async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
-  console.log(`\n🔬 Running ${suite.name} tests...`);
+async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> 
+  console.log(`\n🔬 Running ${name: suite.name} tests...`);
 
   if (suite.setup) {
     await suite.setup();
@@ -644,17 +644,17 @@ async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
       result.duration = performance.now() - startTime;
 
       if (result.passed) {
-        console.log(`   ✅ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
+        console.log(`   ✅ Test ${i + 1}: $message: result.message} (${result.duration.toFixed(2)}ms)`);
       } else {
-        console.log(`   ❌ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
+        console.log(`   ❌ Test ${i + 1}: $message: result.message} (${result.duration.toFixed(2)}ms)`);
       }
 
       results.push(result);
     } catch (error: unknown) {
-      console.log(`   💥 Test ${i + 1}: Exception thrown - ${error.message}`);
-      results.push({
+      console.log(`   💥 Test ${i + 1}: Exception thrown - $message: error.message}`);
+      results.push(
         passed: false,
-        message: `Exception: ${error.message}`,
+        message: `Exception: ${message: error.message}`,
         duration: performance.now() - startTime
       });
     }

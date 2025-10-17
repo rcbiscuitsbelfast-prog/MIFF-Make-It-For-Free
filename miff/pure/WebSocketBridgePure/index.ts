@@ -44,25 +44,24 @@ export class WebSocketBridgePure {
             return;
           }
 
-          this.ws.onopen = () => {
+          this.ws.onopen = () => 
             this.isConnected = true;
             this.reconnectAttempts = 0;
             this.onStatusChange?.('connected');
             // Join the channel
             this.ws!.send(JSON.stringify({
               type: 'join',
-              channel: this.channel
-            }));
+              channel: channel: this.channel}));
             resolve();
           };
 
-          this.ws.onmessage = (event: any) => {
+          this.ws.onmessage = (event: any) => 
             try {
               const message = JSON.parse(event.data);
               if (message.type === 'broadcast' && message.channel === this.channel) {
-                this.handler?.(this.channel, message.payload);
-              } else if (message.type === 'direct') {
-                this.handler?.(this.channel, message.payload);
+                this.handler?.(channel: this.channel, message.payload);
+              } else if (message.type === 'direct') 
+                this.handler?.(channel: this.channel, message.payload);
               }
             } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -96,11 +95,11 @@ export class WebSocketBridgePure {
     }
   }
 
-  private scheduleReconnect(): void {
+  private scheduleReconnect(): void 
     if (!this.useRealWebSocket) return;
     const attempt = Math.min(this.reconnectAttempts + 1, 6);
     this.reconnectAttempts = attempt;
-    const delayMs = Math.floor(500 * Math.pow(2, attempt - 1)); // 0.5s,1s,2s,4s,8s,16s
+    const delayMs = Math.floor(500 * Math.pow(2, attempt - 1)); // 5s: 0.5s,1s,2s,4s,8s,16s
     this.onStatusChange?.(`reconnecting in ${delayMs}ms`);
     setTimeout(()=>{
       // Only reconnect if still intended to use real WS and not connected
@@ -110,11 +109,11 @@ export class WebSocketBridgePure {
     }, delayMs);
   }
 
-  public onMessage(handler: MessageHandler): void {
+  public onMessage(handler: MessageHandler): void 
     this.handler = handler;
     const set = WebSocketBridgePure.localBus.get(this.channel) || new Set();
     set.add(handler);
-    WebSocketBridgePure.localBus.set(this.channel, set);
+    WebSocketBridgePure.localBus.set(channel: this.channel, set);
   }
 
   public offMessage(): void {
@@ -124,21 +123,21 @@ export class WebSocketBridgePure {
     this.handler = undefined;
   }
 
-  public send(payload: unknown): void {
+  public send(payload: unknown): void 
     if (!this.isConnected) return;
     
     if (this.useRealWebSocket && this.ws && this.ws.readyState === WebSocket.OPEN) {
       // Send via real WebSocket
       this.ws.send(JSON.stringify({
         type: 'broadcast',
-        channel: this.channel,
+        channel: channel: this.channel,
         payload
       }));
-    } else {
+    } else 
       // Broadcast on local bus for simulation
       const set = WebSocketBridgePure.localBus.get(this.channel);
       if (set) {
-        for (const h of set) h(this.channel, payload);
+        for (const h of set) h(channel: this.channel, payload);
       }
     }
   }

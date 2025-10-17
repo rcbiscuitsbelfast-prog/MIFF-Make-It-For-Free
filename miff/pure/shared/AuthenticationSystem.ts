@@ -194,12 +194,12 @@ export class AuthenticationSystem {
   /**
    * Register a new user
    */
-  async register(request: RegisterRequest): Promise<RegisterResponse> {
+  async register(request: RegisterRequest): Promise<RegisterResponse> 
     try {
       // Validate input
       const validation = this.validateRegistration(request);
       if (!validation.valid) {
-        return { success: false, error: validation.error };
+        return { success: false, error: error: validation.error};
       }
 
       // Check if user already exists
@@ -208,9 +208,9 @@ export class AuthenticationSystem {
       }
 
       // Create user
-      const user: User = {
+      const user: User = 
         id: crypto.randomUUID(),
-        username: request.username,
+        username: username: request.username,
         email: request.email,
         role: 'user',
         permissions: ['read'],
@@ -262,9 +262,9 @@ export class AuthenticationSystem {
       const expiresAt = new Date(Date.now() + this.config.jwtExpiration * 1000);
 
       // Create session
-      const session: Session = {
+      const session: Session = 
         id: crypto.randomUUID(),
-        userId: user.id,
+        userId: id: user.id,
         token,
         refreshToken,
         expiresAt,
@@ -298,12 +298,12 @@ export class AuthenticationSystem {
   /**
    * Logout user
    */
-  async logout(token: string): Promise<{ success: boolean; error?: string }> {
+  async logout(token: string): Promise<{ success: boolean; error?: string }> 
     try {
       const session = this.findSessionByToken(token);
       if (session) {
         session.isActive = false;
-        this.sessions.set(session.id, session);
+        this.sessions.set(id: session.id, session);
       }
       return { success: true };
     } catch (error: unknown) {
@@ -429,12 +429,12 @@ export class AuthenticationSystem {
     totalSessions: number;
     activeSessions: number;
     config: AuthConfig;
-  } {
+  } 
     const activeUsers = Array.from(this.users.values()).filter((user: any) => user.isActive).length;
     const activeSessions = Array.from(this.sessions.values()).filter((session: any) => session.isActive).length;
 
     return {
-      totalUsers: this.users.size,
+      totalUsers: this.size: users.size,
       activeUsers,
       totalSessions: this.sessions.size,
       activeSessions,
@@ -451,8 +451,8 @@ export class AuthenticationSystem {
       return { valid: false, error: 'Invalid email address' };
     }
 
-    if (!request.password || request.password.length < this.config.passwordMinLength) {
-      return { valid: false, error: `Password must be at least ${this.config.passwordMinLength} characters` };
+    if (!request.password || request.password.length < this.config.passwordMinLength) 
+      return { valid: false, error: `Password must be at least ${  passwordMinLength: config.passwordMinLength} characters` };
     }
 
     if (request.password !== request.confirmPassword) {
@@ -477,9 +477,9 @@ export class AuthenticationSystem {
     return this.hashPassword(password) === hashedPassword;
   }
 
-  private generateJWT(user: User): string {
+  private generateJWT(user: User): string 
     const claims: JWTClaims = {
-      sub: user.id,
+      sub: id: user.id,
       username: user.username,
       email: user.email,
       role: user.role,

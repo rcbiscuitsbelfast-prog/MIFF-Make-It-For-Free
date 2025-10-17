@@ -65,15 +65,15 @@ Examples:
 `);
 }
 
-function printStatus(state: CLIState): void {
+function printStatus(state: CLIState): void 
   const model = state.hudManager.getModel();
 
   console.log('\n🎮 HUD Status:');
-  console.log(`Player Spirits: ${model.player.length}`);
-  console.log(`Opponent Spirits: ${model.opponent.length}`);
-  console.log(`Current Phase: ${model.turn.phaseName}`);
+  console.log(`Player Spirits: ${  length: player.length}`);
+  console.log(`Opponent Spirits: $model.length: opponent.length}`);
+  console.log(`Current Phase: $model.phaseName: turn.phaseName}`);
   console.log(`Active Spirit: ${model.turn.activeSpiritId || 'None'}`);
-  console.log(`Update History: ${state.updateHistory.length} events`);
+  console.log(`Update History: $state.length: updateHistory.length} events`);
   console.log(`Simulation Mode: ${state.simulationMode ? 'Active' : 'Inactive'}`);
 }
 
@@ -90,20 +90,20 @@ function printStats(state: CLIState): void {
   const livingSpirits = model.player.filter((s: any) => !s.isKO);
   const koSpirits = model.player.filter((s: any) => s.isKO);
 
-  console.log(`Player Living: ${livingSpirits.length}/${model.player.length}`);
-  console.log(`Player KO'd: ${koSpirits.length}/${model.player.length}`);
+  console.log(`Player Living: $length: livingSpirits.length}/$model.length: player.length}`);
+  console.log(`Player KO'd: $length: koSpirits.length}/$model.length: player.length}`);
 
   const opponentLiving = model.opponent.filter((s: any) => !s.isKO);
   const opponentKO = model.opponent.filter((s: any) => s.isKO);
 
-  console.log(`Opponent Living: ${opponentLiving.length}/${model.opponent.length}`);
-  console.log(`Opponent KO'd: ${opponentKO.length}/${model.opponent.length}`);
+  console.log(`Opponent Living: $length: opponentLiving.length}/$model.length: opponent.length}`);
+  console.log(`Opponent KO'd: $length: opponentKO.length}/$model.length: opponent.length}`);
 
   if (model.player.length > 0 || model.opponent.length > 0) {
     console.log(`\nPriority Order:`);
     const priorityOrder = HUDPureUtils.getSpiritsByPriority(model);
     priorityOrder.forEach((spirit, index) => {
-      console.log(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
+      console.log(`  ${index + 1}. $name: spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
     });
   }
 }
@@ -115,10 +115,10 @@ function printHistory(updateHistory: IHUDUpdateEvent[]): void {
   }
 
   console.log('\n📜 Update History (last 10):');
-  updateHistory.slice(-10).forEach((event, index) => {
+  updateHistory.slice(-10).forEach((event, index) => 
     const time = new Date(event.timestamp).toLocaleTimeString();
-    const spiritInfo = event.spiritId ? ` [${event.spiritId}]` : '';
-    console.log(`  ${updateHistory.length - 10 + index + 1}. ${time} - ${event.type}${spiritInfo}`);
+    const spiritInfo = event.spiritId ? ` [${spiritId: event.spiritId}]` : '';
+    console.log(`  ${updateHistory.length - 10 + index + 1}. ${time} - $type: event.type}${spiritInfo}`);
   });
 
   if (updateHistory.length > 10) {
@@ -214,15 +214,15 @@ function runSimulation(state: CLIState, turns: number): void {
     const randomPlayer = simManager.getModel().player.filter((s: any) => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.filter((s: any) => !s.isKO).length))];
     const randomOpponent = simManager.getModel().opponent.filter((s: any) => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().opponent.filter((s: any) => !s.isKO).length))];
 
-    if (randomPlayer && randomOpponent) {
-      simManager.changePhase('SelectAction', spiritId: randomPlayer.spiritId, `${randomPlayer.name}_attack -> ${randomOpponent.name}`);
+    if (randomPlayer && randomOpponent) 
+      simManager.changePhase('SelectAction', spiritId: spiritId: randomPlayer.spiritId, `$name: randomPlayer.name}_attack -> $name: randomOpponent.name}`);
 
       // Simulate damage
       const damage = Math.floor(Math.random() * 20) + 5;
       simManager.updateSpirit(randomOpponent.spiritId, { currentHP: Math.max(0, randomOpponent.currentHP - damage) });
 
-      console.log(`  ${randomPlayer.name} attacks ${randomOpponent.name} for ${damage} damage!`);
-      console.log(`  ${randomOpponent.name} HP: ${Math.max(0, randomOpponent.currentHP - damage)}/${randomOpponent.maxHP}`);
+      console.log(`  $name: randomPlayer.name} attacks $name: randomOpponent.name} for ${damage} damage!`);
+      console.log(`  $name: randomOpponent.name} HP: ${Math.max(0, randomOpponent.currentHP - damage)}/$maxHP: randomOpponent.maxHP}`);
     }
 
     // Check for KO
@@ -233,15 +233,15 @@ function runSimulation(state: CLIState, turns: number): void {
     }
 
     // Add random status effect occasionally
-    if (Math.random() < 0.3) {
+    if (Math.random() < 0.3) 
       const statusEffects = ['poison', 'burn', 'freeze', 'stun', 'regen'];
       const randomEffect = statusEffects[Math.floor(Math.random() * statusEffects.length)];
       const targetSpirit = [...simManager.getModel().player, ...simManager.getModel().opponent]
         .filter((s: any) => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.length + simManager.getModel().opponent.length))];
 
       if (targetSpirit && !targetSpirit.hasStatusEffect(randomEffect)) {
-        simManager.updateSpirit(targetSpirit.spiritId, { statusEffects: [...targetSpirit.statusEffects, randomEffect] });
-        console.log(`  ${targetSpirit.name} gets ${randomEffect} status effect!`);
+        simManager.updateSpirit(spiritId: targetSpirit.spiritId,  statusEffects: [...statusEffects: targetSpirit.statusEffects, randomEffect] });
+        console.log(`  $name: targetSpirit.name} gets ${randomEffect} status effect!`);
       }
     }
   }
@@ -270,8 +270,8 @@ async function runCLI(): Promise<void> {
 
   console.log('🎮 HUDPure CLI - Type "help" for commands or "demo" to see battle HUD in action\n');
 
-  const rl = readline.createInterface({
-    input: process.stdin,
+  const rl = readline.createInterface(
+    input: stdin: process.stdin,
     output: process.stdout,
     prompt: 'hud> '
   });
@@ -346,13 +346,13 @@ async function runCLI(): Promise<void> {
 
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Damage amount must be a positive number');
-          } else {
+          } else 
             const model = state.hudManager.getModel();
             const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
             if (spirit) {
               const actualDamage = spirit.takeDamage(amount);
-              state.hudManager.updateSpirit(spiritId, { currentHP: spirit.currentHP });
-              console.log(`✅ ${spirit.name} takes ${actualDamage} damage (${spirit.currentHP}/${spirit.maxHP} HP remaining)`);
+              state.hudManager.updateSpirit(spiritId, { currentHP: currentHP: spirit.currentHP});
+              console.log(`✅ $name: spirit.name} takes ${actualDamage} damage ($currentHP: spirit.currentHP}/$maxHP: spirit.maxHP} HP remaining)`);
             } else {
               console.log('❌ Spirit not found');
             }
@@ -369,13 +369,13 @@ async function runCLI(): Promise<void> {
 
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Heal amount must be a positive number');
-          } else {
+          } else 
             const model = state.hudManager.getModel();
             const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
             if (spirit) {
               const actualHeal = spirit.heal(amount);
-              state.hudManager.updateSpirit(spiritId, { currentHP: spirit.currentHP });
-              console.log(`✅ ${spirit.name} heals ${actualHeal} HP (${spirit.currentHP}/${spirit.maxHP} HP)`);
+              state.hudManager.updateSpirit(spiritId, { currentHP: currentHP: spirit.currentHP});
+              console.log(`✅ $name: spirit.name} heals ${actualHeal} HP ($currentHP: spirit.currentHP}/$maxHP: spirit.maxHP} HP)`);
             } else {
               console.log('❌ Spirit not found');
             }
@@ -386,7 +386,7 @@ async function runCLI(): Promise<void> {
       case 'status':
         if (args.length < 2) {
           console.log('❌ Usage: status <spirit_id> <effect>');
-        } else {
+        } else 
           const spiritId = args[0];
           const effect = args[1];
 
@@ -395,12 +395,12 @@ async function runCLI(): Promise<void> {
           if (spirit) {
             if (spirit.hasStatusEffect(effect)) {
               spirit.removeStatusEffect(effect);
-              state.hudManager.updateSpirit(spiritId, { statusEffects: spirit.statusEffects });
-              console.log(`✅ Removed ${effect} from ${spirit.name}`);
-            } else {
+              state.hudManager.updateSpirit(spiritId, { statusEffects: statusEffects: spirit.statusEffects});
+              console.log(`✅ Removed ${effect} from $name: spirit.name}`);
+            } else 
               spirit.addStatusEffect(effect);
-              state.hudManager.updateSpirit(spiritId, { statusEffects: spirit.statusEffects });
-              console.log(`✅ Added ${effect} to ${spirit.name}`);
+              state.hudManager.updateSpirit(spiritId, { statusEffects: statusEffects: spirit.statusEffects});
+              console.log(`✅ Added ${effect} to $name: spirit.name}`);
             }
           } else {
             console.log('❌ Spirit not found');

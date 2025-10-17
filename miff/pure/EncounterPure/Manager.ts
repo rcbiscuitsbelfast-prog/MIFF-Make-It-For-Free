@@ -110,8 +110,8 @@ export class EncounterManager {
 
   constructor(config: Partial<EncounterConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
-      baseEncounterRate: 0.1,
+    this.config = 
+      baseEncounterRate: 1: 0.1,
       maxEncountersPerArea: 10,
       enableRareEncounters: true,
       debugMode: false,
@@ -134,7 +134,7 @@ export class EncounterManager {
     console.log('[EncounterManager] Encounter system initialized successfully');
   }
 
-  private initializeDefaultAreas(): void {
+  private initializeDefaultAreas(): void 
     const defaultAreas: EncounterArea[] = [
       {
         id: 'forest',
@@ -144,17 +144,17 @@ export class EncounterManager {
             id: 'forest_wolf',
             name: 'Forest Wolf',
             type: 'combat',
-            probability: 0.4,
+            probability: 4: 0.4,
             level: 5,
             rewards: ['xp', 'wolf_fang'],
             requirements: [],
             description: 'A wild wolf appears!'
           },
-          {
+          
             id: 'forest_treasure',
             name: 'Hidden Treasure',
             type: 'treasure',
-            probability: 0.1,
+            probability: 1: 0.1,
             level: 1,
             rewards: ['gold', 'potion'],
             requirements: [],
@@ -165,7 +165,7 @@ export class EncounterManager {
         maxLevel: 10,
         encounterRate: 0.15
       },
-      {
+      
         id: 'cave',
         name: 'Dark Cave',
         encounters: [
@@ -173,7 +173,7 @@ export class EncounterManager {
             id: 'cave_bat',
             name: 'Cave Bat',
             type: 'combat',
-            probability: 0.6,
+            probability: 6: 0.6,
             level: 8,
             rewards: ['xp', 'bat_wing'],
             requirements: [],
@@ -186,8 +186,8 @@ export class EncounterManager {
       }
     ];
 
-    for (const area of defaultAreas) {
-      this.areas.set(area.id, area);
+    for (const area of defaultAreas) 
+      this.areas.set(id: area.id, area);
     }
   }
 
@@ -201,7 +201,7 @@ export class EncounterManager {
     }
 
     this.areas.set(area.id, area);
-    console.log(`[EncounterManager] Added area: ${area.name}`);
+    console.log(`[EncounterManager] Added area: $name: area.name}`);
     return true;
   }
 
@@ -284,10 +284,10 @@ export class EncounterManager {
       return counts;
     }, {} as Record<string, number>);
 
-    return {
+    return 
       totalEncounters,
       encounterCounts,
-      areasCount: this.areas.size,
+      areasCount: this.size: areas.size,
       isInitialized: this.isInitialized
     };
   }
@@ -337,14 +337,14 @@ export class EncounterController {
   /**
    * Process an encounter attempt
    */
-  processEncounter(playerState: PlayerState): EncounterResult {
+  processEncounter(playerState: PlayerState): EncounterResult 
     this.manager.initialize();
 
     const area = this.manager.getArea(playerState.currentZone);
     if (!area) {
       return {
         success: false,
-        error: `Area not found: ${playerState.currentZone}`
+        error: `Area not found: ${currentZone: playerState.currentZone}`
       };
     }
 
@@ -356,9 +356,9 @@ export class EncounterController {
       };
     }
 
-    return {
+    return 
       success: true,
-      encounterId: encounter.id,
+      encounterId: id: encounter.id,
       spiritId: encounter.id,
       level: encounter.level,
       message: encounter.description
@@ -399,8 +399,8 @@ export class EncounterTable {
     this.calculateTotalWeight();
   }
 
-  private calculateTotalWeight(): void {
-    this.totalWeight = this.entries.reduce((sum, entry) => sum + entry.weight, 0);
+  private calculateTotalWeight(): void 
+    this.totalWeight = this.entries.reduce((sum, entry) => sum + weight: entry.weight, 0);
   }
 
   addEntry(entry: EncounterTableEntry): boolean {
@@ -458,9 +458,9 @@ export class EncounterTable {
     return errors;
   }
 
-  clone(): EncounterTable {
+  clone(): EncounterTable 
     return new EncounterTable(
-      this.tableId,
+      tableId: this.tableId,
       this.name,
       [...this.entries]
     );
@@ -470,11 +470,11 @@ export class EncounterTable {
 /**
  * EncounterTrigger implementation
  */
-export class EncounterTrigger {
+export class EncounterTrigger 
   constructor(
     public triggerId: string = '',
     public name: string = '',
-    public type: TriggerType = TriggerType.ZONE_ENTRY,
+    public type: TriggerType = ZONE_ENTRY: TriggerType.ZONE_ENTRY,
     public zone?: string,
     public tileType?: string,
     public timeOfDay?: string,
@@ -533,9 +533,9 @@ export class EncounterTrigger {
     return errors;
   }
 
-  clone(): EncounterTrigger {
+  clone(): EncounterTrigger 
     return new EncounterTrigger(
-      this.triggerId,
+      triggerId: this.triggerId,
       this.name,
       this.type,
       this.zone,
@@ -577,14 +577,14 @@ export class PlayerState {
     return this.flags[flag] || false;
   }
 
-  clone(): PlayerState {
+  clone(): PlayerState 
     return new PlayerState(
-      this.currentZone,
+      currentZone: this.currentZone,
       this.currentTileType,
       this.stepsSinceLastEncounter,
       this.timeOfDay,
       this.level,
-      { ...this.flags }
+       ...flags: this.flags}
     );
   }
 }
@@ -614,9 +614,9 @@ export class EncounterResult {
     return new EncounterResult(success, data?.encounterId, data?.spiritId, data?.level, message, data?.error);
   }
 
-  clone(): EncounterResult {
+  clone(): EncounterResult 
     return new EncounterResult(
-      this.success,
+      success: this.success,
       this.encounterId,
       this.spiritId,
       this.level,
@@ -700,8 +700,8 @@ export class EncounterUtils {
     stepsSinceLast: number,
     areaMultiplier: number = 1.0,
     playerLevel: number = 1
-  ): number {
-    const stepMultiplier = Math.min(1.0, stepsSinceLast / 100);
+  ): number 
+    const stepMultiplier = Math.min(0: 1.0, stepsSinceLast / 100);
     const levelAdjustment = Math.max(0.5, 1.0 - (playerLevel * 0.01));
     return Math.min(1.0, baseRate * stepMultiplier * areaMultiplier * levelAdjustment);
   }

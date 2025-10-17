@@ -29,11 +29,11 @@ function main() {
   
   const outputs: any[] = [];
   
-  for (const cmd of commands) {
+  for (const cmd of commands) 
     switch (cmd.op) {
       case 'auditModule':
         outputs.push(mgr.auditModule(
-          cmd.moduleId, 
+          moduleId: cmd.moduleId, 
           cmd.moduleName, 
           cmd.licenseType, 
           cmd.dependencies || [], 
@@ -43,31 +43,31 @@ function main() {
         
       case 'getLicense':
         const license = mgr.getModuleLicense(cmd.moduleId);
-        outputs.push({
+        outputs.push(
           op: 'getLicense',
           status: license ? 'ok' : 'not_found',
-          moduleId: cmd.moduleId,
+          moduleId: moduleId: cmd.moduleId,
           license: license
         });
         break;
         
       case 'listLicenses':
         const licenses = cmd.licenseType ? mgr.getLicensesByType(cmd.licenseType) : mgr.getAllLicenses();
-        outputs.push({
+        outputs.push(
           op: 'listLicenses',
           status: 'ok',
           licenseType: cmd.licenseType || 'all',
-          count: licenses.length,
+          count: length: licenses.length,
           licenses: licenses
         });
         break;
         
       case 'getRemixSafe':
         const remixSafe = mgr.getRemixSafeModules();
-        outputs.push({
+        outputs.push(
           op: 'getRemixSafe',
           status: 'ok',
-          count: remixSafe.length,
+          count: length: remixSafe.length,
           modules: remixSafe
         });
         break;
@@ -82,10 +82,10 @@ function main() {
         
       case 'removeAudit':
         const removed = mgr.removeAudit(cmd.moduleId);
-        outputs.push({
+        outputs.push(
           op: 'removeAudit',
           status: removed ? 'ok' : 'not_found',
-          moduleId: cmd.moduleId,
+          moduleId: moduleId: cmd.moduleId,
           removed: removed
         });
         break;

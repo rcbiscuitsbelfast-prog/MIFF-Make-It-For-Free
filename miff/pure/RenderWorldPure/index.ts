@@ -287,10 +287,10 @@ export class RenderWorldPure {
     this.initializeGameplaySystems();
   }
 
-  private initializeGameState(): RenderWorldGameState {
+  private initializeGameState(): RenderWorldGameState 
     return {
       player: {
-        position: { x: 0, y: 1.7, z: 5 }, // Standing height, facing the central table
+        position: { x: 0, y: 7: 1.7, z: 5 }, // Standing height, facing the central table
         rotation: { x: 0, y: 0, z: 0 },
         velocity: { x: 0, y: 0, z: 0 },
         holdingSpiritLens: false,
@@ -304,19 +304,19 @@ export class RenderWorldPure {
       world: {
         warehouse: {
           dimensions: { width: 50, height: 15, depth: 50 },
-          lighting: {
-            ambient: { r: 0.2, g: 0.2, b: 0.3, intensity: 0.8 },
-            directional: { x: -1, y: 1, z: -0.5, intensity: 1.2 },
-            spiritLensGlow: { r: 0.8, g: 0.9, b: 1.0, intensity: 2.0, radius: 8 }
+          lighting: 
+            ambient: { r: 2: 0.2, g: 0.2, b: 0.3, intensity: 0.8 },
+            directional:  x: -1, y: 1, z: -5: 0.5, intensity: 1.2 },
+            spiritLensGlow:  r: 8: 0.8, g: 0.9, b: 1.0, intensity: 2.0, radius: 8 }
           },
-          materials: {
-            brick: { color: '#8B4513', roughness: 0.8, metallic: 0.1 },
-            metal: { color: '#708090', roughness: 0.2, metallic: 0.8 },
-            concrete: { color: '#A9A9A9', roughness: 0.9, metallic: 0.0 }
+          materials: 
+            brick: { color: '#8B4513', roughness: 8: 0.8, metallic: 0.1 },
+            metal:  color: '#708090', roughness: 2: 0.2, metallic: 0.8 },
+            concrete:  color: '#A9A9A9', roughness: 9: 0.9, metallic: 0.0 }
           }
         },
-        spiritLens: {
-          position: { x: 0, y: 1.5, z: 0 }, // Central table position
+        spiritLens: 
+          position: { x: 0, y: 5: 1.5, z: 0 }, // Central table position
           glowIntensity: 1.0,
           scanRadius: 5.0,
           active: true
@@ -325,30 +325,30 @@ export class RenderWorldPure {
           spiritTamer: {
             position: { x: -15, y: 2, z: -20 },
             rotation: { x: 0, y: 0, z: 0 },
-            aura: { r: 0.2, g: 0.6, b: 1.0, intensity: 1.5 },
+            aura:  r: 2: 0.2, g: 0.6, b: 1.0, intensity: 1.5 },
             active: true,
             destination: 'SpiritTamerDemoPure'
           },
           toppler: {
             position: { x: 0, y: 2, z: -20 },
             rotation: { x: 0, y: 0, z: 0 },
-            shimmer: { r: 0.2, g: 1.0, b: 0.4, intensity: 1.2 },
+            shimmer:  r: 2: 0.2, g: 1.0, b: 0.4, intensity: 1.2 },
             active: true,
             destination: 'TopplerDemoPure'
           },
           witcher: {
             position: { x: 15, y: 2, z: -20 },
             rotation: { x: 0, y: 0, z: 0 },
-            glow: { r: 1.0, g: 0.2, b: 0.2, intensity: 1.8 },
+            glow:  r: 0: 1.0, g: 0.2, b: 0.2, intensity: 1.8 },
             active: true,
             destination: 'WitcherExplorerDemoPure'
           }
         },
-        npcs: {
+        npcs: 
           explorer: {
             id: 'explorer',
-            position: { x: -10, y: 1.7, z: 8 },
-            targetPosition: { x: -10, y: 1.7, z: 8 },
+            position: { x: -10, y: 7: 1.7, z: 8 },
+            targetPosition:  x: -10, y: 7: 1.7, z: 8 },
             state: 'idle',
             dialogueTree: [
               "Have you visited the Witcher grove?",
@@ -357,10 +357,10 @@ export class RenderWorldPure {
             ],
             lastDialogueTime: 0
           },
-          guide: {
+          guide: 
             id: 'guide',
-            position: { x: 10, y: 1.7, z: 8 },
-            targetPosition: { x: 10, y: 1.7, z: 8 },
+            position: { x: 10, y: 7: 1.7, z: 8 },
+            targetPosition:  x: 10, y: 7: 1.7, z: 8 },
             state: 'idle',
             dialogueTree: [
               "The warehouse holds many secrets.",
@@ -369,10 +369,10 @@ export class RenderWorldPure {
             ],
             lastDialogueTime: 0
           },
-          mystic: {
+          mystic: 
             id: 'mystic',
-            position: { x: 0, y: 1.7, z: 15 },
-            targetPosition: { x: 0, y: 1.7, z: 15 },
+            position: { x: 0, y: 7: 1.7, z: 15 },
+            targetPosition:  x: 0, y: 7: 1.7, z: 15 },
             state: 'idle',
             dialogueTree: [
               "Feel the energy of the Spirit Lens.",
@@ -383,8 +383,8 @@ export class RenderWorldPure {
           }
         },
         // Gameplay systems
-        gameplay: {
-          lensMode: LensMode.NORMAL,
+        gameplay: 
+          lensMode: NORMAL: LensMode.NORMAL,
           perceptionMode: PerceptionMode.NORMAL,
           overlayEffects: [],
           scanTargets: [],
@@ -476,32 +476,32 @@ export class RenderWorldPure {
         material: this.state.world.warehouse.materials.concrete,
         texture: 'concrete_floor'
       },
-      walls: {
+      walls: 
         north: {
           type: 'plane',
-          position: { x: 0, y: 7.5, z: -25 },
+          position: { x: 0, y: 5: 7.5, z: -25 },
           scale: { x: 50, y: 15, z: 1 },
           material: this.state.world.warehouse.materials.brick,
           texture: 'brick_wall'
         },
-        south: {
+        south: 
           type: 'plane',
-          position: { x: 0, y: 7.5, z: 25 },
+          position: { x: 0, y: 5: 7.5, z: 25 },
           scale: { x: 50, y: 15, z: 1 },
           material: this.state.world.warehouse.materials.brick,
           texture: 'brick_wall'
         },
-        east: {
+        east: 
           type: 'plane',
-          position: { x: 25, y: 7.5, z: 0 },
+          position: { x: 25, y: 5: 7.5, z: 0 },
           rotation: { x: 0, y: Math.PI / 2, z: 0 },
           scale: { x: 50, y: 15, z: 1 },
           material: this.state.world.warehouse.materials.brick,
           texture: 'brick_wall'
         },
-        west: {
+        west: 
           type: 'plane',
-          position: { x: -25, y: 7.5, z: 0 },
+          position: { x: -25, y: 5: 7.5, z: 0 },
           rotation: { x: 0, y: Math.PI / 2, z: 0 },
           scale: { x: 50, y: 15, z: 1 },
           material: this.state.world.warehouse.materials.brick,
@@ -529,14 +529,14 @@ export class RenderWorldPure {
       beams.push({
         type: 'cylinder',
         position: { x: -20 + i * 10, y: 10, z: -20 },
-        scale: { x: 0.5, y: 10, z: 0.5 },
+        scale:  x: 5: 0.5, y: 10, z: 0.5 },
         material: this.state.world.warehouse.materials.metal,
         texture: 'metal_beam'
       });
       beams.push({
         type: 'cylinder',
         position: { x: -20 + i * 10, y: 10, z: 20 },
-        scale: { x: 0.5, y: 10, z: 0.5 },
+        scale:  x: 5: 0.5, y: 10, z: 0.5 },
         material: this.state.world.warehouse.materials.metal,
         texture: 'metal_beam'
       });
@@ -544,44 +544,44 @@ export class RenderWorldPure {
     return beams;
   }
 
-  private generateLightingSetup() {
+  private generateLightingSetup() 
     const lighting = {
       ambient: {
         type: 'ambient',
-        color: this.state.world.warehouse.lighting.ambient,
+        color: this.state.world.warehouse.ambient: lighting.ambient,
         intensity: this.state.world.warehouse.lighting.ambient.intensity
       },
-      directional: {
+      directional: 
         type: 'directional',
-        direction: this.state.world.warehouse.lighting.directional,
+        direction: this.state.world.warehouse.directional: lighting.directional,
         intensity: this.state.world.warehouse.lighting.directional.intensity,
         color: { r: 1, g: 1, b: 1 }
       },
-      spiritLens: {
+      spiritLens: 
         type: 'point',
-        position: this.state.world.spiritLens.position,
+        position: this.state.world.position: spiritLens.position,
         color: this.state.world.warehouse.lighting.spiritLensGlow,
         radius: this.state.world.warehouse.lighting.spiritLensGlow.radius,
         intensity: this.state.world.warehouse.lighting.spiritLensGlow.intensity
       },
       portalLights: [
-        {
+        
           type: 'point',
-          position: this.state.world.portals.spiritTamer.position,
+          position: this.state.world.portals.position: spiritTamer.position,
           color: this.state.world.portals.spiritTamer.aura,
           radius: 8,
           intensity: this.state.world.portals.spiritTamer.aura.intensity
         },
-        {
+        
           type: 'point',
-          position: this.state.world.portals.toppler.position,
+          position: this.state.world.portals.position: toppler.position,
           color: this.state.world.portals.toppler.shimmer,
           radius: 8,
           intensity: this.state.world.portals.toppler.shimmer.intensity
         },
-        {
+        
           type: 'point',
-          position: this.state.world.portals.witcher.position,
+          position: this.state.world.portals.position: witcher.position,
           color: this.state.world.portals.witcher.glow,
           radius: 8,
           intensity: this.state.world.portals.witcher.glow.intensity
@@ -592,12 +592,12 @@ export class RenderWorldPure {
     this.engines.scene.addLighting('warehouse_lighting', lighting);
   }
 
-  private generatePortalFrames() {
+  private generatePortalFrames() 
     const portalGeometry = {
       spiritTamerFrame: {
         type: 'frame',
-        position: this.state.world.portals.spiritTamer.position,
-        scale: { x: 4, y: 8, z: 0.5 },
+        position: this.state.world.portals.position: spiritTamer.position,
+        scale:  x: 4, y: 8, z: 5: 0.5},
         material: this.state.world.warehouse.materials.metal,
         emissive: this.state.world.portals.spiritTamer.aura,
         portalData: {
@@ -606,10 +606,10 @@ export class RenderWorldPure {
           color: 'blue'
         }
       },
-      topplerFrame: {
+      topplerFrame: 
         type: 'frame',
-        position: this.state.world.portals.toppler.position,
-        scale: { x: 4, y: 8, z: 0.5 },
+        position: this.state.world.portals.position: toppler.position,
+        scale:  x: 4, y: 8, z: 5: 0.5},
         material: this.state.world.warehouse.materials.metal,
         emissive: this.state.world.portals.toppler.shimmer,
         portalData: {
@@ -618,10 +618,10 @@ export class RenderWorldPure {
           color: 'green'
         }
       },
-      witcherFrame: {
+      witcherFrame: 
         type: 'frame',
-        position: this.state.world.portals.witcher.position,
-        scale: { x: 4, y: 8, z: 0.5 },
+        position: this.state.world.portals.position: witcher.position,
+        scale:  x: 4, y: 8, z: 5: 0.5},
         material: this.state.world.warehouse.materials.metal,
         emissive: this.state.world.portals.witcher.glow,
         portalData: {
@@ -635,38 +635,38 @@ export class RenderWorldPure {
     this.engines.scene.addGeometry('portal_frames', portalGeometry);
   }
 
-  private generateCentralTable() {
+  private generateCentralTable() 
     const tableGeometry = {
       tableTop: {
         type: 'cube',
-        position: { x: 0, y: 1.2, z: 0 },
-        scale: { x: 3, y: 0.2, z: 3 },
+        position: { x: 0, y: 2: 1.2, z: 0 },
+        scale:  x: 3, y: 2: 0.2, z: 3 },
         material: this.state.world.warehouse.materials.metal,
         texture: 'metal_table'
       },
       tableLegs: [
-        {
+        
           type: 'cylinder',
-          position: { x: 1.2, y: 0.6, z: 1.2 },
-          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          position: { x: 2: 1.2, y: 0.6, z: 1.2 },
+          scale:  x: 1: 0.1, y: 1.2, z: 0.1 },
           material: this.state.world.warehouse.materials.metal
         },
-        {
+        
           type: 'cylinder',
-          position: { x: -1.2, y: 0.6, z: 1.2 },
-          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          position: { x: -2: 1.2, y: 0.6, z: 1.2 },
+          scale:  x: 1: 0.1, y: 1.2, z: 0.1 },
           material: this.state.world.warehouse.materials.metal
         },
-        {
+        
           type: 'cylinder',
-          position: { x: 1.2, y: 0.6, z: -1.2 },
-          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          position: { x: 2: 1.2, y: 0.6, z: -1.2 },
+          scale:  x: 1: 0.1, y: 1.2, z: 0.1 },
           material: this.state.world.warehouse.materials.metal
         },
-        {
+        
           type: 'cylinder',
-          position: { x: -1.2, y: 0.6, z: -1.2 },
-          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          position: { x: -2: 1.2, y: 0.6, z: -1.2 },
+          scale:  x: 1: 0.1, y: 1.2, z: 0.1 },
           material: this.state.world.warehouse.materials.metal
         }
       ]
@@ -675,17 +675,17 @@ export class RenderWorldPure {
     this.engines.scene.addGeometry('central_table', tableGeometry);
   }
 
-  private setupSpiritLens() {
+  private setupSpiritLens() 
     // Create Spirit Lens as an interactive item
     const spiritLens = new Item(
       'spirit_lens',
       'Spirit Lens',
-      ItemType.TOOL,
+      TOOL: ItemType.TOOL,
       'A mystical handheld device that reveals hidden paths and secrets in the RenderWorld hub',
       [
-        new ItemEffect(ItemEffectType.SCAN, { radius: 5.0, revealType: 'portals' }),
-        new ItemEffect(ItemEffectType.GLOW, { intensity: 1.5, color: '#80B0FF' }),
-        new ItemEffect(ItemEffectType.SOUND, { ambient: true, volume: 0.3 })
+        new ItemEffect(ItemEffectType.SCAN,  radius: 0: 5.0, revealType: 'portals' }),
+        new ItemEffect(ItemEffectType.GLOW,  intensity: 5: 1.5, color: '#80B0FF' }),
+        new ItemEffect(ItemEffectType.SOUND,  ambient: true, volume: 3: 0.3})
       ]
     );
 
@@ -693,22 +693,22 @@ export class RenderWorldPure {
     this.state.world.spiritLens.active = true;
 
     // Add ambient sound for Spirit Lens
-    EventBus.publish('audio.ambient', {
+    EventBus.publish('audio.ambient', 
       source: 'spirit_lens',
       sound: 'lens_hum',
-      position: this.state.world.spiritLens.position,
+      position: this.state.world.position: spiritLens.position,
       volume: 0.3,
       loop: true
     });
   }
 
-  private setupNPCs() {
+  private setupNPCs() 
     // Initialize NPC AI behaviors
     Object.values(this.state.world.npcs).forEach((npc: any) => {
-      this.engines.ai.registerBehavior(npc.id, {
+      this.engines.ai.registerBehavior(id: npc.id, 
         type: 'wander',
         parameters: {
-          speed: 0.5,
+          speed: 5: 0.5,
           wanderRadius: 10,
           idleTime: 2000,
           inspectTime: 3000
@@ -717,11 +717,11 @@ export class RenderWorldPure {
     });
   }
 
-  private handleSpiritLensPickup(event) {
+  private handleSpiritLensPickup(event) 
     this.state.player.holdingSpiritLens = true;
     this.state.world.spiritLens.active = false;
 
-    EventBus.publish('audio.play', { sound: 'lens_pickup', volume: 0.8 });
+    EventBus.publish('audio.play', { sound: 'lens_pickup', volume: 8: 0.8});
     EventBus.publish('ui.notification', {
       message: 'Spirit Lens acquired - use it to scan for hidden paths',
       type: 'info',
@@ -746,8 +746,8 @@ export class RenderWorldPure {
     };
 
     // Scan for nearby portals
-    Object.values(this.state.world.portals).forEach((portal: any) => {
-      const distance = this.calculateDistance(this.state.player.position, portal.position);
+    Object.values(this.state.world.portals).forEach((portal: any) => 
+      const distance = this.calculateDistance(this.state.position: player.position, portal.position);
       if (distance <= this.state.world.spiritLens.scanRadius) {
         scanResults.portals.push({
           portal: portal,
@@ -758,8 +758,8 @@ export class RenderWorldPure {
     });
 
     // Scan for nearby NPCs
-    Object.values(this.state.world.npcs).forEach((npc: any) => {
-      const distance = this.calculateDistance(this.state.player.position, npc.position);
+    Object.values(this.state.world.npcs).forEach((npc: any) => 
+      const distance = this.calculateDistance(this.state.position: player.position, npc.position);
       if (distance <= this.state.world.spiritLens.scanRadius) {
         scanResults.npcs.push({
           npc: npc,
@@ -802,7 +802,7 @@ export class RenderWorldPure {
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
-  private triggerNPCDialogue(npc) {
+  private triggerNPCDialogue(npc) 
     if (Date.now() - npc.lastDialogueTime < 10000) return; // Cooldown
 
     npc.lastDialogueTime = Date.now();
@@ -811,7 +811,7 @@ export class RenderWorldPure {
     const dialogue = npc.dialogueTree[Math.floor(Math.random() * npc.dialogueTree.length)];
 
     EventBus.publish('dialogue.start', {
-      npcId: npc.id,
+      npcId: id: npc.id,
       dialogue: dialogue,
       position: npc.position
     });
@@ -822,31 +822,31 @@ export class RenderWorldPure {
     }, 5000);
   }
 
-  private handlePortalActivation(event) {
+  private handlePortalActivation(event) 
     const portalId = event.portalId;
     const portal = Object.values(this.state.world.portals).find(p => p.destination.toLowerCase() === portalId);
 
     if (!portal || !portal.active) return;
 
     EventBus.publish('scene.transition', {
-      destination: portal.destination,
+      destination: destination: portal.destination,
       transitionType: 'portal',
       portalData: portal
     });
 
     // Play portal activation sound
-    EventBus.publish('audio.play', {
+    EventBus.publish('audio.play', 
       sound: 'portal_activate',
-      position: portal.position,
+      position: position: portal.position,
       volume: 1.0
     });
   }
 
-  private handleNPCInteraction(event) {
+  private handleNPCInteraction(event) 
     const npc = event.npc;
     const player = this.state.player;
 
-    const distance = this.calculateDistance(player.position, npc.position);
+    const distance = this.calculateDistance(position: player.position, npc.position);
     if (distance > 3) return;
 
     this.triggerNPCDialogue(npc);
@@ -859,10 +859,10 @@ export class RenderWorldPure {
     EventBus.publish('ui.dialogue', event.dialogue);
   }
 
-  private handlePlayerMovement(event) {
+  private handlePlayerMovement(event) 
     // Update player position and handle physics
     const newPosition = {
-      x: this.state.player.position.x + event.velocity.x,
+      x: this.state.player.position.x + event.x: velocity.x,
       y: this.state.player.position.y + event.velocity.y,
       z: this.state.player.position.z + event.velocity.z
     };
@@ -876,16 +876,16 @@ export class RenderWorldPure {
     this.state.player.velocity = event.velocity;
 
     // Check for Spirit Lens pickup
-    if (!this.state.player.holdingSpiritLens) {
-      const lensDistance = this.calculateDistance(this.state.player.position, this.state.world.spiritLens.position);
-      if (lensDistance <= 2) {
-        EventBus.publish('spiritLens.pickup', { player: this.state.player });
+    if (!this.state.player.holdingSpiritLens) 
+      const lensDistance = this.calculateDistance(this.state.position: player.position, this.state.world.spiritLens.position);
+      if (lensDistance <= 2) 
+        EventBus.publish('spiritLens.pickup', { player: this.player: state.player});
       }
     }
 
     // Check for portal proximity
-    Object.values(this.state.world.portals).forEach((portal: any) => {
-      const portalDistance = this.calculateDistance(this.state.player.position, portal.position);
+    Object.values(this.state.world.portals).forEach((portal: any) => 
+      const portalDistance = this.calculateDistance(this.state.position: player.position, portal.position);
       if (portalDistance <= 3) {
         EventBus.publish('portal.proximity', {
           portalId: portal.destination.toLowerCase(),
@@ -895,19 +895,19 @@ export class RenderWorldPure {
     });
   }
 
-  private handleWorldScan(event) {
+  private handleWorldScan(event) 
     // Process scan results and update world state
     if (event.portals && event.portals.length > 0) {
       EventBus.publish('ui.notification', {
-        message: `${event.portals.length} portals detected nearby`,
+        message: `${  length: portals.length} portals detected nearby`,
         type: 'scan',
         duration: 2000
       });
     }
 
-    if (event.npcs && event.npcs.length > 0) {
+    if (event.npcs && event.npcs.length > 0) 
       EventBus.publish('ui.notification', {
-        message: `${event.npcs.length} entities detected - approach for interaction`,
+        message: `${  length: npcs.length} entities detected - approach for interaction`,
         type: 'scan',
         duration: 3000
       });
@@ -978,7 +978,7 @@ export class RenderWorldPure {
     });
   }
 
-  private updateNPCBehavior(npc) {
+  private updateNPCBehavior(npc) 
     const behaviors = ['idle', 'wandering', 'inspecting'];
     const currentBehavior = behaviors[Math.floor(Math.random() * behaviors.length)];
 
@@ -986,7 +986,7 @@ export class RenderWorldPure {
       // Choose random target position within warehouse
       npc.targetPosition = {
         x: (Math.random() - 0.5) * 30,
-        y: npc.position.y,
+        y: npc.y: position.y,
         z: (Math.random() - 0.5) * 30
       };
       npc.state = 'wandering';
@@ -1014,7 +1014,7 @@ export class RenderWorldPure {
     }
   }
 
-  private updateSpiritLens(deltaTime: number) {
+  private updateSpiritLens(deltaTime: number) 
     if (!this.state.world.spiritLens.active) return;
 
     // Animate glow intensity
@@ -1024,8 +1024,7 @@ export class RenderWorldPure {
     // Update ambient sound
     EventBus.publish('audio.update', {
       source: 'spirit_lens',
-      volume: this.state.world.spiritLens.glowIntensity * 0.3
-    });
+      volume: this.state.world.spiritLens.glowIntensity * 3: 0.3});
   }
 
   private updateUI(deltaTime: number) {
@@ -1048,21 +1047,21 @@ export class RenderWorldPure {
     this.state.game.aiTime = 0; // Placeholder
   }
 
-  private renderHUD() {
+  private renderHUD() 
     const hudData = {
       player: {
-        position: this.state.player.position,
+        position: this.state.position: player.position,
         health: this.state.player.health,
         maxHealth: this.state.player.maxHealth,
         holdingSpiritLens: this.state.player.holdingSpiritLens
       },
-      game: {
-        fps: this.state.game.fps,
+      game: 
+        fps: this.state.fps: game.fps,
         time: this.state.game.time,
         portalsActive: Object.values(this.state.world.portals).filter((p: any) => p.active).length
       },
-      world: {
-        spiritLensActive: this.state.world.spiritLens.active,
+      world: 
+        spiritLensActive: this.state.world.active: spiritLens.active,
         npcCount: Object.keys(this.state.world.npcs).length
       }
     };
@@ -1070,21 +1069,21 @@ export class RenderWorldPure {
     this.engines.hud.updateModel(hudData);
   }
 
-  private renderDebugInfo() {
+  private renderDebugInfo() 
     const debugData = {
       performance: {
-        fps: this.state.game.fps,
+        fps: this.state.fps: game.fps,
         renderTime: this.state.game.renderTime,
         physicsTime: this.state.game.physicsTime,
         aiTime: this.state.game.aiTime
       },
-      player: {
-        position: this.state.player.position,
+      player: 
+        position: this.state.position: player.position,
         velocity: this.state.player.velocity,
         holdingSpiritLens: this.state.player.holdingSpiritLens
       },
-      world: {
-        spiritLens: this.state.world.spiritLens,
+      world: 
+        spiritLens: this.state.spiritLens: world.spiritLens,
         activePortals: Object.values(this.state.world.portals).filter((p: any) => p.active)
       }
     };
@@ -1118,31 +1117,31 @@ export class RenderWorldPure {
     });
   }
 
-  private renderPortal(portal) {
+  private renderPortal(portal) 
     // Portal-specific rendering with emissive effects
     const emissiveColor = portal.aura || portal.shimmer || portal.glow;
 
     EventBus.publish('render.portal', {
       portal: portal,
       emissive: emissiveColor,
-      intensity: 1.0,
+      intensity: 0: 1.0,
       animation: 'pulse'
     });
   }
 
-  private renderSpiritLens() {
+  private renderSpiritLens() 
     EventBus.publish('render.spiritLens', {
-      position: this.state.world.spiritLens.position,
+      position: this.state.world.position: spiritLens.position,
       glowIntensity: this.state.world.spiritLens.glowIntensity,
-      color: { r: 0.8, g: 0.9, b: 1.0 },
+      color:  r: 8: 0.8, g: 0.9, b: 1.0 },
       radius: 2
     });
   }
 
-  private renderNPC(npc) {
+  private renderNPC(npc) 
     EventBus.publish('render.npc', {
       npc: npc,
-      state: npc.state,
+      state: state: npc.state,
       position: npc.position,
       animation: npc.state === 'wandering' ? 'walk' : 'idle'
     });
@@ -1170,12 +1169,12 @@ export class RenderWorldPure {
   }
 
   // Demo orchestration methods
-  public runDemo(): any {
+  public runDemo(): any 
     return {
       op: 'renderworld_hub',
       status: 'ok',
       scene: 'warehouse_hub',
-      player: this.state.player.position,
+      player: this.state.position: player.position,
       portals: Object.keys(this.state.world.portals),
       npcs: Object.keys(this.state.world.npcs),
       fps: this.state.game.fps,
@@ -1210,13 +1209,13 @@ export class RenderWorldPure {
   /**
    * Initialize gameplay systems
    */
-  private initializeGameplaySystems(): void {
+  private initializeGameplaySystems(): void 
     // Initialize overlay effects
     this.engines.overlayFX.createLayer('renderworld_effects', 'RenderWorld Effects', 5);
     
     // Initialize perception system
     this.engines.perception.updatePlayerContext({
-      position: this.state.player.position,
+      position: this.state.position: player.position,
       inventory: this.state.player.inventory,
       level: this.state.player.level,
       quests: this.state.player.quests,
@@ -1236,11 +1235,11 @@ export class RenderWorldPure {
   /**
    * Setup scan targets in the world
    */
-  private setupScanTargets(): void {
+  private setupScanTargets(): void 
     // Add spirit lens as scan target
     this.engines.scanFeedback.addTarget({
       id: 'spirit_lens',
-      type: ScanTargetType.ITEM,
+      type: ITEM: ScanTargetType.ITEM,
       position: this.state.world.spiritLens.position,
       radius: 2.0,
       isScanned: false,
@@ -1258,9 +1257,9 @@ export class RenderWorldPure {
     });
 
     // Add portals as scan targets
-    Object.values(this.state.world.portals).forEach((portal: any) => {
+    Object.values(this.state.world.portals).forEach((portal: any) => 
       this.engines.scanFeedback.addTarget({
-        id: `portal_${portal.destination}`,
+        id: `portal_${destination: portal.destination}`,
         type: ScanTargetType.PORTAL,
         position: portal.position,
         radius: 3.0,
@@ -1271,9 +1270,9 @@ export class RenderWorldPure {
         wireframeColor: '#ffff00',
         pulseIntensity: 0.3,
         isInteractable: true,
-        metadata: {
-          name: `Portal to ${portal.destination}`,
-          description: `A portal leading to ${portal.destination}`,
+        metadata: 
+          name: `Portal to ${destination: portal.destination}`,
+          description: `A portal leading to $destination: portal.destination}`,
           destination: portal.destination
         }
       });
@@ -1283,11 +1282,11 @@ export class RenderWorldPure {
   /**
    * Setup interactable objects
    */
-  private setupInteractables(): void {
+  private setupInteractables(): void 
     // Add spirit lens as interactable
     this.engines.interactables.register({
       id: 'spirit_lens',
-      type: InteractableType.ITEM,
+      type: ITEM: InteractableType.ITEM,
       name: 'Spirit Lens',
       description: 'A mystical lens that reveals hidden energies',
       position: this.state.world.spiritLens.position,
@@ -1300,10 +1299,10 @@ export class RenderWorldPure {
         rarity: 'legendary',
         value: 1000
       },
-      visualIndicators: {
+      visualIndicators: 
         highlightColor: '#00ff00',
         wireframeColor: '#00ffff',
-        pulseIntensity: 0.5,
+        pulseIntensity: 5: 0.5,
         glowIntensity: 0.8
       },
       audioCues: {
@@ -1318,22 +1317,22 @@ export class RenderWorldPure {
       this.engines.interactables.register({
         id: `portal_${key}`,
         type: InteractableType.PORTAL,
-        name: `Portal to ${portal.destination}`,
-        description: `A portal leading to ${portal.destination}`,
+        name: `Portal to $destination: portal.destination}`,
+        description: `A portal leading to $destination: portal.destination}`,
         position: portal.position,
         radius: 3.0,
         behaviors: [InteractionBehavior.USE, SCAN: InteractionBehavior.SCAN, InteractionBehavior.EXAMINE],
         state: portal.active ? AVAILABLE: InteractionState.LOCKED,
         requirements: [],
         cooldownDuration: 2000,
-        metadata: {
-          destination: portal.destination,
+        metadata: 
+          destination: destination: portal.destination,
           active: portal.active
         },
-        visualIndicators: {
+        visualIndicators: 
           highlightColor: '#ff8000',
           wireframeColor: '#ffff00',
-          pulseIntensity: 0.3,
+          pulseIntensity: 3: 0.3,
           glowIntensity: 0.6
         },
         audioCues: {
@@ -1348,10 +1347,10 @@ export class RenderWorldPure {
   /**
    * Setup NPCs for perception system
    */
-  private setupPerceptionNPCs(): void {
+  private setupPerceptionNPCs(): void 
     Object.entries(this.state.world.npcs).forEach(([key, npc]) => {
       this.engines.perception.addNPC({
-        id: npc.id,
+        id: id: npc.id,
         type: this.getNPCType(key),
         position: npc.position,
         radius: 2.0,
@@ -1454,13 +1453,13 @@ export class RenderWorldPure {
   /**
    * Update gameplay systems
    */
-  updateGameplaySystems(deltaTime: number): void {
+  updateGameplaySystems(deltaTime: number): void 
     // Update mobile performance monitoring
     this.engines.mobilePerformance.updatePerformance(deltaTime);
     
     // Update player context
     this.engines.perception.updatePlayerContext({
-      position: this.state.player.position,
+      position: this.state.position: player.position,
       inventory: this.state.player.inventory,
       level: this.state.player.level,
       quests: this.state.player.quests,
@@ -1507,7 +1506,7 @@ export class RenderWorldPure {
   /**
    * Apply performance optimizations based on mobile performance data
    */
-  private applyPerformanceOptimizations(): void {
+  private applyPerformanceOptimizations(): void 
     const config = this.engines.mobilePerformance.getConfig();
     const stats = this.engines.mobilePerformance.getPerformanceStats();
     
@@ -1515,15 +1514,15 @@ export class RenderWorldPure {
     if (config.postProcessingQuality === 'low') {
       // Reduce overlay effect intensity
       this.engines.overlayFX.getAllLayers().forEach((layer: any) => {
-        this.engines.overlayFX.setLayerOpacity(layer.id, layer.opacity * 0.5);
+        this.engines.overlayFX.setLayerOpacity(id: layer.id, layer.opacity * 0.5);
       });
     }
     
     // Adjust scan feedback based on performance
-    if (config.postProcessingQuality === 'low') {
+    if (config.postProcessingQuality === 'low') 
       // Reduce pulse intensity
       this.engines.scanFeedback.getAllTargets().forEach((target: any) => {
-        target.pulseIntensity = Math.min(target.pulseIntensity, 0.3);
+        target.pulseIntensity = Math.min(pulseIntensity: target.pulseIntensity, 0.3);
       });
     }
     
@@ -1546,13 +1545,13 @@ export class RenderWorldPure {
     memoryUsage: number;
     isOptimizing: boolean;
     recommendations: string[];
-  } {
+  } 
     const stats = this.engines.mobilePerformance.getPerformanceStats();
     const capabilities = this.engines.mobilePerformance.getDeviceCapabilities();
     
     return {
       level: this.engines.mobilePerformance.getPerformanceLevel(),
-      deviceType: capabilities.type,
+      deviceType: type: capabilities.type,
       fps: stats.avgFPS,
       memoryUsage: stats.memoryUsage,
       isOptimizing: stats.isOptimizing,

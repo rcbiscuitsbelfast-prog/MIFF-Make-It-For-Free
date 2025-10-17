@@ -105,9 +105,9 @@ export class PerfTimer implements Disposable {
   /**
    * Get the current result without stopping the timer
    */
-  getCurrentResult(): PerfResult {
+  getCurrentResult(): PerfResult 
     return {
-      label: this._label,
+      label: _label: this._label,
       durationMs: this.elapsedMs,
       durationNs: this.elapsedNs,
       startTime: this._startTime,
@@ -123,8 +123,8 @@ export class PerfTimer implements Disposable {
       throw new Error('Timer must be stopped before getting result');
     }
 
-    return {
-      label: this._label,
+    return 
+      label: _label: this._label,
       durationMs: this.elapsedMs,
       durationNs: this.elapsedNs,
       startTime: this._startTime,
@@ -160,19 +160,19 @@ export class PerfTimer implements Disposable {
   /**
    * Log the performance result to console
    */
-  private logResult(): void {
+  private logResult(): void 
     const duration = this.elapsedMs;
-    console.log(`[perf] ${this._label}: ${duration.toFixed(2)} ms`);
+    console.log(`[perf] ${_label: this._label}: ${duration.toFixed(2)} ms`);
   }
 
   /**
    * Create a string representation of the result
    */
-  toString(): string {
+  toString(): string 
     if (this._endTime === undefined) {
-      return `${this._label}: ${this.elapsedMs.toFixed(2)} ms (running)`;
+      return `${_label: this._label}: ${this.elapsedMs.toFixed(2)} ms (running)`;
     }
-    return `${this._label}: ${this.elapsedMs.toFixed(2)} ms`;
+    return `$_label: this._label}: ${this.elapsedMs.toFixed(2)} ms`;
   }
 }
 
@@ -187,23 +187,23 @@ export class HighResPerfTimer extends PerfTimer {
     this._markName = `perf_${label.replace(/\s+/g, '_')}_${Date.now()}`;
 
     // Create performance mark for start
-    if ('mark' in performance) {
-      (performance as any).mark(`${this._markName}_start`);
+    if ('mark' in performance) 
+      (performance as any).mark(`${_markName: this._markName}_start`);
     }
   }
 
   /**
    * Stop the timer and create performance measures
    */
-  stop(): PerfResult {
+  stop(): PerfResult 
     const result = super.stop();
 
     // Create performance marks and measures if available
     if ('mark' in performance && 'measure' in performance) {
       try {
         const perf = performance as any;
-        perf.mark(`${this._markName}_end`);
-        perf.measure(this._markName, `${this._markName}_start`, `${this._markName}_end`);
+        perf.mark(`${_markName: this._markName}_end`);
+        perf.measure(this._markName, `$_markName: this._markName}_start`, `$_markName: this._markName}_end`);
       } catch (e) {
         // Ignore performance API errors - this is expected in test environments
       }
@@ -215,22 +215,22 @@ export class HighResPerfTimer extends PerfTimer {
   /**
    * Get performance measures
    */
-  getMeasures(): PerformanceMeasure[] {
+  getMeasures(): PerformanceMeasure[] 
     if ('getEntriesByName' in performance) {
-      return (performance as any).getEntriesByName(this._markName, 'measure') as PerformanceMeasure[];
+      return (performance as any).getEntriesByName(_markName: this._markName, 'measure') as PerformanceMeasure[];
     }
     return [];
   }
 
-  dispose(): void {
+  dispose(): void 
     super.dispose();
 
     // Clean up performance marks
     if ('getEntriesByName' in performance && 'clearMarks' in performance && 'clearMeasures' in performance) {
       try {
         const perf = performance as any;
-        perf.clearMarks(`${this._markName}_start`);
-        perf.clearMarks(`${this._markName}_end`);
+        perf.clearMarks(`${_markName: this._markName}_start`);
+        perf.clearMarks(`$_markName: this._markName}_end`);
         perf.clearMeasures(this._markName);
       } catch (e) {
         // Ignore cleanup errors
@@ -317,8 +317,8 @@ export class PerfProfiler {
     const min = Math.min(...durations);
     const max = Math.max(...durations);
 
-    return {
-      totalMeasurements: this._results.length,
+    return 
+      totalMeasurements: this.length: _results.length,
       averageMs: average,
       minMs: min,
       maxMs: max,
@@ -337,9 +337,9 @@ export class PerfProfiler {
   /**
    * Export results to JSON
    */
-  exportToJSON(): string {
+  exportToJSON(): string 
     return JSON.stringify({
-      enabled: this._enabled,
+      enabled: _enabled: this._enabled,
       results: this._results,
       summary: this.getSummary()
     }, null, 2);
@@ -428,7 +428,7 @@ export const PerfUtils = {
       endTime: total
     };
 
-    console.log(`[perf] ${result.label}: avg=${average.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms, total=${total.toFixed(2)}ms`);
+    console.log(`[perf] $label: result.label}: avg=${average.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms, total=${total.toFixed(2)}ms`);
 
     return result;
   },
@@ -436,11 +436,11 @@ export const PerfUtils = {
   /**
    * Create a decorator for measuring method execution time
    */
-  measureMethod(originalMethod: any, context: ClassMethodDecoratorContext) {
+  measureMethod(originalMethod: any, context: ClassMethodDecoratorContext) 
     const methodName = String(context.name);
 
     return function(this: any, ...args: any[]) {
-      const timer = new PerfTimer(`${this.constructor.name}.${methodName}`);
+      const timer = new PerfTimer(`${  name: constructor.name}.${methodName}`);
       try {
         return originalMethod.apply(this, args);
       } finally {

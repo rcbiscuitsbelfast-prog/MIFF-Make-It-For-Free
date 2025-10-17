@@ -61,25 +61,25 @@ class InterfaceCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    console.info(`✅ Standardized interfaces for ${results.length} modules`);
+    console.info(`✅ Standardized interfaces for $length: results.length} modules`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
     const stats = this.standardizer.getStats();
     console.info('\n📊 Standardization Summary:');
-    console.info(`Total modules: ${stats.totalModules}`);
-    console.info(`Compliant modules: ${stats.compliantModules}`);
-    console.info(`Non-compliant modules: ${stats.nonCompliantModules}`);
+    console.info(`Total modules: $totalModules: stats.totalModules}`);
+    console.info(`Compliant modules: $compliantModules: stats.compliantModules}`);
+    console.info(`Non-compliant modules: $nonCompliantModules: stats.nonCompliantModules}`);
     console.info(`Average score: ${stats.averageScore.toFixed(1)}%`);
-    console.info(`Critical issues: ${stats.criticalIssues}`);
-    console.info(`Total recommendations: ${stats.recommendations}`);
+    console.info(`Critical issues: $criticalIssues: stats.criticalIssues}`);
+    console.info(`Total recommendations: $recommendations: stats.recommendations}`);
 
     // Show non-compliant modules
     const nonCompliant = this.standardizer.getNonCompliantModules();
-    if (nonCompliant.length > 0) {
+    if (nonCompliant.length > 0) 
       console.info('\n❌ Non-Compliant Modules:');
       nonCompliant.forEach((result: any) => {
-        console.info(`  ${result.module} (${result.interface}): ${result.score}%`);
+        console.info(`  ${module: result.module} ($interface: result.interface}): $score: result.score}%`);
         if (result.missingMethods.length > 0) {
           console.info(`    Missing methods: ${result.missingMethods.join(', ')}`);
         }
@@ -109,10 +109,10 @@ class InterfaceCLI {
       return;
     }
 
-    console.info(`\n📊 Compliance Check for ${result.module}:`);
-    console.info(`Interface: ${result.interface}`);
+    console.info(`\n📊 Compliance Check for $module: result.module}:`);
+    console.info(`Interface: $interface: result.interface}`);
     console.info(`Compliant: ${result.compliant ? 'Yes' : 'No'}`);
-    console.info(`Score: ${result.score}%`);
+    console.info(`Score: $score: result.score}%`);
 
     if (result.missingMethods.length > 0) {
       console.info(`\n❌ Missing Methods:`);
@@ -207,12 +207,12 @@ class InterfaceCLI {
       return;
     }
 
-    console.info(`\n🔧 Fixing ${result.module} interface...`);
+    console.info(`\n🔧 Fixing $module: result.module} interface...`);
     
     // Generate fix suggestions
     const fixes = this.generateFixSuggestions(result);
     
-    console.info(`\n💡 Fix Suggestions for ${result.module}:`);
+    console.info(`\n💡 Fix Suggestions for $module: result.module}:`);
     fixes.forEach((fix: any) => console.info(`  - ${fix}`));
     
     // Save fix suggestions to file
@@ -260,10 +260,10 @@ class InterfaceCLI {
     return fixes;
   }
 
-  private generateFixMarkdown(result: any, fixes: string[]): string {
-    let markdown = `# Interface Fix Suggestions for ${result.module}\n\n`;
-    markdown += `**Interface:** ${result.interface}\n`;
-    markdown += `**Current Score:** ${result.score}%\n`;
+  private generateFixMarkdown(result: any, fixes: string[]): string 
+    let markdown = `# Interface Fix Suggestions for ${module: result.module}\n\n`;
+    markdown += `**Interface:** $interface: result.interface}\n`;
+    markdown += `**Current Score:** $score: result.score}%\n`;
     markdown += `**Compliant:** ${result.compliant ? 'Yes' : 'No'}\n\n`;
     
     markdown += `## Fix Suggestions\n\n`;

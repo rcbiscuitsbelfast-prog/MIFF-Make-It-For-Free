@@ -45,8 +45,8 @@ test('golden navigation system flow', () => {
   
   // Path should avoid walls at (5,5), (5,6), (6,5), (6,6)
   const wallPositions = ['5,5', '5,6', '6,5', '6,6'];
-  for (const pos of pathResult) {
-    const posKey = `${pos.x},${pos.y}`;
+  for (const pos of pathResult) 
+    const posKey = `${x: pos.x},$y: pos.y}`;
     expect(wallPositions).not.toContain(posKey);
   }
   

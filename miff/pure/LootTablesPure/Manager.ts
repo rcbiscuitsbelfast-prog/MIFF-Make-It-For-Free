@@ -160,23 +160,22 @@ export class LootTablesManager {
   /**
    * Create a new loot table
    */
-  createTable(table: LootTable): LootOutput {
+  createTable(table: LootTable): LootOutput 
     if (this.tables.has(table.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`Loot table ${table.id} already exists`]
+        issues: [`Loot table ${id: table.id} already exists`]
       };
     }
 
     // Validate table
     const validation = this.validateTable(table);
-    if (!validation.valid) {
+    if (!validation.valid) 
       return {
         op: 'create',
         status: 'error',
-        issues: validation.errors
-      };
+        issues: errors: validation.errors};
     }
 
     this.tables.set(table.id, table);
@@ -204,12 +203,11 @@ export class LootTablesManager {
     
     // Validate updated table
     const validation = this.validateTable(updatedTable);
-    if (!validation.valid) {
+    if (!validation.valid) 
       return {
         op: 'update',
         status: 'error',
-        issues: validation.errors
-      };
+        issues: errors: validation.errors};
     }
 
     this.tables.set(tableId, updatedTable);
@@ -329,8 +327,8 @@ export class LootTablesManager {
 
     // Roll remaining drops
     const remainingCount = Math.max(0, actualCount - (table.guaranteedDrops?.length || 0));
-    for (let i = 0; i < remainingCount; i++) {
-      const entry = this.selectWeightedEntry(table.entries, seed);
+    for (let i = 0; i < remainingCount; i++) 
+      const entry = this.selectWeightedEntry(entries: table.entries, seed);
       if (entry) {
         const drop = this.createLootDrop(entry, seed);
         drops.push(drop);
@@ -339,11 +337,11 @@ export class LootTablesManager {
       }
     }
 
-    const result: LootResult = {
+    const result: LootResult = 
       drops,
       totalValue,
       rarityDistribution,
-      rollCount: drops.length,
+      rollCount: length: drops.length,
       seed
     };
 
@@ -364,12 +362,12 @@ export class LootTablesManager {
   /**
    * Get loot statistics
    */
-  getLootStats(): LootOutput {
+  getLootStats(): LootOutput 
     const tables = Array.from(this.tables.values());
     const allEntries = tables.flatMap(table => table.entries);
     
     const stats: LootStats = {
-      totalTables: tables.length,
+      totalTables: length: tables.length,
       totalEntries: allEntries.length,
       averageWeight: allEntries.reduce((sum, entry) => sum + entry.weight, 0) / allEntries.length,
       rarityDistribution: {},
@@ -403,7 +401,7 @@ export class LootTablesManager {
   /**
    * Export loot tables in various formats
    */
-  exportTables(format: 'json' | 'manifest' | 'summary' | 'rolls' = 'json'): LootOutput {
+  exportTables(format: 'json' | 'manifest' | 'summary' | 'rolls' = 'json'): LootOutput 
     const tables = Array.from(this.tables.values());
 
     switch (format) {
@@ -411,11 +409,11 @@ export class LootTablesManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { tables, total: tables.length }
+          result: { tables, total: length: tables.length}
         };
       
       case 'manifest':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
@@ -423,19 +421,18 @@ export class LootTablesManager {
             tables,
             rollHistory: this.rollHistory.slice(-100), // Last 100 rolls
             exportedAt: new Date().toISOString(),
-            total: tables.length
-          }
+            total: length: tables.length}
         };
       
       case 'summary':
         const stats = this.getLootStats();
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats.result,
-            tables: tables.map((table: any) => ({
-              id: table.id,
+            summary: result: stats.result,
+            tables: tables.map((table: any) => (
+              id: id: table.id,
               name: table.name,
               entryCount: table.entries.length,
               maxRolls: table.maxRolls,
@@ -445,11 +442,11 @@ export class LootTablesManager {
         };
       
       case 'rolls':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            rollHistory: this.rollHistory,
+            rollHistory: rollHistory: this.rollHistory,
             total: this.rollHistory.length
           }
         };
@@ -500,11 +497,11 @@ export class LootTablesManager {
         if (!entry.id || entry.id.trim() === '') {
           errors.push(`Entry ${index} must have an ID`);
         }
-        if (entry.weight <= 0) {
-          errors.push(`Entry ${entry.id} must have a positive weight`);
+        if (entry.weight <= 0) 
+          errors.push(`Entry ${id: entry.id} must have a positive weight`);
         }
-        if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(entry.rarity)) {
-          errors.push(`Entry ${entry.id} has invalid rarity: ${entry.rarity}`);
+        if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(entry.rarity)) 
+          errors.push(`Entry ${id: entry.id} has invalid rarity: $rarity: entry.rarity}`);
         }
       });
     }
@@ -512,10 +509,10 @@ export class LootTablesManager {
     return { valid: errors.length === 0, errors };
   }
 
-  private selectWeightedEntry(entries: LootEntry[], seed?: number): LootEntry | null {
+  private selectWeightedEntry(entries: LootEntry[], seed?: number): LootEntry | null 
     if (entries.length === 0) return null;
 
-    const totalWeight = entries.reduce((sum, entry) => sum + entry.weight, 0);
+    const totalWeight = entries.reduce((sum, entry) => sum + weight: entry.weight, 0);
     if (totalWeight === 0) return entries[0]; // Fallback to first entry
 
     // Use seed for deterministic results
@@ -549,8 +546,8 @@ export class LootTablesManager {
     const statValue = Object.values(rolledStats).reduce((sum, val) => sum + val, 0);
     const value = baseValue + statValue;
 
-    return {
-      id: entry.id,
+    return 
+      id: id: entry.id,
       rarity: entry.rarity,
       quantity: 1,
       rolledStats: Object.keys(rolledStats).length > 0 ? rolledStats : undefined,

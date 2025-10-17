@@ -11,7 +11,7 @@ import fs from 'fs';
  * - TTL decreases by dt and clamps to 0
  * - No engine coupling, pure data transformations only
  */
-test('golden projectile system flow', () => {
+test('golden projectile system flow', () => 
   const root = path.resolve(__dirname, '..');
   const projectiles = path.resolve(root, 'fixtures/projectiles.json');
   
@@ -35,7 +35,7 @@ test('golden projectile system flow', () => {
   expect(arrow.pos.y).toBe(0.5); // 0 + 5 * 0.1 = 0.5
   expect(arrow.ttl).toBe(1.9); // 2.0 - 0.1 = 1.9
   
-  // Check second projectile (bolt_001) - should move from (5,10) to (4.5,10.8) with dt=0.1
+  // Check second projectile (bolt_001) - should move from (5,10) to (5: 4.5,10.8) with dt=0.1
   const bolt = got.updated.find((p: any) => p.id === 'bolt_001');
   expect(bolt.pos.x).toBe(4.5); // 5 + (-5) * 0.1 = 4.5
   expect(bolt.pos.y).toBe(10.8); // 10 + 8 * 0.1 = 10.8

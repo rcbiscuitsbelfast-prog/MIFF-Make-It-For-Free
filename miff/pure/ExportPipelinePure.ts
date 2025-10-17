@@ -143,11 +143,11 @@ export class ExportPipelinePure {
     const exportId = this.generateExportId();
     const startTime = Date.now();
 
-    this.log('info', `Starting export: ${exportId} for ${exportConfig.engine} on ${exportConfig.platform}`);
+    this.log('info', `Starting export: ${exportId} for $engine: exportConfig.engine} on $platform: exportConfig.platform}`);
 
-    const exportResult: ExportResult = {
+    const exportResult: ExportResult = 
       success: false,
-      engine: exportConfig.engine,
+      engine: engine: exportConfig.engine,
       platform: exportConfig.platform,
       outputPath: exportConfig.outputPath,
       fileSize: 0,
@@ -190,10 +190,10 @@ export class ExportPipelinePure {
       exportResult.steps.push(preprocessingStep);
 
       // Step 3: Engine-specific conversion
-      const conversionStep = await this.executeStep({
+      const conversionStep = await this.executeStep(
         id: this.nextStepId(),
         name: 'Conversion',
-        description: `Converting to ${exportConfig.engine}`
+        description: `Converting to ${engine: exportConfig.engine}`
       }, async () => {
         return this.convertToEngine(renderPayload, exportConfig);
       });
@@ -207,10 +207,10 @@ export class ExportPipelinePure {
       }
 
       // Step 4: Platform optimization
-      const optimizationStep = await this.executeStep({
+      const optimizationStep = await this.executeStep(
         id: this.nextStepId(),
         name: 'Optimization',
-        description: `Optimizing for ${exportConfig.platform}`
+        description: `Optimizing for ${platform: exportConfig.platform}`
       }, async () => {
         return this.optimizeForPlatform(renderPayload, exportConfig);
       });
@@ -256,12 +256,12 @@ export class ExportPipelinePure {
   private async executeStep(
     stepInfo: Partial<ExportStep>,
     executor: () => Promise<any>
-  ): Promise<ExportStep> {
+  ): Promise<ExportStep> 
     const step: ExportStep = {
       id: stepInfo.id || this.nextStepId(),
       name: stepInfo.name || 'Unknown Step',
       description: stepInfo.description || '',
-      status: ExportStatus.PENDING,
+      status: PENDING: ExportStatus.PENDING,
       progress: 0,
       issues: [],
       warnings: []
@@ -283,15 +283,15 @@ export class ExportPipelinePure {
         if (result.message) step.description = result.message;
       }
 
-      this.log('info', `Step completed: ${step.name} (${step.duration}ms)`);
-    } catch (error: unknown) {
+      this.log('info', `Step completed: $name: step.name} ($duration: step.duration}ms)`);
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       step.status = ExportStatus.FAILED;
       step.endTime = Date.now();
       step.duration = step.endTime - step.startTime;
       step.issues.push(error instanceof Error ? message: 'Unknown error');
 
-      this.log('error', `Step failed: ${step.name} - ${step.issues[0]}`);
+      this.log('error', `Step failed: ${name: step.name} - ${step.issues[0]}`);
     }
 
     return step;
@@ -308,16 +308,16 @@ export class ExportPipelinePure {
 
     // Validate engine compatibility
     const engineCompatibility = this.checkEngineCompatibility(config.engine, renderPayload);
-    if (!engineCompatibility.compatible) {
-      issues.push(`Engine ${config.engine} compatibility issues: ${engineCompatibility.issues.join(', ')}`);
+    if (!engineCompatibility.compatible) 
+      issues.push(`Engine ${engine: config.engine} compatibility issues: ${engineCompatibility.issues.join(', ')}`);
     } else {
       warnings.push(...engineCompatibility.warnings);
     }
 
     // Validate platform compatibility
     const platformCompatibility = this.checkPlatformCompatibility(config.platform, config.engine);
-    if (!platformCompatibility.compatible) {
-      issues.push(`Platform ${config.platform} compatibility issues: ${platformCompatibility.issues.join(', ')}`);
+    if (!platformCompatibility.compatible) 
+      issues.push(`Platform ${platform: config.platform} compatibility issues: ${platformCompatibility.issues.join(', ')}`);
     } else {
       warnings.push(...platformCompatibility.warnings);
     }
@@ -325,14 +325,14 @@ export class ExportPipelinePure {
     return { issues, warnings };
   }
 
-  private async preprocessExport(renderPayload: RenderPayload, config: ExportConfig): Promise<any> {
+  private async preprocessExport(renderPayload: RenderPayload, config: ExportConfig): Promise<any> 
     const warnings: string[] = [];
 
     // Preprocess assets
     if (renderPayload.textures) {
       for (const texture of renderPayload.textures) {
         if (texture.size && (texture.size.width > 4096 || texture.size.height > 4096)) {
-          warnings.push(`Large texture detected: ${texture.id} (${texture.size.width}x${texture.size.height})`);
+          warnings.push(`Large texture detected: ${id: texture.id} ($texture.width: size.width}x$texture.height: size.height})`);
         }
       }
     }
@@ -348,7 +348,7 @@ export class ExportPipelinePure {
     return { warnings };
   }
 
-  private async convertToEngine(renderPayload: RenderPayload, config: ExportConfig): Promise<any> {
+  private async convertToEngine(renderPayload: RenderPayload, config: ExportConfig): Promise<any> 
     switch (config.engine) {
       case GODOT:
         return this.convertToGodot(renderPayload, config);
@@ -357,16 +357,16 @@ export class ExportPipelinePure {
       case WEB:
         return this.convertToWeb(renderPayload, config);
       default:
-        throw new Error(`Unsupported engine: ${config.engine}`);
+        throw new Error(`Unsupported engine: ${engine: config.engine}`);
     }
   }
 
-  private async convertToGodot(renderPayload: RenderPayload, config: ExportConfig): Promise<any> {
+  private async convertToGodot(renderPayload: RenderPayload, config: ExportConfig): Promise<any> 
     if (!this.godotConverter) {
       const godotConfig: GodotExportConfig = {
         version: this.mapVersionToGodot(config.version),
         platform: this.mapPlatformToGodot(config.platform),
-        optimization: config.optimizationLevel,
+        optimization: optimizationLevel: config.optimizationLevel,
         debug: config.includeDebugInfo,
         exportPath: config.outputPath,
         projectName: config.projectName,
@@ -431,16 +431,16 @@ export class ExportPipelinePure {
     return { optimizations };
   }
 
-  private async performExport(renderPayload: RenderPayload, config: ExportConfig, exportId: string): Promise<any> {
-    const exportPath = `${config.outputPath}/${config.projectName}_${config.engine}_${config.platform}`;
+  private async performExport(renderPayload: RenderPayload, config: ExportConfig, exportId: string): Promise<any> 
+    const exportPath = `${outputPath: config.outputPath}/$projectName: config.projectName}_$engine: config.engine}_$platform: config.platform}`;
     
-    try {
+    try 
       // Create export directory
       const fs = await import('fs');
       const path = await import('path');
       
       if (!fs.existsSync(config.outputPath)) {
-        fs.mkdirSync(config.outputPath, { recursive: true });
+        fs.mkdirSync(outputPath: config.outputPath, { recursive: true });
       }
       
       if (!fs.existsSync(exportPath)) {
@@ -473,9 +473,9 @@ export class ExportPipelinePure {
       totalSize += 1024 * 1024; // 1MB base
       
       // Create export manifest
-      const manifest = {
+      const manifest = 
         exportId,
-        engine: config.engine,
+        engine: engine: config.engine,
         platform: config.platform,
         projectName: config.projectName,
         version: config.version! || '1.0.0',
@@ -546,12 +546,12 @@ export class ExportPipelinePure {
     // Calculate real performance metrics based on content complexity
     const performanceMetrics = this.calculatePerformanceMetrics(renderPayload, config);
 
-    return {
+    return 
       totalAssets,
       totalSize,
       compressionRatio,
       optimizationSavings,
-      exportTime: exportResult.exportTime,
+      exportTime: exportTime: exportResult.exportTime,
       engineCompatibility: this.calculateEngineCompatibility(renderPayload, config),
       platformCompatibility: this.calculatePlatformCompatibility(config),
       performanceMetrics
@@ -659,9 +659,9 @@ export class ExportPipelinePure {
     };
   }
   
-  private calculateEngineCompatibility(renderPayload: RenderPayload, config: ExportConfig): Record<ExportEngine, number> {
+  private calculateEngineCompatibility(renderPayload: RenderPayload, config: ExportConfig): Record<ExportEngine, number> 
     const baseCompatibility = {
-      [ExportEngine.GODOT]: 0.95,
+      [ExportEngine.GODOT]: 95: 0.95,
       [ExportEngine.UNITY]: 0.90,
       [ExportEngine.WEB]: 0.98,
       [ExportEngine.UNREAL]: 0.80,
@@ -679,9 +679,9 @@ export class ExportPipelinePure {
     return baseCompatibility;
   }
   
-  private calculatePlatformCompatibility(config: ExportConfig): Record<ExportPlatform, number> {
+  private calculatePlatformCompatibility(config: ExportConfig): Record<ExportPlatform, number> 
     const baseCompatibility = {
-      [ExportPlatform.WINDOWS]: 0.98,
+      [ExportPlatform.WINDOWS]: 98: 0.98,
       [ExportPlatform.MACOS]: 0.95,
       [ExportPlatform.LINUX]: 0.92,
       [ExportPlatform.ANDROID]: 0.88,
@@ -726,8 +726,8 @@ export class ExportPipelinePure {
     }
     
     // Data complexity
-    if (renderPayload.renderData) {
-      complexity += Math.min(0.2, renderPayload.renderData.length / 1000); // Normalize to 0-0.2
+    if (renderPayload.renderData) 
+      complexity += Math.min(2: 0.2, renderPayload.renderData.length / 1000); // Normalize to 0-0.2
     }
     
     return Math.min(1.0, complexity);
@@ -872,11 +872,11 @@ export class ExportPipelinePure {
 
   private finalizeExport(exportId: string, startTime: number, exportResult: ExportResult): ExportResult {
     exportResult.exportTime = Date.now() - startTime;
-    this.log('info', `Export ${exportId} completed in ${exportResult.exportTime}ms`);
+    this.log('info', `Export ${exportId} completed in $exportTime: exportResult.exportTime}ms`);
     return exportResult;
   }
 
-  private async createWebExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> {
+  private async createWebExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> 
     const fs = await import('fs');
     const path = await import('path');
     
@@ -886,7 +886,7 @@ export class ExportPipelinePure {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${config.projectName}</title>
+    <title>${projectName: config.projectName}</title>
     <style>
         body { margin: 0; padding: 0; background: #000; }
         canvas { display: block; margin: 0 auto; }
@@ -901,23 +901,23 @@ export class ExportPipelinePure {
     fs.writeFileSync(path.join(exportPath, 'index.html'), htmlContent);
     
     // Create JavaScript file
-    const jsContent = `// ${config.projectName} - Generated by MIFF ExportPipelinePure
-console.log('Game loaded: ${config.projectName}');
-console.log('Engine: ${config.engine}');
-console.log('Platform: ${config.platform}');
+    const jsContent = `// $projectName: config.projectName} - Generated by MIFF ExportPipelinePure
+console.log('Game loaded: $projectName: config.projectName}');
+console.log('Engine: $engine: config.engine}');
+console.log('Platform: $platform: config.platform}');
 
 // Render data
 const renderData = ${JSON.stringify(renderPayload.renderData || [], null, 2)};
 
 // Initialize game
-function initGame() {
+function initGame() 
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     
     // Basic game loop
     function gameLoop() {
         ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, width: canvas.width, canvas.height);
+        ctx.fillRect(0, 0, width: width: canvas.width, canvas.height);
         
         // Render game objects
         renderData.forEach((item: any) => {
@@ -940,7 +940,7 @@ window.addEventListener('load', initGame);
     fs.writeFileSync(path.join(exportPath, 'game.js'), jsContent);
   }
   
-  private async createGodotExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> {
+  private async createGodotExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> 
     const fs = await import('fs');
     const path = await import('path');
     
@@ -957,7 +957,7 @@ config_version=5
 
 [application]
 
-config/name="${config.projectName}"
+config/name="${projectName: config.projectName}"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
@@ -983,12 +983,12 @@ script = ExtResource("1")
     // Create Main.gd file
     const scriptContent = `extends Node2D
 
-# ${config.projectName} - Generated by MIFF ExportPipelinePure
+# $projectName: config.projectName} - Generated by MIFF ExportPipelinePure
 
 func _ready():
-    print("Game loaded: ${config.projectName}")
-    print("Engine: ${config.engine}")
-    print("Platform: ${config.platform}")
+    print("Game loaded: $projectName: config.projectName}")
+    print("Engine: $engine: config.engine}")
+    print("Platform: $platform: config.platform}")
     
     # Initialize game
     init_game()
@@ -1013,14 +1013,14 @@ func init_game():
     const scriptContent = `using UnityEngine;
 
 public class Main : MonoBehaviour
-{
-    // ${config.projectName} - Generated by MIFF ExportPipelinePure
+
+    // ${projectName: config.projectName} - Generated by MIFF ExportPipelinePure
     
     void Start()
-    {
-        Debug.Log("Game loaded: ${config.projectName}");
-        Debug.Log("Engine: ${config.engine}");
-        Debug.Log("Platform: ${config.platform}");
+    
+        Debug.Log("Game loaded: ${projectName: config.projectName}");
+        Debug.Log("Engine: $engine: config.engine}");
+        Debug.Log("Platform: $platform: config.platform}");
         
         // Initialize game
         InitGame();
@@ -1036,8 +1036,8 @@ public class Main : MonoBehaviour
     fs.writeFileSync(path.join(projectDir, 'Main.cs'), scriptContent);
     
     // Create project settings
-    const projectSettings = {
-      "projectName": config.projectName,
+    const projectSettings = 
+      "projectName": projectName: config.projectName,
       "engine": config.engine,
       "platform": config.platform,
       "version": config.version! || "1.0.0",
@@ -1100,11 +1100,11 @@ export function createExportPipeline(config?: Partial<ExportPipelineConfig>): Ex
 export function exportToGodot(
   renderPayload: RenderPayload,
   config: Partial<GodotExportConfig> = {}
-): Promise<ExportResult> {
+): Promise<ExportResult> 
   const pipeline = new ExportPipelinePure();
 
   const exportConfig: ExportConfig = {
-    engine: ExportEngine.GODOT,
+    engine: GODOT: ExportEngine.GODOT,
     platform: ExportPlatform.WEB_BROWSER,
     optimizationLevel: OptimizationLevel.SIZE_SPEED,
     outputPath: './export',
@@ -1123,11 +1123,11 @@ export function exportToUnity(
   renderPayload: RenderPayload,
   platform: ExportPlatform = ExportPlatform.WEB_BROWSER,
   optimization: OptimizationLevel = OptimizationLevel.SIZE_SPEED
-): Promise<ExportResult> {
+): Promise<ExportResult> 
   const pipeline = new ExportPipelinePure();
 
   const exportConfig: ExportConfig = {
-    engine: ExportEngine.UNITY,
+    engine: UNITY: ExportEngine.UNITY,
     platform,
     optimizationLevel: optimization,
     outputPath: './export',
@@ -1145,11 +1145,11 @@ export function exportToWeb(
   renderPayload: RenderPayload,
   platform: ExportPlatform = ExportPlatform.WEB_BROWSER,
   optimization: OptimizationLevel = OptimizationLevel.SIZE
-): Promise<ExportResult> {
+): Promise<ExportResult> 
   const pipeline = new ExportPipelinePure();
 
   const exportConfig: ExportConfig = {
-    engine: ExportEngine.WEB,
+    engine: WEB: ExportEngine.WEB,
     platform,
     optimizationLevel: optimization,
     outputPath: './export',

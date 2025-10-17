@@ -67,35 +67,35 @@ export function runTimeline(tl: QuestTimeline, initialState?: QuestState): Timel
 			lastFrame = ev.frame;
 		}
 
-		switch (ev.op) {
+		switch (ev.op) 
 			case 'hit': {
-				processed.push({ frame: ev.frame, op: ev.op, note: 'Arrow hits player' });
+				processed.push({ frame: frame: ev.frame, op: ev.op, note: 'Arrow hits player' });
 				const progressEvent: QuestEvent = { type: 'progress', questId: 'helmet_of_fate', stepId: 'intro', triggerData: { type: 'interact', target: 'arrow' }, timestamp: ev.frame } as any;
 				({ questState: state } = applyQuestEvent(state, progressEvent));
 				break;
 			}
-			case 'visual.item': {
-				const visual: VisualItemEvent = { type: (ev.args && ev.args.type) || 'helmet.split', payload: ev.args };
+			case 'visual.item': 
+				const visual: VisualItemEvent = { type: (ev.args && ev.args.type) || 'helmet.split', payload: args: ev.args};
 				const res = resolveVisual(visual, { maxFrames: 1, timeoutMs: 16 });
-				visualResolutions.push(`frame ${ev.frame}: ${visual.type} -> ${res.resolved ? 'resolved' : 'skipped'}`);
-				processed.push({ frame: ev.frame, op: ev.op, note: 'Helmet split visual resolved' });
+				visualResolutions.push(`frame $frame: ev.frame}: $type: visual.type} -> ${res.resolved ? 'resolved' : 'skipped'}`);
+				processed.push( frame: frame: ev.frame, op: ev.op, note: 'Helmet split visual resolved' });
 				// Mark split step progress
 				const progressEvent: QuestEvent = { type: 'progress', questId: 'helmet_of_fate', stepId: 'split', triggerData: { type: 'interact', target: 'helmet.split' }, timestamp: ev.frame } as any;
 				({ questState: state } = applyQuestEvent(state, progressEvent));
 				// Ensure quest completes after item event
-				({ questState: state } = applyQuestEvent(state, { type: 'complete', questId: 'helmet_of_fate', timestamp: ev.frame } as any));
+				({ questState: state } = applyQuestEvent(state,  type: 'complete', questId: 'helmet_of_fate', timestamp: frame: ev.frame} as any));
 				questTransitions.push('helmet_of_fate:active->completed');
 				// Reset input to keep cursor responsive
 				const inputReset = resetAfterVisualEvent();
-				processed.push({ frame: ev.frame, op: 'input.reset', note: `cursor=${inputReset.cursor}` });
+				processed.push( frame: frame: ev.frame, op: 'input.reset', note: `cursor=$cursor: inputReset.cursor}` });
 				break;
 			}
-			case 'quest.start': {
-				processed.push({ frame: ev.frame, op: ev.op, note: `Start next quest ${ev.args?.questId || 'unknown'}` });
+			case 'quest.start': 
+				processed.push({ frame: frame: ev.frame, op: ev.op, note: `Start next quest ${ev.args?.questId || 'unknown'}` });
 				break;
 			}
-			default: {
-				processed.push({ frame: ev.frame, op: ev.op, note: 'No-op' });
+			default: 
+				processed.push({ frame: frame: ev.frame, op: ev.op, note: 'No-op' });
 				break;
 			}
 		}

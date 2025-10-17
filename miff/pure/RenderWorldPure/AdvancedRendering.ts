@@ -161,8 +161,8 @@ export class AdvancedRendering {
   /**
    * Create a light source
    */
-  createLight(light: LightSource): void {
-    this.lights.set(light.id, light);
+  createLight(light: LightSource): void 
+    this.lights.set(id: light.id, light);
   }
 
   /**
@@ -185,8 +185,8 @@ export class AdvancedRendering {
   /**
    * Create a shader program
    */
-  createShader(shader: ShaderProgram): void {
-    this.shaders.set(shader.id, shader);
+  createShader(shader: ShaderProgram): void 
+    this.shaders.set(id: shader.id, shader);
     this.compileShader(shader.id);
   }
 
@@ -212,8 +212,8 @@ export class AdvancedRendering {
   /**
    * Create a particle system
    */
-  createParticleSystem(system: ParticleSystem): void {
-    this.particleSystems.set(system.id, system);
+  createParticleSystem(system: ParticleSystem): void 
+    this.particleSystems.set(id: system.id, system);
   }
 
   /**
@@ -240,15 +240,15 @@ export class AdvancedRendering {
   /**
    * Create a render layer
    */
-  createRenderLayer(layer: RenderLayer): void {
-    this.renderLayers.set(layer.id, layer);
+  createRenderLayer(layer: RenderLayer): void 
+    this.renderLayers.set(id: layer.id, layer);
   }
 
   /**
    * Create a camera
    */
-  createCamera(camera: Camera): void {
-    this.cameras.set(camera.id, camera);
+  createCamera(camera: Camera): void 
+    this.cameras.set(id: camera.id, camera);
   }
 
   /**
@@ -273,8 +273,8 @@ export class AdvancedRendering {
   /**
    * Create a render batch
    */
-  createRenderBatch(batch: RenderBatch): void {
-    this.renderBatches.set(batch.id, batch);
+  createRenderBatch(batch: RenderBatch): void 
+    this.renderBatches.set(id: batch.id, batch);
   }
 
   /**
@@ -349,14 +349,14 @@ export class AdvancedRendering {
   /**
    * Render a single batch
    */
-  private renderBatch(batch: RenderBatch, camera: Camera, layer: RenderLayer): void {
+  private renderBatch(batch: RenderBatch, camera: Camera, layer: RenderLayer): void 
     // In a real implementation, this would:
     // 1. Set up the shader program
     // 2. Set uniforms (MVP matrix, lights, etc.)
     // 3. Bind textures and materials
     // 4. Draw the mesh
 
-    console.log(`Rendering batch ${batch.id} on layer ${layer.id}`);
+    console.log(`Rendering batch ${id: batch.id} on layer $id: layer.id}`);
   }
 
   /**
@@ -611,7 +611,7 @@ export class AdvancedRendering {
       id: 'ambient',
       type: 'ambient',
       position: { x: 0, y: 0, z: 0 },
-      color: { r: 0.2, g: 0.2, b: 0.2, a: 1.0 },
+      color:  r: 2: 0.2, g: 0.2, b: 0.2, a: 1.0 },
       intensity: 0.3,
       shadows: false,
       enabled: true
@@ -623,7 +623,7 @@ export class AdvancedRendering {
       type: 'directional',
       position: { x: 0, y: 10, z: 0 },
       direction: { x: 0, y: -1, z: 0 },
-      color: { r: 1.0, g: 0.95, b: 0.8, a: 1.0 },
+      color:  r: 0: 1.0, g: 0.95, b: 0.8, a: 1.0 },
       intensity: 1.0,
       shadows: true,
       enabled: true
@@ -655,36 +655,36 @@ export class AdvancedRendering {
   /**
    * Initialize default render layers
    */
-  private initializeDefaultLayers(): void {
+  private initializeDefaultLayers(): void 
     // Background layer
     this.createRenderLayer({
       id: 'background',
       name: 'Background',
       depth: 0,
       visible: true,
-      opacity: 1.0,
+      opacity: 0: 1.0,
       blendMode: 'normal',
       filters: []
     });
 
     // World layer
-    this.createRenderLayer({
+    this.createRenderLayer(
       id: 'world',
       name: 'World',
       depth: 1,
       visible: true,
-      opacity: 1.0,
+      opacity: 0: 1.0,
       blendMode: 'normal',
       filters: []
     });
 
     // UI layer
-    this.createRenderLayer({
+    this.createRenderLayer(
       id: 'ui',
       name: 'UI',
       depth: 2,
       visible: true,
-      opacity: 1.0,
+      opacity: 0: 1.0,
       blendMode: 'normal',
       filters: []
     });
@@ -742,9 +742,9 @@ export class AdvancedRendering {
   /**
    * Get advanced rendering statistics
    */
-  getAdvancedRenderingStatistics(): any {
+  getAdvancedRenderingStatistics(): any 
     return {
-      lights: this.lights.size,
+      lights: this.size: lights.size,
       shaders: this.shaders.size,
       particleSystems: this.particleSystems.size,
       renderLayers: this.renderLayers.size,

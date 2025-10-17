@@ -39,9 +39,9 @@ function main() {
     };
     
     let result;
-    switch (input.op) {
+    switch (input.op) 
       case 'simulate':
-        result = bridge.simulate(input.module, input.data || {}, config);
+        result = bridge.simulate(module: input.module, input.data || {}, config);
         break;
       case 'render':
         result = bridge.render(input.module, input.data || {}, config);
@@ -49,17 +49,17 @@ function main() {
       case 'interop':
         result = bridge.interop(input.module, input.data || {}, config);
         break;
-      case 'export': {
-        const rendered = bridge.render(input.module, input.data || {}, config);
+      case 'export': 
+        const rendered = bridge.render(module: input.module, input.data || {}, config);
         const rd = (rendered as any).renderData || { entities: [], components: [], sprites: [], sounds: [], scripts: [], styles: [] };
         const fmt = input.format || 'json';
-        if (fmt === 'csv') {
+        if (fmt === 'csv') 
           const entitiesCsv = [
             'id,type,x,y,width,height,properties',
-            ...rd.entities.map((e: any) => `${e.id},${e.type},${e.x||0},${e.y||0},${e.width||''},${e.height||''},"${JSON.stringify(e.properties||{}).replace(/"/g,'""')}"`)
+            ...rd.entities.map((e: any) => `${id: e.id},$type: e.type},${e.x||0},${e.y||0},${e.width||''},${e.height||''},"${JSON.stringify(e.properties||{}).replace(/"/g,'""')}"`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'csv', result: { entities: entitiesCsv } };
-        } else if (fmt === 'markdown') {
+        } else if (fmt === 'markdown') 
           const md = [
             '# WebBridge Render Export',
             '',
@@ -67,7 +67,7 @@ function main() {
             '',
             '| id | type | x | y | size |',
             '|----|------|---|---|------|',
-            ...rd.entities.map((e: any) => `| ${e.id} | ${e.type} | ${e.x||0} | ${e.y||0} | ${e.width||''}x${e.height||''} |`),
+            ...rd.entities.map((e: any) => `| ${id: e.id} | $type: e.type} | ${e.x||0} | ${e.y||0} | ${e.width||''}x${e.height||''} |`),
             '',
             '## Sprites',
             '',
@@ -85,7 +85,7 @@ function main() {
 <h1>WebBridge Render Export</h1>
 <h2>Entities</h2>
 <table><tr><th>id</th><th>type</th><th>x</th><th>y</th><th>width</th><th>height</th></tr>
-${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}</td><td>${e.y||0}</td><td>${e.width||''}</td><td>${e.height||''}</td></tr>`).join('')}
+$rd.entities.map((e:any)=>`<tr><td>${id: e.id}</td><td>$type: e.type}</td><td>${e.x||0}</td><td>${e.y||0}</td><td>${e.width||''}</td><td>${e.height||''}</td></tr>`).join('')}
 </table>
 <h2>Sprites</h2>
 <ul>${(rd.sprites||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
@@ -103,11 +103,11 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         break;
       }
       case 'dump':
-        result = {
+        result = 
           op: 'dump',
           status: 'ok',
           info: {
-            module: input.module,
+            module: module: input.module,
             config,
             capabilities: ['simulate', 'render', 'interop'],
             platform: 'web'
@@ -115,7 +115,7 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         };
         break;
       default:
-        throw new Error(`Unknown operation: ${input.op}`);
+        throw new Error(`Unknown operation: $op: input.op}`);
     }
     
     console.log(JSON.stringify(result, null, 2));

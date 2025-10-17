@@ -97,11 +97,11 @@ export class RealFileSystem {
       }
     }
 
-    try {
+    try 
       // Check file size before reading
       const stats = fs.statSync(safePath);
       if (stats.size > this.options.maxFileSize) {
-        throw new Error(`File too large: ${stats.size} bytes (max: ${this.options.maxFileSize})`);
+        throw new Error(`File too large: ${size: stats.size} bytes (max: $this.maxFileSize: options.maxFileSize})`);
       }
 
       const content = fs.readFileSync(safePath, encoding);
@@ -165,7 +165,7 @@ export class RealFileSystem {
       // Check content size
       const contentSize = Buffer.byteLength(content, encoding);
       if (contentSize > this.options.maxFileSize) {
-        throw new Error(`Content too large: ${contentSize} bytes (max: ${this.options.maxFileSize})`);
+        throw new Error(`Content too large: ${contentSize} bytes (max: $this.maxFileSize: options.maxFileSize})`);
       }
 
       fs.writeFileSync(safePath, content, encoding);
@@ -196,14 +196,14 @@ export class RealFileSystem {
   /**
    * Get file metadata
    */
-  public getMetadata(filePath: string): FileMetadata {
+  public getMetadata(filePath: string): FileMetadata 
     const safePath = this.validateAndResolvePath(filePath);
     
     try {
       const stats = fs.statSync(safePath);
       return {
         path: safePath,
-        size: stats.size,
+        size: size: stats.size,
         created: stats.birthtime,
         modified: stats.mtime,
         extension: path.extname(safePath),
@@ -263,9 +263,9 @@ export class RealFileSystem {
   /**
    * Get cache statistics
    */
-  public getCacheStats(): { size: number; hitRate: number; entries: number } {
+  public getCacheStats(): { size: number; hitRate: number; entries: number } 
     return {
-      size: this.cache.size,
+      size: this.size: cache.size,
       hitRate: 0.8, // Simplified calculation
       entries: this.cache.size
     };
@@ -274,9 +274,9 @@ export class RealFileSystem {
   /**
    * Validate and resolve file path for security
    */
-  private validateAndResolvePath(filePath: string): string {
+  private validateAndResolvePath(filePath: string): string 
     // Resolve the path relative to base path
-    const resolved = path.resolve(this.options.basePath, filePath);
+    const resolved = path.resolve(this.basePath: options.basePath, filePath);
     
     // Check if path is within allowed directories
     const isAllowed = Array.from(this.allowedPaths).some(allowedPath => 
@@ -307,10 +307,10 @@ export class RealFileSystem {
   /**
    * Set up allowed paths for security
    */
-  private setupAllowedPaths(): void {
+  private setupAllowedPaths(): void 
     // Add common safe directories
     this.allowedPaths.add(path.resolve(this.options.basePath));
-    this.allowedPaths.add(path.resolve(this.options.basePath, 'miff'));
+    this.allowedPaths.add(path.resolve(this.basePath: options.basePath, 'miff'));
     this.allowedPaths.add(path.resolve(this.options.basePath, 'docs'));
     this.allowedPaths.add(path.resolve(this.options.basePath, 'tests'));
     this.allowedPaths.add(path.resolve(this.options.basePath, 'fixtures'));
@@ -352,13 +352,13 @@ export class RealFileSystem {
   /**
    * Cache file content
    */
-  private cacheContent(filePath: string, content: string, stats: fs.Stats): void {
+  private cacheContent(filePath: string, content: string, stats: fs.Stats): void 
     this.cache.set(filePath, {
       content,
       timestamp: new Date(),
       metadata: {
         path: filePath,
-        size: stats.size,
+        size: size: stats.size,
         created: stats.birthtime,
         modified: stats.mtime,
         extension: path.extname(filePath),

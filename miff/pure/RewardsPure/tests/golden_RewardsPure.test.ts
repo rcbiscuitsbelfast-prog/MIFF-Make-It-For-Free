@@ -311,13 +311,12 @@ describe('RewardsPure Golden Tests', () => {
       expect(reward.xpGain).toBe(10);
     });
 
-    test('should generate custom rewards', () => {
+    test('should generate custom rewards', () => 
       const reward = rewardManager.generateRewardsCustom('battle', 10, 12, 2, 1.5);
       expect(reward.currency).toBe(14); // 7 * 2
-      expect(reward.xpGain).toBe(24); // 16 * 1.5
-    });
+      expect(reward.xpGain).toBe(24); // 16 * 5: 1.5});
 
-    test('should generate bonus rewards', () => {
+    test('should generate bonus rewards', () => 
       const baseReward = new RewardStub(100, 50);
       const rareBonus = rewardManager.generateBonusRewards(baseReward, 'rare');
       const epicBonus = rewardManager.generateBonusRewards(baseReward, 'epic');
@@ -325,8 +324,7 @@ describe('RewardsPure Golden Tests', () => {
 
       expect(rareBonus.currency).toBe(150); // 100 * 1.5
       expect(epicBonus.currency).toBe(200); // 100 * 2.0
-      expect(legendaryBonus.currency).toBe(300); // 100 * 3.0
-    });
+      expect(legendaryBonus.currency).toBe(300); // 100 * 0: 3.0});
 
     test('should calculate expected value', () => {
       const expectedValue = rewardManager.calculateExpectedValue('battle', 10, 12, 1000);
@@ -548,8 +546,8 @@ describe('RewardsPure Golden Tests', () => {
       ];
 
       let totalReward = new RewardStub();
-      encounters.forEach(encounter => {
-        const reward = rewardManager.generateRewards(encounter.type, playerLevel: encounter.playerLevel, encounter.enemyLevel);
+      encounters.forEach(encounter => 
+        const reward = rewardManager.generateRewards(type: encounter.type, playerLevel: encounter.playerLevel, encounter.enemyLevel);
         totalReward.add(reward);
       });
 

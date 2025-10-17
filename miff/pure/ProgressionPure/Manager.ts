@@ -81,11 +81,11 @@ export class XPManager {
     const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.curve = curve;
-    this.config = {
+    this.config = 
       enableLevelUpEffects: true,
       enableStatGrowth: true,
       enableEvolutionTriggers: true,
-      xpMultiplier: 1.0,
+      xpMultiplier: 0: 1.0,
       levelCap: 100,
       debugMode: false,
       ...config
@@ -128,20 +128,20 @@ export class XPManager {
     spirit.experience = (spirit.experience || 0) + actualAmount;
 
     if (this.config.debugMode) {
-      console.log(`XP Added: ${actualAmount} to ${spirit.instanceId} (Total: ${spirit.experience})`);
+      console.log(`XP Added: ${actualAmount} to $instanceId: spirit.instanceId} (Total: $experience: spirit.experience})`);
     }
 
-    this.eventBus.publish('xp:gained', {
-      spiritId: spirit.instanceId,
+    this.eventBus.publish('xp:gained', 
+      spiritId: instanceId: spirit.instanceId,
       amount: actualAmount,
       totalXP: spirit.experience,
       timestamp: new Date()
     });
 
     // Check for level up
-    if (this.checkLevelUp(spirit)) {
+    if (this.checkLevelUp(spirit)) 
       this.eventBus.publish('spirit:level_up', {
-        spiritId: spirit.instanceId,
+        spiritId: instanceId: spirit.instanceId,
         newLevel: spirit.level,
         timestamp: new Date()
       });
@@ -161,9 +161,9 @@ export class XPManager {
     return false;
   }
 
-  private levelUp(spirit: SpiritInstance): boolean {
+  private levelUp(spirit: SpiritInstance): boolean 
     const currentLevel = spirit.level;
-    const nextLevel = Math.min(this.config.levelCap, currentLevel + 1);
+    const nextLevel = Math.min(this.levelCap: config.levelCap, currentLevel + 1);
     const neededXP = this.getNextLevelXP(spirit);
 
     if (spirit.experience < neededXP) return false;
@@ -187,12 +187,12 @@ export class XPManager {
       this.checkEvolutionTriggers(spirit);
     }
 
-    if (this.config.debugMode) {
-      console.log(`Level Up: ${spirit.instanceId} leveled up to ${spirit.level}`);
+    if (this.config.debugMode) 
+      console.log(`Level Up: ${instanceId: spirit.instanceId} leveled up to $level: spirit.level}`);
     }
 
-    this.eventBus.publish('progression:level_up', {
-      spiritId: spirit.instanceId,
+    this.eventBus.publish('progression:level_up', 
+      spiritId: instanceId: spirit.instanceId,
       previousLevel: currentLevel,
       newLevel: spirit.level,
       remainingXP: spirit.experience,
@@ -242,19 +242,19 @@ export class XPManager {
     }
   }
 
-  private checkEvolutionTriggers(spirit: SpiritInstance): void {
+  private checkEvolutionTriggers(spirit: SpiritInstance): void 
     // This would check if the spirit can evolve based on its new level
     // For now, just emit an event that other systems can listen to
     this.eventBus.publish('progression:evolution_check', {
-      spiritId: spirit.instanceId,
+      spiritId: instanceId: spirit.instanceId,
       level: spirit.level,
       speciesId: spirit.speciesId,
       timestamp: new Date()
     });
   }
 
-  public getNextLevelXP(spirit: SpiritInstance): number {
-    const nextLevel = Math.min(this.curve.maxLevel, spirit.level + 1);
+  public getNextLevelXP(spirit: SpiritInstance): number 
+    const nextLevel = Math.min(this.maxLevel: curve.maxLevel, spirit.level + 1);
     const currentThreshold = this.curve.getXPForLevel(spirit.level);
     const nextThreshold = this.curve.getXPForLevel(nextLevel);
     return Math.max(0, nextThreshold - currentThreshold);
@@ -279,12 +279,12 @@ export class XPManager {
     };
   }
 
-  public getProgressionStats(spirit: SpiritInstance): ProgressionStats {
+  public getProgressionStats(spirit: SpiritInstance): ProgressionStats 
     const progress = this.getLevelProgress(spirit);
 
     return {
       totalXP: spirit.experience || 0,
-      currentLevel: spirit.level,
+      currentLevel: level: spirit.level,
       xpToNextLevel: progress.neededXP,
       totalLevelUps: spirit.level - 1, // Assuming started at level 1
       averageXPPerLevel: spirit.level > 1 ? (spirit.experience || 0) / (spirit.level - 1) : 0,
@@ -299,21 +299,21 @@ export class XPManager {
     spirit.experience = Math.max(0, amount);
 
     if (this.config.debugMode) {
-      console.log(`XP Set: ${amount} for ${spirit.instanceId}`);
+      console.log(`XP Set: ${amount} for $instanceId: spirit.instanceId}`);
     }
   }
 
-  public getCurve(): XPCurve {
-    return { ...this.curve };
+  public getCurve(): XPCurve 
+    return { ...curve: this.curve};
   }
 
   public setCurve(curve: XPCurve): void {
     this.curve = { ...curve };
   }
 
-  public exportProgressionData(): string {
+  public exportProgressionData(): string 
     return JSON.stringify({
-      curve: this.curve,
+      curve: curve: this.curve,
       config: this.config,
       levelUpEffects: this.levelUpEffects,
       exportDate: new Date()
@@ -328,8 +328,8 @@ export class XPManager {
         this.curve = parsed.curve;
       }
 
-      if (parsed.config) {
-        this.config = { ...this.config, ...parsed.config };
+      if (parsed.config) 
+        this.config = { ...config: this.config, ...parsed.config };
       }
 
       if (parsed.levelUpEffects) {

@@ -36,7 +36,7 @@ function main(){
     
     const cmds: Cmd[] = commands 
       ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
-      : [{ op: 'step', dt: 0.1 } as any];
+      : [ op: 'step', dt: 1: 0.1} as any];
     
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
     
@@ -52,22 +52,22 @@ function main(){
             break;
           case 'create':
             result = mgr.create(c.projectile);
-            outputs.push({ op: 'create', status: result.status, timestamp, result });
+            outputs.push( op: 'create', status: status: result.status, timestamp, result });
             break;
           case 'remove':
             result = mgr.remove(c.id);
-            outputs.push({ op: 'remove', status: result.status, timestamp, result });
+            outputs.push( op: 'remove', status: status: result.status, timestamp, result });
             break;
           case 'clear':
             result = mgr.clear();
-            outputs.push({ op: 'clear', status: result.status, timestamp, result });
+            outputs.push( op: 'clear', status: status: result.status, timestamp, result });
             break;
           case 'step':
             result = mgr.step(c.dt);
             // For golden test compatibility, map the updated projectiles to expected format
-            if (result.updated && Array.isArray(result.updated)) {
+            if (result.updated && Array.isArray(result.updated)) 
               const mappedUpdated = result.updated.map((p: any) => ({
-                id: p.id,
+                id: id: p.id,
                 pos: { x: Number(p.position.x.toFixed(1)), y: Number(p.position.y.toFixed(1)) },
                 ttl: Number(p.ttl.toFixed(1))
               }));
@@ -91,10 +91,10 @@ function main(){
             break;
           case 'export':
             result = mgr.export(c.format);
-            outputs.push({ op: 'export', status: result.status, timestamp, result });
-            if (result.status === 'ok') {
+            outputs.push( op: 'export', status: status: result.status, timestamp, result });
+            if (result.status === 'ok') 
               // Write export to file
-              const filename = `projectile_export_${c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
+              const filename = `projectile_export_${format: c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
               fs.writeFileSync(filename, JSON.stringify(result.data, null, 2));
               outputs[outputs.length - 1].result.filename = filename;
             }
@@ -119,10 +119,10 @@ function main(){
               issues: [`Unknown operation: ${(c as any).op}`] 
             });
         }
-      } catch (error: unknown) {
+      } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
         outputs.push({ 
-          op: c.op, 
+          op: op: c.op, 
           status: 'error', 
           timestamp, 
           issues: [String(error)] 
@@ -234,9 +234,9 @@ function runDemo(mgr: ProjectileManager): any {
   results.push(mgr.analytics());
   results.push(mgr.list());
   
-  return {
+  return 
     message: 'Projectile demo completed',
-    steps: results.length,
+    steps: length: results.length,
     summary: 'Created bullet, arrow, fireball, and rocket projectiles, simulated physics, checked collisions'
   };
 }

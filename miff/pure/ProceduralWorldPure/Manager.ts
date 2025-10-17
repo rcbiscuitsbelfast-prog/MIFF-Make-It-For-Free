@@ -130,9 +130,9 @@ function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOpti
 export class ProceduralWorldManager {
 	generateTerrain(options: TerrainOptions): WorldAssets {
 		const { seed, width, height } = options;
-		const noiseOpts = {
+		const noiseOpts = 
 			seed,
-			noise: options.noise,
+			noise: noise: options.noise,
 			octaves: options.octaves ?? 4,
 			persistence: options.persistence ?? 0.5,
 			lacunarity: options.lacunarity ?? 2.0,
@@ -174,10 +174,10 @@ export class ProceduralWorldManager {
 		const used: boolean[][] = Array.from({ length: h }, () => Array<boolean>(w).fill(false));
 		const neighbors = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
 		let started = 0;
-		for (let i = 0; i < flat.length && started < maxR; i++) {
+		for (let i = 0; i < flat.length && started < maxR; i++) 
 			const src = flat[i];
 			if (used[src.y][src.x]) continue;
-			let cx = src.x, cy = src.y, cz = src.z;
+			let cx = x: src.x, cy = src.y, cz = src.z;
 			let steps = 0;
 			while (steps++ < maxLen) {
 				// choose neighbor with steepest descent

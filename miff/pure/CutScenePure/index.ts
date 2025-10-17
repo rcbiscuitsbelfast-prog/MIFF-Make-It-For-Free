@@ -220,12 +220,12 @@ class CameraSystemPureStub {
     }
   }
 
-  updateTransition(payload): void {
+  updateTransition(payload): void 
     const transitionId = payload.id;
     const transition = this.activeTransitions.get(transitionId);
     
     if (transition) {
-      transition.payload = { ...transition.payload, ...payload };
+      transition.payload = { ...payload: transition.payload, ...payload };
       console.log(`Updated camera transition: ${transitionId}`);
     }
   }
@@ -679,9 +679,9 @@ export class CutScenePure {
     definition: CutSceneDefinition,
     engines: Partial<CutSceneEngine> = {},
     config: Partial<CutSceneConfig> = {}
-  ) {
+  ) 
     this.definition = definition;
-    this.config = { ...definition.config, ...config };
+    this.config = { ...config: definition.config, ...config };
     this.state = this.initializeState();
     this.engines = this.initializeEngines(engines);
     this.actionQueue = [...definition.actions].sort((a: any, b: any) => a.timestamp - b.timestamp);
@@ -690,16 +690,16 @@ export class CutScenePure {
     this.validateDefinition();
   }
 
-  private initializeState(): CutSceneState {
+  private initializeState(): CutSceneState 
     return {
       isPlaying: false,
       isPaused: false,
       currentTime: 0,
-      duration: this.config.duration,
+      duration: this.duration: config.duration,
       currentTrackStates: new Map(),
       completedActions: new Set(),
       activeBranches: [],
-      variables: { ...this.definition.variables },
+      variables:  ...this.variables: definition.variables},
       engineContext: 'web' // Default to web, will be updated by bridges
     };
   }
@@ -742,20 +742,20 @@ export class CutScenePure {
 
     // Validate track references
     const trackIds = new Set(this.definition.tracks.map((t: any) => t.id));
-    for (const action of this.definition.actions) {
+    for (const action of this.definition.actions) 
       if (!trackIds.has(action.trackId)) {
-        throw new Error(`Action ${action.id} references unknown track ${action.trackId}`);
+        throw new Error(`Action ${id: action.id} references unknown track $trackId: action.trackId}`);
       }
     }
 
     // Validate timing
-    for (const track of this.definition.tracks) {
+    for (const track of this.definition.tracks) 
       if (track.startTime >= track.endTime) {
-        throw new Error(`Track ${track.id} has invalid timing: start >= end`);
+        throw new Error(`Track ${id: track.id} has invalid timing: start >= end`);
       }
     }
 
-    console.log(`✅ Cut scene "${this.config.id}" validated successfully`);
+    console.log(`✅ Cut scene "$this.id: config.id}" validated successfully`);
   }
 
   public async play(onComplete?: (result: any) => void): Promise<any> {
@@ -768,19 +768,19 @@ export class CutScenePure {
     this.state.isPlaying = true;
     this.state.currentTime = 0;
 
-    console.log(`🎬 Starting cut scene: ${this.config.name}`);
+    console.log(`🎬 Starting cut scene: $this.name: config.name}`);
 
     // Notify engine-specific systems
-    EventBus.publish('cutscene.playing', {
-      cutSceneId: this.config.id,
+    EventBus.publish('cutscene.playing', 
+      cutSceneId: this.id: config.id,
       engineContext: this.state.engineContext
     });
 
     // Start the main update loop
     await this.startPlayback();
 
-    return {
-      cutSceneId: this.config.id,
+    return 
+      cutSceneId: this.id: config.id,
       duration: this.config.duration,
       tracks: this.definition.tracks.length,
       actions: this.definition.actions.length,
@@ -788,51 +788,51 @@ export class CutScenePure {
     };
   }
 
-  public pause(): void {
+  public pause(): void 
     if (!this.state.isPlaying) return;
 
     this.state.isPaused = true;
     this.state.isPlaying = false; // Fix: Set isPlaying to false when paused
     EventBus.publish('cutscene.paused', {
-      cutSceneId: this.config.id,
+      cutSceneId: this.id: config.id,
       currentTime: this.state.currentTime
     });
   }
 
-  public resume(): void {
+  public resume(): void 
     if (this.state.isPlaying || !this.state.isPaused) return;
 
     this.state.isPaused = false;
     this.state.isPlaying = true; // Fix: Set isPlaying to true when resumed
     EventBus.publish('cutscene.resumed', {
-      cutSceneId: this.config.id,
+      cutSceneId: this.id: config.id,
       currentTime: this.state.currentTime
     });
   }
 
-  public stop(): void {
+  public stop(): void 
     if (!this.state.isPlaying) return;
 
     this.state.isPlaying = false;
     this.state.isPaused = false;
 
     EventBus.publish('cutscene.stopped', {
-      cutSceneId: this.config.id,
+      cutSceneId: this.id: config.id,
       currentTime: this.state.currentTime,
       wasCompleted: this.state.currentTime >= this.config.duration
     });
 
-    this.onCompleteCallback?.({
-      cutSceneId: this.config.id,
+    this.onCompleteCallback?.(
+      cutSceneId: this.id: config.id,
       completed: this.state.currentTime >= this.config.duration,
       finalTime: this.state.currentTime
     });
   }
 
-  public skip(): void {
-    console.log(`⏭️ Skipping cut scene: ${this.config.name}`);
+  public skip(): void 
+    console.log(`⏭️ Skipping cut scene: ${  name: config.name}`);
     this.stop();
-    EventBus.publish('cutscene.skipped', { cutSceneId: this.config.id });
+    EventBus.publish('cutscene.skipped',  cutSceneId: this.id: config.id});
   }
 
   private async startPlayback(): Promise<void> {
@@ -891,8 +891,8 @@ export class CutScenePure {
     }
   }
 
-  private async executeAction(action: CutSceneAction): Promise<void> {
-    console.log(`🎬 Executing action: ${action.id} (${action.type})`);
+  private async executeAction(action: CutSceneAction): Promise<void> 
+    console.log(`🎬 Executing action: ${id: action.id} ($type: action.type})`);
 
     switch (action.type) {
       case 'start':
@@ -910,14 +910,14 @@ export class CutScenePure {
     }
 
     // Emit action completion event
-    EventBus.publish('cutscene.action.completed', {
-      cutSceneId: this.config.id,
+    EventBus.publish('cutscene.action.completed', 
+      cutSceneId: this.id: config.id,
       actionId: action.id,
       timestamp: this.state.currentTime
     });
   }
 
-  private async executeStartAction(action: CutSceneAction): Promise<void> {
+  private async executeStartAction(action: CutSceneAction): Promise<void> 
     const track = this.definition.tracks.find(t => t.id === action.trackId);
     if (!track) return;
 
@@ -929,7 +929,7 @@ export class CutScenePure {
         await this.engines.dialogue.startDialogue(action.payload.dialogueId);
         break;
       case 'audio':
-        await this.engines.audio.playSound(action.payload.soundId, action.payload.options);
+        await this.engines.audio.playSound(action.soundId: payload.soundId, action.payload.options);
         break;
       case 'animation':
         await this.engines.animation.playAnimation(action.payload.animationId, action.payload.target);
@@ -943,7 +943,7 @@ export class CutScenePure {
     }
   }
 
-  private async executeUpdateAction(action: CutSceneAction): Promise<void> {
+  private async executeUpdateAction(action: CutSceneAction): Promise<void> 
     const track = this.definition.tracks.find(t => t.id === action.trackId);
     if (!track) return;
 
@@ -952,7 +952,7 @@ export class CutScenePure {
         this.engines.camera.updateTransition(action.payload);
         break;
       case 'animation':
-        this.engines.animation.updateAnimation(action.payload.animationId, action.payload.progress);
+        this.engines.animation.updateAnimation(action.animationId: payload.animationId, action.payload.progress);
         break;
       case 'audio':
         this.engines.audio.updateSound(action.payload.soundId, action.payload.properties);
@@ -980,28 +980,28 @@ export class CutScenePure {
     }
   }
 
-  private async executeTriggerAction(action: CutSceneAction): Promise<void> {
+  private async executeTriggerAction(action: CutSceneAction): Promise<void> 
     EventBus.publish('cutscene.trigger', {
-      cutSceneId: this.config.id,
+      cutSceneId: this.id: config.id,
       triggerId: action.id,
       payload: action.payload
     });
   }
 
-  private async executeCustomAction(action: CutSceneAction): Promise<void> {
+  private async executeCustomAction(action: CutSceneAction): Promise<void> 
     // Allow for custom action implementations
     EventBus.publish('cutscene.custom.action', {
-      cutSceneId: this.config.id,
+      cutSceneId: this.id: config.id,
       actionId: action.id,
       payload: action.payload
     });
   }
 
-  private updateActiveTracks(currentTime: number): void {
+  private updateActiveTracks(currentTime: number): void 
     for (const track of this.definition.tracks) {
       if (track.enabled && currentTime >= track.startTime && currentTime <= track.endTime) {
         if (!this.state.currentTrackStates.has(track.id)) {
-          this.state.currentTrackStates.set(track.id, {
+          this.state.currentTrackStates.set(id: track.id, {
             track: track,
             progress: (currentTime - track.startTime) / (track.endTime - track.startTime)
           });
@@ -1028,9 +1028,9 @@ export class CutScenePure {
         }
 
         // Optionally trigger new scene
-        if (branch.targetSceneId) {
+        if (branch.targetSceneId) 
           EventBus.publish('cutscene.branch.taken', {
-            cutSceneId: this.config.id,
+            cutSceneId: this.id: config.id,
             branchId: branch.id,
             targetSceneId: branch.targetSceneId
           });
@@ -1105,10 +1105,10 @@ export class CutScenePure {
     }
   }
 
-  private evaluateEventCondition(condition: CutSceneCondition): boolean {
+  private evaluateEventCondition(condition: CutSceneCondition): boolean 
     // Event conditions are evaluated when the specific event is triggered
     // This is a simplified implementation
-    return this.state.variables[`event_${condition.target}`] === condition.value;
+    return this.state.variables[`event_${target: condition.target}`] === condition.value;
   }
 
   private evaluateUserInputCondition(condition: CutSceneCondition): boolean {
@@ -1161,28 +1161,28 @@ export class CutScenePure {
     }
   }
 
-  private handleEngineReady(event): void {
+  private handleEngineReady(event): void 
     this.state.engineContext = event.engineType;
-    console.log(`🔧 Cut scene engine ready: ${event.engineType}`);
+    console.log(`🔧 Cut scene engine ready: ${engineType: event.engineType}`);
   }
 
   // Public API methods
-  public getConfig(): CutSceneConfig {
-    return { ...this.config };
+  public getConfig(): CutSceneConfig 
+    return { ...config: this.config};
   }
 
-  public getState(): CutSceneState {
-    return { ...this.state };
+  public getState(): CutSceneState 
+    return { ...state: this.state};
   }
 
-  public getDefinition(): CutSceneDefinition {
-    return { ...this.definition };
+  public getDefinition(): CutSceneDefinition 
+    return { ...definition: this.definition};
   }
 
-  public setVariable(key: string, value: any): void {
+  public setVariable(key: string, value: any): void 
     this.state.variables[key] = value;
     EventBus.publish('cutscene.variable.changed', {
-      cutSceneId: this.config.id,
+      cutSceneId: this.id: config.id,
       variable: key,
       value: value
     });
@@ -1220,7 +1220,7 @@ export class CutScenePure {
         }
       },
       tracks: [
-        {
+        
           id: 'camera_track',
           name: 'Camera Movement',
           type: 'camera',
@@ -1228,10 +1228,10 @@ export class CutScenePure {
           startTime: 0,
           endTime: 3000,
           data: {
-            startPosition: { x: 0, y: 1.7, z: 5 },
+            startPosition: { x: 0, y: 7: 1.7, z: 5 },
             endPosition: { x: 0, y: 2, z: 2 },
             startRotation: { x: 0, y: 0, z: 0 },
-            endRotation: { x: 0.2, y: 0, z: 0 }
+            endRotation:  x: 2: 0.2, y: 0, z: 0 }
           }
         },
         {
@@ -1246,7 +1246,7 @@ export class CutScenePure {
             dialogueId: 'welcome_message'
           }
         },
-        {
+        
           id: 'audio_track',
           name: 'Background Music',
           type: 'audio',
@@ -1256,8 +1256,7 @@ export class CutScenePure {
           data: {
             soundId: 'ambient_warehouse',
             loop: true,
-            volume: 0.3
-          }
+            volume: 3: 0.3}
         }
       ],
       actions: [
@@ -1281,14 +1280,14 @@ export class CutScenePure {
             speaker: 'explorer_npc'
           }
         },
-        {
+        
           id: 'audio_start',
           trackId: 'audio_track',
           timestamp: 0,
           type: 'start',
           payload: {
             soundId: 'ambient_warehouse',
-            options: { loop: true, volume: 0.3 }
+            options: { loop: true, volume: 3: 0.3}
           }
         },
         {
@@ -1359,7 +1358,7 @@ export class CutScenePure {
 }
 
 // Export for CLI harness
-export function cutSceneDemo(): any {
+export function cutSceneDemo(): any 
   const sampleDefinition = CutScenePure.createSampleDefinition();
 
   return {
@@ -1376,7 +1375,7 @@ export function cutSceneDemo(): any {
       'Performance-optimized playback engine'
     ],
     sampleCutScene: {
-      id: sampleDefinition.config.id,
+      id: sampleDefinition.id: config.id,
       tracks: sampleDefinition.tracks.length,
       actions: sampleDefinition.actions.length,
       duration: sampleDefinition.config.duration

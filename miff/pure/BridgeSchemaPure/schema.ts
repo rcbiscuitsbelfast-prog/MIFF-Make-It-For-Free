@@ -91,8 +91,8 @@ export class BridgeSchemaValidator {
     }
 
     // Type validation
-    if (data.type && !['sprite', 'text', 'sound', 'animation', 'node', 'component', 'resource', 'scene', 'input', 'ui'].includes(data.type)) {
-      issues.push(`Invalid render type: ${data.type}`);
+    if (data.type && !['sprite', 'text', 'sound', 'animation', 'node', 'component', 'resource', 'scene', 'input', 'ui'].includes(data.type)) 
+      issues.push(`Invalid render type: ${type: data.type}`);
     }
 
     // Position validation
@@ -195,9 +195,9 @@ export class BridgeSchemaValidator {
     return issues;
   }
 
-  static convertFromUnity(unityData: any): RenderData {
+  static convertFromUnity(unityData: any): RenderData 
     return {
-      id: unityData.id || unityData.gameObject,
+      id: unityData.id || gameObject: unityData.gameObject,
       type: this.mapUnityType(unityData),
       name: unityData.name,
       position: unityData.transform?.position,
@@ -205,17 +205,17 @@ export class BridgeSchemaValidator {
       rotation: unityData.transform?.rotation,
       asset: unityData.prefab,
       props: unityData.components,
-      engineHints: {
+      engineHints: 
         unity: {
-          gameObject: unityData.gameObject,
+          gameObject: gameObject: unityData.gameObject,
           component: unityData.componentType,
           prefab: unityData.prefab,
           useECS: unityData.useECS
         }
       },
       children: unityData.children?.map((child: any) => this.convertFromUnity(child)),
-      signals: unityData.signals?.map((signal: any) => ({
-        name: signal.name,
+      signals: unityData.signals?.map((signal: any) => (
+        name: name: signal.name,
         parameters: signal.parameters,
         connectedTo: signal.connectedTo,
         engine: 'unity'
@@ -223,26 +223,26 @@ export class BridgeSchemaValidator {
     };
   }
 
-  static convertFromWeb(webData: any): RenderData {
+  static convertFromWeb(webData: any): RenderData 
     return {
-      id: webData.id,
+      id: id: webData.id,
       type: this.mapWebType(webData),
       name: webData.name,
-      position: { x: webData.x, y: webData.y },
-      scale: webData.width && webData.height ? { x: webData.width, y: webData.height } : undefined,
+      position:  x: x: webData.x, y: webData.y },
+      scale: webData.width && webData.height ?  x: width: webData.width, y: webData.height } : undefined,
       asset: webData.texture || webData.src,
       props: webData.properties,
-      engineHints: {
+      engineHints: 
         web: {
-          element: webData.element,
+          element: element: webData.element,
           canvas: webData.canvas,
           dom: webData.dom,
           useWebGL: webData.useWebGL
         }
       },
       children: webData.children?.map((child: any) => this.convertFromWeb(child)),
-      signals: webData.events?.map((event: any) => ({
-        name: event.name,
+      signals: webData.events?.map((event: any) => (
+        name: name: event.name,
         parameters: event.parameters,
         connectedTo: event.handlers,
         engine: 'web'
@@ -250,27 +250,27 @@ export class BridgeSchemaValidator {
     };
   }
 
-  static convertFromGodot(godotData: any): RenderData {
+  static convertFromGodot(godotData: any): RenderData 
     return {
-      id: godotData.id,
+      id: id: godotData.id,
       type: this.mapGodotType(godotData),
       name: godotData.name,
       position: godotData.position,
       scale: godotData.scale,
-      rotation: godotData.rotation ? { x: 0, y: 0, z: godotData.rotation } : undefined,
+      rotation: godotData.rotation ?  x: 0, y: 0, z: rotation: godotData.rotation} : undefined,
       asset: godotData.texture || godotData.script,
       props: godotData.properties,
-      engineHints: {
+      engineHints: 
         godot: {
-          node: godotData.type,
+          node: type: godotData.type,
           script: godotData.script,
           scene: godotData.scene,
           language: godotData.language
         }
       },
       children: godotData.children?.map((child: any) => this.convertFromGodot(child)),
-      signals: godotData.signals?.map((signal: any) => ({
-        name: signal.name,
+      signals: godotData.signals?.map((signal: any) => (
+        name: name: signal.name,
         parameters: signal.parameters,
         connectedTo: signal.connectedTo,
         engine: 'godot'
@@ -305,12 +305,12 @@ export class BridgeSchemaValidator {
     return 'component';
   }
 
-  static convertToUnity(renderData: RenderData): any {
+  static convertToUnity(renderData: RenderData): any 
     return {
-      id: renderData.id,
+      id: id: renderData.id,
       gameObject: renderData.name || renderData.id,
-      transform: {
-        position: renderData.position,
+      transform: 
+        position: position: renderData.position,
         scale: renderData.scale,
         rotation: renderData.rotation
       },
@@ -318,17 +318,17 @@ export class BridgeSchemaValidator {
       prefab: renderData.asset,
       components: renderData.props,
       children: renderData.children?.map((child: any) => this.convertToUnity(child)),
-      signals: renderData.signals?.filter((s: any) => s.engine === 'unity').map((signal: any) => ({
-        name: signal.name,
+      signals: renderData.signals?.filter((s: any) => s.engine === 'unity').map((signal: any) => (
+        name: name: signal.name,
         parameters: signal.parameters,
         connectedTo: signal.connectedTo
       }))
     };
   }
 
-  static convertToWeb(renderData: RenderData): any {
+  static convertToWeb(renderData: RenderData): any 
     return {
-      id: renderData.id,
+      id: id: renderData.id,
       type: this.mapToWebType(renderData.type),
       name: renderData.name,
       x: renderData.position?.x,
@@ -338,17 +338,17 @@ export class BridgeSchemaValidator {
       texture: renderData.asset,
       properties: renderData.props,
       children: renderData.children?.map((child: any) => this.convertToWeb(child)),
-      events: renderData.signals?.filter((s: any) => s.engine === 'web').map((signal: any) => ({
-        name: signal.name,
+      events: renderData.signals?.filter((s: any) => s.engine === 'web').map((signal: any) => (
+        name: name: signal.name,
         parameters: signal.parameters,
         handlers: signal.connectedTo
       }))
     };
   }
 
-  static convertToGodot(renderData: RenderData): any {
+  static convertToGodot(renderData: RenderData): any 
     return {
-      id: renderData.id,
+      id: id: renderData.id,
       type: this.mapToGodotType(renderData.type),
       name: renderData.name,
       position: renderData.position,
@@ -357,8 +357,8 @@ export class BridgeSchemaValidator {
       texture: renderData.asset,
       properties: renderData.props,
       children: renderData.children?.map((child: any) => this.convertToGodot(child)),
-      signals: renderData.signals?.filter((s: any) => s.engine === 'godot').map((signal: any) => ({
-        name: signal.name,
+      signals: renderData.signals?.filter((s: any) => s.engine === 'godot').map((signal: any) => (
+        name: name: signal.name,
         parameters: signal.parameters,
         connectedTo: signal.connectedTo
       }))

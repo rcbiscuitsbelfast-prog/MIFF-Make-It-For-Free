@@ -51,12 +51,12 @@ class SessionManifestCLI {
       }
     ];
 
-    sampleSessions.forEach((session: any) => {
-      this.manager.createSession(session.id, zone: session.zone, session.players);
+    sampleSessions.forEach((session: any) => 
+      this.manager.createSession(id: session.id, zone: session.zone, session.players);
     });
   }
 
-  async execute(operation: SessionOperation): Promise<any> {
+  async execute(operation: SessionOperation): Promise<any> 
     try {
       switch (operation.op) {
         case 'create':
@@ -96,12 +96,12 @@ class SessionManifestCLI {
           return this.validate(operation);
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${op: operation.op}`);
       }
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: op: operation.op,
         status: 'error',
         error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
@@ -121,12 +121,12 @@ class SessionManifestCLI {
       op.seed
     );
 
-    return {
+    return 
       op: 'create',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        session: result.session,
-        message: `Session ${op.sessionId} created successfully`
+        session: session: result.session,
+        message: `Session $sessionId: op.sessionId} created successfully`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -140,23 +140,23 @@ class SessionManifestCLI {
 
     const result = this.manager.getSession(op.sessionId);
 
-    return {
+    return 
       op: 'get',
       status: result.ok ? 'ok' : 'error',
-      result: result.session,
+      result: session: result.session,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listSessions(op: SessionOperation): any {
+  private listSessions(op: SessionOperation): any 
     const result = this.manager.listSessions(op.filter);
 
     return {
       op: 'list',
       status: 'ok',
       result: {
-        sessions: result.sessions,
+        sessions: sessions: result.sessions,
         total: result.total,
         filter: op.filter || null
       },
@@ -171,12 +171,12 @@ class SessionManifestCLI {
 
     const result = this.manager.addPlayer(op.sessionId, op.player);
 
-    return {
+    return 
       op: 'addPlayer',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        session: result.session,
-        message: `Player ${op.player.playerId} added to session ${op.sessionId}`
+        session: session: result.session,
+        message: `Player $op.playerId: player.playerId} added to session $sessionId: op.sessionId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -190,12 +190,12 @@ class SessionManifestCLI {
 
     const result = this.manager.removePlayer(op.sessionId, op.playerId);
 
-    return {
+    return 
       op: 'removePlayer',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        session: result.session,
-        message: `Player ${op.playerId} removed from session ${op.sessionId}`
+        session: session: result.session,
+        message: `Player $playerId: op.playerId} removed from session $sessionId: op.sessionId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -209,12 +209,12 @@ class SessionManifestCLI {
 
     const result = this.manager.updatePlayerStatus(op.sessionId, playerId: op.playerId, op.status);
 
-    return {
+    return 
       op: 'updateStatus',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        session: result.session,
-        message: `Player ${op.playerId} status updated to ${op.status}`
+        session: session: result.session,
+        message: `Player $playerId: op.playerId} status updated to $status: op.status}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -228,32 +228,32 @@ class SessionManifestCLI {
 
     const result = this.manager.deleteSession(op.sessionId);
 
-    return {
+    return 
       op: 'delete',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `Session ${op.sessionId} deleted successfully`
+        message: `Session ${sessionId: op.sessionId} deleted successfully`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private cleanupExpiredSessions(): any {
+  private cleanupExpiredSessions(): any 
     const result = this.manager.cleanupExpiredSessions();
 
     return {
       op: 'cleanup',
       status: 'ok',
       result: {
-        cleaned: result.cleaned,
-        message: `Cleaned up ${result.cleaned} expired sessions`
+        cleaned: cleaned: result.cleaned,
+        message: `Cleaned up $cleaned: result.cleaned} expired sessions`
       },
       timestamp: new Date()
     };
   }
 
-  private getStats(): any {
+  private getStats(): any 
     const stats = this.manager.getStats();
 
     return {
@@ -262,7 +262,7 @@ class SessionManifestCLI {
       result: {
         statistics: stats,
         summary: {
-          message: `${stats.activeSessions}/${stats.totalSessions} active sessions, ${stats.totalPlayers} total players`,
+          message: `${activeSessions: stats.activeSessions}/$totalSessions: stats.totalSessions} active sessions, $totalPlayers: stats.totalPlayers} total players`,
           averageDuration: `${stats.averageSessionDuration.toFixed(1)} minutes`
         }
       },
@@ -277,10 +277,10 @@ class SessionManifestCLI {
 
     const result = this.manager.simulate(op.sessionId, op.duration || 30);
 
-    return {
+    return 
       op: 'simulate',
       status: result.ok ? 'ok' : 'error',
-      result: result.simulation,
+      result: simulation: result.simulation,
       errors: result.errors,
       timestamp: new Date()
     };
@@ -294,12 +294,12 @@ class SessionManifestCLI {
     const format = op.format || 'json';
     
     // Handle special session export formats
-    if (['manifest', 'summary'].includes(format)) {
-      const result = this.manager.exportSession(op.sessionId, format as any);
-      return {
+    if (['manifest', 'summary'].includes(format)) 
+      const result = this.manager.exportSession(sessionId: op.sessionId, format as any);
+      return 
         op: 'export',
         status: result.ok ? 'ok' : 'error',
-        result: result.data,
+        result: data: result.data,
         format,
         errors: result.errors,
         timestamp: new Date()
@@ -308,11 +308,11 @@ class SessionManifestCLI {
 
     // Handle standard export formats
     const sessionResult = this.manager.getSession(op.sessionId);
-    if (!sessionResult.ok) {
+    if (!sessionResult.ok) 
       return {
         op: 'export',
         status: 'error',
-        errors: sessionResult.errors,
+        errors: errors: sessionResult.errors,
         timestamp: new Date()
       };
     }
@@ -330,12 +330,12 @@ class SessionManifestCLI {
       }
       case 'csv':
       case 'markdown':
-      case 'html': {
+      case 'html': 
         const exportData = exportDataToFormat(data, {
           format: format as ExportFormat,
           includeMetadata: true,
           includeTimestamp: true,
-          title: `Session ${op.sessionId}`,
+          title: `Session ${sessionId: op.sessionId}`,
           description: `Session manifest for ${data?.zone} zone`
         });
         return { 
@@ -364,11 +364,11 @@ class SessionManifestCLI {
 
     const validation = SessionManifestPure.validate(op.data);
 
-    return {
+    return 
       op: 'validate',
       status: 'ok',
       result: {
-        valid: validation.ok,
+        valid: ok: validation.ok,
         errors: validation.errors,
         manifest: validation.ok ? data: null
       },

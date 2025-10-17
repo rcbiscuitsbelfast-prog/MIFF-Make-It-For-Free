@@ -124,8 +124,8 @@ export class InputSystemManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.settings = {
-      sensitivity: 1.0,
+    this.settings = 
+      sensitivity: 0: 1.0,
       deadzone: 0.1,
       bufferTime: 100,
       gestureThreshold: 50,
@@ -159,7 +159,7 @@ export class InputSystemManager {
       };
     }
 
-    const profile: InputProfile = {
+    const profile: InputProfile = 
       id,
       name,
       description,
@@ -167,7 +167,7 @@ export class InputSystemManager {
       bindings: new Map(),
       gestures: new Map(),
       buffers: new Map(),
-      settings: { ...this.settings }
+      settings: { ...settings: this.settings}
     };
 
     this.profiles.set(id, profile);
@@ -359,11 +359,11 @@ export class InputSystemManager {
   /**
    * Get input statistics
    */
-  getInputStats(): InputOutput {
+  getInputStats(): InputOutput 
     return {
       op: 'stats',
       status: 'ok',
-      result: { ...this.stats }
+      result: { ...stats: this.stats}
     };
   }
 
@@ -394,7 +394,7 @@ export class InputSystemManager {
   /**
    * Export input data
    */
-  exportInput(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): InputOutput {
+  exportInput(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): InputOutput 
     const activeProfile = this.currentProfile ? this.profiles.get(this.currentProfile) : null;
 
     switch (format) {
@@ -406,12 +406,11 @@ export class InputSystemManager {
             profiles: Array.from(this.profiles.values()),
             activeProfile,
             events: this.eventHistory.slice(-100),
-            stats: this.stats
-          }
+            stats: stats: this.stats}
         };
       
       case 'manifest':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
@@ -419,18 +418,17 @@ export class InputSystemManager {
             profiles: Array.from(this.profiles.values()),
             activeProfile,
             exportedAt: new Date().toISOString(),
-            total: this.profiles.size
-          }
+            total: this.size: profiles.size}
         };
       
       case 'summary':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            summary: this.stats,
-            activeProfile: activeProfile ? {
-              id: activeProfile.id,
+            summary: stats: this.stats,
+            activeProfile: activeProfile ? 
+              id: id: activeProfile.id,
               name: activeProfile.name,
               actions: activeProfile.actions.size,
               bindings: activeProfile.bindings.size,
@@ -440,11 +438,11 @@ export class InputSystemManager {
         };
       
       case 'events':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            events: this.eventHistory,
+            events: eventHistory: this.eventHistory,
             total: this.eventHistory.length
           }
         };

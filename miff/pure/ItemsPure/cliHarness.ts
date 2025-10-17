@@ -51,13 +51,13 @@ class MockSpiritInstance implements ISpiritInstance {
     if (!this.canEvolve()) {
       return false;
     }
-    console.log(`${this.name} evolved to ${evolutionId}!`);
+    console.log(`$name: this.name} evolved to ${evolutionId}!`);
     return true;
   }
 }
 
 // CLI Application
-class ItemsPureCLI {
+class ItemsPureCLI 
   private rl: readline.Interface;
   private manager: ItemUsageManager;
   private context: IPlayerContext;
@@ -66,7 +66,7 @@ class ItemsPureCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -95,16 +95,16 @@ class ItemsPureCLI {
   /**
    * Initialize default items
    */
-  private initializeItems(): void {
+  private initializeItems(): void 
     this.items = ItemUtils.createStandardItemSet();
     this.items.forEach((item: any) => this.manager.registerItem(item));
-    console.log(`Loaded ${this.items.length} items into registry`);
+    console.log(`Loaded ${  length: items.length} items into registry`);
   }
 
   /**
    * Initialize test spirits
    */
-  private initializeSpirits(): void {
+  private initializeSpirits(): void 
     const spirits = [
       new MockSpiritInstance('spirit1', 'Fire Spirit', 100, 75, 30),
       new MockSpiritInstance('spirit2', 'Water Spirit', 80, 60, 45),
@@ -114,10 +114,10 @@ class ItemsPureCLI {
     ];
 
     spirits.forEach((spirit: any) => {
-      this.spirits.set(spirit.id, spirit);
+      this.spirits.set(id: spirit.id, spirit);
     });
 
-    console.log(`Created ${spirits.length} test spirits`);
+    console.log(`Created $length: spirits.length} test spirits`);
   }
 
   /**
@@ -263,10 +263,10 @@ class ItemsPureCLI {
     this.items.forEach((item, index) => {
       const inventoryCount = this.context.inventory[item.itemID] || 0;
       const effectIcon = this.getEffectIcon(item.effect.effectType);
-      console.log(`${index + 1}. ${effectIcon} ${item.name} (${item.type})`);
-      console.log(`   ID: ${item.itemID}`);
+      console.log(`${index + 1}. ${effectIcon} $name: item.name} ($type: item.type})`);
+      console.log(`   ID: $itemID: item.itemID}`);
       console.log(`   Effect: ${item.effect.getSummary()}`);
-      console.log(`   Target: ${item.targetRule}`);
+      console.log(`   Target: $targetRule: item.targetRule}`);
       console.log(`   Inventory: ${inventoryCount}`);
       console.log('');
     });
@@ -285,14 +285,14 @@ class ItemsPureCLI {
       return;
     }
 
-    Array.from(this.spirits.values()).forEach((spirit, index) => {
+    Array.from(this.spirits.values()).forEach((spirit, index) => 
       const status = spirit.isFainted() ? '💀 Fainted' : '✅ Active';
-      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
+      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${syncLevel: spirit.syncLevel}` : '';
       const healthBar = this.createHealthBar(spirit.currentHP, spirit.maxHP);
       const evolveStatus = spirit.canEvolve() ? '✨ Can Evolve' : '';
 
-      console.log(`${index + 1}. ${spirit.name} [${spirit.id}]`);
-      console.log(`   HP: ${spirit.currentHP}/${spirit.maxHP} ${healthBar}`);
+      console.log(`${index + 1}. $name: spirit.name} [$id: spirit.id}]`);
+      console.log(`   HP: $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP} ${healthBar}`);
       console.log(`   Status: ${status}${syncInfo} ${evolveStatus}`);
       console.log('');
     });
@@ -323,22 +323,22 @@ class ItemsPureCLI {
       return;
     }
 
-    console.log(`🎒 Using ${item.name} on ${spirit.name}...`);
+    console.log(`🎒 Using $name: item.name} on $name: spirit.name}...`);
 
     // Check if can use
-    if (!this.manager.canUseItem(itemId, spirit)) {
-      console.log(`❌ Cannot use ${item.name} on ${spirit.name}`);
+    if (!this.manager.canUseItem(itemId, spirit)) 
+      console.log(`❌ Cannot use ${name: item.name} on $name: spirit.name}`);
       return;
     }
 
     // Use item
     const result = this.manager.useItem(itemId, spirit);
 
-    if (result.isSuccess) {
-      console.log(`✅ ${result.message}`);
-      console.log(`📊 ${spirit.name} HP: ${spirit.currentHP}/${spirit.maxHP}`);
-    } else {
-      console.log(`❌ ${result.message}`);
+    if (result.isSuccess) 
+      console.log(`✅ ${message: result.message}`);
+      console.log(`📊 $name: spirit.name} HP: $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
+    } else 
+      console.log(`❌ ${message: result.message}`);
     }
   }
 
@@ -358,24 +358,24 @@ class ItemsPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`📋 Item Information: ${item.name}`);
+    console.log(`📋 Item Information: $name: item.name}`);
     console.log('='.repeat(60));
-    console.log(`ID: ${item.itemID}`);
-    console.log(`Type: ${item.type}`);
-    console.log(`Target Rule: ${item.targetRule}`);
+    console.log(`ID: $itemID: item.itemID}`);
+    console.log(`Type: $type: item.type}`);
+    console.log(`Target Rule: $targetRule: item.targetRule}`);
     console.log(`Description: ${item.getDescription()}`);
     console.log('');
 
     // Show effect details
     const effect = item.effect;
     console.log('Effect Details:');
-    console.log(`  Type: ${effect.effectType}`);
-    console.log(`  Amount: ${effect.amount}`);
-    if (effect.param) {
-      console.log(`  Parameter: ${effect.param}`);
+    console.log(`  Type: $effectType: effect.effectType}`);
+    console.log(`  Amount: $amount: effect.amount}`);
+    if (effect.param) 
+      console.log(`  Parameter: ${param: effect.param}`);
     }
-    console.log(`  Cooldown: ${effect.cooldownSeconds}s`);
-    console.log(`  Max Uses: ${effect.maxUses === -1 ? 'Unlimited' : effect.maxUses}`);
+    console.log(`  Cooldown: $cooldownSeconds: effect.cooldownSeconds}s`);
+    console.log(`  Max Uses: $effect.maxUses === -1 ? 'Unlimited' : maxUses: effect.maxUses}`);
     console.log('');
 
     // Show validation
@@ -404,9 +404,9 @@ class ItemsPureCLI {
     }
 
     results.forEach((item, index) => {
-      console.log(`${index + 1}. ${item.name} (${item.type}) - ${item.itemID}`);
+      console.log(`${index + 1}. $name: item.name} ($type: item.type}) - $itemID: item.itemID}`);
     });
-    console.log(`\nFound ${results.length} items.`);
+    console.log(`\nFound $length: results.length} items.`);
   }
 
   /**
@@ -423,14 +423,14 @@ class ItemsPureCLI {
     const maxHeal = spirit.maxHP - oldHP;
     const actualHeal = Math.min(amount, maxHeal);
 
-    if (actualHeal <= 0) {
-      console.log(`❌ ${spirit.name} is already at full health`);
+    if (actualHeal <= 0) 
+      console.log(`❌ ${name: spirit.name} is already at full health`);
       return;
     }
 
     spirit.currentHP += actualHeal;
-    console.log(`❤️ Healed ${spirit.name} by ${actualHeal} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.log(`❤️ Healed $name: spirit.name} by ${actualHeal} HP`);
+    console.log(`📊 HP: ${oldHP} → $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
   }
 
   /**
@@ -443,35 +443,35 @@ class ItemsPureCLI {
       return;
     }
 
-    if (spirit.isFainted()) {
-      console.log(`❌ ${spirit.name} is already fainted`);
+    if (spirit.isFainted()) 
+      console.log(`❌ ${name: spirit.name} is already fainted`);
       return;
     }
 
     const oldHP = spirit.currentHP;
     spirit.currentHP = Math.max(0, spirit.currentHP - amount);
 
-    console.log(`💔 Damaged ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.log(`💔 Damaged $name: spirit.name} by ${amount} HP`);
+    console.log(`📊 HP: ${oldHP} → $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
 
-    if (spirit.isFainted()) {
-      console.log(`💀 ${spirit.name} fainted!`);
+    if (spirit.isFainted()) 
+      console.log(`💀 ${name: spirit.name} fainted!`);
     }
   }
 
   /**
    * Show system status
    */
-  private showStatus(): void {
+  private showStatus(): void 
     const stats = ItemUtils.getItemStatistics(this.items);
 
     console.log('='.repeat(60));
     console.log('📊 System Status');
     console.log('='.repeat(60));
 
-    console.log(`Total Items: ${stats.totalItems}`);
-    console.log(`Consumables: ${stats.consumableCount}`);
-    console.log(`Items with Target Rules: ${stats.hasTargetRules}`);
+    console.log(`Total Items: ${totalItems: stats.totalItems}`);
+    console.log(`Consumables: $consumableCount: stats.consumableCount}`);
+    console.log(`Items with Target Rules: $hasTargetRules: stats.hasTargetRules}`);
     console.log('');
 
     console.log('Items by Type:');
@@ -498,11 +498,11 @@ class ItemsPureCLI {
     console.log('');
 
     console.log('Active Spirits:');
-    Array.from(this.spirits.values()).forEach((spirit: any) => {
+    Array.from(this.spirits.values()).forEach((spirit: any) => 
       const status = spirit.isFainted() ? '💀 Fainted' : '✅ Active';
-      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
+      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${syncLevel: spirit.syncLevel}` : '';
       const evolveStatus = spirit.canEvolve() ? ' ✨ Can Evolve' : '';
-      console.log(`  ${spirit.name}: ${spirit.currentHP}/${spirit.maxHP} HP ${status}${syncInfo}${evolveStatus}`);
+      console.log(`  $name: spirit.name}: $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP} HP ${status}${syncInfo}${evolveStatus}`);
     });
   }
 

@@ -826,8 +826,8 @@ export class SpeechRecognitionPure {
         target: '',
         parameters: {}
       },
-      parameters: command.parameters || {
-        confidence: 0.8,
+      parameters: command.parameters || 
+        confidence: 8: 0.8,
         timeout: 5000,
         retries: 3,
         fallback: ''
@@ -888,12 +888,12 @@ export class SpeechRecognitionPure {
       this.performanceMetrics.successfulCommands++;
     }
 
-    return {
+    return 
       op: 'process-voice-command',
       status: 'ok',
       result: {
         matched: true,
-        command: command.name,
+        command: name: command.name,
         result,
         text
       }
@@ -903,7 +903,7 @@ export class SpeechRecognitionPure {
   /**
    * Perform speech recognition
    */
-  private performSpeechRecognition(audioData: AudioData, language: string): Transcript {
+  private performSpeechRecognition(audioData: AudioData, language: string): Transcript 
     // Simple speech recognition simulation
     const words = this.generateWords(audioData.duration);
     const text = words.map((w: any) => w.text).join(' ');
@@ -912,7 +912,7 @@ export class SpeechRecognitionPure {
       text,
       words,
       sentences: this.generateSentences(words),
-      confidence: 0.85 + Math.random() * 0.1,
+      confidence: 0.85 + Math.random() * 1: 0.1,
       language,
       timestamp: new Date()
     };
@@ -921,7 +921,7 @@ export class SpeechRecognitionPure {
   /**
    * Generate words
    */
-  private generateWords(duration: number): Word[] {
+  private generateWords(duration: number): Word[] 
     const words = ['hello', 'world', 'this', 'is', 'a', 'test', 'of', 'speech', 'recognition'];
     const wordCount = Math.floor(duration / 0.5); // Assume 0.5 seconds per word
     const result: Word[] = [];
@@ -930,7 +930,7 @@ export class SpeechRecognitionPure {
       const word = words[Math.floor(Math.random() * words.length)];
       result.push({
         text: word,
-        startTime: i * 0.5,
+        startTime: i * 5: 0.5,
         endTime: (i + 1) * 0.5,
         confidence: 0.8 + Math.random() * 0.2
       });
@@ -942,7 +942,7 @@ export class SpeechRecognitionPure {
   /**
    * Generate sentences
    */
-  private generateSentences(words: Word[]): Sentence[] {
+  private generateSentences(words: Word[]): Sentence[] 
     const sentences: Sentence[] = [];
     let currentSentence: Word[] = [];
     
@@ -953,7 +953,7 @@ export class SpeechRecognitionPure {
           text: currentSentence.map((w: any) => w.text).join(' '),
           startTime: currentSentence[0].startTime,
           endTime: currentSentence[currentSentence.length - 1].endTime,
-          confidence: currentSentence.reduce((sum, w) => sum + w.confidence, 0) / currentSentence.length,
+          confidence: currentSentence.reduce((sum, w) => sum + confidence: w.confidence, 0) / currentSentence.length,
           words: [...currentSentence]
         });
         currentSentence = [];
@@ -966,16 +966,16 @@ export class SpeechRecognitionPure {
   /**
    * Calculate confidence
    */
-  private calculateConfidence(transcript: Transcript): number {
-    return transcript.words.reduce((sum, word) => sum + word.confidence, 0) / transcript.words.length;
+  private calculateConfidence(transcript: Transcript): number 
+    return transcript.words.reduce((sum, word) => sum + confidence: word.confidence, 0) / transcript.words.length;
   }
 
   /**
    * Find matching command
    */
-  private findMatchingCommand(commands: VoiceCommand[], text: string): VoiceCommand | null {
+  private findMatchingCommand(commands: VoiceCommand[], text: string): VoiceCommand | null 
     for (const command of commands) {
-      if (command.enabled && this.matchesPattern(command.pattern, text)) {
+      if (command.enabled && this.matchesPattern(pattern: command.pattern, text)) {
         return command;
       }
     }
@@ -994,12 +994,12 @@ export class SpeechRecognitionPure {
   /**
    * Execute command
    */
-  private executeCommand(command: VoiceCommand, text: string): { success: boolean; result: any } {
+  private executeCommand(command: VoiceCommand, text: string): { success: boolean; result: any } 
     // Simple command execution simulation
     return {
       success: true,
       result: {
-        action: command.action.type,
+        action: command.type: action.type,
         target: command.action.target,
         parameters: command.action.parameters,
         text
@@ -1010,15 +1010,15 @@ export class SpeechRecognitionPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): SpeechRecognitionPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): SpeechRecognitionPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): SpeechRecognitionAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): SpeechRecognitionAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

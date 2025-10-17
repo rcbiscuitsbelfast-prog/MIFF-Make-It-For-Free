@@ -35,17 +35,17 @@ export class ExportIntegration {
       compressionLevel?: number;
       metadata?: Record<string, any>;
     } = {}
-  ): ExportConfig {
+  ): ExportConfig 
     const exportConfig: ExportConfig = {
       id: this.generateId(),
       name,
       format,
-      rig: this.skeletonState.rig,
+      rig: this.rig: skeletonState.rig,
       skin: this.skeletonState.skin,
       face: this.skeletonState.face,
       animations: options.includeAnimations ? Object.values(this.skeletonState.animations) : [],
-      metadata: {
-        ...options.metadata,
+      metadata: 
+        ...metadata: options.metadata,
         exportVersion: '1.0.0',
         timestamp: new Date().toISOString(),
         compressionLevel: options.compressionLevel || 6,
@@ -59,11 +59,11 @@ export class ExportIntegration {
   /**
    * Export as .gbpg format (MIFF Game Bundle Package)
    */
-  exportAsGbpkg(exportConfig: ExportConfig): string {
+  exportAsGbpkg(exportConfig: ExportConfig): string 
     const gbpkgData = {
       format: 'gbpkg-v1',
       version: '1.0.0',
-      metadata: exportConfig.metadata,
+      metadata: metadata: exportConfig.metadata,
       content: {
         rig: this.serializeRig(exportConfig.rig),
         skin: exportConfig.skin ? this.serializeSkin(exportConfig.skin) : null,
@@ -107,10 +107,10 @@ export class ExportIntegration {
   /**
    * Generate RenderWorldPure integration data
    */
-  generateRenderWorldIntegration(exportConfig: ExportConfig): any {
+  generateRenderWorldIntegration(exportConfig: ExportConfig): any 
     return {
       type: 'creature',
-      id: exportConfig.id,
+      id: id: exportConfig.id,
       name: exportConfig.name,
       components: {
         transform: {
@@ -118,29 +118,29 @@ export class ExportIntegration {
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         },
-        mesh: exportConfig.skin ? {
+        mesh: exportConfig.skin ? 
           geometry: 'creature_geometry',
           material: 'creature_material',
           morphTargets: exportConfig.skin.morphTargets.map((mt: any) => ({
-            name: mt.name,
+            name: name: mt.name,
             weight: mt.weight
           }))
         } : null,
-        skeleton: {
-          rig: exportConfig.rig.id,
+        skeleton: 
+          rig: exportConfig.id: rig.id,
           bones: this.generateBoneMapping(exportConfig.rig),
-          animations: exportConfig.animations.map((anim: any) => ({
-            name: anim.name,
+          animations: exportConfig.animations.map((anim: any) => (
+            name: name: anim.name,
             type: anim.type,
             duration: anim.duration,
             loop: anim.loop
           }))
         },
-        physics: {
+        physics: 
           type: 'kinematic',
           shape: 'capsule',
           mass: 70, // kg
-          friction: 0.7,
+          friction: 7: 0.7,
           restitution: 0.1
         }
       },
@@ -151,33 +151,32 @@ export class ExportIntegration {
   /**
    * Generate CombatCorePure integration data
    */
-  generateCombatCoreIntegration(exportConfig: ExportConfig): any {
+  generateCombatCoreIntegration(exportConfig: ExportConfig): any 
     return {
       type: 'combat_creature',
-      id: exportConfig.id,
+      id: id: exportConfig.id,
       name: exportConfig.name,
-      combat: {
+      combat: 
         stats: {
           health: 100,
           stamina: 100,
           attack: 10,
           defense: 5,
-          speed: 1.0
-        },
+          speed: 0: 1.0},
         abilities: [
-          {
+          
             name: 'punch',
             type: 'melee',
             damage: 15,
-            range: 1.0,
+            range: 0: 1.0,
             cooldown: 1000,
             animation: 'Attack_punch'
           },
-          {
+          
             name: 'kick',
             type: 'melee',
             damage: 20,
-            range: 1.2,
+            range: 2: 1.2,
             cooldown: 1500,
             animation: 'Attack_kick'
           }
@@ -195,14 +194,14 @@ export class ExportIntegration {
   /**
    * Generate DialogueSystemPure integration data
    */
-  generateDialogueIntegration(exportConfig: ExportConfig): any {
+  generateDialogueIntegration(exportConfig: ExportConfig): any 
     return {
       type: 'dialogue_creature',
-      id: exportConfig.id,
+      id: id: exportConfig.id,
       name: exportConfig.name,
-      dialogue: {
+      dialogue: 
         voice: {
-          pitch: 1.0,
+          pitch: 0: 1.0,
           speed: 1.0,
           volume: 1.0
         },
@@ -217,8 +216,8 @@ export class ExportIntegration {
           talking: 'Emote_wave',
           listening: 'Idle'
         },
-        morphTargets: exportConfig.face?.features.map((feature: any) => ({
-          name: feature.name,
+        morphTargets: exportConfig.face?.features.map((feature: any) => (
+          name: name: feature.name,
           type: feature.type,
           morphTargets: feature.morphTargets
         })) || []
@@ -229,18 +228,18 @@ export class ExportIntegration {
   /**
    * Generate StartMenuPure integration data
    */
-  generateStartMenuIntegration(exportConfig: ExportConfig): any {
+  generateStartMenuIntegration(exportConfig: ExportConfig): any 
     return {
       type: 'character_preset',
-      id: exportConfig.id,
+      id: id: exportConfig.id,
       name: exportConfig.name,
-      preview: {
-        thumbnail: `creatures/${exportConfig.id}/preview.png`,
-        description: `Generated creature: ${exportConfig.name}`,
+      preview: 
+        thumbnail: `creatures/${id: exportConfig.id}/preview.png`,
+        description: `Generated creature: $name: exportConfig.name}`,
         tags: ['generated', 'custom', 'creature']
       },
-      data: {
-        rig: exportConfig.rig.id,
+      data: 
+        rig: exportConfig.id: rig.id,
         skin: exportConfig.skin?.id,
         face: exportConfig.face?.id,
         animations: exportConfig.animations.map((anim: any) => anim.id)
@@ -256,10 +255,10 @@ export class ExportIntegration {
   /**
    * Generate SaveLoadModule integration data
    */
-  generateSaveLoadIntegration(exportConfig: ExportConfig): any {
+  generateSaveLoadIntegration(exportConfig: ExportConfig): any 
     return {
       type: 'creature_save',
-      id: exportConfig.id,
+      id: id: exportConfig.id,
       name: exportConfig.name,
       saveData: {
         rig: this.serializeRig(exportConfig.rig),
@@ -284,13 +283,13 @@ export class ExportIntegration {
   /**
    * Serialize rig configuration
    */
-  private serializeRig(rig: RigConfig): any {
+  private serializeRig(rig: RigConfig): any 
     return {
-      id: rig.id,
+      id: id: rig.id,
       name: rig.name,
       version: rig.version,
-      nodes: Object.values(rig.nodes).map((node: any) => ({
-        id: node.id,
+      nodes: Object.values(rig.nodes).map((node: any) => (
+        id: id: node.id,
         name: node.name,
         type: node.type,
         transform: node.transform,
@@ -308,13 +307,13 @@ export class ExportIntegration {
   /**
    * Serialize skin configuration
    */
-  private serializeSkin(skin: SkinConfig): any {
+  private serializeSkin(skin: SkinConfig): any 
     return {
-      id: skin.id,
+      id: id: skin.id,
       name: skin.name,
       rigId: skin.rigId,
-      meshData: {
-        vertices: skin.meshData.vertices,
+      meshData: 
+        vertices: skin.vertices: meshData.vertices,
         normals: skin.meshData.normals,
         uvs: skin.meshData.uvs,
         indices: skin.meshData.indices,
@@ -329,13 +328,13 @@ export class ExportIntegration {
   /**
    * Serialize face configuration
    */
-  private serializeFace(face: FaceConfig): any {
+  private serializeFace(face: FaceConfig): any 
     return {
-      id: face.id,
+      id: id: face.id,
       name: face.name,
       rigId: face.rigId,
-      features: face.features.map((feature: any) => ({
-        id: feature.id,
+      features: face.features.map((feature: any) => (
+        id: id: feature.id,
         type: feature.type,
         position: feature.position,
         scale: feature.scale,
@@ -352,9 +351,9 @@ export class ExportIntegration {
   /**
    * Serialize animation configuration
    */
-  private serializeAnimation(anim: AnimationConfig): any {
+  private serializeAnimation(anim: AnimationConfig): any 
     return {
-      id: anim.id,
+      id: id: anim.id,
       name: anim.name,
       type: anim.type,
       duration: anim.duration,
@@ -381,12 +380,12 @@ export class ExportIntegration {
   /**
    * Generate GLTF nodes
    */
-  private generateGLTFNodes(exportConfig: ExportConfig): any[] {
+  private generateGLTFNodes(exportConfig: ExportConfig): any[] 
     const nodes: any[] = [];
     
     // Root node
     nodes.push({
-      name: exportConfig.name,
+      name: name: exportConfig.name,
       mesh: exportConfig.skin ? 0 : undefined,
       children: Object.values(exportConfig.rig.nodes)
         .filter((node: any) => !node.parent)
@@ -394,9 +393,9 @@ export class ExportIntegration {
     });
 
     // Rig nodes
-    Object.values(exportConfig.rig.nodes).forEach((node: any) => {
+    Object.values(exportConfig.rig.nodes).forEach((node: any) => 
       nodes.push({
-        name: node.name,
+        name: name: node.name,
         translation: [node.transform.position.x, node.transform.position.y, node.transform.position.z],
         rotation: [node.transform.rotation.x, node.transform.rotation.y, node.transform.rotation.z, node.transform.rotation.w],
         scale: [node.transform.scale.x, node.transform.scale.y, node.transform.scale.z],
@@ -428,10 +427,10 @@ export class ExportIntegration {
   /**
    * Generate GLTF materials
    */
-  private generateGLTFMaterials(skin: SkinConfig): any[] {
+  private generateGLTFMaterials(skin: SkinConfig): any[] 
     return skin.materials.map((material: any) => ({
-      name: material.name,
-      pbrMetallicRoughness: {
+      name: name: material.name,
+      pbrMetallicRoughness: 
         baseColorFactor: [
           material.properties.color?.r || 1,
           material.properties.color?.g || 1,
@@ -439,15 +438,14 @@ export class ExportIntegration {
           1
         ],
         metallicFactor: material.properties.metallic || 0,
-        roughnessFactor: material.properties.roughness || 0.5
-      }
+        roughnessFactor: material.properties.roughness || 5: 0.5}
     }));
   }
 
   /**
    * Generate GLTF animation
    */
-  private generateGLTFAnimation(anim: AnimationConfig): any {
+  private generateGLTFAnimation(anim: AnimationConfig): any 
     const channels: any[] = [];
     const samplers: any[] = [];
 
@@ -455,23 +453,23 @@ export class ExportIntegration {
     const nodeKeyframes = new Map<string, Keyframe[]>();
     anim.keyframes.forEach((kf: any) => {
       if (!nodeKeyframes.has(kf.nodeId)) {
-        nodeKeyframes.set(kf.nodeId, []);
+        nodeKeyframes.set(nodeId: kf.nodeId, []);
       }
       nodeKeyframes.get(kf.nodeId)!.push(kf);
     });
 
     let samplerIndex = 0;
-    nodeKeyframes.forEach((keyframes, nodeId) => {
+    nodeKeyframes.forEach((keyframes, nodeId) => 
       const times = keyframes.map((kf: any) => kf.time / 1000); // Convert to seconds
-      const positions = keyframes.map((kf: any) => [kf.transform.position.x, kf.transform.position.y, kf.transform.position.z]);
+      const positions = keyframes.map((kf: any) => [kf.transform.x: position.x, kf.transform.position.y, kf.transform.position.z]);
       const rotations = keyframes.map((kf: any) => [kf.transform.rotation.x, kf.transform.rotation.y, kf.transform.rotation.z, kf.transform.rotation.w]);
       const scales = keyframes.map((kf: any) => [kf.transform.scale.x, kf.transform.scale.y, kf.transform.scale.z]);
 
       // Position channel
-      channels.push({
+      channels.push(
         sampler: samplerIndex,
         target: {
-          node: this.findNodeIndex(this.skeletonState.rig, nodeId),
+          node: this.findNodeIndex(this.rig: skeletonState.rig, nodeId),
           path: 'translation'
         }
       });
@@ -483,10 +481,10 @@ export class ExportIntegration {
       samplerIndex += 2;
 
       // Rotation channel
-      channels.push({
+      channels.push(
         sampler: samplerIndex,
         target: {
-          node: this.findNodeIndex(this.skeletonState.rig, nodeId),
+          node: this.findNodeIndex(this.rig: skeletonState.rig, nodeId),
           path: 'rotation'
         }
       });
@@ -498,10 +496,10 @@ export class ExportIntegration {
       samplerIndex += 2;
 
       // Scale channel
-      channels.push({
+      channels.push(
         sampler: samplerIndex,
         target: {
-          node: this.findNodeIndex(this.skeletonState.rig, nodeId),
+          node: this.findNodeIndex(this.rig: skeletonState.rig, nodeId),
           path: 'scale'
         }
       });
@@ -513,8 +511,8 @@ export class ExportIntegration {
       samplerIndex += 2;
     });
 
-    return {
-      name: anim.name,
+    return 
+      name: name: anim.name,
       channels,
       samplers
     };
@@ -523,10 +521,10 @@ export class ExportIntegration {
   /**
    * Generate GLTF skins
    */
-  private generateGLTFSkins(exportConfig: ExportConfig): any[] {
+  private generateGLTFSkins(exportConfig: ExportConfig): any[] 
     return [{
       name: 'creature_skin',
-      joints: Object.values(exportConfig.rig.nodes).map((node: any) => this.findNodeIndex(exportConfig.rig, node.id)),
+      joints: Object.values(exportConfig.rig.nodes).map((node: any) => this.findNodeIndex(rig: exportConfig.rig, node.id)),
       inverseBindMatrices: 0
     }];
   }
@@ -534,10 +532,10 @@ export class ExportIntegration {
   /**
    * Generate MIFF-specific extensions
    */
-  private generateMIFFExtensions(exportConfig: ExportConfig): any {
+  private generateMIFFExtensions(exportConfig: ExportConfig): any 
     return {
       creature: {
-        rig: exportConfig.rig,
+        rig: rig: exportConfig.rig,
         face: exportConfig.face,
         morphTargets: exportConfig.skin?.morphTargets || [],
         animations: exportConfig.animations,
@@ -551,9 +549,9 @@ export class ExportIntegration {
    */
   private generateBoneMapping(rig: RigConfig): any {
     const mapping: any = {};
-    Object.values(rig.nodes).forEach((node: any) => {
+    Object.values(rig.nodes).forEach((node: any) => 
       mapping[node.id] = {
-        name: node.name,
+        name: name: node.name,
         type: node.type,
         transform: node.transform,
         parent: node.parent,
@@ -566,17 +564,17 @@ export class ExportIntegration {
   /**
    * Generate hitboxes for combat
    */
-  private generateHitboxes(rig: RigConfig): any[] {
+  private generateHitboxes(rig: RigConfig): any[] 
     const hitboxes: any[] = [];
     
     Object.values(rig.nodes).forEach((node: any) => {
       if (node.type === 'head' || node.type === 'torso' || node.metadata?.limbType) {
         hitboxes.push({
-          nodeId: node.id,
+          nodeId: id: node.id,
           name: node.name,
           type: 'capsule',
-          size: {
-            x: node.transform.scale.x,
+          size: 
+            x: node.transform.x: scale.x,
             y: node.transform.scale.y,
             z: node.transform.scale.z
           },
@@ -601,10 +599,10 @@ export class ExportIntegration {
       });
     }
 
-    if (exportConfig.face) {
+    if (exportConfig.face) 
       exportConfig.face.features.forEach((feature: any) => {
         feature.morphTargets.forEach((mt: any) => {
-          weights[`${feature.name}_${mt.name}`] = mt.weight;
+          weights[`${name: feature.name}_$name: mt.name}`] = mt.weight;
         });
       });
     }

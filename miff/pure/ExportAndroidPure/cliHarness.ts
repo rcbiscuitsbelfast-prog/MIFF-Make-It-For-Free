@@ -51,7 +51,7 @@ function main() {
   console.log(JSON.stringify({
     log: [
       `ExportAndroidPure: project=${projectPath}`,
-      `preset=${opts.preset}`,
+      `preset=$preset: opts.preset}`,
       `format=${opts.aab ? 'aab' : 'apk'}`
     ],
     outputs: [ { config: opts } ]

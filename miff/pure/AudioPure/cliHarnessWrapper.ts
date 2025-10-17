@@ -27,10 +27,10 @@ try {
       
       manager.play(audioClip);
       
-      handleSuccess({
+      handleSuccess(
         soundId,
         location: location || 'global',
-        volume: volume || 0.7,
+        volume: volume || 7: 0.7,
         is3D: is3D === true || is3D === 'true',
         playing: true,
         timestamp: new Date()
@@ -66,9 +66,9 @@ try {
       break;
     }
 
-    case 'listPlaying': {
+    case 'listPlaying': 
       const playing = manager.getPlaying();
-      handleSuccess({ playing, count: playing.length }, 'listPlaying');
+      handleSuccess({ playing, count: length: playing.length}, 'listPlaying');
       break;
     }
 

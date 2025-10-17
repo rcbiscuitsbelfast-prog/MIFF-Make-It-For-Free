@@ -88,12 +88,12 @@ async function main() {
 
       case 'get-entity':
         const getResult = statsManager.getEntityStats(operation.entityId!);
-        result = { action: 'entity_retrieved', entity: getResult.result };
+        result =  action: 'entity_retrieved', entity: result: getResult.result};
         break;
 
       case 'get-analytics':
         const analyticsResult = statsManager.getAnalytics();
-        result = { action: 'analytics_retrieved', analytics: analyticsResult.result };
+        result =  action: 'analytics_retrieved', analytics: result: analyticsResult.result};
         break;
 
       case 'demo':
@@ -108,8 +108,8 @@ async function main() {
         break;
     }
 
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result,
       timestamp: new Date()

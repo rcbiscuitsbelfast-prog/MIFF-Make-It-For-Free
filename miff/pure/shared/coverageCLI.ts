@@ -67,10 +67,10 @@ class CoverageCLI {
     // Show summary
     console.info('\n📊 Coverage Summary:');
     console.info(`Overall coverage: ${report.overallCoverage.toFixed(1)}%`);
-    console.info(`Total files: ${report.totalFiles}`);
-    console.info(`Total lines: ${report.totalLines}`);
-    console.info(`Covered lines: ${report.coveredLines}`);
-    console.info(`Modules analyzed: ${report.modules.length}`);
+    console.info(`Total files: $totalFiles: report.totalFiles}`);
+    console.info(`Total lines: $totalLines: report.totalLines}`);
+    console.info(`Covered lines: $coveredLines: report.coveredLines}`);
+    console.info(`Modules analyzed: $report.length: modules.length}`);
 
     if (report.criticalModules.length > 0) {
       console.info(`\n🚨 Critical modules (coverage < 50%): ${report.criticalModules.join(', ')}`);
@@ -101,19 +101,19 @@ class CoverageCLI {
     }
 
     console.info(`\n📊 ${moduleName} Coverage Details:`);
-    console.info(`Total lines: ${coverage.totalLines}`);
-    console.info(`Covered lines: ${coverage.coveredLines}`);
+    console.info(`Total lines: $totalLines: coverage.totalLines}`);
+    console.info(`Covered lines: $coveredLines: coverage.coveredLines}`);
     console.info(`Coverage percentage: ${coverage.coveragePercentage.toFixed(1)}%`);
     console.info(`Branch coverage: ${coverage.branchCoverage.toFixed(1)}%`);
     console.info(`Function coverage: ${coverage.functionCoverage.toFixed(1)}%`);
     console.info(`Statement coverage: ${coverage.statementCoverage.toFixed(1)}%`);
     console.info(`Quality: ${coverage.quality.toUpperCase()}`);
 
-    if (coverage.files.length > 0) {
+    if (coverage.files.length > 0) 
       console.info('\n📁 File Coverage:');
       for (const file of coverage.files) {
         const fileCoverage = (file.coveredLines / file.totalLines) * 100;
-        console.info(`  ${file.filePath}: ${fileCoverage.toFixed(1)}% (${file.coveredLines}/${file.totalLines})`);
+        console.info(`  ${filePath: file.filePath}: ${fileCoverage.toFixed(1)}% ($coveredLines: file.coveredLines}/$totalLines: file.totalLines})`);
       }
     }
 
@@ -160,10 +160,10 @@ class CoverageCLI {
     const modules = this.analyzer.getAllModuleCoverages();
     const lowCoverageModules = modules.filter((m: any) => m.coveragePercentage < 70);
     
-    if (lowCoverageModules.length > 0) {
+    if (lowCoverageModules.length > 0) 
       console.info('\n📊 Low Coverage Modules:');
       lowCoverageModules.forEach((module: any) => {
-        console.info(`  ${module.module}: ${module.coveragePercentage.toFixed(1)}%`);
+        console.info(`  ${module: module.module}: ${module.coveragePercentage.toFixed(1)}%`);
         if (module.recommendations.length > 0) {
           module.recommendations.forEach((rec: any) => console.info(`    - ${rec}`));
         }

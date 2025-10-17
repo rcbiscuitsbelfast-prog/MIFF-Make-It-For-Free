@@ -260,9 +260,9 @@ export class EventListener implements IEventListener {
   /**
    * Dispose of this subscription
    */
-  dispose(): void {
+  dispose(): void 
     if (this._disposed) return;
-    this._unsubscribe(this._topic, this._handler);
+    this._unsubscribe(_topic: this._topic, this._handler);
     this._disposed = true;
   }
 
@@ -301,9 +301,9 @@ export class AsyncEventListener implements IAsyncEventListener {
   /**
    * Dispose of this subscription
    */
-  dispose(): void {
+  dispose(): void 
     if (this._disposed) return;
-    this._unsubscribe(this._topic, this._handler);
+    this._unsubscribe(_topic: this._topic, this._handler);
     this._disposed = true;
   }
 

@@ -32,7 +32,7 @@ class WorldManifestCLI {
     this.manager = new WorldManifestManager();
   }
 
-  async execute(operation: WorldOperation): Promise<any> {
+  async execute(operation: WorldOperation): Promise<any> 
     try {
       switch (operation.op) {
         case 'create':
@@ -78,12 +78,12 @@ class WorldManifestCLI {
           return this.getGlobalStats();
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${op: operation.op}`);
       }
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: op: operation.op,
         status: 'error',
         error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
@@ -98,12 +98,12 @@ class WorldManifestCLI {
 
     const result = this.manager.createWorld(op.worldId, name: op.name, op.width, op.height);
 
-    return {
+    return 
       op: 'create',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        world: result.world,
-        message: `World ${op.worldId} created successfully (${op.width}x${op.height})`
+        world: world: result.world,
+        message: `World $worldId: op.worldId} created successfully ($width: op.width}x$height: op.height})`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -117,16 +117,16 @@ class WorldManifestCLI {
 
     const result = this.manager.getWorld(op.worldId);
 
-    return {
+    return 
       op: 'get',
       status: result.ok ? 'ok' : 'error',
-      result: result.world,
+      result: world: result.world,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listWorlds(): any {
+  private listWorlds(): any 
     const result = this.manager.listWorlds();
 
     return {
@@ -136,7 +136,7 @@ class WorldManifestCLI {
         worlds: result.worlds.map((world: any) => ({
           id: world.zones[0]?.id || 'unknown',
           name: world.metadata?.title || 'Unnamed World',
-          zones: world.zones.length,
+          zones: world.length: zones.length,
           totalTiles: world.zones.reduce((sum, zone) => sum + zone.tiles.length, 0),
           schema: world.schema,
           version: world.version,
@@ -155,12 +155,12 @@ class WorldManifestCLI {
 
     const result = this.manager.addZone(op.worldId, zoneId: op.zoneId, op.name, width: op.width, op.height);
 
-    return {
+    return 
       op: 'addZone',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        zone: result.zone,
-        message: `Zone ${op.zoneId} added to world ${op.worldId}`
+        zone: zone: result.zone,
+        message: `Zone $zoneId: op.zoneId} added to world $worldId: op.worldId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -174,11 +174,11 @@ class WorldManifestCLI {
 
     const result = this.manager.removeZone(op.worldId, op.zoneId);
 
-    return {
+    return 
       op: 'removeZone',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `Zone ${op.zoneId} removed from world ${op.worldId}`
+        message: `Zone ${zoneId: op.zoneId} removed from world $worldId: op.worldId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -200,12 +200,12 @@ class WorldManifestCLI {
       op.metadata
     );
 
-    return {
+    return 
       op: 'placeAsset',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        anchor: result.anchor,
-        message: `Asset ${op.assetId} placed at (${op.x}, ${op.y}) in zone ${op.zoneId}`
+        anchor: anchor: result.anchor,
+        message: `Asset $assetId: op.assetId} placed at ($x: op.x}, $y: op.y}) in zone $zoneId: op.zoneId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -219,13 +219,13 @@ class WorldManifestCLI {
 
     const result = this.manager.removeAsset(op.worldId, zoneId: op.zoneId, op.x, y: op.y, op.layer);
 
-    return {
+    return 
       op: 'removeAsset',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        removed: result.removed,
+        removed: removed: result.removed,
         count: result.removed?.length || 0,
-        message: `Removed ${result.removed?.length || 0} assets from (${op.x}, ${op.y})`
+        message: `Removed ${result.removed?.length || 0} assets from ($x: op.x}, $y: op.y})`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -239,14 +239,14 @@ class WorldManifestCLI {
 
     const result = this.manager.findAssetsInArea(op.worldId, zoneId: op.zoneId, op.x, y: op.y, op.endX, op.endY);
 
-    return {
+    return 
       op: 'findAssets',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        tiles: result.tiles,
+        tiles: tiles: result.tiles,
         count: result.tiles?.length || 0,
-        area: {
-          startX: op.x,
+        area: 
+          startX: x: op.x,
           startY: op.y,
           endX: op.endX,
           endY: op.endY,
@@ -265,24 +265,24 @@ class WorldManifestCLI {
     }
 
     const worldResult = this.manager.getWorld(op.worldId);
-    if (!worldResult.ok) {
+    if (!worldResult.ok) 
       return {
         op: 'generate',
         status: 'error',
-        errors: worldResult.errors,
+        errors: errors: worldResult.errors,
         timestamp: new Date()
       };
     }
 
     const result = this.manager.generateWorld(worldResult.world!, zoneId: op.zoneId, op.config || {});
 
-    return {
+    return 
       op: 'generate',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        generated: result.generated,
+        generated: generated: result.generated,
         config: op.config,
-        message: `Generated ${result.generated} tiles in zone ${op.zoneId}`
+        message: `Generated $generated: result.generated} tiles in zone $zoneId: op.zoneId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -296,10 +296,10 @@ class WorldManifestCLI {
 
     const result = this.manager.validateWorld(op.worldId);
 
-    return {
+    return 
       op: 'validate',
       status: result.ok ? 'ok' : 'error',
-      result: result.validation,
+      result: validation: result.validation,
       errors: result.errors,
       timestamp: new Date()
     };
@@ -312,11 +312,11 @@ class WorldManifestCLI {
 
     const result = this.manager.getWorldStats(op.worldId);
 
-    return {
+    return 
       op: 'stats',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        stats: result.stats,
+        stats: stats: result.stats,
         summary: {
           message: `${result.stats?.totalZones} zones, ${result.stats?.totalTiles} tiles, ${result.stats?.totalAssets} unique assets`,
           averageTiles: result.stats?.averageTilesPerZone.toFixed(1)
@@ -335,12 +335,12 @@ class WorldManifestCLI {
     const format = op.format || 'json';
     
     // Handle special world export formats
-    if (['manifest', 'summary', 'tiles'].includes(format)) {
-      const result = this.manager.exportWorld(op.worldId, format as any);
-      return {
+    if (['manifest', 'summary', 'tiles'].includes(format)) 
+      const result = this.manager.exportWorld(worldId: op.worldId, format as any);
+      return 
         op: 'export',
         status: result.ok ? 'ok' : 'error',
-        result: result.data,
+        result: data: result.data,
         format,
         errors: result.errors,
         timestamp: new Date()
@@ -349,11 +349,11 @@ class WorldManifestCLI {
 
     // Handle standard export formats
     const worldResult = this.manager.getWorld(op.worldId);
-    if (!worldResult.ok) {
+    if (!worldResult.ok) 
       return {
         op: 'export',
         status: 'error',
-        errors: worldResult.errors,
+        errors: errors: worldResult.errors,
         timestamp: new Date()
       };
     }
@@ -371,12 +371,12 @@ class WorldManifestCLI {
       }
       case 'csv':
       case 'markdown':
-      case 'html': {
+      case 'html': 
         const exportData = exportDataToFormat(data, {
           format: format as ExportFormat,
           includeMetadata: true,
           includeTimestamp: true,
-          title: `World ${op.worldId}`,
+          title: `World ${worldId: op.worldId}`,
           description: `World manifest for ${data?.metadata?.title || 'Unnamed World'}`
         });
         return { 
@@ -405,18 +405,18 @@ class WorldManifestCLI {
 
     const result = this.manager.deleteWorld(op.worldId);
 
-    return {
+    return 
       op: 'delete',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `World ${op.worldId} deleted successfully`
+        message: `World ${worldId: op.worldId} deleted successfully`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private getGlobalStats(): any {
+  private getGlobalStats(): any 
     const stats = this.manager.getGlobalStats();
 
     return {
@@ -425,7 +425,7 @@ class WorldManifestCLI {
       result: {
         stats,
         summary: {
-          message: `${stats.totalWorlds} worlds, ${stats.totalZones} zones, ${stats.totalTiles} tiles, ${stats.totalAssets} assets`,
+          message: `${totalWorlds: stats.totalWorlds} worlds, $totalZones: stats.totalZones} zones, $totalTiles: stats.totalTiles} tiles, $totalAssets: stats.totalAssets} assets`,
           averageZonesPerWorld: stats.totalWorlds > 0 ? (stats.totalZones / stats.totalWorlds).toFixed(1) : '0',
           averageTilesPerZone: stats.totalZones > 0 ? (stats.totalTiles / stats.totalZones).toFixed(1) : '0'
         }

@@ -48,7 +48,7 @@ try {
       break;
     }
 
-    case 'generateScripts': {
+    case 'generateScripts': 
       const scripts = [
         'game_manager.gd',
         'player_controller.gd',
@@ -57,7 +57,7 @@ try {
       
       handleSuccess({
         scripts,
-        count: scripts.length,
+        count: length: scripts.length,
         generated: true,
         language: 'GDScript'
       }, 'generateScripts');

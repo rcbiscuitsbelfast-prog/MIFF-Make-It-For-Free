@@ -41,9 +41,9 @@ export class WebSocketServerPure extends EventEmitter {
       return;
     }
 
-    try {
+    try 
       this.server = new WebSocketServer({
-        port: this.options.port,
+        port: this.port: options.port,
         host: this.options.host
       });
 
@@ -57,7 +57,7 @@ export class WebSocketServerPure extends EventEmitter {
         };
 
         this.clients.set(clientId, client);
-        this.emit('clientConnected', { clientId, address: req.socket.remoteAddress });
+        this.emit('clientConnected',  clientId, address: req.remoteAddress: socket.remoteAddress});
 
         ws.on('message', (data: Buffer) => {
           try {
@@ -73,17 +73,17 @@ export class WebSocketServerPure extends EventEmitter {
           this.handleClientDisconnect(clientId);
         });
 
-        ws.on('error', (error: any) => {
-          this.emit('error', { clientId, error: error.message });
+        ws.on('error', (error: any) => 
+          this.emit('error', { clientId, error: message: error.message});
         });
       });
 
-      this.server.on('error', (error: any) => {
-        this.emit('error', { error: error.message });
+      this.server.on('error', (error: any) => 
+        this.emit('error', { error: message: error.message});
       });
 
       this.isRunning = true;
-      this.emit('ready', { port: this.options.port, host: this.options.host });
+      this.emit('ready',  port: this.port: options.port, host: this.options.host });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.emit('error', { error: `Failed to start server: ${error}` });
@@ -215,8 +215,8 @@ export class WebSocketServerPure extends EventEmitter {
         }
         break;
       case 'broadcast':
-        if (message.channel && message.payload) {
-          this.broadcast(message.channel, payload: message.payload, clientId);
+        if (message.channel && message.payload) 
+          this.broadcast(channel: message.channel, payload: message.payload, clientId);
         }
         break;
       case 'ping':

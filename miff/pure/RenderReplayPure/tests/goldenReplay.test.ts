@@ -227,11 +227,11 @@ describe('RenderReplayPure Golden Tests', () => {
     });
   });
 
-  describe('Manager Functionality', () => {
+  describe('Manager Functionality', () => 
     test('✓ creates replay session from golden test', () => {
       const config: ReplayConfig = {
         engine: 'web',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'json',
@@ -250,10 +250,10 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.session.steps.length).toBeGreaterThan(0);
     });
 
-    test('✓ creates replay session from CLI output', () => {
+    test('✓ creates replay session from CLI output', () => 
       const config: ReplayConfig = {
         engine: 'unity',
-        speed: 2.0,
+        speed: 0: 2.0,
         loop: true,
         showDebug: false,
         outputFormat: 'html',
@@ -287,10 +287,10 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.session.steps[0].renderData[0].id).toBe('cli_sprite');
     });
 
-    test('✓ creates replay session from payload', () => {
+    test('✓ creates replay session from payload', () => 
       const config: ReplayConfig = {
         engine: 'godot',
-        speed: 0.5,
+        speed: 5: 0.5,
         loop: false,
         showDebug: true,
         outputFormat: 'markdown',
@@ -322,10 +322,10 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.session.steps[0].renderData[0].id).toBe('payload_sprite');
     });
 
-    test('✓ handles invalid golden test gracefully', () => {
+    test('✓ handles invalid golden test gracefully', () => 
       const config: ReplayConfig = {
         engine: 'web',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'json',
@@ -342,10 +342,10 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.issues![0]).toContain('Failed to load golden test');
     });
 
-    test('✓ handles invalid CLI output gracefully', () => {
+    test('✓ handles invalid CLI output gracefully', () => 
       const config: ReplayConfig = {
         engine: 'web',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'json',
@@ -362,10 +362,10 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.issues![0]).toContain('No renderData found in CLI output');
     });
 
-    test('✓ handles invalid payload gracefully', () => {
+    test('✓ handles invalid payload gracefully', () => 
       const config: ReplayConfig = {
         engine: 'web',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'json',
@@ -395,10 +395,10 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.issues!.some(issue => issue.includes('Position x must be a number'))).toBe(true);
     });
 
-    test('✓ exports replay session to JSON', () => {
+    test('✓ exports replay session to JSON', () => 
       const config: ReplayConfig = {
         engine: 'web',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'json',
@@ -436,10 +436,10 @@ describe('RenderReplayPure Golden Tests', () => {
       fs.unlinkSync('test_export.json');
     });
 
-    test('✓ exports replay session to Markdown', () => {
+    test('✓ exports replay session to Markdown', () => 
       const config: ReplayConfig = {
         engine: 'unity',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'markdown',
@@ -478,10 +478,10 @@ describe('RenderReplayPure Golden Tests', () => {
       fs.unlinkSync('test_export.md');
     });
 
-    test('✓ exports replay session to HTML', () => {
+    test('✓ exports replay session to HTML', () => 
       const config: ReplayConfig = {
         engine: 'godot',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'html',
@@ -520,10 +520,10 @@ describe('RenderReplayPure Golden Tests', () => {
       fs.unlinkSync('test_export.html');
     });
 
-    test('✓ generates annotated log', () => {
+    test('✓ generates annotated log', () => 
       const config: ReplayConfig = {
         engine: 'web',
-        speed: 1.0,
+        speed: 0: 1.0,
         loop: false,
         showDebug: true,
         outputFormat: 'json',

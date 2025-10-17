@@ -139,22 +139,22 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Initialize the manager - must be implemented by subclasses
    */
-  public async initialize(): Promise<void> {
+  public async initialize(): Promise<void> 
     if (this.state.initialized) {
-      throw new Error(`Manager ${this.config.id} is already initialized`);
+      throw new Error(`Manager ${  id: config.id} is already initialized`);
     }
 
-    try {
+    try 
       this.log('info', 'Initializing manager');
       await this.onInitialize();
       this.state.initialized = true;
       this.state.running = true;
-      this.emit('initialized', { managerId: this.config.id });
+      this.emit('initialized', { managerId: this.id: config.id});
       this.log('info', 'Manager initialized successfully');
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this.emit('error', { managerId: this.id: config.id, error });
       throw error;
     }
   }
@@ -162,9 +162,9 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Start the manager operations
    */
-  public async start(): Promise<void> {
+  public async start(): Promise<void> 
     if (!this.state.initialized) {
-      throw new Error(`Manager ${this.config.id} must be initialized before starting`);
+      throw new Error(`Manager ${  id: config.id} must be initialized before starting`);
     }
 
     if (this.state.running) {
@@ -172,17 +172,17 @@ export abstract class BaseManager extends EventEmitter {
       return;
     }
 
-    try {
+    try 
       this.log('info', 'Starting manager');
       await this.onStart();
       this.state.running = true;
       this.state.paused = false;
-      this.emit('started', { managerId: this.config.id });
+      this.emit('started', { managerId: this.id: config.id});
       this.log('info', 'Manager started successfully');
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this.emit('error', { managerId: this.id: config.id, error });
       throw error;
     }
   }
@@ -190,21 +190,21 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Pause the manager operations
    */
-  public async pause(): Promise<void> {
+  public async pause(): Promise<void> 
     if (!this.state.running) {
-      throw new Error(`Manager ${this.config.id} is not running`);
+      throw new Error(`Manager ${  id: config.id} is not running`);
     }
 
-    try {
+    try 
       this.log('info', 'Pausing manager');
       await this.onPause();
       this.state.paused = true;
-      this.emit('paused', { managerId: this.config.id });
+      this.emit('paused', { managerId: this.id: config.id});
       this.log('info', 'Manager paused successfully');
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this.emit('error', { managerId: this.id: config.id, error });
       throw error;
     }
   }
@@ -212,21 +212,21 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Resume the manager operations
    */
-  public async resume(): Promise<void> {
+  public async resume(): Promise<void> 
     if (!this.state.paused) {
-      throw new Error(`Manager ${this.config.id} is not paused`);
+      throw new Error(`Manager ${  id: config.id} is not paused`);
     }
 
-    try {
+    try 
       this.log('info', 'Resuming manager');
       await this.onResume();
       this.state.paused = false;
-      this.emit('resumed', { managerId: this.config.id });
+      this.emit('resumed', { managerId: this.id: config.id});
       this.log('info', 'Manager resumed successfully');
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this.emit('error', { managerId: this.id: config.id, error });
       throw error;
     }
   }
@@ -252,12 +252,12 @@ export abstract class BaseManager extends EventEmitter {
 
       this.state.running = false;
       this.state.initialized = false;
-      this.emit('destroyed', { managerId: this.config.id });
+      this.emit('destroyed',  managerId: this.id: config.id});
       this.log('info', 'Manager destroyed successfully');
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
-      this.emit('error', { managerId: this.config.id, error });
+      this.emit('error', { managerId: this.id: config.id, error });
       throw error;
     }
   }
@@ -290,8 +290,8 @@ export abstract class BaseManager extends EventEmitter {
       operationRecord.endTime = new Date();
       operationRecord.success = true;
       
-      this.emit('operationCompleted', { 
-        managerId: this.config.id, 
+      this.emit('operationCompleted',  
+        managerId: this.id: config.id, 
         operationId, 
         operationName,
         duration: operationRecord.endTime.getTime() - operationRecord.startTime.getTime()
@@ -300,14 +300,14 @@ export abstract class BaseManager extends EventEmitter {
       this.log('debug', `Completed operation: ${operationName}`, { operationId });
       
       return result;
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       operationRecord.endTime = new Date();
       operationRecord.success = false;
       operationRecord.error = error as Error;
       
       this.emit('operationFailed', { 
-        managerId: this.config.id, 
+        managerId: this.id: config.id, 
         operationId, 
         operationName, 
         error 
@@ -368,13 +368,13 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Logging utility
    */
-  protected log(level: 'debug' | 'info' | 'warn' | 'error', message: string, metadata?: Record<string, unknown>): void {
+  protected log(level: 'debug' | 'info' | 'warn' | 'error', message: string, metadata?: Record<string, unknown>): void 
     if (!this.config.enableLogging) return;
 
     const logEntry = {
       timestamp: new Date().toISOString(),
       level,
-      managerId: this.config.id,
+      managerId: this.id: config.id,
       message,
       metadata
     };
@@ -385,28 +385,28 @@ export abstract class BaseManager extends EventEmitter {
     }
 
     // Basic console logging (can be replaced with proper logging system)
-    console.info(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
+    console.info(`[$timestamp: logEntry.timestamp}] ${level.toUpperCase()} [$this.id: config.id}]: ${message}`, metadata || '');
   }
 
   /**
    * Get current manager state
    */
-  public getState(): ManagerState {
-    return { ...this.state };
+  public getState(): ManagerState 
+    return { ...state: this.state};
   }
 
   /**
    * Get current manager metrics
    */
-  public getMetrics(): ManagerMetrics {
-    return { ...this.metrics };
+  public getMetrics(): ManagerMetrics 
+    return { ...metrics: this.metrics};
   }
 
   /**
    * Get manager configuration
    */
-  public getConfig(): ManagerConfig {
-    return { ...this.config };
+  public getConfig(): ManagerConfig 
+    return { ...config: this.config};
   }
 
   /**

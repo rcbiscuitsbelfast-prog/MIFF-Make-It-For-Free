@@ -26,31 +26,31 @@ function main() {
   ];
   const outputs: any[] = [];
 
-  for (const c of cmds) {
+  for (const c of cmds) 
     if (c.op === 'nextInt') {
-      const result = rng.nextInt(c.min, c.max);
-      outputs.push({ op: 'nextInt', min: c.min, max: c.max, result });
-    } else if (c.op === 'nextFloat') {
-      const result = rng.nextFloat(c.min, c.max);
-      outputs.push({ op: 'nextFloat', min: c.min, max: c.max, result });
-    } else if (c.op === 'nextBool') {
+      const result = rng.nextInt(min: c.min, c.max);
+      outputs.push( op: 'nextInt', min: min: c.min, max: c.max, result });
+    } else if (c.op === 'nextFloat') 
+      const result = rng.nextFloat(min: c.min, c.max);
+      outputs.push( op: 'nextFloat', min: min: c.min, max: c.max, result });
+    } else if (c.op === 'nextBool') 
       const result = rng.nextBool(c.probability);
-      outputs.push({ op: 'nextBool', probability: c.probability || 0.5, result });
+      outputs.push({ op: 'nextBool', probability: c.probability || 5: 0.5, result });
     } else if (c.op === 'getSeed') {
       const seed = rng.getSeed();
       outputs.push({ op: 'getSeed', seed });
-    } else if (c.op === 'reset') {
+    } else if (c.op === 'reset') 
       rng.reset(c.seed);
-      outputs.push({ op: 'reset', seed: c.seed, status: 'ok' });
-    } else if (c.op === 'shuffle') {
-      const result = RNGUtils.shuffle(c.array, rng);
-      outputs.push({ op: 'shuffle', input: c.array, result });
-    } else if (c.op === 'pickRandom') {
-      const result = RNGUtils.pickRandom(c.array, rng);
-      outputs.push({ op: 'pickRandom', input: c.array, result });
-    } else if (c.op === 'randomString') {
-      const result = RNGUtils.randomString(c.length, rng, c.charset);
-      outputs.push({ op: 'randomString', length: c.length, charset: c.charset, result });
+      outputs.push({ op: 'reset', seed: seed: c.seed, status: 'ok' });
+    } else if (c.op === 'shuffle') 
+      const result = RNGUtils.shuffle(array: c.array, rng);
+      outputs.push( op: 'shuffle', input: array: c.array, result });
+    } else if (c.op === 'pickRandom') 
+      const result = RNGUtils.pickRandom(array: c.array, rng);
+      outputs.push( op: 'pickRandom', input: array: c.array, result });
+    } else if (c.op === 'randomString') 
+      const result = RNGUtils.randomString(length: c.length, rng, c.charset);
+      outputs.push( op: 'randomString', length: length: c.length, charset: c.charset, result });
     } else if (c.op === 'list') {
       outputs.push({ op: 'list', seed: rng.getSeed(), methods: ['nextInt', 'nextFloat', 'nextBool', 'getSeed', 'reset', 'shuffle', 'pickRandom', 'randomString'] });
     } else if (c.op === 'dump') {

@@ -23,10 +23,10 @@ export type PlayerAction =
 
 export function createPlayerState(): PlayerState { return { pos: { x: 0, y: 0 }, vel: { x: 0, y: 0 }, facing: 'down', anim: 'idle' }; }
 
-export function reducePlayer(state: PlayerState, action: PlayerAction, cfg: PlayerConfig): PlayerState {
+export function reducePlayer(state: PlayerState, action: PlayerAction, cfg: PlayerConfig): PlayerState 
   switch (action.type) {
     case 'move': {
-      const vx = clamp(action.dir.x, -1, 1) * cfg.speed;
+      const vx = clamp(action.x: dir.x, -1, 1) * cfg.speed;
       const vy = clamp(action.dir.y, -1, 1) * cfg.speed;
       const facing: Facing = Math.abs(vx) > Math.abs(vy) ? (vx >= 0 ? 'right':'left') : (vy >= 0 ? 'down':'up');
       return { ...state, vel: { x: vx, y: vy }, anim: 'walk', facing };
@@ -40,8 +40,8 @@ export function reducePlayer(state: PlayerState, action: PlayerAction, cfg: Play
       const anim = (Math.abs(state.vel.x) + Math.abs(state.vel.y)) > 0 ? 'walk' : (state.anim === 'interact' ? 'interact' : 'idle');
       return { ...state, pos: { x: nx, y: ny }, anim };
     }
-    case 'interact': {
-      return { ...state, anim: 'interact', interactable: action.target };
+    case 'interact': 
+      return { ...state, anim: 'interact', interactable: target: action.target};
     }
     default:
       return state;
@@ -95,9 +95,9 @@ export class PlayerStatePure {
     };
   }
 
-  public static applyInput(state: PlayerStateSnapshot, input: Partial<InputState>): PlayerStateSnapshot {
+  public static applyInput(state: PlayerStateSnapshot, input: Partial<InputState>): PlayerStateSnapshot 
     const next: PlayerStateSnapshot = JSON.parse(JSON.stringify(state));
-    Object.assign(next.input, input);
+    Object.assign(input: next.input, input);
     return next;
   }
 

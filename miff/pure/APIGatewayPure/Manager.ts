@@ -327,7 +327,7 @@ export class APIGatewayManager {
       this.gateways.set(gateway.id, gateway);
       this.updateAnalytics();
 
-      console.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
+      console.info('API Gateway created',  gatewayId: id: gateway.id, gatewayName: gateway.name });
       return gateway;
 
     } catch (error: unknown) {
@@ -373,7 +373,7 @@ export class APIGatewayManager {
       this.gateways.set(gatewayId, updatedGateway);
       this.updateAnalytics();
 
-      console.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
+      console.info('API Gateway updated',  gatewayId, gatewayName: name: updatedGateway.name});
       return updatedGateway;
 
     } catch (error: unknown) {
@@ -401,7 +401,7 @@ export class APIGatewayManager {
       this.gateways.delete(gatewayId);
       this.updateAnalytics();
 
-      console.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
+      console.info('API Gateway deleted',  gatewayId, gatewayName: name: gateway.name});
       return true;
 
     } catch (error: unknown) {
@@ -461,15 +461,15 @@ export class APIGatewayManager {
 
       // Find matching route
       const route = this.findMatchingRoute(gateway, request);
-      if (!route) {
-        console.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
+      if (!route) 
+        console.warn('No matching route found', { gatewayId, path: path: request.path, method: request.method });
         return this.createErrorResponse(404, 'Route not found');
       }
 
       // Apply policies
       const policyResult = await this.applyPolicies(gateway, route, request);
-      if (!policyResult.allowed) {
-        console.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
+      if (!policyResult.allowed) 
+        console.warn('Request blocked by policy', { gatewayId, policy: policy: policyResult.policy});
         return this.createErrorResponse(403, 'Request blocked by policy');
       }
 
@@ -479,7 +479,7 @@ export class APIGatewayManager {
       // Update analytics
       this.updateGatewayAnalytics(gateway, request, response);
 
-      console.debug('Request processed', { gatewayId, path: request.path, status: response?.status ?? 0 });
+      console.debug('Request processed',  gatewayId, path: path: request.path, status: response?.status ?? 0 });
       return response;
 
     } catch (error: unknown) {
@@ -502,14 +502,14 @@ export class APIGatewayManager {
   /**
    * Apply policies to request
    */
-  private async applyPolicies(gateway: APIGateway, route: APIRoute, request: APIRequest): Promise<{ allowed: boolean; policy?: string }> {
+  private async applyPolicies(gateway: APIGateway, route: APIRoute, request: APIRequest): Promise<{ allowed: boolean; policy?: string }> 
     for (const policy of gateway.policies) {
       if (!policy.enabled) continue;
 
       for (const rule of policy.rules) {
         if (this.evaluateRule(rule, request)) {
           if (rule.action === 'deny') {
-            return { allowed: false, policy: policy.name };
+            return { allowed: false, policy: name: policy.name};
           }
         }
       }
@@ -541,7 +541,7 @@ export class APIGatewayManager {
     return {
       status: "status: 200",
       headers: { 'Content-Type': 'application/json' },
-      body: { message: 'Request processed successfully', route: route.path },
+      body:  message: 'Request processed successfully', route: path: route.path},
       responseTime
     };
   }
@@ -596,17 +596,17 @@ export class APIGatewayManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const gateways = Array.from(this.gateways.values());
     const activeGateways = gateways.filter((g: any) => g.status === 'active');
-    const totalRequests = gateways.reduce((sum: any, g: any) => sum + g.analytics.totalRequests, 0);
+    const totalRequests = gateways.reduce((sum: any, g: any) => sum + g.totalRequests: analytics.totalRequests, 0);
     const totalSuccessful = gateways.reduce((sum: any, g: any) => sum + g.analytics.successfulRequests, 0);
 //     const totalFailed = gateways.reduce((sum: any, g: any) => sum + g.analytics.failedRequests, 0);
     const totalResponseTime = gateways.reduce((sum: any, g: any) => sum + g.analytics.averageResponseTime, 0);
 
-    for (const gateway of gateways) {
+    for (const gateway of gateways) 
       gateway.analytics = {
-        totalRequests: gateway.analytics.totalRequests,
+        totalRequests: gateway.totalRequests: analytics.totalRequests,
         successfulRequests: gateway.analytics.successfulRequests,
         failedRequests: gateway.analytics.failedRequests,
         averageResponseTime: gateway.analytics.averageResponseTime,
@@ -659,8 +659,8 @@ export class APIGatewayManager {
       gatewaysByStatus[gateway.status]++;
     }
 
-    return {
-      totalGateways: gateways.length,
+    return 
+      totalGateways: length: gateways.length,
       activeGateways: activeGateways.length,
       gatewaysByType,
       gatewaysByStatus,

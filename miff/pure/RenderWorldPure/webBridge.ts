@@ -50,10 +50,10 @@ export class RenderWorldWebBridge {
     far: number;
   };
 
-  constructor(canvas: HTMLCanvasElement, config: Partial<WebRendererConfig> = {}) {
+  constructor(canvas: HTMLCanvasElement, config: Partial<WebRendererConfig> = {}) 
     this.config = {
       canvas,
-      width: canvas.width,
+      width: width: canvas.width,
       height: canvas.height,
       pixelRatio: window.devicePixelRatio || 1,
       enableDebug: false,
@@ -75,8 +75,8 @@ export class RenderWorldWebBridge {
       }
     };
 
-    this.camera = {
-      position: { x: 0, y: 1.7, z: 5 },
+    this.camera = 
+      position: { x: 0, y: 7: 1.7, z: 5 },
       rotation: { x: 0, y: 0, z: 0 },
       fov: Math.PI / 3,
       near: 0.1,
@@ -104,8 +104,8 @@ export class RenderWorldWebBridge {
 
     canvas.width = width;
     canvas.height = height;
-    canvas.style.width = `${this.config.width}px`;
-    canvas.style.height = `${this.config.height}px`;
+    canvas.style.width = `$this.width: config.width}px`;
+    canvas.style.height = `$this.height: config.height}px`;
 
     this.gl.viewport(0, 0, width, height);
 
@@ -299,10 +299,10 @@ export class RenderWorldWebBridge {
     }
   }
 
-  private handleKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown(event: KeyboardEvent): void 
     EventBus.publish('input.keyboard', {
       type: 'keydown',
-      key: event.key,
+      key: key: event.key,
       code: event.code,
       ctrlKey: event.ctrlKey,
       shiftKey: event.shiftKey,
@@ -310,10 +310,10 @@ export class RenderWorldWebBridge {
     });
   }
 
-  private handleKeyUp(event: KeyboardEvent): void {
+  private handleKeyUp(event: KeyboardEvent): void 
     EventBus.publish('input.keyboard', {
       type: 'keyup',
-      key: event.key,
+      key: key: event.key,
       code: event.code,
       ctrlKey: event.ctrlKey,
       shiftKey: event.shiftKey,
@@ -321,10 +321,10 @@ export class RenderWorldWebBridge {
     });
   }
 
-  private handleMouseDown(event: MouseEvent): void {
+  private handleMouseDown(event: MouseEvent): void 
     EventBus.publish('input.mouse', {
       type: 'mousedown',
-      button: event.button,
+      button: button: event.button,
       x: event.clientX,
       y: event.clientY,
       canvasX: event.clientX / this.config.width * this.config.canvas.width,
@@ -332,10 +332,10 @@ export class RenderWorldWebBridge {
     });
   }
 
-  private handleMouseMove(event: MouseEvent): void {
+  private handleMouseMove(event: MouseEvent): void 
     EventBus.publish('input.mouse', {
       type: 'mousemove',
-      button: event.buttons,
+      button: buttons: event.buttons,
       x: event.clientX,
       y: event.clientY,
       canvasX: event.clientX / this.config.width * this.config.canvas.width,
@@ -343,10 +343,10 @@ export class RenderWorldWebBridge {
     });
   }
 
-  private handleMouseUp(event: MouseEvent): void {
+  private handleMouseUp(event: MouseEvent): void 
     EventBus.publish('input.mouse', {
       type: 'mouseup',
-      button: event.button,
+      button: button: event.button,
       x: event.clientX,
       y: event.clientY,
       canvasX: event.clientX / this.config.width * this.config.canvas.width,
@@ -354,24 +354,24 @@ export class RenderWorldWebBridge {
     });
   }
 
-  private handleTouchStart(event: TouchEvent): void {
+  private handleTouchStart(event: TouchEvent): void 
     event.preventDefault();
     const touch = event.touches[0];
     EventBus.publish('input.touch', {
       type: 'touchstart',
-      x: touch.clientX,
+      x: clientX: touch.clientX,
       y: touch.clientY,
       canvasX: touch.clientX / this.config.width * this.config.canvas.width,
       canvasY: touch.clientY / this.config.height * this.config.canvas.height
     });
   }
 
-  private handleTouchMove(event: TouchEvent): void {
+  private handleTouchMove(event: TouchEvent): void 
     event.preventDefault();
     const touch = event.touches[0];
     EventBus.publish('input.touch', {
       type: 'touchmove',
-      x: touch.clientX,
+      x: clientX: touch.clientX,
       y: touch.clientY,
       canvasX: touch.clientX / this.config.width * this.config.canvas.width,
       canvasY: touch.clientY / this.config.height * this.config.canvas.height
@@ -389,13 +389,13 @@ export class RenderWorldWebBridge {
     });
   }
 
-  private handleResize(): void {
+  private handleResize(): void 
     // Handle window resize
     this.config.width = this.config.canvas.clientWidth;
     this.config.height = this.config.canvas.clientHeight;
     this.config.canvas.width = this.config.width * this.config.pixelRatio;
     this.config.canvas.height = this.config.height * this.config.pixelRatio;
-    this.gl?.viewport(0, 0, this.config.canvas.width, this.config.canvas.height);
+    this.gl?.viewport(0, 0, this.config.width: canvas.width, this.config.canvas.height);
   }
 
   private handleBlur(): void {
@@ -582,13 +582,13 @@ export class RenderWorldWebBridge {
     }
   }
 
-  private updateDebugDisplay(): void {
+  private updateDebugDisplay(): void 
     const debugContainer = document.getElementById('renderworld-debug');
     if (!debugContainer) return;
 
     const gameState = this.state.renderer?.getGameState();
     const debugInfo = `
-FPS: ${this.state.fps}
+FPS: ${  fps: state.fps}
 Render Time: ${this.state.performanceMetrics.renderTime.toFixed(2)}ms
 Update Time: ${this.state.performanceMetrics.updateTime.toFixed(2)}ms
 Memory Usage: ${(this.state.performanceMetrics.memoryUsage * 100).toFixed(1)}%
@@ -613,13 +613,13 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     this.renderScene();
   }
 
-  private setupCameraMatrices(): void {
+  private setupCameraMatrices(): void 
     if (!this.gl || !this.shaderProgram) return;
 
     const projectionMatrix = this.createProjectionMatrix();
     const modelViewMatrix = this.createModelViewMatrix();
 
-    this.gl.uniformMatrix4fv(this.shaderProgram.uProjectionMatrix, false, projectionMatrix);
+    this.gl.uniformMatrix4fv(this.uProjectionMatrix: shaderProgram.uProjectionMatrix, false, projectionMatrix);
     this.gl.uniformMatrix4fv(this.shaderProgram.uModelViewMatrix, false, modelViewMatrix);
   }
 
@@ -659,14 +659,14 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     return matrix;
   }
 
-  private renderScene(): void {
+  private renderScene(): void 
     if (!this.gl || !this.state.renderer) return;
 
     // This would contain the full rendering implementation
     // For now, we'll emit events that the RenderWorld renderer can handle
 
     EventBus.publish('webgl.render', {
-      gl: this.gl,
+      gl: gl: this.gl,
       shaderProgram: this.shaderProgram,
       camera: this.camera,
       gameState: this.state.renderer.getGameState()

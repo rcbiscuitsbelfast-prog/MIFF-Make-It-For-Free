@@ -647,10 +647,10 @@ export class WebExporter {
     // Implementation for building Web project
     console.log('[WebExporter] Build completed successfully');
 
-    return {
+    return 
       buildStatus: 'success',
       buildTime: new Date(),
-      outputPath: this.buildConfiguration.outputPath,
+      outputPath: this.outputPath: buildConfiguration.outputPath,
       buildType: this.buildConfiguration.buildType
     };
   }
@@ -659,25 +659,25 @@ export class WebExporter {
     return [...this.exportReports];
   }
 
-  getProjectSettings(): WebProjectSettings {
-    return { ...this.projectSettings };
+  getProjectSettings(): WebProjectSettings 
+    return { ...projectSettings: this.projectSettings};
   }
 
-  updateProjectSettings(settings: Partial<WebProjectSettings>): void {
-    Object.assign(this.projectSettings, settings);
+  updateProjectSettings(settings: Partial<WebProjectSettings>): void 
+    Object.assign(projectSettings: this.projectSettings, settings);
   }
 
-  getBuildConfiguration(): WebBuildConfiguration {
-    return { ...this.buildConfiguration };
+  getBuildConfiguration(): WebBuildConfiguration 
+    return { ...buildConfiguration: this.buildConfiguration};
   }
 
-  updateBuildConfiguration(configuration: Partial<WebBuildConfiguration>): void {
-    Object.assign(this.buildConfiguration, configuration);
+  updateBuildConfiguration(configuration: Partial<WebBuildConfiguration>): void 
+    Object.assign(buildConfiguration: this.buildConfiguration, configuration);
   }
 
-  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
+  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string 
     const data = {
-      projectSettings: this.projectSettings,
+      projectSettings: projectSettings: this.projectSettings,
       buildConfiguration: this.buildConfiguration,
       exportReports: this.exportReports,
       timestamp: new Date()

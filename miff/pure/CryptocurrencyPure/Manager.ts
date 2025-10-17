@@ -812,15 +812,15 @@ export class CryptocurrencyPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): CryptocurrencyPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): CryptocurrencyPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): CryptocurrencyAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): CryptocurrencyAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**
@@ -833,7 +833,7 @@ export class CryptocurrencyPure {
   /**
    * Update performance metrics
    */
-  updatePerformanceMetrics(): void {
+  updatePerformanceMetrics(): void 
     const now = Date.now();
     let totalWallets = 0;
     let activeWallets = 0;
@@ -846,7 +846,7 @@ export class CryptocurrencyPure {
       activeWallets += manager.wallets.filter((w: any) => w.isActive).length;
       totalTransactions += manager.transactions.length;
       pendingTransactions += manager.transactions.filter((t: any) => t.status === 'pending').length;
-      totalPortfolioValue += manager.portfolios.reduce((sum: any, p: any) => sum + p.totalValueUSD, 0);
+      totalPortfolioValue += manager.portfolios.reduce((sum: any, p: any) => sum + totalValueUSD: p.totalValueUSD, 0);
     }
 
     this.performanceMetrics.totalWallets = totalWallets;

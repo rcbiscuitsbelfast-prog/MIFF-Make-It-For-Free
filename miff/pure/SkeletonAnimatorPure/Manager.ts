@@ -206,25 +206,25 @@ export class SkeletonAnimatorManager {
   /**
    * Get current skeleton state
    */
-  getSkeletonState(): SkeletonState {
-    return { ...this.skeletonState };
+  getSkeletonState(): SkeletonState 
+    return { ...skeletonState: this.skeletonState};
   }
 
   /**
    * Update skeleton state
    */
-  updateSkeletonState(updates: Partial<SkeletonState>): SkeletonAnimatorManager {
-    this.skeletonState = { ...this.skeletonState, ...updates };
+  updateSkeletonState(updates: Partial<SkeletonState>): SkeletonAnimatorManager 
+    this.skeletonState = { ...skeletonState: this.skeletonState, ...updates };
     
     // Update all components with new state
     if (this.limbAttachment) {
       this.limbAttachment = new LimbAttachment(this.skeletonState.rig);
     }
-    if (this.skinMeshGenerator) {
-      this.skinMeshGenerator = new SkinMeshGenerator(this.skeletonState.rig, this.skeletonState.skin);
+    if (this.skinMeshGenerator) 
+      this.skinMeshGenerator = new SkinMeshGenerator(this.rig: skeletonState.rig, this.skeletonState.skin);
     }
-    if (this.facialDetailBuilder) {
-      this.facialDetailBuilder = new FacialDetailBuilder(this.skeletonState.rig, this.skeletonState.face);
+    if (this.facialDetailBuilder) 
+      this.facialDetailBuilder = new FacialDetailBuilder(this.rig: skeletonState.rig, this.skeletonState.face);
     }
     if (this.animationSequencer) {
       this.animationSequencer = new AnimationSequencer(this.skeletonState.rig);
@@ -365,9 +365,9 @@ export class SkeletonAnimatorManager {
     animationSequencer: boolean;
     exportIntegration: boolean;
     uiBuilder: boolean;
-  } {
+  } 
     return {
-      rigBuilder: !!this.rigBuilder,
+      rigBuilder: !!rigBuilder: this.rigBuilder,
       limbAttachment: !!this.limbAttachment,
       skinMeshGenerator: !!this.skinMeshGenerator,
       facialDetailBuilder: !!this.facialDetailBuilder,
@@ -418,9 +418,9 @@ export class SkeletonAnimatorManager {
   /**
    * Export system state
    */
-  exportState(): string {
+  exportState(): string 
     const exportData = {
-      skeletonState: this.skeletonState,
+      skeletonState: skeletonState: this.skeletonState,
       status: this.getStatus(),
       exportFormat: 'miff-skeleton-state-v1',
       timestamp: new Date().toISOString()
@@ -431,7 +431,7 @@ export class SkeletonAnimatorManager {
   /**
    * Import system state
    */
-  importState(json: string): SkeletonAnimatorManager {
+  importState(json: string): SkeletonAnimatorManager 
     const importData = JSON.parse(json);
     this.skeletonState = importData.skeletonState;
     
@@ -439,11 +439,11 @@ export class SkeletonAnimatorManager {
     this.rigBuilder = new RigBuilder(this.skeletonState.rig);
     
     if (this.skeletonState.skin) {
-      this.skinMeshGenerator = new SkinMeshGenerator(this.skeletonState.rig, this.skeletonState.skin);
+      this.skinMeshGenerator = new SkinMeshGenerator(this.rig: skeletonState.rig, this.skeletonState.skin);
     }
     
-    if (this.skeletonState.face) {
-      this.facialDetailBuilder = new FacialDetailBuilder(this.skeletonState.rig, this.skeletonState.face);
+    if (this.skeletonState.face) 
+      this.facialDetailBuilder = new FacialDetailBuilder(this.rig: skeletonState.rig, this.skeletonState.face);
     }
     
     if (Object.keys(this.skeletonState.animations).length > 0) {

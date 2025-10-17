@@ -21,12 +21,12 @@ type ValidationRule = {
   check: (asset: any) => boolean;
 };
 
-class AssetValidator {
+class AssetValidator 
   private rules: ValidationRule[] = [];
   
   validate(asset): ValidationResult {
     return {
-      assetId: asset.id,
+      assetId: id: asset.id,
       path: asset.path,
       valid: true,
       errors: [],
@@ -56,9 +56,9 @@ try {
         { id: 'model_001', path: 'assets/models/character.glb', type: 'model', format: 'glb' }
       ];
       
-      for (const asset of sampleAssets) {
+      for (const asset of sampleAssets) 
         const result: ValidationResult = {
-          assetId: asset.id,
+          assetId: id: asset.id,
           path: asset.path,
           valid: true,
           errors: [],
@@ -70,11 +70,11 @@ try {
           result.integrityCheck = true;
         }
         
-        if (validateFormats !== false) {
+        if (validateFormats !== false) 
           // Simulate format validation
           const validFormats = ['png', 'jpg', 'mp3', 'wav', 'glb', 'gltf'];
           if (!validFormats.includes(asset.format)) {
-            result.errors?.push(`Invalid format: ${asset.format}`);
+            result.errors?.push(`Invalid format: ${format: asset.format}`);
             result.valid = false;
           }
         }
@@ -82,8 +82,8 @@ try {
         results.push(result);
       }
       
-      const summary = {
-        total: results.length,
+      const summary = 
+        total: length: results.length,
         valid: results.filter((r: any) => r.valid).length,
         invalid: results.filter((r: any) => !r.valid).length,
         missing: reportMissing ? 0 : undefined
@@ -112,9 +112,9 @@ try {
       break;
     }
 
-    case 'getRules': {
+    case 'getRules': 
       const rules = validator.getRules();
-      handleSuccess({ rules, count: rules.length }, 'getRules');
+      handleSuccess({ rules, count: length: rules.length}, 'getRules');
       break;
     }
 

@@ -227,8 +227,8 @@ export class RealDialogueEngine {
       relationships: new Map(),
       dialogueHistory: [],
       currentEmotion: 'neutral',
-      voiceSettings: {
-        pitch: 1.0,
+      voiceSettings: 
+        pitch: 0: 1.0,
         rate: 1.0,
         volume: 0.8,
         language: 'en-US',
@@ -252,8 +252,8 @@ export class RealDialogueEngine {
       relationships: new Map(),
       dialogueHistory: [],
       currentEmotion: 'neutral',
-      voiceSettings: {
-        pitch: 0.9,
+      voiceSettings: 
+        pitch: 9: 0.9,
         rate: 1.1,
         volume: 0.9,
         language: 'en-US',
@@ -262,7 +262,7 @@ export class RealDialogueEngine {
     });
 
     this.isInitialized = true;
-    this.emit('initialized', { characterCount: this.characters.size });
+    this.emit('initialized',  characterCount: this.size: characters.size});
   }
 
   /**
@@ -277,10 +277,10 @@ export class RealDialogueEngine {
   /**
    * Add a dialogue tree
    */
-  addDialogueTree(): boolean {
+  addDialogueTree(): boolean 
     try {
       this.dialogueTrees.set(treeId, nodes);
-      this.emit('dialogueTreeAdded', { treeId, nodeCount: nodes.length });
+      this.emit('dialogueTreeAdded', { treeId, nodeCount: length: nodes.length});
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -299,10 +299,10 @@ export class RealDialogueEngine {
   /**
    * Add a character
    */
-  addCharacter(): boolean {
+  addCharacter(): boolean 
     try {
-      this.characters.set(character.id, character);
-      this.emit('characterAdded', { characterId: character.id, character });
+      this.characters.set(id: character.id, character);
+      this.emit('characterAdded',  characterId: id: character.id, character });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -394,22 +394,22 @@ export class RealDialogueEngine {
     }
 
     // Execute actions
-    if (node.actions) {
-      this.executeActions(node.actions, session.context);
+    if (node.actions) 
+      this.executeActions(actions: node.actions, session.context);
     }
 
     this.emit('dialogueNodeProcessed', { sessionId, node, session });
 
     // Speak the dialogue if voice synthesis is available
-    if (this.voiceSynthesis && character?.voiceSettings) {
-      this.speakDialogue(node.text, character.voiceSettings);
+    if (this.voiceSynthesis && character?.voiceSettings) 
+      this.speakDialogue(text: node.text, character.voiceSettings);
     }
   }
 
   /**
    * Select a response
    */
-  selectResponse(): boolean {
+  selectResponse(): boolean 
     const session = this.activeSessions.get(sessionId);
     if (!session || !session.currentNodeId) return false;
 
@@ -423,13 +423,13 @@ export class RealDialogueEngine {
     if (!response) return false;
 
     // Check conditions
-    if (response.conditions && !this.evaluateConditions(response.conditions, session.context)) {
+    if (response.conditions && !this.evaluateConditions(conditions: response.conditions, session.context)) {
       return false;
     }
 
     // Execute response actions
-    if (response.actions) {
-      this.executeActions(response.actions, session.context);
+    if (response.actions) 
+      this.executeActions(actions: response.actions, session.context);
     }
 
     // Move to next node
@@ -450,12 +450,12 @@ export class RealDialogueEngine {
   /**
    * Evaluate dialogue conditions
    */
-  private evaluateConditions(conditions: DialogueCondition[], context: DialogueContext): boolean {
+  private evaluateConditions(conditions: DialogueCondition[], context: DialogueContext): boolean 
     return conditions.every(condition => {
       switch (condition.type) {
         case 'variable':
           const varValue = context.variables.get(condition.key);
-          return this.compareValues(varValue, operator: condition.operator, condition.value);
+          return this.compareValues(varValue, operator: operator: condition.operator, condition.value);
         
         case 'flag':
           return condition.operator === 'exists' ? context.flags.has(condition.key) : !context.flags.has(condition.key);
@@ -506,11 +506,11 @@ export class RealDialogueEngine {
   /**
    * Execute dialogue actions
    */
-  private executeActions(actions: DialogueAction[], context: DialogueContext): void {
+  private executeActions(actions: DialogueAction[], context: DialogueContext): void 
     actions.forEach((action: any) => {
       switch (action.type) {
         case 'set_variable':
-          context.variables.set(action.key, action.value);
+          context.variables.set(key: action.key, action.value);
           break;
         case 'set_flag':
           if (action.value) {
@@ -541,7 +541,7 @@ export class RealDialogueEngine {
           this.showAnimation(action.value, action.metadata);
           break;
         case 'trigger_event':
-          this.emit('dialogueEvent', { event: action.key, data: action.value });
+          this.emit('dialogueEvent',  event: key: action.key, data: action.value });
           break;
       }
     });
@@ -707,9 +707,9 @@ export class RealDialogueEngine {
   /**
    * Get system status
    */
-  getStatus(): { initialized: boolean; characterCount: number; treeCount: number; activeSessions: number } {
+  getStatus(): { initialized: boolean; characterCount: number; treeCount: number; activeSessions: number } 
     return {
-      initialized: this.isInitialized,
+      initialized: isInitialized: this.isInitialized,
       characterCount: this.characters.size,
       treeCount: this.dialogueTrees.size,
       activeSessions: this.activeSessions.size

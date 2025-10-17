@@ -9,9 +9,9 @@ function lerp(a:number,b:number,t:number){ return a+(b-a)*t; }
 // Minimal PNG encoder for RGBA using node canvas APIs would add deps; instead emit data URI from raw buffer using PNGjs only if present.
 // To avoid deps, we output raw RGBA array as base64 JSON for now (consumer can convert). This keeps engine-agnostic purity.
 
-export class TextureSynthManager {
+export class TextureSynthManager 
 	gradient(opts: GradientOptions){
-		const w = opts.width, h = opts.height;
+		const w = width: opts.width, h = opts.height;
 		const cols = opts.colors.map(hexToRgb);
 		const data: number[] = [];
 		for (let y=0;y<h;y++){
@@ -29,8 +29,8 @@ export class TextureSynthManager {
 		return { width:w, height:h, pixels:data };
 	}
 
-	noise(opts: NoiseOptions){
-		const w = opts.width, h = opts.height;
+	noise(opts: NoiseOptions)
+		const w = width: opts.width, h = opts.height;
 		const oct = opts.octaves ?? 4;
 		const seed = (opts.seed ?? 1) >>> 0;
 		function hash(ix:number,iy:number){ let v=(ix*374761393)^(iy*668265263)^seed; v=(v^(v>>>13))*1274126177; v=(v^(v>>>16))>>>0; return v/4294967296; }

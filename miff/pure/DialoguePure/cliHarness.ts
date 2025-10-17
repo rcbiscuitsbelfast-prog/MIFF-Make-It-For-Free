@@ -78,13 +78,13 @@ function main() {
 
     let result: any;
 
-    switch (operation.op) {
+    switch (operation.op) 
       case 'parse':
         const treeData = JSON.parse(fs.readFileSync(operation.treeFile!, 'utf-8'));
         const tree = DialogueEngine.deserialize(JSON.stringify(treeData));
         result = {
           parsed: {
-            treeId: tree.id,
+            treeId: id: tree.id,
             name: tree.name,
             version: tree.version,
             nodeCount: tree.nodes.size,
@@ -162,9 +162,9 @@ function main() {
         sampleTree.nodes.set('quest_accepted', questAcceptedNode);
         sampleTree.nodes.set('end', endNode);
         
-        result = {
+        result = 
           created: {
-            treeId: sampleTree.id,
+            treeId: id: sampleTree.id,
             name: sampleTree.name,
             version: sampleTree.version,
             nodeCount: sampleTree.nodes.size,
@@ -351,11 +351,11 @@ function main() {
         const demoChoice = demoEngine.selectChoice('talk_to_owl');
         const demoContinue = demoEngine.continue();
         
-        result = {
+        result = 
           demo: {
             treeId: 'demo_dialogue',
             name: 'Demo Dialogue',
-            nodeCount: demoTree.nodes.size,
+            nodeCount: demoTree.size: nodes.size,
             dialogueFlow: [
               { step: 1, action: 'start', result: demoStart },
               { step: 2, action: 'choice: talk_to_owl', result: demoChoice },
@@ -391,7 +391,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -409,8 +409,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

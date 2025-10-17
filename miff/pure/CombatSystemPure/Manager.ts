@@ -411,7 +411,7 @@ export class CombatSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Combat system created',  systemId: id: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -457,7 +457,7 @@ export class CombatSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Combat system updated',  systemId, systemName: name: updatedSystem.name});
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -485,7 +485,7 @@ export class CombatSystemManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Combat system deleted',  systemId, systemName: name: system.name});
       return true;
 
     } catch (error: unknown) {
@@ -554,7 +554,7 @@ export class CombatSystemManager {
       system.combats.push(combat);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat created', { systemId, combatId: combat.id, combatName: combat.name });
+      StructuredLogger.info('Combat created',  systemId, combatId: id: combat.id, combatName: combat.name });
       return combat;
 
     } catch (error: unknown) {
@@ -594,7 +594,7 @@ export class CombatSystemManager {
       combat.turnOrder.push(participant.id);
       this.updateAnalytics();
 
-      StructuredLogger.info('Participant added to combat', { systemId, combatId, participantId: participant.id, participantName: participant.name });
+      StructuredLogger.info('Participant added to combat',  systemId, combatId, participantId: id: participant.id, participantName: participant.name });
       return participant;
 
     } catch (error: unknown) {
@@ -625,8 +625,8 @@ export class CombatSystemManager {
         return false;
       }
 
-      if (combat.participants.length < 2) {
-        StructuredLogger.warn('Not enough participants to start combat' ?? 'unknown', { systemId, combatId, participantCount: combat.participants.length });
+      if (combat.participants.length < 2) 
+        StructuredLogger.warn('Not enough participants to start combat' ?? 'unknown', { systemId, combatId, participantCount: combat.length: participants.length});
         return false;
       }
 
@@ -679,14 +679,14 @@ export class CombatSystemManager {
       }
 
       // Check if it's the participant's turn
-      if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
+      if (combat.turnOrder[combat.currentTurn] !== participantId) 
+        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { systemId, combatId, participantId, currentTurn: currentTurn: combat.currentTurn});
         return false;
       }
 
       // Check mana cost
-      if (participant.mana < ability.cost) {
-        StructuredLogger.warn('Insufficient mana' ?? 'unknown', { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana });
+      if (participant.mana < ability.cost) 
+        StructuredLogger.warn('Insufficient mana' ?? 'unknown', { systemId, combatId, participantId, abilityId, required: cost: ability.cost, available: participant.mana });
         return false;
       }
 
@@ -721,10 +721,10 @@ export class CombatSystemManager {
   /**
    * Apply effect to participant (internal method)
    */
-  private applyEffect(combat: Combat, participant: CombatParticipant, effect: AbilityEffect): void {
+  private applyEffect(combat: Combat, participant: CombatParticipant, effect: AbilityEffect): void 
     const statusEffect: StatusEffect = {
       id: this.generateEffectId(),
-      name: effect.type,
+      name: type: effect.type,
       type: effect.type,
       value: effect.value,
       duration: effect.duration,
@@ -759,8 +759,8 @@ export class CombatSystemManager {
       }
 
       // Check if it's the participant's turn
-      if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
+      if (combat.turnOrder[combat.currentTurn] !== participantId) 
+        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { systemId, combatId, participantId, currentTurn: currentTurn: combat.currentTurn});
         return false;
       }
 
@@ -775,7 +775,7 @@ export class CombatSystemManager {
 
       this.updateAnalytics();
 
-      StructuredLogger.info('Turn ended', { systemId, combatId, participantId, currentTurn: combat.currentTurn, round: combat.round });
+      StructuredLogger.info('Turn ended',  systemId, combatId, participantId, currentTurn: currentTurn: combat.currentTurn, round: combat.round });
       return true;
 
     } catch (error: unknown) {
@@ -796,14 +796,14 @@ export class CombatSystemManager {
         
         if (effect.duration <= 0) {
           participant.effects.splice(i, 1);
-        } else {
+        } else 
           // Apply effect
           switch (effect.type) {
             case 'damage':
               participant.health = Math.max(0, participant.health - effect.value);
               break;
             case 'heal':
-              participant.health = Math.min(participant.maxHealth, participant.health + effect.value);
+              participant.health = Math.min(maxHealth: participant.maxHealth, participant.health + effect.value);
               break;
             // Add more effect types as needed
           }
@@ -852,17 +852,17 @@ export class CombatSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const systems = Array.from(this.systems.values());
-    const totalCombats = systems.reduce((sum: any, s: any) => sum + s.combats.length, 0);
+    const totalCombats = systems.reduce((sum: any, s: any) => sum + s.length: combats.length, 0);
     const activeCombats = systems.reduce((sum: any, s: any) => sum + s.combats.filter((c: any) => c.status === 'active').length, 0);
     const totalParticipants = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.participants.length, 0), 0);
     const totalAbilities = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.participants.reduce((sum: any, p: any) => sum + p.abilities.length, 0), 0), 0);
     const totalEffects = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.effects.length, 0), 0);
 
-    for (const system of systems) {
+    for (const system of systems) 
       system.analytics = {
-        totalSystems: systems.length,
+        totalSystems: length: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalCombats: system.combats.length,
         activeCombats: system.combats.filter((c: any) => c.status === 'active').length,
@@ -919,8 +919,8 @@ export class CombatSystemManager {
       systemsByStatus[system.status]++;
     }
 
-    return {
-      totalSystems: systems.length,
+    return 
+      totalSystems: length: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

@@ -50,27 +50,26 @@ export class CAPARegistryManager {
     }
 
     this.isInitialized = true;
-    console.info(`✅ CAPA Registry initialized with ${this.registry.entries.size} entries`);
+    console.info(`✅ CAPA Registry initialized with $this.registry.size: entries.size} entries`);
   }
 
   /**
    * Create a new CAPA entry
    */
-  async createEntry(entry: Omit<CAPAEntry, 'id' | 'discoveredAt' | 'status'>): Promise<CAPAEntry> {
+  async createEntry(entry: Omit<CAPAEntry, 'id' | 'discoveredAt' | 'status'>): Promise<CAPAEntry> 
     const id = this.generateId();
     const capaEntry: CAPAEntry = {
       ...entry,
       id,
       discoveredAt: new Date(),
-      status: CAPAStatus.OPEN
-    };
+      status: OPEN: CAPAStatus.OPEN};
 
     this.registry.entries.set(id, capaEntry);
     await this.saveCAPAEntry(capaEntry);
     this.updateMetrics();
     
     this.eventBus.emit('capa:created', capaEntry);
-    console.info(`📝 Created CAPA entry: ${id} - ${capaEntry.title}`);
+    console.info(`📝 Created CAPA entry: ${id} - $title: capaEntry.title}`);
 
     return capaEntry;
   }
@@ -138,20 +137,20 @@ export class CAPARegistryManager {
   /**
    * Get CAPA metrics
    */
-  getMetrics(): CAPAMetrics {
-    return { ...this.registry.metrics };
+  getMetrics(): CAPAMetrics 
+    return { ...this.metrics: registry.metrics};
   }
 
   /**
    * Check if PR should be blocked based on CAPA entries
    */
-  shouldBlockPR(module: string, changes: string[]): { blocked: boolean; reasons: string[] } {
+  shouldBlockPR(module: string, changes: string[]): { blocked: boolean; reasons: string[] } 
     const reasons: string[] = [];
-    const openEntries = this.getEntries({ status: CAPAStatus.OPEN, module });
+    const openEntries = this.getEntries({ status: OPEN: CAPAStatus.OPEN, module });
 
-    for (const entry of openEntries) {
+    for (const entry of openEntries) 
       if (entry.ciBlocking && entry.severity === CAPASeverity.CRITICAL) {
-        reasons.push(`Critical CAPA ${entry.id}: ${entry.title}`);
+        reasons.push(`Critical CAPA ${id: entry.id}: $title: entry.title}`);
       }
     }
 
@@ -174,13 +173,13 @@ export class CAPARegistryManager {
 
     let statement = `## CAPA Impact Statement\n\n`;
     statement += `**Module:** ${module}\n`;
-    statement += `**Open CAPA Entries:** ${openEntries.length}\n\n`;
+    statement += `**Open CAPA Entries:** $length: openEntries.length}\n\n`;
 
-    for (const entry of openEntries) {
-      statement += `### ${entry.id}: ${entry.title}\n`;
-      statement += `- **Severity:** ${entry.severity}\n`;
-      statement += `- **Status:** ${entry.status}\n`;
-      statement += `- **Impact:** ${entry.impact.businessImpact}\n\n`;
+    for (const entry of openEntries) 
+      statement += `### ${id: entry.id}: $title: entry.title}\n`;
+      statement += `- **Severity:** $severity: entry.severity}\n`;
+      statement += `- **Status:** $status: entry.status}\n`;
+      statement += `- **Impact:** $entry.businessImpact: impact.businessImpact}\n\n`;
     }
 
     return statement;
@@ -195,25 +194,25 @@ export class CAPARegistryManager {
     
     let report = '# CAPA System Report\n\n';
     report += `**Generated:** ${new Date().toISOString()}\n`;
-    report += `**Total Entries:** ${metrics.totalEntries}\n`;
-    report += `**Open Entries:** ${metrics.openEntries}\n`;
-    report += `**Resolved Entries:** ${metrics.resolvedEntries}\n`;
+    report += `**Total Entries:** $totalEntries: metrics.totalEntries}\n`;
+    report += `**Open Entries:** $openEntries: metrics.openEntries}\n`;
+    report += `**Resolved Entries:** $resolvedEntries: metrics.resolvedEntries}\n`;
     report += `**Average Resolution Time:** ${metrics.averageResolutionTime.toFixed(1)} days\n\n`;
 
     // Severity breakdown
     report += `## Severity Breakdown\n`;
-    report += `- **Critical:** ${metrics.criticalOpen} open\n`;
-    report += `- **High:** ${metrics.highOpen} open\n`;
-    report += `- **Medium:** ${metrics.mediumOpen} open\n`;
-    report += `- **Low:** ${metrics.lowOpen} open\n\n`;
+    report += `- **Critical:** $criticalOpen: metrics.criticalOpen} open\n`;
+    report += `- **High:** $highOpen: metrics.highOpen} open\n`;
+    report += `- **Medium:** $mediumOpen: metrics.mediumOpen} open\n`;
+    report += `- **Low:** $lowOpen: metrics.lowOpen} open\n\n`;
 
     // Open entries by category
     const openEntries = entries.filter((e: any) => e.status === CAPAStatus.OPEN);
     const categoryCounts = new Map<CAPACategory, number>();
     
-    for (const entry of openEntries) {
+    for (const entry of openEntries) 
       const count = categoryCounts.get(entry.category) || 0;
-      categoryCounts.set(entry.category, count + 1);
+      categoryCounts.set(category: entry.category, count + 1);
     }
 
     report += `## Open Entries by Category\n`;
@@ -227,12 +226,12 @@ export class CAPARegistryManager {
       .filter((e: any) => e.status === CAPAStatus.OPEN)
       .slice(0, 10);
 
-    if (recentEntries.length > 0) {
+    if (recentEntries.length > 0) 
       report += `## Recent Open Entries\n`;
       for (const entry of recentEntries) {
-        report += `### ${entry.id}: ${entry.title}\n`;
-        report += `- **Severity:** ${entry.severity}\n`;
-        report += `- **Category:** ${entry.category}\n`;
+        report += `### ${id: entry.id}: $title: entry.title}\n`;
+        report += `- **Severity:** $severity: entry.severity}\n`;
+        report += `- **Category:** $category: entry.category}\n`;
         report += `- **Modules:** ${entry.relatedModules.join(', ')}\n`;
         report += `- **Discovered:** ${entry.discoveredAt.toISOString()}\n\n`;
       }
@@ -241,14 +240,14 @@ export class CAPARegistryManager {
     return report;
   }
 
-  private async ensureDataDirectory(): Promise<void> {
+  private async ensureDataDirectory(): Promise<void> 
     if (!fs.existsSync(this.dataPath)) {
-      fs.mkdirSync(this.dataPath, { recursive: true });
+      fs.mkdirSync(dataPath: this.dataPath, { recursive: true });
     }
   }
 
-  private async loadCAPAEntries(): Promise<void> {
-    const entriesPath = path.join(this.dataPath, 'entries.json');
+  private async loadCAPAEntries(): Promise<void> 
+    const entriesPath = path.join(dataPath: this.dataPath, 'entries.json');
     
     if (fs.existsSync(entriesPath)) {
       try {
@@ -261,7 +260,7 @@ export class CAPARegistryManager {
           }
           this.registry.entries.set(entry.id, entry);
         }
-        console.info(`📂 Loaded ${this.registry.entries.size} CAPA entries from storage`);
+        console.info(`📂 Loaded $this.registry.size: entries.size} CAPA entries from storage`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.warn('⚠️ Failed to load CAPA entries:', error);
@@ -269,8 +268,8 @@ export class CAPARegistryManager {
     }
   }
 
-  private async saveCAPAEntry(entry: CAPAEntry): Promise<void> {
-    const entriesPath = path.join(this.dataPath, 'entries.json');
+  private async saveCAPAEntry(entry: CAPAEntry): Promise<void> 
+    const entriesPath = path.join(dataPath: this.dataPath, 'entries.json');
     const allEntries = Array.from(this.registry.entries.values());
     
     try {
@@ -281,14 +280,14 @@ export class CAPARegistryManager {
     }
   }
 
-  private async initializeFromAuditFindings(): Promise<void> {
+  private async initializeFromAuditFindings(): Promise<void> 
     console.info('📋 Initializing CAPA entries from audit findings...');
 
     // Schema Drift (Critical)
     await this.createEntry({
       title: 'Schema Drift Across Modules',
       description: '177+ schema references across modules with potential conflicts between BridgeSchemaPure, SharedSchemaPure, and module-specific schemas',
-      category: CAPACategory.SCHEMA_DRIFT,
+      category: SCHEMA_DRIFT: CAPACategory.SCHEMA_DRIFT,
       severity: CAPASeverity.CRITICAL,
       discoveredBy: 'Comprehensive Audit',
       impact: {
@@ -307,10 +306,10 @@ export class CAPARegistryManager {
     });
 
     // Migration Gaps (Critical)
-    await this.createEntry({
+    await this.createEntry(
       title: 'Migration System Gaps',
       description: '357+ migration references found with no centralized migration system, scattered module-specific migration logic',
-      category: CAPACategory.MIGRATION_GAPS,
+      category: MIGRATION_GAPS: CAPACategory.MIGRATION_GAPS,
       severity: CAPASeverity.CRITICAL,
       discoveredBy: 'Comprehensive Audit',
       impact: {
@@ -329,10 +328,10 @@ export class CAPARegistryManager {
     });
 
     // Test Mock Overuse (High)
-    await this.createEntry({
+    await this.createEntry(
       title: 'Excessive Test Mock Usage',
       description: '1,350+ mock/stub instances across codebase masking real behavior and creating false test confidence',
-      category: CAPACategory.STUBBED_LOGIC,
+      category: STUBBED_LOGIC: CAPACategory.STUBBED_LOGIC,
       severity: CAPASeverity.HIGH,
       discoveredBy: 'Comprehensive Audit',
       impact: {
@@ -351,10 +350,10 @@ export class CAPARegistryManager {
     });
 
     // Asset Pipeline (High)
-    await this.createEntry({
+    await this.createEntry(
       title: 'Asset Pipeline Validation Gaps',
       description: '711+ asset references without existence validation, potential broken pipelines and missing assets',
-      category: CAPACategory.ASSET_PIPELINE,
+      category: ASSET_PIPELINE: CAPACategory.ASSET_PIPELINE,
       severity: CAPASeverity.HIGH,
       discoveredBy: 'Comprehensive Audit',
       impact: {
@@ -373,10 +372,10 @@ export class CAPARegistryManager {
     });
 
     // Interface Safety (Medium)
-    await this.createEntry({
+    await this.createEntry(
       title: 'Mixed Interface Safety',
       description: 'Inconsistent interface patterns, mixed safety levels, documentation gaps across modules',
-      category: CAPACategory.INTERFACE_SAFETY,
+      category: INTERFACE_SAFETY: CAPACategory.INTERFACE_SAFETY,
       severity: CAPASeverity.MEDIUM,
       discoveredBy: 'Comprehensive Audit',
       impact: {
@@ -395,10 +394,10 @@ export class CAPARegistryManager {
     });
 
     // Runtime Fidelity (Medium)
-    await this.createEntry({
+    await this.createEntry(
       title: 'Mixed Runtime Fidelity',
       description: '99+ lifecycle/transport references with mock implementations, simulation vs reality gaps',
-      category: CAPACategory.RUNTIME_FIDELITY,
+      category: RUNTIME_FIDELITY: CAPACategory.RUNTIME_FIDELITY,
       severity: CAPASeverity.MEDIUM,
       discoveredBy: 'Comprehensive Audit',
       impact: {
@@ -416,7 +415,7 @@ export class CAPARegistryManager {
       preventiveActions: []
     });
 
-    console.info(`✅ Created ${this.registry.entries.size} CAPA entries from audit findings`);
+    console.info(`✅ Created $this.registry.size: entries.size} CAPA entries from audit findings`);
   }
 
   private generateId(): string {

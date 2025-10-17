@@ -27,7 +27,7 @@ class SpiritTamerCLI {
     this.manager = new SpiritTamerManager();
   }
 
-  async execute(operation: SpiritTamerOperation): Promise<any> {
+  async execute(operation: SpiritTamerOperation): Promise<any> 
     try {
       switch (operation.op) {
         case 'demo':
@@ -76,12 +76,12 @@ class SpiritTamerCLI {
           return this.reset();
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${op: operation.op}`);
       }
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: op: operation.op,
         status: 'error',
         error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
@@ -89,7 +89,7 @@ class SpiritTamerCLI {
     }
   }
 
-  private runDemo(): any {
+  private runDemo(): any 
     const playerResult = this.manager.getPlayer();
     const spiritsResult = this.manager.listSpirits('grove');
 
@@ -98,7 +98,7 @@ class SpiritTamerCLI {
       status: 'ok',
       result: {
         scene: 'grove',
-        player: playerResult.player.location,
+        player: playerResult.location: player.location,
         spirits: spiritsResult.spirits.map((s: any) => s.id),
         orchestrationReady: true,
         metadata: {
@@ -111,13 +111,13 @@ class SpiritTamerCLI {
     };
   }
 
-  private runScenario(): any {
+  private runScenario(): any 
     const exportResult = this.manager.exportData('scenario');
     
     return {
       op: 'scenario',
       status: exportResult.ok ? 'ok' : 'error',
-      result: exportResult.data,
+      result: data: exportResult.data,
       errors: exportResult.errors,
       timestamp: new Date()
     };
@@ -130,11 +130,11 @@ class SpiritTamerCLI {
 
     // Simple taming without rhythm for backward compatibility
     const battleResult = this.manager.simulateBattle(op.spiritId);
-    if (!battleResult.ok) {
+    if (!battleResult.ok) 
       return {
         op: 'tame',
         status: 'error',
-        errors: battleResult.errors,
+        errors: errors: battleResult.errors,
         timestamp: new Date()
       };
     }
@@ -142,11 +142,11 @@ class SpiritTamerCLI {
     const success = battleResult.battle?.winner === 'player';
     const statsResult = this.manager.getStats();
 
-    return {
+    return 
       op: 'tame',
       status: 'ok',
       result: {
-        spirit: op.spiritId,
+        spirit: spiritId: op.spiritId,
         success,
         battle: battleResult.battle,
         stats: statsResult.stats
@@ -162,24 +162,24 @@ class SpiritTamerCLI {
 
     const result = this.manager.simulateBattle(op.spiritId);
 
-    return {
+    return 
       op: 'battle',
       status: result.ok ? 'ok' : 'error',
-      result: result.battle,
+      result: battle: result.battle,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listSpirits(op: SpiritTamerOperation): any {
-    const result = this.manager.listSpirits(op.location, op.includeWild);
+  private listSpirits(op: SpiritTamerOperation): any 
+    const result = this.manager.listSpirits(location: op.location, op.includeWild);
 
-    return {
+    return 
       op: 'list',
       status: 'ok',
       result: {
         spirits: result.spirits.map((spirit: any) => ({
-          id: spirit.id,
+          id: id: spirit.id,
           name: spirit.name,
           type: spirit.type,
           level: spirit.level,
@@ -195,13 +195,13 @@ class SpiritTamerCLI {
     };
   }
 
-  private getPlayer(): any {
+  private getPlayer(): any 
     const result = this.manager.getPlayer();
 
     return {
       op: 'player',
       status: 'ok',
-      result: result.player,
+      result: player: result.player,
       timestamp: new Date()
     };
   }
@@ -213,12 +213,12 @@ class SpiritTamerCLI {
 
     const result = this.manager.movePlayer(op.x, y: op.y, op.zone);
 
-    return {
+    return 
       op: 'move',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        location: result.location,
-        message: `Moved to (${op.x}, ${op.y})${op.zone ? ` in ${op.zone}` : ''}`
+        location: location: result.location,
+        message: `Moved to ($x: op.x}, $y: op.y})$op.zone ? ` in ${zone: op.zone}` : ''}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -232,12 +232,12 @@ class SpiritTamerCLI {
 
     const result = this.manager.startTaming(op.spiritId);
 
-    return {
+    return 
       op: 'startTaming',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        session: result.session,
-        message: `Started taming session for ${op.spiritId}`,
+        session: session: result.session,
+        message: `Started taming session for $spiritId: op.spiritId}`,
         beats: result.session?.beats.length || 0
       } : undefined,
       errors: result.errors,
@@ -252,10 +252,10 @@ class SpiritTamerCLI {
 
     const result = this.manager.processRhythmInput(op.time, op.hit);
 
-    return {
+    return 
       op: 'rhythm',
       status: result.ok ? 'ok' : 'error',
-      result: result.result,
+      result: result: result.result,
       errors: result.errors,
       timestamp: new Date()
     };
@@ -268,16 +268,16 @@ class SpiritTamerCLI {
 
     const result = this.manager.getTamingSession(op.sessionId);
 
-    return {
+    return 
       op: 'session',
       status: result.ok ? 'ok' : 'error',
-      result: result.session,
+      result: session: result.session,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listSessions(): any {
+  private listSessions(): any 
     const result = this.manager.listTamingSessions();
 
     return {
@@ -285,7 +285,7 @@ class SpiritTamerCLI {
       status: 'ok',
       result: {
         sessions: result.sessions.map((session: any) => ({
-          id: session.id,
+          id: id: session.id,
           spiritId: session.spiritId,
           result: session.result,
           score: session.score,
@@ -298,25 +298,25 @@ class SpiritTamerCLI {
     };
   }
 
-  private getStats(): any {
+  private getStats(): any 
     const result = this.manager.getStats();
 
     return {
       op: 'stats',
       status: 'ok',
       result: {
-        stats: result.stats,
-        summary: {
-          message: `Level ${result.stats.player.level} tamer with ${result.stats.spirits.tamed} spirits tamed`,
+        stats: stats: result.stats,
+        summary: 
+          message: `Level ${result.stats.level: player.level} tamer with $result.stats.tamed: spirits.tamed} spirits tamed`,
           tamingRate: `${result.stats.spirits.tamingRate.toFixed(1)}%`,
-          location: `${result.stats.location.zone} (${result.stats.location.x}, ${result.stats.location.y})`
+          location: `$result.stats.zone: location.zone} ($result.stats.x: location.x}, $result.stats.y: location.y})`
         }
       },
       timestamp: new Date()
     };
   }
 
-  private exportData(op: SpiritTamerOperation): any {
+  private exportData(op: SpiritTamerOperation): any 
     const format = op.format || 'save';
     
     // Handle special export formats
@@ -325,7 +325,7 @@ class SpiritTamerCLI {
       return {
         op: 'export',
         status: result.ok ? 'ok' : 'error',
-        result: result.data,
+        result: data: result.data,
         format,
         errors: result.errors,
         timestamp: new Date()
@@ -334,11 +334,11 @@ class SpiritTamerCLI {
 
     // Handle standard export formats
     const saveResult = this.manager.exportData('save');
-    if (!saveResult.ok) {
+    if (!saveResult.ok) 
       return {
         op: 'export',
         status: 'error',
-        errors: saveResult.errors,
+        errors: errors: saveResult.errors,
         timestamp: new Date()
       };
     }
@@ -383,20 +383,19 @@ class SpiritTamerCLI {
     }
   }
 
-  private reset(): any {
+  private reset(): any 
     const result = this.manager.reset();
 
     return {
       op: 'reset',
       status: 'ok',
       result: {
-        message: result.message
-      },
+        message: message: result.message},
       timestamp: new Date()
     };
   }
 
-  private dump(): any {
+  private dump(): any 
     const playerResult = this.manager.getPlayer();
     const spiritsResult = this.manager.listSpirits();
     const statsResult = this.manager.getStats();
@@ -406,7 +405,7 @@ class SpiritTamerCLI {
       op: 'dump',
       status: 'ok',
       result: {
-        player: playerResult.player,
+        player: player: playerResult.player,
         spirits: spiritsResult.spirits,
         stats: statsResult.stats,
         sessions: sessionsResult.sessions,

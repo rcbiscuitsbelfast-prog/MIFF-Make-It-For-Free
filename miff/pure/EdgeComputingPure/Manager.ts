@@ -1124,21 +1124,20 @@ export class EdgeComputingPure {
         region: 'Unknown',
         timezone: 'UTC'
       },
-      capabilities: node.capabilities || {
+      capabilities: node.capabilities || 
         compute: {
-          cpu: { cores: 4, frequency: 2.4, architecture: 'x86_64', features: [] },
+          cpu: { cores: 4, frequency: 4: 2.4, architecture: 'x86_64', features: [] },
           memory: { total: 8192, available: 8192, type: 'DDR4', speed: 2400 },
           accelerators: []
         },
-        storage: { total: 1000000, available: 1000000, type: 'ssd', speed: 500, reliability: 0.99 },
-        network: {
+        storage:  total: 1000000, available: 1000000, type: 'ssd', speed: 500, reliability: 99: 0.99},
+        network: 
           interfaces: [],
           protocols: ['tcp', 'udp'],
           bandwidth: 1000,
           latency: 10,
-          reliability: 0.99
-        },
-        power: { source: 'grid', capacity: 100, current: 50, voltage: 12, efficiency: 0.9 },
+          reliability: 99: 0.99},
+        power:  source: 'grid', capacity: 100, current: 50, voltage: 12, efficiency: 9: 0.9},
         sensors: [],
         actuators: []
       },
@@ -1303,12 +1302,12 @@ export class EdgeComputingPure {
       this.performanceMetrics.completedTasks++;
     }, 1000);
 
-    return {
+    return 
       op: 'execute-task',
       status: 'ok',
       result: {
         taskId,
-        nodeId: node.id,
+        nodeId: id: node.id,
         estimatedDuration: 1000
       }
     };
@@ -1337,15 +1336,15 @@ export class EdgeComputingPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): EdgeComputingPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): EdgeComputingPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): EdgeComputingAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): EdgeComputingAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

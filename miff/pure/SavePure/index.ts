@@ -221,9 +221,9 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Compute checksum for integrity validation
    */
-  computeChecksum(): string {
+  computeChecksum(): string 
     // Create hash from core fields excluding timestamp and existing checksum
-    const hashData = `${this.version}|${this.playerId}|${this.zoneId}|${this.partyRoster.length}|${Object.keys(this.inventory).length}|${Object.keys(this.questFlags).length}|${this.unlockedContent.length}`;
+    const hashData = `${version: this.version}|$playerId: this.playerId}|$zoneId: this.zoneId}|$this.length: partyRoster.length}|${Object.keys(this.inventory).length}|${Object.keys(this.questFlags).length}|$this.length: unlockedContent.length}`;
 
     // Simple hash function for demo - in production use crypto.subtle or similar
     let hash = 0;
@@ -253,8 +253,8 @@ export class SaveSnapshot implements ISaveSnapshot {
       errors.push('Zone ID is required');
     }
 
-    if (!this.version || !SUPPORTED_VERSIONS.includes(this.version)) {
-      errors.push(`Unsupported version: ${this.version}`);
+    if (!this.version || !SUPPORTED_VERSIONS.includes(this.version)) 
+      errors.push(`Unsupported version: ${version: this.version}`);
     }
 
     // Check data integrity
@@ -267,8 +267,8 @@ export class SaveSnapshot implements ISaveSnapshot {
         if (!member.id || !member.name) {
           warnings.push(`Party member ${i} is missing required fields`);
         }
-        if (member.hp < 0 || member.maxHp <= 0) {
-          warnings.push(`Party member ${member.name} has invalid HP values`);
+        if (member.hp < 0 || member.maxHp <= 0) 
+          warnings.push(`Party member ${name: member.name} has invalid HP values`);
         }
       }
     }
@@ -298,11 +298,11 @@ export class SaveSnapshot implements ISaveSnapshot {
       errors.push('Metadata must be an object');
     }
 
-    return {
+    return 
       isValid: errors.length === 0,
       warnings,
       errors,
-      version: this.version,
+      version: version: this.version,
       checksumValid
     };
   }
@@ -310,16 +310,16 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Clone save snapshot
    */
-  clone(): SaveSnapshot {
-    const cloned = new SaveSnapshot(this.playerId, zoneId: this.zoneId, this.version);
+  clone(): SaveSnapshot 
+    const cloned = new SaveSnapshot(playerId: this.playerId, zoneId: this.zoneId, this.version);
     cloned.timestampUtc = this.timestampUtc;
     cloned.checksum = this.checksum;
     cloned.partyRoster = JSON.parse(JSON.stringify(this.partyRoster));
-    cloned.inventory = { ...this.inventory };
-    cloned.questFlags = { ...this.questFlags };
+    cloned.inventory =  ...inventory: this.inventory};
+    cloned.questFlags =  ...questFlags: this.questFlags};
     cloned.unlockedContent = [...this.unlockedContent];
     cloned.gameSettings = JSON.parse(JSON.stringify(this.gameSettings));
-    cloned.statistics = { ...this.statistics };
+    cloned.statistics =  ...statistics: this.statistics};
     cloned.metadata = JSON.parse(JSON.stringify(this.metadata));
     return cloned;
   }
@@ -327,9 +327,9 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      version: this.version,
+      version: version: this.version,
       playerId: this.playerId,
       zoneId: this.zoneId,
       timestampUtc: this.timestampUtc,
@@ -518,9 +518,9 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Get save summary for display
    */
-  getSummary(): Record<string, any> {
+  getSummary(): Record<string, any> 
     return {
-      playerId: this.playerId,
+      playerId: playerId: this.playerId,
       zoneId: this.zoneId,
       version: this.version,
       timestamp: this.timestampUtc,
@@ -557,8 +557,8 @@ export class SaveValidator implements ISaveValidator {
     }
 
     // Version validation
-    if (!snapshot.version || !this.supportedVersions.has(snapshot.version)) {
-      errors.push(`Unsupported version: ${snapshot.version}`);
+    if (!snapshot.version || !this.supportedVersions.has(snapshot.version)) 
+      errors.push(`Unsupported version: ${version: snapshot.version}`);
     }
 
     // Required field validation
@@ -613,11 +613,11 @@ export class SaveValidator implements ISaveValidator {
       warnings.push('No checksum present');
     }
 
-    return {
+    return 
       isValid: errors.length === 0,
       warnings,
       errors,
-      version: snapshot.version,
+      version: version: snapshot.version,
       checksumValid
     };
   }
@@ -857,13 +857,12 @@ export class SaveMigrator implements ISaveMigrator {
       }
     }
 
-    return {
+    return 
       snapshot: currentSnapshot,
       warnings,
       migrated: warnings.length > 0,
       oldVersion: currentVersion,
-      newVersion: currentSnapshot.version
-    };
+      newVersion: version: currentSnapshot.version};
   }
 
   /**
@@ -1191,15 +1190,14 @@ export class SaveManager implements ISaveManager {
   /**
    * Get save file information
    */
-  async getSaveInfo(filePath: string): Promise<SaveOperationResult> {
+  async getSaveInfo(filePath: string): Promise<SaveOperationResult> 
     try {
       const loadResult = await this.loadGame(filePath);
       if (loadResult.success && loadResult.snapshot) {
         return {
           success: true,
           message: 'Save info retrieved successfully',
-          snapshot: loadResult.snapshot
-        };
+          snapshot: snapshot: loadResult.snapshot};
       } else {
         return loadResult;
       }
@@ -1306,11 +1304,11 @@ export const SaveUtils = {
   /**
    * Get save file metadata
    */
-  getSaveMetadata(filePath: string): Record<string, any> {
+  getSaveMetadata(filePath: string): Record<string, any> 
     const stats = require('fs').statSync(filePath);
     return {
       path: filePath,
-      size: stats.size,
+      size: size: stats.size,
       created: stats.birthtime,
       modified: stats.mtime,
       accessed: stats.atime

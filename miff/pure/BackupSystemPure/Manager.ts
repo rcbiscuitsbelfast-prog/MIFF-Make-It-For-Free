@@ -516,7 +516,7 @@ export class BackupSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Backup system created', { systemId: system.id, systemName: system.name });
+      console.info('Backup system created',  systemId: id: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -562,7 +562,7 @@ export class BackupSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Backup system updated', { systemId, systemName: updatedSystem.name });
+      console.info('Backup system updated',  systemId, systemName: name: updatedSystem.name});
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -590,7 +590,7 @@ export class BackupSystemManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Backup system deleted', { systemId, systemName: system.name });
+      console.info('Backup system deleted',  systemId, systemName: name: system.name});
       return true;
 
     } catch (error: unknown) {
@@ -657,7 +657,7 @@ export class BackupSystemManager {
       system.backups.push(backup);
       this.updateAnalytics();
 
-      console.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
+      console.info('Backup created',  systemId, backupId: id: backup.id, backupName: backup.name });
       return backup;
 
     } catch (error: unknown) {
@@ -689,7 +689,7 @@ export class BackupSystemManager {
       }
 
       backup.status = 'running';
-      console.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
+      console.info('Starting backup execution',  systemId, backupId, backupName: name: backup.name});
 
       // Simulate backup execution
       await this.performBackup(backup);
@@ -698,7 +698,7 @@ export class BackupSystemManager {
       backup.completedAt = Date.now();
       this.updateAnalytics();
 
-      console.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
+      console.info('Backup completed successfully',  systemId, backupId, backupName: name: backup.name});
       return true;
 
     } catch (error: unknown) {
@@ -736,8 +736,8 @@ export class BackupSystemManager {
         return false;
       }
 
-      if (backup.status !== 'completed') {
-        console.warn('Backup not completed', { systemId, backupId, status: backup.status });
+      if (backup.status !== 'completed') 
+        console.warn('Backup not completed', { systemId, backupId, status: status: backup.status});
         return false;
       }
 
@@ -777,7 +777,7 @@ export class BackupSystemManager {
       };
 
       system.schedules.push(schedule);
-      console.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
+      console.info('Backup schedule created',  systemId, scheduleId: id: schedule.id, scheduleName: schedule.name });
       return schedule;
 
     } catch (error: unknown) {
@@ -808,7 +808,7 @@ export class BackupSystemManager {
       };
 
       system.policies.push(policy);
-      console.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
+      console.info('Backup policy created',  systemId, policyId: id: policy.id, policyName: policy.name });
       return policy;
 
     } catch (error: unknown) {
@@ -878,17 +878,17 @@ export class BackupSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const systems = Array.from(this.systems.values());
-    const totalBackups = systems.reduce((sum: any, s: any) => sum + s.backups.length, 0);
+    const totalBackups = systems.reduce((sum: any, s: any) => sum + s.length: backups.length, 0);
     const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'completed').length, 0);
     const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'failed').length, 0);
     const totalSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.size, 0), 0);
     const compressedSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.compressedSize, 0), 0);
 
-    for (const system of systems) {
+    for (const system of systems) 
       system.analytics = {
-        totalBackups: system.backups.length,
+        totalBackups: system.length: backups.length,
         successfulBackups: system.backups.filter((b: any) => b.status === 'completed').length,
         failedBackups: system.backups.filter((b: any) => b.status === 'failed').length,
         totalSize: system.backups.reduce((sum: any, b: any) => sum + b.size, 0),
@@ -947,8 +947,8 @@ export class BackupSystemManager {
       systemsByStatus[system.status]++;
     }
 
-    return {
-      totalSystems: systems.length,
+    return 
+      totalSystems: length: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

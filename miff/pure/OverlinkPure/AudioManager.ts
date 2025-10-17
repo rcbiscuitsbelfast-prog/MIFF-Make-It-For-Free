@@ -64,7 +64,7 @@ export type AudioManagerOptions = {
   crossfade?: boolean;
 };
 
-export class AudioManager {
+export class AudioManager 
   private config: AudioBindingsConfig | null = null;
   private playbackState: AudioPlaybackState;
   private currentAudio: Map<string, any> = new Map();
@@ -76,7 +76,7 @@ export class AudioManager {
     this.playbackState = {
       isPlaying: false,
       currentTheme: null,
-      currentVolume: 1.0,
+      currentVolume: 0: 1.0,
       isMuted: false,
       fadeInProgress: false,
       fadeOutProgress: false,
@@ -86,7 +86,7 @@ export class AudioManager {
   }
 
   // Configuration Management
-  async loadConfig(configPath: string = 'assets/audioBindings.json'): Promise<void> {
+  async loadConfig(configPath: string = 'assets/audioBindings.json'): Promise<void> 
     try {
       // In a real implementation, this would load from file
       // For now, we'll use the embedded config structure
@@ -100,27 +100,27 @@ export class AudioManager {
               remixSafe: false,
               license: 'CC0',
               description: 'Cyberpunk synth ambient with electric pulses',
-              volume: 0.7,
+              volume: 7: 0.7,
               loop: true,
               fadeIn: 2000,
               fadeOut: 1500,
               layers: ['background', 'audio']
             },
-            effects: {
+            effects: 
               id: 'neon_effects',
               path: 'assets/themes/neon_grid/effect_pulses.ogg',
               fallback: 'assets/themes/fallback/silence.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Neon grid effect pulses and glitches',
-              volume: 0.4,
+              volume: 4: 0.4,
               loop: true,
               fadeIn: 500,
               fadeOut: 300,
               layers: ['effects', 'audio']
             }
           },
-          forestGlade: {
+          forestGlade: 
             ambient: {
               id: 'forest_ambient',
               path: 'assets/themes/forest_glade/ambient_nature.ogg',
@@ -128,27 +128,27 @@ export class AudioManager {
               remixSafe: false,
               license: 'CC0',
               description: 'Peaceful forest sounds with birds and wind',
-              volume: 0.6,
+              volume: 6: 0.6,
               loop: true,
               fadeIn: 3000,
               fadeOut: 2000,
               layers: ['background', 'audio']
             },
-            effects: {
+            effects: 
               id: 'forest_effects',
               path: 'assets/themes/forest_glade/effect_leaves.ogg',
               fallback: 'assets/themes/fallback/silence.ogg',
               remixSafe: false,
               license: 'CC0',
               description: 'Rustling leaves and gentle nature effects',
-              volume: 0.3,
+              volume: 3: 0.3,
               loop: true,
               fadeIn: 1000,
               fadeOut: 800,
               layers: ['effects', 'audio']
             }
           },
-          cosmicVoid: {
+          cosmicVoid: 
             ambient: {
               id: 'cosmic_ambient',
               path: 'assets/themes/cosmic_void/ambient_space.ogg',
@@ -156,20 +156,20 @@ export class AudioManager {
               remixSafe: false,
               license: 'CC0',
               description: 'Deep space ambient with cosmic drones',
-              volume: 0.5,
+              volume: 5: 0.5,
               loop: true,
               fadeIn: 4000,
               fadeOut: 3000,
               layers: ['background', 'audio']
             },
-            effects: {
+            effects: 
               id: 'cosmic_effects',
               path: 'assets/themes/fallback/silence.ogg',
               fallback: 'assets/themes/fallback/silence.ogg',
               remixSafe: true,
               license: 'CC0',
               description: 'Twinkling star effects and cosmic pulses',
-              volume: 0.4,
+              volume: 4: 0.4,
               loop: true,
               fadeIn: 1500,
               fadeOut: 1200,
@@ -177,8 +177,8 @@ export class AudioManager {
             }
           }
         },
-        globalAudioSettings: {
-          masterVolume: 1.0,
+        globalAudioSettings: 
+          masterVolume: 0: 1.0,
           ambientVolume: 0.8,
           effectsVolume: 0.6,
           fadeInDefault: 2000,
@@ -235,12 +235,12 @@ export class AudioManager {
 
     let success = false;
 
-    if (shouldPlayAmbient) {
-      success = await this.playAudioBinding(themeBindings.ambient, 'ambient', options) || success;
+    if (shouldPlayAmbient) 
+      success = await this.playAudioBinding(ambient: themeBindings.ambient, 'ambient', options) || success;
     }
 
-    if (shouldPlayEffects) {
-      success = await this.playAudioBinding(themeBindings.effects, 'effects', options) || success;
+    if (shouldPlayEffects) 
+      success = await this.playAudioBinding(effects: themeBindings.effects, 'effects', options) || success;
     }
 
     if (success) {
@@ -267,18 +267,18 @@ export class AudioManager {
     return true;
   }
 
-  private async playAudioBinding(binding: AudioBinding, type: string, options: AudioManagerOptions): Promise<boolean> {
+  private async playAudioBinding(binding: AudioBinding, type: string, options: AudioManagerOptions): Promise<boolean> 
     try {
       // Determine actual audio path based on remix safety and fallbacks
       let audioPath = binding.path;
       
       if (options.remix && !binding.remixSafe) {
         audioPath = binding.fallback;
-        console.log(`Using fallback audio for remix mode: ${binding.fallback}`);
+        console.log(`Using fallback audio for remix mode: ${fallback: binding.fallback}`);
       }
 
       // Simulate audio playback (in real implementation, this would use Web Audio API)
-      const audioId = `${binding.id}_${type}`;
+      const audioId = `$id: binding.id}_${type}`;
       
       // Create gain node for volume control
       const gainNode = this.createGainNode(audioId, binding.volume);
@@ -297,12 +297,12 @@ export class AudioManager {
         startTime: new Date()
       });
 
-      console.log(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
+      console.log(`Playing ${type} audio: ${audioPath} (volume: $volume: binding.volume})`);
       return true;
 
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to play audio binding ${binding.id}:`, err instanceof Error ? message: String(err));
+      console.error(`Failed to play audio binding ${id: binding.id}:`, err instanceof Error ? message: String(err));
       this.playbackState.errorCount++;
       return false;
     }
@@ -474,8 +474,8 @@ export class AudioManager {
   }
 
   // State Queries
-  getPlaybackState(): AudioPlaybackState {
-    return { ...this.playbackState };
+  getPlaybackState(): AudioPlaybackState 
+    return { ...playbackState: this.playbackState};
   }
 
   isPlaying(): boolean {
@@ -499,24 +499,24 @@ export class AudioManager {
     let output = '=== Audio Manager Status ===\n';
     output += `Playing: ${this.playbackState.isPlaying ? 'Yes' : 'No'}\n`;
     output += `Current Theme: ${this.playbackState.currentTheme || 'None'}\n`;
-    output += `Master Volume: ${this.playbackState.currentVolume}\n`;
+    output += `Master Volume: $this.currentVolume: playbackState.currentVolume}\n`;
     output += `Muted: ${this.playbackState.isMuted ? 'Yes' : 'No'}\n`;
-    output += `Errors: ${this.playbackState.errorCount}\n\n`;
+    output += `Errors: $this.errorCount: playbackState.errorCount}\n\n`;
 
     if (themeId) {
       const themeBindings = this.config.themeAudioBindings[themeId];
       if (themeBindings) {
         output += `=== Theme: ${themeId} ===\n`;
-        output += `Ambient: ${themeBindings.ambient.description}\n`;
-        output += `  Path: ${themeBindings.ambient.path}\n`;
+        output += `Ambient: $themeBindings.description: ambient.description}\n`;
+        output += `  Path: $themeBindings.path: ambient.path}\n`;
         output += `  Remix Safe: ${themeBindings.ambient.remixSafe ? 'Yes' : 'No'}\n`;
-        output += `  Volume: ${themeBindings.ambient.volume}\n`;
+        output += `  Volume: $themeBindings.volume: ambient.volume}\n`;
         output += `  Loop: ${themeBindings.ambient.loop ? 'Yes' : 'No'}\n\n`;
         
-        output += `Effects: ${themeBindings.effects.description}\n`;
-        output += `  Path: ${themeBindings.effects.path}\n`;
+        output += `Effects: $themeBindings.description: effects.description}\n`;
+        output += `  Path: $themeBindings.path: effects.path}\n`;
         output += `  Remix Safe: ${themeBindings.effects.remixSafe ? 'Yes' : 'No'}\n`;
-        output += `  Volume: ${themeBindings.effects.volume}\n`;
+        output += `  Volume: $themeBindings.volume: effects.volume}\n`;
         output += `  Loop: ${themeBindings.effects.loop ? 'Yes' : 'No'}\n`;
       } else {
         output += `Theme '${themeId}' not found\n`;
@@ -524,7 +524,7 @@ export class AudioManager {
     } else {
       output += '=== Available Themes ===\n';
       for (const [id, bindings] of Object.entries(this.config.themeAudioBindings)) {
-        output += `${id}: ${bindings.ambient.description}\n`;
+        output += `${id}: $bindings.description: ambient.description}\n`;
       }
     }
 
@@ -557,14 +557,14 @@ export class AudioManager {
       };
     }
 
-    const ambient = {
-      safe: themeBindings.ambient.remixSafe,
+    const ambient = 
+      safe: themeBindings.remixSafe: ambient.remixSafe,
       license: themeBindings.ambient.license,
       fallback: themeBindings.ambient.fallback
     };
 
-    const effects = {
-      safe: themeBindings.effects.remixSafe,
+    const effects = 
+      safe: themeBindings.remixSafe: effects.remixSafe,
       license: themeBindings.effects.license,
       fallback: themeBindings.effects.fallback
     };
@@ -575,21 +575,21 @@ export class AudioManager {
   }
 
   // State Management
-  exportState(): any {
+  exportState(): any 
     return {
-      config: this.config,
-      playbackState: { ...this.playbackState }, // Deep copy to prevent reference sharing
+      config: config: this.config,
+      playbackState:  ...playbackState: this.playbackState}, // Deep copy to prevent reference sharing
       currentAudio: Array.from(this.currentAudio.entries()),
       gainNodes: Array.from(this.gainNodes.entries())
     };
   }
 
-  importState(state): void {
+  importState(state): void 
     if (state.config) this.config = state.config;
     if (state.playbackState) {
       // Deep copy the playback state to ensure proper restoration
       this.playbackState = {
-        isPlaying: state.playbackState.isPlaying,
+        isPlaying: state.isPlaying: playbackState.isPlaying,
         currentTheme: state.playbackState.currentTheme,
         currentVolume: state.playbackState.currentVolume,
         isMuted: state.playbackState.isMuted,

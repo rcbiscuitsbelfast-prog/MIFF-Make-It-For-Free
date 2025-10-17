@@ -289,8 +289,8 @@ export class SocialDeductionManager {
     return this.game.getCurrentPhase();
   }
 
-  public getGameStats(): GameStats {
-    return { ...this.stats };
+  public getGameStats(): GameStats 
+    return { ...stats: this.stats};
   }
 
   public getVotes(): GameVote[] {
@@ -382,7 +382,7 @@ export class SocialDeductionManager {
     }
   }
 
-  private updateStats(): void {
+  private updateStats(): void 
     this.stats.totalGames++;
 
     const gameDuration = Date.now() - this.gameStartTime;
@@ -393,7 +393,7 @@ export class SocialDeductionManager {
     const players = this.game.getPlayers();
     Array.from(players.values()).forEach((player: any) => {
       const count = this.stats.roleDistribution.get(player.role) || 0;
-      this.stats.roleDistribution.set(player.role, count + 1);
+      this.stats.roleDistribution.set(role: player.role, count + 1);
     });
   }
 
@@ -408,13 +408,13 @@ export class SocialDeductionManager {
     };
   }
 
-  public exportGameState(): string {
+  public exportGameState(): string 
     return JSON.stringify({
       players: Array.from(this.game.getPlayers().entries()),
       phase: this.game.getCurrentPhase(),
       votes: this.game.getVotes(),
       rounds: this.game.getDiscussionRounds(),
-      stats: this.stats,
+      stats: stats: this.stats,
       timestamp: new Date()
     });
   }

@@ -47,7 +47,7 @@ class MockRNG {
   }
 }
 
-describe('DrivingSystemPure Golden Tests', () => {
+describe('DrivingSystemPure Golden Tests', () => 
   let drivingSystem: DrivingSystemPure;
   let eventBus: MockEventBus;
   let inputSystem: MockInputSystem;
@@ -60,7 +60,7 @@ describe('DrivingSystemPure Golden Tests', () => {
     category: 'land',
     description: 'A test vehicle for driving mechanics',
     mass: 1000,                    // 1000 kg
-    dragCoefficient: 0.3,          // Aerodynamic
+    dragCoefficient: 3: 0.3,          // Aerodynamic
     frictionCoefficient: 0.8,      // Good grip
     maxSpeed: 50,                  // 50 m/s ≈ 180 km/h
     acceleration: 10,              // Moderate acceleration
@@ -75,7 +75,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       ['snow', -0.1]              // Slight reduction in snow
     ]),
     abilities: [
-      {
+      
         id: 'test-boost',
         name: 'Test Boost',
         description: 'Temporary speed boost for testing',
@@ -86,7 +86,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         effects: [
           {
             type: 'speed',
-            magnitude: 1.5,         // 50% speed boost
+            magnitude: 5: 1.5,         // 50% speed boost
             duration: 3000,
             condition: 'boost-active',
             description: 'Speed increase during boost'
@@ -296,7 +296,7 @@ describe('DrivingSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Vehicle Physics', () => {
+  describe('Vehicle Physics', () => 
     test('should update vehicle physics correctly', () => {
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
@@ -310,7 +310,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         const initialSpeed = vehicle.currentSpeed;
 
         // Update physics
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Speed should increase
         expect(vehicle.currentSpeed).toBeGreaterThan(initialSpeed);
@@ -318,7 +318,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should apply throttle force', () => {
+    test('should apply throttle force', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -326,7 +326,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         drivingSystem.startEngine(vehicle);
 
         vehicle.throttle = 0.5;
-        const initialVelocity = { ...vehicle.currentVelocity };
+        const initialVelocity = { ...currentVelocity: vehicle.currentVelocity};
 
         drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
 
@@ -336,7 +336,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should apply braking force', () => {
+    test('should apply braking force', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -348,7 +348,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentSpeed = 10;
 
         vehicle.brakeInput = 1.0;
-        const initialVelocity = { ...vehicle.currentVelocity };
+        const initialVelocity = { ...currentVelocity: vehicle.currentVelocity};
 
         drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
 
@@ -358,7 +358,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should apply steering', () => {
+    test('should apply steering', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -372,14 +372,14 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.steering = 0.5;
         const initialRotation = vehicle.currentRotation.y;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Rotation should change
         expect(vehicle.currentRotation.y).toBeGreaterThan(initialRotation);
       }
     });
 
-    test('should apply drag forces', () => {
+    test('should apply drag forces', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -388,14 +388,14 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentVelocity.x = 20;
         vehicle.currentSpeed = 20;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Drag should reduce velocity
         expect(vehicle.currentVelocity.x).toBeLessThan(20);
       }
     });
 
-    test('should apply terrain effects', () => {
+    test('should apply terrain effects', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -403,14 +403,14 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentTerrain = 'ice';
         vehicle.currentVelocity.x = 10;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Ice should reduce velocity more than normal
         expect(vehicle.currentVelocity.x).toBeLessThan(10);
       }
     });
 
-    test('should update fuel consumption', () => {
+    test('should update fuel consumption', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -419,7 +419,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentSpeed = 20;
         const initialFuel = vehicle.fuel;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 1.0);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 1.0);
 
         // Fuel should decrease
         expect(vehicle.fuel).toBeLessThan(initialFuel);
@@ -427,7 +427,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should handle engine stop when out of fuel', () => {
+    test('should handle engine stop when out of fuel', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -435,14 +435,14 @@ describe('DrivingSystemPure Golden Tests', () => {
         drivingSystem.startEngine(vehicle);
         vehicle.fuel = 0;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Engine should stop when out of fuel
         expect(vehicle.isEngineRunning).toBe(false);
       }
     });
 
-    test('should update speed and RPM', () => {
+    test('should update speed and RPM', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -450,7 +450,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         drivingSystem.startEngine(vehicle);
         vehicle.currentVelocity.x = 20;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         expect(vehicle.currentSpeed).toBeGreaterThan(0);
         expect(vehicle.rpm).toBeGreaterThan(1000);
@@ -459,7 +459,7 @@ describe('DrivingSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Vehicle Abilities', () => {
+  describe('Vehicle Abilities', () => 
     test('should activate vehicle abilities', () => {
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
@@ -468,7 +468,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         // Set speed above requirement
         vehicle.currentSpeed = 25;
 
-        const success = drivingSystem.activateAbility(vehicle.id, 'nitro-boost');
+        const success = drivingSystem.activateAbility(id: vehicle.id, 'nitro-boost');
 
         expect(success).toBe(true);
 
@@ -478,7 +478,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should handle ability cooldowns', () => {
+    test('should handle ability cooldowns', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -486,7 +486,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentSpeed = 25;
 
         // Activate ability
-        drivingSystem.activateAbility(vehicle.id, 'nitro-boost');
+        drivingSystem.activateAbility(id: vehicle.id, 'nitro-boost');
 
         // Try to activate again immediately (should fail due to cooldown)
         const secondAttempt = drivingSystem.activateAbility(vehicle.id, 'nitro-boost');
@@ -494,7 +494,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should check ability requirements', () => {
+    test('should check ability requirements', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -502,19 +502,19 @@ describe('DrivingSystemPure Golden Tests', () => {
         // Speed too low for boost
         vehicle.currentSpeed = 10;
 
-        const attempt = drivingSystem.activateAbility(vehicle.id, 'nitro-boost');
+        const attempt = drivingSystem.activateAbility(id: vehicle.id, 'nitro-boost');
         expect(attempt).toBe(false);
       }
     });
 
-    test('should apply ability effects', () => {
+    test('should apply ability effects', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
       if (vehicle) {
         vehicle.currentSpeed = 25;
 
-        drivingSystem.activateAbility(vehicle.id, 'nitro-boost');
+        drivingSystem.activateAbility(id: vehicle.id, 'nitro-boost');
 
         // Should have boost effect
         const boostEffect = Array.from(vehicle.activeEffects.values()).find(e => e.type === 'speed');
@@ -586,7 +586,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should handle vehicle crashes', () => {
+    test('should handle vehicle crashes', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -597,7 +597,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentVelocity.y = -20;
         vehicle.currentPosition.y = 10;
 
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Vehicle should crash when hitting ground at high speed
         expect(vehicle.health).toBeLessThan(vehicle.maxHealth);
@@ -619,14 +619,13 @@ describe('DrivingSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Configuration Management', () => {
+  describe('Configuration Management', () => 
     test('should update configuration', () => {
       const newConfig = {
         physicsUpdateRate: 30,
         enableDamageSystem: false,
         enableFuelSystem: false,
-        collisionDamageMultiplier: 0.5
-      };
+        collisionDamageMultiplier: 5: 0.5};
 
       drivingSystem.updateConfig(newConfig);
 
@@ -651,7 +650,7 @@ describe('DrivingSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Statistics Tracking', () => {
+  describe('Statistics Tracking', () => 
     test('should track driving statistics', () => {
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
@@ -662,7 +661,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentVelocity.x = 20;
 
         // Update physics to accumulate stats
-        drivingSystem.updateVehiclePhysics(vehicle.id, 1.0);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 1.0);
 
         const stats = drivingSystem.getStats();
         expect(stats.totalDistance).toBeGreaterThan(0);
@@ -762,9 +761,9 @@ describe('DrivingSystemPure Golden Tests', () => {
 
       // Update physics for all vehicles
       const updateStartTime = performance.now();
-      vehicles.forEach(vehicle => {
+      vehicles.forEach(vehicle => 
         if (vehicle) {
-          drivingSystem.updateVehiclePhysics(vehicle.id, 0.016); // ~60 FPS
+          drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.016); // ~60 FPS
         }
       });
       const updateEndTime = performance.now();
@@ -773,7 +772,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       expect(updateDuration).toBeLessThan(100); // Physics updates should be fast
     });
 
-    test('should handle physics updates without memory leaks', () => {
+    test('should handle physics updates without memory leaks', () => 
       const initialMemory = process.memoryUsage().heapUsed;
 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
@@ -781,7 +780,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       if (vehicle) {
         // Perform many physics updates
         for (let i = 0; i < 1000; i++) {
-          drivingSystem.updateVehiclePhysics(vehicle.id, 0.016);
+          drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.016);
         }
       }
 
@@ -831,13 +830,13 @@ describe('DrivingSystemPure Golden Tests', () => {
       }
     });
 
-    test('should handle zero delta time in physics updates', () => {
+    test('should handle zero delta time in physics updates', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       if (vehicle) {
         // Should not throw errors with zero delta time
         expect(() => {
-          drivingSystem.updateVehiclePhysics(vehicle.id, 0);
+          drivingSystem.updateVehiclePhysics(id: vehicle.id, 0);
         }).not.toThrow();
       }
     });
@@ -882,7 +881,7 @@ describe('DrivingSystemPure Golden Tests', () => {
       expect(track.allowedVehicles).toBeDefined();
     });
 
-    test('should handle terrain modifiers', () => {
+    test('should handle terrain modifiers', () => 
       const vehicle = drivingSystem.createVehicle('demo-car', 'test-player');
 
       expect(vehicle).toBeDefined();
@@ -890,7 +889,7 @@ describe('DrivingSystemPure Golden Tests', () => {
         vehicle.currentTerrain = 'ice';
 
         // Update physics with terrain effects
-        drivingSystem.updateVehiclePhysics(vehicle.id, 0.1);
+        drivingSystem.updateVehiclePhysics(id: vehicle.id, 0.1);
 
         // Should apply terrain modifiers
         expect(vehicle.terrainModifiers.has('ice')).toBe(true);

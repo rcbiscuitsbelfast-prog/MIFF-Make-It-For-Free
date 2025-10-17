@@ -1169,15 +1169,15 @@ export class SecuritySystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): SecuritySystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): SecuritySystemPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): SecuritySystemAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): SecuritySystemAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

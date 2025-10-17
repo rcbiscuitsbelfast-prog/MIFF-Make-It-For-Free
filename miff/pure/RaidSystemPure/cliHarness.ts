@@ -137,7 +137,7 @@ function main() {
     const raidManager = new RaidManager();
     let result: any;
 
-    switch (operation.op) {
+    switch (operation.op) 
       case 'createBoss':
         result = raidManager.createBoss(operation.boss);
         break;
@@ -148,7 +148,7 @@ function main() {
 
       case 'startEncounter':
         const encounter = raidManager.startEncounter(
-          operation.bossId, 
+          bossId: operation.bossId, 
           operation.partyId, 
           operation.difficulty as any
         );
@@ -313,7 +313,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -331,8 +331,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

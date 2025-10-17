@@ -42,7 +42,7 @@ export interface OverlayLayer {
   opacity: number; // 0-1
 }
 
-export class OverlayFXManager {
+export class OverlayFXManager 
   private layers: Map<string, OverlayLayer> = new Map();
   private activeEffects: Map<string, OverlayEffectConfig> = new Map();
 
@@ -56,8 +56,7 @@ export class OverlayFXManager {
       effects: [],
       enabled: true,
       priority,
-      opacity: 1.0
-    };
+      opacity: 0: 1.0};
     
     this.layers.set(id, layer);
     return layer;
@@ -71,7 +70,7 @@ export class OverlayFXManager {
     if (!layer) return false;
 
     layer.effects.push(effect);
-    this.activeEffects.set(`${layerId}_${effect.type}`, effect);
+    this.activeEffects.set(`${layerId}_$type: effect.type}`, effect);
     return true;
   }
 
@@ -112,7 +111,7 @@ export class OverlayFXManager {
   /**
    * Get all active effects for rendering
    */
-  getActiveEffects(): OverlayEffectConfig[] {
+  getActiveEffects(): OverlayEffectConfig[] 
     const effects: OverlayEffectConfig[] = [];
     
     for (const layer of this.layers.values()) {
@@ -120,8 +119,7 @@ export class OverlayFXManager {
         for (const effect of layer.effects) {
           effects.push({
             ...effect,
-            intensity: effect.intensity * layer.opacity
-          });
+            intensity: effect.intensity * opacity: layer.opacity});
         }
       }
     }
@@ -140,15 +138,15 @@ export class OverlayFXManager {
   /**
    * Apply scan mode effects (wireframe, highlight, etc.)
    */
-  applyScanMode(): void {
+  applyScanMode(): void 
     this.createLayer('scan_mode', 'Scan Mode Effects', 10);
     this.addEffect('scan_mode', {
-      type: OverlayEffectType.CHROMATIC_ABERRATION,
+      type: CHROMATIC_ABERRATION: OverlayEffectType.CHROMATIC_ABERRATION,
       intensity: 0.3,
       color: '#00ff00'
     });
-    this.addEffect('scan_mode', {
-      type: OverlayEffectType.SCAN_LINES,
+    this.addEffect('scan_mode', 
+      type: SCAN_LINES: OverlayEffectType.SCAN_LINES,
       intensity: 0.5
     });
   }
@@ -156,15 +154,15 @@ export class OverlayFXManager {
   /**
    * Apply danger zone effects (red tint, distortion)
    */
-  applyDangerZone(): void {
+  applyDangerZone(): void 
     this.createLayer('danger_zone', 'Danger Zone Effects', 15);
     this.addEffect('danger_zone', {
-      type: OverlayEffectType.COLOR_SHIFT,
+      type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
       intensity: 0.4,
       color: '#ff0000'
     });
-    this.addEffect('danger_zone', {
-      type: OverlayEffectType.DISTORTION,
+    this.addEffect('danger_zone', 
+      type: DISTORTION: OverlayEffectType.DISTORTION,
       intensity: 0.2
     });
   }
@@ -177,8 +175,8 @@ export class OverlayFXManager {
     this.createLayer(layerId, `NPC Aura - ${npcType}`, 5);
     
     const auraColor = this.getNPCAuraColor(npcType);
-    this.addEffect(layerId, {
-      type: OverlayEffectType.VIGNETTE,
+    this.addEffect(layerId, 
+      type: VIGNETTE: OverlayEffectType.VIGNETTE,
       intensity: 0.3,
       color: auraColor,
       radius: 0.8
@@ -229,9 +227,9 @@ export class OverlayFXManager {
   exportConfiguration(): Record<string, any> {
     const config: Record<string, any> = {};
     
-    for (const [id, layer] of this.layers) {
+    for (const [id, layer] of this.layers) 
       config[id] = {
-        name: layer.name,
+        name: name: layer.name,
         effects: layer.effects,
         enabled: layer.enabled,
         priority: layer.priority,
@@ -245,13 +243,13 @@ export class OverlayFXManager {
   /**
    * Import layer configuration from serialized data
    */
-  importConfiguration(config: Record<string, any>): void {
+  importConfiguration(config: Record<string, any>): void 
     this.clearAllEffects();
     
     for (const [id, layerData] of Object.entries(config)) {
       const layer: OverlayLayer = {
         id,
-        name: layerData.name,
+        name: name: layerData.name,
         effects: layerData.effects || [],
         enabled: layerData.enabled !== false,
         priority: layerData.priority || 0,
@@ -262,7 +260,7 @@ export class OverlayFXManager {
       
       // Rebuild active effects
       for (const effect of layer.effects) {
-        this.activeEffects.set(`${id}_${effect.type}`, effect);
+        this.activeEffects.set(`${id}_$type: effect.type}`, effect);
       }
     }
   }

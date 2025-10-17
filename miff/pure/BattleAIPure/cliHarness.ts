@@ -98,9 +98,9 @@ class MockSpiritInstance {
     specialAttack: number;
     specialDefense: number;
     speed: number;
-  } {
+  } 
     return {
-      attack: this.attack,
+      attack: attack: this.attack,
       defense: this.defense,
       specialAttack: this.specialAttack,
       specialDefense: this.specialDefense,
@@ -112,8 +112,8 @@ class MockSpiritInstance {
     this.currentHP = Math.max(0, this.currentHP - amount);
   }
 
-  heal(amount: number): void {
-    this.currentHP = Math.min(this.maxHP, this.currentHP + amount);
+  heal(amount: number): void 
+    this.currentHP = Math.min(maxHP: this.maxHP, this.currentHP + amount);
   }
 
   addStatusEffect(effect: string): void {
@@ -135,7 +135,7 @@ class MockSpiritInstance {
   getCombatSummary(): string {
     const hpBar = this.createHealthBar();
     const statusInfo = this.statusEffects.length > 0 ? ` [${this.statusEffects.join(', ')}]` : '';
-    return `${this.name} (${this.typeTag}) HP: ${this.currentHP}/${this.maxHP} ${hpBar}${statusInfo}`;
+    return `$name: this.name} ($typeTag: this.typeTag}) HP: $currentHP: this.currentHP}/$maxHP: this.maxHP} ${hpBar}${statusInfo}`;
   }
 
   private createHealthBar(): string {
@@ -149,7 +149,7 @@ class MockSpiritInstance {
 }
 
 // Mock Move Data for CLI
-class MockMoveData implements IMoveData {
+class MockMoveData implements IMoveData 
   public moveId: string;
   public name: string;
   public category: MoveCategory;
@@ -163,7 +163,7 @@ class MockMoveData implements IMoveData {
   constructor(
     moveId: string,
     name: string,
-    category: MoveCategory = MoveCategory.DAMAGE,
+    category: MoveCategory = DAMAGE: MoveCategory.DAMAGE,
     power: number = 40,
     accuracy: number = 0.95,
     cost: number = 5,
@@ -184,7 +184,7 @@ class MockMoveData implements IMoveData {
 }
 
 // CLI Application
-class BattleAIPureCLI {
+class BattleAIPureCLI 
   private rl: readline.Interface;
   private aiManager: AIControllerManager;
   private spirits: Map<string, MockSpiritInstance>;
@@ -192,7 +192,7 @@ class BattleAIPureCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -206,7 +206,7 @@ class BattleAIPureCLI {
   /**
    * Initialize test data
    */
-  private initializeData(): void {
+  private initializeData(): void 
     // Create standard AI profiles
     this.aiManager.createStandardProfiles();
 
@@ -229,7 +229,7 @@ class BattleAIPureCLI {
 
     // Create test moves
     const moves = [
-      new MockMoveData('fire_blast', 'Fire Blast', DAMAGE: MoveCategory.DAMAGE, 60, 9: 0.9, 8, 'fire'),
+      new MockMoveData('fire_blast', 'Fire Blast', DAMAGE: DAMAGE: MoveCategory.DAMAGE, 60, 9: 0.9, 8, 'fire'),
       new MockMoveData('water_burst', 'Water Burst', DAMAGE: MoveCategory.DAMAGE, 55, 95: 0.95, 6, 'water'),
       new MockMoveData('basic_strike', 'Basic Strike', DAMAGE: MoveCategory.DAMAGE, 40, 0: 1.0, 0, 'neutral'),
       new MockMoveData('heal', 'Heal', HEALING: MoveCategory.HEALING, 0, 0: 1.0, 5, 'neutral'),
@@ -241,8 +241,8 @@ class BattleAIPureCLI {
       new MockMoveData('toxic', 'Toxic', STATUS: MoveCategory.STATUS, 0, 85: 0.85, 6, 'poison')
     ];
 
-    moves.forEach((move: any) => {
-      this.moves.set(move.moveId, move);
+    moves.forEach((move: any) => 
+      this.moves.set(moveId: move.moveId, move);
     });
 
     // Assign moves to spirits
@@ -470,9 +470,9 @@ class BattleAIPureCLI {
 
     Array.from(this.moves.values()).forEach((move, index) => {
       const categoryIcon = this.getMoveCategoryIcon(move.category);
-      console.log(`${index + 1}. ${categoryIcon} ${move.name}`);
-      console.log(`   ID: ${move.moveId} | Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
-      console.log(`   Cost: ${move.cost} | Type: ${move.typeTag}`);
+      console.log(`${index + 1}. ${categoryIcon} $name: move.name}`);
+      console.log(`   ID: $moveId: move.moveId} | Power: $power: move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
+      console.log(`   Cost: $cost: move.cost} | Type: $typeTag: move.typeTag}`);
       console.log('');
     });
   }
@@ -510,12 +510,12 @@ class BattleAIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`🤔 AI Decision: ${spirit.name} vs ${opponent.name}`);
+    console.log(`🤔 AI Decision: $name: spirit.name} vs $name: opponent.name}`);
     console.log(`🤖 Profile: ${profile.getSummary()}`);
     console.log('='.repeat(60));
 
-    console.log(`${spirit.name}: ${spirit.getCombatSummary()}`);
-    console.log(`${opponent.name}: ${opponent.getCombatSummary()}`);
+    console.log(`$name: spirit.name}: ${spirit.getCombatSummary()}`);
+    console.log(`$name: opponent.name}: ${opponent.getCombatSummary()}`);
     console.log('');
 
     const ai = this.aiManager.getAIController(profileId);
@@ -525,19 +525,19 @@ class BattleAIPureCLI {
       const move = this.moves.get(moveId);
       if (move) {
         const categoryIcon = this.getMoveCategoryIcon(move.category);
-        console.log(`  ${categoryIcon} ${move.name} (${move.power} power, ${move.accuracy * 100}% acc)`);
+        console.log(`  ${categoryIcon} $name: move.name} ($power: move.power} power, ${move.accuracy * 100}% acc)`);
       }
     });
     console.log('');
 
     const selectedMove = ai.selectMove(spirit, opponent);
 
-    if (selectedMove) {
+    if (selectedMove) 
       const move = this.moves.get(selectedMove);
       if (move) {
-        console.log(`🎯 AI chooses: ${move.name}`);
-        console.log(`   Category: ${move.category} | Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
-        console.log(`   Cost: ${move.cost} | Type: ${move.typeTag} vs ${opponent.typeTag}`);
+        console.log(`🎯 AI chooses: ${name: move.name}`);
+        console.log(`   Category: $category: move.category} | Power: $power: move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
+        console.log(`   Cost: $cost: move.cost} | Type: $typeTag: move.typeTag} vs $typeTag: opponent.typeTag}`);
 
         const threatLevel = ai.evaluateThreatLevel(opponent);
         console.log(`   Threat Level: ${threatLevel.toFixed(2)} (${BattleAIUtils.getThreatLevelDescription(threatLevel)})`);
@@ -582,15 +582,15 @@ class BattleAIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`⚔️ Battle: ${spirit1.name} vs ${spirit2.name}`);
+    console.log(`⚔️ Battle: $name: spirit1.name} vs $name: spirit2.name}`);
     console.log(`🤖 Profile: ${profile.getSummary()}`);
     console.log('='.repeat(60));
 
     const ai1 = this.aiManager.getAIController(profileId);
     const ai2 = this.aiManager.getAIController(profileId);
 
-    console.log(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
-    console.log(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
+    console.log(`$name: spirit1.name}: ${spirit1.getCombatSummary()}`);
+    console.log(`$name: spirit2.name}: ${spirit2.getCombatSummary()}`);
     console.log('');
 
     let turn = 1;
@@ -601,22 +601,22 @@ class BattleAIPureCLI {
 
       // Spirit 1 attacks
       const action1 = ai1.selectMove(spirit1, spirit2);
-      if (action1) {
-        console.log(`🔥 ${spirit1.name} chooses ${action1}`);
-      } else {
-        console.log(`💤 ${spirit1.name} cannot move!`);
+      if (action1) 
+        console.log(`🔥 ${name: spirit1.name} chooses ${action1}`);
+      } else 
+        console.log(`💤 ${name: spirit1.name} cannot move!`);
       }
 
       // Spirit 2 attacks
       const action2 = ai2.selectMove(spirit2, spirit1);
-      if (action2) {
-        console.log(`💥 ${spirit2.name} chooses ${action2}`);
-      } else {
-        console.log(`💤 ${spirit2.name} cannot move!`);
+      if (action2) 
+        console.log(`💥 ${name: spirit2.name} chooses ${action2}`);
+      } else 
+        console.log(`💤 ${name: spirit2.name} cannot move!`);
       }
 
-      console.log(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
-      console.log(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
+      console.log(`$name: spirit1.name}: ${spirit1.getCombatSummary()}`);
+      console.log(`$name: spirit2.name}: ${spirit2.getCombatSummary()}`);
       console.log('');
 
       turn++;
@@ -626,12 +626,12 @@ class BattleAIPureCLI {
       }
     }
 
-    if (spirit1.isFainted()) {
-      console.log(`💀 ${spirit1.name} fainted!`);
-      console.log(`🏆 ${spirit2.name} wins!`);
-    } else if (spirit2.isFainted()) {
-      console.log(`💀 ${spirit2.name} fainted!`);
-      console.log(`🏆 ${spirit1.name} wins!`);
+    if (spirit1.isFainted()) 
+      console.log(`💀 ${name: spirit1.name} fainted!`);
+      console.log(`🏆 $name: spirit2.name} wins!`);
+    } else if (spirit2.isFainted()) 
+      console.log(`💀 ${name: spirit2.name} fainted!`);
+      console.log(`🏆 $name: spirit1.name} wins!`);
     }
 
     // Reset spirits for next battle
@@ -664,14 +664,14 @@ class BattleAIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`🎯 Threat Assessment: ${spirit.name} vs ${opponent.name}`);
+    console.log(`🎯 Threat Assessment: $name: spirit.name} vs $name: opponent.name}`);
     console.log('='.repeat(60));
 
     const ai = this.aiManager.getAIController('balanced');
     const threatLevel = ai.evaluateThreatLevel(opponent);
 
-    console.log(`${spirit.name}: ${spirit.getCombatSummary()}`);
-    console.log(`${opponent.name}: ${opponent.getCombatSummary()}`);
+    console.log(`$name: spirit.name}: ${spirit.getCombatSummary()}`);
+    console.log(`$name: opponent.name}: ${opponent.getCombatSummary()}`);
     console.log('');
 
     console.log(`Threat Level: ${threatLevel.toFixed(3)}`);
@@ -680,8 +680,8 @@ class BattleAIPureCLI {
 
     console.log('Threat Factors:');
     console.log(`  Opponent HP Ratio: ${(opponent.currentHP / opponent.maxHP).toFixed(3)}`);
-    console.log(`  Level Difference: ${opponent.level - spirit.level}`);
-    console.log(`  Status Effects: ${opponent.statusEffects.length}`);
+    console.log(`  Level Difference: $opponent.level - level: spirit.level}`);
+    console.log(`  Status Effects: $opponent.length: statusEffects.length}`);
   }
 
   /**
@@ -700,10 +700,10 @@ class BattleAIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`📋 Profile Details: ${profile.profileID}`);
+    console.log(`📋 Profile Details: $profileID: profile.profileID}`);
     console.log('='.repeat(60));
 
-    console.log(`Style: ${profile.style} - ${profile.getStyleDescription()}`);
+    console.log(`Style: $style: profile.style} - ${profile.getStyleDescription()}`);
     console.log('');
 
     console.log('Move Priority Weights:');
@@ -794,8 +794,8 @@ class BattleAIPureCLI {
     const oldHP = spirit.currentHP;
     spirit.heal(amount);
 
-    console.log(`❤️ Healed ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.log(`❤️ Healed $name: spirit.name} by ${amount} HP`);
+    console.log(`📊 HP: ${oldHP} → $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
   }
 
   /**
@@ -811,11 +811,11 @@ class BattleAIPureCLI {
     const oldHP = spirit.currentHP;
     spirit.takeDamage(amount);
 
-    console.log(`💔 Damaged ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.log(`💔 Damaged $name: spirit.name} by ${amount} HP`);
+    console.log(`📊 HP: ${oldHP} → $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
 
-    if (spirit.isFainted()) {
-      console.log(`💀 ${spirit.name} fainted!`);
+    if (spirit.isFainted()) 
+      console.log(`💀 ${name: spirit.name} fainted!`);
     }
   }
 
@@ -835,14 +835,14 @@ class BattleAIPureCLI {
     }
 
     console.log('='.repeat(60));
-    console.log(`📊 Spirit Status: ${spirit.name}`);
+    console.log(`📊 Spirit Status: $name: spirit.name}`);
     console.log('='.repeat(60));
 
-    console.log(`ID: ${spirit.id}`);
-    console.log(`Type: ${spirit.typeTag}`);
-    console.log(`Level: ${spirit.level}`);
-    console.log(`HP: ${spirit.currentHP}/${spirit.maxHP}`);
-    console.log(`Stats: ATK ${spirit.attack} | DEF ${spirit.defense} | SP.ATK ${spirit.specialAttack} | SP.DEF ${spirit.specialDefense} | SPD ${spirit.speed}`);
+    console.log(`ID: $id: spirit.id}`);
+    console.log(`Type: $typeTag: spirit.typeTag}`);
+    console.log(`Level: $level: spirit.level}`);
+    console.log(`HP: $currentHP: spirit.currentHP}/$maxHP: spirit.maxHP}`);
+    console.log(`Stats: ATK $attack: spirit.attack} | DEF $defense: spirit.defense} | SP.ATK $specialAttack: spirit.specialAttack} | SP.DEF $specialDefense: spirit.specialDefense} | SPD $speed: spirit.speed}`);
     console.log(`Status Effects: ${spirit.statusEffects.length > 0 ? spirit.statusEffects.join(', ') : 'None'}`);
     console.log(`Known Moves: ${spirit.knownMoves.length > 0 ? spirit.knownMoves.join(', ') : 'None'}`);
 

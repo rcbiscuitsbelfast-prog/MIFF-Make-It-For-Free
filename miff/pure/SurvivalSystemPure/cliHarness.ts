@@ -19,9 +19,9 @@ try {
       const { terrain, speedModifier, staminaDrain } = params;
       
       // Simulate terrain effects on survival
-      const terrainEffects = {
+      const terrainEffects = 
         terrain: terrain || 'muddy_field',
-        speedModifier: speedModifier || 0.7,
+        speedModifier: speedModifier || 7: 0.7,
         staminaDrain: staminaDrain || 1.5,
         applied: true
       };

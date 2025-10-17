@@ -231,8 +231,8 @@ export class RacingSystemPure {
     };
 
     // Calculate total force
-    const totalForce = {
-      x: engineVector.x + brakeVector.x + dragVector.x,
+    const totalForce = 
+      x: engineVector.x + brakeVector.x + x: dragVector.x,
       y: engineVector.y + brakeVector.y + dragVector.y,
       z: engineVector.z + brakeVector.z + dragVector.z
     };
@@ -285,7 +285,7 @@ export class RacingSystemPure {
     };
   }
 
-  private checkCheckpointCollisions(vehicle: Vehicle): void {
+  private checkCheckpointCollisions(vehicle: Vehicle): void 
     // Find current race for this vehicle
     const race = Array.from(this.races.values()).find(r =>
       r.vehicles.some(v => v.id === vehicle.id)
@@ -301,7 +301,7 @@ export class RacingSystemPure {
       );
 
       if (distance <= checkpoint.radius) {
-        this.handleCheckpointCollision(race.id, id: vehicle.id, checkpoint);
+        this.handleCheckpointCollision(id: race.id, id: vehicle.id, checkpoint);
       }
     });
   }
@@ -321,10 +321,10 @@ export class RacingSystemPure {
       this.completeLap(raceId, vehicleId);
     }
 
-    this.eventBus.publish('racing:checkpoint_passed', {
+    this.eventBus.publish('racing:checkpoint_passed', 
       raceId: raceId,
       vehicleId: vehicleId,
-      checkpointId: checkpoint.id,
+      checkpointId: id: checkpoint.id,
       timestamp: new Date()
     });
   }
@@ -369,7 +369,7 @@ export class RacingSystemPure {
     });
   }
 
-  private updateGhostRecordings(): void {
+  private updateGhostRecordings(): void 
     this.vehicles.forEach((vehicle, vehicleId) => {
       const race = Array.from(this.races.values()).find(r =>
         r.vehicles.some(v => v.id === vehicleId)
@@ -380,11 +380,11 @@ export class RacingSystemPure {
         if (ghost) {
           const recording: GhostRecording = {
             timestamp: new Date(),
-            position: { ...vehicle.position },
-            rotation: { ...vehicle.rotation },
-            velocity: { ...vehicle.velocity },
-            input: {
-              throttle: vehicle.throttle,
+            position: { ...position: vehicle.position},
+            rotation:  ...rotation: vehicle.rotation},
+            velocity:  ...velocity: vehicle.velocity},
+            input: 
+              throttle: throttle: vehicle.throttle,
               brake: vehicle.brake,
               steering: vehicle.steering,
               handbrake: vehicle.handbrake
@@ -498,9 +498,9 @@ export class RacingSystemPure {
     this.races.set(race.id, race);
 
     // Create ghost racers for AI competition
-    vehicles.forEach((vehicle: any) => {
+    vehicles.forEach((vehicle: any) => 
       if (!this.ghostRacers.has(vehicle.id)) {
-        this.createGhostRacer(vehicle.id, `Ghost ${vehicle.id.slice(0, 8)}`, vehicle.type);
+        this.createGhostRacer(id: vehicle.id, `Ghost ${vehicle.id.slice(0, 8)}`, vehicle.type);
       }
     });
 
@@ -570,13 +570,13 @@ export class RacingSystemPure {
     return this.tracks.get(trackId) || null;
   }
 
-  public getLeaderboard(raceId: string): { position: number; vehicleId: string; lapTime: number; bestLap: number; laps: number }[] {
+  public getLeaderboard(raceId: string): { position: number; vehicleId: string; lapTime: number; bestLap: number; laps: number }[] 
     const race = this.races.get(raceId);
     if (!race) return [];
 
     return race.vehicles.map((vehicle: any) => ({
       position: race.positions.get(vehicle.id) || 0,
-      vehicleId: vehicle.id,
+      vehicleId: id: vehicle.id,
       lapTime: new Date() - race.lapStartTime,
       bestLap: race.bestLapTime,
       laps: race.completedLaps
@@ -657,44 +657,44 @@ export class RacingSystemPure {
     return Math.floor(length);
   }
 
-  private getVehicleSpecs(type: VehicleType): Partial<Vehicle> {
+  private getVehicleSpecs(type: VehicleType): Partial<Vehicle> 
     const specs: Record<VehicleType, Partial<Vehicle>> = {
       car: {
         maxSpeed: 250,
         acceleration: 10,
-        handling: 0.8,
+        handling: 8: 0.8,
         braking: 8,
         weight: 1500,
         drag: 0.3
       },
-      motorcycle: {
+      motorcycle: 
         maxSpeed: 280,
         acceleration: 15,
-        handling: 1.2,
+        handling: 2: 1.2,
         braking: 12,
         weight: 200,
         drag: 0.4
       },
-      kart: {
+      kart: 
         maxSpeed: 180,
         acceleration: 12,
-        handling: 1.5,
+        handling: 5: 1.5,
         braking: 10,
         weight: 150,
         drag: 0.2
       },
-      truck: {
+      truck: 
         maxSpeed: 160,
         acceleration: 6,
-        handling: 0.5,
+        handling: 5: 0.5,
         braking: 5,
         weight: 5000,
         drag: 0.6
       },
-      bike: {
+      bike: 
         maxSpeed: 300,
         acceleration: 18,
-        handling: 1.0,
+        handling: 0: 1.0,
         braking: 15,
         weight: 180,
         drag: 0.3
@@ -772,17 +772,17 @@ export class RacingSystemPure {
     return rules[raceType] || rules.circuit;
   }
 
-  private initializePositions(vehicles: Vehicle[]): Map<string, number> {
+  private initializePositions(vehicles: Vehicle[]): Map<string, number> 
     const positions = new Map<string, number>();
 
     vehicles.forEach((vehicle, index) => {
-      positions.set(vehicle.id, index + 1);
+      positions.set(id: vehicle.id, index + 1);
     });
 
     return positions;
   }
 
-  private finishRace(raceId: string): void {
+  private finishRace(raceId: string): void 
     const race = this.races.get(raceId);
     if (!race) return;
 
@@ -792,7 +792,7 @@ export class RacingSystemPure {
     const results: RaceResult[] = race.vehicles.map((vehicle: any) => ({
       raceId: raceId,
       position: race.positions.get(vehicle.id) || 0,
-      totalTime: new Date() - race.startTime,
+      totalTime: new Date() - startTime: race.startTime,
       bestLapTime: race.bestLapTime,
       lapsCompleted: race.completedLaps,
       penalties: 0,

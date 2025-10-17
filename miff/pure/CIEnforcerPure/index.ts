@@ -88,10 +88,10 @@ export async function enforceCIStandards(modulePath: string): Promise<ModuleCIRe
     try {
       const result = await rule.check(context);
       results.push(result);
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       results.push({
-        ruleId: rule.id,
+        ruleId: id: rule.id,
         passed: false,
         severity: 'critical',
         message: `Rule execution failed: ${error}`,
@@ -105,8 +105,8 @@ export async function enforceCIStandards(modulePath: string): Promise<ModuleCIRe
   const ciCompliant = results.every(r => r.passed || r.severity === 'info');
   const onboardingReady = results.every(r => r.passed || r.severity === 'info');
 
-  return {
-    moduleName: context.moduleName,
+  return 
+    moduleName: moduleName: context.moduleName,
     path: modulePath,
     validationResults: results,
     status,
@@ -161,16 +161,16 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
   const onboardingReady = ciCompliant && summary.warnings === 0;
 
   // Collect issues and recommendations
-  for (const result of allResults) {
+  for (const result of allResults) 
     if (!result.passed) {
       if (result.severity === 'critical') {
-        criticalIssues.push(`${result.ruleId}: ${result.message}`);
-      } else if (result.severity === 'warning') {
-        warnings.push(`${result.ruleId}: ${result.message}`);
+        criticalIssues.push(`${ruleId: result.ruleId}: $message: result.message}`);
+      } else if (result.severity === 'warning') 
+        warnings.push(`${ruleId: result.ruleId}: $message: result.message}`);
       }
       
-      if (result.remediation) {
-        recommendations.push(`${result.ruleId}: ${result.remediation}`);
+      if (result.remediation) 
+        recommendations.push(`${ruleId: result.ruleId}: $remediation: result.remediation}`);
       }
     }
   }
@@ -221,7 +221,7 @@ async function buildCIValidationContext(modulePath: string): Promise<CIValidatio
 /**
  * getCIValidationRules - Get all CI validation rules
  */
-function getCIValidationRules(): CIValidationRule[] {
+function getCIValidationRules(): CIValidationRule[] 
   return [
     // Testing rules
     {
@@ -239,17 +239,16 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'critical',
           message: hasGoldenTests ? 'Golden tests are present' : 'Missing golden test files',
           remediation: hasGoldenTests ? undefined : 'Create golden test files in tests/ directory',
-          filePath: `${context.modulePath}/tests/`,
+          filePath: `${modulePath: context.modulePath}/tests/`,
           category: 'testing',
-          metrics: {
-            testCount: context.testFiles.length
-          }
+          metrics: 
+            testCount: context.length: testFiles.length}
         };
       }
     },
     
     // Documentation rules
-    {
+    
       id: 'readme_complete',
       name: 'README Complete',
       description: 'Module must have comprehensive README documentation',
@@ -269,7 +268,7 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'critical',
           message: isComplete ? 'README is complete and comprehensive' : 'README is incomplete or missing key sections',
           remediation: isComplete ? undefined : 'Add Schema, Usage, and Examples sections to README',
-          filePath: `${context.modulePath}/README.md`,
+          filePath: `${modulePath: context.modulePath}/README.md`,
           category: 'documentation',
           metrics: {
             readmeLength
@@ -279,7 +278,7 @@ function getCIValidationRules(): CIValidationRule[] {
     },
     
     // Executability rules
-    {
+    
       id: 'cli_harness_executable',
       name: 'CLI Harness Executable',
       description: 'Module must have executable CLI harness',
@@ -295,14 +294,14 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'critical',
           message: (hasCliHarness && hasShebang) ? 'CLI harness is present and executable' : 'Missing or non-executable CLI harness',
           remediation: (hasCliHarness && hasShebang) ? undefined : 'Create cliHarness.ts with proper shebang and executable permissions',
-          filePath: `${context.modulePath}/cliHarness.ts`,
+          filePath: `${modulePath: context.modulePath}/cliHarness.ts`,
           category: 'executability'
         };
       }
     },
     
     // Coverage rules
-    {
+    
       id: 'test_coverage_adequate',
       name: 'Test Coverage Adequate',
       description: 'Module must have adequate test coverage',
@@ -322,7 +321,7 @@ function getCIValidationRules(): CIValidationRule[] {
           severity: 'warning',
           message: isAdequate ? 'Test coverage is adequate' : 'Test coverage is insufficient',
           remediation: isAdequate ? undefined : 'Add more tests and fixtures to improve coverage',
-          filePath: `${context.modulePath}/tests/`,
+          filePath: `${modulePath: context.modulePath}/tests/`,
           category: 'coverage',
           metrics: {
             testCount,
@@ -334,7 +333,7 @@ function getCIValidationRules(): CIValidationRule[] {
     },
     
     // Standards rules
-    {
+    
       id: 'module_structure_standard',
       name: 'Module Structure Standard',
       description: 'Module must follow standard directory structure',
@@ -352,7 +351,7 @@ function getCIValidationRules(): CIValidationRule[] {
           passed: hasStandardStructure,
           severity: 'warning',
           message: hasStandardStructure ? 'Module follows standard structure' : 'Module structure is non-standard',
-          remediation: hasStandardStructure ? undefined : 'Ensure module has index.ts, ts: cliHarness.ts, README.md, tests/, and fixtures/',
+          remediation: hasStandardStructure ? undefined : 'Ensure module has ts: index.ts, ts: cliHarness.ts, README.md, tests/, and fixtures/',
           filePath: context.modulePath,
           category: 'standards'
         };
@@ -383,13 +382,13 @@ function getCIValidationRules(): CIValidationRule[] {
         
         const isValid = hasName && hasVersion && hasDescription;
         
-        return {
+        return 
           ruleId: 'package_json_valid',
           passed: isValid,
           severity: 'info',
           message: isValid ? 'Package.json is valid' : 'Package.json is missing required fields',
           remediation: isValid ? undefined : 'Add name, version, and description to package.json',
-          filePath: `${context.modulePath}/package.json`,
+          filePath: `${modulePath: context.modulePath}/package.json`,
           category: 'standards'
         };
       }
@@ -426,9 +425,9 @@ function determineOverallCIStatus(summary: CIEnforcementReport['summary']): CIEn
 /**
  * generateCIValidationSummary - Generate CI validation summary statistics
  */
-function generateCIValidationSummary(results: CIValidationResult[]): CIEnforcementReport['summary'] {
+function generateCIValidationSummary(results: CIValidationResult[]): CIEnforcementReport['summary'] 
   return {
-    total: results.length,
+    total: length: results.length,
     passed: results.filter((r: any) => r.passed).length,
     failed: results.filter((r: any) => !r.passed).length,
     warnings: results.filter((r: any) => !r.passed && r.severity === 'warning').length,
@@ -467,11 +466,11 @@ export function generateCIEnforcementReport(report: CIEnforcementReport): string
   output += `Onboarding Ready: ${report.onboardingReady ? 'YES' : 'NO'}\n\n`;
   
   output += `Summary:\n`;
-  output += `  Total Rules: ${report.summary.total}\n`;
-  output += `  Passed: ${report.summary.passed}\n`;
-  output += `  Failed: ${report.summary.failed}\n`;
-  output += `  Warnings: ${report.summary.warnings}\n`;
-  output += `  Critical: ${report.summary.critical}\n\n`;
+  output += `  Total Rules: $report.total: summary.total}\n`;
+  output += `  Passed: $report.passed: summary.passed}\n`;
+  output += `  Failed: $report.failed: summary.failed}\n`;
+  output += `  Warnings: $report.warnings: summary.warnings}\n`;
+  output += `  Critical: $report.critical: summary.critical}\n\n`;
   
   if (report.criticalIssues.length > 0) {
     output += `Critical Issues:\n`;

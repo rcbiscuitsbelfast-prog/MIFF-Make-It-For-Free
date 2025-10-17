@@ -6,11 +6,11 @@ import { UnrealEventSyncPure } from '../UnrealEventSyncPure';
 import { RenderPayloadManager } from '../../RenderPayloadPure';
 import { SceneBuilderManager } from '../../SceneBuilderPure';
 
-describe('UnrealBridgePure Golden Tests', () => {
+describe('UnrealBridgePure Golden Tests', () => 
 
   test('✓ UnrealBridgeManager can be created with valid configuration', () => {
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -63,9 +63,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(bridge.getConnectionStatus()).toBe('disconnected');
   });
 
-  test('✓ UnrealBridgeManager configuration validation works', () => {
+  test('✓ UnrealBridgeManager configuration validation works', () => 
     const invalidConfig = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: 'invalid_protocol' as any,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -113,9 +113,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(() => new UnrealBridgeManager(invalidConfig as any)).toThrow();
   });
 
-  test('✓ UnrealBridgeManager supports different bridge types', () => {
+  test('✓ UnrealBridgeManager supports different bridge types', () => 
     const blueprintConfig: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -160,9 +160,9 @@ describe('UnrealBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const cppConfig: UnrealBridgeConfiguration = {
+    const cppConfig: UnrealBridgeConfiguration = 
       ...blueprintConfig,
-      bridgeType: UnrealBridgeType.CPP,
+      bridgeType: CPP: UnrealBridgeType.CPP,
       tickGroup: 'TG_PostPhysics',
       replicationMode: 'none',
       collisionChannels: []
@@ -175,9 +175,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(bridge2.getConfiguration().bridgeType).toBe('cpp');
   });
 
-  test('✓ UnrealBridgeManager handles communication protocols correctly', () => {
+  test('✓ UnrealBridgeManager handles communication protocols correctly', () => 
     const messagePassingConfig: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -222,10 +222,9 @@ describe('UnrealBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const sharedMemoryConfig: UnrealBridgeConfiguration = {
+    const sharedMemoryConfig: UnrealBridgeConfiguration = 
       ...messagePassingConfig,
-      communicationProtocol: UnrealCommunicationProtocol.SHARED_MEMORY
-    };
+      communicationProtocol: SHARED_MEMORY: UnrealCommunicationProtocol.SHARED_MEMORY};
 
     const bridge1 = new UnrealBridgeManager(messagePassingConfig);
     const bridge2 = new UnrealBridgeManager(sharedMemoryConfig);
@@ -234,9 +233,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(bridge2.getConfiguration().communicationProtocol).toBe('shared_memory');
   });
 
-  test('✓ UnrealBridgeManager statistics tracking works', () => {
+  test('✓ UnrealBridgeManager statistics tracking works', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -269,9 +268,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(stats.queueDepth).toBe(0);
   });
 
-  test('✓ UnrealBridgeManager connection management works', async () => {
+  test('✓ UnrealBridgeManager connection management works', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -310,9 +309,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(disconnected).toBe(true);
   });
 
-  test('✓ UnrealBridgeManager message handling works', async () => {
+  test('✓ UnrealBridgeManager message handling works', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -364,9 +363,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(processed[0].id).toBe('test_message');
   });
 
-  test('✓ UnrealBridgeManager lifecycle event handling works', () => {
+  test('✓ UnrealBridgeManager lifecycle event handling works', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -400,9 +399,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(eventReceived).toBe(false); // Event hasn't been processed yet
   });
 
-  test('✓ UnrealPayloadAdapterPure can be created', () => {
+  test('✓ UnrealPayloadAdapterPure can be created', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -431,9 +430,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(adapter).toBeDefined();
   });
 
-  test('✓ UnrealSceneBuilderPure can be created', () => {
+  test('✓ UnrealSceneBuilderPure can be created', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -462,9 +461,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(builder).toBeDefined();
   });
 
-  test('✓ UnrealAssetManagerPure can be created', () => {
+  test('✓ UnrealAssetManagerPure can be created', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -493,9 +492,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(manager).toBeDefined();
   });
 
-  test('✓ UnrealEventSyncPure can be created', () => {
+  test('✓ UnrealEventSyncPure can be created', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -524,9 +523,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(sync).toBeDefined();
   });
 
-  test('✓ All UnrealBridgePure components work together', () => {
+  test('✓ All UnrealBridgePure components work together', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -562,9 +561,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(eventSync).toBeDefined();
   });
 
-  test('✓ UnrealBridgePure supports configuration updates', () => {
+  test('✓ UnrealBridgePure supports configuration updates', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -598,9 +597,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(currentVersion).toBe('5.1');
   });
 
-  test('✓ UnrealBridgePure handles errors gracefully', async () => {
+  test('✓ UnrealBridgePure handles errors gracefully', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -649,9 +648,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(sent).toBe(false); // Should fail validation
   });
 
-  test('✓ UnrealBridgePure supports multiple connections', async () => {
+  test('✓ UnrealBridgePure supports multiple connections', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -690,9 +689,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(stats.activeConnections).toBe(3);
   });
 
-  test('✓ UnrealBridgePure handles connection cleanup', async () => {
+  test('✓ UnrealBridgePure handles connection cleanup', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -725,9 +724,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(stats.activeConnections).toBe(0);
   });
 
-  test('✓ UnrealBridgePure supports performance monitoring', () => {
+  test('✓ UnrealBridgePure supports performance monitoring', () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -759,9 +758,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(metrics.cpuUsage).toBe(0);
   });
 
-  test('✓ UnrealBridgePure maintains message order', async () => {
+  test('✓ UnrealBridgePure maintains message order', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -821,9 +820,9 @@ describe('UnrealBridgePure Golden Tests', () => {
     }
   });
 
-  test('✓ UnrealBridgePure handles high priority messages', async () => {
+  test('✓ UnrealBridgePure handles high priority messages', async () => 
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',

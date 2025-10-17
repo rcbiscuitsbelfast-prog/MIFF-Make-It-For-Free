@@ -1164,15 +1164,15 @@ export class WorkflowEnginePure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): WorkflowEnginePerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): WorkflowEnginePerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): WorkflowEngineAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): WorkflowEngineAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

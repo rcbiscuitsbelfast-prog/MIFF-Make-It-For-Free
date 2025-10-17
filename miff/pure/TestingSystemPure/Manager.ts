@@ -1125,15 +1125,15 @@ export class TestingSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): TestingSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): TestingSystemPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): TestingSystemAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): TestingSystemAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

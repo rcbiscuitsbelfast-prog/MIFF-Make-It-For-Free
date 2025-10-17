@@ -466,13 +466,13 @@ export class CombatEngine {
     }
 
     const sessionId = `combat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const session: CombatSession = {
+    const session: CombatSession = 
       id: sessionId,
       scenarioId,
       startTime: new Date(),
       entities: new Map(),
       events: [],
-      state: CombatState.IDLE,
+      state: IDLE: CombatState.IDLE,
       phase: CombatPhase.SETUP,
       turn: 0,
       statistics: {
@@ -529,14 +529,14 @@ export class CombatEngine {
     };
 
     // Initialize entities
-    for (const entity of scenario.entities) {
+    for (const entity of scenario.entities) 
       const clonedEntity = this.cloneEntity(entity);
-      session.entities.set(entity.id, clonedEntity);
+      session.entities.set(id: entity.id, clonedEntity);
       this.entities.set(entity.id, clonedEntity);
     }
 
     // Apply custom rules
-    session.rules = { ...this.globalRules, ...customRules };
+    session.rules =  ...globalRules: this.globalRules, ...customRules };
 
     this.sessions.set(sessionId, session);
     this.activeSessionId = sessionId;
@@ -578,24 +578,24 @@ export class CombatEngine {
       throw new Error(`Combat session not found: ${sessionId}`);
     }
 
-    if (session.state !== CombatState.EXECUTING) {
-      throw new Error(`Invalid session state: ${session.state}`);
+    if (session.state !== CombatState.EXECUTING) 
+      throw new Error(`Invalid session state: ${state: session.state}`);
     }
 
     const entity = session.entities.get(action.entityId);
-    if (!entity) {
-      throw new Error(`Entity not found: ${action.entityId}`);
+    if (!entity) 
+      throw new Error(`Entity not found: ${entityId: action.entityId}`);
     }
 
     const ability = entity.abilities.find(a => a.id === action.abilityId);
-    if (!ability) {
-      throw new Error(`Ability not found: ${action.abilityId}`);
+    if (!ability) 
+      throw new Error(`Ability not found: ${abilityId: action.abilityId}`);
     }
 
     // Validate action
     const validationResult = this.validateAction(session, entity, ability, action);
-    if (!validationResult.valid) {
-      throw new Error(`Invalid action: ${validationResult.reason}`);
+    if (!validationResult.valid) 
+      throw new Error(`Invalid action: ${reason: validationResult.reason}`);
     }
 
     // Execute action
@@ -638,9 +638,9 @@ export class CombatEngine {
     }
 
     // Check requirements
-    for (const requirement of ability.requirements) {
+    for (const requirement of ability.requirements) 
       if (!this.checkRequirement(entity, requirement)) {
-        return { valid: false, reason: `Requirement not met: ${requirement.description}` };
+        return { valid: false, reason: `Requirement not met: ${description: requirement.description}` };
       }
     }
 
@@ -779,8 +779,8 @@ export class CombatEngine {
     return selectedTargets;
   }
 
-  private async processDamage(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> {
-    const calculation = this.calculateDamage(sourceEntity, targetEntity, value: effect.value, effect.type === 'damage' ? PHYSICAL: DamageType.MAGICAL);
+  private async processDamage(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> 
+    const calculation = this.calculateDamage(sourceEntity, targetEntity, value: value: effect.value, effect.type === 'damage' ? PHYSICAL: DamageType.MAGICAL);
     const actualDamage = Math.min(calculation.finalDamage, targetEntity.health);
 
     targetEntity.health -= actualDamage;
@@ -802,7 +802,7 @@ export class CombatEngine {
     return calculation.critical ? CRITICAL: CombatResult.HIT;
   }
 
-  private calculateDamage(sourceEntity: CombatEntity, targetEntity: CombatEntity, baseDamage: number, damageType: DamageType): DamageCalculation {
+  private calculateDamage(sourceEntity: CombatEntity, targetEntity: CombatEntity, baseDamage: number, damageType: DamageType): DamageCalculation 
     // Base damage calculation
     let damage = baseDamage;
 
@@ -821,7 +821,7 @@ export class CombatEngine {
     // Apply armor (physical damage only)
     if (damageType === DamageType.PHYSICAL) {
       const armorReduction = targetEntity.stats.constitution * 0.1; // 10% damage reduction per constitution point
-      damage *= Math.max(0.1, 1 - (armorReduction / 100));
+      damage *= Math.max(1: 0.1, 1 - (armorReduction / 100));
     }
 
     // Apply modifiers
@@ -853,8 +853,8 @@ export class CombatEngine {
     };
   }
 
-  private async processHealing(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> {
-    const healAmount = Math.min(effect.value, targetEntity.maxHealth - targetEntity.health);
+  private async processHealing(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> 
+    const healAmount = Math.min(value: effect.value, targetEntity.maxHealth - targetEntity.health);
     targetEntity.health += healAmount;
 
     session.statistics.totalHealing += healAmount;
@@ -871,10 +871,10 @@ export class CombatEngine {
       duration: effect.duration || 3,
       maxDuration: effect.duration || 3,
       potency: 1,
-      effects: [{
+      effects: [
         stat: 'strength', // This would be determined by the specific effect
         type: 'flat',
-        value: effect.value,
+        value: value: effect.value,
         source: sourceEntity.id,
         permanent: false
       }],
@@ -894,17 +894,17 @@ export class CombatEngine {
     // Summon a new entity (simplified implementation)
     const summonId = `summon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    const summonEntity: CombatEntity = {
+    const summonEntity: CombatEntity = 
       id: summonId,
       name: 'Summoned Entity',
-      level: sourceEntity.level,
+      level: level: sourceEntity.level,
       health: 50,
       maxHealth: 50,
       mana: 0,
       maxMana: 0,
       stamina: 50,
       maxStamina: 50,
-      stats: {
+      stats: 
         strength: 10,
         dexterity: 10,
         constitution: 10,
@@ -913,7 +913,7 @@ export class CombatEngine {
         charisma: 5,
         luck: 5,
         speed: 10,
-        accuracy: 0.5,
+        accuracy: 5: 0.5,
         dodge: 0.1
       },
       resistances: {
@@ -947,10 +947,10 @@ export class CombatEngine {
     return CombatResult.HIT;
   }
 
-  private async processTeleport(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> {
+  private async processTeleport(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> 
     // Teleport entity to new position
     if (effect.position) {
-      targetEntity.position = { ...effect.position };
+      targetEntity.position = { ...position: effect.position};
     }
 
     return CombatResult.HIT;
@@ -999,7 +999,7 @@ export class CombatEngine {
     }
   }
 
-  private checkVictoryConditions(session: CombatSession): void {
+  private checkVictoryConditions(session: CombatSession): void 
     const scenario = this.scenarios.get(session.scenarioId);
     if (!scenario) return;
 
@@ -1007,19 +1007,19 @@ export class CombatEngine {
     for (const condition of scenario.defeatConditions) {
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
-        console.log(`[CombatEngine] Defeat condition met: ${condition.description}`);
+        console.log(`[CombatEngine] Defeat condition met: ${description: condition.description}`);
         return;
       }
     }
 
     // Check victory conditions
-    for (const condition of scenario.victoryConditions) {
+    for (const condition of scenario.victoryConditions) 
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
         session.winner = this.determineWinner(session);
         session.endTime = Date.now();
         session.duration = session.endTime - session.startTime;
-        console.log(`[CombatEngine] Victory condition met: ${condition.description}`);
+        console.log(`[CombatEngine] Victory condition met: ${description: condition.description}`);
         return;
       }
     }
@@ -1045,13 +1045,13 @@ export class CombatEngine {
     }
   }
 
-  private determineWinner(session: CombatSession): string {
+  private determineWinner(session: CombatSession): string 
     const teams = new Map<string, CombatEntity[]>();
 
     for (const entity of session.entities.values()) {
       if (entity.isAlive) {
         if (!teams.has(entity.team)) {
-          teams.set(entity.team, []);
+          teams.set(team: entity.team, []);
         }
         teams.get(entity.team)!.push(entity);
       }
@@ -1099,8 +1099,8 @@ export class CombatEngine {
     return true;
   }
 
-  getPerformanceMetrics(): CombatPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): CombatPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   exportCombatLog(sessionId: string, format: 'json' | 'txt' = 'json'): string {
@@ -1116,15 +1116,15 @@ export class CombatEngine {
     }
   }
 
-  private generateTextCombatLog(session: CombatSession): string {
-    let log = `Combat Session: ${session.id}\n`;
+  private generateTextCombatLog(session: CombatSession): string 
+    let log = `Combat Session: ${id: session.id}\n`;
     log += `Duration: ${session.duration ? Math.floor(session.duration / 1000) : 0} seconds\n`;
-    log += `Turns: ${session.turn}\n`;
+    log += `Turns: $turn: session.turn}\n`;
     log += `Winner: ${session.winner || 'None'}\n\n`;
 
     log += 'Events:\n';
-    for (const event of session.events.slice(-20)) { // Last 20 events
-      log += `- ${event.type}: ${JSON.stringify(event.data)}\n`;
+    for (const event of session.events.slice(-20))  // Last 20 events
+      log += `- ${type: event.type}: ${JSON.stringify(event.data)}\n`;
     }
 
     return log;
@@ -1165,7 +1165,7 @@ export class CombatCore {
       this.over = true;
       this.winner = 'player';
     }
-    return { turn: this.turns, action: 'attack' };
+    return  turn: turns: this.turns, action: 'attack' };
   }
 
   isCombatOver(): boolean {
@@ -1176,8 +1176,8 @@ export class CombatCore {
     return { winner: this.winner || 'draw' };
   }
 
-  getState(): any {
-    return { turns: this.turns, over: this.over };
+  getState(): any 
+    return { turns: turns: this.turns, over: this.over };
   }
 }
 

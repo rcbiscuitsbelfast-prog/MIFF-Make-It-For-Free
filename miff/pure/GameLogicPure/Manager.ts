@@ -1270,15 +1270,15 @@ export class GameLogicPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): GameLogicPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): GameLogicPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): GameLogicAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): GameLogicAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

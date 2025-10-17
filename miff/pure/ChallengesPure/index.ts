@@ -514,14 +514,14 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Clone challenge
    */
-  clone(): BattleChallenge {
+  clone(): BattleChallenge 
     return new BattleChallenge(
-      this.challengeId,
+      challengeId: this.challengeId,
       this.name,
       this.description,
       [...this.opponentTeam],
       this.ruleset.clone(),
-      { ...this.rewards },
+       ...rewards: this.rewards},
       this.category,
       this.difficulty,
       this.maxTurns,
@@ -530,21 +530,21 @@ export class BattleChallenge implements IBattleChallenge {
       [...this.requiredFlags],
       this.requiredLocationId,
       [...this.loreFlagsToSet],
-      { ...this.syncBoosts }
+       ...syncBoosts: this.syncBoosts}
     );
   }
 
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      challengeId: this.challengeId,
+      challengeId: challengeId: this.challengeId,
       name: this.name,
       description: this.description,
       opponentTeam: [...this.opponentTeam],
       ruleset: this.ruleset.toJSON(),
-      rewards: { ...this.rewards },
+      rewards:  ...rewards: this.rewards},
       category: this.category,
       difficulty: this.difficulty,
       status: this.status,
@@ -554,17 +554,17 @@ export class BattleChallenge implements IBattleChallenge {
       requiredFlags: [...this.requiredFlags],
       requiredLocationId: this.requiredLocationId,
       loreFlagsToSet: [...this.loreFlagsToSet],
-      syncBoosts: { ...this.syncBoosts }
+      syncBoosts:  ...syncBoosts: this.syncBoosts}
     };
   }
 
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): BattleChallenge {
+  static fromJSON(data: Record<string, any>): BattleChallenge 
     const ruleset = ChallengeRuleset.fromJSON(data.ruleset);
     const challenge = new BattleChallenge(
-      data.challengeId,
+      challengeId: data.challengeId,
       data.name,
       data.description,
       data.opponentTeam || [],
@@ -588,12 +588,12 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Get challenge summary
    */
-  getSummary(): string {
+  getSummary(): string 
     const opponentCount = this.opponentTeam.length;
-    const turnLimit = this.maxTurns > 0 ? `${this.maxTurns} turns` : 'No limit';
+    const turnLimit = this.maxTurns > 0 ? `${maxTurns: this.maxTurns} turns` : 'No limit';
     const rewardCount = Object.keys(this.rewards).length;
 
-    return `${this.name} (${opponentCount} opponents, ${turnLimit}, ${rewardCount} rewards)`;
+    return `$name: this.name} (${opponentCount} opponents, ${turnLimit}, ${rewardCount} rewards)`;
   }
 
   /**
@@ -751,16 +751,16 @@ export class ChallengeRuleset implements IChallengeRuleset {
       rules.push(`Allowed spirits: ${this.allowedSpiritTypes.join(', ')}`);
     }
 
-    if (this.turnLimit > 0) {
-      rules.push(`Turn limit: ${this.turnLimit}`);
+    if (this.turnLimit > 0) 
+      rules.push(`Turn limit: ${turnLimit: this.turnLimit}`);
     }
 
     if (this.bannedItems.length > 0) {
       rules.push(`Banned items: ${this.bannedItems.join(', ')}`);
     }
 
-    if (this.environmentTag) {
-      rules.push(`Environment: ${this.environmentTag}`);
+    if (this.environmentTag) 
+      rules.push(`Environment: ${environmentTag: this.environmentTag}`);
     }
 
     return rules.length > 0 ? rules.join('; ') : 'No special rules';
@@ -790,10 +790,10 @@ export class ChallengeRuleset implements IChallengeRuleset {
   /**
    * Clone ruleset
    */
-  clone(): ChallengeRuleset {
+  clone(): ChallengeRuleset 
     return new ChallengeRuleset(
       [...this.allowedSpiritTypes],
-      this.turnLimit,
+      turnLimit: this.turnLimit,
       [...this.bannedItems],
       this.environmentTag
     );
@@ -802,10 +802,10 @@ export class ChallengeRuleset implements IChallengeRuleset {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
       allowedSpiritTypes: [...this.allowedSpiritTypes],
-      turnLimit: this.turnLimit,
+      turnLimit: turnLimit: this.turnLimit,
       bannedItems: [...this.bannedItems],
       environmentTag: this.environmentTag
     };
@@ -827,7 +827,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
 /**
  * Challenge result implementation
  */
-export class ChallengeResult implements IChallengeResult {
+export class ChallengeResult implements IChallengeResult 
   public outcome: ChallengeOutcome;
   public itemRewards: Record<string, number>;
   public loreFlags: string[];
@@ -838,7 +838,7 @@ export class ChallengeResult implements IChallengeResult {
   public metadata?: Record<string, any>;
 
   constructor(
-    outcome: ChallengeOutcome = ChallengeOutcome.VICTORY,
+    outcome: ChallengeOutcome = VICTORY: ChallengeOutcome.VICTORY,
     itemRewards: Record<string, number> = {},
     loreFlags: string[] = [],
     syncChanges: Record<string, number> = {},
@@ -866,9 +866,9 @@ export class ChallengeResult implements IChallengeResult {
     syncChanges: Record<string, number> = {},
     message?: string,
     turnsTaken?: number
-  ): ChallengeResult {
+  ): ChallengeResult 
     return new ChallengeResult(
-      ChallengeOutcome.VICTORY,
+      VICTORY: ChallengeOutcome.VICTORY,
       itemRewards,
       loreFlags,
       syncChanges,
@@ -884,9 +884,9 @@ export class ChallengeResult implements IChallengeResult {
   static defeat(
     message?: string,
     turnsTaken?: number
-  ): ChallengeResult {
+  ): ChallengeResult 
     return new ChallengeResult(
-      ChallengeOutcome.DEFEAT,
+      DEFEAT: ChallengeOutcome.DEFEAT,
       {},
       [],
       {},
@@ -902,9 +902,9 @@ export class ChallengeResult implements IChallengeResult {
   static timeout(
     turnsTaken: number,
     message?: string
-  ): ChallengeResult {
+  ): ChallengeResult 
     return new ChallengeResult(
-      ChallengeOutcome.TIMEOUT,
+      TIMEOUT: ChallengeOutcome.TIMEOUT,
       {},
       [],
       {},
@@ -920,9 +920,9 @@ export class ChallengeResult implements IChallengeResult {
   static forfeit(
     message?: string,
     turnsTaken?: number
-  ): ChallengeResult {
+  ): ChallengeResult 
     return new ChallengeResult(
-      ChallengeOutcome.FORFEIT,
+      FORFEIT: ChallengeOutcome.FORFEIT,
       {},
       [],
       {},
@@ -946,9 +946,9 @@ export class ChallengeResult implements IChallengeResult {
       .join(', ');
 
     const timeStr = this.completionTime ? new Date(this.completionTime).toLocaleString() : 'unknown';
-    const turnsStr = this.turnsTaken ? `${this.turnsTaken} turns` : 'unknown turns';
+    const turnsStr = this.turnsTaken ? `$turnsTaken: this.turnsTaken} turns` : 'unknown turns';
 
-    return `${this.outcome} | items: [${itemRewardsStr}] | flags: [${loreFlagsStr}] | sync: [${syncChangesStr}] | ${turnsStr} | ${timeStr}`;
+    return `$outcome: this.outcome} | items: [${itemRewardsStr}] | flags: [${loreFlagsStr}] | sync: [${syncChangesStr}] | ${turnsStr} | ${timeStr}`;
   }
 
   /**
@@ -972,35 +972,35 @@ export class ChallengeResult implements IChallengeResult {
       case FORFEIT:
         return `Forfeit! ${this.message || 'Challenge forfeited.'}`;
       default:
-        return `Unknown outcome: ${this.outcome}`;
+        return `Unknown outcome: $outcome: this.outcome}`;
     }
   }
 
   /**
    * Clone result
    */
-  clone(): ChallengeResult {
+  clone(): ChallengeResult 
     return new ChallengeResult(
-      this.outcome,
-      { ...this.itemRewards },
+      outcome: this.outcome,
+       ...itemRewards: this.itemRewards},
       [...this.loreFlags],
-      { ...this.syncChanges },
+       ...syncChanges: this.syncChanges},
       this.message,
       this.completionTime,
       this.turnsTaken,
-      this.metadata ? { ...this.metadata } : undefined
+      this.metadata ?  ...metadata: this.metadata} : undefined
     );
   }
 
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      outcome: this.outcome,
-      itemRewards: { ...this.itemRewards },
+      outcome: outcome: this.outcome,
+      itemRewards:  ...itemRewards: this.itemRewards},
       loreFlags: [...this.loreFlags],
-      syncChanges: { ...this.syncChanges },
+      syncChanges:  ...syncChanges: this.syncChanges},
       message: this.message,
       completionTime: this.completionTime,
       turnsTaken: this.turnsTaken,
@@ -1011,9 +1011,9 @@ export class ChallengeResult implements IChallengeResult {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): ChallengeResult {
+  static fromJSON(data: Record<string, any>): ChallengeResult 
     return new ChallengeResult(
-      data.outcome,
+      outcome: data.outcome,
       data.itemRewards || {},
       data.loreFlags || [],
       data.syncChanges || {},
@@ -1046,8 +1046,8 @@ export class ChallengeManager implements IChallengeManager {
     }
 
     const errors = challenge.validate({});
-    if (errors.length > 0) {
-      console.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
+    if (errors.length > 0) 
+      console.warn(`Invalid challenge ${challengeId: challenge.challengeId}:`, errors);
       return false;
     }
 
@@ -1252,8 +1252,8 @@ export class ChallengeManager implements IChallengeManager {
       ? (completedChallenges.length / allChallenges.length) * 100
       : 0;
 
-    return {
-      totalChallenges: allChallenges.length,
+    return 
+      totalChallenges: length: allChallenges.length,
       completedChallenges: completedChallenges.length,
       availableChallenges: allChallenges.filter((c: any) =>
         c.status === ChallengeStatus.AVAILABLE ||
@@ -1468,12 +1468,12 @@ export const ChallengeUtils = {
   createFilter: {
     byCategory: (category: ChallengeCategory): IChallengeFilter => ({ category }),
     byDifficulty: (difficulty: ChallengeDifficulty): IChallengeFilter => ({ difficulty }),
-    completedOnly: (): IChallengeFilter => ({ status: ChallengeStatus.COMPLETED }),
-    availableOnly: (): IChallengeFilter => ({ status: ChallengeStatus.AVAILABLE }),
-    inProgressOnly: (): IChallengeFilter => ({ status: ChallengeStatus.IN_PROGRESS }),
+    completedOnly: (): IChallengeFilter => ( status: COMPLETED: ChallengeStatus.COMPLETED}),
+    availableOnly: (): IChallengeFilter => ( status: AVAILABLE: ChallengeStatus.AVAILABLE}),
+    inProgressOnly: (): IChallengeFilter => ( status: IN_PROGRESS: ChallengeStatus.IN_PROGRESS}),
     highPriority: (minPriority: number = 7): IChallengeFilter => ({ minPriority }),
-    easyOnly: (): IChallengeFilter => ({ difficulty: ChallengeDifficulty.EASY }),
-    hardOrAbove: (): IChallengeFilter => ({ minDifficulty: ChallengeDifficulty.HARD }),
+    easyOnly: (): IChallengeFilter => ( difficulty: EASY: ChallengeDifficulty.EASY}),
+    hardOrAbove: (): IChallengeFilter => ( minDifficulty: HARD: ChallengeDifficulty.HARD}),
     search: (searchText: string): IChallengeFilter => ({ searchText })
   }
 };

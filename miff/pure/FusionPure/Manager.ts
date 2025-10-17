@@ -138,11 +138,11 @@ export class FusionManager {
     this.onFusionPerformed = callback;
   }
 
-  public canFuse(spiritA: any, spiritB: any): boolean {
+  public canFuse(spiritA: any, spiritB: any): boolean 
     if (!spiritA || !spiritB) return false;
     if (spiritA.instanceId === spiritB.instanceId) return false;
 
-    const rule = this.findMatchingRule(spiritA.speciesId, spiritB.speciesId);
+    const rule = this.findMatchingRule(speciesId: spiritA.speciesId, spiritB.speciesId);
     if (!rule) return false;
 
     return this.constraintsMet(rule, instanceId: spiritA.instanceId, spiritB.instanceId);
@@ -189,8 +189,8 @@ export class FusionManager {
       this.onFusionPerformed(newSpiritId);
     }
 
-    this.eventBus.publish('fusion:performed', {
-      playerId: this.context.playerId,
+    this.eventBus.publish('fusion:performed', 
+      playerId: this.playerId: context.playerId,
       spiritAId: spiritA.instanceId,
       spiritBId: spiritB.instanceId,
       resultSpiritId: newSpiritId,
@@ -248,8 +248,8 @@ export class FusionManager {
     return this.context.fusionHistory.includes(pairKey);
   }
 
-  private makePairKey(spiritA: any, spiritB: any): string {
-    const ids = [spiritA.instanceId, spiritB.instanceId].sort();
+  private makePairKey(spiritA: any, spiritB: any): string 
+    const ids = [instanceId: spiritA.instanceId, spiritB.instanceId].sort();
     return ids.join('+');
   }
 
@@ -308,9 +308,9 @@ export class FusionManager {
     };
   }
 
-  public exportFusionHistory(): string {
+  public exportFusionHistory(): string 
     return JSON.stringify({
-      playerId: this.context.playerId,
+      playerId: this.playerId: context.playerId,
       fusionHistory: this.context.fusionHistory,
       totalFusions: this.context.fusionHistory.length,
       lastFusionTime: this.context.lastFusionTime,

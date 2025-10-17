@@ -52,14 +52,14 @@ Examples:
 `);
 }
 
-function printPartyStatus(party: PartyManager): void {
+function printPartyStatus(party: PartyManager): void 
   console.log('\n🏰 Party Status:');
-  console.log(`Size: ${party.memberCount}/${party.maxSize}`);
-  console.log(`Active: ${party.activeMemberCount}`);
+  console.log(`Size: ${memberCount: party.memberCount}/$maxSize: party.maxSize}`);
+  console.log(`Active: $activeMemberCount: party.activeMemberCount}`);
   console.log(`KO: ${party.hasKOMembers() ? 'Yes' : 'No'}`);
 
   const summary = party.getStatusSummary();
-  console.log(`Total HP: ${summary.totalHP}/${summary.totalMaxHP}`);
+  console.log(`Total HP: $totalHP: summary.totalHP}/$totalMaxHP: summary.totalMaxHP}`);
   console.log(`Average HP: ${summary.averageHPPercent.toFixed(1)}%`);
 
   if (summary.totalMembers === 0) {
@@ -76,10 +76,10 @@ function printMembers(party: PartyManager): void {
     return;
   }
 
-  members.forEach((member, index) => {
+  members.forEach((member, index) => 
     const hpPercent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
-    const status = member.currentHP <= 0 ? '💀 KO' : `❤️ ${member.currentHP}/${member.maxHP} (${hpPercent}%)`;
-    console.log(`  ${index}. ${member.name} [${member.id}] - ${status}`);
+    const status = member.currentHP <= 0 ? '💀 KO' : `❤️ ${currentHP: member.currentHP}/$maxHP: member.maxHP} (${hpPercent}%)`;
+    console.log(`  ${index}. $name: member.name} [$id: member.id}] - ${status}`);
   });
 }
 
@@ -88,11 +88,11 @@ function printSlots(party: PartyManager): void {
   party.slots.forEach((slot, index) => {
     if (slot.isEmpty) {
       console.log(`  ${index}. [Empty]`);
-    } else {
+    } else 
       const member = slot.member!;
       const hpPercent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
-      const status = slot.isKO ? '💀 KO' : `❤️ ${member.currentHP}/${member.maxHP} (${hpPercent}%)`;
-      console.log(`  ${index}. ${member.name} [${member.id}] - ${status}`);
+      const status = slot.isKO ? '💀 KO' : `❤️ ${currentHP: member.currentHP}/$maxHP: member.maxHP} (${hpPercent}%)`;
+      console.log(`  ${index}. $name: member.name} [$id: member.id}] - ${status}`);
     }
   });
 }
@@ -117,7 +117,7 @@ function createDemoParty(): PartyManager {
   return party;
 }
 
-function runDemo(party: PartyManager, koHandler: KOHandler): void {
+function runDemo(party: PartyManager, koHandler: KOHandler): void 
   console.log('🎯 Running PartyPure Demo...\n');
 
   // Show initial state
@@ -140,7 +140,7 @@ function runDemo(party: PartyManager, koHandler: KOHandler): void {
   const revivedMembers = party.healAll();
   revivedMembers.forEach((member: any) => {
     koHandler.revive(member.id.toString());
-    console.log(`${member.name} has been revived!`);
+    console.log(`${name: member.name} has been revived!`);
   });
 
   printPartyStatus(party);
@@ -152,22 +152,22 @@ function runDemo(party: PartyManager, koHandler: KOHandler): void {
   console.log(`Combat Effectiveness: ${effectiveness.toFixed(1)}%`);
 
   const lowest = PartyUtils.findLowestHPMember(party);
-  if (lowest) {
-    console.log(`Lowest HP: ${lowest.name} (${((lowest.currentHP / lowest.maxHP) * 100).toFixed(1)}%)`);
+  if (lowest) 
+    console.log(`Lowest HP: ${name: lowest.name} (${((lowest.currentHP / lowest.maxHP) * 100).toFixed(1)}%)`);
   }
 
   const healable = PartyUtils.getHealableMembers(party);
-  console.log(`Members that can be healed: ${healable.length}`);
+  console.log(`Members that can be healed: $length: healable.length}`);
 
   const critical = PartyUtils.getCriticalMembers(party);
-  console.log(`Critical members: ${critical.length}`);
+  console.log(`Critical members: $length: critical.length}`);
 
   // Demonstrate sorting
   console.log('\n📋 Members by HP (ascending):');
   const sortedByHP = PartyUtils.getMembersByHP(party, true);
-  sortedByHP.forEach((member: any) => {
+  sortedByHP.forEach((member: any) => 
     const percent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
-    console.log(`  ${member.name}: ${percent}%`);
+    console.log(`  ${name: member.name}: ${percent}%`);
   });
 }
 
@@ -180,8 +180,8 @@ async function runCLI(): Promise<void> {
 
   console.log('🎮 PartyPure CLI - Type "help" for commands or "demo" to see party management in action\n');
 
-  const rl = readline.createInterface({
-    input: process.stdin,
+  const rl = readline.createInterface(
+    input: stdin: process.stdin,
     output: process.stdout,
     prompt: 'party> '
   });
@@ -358,10 +358,10 @@ async function runCLI(): Promise<void> {
       case 'summary':
         const summary = state.party.getStatusSummary();
         console.log('\n📊 Party Summary:');
-        console.log(`Members: ${summary.totalMembers}/${state.party.maxSize}`);
-        console.log(`Active: ${summary.activeMembers}`);
-        console.log(`KO: ${summary.koMembers}`);
-        console.log(`Total HP: ${summary.totalHP}/${summary.totalMaxHP}`);
+        console.log(`Members: $totalMembers: summary.totalMembers}/$state.maxSize: party.maxSize}`);
+        console.log(`Active: $activeMembers: summary.activeMembers}`);
+        console.log(`KO: $koMembers: summary.koMembers}`);
+        console.log(`Total HP: $totalHP: summary.totalHP}/$totalMaxHP: summary.totalMaxHP}`);
         console.log(`Average HP: ${summary.averageHPPercent.toFixed(1)}%`);
 
         const effectiveness = PartyUtils.calculateEffectiveness(state.party);
@@ -369,8 +369,8 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'select':
-        if (args.length === 0) {
-          console.log(`Current slot: ${state.selectedSlot}`);
+        if (args.length === 0) 
+          console.log(`Current slot: ${selectedSlot: state.selectedSlot}`);
         } else {
           const slot = parseInt(args[0]);
           if (isNaN(slot) || slot < 0 || slot >= state.party.maxSize) {

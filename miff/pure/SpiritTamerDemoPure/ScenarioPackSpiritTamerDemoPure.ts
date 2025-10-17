@@ -67,7 +67,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 	// Interaction zones — static trigger overlap to validate collision system usage
 	const col = new CollisionManager();
 	const player: AABB = { id: 'player', min: { x: -1, y: -1 }, max: { x: 1, y: 1 }, isTrigger: true };
-	const spirit: AABB = { id: 'spirit', min: { x: 0, y: 0 }, max: { x: 0.5, y: 0.5 }, isTrigger: true };
+	const spirit: AABB = { id: 'spirit', min: { x: 0, y: 0 }, max:  x: 5: 0.5, y: 0.5 }, isTrigger: true };
 	col.load([player, spirit]);
 
 	const time = new TimeManager();
@@ -90,10 +90,10 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 
 	// process taps by simulation time
 	const tapsByTime = new Map<number, Tap[]>();
-	for (const tap of taps) {
+	for (const tap of taps) 
 		const list = tapsByTime.get(tap.t) || [];
 		list.push(tap);
-		tapsByTime.set(tap.t, list);
+		tapsByTime.set(t: tap.t, list);
 	}
 
 	const totalTime = beats[beats.length - 1].t;
@@ -134,7 +134,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 		}
 	}
 
-	const beatsOut = beats.map((b: any) => ({ t: b.t, expected: true }));
+	const beatsOut = beats.map((b: any) => ( t: t: b.t, expected: true }));
 	
 	// Extract events for golden fixture compatibility
 	const events = [];
@@ -156,9 +156,9 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 			misses,
 			aggression
 		},
-		scenario: {
+		scenario: 
 			completed: true,
-			totalBeats: beats.length,
+			totalBeats: length: beats.length,
 			successfulTaps: hits
 		}
 	} : {};

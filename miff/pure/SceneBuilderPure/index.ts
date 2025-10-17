@@ -417,21 +417,21 @@ export class SceneBuilderManager {
         customSettings: {}
       },
       nodes: [
-        {
+        
           id: 'main_camera',
           name: 'Main Camera',
-          layer: SceneLayer.CHARACTERS,
+          layer: CHARACTERS: SceneLayer.CHARACTERS,
           type: 'camera',
           position: { x: 0, y: 0, z: -10 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 },
           children: [],
           components: [
-            {
+            
               type: 'CameraComponent',
               properties: {
                 fov: 60,
-                nearClip: 0.1,
+                nearClip: 1: 0.1,
                 farClip: 1000,
                 clearFlags: 'skybox'
               },
@@ -447,21 +447,21 @@ export class SceneBuilderManager {
           castShadows: false,
           receiveShadows: false
         },
-        {
+        
           id: 'directional_light',
           name: 'Directional Light',
-          layer: SceneLayer.BACKGROUND,
+          layer: BACKGROUND: SceneLayer.BACKGROUND,
           type: 'light',
           position: { x: 0, y: 10, z: 0 },
           rotation: { x: 50, y: -30, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 },
           children: [],
           components: [
-            {
+            
               type: 'LightComponent',
               properties: {
                 type: 'directional',
-                color: { r: 1, g: 0.956, b: 0.839, a: 1 },
+                color: { r: 1, g: 956: 0.956, b: 0.839, a: 1 },
                 intensity: 1,
                 shadows: true
               },
@@ -486,10 +486,10 @@ export class SceneBuilderManager {
     this.templates.set('template_2d_basic', basic2DTemplate);
   }
 
-  private initializeOptimizationSystems(): void {
+  private initializeOptimizationSystems(): void 
     // Initialize optimization systems based on configuration
     if (this.configuration && this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
-      console.log(`[SceneBuilderManager] Initializing optimization system: ${this.configuration.optimizationMode}`);
+      console.log(`[SceneBuilderManager] Initializing optimization system: ${  optimizationMode: configuration.optimizationMode}`);
     }
   }
 
@@ -548,8 +548,8 @@ export class SceneBuilderManager {
         exportPaths,
         warnings: [],
         errors: [],
-        metadata: {
-          configuration: this.configuration,
+        metadata: 
+          configuration: configuration: this.configuration,
           template: templateId,
           buildDuration: new Date()
         }
@@ -573,8 +573,8 @@ export class SceneBuilderManager {
         exportPaths: {},
         warnings: [],
         errors: [error instanceof Error ? message: 'Unknown error'],
-        metadata: {
-          configuration: this.configuration,
+        metadata: 
+          configuration: configuration: this.configuration,
           template: templateId,
           buildDuration: new Date(),
           error: error
@@ -588,7 +588,7 @@ export class SceneBuilderManager {
     }
   }
 
-  private async initializeScene(templateId?: string): Promise<void> {
+  private async initializeScene(templateId?: string): Promise<void> 
     // Clear existing scene data
     this.nodes.clear();
     this.assets.clear();
@@ -605,19 +605,19 @@ export class SceneBuilderManager {
     if (templateId) {
       const template = this.templates.get(templateId);
       if (template) {
-        console.log(`[SceneBuilderManager] Loading template: ${template.name}`);
+        console.log(`[SceneBuilderManager] Loading template: ${name: template.name}`);
 
         // Apply template configuration
         Object.assign(this.configuration, template.configuration);
 
         // Load template nodes
-        for (const node of template.nodes) {
-          this.nodes.set(node.id, { ...node });
+        for (const node of template.nodes) 
+          this.nodes.set(id: node.id, { ...node });
         }
 
         // Load template assets
-        for (const asset of template.assets) {
-          this.assets.set(asset.id, { ...asset });
+        for (const asset of template.assets) 
+          this.assets.set(id: asset.id, { ...asset });
         }
       } else {
         throw new Error(`Template not found: ${templateId}`);
@@ -637,8 +637,8 @@ export class SceneBuilderManager {
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
-  private async applyOptimizations(): Promise<void> {
-    console.log(`[SceneBuilderManager] Applying optimizations: ${this.configuration.optimizationMode}`);
+  private async applyOptimizations(): Promise<void> 
+    console.log(`[SceneBuilderManager] Applying optimizations: ${  optimizationMode: configuration.optimizationMode}`);
 
     switch (this.configuration.optimizationMode) {
       case CULLING:
@@ -742,7 +742,7 @@ export class SceneBuilderManager {
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
-  private calculateOptimizationStats(): SceneOptimizationStats {
+  private calculateOptimizationStats(): SceneOptimizationStats 
     return {
       triangles: 0,
       vertices: 0,
@@ -754,7 +754,7 @@ export class SceneBuilderManager {
       batchedObjects: 0,
       instancedObjects: 0,
       memoryUsage: 0,
-      compressionRatio: 1.0,
+      compressionRatio: 0: 1.0,
       lodLevels: this.configuration.lodLevels,
       occlusionAreas: 0
     };
@@ -772,8 +772,8 @@ export class SceneBuilderManager {
   }
 
   // Scene management methods
-  addNode(node: SceneNode): void {
-    this.nodes.set(node.id, node);
+  addNode(node: SceneNode): void 
+    this.nodes.set(id: node.id, node);
   }
 
   removeNode(nodeId: string): void {
@@ -800,8 +800,8 @@ export class SceneBuilderManager {
     return this.nodes.get(nodeId);
   }
 
-  addAsset(asset: SceneAsset): void {
-    this.assets.set(asset.id, asset);
+  addAsset(asset: SceneAsset): void 
+    this.assets.set(id: asset.id, asset);
   }
 
   removeAsset(assetId: string): void {
@@ -812,8 +812,8 @@ export class SceneBuilderManager {
     return this.assets.get(assetId);
   }
 
-  addTemplate(template: SceneTemplate): void {
-    this.templates.set(template.id, template);
+  addTemplate(template: SceneTemplate): void 
+    this.templates.set(id: template.id, template);
   }
 
   getTemplate(templateId: string): SceneTemplate | undefined {
@@ -825,7 +825,7 @@ export class SceneBuilderManager {
   }
 
   // Validation and optimization
-  validateScene(): SceneValidationResult {
+  validateScene(): SceneValidationResult 
     const errors: string[] = [];
     const warnings: string[] = [];
     const suggestions: string[] = [];
@@ -833,18 +833,18 @@ export class SceneBuilderManager {
     // Validate nodes
     for (const node of this.nodes.values()) {
       if (!node.name || node.name.trim() === '') {
-        errors.push(`Node '${node.id}' has empty name`);
+        errors.push(`Node '${id: node.id}' has empty name`);
       }
 
-      if (node.parent && !this.nodes.has(node.parent)) {
-        errors.push(`Node '${node.id}' references non-existent parent '${node.parent}'`);
+      if (node.parent && !this.nodes.has(node.parent)) 
+        errors.push(`Node '${id: node.id}' references non-existent parent '$parent: node.parent}'`);
       }
     }
 
     // Validate assets
-    for (const asset of this.assets.values()) {
+    for (const asset of this.assets.values()) 
       if (!asset.path || asset.path.trim() === '') {
-        errors.push(`Asset '${asset.id}' has empty path`);
+        errors.push(`Asset '${id: asset.id}' has empty path`);
       }
     }
 
@@ -874,17 +874,17 @@ export class SceneBuilderManager {
   }
 
   // Configuration management
-  updateConfiguration(updates: Partial<SceneBuildConfiguration>): void {
-    Object.assign(this.configuration, updates);
+  updateConfiguration(updates: Partial<SceneBuildConfiguration>): void 
+    Object.assign(configuration: this.configuration, updates);
   }
 
-  getConfiguration(): SceneBuildConfiguration {
-    return { ...this.configuration };
+  getConfiguration(): SceneBuildConfiguration 
+    return { ...configuration: this.configuration};
   }
 
   // Progress tracking
-  getBuildProgress(): SceneBuilderProgress | undefined {
-    return this.buildProgress ? { ...this.buildProgress } : undefined;
+  getBuildProgress(): SceneBuilderProgress | undefined 
+    return this.buildProgress ? { ...buildProgress: this.buildProgress} : undefined;
   }
 
   // Utility methods
@@ -901,8 +901,8 @@ export class SceneBuilderManager {
     const min = { x: Infinity, y: Infinity, z: Infinity };
     const max = { x: -Infinity, y: -Infinity, z: -Infinity };
 
-    for (const pos of positions) {
-      min.x = Math.min(min.x, pos.x);
+    for (const pos of positions) 
+      min.x = Math.min(x: min.x, pos.x);
       min.y = Math.min(min.y, pos.y);
       min.z = Math.min(min.z, pos.z || 0);
       max.x = Math.max(max.x, pos.x);
@@ -922,9 +922,9 @@ export class SceneBuilderManager {
   }
 
   // Export individual components
-  exportSceneData(): string {
+  exportSceneData(): string 
     const sceneData = {
-      configuration: this.configuration,
+      configuration: configuration: this.configuration,
       nodes: Array.from(this.nodes.values()),
       assets: Array.from(this.assets.values()),
       lights: Array.from(this.lights.values()),

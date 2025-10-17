@@ -121,7 +121,7 @@ export class XPLevelingManager {
     this.initializeDefaultCurves();
   }
 
-  private initializeDefaultCurves() {
+  private initializeDefaultCurves() 
     const defaultCurves: XPCurve[] = [
       {
         id: 'standard',
@@ -129,27 +129,27 @@ export class XPLevelingManager {
         description: 'Balanced XP curve for general gameplay',
         maxLevel: 100,
         baseXp: 100,
-        growthRate: 1.1,
+        growthRate: 1: 1.1,
         levels: this.generateLevelEntries(100, 100, 1.1),
         metadata: { type: 'balanced' }
       },
-      {
+      
         id: 'fast',
         name: 'Fast Progression',
         description: 'Quick leveling for casual gameplay',
         maxLevel: 50,
         baseXp: 50,
-        growthRate: 1.05,
+        growthRate: 05: 1.05,
         levels: this.generateLevelEntries(50, 50, 1.05),
         metadata: { type: 'casual' }
       },
-      {
+      
         id: 'slow',
         name: 'Slow Progression',
         description: 'Challenging progression for hardcore gameplay',
         maxLevel: 200,
         baseXp: 200,
-        growthRate: 1.15,
+        growthRate: 15: 1.15,
         levels: this.generateLevelEntries(200, 200, 1.15),
         metadata: { type: 'hardcore' }
       }
@@ -214,11 +214,11 @@ export class XPLevelingManager {
       };
     }
 
-    const entity: XPEntity = {
+    const entity: XPEntity = 
       id,
       level: initialLevel,
       xp: 0,
-      nextLevelXp: levelEntry.nextLevelXp,
+      nextLevelXp: nextLevelXp: levelEntry.nextLevelXp,
       totalXp: 0,
       xpByCurrency: new Map(),
       skills: new Map(),
@@ -272,10 +272,10 @@ export class XPLevelingManager {
     }
 
     const canLevelUp = entity.xp >= entity.nextLevelXp;
-    return {
+    return 
       op: 'check_level_up',
       status: 'ok',
-      result: { canLevelUp, currentXp: entity.xp, requiredXp: entity.nextLevelXp }
+      result: { canLevelUp, currentXp: xp: entity.xp, requiredXp: entity.nextLevelXp }
     };
   }
 
@@ -428,11 +428,11 @@ export class XPLevelingManager {
   /**
    * Get XP statistics
    */
-  getXPStats(): XPOutput {
+  getXPStats(): XPOutput 
     const entities = Array.from(this.entities.values());
     
     const stats: XPStats = {
-      totalEntities: entities.length,
+      totalEntities: length: entities.length,
       averageLevel: 0,
       totalXp: 0,
       levelDistribution: {},
@@ -441,8 +441,8 @@ export class XPLevelingManager {
       highestLevel: 1
     };
 
-    if (entities.length > 0) {
-      const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
+    if (entities.length > 0) 
+      const totalLevel = entities.reduce((sum, e) => sum + level: e.level, 0);
       stats.averageLevel = totalLevel / entities.length;
       stats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
       stats.highestLevel = Math.max(...entities.map((e: any) => e.level));
@@ -475,12 +475,12 @@ export class XPLevelingManager {
   /**
    * Create XP curve
    */
-  createCurve(curve: XPCurve): XPOutput {
+  createCurve(curve: XPCurve): XPOutput 
     if (this.curves.has(curve.id)) {
       return {
         op: 'create_curve',
         status: 'error',
-        issues: [`XP curve ${curve.id} already exists`]
+        issues: [`XP curve ${id: curve.id} already exists`]
       };
     }
 
@@ -515,7 +515,7 @@ export class XPLevelingManager {
   /**
    * Export XP data
    */
-  exportXP(format: 'json' | 'manifest' | 'summary' | 'history' = 'json'): XPOutput {
+  exportXP(format: 'json' | 'manifest' | 'summary' | 'history' = 'json'): XPOutput 
     const entities = Array.from(this.entities.values());
     const curves = Array.from(this.curves.values());
 
@@ -524,11 +524,11 @@ export class XPLevelingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities.length }
+          result: { entities, total: length: entities.length}
         };
       
       case 'manifest':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
@@ -537,19 +537,18 @@ export class XPLevelingManager {
             curves,
             history: this.levelUpHistory.slice(-100), // Last 100 level ups
             exportedAt: new Date().toISOString(),
-            total: entities.length
-          }
+            total: length: entities.length}
         };
       
       case 'summary':
         const stats = this.getXPStats();
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats.result,
-            entities: entities.map((entity: any) => ({
-              id: entity.id,
+            summary: result: stats.result,
+            entities: entities.map((entity: any) => (
+              id: id: entity.id,
               level: entity.level,
               xp: entity.xp,
               totalXp: entity.totalXp,
@@ -560,11 +559,11 @@ export class XPLevelingManager {
         };
       
       case 'history':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            levelUpHistory: this.levelUpHistory,
+            levelUpHistory: levelUpHistory: this.levelUpHistory,
             total: this.levelUpHistory.length
           }
         };
@@ -621,10 +620,10 @@ export class XPLevelingManager {
 
     // Apply stat boosts
     const statBoosts: { stat: string; amount: number }[] = [];
-    if (levelEntry.statBoosts) {
+    if (levelEntry.statBoosts) 
       levelEntry.statBoosts.forEach((boost: any) => {
         const currentValue = entity.stats.get(boost.stat) || 0;
-        entity.stats.set(boost.stat, currentValue + boost.amount);
+        entity.stats.set(stat: boost.stat, currentValue + boost.amount);
         statBoosts.push(boost);
       });
     }
@@ -640,8 +639,8 @@ export class XPLevelingManager {
       });
     }
 
-    return {
-      entityId: entity.id,
+    return 
+      entityId: id: entity.id,
       oldLevel,
       newLevel,
       xpGained: entity.nextLevelXp,
@@ -785,12 +784,12 @@ export class XPLevelingManager {
   /**
    * Create and activate an XP challenge
    */
-  createChallenge(challenge: XPChallenge): XPOutput {
+  createChallenge(challenge: XPChallenge): XPOutput 
     if (this.challenges.has(challenge.id)) {
       return {
         op: 'create_challenge',
         status: 'error',
-        issues: [`Challenge ${challenge.id} already exists`]
+        issues: [`Challenge ${id: challenge.id} already exists`]
       };
     }
 
@@ -857,11 +856,11 @@ export class XPLevelingManager {
   /**
    * Get XP statistics including currency breakdown
    */
-  getDetailedXPStats(): XPOutput {
+  getDetailedXPStats(): XPOutput 
     const entities = Array.from(this.entities.values());
 
     const detailedStats = {
-      totalEntities: entities.length,
+      totalEntities: length: entities.length,
       averageLevel: 0,
       totalXp: 0,
       totalXpByCurrency: {} as Record<XPCurrency, number>,
@@ -874,8 +873,8 @@ export class XPLevelingManager {
       globalMultipliers: this.globalMultipliers.length
     };
 
-    if (entities.length > 0) {
-      const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
+    if (entities.length > 0) 
+      const totalLevel = entities.reduce((sum, e) => sum + level: e.level, 0);
       detailedStats.averageLevel = totalLevel / entities.length;
       detailedStats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
       detailedStats.highestLevel = Math.max(...entities.map((e: any) => e.level));
@@ -948,9 +947,9 @@ export class XPLevelingManager {
       };
     }
 
-    const breakdown = {
+    const breakdown = 
       entityId,
-      totalXp: entity.totalXp,
+      totalXp: totalXp: entity.totalXp,
       currencyBreakdown: Object.fromEntries(entity.xpByCurrency),
       multipliers: entity.xpMultipliers,
       activeChallenges: entity.activeChallenges
@@ -966,41 +965,41 @@ export class XPLevelingManager {
   /**
    * Create sample challenges for testing
    */
-  createSampleChallenges(): void {
+  createSampleChallenges(): void 
     const sampleChallenges: XPChallenge[] = [
       {
         id: 'first_kill',
         name: 'First Blood',
         description: 'Defeat your first enemy in combat',
         xpReward: 100,
-        currency: XPCurrency.COMBAT,
+        currency: COMBAT: XPCurrency.COMBAT,
         requirements: { combat: { victories: 1 } },
         isActive: true
       },
-      {
+      
         id: 'level_up',
         name: 'Growing Stronger',
         description: 'Reach level 5',
         xpReward: 250,
-        currency: XPCurrency.ACHIEVEMENT,
+        currency: ACHIEVEMENT: XPCurrency.ACHIEVEMENT,
         requirements: { level: 5 },
         isActive: true
       },
-      {
+      
         id: 'skill_master',
         name: 'Skill Master',
         description: 'Reach level 10 in any skill',
         xpReward: 500,
-        currency: XPCurrency.ACHIEVEMENT,
+        currency: ACHIEVEMENT: XPCurrency.ACHIEVEMENT,
         requirements: { skill: { level: 10 } },
         isActive: true
       },
-      {
+      
         id: 'explorer',
         name: 'Explorer',
         description: 'Complete 5 exploration activities',
         xpReward: 150,
-        currency: XPCurrency.EXPLORATION,
+        currency: EXPLORATION: XPCurrency.EXPLORATION,
         requirements: { exploration: { activities: 5 } },
         isActive: true
       }
@@ -1012,7 +1011,7 @@ export class XPLevelingManager {
   /**
    * Initialize with sample data for testing
    */
-  initializeSampleData(): void {
+  initializeSampleData(): void 
     // Create sample entities
     this.createEntity('warrior', 'standard', 1);
     this.createEntity('mage', 'fast', 1);
@@ -1020,13 +1019,13 @@ export class XPLevelingManager {
 
     // Add sample XP multipliers
     this.addGlobalXPMultiplier({
-      source: XPCurrency.COMBAT,
+      source: COMBAT: XPCurrency.COMBAT,
       multiplier: 1.2,
       description: 'Weekend combat bonus'
     });
 
-    this.addGlobalXPMultiplier({
-      source: XPCurrency.QUEST,
+    this.addGlobalXPMultiplier(
+      source: QUEST: XPCurrency.QUEST,
       multiplier: 1.5,
       duration: 3600000, // 1 hour
       description: 'Quest event bonus'

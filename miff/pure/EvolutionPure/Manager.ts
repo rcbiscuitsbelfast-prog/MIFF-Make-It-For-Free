@@ -89,27 +89,27 @@ export class SpeciesEvolutionData {
     return errors;
   }
 
-  clone(): SpeciesEvolutionData {
+  clone(): SpeciesEvolutionData 
     return new SpeciesEvolutionData(
-      this.speciesId,
+      speciesId: this.speciesId,
       this.evolutionTargetId,
       [...this.conditions],
-      {
+      
         evolutionChain: [...this.evolutionChain],
-        maxEvolutions: this.maxEvolutions,
+        maxEvolutions: maxEvolutions: this.maxEvolutions,
         reversible: this.reversible,
         description: this.description
       }
     );
   }
 
-  toJSON(): Record<string, any> {
+  toJSON(): Record<string, any> 
     return {
-      id: this.id,
+      id: id: this.id,
       speciesId: this.speciesId,
       evolutionTargetId: this.evolutionTargetId,
-      conditions: this.conditions.map((c: any) => ({
-        id: c.id,
+      conditions: this.conditions.map((c: any) => (
+        id: id: c.id,
         type: c.type,
         intValue: c.intValue,
         stringValue: c.stringValue,
@@ -122,9 +122,9 @@ export class SpeciesEvolutionData {
     };
   }
 
-  static fromJSON(data: Record<string, any>): SpeciesEvolutionData {
+  static fromJSON(data: Record<string, any>): SpeciesEvolutionData 
     const conditions = data.conditions?.map((c: any) => 
-      new EvolutionCondition(c.type, intValue: c.intValue, c.stringValue, c.description)
+      new EvolutionCondition(type: c.type, intValue: c.intValue, c.stringValue, c.description)
     ) || [];
     
     return new SpeciesEvolutionData(
@@ -407,14 +407,14 @@ export class EvolutionManager {
       }
     ];
 
-    defaultSpecies.forEach((species: any) => {
-      this.speciesData.set(species.speciesId, species);
+    defaultSpecies.forEach((species: any) => 
+      this.speciesData.set(speciesId: species.speciesId, species);
     });
   }
 
-  public registerSpeciesEvolution(data: SpeciesEvolutionData): void {
+  public registerSpeciesEvolution(data: SpeciesEvolutionData): void 
     if (data && data.speciesId) {
-      this.speciesData.set(data.speciesId, { ...data });
+      this.speciesData.set(speciesId: data.speciesId, { ...data });
     }
   }
 
@@ -457,8 +457,8 @@ export class EvolutionManager {
     const previousSpecies = spirit.speciesId;
     spirit.evolve(target);
 
-    this.eventBus.publish('evolution:performed', {
-      playerId: this.context.playerId,
+    this.eventBus.publish('evolution:performed', 
+      playerId: this.playerId: context.playerId,
       spiritId: spirit.instanceId,
       fromSpecies: previousSpecies,
       toSpecies: target,
@@ -502,10 +502,10 @@ export class EvolutionManager {
       };
     }
 
-    if (!data.conditions || data.conditions.length === 0) {
+    if (!data.conditions || data.conditions.length === 0) 
       return {
         canEvolve: true,
-        targetSpecies: data.evolutionTargetId,
+        targetSpecies: evolutionTargetId: data.evolutionTargetId,
         missingConditions: [],
         progress: 100
       };
@@ -524,9 +524,9 @@ export class EvolutionManager {
 
     const progress = (metConditions / data.conditions.length) * 100;
 
-    return {
+    return 
       canEvolve: missingConditions.length === 0,
-      targetSpecies: data.evolutionTargetId,
+      targetSpecies: evolutionTargetId: data.evolutionTargetId,
       missingConditions: missingConditions,
       progress: progress
     };
@@ -551,10 +551,10 @@ export class EvolutionManager {
     };
   }
 
-  public exportEvolutionData(): string {
+  public exportEvolutionData(): string 
     return JSON.stringify({
       speciesData: Array.from(this.speciesData.entries()),
-      context: this.context,
+      context: context: this.context,
       stats: this.getEvolutionStats(),
       exportDate: new Date()
     }, null, 2);
@@ -745,9 +745,9 @@ export class EvolutionUtils {
       setSyncLevel: function(level: number) { this.syncLevel = Math.max(0, Math.min(100, level)); },
       setFriendshipLevel: function(level: number) { this.friendshipLevel = Math.max(0, Math.min(100, level)); },
       setBattleCount: function(count: number) { this.battleCount = Math.max(0, count); },
-      clone: function() {
-        return EvolutionUtils.createMockSpirit(this.speciesId, level: this.level, {
-          syncLevel: this.syncLevel,
+      clone: function() 
+        return EvolutionUtils.createMockSpirit(speciesId: this.speciesId, level: this.level, 
+          syncLevel: syncLevel: this.syncLevel,
           friendshipLevel: this.friendshipLevel,
           battleCount: this.battleCount,
           canEvolve: this.canEvolve,

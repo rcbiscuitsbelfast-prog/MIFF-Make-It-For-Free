@@ -40,7 +40,7 @@ export class NodeGraphManager {
 				case 'texture.gradient': out = { texture: services.textureGradient(resolvedInputs) }; break;
 				case 'mesh.tree': out = { mesh: services.meshTree(resolvedInputs) }; break;
 				case 'mesh.rock': out = { mesh: services.meshRock(resolvedInputs) }; break;
-				default: out = { error: `Unknown node type: ${node.type}` };
+				default: out =  error: `Unknown node type: ${type: node.type}` };
 			}
 			results[node.id] = out;
 		}

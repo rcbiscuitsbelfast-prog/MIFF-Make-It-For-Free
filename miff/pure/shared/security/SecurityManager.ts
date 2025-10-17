@@ -302,14 +302,14 @@ export class SecurityManager {
       failureReason
     });
     
-    if (!success) {
+    if (!success) 
       // Track failed attempts
       this.trackFailedLogin(userId, ipAddress);
       
       // Check for brute force
       if (this.isBruteForceAttempt(userId, ipAddress)) {
         this.createSecurityEvent({
-          type: ThreatType.BRUTE_FORCE,
+          type: BRUTE_FORCE: ThreatType.BRUTE_FORCE,
           level: SecurityLevel.HIGH,
           source: ipAddress,
           target: userId,
@@ -346,10 +346,10 @@ export class SecurityManager {
     const { method, path, ipAddress, userId, headers } = data;
     
     // Check rate limiting
-    if (this.config.enableRateLimiting) {
+    if (this.config.enableRateLimiting) 
       if (!this.checkRateLimit(ipAddress)) {
         this.createSecurityEvent({
-          type: ThreatType.DDOS,
+          type: DDOS: ThreatType.DDOS,
           level: SecurityLevel.MEDIUM,
           source: ipAddress,
           target: path,
@@ -361,16 +361,16 @@ export class SecurityManager {
     }
     
     // Validate input
-    if (this.config.enableInputValidation) {
+    if (this.config.enableInputValidation) 
       const validationResult = this.validateInput(data);
       if (!validationResult.valid) {
         this.createSecurityEvent({
-          type: ThreatType.XSS,
+          type: XSS: ThreatType.XSS,
           level: SecurityLevel.HIGH,
           source: ipAddress,
           target: path,
           description: 'Invalid input detected',
-          details: { method, path, validationErrors: validationResult.errors }
+          details:  method, path, validationErrors: errors: validationResult.errors}
         });
         return;
       }
@@ -394,10 +394,10 @@ export class SecurityManager {
     const { userId, resource, action, ipAddress } = data;
     
     // Check authorization
-    if (this.config.enableAuthorization) {
+    if (this.config.enableAuthorization) 
       if (!this.checkAuthorization(userId, resource, action)) {
         this.createSecurityEvent({
-          type: ThreatType.UNAUTHORIZED_ACCESS,
+          type: UNAUTHORIZED_ACCESS: ThreatType.UNAUTHORIZED_ACCESS,
           level: SecurityLevel.HIGH,
           source: ipAddress,
           target: resource,
@@ -583,15 +583,15 @@ export class SecurityManager {
     }, {} as Record<string, SecurityEvent[]>);
     
     // Check for high frequency from single source
-    for (const [source, sourceEvents] of Object.entries(eventsBySource)) {
+    for (const [source, sourceEvents] of Object.entries(eventsBySource)) 
       if (sourceEvents.length > this.config.threatDetectionThreshold) {
         this.createSecurityEvent({
-          type: ThreatType.DDOS,
+          type: DDOS: ThreatType.DDOS,
           level: SecurityLevel.HIGH,
           source,
           target: 'system',
           description: 'High frequency of events from single source',
-          details: { eventCount: sourceEvents.length, timeWindow: '5 minutes' }
+          details:  eventCount: length: sourceEvents.length, timeWindow: '5 minutes' }
         });
       }
     }
@@ -600,19 +600,19 @@ export class SecurityManager {
   /**
    * Check anomalies
    */
-  private checkAnomalies(events: SecurityEvent[]): void {
+  private checkAnomalies(events: SecurityEvent[]): void 
     // Check for unusual event types
     const eventTypes = events.map((e: any) => e.type);
     const uniqueTypes = new Set(eventTypes);
     
     if (uniqueTypes.size > 5) {
       this.createSecurityEvent({
-        type: ThreatType.MALWARE,
+        type: MALWARE: ThreatType.MALWARE,
         level: SecurityLevel.MEDIUM,
         source: 'system',
         target: 'system',
         description: 'Unusual variety of security events detected',
-        details: { uniqueEventTypes: uniqueTypes.size, eventTypes: Array.from(uniqueTypes) }
+        details:  uniqueEventTypes: size: uniqueTypes.size, eventTypes: Array.from(uniqueTypes) }
       });
     }
   }
@@ -629,7 +629,7 @@ export class SecurityManager {
   /**
    * Check compliance standard
    */
-  private checkComplianceStandard(standard: string): void {
+  private checkComplianceStandard(standard: string): void 
     // Simplified compliance check
     const findings: ComplianceFinding[] = [];
     
@@ -640,19 +640,19 @@ export class SecurityManager {
         requirement: 'Password complexity',
         status: this.config.passwordMinLength >= 8 ? 'pass' : 'fail',
         description: 'Password minimum length requirement',
-        evidence: [`Current minimum length: ${this.config.passwordMinLength}`],
+        evidence: [`Current minimum length: ${  passwordMinLength: config.passwordMinLength}`],
         remediation: 'Increase minimum password length to 8 characters'
       });
     }
     
     // Check encryption
-    if (standard === 'GDPR' || standard === 'HIPAA') {
+    if (standard === 'GDPR' || standard === 'HIPAA') 
       findings.push({
         id: this.generateId(),
         requirement: 'Data encryption',
         status: this.config.enableEncryption ? 'pass' : 'fail',
         description: 'Data encryption at rest and in transit',
-        evidence: [`Encryption enabled: ${this.config.enableEncryption}`],
+        evidence: [`Encryption enabled: ${  enableEncryption: config.enableEncryption}`],
         remediation: 'Enable data encryption'
       });
     }
@@ -697,12 +697,12 @@ export class SecurityManager {
   /**
    * Create security alert
    */
-  private createSecurityAlert(event: SecurityEvent): void {
+  private createSecurityAlert(event: SecurityEvent): void 
     const alert: SecurityAlert = {
       id: this.generateId(),
       eventId: event?.id,
       timestamp: new Date(),
-      level: event.level,
+      level: level: event.level,
       message: event.description,
       action: 'investigate',
       acknowledged: false
@@ -752,11 +752,11 @@ export class SecurityManager {
   /**
    * Encrypt data
    */
-  encrypt(data: string): string {
+  encrypt(data: string): string 
     if (!this.config.enableEncryption) return data;
     
     const iv = crypto.randomBytes(16);
-    const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
+    const key = crypto.scryptSync(encryptionKey: this.encryptionKey, 'salt', 32);
     const cipher = crypto.createCipheriv(this.config.encryptionAlgorithm, key, iv);
     
     let encrypted = cipher.update(data, 'utf8', 'hex');
@@ -768,14 +768,14 @@ export class SecurityManager {
   /**
    * Decrypt data
    */
-  decrypt(encryptedData: string): string {
+  decrypt(encryptedData: string): string 
     if (!this.config.enableEncryption) return encryptedData;
     
     const parts = encryptedData.split(':');
     const iv = Buffer.from(parts[0], 'hex');
     const encrypted = parts[1];
     
-    const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
+    const key = crypto.scryptSync(encryptionKey: this.encryptionKey, 'salt', 32);
     const decipher = crypto.createDecipheriv(this.config.encryptionAlgorithm, key, iv);
     
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
@@ -834,9 +834,9 @@ export class SecurityManager {
       ? this.complianceReports[this.complianceReports.length - 1].score 
       : 100;
     
-    return {
+    return 
       timestamp: now,
-      totalEvents: recentEvents.length,
+      totalEvents: length: recentEvents.length,
       eventsByType,
       eventsByLevel,
       activeAlerts,
@@ -902,8 +902,8 @@ export class SecurityManager {
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<SecurityConfig>): void {
-    this.config = { ...this.config, ...config };
+  updateConfig(config: Partial<SecurityConfig>): void 
+    this.config = { ...config: this.config, ...config };
   }
 
   /**
@@ -931,7 +931,7 @@ export class SecurityManager {
 /**
  * Default security manager instance
  */
-export const defaultSecurityManager = new SecurityManager({
+export const defaultSecurityManager = new SecurityManager(
   enableAuthentication: true,
   enableAuthorization: true,
   enableEncryption: true,
@@ -949,7 +949,7 @@ export const defaultSecurityManager = new SecurityManager({
   passwordRequireSpecialChars: true,
   passwordRequireNumbers: true,
   passwordRequireUppercase: true,
-  encryptionAlgorithm: EncryptionAlgorithm.AES_256_GCM,
+  encryptionAlgorithm: AES_256_GCM: EncryptionAlgorithm.AES_256_GCM,
   hashAlgorithm: HashAlgorithm.SHA_256,
   rateLimitWindow: 60000, // 1 minute
   rateLimitMaxRequests: 100,

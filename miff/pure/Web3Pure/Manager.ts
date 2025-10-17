@@ -821,15 +821,15 @@ export class Web3Pure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): Web3PerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): Web3PerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): Web3Analytics {
-    return { ...this.analytics };
+  getAnalytics(): Web3Analytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

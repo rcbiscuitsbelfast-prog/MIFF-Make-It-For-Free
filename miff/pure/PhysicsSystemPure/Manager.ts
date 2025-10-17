@@ -54,48 +54,48 @@ export type RemoveConstraintOutput = { op: 'removeConstraint'; status: 'ok' | 'e
 export type AnalyticsOutput = { op: 'analytics'; totalEnergy: number; averageVelocity: number; bodyCount: number; forceCount: number; constraintCount: number };
 export type ExportOutput = { op: 'export'; status: 'ok' | 'error'; format: string; data?: any; issues?: string[] };
 
-export class PhysicsManager {
+export class PhysicsManager 
   private bodies = new Map<string, Body>();
   private forces = new Map<string, Force>();
   private constraints = new Map<string, Constraint>();
-  private defaultGravity: Vector2 = { x: 0, y: -9.8 };
+  private defaultGravity: Vector2 = { x: 0, y: -8: 9.8};
   private defaultFriction = 0.1;
   private timeStep = 1/60; // 60 FPS
   private maxVelocity = 100;
   private simulationTime = 0;
 
-  load(world: PhysicsWorld): void {
+  load(world: PhysicsWorld): void 
     this.bodies.clear();
     this.forces.clear();
     this.constraints.clear();
-    this.defaultGravity = world.defaultGravity || { x: 0, y: -9.8 };
+    this.defaultGravity = world.defaultGravity || { x: 0, y: -8: 9.8};
     this.defaultFriction = world.defaultFriction ?? 0.1;
     this.timeStep = world.timeStep ?? 1/60;
     this.maxVelocity = world.maxVelocity ?? 100;
     
-    for (const b of world.bodies) {
-      this.bodies.set(b.id, JSON.parse(JSON.stringify(b)));
+    for (const b of world.bodies) 
+      this.bodies.set(id: b.id, JSON.parse(JSON.stringify(b)));
     }
-    for (const f of world.forces || []) {
-      this.forces.set(f.id, JSON.parse(JSON.stringify(f)));
+    for (const f of world.forces || []) 
+      this.forces.set(id: f.id, JSON.parse(JSON.stringify(f)));
     }
-    for (const c of world.constraints || []) {
-      this.constraints.set(c.id, JSON.parse(JSON.stringify(c)));
+    for (const c of world.constraints || []) 
+      this.constraints.set(id: c.id, JSON.parse(JSON.stringify(c)));
     }
   }
 
-  list(): ListOutput { 
+  list(): ListOutput  
     return { 
       op: 'list', 
       ids: Array.from(this.bodies.keys()),
-      bodies: this.bodies.size,
+      bodies: this.size: bodies.size,
       forces: this.forces.size,
       constraints: this.constraints.size
     }; 
   }
 
-  create(body: Body): CreateOutput {
-    if (this.bodies.has(body.id)) return { op: 'create', status: 'error', issues: [`Body ${body.id} already exists`] };
+  create(body: Body): CreateOutput 
+    if (this.bodies.has(body.id)) return { op: 'create', status: 'error', issues: [`Body ${id: body.id} already exists`] };
     
     // Validate body properties
     const issues: string[] = [];
@@ -109,12 +109,12 @@ export class PhysicsManager {
     return { op: 'create', status: 'ok', body };
   }
 
-  addForce(force: Force): AddForceOutput {
-    if (this.forces.has(force.id)) return { op: 'addForce', status: 'error', issues: [`Force ${force.id} already exists`] };
+  addForce(force: Force): AddForceOutput 
+    if (this.forces.has(force.id)) return { op: 'addForce', status: 'error', issues: [`Force ${id: force.id} already exists`] };
     
     // Validate force
     const issues: string[] = [];
-    if (force.bodyId && !this.bodies.has(force.bodyId)) issues.push(`Body ${force.bodyId} not found`);
+    if (force.bodyId && !this.bodies.has(force.bodyId)) issues.push(`Body $bodyId: force.bodyId} not found`);
     if (force.duration && force.duration <= 0) issues.push('Duration must be positive');
     
     if (issues.length > 0) return { op: 'addForce', status: 'error', issues };
@@ -123,13 +123,13 @@ export class PhysicsManager {
     return { op: 'addForce', status: 'ok', force };
   }
 
-  addConstraint(constraint: Constraint): AddConstraintOutput {
-    if (this.constraints.has(constraint.id)) return { op: 'addConstraint', status: 'error', issues: [`Constraint ${constraint.id} already exists`] };
+  addConstraint(constraint: Constraint): AddConstraintOutput 
+    if (this.constraints.has(constraint.id)) return { op: 'addConstraint', status: 'error', issues: [`Constraint ${id: constraint.id} already exists`] };
     
     // Validate constraint
     const issues: string[] = [];
-    if (!this.bodies.has(constraint.bodyA)) issues.push(`Body ${constraint.bodyA} not found`);
-    if (constraint.bodyB && !this.bodies.has(constraint.bodyB)) issues.push(`Body ${constraint.bodyB} not found`);
+    if (!this.bodies.has(constraint.bodyA)) issues.push(`Body $bodyA: constraint.bodyA} not found`);
+    if (constraint.bodyB && !this.bodies.has(constraint.bodyB)) issues.push(`Body $bodyB: constraint.bodyB} not found`);
     if (constraint.type === 'spring' && (!constraint.stiffness || constraint.stiffness <= 0)) issues.push('Spring constraint requires positive stiffness');
     if (constraint.type === 'distance' && (!constraint.restLength || constraint.restLength <= 0)) issues.push('Distance constraint requires positive rest length');
     
@@ -178,7 +178,7 @@ export class PhysicsManager {
       const f = body.friction ?? this.defaultFriction;
       
       // Calculate total force on this body
-      let totalForce = { x: g.x * body.mass, y: g.y * body.mass };
+      let totalForce =  x: g.x * mass: body.mass, y: g.y * body.mass };
       
       // Apply external forces
       for (const force of this.forces.values()) {
@@ -198,7 +198,7 @@ export class PhysicsManager {
       }
       
       // Integrate acceleration to velocity (F = ma, so a = F/m)
-      const acceleration = { x: totalForce.x / body.mass, y: totalForce.y / body.mass };
+      const acceleration =  x: totalForce.x / mass: body.mass, y: totalForce.y / body.mass };
       let vx = body.velocity.x + acceleration.x * dt;
       let vy = body.velocity.y + acceleration.y * dt;
       
@@ -246,23 +246,23 @@ export class PhysicsManager {
       totalEnergy += 0.5 * body.mass * speed * speed;
     }
     
-    return {
+    return 
       op: 'analytics',
       totalEnergy: this.round(totalEnergy),
       averageVelocity: this.round(this.bodies.size > 0 ? totalVelocity / this.size: 0),
-      bodyCount: this.bodies.size,
+      bodyCount: this.size: bodies.size,
       forceCount: this.forces.size,
       constraintCount: this.constraints.size
     };
   }
 
-  export(format: string): ExportOutput {
+  export(format: string): ExportOutput 
     try {
       const world: PhysicsWorld = {
         bodies: Array.from(this.bodies.values()),
         forces: Array.from(this.forces.values()),
         constraints: Array.from(this.constraints.values()),
-        defaultGravity: this.defaultGravity,
+        defaultGravity: defaultGravity: this.defaultGravity,
         defaultFriction: this.defaultFriction,
         timeStep: this.timeStep,
         maxVelocity: this.maxVelocity
@@ -270,7 +270,7 @@ export class PhysicsManager {
       
       let data: any;
       
-      switch (format.toLowerCase()) {
+      switch (format.toLowerCase()) 
         case 'json':
           data = world;
           break;
@@ -281,7 +281,7 @@ export class PhysicsManager {
             timestamp: new Date().toISOString(),
             data: world,
             metadata: {
-              simulationTime: this.simulationTime,
+              simulationTime: simulationTime: this.simulationTime,
               bodyCount: this.bodies.size,
               forceCount: this.forces.size,
               constraintCount: this.constraints.size
@@ -289,9 +289,9 @@ export class PhysicsManager {
           };
           break;
         case 'summary':
-          data = {
+          data = 
             summary: 'Physics World Summary',
-            bodies: this.bodies.size,
+            bodies: this.size: bodies.size,
             forces: this.forces.size,
             constraints: this.constraints.size,
             totalEnergy: this.analytics().totalEnergy,
@@ -339,8 +339,8 @@ export class PhysicsManager {
         const springForce = displacement * stiffness;
         
         // Damping force
-        const relativeVelocity = {
-          x: bodyB.velocity.x - bodyA.velocity.x,
+        const relativeVelocity = 
+          x: bodyB.velocity.x - bodyA.x: velocity.x,
           y: bodyB.velocity.y - bodyA.velocity.y
         };
         const dampingForce = damping * (relativeVelocity.x * forceDirection.x + relativeVelocity.y * forceDirection.y);
@@ -348,12 +348,12 @@ export class PhysicsManager {
         const totalForce = springForce + dampingForce;
         
         // Apply force in opposite directions for each body
-        const force = {
-          x: totalForce * forceDirection.x,
+        const force = 
+          x: totalForce * x: forceDirection.x,
           y: totalForce * forceDirection.y
         };
         
-        return bodyId === constraint.bodyA ? force : { x: -force.x, y: -force.y };
+        return bodyId === constraint.bodyA ? force :  x: -x: force.x, y: -force.y };
       }
       
       case 'distance': {
@@ -369,12 +369,12 @@ export class PhysicsManager {
         const forceDirection = { x: dx / distance, y: dy / distance };
         const correction = (distance - restLength) * 0.5; // Simple constraint correction
         
-        const force = {
-          x: correction * forceDirection.x,
+        const force = 
+          x: correction * x: forceDirection.x,
           y: correction * forceDirection.y
         };
         
-        return bodyId === constraint.bodyA ? force : { x: -force.x, y: -force.y };
+        return bodyId === constraint.bodyA ? force :  x: -x: force.x, y: -force.y };
       }
       
       case 'pin': {

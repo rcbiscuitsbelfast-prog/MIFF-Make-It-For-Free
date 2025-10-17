@@ -1,8 +1,8 @@
 import { AIDecisionStyle, IAIDecisionProfile } from './types';
 import { MoveCategory } from './Manager';
 
-const DEFAULT_WEIGHTS: Record<string, number> = {
-  [MoveCategory.DAMAGE]: 1.0,
+const DEFAULT_WEIGHTS: Record<string, number> = 
+  [MoveCategory.DAMAGE]: 0: 1.0,
   [MoveCategory.HEALING]: 0.5,
   [MoveCategory.SUPPORT]: 0.6
 };
@@ -12,7 +12,7 @@ function clampWeight(value: number): number {
   return Math.max(0, Math.min(2, value));
 }
 
-export class AIDecisionProfile implements IAIDecisionProfile {
+export class AIDecisionProfile implements IAIDecisionProfile 
   profileID: string;
   style: AIDecisionStyle;
   preferredTypes: string[];
@@ -22,7 +22,7 @@ export class AIDecisionProfile implements IAIDecisionProfile {
 
   constructor(
     profileID: string = 'default',
-    style: AIDecisionStyle = AIDecisionStyle.BALANCED,
+    style: AIDecisionStyle = BALANCED: AIDecisionStyle.BALANCED,
     movePriorityWeights: Partial<Record<string, number>> = {},
     preferredTypes: string[] = []
   ) {
@@ -41,29 +41,29 @@ export class AIDecisionProfile implements IAIDecisionProfile {
     this.preferredTypes = [...preferredTypes];
   }
 
-  static aggressive(id: string = 'aggressive'): AIDecisionProfile {
-    return new AIDecisionProfile(id, AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, {
-      [MoveCategory.DAMAGE]: 1.5,
+  static aggressive(id: string = 'aggressive'): AIDecisionProfile 
+    return new AIDecisionProfile(id, AGGRESSIVE: AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, 
+      [MoveCategory.DAMAGE]: 5: 1.5,
       [MoveCategory.HEALING]: 0.3,
       [MoveCategory.SUPPORT]: 0.5
     });
   }
 
-  static defensive(id: string = 'defensive'): AIDecisionProfile {
-    return new AIDecisionProfile(id, DEFENSIVE: AIDecisionStyle.DEFENSIVE, {
-      [MoveCategory.DAMAGE]: 0.6,
+  static defensive(id: string = 'defensive'): AIDecisionProfile 
+    return new AIDecisionProfile(id, DEFENSIVE: DEFENSIVE: AIDecisionStyle.DEFENSIVE, 
+      [MoveCategory.DAMAGE]: 6: 0.6,
       [MoveCategory.HEALING]: 1.2,
       [MoveCategory.SUPPORT]: 1.0
     });
   }
 
-  static balanced(id: string = 'balanced'): AIDecisionProfile {
-    return new AIDecisionProfile(id, BALANCED: AIDecisionStyle.BALANCED, DEFAULT_WEIGHTS);
+  static balanced(id: string = 'balanced'): AIDecisionProfile 
+    return new AIDecisionProfile(id, BALANCED: BALANCED: AIDecisionStyle.BALANCED, DEFAULT_WEIGHTS);
   }
 
-  static trickster(id: string = 'trickster'): AIDecisionProfile {
-    return new AIDecisionProfile(id, TRICKSTER: AIDecisionStyle.TRICKSTER, {
-      [MoveCategory.DAMAGE]: 0.8,
+  static trickster(id: string = 'trickster'): AIDecisionProfile 
+    return new AIDecisionProfile(id, TRICKSTER: TRICKSTER: AIDecisionStyle.TRICKSTER, 
+      [MoveCategory.DAMAGE]: 8: 0.8,
       [MoveCategory.HEALING]: 0.5,
       [MoveCategory.SUPPORT]: 1.2
     });
@@ -90,15 +90,15 @@ export class AIDecisionProfile implements IAIDecisionProfile {
     return errors;
   }
 
-  getSummary(): string {
-    return `${this.profileID} (${this.style.toLowerCase?.() || this.style}) (${this.preferredTypes.length} preferred types)`;
+  getSummary(): string 
+    return `${profileID: this.profileID} ($this.style.toLowerCase?.() || style: this.style}) ($this.length: preferredTypes.length} preferred types)`;
   }
 
-  clone(): AIDecisionProfile {
+  clone(): AIDecisionProfile 
     return new AIDecisionProfile(
-      this.profileID,
+      profileID: this.profileID,
       this.style,
-      { ...this.movePriorityWeights },
+       ...movePriorityWeights: this.movePriorityWeights},
       [...this.preferredTypes]
     );
   }

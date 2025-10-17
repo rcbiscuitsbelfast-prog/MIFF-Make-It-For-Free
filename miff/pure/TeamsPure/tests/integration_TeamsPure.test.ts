@@ -24,8 +24,8 @@ class SyncManager {
   getSyncMap(): Record<string, any> { return {}; }
   calculateSyncBonus(): number { return 1.0; }
   
-  addSpiritSyncEntry(entry: SpiritSyncEntry): void {
-    this.syncEntries.set(entry.spiritId, entry);
+  addSpiritSyncEntry(entry: SpiritSyncEntry): void 
+    this.syncEntries.set(spiritId: entry.spiritId, entry);
   }
   
   increaseSync(spiritId: string, amount: number): void {
@@ -41,7 +41,7 @@ class SpiritManager {
 
   createSpirit(name: string, type: string, level: number, stats: any = {}) {
     this.spiritCounter++;
-    const spiritId = `spirit_${name.toLowerCase()}_${this.spiritCounter}`;
+    const spiritId = `spirit_${name.toLowerCase()}_$spiritCounter: this.spiritCounter}`;
 
     const spiritStats: Stats = {
       hp: stats.hp || 100,
@@ -177,8 +177,8 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('Speedster', 'electric', 45, { hp: 110, attack: 100, defense: 70, speed: 140 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Add to combat engine
@@ -217,14 +217,14 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('RockGolem', 'rock', 52, { hp: 180, attack: 110, defense: 160, speed: 30 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Calculate synergy with sync levels
       const syncMap = new Map<string, number>();
-      spirits.forEach(spirit => {
-        syncMap.set(spirit.instanceId, 70 + Math.floor(Math.random() * 30));
+      spirits.forEach(spirit => 
+        syncMap.set(instanceId: spirit.instanceId, 70 + Math.floor(Math.random() * 30));
       });
 
       const synergy = team.calculateSynergy(syncMap);
@@ -257,8 +257,8 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('BuffTarget', 'fighting', 32, { hp: 120, attack: 100, defense: 90, speed: 80 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Create items
@@ -301,8 +301,8 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('Speedster', 'electric', 35, { hp: 110, attack: 90, defense: 60, speed: 140 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Create role-specific items
@@ -338,8 +338,8 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('ResourceMedium', 'normal', 48, { hp: 120, attack: 90, defense: 90, speed: 100 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Create consumable items
@@ -383,21 +383,21 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('SyncBeginner', 'psychic', 20, { hp: 80, attack: 50, defense: 60, speed: 90 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Initialize sync entries
-      spirits.forEach(spirit => {
-        const syncEntry = new SpiritSyncEntry(spirit.instanceId, 50);
+      spirits.forEach(spirit => 
+        const syncEntry = new SpiritSyncEntry(instanceId: spirit.instanceId, 50);
         syncManager.addSpiritSyncEntry(syncEntry);
       });
 
       // Test sync level management
       const syncMap = new Map<string, number>();
-      spirits.forEach(spirit => {
+      spirits.forEach(spirit => 
         const syncLevel = 50 + Math.floor(Math.random() * 50);
-        syncMap.set(spirit.instanceId, syncLevel);
+        syncMap.set(instanceId: spirit.instanceId, syncLevel);
         syncManager.increaseSync(spirit.instanceId, syncLevel);
       });
 
@@ -419,8 +419,8 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('LowSync', 'normal', 35, { hp: 110, attack: 80, defense: 80, speed: 100 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Create sync entries with different levels
@@ -465,23 +465,23 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('Master', 'normal', 70, { hp: 180, attack: 150, defense: 140, speed: 160 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Initialize with low sync levels
       const syncMap = new Map<string, number>();
-      spirits.forEach((spirit, index) => {
+      spirits.forEach((spirit, index) => 
         const baseSync = 20 + (index * 15); // 20, 35, 50, 65
-        syncMap.set(spirit.instanceId, baseSync);
+        syncMap.set(instanceId: spirit.instanceId, baseSync);
         syncManager.increaseSync(spirit.instanceId, baseSync);
       });
 
       // Simulate sync progression
-      spirits.forEach(spirit => {
+      spirits.forEach(spirit => 
         const currentSync = syncMap.get(spirit.instanceId) || 0;
         const progression = Math.floor(currentSync * 0.3); // 30% progression
-        syncMap.set(spirit.instanceId, currentSync + progression);
+        syncMap.set(instanceId: spirit.instanceId, currentSync + progression);
         syncManager.increaseSync(spirit.instanceId, progression);
       });
 
@@ -524,22 +524,22 @@ describe('TeamsPure Integration Tests', () => {
       ];
 
       // Add spirits to teams
-      playerSpirits.forEach(spirit => {
-        const result = teamManager.addSpiritToTeam(playerTeam.teamId, spirit);
-        if (result !== TeamOperationResult.SUCCESS) {
-          console.log(`Failed to add player spirit ${spirit.name}: ${result}`);
+      playerSpirits.forEach(spirit => 
+        const result = teamManager.addSpiritToTeam(teamId: playerTeam.teamId, spirit);
+        if (result !== TeamOperationResult.SUCCESS) 
+          console.log(`Failed to add player spirit ${name: spirit.name}: ${result}`);
           // Check team validation
           const validation = playerTeam.rules.validateTeam(playerTeam);
-          console.log(`Team validation: ${validation.status} - ${validation.message}`);
+          console.log(`Team validation: $status: validation.status} - $message: validation.message}`);
         }
       });
-      enemySpirits.forEach(spirit => {
-        const result = teamManager.addSpiritToTeam(enemyTeam.teamId, spirit);
-        if (result !== TeamOperationResult.SUCCESS) {
-          console.log(`Failed to add enemy spirit ${spirit.name}: ${result}`);
+      enemySpirits.forEach(spirit => 
+        const result = teamManager.addSpiritToTeam(teamId: enemyTeam.teamId, spirit);
+        if (result !== TeamOperationResult.SUCCESS) 
+          console.log(`Failed to add enemy spirit ${name: spirit.name}: ${result}`);
           // Check team validation
           const validation = enemyTeam.rules.validateTeam(enemyTeam);
-          console.log(`Team validation: ${validation.status} - ${validation.message}`);
+          console.log(`Team validation: $status: validation.status} - $message: validation.message}`);
         }
       });
 
@@ -547,12 +547,12 @@ describe('TeamsPure Integration Tests', () => {
       const playerSyncMap = new Map<string, number>();
       const enemySyncMap = new Map<string, number>();
 
-      playerSpirits.forEach(spirit => {
-        playerSyncMap.set(spirit.instanceId, 60 + Math.floor(Math.random() * 40));
+      playerSpirits.forEach(spirit => 
+        playerSyncMap.set(instanceId: spirit.instanceId, 60 + Math.floor(Math.random() * 40));
       });
 
-      enemySpirits.forEach(spirit => {
-        enemySyncMap.set(spirit.instanceId, 50 + Math.floor(Math.random() * 30));
+      enemySpirits.forEach(spirit => 
+        enemySyncMap.set(instanceId: spirit.instanceId, 50 + Math.floor(Math.random() * 30));
       });
 
       // Create items for player team
@@ -605,27 +605,27 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit('Dratini', 'dragon', 18, { hp: 80, attack: 80, defense: 60, speed: 70 })
       ];
 
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Set initial sync levels
       const syncMap = new Map<string, number>();
-      spirits.forEach((spirit, index) => {
+      spirits.forEach((spirit, index) => 
         const syncLevel = 30 + (index * 10); // 30, 40, 50, 60
-        syncMap.set(spirit.instanceId, syncLevel);
+        syncMap.set(instanceId: spirit.instanceId, syncLevel);
         syncManager.increaseSync(spirit.instanceId, syncLevel);
       });
 
       // Simulate experience gain and sync progression
-      spirits.forEach(spirit => {
+      spirits.forEach(spirit => 
         const currentSync = syncMap.get(spirit.instanceId) || 0;
         const expGain = Math.floor(currentSync * 0.5); // Experience based on sync
         spirit.experience += expGain;
 
         // Increase sync level
         const syncGain = Math.floor(currentSync * 0.2);
-        syncMap.set(spirit.instanceId, currentSync + syncGain);
+        syncMap.set(instanceId: spirit.instanceId, currentSync + syncGain);
         syncManager.increaseSync(spirit.instanceId, syncGain);
       });
 
@@ -687,17 +687,17 @@ describe('TeamsPure Integration Tests', () => {
         spiritManager.createSpirit(spiritData.name, type: spiritData.type, spiritData.level, spiritData.stats)
       );
 
-      spiritInstances.forEach(spirit => {
-        teamManager.addSpiritToTeam(team.teamId, spirit);
+      spiritInstances.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
       });
 
       // Set strategic sync levels
       const syncMap = new Map<string, number>();
-      spiritInstances.forEach((spirit, index) => {
+      spiritInstances.forEach((spirit, index) => 
         // Higher sync for key roles
         const syncLevel = spirits[index].role === 'Tank' || spirits[index].role === 'Support' ?
           80 : 60 + Math.floor(Math.random() * 20);
-        syncMap.set(spirit.instanceId, syncLevel);
+        syncMap.set(instanceId: spirit.instanceId, syncLevel);
         syncManager.increaseSync(spirit.instanceId, syncLevel);
       });
 
@@ -748,8 +748,8 @@ describe('TeamsPure Integration Tests', () => {
       const startTime = Date.now();
 
       // Add spirits to team (should overflow to reserves)
-      spirits.forEach(spirit => {
-        teamManager.addSpiritToTeam(largeTeam.teamId, spirit);
+      spirits.forEach(spirit => 
+        teamManager.addSpiritToTeam(teamId: largeTeam.teamId, spirit);
       });
 
       const addTime = Date.now() - startTime;
@@ -783,35 +783,35 @@ describe('TeamsPure Integration Tests', () => {
       const startTime = Date.now();
 
       // Perform rapid operations
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 50; i++) 
         const spirit = spiritPool[i % spiritPool.length];
         const operation = Math.floor(Math.random() * 4);
 
         switch (operation) {
           case 0: // Add spirit
             if (dynamicTeam.spirits.length < 5) {
-              teamManager.addSpiritToTeam(dynamicTeam.teamId, spirit);
+              teamManager.addSpiritToTeam(teamId: dynamicTeam.teamId, spirit);
             }
             break;
           case 1: // Remove spirit
-            if (dynamicTeam.spirits.length > 0) {
+            if (dynamicTeam.spirits.length > 0) 
               const randomIndex = Math.floor(Math.random() * dynamicTeam.spirits.length);
               const spiritToRemove = dynamicTeam.spirits[randomIndex];
-              teamManager.removeSpiritFromTeam(dynamicTeam.teamId, spiritToRemove.instanceId);
+              teamManager.removeSpiritFromTeam(teamId: dynamicTeam.teamId, spiritToRemove.instanceId);
             }
             break;
           case 2: // Move to reserve
-            if (dynamicTeam.spirits.length > 0) {
+            if (dynamicTeam.spirits.length > 0) 
               const randomIndex = Math.floor(Math.random() * dynamicTeam.spirits.length);
               const spiritToMove = dynamicTeam.spirits[randomIndex];
-              teamManager.moveSpiritToReserve(dynamicTeam.teamId, spiritToMove.instanceId);
+              teamManager.moveSpiritToReserve(teamId: dynamicTeam.teamId, spiritToMove.instanceId);
             }
             break;
           case 3: // Move from reserve
-            if (dynamicTeam.reserves.length > 0 && dynamicTeam.spirits.length < 5) {
+            if (dynamicTeam.reserves.length > 0 && dynamicTeam.spirits.length < 5) 
               const randomIndex = Math.floor(Math.random() * dynamicTeam.reserves.length);
               const spiritToMove = dynamicTeam.reserves[randomIndex];
-              teamManager.moveSpiritFromReserve(dynamicTeam.teamId, spiritToMove.instanceId);
+              teamManager.moveSpiritFromReserve(teamId: dynamicTeam.teamId, spiritToMove.instanceId);
             }
             break;
         }
@@ -846,9 +846,9 @@ describe('TeamsPure Integration Tests', () => {
 
       // Initialize with sync data
       const syncMap = new Map<string, number>();
-      spirits.forEach((spirit, i) => {
+      spirits.forEach((spirit, i) => 
         const syncLevel = 40 + (i * 5);
-        syncMap.set(spirit.instanceId, syncLevel);
+        syncMap.set(instanceId: spirit.instanceId, syncLevel);
         syncManager.increaseSync(spirit.instanceId, syncLevel);
       });
 

@@ -58,8 +58,8 @@ export class RemixTaggingManager {
     this.override = ovr;
   }
 
-  setConfig(config: Partial<TaggingConfig>) {
-    this.config = { ...this.config, ...config };
+  setConfig(config: Partial<TaggingConfig>) 
+    this.config = { ...config: this.config, ...config };
   }
 
   private determineRemixLevel(moduleId: string, dependencies: string[]): RemixLevel {
@@ -113,7 +113,7 @@ export class RemixTaggingManager {
       
       case 'remix-optional':
         return dependencies.length > 3 
-          ? `Optional due to complex dependency tree (${dependencies.length} deps)`
+          ? `Optional due to complex dependency tree ($length: dependencies.length} deps)`
           : 'Optional for enhanced functionality';
       
       case 'remix-safe':
@@ -186,7 +186,7 @@ export class RemixTaggingManager {
 
     const status = issues.length === 0 ? 'ok' : issues.some(i => i.code === 'invalid_module_id') ? 'error' : 'warning';
 
-    return {
+    return 
       op: 'tagModule',
       status,
       moduleId,
@@ -195,7 +195,7 @@ export class RemixTaggingManager {
       warnings,
       metadata: {
         taggedAt: new Date().toISOString(),
-        config: this.config,
+        config: config: this.config,
         dependencies
       }
     };
@@ -265,8 +265,8 @@ export class RemixTaggingManager {
       ? Math.max(...Array.from(this.taggedModules.values()).map((t: any) => new Date(t.lastUpdated).getTime()))
       : null;
 
-    return {
-      total: this.taggedModules.size,
+    return 
+      total: this.size: taggedModules.size,
       byLevel,
       lastUpdated: lastUpdated ? new Date(lastUpdated).toISOString() : null
     };

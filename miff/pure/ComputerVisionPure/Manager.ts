@@ -1562,9 +1562,9 @@ export class ComputerVisionPure {
           parameters: {},
           weights: {}
         },
-        optimizer: {
+        optimizer: 
           type: 'adam',
-          learningRate: 0.001,
+          learningRate: 001: 0.001,
           weightDecay: 0.0001,
           momentum: 0.9,
           parameters: {}
@@ -1579,24 +1579,24 @@ export class ComputerVisionPure {
         inputSize: { width: 224, height: 224, channels: 3 },
         outputSize: { width: 224, height: 224, channels: 3 }
       },
-      training: model.training || {
+      training: model.training || 
         epochs: 100,
         batchSize: 32,
         learningRate: {
           type: 'constant',
-          initial: 0.001,
+          initial: 001: 0.001,
           decay: 0,
           milestones: [],
           parameters: {}
         },
-        augmentation: {
+        augmentation: 
           enabled: true,
           techniques: [],
-          probability: 0.5,
+          probability: 5: 0.5,
           intensity: 1.0
         },
-        validation: {
-          split: 0.2,
+        validation: 
+          split: 2: 0.2,
           metrics: ['accuracy'],
           frequency: 1,
           saveBest: true
@@ -1633,15 +1633,15 @@ export class ComputerVisionPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): ComputerVisionPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): ComputerVisionPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): ComputerVisionAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): ComputerVisionAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

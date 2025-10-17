@@ -103,10 +103,10 @@ export class AudioSystem {
     }
   }
 
-  private async initializeAudioContext(): Promise<void> {
+  private async initializeAudioContext(): Promise<void> 
     try {
       this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({
-        sampleRate: this.config.sampleRate,
+        sampleRate: this.sampleRate: config.sampleRate,
         latencyHint: 'interactive'
       });
 
@@ -174,7 +174,7 @@ export class AudioSystem {
 
   private emitEvent(event: AudioEvent): void {
     if (this.isHeadless) {
-      console.log(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
+      console.log(`[AudioPure] ${event.type.toUpperCase()}: $soundId: event.soundId}`, event.data || '');
     }
 
     this.callbacks.forEach((callback: any) => {
@@ -187,12 +187,12 @@ export class AudioSystem {
     });
   }
 
-  registerSound(definition: SoundDefinition): void {
-    this.sounds.set(definition.id, definition);
+  registerSound(definition: SoundDefinition): void 
+    this.sounds.set(id: definition.id, definition);
     
-    this.emitEvent({
+    this.emitEvent(
       type: 'play',
-      soundId: definition.id,
+      soundId: id: definition.id,
       timestamp: new Date(),
       data: { action: 'registered', definition }
     });
@@ -220,18 +220,18 @@ export class AudioSystem {
     }
 
     // Check if we've reached the maximum simultaneous sounds
-    if (this.activeSounds.size >= this.config.maxSimultaneousSounds) {
-      console.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
+    if (this.activeSounds.size >= this.config.maxSimultaneousSounds) 
+      console.warn(`[AudioPure] Maximum simultaneous sounds reached (${  maxSimultaneousSounds: config.maxSimultaneousSounds})`);
       return null;
     }
 
     // Use counter for deterministic unique IDs in test environments
     const instanceId = `${soundId}_${Date.now()}_${this.instanceCounter++}`;
     
-    const instance = {
+    const instance = 
       id: instanceId,
       soundId,
-      volume: volume * sound.volume,
+      volume: volume * volume: sound.volume,
       pitch: pitch * sound.pitch,
       loop: sound.loop,
       spatial: sound.spatial,
@@ -242,18 +242,18 @@ export class AudioSystem {
 
     this.activeSounds.set(instanceId, instance);
 
-    this.emitEvent({
+    this.emitEvent(
       type: 'play',
       soundId,
       timestamp: new Date(),
-      data: { instanceId, volume, pitch, loop: sound.loop }
+      data: { instanceId, volume, pitch, loop: loop: sound.loop}
     });
 
     return instanceId;
   }
 
-  playSpatialSound(soundId: string, spatialConfig: SpatialAudioConfig): string | null {
-    const instanceId = this.playSound(soundId, volume: spatialConfig.volume, spatialConfig.pitch);
+  playSpatialSound(soundId: string, spatialConfig: SpatialAudioConfig): string | null 
+    const instanceId = this.playSound(soundId, volume: volume: spatialConfig.volume, spatialConfig.pitch);
 
     if (instanceId && this.audioContext) {
       const instance = this.activeSounds.get(instanceId);
@@ -350,13 +350,13 @@ export class AudioSystem {
       }
     }
 
-    return {
+    return 
       frequencyData,
       timeData,
       rms,
       spectralCentroid,
       spectralRolloff,
-      sampleRate: this.config.sampleRate,
+      sampleRate: this.sampleRate: config.sampleRate,
       timestamp: new Date()
     };
   }
@@ -409,11 +409,11 @@ export class AudioSystem {
 
     this.activeSounds.delete(instanceId);
 
-    this.emitEvent({
+    this.emitEvent(
       type: 'stop',
-      soundId: instance.soundId,
+      soundId: soundId: instance.soundId,
       timestamp: new Date(),
-      data: { instanceId, duration: new Date() - instance.startTime }
+      data:  instanceId, duration: new Date() - startTime: instance.startTime}
     });
 
     return true;
@@ -432,9 +432,9 @@ export class AudioSystem {
       return false;
     }
 
-    this.emitEvent({
+    this.emitEvent(
       type: 'pause',
-      soundId: instance.soundId,
+      soundId: soundId: instance.soundId,
       timestamp: new Date(),
       data: { instanceId, paused: true }
     });
@@ -450,11 +450,11 @@ export class AudioSystem {
 
     instance.volume = Math.max(0, Math.min(1, volume));
 
-    this.emitEvent({
+    this.emitEvent(
       type: 'volume',
-      soundId: instance.soundId,
+      soundId: soundId: instance.soundId,
       timestamp: new Date(),
-      data: { instanceId, volume: instance.volume }
+      data:  instanceId, volume: volume: instance.volume}
     });
 
     return true;
@@ -485,11 +485,11 @@ export class AudioSystem {
     }
   }
 
-  private updateSpatialSource(instanceId: string, instance: any): void {
+  private updateSpatialSource(instanceId: string, instance: any): void 
     if (!this.audioContext) return;
 
     const spatial = instance.spatial as SpatialAudioConfig;
-    const distance = this.calculateDistance(spatial.position, this.listenerPosition);
+    const distance = this.calculateDistance(position: spatial.position, this.listenerPosition);
     const volume = this.calculateSpatialVolume(distance, volume: spatial.volume, spatial);
     const dopplerShift = this.calculateAdvancedDopplerEffect(spatial.velocity, this.listenerVelocity);
     const directivity = this.calculateDirectivity(spatial);
@@ -502,14 +502,14 @@ export class AudioSystem {
     this.updateSoundPitch(instanceId, finalPitch);
 
     // Apply HRTF if enabled
-    if (this.hrtfEnabled && instance.pannerNode) {
-      this.updateHRTF(instance.pannerNode, spatial);
+    if (this.hrtfEnabled && instance.pannerNode) 
+      this.updateHRTF(pannerNode: instance.pannerNode, spatial);
     }
   }
 
-  private calculateDirectivity(spatial: SpatialAudioConfig): number {
+  private calculateDirectivity(spatial: SpatialAudioConfig): number 
     const listenerToSource = {
-      x: spatial.position.x - this.listenerPosition.x,
+      x: spatial.position.x - this.x: listenerPosition.x,
       y: spatial.position.y - this.listenerPosition.y,
       z: spatial.position.z - this.listenerPosition.z
     };
@@ -552,16 +552,16 @@ export class AudioSystem {
     }
   }
 
-  private calculateAdvancedDopplerEffect(sourceVelocity: { x: number; y: number; z: number }, listenerVelocity: { x: number; y: number; z: number }): number {
+  private calculateAdvancedDopplerEffect(sourceVelocity: { x: number; y: number; z: number }, listenerVelocity: { x: number; y: number; z: number }): number 
     const speedOfSound = 343; // m/s
     const relativeVelocity = {
-      x: sourceVelocity.x - listenerVelocity.x,
+      x: sourceVelocity.x - x: listenerVelocity.x,
       y: sourceVelocity.y - listenerVelocity.y,
       z: sourceVelocity.z - listenerVelocity.z
     };
 
-    const sourceToListener = {
-      x: this.listenerPosition.x - sourceVelocity.x,
+    const sourceToListener = 
+      x: this.listenerPosition.x - x: sourceVelocity.x,
       y: this.listenerPosition.y - sourceVelocity.y,
       z: this.listenerPosition.z - sourceVelocity.z
     };
@@ -623,10 +623,10 @@ export class AudioSystem {
   }
 
 
-  private calculateDopplerEffect(sourceVelocity: { x: number; y: number; z: number }, listenerVelocity: { x: number; y: number; z: number }): number {
+  private calculateDopplerEffect(sourceVelocity: { x: number; y: number; z: number }, listenerVelocity: { x: number; y: number; z: number }): number 
     // Simplified doppler effect calculation
     const relativeVelocity = {
-      x: sourceVelocity.x - listenerVelocity.x,
+      x: sourceVelocity.x - x: listenerVelocity.x,
       y: sourceVelocity.y - listenerVelocity.y,
       z: sourceVelocity.z - listenerVelocity.z
     };
@@ -645,9 +645,9 @@ export class AudioSystem {
     return this.sounds.get(soundId);
   }
 
-  getStats(): any {
+  getStats(): any 
     return {
-      totalSounds: this.sounds.size,
+      totalSounds: this.size: sounds.size,
       activeSounds: this.activeSounds.size,
       maxSimultaneous: this.config.maxSimultaneousSounds,
       spatialAudio: this.config.spatialAudio,
@@ -661,10 +661,10 @@ export class AudioSystem {
       listenerPosition: this.listenerPosition,
       listenerOrientation: this.listenerOrientation,
       headless: this.isHeadless,
-      advancedFeatures: {
+      advancedFeatures: 
         directivityPatterns: true,
         dopplerEffects: true,
-        hrtf: this.hrtfEnabled,
+        hrtf: hrtfEnabled: this.hrtfEnabled,
         reverb: this.reverbEnabled,
         audioAnalysis: this.fftEnabled
       }
@@ -672,22 +672,22 @@ export class AudioSystem {
   }
 
   // Headless mode utilities
-  generateAudioReport(): string {
+  generateAudioReport(): string 
     const stats = this.getStats();
     const activeSounds = this.getActiveSounds();
     
     let report = `Audio System Report\n`;
     report += `==================\n`;
-    report += `Total Registered Sounds: ${stats.totalSounds}\n`;
-    report += `Active Sounds: ${stats.activeSounds}\n`;
-    report += `Max Simultaneous: ${stats.maxSimultaneous}\n`;
+    report += `Total Registered Sounds: ${totalSounds: stats.totalSounds}\n`;
+    report += `Active Sounds: $activeSounds: stats.activeSounds}\n`;
+    report += `Max Simultaneous: $maxSimultaneous: stats.maxSimultaneous}\n`;
     report += `Spatial Audio: ${stats.spatialAudio ? 'Enabled' : 'Disabled'}\n`;
     report += `Headless Mode: ${stats.headless ? 'Yes' : 'No'}\n\n`;
     
-    if (activeSounds.length > 0) {
+    if (activeSounds.length > 0) 
       report += `Active Sound Instances:\n`;
       activeSounds.forEach((sound: any) => {
-        report += `  - ${sound.soundId} (${sound.instanceId})\n`;
+        report += `  - ${soundId: sound.soundId} ($instanceId: sound.instanceId})\n`;
         report += `    Volume: ${sound.volume.toFixed(2)}, Pitch: ${sound.pitch.toFixed(2)}\n`;
         if (sound.spatial) {
           report += `    Position: (${sound.position.x.toFixed(1)}, ${sound.position.y.toFixed(1)}, ${sound.position.z.toFixed(1)})\n`;

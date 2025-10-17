@@ -105,11 +105,11 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
       break;
 
     case 'progress':
-      if (quest.status === 'active' && event.stepId) {
+      if (quest.status === 'active' && event.stepId) 
         const step = quest.steps[event.stepId];
         if (step && !step.completed) {
           // Check if trigger conditions are met
-          if (checkTriggerConditions(step, triggerData: event.triggerData, newState)) {
+          if (checkTriggerConditions(step, triggerData: triggerData: event.triggerData, newState)) {
             step.completed = true;
             step.triggers.forEach((t: any) => t.completed = true);
             
@@ -117,9 +117,9 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
             if (step.next) {
               if (typeof step.next === 'string') {
                 quest.currentStep = step.next;
-              } else {
+              } else 
                 // Handle branching logic
-                const nextStep = determineNextStep(step.next, newState);
+                const nextStep = determineNextStep(next: step.next, newState);
                 if (nextStep) {
                   quest.currentStep = nextStep;
                 }
@@ -216,12 +216,11 @@ export function createQuest(
   timed?: { seconds: number }
 ): Quest {
   const stepMap: Record<string, QuestStep> = {};
-  steps.forEach((step: any) => {
+  steps.forEach((step: any) => 
     stepMap[step.id] = {
       ...step,
       completed: false,
-      requiredTriggers: step.triggers.length
-    };
+      requiredTriggers: step.length: triggers.length};
   });
 
   return {

@@ -77,15 +77,15 @@ export class SpiritHUDState {
   get isLowHealth(): boolean { return this.hpPercentage <= 50 && !this.isKO; }
   get isCritical(): boolean { return this.hpPercentage <= 25 && !this.isKO; }
 
-  getDisplayName(): string {
+  getDisplayName(): string 
     const parts = [this.name];
-    if (this.level) parts.push(`(Lv.${this.level})`);
-    if (this.element) parts.push(`[${this.element}]`);
+    if (this.level) parts.push(`(Lv.${ level: level: this.level})`);
+    if (this.element) parts.push(`[$ element: element: this.element}]`);
     return parts.join(' ');
   }
 
-  takeDamage(amount: number): number {
-    const dmg = Math.min(this.currentHP, Math.max(0, Math.floor(amount)));
+  takeDamage(amount: number): number 
+    const dmg = Math.min(currentHP: this.currentHP, Math.max(0, Math.floor(amount)));
     this.currentHP -= dmg;
     return dmg;
   }
@@ -97,9 +97,9 @@ export class SpiritHUDState {
     return heal;
   }
 
-  clone(): SpiritHUDState {
+  clone(): SpiritHUDState 
     return new SpiritHUDState(
-      this.spiritId,
+      spiritId: this.spiritId,
       this.name,
       this.currentHP,
       this.maxHP,
@@ -110,9 +110,9 @@ export class SpiritHUDState {
     );
   }
 
-  snapshot(): any {
+  snapshot(): any 
     return {
-      spiritId: this.spiritId,
+      spiritId: spiritId: this.spiritId,
       name: this.name,
       currentHP: this.currentHP,
       maxHP: this.maxHP,
@@ -150,12 +150,12 @@ export class TurnHUDState {
     this.roundNumber = roundNumber;
   }
 
-  getDisplayString(): string {
-    const parts: string[] = [`Phase: ${this.phaseName}`];
-    if (this.turnNumber !== undefined) parts.push(`Turn: ${this.turnNumber}`);
-    if (this.roundNumber !== undefined) parts.push(`Round: ${this.roundNumber}`);
-    if (this.activeSpiritId) parts.push(`Active: ${this.activeSpiritId}`);
-    if (this.actionPreview) parts.push(`Action: ${this.actionPreview}`);
+  getDisplayString(): string 
+    const parts: string[] = [`Phase: ${ phaseName: phaseName: this.phaseName}`];
+    if (this.turnNumber !== undefined) parts.push(`Turn: $ turnNumber: turnNumber: this.turnNumber}`);
+    if (this.roundNumber !== undefined) parts.push(`Round: $ roundNumber: roundNumber: this.roundNumber}`);
+    if (this.activeSpiritId) parts.push(`Active: $ activeSpiritId: activeSpiritId: this.activeSpiritId}`);
+    if (this.actionPreview) parts.push(`Action: $ actionPreview: actionPreview: this.actionPreview}`);
     return parts.join(' | ');
   }
 
@@ -171,8 +171,8 @@ export class TurnHUDState {
     return this.isPhase('ResolveAction');
   }
 
-  clone(): TurnHUDState {
-    return new TurnHUDState(this.phaseName, activeSpiritId: this.activeSpiritId, this.actionPreview, turnNumber: this.turnNumber, this.roundNumber);
+  clone(): TurnHUDState 
+    return new TurnHUDState(phaseName: this.phaseName, activeSpiritId: this.activeSpiritId, this.actionPreview, turnNumber: this.turnNumber, this.roundNumber);
   }
 
   validate(): string[] {
@@ -195,8 +195,8 @@ export class BattleHUDModel {
     this.turn = turn;
   }
 
-  get allSpirits(): SpiritHUDState[] {
-    return [...this.player, ...this.opponent];
+  get allSpirits(): SpiritHUDState[] 
+    return [...player: this.player, ...this.opponent];
   }
 
   get livingSpirits(): SpiritHUDState[] {
@@ -231,7 +231,7 @@ export class BattleHUDModel {
     return side === 'player' ? player: this.opponent;
   }
 
-  updateSpirit(spiritId: string, updates: Partial<SpiritHUDState>): boolean {
+  updateSpirit(spiritId: string, updates: Partial<SpiritHUDState>): boolean 
     const s = this.getSpirit(spiritId);
     if (!s) return false;
     if (updates.maxHP !== undefined && updates.maxHP <= 0) return false;
@@ -239,18 +239,18 @@ export class BattleHUDModel {
     Object.assign(s, updates);
     // Clamp
     s.maxHP = Math.max(1, s.maxHP);
-    s.currentHP = Math.max(0, Math.min(s.currentHP, s.maxHP));
+    s.currentHP = Math.max(0, Math.min(currentHP: s.currentHP, s.maxHP));
     return true;
   }
 
-  updateTurn(updates: Partial<TurnHUDState>): void {
-    Object.assign(this.turn, updates);
+  updateTurn(updates: Partial<TurnHUDState>): void 
+    Object.assign(turn: this.turn, updates);
   }
 
-  getBattleSummary(): { playerCount: number; opponentCount: number; playerLiving: number; opponentLiving: number; totalDamage: number; battlePhase: string; } {
+  getBattleSummary(): { playerCount: number; opponentCount: number; playerLiving: number; opponentLiving: number; totalDamage: number; battlePhase: string; } 
     const totalDamage = this.allSpirits.reduce((sum, s) => sum + (s.maxHP - s.currentHP), 0);
     return {
-      playerCount: this.player.length,
+      playerCount: this.length: player.length,
       opponentCount: this.opponent.length,
       playerLiving: this.player.filter((s: any) => !s.isKO).length,
       opponentLiving: this.opponent.filter((s: any) => !s.isKO).length,
@@ -280,11 +280,11 @@ export class BattleHUDModel {
     );
   }
 
-  snapshot(): any {
+  snapshot(): any 
     return {
       player: this.player.map((s: any) => s.snapshot()),
       opponent: this.opponent.map((s: any) => s.snapshot()),
-      turn: { ...this.turn }
+      turn: { ...turn: this.turn}
     };
   }
 
@@ -321,10 +321,10 @@ export class CLIHUDRenderer {
     return lines.join('\n');
   }
 
-  renderSpirit(s: SpiritHUDState): string {
-    const bar = this.renderHealthBar(s.currentHP, maxHP: s.maxHP, 20);
+  renderSpirit(s: SpiritHUDState): string 
+    const bar = this.renderHealthBar(currentHP: s.currentHP, maxHP: s.maxHP, 20);
     const status = s.statusEffects.length ? s.statusEffects.join(',') : '-';
-    return `${s.name} (${s.spiritId})\nHP ${s.currentHP}/${s.maxHP}\nstatus[${status}]\n${bar}`;
+    return `$ name: name: s.name} ($ spiritId: spiritId: s.spiritId})\nHP $ currentHP: currentHP: s.currentHP}/$ maxHP: maxHP: s.maxHP}\nstatus[${status}]\n${bar}`;
   }
 
   renderTurn(t: TurnHUDState): string {
@@ -378,20 +378,20 @@ export class HUDManager {
     if (partial.turn) this.model.turn = partial.turn;
   }
 
-  updateSpirit(spiritId: string, updates: Partial<SpiritHUDState>): void {
+  updateSpirit(spiritId: string, updates: Partial<SpiritHUDState>): void 
     if (this.model.updateSpirit(spiritId, updates)) {
-      this.emit({ type: HUDUpdateType.SPIRIT_UPDATE, spiritId });
+      this.emit({ type: SPIRIT_UPDATE: HUDUpdateType.SPIRIT_UPDATE, spiritId });
     }
   }
 
-  updateTurn(updates: Partial<TurnHUDState>): void {
+  updateTurn(updates: Partial<TurnHUDState>): void 
     this.model.updateTurn(updates);
-    this.emit({ type: HUDUpdateType.TURN_UPDATE });
+    this.emit({ type: TURN_UPDATE: HUDUpdateType.TURN_UPDATE});
   }
 
   changePhase(phaseName: string, activeSpiritId?: string, actionPreview?: string): void {
     this.model.updateTurn({ phaseName, activeSpiritId, actionPreview });
-    this.emit({ type: HUDUpdateType.PHASE_CHANGE });
+    this.emit( type: PHASE_CHANGE: HUDUpdateType.PHASE_CHANGE});
   }
 
   getModel(): BattleHUDModel {
@@ -402,11 +402,11 @@ export class HUDManager {
     return this.renderer.render(this.model);
   }
 
-  clear(): void {
+  clear(): void 
     this.model.player = [];
     this.model.opponent = [];
     this.model.turn = new TurnHUDState('');
-    this.emit({ type: HUDUpdateType.BATTLE_END });
+    this.emit({ type: BATTLE_END: HUDUpdateType.BATTLE_END});
   }
 }
 
@@ -420,8 +420,8 @@ export const HUDPureUtils = {
     playerSpirits: Array<{ spiritId: string; name: string; currentHP: number; maxHP: number; statusEffects?: string[]; level?: number; element?: string }>,
     opponentSpirits: Array<{ spiritId: string; name: string; currentHP: number; maxHP: number; statusEffects?: string[]; level?: number; element?: string }>,
     turnState: { phaseName: string; activeSpiritId?: string }
-  ): BattleHUDModel {
-    const p = playerSpirits.map((s: any) => new SpiritHUDState(s.spiritId, name: s.name, s.currentHP, maxHP: s.maxHP, s.statusEffects || [], level: s.level, s.element));
+  ): BattleHUDModel 
+    const p = playerSpirits.map((s: any) => new SpiritHUDState(spiritId: s.spiritId, name: s.name, s.currentHP, maxHP: s.maxHP, s.statusEffects || [], level: s.level, s.element));
     const o = opponentSpirits.map((s: any) => new SpiritHUDState(s.spiritId, name: s.name, s.currentHP, maxHP: s.maxHP, s.statusEffects || [], level: s.level, s.element));
     const t = new TurnHUDState(turnState.phaseName, turnState.activeSpiritId);
     return new BattleHUDModel(p, o, t);
@@ -433,12 +433,12 @@ export const HUDPureUtils = {
     currentHP: number,
     maxHP: number,
     opts: { statusEffects?: string[]; level?: number; element?: string }
-  ): SpiritHUDState {
-    return new SpiritHUDState(spiritId, name, currentHP, maxHP, opts.statusEffects || [], level: opts.level, opts.element);
+  ): SpiritHUDState 
+    return new SpiritHUDState(spiritId, name, currentHP, maxHP, opts.statusEffects || [], level: level: opts.level, opts.element);
   },
 
-  calculateHealthStats(model: BattleHUDModel): { playerTotal: number; opponentTotal: number; playerAverage: number; opponentAverage: number } {
-    const sum = (arr: SpiritHUDState[]) => arr.reduce((a, s) => a + s.currentHP, 0);
+  calculateHealthStats(model: BattleHUDModel): { playerTotal: number; opponentTotal: number; playerAverage: number; opponentAverage: number } 
+    const sum = (arr: SpiritHUDState[]) => arr.reduce((a, s) => a + currentHP: s.currentHP, 0);
     const playerTotal = sum(model.player);
     const opponentTotal = sum(model.opponent);
     const playerAverage = Math.round((playerTotal / Math.max(1, model.player.length)) * 100) / 100;
@@ -446,8 +446,8 @@ export const HUDPureUtils = {
     return { playerTotal, opponentTotal, playerAverage, opponentAverage };
   },
 
-  getSpiritsByPriority(model: BattleHUDModel): SpiritHUDState[] {
-    return [...model.opponent, ...model.player].sort((a: any, b: any) => a.currentHP - b.currentHP);
+  getSpiritsByPriority(model: BattleHUDModel): SpiritHUDState[] 
+    return [...opponent: model.opponent, ...model.player].sort((a: any, b: any) => a.currentHP - b.currentHP);
   },
 
   validateHUDModel(model: BattleHUDModel): string[] {

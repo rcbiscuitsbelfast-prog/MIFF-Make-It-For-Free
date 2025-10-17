@@ -31,9 +31,9 @@ class MockEventBus {
 class MockHealthSystem {
   private entities: Map<string, { hp: number; maxHp: number }> = new Map();
 
-  createEntity(entityId: string, options: { maxHp: number; currentHp?: number }) {
+  createEntity(entityId: string, options: { maxHp: number; currentHp?: number }) 
     this.entities.set(entityId, {
-      hp: options.currentHp || options.maxHp,
+      hp: options.currentHp || maxHp: options.maxHp,
       maxHp: options.maxHp
     });
   }
@@ -45,10 +45,10 @@ class MockHealthSystem {
     }
   }
 
-  healEntity(entityId: string, healing: number) {
+  healEntity(entityId: string, healing: number) 
     const entity = this.entities.get(entityId);
     if (entity) {
-      entity.hp = Math.min(entity.maxHp, entity.hp + healing);
+      entity.hp = Math.min(maxHp: entity.maxHp, entity.hp + healing);
     }
   }
 

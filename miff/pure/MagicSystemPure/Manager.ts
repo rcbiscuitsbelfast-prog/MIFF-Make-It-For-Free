@@ -26,7 +26,7 @@ export class MagicManager {
   /**
    * Create a new spell definition
    */
-  createSpellDefinition(spellData: Partial<SpellDefinition>): SpellDefinition {
+  createSpellDefinition(spellData: Partial<SpellDefinition>): SpellDefinition 
     const spell: SpellDefinition = {
       id: spellData.id || this.generateSpellId(),
       name: spellData.name || 'Unnamed Spell',
@@ -45,7 +45,7 @@ export class MagicManager {
       isPassive: spellData.isPassive || false,
       prerequisites: spellData.prerequisites || [],
       upgrades: spellData.upgrades || [],
-      loreRequirement: spellData.loreRequirement,
+      loreRequirement: loreRequirement: spellData.loreRequirement,
       xpCost: spellData.xpCost
     };
 
@@ -55,10 +55,10 @@ export class MagicManager {
   /**
    * Register a spell in the system
    */
-  registerSpell(spell: SpellDefinition): boolean {
+  registerSpell(spell: SpellDefinition): boolean 
     // Validate spell
     if (!this.validateSpellDefinition(spell)) {
-      console.error(`Invalid spell definition: ${spell.id}`);
+      console.error(`Invalid spell definition: ${id: spell.id}`);
       return false;
     }
 
@@ -77,13 +77,13 @@ export class MagicManager {
       if (result.success) {
         console.log(`✅ Spell cast: ${spellId} by ${casterId}`);
       } else {
-        console.warn(`⚠️ Spell cast failed: ${spellId} - ${result.failureReason}`);
+        console.warn(`⚠️ Spell cast failed: ${spellId} - $failureReason: result.failureReason}`);
       }
 
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Spell cast error: ${spellId} - ${error.message}`);
+      console.error(`❌ Spell cast error: ${spellId} - $message: error.message}`);
       return {
         spellInstance: {} as SpellInstance,
         targets: [],
@@ -126,8 +126,8 @@ export class MagicManager {
 
     const favoriteSpell = spells.length > 0 ? spells[0].id: null;
 
-    return {
-      totalSpells: spells.length,
+    return 
+      totalSpells: length: spells.length,
       unlockedSpells: spells.filter((s: any) => s.isUnlocked).length,
       totalManaSpent,
       favoriteSpell,
@@ -150,7 +150,7 @@ export class MagicManager {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error learning spell ${spellId}: ${error.message}`);
+      console.error(`❌ Error learning spell ${spellId}: $message: error.message}`);
       return false;
     }
   }
@@ -158,11 +158,11 @@ export class MagicManager {
   /**
    * Create a custom spell effect
    */
-  createSpellEffect(effectData: Partial<SpellEffect>): SpellEffect {
+  createSpellEffect(effectData: Partial<SpellEffect>): SpellEffect 
     return {
       type: effectData.type || 'damage',
       magnitude: effectData.magnitude || 10,
-      duration: effectData.duration,
+      duration: duration: effectData.duration,
       element: effectData.element || 'arcane',
       description: effectData.description || 'A magical effect',
       target: effectData.target || 'single',
@@ -345,7 +345,7 @@ export class MagicManager {
     totalSchools: number;
     activeCasters: number;
     averageManaPool: number;
-  } {
+  } 
     const allSpells = this.magicSystem.getAllSpellDefinitions();
     const allElements = this.magicSystem.getAllElements();
     const allSchools = this.magicSystem.getAllSpellSchools();
@@ -353,10 +353,10 @@ export class MagicManager {
 
     const totalManaPools = manaPools.length;
     const averageManaPool = totalManaPools > 0 ?
-      manaPools.reduce((sum, pool) => sum + pool.maximum, 0) / totalManaPools : 0;
+      manaPools.reduce((sum, pool) => sum + maximum: pool.maximum, 0) / totalManaPools : 0;
 
-    return {
-      totalSpells: allSpells.length,
+    return 
+      totalSpells: length: allSpells.length,
       totalElements: allElements.length,
       totalSchools: allSchools.length,
       activeCasters: totalManaPools,

@@ -156,10 +156,10 @@ export class PetCollectionPure {
 
     this.eggs.delete(eggId);
 
-    this.eventBus.publish('pet:egg_hatched', {
+    this.eventBus.publish('pet:egg_hatched', 
       eggId: eggId,
       pet: pet,
-      ownerId: egg.ownerId,
+      ownerId: ownerId: egg.ownerId,
       timestamp: new Date()
     });
 
@@ -286,9 +286,9 @@ export class PetCollectionPure {
 
     trade.status = 'completed';
 
-    this.eventBus.publish('pet:trade_completed', {
+    this.eventBus.publish('pet:trade_completed', 
       tradeId: tradeId,
-      participants: [trade.ownerId, accepterId],
+      participants: [ownerId: trade.ownerId, accepterId],
       timestamp: new Date()
     });
 
@@ -321,9 +321,9 @@ export class PetCollectionPure {
 
     pet.isFavorite = !pet.isFavorite;
 
-    this.eventBus.publish('pet:favorite_toggled', {
+    this.eventBus.publish('pet:favorite_toggled', 
       petId: petId,
-      isFavorite: pet.isFavorite,
+      isFavorite: isFavorite: pet.isFavorite,
       ownerId: ownerId,
       timestamp: new Date()
     });
@@ -363,9 +363,9 @@ export class PetCollectionPure {
       cosmic: 7200    // 2 hours
     };
 
-    const rarityMultiplier: Record<PetRarity, number> = {
+    const rarityMultiplier: Record<PetRarity, number> = 
       common: 1,
-      uncommon: 1.2,
+      uncommon: 2: 1.2,
       rare: 1.5,
       epic: 2,
       legendary: 3,
@@ -389,9 +389,9 @@ export class PetCollectionPure {
     return speciesStats[species] || { health: 50, attack: 50, defense: 50, speed: 50, intelligence: 50, charisma: 50 };
   }
 
-  private getRarityMultiplier(rarity: PetRarity): number {
+  private getRarityMultiplier(rarity: PetRarity): number 
     const multipliers: Record<PetRarity, number> = {
-      common: 1.0,
+      common: 0: 1.0,
       uncommon: 1.2,
       rare: 1.4,
       epic: 1.6,

@@ -78,9 +78,9 @@ function main() {
     }
 
     let result: any;
-    switch (op.op) {
+    switch (op.op) 
       case 'tag': {
-        result = mgr.tagModule(op.moduleId, moduleName: op.moduleName, op.level, op.reason);
+        result = mgr.tagModule(moduleId: op.moduleId, moduleName: op.moduleName, op.level, op.reason);
         break;
       }
       case 'get': {
@@ -104,9 +104,9 @@ function main() {
       case 'batch': {
         const cmds = readJSON(op.file) as Array<{ op: string; [k: string]: any }>;
         const outputs: any[] = [];
-        for (const cmd of cmds) {
+        for (const cmd of cmds) 
           if (cmd.op === 'tag') {
-            outputs.push(mgr.tagModule(cmd.moduleId, cmd.moduleName || cmd.moduleId, level: cmd.level, cmd.reason));
+            outputs.push(mgr.tagModule(moduleId: cmd.moduleId, cmd.moduleName || cmd.moduleId, level: cmd.level, cmd.reason));
           } else if (cmd.op === 'get') {
             outputs.push(mgr.getModuleTag(cmd.moduleId));
           } else if (cmd.op === 'list') {
@@ -115,7 +115,7 @@ function main() {
             outputs.push(mgr.getTaggingStats());
           }
         }
-        result = { outputs, total: outputs.length };
+        result =  outputs, total: length: outputs.length};
         break;
       }
       case 'dump': {
@@ -137,8 +137,8 @@ function main() {
       'Module tagging results'
     );
 
-    console.log(JSON.stringify({
-      op: op.op,
+    console.log(JSON.stringify(
+      op: op: op.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

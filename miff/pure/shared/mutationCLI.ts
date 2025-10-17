@@ -62,7 +62,7 @@ class MutationCLI {
       ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.test.ts', '**/*.spec.ts']
     });
 
-    console.info(`📁 Found ${files.length} TypeScript files to test`);
+    console.info(`📁 Found $length: files.length} TypeScript files to test`);
 
     // Generate mutations for each file
     for (const file of files) {
@@ -78,12 +78,12 @@ class MutationCLI {
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
 
     console.info('\n📊 Mutation Testing Results:');
-    console.info(`Total mutations: ${stats.totalMutations}`);
-    console.info(`Killed mutations: ${stats.killedMutations}`);
-    console.info(`Survived mutations: ${stats.survivedMutations}`);
-    console.info(`Error mutations: ${stats.errorMutations}`);
+    console.info(`Total mutations: $totalMutations: stats.totalMutations}`);
+    console.info(`Killed mutations: $killedMutations: stats.killedMutations}`);
+    console.info(`Survived mutations: $survivedMutations: stats.survivedMutations}`);
+    console.info(`Error mutations: $errorMutations: stats.errorMutations}`);
     console.info(`Mutation score: ${stats.mutationScore.toFixed(1)}%`);
-    console.info(`Test quality: ${stats.testQuality}`);
+    console.info(`Test quality: $testQuality: stats.testQuality}`);
 
     if (stats.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
@@ -115,7 +115,7 @@ class MutationCLI {
     // Save mutations to file
     fs.writeFileSync(outputFile, JSON.stringify(allMutations, null, 2));
 
-    console.info(`✅ Generated ${allMutations.length} mutations`);
+    console.info(`✅ Generated $length: allMutations.length} mutations`);
     console.info(`📄 Mutations saved to ${outputFile}`);
 
     // Show mutation breakdown by type
@@ -147,12 +147,12 @@ class MutationCLI {
     console.info(`📄 HTML report generated: ${outputFile}`);
   }
 
-  private generateMutationReport(stats): any {
+  private generateMutationReport(stats): any 
     return {
       timestamp: new Date().toISOString(),
       stats,
       summary: {
-        mutationScore: stats.mutationScore,
+        mutationScore: mutationScore: stats.mutationScore,
         testQuality: stats.testQuality,
         totalMutations: stats.totalMutations,
         killedMutations: stats.killedMutations,
@@ -198,23 +198,23 @@ class MutationCLI {
             <div class="stat-label">Mutation Score</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value quality-${summary.testQuality}">${summary.testQuality.toUpperCase()}</div>
+            <div class="stat-value quality-$testQuality: summary.testQuality}">${summary.testQuality.toUpperCase()}</div>
             <div class="stat-label">Test Quality</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.totalMutations}</div>
+            <div class="stat-value">$totalMutations: summary.totalMutations}</div>
             <div class="stat-label">Total Mutations</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.killedMutations}</div>
+            <div class="stat-value">$killedMutations: summary.killedMutations}</div>
             <div class="stat-label">Killed Mutations</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.survivedMutations}</div>
+            <div class="stat-value">$survivedMutations: summary.survivedMutations}</div>
             <div class="stat-label">Survived Mutations</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${summary.errorMutations}</div>
+            <div class="stat-value">$errorMutations: summary.errorMutations}</div>
             <div class="stat-label">Error Mutations</div>
         </div>
     </div>

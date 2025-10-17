@@ -439,9 +439,9 @@ export class OverlinkZone {
   }
 
   // Export state for testing and serialization
-  exportState(): OverlinkState {
+  exportState(): OverlinkState 
     return {
-      ...this.state,
+      ...state: this.state,
       overlayLayers: new Map(this.state.overlayLayers),
       drawReducers: [...this.state.drawReducers],
       assetBindings: [...this.state.assetBindings],

@@ -269,7 +269,7 @@ class DialogueCLI {
     this.currentNode = this.currentDialogue.start;
   }
 
-  async execute(operation: DialogueOperation): Promise<any> {
+  async execute(operation: DialogueOperation): Promise<any> 
     try {
       switch (operation.op) {
         case 'start':
@@ -294,12 +294,12 @@ class DialogueCLI {
           return this.reset();
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${op: operation.op}`);
       }
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: op: operation.op,
         status: 'error',
         error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
@@ -320,14 +320,14 @@ class DialogueCLI {
     this.history = [];
     this.log = [];
     
-    this.history.push({ node: this.currentNode, timestamp: new Date() });
-    this.log.push(`Started dialogue: ${this.currentDialogue.start}`);
+    this.history.push( node: currentNode: this.currentNode, timestamp: new Date() });
+    this.log.push(`Started dialogue: $this.start: currentDialogue.start}`);
 
-    return {
+    return 
       op: 'start',
       status: 'ok',
       result: {
-        currentNode: this.currentNode,
+        currentNode: currentNode: this.currentNode,
         node: this.currentDialogue.nodes[this.currentNode],
         totalNodes: Object.keys(this.currentDialogue.nodes).length,
         history: this.history
@@ -344,7 +344,7 @@ class DialogueCLI {
     const choiceIndex = op.choiceIndex || 0;
     const result = nextNode(this.currentDialogue, currentNode: this.currentNode, choiceIndex);
     
-    if (result.status === 'ok' && result.id) {
+    if (result.status === 'ok' && result.id) 
       const previousNode = this.currentNode;
       this.currentNode = result.id;
       
@@ -352,20 +352,20 @@ class DialogueCLI {
       const choiceText = previousNodeData.choices?.[choiceIndex]?.text || 'Unknown choice';
       
       this.history.push({ 
-        node: this.currentNode, 
+        node: currentNode: this.currentNode, 
         choice: choiceText,
         timestamp: new Date() 
       });
       
-      this.log.push(`Moved from ${previousNode} to ${this.currentNode} via "${choiceText}"`);
+      this.log.push(`Moved from ${previousNode} to $currentNode: this.currentNode} via "${choiceText}"`);
     }
 
-    return {
+    return 
       op: 'next',
-      status: result.status,
-      result: {
+      status: status: result.status,
+      result: 
         ...result,
-        currentNode: this.currentNode,
+        currentNode: currentNode: this.currentNode,
         node: this.currentNode ? this.currentDialogue.nodes[this.currentNode] : null,
         history: this.history,
         log: this.log
@@ -374,18 +374,18 @@ class DialogueCLI {
     };
   }
 
-  private dump(): any {
+  private dump(): any 
     return {
       op: 'dump',
       status: 'ok',
       result: {
-        dialogue: this.currentDialogue,
+        dialogue: currentDialogue: this.currentDialogue,
         currentNode: this.currentNode,
         history: this.history,
         log: this.log,
-        statistics: {
+        statistics: 
           totalNodes: this.currentDialogue ? Object.keys(this.currentDialogue.nodes).length : 0,
-          nodesVisited: this.history.length,
+          nodesVisited: this.length: history.length,
           currentDepth: this.history.length,
           hasChoices: this.currentNode && this.currentDialogue?.nodes[this.currentNode]?.choices?.length > 0
         }
@@ -415,10 +415,10 @@ class DialogueCLI {
       const choiceIndex = Math.floor(Math.random() * node.choices.length);
       const choice = node.choices[choiceIndex];
       
-      simulation.push({
+      simulation.push(
         depth,
         node: currentNode,
-        nodeText: node.text,
+        nodeText: text: node.text,
         choice: choice.text,
         nextNode: choice.next
       });
@@ -427,14 +427,14 @@ class DialogueCLI {
       depth++;
     }
 
-    this.log.push(`Simulated dialogue path with ${simulation.length} steps`);
+    this.log.push(`Simulated dialogue path with $length: simulation.length} steps`);
 
-    return {
+    return 
       op: 'simulate',
       status: 'ok',
       result: {
         simulation,
-        totalSteps: simulation.length,
+        totalSteps: length: simulation.length,
         finalNode: currentNode,
         dialogue: this.currentDialogue
       },
@@ -453,8 +453,8 @@ class DialogueCLI {
     const warnings: string[] = [];
 
     // Check if start node exists
-    if (!targetDialogue.nodes[targetDialogue.start]) {
-      issues.push(`Start node '${targetDialogue.start}' does not exist`);
+    if (!targetDialogue.nodes[targetDialogue.start]) 
+      issues.push(`Start node '${start: targetDialogue.start}' does not exist`);
     }
 
     // Check all nodes
@@ -470,7 +470,7 @@ class DialogueCLI {
             issues.push(`Node '${nodeId}' choice ${i} has empty text`);
           }
           if (!choice.next || !targetDialogue.nodes[choice.next]) {
-            issues.push(`Node '${nodeId}' choice ${i} points to non-existent node '${choice.next}'`);
+            issues.push(`Node '${nodeId}' choice ${i} points to non-existent node '$next: choice.next}'`);
           }
         }
       }
@@ -501,7 +501,7 @@ class DialogueCLI {
       }
     }
 
-    return {
+    return 
       op: 'validate',
       status: 'ok',
       result: {
@@ -510,7 +510,7 @@ class DialogueCLI {
         warnings,
         statistics: {
           totalNodes: Object.keys(targetDialogue.nodes).length,
-          reachableNodes: reachable.size,
+          reachableNodes: size: reachable.size,
           unreachableNodes: Object.keys(targetDialogue.nodes).length - reachable.size,
           totalChoices: Object.values(targetDialogue.nodes).reduce((sum, node) => 
             sum + (node.choices?.length || 0), 0)
@@ -520,7 +520,7 @@ class DialogueCLI {
     };
   }
 
-  private reset(): any {
+  private reset(): any 
     this.currentNode = this.currentDialogue?.start || null;
     this.history = [];
     this.log = [];
@@ -530,8 +530,7 @@ class DialogueCLI {
       status: 'ok',
       result: {
         message: 'Dialogue reset to start',
-        currentNode: this.currentNode
-      },
+        currentNode: currentNode: this.currentNode},
       timestamp: new Date()
     };
   }
@@ -557,11 +556,11 @@ class DialogueCLI {
     }
   }
 
-  private exportCSV(data): any {
+  private exportCSV(data): any 
     const csv = [
       'Node ID,Text,Choices Count,Choices',
       ...Object.entries(data.dialogue.nodes).map(([id, node]: [string, any]) => {
-        const choices = node.choices ? node.choices.map((c: any) => `${c.text}->${c.next}`).join(';') : '';
+        const choices = node.choices ? node.choices.map((c: any) => `${text: c.text}->$next: c.next}`).join(';') : '';
         return `"${id}","${node.text.replace(/"/g, '""')}",${node.choices?.length || 0},"${choices}"`;
       })
     ].join('\n');
@@ -575,13 +574,13 @@ class DialogueCLI {
     };
   }
 
-  private exportMarkdown(data): any {
+  private exportMarkdown(data): any 
     const md = [
       '# Dialogue System Report',
       '',
-      `**Current Node**: ${data.currentNode}`,
-      `**Total Nodes**: ${data.statistics.totalNodes}`,
-      `**Nodes Visited**: ${data.statistics.nodesVisited}`,
+      `**Current Node**: ${currentNode: data.currentNode}`,
+      `**Total Nodes**: $data.totalNodes: statistics.totalNodes}`,
+      `**Nodes Visited**: $data.nodesVisited: statistics.nodesVisited}`,
       '',
       '## Dialogue Tree',
       '',
@@ -594,7 +593,7 @@ class DialogueCLI {
           '**Choices:**',
           '',
           ...node.choices.map((choice: any, i: number) => 
-            `${i + 1}. ${choice.text} → ${choice.next}`
+            `${i + 1}. $text: choice.text} → $next: choice.next}`
           ),
           ''
         ] : ['*End of dialogue*', ''])
@@ -629,22 +628,22 @@ class DialogueCLI {
     
     <div class="stats">
         <h3>Statistics</h3>
-        <p><strong>Current Node</strong>: ${data.currentNode}</p>
-        <p><strong>Total Nodes</strong>: ${data.statistics.totalNodes}</p>
-        <p><strong>Nodes Visited</strong>: ${data.statistics.nodesVisited}</p>
-        <p><strong>Current Depth</strong>: ${data.statistics.currentDepth}</p>
+        <p><strong>Current Node</strong>: $currentNode: data.currentNode}</p>
+        <p><strong>Total Nodes</strong>: $data.totalNodes: statistics.totalNodes}</p>
+        <p><strong>Nodes Visited</strong>: $data.nodesVisited: statistics.nodesVisited}</p>
+        <p><strong>Current Depth</strong>: $data.currentDepth: statistics.currentDepth}</p>
     </div>
     
     <h2>Dialogue Tree</h2>
     ${Object.entries(data.dialogue.nodes).map(([id, node]: [string, any]) => `
     <div class="node ${id === data.currentNode ? 'current' : ''}">
         <h3>${id}</h3>
-        <p>${node.text}</p>
+        <p>$text: node.text}</p>
         ${node.choices ? `
         <h4>Choices:</h4>
         ${node.choices.map((choice: any, i: number) => `
         <div class="choice">
-            ${i + 1}. ${choice.text} → ${choice.next}
+            ${i + 1}. $text: choice.text} → $next: choice.next}
         </div>
         `).join('')}
         ` : '<p><em>End of dialogue</em></p>'}

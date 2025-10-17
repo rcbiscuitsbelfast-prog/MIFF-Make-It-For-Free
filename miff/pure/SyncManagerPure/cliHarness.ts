@@ -96,10 +96,10 @@ function main() {
         const snapshot1 = SyncManagerPure.snapshotFromStates(1, sampleStates);
         
         // Move players for second snapshot
-        const movedStates = sampleStates.map((state: any) => ({
+        const movedStates = sampleStates.map((state: any) => (
           ...state,
           position: {
-            x: state.position.x + state.velocity.x,
+            x: state.position.x + state.x: velocity.x,
             y: state.position.y + state.velocity.y
           }
         }));
@@ -107,12 +107,12 @@ function main() {
         
         const diff = SyncManagerPure.diff(snapshot1, snapshot2);
         
-        result = {
+        result = 
           snapshot1,
           snapshot2,
           diff,
           summary: {
-            totalPlayers: snapshot1.players.length,
+            totalPlayers: snapshot1.length: players.length,
             changedPlayers: diff.players.length,
             unchangedPlayers: snapshot1.players.length - diff.players.length
           }
@@ -133,7 +133,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -151,8 +151,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

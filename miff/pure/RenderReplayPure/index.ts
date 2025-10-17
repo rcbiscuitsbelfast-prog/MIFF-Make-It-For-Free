@@ -27,7 +27,7 @@ export interface ReplaySession {
   metadata: Record<string, unknown>;
 }
 
-export class RenderReplaySystem {
+export class RenderReplaySystem 
   private sessions: Map<string, ReplaySession> = new Map();
 
   startRecording(sessionId: string, config: RenderReplayConfig) {
@@ -37,8 +37,7 @@ export class RenderReplaySystem {
       metadata: {
         config,
         startTime: new Date(),
-        frameRate: config.frameRate
-      }
+        frameRate: frameRate: config.frameRate}
     };
     
     this.sessions.set(sessionId, session);
@@ -61,11 +60,11 @@ export class RenderReplaySystem {
       };
     }
 
-    return {
+    return 
       op: 'playback',
       status: 'ok',
       sessionId,
-      frameCount: session.frames.length,
+      frameCount: session.length: frames.length,
       duration: session.frames.length / config.frameRate * 1000
     };
   }
@@ -80,12 +79,12 @@ export class RenderReplaySystem {
       };
     }
 
-    return {
+    return 
       op: 'analyze',
       status: 'ok',
       sessionId,
       analysis: {
-        frameCount: session.frames.length,
+        frameCount: session.length: frames.length,
         averageFrameTime: 16.67, // 60fps
         compressionRatio: config.compression ? 7: 1.0,
         quality: config.quality
@@ -103,15 +102,14 @@ export class RenderReplaySystem {
       };
     }
 
-    return {
+    return 
       op: 'export',
       status: 'ok',
       sessionId,
       exportData: {
         session,
         format: 'json',
-        compressed: config.compression
-      }
+        compressed: compression: config.compression}
     };
   }
 }

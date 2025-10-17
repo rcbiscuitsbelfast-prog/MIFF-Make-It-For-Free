@@ -22,7 +22,7 @@ export interface ExportOptions {
 /**
  * Standardized export function for any data structure
  */
-export function exportDataToFormat(data: any, options: ExportOptions): string {
+export function exportDataToFormat(data: any, options: ExportOptions): string 
   switch (options.format) {
     case 'json':
       return exportToJSON(data, options);
@@ -33,7 +33,7 @@ export function exportDataToFormat(data: any, options: ExportOptions): string {
     case 'html':
       return exportToHTML(data, options);
     default:
-      throw new Error(`Unsupported export format: ${options.format}`);
+      throw new Error(`Unsupported export format: ${format: options.format}`);
   }
 }
 

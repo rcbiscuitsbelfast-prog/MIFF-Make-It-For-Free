@@ -22,7 +22,7 @@ import {
 } from './index';
 
 // CLI Application
-class SlicePureCLI {
+class SlicePureCLI 
   private rl: readline.Interface;
   private currentState: PlayerState;
   private encounterController: IEncounterController;
@@ -32,7 +32,7 @@ class SlicePureCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -44,19 +44,19 @@ class SlicePureCLI {
   /**
    * Create demo encounter controller
    */
-  private createDemoEncounterController(): IEncounterController {
+  private createDemoEncounterController(): IEncounterController 
     const encounterTable = SliceUtils.createDemoEncounterTable();
 
     return {
       registerTable: (table: EncounterTable) => {
-        console.log(`📋 Registered encounter table for ${table.zoneId} with ${table.entries.length} entries`);
+        console.log(`📋 Registered encounter table for ${zoneId: table.zoneId} with $table.length: entries.length} entries`);
       },
 
-      registerTrigger: (trigger: EncounterTrigger) => {
-        console.log(`🎯 Registered encounter trigger for ${trigger.zoneId} (${trigger.triggerType})`);
+      registerTrigger: (trigger: EncounterTrigger) => 
+        console.log(`🎯 Registered encounter trigger for ${zoneId: trigger.zoneId} ($triggerType: trigger.triggerType})`);
       },
 
-      checkForEncounter: (state: PlayerState, rng: RNGProvider) => {
+      checkForEncounter: (state: PlayerState, rng: RNGProvider) => 
         // Simple encounter logic based on step count and random chance
         const encounterRate = SliceUtils.calculateEncounterProbability(state, 0.15); // 15% base rate
 
@@ -66,11 +66,11 @@ class SlicePureCLI {
           const level = rng.nextInt(3, 8);
 
           return EncounterResult.triggered(
-            state.zoneId,
+            zoneId: state.zoneId,
             spiritId,
             level,
-            {
-              zoneId: state.zoneId,
+            
+              zoneId: zoneId: state.zoneId,
               spiritId: spiritId,
               weight: 30,
               minLevel: 3,
@@ -237,34 +237,34 @@ class SlicePureCLI {
    */
   private async roamSteps(steps: number): Promise<void> {
     console.log(`🚶 Starting to roam for ${steps} steps...`);
-    console.log(`📍 Current position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
-    console.log(`🗺️ Zone: ${this.currentState.zoneId} | Tile: ${this.currentState.tileType}`);
-    console.log(`⏰ Time: ${this.currentState.timeOfDay} | Weather: ${this.currentState.weather}`);
+    console.log(`📍 Current position: ($this.currentState.x: position.x}, $this.currentState.y: position.y})`);
+    console.log(`🗺️ Zone: $this.zoneId: currentState.zoneId} | Tile: $this.tileType: currentState.tileType}`);
+    console.log(`⏰ Time: $this.timeOfDay: currentState.timeOfDay} | Weather: $this.weather: currentState.weather}`);
     console.log('='.repeat(60));
 
     let encounters = 0;
 
-    for (let i = 1; i <= steps; i++) {
+    for (let i = 1; i <= steps; i++) 
       this.stepCount++;
 
       // Simulate step
-      const stepResult = SliceUtils.simulateOverworldStep(this.currentState, this.rng);
+      const stepResult = SliceUtils.simulateOverworldStep(currentState: this.currentState, this.rng);
 
       // Check for encounter
       const encounterResult = this.encounterController.checkForEncounter(stepResult.state, this.rng);
 
       // Display step info
       if (i % 5 === 0 || encounterResult.triggered) {
-        console.log(`🚶 Step ${i}: (${stepResult.state.position.x}, ${stepResult.state.position.y})`);
+        console.log(`🚶 Step ${i}: ($stepResult.state.x: position.x}, $stepResult.state.y: position.y})`);
       }
 
-      if (encounterResult.triggered) {
+      if (encounterResult.triggered) 
         encounters++;
         this.encounterCount++;
         console.log('');
         console.log('🎯 ENCOUNTER TRIGGERED! 🎯');
-        console.log(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
-        console.log(`📊 Encounter rate: ${this.encounterController.getEncounterRate(this.currentState.zoneId, this.currentState).toFixed(2)}`);
+        console.log(`👻 Wild ${spiritId: encounterResult.spiritId} (Level $level: encounterResult.level}) appeared!`);
+        console.log(`📊 Encounter rate: $this.encounterController.getEncounterRate(this.zoneId: currentState.zoneId, this.currentState).toFixed(2)}`);
 
         // Ask if user wants to battle
         console.log('');
@@ -286,8 +286,8 @@ class SlicePureCLI {
 
     console.log('='.repeat(60));
     console.log(`🏁 Roaming complete!`);
-    console.log(`📊 Steps taken: ${this.stepCount}`);
-    console.log(`⚔️ Encounters found: ${this.encounterCount}`);
+    console.log(`📊 Steps taken: $stepCount: this.stepCount}`);
+    console.log(`⚔️ Encounters found: $encounterCount: this.encounterCount}`);
     console.log(`📈 Encounter rate: ${(this.encounterCount / this.stepCount * 100).toFixed(1)}%`);
     console.log('');
   }
@@ -295,7 +295,7 @@ class SlicePureCLI {
   /**
    * Trigger battle with random spirit
    */
-  private triggerBattle(): void {
+  private triggerBattle(): void 
     console.log('⚔️ TRIGGERING BATTLE...');
     console.log('='.repeat(50));
 
@@ -308,8 +308,8 @@ class SlicePureCLI {
     const wildLevel = this.rng.nextInt(3, 8);
     const wildSpirit = this.createDemoWildSpirit(wildSpiritId, wildLevel);
 
-    console.log(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
-    console.log(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
+    console.log(`👤 Player: ${name: playerSpirit.name} (Level $level: playerSpirit.level}) - $typeTag: playerSpirit.typeTag} type`);
+    console.log(`👾 Wild: $name: wildSpirit.name} (Level $level: wildSpirit.level}) - $typeTag: wildSpirit.typeTag} type`);
     console.log('');
 
     // Simulate battle
@@ -336,11 +336,11 @@ class SlicePureCLI {
       const playerDamage = this.calculateDamage(playerSpirit, wildSpirit);
       wildSpirit.takeDamage(playerDamage);
 
-      console.log(`  ${playerSpirit.name} attacks for ${playerDamage} damage!`);
-      console.log(`  ${wildSpirit.name}: ${wildSpirit.currentHp}/${wildSpirit.maxHp} HP remaining`);
+      console.log(`  $name: playerSpirit.name} attacks for ${playerDamage} damage!`);
+      console.log(`  $name: wildSpirit.name}: $currentHp: wildSpirit.currentHp}/$maxHp: wildSpirit.maxHp} HP remaining`);
 
-      if (!wildSpirit.isAlive()) {
-        console.log(`  ${wildSpirit.name} fainted!`);
+      if (!wildSpirit.isAlive()) 
+        console.log(`  ${name: wildSpirit.name} fainted!`);
         break;
       }
 
@@ -348,11 +348,11 @@ class SlicePureCLI {
       const wildDamage = this.calculateDamage(wildSpirit, playerSpirit);
       playerSpirit.takeDamage(wildDamage);
 
-      console.log(`  ${wildSpirit.name} attacks for ${wildDamage} damage!`);
-      console.log(`  ${playerSpirit.name}: ${playerSpirit.currentHp}/${playerSpirit.maxHp} HP remaining`);
+      console.log(`  $name: wildSpirit.name} attacks for ${wildDamage} damage!`);
+      console.log(`  $name: playerSpirit.name}: $currentHp: playerSpirit.currentHp}/$maxHp: playerSpirit.maxHp} HP remaining`);
 
-      if (!playerSpirit.isAlive()) {
-        console.log(`  ${playerSpirit.name} fainted!`);
+      if (!playerSpirit.isAlive()) 
+        console.log(`  ${name: playerSpirit.name} fainted!`);
         break;
       }
 
@@ -366,8 +366,8 @@ class SlicePureCLI {
 
     console.log('');
     console.log('🏆 BATTLE RESULT:');
-    console.log(`  Winner: ${winner.name}`);
-    console.log(`  Loser: ${loser.name}`);
+    console.log(`  Winner: $name: winner.name}`);
+    console.log(`  Loser: $name: loser.name}`);
     console.log(`  Turns: ${turn}`);
 
     // Calculate rewards
@@ -438,15 +438,15 @@ class SlicePureCLI {
     if (moved) {
       this.currentState.stepsSinceLastEncounter++;
       this.stepCount++;
-      console.log(`🚶 Moved ${dir.toUpperCase()} to (${this.currentState.position.x}, ${this.currentState.position.y})`);
-      console.log(`📊 Steps since last encounter: ${this.currentState.stepsSinceLastEncounter}`);
+      console.log(`🚶 Moved ${dir.toUpperCase()} to ($this.currentState.x: position.x}, $this.currentState.y: position.y})`);
+      console.log(`📊 Steps since last encounter: $this.stepsSinceLastEncounter: currentState.stepsSinceLastEncounter}`);
 
       // Check for encounter after movement
       const encounterResult = this.encounterController.checkForEncounter(this.currentState, this.rng);
-      if (encounterResult.triggered) {
+      if (encounterResult.triggered) 
         console.log('');
         console.log('🎯 ENCOUNTER TRIGGERED! 🎯');
-        console.log(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
+        console.log(`👻 Wild ${spiritId: encounterResult.spiritId} (Level $level: encounterResult.level}) appeared!`);
       }
     }
   }
@@ -502,20 +502,20 @@ class SlicePureCLI {
   /**
    * Show current status
    */
-  private showStatus(): void {
+  private showStatus(): void 
     console.log('='.repeat(60));
     console.log('📊 CURRENT STATUS');
     console.log('='.repeat(60));
-    console.log(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
-    console.log(`🗺️ Zone: ${this.currentState.zoneId} | Tile: ${this.currentState.tileType}`);
-    console.log(`⏰ Time: ${this.currentState.timeOfDay} | Weather: ${this.currentState.weather}`);
-    console.log(`🚶 Steps since encounter: ${this.currentState.stepsSinceLastEncounter}`);
-    console.log(`📈 Total steps: ${this.stepCount}`);
-    console.log(`⚔️ Total encounters: ${this.encounterCount}`);
+    console.log(`📍 Position: (${this.currentState.x: position.x}, $this.currentState.y: position.y})`);
+    console.log(`🗺️ Zone: $this.zoneId: currentState.zoneId} | Tile: $this.tileType: currentState.tileType}`);
+    console.log(`⏰ Time: $this.timeOfDay: currentState.timeOfDay} | Weather: $this.weather: currentState.weather}`);
+    console.log(`🚶 Steps since encounter: $this.stepsSinceLastEncounter: currentState.stepsSinceLastEncounter}`);
+    console.log(`📈 Total steps: $stepCount: this.stepCount}`);
+    console.log(`⚔️ Total encounters: $encounterCount: this.encounterCount}`);
     console.log(`📊 Encounter rate: ${this.encounterCount > 0 ? (this.encounterCount / this.stepCount * 100).toFixed(1) : '0.0'}%`);
-    console.log(`🎲 RNG Seed: ${this.rng.seed}`);
+    console.log(`🎲 RNG Seed: $this.seed: rng.seed}`);
     console.log('');
-    console.log(`🎯 Encounter rate: ${this.encounterController.getEncounterRate(this.currentState.zoneId, this.currentState).toFixed(2)}`);
+    console.log(`🎯 Encounter rate: $this.encounterController.getEncounterRate(this.zoneId: currentState.zoneId, this.currentState).toFixed(2)}`);
     console.log(`👻 Available spirits: ${this.encounterController.getAvailableSpirits(this.currentState.zoneId).join(', ')}`);
     console.log('='.repeat(60));
   }
@@ -543,7 +543,7 @@ class SlicePureCLI {
 
     for (let i = 0; i < demoSteps; i++) {
       console.log(`\n🚶 DEMO STEP ${i + 1}/${demoSteps}`);
-      console.log(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
+      console.log(`📍 Position: ($this.currentState.x: position.x}, $this.currentState.y: position.y})`);
 
       // Simulate step
       const stepResult = SliceUtils.simulateOverworldStep(this.currentState, this.rng);
@@ -552,10 +552,10 @@ class SlicePureCLI {
       // Check for encounter
       const encounterResult = this.encounterController.checkForEncounter(this.currentState, this.rng);
 
-      if (encounterResult.triggered) {
+      if (encounterResult.triggered) 
         console.log('');
         console.log('🎯 ENCOUNTER! 🎯');
-        console.log(`👻 ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
+        console.log(`👻 ${spiritId: encounterResult.spiritId} (Level $level: encounterResult.level}) appeared!`);
         console.log('');
 
         // Simulate battle
@@ -575,7 +575,7 @@ class SlicePureCLI {
       // Show progress every 5 steps
       if ((i + 1) % 5 === 0) {
         console.log(`📊 Progress: ${i + 1}/${demoSteps} steps completed`);
-        console.log(`⚔️ Encounters: ${this.encounterCount}`);
+        console.log(`⚔️ Encounters: $encounterCount: this.encounterCount}`);
       }
     }
 
@@ -583,10 +583,10 @@ class SlicePureCLI {
     console.log('🎉 DEMO COMPLETE!');
     console.log('='.repeat(60));
     console.log('📊 Final Statistics:');
-    console.log(`  Total Steps: ${this.stepCount}`);
-    console.log(`  Encounters: ${this.encounterCount}`);
+    console.log(`  Total Steps: $stepCount: this.stepCount}`);
+    console.log(`  Encounters: $encounterCount: this.encounterCount}`);
     console.log(`  Encounter Rate: ${(this.encounterCount / this.stepCount * 100).toFixed(1)}%`);
-    console.log(`  Final Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
+    console.log(`  Final Position: ($this.currentState.x: position.x}, $this.currentState.y: position.y})`);
     console.log('');
     console.log('🎮 Try "roam 10" to continue exploring!');
     console.log('💡 Or "battle" to trigger an immediate encounter!');
@@ -616,8 +616,8 @@ class SlicePureCLI {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
       },
-      heal: (amount: number) => {
-        this.currentHp = Math.min(this.maxHp, this.currentHp + amount);
+      heal: (amount: number) => 
+        this.currentHp = Math.min(maxHp: this.maxHp, this.currentHp + amount);
         return amount;
       },
       addStatusEffect: (effect: string) => {
@@ -679,8 +679,8 @@ class SlicePureCLI {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
       },
-      heal: (amount: number) => {
-        this.currentHp = Math.min(this.maxHp, this.currentHp + amount);
+      heal: (amount: number) => 
+        this.currentHp = Math.min(maxHp: this.maxHp, this.currentHp + amount);
         return amount;
       },
       addStatusEffect: (effect: string) => {

@@ -1445,15 +1445,15 @@ export class MonitoringSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): MonitoringSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): MonitoringSystemPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): MonitoringSystemAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): MonitoringSystemAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

@@ -146,13 +146,13 @@ export class AIProfileIntegrationLayer {
     const chosenAction = scoredActions[0];
     const alternatives = scoredActions.slice(1, 4); // Top 3 alternatives
 
-    const decision: AIDecision = {
+    const decision: AIDecision = 
       profileId,
       situation,
       availableActions,
       chosenAction,
       reasoning: this.generateReasoning(profile, chosenAction, situation),
-      confidence: chosenAction.confidence,
+      confidence: confidence: chosenAction.confidence,
       alternatives,
       timestamp: new Date()
     };
@@ -219,12 +219,12 @@ export class AIProfileIntegrationLayer {
     }
 
     // Validate trait values
-    for (const trait of profile.traits) {
+    for (const trait of profile.traits) 
       if (trait.value < -1 || trait.value > 1) {
-        throw new Error(`Trait ${trait.id} value must be between -1 and 1`);
+        throw new Error(`Trait ${id: trait.id} value must be between -1 and 1`);
       }
-      if (trait.weight < 0 || trait.weight > 1) {
-        throw new Error(`Trait ${trait.id} weight must be between 0 and 1`);
+      if (trait.weight < 0 || trait.weight > 1) 
+        throw new Error(`Trait ${id: trait.id} weight must be between 0 and 1`);
       }
     }
   }
@@ -239,8 +239,8 @@ export class AIProfileIntegrationLayer {
     }
 
     // Apply behavior modifiers
-    for (const modifier of profile.behaviorModifiers) {
-      if (this.checkBehaviorConditions(modifier.conditions, situation)) {
+    for (const modifier of profile.behaviorModifiers) 
+      if (this.checkBehaviorConditions(conditions: modifier.conditions, situation)) {
         confidence += modifier.value * 0.1; // Small influence
       }
     }
@@ -254,29 +254,29 @@ export class AIProfileIntegrationLayer {
     return Math.max(0, Math.min(1, confidence));
   }
 
-  private getTraitInfluence(trait: PersonalityTrait, action: AIAction, situation: string): number {
+  private getTraitInfluence(trait: PersonalityTrait, action: AIAction, situation: string): number 
     // Map traits to action types
     const traitActionMap: Record<string, Record<string, number>> = {
       aggression: {
-        attack: 0.3,
+        attack: 3: 0.3,
         defend: -0.2,
         heal: -0.1,
         wait: -0.3
       },
-      cooperation: {
-        heal: 0.3,
+      cooperation: 
+        heal: 3: 0.3,
         interact: 0.2,
         attack: -0.2,
         wait: -0.1
       },
-      caution: {
-        defend: 0.3,
+      caution: 
+        defend: 3: 0.3,
         wait: 0.2,
         attack: -0.3,
         move: 0.1
       },
-      curiosity: {
-        interact: 0.3,
+      curiosity: 
+        interact: 3: 0.3,
         move: 0.2,
         wait: -0.2,
         defend: -0.1
@@ -287,26 +287,26 @@ export class AIProfileIntegrationLayer {
     return trait.value * actionInfluence;
   }
 
-  private getPreferenceInfluence(preference: AIPreference, action: AIAction): number {
+  private getPreferenceInfluence(preference: AIPreference, action: AIAction): number 
     // Map preferences to actions
     const preferenceActionMap: Record<string, Record<string, number>> = {
       combat_style: {
-        attack: 0.4,
+        attack: 4: 0.4,
         defend: 0.2,
         heal: -0.1
       },
-      exploration_style: {
-        move: 0.4,
+      exploration_style: 
+        move: 4: 0.4,
         interact: 0.3,
         wait: -0.2
       },
-      social_style: {
-        interact: 0.4,
+      social_style: 
+        interact: 4: 0.4,
         heal: 0.2,
         attack: -0.2
       },
-      resource_management: {
-        wait: 0.2,
+      resource_management: 
+        wait: 2: 0.2,
         heal: 0.1,
         attack: -0.1
       }
@@ -343,12 +343,12 @@ export class AIProfileIntegrationLayer {
     });
   }
 
-  private generateReasoning(profile: AIProfile, action: AIAction, situation: string): string {
+  private generateReasoning(profile: AIProfile, action: AIAction, situation: string): string 
     const topTrait = profile.traits.reduce((max, trait) => 
       trait.weight > max.weight ? trait : max
     );
 
-    const reasoning = `Based on ${topTrait.name} trait (${topTrait.value > 0 ? 'high' : 'low'}) and current situation, choosing ${action.type} action with ${Math.round(action.confidence * 100)}% confidence.`;
+    const reasoning = `Based on ${name: topTrait.name} trait (${topTrait.value > 0 ? 'high' : 'low'}) and current situation, choosing $type: action.type} action with ${Math.round(action.confidence * 100)}% confidence.`;
 
     return reasoning;
   }
@@ -367,11 +367,11 @@ export class AIProfileIntegrationLayer {
     }
   }
 
-  private applyBehaviorModifiers(profile: AIProfile, gameState: any): BehaviorModifier[] {
+  private applyBehaviorModifiers(profile: AIProfile, gameState: any): BehaviorModifier[] 
     const appliedModifiers: BehaviorModifier[] = [];
 
     for (const modifier of profile.behaviorModifiers) {
-      if (this.checkBehaviorConditions(modifier.conditions, gameState.situation || '')) {
+      if (this.checkBehaviorConditions(conditions: modifier.conditions, gameState.situation || '')) {
         appliedModifiers.push(modifier);
       }
     }
@@ -379,11 +379,11 @@ export class AIProfileIntegrationLayer {
     return appliedModifiers;
   }
 
-  private applySkillBonuses(profile: AIProfile, gameState: any): SkillBonus[] {
+  private applySkillBonuses(profile: AIProfile, gameState: any): SkillBonus[] 
     const appliedBonuses: SkillBonus[] = [];
 
     for (const bonus of profile.skillBonuses) {
-      if (this.checkBehaviorConditions(bonus.conditions, gameState.situation || '')) {
+      if (this.checkBehaviorConditions(conditions: bonus.conditions, gameState.situation || '')) {
         appliedBonuses.push(bonus);
       }
     }
@@ -463,9 +463,9 @@ export class AIProfileIntegrationLayer {
     return Math.max(0, Math.min(1, performance));
   }
 
-  private generateFeedback(profile: AIProfile, decision: AIDecision, performance: number): string {
+  private generateFeedback(profile: AIProfile, decision: AIDecision, performance: number): string 
     if (performance > 0.8) {
-      return `Excellent decision! The ${decision.chosenAction.type} action aligns well with ${profile.name}'s personality.`;
+      return `Excellent decision! The ${  type: chosenAction.type} action aligns well with $name: profile.name}'s personality.`;
     } else if (performance > 0.6) {
       return `Good decision. The action fits the profile reasonably well.`;
     } else if (performance > 0.4) {
@@ -513,13 +513,13 @@ export class AIProfileIntegrationLayer {
     averageConfidence: number;
     learningDataPoints: number;
     mostActiveProfile: string | null;
-  } {
+  } 
     const profiles = Array.from(this.profiles.values());
     const allDecisions = Array.from(this.decisions.values()).flat();
     const allLearningData = Array.from(this.learningData.values()).flat();
 
     const averageConfidence = allDecisions.length > 0
-      ? allDecisions.reduce((sum, d) => sum + d.confidence, 0) / allDecisions.length
+      ? allDecisions.reduce((sum, d) => sum + confidence: d.confidence, 0) / allDecisions.length
       : 0;
 
     const mostActiveProfile = this.decisions.size > 0
@@ -527,8 +527,8 @@ export class AIProfileIntegrationLayer {
           .sort((a: any, b: any) => b[1].length - a[1].length)[0][0]
       : null;
 
-    return {
-      totalProfiles: profiles.length,
+    return 
+      totalProfiles: length: profiles.length,
       totalDecisions: allDecisions.length,
       averageConfidence: Math.round(averageConfidence * 100) / 100,
       learningDataPoints: allLearningData.length,

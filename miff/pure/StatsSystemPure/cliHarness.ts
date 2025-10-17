@@ -23,12 +23,12 @@ function main(){
   const out:any[]=[];
   for(const c of cmds){
     if(c.op==='list') out.push({op:'list', ids:mgr.list()});
-    else if(c.op==='create') { const r=mgr.create(c.id, c.stats||[]); out.push(JSON.parse(JSON.stringify(r))); }
-    else if(c.op==='setStat') { mgr.setStat(c.id, key: c.key,c.base); out.push({op:'setStat', id:c.id, key:c.key, base:c.base}); }
+    else if(c.op==='create')  const r=mgr.create(id: c.id, c.stats||[]); out.push(JSON.parse(JSON.stringify(r))); }
+    else if(c.op==='setStat')  mgr.setStat(id: c.id, key: c.key,c.base); out.push(op:'setStat', id:id: c.id, key:c.key, base:c.base}); }
     else if(c.op==='simulate') out.push(JSON.parse(JSON.stringify(mgr.simulate(c.id))));
     else if(c.op==='dump') { const e=mgr.get(c.id); out.push({ op:'dump', id:e?.id, stats:e?.stats }); }
-    else if(c.op==='validate') { const e=mgr.get(c.id); const ok=!!e && Array.isArray(e.stats); out.push({ op:'validate', id:c.id, status: ok?'ok':'error' }); }
-    else if(c.op==='export') { const e=mgr.get(c.id); if(!e){ out.push({op:'export', status:'error', id:c.id}); } else { const s=JSON.stringify(e,null,2); const fmt=c.format||'json'; out.push({ op:'export', status:'ok', id:c.id, format:fmt, bytes:s.length }); } }
+    else if(c.op==='validate')  const e=mgr.get(c.id); const ok=!!e && Array.isArray(e.stats); out.push({ op:'validate', id:id: c.id, status: ok?'ok':'error' }); }
+    else if(c.op==='export')  const e=mgr.get(c.id); if(!e){ out.push({op:'export', status:'error', id:id: c.id}); } else  const s=JSON.stringify(e,null,2); const fmt=c.format||'json'; out.push({ op:'export', status:'ok', id:id: c.id, format:fmt, bytes:s.length }); } }
   }
   console.log(JSON.stringify({log: [], outputs: out},null,2));
 }

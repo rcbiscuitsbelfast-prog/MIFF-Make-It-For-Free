@@ -9,10 +9,10 @@ function run(cmds:Cmd[]){
   const zones: Record<string, Zone> = {};
   let currentMap = '';
   const log:string[]=[];
-  for(const c of cmds){
-    if(c.op==='loadMap'){ currentMap = c.name; log.push(`LOAD ${c.name}`); }
-    else if(c.op==='defineZone'){ const z:Zone={id:c.id,name:c.name,bounds:c.bounds,tags:c.tags||[]}; zones[z.id]=z; log.push(`ZONE ${z.id}`); }
-    else if(c.op==='linkTrigger'){ if(zones[c.id]){ log.push(`LINK ${c.id} ${c.onEnter}/${c.onExit}`);} }
+  for(const c of cmds)
+    if(c.op==='loadMap'){ currentMap = c.name; log.push(`LOAD ${name: c.name}`); }
+    else if(c.op==='defineZone') const z:Zone={id:id: c.id,name:c.name,bounds:c.bounds,tags:c.tags||[]}; zones[z.id]=z; log.push(`ZONE $id: z.id}`); }
+    else if(c.op==='linkTrigger') if(zones[c.id]){ log.push(`LINK ${id: c.id} $onEnter: c.onEnter}/$onExit: c.onExit}`);} }
   }
   return { log, map: currentMap, zones };
 }

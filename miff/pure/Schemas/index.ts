@@ -188,7 +188,7 @@ export class SchemaValidator {
         break;
 
       default:
-        errors.push(`unknown field type '${fieldDef.type}' for field '${fieldPath}'`);
+        errors.push(`unknown field type '$type: fieldDef.type}' for field '${fieldPath}'`);
     }
 
     return errors;

@@ -194,10 +194,10 @@ export class HealthSystemManager {
 
     // Apply shields if not bypassed
     let damageToHp = finalAmount;
-    if (!options.bypassShields) {
+    if (!options.bypassShields) 
       for (const shield of entity.shields) {
-        if (shield.amount > 0 && this.isShieldEffective(shield, damageType: options.damageType, options.element)) {
-          const absorbed = Math.min(shield.amount, damageToHp * (shield.absorption / 100));
+        if (shield.amount > 0 && this.isShieldEffective(shield, damageType: damageType: options.damageType, options.element)) 
+          const absorbed = Math.min(amount: shield.amount, damageToHp * (shield.absorption / 100));
           shield.amount -= absorbed;
           damageToHp -= absorbed;
           
@@ -337,7 +337,7 @@ export class HealthSystemManager {
   /**
    * Simulate health system tick
    */
-  simulateTick(): HealthOutput {
+  simulateTick(): HealthOutput 
     const now = Date.now();
     const updatedEntities: HealthEntity[] = [];
 
@@ -348,13 +348,13 @@ export class HealthSystemManager {
       for (const regen of entity.regeneration) {
         if (now - regen.lastTick >= regen.interval * 1000 && now < regen.expiresAt) {
           if (regen.type === 'hp' || regen.type === 'both') {
-            entity.currentHp = Math.min(entity.maxHp, entity.currentHp + regen.amount);
+            entity.currentHp = Math.min(maxHp: entity.maxHp, entity.currentHp + regen.amount);
           }
-          if (regen.type === 'shield' || regen.type === 'both') {
+          if (regen.type === 'shield' || regen.type === 'both') 
             // Add shield regeneration
             const shieldRegen = entity.shields.find(s => s.id === regen.id);
             if (shieldRegen) {
-              shieldRegen.amount = Math.min(shieldRegen.maxAmount, shieldRegen.amount + regen.amount);
+              shieldRegen.amount = Math.min(maxAmount: shieldRegen.maxAmount, shieldRegen.amount + regen.amount);
             }
           }
           regen.lastTick = now;
@@ -421,13 +421,13 @@ export class HealthSystemManager {
   /**
    * Get health statistics
    */
-  getHealthStats(): HealthOutput {
+  getHealthStats(): HealthOutput 
     const entities = Array.from(this.entities.values());
     const aliveEntities = entities.filter((e: any) => e.currentHp > 0);
     const deadEntities = entities.filter((e: any) => e.currentHp <= 0);
     
     const averageHp = entities.length > 0 
-      ? entities.reduce((sum, e) => sum + e.currentHp, 0) / entities.length 
+      ? entities.reduce((sum, e) => sum + currentHp: e.currentHp, 0) / entities.length 
       : 0;
     
     const totalShields = entities.reduce((sum, e) => 
@@ -452,8 +452,8 @@ export class HealthSystemManager {
       }
     });
 
-    const stats: HealthStats = {
-      totalEntities: entities.length,
+    const stats: HealthStats = 
+      totalEntities: length: entities.length,
       aliveEntities: aliveEntities.length,
       deadEntities: deadEntities.length,
       averageHp,
@@ -475,7 +475,7 @@ export class HealthSystemManager {
   /**
    * Export health data
    */
-  exportHealth(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): HealthOutput {
+  exportHealth(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): HealthOutput 
     const entities = Array.from(this.entities.values());
 
     switch (format) {
@@ -483,11 +483,11 @@ export class HealthSystemManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities.length }
+          result: { entities, total: length: entities.length}
         };
       
       case 'manifest':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
@@ -495,19 +495,18 @@ export class HealthSystemManager {
             entities,
             events: this.events.slice(-100), // Last 100 events
             exportedAt: new Date().toISOString(),
-            total: entities.length
-          }
+            total: length: entities.length}
         };
       
       case 'summary':
         const stats = this.getHealthStats();
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats.result,
-            entities: entities.map((entity: any) => ({
-              id: entity.id,
+            summary: result: stats.result,
+            entities: entities.map((entity: any) => (
+              id: id: entity.id,
               currentHp: entity.currentHp,
               maxHp: entity.maxHp,
               shields: entity.shields.length,
@@ -518,11 +517,11 @@ export class HealthSystemManager {
         };
       
       case 'events':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            events: this.events,
+            events: events: this.events,
             total: this.events.length
           }
         };

@@ -23,7 +23,7 @@ import {
 /**
  * Strategic CLI for TeamsPure
  */
-export class TeamsPureStrategicCLI {
+export class TeamsPureStrategicCLI 
   private teamManager: TeamManager;
   private rl: readline.Interface;
   private isRunning: boolean = false;
@@ -32,7 +32,7 @@ export class TeamsPureStrategicCLI {
   constructor() {
     this.teamManager = new TeamManager();
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -125,8 +125,8 @@ export class TeamsPureStrategicCLI {
       name,
       type,
       level,
-      getEffectiveStats: () => ({
-        attack: stats.attack,
+      getEffectiveStats: () => (
+        attack: attack: stats.attack,
         defense: stats.defense,
         speed: stats.speed,
         hp: stats.hp,
@@ -263,12 +263,12 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log('\n📋 Available Teams:');
-    teams.forEach((team: any) => {
+    teams.forEach((team: any) => 
       const spirits = team.spirits;
       const types = new Set(spirits.map((s: any) => s.type));
-      const avgLevel = spirits.length > 0 ? spirits.reduce((sum, s) => sum + s.level, 0) / length: 0;
+      const avgLevel = spirits.length > 0 ? spirits.reduce((sum, s) => sum + level: s.level, 0) / length: 0;
 
-      console.log(`  ${team.name} (${spirits.length}/${team.maxSize} spirits)`);
+      console.log(`  $name: team.name} ($length: spirits.length}/$maxSize: team.maxSize} spirits)`);
       console.log(`    Types: ${Array.from(types).join(', ')}`);
       console.log(`    Avg Level: ${avgLevel.toFixed(1)}`);
       console.log(`    Strategy: ${this.getTeamStrategy(team)}`);
@@ -278,12 +278,12 @@ export class TeamsPureStrategicCLI {
   /**
    * List all available spirits
    */
-  private listSpirits(): void {
+  private listSpirits(): void 
     console.log('\n🧬 Available Spirits:');
     this.mockSpirits.forEach((spirit: any) => {
       const stats = spirit.getEffectiveStats();
-      console.log(`  ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
-      console.log(`    ATK: ${stats.attack} | DEF: ${stats.defense} | SPD: ${stats.speed} | HP: ${stats.hp}`);
+      console.log(`  ${name: spirit.name} ($type: spirit.type}, Lv$level: spirit.level})`);
+      console.log(`    ATK: $attack: stats.attack} | DEF: $defense: stats.defense} | SPD: $speed: stats.speed} | HP: $hp: stats.hp}`);
     });
   }
 
@@ -304,14 +304,14 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n🔍 Strategic Analysis for ${team.name}:`);
+    console.log(`\n🔍 Strategic Analysis for $name: team.name}:`);
     const analysis = this.teamManager.getStrategicAnalysis(teamId);
 
-    console.log(`Overall Strength: ${analysis.overallStrength}/100`);
-    console.log(`Offensive Rating: ${analysis.offensiveRating}/100`);
-    console.log(`Defensive Rating: ${analysis.defensiveRating}/100`);
-    console.log(`Mobility Rating: ${analysis.mobilityRating}/100`);
-    console.log(`Synergy Rating: ${analysis.synergyRating}/100`);
+    console.log(`Overall Strength: $overallStrength: analysis.overallStrength}/100`);
+    console.log(`Offensive Rating: $offensiveRating: analysis.offensiveRating}/100`);
+    console.log(`Defensive Rating: $defensiveRating: analysis.defensiveRating}/100`);
+    console.log(`Mobility Rating: $mobilityRating: analysis.mobilityRating}/100`);
+    console.log(`Synergy Rating: $synergyRating: analysis.synergyRating}/100`);
     console.log(`Type Coverage: ${analysis.typeCoverage.toFixed(1)}%`);
 
     console.log('\n💪 Strengths:');
@@ -356,17 +356,17 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n🎯 Optimal Composition for ${team.name}:`);
+    console.log(`\n🎯 Optimal Composition for $name: team.name}:`);
     const recommendation = this.teamManager.getOptimalTeamComposition(teamId, this.mockSpirits);
 
-    console.log(`Predicted Performance: ${recommendation.predictedPerformance}/100`);
+    console.log(`Predicted Performance: $predictedPerformance: recommendation.predictedPerformance}/100`);
     console.log(`Risk Level: ${recommendation.riskLevel.toUpperCase()}`);
 
     console.log('\n📋 Recommended Team:');
     recommendation.recommendedTeam.forEach((spirit, index) => {
       const stats = spirit.getEffectiveStats();
-      console.log(`  ${index + 1}. ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
-      console.log(`     ATK: ${stats.attack} | DEF: ${stats.defense} | SPD: ${stats.speed}`);
+      console.log(`  ${index + 1}. $name: spirit.name} ($type: spirit.type}, Lv$level: spirit.level})`);
+      console.log(`     ATK: $attack: stats.attack} | DEF: $defense: stats.defense} | SPD: $speed: stats.speed}`);
     });
 
     console.log('\n💭 Reasoning:');
@@ -374,11 +374,11 @@ export class TeamsPureStrategicCLI {
       console.log(`  • ${reason}`);
     });
 
-    if (recommendation.alternativeCompositions.length > 0) {
+    if (recommendation.alternativeCompositions.length > 0) 
       console.log('\n🔄 Alternative Compositions:');
       recommendation.alternativeCompositions.forEach((comp, index) => {
         const types = new Set(comp.map((s: any) => s.type));
-        const avgLevel = comp.reduce((sum, s) => sum + s.level, 0) / comp.length;
+        const avgLevel = comp.reduce((sum, s) => sum + level: s.level, 0) / comp.length;
         console.log(`  ${index + 1}. ${Array.from(types).join(', ')} (Avg Lv${avgLevel.toFixed(1)})`);
       });
     }
@@ -409,11 +409,11 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n⚔️  Threat Analysis: ${team.name} vs ${enemyTeam.name}`);
+    console.log(`\n⚔️  Threat Analysis: $name: team.name} vs $name: enemyTeam.name}`);
     const analysis = this.teamManager.analyzeThreats(teamId, [enemyTeam]);
 
     console.log(`Threat Level: ${analysis.threatLevel.toUpperCase()}`);
-    console.log(`Vulnerability Score: ${analysis.vulnerabilityScore}/100`);
+    console.log(`Vulnerability Score: $vulnerabilityScore: analysis.vulnerabilityScore}/100`);
 
     if (analysis.primaryThreats.length > 0) {
       console.log('\n🚨 Primary Threats:');
@@ -447,7 +447,7 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n🎯 Strategic Recommendations for ${team.name}:`);
+    console.log(`\n🎯 Strategic Recommendations for $name: team.name}:`);
     const analysis = this.teamManager.getStrategicAnalysis(teamId);
 
     console.log(`Overall Strategy: ${this.getTeamStrategy(team)}`);
@@ -484,21 +484,21 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n⚖️  Team Comparison: ${team1.name} vs ${team2.name}`);
+    console.log(`\n⚖️  Team Comparison: $name: team1.name} vs $name: team2.name}`);
 
     const analysis1 = this.teamManager.getStrategicAnalysis(team1Id);
     const analysis2 = this.teamManager.getStrategicAnalysis(team2Id);
 
-    console.log(`\n${team1.name}:`);
-    console.log(`  Strength: ${analysis1.overallStrength}/100`);
+    console.log(`\n$name: team1.name}:`);
+    console.log(`  Strength: $overallStrength: analysis1.overallStrength}/100`);
     console.log(`  Strategy: ${this.getTeamStrategy(team1)}`);
 
-    console.log(`\n${team2.name}:`);
-    console.log(`  Strength: ${analysis2.overallStrength}/100`);
+    console.log(`\n$name: team2.name}:`);
+    console.log(`  Strength: $overallStrength: analysis2.overallStrength}/100`);
     console.log(`  Strategy: ${this.getTeamStrategy(team2)}`);
 
     const winner = analysis1.overallStrength > analysis2.overallStrength ? team1 : team2;
-    console.log(`\n🏆 Predicted Winner: ${winner.name} (${Math.abs(analysis1.overallStrength - analysis2.overallStrength)} point advantage)`);
+    console.log(`\n🏆 Predicted Winner: $name: winner.name} (${Math.abs(analysis1.overallStrength - analysis2.overallStrength)} point advantage)`);
 
     this.showComparisonDetails(analysis1, analysis2);
   }
@@ -523,7 +523,7 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n⚔️  Battle Simulation: ${team1.name} vs ${team2.name}`);
+    console.log(`\n⚔️  Battle Simulation: $name: team1.name} vs $name: team2.name}`);
 
     const analysis1 = this.teamManager.getStrategicAnalysis(team1Id);
     const analysis2 = this.teamManager.getStrategicAnalysis(team2Id);
@@ -533,22 +533,22 @@ export class TeamsPureStrategicCLI {
     const team2Score = (analysis2.offensiveRating * 0.4) + (analysis2.defensiveRating * 0.3) + (analysis2.mobilityRating * 0.3);
 
     console.log(`\nRound 1: Positioning`);
-    console.log(`  ${team1.name}: ${analysis1.mobilityRating > analysis2.mobilityRating ? 'Takes initiative' : 'Defensive stance'}`);
-    console.log(`  ${team2.name}: ${analysis2.mobilityRating > analysis1.mobilityRating ? 'Takes initiative' : 'Defensive stance'}`);
+    console.log(`  $name: team1.name}: ${analysis1.mobilityRating > analysis2.mobilityRating ? 'Takes initiative' : 'Defensive stance'}`);
+    console.log(`  $name: team2.name}: ${analysis2.mobilityRating > analysis1.mobilityRating ? 'Takes initiative' : 'Defensive stance'}`);
 
     console.log(`\nRound 2: Combat`);
-    if (analysis1.offensiveRating > analysis2.defensiveRating) {
-      console.log(`  ${team1.name} breaks through ${team2.name}'s defenses!`);
-    } else {
-      console.log(`  ${team2.name} holds against ${team1.name}'s assault!`);
+    if (analysis1.offensiveRating > analysis2.defensiveRating) 
+      console.log(`  ${name: team1.name} breaks through $name: team2.name}'s defenses!`);
+    } else 
+      console.log(`  ${name: team2.name} holds against $name: team1.name}'s assault!`);
     }
 
     console.log(`\nFinal Result:`);
-    if (team1Score > team2Score) {
-      console.log(`  🏆 ${team1.name} wins!`);
+    if (team1Score > team2Score) 
+      console.log(`  🏆 ${name: team1.name} wins!`);
       console.log(`  Margin of victory: ${((team1Score - team2Score) / team2Score * 100).toFixed(1)}%`);
-    } else if (team2Score > team1Score) {
-      console.log(`  🏆 ${team2.name} wins!`);
+    } else if (team2Score > team1Score) 
+      console.log(`  🏆 ${name: team2.name} wins!`);
       console.log(`  Margin of victory: ${((team2Score - team1Score) / team1Score * 100).toFixed(1)}%`);
     } else {
       console.log('  🤝 Draw! Both teams are evenly matched.');
@@ -572,10 +572,10 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    console.log(`\n🏗️  Building Optimal Team: ${team.name}`);
+    console.log(`\n🏗️  Building Optimal Team: $name: team.name}`);
     const recommendation = this.teamManager.getOptimalTeamComposition(teamId, this.mockSpirits);
 
-    console.log(`Target Performance: ${recommendation.predictedPerformance}/100`);
+    console.log(`Target Performance: $predictedPerformance: recommendation.predictedPerformance}/100`);
     console.log(`Risk Level: ${recommendation.riskLevel.toUpperCase()}`);
 
     // Clear current team
@@ -586,14 +586,14 @@ export class TeamsPureStrategicCLI {
 
     // Add recommended spirits
     console.log('\n📋 Adding Optimal Spirits:');
-    recommendation.recommendedTeam.forEach((spirit, index) => {
+    recommendation.recommendedTeam.forEach((spirit, index) => 
       this.teamManager.addSpiritToTeam(teamId, spirit);
-      console.log(`  ✅ Added ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
+      console.log(`  ✅ Added ${name: spirit.name} ($type: spirit.type}, Lv$level: spirit.level})`);
     });
 
     console.log('\n🎯 Build Complete!');
-    console.log(`Team now has ${recommendation.recommendedTeam.length} spirits`);
-    console.log(`Performance: ${recommendation.predictedPerformance}/100`);
+    console.log(`Team now has $recommendation.length: recommendedTeam.length} spirits`);
+    console.log(`Performance: $predictedPerformance: recommendation.predictedPerformance}/100`);
 
     if (recommendation.riskLevel === 'high') {
       console.log('⚠️  Warning: High risk composition - consider alternatives');
@@ -668,21 +668,21 @@ export class TeamsPureStrategicCLI {
     return tips;
   }
 
-  private showComparisonDetails(analysis1: IStrategicAnalysis, analysis2: IStrategicAnalysis): void {
+  private showComparisonDetails(analysis1: IStrategicAnalysis, analysis2: IStrategicAnalysis): void 
     console.log('\n📊 Detailed Comparison:');
 
     const categories = [
-      { name: 'Offense', val1: analysis1.offensiveRating, val2: analysis2.offensiveRating },
-      { name: 'Defense', val1: analysis1.defensiveRating, val2: analysis2.defensiveRating },
-      { name: 'Mobility', val1: analysis1.mobilityRating, val2: analysis2.mobilityRating },
-      { name: 'Synergy', val1: analysis1.synergyRating, val2: analysis2.synergyRating },
-      { name: 'Type Coverage', val1: analysis1.typeCoverage, val2: analysis2.typeCoverage }
+      { name: 'Offense', val1: offensiveRating: analysis1.offensiveRating, val2: analysis2.offensiveRating },
+       name: 'Defense', val1: defensiveRating: analysis1.defensiveRating, val2: analysis2.defensiveRating },
+       name: 'Mobility', val1: mobilityRating: analysis1.mobilityRating, val2: analysis2.mobilityRating },
+       name: 'Synergy', val1: synergyRating: analysis1.synergyRating, val2: analysis2.synergyRating },
+       name: 'Type Coverage', val1: typeCoverage: analysis1.typeCoverage, val2: analysis2.typeCoverage }
     ];
 
-    categories.forEach((cat: any) => {
+    categories.forEach((cat: any) => 
       const diff = cat.val1 - cat.val2;
       const symbol = diff > 0 ? '>' : diff < 0 ? '<' : '=';
-      console.log(`  ${cat.name}: ${cat.val1} ${symbol} ${cat.val2}`);
+      console.log(`  ${name: cat.name}: $val1: cat.val1} ${symbol} $val2: cat.val2}`);
     });
   }
 

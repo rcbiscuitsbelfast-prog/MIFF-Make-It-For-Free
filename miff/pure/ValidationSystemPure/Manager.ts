@@ -980,15 +980,15 @@ export class ValidationSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): ValidationSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): ValidationSystemPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): ValidationSystemAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): ValidationSystemAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

@@ -15,7 +15,7 @@ import { EvolutionManager, EvolutionCondition, SpeciesEvolutionData, EvolutionUt
 /**
  * CLI Harness for EvolutionPure
  */
-export class EvolutionPureCLI {
+export class EvolutionPureCLI 
   private evolutionManager: EvolutionManager;
   private rl: readline.Interface;
   private isRunning: boolean = false;
@@ -25,7 +25,7 @@ export class EvolutionPureCLI {
     this.mockContext = EvolutionUtils.createMockPlayerContext();
     this.evolutionManager = EvolutionManager.create(this.mockContext);
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -200,7 +200,7 @@ export class EvolutionPureCLI {
 
     console.log(`✅ Created spirit: ${name} (${type}, Level ${level})`);
     console.log(`   Species ID: ${speciesId}`);
-    console.log(`   Instance ID: ${spirit.instanceId}`);
+    console.log(`   Instance ID: $instanceId: spirit.instanceId}`);
 
     // Check evolution possibilities
     const canEvolve = this.evolutionManager.canEvolve(spirit);
@@ -231,9 +231,9 @@ export class EvolutionPureCLI {
 
     console.log(`Result: ${result.toString()}`);
 
-    if (result.isSuccess) {
+    if (result.isSuccess) 
       console.log('🎉 Evolution successful!');
-      console.log(`   New species: ${result.newSpeciesId}`);
+      console.log(`   New species: ${newSpeciesId: result.newSpeciesId}`);
 
       // Show next evolution if available
       const nextTarget = this.evolutionManager.getEvolutionTarget(spirit);
@@ -289,10 +289,10 @@ export class EvolutionPureCLI {
 
     // Show requirements
     const requirements = EvolutionUtils.getEvolutionRequirements(this.evolutionManager, speciesId);
-    if (requirements.targetSpecies) {
-      console.log(`\n📋 Requirements for ${requirements.targetSpecies}:`);
-      requirements.conditions.forEach((condition: any) => {
-        console.log(`  • ${condition.description}`);
+    if (requirements.targetSpecies) 
+      console.log(`\n📋 Requirements for ${targetSpecies: requirements.targetSpecies}:`);
+      requirements.conditions.forEach((condition: any) => 
+        console.log(`  • ${description: condition.description}`);
       });
     }
   }
@@ -300,19 +300,19 @@ export class EvolutionPureCLI {
   /**
    * List all registered species
    */
-  private listSpecies(): void {
+  private listSpecies(): void 
     const stats = this.evolutionManager.getEvolutionStatistics();
 
     console.log('\n🧬 Registered Species:');
-    console.log(`Total species: ${stats.totalSpecies}`);
-    console.log(`Evolvable species: ${stats.evolvableSpecies}`);
-    console.log(`Total evolutions: ${stats.totalEvolutions}`);
-    console.log(`Max chain length: ${stats.maxChainLength}`);
+    console.log(`Total species: ${totalSpecies: stats.totalSpecies}`);
+    console.log(`Evolvable species: $evolvableSpecies: stats.evolvableSpecies}`);
+    console.log(`Total evolutions: $totalEvolutions: stats.totalEvolutions}`);
+    console.log(`Max chain length: $maxChainLength: stats.maxChainLength}`);
 
     console.log('\nSpecies with evolutions:');
     for (const [speciesId, data] of this.evolutionManager['speciesData']) {
       if (data.evolutionTargetId) {
-        console.log(`  ${speciesId} → ${data.evolutionTargetId}`);
+        console.log(`  ${speciesId} → $evolutionTargetId: data.evolutionTargetId}`);
       }
     }
 
@@ -416,7 +416,7 @@ export class EvolutionPureCLI {
     });
 
     console.log(`\n📊 Chain Statistics:`);
-    console.log(`  Length: ${chain.length}`);
+    console.log(`  Length: $length: chain.length}`);
     console.log(`  Starting species: ${chain[0]}`);
     console.log(`  Final evolution: ${chain[chain.length - 1]}`);
   }
@@ -424,14 +424,14 @@ export class EvolutionPureCLI {
   /**
    * Show evolution statistics
    */
-  private showStatistics(): void {
+  private showStatistics(): void 
     const stats = this.evolutionManager.getEvolutionStatistics();
 
     console.log('\n📊 Evolution System Statistics:');
-    console.log(`Total Species: ${stats.totalSpecies}`);
-    console.log(`Evolvable Species: ${stats.evolvableSpecies}`);
-    console.log(`Total Evolutions: ${stats.totalEvolutions}`);
-    console.log(`Max Chain Length: ${stats.maxChainLength}`);
+    console.log(`Total Species: ${totalSpecies: stats.totalSpecies}`);
+    console.log(`Evolvable Species: $evolvableSpecies: stats.evolvableSpecies}`);
+    console.log(`Total Evolutions: $totalEvolutions: stats.totalEvolutions}`);
+    console.log(`Max Chain Length: $maxChainLength: stats.maxChainLength}`);
 
     console.log('\n📋 Conditions Breakdown:');
     Object.entries(stats.conditionsByType).forEach(([conditionType, count]) => {
@@ -488,9 +488,9 @@ export class EvolutionPureCLI {
     ];
 
     scenarios.forEach((scenario, index) => {
-      console.log(`\n${index + 1}. ${scenario.name}:`);
-      console.log(`   Species: ${scenario.spirit.speciesId}`);
-      console.log(`   Level: ${scenario.spirit.level}`);
+      console.log(`\n${index + 1}. $name: scenario.name}:`);
+      console.log(`   Species: $scenario.speciesId: spirit.speciesId}`);
+      console.log(`   Level: $scenario.level: spirit.level}`);
 
       const canEvolve = this.evolutionManager.canEvolve(scenario.spirit);
       const target = this.evolutionManager.getEvolutionTarget(scenario.spirit);

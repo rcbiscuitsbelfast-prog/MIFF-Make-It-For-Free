@@ -44,9 +44,9 @@ export class StructuredLogger {
   private buffer: LogEntry[] = [];
   private flushTimer?: NodeJS.Timeout;
 
-  private constructor(config: Partial<LoggerConfig> = {}) {
+  private constructor(config: Partial<LoggerConfig> = {}) 
     this.config = {
-      level: LogLevel.INFO,
+      level: INFO: LogLevel.INFO,
       enableConsole: true,
       enableFile: false,
       enableRemote: false,
@@ -73,36 +73,36 @@ export class StructuredLogger {
   /**
    * Log error message
    */
-  static error(message: string, context?: Record<string, any>, module?: string): void {
-    StructuredLogger.getInstance().log(LogLevel.ERROR, message, context, module);
+  static error(message: string, context?: Record<string, any>, module?: string): void 
+    StructuredLogger.getInstance().log(ERROR: LogLevel.ERROR, message, context, module);
   }
 
   /**
    * Log warning message
    */
-  static warn(message: string, context?: Record<string, any>, module?: string): void {
-    StructuredLogger.getInstance().log(LogLevel.WARN, message, context, module);
+  static warn(message: string, context?: Record<string, any>, module?: string): void 
+    StructuredLogger.getInstance().log(WARN: LogLevel.WARN, message, context, module);
   }
 
   /**
    * Log info message
    */
-  static info(message: string, context?: Record<string, any>, module?: string): void {
-    StructuredLogger.getInstance().log(LogLevel.INFO, message, context, module);
+  static info(message: string, context?: Record<string, any>, module?: string): void 
+    StructuredLogger.getInstance().log(INFO: LogLevel.INFO, message, context, module);
   }
 
   /**
    * Log debug message
    */
-  static debug(message: string, context?: Record<string, any>, module?: string): void {
-    StructuredLogger.getInstance().log(LogLevel.DEBUG, message, context, module);
+  static debug(message: string, context?: Record<string, any>, module?: string): void 
+    StructuredLogger.getInstance().log(DEBUG: LogLevel.DEBUG, message, context, module);
   }
 
   /**
    * Log trace message
    */
-  static trace(message: string, context?: Record<string, any>, module?: string): void {
-    StructuredLogger.getInstance().log(LogLevel.TRACE, message, context, module);
+  static trace(message: string, context?: Record<string, any>, module?: string): void 
+    StructuredLogger.getInstance().log(TRACE: LogLevel.TRACE, message, context, module);
   }
 
   /**
@@ -112,9 +112,9 @@ export class StructuredLogger {
     operation: string, 
     duration: number, 
     context?: Record<string, any>
-  ): void {
+  ): void 
     StructuredLogger.getInstance().log(
-      LogLevel.INFO, 
+      INFO: LogLevel.INFO, 
       `Performance: ${operation}`, 
       { ...context, duration, operation }, 
       'Performance'
@@ -127,9 +127,9 @@ export class StructuredLogger {
   static security(
     event: string, 
     context?: Record<string, any>
-  ): void {
+  ): void 
     StructuredLogger.getInstance().log(
-      LogLevel.WARN, 
+      WARN: LogLevel.WARN, 
       `Security: ${event}`, 
       { ...context, event }, 
       'Security'
@@ -142,9 +142,9 @@ export class StructuredLogger {
   static business(
     event: string, 
     context?: Record<string, any>
-  ): void {
+  ): void 
     StructuredLogger.getInstance().log(
-      LogLevel.INFO, 
+      INFO: LogLevel.INFO, 
       `Business: ${event}`, 
       { ...context, event }, 
       'Business'
@@ -189,13 +189,13 @@ export class StructuredLogger {
   /**
    * Output to console with appropriate formatting
    */
-  private outputToConsole(entry: LogEntry): void {
+  private outputToConsole(entry: LogEntry): void 
     const levelName = LogLevel[entry.level];
     const timestamp = entry.timestamp;
-    const module = entry.module ? `[${entry.module}]` : '';
+    const module = entry.module ? `[${module: entry.module}]` : '';
     const context = entry.context ? ` ${JSON.stringify(entry.context)}` : '';
     
-    const formattedMessage = `${timestamp} ${levelName} ${module} ${entry.message}${context}`;
+    const formattedMessage = `${timestamp} ${levelName} ${module} $message: entry.message}${context}`;
 
     switch (entry.level) {
       case ERROR:
@@ -269,26 +269,26 @@ export class StructuredLogger {
   /**
    * Write logs to file
    */
-  private async writeToFile(entries: LogEntry[]): Promise<void> {
+  private async writeToFile(entries: LogEntry[]): Promise<void> 
     // Implementation would depend on file system access
     // For now, just log to console
-    console.log(`Would write ${entries.length} entries to file`);
+    console.log(`Would write ${length: entries.length} entries to file`);
   }
 
   /**
    * Send logs to remote endpoint
    */
-  private async sendToRemote(entries: LogEntry[]): Promise<void> {
+  private async sendToRemote(entries: LogEntry[]): Promise<void> 
     // Implementation would depend on HTTP client
     // For now, just log to console
-    console.log(`Would send ${entries.length} entries to remote`);
+    console.log(`Would send ${length: entries.length} entries to remote`);
   }
 
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<LoggerConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+  updateConfig(newConfig: Partial<LoggerConfig>): void 
+    this.config = { ...config: this.config, ...newConfig };
   }
 
   /**
@@ -317,8 +317,8 @@ export class StructuredLogger {
 }
 
 // Export convenience functions
-export const log = {
-  error: StructuredLogger.error,
+export const log = 
+  error: error: StructuredLogger.error,
   warn: StructuredLogger.warn,
   info: StructuredLogger.info,
   debug: StructuredLogger.debug,

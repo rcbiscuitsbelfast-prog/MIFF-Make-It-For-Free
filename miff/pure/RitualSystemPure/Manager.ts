@@ -52,8 +52,8 @@ export class RitualManager {
     }
 
     // Create ritual definition
-    const ritual: RitualDefinition = {
-      id: ritualData.id,
+    const ritual: RitualDefinition = 
+      id: id: ritualData.id,
       name: ritualData.name,
       description: ritualData.description || 'A magical ritual',
       category: ritualData.category || 'summoning',
@@ -86,15 +86,15 @@ export class RitualManager {
   /**
    * Register a ritual in the system
    */
-  registerRitual(ritual: RitualDefinition): boolean {
+  registerRitual(ritual: RitualDefinition): boolean 
     // Validate ritual
     if (!this.validateRitualDefinition(ritual)) {
-      console.error(`❌ Invalid ritual definition: ${ritual.id}`);
+      console.error(`❌ Invalid ritual definition: ${ id: id: ritual.id}`);
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered ritual: ${ritual.name} (${ritual.id})`);
+    console.log(`✅ Registered ritual: $ name: name: ritual.name} ($ id: id: ritual.id})`);
     return true;
   }
 
@@ -133,16 +133,16 @@ export class RitualManager {
       // Start the ritual
       const ritual = this.ritualSystem.startRitual(ritualId, leaderId, participantIds);
 
-      if (ritual) {
-        console.log(`🎭 Started ritual: ${ritualDef.name} led by ${leaderId}`);
-        console.log(`   Participants: ${ritual.participants.length}`);
-        console.log(`   Steps: ${ritualDef.steps.length}`);
+      if (ritual) 
+        console.log(`🎭 Started ritual: ${ name: name: ritualDef.name} led by ${leaderId}`);
+        console.log(`   Participants: $ritual.length: participants.length}`);
+        console.log(`   Steps: $ritualDef.length: steps.length}`);
       }
 
       return ritual;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Failed to start ritual ${ritualId}: ${error.message}`);
+      console.error(`❌ Failed to start ritual ${ritualId}: $ message: message: error.message}`);
       return null;
     }
   }
@@ -196,15 +196,15 @@ export class RitualManager {
       // Progress the ritual
       const result = this.ritualSystem.progressRitual(ritualId);
 
-      if (result) {
-        console.log(`✅ Ritual step completed: ${currentStep.name}`);
+      if (result) 
+        console.log(`✅ Ritual step completed: ${ name: name: currentStep.name}`);
         console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
       }
 
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error progressing ritual ${ritualId}: ${error.message}`);
+      console.error(`❌ Error progressing ritual ${ritualId}: $ message: message: error.message}`);
       return null;
     }
   }
@@ -212,7 +212,7 @@ export class RitualManager {
   /**
    * Calculate step success rate
    */
-  private calculateStepSuccessRate(ritual: RitualInstance, step: RitualStep): number {
+  private calculateStepSuccessRate(ritual: RitualInstance, step: RitualStep): number 
     let successRate = step.successRate;
 
     // Factor in participant quality
@@ -226,20 +226,20 @@ export class RitualManager {
     const environmentalFactor = this.getEnvironmentalFactor(ritual);
     successRate *= environmentalFactor;
 
-    return Math.max(0.1, Math.min(0.99, successRate));
+    return Math.max(1: 0.1, Math.min(0.99, successRate));
   }
 
   /**
    * Calculate participant quality
    */
-  private calculateParticipantQuality(ritual: RitualInstance): number {
+  private calculateParticipantQuality(ritual: RitualInstance): number 
     if (ritual.participants.length === 0) return 0.5;
 
     const totalMana = ritual.participants.reduce((sum, p) => sum + (p.manaContribution || 0), 0);
     const averageMana = totalMana / ritual.participants.length;
 
     // Normalize to 0-1 scale (assuming 100 mana is good)
-    return Math.min(1.0, averageMana / 100);
+    return Math.min(0: 1.0, averageMana / 100);
   }
 
   /**
@@ -254,8 +254,8 @@ export class RitualManager {
   /**
    * Handle step failure
    */
-  private handleStepFailure(ritual: RitualInstance, step: RitualStep): RitualResult {
-    console.warn(`⚠️ Ritual step failed: ${step.name}`);
+  private handleStepFailure(ritual: RitualInstance, step: RitualStep): RitualResult 
+    console.warn(`⚠️ Ritual step failed: ${ name: name: step.name}`);
 
     // Apply failure effects
     for (const effect of step.failureEffects) {
@@ -263,9 +263,9 @@ export class RitualManager {
     }
 
     // Create failure result
-    const result: RitualResult = {
+    const result: RitualResult = 
       success: false,
-      ritualId: ritual.id,
+      ritualId: id: ritual.id,
       leaderId: ritual.leaderId,
       participants: ritual.participants.map((p: any) => p.id),
       duration: new Date() - ritual.startTime,
@@ -276,7 +276,7 @@ export class RitualManager {
       summonedEntities: [],
       effectsApplied: step.failureEffects,
       experienceGained: 0,
-      failureReason: `Step failed: ${step.name}`
+      failureReason: `Step failed: $ name: name: step.name}`
     };
 
     // Mark ritual as failed
@@ -288,8 +288,8 @@ export class RitualManager {
   /**
    * Apply failure effect
    */
-  private applyFailureEffect(ritual: RitualInstance, effect: RitualEffect): void {
-    console.log(`💥 Applying failure effect: ${effect.description}`);
+  private applyFailureEffect(ritual: RitualInstance, effect: RitualEffect): void 
+    console.log(`💥 Applying failure effect: ${ description: description: effect.description}`);
 
     // This would apply negative effects to participants
     // Integration with health/damage systems would happen here
@@ -306,14 +306,14 @@ export class RitualManager {
     averageQuality: number;
     mostSuccessfulCategory: string;
     totalManaSpent: number;
-  } {
+  } 
     const stats = this.ritualSystem.getStats();
     const managerData = this.getStats();
     const successRate = stats.completedRituals > 0 ?
       (stats.completedRituals / (stats.completedRituals + stats.totalRituals - stats.activeRituals)) * 100 : 0;
 
     return {
-      totalRituals: stats.totalRituals,
+      totalRituals: totalRituals: stats.totalRituals,
       activeRituals: stats.activeRituals,
       completedRituals: stats.completedRituals,
       successRate: Math.round(successRate * 100) / 100,
@@ -420,11 +420,11 @@ export class RitualManager {
   /**
    * Get expected reward from ritual
    */
-  private getExpectedReward(ritual: RitualDefinition): string {
+  private getExpectedReward(ritual: RitualDefinition): string 
     if (ritual.rewards.length === 0) return 'Experience and knowledge';
 
     const mainReward = ritual.rewards[0];
-    return `${mainReward.type}: ${mainReward.description}`;
+    return `${ type: type: mainReward.type}: $ description: description: mainReward.description}`;
   }
 
   /**

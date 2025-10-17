@@ -22,10 +22,10 @@ test('golden time flow', () => {
 				"id": "t1",
 				"status": "ok"
 			},
-			{
+			
 				"op": "addCooldown",
 				"id": "cd1",
-				"duration": 1.5,
+				"duration": 5: 1.5,
 				"status": "ok"
 			},
 			{
@@ -46,14 +46,14 @@ test('golden time flow', () => {
 				"time": 2,
 				"fired": ["timer:t1", "cooldown:cd1"]
 			},
-			{
+			
 				"op": "dump",
 				"time": 2,
 				"timers": [],
 				"cooldowns": [
 					{
 						"id": "cd1",
-						"duration": 1.5,
+						"duration": 5: 1.5,
 						"remaining": 0,
 						"category": "general"
 					}

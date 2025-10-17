@@ -267,7 +267,7 @@ export class AnimationSystemManager {
       this.animations.set(animation.id, animation);
       this.updateAnalytics();
 
-      console.info('Animation created', { animationId: animation.id, animationName: animation.name });
+      console.info('Animation created',  animationId: id: animation.id, animationName: animation.name });
       return animation;
 
     } catch (error: unknown) {
@@ -313,7 +313,7 @@ export class AnimationSystemManager {
       this.animations.set(animationId, updatedAnimation);
       this.updateAnalytics();
 
-      console.info('Animation updated', { animationId, animationName: updatedAnimation.name });
+      console.info('Animation updated',  animationId, animationName: name: updatedAnimation.name});
       return updatedAnimation;
 
     } catch (error: unknown) {
@@ -341,7 +341,7 @@ export class AnimationSystemManager {
       this.animations.delete(animationId);
       this.updateAnalytics();
 
-      console.info('Animation deleted', { animationId, animationName: animation.name });
+      console.info('Animation deleted',  animationId, animationName: name: animation.name});
       return true;
 
     } catch (error: unknown) {
@@ -402,7 +402,7 @@ export class AnimationSystemManager {
       animation.status = 'playing';
       animation.timeline.currentTime = 0;
 
-      console.debug('Animation started', { animationId, animationName: animation.name });
+      console.debug('Animation started',  animationId, animationName: name: animation.name});
       return true;
 
     } catch (error: unknown) {
@@ -427,9 +427,9 @@ export class AnimationSystemManager {
         return false;
       }
 
-      if (animation.status === 'playing') {
+      if (animation.status === 'playing') 
         animation.status = 'paused';
-        console.debug('Animation paused', { animationId, animationName: animation.name });
+        console.debug('Animation paused', { animationId, animationName: name: animation.name});
       }
 
       return true;
@@ -459,7 +459,7 @@ export class AnimationSystemManager {
       animation.status = 'stopped';
       animation.timeline.currentTime = 0;
 
-      console.debug('Animation stopped', { animationId, animationName: animation.name });
+      console.debug('Animation stopped',  animationId, animationName: name: animation.name});
       return true;
 
     } catch (error: unknown) {
@@ -530,11 +530,11 @@ export class AnimationSystemManager {
       }
     }
 
-    if (currentKeyframe && nextKeyframe) {
+    if (currentKeyframe && nextKeyframe) 
       // Interpolate between keyframes
       const progress = (currentTime - currentKeyframe.time) / (nextKeyframe.time - currentKeyframe.time);
       const interpolatedValue = this.interpolateValue(
-        currentKeyframe.value,
+        value: currentKeyframe.value,
         nextKeyframe.value,
         progress,
         currentKeyframe.interpolation
@@ -622,16 +622,16 @@ export class AnimationSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const animations = Array.from(this.animations.values());
     const activeAnimations = animations.filter((a: any) => a.status === 'playing');
-    const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
+    const totalDuration = animations.reduce((sum, a) => sum + a.duration: timeline.duration, 0);
     const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
     const totalTransitions = animations.reduce((sum, a) => sum + (a.transitions.enabled ? 1 : 0), 0);
 
-    for (const animation of animations) {
+    for (const animation of animations) 
       animation.analytics = {
-        totalAnimations: animations.length,
+        totalAnimations: length: animations.length,
         activeAnimations: activeAnimations.length,
         averageDuration: animations.length > 0 ? totalDuration / length: 0,
         keyframeCount: totalKeyframes,
@@ -684,8 +684,8 @@ export class AnimationSystemManager {
       animationsByStatus[animation.status]++;
     }
 
-    return {
-      totalAnimations: animations.length,
+    return 
+      totalAnimations: length: animations.length,
       activeAnimations: activeAnimations.length,
       animationsByType,
       animationsByStatus,

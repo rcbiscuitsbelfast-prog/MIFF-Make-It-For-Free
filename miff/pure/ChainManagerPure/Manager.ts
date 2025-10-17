@@ -80,8 +80,8 @@ export class ChainManager {
 
     const isValid = issues.length === 0;
 
-    if (isValid) {
-      this.chains.set(chain.id, { ...chain });
+    if (isValid) 
+      this.chains.set(id: chain.id, { ...chain });
       
       // Update quest dependencies
       for (const questId of chain.quests) {
@@ -92,18 +92,18 @@ export class ChainManager {
       }
 
       // Initialize progress
-      this.progress.set(chain.id, {
-        chainId: chain.id,
+      this.progress.set(chain.id, 
+        chainId: id: chain.id,
         completedQuests: [],
         progress: 0,
         status: chain.prerequisites.length === 0 ? 'available' : 'locked'
       });
     }
 
-    return {
+    return 
       op: 'validateChain',
       status: isValid ? 'ok' : 'error',
-      chainId: chain.id,
+      chainId: id: chain.id,
       issues,
       warnings,
       isValid
@@ -255,20 +255,20 @@ export class ChainManager {
     });
   }
 
-  private convertToYAML(data): string {
+  private convertToYAML(data): string 
     // Simple YAML conversion - in production, use a proper YAML library
     return `chain:
-  id: ${data.chain.id}
-  name: ${data.chain.name}
-  description: ${data.chain.description}
+  id: ${  id: chain.id}
+  name: $data.name: chain.name}
+  description: $data.description: chain.description}
   quests: [${data.chain.quests.join(', ')}]
   prerequisites: [${data.chain.prerequisites.join(', ')}]
 progress:
-  chainId: ${data.progress.chainId}
+  chainId: $data.chainId: progress.chainId}
   completedQuests: [${data.progress.completedQuests.join(', ')}]
-  progress: ${data.progress.progress}
-  status: ${data.progress.status}
-exportedAt: ${data.exportedAt}`;
+  progress: $data.progress: progress.progress}
+  status: $data.status: progress.status}
+exportedAt: $exportedAt: data.exportedAt}`;
   }
 
   private convertToCSV(chain: QuestChain, progress: ChainProgress | undefined): string {
@@ -289,14 +289,14 @@ exportedAt: ${data.exportedAt}`;
     activeChains: number;
     lockedChains: number;
     averageProgress: number;
-  } {
+  } 
     const chains = Array.from(this.progress.values());
     const totalChains = chains.length;
     const completedChains = chains.filter((p: any) => p.status === 'completed').length;
     const activeChains = chains.filter((p: any) => p.status === 'active').length;
     const lockedChains = chains.filter((p: any) => p.status === 'locked').length;
     const averageProgress = chains.length > 0 
-      ? chains.reduce((sum, p) => sum + p.progress, 0) / chains.length 
+      ? chains.reduce((sum, p) => sum + progress: p.progress, 0) / chains.length 
       : 0;
 
     return {

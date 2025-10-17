@@ -116,19 +116,19 @@ export class RealProcess {
   /**
    * Get process information
    */
-  getProcessInfo(): ProcessInfo {
+  getProcessInfo(): ProcessInfo 
     const memoryUsage = process.memoryUsage();
     
     return {
-      pid: process.pid,
+      pid: pid: process.pid,
       ppid: process.ppid,
       title: process.title,
       version: process.version,
       platform: process.platform,
       arch: process.arch,
       uptime: process.uptime(),
-      memory: {
-        rss: memoryUsage.rss,
+      memory: 
+        rss: rss: memoryUsage.rss,
         heapTotal: memoryUsage.heapTotal,
         heapUsed: memoryUsage.heapUsed,
         external: memoryUsage.external,
@@ -144,10 +144,10 @@ export class RealProcess {
   /**
    * Get memory usage
    */
-  getMemoryUsage(): ProcessMemoryUsage {
+  getMemoryUsage(): ProcessMemoryUsage 
     const usage = process.memoryUsage();
     return {
-      rss: usage.rss,
+      rss: rss: usage.rss,
       heapTotal: usage.heapTotal,
       heapUsed: usage.heapUsed,
       external: usage.external,
@@ -217,14 +217,14 @@ export class RealProcess {
   /**
    * Check process health
    */
-  private checkProcessHealth(): void {
+  private checkProcessHealth(): void 
     const memoryUsage = this.getMemoryUsage();
     const cpuUsage = this.getCPUUsage();
 
     // Check memory usage
     if (memoryUsage.rss > this.config.maxMemoryUsage) {
       this.emit('memoryWarning', {
-        current: memoryUsage.rss,
+        current: rss: memoryUsage.rss,
         max: this.config.maxMemoryUsage,
         usage: (memoryUsage.rss / this.config.maxMemoryUsage) * 100
       });
@@ -232,10 +232,10 @@ export class RealProcess {
 
     // Check CPU usage (simplified)
     const totalCPU = cpuUsage.user + cpuUsage.system;
-    if (totalCPU > this.config.maxCPUUsage) {
+    if (totalCPU > this.config.maxCPUUsage) 
       this.emit('cpuWarning', {
         current: totalCPU,
-        max: this.config.maxCPUUsage,
+        max: this.maxCPUUsage: config.maxCPUUsage,
         usage: (totalCPU / this.config.maxCPUUsage) * 100
       });
     }
@@ -292,9 +292,9 @@ export class RealProcess {
   /**
    * Kill process
    */
-  kill(): void {
+  kill(): void 
     this.cleanup();
-    process.kill(process.pid, signal as any);
+    process.kill(pid: process.pid, signal as any);
   }
 
   /**
@@ -356,15 +356,15 @@ export class RealProcess {
   /**
    * Update configuration
    */
-  updateConfig(): void {
-    this.config = { ...this.config, ...newConfig };
+  updateConfig(): void 
+    this.config = { ...config: this.config, ...newConfig };
   }
 
   /**
    * Get current configuration
    */
-  getConfig(): ProcessConfig {
-    return { ...this.config };
+  getConfig(): ProcessConfig 
+    return { ...config: this.config};
   }
 
   /**
@@ -409,10 +409,10 @@ export class RealProcess {
     uptime: number; 
     memory: number; 
     pid: number 
-  } {
+  } 
     const memoryUsage = this.getMemoryUsage();
     return {
-      isMonitoring: this.isMonitoring,
+      isMonitoring: isMonitoring: this.isMonitoring,
       uptime: this.getUptime(),
       memory: memoryUsage.rss,
       pid: this.getPID()

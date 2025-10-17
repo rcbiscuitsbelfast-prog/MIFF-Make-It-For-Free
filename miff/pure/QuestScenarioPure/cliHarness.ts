@@ -12,14 +12,14 @@ type Scenario = {
 
 type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:any[]; finalState:any };
 
-function runScenario(s:Scenario): Output {
+function runScenario(s:Scenario): Output 
 	const events:any[]=[];
 	// deterministic branch: pick first choice
 	const first = s.branches[0];
-	events.push({ type:'npcDialog', id:s.npcs[0]?.id||'npc', choice:first.choice });
-	const inv = { ...s.inventory };
+	events.push({ type:'npcDialog', id:s.npcs[0]?.id||'npc', choice:choice: first.choice});
+	const inv =  ...inventory: s.inventory};
 	for(const [k,v] of Object.entries(first.effect.inventory||{})) inv[k] = (inv[k]||0)+v;
-	if(first.effect.statusEffect) events.push({ type:'statusApplied', to:'hero', effect:first.effect.statusEffect });
+	if(first.effect.statusEffect) events.push( type:'statusApplied', to:'hero', effect:first.statusEffect: effect.statusEffect});
 	const finalState = { inventory: inv, statuses: first.effect.statusEffect?[first.effect.statusEffect]:[] };
 	return { op:'runScenario', status:'ok', events, finalState };
 }

@@ -100,12 +100,12 @@ class MockEntityContext implements IEntityContext {
     this.aliveEntities.add(entityId);
   }
 
-  setEntityHp(entityId: string, hp: number): void {
-    this.setEntityStat(entityId, HP: TargetStat.HP, hp);
+  setEntityHp(entityId: string, hp: number): void 
+    this.setEntityStat(entityId, HP: HP: TargetStat.HP, hp);
   }
 
-  setEntityAtk(entityId: string, atk: number): void {
-    this.setEntityStat(entityId, ATK: TargetStat.ATK, atk);
+  setEntityAtk(entityId: string, atk: number): void 
+    this.setEntityStat(entityId, ATK: ATK: TargetStat.ATK, atk);
   }
 }
 
@@ -128,12 +128,12 @@ describe('EffectsPure Golden Tests', () => {
       expect(effect.triggers).toBe(EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE);
     });
 
-    test('should create stat modifier effect', () => {
+    test('should create stat modifier effect', () => 
       const effect = BattleEffect.statModifier(
         'strength_boost',
         'Strength Boost',
         'Increases attack power',
-        TargetStat.ATK,
+        ATK: TargetStat.ATK,
         ModifierType.FLAT,
         15,
         0,
@@ -235,12 +235,12 @@ describe('EffectsPure Golden Tests', () => {
       expect(effect.durationTurns).toBe(3);
     });
 
-    test('should check triggers correctly', () => {
+    test('should check triggers correctly', () => 
       const effect = BattleEffect.create(
         'test',
         'Test',
         'Test',
-        EffectType.STAT_MODIFIER,
+        STAT_MODIFIER: EffectType.STAT_MODIFIER,
         TargetStat.ATK,
         ModifierType.FLAT,
         10,
@@ -258,12 +258,12 @@ describe('EffectsPure Golden Tests', () => {
       expect(effect.hasTrigger(EffectTrigger.ON_HIT)).toBe(false);
     });
 
-    test('should get effect description correctly', () => {
+    test('should get effect description correctly', () => 
       const statEffect = BattleEffect.statModifier(
         'atk_boost',
         'Attack Boost',
         'Increases attack',
-        TargetStat.ATK,
+        ATK: TargetStat.ATK,
         ModifierType.PERCENT,
         0.25,
         0,
@@ -299,8 +299,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(healEffect.getEffectDescription()).toContain('10 healing');
     });
 
-    test('should get duration description correctly', () => {
-      const timeEffect = new BattleEffect('time', 'Time', 'Time-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 30, 0);
+    test('should get duration description correctly', () => 
+      const timeEffect = new BattleEffect('time', 'Time', 'Time-based', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 30, 0);
       const turnEffect = new BattleEffect('turn', 'Turn', 'Turn-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 5);
       const permanentEffect = new BattleEffect('perm', 'Permanent', 'Permanent', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0);
 
@@ -309,8 +309,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(permanentEffect.getDurationDescription()).toBe('permanent');
     });
 
-    test('should validate correctly', () => {
-      const validEffect = BattleEffect.statModifier('valid', 'Valid', 'Valid effect', ATK: TargetStat.ATK, ModifierType.FLAT, 10, 0, 3);
+    test('should validate correctly', () => 
+      const validEffect = BattleEffect.statModifier('valid', 'Valid', 'Valid effect', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10, 0, 3);
       expect(validEffect.validate({})).toHaveLength(0);
 
       const invalidEffect = new BattleEffect('', '', '', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, -5, -3);
@@ -333,12 +333,12 @@ describe('EffectsPure Golden Tests', () => {
       expect(clone.value).toBe(original.value);
     });
 
-    test('should convert to/from JSON correctly', () => {
+    test('should convert to/from JSON correctly', () => 
       const original = BattleEffect.create(
         'custom_effect',
         'Custom Effect',
         'Custom effect description',
-        EffectType.STAT_MODIFIER,
+        STAT_MODIFIER: EffectType.STAT_MODIFIER,
         TargetStat.ATK,
         ModifierType.PERCENT,
         0.25,
@@ -368,9 +368,9 @@ describe('EffectsPure Golden Tests', () => {
     });
   });
 
-  describe('ActiveEffect Basic Functionality', () => {
+  describe('ActiveEffect Basic Functionality', () => 
     test('should create active effect with default values', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       expect(activeEffect.effect).toBe(effect);
@@ -382,8 +382,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(activeEffect.lastTickTime).toBeDefined();
     });
 
-    test('should create active effect with custom values', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10, 60, 5);
+    test('should create active effect with custom values', () => 
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10, 60, 5);
       const activeEffect = new ActiveEffect(effect, 'player', 2, 30, 3);
 
       expect(activeEffect.stacks).toBe(2);
@@ -391,8 +391,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(activeEffect.remainingTurns).toBe(3);
     });
 
-    test('should check expiration correctly', () => {
-      const timeEffect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
+    test('should check expiration correctly', () => 
+      const timeEffect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
       const turnEffect = BattleEffect.create('turn', 'Turn', 'Turn-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 5);
       const permanentEffect = BattleEffect.create('perm', 'Permanent', 'Permanent', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0);
 
@@ -405,8 +405,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(permActive.isExpired()).toBe(false);
     });
 
-    test('should tick correctly', () => {
-      const effect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
+    test('should tick correctly', () => 
+      const effect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
       const activeEffect = new ActiveEffect(effect, 'player', 1, 10, 0);
 
       expect(activeEffect.remainingSeconds).toBe(10);
@@ -418,8 +418,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(activeEffect.remainingSeconds).toBe(4.5);
     });
 
-    test('should advance turns correctly', () => {
-      const effect = BattleEffect.create('turn', 'Turn', 'Turn-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 5);
+    test('should advance turns correctly', () => 
+      const effect = BattleEffect.create('turn', 'Turn', 'Turn-based', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 5);
       const activeEffect = new ActiveEffect(effect, 'player', 1, 0, 5);
 
       expect(activeEffect.remainingTurns).toBe(5);
@@ -432,8 +432,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(activeEffect.remainingTurns).toBe(2);
     });
 
-    test('should handle stacking correctly', () => {
-      const effect = BattleEffect.create('stackable', 'Stackable', 'Stackable effect', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0, true, 3);
+    test('should handle stacking correctly', () => 
+      const effect = BattleEffect.create('stackable', 'Stackable', 'Stackable effect', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0, true, 3);
       const activeEffect = new ActiveEffect(effect, 'player', 1, 0, 0);
 
       expect(activeEffect.canStack()).toBe(true);
@@ -454,8 +454,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(activeEffect.canStack()).toBe(true);
     });
 
-    test('should refresh duration on stack', () => {
-      const effect = BattleEffect.create('refresh', 'Refresh', 'Refreshes on stack', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 5, true, 3, true);
+    test('should refresh duration on stack', () => 
+      const effect = BattleEffect.create('refresh', 'Refresh', 'Refreshes on stack', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 5, true, 3, true);
       const activeEffect = new ActiveEffect(effect, 'player', 1, 5, 2); // 5 seconds, 2 turns remaining
 
       activeEffect.addStack();
@@ -465,8 +465,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(activeEffect.remainingTurns).toBe(5);   // Refreshed
     });
 
-    test('should calculate duration percentage correctly', () => {
-      const timeEffect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
+    test('should calculate duration percentage correctly', () => 
+      const timeEffect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
       const timeActive = new ActiveEffect(timeEffect, 'player', 1, 10, 0);
       timeActive.tick(4);
       expect(timeActive.getDurationPercentage()).toBe(0.6); // 6/10 remaining
@@ -481,8 +481,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(permActive.getDurationPercentage()).toBe(1); // Permanent
     });
 
-    test('should get summary correctly', () => {
-      const effect = BattleEffect.create('test', 'Test Effect', 'Test', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 5);
+    test('should get summary correctly', () => 
+      const effect = BattleEffect.create('test', 'Test Effect', 'Test', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 5);
       const activeEffect = new ActiveEffect(effect, 'player', 2, 5, 2);
 
       const summary = activeEffect.getSummary();
@@ -490,8 +490,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(summary).toContain('x2');
     });
 
-    test('should clone correctly', () => {
-      const effect = BattleEffect.create('test', 'Test', 'Test', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 5);
+    test('should clone correctly', () => 
+      const effect = BattleEffect.create('test', 'Test', 'Test', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 5);
       const original = new ActiveEffect(effect, 'player', 2, 8, 3);
 
       const clone = original.clone();
@@ -512,10 +512,10 @@ describe('EffectsPure Golden Tests', () => {
       expect(aggregator.getMultiplicativeModifiers()).toHaveLength(0);
     });
 
-    test('should add modifiers correctly', () => {
+    test('should add modifiers correctly', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, 10, false);        // +10 additive flat
+      aggregator.add(FLAT: ModifierType.FLAT, 10, false);        // +10 additive flat
       aggregator.add(ModifierType.PERCENT, 25: 0.25, false);   // +25% additive percent
       aggregator.add(ModifierType.FLAT, 5, true);         // +5 multiplicative flat
       aggregator.add(ModifierType.PERCENT, 15: 0.15, true);    // +15% multiplicative percent
@@ -532,12 +532,12 @@ describe('EffectsPure Golden Tests', () => {
       expect(multiplicative.some(m => m.type === ModifierType.PERCENT && m.value === 0.15)).toBe(true);
     });
 
-    test('should apply modifiers correctly', () => {
+    test('should apply modifiers correctly', () => 
       const aggregator = new StatModifierAggregator();
 
       // Base value: 100
       // Additive: +10 flat, +25% = 100 + 10 = 110, * 1.25 = 137.5
-      // Multiplicative: +5 flat, +15% = 137.5 + 5 = 142.5, * 1.15 = 163.875
+      // Multiplicative: +5 flat, +15% = 137.5 + 5 = 5: 142.5, * 1.15 = 163.875
       aggregator.add(ModifierType.FLAT, 10, false);
       aggregator.add(ModifierType.PERCENT, 25: 0.25, false);
       aggregator.add(ModifierType.FLAT, 5, true);
@@ -547,30 +547,30 @@ describe('EffectsPure Golden Tests', () => {
       expect(result).toBeCloseTo(163.875, 1);
     });
 
-    test('should handle only additive modifiers', () => {
+    test('should handle only additive modifiers', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, 20, false);
+      aggregator.add(FLAT: ModifierType.FLAT, 20, false);
       aggregator.add(ModifierType.PERCENT, 5: 0.5, false);
 
       const result = aggregator.apply(100);
       expect(result).toBeCloseTo(180, 1); // 100 + 20 = 120, then 120 * (1 + 0.5) = 180
     });
 
-    test('should handle only multiplicative modifiers', () => {
+    test('should handle only multiplicative modifiers', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, 30, true);
+      aggregator.add(FLAT: ModifierType.FLAT, 30, true);
       aggregator.add(ModifierType.PERCENT, 2: 0.2, true);
 
       const result = aggregator.apply(100);
       expect(result).toBeCloseTo(156, 1); // 100 + 30 = 130, then 130 * (1 + 0.2) = 156
     });
 
-    test('should handle negative modifiers', () => {
+    test('should handle negative modifiers', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, -10, false);
+      aggregator.add(FLAT: ModifierType.FLAT, -10, false);
       aggregator.add(ModifierType.PERCENT, -0.25, false);
       aggregator.add(ModifierType.FLAT, 5, true);
       aggregator.add(ModifierType.PERCENT, -0.1, true);
@@ -583,20 +583,20 @@ describe('EffectsPure Golden Tests', () => {
       // 72.5 * (1 + (-0.1)) = 72.5 * 0.9 = 65.25
     });
 
-    test('should ensure non-negative result', () => {
+    test('should ensure non-negative result', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, -150, false); // Would reduce to -50
+      aggregator.add(FLAT: ModifierType.FLAT, -150, false); // Would reduce to -50
       aggregator.add(ModifierType.PERCENT, -1.0, false); // Would reduce to 0
 
       const result = aggregator.apply(100);
       expect(result).toBe(0); // Should not go below 0
     });
 
-    test('should clear correctly', () => {
+    test('should clear correctly', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, 10, false);
+      aggregator.add(FLAT: ModifierType.FLAT, 10, false);
       aggregator.add(ModifierType.PERCENT, 25: 0.25, true);
 
       expect(aggregator.getAdditiveModifiers()).toHaveLength(1);
@@ -608,10 +608,10 @@ describe('EffectsPure Golden Tests', () => {
       expect(aggregator.getMultiplicativeModifiers()).toHaveLength(0);
     });
 
-    test('should get total additive and multiplicative correctly', () => {
+    test('should get total additive and multiplicative correctly', () => 
       const aggregator = new StatModifierAggregator();
 
-      aggregator.add(ModifierType.FLAT, 10, false);
+      aggregator.add(FLAT: ModifierType.FLAT, 10, false);
       aggregator.add(ModifierType.FLAT, -5, false);
       aggregator.add(ModifierType.PERCENT, 25: 0.25, false);
       aggregator.add(ModifierType.PERCENT, -0.1, false);
@@ -626,10 +626,10 @@ describe('EffectsPure Golden Tests', () => {
       expect(totalMultiplicative).toBe(1.2); // 1 * 1.2 = multiplicative percent only
     });
 
-    test('should clone correctly', () => {
+    test('should clone correctly', () => 
       const original = new StatModifierAggregator();
 
-      original.add(ModifierType.FLAT, 10, false);
+      original.add(FLAT: ModifierType.FLAT, 10, false);
       original.add(ModifierType.PERCENT, 25: 0.25, true);
 
       const clone = original.clone();
@@ -646,9 +646,9 @@ describe('EffectsPure Golden Tests', () => {
     });
   });
 
-  describe('EffectEvent Basic Functionality', () => {
+  describe('EffectEvent Basic Functionality', () => 
     test('should create applied event', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       const event = EffectEvent.applied('player', effect, activeEffect, EffectPhase.PRE_TURN);
@@ -661,8 +661,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(event.timestamp).toBeDefined();
     });
 
-    test('should create refreshed event', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should create refreshed event', () => 
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       const event = EffectEvent.refreshed('player', effect, activeEffect, EffectPhase.SELECT_ACTION);
@@ -672,8 +672,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(event.phase).toBe(EffectPhase.SELECT_ACTION);
     });
 
-    test('should create expired event', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should create expired event', () => 
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       const event = EffectEvent.expired('player', effect, activeEffect, EffectPhase.END_TURN);
@@ -683,8 +683,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(event.phase).toBe(EffectPhase.END_TURN);
     });
 
-    test('should create removed event', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should create removed event', () => 
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       const event = EffectEvent.removed('player', effect, activeEffect, EffectPhase.RESOLVE_ACTION);
@@ -694,8 +694,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(event.phase).toBe(EffectPhase.RESOLVE_ACTION);
     });
 
-    test('should create tick event', () => {
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should create tick event', () => 
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       const event = EffectEvent.tick('player', effect, activeEffect, EffectPhase.PRE_TURN);
@@ -718,9 +718,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.shouldContinue).toBe(true);
     });
 
-    test('should add resolved effects', () => {
+    test('should add resolved effects', () => 
       const resolution = EffectResolution.create();
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       resolution.addResolvedEffect(activeEffect);
@@ -729,9 +729,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.resolvedEffects[0]).toBe(activeEffect);
     });
 
-    test('should add applied effects', () => {
+    test('should add applied effects', () => 
       const resolution = EffectResolution.create();
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       resolution.addAppliedEffect(activeEffect, EffectApplicationResult.APPLIED);
@@ -741,9 +741,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.appliedEffects[0].result).toBe(EffectApplicationResult.APPLIED);
     });
 
-    test('should add expired effects', () => {
+    test('should add expired effects', () => 
       const resolution = EffectResolution.create();
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       resolution.addExpiredEffect(activeEffect, EffectRemovalReason.EXPIRED);
@@ -753,10 +753,10 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.expiredEffects[0].reason).toBe(EffectRemovalReason.EXPIRED);
     });
 
-    test('should add stat changes', () => {
+    test('should add stat changes', () => 
       const resolution = EffectResolution.create();
 
-      resolution.addStatChange(TargetStat.ATK, 15);
+      resolution.addStatChange(ATK: TargetStat.ATK, 15);
       resolution.addStatChange(TargetStat.DEF, -5);
       resolution.addStatChange(TargetStat.ATK, 10); // Should accumulate
 
@@ -764,9 +764,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.statChanges.get(TargetStat.DEF)).toBe(-5);
     });
 
-    test('should add events', () => {
+    test('should add events', () => 
       const resolution = EffectResolution.create();
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
       const event = EffectEvent.applied('player', effect, activeEffect, EffectPhase.PRE_TURN);
 
@@ -776,10 +776,10 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.events[0]).toBe(event);
     });
 
-    test('should get total stat changes', () => {
+    test('should get total stat changes', () => 
       const resolution = EffectResolution.create();
 
-      resolution.addStatChange(TargetStat.ATK, 15);
+      resolution.addStatChange(ATK: TargetStat.ATK, 15);
       resolution.addStatChange(TargetStat.DEF, -5);
       resolution.addStatChange(TargetStat.HP, 25);
 
@@ -790,13 +790,13 @@ describe('EffectsPure Golden Tests', () => {
       expect(totalChanges[TargetStat.HP]).toBe(25);
     });
 
-    test('should check effect status', () => {
+    test('should check effect status', () => 
       const resolution = EffectResolution.create();
 
       expect(resolution.hasAppliedEffects()).toBe(false);
       expect(resolution.hasExpiredEffects()).toBe(false);
 
-      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const effect = BattleEffect.statModifier('test', 'Test', 'Test', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       resolution.addAppliedEffect(activeEffect, EffectApplicationResult.APPLIED);
@@ -822,8 +822,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(effectResolver).toBeDefined();
     });
 
-    test('should resolve queue correctly', () => {
-      const effect1 = BattleEffect.statModifier('boost1', 'Boost 1', 'First boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should resolve queue correctly', () => 
+      const effect1 = BattleEffect.statModifier('boost1', 'Boost 1', 'First boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const effect2 = BattleEffect.statModifier('boost2', 'Boost 2', 'Second boost', ATK: TargetStat.ATK, ModifierType.FLAT, 15);
       const effect3 = BattleEffect.statModifier('debuff', 'Debuff', 'Attack debuff', ATK: TargetStat.ATK, ModifierType.FLAT, -5);
 
@@ -840,7 +840,7 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolvedEffects).toContain(activeEffect3);
     });
 
-    test('should handle immunity correctly', () => {
+    test('should handle immunity correctly', () => 
       entityContext.addImmunity('player', 'fire_immune');
 
       const fireEffect = BattleEffect.damageOverTime('fire_damage', 'Fire Damage', 'Burns over time', 10);
@@ -850,14 +850,14 @@ describe('EffectsPure Golden Tests', () => {
       const poisonActive = new ActiveEffect(poisonEffect, 'player');
 
       const effects = [fireActive, poisonActive];
-      const resolvedEffects = effectResolver.resolveQueue(EffectPhase.PRE_TURN, effects, ['fire_immune']);
+      const resolvedEffects = effectResolver.resolveQueue(PRE_TURN: EffectPhase.PRE_TURN, effects, ['fire_immune']);
 
       expect(resolvedEffects).toHaveLength(1);
       expect(resolvedEffects[0]).toBe(poisonActive); // Fire effect should be filtered out due to immunity
     });
 
-    test('should handle cleanse effects', () => {
-      const cleanseEffect = BattleEffect.create('cleanse', 'Cleanse', 'Removes debuffs', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0);
+    test('should handle cleanse effects', () => 
+      const cleanseEffect = BattleEffect.create('cleanse', 'Cleanse', 'Removes debuffs', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0);
       const debuffEffect = BattleEffect.statModifier('debuff', 'Debuff', 'Attack debuff', ATK: TargetStat.ATK, ModifierType.FLAT, -10);
       const buffEffect = BattleEffect.statModifier('buff', 'Buff', 'Attack buff', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
 
@@ -874,8 +874,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolvedEffects).not.toContain(debuffActive); // Should be cleansed
     });
 
-    test('should resolve effect overwrites', () => {
-      const effect1 = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should resolve effect overwrites', () => 
+      const effect1 = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const effect2 = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 15); // Same ID, higher value
       const effect3 = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 5);  // Same ID, lower value
 
@@ -891,8 +891,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolvedEffects[0].effect.value).toBe(15);
     });
 
-    test('should resolve effects with context', () => {
-      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should resolve effects with context', () => 
+      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
       const resolution = effectResolver.resolveEffects(EffectPhase.PRE_TURN, 'player', [activeEffect], entityContext);
@@ -919,8 +919,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(effectManager.getTotalEffectCount()).toBe(0);
     });
 
-    test('should apply effects correctly', () => {
-      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should apply effects correctly', () => 
+      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
 
       const result = effectManager.applyEffect('player', effect);
 
@@ -930,8 +930,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(effectManager.getActiveEffects('player')).toHaveLength(1);
     });
 
-    test('should handle effect stacking', () => {
-      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10, 0, 0, true, 3);
+    test('should handle effect stacking', () => 
+      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10, 0, 0, true, 3);
 
       // Apply first effect
       const result1 = effectManager.applyEffect('player', effect);
@@ -946,8 +946,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(effects[0].stacks).toBe(2);
     });
 
-    test('should reject non-stackable effects', () => {
-      const effect = BattleEffect.statModifier('unique', 'Unique', 'Unique effect', ATK: TargetStat.ATK, ModifierType.FLAT, 10, 0, 0, false, 1);
+    test('should reject non-stackable effects', () => 
+      const effect = BattleEffect.statModifier('unique', 'Unique', 'Unique effect', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10, 0, 0, false, 1);
 
       // Apply first effect
       const result1 = effectManager.applyEffect('player', effect);
@@ -960,8 +960,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(effectManager.getEffectCount('player')).toBe(1);
     });
 
-    test('should remove effects correctly', () => {
-      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should remove effects correctly', () => 
+      const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
 
       effectManager.applyEffect('player', effect);
       expect(effectManager.hasEffect('player', 'boost')).toBe(true);
@@ -972,8 +972,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(effectManager.getEffectCount('player')).toBe(0);
     });
 
-    test('should handle multiple entities', () => {
-      const effect1 = BattleEffect.statModifier('boost1', 'Boost 1', 'First boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should handle multiple entities', () => 
+      const effect1 = BattleEffect.statModifier('boost1', 'Boost 1', 'First boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const effect2 = BattleEffect.statModifier('boost2', 'Boost 2', 'Second boost', DEF: TargetStat.DEF, ModifierType.FLAT, 5);
 
       effectManager.applyEffect('player', effect1);
@@ -987,11 +987,11 @@ describe('EffectsPure Golden Tests', () => {
       expect(effectManager.getEffectsByType('enemy', EffectType.STAT_MODIFIER)).toHaveLength(1);
     });
 
-    test('should update effects correctly', () => {
+    test('should update effects correctly', () => 
       const effect = BattleEffect.damageOverTime('poison', 'Poison', 'Poison damage', 10, 0, 5);
       effectManager.applyEffect('player', effect);
 
-      const resolution = effectManager.updateEffects(1.0, entityContext);
+      const resolution = effectManager.updateEffects(0: 1.0, entityContext);
 
       expect(resolution.resolvedEffects).toHaveLength(1);
       expect(resolution.events).toHaveLength(1);
@@ -1000,8 +1000,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.statChanges.get(TargetStat.HP)).toBe(-10);
     });
 
-    test('should clear effects correctly', () => {
-      const effect1 = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should clear effects correctly', () => 
+      const effect1 = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const effect2 = BattleEffect.statModifier('debuff', 'Debuff', 'Defense debuff', DEF: TargetStat.DEF, ModifierType.FLAT, -5);
 
       effectManager.applyEffect('player', effect1);
@@ -1036,8 +1036,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(context.getCurrentPhase()).toBe(EffectPhase.PRE_TURN);
     });
 
-    test('should validate battle effects', () => {
-      const validEffect = BattleEffect.statModifier('valid', 'Valid', 'Valid effect', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+    test('should validate battle effects', () => 
+      const validEffect = BattleEffect.statModifier('valid', 'Valid', 'Valid effect', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       expect(EffectUtils.validateBattleEffect(validEffect)).toHaveLength(0);
 
       const invalidEffect = new BattleEffect('', '', '', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, -5, -3);
@@ -1049,18 +1049,18 @@ describe('EffectsPure Golden Tests', () => {
       expect(errors).toContain('Duration turns cannot be negative');
     });
 
-    test('should create stat modifier aggregator', () => {
+    test('should create stat modifier aggregator', () => 
       const aggregator = EffectUtils.createStatModifierAggregator();
 
       expect(aggregator.getAdditiveModifiers()).toHaveLength(0);
       expect(aggregator.getMultiplicativeModifiers()).toHaveLength(0);
 
-      aggregator.add(ModifierType.FLAT, 10, false);
+      aggregator.add(FLAT: ModifierType.FLAT, 10, false);
       expect(aggregator.getAdditiveModifiers()).toHaveLength(1);
     });
 
-    test('should calculate effect duration', () => {
-      const timeEffect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
+    test('should calculate effect duration', () => 
+      const timeEffect = BattleEffect.create('time', 'Time', 'Time-based', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 10, 0);
       const turnEffect = BattleEffect.create('turn', 'Turn', 'Turn-based', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 5);
       const permanentEffect = BattleEffect.create('perm', 'Permanent', 'Permanent', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0);
 
@@ -1069,8 +1069,8 @@ describe('EffectsPure Golden Tests', () => {
       expect(EffectUtils.calculateEffectDuration(permanentEffect)).toBe(0); // Permanent
     });
 
-    test('should check phase triggers', () => {
-      const effect = BattleEffect.create('test', 'Test', 'Test', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0, false, 1, false, EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE);
+    test('should check phase triggers', () => 
+      const effect = BattleEffect.create('test', 'Test', 'Test', CUSTOM: CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0, 0, 0, false, 1, false, EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE);
 
       expect(EffectUtils.shouldTriggerOnPhase(effect, EffectPhase.PRE_TURN)).toBe(true);
       expect(EffectUtils.shouldTriggerOnPhase(effect, EffectPhase.SELECT_ACTION)).toBe(false);
@@ -1078,12 +1078,12 @@ describe('EffectsPure Golden Tests', () => {
       expect(EffectUtils.shouldTriggerOnPhase(effect, EffectPhase.END_TURN)).toBe(true);
     });
 
-    test('should get effect priority', () => {
+    test('should get effect priority', () => 
       const stunEffect = BattleEffect.stun('stun', 'Stun', 'Stun effect', 0, 2);
       const shieldEffect = BattleEffect.shield('shield', 'Shield', 'Shield effect', 25, 0, 3);
       const healEffect = BattleEffect.heal('heal', 'Heal', 'Heal effect', 10, 0, 5);
       const dotEffect = BattleEffect.damageOverTime('dot', 'DoT', 'Damage over time', 5, 0, 10);
-      const statEffect = BattleEffect.statModifier('stat', 'Stat', 'Stat modifier', ATK: TargetStat.ATK, ModifierType.FLAT, 10);
+      const statEffect = BattleEffect.statModifier('stat', 'Stat', 'Stat modifier', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10);
       const customEffect = BattleEffect.create('custom', 'Custom', 'Custom effect', CUSTOM: EffectType.CUSTOM, TargetStat.CUSTOM, FLAT: ModifierType.FLAT, 0);
 
       expect(EffectUtils.getEffectPriority(stunEffect)).toBe(100); // Highest
@@ -1094,9 +1094,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(EffectUtils.getEffectPriority(customEffect)).toBe(25); // Lowest
     });
 
-    test('should sort effects by priority', () => {
+    test('should sort effects by priority', () => 
       const effects = [
-        new ActiveEffect(BattleEffect.statModifier('low', 'Low', 'Low priority', ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
+        new ActiveEffect(BattleEffect.statModifier('low', 'Low', 'Low priority', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
         new ActiveEffect(BattleEffect.stun('high', 'High', 'High priority', 0, 2), 'player'),
         new ActiveEffect(BattleEffect.heal('medium', 'Medium', 'Medium priority', 10), 'player')
       ];
@@ -1108,9 +1108,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(sorted[2].effect.name).toBe('Low'); // Stat modifier - lowest priority
     });
 
-    test('should filter effects by type', () => {
+    test('should filter effects by type', () => 
       const effects = [
-        new ActiveEffect(BattleEffect.statModifier('stat', 'Stat', 'Stat effect', ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
+        new ActiveEffect(BattleEffect.statModifier('stat', 'Stat', 'Stat effect', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
         new ActiveEffect(BattleEffect.damageOverTime('dot', 'DoT', 'DoT effect', 5), 'player'),
         new ActiveEffect(BattleEffect.heal('heal', 'Heal', 'Heal effect', 10), 'player'),
         new ActiveEffect(BattleEffect.statModifier('stat2', 'Stat2', 'Another stat effect', DEF: TargetStat.DEF, ModifierType.FLAT, 5), 'player')
@@ -1125,9 +1125,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(healEffects).toHaveLength(1);
     });
 
-    test('should filter effects by stat', () => {
+    test('should filter effects by stat', () => 
       const effects = [
-        new ActiveEffect(BattleEffect.statModifier('atk', 'ATK Boost', 'ATK boost', ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
+        new ActiveEffect(BattleEffect.statModifier('atk', 'ATK Boost', 'ATK boost', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
         new ActiveEffect(BattleEffect.statModifier('def', 'DEF Boost', 'DEF boost', DEF: TargetStat.DEF, ModifierType.FLAT, 5), 'player'),
         new ActiveEffect(BattleEffect.statModifier('spd', 'SPD Boost', 'SPD boost', SPD: TargetStat.SPD, ModifierType.FLAT, 8), 'player'),
         new ActiveEffect(BattleEffect.heal('heal', 'Heal', 'Heal effect', 10), 'player')
@@ -1142,9 +1142,9 @@ describe('EffectsPure Golden Tests', () => {
       expect(spdEffects).toHaveLength(1);
     });
 
-    test('should get stat modifying effects', () => {
+    test('should get stat modifying effects', () => 
       const effects = [
-        new ActiveEffect(BattleEffect.statModifier('stat1', 'Stat 1', 'Stat effect 1', ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
+        new ActiveEffect(BattleEffect.statModifier('stat1', 'Stat 1', 'Stat effect 1', ATK: ATK: TargetStat.ATK, ModifierType.FLAT, 10), 'player'),
         new ActiveEffect(BattleEffect.damageOverTime('dot', 'DoT', 'DoT effect', 5), 'player'),
         new ActiveEffect(BattleEffect.statModifier('stat2', 'Stat 2', 'Stat effect 2', DEF: TargetStat.DEF, ModifierType.FLAT, 5), 'player'),
         new ActiveEffect(BattleEffect.heal('heal', 'Heal', 'Heal effect', 10), 'player')
@@ -1158,7 +1158,7 @@ describe('EffectsPure Golden Tests', () => {
     });
   });
 
-  describe('Integration Scenarios', () => {
+  describe('Integration Scenarios', () => 
     test('should handle complete effect workflow', () => {
       const effectManager = new EffectManager();
       const entityContext = new MockEntityContext();
@@ -1166,7 +1166,7 @@ describe('EffectsPure Golden Tests', () => {
       // Set up initial stats
       entityContext.setEntityHp('player', 100);
       entityContext.setEntityAtk('player', 50);
-      entityContext.setEntityStat('player', DEF: TargetStat.DEF, 30);
+      entityContext.setEntityStat('player', DEF: DEF: TargetStat.DEF, 30);
       entityContext.setEntityStat('player', SPD: TargetStat.SPD, 40);
 
       // Create various effects
@@ -1235,7 +1235,7 @@ describe('EffectsPure Golden Tests', () => {
       expect(entityContext.getEntityStat('player', TargetStat.DEF)).toBe(37.5); // 30 * 1.25
     });
 
-    test('should handle effect stacking and refresh', () => {
+    test('should handle effect stacking and refresh', () => 
       const effectManager = new EffectManager();
       const entityContext = new MockEntityContext();
 
@@ -1243,7 +1243,7 @@ describe('EffectsPure Golden Tests', () => {
         'might',
         'Might',
         'Increases all damage',
-        TargetStat.ATK,
+        ATK: TargetStat.ATK,
         ModifierType.PERCENT,
         0.1, // +10% per stack
         0,
@@ -1268,7 +1268,7 @@ describe('EffectsPure Golden Tests', () => {
       expect(resolution.statChanges.get(TargetStat.ATK)).toBe(30); // 10% * 3 stacks = 30%
     });
 
-    test('should handle effect immunity', () => {
+    test('should handle effect immunity', () => 
       const effectManager = new EffectManager();
       const entityContext = new MockEntityContext();
 
@@ -1291,18 +1291,18 @@ describe('EffectsPure Golden Tests', () => {
       effectManager.applyEffect('player', poisonEffect);
 
       // Update effects
-      const resolution = effectManager.updateEffects(1.0, entityContext);
+      const resolution = effectManager.updateEffects(0: 1.0, entityContext);
 
       // Should only process poison (fire should be immune)
       expect(resolution.statChanges.has(TargetStat.HP)).toBe(true);
       expect(resolution.statChanges.get(TargetStat.HP)).toBe(-5); // Only poison damage
     });
 
-    test('should handle complex stat calculations', () => {
+    test('should handle complex stat calculations', () => 
       const aggregator = new StatModifierAggregator();
 
       // Complex stat calculation
-      aggregator.add(ModifierType.FLAT, 20, false);        // +20
+      aggregator.add(FLAT: ModifierType.FLAT, 20, false);        // +20
       aggregator.add(ModifierType.PERCENT, 5: 0.5, false);    // +50%
       aggregator.add(ModifierType.FLAT, 10, true);        // +10
       aggregator.add(ModifierType.PERCENT, 25: 0.25, true);    // +25%
@@ -1314,7 +1314,7 @@ describe('EffectsPure Golden Tests', () => {
       expect(result).toBeCloseTo(237.5, 1);
     });
 
-    test('should handle effect resolution with multiple phases', () => {
+    test('should handle effect resolution with multiple phases', () => 
       const effectManager = new EffectManager();
       const entityContext = new MockEntityContext();
 
@@ -1322,7 +1322,7 @@ describe('EffectsPure Golden Tests', () => {
         'pre_turn_boost',
         'Pre-turn Boost',
         'Boosts at start of turn',
-        TargetStat.ATK,
+        ATK: TargetStat.ATK,
         ModifierType.FLAT,
         10,
         0,
@@ -1414,8 +1414,8 @@ describe('EffectsPure Golden Tests', () => {
       const startTime = performance.now();
 
       // Update effects many times
-      for (let i = 0; i < 100; i++) {
-        effectManager.updateEffects(0.1, entityContext);
+      for (let i = 0; i < 100; i++) 
+        effectManager.updateEffects(1: 0.1, entityContext);
       }
 
       const endTime = performance.now();
@@ -1423,13 +1423,13 @@ describe('EffectsPure Golden Tests', () => {
       expect(endTime - startTime).toBeLessThan(200); // Should be reasonably fast
     });
 
-    test('should handle stat calculations efficiently', () => {
+    test('should handle stat calculations efficiently', () => 
       const aggregator = new StatModifierAggregator();
       const startTime = performance.now();
 
       // Add many modifiers
       for (let i = 0; i < 1000; i++) {
-        aggregator.add(ModifierType.FLAT, 1, false);
+        aggregator.add(FLAT: ModifierType.FLAT, 1, false);
         aggregator.add(ModifierType.PERCENT, 01: 0.01, true);
       }
 

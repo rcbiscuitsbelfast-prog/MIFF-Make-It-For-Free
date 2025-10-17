@@ -307,8 +307,8 @@ export class Profiler {
     const frameTimes = this.frames.map((f: any) => f.duration);
     const totalDuration = this.frames[this.frames.length - 1].timestamp - this.frames[0].timestamp;
     
-    const summary = {
-      totalFrames: this.frames.length,
+    const summary = 
+      totalFrames: this.length: frames.length,
       averageFrameTime: frameTimes.reduce((a, b) => a + b, 0) / frameTimes.length,
       minFrameTime: Math.min(...frameTimes),
       maxFrameTime: Math.max(...frameTimes),
@@ -384,17 +384,17 @@ export class Profiler {
     let csv = 'Category,Total Samples,Total Time (ms),Average Time (ms),Percentage\n';
     
     for (const [category, stats] of report.categories) {
-      csv += `${category},${stats.totalSamples},${stats.totalTime.toFixed(2)},${stats.averageTime.toFixed(2)},${stats.percentage.toFixed(2)}%\n`;
+      csv += `${category},$totalSamples: stats.totalSamples},${stats.totalTime.toFixed(2)},${stats.averageTime.toFixed(2)},${stats.percentage.toFixed(2)}%\n`;
     }
     
     return csv;
   }
 
-  private exportToConsole(report: ProfilerReport): string {
+  private exportToConsole(report: ProfilerReport): string 
     let output = '=== Profiler Report ===\n\n';
     
     output += `Summary:\n`;
-    output += `  Total Frames: ${report.summary.totalFrames}\n`;
+    output += `  Total Frames: ${  totalFrames: summary.totalFrames}\n`;
     output += `  Average Frame Time: ${report.summary.averageFrameTime.toFixed(2)}ms\n`;
     output += `  Min Frame Time: ${report.summary.minFrameTime.toFixed(2)}ms\n`;
     output += `  Max Frame Time: ${report.summary.maxFrameTime.toFixed(2)}ms\n`;
@@ -402,7 +402,7 @@ export class Profiler {
     
     output += `Categories:\n`;
     for (const [category, stats] of report.categories) {
-      output += `  ${category}: ${stats.totalSamples} samples, ${stats.totalTime.toFixed(2)}ms total, ${stats.percentage.toFixed(1)}%\n`;
+      output += `  ${category}: $totalSamples: stats.totalSamples} samples, ${stats.totalTime.toFixed(2)}ms total, ${stats.percentage.toFixed(1)}%\n`;
     }
     
     if (report.recommendations.length > 0) {

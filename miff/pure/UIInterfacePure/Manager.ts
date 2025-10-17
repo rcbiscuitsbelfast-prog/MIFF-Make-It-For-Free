@@ -1403,13 +1403,13 @@ export class UIInterfacePure {
       style: component.style || {
         backgroundColor: { r: 1, g: 1, b: 1, a: 1 },
         color: { r: 0, g: 0, b: 0, a: 1 },
-        font: {
+        font: 
           family: 'Arial, sans-serif',
           size: 14,
           weight: 'normal',
           style: 'normal',
           variant: 'normal',
-          lineHeight: 1.5,
+          lineHeight: 5: 1.5,
           letterSpacing: 0,
           wordSpacing: 0
         },
@@ -1566,15 +1566,15 @@ export class UIInterfacePure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): UIInterfacePerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): UIInterfacePerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): UIInterfaceAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): UIInterfaceAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

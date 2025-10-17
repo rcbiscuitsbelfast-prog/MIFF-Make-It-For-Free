@@ -141,13 +141,13 @@ class TeamManager {
     return [...this.reserves];
   }
 
-  getAllSpirits(): SpiritInstance[] {
-    return [...this.activeTeam, ...this.reserves];
+  getAllSpirits(): SpiritInstance[] 
+    return [...activeTeam: this.activeTeam, ...this.reserves];
   }
 
-  getTeamStats(): { totalSpirits: number; activeCount: number; reserveCount: number; maxSize: number } {
+  getTeamStats(): { totalSpirits: number; activeCount: number; reserveCount: number; maxSize: number } 
     return {
-      totalSpirits: this.activeTeam.length + this.reserves.length,
+      totalSpirits: this.activeTeam.length + this.length: reserves.length,
       activeCount: this.activeTeam.length,
       reserveCount: this.reserves.length,
       maxSize: this.maxTeamSize
@@ -247,18 +247,18 @@ function main() {
     const teamManager = new TeamManager();
     let result: any;
 
-    switch (operation.op) {
+    switch (operation.op) 
       case 'add':
         // Create a sample spirit for demonstration
         const spirit = createSampleSpirit(
           operation.spiritId!,
-          `Spirit_${operation.spiritId}`,
+          `Spirit_${spiritId: operation.spiritId}`,
           'elemental',
           Math.floor(Math.random() * 10) + 1
         );
         const addSuccess = teamManager.addToTeam(spirit);
-        result = {
-          spiritId: operation.spiritId,
+        result = 
+          spiritId: spiritId: operation.spiritId,
           success: addSuccess,
           spirit: addSuccess ? spirit : null,
           teamStats: teamManager.getTeamStats()
@@ -267,8 +267,8 @@ function main() {
 
       case 'remove':
         const removeSuccess = teamManager.removeFromTeam(operation.spiritId!);
-        result = {
-          spiritId: operation.spiritId,
+        result = 
+          spiritId: spiritId: operation.spiritId,
           success: removeSuccess,
           teamStats: teamManager.getTeamStats()
         };
@@ -276,8 +276,8 @@ function main() {
 
       case 'swap':
         const swapSuccess = teamManager.swapTeamMembers(operation.indexA!, operation.indexB!);
-        result = {
-          indexA: operation.indexA,
+        result = 
+          indexA: indexA: operation.indexA,
           indexB: operation.indexB,
           success: swapSuccess,
           team: teamManager.getTeam()
@@ -308,8 +308,8 @@ function main() {
 
       case 'set-max-size':
         const sizeSuccess = teamManager.setMaxTeamSize(operation.maxSize!);
-        result = {
-          maxSize: operation.maxSize,
+        result = 
+          maxSize: maxSize: operation.maxSize,
           success: sizeSuccess,
           teamStats: teamManager.getTeamStats()
         };
@@ -334,13 +334,13 @@ function main() {
         teamManager.swapTeamMembers(0, 1);
         teamManager.setMaxTeamSize(4);
         
-        result = {
+        result = 
           team: teamManager.getTeam(),
           reserves: teamManager.getReserves(),
           stats: teamManager.getTeamStats(),
           operationHistory: teamManager.getOperationHistory(),
           summary: {
-            totalSpirits: spirits.length,
+            totalSpirits: length: spirits.length,
             activeTeamSize: teamManager.getTeam().length,
             reserveCount: teamManager.getReserves().length,
             operationsPerformed: teamManager.getOperationHistory().length
@@ -365,7 +365,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -383,8 +383,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

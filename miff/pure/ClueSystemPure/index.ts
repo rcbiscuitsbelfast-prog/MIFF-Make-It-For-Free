@@ -279,8 +279,8 @@ export class ClueSystemPure {
       }
     ];
 
-    rules.forEach((rule: any) => {
-      this.deductionRules.set(rule.id, rule);
+    rules.forEach((rule: any) => 
+      this.deductionRules.set(id: rule.id, rule);
     });
   }
 
@@ -366,12 +366,12 @@ export class ClueSystemPure {
     }
   }
 
-  private applyRuleConclusion(rule: DeductionRule, investigation: Investigation): void {
+  private applyRuleConclusion(rule: DeductionRule, investigation: Investigation): void 
     // This would apply the rule's conclusion to the investigation
     // For example, updating suspect status, creating new hypotheses, etc.
 
     this.eventBus.publish('clue:deduction_applied', {
-      ruleId: rule.id,
+      ruleId: id: rule.id,
       investigationId: investigation.id,
       conclusion: rule.conclusion,
       confidence: rule.confidence,
@@ -379,7 +379,7 @@ export class ClueSystemPure {
     });
   }
 
-  private updateInvestigationProgress(investigation: Investigation): void {
+  private updateInvestigationProgress(investigation: Investigation): void 
     const totalClues = investigation.clues.size;
     const analyzedClues = Array.from(investigation.clues.values())
       .filter((clue: any) => clue.state === 'analyzed' || clue.state === 'linked').length;
@@ -396,13 +396,13 @@ export class ClueSystemPure {
     investigation.updatedAt = Date.now();
 
     this.eventBus.publish('clue:progress_updated', {
-      investigationId: investigation.id,
+      investigationId: id: investigation.id,
       progress: progress,
       timestamp: new Date()
     });
   }
 
-  private detectContradictions(investigation: Investigation): void {
+  private detectContradictions(investigation: Investigation): void 
     const clues = Array.from(investigation.clues.values());
 
     clues.forEach(clue1 => {
@@ -410,14 +410,14 @@ export class ClueSystemPure {
         if (clue1.id !== clue2.id) {
           const contradiction = this.detectClueContradiction(clue1, clue2);
           if (contradiction) {
-            this.handleContradiction(investigation.id, id: clue1.id, clue2.id, contradiction);
+            this.handleContradiction(id: investigation.id, id: clue1.id, clue2.id, contradiction);
           }
         }
       });
     });
   }
 
-  private detectClueContradiction(clue1: Clue, clue2: Clue): string | null {
+  private detectClueContradiction(clue1: Clue, clue2: Clue): string | null 
     // Check for timeline contradictions
     if (clue1.metadata.timestamp && clue2.metadata.timestamp) {
       const time1 = clue1.metadata.timestamp;
@@ -432,7 +432,7 @@ export class ClueSystemPure {
 
         // If clues are far apart but timestamps are close, possible contradiction
         if (distance > 100) { // More than 100 units apart
-          return `Timeline contradiction: ${clue1.name} and ${clue2.name} occurred at nearly same time but different locations`;
+          return `Timeline contradiction: ${name: clue1.name} and $name: clue2.name} occurred at nearly same time but different locations`;
         }
       }
     }
@@ -442,8 +442,8 @@ export class ClueSystemPure {
       conn.relatedClueId === clue2.id && conn.relationshipType === 'contradicts'
     );
 
-    if (conflictingConnections.length > 0) {
-      return `Evidence contradiction: ${clue1.name} contradicts ${clue2.name}`;
+    if (conflictingConnections.length > 0) 
+      return `Evidence contradiction: ${name: clue1.name} contradicts $name: clue2.name}`;
     }
 
     return null;
@@ -473,9 +473,9 @@ export class ClueSystemPure {
       lastTimestamp = event.timestamp;
     }
 
-    if (!isConsistent) {
+    if (!isConsistent) 
       this.eventBus.publish('clue:timeline_inconsistency', {
-        investigationId: investigation.id,
+        investigationId: id: investigation.id,
         message: 'Timeline events are not in chronological order',
         timestamp: new Date()
       });
@@ -526,9 +526,9 @@ export class ClueSystemPure {
     if (!investigation) return null;
 
     const clueId = `clue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const clue: Clue = {
+    const clue: Clue = 
       id: clueId,
-      name: clueData.name,
+      name: name: clueData.name,
       description: clueData.description,
       type: clueData.type,
       state: 'discovered',
@@ -580,8 +580,8 @@ export class ClueSystemPure {
     const investigation = Array.from(this.investigations.values())
       .find(inv => inv.clues.has(clue1Id) && inv.clues.has(clue2Id));
 
-    if (investigation) {
-      investigation.connections.set(connection.id, connection);
+    if (investigation) 
+      investigation.connections.set(id: connection.id, connection);
     }
 
     this.eventBus.publish('clue:linked', {
@@ -734,7 +734,7 @@ export class ClueSystemPure {
     return this.clues.get(clueId) || null;
   }
 
-  public getInvestigationStats(investigationId: string): InvestigationStats | null {
+  public getInvestigationStats(investigationId: string): InvestigationStats | null 
     const investigation = this.investigations.get(investigationId);
     if (!investigation) return null;
 
@@ -744,7 +744,7 @@ export class ClueSystemPure {
     const chains = Array.from(investigation.evidenceChains.values());
 
     return {
-      totalClues: clues.length,
+      totalClues: length: clues.length,
       analyzedClues: clues.filter((c: any) => c.state === 'analyzed').length,
       linkedClues: clues.filter((c: any) => c.state === 'linked').length,
       resolvedClues: clues.filter((c: any) => c.state === 'resolved').length,
@@ -781,13 +781,13 @@ export class ClueSystemPure {
     const investigation = this.investigations.get(investigationId);
     if (!investigation) return '{}';
 
-    return JSON.stringify({
+    return JSON.stringify(
       investigation: investigation,
       clues: Array.from(investigation.clues.values()),
       connections: Array.from(investigation.connections.values()),
       hypotheses: Array.from(investigation.hypotheses.values()),
       suspects: Array.from(investigation.suspects.values()),
-      timeline: investigation.timeline,
+      timeline: timeline: investigation.timeline,
       stats: this.getInvestigationStats(investigationId),
       exportDate: new Date()
     }, null, 2);

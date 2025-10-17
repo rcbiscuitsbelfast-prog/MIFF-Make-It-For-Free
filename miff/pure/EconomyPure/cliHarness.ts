@@ -159,12 +159,12 @@ async function main() {
     const economyManager = new EconomyManager(operation.config);
     let result: any;
 
-    switch (operation.op) {
+    switch (operation.op) 
       case 'create-rule':
         const ruleResult = economyManager.createRule(operation.rule!);
         result = {
           action: 'rule_created',
-          rule: operation.rule,
+          rule: rule: operation.rule,
           success: ruleResult.status === 'ok',
           issues: ruleResult.issues || []
         };
@@ -172,9 +172,9 @@ async function main() {
 
       case 'create-vendor':
         const vendorResult = economyManager.createVendor(operation.vendor!);
-        result = {
+        result = 
           action: 'vendor_created',
-          vendor: operation.vendor,
+          vendor: vendor: operation.vendor,
           success: vendorResult.status === 'ok',
           issues: vendorResult.issues || []
         };
@@ -182,9 +182,9 @@ async function main() {
 
       case 'create-currency':
         // Note: Currency creation would need to be added to EnhancedManager
-        result = {
+        result = 
           action: 'currency_created',
-          currency: operation.currency,
+          currency: currency: operation.currency,
           success: true,
           note: 'Currency creation not yet implemented in manager'
         };
@@ -192,9 +192,9 @@ async function main() {
 
       case 'create-event':
         const eventResult = economyManager.createEconomicEvent(operation.event!);
-        result = {
+        result = 
           action: 'event_created',
-          event: operation.event,
+          event: event: operation.event,
           success: eventResult.status === 'ok',
           issues: eventResult.issues || []
         };
@@ -206,9 +206,9 @@ async function main() {
           operation.itemId!, 
           operation.quantity || 1
         );
-        result = {
+        result = 
           action: 'price_calculated',
-          vendorId: operation.vendorId,
+          vendorId: vendorId: operation.vendorId,
           itemId: operation.itemId,
           quantity: operation.quantity || 1,
           success: priceResult.status === 'ok',
@@ -225,9 +225,9 @@ async function main() {
           operation.type!,
           operation.playerId
         );
-        result = {
+        result = 
           action: 'trade_executed',
-          vendorId: operation.vendorId,
+          vendorId: vendorId: operation.vendorId,
           itemId: operation.itemId,
           quantity: operation.quantity,
           type: operation.type,
@@ -240,9 +240,9 @@ async function main() {
 
       case 'get-market-data':
         const marketResult = economyManager.getMarketData(operation.itemId!);
-        result = {
+        result = 
           action: 'market_data_retrieved',
-          itemId: operation.itemId,
+          itemId: itemId: operation.itemId,
           success: marketResult.status === 'ok',
           marketData: marketResult.result,
           issues: marketResult.issues || []
@@ -251,20 +251,20 @@ async function main() {
 
       case 'get-stats':
         const statsResult = economyManager.getEconomyStats();
-        result = {
+        result = 
           action: 'stats_retrieved',
           success: statsResult.status === 'ok',
-          stats: statsResult.result,
+          stats: result: statsResult.result,
           issues: statsResult.issues || []
         };
         break;
 
       case 'list-rules':
         const rulesResult = economyManager.listRules();
-        result = {
+        result = 
           action: 'rules_listed',
           success: rulesResult.status === 'ok',
-          rules: rulesResult.result,
+          rules: result: rulesResult.result,
           count: Array.isArray(rulesResult.result) ? rulesResult.length: 0,
           issues: rulesResult.issues || []
         };
@@ -272,10 +272,10 @@ async function main() {
 
       case 'list-vendors':
         const vendorsResult = economyManager.listVendors();
-        result = {
+        result = 
           action: 'vendors_listed',
           success: vendorsResult.status === 'ok',
-          vendors: vendorsResult.result,
+          vendors: result: vendorsResult.result,
           count: Array.isArray(vendorsResult.result) ? vendorsResult.length: 0,
           issues: vendorsResult.issues || []
         };
@@ -283,10 +283,10 @@ async function main() {
 
       case 'list-currencies':
         const currenciesResult = economyManager.listCurrencies();
-        result = {
+        result = 
           action: 'currencies_listed',
           success: currenciesResult.status === 'ok',
-          currencies: currenciesResult.result,
+          currencies: result: currenciesResult.result,
           count: Array.isArray(currenciesResult.result) ? currenciesResult.length: 0,
           issues: currenciesResult.issues || []
         };
@@ -294,9 +294,9 @@ async function main() {
 
       case 'export':
         const exportResult = economyManager.exportEconomy(operation.exportFormat as any);
-        result = {
+        result = 
           action: 'economy_exported',
-          format: operation.exportFormat,
+          format: exportFormat: operation.exportFormat,
           success: exportResult.status === 'ok',
           data: exportResult.result,
           issues: exportResult.issues || []
@@ -315,8 +315,8 @@ async function main() {
 
       case 'demo':
         // Create a comprehensive economy demo
-        const demoManager = new EconomyManager({
-          baseInflationRate: 0.03,
+        const demoManager = new EconomyManager(
+          baseInflationRate: 03: 0.03,
           marketVolatility: 0.15,
           supplyDemandSensitivity: 0.4,
           globalMarketEnabled: true,
@@ -324,7 +324,7 @@ async function main() {
         });
 
         // Add custom items and vendors
-        const customRule: PriceRule = {
+        const customRule: PriceRule = 
           id: 'rare_gem_rule',
           itemId: 'rare_gem',
           basePrice: 1000,
@@ -332,12 +332,12 @@ async function main() {
           category: 'gems',
           rarity: 'rare',
           modifiers: [
-            { key: 'rarity_bonus', value: 0.5, type: 'percentage' },
-            { key: 'scarcity', value: 0.3, type: 'percentage' }
+            { key: 'rarity_bonus', value: 5: 0.5, type: 'percentage' },
+             key: 'scarcity', value: 3: 0.3, type: 'percentage' }
           ]
         };
 
-        const customVendor: VendorState = {
+        const customVendor: VendorState = 
           id: 'black_market',
           name: 'Black Market Trader',
           type: 'black_market',
@@ -345,7 +345,7 @@ async function main() {
             'rare_gem': { 
               quantity: 2, 
               maxStock: 5, 
-              restockRate: 0.5, 
+              restockRate: 5: 0.5, 
               lastRestock: new Date(), 
               demand: 0.9, 
               supply: 0.2 
@@ -362,7 +362,7 @@ async function main() {
           operatingHours: { open: 20, close: 4 }
         };
 
-        const economicEvent: EconomicEvent = {
+        const economicEvent: EconomicEvent = 
           id: 'gem_shortage',
           name: 'Rare Gem Shortage',
           type: 'shortage',
@@ -373,7 +373,7 @@ async function main() {
             {
               target: 'category',
               targetId: 'gems',
-              modifier: 0.5, // 50% price increase
+              modifier: 5: 0.5, // 50% price increase
               type: 'price'
             }
           ]
@@ -393,10 +393,10 @@ async function main() {
         const marketData = demoManager.getMarketData('rare_gem');
         const exportData = demoManager.exportEconomy('summary');
 
-        result = {
+        result = 
           demo: {
             configuration: {
-              baseInflationRate: 0.03,
+              baseInflationRate: 03: 0.03,
               marketVolatility: 0.15,
               supplyDemandSensitivity: 0.4,
               globalMarketEnabled: true,
@@ -408,24 +408,24 @@ async function main() {
               event: economicEvent
             },
             trades: [
-              { 
+               
                 description: 'Buy 5 health potions from general store',
-                result: trade1.result,
+                result: result: trade1.result,
                 success: trade1.status === 'ok'
               },
-              { 
+               
                 description: 'Buy 1 rare gem from black market',
-                result: trade2.result,
+                result: result: trade2.result,
                 success: trade2.status === 'ok'
               },
-              { 
+               
                 description: 'Buy 2 magic scrolls from magic emporium',
-                result: trade3.result,
+                result: result: trade3.result,
                 success: trade3.status === 'ok'
               }
             ],
-            analysis: {
-              stats: demoStats.result,
+            analysis: 
+              stats: result: demoStats.result,
               rareGemMarket: marketData.result,
               exportSample: exportData.result
             },
@@ -469,7 +469,7 @@ async function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -487,8 +487,8 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

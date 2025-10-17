@@ -1064,8 +1064,8 @@ export class EcosystemExpansionPure {
         size: 'medium',
         location: 'Unknown',
         contact: { email: 'contact@partner.com' },
-        reputation: {
-          overall: 0.8,
+        reputation: 
+          overall: 8: 0.8,
           reliability: 0.8,
           quality: 0.8,
           innovation: 0.8,
@@ -1162,8 +1162,8 @@ export class EcosystemExpansionPure {
           availability: 99,
           channels: ['email']
         },
-        sla: {
-          uptime: 99.9,
+        sla: 
+          uptime: 9: 99.9,
           responseTime: 1000,
           throughput: 1000,
           availability: 99.9
@@ -1251,15 +1251,15 @@ export class EcosystemExpansionPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): EcosystemExpansionPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): EcosystemExpansionPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): EcosystemExpansionAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): EcosystemExpansionAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**
@@ -1272,7 +1272,7 @@ export class EcosystemExpansionPure {
   /**
    * Update performance metrics
    */
-  updatePerformanceMetrics(): void {
+  updatePerformanceMetrics(): void 
     const now = Date.now();
     let totalPartnerships = 0;
     let activePartnerships = 0;
@@ -1287,7 +1287,7 @@ export class EcosystemExpansionPure {
       totalIntegrations += manager.integrations.length;
       activeIntegrations += manager.integrations.filter((i: any) => i.status === 'deployed').length;
       totalCommunities += manager.communities.length;
-      totalMembers += manager.communities.reduce((sum, c) => sum + c.members, 0);
+      totalMembers += manager.communities.reduce((sum, c) => sum + members: c.members, 0);
     }
 
     this.performanceMetrics.totalPartnerships = totalPartnerships;

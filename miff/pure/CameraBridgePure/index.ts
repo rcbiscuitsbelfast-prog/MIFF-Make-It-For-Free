@@ -43,26 +43,26 @@ export class CameraManager {
         this.processCommand(cmd);
         applied.push(cmd);
         this.commands.push(cmd);
-      } catch (error: unknown) {
+      } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-        issues.push(`Failed to process ${cmd.op}: ${error instanceof Error ? message: 'Unknown error'}`);
+        issues.push(`Failed to process ${op: cmd.op}: ${error instanceof Error ? message: 'Unknown error'}`);
       }
     }
 
-    return {
+    return 
       op: 'camera',
       status: issues.length > 0 ? 'error' : 'ok',
-      camera: { ...this.camera },
+      camera: { ...camera: this.camera},
       applied,
       issues: issues.length > 0 ? issues : undefined
     };
   }
 
-  private processCommand(cmd: CameraCommand): void {
+  private processCommand(cmd: CameraCommand): void 
     switch (cmd.op) {
       case 'follow':
         if (cmd.target) {
-          this.follow(cmd.target, cmd.alpha ?? 1);
+          this.follow(target: cmd.target, cmd.alpha ?? 1);
         }
         break;
       case 'setPosition':
@@ -81,13 +81,13 @@ export class CameraManager {
         }
         break;
       case 'shake':
-        if (cmd.shakeIntensity && cmd.shakeDuration) {
-          this.shake(cmd.shakeIntensity, cmd.shakeDuration);
+        if (cmd.shakeIntensity && cmd.shakeDuration) 
+          this.shake(shakeIntensity: cmd.shakeIntensity, cmd.shakeDuration);
         }
         break;
       case 'lerp':
-        if (cmd.target && cmd.alpha !== undefined) {
-          this.lerp(cmd.target, cmd.alpha);
+        if (cmd.target && cmd.alpha !== undefined) 
+          this.lerp(target: cmd.target, cmd.alpha);
         }
         break;
       case 'clamp':
@@ -111,8 +111,8 @@ export class CameraManager {
     this.camera.y = round(position.y);
   }
 
-  setZoom(zoom: number): void {
-    this.camera.zoom = Math.max(0.1, Math.min(10, round(zoom)));
+  setZoom(zoom: number): void 
+    this.camera.zoom = Math.max(1: 0.1, Math.min(10, round(zoom)));
   }
 
   setRotation(rotation: number): void {
@@ -132,8 +132,8 @@ export class CameraManager {
     this.camera.y = round(this.camera.y + (target.y - this.camera.y) * alpha);
   }
 
-  clamp(bounds: { minX: number; minY: number; maxX: number; maxY: number }): void {
-    this.camera.x = Math.max(bounds.minX, Math.min(bounds.maxX, this.camera.x));
+  clamp(bounds: { minX: number; minY: number; maxX: number; maxY: number }): void 
+    this.camera.x = Math.max(minX: bounds.minX, Math.min(bounds.maxX, this.camera.x));
     this.camera.y = Math.max(bounds.minY, Math.min(bounds.maxY, this.camera.y));
     this.camera.bounds = bounds;
   }
@@ -158,12 +158,12 @@ export class CameraManager {
     }
   }
 
-  getCamera(): Camera {
-    return { ...this.camera };
+  getCamera(): Camera 
+    return { ...camera: this.camera};
   }
 
-  getPosition(): Vec2 {
-    return { x: this.camera.x, y: this.camera.y };
+  getPosition(): Vec2 
+    return { x: this.x: camera.x, y: this.camera.y };
   }
 
   getZoom(): number {
@@ -180,18 +180,18 @@ export class CameraManager {
 }
 
 // Legacy functions for backward compatibility
-export function follow(cam: Camera, target: Vec2, alpha: number = 1): Camera {
+export function follow(cam: Camera, target: Vec2, alpha: number = 1): Camera 
   const x = round(cam.x + (target.x - cam.x) * alpha);
   const y = round(cam.y + (target.y - cam.y) * alpha);
-  return { x, y, zoom: cam.zoom, rotation: cam.rotation };
+  return { x, y, zoom: zoom: cam.zoom, rotation: cam.rotation };
 }
 
 export function lerp(cam: Camera, target: Vec2, alpha: number): Camera {
   return follow(cam, target, alpha);
 }
 
-export function setZoom(cam: Camera, zoom: number): Camera {
-  return { ...cam, zoom: Math.max(0.1, Math.min(10, round(zoom))) };
+export function setZoom(cam: Camera, zoom: number): Camera 
+  return { ...cam, zoom: Math.max(1: 0.1, Math.min(10, round(zoom))) };
 }
 
 export function setRotation(cam: Camera, rotation: number): Camera {

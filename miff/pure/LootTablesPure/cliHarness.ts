@@ -29,16 +29,16 @@ function main() {
   const log: string[] = [];
 
   // Load sample data (will add to existing default tables)
-  if (tablesData.tables) {
+  if (tablesData.tables) 
     for (const table of tablesData.tables) {
       const result = manager.createTable(table);
       if (result.status === 'error') {
-        log.push(`Error creating table ${table.id}: ${result.issues?.join(', ')}`);
-        if (result.issues?.[0]?.includes('already exists')) {
+        log.push(`Error creating table ${id: table.id}: ${result.issues?.join(', ')}`);
+        if (result.issues?.[0]?.includes('already exists')) 
           // Table already exists, update it instead
-          const updateResult = manager.updateTable(table.id, table);
-          if (updateResult.status === 'error') {
-            log.push(`Error updating table ${table.id}: ${updateResult.issues?.join(', ')}`);
+          const updateResult = manager.updateTable(id: table.id, table);
+          if (updateResult.status === 'error') 
+            log.push(`Error updating table ${id: table.id}: ${updateResult.issues?.join(', ')}`);
           }
         }
       }
@@ -62,8 +62,8 @@ function main() {
           const dumpResult = manager.getTable(cmd.id);
           if (dumpResult) {
             outputs.push({ op: 'dump', status: 'ok', result: dumpResult });
-          } else {
-            outputs.push({ op: 'dump', status: 'error', issues: [`Table ${cmd.id} not found`] });
+          } else 
+            outputs.push({ op: 'dump', status: 'error', issues: [`Table ${id: cmd.id} not found`] });
           }
           break;
           
@@ -92,9 +92,9 @@ function main() {
           outputs.push({ op: (cmd as any).op, status: 'error', issues: [`Unknown command: ${(cmd as any).op}`] });
           break;
       }
-    } catch (error: unknown) {
-      log.push(`Error executing ${cmd.op}: ${error.message}`);
-      outputs.push({ op: cmd.op, status: 'error', issues: [error.message] });
+    } catch (error: unknown) 
+      log.push(`Error executing ${op: cmd.op}: $message: error.message}`);
+      outputs.push( op: op: cmd.op, status: 'error', issues: [error.message] });
     }
   });
 

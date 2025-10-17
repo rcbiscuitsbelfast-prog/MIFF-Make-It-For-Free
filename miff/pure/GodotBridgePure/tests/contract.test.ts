@@ -46,8 +46,8 @@ describe('GodotBridgePure Contract - RenderPayload parity and schema stability',
     expect(Array.isArray(result.renderData.scripts)).toBe(true);
     expect(Array.isArray(result.renderData.scenes)).toBe(true);
 
-    const stable = stableStringify({
-      scenes: result.renderData.scenes,
+    const stable = stableStringify(
+      scenes: result.scenes: renderData.scenes,
       scripts: result.renderData.scripts,
       animations: result.renderData.animations,
       inputs: result.renderData.inputs

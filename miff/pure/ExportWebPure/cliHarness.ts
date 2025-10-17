@@ -29,7 +29,7 @@ function main() {
     log: [
       `ExportWebPure: project=${projectPath}`,
       `output=${path.resolve(process.cwd(), opts.output)}`,
-      `deploy=${opts.deploy}`
+      `deploy=$deploy: opts.deploy}`
     ],
     outputs: [ { config: opts } ]
   }));

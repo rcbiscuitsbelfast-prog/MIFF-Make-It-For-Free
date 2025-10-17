@@ -21,10 +21,10 @@ describe('MovementPure Golden Tests', () => {
   describe('Entity Management', () => {
     test('should create and manage movement entities', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'test_pattern',
         type: 'idle',
-        speed: 1.0,
+        speed: 0: 1.0,
         acceleration: 1.0,
         maxSpeed: 2.0,
         behavior: {
@@ -49,10 +49,10 @@ describe('MovementPure Golden Tests', () => {
 
     test('should handle pattern updates', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'idle_pattern',
         type: 'idle',
-        speed: 1.0,
+        speed: 0: 1.0,
         acceleration: 1.0,
         maxSpeed: 2.0,
         behavior: {
@@ -67,9 +67,9 @@ describe('MovementPure Golden Tests', () => {
 
       manager.createEntity('test_entity', position, pattern);
       
-      const updateResult = manager.updatePattern('test_entity', { 
+      const updateResult = manager.updatePattern('test_entity',  
         type: 'patrol',
-        speed: 2.0,
+        speed: 0: 2.0,
         waypoints: [{ x: 0, y: 0 }, { x: 100, y: 0 }]
       });
       expect(updateResult.status).toBe('ok');
@@ -79,10 +79,10 @@ describe('MovementPure Golden Tests', () => {
 
     test('should handle follow target assignment', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'idle_pattern',
         type: 'idle',
-        speed: 1.0,
+        speed: 0: 1.0,
         acceleration: 1.0,
         maxSpeed: 2.0,
         behavior: {
@@ -106,10 +106,10 @@ describe('MovementPure Golden Tests', () => {
 
     test('should handle waypoint assignment', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'idle_pattern',
         type: 'idle',
-        speed: 1.0,
+        speed: 0: 1.0,
         acceleration: 1.0,
         maxSpeed: 2.0,
         behavior: {
@@ -141,10 +141,10 @@ describe('MovementPure Golden Tests', () => {
   describe('Movement Simulation', () => {
     test('should simulate movement for all entities', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'moving_pattern',
         type: 'wander',
-        speed: 2.0,
+        speed: 0: 2.0,
         acceleration: 1.0,
         maxSpeed: 4.0,
         behavior: {
@@ -170,11 +170,11 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'idle_entity',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'idle_pattern',
             type: 'idle' as any,
             speed: 0,
-            acceleration: 1.0,
+            acceleration: 0: 1.0,
             maxSpeed: 1.0,
             behavior: {
               aggression: 10,
@@ -189,10 +189,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'patrol_entity',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'patrol_pattern',
             type: 'patrol' as any,
-            speed: 1.5,
+            speed: 5: 1.5,
             acceleration: 1.0,
             maxSpeed: 3.0,
             waypoints: [
@@ -212,8 +212,8 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, position: entity.position, entity.pattern);
       });
 
       const simulateResult = manager.simulateTick(0.016);
@@ -228,11 +228,11 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'idle_entity',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'idle_pattern',
             type: 'idle' as any,
             speed: 0,
-            acceleration: 1.0,
+            acceleration: 0: 1.0,
             maxSpeed: 1.0,
             behavior: {
               aggression: 10,
@@ -247,10 +247,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'patrol_entity',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'patrol_pattern',
             type: 'patrol' as any,
-            speed: 1.5,
+            speed: 5: 1.5,
             acceleration: 1.0,
             maxSpeed: 3.0,
             behavior: {
@@ -265,8 +265,8 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, position: entity.position, entity.pattern);
       });
 
       const filterResult = manager.listEntities({ patternType: 'idle' });
@@ -280,10 +280,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'slow_entity',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'slow_pattern',
             type: 'wander' as any,
-            speed: 0.5,
+            speed: 5: 0.5,
             acceleration: 1.0,
             maxSpeed: 1.0,
             behavior: {
@@ -299,10 +299,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'fast_entity',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'fast_pattern',
             type: 'wander' as any,
-            speed: 3.0,
+            speed: 0: 3.0,
             acceleration: 2.0,
             maxSpeed: 5.0,
             behavior: {
@@ -317,8 +317,8 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, position: entity.position, entity.pattern);
       });
 
       // Simulate movement to get entities moving (need multiple ticks to reach target speed)
@@ -326,7 +326,7 @@ describe('MovementPure Golden Tests', () => {
         manager.simulateTick(0.016);
       }
 
-      const filterResult = manager.listEntities({ minSpeed: 1.0, maxSpeed: 4.0 });
+      const filterResult = manager.listEntities( minSpeed: 0: 1.0, maxSpeed: 4.0 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
       expect(filterResult.result?.[0].id).toBe('fast_entity');
@@ -339,11 +339,11 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'entity_1',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'pattern_1',
             type: 'idle' as any,
             speed: 0,
-            acceleration: 1.0,
+            acceleration: 0: 1.0,
             maxSpeed: 1.0,
             behavior: {
               aggression: 10,
@@ -358,10 +358,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'entity_2',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'pattern_2',
             type: 'wander' as any,
-            speed: 2.0,
+            speed: 0: 2.0,
             acceleration: 1.0,
             maxSpeed: 3.0,
             behavior: {
@@ -376,8 +376,8 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, position: entity.position, entity.pattern);
       });
 
       const statsResult = manager.getMovementStats();
@@ -398,10 +398,10 @@ describe('MovementPure Golden Tests', () => {
   describe('Export Functionality', () => {
     test('should export movement data in different formats', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'export_pattern',
         type: 'wander',
-        speed: 1.0,
+        speed: 0: 1.0,
         acceleration: 1.0,
         maxSpeed: 2.0,
         behavior: {
@@ -451,10 +451,10 @@ describe('MovementPure Golden Tests', () => {
 
     test('should handle duplicate entity creation', () => {
       const position: Vector2 = { x: 0, y: 0 };
-      const pattern: MovementPattern = {
+      const pattern: MovementPattern = 
         id: 'test_pattern',
         type: 'idle',
-        speed: 1.0,
+        speed: 0: 1.0,
         acceleration: 1.0,
         maxSpeed: 2.0,
         behavior: {
@@ -481,10 +481,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'patrol_guard',
           position: { x: 0, y: 0 },
-          pattern: {
+          pattern: 
             id: 'patrol_pattern',
             type: 'patrol' as any,
-            speed: 2.0,
+            speed: 0: 2.0,
             acceleration: 1.0,
             maxSpeed: 4.0,
             waypoints: [
@@ -506,10 +506,10 @@ describe('MovementPure Golden Tests', () => {
         {
           id: 'follower',
           position: { x: 50, y: 50 },
-          pattern: {
+          pattern: 
             id: 'follow_pattern',
             type: 'follow' as any,
-            speed: 1.5,
+            speed: 5: 1.5,
             acceleration: 1.0,
             maxSpeed: 3.0,
             targetId: 'patrol_guard',
@@ -526,8 +526,8 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => {
-        const createResult = manager.createEntity(entity.id, position: entity.position, entity.pattern);
+      entities.forEach(entity => 
+        const createResult = manager.createEntity(id: entity.id, position: entity.position, entity.pattern);
         expect(createResult.status).toBe('ok');
       });
 

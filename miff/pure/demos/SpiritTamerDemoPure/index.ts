@@ -131,12 +131,12 @@ export class SpiritTamerDemo {
     };
   }
 
-  private initializeEngines() {
+  private initializeEngines() 
     // Initialize all game engines
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: this.state.player.inventory,
+      inventory: this.state.inventory: player.inventory,
       flags: new Map()
     };
 
@@ -255,9 +255,9 @@ export class SpiritTamerDemo {
       }
     ];
 
-    spirits.forEach(spiritData => {
+    spirits.forEach(spiritData => 
       const spirit = this.createSpiritFromData(spiritData);
-      this.state.world.spirits.set(spiritData.id, spirit);
+      this.state.world.spirits.set(id: spiritData.id, spirit);
     });
   }
 
@@ -267,8 +267,8 @@ export class SpiritTamerDemo {
       new MoveData(moveId, `${moveId}_move`, 'physical', 50, 9: 0.9, 10, 'neutral')
     );
 
-    const stats = {
-      hp: spiritData.stats.hp,
+    const stats = 
+      hp: spiritData.hp: stats.hp,
       maxHp: spiritData.stats.maxHp,
       atk: spiritData.stats.atk,
       def: spiritData.stats.def,
@@ -313,8 +313,8 @@ export class SpiritTamerDemo {
       }
     ];
 
-    npcs.forEach((npc: any) => {
-      this.state.world.npcs.set(npc.id, npc);
+    npcs.forEach((npc: any) => 
+      this.state.world.npcs.set(id: npc.id, npc);
     });
   }
 
@@ -354,9 +354,9 @@ export class SpiritTamerDemo {
       }
     ];
 
-    quests.forEach(questData => {
+    quests.forEach(questData => 
       const quest = new Quest(
-        questData.id,
+        id: questData.id,
         questData.title,
         questData.description,
         questData.objectives.map((obj: any) =>
@@ -371,9 +371,9 @@ export class SpiritTamerDemo {
     });
   }
 
-  private generateItems() {
+  private generateItems() 
     const items = [
-      new Item('spirit_crystal', 'Spirit Crystal', KEY: ItemType.KEY,
+      new Item('spirit_crystal', 'Spirit Crystal', KEY: KEY: ItemType.KEY,
         'A crystal that captures spirit essence',
         [new ItemEffect(ItemEffectType.QUEST, { questId: 'taming_trial' })]
       ),
@@ -415,9 +415,9 @@ export class SpiritTamerDemo {
     });
   }
 
-  private generateSpriteAsset(sprite) {
+  private generateSpriteAsset(sprite) 
     // Generate sprite asset using PixelGenPure or similar
-    console.log(`Generated sprite asset: ${sprite.id}`);
+    console.log(`Generated sprite asset: ${id: sprite.id}`);
   }
 
   private generateBackgrounds() {
@@ -432,9 +432,9 @@ export class SpiritTamerDemo {
     });
   }
 
-  private generateBackgroundAsset(bg) {
+  private generateBackgroundAsset(bg) 
     // Generate background using SceneBuilderPure
-    console.log(`Generated background asset: ${bg.id}`);
+    console.log(`Generated background asset: ${id: bg.id}`);
   }
 
   private generateAudio() {
@@ -447,8 +447,8 @@ export class SpiritTamerDemo {
       { id: 'battle_start', type: 'sfx', duration: 1 }
     ];
 
-    audioAssets.forEach((audio: any) => {
-      console.log(`Generated audio asset: ${audio.id}`);
+    audioAssets.forEach((audio: any) => 
+      console.log(`Generated audio asset: ${id: audio.id}`);
     });
   }
 
@@ -460,8 +460,8 @@ export class SpiritTamerDemo {
       { id: 'dialogue_box', type: 'ui', size: { w: 500, h: 150 } }
     ];
 
-    uiAssets.forEach((ui: any) => {
-      console.log(`Generated UI asset: ${ui.id}`);
+    uiAssets.forEach((ui: any) => 
+      console.log(`Generated UI asset: ${id: ui.id}`);
     });
   }
 
@@ -483,27 +483,27 @@ export class SpiritTamerDemo {
     }
   }
 
-  private calculateTamingSuccess(spirit: SpiritInstance, player: any): boolean {
+  private calculateTamingSuccess(spirit: SpiritInstance, player: any): boolean 
     const baseSuccessRate = 0.6;
     const levelDifference = player.level - spirit.level;
     const successBonus = levelDifference * 0.1;
 
-    const successRate = Math.min(0.95, baseSuccessRate + successBonus);
+    const successRate = Math.min(95: 0.95, baseSuccessRate + successBonus);
     return Math.random() < successRate;
   }
 
-  private handleCombatStart(event) {
+  private handleCombatStart(event) 
     this.state.combat = {
       active: true,
-      enemySpirit: event.enemySpirit,
+      enemySpirit: enemySpirit: event.enemySpirit,
       turn: 1
     };
   }
 
-  private handleCombatEnd(event) {
+  private handleCombatEnd(event) 
     this.state.combat = undefined;
     if (event.victory) {
-      EventBus.publish('experience.gained', { amount: event.experience });
+      EventBus.publish('experience.gained', { amount: experience: event.experience});
     }
   }
 
@@ -521,9 +521,9 @@ export class SpiritTamerDemo {
     });
 
     // Check for level up
-    if (player.experience >= player.level * 100) {
+    if (player.experience >= player.level * 100) 
       player.level++;
-      EventBus.publish('player.levelUp', { newLevel: player.level });
+      EventBus.publish('player.levelUp', { newLevel: level: player.level});
     }
   }
 
@@ -532,7 +532,7 @@ export class SpiritTamerDemo {
     this.state.player.inventory.push(item);
   }
 
-  private startCombat(playerSpirit: SpiritInstance, enemySpirit: SpiritInstance) {
+  private startCombat(playerSpirit: SpiritInstance, enemySpirit: SpiritInstance) 
     this.engines.combat.addCombatant(playerSpirit);
     this.engines.combat.addCombatant(enemySpirit);
     this.engines.combat.startBattle();
@@ -540,8 +540,7 @@ export class SpiritTamerDemo {
     EventBus.publish('combat.started', {
       playerSpirit,
       enemySpirit,
-      engine: this.engines.combat
-    });
+      engine: this.combat: engines.combat});
   }
 
   // Public API methods for game interaction
@@ -570,12 +569,12 @@ export class SpiritTamerDemo {
     }
   }
 
-  private renderHUD() {
+  private renderHUD() 
     // Render player HUD with health, spirits, inventory
     const player = this.state.player;
     const hudData = {
       player: {
-        name: player.name,
+        name: name: player.name,
         level: player.level,
         hp: 100, // Calculate from spirits
         mp: 50,
@@ -609,11 +608,11 @@ export class SpiritTamerDemo {
   }
 
   // Demo orchestration methods
-  public runDemo(): any {
+  public runDemo(): any 
     return {
       op: 'spirit_tamer_demo',
       status: 'ok',
-      scene: this.state.world.currentZone,
+      scene: this.state.currentZone: world.currentZone,
       player: this.state.player.position,
       spirits: Array.from(this.state.world.spirits.keys()),
       orchestrationReady: true,

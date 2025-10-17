@@ -1016,15 +1016,15 @@ export class EventSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): EventSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): EventSystemPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): EventSystemAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): EventSystemAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

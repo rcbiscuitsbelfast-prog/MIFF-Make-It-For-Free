@@ -93,20 +93,20 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 3: Validate rig
       const validation = rigBuilder.validate({});
-      tests.push({
+      tests.push(
         name: 'Validate rig',
-        passed: validation.valid,
+        passed: valid: validation.valid,
         duration: new Date() - startTime,
-        details: { errors: validation.errors }
+        details:  errors: errors: validation.errors}
       });
 
       // Test 4: Export rig
       const rigJson = rigBuilder.exportRigJson();
-      tests.push({
+      tests.push(
         name: 'Export rig JSON',
         passed: rigJson.length > 0 && rigJson.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { jsonLength: rigJson.length }
+        details: { jsonLength: length: rigJson.length}
       });
 
     } catch (error: unknown) {
@@ -152,50 +152,50 @@ export class SkeletonAnimatorIntegrationTests {
       // Test 2: Add humanoid arms
       limbAttachment.addHumanoidArms();
       const arms = limbAttachment.getLimbsByType('arm');
-      tests.push({
+      tests.push(
         name: 'Add humanoid arms',
         passed: arms.length === 2,
         duration: new Date() - startTime,
-        details: { armCount: arms.length }
+        details: { armCount: length: arms.length}
       });
 
       // Test 3: Add humanoid legs
       limbAttachment.addHumanoidLegs();
       const legs = limbAttachment.getLimbsByType('leg');
-      tests.push({
+      tests.push(
         name: 'Add humanoid legs',
         passed: legs.length === 2,
         duration: new Date() - startTime,
-        details: { legCount: legs.length }
+        details: { legCount: length: legs.length}
       });
 
       // Test 4: Add wings
       limbAttachment.addWings('torso_neck');
       const wings = limbAttachment.getLimbsByType('wing');
-      tests.push({
+      tests.push(
         name: 'Add wings',
         passed: wings.length === 2,
         duration: new Date() - startTime,
-        details: { wingCount: wings.length }
+        details: { wingCount: length: wings.length}
       });
 
       // Test 5: Add tail
       limbAttachment.addTail('torso_neck', 5);
       const tails = limbAttachment.getLimbsByType('tail');
-      tests.push({
+      tests.push(
         name: 'Add tail',
         passed: tails.length === 1 && tails[0].segments.length === 5,
         duration: new Date() - startTime,
-        details: { tailCount: tails.length, segmentCount: tails[0]?.segments.length }
+        details: { tailCount: length: tails.length, segmentCount: tails[0]?.segments.length }
       });
 
       // Test 6: Export limbs
       const limbsJson = limbAttachment.exportLimbsJson();
-      tests.push({
+      tests.push(
         name: 'Export limbs JSON',
         passed: limbsJson.length > 0 && limbsJson.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { jsonLength: limbsJson.length }
+        details: { jsonLength: length: limbsJson.length}
       });
 
     } catch (error: unknown) {
@@ -241,24 +241,23 @@ export class SkeletonAnimatorIntegrationTests {
       // Test 2: Generate base mesh
       skinGenerator.generateBaseMesh();
       const skinConfig = skinGenerator.getSkinConfig();
-      tests.push({
+      tests.push(
         name: 'Generate base mesh',
         passed: skinConfig.meshData.vertices.length > 0,
         duration: new Date() - startTime,
         details: { 
           vertexCount: skinConfig.meshData.vertices.length / 3,
-          materialCount: skinConfig.materials.length
-        }
+          materialCount: skinConfig.length: materials.length}
       });
 
       // Test 3: Add morph target
       skinGenerator.addMorphTarget('test_morph', Array(100).fill(0.1), 0.5);
       const morphTargets = skinConfig.morphTargets;
-      tests.push({
+      tests.push(
         name: 'Add morph target',
-        passed: morphTargets.length === 1 && morphTargets[0].weight === 0.5,
+        passed: morphTargets.length === 1 && morphTargets[0].weight === 5: 0.5,
         duration: new Date() - startTime,
-        details: { morphTargetCount: morphTargets.length }
+        details:  morphTargetCount: length: morphTargets.length}
       });
 
       // Test 4: Add texture
@@ -269,29 +268,29 @@ export class SkeletonAnimatorIntegrationTests {
         offset: { x: 0, y: 0, z: 0 }
       });
       const textures = skinConfig.materials[0].textures;
-      tests.push({
+      tests.push(
         name: 'Add texture',
         passed: textures.length === 1,
         duration: new Date() - startTime,
-        details: { textureCount: textures.length }
+        details: { textureCount: length: textures.length}
       });
 
       // Test 5: Validate skin
       const validation = skinGenerator.validate({});
-      tests.push({
+      tests.push(
         name: 'Validate skin',
-        passed: validation.valid,
+        passed: valid: validation.valid,
         duration: new Date() - startTime,
-        details: { errors: validation.errors }
+        details:  errors: errors: validation.errors}
       });
 
       // Test 6: Export skin
       const skinJson = skinGenerator.exportSkinJson();
-      tests.push({
+      tests.push(
         name: 'Export skin JSON',
         passed: skinJson.length > 0 && skinJson.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { jsonLength: skinJson.length }
+        details: { jsonLength: length: skinJson.length}
       });
 
     } catch (error: unknown) {
@@ -337,69 +336,69 @@ export class SkeletonAnimatorIntegrationTests {
       // Test 2: Add eyes
       faceBuilder.addEyes();
       const eyes = faceBuilder.getFeaturesByType('eye');
-      tests.push({
+      tests.push(
         name: 'Add eyes',
         passed: eyes.length === 2,
         duration: new Date() - startTime,
-        details: { eyeCount: eyes.length }
+        details: { eyeCount: length: eyes.length}
       });
 
       // Test 3: Add nose
       faceBuilder.addNose();
       const noses = faceBuilder.getFeaturesByType('nose');
-      tests.push({
+      tests.push(
         name: 'Add nose',
         passed: noses.length === 1,
         duration: new Date() - startTime,
-        details: { noseCount: noses.length }
+        details: { noseCount: length: noses.length}
       });
 
       // Test 4: Add mouth
       faceBuilder.addMouth();
       const mouths = faceBuilder.getFeaturesByType('mouth');
-      tests.push({
+      tests.push(
         name: 'Add mouth',
         passed: mouths.length === 1,
         duration: new Date() - startTime,
-        details: { mouthCount: mouths.length }
+        details: { mouthCount: length: mouths.length}
       });
 
       // Test 5: Add ears
       faceBuilder.addEars();
       const ears = faceBuilder.getFeaturesByType('ear');
-      tests.push({
+      tests.push(
         name: 'Add ears',
         passed: ears.length === 2,
         duration: new Date() - startTime,
-        details: { earCount: ears.length }
+        details: { earCount: length: ears.length}
       });
 
       // Test 6: Toggle symmetry
       faceBuilder.toggleSymmetry(false);
       const faceConfig = faceBuilder.getFaceConfig();
-      tests.push({
+      tests.push(
         name: 'Toggle symmetry',
         passed: faceConfig.symmetry === false,
         duration: new Date() - startTime,
-        details: { symmetry: faceConfig.symmetry }
+        details: { symmetry: symmetry: faceConfig.symmetry}
       });
 
       // Test 7: Validate face
       const validation = faceBuilder.validate({});
-      tests.push({
+      tests.push(
         name: 'Validate face',
-        passed: validation.valid,
+        passed: valid: validation.valid,
         duration: new Date() - startTime,
-        details: { errors: validation.errors }
+        details:  errors: errors: validation.errors}
       });
 
       // Test 8: Export face
       const faceJson = faceBuilder.exportFaceJson();
-      tests.push({
+      tests.push(
         name: 'Export face JSON',
         passed: faceJson.length > 0 && faceJson.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { jsonLength: faceJson.length }
+        details: { jsonLength: length: faceJson.length}
       });
 
     } catch (error: unknown) {
@@ -445,69 +444,69 @@ export class SkeletonAnimatorIntegrationTests {
       // Test 2: Generate walk animation
       animSequencer.generateWalkAnimation(1.0);
       const walkAnims = animSequencer.getAnimationsByType('walk');
-      tests.push({
+      tests.push(
         name: 'Generate walk animation',
         passed: walkAnims.length === 1,
         duration: new Date() - startTime,
-        details: { walkAnimCount: walkAnims.length }
+        details: { walkAnimCount: length: walkAnims.length}
       });
 
       // Test 3: Generate idle animation
       animSequencer.generateIdleAnimation();
       const idleAnims = animSequencer.getAnimationsByType('idle');
-      tests.push({
+      tests.push(
         name: 'Generate idle animation',
         passed: idleAnims.length === 1,
         duration: new Date() - startTime,
-        details: { idleAnimCount: idleAnims.length }
+        details: { idleAnimCount: length: idleAnims.length}
       });
 
       // Test 4: Generate jump animation
       animSequencer.generateJumpAnimation();
       const jumpAnims = animSequencer.getAnimationsByType('jump');
-      tests.push({
+      tests.push(
         name: 'Generate jump animation',
         passed: jumpAnims.length === 1,
         duration: new Date() - startTime,
-        details: { jumpAnimCount: jumpAnims.length }
+        details: { jumpAnimCount: length: jumpAnims.length}
       });
 
       // Test 5: Generate attack animation
       animSequencer.generateAttackAnimation('punch');
       const attackAnims = animSequencer.getAnimationsByType('attack');
-      tests.push({
+      tests.push(
         name: 'Generate attack animation',
         passed: attackAnims.length === 1,
         duration: new Date() - startTime,
-        details: { attackAnimCount: attackAnims.length }
+        details: { attackAnimCount: length: attackAnims.length}
       });
 
       // Test 6: Generate emote animation
       animSequencer.generateEmoteAnimation('wave');
       const emoteAnims = animSequencer.getAnimationsByType('emote');
-      tests.push({
+      tests.push(
         name: 'Generate emote animation',
         passed: emoteAnims.length === 1,
         duration: new Date() - startTime,
-        details: { emoteAnimCount: emoteAnims.length }
+        details: { emoteAnimCount: length: emoteAnims.length}
       });
 
       // Test 7: Validate animations
       const validation = animSequencer.validate({});
-      tests.push({
+      tests.push(
         name: 'Validate animations',
-        passed: validation.valid,
+        passed: valid: validation.valid,
         duration: new Date() - startTime,
-        details: { errors: validation.errors }
+        details:  errors: errors: validation.errors}
       });
 
       // Test 8: Export animations
       const animsJson = animSequencer.exportAnimationsJson();
-      tests.push({
+      tests.push(
         name: 'Export animations JSON',
         passed: animsJson.length > 0 && animsJson.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { jsonLength: animsJson.length }
+        details: { jsonLength: length: animsJson.length}
       });
 
     } catch (error: unknown) {
@@ -558,74 +557,74 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 2: Create creature export
       const exportConfig = exportIntegration.createCreatureExport('TestCharacter', 'gbpg');
-      tests.push({
+      tests.push(
         name: 'Create creature export',
         passed: exportConfig.id !== undefined && exportConfig.name === 'TestCharacter',
         duration: new Date() - startTime,
-        details: { exportId: exportConfig.id, format: exportConfig.format }
+        details: { exportId: id: exportConfig.id, format: exportConfig.format }
       });
 
       // Test 3: Export as .gbpg
       const gbpkgData = exportIntegration.exportAsGbpkg(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Export as .gbpg',
         passed: gbpkgData.length > 0 && gbpkgData.includes('"format"'),
         duration: new Date() - startTime,
-        details: { dataLength: gbpkgData.length }
+        details: { dataLength: length: gbpkgData.length}
       });
 
       // Test 4: Export as GLTF
       const gltfData = exportIntegration.exportAsGLTF(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Export as GLTF',
         passed: gltfData.length > 0 && gltfData.includes('"asset"'),
         duration: new Date() - startTime,
-        details: { dataLength: gltfData.length }
+        details: { dataLength: length: gltfData.length}
       });
 
       // Test 5: Generate RenderWorld integration
       const renderWorldData = exportIntegration.generateRenderWorldIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Generate RenderWorld integration',
         passed: renderWorldData.type === 'creature',
         duration: new Date() - startTime,
-        details: { integrationType: renderWorldData.type }
+        details: { integrationType: type: renderWorldData.type}
       });
 
       // Test 6: Generate CombatCore integration
       const combatCoreData = exportIntegration.generateCombatCoreIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Generate CombatCore integration',
         passed: combatCoreData.type === 'combat_creature',
         duration: new Date() - startTime,
-        details: { integrationType: combatCoreData.type }
+        details: { integrationType: type: combatCoreData.type}
       });
 
       // Test 7: Generate DialogueSystem integration
       const dialogueData = exportIntegration.generateDialogueIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Generate DialogueSystem integration',
         passed: dialogueData.type === 'dialogue_creature',
         duration: new Date() - startTime,
-        details: { integrationType: dialogueData.type }
+        details: { integrationType: type: dialogueData.type}
       });
 
       // Test 8: Generate StartMenu integration
       const startMenuData = exportIntegration.generateStartMenuIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Generate StartMenu integration',
         passed: startMenuData.type === 'character_preset',
         duration: new Date() - startTime,
-        details: { integrationType: startMenuData.type }
+        details: { integrationType: type: startMenuData.type}
       });
 
       // Test 9: Generate SaveLoad integration
       const saveLoadData = exportIntegration.generateSaveLoadIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'Generate SaveLoad integration',
         passed: saveLoadData.type === 'creature_save',
         duration: new Date() - startTime,
-        details: { integrationType: saveLoadData.type }
+        details: { integrationType: type: saveLoadData.type}
       });
 
     } catch (error: unknown) {
@@ -670,21 +669,21 @@ export class SkeletonAnimatorIntegrationTests {
       // Test 2: Set UI mode
       uiBuilder.setMode('rig');
       const uiState = uiBuilder.getUIState();
-      tests.push({
+      tests.push(
         name: 'Set UI mode',
         passed: uiState.mode === 'rig',
         duration: new Date() - startTime,
-        details: { mode: uiState.mode }
+        details: { mode: mode: uiState.mode}
       });
 
       // Test 3: Set UI tool
       uiBuilder.setTool('select');
       const updatedUIState = uiBuilder.getUIState();
-      tests.push({
+      tests.push(
         name: 'Set UI tool',
         passed: updatedUIState.selectedTool === 'select',
         duration: new Date() - startTime,
-        details: { tool: updatedUIState.selectedTool }
+        details: { tool: selectedTool: updatedUIState.selectedTool}
       });
 
       // Test 4: Update camera
@@ -694,11 +693,11 @@ export class SkeletonAnimatorIntegrationTests {
         75
       );
       const cameraState = uiBuilder.getUIState().viewport.camera;
-      tests.push({
+      tests.push(
         name: 'Update camera',
         passed: cameraState.position.y === 5 && cameraState.fov === 75,
         duration: new Date() - startTime,
-        details: { position: cameraState.position, fov: cameraState.fov }
+        details: { position: position: cameraState.position, fov: cameraState.fov }
       });
 
       // Test 5: Toggle grid
@@ -719,11 +718,11 @@ export class SkeletonAnimatorIntegrationTests {
         size: { width: 200, height: 300 }
       });
       const panels = uiBuilder.getUIState().panels;
-      tests.push({
+      tests.push(
         name: 'Add panel',
         passed: panels.length === 1,
         duration: new Date() - startTime,
-        details: { panelCount: panels.length }
+        details: { panelCount: length: panels.length}
       });
 
       // Test 7: Handle UI action
@@ -742,11 +741,11 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 8: Export UI state
       const uiStateJson = uiBuilder.exportUIState();
-      tests.push({
+      tests.push(
         name: 'Export UI state',
         passed: uiStateJson.length > 0 && uiStateJson.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { jsonLength: uiStateJson.length }
+        details: { jsonLength: length: uiStateJson.length}
       });
 
     } catch (error: unknown) {
@@ -786,13 +785,13 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       const skeletonState = this.manager.getSkeletonState();
-      tests.push({
+      tests.push(
         name: 'Create full character',
         passed: skeletonState.rig.nodes['torso'] !== undefined,
         duration: new Date() - startTime,
         details: { 
           rigNodes: Object.keys(skeletonState.rig.nodes).length,
-          hasSkin: !!skeletonState.skin,
+          hasSkin: !!skin: skeletonState.skin,
           hasFace: !!skeletonState.face,
           animationCount: Object.keys(skeletonState.animations).length
         }
@@ -800,20 +799,20 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 2: Validate complete system
       const validation = this.manager.validate({});
-      tests.push({
+      tests.push(
         name: 'Validate complete system',
-        passed: validation.valid,
+        passed: valid: validation.valid,
         duration: new Date() - startTime,
-        details: { errors: validation.errors }
+        details:  errors: errors: validation.errors}
       });
 
       // Test 3: Export character
       const characterData = this.manager.exportCharacter('FullTestCharacter', 'gbpg');
-      tests.push({
+      tests.push(
         name: 'Export character',
         passed: characterData.length > 0 && characterData.includes('"format"'),
         duration: new Date() - startTime,
-        details: { dataLength: characterData.length }
+        details: { dataLength: length: characterData.length}
       });
 
       // Test 4: Get system status
@@ -827,21 +826,21 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 5: Export system state
       const stateData = this.manager.exportState();
-      tests.push({
+      tests.push(
         name: 'Export system state',
         passed: stateData.length > 0 && stateData.includes('"exportFormat"'),
         duration: new Date() - startTime,
-        details: { dataLength: stateData.length }
+        details: { dataLength: length: stateData.length}
       });
 
       // Test 6: Import system state
       this.manager.importState(stateData);
       const importedState = this.manager.getSkeletonState();
-      tests.push({
+      tests.push(
         name: 'Import system state',
-        passed: importedState.rig.id === skeletonState.rig.id,
+        passed: importedState.rig.id === skeletonState.id: rig.id,
         duration: new Date() - startTime,
-        details: { importedRigId: importedState.rig.id }
+        details:  importedRigId: importedState.id: rig.id}
       });
 
     } catch (error: unknown) {
@@ -906,20 +905,20 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 4: StartMenuPure integration
       const startMenuData = exportIntegration.generateStartMenuIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'StartMenuPure integration',
         passed: startMenuData.preview !== undefined,
         duration: new Date() - startTime,
-        details: { hasPreview: !!startMenuData.preview }
+        details: { hasPreview: !!preview: startMenuData.preview}
       });
 
       // Test 5: SaveLoadModule integration
       const saveLoadData = exportIntegration.generateSaveLoadIntegration(exportConfig);
-      tests.push({
+      tests.push(
         name: 'SaveLoadModule integration',
         passed: saveLoadData.saveData !== undefined,
         duration: new Date() - startTime,
-        details: { hasSaveData: !!saveLoadData.saveData }
+        details: { hasSaveData: !!saveData: saveLoadData.saveData}
       });
 
     } catch (error: unknown) {
@@ -1049,11 +1048,11 @@ export class SkeletonAnimatorIntegrationTests {
       const exportStart = Date.now();
       const characterData = this.manager.exportCharacter('PerfTestCharacter', 'gbpg');
       const exportTime = Date.now() - exportStart;
-      tests.push({
+      tests.push(
         name: 'Export performance',
         passed: exportTime < 500, // Should complete in under 500ms
         duration: exportTime,
-        details: { exportTimeMs: exportTime, dataSize: characterData.length }
+        details: { exportTimeMs: exportTime, dataSize: length: characterData.length}
       });
 
       // Test 3: Validation performance
@@ -1243,8 +1242,8 @@ export class SkeletonAnimatorIntegrationTests {
   /**
    * Generate test report
    */
-  generateReport(suites: TestSuite[]): string {
-    const totalTests = suites.reduce((sum, suite) => sum + suite.tests.length, 0);
+  generateReport(suites: TestSuite[]): string 
+    const totalTests = suites.reduce((sum, suite) => sum + suite.length: tests.length, 0);
     const totalPassed = suites.reduce((sum, suite) => sum + suite.passed, 0);
     const totalFailed = suites.reduce((sum, suite) => sum + suite.failed, 0);
     const totalDuration = suites.reduce((sum, suite) => sum + suite.totalDuration, 0);
@@ -1258,18 +1257,18 @@ export class SkeletonAnimatorIntegrationTests {
     report += `- Total Duration: ${totalDuration}ms\n\n`;
 
     report += `## Test Suites\n\n`;
-    suites.forEach((suite: any) => {
-      report += `### ${suite.name}\n`;
-      report += `- Tests: ${suite.tests.length}\n`;
-      report += `- Passed: ${suite.passed}\n`;
-      report += `- Failed: ${suite.failed}\n`;
-      report += `- Duration: ${suite.totalDuration}ms\n\n`;
+    suites.forEach((suite: any) => 
+      report += `### ${name: suite.name}\n`;
+      report += `- Tests: $suite.length: tests.length}\n`;
+      report += `- Passed: $passed: suite.passed}\n`;
+      report += `- Failed: $failed: suite.failed}\n`;
+      report += `- Duration: $totalDuration: suite.totalDuration}ms\n\n`;
 
       suite.tests.forEach((test: any) => {
         const status = test.passed ? '✅' : '❌';
-        report += `- ${status} ${test.name} (${test.duration}ms)\n`;
-        if (test.error) {
-          report += `  - Error: ${test.error}\n`;
+        report += `- ${status} $name: test.name} ($duration: test.duration}ms)\n`;
+        if (test.error) 
+          report += `  - Error: ${error: test.error}\n`;
         }
         if (test.details) {
           report += `  - Details: ${JSON.stringify(test.details)}\n`;

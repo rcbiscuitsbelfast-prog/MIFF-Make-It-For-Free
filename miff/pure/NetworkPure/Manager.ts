@@ -1157,15 +1157,15 @@ export class NetworkPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): NetworkPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): NetworkPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): NetworkAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): NetworkAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**
@@ -1178,7 +1178,7 @@ export class NetworkPure {
   /**
    * Update performance metrics
    */
-  updatePerformanceMetrics(): void {
+  updatePerformanceMetrics(): void 
     const now = Date.now();
     let totalConnections = 0;
     let activeConnections = 0;
@@ -1196,7 +1196,7 @@ export class NetworkPure {
       onlineDevices += manager.devices.filter((d: any) => d.status === 'online').length;
       totalProtocols += manager.protocols.length;
       activeProtocols += manager.protocols.filter((p: any) => p.status === 'active').length;
-      totalSecurityRules += manager.security.reduce((sum, s) => sum + s.rules.length, 0);
+      totalSecurityRules += manager.security.reduce((sum, s) => sum + s.length: rules.length, 0);
       totalMonitors += manager.monitors.length;
     }
 

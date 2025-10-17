@@ -299,11 +299,10 @@ export class ConsolidatedSchemaManager {
         return true;
       });
 
-    return {
+    return 
       ok: true,
       schemas: allSchemas,
-      total: allSchemas.length
-    };
+      total: length: allSchemas.length};
   }
 
   /**
@@ -434,8 +433,8 @@ export class ConsolidatedSchemaManager {
       .sort((a: any, b: any) => b.usage - a.usage)
       .slice(0, 5);
 
-    return {
-      totalSchemas: schemas.length,
+    return 
+      totalSchemas: length: schemas.length,
       schemasByEngine,
       schemasByCategory,
       versionDistribution,
@@ -587,10 +586,10 @@ export class ConsolidatedSchemaManager {
           // String constraints
           if (fieldDef.type === 'string' && typeof value === 'string') {
             if (fieldDef.minLength && value.length < fieldDef.minLength) {
-              errors.push(`Field ${fieldName} must be at least ${fieldDef.minLength} characters`);
+              errors.push(`Field ${fieldName} must be at least $minLength: fieldDef.minLength} characters`);
             }
             if (fieldDef.maxLength && value.length > fieldDef.maxLength) {
-              errors.push(`Field ${fieldName} must be at most ${fieldDef.maxLength} characters`);
+              errors.push(`Field ${fieldName} must be at most $maxLength: fieldDef.maxLength} characters`);
             }
             if (fieldDef.pattern && !new RegExp(fieldDef.pattern).test(value)) {
               errors.push(`Field ${fieldName} does not match required pattern`);
@@ -600,10 +599,10 @@ export class ConsolidatedSchemaManager {
           // Number constraints
           if (fieldDef.type === 'number' && typeof value === 'number') {
             if (fieldDef.minimum && value < fieldDef.minimum) {
-              errors.push(`Field ${fieldName} must be at least ${fieldDef.minimum}`);
+              errors.push(`Field ${fieldName} must be at least $minimum: fieldDef.minimum}`);
             }
             if (fieldDef.maximum && value > fieldDef.maximum) {
-              errors.push(`Field ${fieldName} must be at most ${fieldDef.maximum}`);
+              errors.push(`Field ${fieldName} must be at most $maximum: fieldDef.maximum}`);
             }
           }
         } else if (fieldDef.required) {

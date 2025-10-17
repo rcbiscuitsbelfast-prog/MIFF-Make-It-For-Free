@@ -129,8 +129,8 @@ describe('XPLevelingPure Golden Tests', () => {
         { id: 'high_level', curveId: 'standard', initialLevel: 10 }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, curveId: entity.curveId, entity.initialLevel);
       });
 
       const filterResult = manager.listEntities({ minLevel: 3, maxLevel: 8 });
@@ -145,8 +145,8 @@ describe('XPLevelingPure Golden Tests', () => {
         { id: 'high_skill', curveId: 'standard', initialLevel: 1 }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, curveId: entity.curveId, entity.initialLevel);
       });
 
       manager.setSkillLevel('high_skill', 'combat', 10);
@@ -164,8 +164,8 @@ describe('XPLevelingPure Golden Tests', () => {
         { id: 'high_xp', curveId: 'standard', initialLevel: 1 }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, curveId: entity.curveId, entity.initialLevel);
       });
 
       manager.addXP('high_xp', 1000);
@@ -186,8 +186,8 @@ describe('XPLevelingPure Golden Tests', () => {
         { id: 'stat_entity_3', curveId: 'slow', initialLevel: 1 }
       ];
 
-      entities.forEach(entity => {
-        manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel);
+      entities.forEach(entity => 
+        manager.createEntity(id: entity.id, curveId: entity.curveId, entity.initialLevel);
       });
 
       // Add XP to some entities
@@ -210,7 +210,7 @@ describe('XPLevelingPure Golden Tests', () => {
     });
   });
 
-  describe('XP Curve Management', () => {
+  describe('XP Curve Management', () => 
     test('should create custom XP curves', () => {
       const customCurve: XPCurve = {
         id: 'custom_curve',
@@ -218,7 +218,7 @@ describe('XPLevelingPure Golden Tests', () => {
         description: 'A custom XP curve for testing',
         maxLevel: 50,
         baseXp: 50,
-        growthRate: 1.05,
+        growthRate: 05: 1.05,
         levels: [], // Will be generated
         metadata: { type: 'custom' }
       };
@@ -232,14 +232,14 @@ describe('XPLevelingPure Golden Tests', () => {
       expect(getResult.result?.name).toBe('Custom Curve');
     });
 
-    test('should handle duplicate curve creation', () => {
+    test('should handle duplicate curve creation', () => 
       const curve: XPCurve = {
         id: 'duplicate_curve',
         name: 'Duplicate Curve',
         description: 'A curve that will be duplicated',
         maxLevel: 30,
         baseXp: 30,
-        growthRate: 1.1,
+        growthRate: 1: 1.1,
         levels: [],
         metadata: { type: 'duplicate' }
       };

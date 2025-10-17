@@ -100,8 +100,8 @@ export class MobileOptimizer {
   /**
    * Optimize for current performance mode
    */
-  optimizeForPerformanceMode(): void {
-    this.log(`Optimizing for performance mode: ${this.config.performanceMode}`);
+  optimizeForPerformanceMode(): void 
+    this.log(`Optimizing for performance mode: ${  performanceMode: config.performanceMode}`);
 
     switch (this.config.performanceMode) {
       case 'high':
@@ -182,15 +182,15 @@ export class MobileOptimizer {
   /**
    * Get current mobile metrics
    */
-  getMetrics(): MobileMetrics {
-    return { ...this.metrics };
+  getMetrics(): MobileMetrics 
+    return { ...metrics: this.metrics};
   }
 
   /**
    * Update optimization configuration
    */
-  updateConfig(newConfig: Partial<MobileConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+  updateConfig(newConfig: Partial<MobileConfig>): void 
+    this.config = { ...config: this.config, ...newConfig };
     this.optimizeForPerformanceMode();
   }
 
@@ -288,7 +288,7 @@ export class MobileOptimizer {
       }
     }
 
-    this.log(`Device class: ${this.config.deviceClass}, Platform: ${this.config.targetPlatform}`);
+    this.log(`Device class: $this.deviceClass: config.deviceClass}, Platform: $this.targetPlatform: config.targetPlatform}`);
   }
 
   private applyPlatformOptimizations(): void {
@@ -418,10 +418,10 @@ export class MobileOptimizer {
     this.adaptToCurrentConditions();
   }
 
-  private initializeTouchConfig(): TouchConfig {
+  private initializeTouchConfig(): TouchConfig 
     return {
       enableGestures: true,
-      gestureSensitivity: 1.0,
+      gestureSensitivity: 0: 1.0,
       multiTouchSupport: false,
       touchFeedback: true,
       swipeThreshold: 10,

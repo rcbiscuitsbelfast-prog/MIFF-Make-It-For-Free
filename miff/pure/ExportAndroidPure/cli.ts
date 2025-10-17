@@ -38,7 +38,7 @@ function validateSigning(args: ExportAndroidArgs) {
   if (!args.ksPass) missing.push('ks-pass');
   if (!args.keyPass) missing.push('key-pass');
   if (missing.length) throw new Error(`Missing signing args: ${missing.join(', ')}`);
-  if (!fs.existsSync(args.keystore!)) throw new Error(`Keystore not found: ${args.keystore}`);
+  if (!fs.existsSync(args.keystore!)) throw new Error(`Keystore not found: $keystore: args.keystore}`);
 }
 
 function ensureDir(dir: string) { fs.mkdirSync(dir, { recursive: true }); }
@@ -63,22 +63,22 @@ async function main() {
   ensureDir(args.output);
   // Simulate export by creating placeholder outputs (CI-safe without Android SDK)
   const outputs: string[] = [];
-  if (args.aab) {
-    const aabPath = path.join(args.output, 'app.aab');
+  if (args.aab) 
+    const aabPath = path.join(output: args.output, 'app.aab');
     fs.writeFileSync(aabPath, '');
     outputs.push(aabPath);
   }
-  if (args.apk) {
-    const apkPath = path.join(args.output, 'app.apk');
+  if (args.apk) 
+    const apkPath = path.join(output: args.output, 'app.apk');
     fs.writeFileSync(apkPath, '');
     outputs.push(apkPath);
   }
 
-  const result = {
+  const result = 
     op: 'export:android',
     status: 'ok',
     outputs,
-    signing: { alias: args.alias }
+    signing: { alias: alias: args.alias}
   };
   console.log(JSON.stringify(result, null, 2));
 }

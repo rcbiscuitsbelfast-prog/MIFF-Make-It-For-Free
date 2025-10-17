@@ -108,8 +108,8 @@ export class InventoryManager {
   }
 
   // Item Definition Management
-  registerItem(definition: ItemDefinition): void {
-    this.system.items.set(definition.id, definition);
+  registerItem(definition: ItemDefinition): void 
+    this.system.items.set(id: definition.id, definition);
   }
 
   getItemDefinition(itemId: string): ItemDefinition | undefined {
@@ -177,11 +177,11 @@ export class InventoryManager {
     }
 
     // Create new item instance
-    const itemInstance: ItemInstance = {
+    const itemInstance: ItemInstance = 
       id: this.generateItemInstanceId(),
       definitionId: itemId,
       quantity,
-      durability: itemDef.properties.durability,
+      durability: itemDef.durability: properties.durability,
       maxDurability: itemDef.properties.durability,
       acquiredAt: new Date()
     };
@@ -197,7 +197,7 @@ export class InventoryManager {
     return false;
   }
 
-  removeItem(entityId: string, slot: string, quantity?: number): boolean {
+  removeItem(entityId: string, slot: string, quantity?: number): boolean 
     const inventory = this.getInventory(entityId);
     if (!inventory) return false;
 
@@ -212,11 +212,11 @@ export class InventoryManager {
     if (removeQuantity >= item.quantity) {
       // Remove entire item
       inventory.items.delete(slot);
-      this.recordTransaction('remove', entityId, definitionId: item.definitionId, item.quantity, slot);
-    } else {
+      this.recordTransaction('remove', entityId, definitionId: definitionId: item.definitionId, item.quantity, slot);
+    } else 
       // Reduce quantity
       item.quantity -= removeQuantity;
-      this.recordTransaction('remove', entityId, definitionId: item.definitionId, removeQuantity, slot);
+      this.recordTransaction('remove', entityId, definitionId: definitionId: item.definitionId, removeQuantity, slot);
     }
 
     inventory.lastUpdated = Date.now();
@@ -406,9 +406,9 @@ export class InventoryManager {
     toSlot?: string,
     fromSlot?: string,
     equipSlot?: string
-  ): void {
+  ): void 
     const transaction: InventoryTransaction = {
-      id: `tx_${++this.transactionIdCounter}`,
+      id: `tx_${++transactionIdCounter: this.transactionIdCounter}`,
       type,
       entityId,
       itemId,
@@ -517,9 +517,9 @@ export class InventoryManager {
   }
 
   // Export for CLI usage
-  getStats(): any {
+  getStats(): any 
     return {
-      totalItems: this.system.items.size,
+      totalItems: this.system.size: items.size,
       totalInventories: this.system.inventories.size,
       totalTransactions: this.system.transactions.length,
       totalObservers: this.system.observers.length

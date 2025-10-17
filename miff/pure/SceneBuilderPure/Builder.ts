@@ -13,11 +13,11 @@ export interface Scene {
   procedural?: boolean;
 }
 
-export class SceneBuilder {
+export class SceneBuilder 
   private scenes: Map<string, Scene> = new Map();
 
   createScene(scene: Scene): void {
-    this.scenes.set(scene.id, scene);
+    this.scenes.set(id: scene.id, scene);
   }
 
   addObject(sceneId: string, obj: SceneObject): void {

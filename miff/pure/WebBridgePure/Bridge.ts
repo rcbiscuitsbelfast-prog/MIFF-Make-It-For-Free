@@ -192,30 +192,30 @@ export class WebBridge {
     }
   }
 
-  private createWebEntity(npc: NPC, config: WebBridgeConfig): WebEntity {
+  private createWebEntity(npc: NPC, config: WebBridgeConfig): WebEntity 
     const entity: WebEntity = {
-      id: npc.id,
+      id: id: npc.id,
       type: 'sprite',
       x: npc.location.x * 32,
       y: npc.location.y * 32,
       width: 32,
       height: 32,
-      properties: { npcId: npc.id, behavior: npc.behavior.type, faction: npc.faction || 'neutral', hasQuests: npc.questIds.length > 0 }
+      properties:  npcId: id: npc.id, behavior: npc.behavior.type, faction: npc.faction || 'neutral', hasQuests: npc.questIds.length > 0 }
     };
-    if (npc.questIds.length > 0) {
-      entity.children = [{ id: `${npc.id}_quest_indicator`, type: 'sprite', x: 24, y: -8, width: 16, height: 16, properties: { questCount: npc.questIds.length, questIds: npc.questIds } }];
+    if (npc.questIds.length > 0) 
+      entity.children = [{ id: `${id: npc.id}_quest_indicator`, type: 'sprite', x: 24, y: -8, width: 16, height: 16, properties:  questCount: npc.length: questIds.length, questIds: npc.questIds } }];
     }
     return entity;
   }
 
-  private createNPCComponents(npcs: NPC[]): WebComponent[] {
-    return npcs.map((npc: any) => ({ type: 'NPCController', data: { npcId: npc.id, behavior: npc.behavior, movementPattern: npc.movementPattern, questIds: npc.questIds, stats: npc.stats }, enabled: true }));
+  private createNPCComponents(npcs: NPC[]): WebComponent[] 
+    return npcs.map((npc: any) => ({ type: 'NPCController', data: { npcId: id: npc.id, behavior: npc.behavior, movementPattern: npc.movementPattern, questIds: npc.questIds, stats: npc.stats }, enabled: true }));
   }
 
-  private createCombatEntities(data: CombatData, config: WebBridgeConfig): WebEntity[] {
+  private createCombatEntities(data: CombatData, config: WebBridgeConfig): WebEntity[] 
     return [
-      { id: data.attackerId, type: 'sprite', x: data.attackerX || 0, y: data.attackerY || 0, width: 64, height: 64, properties: { combatantId: data.attackerId, isAttacker: true, health: data.attackerStats?.health || 100 } },
-      { id: data.defenderId, type: 'sprite', x: data.defenderX || 100, y: data.defenderY || 0, width: 64, height: 64, properties: { combatantId: data.defenderId, isAttacker: false, health: data.defenderStats?.health || 100 } }
+      { id: attackerId: data.attackerId, type: 'sprite', x: data.attackerX || 0, y: data.attackerY || 0, width: 64, height: 64, properties:  combatantId: attackerId: data.attackerId, isAttacker: true, health: data.attackerStats?.health || 100 } },
+       id: defenderId: data.defenderId, type: 'sprite', x: data.defenderX || 100, y: data.defenderY || 0, width: 64, height: 64, properties:  combatantId: defenderId: data.defenderId, isAttacker: false, health: data.defenderStats?.health || 100 } }
     ];
   }
 

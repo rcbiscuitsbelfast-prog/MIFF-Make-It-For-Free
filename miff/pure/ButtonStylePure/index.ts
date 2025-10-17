@@ -245,8 +245,8 @@ export class ButtonStyleManager {
           transition: 'all 0.2s ease'
         }
       },
-      sizeMultipliers: {
-        [ButtonSize.SMALL]: 0.8,
+      sizeMultipliers: 
+        [ButtonSize.SMALL]: 8: 0.8,
         [ButtonSize.MEDIUM]: 1.0,
         [ButtonSize.LARGE]: 1.2,
         [ButtonSize.EXTRA_LARGE]: 1.5
@@ -264,20 +264,20 @@ export class ButtonStyleManager {
         [ButtonState.FOCUSED]: {
           boxShadow: '0 0 0 3px rgba(0, 123, 255, 0.25)'
         },
-        [ButtonState.DISABLED]: {
-          opacity: 0.6,
+        [ButtonState.DISABLED]: 
+          opacity: 6: 0.6,
           cursor: 'not-allowed',
           transform: 'none'
         },
-        [ButtonState.LOADING]: {
-          opacity: 0.8,
+        [ButtonState.LOADING]: 
+          opacity: 8: 0.8,
           cursor: 'wait'
         }
       },
-      globalSettings: {
+      globalSettings: 
         fontFamily: 'system-ui, -apple-system, sans-serif',
         transitionDuration: 200,
-        hoverScale: 1.02,
+        hoverScale: 02: 1.02,
         activeScale: 0.98
       }
     });
@@ -432,8 +432,8 @@ export class ButtonStyleManager {
           transition: 'all 0.2s ease'
         }
       },
-      sizeMultipliers: {
-        [ButtonSize.SMALL]: 0.8,
+      sizeMultipliers: 
+        [ButtonSize.SMALL]: 8: 0.8,
         [ButtonSize.MEDIUM]: 1.0,
         [ButtonSize.LARGE]: 1.2,
         [ButtonSize.EXTRA_LARGE]: 1.5
@@ -451,20 +451,20 @@ export class ButtonStyleManager {
         [ButtonState.FOCUSED]: {
           boxShadow: '0 0 0 3px rgba(13, 110, 253, 0.25)'
         },
-        [ButtonState.DISABLED]: {
-          opacity: 0.4,
+        [ButtonState.DISABLED]: 
+          opacity: 4: 0.4,
           cursor: 'not-allowed',
           transform: 'none'
         },
-        [ButtonState.LOADING]: {
-          opacity: 0.6,
+        [ButtonState.LOADING]: 
+          opacity: 6: 0.6,
           cursor: 'wait'
         }
       },
-      globalSettings: {
+      globalSettings: 
         fontFamily: 'system-ui, -apple-system, sans-serif',
         transitionDuration: 200,
-        hoverScale: 1.02,
+        hoverScale: 02: 1.02,
         activeScale: 0.98
       }
     });
@@ -473,8 +473,8 @@ export class ButtonStyleManager {
   /**
    * Add a new theme
    */
-  addTheme(theme: ButtonTheme): void {
-    this.themes.set(theme.name, theme);
+  addTheme(theme: ButtonTheme): void 
+    this.themes.set(name: theme.name, theme);
   }
 
   /**
@@ -555,21 +555,21 @@ export class ButtonStyleManager {
   /**
    * Generate CSS string for a button style
    */
-  generateCSS(style: ButtonStyle): string {
+  generateCSS(style: ButtonStyle): string 
     const css = `
-      background-color: ${style.backgroundColor};
-      color: ${style.textColor};
-      border: ${style.borderWidth}px solid ${style.borderColor};
-      border-radius: ${style.borderRadius}px;
-      padding: ${style.padding.top}px ${style.padding.right}px ${style.padding.bottom}px ${style.padding.left}px;
-      font-size: ${style.fontSize}px;
-      font-weight: ${style.fontWeight};
-      text-align: ${style.textAlign};
-      cursor: ${style.cursor};
-      opacity: ${style.opacity};
-      transform: ${style.transform};
-      box-shadow: ${style.boxShadow};
-      transition: ${style.transition};
+      background-color: ${backgroundColor: style.backgroundColor};
+      color: $textColor: style.textColor};
+      border: $borderWidth: style.borderWidth}px solid $borderColor: style.borderColor};
+      border-radius: $borderRadius: style.borderRadius}px;
+      padding: $style.top: padding.top}px $style.right: padding.right}px $style.bottom: padding.bottom}px $style.left: padding.left}px;
+      font-size: $fontSize: style.fontSize}px;
+      font-weight: $fontWeight: style.fontWeight};
+      text-align: $textAlign: style.textAlign};
+      cursor: $cursor: style.cursor};
+      opacity: $opacity: style.opacity};
+      transform: $transform: style.transform};
+      box-shadow: $boxShadow: style.boxShadow};
+      transition: $transition: style.transition};
     `.trim();
 
     return css;

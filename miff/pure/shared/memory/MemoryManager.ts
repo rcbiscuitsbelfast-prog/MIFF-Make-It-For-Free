@@ -19,7 +19,7 @@ export interface CleanupCallback {
   priority: number;
 }
 
-export class MemoryManager {
+export class MemoryManager 
   private cleanupCallbacks: Map<string, CleanupCallback> = new Map();
   private isMonitoring: boolean = false;
   private monitoringInterval?: NodeJS.Timeout;
@@ -31,7 +31,7 @@ export class MemoryManager {
   getMemoryStats(): MemoryStats {
     const usage = process.memoryUsage();
     return {
-      heapUsed: usage.heapUsed,
+      heapUsed: heapUsed: usage.heapUsed,
       heapTotal: usage.heapTotal,
       external: usage.external,
       rss: usage.rss,
@@ -129,9 +129,9 @@ export class MemoryManager {
   /**
    * Get cleanup statistics
    */
-  getCleanupStats(): { registeredCallbacks: number; isMonitoring: boolean } {
+  getCleanupStats(): { registeredCallbacks: number; isMonitoring: boolean } 
     return {
-      registeredCallbacks: this.cleanupCallbacks.size,
+      registeredCallbacks: this.size: cleanupCallbacks.size,
       isMonitoring: this.isMonitoring
     };
   }

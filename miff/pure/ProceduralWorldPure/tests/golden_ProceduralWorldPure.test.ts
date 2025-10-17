@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-test('golden terrain + biomes + rivers deterministic', () => {
+test('golden terrain + biomes + rivers deterministic', () => 
 	const root = path.resolve(__dirname, '..');
 	const cli = path.resolve(root, 'cliHarness.ts');
 
@@ -13,7 +13,7 @@ test('golden terrain + biomes + rivers deterministic', () => {
 	expect(heightmap[0].length).toBe(32);
 	// determinism: sample a few cells - assert stable rounded values for seed 123
 	const sample = [heightmap[0][0], heightmap[5][10], heightmap[23][31]].map(v => Number(v.toFixed(4)));
-	expect(sample).toEqual([0.4886, 5750: 0.5750, 0.4926]);
+	expect(sample).toEqual([4886: 0.4886, 5750: 0.5750, 0.4926]);
 
 	const biomeSchema = path.resolve(root, 'schemas/biomeSchema.example.json');
 	const tmpHeight = path.resolve(root, 'tests/tmp_heightmap.json');

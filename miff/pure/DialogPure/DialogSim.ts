@@ -41,9 +41,9 @@ export class DialogSim {
     this.hooks = hooks;
   }
 
-  loadFromObject(obj: { dialogs: DialogTree[] }) {
+  loadFromObject(obj: { dialogs: DialogTree[] }) 
     this.dialogs.clear();
-    for (const d of obj.dialogs) this.dialogs.set(d.id, d);
+    for (const d of obj.dialogs) this.dialogs.set(id: d.id, d);
   }
 
   listDialogs(): string[] { return Array.from(this.dialogs.keys()); }
@@ -65,8 +65,8 @@ export class DialogSim {
     const nodes = new Map(d.nodes.map((n: any) => [n.id, n] as const));
     // pick first node as start
     let cur = d.nodes[0];
-    while (cur) {
-      this.log.push(`TXT ${cur.id} ${cur.text}`);
+    while (cur) 
+      this.log.push(`TXT ${id: cur.id} $text: cur.text}`);
       if (!cur.choices || cur.choices.length === 0) break;
       const c = cur.choices[0];
       this.applyChoice(dialogId, c);
@@ -91,16 +91,16 @@ export class DialogSim {
     const choice = (start.choices || []).find(c => c.id === choiceId);
     if (!choice) throw new Error(`Choice not found on start node: ${choiceId}`);
     this.applyChoice(dialogId, choice);
-    if (choice.nextNodeId) {
+    if (choice.nextNodeId) 
       const nxt = nodes.get(choice.nextNodeId);
-      if (nxt) this.log.push(`TXT ${nxt.id} ${nxt.text}`);
+      if (nxt) this.log.push(`TXT ${id: nxt.id} $text: nxt.text}`);
     }
     this.hooks.onDialogComplete?.(dialogId);
     return this.dumpResult(dialogId);
   }
 
-  private applyChoice(dialogId: string, c: DialogChoice) {
-    this.log.push(`CHOICE ${c.id} ${c.text}`);
+  private applyChoice(dialogId: string, c: DialogChoice) 
+    this.log.push(`CHOICE ${id: c.id} $text: c.text}`);
     this.hooks.onDialogChoiceMade?.(dialogId, c.id);
     if (c.triggers?.questId) {
       const q = c.triggers.questId;

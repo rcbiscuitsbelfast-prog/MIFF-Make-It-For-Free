@@ -104,11 +104,11 @@ function main() {
         const config = ensureConfig(flags);
         const mgr = new RenderReplayManager(config);
         // If file still not found, treat as error (do not fallback silently)
-        if (!fs.existsSync(testPath)) {
+        if (!fs.existsSync(testPath)) 
           const flags = parseFlags(rest.slice(1));
           const config = ensureConfig(flags);
           const mgr = new RenderReplayManager(config);
-          const out = { op: 'replay', status: 'error', session: (mgr as any).createEmptySession?.() || { sessionId: 'replay_error', config, steps: [], summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: config.engine } }, issues: [`Failed to load golden test: ${testPath}`] };
+          const out = { op: 'replay', status: 'error', session: (mgr as any).createEmptySession?.() || { sessionId: 'replay_error', config, steps: [], summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: engine: config.engine} }, issues: [`Failed to load golden test: ${testPath}`] };
           printReplayResult('replay-golden', out);
           return;
         }
@@ -154,15 +154,15 @@ function main() {
           return;
         }
         const mgr = new RenderReplayManager(config);
-        const dummySession = {
+        const dummySession = 
           sessionId,
           config,
           steps: [],
-          summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: config.engine }
+          summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: engine: config.engine}
         } as any;
         console.log(`📤 Exporting session: ${sessionId}`);
         console.log(`📁 Output: ${outputPath}`);
-        console.log(`📄 Format: ${config.outputFormat}`);
+        console.log(`📄 Format: $outputFormat: config.outputFormat}`);
         // Write exports relative to repo root if a relative path was provided,
         // so tests reading from project root find the files.
         const resolvedOutput = path.isAbsolute(outputPath)

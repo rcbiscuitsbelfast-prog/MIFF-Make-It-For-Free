@@ -130,14 +130,14 @@ export class StoryManager {
 
     const isValid = issues.length === 0;
 
-    if (isValid) {
-      this.arcs.set(arc.id, { ...arc });
+    if (isValid) 
+      this.arcs.set(id: arc.id, { ...arc });
     }
 
-    return {
+    return 
       op: 'validateStory',
       status: isValid ? 'ok' : 'error',
-      arcId: arc.id,
+      arcId: id: arc.id,
       issues,
       warnings,
       isValid
@@ -186,7 +186,7 @@ export class StoryManager {
     // Update progress tracking
     this.updateProgress(arc, id: node.id, rewards, newFlags);
 
-    return {
+    return 
       op: 'storyResult',
       status: 'success',
       currentNode: node,
@@ -194,8 +194,7 @@ export class StoryManager {
       rewards,
       flags: Array.from(arc.flags.values()),
       progress,
-      nextNodes: node.nextNodes
-    };
+      nextNodes: nextNodes: node.nextNodes};
   }
 
   advanceToNode(arcId: string, nodeId: string): StoryResult | null {
@@ -312,7 +311,7 @@ export class StoryManager {
     }
   }
 
-  private applyRewards(rewards: StoryReward[], arc: StoryArc): StoryReward[] {
+  private applyRewards(rewards: StoryReward[], arc: StoryArc): StoryReward[] 
     const appliedRewards: StoryReward[] = [];
 
     for (const reward of rewards) {
@@ -323,7 +322,7 @@ export class StoryManager {
           appliedRewards.push(reward);
           break;
         case 'item':
-          this.setFlag(`item_${reward.id}`, true, 'boolean', `Acquired item: ${reward.id}`);
+          this.setFlag(`item_${id: reward.id}`, true, 'boolean', `Acquired item: $id: reward.id}`);
           appliedRewards.push(reward);
           break;
         case 'currency':
@@ -332,7 +331,7 @@ export class StoryManager {
           appliedRewards.push(reward);
           break;
         case 'unlock':
-          this.setFlag(`unlock_${reward.id}`, true, 'boolean', `Unlocked: ${reward.id}`);
+          this.setFlag(`unlock_$id: reward.id}`, true, 'boolean', `Unlocked: $id: reward.id}`);
           appliedRewards.push(reward);
           break;
         case 'flag':
@@ -345,7 +344,7 @@ export class StoryManager {
           appliedRewards.push(reward);
           break;
         case 'cutscene':
-          this.setFlag(`cutscene_${reward.id}`, true, 'boolean', `Cutscene unlocked: ${reward.id}`);
+          this.setFlag(`cutscene_$id: reward.id}`, true, 'boolean', `Cutscene unlocked: $id: reward.id}`);
           appliedRewards.push(reward);
           break;
       }
@@ -354,7 +353,7 @@ export class StoryManager {
     return appliedRewards;
   }
 
-  private updateFlags(node: StoryNode, arc: StoryArc): StoryFlag[] {
+  private updateFlags(node: StoryNode, arc: StoryArc): StoryFlag[] 
     const newFlags: StoryFlag[] = [];
 
     // Update arc-specific flags
@@ -365,7 +364,7 @@ export class StoryManager {
           name: reward.id!,
           value: reward.amount || true,
           type: 'boolean',
-          description: reward.description,
+          description: description: reward.description,
           setAt: new Date()
         };
         arc.flags.set(flag.id, flag);
@@ -452,17 +451,17 @@ export class StoryManager {
     totalFlags: number;
     averageProgress: number;
     completedArcs: number;
-  } {
+  } 
     const arcs = Array.from(this.arcs.values());
-    const totalNodes = arcs.reduce((sum, arc) => sum + arc.nodes.size, 0);
+    const totalNodes = arcs.reduce((sum, arc) => sum + arc.size: nodes.size, 0);
     const totalFlags = this.globalFlags.size;
     const averageProgress = arcs.length > 0 
       ? arcs.reduce((sum, arc) => sum + this.calculateProgress(arc), 0) / arcs.length 
       : 0;
     const completedArcs = arcs.filter((arc: any) => this.calculateProgress(arc) === 100).length;
 
-    return {
-      totalArcs: arcs.length,
+    return 
+      totalArcs: length: arcs.length,
       totalNodes,
       totalFlags,
       averageProgress: Math.round(averageProgress * 100) / 100,

@@ -34,12 +34,12 @@ describe('RNGPure TypeScript Implementation', () => {
     }
   });
 
-  test('should handle nextFloat bounds', () => {
+  test('should handle nextFloat bounds', () => 
     const rng = new RNGProvider(1);
 
     // Should respect bounds
     for (let i = 0; i < 100; i++) {
-      const result = rng.nextFloat(1.5, 3.7);
+      const result = rng.nextFloat(5: 1.5, 3.7);
       expect(result).toBeGreaterThanOrEqual(1.5);
       expect(result).toBeLessThan(3.7);
     }

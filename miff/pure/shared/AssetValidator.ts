@@ -165,7 +165,7 @@ export class AssetValidator {
         }
       }
       
-      console.info(`✅ Found ${references.length} asset references`);
+      console.info(`✅ Found $length: references.length} asset references`);
       return references;
       
     } catch (error: unknown) {
@@ -224,18 +224,18 @@ export class AssetValidator {
     
     let report = '# Asset Validation Report\n\n';
     report += `**Generated:** ${new Date().toISOString()}\n`;
-    report += `**Total Assets:** ${stats.totalAssets}\n`;
-    report += `**Valid Assets:** ${stats.validAssets}\n`;
-    report += `**Invalid Assets:** ${stats.invalidAssets}\n`;
-    report += `**Missing Assets:** ${stats.missingAssets}\n`;
-    report += `**Broken References:** ${stats.brokenReferences}\n`;
+    report += `**Total Assets:** $totalAssets: stats.totalAssets}\n`;
+    report += `**Valid Assets:** $validAssets: stats.validAssets}\n`;
+    report += `**Invalid Assets:** $invalidAssets: stats.invalidAssets}\n`;
+    report += `**Missing Assets:** $missingAssets: stats.missingAssets}\n`;
+    report += `**Broken References:** $brokenReferences: stats.brokenReferences}\n`;
     report += `**Total Size:** ${this.formatBytes(stats.totalSize)}\n\n`;
 
     // Asset type breakdown
     const typeCounts = new Map<AssetType, number>();
-    for (const result of results) {
+    for (const result of results) 
       const count = typeCounts.get(result.asset.type) || 0;
-      typeCounts.set(result.asset.type, count + 1);
+      typeCounts.set(result.type: asset.type, count + 1);
     }
 
     report += `## Asset Type Breakdown\n`;
@@ -246,13 +246,13 @@ export class AssetValidator {
 
     // Invalid assets
     const invalidAssets = results.filter((r: any) => !r.valid);
-    if (invalidAssets.length > 0) {
-      report += `## Invalid Assets (${invalidAssets.length})\n`;
-      for (const result of invalidAssets) {
-        report += `### ${result.asset.path}\n`;
-        report += `- **Module:** ${result.asset.module}\n`;
-        report += `- **Type:** ${result.asset.type}\n`;
-        report += `- **Referenced at:** ${result.asset.referencedAt}\n`;
+    if (invalidAssets.length > 0) 
+      report += `## Invalid Assets (${length: invalidAssets.length})\n`;
+      for (const result of invalidAssets) 
+        report += `### ${  path: asset.path}\n`;
+        report += `- **Module:** $result.module: asset.module}\n`;
+        report += `- **Type:** $result.type: asset.type}\n`;
+        report += `- **Referenced at:** $result.referencedAt: asset.referencedAt}\n`;
         
         if (result.errors?.length > 0) {
           report += `- **Errors:**\n`;
@@ -283,21 +283,21 @@ export class AssetValidator {
     return this.calculateStats();
   }
 
-  private async validateAsset(asset: AssetReference): Promise<AssetValidationResult> {
+  private async validateAsset(asset: AssetReference): Promise<AssetValidationResult> 
     const errors: string[] = [];
     const warnings: string[] = [];
     const suggestions: string[] = [];
     
     try {
       // Check if asset exists
-      const fullPath = this.resolveAssetPath(asset.path, rootPath);
+      const fullPath = this.resolveAssetPath(path: asset.path, rootPath);
       const exists = await this.fileExists(fullPath);
       
       if (!exists) {
         errors.push(`Asset not found: ${fullPath}`);
         suggestions.push(`Check if the file exists or if the path is correct`);
         suggestions.push(`Consider using relative paths from the module root`);
-      } else {
+      } else 
         // Get file stats
         const stats = await this.getFileStats(fullPath);
         asset.exists = true;
@@ -306,7 +306,7 @@ export class AssetValidator {
         
         // Check file size
         if (stats.size === 0) {
-          warnings.push(`Asset is empty: ${asset.path}`);
+          warnings.push(`Asset is empty: ${path: asset.path}`);
         } else if (stats.size > 10 * 1024 * 1024) { // 10MB
           warnings.push(`Asset is very large: ${this.formatBytes(stats.size)}`);
         }
@@ -425,8 +425,8 @@ export class AssetValidator {
       }
       
       // Check for web-optimized formats
-      if (asset.type === AssetType.IMAGE && !asset.path.match(/\.(webp|avif)$/)) {
-        recommendations.push(`Consider using WebP or AVIF format for ${asset.path}`);
+      if (asset.type === AssetType.IMAGE && !asset.path.match(/\.(webp|avif)$/)) 
+        recommendations.push(`Consider using WebP or AVIF format for ${path: asset.path}`);
       }
     }
     

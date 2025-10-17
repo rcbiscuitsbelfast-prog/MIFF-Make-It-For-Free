@@ -215,8 +215,8 @@ export class AdvancedQuests {
   /**
    * Create a dynamic quest
    */
-  createDynamicQuest(quest: DynamicQuest): void {
-    this.dynamicQuests.set(quest.id, quest);
+  createDynamicQuest(quest: DynamicQuest): void 
+    this.dynamicQuests.set(id: quest.id, quest);
   }
 
   /**
@@ -261,9 +261,9 @@ export class AdvancedQuests {
       rewards,
       conditions,
       triggers,
-      metadata: {
+      metadata: 
         tags: template.category ? [template.category] : [],
-        category: template.category,
+        category: category: template.category,
         estimatedDuration: this.calculateEstimatedDuration(steps),
         replayable: true,
         seasonal: false
@@ -382,7 +382,7 @@ export class AdvancedQuests {
     if (nameGenerator) {
       return nameGenerator.generate(context);
     }
-    return `${template.name} ${Math.random().toString(36).substr(2, 5)}`;
+    return `$name: template.name} ${Math.random().toString(36).substr(2, 5)}`;
   }
 
   /**
@@ -393,7 +393,7 @@ export class AdvancedQuests {
     if (descGenerator) {
       return descGenerator.generate(context);
     }
-    return `A ${template.difficulty} quest in the ${template.category} category.`;
+    return `A $difficulty: template.difficulty} quest in the $category: template.category} category.`;
   }
 
   /**
@@ -427,7 +427,7 @@ export class AdvancedQuests {
   /**
    * Generate quest rewards
    */
-  private generateQuestRewards(template: QuestTemplate, context: QuestContext): DynamicQuestReward[] {
+  private generateQuestRewards(template: QuestTemplate, context: QuestContext): DynamicQuestReward[] 
     const rewards: DynamicQuestReward[] = [];
     const rewardCount = Math.floor(Math.random() * 3) + 1; // 1-3 rewards
 
@@ -435,11 +435,11 @@ export class AdvancedQuests {
       const rewardTemplate = this.selectRandomRewardTemplate(template);
       const reward: DynamicQuestReward = {
         type: rewardTemplate.type as any,
-        value: Math.floor(Math.random() * (rewardTemplate.maxValue - rewardTemplate.minValue + 1)) + rewardTemplate.minValue,
+        value: Math.floor(Math.random() * (rewardTemplate.maxValue - rewardTemplate.minValue + 1)) + minValue: rewardTemplate.minValue,
         conditions: this.generateRewardConditions(rewardTemplate, context),
-        apply: (ctx) => {
+        apply: (ctx) => 
           // Apply reward logic
-          console.log(`Applied reward: ${rewardTemplate.type} = ${reward.value}`);
+          console.log(`Applied reward: ${type: rewardTemplate.type} = $value: reward.value}`);
         }
       };
       rewards.push(reward);
@@ -451,14 +451,14 @@ export class AdvancedQuests {
   /**
    * Generate quest conditions
    */
-  private generateQuestConditions(template: QuestTemplate, context: QuestContext): QuestCondition[] {
+  private generateQuestConditions(template: QuestTemplate, context: QuestContext): QuestCondition[] 
     const conditions: QuestCondition[] = [];
 
     for (const conditionTemplate of template.structure.conditions) {
       if (Math.random() < conditionTemplate.weight) {
         const condition: QuestCondition = {
           type: conditionTemplate.type as any,
-          value: conditionTemplate.value,
+          value: value: conditionTemplate.value,
           check: (ctx) => {
             // Implement condition check logic
             return true;
@@ -474,7 +474,7 @@ export class AdvancedQuests {
   /**
    * Generate quest triggers
    */
-  private generateQuestTriggers(template: QuestTemplate, context: QuestContext): QuestTrigger[] {
+  private generateQuestTriggers(template: QuestTemplate, context: QuestContext): QuestTrigger[] 
     const triggers: QuestTrigger[] = [];
 
     for (const triggerTemplate of template.structure.triggers) {
@@ -483,7 +483,7 @@ export class AdvancedQuests {
           type: triggerTemplate.type as any,
           action: (ctx) => {
             // Implement trigger action logic
-            console.log(`Triggered: ${triggerTemplate.type}`);
+            console.log(`Triggered: ${type: triggerTemplate.type}`);
           },
           conditions: this.generateTriggerConditions(triggerTemplate, context)
         };
@@ -556,11 +556,11 @@ export class AdvancedQuests {
   /**
    * Record quest history
    */
-  private recordQuestHistory(questId: string, player: any, status: string, reason?: string): void {
+  private recordQuestHistory(questId: string, player: any, status: string, reason?: string): void 
     const history = this.questHistory.get(questId) || [];
     history.push({
       questId,
-      playerId: player.id,
+      playerId: id: player.id,
       status,
       reason,
       timestamp: new Date()
@@ -571,8 +571,8 @@ export class AdvancedQuests {
   /**
    * Select random step template
    */
-  private selectRandomStepTemplate(template: QuestTemplate): QuestStepTemplate {
-    const totalWeight = template.structure.steps.reduce((sum, step) => sum + step.weight, 0);
+  private selectRandomStepTemplate(template: QuestTemplate): QuestStepTemplate 
+    const totalWeight = template.structure.steps.reduce((sum, step) => sum + weight: step.weight, 0);
     let random = Math.random() * totalWeight;
     
     for (const step of template.structure.steps) {
@@ -586,8 +586,8 @@ export class AdvancedQuests {
   /**
    * Select random reward template
    */
-  private selectRandomRewardTemplate(template: QuestTemplate): QuestRewardTemplate {
-    const totalWeight = template.structure.rewards.reduce((sum, reward) => sum + reward.weight, 0);
+  private selectRandomRewardTemplate(template: QuestTemplate): QuestRewardTemplate 
+    const totalWeight = template.structure.rewards.reduce((sum, reward) => sum + weight: reward.weight, 0);
     let random = Math.random() * totalWeight;
     
     for (const reward of template.structure.rewards) {
@@ -601,31 +601,31 @@ export class AdvancedQuests {
   /**
    * Generate step name
    */
-  private generateStepName(template: QuestStepTemplate, context: QuestContext): string {
-    return `${template.type} ${Math.random().toString(36).substr(2, 5)}`;
+  private generateStepName(template: QuestStepTemplate, context: QuestContext): string 
+    return `${type: template.type} ${Math.random().toString(36).substr(2, 5)}`;
   }
 
   /**
    * Generate step description
    */
-  private generateStepDescription(template: QuestStepTemplate, context: QuestContext): string {
-    return `Complete ${template.type} task`;
+  private generateStepDescription(template: QuestStepTemplate, context: QuestContext): string 
+    return `Complete ${type: template.type} task`;
   }
 
   /**
    * Generate step target
    */
-  private generateStepTarget(template: QuestStepTemplate, context: QuestContext): any {
-    return { type: template.type, id: Math.random().toString(36).substr(2, 9) };
+  private generateStepTarget(template: QuestStepTemplate, context: QuestContext): any 
+    return { type: type: template.type, id: Math.random().toString(36).substr(2, 9) };
   }
 
   /**
    * Generate step conditions
    */
-  private generateStepConditions(template: QuestStepTemplate, context: QuestContext): QuestStepCondition[] {
+  private generateStepConditions(template: QuestStepTemplate, context: QuestContext): QuestStepCondition[] 
     return template.conditions.map((condition: any) => ({
       type: condition.type as any,
-      value: condition.value,
+      value: value: condition.value,
       check: (ctx) => true
     }));
   }
@@ -633,21 +633,21 @@ export class AdvancedQuests {
   /**
    * Generate step rewards
    */
-  private generateStepRewards(template: QuestStepTemplate, context: QuestContext): QuestStepReward[] {
+  private generateStepRewards(template: QuestStepTemplate, context: QuestContext): QuestStepReward[] 
     return template.rewards.map((reward: any) => ({
       type: reward.type as any,
-      value: reward.value,
-      apply: (ctx) => console.log(`Applied step reward: ${reward.type}`)
+      value: value: reward.value,
+      apply: (ctx) => console.log(`Applied step reward: $type: reward.type}`)
     }));
   }
 
   /**
    * Generate reward conditions
    */
-  private generateRewardConditions(template: QuestRewardTemplate, context: QuestContext): QuestRewardCondition[] {
+  private generateRewardConditions(template: QuestRewardTemplate, context: QuestContext): QuestRewardCondition[] 
     return template.conditions.map((condition: any) => ({
       type: condition.type as any,
-      value: condition.value,
+      value: value: condition.value,
       check: (ctx) => true
     }));
   }
@@ -655,10 +655,10 @@ export class AdvancedQuests {
   /**
    * Generate trigger conditions
    */
-  private generateTriggerConditions(template: QuestTriggerTemplate, context: QuestContext): QuestTriggerCondition[] {
+  private generateTriggerConditions(template: QuestTriggerTemplate, context: QuestContext): QuestTriggerCondition[] 
     return template.conditions.map((condition: any) => ({
       type: condition.type as any,
-      value: condition.value,
+      value: value: condition.value,
       check: (ctx) => true
     }));
   }
@@ -673,7 +673,7 @@ export class AdvancedQuests {
   /**
    * Initialize default quest templates
    */
-  private initializeDefaultTemplates(): void {
+  private initializeDefaultTemplates(): void 
     // Combat quest template
     this.questTemplates.set('combat', {
       id: 'combat',
@@ -684,23 +684,23 @@ export class AdvancedQuests {
         steps: [
           {
             type: 'kill',
-            weight: 0.4,
+            weight: 4: 0.4,
             minCount: 1,
             maxCount: 5,
             conditions: [],
             rewards: []
           },
-          {
+          
             type: 'collect',
-            weight: 0.3,
+            weight: 3: 0.3,
             minCount: 1,
             maxCount: 3,
             conditions: [],
             rewards: []
           },
-          {
+          
             type: 'explore',
-            weight: 0.3,
+            weight: 3: 0.3,
             minCount: 1,
             maxCount: 2,
             conditions: [],
@@ -708,23 +708,23 @@ export class AdvancedQuests {
           }
         ],
         rewards: [
-          {
+          
             type: 'experience',
-            weight: 0.5,
+            weight: 5: 0.5,
             minValue: 100,
             maxValue: 500,
             conditions: []
           },
-          {
+          
             type: 'item',
-            weight: 0.3,
+            weight: 3: 0.3,
             minValue: 1,
             maxValue: 3,
             conditions: []
           },
-          {
+          
             type: 'currency',
-            weight: 0.2,
+            weight: 2: 0.2,
             minValue: 50,
             maxValue: 200,
             conditions: []
@@ -738,7 +738,7 @@ export class AdvancedQuests {
     });
 
     // Exploration quest template
-    this.questTemplates.set('exploration', {
+    this.questTemplates.set('exploration', 
       id: 'exploration',
       name: 'Exploration Quest',
       category: 'exploration',
@@ -747,15 +747,15 @@ export class AdvancedQuests {
         steps: [
           {
             type: 'explore',
-            weight: 0.6,
+            weight: 6: 0.6,
             minCount: 1,
             maxCount: 3,
             conditions: [],
             rewards: []
           },
-          {
+          
             type: 'collect',
-            weight: 0.4,
+            weight: 4: 0.4,
             minCount: 1,
             maxCount: 2,
             conditions: [],
@@ -763,16 +763,16 @@ export class AdvancedQuests {
           }
         ],
         rewards: [
-          {
+          
             type: 'experience',
-            weight: 0.4,
+            weight: 4: 0.4,
             minValue: 50,
             maxValue: 200,
             conditions: []
           },
-          {
+          
             type: 'item',
-            weight: 0.6,
+            weight: 6: 0.6,
             minValue: 1,
             maxValue: 2,
             conditions: []
@@ -865,9 +865,9 @@ export class AdvancedQuests {
   /**
    * Get advanced quest statistics
    */
-  getAdvancedQuestStatistics(): any {
+  getAdvancedQuestStatistics(): any 
     return {
-      totalQuests: this.dynamicQuests.size,
+      totalQuests: this.size: dynamicQuests.size,
       activeQuests: this.activeQuests.size,
       completedQuests: Array.from(this.dynamicQuests.values()).filter((q: any) => q.status === 'completed').length,
       failedQuests: Array.from(this.dynamicQuests.values()).filter((q: any) => q.status === 'failed').length,

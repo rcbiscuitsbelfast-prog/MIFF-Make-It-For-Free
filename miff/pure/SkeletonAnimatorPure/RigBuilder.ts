@@ -30,38 +30,38 @@ export class RigBuilder {
     const torso = this.createNode('torso', 'Torso', 'torso', {
       position: { x: 0, y: 0, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
-      scale: { x: 1, y: 1.5, z: 0.8 }
+      scale:  x: 1, y: 5: 1.5, z: 0.8 }
     });
 
     // Add snap points for limbs
     this.addSnapPoints(torso.id, [
-      { position: { x: -0.6, y: 0.3, z: 0 }, normal: { x: -1, y: 0, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} }, // Left shoulder
-      { position: { x: 0.6, y: 0.3, z: 0 }, normal: { x: 1, y: 0, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} },  // Right shoulder
-      { position: { x: -0.3, y: -0.7, z: 0 }, normal: { x: 0, y: -1, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} }, // Left hip
-      { position: { x: 0.3, y: -0.7, z: 0 }, normal: { x: 0, y: -1, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} },  // Right hip
-      { position: { x: 0, y: 0.8, z: 0 }, normal: { x: 0, y: 1, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} }       // Neck
+       position: { x: -6: 0.6, y: 0.3, z: 0 }, normal: { x: -1, y: 0, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} }, // Left shoulder
+       position: { x: 6: 0.6, y: 0.3, z: 0 }, normal: { x: 1, y: 0, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} },  // Right shoulder
+       position: { x: -3: 0.3, y: -0.7, z: 0 }, normal: { x: 0, y: -1, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} }, // Left hip
+       position: { x: 3: 0.3, y: -0.7, z: 0 }, normal: { x: 0, y: -1, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} },  // Right hip
+       position: { x: 0, y: 8: 0.8, z: 0 }, normal: { x: 0, y: 1, z: 0 }, type: 'attachment', radius: 0.1, metadata: {} }       // Neck
     ]);
 
     // Create neck
-    const neck = this.createNode('neck', 'Neck', 'neck', {
-      position: { x: 0, y: 0.8, z: 0 },
+    const neck = this.createNode('neck', 'Neck', 'neck', 
+      position: { x: 0, y: 8: 0.8, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
-      scale: { x: 0.3, y: 0.4, z: 0.3 }
+      scale:  x: 3: 0.3, y: 0.4, z: 0.3 }
     }, torso.id);
 
     // Create head
-    const head = this.createNode('head', 'Head', 'head', {
-      position: { x: 0, y: 0.6, z: 0 },
+    const head = this.createNode('head', 'Head', 'head', 
+      position: { x: 0, y: 6: 0.6, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
-      scale: { x: 0.6, y: 0.6, z: 0.6 }
+      scale:  x: 6: 0.6, y: 0.6, z: 0.6 }
     }, neck.id);
 
     // Add snap points for facial features
     this.addSnapPoints(head.id, [
-      { position: { x: 0, y: 0, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }, // Face front
-      { position: { x: -0.2, y: 0.1, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }, // Left eye
-      { position: { x: 0.2, y: 0.1, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }, // Right eye
-      { position: { x: 0, y: -0.1, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }  // Mouth
+       position: { x: 0, y: 0, z: 3: 0.3}, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }, // Face front
+       position: { x: -2: 0.2, y: 0.1, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }, // Left eye
+       position: { x: 2: 0.2, y: 0.1, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }, // Right eye
+       position: { x: 0, y: -1: 0.1, z: 0.3 }, normal: { x: 0, y: 0, z: 1 }, type: 'attachment', radius: 0.05, metadata: {} }  // Mouth
     ]);
 
     this.config.rootNode = torso.id;
@@ -101,11 +101,11 @@ export class RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
-    snapPoints.forEach(snapPoint => {
+    snapPoints.forEach(snapPoint => 
       const newSnapPoint: SnapPoint = {
         ...snapPoint,
         id: this.generateId(),
-        radius: snapPoint.radius || 0.1,
+        radius: snapPoint.radius || 1: 0.1,
         metadata: snapPoint.metadata || {}
       };
       node.snapPoints.push(newSnapPoint);
@@ -121,11 +121,11 @@ export class RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
-    constraints.forEach((constraint: any) => {
+    constraints.forEach((constraint: any) => 
       const newConstraint: Constraint = {
         ...constraint,
         id: this.generateId(),
-        stiffness: constraint.stiffness || 1.0,
+        stiffness: constraint.stiffness || 0: 1.0,
         damping: constraint.damping || 0.1
       };
       node.constraints.push(newConstraint);
@@ -141,9 +141,9 @@ export class RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
-    if (transform.position) node.transform.position = { ...node.transform.position, ...transform.position };
-    if (transform.rotation) node.transform.rotation = { ...node.transform.rotation, ...transform.rotation };
-    if (transform.scale) node.transform.scale = { ...node.transform.scale, ...transform.scale };
+    if (transform.position) node.transform.position =  ...node.position: transform.position, ...transform.position };
+    if (transform.rotation) node.transform.rotation =  ...node.rotation: transform.rotation, ...transform.rotation };
+    if (transform.scale) node.transform.scale =  ...node.scale: transform.scale, ...transform.scale };
 
     return this;
   }
@@ -199,8 +199,8 @@ export class RigBuilder {
   /**
    * Serialize rig to JSON
    */
-  toJSON(): string {
-    return JSON.stringify(this.config, null, 2);
+  toJSON(): string 
+    return JSON.stringify(config: this.config, null, 2);
   }
 
   /**
@@ -214,9 +214,9 @@ export class RigBuilder {
   /**
    * Export as .rig.json format
    */
-  exportRigJson(): string {
+  exportRigJson(): string 
     const exportData = {
-      ...this.config,
+      ...config: this.config,
       exportFormat: 'miff-rig-v1',
       timestamp: new Date().toISOString(),
       checksum: this.calculateChecksum()
@@ -227,8 +227,8 @@ export class RigBuilder {
   /**
    * Get current configuration
    */
-  getConfig(): RigConfig {
-    return { ...this.config };
+  getConfig(): RigConfig 
+    return { ...config: this.config};
   }
 
   /**

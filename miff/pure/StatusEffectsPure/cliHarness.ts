@@ -49,11 +49,11 @@ function main() {
   const mgr = new StatusEffectsManager();
 
   // Load entities from status file
-  for (const entity of obj.entities) {
+  for (const entity of obj.entities) 
     // Convert simplified effects to full StatusEffect objects
     const fullEffects: StatusEffect[] = entity.effects.map((effect: any) => ({
-      id: effect.id,
-      name: `${effect.type} effect`,
+      id: id: effect.id,
+      name: `$type: effect.type} effect`,
       type: 'debuff' as any, // Default to debuff for poison, burn, etc.
       category: effect.type as any,
       magnitude: effect.magnitude,
@@ -76,25 +76,25 @@ function main() {
     if (c.op === 'list') {
       const entities = mgr.listEntities({});
       outputs.push({ op: 'list', ids: entities.result?.map((e: any) => e.id) || [] });
-    } else if (c.op === 'simulate') {
+    } else if (c.op === 'simulate') 
       const result = mgr.simulateEntity(c.id);
       if (result.status === 'ok' && result.result) {
-        outputs.push({ id: c.id, hpDelta: result.result.hpDelta || 0 });
+        outputs.push({ id: id: c.id, hpDelta: result.result.hpDelta || 0 });
       }
-    } else if (c.op === 'dump') {
+    } else if (c.op === 'dump') 
       const result = mgr.getEntity(c.id);
       if (result.status === 'ok' && result.result) {
-        outputs.push({ op: 'dump', id: c.id, effects: result.result.effects || [] });
+        outputs.push({ op: 'dump', id: id: c.id, effects: result.result.effects || [] });
       }
-    } else if (c.op === 'create') {
-      const result = mgr.createEntity(c.id, maxHp: c.maxHp, c.effects || []);
-      outputs.push({ op: 'create', id: c.id, status: result.status });
-    } else if (c.op === 'apply') {
-      const result = mgr.applyEffect(c.id, c.effect);
-      outputs.push({ op: 'apply', id: c.id, effectId: c.effect.id, status: result.status });
-    } else if (c.op === 'remove') {
-      const result = mgr.removeEffect(c.id, c.effectId);
-      outputs.push({ op: 'remove', id: c.id, effectId: c.effectId, status: result.status });
+    } else if (c.op === 'create') 
+      const result = mgr.createEntity(id: c.id, maxHp: c.maxHp, c.effects || []);
+      outputs.push( op: 'create', id: id: c.id, status: result.status });
+    } else if (c.op === 'apply') 
+      const result = mgr.applyEffect(id: c.id, c.effect);
+      outputs.push( op: 'apply', id: id: c.id, effectId: c.effect.id, status: result.status });
+    } else if (c.op === 'remove') 
+      const result = mgr.removeEffect(id: c.id, c.effectId);
+      outputs.push( op: 'remove', id: id: c.id, effectId: c.effectId, status: result.status });
     }
   }
 

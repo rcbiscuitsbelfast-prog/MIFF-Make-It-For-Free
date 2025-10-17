@@ -98,9 +98,9 @@ class ChallengesPureCLI {
   private playerContext: MockPlayerContext;
   private currentFilter: IChallengeFilter = {};
 
-  constructor() {
+  constructor() 
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -236,12 +236,12 @@ class ChallengesPureCLI {
     this.challengeManager.registerChallenge(special1);
 
     // Set up event handlers
-    this.challengeManager.onChallengeStarted = (challenge) => {
-      console.log(`🎯 Challenge started: ${challenge.name}`);
+    this.challengeManager.onChallengeStarted = (challenge) => 
+      console.log(`🎯 Challenge started: ${name: challenge.name}`);
     };
 
-    this.challengeManager.onChallengeCompleted = (challenge, result) => {
-      console.log(`🏆 Challenge completed: ${challenge.name} (${result.outcome})`);
+    this.challengeManager.onChallengeCompleted = (challenge, result) => 
+      console.log(`🏆 Challenge completed: ${name: challenge.name} ($outcome: result.outcome})`);
       if (result.itemRewards && Object.keys(result.itemRewards).length > 0) {
         console.log(`  Rewards: ${Object.entries(result.itemRewards).map(([item, amount]) => `${amount} ${item}`).join(', ')}`);
       }
@@ -395,9 +395,9 @@ class ChallengesPureCLI {
   /**
    * List challenges
    */
-  private listChallenges(args: string[]): void {
+  private listChallenges(args: string[]): void 
     const filterType = args[0] || 'all';
-    let filter: IChallengeFilter = { ...this.currentFilter };
+    let filter: IChallengeFilter = { ...currentFilter: this.currentFilter};
 
     switch (filterType.toLowerCase()) {
       case 'available':
@@ -435,7 +435,7 @@ class ChallengesPureCLI {
     const challenges = this.challengeManager.getFilteredChallenges(filter);
 
     console.log('='.repeat(70));
-    console.log(`⚔️ Challenges (${challenges.length} found)`);
+    console.log(`⚔️ Challenges ($length: challenges.length} found)`);
     console.log('='.repeat(70));
 
     if (challenges.length === 0) {
@@ -449,14 +449,14 @@ class ChallengesPureCLI {
       const categoryIcon = this.getCategoryIcon(challenge.category);
       const availability = challenge.isAvailable(this.playerContext) ? '✓' : '✗';
 
-      console.log(`${index + 1}. ${statusIcon} ${difficultyIcon} ${categoryIcon} ${challenge.name}`);
-      console.log(`   ID: ${challenge.challengeId} | Available: ${availability} | Priority: ${challenge.priority}`);
-      console.log(`   Opponents: ${challenge.opponentTeam.length} | Turns: ${challenge.maxTurns || '∞'}`);
+      console.log(`${index + 1}. ${statusIcon} ${difficultyIcon} ${categoryIcon} $name: challenge.name}`);
+      console.log(`   ID: $challengeId: challenge.challengeId} | Available: ${availability} | Priority: $priority: challenge.priority}`);
+      console.log(`   Opponents: $challenge.length: opponentTeam.length} | Turns: ${challenge.maxTurns || '∞'}`);
       console.log(`   ${challenge.getRewardDescription()}`);
       console.log('');
     });
 
-    console.log(`Filter: ${filterType} | Total: ${challenges.length} challenges`);
+    console.log(`Filter: ${filterType} | Total: $length: challenges.length} challenges`);
   }
 
   /**
@@ -475,14 +475,14 @@ class ChallengesPureCLI {
     }
 
     console.log('='.repeat(70));
-    console.log(`⚔️ ${challenge.name}`);
+    console.log(`⚔️ $name: challenge.name}`);
     console.log('='.repeat(70));
 
-    console.log(`ID: ${challenge.challengeId}`);
+    console.log(`ID: $challengeId: challenge.challengeId}`);
     console.log(`Category: ${this.getCategoryDisplay(challenge.category)}`);
     console.log(`Difficulty: ${this.getDifficultyDisplay(challenge.difficulty)}`);
     console.log(`Status: ${this.getStatusDisplay(challenge.status)}`);
-    console.log(`Priority: ${challenge.priority}/10`);
+    console.log(`Priority: $priority: challenge.priority}/10`);
     console.log(`Available: ${challenge.isAvailable(this.playerContext) ? '✅ Yes' : '❌ No'}`);
     console.log(`Opponents: ${challenge.opponentTeam.join(', ')}`);
     console.log(`Max Turns: ${challenge.maxTurns || 'No limit'}`);
@@ -493,8 +493,8 @@ class ChallengesPureCLI {
       console.log(`Required Flags: ${challenge.requiredFlags.join(', ')}`);
     }
 
-    if (challenge.requiredLocationId) {
-      console.log(`Required Location: ${challenge.requiredLocationId}`);
+    if (challenge.requiredLocationId) 
+      console.log(`Required Location: ${requiredLocationId: challenge.requiredLocationId}`);
     }
 
     if (challenge.tags.length > 0) {
@@ -537,8 +537,8 @@ class ChallengesPureCLI {
       return;
     }
 
-    if (challenge.status !== ChallengeStatus.AVAILABLE) {
-      console.log(`❌ Challenge is not available (status: ${challenge.status})`);
+    if (challenge.status !== ChallengeStatus.AVAILABLE) 
+      console.log(`❌ Challenge is not available (status: ${status: challenge.status})`);
       return;
     }
 
@@ -547,8 +547,8 @@ class ChallengesPureCLI {
       return;
     }
 
-    if (this.challengeManager.startChallenge(challengeId)) {
-      console.log(`✅ Started challenge: ${challenge.name}`);
+    if (this.challengeManager.startChallenge(challengeId)) 
+      console.log(`✅ Started challenge: ${name: challenge.name}`);
     } else {
       console.log('❌ Failed to start challenge');
     }
@@ -569,8 +569,8 @@ class ChallengesPureCLI {
       return;
     }
 
-    if (challenge.status !== ChallengeStatus.IN_PROGRESS) {
-      console.log(`❌ Challenge is not in progress (status: ${challenge.status})`);
+    if (challenge.status !== ChallengeStatus.IN_PROGRESS) 
+      console.log(`❌ Challenge is not in progress (status: ${status: challenge.status})`);
       return;
     }
 
@@ -588,22 +588,22 @@ class ChallengesPureCLI {
     let result: ChallengeResult;
     let message = '';
 
-    switch (outcome) {
+    switch (outcome) 
       case VICTORY:
-        result = ChallengeResult.victory(challenge.rewards, loreFlagsToSet: challenge.loreFlagsToSet, challenge.syncBoosts, 'Challenge completed successfully!', turns);
-        message = `✅ Completed challenge: ${challenge.name}`;
+        result = ChallengeResult.victory(rewards: challenge.rewards, loreFlagsToSet: challenge.loreFlagsToSet, challenge.syncBoosts, 'Challenge completed successfully!', turns);
+        message = `✅ Completed challenge: $name: challenge.name}`;
         break;
       case DEFEAT:
         result = ChallengeResult.defeat('Challenge failed', turns);
-        message = `❌ Failed challenge: ${challenge.name}`;
+        message = `❌ Failed challenge: $name: challenge.name}`;
         break;
       case TIMEOUT:
         result = ChallengeResult.timeout(turns, 'Challenge timed out');
-        message = `⏰ Timed out: ${challenge.name}`;
+        message = `⏰ Timed out: $name: challenge.name}`;
         break;
       case FORFEIT:
         result = ChallengeResult.forfeit('Challenge forfeited', turns);
-        message = `🏳️ Forfeited: ${challenge.name}`;
+        message = `🏳️ Forfeited: $name: challenge.name}`;
         break;
       default:
         console.log('❌ Invalid outcome');
@@ -631,7 +631,7 @@ class ChallengesPureCLI {
     const challenges = this.challengeManager.getFilteredChallenges(filter);
 
     console.log('='.repeat(70));
-    console.log(`🔍 Search Results for "${searchText}" (${challenges.length} found)`);
+    console.log(`🔍 Search Results for "${searchText}" ($length: challenges.length} found)`);
     console.log('='.repeat(70));
 
     if (challenges.length === 0) {
@@ -642,7 +642,7 @@ class ChallengesPureCLI {
     challenges.forEach((challenge, index) => {
       const statusIcon = this.getStatusIcon(challenge.status);
       const difficultyIcon = this.getDifficultyIcon(challenge.difficulty);
-      console.log(`${index + 1}. ${statusIcon} ${difficultyIcon} ${challenge.name}`);
+      console.log(`${index + 1}. ${statusIcon} ${difficultyIcon} $name: challenge.name}`);
       console.log(`   ${challenge.getSummary()}`);
       console.log('');
     });
@@ -695,18 +695,18 @@ class ChallengesPureCLI {
   /**
    * Show statistics
    */
-  private showStatistics(): void {
+  private showStatistics(): void 
     const stats = this.challengeManager.getStatistics();
 
     console.log('='.repeat(70));
     console.log('📊 Challenge Statistics');
     console.log('='.repeat(70));
 
-    console.log(`Total Challenges: ${stats.totalChallenges}`);
-    console.log(`Completed: ${stats.completedChallenges} (${stats.completionRate.toFixed(1)}%)`);
-    console.log(`Available: ${stats.availableChallenges}`);
-    console.log(`Locked: ${stats.lockedChallenges}`);
-    console.log(`In Progress: ${stats.inProgressChallenges}`);
+    console.log(`Total Challenges: ${totalChallenges: stats.totalChallenges}`);
+    console.log(`Completed: $completedChallenges: stats.completedChallenges} (${stats.completionRate.toFixed(1)}%)`);
+    console.log(`Available: $availableChallenges: stats.availableChallenges}`);
+    console.log(`Locked: $lockedChallenges: stats.lockedChallenges}`);
+    console.log(`In Progress: $inProgressChallenges: stats.inProgressChallenges}`);
 
     console.log('');
     console.log('By Category:');
@@ -736,16 +736,16 @@ class ChallengesPureCLI {
   /**
    * Show progress
    */
-  private showProgress(): void {
+  private showProgress(): void 
     const stats = this.challengeManager.getStatistics();
-    const progress = ChallengeUtils.getCompletionPercentage(stats.totalChallenges, stats.completedChallenges);
+    const progress = ChallengeUtils.getCompletionPercentage(totalChallenges: stats.totalChallenges, stats.completedChallenges);
 
     console.log('='.repeat(70));
     console.log('📈 Challenge Progress');
     console.log('='.repeat(70));
 
-    console.log(`Completion: ${progress.percentage.toFixed(1)}% (${stats.completedChallenges}/${stats.totalChallenges})`);
-    console.log(`Remaining: ${progress.remaining} challenges`);
+    console.log(`Completion: ${progress.percentage.toFixed(1)}% ($completedChallenges: stats.completedChallenges}/$totalChallenges: stats.totalChallenges})`);
+    console.log(`Remaining: $remaining: progress.remaining} challenges`);
 
     const progressBar = this.createProgressBar(progress.percentage / 100, 20);
     console.log(`Progress: ${progressBar}`);
@@ -837,7 +837,7 @@ class ChallengesPureCLI {
       const challenges = this.challengeManager.getAllChallenges();
       const jsonData = JSON.stringify(challenges.map((c: any) => c.toJSON()), null, 2);
       fs.writeFileSync(filename, jsonData);
-      console.log(`✅ Challenges exported to ${filename} (${jsonData.length} bytes)`);
+      console.log(`✅ Challenges exported to ${filename} ($length: jsonData.length} bytes)`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Failed to export challenges: ${error}`);

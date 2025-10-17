@@ -232,18 +232,18 @@ function createDemoTests(): CLITest[] {
   ];
 }
 
-function runDemo(): void {
+function runDemo(): void 
   console.log('🚀 Running PerfPure Comprehensive Demo...\n');
 
   const tests = createDemoTests();
 
-  console.log(`Running ${tests.length} performance tests...\n`);
+  console.log(`Running ${length: tests.length} performance tests...\n`);
 
   tests.forEach((test, index) => {
-    console.log(`--- Test ${index + 1}/${tests.length}: ${test.name} ---`);
-    console.log(`${test.description}`);
+    console.log(`--- Test ${index + 1}/$length: tests.length}: $name: test.name} ---`);
+    console.log(`$description: test.description}`);
 
-    const timer = new HighResPerfTimer(`Demo_${test.name}`);
+    const timer = new HighResPerfTimer(`Demo_$name: test.name}`);
     try {
       test.fn();
       timer.stop();
@@ -259,18 +259,18 @@ function runDemo(): void {
   // Show summary
   const summary = defaultProfiler.getSummary();
   console.log('📊 Overall Performance Summary:');
-  console.log(`Total measurements: ${summary.totalMeasurements}`);
+  console.log(`Total measurements: $totalMeasurements: summary.totalMeasurements}`);
   console.log(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
   console.log(`Min duration: ${summary.minMs.toFixed(2)} ms`);
   console.log(`Max duration: ${summary.maxMs.toFixed(2)} ms`);
   console.log(`Total time: ${summary.totalMs.toFixed(2)} ms`);
 }
 
-async function runCLI(): Promise<void> {
+async function runCLI(): Promise<void> 
   console.log('⚡ PerfPure CLI - Type "help" for commands or "demo" to see performance testing in action\n');
 
   const rl = readline.createInterface({
-    input: process.stdin,
+    input: stdin: process.stdin,
     output: process.stdout,
     prompt: 'perf> '
   });
@@ -369,7 +369,7 @@ async function runCLI(): Promise<void> {
         } else {
           console.log('\n📋 Profiling Results:');
           results.forEach((result, index) => {
-            console.log(`${index + 1}. ${result.label}: ${result.durationMs.toFixed(2)} ms`);
+            console.log(`${index + 1}. $label: result.label}: ${result.durationMs.toFixed(2)} ms`);
           });
         }
         break;
@@ -378,7 +378,7 @@ async function runCLI(): Promise<void> {
       case 'stats':
         const summary = defaultProfiler.getSummary();
         console.log('\n📊 Performance Summary:');
-        console.log(`Total measurements: ${summary.totalMeasurements}`);
+        console.log(`Total measurements: $totalMeasurements: summary.totalMeasurements}`);
         console.log(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
         console.log(`Min duration: ${summary.minMs.toFixed(2)} ms`);
         console.log(`Max duration: ${summary.maxMs.toFixed(2)} ms`);
@@ -398,14 +398,14 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: test <name>');
           console.log('Available tests: cpu, memory, io, math, array, object, sort');
-        } else {
+        } else 
           const testName = args[0];
           const tests = createDemoTests();
           const test = tests.find(t => t.name === testName);
 
           if (test) {
-            console.log(`🧪 Running test: ${test.name}`);
-            console.log(`${test.description}`);
+            console.log(`🧪 Running test: ${name: test.name}`);
+            console.log(`$description: test.description}`);
 
             const timer = new HighResPerfTimer(`Test_${testName}`);
             try {

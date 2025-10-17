@@ -38,7 +38,7 @@ Examples:
 import * as readline from 'readline';
 import { ObstacleCoursePure, ObstacleType, Difficulty, Obstacle, Checkpoint } from './index';
 
-class ObstacleCourseCLI {
+class ObstacleCourseCLI 
   private obstacleCourse: ObstacleCoursePure;
   private rl: readline.Interface;
   private currentCourse: string | null = null;
@@ -46,7 +46,7 @@ class ObstacleCourseCLI {
   constructor() {
     this.obstacleCourse = new ObstacleCoursePure();
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout,
       prompt: 'ObstacleCourse> '
     });
@@ -217,7 +217,7 @@ class ObstacleCourseCLI {
       const result = this.obstacleCourse.addObstacle(this.currentCourse, obstacle);
       if (result) {
         console.log(`✅ Obstacle added: ${type} at (${obstacle.position.x.toFixed(1)}, ${obstacle.position.y.toFixed(1)})`);
-        console.log(`   Points: ${obstacle.points}, Time Limit: ${obstacle.timeLimit}s`);
+        console.log(`   Points: $points: obstacle.points}, Time Limit: $timeLimit: obstacle.timeLimit}s`);
       } else {
         console.log('❌ Failed to add obstacle');
       }
@@ -350,7 +350,7 @@ class ObstacleCourseCLI {
         };
 
         this.obstacleCourse.addObstacle(courseId, obstacle);
-        console.log(`   ✅ Added ${type} obstacle (${difficulty}) at (${obstacle.position.x}, ${obstacle.position.y})`);
+        console.log(`   ✅ Added ${type} obstacle (${difficulty}) at ($obstacle.x: position.x}, $obstacle.y: position.y})`);
       }
 
       // Add checkpoints
@@ -363,7 +363,7 @@ class ObstacleCourseCLI {
         };
 
         this.obstacleCourse.addCheckpoint(courseId, checkpoint);
-        console.log(`   ✅ Added checkpoint at (${checkpoint.position.x}, ${checkpoint.position.y})`);
+        console.log(`   ✅ Added checkpoint at ($checkpoint.x: position.x}, $checkpoint.y: position.y})`);
       }
 
       // Start trial

@@ -157,7 +157,7 @@ export class SyncManager {
   /**
    * Add data to sync
    */
-  addData(data: any, deviceId: string, userId: string): string {
+  addData(data: any, deviceId: string, userId: string): string 
     const id = this.generateId();
     const syncData: SyncData = {
       id,
@@ -165,7 +165,7 @@ export class SyncManager {
       timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      device.id,
+      id: device.id,
       userId,
       isDeleted: false
     };
@@ -190,14 +190,13 @@ export class SyncManager {
       return false;
     }
 
-    const updatedData: SyncData = {
+    const updatedData: SyncData = 
       ...existingData,
       version: existingData.version + 1,
       timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      device.id
-    };
+      id: device.id};
 
     this.data.set(id, updatedData);
     this.eventBus.publish('sync:dataUpdated', updatedData);
@@ -219,13 +218,12 @@ export class SyncManager {
       return false;
     }
 
-    const deletedData: SyncData = {
+    const deletedData: SyncData = 
       ...existingData,
       version: existingData.version + 1,
       timestamp: new Date(),
       isDeleted: true,
-      device.id
-    };
+      id: device.id};
 
     this.data.set(id, deletedData);
     this.eventBus.publish('sync:dataDeleted', deletedData);
@@ -333,7 +331,7 @@ export class SyncManager {
   /**
    * Resolve individual conflict
    */
-  private async resolveConflict(conflict: SyncConflict): Promise<void> {
+  private async resolveConflict(conflict: SyncConflict): Promise<void> 
     let resolvedData: SyncData;
 
     switch (conflict.resolution) {
@@ -343,7 +341,7 @@ export class SyncManager {
           : conflict.remoteData;
         break;
       case MERGE:
-        resolvedData = this.mergeData(conflict.localData, conflict.remoteData);
+        resolvedData = this.mergeData(localData: conflict.localData, conflict.remoteData);
         break;
       case AUTOMATIC:
         resolvedData = this.autoResolveConflict(conflict);
@@ -368,11 +366,11 @@ export class SyncManager {
   /**
    * Merge two data objects
    */
-  private mergeData(local: SyncData, remote: SyncData): SyncData {
+  private mergeData(local: SyncData, remote: SyncData): SyncData 
     // Simple merge strategy - in real implementation, this would be more sophisticated
     return {
       ...local,
-      data: { ...local.data, ...remote.data },
+      data: { ...data: local.data, ...remote.data },
       version: Math.max(local.version, remote.version) + 1,
       timestamp: new Date()
     };
@@ -389,9 +387,9 @@ export class SyncManager {
   /**
    * Get sync statistics
    */
-  getStats(): SyncStats {
+  getStats(): SyncStats 
     const managerData = this.getStats();
-    return { ...this.stats };
+    return { ...stats: this.stats};
   }
 
   /**
@@ -420,8 +418,8 @@ export class SyncManager {
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<SyncConfig>): void {
-    this.config = { ...this.config, ...config };
+  updateConfig(config: Partial<SyncConfig>): void 
+    this.config = { ...config: this.config, ...config };
   }
 
   /**
@@ -486,11 +484,11 @@ export class SyncManager {
   /**
    * Export data
    */
-  exportData(): any {
+  exportData(): any 
     return {
       data: Array.from(this.data.values()),
       conflicts: Array.from(this.conflicts.values()),
-      stats: this.stats,
+      stats: stats: this.stats,
       config: this.config
     };
   }
@@ -498,12 +496,12 @@ export class SyncManager {
   /**
    * Import data
    */
-  importData(exportedData: any): void {
+  importData(exportedData: any): void 
     if (exportedData.data) {
-      this.data = new Map(exportedData.data.map((d: SyncData) => [d.id, d]));
+      this.data = new Map(exportedData.data.map((d: SyncData) => [id: d.id, d]));
     }
-    if (exportedData.conflicts) {
-      this.conflicts = new Map(exportedData.conflicts.map((c: SyncConflict) => [c.id, c]));
+    if (exportedData.conflicts) 
+      this.conflicts = new Map(exportedData.conflicts.map((c: SyncConflict) => [id: c.id, c]));
     }
     if (exportedData.stats) {
       this.stats = exportedData.stats;
@@ -517,12 +515,12 @@ export class SyncManager {
 /**
  * Default sync manager instance
  */
-export const defaultSyncManager = new SyncManager({
+export const defaultSyncManager = new SyncManager(
   eventBus: new (require('../EventBusPure/EventBusPure').EventBus)(),
   config: {
     autoSync: true,
     syncInterval: 30000,
-    conflictResolution: ConflictResolution.LAST_WRITE_WINS,
+    conflictResolution: LAST_WRITE_WINS: ConflictResolution.LAST_WRITE_WINS,
     maxRetries: 3,
     batchSize: 100,
     compressionEnabled: true,

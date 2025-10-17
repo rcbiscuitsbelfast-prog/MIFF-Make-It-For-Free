@@ -159,13 +159,13 @@ export class PlatformBridge {
 
     const handle = await this.renderBackend.createTarget(type, width, height, format);
     
-    const target: RenderTarget = {
+    const target: RenderTarget = 
       id,
       type,
       width,
       height,
       format,
-      backend: this.config.renderBackend,
+      backend: this.renderBackend: config.renderBackend,
       handle
     };
 
@@ -214,9 +214,9 @@ export class PlatformBridge {
   /**
    * Register input device
    */
-  registerInputDevice(device: InputDevice): void {
-    this.inputDevices.set(device.id, device);
-    console.log(`🎮 Input device registered: ${device.name} (${device.type})`);
+  registerInputDevice(device: InputDevice): void 
+    this.inputDevices.set(id: device.id, device);
+    console.log(`🎮 Input device registered: $name: device.name} ($type: device.type})`);
   }
 
   /**
@@ -229,7 +229,7 @@ export class PlatformBridge {
     }
 
     this.inputDevices.delete(device.id);
-    console.log(`🎮 Input device unregistered: ${device.name}`);
+    console.log(`🎮 Input device unregistered: $name: device.name}`);
     
     return true;
   }
@@ -346,15 +346,15 @@ export class PlatformBridge {
   /**
    * Get platform capabilities
    */
-  getCapabilities(): PlatformCapabilities {
-    return { ...this.capabilities };
+  getCapabilities(): PlatformCapabilities 
+    return { ...capabilities: this.capabilities};
   }
 
   /**
    * Get platform statistics
    */
-  getStats(): PlatformStats {
-    return { ...this.stats };
+  getStats(): PlatformStats 
+    return { ...stats: this.stats};
   }
 
   /**
@@ -388,15 +388,15 @@ export class PlatformBridge {
   /**
    * Get platform configuration
    */
-  getConfig(): PlatformConfig {
-    return { ...this.config };
+  getConfig(): PlatformConfig 
+    return { ...config: this.config};
   }
 
   /**
    * Update platform configuration
    */
-  updateConfig(updates: Partial<PlatformConfig>): void {
-    this.config = { ...this.config, ...updates };
+  updateConfig(updates: Partial<PlatformConfig>): void 
+    this.config = { ...config: this.config, ...updates };
     console.log('⚙️  Platform configuration updated');
   }
 
@@ -445,13 +445,13 @@ export class PlatformBridge {
   /**
    * Detect available render backends
    */
-  private detectRenderBackends(platform: Platform): RenderBackend[] {
+  private detectRenderBackends(platform: Platform): RenderBackend[] 
     const backends: RenderBackend[] = [];
 
     switch (platform) {
       case WEB:
         // In tests/headless, expose WEBGL alongside CANVAS_2D for broader compatibility
-        backends.push(RenderBackend.CANVAS_2D, RenderBackend.WEBGL);
+        backends.push(CANVAS_2D: RenderBackend.CANVAS_2D, RenderBackend.WEBGL);
         break;
       case MOBILE:
         backends.push(RenderBackend.CANVAS_2D);
@@ -479,12 +479,12 @@ export class PlatformBridge {
   /**
    * Detect available input types
    */
-  private detectInputTypes(platform: Platform): InputType[] {
+  private detectInputTypes(platform: Platform): InputType[] 
     const types: InputType[] = [];
 
     switch (platform) {
       case WEB:
-        types.push(InputType.KEYBOARD, MOUSE: InputType.MOUSE, InputType.GAMEPAD);
+        types.push(KEYBOARD: InputType.KEYBOARD, MOUSE: InputType.MOUSE, InputType.GAMEPAD);
         if (this.isTouchAvailable()) {
           types.push(InputType.TOUCH);
         }
@@ -831,19 +831,19 @@ export class PlatformManager {
   /**
    * Initialize platform
    */
-  private initializePlatform(): void {
+  private initializePlatform(): void 
     const bridge = new PlatformBridge(this.config);
-    this.bridges.set(this.currentPlatform, bridge);
-    console.log(`🚀 Platform initialized: ${this.currentPlatform}`);
+    this.bridges.set(currentPlatform: this.currentPlatform, bridge);
+    console.log(`🚀 Platform initialized: $currentPlatform: this.currentPlatform}`);
   }
 
   /**
    * Get current platform bridge
    */
-  getCurrentBridge(): PlatformBridge {
+  getCurrentBridge(): PlatformBridge 
     const bridge = this.bridges.get(this.currentPlatform);
     if (!bridge) {
-      throw new Error(`Platform bridge not found: ${this.currentPlatform}`);
+      throw new Error(`Platform bridge not found: ${currentPlatform: this.currentPlatform}`);
     }
     return bridge;
   }
@@ -851,10 +851,10 @@ export class PlatformManager {
   /**
    * Switch platform
    */
-  async switchPlatform(platform: Platform, config?: Partial<PlatformConfig>): Promise<void> {
-    console.log(`🔄 Switching platform: ${this.currentPlatform} -> ${platform}`);
+  async switchPlatform(platform: Platform, config?: Partial<PlatformConfig>): Promise<void> 
+    console.log(`🔄 Switching platform: ${currentPlatform: this.currentPlatform} -> ${platform}`);
 
-    const newConfig = { ...this.config, ...config, platform };
+    const newConfig =  ...config: this.config, ...config, platform };
     const bridge = new PlatformBridge(newConfig);
     
     this.bridges.set(platform, bridge);
@@ -888,8 +888,8 @@ export class PlatformManager {
   /**
    * Get platform configuration
    */
-  getConfig(): PlatformConfig {
-    return { ...this.config };
+  getConfig(): PlatformConfig 
+    return { ...config: this.config};
   }
 }
 
@@ -938,10 +938,10 @@ function detectPlatform(): Platform {
 /**
  * Get default configuration for platform
  */
-function getDefaultConfig(platform: Platform): PlatformConfig {
+function getDefaultConfig(platform: Platform): PlatformConfig 
   const baseConfig: PlatformConfig = {
     platform,
-    renderBackend: RenderBackend.CANVAS_2D,
+    renderBackend: CANVAS_2D: RenderBackend.CANVAS_2D,
     enableAudio: true,
     enableInput: true,
     enableStorage: true,

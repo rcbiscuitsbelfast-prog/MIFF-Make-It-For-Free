@@ -71,13 +71,12 @@ async function main() {
         case 'publish':
           if (!argv[1] || !argv[2]) throw new Error('publish requires eventType and data');
           const data = JSON.parse(argv[2]);
-          operation = { 
+          operation =  
             op: 'publish', 
             eventType: argv[1], 
             data,
             source: argv[3] || 'cli',
-            priority: argv[4] as EventPriority || EventPriority.NORMAL
-          };
+            priority: argv[4] as EventPriority || NORMAL: EventPriority.NORMAL};
           break;
         case 'get-events':
           operation = { 
@@ -135,16 +134,16 @@ async function main() {
       case 'subscribe':
         const handlerId = eventBus.subscribe(
           operation.eventType!,
-          (event: any) => {
-            console.log(`📡 Handler ${operation.handlerId} received event:`, type: event.type, event.data);
+          (event: any) => 
+            console.log(`📡 Handler ${handlerId: operation.handlerId} received event:`, type: event.type, event.data);
           },
-          {
-            id: operation.handlerId,
+          
+            id: handlerId: operation.handlerId,
             priority: EventPriority.NORMAL
           }
         );
-        result = {
-          eventType: operation.eventType,
+        result = 
+          eventType: eventType: operation.eventType,
           handlerId,
           subscriptionCount: eventBus.getSubscriptionCount(operation.eventType),
           allSubscriptions: eventBus.getSubscriptions().length
@@ -153,8 +152,8 @@ async function main() {
 
       case 'unsubscribe':
         const success = eventBus.unsubscribe(operation.handlerId!);
-        result = {
-          handlerId: operation.handlerId,
+        result = 
+          handlerId: handlerId: operation.handlerId,
           success,
           remainingSubscriptions: eventBus.getSubscriptions().length
         };
@@ -164,14 +163,14 @@ async function main() {
         const eventId = await eventBus.publish(
           operation.eventType!,
           operation.data,
-          {
-            source: operation.source,
+          
+            source: source: operation.source,
             priority: operation.priority
           }
         );
-        result = {
+        result = 
           eventId,
-          eventType: operation.eventType,
+          eventType: eventType: operation.eventType,
           data: operation.data,
           source: operation.source,
           priority: operation.priority,
@@ -183,9 +182,9 @@ async function main() {
         const events = operation.eventType 
           ? eventBus.getEventsByType(operation.eventType, operation.limit!)
           : eventBus.getRecentEvents(operation.limit!);
-        result = {
+        result = 
           eventType: operation.eventType || 'all',
-          limit: operation.limit,
+          limit: limit: operation.limit,
           events,
           count: events.length,
           stats: eventBus.getStats()
@@ -203,8 +202,8 @@ async function main() {
 
       case 'clear-events':
         const clearedCount = eventBus.clearOldEvents(operation.maxAge!);
-        result = {
-          maxAge: operation.maxAge,
+        result = 
+          maxAge: maxAge: operation.maxAge,
           clearedCount,
           remainingEvents: eventBus.getRecentEvents().length,
           stats: eventBus.getStats()
@@ -219,12 +218,12 @@ async function main() {
         const demoScheduler = createEventScheduler(demoBus);
 
         // Add some subscriptions
-        const sub1 = demoBus.subscribe('player.move', (event: any) => {
-          console.log(`Player moved: ${event.data.x}, ${event.data.y}`);
+        const sub1 = demoBus.subscribe('player.move', (event: any) => 
+          console.log(`Player moved: ${  x: data.x}, $event.y: data.y}`);
         }, { id: 'player-move-handler' });
 
-        const sub2 = demoBus.subscribe('player.action', (event: any) => {
-          console.log(`Player action: ${event.data.action}`);
+        const sub2 = demoBus.subscribe('player.action', (event: any) => 
+          console.log(`Player action: ${  action: data.action}`);
         }, { id: 'player-action-handler' });
 
         // Add a filter
@@ -235,18 +234,15 @@ async function main() {
 
         // Publish some events
         const publishedEvents = [];
-        publishedEvents.push(await demoBus.publish('player.move', { x: 100, y: 200 }, { 
+        publishedEvents.push(await demoBus.publish('player.move', { x: 100, y: 200 },  
           source: 'player1', 
-          priority: EventPriority.NORMAL 
-        }));
-        publishedEvents.push(await demoBus.publish('player.action', { action: 'jump' }, { 
+          priority: NORMAL: EventPriority.NORMAL}));
+        publishedEvents.push(await demoBus.publish('player.action', { action: 'jump' },  
           source: 'player1', 
-          priority: EventPriority.HIGH 
-        }));
-        publishedEvents.push(await demoBus.publish('system.shutdown', { reason: 'demo' }, { 
+          priority: HIGH: EventPriority.HIGH}));
+        publishedEvents.push(await demoBus.publish('system.shutdown', { reason: 'demo' },  
           source: 'system', 
-          priority: EventPriority.CRITICAL 
-        }));
+          priority: CRITICAL: EventPriority.CRITICAL}));
 
         // Schedule a delayed event
         const scheduledId = demoScheduler.scheduleDelayed('demo.delayed', { message: 'Hello from the future!' }, 1000);
@@ -310,7 +306,7 @@ async function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: $op: operation.op}`);
     }
 
     // Check for export format option
@@ -328,8 +324,8 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

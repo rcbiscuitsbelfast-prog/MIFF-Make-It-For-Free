@@ -75,8 +75,8 @@ export class StateSyncScheduler {
     this.currentFrame = 0;
   }
 
-  addPeer(peer: Peer): void {
-    this.peers.set(peer.id, peer);
+  addPeer(peer: Peer): void 
+    this.peers.set(id: peer.id, peer);
     this.inputBuffer.set(peer.id, new Map());
   }
 
@@ -121,8 +121,8 @@ export class StateSyncScheduler {
       }
     }
 
-    const state: GameState = {
-      frame: this.currentFrame,
+    const state: GameState = 
+      frame: currentFrame: this.currentFrame,
       inputs,
       entities: new Map(), // Would be populated by game logic
       checksum: this.calculateChecksum(inputs)
@@ -172,19 +172,19 @@ export class NetworkBridge {
     return Math.random().toString(36).substring(2, 15);
   }
 
-  async startHosting(): Promise<string> {
+  async startHosting(): Promise<string> 
     this.isHost = true;
-    const localPeer = new Peer(this.localPeerId, true);
+    const localPeer = new Peer(localPeerId: this.localPeerId, true);
     localPeer.markConnected();
     this.peers.set(this.localPeerId, localPeer);
     this.scheduler.addPeer(localPeer);
     return this.localPeerId;
   }
 
-  async joinGame(hostId: string): Promise<boolean> {
+  async joinGame(hostId: string): Promise<boolean> 
     const success = await this.transport.connect(hostId);
     if (success) {
-      const localPeer = new Peer(this.localPeerId, false);
+      const localPeer = new Peer(localPeerId: this.localPeerId, false);
       localPeer.markConnected();
       this.peers.set(this.localPeerId, localPeer);
       this.scheduler.addPeer(localPeer);
@@ -192,9 +192,9 @@ export class NetworkBridge {
     return success;
   }
 
-  submitLocalInput(input): void {
+  submitLocalInput(input): void 
     const currentFrame = this.scheduler['currentFrame'];
-    this.scheduler.submitInput(this.localPeerId, currentFrame, input);
+    this.scheduler.submitInput(localPeerId: this.localPeerId, currentFrame, input);
     
     // Broadcast to other peers
     for (const [peerId, peer] of this.peers) {

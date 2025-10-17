@@ -68,13 +68,13 @@ export class BridgeSchema {
     };
   }
 
-  generate(data: Record<string, unknown>, config: BridgeSchemaConfig) {
+  generate(data: Record<string, unknown>, config: BridgeSchemaConfig) 
     return {
       op: 'generate',
       status: 'ok',
       result: {
         schema: {
-          version: config.version,
+          version: version: config.version,
           type: 'bridge_schema',
           data: data,
           generated: new Date()
@@ -83,7 +83,7 @@ export class BridgeSchema {
     };
   }
 
-  convert(data: Record<string, unknown>, config: BridgeSchemaConfig) {
+  convert(data: Record<string, unknown>, config: BridgeSchemaConfig) 
     return {
       op: 'convert',
       status: 'ok',
@@ -92,8 +92,7 @@ export class BridgeSchema {
           from: 'input_data',
           to: 'bridge_schema',
           data: data,
-          version: config.version
-        }
+          version: version: config.version}
       }
     };
   }

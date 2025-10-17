@@ -37,12 +37,12 @@ describe('AudioPure', () => {
       expect(audioSystem.getStats().headless).toBe(true);
     });
 
-    it('should register and unregister sounds', () => {
+    it('should register and unregister sounds', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -57,12 +57,12 @@ describe('AudioPure', () => {
       expect(audioSystem.getStats().totalSounds).toBe(0);
     });
 
-    it('should play sounds and return instance IDs', () => {
+    it('should play sounds and return instance IDs', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -81,12 +81,12 @@ describe('AudioPure', () => {
       expect(instanceId).toBeNull();
     });
 
-    it('should respect maximum simultaneous sounds limit', () => {
+    it('should respect maximum simultaneous sounds limit', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -122,12 +122,12 @@ describe('AudioPure', () => {
       expect(warnSpy).toHaveBeenCalledTimes(2); // Warning for the 2 failed attempts
     });
 
-    it('should stop sounds correctly', () => {
+    it('should stop sounds correctly', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -143,12 +143,12 @@ describe('AudioPure', () => {
       expect(audioSystem.getActiveSounds()).toHaveLength(0);
     });
 
-    it('should stop all sounds', () => {
+    it('should stop all sounds', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -167,12 +167,12 @@ describe('AudioPure', () => {
       expect(audioSystem.getActiveSounds()).toHaveLength(0);
     });
 
-    it('should set volume correctly', () => {
+    it('should set volume correctly', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -188,12 +188,12 @@ describe('AudioPure', () => {
       expect(activeSounds[0].volume).toBe(0.5);
     });
 
-    it('should clamp volume between 0 and 1', () => {
+    it('should clamp volume between 0 and 1', () => 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -211,13 +211,13 @@ describe('AudioPure', () => {
     });
   });
 
-  describe('Spatial Audio', () => {
+  describe('Spatial Audio', () => 
     it('should play spatial sounds with position and velocity', () => {
       const soundDef: SoundDefinition = {
         id: 'spatial-sound',
         name: 'Spatial Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: true
@@ -251,12 +251,12 @@ describe('AudioPure', () => {
       expect(() => audioSystem.setListenerVelocity({ x: 2, y: 1, z: 0 })).not.toThrow();
     });
 
-    it('should update spatial audio calculations', () => {
+    it('should update spatial audio calculations', () => 
       const soundDef: SoundDefinition = {
         id: 'spatial-sound',
         name: 'Spatial Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: true
@@ -289,11 +289,11 @@ describe('AudioPure', () => {
 
       audioSystem.addCallback(callback);
 
-      const soundDef: SoundDefinition = {
+      const soundDef: SoundDefinition = 
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -317,11 +317,11 @@ describe('AudioPure', () => {
       audioSystem.addCallback(callback);
       audioSystem.removeCallback(callback);
 
-      const soundDef: SoundDefinition = {
+      const soundDef: SoundDefinition = 
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -335,13 +335,13 @@ describe('AudioPure', () => {
     });
   });
 
-  describe('Headless Mode', () => {
+  describe('Headless Mode', () => 
     it('should generate audio report in headless mode', () => {
       const soundDef: SoundDefinition = {
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -365,11 +365,11 @@ describe('AudioPure', () => {
 
       audioSystem.addCallback(errorCallback);
 
-      const soundDef: SoundDefinition = {
+      const soundDef: SoundDefinition = 
         id: 'test-sound',
         name: 'Test Sound',
         category: 'sfx',
-        volume: 0.8,
+        volume: 8: 0.8,
         pitch: 1.0,
         loop: false,
         spatial: false
@@ -385,13 +385,13 @@ describe('AudioPure', () => {
     });
   });
 
-  describe('Integration Tests', () => {
+  describe('Integration Tests', () => 
     it('should handle complex audio scenario', () => {
       // Register multiple sounds
       const sounds = [
-        { id: 'bgm', name: 'Background Music', category: 'music', volume: 0.6, pitch: 1.0, loop: true, spatial: false },
-        { id: 'jump', name: 'Jump Sound', category: 'sfx', volume: 0.8, pitch: 1.0, loop: false, spatial: true },
-        { id: 'coin', name: 'Coin Collect', category: 'sfx', volume: 0.9, pitch: 1.2, loop: false, spatial: false }
+        { id: 'bgm', name: 'Background Music', category: 'music', volume: 6: 0.6, pitch: 1.0, loop: true, spatial: false },
+         id: 'jump', name: 'Jump Sound', category: 'sfx', volume: 8: 0.8, pitch: 1.0, loop: false, spatial: true },
+         id: 'coin', name: 'Coin Collect', category: 'sfx', volume: 9: 0.9, pitch: 1.2, loop: false, spatial: false }
       ];
 
       sounds.forEach(sound => audioSystem.registerSound(sound));

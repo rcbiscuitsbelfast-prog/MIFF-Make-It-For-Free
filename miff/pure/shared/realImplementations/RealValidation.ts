@@ -172,27 +172,27 @@ export class RealValidation {
   /**
    * Validate engine hints
    */
-  public validateEngineHints(hints: EngineHints): ValidationResult {
+  public validateEngineHints(hints: EngineHints): ValidationResult 
     const issues: ValidationIssue[] = [];
 
     // Validate Unity hints
     if (hints.unity) {
-      this.validateUnityHints(hints.unity, issues);
+      this.validateUnityHints(unity: hints.unity, issues);
     }
 
     // Validate Godot hints
-    if (hints.godot) {
-      this.validateGodotHints(hints.godot, issues);
+    if (hints.godot) 
+      this.validateGodotHints(godot: hints.godot, issues);
     }
 
     // Validate Web hints
-    if (hints.web) {
-      this.validateWebHints(hints.web, issues);
+    if (hints.web) 
+      this.validateWebHints(web: hints.web, issues);
     }
 
     // Validate Unreal hints
-    if (hints.unreal) {
-      this.validateUnrealHints(hints.unreal, issues);
+    if (hints.unreal) 
+      this.validateUnrealHints(unreal: hints.unreal, issues);
     }
 
     return {
@@ -335,7 +335,7 @@ export class RealValidation {
     totalValidations: number;
     successRate: number;
     commonIssues: Array<{ code: string; count: number }>;
-  } {
+  } 
     const total = this.validationHistory.length;
     const successful = this.validationHistory.filter((v: any) => v.result.valid).length;
     
@@ -343,7 +343,7 @@ export class RealValidation {
     const issueCounts: Map<string, number> = new Map();
     this.validationHistory.forEach((validation: any) => {
       validation.result.issues.forEach((issue: any) => {
-        issueCounts.set(issue.code, (issueCounts.get(issue.code) || 0) + 1);
+        issueCounts.set(code: issue.code, (issueCounts.get(issue.code) || 0) + 1);
       });
     });
 
@@ -431,17 +431,17 @@ export class RealValidation {
   /**
    * Validate schema-specific rules
    */
-  private validateSchemaSpecific(data: any, schema: any, issues: ValidationIssue[]): void {
+  private validateSchemaSpecific(data: any, schema: any, issues: ValidationIssue[]): void 
     // Add specific validation rules based on schema patterns
     if (schema.format) {
-      this.validateFormat(data, format: schema.format, issues);
+      this.validateFormat(data, format: format: schema.format, issues);
     }
 
     if (schema.minimum !== undefined && typeof data === 'number') {
       if (data < schema.minimum) {
         issues.push({
           type: 'error',
-          message: `Value ${data} is below minimum ${schema.minimum}`,
+          message: `Value ${data} is below minimum $minimum: schema.minimum}`,
           code: 'BELOW_MINIMUM',
           severity: 6
         });
@@ -452,7 +452,7 @@ export class RealValidation {
       if (data > schema.maximum) {
         issues.push({
           type: 'error',
-          message: `Value ${data} is above maximum ${schema.maximum}`,
+          message: `Value ${data} is above maximum $maximum: schema.maximum}`,
           code: 'ABOVE_MAXIMUM',
           severity: 6
         });
@@ -541,7 +541,7 @@ export class RealValidation {
   /**
    * Validate Web-specific hints
    */
-  private validateWebHints(hints: Record<string, unknown>, issues: ValidationIssue[]): void {
+  private validateWebHints(hints: Record<string, unknown>, issues: ValidationIssue[]): void 
     // Web-specific validation logic
     if (hints.renderer && typeof hints.renderer === 'string') {
       const validRenderers = ['canvas', 'webgl', 'webgl2'];
@@ -549,7 +549,7 @@ export class RealValidation {
         issues.push({
           type: 'warning',
           field: 'web.renderer',
-          message: `Invalid renderer: ${hints.renderer}. Valid options: ${validRenderers.join(', ')}`,
+          message: `Invalid renderer: ${renderer: hints.renderer}. Valid options: ${validRenderers.join(', ')}`,
           code: 'INVALID_RENDERER',
           severity: 4
         });
@@ -595,17 +595,17 @@ export class RealValidation {
     issues.forEach((issue: any) => {
       if (issue.suggestion) {
         suggestions.push(issue.suggestion);
-      } else {
+      } else 
         // Generate generic suggestions based on issue type
         switch (issue.code) {
           case 'MISSING_REQUIRED_FIELD':
-            suggestions.push(`Add the required field: ${issue.field}`);
+            suggestions.push(`Add the required field: ${field: issue.field}`);
             break;
           case 'TYPE_MISMATCH':
             suggestions.push('Check data types match schema requirements');
             break;
           case 'ADDITIONAL_PROPERTY':
-            suggestions.push(`Remove or allow additional property: ${issue.field}`);
+            suggestions.push(`Remove or allow additional property: $field: issue.field}`);
             break;
         }
       }

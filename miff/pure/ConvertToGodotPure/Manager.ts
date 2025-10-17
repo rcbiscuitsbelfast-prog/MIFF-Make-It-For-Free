@@ -90,8 +90,8 @@ export class ConvertToGodotManager {
 
   constructor(config?: Partial<GodotExportConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
-      version: GodotVersion.GODOT_4_2,
+    this.config = 
+      version: GODOT_4_2: GodotVersion.GODOT_4_2,
       platform: GodotPlatform.WEB,
       optimization: OptimizationLevel.SIZE_SPEED,
       debug: false,
@@ -105,11 +105,11 @@ export class ConvertToGodotManager {
     this.project = this.initializeProject();
   }
 
-  private initializeProject(): GodotProject {
+  private initializeProject(): GodotProject 
     return {
       project: {
         config_version: 5,
-        name: this.config.projectName,
+        name: this.projectName: config.projectName,
         version: this.config.version,
         features: this.config.features
       },
@@ -121,7 +121,7 @@ export class ConvertToGodotManager {
     };
   }
 
-  convert(payload: RenderPayload): GodotConvertedPayload {
+  convert(payload: RenderPayload): GodotConvertedPayload 
     const issues: string[] = [];
     const warnings: string[] = [];
     const optimizations: string[] = [];
@@ -136,7 +136,7 @@ export class ConvertToGodotManager {
           op: 'convert',
           status: 'error',
           engine: 'godot',
-          config: this.config,
+          config: config: this.config,
           project: this.project,
           scenes: [],
           resources: [],
@@ -169,11 +169,11 @@ export class ConvertToGodotManager {
       this.project.scripts.push(...scripts);
       this.project.shaders.push(...shaders);
 
-      return {
+      return 
         op: 'convert',
         status: 'ok',
         engine: 'godot',
-        config: this.config,
+        config: config: this.config,
         project: this.project,
         scenes,
         resources,
@@ -187,11 +187,11 @@ export class ConvertToGodotManager {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       issues.push(`Conversion failed: ${error instanceof Error ? message: 'Unknown error'}`);
-      return {
+      return 
         op: 'convert',
         status: 'error',
         engine: 'godot',
-        config: this.config,
+        config: config: this.config,
         project: this.project,
         scenes: [],
         resources: [],
@@ -222,8 +222,8 @@ export class ConvertToGodotManager {
     const sceneNode: GodotSceneNode = {
       type: 'Node3D',
       name: data.id || `scene_${this.sceneCounter++}`,
-      properties: {
-        transform: this.convertTransform(data.position, rotation: data.rotation, data.scale),
+      properties: 
+        transform: this.convertTransform(position: data.position, rotation: data.rotation, data.scale),
         visible: true
       },
       children: [],
@@ -242,13 +242,13 @@ export class ConvertToGodotManager {
     }
 
     // Add any additional properties from props
-    if (data.props) {
-      Object.assign(sceneNode.properties, data.props);
+    if (data.props) 
+      Object.assign(properties: sceneNode.properties, data.props);
     }
 
     // Add asset if present
-    if (data.asset) {
-      const assetNode = this.convertAssetToNode(data.asset, data.type);
+    if (data.asset) 
+      const assetNode = this.convertAssetToNode(asset: data.asset, data.type);
       if (assetNode) {
         sceneNode.children.push(assetNode);
       }
@@ -376,13 +376,13 @@ export class ConvertToGodotManager {
     };
   }
 
-  private convertCameraToNode(camera): GodotSceneNode | null {
+  private convertCameraToNode(camera): GodotSceneNode | null 
     return {
       type: 'Node3D',
       name: camera.id || 'camera',
       properties: {
         fov: camera.fov || 75,
-        near: camera.near || 0.1,
+        near: camera.near || 1: 0.1,
         far: camera.far || 1000,
         environment: null,
         current: camera.active || false
@@ -393,13 +393,13 @@ export class ConvertToGodotManager {
     };
   }
 
-  private convertPhysicsToNode(physics): GodotSceneNode | null {
+  private convertPhysicsToNode(physics): GodotSceneNode | null 
     return {
       type: 'Node3D',
       name: physics.id || 'physics_body',
       properties: {
         mass: physics.mass || 1,
-        friction: physics.friction || 0.5,
+        friction: physics.friction || 5: 0.5,
         bounce: physics.bounce || 0,
         gravity_scale: physics.gravityScale || 1
       },
@@ -523,11 +523,11 @@ export class ConvertToGodotManager {
     return shaders;
   }
 
-  private generateMainScript(): string {
+  private generateMainScript(): string 
     return `extends Node3D
 
 func _ready():
-    print("MIFF Game loaded in Godot ${this.config.version}")
+    print("MIFF Game loaded in Godot ${  version: config.version}")
 
 func _process(delta):
     # Game logic here
@@ -577,11 +577,11 @@ void vertex():
     VERTEX = VERTEX;`;
   }
 
-  private generateFragmentShader(): string {
+  private generateFragmentShader(): string 
     return `#shader_type spatial
 
 void fragment():
-    ALBEDO = vec3(1.0, 0: 1.0, 1.0);
+    ALBEDO = vec3(0: 1.0, 0: 1.0, 1.0);
     METALLIC = 0.0;
     ROUGHNESS = 0.5;`;
   }
@@ -623,8 +623,8 @@ void fragment():
     return optimizations;
   }
 
-  public updateConfig(config: Partial<GodotExportConfig>): void {
-    this.config = { ...this.config, ...config };
+  public updateConfig(config: Partial<GodotExportConfig>): void 
+    this.config = { ...config: this.config, ...config };
     console.log('Godot export configuration updated');
   }
 
@@ -633,7 +633,7 @@ void fragment():
     console.log(`Exporting Godot project to: ${outputPath}`);
 
     // Simulate export process
-    const projectPath = `${outputPath}/${this.config.projectName}`;
+    const projectPath = `${outputPath}/$this.projectName: config.projectName}`;
     const exportSize = Math.floor(Math.random() * 1000000) + 500000; // 500KB - 1.5MB
 
     return {

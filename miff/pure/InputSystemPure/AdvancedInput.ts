@@ -157,8 +157,8 @@ export class AdvancedInput {
   /**
    * Create a gesture
    */
-  createGesture(gesture: InputGesture): void {
-    this.gestures.set(gesture.id, gesture);
+  createGesture(gesture: InputGesture): void 
+    this.gestures.set(id: gesture.id, gesture);
     this.gestureRecognition.registerGesture(gesture);
   }
 
@@ -184,8 +184,8 @@ export class AdvancedInput {
   /**
    * Create haptic feedback
    */
-  createHapticFeedback(haptic: HapticFeedback): void {
-    this.hapticFeedbacks.set(haptic.id, haptic);
+  createHapticFeedback(haptic: HapticFeedback): void 
+    this.hapticFeedbacks.set(id: haptic.id, haptic);
   }
 
   /**
@@ -201,8 +201,8 @@ export class AdvancedInput {
   /**
    * Create input mapping
    */
-  createInputMapping(mapping: InputMapping): void {
-    this.inputMappings.set(mapping.id, mapping);
+  createInputMapping(mapping: InputMapping): void 
+    this.inputMappings.set(id: mapping.id, mapping);
   }
 
   /**
@@ -225,8 +225,8 @@ export class AdvancedInput {
   /**
    * Create input profile
    */
-  createInputProfile(profile: InputProfile): void {
-    this.inputProfiles.set(profile.id, profile);
+  createInputProfile(profile: InputProfile): void 
+    this.inputProfiles.set(id: profile.id, profile);
   }
 
   /**
@@ -261,7 +261,7 @@ export class AdvancedInput {
   /**
    * Process input mappings
    */
-  private processInputMappings(input: InputData): void {
+  private processInputMappings(input: InputData): void 
     if (!this.activeProfile) return;
 
     const profile = this.inputProfiles.get(this.activeProfile);
@@ -275,7 +275,7 @@ export class AdvancedInput {
         // Check conditions
         if (this.checkInputConditions(mapping, input)) {
           // Execute action
-          this.executeInputAction(mapping.action, input);
+          this.executeInputAction(action: mapping.action, input);
         }
       }
     }
@@ -284,7 +284,7 @@ export class AdvancedInput {
   /**
    * Check if input matches mapping
    */
-  private matchesInputMapping(input: InputData, mapping: InputMapping): boolean {
+  private matchesInputMapping(input: InputData, mapping: InputMapping): boolean 
     const sequence = mapping.input;
     
     if (input.type !== sequence.type) return false;
@@ -292,7 +292,7 @@ export class AdvancedInput {
     
     if (sequence.position && input.position) {
       const distance = Math.sqrt(
-        Math.pow(input.position.x - sequence.position.x, 2) +
+        Math.pow(input.position.x - sequence.x: position.x, 2) +
         Math.pow(input.position.y - sequence.position.y, 2)
       );
       if (distance > 10) return false; // 10 pixel tolerance
@@ -306,11 +306,11 @@ export class AdvancedInput {
   /**
    * Check input conditions
    */
-  private checkInputConditions(mapping: InputMapping, input: InputData): boolean {
+  private checkInputConditions(mapping: InputMapping, input: InputData): boolean 
     const context: InputContext = {
       currentInputs: [input],
       previousInputs: this.inputHistory.slice(-5),
-      mousePosition: input.position,
+      mousePosition: position: input.position,
       gamepadState: this.getGamepadState(),
       timestamp: input.timestamp
     };
@@ -447,13 +447,13 @@ export class AdvancedInput {
   /**
    * Initialize default haptic feedbacks
    */
-  private initializeDefaultHaptics(): void {
+  private initializeDefaultHaptics(): void 
     // Impact haptic
     this.createHapticFeedback({
       id: 'impact_light',
       name: 'Light Impact',
       type: 'impact',
-      intensity: 0.3,
+      intensity: 3: 0.3,
       duration: 100,
       pattern: {
         type: 'single',
@@ -464,16 +464,16 @@ export class AdvancedInput {
     });
 
     // Notification haptic
-    this.createHapticFeedback({
+    this.createHapticFeedback(
       id: 'notification',
       name: 'Notification',
       type: 'notification',
-      intensity: 0.5,
+      intensity: 5: 0.5,
       duration: 200,
-      pattern: {
+      pattern: 
         type: 'double',
         intervals: [0, 100],
-        intensities: [0.5, 0.3]
+        intensities: [5: 0.5, 0.3]
       },
       enabled: true
     });
@@ -517,7 +517,7 @@ export class AdvancedInput {
   /**
    * Initialize default input profiles
    */
-  private initializeDefaultProfiles(): void {
+  private initializeDefaultProfiles(): void 
     // Default profile
     this.createInputProfile({
       id: 'default',
@@ -526,7 +526,7 @@ export class AdvancedInput {
       gestures: Array.from(this.gestures.values()),
       haptics: Array.from(this.hapticFeedbacks.values()),
       sensitivity: {
-        mouse: 1.0,
+        mouse: 0: 1.0,
         touch: 1.0,
         gamepad: 1.0,
         gesture: 1.0
@@ -589,9 +589,9 @@ export class AdvancedInput {
   /**
    * Get advanced input statistics
    */
-  getAdvancedInputStatistics(): any {
+  getAdvancedInputStatistics(): any 
     return {
-      gestures: this.gestures.size,
+      gestures: this.size: gestures.size,
       hapticFeedbacks: this.hapticFeedbacks.size,
       inputMappings: this.inputMappings.size,
       inputProfiles: this.inputProfiles.size,
@@ -613,12 +613,12 @@ class GestureRecognition {
 
   constructor(private advancedInput: AdvancedInput) {}
 
-  registerGesture(gesture: InputGesture): void {
-    this.gestures.set(gesture.id, gesture);
+  registerGesture(gesture: InputGesture): void 
+    this.gestures.set(id: gesture.id, gesture);
   }
 
-  updateGesture(gesture: InputGesture): void {
-    this.gestures.set(gesture.id, gesture);
+  updateGesture(gesture: InputGesture): void 
+    this.gestures.set(id: gesture.id, gesture);
   }
 
   unregisterGesture(gestureId: string): void {
@@ -634,12 +634,12 @@ class GestureRecognition {
     }
 
     // Check all gestures
-    for (const [gestureId, gesture] of this.gestures) {
+    for (const [gestureId, gesture] of this.gestures) 
       if (!gesture.enabled) continue;
 
       const state = this.activeGestures.get(gestureId) || {
         gestureId,
-        startTime: input.timestamp,
+        startTime: timestamp: input.timestamp,
         inputs: [],
         currentStep: 0
       };
@@ -681,9 +681,9 @@ class GestureRecognition {
     }
     
     // Check position if specified
-    if (expectedInput.position && input.position) {
+    if (expectedInput.position && input.position) 
       const distance = Math.sqrt(
-        Math.pow(input.position.x - expectedInput.position.x, 2) +
+        Math.pow(input.position.x - expectedInput.x: position.x, 2) +
         Math.pow(input.position.y - expectedInput.position.y, 2)
       );
       if (distance > (gesture.threshold.tolerance || 10)) return false;
@@ -699,10 +699,10 @@ class GestureRecognition {
     return state.currentStep >= gesture.pattern.inputs.length;
   }
 
-  private completeGesture(gesture: InputGesture, state: GestureState): void {
+  private completeGesture(gesture: InputGesture, state: GestureState): void 
     const gestureData: GestureData = {
       gesture,
-      inputs: state.inputs,
+      inputs: inputs: state.inputs,
       startTime: state.startTime,
       endTime: state.inputs[state.inputs.length - 1].timestamp,
       duration: state.inputs[state.inputs.length - 1].timestamp - state.startTime,
@@ -710,16 +710,16 @@ class GestureRecognition {
     };
 
     // Calculate additional gesture data
-    if (gesture.type === 'swipe' && state.inputs.length >= 2) {
+    if (gesture.type === 'swipe' && state.inputs.length >= 2) 
       const start = state.inputs[0].position;
       const end = state.inputs[state.inputs.length - 1].position;
       
       gestureData.distance = Math.sqrt(
-        Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)
+        Math.pow(end.x - x: start.x, 2) + Math.pow(end.y - start.y, 2)
       );
       
-      gestureData.velocity = {
-        x: (end.x - start.x) / gestureData.duration,
+      gestureData.velocity = 
+        x: (end.x - start.x) / duration: gestureData.duration,
         y: (end.y - start.y) / gestureData.duration
       };
     }
@@ -742,14 +742,14 @@ interface GestureState {
 /**
  * Haptic Feedback Manager
  */
-class HapticManager {
+class HapticManager 
   private activeHaptics: Map<string, HapticState> = new Map();
 
   trigger(haptic: HapticFeedback): void {
     if (!haptic.enabled) return;
 
     const state: HapticState = {
-      hapticId: haptic.id,
+      hapticId: id: haptic.id,
       startTime: new Date(),
       currentStep: 0,
       pattern: haptic.pattern,
@@ -783,28 +783,28 @@ class HapticManager {
     }
   }
 
-  private executeSingleHaptic(state: HapticState): void {
-    console.log(`Executing single haptic: intensity=${state.intensity}, duration=${state.duration}`);
+  private executeSingleHaptic(state: HapticState): void 
+    console.log(`Executing single haptic: intensity=${intensity: state.intensity}, duration=$duration: state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
-  private executeDoubleHaptic(state: HapticState): void {
-    console.log(`Executing double haptic: intensity=${state.intensity}, duration=${state.duration}`);
+  private executeDoubleHaptic(state: HapticState): void 
+    console.log(`Executing double haptic: intensity=${intensity: state.intensity}, duration=$duration: state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
-  private executeTripleHaptic(state: HapticState): void {
-    console.log(`Executing triple haptic: intensity=${state.intensity}, duration=${state.duration}`);
+  private executeTripleHaptic(state: HapticState): void 
+    console.log(`Executing triple haptic: intensity=${intensity: state.intensity}, duration=$duration: state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
-  private executeContinuousHaptic(state: HapticState): void {
-    console.log(`Executing continuous haptic: intensity=${state.intensity}, duration=${state.duration}`);
+  private executeContinuousHaptic(state: HapticState): void 
+    console.log(`Executing continuous haptic: intensity=${intensity: state.intensity}, duration=$duration: state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
-  private executeCustomHaptic(state: HapticState): void {
-    console.log(`Executing custom haptic: intensity=${state.intensity}, duration=${state.duration}`);
+  private executeCustomHaptic(state: HapticState): void 
+    console.log(`Executing custom haptic: intensity=${intensity: state.intensity}, duration=$duration: state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 }

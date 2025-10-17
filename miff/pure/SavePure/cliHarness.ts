@@ -87,8 +87,8 @@ class MockGameEntity implements IGameEntity {
   /**
    * Heal
    */
-  heal(amount: number): void {
-    this.hp = Math.min(this.maxHp, this.hp + amount);
+  heal(amount: number): void 
+    this.hp = Math.min(maxHp: this.maxHp, this.hp + amount);
   }
 
   /**
@@ -136,13 +136,13 @@ class MockGameEntity implements IGameEntity {
   /**
    * Get summary
    */
-  getSummary(): string {
-    return `${this.name} (Lv.${this.level}) - HP: ${this.hp}/${this.maxHp} - Status: ${this.statusEffects.join(', ') || 'none'}`;
+  getSummary(): string 
+    return `${name: this.name} (Lv.$level: this.level}) - HP: $hp: this.hp}/$maxHp: this.maxHp} - Status: ${this.statusEffects.join(', ') || 'none'}`;
   }
 }
 
 // CLI Application
-class SavePureCLI {
+class SavePureCLI 
   private rl: readline.Interface;
   private saveManager: SaveManager;
   private currentSnapshot: SaveSnapshot;
@@ -150,7 +150,7 @@ class SavePureCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -205,7 +205,7 @@ class SavePureCLI {
   /**
    * Start CLI application
    */
-  start(): void {
+  start(): void 
     console.log('='.repeat(70));
     console.log('💾 SavePure CLI - Game Save/Load System');
     console.log('='.repeat(70));
@@ -227,10 +227,10 @@ class SavePureCLI {
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
     console.log('');
-    console.log(`Current save file: ${this.saveFilePath}`);
-    console.log(`Player ID: ${this.currentSnapshot.playerId}`);
-    console.log(`Zone: ${this.currentSnapshot.zoneId}`);
-    console.log(`Version: ${this.currentSnapshot.version}`);
+    console.log(`Current save file: ${saveFilePath: this.saveFilePath}`);
+    console.log(`Player ID: $this.playerId: currentSnapshot.playerId}`);
+    console.log(`Zone: $this.zoneId: currentSnapshot.zoneId}`);
+    console.log(`Version: $this.version: currentSnapshot.version}`);
 
     this.showPrompt();
   }
@@ -354,11 +354,11 @@ class SavePureCLI {
 
     const result = await this.saveManager.saveGame(this.currentSnapshot, targetPath);
 
-    if (result.success) {
-      console.log(`✅ ${result.message}`);
+    if (result.success) 
+      console.log(`✅ ${message: result.message}`);
       console.log(`📊 Save size: ${SaveUtils.formatFileSize(SaveUtils.calculateSaveSize(this.currentSnapshot))}`);
-    } else {
-      console.log(`❌ ${result.message}`);
+    } else 
+      console.log(`❌ ${message: result.message}`);
     }
   }
 
@@ -372,48 +372,48 @@ class SavePureCLI {
 
     const result = await this.saveManager.loadGame(targetPath);
 
-    if (result.success && result.snapshot) {
+    if (result.success && result.snapshot) 
       this.currentSnapshot = result.snapshot;
-      console.log(`✅ ${result.message}`);
+      console.log(`✅ ${message: result.message}`);
 
-      if (result.migrationResult && result.migrationResult.migrated) {
-        console.log(`🔄 Migrated from ${result.migrationResult.oldVersion} to ${result.migrationResult.newVersion}`);
+      if (result.migrationResult && result.migrationResult.migrated) 
+        console.log(`🔄 Migrated from ${  oldVersion: migrationResult.oldVersion} to $result.newVersion: migrationResult.newVersion}`);
       }
 
       this.showSaveInfo();
-    } else {
-      console.log(`❌ ${result.message}`);
+    } else 
+      console.log(`❌ ${message: result.message}`);
     }
   }
 
   /**
    * Show save information
    */
-  private showSaveInfo(): void {
+  private showSaveInfo(): void 
     const summary = this.currentSnapshot.getSummary();
 
     console.log('='.repeat(70));
     console.log('📊 Save Information');
     console.log('='.repeat(70));
-    console.log(`Player ID: ${this.currentSnapshot.playerId}`);
-    console.log(`Zone: ${this.currentSnapshot.zoneId}`);
-    console.log(`Version: ${this.currentSnapshot.version}`);
+    console.log(`Player ID: ${  playerId: currentSnapshot.playerId}`);
+    console.log(`Zone: $this.zoneId: currentSnapshot.zoneId}`);
+    console.log(`Version: $this.version: currentSnapshot.version}`);
     console.log(`Timestamp: ${new Date(this.currentSnapshot.timestampUtc).toLocaleString()}`);
     console.log(`Checksum: ${this.currentSnapshot.checksum || 'none'}`);
     console.log('');
-    console.log(`Party Members: ${summary.partySize}`);
-    console.log(`Inventory Items: ${summary.inventoryItems}`);
-    console.log(`Quest Flags: ${summary.questFlags}`);
-    console.log(`Unlocked Content: ${summary.unlockedContent}`);
+    console.log(`Party Members: $partySize: summary.partySize}`);
+    console.log(`Inventory Items: $inventoryItems: summary.inventoryItems}`);
+    console.log(`Quest Flags: $questFlags: summary.questFlags}`);
+    console.log(`Unlocked Content: $unlockedContent: summary.unlockedContent}`);
     console.log(`Total Play Time: ${Math.round((summary.totalPlayTime || 0) / 60000)} minutes`);
-    console.log(`Save Size: ${summary.saveSize} bytes`);
+    console.log(`Save Size: $saveSize: summary.saveSize} bytes`);
     console.log('');
 
     // Show party details
     if (this.currentSnapshot.partyRoster.length > 0) {
       console.log('🎭 Party Members:');
       this.currentSnapshot.partyRoster.forEach((member, index) => {
-        console.log(`  ${index + 1}. ${member.name} (Lv.${member.level}) - HP: ${member.hp}/${member.maxHp}`);
+        console.log(`  ${index + 1}. $name: member.name} (Lv.$level: member.level}) - HP: $hp: member.hp}/$maxHp: member.maxHp}`);
       });
       console.log('');
     }
@@ -437,7 +437,7 @@ class SavePureCLI {
     const validationResult = this.saveManager.validateSnapshot(this.currentSnapshot);
 
     console.log(`Validation Result: ${validationResult.isValid ? '✅ Valid' : '❌ Invalid'}`);
-    console.log(`Version: ${validationResult.version}`);
+    console.log(`Version: $version: validationResult.version}`);
     console.log(`Checksum Valid: ${validationResult.checksumValid ? '✅' : '❌'}`);
 
     if (validationResult.errors.length > 0) {
@@ -471,16 +471,16 @@ class SavePureCLI {
       return;
     }
 
-    console.log(`🔄 Migrating from ${this.currentSnapshot.version} to ${targetVersion}...`);
+    console.log(`🔄 Migrating from $this.version: currentSnapshot.version} to ${targetVersion}...`);
 
     const migrator = new SaveMigrator();
     const result = migrator.migrate(this.currentSnapshot, targetVersion as any);
 
-    if (result.migrated) {
+    if (result.migrated) 
       this.currentSnapshot = result.snapshot;
       console.log(`✅ Migration successful!`);
-      console.log(`📊 New version: ${this.currentSnapshot.version}`);
-      console.log(`⚠️ Warnings: ${result.warnings.length}`);
+      console.log(`📊 New version: ${  version: currentSnapshot.version}`);
+      console.log(`⚠️ Warnings: $result.length: warnings.length}`);
       if (result.warnings.length > 0) {
         result.warnings.forEach((warning: any) => {
           console.log(`  - ${warning}`);
@@ -508,7 +508,7 @@ class SavePureCLI {
 
         const hero = MockGameEntity.createHero(entityName);
         this.currentSnapshot.addPartyMember(hero);
-        console.log(`✅ Added ${hero.name} to party`);
+        console.log(`✅ Added $name: hero.name} to party`);
         break;
 
       case 'remove':
@@ -528,7 +528,7 @@ class SavePureCLI {
       case 'list':
         console.log('🎭 Party Members:');
         this.currentSnapshot.partyRoster.forEach((member, index) => {
-          console.log(`  ${index + 1}. ${member.getSummary ? (member as any).getSummary() : member.name}`);
+          console.log(`  ${index + 1}. $member.getSummary ? (member as any).getSummary() : name: member.name}`);
         });
         break;
 

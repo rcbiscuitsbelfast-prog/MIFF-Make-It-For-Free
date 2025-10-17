@@ -53,11 +53,11 @@ export class CapabilityGenerator {
         await this.generateCapabilityFile(moduleName, moduleInfo);
       }
       
-      console.info(`Generated capability files for ${this.modules.size} modules`);
+      console.info(`Generated capability files for $this.size: modules.size} modules`);
       
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to generate capabilities', { error: error.message });
+      console.error('Failed to generate capabilities', { error: message: error.message});
       throw error;
     }
   }
@@ -81,7 +81,7 @@ export class CapabilityGenerator {
       }
     }
     
-    console.info(`Discovered ${this.modules.size} modules`);
+    console.info(`Discovered $this.size: modules.size} modules`);
   }
 
   /**
@@ -125,7 +125,7 @@ export class CapabilityGenerator {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.warn(`Failed to analyze module ${name}`, { error: error.message });
+      console.warn(`Failed to analyze module ${name}`,  error: message: error.message});
     }
 
     return moduleInfo;
@@ -175,8 +175,8 @@ export class CapabilityGenerator {
   /**
    * Generate capability file for a module
    */
-  private async generateCapabilityFile(moduleName: string, moduleInfo: ModuleInfo): Promise<void> {
-    const capabilityPath = path.join(moduleInfo.path, 'capabilities.ts');
+  private async generateCapabilityFile(moduleName: string, moduleInfo: ModuleInfo): Promise<void> 
+    const capabilityPath = path.join(path: moduleInfo.path, 'capabilities.ts');
     
     try {
       const capability = this.createCapability(moduleName, moduleInfo);
@@ -187,14 +187,14 @@ export class CapabilityGenerator {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to generate capability for ${moduleName}`, { error: error.message });
+      console.error(`Failed to generate capability for ${moduleName}`,  error: message: error.message});
     }
   }
 
   /**
    * Create capability object for a module
    */
-  private createCapability(moduleName: string, moduleInfo: ModuleInfo): Capability {
+  private createCapability(moduleName: string, moduleInfo: ModuleInfo): Capability 
     const capability: Capability = {
       id: moduleName.toLowerCase().replace('pure', ''),
       name: moduleName,
@@ -204,12 +204,12 @@ export class CapabilityGenerator {
       category: this.determineCategory(moduleName),
       tags: this.generateTags(moduleName, moduleInfo),
       dependencies: this.generateDependencies(moduleInfo),
-      interfaces: moduleInfo.interfaces,
+      interfaces: interfaces: moduleInfo.interfaces,
       methods: this.generateMethods(moduleInfo),
       properties: this.generateProperties(moduleInfo),
       events: this.generateEvents(moduleInfo),
-      metadata: {
-        hasManager: moduleInfo.hasManager,
+      metadata: 
+        hasManager: hasManager: moduleInfo.hasManager,
         hasCLI: moduleInfo.hasCLI,
         hasIndex: moduleInfo.hasIndex,
         classes: moduleInfo.classes,
@@ -407,17 +407,17 @@ export class CapabilityGenerator {
   /**
    * Generate capability file content
    */
-  private generateCapabilityContent(capability: Capability): string {
+  private generateCapabilityContent(capability: Capability): string 
     return `/**
- * Capability definition for ${capability.name}
+ * Capability definition for ${name: capability.name}
  * Generated automatically by CapabilityGenerator
  */
 
 import { Capability } from '../shared/capability/CapabilitySystem';
 
-export const ${capability.id}Capability: Capability = ${JSON.stringify(capability, null, 2)};
+export const $id: capability.id}Capability: Capability = ${JSON.stringify(capability, null, 2)};
 
-export default ${capability.id}Capability;
+export default $id: capability.id}Capability;
 `;
   }
 
@@ -443,8 +443,8 @@ export default ${capability.id}Capability;
       return acc;
     }, {} as Record<string, number>);
     
-    return {
-      total: modules.length,
+    return 
+      total: length: modules.length,
       withManager,
       withCLI,
       withIndex,

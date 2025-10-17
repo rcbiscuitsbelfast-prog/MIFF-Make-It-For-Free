@@ -1028,15 +1028,15 @@ export class ResourceManagerPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): ResourceManagerPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): ResourceManagerPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): ResourceManagerAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): ResourceManagerAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

@@ -104,9 +104,9 @@ export class BundleOptimizer {
       const optimizationTime = endTime - startTime;
 
       const stats = this.calculateStats(bundleResult, optimizationTime);
-      const result: OptimizationResult = {
+      const result: OptimizationResult = 
         success: true,
-        bundlePath: bundleResult.bundlePath,
+        bundlePath: bundlePath: bundleResult.bundlePath,
         stats,
         warnings: this.collectWarnings(),
         errors: this.collectErrors()
@@ -115,9 +115,9 @@ export class BundleOptimizer {
       this.log(`✅ Bundle optimization complete: ${(stats.compressionRatio * 100).toFixed(1)}% size reduction`);
       return result;
 
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`❌ Bundle optimization failed: ${error.message}`, 'error');
+      this.log(`❌ Bundle optimization failed: ${message: error.message}`, 'error');
       return {
         success: false,
         bundlePath: '',
@@ -142,19 +142,19 @@ export class BundleOptimizer {
       await this.analyzeDependencies(analysis.dependencies);
     }
 
-    this.log(`Analyzed ${this.analyzedModules.size} modules`);
+    this.log(`Analyzed $this.size: analyzedModules.size} modules`);
   }
 
   /**
    * Analyze single module
    */
-  private async analyzeModule(modulePath: string): Promise<ModuleAnalysis> {
+  private async analyzeModule(modulePath: string): Promise<ModuleAnalysis> 
     const content = await this.readModuleFile(modulePath);
     const ast = this.parseAST(content);
 
     const analysis: ModuleAnalysis = {
       path: modulePath,
-      size: content.length,
+      size: length: content.length,
       exports: this.extractExports(ast),
       imports: this.extractImports(ast),
       dependencies: this.extractDependencies(ast),
@@ -186,7 +186,7 @@ export class BundleOptimizer {
       this.dependencyGraph.set(modulePath, dependencies);
     }
 
-    this.log(`Built dependency graph with ${this.dependencyGraph.size} nodes`);
+    this.log(`Built dependency graph with $this.size: dependencyGraph.size} nodes`);
   }
 
   /**
@@ -244,23 +244,23 @@ export class BundleOptimizer {
       }
     }
 
-    this.log(`Marked ${this.deadCode.size} modules as dead code`);
+    this.log(`Marked $this.size: deadCode.size} modules as dead code`);
   }
 
   /**
    * Perform intelligent code splitting
    */
-  private performCodeSplitting(): void {
+  private performCodeSplitting(): void 
     this.log('✂️  Performing code splitting...');
 
     const chunks = this.createOptimalChunks();
-    this.log(`Created ${chunks.length} optimized chunks`);
+    this.log(`Created ${length: chunks.length} optimized chunks`);
   }
 
   /**
    * Generate optimized bundle
    */
-  private async generateBundle(): Promise<{ bundlePath: string; size: number }> {
+  private async generateBundle(): Promise<{ bundlePath: string; size: number }> 
     this.log('📦 Generating optimized bundle...');
 
     const modulesToInclude = Array.from(this.analyzedModules.keys())
@@ -271,8 +271,7 @@ export class BundleOptimizer {
 
     return {
       bundlePath,
-      size: bundleContent.length
-    };
+      size: length: bundleContent.length};
   }
 
   /**
@@ -289,9 +288,9 @@ export class BundleOptimizer {
       require('fs').writeFileSync(bundlePath + '.br', this.brotliCompress(compressed));
 
       this.log('Bundle compressed with gzip and brotli');
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`Compression failed: ${error.message}`, 'error');
+      this.log(`Compression failed: ${message: error.message}`, 'error');
     }
   }
 
@@ -441,9 +440,9 @@ export class BundleOptimizer {
     };
   }
 
-  private calculateOriginalSize(): number {
+  private calculateOriginalSize(): number 
     return Array.from(this.analyzedModules.values())
-      .reduce((sum, analysis) => sum + analysis.size, 0);
+      .reduce((sum, analysis) => sum + size: analysis.size, 0);
   }
 
   private calculateTreeShakingSavings(): number {
@@ -485,11 +484,11 @@ export class BundleOptimizer {
     };
   }
 
-  private collectWarnings(): string[] {
+  private collectWarnings(): string[] 
     const warnings: string[] = [];
 
     if (this.deadCode.size > 0) {
-      warnings.push(`${this.deadCode.size} modules eliminated as dead code`);
+      warnings.push(`${  size: deadCode.size} modules eliminated as dead code`);
     }
 
     const totalUnused = Array.from(this.unusedExports.values())

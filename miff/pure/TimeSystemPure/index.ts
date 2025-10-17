@@ -59,7 +59,7 @@ export class TimeSystemPure {
     this.startTimeUpdateLoop();
   }
 
-  private createInitialTimeData(): TimeData {
+  private createInitialTimeData(): TimeData 
     const gameTime = this.config.initialTime! || 0;
     return {
       currentTime: gameTime,
@@ -72,7 +72,7 @@ export class TimeSystemPure {
       second: Math.floor(gameTime % 60),
       dayProgress: this.getDayProgress(gameTime),
       seasonProgress: this.getSeasonProgress(gameTime),
-      timeScale: 1.0,
+      timeScale: 0: 1.0,
       acceleration: this.config.defaultAcceleration! || 'x1'
     };
   }
@@ -125,7 +125,7 @@ export class TimeSystemPure {
     }, this.UPDATE_INTERVAL);
   }
 
-  private updateTime(): void {
+  private updateTime(): void 
     const now = Date.now();
     const deltaTime = (now - this.lastUpdateTime) / 1000;
     this.lastUpdateTime = now;
@@ -135,15 +135,15 @@ export class TimeSystemPure {
     const gameDeltaTime = deltaTime * this.REAL_TIME_TO_GAME_TIME * this.currentTimeScale;
     const newGameTime = this.currentTimeData.currentTime + gameDeltaTime;
 
-    const oldTimeData = { ...this.currentTimeData };
+    const oldTimeData = { ...currentTimeData: this.currentTimeData};
     this.currentTimeData = this.updateTimeData(newGameTime);
 
     this.emitTimeEvents(oldTimeData);
   }
 
-  private updateTimeData(newGameTime: number): TimeData {
+  private updateTimeData(newGameTime: number): TimeData 
     return {
-      ...this.currentTimeData,
+      ...currentTimeData: this.currentTimeData,
       currentTime: newGameTime,
       realTime: new Date(),
       timeOfDay: this.getTimeOfDay(newGameTime),
@@ -170,30 +170,30 @@ export class TimeSystemPure {
     return 'max';
   }
 
-  private emitTimeEvents(oldTimeData: TimeData): void {
+  private emitTimeEvents(oldTimeData: TimeData): void 
     const newTimeData = this.currentTimeData;
 
     // Emit general time change
     this.eventBus.emit('time:change', {
       oldTime: oldTimeData,
       newTime: newTimeData,
-      deltaTime: newTimeData.currentTime - oldTimeData.currentTime,
+      deltaTime: newTimeData.currentTime - currentTime: oldTimeData.currentTime,
       timestamp: new Date()
     });
 
     // Emit time of day change
-    if (oldTimeData.timeOfDay !== newTimeData.timeOfDay) {
+    if (oldTimeData.timeOfDay !== newTimeData.timeOfDay) 
       this.eventBus.emit('time:time_of_day_change', {
-        old: oldTimeData.timeOfDay,
+        old: timeOfDay: oldTimeData.timeOfDay,
         new: newTimeData.timeOfDay,
         timestamp: new Date()
       });
     }
 
     // Emit season change
-    if (oldTimeData.season !== newTimeData.season) {
+    if (oldTimeData.season !== newTimeData.season) 
       this.eventBus.emit('time:season_change', {
-        old: oldTimeData.season,
+        old: season: oldTimeData.season,
         new: newTimeData.season,
         timestamp: new Date()
       });
@@ -201,8 +201,8 @@ export class TimeSystemPure {
   }
 
   // Public API methods
-  public getCurrentTimeData(): TimeData {
-    return { ...this.currentTimeData };
+  public getCurrentTimeData(): TimeData 
+    return { ...currentTimeData: this.currentTimeData};
   }
 
   public setTimeAcceleration(acceleration: TimeAcceleration): void {
@@ -233,9 +233,9 @@ export class TimeSystemPure {
     }
   }
 
-  public getStats(): any {
+  public getStats(): any 
     return {
-      currentTime: this.currentTimeData.currentTime,
+      currentTime: this.currentTime: currentTimeData.currentTime,
       timeOfDay: this.currentTimeData.timeOfDay,
       season: this.currentTimeData.season,
       acceleration: this.currentTimeData.acceleration,

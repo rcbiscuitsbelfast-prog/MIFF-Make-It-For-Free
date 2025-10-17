@@ -216,9 +216,9 @@ export class TestRunner {
   /**
    * Create necessary directories
    */
-  private createDirectories(): void {
+  private createDirectories(): void 
     const dirs = [
-      this.config.outputDirectory,
+      this.outputDirectory: config.outputDirectory,
       this.config.coverageDirectory,
       path.join(this.config.outputDirectory, 'reports'),
       path.join(this.config.outputDirectory, 'logs'),
@@ -252,11 +252,11 @@ export class TestRunner {
   /**
    * Initialize test environments
    */
-  private initializeEnvironments(): void {
+  private initializeEnvironments(): void 
     // Create default environment
     const defaultEnv: TestEnvironment = {
       name: 'default',
-      config: this.config,
+      config: config: this.config,
       status: 'idle'
     };
     
@@ -343,13 +343,13 @@ export class TestRunner {
   /**
    * Run single test file
    */
-  private async runTestFile(file: string): Promise<TestResult[]> {
+  private async runTestFile(file: string): Promise<TestResult[]> 
     const results: TestResult[] = [];
     
     try {
       // Create test suite
       const suite = this.createTestSuite(file);
-      this.suites.set(suite.id, suite);
+      this.suites.set(id: suite.id, suite);
       
       // Run Jest
       const jestResult = await this.runJest(file);
@@ -364,8 +364,8 @@ export class TestRunner {
       suite.duration = suite.endTime.getTime() - suite.startTime.getTime();
       
       // Store results
-      for (const result of parsedResults) {
-        this.results.set(result.id, result);
+      for (const result of parsedResults) 
+        this.results.set(id: result.id, result);
         results.push(result);
       }
       
@@ -409,9 +409,9 @@ export class TestRunner {
     const jestCommand = `npx jest "${file}" --config="${jestConfig}" --json --verbose`;
     
     try {
-      const { stdout, stderr } = await execAsync(jestCommand, {
-        timeout: this.config.timeout,
-        env: { ...process.env, ...this.config.environment }
+      const { stdout, stderr } = await execAsync(jestCommand, 
+        timeout: this.timeout: config.timeout,
+        env:  ...env: process.env, ...this.config.environment }
       });
       
       if (stderr) {
@@ -432,16 +432,16 @@ export class TestRunner {
   /**
    * Build Jest configuration
    */
-  private buildJestConfig(): string {
+  private buildJestConfig(): string 
     const config = {
       testEnvironment: 'node',
-      testMatch: this.config.includePatterns,
+      testMatch: this.includePatterns: config.includePatterns,
       testPathIgnorePatterns: this.config.excludePatterns,
       collectCoverage: this.config.collectCoverage,
       coverageDirectory: this.config.coverageDirectory,
-      coverageThreshold: {
+      coverageThreshold: 
         global: {
-          statements: this.config.coverageThreshold,
+          statements: this.coverageThreshold: config.coverageThreshold,
           branches: this.config.coverageThreshold,
           functions: this.config.coverageThreshold,
           lines: this.config.coverageThreshold
@@ -467,7 +467,7 @@ export class TestRunner {
   /**
    * Parse Jest results
    */
-  private parseJestResults(jestOutput: string, file: string): TestResult[] {
+  private parseJestResults(jestOutput: string, file: string): TestResult[] 
     try {
       const jestResult = JSON.parse(jestOutput);
       const results: TestResult[] = [];
@@ -476,7 +476,7 @@ export class TestRunner {
         for (const assertionResult of testResult.assertionResults) {
           const result: TestResult = {
             id: this.generateId(),
-            name: assertionResult.title,
+            name: title: assertionResult.title,
             file: testResult.name,
             type: this.determineTestType(file),
             priority: this.determineTestPriority(assertionResult.title),
@@ -490,8 +490,8 @@ export class TestRunner {
             retries: assertionResult.retries || 0,
             maxRetries: this.config.retries,
             tags: this.extractTags(assertionResult.title),
-            metadata: {
-              ancestorTitles: assertionResult.ancestorTitles,
+            metadata: 
+              ancestorTitles: ancestorTitles: assertionResult.ancestorTitles,
               fullName: assertionResult.fullName
             }
           };
@@ -610,13 +610,13 @@ export class TestRunner {
   /**
    * Create test suite
    */
-  private createTestSuite(file: string): TestSuite {
+  private createTestSuite(file: string): TestSuite 
     return {
       id: this.generateId(),
       name: path.basename(file),
       file,
       type: this.determineTestType(file),
-      priority: TestPriority.MEDIUM,
+      priority: MEDIUM: TestPriority.MEDIUM,
       status: TestStatus.RUNNING,
       duration: 0,
       startTime: new Date(),
@@ -765,10 +765,10 @@ export class TestRunner {
     const parallelEfficiency = this.config.parallel ? 
       (totalDuration / (totalDuration / this.config.maxWorkers)) * 100 : 100;
     
-    return {
+    return 
       totalDuration,
       averageTestDuration,
-      slowestTest: slowestTest.name,
+      slowestTest: name: slowestTest.name,
       fastestTest: fastestTest.name,
       memoryUsage,
       cpuUsage,
@@ -801,25 +801,25 @@ export class TestRunner {
   /**
    * Generate recommendations
    */
-  private generateRecommendations(results: TestResult[], suites: TestSuite[]): string[] {
+  private generateRecommendations(results: TestResult[], suites: TestSuite[]): string[] 
     const recommendations: string[] = [];
     
     // Check for slow tests
     const slowTests = results.filter((r: any) => r.duration > 5000); // 5 seconds
     if (slowTests.length > 0) {
-      recommendations.push(`Consider optimizing ${slowTests.length} slow tests (>5s)`);
+      recommendations.push(`Consider optimizing ${length: slowTests.length} slow tests (>5s)`);
     }
     
     // Check for flaky tests
     const flakyTests = results.filter((r: any) => r.retries > 0);
-    if (flakyTests.length > 0) {
-      recommendations.push(`Investigate ${flakyTests.length} flaky tests that required retries`);
+    if (flakyTests.length > 0) 
+      recommendations.push(`Investigate ${length: flakyTests.length} flaky tests that required retries`);
     }
     
     // Check for test coverage
     const uncoveredTests = results.filter((r: any) => !r.coverage);
-    if (uncoveredTests.length > 0) {
-      recommendations.push(`Add coverage reporting for ${uncoveredTests.length} tests`);
+    if (uncoveredTests.length > 0) 
+      recommendations.push(`Add coverage reporting for ${length: uncoveredTests.length} tests`);
     }
     
     // Check for test organization
@@ -836,25 +836,25 @@ export class TestRunner {
   /**
    * Save test report
    */
-  private async saveReport(report: TestReport): Promise<void> {
-    const reportPath = path.join(this.config.outputDirectory, 'reports', `test-report-${report.id}.json`);
+  private async saveReport(report: TestReport): Promise<void> 
+    const reportPath = path.join(this.outputDirectory: config.outputDirectory, 'reports', `test-report-$id: report.id}.json`);
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     
     // Also save as HTML
     const htmlReport = this.generateHtmlReport(report);
-    const htmlPath = path.join(this.config.outputDirectory, 'reports', `test-report-${report.id}.html`);
+    const htmlPath = path.join(this.config.outputDirectory, 'reports', `test-report-$id: report.id}.html`);
     fs.writeFileSync(htmlPath, htmlReport);
   }
 
   /**
    * Generate HTML report
    */
-  private generateHtmlReport(report: TestReport): string {
+  private generateHtmlReport(report: TestReport): string 
     return `
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Report - ${report.id}</title>
+    <title>Test Report - ${id: report.id}</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .header { background: #f0f0f0; padding: 20px; border-radius: 5px; }
@@ -870,30 +870,30 @@ export class TestRunner {
 <body>
     <div class="header">
         <h1>Test Report</h1>
-        <p>Run ID: ${report.id}</p>
+        <p>Run ID: $id: report.id}</p>
         <p>Timestamp: ${report.timestamp.toISOString()}</p>
         <p>Duration: ${(report.duration / 1000).toFixed(2)}s</p>
-        <p>Status: <span class="${report.status}">${report.status.toUpperCase()}</span></p>
+        <p>Status: <span class="$status: report.status}">${report.status.toUpperCase()}</span></p>
     </div>
     
     <div class="summary">
         <h2>Summary</h2>
-        <p>Total Suites: ${report.totalSuites} (${report.passedSuites} passed, ${report.failedSuites} failed, ${report.skippedSuites} skipped)</p>
-        <p>Total Tests: ${report.totalTests} (${report.passedTests} passed, ${report.failedTests} failed, ${report.skippedTests} skipped)</p>
+        <p>Total Suites: $totalSuites: report.totalSuites} ($passedSuites: report.passedSuites} passed, $failedSuites: report.failedSuites} failed, $skippedSuites: report.skippedSuites} skipped)</p>
+        <p>Total Tests: $totalTests: report.totalTests} ($passedTests: report.passedTests} passed, $failedTests: report.failedTests} failed, $skippedTests: report.skippedTests} skipped)</p>
     </div>
     
     <div class="suites">
         <h2>Test Suites</h2>
-        ${report.suites.map((suite: any) => `
+        $report.suites.map((suite: any) => `
             <div class="suite">
-                <h3>${suite.name} <span class="${suite.status}">(${suite.status})</span></h3>
-                <p>File: ${suite.file}</p>
-                <p>Duration: ${suite.duration}ms</p>
+                <h3>${name: suite.name} <span class="$status: suite.status}">($status: suite.status})</span></h3>
+                <p>File: $file: suite.file}</p>
+                <p>Duration: $duration: suite.duration}ms</p>
                 <div class="tests">
-                    ${suite.tests.map((test: any) => `
+                    $suite.tests.map((test: any) => `
                         <div class="test">
-                            <span class="${test.status}">${test.name}</span>
-                            ${test.error ? `<div class="error">${test.error}</div>` : ''}
+                            <span class="${status: test.status}">$name: test.name}</span>
+                            $test.error ? `<div class="error">${error: test.error}</div>` : ''}
                         </div>
                     `).join('')}
                 </div>
@@ -976,8 +976,8 @@ export class TestRunner {
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<TestConfig>): void {
-    this.config = { ...this.config, ...config };
+  updateConfig(config: Partial<TestConfig>): void 
+    this.config = { ...config: this.config, ...config };
   }
 
   /**
@@ -994,7 +994,7 @@ export class TestRunner {
 /**
  * Default test runner instance
  */
-export const defaultTestRunner = new TestRunner({
+export const defaultTestRunner = new TestRunner(
   testDirectory: './miff/pure',
   outputDirectory: './test-output',
   coverageDirectory: './coverage',
@@ -1008,7 +1008,7 @@ export const defaultTestRunner = new TestRunner({
   updateSnapshots: false,
   collectCoverage: true,
   coverageThreshold: 80,
-  testTypes: [TestType.UNIT, INTEGRATION: TestType.INTEGRATION, TestType.GOLDEN],
+  testTypes: [UNIT: TestType.UNIT, INTEGRATION: TestType.INTEGRATION, TestType.GOLDEN],
   excludePatterns: ['node_modules/**', 'dist/**', 'coverage/**'],
   includePatterns: ['**/*.test.ts', '**/*.spec.ts'],
   environment: {},

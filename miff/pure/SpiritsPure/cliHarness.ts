@@ -22,7 +22,7 @@ import {
 } from './index';
 
 // CLI Application
-class SpiritsPureCLI {
+class SpiritsPureCLI 
   private rl: readline.Interface;
   private collection: SpiritCollection;
   private filter: SpiritFilter;
@@ -31,7 +31,7 @@ class SpiritsPureCLI {
 
   constructor() {
     this.rl = readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout
     });
 
@@ -43,7 +43,7 @@ class SpiritsPureCLI {
   /**
    * Start CLI application
    */
-  start(): void {
+  start(): void 
     console.log('='.repeat(70));
     console.log('👻 SpiritsPure CLI - Spirit Collection Management');
     console.log('='.repeat(70));
@@ -65,8 +65,8 @@ class SpiritsPureCLI {
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
     console.log('');
-    console.log(`Current collection: ${this.collection.totalSpirits} spirits`);
-    console.log(`Captured: ${this.collection.capturedCount} (${this.collection.completionPercentage.toFixed(1)}%)`);
+    console.log(`Current collection: ${  totalSpirits: collection.totalSpirits} spirits`);
+    console.log(`Captured: $this.capturedCount: collection.capturedCount} (${this.collection.completionPercentage.toFixed(1)}%)`);
 
     this.showPrompt();
   }
@@ -204,7 +204,7 @@ class SpiritsPureCLI {
     }
 
     console.log('='.repeat(70));
-    console.log(`👻 Spirits (${spirits.length} shown)`);
+    console.log(`👻 Spirits ($length: spirits.length} shown)`);
     console.log('='.repeat(70));
 
     if (spirits.length === 0) {
@@ -218,13 +218,13 @@ class SpiritsPureCLI {
       const statusIcon = spirit.isCaptured ? '✅' : '❌';
       const favoriteIcon = spirit.isFavorite ? '⭐' : '  ';
 
-      console.log(`${index + 1}. ${typeIcon} ${spirit.spiritName} ${rarityIcon}`);
-      console.log(`    ${favoriteIcon} ${statusIcon} Lv.${spirit.level} | Sync: ${spirit.syncLevel}% | ${spirit.getTypeDescription()}`);
-      console.log(`    ID: ${spirit.spiritId} | ${spirit.getSyncDescription()}`);
+      console.log(`${index + 1}. ${typeIcon} $spiritName: spirit.spiritName} ${rarityIcon}`);
+      console.log(`    ${favoriteIcon} ${statusIcon} Lv.$level: spirit.level} | Sync: $syncLevel: spirit.syncLevel}% | ${spirit.getTypeDescription()}`);
+      console.log(`    ID: $spiritId: spirit.spiritId} | ${spirit.getSyncDescription()}`);
       console.log('');
     });
 
-    console.log(`Total: ${this.collection.totalSpirits} | Captured: ${this.collection.capturedCount} | Completion: ${this.collection.completionPercentage.toFixed(1)}%`);
+    console.log(`Total: $this.totalSpirits: collection.totalSpirits} | Captured: $this.capturedCount: collection.capturedCount} | Completion: ${this.collection.completionPercentage.toFixed(1)}%`);
   }
 
   /**
@@ -247,7 +247,7 @@ class SpiritsPureCLI {
     );
 
     this.collection.addSpirit(spirit);
-    console.log(`✅ Added ${name} to collection (ID: ${spirit.spiritId})`);
+    console.log(`✅ Added ${name} to collection (ID: $spiritId: spirit.spiritId})`);
   }
 
   /**
@@ -279,7 +279,7 @@ class SpiritsPureCLI {
 
     const results = this.collection.searchSpirits(query);
 
-    console.log(`🔍 Search results for "${query}" (${results.length} found):`);
+    console.log(`🔍 Search results for "${query}" ($length: results.length} found):`);
 
     if (results.length === 0) {
       console.log('No spirits found.');
@@ -289,8 +289,8 @@ class SpiritsPureCLI {
     results.forEach((spirit, index) => {
       const typeIcon = this.getTypeIcon(spirit.primaryType);
       const statusIcon = spirit.isCaptured ? '✅' : '❌';
-      console.log(`${index + 1}. ${typeIcon} ${spirit.spiritName} ${statusIcon}`);
-      console.log(`    ${spirit.getTypeDescription()} | Lv.${spirit.level} | ID: ${spirit.spiritId}`);
+      console.log(`${index + 1}. ${typeIcon} $spiritName: spirit.spiritName} ${statusIcon}`);
+      console.log(`    ${spirit.getTypeDescription()} | Lv.$level: spirit.level} | ID: $spiritId: spirit.spiritId}`);
       console.log('');
     });
   }
@@ -396,8 +396,8 @@ class SpiritsPureCLI {
       return;
     }
 
-    if (spirit.isCaptured) {
-      console.log(`ℹ️ ${spirit.spiritName} is already captured`);
+    if (spirit.isCaptured) 
+      console.log(`ℹ️ ${spiritName: spirit.spiritName} is already captured`);
       return;
     }
 
@@ -406,9 +406,9 @@ class SpiritsPureCLI {
     spirit.captureLevel = spirit.level;
     spirit.syncLevel = Math.floor(Math.random() * 100); // Random sync level
 
-    console.log(`✅ Captured ${spirit.spiritName}!`);
-    console.log(`📊 Sync Level: ${spirit.syncLevel}%`);
-    console.log(`📈 Collection: ${this.collection.capturedCount}/${this.collection.totalSpirits} captured (${this.collection.completionPercentage.toFixed(1)}%)`);
+    console.log(`✅ Captured $spiritName: spirit.spiritName}!`);
+    console.log(`📊 Sync Level: $syncLevel: spirit.syncLevel}%`);
+    console.log(`📈 Collection: $this.capturedCount: collection.capturedCount}/$this.totalSpirits: collection.totalSpirits} captured (${this.collection.completionPercentage.toFixed(1)}%)`);
   }
 
   /**
@@ -426,8 +426,8 @@ class SpiritsPureCLI {
       return;
     }
 
-    if (!spirit.isCaptured) {
-      console.log(`ℹ️ ${spirit.spiritName} is not captured`);
+    if (!spirit.isCaptured) 
+      console.log(`ℹ️ ${spiritName: spirit.spiritName} is not captured`);
       return;
     }
 
@@ -436,8 +436,8 @@ class SpiritsPureCLI {
     spirit.captureLocation = undefined;
     spirit.captureLevel = undefined;
 
-    console.log(`✅ Released ${spirit.spiritName} back into the wild`);
-    console.log(`📉 Collection: ${this.collection.capturedCount}/${this.collection.totalSpirits} captured (${this.collection.completionPercentage.toFixed(1)}%)`);
+    console.log(`✅ Released $spiritName: spirit.spiritName} back into the wild`);
+    console.log(`📉 Collection: $this.capturedCount: collection.capturedCount}/$this.totalSpirits: collection.totalSpirits} captured (${this.collection.completionPercentage.toFixed(1)}%)`);
   }
 
   /**
@@ -457,35 +457,35 @@ class SpiritsPureCLI {
 
     spirit.isFavorite = !spirit.isFavorite;
     const status = spirit.isFavorite ? 'added to favorites' : 'removed from favorites';
-    console.log(`⭐ ${spirit.spiritName} ${status}`);
+    console.log(`⭐ $spiritName: spirit.spiritName} ${status}`);
   }
 
   /**
    * Show collection statistics
    */
-  private showStatistics(): void {
+  private showStatistics(): void 
     const stats = this.collection.getStatistics();
 
     console.log('='.repeat(70));
     console.log('📊 Collection Statistics');
     console.log('='.repeat(70));
-    console.log(`Total Spirits: ${stats.total}`);
-    console.log(`Captured: ${stats.captured} (${stats.completionPercentage.toFixed(1)}%)`);
-    console.log(`Uncaptured: ${stats.uncaptured}`);
-    console.log(`Favorites: ${stats.favorites}`);
+    console.log(`Total Spirits: ${total: stats.total}`);
+    console.log(`Captured: $captured: stats.captured} (${stats.completionPercentage.toFixed(1)}%)`);
+    console.log(`Uncaptured: $uncaptured: stats.uncaptured}`);
+    console.log(`Favorites: $favorites: stats.favorites}`);
     console.log('');
     console.log(`Average Level: ${stats.averageLevel.toFixed(1)}`);
     console.log(`Average Sync: ${stats.averageSync.toFixed(1)}%`);
-    console.log(`Highest Level: ${stats.highestLevel}`);
-    console.log(`Highest Sync: ${stats.highestSync}%`);
+    console.log(`Highest Level: $highestLevel: stats.highestLevel}`);
+    console.log(`Highest Sync: $highestSync: stats.highestSync}%`);
     console.log('');
-    console.log(`Unique Types: ${stats.totalTypes}`);
-    console.log(`Unique Rarities: ${stats.uniqueRarities}`);
-    console.log(`Unique Regions: ${stats.uniqueRegions}`);
-    console.log(`Unique Generations: ${stats.uniqueGenerations}`);
+    console.log(`Unique Types: $totalTypes: stats.totalTypes}`);
+    console.log(`Unique Rarities: $uniqueRarities: stats.uniqueRarities}`);
+    console.log(`Unique Regions: $uniqueRegions: stats.uniqueRegions}`);
+    console.log(`Unique Generations: $uniqueGenerations: stats.uniqueGenerations}`);
     console.log('');
-    console.log(`Evolved: ${stats.evolvedCount}`);
-    console.log(`Unevolved: ${stats.unevolvedCount}`);
+    console.log(`Evolved: $evolvedCount: stats.evolvedCount}`);
+    console.log(`Unevolved: $unevolvedCount: stats.unevolvedCount}`);
   }
 
   /**
@@ -502,7 +502,7 @@ class SpiritsPureCLI {
     console.log('📋 By Type:');
     Object.entries(typeCompletion).forEach(([type, stats]) => {
       if (stats.total > 0) {
-        console.log(`  ${type}: ${stats.captured}/${stats.total} (${stats.percentage.toFixed(1)}%)`);
+        console.log(`  ${type}: $captured: stats.captured}/$total: stats.total} (${stats.percentage.toFixed(1)}%)`);
       }
     });
 
@@ -510,7 +510,7 @@ class SpiritsPureCLI {
     console.log('🏆 By Rarity:');
     Object.entries(rarityCompletion).forEach(([rarity, stats]) => {
       if (stats.total > 0) {
-        console.log(`  ${rarity}: ${stats.captured}/${stats.total} (${stats.percentage.toFixed(1)}%)`);
+        console.log(`  ${rarity}: $captured: stats.captured}/$total: stats.total} (${stats.percentage.toFixed(1)}%)`);
       }
     });
   }
@@ -531,49 +531,49 @@ class SpiritsPureCLI {
     }
 
     console.log('='.repeat(70));
-    console.log(`👻 ${spirit.spiritName} - Detailed Info`);
+    console.log(`👻 $spiritName: spirit.spiritName} - Detailed Info`);
     console.log('='.repeat(70));
 
-    console.log(`ID: ${spirit.spiritId}`);
-    console.log(`Name: ${spirit.spiritName}`);
+    console.log(`ID: $spiritId: spirit.spiritId}`);
+    console.log(`Name: $spiritName: spirit.spiritName}`);
     console.log(`Nickname: ${spirit.nickname || 'None'}`);
-    console.log(`Description: ${spirit.description}`);
+    console.log(`Description: $description: spirit.description}`);
     console.log('');
     console.log(`Type: ${this.getTypeIcon(spirit.primaryType)} ${spirit.getTypeDescription()}`);
     console.log(`Rarity: ${this.getRarityIcon(spirit.rarity)} ${spirit.getRarityDescription()}`);
-    console.log(`Level: ${spirit.level} (Exp: ${spirit.experience}/${spirit.maxExperience})`);
-    console.log(`Sync Level: ${spirit.syncLevel}% - ${spirit.getSyncDescription()}`);
-    console.log(`Evolution Stage: ${spirit.evolutionStage}`);
+    console.log(`Level: $level: spirit.level} (Exp: $experience: spirit.experience}/$maxExperience: spirit.maxExperience})`);
+    console.log(`Sync Level: $syncLevel: spirit.syncLevel}% - ${spirit.getSyncDescription()}`);
+    console.log(`Evolution Stage: $evolutionStage: spirit.evolutionStage}`);
     console.log('');
     console.log(`Status: ${spirit.isCaptured ? '✅ Captured' : '❌ Uncaptured'}`);
     console.log(`Favorite: ${spirit.isFavorite ? '⭐ Yes' : '☆ No'}`);
     if (spirit.captureDate) {
-      console.log(`Captured: ${spirit.captureDate.toLocaleDateString()} (Lv.${spirit.captureLevel})`);
+      console.log(`Captured: ${spirit.captureDate.toLocaleDateString()} (Lv.$captureLevel: spirit.captureLevel})`);
     }
     console.log('');
-    console.log(`Region: ${spirit.region}`);
-    console.log(`Generation: ${spirit.generation}`);
+    console.log(`Region: $region: spirit.region}`);
+    console.log(`Generation: $generation: spirit.generation}`);
     console.log(`Habitat: ${spirit.getHabitatDescription()}`);
     console.log('');
     console.log('📊 Stats:');
-    console.log(`  HP: ${spirit.stats.hp}`);
-    console.log(`  Attack: ${spirit.stats.attack}`);
-    console.log(`  Defense: ${spirit.stats.defense}`);
-    console.log(`  Sp. Attack: ${spirit.stats.specialAttack}`);
-    console.log(`  Sp. Defense: ${spirit.stats.specialDefense}`);
-    console.log(`  Speed: ${spirit.stats.speed}`);
+    console.log(`  HP: $spirit.hp: stats.hp}`);
+    console.log(`  Attack: $spirit.attack: stats.attack}`);
+    console.log(`  Defense: $spirit.defense: stats.defense}`);
+    console.log(`  Sp. Attack: $spirit.specialAttack: stats.specialAttack}`);
+    console.log(`  Sp. Defense: $spirit.specialDefense: stats.specialDefense}`);
+    console.log(`  Speed: $spirit.speed: stats.speed}`);
     console.log('');
     console.log(`Abilities: ${spirit.abilities.join(', ')}`);
     console.log(`Hidden Abilities: ${spirit.hiddenAbilities.join(', ')}`);
     console.log('');
-    console.log(`Height: ${spirit.height}m | Weight: ${spirit.weight}kg`);
-    console.log(`Catch Rate: ${spirit.catchRate}`);
-    console.log(`Friendship: ${spirit.friendship}`);
-    console.log(`Growth Rate: ${spirit.growthRate}`);
+    console.log(`Height: $height: spirit.height}m | Weight: $weight: spirit.weight}kg`);
+    console.log(`Catch Rate: $catchRate: spirit.catchRate}`);
+    console.log(`Friendship: $friendship: spirit.friendship}`);
+    console.log(`Growth Rate: $growthRate: spirit.growthRate}`);
     console.log('');
-    console.log(`Moves: ${spirit.moves.length}/4`);
-    spirit.moves.forEach((move: any) => {
-      console.log(`  - ${move.name} (${move.type}, ${move.power} power)`);
+    console.log(`Moves: $spirit.length: moves.length}/4`);
+    spirit.moves.forEach((move: any) => 
+      console.log(`  - ${name: move.name} ($type: move.type}, $power: move.power} power)`);
     });
   }
 

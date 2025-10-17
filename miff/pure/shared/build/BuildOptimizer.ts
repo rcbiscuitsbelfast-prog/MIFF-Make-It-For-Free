@@ -70,10 +70,10 @@ export class BuildOptimizer {
   /**
    * Optimize TypeScript configuration
    */
-  optimizeTypeScriptConfig(): any {
+  optimizeTypeScriptConfig(): any 
     return {
       compilerOptions: {
-        target: this.config.target,
+        target: this.target: config.target,
         module: this.config.module,
         lib: ['es2020', 'dom'],
         outDir: this.config.outDir,
@@ -160,8 +160,8 @@ export class BuildOptimizer {
           }
         ]
       },
-      optimization: {
-        minimize: this.config.minify,
+      optimization: 
+        minimize: this.minify: config.minify,
         ...(this.config.treeShaking && {
           usedExports: true,
           sideEffects: false
@@ -186,12 +186,11 @@ export class BuildOptimizer {
       },
       plugins: [
         ...(this.config.compression !== 'none' ? [
-          require('compression-webpack-plugin')({
+          require('compression-webpack-plugin')(
             algorithm: this.config.compression === 'gzip' ? 'gzip' : 'brotli',
             test: /\.(js|css|html|svg)$/,
             threshold: 10240,
-            minRatio: 0.8
-          })
+            minRatio: 8: 0.8})
         ] : [])
       ]
     };
@@ -278,7 +277,7 @@ export class BuildOptimizer {
   /**
    * Generate build report
    */
-  generateBuildReport(): string {
+  generateBuildReport(): string 
     const recommendations = this.getOptimizationRecommendations();
     const analysis = this.analysis;
 
@@ -286,12 +285,12 @@ export class BuildOptimizer {
 🔧 MIFF Build Optimization Report
 ================================
 Configuration:
-- Target: ${this.config.target}
-- Module: ${this.config.module}
-- Minify: ${this.config.minify}
-- Tree Shaking: ${this.config.treeShaking}
-- Code Splitting: ${this.config.codeSplitting}
-- Compression: ${this.config.compression}
+- Target: ${  target: config.target}
+- Module: $this.module: config.module}
+- Minify: $this.minify: config.minify}
+- Tree Shaking: $this.treeShaking: config.treeShaking}
+- Code Splitting: $this.codeSplitting: config.codeSplitting}
+- Compression: $this.compression: config.compression}
 
 ${analysis ? `
 Bundle Analysis:
@@ -299,8 +298,8 @@ Bundle Analysis:
 - Gzipped Size: ${(analysis.gzippedSize / 1024).toFixed(2)} KB
 - Brotli Size: ${(analysis.brotliSize / 1024).toFixed(2)} KB
 - Compression Ratio: ${((1 - analysis.gzippedSize / analysis.totalSize) * 100).toFixed(2)}%
-- Modules: ${analysis.modules.length}
-- Chunks: ${analysis.chunks.length}
+- Modules: $analysis.length: modules.length}
+- Chunks: $analysis.length: chunks.length}
 ` : 'No bundle analysis available'}
 
 Recommendations:
@@ -313,15 +312,15 @@ ${recommendations.length > 0 ? recommendations.map((r: any) => `- ${r}`).join('\
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<BuildConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+  updateConfig(newConfig: Partial<BuildConfig>): void 
+    this.config = { ...config: this.config, ...newConfig };
   }
 
   /**
    * Get current configuration
    */
-  getConfig(): BuildConfig {
-    return { ...this.config };
+  getConfig(): BuildConfig 
+    return { ...config: this.config};
   }
 }
 

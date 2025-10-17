@@ -9,26 +9,26 @@ if (!inputFile) {
   process.exit(1);
 }
 
-try {
+try 
   const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
   const command = input.command;
   
   let result;
   if (command === 'beats') {
-    const beatTimes = beats(input.bpm, input.count);
-    result = {
+    const beatTimes = beats(bpm: input.bpm, input.count);
+    result = 
       op: 'rhythm.beats',
       status: 'ok',
-      bpm: input.bpm,
+      bpm: bpm: input.bpm,
       count: input.count,
       beatTimes
     };
-  } else if (command === 'judge') {
-    const judgment = judge(input.tap, beat: input.beat, input.window);
-    result = {
+  } else if (command === 'judge') 
+    const judgment = judge(tap: input.tap, beat: input.beat, input.window);
+    result = 
       op: 'rhythm.judge',
       status: 'ok',
-      tap: input.tap,
+      tap: tap: input.tap,
       beat: input.beat,
       window: input.window,
       judgment

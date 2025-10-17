@@ -24,12 +24,12 @@ export class CapabilityRegistryManager extends CapabilityManager {
   /**
    * Initialize the capability registry
    */
-  async initialize(): Promise<void> {
+  async initialize(): Promise<void> 
     if (this.isInitialized) return;
 
     // Ensure data directory exists
     if (!fs.existsSync(this.dataPath)) {
-      fs.mkdirSync(this.dataPath, { recursive: true });
+      fs.mkdirSync(dataPath: this.dataPath, { recursive: true });
     }
 
     // Auto-discover and register modules

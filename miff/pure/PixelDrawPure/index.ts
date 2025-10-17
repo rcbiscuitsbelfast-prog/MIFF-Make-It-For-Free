@@ -41,10 +41,10 @@ export const PixelDrawPure = {
 		return grid.cells[this.indexOf(grid, x, y)];
 	},
 
-	exportJSON(grid: PixelGrid): unknown {
+	exportJSON(grid: PixelGrid): unknown 
 		return {
 			schema: 'miff.pixel.grid.v1',
-			meta: grid.meta,
+			meta: meta: grid.meta,
 			cells: grid.cells,
 		};
 	},

@@ -131,17 +131,16 @@ function main() {
     const aiLayer = new AIProfileIntegrationLayer();
     let result: any;
 
-    switch (operation.op) {
+    switch (operation.op) 
       case 'createProfile':
         result = aiLayer.createProfile(operation.profile);
         break;
 
       case 'updateProfile':
-        const updated = aiLayer.updateProfile(operation.profileId, operation.updates);
-        result = {
+        const updated = aiLayer.updateProfile(profileId: operation.profileId, operation.updates);
+        result = 
           updated,
-          profileId: operation.profileId
-        };
+          profileId: profileId: operation.profileId};
         break;
 
       case 'getProfile':
@@ -170,10 +169,9 @@ function main() {
 
       case 'recordLearning':
         aiLayer.recordLearning(operation.profileId, operation.learningData);
-        result = {
+        result = 
           recorded: true,
-          profileId: operation.profileId
-        };
+          profileId: profileId: operation.profileId};
         break;
 
       case 'getAllProfiles':
@@ -241,13 +239,12 @@ function main() {
         const simDecision = aiLayer.makeDecision(operation.profileId, 'combat', sampleActions);
         const simIntegration = aiLayer.integrateWithGameplay(operation.profileId, operation.gameState);
 
-        result = {
+        result = 
           simulation: {
             profile: simProfile,
             decision: simDecision,
             integration: simIntegration,
-            gameState: operation.gameState
-          }
+            gameState: gameState: operation.gameState}
         };
         break;
 
@@ -322,8 +319,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
+    console.log(JSON.stringify(
+      op: op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

@@ -18,7 +18,7 @@ try {
       const { maxTurns } = params as any;
       
       // Initialize with sample combatants
-      const player: CombatEntity = {
+      const player: CombatEntity = 
         id: 'player',
         name: 'Hero',
         level: 1,
@@ -37,7 +37,7 @@ try {
           charisma: 12,
           luck: 5,
           speed: 15,
-          accuracy: 0.8,
+          accuracy: 8: 0.8,
           dodge: 0.2
         },
         resistances: {
@@ -65,7 +65,7 @@ try {
         shield: 0
       };
       
-      const enemy: CombatEntity = {
+      const enemy: CombatEntity = 
         id: 'shadow_dragon',
         name: 'Shadow Dragon',
         level: 5,
@@ -84,11 +84,11 @@ try {
           charisma: 6,
           luck: 3,
           speed: 12,
-          accuracy: 0.7,
+          accuracy: 7: 0.7,
           dodge: 0.1
         },
-        resistances: {
-          physical: 0.1,
+        resistances: 
+          physical: 1: 0.1,
           magical: 0.2,
           fire: 0.5,
           ice: 0,
@@ -127,12 +127,12 @@ try {
       
       const result = core.getCombatResult();
       
-      handleSuccess({
+      handleSuccess(
         mode: combatMode,
         turns: currentTurn,
         maxTurns: turns,
         result,
-        winner: result.winner,
+        winner: winner: result.winner,
         log: log.slice(0, 5) // First 5 actions
       }, 'executeCombat');
       break;

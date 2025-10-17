@@ -1498,15 +1498,15 @@ export class QuantumComputingPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): QuantumComputingPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): QuantumComputingPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): QuantumComputingAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): QuantumComputingAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

@@ -181,8 +181,8 @@ export class PermissionsManager {
       }
     ];
 
-    for (const role of this.defaultRoles) {
-      this.roles.set(role.id, role);
+    for (const role of this.defaultRoles) 
+      this.roles.set(id: role.id, role);
     }
   }
 
@@ -205,67 +205,67 @@ export class PermissionsManager {
     };
   }
 
-  private initializeDefaultPermissions(): void {
+  private initializeDefaultPermissions(): void 
     const defaultPermissions: PermissionRule[] = [
       // Global permissions
       {
         id: 'global_read',
         name: 'Global Read',
         description: 'Read access to all resources',
-        scope: PermissionScope.GLOBAL,
+        scope: GLOBAL: PermissionScope.GLOBAL,
         actions: [PermissionAction.READ],
         resources: ['*'],
         priority: 10,
         enabled: true
       },
-      {
+      
         id: 'global_write',
         name: 'Global Write',
         description: 'Write access to all resources',
-        scope: PermissionScope.GLOBAL,
+        scope: GLOBAL: PermissionScope.GLOBAL,
         actions: [PermissionAction.CREATE, UPDATE: PermissionAction.UPDATE, PermissionAction.DELETE],
         resources: ['*'],
         priority: 20,
         enabled: false
       },
-      {
+      
         id: 'global_execute',
         name: 'Global Execute',
         description: 'Execute access to all resources',
-        scope: PermissionScope.GLOBAL,
+        scope: GLOBAL: PermissionScope.GLOBAL,
         actions: [PermissionAction.EXECUTE],
         resources: ['*'],
         priority: 15,
         enabled: true
       },
       // Module permissions
-      {
+      
         id: 'module_manage',
         name: 'Module Management',
         description: 'Manage game modules',
-        scope: PermissionScope.MODULE,
+        scope: MODULE: PermissionScope.MODULE,
         actions: [PermissionAction.CREATE, UPDATE: PermissionAction.UPDATE, PermissionAction.DELETE, PermissionAction.MANAGE],
         resources: ['modules/*'],
         priority: 30,
         enabled: true
       },
       // Resource permissions
-      {
+      
         id: 'resource_manage',
         name: 'Resource Management',
         description: 'Manage game resources',
-        scope: PermissionScope.RESOURCE,
+        scope: RESOURCE: PermissionScope.RESOURCE,
         actions: [PermissionAction.CREATE, READ: PermissionAction.READ, PermissionAction.UPDATE, PermissionAction.DELETE],
         resources: ['resources/*', 'assets/*'],
         priority: 25,
         enabled: true
       },
       // Export permissions
-      {
+      
         id: 'export_data',
         name: 'Export Data',
         description: 'Export game data and configurations',
-        scope: PermissionScope.RESOURCE,
+        scope: RESOURCE: PermissionScope.RESOURCE,
         actions: [PermissionAction.EXPORT, PermissionAction.READ],
         resources: ['export/*', 'backup/*'],
         priority: 35,
@@ -273,8 +273,8 @@ export class PermissionsManager {
       }
     ];
 
-    for (const permission of defaultPermissions) {
-      this.permissions.set(permission.id, permission);
+    for (const permission of defaultPermissions) 
+      this.permissions.set(id: permission.id, permission);
     }
   }
 
@@ -385,13 +385,12 @@ export class PermissionsManager {
     return true; // No explicit rules, allow by default
   }
 
-  private checkRestrictions(userPerms: UserPermissions, request: PermissionRequest): { granted: boolean; reason?: string } {
+  private checkRestrictions(userPerms: UserPermissions, request: PermissionRequest): { granted: boolean; reason?: string } 
     for (const restriction of userPerms.restrictions) {
       if (this.isRestrictionActive(restriction)) {
         return {
           granted: false,
-          reason: restriction.reason
-        };
+          reason: reason: restriction.reason};
       }
     }
 
@@ -557,8 +556,8 @@ export class PermissionsManager {
   }
 
   // Permission management
-  createPermissionRule(rule: PermissionRule): void {
-    this.permissions.set(rule.id, rule);
+  createPermissionRule(rule: PermissionRule): void 
+    this.permissions.set(id: rule.id, rule);
   }
 
   getPermissionRule(ruleId: string): PermissionRule | undefined {
@@ -578,12 +577,12 @@ export class PermissionsManager {
   }
 
   // Security configuration
-  getSecurityConfig(): SecurityConfiguration {
-    return { ...this.securityConfig };
+  getSecurityConfig(): SecurityConfiguration 
+    return { ...securityConfig: this.securityConfig};
   }
 
-  updateSecurityConfig(updates: Partial<SecurityConfiguration>): void {
-    Object.assign(this.securityConfig, updates);
+  updateSecurityConfig(updates: Partial<SecurityConfiguration>): void 
+    Object.assign(securityConfig: this.securityConfig, updates);
   }
 
   // Audit and statistics
@@ -627,13 +626,12 @@ export class PermissionsManager {
   }
 
   // Utility methods
-  exportPermissions(format: 'json' | 'xml' | 'csv' = 'json'): string {
+  exportPermissions(format: 'json' | 'xml' | 'csv' = 'json'): string 
     const data = {
       permissions: Array.from(this.permissions.values()),
       roles: Array.from(this.roles.values()),
       stats: this.getStats(),
-      config: this.securityConfig
-    };
+      config: securityConfig: this.securityConfig};
 
     switch (format) {
       case 'json':

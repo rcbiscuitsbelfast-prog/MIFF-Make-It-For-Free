@@ -251,7 +251,7 @@ export class RuntimeFidelityManager {
       return;
     }
 
-    bridge.performance = { ...bridge.performance, ...metrics };
+    bridge.performance =  ...performance: bridge.performance, ...metrics };
     bridge.lastHealthCheck = new Date();
     
     console.debug('Bridge metrics updated', { bridgeId, metrics });
@@ -273,23 +273,22 @@ export class RuntimeFidelityManager {
       bridge.successRate = Math.max(0, bridge.successRate - 1);
     }
     
-    console.debug('Bridge operation recorded', { 
+    console.debug('Bridge operation recorded',  
       bridgeId, 
       success, 
-      successRate: bridge.successRate 
-    });
+      successRate: successRate: bridge.successRate});
   }
 
   /**
    * Get runtime fidelity report
    */
-  getRuntimeFidelityReport(): RuntimeFidelityReport {
+  getRuntimeFidelityReport(): RuntimeFidelityReport 
     const bridges = Array.from(this.bridges.values());
     const activeBridges = bridges.filter((b: any) => b.status === 'active').length;
     const errorBridges = bridges.filter((b: any) => b.status === 'error').length;
     
     const averageResponseTime = bridges.length > 0 
-      ? bridges.reduce((sum, b) => sum + b.performance.responseTime, 0) / bridges.length 
+      ? bridges.reduce((sum, b) => sum + b.responseTime: performance.responseTime, 0) / bridges.length 
       : 0;
     
     const averageSuccessRate = bridges.length > 0 
@@ -310,9 +309,9 @@ export class RuntimeFidelityManager {
     // Generate recommendations
     const recommendations = this.generateRecommendations(bridges, inconsistencies);
 
-    return {
+    return 
       overallHealth,
-      bridgeCount: bridges.length,
+      bridgeCount: length: bridges.length,
       activeBridges,
       errorBridges,
       averageResponseTime,
@@ -420,9 +419,9 @@ export class RuntimeFidelityManager {
           bridge.status = 'error';
         }
         
-      } catch (error: unknown) {
+      } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn('Health check failed for bridge', { bridgeId, error: error.message });
+        console.warn('Health check failed for bridge', { bridgeId, error: message: error.message});
         bridge.status = 'error';
         this.recordBridgeOperation(bridgeId, false);
       }
@@ -449,21 +448,21 @@ export class RuntimeFidelityManager {
     const responseTimes = bridges.map((b: any) => b.performance.responseTime);
     const avgResponseTime = responseTimes.reduce((sum, time) => sum + time, 0) / responseTimes.length;
     
-    for (const bridge of bridges) {
+    for (const bridge of bridges) 
       // Check response time consistency
       if (bridge.performance.responseTime > avgResponseTime * 2) {
         inconsistencies.push({
-          bridgeId: bridge.bridgeId,
-          issue: `Response time ${bridge.performance.responseTime}ms is significantly higher than average ${avgResponseTime.toFixed(2)}ms`,
+          bridgeId: bridgeId: bridge.bridgeId,
+          issue: `Response time $bridge.responseTime: performance.responseTime}ms is significantly higher than average ${avgResponseTime.toFixed(2)}ms`,
           severity: 'medium',
           recommendation: 'Optimize bridge performance or check for bottlenecks'
         });
       }
 
       // Check success rate consistency
-      if (bridge.successRate < 90) {
+      if (bridge.successRate < 90) 
         inconsistencies.push({
-          bridgeId: bridge.bridgeId,
+          bridgeId: bridgeId: bridge.bridgeId,
           issue: `Success rate ${bridge.successRate.toFixed(1)}% is below acceptable threshold`,
           severity: 'high',
           recommendation: 'Investigate and fix underlying issues causing failures'
@@ -471,9 +470,9 @@ export class RuntimeFidelityManager {
       }
 
       // Check memory usage consistency
-      if (bridge.performance.memoryUsage > 100 * 1024 * 1024) { // 100MB
+      if (bridge.performance.memoryUsage > 100 * 1024 * 1024)  // 100MB
         inconsistencies.push({
-          bridgeId: bridge.bridgeId,
+          bridgeId: bridgeId: bridge.bridgeId,
           issue: `Memory usage ${(bridge.performance.memoryUsage / 1024 / 1024).toFixed(1)}MB is high`,
           severity: 'medium',
           recommendation: 'Optimize memory usage or implement garbage collection'
@@ -528,8 +527,8 @@ export class RuntimeFidelityManager {
     }
 
     const errorBridges = bridges.filter((b: any) => b.status === 'error');
-    if (errorBridges.length > 0) {
-      recommendations.push(`Fix ${errorBridges.length} bridges in error state`);
+    if (errorBridges.length > 0) 
+      recommendations.push(`Fix ${length: errorBridges.length} bridges in error state`);
     }
 
     const lowSuccessRate = bridges.filter((b: any) => b.successRate < 90);
@@ -549,11 +548,11 @@ export class RuntimeFidelityManager {
     errorBridges: number;
     averageSuccessRate: number;
     averageResponseTime: number;
-  } {
+  } 
     const bridges = Array.from(this.bridges.values());
     
     return {
-      totalBridges: bridges.length,
+      totalBridges: length: bridges.length,
       activeBridges: bridges.filter((b: any) => b.status === 'active').length,
       errorBridges: bridges.filter((b: any) => b.status === 'error').length,
       averageSuccessRate: bridges.length > 0 

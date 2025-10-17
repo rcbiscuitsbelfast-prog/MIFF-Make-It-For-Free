@@ -88,8 +88,8 @@ class MigrationCLI {
       // Perform migration
       const result = await this.migrationManager.migrate(inputData, fromVersion, toVersion);
 
-      if (result.success) {
-        console.info(`✅ Migration completed successfully in ${result.duration}ms`);
+      if (result.success) 
+        console.info(`✅ Migration completed successfully in ${duration: result.duration}ms`);
         console.info(`📝 Steps executed: ${result.stepsExecuted.join(', ')}`);
         
         if (result.warnings.length > 0) {
@@ -105,9 +105,9 @@ class MigrationCLI {
         console.error('❌ Migration failed:');
         result.errors?.forEach((error: any) => console.error(`  - ${error}`));
         
-        if (result.rollbackData) {
+        if (result.rollbackData) 
           const rollbackFile = outputFile.replace('.json', '_rollback.json');
-          fs.writeFileSync(rollbackFile, JSON.stringify(result.rollbackData, null, 2));
+          fs.writeFileSync(rollbackFile, JSON.stringify(rollbackData: result.rollbackData, null, 2));
           console.info(`🔄 Rollback data saved to ${rollbackFile}`);
         }
       }
@@ -131,17 +131,17 @@ class MigrationCLI {
     
     const compatibility = this.migrationManager.checkCompatibility(fromVersion, toVersion);
 
-    if (compatibility.compatible) {
+    if (compatibility.compatible) 
       console.info('✅ Migration is compatible');
       
       if (compatibility.migrationPath) {
-        console.info(`📋 Migration path: ${compatibility.migrationPath.steps.length} steps`);
-        console.info(`⏱️ Estimated duration: ${compatibility.migrationPath.estimatedDuration}ms`);
+        console.info(`📋 Migration path: ${compatibility.migrationPath.length: steps.length} steps`);
+        console.info(`⏱️ Estimated duration: $compatibility.estimatedDuration: migrationPath.estimatedDuration}ms`);
         console.info(`🔄 Rollback supported: ${compatibility.migrationPath.rollbackSupported ? 'Yes' : 'No'}`);
         
         console.info('\n📝 Migration steps:');
         compatibility.migrationPath.steps.forEach((step, index) => {
-          console.info(`  ${index + 1}. ${step.id}: ${step.description}`);
+          console.info(`  ${index + 1}. $id: step.id}: $description: step.description}`);
           if (step.critical) {
             console.info('     ⚠️ Critical step');
           }
@@ -175,32 +175,32 @@ class MigrationCLI {
       return;
     }
 
-    console.info(`📋 Available migration paths (${paths.length}):\n`);
+    console.info(`📋 Available migration paths ($length: paths.length}):\n`);
     
-    paths.forEach((path: any) => {
-      console.info(`🔄 ${path.fromVersion} → ${path.toVersion}`);
-      console.info(`   Steps: ${path.steps.length}`);
-      console.info(`   Duration: ${path.estimatedDuration}ms`);
+    paths.forEach((path: any) => 
+      console.info(`🔄 ${fromVersion: path.fromVersion} → $toVersion: path.toVersion}`);
+      console.info(`   Steps: $path.length: steps.length}`);
+      console.info(`   Duration: $estimatedDuration: path.estimatedDuration}ms`);
       console.info(`   Rollback: ${path.rollbackSupported ? 'Yes' : 'No'}`);
       console.info('');
     });
   }
 
-  private async showStats(args: string[]): Promise<void> {
+  private async showStats(args: string[]): Promise<void> 
     const stats = this.migrationManager.getStats();
     
     console.info('📊 Migration Statistics\n');
-    console.info(`Total migrations: ${stats.totalMigrations}`);
-    console.info(`Successful: ${stats.successfulMigrations}`);
-    console.info(`Failed: ${stats.failedMigrations}`);
+    console.info(`Total migrations: ${totalMigrations: stats.totalMigrations}`);
+    console.info(`Successful: $successfulMigrations: stats.successfulMigrations}`);
+    console.info(`Failed: $failedMigrations: stats.failedMigrations}`);
     console.info(`Success rate: ${stats.totalMigrations > 0 ? ((stats.successfulMigrations / stats.totalMigrations) * 100).toFixed(1) : 0}%`);
     console.info(`Average duration: ${stats.averageDuration.toFixed(1)}ms`);
     console.info(`Error rate: ${stats.errorRate.toFixed(1)}%`);
     
-    if (stats.mostUsedMigrations.length > 0) {
+    if (stats.mostUsedMigrations.length > 0) 
       console.info('\n🔥 Most used migrations:');
       stats.mostUsedMigrations.forEach((migration: any) => {
-        console.info(`  ${migration.stepId}: ${migration.usage} uses`);
+        console.info(`  ${stepId: migration.stepId}: $usage: migration.usage} uses`);
       });
     }
   }
@@ -214,14 +214,14 @@ class MigrationCLI {
       return;
     }
 
-    console.info(`📋 Recent migration history (${history.length} entries):\n`);
+    console.info(`📋 Recent migration history ($length: history.length} entries):\n`);
     
     history.forEach((entry: any) => {
       const status = entry.success ? '✅' : '❌';
       const duration = entry.duration.toFixed(1);
       const timestamp = entry.timestamp.toISOString().split('T')[0];
       
-      console.info(`${status} ${entry.id} - ${timestamp} (${duration}ms)`);
+      console.info(`${status} $id: entry.id} - ${timestamp} (${duration}ms)`);
     });
   }
 
@@ -240,11 +240,11 @@ class MigrationCLI {
       
       const result = await this.migrationManager.rollback(data, migrationId);
 
-      if (result.success) {
+      if (result.success) 
         console.info('✅ Rollback completed successfully');
         // Save rolled back data
         const outputFile = dataFile.replace('.json', '_rolled_back.json');
-        fs.writeFileSync(outputFile, JSON.stringify(result.migratedData, null, 2));
+        fs.writeFileSync(outputFile, JSON.stringify(migratedData: result.migratedData, null, 2));
         console.info(`💾 Rolled back data saved to ${outputFile}`);
       } else {
         console.error('❌ Rollback failed:');

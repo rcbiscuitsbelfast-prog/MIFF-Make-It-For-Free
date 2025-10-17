@@ -72,25 +72,25 @@ class CapabilityCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    console.info(`✅ Discovered capabilities for ${results.length} modules`);
+    console.info(`✅ Discovered capabilities for $length: results.length} modules`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
     const stats = this.discovery.getStats();
     console.info('\n📊 Discovery Summary:');
-    console.info(`Total modules: ${stats.totalModules}`);
-    console.info(`Successful discoveries: ${stats.successfulDiscoveries}`);
-    console.info(`Failed discoveries: ${stats.failedDiscoveries}`);
-    console.info(`Warning discoveries: ${stats.warningDiscoveries}`);
-    console.info(`Total capabilities: ${stats.totalCapabilities}`);
+    console.info(`Total modules: $totalModules: stats.totalModules}`);
+    console.info(`Successful discoveries: $successfulDiscoveries: stats.successfulDiscoveries}`);
+    console.info(`Failed discoveries: $failedDiscoveries: stats.failedDiscoveries}`);
+    console.info(`Warning discoveries: $warningDiscoveries: stats.warningDiscoveries}`);
+    console.info(`Total capabilities: $totalCapabilities: stats.totalCapabilities}`);
     console.info(`Average capabilities per module: ${stats.averageCapabilitiesPerModule.toFixed(1)}`);
 
     // Show failed discoveries
     const failed = this.discovery.getResultsByStatus('error');
-    if (failed.length > 0) {
+    if (failed.length > 0) 
       console.info('\n❌ Failed Discoveries:');
       failed.forEach((result: any) => {
-        console.info(`  ${result.moduleName}: ${result.errors?.join(', ')}`);
+        console.info(`  ${moduleName: result.moduleName}: ${result.errors?.join(', ')}`);
       });
     }
   }
@@ -122,36 +122,36 @@ class CapabilityCLI {
 
     const capabilities = result.capabilities;
     
-    console.info(`\n📊 ${result.moduleName} Capabilities:`);
-    console.info(`Module ID: ${result.moduleId}`);
-    console.info(`File Path: ${result.filePath}`);
+    console.info(`\n📊 $moduleName: result.moduleName} Capabilities:`);
+    console.info(`Module ID: $moduleId: result.moduleId}`);
+    console.info(`File Path: $filePath: result.filePath}`);
     console.info(`Discovered: ${result.discoveredAt.toISOString()}`);
 
     // Operations
-    if (capabilities.operations && capabilities.operations.length > 0) {
-      console.info(`\n🔧 Operations (${capabilities.operations.length}):`);
-      capabilities.operations.forEach((op: any) => {
-        console.info(`  ${op.name}: ${op.description}`);
-        console.info(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
+    if (capabilities.operations && capabilities.operations.length > 0) 
+      console.info(`\n🔧 Operations (${  length: operations.length}):`);
+      capabilities.operations.forEach((op: any) => 
+        console.info(`  ${name: op.name}: $description: op.description}`);
+        console.info(`    Input Schema: $op.schemaId: inputSchema.schemaId} v$op.version: inputSchema.version}`);
         console.info(`    Output Schema: ${op.outputSchema?.schemaId || 'N/A'} v${op.outputSchema?.version || 'N/A'}`);
       });
     }
 
     // Data processing
-    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
-      console.info(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
-      capabilities.dataProcessing.forEach((dp: any) => {
-        console.info(`  ${dp.name}: ${dp.description}`);
+    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) 
+      console.info(`\n📊 Data Processing (${  length: dataProcessing.length}):`);
+      capabilities.dataProcessing.forEach((dp: any) => 
+        console.info(`  ${name: dp.name}: $description: dp.description}`);
         console.info(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
       });
     }
 
     // Integrations
-    if (capabilities.integrations && capabilities.integrations.length > 0) {
-      console.info(`\n🔗 Integrations (${capabilities.integrations.length}):`);
-      capabilities.integrations.forEach((integration: any) => {
-        console.info(`  ${integration.name}: ${integration.description}`);
-        console.info(`    Type: ${integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
+    if (capabilities.integrations && capabilities.integrations.length > 0) 
+      console.info(`\n🔗 Integrations (${  length: integrations.length}):`);
+      capabilities.integrations.forEach((integration: any) => 
+        console.info(`  ${name: integration.name}: $description: integration.description}`);
+        console.info(`    Type: $integrationType: integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
       });
     }
 
@@ -159,9 +159,9 @@ class CapabilityCLI {
     // Note: CLI interface is typically a separate property on the module
 
     // Save to file if requested
-    if (outputFile) {
+    if (outputFile) 
       const output = {
-        moduleId: result.moduleId,
+        moduleId: moduleId: result.moduleId,
         moduleName: result.moduleName,
         capabilities: capabilities,
         discoveredAt: result.discoveredAt
@@ -263,7 +263,7 @@ class CapabilityCLI {
       return;
     }
 
-    console.info(`\n📊 Validation Results for ${result.moduleName}:`);
+    console.info(`\n📊 Validation Results for $moduleName: result.moduleName}:`);
     console.info(`Status: ${result.status.toUpperCase()}`);
     
     if (result.errors?.length > 0) {
@@ -271,8 +271,8 @@ class CapabilityCLI {
       result.errors?.forEach((error: any) => console.info(`  - ${error}`));
     }
     
-    if (result.warnings.length > 0) {
-      console.info(`Warnings: ${result.warnings.length}`);
+    if (result.warnings.length > 0) 
+      console.info(`Warnings: ${  length: warnings.length}`);
       result.warnings.forEach((warning: any) => console.info(`  - ${warning}`));
     }
     
@@ -314,23 +314,23 @@ class CapabilityCLI {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${stats.totalModules}</div>
+            <div class="stat-value">$totalModules: stats.totalModules}</div>
             <div class="stat-label">Total Modules</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value success">${stats.successfulDiscoveries}</div>
+            <div class="stat-value success">$successfulDiscoveries: stats.successfulDiscoveries}</div>
             <div class="stat-label">Successful</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value error">${stats.failedDiscoveries}</div>
+            <div class="stat-value error">$failedDiscoveries: stats.failedDiscoveries}</div>
             <div class="stat-label">Failed</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value warning">${stats.warningDiscoveries}</div>
+            <div class="stat-value warning">$warningDiscoveries: stats.warningDiscoveries}</div>
             <div class="stat-label">Warnings</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${stats.totalCapabilities}</div>
+            <div class="stat-value">$totalCapabilities: stats.totalCapabilities}</div>
             <div class="stat-label">Total Capabilities</div>
         </div>
         <div class="stat-card">
@@ -341,11 +341,11 @@ class CapabilityCLI {
 
     <div class="module-list">
         <h3>Module Capabilities</h3>
-        ${results.map((result: any) => `
+        $results.map((result: any) => `
             <div class="module-item">
-                <div class="module-name">${result.moduleName}</div>
+                <div class="module-name">${moduleName: result.moduleName}</div>
                 <div class="module-status">
-                    Status: <span class="${result.status}">${result.status.toUpperCase()}</span> | 
+                    Status: <span class="$status: result.status}">${result.status.toUpperCase()}</span> | 
                     Discovered: ${result.discoveredAt.toLocaleString()}
                 </div>
                 <div class="capabilities">

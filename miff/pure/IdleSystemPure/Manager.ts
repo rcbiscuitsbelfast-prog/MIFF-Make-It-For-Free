@@ -800,15 +800,15 @@ export class IdleSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): IdleSystemPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): IdleSystemPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): IdleSystemAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): IdleSystemAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

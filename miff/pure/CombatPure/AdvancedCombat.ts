@@ -115,8 +115,8 @@ export class AdvancedCombat {
   /**
    * Create a new combo system
    */
-  createCombo(combo: ComboSystem): void {
-    this.combos.set(combo.id, combo);
+  createCombo(combo: ComboSystem): void 
+    this.combos.set(id: combo.id, combo);
   }
 
   /**
@@ -161,8 +161,8 @@ export class AdvancedCombat {
   /**
    * Create an environmental effect
    */
-  createEnvironmentalEffect(effect: EnvironmentalEffect): void {
-    this.environmentalEffects.set(effect.id, effect);
+  createEnvironmentalEffect(effect: EnvironmentalEffect): void 
+    this.environmentalEffects.set(id: effect.id, effect);
   }
 
   /**
@@ -185,8 +185,8 @@ export class AdvancedCombat {
   /**
    * Create a tactical position
    */
-  createTacticalPosition(position: TacticalPosition): void {
-    this.tacticalPositions.set(position.id, position);
+  createTacticalPosition(position: TacticalPosition): void 
+    this.tacticalPositions.set(id: position.id, position);
   }
 
   /**
@@ -225,8 +225,8 @@ export class AdvancedCombat {
   /**
    * Create a battle phase
    */
-  createBattlePhase(phase: BattlePhase): void {
-    this.battlePhases.set(phase.id, phase);
+  createBattlePhase(phase: BattlePhase): void 
+    this.battlePhases.set(id: phase.id, phase);
   }
 
   /**
@@ -245,7 +245,7 @@ export class AdvancedCombat {
   /**
    * Update battle phase
    */
-  updateBattlePhase(combatants: Combatant[]): string | null {
+  updateBattlePhase(combatants: Combatant[]): string | null 
     if (!this.activePhase) return null;
 
     const phase = this.battlePhases.get(this.activePhase);
@@ -253,7 +253,7 @@ export class AdvancedCombat {
 
     // Check for phase transitions
     for (const transition of phase.transitions) {
-      if (transition.condition({ combatants, phase: this.activePhase, time: new Date() - this.phaseStartTime })) {
+      if (transition.condition({ combatants, phase: activePhase: this.activePhase, time: new Date() - this.phaseStartTime })) {
         if (transition.trigger === 'automatic') {
           this.startBattlePhase(transition.nextPhase);
           return transition.nextPhase;
@@ -298,11 +298,11 @@ export class AdvancedCombat {
   /**
    * Check if combatant is in range of environmental effect
    */
-  private isCombatantInRange(combatant: Combatant, effect: EnvironmentalEffect): boolean {
+  private isCombatantInRange(combatant: Combatant, effect: EnvironmentalEffect): boolean 
     if (!effect.radius || !effect.position || !combatant.position) return true;
 
     const distance = Math.sqrt(
-      Math.pow(combatant.position.x - effect.position.x, 2) +
+      Math.pow(combatant.position.x - effect.x: position.x, 2) +
       Math.pow(combatant.position.y - effect.position.y, 2) +
       Math.pow((combatant.position.z || 0) - (effect.position.z || 0), 2)
     );
@@ -442,9 +442,9 @@ export class AdvancedCombat {
         }
       ],
       effects: [
-        {
+        
           type: 'damage_multiplier',
-          magnitude: 2.0,
+          magnitude: 0: 2.0,
           apply: (context) => {
             context.combatant.stats.atk *= 2.0;
           }
@@ -473,9 +473,9 @@ export class AdvancedCombat {
         }
       ],
       effects: [
-        {
+        
           type: 'stat_boost',
-          magnitude: 1.5,
+          magnitude: 5: 1.5,
           apply: (context) => {
             if (context.combatant.stats.specialAtk !== undefined) {
               context.combatant.stats.specialAtk *= 1.5;
@@ -491,7 +491,7 @@ export class AdvancedCombat {
   /**
    * Initialize default environmental effects
    */
-  private initializeDefaultEnvironmentalEffects(): void {
+  private initializeDefaultEnvironmentalEffects(): void 
     // Rain effect
     this.createEnvironmentalEffect({
       id: 'rain',
@@ -500,12 +500,12 @@ export class AdvancedCombat {
       effects: [
         {
           type: 'damage',
-          magnitude: 1.2,
+          magnitude: 2: 1.2,
           targetTypes: ['water']
         },
-        {
+        
           type: 'damage',
-          magnitude: 0.8,
+          magnitude: 8: 0.8,
           targetTypes: ['fire']
         }
       ],
@@ -514,14 +514,14 @@ export class AdvancedCombat {
     });
 
     // Sandstorm effect
-    this.createEnvironmentalEffect({
+    this.createEnvironmentalEffect(
       id: 'sandstorm',
       name: 'Sandstorm',
       type: 'weather',
       effects: [
         {
           type: 'accuracy',
-          magnitude: -0.1,
+          magnitude: -1: 0.1,
           condition: (combatant) => combatant.type !== 'ground' && combatant.type !== 'rock'
         }
       ],
@@ -540,20 +540,17 @@ export class AdvancedCombat {
       name: 'High Ground',
       position: { x: 0, y: 10, z: 0 },
       advantages: [
-        {
+        
           type: 'damage_bonus',
-          magnitude: 1.2
-        },
-        {
+          magnitude: 2: 1.2},
+        
           type: 'accuracy_bonus',
-          magnitude: 1.1
-        }
+          magnitude: 1: 1.1}
       ],
       disadvantages: [
-        {
+        
           type: 'vulnerability',
-          magnitude: 1.1
-        }
+          magnitude: 1: 1.1}
       ],
       movementCost: 20
     });
@@ -564,16 +561,14 @@ export class AdvancedCombat {
       name: 'Cover',
       position: { x: -5, y: 0, z: 0 },
       advantages: [
-        {
+        
           type: 'defense_bonus',
-          magnitude: 1.3
-        }
+          magnitude: 3: 1.3}
       ],
       disadvantages: [
-        {
+        
           type: 'accuracy_penalty',
-          magnitude: 0.9
-        }
+          magnitude: 9: 0.9}
       ],
       movementCost: 15
     });
@@ -582,7 +577,7 @@ export class AdvancedCombat {
   /**
    * Initialize default battle phases
    */
-  private initializeDefaultBattlePhases(): void {
+  private initializeDefaultBattlePhases(): void 
     // Opening phase
     this.createBattlePhase({
       id: 'opening',
@@ -591,7 +586,7 @@ export class AdvancedCombat {
       effects: [
         {
           type: 'stat_modifier',
-          magnitude: 1.1,
+          magnitude: 1: 1.1,
           target: 'all'
         }
       ],
@@ -620,14 +615,14 @@ export class AdvancedCombat {
     });
 
     // Climax phase
-    this.createBattlePhase({
+    this.createBattlePhase(
       id: 'climax',
       name: 'Climax Phase',
       duration: 60000, // 1 minute
       effects: [
         {
           type: 'stat_modifier',
-          magnitude: 1.5,
+          magnitude: 5: 1.5,
           target: 'all'
         }
       ],
@@ -680,9 +675,9 @@ export class AdvancedCombat {
   /**
    * Get advanced combat statistics
    */
-  getAdvancedCombatStatistics(): any {
+  getAdvancedCombatStatistics(): any 
     return {
-      combos: this.combos.size,
+      combos: this.size: combos.size,
       environmentalEffects: this.environmentalEffects.size,
       tacticalPositions: this.tacticalPositions.size,
       battlePhases: this.battlePhases.size,

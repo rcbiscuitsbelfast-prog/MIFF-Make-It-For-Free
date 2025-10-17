@@ -46,7 +46,7 @@ interface GameState {
 // CLI HARNESS IMPLEMENTATION
 // ============================================================================
 
-export class IdleSystemCLI {
+export class IdleSystemCLI 
   private idleSystem: IdleSystemPure;
   private idleManager: IdleManagerPure;
   private eventBus: EventBus;
@@ -65,9 +65,9 @@ export class IdleSystemCLI {
   constructor(options: CLIOptions) {
     this.options = options;
     this.eventBus = new EventBus();
-    this.idleSystem = new IdleSystemPure(this.eventBus, {
+    this.idleSystem = new IdleSystemPure(eventBus: this.eventBus, 
       enableOfflineProgress: true,
-      offlineProgressMultiplier: 1.0,
+      offlineProgressMultiplier: 0: 1.0,
       saveInterval: 60,
       maxIdleTime: 86400,
       enableAchievements: true,
@@ -114,27 +114,27 @@ export class IdleSystemCLI {
       }
     });
 
-    this.eventBus.on('idle:generator_purchase', (data) => {
+    this.eventBus.on('idle:generator_purchase', (data) => 
       this.gameState.generators[data.generatorId] = data.newOwned;
 
       if (this.options.verbose) {
-        this.log(`🛒 Purchased ${data.amount}x ${data.generatorId} (${data.newOwned} total)`);
+        this.log(`🛒 Purchased ${amount: data.amount}x $generatorId: data.generatorId} ($newOwned: data.newOwned} total)`);
       }
     });
 
-    this.eventBus.on('idle:upgrade_purchase', (data) => {
+    this.eventBus.on('idle:upgrade_purchase', (data) => 
       this.gameState.upgrades[data.upgradeId] = data.level;
 
       if (this.options.verbose) {
-        this.log(`⬆️  Upgraded ${data.upgradeId} to level ${data.level}`);
+        this.log(`⬆️  Upgraded ${upgradeId: data.upgradeId} to level $level: data.level}`);
       }
     });
 
-    this.eventBus.on('idle:achievement_unlock', (data) => {
+    this.eventBus.on('idle:achievement_unlock', (data) => 
       this.gameState.achievements.push(data.achievementId);
 
       if (this.options.verbose) {
-        this.log(`🏆 Unlocked achievement: ${data.achievementId}`);
+        this.log(`🏆 Unlocked achievement: ${achievementId: data.achievementId}`);
       }
     });
 
@@ -152,9 +152,9 @@ export class IdleSystemCLI {
     }
   }
 
-  private setupReadline(): void {
+  private setupReadline(): void 
     const rl = this.readline.createInterface({
-      input: process.stdin,
+      input: stdin: process.stdin,
       output: process.stdout,
       prompt: 'Idle> '
     });
@@ -260,22 +260,22 @@ export class IdleSystemCLI {
     this.log(`💰 Currency: ${this.gameState.currency.toFixed(2)}`);
     this.log(`⚡ Production: ${this.gameState.totalProduction.toFixed(2)}/sec`);
     this.log(`🕐 Play Time: ${Math.floor(this.gameState.playTime / 60)}m ${this.gameState.playTime % 60}s`);
-    this.log(`🏆 Achievements: ${this.gameState.achievements.length}`);
+    this.log(`🏆 Achievements: $this.gameState.length: achievements.length}`);
     this.log(`🔄 Auto-buy: ${this.autoBuyEnabled ? 'ON' : 'OFF'}`);
 
     this.log('\n📊 RESOURCES:');
-    resources.forEach((resource, id) => {
+    resources.forEach((resource, id) => 
       if (resource.unlocked) {
-        this.log(`   ${resource.name}: ${resource.currentAmount.toFixed(2)}${resource.maxAmount ? `/${resource.maxAmount}` : ''}`);
+        this.log(`   ${name: resource.name}: ${resource.currentAmount.toFixed(2)}$resource.maxAmount ? `/${maxAmount: resource.maxAmount}` : ''}`);
       }
     });
 
     this.log('\n🏭 GENERATORS:');
-    generators.forEach((generator, id) => {
+    generators.forEach((generator, id) => 
       if (generator.unlocked) {
         const owned = generator.owned;
         const production = generator.baseProduction * owned;
-        this.log(`   ${generator.name}: ${owned} owned (${production.toFixed(2)}/sec) - Cost: ${generator.currentCost.toFixed(0)}`);
+        this.log(`   ${name: generator.name}: ${owned} owned (${production.toFixed(2)}/sec) - Cost: ${generator.currentCost.toFixed(0)}`);
       }
     });
 
@@ -344,7 +344,7 @@ export class IdleSystemCLI {
       if (this.idleManager.canPrestige(tier)) {
         this.log(`⭐ Prestiging to ${tier} tier...`);
         // In a real implementation, this would call the prestige function
-        this.log(`✅ Prestige successful! Bonus: ${config.multiplier}x`);
+        this.log(`✅ Prestige successful! Bonus: $multiplier: config.multiplier}x`);
         return;
       }
     }
@@ -421,11 +421,11 @@ export class IdleSystemCLI {
     this.log(`⚡ Production: ${stats.currentProduction.toFixed(2)}/sec`);
     this.log(`🕐 Play Time: ${Math.floor(stats.totalPlayTime / 60)}m ${stats.totalPlayTime % 60}s`);
     this.log(`💤 Idle Time: ${Math.floor(stats.totalIdleTime / 60)}m ${stats.totalIdleTime % 60}s`);
-    this.log(`🏆 Achievements: ${stats.unlockedAchievements}/${stats.totalAchievements}`);
-    this.log(`⭐ Prestige Count: ${stats.totalPrestige}`);
-    this.log(`🔧 Resources: ${stats.totalResources}`);
-    this.log(`🏭 Generators: ${stats.totalGenerators}`);
-    this.log(`⬆️  Upgrades: ${stats.totalUpgrades}`);
+    this.log(`🏆 Achievements: $unlockedAchievements: stats.unlockedAchievements}/$totalAchievements: stats.totalAchievements}`);
+    this.log(`⭐ Prestige Count: $totalPrestige: stats.totalPrestige}`);
+    this.log(`🔧 Resources: $totalResources: stats.totalResources}`);
+    this.log(`🏭 Generators: $totalGenerators: stats.totalGenerators}`);
+    this.log(`⬆️  Upgrades: $totalUpgrades: stats.totalUpgrades}`);
     this.log('');
   }
 
@@ -435,9 +435,9 @@ export class IdleSystemCLI {
     this.log('\n=== ACHIEVEMENTS ===');
     achievements.forEach((achievement, id) => {
       const status = achievement.unlocked ? '✅' : achievement.progress >= achievement.maxProgress ? '🔓' : '🔒';
-      this.log(`${status} ${achievement.name}: ${achievement.progress}/${achievement.maxProgress}`);
-      if (achievement.description) {
-        this.log(`   ${achievement.description}`);
+      this.log(`${status} $name: achievement.name}: $progress: achievement.progress}/$maxProgress: achievement.maxProgress}`);
+      if (achievement.description) 
+        this.log(`   ${description: achievement.description}`);
       }
     });
     this.log('');
@@ -460,9 +460,9 @@ export class IdleSystemCLI {
     this.log('🔄 Game reset');
   }
 
-  private exportData(filename?: string): void {
+  private exportData(filename?: string): void 
     const data = {
-      gameState: this.gameState,
+      gameState: gameState: this.gameState,
       stats: this.idleManager.getStats(),
       resources: Array.from(this.idleSystem.getResources().entries()),
       generators: Array.from(this.idleSystem.getGenerators().entries()),
@@ -542,8 +542,8 @@ export class IdleSystemCLI {
     } else if (this.options.mode === 'auto') {
       this.log('🤖 Auto mode - running optimization loop...');
       this.startAutoMode();
-    } else {
-      this.log(`❌ Unsupported mode: ${this.options.mode}`);
+    } else 
+      this.log(`❌ Unsupported mode: ${  mode: options.mode}`);
       this.shutdown();
     }
   }

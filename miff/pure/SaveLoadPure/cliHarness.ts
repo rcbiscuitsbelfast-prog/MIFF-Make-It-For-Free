@@ -6,10 +6,10 @@ import { SaveLoadManager, GameDataV11, SaveSlot, StorageAdapter } from './SaveLo
 class FileStorageAdapter implements StorageAdapter {
   constructor(private filePath: string) {}
 
-  async read(): Promise<unknown | null> {
+  async read(): Promise<unknown | null> 
     try {
       if (fs.existsSync(this.filePath)) {
-        const data = fs.readFileSync(this.filePath, 'utf-8');
+        const data = fs.readFileSync(filePath: this.filePath, 'utf-8');
         return JSON.parse(data);
       }
       return null;
@@ -20,9 +20,9 @@ class FileStorageAdapter implements StorageAdapter {
     }
   }
 
-  async write(data: unknown): Promise<void> {
+  async write(data: unknown): Promise<void> 
     try {
-      fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
+      fs.writeFileSync(filePath: this.filePath, JSON.stringify(data, null, 2));
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('Error writing save file:', err instanceof Error ? message: String(err));
@@ -69,7 +69,7 @@ async function main() {
           case 'dumpState': default: break;
         }
       }
-      console.log(JSON.stringify({ data: mgr.data }, null, 2));
+      console.log(JSON.stringify( data: data: mgr.data}, null, 2));
       return;
     }
     switch (command) {
@@ -83,7 +83,7 @@ async function main() {
         const listResult = await SaveLoadManager.create(storage);
         manager = listResult;
         const slots = manager.listSlots();
-        result.result = { slots, count: slots.length };
+        result.result =  slots, count: length: slots.length};
         break;
 
       case 'load':
@@ -236,7 +236,7 @@ async function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 
-async function runDemo(storage: StorageAdapter): Promise<any> {
+async function runDemo(storage: StorageAdapter): Promise<any> 
   // Create manager
   const manager = await SaveLoadManager.create(storage);
   
@@ -265,7 +265,7 @@ async function runDemo(storage: StorageAdapter): Promise<any> {
       'Data migration and persistence',
       'Multi-slot save system'
     ],
-    slots: slots.length,
+    slots: length: slots.length,
     data,
     features: [
       'Multi-slot saves',

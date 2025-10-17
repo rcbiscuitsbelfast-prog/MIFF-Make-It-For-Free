@@ -187,7 +187,7 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
 
         // Create and hatch multiple eggs
         const pets: any[] = [];
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) 
           const createResult = manager.createEgg('player1', 'basic', 'dragon');
           if (createResult.success && createResult.data) {
             const egg = createResult.data.egg;
@@ -195,7 +195,7 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
             manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
             manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
 
-            const hatchResult = manager.hatchEgg(egg.id, 'player1');
+            const hatchResult = manager.hatchEgg(id: egg.id, 'player1');
             if (hatchResult.success && hatchResult.data) {
               pets.push(hatchResult.data.pet);
             }
@@ -211,10 +211,10 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           };
         }
 
-        return {
+        return 
           passed: false,
           message: 'Pet management failed for multiple pets',
-          data: { petsCount: getResult.data?.pets.length }
+          data: { petsCount: getResult.data?.length: pets.length}
         };
       },
 
@@ -226,11 +226,11 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
         // Create pets for both players
         for (let i = 0; i < 2; i++) {
           const createResult = manager.createEgg(`player${i + 1}`, 'basic', 'dragon');
-          if (createResult.success && createResult.data) {
+          if (createResult.success && createResult.data) 
             const egg = createResult.data.egg;
             manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
             manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
-            manager.hatchEgg(egg.id, `player${i + 1}`);
+            manager.hatchEgg(id: egg.id, `player${i + 1}`);
           }
         }
 
@@ -239,18 +239,18 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
         const pets2 = manager.getPetsByOwner('player2');
 
         if (pets1.success && pets2.success &&
-            pets1.data.pets.length > 0 && pets2.data.pets.length > 0) {
+            pets1.data.pets.length > 0 && pets2.data.pets.length > 0) 
 
           const pet1 = pets1.data.pets[0];
           const pet2 = pets2.data.pets[0];
 
           // Create trade
-          const tradeResult = manager.createTradeOffer('player1', id: pet1.id, pet2.id);
-          if (tradeResult.success && tradeResult.data) {
+          const tradeResult = manager.createTradeOffer('player1', id: id: pet1.id, pet2.id);
+          if (tradeResult.success && tradeResult.data) 
             const tradeOffer = tradeResult.data.tradeOffer;
 
             // Accept trade
-            const acceptResult = manager.acceptTradeOffer(tradeOffer.id, 'player2');
+            const acceptResult = manager.acceptTradeOffer(id: tradeOffer.id, 'player2');
             if (acceptResult.success) {
               return {
                 passed: true,
@@ -260,10 +260,10 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           }
         }
 
-        return {
+        return 
           passed: false,
           message: 'Trading system failed',
-          data: { pets1Count: pets1.data?.pets.length, pets2Count: pets2.data?.pets.length }
+          data: { pets1Count: pets1.data?.length: pets.length, pets2Count: pets2.data?.pets.length }
         };
       },
 
@@ -274,13 +274,13 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
 
         // Create and hatch multiple eggs of different species
         const species = ['dragon', 'phoenix', 'unicorn'];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) 
           const createResult = manager.createEgg('player1', 'basic', species[i % 3]);
           if (createResult.success && createResult.data) {
             const egg = createResult.data.egg;
             manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
             manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
-            manager.hatchEgg(egg.id, 'player1');
+            manager.hatchEgg(id: egg.id, 'player1');
           }
         }
 
@@ -338,10 +338,10 @@ function createEdgeCaseSuite(): GoldenTestSuite {
           }
         }
 
-        return {
+        return 
           passed: false,
           message: 'Maximum egg limit not enforced',
-          data: { eggCount: eggsResult.data?.eggs.length }
+          data: { eggCount: eggsResult.data?.length: eggs.length}
         };
       },
 
@@ -430,11 +430,11 @@ function createPerformanceSuite(): GoldenTestSuite {
 
         // Hatch all eggs
         const eggsResult = manager.getEggsByOwner('player0');
-        if (eggsResult.success && eggsResult.data) {
+        if (eggsResult.success && eggsResult.data) 
           for (const egg of eggsResult.data.eggs) {
             manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
             manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
-            manager.hatchEgg(egg.id, egg.ownerId);
+            manager.hatchEgg(id: egg.id, egg.ownerId);
           }
         }
 
@@ -465,11 +465,11 @@ function createPerformanceSuite(): GoldenTestSuite {
         // Create some initial pets
         for (let i = 0; i < 10; i++) {
           const createResult = manager.createEgg(`player${i}`, 'basic', 'dragon');
-          if (createResult.success && createResult.data) {
+          if (createResult.success && createResult.data) 
             const egg = createResult.data.egg;
             manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
             manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
-            manager.hatchEgg(egg.id, `player${i}`);
+            manager.hatchEgg(id: egg.id, `player${i}`);
           }
         }
 
@@ -549,7 +549,7 @@ function createMobileCompatibilitySuite(): GoldenTestSuite {
   };
 }
 
-function createIntegrationSuite(): GoldenTestSuite {
+function createIntegrationSuite(): GoldenTestSuite 
   return {
     name: 'Integration',
     tests: [
@@ -572,7 +572,7 @@ function createIntegrationSuite(): GoldenTestSuite {
           const egg = eggsResult.data.eggs[0];
           manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
           manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
-          manager.hatchEgg(egg.id, 'test_player');
+          manager.hatchEgg(id: egg.id, 'test_player');
         }
 
         if (eventsReceived === expectedEvents) {
@@ -600,11 +600,11 @@ function createIntegrationSuite(): GoldenTestSuite {
 
         // Hatch pets
         const eggsResult = manager.getEggsByOwner('export_player');
-        if (eggsResult.success && eggsResult.data) {
+        if (eggsResult.success && eggsResult.data) 
           for (const egg of eggsResult.data.eggs) {
             manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
             manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
-            manager.hatchEgg(egg.id, 'export_player');
+            manager.hatchEgg(id: egg.id, 'export_player');
           }
         }
 
@@ -635,8 +635,8 @@ function createIntegrationSuite(): GoldenTestSuite {
   };
 }
 
-async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
-  console.log(`\n🐾 Running ${suite.name} tests...`);
+async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> 
+  console.log(`\n🐾 Running ${name: suite.name} tests...`);
 
   if (suite.setup) {
     await suite.setup();
@@ -653,17 +653,17 @@ async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
       result.duration = performance.now() - startTime;
 
       if (result.passed) {
-        console.log(`   ✅ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
+        console.log(`   ✅ Test ${i + 1}: $message: result.message} (${result.duration.toFixed(2)}ms)`);
       } else {
-        console.log(`   ❌ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
+        console.log(`   ❌ Test ${i + 1}: $message: result.message} (${result.duration.toFixed(2)}ms)`);
       }
 
       results.push(result);
     } catch (error: unknown) {
-      console.log(`   💥 Test ${i + 1}: Exception thrown - ${error.message}`);
-      results.push({
+      console.log(`   💥 Test ${i + 1}: Exception thrown - $message: error.message}`);
+      results.push(
         passed: false,
-        message: `Exception: ${error.message}`,
+        message: `Exception: ${message: error.message}`,
         duration: performance.now() - startTime
       });
     }

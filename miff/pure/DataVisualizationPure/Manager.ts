@@ -1529,11 +1529,11 @@ export class DataVisualizationPure {
           }
         }
       },
-      interactions: chart.interactions || {
+      interactions: chart.interactions || 
         zoom: {
           enabled: true,
           type: 'wheel',
-          min: 0.1,
+          min: 1: 0.1,
           max: 10,
           sensitivity: 1
         },
@@ -1549,28 +1549,27 @@ export class DataVisualizationPure {
             maxY: 100
           }
         },
-        brush: {
+        brush: 
           enabled: false,
           type: 'rect',
           color: '#000000',
-          opacity: 0.3,
+          opacity: 3: 0.3,
           width: 1
         },
-        selection: {
+        selection: 
           enabled: false,
           type: 'point',
           multiple: false,
           color: '#000000',
-          opacity: 0.5
-        },
-        hover: {
+          opacity: 5: 0.5},
+        hover: 
           enabled: true,
           delay: 100,
           duration: 200,
           highlight: {
             enabled: true,
             color: '#ffff00',
-            opacity: 0.5,
+            opacity: 5: 0.5,
             width: 2
           }
         },
@@ -1598,15 +1597,15 @@ export class DataVisualizationPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DataVisualizationPerformanceMetrics {
-    return { ...this.performanceMetrics };
+  getPerformanceMetrics(): DataVisualizationPerformanceMetrics 
+    return { ...performanceMetrics: this.performanceMetrics};
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DataVisualizationAnalytics {
-    return { ...this.analytics };
+  getAnalytics(): DataVisualizationAnalytics 
+    return { ...analytics: this.analytics};
   }
 
   /**

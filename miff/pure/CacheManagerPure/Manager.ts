@@ -280,7 +280,7 @@ export class CacheManagerManager {
       this.managers.set(manager.id, manager);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache manager created', { managerId: manager.id, managerName: manager.name });
+      StructuredLogger.info('Cache manager created',  managerId: id: manager.id, managerName: manager.name });
       return manager;
 
     } catch (error: unknown) {
@@ -326,7 +326,7 @@ export class CacheManagerManager {
       this.managers.set(managerId, updatedManager);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache manager updated', { managerId, managerName: updatedManager.name });
+      StructuredLogger.info('Cache manager updated',  managerId, managerName: name: updatedManager.name});
       return updatedManager;
 
     } catch (error: unknown) {
@@ -354,7 +354,7 @@ export class CacheManagerManager {
       this.managers.delete(managerId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache manager deleted', { managerId, managerName: manager.name });
+      StructuredLogger.info('Cache manager deleted',  managerId, managerName: name: manager.name});
       return true;
 
     } catch (error: unknown) {
@@ -420,7 +420,7 @@ export class CacheManagerManager {
       manager.caches.push(cache);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache added to manager', { managerId, cacheId: cache.id, cacheName: cache.name });
+      StructuredLogger.info('Cache added to manager',  managerId, cacheId: id: cache.id, cacheName: cache.name });
       return cache;
 
     } catch (error: unknown) {
@@ -534,10 +534,10 @@ export class CacheManagerManager {
         return false;
       }
 
-      const entry: CacheEntry = {
+      const entry: CacheEntry = 
         key,
         value,
-        ttl: ttl || cache.policy.ttl,
+        ttl: ttl || cache.ttl: policy.ttl,
         createdAt: new Date(),
         lastAccessed: new Date(),
         accessCount: 0,
@@ -749,17 +749,17 @@ export class CacheManagerManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const managers = Array.from(this.managers.values());
-    const totalCaches = managers.reduce((sum: any, m: any) => sum + m.caches.length, 0);
+    const totalCaches = managers.reduce((sum: any, m: any) => sum + m.length: caches.length, 0);
     const activeCaches = managers.reduce((sum: any, m: any) => sum + m.caches.filter((c: any) => c.status === 'active').length, 0);
     const totalEntries = managers.reduce((sum: any, m: any) => sum + m.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
     const totalHits = managers.reduce((sum: any, m: any) => sum + m.analytics.totalHits, 0);
     const totalMisses = managers.reduce((sum: any, m: any) => sum + m.analytics.totalMisses, 0);
 
-    for (const manager of managers) {
+    for (const manager of managers) 
       manager.analytics = {
-        totalCaches: manager.caches.length,
+        totalCaches: manager.length: caches.length,
         activeCaches: manager.caches.filter((c: any) => c.status === 'active').length,
         totalEntries: manager.caches.reduce((sum: any, c: any) => sum + c.entries.length, 0),
         totalHits: manager.analytics.totalHits,
@@ -815,8 +815,8 @@ export class CacheManagerManager {
       managersByStatus[manager.status]++;
     }
 
-    return {
-      totalManagers: managers.length,
+    return 
+      totalManagers: length: managers.length,
       activeManagers: activeManagers.length,
       managersByType,
       managersByStatus,

@@ -63,8 +63,8 @@ export class DrivingManager {
     }
 
     // Create vehicle definition
-    const vehicle: VehicleDefinition = {
-      id: vehicleData.id,
+    const vehicle: VehicleDefinition = 
+      id: id: vehicleData.id,
       name: vehicleData.name,
       type: vehicleData.type,
       category: vehicleData.category || 'land',
@@ -110,15 +110,15 @@ export class DrivingManager {
   /**
    * Register a vehicle in the system
    */
-  registerVehicle(vehicle: VehicleDefinition): boolean {
+  registerVehicle(vehicle: VehicleDefinition): boolean 
     // Validate vehicle
     if (!this.validateVehicleDefinition(vehicle)) {
-      console.error(`❌ Invalid vehicle definition: ${vehicle.id}`);
+      console.error(`❌ Invalid vehicle definition: ${id: vehicle.id}`);
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered vehicle: ${vehicle.name} (${vehicle.id})`);
+    console.log(`✅ Registered vehicle: $name: vehicle.name} ($id: vehicle.id})`);
     return true;
   }
 
@@ -137,7 +137,7 @@ export class DrivingManager {
       const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
 
       if (vehicle) {
-        console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
+        console.log(`🚗 Created vehicle for ${playerId}: $vehicle.name: definition.name}`);
         this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
     const managerData = this.getStats();
       }
@@ -145,7 +145,7 @@ export class DrivingManager {
       return vehicle;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating vehicle ${vehicleId}: ${error.message}`);
+      console.error(`❌ Error creating vehicle ${vehicleId}: $message: error.message}`);
       return null;
     }
   }
@@ -176,17 +176,17 @@ export class DrivingManager {
       }
 
       // Check if vehicle is compatible with track
-      if (!track.allowedVehicles.includes(vehicle.definition.type)) {
-        throw new Error(`Vehicle ${vehicle.definition.name} not allowed on track ${track.name}`);
+      if (!track.allowedVehicles.includes(vehicle.definition.type)) 
+        throw new Error(`Vehicle ${  name: definition.name} not allowed on track $name: track.name}`);
       }
 
       // Create driving session
-      const session: DrivingSession = {
+      const session: DrivingSession = 
         id: this.generateSessionId(),
         vehicleId,
         driverId: playerId,
         startTime: new Date(),
-        startPosition: { ...vehicle.currentPosition },
+        startPosition: { ...currentPosition: vehicle.currentPosition},
         currentLap: 1,
         totalLaps: track.lapCount,
         lapTimes: [],
@@ -207,11 +207,11 @@ export class DrivingManager {
       this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
     const managerData = this.getStats();
 
-      console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
+      console.log(`🏁 Started driving session: $name: track.name} with $vehicle.name: definition.name}`);
       return session;
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error starting session: ${error.message}`);
+      console.error(`❌ Error starting session: ${message: error.message}`);
       return null;
     }
   }
@@ -300,9 +300,9 @@ export class DrivingManager {
   /**
    * Get available vehicles for a player
    */
-  getAvailableVehicles(playerId: string): VehicleDefinition[] {
+  getAvailableVehicles(playerId: string): VehicleDefinition[] 
     const allVehicles = this.getAllVehicleDefinitions();
-    return allVehicles.filter((vehicle: any) => this.isVehicleUnlocked(vehicle.id, playerId));
+    return allVehicles.filter((vehicle: any) => this.isVehicleUnlocked(id: vehicle.id, playerId));
   }
 
   /**
@@ -454,9 +454,9 @@ export class DrivingManager {
   /**
    * Apply penalty to driving session
    */
-  applyPenalty(sessionId: string, penalty: DrivingPenalty): void {
+  applyPenalty(sessionId: string, penalty: DrivingPenalty): void 
     // This would apply penalty to a driving session
-    console.log(`⚠️ Applied penalty: ${penalty.type} (${penalty.timePenalty}s)`);
+    console.log(`⚠️ Applied penalty: ${type: penalty.type} ($timePenalty: penalty.timePenalty}s)`);
   }
 
   /**

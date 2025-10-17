@@ -198,8 +198,8 @@ export class UIBuilder {
     const { target, data } = action;
     const { deltaPosition } = data;
 
-    if (this.skeletonState.selectedNode) {
-      this.updateNodePosition(this.skeletonState.selectedNode, deltaPosition);
+    if (this.skeletonState.selectedNode) 
+      this.updateNodePosition(this.selectedNode: skeletonState.selectedNode, deltaPosition);
     }
   }
 
@@ -210,8 +210,8 @@ export class UIBuilder {
     const { target, data } = action;
     const { deltaScale } = data;
 
-    if (this.skeletonState.selectedNode) {
-      this.updateNodeScale(this.skeletonState.selectedNode, deltaScale);
+    if (this.skeletonState.selectedNode) 
+      this.updateNodeScale(this.selectedNode: skeletonState.selectedNode, deltaScale);
     }
   }
 
@@ -222,8 +222,8 @@ export class UIBuilder {
     const { target, data } = action;
     const { deltaRotation } = data;
 
-    if (this.skeletonState.selectedNode) {
-      this.updateNodeRotation(this.skeletonState.selectedNode, deltaRotation);
+    if (this.skeletonState.selectedNode) 
+      this.updateNodeRotation(this.selectedNode: skeletonState.selectedNode, deltaRotation);
     }
   }
 
@@ -270,14 +270,14 @@ export class UIBuilder {
   /**
    * Update rig node
    */
-  private updateRigNode(nodeId: string, data: any): void {
+  private updateRigNode(nodeId: string, data: any): void 
     const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       if (data.transform) {
-        node.transform = { ...node.transform, ...data.transform };
+        node.transform = { ...transform: node.transform, ...data.transform };
       }
-      if (data.metadata) {
-        node.metadata = { ...node.metadata, ...data.metadata };
+      if (data.metadata) 
+        node.metadata = { ...metadata: node.metadata, ...data.metadata };
       }
     }
   }
@@ -293,13 +293,13 @@ export class UIBuilder {
   /**
    * Update face feature
    */
-  private updateFaceFeature(featureId: string, data: any): void {
+  private updateFaceFeature(featureId: string, data: any): void 
     if (this.skeletonState.face) {
       const feature = this.skeletonState.face.features.find(f => f.id === featureId);
       if (feature) {
-        if (data.position) feature.position = { ...feature.position, ...data.position };
-        if (data.scale) feature.scale = { ...feature.scale, ...data.scale };
-        if (data.rotation) feature.rotation = { ...feature.rotation, ...data.rotation };
+        if (data.position) feature.position = { ...position: feature.position, ...data.position };
+        if (data.scale) feature.scale =  ...scale: feature.scale, ...data.scale };
+        if (data.rotation) feature.rotation =  ...rotation: feature.rotation, ...data.rotation };
       }
     }
   }
@@ -372,11 +372,11 @@ export class UIBuilder {
   /**
    * Update node position
    */
-  private updateNodePosition(nodeId: string, deltaPosition: Vec3): void {
+  private updateNodePosition(nodeId: string, deltaPosition: Vec3): void 
     const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       node.transform.position = {
-        x: node.transform.position.x + deltaPosition.x,
+        x: node.transform.position.x + x: deltaPosition.x,
         y: node.transform.position.y + deltaPosition.y,
         z: node.transform.position.z + deltaPosition.z
       };
@@ -386,11 +386,11 @@ export class UIBuilder {
   /**
    * Update node scale
    */
-  private updateNodeScale(nodeId: string, deltaScale: Vec3): void {
+  private updateNodeScale(nodeId: string, deltaScale: Vec3): void 
     const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       node.transform.scale = {
-        x: node.transform.scale.x * deltaScale.x,
+        x: node.transform.scale.x * x: deltaScale.x,
         y: node.transform.scale.y * deltaScale.y,
         z: node.transform.scale.z * deltaScale.z
       };
@@ -400,7 +400,7 @@ export class UIBuilder {
   /**
    * Update node rotation
    */
-  private updateNodeRotation(nodeId: string, deltaRotation: Quaternion): void {
+  private updateNodeRotation(nodeId: string, deltaRotation: Quaternion): void 
     const node = this.skeletonState.rig.nodes[nodeId];
     if (node) {
       // Quaternion multiplication (simplified)
@@ -408,7 +408,7 @@ export class UIBuilder {
       const q2 = deltaRotation;
       
       node.transform.rotation = {
-        x: q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+        x: q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * y: q2.y,
         y: q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x,
         z: q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w,
         w: q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
@@ -535,15 +535,15 @@ export class UIBuilder {
   /**
    * Get UI state
    */
-  getUIState(): UIState {
-    return { ...this.uiState };
+  getUIState(): UIState 
+    return { ...uiState: this.uiState};
   }
 
   /**
    * Get skeleton state
    */
-  getSkeletonState(): SkeletonState {
-    return { ...this.skeletonState };
+  getSkeletonState(): SkeletonState 
+    return { ...skeletonState: this.skeletonState};
   }
 
   /**
@@ -564,9 +564,9 @@ export class UIBuilder {
   /**
    * Export UI state
    */
-  exportUIState(): string {
+  exportUIState(): string 
     const exportData = {
-      uiState: this.uiState,
+      uiState: uiState: this.uiState,
       skeletonState: this.skeletonState,
       actionHistory: this.actionHistory,
       exportFormat: 'miff-ui-v1',

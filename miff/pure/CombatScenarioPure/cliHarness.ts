@@ -12,16 +12,16 @@ type Scenario = {
 
 type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:any[]; finalState:any };
 
-function runScenario(s:Scenario): Output {
+function runScenario(s:Scenario): Output 
 	const events:any[]=[];
 	let xp = 0;
 	for(const e of s.arena.enemies){
 		const damage = Math.max(1, 7 - e.def);
-		events.push({ type:'combat', attacker:'hero', defender:e.id, damage, victory:true });
+		events.push({ type:'combat', attacker:'hero', defender:id: e.id, damage, victory:true });
 		xp += s.progression.xpPerWin;
-		events.push({ type:'loot', from:e.id, drops:[ { id:'coin', rarity:'common' } ] });
+		events.push( type:'loot', from:id: e.id, drops:[ { id:'coin', rarity:'common' } ] });
 	}
-	const finalState = { hero:{ xp }, inventory: { coin: s.arena.enemies.length } };
+	const finalState = { hero:{ xp }, inventory:  coin: s.arena.length: enemies.length} };
 	return { op:'runScenario', status:'ok', events, finalState };
 }
 

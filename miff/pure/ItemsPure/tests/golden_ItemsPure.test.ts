@@ -84,8 +84,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(result.toString()).toBe('success: Item used successfully');
     });
 
-    test('should create failure result', () => {
-      const result = UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target is fainted');
+    test('should create failure result', () => 
+      const result = UsageResult.fail(INVALID_TARGET: UsageStatus.INVALID_TARGET, 'Target is fainted');
       expect(result.status).toBe(UsageStatus.INVALID_TARGET);
       expect(result.message).toBe('Target is fainted');
       expect(result.isSuccess).toBe(false);
@@ -103,11 +103,11 @@ describe('ItemsPure Golden Tests', () => {
     });
   });
 
-  describe('ItemEffect Basic Functionality', () => {
+  describe('ItemEffect Basic Functionality', () => 
     let effect: ItemEffect;
 
     beforeEach(() => {
-      effect = new ItemEffect(ItemEffectType.HEAL, 50);
+      effect = new ItemEffect(HEAL: ItemEffectType.HEAL, 50);
     });
 
     test('should create effect with default values', () => {
@@ -119,9 +119,9 @@ describe('ItemsPure Golden Tests', () => {
       expect(defaultEffect.maxUses).toBe(-1);
     });
 
-    test('should create effect with custom values', () => {
+    test('should create effect with custom values', () => 
       const customEffect = new ItemEffect(
-        ItemEffectType.EVOLVE,
+        EVOLVE: ItemEffectType.EVOLVE,
         0,
         'fire_spirit',
         30,
@@ -135,9 +135,9 @@ describe('ItemsPure Golden Tests', () => {
       expect(customEffect.maxUses).toBe(5);
     });
 
-    test('should preserve values without clamping', () => {
+    test('should preserve values without clamping', () => 
       const effect = new ItemEffect(
-        ItemEffectType.HEAL,
+        HEAL: ItemEffectType.HEAL,
         -10,
         undefined,
         -5,
@@ -149,8 +149,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(effect.maxUses).toBe(-10); // -10 is allowed for maxUses
     });
 
-    test('should validate correctly', () => {
-      const validEffect = new ItemEffect(ItemEffectType.HEAL, 50);
+    test('should validate correctly', () => 
+      const validEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 50);
       expect(validEffect.validate({})).toHaveLength(0);
 
       const invalidEffect = new ItemEffect(ItemEffectType.HEAL, -10);
@@ -158,8 +158,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(errors).toContain('Effect amount cannot be negative');
     });
 
-    test('should generate effect summary correctly', () => {
-      const healEffect = new ItemEffect(ItemEffectType.HEAL, 50);
+    test('should generate effect summary correctly', () => 
+      const healEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 50);
       const reviveEffect = new ItemEffect(ItemEffectType.REVIVE, 75);
       const evolveEffect = new ItemEffect(ItemEffectType.EVOLVE, 0, 'fire_spirit');
       const buffEffect = new ItemEffect(ItemEffectType.BUFF_ATTACK, 20, '5 turns');
@@ -172,8 +172,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(noneEffect.getSummary()).toBe('No effect');
     });
 
-    test('should clone correctly', () => {
-      const original = new ItemEffect(ItemEffectType.EVOLVE, 0, 'test_species', 10, 3);
+    test('should clone correctly', () => 
+      const original = new ItemEffect(EVOLVE: ItemEffectType.EVOLVE, 0, 'test_species', 10, 3);
       const clone = original.clone();
 
       expect(clone.effectType).toBe(original.effectType);
@@ -185,12 +185,12 @@ describe('ItemsPure Golden Tests', () => {
     });
   });
 
-  describe('Item Basic Functionality', () => {
+  describe('Item Basic Functionality', () => 
     let item: Item;
     let healEffect: ItemEffect;
 
     beforeEach(() => {
-      healEffect = new ItemEffect(ItemEffectType.HEAL, 50);
+      healEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 50);
       item = new Item('health_potion', 'Health Potion', CONSUMABLE: ItemType.CONSUMABLE, healEffect);
     });
 
@@ -202,11 +202,11 @@ describe('ItemsPure Golden Tests', () => {
       expect(defaultItem.targetRule).toBe('any');
     });
 
-    test('should create item with custom values', () => {
+    test('should create item with custom values', () => 
       const customItem = new Item(
         'revive_potion',
         'Revive Potion',
-        ItemType.CONSUMABLE,
+        CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.REVIVE, 50),
         'faintedonly'
       );
@@ -229,8 +229,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(evolution.isEvolutionItem).toBe(true);
     });
 
-    test('should generate description correctly', () => {
-      const healItem = new Item('potion', 'Health Potion', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should generate description correctly', () => 
+      const healItem = new Item('potion', 'Health Potion', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 50), 'notfainted');
       const reviveItem = new Item('revive', 'Revive', CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.REVIVE, 50), 'faintedonly');
@@ -242,8 +242,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(noEffectItem.getDescription()).toBe('Mystery Key (key_item) - No effect [any]');
     });
 
-    test('should clone correctly', () => {
-      const original = new Item('test_item', 'Test Item', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should clone correctly', () => 
+      const original = new Item('test_item', 'Test Item', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30), 'notfainted');
       const clone = original.clone();
 
@@ -255,8 +255,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(clone).not.toBe(original);
     });
 
-    test('should validate correctly', () => {
-      const validItem = new Item('valid_item', 'Valid Item', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should validate correctly', () => 
+      const validItem = new Item('valid_item', 'Valid Item', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 50));
       expect(validItem.validate({})).toHaveLength(0);
 
@@ -282,8 +282,8 @@ describe('ItemsPure Golden Tests', () => {
       highSyncSpirit = new MockSpiritInstance('high_sync', 'High Sync Spirit', 100, 100, 60);
     });
 
-    test('should apply heal effect correctly', () => {
-      const healEffect = new ItemEffect(ItemEffectType.HEAL, 30);
+    test('should apply heal effect correctly', () => 
+      const healEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 30);
       const result = healEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(true);
@@ -291,11 +291,11 @@ describe('ItemsPure Golden Tests', () => {
       expect(activeSpirit.currentHP).toBe(100); // Max HP
     });
 
-    test('should handle overheal correctly', () => {
+    test('should handle overheal correctly', () => 
       // Ensure the spirit is at full health for this test
       activeSpirit.currentHP = 100;
 
-      const overhealEffect = new ItemEffect(ItemEffectType.HEAL, 50);
+      const overhealEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 50);
       const result = overhealEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(false);
@@ -303,16 +303,16 @@ describe('ItemsPure Golden Tests', () => {
       expect(activeSpirit.currentHP).toBe(100); // Should remain unchanged
     });
 
-    test('should reject heal on fainted spirit', () => {
-      const healEffect = new ItemEffect(ItemEffectType.HEAL, 30);
+    test('should reject heal on fainted spirit', () => 
+      const healEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 30);
       const result = healEffect.apply(context, faintedSpirit);
 
       expect(result.isSuccess).toBe(false);
       expect(result.message).toContain('Cannot heal fainted spirit');
     });
 
-    test('should apply revive effect correctly', () => {
-      const reviveEffect = new ItemEffect(ItemEffectType.REVIVE, 50);
+    test('should apply revive effect correctly', () => 
+      const reviveEffect = new ItemEffect(REVIVE: ItemEffectType.REVIVE, 50);
       const result = reviveEffect.apply(context, faintedSpirit);
 
       expect(result.isSuccess).toBe(true);
@@ -321,16 +321,16 @@ describe('ItemsPure Golden Tests', () => {
       expect(faintedSpirit.isFainted()).toBe(false);
     });
 
-    test('should reject revive on active spirit', () => {
-      const reviveEffect = new ItemEffect(ItemEffectType.REVIVE, 50);
+    test('should reject revive on active spirit', () => 
+      const reviveEffect = new ItemEffect(REVIVE: ItemEffectType.REVIVE, 50);
       const result = reviveEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(false);
       expect(result.message).toContain('Target is not fainted');
     });
 
-    test('should apply sync boost effect correctly', () => {
-      const syncEffect = new ItemEffect(ItemEffectType.SYNC_BOOST, 15);
+    test('should apply sync boost effect correctly', () => 
+      const syncEffect = new ItemEffect(SYNC_BOOST: ItemEffectType.SYNC_BOOST, 15);
       const result = syncEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(true);
@@ -338,8 +338,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(activeSpirit.syncLevel).toBe(15);
     });
 
-    test('should handle sync boost on spirit without sync', () => {
-      const syncEffect = new ItemEffect(ItemEffectType.SYNC_BOOST, 10);
+    test('should handle sync boost on spirit without sync', () => 
+      const syncEffect = new ItemEffect(SYNC_BOOST: ItemEffectType.SYNC_BOOST, 10);
       const noSyncSpirit = new MockSpiritInstance('no_sync', 'No Sync Spirit', 100, 100);
       const result = syncEffect.apply(context, noSyncSpirit);
 
@@ -347,8 +347,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(result.message).toContain('no sync level');
     });
 
-    test('should apply evolution effect correctly', () => {
-      const evolveEffect = new ItemEffect(ItemEffectType.EVOLVE, 0, 'evolved_form');
+    test('should apply evolution effect correctly', () => 
+      const evolveEffect = new ItemEffect(EVOLVE: ItemEffectType.EVOLVE, 0, 'evolved_form');
       const result = evolveEffect.apply(context, highSyncSpirit);
 
       expect(result.isSuccess).toBe(true);
@@ -356,16 +356,16 @@ describe('ItemsPure Golden Tests', () => {
       expect(highSyncSpirit.name).toContain('evolved_form');
     });
 
-    test('should reject evolution on low sync spirit', () => {
-      const evolveEffect = new ItemEffect(ItemEffectType.EVOLVE, 0, 'evolved_form');
+    test('should reject evolution on low sync spirit', () => 
+      const evolveEffect = new ItemEffect(EVOLVE: ItemEffectType.EVOLVE, 0, 'evolved_form');
       const result = evolveEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(false);
       expect(result.message).toContain('cannot evolve');
     });
 
-    test('should apply flag unlock effect correctly', () => {
-      const flagEffect = new ItemEffect(ItemEffectType.UNLOCK_FLAG, 0, 'quest_complete');
+    test('should apply flag unlock effect correctly', () => 
+      const flagEffect = new ItemEffect(UNLOCK_FLAG: ItemEffectType.UNLOCK_FLAG, 0, 'quest_complete');
       const result = flagEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(true);
@@ -373,16 +373,16 @@ describe('ItemsPure Golden Tests', () => {
       expect(context.flags['quest_complete']).toBe(true);
     });
 
-    test('should handle missing flag parameter', () => {
-      const flagEffect = new ItemEffect(ItemEffectType.UNLOCK_FLAG, 0);
+    test('should handle missing flag parameter', () => 
+      const flagEffect = new ItemEffect(UNLOCK_FLAG: ItemEffectType.UNLOCK_FLAG, 0);
       const result = flagEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(false);
       expect(result.message).toContain('No flag to unlock specified');
     });
 
-    test('should handle null target', () => {
-      const healEffect = new ItemEffect(ItemEffectType.HEAL, 30);
+    test('should handle null target', () => 
+      const healEffect = new ItemEffect(HEAL: ItemEffectType.HEAL, 30);
       const result = healEffect.apply(context, null);
 
       expect(result.isSuccess).toBe(false);
@@ -401,8 +401,8 @@ describe('ItemsPure Golden Tests', () => {
       faintedSpirit = new MockSpiritInstance('fainted', 'Fainted Spirit', 100, 0);
     });
 
-    test('should allow any target rule', () => {
-      const item = new Item('universal_item', 'Universal Item', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should allow any target rule', () => 
+      const item = new Item('universal_item', 'Universal Item', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30), 'any');
 
       expect(item.canUseOn(activeSpirit)).toBe(true);
@@ -410,8 +410,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(item.canUseOn(null)).toBe(true);
     });
 
-    test('should enforce notfainted rule', () => {
-      const item = new Item('active_only', 'Active Only', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should enforce notfainted rule', () => 
+      const item = new Item('active_only', 'Active Only', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30), 'notfainted');
 
       expect(item.canUseOn(activeSpirit)).toBe(true);
@@ -419,8 +419,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(item.canUseOn(null)).toBe(false);
     });
 
-    test('should enforce faintedonly rule', () => {
-      const item = new Item('revive_only', 'Revive Only', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should enforce faintedonly rule', () => 
+      const item = new Item('revive_only', 'Revive Only', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.REVIVE, 50), 'faintedonly');
 
       expect(item.canUseOn(activeSpirit)).toBe(false);
@@ -428,8 +428,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(item.canUseOn(null)).toBe(false);
     });
 
-    test('should apply effect with target validation', () => {
-      const healItem = new Item('selective_heal', 'Selective Heal', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should apply effect with target validation', () => 
+      const healItem = new Item('selective_heal', 'Selective Heal', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30), 'notfainted');
 
       const activeResult = healItem.applyEffect(context, activeSpirit);
@@ -440,8 +440,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(faintedResult.message).toContain('Cannot heal fainted spirit');
     });
 
-    test('should handle invalid target rules gracefully', () => {
-      const item = new Item('invalid_rule', 'Invalid Rule', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should handle invalid target rules gracefully', () => 
+      const item = new Item('invalid_rule', 'Invalid Rule', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30), 'invalidrule');
 
       const errors = item.validate({});
@@ -473,8 +473,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(manager.hasItem('test_item')).toBe(true);
     });
 
-    test('should reject invalid items', () => {
-      const invalidItem = new Item('', '', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should reject invalid items', () => 
+      const invalidItem = new Item('', '', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, -10));
 
       const registered = manager.registerItem(invalidItem);
@@ -492,8 +492,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(nonExistent).toBeNull();
     });
 
-    test('should get all items correctly', () => {
-      const item1 = new Item('item1', 'Item 1', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should get all items correctly', () => 
+      const item1 = new Item('item1', 'Item 1', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 20));
       const item2 = new Item('item2', 'Item 2', KEY_ITEM: ItemType.KEY_ITEM,
         new ItemEffect(ItemEffectType.UNLOCK_FLAG, 0, 'flag1'));
@@ -518,12 +518,12 @@ describe('ItemsPure Golden Tests', () => {
       expect(notRemoved).toBe(false);
     });
 
-    test('should update items correctly', () => {
+    test('should update items correctly', () => 
       manager.registerItem(testItem);
 
       const updates: Partial<Item> = {
         name: 'Updated Item',
-        effect: new ItemEffect(ItemEffectType.HEAL, 50)
+        effect: new ItemEffect(HEAL: ItemEffectType.HEAL, 50)
       };
 
       const updated = manager.updateItem('test_item', updates);
@@ -534,12 +534,12 @@ describe('ItemsPure Golden Tests', () => {
       expect((updatedItem?.effect.amount)).toBe(50);
     });
 
-    test('should reject invalid updates', () => {
+    test('should reject invalid updates', () => 
       manager.registerItem(testItem);
 
       const invalidUpdates: Partial<Item> = {
         itemID: '',
-        effect: new ItemEffect(ItemEffectType.HEAL, -50)
+        effect: new ItemEffect(HEAL: ItemEffectType.HEAL, -50)
       };
 
 
@@ -564,8 +564,8 @@ describe('ItemsPure Golden Tests', () => {
       faintedSpirit = new MockSpiritInstance('fainted', 'Fainted Spirit', 100, 0);
     });
 
-    test('should handle successful item usage', () => {
-      const healItem = new Item('health_potion', 'Health Potion', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should handle successful item usage', () => 
+      const healItem = new Item('health_potion', 'Health Potion', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30));
       manager.registerItem(healItem);
 
@@ -577,8 +577,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(context.inventory['health_potion']).toBe(2); // Consumed
     });
 
-    test('should handle item not in inventory', () => {
-      const healItem = new Item('missing_potion', 'Missing Potion', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should handle item not in inventory', () => 
+      const healItem = new Item('missing_potion', 'Missing Potion', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30));
       manager.registerItem(healItem);
 
@@ -595,8 +595,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(result.message).toContain("Item 'unknown_item' not found");
     });
 
-    test('should not consume key items', () => {
-      const keyItem = new Item('mystery_key', 'Mystery Key', KEY_ITEM: ItemType.KEY_ITEM,
+    test('should not consume key items', () => 
+      const keyItem = new Item('mystery_key', 'Mystery Key', KEY_ITEM: KEY_ITEM: ItemType.KEY_ITEM,
         new ItemEffect(ItemEffectType.UNLOCK_FLAG, 0, 'mystery_unlocked'));
       manager.registerItem(keyItem);
 
@@ -606,8 +606,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(context.inventory['mystery_key']).toBeUndefined(); // Key items not tracked in inventory
     });
 
-    test('should handle usage validation', () => {
-      const reviveItem = new Item('revive', 'Revive', CONSUMABLE: ItemType.CONSUMABLE,
+    test('should handle usage validation', () => 
+      const reviveItem = new Item('revive', 'Revive', CONSUMABLE: CONSUMABLE: ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.REVIVE, 50), 'faintedonly');
       manager.registerItem(reviveItem);
 
@@ -712,17 +712,17 @@ describe('ItemsPure Golden Tests', () => {
       expect(duplicateErrors).toContain('health_potion: Duplicate item ID'); // Should contain the specific duplicate error
     });
 
-    test('should filter items by type', () => {
-      const consumables = ItemUtils.filterItems(items, { type: ItemType.CONSUMABLE });
-      const keyItems = ItemUtils.filterItems(items, { type: ItemType.KEY_ITEM });
+    test('should filter items by type', () => 
+      const consumables = ItemUtils.filterItems(items, { type: CONSUMABLE: ItemType.CONSUMABLE});
+      const keyItems = ItemUtils.filterItems(items,  type: KEY_ITEM: ItemType.KEY_ITEM});
 
       expect(consumables.every(i => i.isConsumable)).toBe(true);
       expect(keyItems.every(i => i.isKeyItem)).toBe(true);
     });
 
-    test('should filter items by effect type', () => {
-      const healItems = ItemUtils.filterItems(items, { effectType: ItemEffectType.HEAL });
-      const reviveItems = ItemUtils.filterItems(items, { effectType: ItemEffectType.REVIVE });
+    test('should filter items by effect type', () => 
+      const healItems = ItemUtils.filterItems(items, { effectType: HEAL: ItemEffectType.HEAL});
+      const reviveItems = ItemUtils.filterItems(items,  effectType: REVIVE: ItemEffectType.REVIVE});
 
       expect(healItems.every(i => i.effect.effectType === ItemEffectType.HEAL)).toBe(true);
       expect(reviveItems.every(i => i.effect.effectType === ItemEffectType.REVIVE)).toBe(true);
@@ -982,14 +982,14 @@ describe('ItemsPure Golden Tests', () => {
       const startTime = performance.now();
 
       // Complex filtering operations
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 100; i++) 
         manager.getItemsByType(ItemType.CONSUMABLE);
         manager.searchItems('complex');
         manager.getUsableItems(spirit);
         ItemUtils.filterItems(
           manager.getAllItems(),
           {
-            type: ItemType.CONSUMABLE,
+            type: CONSUMABLE: ItemType.CONSUMABLE,
             hasEffect: true,
             targetRule: 'any'
           }

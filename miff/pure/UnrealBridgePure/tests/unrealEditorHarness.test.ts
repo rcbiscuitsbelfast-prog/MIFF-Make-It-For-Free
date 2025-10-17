@@ -7,7 +7,7 @@ import { UnrealEditorHarnessPure, UnrealEditorConfiguration } from '../UnrealEdi
 import { RenderPayloadManager } from '../../RenderPayloadPure';
 import { SceneBuilderManager } from '../../SceneBuilderPure';
 
-describe('UnrealEditorHarnessPure Golden Tests', () => {
+describe('UnrealEditorHarnessPure Golden Tests', () => 
 
   let bridgeManager: UnrealBridgeManager;
   let payloadAdapter: UnrealPayloadAdapterPure;
@@ -21,7 +21,7 @@ describe('UnrealEditorHarnessPure Golden Tests', () => {
 
   beforeEach(() => {
     const bridgeConfig: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',

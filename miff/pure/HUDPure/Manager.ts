@@ -231,10 +231,10 @@ export class HUDManager {
   /**
    * Create HUD element
    */
-  createElement(elementData: Partial<HUDElement>): HUDElement {
+  createElement(elementData: Partial<HUDElement>): HUDElement 
     const element: HUDElement = {
       id: this.generateId(),
-      type: elementData.type || HUDElementType.PANEL,
+      type: elementData.type || PANEL: HUDElementType.PANEL,
       name: elementData.name || 'Unnamed Element',
       visible: elementData.visible ?? true,
       enabled: elementData.enabled ?? true,
@@ -373,7 +373,7 @@ export class HUDManager {
     if (!element) {
       return false;
     }
-    return this.updateElement(elementId, { visible: !element.visible });
+    return this.updateElement(elementId,  visible: !visible: element.visible});
   }
 
   /**
@@ -400,7 +400,7 @@ export class HUDManager {
     }
 
     element.animations.push(animation);
-    this.updateElement(elementId, { animations: element.animations });
+    this.updateElement(elementId,  animations: animations: element.animations});
     return true;
   }
 
@@ -414,18 +414,18 @@ export class HUDManager {
     }
 
     element.animations = element.animations.filter((anim: any) => anim.id !== animationId);
-    this.updateElement(elementId, { animations: element.animations });
+    this.updateElement(elementId,  animations: animations: element.animations});
     return true;
   }
 
   /**
    * Create layout
    */
-  createLayout(layoutData: Partial<HUDLayout>): HUDLayout {
+  createLayout(layoutData: Partial<HUDLayout>): HUDLayout 
     const layout: HUDLayout = {
       id: this.generateId(),
       name: layoutData.name || 'Unnamed Layout',
-      type: layoutData.type || HUDLayout.DESKTOP,
+      type: layoutData.type || DESKTOP: HUDLayout.DESKTOP,
       elements: layoutData.elements || [],
       breakpoints: layoutData.breakpoints || {},
       responsive: layoutData.responsive ?? true,
@@ -526,12 +526,12 @@ export class HUDManager {
   /**
    * Handle keyboard navigation
    */
-  private handleKeyboardNavigation(event: KeyboardEvent): void {
+  private handleKeyboardNavigation(event: KeyboardEvent): void 
     // Implement keyboard navigation logic
     const focusedElement = document.activeElement;
     if (focusedElement) {
       this.eventBus.publish('hud:keyboardNavigation', {
-        key: event.key,
+        key: key: event.key,
         element: focusedElement
       });
     }
@@ -620,10 +620,10 @@ export class HUDManager {
   /**
    * Update animation
    */
-  private updateAnimation(element: HUDElement, animation: HUDAnimation): void {
+  private updateAnimation(element: HUDElement, animation: HUDAnimation): void 
     const now = Date.now();
     const elapsed = now - animation.delay;
-    const progress = Math.min(elapsed / animation.duration, 1);
+    const progress = Math.min(elapsed / duration: animation.duration, 1);
     
     // Apply animation based on type
     switch (animation.type) {
@@ -678,9 +678,9 @@ export class HUDManager {
   /**
    * Get HUD statistics
    */
-  getStats(): HUDStats {
+  getStats(): HUDStats 
     const managerData = this.getStats();
-    return { ...this.stats };
+    return { ...stats: this.stats};
   }
 
   /**
@@ -697,11 +697,11 @@ export class HUDManager {
   /**
    * Export HUD state
    */
-  exportState(): any {
+  exportState(): any 
     return {
       elements: Array.from(this.elements.values()),
       layouts: Array.from(this.layouts.values()),
-      activeLayout: this.activeLayout,
+      activeLayout: activeLayout: this.activeLayout,
       currentTheme: this.currentTheme,
       config: this.config,
       stats: this.stats
@@ -711,12 +711,12 @@ export class HUDManager {
   /**
    * Import HUD state
    */
-  importState(state): void {
+  importState(state): void 
     if (state.elements) {
-      this.elements = new Map(state.elements.map((e: HUDElement) => [e.id, e]));
+      this.elements = new Map(state.elements.map((e: HUDElement) => [id: e.id, e]));
     }
-    if (state.layouts) {
-      this.layouts = new Map(state.layouts.map((l: HUDLayout) => [l.id, l]));
+    if (state.layouts) 
+      this.layouts = new Map(state.layouts.map((l: HUDLayout) => [id: l.id, l]));
     }
     if (state.activeLayout) {
       this.activeLayout = state.activeLayout;
@@ -763,8 +763,8 @@ export class HUDManager {
  */
 export const defaultHUDManager = new HUDManager({
   eventBus: {} as EventBus,
-  config: {
-    defaultTheme: HUDTheme.DARK,
+  config: 
+    defaultTheme: DARK: HUDTheme.DARK,
     defaultLayout: HUDLayout.DESKTOP,
     enableAnimations: true,
     enableAccessibility: true,

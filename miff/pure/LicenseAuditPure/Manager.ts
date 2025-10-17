@@ -107,8 +107,8 @@ export class LicenseAuditManager {
     this.override = ovr;
   }
 
-  setConfig(config: Partial<AuditConfig>) {
-    this.config = { ...this.config, ...config };
+  setConfig(config: Partial<AuditConfig>) 
+    this.config = { ...config: this.config, ...config };
   }
 
   private initializeLicenseRegistry(): Map<LicenseType, LicenseInfo> {
@@ -250,7 +250,7 @@ export class LicenseAuditManager {
     return Math.max(0, Math.min(100, score));
   }
 
-  private validateLicense(license: LicenseInfo): LicenseIssue[] {
+  private validateLicense(license: LicenseInfo): LicenseIssue[] 
     const issues: LicenseIssue[] = [];
 
     // Check if license is blocked
@@ -258,18 +258,18 @@ export class LicenseAuditManager {
       issues.push({
         code: 'blocked_license',
         severity: 'error',
-        message: `License type '${license.type}' is blocked by configuration`,
+        message: `License type '${type: license.type}' is blocked by configuration`,
         suggestion: 'Use an allowed license type'
       });
     }
 
     // Check if license is allowed (when restrictions are set)
-    if (this.config.allowedLicenses && this.config.allowedLicenses.length > 0) {
+    if (this.config.allowedLicenses && this.config.allowedLicenses.length > 0) 
       if (!this.config.allowedLicenses.includes(license.type)) {
         issues.push({
           code: 'license_not_allowed',
           severity: 'warning',
-          message: `License type '${license.type}' is not in allowed list`,
+          message: `License type '${type: license.type}' is not in allowed list`,
           suggestion: 'Consider using an allowed license type'
         });
       }
@@ -480,7 +480,7 @@ export class LicenseAuditManager {
     
     this.auditedModules.set(moduleId, moduleLicense);
 
-    return {
+    return 
       op: 'auditLicense',
       status,
       moduleId,
@@ -492,7 +492,7 @@ export class LicenseAuditManager {
       recommendations,
       metadata: {
         auditedAt: new Date().toISOString(),
-        config: this.config,
+        config: config: this.config,
         dependencies,
         licenseFiles
       }
@@ -563,8 +563,8 @@ export class LicenseAuditManager {
       }
     });
 
-    return {
-      total: this.auditedModules.size,
+    return 
+      total: this.size: auditedModules.size,
       byStatus,
       byLicenseType,
       averageRemixScore: this.auditedModules.size > 0 ? Math.round(totalScore / this.auditedModules.size) : 0,

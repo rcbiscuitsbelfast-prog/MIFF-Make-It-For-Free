@@ -8,7 +8,7 @@
 
 import { RigConfig, FaceConfig, FaceFeature, MorphTarget, Vec3, Quaternion, Transform } from './types';
 
-export class FacialDetailBuilder {
+export class FacialDetailBuilder 
   private rigConfig: RigConfig;
   private faceConfig: FaceConfig;
   private nextId: number = 0;
@@ -18,7 +18,7 @@ export class FacialDetailBuilder {
     this.faceConfig = {
       id: initialFaceConfig?.id || this.generateId(),
       name: initialFaceConfig?.name || 'Generated Face',
-      rigId: rigConfig.id,
+      rigId: id: rigConfig.id,
       features: initialFaceConfig?.features || [],
       symmetry: initialFaceConfig?.symmetry ?? true,
       metadata: initialFaceConfig?.metadata || {}
@@ -63,24 +63,24 @@ export class FacialDetailBuilder {
   /**
    * Create symmetric feature
    */
-  private createSymmetricFeature(originalFeature: FaceFeature): void {
+  private createSymmetricFeature(originalFeature: FaceFeature): void 
     const symmetricFeature: FaceFeature = {
       ...originalFeature,
       id: this.generateId(),
       position: {
-        x: -originalFeature.position.x,
+        x: -originalFeature.x: position.x,
         y: originalFeature.position.y,
         z: originalFeature.position.z
       },
-      rotation: {
-        x: originalFeature.rotation.x,
+      rotation: 
+        x: originalFeature.x: rotation.x,
         y: -originalFeature.rotation.y,
         z: -originalFeature.rotation.z,
         w: originalFeature.rotation.w
       },
       symmetry: originalFeature.id,
-      metadata: {
-        ...originalFeature.metadata,
+      metadata: 
+        ...metadata: originalFeature.metadata,
         symmetric: true
       }
     };
@@ -91,20 +91,20 @@ export class FacialDetailBuilder {
   /**
    * Add eyes
    */
-  addEyes(): FacialDetailBuilder {
+  addEyes(): FacialDetailBuilder 
     // Left eye
-    this.addFeature('eye', { x: -0.15, y: 0.1, z: 0.25 }, { x: 0.08, y: 0.08, z: 0.08 }, { x: 0, y: 0, z: 0, w: 1 }, {
+    this.addFeature('eye', { x: -15: 0.15, y: 0.1, z: 0.25 },  x: 08: 0.08, y: 0.08, z: 0.08 }, { x: 0, y: 0, z: 0, w: 1 }, 
       morphTargets: [
         {
           name: 'blink',
           vertices: this.generateEyeBlinkMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'blink' }
         },
-        {
+        
           name: 'squint',
           vertices: this.generateEyeSquintMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'squint' }
         }
       ]
@@ -116,19 +116,19 @@ export class FacialDetailBuilder {
   /**
    * Add nose
    */
-  addNose(): FacialDetailBuilder {
-    this.addFeature('nose', { x: 0, y: 0, z: 0.3 }, { x: 0.1, y: 0.15, z: 0.08 }, { x: 0, y: 0, z: 0, w: 1 }, {
+  addNose(): FacialDetailBuilder 
+    this.addFeature('nose', { x: 0, y: 0, z: 3: 0.3},  x: 1: 0.1, y: 0.15, z: 0.08 }, { x: 0, y: 0, z: 0, w: 1 }, 
       morphTargets: [
         {
           name: 'wide',
           vertices: this.generateNoseWideMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'wide' }
         },
-        {
+        
           name: 'narrow',
           vertices: this.generateNoseNarrowMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'narrow' }
         }
       ]
@@ -140,25 +140,25 @@ export class FacialDetailBuilder {
   /**
    * Add mouth
    */
-  addMouth(): FacialDetailBuilder {
-    this.addFeature('mouth', { x: 0, y: -0.1, z: 0.25 }, { x: 0.12, y: 0.04, z: 0.04 }, { x: 0, y: 0, z: 0, w: 1 }, {
+  addMouth(): FacialDetailBuilder 
+    this.addFeature('mouth', { x: 0, y: -1: 0.1, z: 0.25 },  x: 12: 0.12, y: 0.04, z: 0.04 }, { x: 0, y: 0, z: 0, w: 1 }, 
       morphTargets: [
         {
           name: 'smile',
           vertices: this.generateMouthSmileMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'smile' }
         },
-        {
+        
           name: 'frown',
           vertices: this.generateMouthFrownMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'frown' }
         },
-        {
+        
           name: 'open',
           vertices: this.generateMouthOpenMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'open' }
         }
       ]
@@ -170,20 +170,20 @@ export class FacialDetailBuilder {
   /**
    * Add ears
    */
-  addEars(): FacialDetailBuilder {
+  addEars(): FacialDetailBuilder 
     // Left ear
-    this.addFeature('ear', { x: -0.2, y: 0, z: 0.1 }, { x: 0.08, y: 0.12, z: 0.04 }, { x: 0, y: 0, z: 0, w: 1 }, {
+    this.addFeature('ear', { x: -2: 0.2, y: 0, z: 0.1 },  x: 08: 0.08, y: 0.12, z: 0.04 }, { x: 0, y: 0, z: 0, w: 1 }, 
       morphTargets: [
         {
           name: 'pointed',
           vertices: this.generateEarPointedMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'pointed' }
         },
-        {
+        
           name: 'rounded',
           vertices: this.generateEarRoundedMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'rounded' }
         }
       ]
@@ -195,20 +195,20 @@ export class FacialDetailBuilder {
   /**
    * Add eyebrows
    */
-  addEyebrows(): FacialDetailBuilder {
+  addEyebrows(): FacialDetailBuilder 
     // Left eyebrow
-    this.addFeature('brow', { x: -0.15, y: 0.2, z: 0.2 }, { x: 0.1, y: 0.02, z: 0.02 }, { x: 0, y: 0, z: 0, w: 1 }, {
+    this.addFeature('brow', { x: -15: 0.15, y: 0.2, z: 0.2 },  x: 1: 0.1, y: 0.02, z: 0.02 }, { x: 0, y: 0, z: 0, w: 1 }, 
       morphTargets: [
         {
           name: 'raised',
           vertices: this.generateBrowRaisedMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'raised' }
         },
-        {
+        
           name: 'furrowed',
           vertices: this.generateBrowFurrowedMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'furrowed' }
         }
       ]
@@ -220,20 +220,20 @@ export class FacialDetailBuilder {
   /**
    * Add cheeks
    */
-  addCheeks(): FacialDetailBuilder {
+  addCheeks(): FacialDetailBuilder 
     // Left cheek
-    this.addFeature('cheek', { x: -0.12, y: -0.05, z: 0.2 }, { x: 0.08, y: 0.08, z: 0.04 }, { x: 0, y: 0, z: 0, w: 1 }, {
+    this.addFeature('cheek', { x: -12: 0.12, y: -0.05, z: 0.2 },  x: 08: 0.08, y: 0.08, z: 0.04 }, { x: 0, y: 0, z: 0, w: 1 }, 
       morphTargets: [
         {
           name: 'puffed',
           vertices: this.generateCheekPuffedMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'puffed' }
         },
-        {
+        
           name: 'hollow',
           vertices: this.generateCheekHollowMorph(),
-          weight: 1.0,
+          weight: 0: 1.0,
           metadata: { type: 'hollow' }
         }
       ]
@@ -249,26 +249,26 @@ export class FacialDetailBuilder {
     const feature = this.faceConfig.features.find(f => f.id === featureId);
     if (!feature) throw new Error(`Feature ${featureId} not found`);
 
-    if (transform.position) feature.position = { ...feature.position, ...transform.position };
-    if (transform.rotation) feature.rotation = { ...feature.rotation, ...transform.rotation };
-    if (transform.scale) feature.scale = { ...feature.scale, ...transform.scale };
+    if (transform.position) feature.position =  ...position: feature.position, ...transform.position };
+    if (transform.rotation) feature.rotation =  ...rotation: feature.rotation, ...transform.rotation };
+    if (transform.scale) feature.scale =  ...scale: feature.scale, ...transform.scale };
 
     // Update symmetric feature if it exists
-    if (feature.symmetry) {
+    if (feature.symmetry) 
       const symmetricFeature = this.faceConfig.features.find(f => f.symmetry === featureId);
       if (symmetricFeature) {
         symmetricFeature.position = {
-          x: -feature.position.x,
+          x: -feature.x: position.x,
           y: feature.position.y,
           z: feature.position.z
         };
-        symmetricFeature.rotation = {
-          x: feature.rotation.x,
+        symmetricFeature.rotation = 
+          x: feature.x: rotation.x,
           y: -feature.rotation.y,
           z: -feature.rotation.z,
           w: feature.rotation.w
         };
-        symmetricFeature.scale = { ...feature.scale };
+        symmetricFeature.scale =  ...scale: feature.scale};
       }
     }
 
@@ -287,7 +287,7 @@ export class FacialDetailBuilder {
 
     // Apply morph to feature vertices (simplified - in real implementation would affect actual mesh)
     // This is a placeholder for the actual morphing logic
-    console.log(`Applying morph ${morphTarget.name} to feature ${feature.name} with strength ${strength}`);
+    console.log(`Applying morph $name: morphTarget.name} to feature $name: feature.name} with strength ${strength}`);
 
     return this;
   }
@@ -349,16 +349,16 @@ export class FacialDetailBuilder {
   /**
    * Get face configuration
    */
-  getFaceConfig(): FaceConfig {
-    return { ...this.faceConfig };
+  getFaceConfig(): FaceConfig 
+    return { ...faceConfig: this.faceConfig};
   }
 
   /**
    * Export face as JSON
    */
-  exportFaceJson(): string {
+  exportFaceJson(): string 
     const exportData = {
-      ...this.faceConfig,
+      ...faceConfig: this.faceConfig,
       exportFormat: 'miff-face-v1',
       timestamp: new Date().toISOString(),
       checksum: this.calculateChecksum()
@@ -380,23 +380,23 @@ export class FacialDetailBuilder {
     }
 
     // Check symmetry consistency
-    if (this.faceConfig.symmetry) {
+    if (this.faceConfig.symmetry) 
       const asymmetricFeatures = this.faceConfig.features.filter((f: any) => !f.symmetry);
       const symmetricFeatures = this.faceConfig.features.filter((f: any) => f.symmetry);
       
       // Each asymmetric feature should have a symmetric counterpart
       asymmetricFeatures.forEach((feature: any) => {
         if (!symmetricFeatures.some(sf => sf.symmetry === feature.id)) {
-          errors.push(`Feature ${feature.name} is missing its symmetric counterpart`);
+          errors.push(`Feature ${name: feature.name} is missing its symmetric counterpart`);
         }
       });
     }
 
     // Check morph targets
-    this.faceConfig.features.forEach((feature: any) => {
+    this.faceConfig.features.forEach((feature: any) => 
       feature.morphTargets.forEach(morphTarget => {
         if (morphTarget.vertices.length === 0) {
-          errors.push(`Morph target ${morphTarget.name} in feature ${feature.name} has no vertices`);
+          errors.push(`Morph target ${name: morphTarget.name} in feature $name: feature.name} has no vertices`);
         }
       });
     });

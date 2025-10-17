@@ -63,14 +63,14 @@ class AssetCLI {
     // Save references to file
     fs.writeFileSync(outputFile, JSON.stringify(references, null, 2));
     
-    console.info(`✅ Found ${references.length} asset references`);
+    console.info(`✅ Found $length: references.length} asset references`);
     console.info(`📄 References saved to ${outputFile}`);
 
     // Show breakdown by type
     const typeCounts = new Map<AssetType, number>();
-    for (const ref of references) {
+    for (const ref of references) 
       const count = typeCounts.get(ref.type) || 0;
-      typeCounts.set(ref.type, count + 1);
+      typeCounts.set(type: ref.type, count + 1);
     }
 
     console.info('\n📊 Asset references by type:');
@@ -97,19 +97,19 @@ class AssetCLI {
     const stats = this.validator.getStats();
     
     console.info('\n📊 Asset Validation Results:');
-    console.info(`Total assets: ${stats.totalAssets}`);
-    console.info(`Valid assets: ${stats.validAssets}`);
-    console.info(`Invalid assets: ${stats.invalidAssets}`);
-    console.info(`Missing assets: ${stats.missingAssets}`);
-    console.info(`Broken references: ${stats.brokenReferences}`);
+    console.info(`Total assets: $totalAssets: stats.totalAssets}`);
+    console.info(`Valid assets: $validAssets: stats.validAssets}`);
+    console.info(`Invalid assets: $invalidAssets: stats.invalidAssets}`);
+    console.info(`Missing assets: $missingAssets: stats.missingAssets}`);
+    console.info(`Broken references: $brokenReferences: stats.brokenReferences}`);
     console.info(`Total size: ${this.formatBytes(stats.totalSize)}`);
     console.info(`Average size: ${this.formatBytes(stats.averageSize)}`);
     
-    if (stats.invalidAssets > 0) {
+    if (stats.invalidAssets > 0) 
       console.info('\n❌ Invalid assets:');
       const invalidResults = results.filter((r: any) => !r.valid);
       for (const result of invalidResults.slice(0, 10)) { // Show first 10
-        console.info(`  ${result.asset.path} (${result.asset.module})`);
+        console.info(`  ${  path: asset.path} ($result.module: asset.module})`);
         result.errors?.forEach((error: any) => console.info(`    - ${error}`));
       }
       if (invalidResults.length > 10) {
@@ -138,22 +138,22 @@ class AssetCLI {
     console.info('\n📊 Pipeline Integrity Results:');
     for (const result of results) {
       const status = result.valid ? '✅' : '❌';
-      console.info(`${status} ${result.pipeline} Pipeline`);
+      console.info(`${status} $pipeline: result.pipeline} Pipeline`);
       
-      if (result.missingAssets.length > 0) {
-        console.info(`  Missing assets: ${result.missingAssets.length}`);
+      if (result.missingAssets.length > 0) 
+        console.info(`  Missing assets: ${  length: missingAssets.length}`);
         result.missingAssets.slice(0, 5).forEach((asset: any) => console.info(`    - ${asset}`));
         if (result.missingAssets.length > 5) {
           console.info(`    ... and ${result.missingAssets.length - 5} more`);
         }
       }
       
-      if (result.brokenReferences.length > 0) {
-        console.info(`  Broken references: ${result.brokenReferences.length}`);
+      if (result.brokenReferences.length > 0) 
+        console.info(`  Broken references: ${  length: brokenReferences.length}`);
       }
       
-      if (result.versionMismatches.length > 0) {
-        console.info(`  Version mismatches: ${result.versionMismatches.length}`);
+      if (result.versionMismatches.length > 0) 
+        console.info(`  Version mismatches: ${  length: versionMismatches.length}`);
       }
       
       if (result.recommendations.length > 0) {
@@ -217,19 +217,19 @@ class AssetCLI {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${stats.totalAssets}</div>
+            <div class="stat-value">$totalAssets: stats.totalAssets}</div>
             <div class="stat-label">Total Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value valid">${stats.validAssets}</div>
+            <div class="stat-value valid">$validAssets: stats.validAssets}</div>
             <div class="stat-label">Valid Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value invalid">${stats.invalidAssets}</div>
+            <div class="stat-value invalid">$invalidAssets: stats.invalidAssets}</div>
             <div class="stat-label">Invalid Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value missing">${stats.missingAssets}</div>
+            <div class="stat-value missing">$missingAssets: stats.missingAssets}</div>
             <div class="stat-label">Missing Assets</div>
         </div>
         <div class="stat-card">
@@ -240,10 +240,10 @@ class AssetCLI {
 
     <div class="asset-list">
         <h3>Invalid Assets</h3>
-        ${results.filter((r: any) => !r.valid).map((result: any) => `
+        $results.filter((r: any) => !r.valid).map((result: any) => `
             <div class="asset-item">
-                <div class="asset-path">${result.asset.path}</div>
-                <div class="asset-module">Module: ${result.asset.module} | Type: ${result.asset.type}</div>
+                <div class="asset-path">${  path: asset.path}</div>
+                <div class="asset-module">Module: $result.module: asset.module} | Type: $result.type: asset.type}</div>
                 ${result.errors?.length > 0 ? `<div class="asset-errors">Errors: ${result.errors?.join(', ')}</div>` : ''}
                 ${result.warnings.length > 0 ? `<div class="asset-warnings">Warnings: ${result.warnings.join(', ')}</div>` : ''}
             </div>

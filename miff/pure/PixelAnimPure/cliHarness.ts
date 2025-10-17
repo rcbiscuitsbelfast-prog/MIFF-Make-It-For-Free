@@ -33,7 +33,7 @@ class PixelAnimCLI {
     this.manager = new PixelAnimManager();
   }
 
-  async execute(operation: PixelAnimOperation): Promise<any> {
+  async execute(operation: PixelAnimOperation): Promise<any> 
     try {
       switch (operation.op) {
         case 'create':
@@ -82,12 +82,12 @@ class PixelAnimCLI {
           return this.deleteAnimation(operation);
         
         default:
-          throw new Error(`Unknown operation: ${operation.op}`);
+          throw new Error(`Unknown operation: ${op: operation.op}`);
       }
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation.op,
+        op: op: operation.op,
         status: 'error',
         error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
@@ -107,12 +107,12 @@ class PixelAnimCLI {
       op.loop !== undefined ? loop: true
     );
 
-    return {
+    return 
       op: 'create',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        animation: result.animation,
-        message: `Animation ${op.name} created with ${op.frames.length} frames`
+        animation: animation: result.animation,
+        message: `Animation $name: op.name} created with $op.length: frames.length} frames`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -126,12 +126,12 @@ class PixelAnimCLI {
 
     const result = this.manager.createAnimationFromPreset(op.presetId);
 
-    return {
+    return 
       op: 'createFromPreset',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        animation: result.animation,
-        message: `Animation created from preset ${op.presetId}`
+        animation: animation: result.animation,
+        message: `Animation created from preset $presetId: op.presetId}`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -145,25 +145,25 @@ class PixelAnimCLI {
 
     const result = this.manager.getAnimation(op.name);
 
-    return {
+    return 
       op: 'get',
       status: result.ok ? 'ok' : 'error',
-      result: result.animation,
+      result: animation: result.animation,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listAnimations(op: PixelAnimOperation): any {
-    const filter = op.loop !== undefined ? { loop: op.loop } : undefined;
+  private listAnimations(op: PixelAnimOperation): any 
+    const filter = op.loop !== undefined ? { loop: loop: op.loop} : undefined;
     const result = this.manager.listAnimations(filter);
 
-    return {
+    return 
       op: 'list',
       status: 'ok',
       result: {
         animations: result.animations.map((anim: any) => ({
-          name: anim.name,
+          name: name: anim.name,
           frames: anim.frames.length,
           fps: anim.speed,
           loop: anim.loop,
@@ -183,18 +183,18 @@ class PixelAnimCLI {
 
     const result = this.manager.addPreset(op.preset);
 
-    return {
+    return 
       op: 'addPreset',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `Preset ${op.preset.id} added successfully`
+        message: `Preset ${  id: preset.id} added successfully`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listPresets(op: PixelAnimOperation): any {
+  private listPresets(op: PixelAnimOperation): any 
     const result = this.manager.listPresets(op.category);
 
     return {
@@ -202,7 +202,7 @@ class PixelAnimCLI {
       status: 'ok',
       result: {
         presets: result.presets.map((preset: any) => ({
-          id: preset.id,
+          id: id: preset.id,
           name: preset.name,
           description: preset.description,
           category: preset.category,
@@ -244,12 +244,12 @@ class PixelAnimCLI {
       op.transitions
     );
 
-    return {
+    return 
       op: 'createSequence',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        sequence: result.sequence,
-        message: `Sequence ${op.sequenceName} created with ${animations.length} animations`
+        sequence: sequence: result.sequence,
+        message: `Sequence $sequenceName: op.sequenceName} created with $length: animations.length} animations`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -263,16 +263,16 @@ class PixelAnimCLI {
 
     const result = this.manager.getSequence(op.sequenceId);
 
-    return {
+    return 
       op: 'getSequence',
       status: result.ok ? 'ok' : 'error',
-      result: result.sequence,
+      result: sequence: result.sequence,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listSequences(): any {
+  private listSequences(): any 
     const result = this.manager.listSequences();
 
     return {
@@ -280,7 +280,7 @@ class PixelAnimCLI {
       status: 'ok',
       result: {
         sequences: result.sequences.map((seq: any) => ({
-          id: seq.id,
+          id: id: seq.id,
           name: seq.name,
           animations: seq.animations.length,
           hasTransitions: !!seq.transitions && Object.keys(seq.transitions).length > 0,
@@ -299,12 +299,12 @@ class PixelAnimCLI {
 
     const result = this.manager.createSpriteSheet(op.animationNames, frameWidth: op.frameWidth, op.frameHeight);
 
-    return {
+    return 
       op: 'createSpriteSheet',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        spriteSheet: result.spriteSheet,
-        message: `Sprite sheet created from ${op.animationNames.length} animations`
+        spriteSheet: spriteSheet: result.spriteSheet,
+        message: `Sprite sheet created from $op.length: animationNames.length} animations`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -318,16 +318,16 @@ class PixelAnimCLI {
 
     const result = this.manager.simulate(op.name, op.duration || 5000);
 
-    return {
+    return 
       op: 'simulate',
       status: result.ok ? 'ok' : 'error',
-      result: result.simulation,
+      result: simulation: result.simulation,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private getStats(): any {
+  private getStats(): any 
     const stats = this.manager.getStats();
 
     return {
@@ -336,7 +336,7 @@ class PixelAnimCLI {
       result: {
         stats,
         summary: {
-          message: `${stats.totalAnimations} animations, ${stats.totalSequences} sequences, ${stats.totalFrames} total frames`,
+          message: `${totalAnimations: stats.totalAnimations} animations, $totalSequences: stats.totalSequences} sequences, $totalFrames: stats.totalFrames} total frames`,
           averageFrames: stats.averageFramesPerAnimation.toFixed(1)
         }
       },
@@ -352,12 +352,12 @@ class PixelAnimCLI {
     const format = op.format || 'json';
     
     // Handle special animation export formats
-    if (['manifest', 'spritesheet'].includes(format)) {
-      const result = this.manager.exportAnimation(op.name, format as any);
-      return {
+    if (['manifest', 'spritesheet'].includes(format)) 
+      const result = this.manager.exportAnimation(name: op.name, format as any);
+      return 
         op: 'export',
         status: result.ok ? 'ok' : 'error',
-        result: result.data,
+        result: data: result.data,
         format,
         errors: result.errors,
         timestamp: new Date()
@@ -366,11 +366,11 @@ class PixelAnimCLI {
 
     // Handle standard export formats
     const animResult = this.manager.getAnimation(op.name);
-    if (!animResult.ok) {
+    if (!animResult.ok) 
       return {
         op: 'export',
         status: 'error',
-        errors: animResult.errors,
+        errors: errors: animResult.errors,
         timestamp: new Date()
       };
     }
@@ -388,13 +388,13 @@ class PixelAnimCLI {
       }
       case 'csv':
       case 'markdown':
-      case 'html': {
+      case 'html': 
         const exportData = exportDataToFormat(data, {
           format: format as ExportFormat,
           includeMetadata: true,
           includeTimestamp: true,
-          title: `Animation ${op.name}`,
-          description: `Pixel animation with ${data?.frames.length} frames at ${data?.speed} FPS`
+          title: `Animation ${name: op.name}`,
+          description: `Pixel animation with $data?.length: frames.length} frames at ${data?.speed} FPS`
         });
         return { 
           op: 'export', 
@@ -422,11 +422,11 @@ class PixelAnimCLI {
 
     const validation = this.manager.validateAnimation(op.data);
 
-    return {
+    return 
       op: 'validate',
       status: 'ok',
       result: {
-        valid: validation.valid,
+        valid: valid: validation.valid,
         errors: validation.errors,
         animation: validation.valid ? data: null
       },
@@ -441,11 +441,11 @@ class PixelAnimCLI {
 
     const result = this.manager.deleteAnimation(op.name);
 
-    return {
+    return 
       op: 'delete',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `Animation ${op.name} deleted successfully`
+        message: `Animation ${name: op.name} deleted successfully`
       } : undefined,
       errors: result.errors,
       timestamp: new Date()
@@ -474,7 +474,7 @@ class PixelAnimCLI {
   }
 }
 
-async function main() {
+async function main() 
   const cli = new PixelAnimCLI();
   
   if (process.argv.length < 3) {
@@ -484,7 +484,7 @@ async function main() {
     console.error('  cliHarness.ts list');
     console.error('  cliHarness.ts listPresets character');
     console.error('  cliHarness.ts createFromPreset walk-basic');
-    console.error('  cliHarness.ts create my-anim frame1.png, png: frame2.png,frame3.png 10 true');
+    console.error('  cliHarness.ts create my-anim png: frame1.png, png: frame2.png,frame3.png 10 true');
     console.error('  cliHarness.ts simulate "Basic Walk Cycle" 3000');
     console.error('  cliHarness.ts export "Basic Walk Cycle" manifest');
     process.exit(1);

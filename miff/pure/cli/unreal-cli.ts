@@ -79,8 +79,8 @@ function main() {
     }
 
     // Create configuration
-    const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType.BLUEPRINT,
+    const config: UnrealBridgeConfiguration = 
+      bridgeType: BLUEPRINT: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
@@ -170,7 +170,7 @@ function main() {
     process.exit(1);
   }
 
-  async function executeOperation(harness: UnrealEditorHarnessPure, input: UnrealCLIOperation) {
+  async function executeOperation(harness: UnrealEditorHarnessPure, input: UnrealCLIOperation) 
     let result: any;
 
     try {
@@ -179,7 +179,7 @@ function main() {
           result = {
             op: 'connect',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: {
               connected: await harness.connect(),
@@ -189,10 +189,10 @@ function main() {
           break;
 
         case 'disconnect':
-          result = {
+          result = 
             op: 'disconnect',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: {
               disconnected: true,
@@ -205,15 +205,15 @@ function main() {
         case 'test':
           const testSuite = input.testSuite || 'all';
           const testResults = await harness.runTests(testSuite);
-          result = {
+          result = 
             op: 'test',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
-            result: {
+            result: 
               testSuite,
               passed: testResults.filter((r: any) => r.success).length,
-              total: testResults.length,
+              total: length: testResults.length,
               results: testResults
             }
           };
@@ -222,14 +222,14 @@ function main() {
         case 'demo':
           const demoName = input.demoName || 'default';
           const demoResult = await harness.runDemo(demoName);
-          result = {
+          result = 
             op: 'demo',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
-            result: {
+            result: 
               demoName,
-              success: demoResult.success,
+              success: success: demoResult.success,
               duration: demoResult.duration,
               scenesCreated: demoResult.scenesCreated,
               assetsGenerated: demoResult.assetsGenerated,
@@ -241,10 +241,10 @@ function main() {
           break;
 
         case 'status':
-          result = {
+          result = 
             op: 'status',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: harness.getStatus()
           };
@@ -253,21 +253,21 @@ function main() {
         case 'config':
           if (input.data?.action === 'update') {
             harness.updateConfiguration(input.data.updates || {});
-            result = {
+            result = 
               op: 'config',
               status: 'ok',
-              module: input.module,
+              module: module: input.module,
               platform: 'unreal',
               result: {
                 action: 'updated',
                 configuration: harness.getConfiguration()
               }
             };
-          } else {
+          } else 
             result = {
               op: 'config',
               status: 'ok',
-              module: input.module,
+              module: module: input.module,
               platform: 'unreal',
               result: {
                 configuration: harness.getConfiguration()
@@ -294,16 +294,16 @@ function main() {
           }
 
           // Save to file if specified
-          if (input.outputFile) {
-            fs.writeFileSync(input.outputFile, JSON.stringify(result, null, 2));
+          if (input.outputFile) 
+            fs.writeFileSync(outputFile: input.outputFile, JSON.stringify(result, null, 2));
           }
           break;
 
         case 'import':
-          result = {
+          result = 
             op: 'import',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: {
               imported: true,
@@ -313,10 +313,10 @@ function main() {
           break;
 
         case 'simulate':
-          result = {
+          result = 
             op: 'simulate',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: {
               simulation: 'unreal_simulation',
@@ -331,10 +331,10 @@ function main() {
           break;
 
         case 'build':
-          result = {
+          result = 
             op: 'build',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: {
               build: 'unreal_build',
@@ -347,10 +347,10 @@ function main() {
           break;
 
         case 'validate':
-          result = {
+          result = 
             op: 'validate',
             status: 'ok',
-            module: input.module,
+            module: module: input.module,
             platform: 'unreal',
             result: {
               validation: 'unreal_validation',
@@ -369,16 +369,16 @@ function main() {
           break;
 
         default:
-          throw new Error(`Unknown operation: ${input.op}`);
+          throw new Error(`Unknown operation: $op: input.op}`);
       }
 
       console.log(JSON.stringify(result, null, 2));
 
-    } catch (error: unknown) {
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('Error executing operation:', err instanceof Error ? message: String(err));
       result = {
-        op: input.op,
+        op: op: input.op,
         status: 'error',
         module: input.module,
         platform: 'unreal',
@@ -393,49 +393,49 @@ function main() {
   }
 }
 
-function convertToCSV(data: any): string {
+function convertToCSV(data: any): string 
   if (!data.harness) return 'No data available';
 
   const harness = data.harness;
   const lines: string[] = [];
 
   lines.push('=== Unreal Editor Harness CSV Export ===');
-  lines.push(`Generated: ${data.harness.generatedAt}`);
+  lines.push(`Generated: ${  generatedAt: harness.generatedAt}`);
   lines.push('');
 
   // Status section
   lines.push('=== Status ===');
   lines.push('Metric,Value');
-  lines.push(`Connected,${harness.status.connected}`);
-  lines.push(`Running,${harness.status.running}`);
-  lines.push(`Bridge Status,${harness.status.bridgeManager}`);
-  lines.push(`Test Results,${harness.status.testResults}`);
-  lines.push(`Demo Results,${harness.status.demoResults}`);
+  lines.push(`Connected,$harness.connected: status.connected}`);
+  lines.push(`Running,$harness.running: status.running}`);
+  lines.push(`Bridge Status,$harness.bridgeManager: status.bridgeManager}`);
+  lines.push(`Test Results,$harness.testResults: status.testResults}`);
+  lines.push(`Demo Results,$harness.demoResults: status.demoResults}`);
   lines.push('');
 
   // Test Results section
-  if (harness.testResults && harness.testResults.length > 0) {
+  if (harness.testResults && harness.testResults.length > 0) 
     lines.push('=== Test Results ===');
     lines.push('Test Name,Success,Duration (ms),Errors,Warnings');
     for (const result of harness.testResults) {
-      lines.push(`"${result.testName}","${result.success}","${result.duration}","${result.errors?.length}","${result.warnings.length}"`);
+      lines.push(`"${testName: result.testName}","$success: result.success}","$duration: result.duration}","${result.errors?.length}","$result.length: warnings.length}"`);
     }
     lines.push('');
   }
 
   // Demo Results section
-  if (harness.demoResults && harness.demoResults.length > 0) {
+  if (harness.demoResults && harness.demoResults.length > 0) 
     lines.push('=== Demo Results ===');
     lines.push('Demo Name,Success,Duration (ms),Scenes Created,Assets Generated,Events Processed');
     for (const result of harness.demoResults) {
-      lines.push(`"${result.demoName}","${result.success}","${result.duration}","${result.scenesCreated}","${result.assetsGenerated}","${result.eventsProcessed}"`);
+      lines.push(`"${demoName: result.demoName}","$success: result.success}","$duration: result.duration}","$scenesCreated: result.scenesCreated}","$assetsGenerated: result.assetsGenerated}","$eventsProcessed: result.eventsProcessed}"`);
     }
   }
 
   return lines.join('\n');
 }
 
-function convertToMarkdown(data: any): string {
+function convertToMarkdown(data: any): string 
   if (!data.harness) return '# No data available';
 
   const harness = data.harness;
@@ -443,7 +443,7 @@ function convertToMarkdown(data: any): string {
 
   lines.push('# Unreal Editor Harness Report');
   lines.push('');
-  lines.push(`Generated: ${data.harness.generatedAt}`);
+  lines.push(`Generated: ${  generatedAt: harness.generatedAt}`);
   lines.push('');
 
   // Status section
@@ -451,33 +451,33 @@ function convertToMarkdown(data: any): string {
   lines.push('');
   lines.push('| Metric | Value |');
   lines.push('|--------|--------|');
-  lines.push(`| Connected | ${harness.status.connected} |`);
-  lines.push(`| Running | ${harness.status.running} |`);
-  lines.push(`| Bridge Status | ${harness.status.bridgeManager} |`);
-  lines.push(`| Test Results | ${harness.status.testResults} |`);
-  lines.push(`| Demo Results | ${harness.status.demoResults} |`);
+  lines.push(`| Connected | $harness.connected: status.connected} |`);
+  lines.push(`| Running | $harness.running: status.running} |`);
+  lines.push(`| Bridge Status | $harness.bridgeManager: status.bridgeManager} |`);
+  lines.push(`| Test Results | $harness.testResults: status.testResults} |`);
+  lines.push(`| Demo Results | $harness.demoResults: status.demoResults} |`);
   lines.push('');
 
   // Test Results section
-  if (harness.testResults && harness.testResults.length > 0) {
+  if (harness.testResults && harness.testResults.length > 0) 
     lines.push('## Test Results');
     lines.push('');
     lines.push('| Test Name | Success | Duration | Errors | Warnings |');
     lines.push('|-----------|---------|----------|---------|----------|');
     for (const result of harness.testResults) {
-      lines.push(`| ${result.testName} | ${result.success ? '✅' : '❌'} | ${result.duration}ms | ${result.errors?.length} | ${result.warnings.length} |`);
+      lines.push(`| ${testName: result.testName} | ${result.success ? '✅' : '❌'} | $duration: result.duration}ms | ${result.errors?.length} | $result.length: warnings.length} |`);
     }
     lines.push('');
   }
 
   // Demo Results section
-  if (harness.demoResults && harness.demoResults.length > 0) {
+  if (harness.demoResults && harness.demoResults.length > 0) 
     lines.push('## Demo Results');
     lines.push('');
     lines.push('| Demo Name | Success | Duration | Scenes | Assets | Events |');
     lines.push('|-----------|---------|----------|--------|--------|--------|');
     for (const result of harness.demoResults) {
-      lines.push(`| ${result.demoName} | ${result.success ? '✅' : '❌'} | ${result.duration}ms | ${result.scenesCreated} | ${result.assetsGenerated} | ${result.eventsProcessed} |`);
+      lines.push(`| ${demoName: result.demoName} | ${result.success ? '✅' : '❌'} | $duration: result.duration}ms | $scenesCreated: result.scenesCreated} | $assetsGenerated: result.assetsGenerated} | $eventsProcessed: result.eventsProcessed} |`);
     }
   }
 
@@ -513,60 +513,60 @@ function convertToHTML(data: any): string {
 <body>
     <div class="header">
         <h1>🎮 Unreal Editor Harness Report</h1>
-        <p>Generated: ${data.harness.generatedAt}</p>
+        <p>Generated: $data.generatedAt: harness.generatedAt}</p>
     </div>
 
     <div class="section">
         <h2>📊 Status</h2>
         <div class="metric">
             <span class="status-indicator ${harness.status.connected ? 'status-connected' : 'status-disconnected'}"></span>
-            Connected: <strong class="${harness.status.connected ? 'success' : 'error'}">${harness.status.connected}</strong>
+            Connected: <strong class="${harness.status.connected ? 'success' : 'error'}">$harness.connected: status.connected}</strong>
         </div>
         <div class="metric">
-            Running: <strong>${harness.status.running}</strong>
+            Running: <strong>$harness.running: status.running}</strong>
         </div>
         <div class="metric">
-            Bridge Status: <strong>${harness.status.bridgeManager}</strong>
+            Bridge Status: <strong>$harness.bridgeManager: status.bridgeManager}</strong>
         </div>
         <div class="metric">
-            Test Results: <strong>${harness.status.testResults}</strong>
+            Test Results: <strong>$harness.testResults: status.testResults}</strong>
         </div>
         <div class="metric">
-            Demo Results: <strong>${harness.status.demoResults}</strong>
+            Demo Results: <strong>$harness.demoResults: status.demoResults}</strong>
         </div>
     </div>
 
-    ${harness.testResults && harness.testResults.length > 0 ? `
+    $harness.testResults && harness.testResults.length > 0 ? `
     <div class="section">
         <h2>🧪 Test Results</h2>
         <table>
             <tr><th>Test Name</th><th>Success</th><th>Duration</th><th>Errors</th><th>Warnings</th></tr>
             ${harness.testResults.map((result: any) => `
                 <tr>
-                    <td>${result.testName}</td>
+                    <td>${testName: result.testName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
-                    <td>${result.duration}ms</td>
+                    <td>$duration: result.duration}ms</td>
                     <td>${result.errors?.length}</td>
-                    <td>${result.warnings.length}</td>
+                    <td>$result.length: warnings.length}</td>
                 </tr>
             `).join('')}
         </table>
     </div>
     ` : ''}
 
-    ${harness.demoResults && harness.demoResults.length > 0 ? `
+    $harness.demoResults && harness.demoResults.length > 0 ? `
     <div class="section">
         <h2>🎮 Demo Results</h2>
         <table>
             <tr><th>Demo Name</th><th>Success</th><th>Duration</th><th>Scenes</th><th>Assets</th><th>Events</th></tr>
             ${harness.demoResults.map((result: any) => `
                 <tr>
-                    <td>${result.demoName}</td>
+                    <td>${demoName: result.demoName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
-                    <td>${result.duration}ms</td>
-                    <td>${result.scenesCreated}</td>
-                    <td>${result.assetsGenerated}</td>
-                    <td>${result.eventsProcessed}</td>
+                    <td>$duration: result.duration}ms</td>
+                    <td>$scenesCreated: result.scenesCreated}</td>
+                    <td>$assetsGenerated: result.assetsGenerated}</td>
+                    <td>$eventsProcessed: result.eventsProcessed}</td>
                 </tr>
             `).join('')}
         </table>

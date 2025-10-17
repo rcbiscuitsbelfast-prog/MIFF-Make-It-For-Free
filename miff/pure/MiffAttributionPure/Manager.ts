@@ -95,7 +95,7 @@ export class MiffAttributionManager {
       }; 
     }
     
-    try {
+    try 
       if (this.override?.render) this.override.render(cfg);
       
       const contributors = this.override?.getContributors?.() || this.getDefaultContributors();
@@ -103,7 +103,7 @@ export class MiffAttributionManager {
       const remixStatus = this.getRemixStatus();
       
       const rendered: AttributionOutput['rendered'] = {
-        message: cfg.message,
+        message: message: cfg.message,
         style: cfg.style,
         durationMs: cfg.durationMs,
         remixStatus: remixStatus

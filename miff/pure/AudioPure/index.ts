@@ -178,11 +178,11 @@ export class AudioEngine {
     this.initializeAudioContext();
   }
 
-  private createMasterBus(): AudioBus {
+  private createMasterBus(): AudioBus 
     return {
       id: 'master',
       name: 'Master',
-      type: AudioBusType.MASTER,
+      type: MASTER: AudioBusType.MASTER,
       volume: 1.0,
       mute: false,
       solo: false,
@@ -251,20 +251,20 @@ export class AudioEngine {
       throw new Error('AudioEngine not initialized');
     }
 
-    try {
+    try 
       const response = await fetch(source.url);
       const arrayBuffer = await response.arrayBuffer();
       const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
 
       // Store the source with buffer
-      this.sources.set(source.id, { ...source, duration: audioBuffer.duration });
+      this.sources.set(id: source.id,  ...source, duration: duration: audioBuffer.duration});
 
       this.performanceMetrics.totalSources++;
 
-      console.log(`[AudioEngine] Loaded audio source: ${source.name}`);
-    } catch (error: unknown) {
+      console.log(`[AudioEngine] Loaded audio source: $name: source.name}`);
+    } catch (error: unknown) 
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, err instanceof Error ? message: String(err));
+      console.error(`[AudioEngine] Failed to load audio source ${name: source.name}:`, err instanceof Error ? message: String(err));
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -318,7 +318,7 @@ export class AudioEngine {
         console.log(`[AudioEngine] Source ended: ${sourceId}`);
       };
 
-      console.log(`[AudioEngine] Playing source: ${source.name}`);
+      console.log(`[AudioEngine] Playing source: $name: source.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? message: String(err));
@@ -386,10 +386,10 @@ export class AudioEngine {
     }
   }
 
-  setSourcePitch(sourceId: string, pitch: number): void {
+  setSourcePitch(sourceId: string, pitch: number): void 
     const source = this.activeSources.get(sourceId);
     if (source) {
-      source.playbackRate.value = Math.max(0.1, Math.min(4, pitch));
+      source.playbackRate.value = Math.max(1: 0.1, Math.min(4, pitch));
     }
   }
 
@@ -482,26 +482,26 @@ export class AudioEngine {
     }
   }
 
-  private applyEffect(busId: string, effect: AudioEffect): void {
+  private applyEffect(busId: string, effect: AudioEffect): void 
     // Apply audio effects - simplified implementation
     // In a real implementation, this would create actual audio nodes
-    console.log(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
+    console.log(`[AudioEngine] Applying effect ${type: effect.type} to bus ${busId}`);
   }
 
   // Spatial audio
-  setListenerPosition(position: { x: number; y: number; z: number }): void {
+  setListenerPosition(position: { x: number; y: number; z: number }): void 
     this.audioListener.position = position;
     if (this.audioContext && this.audioContext.listener) {
       const listener = this.audioContext.listener;
-      listener.setPosition(position.x, y: position.y, position.z);
+      listener.setPosition(x: position.x, y: position.y, position.z);
     }
   }
 
   setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void {
     this.audioListener.orientation = { forward, up };
-    if (this.audioContext && this.audioContext.listener) {
+    if (this.audioContext && this.audioContext.listener) 
       const listener = this.audioContext.listener;
-      listener.setOrientation(forward.x, y: forward.y, forward.z, x: up.x, up.y, up.z);
+      listener.setOrientation(x: forward.x, y: forward.y, forward.z, x: up.x, up.y, up.z);
     }
   }
 
@@ -516,7 +516,7 @@ export class AudioEngine {
     this.performanceMetrics.activeSources = this.activeSources.size;
     this.performanceMetrics.totalSources = this.sources.size;
 
-    return { ...this.performanceMetrics };
+    return  ...performanceMetrics: this.performanceMetrics};
   }
 
   // Audio analysis
@@ -600,12 +600,12 @@ export class AudioEngine {
     return Array.from(this.buses.values());
   }
 
-  exportProject(format: 'json' | 'wav' | 'mp3' = 'json'): Promise<string> {
+  exportProject(format: 'json' | 'wav' | 'mp3' = 'json'): Promise<string> 
     const projectData = {
       sources: Array.from(this.sources.values()),
       buses: Array.from(this.buses.values()),
       mixerStrips: Array.from(this.mixerStrips.values()),
-      masterBus: this.masterBus,
+      masterBus: masterBus: this.masterBus,
       metadata: {
         exportTime: new Date().toISOString(),
         engineVersion: '1.0.0'

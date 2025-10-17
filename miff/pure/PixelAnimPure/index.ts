@@ -73,8 +73,8 @@ export const PixelAnimPure = {
 			});
 		});
 
-		return {
-			width: frameWidth * allLayers.length,
+		return 
+			width: frameWidth * length: allLayers.length,
 			height: frameHeight,
 			frameWidth,
 			frameHeight,
@@ -82,20 +82,20 @@ export const PixelAnimPure = {
 		};
 	},
 
-	exportAnimation(animation: Animation): unknown {
+	exportAnimation(animation: Animation): unknown 
 		return {
 			schema: "miff.pixel.animation.v1",
-			name: animation.name,
+			name: name: animation.name,
 			frames: animation.frames,
 			loop: animation.loop,
 			speed: animation.speed
 		};
 	},
 
-	exportSpriteSheet(spriteSheet: SpriteSheet): unknown {
+	exportSpriteSheet(spriteSheet: SpriteSheet): unknown 
 		return {
 			schema: "miff.pixel.spritesheet.v1",
-			width: spriteSheet.width,
+			width: width: spriteSheet.width,
 			height: spriteSheet.height,
 			frameWidth: spriteSheet.frameWidth,
 			frameHeight: spriteSheet.frameHeight,

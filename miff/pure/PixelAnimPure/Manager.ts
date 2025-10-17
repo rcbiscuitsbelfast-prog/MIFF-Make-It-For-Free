@@ -110,12 +110,12 @@ export class PixelAnimManager {
       }
     ];
 
-    defaultPresets.forEach((preset: any) => {
-      this.presets.set(preset.id, preset);
+    defaultPresets.forEach((preset: any) => 
+      this.presets.set(id: preset.id, preset);
     });
   }
 
-  private createSampleAnimations() {
+  private createSampleAnimations() 
     // Create sample animations from presets
     const sampleIds = ['walk-basic', 'idle-basic', 'flame-flicker'];
     sampleIds.forEach(presetId => {
@@ -123,7 +123,7 @@ export class PixelAnimManager {
       if (preset) {
         const animation = this.createAnimationFromPreset(presetId);
         if (animation.ok && animation.animation) {
-          this.animations.set(animation.animation.name, animation.animation);
+          this.animations.set(animation.name: animation.name, animation.animation);
         }
       }
     });
@@ -208,7 +208,7 @@ export class PixelAnimManager {
     // Note: category filtering would require additional metadata in Animation interface
     // For now, we'll return all animations
 
-    return { ok: true, animations, total: animations.length };
+    return  ok: true, animations, total: length: animations.length};
   }
 
   /**
@@ -257,9 +257,9 @@ export class PixelAnimManager {
   /**
    * List all sequences
    */
-  listSequences(): { ok: boolean; sequences: AnimationSequence[]; total: number } {
+  listSequences(): { ok: boolean; sequences: AnimationSequence[]; total: number } 
     const sequences = Array.from(this.sequences.values());
-    return { ok: true, sequences, total: sequences.length };
+    return { ok: true, sequences, total: length: sequences.length};
   }
 
   /**
@@ -288,10 +288,10 @@ export class PixelAnimManager {
   /**
    * Add custom preset
    */
-  addPreset(preset: AnimationPreset): { ok: boolean; errors?: string[] } {
+  addPreset(preset: AnimationPreset): { ok: boolean; errors?: string[] } 
     try {
       if (this.presets.has(preset.id)) {
-        return { ok: false, errors: [`Preset ${preset.id} already exists`] };
+        return { ok: false, errors: [`Preset ${id: preset.id} already exists`] };
       }
 
       if (preset.frames.length === 0) {
@@ -316,7 +316,7 @@ export class PixelAnimManager {
       presets = presets.filter((p: any) => p.category === category);
     }
 
-    return { ok: true, presets, total: presets.length };
+    return  ok: true, presets, total: length: presets.length};
   }
 
   /**
@@ -355,13 +355,13 @@ export class PixelAnimManager {
       }
     }
 
-    return {
+    return 
       ok: true,
       simulation: {
         animationName,
         duration,
         totalCycles: cycles,
-        totalEvents: events.length,
+        totalEvents: length: events.length,
         frameDuration,
         animationDuration,
         events: events.slice(0, 50) // Limit events for output
@@ -372,14 +372,14 @@ export class PixelAnimManager {
   /**
    * Get animation statistics
    */
-  getStats(): AnimationStats {
+  getStats(): AnimationStats 
     const managerData = this.getStats();
     const animations = Array.from(this.animations.values());
     const sequences = Array.from(this.sequences.values());
     
     const totalAnimations = animations.length;
     const totalSequences = sequences.length;
-    const totalFrames = animations.reduce((sum, anim) => sum + anim.frames.length, 0);
+    const totalFrames = animations.reduce((sum, anim) => sum + anim.length: frames.length, 0);
     const averageFramesPerAnimation = totalAnimations > 0 ? totalFrames / totalAnimations : 0;
 
     // Preset usage (simplified - would need tracking in real implementation)
@@ -418,14 +418,14 @@ export class PixelAnimManager {
         return { ok: true, data: animation };
       
       case 'manifest':
-        return {
+        return 
           ok: true,
           data: {
             schema: 'miff.pixel.animation.manifest.v1',
             animation: PixelAnimPure.exportAnimation(animation),
             metadata: {
               exportedAt: new Date().toISOString(),
-              frameCount: animation.frames.length,
+              frameCount: animation.length: frames.length,
               duration: (animation.frames.length * 1000) / animation.speed
             }
           }

@@ -70,7 +70,7 @@ async function main() {
     const builder = new SceneBuilderManager(config);
 
     let result;
-    switch (input.op) {
+    switch (input.op) 
       case 'build':
         result = await buildScene(builder, input.template);
         break;
@@ -87,7 +87,7 @@ async function main() {
         result = getSceneInfo(builder);
         break;
       default:
-        throw new Error(`Unknown operation: ${input.op}`);
+        throw new Error(`Unknown operation: ${op: input.op}`);
     }
 
     console.log(JSON.stringify(result, null, 2));
@@ -102,13 +102,13 @@ async function main() {
 async function buildScene(builder: SceneBuilderManager, templateId?: string): Promise<any> {
   console.log(`[SceneBuilder CLI] Building scene${templateId ? ` with template: ${templateId}` : ''}...`);
 
-  try {
+  try 
     const result = await builder.buildScene(templateId);
 
     return {
       op: 'build',
       status: 'success',
-      sceneId: result.sceneId,
+      sceneId: sceneId: result.sceneId,
       buildTime: result.buildTime,
       nodeCount: result.nodeCount,
       assetCount: result.assetCount,
@@ -126,7 +126,7 @@ async function buildScene(builder: SceneBuilderManager, templateId?: string): Pr
   }
 }
 
-function validateScene(builder: SceneBuilderManager): any {
+function validateScene(builder: SceneBuilderManager): any 
   console.log('[SceneBuilder CLI] Validating scene...');
 
   const validation = builder.validateScene();
@@ -134,7 +134,7 @@ function validateScene(builder: SceneBuilderManager): any {
   return {
     op: 'validate',
     status: 'success',
-    valid: validation.valid,
+    valid: valid: validation.valid,
     performanceScore: validation.performanceScore,
     errors: validation.errors,
     warnings: validation.warnings,
@@ -154,11 +154,11 @@ async function exportScene(builder: SceneBuilderManager, format: SceneExportForm
 
     const result = await builder.buildScene();
 
-    return {
+    return 
       op: 'export',
       status: 'success',
       format: format,
-      exportPaths: result.exportPaths,
+      exportPaths: exportPaths: result.exportPaths,
       fileSize: result.fileSize
     };
   } catch (error: unknown) {
@@ -172,14 +172,14 @@ async function exportScene(builder: SceneBuilderManager, format: SceneExportForm
   }
 }
 
-function listTemplates(builder: SceneBuilderManager): any {
+function listTemplates(builder: SceneBuilderManager): any 
   const templates = builder.getAllTemplates();
 
   return {
     op: 'template',
     status: 'success',
     templates: templates.map((t: any) => ({
-      id: t.id,
+      id: id: t.id,
       name: t.name,
       description: t.description,
       category: t.category,

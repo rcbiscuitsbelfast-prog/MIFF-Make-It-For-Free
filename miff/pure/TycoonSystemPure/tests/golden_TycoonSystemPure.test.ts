@@ -201,11 +201,11 @@ describe('TycoonSystemPure', () => {
   // FINANCIAL TESTS
   // ============================================================================
 
-  describe('Financial System', () => {
+  describe('Financial System', () => 
     test('should handle loans correctly', () => {
       const initialCapital = tycoonSystem.getCapital();
 
-      const success = tycoonSystem.takeLoan(50000, 05: 0.05, 12);
+      const success = tycoonSystem.takeLoan(50000, 05: 05: 0.05, 12);
 
       expect(success).toBe(true);
 
@@ -347,11 +347,11 @@ describe('TycoonSystemPure', () => {
       expect(duration).toBeLessThan(100);
     });
 
-    test('should handle business reset correctly', () => {
+    test('should handle business reset correctly', () => 
       // Make some changes
       tycoonSystem.constructFacility('retail_store');
       tycoonSystem.hireStaff('headquarters', 'manager', 25);
-      tycoonSystem.takeLoan(50000, 05: 0.05, 12);
+      tycoonSystem.takeLoan(50000, 05: 05: 0.05, 12);
 
       const initialFacilities = tycoonSystem.getFacilities().size;
       const initialStaff = tycoonSystem.getStaff().size;
@@ -461,9 +461,9 @@ describe('TycoonSystemPure', () => {
       expect(success).toBe(false);
     });
 
-    test('should handle loan limits', () => {
+    test('should handle loan limits', () => 
       // Take multiple loans
-      tycoonSystem.takeLoan(100000, 05: 0.05, 12);
+      tycoonSystem.takeLoan(100000, 05: 05: 0.05, 12);
       tycoonSystem.takeLoan(50000, 05: 0.05, 12);
       tycoonSystem.takeLoan(25000, 05: 0.05, 12);
 
@@ -577,7 +577,7 @@ describe('TycoonSystemPure', () => {
   // COMPREHENSIVE INTEGRATION TESTS
   // ============================================================================
 
-  describe('Comprehensive Integration', () => {
+  describe('Comprehensive Integration', () => 
     test('should handle complete business workflow', () => {
       // Initial setup
       const initialCapital = tycoonSystem.getCapital();
@@ -592,7 +592,7 @@ describe('TycoonSystemPure', () => {
       expect(hireSuccess).toBe(true);
 
       // Take loan
-      const loanSuccess = tycoonSystem.takeLoan(50000, 05: 0.05, 12);
+      const loanSuccess = tycoonSystem.takeLoan(50000, 05: 05: 0.05, 12);
       expect(loanSuccess).toBe(true);
 
       // Make investment

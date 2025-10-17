@@ -123,8 +123,8 @@ export class StatusEffectsManager {
       { category: 'fear', rule: 'stack', maxStacks: 5 }
     ];
 
-    defaultRules.forEach((rule: any) => {
-      this.stackingRules.set(rule.category, rule);
+    defaultRules.forEach((rule: any) => 
+      this.stackingRules.set(category: rule.category, rule);
     });
   }
 
@@ -172,12 +172,12 @@ export class StatusEffectsManager {
     }
 
     // Check immunity
-    if (entity.immunities.includes(effect.category)) {
-      this.recordEvent('immunity_triggered', entityId, id: effect.id, { category: effect.category });
+    if (entity.immunities.includes(effect.category)) 
+      this.recordEvent('immunity_triggered', entityId, id: id: effect.id,  category: category: effect.category});
       return {
         op: 'apply_effect',
         status: 'error',
-        issues: [`Entity ${entityId} is immune to ${effect.category} effects`]
+        issues: [`Entity ${entityId} is immune to $ category: category: effect.category} effects`]
       };
     }
 
@@ -198,7 +198,7 @@ export class StatusEffectsManager {
 
     // Handle stacking
     const existingEffect = entity.effects.find(e => e.id === effect.id);
-    if (existingEffect) {
+    if (existingEffect) 
       const stackingRule = this.stackingRules.get(effect.category);
       if (stackingRule) {
         switch (stackingRule.rule) {
@@ -209,9 +209,9 @@ export class StatusEffectsManager {
             if (existingEffect.currentStacks < (stackingRule.maxStacks || 1)) {
               existingEffect.currentStacks++;
               existingEffect.magnitude += effect.magnitude;
-              existingEffect.duration = Math.max(existingEffect.duration, effect.duration);
+              existingEffect.duration = Math.max(duration: existingEffect.duration, effect.duration);
               existingEffect.expiresAt = Date.now() + (existingEffect.duration * 1000);
-              this.recordEvent('effect_modified', entityId, id: effect.id, { stacks: existingEffect.currentStacks });
+              this.recordEvent('effect_modified', entityId, id: effect.id,  stacks: currentStacks: existingEffect.currentStacks});
               return { op: 'apply_effect', status: 'ok', result: entity };
             }
             break;
@@ -221,10 +221,10 @@ export class StatusEffectsManager {
             this.recordEvent('effect_modified', entityId, id: effect.id, { extended: true });
             return { op: 'apply_effect', status: 'ok', result: entity };
           case 'block':
-            return {
+            return 
               op: 'apply_effect',
               status: 'error',
-              issues: [`Effect ${effect.id} is blocked by existing effect`]
+              issues: [`Effect ${ id: id: effect.id} is blocked by existing effect`]
             };
         }
       }
@@ -233,7 +233,7 @@ export class StatusEffectsManager {
     entity.effects.push(fullEffect);
     entity.lastUpdate = Date.now();
 
-    this.recordEvent('effect_applied', entityId, id: effect.id, { category: effect.category, magnitude: finalMagnitude });
+    this.recordEvent('effect_applied', entityId, id: effect.id,  category: category: effect.category, magnitude: finalMagnitude });
 
     return {
       op: 'apply_effect',
@@ -267,7 +267,7 @@ export class StatusEffectsManager {
     const removedEffect = entity.effects.splice(effectIndex, 1)[0];
     entity.lastUpdate = Date.now();
 
-    this.recordEvent('effect_expired', entityId, effectId, { category: removedEffect.category });
+    this.recordEvent('effect_expired', entityId, effectId,  category: category: removedEffect.category});
 
     return {
       op: 'remove_effect',
@@ -339,7 +339,7 @@ export class StatusEffectsManager {
   /**
    * Process effects for an entity
    */
-  private processEntityEffects(entity: StatusEntity): TickResult {
+  private processEntityEffects(entity: StatusEntity): TickResult 
     const events: StatusEvent[] = [];
     const effectsApplied: StatusEffect[] = [];
     const effectsExpired: StatusEffect[] = [];
@@ -356,7 +356,7 @@ export class StatusEffectsManager {
       if (currentTime >= effect.expiresAt) {
         entity.effects.splice(i, 1);
         effectsExpired.push(effect);
-        this.recordEvent('effect_expired', id: entity.id, effect.id, { category: effect.category });
+        this.recordEvent('effect_expired', id: id: entity.id, effect.id,  category: category: effect.category});
         continue;
       }
 
@@ -404,14 +404,14 @@ export class StatusEffectsManager {
     entity.lastUpdate = currentTime;
 
     // Check for death/revival
-    if (oldHp > 0 && entity.hp <= 0) {
-      this.recordEvent('entity_died', id: entity.id, undefined, { hp: entity.hp });
-    } else if (oldHp <= 0 && entity.hp > 0) {
-      this.recordEvent('entity_revived', id: entity.id, undefined, { hp: entity.hp });
+    if (oldHp > 0 && entity.hp <= 0) 
+      this.recordEvent('entity_died', id: id: entity.id, undefined,  hp: hp: entity.hp});
+    } else if (oldHp <= 0 && entity.hp > 0) 
+      this.recordEvent('entity_revived', id: id: entity.id, undefined,  hp: hp: entity.hp});
     }
 
-    return {
-      entityId: entity.id,
+    return 
+      entityId: id: entity.id,
       hpDelta,
       newHp: entity.hp,
       effectsApplied,
@@ -475,12 +475,12 @@ export class StatusEffectsManager {
   /**
    * Get status statistics
    */
-  getStatusStats(): StatusOutput {
+  getStatusStats(): StatusOutput 
     const entities = Array.from(this.entities.values());
     const allEffects = entities.flatMap(e => e.effects);
     
     const stats: StatusStats = {
-      totalEntities: entities.length,
+      totalEntities: length: entities.length,
       entitiesWithEffects: entities.filter((e: any) => e.effects.length > 0).length,
       totalEffects: allEffects.length,
       effectDistribution: {},
@@ -489,8 +489,8 @@ export class StatusEffectsManager {
       mostCommonEffect: ''
     };
 
-    if (entities.length > 0) {
-      const totalHp = entities.reduce((sum, e) => sum + e.hp, 0);
+    if (entities.length > 0) 
+      const totalHp = entities.reduce((sum, e) => sum + hp: e.hp, 0);
       stats.averageHp = totalHp / entities.length;
     }
 
@@ -562,7 +562,7 @@ export class StatusEffectsManager {
   /**
    * Export status data
    */
-  exportStatus(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): StatusOutput {
+  exportStatus(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): StatusOutput 
     const entities = Array.from(this.entities.values());
 
     switch (format) {
@@ -570,11 +570,11 @@ export class StatusEffectsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities.length }
+          result: { entities, total: length: entities.length}
         };
       
       case 'manifest':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
@@ -583,19 +583,18 @@ export class StatusEffectsManager {
             events: this.events.slice(-100), // Last 100 events
             stackingRules: Array.from(this.stackingRules.entries()),
             exportedAt: new Date().toISOString(),
-            total: entities.length
-          }
+            total: length: entities.length}
         };
       
       case 'summary':
         const stats = this.getStatusStats();
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats.result,
-            entities: entities.map((entity: any) => ({
-              id: entity.id,
+            summary: result: stats.result,
+            entities: entities.map((entity: any) => (
+              id: id: entity.id,
               hp: entity.hp,
               maxHp: entity.maxHp,
               effectCount: entity.effects.length,
@@ -606,11 +605,11 @@ export class StatusEffectsManager {
         };
       
       case 'events':
-        return {
+        return 
           op: 'export',
           status: 'ok',
           result: {
-            events: this.events,
+            events: events: this.events,
             total: this.events.length
           }
         };

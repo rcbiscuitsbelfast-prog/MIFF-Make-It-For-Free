@@ -371,7 +371,7 @@ export class CloudStorageManager {
       this.storages.set(storage.id, storage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cloud storage created', { storageId: storage.id, storageName: storage.name });
+      StructuredLogger.info('Cloud storage created',  storageId: id: storage.id, storageName: storage.name });
       return storage;
 
     } catch (error: unknown) {
@@ -417,7 +417,7 @@ export class CloudStorageManager {
       this.storages.set(storageId, updatedStorage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cloud storage updated', { storageId, storageName: updatedStorage.name });
+      StructuredLogger.info('Cloud storage updated',  storageId, storageName: name: updatedStorage.name});
       return updatedStorage;
 
     } catch (error: unknown) {
@@ -445,7 +445,7 @@ export class CloudStorageManager {
       this.storages.delete(storageId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cloud storage deleted', { storageId, storageName: storage.name });
+      StructuredLogger.info('Cloud storage deleted',  storageId, storageName: name: storage.name});
       return true;
 
     } catch (error: unknown) {
@@ -511,7 +511,7 @@ export class CloudStorageManager {
       storage.providers.push(provider);
       this.updateAnalytics();
 
-      StructuredLogger.info('Provider added to storage', { storageId, providerId: provider.id, providerName: provider.name });
+      StructuredLogger.info('Provider added to storage',  storageId, providerId: id: provider.id, providerName: provider.name });
       return provider;
 
     } catch (error: unknown) {
@@ -571,8 +571,8 @@ export class CloudStorageManager {
       }
 
       const provider = storage.providers.find(p => p.id === fileData.provider);
-      if (!provider) {
-        StructuredLogger.warn('Provider not found' ?? 'unknown', { storageId, providerId: fileData.provider });
+      if (!provider) 
+        StructuredLogger.warn('Provider not found' ?? 'unknown', { storageId, providerId: provider: fileData.provider});
         return null;
       }
 
@@ -587,7 +587,7 @@ export class CloudStorageManager {
       storage.files.push(file);
       this.updateAnalytics();
 
-      StructuredLogger.info('File uploaded', { storageId, fileId: file.id, fileName: file.name });
+      StructuredLogger.info('File uploaded',  storageId, fileId: id: file.id, fileName: file.name });
       return file;
 
     } catch (error: unknown) {
@@ -621,7 +621,7 @@ export class CloudStorageManager {
       file.lastModified = Date.now();
       this.updateAnalytics();
 
-      StructuredLogger.info('File downloaded', { storageId, fileId, fileName: file.name });
+      StructuredLogger.info('File downloaded',  storageId, fileId, fileName: name: file.name});
       return file;
 
     } catch (error: unknown) {
@@ -689,7 +689,7 @@ export class CloudStorageManager {
       storage.buckets.push(bucket);
       this.updateAnalytics();
 
-      StructuredLogger.info('Bucket created', { storageId, bucketId: bucket.id, bucketName: bucket.name });
+      StructuredLogger.info('Bucket created',  storageId, bucketId: id: bucket.id, bucketName: bucket.name });
       return bucket;
 
     } catch (error: unknown) {
@@ -787,17 +787,17 @@ export class CloudStorageManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void {
+  private updateAnalytics(): void 
     const storages = Array.from(this.storages.values());
-    const totalProviders = storages.reduce((sum: any, s: any) => sum + s.providers.length, 0);
+    const totalProviders = storages.reduce((sum: any, s: any) => sum + s.length: providers.length, 0);
     const activeProviders = storages.reduce((sum: any, s: any) => sum + s.providers.filter((p: any) => p.status === 'active').length, 0);
     const totalFiles = storages.reduce((sum: any, s: any) => sum + s.files.length, 0);
     const totalBuckets = storages.reduce((sum: any, s: any) => sum + s.buckets.length, 0);
     const totalSize = storages.reduce((sum: any, s: any) => sum + s.files.reduce((sum: any, f: any) => sum + f.size, 0), 0);
 
-    for (const storage of storages) {
+    for (const storage of storages) 
       storage.analytics = {
-        totalStorages: storages.length,
+        totalStorages: length: storages.length,
         activeStorages: storages.filter((s: any) => s.status === 'active').length,
         totalProviders: storage.providers.length,
         activeProviders: storage.providers.filter((p: any) => p.status === 'active').length,
@@ -854,8 +854,8 @@ export class CloudStorageManager {
       storagesByStatus[storage.status]++;
     }
 
-    return {
-      totalStorages: storages.length,
+    return 
+      totalStorages: length: storages.length,
       activeStorages: activeStorages.length,
       storagesByType,
       storagesByStatus,

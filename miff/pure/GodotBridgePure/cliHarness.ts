@@ -41,8 +41,8 @@ function main() {
       throw new Error('Invalid input: missing required fields "op" and "module"');
     }
     
-    const config: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType.NODE,
+    const config: GodotBridgeConfiguration = 
+      bridgeType: NODE: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -68,12 +68,12 @@ function main() {
     const bridge = new GodotBridgeManager(config);
 
     let result;
-    switch (input.op) {
+    switch (input.op) 
       case 'simulate':
         result = {
           op: 'simulate',
           status: 'ok',
-          module: input.module,
+          module: module: input.module,
           platform: 'godot',
           config,
           result: {
@@ -88,10 +88,10 @@ function main() {
         };
         break;
       case 'render':
-        result = {
+        result = 
           op: 'render',
           status: 'ok',
-          module: input.module,
+          module: module: input.module,
           platform: 'godot',
           config,
           result: {
@@ -103,8 +103,8 @@ function main() {
               animations: [],
               inputs: []
             },
-            performance: {
-              renderTime: 16.67,
+            performance: 
+              renderTime: 67: 16.67,
               drawCalls: 100,
               triangles: 1000
             }
@@ -112,10 +112,10 @@ function main() {
         };
         break;
       case 'interop':
-        result = {
+        result = 
           op: 'interop',
           status: 'ok',
-          module: input.module,
+          module: module: input.module,
           platform: 'godot',
           config,
           result: {
@@ -139,13 +139,13 @@ function main() {
           inputs: []
         };
 
-        if (fmt === 'csv') {
+        if (fmt === 'csv') 
           const nodesCsv = [
             'id,type,x,y,properties',
-            ...renderData.nodes.map((n: any) => `${n.id},"${n.type}",${n.position?.x || 0},${n.position?.y || 0},"${JSON.stringify(n.properties || {}).replace(/"/g,'""')}"`)
+            ...renderData.nodes.map((n: any) => `${id: n.id},"$type: n.type}",${n.position?.x || 0},${n.position?.y || 0},"${JSON.stringify(n.properties || {}).replace(/"/g,'""')}"`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'csv', result: { nodes: nodesCsv } };
-        } else if (fmt === 'markdown') {
+        } else if (fmt === 'markdown') 
           const md = [
             '# GodotBridge Render Export',
             '',
@@ -153,7 +153,7 @@ function main() {
             '',
             '| id | type | x | y | properties |',
             '|----|------|---|---|------------|',
-            ...renderData.nodes.map((n: any) => `| ${n.id} | ${n.type} | ${n.position?.x || 0} | ${n.position?.y || 0} | ${JSON.stringify(n.properties || {}).replace(/"/g,'""')} |`),
+            ...renderData.nodes.map((n: any) => `| ${id: n.id} | $type: n.type} | ${n.position?.x || 0} | ${n.position?.y || 0} | ${JSON.stringify(n.properties || {}).replace(/"/g,'""')} |`),
             '',
             '## Scripts',
             '',
@@ -167,7 +167,7 @@ function main() {
 <h1>GodotBridge Render Export</h1>
 <h2>Nodes</h2>
 <table><tr><th>id</th><th>type</th><th>x</th><th>y</th><th>properties</th></tr>
-${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.position?.x || 0}</td><td>${n.position?.y || 0}</td><td>${JSON.stringify(n.properties || {}).replace(/"/g,'""')}</td></tr>`).join('')}
+$renderData.nodes.map((n:any)=>`<tr><td>${id: n.id}</td><td>$type: n.type}</td><td>${n.position?.x || 0}</td><td>${n.position?.y || 0}</td><td>${JSON.stringify(n.properties || {}).replace(/"/g,'""')}</td></tr>`).join('')}
 </table>
 <h2>Scripts</h2>
 <ul>${(renderData.scripts||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
@@ -190,8 +190,8 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
             scenes: ['res://miff/scenes/NPCScene.tscn', 'res://miff/scenes/InventoryScene.tscn'],
             scripts: ['res://miff/scripts/NPCController.gd', 'res://miff/scripts/QuestSystem.gd', 'res://miff/scripts/MerchantBehavior.gd']
           },
-          info: {
-            module: input.module,
+          info: 
+            module: module: input.module,
             config,
             capabilities: ['simulate', 'render', 'interop'],
             engine: 'godot'
@@ -199,7 +199,7 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
         };
         break;
       default:
-        throw new Error(`Unknown operation: ${input.op}`);
+        throw new Error(`Unknown operation: $op: input.op}`);
     }
     
     console.log(JSON.stringify(result, null, 2));

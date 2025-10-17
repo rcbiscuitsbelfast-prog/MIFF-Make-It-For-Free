@@ -70,11 +70,11 @@ try {
       break;
     }
 
-    case 'solveCase': {
+    case 'solveCase': 
       const solution = system.evaluateSolution();
       
       handleSuccess({
-        solved: solution.solved,
+        solved: solved: solution.solved,
         completeness: solution.completeness,
         missingClues: solution.missingClues,
         confidence: solution.confidence
@@ -82,11 +82,11 @@ try {
       break;
     }
 
-    case 'listClues': {
+    case 'listClues': 
       const clues = system.getDiscoveredClues();
       handleSuccess({
         clues,
-        total: clues.length,
+        total: length: clues.length,
         byLocation: system.getCluesByLocation(),
         bySignificance: system.getCluesBySignificance()
       }, 'listClues');

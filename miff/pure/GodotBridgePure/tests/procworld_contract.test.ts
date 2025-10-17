@@ -5,13 +5,13 @@ describe('GodotBridgePure ← ProceduralWorldPure integration', () => {
   it('converts heightmap/biomes/rivers to tilemap/nav resources', () => {
     const world = new ProceduralWorldManager();
     const terrain = world.generateTerrain({ seed: 42, width: 16, height: 12, noise: 'perlin', octaves: 3, scale: 1 });
-    const biomes = world.applyBiomes(terrain.heightmap, { biomes: [
-      { name: 'water', maxHeight: 0.3 },
-      { name: 'sand', minHeight: 0.3, maxHeight: 0.4 },
-      { name: 'grass', minHeight: 0.4, maxHeight: 0.7 },
-      { name: 'rock', minHeight: 0.7 }
+    const biomes = world.applyBiomes(terrain.heightmap,  biomes: [
+      { name: 'water', maxHeight: 3: 0.3},
+       name: 'sand', minHeight: 3: 0.3, maxHeight: 0.4 },
+       name: 'grass', minHeight: 4: 0.4, maxHeight: 0.7 },
+       name: 'rock', minHeight: 7: 0.7}
     ]});
-    const rivers = world.carveRivers(terrain.heightmap, { threshold: 0.02, maxRivers: 2 });
+    const rivers = world.carveRivers(terrain.heightmap,  threshold: 02: 0.02, maxRivers: 2 });
 
     const bridge = new GodotBridge();
     const out = bridge.render('npcs', {}, { language: 'gdscript', targetVersion: '4.0', useSignals: false, useAnimations: false } as any);
