@@ -383,7 +383,7 @@ export class CameraSystemPure {
   public adjustZoom(cameraId: string, delta: number): boolean {
     const cam = this.activeCameras.get(cameraId);
     if (!cam) return false;
-    const def = this.cameraDefinitions.get(cam.definitionId);
+    const def = cam.definition;
     if (!def) return false;
     const nextFov = def.settings.fov - delta * (def.settings.zoomSpeed || 1);
     def.settings.fov = Math.max(10, Math.min(120, nextFov));
@@ -399,7 +399,7 @@ export class CameraSystemPure {
   public applyFocus(cameraId: string, intensity: number, durationMs: number): boolean {
     const cam = this.activeCameras.get(cameraId);
     if (!cam) return false;
-    const def = this.cameraDefinitions.get(cam.definitionId);
+    const def = cam.definition;
     if (!def) return false;
     def.settings.focusDistance = Math.max(0, def.settings.focusDistance + intensity * 10);
     return true;
