@@ -757,6 +757,7 @@ export interface UnityBuildSummary {
   buildTargetRemoteBuild: boolean;
   buildTargetCustomBuild: boolean;
   buildReport: string;
+  buildDependencies?: string[];
   buildLog: string;
   buildErrors: string[];
   buildWarnings: string[];

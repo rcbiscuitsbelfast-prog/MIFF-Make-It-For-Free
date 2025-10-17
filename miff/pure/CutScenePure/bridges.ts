@@ -12,7 +12,8 @@
  * @license MIT
  */
 
-import { CutScenePure, CutSceneDefinition } from './index';
+import { CutScenePure } from './index';
+import type { CutSceneDefinition } from './index';
 import { createEventBus } from '../EventBusPure';
 
 const EventBus = createEventBus();
@@ -365,7 +366,7 @@ public class CutScenePlayer : MonoBehaviour
     public PlayableDirector director;
     public TimelineAsset cutSceneTimeline;
 
-    private CutSceneDefinition definition;
+    private ${'CutSceneDefinition'} definition;
 
     void Start()
     {
@@ -830,7 +831,7 @@ void ACutScenePlayer::BeginPlay()
 void ACutScenePlayer::LoadCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${'${CutSceneDefinition.config.id}'}.json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))

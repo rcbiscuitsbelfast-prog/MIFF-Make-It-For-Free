@@ -14,22 +14,35 @@
  * @license MIT
  */
 
+type FlagMap = Record<string, string | boolean>;
+function parseFlags(argv: string[]): FlagMap {
+  const out: FlagMap = {};
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg.startsWith('--')) {
+      const key = arg.slice(2);
+      const next = argv[i + 1];
+      const val = next && !next.startsWith('--') ? next : true;
+      out[key] = val;
+      if (val === next) i++;
+      continue;
+    }
+    // short flags
+    if (arg === '-e' || arg === '-i' || arg === '-o') {
+      const next = argv[i + 1];
+      if (next && !next.startsWith('-')) {
+        out[arg === '-e' ? 'engine' : arg === '-i' ? 'input' : 'output'] = next;
+        i++;
+      }
+      continue;
+    }
+  }
+  return out;
+}
+
 const args = process.argv.slice(2);
 const command = args[0];
 const flags = parseFlags(args.slice(1));
-
-function parseFlags(args) {
-  const flags = {};
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (arg.startsWith('--')) {
-      const key = arg.slice(2);
-      const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
-      flags[key] = value;
-    }
-  }
-  return flags;
-}
 
 function showHelp() {
   console.log(`
