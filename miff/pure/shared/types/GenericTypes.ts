@@ -113,7 +113,7 @@ export interface Hashable {
 // Generic type factory
 export interface TypeFactory<T extends object> {
   create(): T;
-  createFrom(data: Partial<T extends object>): T;
+  createFrom(data: Partial<T>): T;
   validate(data): data is T;
   clone(instance: T): T;
   equals(a: T, b: T): boolean;
