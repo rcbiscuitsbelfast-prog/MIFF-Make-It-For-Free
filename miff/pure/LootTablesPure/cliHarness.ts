@@ -92,7 +92,7 @@ function main() {
           outputs.push({ op: (cmd as any).op, status: 'error', issues: [`Unknown command: ${(cmd as any).op}`] });
           break;
       }
-    } catch (error) {
+    } catch (error: unknown) {
       log.push(`Error executing ${cmd.op}: ${error.message}`);
       outputs.push({ op: cmd.op, status: 'error', issues: [error.message] });
     }
