@@ -23,18 +23,18 @@ const createMockEventBus = (): EventBus => {
 
   return {
     emit: (event: string, data: any) => {
-      const listeners = events?.get(event) || [];
-      listeners?.forEach(listener => listener(data: any));
+      const listeners = events.get(event) || [];
+      listeners.forEach(listener => listener(data));
     },
     on: (event: string, listener: Function) => {
-      const listeners = events?.get(event) || [];
-      listeners?.push(listener);
-      events?.set(event, listeners);
+      const listeners = events.get(event) || [];
+      listeners.push(listener);
+      events.set(event, listeners);
     },
     off: (event: string, listener: Function) => {
-      const listeners = events?.get(event) || [];
-      const filtered = listeners?.filter(l => l !== listener);
-      events?.set(event, filtered);
+      const listeners = events.get(event) || [];
+      const filtered = listeners.filter(l => l !== listener);
+      events.set(event, filtered);
     }
   } as EventBus;
 };
@@ -57,11 +57,11 @@ describe('TycoonSystemPure', () => {
       performanceMode: 'high',
       debugMode: false
     });
-    jest?.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
-    tycoonSystem?.setPaused(true); // Pause to prevent interference
+    tycoonSystem.setPaused(true); // Pause to prevent interference
   });
 
   // ============================================================================
@@ -70,29 +70,29 @@ describe('TycoonSystemPure', () => {
 
   describe('Core Business System', () => {
     test('should initialize with correct capital and facilities', () => {
-      const capital = tycoonSystem?.getCapital();
-      const facilities = tycoonSystem?.getFacilities();
-      const stats = tycoonSystem?.getBusinessStats();
+      const capital = tycoonSystem.getCapital();
+      const facilities = tycoonSystem.getFacilities();
+      const stats = tycoonSystem.getBusinessStats();
 
       expect(capital).toBe(100000);
-      expect(facilities?.size).toBeGreaterThanOrEqual(3); // Headquarters + unlockable facilities
-      expect(stats?.totalAssets).toBe(100000);
-      expect(stats?.facilityCount).toBeGreaterThanOrEqual(1); // At least headquarters
+      expect(facilities.size).toBeGreaterThanOrEqual(3); // Headquarters + unlockable facilities
+      expect(stats.totalAssets).toBe(100000);
+      expect(stats.facilityCount).toBeGreaterThanOrEqual(1); // At least headquarters
     });
 
     test('should initialize with default market conditions', () => {
-      const marketData = tycoonSystem?.getMarketData();
+      const marketData = tycoonSystem.getMarketData();
 
-      expect(marketData?.condition).toBe('stable');
-      expect(marketData?.competitionLevel).toBeGreaterThanOrEqual(0);
-      expect(marketData?.competitionLevel).toBeLessThanOrEqual(1);
-      expect(marketData?.customerDemand).toBeGreaterThanOrEqual(0);
-      expect(marketData?.customerDemand).toBeLessThanOrEqual(1);
+      expect(marketData.condition).toBe('stable');
+      expect(marketData.competitionLevel).toBeGreaterThanOrEqual(0);
+      expect(marketData.competitionLevel).toBeLessThanOrEqual(1);
+      expect(marketData.customerDemand).toBeGreaterThanOrEqual(0);
+      expect(marketData.customerDemand).toBeLessThanOrEqual(1);
     });
 
     test('should initialize headquarters facility', () => {
-      const facilities = tycoonSystem?.getFacilities();
-      const headquarters = facilities?.get('headquarters');
+      const facilities = tycoonSystem.getFacilities();
+      const headquarters = facilities.get('headquarters');
 
       expect(headquarters).toBeDefined();
       expect(headquarters?.operational).toBe(true);
@@ -103,15 +103,15 @@ describe('TycoonSystemPure', () => {
     });
 
     test('should handle facility construction', () => {
-      const initialCapital = tycoonSystem?.getCapital();
+      const initialCapital = tycoonSystem.getCapital();
 
-      const success = tycoonSystem?.constructFacility('retail_store');
+      const success = tycoonSystem.constructFacility('retail_store');
 
       expect(success).toBe(true);
 
-      const newCapital = tycoonSystem?.getCapital();
-      const facilities = tycoonSystem?.getFacilities();
-      const retailStore = facilities?.get('retail_store');
+      const newCapital = tycoonSystem.getCapital();
+      const facilities = tycoonSystem.getFacilities();
+      const retailStore = facilities.get('retail_store');
 
       expect(newCapital).toBeLessThan(initialCapital);
       expect(retailStore?.operational).toBe(true);
@@ -132,12 +132,12 @@ describe('TycoonSystemPure', () => {
         debugMode: false
       });
 
-      const success = lowCapitalSystem?.constructFacility('retail_store');
+      const success = lowCapitalSystem.constructFacility('retail_store');
 
       expect(success).toBe(false);
 
-      const facilities = lowCapitalSystem?.getFacilities();
-      const retailStore = facilities?.get('retail_store');
+      const facilities = lowCapitalSystem.getFacilities();
+      const retailStore = facilities.get('retail_store');
 
       expect(retailStore?.operational).toBe(false);
     });
@@ -149,31 +149,31 @@ describe('TycoonSystemPure', () => {
 
   describe('Staff Management', () => {
     test('should hire staff successfully', () => {
-      const initialCapital = tycoonSystem?.getCapital();
-      const initialStaff = tycoonSystem?.getStaff().size;
+      const initialCapital = tycoonSystem.getCapital();
+      const initialStaff = tycoonSystem.getStaff().size;
 
-      const success = tycoonSystem?.hireStaff('headquarters', 'manager', 25);
+      const success = tycoonSystem.hireStaff('headquarters', 'manager', 25);
 
       expect(success).toBe(true);
 
-      const newCapital = tycoonSystem?.getCapital();
-      const newStaff = tycoonSystem?.getStaff();
+      const newCapital = tycoonSystem.getCapital();
+      const newStaff = tycoonSystem.getStaff();
 
       expect(newCapital).toBeLessThan(initialCapital);
-      expect(newStaff?.size).toBe(initialStaff + 1);
+      expect(newStaff.size).toBe(initialStaff + 1);
     });
 
     test('should handle staff capacity limits', () => {
       // Hire maximum staff for headquarters
       for (let i = 0; i < 15; i++) {
-        tycoonSystem?.hireStaff('headquarters', 'worker', 20);
+        tycoonSystem.hireStaff('headquarters', 'worker', 20);
       }
 
-      const headquarters = tycoonSystem?.getFacilities().get('headquarters');
+      const headquarters = tycoonSystem.getFacilities().get('headquarters');
       expect(headquarters?.staffSlots).toBe(10); // Should be at capacity
 
       // Try to hire one more
-      const success = tycoonSystem?.hireStaff('headquarters', 'worker', 20);
+      const success = tycoonSystem.hireStaff('headquarters', 'worker', 20);
       expect(success).toBe(false); // Should fail due to capacity
     });
 
@@ -192,7 +192,7 @@ describe('TycoonSystemPure', () => {
         debugMode: false
       });
 
-      const success = lowCapitalSystem?.hireStaff('headquarters', 'manager', 50);
+      const success = lowCapitalSystem.hireStaff('headquarters', 'manager', 50);
       expect(success).toBe(false);
     });
   });
@@ -203,36 +203,36 @@ describe('TycoonSystemPure', () => {
 
   describe('Financial System', () => {
     test('should handle loans correctly', () => {
-      const initialCapital = tycoonSystem?.getCapital();
+      const initialCapital = tycoonSystem.getCapital();
 
-      const success = tycoonSystem?.takeLoan(50000, 0.05, 12);
+      const success = tycoonSystem.takeLoan(50000, 0.05, 12);
 
       expect(success).toBe(true);
 
-      const newCapital = tycoonSystem?.getCapital();
+      const newCapital = tycoonSystem.getCapital();
       expect(newCapital).toBe(initialCapital + 50000);
     });
 
     test('should handle investments correctly', () => {
-      const initialCapital = tycoonSystem?.getCapital();
+      const initialCapital = tycoonSystem.getCapital();
 
-      const success = tycoonSystem?.makeInvestment('tech_startup', 25000);
+      const success = tycoonSystem.makeInvestment('tech_startup', 25000);
 
       expect(success).toBe(true);
 
-      const newCapital = tycoonSystem?.getCapital();
+      const newCapital = tycoonSystem.getCapital();
       expect(newCapital).toBe(initialCapital - 25000);
     });
 
     test('should track revenue and expenses', (done) => {
       // Construct a facility to generate revenue
-      tycoonSystem?.constructFacility('retail_store');
+      tycoonSystem.constructFacility('retail_store');
 
       // Wait for revenue generation
       setTimeout(() => {
-        const stats = tycoonSystem?.getBusinessStats();
-        expect(stats?.totalRevenue).toBeGreaterThanOrEqual(0);
-        expect(stats?.totalExpenses).toBeGreaterThanOrEqual(0);
+        const stats = tycoonSystem.getBusinessStats();
+        expect(stats.totalRevenue).toBeGreaterThanOrEqual(0);
+        expect(stats.totalExpenses).toBeGreaterThanOrEqual(0);
         done();
       }, 5000);
     });
@@ -244,25 +244,25 @@ describe('TycoonSystemPure', () => {
 
   describe('Market System', () => {
     test('should provide market data', () => {
-      const marketData = tycoonSystem?.getMarketData();
+      const marketData = tycoonSystem.getMarketData();
 
-      expect(marketData?.condition).toBeDefined();
-      expect(marketData?.competitionLevel).toBeGreaterThanOrEqual(0);
-      expect(marketData?.competitionLevel).toBeLessThanOrEqual(1);
-      expect(marketData?.customerDemand).toBeGreaterThanOrEqual(0);
-      expect(marketData?.customerDemand).toBeLessThanOrEqual(1);
-      expect(marketData?.consumerConfidence).toBeGreaterThanOrEqual(0);
-      expect(marketData?.consumerConfidence).toBeLessThanOrEqual(100);
+      expect(marketData.condition).toBeDefined();
+      expect(marketData.competitionLevel).toBeGreaterThanOrEqual(0);
+      expect(marketData.competitionLevel).toBeLessThanOrEqual(1);
+      expect(marketData.customerDemand).toBeGreaterThanOrEqual(0);
+      expect(marketData.customerDemand).toBeLessThanOrEqual(1);
+      expect(marketData.consumerConfidence).toBeGreaterThanOrEqual(0);
+      expect(marketData.consumerConfidence).toBeLessThanOrEqual(100);
     });
 
     test('should update market conditions over time', (done) => {
-      const initialCondition = tycoonSystem?.getMarketData().condition;
+      const initialCondition = tycoonSystem.getMarketData().condition;
 
       // Enable market fluctuations for this test
-      tycoonSystem?.setIntegrations({} as any); // Trigger update
+      tycoonSystem.setIntegrations({} as any); // Trigger update
 
       setTimeout(() => {
-        const newCondition = tycoonSystem?.getMarketData().condition;
+        const newCondition = tycoonSystem.getMarketData().condition;
         // Market conditions should be stable since fluctuations are disabled
         expect(newCondition).toBe(initialCondition);
         done();
@@ -276,35 +276,35 @@ describe('TycoonSystemPure', () => {
 
   describe('Facility Upgrades', () => {
     test('should upgrade facilities successfully', () => {
-      tycoonSystem?.constructFacility('retail_store');
+      tycoonSystem.constructFacility('retail_store');
 
-      const initialLevel = tycoonSystem?.getFacilities().get('retail_store')?.level || 0;
-      const initialEfficiency = tycoonSystem?.getFacilities().get('retail_store')?.efficiency || 0;
+      const initialLevel = tycoonSystem.getFacilities().get('retail_store')?.level || 0;
+      const initialEfficiency = tycoonSystem.getFacilities().get('retail_store')?.efficiency || 0;
 
-      const success = tycoonSystem?.upgradeFacility('retail_store');
+      const success = tycoonSystem.upgradeFacility('retail_store');
 
       expect(success).toBe(true);
 
-      const newLevel = tycoonSystem?.getFacilities().get('retail_store')?.level || 0;
-      const newEfficiency = tycoonSystem?.getFacilities().get('retail_store')?.efficiency || 0;
+      const newLevel = tycoonSystem.getFacilities().get('retail_store')?.level || 0;
+      const newEfficiency = tycoonSystem.getFacilities().get('retail_store')?.efficiency || 0;
 
       expect(newLevel).toBe(initialLevel + 1);
       expect(newEfficiency).toBeGreaterThan(initialEfficiency);
     });
 
     test('should handle max level upgrades', () => {
-      tycoonSystem?.constructFacility('retail_store');
+      tycoonSystem.constructFacility('retail_store');
 
       // Upgrade to max level
       for (let i = 0; i < 5; i++) {
-        tycoonSystem?.upgradeFacility('retail_store');
+        tycoonSystem.upgradeFacility('retail_store');
       }
 
-      const facility = tycoonSystem?.getFacilities().get('retail_store');
+      const facility = tycoonSystem.getFacilities().get('retail_store');
       expect(facility?.level).toBe(facility?.maxLevel);
 
       // Try to upgrade beyond max level
-      const success = tycoonSystem?.upgradeFacility('retail_store');
+      const success = tycoonSystem.upgradeFacility('retail_store');
       expect(success).toBe(false);
     });
   });
@@ -315,32 +315,32 @@ describe('TycoonSystemPure', () => {
 
   describe('Performance & Optimization', () => {
     test('should provide business statistics', () => {
-      const stats = tycoonSystem?.getStats();
+      const stats = tycoonSystem.getStats();
 
-      expect(stats?.capital).toBe(100000);
-      expect(stats?.facilities).toBeGreaterThanOrEqual(3);
-      expect(stats?.staff).toBe(0);
-      expect(stats?.marketCondition).toBeDefined();
-      expect(stats?.marketShare).toBeGreaterThanOrEqual(0);
-      expect(stats?.marketShare).toBeLessThanOrEqual(1);
-      expect(stats?.customerSatisfaction).toBeGreaterThanOrEqual(0);
-      expect(stats?.customerSatisfaction).toBeLessThanOrEqual(100);
-      expect(stats?.businessAge).toBeGreaterThanOrEqual(0);
-      expect(stats?.reputation).toBeGreaterThanOrEqual(0);
-      expect(stats?.reputation).toBeLessThanOrEqual(100);
+      expect(stats.capital).toBe(100000);
+      expect(stats.facilities).toBeGreaterThanOrEqual(3);
+      expect(stats.staff).toBe(0);
+      expect(stats.marketCondition).toBeDefined();
+      expect(stats.marketShare).toBeGreaterThanOrEqual(0);
+      expect(stats.marketShare).toBeLessThanOrEqual(1);
+      expect(stats.customerSatisfaction).toBeGreaterThanOrEqual(0);
+      expect(stats.customerSatisfaction).toBeLessThanOrEqual(100);
+      expect(stats.businessAge).toBeGreaterThanOrEqual(0);
+      expect(stats.reputation).toBeGreaterThanOrEqual(0);
+      expect(stats.reputation).toBeLessThanOrEqual(100);
     });
 
     test('should handle high-frequency updates efficiently', () => {
-      const startTime = new Date();
+      const startTime = Date.now();
 
       // Perform many rapid operations
       for (let i = 0; i < 1000; i++) {
-        tycoonSystem?.getCapital();
-        tycoonSystem?.getStats();
-        tycoonSystem?.getMarketData();
+        tycoonSystem.getCapital();
+        tycoonSystem.getStats();
+        tycoonSystem.getMarketData();
       }
 
-      const endTime = new Date();
+      const endTime = Date.now();
       const duration = endTime - startTime;
 
       // Should complete in reasonable time (< 100ms for 1000 operations)
@@ -349,20 +349,20 @@ describe('TycoonSystemPure', () => {
 
     test('should handle business reset correctly', () => {
       // Make some changes
-      tycoonSystem?.constructFacility('retail_store');
-      tycoonSystem?.hireStaff('headquarters', 'manager', 25);
-      tycoonSystem?.takeLoan(50000, 0.05, 12);
+      tycoonSystem.constructFacility('retail_store');
+      tycoonSystem.hireStaff('headquarters', 'manager', 25);
+      tycoonSystem.takeLoan(50000, 0.05, 12);
 
-      const initialFacilities = tycoonSystem?.getFacilities().size;
-      const initialStaff = tycoonSystem?.getStaff().size;
-      const initialCapital = tycoonSystem?.getCapital();
+      const initialFacilities = tycoonSystem.getFacilities().size;
+      const initialStaff = tycoonSystem.getStaff().size;
+      const initialCapital = tycoonSystem.getCapital();
 
       // Reset business
-      tycoonSystem?.resetBusiness();
+      tycoonSystem.resetBusiness();
 
-      const newFacilities = tycoonSystem?.getFacilities().size;
-      const newStaff = tycoonSystem?.getStaff().size;
-      const newCapital = tycoonSystem?.getCapital();
+      const newFacilities = tycoonSystem.getFacilities().size;
+      const newStaff = tycoonSystem.getStaff().size;
+      const newCapital = tycoonSystem.getCapital();
 
       expect(newFacilities).toBe(1); // Only headquarters should remain
       expect(newStaff).toBe(0);
@@ -378,12 +378,12 @@ describe('TycoonSystemPure', () => {
     test('should integrate with event bus correctly', (done) => {
       let eventCount = 0;
 
-      eventBus?.on('tycoon:revenue', () => {
+      eventBus.on('tycoon:revenue', () => {
         eventCount++;
       });
 
       // Generate some revenue
-      tycoonSystem?.constructFacility('retail_store');
+      tycoonSystem.constructFacility('retail_store');
 
       setTimeout(() => {
         // Should have generated some revenue events
@@ -393,24 +393,24 @@ describe('TycoonSystemPure', () => {
     });
 
     test('should maintain state consistency', () => {
-      const initialCapital = tycoonSystem?.getCapital();
-      const initialFacilities = tycoonSystem?.getFacilities().size;
+      const initialCapital = tycoonSystem.getCapital();
+      const initialFacilities = tycoonSystem.getFacilities().size;
 
       // Make changes
-      tycoonSystem?.constructFacility('retail_store');
-      tycoonSystem?.hireStaff('headquarters', 'worker', 20);
+      tycoonSystem.constructFacility('retail_store');
+      tycoonSystem.hireStaff('headquarters', 'worker', 20);
 
-      const newCapital = tycoonSystem?.getCapital();
-      const newFacilities = tycoonSystem?.getFacilities().size;
+      const newCapital = tycoonSystem.getCapital();
+      const newFacilities = tycoonSystem.getFacilities().size;
 
       expect(newCapital).toBeLessThan(initialCapital);
       expect(newFacilities).toBe(initialFacilities + 1);
 
-      const facilities = tycoonSystem?.getFacilities();
-      const retailStore = facilities?.get('retail_store');
+      const facilities = tycoonSystem.getFacilities();
+      const retailStore = facilities.get('retail_store');
 
       expect(retailStore?.operational).toBe(true);
-      expect(tycoonSystem?.getStaff().size).toBe(1);
+      expect(tycoonSystem.getStaff().size).toBe(1);
     });
   });
 
@@ -433,41 +433,41 @@ describe('TycoonSystemPure', () => {
         debugMode: false
       });
 
-      const capital = zeroCapitalSystem?.getCapital();
+      const capital = zeroCapitalSystem.getCapital();
       expect(capital).toBe(0);
 
       // Should not be able to construct facilities
-      const success = zeroCapitalSystem?.constructFacility('retail_store');
+      const success = zeroCapitalSystem.constructFacility('retail_store');
       expect(success).toBe(false);
 
       // Should not be able to hire staff
-      const hireSuccess = zeroCapitalSystem?.hireStaff('headquarters', 'worker', 20);
+      const hireSuccess = zeroCapitalSystem.hireStaff('headquarters', 'worker', 20);
       expect(hireSuccess).toBe(false);
     });
 
     test('should handle invalid facility operations', () => {
-      const success1 = tycoonSystem?.constructFacility('invalid_facility');
+      const success1 = tycoonSystem.constructFacility('invalid_facility');
       expect(success1).toBe(false);
 
-      const success2 = tycoonSystem?.upgradeFacility('invalid_facility');
+      const success2 = tycoonSystem.upgradeFacility('invalid_facility');
       expect(success2).toBe(false);
 
-      const facility = tycoonSystem?.getFacility('invalid_facility');
+      const facility = tycoonSystem.getFacility('invalid_facility');
       expect(facility).toBeNull();
     });
 
     test('should handle invalid staff operations', () => {
-      const success = tycoonSystem?.hireStaff('invalid_facility', 'worker', 20);
+      const success = tycoonSystem.hireStaff('invalid_facility', 'worker', 20);
       expect(success).toBe(false);
     });
 
     test('should handle loan limits', () => {
       // Take multiple loans
-      tycoonSystem?.takeLoan(100000, 0.05, 12);
-      tycoonSystem?.takeLoan(50000, 0.05, 12);
-      tycoonSystem?.takeLoan(25000, 0.05, 12);
+      tycoonSystem.takeLoan(100000, 0.05, 12);
+      tycoonSystem.takeLoan(50000, 0.05, 12);
+      tycoonSystem.takeLoan(25000, 0.05, 12);
 
-      const capital = tycoonSystem?.getCapital();
+      const capital = tycoonSystem.getCapital();
       expect(capital).toBeGreaterThan(100000); // Should have loan money
     });
   });
@@ -480,30 +480,30 @@ describe('TycoonSystemPure', () => {
     test('should work with minimal resources', () => {
       // Simulate mobile environment with many rapid operations
       for (let i = 0; i < 100; i++) {
-        tycoonSystem?.getCapital();
-        tycoonSystem?.getStats();
-        tycoonSystem?.getMarketData();
+        tycoonSystem.getCapital();
+        tycoonSystem.getStats();
+        tycoonSystem.getMarketData();
       }
 
       // Should not crash or leak memory
-      const finalStats = tycoonSystem?.getStats();
-      expect(finalStats?.capital).toBe(100000);
-      expect(finalStats?.facilities).toBeGreaterThanOrEqual(3);
+      const finalStats = tycoonSystem.getStats();
+      expect(finalStats.capital).toBe(100000);
+      expect(finalStats.facilities).toBeGreaterThanOrEqual(3);
     });
 
     test('should handle touch-based rapid interactions', () => {
       // Simulate rapid touch interactions (like spam clicking)
       for (let i = 0; i < 50; i++) {
-        tycoonSystem?.constructFacility('retail_store');
-        tycoonSystem?.hireStaff('headquarters', 'worker', 20);
+        tycoonSystem.constructFacility('retail_store');
+        tycoonSystem.hireStaff('headquarters', 'worker', 20);
       }
 
-      const facilities = tycoonSystem?.getFacilities();
-      const staff = tycoonSystem?.getStaff();
+      const facilities = tycoonSystem.getFacilities();
+      const staff = tycoonSystem.getStaff();
 
       // Should handle rapid operations gracefully
-      expect(facilities?.size).toBeGreaterThanOrEqual(3);
-      expect(staff?.size).toBeGreaterThanOrEqual(0);
+      expect(facilities.size).toBeGreaterThanOrEqual(3);
+      expect(staff.size).toBeGreaterThanOrEqual(0);
     });
   });
 
@@ -528,48 +528,48 @@ describe('TycoonSystemPure', () => {
     });
 
     test('should initialize manager correctly', () => {
-      const stats = tycoonManager?.getStats();
+      const stats = tycoonManager.getStats();
 
-      expect(stats?.isInitialized).toBe(true);
-      expect(stats?.capital).toBe(100000);
-      expect(stats?.facilities).toBeGreaterThanOrEqual(3);
-      expect(stats?.staff).toBe(0);
-      expect(stats?.analyticsEnabled).toBe(true);
-      expect(stats?.optimizationEnabled).toBe(true);
+      expect(stats.isInitialized).toBe(true);
+      expect(stats.capital).toBe(100000);
+      expect(stats.facilities).toBeGreaterThanOrEqual(3);
+      expect(stats.staff).toBe(0);
+      expect(stats.analyticsEnabled).toBe(true);
+      expect(stats.optimizationEnabled).toBe(true);
     });
 
     test('should provide tycoon system access', () => {
-      const tycoonSystem = tycoonManager?.getTycoonSystem();
+      const tycoonSystem = tycoonManager.getTycoonSystem();
 
       expect(tycoonSystem).toBeDefined();
-      expect(tycoonSystem?.getCapital).toBeDefined();
-      expect(tycoonSystem?.getFacilities).toBeDefined();
+      expect(tycoonSystem.getCapital).toBeDefined();
+      expect(tycoonSystem.getFacilities).toBeDefined();
     });
 
     test('should handle business operations', () => {
-      const initialState = tycoonManager?.getStats();
+      const initialState = tycoonManager.getStats();
 
       // Make some changes
-      tycoonManager?.getTycoonSystem().constructFacility('retail_store');
-      tycoonManager?.getTycoonSystem().hireStaff('headquarters', 'manager', 25);
+      tycoonManager.getTycoonSystem().constructFacility('retail_store');
+      tycoonManager.getTycoonSystem().hireStaff('headquarters', 'manager', 25);
 
-      const newState = tycoonManager?.getStats();
+      const newState = tycoonManager.getStats();
 
-      expect(newState?.facilities).toBeGreaterThanOrEqual(initialState?.facilities);
-      expect(newState?.staff).toBeGreaterThan(initialState?.staff);
+      expect(newState.facilities).toBeGreaterThanOrEqual(initialState.facilities);
+      expect(newState.staff).toBeGreaterThan(initialState.staff);
     });
 
     test('should provide business analysis', () => {
-      const valuation = tycoonManager?.getBusinessValuation();
-      const cashFlow = tycoonManager?.getCashFlowProjection(30);
-      const marketTrends = tycoonManager?.getMarketTrends();
-      const competitiveAdvantage = tycoonManager?.getCompetitiveAdvantage();
+      const valuation = tycoonManager.getBusinessValuation();
+      const cashFlow = tycoonManager.getCashFlowProjection(30);
+      const marketTrends = tycoonManager.getMarketTrends();
+      const competitiveAdvantage = tycoonManager.getCompetitiveAdvantage();
 
       expect(valuation).toBeGreaterThan(0);
-      expect(cashFlow?.timeframe).toBe(30);
+      expect(cashFlow.timeframe).toBe(30);
       expect(Array.isArray(marketTrends)).toBe(true);
-      expect(competitiveAdvantage?.score).toBeGreaterThanOrEqual(0);
-      expect(competitiveAdvantage?.score).toBeLessThanOrEqual(10);
+      expect(competitiveAdvantage.score).toBeGreaterThanOrEqual(0);
+      expect(competitiveAdvantage.score).toBeLessThanOrEqual(10);
     });
   });
 
@@ -580,65 +580,65 @@ describe('TycoonSystemPure', () => {
   describe('Comprehensive Integration', () => {
     test('should handle complete business workflow', () => {
       // Initial setup
-      const initialCapital = tycoonSystem?.getCapital();
+      const initialCapital = tycoonSystem.getCapital();
       expect(initialCapital).toBe(100000);
 
       // Construct facility
-      const constructSuccess = tycoonSystem?.constructFacility('retail_store');
+      const constructSuccess = tycoonSystem.constructFacility('retail_store');
       expect(constructSuccess).toBe(true);
 
       // Hire staff
-      const hireSuccess = tycoonSystem?.hireStaff('headquarters', 'manager', 25);
+      const hireSuccess = tycoonSystem.hireStaff('headquarters', 'manager', 25);
       expect(hireSuccess).toBe(true);
 
       // Take loan
-      const loanSuccess = tycoonSystem?.takeLoan(50000, 0.05, 12);
+      const loanSuccess = tycoonSystem.takeLoan(50000, 0.05, 12);
       expect(loanSuccess).toBe(true);
 
       // Make investment
-      const investSuccess = tycoonSystem?.makeInvestment('tech_startup', 25000);
+      const investSuccess = tycoonSystem.makeInvestment('tech_startup', 25000);
       expect(investSuccess).toBe(true);
 
       // Check final state
-      const finalCapital = tycoonSystem?.getCapital();
-      const facilities = tycoonSystem?.getFacilities();
-      const staff = tycoonSystem?.getStaff();
+      const finalCapital = tycoonSystem.getCapital();
+      const facilities = tycoonSystem.getFacilities();
+      const staff = tycoonSystem.getStaff();
 
       expect(finalCapital).toBeGreaterThan(100000); // Should have loan money
-      expect(facilities?.get('retail_store')?.operational).toBe(true);
-      expect(staff?.size).toBe(1);
+      expect(facilities.get('retail_store')?.operational).toBe(true);
+      expect(staff.size).toBe(1);
     });
 
     test('should handle facility upgrades and scaling', () => {
-      tycoonSystem?.constructFacility('retail_store');
+      tycoonSystem.constructFacility('retail_store');
 
-      const initialLevel = tycoonSystem?.getFacilities().get('retail_store')?.level || 0;
-      const initialEfficiency = tycoonSystem?.getFacilities().get('retail_store')?.efficiency || 0;
+      const initialLevel = tycoonSystem.getFacilities().get('retail_store')?.level || 0;
+      const initialEfficiency = tycoonSystem.getFacilities().get('retail_store')?.efficiency || 0;
 
       // Upgrade multiple times
       for (let i = 0; i < 3; i++) {
-        tycoonSystem?.upgradeFacility('retail_store');
+        tycoonSystem.upgradeFacility('retail_store');
       }
 
-      const finalLevel = tycoonSystem?.getFacilities().get('retail_store')?.level || 0;
-      const finalEfficiency = tycoonSystem?.getFacilities().get('retail_store')?.efficiency || 0;
+      const finalLevel = tycoonSystem.getFacilities().get('retail_store')?.level || 0;
+      const finalEfficiency = tycoonSystem.getFacilities().get('retail_store')?.efficiency || 0;
 
       expect(finalLevel).toBe(initialLevel + 3);
       expect(finalEfficiency).toBeGreaterThan(initialEfficiency);
     });
 
     test('should handle market and competition dynamics', () => {
-      const initialMarket = tycoonSystem?.getMarketData();
-      const initialStats = tycoonSystem?.getBusinessStats();
+      const initialMarket = tycoonSystem.getMarketData();
+      const initialStats = tycoonSystem.getBusinessStats();
 
       // Simulate market changes
       setTimeout(() => {
-        const newMarket = tycoonSystem?.getMarketData();
-        const newStats = tycoonSystem?.getBusinessStats();
+        const newMarket = tycoonSystem.getMarketData();
+        const newStats = tycoonSystem.getBusinessStats();
 
         // Market should remain stable (fluctuations disabled)
-        expect(newMarket?.condition).toBe(initialMarket?.condition);
-        expect(newStats?.marketShare).toBe(initialStats?.marketShare);
+        expect(newMarket.condition).toBe(initialMarket.condition);
+        expect(newStats.marketShare).toBe(initialStats.marketShare);
       }, 5000);
     });
   });
@@ -669,17 +669,17 @@ describe('TycoonSystemPure Performance', () => {
   });
 
   test('should handle high-frequency business operations', () => {
-    const startTime = new Date();
+    const startTime = Date.now();
 
     // Perform many rapid business operations
     for (let i = 0; i < 1000; i++) {
-      tycoonSystem?.getCapital();
-      tycoonSystem?.getStats();
-      tycoonSystem?.getMarketData();
-      tycoonSystem?.getBusinessStats();
+      tycoonSystem.getCapital();
+      tycoonSystem.getStats();
+      tycoonSystem.getMarketData();
+      tycoonSystem.getBusinessStats();
     }
 
-    const endTime = new Date();
+    const endTime = Date.now();
     const duration = endTime - startTime;
 
     // Should complete in reasonable time (< 100ms for 1000 operations)
@@ -687,14 +687,14 @@ describe('TycoonSystemPure Performance', () => {
   });
 
   test('should handle rapid facility construction', () => {
-    const startTime = new Date();
+    const startTime = Date.now();
 
     // Construct many facilities rapidly
     for (let i = 0; i < 50; i++) {
-      tycoonSystem?.constructFacility('retail_store');
+      tycoonSystem.constructFacility('retail_store');
     }
 
-    const endTime = new Date();
+    const endTime = Date.now();
     const duration = endTime - startTime;
 
     // Should complete in reasonable time
@@ -702,14 +702,14 @@ describe('TycoonSystemPure Performance', () => {
   });
 
   test('should handle bulk staff hiring', () => {
-    const startTime = new Date();
+    const startTime = Date.now();
 
     // Hire many staff members rapidly
     for (let i = 0; i < 100; i++) {
-      tycoonSystem?.hireStaff('headquarters', 'worker', 20);
+      tycoonSystem.hireStaff('headquarters', 'worker', 20);
     }
 
-    const endTime = new Date();
+    const endTime = Date.now();
     const duration = endTime - startTime;
 
     // Should complete in reasonable time
@@ -744,46 +744,46 @@ describe('Mobile Compatibility', () => {
   test('should work with limited memory', () => {
     // Simulate mobile environment with memory constraints
     for (let i = 0; i < 100; i++) {
-      tycoonSystem?.getCapital();
-      tycoonSystem?.getStats();
-      tycoonSystem?.getMarketData();
-      tycoonSystem?.getBusinessStats();
+      tycoonSystem.getCapital();
+      tycoonSystem.getStats();
+      tycoonSystem.getMarketData();
+      tycoonSystem.getBusinessStats();
     }
 
     // Should not crash or leak memory
-    const finalStats = tycoonSystem?.getStats();
-    expect(finalStats?.capital).toBe(50000);
-    expect(finalStats?.facilities).toBeGreaterThanOrEqual(3);
+    const finalStats = tycoonSystem.getStats();
+    expect(finalStats.capital).toBe(50000);
+    expect(finalStats.facilities).toBeGreaterThanOrEqual(3);
   });
 
   test('should handle touch-based rapid interactions', () => {
     // Simulate rapid touch interactions (like spam clicking)
     for (let i = 0; i < 200; i++) {
-      tycoonSystem?.constructFacility('retail_store');
-      tycoonSystem?.hireStaff('headquarters', 'worker', 20);
+      tycoonSystem.constructFacility('retail_store');
+      tycoonSystem.hireStaff('headquarters', 'worker', 20);
     }
 
-    const facilities = tycoonSystem?.getFacilities();
-    const staff = tycoonSystem?.getStaff();
+    const facilities = tycoonSystem.getFacilities();
+    const staff = tycoonSystem.getStaff();
 
     // Should handle rapid operations gracefully
-    expect(facilities?.size).toBeGreaterThanOrEqual(3);
-    expect(staff?.size).toBeGreaterThanOrEqual(0);
+    expect(facilities.size).toBeGreaterThanOrEqual(3);
+    expect(staff.size).toBeGreaterThanOrEqual(0);
   });
 
   test('should provide consistent performance on different devices', () => {
     // Test with different performance modes
     const modes = ['high', 'medium', 'low'] as const;
 
-    modes?.forEach(mode => {
+    modes.forEach(mode => {
       // This would change performance mode in a full implementation
-      const startTime = new Date();
+      const startTime = Date.now();
 
       for (let i = 0; i < 50; i++) {
-        tycoonSystem?.getStats();
+        tycoonSystem.getStats();
       }
 
-      const endTime = new Date();
+      const endTime = Date.now();
       const duration = endTime - startTime;
 
       // Should be reasonable for each mode

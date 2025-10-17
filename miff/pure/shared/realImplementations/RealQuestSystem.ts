@@ -95,7 +95,7 @@ export class RealQuestSystem {
 
   constructor(...args: any[]) {
     
-    this?.initializeDefaultQuests();
+    this.initializeDefaultQuests();
   }
 
   /**
@@ -103,19 +103,19 @@ export class RealQuestSystem {
    */
   addQuest(): boolean {
     try {
-      if (this?.quests.has(quest?.id)) {
+      if (this.quests.has(quest.id)) {
         console.warn(`Quest ${quest.id} already exists`);
         return false;
       }
 
       // Validate quest structure
-      if (!this?.validateQuest(quest)) {
+      if (!this.validateQuest(quest)) {
         console.error(`Invalid quest structure for ${quest.id}`);
         return false;
       }
 
-      this?.quests.set(quest?.id, quest);
-      this?.emit('questAdded', { quest });
+      this.quests.set(quest.id, quest);
+      this.emit('questAdded', { quest });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -128,7 +128,7 @@ export class RealQuestSystem {
    * Get a quest by ID
    */
   getQuest(questId: string): Quest | null {
-    return this?.quests.get(questId) || null;
+    return this.quests.get(questId) || null;
   }
 
   /**
@@ -136,19 +136,19 @@ export class RealQuestSystem {
    */
   startQuest(): boolean {
     try {
-      const quest = this?.quests.get(questId);
+      const quest = this.quests.get(questId);
       if (!quest) {
         console.warn(`Quest ${questId} not found`);
         return false;
       }
 
-      if (quest?.status !== 'available') {
+      if (quest.status !== 'available') {
         console.warn(`Quest ${questId} is not available`);
         return false;
       }
 
       // Check prerequisites
-      if (!this?.checkPrerequisites(quest, playerId)) {
+      if (!this.checkPrerequisites(quest, playerId)) {
         console.warn(`Prerequisites not met for quest ${questId}`);
         return false;
       }
@@ -163,17 +163,17 @@ export class RealQuestSystem {
       };
 
       // Initialize objective progress
-      quest?.objectives.forEach((objective: any) => {
-        progress?.objectives[objective?.id] = 0;
+      quest.objectives.forEach((objective: any) => {
+        progress.objectives[objective.id] = 0;
       });
 
-      this?.activeQuests.set(`${playerId}:${questId}`, progress);
+      this.activeQuests.set(`${playerId}:${questId}`, progress);
       
       // Update quest status
-      quest?.status = 'active';
-      quest?.updated = new Date();
+      quest.status = 'active';
+      quest.updated = new Date();
 
-      this?.emit('questStarted', { questId, playerId, quest });
+      this.emit('questStarted', { questId, playerId, quest });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -188,8 +188,8 @@ export class RealQuestSystem {
   completeQuest(): boolean {
     try {
       const progressKey = `${playerId}:${questId}`;
-      const progress = this?.activeQuests.get(progressKey);
-      const quest = this?.quests.get(questId);
+      const progress = this.activeQuests.get(progressKey);
+      const quest = this.quests.get(questId);
 
       if (!progress || !quest) {
         console.warn(`Quest ${questId} not found or not active for player ${playerId}`);
@@ -197,24 +197,24 @@ export class RealQuestSystem {
       }
 
       // Check if all objectives are completed
-      if (!this?.areAllObjectivesCompleted(quest, progress)) {
+      if (!this.areAllObjectivesCompleted(quest, progress)) {
         console.warn(`Not all objectives completed for quest ${questId}`);
         return false;
       }
 
       // Update quest status
-      quest?.status = 'completed';
-      quest?.completed = new Date();
-      quest?.updated = new Date();
+      quest.status = 'completed';
+      quest.completed = new Date();
+      quest.updated = new Date();
 
       // Remove from active quests
-      this?.activeQuests.delete(progressKey);
-      this?.completedQuests.add(questId);
+      this.activeQuests.delete(progressKey);
+      this.completedQuests.add(questId);
 
       // Award rewards
-      this?.awardRewards(quest, playerId);
+      this.awardRewards(quest, playerId);
 
-      this?.emit('questCompleted', { questId, playerId, quest });
+      this.emit('questCompleted', { questId, playerId, quest });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -229,30 +229,30 @@ export class RealQuestSystem {
   updateObjective(): boolean {
     try {
       const progressKey = `${playerId}:${questId}`;
-      const questProgress = this?.activeQuests.get(progressKey);
-      const quest = this?.quests.get(questId);
+      const questProgress = this.activeQuests.get(progressKey);
+      const quest = this.quests.get(questId);
 
       if (!questProgress || !quest) {
         return false;
       }
 
-      const objective = quest?.objectives.find(obj => obj?.id === objectiveId);
+      const objective = quest.objectives.find(obj => obj.id === objectiveId);
       if (!objective) {
         return false;
       }
 
       // Update progress
       questProgress.objectives[objectiveId!] = Math.min(progress, objective.quantity);
-      questProgress?.lastUpdated = new Date();
+      questProgress.lastUpdated = new Date();
 
       // Check if objective is completed
-      if (questProgress?.objectives[objectiveId!] >= objective?.quantity) {
-        this?.emit('objectiveCompleted', { questId, playerId, objectiveId, objective });
+      if (questProgress.objectives[objectiveId!] >= objective.quantity) {
+        this.emit('objectiveCompleted', { questId, playerId, objectiveId, objective });
       }
 
       // Check if quest can be completed
-      if (this?.areAllObjectivesCompleted(quest, questProgress)) {
-        this?.emit('questReadyToComplete', { questId, playerId, quest });
+      if (this.areAllObjectivesCompleted(quest, questProgress)) {
+        this.emit('questReadyToComplete', { questId, playerId, quest });
       }
 
       return true;
@@ -269,11 +269,11 @@ export class RealQuestSystem {
   getActiveQuests(playerId: string): Quest[] {
     const activeQuests: Quest[] = [];
     
-    for (const [key, progress] of this?.activeQuests.entries()) {
-      if (key?.startsWith(`${playerId}:`)) {
-        const quest = this?.quests.get(progress?.questId);
+    for (const [key, progress] of this.activeQuests.entries()) {
+      if (key.startsWith(`${playerId}:`)) {
+        const quest = this.quests.get(progress.questId);
         if (quest) {
-          activeQuests?.push(quest);
+          activeQuests.push(quest);
         }
       }
     }
@@ -287,9 +287,9 @@ export class RealQuestSystem {
   getAvailableQuests(playerId: string): Quest[] {
     const availableQuests: Quest[] = [];
     
-    for (const quest of this?.quests.values()) {
-      if (quest?.status === 'available' && this?.checkPrerequisites(quest, playerId)) {
-        availableQuests?.push(quest);
+    for (const quest of this.quests.values()) {
+      if (quest.status === 'available' && this.checkPrerequisites(quest, playerId)) {
+        availableQuests.push(quest);
       }
     }
 
@@ -302,10 +302,10 @@ export class RealQuestSystem {
   getCompletedQuests(playerId: string): Quest[] {
     const completedQuests: Quest[] = [];
     
-    for (const questId of this?.completedQuests) {
-      const quest = this?.quests.get(questId);
+    for (const questId of this.completedQuests) {
+      const quest = this.quests.get(questId);
       if (quest) {
-        completedQuests?.push(quest);
+        completedQuests.push(quest);
       }
     }
 
@@ -316,21 +316,21 @@ export class RealQuestSystem {
    * Event system for quest events
    */
   on(): void {
-    if (!this?.questEvents.has(event)) {
-      this?.questEvents.set(event, []);
+    if (!this.questEvents.has(event)) {
+      this.questEvents.set(event, []);
     }
-    this?.questEvents.get(event)?.push(handler);
+    this.questEvents.get(event)?.push(handler);
   }
 
   /**
    * Remove event handler
    */
   off(): void {
-    const handlers = this?.questEvents.get(event);
+    const handlers = this.questEvents.get(event);
     if (handlers) {
-      const index = handlers?.indexOf(handler);
+      const index = handlers.indexOf(handler);
       if (index > -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     }
   }
@@ -339,11 +339,11 @@ export class RealQuestSystem {
    * Emit quest events
    */
   private emit(event: string, data: any): void {
-    const handlers = this?.questEvents.get(event);
+    const handlers = this.questEvents.get(event);
     if (handlers) {
-      handlers?.forEach((handler: any) => {
+      handlers.forEach((handler: any) => {
         try {
-          handler(data: any);
+          handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in quest event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -357,13 +357,13 @@ export class RealQuestSystem {
    */
   private validateQuest(quest: Quest): boolean {
     return !!(
-      quest?.id &&
-      quest?.title &&
-      quest?.description &&
-      quest?.objectives &&
-      quest?.objectives.length > 0 &&
-      quest?.rewards &&
-      quest?.level > 0
+      quest.id &&
+      quest.title &&
+      quest.description &&
+      quest.objectives &&
+      quest.objectives.length > 0 &&
+      quest.rewards &&
+      quest.level > 0
     );
   }
 
@@ -380,9 +380,9 @@ export class RealQuestSystem {
    * Check if all objectives are completed
    */
   private areAllObjectivesCompleted(quest: Quest, progress: QuestProgress): boolean {
-    return quest?.objectives.every(objective => {
-      const currentProgress = progress?.objectives[objective?.id] || 0;
-      return currentProgress >= objective?.quantity;
+    return quest.objectives.every(objective => {
+      const currentProgress = progress.objectives[objective.id] || 0;
+      return currentProgress >= objective.quantity;
     });
   }
 
@@ -390,7 +390,7 @@ export class RealQuestSystem {
    * Award quest rewards
    */
   private awardRewards(quest: Quest, playerId: string): void {
-    quest?.rewards.forEach((reward: any) => {
+    quest.rewards.forEach((reward: any) => {
       // This would integrate with player systems to award rewards
       console.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
     });
@@ -433,8 +433,8 @@ export class RealQuestSystem {
       }
     ];
 
-    defaultQuests?.forEach((quest: any) => {
-      this?.addQuest(quest);
+    defaultQuests.forEach((quest: any) => {
+      this.addQuest(quest);
     });
   }
 }

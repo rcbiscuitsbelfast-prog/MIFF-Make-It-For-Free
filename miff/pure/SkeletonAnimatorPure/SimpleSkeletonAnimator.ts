@@ -48,8 +48,8 @@ export class SimpleRigBuilder {
   private nextId: number = 0;
 
   constructor(initialConfig?: Partial<RigConfig>) {
-    this?.config = {
-      id: initialConfig?.id || this?.generateId(),
+    this.config = {
+      id: initialConfig?.id || this.generateId(),
       name: initialConfig?.name || 'New Rig',
       version: '1.0.0',
       nodes: {},
@@ -60,27 +60,27 @@ export class SimpleRigBuilder {
 
   createCoreBody(): SimpleRigBuilder {
     // Create torso as root node
-    const torso = this?.createNode('torso', 'Torso', 'torso', {
+    const torso = this.createNode('torso', 'Torso', 'torso', {
       position: { x: 0, y: 0, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
       scale: { x: 1, y: 1.5, z: 0.8 }
     });
 
     // Create neck
-    const neck = this?.createNode('neck', 'Neck', 'neck', {
+    const neck = this.createNode('neck', 'Neck', 'neck', {
       position: { x: 0, y: 0.8, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
       scale: { x: 0.3, y: 0.4, z: 0.3 }
-    }, torso?.id);
+    }, torso.id);
 
     // Create head
-    const head = this?.createNode('head', 'Head', 'head', {
+    const head = this.createNode('head', 'Head', 'head', {
       position: { x: 0, y: 0.6, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
       scale: { x: 0.6, y: 0.6, z: 0.6 }
-    }, neck?.id);
+    }, neck.id);
 
-    this?.config.rootNode = torso?.id;
+    this.config.rootNode = torso.id;
     return this;
   }
 
@@ -95,22 +95,22 @@ export class SimpleRigBuilder {
       metadata: {}
     };
 
-    this?.config.nodes[id!] = node;
+    this.config.nodes[id!] = node;
 
-    if (parentId && this?.config.nodes[parentId!]) {
-      this?.config.nodes[parentId!].children?.push(id);
+    if (parentId && this.config.nodes[parentId!]) {
+      this.config.nodes[parentId!].children.push(id);
     }
 
     return node;
   }
 
   getConfig(): RigConfig {
-    return { ...this?.config };
+    return { ...this.config };
   }
 
   exportRigJson(): string {
     const exportData = {
-      ...this?.config,
+      ...this.config,
       exportFormat: 'miff-rig-v1',
       timestamp: new Date().toISOString()
     };
@@ -120,12 +120,12 @@ export class SimpleRigBuilder {
   validate(): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!this?.config.rootNode! || !this?.config.nodes[this?.config.rootNode]) {
-      errors?.push('Root node not found');
+    if (!this.config.rootNode! || !this.config.nodes[this.config.rootNode]) {
+      errors.push('Root node not found');
     }
 
     return {
-      valid: errors?.length === 0,
+      valid: errors.length === 0,
       errors
     };
   }
@@ -139,20 +139,20 @@ export class SimpleSkeletonAnimator {
   private rigBuilder: SimpleRigBuilder;
 
   constructor() {
-    this?.rigBuilder = new SimpleRigBuilder();
+    this.rigBuilder = new SimpleRigBuilder();
   }
 
   createCharacter(name: string): SimpleSkeletonAnimator {
-    this?.rigBuilder.createCoreBody();
+    this.rigBuilder.createCoreBody();
     return this;
   }
 
   getRig(): RigConfig {
-    return this?.rigBuilder.getConfig();
+    return this.rigBuilder.getConfig();
   }
 
   exportCharacter(name: string): string {
-    const rig = this?.rigBuilder.getConfig();
+    const rig = this.rigBuilder.getConfig();
     const exportData = {
       name,
       rig,
@@ -163,7 +163,7 @@ export class SimpleSkeletonAnimator {
   }
 
   validate(): { valid: boolean; errors: string[] } {
-    return this?.rigBuilder.validate({});
+    return this.rigBuilder.validate({});
   }
 }
 
@@ -175,18 +175,18 @@ export function createCLI() {
       
       switch (command) {
         case 'create-character':
-          animator?.createCharacter(args[0!] || 'TestCharacter');
+          animator.createCharacter(args[0!] || 'TestCharacter');
           return `Character '${args[0!] || 'TestCharacter'}' created successfully.`;
         
         case 'export-character':
-          animator?.createCharacter(args[0!] || 'TestCharacter');
-          const data = animator?.exportCharacter(args[0!] || 'TestCharacter');
+          animator.createCharacter(args[0!] || 'TestCharacter');
+          const data = animator.exportCharacter(args[0!] || 'TestCharacter');
           return `Character exported:\n${data}`;
         
         case 'validate':
-          animator?.createCharacter('TestCharacter');
-          const validation = animator?.validate({});
-          return validation?.valid ? 'Validation passed.' : `Validation failed: ${validation?.errors.join(', ')}`;
+          animator.createCharacter('TestCharacter');
+          const validation = animator.validate({});
+          return validation.valid ? 'Validation passed.' : `Validation failed: ${validation.errors.join(', ')}`;
         
         case 'help':
           return `Available commands:

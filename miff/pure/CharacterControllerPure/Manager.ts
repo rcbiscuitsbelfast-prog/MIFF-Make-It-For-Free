@@ -342,13 +342,13 @@ export class CharacterControllerManager {
   constructor(config?: Partial<CharacterControllerConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this?.memoryManager = new MemoryManager({});
-    this?.errorHandler = new StandardErrorHandler({});
-    this?.logger = StructuredLogger?.getInstance('CharacterControllerManager');
-    this.startTime = new Date();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
+    this.logger = StructuredLogger.getInstance('CharacterControllerManager');
+    this.startTime = Date.now();
 
-    this?.config = {
+    this.config = {
       enableMultiCharacterSupport: true,
       enableMovementPhysics: true,
       enableAnimationIntegration: true,
@@ -367,30 +367,30 @@ export class CharacterControllerManager {
    * Initialize the Character Controller
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
-      StructuredLogger?.warn('CharacterControllerPure' ?? 'unknown', { context: { message: 'Character Controller already initialized' } });
+    if (this.isInitialized) {
+      StructuredLogger.warn('CharacterControllerPure' ?? 'unknown', { context: { message: 'Character Controller already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger?.info('CharacterControllerPure', { context: { message: 'Initializing Character Controller...' } });
+      StructuredLogger.info('CharacterControllerPure', { context: { message: 'Initializing Character Controller...' } });
 
       // Initialize performance optimizer
-      if (this?.config.enablePerformanceOptimization ?? false) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this?.config.enableProfiling) {
+      if (this.config.enableProfiling) {
         // MemoryManager initialization handled internally
       }
 
-      this?.isInitialized = true;
-      StructuredLogger?.info('CharacterControllerPure', { context: { message: 'Character Controller initialized successfully' } });
+      this.isInitialized = true;
+      StructuredLogger.info('CharacterControllerPure', { context: { message: 'Character Controller initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -399,14 +399,14 @@ export class CharacterControllerManager {
    * Create a new character controller
    */
   async createController(controllerData: Omit<CharacterController, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<CharacterController> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
       const controller: CharacterController = {
         ...controllerData,
-        id: this?.generateControllerId(),
+        id: this.generateControllerId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -422,15 +422,15 @@ export class CharacterControllerManager {
         }
       };
 
-      this?.controllers.set(controller?.id, controller);
-      this?.updateAnalytics();
+      this.controllers.set(controller.id, controller);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Character controller created', { context: { message: { controllerId: controller?.id, controllerName: controller?.name } } });
+      StructuredLogger.info('Character controller created', { context: { message: { controllerId: controller.id, controllerName: controller.name } } });
       return controller;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -439,25 +439,25 @@ export class CharacterControllerManager {
    * Get a character controller by ID
    */
   getController(controllerId: string): CharacterController | null {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
-    return this?.controllers.get(controllerId) || null;
+    return this.controllers.get(controllerId) || null;
   }
 
   /**
    * Update a character controller
    */
   async updateController(controllerId: string, updates: Partial<CharacterController>): Promise<CharacterController | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return null;
       }
 
@@ -465,18 +465,18 @@ export class CharacterControllerManager {
         ...controller,
         ...updates,
         updatedAt: new Date(),
-        version: this?.incrementVersion(controller?.version)
+        version: this.incrementVersion(controller.version)
       };
 
-      this?.controllers.set(controllerId, updatedController);
-      this?.updateAnalytics();
+      this.controllers.set(controllerId, updatedController);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Character controller updated', { context: { message: { controllerId, controllerName: updatedController?.name } } });
+      StructuredLogger.info('Character controller updated', { context: { message: { controllerId, controllerName: updatedController.name } } });
       return updatedController;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -485,26 +485,26 @@ export class CharacterControllerManager {
    * Delete a character controller
    */
   async deleteController(controllerId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
-      this?.controllers.delete(controllerId);
-      this?.updateAnalytics();
+      this.controllers.delete(controllerId);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Character controller deleted', { context: { message: { controllerId, controllerName: controller?.name } } });
+      StructuredLogger.info('Character controller deleted', { context: { message: { controllerId, controllerName: controller.name } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -513,7 +513,7 @@ export class CharacterControllerManager {
    * Get all character controllers
    */
   getAllControllers(): CharacterController[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
@@ -524,7 +524,7 @@ export class CharacterControllerManager {
    * Get controllers by type
    */
   getControllersByType(type: ControllerType): CharacterController[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
@@ -535,7 +535,7 @@ export class CharacterControllerManager {
    * Get controllers by status
    */
   getControllersByStatus(status: ControllerStatus): CharacterController[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
@@ -546,31 +546,31 @@ export class CharacterControllerManager {
    * Add a character to a controller
    */
   async addCharacter(controllerId: string, characterData: Omit<Character, 'id'>): Promise<Character | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return null;
       }
 
       const character: Character = {
         ...characterData,
-        id: this?.generateCharacterId()
+        id: this.generateCharacterId()
       };
 
-      controller?.characters?.push(character);
-      this?.updateAnalytics();
+      controller.characters.push(character);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Character added to controller', { context: { message: { controllerId, characterId: character?.id, characterName: character?.name } } });
+      StructuredLogger.info('Character added to controller', { context: { message: { controllerId, characterId: character.id, characterName: character.name } } });
       return character;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -579,32 +579,32 @@ export class CharacterControllerManager {
    * Remove a character from a controller
    */
   async removeCharacter(controllerId: string, characterId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
-      const characterIndex = controller?.characters.findIndex(c => c?.id === characterId);
+      const characterIndex = controller.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        StructuredLogger?.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
-      controller?.characters.splice(characterIndex, 1);
-      this?.updateAnalytics();
+      controller.characters.splice(characterIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Character removed from controller', { context: { message: { controllerId, characterId } } });
+      StructuredLogger.info('Character removed from controller', { context: { message: { controllerId, characterId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -613,32 +613,32 @@ export class CharacterControllerManager {
    * Update character position
    */
   async updateCharacterPosition(controllerId: string, characterId: string, position: Vector3): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
-      const character = controller?.characters.find(c => c?.id === characterId);
+      const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger?.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
-      character?.position = position;
-      this?.updateAnalytics();
+      character.position = position;
+      this.updateAnalytics();
 
       console.debug('Character position updated', { controllerId, characterId, position });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -647,33 +647,33 @@ export class CharacterControllerManager {
    * Update character state
    */
   async updateCharacterState(controllerId: string, characterId: string, state: StateType): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
-      const character = controller?.characters.find(c => c?.id === characterId);
+      const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger?.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
-      character?.state.previous = character?.state.current;
-      character?.state.current = state;
-      this?.updateAnalytics();
+      character.state.previous = character.state.current;
+      character.state.current = state;
+      this.updateAnalytics();
 
       console.debug('Character state updated', { controllerId, characterId, state });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -682,20 +682,20 @@ export class CharacterControllerManager {
    * Move character
    */
   async moveCharacter(controllerId: string, characterId: string, direction: Vector3, speed: number): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
-      const character = controller?.characters.find(c => c?.id === characterId);
+      const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger?.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
@@ -704,23 +704,23 @@ export class CharacterControllerManager {
       const deltaY = direction.y * speed;
       const deltaZ = direction.z * speed;
 
-      character?.position.x += deltaX;
-      character?.position.y += deltaY;
-      character?.position.z += deltaZ;
+      character.position.x += deltaX;
+      character.position.y += deltaY;
+      character.position.z += deltaZ;
 
       // Update velocity
-      character?.velocity.x = deltaX;
-      character?.velocity.y = deltaY;
-      character?.velocity.z = deltaZ;
+      character.velocity.x = deltaX;
+      character.velocity.y = deltaY;
+      character.velocity.z = deltaZ;
 
-      this?.updateAnalytics();
+      this.updateAnalytics();
 
       console.debug('Character moved', { controllerId, characterId, direction, speed });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -729,35 +729,35 @@ export class CharacterControllerManager {
    * Jump character
    */
   async jumpCharacter(controllerId: string, characterId: string, force: number): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
-      const character = controller?.characters.find(c => c?.id === characterId);
+      const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger?.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
       // Apply jump force
-      character?.velocity.y += force;
-      character?.state.current = 'jumping';
+      character.velocity.y += force;
+      character.state.current = 'jumping';
 
-      this?.updateAnalytics();
+      this.updateAnalytics();
 
       console.debug('Character jumped', { controllerId, characterId, force });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -766,22 +766,22 @@ export class CharacterControllerManager {
    * Get character by ID
    */
   getCharacter(controllerId: string, characterId: string): Character | null {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return null;
       }
 
-      return controller?.characters.find(c => c?.id === characterId) || null;
+      return controller.characters.find(c => c.id === characterId) || null;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -790,22 +790,22 @@ export class CharacterControllerManager {
    * Get characters by type
    */
   getCharactersByType(controllerId: string, type: CharacterType): Character[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     try {
-      const controller = this?.controllers.get(controllerId);
+      const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger?.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return [];
       }
 
-      return controller?.characters.filter((c: any) => c?.type === type);
+      return controller.characters.filter((c: any) => c.type === type);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -828,7 +828,7 @@ export class CharacterControllerManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version?.split('.');
+    const parts = version.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -838,17 +838,17 @@ export class CharacterControllerManager {
    */
   private updateAnalytics(): void {
     const controllers = Array.from(this.controllers.values());
-    const totalCharacters = controllers?.reduce((sum: any, c: any) => sum + c?.characters.length, 0);
-    const activeCharacters = controllers?.reduce((sum: any, c: any) => sum + c?.characters.filter((ch: any) => ch?.status === 'active').length, 0);
+    const totalCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.length, 0);
+    const activeCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.filter((ch: any) => ch.status === 'active').length, 0);
 
     for (const controller of controllers) {
-      controller?.analytics = {
-        totalControllers: controllers?.length,
-        activeControllers: controllers?.filter((c: any) => c?.status === 'active').length,
-        totalCharacters: controller?.characters.length,
-        activeCharacters: controller?.characters.filter((ch: any) => ch?.status === 'active').length,
-        totalMovements: controller?.analytics.totalMovements,
-        totalAnimations: controller?.analytics.totalAnimations,
+      controller.analytics = {
+        totalControllers: controllers.length,
+        activeControllers: controllers.filter((c: any) => c.status === 'active').length,
+        totalCharacters: controller.characters.length,
+        activeCharacters: controller.characters.filter((ch: any) => ch.status === 'active').length,
+        totalMovements: controller.analytics.totalMovements,
+        totalAnimations: controller.analytics.totalAnimations,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };
@@ -868,15 +868,15 @@ export class CharacterControllerManager {
     totalAnimations: number;
     uptime: number;
   } {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Character Controller not initialized');
     }
 
     const controllers = Array.from(this.controllers.values());
-    const activeControllers = controllers?.filter((c: any) => c?.status === 'active');
-    const totalCharacters = controllers?.reduce((sum: any, c: any) => sum + c?.characters.length, 0);
-    const totalMovements = controllers?.reduce((sum: any, c: any) => sum + c?.analytics.totalMovements, 0);
-    const totalAnimations = controllers?.reduce((sum: any, c: any) => sum + c?.analytics.totalAnimations, 0);
+    const activeControllers = controllers.filter((c: any) => c.status === 'active');
+    const totalCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.length, 0);
+    const totalMovements = controllers.reduce((sum: any, c: any) => sum + c.analytics.totalMovements, 0);
+    const totalAnimations = controllers.reduce((sum: any, c: any) => sum + c.analytics.totalAnimations, 0);
 
     const controllersByType: Record<ControllerType, number> = {
       '2d': 0,
@@ -894,19 +894,19 @@ export class CharacterControllerManager {
     };
 
     for (const controller of controllers) {
-      controllersByType[controller?.type]++;
-      controllersByStatus[controller?.status]++;
+      controllersByType[controller.type]++;
+      controllersByStatus[controller.status]++;
     }
 
     return {
-      totalControllers: controllers?.length,
-      activeControllers: activeControllers?.length,
+      totalControllers: controllers.length,
+      activeControllers: activeControllers.length,
       controllersByType,
       controllersByStatus,
       totalCharacters,
       totalMovements,
       totalAnimations,
-      uptime: new Date() - this?.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 
@@ -914,12 +914,12 @@ export class CharacterControllerManager {
    * Destroy the Character Controller
    */
   async destroy(): Promise<void> {
-    StructuredLogger?.info('CharacterControllerPure', { context: { message: 'Destroying Character Controller...' } });
+    StructuredLogger.info('CharacterControllerPure', { context: { message: 'Destroying Character Controller...' } });
 
-    this?.controllers.clear();
-    this?.isInitialized = false;
+    this.controllers.clear();
+    this.isInitialized = false;
 
-    StructuredLogger?.info('CharacterControllerPure', { context: { message: 'Character Controller destroyed' } });
+    StructuredLogger.info('CharacterControllerPure', { context: { message: 'Character Controller destroyed' } });
   }
 }
 

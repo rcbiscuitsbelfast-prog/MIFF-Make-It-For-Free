@@ -834,7 +834,7 @@ export class DataWarehousePure {
 
   constructor(config: Partial<DataWarehouseConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableWarehouseManagement: true,
       enableETLProcesses: true,
       enableDataModeling: true,
@@ -852,7 +852,7 @@ export class DataWarehousePure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalDatabases: 0,
       activeDatabases: 0,
       totalTables: 0,
@@ -864,7 +864,7 @@ export class DataWarehousePure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalDatabases: 0,
       totalTables: 0,
       totalQueries: 0,
@@ -879,7 +879,7 @@ export class DataWarehousePure {
    * Create a new data warehouse manager
    */
   createManager(): DataWarehouseOutput {
-    if (!this?.config.enableWarehouseManagement) {
+    if (!this.config.enableWarehouseManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -889,8 +889,8 @@ export class DataWarehousePure {
 
     const manager: DataWarehouseManager = {
       id: managerData.id || `datawarehouse-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Data Warehouse Manager',
-      type: managerData?.type || 'analytical',
+      name: managerData.name || 'Unnamed Data Warehouse Manager',
+      type: managerData.type || 'analytical',
       status: 'active',
       databases: [],
       tables: [],
@@ -955,7 +955,7 @@ export class DataWarehousePure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -968,7 +968,7 @@ export class DataWarehousePure {
    * Get manager by ID
    */
   getManager(): DataWarehouseOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -988,7 +988,7 @@ export class DataWarehousePure {
    * Create database
    */
   createDatabase(): DataWarehouseOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-database',
@@ -997,7 +997,7 @@ export class DataWarehousePure {
       };
     }
 
-    if (manager?.databases.length >= this?.config.maxDatabases) {
+    if (manager.databases.length >= this.config.maxDatabases) {
       return {
         op: 'create-database',
         status: 'error',
@@ -1007,10 +1007,10 @@ export class DataWarehousePure {
 
     const newDatabase: Database = {
       id: database.id || `database-${Date.now()}`,
-      name: database?.name || 'Unnamed Database',
-      type: database?.type || 'postgresql',
+      name: database.name || 'Unnamed Database',
+      type: database.type || 'postgresql',
       status: 'online',
-      connection: database?.connection || {
+      connection: database.connection || {
         host: 'localhost',
         port: 5432,
         database: 'default',
@@ -1022,7 +1022,7 @@ export class DataWarehousePure {
       },
       tables: [],
       schemas: [],
-      size: database?.size || {
+      size: database.size || {
         total: 0,
         used: 0,
         free: 0,
@@ -1030,7 +1030,7 @@ export class DataWarehousePure {
         indexes: 0,
         views: 0
       },
-      performance: database?.performance || {
+      performance: database.performance || {
         queriesPerSecond: 0,
         averageQueryTime: 0,
         connections: 0,
@@ -1042,10 +1042,10 @@ export class DataWarehousePure {
       ...database
     };
 
-    manager?.databases?.push(newDatabase);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalDatabases++;
-    this?.performanceMetrics.activeDatabases++;
+    manager.databases.push(newDatabase);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalDatabases++;
+    this.performanceMetrics.activeDatabases++;
 
     return {
       op: 'create-database',
@@ -1058,7 +1058,7 @@ export class DataWarehousePure {
    * Create table
    */
   createTable(): DataWarehouseOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-table',
@@ -1067,7 +1067,7 @@ export class DataWarehousePure {
       };
     }
 
-    if (manager?.tables.length >= this?.config.maxTables) {
+    if (manager.tables.length >= this.config.maxTables) {
       return {
         op: 'create-table',
         status: 'error',
@@ -1077,15 +1077,15 @@ export class DataWarehousePure {
 
     const newTable: Table = {
       id: table.id || `table-${Date.now()}`,
-      name: table?.name || 'Unnamed Table',
-      database: table?.database || '',
-      schema: table?.schema || 'public',
-      type: table?.type || 'fact',
+      name: table.name || 'Unnamed Table',
+      database: table.database || '',
+      schema: table.schema || 'public',
+      type: table.type || 'fact',
       status: 'active',
-      columns: table?.columns || [],
-      indexes: table?.indexes || [],
-      constraints: table?.constraints || [],
-      statistics: table?.statistics || {
+      columns: table.columns || [],
+      indexes: table.indexes || [],
+      constraints: table.constraints || [],
+      statistics: table.statistics || {
         rowCount: 0,
         size: 0,
         lastUpdated: new Date(),
@@ -1104,9 +1104,9 @@ export class DataWarehousePure {
       ...table
     };
 
-    manager?.tables?.push(newTable);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalTables++;
+    manager.tables.push(newTable);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalTables++;
 
     return {
       op: 'create-table',
@@ -1119,7 +1119,7 @@ export class DataWarehousePure {
    * Create ETL process
    */
   createETLProcess(): DataWarehouseOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-etl-process',
@@ -1130,10 +1130,10 @@ export class DataWarehousePure {
 
     const newETLProcess: ETLProcess = {
       id: etlProcess.id || `etl-${Date.now()}`,
-      name: etlProcess?.name || 'Unnamed ETL Process',
-      description: etlProcess?.description || '',
-      type: etlProcess?.type || 'batch',
-      source: etlProcess?.source || {
+      name: etlProcess.name || 'Unnamed ETL Process',
+      description: etlProcess.description || '',
+      type: etlProcess.type || 'batch',
+      source: etlProcess.source || {
         type: 'database',
         connection: {
           host: 'localhost',
@@ -1150,7 +1150,7 @@ export class DataWarehousePure {
         columns: [],
         filters: []
       },
-      target: etlProcess?.target || {
+      target: etlProcess.target || {
         type: 'database',
         connection: {
           host: 'localhost',
@@ -1166,8 +1166,8 @@ export class DataWarehousePure {
         columns: [],
         mode: 'insert'
       },
-      transformations: etlProcess?.transformations || [],
-      schedule: etlProcess?.schedule || {
+      transformations: etlProcess.transformations || [],
+      schedule: etlProcess.schedule || {
         type: 'daily',
         frequency: 1,
         interval: 24,
@@ -1181,8 +1181,8 @@ export class DataWarehousePure {
       ...etlProcess
     };
 
-    manager?.etlProcesses?.push(newETLProcess);
-    manager.updatedAt = new Date();
+    manager.etlProcesses.push(newETLProcess);
+    manager.updatedAt = Date.now();
 
     return {
       op: 'create-etl-process',
@@ -1195,14 +1195,14 @@ export class DataWarehousePure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DataWarehousePerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DataWarehouseAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1216,29 +1216,29 @@ export class DataWarehousePure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalDatabases = 0;
     let activeDatabases = 0;
     let totalTables = 0;
     let totalQueries = 0;
     let totalDataSize = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalDatabases += manager?.databases.length;
-      activeDatabases += manager?.databases.filter((d: any) => d?.status === 'online').length;
-      totalTables += manager?.tables.length;
-      totalQueries += manager?.queries.length;
+    for (const manager of this.managers.values()) {
+      totalDatabases += manager.databases.length;
+      activeDatabases += manager.databases.filter((d: any) => d.status === 'online').length;
+      totalTables += manager.tables.length;
+      totalQueries += manager.queries.length;
       
-      for (const database of manager?.databases) {
-        totalDataSize += database?.size.total;
+      for (const database of manager.databases) {
+        totalDataSize += database.size.total;
       }
     }
 
-    this?.performanceMetrics.totalDatabases = totalDatabases;
-    this?.performanceMetrics.activeDatabases = activeDatabases;
-    this?.performanceMetrics.totalTables = totalTables;
-    this?.performanceMetrics.totalQueries = totalQueries;
-    this?.performanceMetrics.totalDataSize = totalDataSize;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalDatabases = totalDatabases;
+    this.performanceMetrics.activeDatabases = activeDatabases;
+    this.performanceMetrics.totalTables = totalTables;
+    this.performanceMetrics.totalQueries = totalQueries;
+    this.performanceMetrics.totalDataSize = totalDataSize;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

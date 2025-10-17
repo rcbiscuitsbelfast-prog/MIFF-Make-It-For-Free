@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { CraftingManager, Recipe, Inventory } from './Manager';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 
 const manager = new CraftingManager();
 
@@ -31,13 +31,13 @@ try {
       };
       
       // Register recipe
-      manager?.registerRecipe(newRecipe);
+      manager.registerRecipe(newRecipe);
       
       // Simulate crafting
       const inventory: Inventory = {};
       const materialsList = typeof materials === 'string' ? JSON.parse(materials) : (materials || []);
       if (Array.isArray(materialsList)) {
-        materialsList?.forEach((mat: string) => {
+        materialsList.forEach((mat: string) => {
           inventory[mat!] = 10; // Assume we have enough
         });
       } else {
@@ -46,7 +46,7 @@ try {
         });
       }
       
-      const result = manager?.simulate(newRecipe?.id, inventory);
+      const result = manager.simulate(newRecipe.id, inventory);
       
       handleSuccess({
         recipe: newRecipe,
@@ -58,7 +58,7 @@ try {
     }
 
     case 'list': {
-      const recipes = manager?.listRecipes();
+      const recipes = manager.listRecipes();
       handleSuccess({ recipes: recipes.result, count: Array.isArray(recipes.result) ? recipes.result.length : 0 }, 'list');
       break;
     }
@@ -66,14 +66,14 @@ try {
     case 'simulate': {
       const { recipeId, inventory } = params;
       const inv = typeof inventory === 'string' ? JSON.parse(inventory) : (inventory || {});
-      const result = manager?.simulate(recipeId, inv);
+      const result = manager.simulate(recipeId, inv);
       handleSuccess({ recipeId, result }, 'simulate');
       break;
     }
 
     case 'get': {
       const { id } = params;
-      const recipe = manager?.getRecipe(id);
+      const recipe = manager.getRecipe(id);
       if (!recipe) {
         throw new Error(`Recipe not found: ${id}`);
       }

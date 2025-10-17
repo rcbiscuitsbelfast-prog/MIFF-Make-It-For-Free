@@ -19,11 +19,11 @@ interface PlayerStateSnapshot {
 }
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -31,7 +31,7 @@ function main() {
     let operation: SyncManagerOperation;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as SyncManagerOperation;
     } else {
@@ -50,7 +50,7 @@ function main() {
             throw new Error('snapshot requires a tick number');
           }
           const tick = parseInt(argv[1!]);
-          const statesFile = argv[2!] || 'sample_states?.json';
+          const statesFile = argv[2!] || 'sample_states.json';
           const states = JSON.parse(fs.readFileSync(statesFile, 'utf-8')) as PlayerStateSnapshot[];
           operation = { op: 'snapshot', data: { tick, states } };
           break;
@@ -67,15 +67,15 @@ function main() {
 
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'diff':
-        const { prev, next } = operation?.data as { prev: SnapshotPacket; next: SnapshotPacket };
-        result = SyncManagerPure?.diff(prev, next);
+        const { prev, next } = operation.data as { prev: SnapshotPacket; next: SnapshotPacket };
+        result = SyncManagerPure.diff(prev, next);
         break;
 
       case 'snapshot':
-        const { tick, states } = operation?.data as { tick: number; states: PlayerStateSnapshot[] };
-        result = SyncManagerPure?.snapshotFromStates(tick, states);
+        const { tick, states } = operation.data as { tick: number; states: PlayerStateSnapshot[] };
+        result = SyncManagerPure.snapshotFromStates(tick, states);
         break;
 
       case 'simulate':
@@ -93,28 +93,28 @@ function main() {
           }
         ];
         
-        const snapshot1 = SyncManagerPure?.snapshotFromStates(1, sampleStates);
+        const snapshot1 = SyncManagerPure.snapshotFromStates(1, sampleStates);
         
         // Move players for second snapshot
-        const movedStates = sampleStates?.map((state: any) => ({
+        const movedStates = sampleStates.map((state: any) => ({
           ...state,
           position: {
-            x: state?.position.x + state?.velocity.x,
-            y: state?.position.y + state?.velocity.y
+            x: state.position.x + state.velocity.x,
+            y: state.position.y + state.velocity.y
           }
         }));
-        const snapshot2 = SyncManagerPure?.snapshotFromStates(2, movedStates);
+        const snapshot2 = SyncManagerPure.snapshotFromStates(2, movedStates);
         
-        const diff = SyncManagerPure?.diff(snapshot1, snapshot2);
+        const diff = SyncManagerPure.diff(snapshot1, snapshot2);
         
         result = {
           snapshot1,
           snapshot2,
           diff,
           summary: {
-            totalPlayers: snapshot1?.players.length,
-            changedPlayers: diff?.players.length,
-            unchangedPlayers: snapshot1?.players.length - diff?.players.length
+            totalPlayers: snapshot1.players.length,
+            changedPlayers: diff.players.length,
+            unchangedPlayers: snapshot1.players.length - diff.players.length
           }
         };
         break;
@@ -133,14 +133,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -152,7 +152,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -168,13 +168,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

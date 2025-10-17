@@ -46,7 +46,7 @@ function round(n: number): number { return Math.round(n * 100) / 100; }
 function buildBeats(bpm: number, count: number): Beat[] {
 	const interval = 60 / bpm;
 	const beats: Beat[] = [];
-	for (let i = 1; i <= count; i++) beats?.push({ t: round(i * interval), expected: true });
+	for (let i = 1; i <= count; i++) beats.push({ t: round(i * interval), expected: true });
 	return beats;
 }
 
@@ -56,19 +56,19 @@ function defaultTapScript(bpm: number): Tap[] {
 }
 
 export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
-	const bpm = config?.bpm ?? 120;
-	const totalBeats = config?.totalBeats ?? 4;
-	const window = config?.window ?? 0.1;
-	const threshold = config?.threshold ?? 3;
-	const dt = config?.dt ?? 0.1;
+	const bpm = config.bpm ?? 120;
+	const totalBeats = config.totalBeats ?? 4;
+	const window = config.window ?? 0.1;
+	const threshold = config.threshold ?? 3;
+	const dt = config.dt ?? 0.1;
 	const beats = buildBeats(bpm, totalBeats);
-	const taps: Tap[] = (config?.taps && config?.taps.length ? config?.taps : defaultTapScript(bpm)).map((t: any) => ({ t: round(t.t) }));
+	const taps: Tap[] = (config.taps && config.taps.length ? config.taps : defaultTapScript(bpm)).map((t: any) => ({ t: round(t.t) }));
 
 	// Interaction zones — static trigger overlap to validate collision system usage
 	const col = new CollisionManager();
 	const player: AABB = { id: 'player', min: { x: -1, y: -1 }, max: { x: 1, y: 1 }, isTrigger: true };
 	const spirit: AABB = { id: 'spirit', min: { x: 0, y: 0 }, max: { x: 0.5, y: 0.5 }, isTrigger: true };
-	col?.load([player, spirit]);
+	col.load([player, spirit]);
 
 	const time = new TimeManager();
 	const timeline: TamingState[] = [];
@@ -82,41 +82,41 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 	let t = 0;
 
 	// capture at t=0
-	timeline?.push({ t: 0, hits, misses, aggression, progress, tamed });
+	timeline.push({ t: 0, hits, misses, aggression, progress, tamed });
 
 	const beatIndexByTime = new Map<number, number>();
-	beats?.forEach((b, i) => beatIndexByTime?.set(b.t, i));
-	const beatSet = new Set(beats?.map((b: any) => b.t));
+	beats.forEach((b, i) => beatIndexByTime.set(b.t, i));
+	const beatSet = new Set(beats.map((b: any) => b.t));
 
 	// process taps by simulation time
 	const tapsByTime = new Map<number, Tap[]>();
 	for (const tap of taps) {
-		const list = tapsByTime?.get(tap.t) || [];
-		list?.push(tap);
-		tapsByTime?.set(tap.t, list);
+		const list = tapsByTime.get(tap.t) || [];
+		list.push(tap);
+		tapsByTime.set(tap.t, list);
 	}
 
-	const totalTime = beats[beats?.length - 1].t;
+	const totalTime = beats[beats.length - 1].t;
 	while (round(t + dt) <= round(totalTime + 1e-9)) {
-		time?.tick(dt);
-		t = round(time?.now());
+		time.tick(dt);
+		t = round(time.now());
 
 		// ensure zones overlap so interaction is permitted
-		const check = col?.check();
-		const hasTrigger = check?.triggers.some(tr => (tr.a === 'player' && tr.b === 'spirit') || (tr.a === 'spirit' && tr.b === 'player'));
+		const check = col.check();
+		const hasTrigger = check.triggers.some(tr => (tr.a === 'player' && tr.b === 'spirit') || (tr.a === 'spirit' && tr.b === 'player'));
 
 		// Process any taps scheduled exactly at this tick
 		if (hasTrigger) {
-			const events = tapsByTime?.get(t) || [];
+			const events = tapsByTime.get(t) || [];
 			for (const _ of events) {
 				// Find nearest beat
 				let nearest: Beat | undefined;
-				let nearestDelta = Number?.POSITIVE_INFINITY;
+				let nearestDelta = Number.POSITIVE_INFINITY;
 				for (const b of beats) {
 					const d = Math.abs(b.t - t);
 					if (d < nearestDelta) { nearest = b; nearestDelta = d; }
 				}
-				if (nearest && nearestDelta <= window && nearest?.expected && !tamed) {
+				if (nearest && nearestDelta <= window && nearest.expected && !tamed) {
 					hits += 1;
 					progress += 1;
 					// do not mutate beats array; treat as consumed internally only
@@ -128,27 +128,27 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 			}
 		}
 
-		if (beatSet?.has(t)) {
+		if (beatSet.has(t)) {
 			// capture at beat times
-			timeline?.push({ t, hits, misses, aggression, progress, tamed });
+			timeline.push({ t, hits, misses, aggression, progress, tamed });
 		}
 	}
 
-	const beatsOut = beats?.map((b: any) => ({ t: b.t, expected: true }));
+	const beatsOut = beats.map((b: any) => ({ t: b.t, expected: true }));
 	
 	// Extract events for golden fixture compatibility
 	const events = [];
 	if (tamed) {
-		events?.push({
+		events.push({
 			type: 'spiritTamed',
 			finalHits: hits,
 			finalProgress: progress,
-			completionTime: timeline[timeline?.length - 1]?.t || 0
+			completionTime: timeline[timeline.length - 1]?.t || 0
 		});
 	}
 	
 	// Extract final state for golden fixture compatibility
-	const finalState = timeline?.length > 0 ? {
+	const finalState = timeline.length > 0 ? {
 		spirit: {
 			tamed,
 			progress,
@@ -158,7 +158,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 		},
 		scenario: {
 			completed: true,
-			totalBeats: beats?.length,
+			totalBeats: beats.length,
 			successfulTaps: hits
 		}
 	} : {};

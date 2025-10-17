@@ -5,8 +5,8 @@
  * Provides discovery, validation, and reporting capabilities.
  */
 
-import { CapabilityManager } from './MIFFCapable?.js';
-import { EventBus } from '../EventBusPure/index?.js';
+import { CapabilityManager } from './MIFFCapable.js';
+import { EventBus } from '../EventBusPure/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -18,24 +18,24 @@ export class CapabilityRegistryManager extends CapabilityManager {
   constructor(eventBus: EventBus, dataPath: string = 'data/capabilities') {
     
     super(eventBus);
-    this?.dataPath = dataPath;
+    this.dataPath = dataPath;
   }
 
   /**
    * Initialize the capability registry
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) return;
+    if (this.isInitialized) return;
 
     // Ensure data directory exists
-    if (!fs?.existsSync(this?.dataPath)) {
-      fs?.mkdirSync(this?.dataPath, { recursive: true });
+    if (!fs.existsSync(this.dataPath)) {
+      fs.mkdirSync(this.dataPath, { recursive: true });
     }
 
     // Auto-discover and register modules
-    await this?.autoDiscoverModules();
+    await this.autoDiscoverModules();
 
-    this?.isInitialized = true;
+    this.isInitialized = true;
     console.info(`✅ Capability Registry initialized`);
   }
 
@@ -100,13 +100,13 @@ export class CapabilityRegistryManager extends CapabilityManager {
     help += `## Quick Discovery Commands\n\n`;
     help += `\`\`\`bash\n`;
     help += `# Find modules by operation\n`;
-    help += `tsx capabilityCLI?.ts find --operation create\n`;
-    help += `tsx capabilityCLI?.ts find --operation simulate\n\n`;
+    help += `tsx capabilityCLI.ts find --operation create\n`;
+    help += `tsx capabilityCLI.ts find --operation simulate\n\n`;
     help += `# Find modules by integration type\n`;
-    help += `tsx capabilityCLI?.ts find --integration bridge\n`;
-    help += `tsx capabilityCLI?.ts find --integration adapter\n\n`;
+    help += `tsx capabilityCLI.ts find --integration bridge\n`;
+    help += `tsx capabilityCLI.ts find --integration adapter\n\n`;
     help += `# Generate comprehensive report\n`;
-    help += `tsx capabilityCLI?.ts report --comprehensive\n`;
+    help += `tsx capabilityCLI.ts report --comprehensive\n`;
     help += `\`\`\`\n\n`;
 
     help += `## Available Operations\n\n`;

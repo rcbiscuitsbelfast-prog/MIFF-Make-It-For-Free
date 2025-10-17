@@ -24,25 +24,25 @@ export class CutSceneWebBridge {
   private isInitialized = false;
 
   constructor() {
-    this?.setupEventListeners();
+    this.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    EventBus?.subscribe('cutscene?.web.ready', this?.handleWebReady.bind(this));
-    EventBus?.subscribe('cutscene?.web.inject', this?.injectCutSceneLogic.bind(this));
-    EventBus?.subscribe('cutscene?.web.play', this?.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.web.ready', this.handleWebReady.bind(this));
+    EventBus.subscribe('cutscene.web.inject', this.injectCutSceneLogic.bind(this));
+    EventBus.subscribe('cutscene.web.play', this.playCutScene.bind(this));
   }
 
   private handleWebReady(event): void {
     console.log('🌐 Web bridge ready for cut scenes');
-    this?.isInitialized = true;
+    this.isInitialized = true;
   }
 
   public injectIntoHTML(htmlContent: string, cutSceneDefinition: CutSceneDefinition): string {
-    const cutSceneScript = this?.generateCutSceneScript(cutSceneDefinition);
+    const cutSceneScript = this.generateCutSceneScript(cutSceneDefinition);
 
     // Inject script before closing body tag
-    return htmlContent?.replace('</body>', `${cutSceneScript}\n</body>`);
+    return htmlContent.replace('</body>', `${cutSceneScript}\n</body>`);
   }
 
   private generateCutSceneScript(definition: CutSceneDefinition): string {
@@ -55,22 +55,22 @@ export class CutSceneWebBridge {
   // CutSceneWebPlayer class for browser-based playback
   class CutSceneWebPlayer {
     constructor(cutSceneDefinition) {
-      this?.definition = cutSceneDefinition;
-      this?.isPlaying = false;
-      this?.currentTime = 0;
-      this?.startTime = 0;
-      this?.animationFrame = null;
-      this?.completedActions = new Set();
-      this?.tracks = new Map();
+      this.definition = cutSceneDefinition;
+      this.isPlaying = false;
+      this.currentTime = 0;
+      this.startTime = 0;
+      this.animationFrame = null;
+      this.completedActions = new Set();
+      this.tracks = new Map();
 
-      this?.initialize({});
+      this.initialize();
     }
 
     initialize() {
       // Create container for cut scene elements
-      this?.container = document?.createElement('div');
-      this?.container.id = 'cutscene-container';
-      this?.container.style?.cssText = \`
+      this.container = document.createElement('div');
+      this.container.id = 'cutscene-container';
+      this.container.style.cssText = \`
         position: fixed;
         top: 0;
         left: 0;
@@ -82,9 +82,9 @@ export class CutSceneWebBridge {
       \`;
 
       // Create overlay for UI elements
-      this?.overlay = document?.createElement('div');
-      this?.overlay.id = 'cutscene-overlay';
-      this?.overlay.style?.cssText = \`
+      this.overlay = document.createElement('div');
+      this.overlay.id = 'cutscene-overlay';
+      this.overlay.style.cssText = \`
         position: absolute;
         top: 0;
         left: 0;
@@ -94,36 +94,36 @@ export class CutSceneWebBridge {
         z-index: 1001;
       \`;
 
-      this?.container.appendChild(this?.overlay);
-      document?.body.appendChild(this?.container);
+      this.container.appendChild(this.overlay);
+      document.body.appendChild(this.container);
 
       console.log('🎬 CutSceneWebPlayer initialized');
     }
 
     async play() {
-      if (this?.isPlaying) return;
+      if (this.isPlaying) return;
 
-      this?.isPlaying = true;
-      this?.startTime = performance?.now();
-      this?.currentTime = 0;
-      this?.completedActions.clear();
+      this.isPlaying = true;
+      this.startTime = performance.now();
+      this.currentTime = 0;
+      this.completedActions.clear();
 
       console.log('🎬 Starting web cut scene:', this.definition.config.name);
 
       // Emit play event
-      window?.dispatchEvent(new CustomEvent('cutscene?.playing', {
-        detail: { cutSceneId: this?.definition.config?.id }
+      window.dispatchEvent(new CustomEvent('cutscene.playing', {
+        detail: { cutSceneId: this.definition.config.id }
       }));
 
-      this?.startPlaybackLoop();
+      this.startPlaybackLoop();
     }
 
     stop() {
-      if (!this?.isPlaying) return;
+      if (!this.isPlaying) return;
 
-      this?.isPlaying = false;
-      if (this?.animationFrame) {
-        cancelAnimationFrame(this?.animationFrame);
+      this.isPlaying = false;
+      if (this.animationFrame) {
+        cancelAnimationFrame(this.animationFrame);
       }
 
       console.log('⏹️ Cut scene stopped');
@@ -131,82 +131,82 @@ export class CutSceneWebBridge {
 
     startPlaybackLoop() {
       const loop = (currentTime) => {
-        if (!this?.isPlaying) return;
+        if (!this.isPlaying) return;
 
-        this?.currentTime = currentTime - this?.startTime;
-        this?.updateTracks();
-        this?.processActions();
+        this.currentTime = currentTime - this.startTime;
+        this.updateTracks();
+        this.processActions();
 
-        if (this?.currentTime < this?.definition.config?.duration) {
-          this?.animationFrame = requestAnimationFrame(loop);
+        if (this.currentTime < this.definition.config.duration) {
+          this.animationFrame = requestAnimationFrame(loop);
         } else {
-          this?.stop();
-          window?.dispatchEvent(new CustomEvent('cutscene?.completed', {
-            detail: { cutSceneId: this?.definition.config?.id }
+          this.stop();
+          window.dispatchEvent(new CustomEvent('cutscene.completed', {
+            detail: { cutSceneId: this.definition.config.id }
           }));
         }
       };
 
-      this?.animationFrame = requestAnimationFrame(loop);
+      this.animationFrame = requestAnimationFrame(loop);
     }
 
     updateTracks() {
-      const progress = this?.currentTime / this?.definition.config?.duration;
+      const progress = this.currentTime / this.definition.config.duration;
 
-      this?.definition.tracks?.forEach((track: any) => {
-        if (!track?.enabled) return;
+      this.definition.tracks.forEach((track: any) => {
+        if (!track.enabled) return;
 
         const trackProgress = Math.max(0, Math.min(1,
-          (this?.currentTime - track?.startTime) / (track?.endTime - track?.startTime)
+          (this.currentTime - track.startTime) / (track.endTime - track.startTime)
         ));
 
-        if (this?.currentTime >= track?.startTime && this?.currentTime <= track?.endTime) {
-          this?.updateTrackVisual(track, trackProgress);
+        if (this.currentTime >= track.startTime && this.currentTime <= track.endTime) {
+          this.updateTrackVisual(track, trackProgress);
         }
       });
     }
 
     updateTrackVisual(track, progress) {
-      switch (track?.type) {
+      switch (track.type) {
         case 'camera':
-          this?.updateCameraTrack(track, progress);
+          this.updateCameraTrack(track, progress);
           break;
         case 'dialogue':
-          this?.updateDialogueTrack(track, progress);
+          this.updateDialogueTrack(track, progress);
           break;
         case 'audio':
-          this?.updateAudioTrack(track, progress);
+          this.updateAudioTrack(track, progress);
           break;
       }
     }
 
     updateCameraTrack(track, progress) {
       // Update camera position and rotation based on track data
-      if (track?.data.startPosition && track?.data.endPosition) {
-        const cameraX = track?.data.startPosition.x +
-          (track?.data.endPosition.x - track?.data.startPosition.x) * progress;
-        const cameraY = track?.data.startPosition.y +
-          (track?.data.endPosition.y - track?.data.startPosition.y) * progress;
-        const cameraZ = track?.data.startPosition.z +
-          (track?.data.endPosition.z - track?.data.startPosition.z) * progress;
+      if (track.data.startPosition && track.data.endPosition) {
+        const cameraX = track.data.startPosition.x +
+          (track.data.endPosition.x - track.data.startPosition.x) * progress;
+        const cameraY = track.data.startPosition.y +
+          (track.data.endPosition.y - track.data.startPosition.y) * progress;
+        const cameraZ = track.data.startPosition.z +
+          (track.data.endPosition.z - track.data.startPosition.z) * progress;
 
         // Apply camera transformation (simplified)
-        const cameraElement = document?.getElementById('render-canvas') || document?.body;
-        cameraElement?.style.transform = \`translate3d(\${-cameraX * 10}px, \${-cameraY * 10}px, \${-cameraZ * 10}px)\`;
+        const cameraElement = document.getElementById('render-canvas') || document.body;
+        cameraElement.style.transform = \`translate3d(\${-cameraX * 10}px, \${-cameraY * 10}px, \${-cameraZ * 10}px)\`;
       }
     }
 
     updateDialogueTrack(track, progress) {
       // Show/hide dialogue elements
-      if (track?.data.speaker && progress > 0) {
-        this?.showDialogue(track?.data.speaker, track?.data.dialogueId);
+      if (track.data.speaker && progress > 0) {
+        this.showDialogue(track.data.speaker, track.data.dialogueId);
       }
     }
 
     updateAudioTrack(track, progress) {
       // Control audio playback (simplified)
-      if (track?.data.soundId) {
-        const audioElement = document?.getElementById('audio-' + track?.data.soundId);
+      if (track.data.soundId) {
+        const audioElement = document.getElementById('audio-' + track.data.soundId);
         if (audioElement && progress > 0) {
           audioElement.volume = (track.data.volume || 1) * Math.min(progress * 2, 1);
         }
@@ -215,11 +215,11 @@ export class CutSceneWebBridge {
 
     showDialogue(speaker, dialogueId) {
       // Create or update dialogue display
-      let dialogueElement = document?.getElementById('cutscene-dialogue');
+      let dialogueElement = document.getElementById('cutscene-dialogue');
       if (!dialogueElement) {
-        dialogueElement = document?.createElement('div');
-        dialogueElement?.id = 'cutscene-dialogue';
-        dialogueElement?.style.cssText = \`
+        dialogueElement = document.createElement('div');
+        dialogueElement.id = 'cutscene-dialogue';
+        dialogueElement.style.cssText = \`
           position: absolute;
           bottom: 50px;
           left: 50%;
@@ -232,45 +232,45 @@ export class CutSceneWebBridge {
           text-align: center;
           pointer-events: none;
         \`;
-        this?.overlay.appendChild(dialogueElement);
+        this.overlay.appendChild(dialogueElement);
       }
 
-      dialogueElement?.innerHTML = \`
+      dialogueElement.innerHTML = \`
         <div style="font-weight: bold; color: #00ff88;">\${speaker}</div>
         <div>Welcome to RenderWorld! The Spirit Lens reveals hidden paths...</div>
       \`;
-      dialogueElement?.style.opacity = '1';
+      dialogueElement.style.opacity = '1';
     }
 
     processActions() {
-      this?.definition.actions?.forEach((action: any) => {
-        if (action?.timestamp <= this?.currentTime &&
-            !this?.completedActions.has(action?.id)) {
+      this.definition.actions.forEach((action: any) => {
+        if (action.timestamp <= this.currentTime &&
+            !this.completedActions.has(action.id)) {
 
-          this?.executeAction(action);
-          this?.completedActions.add(action?.id);
+          this.executeAction(action);
+          this.completedActions.add(action.id);
         }
       });
     }
 
     executeAction(action) {
-      const track = this?.definition.tracks?.find(t => t?.id === action?.trackId);
+      const track = this.definition.tracks.find(t => t.id === action.trackId);
       if (!track) return;
 
       console.log('🎬 Executing action:', action.id);
 
-      switch (action?.type) {
+      switch (action.type) {
         case 'start':
-          this?.startTrack(track);
+          this.startTrack(track);
           break;
         case 'complete':
-          this?.completeTrack(track);
+          this.completeTrack(track);
           break;
       }
     }
 
     startTrack(track) {
-      switch (track?.type) {
+      switch (track.type) {
         case 'camera':
           console.log('📹 Starting camera track');
           break;
@@ -284,15 +284,15 @@ export class CutSceneWebBridge {
     }
 
     completeTrack(track) {
-      switch (track?.type) {
+      switch (track.type) {
         case 'camera':
           console.log('📹 Completing camera track');
           break;
         case 'dialogue':
           // Hide dialogue
-          const dialogueElement = document?.getElementById('cutscene-dialogue');
+          const dialogueElement = document.getElementById('cutscene-dialogue');
           if (dialogueElement) {
-            dialogueElement?.style.opacity = '0';
+            dialogueElement.style.opacity = '0';
           }
           break;
         case 'audio':
@@ -307,12 +307,12 @@ export class CutSceneWebBridge {
   const cutScenePlayer = new CutSceneWebPlayer(cutSceneDefinition);
 
   // Auto-start if configured
-  if (cutSceneDefinition?.config.autoStart) {
-    setTimeout(() => cutScenePlayer?.play(), 1000);
+  if (cutSceneDefinition.config.autoStart) {
+    setTimeout(() => cutScenePlayer.play(), 1000);
   }
 
   // Make available globally
-  window?.cutScenePlayer = cutScenePlayer;
+  window.cutScenePlayer = cutScenePlayer;
 })();
 </script>
     `.trim();
@@ -329,7 +329,7 @@ export class CutSceneWebBridge {
   }
 
   public isReady(): boolean {
-    return this?.isInitialized;
+    return this.isInitialized;
   }
 }
 
@@ -339,26 +339,26 @@ export class CutSceneUnityBridge {
   private isInitialized = false;
 
   constructor() {
-    this?.setupEventListeners();
+    this.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    EventBus?.subscribe('cutscene?.unity.ready', this?.handleUnityReady.bind(this));
-    EventBus?.subscribe('cutscene?.unity.inject', this?.injectIntoUnityScene.bind(this));
-    EventBus?.subscribe('cutscene?.unity.play', this?.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.unity.ready', this.handleUnityReady.bind(this));
+    EventBus.subscribe('cutscene.unity.inject', this.injectIntoUnityScene.bind(this));
+    EventBus.subscribe('cutscene.unity.play', this.playCutScene.bind(this));
   }
 
   private handleUnityReady(event): void {
     console.log('🎮 Unity bridge ready for cut scenes');
-    this?.isInitialized = true;
+    this.isInitialized = true;
   }
 
   public generateUnityScript(cutSceneDefinition: CutSceneDefinition): string {
     return `
 using UnityEngine;
-using UnityEngine?.Playables;
-using UnityEngine?.Timeline;
-using System?.Collections;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
+using System.Collections;
 
 public class CutScenePlayer : MonoBehaviour
 {
@@ -376,7 +376,7 @@ public class CutScenePlayer : MonoBehaviour
         SetupTimeline();
 
         // Start cut scene if configured
-        if (definition?.config.autoStart)
+        if (definition.config.autoStart)
         {
             StartCoroutine(PlayCutScene());
         }
@@ -390,11 +390,11 @@ public class CutScenePlayer : MonoBehaviour
         {
             config = new CutSceneConfig
             {
-                id = "${cutSceneDefinition?.config.id}",
-                name = "${cutSceneDefinition?.config.name}",
-                duration = ${cutSceneDefinition?.config.duration},
-                skippable = ${cutSceneDefinition?.config.skippable},
-                autoStart = ${cutSceneDefinition?.config.autoStart}
+                id = "${cutSceneDefinition.config.id}",
+                name = "${cutSceneDefinition.config.name}",
+                duration = ${cutSceneDefinition.config.duration},
+                skippable = ${cutSceneDefinition.config.skippable},
+                autoStart = ${cutSceneDefinition.config.autoStart}
             }
         };
     }
@@ -404,9 +404,9 @@ public class CutScenePlayer : MonoBehaviour
         if (director == null) return;
 
         // Create Timeline tracks based on cut scene definition
-        foreach (var track in definition?.tracks)
+        foreach (var track in definition.tracks)
         {
-            switch (track?.type)
+            switch (track.type)
             {
                 case "camera":
                     CreateCameraTrack(track);
@@ -424,7 +424,7 @@ public class CutScenePlayer : MonoBehaviour
         }
 
         // Set up Timeline actions
-        foreach (var action in definition?.actions)
+        foreach (var action in definition.actions)
         {
             CreateTimelineAction(action);
         }
@@ -433,35 +433,35 @@ public class CutScenePlayer : MonoBehaviour
     void CreateCameraTrack(CutSceneTrack track)
     {
         // Create Cinemachine track
-        var cameraTrack = cutSceneTimeline?.CreateTrack<CinemachineTrack>(null, "Camera");
+        var cameraTrack = cutSceneTimeline.CreateTrack<CinemachineTrack>(null, "Camera");
         // Configure camera movement
     }
 
     void CreateDialogueTrack(CutSceneTrack track)
     {
         // Create dialogue track
-        var dialogueTrack = cutSceneTimeline?.CreateTrack<DialogueTrack>(null, "Dialogue");
+        var dialogueTrack = cutSceneTimeline.CreateTrack<DialogueTrack>(null, "Dialogue");
         // Configure dialogue playback
     }
 
     void CreateAudioTrack(CutSceneTrack track)
     {
         // Create audio track
-        var audioTrack = cutSceneTimeline?.CreateTrack<AudioTrack>(null, "Audio");
+        var audioTrack = cutSceneTimeline.CreateTrack<AudioTrack>(null, "Audio");
         // Configure audio playback
     }
 
     void CreateAnimationTrack(CutSceneTrack track)
     {
         // Create animation track
-        var animationTrack = cutSceneTimeline?.CreateTrack<AnimationTrack>(null, "Animation");
+        var animationTrack = cutSceneTimeline.CreateTrack<AnimationTrack>(null, "Animation");
         // Configure character animations
     }
 
     void CreateTimelineAction(CutSceneAction action)
     {
         // Create Timeline markers for actions
-        var marker = cutSceneTimeline?.CreateMarker(action?.timestamp);
+        var marker = cutSceneTimeline.CreateMarker(action.timestamp);
         // Configure marker behavior
     }
 
@@ -469,21 +469,21 @@ public class CutScenePlayer : MonoBehaviour
     {
         if (director == null) yield break;
 
-        director?.Play();
+        director.Play();
 
-        while (director?.state == PlayState?.Playing)
+        while (director.state == PlayState.Playing)
         {
             yield return null;
         }
 
-        Debug?.Log("Cut scene completed: ${cutSceneDefinition?.config.name}");
+        Debug.Log("Cut scene completed: ${cutSceneDefinition.config.name}");
     }
 
     public void SkipCutScene()
     {
         if (director != null)
         {
-            director?.Stop();
+            director.Stop();
         }
     }
 }
@@ -501,7 +501,7 @@ public class CutScenePlayer : MonoBehaviour
   }
 
   public isReady(): boolean {
-    return this?.isInitialized;
+    return this.isInitialized;
   }
 }
 
@@ -511,18 +511,18 @@ export class CutSceneGodotBridge {
   private isInitialized = false;
 
   constructor() {
-    this?.setupEventListeners();
+    this.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    EventBus?.subscribe('cutscene?.godot.ready', this?.handleGodotReady.bind(this));
-    EventBus?.subscribe('cutscene?.godot.inject', this?.injectIntoGodotScene.bind(this));
-    EventBus?.subscribe('cutscene?.godot.play', this?.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.godot.ready', this.handleGodotReady.bind(this));
+    EventBus.subscribe('cutscene.godot.inject', this.injectIntoGodotScene.bind(this));
+    EventBus.subscribe('cutscene.godot.play', this.playCutScene.bind(this));
   }
 
   private handleGodotReady(event): void {
     console.log('🎲 Godot bridge ready for cut scenes');
-    this?.isInitialized = true;
+    this.isInitialized = true;
   }
 
   public generateGodotScript(cutSceneDefinition: CutSceneDefinition): string {
@@ -542,34 +542,34 @@ var animation_player: AnimationPlayer
 func _ready():
     load_cut_scene_definition()
     setup_scene()
-    if cut_scene_definition?.config.autoStart:
+    if cut_scene_definition.config.autoStart:
         play_cut_scene()
 
 func load_cut_scene_definition():
     # Load cut scene definition from JSON
-    var file = File?.new()
-    if file?.open("res://cutscenes/${cutSceneDefinition?.config.id}.json", File?.READ):
-        var content = file?.get_as_text()
+    var file = File.new()
+    if file.open("res://cutscenes/${cutSceneDefinition.config.id}.json", File.READ):
+        var content = file.get_as_text()
         cut_scene_definition = JSON.parse(content).result
-        file?.close()
+        file.close()
     else:
         push_error("Failed to load cut scene definition")
 
 func setup_scene():
     # Set up AnimationPlayer
-    animation_player = AnimationPlayer?.new()
+    animation_player = AnimationPlayer.new()
     add_child(animation_player)
 
     # Create tween for smooth transitions
-    tween = Tween?.new()
+    tween = Tween.new()
     add_child(tween)
 
     # Set up tracks based on definition
-    for track in cut_scene_definition?.tracks:
+    for track in cut_scene_definition.tracks:
         setup_track(track)
 
 func setup_track(track: Dictionary):
-    match track?.type:
+    match track.type:
         "camera":
             setup_camera_track(track)
         "dialogue":
@@ -583,45 +583,45 @@ func setup_camera_track(track: Dictionary):
     # Set up camera movement using Tween
     var camera = get_node("Camera")
     if camera:
-        tween?.interpolate_property(
+        tween.interpolate_property(
             camera, "translation",
-            Vector3(track?.data.startPosition.x, track?.data.startPosition.y, track?.data.startPosition.z),
-            Vector3(track?.data.endPosition.x, track?.data.endPosition.y, track?.data.endPosition.z),
-            (track?.endTime - track?.startTime) / 1000.0,
-            Tween?.TRANS_LINEAR, Tween?.EASE_IN_OUT
+            Vector3(track.data.startPosition.x, track.data.startPosition.y, track.data.startPosition.z),
+            Vector3(track.data.endPosition.x, track.data.endPosition.y, track.data.endPosition.z),
+            (track.endTime - track.startTime) / 1000.0,
+            Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
         )
 
 func setup_dialogue_track(track: Dictionary):
     # Set up dialogue display
-    var dialogue_label = Label?.new()
-    dialogue_label?.name = "DialogueLabel"
+    var dialogue_label = Label.new()
+    dialogue_label.name = "DialogueLabel"
     add_child(dialogue_label)
 
 func setup_audio_track(track: Dictionary):
     # Set up audio playback
-    var audio_player = AudioStreamPlayer?.new()
-    audio_player?.name = "Audio_" + track?.data.soundId
+    var audio_player = AudioStreamPlayer.new()
+    audio_player.name = "Audio_" + track.data.soundId
     add_child(audio_player)
 
 func setup_animation_track(track: Dictionary):
     # Set up character animations
     if animation_player:
-        var animation = Animation?.new()
+        var animation = Animation.new()
         # Configure animation based on track data
-        animation_player?.add_animation(track?.data.animationId, animation)
+        animation_player.add_animation(track.data.animationId, animation)
 
 func play_cut_scene():
     if is_playing:
         return
 
     is_playing = true
-    start_time = OS?.get_ticks_msec() / 1000.0
+    start_time = OS.get_ticks_msec() / 1000.0
     current_time = 0.0
 
-    print("Starting cut scene: " + cut_scene_definition?.config.name)
+    print("Starting cut scene: " + cut_scene_definition.config.name)
 
     # Start all tracks
-    for track in cut_scene_definition?.tracks:
+    for track in cut_scene_definition.tracks:
         start_track(track)
 
     # Set up process loop
@@ -631,71 +631,71 @@ func _process(delta):
     if not is_playing:
         return
 
-    current_time = OS?.get_ticks_msec() / 1000.0 - start_time
+    current_time = OS.get_ticks_msec() / 1000.0 - start_time
 
     # Update tracks
-    for track in cut_scene_definition?.tracks:
+    for track in cut_scene_definition.tracks:
         update_track(track)
 
     # Process actions
-    for action in cut_scene_definition?.actions:
-        if action?.timestamp <= current_time * 1000 and not completed_actions?.has(action?.id):
+    for action in cut_scene_definition.actions:
+        if action.timestamp <= current_time * 1000 and not completed_actions.has(action.id):
             execute_action(action)
 
     # Check if cut scene is complete
-    if current_time * 1000 >= cut_scene_definition?.config.duration:
+    if current_time * 1000 >= cut_scene_definition.config.duration:
         stop_cut_scene()
 
 func start_track(track: Dictionary):
-    match track?.type:
+    match track.type:
         "camera":
-            tween?.start()
+            tween.start()
         "audio":
-            var audio_player = get_node("Audio_" + track?.data.soundId)
+            var audio_player = get_node("Audio_" + track.data.soundId)
             if audio_player:
-                audio_player?.play()
+                audio_player.play()
         "animation":
             if animation_player:
-                animation_player?.play(track?.data.animationId)
+                animation_player.play(track.data.animationId)
 
 func update_track(track: Dictionary):
-    var progress = clamp((current_time * 1000 - track?.startTime) / (track?.endTime - track?.startTime), 0, 1)
+    var progress = clamp((current_time * 1000 - track.startTime) / (track.endTime - track.startTime), 0, 1)
     # Update track-specific properties based on progress
 
 func execute_action(action: Dictionary):
-    print("Executing action: " + action?.id)
-    completed_actions?.add(action?.id)
+    print("Executing action: " + action.id)
+    completed_actions.add(action.id)
 
-    match action?.type:
+    match action.type:
         "start":
-            start_track_by_id(action?.trackId)
+            start_track_by_id(action.trackId)
         "complete":
-            complete_track_by_id(action?.trackId)
+            complete_track_by_id(action.trackId)
 
 func start_track_by_id(track_id: String):
-    for track in cut_scene_definition?.tracks:
-        if track?.id == track_id:
+    for track in cut_scene_definition.tracks:
+        if track.id == track_id:
             start_track(track)
             break
 
 func complete_track_by_id(track_id: String):
-    for track in cut_scene_definition?.tracks:
-        if track?.id == track_id:
-            match track?.type:
+    for track in cut_scene_definition.tracks:
+        if track.id == track_id:
+            match track.type:
                 "camera":
-                    tween?.stop_all()
+                    tween.stop_all()
                 "audio":
-                    var audio_player = get_node("Audio_" + track?.data.soundId)
+                    var audio_player = get_node("Audio_" + track.data.soundId)
                     if audio_player:
-                        audio_player?.stop()
+                        audio_player.stop()
                 "animation":
                     if animation_player:
-                        animation_player?.stop()
+                        animation_player.stop()
 
 func stop_cut_scene():
     is_playing = false
     set_process(false)
-    print("Cut scene completed: " + cut_scene_definition?.config.name)
+    print("Cut scene completed: " + cut_scene_definition.config.name)
 
 func skip_cut_scene():
     stop_cut_scene()
@@ -714,7 +714,7 @@ func skip_cut_scene():
   }
 
   public isReady(): boolean {
-    return this?.isInitialized;
+    return this.isInitialized;
   }
 }
 
@@ -724,18 +724,18 @@ export class CutSceneUnrealBridge {
   private isInitialized = false;
 
   constructor() {
-    this?.setupEventListeners();
+    this.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    EventBus?.subscribe('cutscene?.unreal.ready', this?.handleUnrealReady.bind(this));
-    EventBus?.subscribe('cutscene?.unreal.inject', this?.injectIntoUnrealLevel.bind(this));
-    EventBus?.subscribe('cutscene?.unreal.play', this?.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.unreal.ready', this.handleUnrealReady.bind(this));
+    EventBus.subscribe('cutscene.unreal.inject', this.injectIntoUnrealLevel.bind(this));
+    EventBus.subscribe('cutscene.unreal.play', this.playCutScene.bind(this));
   }
 
   private handleUnrealReady(event): void {
     console.log('🎯 Unreal bridge ready for cut scenes');
-    this?.isInitialized = true;
+    this.isInitialized = true;
   }
 
   public generateUnrealScript(cutSceneDefinition: CutSceneDefinition): string {
@@ -746,7 +746,7 @@ export class CutSceneUnrealBridge {
 #include "GameFramework/Actor.h"
 #include "LevelSequenceActor.h"
 #include "LevelSequencePlayer.h"
-#include "CutScenePlayer?.generated.h"
+#include "CutScenePlayer.generated.h"
 
 UCLASS()
 class MIFF_API ACutScenePlayer : public AActor
@@ -809,7 +809,7 @@ private:
 
 ACutScenePlayer::ACutScenePlayer()
 {
-    PrimaryActorTick?.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 }
 
 void ACutScenePlayer::BeginPlay()
@@ -830,13 +830,13 @@ void ACutScenePlayer::BeginPlay()
 void ACutScenePlayer::LoadCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition?.config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
     {
         TSharedPtr<FJsonObject> JsonObject;
-        TSharedRef<T extends Record<string, any>JsonReader<>> JsonReader = TJsonReaderFactory<>::Create(JsonContent);
+        TSharedRef<TJsonReader<>> JsonReader = TJsonReaderFactory<>::Create(JsonContent);
 
         if (FJsonSerializer::Deserialize(JsonReader, JsonObject) && JsonObject.IsValid())
         {
@@ -860,16 +860,16 @@ void ACutScenePlayer::SetupSequence()
         SetupSequenceTracks();
 
         // Bind to sequence events
-        SequencePlayer->OnFinished?.AddDynamic(this, &ACutScenePlayer::OnSequenceFinished);
+        SequencePlayer->OnFinished.AddDynamic(this, &ACutScenePlayer::OnSequenceFinished);
     }
 }
 
 void ACutScenePlayer::SetupSequenceTracks()
 {
     // Create tracks based on cut scene definition
-    for (const auto& Track : CutSceneDefinition?.tracks)
+    for (const auto& Track : CutSceneDefinition.tracks)
     {
-        switch (Track?.Type)
+        switch (Track.Type)
         {
             case ECutSceneTrackType::Camera:
                 SetupCameraTrack(Track);
@@ -928,7 +928,7 @@ void ACutScenePlayer::PlayCutScene()
     StartTime = GetWorld()->GetTimeSeconds();
     CurrentTime = 0.0f;
 
-    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CutSceneDefinition?.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CutSceneDefinition.config.name);
 
     SequencePlayer->Play();
 
@@ -955,22 +955,22 @@ void ACutScenePlayer::UpdateCutScene()
 
 void ACutScenePlayer::ProcessActions()
 {
-    for (const auto& Action : CutSceneDefinition?.actions)
+    for (const auto& Action : CutSceneDefinition.actions)
     {
-        if (Action?.Timestamp <= CurrentTime * 1000 &&
-            !CompletedActions?.Contains(Action?.Id))
+        if (Action.Timestamp <= CurrentTime * 1000 &&
+            !CompletedActions.Contains(Action.Id))
         {
             ExecuteAction(Action);
-            CompletedActions?.Add(Action?.Id);
+            CompletedActions.Add(Action.Id);
         }
     }
 }
 
 void ACutScenePlayer::ExecuteAction(const FCutSceneAction& Action)
 {
-    UE_LOG(LogTemp, Log, TEXT("Executing cut scene action: %s"), *Action?.Id);
+    UE_LOG(LogTemp, Log, TEXT("Executing cut scene action: %s"), *Action.Id);
 
-    switch (Action?.Type)
+    switch (Action.Type)
     {
         case ECutSceneActionType::Start:
             ExecuteStartAction(Action);
@@ -990,8 +990,8 @@ void ACutScenePlayer::ExecuteAction(const FCutSceneAction& Action)
 void ACutScenePlayer::ExecuteStartAction(const FCutSceneAction& Action)
 {
     // Start track-specific actions
-    const auto& Track = CutSceneDefinition?.tracks.FindByPredicate(
-        [&](const FCutSceneTrack& T) { return T?.Id == Action?.TrackId; }
+    const auto& Track = CutSceneDefinition.tracks.FindByPredicate(
+        [&](const FCutSceneTrack& T) { return T.Id == Action.TrackId; }
     );
 
     if (Track)
@@ -1003,7 +1003,7 @@ void ACutScenePlayer::ExecuteStartAction(const FCutSceneAction& Action)
                 break;
             case ECutSceneTrackType::Dialogue:
                 // Start dialogue
-                OnDialogueEvent(Track->Data?.DialogueId, Track->Data?.Speaker);
+                OnDialogueEvent(Track->Data.DialogueId, Track->Data.Speaker);
                 break;
             case ECutSceneTrackType::Audio:
                 // Start audio playback
@@ -1027,13 +1027,13 @@ void ACutScenePlayer::StopCutScene()
         SequencePlayer->Stop();
     }
 
-    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CutSceneDefinition?.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CutSceneDefinition.config.name);
 }
 
 void ACutScenePlayer::SkipCutScene()
 {
     StopCutScene();
-    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CutSceneDefinition?.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CutSceneDefinition.config.name);
 }
 
 void ACutScenePlayer::OnSequenceFinished()
@@ -1065,7 +1065,7 @@ void ACutScenePlayer::OnDialogueEvent(const FString& DialogueId, const FString& 
   }
 
   public isReady(): boolean {
-    return this?.isInitialized;
+    return this.isInitialized;
   }
 }
 

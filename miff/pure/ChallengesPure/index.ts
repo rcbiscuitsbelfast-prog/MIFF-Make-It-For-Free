@@ -219,8 +219,8 @@ export class BattleChallenge implements IBattleChallenge {
     opponentTeam: string[] = [],
     ruleset: ChallengeRuleset = new ChallengeRuleset(),
     rewards: Record<string, number> = {},
-    category: ChallengeCategory = ChallengeCategory?.MAIN_STORY,
-    difficulty: ChallengeDifficulty = ChallengeDifficulty?.MEDIUM,
+    category: ChallengeCategory = ChallengeCategory.MAIN_STORY,
+    difficulty: ChallengeDifficulty = ChallengeDifficulty.MEDIUM,
     maxTurns: number = 0,
     priority: number = 1,
     tags: string[] = [],
@@ -229,22 +229,22 @@ export class BattleChallenge implements IBattleChallenge {
     loreFlagsToSet: string[] = [],
     syncBoosts: Record<string, number> = {}
   ) {
-    this?.challengeId = challengeId;
-    this?.name = name;
-    this?.description = description;
-    this?.opponentTeam = [...opponentTeam];
-    this?.ruleset = ruleset;
-    this?.rewards = { ...rewards };
-    this?.category = category;
-    this?.difficulty = difficulty;
-    this?.status = ChallengeStatus?.LOCKED;
-    this?.maxTurns = maxTurns;
-    this?.priority = priority;
-    this?.tags = [...tags];
-    this?.requiredFlags = [...requiredFlags];
-    this?.requiredLocationId = requiredLocationId;
-    this?.loreFlagsToSet = [...loreFlagsToSet];
-    this?.syncBoosts = { ...syncBoosts };
+    this.challengeId = challengeId;
+    this.name = name;
+    this.description = description;
+    this.opponentTeam = [...opponentTeam];
+    this.ruleset = ruleset;
+    this.rewards = { ...rewards };
+    this.category = category;
+    this.difficulty = difficulty;
+    this.status = ChallengeStatus.LOCKED;
+    this.maxTurns = maxTurns;
+    this.priority = priority;
+    this.tags = [...tags];
+    this.requiredFlags = [...requiredFlags];
+    this.requiredLocationId = requiredLocationId;
+    this.loreFlagsToSet = [...loreFlagsToSet];
+    this.syncBoosts = { ...syncBoosts };
   }
 
   /**
@@ -257,8 +257,8 @@ export class BattleChallenge implements IBattleChallenge {
     opponentTeam: string[] = [],
     ruleset: ChallengeRuleset = new ChallengeRuleset(),
     rewards: Record<string, number> = {},
-    category: ChallengeCategory = ChallengeCategory?.MAIN_STORY,
-    difficulty: ChallengeDifficulty = ChallengeDifficulty?.MEDIUM,
+    category: ChallengeCategory = ChallengeCategory.MAIN_STORY,
+    difficulty: ChallengeDifficulty = ChallengeDifficulty.MEDIUM,
     maxTurns: number = 0,
     priority: number = 1,
     tags: string[] = [],
@@ -303,8 +303,8 @@ export class BattleChallenge implements IBattleChallenge {
       opponentTeam,
       new ChallengeRuleset(),
       { experience: 100 },
-      ChallengeCategory?.TUTORIAL,
-      ChallengeDifficulty?.EASY,
+      ChallengeCategory.TUTORIAL,
+      ChallengeDifficulty.EASY,
       maxTurns,
       10
     );
@@ -327,8 +327,8 @@ export class BattleChallenge implements IBattleChallenge {
       opponentTeam,
       new ChallengeRuleset(),
       { experience: 500, gold: 100 },
-      ChallengeCategory?.MAIN_STORY,
-      ChallengeDifficulty?.MEDIUM,
+      ChallengeCategory.MAIN_STORY,
+      ChallengeDifficulty.MEDIUM,
       20,
       8,
       ['main_story'],
@@ -353,8 +353,8 @@ export class BattleChallenge implements IBattleChallenge {
       opponentTeam,
       new ChallengeRuleset(),
       { experience: 1000, gold: 500, rare_item: 1 },
-      ChallengeCategory?.MAIN_STORY,
-      ChallengeDifficulty?.HARD,
+      ChallengeCategory.MAIN_STORY,
+      ChallengeDifficulty.HARD,
       30,
       9,
       ['boss', 'main_story'],
@@ -378,8 +378,8 @@ export class BattleChallenge implements IBattleChallenge {
       opponentTeam,
       new ChallengeRuleset(),
       { experience: 200, gold: 50 },
-      ChallengeCategory?.DAILY,
-      ChallengeDifficulty?.MEDIUM,
+      ChallengeCategory.DAILY,
+      ChallengeDifficulty.MEDIUM,
       15,
       5,
       ['daily']
@@ -402,8 +402,8 @@ export class BattleChallenge implements IBattleChallenge {
       [],
       new ChallengeRuleset(),
       { achievement_points: 10 },
-      ChallengeCategory?.ACHIEVEMENT,
-      ChallengeDifficulty?.VARIES,
+      ChallengeCategory.ACHIEVEMENT,
+      ChallengeDifficulty.VARIES,
       0,
       3,
       ['achievement'],
@@ -416,15 +416,15 @@ export class BattleChallenge implements IBattleChallenge {
    */
   isAvailable(playerContext: IPlayerContext): boolean {
     // Check required flags
-    for (const flag of this?.requiredFlags) {
-      if (!playerContext?.hasQuestFlag(flag) && !playerContext?.hasLoreFlag(flag)) {
+    for (const flag of this.requiredFlags) {
+      if (!playerContext.hasQuestFlag(flag) && !playerContext.hasLoreFlag(flag)) {
         return false;
       }
     }
 
     // Check required location
-    if (this?.requiredLocationId) {
-      if (playerContext?.getCurrentLocationId() !== this?.requiredLocationId) {
+    if (this.requiredLocationId) {
+      if (playerContext.getCurrentLocationId() !== this.requiredLocationId) {
         return false;
       }
     }
@@ -438,19 +438,19 @@ export class BattleChallenge implements IBattleChallenge {
   getEstimatedDuration(): number {
     // Base duration based on difficulty
     const baseDuration = {
-      [ChallengeDifficulty?.EASY]: 5,
-      [ChallengeDifficulty?.MEDIUM]: 10,
-      [ChallengeDifficulty?.HARD]: 15,
-      [ChallengeDifficulty?.EXPERT]: 20,
-      [ChallengeDifficulty?.LEGENDARY]: 25,
-      [ChallengeDifficulty?.VARIES]: 10
-    }[this?.difficulty] || 10;
+      [ChallengeDifficulty.EASY]: 5,
+      [ChallengeDifficulty.MEDIUM]: 10,
+      [ChallengeDifficulty.HARD]: 15,
+      [ChallengeDifficulty.EXPERT]: 20,
+      [ChallengeDifficulty.LEGENDARY]: 25,
+      [ChallengeDifficulty.VARIES]: 10
+    }[this.difficulty] || 10;
 
     // Adjust for opponent count
     const opponentMultiplier = Math.max(1, this.opponentTeam.length * 0.5);
 
     // Adjust for turn limit
-    const turnLimit = this?.maxTurns > 0 ? this?.maxTurns / 10 : 1;
+    const turnLimit = this.maxTurns > 0 ? this.maxTurns / 10 : 1;
 
     return Math.round(baseDuration * opponentMultiplier * turnLimit);
   }
@@ -461,14 +461,14 @@ export class BattleChallenge implements IBattleChallenge {
   getCompletionPercentage(): number {
     // This would be calculated based on actual progress
     // For now, return 0 for locked, 50 for available, 100 for completed
-    switch (this?.status) {
-      case ChallengeStatus?.LOCKED:
+    switch (this.status) {
+      case ChallengeStatus.LOCKED:
         return 0;
-      case ChallengeStatus?.AVAILABLE:
+      case ChallengeStatus.AVAILABLE:
         return 50;
-      case ChallengeStatus?.IN_PROGRESS:
+      case ChallengeStatus.IN_PROGRESS:
         return 75;
-      case ChallengeStatus?.COMPLETED:
+      case ChallengeStatus.COMPLETED:
         return 100;
       default:
         return 0;
@@ -481,32 +481,32 @@ export class BattleChallenge implements IBattleChallenge {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this?.challengeId || this?.challengeId.trim() === '') {
-      errors?.push('Challenge ID cannot be empty');
+    if (!this.challengeId || this.challengeId.trim() === '') {
+      errors.push('Challenge ID cannot be empty');
     }
 
-    if (!this?.name || this?.name.trim() === '') {
-      errors?.push('Challenge name cannot be empty');
+    if (!this.name || this.name.trim() === '') {
+      errors.push('Challenge name cannot be empty');
     }
 
-    if (!this?.description || this?.description.trim() === '') {
-      errors?.push('Challenge description cannot be empty');
+    if (!this.description || this.description.trim() === '') {
+      errors.push('Challenge description cannot be empty');
     }
 
-    if (this?.opponentTeam.length === 0 && this?.category !== ChallengeCategory?.ACHIEVEMENT) {
-      errors?.push('Challenge must have at least one opponent');
+    if (this.opponentTeam.length === 0 && this.category !== ChallengeCategory.ACHIEVEMENT) {
+      errors.push('Challenge must have at least one opponent');
     }
 
-    if (this?.priority < 0 || this?.priority > 10) {
-      errors?.push('Priority must be between 0 and 10');
+    if (this.priority < 0 || this.priority > 10) {
+      errors.push('Priority must be between 0 and 10');
     }
 
-    if (this?.maxTurns < 0) {
-      errors?.push('Max turns cannot be negative');
+    if (this.maxTurns < 0) {
+      errors.push('Max turns cannot be negative');
     }
 
-    const rulesetErrors = this?.ruleset.validate({});
-    errors?.push(...rulesetErrors?.map((error: any) => `Ruleset: ${error}`));
+    const rulesetErrors = this.ruleset.validate({});
+    errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;
   }
@@ -516,21 +516,21 @@ export class BattleChallenge implements IBattleChallenge {
    */
   clone(): BattleChallenge {
     return new BattleChallenge(
-      this?.challengeId,
-      this?.name,
-      this?.description,
-      [...this?.opponentTeam],
-      this?.ruleset.clone(),
-      { ...this?.rewards },
-      this?.category,
-      this?.difficulty,
-      this?.maxTurns,
-      this?.priority,
-      [...this?.tags],
-      [...this?.requiredFlags],
-      this?.requiredLocationId,
-      [...this?.loreFlagsToSet],
-      { ...this?.syncBoosts }
+      this.challengeId,
+      this.name,
+      this.description,
+      [...this.opponentTeam],
+      this.ruleset.clone(),
+      { ...this.rewards },
+      this.category,
+      this.difficulty,
+      this.maxTurns,
+      this.priority,
+      [...this.tags],
+      [...this.requiredFlags],
+      this.requiredLocationId,
+      [...this.loreFlagsToSet],
+      { ...this.syncBoosts }
     );
   }
 
@@ -539,22 +539,22 @@ export class BattleChallenge implements IBattleChallenge {
    */
   toJSON(): Record<string, any> {
     return {
-      challengeId: this?.challengeId,
-      name: this?.name,
-      description: this?.description,
-      opponentTeam: [...this?.opponentTeam],
-      ruleset: this?.ruleset.toJSON(),
-      rewards: { ...this?.rewards },
-      category: this?.category,
-      difficulty: this?.difficulty,
-      status: this?.status,
-      maxTurns: this?.maxTurns,
-      priority: this?.priority,
-      tags: [...this?.tags],
-      requiredFlags: [...this?.requiredFlags],
-      requiredLocationId: this?.requiredLocationId,
-      loreFlagsToSet: [...this?.loreFlagsToSet],
-      syncBoosts: { ...this?.syncBoosts }
+      challengeId: this.challengeId,
+      name: this.name,
+      description: this.description,
+      opponentTeam: [...this.opponentTeam],
+      ruleset: this.ruleset.toJSON(),
+      rewards: { ...this.rewards },
+      category: this.category,
+      difficulty: this.difficulty,
+      status: this.status,
+      maxTurns: this.maxTurns,
+      priority: this.priority,
+      tags: [...this.tags],
+      requiredFlags: [...this.requiredFlags],
+      requiredLocationId: this.requiredLocationId,
+      loreFlagsToSet: [...this.loreFlagsToSet],
+      syncBoosts: { ...this.syncBoosts }
     };
   }
 
@@ -562,26 +562,26 @@ export class BattleChallenge implements IBattleChallenge {
    * Create from JSON
    */
   static fromJSON(data: Record<string, any>): BattleChallenge {
-    const ruleset = ChallengeRuleset?.fromJSON(data?.ruleset);
+    const ruleset = ChallengeRuleset.fromJSON(data.ruleset);
     const challenge = new BattleChallenge(
-      data?.challengeId,
-      data?.name,
-      data?.description,
-      data?.opponentTeam || [],
+      data.challengeId,
+      data.name,
+      data.description,
+      data.opponentTeam || [],
       ruleset,
-      data?.rewards || {},
-      data?.category || ChallengeCategory?.MAIN_STORY,
-      data?.difficulty || ChallengeDifficulty?.MEDIUM,
-      data?.maxTurns || 0,
-      data?.priority || 1,
-      data?.tags || [],
-      data?.requiredFlags || [],
-      data?.requiredLocationId,
-      data?.loreFlagsToSet || [],
-      data?.syncBoosts || {}
+      data.rewards || {},
+      data.category || ChallengeCategory.MAIN_STORY,
+      data.difficulty || ChallengeDifficulty.MEDIUM,
+      data.maxTurns || 0,
+      data.priority || 1,
+      data.tags || [],
+      data.requiredFlags || [],
+      data.requiredLocationId,
+      data.loreFlagsToSet || [],
+      data.syncBoosts || {}
     );
 
-    challenge?.status = data?.status || ChallengeStatus?.LOCKED;
+    challenge.status = data.status || ChallengeStatus.LOCKED;
     return challenge;
   }
 
@@ -589,40 +589,40 @@ export class BattleChallenge implements IBattleChallenge {
    * Get challenge summary
    */
   getSummary(): string {
-    const opponentCount = this?.opponentTeam.length;
-    const turnLimit = this?.maxTurns > 0 ? `${this?.maxTurns} turns` : 'No limit';
+    const opponentCount = this.opponentTeam.length;
+    const turnLimit = this.maxTurns > 0 ? `${this.maxTurns} turns` : 'No limit';
     const rewardCount = Object.keys(this.rewards).length;
 
-    return `${this?.name} (${opponentCount} opponents, ${turnLimit}, ${rewardCount} rewards)`;
+    return `${this.name} (${opponentCount} opponents, ${turnLimit}, ${rewardCount} rewards)`;
   }
 
   /**
    * Check if challenge has tag
    */
   hasTag(tag: string): boolean {
-    return this?.tags.includes(tag);
+    return this.tags.includes(tag);
   }
 
   /**
    * Check if challenge matches all tags
    */
   hasAllTags(tags: string[]): boolean {
-    return tags?.every(tag => this?.tags.includes(tag));
+    return tags.every(tag => this.tags.includes(tag));
   }
 
   /**
    * Check if challenge matches any tags
    */
   hasAnyTag(tags: string[]): boolean {
-    return tags?.some(tag => this?.tags.includes(tag));
+    return tags.some(tag => this.tags.includes(tag));
   }
 
   /**
    * Add tag to challenge
    */
   addTag(tag: string): void {
-    if (!this?.tags.includes(tag)) {
-      this?.tags?.push(tag);
+    if (!this.tags.includes(tag)) {
+      this.tags.push(tag);
     }
   }
 
@@ -630,9 +630,9 @@ export class BattleChallenge implements IBattleChallenge {
    * Remove tag from challenge
    */
   removeTag(tag: string): boolean {
-    const index = this?.tags.indexOf(tag);
+    const index = this.tags.indexOf(tag);
     if (index >= 0) {
-      this?.tags.splice(index, 1);
+      this.tags.splice(index, 1);
       return true;
     }
     return false;
@@ -672,10 +672,10 @@ export class ChallengeRuleset implements IChallengeRuleset {
     bannedItems: string[] = [],
     environmentTag?: string
   ) {
-    this?.allowedSpiritTypes = [...allowedSpiritTypes];
-    this?.turnLimit = turnLimit;
-    this?.bannedItems = [...bannedItems];
-    this?.environmentTag = environmentTag;
+    this.allowedSpiritTypes = [...allowedSpiritTypes];
+    this.turnLimit = turnLimit;
+    this.bannedItems = [...bannedItems];
+    this.environmentTag = environmentTag;
   }
 
   /**
@@ -723,9 +723,9 @@ export class ChallengeRuleset implements IChallengeRuleset {
    */
   isCompliant(partySpiritTypes: string[], items: string[]): boolean {
     // Check spirit type restrictions
-    if (this?.allowedSpiritTypes.length > 0) {
+    if (this.allowedSpiritTypes.length > 0) {
       for (const spiritType of partySpiritTypes) {
-        if (!this?.allowedSpiritTypes.includes(spiritType)) {
+        if (!this.allowedSpiritTypes.includes(spiritType)) {
           return false;
         }
       }
@@ -733,7 +733,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
 
     // Check item bans
     for (const item of items) {
-      if (this?.bannedItems.includes(item: any)) {
+      if (this.bannedItems.includes(item)) {
         return false;
       }
     }
@@ -747,23 +747,23 @@ export class ChallengeRuleset implements IChallengeRuleset {
   getDescription(): string {
     const rules: string[] = [];
 
-    if (this?.allowedSpiritTypes.length > 0) {
-      rules?.push(`Allowed spirits: ${this?.allowedSpiritTypes.join(', ')}`);
+    if (this.allowedSpiritTypes.length > 0) {
+      rules.push(`Allowed spirits: ${this.allowedSpiritTypes.join(', ')}`);
     }
 
-    if (this?.turnLimit > 0) {
-      rules?.push(`Turn limit: ${this?.turnLimit}`);
+    if (this.turnLimit > 0) {
+      rules.push(`Turn limit: ${this.turnLimit}`);
     }
 
-    if (this?.bannedItems.length > 0) {
-      rules?.push(`Banned items: ${this?.bannedItems.join(', ')}`);
+    if (this.bannedItems.length > 0) {
+      rules.push(`Banned items: ${this.bannedItems.join(', ')}`);
     }
 
-    if (this?.environmentTag) {
-      rules?.push(`Environment: ${this?.environmentTag}`);
+    if (this.environmentTag) {
+      rules.push(`Environment: ${this.environmentTag}`);
     }
 
-    return rules?.length > 0 ? rules?.join('; ') : 'No special rules';
+    return rules.length > 0 ? rules.join('; ') : 'No special rules';
   }
 
   /**
@@ -772,16 +772,16 @@ export class ChallengeRuleset implements IChallengeRuleset {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (this?.turnLimit < 0) {
-      errors?.push('Turn limit cannot be negative');
+    if (this.turnLimit < 0) {
+      errors.push('Turn limit cannot be negative');
     }
 
-    if (this?.allowedSpiritTypes.some(type => !type || type?.trim() === '')) {
-      errors?.push('Allowed spirit types cannot contain empty strings');
+    if (this.allowedSpiritTypes.some(type => !type || type.trim() === '')) {
+      errors.push('Allowed spirit types cannot contain empty strings');
     }
 
-    if (this?.bannedItems.some(item => !item || item?.trim() === '')) {
-      errors?.push('Banned items cannot contain empty strings');
+    if (this.bannedItems.some(item => !item || item.trim() === '')) {
+      errors.push('Banned items cannot contain empty strings');
     }
 
     return errors;
@@ -792,10 +792,10 @@ export class ChallengeRuleset implements IChallengeRuleset {
    */
   clone(): ChallengeRuleset {
     return new ChallengeRuleset(
-      [...this?.allowedSpiritTypes],
-      this?.turnLimit,
-      [...this?.bannedItems],
-      this?.environmentTag
+      [...this.allowedSpiritTypes],
+      this.turnLimit,
+      [...this.bannedItems],
+      this.environmentTag
     );
   }
 
@@ -804,10 +804,10 @@ export class ChallengeRuleset implements IChallengeRuleset {
    */
   toJSON(): Record<string, any> {
     return {
-      allowedSpiritTypes: [...this?.allowedSpiritTypes],
-      turnLimit: this?.turnLimit,
-      bannedItems: [...this?.bannedItems],
-      environmentTag: this?.environmentTag
+      allowedSpiritTypes: [...this.allowedSpiritTypes],
+      turnLimit: this.turnLimit,
+      bannedItems: [...this.bannedItems],
+      environmentTag: this.environmentTag
     };
   }
 
@@ -816,10 +816,10 @@ export class ChallengeRuleset implements IChallengeRuleset {
    */
   static fromJSON(data: Record<string, any>): ChallengeRuleset {
     return new ChallengeRuleset(
-      data?.allowedSpiritTypes || [],
-      data?.turnLimit || 0,
-      data?.bannedItems || [],
-      data?.environmentTag
+      data.allowedSpiritTypes || [],
+      data.turnLimit || 0,
+      data.bannedItems || [],
+      data.environmentTag
     );
   }
 }
@@ -838,7 +838,7 @@ export class ChallengeResult implements IChallengeResult {
   public metadata?: Record<string, any>;
 
   constructor(
-    outcome: ChallengeOutcome = ChallengeOutcome?.VICTORY,
+    outcome: ChallengeOutcome = ChallengeOutcome.VICTORY,
     itemRewards: Record<string, number> = {},
     loreFlags: string[] = [],
     syncChanges: Record<string, number> = {},
@@ -847,14 +847,14 @@ export class ChallengeResult implements IChallengeResult {
     turnsTaken?: number,
     metadata?: Record<string, any>
   ) {
-    this?.outcome = outcome;
-    this?.itemRewards = { ...itemRewards };
-    this?.loreFlags = [...loreFlags];
-    this?.syncChanges = { ...syncChanges };
-    this?.message = message;
-    this?.completionTime = completionTime;
-    this?.turnsTaken = turnsTaken;
-    this?.metadata = metadata;
+    this.outcome = outcome;
+    this.itemRewards = { ...itemRewards };
+    this.loreFlags = [...loreFlags];
+    this.syncChanges = { ...syncChanges };
+    this.message = message;
+    this.completionTime = completionTime;
+    this.turnsTaken = turnsTaken;
+    this.metadata = metadata;
   }
 
   /**
@@ -868,7 +868,7 @@ export class ChallengeResult implements IChallengeResult {
     turnsTaken?: number
   ): ChallengeResult {
     return new ChallengeResult(
-      ChallengeOutcome?.VICTORY,
+      ChallengeOutcome.VICTORY,
       itemRewards,
       loreFlags,
       syncChanges,
@@ -886,7 +886,7 @@ export class ChallengeResult implements IChallengeResult {
     turnsTaken?: number
   ): ChallengeResult {
     return new ChallengeResult(
-      ChallengeOutcome?.DEFEAT,
+      ChallengeOutcome.DEFEAT,
       {},
       [],
       {},
@@ -904,7 +904,7 @@ export class ChallengeResult implements IChallengeResult {
     message?: string
   ): ChallengeResult {
     return new ChallengeResult(
-      ChallengeOutcome?.TIMEOUT,
+      ChallengeOutcome.TIMEOUT,
       {},
       [],
       {},
@@ -922,7 +922,7 @@ export class ChallengeResult implements IChallengeResult {
     turnsTaken?: number
   ): ChallengeResult {
     return new ChallengeResult(
-      ChallengeOutcome?.FORFEIT,
+      ChallengeOutcome.FORFEIT,
       {},
       [],
       {},
@@ -940,15 +940,15 @@ export class ChallengeResult implements IChallengeResult {
       .map(([item, amount]) => `${amount} ${item}`)
       .join(', ');
 
-    const loreFlagsStr = this?.loreFlags.length > 0 ? this?.loreFlags.join(', ') : 'none';
+    const loreFlagsStr = this.loreFlags.length > 0 ? this.loreFlags.join(', ') : 'none';
     const syncChangesStr = Object.entries(this.syncChanges)
       .map(([spirit, change]) => `${spirit} ${change > 0 ? '+' : ''}${change}`)
       .join(', ');
 
-    const timeStr = this?.completionTime ? new Date(this?.completionTime).toLocaleString() : 'unknown';
-    const turnsStr = this?.turnsTaken ? `${this?.turnsTaken} turns` : 'unknown turns';
+    const timeStr = this.completionTime ? new Date(this.completionTime).toLocaleString() : 'unknown';
+    const turnsStr = this.turnsTaken ? `${this.turnsTaken} turns` : 'unknown turns';
 
-    return `${this?.outcome} | items: [${itemRewardsStr}] | flags: [${loreFlagsStr}] | sync: [${syncChangesStr}] | ${turnsStr} | ${timeStr}`;
+    return `${this.outcome} | items: [${itemRewardsStr}] | flags: [${loreFlagsStr}] | sync: [${syncChangesStr}] | ${turnsStr} | ${timeStr}`;
   }
 
   /**
@@ -962,17 +962,17 @@ export class ChallengeResult implements IChallengeResult {
    * Get result description
    */
   getDescription(): string {
-    switch (this?.outcome) {
-      case ChallengeOutcome?.VICTORY:
-        return `Victory! ${this?.message || 'Challenge completed successfully.'}`;
-      case ChallengeOutcome?.DEFEAT:
-        return `Defeat! ${this?.message || 'Challenge failed.'}`;
-      case ChallengeOutcome?.TIMEOUT:
-        return `Timeout! ${this?.message || 'Challenge timed out.'}`;
-      case ChallengeOutcome?.FORFEIT:
-        return `Forfeit! ${this?.message || 'Challenge forfeited.'}`;
+    switch (this.outcome) {
+      case ChallengeOutcome.VICTORY:
+        return `Victory! ${this.message || 'Challenge completed successfully.'}`;
+      case ChallengeOutcome.DEFEAT:
+        return `Defeat! ${this.message || 'Challenge failed.'}`;
+      case ChallengeOutcome.TIMEOUT:
+        return `Timeout! ${this.message || 'Challenge timed out.'}`;
+      case ChallengeOutcome.FORFEIT:
+        return `Forfeit! ${this.message || 'Challenge forfeited.'}`;
       default:
-        return `Unknown outcome: ${this?.outcome}`;
+        return `Unknown outcome: ${this.outcome}`;
     }
   }
 
@@ -981,14 +981,14 @@ export class ChallengeResult implements IChallengeResult {
    */
   clone(): ChallengeResult {
     return new ChallengeResult(
-      this?.outcome,
-      { ...this?.itemRewards },
-      [...this?.loreFlags],
-      { ...this?.syncChanges },
-      this?.message,
-      this?.completionTime,
-      this?.turnsTaken,
-      this?.metadata ? { ...this?.metadata } : undefined
+      this.outcome,
+      { ...this.itemRewards },
+      [...this.loreFlags],
+      { ...this.syncChanges },
+      this.message,
+      this.completionTime,
+      this.turnsTaken,
+      this.metadata ? { ...this.metadata } : undefined
     );
   }
 
@@ -997,14 +997,14 @@ export class ChallengeResult implements IChallengeResult {
    */
   toJSON(): Record<string, any> {
     return {
-      outcome: this?.outcome,
-      itemRewards: { ...this?.itemRewards },
-      loreFlags: [...this?.loreFlags],
-      syncChanges: { ...this?.syncChanges },
-      message: this?.message,
-      completionTime: this?.completionTime,
-      turnsTaken: this?.turnsTaken,
-      metadata: this?.metadata
+      outcome: this.outcome,
+      itemRewards: { ...this.itemRewards },
+      loreFlags: [...this.loreFlags],
+      syncChanges: { ...this.syncChanges },
+      message: this.message,
+      completionTime: this.completionTime,
+      turnsTaken: this.turnsTaken,
+      metadata: this.metadata
     };
   }
 
@@ -1013,14 +1013,14 @@ export class ChallengeResult implements IChallengeResult {
    */
   static fromJSON(data: Record<string, any>): ChallengeResult {
     return new ChallengeResult(
-      data?.outcome,
-      data?.itemRewards || {},
-      data?.loreFlags || [],
-      data?.syncChanges || {},
-      data?.message,
-      data?.completionTime,
-      data?.turnsTaken,
-      data?.metadata
+      data.outcome,
+      data.itemRewards || {},
+      data.loreFlags || [],
+      data.syncChanges || {},
+      data.message,
+      data.completionTime,
+      data.turnsTaken,
+      data.metadata
     );
   }
 }
@@ -1040,18 +1040,18 @@ export class ChallengeManager implements IChallengeManager {
    * Register challenge
    */
   registerChallenge(challenge: IBattleChallenge): boolean {
-    if (!challenge || !challenge?.challengeId || challenge?.challengeId.trim() === '') {
+    if (!challenge || !challenge.challengeId || challenge.challengeId.trim() === '') {
       console.warn('Invalid challenge registration: missing or empty challenge ID');
       return false;
     }
 
-    const errors = challenge?.validate({});
-    if (errors?.length > 0) {
+    const errors = challenge.validate({});
+    if (errors.length > 0) {
       console.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
       return false;
     }
 
-    this?.availableChallenges.set(challenge?.challengeId, challenge);
+    this.availableChallenges.set(challenge.challengeId, challenge);
     return true;
   }
 
@@ -1059,7 +1059,7 @@ export class ChallengeManager implements IChallengeManager {
    * Get challenge by ID
    */
   getChallenge(challengeId: string): IBattleChallenge | null {
-    return this?.availableChallenges.get(challengeId) || null;
+    return this.availableChallenges.get(challengeId) || null;
   }
 
   /**
@@ -1073,62 +1073,62 @@ export class ChallengeManager implements IChallengeManager {
    * Get filtered challenges
    */
   getFilteredChallenges(filter: IChallengeFilter): IBattleChallenge[] {
-    let challenges = this?.getAllChallenges();
+    let challenges = this.getAllChallenges();
 
     // Apply filters
-    if (filter?.category) {
-      challenges = challenges?.filter((challenge: any) => challenge?.category === filter?.category);
+    if (filter.category) {
+      challenges = challenges.filter((challenge: any) => challenge.category === filter.category);
     }
 
-    if (filter?.status) {
-      challenges = challenges?.filter((challenge: any) => challenge?.status === filter?.status);
+    if (filter.status) {
+      challenges = challenges.filter((challenge: any) => challenge.status === filter.status);
     }
 
-    if (filter?.difficulty) {
-      challenges = challenges?.filter((challenge: any) => challenge?.difficulty === filter?.difficulty);
+    if (filter.difficulty) {
+      challenges = challenges.filter((challenge: any) => challenge.difficulty === filter.difficulty);
     }
 
-    if (filter?.minDifficulty) {
-      const minLevel = this?.getDifficultyLevel(filter?.minDifficulty);
-      challenges = challenges?.filter((challenge: any) => this?.getDifficultyLevel(challenge?.difficulty) >= minLevel);
+    if (filter.minDifficulty) {
+      const minLevel = this.getDifficultyLevel(filter.minDifficulty);
+      challenges = challenges.filter((challenge: any) => this.getDifficultyLevel(challenge.difficulty) >= minLevel);
     }
 
-    if (filter?.maxDifficulty) {
-      const maxLevel = this?.getDifficultyLevel(filter?.maxDifficulty);
-      challenges = challenges?.filter((challenge: any) => this?.getDifficultyLevel(challenge?.difficulty) <= maxLevel);
+    if (filter.maxDifficulty) {
+      const maxLevel = this.getDifficultyLevel(filter.maxDifficulty);
+      challenges = challenges.filter((challenge: any) => this.getDifficultyLevel(challenge.difficulty) <= maxLevel);
     }
 
-    if (filter?.requiresSpirit) {
-      challenges = challenges?.filter((challenge: any) =>
-        challenge?.opponentTeam.includes(filter?.requiresSpirit!) ||
-        challenge?.loreFlagsToSet.includes(filter?.requiresSpirit!) ||
-        challenge?.syncBoosts.hasOwnProperty(filter?.requiresSpirit!)
+    if (filter.requiresSpirit) {
+      challenges = challenges.filter((challenge: any) =>
+        challenge.opponentTeam.includes(filter.requiresSpirit!) ||
+        challenge.loreFlagsToSet.includes(filter.requiresSpirit!) ||
+        challenge.syncBoosts.hasOwnProperty(filter.requiresSpirit!)
       );
     }
 
-    if (filter?.locationId) {
-      challenges = challenges?.filter((challenge: any) =>
-        challenge?.requiredLocationId === filter?.locationId
+    if (filter.locationId) {
+      challenges = challenges.filter((challenge: any) =>
+        challenge.requiredLocationId === filter.locationId
       );
     }
 
-    if (filter?.tags && filter?.tags.length > 0) {
-      challenges = challenges?.filter((challenge: any) => challenge?.hasAnyTag(filter?.tags!));
+    if (filter.tags && filter.tags.length > 0) {
+      challenges = challenges.filter((challenge: any) => challenge.hasAnyTag(filter.tags!));
     }
 
-    if (filter?.searchText) {
-      const searchLower = filter?.searchText.toLowerCase();
-      challenges = challenges?.filter((challenge: any) =>
-        challenge?.name.toLowerCase().includes(searchLower) ||
-        challenge?.description.toLowerCase().includes(searchLower) ||
-        challenge?.tags.some(tag => tag?.toLowerCase().includes(searchLower))
+    if (filter.searchText) {
+      const searchLower = filter.searchText.toLowerCase();
+      challenges = challenges.filter((challenge: any) =>
+        challenge.name.toLowerCase().includes(searchLower) ||
+        challenge.description.toLowerCase().includes(searchLower) ||
+        challenge.tags.some(tag => tag.toLowerCase().includes(searchLower))
       );
     }
 
     // Filter by completion status
-    if (filter?.completedBefore || filter?.completedAfter) {
-      challenges = challenges?.filter((challenge: any) => {
-        const isCompleted = this?.isChallengeCompleted(challenge?.challengeId);
+    if (filter.completedBefore || filter.completedAfter) {
+      challenges = challenges.filter((challenge: any) => {
+        const isCompleted = this.isChallengeCompleted(challenge.challengeId);
         if (!isCompleted) return false;
 
         // Note: In a real implementation, you'd check the completion timestamp
@@ -1138,12 +1138,12 @@ export class ChallengeManager implements IChallengeManager {
     }
 
     // Apply pagination
-    if (filter?.offset) {
-      challenges = challenges?.slice(filter?.offset);
+    if (filter.offset) {
+      challenges = challenges.slice(filter.offset);
     }
 
-    if (filter?.limit) {
-      challenges = challenges?.slice(0, filter?.limit);
+    if (filter.limit) {
+      challenges = challenges.slice(0, filter.limit);
     }
 
     return challenges;
@@ -1153,14 +1153,14 @@ export class ChallengeManager implements IChallengeManager {
    * Start challenge
    */
   startChallenge(challengeId: string): boolean {
-    const challenge = this?.availableChallenges.get(challengeId);
+    const challenge = this.availableChallenges.get(challengeId);
     if (!challenge) {
       return false;
     }
 
-    challenge?.status = ChallengeStatus?.IN_PROGRESS;
-    this?.inProgressChallenges.add(challengeId);
-    this?.onChallengeStarted?.(challenge);
+    challenge.status = ChallengeStatus.IN_PROGRESS;
+    this.inProgressChallenges.add(challengeId);
+    this.onChallengeStarted?.(challenge);
     return true;
   }
 
@@ -1168,15 +1168,15 @@ export class ChallengeManager implements IChallengeManager {
    * Complete challenge
    */
   completeChallenge(challengeId: string, result: IChallengeResult): boolean {
-    const challenge = this?.availableChallenges.get(challengeId);
-    if (!challenge || !this?.inProgressChallenges.has(challengeId)) {
+    const challenge = this.availableChallenges.get(challengeId);
+    if (!challenge || !this.inProgressChallenges.has(challengeId)) {
       return false;
     }
 
-    challenge?.status = ChallengeStatus?.COMPLETED;
-    this?.completedChallenges.add(challengeId);
-    this?.inProgressChallenges.delete(challengeId);
-    this?.onChallengeCompleted?.(challenge, result);
+    challenge.status = ChallengeStatus.COMPLETED;
+    this.completedChallenges.add(challengeId);
+    this.inProgressChallenges.delete(challengeId);
+    this.onChallengeCompleted?.(challenge, result);
     return true;
   }
 
@@ -1184,83 +1184,83 @@ export class ChallengeManager implements IChallengeManager {
    * Check if challenge is completed
    */
   isChallengeCompleted(challengeId: string): boolean {
-    return this?.completedChallenges.has(challengeId);
+    return this.completedChallenges.has(challengeId);
   }
 
   /**
    * Get challenge status
    */
   getChallengeStatus(challengeId: string): ChallengeStatus {
-    const challenge = this?.availableChallenges.get(challengeId);
+    const challenge = this.availableChallenges.get(challengeId);
     if (!challenge) {
-      return ChallengeStatus?.LOCKED;
+      return ChallengeStatus.LOCKED;
     }
 
-    if (this?.completedChallenges.has(challengeId)) {
-      return ChallengeStatus?.COMPLETED;
+    if (this.completedChallenges.has(challengeId)) {
+      return ChallengeStatus.COMPLETED;
     }
 
-    if (this?.inProgressChallenges.has(challengeId)) {
-      return ChallengeStatus?.IN_PROGRESS;
+    if (this.inProgressChallenges.has(challengeId)) {
+      return ChallengeStatus.IN_PROGRESS;
     }
 
-    return ChallengeStatus?.LOCKED;
+    return ChallengeStatus.LOCKED;
   }
 
   /**
    * Get challenge statistics
    */
   getStatistics(): IChallengeStatistics {
-    const allChallenges = this?.getAllChallenges();
-    const completedChallenges = allChallenges?.filter((challenge: any) =>
-      this?.isChallengeCompleted(challenge?.challengeId)
+    const allChallenges = this.getAllChallenges();
+    const completedChallenges = allChallenges.filter((challenge: any) =>
+      this.isChallengeCompleted(challenge.challengeId)
     );
 
     const challengesByCategory: Record<ChallengeCategory, number> = {
-      [ChallengeCategory?.TUTORIAL]: 0,
-      [ChallengeCategory?.MAIN_STORY]: 0,
-      [ChallengeCategory?.SIDE_QUEST]: 0,
-      [ChallengeCategory?.DAILY]: 0,
-      [ChallengeCategory?.WEEKLY]: 0,
-      [ChallengeCategory?.SPECIAL]: 0,
-      [ChallengeCategory?.ACHIEVEMENT]: 0
+      [ChallengeCategory.TUTORIAL]: 0,
+      [ChallengeCategory.MAIN_STORY]: 0,
+      [ChallengeCategory.SIDE_QUEST]: 0,
+      [ChallengeCategory.DAILY]: 0,
+      [ChallengeCategory.WEEKLY]: 0,
+      [ChallengeCategory.SPECIAL]: 0,
+      [ChallengeCategory.ACHIEVEMENT]: 0
     };
 
     const challengesByDifficulty: Record<ChallengeDifficulty, number> = {
-      [ChallengeDifficulty?.EASY]: 0,
-      [ChallengeDifficulty?.MEDIUM]: 0,
-      [ChallengeDifficulty?.HARD]: 0,
-      [ChallengeDifficulty?.EXPERT]: 0,
-      [ChallengeDifficulty?.LEGENDARY]: 0,
-      [ChallengeDifficulty?.VARIES]: 0
+      [ChallengeDifficulty.EASY]: 0,
+      [ChallengeDifficulty.MEDIUM]: 0,
+      [ChallengeDifficulty.HARD]: 0,
+      [ChallengeDifficulty.EXPERT]: 0,
+      [ChallengeDifficulty.LEGENDARY]: 0,
+      [ChallengeDifficulty.VARIES]: 0
     };
 
     let totalRewardsEarned: Record<string, number> = {};
 
-    allChallenges?.forEach((challenge: any) => {
-      challengesByCategory[challenge?.category]++;
-      challengesByDifficulty[challenge?.difficulty]++;
+    allChallenges.forEach((challenge: any) => {
+      challengesByCategory[challenge.category]++;
+      challengesByDifficulty[challenge.difficulty]++;
 
-      if (this?.isChallengeCompleted(challenge?.challengeId)) {
+      if (this.isChallengeCompleted(challenge.challengeId)) {
         Object.entries(challenge.rewards).forEach(([item, amount]) => {
           totalRewardsEarned[item!] = (totalRewardsEarned[item!] || 0) + amount;
         });
       }
     });
 
-    const completionRate = allChallenges?.length > 0
-      ? (completedChallenges?.length / allChallenges?.length) * 100
+    const completionRate = allChallenges.length > 0
+      ? (completedChallenges.length / allChallenges.length) * 100
       : 0;
 
     return {
-      totalChallenges: allChallenges?.length,
-      completedChallenges: completedChallenges?.length,
-      availableChallenges: allChallenges?.filter((c: any) =>
-        c?.status === ChallengeStatus?.AVAILABLE ||
-        c?.status === ChallengeStatus?.IN_PROGRESS
+      totalChallenges: allChallenges.length,
+      completedChallenges: completedChallenges.length,
+      availableChallenges: allChallenges.filter((c: any) =>
+        c.status === ChallengeStatus.AVAILABLE ||
+        c.status === ChallengeStatus.IN_PROGRESS
       ).length,
-      lockedChallenges: allChallenges?.filter((c: any) => c?.status === ChallengeStatus?.LOCKED).length,
-      inProgressChallenges: this?.inProgressChallenges.size,
+      lockedChallenges: allChallenges.filter((c: any) => c.status === ChallengeStatus.LOCKED).length,
+      inProgressChallenges: this.inProgressChallenges.size,
       completionRate: Math.round(completionRate * 100) / 100,
       averageCompletionTime: 0, // Would need completion timestamps
       challengesByCategory,
@@ -1279,10 +1279,10 @@ export class ChallengeManager implements IChallengeManager {
    * Clear completed challenges
    */
   clearCompletedChallenges(): void {
-    this?.completedChallenges.clear();
-    this?.availableChallenges.forEach((challenge: any) => {
-      if (challenge?.status === ChallengeStatus?.COMPLETED) {
-        challenge?.status = ChallengeStatus?.LOCKED;
+    this.completedChallenges.clear();
+    this.availableChallenges.forEach((challenge: any) => {
+      if (challenge.status === ChallengeStatus.COMPLETED) {
+        challenge.status = ChallengeStatus.LOCKED;
       }
     });
   }
@@ -1292,12 +1292,12 @@ export class ChallengeManager implements IChallengeManager {
    */
   private getDifficultyLevel(difficulty: ChallengeDifficulty): number {
     const levels = {
-      [ChallengeDifficulty?.EASY]: 1,
-      [ChallengeDifficulty?.MEDIUM]: 2,
-      [ChallengeDifficulty?.HARD]: 3,
-      [ChallengeDifficulty?.EXPERT]: 4,
-      [ChallengeDifficulty?.LEGENDARY]: 5,
-      [ChallengeDifficulty?.VARIES]: 3
+      [ChallengeDifficulty.EASY]: 1,
+      [ChallengeDifficulty.MEDIUM]: 2,
+      [ChallengeDifficulty.HARD]: 3,
+      [ChallengeDifficulty.EXPERT]: 4,
+      [ChallengeDifficulty.LEGENDARY]: 5,
+      [ChallengeDifficulty.VARIES]: 3
     };
     return levels[difficulty!] || 2;
   }
@@ -1329,32 +1329,32 @@ export const ChallengeUtils = {
   validateChallenge(challenge: IBattleChallenge): string[] {
     const errors: string[] = [];
 
-    if (!challenge?.challengeId || challenge?.challengeId.trim() === '') {
-      errors?.push('Challenge ID cannot be empty');
+    if (!challenge.challengeId || challenge.challengeId.trim() === '') {
+      errors.push('Challenge ID cannot be empty');
     }
 
-    if (!challenge?.name || challenge?.name.trim() === '') {
-      errors?.push('Challenge name cannot be empty');
+    if (!challenge.name || challenge.name.trim() === '') {
+      errors.push('Challenge name cannot be empty');
     }
 
-    if (!challenge?.description || challenge?.description.trim() === '') {
-      errors?.push('Challenge description cannot be empty');
+    if (!challenge.description || challenge.description.trim() === '') {
+      errors.push('Challenge description cannot be empty');
     }
 
-    if (challenge?.opponentTeam.length === 0 && challenge?.category !== ChallengeCategory?.ACHIEVEMENT) {
-      errors?.push('Challenge must have at least one opponent');
+    if (challenge.opponentTeam.length === 0 && challenge.category !== ChallengeCategory.ACHIEVEMENT) {
+      errors.push('Challenge must have at least one opponent');
     }
 
-    if (challenge?.priority < 0 || challenge?.priority > 10) {
-      errors?.push('Priority must be between 0 and 10');
+    if (challenge.priority < 0 || challenge.priority > 10) {
+      errors.push('Priority must be between 0 and 10');
     }
 
-    if (challenge?.maxTurns < 0) {
-      errors?.push('Max turns cannot be negative');
+    if (challenge.maxTurns < 0) {
+      errors.push('Max turns cannot be negative');
     }
 
-    const rulesetErrors = challenge?.ruleset.validate({});
-    errors?.push(...rulesetErrors?.map((error: any) => `Ruleset: ${error}`));
+    const rulesetErrors = challenge.ruleset.validate({});
+    errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;
   },
@@ -1374,39 +1374,39 @@ export const ChallengeUtils = {
       completed?: boolean;
     }
   ): IBattleChallenge[] {
-    return challenges?.filter((challenge: any) => {
-      if (filters?.categories && !filters?.categories.includes(challenge?.category)) {
+    return challenges.filter((challenge: any) => {
+      if (filters.categories && !filters.categories.includes(challenge.category)) {
         return false;
       }
 
-      if (filters?.difficulties && !filters?.difficulties.includes(challenge?.difficulty)) {
+      if (filters.difficulties && !filters.difficulties.includes(challenge.difficulty)) {
         return false;
       }
 
-      if (filters?.minPriority !== undefined && challenge?.priority < filters?.minPriority) {
+      if (filters.minPriority !== undefined && challenge.priority < filters.minPriority) {
         return false;
       }
 
-      if (filters?.maxPriority !== undefined && challenge?.priority > filters?.maxPriority) {
+      if (filters.maxPriority !== undefined && challenge.priority > filters.maxPriority) {
         return false;
       }
 
-      if (filters?.tags && !challenge?.hasAnyTag(filters?.tags)) {
+      if (filters.tags && !challenge.hasAnyTag(filters.tags)) {
         return false;
       }
 
-      if (filters?.completed !== undefined) {
-        const isCompleted = challenge?.status === ChallengeStatus?.COMPLETED;
-        if (filters?.completed !== isCompleted) {
+      if (filters.completed !== undefined) {
+        const isCompleted = challenge.status === ChallengeStatus.COMPLETED;
+        if (filters.completed !== isCompleted) {
           return false;
         }
       }
 
-      if (filters?.searchText) {
-        const searchLower = filters?.searchText.toLowerCase();
-        return challenge?.name.toLowerCase().includes(searchLower) ||
-               challenge?.description.toLowerCase().includes(searchLower) ||
-               challenge?.tags.some(tag => tag?.toLowerCase().includes(searchLower));
+      if (filters.searchText) {
+        const searchLower = filters.searchText.toLowerCase();
+        return challenge.name.toLowerCase().includes(searchLower) ||
+               challenge.description.toLowerCase().includes(searchLower) ||
+               challenge.tags.some(tag => tag.toLowerCase().includes(searchLower));
       }
 
       return true;
@@ -1420,12 +1420,12 @@ export const ChallengeUtils = {
     return [...challenges].sort((a: any, b: any) => {
       switch (sortBy) {
         case 'priority':
-          return b?.priority - a?.priority; // Higher priority first
+          return b.priority - a.priority; // Higher priority first
         case 'name':
-          return a?.name.localeCompare(b?.name);
+          return a.name.localeCompare(b.name);
         case 'difficulty':
-          const aLevel = this?.getDifficultyLevel(a?.difficulty);
-          const bLevel = this?.getDifficultyLevel(b?.difficulty);
+          const aLevel = this.getDifficultyLevel(a.difficulty);
+          const bLevel = this.getDifficultyLevel(b.difficulty);
           return bLevel - aLevel; // Higher difficulty first
         default:
           return 0;
@@ -1438,12 +1438,12 @@ export const ChallengeUtils = {
    */
   getDifficultyLevel(difficulty: ChallengeDifficulty): number {
     const levels = {
-      [ChallengeDifficulty?.EASY]: 1,
-      [ChallengeDifficulty?.MEDIUM]: 2,
-      [ChallengeDifficulty?.HARD]: 3,
-      [ChallengeDifficulty?.EXPERT]: 4,
-      [ChallengeDifficulty?.LEGENDARY]: 5,
-      [ChallengeDifficulty?.VARIES]: 3
+      [ChallengeDifficulty.EASY]: 1,
+      [ChallengeDifficulty.MEDIUM]: 2,
+      [ChallengeDifficulty.HARD]: 3,
+      [ChallengeDifficulty.EXPERT]: 4,
+      [ChallengeDifficulty.LEGENDARY]: 5,
+      [ChallengeDifficulty.VARIES]: 3
     };
     return levels[difficulty!] || 2;
   },
@@ -1468,12 +1468,12 @@ export const ChallengeUtils = {
   createFilter: {
     byCategory: (category: ChallengeCategory): IChallengeFilter => ({ category }),
     byDifficulty: (difficulty: ChallengeDifficulty): IChallengeFilter => ({ difficulty }),
-    completedOnly: (): IChallengeFilter => ({ status: ChallengeStatus?.COMPLETED }),
-    availableOnly: (): IChallengeFilter => ({ status: ChallengeStatus?.AVAILABLE }),
-    inProgressOnly: (): IChallengeFilter => ({ status: ChallengeStatus?.IN_PROGRESS }),
+    completedOnly: (): IChallengeFilter => ({ status: ChallengeStatus.COMPLETED }),
+    availableOnly: (): IChallengeFilter => ({ status: ChallengeStatus.AVAILABLE }),
+    inProgressOnly: (): IChallengeFilter => ({ status: ChallengeStatus.IN_PROGRESS }),
     highPriority: (minPriority: number = 7): IChallengeFilter => ({ minPriority }),
-    easyOnly: (): IChallengeFilter => ({ difficulty: ChallengeDifficulty?.EASY }),
-    hardOrAbove: (): IChallengeFilter => ({ minDifficulty: ChallengeDifficulty?.HARD }),
+    easyOnly: (): IChallengeFilter => ({ difficulty: ChallengeDifficulty.EASY }),
+    hardOrAbove: (): IChallengeFilter => ({ minDifficulty: ChallengeDifficulty.HARD }),
     search: (searchText: string): IChallengeFilter => ({ searchText })
   }
 };
@@ -1484,4 +1484,4 @@ export const ChallengeUtils = {
 export const defaultBattleChallenge = new BattleChallenge('default', 'Default Challenge', 'Default description');
 export const defaultChallengeManager = new ChallengeManager();
 export const defaultChallengeRuleset = new ChallengeRuleset();
-export const defaultChallengeResult = ChallengeResult?.victory();
+export const defaultChallengeResult = ChallengeResult.victory();

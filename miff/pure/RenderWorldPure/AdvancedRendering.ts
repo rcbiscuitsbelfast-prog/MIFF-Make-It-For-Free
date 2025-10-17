@@ -139,7 +139,7 @@ export class AdvancedRendering {
   private renderQueue: RenderBatch[] = [];
 
   constructor(config?: Partial<AdvancedRenderConfig>) {
-    this?.config = {
+    this.config = {
       enableShaders: true,
       enableLighting: true,
       enableShadows: true,
@@ -152,24 +152,24 @@ export class AdvancedRendering {
       ...config
     };
 
-    this?.initializeDefaultShaders();
-    this?.initializeDefaultLights();
-    this?.initializeDefaultCameras();
-    this?.initializeDefaultLayers();
+    this.initializeDefaultShaders();
+    this.initializeDefaultLights();
+    this.initializeDefaultCameras();
+    this.initializeDefaultLayers();
   }
 
   /**
    * Create a light source
    */
   createLight(light: LightSource): void {
-    this?.lights.set(light?.id, light);
+    this.lights.set(light.id, light);
   }
 
   /**
    * Update light source
    */
   updateLight(lightId: string, properties: Partial<LightSource>): void {
-    const light = this?.lights.get(lightId);
+    const light = this.lights.get(lightId);
     if (light) {
       Object.assign(light, properties);
     }
@@ -179,28 +179,28 @@ export class AdvancedRendering {
    * Remove light source
    */
   removeLight(lightId: string): void {
-    this?.lights.delete(lightId);
+    this.lights.delete(lightId);
   }
 
   /**
    * Create a shader program
    */
   createShader(shader: ShaderProgram): void {
-    this?.shaders.set(shader?.id, shader);
-    this?.compileShader(shader?.id);
+    this.shaders.set(shader.id, shader);
+    this.compileShader(shader.id);
   }
 
   /**
    * Compile shader program
    */
   compileShader(shaderId: string): boolean {
-    const shader = this?.shaders.get(shaderId);
+    const shader = this.shaders.get(shaderId);
     if (!shader) return false;
 
     try {
       // In a real implementation, this would compile the shaders using WebGL
       // For now, we'll simulate compilation
-      shader?.compiled = true;
+      shader.compiled = true;
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -213,14 +213,14 @@ export class AdvancedRendering {
    * Create a particle system
    */
   createParticleSystem(system: ParticleSystem): void {
-    this?.particleSystems.set(system?.id, system);
+    this.particleSystems.set(system.id, system);
   }
 
   /**
    * Update particle system
    */
   updateParticleSystem(systemId: string, properties: Partial<ParticleSystem>): void {
-    const system = this?.particleSystems.get(systemId);
+    const system = this.particleSystems.get(systemId);
     if (system) {
       Object.assign(system, properties);
     }
@@ -230,8 +230,8 @@ export class AdvancedRendering {
    * Emit particles
    */
   emitParticles(systemId: string, count: number): void {
-    const system = this?.particleSystems.get(systemId);
-    if (!system || !system?.enabled) return;
+    const system = this.particleSystems.get(systemId);
+    if (!system || !system.enabled) return;
 
     // In a real implementation, this would create and manage particle instances
     console.log(`Emitted ${count} particles from system ${systemId}`);
@@ -241,22 +241,22 @@ export class AdvancedRendering {
    * Create a render layer
    */
   createRenderLayer(layer: RenderLayer): void {
-    this?.renderLayers.set(layer?.id, layer);
+    this.renderLayers.set(layer.id, layer);
   }
 
   /**
    * Create a camera
    */
   createCamera(camera: Camera): void {
-    this?.cameras.set(camera?.id, camera);
+    this.cameras.set(camera.id, camera);
   }
 
   /**
    * Set active camera
    */
   setActiveCamera(cameraId: string): void {
-    if (this?.cameras.has(cameraId)) {
-      this?.activeCamera = cameraId;
+    if (this.cameras.has(cameraId)) {
+      this.activeCamera = cameraId;
     }
   }
 
@@ -264,7 +264,7 @@ export class AdvancedRendering {
    * Update camera
    */
   updateCamera(cameraId: string, properties: Partial<Camera>): void {
-    const camera = this?.cameras.get(cameraId);
+    const camera = this.cameras.get(cameraId);
     if (camera) {
       Object.assign(camera, properties);
     }
@@ -274,16 +274,16 @@ export class AdvancedRendering {
    * Create a render batch
    */
   createRenderBatch(batch: RenderBatch): void {
-    this?.renderBatches.set(batch?.id, batch);
+    this.renderBatches.set(batch.id, batch);
   }
 
   /**
    * Add to render queue
    */
   addToRenderQueue(batchId: string): void {
-    const batch = this?.renderBatches.get(batchId);
-    if (batch && batch?.visible) {
-      this?.renderQueue?.push(batch);
+    const batch = this.renderBatches.get(batchId);
+    if (batch && batch.visible) {
+      this.renderQueue.push(batch);
     }
   }
 
@@ -291,38 +291,38 @@ export class AdvancedRendering {
    * Render the scene
    */
   render(): void {
-    if (!this?.activeCamera) return;
+    if (!this.activeCamera) return;
 
-    const camera = this?.cameras.get(this?.activeCamera);
+    const camera = this.cameras.get(this.activeCamera);
     if (!camera) return;
 
     // Clear render queue
-    this?.renderQueue = [];
+    this.renderQueue = [];
 
     // Add visible batches to render queue
-    for (const [batchId, batch] of this?.renderBatches) {
-      if (batch?.visible) {
-        this?.renderQueue?.push(batch);
+    for (const [batchId, batch] of this.renderBatches) {
+      if (batch.visible) {
+        this.renderQueue.push(batch);
       }
     }
 
     // Sort render queue by layer depth
-    this?.renderQueue.sort((a: any, b: any) => {
-      const layerA = this?.renderLayers.get(a?.layer);
-      const layerB = this?.renderLayers.get(b?.layer);
+    this.renderQueue.sort((a: any, b: any) => {
+      const layerA = this.renderLayers.get(a.layer);
+      const layerB = this.renderLayers.get(b.layer);
       return (layerA?.depth || 0) - (layerB?.depth || 0);
     });
 
     // Render each layer
-    for (const layer of this?.renderLayers.values()) {
-      if (!layer?.visible) continue;
+    for (const layer of this.renderLayers.values()) {
+      if (!layer.visible) continue;
 
-      this?.renderLayer(layer, camera);
+      this.renderLayer(layer, camera);
     }
 
     // Apply post-processing effects
-    if (this?.config.enablePostProcessing) {
-      this?.applyPostProcessingEffects();
+    if (this.config.enablePostProcessing) {
+      this.applyPostProcessingEffects();
     }
   }
 
@@ -331,18 +331,18 @@ export class AdvancedRendering {
    */
   private renderLayer(layer: RenderLayer, camera: Camera): void {
     // Filter batches for this layer
-    const layerBatches = this?.renderQueue.filter((batch: any) => batch?.layer === layer?.id);
+    const layerBatches = this.renderQueue.filter((batch: any) => batch.layer === layer.id);
 
     // Apply layer filters
-    for (const filter of layer?.filters) {
-      if (filter?.enabled) {
-        this?.applyFilter(filter, layerBatches);
+    for (const filter of layer.filters) {
+      if (filter.enabled) {
+        this.applyFilter(filter, layerBatches);
       }
     }
 
     // Render batches
     for (const batch of layerBatches) {
-      this?.renderBatch(batch, camera, layer);
+      this.renderBatch(batch, camera, layer);
     }
   }
 
@@ -363,18 +363,18 @@ export class AdvancedRendering {
    * Apply a render filter
    */
   private applyFilter(filter: RenderFilter, batches: RenderBatch[]): void {
-    switch (filter?.type) {
+    switch (filter.type) {
       case 'color':
-        this?.applyColorFilter(filter, batches);
+        this.applyColorFilter(filter, batches);
         break;
       case 'blur':
-        this?.applyBlurFilter(filter, batches);
+        this.applyBlurFilter(filter, batches);
         break;
       case 'sharpen':
-        this?.applySharpenFilter(filter, batches);
+        this.applySharpenFilter(filter, batches);
         break;
       case 'edge_detection':
-        this?.applyEdgeDetectionFilter(filter, batches);
+        this.applyEdgeDetectionFilter(filter, batches);
         break;
     }
   }
@@ -383,9 +383,9 @@ export class AdvancedRendering {
    * Apply color filter
    */
   private applyColorFilter(filter: RenderFilter, batches: RenderBatch[]): void {
-    const brightness = filter?.parameters.get('brightness') || 1.0;
-    const contrast = filter?.parameters.get('contrast') || 1.0;
-    const saturation = filter?.parameters.get('saturation') || 1.0;
+    const brightness = filter.parameters.get('brightness') || 1.0;
+    const contrast = filter.parameters.get('contrast') || 1.0;
+    const saturation = filter.parameters.get('saturation') || 1.0;
 
     console.log(`Applying color filter: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
   }
@@ -394,8 +394,8 @@ export class AdvancedRendering {
    * Apply blur filter
    */
   private applyBlurFilter(filter: RenderFilter, batches: RenderBatch[]): void {
-    const radius = filter?.parameters.get('radius') || 1.0;
-    const quality = filter?.parameters.get('quality') || 1.0;
+    const radius = filter.parameters.get('radius') || 1.0;
+    const quality = filter.parameters.get('quality') || 1.0;
 
     console.log(`Applying blur filter: radius=${radius}, quality=${quality}`);
   }
@@ -404,7 +404,7 @@ export class AdvancedRendering {
    * Apply sharpen filter
    */
   private applySharpenFilter(filter: RenderFilter, batches: RenderBatch[]): void {
-    const strength = filter?.parameters.get('strength') || 1.0;
+    const strength = filter.parameters.get('strength') || 1.0;
 
     console.log(`Applying sharpen filter: strength=${strength}`);
   }
@@ -413,8 +413,8 @@ export class AdvancedRendering {
    * Apply edge detection filter
    */
   private applyEdgeDetectionFilter(filter: RenderFilter, batches: RenderBatch[]): void {
-    const threshold = filter?.parameters.get('threshold') || 0.5;
-    const color = filter?.parameters.get('color') || { r: 1, g: 1, b: 1, a: 1 };
+    const threshold = filter.parameters.get('threshold') || 0.5;
+    const color = filter.parameters.get('color') || { r: 1, g: 1, b: 1, a: 1 };
 
     console.log(`Applying edge detection filter: threshold=${threshold}, color=${JSON.stringify(color)}`);
   }
@@ -423,9 +423,9 @@ export class AdvancedRendering {
    * Apply post-processing effects
    */
   private applyPostProcessingEffects(): void {
-    for (const effect of this?.config.postProcessingEffects) {
-      if (effect?.enabled) {
-        this?.applyPostProcessingEffect(effect);
+    for (const effect of this.config.postProcessingEffects) {
+      if (effect.enabled) {
+        this.applyPostProcessingEffect(effect);
       }
     }
   }
@@ -434,21 +434,21 @@ export class AdvancedRendering {
    * Apply a single post-processing effect
    */
   private applyPostProcessingEffect(effect: PostProcessingEffect): void {
-    switch (effect?.type) {
+    switch (effect.type) {
       case 'bloom':
-        this?.applyBloomEffect(effect);
+        this.applyBloomEffect(effect);
         break;
       case 'blur':
-        this?.applyBlurEffect(effect);
+        this.applyBlurEffect(effect);
         break;
       case 'color_correction':
-        this?.applyColorCorrectionEffect(effect);
+        this.applyColorCorrectionEffect(effect);
         break;
       case 'depth_of_field':
-        this?.applyDepthOfFieldEffect(effect);
+        this.applyDepthOfFieldEffect(effect);
         break;
       case 'motion_blur':
-        this?.applyMotionBlurEffect(effect);
+        this.applyMotionBlurEffect(effect);
         break;
     }
   }
@@ -457,8 +457,8 @@ export class AdvancedRendering {
    * Apply bloom effect
    */
   private applyBloomEffect(effect: PostProcessingEffect): void {
-    const threshold = effect?.parameters.get('threshold') || 0.8;
-    const intensity = effect?.intensity;
+    const threshold = effect.parameters.get('threshold') || 0.8;
+    const intensity = effect.intensity;
 
     console.log(`Applying bloom effect: threshold=${threshold}, intensity=${intensity}`);
   }
@@ -467,8 +467,8 @@ export class AdvancedRendering {
    * Apply blur effect
    */
   private applyBlurEffect(effect: PostProcessingEffect): void {
-    const radius = effect?.parameters.get('radius') || 1.0;
-    const intensity = effect?.intensity;
+    const radius = effect.parameters.get('radius') || 1.0;
+    const intensity = effect.intensity;
 
     console.log(`Applying blur effect: radius=${radius}, intensity=${intensity}`);
   }
@@ -477,9 +477,9 @@ export class AdvancedRendering {
    * Apply color correction effect
    */
   private applyColorCorrectionEffect(effect: PostProcessingEffect): void {
-    const brightness = effect?.parameters.get('brightness') || 1.0;
-    const contrast = effect?.parameters.get('contrast') || 1.0;
-    const saturation = effect?.parameters.get('saturation') || 1.0;
+    const brightness = effect.parameters.get('brightness') || 1.0;
+    const contrast = effect.parameters.get('contrast') || 1.0;
+    const saturation = effect.parameters.get('saturation') || 1.0;
 
     console.log(`Applying color correction: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
   }
@@ -488,8 +488,8 @@ export class AdvancedRendering {
    * Apply depth of field effect
    */
   private applyDepthOfFieldEffect(effect: PostProcessingEffect): void {
-    const focusDistance = effect?.parameters.get('focusDistance') || 10.0;
-    const aperture = effect?.parameters.get('aperture') || 1.0;
+    const focusDistance = effect.parameters.get('focusDistance') || 10.0;
+    const aperture = effect.parameters.get('aperture') || 1.0;
 
     console.log(`Applying depth of field: focusDistance=${focusDistance}, aperture=${aperture}`);
   }
@@ -498,8 +498,8 @@ export class AdvancedRendering {
    * Apply motion blur effect
    */
   private applyMotionBlurEffect(effect: PostProcessingEffect): void {
-    const samples = effect?.parameters.get('samples') || 8;
-    const intensity = effect?.intensity;
+    const samples = effect.parameters.get('samples') || 8;
+    const intensity = effect.intensity;
 
     console.log(`Applying motion blur: samples=${samples}, intensity=${intensity}`);
   }
@@ -509,7 +509,7 @@ export class AdvancedRendering {
    */
   private initializeDefaultShaders(): void {
     // Basic vertex shader
-    this?.createShader({
+    this.createShader({
       id: 'basic_vertex',
       name: 'Basic Vertex Shader',
       vertexShader: `
@@ -544,7 +544,7 @@ export class AdvancedRendering {
     });
 
     // Lighting shader
-    this?.createShader({
+    this.createShader({
       id: 'lighting',
       name: 'Lighting Shader',
       vertexShader: `
@@ -581,7 +581,7 @@ export class AdvancedRendering {
           vec3 diffuse = lightColor * diff * lightIntensity;
           
           vec4 texColor = texture2D(texture, vTexCoord);
-          gl_FragColor = vec4(texColor?.rgb * diffuse, texColor.a);
+          gl_FragColor = vec4(texColor.rgb * diffuse, texColor.a);
         }
       `,
       uniforms: new Map([
@@ -607,7 +607,7 @@ export class AdvancedRendering {
    */
   private initializeDefaultLights(): void {
     // Ambient light
-    this?.createLight({
+    this.createLight({
       id: 'ambient',
       type: 'ambient',
       position: { x: 0, y: 0, z: 0 },
@@ -618,7 +618,7 @@ export class AdvancedRendering {
     });
 
     // Directional light (sun)
-    this?.createLight({
+    this.createLight({
       id: 'sun',
       type: 'directional',
       position: { x: 0, y: 10, z: 0 },
@@ -635,7 +635,7 @@ export class AdvancedRendering {
    */
   private initializeDefaultCameras(): void {
     // Main camera
-    this?.createCamera({
+    this.createCamera({
       id: 'main',
       name: 'Main Camera',
       position: { x: 0, y: 5, z: 10 },
@@ -649,7 +649,7 @@ export class AdvancedRendering {
       followSpeed: 2.0
     });
 
-    this?.setActiveCamera('main');
+    this.setActiveCamera('main');
   }
 
   /**
@@ -657,7 +657,7 @@ export class AdvancedRendering {
    */
   private initializeDefaultLayers(): void {
     // Background layer
-    this?.createRenderLayer({
+    this.createRenderLayer({
       id: 'background',
       name: 'Background',
       depth: 0,
@@ -668,7 +668,7 @@ export class AdvancedRendering {
     });
 
     // World layer
-    this?.createRenderLayer({
+    this.createRenderLayer({
       id: 'world',
       name: 'World',
       depth: 1,
@@ -679,7 +679,7 @@ export class AdvancedRendering {
     });
 
     // UI layer
-    this?.createRenderLayer({
+    this.createRenderLayer({
       id: 'ui',
       name: 'UI',
       depth: 2,
@@ -694,7 +694,7 @@ export class AdvancedRendering {
    * Get light source
    */
   getLight(lightId: string): LightSource | null {
-    return this?.lights.get(lightId) || null;
+    return this.lights.get(lightId) || null;
   }
 
   /**
@@ -708,35 +708,35 @@ export class AdvancedRendering {
    * Get shader program
    */
   getShader(shaderId: string): ShaderProgram | null {
-    return this?.shaders.get(shaderId) || null;
+    return this.shaders.get(shaderId) || null;
   }
 
   /**
    * Get particle system
    */
   getParticleSystem(systemId: string): ParticleSystem | null {
-    return this?.particleSystems.get(systemId) || null;
+    return this.particleSystems.get(systemId) || null;
   }
 
   /**
    * Get render layer
    */
   getRenderLayer(layerId: string): RenderLayer | null {
-    return this?.renderLayers.get(layerId) || null;
+    return this.renderLayers.get(layerId) || null;
   }
 
   /**
    * Get camera
    */
   getCamera(cameraId: string): Camera | null {
-    return this?.cameras.get(cameraId) || null;
+    return this.cameras.get(cameraId) || null;
   }
 
   /**
    * Get active camera
    */
   getActiveCamera(): Camera | null {
-    return this?.activeCamera ? this?.cameras.get(this?.activeCamera) || null : null;
+    return this.activeCamera ? this.cameras.get(this.activeCamera) || null : null;
   }
 
   /**
@@ -744,14 +744,14 @@ export class AdvancedRendering {
    */
   getAdvancedRenderingStatistics(): any {
     return {
-      lights: this?.lights.size,
-      shaders: this?.shaders.size,
-      particleSystems: this?.particleSystems.size,
-      renderLayers: this?.renderLayers.size,
-      cameras: this?.cameras.size,
-      renderBatches: this?.renderBatches.size,
-      activeCamera: this?.activeCamera,
-      config: this?.config
+      lights: this.lights.size,
+      shaders: this.shaders.size,
+      particleSystems: this.particleSystems.size,
+      renderLayers: this.renderLayers.size,
+      cameras: this.cameras.size,
+      renderBatches: this.renderBatches.size,
+      activeCamera: this.activeCamera,
+      config: this.config
     };
   }
 }

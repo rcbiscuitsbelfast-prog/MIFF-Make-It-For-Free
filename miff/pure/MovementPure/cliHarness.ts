@@ -12,18 +12,18 @@
 import { MovementManager, MovementPattern, Vector2 } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
-const { mode, args } = parseCLIArgs(process?.argv);
+const { mode, args } = parseCLIArgs(process.argv);
 const manager = new MovementManager();
 
 // Parse additional arguments
-const entityId = args?.find(arg => arg?.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
-const patternType = args?.find(arg => arg?.startsWith('--pattern='))?.split('=')[1!] || 'idle';
-const speed = parseFloat(args?.find(arg => arg?.startsWith('--speed='))?.split('=')[1!] || '1.0');
-const x = parseFloat(args?.find(arg => arg?.startsWith('--x='))?.split('=')[1!] || '0');
-const y = parseFloat(args?.find(arg => arg?.startsWith('--y='))?.split('=')[1!] || '0');
-const targetId = args?.find(arg => arg?.startsWith('--target-id='))?.split('=')[1!] || 'target_001';
-const deltaTime = parseFloat(args?.find(arg => arg?.startsWith('--delta='))?.split('=')[1!] || '0.016');
-const format = args?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
+const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
+const patternType = args.find(arg => arg.startsWith('--pattern='))?.split('=')[1!] || 'idle';
+const speed = parseFloat(args.find(arg => arg.startsWith('--speed='))?.split('=')[1!] || '1.0');
+const x = parseFloat(args.find(arg => arg.startsWith('--x='))?.split('=')[1!] || '0');
+const y = parseFloat(args.find(arg => arg.startsWith('--y='))?.split('=')[1!] || '0');
+const targetId = args.find(arg => arg.startsWith('--target-id='))?.split('=')[1!] || 'target_001';
+const deltaTime = parseFloat(args.find(arg => arg.startsWith('--delta='))?.split('=')[1!] || '0.016');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
 
 let output: any;
 
@@ -46,24 +46,24 @@ try {
           memory: 50
         }
       };
-      output = manager?.createEntity(entityId, position, pattern);
+      output = manager.createEntity(entityId, position, pattern);
       break;
 
     case 'get':
-      output = manager?.getEntity(entityId);
+      output = manager.getEntity(entityId);
       break;
 
     case 'update-pattern':
       const patternUpdates: Partial<MovementPattern> = {};
-      if (args?.includes('--type')) patternUpdates?.type = patternType as any;
-      if (args?.includes('--speed')) patternUpdates?.speed = speed;
-      if (args?.includes('--max-speed')) patternUpdates?.maxSpeed = parseFloat(args?.find(arg => arg?.startsWith('--max-speed='))?.split('=')[1!] || '2.0');
+      if (args.includes('--type')) patternUpdates.type = patternType as any;
+      if (args.includes('--speed')) patternUpdates.speed = speed;
+      if (args.includes('--max-speed')) patternUpdates.maxSpeed = parseFloat(args.find(arg => arg.startsWith('--max-speed='))?.split('=')[1!] || '2.0');
       
-      output = manager?.updatePattern(entityId, patternUpdates);
+      output = manager.updatePattern(entityId, patternUpdates);
       break;
 
     case 'set-follow':
-      output = manager?.setFollowTarget(entityId, targetId);
+      output = manager.setFollowTarget(entityId, targetId);
       break;
 
     case 'set-waypoints':
@@ -73,42 +73,42 @@ try {
         { x: 100, y: 100 },
         { x: 0, y: 100 }
       ];
-      output = manager?.setWaypoints(entityId, waypoints);
+      output = manager.setWaypoints(entityId, waypoints);
       break;
 
     case 'simulate':
-      output = manager?.simulateTick(deltaTime);
+      output = manager.simulateTick(deltaTime);
       break;
 
     case 'list':
       const filter: any = {};
-      if (args?.includes('--pattern-type')) filter?.patternType = patternType;
-      if (args?.includes('--state')) filter?.state = args?.find(arg => arg?.startsWith('--state='))?.split('=')[1!];
-      if (args?.includes('--min-speed')) filter?.minSpeed = parseFloat(args?.find(arg => arg?.startsWith('--min-speed='))?.split('=')[1!] || '0');
-      if (args?.includes('--max-speed')) filter?.maxSpeed = parseFloat(args?.find(arg => arg?.startsWith('--max-speed='))?.split('=')[1!] || '10');
+      if (args.includes('--pattern-type')) filter.patternType = patternType;
+      if (args.includes('--state')) filter.state = args.find(arg => arg.startsWith('--state='))?.split('=')[1!];
+      if (args.includes('--min-speed')) filter.minSpeed = parseFloat(args.find(arg => arg.startsWith('--min-speed='))?.split('=')[1!] || '0');
+      if (args.includes('--max-speed')) filter.maxSpeed = parseFloat(args.find(arg => arg.startsWith('--max-speed='))?.split('=')[1!] || '10');
       
-      output = manager?.listEntities(filter);
+      output = manager.listEntities(filter);
       break;
 
     case 'stats':
-      output = manager?.getMovementStats();
+      output = manager.getMovementStats();
       break;
 
     case 'add-obstacle':
       const obstaclePos: Vector2 = { x, y };
-      output = manager?.addObstacle(obstaclePos);
+      output = manager.addObstacle(obstaclePos);
       break;
 
     case 'remove':
-      output = manager?.removeEntity(entityId);
+      output = manager.removeEntity(entityId);
       break;
 
     case 'export':
-      output = manager?.exportMovement(format);
+      output = manager.exportMovement(format);
       break;
 
     case 'reset':
-      output = manager?.resetMovement();
+      output = manager.resetMovement();
       break;
 
     case 'demo':
@@ -181,16 +181,16 @@ try {
         }
       ];
 
-      const results = demoEntities?.map((entity: any) => manager?.createEntity(entity?.id, entity?.position, entity?.pattern));
-      const simulationResult = manager?.simulateTick(1.0);
+      const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, entity.position, entity.pattern));
+      const simulationResult = manager.simulateTick(1.0);
       
       output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo entities created and simulated',
-          entities: results?.map((r: any) => ({ status: r?.status, entity: r?.result })),
-          simulation: simulationResult?.result
+          entities: results.map((r: any) => ({ status: r.status, entity: r.result })),
+          simulation: simulationResult.result
         }
       };
       break;
@@ -274,13 +274,13 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios?.map((scenario: any) => {
-        const entityResults = scenario?.entities.map((entity: any) => 
-          manager?.createEntity(entity?.id, entity?.position, entity?.pattern)
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
+        const entityResults = scenario.entities.map((entity: any) => 
+          manager.createEntity(entity.id, entity.position, entity.pattern)
         );
         return {
-          scenario: scenario?.id,
-          results: entityResults?.map((r: any) => ({ status: r?.status, entity: r?.result }))
+          scenario: scenario.id,
+          results: entityResults.map((r: any) => ({ status: r.status, entity: r.result }))
         };
       });
 
@@ -316,10 +316,10 @@ try {
             'sample'
           ],
           examples: [
-            'node cliHarness?.ts create --entity-id=guard --x=0 --y=0 --pattern=patrol --speed=2.0',
-            'node cliHarness?.ts set-follow --entity-id=follower --target-id=player',
-            'node cliHarness?.ts simulate --delta=0.016',
-            'node cliHarness?.ts export --format=manifest'
+            'node cliHarness.ts create --entity-id=guard --x=0 --y=0 --pattern=patrol --speed=2.0',
+            'node cliHarness.ts set-follow --entity-id=follower --target-id=player',
+            'node cliHarness.ts simulate --delta=0.016',
+            'node cliHarness.ts export --format=manifest'
           ]
         }
       };
@@ -329,7 +329,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error?.message : 'Unknown error']
+    issues: [error instanceof Error ? error.message : 'Unknown error']
   };
 }
 

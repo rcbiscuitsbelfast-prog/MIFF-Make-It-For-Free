@@ -29,13 +29,13 @@ export class TeamsManager {
   private teams: Map<string, Team> = new Map();
 
   createTeam(team: Team): void {
-    this?.teams.set(team?.id, team);
+    this.teams.set(team.id, team);
   }
 
   addMember(teamId: string, member: TeamMember): void {
-    const team = this?.teams.get(teamId);
+    const team = this.teams.get(teamId);
     if (!team) return;
-    team?.members?.push(member);
+    team.members.push(member);
   }
 
   getAllTeams(): Team[] {
@@ -43,7 +43,7 @@ export class TeamsManager {
   }
 
   getTeam(teamId: string): Team | undefined {
-    return this?.teams.get(teamId);
+    return this.teams.get(teamId);
   }
 }
 

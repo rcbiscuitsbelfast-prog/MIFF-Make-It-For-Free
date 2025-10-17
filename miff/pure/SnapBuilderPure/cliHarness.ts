@@ -2,7 +2,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { createSnapState, reduceSnapAction } from './index';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 
 try {
   switch (mode) {

@@ -280,30 +280,30 @@ export class RealPlatformBridge {
   private eventHandlers: Map<string, Function[]> = new Map();
   private performanceMetrics: PerformanceMetrics;
   private isInitialized: boolean = false;
-  private monitoringInterval?: NodeJS?.Timeout;
+  private monitoringInterval?: NodeJS.Timeout;
 
   constructor(...args: any[]) {
     
-    this?.platformInfo = this?.detectPlatform();
-    this?.deviceInfo = this?.detectDevice();
-    this?.performanceMetrics = this?.initializePerformanceMetrics();
-    this?.initializePlatform();
+    this.platformInfo = this.detectPlatform();
+    this.deviceInfo = this.detectDevice();
+    this.performanceMetrics = this.initializePerformanceMetrics();
+    this.initializePlatform();
   }
 
   /**
    * Detect platform capabilities
    */
   private detectPlatform(): PlatformInfo {
-    const capabilities = this?.detectCapabilities();
+    const capabilities = this.detectCapabilities();
     
     return {
-      name: this?.getPlatformName(),
-      version: this?.getPlatformVersion(),
-      architecture: this?.getArchitecture(),
+      name: this.getPlatformName(),
+      version: this.getPlatformVersion(),
+      architecture: this.getArchitecture(),
       capabilities,
-      features: this?.detectFeatures(capabilities),
-      limitations: this?.detectLimitations(capabilities),
-      metadata: this?.getPlatformMetadata()
+      features: this.detectFeatures(capabilities),
+      limitations: this.detectLimitations(capabilities),
+      metadata: this.getPlatformMetadata()
     };
   }
 
@@ -312,12 +312,12 @@ export class RealPlatformBridge {
    */
   private detectDevice(): DeviceInfo {
     return {
-      type: this?.getDeviceType(),
-      os: this?.getOperatingSystem(),
-      browser: this?.getBrowserInfo(),
-      screen: this?.getScreenInfo(),
-      memory: this?.getMemoryInfo(),
-      cpu: this?.getCPUInfo()
+      type: this.getDeviceType(),
+      os: this.getOperatingSystem(),
+      browser: this.getBrowserInfo(),
+      screen: this.getScreenInfo(),
+      memory: this.getMemoryInfo(),
+      cpu: this.getCPUInfo()
     };
   }
 
@@ -326,13 +326,13 @@ export class RealPlatformBridge {
    */
   private detectCapabilities(): PlatformCapabilities {
     return {
-      graphics: this?.detectGraphicsCapabilities(),
-      audio: this?.detectAudioCapabilities(),
-      input: this?.detectInputCapabilities(),
-      storage: this?.detectStorageCapabilities(),
-      network: this?.detectNetworkCapabilities(),
-      sensors: this?.detectSensorCapabilities(),
-      security: this?.detectSecurityCapabilities()
+      graphics: this.detectGraphicsCapabilities(),
+      audio: this.detectAudioCapabilities(),
+      input: this.detectInputCapabilities(),
+      storage: this.detectStorageCapabilities(),
+      network: this.detectNetworkCapabilities(),
+      sensors: this.detectSensorCapabilities(),
+      security: this.detectSecurityCapabilities()
     };
   }
 
@@ -340,21 +340,21 @@ export class RealPlatformBridge {
    * Detect graphics capabilities
    */
   private detectGraphicsCapabilities(): GraphicsCapabilities {
-    const canvas = document?.createElement('canvas');
-    const gl = (canvas?.getContext('webgl') || canvas?.getContext('experimental-webgl')) as WebGLRenderingContext | null;
-    const gl2 = canvas?.getContext('webgl2') as WebGL2RenderingContext | null;
+    const canvas = document.createElement('canvas');
+    const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
+    const gl2 = canvas.getContext('webgl2') as WebGL2RenderingContext | null;
     
     return {
       webgl: !!gl,
       webgl2: !!gl2,
-      canvas: !!canvas?.getContext('2d'),
+      canvas: !!canvas.getContext('2d'),
       webgpu: 'gpu' in navigator,
-      maxTextureSize: gl ? gl?.getParameter(gl?.MAX_TEXTURE_SIZE) : 0,
-      maxVertexAttribs: gl ? gl?.getParameter(gl?.MAX_VERTEX_ATTRIBS) : 0,
-      maxVaryingVectors: gl ? gl?.getParameter(gl?.MAX_VARYING_VECTORS) : 0,
-      maxFragmentUniforms: gl ? gl?.getParameter(gl?.MAX_FRAGMENT_UNIFORM_VECTORS) : 0,
-      maxVertexUniforms: gl ? gl?.getParameter(gl?.MAX_VERTEX_UNIFORM_VECTORS) : 0,
-      extensions: gl ? gl?.getSupportedExtensions() || [] : []
+      maxTextureSize: gl ? gl.getParameter(gl.MAX_TEXTURE_SIZE) : 0,
+      maxVertexAttribs: gl ? gl.getParameter(gl.MAX_VERTEX_ATTRIBS) : 0,
+      maxVaryingVectors: gl ? gl.getParameter(gl.MAX_VARYING_VECTORS) : 0,
+      maxFragmentUniforms: gl ? gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) : 0,
+      maxVertexUniforms: gl ? gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS) : 0,
+      extensions: gl ? gl.getSupportedExtensions() || [] : []
     };
   }
 
@@ -362,13 +362,13 @@ export class RealPlatformBridge {
    * Detect audio capabilities
    */
   private detectAudioCapabilities(): AudioCapabilities {
-    const audioContext = window?.AudioContext || (window as any).webkitAudioContext;
+    const audioContext = window.AudioContext || (window as any).webkitAudioContext;
     
     return {
       webAudio: !!audioContext,
       audioContext: !!audioContext,
-      mediaDevices: !!(navigator?.mediaDevices && navigator?.mediaDevices.getUserMedia),
-      audioWorklet: !!(audioContext && 'audioWorklet' in audioContext?.prototype),
+      mediaDevices: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+      audioWorklet: !!(audioContext && 'audioWorklet' in audioContext.prototype),
       maxChannels: 32, // Default assumption
       sampleRate: 44100, // Default assumption
       supportedFormats: ['mp3', 'wav', 'ogg', 'aac', 'm4a']
@@ -386,7 +386,7 @@ export class RealPlatformBridge {
       gamepad: 'getGamepads' in navigator,
       gyroscope: 'DeviceOrientationEvent' in window,
       accelerometer: 'DeviceMotionEvent' in window,
-      maxTouchPoints: navigator?.maxTouchPoints || 0,
+      maxTouchPoints: navigator.maxTouchPoints || 0,
       maxGamepads: 4 // Standard assumption
     };
   }
@@ -396,13 +396,13 @@ export class RealPlatformBridge {
    */
   private detectStorageCapabilities(): StorageCapabilities {
     return {
-      localStorage: this?.isStorageAvailable('localStorage'),
-      sessionStorage: this?.isStorageAvailable('sessionStorage'),
+      localStorage: this.isStorageAvailable('localStorage'),
+      sessionStorage: this.isStorageAvailable('sessionStorage'),
       indexedDB: 'indexedDB' in window,
       webSQL: 'openDatabase' in window,
       fileSystem: 'requestFileSystem' in window,
-      maxStorageSize: this?.getMaxStorageSize(),
-      persistentStorage: 'storage' in navigator && 'persist' in navigator?.storage
+      maxStorageSize: this.getMaxStorageSize(),
+      persistentStorage: 'storage' in navigator && 'persist' in navigator.storage
     };
   }
 
@@ -412,7 +412,7 @@ export class RealPlatformBridge {
   private detectNetworkCapabilities(): NetworkCapabilities {
     return {
       websocket: 'WebSocket' in window,
-      webrtc: !!(navigator?.mediaDevices && navigator?.mediaDevices.getUserMedia),
+      webrtc: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
       fetch: 'fetch' in window,
       xhr: 'XMLHttpRequest' in window,
       serviceWorker: 'serviceWorker' in navigator,
@@ -441,8 +441,8 @@ export class RealPlatformBridge {
    */
   private detectSecurityCapabilities(): SecurityCapabilities {
     return {
-      https: location?.protocol === 'https:',
-      secureContext: window?.isSecureContext || false,
+      https: location.protocol === 'https:',
+      secureContext: window.isSecureContext || false,
       cors: 'XMLHttpRequest' in window,
       csp: 'ContentSecurityPolicy' in window,
       permissions: 'permissions' in navigator,
@@ -455,12 +455,12 @@ export class RealPlatformBridge {
    * Get platform name
    */
   private getPlatformName(): string {
-    const userAgent = navigator?.userAgent;
-    if (userAgent?.includes('Windows')) return 'Windows';
-    if (userAgent?.includes('Mac')) return 'macOS';
-    if (userAgent?.includes('Linux')) return 'Linux';
-    if (userAgent?.includes('Android')) return 'Android';
-    if (userAgent?.includes('iOS')) return 'iOS';
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('Windows')) return 'Windows';
+    if (userAgent.includes('Mac')) return 'macOS';
+    if (userAgent.includes('Linux')) return 'Linux';
+    if (userAgent.includes('Android')) return 'Android';
+    if (userAgent.includes('iOS')) return 'iOS';
     return 'Unknown';
   }
 
@@ -468,8 +468,8 @@ export class RealPlatformBridge {
    * Get platform version
    */
   private getPlatformVersion(): string {
-    const userAgent = navigator?.userAgent;
-    const match = userAgent?.match(/(Windows|Mac|Linux|Android|iOS)\s+([\d.]+)/);
+    const userAgent = navigator.userAgent;
+    const match = userAgent.match(/(Windows|Mac|Linux|Android|iOS)\s+([\d.]+)/);
     return match ? match[2!] : 'Unknown';
   }
 
@@ -477,11 +477,11 @@ export class RealPlatformBridge {
    * Get architecture
    */
   private getArchitecture(): string {
-    const userAgent = navigator?.userAgent;
-    if (userAgent?.includes('x64') || userAgent?.includes('x86_64')) return 'x64';
-    if (userAgent?.includes('x86') || userAgent?.includes('i386')) return 'x86';
-    if (userAgent?.includes('arm64') || userAgent?.includes('aarch64')) return 'arm64';
-    if (userAgent?.includes('arm')) return 'arm';
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('x64') || userAgent.includes('x86_64')) return 'x64';
+    if (userAgent.includes('x86') || userAgent.includes('i386')) return 'x86';
+    if (userAgent.includes('arm64') || userAgent.includes('aarch64')) return 'arm64';
+    if (userAgent.includes('arm')) return 'arm';
     return 'unknown';
   }
 
@@ -489,10 +489,10 @@ export class RealPlatformBridge {
    * Get device type
    */
   private getDeviceType(): DeviceInfo['type'] {
-    const userAgent = navigator?.userAgent;
-    if (userAgent?.includes('Mobile')) return 'mobile';
-    if (userAgent?.includes('Tablet')) return 'tablet';
-    if (userAgent?.includes('TV')) return 'tv';
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('Mobile')) return 'mobile';
+    if (userAgent.includes('Tablet')) return 'tablet';
+    if (userAgent.includes('TV')) return 'tv';
     return 'desktop';
   }
 
@@ -500,19 +500,19 @@ export class RealPlatformBridge {
    * Get operating system
    */
   private getOperatingSystem(): string {
-    return this?.getPlatformName();
+    return this.getPlatformName();
   }
 
   /**
    * Get browser information
    */
   private getBrowserInfo(): string {
-    const userAgent = navigator?.userAgent;
-    if (userAgent?.includes('Chrome')) return 'Chrome';
-    if (userAgent?.includes('Firefox')) return 'Firefox';
-    if (userAgent?.includes('Safari')) return 'Safari';
-    if (userAgent?.includes('Edge')) return 'Edge';
-    if (userAgent?.includes('Opera')) return 'Opera';
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('Chrome')) return 'Chrome';
+    if (userAgent.includes('Firefox')) return 'Firefox';
+    if (userAgent.includes('Safari')) return 'Safari';
+    if (userAgent.includes('Edge')) return 'Edge';
+    if (userAgent.includes('Opera')) return 'Opera';
     return 'Unknown';
   }
 
@@ -521,10 +521,10 @@ export class RealPlatformBridge {
    */
   private getScreenInfo(): DeviceInfo['screen'] {
     return {
-      width: screen?.width,
-      height: screen?.height,
-      pixelRatio: window?.devicePixelRatio || 1,
-      colorDepth: screen?.colorDepth
+      width: screen.width,
+      height: screen.height,
+      pixelRatio: window.devicePixelRatio || 1,
+      colorDepth: screen.colorDepth
     };
   }
 
@@ -535,9 +535,9 @@ export class RealPlatformBridge {
     const memory = (performance as any).memory;
     if (memory) {
       return {
-        total: memory?.jsHeapSizeLimit,
-        available: memory?.totalJSHeapSize - memory?.usedJSHeapSize,
-        used: memory?.usedJSHeapSize
+        total: memory.jsHeapSizeLimit,
+        available: memory.totalJSHeapSize - memory.usedJSHeapSize,
+        used: memory.usedJSHeapSize
       };
     }
     
@@ -552,10 +552,10 @@ export class RealPlatformBridge {
    * Get CPU information
    */
   private getCPUInfo(): DeviceInfo['cpu'] {
-    const cores = navigator?.hardwareConcurrency || 4;
+    const cores = navigator.hardwareConcurrency || 4;
     return {
       cores,
-      architecture: this?.getArchitecture(),
+      architecture: this.getArchitecture(),
       frequency: 0 // Not available in browsers
     };
   }
@@ -567,8 +567,8 @@ export class RealPlatformBridge {
     try {
       const storage = (window as any)[type!];
       const x = '__storage_test__';
-      storage?.setItem(x, x);
-      storage?.removeItem(x);
+      storage.setItem(x, x);
+      storage.removeItem(x);
       return true;
     } catch (e) {
       return false;
@@ -580,7 +580,7 @@ export class RealPlatformBridge {
    */
   private getMaxStorageSize(): number {
     // Estimate based on available memory
-    const memory = this?.getMemoryInfo();
+    const memory = this.getMemoryInfo();
     return memory.total > 0 ? Math.floor(memory.total * 0.1) : 50 * 1024 * 1024; // 10% of memory or 50MB
   }
 
@@ -590,19 +590,19 @@ export class RealPlatformBridge {
   private detectFeatures(capabilities: PlatformCapabilities): string[] {
     const features: string[] = [];
     
-    if (capabilities?.graphics.webgl) features?.push('webgl');
-    if (capabilities?.graphics.webgl2) features?.push('webgl2');
-    if (capabilities?.graphics.webgpu) features?.push('webgpu');
-    if (capabilities?.audio.webAudio) features?.push('webAudio');
-    if (capabilities?.input.touch) features?.push('touch');
-    if (capabilities?.input.gamepad) features?.push('gamepad');
-    if (capabilities?.storage.indexedDB) features?.push('indexedDB');
-    if (capabilities?.network.websocket) features?.push('websocket');
-    if (capabilities?.network.webrtc) features?.push('webrtc');
-    if (capabilities?.sensors.accelerometer) features?.push('accelerometer');
-    if (capabilities?.sensors.gyroscope) features?.push('gyroscope');
-    if (capabilities?.security.https) features?.push('https');
-    if (capabilities?.security.webAuthn) features?.push('webAuthn');
+    if (capabilities.graphics.webgl) features.push('webgl');
+    if (capabilities.graphics.webgl2) features.push('webgl2');
+    if (capabilities.graphics.webgpu) features.push('webgpu');
+    if (capabilities.audio.webAudio) features.push('webAudio');
+    if (capabilities.input.touch) features.push('touch');
+    if (capabilities.input.gamepad) features.push('gamepad');
+    if (capabilities.storage.indexedDB) features.push('indexedDB');
+    if (capabilities.network.websocket) features.push('websocket');
+    if (capabilities.network.webrtc) features.push('webrtc');
+    if (capabilities.sensors.accelerometer) features.push('accelerometer');
+    if (capabilities.sensors.gyroscope) features.push('gyroscope');
+    if (capabilities.security.https) features.push('https');
+    if (capabilities.security.webAuthn) features.push('webAuthn');
     
     return features;
   }
@@ -613,13 +613,13 @@ export class RealPlatformBridge {
   private detectLimitations(capabilities: PlatformCapabilities): string[] {
     const limitations: string[] = [];
     
-    if (!capabilities?.graphics.webgl) limitations?.push('no-webgl');
-    if (!capabilities?.graphics.webgl2) limitations?.push('no-webgl2');
-    if (!capabilities?.audio.webAudio) limitations?.push('no-web-audio');
-    if (!capabilities?.input.touch) limitations?.push('no-touch');
-    if (!capabilities?.storage.indexedDB) limitations?.push('no-indexeddb');
-    if (!capabilities?.network.websocket) limitations?.push('no-websocket');
-    if (!capabilities?.security.https) limitations?.push('no-https');
+    if (!capabilities.graphics.webgl) limitations.push('no-webgl');
+    if (!capabilities.graphics.webgl2) limitations.push('no-webgl2');
+    if (!capabilities.audio.webAudio) limitations.push('no-web-audio');
+    if (!capabilities.input.touch) limitations.push('no-touch');
+    if (!capabilities.storage.indexedDB) limitations.push('no-indexeddb');
+    if (!capabilities.network.websocket) limitations.push('no-websocket');
+    if (!capabilities.security.https) limitations.push('no-https');
     
     return limitations;
   }
@@ -629,14 +629,14 @@ export class RealPlatformBridge {
    */
   private getPlatformMetadata(): Record<string, any> {
     return {
-      userAgent: navigator?.userAgent,
-      language: navigator?.language,
-      languages: navigator?.languages,
-      timezone: Intl?.DateTimeFormat().resolvedOptions().timeZone,
-      cookieEnabled: navigator?.cookieEnabled,
-      doNotTrack: navigator?.doNotTrack,
-      vendor: navigator?.vendor,
-      product: navigator?.product
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      languages: navigator.languages,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      cookieEnabled: navigator.cookieEnabled,
+      doNotTrack: navigator.doNotTrack,
+      vendor: navigator.vendor,
+      product: navigator.product
     };
   }
 
@@ -644,10 +644,10 @@ export class RealPlatformBridge {
    * Initialize platform
    */
   private initializePlatform(): void {
-    this?.setupEventListeners();
-    this?.startPerformanceMonitoring();
-    this?.isInitialized = true;
-    this?.emit('platformInitialized', { platformInfo: this?.platformInfo, deviceInfo: this?.deviceInfo });
+    this.setupEventListeners();
+    this.startPerformanceMonitoring();
+    this.isInitialized = true;
+    this.emit('platformInitialized', { platformInfo: this.platformInfo, deviceInfo: this.deviceInfo });
   }
 
   /**
@@ -655,31 +655,31 @@ export class RealPlatformBridge {
    */
   private setupEventListeners(): void {
     // Online/offline events
-    window?.addEventListener('online', () => this?.emit('platformEvent', { type: 'online' }));
-    window?.addEventListener('offline', () => this?.emit('platformEvent', { type: 'offline' }));
+    window.addEventListener('online', () => this.emit('platformEvent', { type: 'online' }));
+    window.addEventListener('offline', () => this.emit('platformEvent', { type: 'offline' }));
 
     // Visibility change events
-    document?.addEventListener('visibilitychange', () => {
-      this?.emit('platformEvent', { 
+    document.addEventListener('visibilitychange', () => {
+      this.emit('platformEvent', { 
         type: 'visibilitychange', 
-        data: { hidden: document?.hidden } 
+        data: { hidden: document.hidden } 
       });
     });
 
     // Resize events
-    window?.addEventListener('resize', () => {
-      this?.deviceInfo.screen = this?.getScreenInfo();
-      this?.emit('platformEvent', { 
+    window.addEventListener('resize', () => {
+      this.deviceInfo.screen = this.getScreenInfo();
+      this.emit('platformEvent', { 
         type: 'resize', 
-        data: this?.deviceInfo.screen 
+        data: this.deviceInfo.screen 
       });
     });
 
     // Orientation change events
-    window?.addEventListener('orientationchange', () => {
-      this?.emit('platformEvent', { 
+    window.addEventListener('orientationchange', () => {
+      this.emit('platformEvent', { 
         type: 'orientationchange', 
-        data: { orientation: screen?.orientation?.type } 
+        data: { orientation: screen.orientation?.type } 
       });
     });
   }
@@ -688,8 +688,8 @@ export class RealPlatformBridge {
    * Start performance monitoring
    */
   private startPerformanceMonitoring(): void {
-    this?.monitoringInterval = setInterval(() => {
-      this?.updatePerformanceMetrics();
+    this.monitoringInterval = setInterval(() => {
+      this.updatePerformanceMetrics();
     }, 1000);
   }
 
@@ -697,15 +697,15 @@ export class RealPlatformBridge {
    * Update performance metrics
    */
   private updatePerformanceMetrics(): void {
-    const memory = this?.getMemoryInfo();
+    const memory = this.getMemoryInfo();
     
-    this?.performanceMetrics.memory = memory?.used;
-    this?.performanceMetrics.fps = this?.calculateFPS();
-    this?.performanceMetrics.frameTime = this?.calculateFrameTime();
-    this?.performanceMetrics.cpu = this?.calculateCPUUsage();
-    this?.performanceMetrics.networkLatency = this?.calculateNetworkLatency();
+    this.performanceMetrics.memory = memory.used;
+    this.performanceMetrics.fps = this.calculateFPS();
+    this.performanceMetrics.frameTime = this.calculateFrameTime();
+    this.performanceMetrics.cpu = this.calculateCPUUsage();
+    this.performanceMetrics.networkLatency = this.calculateNetworkLatency();
     
-    this?.emit('performanceUpdate', this?.performanceMetrics);
+    this.emit('performanceUpdate', this.performanceMetrics);
   }
 
   /**
@@ -750,7 +750,7 @@ export class RealPlatformBridge {
       memory: 0,
       cpu: 0,
       networkLatency: 0,
-      loadTime: performance?.now(),
+      loadTime: performance.now(),
       renderTime: 0,
       updateTime: 0
     };
@@ -760,36 +760,36 @@ export class RealPlatformBridge {
    * Get platform information
    */
   getPlatformInfo(): PlatformInfo {
-    return { ...this?.platformInfo };
+    return { ...this.platformInfo };
   }
 
   /**
    * Get device information
    */
   getDeviceInfo(): DeviceInfo {
-    return { ...this?.deviceInfo };
+    return { ...this.deviceInfo };
   }
 
   /**
    * Get performance metrics
    */
   getPerformanceMetrics(): PerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Check if feature is supported
    */
   isFeatureSupported(): boolean {
-    return this?.platformInfo.features?.includes(feature);
+    return this.platformInfo.features.includes(feature);
   }
 
   /**
    * Check if capability is available
    */
   isCapabilityAvailable(): boolean {
-    const parts = capability?.split('.');
-    let current: any = this?.platformInfo.capabilities;
+    const parts = capability.split('.');
+    let current: any = this.platformInfo.capabilities;
     
     for (const part of parts) {
       if (current && typeof current === 'object' && part in current) {
@@ -811,8 +811,8 @@ export class RealPlatformBridge {
     }
 
     try {
-      const result = await navigator?.permissions.query({ name: permission as PermissionName });
-      return result?.state === 'granted';
+      const result = await navigator.permissions.query({ name: permission as PermissionName });
+      return result.state === 'granted';
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('Error requesting permission:', err instanceof Error ? err.message : String(err));
@@ -824,12 +824,12 @@ export class RealPlatformBridge {
    * Get storage quota
    */
   async getStorageQuota(): Promise<{ quota: number; usage: number }> {
-    if ('storage' in navigator && 'estimate' in navigator?.storage) {
+    if ('storage' in navigator && 'estimate' in navigator.storage) {
       try {
-        const estimate = await navigator?.storage.estimate();
+        const estimate = await navigator.storage.estimate();
         return {
-          quota: estimate?.quota || 0,
-          usage: estimate?.usage || 0
+          quota: estimate.quota || 0,
+          usage: estimate.usage || 0
         };
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -844,9 +844,9 @@ export class RealPlatformBridge {
    * Request persistent storage
    */
   async requestPersistentStorage(): Promise<boolean> {
-    if ('storage' in navigator && 'persist' in navigator?.storage) {
+    if ('storage' in navigator && 'persist' in navigator.storage) {
       try {
-        return await navigator?.storage.persist();
+        return await navigator.storage.persist();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error('Error requesting persistent storage:', err instanceof Error ? err.message : String(err));
@@ -860,28 +860,28 @@ export class RealPlatformBridge {
    * Event handling
    */
   on(): void {
-    if (!this?.eventHandlers.has(event)) {
-      this?.eventHandlers.set(event, []);
+    if (!this.eventHandlers.has(event)) {
+      this.eventHandlers.set(event, []);
     }
-    this?.eventHandlers.get(event)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers?.indexOf(handler);
+      const index = handlers.indexOf(handler);
       if (index > -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers?.forEach((handler: any) => {
+      handlers.forEach((handler: any) => {
         try {
-          handler(data: any);
+          handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -895,10 +895,10 @@ export class RealPlatformBridge {
    */
   getStatus(): { initialized: boolean; platform: string; device: string; features: number } {
     return {
-      initialized: this?.isInitialized,
-      platform: this?.platformInfo.name,
-      device: this?.deviceInfo.type,
-      features: this?.platformInfo.features?.length
+      initialized: this.isInitialized,
+      platform: this.platformInfo.name,
+      device: this.deviceInfo.type,
+      features: this.platformInfo.features.length
     };
   }
 
@@ -906,24 +906,24 @@ export class RealPlatformBridge {
    * Cleanup resources
    */
   cleanup(): void {
-    if (this?.monitoringInterval) {
-      clearInterval(this?.monitoringInterval);
-      this?.monitoringInterval = undefined;
+    if (this.monitoringInterval) {
+      clearInterval(this.monitoringInterval);
+      this.monitoringInterval = undefined;
     }
     
-    this?.eventHandlers.clear();
-    this?.isInitialized = false;
+    this.eventHandlers.clear();
+    this.isInitialized = false;
   }
 
   /**
    * Reset platform bridge
    */
   reset(): void {
-    this?.cleanup();
-    this?.platformInfo = this?.detectPlatform();
-    this?.deviceInfo = this?.detectDevice();
-    this?.performanceMetrics = this?.initializePerformanceMetrics();
-    this?.initializePlatform();
+    this.cleanup();
+    this.platformInfo = this.detectPlatform();
+    this.deviceInfo = this.detectDevice();
+    this.performanceMetrics = this.initializePerformanceMetrics();
+    this.initializePlatform();
   }
 }
 

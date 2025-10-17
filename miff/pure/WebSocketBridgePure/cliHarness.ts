@@ -7,15 +7,15 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { WebSocketBridgePure, WebSocketConfig, ConnectionStatus } from './index';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 
 const config: WebSocketConfig = {
-  port: params?.port || 8080,
-  host: params?.host || 'localhost',
-  protocol: params?.protocol || 'ws',
-  enableSync: params?.enableSync !== false,
-  maxConnections: params?.maxConnections || 100,
-  pingInterval: params?.pingInterval || 30000
+  port: params.port || 8080,
+  host: params.host || 'localhost',
+  protocol: params.protocol || 'ws',
+  enableSync: params.enableSync !== false,
+  maxConnections: params.maxConnections || 100,
+  pingInterval: params.pingInterval || 30000
 };
 
 const bridge = new WebSocketBridgePure(config);
@@ -32,7 +32,7 @@ try {
         enableSync: enableSync !== false,
         status: 'initialized',
         url: `${protocol || 'ws'}://localhost:${port || 8080}`,
-        maxConnections: config?.maxConnections,
+        maxConnections: config.maxConnections,
         activeConnections: 0
       };
       
@@ -48,7 +48,7 @@ try {
       // Start server (mock)
       const serverStatus = {
         running: true,
-        port: config?.port,
+        port: config.port,
         connections: [],
         uptime: 0,
         messagesProcessed: 0
@@ -96,12 +96,12 @@ try {
     }
 
     case 'listConnections': {
-      const connections = bridge?.getActiveConnections();
+      const connections = bridge.getActiveConnections();
       
       handleSuccess({
         connections,
-        count: connections?.length,
-        maxConnections: config?.maxConnections
+        count: connections.length,
+        maxConnections: config.maxConnections
       }, 'listConnections');
       break;
     }

@@ -19,15 +19,15 @@ class SessionManifest {
   private sessions: Map<string, Session> = new Map();
   
   createSession(session: Session) {
-    this?.sessions.set(session?.id, session);
+    this.sessions.set(session.id, session);
   }
   
   getSession(id: string) {
-    return this?.sessions.get(id);
+    return this.sessions.get(id);
   }
   
   updateSession(id: string, updates: Partial<Session>) {
-    const session = this?.sessions.get(id);
+    const session = this.sessions.get(id);
     if (session) {
       Object.assign(session, updates);
     }
@@ -38,11 +38,11 @@ class SessionManifest {
   }
   
   export() {
-    return { sessions: this?.getAllSessions() };
+    return { sessions: this.getAllSessions() };
   }
 }
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 const manifest = new SessionManifest();
 
 try {
@@ -67,7 +67,7 @@ try {
         }
       };
       
-      manifest?.createSession(session);
+      manifest.createSession(session);
       
       handleSuccess({
         session,
@@ -79,14 +79,14 @@ try {
 
     case 'getSession': {
       const { sessionId } = params;
-      const session = manifest?.getSession(sessionId || 'session_001');
+      const session = manifest.getSession(sessionId || 'session_001');
       handleSuccess({ session }, 'getSession');
       break;
     }
 
     case 'updateSession': {
       const { sessionId, status } = params;
-      manifest?.updateSession(sessionId || 'session_001', { status: status || 'completed' });
+      manifest.updateSession(sessionId || 'session_001', { status: status || 'completed' });
       handleSuccess({
         sessionId,
         status: status || 'completed',
@@ -96,13 +96,13 @@ try {
     }
 
     case 'listSessions': {
-      const sessions = manifest?.getAllSessions();
-      handleSuccess({ sessions, count: sessions?.length }, 'listSessions');
+      const sessions = manifest.getAllSessions();
+      handleSuccess({ sessions, count: sessions.length }, 'listSessions');
       break;
     }
 
     case 'exportManifest': {
-      const data = manifest?.export();
+      const data = manifest.export();
       handleSuccess({ manifest: data, exported: true }, 'exportManifest');
       break;
     }

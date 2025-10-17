@@ -207,10 +207,10 @@ export class BattleAIManager {
 
   constructor(config: BattleAIManagerConfig) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.eventBus = config?.eventBus;
-    this?.config = config?.config;
-    this?.integrations = config?.integrations;
-    this?.performance = {
+    this.eventBus = config.eventBus;
+    this.config = config.config;
+    this.integrations = config.integrations;
+    this.performance = {
       totalDecisions: 0,
       successfulDecisions: 0,
       averageConfidence: 0,
@@ -221,7 +221,7 @@ export class BattleAIManager {
       lastUpdated: new Date()
     };
 
-    this?.initialize({});
+    this.initialize();
   }
 
   /**
@@ -229,10 +229,10 @@ export class BattleAIManager {
    */
   private initialize(): void {
     // Load default strategies
-    this?.loadDefaultStrategies();
+    this.loadDefaultStrategies();
     
     // Set initial strategy
-    this?.setStrategy(this?.config.defaultStrategy);
+    this.setStrategy(this.config.defaultStrategy);
   }
 
   /**
@@ -240,11 +240,11 @@ export class BattleAIManager {
    */
   private loadDefaultStrategies(): void {
     // Aggressive Strategy
-    this?.addStrategy({
+    this.addStrategy({
       id: 'aggressive_default',
       name: 'Aggressive Default',
-      type: AIStrategyType?.AGGRESSIVE,
-      difficulty: AIDifficulty?.NORMAL,
+      type: AIStrategyType.AGGRESSIVE,
+      difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [
         {
@@ -259,7 +259,7 @@ export class BattleAIManager {
       actions: [
         {
           id: 'attack_primary',
-          type: AIActionType?.ATTACK,
+          type: AIActionType.ATTACK,
           priority: 1,
           confidence: 0.8,
           damage: 100,
@@ -275,11 +275,11 @@ export class BattleAIManager {
     });
 
     // Defensive Strategy
-    this?.addStrategy({
+    this.addStrategy({
       id: 'defensive_default',
       name: 'Defensive Default',
-      type: AIStrategyType?.DEFENSIVE,
-      difficulty: AIDifficulty?.NORMAL,
+      type: AIStrategyType.DEFENSIVE,
+      difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [
         {
@@ -294,7 +294,7 @@ export class BattleAIManager {
       actions: [
         {
           id: 'defend',
-          type: AIActionType?.DEFEND,
+          type: AIActionType.DEFEND,
           priority: 1,
           confidence: 0.9,
           cooldown: 0,
@@ -309,17 +309,17 @@ export class BattleAIManager {
     });
 
     // Balanced Strategy
-    this?.addStrategy({
+    this.addStrategy({
       id: 'balanced_default',
       name: 'Balanced Default',
-      type: AIStrategyType?.BALANCED,
-      difficulty: AIDifficulty?.NORMAL,
+      type: AIStrategyType.BALANCED,
+      difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [],
       actions: [
         {
           id: 'balanced_attack',
-          type: AIActionType?.ATTACK,
+          type: AIActionType.ATTACK,
           priority: 1,
           confidence: 0.7,
           damage: 75,
@@ -339,29 +339,29 @@ export class BattleAIManager {
    * Make AI decision
    */
   async makeDecision(context: AIContext, aiState: AIState): Promise<AIDecision> {
-    const startTime = new Date();
+    const startTime = Date.now();
     
     try {
       // Get available strategies
-      const availableStrategies = this?.getAvailableStrategies(context, aiState);
+      const availableStrategies = this.getAvailableStrategies(context, aiState);
       
       // Select best strategy
-      const strategy = this?.selectStrategy(availableStrategies, context, aiState);
+      const strategy = this.selectStrategy(availableStrategies, context, aiState);
       
       // Generate actions from strategy
-      const actions = this?.generateActions(strategy, context, aiState);
+      const actions = this.generateActions(strategy, context, aiState);
       
       // Select best action
-      const action = this?.selectAction(actions, context, aiState);
+      const action = this.selectAction(actions, context, aiState);
       
       // Create decision
       const decision: AIDecision = {
-        id: this?.generateId(),
+        id: this.generateId(),
         action,
-        reasoning: this?.generateReasoning(strategy, action, context, aiState),
-        confidence: action?.confidence,
-        alternatives: actions?.filter((a: any) => a?.id !== action?.id),
-        expectedOutcome: this?.calculateExpectedOutcome(action, context, aiState),
+        reasoning: this.generateReasoning(strategy, action, context, aiState),
+        confidence: action.confidence,
+        alternatives: actions.filter((a: any) => a.id !== action.id),
+        expectedOutcome: this.calculateExpectedOutcome(action, context, aiState),
         timestamp: new Date()
       };
 
@@ -369,21 +369,21 @@ export class BattleAIManager {
       this.updatePerformance(decision, Date.now() - startTime);
       
       // Store decision
-      this?.decisionHistory?.push(decision);
+      this.decisionHistory.push(decision);
       
       // Notify integrations
-      this?.integrations.forEach((integration: any) => {
-        integration?.callbacks.onDecisionMade?.(decision);
+      this.integrations.forEach((integration: any) => {
+        integration.callbacks.onDecisionMade?.(decision);
       });
 
-      this?.eventBus.publish('ai:decisionMade', decision);
+      this.eventBus.publish('ai:decisionMade', decision);
       return decision;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       // Fallback to random action
-      const fallbackAction = this?.getFallbackAction(context, aiState);
+      const fallbackAction = this.getFallbackAction(context, aiState);
       const decision: AIDecision = {
-        id: this?.generateId(),
+        id: this.generateId(),
         action: fallbackAction,
         reasoning: 'Fallback due to error',
         confidence: 0.1,
@@ -392,7 +392,7 @@ export class BattleAIManager {
         timestamp: new Date()
       };
       
-      this?.eventBus.publish('ai:error', { error, context, aiState });
+      this.eventBus.publish('ai:error', { error, context, aiState });
       return decision;
     }
   }
@@ -402,23 +402,23 @@ export class BattleAIManager {
    */
   private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategyConfig[] {
     return Array.from(this.strategies.values())
-      .filter((strategy: any) => strategy?.isActive)
-      .filter((strategy: any) => this?.evaluateConditions(strategy?.conditions, context, aiState))
-      .sort((a: any, b: any) => b?.priority - a?.priority);
+      .filter((strategy: any) => strategy.isActive)
+      .filter((strategy: any) => this.evaluateConditions(strategy.conditions, context, aiState))
+      .sort((a: any, b: any) => b.priority - a.priority);
   }
 
   /**
    * Select strategy
    */
   private selectStrategy(strategies: AIStrategyConfig[], context: AIContext, aiState: AIState): AIStrategyConfig {
-    if (strategies?.length === 0) {
-      return this?.getDefaultStrategy();
+    if (strategies.length === 0) {
+      return this.getDefaultStrategy();
     }
 
     // Use strategy with highest success rate and priority
-    return strategies?.reduce((best, current) => {
-      const bestScore = best?.successRate * best?.priority;
-      const currentScore = current?.successRate * current?.priority;
+    return strategies.reduce((best, current) => {
+      const bestScore = best.successRate * best.priority;
+      const currentScore = current.successRate * current.priority;
       return currentScore > bestScore ? current : best;
     });
   }
@@ -427,27 +427,27 @@ export class BattleAIManager {
    * Generate actions from strategy
    */
   private generateActions(strategy: AIStrategyConfig, context: AIContext, aiState: AIState): AIAction[] {
-    return strategy?.actions
-      .filter((action: any) => this?.canExecuteAction(action, context, aiState))
+    return strategy.actions
+      .filter((action: any) => this.canExecuteAction(action, context, aiState))
       .map((action: any) => ({
         ...action,
-        confidence: this?.calculateActionConfidence(action, context, aiState)
+        confidence: this.calculateActionConfidence(action, context, aiState)
       }))
-      .sort((a: any, b: any) => b?.priority - a?.priority);
+      .sort((a: any, b: any) => b.priority - a.priority);
   }
 
   /**
    * Select best action
    */
   private selectAction(actions: AIAction[], context: AIContext, aiState: AIState): AIAction {
-    if (actions?.length === 0) {
-      return this?.getFallbackAction(context, aiState);
+    if (actions.length === 0) {
+      return this.getFallbackAction(context, aiState);
     }
 
     // Select action with highest confidence and priority
-    return actions?.reduce((best, current) => {
-      const bestScore = best?.confidence * best?.priority;
-      const currentScore = current?.confidence * current?.priority;
+    return actions.reduce((best, current) => {
+      const bestScore = best.confidence * best.priority;
+      const currentScore = current.confidence * current.priority;
       return currentScore > bestScore ? current : best;
     });
   }
@@ -456,7 +456,7 @@ export class BattleAIManager {
    * Evaluate conditions
    */
   private evaluateConditions(conditions: AICondition[], context: AIContext, aiState: AIState): boolean {
-    return conditions?.every(condition => this?.evaluateCondition(condition, context, aiState));
+    return conditions.every(condition => this.evaluateCondition(condition, context, aiState));
   }
 
   /**
@@ -465,27 +465,27 @@ export class BattleAIManager {
   private evaluateCondition(condition: AICondition, context: AIContext, aiState: AIState): boolean {
     let value: any;
     
-    switch (condition?.target) {
+    switch (condition.target) {
       case 'self':
-        value = this?.getConditionValue(condition?.type, aiState);
+        value = this.getConditionValue(condition.type, aiState);
         break;
       case 'enemy':
-        value = this?.getConditionValue(condition?.type, context?.enemies[0!]);
+        value = this.getConditionValue(condition.type, context.enemies[0!]);
         break;
       case 'ally':
-        value = this?.getConditionValue(condition?.type, context?.allies[0!]);
+        value = this.getConditionValue(condition.type, context.allies[0!]);
         break;
       case 'all_enemies':
-        value = context?.enemies.length;
+        value = context.enemies.length;
         break;
       case 'all_allies':
-        value = context?.allies.length;
+        value = context.allies.length;
         break;
       default:
         return true;
     }
 
-    return this?.compareValues(value, condition?.operator, condition?.value);
+    return this.compareValues(value, condition.operator, condition.value);
   }
 
   /**
@@ -494,9 +494,9 @@ export class BattleAIManager {
   private getConditionValue(type: string, state: AIState): any {
     switch (type) {
       case 'health':
-        return state?.health / state?.maxHealth;
+        return state.health / state.maxHealth;
       case 'mana':
-        return state?.mana / state?.maxMana;
+        return state.mana / state.maxMana;
       case 'turn_number':
         return 0; // Would need to be passed from context
       default:
@@ -530,23 +530,23 @@ export class BattleAIManager {
    * Check if action can be executed
    */
   private canExecuteAction(action: AIAction, context: AIContext, aiState: AIState): boolean {
-    return aiState?.mana >= action?.manaCost && aiState?.isAlive;
+    return aiState.mana >= action.manaCost && aiState.isAlive;
   }
 
   /**
    * Calculate action confidence
    */
   private calculateActionConfidence(action: AIAction, context: AIContext, aiState: AIState): number {
-    let confidence = action?.confidence;
+    let confidence = action.confidence;
     
     // Adjust based on health
-    const healthRatio = aiState?.health / aiState?.maxHealth;
+    const healthRatio = aiState.health / aiState.maxHealth;
     if (healthRatio < 0.3) {
       confidence *= 0.8; // Lower confidence when low health
     }
     
     // Adjust based on enemy count
-    const enemyCount = context?.enemies.length;
+    const enemyCount = context.enemies.length;
     if (enemyCount > 2) {
       confidence *= 0.9; // Lower confidence against multiple enemies
     }
@@ -558,7 +558,7 @@ export class BattleAIManager {
    * Generate reasoning
    */
   private generateReasoning(strategy: AIStrategyConfig, action: AIAction, context: AIContext, aiState: AIState): string {
-    return `Using ${strategy?.name} strategy: ${action?.description} (confidence: ${(action?.confidence * 100).toFixed(1)}%)`;
+    return `Using ${strategy.name} strategy: ${action.description} (confidence: ${(action.confidence * 100).toFixed(1)}%)`;
   }
 
   /**
@@ -566,10 +566,10 @@ export class BattleAIManager {
    */
   private calculateExpectedOutcome(action: AIAction, context: AIContext, aiState: AIState): any {
     return {
-      damage: action?.damage || 0,
-      healing: action?.healing || 0,
-      effects: action?.effects || [],
-      probability: action?.confidence
+      damage: action.damage || 0,
+      healing: action.healing || 0,
+      effects: action.effects || [],
+      probability: action.confidence
     };
   }
 
@@ -579,7 +579,7 @@ export class BattleAIManager {
   private getFallbackAction(context: AIContext, aiState: AIState): AIAction {
     return {
       id: 'fallback_wait',
-      type: AIActionType?.WAIT,
+      type: AIActionType.WAIT,
       priority: 0,
       confidence: 0.1,
       cooldown: 0,
@@ -593,7 +593,7 @@ export class BattleAIManager {
    */
   private getDefaultStrategy(): AIStrategyConfig {
     return Array.from(this.strategies.values())
-      .find(s => s?.type === this?.config.defaultStrategy) || 
+      .find(s => s.type === this.config.defaultStrategy) || 
       Array.from(this.strategies.values())[0!];
   }
 
@@ -601,31 +601,31 @@ export class BattleAIManager {
    * Update performance metrics
    */
   private updatePerformance(decision: AIDecision, responseTime: number): void {
-    this?.performance.totalDecisions++;
-    this?.performance.averageConfidence = 
-      (this?.performance.averageConfidence * (this?.performance.totalDecisions - 1) + decision?.confidence) / 
-      this?.performance.totalDecisions;
-    this?.performance.averageResponseTime = 
-      (this?.performance.averageResponseTime * (this?.performance.totalDecisions - 1) + responseTime) / 
-      this?.performance.totalDecisions;
-    this.performance.lastUpdated = new Date();
+    this.performance.totalDecisions++;
+    this.performance.averageConfidence = 
+      (this.performance.averageConfidence * (this.performance.totalDecisions - 1) + decision.confidence) / 
+      this.performance.totalDecisions;
+    this.performance.averageResponseTime = 
+      (this.performance.averageResponseTime * (this.performance.totalDecisions - 1) + responseTime) / 
+      this.performance.totalDecisions;
+    this.performance.lastUpdated = Date.now();
   }
 
   /**
    * Add strategy
    */
   addStrategy(strategy: AIStrategyConfig): void {
-    this?.strategies.set(strategy?.id, strategy);
-    this?.eventBus.publish('ai:strategyAdded', strategy);
+    this.strategies.set(strategy.id, strategy);
+    this.eventBus.publish('ai:strategyAdded', strategy);
   }
 
   /**
    * Remove strategy
    */
   removeStrategy(strategyId: string): boolean {
-    const removed = this?.strategies.delete(strategyId);
+    const removed = this.strategies.delete(strategyId);
     if (removed) {
-      this?.eventBus.publish('ai:strategyRemoved', strategyId);
+      this.eventBus.publish('ai:strategyRemoved', strategyId);
     }
     return removed;
   }
@@ -635,18 +635,18 @@ export class BattleAIManager {
    */
   setStrategy(strategyType: AIStrategyType): boolean {
     const strategy = Array.from(this.strategies.values())
-      .find(s => s?.type === strategyType);
+      .find(s => s.type === strategyType);
     
     if (strategy) {
-      const oldStrategy = this?.currentStrategy;
-      this?.currentStrategy = strategy;
+      const oldStrategy = this.currentStrategy;
+      this.currentStrategy = strategy;
       
       // Notify integrations
-      this?.integrations.forEach((integration: any) => {
-        integration?.callbacks.onStrategyChanged?.(oldStrategy!, strategy);
+      this.integrations.forEach((integration: any) => {
+        integration.callbacks.onStrategyChanged?.(oldStrategy!, strategy);
       });
       
-      this?.eventBus.publish('ai:strategyChanged', { oldStrategy, newStrategy: strategy });
+      this.eventBus.publish('ai:strategyChanged', { oldStrategy, newStrategy: strategy });
       return true;
     }
     return false;
@@ -656,7 +656,7 @@ export class BattleAIManager {
    * Get current strategy
    */
   getCurrentStrategy(): AIStrategyConfig | null {
-    return this?.currentStrategy || null;
+    return this.currentStrategy || null;
   }
 
   /**
@@ -670,31 +670,31 @@ export class BattleAIManager {
    * Get performance metrics
    */
   getPerformance(): AIPerformance {
-    return { ...this?.performance };
+    return { ...this.performance };
   }
 
   /**
    * Get decision history
    */
   getDecisionHistory(limit?: number): AIDecision[] {
-    const history = [...this?.decisionHistory];
-    return limit ? history?.slice(-limit) : history;
+    const history = [...this.decisionHistory];
+    return limit ? history.slice(-limit) : history;
   }
 
   /**
    * Update strategy success rate
    */
   updateStrategySuccess(strategyId: string, success: boolean): void {
-    const strategy = this?.strategies.get(strategyId);
+    const strategy = this.strategies.get(strategyId);
     if (strategy) {
-      strategy?.usageCount++;
-      strategy.lastUsed = new Date();
+      strategy.usageCount++;
+      strategy.lastUsed = Date.now();
       
       // Update success rate using exponential moving average
-      const alpha = this?.config.learningRate;
-      strategy?.successRate = alpha * (success ? 1 : 0) + (1 - alpha) * strategy?.successRate;
+      const alpha = this.config.learningRate;
+      strategy.successRate = alpha * (success ? 1 : 0) + (1 - alpha) * strategy.successRate;
       
-      this?.eventBus.publish('ai:strategyUpdated', strategy);
+      this.eventBus.publish('ai:strategyUpdated', strategy);
     }
   }
 
@@ -702,7 +702,7 @@ export class BattleAIManager {
    * Clear decision history
    */
   clearHistory(): void {
-    this?.decisionHistory = [];
+    this.decisionHistory = [];
   }
 
   /**
@@ -711,10 +711,10 @@ export class BattleAIManager {
   exportState(): any {
     return {
       strategies: Array.from(this.strategies.values()),
-      performance: this?.performance,
-      decisionHistory: this?.decisionHistory,
-      currentStrategy: this?.currentStrategy,
-      config: this?.config
+      performance: this.performance,
+      decisionHistory: this.decisionHistory,
+      currentStrategy: this.currentStrategy,
+      config: this.config
     };
   }
 
@@ -722,20 +722,20 @@ export class BattleAIManager {
    * Import AI state
    */
   importState(state): void {
-    if (state?.strategies) {
-      this?.strategies = new Map(state?.strategies.map((s: AIStrategyConfig) => [s?.id, s]));
+    if (state.strategies) {
+      this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [s.id, s]));
     }
-    if (state?.performance) {
-      this?.performance = state?.performance;
+    if (state.performance) {
+      this.performance = state.performance;
     }
-    if (state?.decisionHistory) {
-      this?.decisionHistory = state?.decisionHistory;
+    if (state.decisionHistory) {
+      this.decisionHistory = state.decisionHistory;
     }
-    if (state?.currentStrategy) {
-      this?.currentStrategy = state?.currentStrategy;
+    if (state.currentStrategy) {
+      this.currentStrategy = state.currentStrategy;
     }
-    if (state?.config) {
-      this?.config = state?.config;
+    if (state.config) {
+      this.config = state.config;
     }
   }
 
@@ -750,9 +750,9 @@ export class BattleAIManager {
    * Cleanup resources
    */
   destroy(): void {
-    this?.strategies.clear();
-    this?.decisionHistory = [];
-    this?.currentStrategy = undefined;
+    this.strategies.clear();
+    this.decisionHistory = [];
+    this.currentStrategy = undefined;
   }
 }
 
@@ -762,8 +762,8 @@ export class BattleAIManager {
 export const defaultBattleAIManager = new BattleAIManager({
   eventBus: createEventBus(),
   config: {
-    defaultDifficulty: AIDifficulty?.NORMAL,
-    defaultStrategy: AIStrategyType?.BALANCED,
+    defaultDifficulty: AIDifficulty.NORMAL,
+    defaultStrategy: AIStrategyType.BALANCED,
     enableLearning: true,
     enableAdaptiveDifficulty: true,
     maxDecisionTime: 1000,

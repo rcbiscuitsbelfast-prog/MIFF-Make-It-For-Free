@@ -188,29 +188,29 @@ export class CAPAManager {
   private eventBus: any;
 
   constructor(eventBus: any) {
-    this?.registry = {
+    this.registry = {
       entries: new Map(),
-      metrics: this?.initializeMetrics(),
-      policies: this?.initializePolicies()
+      metrics: this.initializeMetrics(),
+      policies: this.initializePolicies()
     };
-    this?.eventBus = eventBus;
+    this.eventBus = eventBus;
   }
 
   /**
    * Create a new CAPA entry
    */
   createEntry(): CAPAEntry {
-    const id = this?.generateId();
+    const id = this.generateId();
     const capaEntry: CAPAEntry = {
       ...entry,
       id,
       discoveredAt: new Date(),
-      status: CAPAStatus?.OPEN
+      status: CAPAStatus.OPEN
     };
 
-    this?.registry.entries?.set(id, capaEntry);
-    this?.updateMetrics();
-    this?.eventBus.emit('capa:created', capaEntry);
+    this.registry.entries.set(id, capaEntry);
+    this.updateMetrics();
+    this.eventBus.emit('capa:created', capaEntry);
 
     return capaEntry;
   }
@@ -219,18 +219,18 @@ export class CAPAManager {
    * Update CAPA entry status
    */
   updateStatus(): boolean {
-    const entry = this?.registry.entries?.get(id);
+    const entry = this.registry.entries.get(id);
     if (!entry) return false;
 
-    entry?.status = status;
-    if (status === CAPAStatus?.RESOLVED || status === CAPAStatus?.CLOSED) {
-      entry?.resolvedAt = new Date();
-      entry?.resolution = resolution;
+    entry.status = status;
+    if (status === CAPAStatus.RESOLVED || status === CAPAStatus.CLOSED) {
+      entry.resolvedAt = new Date();
+      entry.resolution = resolution;
     }
 
-    this?.registry.entries?.set(id, entry);
-    this?.updateMetrics();
-    this?.eventBus.emit('capa:updated', entry);
+    this.registry.entries.set(id, entry);
+    this.updateMetrics();
+    this.eventBus.emit('capa:updated', entry);
 
     return true;
   }
@@ -239,23 +239,23 @@ export class CAPAManager {
    * Add corrective or preventive action
    */
   addAction(): boolean {
-    const entry = this?.registry.entries?.get(capaId);
+    const entry = this.registry.entries.get(capaId);
     if (!entry) return false;
 
-    const actionId = this?.generateId();
+    const actionId = this.generateId();
     const newAction: CAPAAction = {
       ...action,
       id: actionId
     };
 
-    if (action?.type === 'corrective') {
-      entry?.correctiveActions?.push(newAction);
+    if (action.type === 'corrective') {
+      entry.correctiveActions.push(newAction);
     } else {
-      entry?.preventiveActions?.push(newAction);
+      entry.preventiveActions.push(newAction);
     }
 
-    this?.registry.entries?.set(capaId, entry);
-    this?.eventBus.emit('capa:action_added', { capaId, action: newAction });
+    this.registry.entries.set(capaId, entry);
+    this.eventBus.emit('capa:action_added', { capaId, action: newAction });
 
     return true;
   }
@@ -273,12 +273,12 @@ export class CAPAManager {
     let entries = Array.from(this.registry.entries.values());
 
     if (filter) {
-      entries = entries?.filter((entry: any) => {
-        if (filter?.category && entry?.category !== filter?.category) return false;
-        if (filter?.severity && entry?.severity !== filter?.severity) return false;
-        if (filter?.status && entry?.status !== filter?.status) return false;
-        if (filter?.module && !entry?.relatedModules.includes(filter?.module)) return false;
-        if (filter?.assignedTo && entry?.assignedTo !== filter?.assignedTo) return false;
+      entries = entries.filter((entry: any) => {
+        if (filter.category && entry.category !== filter.category) return false;
+        if (filter.severity && entry.severity !== filter.severity) return false;
+        if (filter.status && entry.status !== filter.status) return false;
+        if (filter.module && !entry.relatedModules.includes(filter.module)) return false;
+        if (filter.assignedTo && entry.assignedTo !== filter.assignedTo) return false;
         return true;
       });
     }
@@ -290,7 +290,7 @@ export class CAPAManager {
    * Get CAPA metrics
    */
   getMetrics(): CAPAMetrics {
-    return { ...this?.registry.metrics };
+    return { ...this.registry.metrics };
   }
 
   /**
@@ -298,16 +298,16 @@ export class CAPAManager {
    */
   shouldBlockPR(module: string, changes: string[]): { blocked: boolean; reasons: string[] } {
     const reasons: string[] = [];
-    const openEntries = this?.getEntries({ status: CAPAStatus?.OPEN, module });
+    const openEntries = this.getEntries({ status: CAPAStatus.OPEN, module });
 
     for (const entry of openEntries) {
-      if (entry?.ciBlocking && entry?.severity === CAPASeverity?.CRITICAL) {
-        reasons?.push(`Critical CAPA ${entry?.id}: ${entry?.title}`);
+      if (entry.ciBlocking && entry.severity === CAPASeverity.CRITICAL) {
+        reasons.push(`Critical CAPA ${entry.id}: ${entry.title}`);
       }
     }
 
     return {
-      blocked: reasons?.length > 0,
+      blocked: reasons.length > 0,
       reasons
     };
   }
@@ -316,22 +316,22 @@ export class CAPAManager {
    * Generate CAPA impact statement for PR
    */
   generateImpactStatement(): string {
-    const relatedEntries = this?.getEntries({ module });
-    const openEntries = relatedEntries?.filter((e: any) => e?.status === CAPAStatus?.OPEN);
+    const relatedEntries = this.getEntries({ module });
+    const openEntries = relatedEntries.filter((e: any) => e.status === CAPAStatus.OPEN);
 
-    if (openEntries?.length === 0) {
+    if (openEntries.length === 0) {
       return 'No open CAPA entries for this module.';
     }
 
     let statement = `## CAPA Impact Statement\n\n`;
     statement += `**Module:** ${module}\n`;
-    statement += `**Open CAPA Entries:** ${openEntries?.length}\n\n`;
+    statement += `**Open CAPA Entries:** ${openEntries.length}\n\n`;
 
     for (const entry of openEntries) {
-      statement += `### ${entry?.id}: ${entry?.title}\n`;
-      statement += `- **Severity:** ${entry?.severity}\n`;
-      statement += `- **Status:** ${entry?.status}\n`;
-      statement += `- **Impact:** ${entry?.impact.businessImpact}\n\n`;
+      statement += `### ${entry.id}: ${entry.title}\n`;
+      statement += `- **Severity:** ${entry.severity}\n`;
+      statement += `- **Status:** ${entry.status}\n`;
+      statement += `- **Impact:** ${entry.impact.businessImpact}\n\n`;
     }
 
     return statement;
@@ -380,33 +380,33 @@ export class CAPAManager {
   private updateMetrics(): void {
     const entries = Array.from(this.registry.entries.values());
     
-    this?.registry.metrics?.totalEntries = entries?.length;
-    this?.registry.metrics?.openEntries = entries?.filter((e: any) => e?.status === CAPAStatus?.OPEN).length;
-    this?.registry.metrics?.resolvedEntries = entries?.filter((e: any) => e?.status === CAPAStatus?.RESOLVED).length;
+    this.registry.metrics.totalEntries = entries.length;
+    this.registry.metrics.openEntries = entries.filter((e: any) => e.status === CAPAStatus.OPEN).length;
+    this.registry.metrics.resolvedEntries = entries.filter((e: any) => e.status === CAPAStatus.RESOLVED).length;
     
-    const criticalOpen = entries?.filter((e: any) => e?.severity === CAPASeverity?.CRITICAL && e?.status === CAPAStatus?.OPEN).length;
-    const highOpen = entries?.filter((e: any) => e?.severity === CAPASeverity?.HIGH && e?.status === CAPAStatus?.OPEN).length;
-    const mediumOpen = entries?.filter((e: any) => e?.severity === CAPASeverity?.MEDIUM && e?.status === CAPAStatus?.OPEN).length;
-    const lowOpen = entries?.filter((e: any) => e?.severity === CAPASeverity?.LOW && e?.status === CAPAStatus?.OPEN).length;
+    const criticalOpen = entries.filter((e: any) => e.severity === CAPASeverity.CRITICAL && e.status === CAPAStatus.OPEN).length;
+    const highOpen = entries.filter((e: any) => e.severity === CAPASeverity.HIGH && e.status === CAPAStatus.OPEN).length;
+    const mediumOpen = entries.filter((e: any) => e.severity === CAPASeverity.MEDIUM && e.status === CAPAStatus.OPEN).length;
+    const lowOpen = entries.filter((e: any) => e.severity === CAPASeverity.LOW && e.status === CAPAStatus.OPEN).length;
     
-    this?.registry.metrics?.criticalOpen = criticalOpen;
-    this?.registry.metrics?.highOpen = highOpen;
-    this?.registry.metrics?.mediumOpen = mediumOpen;
-    this?.registry.metrics?.lowOpen = lowOpen;
+    this.registry.metrics.criticalOpen = criticalOpen;
+    this.registry.metrics.highOpen = highOpen;
+    this.registry.metrics.mediumOpen = mediumOpen;
+    this.registry.metrics.lowOpen = lowOpen;
 
     // Calculate average resolution time
-    const resolvedEntries = entries?.filter((e: any) => e?.resolvedAt);
-    if (resolvedEntries?.length > 0) {
-      const totalTime = resolvedEntries?.reduce((sum, entry) => {
-        const resolutionTime = entry?.resolvedAt?.getTime() - entry?.discoveredAt.getTime();
+    const resolvedEntries = entries.filter((e: any) => e.resolvedAt);
+    if (resolvedEntries.length > 0) {
+      const totalTime = resolvedEntries.reduce((sum, entry) => {
+        const resolutionTime = entry.resolvedAt?.getTime() - entry.discoveredAt.getTime();
         return sum + (resolutionTime / (1000 * 60 * 60 * 24)); // Convert to days
       }, 0);
-      this?.registry.metrics?.averageResolutionTime = totalTime / resolvedEntries?.length;
+      this.registry.metrics.averageResolutionTime = totalTime / resolvedEntries.length;
     }
 
     // Calculate prevention coverage
-    const entriesWithPrevention = entries?.filter((e: any) => e?.preventiveActions.length > 0);
-    this?.registry.metrics?.preventionCoverage = entries?.length > 0 ? (entriesWithPrevention?.length / entries?.length) * 100 : 0;
+    const entriesWithPrevention = entries.filter((e: any) => e.preventiveActions.length > 0);
+    this.registry.metrics.preventionCoverage = entries.length > 0 ? (entriesWithPrevention.length / entries.length) * 100 : 0;
   }
 }
 

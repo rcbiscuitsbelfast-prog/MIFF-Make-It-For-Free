@@ -250,12 +250,12 @@ export class ARVRManager {
   constructor(config?: Partial<ARVRConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this?.memoryManager = new MemoryManager({});
-    this?.errorHandler = new StandardErrorHandler({});
-    this.startTime = new Date();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
+    this.startTime = Date.now();
 
-    this?.config = {
+    this.config = {
       enableDeviceManagement: true,
       enableSpatialTracking: true,
       enableHandTracking: true,
@@ -277,7 +277,7 @@ export class ARVRManager {
    * Initialize the AR/VR Manager
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
+    if (this.isInitialized) {
       console.warn('ARVRPure', 'AR/VR Manager already initialized');
       return;
     }
@@ -286,21 +286,21 @@ export class ARVRManager {
       console.info('ARVRPure', 'Initializing AR/VR Manager...');
 
       // Initialize performance optimizer
-      if (this?.config.enablePerformanceOptimization ?? false) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this?.config.enableMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
-      this?.isInitialized = true;
+      this.isInitialized = true;
       console.info('ARVRPure', 'AR/VR Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -309,14 +309,14 @@ export class ARVRManager {
    * Create a new AR/VR device
    */
   async createDevice(deviceData: Omit<ARVRDevice, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<ARVRDevice> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
       const device: ARVRDevice = {
         ...deviceData,
-        id: this?.generateDeviceId(),
+        id: this.generateDeviceId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -330,15 +330,15 @@ export class ARVRManager {
         }
       };
 
-      this?.devices.set(device?.id, device);
-      this?.updateAnalytics();
+      this.devices.set(device.id, device);
+      this.updateAnalytics();
 
       console.info('AR/VR device created', { device.id: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -346,24 +346,24 @@ export class ARVRManager {
   /**
    * Get an AR/VR device by ID
    */
-  getDevice(device?.id: string): ARVRDevice | null {
-    if (!this?.isInitialized) {
+  getDevice(device.id: string): ARVRDevice | null {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
-    return this?.devices.get(device?.id) || null;
+    return this.devices.get(device.id) || null;
   }
 
   /**
    * Update an AR/VR device
    */
-  async updateDevice(device?.id: string, updates: Partial<ARVRDevice>): Promise<ARVRDevice | null> {
-    if (!this?.isInitialized) {
+  async updateDevice(device.id: string, updates: Partial<ARVRDevice>): Promise<ARVRDevice | null> {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this?.devices.get(device?.id);
+      const device = this.devices.get(device.id);
       if (!device) {
         console.warn('Device not found', { device.id });
         return null;
@@ -373,18 +373,18 @@ export class ARVRManager {
         ...device,
         ...updates,
         updatedAt: new Date(),
-        version: this?.incrementVersion(device?.version)
+        version: this.incrementVersion(device.version)
       };
 
-      this?.devices.set(device?.id, updatedDevice);
-      this?.updateAnalytics();
+      this.devices.set(device.id, updatedDevice);
+      this.updateAnalytics();
 
       console.info('AR/VR device updated', { device.id, deviceName: updatedDevice.name });
       return updatedDevice;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -392,27 +392,27 @@ export class ARVRManager {
   /**
    * Delete an AR/VR device
    */
-  async deleteDevice(device?.id: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+  async deleteDevice(device.id: string): Promise<boolean> {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this?.devices.get(device?.id);
+      const device = this.devices.get(device.id);
       if (!device) {
         console.warn('Device not found', { device.id });
         return false;
       }
 
-      this?.devices.delete(device?.id);
-      this?.updateAnalytics();
+      this.devices.delete(device.id);
+      this.updateAnalytics();
 
       console.info('AR/VR device deleted', { device.id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -421,7 +421,7 @@ export class ARVRManager {
    * Get all AR/VR devices
    */
   getAllDevices(): ARVRDevice[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
@@ -432,7 +432,7 @@ export class ARVRManager {
    * Get devices by type
    */
   getDevicesByType(type: DeviceType): ARVRDevice[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
@@ -443,7 +443,7 @@ export class ARVRManager {
    * Get devices by status
    */
   getDevicesByStatus(status: DeviceStatus): ARVRDevice[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
@@ -453,20 +453,20 @@ export class ARVRManager {
   /**
    * Update device tracking data
    */
-  async updateTracking(device?.id: string, trackingData: Partial<T extends Record<string, any>rackingData>): Promise<boolean> {
-    if (!this?.isInitialized) {
+  async updateTracking(device.id: string, trackingData: Partial<TrackingData>): Promise<boolean> {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this?.devices.get(device?.id);
+      const device = this.devices.get(device.id);
       if (!device) {
         console.warn('Device not found', { device.id });
         return false;
       }
 
-      device?.tracking = {
-        ...device?.tracking,
+      device.tracking = {
+        ...device.tracking,
         ...trackingData,
         timestamp: new Date()
       };
@@ -476,7 +476,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -484,40 +484,40 @@ export class ARVRManager {
   /**
    * Trigger haptic feedback
    */
-  async triggerHaptic(device?.id: string, pattern: HapticPattern): Promise<boolean> {
-    if (!this?.isInitialized) {
+  async triggerHaptic(device.id: string, pattern: HapticPattern): Promise<boolean> {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this?.devices.get(device?.id);
+      const device = this.devices.get(device.id);
       if (!device) {
         console.warn('Device not found', { device.id });
         return false;
       }
 
-      if (!device?.capabilities.hapticFeedback) {
+      if (!device.capabilities.hapticFeedback) {
         console.warn('Device does not support haptic feedback', { device.id });
         return false;
       }
 
-      device?.haptics = {
+      device.haptics = {
         enabled: true,
-        intensity: pattern?.sequence[0!]?.intensity || 0.5,
-        frequency: pattern?.sequence[0!]?.frequency || 100,
-        duration: pattern?.duration,
+        intensity: pattern.sequence[0!]?.intensity || 0.5,
+        frequency: pattern.sequence[0!]?.frequency || 100,
+        duration: pattern.duration,
         pattern,
         lastTriggered: new Date()
       };
 
-      device?.analytics.hapticEvents++;
+      device.analytics.hapticEvents++;
 
       console.debug('Haptic feedback triggered', { device.id, pattern: pattern.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -525,32 +525,32 @@ export class ARVRManager {
   /**
    * Calibrate device
    */
-  async calibrateDevice(device?.id: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+  async calibrateDevice(device.id: string): Promise<boolean> {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this?.devices.get(device?.id);
+      const device = this.devices.get(device.id);
       if (!device) {
         console.warn('Device not found', { device.id });
         return false;
       }
 
-      device?.status = 'calibrating';
+      device.status = 'calibrating';
       
       // Simulate calibration process
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      device?.status = 'connected';
-      device?.tracking.confidence = 1.0;
+      device.status = 'connected';
+      device.tracking.confidence = 1.0;
 
       console.info('Device calibrated', { device.id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -559,34 +559,34 @@ export class ARVRManager {
    * Get spatial mapping data
    */
   getSpatialMapping(): any {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this?.devices.get(device?.id);
+      const device = this.devices.get(device.id);
       if (!device) {
         console.warn('Device not found', { device.id });
         return null;
       }
 
-      if (!device?.capabilities.spatialTracking) {
+      if (!device.capabilities.spatialTracking) {
         console.warn('Device does not support spatial tracking', { device.id });
         return null;
       }
 
       // Return spatial mapping data
       return {
-        device?.id,
-        position: device?.tracking.position,
-        rotation: device?.tracking.rotation,
-        confidence: device?.tracking.confidence,
-        timestamp: device?.tracking.timestamp
+        device.id,
+        position: device.tracking.position,
+        rotation: device.tracking.rotation,
+        confidence: device.tracking.confidence,
+        timestamp: device.tracking.timestamp
       };
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -602,7 +602,7 @@ export class ARVRManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version?.split('.');
+    const parts = version.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -612,17 +612,17 @@ export class ARVRManager {
    */
   private updateAnalytics(): void {
     const devices = Array.from(this.devices.values());
-    const activeDevices = devices?.filter((d: any) => d?.status === 'connected');
-    const totalTrackingAccuracy = devices?.reduce((sum: any, d: any) => sum + d?.tracking.confidence, 0);
-    const totalHapticEvents = devices?.reduce((sum: any, d: any) => sum + d?.analytics.hapticEvents, 0);
+    const activeDevices = devices.filter((d: any) => d.status === 'connected');
+    const totalTrackingAccuracy = devices.reduce((sum: any, d: any) => sum + d.tracking.confidence, 0);
+    const totalHapticEvents = devices.reduce((sum: any, d: any) => sum + d.analytics.hapticEvents, 0);
 
     for (const device of devices) {
-      device?.analytics = {
-        totalDevices: devices?.length,
-        activeDevices: activeDevices?.length,
-        averageTrackingAccuracy: devices?.length > 0 ? totalTrackingAccuracy / devices?.length : 0,
-        hapticEvents: device?.analytics.hapticEvents,
-        trackingErrors: device?.analytics.trackingErrors,
+      device.analytics = {
+        totalDevices: devices.length,
+        activeDevices: activeDevices.length,
+        averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
+        hapticEvents: device.analytics.hapticEvents,
+        trackingErrors: device.analytics.trackingErrors,
         lastUpdated: new Date()
       };
     }
@@ -640,14 +640,14 @@ export class ARVRManager {
     totalHapticEvents: number;
     uptime: number;
   } {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     const devices = Array.from(this.devices.values());
-    const activeDevices = devices?.filter((d: any) => d?.status === 'connected');
-    const totalTrackingAccuracy = devices?.reduce((sum: any, d: any) => sum + d?.tracking.confidence, 0);
-    const totalHapticEvents = devices?.reduce((sum: any, d: any) => sum + d?.analytics.hapticEvents, 0);
+    const activeDevices = devices.filter((d: any) => d.status === 'connected');
+    const totalTrackingAccuracy = devices.reduce((sum: any, d: any) => sum + d.tracking.confidence, 0);
+    const totalHapticEvents = devices.reduce((sum: any, d: any) => sum + d.analytics.hapticEvents, 0);
 
     const devicesByType: Record<DeviceType, number> = {
       headset: 0,
@@ -666,18 +666,18 @@ export class ARVRManager {
     };
 
     for (const device of devices) {
-      devicesByType[device?.type]++;
-      devicesByStatus[device?.status]++;
+      devicesByType[device.type]++;
+      devicesByStatus[device.status]++;
     }
 
     return {
-      totalDevices: devices?.length,
-      activeDevices: activeDevices?.length,
+      totalDevices: devices.length,
+      activeDevices: activeDevices.length,
       devicesByType,
       devicesByStatus,
-      averageTrackingAccuracy: devices?.length > 0 ? totalTrackingAccuracy / devices?.length : 0,
+      averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
       totalHapticEvents,
-      uptime: new Date() - this?.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 
@@ -687,8 +687,8 @@ export class ARVRManager {
   async destroy(): Promise<void> {
     console.info('ARVRPure', 'Destroying AR/VR Manager...');
 
-    this?.devices.clear();
-    this?.isInitialized = false;
+    this.devices.clear();
+    this.isInitialized = false;
 
     console.info('ARVRPure', 'AR/VR Manager destroyed');
   }

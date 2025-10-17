@@ -37,7 +37,7 @@ export class CameraManager {
 
   constructor(cameraSystem: CameraSystemPure) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.cameraSystem = cameraSystem;
+    this.cameraSystem = cameraSystem;
   }
 
   /**
@@ -45,44 +45,44 @@ export class CameraManager {
    */
   createCameraDefinition(cameraData: Partial<CameraDefinition>): CameraDefinition | null {
     // Validate required fields
-    if (!cameraData?.id || cameraData?.id.trim() === '') {
+    if (!cameraData.id || cameraData.id.trim() === '') {
       console.error('❌ Camera ID is required');
       return null;
     }
 
-    if (!cameraData?.name || cameraData?.name.trim() === '') {
+    if (!cameraData.name || cameraData.name.trim() === '') {
       console.error('❌ Camera name is required');
       return null;
     }
 
-    if (!cameraData?.mode) {
+    if (!cameraData.mode) {
       console.error('❌ Camera mode is required');
       return null;
     }
 
-    if (!cameraData?.settings) {
+    if (!cameraData.settings) {
       console.error('❌ Camera settings are required');
       return null;
     }
 
     // Create camera definition
     const camera: CameraDefinition = {
-      id: cameraData?.id,
-      name: cameraData?.name,
-      description: cameraData?.description || 'A camera',
-      mode: cameraData?.mode,
-      settings: cameraData?.settings,
-      transitions: cameraData?.transitions || [],
-      constraints: cameraData?.constraints || {
+      id: cameraData.id,
+      name: cameraData.name,
+      description: cameraData.description || 'A camera',
+      mode: cameraData.mode,
+      settings: cameraData.settings,
+      transitions: cameraData.transitions || [],
+      constraints: cameraData.constraints || {
         collisionRadius: 1,
         avoidanceDistance: 2,
         followSpeed: 1.5,
         predictionTime: 0.5,
         deadZone: 1
       },
-      effects: cameraData?.effects || [],
-      inputBindings: cameraData?.inputBindings || new Map(),
-      visualStyle: cameraData?.visualStyle || {
+      effects: cameraData.effects || [],
+      inputBindings: cameraData.inputBindings || new Map(),
+      visualStyle: cameraData.visualStyle || {
         filter: 'default',
         overlay: 'none',
         crosshair: false,
@@ -94,8 +94,8 @@ export class CameraManager {
         grainIntensity: 0.05,
         customShaders: []
       },
-      audioProfile: cameraData?.audioProfile || '3d-spatial',
-      metadata: cameraData?.metadata || {
+      audioProfile: cameraData.audioProfile || '3d-spatial',
+      metadata: cameraData.metadata || {
         author: 'Unknown',
         version: '1.0.0',
         compatibility: [],
@@ -114,7 +114,7 @@ export class CameraManager {
    */
   registerCamera(camera: CameraDefinition): boolean {
     // Validate camera
-    if (!this?.validateCameraDefinition(camera)) {
+    if (!this.validateCameraDefinition(camera)) {
       console.error(`❌ Invalid camera definition: ${camera.id}`);
       return false;
     }
@@ -130,13 +130,13 @@ export class CameraManager {
   createCameraForTarget(cameraId: string, targetEntity: string): CameraInstance | null {
     try {
       // Check if camera exists
-      const cameraDef = this?.cameraSystem.getCameraDefinition(cameraId);
+      const cameraDef = this.cameraSystem.getCameraDefinition(cameraId);
       if (!cameraDef) {
         throw new Error(`Camera definition not found: ${cameraId}`);
       }
 
       // Create the camera instance
-      const camera = this?.cameraSystem.createCamera(cameraId, targetEntity);
+      const camera = this.cameraSystem.createCamera(cameraId, targetEntity);
 
       if (camera) {
         console.log(`📷 Created camera for ${targetEntity}: ${cameraDef.name}`);
@@ -155,31 +155,31 @@ export class CameraManager {
    */
   switchCameraMode(cameraId: string, newMode: string, transitionDuration?: number): boolean {
     try {
-      const camera = this?.cameraSystem.getCameraInstance(cameraId);
+      const camera = this.cameraSystem.getCameraInstance(cameraId);
       if (!camera) {
         throw new Error(`Camera not found: ${cameraId}`);
       }
 
       // Check if new mode exists
-      const newModeDef = this?.cameraSystem.getCameraDefinition(newMode);
+      const newModeDef = this.cameraSystem.getCameraDefinition(newMode);
       if (!newModeDef) {
         throw new Error(`Camera mode not found: ${newMode}`);
       }
 
       // Create transition
-      const transition = this?.createCameraTransition(
-        camera?.definition.mode?.type,
+      const transition = this.createCameraTransition(
+        camera.definition.mode.type,
         newMode,
-        transitionDuration || newModeDef?.mode.defaultDuration
+        transitionDuration || newModeDef.mode.defaultDuration
       );
 
       // Apply transition
-      const success = this?.cameraSystem.switchCameraMode(cameraId, newMode);
+      const success = this.cameraSystem.switchCameraMode(cameraId, newMode);
 
       if (success) {
         console.log(`📷 Switched camera ${cameraId} to mode: ${newMode}`);
-        this?.updateStats({ modeSwitches: this?.cameraSystem.getStats().modeSwitches + 1 });
-    const managerData = this?.getStats();
+        this.updateStats({ modeSwitches: this.cameraSystem.getStats().modeSwitches + 1 });
+    const managerData = this.getStats();
       }
 
       return success;
@@ -214,7 +214,7 @@ export class CameraManager {
     ];
 
     return {
-      id: this?.generateTransitionId(),
+      id: this.generateTransitionId(),
       name: `${fromMode}-to-${toMode}`,
       fromMode,
       toMode,
@@ -232,7 +232,7 @@ export class CameraManager {
    * Set main camera
    */
   setMainCamera(cameraId: string): boolean {
-    const success = this?.cameraSystem.setMainCamera(cameraId);
+    const success = this.cameraSystem.setMainCamera(cameraId);
     if (success) {
       console.log(`📷 Set main camera: ${cameraId}`);
     }
@@ -243,7 +243,7 @@ export class CameraManager {
    * Get current main camera
    */
   getMainCamera(): CameraInstance | null {
-    return this?.cameraSystem.getMainCamera();
+    return this.cameraSystem.getMainCamera();
   }
 
   /**
@@ -252,35 +252,35 @@ export class CameraManager {
   createCinematicSequence(sequenceData: Partial<CinematicSequence>): CinematicSequence | null {
     try {
       // Validate required fields
-      if (!sequenceData?.id || sequenceData?.id.trim() === '') {
+      if (!sequenceData.id || sequenceData.id.trim() === '') {
         throw new Error('Sequence ID is required');
       }
 
-      if (!sequenceData?.name || sequenceData?.name.trim() === '') {
+      if (!sequenceData.name || sequenceData.name.trim() === '') {
         throw new Error('Sequence name is required');
       }
 
-      if (!sequenceData?.cameraShots || sequenceData?.cameraShots.length === 0) {
+      if (!sequenceData.cameraShots || sequenceData.cameraShots.length === 0) {
         throw new Error('At least one camera shot is required');
       }
 
       // Create sequence
       const sequence: CinematicSequence = {
-        id: sequenceData?.id,
-        name: sequenceData?.name,
-        description: sequenceData?.description || 'A cinematic sequence',
-        duration: sequenceData?.duration || 30,
-        cameraShots: sequenceData?.cameraShots,
-        audioTrack: sequenceData?.audioTrack || 'default',
-        subtitles: sequenceData?.subtitles || [],
-        effects: sequenceData?.effects || [],
-        priority: sequenceData?.priority || 1,
-        triggerCondition: sequenceData?.triggerCondition || 'manual',
+        id: sequenceData.id,
+        name: sequenceData.name,
+        description: sequenceData.description || 'A cinematic sequence',
+        duration: sequenceData.duration || 30,
+        cameraShots: sequenceData.cameraShots,
+        audioTrack: sequenceData.audioTrack || 'default',
+        subtitles: sequenceData.subtitles || [],
+        effects: sequenceData.effects || [],
+        priority: sequenceData.priority || 1,
+        triggerCondition: sequenceData.triggerCondition || 'manual',
         isActive: false,
         currentTime: 0,
-        cameraId: sequenceData?.cameraId || 'default',
-        autoPlay: sequenceData?.autoPlay || false,
-        loop: sequenceData?.loop || false
+        cameraId: sequenceData.cameraId || 'default',
+        autoPlay: sequenceData.autoPlay || false,
+        loop: sequenceData.loop || false
       };
 
       // Store sequence (would normally go through main system)
@@ -314,38 +314,38 @@ export class CameraManager {
   createCameraPath(pathData: Partial<CameraPath>): CameraPath | null {
     try {
       // Validate required fields
-      if (!pathData?.id || pathData?.id.trim() === '') {
+      if (!pathData.id || pathData.id.trim() === '') {
         throw new Error('Path ID is required');
       }
 
-      if (!pathData?.name || pathData?.name.trim() === '') {
+      if (!pathData.name || pathData.name.trim() === '') {
         throw new Error('Path name is required');
       }
 
-      if (!pathData?.waypoints || pathData?.waypoints.length === 0) {
+      if (!pathData.waypoints || pathData.waypoints.length === 0) {
         throw new Error('At least one waypoint is required');
       }
 
       // Create path
       const path: CameraPath = {
-        id: pathData?.id,
-        name: pathData?.name,
-        description: pathData?.description || 'A camera path',
-        waypoints: pathData?.waypoints,
-        duration: pathData?.duration || 10,
-        loop: pathData?.loop || false,
-        interpolation: pathData?.interpolation || 'linear',
-        events: pathData?.events || [],
-        visualStyle: pathData?.visualStyle || 'default',
-        speedMultiplier: pathData?.speedMultiplier || 1.0,
-        startDelay: pathData?.startDelay || 0,
-        endDelay: pathData?.endDelay || 0
+        id: pathData.id,
+        name: pathData.name,
+        description: pathData.description || 'A camera path',
+        waypoints: pathData.waypoints,
+        duration: pathData.duration || 10,
+        loop: pathData.loop || false,
+        interpolation: pathData.interpolation || 'linear',
+        events: pathData.events || [],
+        visualStyle: pathData.visualStyle || 'default',
+        speedMultiplier: pathData.speedMultiplier || 1.0,
+        startDelay: pathData.startDelay || 0,
+        endDelay: pathData.endDelay || 0
       };
 
       // Store path (would normally go through main system)
       console.log(`🛤️ Created camera path: ${path.name}`);
-      this?.updateStats({ pathsCreated: this?.cameraSystem.getStats().pathsCreated + 1 });
-    const managerData = this?.getStats();
+      this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
+    const managerData = this.getStats();
       return path;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -359,30 +359,30 @@ export class CameraManager {
    */
   applyCameraEffect(cameraId: string, effectType: string, parameters: Map<string, any>): boolean {
     try {
-      const camera = this?.cameraSystem.getCameraInstance(cameraId);
+      const camera = this.cameraSystem.getCameraInstance(cameraId);
       if (!camera) {
         throw new Error(`Camera not found: ${cameraId}`);
       }
 
       // Create effect
       const effect: CameraEffect = {
-        id: this?.generateEffectId(),
+        id: this.generateEffectId(),
         name: `${effectType}-effect`,
         description: `Camera ${effectType} effect`,
         type: effectType as any,
         parameters,
-        duration: parameters?.get('duration') || 1000,
-        intensity: parameters?.get('intensity') || 1.0,
-        falloff: parameters?.get('falloff') || 'linear',
-        triggerCondition: parameters?.get('trigger') || 'manual',
-        priority: parameters?.get('priority') || 1
+        duration: parameters.get('duration') || 1000,
+        intensity: parameters.get('intensity') || 1.0,
+        falloff: parameters.get('falloff') || 'linear',
+        triggerCondition: parameters.get('trigger') || 'manual',
+        priority: parameters.get('priority') || 1
       };
 
       // Apply effect
-      camera?.effects.set(effect?.id, effect);
+      camera.effects.set(effect.id, effect);
       console.log(`✨ Applied ${effectType} effect to camera ${cameraId}`);
-      this?.updateStats({ effectsApplied: this?.cameraSystem.getStats().effectsApplied + 1 });
-    const managerData = this?.getStats();
+      this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
+    const managerData = this.getStats();
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -400,7 +400,7 @@ export class CameraManager {
     suitability: 'excellent' | 'good' | 'fair' | 'poor';
     performanceRating: string;
   }> {
-    const allCameras = this?.getAllCameraDefinitions();
+    const allCameras = this.getAllCameraDefinitions();
     const recommendations: Array<{
       camera: CameraDefinition;
       reason: string;
@@ -409,11 +409,11 @@ export class CameraManager {
     }> = [];
 
     for (const camera of allCameras) {
-      const suitability = this?.assessCameraSuitability(camera, targetEntity);
-      const reason = this?.getCameraRecommendationReason(camera);
-      const performanceRating = camera?.metadata.performanceRating;
+      const suitability = this.assessCameraSuitability(camera, targetEntity);
+      const reason = this.getCameraRecommendationReason(camera);
+      const performanceRating = camera.metadata.performanceRating;
 
-      recommendations?.push({
+      recommendations.push({
         camera,
         reason,
         suitability,
@@ -421,7 +421,7 @@ export class CameraManager {
       });
     }
 
-    return recommendations?.slice(0, 5); // Top 5 recommendations
+    return recommendations.slice(0, 5); // Top 5 recommendations
   }
 
   /**
@@ -430,7 +430,7 @@ export class CameraManager {
   private assessCameraSuitability(camera: CameraDefinition, targetEntity: string): 'excellent' | 'good' | 'fair' | 'poor' {
     // This would analyze target type, environment, and requirements
     // For now, return based on camera type
-    switch (camera?.mode.type) {
+    switch (camera.mode.type) {
       case 'chase':
         return 'excellent'; // Good for most targets
       case 'orbit':
@@ -446,7 +446,7 @@ export class CameraManager {
    * Get recommendation reason for a camera
    */
   private getCameraRecommendationReason(camera: CameraDefinition): string {
-    switch (camera?.mode.type) {
+    switch (camera.mode.type) {
       case 'chase':
         return 'Best for following moving targets with smooth tracking';
       case 'orbit':
@@ -470,19 +470,19 @@ export class CameraManager {
     mainCameraMode: string;
     averagePerformanceRating: string;
   } {
-    const stats = this?.cameraSystem.getStats();
-    const managerData = this?.getStats();
-    const activeCameras = this?.cameraSystem.getAllCameras();
-    const mainCamera = this?.cameraSystem.getMainCamera();
+    const stats = this.cameraSystem.getStats();
+    const managerData = this.getStats();
+    const activeCameras = this.cameraSystem.getAllCameras();
+    const mainCamera = this.cameraSystem.getMainCamera();
 
     // Calculate average performance rating
     const ratings = Array.from(activeCameras.values()).map((c: any) => c.definition.metadata.performanceRating);
-    const avgRating = this?.calculateAveragePerformanceRating(ratings);
+    const avgRating = this.calculateAveragePerformanceRating(ratings);
 
     return {
       ...stats,
-      activeCameraCount: activeCameras?.size,
-      mainCameraMode: mainCamera?.definition?.mode.type || 'none',
+      activeCameraCount: activeCameras.size,
+      mainCameraMode: mainCamera?.definition.mode.type || 'none',
       averagePerformanceRating: avgRating
     };
   }
@@ -498,7 +498,7 @@ export class CameraManager {
       'ultra': 4
     };
 
-    const avgValue = ratings?.reduce((sum, rating) => sum + (ratingValues[rating as keyof typeof ratingValues] || 2), 0) / ratings?.length;
+    const avgValue = ratings.reduce((sum, rating) => sum + (ratingValues[rating as keyof typeof ratingValues] || 2), 0) / ratings.length;
     const avgRating = Math.round(avgValue);
 
     switch (avgRating) {
@@ -538,22 +538,22 @@ export class CameraManager {
    * Validate camera definition
    */
   private validateCameraDefinition(camera: CameraDefinition): boolean {
-    if (!camera?.id || camera?.id.trim() === '') {
+    if (!camera.id || camera.id.trim() === '') {
       console.error('Camera ID is required');
       return false;
     }
 
-    if (!camera?.name || camera?.name.trim() === '') {
+    if (!camera.name || camera.name.trim() === '') {
       console.error('Camera name is required');
       return false;
     }
 
-    if (!camera?.mode) {
+    if (!camera.mode) {
       console.error('Camera mode is required');
       return false;
     }
 
-    if (!camera?.settings) {
+    if (!camera.settings) {
       console.error('Camera settings are required');
       return false;
     }
@@ -565,7 +565,7 @@ export class CameraManager {
    * Generate unique transition ID
    */
   private generateTransitionId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `transition_${timestamp}_${random}`;
   }
@@ -574,7 +574,7 @@ export class CameraManager {
    * Generate unique effect ID
    */
   private generateEffectId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `effect_${timestamp}_${random}`;
   }
@@ -592,13 +592,13 @@ export class CameraManager {
     timestamp: number;
   } {
     return {
-      cameras: this?.getAllCameraDefinitions(),
-      activeCameras: this?.getAllCameras(),
+      cameras: this.getAllCameraDefinitions(),
+      activeCameras: this.getAllCameras(),
       paths: [], // Would get from main system
       sequences: [], // Would get from main system
-      stats: this?.cameraSystem.getStats(),
-    const managerData = this?.getStats();
-      config: this?.cameraSystem.getConfig(),
+      stats: this.cameraSystem.getStats(),
+    const managerData = this.getStats();
+      config: this.cameraSystem.getConfig(),
       timestamp: new Date()
     };
   }
@@ -606,7 +606,7 @@ export class CameraManager {
   /**
    * Import camera system data
    */
-  importData(data: ReturnType<typeof this?.exportData>): void {
+  importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
     console.log('Camera system data imported');
   }

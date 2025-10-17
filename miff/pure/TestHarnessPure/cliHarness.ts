@@ -25,11 +25,11 @@ interface TestHarnessOperation {
 }
 
 async function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -37,7 +37,7 @@ async function main() {
     let operation: TestHarnessOperation;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as TestHarnessOperation;
     } else {
@@ -45,7 +45,7 @@ async function main() {
       switch (first) {
         case 'create':
           const configFile = argv[1!];
-          const config = configFile && fs?.existsSync(configFile) 
+          const config = configFile && fs.existsSync(configFile) 
             ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
             : {
                 enabled: true,
@@ -93,7 +93,7 @@ async function main() {
     }
 
     // Create test harness instance
-    const testHarness = new TestHarness(operation?.config || {
+    const testHarness = new TestHarness(operation.config || {
       enabled: true,
       autoRun: false,
       watchMode: false,
@@ -106,7 +106,7 @@ async function main() {
 
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'create':
         result = {
           testHarness: {
@@ -119,14 +119,14 @@ async function main() {
         break;
 
       case 'add-suite':
-        testHarness?.addSuite(operation?.suite!);
+        testHarness.addSuite(operation.suite!);
         
         result = {
           action: 'suite_added',
           suite: {
-            id: operation?.suite!.id,
-            name: operation?.suite!.name,
-            testCount: operation?.suite!.tests?.length
+            id: operation.suite!.id,
+            name: operation.suite!.name,
+            testCount: operation.suite!.tests.length
           },
           summary: {
             totalSuites: testHarness['suites'].size,
@@ -136,15 +136,15 @@ async function main() {
         break;
 
       case 'add-test':
-        testHarness?.addTest(operation?.suiteId!, operation?.test!);
+        testHarness.addTest(operation.suiteId!, operation.test!);
         
         result = {
           action: 'test_added',
-          suiteId: operation?.suiteId,
+          suiteId: operation.suiteId,
           test: {
-            id: operation?.test!.id,
-            name: operation?.test!.name,
-            category: operation?.test!.category
+            id: operation.test!.id,
+            name: operation.test!.name,
+            category: operation.test!.category
           },
           summary: {
             totalSuites: testHarness['suites'].size,
@@ -154,70 +154,70 @@ async function main() {
         break;
 
       case 'run':
-        const runReport = await testHarness?.runAll();
+        const runReport = await testHarness.runAll();
         
         result = {
           action: 'all_tests_run',
           report: runReport,
           summary: {
-            totalTests: runReport?.summary.total,
-            passed: runReport?.summary.passed,
-            failed: runReport?.summary.failed,
-            skipped: runReport?.summary.skipped,
-            timeout: runReport?.summary.timeout,
-            totalDuration: runReport?.summary.duration
+            totalTests: runReport.summary.total,
+            passed: runReport.summary.passed,
+            failed: runReport.summary.failed,
+            skipped: runReport.summary.skipped,
+            timeout: runReport.summary.timeout,
+            totalDuration: runReport.summary.duration
           }
         };
         break;
 
       case 'run-suite':
-        const suiteResults = await testHarness?.runSuite(operation?.suiteId!);
+        const suiteResults = await testHarness.runSuite(operation.suiteId!);
         
         result = {
           action: 'suite_run',
-          suiteId: operation?.suiteId,
+          suiteId: operation.suiteId,
           results: suiteResults,
           summary: {
-            totalTests: suiteResults?.length,
-            passed: suiteResults?.filter((r: any) => r?.status === 'passed').length,
-            failed: suiteResults?.filter((r: any) => r?.status === 'failed').length,
-            skipped: suiteResults?.filter((r: any) => r?.status === 'skipped').length,
-            timeout: suiteResults?.filter((r: any) => r?.status === 'timeout').length,
-            totalDuration: suiteResults?.reduce((sum, r) => sum + r?.duration, 0)
+            totalTests: suiteResults.length,
+            passed: suiteResults.filter((r: any) => r.status === 'passed').length,
+            failed: suiteResults.filter((r: any) => r.status === 'failed').length,
+            skipped: suiteResults.filter((r: any) => r.status === 'skipped').length,
+            timeout: suiteResults.filter((r: any) => r.status === 'timeout').length,
+            totalDuration: suiteResults.reduce((sum, r) => sum + r.duration, 0)
           }
         };
         break;
 
       case 'run-test':
-        const testResult = await testHarness?.runTest(operation?.suiteId!, operation?.testId!);
+        const testResult = await testHarness.runTest(operation.suiteId!, operation.testId!);
         
         result = {
           action: 'test_run',
-          suiteId: operation?.suiteId,
-          testId: operation?.testId,
+          suiteId: operation.suiteId,
+          testId: operation.testId,
           result: testResult,
           summary: {
-            status: testResult?.status,
-            duration: testResult?.duration,
-            retries: testResult?.retries,
-            error: testResult?.error?.message
+            status: testResult.status,
+            duration: testResult.duration,
+            retries: testResult.retries,
+            error: testResult.error?.message
           }
         };
         break;
 
       case 'get-report':
-        const report = testHarness?.generateReport();
+        const report = testHarness.generateReport();
         
         result = {
           report,
           summary: {
-            total: report?.summary.total,
-            passed: report?.summary.passed,
-            failed: report?.summary.failed,
-            skipped: report?.summary.skipped,
-            timeout: report?.summary.timeout,
-            duration: report?.summary.duration,
-            successRate: ((report?.summary.passed / report?.summary.total) * 100).toFixed(1) + '%'
+            total: report.summary.total,
+            passed: report.summary.passed,
+            failed: report.summary.failed,
+            skipped: report.summary.skipped,
+            timeout: report.summary.timeout,
+            duration: report.summary.duration,
+            successRate: ((report.summary.passed / report.summary.total) * 100).toFixed(1) + '%'
           }
         };
         break;
@@ -323,7 +323,7 @@ async function main() {
               description: 'Test async operations',
               test: async () => {
                 await new Promise(resolve => setTimeout(resolve, 100));
-                const result = await Promise?.resolve(42);
+                const result = await Promise.resolve(42);
                 if (result !== 42) throw new Error(`Expected 42, got ${result}`);
               }
             },
@@ -340,54 +340,54 @@ async function main() {
           ]
         };
 
-        demoHarness?.addSuite(mathSuite);
-        demoHarness?.addSuite(stringSuite);
-        demoHarness?.addSuite(asyncSuite);
+        demoHarness.addSuite(mathSuite);
+        demoHarness.addSuite(stringSuite);
+        demoHarness.addSuite(asyncSuite);
 
         // Run all tests
-        const demoReport = await demoHarness?.runAll();
+        const demoReport = await demoHarness.runAll();
 
         result = {
           demo: {
             suites: {
               math: {
-                id: mathSuite?.id,
-                name: mathSuite?.name,
-                testCount: mathSuite?.tests.length
+                id: mathSuite.id,
+                name: mathSuite.name,
+                testCount: mathSuite.tests.length
               },
               string: {
-                id: stringSuite?.id,
-                name: stringSuite?.name,
-                testCount: stringSuite?.tests.length
+                id: stringSuite.id,
+                name: stringSuite.name,
+                testCount: stringSuite.tests.length
               },
               async: {
-                id: asyncSuite?.id,
-                name: asyncSuite?.name,
-                testCount: asyncSuite?.tests.length
+                id: asyncSuite.id,
+                name: asyncSuite.name,
+                testCount: asyncSuite.tests.length
               }
             },
-            results: demoReport?.results.map((r: any) => ({
-              testId: r?.testId,
-              name: r?.name,
-              category: r?.category,
-              status: r?.status,
-              duration: r?.duration,
-              retries: r?.retries,
-              error: r?.error?.message
+            results: demoReport.results.map((r: any) => ({
+              testId: r.testId,
+              name: r.name,
+              category: r.category,
+              status: r.status,
+              duration: r.duration,
+              retries: r.retries,
+              error: r.error?.message
             })),
             report: {
-              summary: demoReport?.summary,
-              recommendations: demoReport?.recommendations
+              summary: demoReport.summary,
+              recommendations: demoReport.recommendations
             },
             summary: {
               totalSuites: 3,
-              totalTests: demoReport?.summary.total,
-              passed: demoReport?.summary.passed,
-              failed: demoReport?.summary.failed,
-              skipped: demoReport?.summary.skipped,
-              timeout: demoReport?.summary.timeout,
-              totalDuration: demoReport?.summary.duration,
-              successRate: ((demoReport?.summary.passed / demoReport?.summary.total) * 100).toFixed(1) + '%'
+              totalTests: demoReport.summary.total,
+              passed: demoReport.summary.passed,
+              failed: demoReport.summary.failed,
+              skipped: demoReport.summary.skipped,
+              timeout: demoReport.summary.timeout,
+              totalDuration: demoReport.summary.duration,
+              successRate: ((demoReport.summary.passed / demoReport.summary.total) * 100).toFixed(1) + '%'
             }
           }
         };
@@ -424,14 +424,14 @@ async function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -443,7 +443,7 @@ async function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -459,13 +459,13 @@ async function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

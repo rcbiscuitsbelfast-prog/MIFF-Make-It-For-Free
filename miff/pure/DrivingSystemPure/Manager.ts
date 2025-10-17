@@ -29,7 +29,7 @@ export class DrivingManager {
 
   constructor(drivingSystem: DrivingSystemPure) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.drivingSystem = drivingSystem;
+    this.drivingSystem = drivingSystem;
   }
 
   /**
@@ -37,71 +37,71 @@ export class DrivingManager {
    */
   createVehicleDefinition(vehicleData: Partial<VehicleDefinition>): VehicleDefinition | null {
     // Validate required fields
-    if (!vehicleData?.id || vehicleData?.id.trim() === '') {
+    if (!vehicleData.id || vehicleData.id.trim() === '') {
       console.error('❌ Vehicle ID is required');
       return null;
     }
 
-    if (!vehicleData?.name || vehicleData?.name.trim() === '') {
+    if (!vehicleData.name || vehicleData.name.trim() === '') {
       console.error('❌ Vehicle name is required');
       return null;
     }
 
-    if (!vehicleData?.type) {
+    if (!vehicleData.type) {
       console.error('❌ Vehicle type is required');
       return null;
     }
 
-    if (vehicleData?.mass <= 0) {
+    if (vehicleData.mass <= 0) {
       console.error('❌ Vehicle mass must be positive');
       return null;
     }
 
-    if (vehicleData?.maxSpeed <= 0) {
+    if (vehicleData.maxSpeed <= 0) {
       console.error('❌ Vehicle max speed must be positive');
       return null;
     }
 
     // Create vehicle definition
     const vehicle: VehicleDefinition = {
-      id: vehicleData?.id,
-      name: vehicleData?.name,
-      type: vehicleData?.type,
-      category: vehicleData?.category || 'land',
-      description: vehicleData?.description || 'A vehicle',
-      mass: vehicleData?.mass,
-      dragCoefficient: vehicleData?.dragCoefficient || 0.3,
-      frictionCoefficient: vehicleData?.frictionCoefficient || 0.7,
-      maxSpeed: vehicleData?.maxSpeed,
-      acceleration: vehicleData?.acceleration || 10,
-      brakingForce: vehicleData?.brakingForce || 20,
-      handling: vehicleData?.handling || 0.8,
-      length: vehicleData?.length || 4.0,
-      width: vehicleData?.width || 2.0,
-      height: vehicleData?.height || 1.5,
-      wheelbase: vehicleData?.wheelbase,
-      terrainTypes: vehicleData?.terrainTypes || ['road'],
-      weatherEffects: vehicleData?.weatherEffects || new Map(),
-      abilities: vehicleData?.abilities || [],
-      boostPower: vehicleData?.boostPower,
-      boostDuration: vehicleData?.boostDuration,
-      boostCooldown: vehicleData?.boostCooldown,
-      model: vehicleData?.model || 'default',
-      texture: vehicleData?.texture || 'default',
-      soundProfile: vehicleData?.soundProfile || 'default',
-      particleEffects: vehicleData?.particleEffects || [],
-      fuelCapacity: vehicleData?.fuelCapacity,
-      fuelConsumption: vehicleData?.fuelConsumption || 0.1,
-      durability: vehicleData?.durability || 1000,
-      repairCost: vehicleData?.repairCost || 100,
-      upgradeSlots: vehicleData?.upgradeSlots || 4,
-      compatibleUpgrades: vehicleData?.compatibleUpgrades || [],
-      unlockRequirements: vehicleData?.unlockRequirements || [],
-      skillRequirements: vehicleData?.skillRequirements || new Map(),
-      manufacturer: vehicleData?.manufacturer || 'Unknown',
+      id: vehicleData.id,
+      name: vehicleData.name,
+      type: vehicleData.type,
+      category: vehicleData.category || 'land',
+      description: vehicleData.description || 'A vehicle',
+      mass: vehicleData.mass,
+      dragCoefficient: vehicleData.dragCoefficient || 0.3,
+      frictionCoefficient: vehicleData.frictionCoefficient || 0.7,
+      maxSpeed: vehicleData.maxSpeed,
+      acceleration: vehicleData.acceleration || 10,
+      brakingForce: vehicleData.brakingForce || 20,
+      handling: vehicleData.handling || 0.8,
+      length: vehicleData.length || 4.0,
+      width: vehicleData.width || 2.0,
+      height: vehicleData.height || 1.5,
+      wheelbase: vehicleData.wheelbase,
+      terrainTypes: vehicleData.terrainTypes || ['road'],
+      weatherEffects: vehicleData.weatherEffects || new Map(),
+      abilities: vehicleData.abilities || [],
+      boostPower: vehicleData.boostPower,
+      boostDuration: vehicleData.boostDuration,
+      boostCooldown: vehicleData.boostCooldown,
+      model: vehicleData.model || 'default',
+      texture: vehicleData.texture || 'default',
+      soundProfile: vehicleData.soundProfile || 'default',
+      particleEffects: vehicleData.particleEffects || [],
+      fuelCapacity: vehicleData.fuelCapacity,
+      fuelConsumption: vehicleData.fuelConsumption || 0.1,
+      durability: vehicleData.durability || 1000,
+      repairCost: vehicleData.repairCost || 100,
+      upgradeSlots: vehicleData.upgradeSlots || 4,
+      compatibleUpgrades: vehicleData.compatibleUpgrades || [],
+      unlockRequirements: vehicleData.unlockRequirements || [],
+      skillRequirements: vehicleData.skillRequirements || new Map(),
+      manufacturer: vehicleData.manufacturer || 'Unknown',
       modelYear: vehicleData.modelYear || Date.now().getFullYear(),
-      rarity: vehicleData?.rarity || 'common',
-      value: vehicleData?.value || 0
+      rarity: vehicleData.rarity || 'common',
+      value: vehicleData.value || 0
     };
 
     return vehicle;
@@ -112,7 +112,7 @@ export class DrivingManager {
    */
   registerVehicle(vehicle: VehicleDefinition): boolean {
     // Validate vehicle
-    if (!this?.validateVehicleDefinition(vehicle)) {
+    if (!this.validateVehicleDefinition(vehicle)) {
       console.error(`❌ Invalid vehicle definition: ${vehicle.id}`);
       return false;
     }
@@ -128,18 +128,18 @@ export class DrivingManager {
   createVehicleForPlayer(vehicleId: string, playerId: string): VehicleInstance | null {
     try {
       // Check if vehicle is unlocked for this player
-      if (!this?.isVehicleUnlocked(vehicleId, playerId)) {
+      if (!this.isVehicleUnlocked(vehicleId, playerId)) {
         console.warn(`⚠️ Vehicle not unlocked: ${vehicleId} for player ${playerId}`);
         return null;
       }
 
       // Create the vehicle instance
-      const vehicle = this?.drivingSystem.createVehicle(vehicleId, playerId);
+      const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
 
       if (vehicle) {
         console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
-        this?.updateStats({ vehiclesOwned: this?.drivingSystem.getStats().vehiclesOwned + 1 });
-    const managerData = this?.getStats();
+        this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
+    const managerData = this.getStats();
       }
 
       return vehicle;
@@ -156,7 +156,7 @@ export class DrivingManager {
   private isVehicleUnlocked(vehicleId: string, playerId: string): boolean {
     // This would check player's progress, purchases, etc.
     // For now, assume demo vehicles are always unlocked
-    return vehicleId?.startsWith('demo-');
+    return vehicleId.startsWith('demo-');
   }
 
   /**
@@ -164,8 +164,8 @@ export class DrivingManager {
    */
   startDrivingSession(vehicleId: string, trackId: string, playerId: string): DrivingSession | null {
     try {
-      const vehicle = this?.drivingSystem.getVehicleInstance(vehicleId);
-      const track = this?.drivingSystem.getTrack(trackId);
+      const vehicle = this.drivingSystem.getVehicleInstance(vehicleId);
+      const track = this.drivingSystem.getTrack(trackId);
 
       if (!vehicle) {
         throw new Error(`Vehicle not found: ${vehicleId}`);
@@ -176,23 +176,23 @@ export class DrivingManager {
       }
 
       // Check if vehicle is compatible with track
-      if (!track?.allowedVehicles.includes(vehicle?.definition.type)) {
-        throw new Error(`Vehicle ${vehicle?.definition.name} not allowed on track ${track?.name}`);
+      if (!track.allowedVehicles.includes(vehicle.definition.type)) {
+        throw new Error(`Vehicle ${vehicle.definition.name} not allowed on track ${track.name}`);
       }
 
       // Create driving session
       const session: DrivingSession = {
-        id: this?.generateSessionId(),
+        id: this.generateSessionId(),
         vehicleId,
         driverId: playerId,
         startTime: new Date(),
-        startPosition: { ...vehicle?.currentPosition },
+        startPosition: { ...vehicle.currentPosition },
         currentLap: 1,
-        totalLaps: track?.lapCount,
+        totalLaps: track.lapCount,
         lapTimes: [],
         bestLapTime: 0,
         checkpointsPassed: 0,
-        totalCheckpoints: track?.checkpoints.length,
+        totalCheckpoints: track.checkpoints.length,
         topSpeed: 0,
         averageSpeed: 0,
         distanceTraveled: 0,
@@ -204,8 +204,8 @@ export class DrivingManager {
       };
 
       // Store session (would normally go through main system)
-      this?.updateStats({ totalSessions: this?.drivingSystem.getStats().totalSessions + 1 });
-    const managerData = this?.getStats();
+      this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
+    const managerData = this.getStats();
 
       console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
       return session;
@@ -226,34 +226,34 @@ export class DrivingManager {
     boost?: boolean;
     ability?: string;
   }): boolean {
-    const vehicle = this?.drivingSystem.getVehicleInstance(vehicleId);
+    const vehicle = this.drivingSystem.getVehicleInstance(vehicleId);
     if (!vehicle) return false;
 
     // Update control inputs
-    if (controls?.throttle !== undefined) {
+    if (controls.throttle !== undefined) {
       vehicle.throttle = Math.max(0, Math.min(1, controls.throttle));
     }
 
-    if (controls?.steering !== undefined) {
+    if (controls.steering !== undefined) {
       vehicle.steering = Math.max(-1, Math.min(1, controls.steering));
     }
 
-    if (controls?.brake !== undefined) {
+    if (controls.brake !== undefined) {
       vehicle.brakeInput = Math.max(0, Math.min(1, controls.brake));
-      vehicle?.isBraking = controls?.brake > 0;
+      vehicle.isBraking = controls.brake > 0;
     }
 
     // Handle boost
-    if (controls?.boost && !vehicle?.isBoosting) {
-      const boostAbility = vehicle?.definition.abilities?.find(a => a?.type === 'active' && a?.effects.some(e => e?.type === 'boost'));
+    if (controls.boost && !vehicle.isBoosting) {
+      const boostAbility = vehicle.definition.abilities.find(a => a.type === 'active' && a.effects.some(e => e.type === 'boost'));
       if (boostAbility) {
-        this?.drivingSystem.activateAbility(vehicleId, boostAbility?.id);
+        this.drivingSystem.activateAbility(vehicleId, boostAbility.id);
       }
     }
 
     // Handle ability activation
-    if (controls?.ability) {
-      this?.drivingSystem.activateAbility(vehicleId, controls?.ability);
+    if (controls.ability) {
+      this.drivingSystem.activateAbility(vehicleId, controls.ability);
     }
 
     return true;
@@ -278,16 +278,16 @@ export class DrivingManager {
     favoriteTrack: string;
     performanceRating: string;
   } {
-    const stats = this?.drivingSystem.getStats();
-    const managerData = this?.getStats();
+    const stats = this.drivingSystem.getStats();
+    const managerData = this.getStats();
 
     // Calculate performance rating
     let performanceRating = 'Beginner';
-    if (stats?.totalSessions > 50) {
+    if (stats.totalSessions > 50) {
       performanceRating = 'Expert';
-    } else if (stats?.totalSessions > 20) {
+    } else if (stats.totalSessions > 20) {
       performanceRating = 'Advanced';
-    } else if (stats?.totalSessions > 5) {
+    } else if (stats.totalSessions > 5) {
       performanceRating = 'Intermediate';
     }
 
@@ -301,8 +301,8 @@ export class DrivingManager {
    * Get available vehicles for a player
    */
   getAvailableVehicles(playerId: string): VehicleDefinition[] {
-    const allVehicles = this?.getAllVehicleDefinitions();
-    return allVehicles?.filter((vehicle: any) => this?.isVehicleUnlocked(vehicle?.id, playerId));
+    const allVehicles = this.getAllVehicleDefinitions();
+    return allVehicles.filter((vehicle: any) => this.isVehicleUnlocked(vehicle.id, playerId));
   }
 
   /**
@@ -322,7 +322,7 @@ export class DrivingManager {
     suitability: 'excellent' | 'good' | 'fair' | 'poor';
     estimatedCost: number;
   }> {
-    const availableVehicles = this?.getAvailableVehicles(playerId);
+    const availableVehicles = this.getAvailableVehicles(playerId);
     const recommendations: Array<{
       vehicle: VehicleDefinition;
       reason: string;
@@ -331,11 +331,11 @@ export class DrivingManager {
     }> = [];
 
     for (const vehicle of availableVehicles) {
-      const suitability = this?.assessVehicleSuitability(vehicle, playerId);
-      const reason = this?.getVehicleRecommendationReason(vehicle);
-      const estimatedCost = vehicle?.value * (1 + (vehicle?.rarity === 'rare' ? 0.5 : 0));
+      const suitability = this.assessVehicleSuitability(vehicle, playerId);
+      const reason = this.getVehicleRecommendationReason(vehicle);
+      const estimatedCost = vehicle.value * (1 + (vehicle.rarity === 'rare' ? 0.5 : 0));
 
-      recommendations?.push({
+      recommendations.push({
         vehicle,
         reason,
         suitability,
@@ -343,7 +343,7 @@ export class DrivingManager {
       });
     }
 
-    return recommendations?.slice(0, 5); // Top 5 recommendations
+    return recommendations.slice(0, 5); // Top 5 recommendations
   }
 
   /**
@@ -352,7 +352,7 @@ export class DrivingManager {
   private assessVehicleSuitability(vehicle: VehicleDefinition, playerId: string): 'excellent' | 'good' | 'fair' | 'poor' {
     // This would check player's driving stats, preferences, etc.
     // For now, return based on vehicle tier
-    switch (vehicle?.rarity) {
+    switch (vehicle.rarity) {
       case 'legendary':
         return 'excellent';
       case 'epic':
@@ -370,9 +370,9 @@ export class DrivingManager {
    * Get recommendation reason for a vehicle
    */
   private getVehicleRecommendationReason(vehicle: VehicleDefinition): string {
-    if (vehicle?.type === 'car') {
+    if (vehicle.type === 'car') {
       return 'Great all-around performance for most tracks';
-    } else if (vehicle?.type === 'bike') {
+    } else if (vehicle.type === 'bike') {
       return 'Excellent handling and acceleration for tight courses';
     } else {
       return 'Specialized vehicle for specific track types';
@@ -383,14 +383,14 @@ export class DrivingManager {
    * Get track information
    */
   getTrackInfo(trackId: string): TrackDefinition | null {
-    return this?.drivingSystem.getTrack(trackId);
+    return this.drivingSystem.getTrack(trackId);
   }
 
   /**
    * Get all tracks
    */
   getAllTracks(): TrackDefinition[] {
-    return this?.drivingSystem.getAllTracks();
+    return this.drivingSystem.getAllTracks();
   }
 
   /**
@@ -402,7 +402,7 @@ export class DrivingManager {
     reason: string;
     estimatedTime: number;
   }> {
-    const allTracks = this?.getAllTracks();
+    const allTracks = this.getAllTracks();
     const recommendations: Array<{
       track: TrackDefinition;
       difficulty: 'easy' | 'medium' | 'hard' | 'expert';
@@ -411,11 +411,11 @@ export class DrivingManager {
     }> = [];
 
     for (const track of allTracks) {
-      const difficulty = this?.assessTrackDifficulty(track);
-      const reason = this?.getTrackRecommendationReason(track);
+      const difficulty = this.assessTrackDifficulty(track);
+      const reason = this.getTrackRecommendationReason(track);
       const estimatedTime = Math.ceil(track.length / 50); // Rough estimate
 
-      recommendations?.push({
+      recommendations.push({
         track,
         difficulty,
         reason,
@@ -423,16 +423,16 @@ export class DrivingManager {
       });
     }
 
-    return recommendations?.slice(0, 5);
+    return recommendations.slice(0, 5);
   }
 
   /**
    * Assess track difficulty
    */
   private assessTrackDifficulty(track: TrackDefinition): 'easy' | 'medium' | 'hard' | 'expert' {
-    if (track?.length < 200) return 'easy';
-    if (track?.length < 500) return 'medium';
-    if (track?.length < 1000) return 'hard';
+    if (track.length < 200) return 'easy';
+    if (track.length < 500) return 'medium';
+    if (track.length < 1000) return 'hard';
     return 'expert';
   }
 
@@ -440,11 +440,11 @@ export class DrivingManager {
    * Get track recommendation reason
    */
   private getTrackRecommendationReason(track: TrackDefinition): string {
-    if (track?.type === 'circuit') {
+    if (track.type === 'circuit') {
       return 'Classic racing circuit with multiple laps';
-    } else if (track?.type === 'sprint') {
+    } else if (track.type === 'sprint') {
       return 'Short, fast sprint track';
-    } else if (track?.type === 'drag') {
+    } else if (track.type === 'drag') {
       return 'Straight-line drag racing';
     } else {
       return 'Specialized track for unique racing experiences';
@@ -471,27 +471,27 @@ export class DrivingManager {
    * Validate vehicle definition
    */
   private validateVehicleDefinition(vehicle: VehicleDefinition): boolean {
-    if (!vehicle?.id || vehicle?.id.trim() === '') {
+    if (!vehicle.id || vehicle.id.trim() === '') {
       console.error('Vehicle ID is required');
       return false;
     }
 
-    if (!vehicle?.name || vehicle?.name.trim() === '') {
+    if (!vehicle.name || vehicle.name.trim() === '') {
       console.error('Vehicle name is required');
       return false;
     }
 
-    if (vehicle?.mass <= 0) {
+    if (vehicle.mass <= 0) {
       console.error('Vehicle mass must be positive');
       return false;
     }
 
-    if (vehicle?.maxSpeed <= 0) {
+    if (vehicle.maxSpeed <= 0) {
       console.error('Vehicle max speed must be positive');
       return false;
     }
 
-    if (vehicle?.acceleration <= 0) {
+    if (vehicle.acceleration <= 0) {
       console.error('Vehicle acceleration must be positive');
       return false;
     }
@@ -503,7 +503,7 @@ export class DrivingManager {
    * Generate unique session ID
    */
   private generateSessionId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `session_${timestamp}_${random}`;
   }
@@ -519,11 +519,11 @@ export class DrivingManager {
     timestamp: number;
   } {
     return {
-      vehicles: this?.getAllVehicleDefinitions(),
-      tracks: this?.getAllTracks(),
-      stats: this?.drivingSystem.getStats(),
-    const managerData = this?.getStats();
-      config: this?.drivingSystem.getConfig(),
+      vehicles: this.getAllVehicleDefinitions(),
+      tracks: this.getAllTracks(),
+      stats: this.drivingSystem.getStats(),
+    const managerData = this.getStats();
+      config: this.drivingSystem.getConfig(),
       timestamp: new Date()
     };
   }
@@ -531,7 +531,7 @@ export class DrivingManager {
   /**
    * Import driving system data
    */
-  importData(data: ReturnType<typeof this?.exportData>): void {
+  importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
     console.log('Driving system data imported');
   }

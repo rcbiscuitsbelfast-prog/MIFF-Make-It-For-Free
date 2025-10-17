@@ -1356,7 +1356,7 @@ export class ComputerVisionPure {
 
   constructor(config: Partial<ComputerVisionConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableComputerVisionManagement: true,
       enableImageProcessing: true,
       enableObjectDetection: true,
@@ -1374,7 +1374,7 @@ export class ComputerVisionPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalModels: 0,
       activeModels: 0,
       totalImages: 0,
@@ -1388,7 +1388,7 @@ export class ComputerVisionPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalModels: 0,
       totalImages: 0,
       averageProcessingTime: 0,
@@ -1402,7 +1402,7 @@ export class ComputerVisionPure {
    * Create a new computer vision manager
    */
   createManager(): ComputerVisionOutput {
-    if (!this?.config.enableComputerVisionManagement) {
+    if (!this.config.enableComputerVisionManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1412,8 +1412,8 @@ export class ComputerVisionPure {
 
     const manager: ComputerVisionManager = {
       id: managerData.id || `computervision-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Computer Vision Manager',
-      type: managerData?.type || 'research',
+      name: managerData.name || 'Unnamed Computer Vision Manager',
+      type: managerData.type || 'research',
       status: 'active',
       models: [],
       images: [],
@@ -1479,7 +1479,7 @@ export class ComputerVisionPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -1492,7 +1492,7 @@ export class ComputerVisionPure {
    * Get manager by ID
    */
   getManager(): ComputerVisionOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1512,7 +1512,7 @@ export class ComputerVisionPure {
    * Create vision model
    */
   createModel(): ComputerVisionOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-model',
@@ -1521,7 +1521,7 @@ export class ComputerVisionPure {
       };
     }
 
-    if (manager?.models.length >= this?.config.maxModels) {
+    if (manager.models.length >= this.config.maxModels) {
       return {
         op: 'create-model',
         status: 'error',
@@ -1531,10 +1531,10 @@ export class ComputerVisionPure {
 
     const newModel: VisionModel = {
       id: model.id || `model-${Date.now()}`,
-      name: model?.name || 'Unnamed Model',
-      type: model?.type || 'classification',
+      name: model.name || 'Unnamed Model',
+      type: model.type || 'classification',
       status: 'draft',
-      architecture: model?.architecture || {
+      architecture: model.architecture || {
         backbone: {
           type: 'resnet',
           name: 'resnet50',
@@ -1570,7 +1570,7 @@ export class ComputerVisionPure {
           parameters: {}
         }
       },
-      parameters: model?.parameters || {
+      parameters: model.parameters || {
         total: 0,
         trainable: 0,
         nonTrainable: 0,
@@ -1579,7 +1579,7 @@ export class ComputerVisionPure {
         inputSize: { width: 224, height: 224, channels: 3 },
         outputSize: { width: 224, height: 224, channels: 3 }
       },
-      training: model?.training || {
+      training: model.training || {
         epochs: 100,
         batchSize: 32,
         learningRate: {
@@ -1603,7 +1603,7 @@ export class ComputerVisionPure {
         },
         callbacks: []
       },
-      performance: model?.performance || {
+      performance: model.performance || {
         accuracy: 0,
         precision: 0,
         recall: 0,
@@ -1619,9 +1619,9 @@ export class ComputerVisionPure {
       ...model
     };
 
-    manager?.models?.push(newModel);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalModels++;
+    manager.models.push(newModel);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalModels++;
 
     return {
       op: 'create-model',
@@ -1634,14 +1634,14 @@ export class ComputerVisionPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): ComputerVisionPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): ComputerVisionAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1655,7 +1655,7 @@ export class ComputerVisionPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalModels = 0;
     let activeModels = 0;
     let totalImages = 0;
@@ -1663,21 +1663,21 @@ export class ComputerVisionPure {
     let totalPipelines = 0;
     let totalDetectors = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalModels += manager?.models.length;
-      activeModels += manager?.models.filter((m: any) => m?.status === 'trained' || m?.status === 'deployed').length;
-      totalImages += manager?.images.length;
-      totalVideos += manager?.videos.length;
-      totalPipelines += manager?.pipelines.length;
-      totalDetectors += manager?.detectors.length;
+    for (const manager of this.managers.values()) {
+      totalModels += manager.models.length;
+      activeModels += manager.models.filter((m: any) => m.status === 'trained' || m.status === 'deployed').length;
+      totalImages += manager.images.length;
+      totalVideos += manager.videos.length;
+      totalPipelines += manager.pipelines.length;
+      totalDetectors += manager.detectors.length;
     }
 
-    this?.performanceMetrics.totalModels = totalModels;
-    this?.performanceMetrics.activeModels = activeModels;
-    this?.performanceMetrics.totalImages = totalImages;
-    this?.performanceMetrics.totalVideos = totalVideos;
-    this?.performanceMetrics.totalPipelines = totalPipelines;
-    this?.performanceMetrics.totalDetectors = totalDetectors;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalModels = totalModels;
+    this.performanceMetrics.activeModels = activeModels;
+    this.performanceMetrics.totalImages = totalImages;
+    this.performanceMetrics.totalVideos = totalVideos;
+    this.performanceMetrics.totalPipelines = totalPipelines;
+    this.performanceMetrics.totalDetectors = totalDetectors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

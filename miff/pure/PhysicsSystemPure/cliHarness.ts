@@ -19,18 +19,18 @@ type Cmd =
 
 function main(){
   try {
-    const sample = process?.argv[2!] || 'PhysicsSystemPure/sample_world?.json';
-    const commands = process?.argv[3!] || '';
+    const sample = process.argv[2!] || 'PhysicsSystemPure/sample_world.json';
+    const commands = process.argv[3!] || '';
     
-    if (process?.argv[2] === 'help' || process?.argv[2] === '--help') {
+    if (process.argv[2] === 'help' || process.argv[2] === '--help') {
       showHelp();
       return;
     }
     
     const mgr = new PhysicsManager();
-    if (fs?.existsSync(sample)){
+    if (fs.existsSync(sample)){
       const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8')) as PhysicsWorld;
-      mgr?.load(j);
+      mgr.load(j);
     }
     
     const cmds: Cmd[] = commands 
@@ -45,63 +45,63 @@ function main(){
       let result: any;
       
       try {
-        switch (c?.op) {
+        switch (c.op) {
           case 'list':
-            result = mgr?.list();
-            outputs?.push(result: any);
+            result = mgr.list();
+            outputs.push(result);
             break;
           case 'create':
-            result = mgr?.create(c?.body);
-            outputs?.push({ op: 'create', status: result?.status, timestamp, result });
+            result = mgr.create(c.body);
+            outputs.push({ op: 'create', status: result.status, timestamp, result });
             break;
           case 'step':
-            result = mgr?.step(c?.dt);
-            outputs?.push(result: any);
+            result = mgr.step(c.dt);
+            outputs.push(result);
             break;
           case 'dump':
-            result = mgr?.dump(c?.id);
-            outputs?.push(result: any);
+            result = mgr.dump(c.id);
+            outputs.push(result);
             break;
           case 'addForce':
-            result = mgr?.addForce(c?.force);
-            outputs?.push({ op: 'addForce', status: result?.status, timestamp, result });
+            result = mgr.addForce(c.force);
+            outputs.push({ op: 'addForce', status: result.status, timestamp, result });
             break;
           case 'addConstraint':
-            result = mgr?.addConstraint(c?.constraint);
-            outputs?.push({ op: 'addConstraint', status: result?.status, timestamp, result });
+            result = mgr.addConstraint(c.constraint);
+            outputs.push({ op: 'addConstraint', status: result.status, timestamp, result });
             break;
           case 'removeForce':
-            result = mgr?.removeForce(c?.id);
-            outputs?.push({ op: 'removeForce', status: result?.status, timestamp, result });
+            result = mgr.removeForce(c.id);
+            outputs.push({ op: 'removeForce', status: result.status, timestamp, result });
             break;
           case 'removeConstraint':
-            result = mgr?.removeConstraint(c?.id);
-            outputs?.push({ op: 'removeConstraint', status: result?.status, timestamp, result });
+            result = mgr.removeConstraint(c.id);
+            outputs.push({ op: 'removeConstraint', status: result.status, timestamp, result });
             break;
           case 'analytics':
-            result = mgr?.analytics();
-            outputs?.push({ op: 'analytics', status: 'ok', timestamp, result });
+            result = mgr.analytics();
+            outputs.push({ op: 'analytics', status: 'ok', timestamp, result });
             break;
           case 'export':
-            result = mgr?.export(c?.format);
-            outputs?.push({ op: 'export', status: result?.status, timestamp, result });
-            if (result?.status === 'ok') {
+            result = mgr.export(c.format);
+            outputs.push({ op: 'export', status: result.status, timestamp, result });
+            if (result.status === 'ok') {
               // Write export to file
               const filename = `physics_export_${c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
               fs.writeFileSync(filename, JSON.stringify(result.data, null, 2));
-              outputs[outputs?.length - 1].result?.filename = filename;
+              outputs[outputs.length - 1].result.filename = filename;
             }
             break;
           case 'demo':
             result = runDemo(mgr);
-            outputs?.push({ op: 'demo', status: 'ok', timestamp, result });
+            outputs.push({ op: 'demo', status: 'ok', timestamp, result });
             break;
           case 'help':
             showHelp();
-            outputs?.push({ op: 'help', status: 'ok', timestamp, result: { message: 'Help displayed' } });
+            outputs.push({ op: 'help', status: 'ok', timestamp, result: { message: 'Help displayed' } });
             break;
           default:
-            outputs?.push({ 
+            outputs.push({ 
               op: (c as any).op || 'unknown', 
               status: 'error', 
               timestamp, 
@@ -110,7 +110,7 @@ function main(){
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        outputs?.push({ op: 'error', status: 'error', timestamp, issues: [String(error)] });
+        outputs.push({ op: 'error', status: 'error', timestamp, issues: [String(error)] });
       }
     }
     
@@ -153,8 +153,8 @@ function runDemo(mgr: PhysicsManager): any {
     height: 1
   };
   
-  results?.push(mgr?.create(ball));
-  results?.push(mgr?.create(ground));
+  results.push(mgr.create(ball));
+  results.push(mgr.create(ground));
   
   // Add some forces
   const wind = {
@@ -163,7 +163,7 @@ function runDemo(mgr: PhysicsManager): any {
     duration: 3
   };
   
-  results?.push(mgr?.addForce(wind));
+  results.push(mgr.addForce(wind));
   
   // Add a spring constraint
   const spring = {
@@ -176,19 +176,19 @@ function runDemo(mgr: PhysicsManager): any {
     damping: 0.1
   };
   
-  results?.push(mgr?.addConstraint(spring));
+  results.push(mgr.addConstraint(spring));
   
   // Simulate for a few steps
   for (let i = 0; i < 10; i++) {
-    results?.push(mgr?.step(0.016)); // ~60 FPS
+    results.push(mgr.step(0.016)); // ~60 FPS
   }
   
   // Get analytics
-  results?.push(mgr?.analytics());
+  results.push(mgr.analytics());
   
   return {
     message: 'Physics demo completed',
-    steps: results?.length,
+    steps: results.length,
     summary: 'Created ball and ground, added wind force and spring constraint, simulated 10 steps'
   };
 }
@@ -198,8 +198,8 @@ function showHelp() {
 PhysicsSystemPure CLI - Advanced 2D Physics Simulation
 
 USAGE:
-  node cliHarness?.ts [world_file!] [commands_file!]
-  node cliHarness?.ts help
+  node cliHarness.ts [world_file!] [commands_file!]
+  node cliHarness.ts help
 
 COMMANDS:
   list                    - List all bodies, forces, and constraints
@@ -241,14 +241,14 @@ CONSTRAINT TYPES:
 
 EXAMPLES:
   # Run demo
-  node cliHarness?.ts
+  node cliHarness.ts
 
   # Load world and run commands
-  node cliHarness?.ts world?.json commands?.json
+  node cliHarness.ts world.json commands.json
 
   # Get help
-  node cliHarness?.ts help
+  node cliHarness.ts help
 `);
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

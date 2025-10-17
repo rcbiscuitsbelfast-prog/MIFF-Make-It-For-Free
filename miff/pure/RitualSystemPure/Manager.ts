@@ -23,7 +23,7 @@ export class RitualManager {
 
   constructor(ritualSystem: RitualSystemPure) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.ritualSystem = ritualSystem;
+    this.ritualSystem = ritualSystem;
   }
 
   /**
@@ -31,53 +31,53 @@ export class RitualManager {
    */
   createRitualDefinition(ritualData: Partial<RitualDefinition>): RitualDefinition | null {
     // Validate required fields
-    if (!ritualData?.id || ritualData?.id.trim() === '') {
+    if (!ritualData.id || ritualData.id.trim() === '') {
       console.error('❌ Ritual ID is required');
       return null;
     }
 
-    if (!ritualData?.name || ritualData?.name.trim() === '') {
+    if (!ritualData.name || ritualData.name.trim() === '') {
       console.error('❌ Ritual name is required');
       return null;
     }
 
-    if (!ritualData?.steps || ritualData?.steps.length === 0) {
+    if (!ritualData.steps || ritualData.steps.length === 0) {
       console.error('❌ Ritual must have at least one step');
       return null;
     }
 
-    if (ritualData?.minParticipants > ritualData?.maxParticipants) {
+    if (ritualData.minParticipants > ritualData.maxParticipants) {
       console.error('❌ Minimum participants cannot exceed maximum');
       return null;
     }
 
     // Create ritual definition
     const ritual: RitualDefinition = {
-      id: ritualData?.id,
-      name: ritualData?.name,
-      description: ritualData?.description || 'A magical ritual',
-      category: ritualData?.category || 'summoning',
-      tier: ritualData?.tier || 'basic',
-      steps: ritualData?.steps,
-      requiredParticipants: ritualData?.requiredParticipants || 1,
-      minParticipants: ritualData?.minParticipants || 1,
-      maxParticipants: ritualData?.maxParticipants || 1,
-      baseDuration: ritualData?.baseDuration || 60000,
-      manaCost: ritualData?.manaCost || 100,
-      itemRequirements: ritualData?.itemRequirements || [],
-      environmentRequirements: ritualData?.environmentRequirements || [],
-      alignmentRequirement: ritualData?.alignmentRequirement || 'neutral',
-      successRate: ritualData?.successRate || 0.8,
-      failureConsequences: ritualData?.failureConsequences || 'minor',
-      rewards: ritualData?.rewards || [],
-      risks: ritualData?.risks || [],
-      visualTheme: ritualData?.visualTheme || 'default',
-      soundTheme: ritualData?.soundTheme || 'default',
-      icon: ritualData?.icon || 'ritual_icon',
-      lore: ritualData?.lore || '',
-      prerequisites: ritualData?.prerequisites || [],
-      cooldown: ritualData?.cooldown || 300000,
-      charges: ritualData?.charges
+      id: ritualData.id,
+      name: ritualData.name,
+      description: ritualData.description || 'A magical ritual',
+      category: ritualData.category || 'summoning',
+      tier: ritualData.tier || 'basic',
+      steps: ritualData.steps,
+      requiredParticipants: ritualData.requiredParticipants || 1,
+      minParticipants: ritualData.minParticipants || 1,
+      maxParticipants: ritualData.maxParticipants || 1,
+      baseDuration: ritualData.baseDuration || 60000,
+      manaCost: ritualData.manaCost || 100,
+      itemRequirements: ritualData.itemRequirements || [],
+      environmentRequirements: ritualData.environmentRequirements || [],
+      alignmentRequirement: ritualData.alignmentRequirement || 'neutral',
+      successRate: ritualData.successRate || 0.8,
+      failureConsequences: ritualData.failureConsequences || 'minor',
+      rewards: ritualData.rewards || [],
+      risks: ritualData.risks || [],
+      visualTheme: ritualData.visualTheme || 'default',
+      soundTheme: ritualData.soundTheme || 'default',
+      icon: ritualData.icon || 'ritual_icon',
+      lore: ritualData.lore || '',
+      prerequisites: ritualData.prerequisites || [],
+      cooldown: ritualData.cooldown || 300000,
+      charges: ritualData.charges
     };
 
     return ritual;
@@ -88,7 +88,7 @@ export class RitualManager {
    */
   registerRitual(ritual: RitualDefinition): boolean {
     // Validate ritual
-    if (!this?.validateRitualDefinition(ritual)) {
+    if (!this.validateRitualDefinition(ritual)) {
       console.error(`❌ Invalid ritual definition: ${ritual.id}`);
       return false;
     }
@@ -104,34 +104,34 @@ export class RitualManager {
   startRitualEnhanced(ritualId: string, leaderId: string, participantIds: string[] = []): RitualInstance | null {
     try {
       // Validate inputs
-      if (!leaderId || leaderId?.trim() === '') {
+      if (!leaderId || leaderId.trim() === '') {
         throw new Error('Leader ID is required');
       }
 
-      if (participantIds?.length > 0 && participantIds?.includes(leaderId)) {
+      if (participantIds.length > 0 && participantIds.includes(leaderId)) {
         throw new Error('Leader cannot also be a participant');
       }
 
       // Check prerequisites
-      const ritualDef = this?.ritualSystem.getRitualDefinition(ritualId);
+      const ritualDef = this.ritualSystem.getRitualDefinition(ritualId);
       if (!ritualDef) {
         throw new Error(`Ritual definition not found: ${ritualId}`);
       }
 
       // Check if leader meets requirements
-      if (!this?.checkParticipantRequirements(leaderId, 'leader', ritualDef)) {
+      if (!this.checkParticipantRequirements(leaderId, 'leader', ritualDef)) {
         throw new Error('Leader does not meet ritual requirements');
       }
 
       // Validate participants
       for (const participantId of participantIds) {
-        if (!this?.checkParticipantRequirements(participantId, 'participant', ritualDef)) {
+        if (!this.checkParticipantRequirements(participantId, 'participant', ritualDef)) {
           throw new Error(`Participant ${participantId} does not meet requirements`);
         }
       }
 
       // Start the ritual
-      const ritual = this?.ritualSystem.startRitual(ritualId, leaderId, participantIds);
+      const ritual = this.ritualSystem.startRitual(ritualId, leaderId, participantIds);
 
       if (ritual) {
         console.log(`🎭 Started ritual: ${ritualDef.name} led by ${leaderId}`);
@@ -167,36 +167,36 @@ export class RitualManager {
    */
   progressRitualEnhanced(ritualId: string): RitualResult | null {
     try {
-      const ritual = this?.ritualSystem.getActiveRitual(ritualId);
+      const ritual = this.ritualSystem.getActiveRitual(ritualId);
       if (!ritual) {
         console.warn(`⚠️ Ritual not found: ${ritualId}`);
         return null;
       }
 
-      const currentStep = ritual?.definition.steps[ritual?.currentStep];
+      const currentStep = ritual.definition.steps[ritual.currentStep];
       if (!currentStep) {
         console.warn(`⚠️ No current step for ritual: ${ritualId}`);
         return null;
       }
 
       // Check if ritual can progress
-      if (ritual?.status !== 'active') {
+      if (ritual.status !== 'active') {
         console.warn(`⚠️ Ritual not active: ${ritualId}`);
         return null;
       }
 
       // Calculate step success
-      const successRate = this?.calculateStepSuccessRate(ritual, currentStep);
+      const successRate = this.calculateStepSuccessRate(ritual, currentStep);
       const success = Math.random() < successRate;
 
       if (!success) {
-        return this?.handleStepFailure(ritual, currentStep);
+        return this.handleStepFailure(ritual, currentStep);
       }
 
       // Progress the ritual
-      const result = this?.ritualSystem.progressRitual(ritualId);
+      const result = this.ritualSystem.progressRitual(ritualId);
 
-      if (result: any) {
+      if (result) {
         console.log(`✅ Ritual step completed: ${currentStep.name}`);
         console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
       }
@@ -213,17 +213,17 @@ export class RitualManager {
    * Calculate step success rate
    */
   private calculateStepSuccessRate(ritual: RitualInstance, step: RitualStep): number {
-    let successRate = step?.successRate;
+    let successRate = step.successRate;
 
     // Factor in participant quality
-    const participantQuality = this?.calculateParticipantQuality(ritual);
+    const participantQuality = this.calculateParticipantQuality(ritual);
     successRate = (successRate + participantQuality) / 2;
 
     // Factor in ritual quality so far
-    successRate = (successRate + ritual?.quality) / 2;
+    successRate = (successRate + ritual.quality) / 2;
 
     // Factor in environmental conditions
-    const environmentalFactor = this?.getEnvironmentalFactor(ritual);
+    const environmentalFactor = this.getEnvironmentalFactor(ritual);
     successRate *= environmentalFactor;
 
     return Math.max(0.1, Math.min(0.99, successRate));
@@ -233,10 +233,10 @@ export class RitualManager {
    * Calculate participant quality
    */
   private calculateParticipantQuality(ritual: RitualInstance): number {
-    if (ritual?.participants.length === 0) return 0.5;
+    if (ritual.participants.length === 0) return 0.5;
 
-    const totalMana = ritual?.participants.reduce((sum, p) => sum + (p?.manaContribution || 0), 0);
-    const averageMana = totalMana / ritual?.participants.length;
+    const totalMana = ritual.participants.reduce((sum, p) => sum + (p.manaContribution || 0), 0);
+    const averageMana = totalMana / ritual.participants.length;
 
     // Normalize to 0-1 scale (assuming 100 mana is good)
     return Math.min(1.0, averageMana / 100);
@@ -258,29 +258,29 @@ export class RitualManager {
     console.warn(`⚠️ Ritual step failed: ${step.name}`);
 
     // Apply failure effects
-    for (const effect of step?.failureEffects) {
-      this?.applyFailureEffect(ritual, effect);
+    for (const effect of step.failureEffects) {
+      this.applyFailureEffect(ritual, effect);
     }
 
     // Create failure result
     const result: RitualResult = {
       success: false,
-      ritualId: ritual?.id,
-      leaderId: ritual?.leaderId,
-      participants: ritual?.participants.map((p: any) => p?.id),
-      duration: new Date() - ritual?.startTime,
-      energySpent: ritual?.energySpent,
-      quality: ritual?.quality,
+      ritualId: ritual.id,
+      leaderId: ritual.leaderId,
+      participants: ritual.participants.map((p: any) => p.id),
+      duration: new Date() - ritual.startTime,
+      energySpent: ritual.energySpent,
+      quality: ritual.quality,
       rewards: [],
       risksTriggered: [],
       summonedEntities: [],
-      effectsApplied: step?.failureEffects,
+      effectsApplied: step.failureEffects,
       experienceGained: 0,
-      failureReason: `Step failed: ${step?.name}`
+      failureReason: `Step failed: ${step.name}`
     };
 
     // Mark ritual as failed
-    ritual?.status = 'failed';
+    ritual.status = 'failed';
 
     return result;
   }
@@ -307,19 +307,19 @@ export class RitualManager {
     mostSuccessfulCategory: string;
     totalManaSpent: number;
   } {
-    const stats = this?.ritualSystem.getStats();
-    const managerData = this?.getStats();
-    const successRate = stats?.completedRituals > 0 ?
-      (stats?.completedRituals / (stats?.completedRituals + stats?.totalRituals - stats?.activeRituals)) * 100 : 0;
+    const stats = this.ritualSystem.getStats();
+    const managerData = this.getStats();
+    const successRate = stats.completedRituals > 0 ?
+      (stats.completedRituals / (stats.completedRituals + stats.totalRituals - stats.activeRituals)) * 100 : 0;
 
     return {
-      totalRituals: stats?.totalRituals,
-      activeRituals: stats?.activeRituals,
-      completedRituals: stats?.completedRituals,
+      totalRituals: stats.totalRituals,
+      activeRituals: stats.activeRituals,
+      completedRituals: stats.completedRituals,
       successRate: Math.round(successRate * 100) / 100,
       averageQuality: Math.round(stats.averageQuality * 100) / 100,
-      mostSuccessfulCategory: stats?.mostCommonCategory,
-      totalManaSpent: stats?.totalExperienceGranted // Using as proxy for mana
+      mostSuccessfulCategory: stats.mostCommonCategory,
+      totalManaSpent: stats.totalExperienceGranted // Using as proxy for mana
     };
   }
 
@@ -327,8 +327,8 @@ export class RitualManager {
    * Get available rituals for a participant
    */
   getAvailableRituals(participantId: string): RitualDefinition[] {
-    const allRituals = this?.getAllRitualDefinitions();
-    return allRituals?.filter((ritual: any) => this?.canParticipateInRitual(participantId, ritual));
+    const allRituals = this.getAllRitualDefinitions();
+    return allRituals.filter((ritual: any) => this.canParticipateInRitual(participantId, ritual));
   }
 
   /**
@@ -336,8 +336,8 @@ export class RitualManager {
    */
   private canParticipateInRitual(participantId: string, ritual: RitualDefinition): boolean {
     // Check prerequisites
-    for (const prereq of ritual?.prerequisites) {
-      if (!this?.hasPrerequisite(participantId, prereq)) {
+    for (const prereq of ritual.prerequisites) {
+      if (!this.hasPrerequisite(participantId, prereq)) {
         return false;
       }
     }
@@ -366,7 +366,7 @@ export class RitualManager {
     difficulty: 'easy' | 'medium' | 'hard' | 'expert';
     expectedReward: string;
   }> {
-    const availableRituals = this?.getAvailableRituals(participantId);
+    const availableRituals = this.getAvailableRituals(participantId);
     const recommendations: Array<{
       ritual: RitualDefinition;
       reason: string;
@@ -375,19 +375,19 @@ export class RitualManager {
     }> = [];
 
     for (const ritual of availableRituals) {
-      const difficulty = this?.assessRitualDifficulty(ritual);
-      const expectedReward = this?.getExpectedReward(ritual);
+      const difficulty = this.assessRitualDifficulty(ritual);
+      const expectedReward = this.getExpectedReward(ritual);
 
       let reason = '';
-      if (ritual?.category === 'summoning') {
+      if (ritual.category === 'summoning') {
         reason = 'Learn to summon powerful allies';
-      } else if (ritual?.category === 'binding') {
+      } else if (ritual.category === 'binding') {
         reason = 'Master the art of spirit binding';
       } else {
         reason = 'Expand your magical knowledge';
       }
 
-      recommendations?.push({
+      recommendations.push({
         ritual,
         reason,
         difficulty,
@@ -395,16 +395,16 @@ export class RitualManager {
       });
     }
 
-    return recommendations?.slice(0, 5); // Top 5 recommendations
+    return recommendations.slice(0, 5); // Top 5 recommendations
   }
 
   /**
    * Assess ritual difficulty
    */
   private assessRitualDifficulty(ritual: RitualDefinition): 'easy' | 'medium' | 'hard' | 'expert' {
-    const manaCost = ritual?.manaCost;
-    const participantCount = ritual?.requiredParticipants;
-    const stepCount = ritual?.steps.length;
+    const manaCost = ritual.manaCost;
+    const participantCount = ritual.requiredParticipants;
+    const stepCount = ritual.steps.length;
 
     if (manaCost < 100 && participantCount === 1 && stepCount <= 2) {
       return 'easy';
@@ -421,17 +421,17 @@ export class RitualManager {
    * Get expected reward from ritual
    */
   private getExpectedReward(ritual: RitualDefinition): string {
-    if (ritual?.rewards.length === 0) return 'Experience and knowledge';
+    if (ritual.rewards.length === 0) return 'Experience and knowledge';
 
-    const mainReward = ritual?.rewards[0!];
-    return `${mainReward?.type}: ${mainReward?.description}`;
+    const mainReward = ritual.rewards[0!];
+    return `${mainReward.type}: ${mainReward.description}`;
   }
 
   /**
    * Get ritual by ID
    */
   getRitual(ritualId: string): RitualDefinition | null {
-    return this?.ritualSystem.getRitualDefinition(ritualId);
+    return this.ritualSystem.getRitualDefinition(ritualId);
   }
 
   /**
@@ -446,41 +446,41 @@ export class RitualManager {
    * Get active ritual
    */
   getActiveRitual(ritualId: string): RitualInstance | null {
-    return this?.ritualSystem.getActiveRitual(ritualId);
+    return this.ritualSystem.getActiveRitual(ritualId);
   }
 
   /**
    * Cancel ritual
    */
   cancelRitual(ritualId: string): boolean {
-    return this?.ritualSystem.cancelRitual(ritualId);
+    return this.ritualSystem.cancelRitual(ritualId);
   }
 
   /**
    * Validate ritual definition
    */
   private validateRitualDefinition(ritual: RitualDefinition): boolean {
-    if (!ritual?.id || ritual?.id.trim() === '') {
+    if (!ritual.id || ritual.id.trim() === '') {
       console.error('Ritual ID is required');
       return false;
     }
 
-    if (!ritual?.name || ritual?.name.trim() === '') {
+    if (!ritual.name || ritual.name.trim() === '') {
       console.error('Ritual name is required');
       return false;
     }
 
-    if (ritual?.steps.length === 0) {
+    if (ritual.steps.length === 0) {
       console.error('Ritual must have at least one step');
       return false;
     }
 
-    if (ritual?.minParticipants > ritual?.maxParticipants) {
+    if (ritual.minParticipants > ritual.maxParticipants) {
       console.error('Minimum participants cannot exceed maximum');
       return false;
     }
 
-    if (ritual?.manaCost < 0) {
+    if (ritual.manaCost < 0) {
       console.error('Mana cost cannot be negative');
       return false;
     }
@@ -495,14 +495,14 @@ export class RitualManager {
     rituals: RitualDefinition[];
     activeRituals: RitualInstance[];
     stats: ReturnType<RitualSystemPure['getStats']>;
-    const managerData = this?.getStats();
+    const managerData = this.getStats();
     timestamp: number;
   } {
     return {
-      rituals: this?.getAllRitualDefinitions(),
-      activeRituals: this?.ritualSystem.getActiveRituals(),
-      stats: this?.ritualSystem.getStats(),
-    const managerData = this?.getStats();
+      rituals: this.getAllRitualDefinitions(),
+      activeRituals: this.ritualSystem.getActiveRituals(),
+      stats: this.ritualSystem.getStats(),
+    const managerData = this.getStats();
       timestamp: new Date()
     };
   }
@@ -510,7 +510,7 @@ export class RitualManager {
   /**
    * Import ritual system data
    */
-  importData(data: ReturnType<typeof this?.exportData>): void {
+  importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
     console.log('Ritual system data imported');
   }

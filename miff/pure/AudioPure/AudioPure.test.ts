@@ -1,5 +1,5 @@
 /**
- * AudioPure?.test.ts
+ * AudioPure.test.ts
  * 
  * Tests for AudioPure module covering sound management, spatial audio, and headless mode.
  */
@@ -32,9 +32,9 @@ describe('AudioPure', () => {
 
   describe('AudioSystem', () => {
     it('should create audio system with correct configuration', () => {
-      expect(audioSystem?.getStats().maxSimultaneous).toBe(8);
-      expect(audioSystem?.getStats().spatialAudio).toBe(true);
-      expect(audioSystem?.getStats().headless).toBe(true);
+      expect(audioSystem.getStats().maxSimultaneous).toBe(8);
+      expect(audioSystem.getStats().spatialAudio).toBe(true);
+      expect(audioSystem.getStats().headless).toBe(true);
     });
 
     it('should register and unregister sounds', () => {
@@ -48,13 +48,13 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      expect(audioSystem?.getSoundDefinition('test-sound')).toEqual(soundDef);
-      expect(audioSystem?.getStats().totalSounds).toBe(1);
+      audioSystem.registerSound(soundDef);
+      expect(audioSystem.getSoundDefinition('test-sound')).toEqual(soundDef);
+      expect(audioSystem.getStats().totalSounds).toBe(1);
 
-      audioSystem?.unregisterSound('test-sound');
-      expect(audioSystem?.getSoundDefinition('test-sound')).toBeUndefined();
-      expect(audioSystem?.getStats().totalSounds).toBe(0);
+      audioSystem.unregisterSound('test-sound');
+      expect(audioSystem.getSoundDefinition('test-sound')).toBeUndefined();
+      expect(audioSystem.getStats().totalSounds).toBe(0);
     });
 
     it('should play sounds and return instance IDs', () => {
@@ -68,16 +68,16 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      const instanceId = audioSystem?.playSound('test-sound', 0.5, 1.2);
+      audioSystem.registerSound(soundDef);
+      const instanceId = audioSystem.playSound('test-sound', 0.5, 1.2);
 
       expect(instanceId).toBeDefined();
       expect(instanceId).toContain('test-sound');
-      expect(audioSystem?.getActiveSounds()).toHaveLength(1);
+      expect(audioSystem.getActiveSounds()).toHaveLength(1);
     });
 
     it('should not play non-existent sounds', () => {
-      const instanceId = audioSystem?.playSound('non-existent');
+      const instanceId = audioSystem.playSound('non-existent');
       expect(instanceId).toBeNull();
     });
 
@@ -95,17 +95,17 @@ describe('AudioPure', () => {
       // Create a new audio system with limited simultaneous sounds for this test
       const limitedConfig = { ...config, maxSimultaneousSounds: 2 };
       const limitedAudioSystem = new AudioSystem(limitedConfig, true);
-      const warnSpy = jest?.spyOn(console, 'warn').mockImplementation(() => {});
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-      limitedAudioSystem?.registerSound(soundDef);
+      limitedAudioSystem.registerSound(soundDef);
 
       // Try to play more sounds than the limit
       const results = [];
       for (let i = 0; i < 4; i++) {
-        const beforeSize = limitedAudioSystem?.getActiveSounds().length;
-        const result = limitedAudioSystem?.playSound('test-sound');
-        const afterSize = limitedAudioSystem?.getActiveSounds().length;
-        results?.push(result: any);
+        const beforeSize = limitedAudioSystem.getActiveSounds().length;
+        const result = limitedAudioSystem.playSound('test-sound');
+        const afterSize = limitedAudioSystem.getActiveSounds().length;
+        results.push(result);
         console.log(`Call ${i + 1}: result=${result}, beforeSize=${beforeSize}, afterSize=${afterSize}`);
       }
 
@@ -118,7 +118,7 @@ describe('AudioPure', () => {
       expect(results[2!]).toBeNull();
       expect(results[3!]).toBeNull();
       
-      expect(limitedAudioSystem?.getActiveSounds()).toHaveLength(2); // Max limit
+      expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
       expect(warnSpy).toHaveBeenCalledTimes(2); // Warning for the 2 failed attempts
     });
 
@@ -133,14 +133,14 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      const instanceId = audioSystem?.playSound('test-sound');
+      audioSystem.registerSound(soundDef);
+      const instanceId = audioSystem.playSound('test-sound');
 
-      expect(audioSystem?.getActiveSounds()).toHaveLength(1);
+      expect(audioSystem.getActiveSounds()).toHaveLength(1);
 
-      const stopped = audioSystem?.stopSound(instanceId!);
+      const stopped = audioSystem.stopSound(instanceId!);
       expect(stopped).toBe(true);
-      expect(audioSystem?.getActiveSounds()).toHaveLength(0);
+      expect(audioSystem.getActiveSounds()).toHaveLength(0);
     });
 
     it('should stop all sounds', () => {
@@ -154,17 +154,17 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
+      audioSystem.registerSound(soundDef);
 
       // Play multiple sounds
-      audioSystem?.playSound('test-sound');
-      audioSystem?.playSound('test-sound');
-      audioSystem?.playSound('test-sound');
+      audioSystem.playSound('test-sound');
+      audioSystem.playSound('test-sound');
+      audioSystem.playSound('test-sound');
 
-      expect(audioSystem?.getActiveSounds()).toHaveLength(3);
+      expect(audioSystem.getActiveSounds()).toHaveLength(3);
 
-      audioSystem?.stopAllSounds();
-      expect(audioSystem?.getActiveSounds()).toHaveLength(0);
+      audioSystem.stopAllSounds();
+      expect(audioSystem.getActiveSounds()).toHaveLength(0);
     });
 
     it('should set volume correctly', () => {
@@ -178,13 +178,13 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      const instanceId = audioSystem?.playSound('test-sound');
+      audioSystem.registerSound(soundDef);
+      const instanceId = audioSystem.playSound('test-sound');
 
-      const success = audioSystem?.setVolume(instanceId!, 0.5);
+      const success = audioSystem.setVolume(instanceId!, 0.5);
       expect(success).toBe(true);
 
-      const activeSounds = audioSystem?.getActiveSounds();
+      const activeSounds = audioSystem.getActiveSounds();
       expect(activeSounds[0!].volume).toBe(0.5);
     });
 
@@ -199,15 +199,15 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      const instanceId = audioSystem?.playSound('test-sound');
+      audioSystem.registerSound(soundDef);
+      const instanceId = audioSystem.playSound('test-sound');
 
       // Try to set volume outside valid range
-      audioSystem?.setVolume(instanceId!, -0.5);
-      expect(audioSystem?.getActiveSounds()[0!].volume).toBe(0);
+      audioSystem.setVolume(instanceId!, -0.5);
+      expect(audioSystem.getActiveSounds()[0!].volume).toBe(0);
 
-      audioSystem?.setVolume(instanceId!, 1.5);
-      expect(audioSystem?.getActiveSounds()[0!].volume).toBe(1);
+      audioSystem.setVolume(instanceId!, 1.5);
+      expect(audioSystem.getActiveSounds()[0!].volume).toBe(1);
     });
   });
 
@@ -223,7 +223,7 @@ describe('AudioPure', () => {
         spatial: true
       };
 
-      audioSystem?.registerSound(soundDef);
+      audioSystem.registerSound(soundDef);
 
       const spatialConfig: SpatialAudioConfig = {
         position: { x: 10, y: 5, z: 0 },
@@ -233,22 +233,22 @@ describe('AudioPure', () => {
         dopplerEffect: true
       };
 
-      const instanceId = audioSystem?.playSpatialSound('spatial-sound', spatialConfig);
+      const instanceId = audioSystem.playSpatialSound('spatial-sound', spatialConfig);
       expect(instanceId).toBeDefined();
 
-      const activeSounds = audioSystem?.getActiveSounds();
+      const activeSounds = audioSystem.getActiveSounds();
       expect(activeSounds[0!].spatial).toBe(true);
-      expect(activeSounds[0!].position).toEqual(spatialConfig?.position);
-      expect(activeSounds[0!].velocity).toEqual(spatialConfig?.velocity);
+      expect(activeSounds[0!].position).toEqual(spatialConfig.position);
+      expect(activeSounds[0!].velocity).toEqual(spatialConfig.velocity);
     });
 
     it('should update listener position and velocity', () => {
-      audioSystem?.setListenerPosition({ x: 0, y: 0, z: 0 });
-      audioSystem?.setListenerVelocity({ x: 1, y: 0, z: 0 });
+      audioSystem.setListenerPosition({ x: 0, y: 0, z: 0 });
+      audioSystem.setListenerVelocity({ x: 1, y: 0, z: 0 });
 
       // These methods don't return values, so we just verify they don't throw
-      expect(() => audioSystem?.setListenerPosition({ x: 5, y: 10, z: 15 })).not?.toThrow();
-      expect(() => audioSystem?.setListenerVelocity({ x: 2, y: 1, z: 0 })).not?.toThrow();
+      expect(() => audioSystem.setListenerPosition({ x: 5, y: 10, z: 15 })).not.toThrow();
+      expect(() => audioSystem.setListenerVelocity({ x: 2, y: 1, z: 0 })).not.toThrow();
     });
 
     it('should update spatial audio calculations', () => {
@@ -262,7 +262,7 @@ describe('AudioPure', () => {
         spatial: true
       };
 
-      audioSystem?.registerSound(soundDef);
+      audioSystem.registerSound(soundDef);
 
       const spatialConfig: SpatialAudioConfig = {
         position: { x: 10, y: 0, z: 0 },
@@ -272,11 +272,11 @@ describe('AudioPure', () => {
         dopplerEffect: true
       };
 
-      const instanceId = audioSystem?.playSpatialSound('spatial-sound', spatialConfig);
-      audioSystem?.setListenerPosition({ x: 0, y: 0, z: 0 });
+      const instanceId = audioSystem.playSpatialSound('spatial-sound', spatialConfig);
+      audioSystem.setListenerPosition({ x: 0, y: 0, z: 0 });
 
       // Update spatial audio
-      expect(() => audioSystem?.updateSpatialAudio()).not?.toThrow();
+      expect(() => audioSystem.updateSpatialAudio()).not.toThrow();
     });
   });
 
@@ -284,10 +284,10 @@ describe('AudioPure', () => {
     it('should register and call event callbacks', () => {
       const events: AudioEvent[] = [];
       const callback = (event: AudioEvent) => {
-        events?.push(event);
+        events.push(event);
       };
 
-      audioSystem?.addCallback(callback);
+      audioSystem.addCallback(callback);
 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
@@ -299,23 +299,23 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      const instanceId = audioSystem?.playSound('test-sound');
-      audioSystem?.stopSound(instanceId!);
+      audioSystem.registerSound(soundDef);
+      const instanceId = audioSystem.playSound('test-sound');
+      audioSystem.stopSound(instanceId!);
 
-      expect(events?.length).toBeGreaterThan(0);
-      expect(events?.some(e => e?.type === 'play')).toBe(true);
-      expect(events?.some(e => e?.type === 'stop')).toBe(true);
+      expect(events.length).toBeGreaterThan(0);
+      expect(events.some(e => e.type === 'play')).toBe(true);
+      expect(events.some(e => e.type === 'stop')).toBe(true);
     });
 
     it('should remove callbacks correctly', () => {
       const events: AudioEvent[] = [];
       const callback = (event: AudioEvent) => {
-        events?.push(event);
+        events.push(event);
       };
 
-      audioSystem?.addCallback(callback);
-      audioSystem?.removeCallback(callback);
+      audioSystem.addCallback(callback);
+      audioSystem.removeCallback(callback);
 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
@@ -327,11 +327,11 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      audioSystem?.playSound('test-sound');
+      audioSystem.registerSound(soundDef);
+      audioSystem.playSound('test-sound');
 
       // Should not have called the callback since it was removed
-      expect(events?.length).toBe(0);
+      expect(events.length).toBe(0);
     });
   });
 
@@ -347,10 +347,10 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      audioSystem?.registerSound(soundDef);
-      audioSystem?.playSound('test-sound');
+      audioSystem.registerSound(soundDef);
+      audioSystem.playSound('test-sound');
 
-      const report = audioSystem?.generateAudioReport();
+      const report = audioSystem.generateAudioReport();
       
       expect(report).toContain('Audio System Report');
       expect(report).toContain('Total Registered Sounds: 1');
@@ -363,7 +363,7 @@ describe('AudioPure', () => {
         throw new Error('Test error');
       };
 
-      audioSystem?.addCallback(errorCallback);
+      audioSystem.addCallback(errorCallback);
 
       const soundDef: SoundDefinition = {
         id: 'test-sound',
@@ -376,11 +376,11 @@ describe('AudioPure', () => {
       };
 
       // Should not throw, should log error instead
-      const errSpy = jest?.spyOn(console, 'error').mockImplementation(() => {});
+      const errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       expect(() => {
-        audioSystem?.registerSound(soundDef);
-        audioSystem?.playSound('test-sound');
-      }).not?.toThrow();
+        audioSystem.registerSound(soundDef);
+        audioSystem.playSound('test-sound');
+      }).not.toThrow();
       expect(errSpy).toHaveBeenCalled();
     });
   });
@@ -394,14 +394,14 @@ describe('AudioPure', () => {
         { id: 'coin', name: 'Coin Collect', category: 'sfx', volume: 0.9, pitch: 1.2, loop: false, spatial: false }
       ];
 
-      sounds?.forEach(sound => audioSystem?.registerSound(sound));
+      sounds.forEach(sound => audioSystem.registerSound(sound));
 
       // Play background music
-      const bgmId = audioSystem?.playSound('bgm', 0.5);
+      const bgmId = audioSystem.playSound('bgm', 0.5);
       expect(bgmId).toBeDefined();
 
       // Play spatial jump sound
-      const jumpId = audioSystem?.playSpatialSound('jump', {
+      const jumpId = audioSystem.playSpatialSound('jump', {
         position: { x: 5, y: 0, z: 0 },
         velocity: { x: 0, y: 0, z: 0 },
         volume: 0.8,
@@ -411,22 +411,22 @@ describe('AudioPure', () => {
       expect(jumpId).toBeDefined();
 
       // Play coin sound
-      const coinId = audioSystem?.playSound('coin');
+      const coinId = audioSystem.playSound('coin');
       expect(coinId).toBeDefined();
 
       // Verify all sounds are active
-      expect(audioSystem?.getActiveSounds()).toHaveLength(3);
+      expect(audioSystem.getActiveSounds()).toHaveLength(3);
 
       // Stop specific sound
-      audioSystem?.stopSound(jumpId!);
-      expect(audioSystem?.getActiveSounds()).toHaveLength(2);
+      audioSystem.stopSound(jumpId!);
+      expect(audioSystem.getActiveSounds()).toHaveLength(2);
 
       // Update spatial audio
-      audioSystem?.setListenerPosition({ x: 0, y: 0, z: 0 });
-      audioSystem?.updateSpatialAudio();
+      audioSystem.setListenerPosition({ x: 0, y: 0, z: 0 });
+      audioSystem.updateSpatialAudio();
 
       // Generate report
-      const report = audioSystem?.generateAudioReport();
+      const report = audioSystem.generateAudioReport();
       expect(report).toContain('Active Sounds: 2');
     });
   });

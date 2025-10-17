@@ -142,9 +142,9 @@ export class HapticsManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.initializeDefaultDevices();
-    this?.initializeDeviceCapabilities();
-    this?.initializeEnvironmentalResponses();
+    this.initializeDefaultDevices();
+    this.initializeDeviceCapabilities();
+    this.initializeEnvironmentalResponses();
   }
 
   private initializeDefaultDevices(): void {
@@ -152,7 +152,7 @@ export class HapticsManager {
     const defaultDevices: HapticDevice[] = [
       {
         id: 'default_gamepad',
-        type: HapticDeviceType?.GAMEPAD,
+        type: HapticDeviceType.GAMEPAD,
         name: 'Gamepad',
         capabilities: {
           supportsWaveforms: true,
@@ -162,18 +162,18 @@ export class HapticsManager {
           supportsLocationControl: false,
           supportsMultipleActuators: false,
           maxSimultaneousEffects: 1,
-          supportedEffects: [HapticEffect?.BUZZ, HapticEffect?.CLICK, HapticEffect?.THUMP],
+          supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
           latency: 5
         },
         connected: false,
-        supportedWaveforms: [HapticWaveform?.SINE, HapticWaveform?.SQUARE],
+        supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.SQUARE],
         maxIntensity: 1.0,
         maxFrequency: 1000,
         maxDuration: 5000
       },
       {
         id: 'default_mobile',
-        type: HapticDeviceType?.MOBILE,
+        type: HapticDeviceType.MOBILE,
         name: 'Mobile Device',
         capabilities: {
           supportsWaveforms: true,
@@ -187,7 +187,7 @@ export class HapticsManager {
           latency: 10
         },
         connected: true,
-        supportedWaveforms: [HapticWaveform?.SINE, HapticWaveform?.PULSE],
+        supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.PULSE],
         maxIntensity: 1.0,
         maxFrequency: 300,
         maxDuration: 10000
@@ -195,12 +195,12 @@ export class HapticsManager {
     ];
 
     for (const device of defaultDevices) {
-      this?.devices.set(device?.id, device);
+      this.devices.set(device.id, device);
     }
   }
 
   private initializeDeviceCapabilities(): void {
-    this?.deviceCapabilities.set(HapticDeviceType?.GAMEPAD, {
+    this.deviceCapabilities.set(HapticDeviceType.GAMEPAD, {
       supportsWaveforms: true,
       supportsAmplitudeControl: true,
       supportsFrequencyControl: true,
@@ -208,11 +208,11 @@ export class HapticsManager {
       supportsLocationControl: false,
       supportsMultipleActuators: false,
       maxSimultaneousEffects: 1,
-      supportedEffects: [HapticEffect?.BUZZ, HapticEffect?.CLICK, HapticEffect?.THUMP],
+      supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
       latency: 5
     });
 
-    this?.deviceCapabilities.set(HapticDeviceType?.MOBILE, {
+    this.deviceCapabilities.set(HapticDeviceType.MOBILE, {
       supportsWaveforms: true,
       supportsAmplitudeControl: true,
       supportsFrequencyControl: false,
@@ -224,7 +224,7 @@ export class HapticsManager {
       latency: 10
     });
 
-    this?.deviceCapabilities.set(HapticDeviceType?.WEARABLE, {
+    this.deviceCapabilities.set(HapticDeviceType.WEARABLE, {
       supportsWaveforms: true,
       supportsAmplitudeControl: true,
       supportsFrequencyControl: true,
@@ -239,7 +239,7 @@ export class HapticsManager {
 
   private initializeEnvironmentalResponses(): void {
     // Default environmental haptic responses
-    this?.environmentalResponses = [
+    this.environmentalResponses = [
       {
         condition: 'collision',
         threshold: 0.5,
@@ -267,8 +267,8 @@ export class HapticsManager {
 
     for (const request of list) {
       // Validate request
-      if (!this?.validateRequest(request)) {
-        this?.activeRequests.set(request?.id, {
+      if (!this.validateRequest(request)) {
+        this.activeRequests.set(request?.id, {
           id: request?.id,
           status: 'error',
           reason: 'Invalid request'
@@ -277,14 +277,14 @@ export class HapticsManager {
       }
 
       // Add to appropriate priority queue
-      const priority = request?.priority || 0;
-      if (!this?.priorityQueue.has(priority)) {
-        this?.priorityQueue.set(priority, []);
+      const priority = request.priority || 0;
+      if (!this.priorityQueue.has(priority)) {
+        this.priorityQueue.set(priority, []);
       }
-      this?.priorityQueue.get(priority)!.push(request);
+      this.priorityQueue.get(priority)!.push(request);
       added++;
 
-      this?.activeRequests.set(request?.id, {
+      this.activeRequests.set(request?.id, {
         id: request?.id,
         status: 'scheduled'
       });
@@ -294,42 +294,42 @@ export class HapticsManager {
   }
 
   private validateRequest(request: HapticRequest): boolean {
-    if (!request?.id || !request?.pattern) return false;
+    if (!request?.id || !request.pattern) return false;
 
     // Validate pattern structure
-    if (!this?.validatePattern(request?.pattern)) return false;
+    if (!this.validatePattern(request.pattern)) return false;
 
     // Check device compatibility
-    if (request?.device) {
-      const capabilities = this?.deviceCapabilities.get(request?.device);
+    if (request.device) {
+      const capabilities = this.deviceCapabilities.get(request.device);
       if (!capabilities) return false;
 
-      if (!this?.isPatternSupported(request?.pattern, capabilities)) return false;
+      if (!this.isPatternSupported(request.pattern, capabilities)) return false;
     }
 
     return true;
   }
 
   private validatePattern(pattern: HapticPattern): boolean {
-    switch (pattern?.type) {
+    switch (pattern.type) {
       case 'custom':
-        return pattern?.durationMs >= 0 && pattern?.durationMs <= 5000 &&
-               pattern?.intensity >= 0 && pattern?.intensity <= 1;
+        return pattern.durationMs >= 0 && pattern.durationMs <= 5000 &&
+               pattern.intensity >= 0 && pattern.intensity <= 1;
       case 'rhythmic':
-        return pattern?.bpm > 0 && pattern?.bpm <= 300;
+        return pattern.bpm > 0 && pattern.bpm <= 300;
       case 'sequence':
-        return pattern?.effects.length > 0 && pattern?.timing.length === pattern?.effects.length;
+        return pattern.effects.length > 0 && pattern.timing.length === pattern.effects.length;
       default:
         return true;
     }
   }
 
   private isPatternSupported(pattern: HapticPattern, capabilities: HapticCapabilities): boolean {
-    switch (pattern?.type) {
+    switch (pattern.type) {
       case 'custom':
-        return pattern?.waveform ? capabilities?.supportsWaveforms : true;
+        return pattern.waveform ? capabilities.supportsWaveforms : true;
       case 'sequence':
-        return pattern?.effects.every(effect => capabilities?.supportedEffects.includes(effect));
+        return pattern.effects.every(effect => capabilities.supportedEffects.includes(effect));
       default:
         return true;
     }
@@ -337,77 +337,77 @@ export class HapticsManager {
 
   getPending(): HapticRequest[] {
     const allRequests: HapticRequest[] = [];
-    for (const requests of this?.priorityQueue.values()) {
-      allRequests?.push(...requests);
+    for (const requests of this.priorityQueue.values()) {
+      allRequests.push(...requests);
     }
-    return allRequests?.sort((a: any, b: any) => (b?.priority || 0) - (a?.priority || 0));
+    return allRequests.sort((a: any, b: any) => (b.priority || 0) - (a.priority || 0));
   }
 
   getDevices(): HapticDevice[] {
     return Array.from(this.devices.values());
   }
 
-  getDevice(device?.id: string): HapticDevice | undefined {
-    return this?.devices.get(device?.id);
+  getDevice(device.id: string): HapticDevice | undefined {
+    return this.devices.get(device.id);
   }
 
   addDevice(device: HapticDevice): void {
-    this?.devices.set(device?.id, device);
+    this.devices.set(device.id, device);
   }
 
-  removeDevice(device?.id: string): boolean {
-    return this?.devices.delete(device?.id);
+  removeDevice(device.id: string): boolean {
+    return this.devices.delete(device.id);
   }
 
   createSequence(sequence: HapticSequence): void {
-    this?.sequences.set(sequence?.id, sequence);
+    this.sequences.set(sequence.id, sequence);
   }
 
   getSequence(sequenceId: string): HapticSequence | undefined {
-    return this?.sequences.get(sequenceId);
+    return this.sequences.get(sequenceId);
   }
 
   createRhythmEngine(engine: HapticRhythmEngine): void {
-    this?.rhythmEngines.set(engine?.id, engine);
+    this.rhythmEngines.set(engine.id, engine);
   }
 
   getRhythmEngine(engineId: string): HapticRhythmEngine | undefined {
-    return this?.rhythmEngines.get(engineId);
+    return this.rhythmEngines.get(engineId);
   }
 
   updateRhythmEngine(engineId: string, updates: Partial<HapticRhythmEngine>): void {
-    const engine = this?.rhythmEngines.get(engineId);
+    const engine = this.rhythmEngines.get(engineId);
     if (engine) {
       Object.assign(engine, updates);
     }
   }
 
   startRhythmEngine(engineId: string): boolean {
-    const engine = this?.rhythmEngines.get(engineId);
+    const engine = this.rhythmEngines.get(engineId);
     if (engine) {
-      engine?.playing = true;
+      engine.playing = true;
       return true;
     }
     return false;
   }
 
   stopRhythmEngine(engineId: string): boolean {
-    const engine = this?.rhythmEngines.get(engineId);
+    const engine = this.rhythmEngines.get(engineId);
     if (engine) {
-      engine?.playing = false;
+      engine.playing = false;
       return true;
     }
     return false;
   }
 
   addEnvironmentalResponse(response: HapticEnvironmentalResponse): void {
-    this?.environmentalResponses?.push(response);
+    this.environmentalResponses.push(response);
   }
 
   removeEnvironmentalResponse(condition: string): boolean {
-    const index = this?.environmentalResponses.findIndex(r => r?.condition === condition);
+    const index = this.environmentalResponses.findIndex(r => r.condition === condition);
     if (index !== -1) {
-      this?.environmentalResponses.splice(index, 1);
+      this.environmentalResponses.splice(index, 1);
       return true;
     }
     return false;
@@ -415,21 +415,21 @@ export class HapticsManager {
 
   triggerEnvironmentalResponse(condition: string, value: number): HapticResult[] {
     const results: HapticResult[] = [];
-    const now = this?.now();
+    const now = this.now();
 
-    for (const response of this?.environmentalResponses) {
-      if (response?.condition === condition && value >= response?.threshold) {
-        if (!response?.lastTriggered || (now - response?.lastTriggered) >= response?.cooldown) {
+    for (const response of this.environmentalResponses) {
+      if (response.condition === condition && value >= response.threshold) {
+        if (!response.lastTriggered || (now - response.lastTriggered) >= response.cooldown) {
           const request: HapticRequest = {
             id: `env_${condition}_${now}`,
-            pattern: response?.pattern,
+            pattern: response.pattern,
             priority: 5
           };
 
-          const result = this?.playImmediate(request);
-          if (result: any) {
-            results?.push(result: any);
-            response?.lastTriggered = now;
+          const result = this.playImmediate(request);
+          if (result) {
+            results.push(result);
+            response.lastTriggered = now;
           }
         }
       }
@@ -439,9 +439,9 @@ export class HapticsManager {
   }
 
   clear(): void {
-    this?.queue = [];
-    this?.priorityQueue.clear();
-    this?.activeRequests.clear();
+    this.queue = [];
+    this.priorityQueue.clear();
+    this.activeRequests.clear();
   }
 
   async playNext(): Promise<HapticResult | undefined> {
@@ -449,22 +449,22 @@ export class HapticsManager {
     const priorities = Array.from(this.priorityQueue.keys()).sort((a: any, b: any) => b - a);
 
     for (const priority of priorities) {
-      const requests = this?.priorityQueue.get(priority)!;
-      if (requests?.length > 0) {
-        const req = requests?.shift();
+      const requests = this.priorityQueue.get(priority)!;
+      if (requests.length > 0) {
+        const req = requests.shift();
         if (req) {
           try {
-            const result = await this?.play(req);
-            this?.activeRequests.set(req?.id, result);
+            const result = await this.play(req);
+            this.activeRequests.set(req.id, result);
             return result;
           } catch (err) {
             const result: HapticResult = {
-              id: req?.id,
+              id: req.id,
               status: 'error',
               reason: String(err),
-              timestamp: this?.now()
+              timestamp: this.now()
             };
-            this?.activeRequests.set(req?.id, result);
+            this.activeRequests.set(req.id, result);
             return result;
           }
         }
@@ -478,9 +478,9 @@ export class HapticsManager {
     const results: HapticResult[] = [];
 
     while (true) {
-      const result = await this?.playNext();
+      const result = await this.playNext();
       if (!result) break;
-      results?.push(result: any);
+      results.push(result);
     }
 
     return results;
@@ -488,30 +488,30 @@ export class HapticsManager {
 
   async playImmediate(request: HapticRequest): Promise<HapticResult | undefined> {
     try {
-      const result = await this?.play(request);
-      this?.activeRequests.set(request?.id, result);
+      const result = await this.play(request);
+      this.activeRequests.set(request?.id, result);
       return result;
     } catch (err) {
       const result: HapticResult = {
         id: request?.id,
         status: 'error',
         reason: String(err),
-        timestamp: this?.now()
+        timestamp: this.now()
       };
-      this?.activeRequests.set(request?.id, result);
+      this.activeRequests.set(request?.id, result);
       return result;
     }
   }
 
-  // Core: play one request using navigator?.vibrate or fallbacks
+  // Core: play one request using navigator.vibrate or fallbacks
   async play(req: HapticRequest): Promise<HapticResult> {
-    const current = this?.now();
-    const device = req?.device ? this?.devices.get(req?.device) : this?.getBestAvailableDevice();
-    const capabilities = device ? device?.capabilities : this?.deviceCapabilities.get(HapticDeviceType?.MOBILE);
+    const current = this.now();
+    const device = req.device ? this.devices.get(req.device) : this.getBestAvailableDevice();
+    const capabilities = device ? device.capabilities : this.deviceCapabilities.get(HapticDeviceType.MOBILE);
 
     if (!capabilities) {
       return {
-        id: req?.id,
+        id: req.id,
         status: 'error',
         reason: 'No haptic device available',
         timestamp: current
@@ -519,27 +519,27 @@ export class HapticsManager {
     }
 
     // Check scheduling
-    if (req?.at && req?.at > current + 60_000) {
+    if (req.at && req.at > current + 60_000) {
       return {
-        id: req?.id,
+        id: req.id,
         status: 'skipped',
         reason: 'scheduled-too-far',
         timestamp: current
       };
     }
 
-    if (req?.at && req?.at > current) {
-      const delay = req?.at - current;
+    if (req.at && req.at > current) {
+      const delay = req.at - current;
       await new Promise(r => setTimeout(r, delay));
     }
 
     // Check device limits
     const activeCount = Array.from(this.activeRequests.values())
-      .filter((r: any) => r?.status === 'played' && r?.deviceUsed === device?.type).length;
+      .filter((r: any) => r.status === 'played' && r.deviceUsed === device?.type).length;
 
-    if (activeCount >= capabilities?.maxSimultaneousEffects) {
+    if (activeCount >= capabilities.maxSimultaneousEffects) {
       return {
-        id: req?.id,
+        id: req.id,
         status: 'skipped',
         reason: 'device-busy',
         timestamp: current
@@ -547,23 +547,23 @@ export class HapticsManager {
     }
 
     try {
-      const vibrationPattern = this?.patternToVibration(req?.pattern, capabilities);
-      const playResult = await this?.playVibration(vibrationPattern, device);
+      const vibrationPattern = this.patternToVibration(req.pattern, capabilities);
+      const playResult = await this.playVibration(vibrationPattern, device);
 
       return {
-        id: req?.id,
+        id: req.id,
         status: 'played',
-        actualDuration: playResult?.duration,
-        actualIntensity: playResult?.intensity,
+        actualDuration: playResult.duration,
+        actualIntensity: playResult.intensity,
         deviceUsed: device?.type,
-        timestamp: this?.now()
+        timestamp: this.now()
       };
     } catch (err) {
       return {
-        id: req?.id,
+        id: req.id,
         status: 'error',
         reason: String(err),
-        timestamp: this?.now()
+        timestamp: this.now()
       };
     }
   }
@@ -571,20 +571,20 @@ export class HapticsManager {
   private getBestAvailableDevice(): HapticDevice | undefined {
     // Prefer connected devices with higher capabilities
     const connected = Array.from(this.devices.values()).filter((d: any) => d.connected);
-    if (connected?.length > 0) {
-      return connected?.reduce((best, current) =>
-        current?.capabilities.maxSimultaneousEffects > best?.capabilities.maxSimultaneousEffects ? current : best
+    if (connected.length > 0) {
+      return connected.reduce((best, current) =>
+        current.capabilities.maxSimultaneousEffects > best.capabilities.maxSimultaneousEffects ? current : best
       );
     }
 
     // Fall back to mobile if available
-    return this?.devices.get('default_mobile');
+    return this.devices.get('default_mobile');
   }
 
   private patternToVibration(pattern: HapticPattern, capabilities: HapticCapabilities): any {
-    switch (pattern?.type) {
+    switch (pattern.type) {
       case 'impact':
-        const intensity = pattern?.style === 'light' ? 0.3 : pattern?.style === 'medium' ? 0.7 : 1.0;
+        const intensity = pattern.style === 'light' ? 0.3 : pattern.style === 'medium' ? 0.7 : 1.0;
         return {
           type: 'simple',
           duration: Math.floor(50 * intensity),
@@ -592,10 +592,10 @@ export class HapticsManager {
         };
 
       case 'notification':
-        const levelIntensity = pattern?.level === 'success' ? 0.4 : pattern?.level === 'warning' ? 0.7 : 1.0;
+        const levelIntensity = pattern.level === 'success' ? 0.4 : pattern.level === 'warning' ? 0.7 : 1.0;
         return {
           type: 'pattern',
-          pattern: pattern?.level === 'success' ? [50, 100, 50] : [100, 80, 100],
+          pattern: pattern.level === 'success' ? [50, 100, 50] : [100, 80, 100],
           intensity: levelIntensity
         };
 
@@ -603,7 +603,7 @@ export class HapticsManager {
         return {
           type: 'simple',
           duration: 20,
-          intensity: pattern?.feedback === 'light' ? 0.3 : pattern?.feedback === 'medium' ? 0.5 : 0.7
+          intensity: pattern.feedback === 'light' ? 0.3 : pattern.feedback === 'medium' ? 0.5 : 0.7
         };
 
       case 'custom':
@@ -611,33 +611,33 @@ export class HapticsManager {
           type: 'custom',
           duration: Math.max(0, Math.min(capabilities.supportedEffects.includes(HapticEffect.BUZZ) ? 5000 : 1000, pattern.durationMs)),
           intensity: Math.max(0, Math.min(1, pattern.intensity)),
-          frequency: pattern?.frequency,
-          waveform: pattern?.waveform
+          frequency: pattern.frequency,
+          waveform: pattern.waveform
         };
 
       case 'sequence':
         return {
           type: 'sequence',
-          effects: pattern?.effects,
-          timing: pattern?.timing,
-          loop: pattern?.loop || false,
-          adaptive: pattern?.adaptive || false
+          effects: pattern.effects,
+          timing: pattern.timing,
+          loop: pattern.loop || false,
+          adaptive: pattern.adaptive || false
         };
 
       case 'rhythmic':
         return {
           type: 'rhythmic',
           bpm: Math.max(60, Math.min(300, pattern.bpm)),
-          pattern: pattern?.pattern,
-          measures: pattern?.measures || 1,
-          intensity: pattern?.intensity || 0.7
+          pattern: pattern.pattern,
+          measures: pattern.measures || 1,
+          intensity: pattern.intensity || 0.7
         };
 
       case 'environmental':
-        return this?.patternToVibration(pattern?.response, capabilities);
+        return this.patternToVibration(pattern.response, capabilities);
 
       case 'adaptive':
-        return this?.applyAdaptiveModifiers(pattern?.basePattern, pattern?.modifiers, capabilities);
+        return this.applyAdaptiveModifiers(pattern.basePattern, pattern.modifiers, capabilities);
 
       default:
         return { type: 'simple', duration: 0, intensity: 0 };
@@ -645,14 +645,14 @@ export class HapticsManager {
   }
 
   private applyAdaptiveModifiers(basePattern: HapticPattern, modifiers: HapticModifier[], capabilities: HapticCapabilities): any {
-    let modifiedPattern = this?.patternToVibration(basePattern, capabilities);
+    let modifiedPattern = this.patternToVibration(basePattern, capabilities);
 
     for (const modifier of modifiers) {
       // Apply modifiers based on conditions (simplified)
-      if (modifier?.transition === 'immediate') {
-        if (modifier?.property === 'intensity') {
+      if (modifier.transition === 'immediate') {
+        if (modifier.property === 'intensity') {
           modifiedPattern.intensity = Math.max(0, Math.min(1, modifier.value));
-        } else if (modifier?.property === 'frequency' && modifiedPattern?.frequency !== undefined) {
+        } else if (modifier.property === 'frequency' && modifiedPattern.frequency !== undefined) {
           modifiedPattern.frequency = Math.max(0, Math.min(capabilities.maxSimultaneousEffects, modifier.value));
         }
       }
@@ -663,31 +663,31 @@ export class HapticsManager {
 
   private async playVibration(vibration: any, device?: HapticDevice): Promise<{ duration: number; intensity: number }> {
     // Check if Web Vibration API is available
-    if (typeof (globalThis as any).navigator !== 'undefined' && typeof (globalThis as any).navigator?.vibrate === 'function') {
-      if (vibration?.type === 'simple') {
-        (globalThis as any).navigator?.vibrate(vibration?.duration);
-        return { duration: vibration?.duration, intensity: vibration?.intensity };
-      } else if (vibration?.type === 'pattern') {
-        (globalThis as any).navigator?.vibrate(vibration?.pattern);
-        return { duration: vibration?.pattern.reduce((a: number, b: number) => a + b, 0), intensity: vibration?.intensity };
+    if (typeof (globalThis as any).navigator !== 'undefined' && typeof (globalThis as any).navigator.vibrate === 'function') {
+      if (vibration.type === 'simple') {
+        (globalThis as any).navigator.vibrate(vibration.duration);
+        return { duration: vibration.duration, intensity: vibration.intensity };
+      } else if (vibration.type === 'pattern') {
+        (globalThis as any).navigator.vibrate(vibration.pattern);
+        return { duration: vibration.pattern.reduce((a: number, b: number) => a + b, 0), intensity: vibration.intensity };
       }
     }
 
     // Fallback for testing - simulate haptic feedback
-    await new Promise(resolve => setTimeout(resolve, vibration?.duration || 100));
-    return { duration: vibration?.duration || 100, intensity: vibration?.intensity || 0.5 };
+    await new Promise(resolve => setTimeout(resolve, vibration.duration || 100));
+    return { duration: vibration.duration || 100, intensity: vibration.intensity || 0.5 };
   }
 
   getStats(): any {
-    const managerData = this?.getStats();
+    const managerData = this.getStats();
     return {
-      queuedRequests: this?.getPending().length,
-      activeRequests: this?.activeRequests.size,
+      queuedRequests: this.getPending().length,
+      activeRequests: this.activeRequests.size,
       devicesConnected: Array.from(this.devices.values()).filter((d: any) => d.connected).length,
-      sequencesLoaded: this?.sequences.size,
+      sequencesLoaded: this.sequences.size,
       rhythmEnginesActive: Array.from(this.rhythmEngines.values()).filter((e: any) => e.playing).length,
-      environmentalResponses: this?.environmentalResponses.length,
-      priorityQueues: this?.priorityQueue.size
+      environmentalResponses: this.environmentalResponses.length,
+      priorityQueues: this.priorityQueue.size
     };
   }
 

@@ -4,7 +4,7 @@ export type Grid = { width: number; height: number; walls: Set<string> };
 export type Point = { x: number; y: number };
 
 export interface PathResult {
-  op: 'nav?.path';
+  op: 'nav.path';
   status: 'ok' | 'error';
   path: Point[];
   cost?: number;
@@ -24,7 +24,7 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
   // Validate inputs
   if (!isValidPoint(start, grid) || !isValidPoint(goal, grid)) {
     return {
-      op: 'nav?.path',
+      op: 'nav.path',
       status: 'error',
       path: [],
       issues: ['Invalid start or goal point']
@@ -33,7 +33,7 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
 
   if (isWall(start, grid) || isWall(goal, grid)) {
     return {
-      op: 'nav?.path',
+      op: 'nav.path',
       status: 'error',
       path: [],
       issues: ['Start or goal point is a wall']
@@ -53,18 +53,18 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
     f: 0,
   };
   startNode.f = startNode.g + startNode.h;
-  openSet?.set(startKey, startNode);
+  openSet.set(startKey, startNode);
 
   let explored = 0;
-  const maxIterations = grid?.width * grid?.height * 2; // Prevent infinite loops
+  const maxIterations = grid.width * grid.height * 2; // Prevent infinite loops
 
-  while (openSet?.size > 0 && explored < maxIterations) {
+  while (openSet.size > 0 && explored < maxIterations) {
     explored++;
     
     // Find node with lowest f cost
     let current: Node | undefined;
     let lowestF = Infinity;
-    for (const node of openSet?.values()) {
+    for (const node of openSet.values()) {
       if (node.f < lowestF) {
         lowestF = node.f;
         current = node;
@@ -73,15 +73,15 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
 
     if (!current) break;
 
-    const currentKey = pointKey(current?.point);
-    openSet?.delete(currentKey);
-    closedSet?.add(currentKey);
+    const currentKey = pointKey(current.point);
+    openSet.delete(currentKey);
+    closedSet.add(currentKey);
 
     // Check if we reached the goal
     if (currentKey === goalKey) {
       const path = reconstructPath(current);
       return {
-        op: 'nav?.path',
+        op: 'nav.path',
         status: 'ok',
         path,
         cost: current.g,
@@ -90,16 +90,16 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
     }
 
     // Explore neighbors
-    const neighbors = getNeighbors(current?.point, grid);
+    const neighbors = getNeighbors(current.point, grid);
     for (const neighbor of neighbors) {
       const neighborKey = pointKey(neighbor);
       
-      if (closedSet?.has(neighborKey) || isWall(neighbor, grid)) {
+      if (closedSet.has(neighborKey) || isWall(neighbor, grid)) {
         continue;
       }
 
       const tentativeG = current.g + 1; // Cost of moving to neighbor
-      const existingNode = openSet?.get(neighborKey);
+      const existingNode = openSet.get(neighborKey);
 
       if (!existingNode || tentativeG < existingNode.g) {
         const neighborNode: Node = {
@@ -110,14 +110,14 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
           parent: current
         };
         neighborNode.f = neighborNode.g + neighborNode.h;
-        openSet?.set(neighborKey, neighborNode);
+        openSet.set(neighborKey, neighborNode);
       }
     }
   }
 
   // No path found
   return {
-    op: 'nav?.path',
+    op: 'nav.path',
     status: 'error',
     path: [],
     explored,
@@ -130,12 +130,12 @@ function pointKey(point: Point): string {
 }
 
 function isValidPoint(point: Point, grid: Grid): boolean {
-  return point.x >= 0 && point.x < grid?.width && 
-         point.y >= 0 && point.y < grid?.height;
+  return point.x >= 0 && point.x < grid.width && 
+         point.y >= 0 && point.y < grid.height;
 }
 
 function isWall(point: Point, grid: Grid): boolean {
-  return grid?.walls.has(pointKey(point));
+  return grid.walls.has(pointKey(point));
 }
 
 function heuristic(a: Point, b: Point): number {
@@ -155,7 +155,7 @@ function getNeighbors(point: Point, grid: Grid): Point[] {
   for (const dir of directions) {
     const neighbor = { x: point.x + dir.x, y: point.y + dir.y };
     if (isValidPoint(neighbor, grid)) {
-      neighbors?.push(neighbor);
+      neighbors.push(neighbor);
     }
   }
 
@@ -167,8 +167,8 @@ function reconstructPath(node: Node): Point[] {
   let current: Node | undefined = node;
 
   while (current) {
-    path?.unshift(current?.point);
-    current = current?.parent;
+    path.unshift(current.point);
+    current = current.parent;
   }
 
   return path;
@@ -184,15 +184,15 @@ export function createGrid(width: number, height: number, walls: string[] = []):
 }
 
 export function addWall(grid: Grid, x: number, y: number): void {
-  grid?.walls.add(`${x},${y}`);
+  grid.walls.add(`${x},${y}`);
 }
 
 export function removeWall(grid: Grid, x: number, y: number): void {
-  grid?.walls.delete(`${x},${y}`);
+  grid.walls.delete(`${x},${y}`);
 }
 
 export function isPathClear(grid: Grid, start: Point, goal: Point): boolean {
   const result = pathfind(grid, start, goal);
-  return result?.status === 'ok';
+  return result.status === 'ok';
 }
 

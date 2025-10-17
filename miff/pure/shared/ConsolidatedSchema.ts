@@ -261,19 +261,19 @@ export class ConsolidatedSchemaManager {
   private usageStats: Map<string, number> = new Map();
 
   constructor(...args: any[]) {
-  this?.initializeDefaultSchemas();
-  this?.initializeMigrations();
+  this.initializeDefaultSchemas();
+  this.initializeMigrations();
   }
 
   /**
    * Register a schema definition
    */
   registerSchema(): void {
-    this?.schemas.set(id, {
+    this.schemas.set(id, {
       ...schema,
-      version: schema?.version || 'v1',
-      engine: schema?.engine || 'universal',
-      category: schema?.category || 'data'
+      version: schema.version || 'v1',
+      engine: schema.engine || 'universal',
+      category: schema.category || 'data'
     });
   }
 
@@ -281,7 +281,7 @@ export class ConsolidatedSchemaManager {
    * Get a schema definition
    */
   getSchema(id: string): SchemaDefinition! {
-  return this?.schemas.get(id);
+  return this.schemas.get(id);
   }
 
   /**
@@ -294,15 +294,15 @@ export class ConsolidatedSchemaManager {
     const allSchemas = Array.from(this.schemas.entries())
       .map(([id, schema]) => ({ id, schema }))
       .filter(({ schema }) => {
-        if (engine && schema?.engine !== engine) return false;
-        if (category && schema?.category !== category) return false;
+        if (engine && schema.engine !== engine) return false;
+        if (category && schema.category !== category) return false;
         return true;
       });
 
     return {
       ok: true,
       schemas: allSchemas,
-      total: allSchemas?.length
+      total: allSchemas.length
     };
   }
 
@@ -310,32 +310,32 @@ export class ConsolidatedSchemaManager {
    * Validate data against a schema
    */
   validate(): ValidationResult {
-  const cacheKey = `${schemaId}:${JSON.stringify(data: any)}`;
+  const cacheKey = `${schemaId}:${JSON.stringify(data)}`;
     
     // Check cache first
-    if (this?.validationCache.has(cacheKey)) {
-      return this?.validationCache.get(cacheKey)!;
+    if (this.validationCache.has(cacheKey)) {
+      return this.validationCache.get(cacheKey)!;
     }
 
-  const schema = this?.getSchema(schemaId);
+  const schema = this.getSchema(schemaId);
     if (!schema) {
       const result: ValidationResult = {
         isValid: false,
         errors: [`Schema not found: ${schemaId}`],
         warnings: []
       };
-      this?.validationCache.set(cacheKey, result);
+      this.validationCache.set(cacheKey, result);
       return result;
     }
 
-  const result = this?.performValidation(data, schema);
+  const result = this.performValidation(data, schema);
     
     // Cache result
-  this?.validationCache.set(cacheKey, result);
+  this.validationCache.set(cacheKey, result);
     
     // Update usage stats
-  const currentUsage = this?.usageStats.get(schemaId) || 0;
-  this?.usageStats.set(schemaId, currentUsage + 1);
+  const currentUsage = this.usageStats.get(schemaId) || 0;
+  this.usageStats.set(schemaId, currentUsage + 1);
 
   return result;
   }
@@ -347,13 +347,13 @@ export class ConsolidatedSchemaManager {
   if (fromVersion === toVersion) return data;
 
   const migrationKey = `${fromVersion}->${toVersion}`;
-  const migration = this?.migrations.get(migrationKey);
+  const migration = this.migrations.get(migrationKey);
     
     if (!migration) {
       throw new Error(`No migration path found from ${fromVersion} to ${toVersion}`);
     }
 
-  return migration?.migrationFn(data: any);
+  return migration.migrationFn(data);
   }
 
   /**
@@ -362,7 +362,7 @@ export class ConsolidatedSchemaManager {
   canMigrate(): boolean {
   if (fromVersion === toVersion) return true;
   const migrationKey = `${fromVersion}->${toVersion}`;
-  return this?.migrations.has(migrationKey);
+  return this.migrations.has(migrationKey);
   }
 
   /**
@@ -373,7 +373,7 @@ export class ConsolidatedSchemaManager {
     
     // Simple direct migration check
   const migrationKey = `${fromVersion}->${toVersion}`;
-    if (this?.migrations.has(migrationKey)) {
+    if (this.migrations.has(migrationKey)) {
       return [migrationKey!];
     }
 
@@ -385,7 +385,7 @@ export class ConsolidatedSchemaManager {
    */
   addMigrationStep(fromVersion: SchemaVersion, toVersion: SchemaVersion, migrationFn: (data: any) => any, description: string): void {
   const migrationKey = `${fromVersion}->${toVersion}`;
-    this?.migrations.set(migrationKey, {
+    this.migrations.set(migrationKey, {
       fromVersion,
       toVersion,
       migrationFn,
@@ -424,23 +424,23 @@ export class ConsolidatedSchemaManager {
     };
 
     for (const schema of schemas) {
-      schemasByEngine[schema?.engine!]++;
-      schemasByCategory[schema?.category!]++;
-      versionDistribution[schema?.version as SchemaVersion]++;
+      schemasByEngine[schema.engine!]++;
+      schemasByCategory[schema.category!]++;
+      versionDistribution[schema.version as SchemaVersion]++;
     }
 
     const mostUsedSchemas = Array.from(this.usageStats.entries())
       .map(([id, usage]) => ({ id, usage }))
-      .sort((a: any, b: any) => b?.usage - a?.usage)
+      .sort((a: any, b: any) => b.usage - a.usage)
       .slice(0, 5);
 
     return {
-      totalSchemas: schemas?.length,
+      totalSchemas: schemas.length,
       schemasByEngine,
       schemasByCategory,
       versionDistribution,
       mostUsedSchemas,
-      validationCacheSize: this?.validationCache.size
+      validationCacheSize: this.validationCache.size
     };
   }
 
@@ -448,12 +448,12 @@ export class ConsolidatedSchemaManager {
    * Clear validation cache
    */
   clearCache(): void {
-  this?.validationCache.clear();
+  this.validationCache.clear();
   }
 
   private initializeDefaultSchemas(): void {
     // Render Data Schema
-    this?.registerSchema('RenderData', {
+    this.registerSchema('RenderData', {
       title: 'Render Data',
       description: 'Unified render data schema for all engine bridges',
       version: 'v1',
@@ -477,7 +477,7 @@ export class ConsolidatedSchemaManager {
     });
 
     // Render Payload Schema
-    this?.registerSchema('RenderPayload', {
+    this.registerSchema('RenderPayload', {
       title: 'Render Payload',
       description: 'Complete render payload with metadata',
       version: 'v1',
@@ -494,7 +494,7 @@ export class ConsolidatedSchemaManager {
     });
 
     // Entity Schema
-    this?.registerSchema('Entity', {
+    this.registerSchema('Entity', {
       title: 'Entity',
       description: 'Basic entity schema',
       version: 'v12',
@@ -511,7 +511,7 @@ export class ConsolidatedSchemaManager {
     });
 
     // Stat Block Schema
-    this?.registerSchema('StatBlock', {
+    this.registerSchema('StatBlock', {
       title: 'Stat Block',
       description: 'Statistics block schema',
       version: 'v12',
@@ -527,26 +527,26 @@ export class ConsolidatedSchemaManager {
 
   private initializeMigrations(): void {
     // v1 -> v2 migration
-    this?.addMigrationStep('v1', 'v2', (data: any) => {
+    this.addMigrationStep('v1', 'v2', (data: any) => {
       // Add version field if missing
-      if (!data?.version) {
-        data?.version = 'v2';
+      if (!data.version) {
+        data.version = 'v2';
       }
       return data;
     }, 'Add version field to v1 data');
 
     // v2 -> v3 migration
-    this?.addMigrationStep('v2', 'v3', (data: any) => {
+    this.addMigrationStep('v2', 'v3', (data: any) => {
       // Update version field
-      data?.version = 'v3';
+      data.version = 'v3';
       return data;
     }, 'Update version field to v3');
 
     // v12 -> latest migration
-    this?.addMigrationStep('v12', 'latest', (data: any) => {
+    this.addMigrationStep('v12', 'latest', (data: any) => {
       // Migrate from v12 to latest
-      if (data?.version === 'v12') {
-        data?.version = 'latest';
+      if (data.version === 'v12') {
+        data.version = 'latest';
       }
       return data;
     }, 'Migrate from v12 to latest');
@@ -557,63 +557,63 @@ export class ConsolidatedSchemaManager {
   const warnings: string[] = [];
 
     // Check required fields
-    if (schema?.required) {
-      for (const field of schema?.required) {
+    if (schema.required) {
+      for (const field of schema.required) {
         if (!(field in data)) {
-          errors?.push(`Required field missing: ${field}`);
+          errors.push(`Required field missing: ${field}`);
         }
       }
     }
 
     // Check field types and constraints
-    if (schema?.properties) {
+    if (schema.properties) {
       for (const [fieldName, fieldDef] of Object.entries(schema.properties)) {
         const value = data[fieldName!];
         
         if (value !== undefined) {
           // Type checking
-          if (fieldDef?.type === 'string' && typeof value !== 'string') {
-            errors?.push(`Field ${fieldName} must be a string`);
-          } else if (fieldDef?.type === 'number' && typeof value !== 'number') {
-            errors?.push(`Field ${fieldName} must be a number`);
-          } else if (fieldDef?.type === 'boolean' && typeof value !== 'boolean') {
-            errors?.push(`Field ${fieldName} must be a boolean`);
-          } else if (fieldDef.type === 'array' && !Array.isArray(value: any)) {
-            errors?.push(`Field ${fieldName} must be an array`);
-          } else if (fieldDef.type === 'object' && typeof value !== 'object' || Array.isArray(value: any)) {
-            errors?.push(`Field ${fieldName} must be an object`);
+          if (fieldDef.type === 'string' && typeof value !== 'string') {
+            errors.push(`Field ${fieldName} must be a string`);
+          } else if (fieldDef.type === 'number' && typeof value !== 'number') {
+            errors.push(`Field ${fieldName} must be a number`);
+          } else if (fieldDef.type === 'boolean' && typeof value !== 'boolean') {
+            errors.push(`Field ${fieldName} must be a boolean`);
+          } else if (fieldDef.type === 'array' && !Array.isArray(value)) {
+            errors.push(`Field ${fieldName} must be an array`);
+          } else if (fieldDef.type === 'object' && typeof value !== 'object' || Array.isArray(value)) {
+            errors.push(`Field ${fieldName} must be an object`);
           }
 
           // String constraints
-          if (fieldDef?.type === 'string' && typeof value === 'string') {
-            if (fieldDef?.minLength && value?.length < fieldDef?.minLength) {
-              errors?.push(`Field ${fieldName} must be at least ${fieldDef?.minLength} characters`);
+          if (fieldDef.type === 'string' && typeof value === 'string') {
+            if (fieldDef.minLength && value.length < fieldDef.minLength) {
+              errors.push(`Field ${fieldName} must be at least ${fieldDef.minLength} characters`);
             }
-            if (fieldDef?.maxLength && value?.length > fieldDef?.maxLength) {
-              errors?.push(`Field ${fieldName} must be at most ${fieldDef?.maxLength} characters`);
+            if (fieldDef.maxLength && value.length > fieldDef.maxLength) {
+              errors.push(`Field ${fieldName} must be at most ${fieldDef.maxLength} characters`);
             }
-            if (fieldDef?.pattern && !new RegExp(fieldDef?.pattern).test(value: any)) {
-              errors?.push(`Field ${fieldName} does not match required pattern`);
+            if (fieldDef.pattern && !new RegExp(fieldDef.pattern).test(value)) {
+              errors.push(`Field ${fieldName} does not match required pattern`);
             }
           }
 
           // Number constraints
-          if (fieldDef?.type === 'number' && typeof value === 'number') {
-            if (fieldDef?.minimum && value < fieldDef?.minimum) {
-              errors?.push(`Field ${fieldName} must be at least ${fieldDef?.minimum}`);
+          if (fieldDef.type === 'number' && typeof value === 'number') {
+            if (fieldDef.minimum && value < fieldDef.minimum) {
+              errors.push(`Field ${fieldName} must be at least ${fieldDef.minimum}`);
             }
-            if (fieldDef?.maximum && value > fieldDef?.maximum) {
-              errors?.push(`Field ${fieldName} must be at most ${fieldDef?.maximum}`);
+            if (fieldDef.maximum && value > fieldDef.maximum) {
+              errors.push(`Field ${fieldName} must be at most ${fieldDef.maximum}`);
             }
           }
-        } else if (fieldDef?.required) {
-          errors?.push(`Required field missing: ${fieldName}`);
+        } else if (fieldDef.required) {
+          errors.push(`Required field missing: ${fieldName}`);
         }
       }
     }
 
     return {
-      isValid: errors?.length === 0,
+      isValid: errors.length === 0,
       errors,
       warnings
     };
@@ -628,27 +628,27 @@ export class BridgeSchemaValidator {
   private manager: ConsolidatedSchemaManager;
 
   constructor(...args: any[]) {
-  this?.manager = new ConsolidatedSchemaManager();
+  this.manager = new ConsolidatedSchemaManager();
   }
 
   validate(data: any, schemaId: string): ValidationResult {
-  return this?.manager.validate(data, schemaId);
+  return this.manager.validate(data, schemaId);
   }
 
-  validateRenderData(data: any): ValidationResult {
-  return this?.manager.validate(data, 'RenderData');
+  validateRenderData(data): ValidationResult {
+  return this.manager.validate(data, 'RenderData');
   }
 
-  validateRenderPayload(data: any): ValidationResult {
-  return this?.manager.validate(data, 'RenderPayload');
+  validateRenderPayload(data): ValidationResult {
+  return this.manager.validate(data, 'RenderPayload');
   }
 
-  validateEntity(data: any): ValidationResult {
-  return this?.manager.validate(data, 'Entity');
+  validateEntity(data): ValidationResult {
+  return this.manager.validate(data, 'Entity');
   }
 
-  validateStatBlock(data: any): ValidationResult {
-  return this?.manager.validate(data, 'StatBlock');
+  validateStatBlock(data): ValidationResult {
+  return this.manager.validate(data, 'StatBlock');
   }
 }
 

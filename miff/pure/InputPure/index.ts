@@ -39,14 +39,14 @@ export class InputAction implements IInputAction {
     remappable: boolean = true,
     category: string = 'general'
   ) {
-    if (!actionId || actionId?.trim() === '') {
+    if (!actionId || actionId.trim() === '') {
       throw new Error('Action ID cannot be empty');
     }
 
-    this?.actionId = actionId;
-    this?.defaultInput = defaultInput;
-    this?.remappable = remappable;
-    this?.category = category;
+    this.actionId = actionId;
+    this.defaultInput = defaultInput;
+    this.remappable = remappable;
+    this.category = category;
   }
 }
 
@@ -63,15 +63,15 @@ export class InputProfile {
    * Register an input action
    */
   registerAction(action: InputAction): void {
-    if (!action || !action?.actionId || action?.actionId.trim() === '') {
+    if (!action || !action.actionId || action.actionId.trim() === '') {
       return;
     }
 
-    this?._actions.set(action?.actionId, action);
+    this._actions.set(action.actionId, action);
 
     // If action has a default input, bind it if not already bound
-    if (action?.defaultInput !== undefined && action?.defaultInput !== '' && !this?._map.has(action?.defaultInput)) {
-      this?._map.set(action?.defaultInput, action?.actionId);
+    if (action.defaultInput !== undefined && action.defaultInput !== '' && !this._map.has(action.defaultInput)) {
+      this._map.set(action.defaultInput, action.actionId);
     }
   }
 
@@ -79,23 +79,23 @@ export class InputProfile {
    * Rebind an action to a new input
    */
   rebind(actionId: string, newInput: string): boolean {
-    const action = this?._actions.get(actionId);
-    if (!action || !action?.remappable) {
+    const action = this._actions.get(actionId);
+    if (!action || !action.remappable) {
       return false;
     }
 
     // Remove any existing binding of newInput
-    this?._map.delete(newInput);
+    this._map.delete(newInput);
 
     // Remove old bindings for this action
     for (const [input, mappedActionId] of Array.from(this._map.entries())) {
       if (mappedActionId === actionId) {
-        this?._map.delete(input);
+        this._map.delete(input);
       }
     }
 
     // Set new binding
-    this?._map.set(newInput, actionId);
+    this._map.set(newInput, actionId);
     return true;
   }
 
@@ -106,15 +106,15 @@ export class InputProfile {
     if (!input) return null;
 
     // Try exact match first
-    let actionId = this?._map.get(input);
+    let actionId = this._map.get(input);
     if (actionId) {
-      return this?._actions.get(actionId) || null;
+      return this._actions.get(actionId) || null;
     }
 
     // Try case-insensitive match
-    for (const [mapInput, mapActionId] of this?._map.entries()) {
-      if (mapInput?.toLowerCase() === input?.toLowerCase()) {
-        return this?._actions.get(mapActionId) || null;
+    for (const [mapInput, mapActionId] of this._map.entries()) {
+      if (mapInput.toLowerCase() === input.toLowerCase()) {
+        return this._actions.get(mapActionId) || null;
       }
     }
 
@@ -125,14 +125,14 @@ export class InputProfile {
    * Get all current input bindings
    */
   getBindings(): ReadonlyMap<string, string> {
-    return new Map(this?._map);
+    return new Map(this._map);
   }
 
   /**
    * Get all registered actions
    */
   getActions(): ReadonlyMap<string, InputAction> {
-    return new Map(this?._actions);
+    return new Map(this._actions);
   }
 
   /**
@@ -146,21 +146,21 @@ export class InputProfile {
    * Get action by ID
    */
   getAction(actionId: string): InputAction | null {
-    return this?._actions.get(actionId) || null;
+    return this._actions.get(actionId) || null;
   }
 
   /**
    * Check if an action exists
    */
   hasAction(actionId: string): boolean {
-    return this?._actions.has(actionId);
+    return this._actions.has(actionId);
   }
 
   /**
    * Remove an action
    */
   removeAction(actionId: string): boolean {
-    const action = this?._actions.get(actionId);
+    const action = this._actions.get(actionId);
     if (!action) {
       return false;
     }
@@ -168,11 +168,11 @@ export class InputProfile {
     // Remove all bindings for this action
     for (const [input, mappedActionId] of Array.from(this._map.entries())) {
       if (mappedActionId === actionId) {
-        this?._map.delete(input);
+        this._map.delete(input);
       }
     }
 
-    this?._actions.delete(actionId);
+    this._actions.delete(actionId);
     return true;
   }
 
@@ -180,22 +180,22 @@ export class InputProfile {
    * Clear all bindings and actions
    */
   clear(): void {
-    this?._map.clear();
-    this?._actions.clear();
+    this._map.clear();
+    this._actions.clear();
   }
 
   /**
    * Get binding count
    */
   getBindingCount(): number {
-    return this?._map.size;
+    return this._map.size;
   }
 
   /**
    * Get action count
    */
   getActionCount(): number {
-    return this?._actions.size;
+    return this._actions.size;
   }
 }
 
@@ -209,35 +209,35 @@ export class InputMapper {
    * Get the action mapped to an input
    */
   getMappedAction(input: string): InputAction | null {
-    return this?._profile.getActionForInput(input);
+    return this._profile.getActionForInput(input);
   }
 
   /**
    * Rebind an action to a new input
    */
   rebindAction(actionId: string, newInput: string): boolean {
-    return this?._profile.rebind(actionId, newInput);
+    return this._profile.rebind(actionId, newInput);
   }
 
   /**
    * Get all current bindings
    */
   getBindings(): ReadonlyMap<string, string> {
-    return this?._profile.getBindings();
+    return this._profile.getBindings();
   }
 
   /**
    * Get action by ID
    */
   getAction(actionId: string): InputAction | null {
-    return this?._profile.getAction(actionId);
+    return this._profile.getAction(actionId);
   }
 
   /**
    * Check if an action exists
    */
   hasAction(actionId: string): boolean {
-    return this?._profile.hasAction(actionId);
+    return this._profile.hasAction(actionId);
   }
 }
 
@@ -331,12 +331,12 @@ export const InputUtils = {
    */
   createMovementActions(): InputAction[] {
     return [
-      new InputAction('move_up', InputTokens?.KEYBOARD.W, true, InputCategories?.MOVEMENT),
-      new InputAction('move_down', InputTokens?.KEYBOARD.S, true, InputCategories?.MOVEMENT),
-      new InputAction('move_left', InputTokens?.KEYBOARD.A, true, InputCategories?.MOVEMENT),
-      new InputAction('move_right', InputTokens?.KEYBOARD.D, true, InputCategories?.MOVEMENT),
-      new InputAction('jump', ' ', true, InputCategories?.MOVEMENT),
-      new InputAction('run', InputTokens?.KEYBOARD.SHIFT, true, InputCategories?.MOVEMENT)
+      new InputAction('move_up', InputTokens.KEYBOARD.W, true, InputCategories.MOVEMENT),
+      new InputAction('move_down', InputTokens.KEYBOARD.S, true, InputCategories.MOVEMENT),
+      new InputAction('move_left', InputTokens.KEYBOARD.A, true, InputCategories.MOVEMENT),
+      new InputAction('move_right', InputTokens.KEYBOARD.D, true, InputCategories.MOVEMENT),
+      new InputAction('jump', ' ', true, InputCategories.MOVEMENT),
+      new InputAction('run', InputTokens.KEYBOARD.SHIFT, true, InputCategories.MOVEMENT)
     ];
   },
 
@@ -345,12 +345,12 @@ export const InputUtils = {
    */
   createCombatActions(): InputAction[] {
     return [
-      new InputAction('attack_primary', InputTokens?.MOUSE.LEFT_CLICK, true, InputCategories?.COMBAT),
-      new InputAction('attack_secondary', InputTokens?.MOUSE.RIGHT_CLICK, true, InputCategories?.COMBAT),
-      new InputAction('block', InputTokens?.KEYBOARD.SHIFT, true, InputCategories?.COMBAT),
-      new InputAction('dodge', InputTokens?.KEYBOARD.SPACE, true, InputCategories?.COMBAT),
-      new InputAction('use_item', InputTokens?.KEYBOARD.DIGIT_1, true, InputCategories?.COMBAT),
-      new InputAction('switch_weapon', InputTokens?.KEYBOARD.DIGIT_2, true, InputCategories?.COMBAT)
+      new InputAction('attack_primary', InputTokens.MOUSE.LEFT_CLICK, true, InputCategories.COMBAT),
+      new InputAction('attack_secondary', InputTokens.MOUSE.RIGHT_CLICK, true, InputCategories.COMBAT),
+      new InputAction('block', InputTokens.KEYBOARD.SHIFT, true, InputCategories.COMBAT),
+      new InputAction('dodge', InputTokens.KEYBOARD.SPACE, true, InputCategories.COMBAT),
+      new InputAction('use_item', InputTokens.KEYBOARD.DIGIT_1, true, InputCategories.COMBAT),
+      new InputAction('switch_weapon', InputTokens.KEYBOARD.DIGIT_2, true, InputCategories.COMBAT)
     ];
   },
 
@@ -359,12 +359,12 @@ export const InputUtils = {
    */
   createUIActions(): InputAction[] {
     return [
-      new InputAction('interact', InputTokens?.KEYBOARD.ENTER, true, InputCategories?.UI),
-      new InputAction('cancel', InputTokens?.KEYBOARD.ESCAPE, true, InputCategories?.UI),
-      new InputAction('menu', InputTokens?.KEYBOARD.TAB, true, InputCategories?.UI),
-      new InputAction('next_item', InputTokens?.KEYBOARD.ARROW_DOWN, true, InputCategories?.UI),
-      new InputAction('prev_item', InputTokens?.KEYBOARD.ARROW_UP, true, InputCategories?.UI),
-      new InputAction('select', 'Enter', true, InputCategories?.UI)
+      new InputAction('interact', InputTokens.KEYBOARD.ENTER, true, InputCategories.UI),
+      new InputAction('cancel', InputTokens.KEYBOARD.ESCAPE, true, InputCategories.UI),
+      new InputAction('menu', InputTokens.KEYBOARD.TAB, true, InputCategories.UI),
+      new InputAction('next_item', InputTokens.KEYBOARD.ARROW_DOWN, true, InputCategories.UI),
+      new InputAction('prev_item', InputTokens.KEYBOARD.ARROW_UP, true, InputCategories.UI),
+      new InputAction('select', 'Enter', true, InputCategories.UI)
     ];
   },
 
@@ -373,10 +373,10 @@ export const InputUtils = {
    */
   createDebugActions(): InputAction[] {
     return [
-      new InputAction('toggle_debug', InputTokens?.KEYBOARD.DIGIT_4, true, InputCategories?.DEBUG),
-      new InputAction('console', '`', true, InputCategories?.DEBUG),
-      new InputAction('free_camera', InputTokens?.KEYBOARD.DIGIT_3, true, InputCategories?.DEBUG),
-      new InputAction('god_mode', InputTokens?.KEYBOARD.DIGIT_1, false, InputCategories?.DEBUG)
+      new InputAction('toggle_debug', InputTokens.KEYBOARD.DIGIT_4, true, InputCategories.DEBUG),
+      new InputAction('console', '`', true, InputCategories.DEBUG),
+      new InputAction('free_camera', InputTokens.KEYBOARD.DIGIT_3, true, InputCategories.DEBUG),
+      new InputAction('god_mode', InputTokens.KEYBOARD.DIGIT_1, false, InputCategories.DEBUG)
     ];
   },
 
@@ -388,13 +388,13 @@ export const InputUtils = {
 
     // Register all action sets
     const allActions = [
-      ...this?.createMovementActions(),
-      ...this?.createCombatActions(),
-      ...this?.createUIActions(),
-      ...this?.createDebugActions()
+      ...this.createMovementActions(),
+      ...this.createCombatActions(),
+      ...this.createUIActions(),
+      ...this.createDebugActions()
     ];
 
-    allActions?.forEach((action: any) => profile?.registerAction(action));
+    allActions.forEach((action: any) => profile.registerAction(action));
 
     return profile;
   },
@@ -404,14 +404,14 @@ export const InputUtils = {
    */
   isModifierKey(input: string): boolean {
     const modifiers = [
-      InputTokens?.KEYBOARD.SHIFT,
-      InputTokens?.KEYBOARD.CTRL,
-      InputTokens?.KEYBOARD.ALT,
-      InputTokens?.GAMEPAD.LB,
-      InputTokens?.GAMEPAD.RB
+      InputTokens.KEYBOARD.SHIFT,
+      InputTokens.KEYBOARD.CTRL,
+      InputTokens.KEYBOARD.ALT,
+      InputTokens.GAMEPAD.LB,
+      InputTokens.GAMEPAD.RB
     ];
 
-    return modifiers?.includes(input);
+    return modifiers.includes(input);
   },
 
   /**
@@ -419,24 +419,24 @@ export const InputUtils = {
    */
   isMovementKey(input: string): boolean {
     const movements = [
-      InputTokens?.KEYBOARD.W,
-      InputTokens?.KEYBOARD.A,
-      InputTokens?.KEYBOARD.S,
-      InputTokens?.KEYBOARD.D,
-      InputTokens?.KEYBOARD.ARROW_UP,
-      InputTokens?.KEYBOARD.ARROW_DOWN,
-      InputTokens?.KEYBOARD.ARROW_LEFT,
-      InputTokens?.KEYBOARD.ARROW_RIGHT
+      InputTokens.KEYBOARD.W,
+      InputTokens.KEYBOARD.A,
+      InputTokens.KEYBOARD.S,
+      InputTokens.KEYBOARD.D,
+      InputTokens.KEYBOARD.ARROW_UP,
+      InputTokens.KEYBOARD.ARROW_DOWN,
+      InputTokens.KEYBOARD.ARROW_LEFT,
+      InputTokens.KEYBOARD.ARROW_RIGHT
     ];
 
-    return movements?.includes(input);
+    return movements.includes(input);
   }
 };
 
 /**
  * Default input profile instance
  */
-export const defaultInputProfile = InputUtils?.createStandardProfile();
+export const defaultInputProfile = InputUtils.createStandardProfile();
 
 /**
  * Default input mapper instance

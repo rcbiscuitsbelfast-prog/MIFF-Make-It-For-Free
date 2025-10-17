@@ -757,7 +757,7 @@ export class DatabasePure {
 
   constructor(config: Partial<DatabaseConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableDatabaseManagement: true,
       enableConnectionManagement: true,
       enableQueryOptimization: true,
@@ -775,7 +775,7 @@ export class DatabasePure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalConnections: 0,
       activeConnections: 0,
       totalSchemas: 0,
@@ -792,7 +792,7 @@ export class DatabasePure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalConnections: 0,
       totalQueries: 0,
       averageQueryTime: 0,
@@ -806,7 +806,7 @@ export class DatabasePure {
    * Create a new database manager
    */
   createManager(): DatabaseOutput {
-    if (!this?.config.enableDatabaseManagement) {
+    if (!this.config.enableDatabaseManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -816,8 +816,8 @@ export class DatabasePure {
 
     const manager: DatabaseManager = {
       id: managerData.id || `database-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Database Manager',
-      type: managerData?.type || 'mysql',
+      name: managerData.name || 'Unnamed Database Manager',
+      type: managerData.type || 'mysql',
       status: 'active',
       connections: [],
       schemas: [],
@@ -886,7 +886,7 @@ export class DatabasePure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -899,7 +899,7 @@ export class DatabasePure {
    * Get manager by ID
    */
   getManager(): DatabaseOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -919,14 +919,14 @@ export class DatabasePure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DatabasePerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DatabaseAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -940,7 +940,7 @@ export class DatabasePure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalConnections = 0;
     let activeConnections = 0;
     let totalSchemas = 0;
@@ -950,25 +950,25 @@ export class DatabasePure {
     let totalTransactions = 0;
     let activeTransactions = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalConnections += manager?.connections.length;
-      activeConnections += manager?.connections.filter((c: any) => c?.status === 'connected').length;
-      totalSchemas += manager?.schemas.length;
-      totalTables += manager?.tables.length;
-      totalQueries += manager?.queries.length;
-      activeQueries += manager?.queries.filter((q: any) => q?.status === 'running').length;
-      totalTransactions += manager?.transactions.length;
-      activeTransactions += manager?.transactions.filter((t: any) => t?.status === 'active').length;
+    for (const manager of this.managers.values()) {
+      totalConnections += manager.connections.length;
+      activeConnections += manager.connections.filter((c: any) => c.status === 'connected').length;
+      totalSchemas += manager.schemas.length;
+      totalTables += manager.tables.length;
+      totalQueries += manager.queries.length;
+      activeQueries += manager.queries.filter((q: any) => q.status === 'running').length;
+      totalTransactions += manager.transactions.length;
+      activeTransactions += manager.transactions.filter((t: any) => t.status === 'active').length;
     }
 
-    this?.performanceMetrics.totalConnections = totalConnections;
-    this?.performanceMetrics.activeConnections = activeConnections;
-    this?.performanceMetrics.totalSchemas = totalSchemas;
-    this?.performanceMetrics.totalTables = totalTables;
-    this?.performanceMetrics.totalQueries = totalQueries;
-    this?.performanceMetrics.activeQueries = activeQueries;
-    this?.performanceMetrics.totalTransactions = totalTransactions;
-    this?.performanceMetrics.activeTransactions = activeTransactions;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalConnections = totalConnections;
+    this.performanceMetrics.activeConnections = activeConnections;
+    this.performanceMetrics.totalSchemas = totalSchemas;
+    this.performanceMetrics.totalTables = totalTables;
+    this.performanceMetrics.totalQueries = totalQueries;
+    this.performanceMetrics.activeQueries = activeQueries;
+    this.performanceMetrics.totalTransactions = totalTransactions;
+    this.performanceMetrics.activeTransactions = activeTransactions;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

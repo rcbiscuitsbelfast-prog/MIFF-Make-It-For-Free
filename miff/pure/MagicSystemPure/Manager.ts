@@ -20,7 +20,7 @@ export class MagicManager {
 
   constructor(magicSystem: MagicSystemPure) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.magicSystem = magicSystem;
+    this.magicSystem = magicSystem;
   }
 
   /**
@@ -28,25 +28,25 @@ export class MagicManager {
    */
   createSpellDefinition(spellData: Partial<SpellDefinition>): SpellDefinition {
     const spell: SpellDefinition = {
-      id: spellData?.id || this?.generateSpellId(),
-      name: spellData?.name || 'Unnamed Spell',
-      description: spellData?.description || 'A magical spell',
-      manaCost: spellData?.manaCost || 10,
-      cooldown: spellData?.cooldown || 1000,
-      castTime: spellData?.castTime || 1000,
-      levelRequirement: spellData?.levelRequirement || 1,
-      school: spellData?.school || 'arcane',
-      primaryElement: spellData?.primaryElement || 'arcane',
-      secondaryElements: spellData?.secondaryElements || [],
-      effects: spellData?.effects || [],
-      visualEffect: spellData?.visualEffect || 'default',
-      soundEffect: spellData?.soundEffect || 'default',
-      icon: spellData?.icon || 'default',
-      isPassive: spellData?.isPassive || false,
-      prerequisites: spellData?.prerequisites || [],
-      upgrades: spellData?.upgrades || [],
-      loreRequirement: spellData?.loreRequirement,
-      xpCost: spellData?.xpCost
+      id: spellData.id || this.generateSpellId(),
+      name: spellData.name || 'Unnamed Spell',
+      description: spellData.description || 'A magical spell',
+      manaCost: spellData.manaCost || 10,
+      cooldown: spellData.cooldown || 1000,
+      castTime: spellData.castTime || 1000,
+      levelRequirement: spellData.levelRequirement || 1,
+      school: spellData.school || 'arcane',
+      primaryElement: spellData.primaryElement || 'arcane',
+      secondaryElements: spellData.secondaryElements || [],
+      effects: spellData.effects || [],
+      visualEffect: spellData.visualEffect || 'default',
+      soundEffect: spellData.soundEffect || 'default',
+      icon: spellData.icon || 'default',
+      isPassive: spellData.isPassive || false,
+      prerequisites: spellData.prerequisites || [],
+      upgrades: spellData.upgrades || [],
+      loreRequirement: spellData.loreRequirement,
+      xpCost: spellData.xpCost
     };
 
     return spell;
@@ -57,7 +57,7 @@ export class MagicManager {
    */
   registerSpell(spell: SpellDefinition): boolean {
     // Validate spell
-    if (!this?.validateSpellDefinition(spell)) {
+    if (!this.validateSpellDefinition(spell)) {
       console.error(`Invalid spell definition: ${spell.id}`);
       return false;
     }
@@ -71,10 +71,10 @@ export class MagicManager {
    */
   castSpellEnhanced(casterId: string, spellId: string, targets: string[] = []): MagicCombatResult {
     try {
-      const result = this?.magicSystem.castSpell(casterId, spellId, targets);
+      const result = this.magicSystem.castSpell(casterId, spellId, targets);
 
       // Log successful casts
-      if (result?.success) {
+      if (result.success) {
         console.log(`✅ Spell cast: ${spellId} by ${casterId}`);
       } else {
         console.warn(`⚠️ Spell cast failed: ${spellId} - ${result.failureReason}`);
@@ -94,7 +94,7 @@ export class MagicManager {
         buffsApplied: [],
         debuffsApplied: [],
         success: false,
-        failureReason: error?.message
+        failureReason: error.message
       };
     }
   }
@@ -109,26 +109,26 @@ export class MagicManager {
     favoriteSpell: string | null;
     elementalPreferences: Map<string, number>;
   } {
-    const spells = this?.magicSystem.getSpellsForCaster(casterId);
-    const manaPool = this?.magicSystem.getManaPool(casterId);
+    const spells = this.magicSystem.getSpellsForCaster(casterId);
+    const manaPool = this.magicSystem.getManaPool(casterId);
 
     let totalManaSpent = 0;
     const elementalUsage = new Map<string, number>();
 
-    spells?.forEach((spell: any) => {
+    spells.forEach((spell: any) => {
       // Calculate mana spent based on spell usage (simplified)
-      totalManaSpent += spell?.definition.manaCost * 5; // Assume cast 5 times on average
+      totalManaSpent += spell.definition.manaCost * 5; // Assume cast 5 times on average
 
       // Track elemental usage
-      const primaryElement = spell?.definition.primaryElement;
-      elementalUsage?.set(primaryElement, (elementalUsage?.get(primaryElement) || 0) + 1);
+      const primaryElement = spell.definition.primaryElement;
+      elementalUsage.set(primaryElement, (elementalUsage.get(primaryElement) || 0) + 1);
     });
 
-    const favoriteSpell = spells?.length > 0 ? spells[0!].definition?.id : null;
+    const favoriteSpell = spells.length > 0 ? spells[0!].definition.id : null;
 
     return {
-      totalSpells: spells?.length,
-      unlockedSpells: spells?.filter((s: any) => s?.isUnlocked).length,
+      totalSpells: spells.length,
+      unlockedSpells: spells.filter((s: any) => s.isUnlocked).length,
       totalManaSpent,
       favoriteSpell,
       elementalPreferences: elementalUsage
@@ -140,7 +140,7 @@ export class MagicManager {
    */
   learnSpell(casterId: string, spellId: string): boolean {
     try {
-      const success = this?.magicSystem.unlockSpell(casterId, spellId);
+      const success = this.magicSystem.unlockSpell(casterId, spellId);
       if (success) {
         console.log(`📚 Learned spell: ${spellId} for ${casterId}`);
         return true;
@@ -160,14 +160,14 @@ export class MagicManager {
    */
   createSpellEffect(effectData: Partial<SpellEffect>): SpellEffect {
     return {
-      type: effectData?.type || 'damage',
-      magnitude: effectData?.magnitude || 10,
-      duration: effectData?.duration,
-      element: effectData?.element || 'arcane',
-      description: effectData?.description || 'A magical effect',
-      target: effectData?.target || 'single',
-      range: effectData?.range,
-      areaOfEffect: effectData?.areaOfEffect
+      type: effectData.type || 'damage',
+      magnitude: effectData.magnitude || 10,
+      duration: effectData.duration,
+      element: effectData.element || 'arcane',
+      description: effectData.description || 'A magical effect',
+      target: effectData.target || 'single',
+      range: effectData.range,
+      areaOfEffect: effectData.areaOfEffect
     };
   }
 
@@ -175,7 +175,7 @@ export class MagicManager {
    * Get mana regeneration for an entity
    */
   getManaRegeneration(entityId: string): number {
-    const manaPool = this?.magicSystem.getManaPool(entityId);
+    const manaPool = this.magicSystem.getManaPool(entityId);
     return manaPool?.regenerationRate || 0;
   }
 
@@ -183,7 +183,7 @@ export class MagicManager {
    * Set mana regeneration for an entity
    */
   setManaRegeneration(entityId: string, rate: number): void {
-    const manaPool = this?.magicSystem.getManaPool(entityId);
+    const manaPool = this.magicSystem.getManaPool(entityId);
     if (manaPool) {
       manaPool.regenerationRate = Math.max(0, rate);
     }
@@ -194,18 +194,18 @@ export class MagicManager {
    */
   getElementalEffectiveness(casterId: string, targetId: string, element: string): number {
     // This would integrate with a creature system to get target element
-    const casterAffinity = this?.magicSystem.getElementalAffinity(casterId, element);
+    const casterAffinity = this.magicSystem.getElementalAffinity(casterId, element);
 
     // Simulate target element (in real implementation, get from creature system)
     const targetElement = 'neutral';
-    const targetElementDef = this?.magicSystem.getElement(targetElement);
+    const targetElementDef = this.magicSystem.getElement(targetElement);
 
     let effectiveness = casterAffinity;
 
     if (targetElementDef) {
-      if (targetElementDef?.weaknesses.includes(element: any)) {
+      if (targetElementDef.weaknesses.includes(element)) {
         effectiveness *= 1.5; // Bonus damage to weak elements
-      } else if (targetElementDef?.strengths.includes(element: any)) {
+      } else if (targetElementDef.strengths.includes(element)) {
         effectiveness *= 0.5; // Reduced damage to strong elements
       }
     }
@@ -217,19 +217,19 @@ export class MagicManager {
    * Get spell school information
    */
   getSpellSchoolInfo(schoolName: string): SpellSchool | null {
-    return this?.magicSystem.getSpellSchool(schoolName);
+    return this.magicSystem.getSpellSchool(schoolName);
   }
 
   /**
    * Get spells available for learning
    */
   getLearnableSpells(casterId: string): SpellDefinition[] {
-    const casterSpells = this?.magicSystem.getSpellsForCaster(casterId);
-    const unlockedSpellIds = new Set(casterSpells?.map((s: any) => s?.definition.id));
+    const casterSpells = this.magicSystem.getSpellsForCaster(casterId);
+    const unlockedSpellIds = new Set(casterSpells.map((s: any) => s.definition.id));
 
-    return this?.magicSystem.getAllSpellDefinitions()
-      .filter((spell: any) => !unlockedSpellIds?.has(spell?.id))
-      .filter((spell: any) => this?.canLearnSpell(casterId, spell));
+    return this.magicSystem.getAllSpellDefinitions()
+      .filter((spell: any) => !unlockedSpellIds.has(spell.id))
+      .filter((spell: any) => this.canLearnSpell(casterId, spell));
   }
 
   /**
@@ -237,9 +237,9 @@ export class MagicManager {
    */
   private canLearnSpell(casterId: string, spell: SpellDefinition): boolean {
     // Check prerequisites
-    for (const prereq of spell?.prerequisites) {
-      const prereqSpell = this?.magicSystem.getSpellInstance(casterId, prereq);
-      if (!prereqSpell || !prereqSpell?.isUnlocked) {
+    for (const prereq of spell.prerequisites) {
+      const prereqSpell = this.magicSystem.getSpellInstance(casterId, prereq);
+      if (!prereqSpell || !prereqSpell.isUnlocked) {
         return false;
       }
     }
@@ -247,7 +247,7 @@ export class MagicManager {
     // Check level requirement
     // This would integrate with an XP/leveling system
     const casterLevel = 1; // Placeholder
-    if (casterLevel < spell?.levelRequirement) {
+    if (casterLevel < spell.levelRequirement) {
       return false;
     }
 
@@ -258,21 +258,21 @@ export class MagicManager {
    * Upgrade a spell
    */
   upgradeSpell(casterId: string, spellId: string): boolean {
-    const spellInstance = this?.magicSystem.getSpellInstance(casterId, spellId);
+    const spellInstance = this.magicSystem.getSpellInstance(casterId, spellId);
     if (!spellInstance) return false;
 
     // Check if upgrade is available
-    const currentSpell = spellInstance?.definition;
-    const availableUpgrades = currentSpell?.upgrades.filter(upgradeId => {
-      const upgradeSpell = this?.magicSystem.getSpellDefinition(upgradeId);
-      return upgradeSpell && this?.canLearnSpell(casterId, upgradeSpell);
+    const currentSpell = spellInstance.definition;
+    const availableUpgrades = currentSpell.upgrades.filter(upgradeId => {
+      const upgradeSpell = this.magicSystem.getSpellDefinition(upgradeId);
+      return upgradeSpell && this.canLearnSpell(casterId, upgradeSpell);
     });
 
-    if (availableUpgrades?.length === 0) return false;
+    if (availableUpgrades.length === 0) return false;
 
     // Apply first available upgrade
     const upgradeSpellId = availableUpgrades[0!];
-    const success = this?.learnSpell(casterId, upgradeSpellId);
+    const success = this.learnSpell(casterId, upgradeSpellId);
 
     if (success) {
       console.log(`⬆️ Upgraded ${spellId} to ${upgradeSpellId} for ${casterId}`);
@@ -299,27 +299,27 @@ export class MagicManager {
    * Validate spell definition
    */
   private validateSpellDefinition(spell: SpellDefinition): boolean {
-    if (!spell?.id || spell?.id.trim() === '') {
+    if (!spell.id || spell.id.trim() === '') {
       console.error('Spell ID is required');
       return false;
     }
 
-    if (!spell?.name || spell?.name.trim() === '') {
+    if (!spell.name || spell.name.trim() === '') {
       console.error('Spell name is required');
       return false;
     }
 
-    if (spell?.manaCost < 0) {
+    if (spell.manaCost < 0) {
       console.error('Mana cost cannot be negative');
       return false;
     }
 
-    if (spell?.cooldown < 0) {
+    if (spell.cooldown < 0) {
       console.error('Cooldown cannot be negative');
       return false;
     }
 
-    if (spell?.effects.length === 0) {
+    if (spell.effects.length === 0) {
       console.error('Spell must have at least one effect');
       return false;
     }
@@ -331,7 +331,7 @@ export class MagicManager {
    * Generate unique spell ID
    */
   private generateSpellId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `spell_${timestamp}_${random}`;
   }
@@ -346,19 +346,19 @@ export class MagicManager {
     activeCasters: number;
     averageManaPool: number;
   } {
-    const allSpells = this?.magicSystem.getAllSpellDefinitions();
-    const allElements = this?.magicSystem.getAllElements();
-    const allSchools = this?.magicSystem.getAllSpellSchools();
+    const allSpells = this.magicSystem.getAllSpellDefinitions();
+    const allElements = this.magicSystem.getAllElements();
+    const allSchools = this.magicSystem.getAllSpellSchools();
     const manaPools = Array.from(this.magicSystem.getAllSpellDefinitions());
 
-    const totalManaPools = manaPools?.length;
+    const totalManaPools = manaPools.length;
     const averageManaPool = totalManaPools > 0 ?
-      manaPools?.reduce((sum, pool) => sum + pool?.maximum, 0) / totalManaPools : 0;
+      manaPools.reduce((sum, pool) => sum + pool.maximum, 0) / totalManaPools : 0;
 
     return {
-      totalSpells: allSpells?.length,
-      totalElements: allElements?.length,
-      totalSchools: allSchools?.length,
+      totalSpells: allSpells.length,
+      totalElements: allElements.length,
+      totalSchools: allSchools.length,
       activeCasters: totalManaPools,
       averageManaPool
     };
@@ -374,9 +374,9 @@ export class MagicManager {
     timestamp: number;
   } {
     return {
-      spells: this?.magicSystem.getAllSpellDefinitions(),
-      elements: this?.magicSystem.getAllElements(),
-      schools: this?.magicSystem.getAllSpellSchools(),
+      spells: this.magicSystem.getAllSpellDefinitions(),
+      elements: this.magicSystem.getAllElements(),
+      schools: this.magicSystem.getAllSpellSchools(),
       timestamp: new Date()
     };
   }
@@ -384,7 +384,7 @@ export class MagicManager {
   /**
    * Import magic system data
    */
-  importData(data: ReturnType<typeof this?.exportData>): void {
+  importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
     console.log('Magic system data imported');
   }

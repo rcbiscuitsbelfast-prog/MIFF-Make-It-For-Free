@@ -3,7 +3,7 @@
  * 
  * Generates movement sequences: walk, idle, jump, attack, emote
  * Drives animation from rig and limb config
- * Stores animation presets in .anim?.json
+ * Stores animation presets in .anim.json
  */
 
 import { RigConfig, AnimationConfig, Keyframe, Transform, Vec3, Quaternion } from './types';
@@ -14,7 +14,7 @@ export class AnimationSequencer {
   private nextId: number = 0;
 
   constructor(rigConfig: RigConfig) {
-    this?.rigConfig = rigConfig;
+    this.rigConfig = rigConfig;
   }
 
   /**
@@ -27,22 +27,22 @@ export class AnimationSequencer {
     loop: boolean = true,
     keyframes: Omit<Keyframe, 'time'>[] = []
   ): AnimationSequencer {
-    const animationId = this?.generateId();
+    const animationId = this.generateId();
     const animation: AnimationConfig = {
       id: animationId,
       name,
       type,
       duration,
       loop,
-      keyframes: keyframes?.map((kf, index) => ({
+      keyframes: keyframes.map((kf, index) => ({
         ...kf,
         time: (index / Math.max(1, keyframes.length - 1)) * duration
       })),
-      rigId: this?.rigConfig.id,
+      rigId: this.rigConfig.id,
       metadata: {}
     };
 
-    this?.animations.set(animationId, animation);
+    this.animations.set(animationId, animation);
     return this;
   }
 
@@ -55,23 +55,23 @@ export class AnimationSequencer {
 
     // Get all limb nodes
     const limbNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
-      node?.metadata?.limbType === 'arm' || node?.metadata?.limbType === 'leg'
+      node.metadata?.limbType === 'arm' || node.metadata?.limbType === 'leg'
     );
 
     // Generate keyframes for walk cycle
-    const walkCycle = this?.generateWalkCycle(limbNodes);
+    const walkCycle = this.generateWalkCycle(limbNodes);
     
-    walkCycle?.forEach((cycleKeyframes, cycleIndex) => {
-      const time = (cycleIndex / (walkCycle?.length - 1)) * duration;
-      cycleKeyframes?.forEach((keyframe: any) => {
-        keyframes?.push({
+    walkCycle.forEach((cycleKeyframes, cycleIndex) => {
+      const time = (cycleIndex / (walkCycle.length - 1)) * duration;
+      cycleKeyframes.forEach((keyframe: any) => {
+        keyframes.push({
           ...keyframe,
           time: time
         });
       });
     });
 
-    this?.createAnimation('Walk', 'walk', duration, true, keyframes);
+    this.createAnimation('Walk', 'walk', duration, true, keyframes);
     return this;
   }
 
@@ -85,22 +85,22 @@ export class AnimationSequencer {
     // Subtle breathing motion for torso
     const torsoNode = Object.values(this.rigConfig.nodes).find(node => node.type === 'torso');
     if (torsoNode) {
-      keyframes?.push(
+      keyframes.push(
         {
-          nodeId: torsoNode?.id,
+          nodeId: torsoNode.id,
           transform: {
-            position: torsoNode?.transform.position,
-            rotation: torsoNode?.transform.rotation,
-            scale: { ...torsoNode?.transform.scale, y: torsoNode?.transform.scale.y * 1.02 }
+            position: torsoNode.transform.position,
+            rotation: torsoNode.transform.rotation,
+            scale: { ...torsoNode.transform.scale, y: torsoNode.transform.scale.y * 1.02 }
           },
           interpolation: 'bezier'
         },
         {
-          nodeId: torsoNode?.id,
+          nodeId: torsoNode.id,
           transform: {
-            position: torsoNode?.transform.position,
-            rotation: torsoNode?.transform.rotation,
-            scale: { ...torsoNode?.transform.scale, y: torsoNode?.transform.scale.y * 0.98 }
+            position: torsoNode.transform.position,
+            rotation: torsoNode.transform.rotation,
+            scale: { ...torsoNode.transform.scale, y: torsoNode.transform.scale.y * 0.98 }
           },
           interpolation: 'bezier'
         }
@@ -110,29 +110,29 @@ export class AnimationSequencer {
     // Subtle head movement
     const headNode = Object.values(this.rigConfig.nodes).find(node => node.type === 'head');
     if (headNode) {
-      keyframes?.push(
+      keyframes.push(
         {
-          nodeId: headNode?.id,
+          nodeId: headNode.id,
           transform: {
-            position: headNode?.transform.position,
-            rotation: { ...headNode?.transform.rotation, y: headNode?.transform.rotation.y + 0.1 },
-            scale: headNode?.transform.scale
+            position: headNode.transform.position,
+            rotation: { ...headNode.transform.rotation, y: headNode.transform.rotation.y + 0.1 },
+            scale: headNode.transform.scale
           },
           interpolation: 'bezier'
         },
         {
-          nodeId: headNode?.id,
+          nodeId: headNode.id,
           transform: {
-            position: headNode?.transform.position,
-            rotation: { ...headNode?.transform.rotation, y: headNode?.transform.rotation.y - 0.1 },
-            scale: headNode?.transform.scale
+            position: headNode.transform.position,
+            rotation: { ...headNode.transform.rotation, y: headNode.transform.rotation.y - 0.1 },
+            scale: headNode.transform.scale
           },
           interpolation: 'bezier'
         }
       );
     }
 
-    this?.createAnimation('Idle', 'idle', duration, true, keyframes);
+    this.createAnimation('Idle', 'idle', duration, true, keyframes);
     return this;
   }
 
@@ -144,34 +144,34 @@ export class AnimationSequencer {
     const keyframes: Omit<Keyframe, 'time'>[] = [];
 
     // Get root node (torso)
-    const rootNode = this?.rigConfig.nodes[this?.rigConfig.rootNode];
+    const rootNode = this.rigConfig.nodes[this.rigConfig.rootNode];
     if (rootNode) {
       // Jump up
-      keyframes?.push(
+      keyframes.push(
         {
-          nodeId: rootNode?.id,
+          nodeId: rootNode.id,
           transform: {
-            position: rootNode?.transform.position,
-            rotation: rootNode?.transform.rotation,
-            scale: rootNode?.transform.scale
+            position: rootNode.transform.position,
+            rotation: rootNode.transform.rotation,
+            scale: rootNode.transform.scale
           },
           interpolation: 'bezier'
         },
         {
-          nodeId: rootNode?.id,
+          nodeId: rootNode.id,
           transform: {
-            position: { ...rootNode?.transform.position, y: rootNode?.transform.position.y + 1.5 },
-            rotation: rootNode?.transform.rotation,
-            scale: rootNode?.transform.scale
+            position: { ...rootNode.transform.position, y: rootNode.transform.position.y + 1.5 },
+            rotation: rootNode.transform.rotation,
+            scale: rootNode.transform.scale
           },
           interpolation: 'bezier'
         },
         {
-          nodeId: rootNode?.id,
+          nodeId: rootNode.id,
           transform: {
-            position: rootNode?.transform.position,
-            rotation: rootNode?.transform.rotation,
-            scale: rootNode?.transform.scale
+            position: rootNode.transform.position,
+            rotation: rootNode.transform.rotation,
+            scale: rootNode.transform.scale
           },
           interpolation: 'bezier'
         }
@@ -180,42 +180,42 @@ export class AnimationSequencer {
 
     // Leg movement for jump
     const legNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
-      node?.metadata?.limbType === 'leg'
+      node.metadata?.limbType === 'leg'
     );
 
-    legNodes?.forEach(legNode => {
-      keyframes?.push(
+    legNodes.forEach(legNode => {
+      keyframes.push(
         {
-          nodeId: legNode?.id,
+          nodeId: legNode.id,
           transform: {
-            position: legNode?.transform.position,
-            rotation: { ...legNode?.transform.rotation, x: legNode?.transform.rotation.x - 0.5 },
-            scale: legNode?.transform.scale
+            position: legNode.transform.position,
+            rotation: { ...legNode.transform.rotation, x: legNode.transform.rotation.x - 0.5 },
+            scale: legNode.transform.scale
           },
           interpolation: 'bezier'
         },
         {
-          nodeId: legNode?.id,
+          nodeId: legNode.id,
           transform: {
-            position: legNode?.transform.position,
-            rotation: { ...legNode?.transform.rotation, x: legNode?.transform.rotation.x + 0.3 },
-            scale: legNode?.transform.scale
+            position: legNode.transform.position,
+            rotation: { ...legNode.transform.rotation, x: legNode.transform.rotation.x + 0.3 },
+            scale: legNode.transform.scale
           },
           interpolation: 'bezier'
         },
         {
-          nodeId: legNode?.id,
+          nodeId: legNode.id,
           transform: {
-            position: legNode?.transform.position,
-            rotation: legNode?.transform.rotation,
-            scale: legNode?.transform.scale
+            position: legNode.transform.position,
+            rotation: legNode.transform.rotation,
+            scale: legNode.transform.scale
           },
           interpolation: 'bezier'
         }
       );
     });
 
-    this?.createAnimation('Jump', 'jump', duration, false, keyframes);
+    this.createAnimation('Jump', 'jump', duration, false, keyframes);
     return this;
   }
 
@@ -229,46 +229,46 @@ export class AnimationSequencer {
     if (attackType === 'punch') {
       // Get arm nodes
       const armNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
-        node?.metadata?.limbType === 'arm'
+        node.metadata?.limbType === 'arm'
       );
 
-      armNodes?.forEach((armNode, index) => {
+      armNodes.forEach((armNode, index) => {
         const isLeftArm = index % 2 === 0; // Assume alternating left/right
         const punchDirection = isLeftArm ? -1 : 1;
 
-        keyframes?.push(
+        keyframes.push(
           {
-            nodeId: armNode?.id,
+            nodeId: armNode.id,
             transform: {
-              position: armNode?.transform.position,
-              rotation: armNode?.transform.rotation,
-              scale: armNode?.transform.scale
+              position: armNode.transform.position,
+              rotation: armNode.transform.rotation,
+              scale: armNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: armNode?.id,
+            nodeId: armNode.id,
             transform: {
               position: { 
-                ...armNode?.transform.position, 
-                x: armNode?.transform.position.x + punchDirection * 0.5,
-                z: armNode?.transform.position.z + 0.3
+                ...armNode.transform.position, 
+                x: armNode.transform.position.x + punchDirection * 0.5,
+                z: armNode.transform.position.z + 0.3
               },
               rotation: { 
-                ...armNode?.transform.rotation, 
-                x: armNode?.transform.rotation.x - 0.3,
-                y: armNode?.transform.rotation.y + punchDirection * 0.2
+                ...armNode.transform.rotation, 
+                x: armNode.transform.rotation.x - 0.3,
+                y: armNode.transform.rotation.y + punchDirection * 0.2
               },
-              scale: armNode?.transform.scale
+              scale: armNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: armNode?.id,
+            nodeId: armNode.id,
             transform: {
-              position: armNode?.transform.position,
-              rotation: armNode?.transform.rotation,
-              scale: armNode?.transform.scale
+              position: armNode.transform.position,
+              rotation: armNode.transform.rotation,
+              scale: armNode.transform.scale
             },
             interpolation: 'bezier'
           }
@@ -277,46 +277,46 @@ export class AnimationSequencer {
     } else if (attackType === 'kick') {
       // Get leg nodes
       const legNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
-        node?.metadata?.limbType === 'leg'
+        node.metadata?.limbType === 'leg'
       );
 
-      legNodes?.forEach((legNode, index) => {
+      legNodes.forEach((legNode, index) => {
         const isLeftLeg = index % 2 === 0;
         const kickDirection = isLeftLeg ? -1 : 1;
 
-        keyframes?.push(
+        keyframes.push(
           {
-            nodeId: legNode?.id,
+            nodeId: legNode.id,
             transform: {
-              position: legNode?.transform.position,
-              rotation: legNode?.transform.rotation,
-              scale: legNode?.transform.scale
+              position: legNode.transform.position,
+              rotation: legNode.transform.rotation,
+              scale: legNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: legNode?.id,
+            nodeId: legNode.id,
             transform: {
               position: { 
-                ...legNode?.transform.position, 
-                x: legNode?.transform.position.x + kickDirection * 0.4,
-                z: legNode?.transform.position.z + 0.6
+                ...legNode.transform.position, 
+                x: legNode.transform.position.x + kickDirection * 0.4,
+                z: legNode.transform.position.z + 0.6
               },
               rotation: { 
-                ...legNode?.transform.rotation, 
-                x: legNode?.transform.rotation.x - 0.8,
-                y: legNode?.transform.rotation.y + kickDirection * 0.1
+                ...legNode.transform.rotation, 
+                x: legNode.transform.rotation.x - 0.8,
+                y: legNode.transform.rotation.y + kickDirection * 0.1
               },
-              scale: legNode?.transform.scale
+              scale: legNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: legNode?.id,
+            nodeId: legNode.id,
             transform: {
-              position: legNode?.transform.position,
-              rotation: legNode?.transform.rotation,
-              scale: legNode?.transform.scale
+              position: legNode.transform.position,
+              rotation: legNode.transform.rotation,
+              scale: legNode.transform.scale
             },
             interpolation: 'bezier'
           }
@@ -324,7 +324,7 @@ export class AnimationSequencer {
       });
     }
 
-    this?.createAnimation(`Attack_${attackType}`, 'attack', duration, false, keyframes);
+    this.createAnimation(`Attack_${attackType}`, 'attack', duration, false, keyframes);
     return this;
   }
 
@@ -338,61 +338,61 @@ export class AnimationSequencer {
     if (emoteType === 'wave') {
       // Get first arm node
       const armNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
-        node?.metadata?.limbType === 'arm'
+        node.metadata?.limbType === 'arm'
       );
       const wavingArm = armNodes[0!];
 
       if (wavingArm) {
-        keyframes?.push(
+        keyframes.push(
           {
-            nodeId: wavingArm?.id,
+            nodeId: wavingArm.id,
             transform: {
-              position: wavingArm?.transform.position,
-              rotation: wavingArm?.transform.rotation,
-              scale: wavingArm?.transform.scale
+              position: wavingArm.transform.position,
+              rotation: wavingArm.transform.rotation,
+              scale: wavingArm.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: wavingArm?.id,
+            nodeId: wavingArm.id,
             transform: {
               position: { 
-                ...wavingArm?.transform.position, 
-                x: wavingArm?.transform.position.x + 0.3,
-                z: wavingArm?.transform.position.z + 0.2
+                ...wavingArm.transform.position, 
+                x: wavingArm.transform.position.x + 0.3,
+                z: wavingArm.transform.position.z + 0.2
               },
               rotation: { 
-                ...wavingArm?.transform.rotation, 
-                x: wavingArm?.transform.rotation.x - 0.5,
-                y: wavingArm?.transform.rotation.y + 0.3
+                ...wavingArm.transform.rotation, 
+                x: wavingArm.transform.rotation.x - 0.5,
+                y: wavingArm.transform.rotation.y + 0.3
               },
-              scale: wavingArm?.transform.scale
+              scale: wavingArm.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: wavingArm?.id,
+            nodeId: wavingArm.id,
             transform: {
               position: { 
-                ...wavingArm?.transform.position, 
-                x: wavingArm?.transform.position.x + 0.2,
-                z: wavingArm?.transform.position.z + 0.1
+                ...wavingArm.transform.position, 
+                x: wavingArm.transform.position.x + 0.2,
+                z: wavingArm.transform.position.z + 0.1
               },
               rotation: { 
-                ...wavingArm?.transform.rotation, 
-                x: wavingArm?.transform.rotation.x - 0.3,
-                y: wavingArm?.transform.rotation.y - 0.3
+                ...wavingArm.transform.rotation, 
+                x: wavingArm.transform.rotation.x - 0.3,
+                y: wavingArm.transform.rotation.y - 0.3
               },
-              scale: wavingArm?.transform.scale
+              scale: wavingArm.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: wavingArm?.id,
+            nodeId: wavingArm.id,
             transform: {
-              position: wavingArm?.transform.position,
-              rotation: wavingArm?.transform.rotation,
-              scale: wavingArm?.transform.scale
+              position: wavingArm.transform.position,
+              rotation: wavingArm.transform.rotation,
+              scale: wavingArm.transform.scale
             },
             interpolation: 'bezier'
           }
@@ -402,40 +402,40 @@ export class AnimationSequencer {
       // Head nodding
       const headNode = Object.values(this.rigConfig.nodes).find(node => node.type === 'head');
       if (headNode) {
-        keyframes?.push(
+        keyframes.push(
           {
-            nodeId: headNode?.id,
+            nodeId: headNode.id,
             transform: {
-              position: headNode?.transform.position,
-              rotation: headNode?.transform.rotation,
-              scale: headNode?.transform.scale
+              position: headNode.transform.position,
+              rotation: headNode.transform.rotation,
+              scale: headNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: headNode?.id,
+            nodeId: headNode.id,
             transform: {
-              position: headNode?.transform.position,
-              rotation: { ...headNode?.transform.rotation, x: headNode?.transform.rotation.x + 0.3 },
-              scale: headNode?.transform.scale
+              position: headNode.transform.position,
+              rotation: { ...headNode.transform.rotation, x: headNode.transform.rotation.x + 0.3 },
+              scale: headNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: headNode?.id,
+            nodeId: headNode.id,
             transform: {
-              position: headNode?.transform.position,
-              rotation: { ...headNode?.transform.rotation, x: headNode?.transform.rotation.x - 0.3 },
-              scale: headNode?.transform.scale
+              position: headNode.transform.position,
+              rotation: { ...headNode.transform.rotation, x: headNode.transform.rotation.x - 0.3 },
+              scale: headNode.transform.scale
             },
             interpolation: 'bezier'
           },
           {
-            nodeId: headNode?.id,
+            nodeId: headNode.id,
             transform: {
-              position: headNode?.transform.position,
-              rotation: headNode?.transform.rotation,
-              scale: headNode?.transform.scale
+              position: headNode.transform.position,
+              rotation: headNode.transform.rotation,
+              scale: headNode.transform.scale
             },
             interpolation: 'bezier'
           }
@@ -443,7 +443,7 @@ export class AnimationSequencer {
       }
     }
 
-    this?.createAnimation(`Emote_${emoteType}`, 'emote', duration, false, keyframes);
+    this.createAnimation(`Emote_${emoteType}`, 'emote', duration, false, keyframes);
     return this;
   }
 
@@ -458,9 +458,9 @@ export class AnimationSequencer {
       const cycleKeyframes: Omit<Keyframe, 'time'>[] = [];
       const stepProgress = step / cycleSteps;
 
-      limbNodes?.forEach((limbNode, index) => {
+      limbNodes.forEach((limbNode, index) => {
         const isLeftLimb = index % 2 === 0;
-        const isArm = limbNode?.metadata?.limbType === 'arm';
+        const isArm = limbNode.metadata?.limbType === 'arm';
         const phaseOffset = isLeftLimb ? 0 : 0.5; // Opposite phase for left/right
         const adjustedProgress = (stepProgress + phaseOffset) % 1;
 
@@ -477,23 +477,23 @@ export class AnimationSequencer {
           rotationZ = Math.sin(adjustedProgress * Math.PI * 2) * 0.2;
         }
 
-        cycleKeyframes?.push({
-          nodeId: limbNode?.id,
+        cycleKeyframes.push({
+          nodeId: limbNode.id,
           transform: {
-            position: limbNode?.transform.position,
+            position: limbNode.transform.position,
             rotation: {
-              x: limbNode?.transform.rotation.x + rotationX,
-              y: limbNode?.transform.rotation.y,
-              z: limbNode?.transform.rotation.z + rotationZ,
-              w: limbNode?.transform.rotation.w
+              x: limbNode.transform.rotation.x + rotationX,
+              y: limbNode.transform.rotation.y,
+              z: limbNode.transform.rotation.z + rotationZ,
+              w: limbNode.transform.rotation.w
             },
-            scale: limbNode?.transform.scale
+            scale: limbNode.transform.scale
           },
           interpolation: 'bezier'
         });
       });
 
-      cycles?.push(cycleKeyframes);
+      cycles.push(cycleKeyframes);
     }
 
     return cycles;
@@ -503,7 +503,7 @@ export class AnimationSequencer {
    * Add keyframe to animation
    */
   addKeyframe(animationId: string, keyframe: Omit<Keyframe, 'time'>, time: number): AnimationSequencer {
-    const animation = this?.animations.get(animationId);
+    const animation = this.animations.get(animationId);
     if (!animation) throw new Error(`Animation ${animationId} not found`);
 
     const newKeyframe: Keyframe = {
@@ -511,8 +511,8 @@ export class AnimationSequencer {
       time: Math.max(0, Math.min(time, animation.duration))
     };
 
-    animation?.keyframes?.push(newKeyframe);
-    animation?.keyframes.sort((a: any, b: any) => a?.time - b?.time);
+    animation.keyframes.push(newKeyframe);
+    animation.keyframes.sort((a: any, b: any) => a.time - b.time);
 
     return this;
   }
@@ -521,11 +521,11 @@ export class AnimationSequencer {
    * Remove keyframe from animation
    */
   removeKeyframe(animationId: string, keyframeIndex: number): AnimationSequencer {
-    const animation = this?.animations.get(animationId);
+    const animation = this.animations.get(animationId);
     if (!animation) throw new Error(`Animation ${animationId} not found`);
 
-    if (keyframeIndex >= 0 && keyframeIndex < animation?.keyframes.length) {
-      animation?.keyframes.splice(keyframeIndex, 1);
+    if (keyframeIndex >= 0 && keyframeIndex < animation.keyframes.length) {
+      animation.keyframes.splice(keyframeIndex, 1);
     }
 
     return this;
@@ -535,7 +535,7 @@ export class AnimationSequencer {
    * Get animation by ID
    */
   getAnimation(animationId: string): AnimationConfig | undefined {
-    return this?.animations.get(animationId);
+    return this.animations.get(animationId);
   }
 
   /**
@@ -556,7 +556,7 @@ export class AnimationSequencer {
    * Delete animation
    */
   deleteAnimation(animationId: string): AnimationSequencer {
-    this?.animations.delete(animationId);
+    this.animations.delete(animationId);
     return this;
   }
 
@@ -568,7 +568,7 @@ export class AnimationSequencer {
       animations: Array.from(this.animations.values()),
       exportFormat: 'miff-anim-v1',
       timestamp: new Date().toISOString(),
-      checksum: this?.calculateChecksum()
+      checksum: this.calculateChecksum()
     };
     return JSON.stringify(exportData, null, 2);
   }
@@ -579,30 +579,30 @@ export class AnimationSequencer {
   validate(): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    this?.animations.forEach((animation: any) => {
+    this.animations.forEach((animation: any) => {
       // Check keyframes are in chronological order
-      for (let i = 1; i < animation?.keyframes.length; i++) {
-        if (animation?.keyframes[i!].time < animation?.keyframes[i - 1].time) {
-          errors?.push(`Animation ${animation?.name} has keyframes out of order`);
+      for (let i = 1; i < animation.keyframes.length; i++) {
+        if (animation.keyframes[i!].time < animation.keyframes[i - 1].time) {
+          errors.push(`Animation ${animation.name} has keyframes out of order`);
           break;
         }
       }
 
       // Check keyframes reference valid nodes
-      animation?.keyframes.forEach((keyframe: any) => {
-        if (!this?.rigConfig.nodes[keyframe?.nodeId]) {
-          errors?.push(`Animation ${animation?.name} references non-existent node ${keyframe?.nodeId}`);
+      animation.keyframes.forEach((keyframe: any) => {
+        if (!this.rigConfig.nodes[keyframe.nodeId]) {
+          errors.push(`Animation ${animation.name} references non-existent node ${keyframe.nodeId}`);
         }
       });
 
       // Check duration is positive
-      if (animation?.duration <= 0) {
-        errors?.push(`Animation ${animation?.name} has invalid duration`);
+      if (animation.duration <= 0) {
+        errors.push(`Animation ${animation.name} has invalid duration`);
       }
     });
 
     return {
-      valid: errors?.length === 0,
+      valid: errors.length === 0,
       errors
     };
   }
@@ -614,11 +614,11 @@ export class AnimationSequencer {
   private calculateChecksum(): string {
     const data = JSON.stringify(Array.from(this.animations.values()));
     let hash = 0;
-    for (let i = 0; i < data?.length; i++) {
-      const char = data?.charCodeAt(i);
+    for (let i = 0; i < data.length; i++) {
+      const char = data.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }
-    return hash?.toString(16);
+    return hash.toString(16);
   }
 }

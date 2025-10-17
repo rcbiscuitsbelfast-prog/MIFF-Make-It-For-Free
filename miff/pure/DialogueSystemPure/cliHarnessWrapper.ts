@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { nextNode, Dialogue, Node } from './index';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 
 try {
   switch (mode) {
@@ -59,7 +59,7 @@ try {
       
       handleSuccess({
         dialogue,
-        availableResponses: responseList?.length
+        availableResponses: responseList.length
       }, 'presentDialogueChoice');
       break;
     }

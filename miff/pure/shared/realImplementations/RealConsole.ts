@@ -93,7 +93,7 @@ export class RealConsole {
 
   constructor(config?: Partial<ConsoleConfig>) {
     
-    this?.config = {
+    this.config = {
       logLevel: 'info',
       enableColors: true,
       enableTimestamps: true,
@@ -104,7 +104,7 @@ export class RealConsole {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalLogs: 0,
       logsByLevel: {},
       averageLogTime: 0,
@@ -117,45 +117,45 @@ export class RealConsole {
    * Log a debug message
    */
   debug(): void {
-    this?.log('debug', message, metadata, category);
+    this.log('debug', message, metadata, category);
   }
 
   /**
    * Log an info message
    */
   info(): void {
-    this?.log('info', message, metadata, category);
+    this.log('info', message, metadata, category);
   }
 
   /**
    * Log a warning message
    */
   warn(): void {
-    this?.log('warn', message, metadata, category);
+    this.log('warn', message, metadata, category);
   }
 
   /**
    * Log an error message
    */
   error(): void {
-    this?.log('error', message, metadata, category);
+    this.log('error', message, metadata, category);
   }
 
   /**
    * Log a fatal message
    */
   fatal(): void {
-    this?.log('fatal', message, metadata, category);
+    this.log('fatal', message, metadata, category);
   }
 
   /**
    * Core logging method
    */
   private log(level: LogEntry['level'], message: string, metadata?: Record<string, any>, category?: string): void {
-    const startTime = performance?.now();
+    const startTime = performance.now();
     
     // Check if we should log this level
-    if (!this?.shouldLog(level)) {
+    if (!this.shouldLog(level)) {
       return;
     }
 
@@ -169,19 +169,19 @@ export class RealConsole {
     };
 
     // Add to history
-    this?.addToHistory(entry);
+    this.addToHistory(entry);
 
     // Write to console
-    this?.writeToConsole(entry);
+    this.writeToConsole(entry);
 
     // Write to custom destinations
-    this?.writeToCustomDestinations(entry);
+    this.writeToCustomDestinations(entry);
 
     // Update performance metrics
-    this?.updatePerformanceMetrics(level, performance?.now() - startTime);
+    this.updatePerformanceMetrics(level, performance.now() - startTime);
 
     // Emit event
-    this?.emit('log', entry);
+    this.emit('log', entry);
   }
 
   /**
@@ -189,8 +189,8 @@ export class RealConsole {
    */
   private shouldLog(level: LogEntry['level']): boolean {
     const levels = ['debug', 'info', 'warn', 'error', 'fatal'];
-    const currentLevelIndex = levels?.indexOf(this?.config.logLevel);
-    const messageLevelIndex = levels?.indexOf(level);
+    const currentLevelIndex = levels.indexOf(this.config.logLevel);
+    const messageLevelIndex = levels.indexOf(level);
     return messageLevelIndex >= currentLevelIndex;
   }
 
@@ -198,11 +198,11 @@ export class RealConsole {
    * Add entry to history
    */
   private addToHistory(entry: LogEntry): void {
-    this?.logHistory?.push(entry);
+    this.logHistory.push(entry);
     
     // Trim history if it exceeds max entries
-    if (this?.logHistory.length > this?.config.maxLogEntries) {
-      this?.logHistory = this?.logHistory.slice(-this?.config.maxLogEntries);
+    if (this.logHistory.length > this.config.maxLogEntries) {
+      this.logHistory = this.logHistory.slice(-this.config.maxLogEntries);
     }
   }
 
@@ -210,9 +210,9 @@ export class RealConsole {
    * Write to console
    */
   private writeToConsole(entry: LogEntry): void {
-    const formattedMessage = this?.formatMessage(entry);
+    const formattedMessage = this.formatMessage(entry);
     
-    switch (entry?.level) {
+    switch (entry.level) {
       case 'debug':
         console.debug(formattedMessage);
         break;
@@ -237,16 +237,16 @@ export class RealConsole {
   private formatMessage(entry: LogEntry): string {
     let message = '';
 
-    if (this?.config.enableTimestamps) {
-      message += `[${entry?.timestamp.toISOString()}] `;
+    if (this.config.enableTimestamps) {
+      message += `[${entry.timestamp.toISOString()}] `;
     }
 
-    if (this?.config.enableCategories && entry?.category) {
-      message += `[${entry?.category}] `;
+    if (this.config.enableCategories && entry.category) {
+      message += `[${entry.category}] `;
     }
 
-    message += `[${entry?.level.toUpperCase()}] `;
-    message += entry?.message;
+    message += `[${entry.level.toUpperCase()}] `;
+    message += entry.message;
 
     if (entry.metadata && Object.keys(entry.metadata).length > 0) {
       message += ` ${JSON.stringify(entry.metadata)}`;
@@ -259,10 +259,10 @@ export class RealConsole {
    * Write to custom destinations
    */
   private writeToCustomDestinations(entry: LogEntry): void {
-    this?.config.customDestinations?.forEach((destination: any) => {
-      if (destination?.enabled) {
+    this.config.customDestinations.forEach((destination: any) => {
+      if (destination.enabled) {
         try {
-          destination?.write(entry);
+          destination.write(entry);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error('Error writing to custom destination:', err instanceof Error ? err.message : String(err));
@@ -275,38 +275,38 @@ export class RealConsole {
    * Update performance metrics
    */
   private updatePerformanceMetrics(level: LogEntry['level'], logTime: number): void {
-    this?.performanceMetrics.totalLogs++;
+    this.performanceMetrics.totalLogs++;
     
-    if (!this?.performanceMetrics.logsByLevel[level!]) {
-      this?.performanceMetrics.logsByLevel[level!] = 0;
+    if (!this.performanceMetrics.logsByLevel[level!]) {
+      this.performanceMetrics.logsByLevel[level!] = 0;
     }
-    this?.performanceMetrics.logsByLevel[level!]++;
+    this.performanceMetrics.logsByLevel[level!]++;
 
     if (level === 'error') {
-      this?.performanceMetrics.errorCount++;
+      this.performanceMetrics.errorCount++;
     } else if (level === 'warn') {
-      this?.performanceMetrics.warningCount++;
+      this.performanceMetrics.warningCount++;
     }
 
     // Update average log time
-    const totalTime = this?.performanceMetrics.averageLogTime * (this?.performanceMetrics.totalLogs - 1) + logTime;
-    this?.performanceMetrics.averageLogTime = totalTime / this?.performanceMetrics.totalLogs;
+    const totalTime = this.performanceMetrics.averageLogTime * (this.performanceMetrics.totalLogs - 1) + logTime;
+    this.performanceMetrics.averageLogTime = totalTime / this.performanceMetrics.totalLogs;
   }
 
   /**
    * Add custom log destination
    */
   addDestination(): void {
-    this?.config.customDestinations?.push(destination);
+    this.config.customDestinations.push(destination);
   }
 
   /**
    * Remove custom log destination
    */
   removeDestination(): boolean {
-    const index = this?.config.customDestinations?.findIndex(dest => dest?.name === name);
+    const index = this.config.customDestinations.findIndex(dest => dest.name === name);
     if (index > -1) {
-      this?.config.customDestinations?.splice(index, 1);
+      this.config.customDestinations.splice(index, 1);
       return true;
     }
     return false;
@@ -316,14 +316,14 @@ export class RealConsole {
    * Get log history
    */
   getLogHistory(level?: LogEntry['level'], category?: string): LogEntry[] {
-    let filtered = this?.logHistory;
+    let filtered = this.logHistory;
 
     if (level) {
-      filtered = filtered?.filter((entry: any) => entry?.level === level);
+      filtered = filtered.filter((entry: any) => entry.level === level);
     }
 
     if (category) {
-      filtered = filtered?.filter((entry: any) => entry?.category === category);
+      filtered = filtered.filter((entry: any) => entry.category === category);
     }
 
     return filtered;
@@ -333,56 +333,56 @@ export class RealConsole {
    * Get performance metrics
    */
   getPerformanceMetrics(): PerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Clear log history
    */
   clearHistory(): void {
-    this?.logHistory = [];
+    this.logHistory = [];
   }
 
   /**
    * Update configuration
    */
   updateConfig(): void {
-    this?.config = { ...this?.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig };
   }
 
   /**
    * Get current configuration
    */
   getConfig(): ConsoleConfig {
-    return { ...this?.config };
+    return { ...this.config };
   }
 
   /**
    * Event handling
    */
   on(): void {
-    if (!this?.eventHandlers.has(event)) {
-      this?.eventHandlers.set(event, []);
+    if (!this.eventHandlers.has(event)) {
+      this.eventHandlers.set(event, []);
     }
-    this?.eventHandlers.get(event)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers?.indexOf(handler);
+      const index = handlers.indexOf(handler);
       if (index > -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers?.forEach((handler: any) => {
+      handlers.forEach((handler: any) => {
         try {
-          handler(data: any);
+          handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -396,10 +396,10 @@ export class RealConsole {
    */
   getStatus(): { totalLogs: number; errorCount: number; warningCount: number; historySize: number } {
     return {
-      totalLogs: this?.performanceMetrics.totalLogs,
-      errorCount: this?.performanceMetrics.errorCount,
-      warningCount: this?.performanceMetrics.warningCount,
-      historySize: this?.logHistory.length
+      totalLogs: this.performanceMetrics.totalLogs,
+      errorCount: this.performanceMetrics.errorCount,
+      warningCount: this.performanceMetrics.warningCount,
+      historySize: this.logHistory.length
     };
   }
 
@@ -407,15 +407,15 @@ export class RealConsole {
    * Reset console
    */
   reset(): void {
-    this?.logHistory = [];
-    this?.performanceMetrics = {
+    this.logHistory = [];
+    this.performanceMetrics = {
       totalLogs: 0,
       logsByLevel: {},
       averageLogTime: 0,
       errorCount: 0,
       warningCount: 0
     };
-    this?.eventHandlers.clear();
+    this.eventHandlers.clear();
   }
 }
 

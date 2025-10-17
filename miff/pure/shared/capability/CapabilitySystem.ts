@@ -146,7 +146,7 @@ export class CapabilitySystem {
 
   constructor(...args: any[]) {
     
-    this?.registry = {
+    this.registry = {
       capabilities: new Map(),
       modules: new Map(),
       categories: new Map(),
@@ -159,7 +159,7 @@ export class CapabilitySystem {
    * Initialize the capability system
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
+    if (this.isInitialized) {
       console.warn('Capability system already initialized');
       return;
     }
@@ -168,12 +168,12 @@ export class CapabilitySystem {
       console.info('Initializing capability system...');
       
       // Discover capabilities from all modules
-      await this?.discoverCapabilities();
+      await this.discoverCapabilities();
       
       // Build capability registry
-      await this?.buildRegistry();
+      await this.buildRegistry();
       
-      this?.isInitialized = true;
+      this.isInitialized = true;
       console.info('Capability system initialized successfully');
       
     } catch (error: unknown) {
@@ -192,10 +192,10 @@ export class CapabilitySystem {
     // This would typically scan the filesystem for capability files
     // For now, we'll create a basic discovery mechanism
     
-    const coreCapabilities = this?.createCoreCapabilities();
-    const featureCapabilities = this?.createFeatureCapabilities();
-    const integrationCapabilities = this?.createIntegrationCapabilities();
-    const utilityCapabilities = this?.createUtilityCapabilities();
+    const coreCapabilities = this.createCoreCapabilities();
+    const featureCapabilities = this.createFeatureCapabilities();
+    const integrationCapabilities = this.createIntegrationCapabilities();
+    const utilityCapabilities = this.createUtilityCapabilities();
     
     const allCapabilities = [
       ...coreCapabilities,
@@ -205,7 +205,7 @@ export class CapabilitySystem {
     ];
     
     for (const capability of allCapabilities) {
-      this?.registry.capabilities?.set(capability?.id, capability);
+      this.registry.capabilities.set(capability.id, capability);
     }
     
     console.info(`Discovered ${allCapabilities.length} capabilities`);
@@ -218,26 +218,26 @@ export class CapabilitySystem {
     console.info('Building capability registry...');
     
     // Build categories
-    for (const capability of this?.registry.capabilities?.values()) {
-      if (!this?.registry.categories?.has(capability?.category)) {
-        this?.registry.categories?.set(capability?.category, []);
+    for (const capability of this.registry.capabilities.values()) {
+      if (!this.registry.categories.has(capability.category)) {
+        this.registry.categories.set(capability.category, []);
       }
-      this?.registry.categories?.get(capability?.category)?.push(capability?.id);
+      this.registry.categories.get(capability.category)?.push(capability.id);
       
       // Build tags
-      for (const tag of capability?.tags) {
-        if (!this?.registry.tags?.has(tag)) {
-          this?.registry.tags?.set(tag, []);
+      for (const tag of capability.tags) {
+        if (!this.registry.tags.has(tag)) {
+          this.registry.tags.set(tag, []);
         }
-        this?.registry.tags?.get(tag)?.push(capability?.id);
+        this.registry.tags.get(tag)?.push(capability.id);
       }
       
       // Build dependencies
-      for (const dependency of capability?.dependencies) {
-        if (!this?.registry.dependencies?.has(dependency)) {
-          this?.registry.dependencies?.set(dependency, []);
+      for (const dependency of capability.dependencies) {
+        if (!this.registry.dependencies.has(dependency)) {
+          this.registry.dependencies.set(dependency, []);
         }
-        this?.registry.dependencies?.get(dependency)?.push(capability?.id);
+        this.registry.dependencies.get(dependency)?.push(capability.id);
       }
     }
     
@@ -267,7 +267,7 @@ export class CapabilitySystem {
             returnType: 'Promise<void>',
             isAsync: true,
             isPublic: true,
-            examples: ['await manager?.initialize({});']
+            examples: ['await manager.initialize();']
           },
           {
             name: 'destroy',
@@ -276,7 +276,7 @@ export class CapabilitySystem {
             returnType: 'Promise<void>',
             isAsync: true,
             isPublic: true,
-            examples: ['await manager?.destroy();']
+            examples: ['await manager.destroy();']
           }
         ],
         properties: [
@@ -318,7 +318,7 @@ export class CapabilitySystem {
             returnType: 'void',
             isAsync: false,
             isPublic: true,
-            examples: ['logger?.info("Operation completed", { userId: 123 });']
+            examples: ['logger.info("Operation completed", { userId: 123 });']
           }
         ],
         properties: [],
@@ -359,7 +359,7 @@ export class CapabilitySystem {
             returnType: 'Promise<AIResponse>',
             isAsync: true,
             isPublic: true,
-//             examples: ['const response = await aiSystem?.processAI(request);']
+//             examples: ['const response = await aiSystem.processAI(request);']
           }
         ],
         properties: [],
@@ -407,7 +407,7 @@ export class CapabilitySystem {
             returnType: 'Promise<ExportResult>',
             isAsync: true,
             isPublic: true,
-            examples: ['const result = await godotBridge?.exportToGodot(project);']
+            examples: ['const result = await godotBridge.exportToGodot(project);']
           }
         ],
         properties: [],
@@ -449,7 +449,7 @@ export class CapabilitySystem {
             returnType: 'ValidationResult',
             isAsync: false,
             isPublic: true,
-            examples: ['const result = validator?.validate(data, schema);']
+            examples: ['const result = validator.validate(data, schema);']
           }
         ],
         properties: [],
@@ -469,7 +469,7 @@ export class CapabilitySystem {
    * Get capability by ID
    */
   getCapability(id: string): Capability! {
-    return this?.registry.capabilities?.get(id);
+    return this.registry.capabilities.get(id);
   }
 
   /**
@@ -483,34 +483,34 @@ export class CapabilitySystem {
    * Get capabilities by category
    */
   getCapabilitiesByCategory(category: string): Capability[] {
-    const capabilityIds = this?.registry.categories?.get(category) || [];
-    return capabilityIds?.map((id: any) => this?.registry.capabilities?.get(id)!);
+    const capabilityIds = this.registry.categories.get(category) || [];
+    return capabilityIds.map((id: any) => this.registry.capabilities.get(id)!);
   }
 
   /**
    * Get capabilities by tag
    */
   getCapabilitiesByTag(tag: string): Capability[] {
-    const capabilityIds = this?.registry.tags?.get(tag) || [];
-    return capabilityIds?.map((id: any) => this?.registry.capabilities?.get(id)!);
+    const capabilityIds = this.registry.tags.get(tag) || [];
+    return capabilityIds.map((id: any) => this.registry.capabilities.get(id)!);
   }
 
   /**
    * Get capabilities by type
    */
   getCapabilitiesByType(type: string): Capability[] {
-    return this?.getAllCapabilities().filter((cap: any) => cap?.type === type);
+    return this.getAllCapabilities().filter((cap: any) => cap.type === type);
   }
 
   /**
    * Search capabilities
    */
   searchCapabilities(query: string): Capability[] {
-    const lowerQuery = query?.toLowerCase();
-    return this?.getAllCapabilities().filter((cap: any) => 
-      cap?.name.toLowerCase().includes(lowerQuery) ||
-      cap?.description.toLowerCase().includes(lowerQuery) ||
-      cap?.tags.some(tag => tag?.toLowerCase().includes(lowerQuery))
+    const lowerQuery = query.toLowerCase();
+    return this.getAllCapabilities().filter((cap: any) => 
+      cap.name.toLowerCase().includes(lowerQuery) ||
+      cap.description.toLowerCase().includes(lowerQuery) ||
+      cap.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
     );
   }
 
@@ -518,11 +518,11 @@ export class CapabilitySystem {
    * Get capability dependencies
    */
   getCapabilityDependencies(id: string): Capability[] {
-    const capability = this?.registry.capabilities?.get(id);
+    const capability = this.registry.capabilities.get(id);
     if (!capability) return [];
     
-    return capability?.dependencies
-      .map(depId => this?.registry.capabilities?.get(depId))
+    return capability.dependencies
+      .map(depId => this.registry.capabilities.get(depId))
       .filter(Boolean) as Capability[];
   }
 
@@ -530,8 +530,8 @@ export class CapabilitySystem {
    * Get capability dependents
    */
   getCapabilityDependents(id: string): Capability[] {
-    const dependentIds = this?.registry.dependencies?.get(id) || [];
-    return dependentIds?.map(depId => this?.registry.capabilities?.get(depId)!);
+    const dependentIds = this.registry.dependencies.get(id) || [];
+    return dependentIds.map(depId => this.registry.capabilities.get(depId)!);
   }
 
   /**
@@ -543,25 +543,25 @@ export class CapabilitySystem {
     byCategory: Record<string, number>;
     byStatus: Record<string, number>;
   } {
-    const capabilities = this?.getAllCapabilities();
+    const capabilities = this.getAllCapabilities();
     
-    const byType = capabilities?.reduce((acc, cap) => {
-      acc[cap?.type] = (acc[cap?.type] || 0) + 1;
+    const byType = capabilities.reduce((acc, cap) => {
+      acc[cap.type] = (acc[cap.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     
-    const byCategory = capabilities?.reduce((acc, cap) => {
-      acc[cap?.category] = (acc[cap?.category] || 0) + 1;
+    const byCategory = capabilities.reduce((acc, cap) => {
+      acc[cap.category] = (acc[cap.category] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     
-    const byStatus = capabilities?.reduce((acc, cap) => {
-      acc[cap?.status] = (acc[cap?.status] || 0) + 1;
+    const byStatus = capabilities.reduce((acc, cap) => {
+      acc[cap.status] = (acc[cap.status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     
     return {
-      total: capabilities?.length,
+      total: capabilities.length,
       byType,
       byCategory,
       byStatus
@@ -574,13 +574,13 @@ export class CapabilitySystem {
   async destroy(): Promise<void> {
     console.info('Destroying capability system...');
     
-    this?.registry.capabilities?.clear();
-    this?.registry.modules?.clear();
-    this?.registry.categories?.clear();
-    this?.registry.tags?.clear();
-    this?.registry.dependencies?.clear();
+    this.registry.capabilities.clear();
+    this.registry.modules.clear();
+    this.registry.categories.clear();
+    this.registry.tags.clear();
+    this.registry.dependencies.clear();
     
-    this?.isInitialized = false;
+    this.isInitialized = false;
     console.info('Capability system destroyed');
   }
 }

@@ -826,7 +826,7 @@ export class ValidationSystemPure {
 
   constructor(config: Partial<ValidationSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableValidationManagement: true,
       enableDataValidation: true,
       enableSchemaValidation: true,
@@ -843,7 +843,7 @@ export class ValidationSystemPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalValidators: 0,
       activeValidators: 0,
       totalSchemas: 0,
@@ -857,7 +857,7 @@ export class ValidationSystemPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalValidators: 0,
       totalValidations: 0,
       averageValidationTime: 0,
@@ -871,7 +871,7 @@ export class ValidationSystemPure {
    * Create a new validation system manager
    */
   createManager(): ValidationSystemOutput {
-    if (!this?.config.enableValidationManagement) {
+    if (!this.config.enableValidationManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -881,8 +881,8 @@ export class ValidationSystemPure {
 
     const manager: ValidationSystemManager = {
       id: managerData.id || `validationsystem-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Validation System Manager',
-      type: managerData?.type || 'data',
+      name: managerData.name || 'Unnamed Validation System Manager',
+      type: managerData.type || 'data',
       status: 'active',
       validators: [],
       schemas: [],
@@ -948,7 +948,7 @@ export class ValidationSystemPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -961,7 +961,7 @@ export class ValidationSystemPure {
    * Get manager by ID
    */
   getManager(): ValidationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -981,14 +981,14 @@ export class ValidationSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): ValidationSystemPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): ValidationSystemAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1002,7 +1002,7 @@ export class ValidationSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalValidators = 0;
     let activeValidators = 0;
     let totalSchemas = 0;
@@ -1010,21 +1010,21 @@ export class ValidationSystemPure {
     let totalValidations = 0;
     let totalReports = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalValidators += manager?.validators.length;
-      activeValidators += manager?.validators.filter((v: any) => v?.status === 'active').length;
-      totalSchemas += manager?.schemas.length;
-      totalRules += manager?.rules.length;
-      totalValidations += manager?.validations.length;
-      totalReports += manager?.reports.length;
+    for (const manager of this.managers.values()) {
+      totalValidators += manager.validators.length;
+      activeValidators += manager.validators.filter((v: any) => v.status === 'active').length;
+      totalSchemas += manager.schemas.length;
+      totalRules += manager.rules.length;
+      totalValidations += manager.validations.length;
+      totalReports += manager.reports.length;
     }
 
-    this?.performanceMetrics.totalValidators = totalValidators;
-    this?.performanceMetrics.activeValidators = activeValidators;
-    this?.performanceMetrics.totalSchemas = totalSchemas;
-    this?.performanceMetrics.totalRules = totalRules;
-    this?.performanceMetrics.totalValidations = totalValidations;
-    this?.performanceMetrics.totalReports = totalReports;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalValidators = totalValidators;
+    this.performanceMetrics.activeValidators = activeValidators;
+    this.performanceMetrics.totalSchemas = totalSchemas;
+    this.performanceMetrics.totalRules = totalRules;
+    this.performanceMetrics.totalValidations = totalValidations;
+    this.performanceMetrics.totalReports = totalReports;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

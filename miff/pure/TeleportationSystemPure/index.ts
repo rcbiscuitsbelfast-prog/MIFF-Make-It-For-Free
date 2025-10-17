@@ -137,12 +137,12 @@ export class TeleportationSystemPure {
   private rng: RNGPure;
 
   constructor(eventBus: EventBus, rng: RNGPure) {
-    this?.eventBus = eventBus;
-    this?.rng = rng;
-    this?.config = this?.initializeConfig();
-    this?.stats = this?.initializeStats();
-    this?.initializeDefaultZones();
-    this?.setupEventListeners();
+    this.eventBus = eventBus;
+    this.rng = rng;
+    this.config = this.initializeConfig();
+    this.stats = this.initializeStats();
+    this.initializeDefaultZones();
+    this.setupEventListeners();
   }
 
   /**
@@ -209,8 +209,8 @@ export class TeleportationSystemPure {
       }
     ];
 
-    zones?.forEach((zone: any) => {
-      this?.zones.set(zone?.id, zone);
+    zones.forEach((zone: any) => {
+      this.zones.set(zone.id, zone);
     });
   }
 
@@ -235,43 +235,43 @@ export class TeleportationSystemPure {
    * Create a spatial anchor
    */
   createSpatialAnchor(anchorData: Partial<SpatialAnchor>): SpatialAnchor | null {
-    const zone = this?.zones.get(anchorData?.zoneId || 'overworld');
+    const zone = this.zones.get(anchorData.zoneId || 'overworld');
     if (!zone) {
       console.warn(`Cannot create anchor: Zone ${anchorData.zoneId} not found`);
       return null;
     }
 
-    if (this?.getAnchorsInZone(zone?.id).length >= zone?.anchorLimit) {
+    if (this.getAnchorsInZone(zone.id).length >= zone.anchorLimit) {
       console.warn(`Cannot create anchor: Zone ${zone.id} at capacity (${zone.anchorLimit})`);
       return null;
     }
 
     const anchor: SpatialAnchor = {
-      id: anchorData?.id || this?.generateAnchorId(),
-      name: anchorData?.name || 'Unnamed Anchor',
-      position: anchorData?.position || { x: 0, y: 0, z: 0 },
-      zoneId: anchorData?.zoneId || 'overworld',
-      description: anchorData?.description || 'A spatial anchor',
-      isPublic: anchorData?.isPublic || false,
-      isActive: anchorData?.isActive !== false,
-      energyCost: anchorData?.energyCost || this?.config.defaultEnergyCost,
-      cooldown: anchorData?.cooldown || this?.config.globalCooldown,
+      id: anchorData.id || this.generateAnchorId(),
+      name: anchorData.name || 'Unnamed Anchor',
+      position: anchorData.position || { x: 0, y: 0, z: 0 },
+      zoneId: anchorData.zoneId || 'overworld',
+      description: anchorData.description || 'A spatial anchor',
+      isPublic: anchorData.isPublic || false,
+      isActive: anchorData.isActive !== false,
+      energyCost: anchorData.energyCost || this.config.defaultEnergyCost,
+      cooldown: anchorData.cooldown || this.config.globalCooldown,
       lastUsed: 0,
-      createdBy: anchorData?.createdBy || 'system',
-      restrictions: anchorData?.restrictions || [],
-      visualMarker: anchorData?.visualMarker || 'anchor_default',
-      soundEffect: anchorData?.soundEffect || 'anchor_create',
-      requiredPermissions: anchorData?.requiredPermissions || [],
-      tags: anchorData?.tags || []
+      createdBy: anchorData.createdBy || 'system',
+      restrictions: anchorData.restrictions || [],
+      visualMarker: anchorData.visualMarker || 'anchor_default',
+      soundEffect: anchorData.soundEffect || 'anchor_create',
+      requiredPermissions: anchorData.requiredPermissions || [],
+      tags: anchorData.tags || []
     };
 
-    this?.anchors.set(anchor?.id, anchor);
-    this?.stats.anchorsCreated++;
+    this.anchors.set(anchor.id, anchor);
+    this.stats.anchorsCreated++;
 
-    this?.eventBus.emit('teleportation:anchor-created', {
-      anchorId: anchor?.id,
-      zoneId: anchor?.zoneId,
-      position: anchor?.position
+    this.eventBus.emit('teleportation:anchor-created', {
+      anchorId: anchor.id,
+      zoneId: anchor.zoneId,
+      position: anchor.position
     });
 
     console.log(`✅ Created spatial anchor: ${anchor.name} at ${JSON.stringify(anchor.position)}`);
@@ -282,60 +282,60 @@ export class TeleportationSystemPure {
    * Create a portal between two anchors
    */
   createPortal(portalData: Partial<Portal>): Portal | null {
-    const sourceAnchor = this?.anchors.get(portalData?.sourceAnchor?.id || '');
-    const destinationAnchor = this?.anchors.get(portalData?.destinationAnchor?.id || '');
+    const sourceAnchor = this.anchors.get(portalData.sourceAnchor?.id || '');
+    const destinationAnchor = this.anchors.get(portalData.destinationAnchor?.id || '');
 
     if (!sourceAnchor || !destinationAnchor) {
       console.warn('Cannot create portal: Source or destination anchor not found');
       return null;
     }
 
-    if (!sourceAnchor?.isActive || !destinationAnchor?.isActive) {
+    if (!sourceAnchor.isActive || !destinationAnchor.isActive) {
       console.warn('Cannot create portal: One or both anchors are inactive');
       return null;
     }
 
     // Check distance limit
-    const distance = this?.calculateDistance(sourceAnchor?.position, destinationAnchor?.position);
-    if (distance > this?.config.maxPortalDistance) {
+    const distance = this.calculateDistance(sourceAnchor.position, destinationAnchor.position);
+    if (distance > this.config.maxPortalDistance) {
       console.warn(`Cannot create portal: Distance ${distance} exceeds limit ${this.config.maxPortalDistance}`);
       return null;
     }
 
     // Check portal limit per anchor
-    if (this?.getPortalsForAnchor(sourceAnchor?.id).length >= this?.config.maxPortalsPerAnchor) {
+    if (this.getPortalsForAnchor(sourceAnchor.id).length >= this.config.maxPortalsPerAnchor) {
       console.warn(`Cannot create portal: Source anchor at portal limit (${this.config.maxPortalsPerAnchor})`);
       return null;
     }
 
     const portal: Portal = {
-      id: portalData?.id || this?.generatePortalId(),
-      name: portalData?.name || `Portal to ${destinationAnchor?.name}`,
+      id: portalData.id || this.generatePortalId(),
+      name: portalData.name || `Portal to ${destinationAnchor.name}`,
       sourceAnchor,
       destinationAnchor,
-      isActive: portalData?.isActive !== false,
-      isBidirectional: portalData?.isBidirectional !== false,
-      energyCost: portalData?.energyCost || this?.config.defaultEnergyCost,
-      cooldown: portalData?.cooldown || this?.config.globalCooldown,
+      isActive: portalData.isActive !== false,
+      isBidirectional: portalData.isBidirectional !== false,
+      energyCost: portalData.energyCost || this.config.defaultEnergyCost,
+      cooldown: portalData.cooldown || this.config.globalCooldown,
       lastUsed: 0,
-      createdBy: portalData?.createdBy || 'system',
-      visualEffect: portalData?.visualEffect || 'portal_default',
-      soundEffect: portalData?.soundEffect || 'portal_create',
-      restrictions: portalData?.restrictions || [],
-      requiredPermissions: portalData?.requiredPermissions || [],
-      tags: portalData?.tags || [],
+      createdBy: portalData.createdBy || 'system',
+      visualEffect: portalData.visualEffect || 'portal_default',
+      soundEffect: portalData.soundEffect || 'portal_create',
+      restrictions: portalData.restrictions || [],
+      requiredPermissions: portalData.requiredPermissions || [],
+      tags: portalData.tags || [],
       stability: 1.0,
-      charges: portalData?.charges || (this?.config.enablePortalCharges ? 10 : -1),
-      maxCharges: portalData?.maxCharges || 10
+      charges: portalData.charges || (this.config.enablePortalCharges ? 10 : -1),
+      maxCharges: portalData.maxCharges || 10
     };
 
-    this?.portals.set(portal?.id, portal);
-    this?.stats.portalsCreated++;
+    this.portals.set(portal.id, portal);
+    this.stats.portalsCreated++;
 
-    this?.eventBus.emit('teleportation:portal-created', {
-      portalId: portal?.id,
-      sourceAnchorId: sourceAnchor?.id,
-      destinationAnchorId: destinationAnchor?.id
+    this.eventBus.emit('teleportation:portal-created', {
+      portalId: portal.id,
+      sourceAnchorId: sourceAnchor.id,
+      destinationAnchorId: destinationAnchor.id
     });
 
     console.log(`✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
@@ -346,16 +346,16 @@ export class TeleportationSystemPure {
    * Request teleportation
    */
   requestTeleportation(request: TeleportationRequest): TeleportationResult {
-    const entityId = request?.entityId;
-    const destinationId = request?.destinationId;
+    const entityId = request.entityId;
+    const destinationId = request.destinationId;
 
     // Find destination (anchor or portal)
-    const destinationAnchor = this?.anchors.get(destinationId);
-    const destinationPortal = this?.portals.get(destinationId);
+    const destinationAnchor = this.anchors.get(destinationId);
+    const destinationPortal = this.portals.get(destinationId);
 
     if (!destinationAnchor && !destinationPortal) {
       const failureReason = `Destination not found: ${destinationId}`;
-      this?.recordTeleportationFailure(entityId, failureReason);
+      this.recordTeleportationFailure(entityId, failureReason);
       return {
         success: false,
         entityId,
@@ -371,15 +371,15 @@ export class TeleportationSystemPure {
     let targetPosition: Vector3;
     let energyCost: number;
 
-    if (destinationPortal && request?.usePortal) {
-      targetPosition = destinationPortal?.destinationAnchor.position;
-      energyCost = destinationPortal?.energyCost;
+    if (destinationPortal && request.usePortal) {
+      targetPosition = destinationPortal.destinationAnchor.position;
+      energyCost = destinationPortal.energyCost;
     } else if (destinationAnchor) {
-      targetPosition = destinationAnchor?.position;
-      energyCost = destinationAnchor?.energyCost;
+      targetPosition = destinationAnchor.position;
+      energyCost = destinationAnchor.energyCost;
     } else {
       const failureReason = 'Invalid destination type';
-      this?.recordTeleportationFailure(entityId, failureReason);
+      this.recordTeleportationFailure(entityId, failureReason);
       return {
         success: false,
         entityId,
@@ -392,10 +392,10 @@ export class TeleportationSystemPure {
     }
 
     // Check restrictions and permissions
-    if (!request?.bypassRestrictions) {
-      if (destinationAnchor && !this?.canAccessAnchor(entityId, destinationAnchor)) {
+    if (!request.bypassRestrictions) {
+      if (destinationAnchor && !this.canAccessAnchor(entityId, destinationAnchor)) {
         const failureReason = 'Access denied to anchor';
-        this?.recordTeleportationFailure(entityId, failureReason);
+        this.recordTeleportationFailure(entityId, failureReason);
         return {
           success: false,
           entityId,
@@ -407,9 +407,9 @@ export class TeleportationSystemPure {
         };
       }
 
-      if (destinationPortal && !this?.canAccessPortal(entityId, destinationPortal)) {
+      if (destinationPortal && !this.canAccessPortal(entityId, destinationPortal)) {
         const failureReason = 'Access denied to portal';
-        this?.recordTeleportationFailure(entityId, failureReason);
+        this.recordTeleportationFailure(entityId, failureReason);
         return {
           success: false,
           entityId,
@@ -423,11 +423,11 @@ export class TeleportationSystemPure {
     }
 
     // Check line of sight if required
-    if (this?.config.requireLineOfSight) {
-      const hasLineOfSight = this?.checkLineOfSight(entityId, targetPosition);
+    if (this.config.requireLineOfSight) {
+      const hasLineOfSight = this.checkLineOfSight(entityId, targetPosition);
       if (!hasLineOfSight) {
         const failureReason = 'Line of sight blocked';
-        this?.recordTeleportationFailure(entityId, failureReason);
+        this.recordTeleportationFailure(entityId, failureReason);
         return {
           success: false,
           entityId,
@@ -441,30 +441,30 @@ export class TeleportationSystemPure {
     }
 
     // Calculate teleportation success
-    const successRate = this?.calculateTeleportationSuccessRate(entityId, targetPosition, energyCost);
-    const success = this?.rng.nextFloat() < successRate;
+    const successRate = this.calculateTeleportationSuccessRate(entityId, targetPosition, energyCost);
+    const success = this.rng.nextFloat() < successRate;
 
     if (!success) {
       const failureReason = 'Teleportation failed (unstable destination)';
-      this?.recordTeleportationFailure(entityId, failureReason);
+      this.recordTeleportationFailure(entityId, failureReason);
       return {
         success: false,
         entityId,
         fromPosition: { x: 0, y: 0, z: 0 },
         toPosition: targetPosition,
         energySpent: 0,
-        cooldownApplied: this?.config.globalCooldown,
+        cooldownApplied: this.config.globalCooldown,
         failureReason
       };
     }
 
     // Perform teleportation
     const fromPosition = { x: 0, y: 0, z: 0 }; // Would get from entity system
-    const sideEffects = this?.generateTeleportationSideEffects();
+    const sideEffects = this.generateTeleportationSideEffects();
 
     // Update portal stability and charges if applicable
-    if (destinationPortal && request?.usePortal) {
-      this?.updatePortalUsage(destinationPortal);
+    if (destinationPortal && request.usePortal) {
+      this.updatePortalUsage(destinationPortal);
     }
 
     // Record successful teleportation
@@ -474,16 +474,16 @@ export class TeleportationSystemPure {
       fromPosition,
       toPosition: targetPosition,
       energySpent: energyCost,
-      cooldownApplied: this?.config.globalCooldown,
+      cooldownApplied: this.config.globalCooldown,
       sideEffects,
-      experienceGained: this?.calculateTeleportationExperience(entityId, targetPosition, energyCost)
+      experienceGained: this.calculateTeleportationExperience(entityId, targetPosition, energyCost)
     };
 
-    this?.recordTeleportationSuccess(result: any);
-    this?.stats.totalEnergySpent += energyCost;
+    this.recordTeleportationSuccess(result);
+    this.stats.totalEnergySpent += energyCost;
 
     // Emit teleportation event
-    this?.eventBus.emit('teleportation:teleport-success', {
+    this.eventBus.emit('teleportation:teleport-success', {
       entityId,
       fromPosition,
       toPosition,
@@ -507,7 +507,7 @@ export class TeleportationSystemPure {
    */
   getPortalsForAnchor(anchorId: string): Portal[] {
     return Array.from(this.portals.values()).filter((portal: any) =>
-      portal?.sourceAnchor.id === anchorId || portal?.destinationAnchor.id === anchorId
+      portal.sourceAnchor.id === anchorId || portal.destinationAnchor.id === anchorId
     );
   }
 
@@ -515,21 +515,21 @@ export class TeleportationSystemPure {
    * Get anchor by ID
    */
   getAnchor(anchorId: string): SpatialAnchor | null {
-    return this?.anchors.get(anchorId) || null;
+    return this.anchors.get(anchorId) || null;
   }
 
   /**
    * Get portal by ID
    */
   getPortal(portalId: string): Portal | null {
-    return this?.portals.get(portalId) || null;
+    return this.portals.get(portalId) || null;
   }
 
   /**
    * Get zone information
    */
   getZone(zoneId: string): ZoneInfo | null {
-    return this?.zones.get(zoneId) || null;
+    return this.zones.get(zoneId) || null;
   }
 
   /**
@@ -543,14 +543,14 @@ export class TeleportationSystemPure {
    * Get teleportation statistics
    */
   getStats(): TeleportationStats {
-    return { ...this?.stats };
+    return { ...this.stats };
   }
 
   /**
    * Update teleportation configuration
    */
   updateConfig(newConfig: Partial<TeleportationConfig>): void {
-    this?.config = { ...this?.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig };
     console.log('Teleportation config updated');
   }
 
@@ -558,7 +558,7 @@ export class TeleportationSystemPure {
    * Add a zone
    */
   addZone(zone: ZoneInfo): void {
-    this?.zones.set(zone?.id, zone);
+    this.zones.set(zone.id, zone);
     console.log(`✅ Added teleportation zone: ${zone.name}`);
   }
 
@@ -566,16 +566,16 @@ export class TeleportationSystemPure {
    * Remove a zone
    */
   removeZone(zoneId: string): boolean {
-    const zone = this?.zones.get(zoneId);
+    const zone = this.zones.get(zoneId);
     if (!zone) return false;
 
     // Remove all anchors in this zone
-    const anchorsToRemove = this?.getAnchorsInZone(zoneId);
-    anchorsToRemove?.forEach((anchor: any) => {
-      this?.anchors.delete(anchor?.id);
+    const anchorsToRemove = this.getAnchorsInZone(zoneId);
+    anchorsToRemove.forEach((anchor: any) => {
+      this.anchors.delete(anchor.id);
     });
 
-    this?.zones.delete(zoneId);
+    this.zones.delete(zoneId);
     console.log(`🗑️ Removed zone: ${zone.name} (${anchorsToRemove.length} anchors removed)`);
     return true;
   }
@@ -595,20 +595,20 @@ export class TeleportationSystemPure {
    */
   private canAccessAnchor(entityId: string, anchor: SpatialAnchor): boolean {
     // Check restrictions
-    for (const restriction of anchor?.restrictions) {
-      if (!this?.checkRestriction(entityId, restriction)) {
+    for (const restriction of anchor.restrictions) {
+      if (!this.checkRestriction(entityId, restriction)) {
         return false;
       }
     }
 
     // Check permissions
-    for (const permission of anchor?.requiredPermissions) {
-      if (!this?.checkPermission(entityId, permission)) {
+    for (const permission of anchor.requiredPermissions) {
+      if (!this.checkPermission(entityId, permission)) {
         return false;
       }
     }
 
-    return anchor?.isActive;
+    return anchor.isActive;
   }
 
   /**
@@ -616,20 +616,20 @@ export class TeleportationSystemPure {
    */
   private canAccessPortal(entityId: string, portal: Portal): boolean {
     // Check restrictions
-    for (const restriction of portal?.restrictions) {
-      if (!this?.checkRestriction(entityId, restriction)) {
+    for (const restriction of portal.restrictions) {
+      if (!this.checkRestriction(entityId, restriction)) {
         return false;
       }
     }
 
     // Check permissions
-    for (const permission of portal?.requiredPermissions) {
-      if (!this?.checkPermission(entityId, permission)) {
+    for (const permission of portal.requiredPermissions) {
+      if (!this.checkPermission(entityId, permission)) {
         return false;
       }
     }
 
-    return portal?.isActive && portal?.charges !== 0;
+    return portal.isActive && portal.charges !== 0;
   }
 
   /**
@@ -648,7 +648,7 @@ export class TeleportationSystemPure {
     let successRate = 0.95; // Base 95% success rate
 
     // Reduce success rate for long distances
-    const distance = this?.calculateDistance({ x: 0, y: 0, z: 0 }, targetPosition); // From entity position
+    const distance = this.calculateDistance({ x: 0, y: 0, z: 0 }, targetPosition); // From entity position
     const distancePenalty = Math.min(0.3, distance / 1000); // Up to 30% penalty for long distances
     successRate -= distancePenalty;
 
@@ -671,22 +671,22 @@ export class TeleportationSystemPure {
   private generateTeleportationSideEffects(): TeleportationSideEffect[] {
     const sideEffects: TeleportationSideEffect[] = [];
 
-    if (!this?.config.enableSideEffects) return sideEffects;
+    if (!this.config.enableSideEffects) return sideEffects;
 
     // Random chance for side effects
-    if (this?.rng.nextFloat() < 0.1) { // 10% chance
+    if (this.rng.nextFloat() < 0.1) { // 10% chance
       const effectTypes: TeleportationSideEffect['type'][] = ['buff', 'debuff', 'damage', 'heal', 'environmental'];
       const effectType = effectTypes[Math.floor(this.rng.nextFloat() * effectTypes.length)];
 
       const sideEffect: TeleportationSideEffect = {
         type: effectType,
-        description: this?.getSideEffectDescription(effectType),
+        description: this.getSideEffectDescription(effectType),
         duration: effectType === 'buff' || effectType === 'debuff' ? 30 : undefined,
-        magnitude: this?.rng.nextFloat() * 20 + 5,
+        magnitude: this.rng.nextFloat() * 20 + 5,
         chance: 0.1
       };
 
-      sideEffects?.push(sideEffect);
+      sideEffects.push(sideEffect);
     }
 
     return sideEffects;
@@ -700,29 +700,29 @@ export class TeleportationSystemPure {
     portal.stability = Math.max(0, portal.stability - this.config.portalStabilityDecay);
 
     // Reduce charges if enabled
-    if (this?.config.enablePortalCharges && portal?.charges > 0) {
+    if (this.config.enablePortalCharges && portal.charges > 0) {
       portal.charges = Math.max(0, portal.charges - 1);
     }
 
     // Deactivate if unstable
-    if (portal?.stability <= 0) {
-      portal?.isActive = false;
+    if (portal.stability <= 0) {
+      portal.isActive = false;
       console.log(`⚠️ Portal deactivated due to instability: ${portal.name}`);
     }
 
-    portal.lastUsed = new Date();
+    portal.lastUsed = Date.now();
   }
 
   /**
    * Record teleportation success
    */
   private recordTeleportationSuccess(result: TeleportationResult): void {
-    this?.stats.totalTeleports++;
-    this?.stats.successfulTeleports++;
-    this?.teleportationHistory?.push(result: any);
+    this.stats.totalTeleports++;
+    this.stats.successfulTeleports++;
+    this.teleportationHistory.push(result);
 
     // Update most used destination
-    const destinationId = result?.toPosition.x + ',' + result?.toPosition.y + ',' + result?.toPosition.z;
+    const destinationId = result.toPosition.x + ',' + result.toPosition.y + ',' + result.toPosition.z;
     // This would track usage statistics in a real implementation
   }
 
@@ -730,11 +730,11 @@ export class TeleportationSystemPure {
    * Record teleportation failure
    */
   private recordTeleportationFailure(entityId: string, reason: string): void {
-    this?.stats.totalTeleports++;
-    this?.stats.failedTeleports++;
+    this.stats.totalTeleports++;
+    this.stats.failedTeleports++;
 
-    const failureCount = this?.stats.failureReasons?.get(reason) || 0;
-    this?.stats.failureReasons?.set(reason, failureCount + 1);
+    const failureCount = this.stats.failureReasons.get(reason) || 0;
+    this.stats.failureReasons.set(reason, failureCount + 1);
   }
 
   /**
@@ -743,7 +743,7 @@ export class TeleportationSystemPure {
   private checkRestriction(entityId: string, restriction: string): boolean {
     // This would integrate with quest/inventory systems
     // For now, just return true for basic restrictions
-    return !restriction?.includes('requires-') || restriction?.includes('none');
+    return !restriction.includes('requires-') || restriction.includes('none');
   }
 
   /**
@@ -758,7 +758,7 @@ export class TeleportationSystemPure {
    * Calculate teleportation experience
    */
   private calculateTeleportationExperience(entityId: string, targetPosition: Vector3, energySpent: number): number {
-    const distance = this?.calculateDistance({ x: 0, y: 0, z: 0 }, targetPosition);
+    const distance = this.calculateDistance({ x: 0, y: 0, z: 0 }, targetPosition);
     return Math.floor((distance / 100) + (energySpent / 10));
   }
 
@@ -781,7 +781,7 @@ export class TeleportationSystemPure {
    * Generate unique anchor ID
    */
   private generateAnchorId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `anchor_${timestamp}_${random}`;
   }
@@ -790,18 +790,18 @@ export class TeleportationSystemPure {
    * Generate unique portal ID
    */
   private generatePortalId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `portal_${timestamp}_${random}`;
   }
 
   private setupEventListeners(): void {
     // Listen for zone changes or entity movements that might affect teleportation
-    this?.eventBus.on('zone:entity-entered', (data: any) => {
+    this.eventBus.on('zone:entity-entered', (data: any) => {
       // Could trigger teleportation events or update anchor visibility
     });
 
-    this?.eventBus.on('zone:entity-exited', (data: any) => {
+    this.eventBus.on('zone:entity-exited', (data: any) => {
       // Could clean up temporary anchors or update portal states
     });
   }

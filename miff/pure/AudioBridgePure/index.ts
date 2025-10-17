@@ -84,11 +84,11 @@ export class AudioManager {
 
     for (const cmd of cmds) {
       try {
-        this?.processCommand(cmd);
-        applied?.push(cmd);
+        this.processCommand(cmd);
+        applied.push(cmd);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        issues?.push(`Failed to process ${cmd?.op}: ${error instanceof Error ? error?.message : 'Unknown error'}`);
+        issues.push(`Failed to process ${cmd.op}: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     }
 
@@ -97,55 +97,55 @@ export class AudioManager {
     let stats: any | undefined;
 
     for (const cmd of cmds) {
-      if (cmd?.op === 'getAnalysis') {
-        analysis = this?.getAudioAnalysis();
-      } else if (cmd?.op === 'getStats') {
-        stats = this?.getStats();
+      if (cmd.op === 'getAnalysis') {
+        analysis = this.getAudioAnalysis();
+      } else if (cmd.op === 'getStats') {
+        stats = this.getStats();
       }
     }
 
     return {
       op: 'audio',
-      status: issues?.length > 0 ? 'error' : 'ok',
+      status: issues.length > 0 ? 'error' : 'ok',
       applied,
       state: Array.from(this.audioStates.values()),
       analysis,
       stats,
-      issues: issues?.length > 0 ? issues : undefined
+      issues: issues.length > 0 ? issues : undefined
     };
   }
 
   private processCommand(cmd: AudioCmd): void {
-    switch (cmd?.op) {
+    switch (cmd.op) {
       case 'play':
-        this?.playAudio(cmd?.id, cmd?.volume ?? 1.0, cmd?.loop ?? false, cmd?.fadeIn);
+        this.playAudio(cmd.id, cmd.volume ?? 1.0, cmd.loop ?? false, cmd.fadeIn);
         break;
       case 'stop':
-        this?.stopAudio(cmd?.id, cmd?.fadeOut);
+        this.stopAudio(cmd.id, cmd.fadeOut);
         break;
       case 'pause':
-        this?.pauseAudio(cmd?.id);
+        this.pauseAudio(cmd.id);
         break;
       case 'resume':
-        this?.resumeAudio(cmd?.id);
+        this.resumeAudio(cmd.id);
         break;
       case 'setVolume':
-        this?.setVolume(cmd?.id, cmd?.volume, cmd?.fadeTime);
+        this.setVolume(cmd.id, cmd.volume, cmd.fadeTime);
         break;
       case 'setPitch':
-        this?.setPitch(cmd?.id, cmd?.pitch);
+        this.setPitch(cmd.id, cmd.pitch);
         break;
       case 'setLoop':
-        this?.setLoop(cmd?.id, cmd?.loop);
+        this.setLoop(cmd.id, cmd.loop);
         break;
       case 'fadeIn':
-        this?.fadeIn(cmd?.id, cmd?.duration, cmd?.targetVolume ?? 1.0);
+        this.fadeIn(cmd.id, cmd.duration, cmd.targetVolume ?? 1.0);
         break;
       case 'fadeOut':
-        this?.fadeOut(cmd?.id, cmd?.duration);
+        this.fadeOut(cmd.id, cmd.duration);
         break;
       case 'stopAll':
-        this?.stopAll();
+        this.stopAll();
         break;
       case 'list':
         // List command is handled in the result
@@ -154,34 +154,34 @@ export class AudioManager {
         // Get state command is handled in the result
         break;
       case 'playSpatial':
-        this?.playSpatialAudio(cmd?.id, cmd?.spatialConfig, cmd?.fadeIn);
+        this.playSpatialAudio(cmd.id, cmd.spatialConfig, cmd.fadeIn);
         break;
       case 'setSpatial':
-        this?.setSpatialAudio(cmd?.id, cmd?.spatialConfig);
+        this.setSpatialAudio(cmd.id, cmd.spatialConfig);
         break;
       case 'setMasterVolume':
-        this?.setMasterVolume(cmd?.volume);
+        this.setMasterVolume(cmd.volume);
         break;
       case 'enableHRTF':
-        this?.enableHRTF(cmd?.enabled);
+        this.enableHRTF(cmd.enabled);
         break;
       case 'enableReverb':
-        this?.enableReverb(cmd?.enabled);
+        this.enableReverb(cmd.enabled);
         break;
       case 'setReverb':
-        this?.setReverb(cmd?.decay, cmd?.damping);
+        this.setReverb(cmd.decay, cmd.damping);
         break;
       case 'addEffect':
-        this?.addEffect(cmd?.id, cmd?.effectType, cmd?.parameters);
+        this.addEffect(cmd.id, cmd.effectType, cmd.parameters);
         break;
       case 'removeEffect':
-        this?.removeEffect(cmd?.id, cmd?.effectId);
+        this.removeEffect(cmd.id, cmd.effectId);
         break;
       case 'setListenerPosition':
-        this?.setListenerPosition(cmd?.position);
+        this.setListenerPosition(cmd.position);
         break;
       case 'setListenerOrientation':
-        this?.setListenerOrientation(cmd?.forward, cmd?.up);
+        this.setListenerOrientation(cmd.forward, cmd.up);
         break;
       case 'getAnalysis':
         // Analysis command is handled in the result
@@ -203,103 +203,103 @@ export class AudioManager {
     };
 
     if (fadeIn) {
-      state?.fadeInProgress = 'in';
-      state?.fadeStartTime = this?.currentTime;
-      state?.fadeDuration = fadeIn;
-      state?.fadeTargetVolume = volume;
+      state.fadeInProgress = 'in';
+      state.fadeStartTime = this.currentTime;
+      state.fadeDuration = fadeIn;
+      state.fadeTargetVolume = volume;
     }
 
-    this?.audioStates.set(id, state);
+    this.audioStates.set(id, state);
   }
 
   private stopAudio(id: string, fadeOut?: number): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (!state) return;
 
     if (fadeOut) {
-      state?.fadeInProgress = 'out';
-      state?.fadeStartTime = this?.currentTime;
-      state?.fadeDuration = fadeOut;
-      state?.fadeTargetVolume = 0;
+      state.fadeInProgress = 'out';
+      state.fadeStartTime = this.currentTime;
+      state.fadeDuration = fadeOut;
+      state.fadeTargetVolume = 0;
     } else {
-      state?.playing = false;
-      state?.paused = false;
+      state.playing = false;
+      state.paused = false;
     }
   }
 
   private pauseAudio(id: string): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (state) {
-      state?.paused = true;
-      state?.playing = false;
+      state.paused = true;
+      state.playing = false;
     }
   }
 
   private resumeAudio(id: string): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (state) {
-      state?.paused = false;
-      state?.playing = true;
+      state.paused = false;
+      state.playing = true;
     }
   }
 
   private setVolume(id: string, volume: number, fadeTime?: number): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (!state) return;
 
     if (fadeTime) {
-      state?.fadeInProgress = 'in';
-      state?.fadeStartTime = this?.currentTime;
-      state?.fadeDuration = fadeTime;
-      state?.fadeTargetVolume = volume;
+      state.fadeInProgress = 'in';
+      state.fadeStartTime = this.currentTime;
+      state.fadeDuration = fadeTime;
+      state.fadeTargetVolume = volume;
     } else {
-      state?.volume = volume;
+      state.volume = volume;
     }
   }
 
   private setPitch(id: string, pitch: number): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (state) {
-      state?.pitch = pitch;
+      state.pitch = pitch;
     }
   }
 
   private setLoop(id: string, loop: boolean): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (state) {
-      state?.loop = loop;
+      state.loop = loop;
     }
   }
 
   private fadeIn(id: string, duration: number, targetVolume: number): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (!state) return;
 
-    state?.fadeInProgress = 'in';
-    state?.fadeStartTime = this?.currentTime;
-    state?.fadeDuration = duration;
-    state?.fadeTargetVolume = targetVolume;
+    state.fadeInProgress = 'in';
+    state.fadeStartTime = this.currentTime;
+    state.fadeDuration = duration;
+    state.fadeTargetVolume = targetVolume;
   }
 
   private fadeOut(id: string, duration: number): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (!state) return;
 
-    state?.fadeInProgress = 'out';
-    state?.fadeStartTime = this?.currentTime;
-    state?.fadeDuration = duration;
-    state?.fadeTargetVolume = 0;
+    state.fadeInProgress = 'out';
+    state.fadeStartTime = this.currentTime;
+    state.fadeDuration = duration;
+    state.fadeTargetVolume = 0;
   }
 
   private stopAll(): void {
     for (const state of Array.from(this.audioStates.values())) {
-      state?.playing = false;
-      state?.paused = false;
+      state.playing = false;
+      state.paused = false;
     }
   }
 
   getState(id: string): AudioState | undefined {
-    return this?.audioStates.get(id);
+    return this.audioStates.get(id);
   }
 
   getAllStates(): AudioState[] {
@@ -312,26 +312,26 @@ export class AudioManager {
       id,
       playing: true,
       paused: false,
-      volume: spatialConfig?.volume,
-      pitch: spatialConfig?.pitch,
+      volume: spatialConfig.volume,
+      pitch: spatialConfig.pitch,
       loop: false
     };
 
     if (fadeIn) {
-      state?.fadeInProgress = 'in';
-      state?.fadeStartTime = this?.currentTime;
-      state?.fadeDuration = fadeIn;
-      state?.fadeTargetVolume = spatialConfig?.volume;
+      state.fadeInProgress = 'in';
+      state.fadeStartTime = this.currentTime;
+      state.fadeDuration = fadeIn;
+      state.fadeTargetVolume = spatialConfig.volume;
     }
 
     // Store spatial configuration
     (state as any).spatialConfig = spatialConfig;
 
-    this?.audioStates.set(id, state);
+    this.audioStates.set(id, state);
   }
 
   private setSpatialAudio(id: string, spatialConfig: SpatialAudioConfig): void {
-    const state = this?.audioStates.get(id);
+    const state = this.audioStates.get(id);
     if (state) {
       (state as any).spatialConfig = spatialConfig;
     }
@@ -385,10 +385,10 @@ export class AudioManager {
 
   private getStats(): any {
     return {
-      totalStates: this?.audioStates.size,
+      totalStates: this.audioStates.size,
       playingStates: Array.from(this.audioStates.values()).filter((s: any) => s.playing).length,
       pausedStates: Array.from(this.audioStates.values()).filter((s: any) => s.paused).length,
-      currentTime: this?.currentTime,
+      currentTime: this.currentTime,
       features: {
         spatialAudio: true,
         hrtf: true,
@@ -403,6 +403,6 @@ export class AudioManager {
 // Legacy function for backward compatibility
 export function process(cmds: AudioCmd[]): AudioResult {
   const manager = new AudioManager();
-  return manager?.process(cmds);
+  return manager.process(cmds);
 }
 

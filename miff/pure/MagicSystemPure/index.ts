@@ -119,15 +119,15 @@ export class MagicSystemPure {
     combatSystem: CombatPure,
     rng: RNGPure
   ) {
-    this?.eventBus = eventBus;
-    this?.healthSystem = healthSystem;
-    this?.combatSystem = combatSystem;
-    this?.rng = rng;
+    this.eventBus = eventBus;
+    this.healthSystem = healthSystem;
+    this.combatSystem = combatSystem;
+    this.rng = rng;
 
-    this?.initializeElements();
-    this?.initializeSpellSchools();
-    this?.initializeBasicSpells();
-    this?.setupEventListeners();
+    this.initializeElements();
+    this.initializeSpellSchools();
+    this.initializeBasicSpells();
+    this.setupEventListeners();
   }
 
   /**
@@ -193,8 +193,8 @@ export class MagicSystemPure {
       }
     ];
 
-    elements?.forEach((element: any) => {
-      this?.elements.set(element?.name, element);
+    elements.forEach((element: any) => {
+      this.elements.set(element.name, element);
     });
   }
 
@@ -244,8 +244,8 @@ export class MagicSystemPure {
       }
     ];
 
-    schools?.forEach((school: any) => {
-      this?.spellSchools.set(school?.name, school);
+    schools.forEach((school: any) => {
+      this.spellSchools.set(school.name, school);
     });
   }
 
@@ -334,8 +334,8 @@ export class MagicSystemPure {
       }
     ];
 
-    basicSpells?.forEach((spell: any) => {
-      this?.spellDefinitions.set(spell?.id, spell);
+    basicSpells.forEach((spell: any) => {
+      this.spellDefinitions.set(spell.id, spell);
     });
   }
 
@@ -352,31 +352,31 @@ export class MagicSystemPure {
       elementalAffinities: new Map()
     };
 
-    this?.manaPools.set(entityId, manaPool);
-    this?.log(`Created mana pool for ${entityId}: ${maxMana} max mana`);
+    this.manaPools.set(entityId, manaPool);
+    this.log(`Created mana pool for ${entityId}: ${maxMana} max mana`);
   }
 
   /**
    * Get mana pool for an entity
    */
   getManaPool(entityId: string): ManaPool | null {
-    return this?.manaPools.get(entityId) || null;
+    return this.manaPools.get(entityId) || null;
   }
 
   /**
    * Update mana pool (regeneration, etc.)
    */
   updateManaPool(entityId: string): void {
-    const manaPool = this?.manaPools.get(entityId);
+    const manaPool = this.manaPools.get(entityId);
     if (!manaPool) return;
 
-    const now = new Date();
-    const deltaTime = (now - manaPool?.lastRegeneration) / 1000; // Convert to seconds
+    const now = Date.now();
+    const deltaTime = (now - manaPool.lastRegeneration) / 1000; // Convert to seconds
 
     if (deltaTime >= 1) {
       const regenAmount = Math.floor(manaPool.regenerationRate * deltaTime);
       manaPool.current = Math.min(manaPool.maximum, manaPool.current + regenAmount);
-      manaPool?.lastRegeneration = now;
+      manaPool.lastRegeneration = now;
     }
   }
 
@@ -384,8 +384,8 @@ export class MagicSystemPure {
    * Cast a spell
    */
   castSpell(casterId: string, spellId: string, targets: string[] = []): MagicCombatResult {
-    const spellInstance = this?.getSpellInstance(casterId, spellId);
-    if (!spellInstance || !spellInstance?.isUnlocked) {
+    const spellInstance = this.getSpellInstance(casterId, spellId);
+    if (!spellInstance || !spellInstance.isUnlocked) {
       return {
         spellInstance: spellInstance!,
         targets: [],
@@ -400,11 +400,11 @@ export class MagicSystemPure {
       };
     }
 
-    const spellDef = spellInstance?.definition;
-    const manaPool = this?.getManaPool(casterId);
+    const spellDef = spellInstance.definition;
+    const manaPool = this.getManaPool(casterId);
 
     // Check mana cost
-    if (!manaPool || manaPool?.current < spellDef?.manaCost) {
+    if (!manaPool || manaPool.current < spellDef.manaCost) {
       return {
         spellInstance,
         targets,
@@ -420,9 +420,9 @@ export class MagicSystemPure {
     }
 
     // Check cooldown
-    const now = new Date();
-    if (now - spellInstance?.lastCastTime < spellDef?.cooldown) {
-      const remainingCooldown = spellDef?.cooldown - (now - spellInstance?.lastCastTime);
+    const now = Date.now();
+    if (now - spellInstance.lastCastTime < spellDef.cooldown) {
+      const remainingCooldown = spellDef.cooldown - (now - spellInstance.lastCastTime);
       return {
         spellInstance,
         targets,
@@ -438,8 +438,8 @@ export class MagicSystemPure {
     }
 
     // Deduct mana
-    manaPool?.current -= spellDef?.manaCost;
-    spellInstance?.lastCastTime = now;
+    manaPool.current -= spellDef.manaCost;
+    spellInstance.lastCastTime = now;
 
     // Apply spell effects
     const effectsApplied: SpellEffect[] = [];
@@ -448,29 +448,29 @@ export class MagicSystemPure {
     const buffsApplied: string[] = [];
     const debuffsApplied: string[] = [];
 
-    for (const effect of spellDef?.effects) {
-      const result = this?.applySpellEffect(effect, casterId, targets);
-      effectsApplied?.push(effect);
-      damageDealt += result?.damage;
-      healingDone += result?.healing;
-      buffsApplied?.push(...result?.buffs);
-      debuffsApplied?.push(...result?.debuffs);
+    for (const effect of spellDef.effects) {
+      const result = this.applySpellEffect(effect, casterId, targets);
+      effectsApplied.push(effect);
+      damageDealt += result.damage;
+      healingDone += result.healing;
+      buffsApplied.push(...result.buffs);
+      debuffsApplied.push(...result.debuffs);
     }
 
     // Emit spell cast event
-    this?.eventBus.emit('magic:spell-cast', {
+    this.eventBus.emit('magic:spell-cast', {
       casterId,
       spellId,
       targets,
       effectsApplied,
-      manaSpent: spellDef?.manaCost
+      manaSpent: spellDef.manaCost
     });
 
     return {
       spellInstance,
       targets,
       effectsApplied,
-      manaSpent: spellDef?.manaCost,
+      manaSpent: spellDef.manaCost,
       damageDealt,
       healingDone,
       buffsApplied,
@@ -494,30 +494,30 @@ export class MagicSystemPure {
     const debuffs: string[] = [];
 
     // Calculate effectiveness based on elemental interactions
-    const effectiveness = this?.calculateElementalEffectiveness(effect?.element, casterId, targets[0!]);
+    const effectiveness = this.calculateElementalEffectiveness(effect.element, casterId, targets[0!]);
 
-    switch (effect?.type) {
+    switch (effect.type) {
       case 'damage':
         damage = Math.floor(effect.magnitude * effectiveness);
-        if (targets?.length > 0) {
-          this?.healthSystem.damageEntity(targets[0!], damage);
+        if (targets.length > 0) {
+          this.healthSystem.damageEntity(targets[0!], damage);
         }
         break;
 
       case 'heal':
         healing = Math.floor(effect.magnitude * effectiveness);
-        if (targets?.length > 0) {
-          this?.healthSystem.healEntity(targets[0!], healing);
+        if (targets.length > 0) {
+          this.healthSystem.healEntity(targets[0!], healing);
         }
         break;
 
       case 'buff':
-        buffs?.push(`${effect?.element}_resistance`);
+        buffs.push(`${effect.element}_resistance`);
         // Apply buff logic here
         break;
 
       case 'debuff':
-        debuffs?.push(`${effect?.element}_weakness`);
+        debuffs.push(`${effect.element}_weakness`);
         // Apply debuff logic here
         break;
     }
@@ -529,20 +529,20 @@ export class MagicSystemPure {
    * Calculate elemental effectiveness
    */
   private calculateElementalEffectiveness(element: string, casterId: string, targetId: string): number {
-    const casterPool = this?.manaPools.get(casterId);
-    const casterAffinity = casterPool?.elementalAffinities?.get(element: any) || 1.0;
+    const casterPool = this.manaPools.get(casterId);
+    const casterAffinity = casterPool?.elementalAffinities.get(element) || 1.0;
 
     // Get target element for resistance calculation
     // This would integrate with a creature/character system
     const targetElement = 'neutral'; // Placeholder
-    const targetElementDef = this?.elements.get(targetElement);
+    const targetElementDef = this.elements.get(targetElement);
 
     let effectiveness = casterAffinity;
 
     if (targetElementDef) {
-      if (targetElementDef?.weaknesses.includes(element: any)) {
+      if (targetElementDef.weaknesses.includes(element)) {
         effectiveness *= 1.5; // 50% bonus damage to weak elements
-      } else if (targetElementDef?.strengths.includes(element: any)) {
+      } else if (targetElementDef.strengths.includes(element)) {
         effectiveness *= 0.5; // 50% reduced damage to strong elements
       }
     }
@@ -554,24 +554,24 @@ export class MagicSystemPure {
    * Get spell instance for a caster
    */
   getSpellInstance(casterId: string, spellId: string): SpellInstance | null {
-    const casterSpells = this?.spellInstances.get(casterId);
+    const casterSpells = this.spellInstances.get(casterId);
     if (!casterSpells) return null;
 
-    return casterSpells?.get(spellId) || null;
+    return casterSpells.get(spellId) || null;
   }
 
   /**
    * Unlock spell for a caster
    */
   unlockSpell(casterId: string, spellId: string): boolean {
-    const spellDef = this?.spellDefinitions.get(spellId);
+    const spellDef = this.spellDefinitions.get(spellId);
     if (!spellDef) return false;
 
-    if (!this?.spellInstances.has(casterId)) {
-      this?.spellInstances.set(casterId, new Map());
+    if (!this.spellInstances.has(casterId)) {
+      this.spellInstances.set(casterId, new Map());
     }
 
-    const casterSpells = this?.spellInstances.get(casterId)!;
+    const casterSpells = this.spellInstances.get(casterId)!;
     const spellInstance: SpellInstance = {
       definition: spellDef,
       casterId,
@@ -583,8 +583,8 @@ export class MagicSystemPure {
       customizations: new Map()
     };
 
-    casterSpells?.set(spellId, spellInstance);
-    this?.log(`Unlocked spell ${spellId} for ${casterId}`);
+    casterSpells.set(spellId, spellInstance);
+    this.log(`Unlocked spell ${spellId} for ${casterId}`);
     return true;
   }
 
@@ -592,7 +592,7 @@ export class MagicSystemPure {
    * Get all spells for a caster
    */
   getSpellsForCaster(casterId: string): SpellInstance[] {
-    const casterSpells = this?.spellInstances.get(casterId);
+    const casterSpells = this.spellInstances.get(casterId);
     if (!casterSpells) return [];
 
     return Array.from(casterSpells.values()).filter((spell: any) => spell.isUnlocked);
@@ -602,7 +602,7 @@ export class MagicSystemPure {
    * Get spell definition
    */
   getSpellDefinition(spellId: string): SpellDefinition | null {
-    return this?.spellDefinitions.get(spellId) || null;
+    return this.spellDefinitions.get(spellId) || null;
   }
 
   /**
@@ -623,7 +623,7 @@ export class MagicSystemPure {
    * Get elemental information
    */
   getElement(elementName: string): SpellElement | null {
-    return this?.elements.get(elementName) || null;
+    return this.elements.get(elementName) || null;
   }
 
   /**
@@ -637,7 +637,7 @@ export class MagicSystemPure {
    * Get spell school information
    */
   getSpellSchool(schoolName: string): SpellSchool | null {
-    return this?.spellSchools.get(schoolName) || null;
+    return this.spellSchools.get(schoolName) || null;
   }
 
   /**
@@ -651,8 +651,8 @@ export class MagicSystemPure {
    * Update all mana pools (call regularly)
    */
   updateAllManaPools(): void {
-    for (const entityId of this?.manaPools.keys()) {
-      this?.updateManaPool(entityId);
+    for (const entityId of this.manaPools.keys()) {
+      this.updateManaPool(entityId);
     }
   }
 
@@ -660,7 +660,7 @@ export class MagicSystemPure {
    * Set elemental affinity for an entity
    */
   setElementalAffinity(entityId: string, element: string, affinity: number): void {
-    const manaPool = this?.manaPools.get(entityId);
+    const manaPool = this.manaPools.get(entityId);
     if (manaPool) {
       manaPool.elementalAffinities.set(element, Math.max(0.1, Math.min(2.0, affinity)));
     }
@@ -670,17 +670,17 @@ export class MagicSystemPure {
    * Get elemental affinity for an entity
    */
   getElementalAffinity(entityId: string, element: string): number {
-    const manaPool = this?.manaPools.get(entityId);
-    return manaPool?.elementalAffinities?.get(element: any) || 1.0;
+    const manaPool = this.manaPools.get(entityId);
+    return manaPool?.elementalAffinities.get(element) || 1.0;
   }
 
   /**
    * Set spell school modifier for an entity
    */
   setSpellSchoolModifier(entityId: string, school: string, modifier: number): void {
-    const manaPool = this?.manaPools.get(entityId);
+    const manaPool = this.manaPools.get(entityId);
     if (manaPool) {
-      manaPool?.modifiers.set(school, modifier);
+      manaPool.modifiers.set(school, modifier);
     }
   }
 
@@ -688,20 +688,20 @@ export class MagicSystemPure {
    * Get spell school modifier for an entity
    */
   getSpellSchoolModifier(entityId: string, school: string): number {
-    const manaPool = this?.manaPools.get(entityId);
-    return manaPool?.modifiers?.get(school) || 1.0;
+    const manaPool = this.manaPools.get(entityId);
+    return manaPool?.modifiers.get(school) || 1.0;
   }
 
   private setupEventListeners(): void {
     // Listen for combat events to potentially trigger magical effects
-    this?.eventBus.on('combat:turn-start', (data: any) => {
-      this?.updateAllManaPools();
+    this.eventBus.on('combat:turn-start', (data: any) => {
+      this.updateAllManaPools();
     });
 
-    this?.eventBus.on('combat:entity-created', (data: any) => {
+    this.eventBus.on('combat:entity-created', (data: any) => {
       // Create mana pool for new entities that should have magic
-      if (data?.entityType === 'mage' || data?.entityType === 'spellcaster') {
-        this?.createManaPool(data?.entityId, 100);
+      if (data.entityType === 'mage' || data.entityType === 'spellcaster') {
+        this.createManaPool(data.entityId, 100);
       }
     });
   }

@@ -45,7 +45,7 @@ export class RemixTaggingManager {
 
   constructor(config: TaggingConfig = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       strictMode: true,
       autoTag: false,
       requireReason: true,
@@ -55,28 +55,28 @@ export class RemixTaggingManager {
   }
 
   setOverride(ovr: RemixTaggingOverride) {
-    this?.override = ovr;
+    this.override = ovr;
   }
 
-  setConfig(config: Partial<T extends Record<string, any>aggingConfig>) {
-    this?.config = { ...this?.config, ...config };
+  setConfig(config: Partial<TaggingConfig>) {
+    this.config = { ...this.config, ...config };
   }
 
   private determineRemixLevel(moduleId: string, dependencies: string[]): RemixLevel {
     // Check for custom override first
-    if (this?.override?.getCustomLevel) {
-      const customLevel = this?.override.getCustomLevel(moduleId);
+    if (this.override?.getCustomLevel) {
+      const customLevel = this.override.getCustomLevel(moduleId);
       if (customLevel) return customLevel;
     }
 
     // Auto-determination logic
-    if (dependencies?.length === 0) {
+    if (dependencies.length === 0) {
       return 'remix-safe'; // No dependencies, safe to remix
     }
 
     // Check if any dependencies are remix-required
-    const hasRequiredDeps = dependencies?.some(depId => {
-      const depTag = this?.taggedModules.get(depId);
+    const hasRequiredDeps = dependencies.some(depId => {
+      const depTag = this.taggedModules.get(depId);
       return depTag?.remixLevel === 'remix-required';
     });
 
@@ -85,7 +85,7 @@ export class RemixTaggingManager {
     }
 
     // Check if module has complex dependencies
-    if (dependencies?.length > 5) {
+    if (dependencies.length > 5) {
       return 'remix-optional'; // Complex dependency tree
     }
 
@@ -101,23 +101,23 @@ export class RemixTaggingManager {
       'default': []
     };
 
-    return commonDeps[moduleId!] || commonDeps?.default;
+    return commonDeps[moduleId!] || commonDeps.default;
   }
 
   private generateReason(remixLevel: RemixLevel, dependencies: string[]): string {
     switch (remixLevel) {
       case 'remix-required':
-        return dependencies?.length > 0 
-          ? `Required due to dependencies on: ${dependencies?.join(', ')}`
+        return dependencies.length > 0 
+          ? `Required due to dependencies on: ${dependencies.join(', ')}`
           : 'Required for compliance with license terms';
       
       case 'remix-optional':
-        return dependencies?.length > 3 
-          ? `Optional due to complex dependency tree (${dependencies?.length} deps)`
+        return dependencies.length > 3 
+          ? `Optional due to complex dependency tree (${dependencies.length} deps)`
           : 'Optional for enhanced functionality';
       
       case 'remix-safe':
-        return dependencies?.length === 0 
+        return dependencies.length === 0 
           ? 'Safe to remix - no external dependencies'
           : 'Safe to remix - all dependencies are remix-safe';
       
@@ -137,28 +137,28 @@ export class RemixTaggingManager {
 
     // Validate module ID
     if (!moduleId || typeof moduleId !== 'string') {
-      issues?.push({ code: 'invalid_module_id', message: 'Module ID must be a non-empty string' });
+      issues.push({ code: 'invalid_module_id', message: 'Module ID must be a non-empty string' });
     }
 
     // Get dependencies
-    const dependencies = this?.override?.getDependencies?.(moduleId) || this?.getDefaultDependencies(moduleId);
+    const dependencies = this.override?.getDependencies?.(moduleId) || this.getDefaultDependencies(moduleId);
 
     // Determine remix level
-    const remixLevel = customLevel || this?.determineRemixLevel(moduleId, dependencies);
+    const remixLevel = customLevel || this.determineRemixLevel(moduleId, dependencies);
 
     // Generate reason if not provided
-    const reason = customReason || this?.generateReason(remixLevel, dependencies);
+    const reason = customReason || this.generateReason(remixLevel, dependencies);
 
     // Validate reason if required
-    if (this?.config.requireReason && !reason) {
-      issues?.push({ code: 'missing_reason', message: 'Reason is required for module tagging' });
+    if (this.config.requireReason && !reason) {
+      issues.push({ code: 'missing_reason', message: 'Reason is required for module tagging' });
     }
 
     // Validate dependencies if enabled
-    if (this?.config.validateDependencies) {
-      const invalidDeps = dependencies?.filter(depId => !this?.taggedModules.has(depId));
-      if (invalidDeps?.length > 0) {
-        warnings?.push(`Unknown dependencies: ${invalidDeps?.join(', ')}`);
+    if (this.config.validateDependencies) {
+      const invalidDeps = dependencies.filter(depId => !this.taggedModules.has(depId));
+      if (invalidDeps.length > 0) {
+        warnings.push(`Unknown dependencies: ${invalidDeps.join(', ')}`);
       }
     }
 
@@ -168,23 +168,23 @@ export class RemixTaggingManager {
       moduleName,
       remixLevel,
       reason,
-      requirements: this?.getRequirements(remixLevel),
+      requirements: this.getRequirements(remixLevel),
       dependencies,
       lastUpdated: new Date().toISOString(),
       version: '1.0.0'
     };
 
     // Validate tag if override exists
-    if (this?.override?.validateTag && !this?.override.validateTag(moduleTag)) {
-      issues?.push({ code: 'validation_failed', message: 'Custom validation failed' });
+    if (this.override?.validateTag && !this.override.validateTag(moduleTag)) {
+      issues.push({ code: 'validation_failed', message: 'Custom validation failed' });
     }
 
     // Store tag if no critical issues
-    if (issues?.length === 0 || issues?.every(i => i?.code !== 'invalid_module_id')) {
-      this?.taggedModules.set(moduleId, moduleTag);
+    if (issues.length === 0 || issues.every(i => i.code !== 'invalid_module_id')) {
+      this.taggedModules.set(moduleId, moduleTag);
     }
 
-    const status = issues?.length === 0 ? 'ok' : issues?.some(i => i?.code === 'invalid_module_id') ? 'error' : 'warning';
+    const status = issues.length === 0 ? 'ok' : issues.some(i => i.code === 'invalid_module_id') ? 'error' : 'warning';
 
     return {
       op: 'tagModule',
@@ -195,7 +195,7 @@ export class RemixTaggingManager {
       warnings,
       metadata: {
         taggedAt: new Date().toISOString(),
-        config: this?.config,
+        config: this.config,
         dependencies
       }
     };
@@ -231,7 +231,7 @@ export class RemixTaggingManager {
   }
 
   getModuleTag(moduleId: string): ModuleTag | null {
-    return this?.taggedModules.get(moduleId) || null;
+    return this.taggedModules.get(moduleId) || null;
   }
 
   getAllTags(): ModuleTag[] {
@@ -239,11 +239,11 @@ export class RemixTaggingManager {
   }
 
   getTagsByLevel(level: RemixLevel): ModuleTag[] {
-    return this?.getAllTags().filter((tag: any) => tag?.remixLevel === level);
+    return this.getAllTags().filter((tag: any) => tag.remixLevel === level);
   }
 
   removeTag(moduleId: string): boolean {
-    return this?.taggedModules.delete(moduleId);
+    return this.taggedModules.delete(moduleId);
   }
 
   getTaggingStats(): {
@@ -257,16 +257,16 @@ export class RemixTaggingManager {
       'remix-safe': 0
     };
 
-    this?.taggedModules.forEach((tag: any) => {
-      byLevel[tag?.remixLevel]++;
+    this.taggedModules.forEach((tag: any) => {
+      byLevel[tag.remixLevel]++;
     });
 
-    const lastUpdated = this?.taggedModules.size > 0 
+    const lastUpdated = this.taggedModules.size > 0 
       ? Math.max(...Array.from(this.taggedModules.values()).map((t: any) => new Date(t.lastUpdated).getTime()))
       : null;
 
     return {
-      total: this?.taggedModules.size,
+      total: this.taggedModules.size,
       byLevel,
       lastUpdated: lastUpdated ? new Date(lastUpdated).toISOString() : null
     };

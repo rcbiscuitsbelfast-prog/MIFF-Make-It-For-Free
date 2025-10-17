@@ -182,7 +182,7 @@ export class WeatherManagerPure {
 
   constructor(eventBus: EventBus, config: WeatherManagerConfig = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       initialWeather: 'clear',
       initialIntensity: 'light',
       seed: Math.random(),
@@ -194,9 +194,9 @@ export class WeatherManagerPure {
       ...config
     };
 
-    this?.weatherSystem = new WeatherSystemPure(eventBus, this?.config.seed);
-    this?.setupIntegrations(eventBus);
-    this?.initialize({});
+    this.weatherSystem = new WeatherSystemPure(eventBus, this.config.seed);
+    this.setupIntegrations(eventBus);
+    this.initialize();
   }
 
   /**
@@ -205,37 +205,37 @@ export class WeatherManagerPure {
   private async initialize(): Promise<void> {
     try {
       // Load persisted state if available
-      if (this?.persistence) {
-        const savedState = await this?.persistence.loadWeatherState();
+      if (this.persistence) {
+        const savedState = await this.persistence.loadWeatherState();
         if (savedState) {
-          this?.weatherSystem.setWeather(savedState?.type, savedState?.intensity, savedState?.duration);
+          this.weatherSystem.setWeather(savedState.type, savedState.intensity, savedState.duration);
         }
 
-        const savedSettings = await this?.persistence.loadSettings();
+        const savedSettings = await this.persistence.loadSettings();
         if (savedSettings) {
-          this?.config = { ...this?.config, ...savedSettings };
+          this.config = { ...this.config, ...savedSettings };
         }
       }
 
       // Set initial weather if specified
-      if (this?.config.initialWeather && this?.config.initialIntensity) {
-        this?.weatherSystem.setWeather(
-          this?.config.initialWeather,
-          this?.config.initialIntensity
+      if (this.config.initialWeather && this.config.initialIntensity) {
+        this.weatherSystem.setWeather(
+          this.config.initialWeather,
+          this.config.initialIntensity
         );
       }
 
       // Set performance mode
-      this?.weatherSystem.setPerformanceMode(this?.config.performanceMode!);
+      this.weatherSystem.setPerformanceMode(this.config.performanceMode!);
 
       // Set up time integration
-      this?.setupTimeIntegration();
+      this.setupTimeIntegration();
 
-      this?.isInitialized = true;
+      this.isInitialized = true;
 
       // Emit initialization event
-      this?.weatherSystem['eventBus'].emit('weather:manager_initialized', {
-        config: this?.config,
+      this.weatherSystem['eventBus'].emit('weather:manager_initialized', {
+        config: this.config,
         timestamp: new Date()
       });
 
@@ -251,24 +251,24 @@ export class WeatherManagerPure {
    */
   private setupIntegrations(eventBus: EventBus): void {
     // Weather change integration
-    this?.weatherSystem.setIntegrations({
+    this.weatherSystem.setIntegrations({
       onWeatherChange: (oldWeather: WeatherState, newWeather: WeatherState) => {
-        this?.handleWeatherChange(oldWeather, newWeather);
+        this.handleWeatherChange(oldWeather, newWeather);
       },
 
       onLightningStrike: (position: { x: number; y: number }) => {
-        this?.handleLightningStrike(position);
+        this.handleLightningStrike(position);
       },
 
       onWeatherEffect: (effect: WeatherEffect, intensity: number) => {
-        this?.handleWeatherEffect(effect, intensity);
+        this.handleWeatherEffect(effect, intensity);
       },
 
-      getCurrentTime: () => this?.currentTime,
+      getCurrentTime: () => this.currentTime,
 
-      getCurrentSeason: () => this?.currentSeason,
+      getCurrentSeason: () => this.currentSeason,
 
-      getPlayerPosition: () => this?.playerPosition
+      getPlayerPosition: () => this.playerPosition
     });
   }
 
@@ -278,8 +278,8 @@ export class WeatherManagerPure {
   private setupTimeIntegration(): void {
     // Update current time every minute
     setInterval(() => {
-      this.currentTime = new Date();
-      this?.updateSeason();
+      this.currentTime = Date.now();
+      this.updateSeason();
     }, 60000);
   }
 
@@ -287,11 +287,11 @@ export class WeatherManagerPure {
    * Update season based on current date
    */
   private updateSeason(): void {
-    const month = new Date(this?.currentTime).getMonth() + 1;
-    if (month >= 3 && month <= 5) this?.currentSeason = 'spring';
-    else if (month >= 6 && month <= 8) this?.currentSeason = 'summer';
-    else if (month >= 9 && month <= 11) this?.currentSeason = 'autumn';
-    else this?.currentSeason = 'winter';
+    const month = new Date(this.currentTime).getMonth() + 1;
+    if (month >= 3 && month <= 5) this.currentSeason = 'spring';
+    else if (month >= 6 && month <= 8) this.currentSeason = 'summer';
+    else if (month >= 9 && month <= 11) this.currentSeason = 'autumn';
+    else this.currentSeason = 'winter';
   }
 
   /**
@@ -299,27 +299,27 @@ export class WeatherManagerPure {
    */
   private handleWeatherChange(oldWeather: WeatherState, newWeather: WeatherState): void {
     // Update renderer if available
-    if (this?.renderer) {
-      this?.renderer.updateVisibility(newWeather?.effects.visibility);
-      this?.renderer.updateParticles(newWeather?.type, newWeather?.intensity);
-      this?.renderer.updateLighting(
-        this?.calculateLightLevel(newWeather),
-        newWeather?.effects.lightningFrequency > 0.5
+    if (this.renderer) {
+      this.renderer.updateVisibility(newWeather.effects.visibility);
+      this.renderer.updateParticles(newWeather.type, newWeather.intensity);
+      this.renderer.updateLighting(
+        this.calculateLightLevel(newWeather),
+        newWeather.effects.lightningFrequency > 0.5
       );
-      this?.renderer.updateAudio(newWeather?.type, newWeather?.intensity);
+      this.renderer.updateAudio(newWeather.type, newWeather.intensity);
     }
 
     // Notify event listeners
-    this?.eventListeners.forEach((listener: any) => {
-      listener?.onWeatherChange(oldWeather, newWeather);
+    this.eventListeners.forEach((listener: any) => {
+      listener.onWeatherChange(oldWeather, newWeather);
     });
 
     // Update last weather state
-    this?.lastWeatherState = newWeather;
+    this.lastWeatherState = newWeather;
 
     // Clear forecast cache when weather changes significantly
-    if (oldWeather?.type !== newWeather?.type) {
-      this?.forecastCache.clear();
+    if (oldWeather.type !== newWeather.type) {
+      this.forecastCache.clear();
     }
 
     // Performance tracking
@@ -331,17 +331,17 @@ export class WeatherManagerPure {
    */
   private handleLightningStrike(position: { x: number; y: number }): void {
     // Update renderer
-    if (this?.renderer) {
-      this?.renderer.updateLighting(0.1, true); // Flash effect
+    if (this.renderer) {
+      this.renderer.updateLighting(0.1, true); // Flash effect
       setTimeout(() => {
-        const currentWeather = this?.weatherSystem.getCurrentWeather();
-        this?.renderer.updateLighting(this?.calculateLightLevel(currentWeather), false);
+        const currentWeather = this.weatherSystem.getCurrentWeather();
+        this.renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
       }, 200);
     }
 
     // Notify event listeners
-    this?.eventListeners.forEach((listener: any) => {
-      listener?.onLightningStrike(position, 0.8); // High intensity lightning
+    this.eventListeners.forEach((listener: any) => {
+      listener.onLightningStrike(position, 0.8); // High intensity lightning
     });
   }
 
@@ -350,8 +350,8 @@ export class WeatherManagerPure {
    */
   private handleWeatherEffect(effect: WeatherEffect, intensity: number): void {
     // Notify event listeners
-    this?.eventListeners.forEach((listener: any) => {
-      listener?.onWeatherEffect(effect, intensity);
+    this.eventListeners.forEach((listener: any) => {
+      listener.onWeatherEffect(effect, intensity);
     });
   }
 
@@ -359,9 +359,9 @@ export class WeatherManagerPure {
    * Calculate light level based on weather
    */
   private calculateLightLevel(weather: WeatherState): number {
-    const baseLight = this?.getBaseLightLevel();
-    const weatherMultiplier = 1 - (1 - weather?.effects.visibility) * 0.7;
-    const intensityMultiplier = this?.getIntensityLightMultiplier(weather?.intensity);
+    const baseLight = this.getBaseLightLevel();
+    const weatherMultiplier = 1 - (1 - weather.effects.visibility) * 0.7;
+    const intensityMultiplier = this.getIntensityLightMultiplier(weather.intensity);
 
     return Math.max(0.1, Math.min(1.0, baseLight * weatherMultiplier * intensityMultiplier));
   }
@@ -370,7 +370,7 @@ export class WeatherManagerPure {
    * Get base light level based on time of day
    */
   private getBaseLightLevel(): number {
-    const hour = new Date(this?.currentTime).getHours();
+    const hour = new Date(this.currentTime).getHours();
     if (hour >= 6 && hour < 12) return 0.8; // Morning
     if (hour >= 12 && hour < 18) return 1.0; // Afternoon
     if (hour >= 18 && hour < 22) return 0.6; // Evening
@@ -398,77 +398,77 @@ export class WeatherManagerPure {
    * Set weather renderer
    */
   public setRenderer(renderer: WeatherRenderer): void {
-    this?.renderer = renderer;
-    const currentWeather = this?.weatherSystem.getCurrentWeather();
+    this.renderer = renderer;
+    const currentWeather = this.weatherSystem.getCurrentWeather();
 
     // Initialize renderer with current weather
-    renderer?.updateVisibility(currentWeather?.effects.visibility);
-    renderer?.updateParticles(currentWeather?.type, currentWeather?.intensity);
-    renderer?.updateLighting(this?.calculateLightLevel(currentWeather), false);
-    renderer?.updateAudio(currentWeather?.type, currentWeather?.intensity);
+    renderer.updateVisibility(currentWeather.effects.visibility);
+    renderer.updateParticles(currentWeather.type, currentWeather.intensity);
+    renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
+    renderer.updateAudio(currentWeather.type, currentWeather.intensity);
   }
 
   /**
    * Set weather persistence
    */
   public setPersistence(persistence: WeatherPersistence): void {
-    this?.persistence = persistence;
+    this.persistence = persistence;
   }
 
   /**
    * Add event listener
    */
   public addEventListener(listener: WeatherEventListener): void {
-    this?.eventListeners.add(listener);
+    this.eventListeners.add(listener);
   }
 
   /**
    * Remove event listener
    */
   public removeEventListener(listener: WeatherEventListener): void {
-    this?.eventListeners.delete(listener);
+    this.eventListeners.delete(listener);
   }
 
   /**
    * Get current weather state
    */
   public getCurrentWeather(): WeatherState {
-    return this?.weatherSystem.getCurrentWeather();
+    return this.weatherSystem.getCurrentWeather();
   }
 
   /**
    * Get current weather effects
    */
   public getCurrentWeatherEffects(): WeatherEffect {
-    return this?.weatherSystem.getCurrentWeatherEffects();
+    return this.weatherSystem.getCurrentWeatherEffects();
   }
 
   /**
    * Set weather immediately
    */
   public setWeather(type: WeatherType, intensity: WeatherIntensity, duration?: number): void {
-    this?.weatherSystem.setWeather(type, intensity, duration);
+    this.weatherSystem.setWeather(type, intensity, duration);
   }
 
   /**
    * Get weather forecast
    */
   public getWeatherForecast(hours: number = 24): WeatherState[] {
-    if (!this?.config.enableForecasting) {
+    if (!this.config.enableForecasting) {
       return [];
     }
 
     // Check cache first
-    if (this?.forecastCache.has(hours)) {
-      return this?.forecastCache.get(hours)!;
+    if (this.forecastCache.has(hours)) {
+      return this.forecastCache.get(hours)!;
     }
 
-    const forecast = this?.weatherSystem.getWeatherForecast(hours);
-    this?.forecastCache.set(hours, forecast);
+    const forecast = this.weatherSystem.getWeatherForecast(hours);
+    this.forecastCache.set(hours, forecast);
 
     // Notify listeners
-    this?.eventListeners.forEach((listener: any) => {
-      listener?.onWeatherForecast(forecast);
+    this.eventListeners.forEach((listener: any) => {
+      listener.onWeatherForecast(forecast);
     });
 
     return forecast;
@@ -478,44 +478,44 @@ export class WeatherManagerPure {
    * Update player position for location-based effects
    */
   public updatePlayerPosition(position: { x: number; y: number }): void {
-    this?.playerPosition = position;
+    this.playerPosition = position;
   }
 
   /**
    * Update current time (for testing or time manipulation)
    */
   public updateTime(time: number): void {
-    this?.currentTime = time;
-    this?.updateSeason();
+    this.currentTime = time;
+    this.updateSeason();
   }
 
   /**
    * Pause weather system
    */
   public pause(): void {
-    this?.weatherSystem.setPaused(true);
+    this.weatherSystem.setPaused(true);
   }
 
   /**
    * Resume weather system
    */
   public resume(): void {
-    this?.weatherSystem.setPaused(false);
+    this.weatherSystem.setPaused(false);
   }
 
   /**
    * Set performance mode
    */
   public setPerformanceMode(mode: 'high' | 'medium' | 'low'): void {
-    this?.config.performanceMode = mode;
-    this?.weatherSystem.setPerformanceMode(mode);
+    this.config.performanceMode = mode;
+    this.weatherSystem.setPerformanceMode(mode);
   }
 
   /**
    * Get system statistics
    */
   public getStats(): {
-    const managerData = this?.getStats();
+    const managerData = this.getStats();
     currentWeather: WeatherType;
     isInitialized: boolean;
     performanceMode: string;
@@ -525,17 +525,17 @@ export class WeatherManagerPure {
     lastUpdateTime: number;
     weatherChanges: number;
   } {
-    const stats = this?.weatherSystem.getStats();
-    const managerData = this?.getStats();
+    const stats = this.weatherSystem.getStats();
+    const managerData = this.getStats();
     return {
       ...stats,
-      isInitialized: this?.isInitialized,
-      performanceMode: this?.config.performanceMode!,
-      forecastEnabled: this?.config.enableForecasting!,
-      effectsEnabled: this?.config.enableEffects!,
-      activeListeners: this?.eventListeners.size,
-      lastUpdateTime: this?.performanceMetrics.get('lastWeatherChange') || 0,
-      weatherChanges: this?.performanceMetrics.get('weatherChangeCount') || 0
+      isInitialized: this.isInitialized,
+      performanceMode: this.config.performanceMode!,
+      forecastEnabled: this.config.enableForecasting!,
+      effectsEnabled: this.config.enableEffects!,
+      activeListeners: this.eventListeners.size,
+      lastUpdateTime: this.performanceMetrics.get('lastWeatherChange') || 0,
+      weatherChanges: this.performanceMetrics.get('weatherChangeCount') || 0
     };
   }
 
@@ -543,40 +543,40 @@ export class WeatherManagerPure {
    * Get all weather patterns
    */
   public getAllWeatherPatterns(): WeatherPattern[] {
-    return this?.weatherSystem.getAllWeatherPatterns();
+    return this.weatherSystem.getAllWeatherPatterns();
   }
 
   /**
    * Get weather pattern by ID
    */
   public getWeatherPattern(patternId: string): WeatherPattern | null {
-    return this?.weatherSystem.getWeatherPattern(patternId);
+    return this.weatherSystem.getWeatherPattern(patternId);
   }
 
   /**
    * Save current state
    */
   public async saveState(): Promise<void> {
-    if (!this?.persistence) {
+    if (!this.persistence) {
       throw new Error('Persistence not configured');
     }
 
-    const currentWeather = this?.weatherSystem.getCurrentWeather();
-    await this?.persistence.saveWeatherState(currentWeather);
-    await this?.persistence.saveSettings(this?.config);
+    const currentWeather = this.weatherSystem.getCurrentWeather();
+    await this.persistence.saveWeatherState(currentWeather);
+    await this.persistence.saveSettings(this.config);
   }
 
   /**
    * Load saved state
    */
   public async loadState(): Promise<void> {
-    if (!this?.persistence) {
+    if (!this.persistence) {
       throw new Error('Persistence not configured');
     }
 
-    const savedWeather = await this?.persistence.loadWeatherState();
+    const savedWeather = await this.persistence.loadWeatherState();
     if (savedWeather) {
-      this?.weatherSystem.setWeather(savedWeather?.type, savedWeather?.intensity);
+      this.weatherSystem.setWeather(savedWeather.type, savedWeather.intensity);
     }
   }
 
@@ -584,21 +584,21 @@ export class WeatherManagerPure {
    * Reset weather to default state
    */
   public resetWeather(): void {
-    this?.weatherSystem.setWeather('clear', 'light');
-    this?.forecastCache.clear();
-    this?.performanceMetrics.clear();
+    this.weatherSystem.setWeather('clear', 'light');
+    this.forecastCache.clear();
+    this.performanceMetrics.clear();
   }
 
   /**
    * Cleanup resources
    */
   public cleanup(): void {
-    if (this?.renderer) {
-      this?.renderer.cleanup();
+    if (this.renderer) {
+      this.renderer.cleanup();
     }
-    this?.eventListeners.clear();
-    this?.forecastCache.clear();
-    this?.performanceMetrics.clear();
+    this.eventListeners.clear();
+    this.forecastCache.clear();
+    this.performanceMetrics.clear();
   }
 }
 

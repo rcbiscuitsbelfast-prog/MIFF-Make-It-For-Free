@@ -108,7 +108,7 @@ export class NPCsManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.loadDefaultNPCs();
+    this.loadDefaultNPCs();
   }
 
   private loadDefaultNPCs(): void {
@@ -165,36 +165,36 @@ export class NPCsManager {
       }
     ];
 
-    defaultNPCs?.forEach((npc: any) => this?.npcs.set(npc?.id, npc));
+    defaultNPCs.forEach((npc: any) => this.npcs.set(npc.id, npc));
   }
 
   createNPC(npc: NPC): NPCOutput {
-    if (this?.npcs.has(npc?.id)) {
+    if (this.npcs.has(npc.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`NPC with ID ${npc?.id} already exists`]
+        issues: [`NPC with ID ${npc.id} already exists`]
       };
     }
     // Validate minimal fields
-    if (!npc?.name) {
+    if (!npc.name) {
       return { op: 'create', status: 'error', issues: ['name missing'] };
     }
     if (!npc.stats || (Array.isArray(npc.stats) && npc.stats.length === 0)) {
       return { op: 'create', status: 'error', issues: ['stats missing'] };
     }
-    if (!npc?.location || !npc?.location.zoneId) {
+    if (!npc.location || !npc.location.zoneId) {
       return { op: 'create', status: 'error', issues: ['location missing'] };
     }
-    if (!npc?.behavior) {
-      npc?.behavior = { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50 } as any;
+    if (!npc.behavior) {
+      npc.behavior = { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50 } as any;
     }
-    if (!npc?.movementPattern) {
-      npc?.movementPattern = { type: 'idle', speed: 1 };
+    if (!npc.movementPattern) {
+      npc.movementPattern = { type: 'idle', speed: 1 };
     }
-    if (!npc?.questIds) npc?.questIds = [];
+    if (!npc.questIds) npc.questIds = [];
 
-    this?.npcs.set(npc?.id, npc);
+    this.npcs.set(npc.id, npc);
     return {
       op: 'create',
       status: 'ok',
@@ -203,7 +203,7 @@ export class NPCsManager {
   }
 
   updateNPC(npcId: EntityID, updates: Partial<NPC>): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'update',
@@ -213,7 +213,7 @@ export class NPCsManager {
     }
 
     const updatedNPC = { ...npc, ...updates };
-    this?.npcs.set(npcId, updatedNPC);
+    this.npcs.set(npcId, updatedNPC);
     return {
       op: 'update',
       status: 'ok',
@@ -222,7 +222,7 @@ export class NPCsManager {
   }
 
   deleteNPC(npcId: EntityID): NPCOutput {
-    if (!this?.npcs.has(npcId)) {
+    if (!this.npcs.has(npcId)) {
       // idempotent delete returns ok
       return {
         op: 'delete',
@@ -230,7 +230,7 @@ export class NPCsManager {
       };
     }
 
-    this?.npcs.delete(npcId);
+    this.npcs.delete(npcId);
     return {
       op: 'delete',
       status: 'ok'
@@ -238,7 +238,7 @@ export class NPCsManager {
   }
 
   getNPC(npcId: EntityID): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'get',
@@ -258,13 +258,13 @@ export class NPCsManager {
     let npcs = Array.from(this.npcs.values());
 
     if (filter) {
-      npcs = npcs?.filter((npc: any) => {
-        if (filter?.zoneId && npc?.location.zoneId !== filter?.zoneId) return false;
-        if (filter?.behaviorType && npc?.behavior.type !== filter?.behaviorType) return false;
-        if (filter?.faction && npc?.faction !== filter?.faction) return false;
-        if (filter?.hasQuest !== undefined) {
-          const hasQuest = npc?.questIds.length > 0;
-          if (filter?.hasQuest !== hasQuest) return false;
+      npcs = npcs.filter((npc: any) => {
+        if (filter.zoneId && npc.location.zoneId !== filter.zoneId) return false;
+        if (filter.behaviorType && npc.behavior.type !== filter.behaviorType) return false;
+        if (filter.faction && npc.faction !== filter.faction) return false;
+        if (filter.hasQuest !== undefined) {
+          const hasQuest = npc.questIds.length > 0;
+          if (filter.hasQuest !== hasQuest) return false;
         }
         return true;
       });
@@ -278,7 +278,7 @@ export class NPCsManager {
   }
 
   simulateNPC(npcId: EntityID, duration: number): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'simulate',
@@ -296,44 +296,44 @@ export class NPCsManager {
     // Simulate NPC behavior based on their type and schedule
     const currentHour = Math.floor((Date.now() % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
     
-    if (npc?.behavior.schedule) {
-      const currentActivity = npc?.behavior.schedule?.activities.find(
-        activity => parseInt(activity?.time.split(':')[0!]) === currentHour
+    if (npc.behavior.schedule) {
+      const currentActivity = npc.behavior.schedule.activities.find(
+        activity => parseInt(activity.time.split(':')[0!]) === currentHour
       );
       
       if (currentActivity) {
-        simulation?.events?.push(`${npc?.name} is ${currentActivity?.activity}`);
+        simulation.events.push(`${npc.name} is ${currentActivity.activity}`);
       }
     }
 
     // Simulate interactions based on behavior type
-    switch (npc?.behavior.type) {
+    switch (npc.behavior.type) {
       case 'quest_giver':
-        simulation?.events?.push(`${npc?.name} is available for quests`);
+        simulation.events.push(`${npc.name} is available for quests`);
         break;
       case 'merchant':
-        simulation?.events?.push(`${npc?.name} is open for business`);
+        simulation.events.push(`${npc.name} is open for business`);
         break;
       case 'aggressive':
-        simulation?.events?.push(`${npc?.name} is patrolling aggressively`);
+        simulation.events.push(`${npc.name} is patrolling aggressively`);
         break;
       default:
-        simulation?.events?.push(`${npc?.name} is going about their day`);
+        simulation.events.push(`${npc.name} is going about their day`);
     }
 
     // Simulate movement based on pattern
-    switch (npc?.movementPattern.type) {
+    switch (npc.movementPattern.type) {
       case 'patrol':
-        simulation?.events?.push(`${npc?.name} is patrolling their area`);
+        simulation.events.push(`${npc.name} is patrolling their area`);
         break;
       case 'wander':
-        simulation?.events?.push(`${npc?.name} is wandering around`);
+        simulation.events.push(`${npc.name} is wandering around`);
         break;
       case 'follow':
-        simulation?.events?.push(`${npc?.name} is following their target`);
+        simulation.events.push(`${npc.name} is following their target`);
         break;
       default:
-        simulation?.events?.push(`${npc?.name} is staying in place`);
+        simulation.events.push(`${npc.name} is staying in place`);
     }
 
     return {
@@ -347,7 +347,7 @@ export class NPCsManager {
    * Update NPC location
    */
   updateNPCLocation(npcId: EntityID, x: number, y: number, z?: number): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'update_location',
@@ -356,11 +356,11 @@ export class NPCsManager {
       };
     }
 
-    npc?.location.x = x;
-    npc?.location.y = y;
-    if (z !== undefined) npc?.location.z = z;
+    npc.location.x = x;
+    npc.location.y = y;
+    if (z !== undefined) npc.location.z = z;
 
-    this?.npcs.set(npcId, npc);
+    this.npcs.set(npcId, npc);
     return {
       op: 'update_location',
       status: 'ok',
@@ -372,7 +372,7 @@ export class NPCsManager {
    * Add quest to NPC
    */
   addQuestToNPC(npcId: EntityID, questId: EntityID): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'add_quest',
@@ -381,7 +381,7 @@ export class NPCsManager {
       };
     }
 
-    if (npc?.questIds.includes(questId)) {
+    if (npc.questIds.includes(questId)) {
       return {
         op: 'add_quest',
         status: 'error',
@@ -389,8 +389,8 @@ export class NPCsManager {
       };
     }
 
-    npc?.questIds?.push(questId);
-    this?.npcs.set(npcId, npc);
+    npc.questIds.push(questId);
+    this.npcs.set(npcId, npc);
     return {
       op: 'add_quest',
       status: 'ok',
@@ -402,7 +402,7 @@ export class NPCsManager {
    * Remove quest from NPC
    */
   removeQuestFromNPC(npcId: EntityID, questId: EntityID): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'remove_quest',
@@ -411,7 +411,7 @@ export class NPCsManager {
       };
     }
 
-    const index = npc?.questIds.indexOf(questId);
+    const index = npc.questIds.indexOf(questId);
     if (index === -1) {
       return {
         op: 'remove_quest',
@@ -420,8 +420,8 @@ export class NPCsManager {
       };
     }
 
-    npc?.questIds.splice(index, 1);
-    this?.npcs.set(npcId, npc);
+    npc.questIds.splice(index, 1);
+    this.npcs.set(npcId, npc);
     return {
       op: 'remove_quest',
       status: 'ok',
@@ -433,7 +433,7 @@ export class NPCsManager {
    * Update NPC behavior
    */
   updateNPCBehavior(npcId: EntityID, behavior: Partial<NPBehavior>): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'update_behavior',
@@ -442,8 +442,8 @@ export class NPCsManager {
       };
     }
 
-    npc?.behavior = { ...npc?.behavior, ...behavior };
-    this?.npcs.set(npcId, npc);
+    npc.behavior = { ...npc.behavior, ...behavior };
+    this.npcs.set(npcId, npc);
     return {
       op: 'update_behavior',
       status: 'ok',
@@ -455,7 +455,7 @@ export class NPCsManager {
    * Update NPC reputation
    */
   updateNPCReputation(npcId: EntityID, reputation: number): NPCOutput {
-    const npc = this?.npcs.get(npcId);
+    const npc = this.npcs.get(npcId);
     if (!npc) {
       return {
         op: 'update_reputation',
@@ -465,7 +465,7 @@ export class NPCsManager {
     }
 
     npc.reputation = Math.max(0, Math.min(100, reputation));
-    this?.npcs.set(npcId, npc);
+    this.npcs.set(npcId, npc);
     return {
       op: 'update_reputation',
       status: 'ok',
@@ -490,7 +490,7 @@ export class NPCsManager {
    */
   getNPCsByReputation(minRep: number, maxRep: number): NPCOutput {
     const npcs = Array.from(this.npcs.values()).filter((npc: any) => {
-      const rep = npc?.reputation || 0;
+      const rep = npc.reputation || 0;
       return rep >= minRep && rep <= maxRep;
     });
     return {
@@ -506,18 +506,18 @@ export class NPCsManager {
   getNPCStats(): NPCOutput {
     const npcs = Array.from(this.npcs.values());
     const stats = {
-      total: npcs?.length,
+      total: npcs.length,
       byBehavior: {} as Record<string, number>,
       byFaction: {} as Record<string, number>,
-      withQuests: npcs?.filter((npc: any) => npc?.questIds.length > 0).length,
-      averageReputation: npcs?.reduce((sum, npc) => sum + (npc?.reputation || 0), 0) / npcs?.length,
-      totalQuests: npcs?.reduce((sum, npc) => sum + npc?.questIds.length, 0)
+      withQuests: npcs.filter((npc: any) => npc.questIds.length > 0).length,
+      averageReputation: npcs.reduce((sum, npc) => sum + (npc.reputation || 0), 0) / npcs.length,
+      totalQuests: npcs.reduce((sum, npc) => sum + npc.questIds.length, 0)
     };
 
-    npcs?.forEach((npc: any) => {
-      stats?.byBehavior[npc?.behavior.type] = (stats?.byBehavior[npc?.behavior.type] || 0) + 1;
-      if (npc?.faction) {
-        stats?.byFaction[npc?.faction] = (stats?.byFaction[npc?.faction] || 0) + 1;
+    npcs.forEach((npc: any) => {
+      stats.byBehavior[npc.behavior.type] = (stats.byBehavior[npc.behavior.type] || 0) + 1;
+      if (npc.faction) {
+        stats.byFaction[npc.faction] = (stats.byFaction[npc.faction] || 0) + 1;
       }
     });
 
@@ -539,7 +539,7 @@ export class NPCsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { npcs, total: npcs?.length }
+          result: { npcs, total: npcs.length }
         };
       
       case 'manifest':
@@ -547,44 +547,44 @@ export class NPCsManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff?.npcs.export?.v1',
+            schema: 'miff.npcs.export.v1',
             npcs,
             exportedAt: new Date().toISOString(),
-            total: npcs?.length
+            total: npcs.length
           }
         };
       
       case 'summary':
-        const stats = this?.getNPCStats();
+        const stats = this.getNPCStats();
         return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats?.result,
-            npcs: npcs?.map((npc: any) => ({
-              id: npc?.id,
-              name: npc?.name,
-              behavior: npc?.behavior.type,
-              faction: npc?.faction,
-              questCount: npc?.questIds.length,
-              reputation: npc?.reputation
+            summary: stats.result,
+            npcs: npcs.map((npc: any) => ({
+              id: npc.id,
+              name: npc.name,
+              behavior: npc.behavior.type,
+              faction: npc.faction,
+              questCount: npc.questIds.length,
+              reputation: npc.reputation
             }))
           }
         };
       
       case 'quests':
-        const questNPCs = npcs?.filter((npc: any) => npc?.questIds.length > 0);
+        const questNPCs = npcs.filter((npc: any) => npc.questIds.length > 0);
         return {
           op: 'export',
           status: 'ok',
           result: {
-            questNPCs: questNPCs?.map((npc: any) => ({
-              id: npc?.id,
-              name: npc?.name,
-              questIds: npc?.questIds,
-              location: npc?.location
+            questNPCs: questNPCs.map((npc: any) => ({
+              id: npc.id,
+              name: npc.name,
+              questIds: npc.questIds,
+              location: npc.location
             })),
-            total: questNPCs?.length
+            total: questNPCs.length
           }
         };
       
@@ -601,8 +601,8 @@ export class NPCsManager {
    * Reset all NPCs to default state
    */
   resetNPCs(): NPCOutput {
-    this?.npcs.clear();
-    this?.loadDefaultNPCs();
+    this.npcs.clear();
+    this.loadDefaultNPCs();
     return {
       op: 'reset',
       status: 'ok',

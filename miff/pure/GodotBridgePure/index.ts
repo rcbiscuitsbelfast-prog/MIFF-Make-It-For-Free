@@ -734,10 +734,10 @@ export class GodotBridgeManager {
   private maxReconnectAttempts = 10;
 
   constructor(configuration: GodotBridgeConfiguration) {
-    this?.configuration = configuration;
-    this?.performanceMetrics = this?.initializePerformanceMetrics();
-    this?.statistics = this?.initializeStatistics();
-    this?.initializeBridge();
+    this.configuration = configuration;
+    this.performanceMetrics = this.initializePerformanceMetrics();
+    this.statistics = this.initializeStatistics();
+    this.initializeBridge();
   }
 
   private initializePerformanceMetrics(): GodotPerformanceMetrics {
@@ -937,7 +937,7 @@ export class GodotBridgeManager {
       networkObjectCount: 0,
       multiplayerObjectCount: 0,
       bridgeCount: 0,
-      performanceMetrics: this?.performanceMetrics
+      performanceMetrics: this.performanceMetrics
     };
   }
 
@@ -946,15 +946,15 @@ export class GodotBridgeManager {
 
     try {
       // Initialize communication protocol
-      await this?.initializeCommunicationProtocol();
+      await this.initializeCommunicationProtocol();
 
       // Start message processing
-      this?.startMessageProcessing();
+      this.startMessageProcessing();
 
       // Start heartbeat
-      this?.startHeartbeat();
+      this.startHeartbeat();
 
-      this?.isInitialized = true;
+      this.isInitialized = true;
       console.log('[GodotBridgeManager!] Godot bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -964,33 +964,33 @@ export class GodotBridgeManager {
   }
 
   private async initializeCommunicationProtocol(): Promise<void> {
-    switch (this?.configuration.communicationProtocol) {
-      case GodotCommunicationProtocol?.GDNATIVE:
-        await this?.initializeGDNative();
+    switch (this.configuration.communicationProtocol) {
+      case GodotCommunicationProtocol.GDNATIVE:
+        await this.initializeGDNative();
         break;
-      case GodotCommunicationProtocol?.GDScript:
-        await this?.initializeGDScript();
+      case GodotCommunicationProtocol.GDScript:
+        await this.initializeGDScript();
         break;
-      case GodotCommunicationProtocol?.NETWORK:
-        await this?.initializeNetwork();
+      case GodotCommunicationProtocol.NETWORK:
+        await this.initializeNetwork();
         break;
-      case GodotCommunicationProtocol?.WEBSOCKET:
-        await this?.initializeWebSocket();
+      case GodotCommunicationProtocol.WEBSOCKET:
+        await this.initializeWebSocket();
         break;
-      case GodotCommunicationProtocol?.HTTP:
-        await this?.initializeHTTP();
+      case GodotCommunicationProtocol.HTTP:
+        await this.initializeHTTP();
         break;
-      case GodotCommunicationProtocol?.FILE_SYSTEM:
-        await this?.initializeFileSystem();
+      case GodotCommunicationProtocol.FILE_SYSTEM:
+        await this.initializeFileSystem();
         break;
-      case GodotCommunicationProtocol?.SHARED_MEMORY:
-        await this?.initializeSharedMemory();
+      case GodotCommunicationProtocol.SHARED_MEMORY:
+        await this.initializeSharedMemory();
         break;
-      case GodotCommunicationProtocol?.MESSAGE_QUEUE:
-        await this?.initializeMessageQueue();
+      case GodotCommunicationProtocol.MESSAGE_QUEUE:
+        await this.initializeMessageQueue();
         break;
       default:
-        throw new Error(`Unsupported communication protocol: ${this?.configuration.communicationProtocol}`);
+        throw new Error(`Unsupported communication protocol: ${this.configuration.communicationProtocol}`);
     }
   }
 
@@ -1036,38 +1036,38 @@ export class GodotBridgeManager {
 
   private startMessageProcessing(): void {
     setInterval(() => {
-      this?.processMessageQueue();
+      this.processMessageQueue();
     }, 16); // 60 FPS
 
     setInterval(() => {
-      this?.processEventQueue();
+      this.processEventQueue();
     }, 100); // 10 FPS for event processing
 
     setInterval(() => {
-      this?.processCommandQueue();
+      this.processCommandQueue();
     }, 50); // 20 FPS for command processing
 
     setInterval(() => {
-      this?.processQueryQueue();
+      this.processQueryQueue();
     }, 200); // 5 FPS for query processing
 
     setInterval(() => {
-      this?.processInputEventQueue();
+      this.processInputEventQueue();
     }, 16); // 60 FPS for input events
 
     setInterval(() => {
-      this?.processSignalQueue();
+      this.processSignalQueue();
     }, 16); // 60 FPS for signals
 
     setInterval(() => {
-      this?.updateStatistics();
+      this.updateStatistics();
     }, 1000); // 1 FPS for statistics updates
   }
 
   private startHeartbeat(): void {
     setInterval(() => {
-      this?.sendHeartbeat();
-    }, this?.configuration.heartbeatInterval);
+      this.sendHeartbeat();
+    }, this.configuration.heartbeatInterval);
   }
 
   // Core bridge functionality
@@ -1080,28 +1080,28 @@ export class GodotBridgeManager {
         type: 'local',
         status: 'connecting',
         endpoint: target,
-        protocol: this?.configuration.communicationProtocol,
+        protocol: this.configuration.communicationProtocol,
         lastActivity: new Date(),
         messageCount: 0,
         errorCount: 0,
         reconnectAttempts: 0,
-        maxReconnectAttempts: this?.configuration.retryAttempts,
+        maxReconnectAttempts: this.configuration.retryAttempts,
         metadata: {}
       };
 
-      this?.connections.set(connection?.id, connection);
+      this.connections.set(connection.id, connection);
 
       // Attempt connection based on protocol
-      const connected = await this?.establishConnection(connection);
+      const connected = await this.establishConnection(connection);
 
       if (connected) {
-        connection?.status = 'connected';
-        this?.isConnected = true;
-        this?.reconnectAttempts = 0;
+        connection.status = 'connected';
+        this.isConnected = true;
+        this.reconnectAttempts = 0;
         console.log(`[GodotBridgeManager!] Successfully connected to Godot instance: ${target}`);
         return true;
       } else {
-        connection?.status = 'error';
+        connection.status = 'error';
         console.error(`[GodotBridgeManager!] Failed to connect to Godot instance: ${target}`);
         return false;
       }
@@ -1113,23 +1113,23 @@ export class GodotBridgeManager {
   }
 
   private async establishConnection(connection: GodotConnection): Promise<boolean> {
-    switch (connection?.protocol) {
-      case GodotCommunicationProtocol?.GDNATIVE:
-        return await this?.establishGDNativeConnection(connection);
-      case GodotCommunicationProtocol?.GDScript:
-        return await this?.establishGDScriptConnection(connection);
-      case GodotCommunicationProtocol?.NETWORK:
-        return await this?.establishNetworkConnection(connection);
-      case GodotCommunicationProtocol?.WEBSOCKET:
-        return await this?.establishWebSocketConnection(connection);
-      case GodotCommunicationProtocol?.HTTP:
-        return await this?.establishHTTPConnection(connection);
-      case GodotCommunicationProtocol?.FILE_SYSTEM:
-        return await this?.establishFileSystemConnection(connection);
-      case GodotCommunicationProtocol?.SHARED_MEMORY:
-        return await this?.establishSharedMemoryConnection(connection);
-      case GodotCommunicationProtocol?.MESSAGE_QUEUE:
-        return await this?.establishMessageQueueConnection(connection);
+    switch (connection.protocol) {
+      case GodotCommunicationProtocol.GDNATIVE:
+        return await this.establishGDNativeConnection(connection);
+      case GodotCommunicationProtocol.GDScript:
+        return await this.establishGDScriptConnection(connection);
+      case GodotCommunicationProtocol.NETWORK:
+        return await this.establishNetworkConnection(connection);
+      case GodotCommunicationProtocol.WEBSOCKET:
+        return await this.establishWebSocketConnection(connection);
+      case GodotCommunicationProtocol.HTTP:
+        return await this.establishHTTPConnection(connection);
+      case GodotCommunicationProtocol.FILE_SYSTEM:
+        return await this.establishFileSystemConnection(connection);
+      case GodotCommunicationProtocol.SHARED_MEMORY:
+        return await this.establishSharedMemoryConnection(connection);
+      case GodotCommunicationProtocol.MESSAGE_QUEUE:
+        return await this.establishMessageQueueConnection(connection);
       default:
         return false;
     }
@@ -1178,12 +1178,12 @@ export class GodotBridgeManager {
   async disconnect(): Promise<void> {
     console.log('[GodotBridgeManager!] Disconnecting from Godot...');
 
-    for (const connection of this?.connections.values()) {
-      connection?.status = 'disconnected';
-      await this?.closeConnection(connection);
+    for (const connection of this.connections.values()) {
+      connection.status = 'disconnected';
+      await this.closeConnection(connection);
     }
 
-    this?.isConnected = false;
+    this.isConnected = false;
     console.log('[GodotBridgeManager!] Disconnected from Godot');
   }
 
@@ -1192,18 +1192,18 @@ export class GodotBridgeManager {
   }
 
   async sendMessage(message: GodotMessage): Promise<boolean> {
-    if (!this?.isConnected) {
+    if (!this.isConnected) {
       throw new Error('Godot bridge is not connected');
     }
 
     try {
       // Add to message queue
-      this?.messageQueue?.push(message);
-      this?.statistics.totalMessages++;
+      this.messageQueue.push(message);
+      this.statistics.totalMessages++;
 
       // Process immediately if queue is small
-      if (this?.messageQueue.length <= this?.configuration.batchSize) {
-        await this?.processMessage(message);
+      if (this.messageQueue.length <= this.configuration.batchSize) {
+        await this.processMessage(message);
       }
 
       return true;
@@ -1215,30 +1215,30 @@ export class GodotBridgeManager {
   }
 
   private async processMessage(message: GodotMessage): Promise<void> {
-    switch (message?.type) {
+    switch (message.type) {
       case 'command':
-        await this?.processCommandMessage(message);
+        await this.processCommandMessage(message);
         break;
       case 'query':
-        await this?.processQueryMessage(message);
+        await this.processQueryMessage(message);
         break;
       case 'event':
-        await this?.processEventMessage(message);
+        await this.processEventMessage(message);
         break;
       case 'response':
-        await this?.processResponseMessage(message);
+        await this.processResponseMessage(message);
         break;
       case 'heartbeat':
-        await this?.processHeartbeatMessage(message);
+        await this.processHeartbeatMessage(message);
         break;
       case 'signal':
-        await this?.processSignalMessage(message);
+        await this.processSignalMessage(message);
         break;
       case 'property':
-        await this?.processPropertyMessage(message);
+        await this.processPropertyMessage(message);
         break;
       case 'method':
-        await this?.processMethodMessage(message);
+        await this.processMethodMessage(message);
         break;
       default:
         console.warn(`[GodotBridgeManager!] Unknown message type: ${message.type}`);
@@ -1246,35 +1246,35 @@ export class GodotBridgeManager {
   }
 
   private async processCommandMessage(message: GodotMessage): Promise<void> {
-    const command = message?.payload as GodotCommand;
-    this?.statistics.totalCommands++;
+    const command = message.payload as GodotCommand;
+    this.statistics.totalCommands++;
 
     try {
-      const result = await this?.executeCommand(command);
+      const result = await this.executeCommand(command);
 
       const response: GodotResponse = {
-        id: `response_${message?.id}`,
-        correlationId: message?.id,
-        success: result?.success,
-        data: result?.data,
-        error: result?.error,
-        executionTime: result?.executionTime,
+        id: `response_${message.id}`,
+        correlationId: message.id,
+        success: result.success,
+        data: result.data,
+        error: result.error,
+        executionTime: result.executionTime,
         timestamp: new Date(),
         metadata: {}
       };
 
-      await this?.sendResponse(response);
+      await this.sendResponse(response);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: GodotResponse = {
-        id: `response_${message?.id}`,
-        correlationId: message?.id,
+        id: `response_${message.id}`,
+        correlationId: message.id,
         success: false,
         data: null,
         error: {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
-          context: { commandId: command?.id },
+          context: { commandId: command.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1285,7 +1285,7 @@ export class GodotBridgeManager {
         metadata: {}
       };
 
-      await this?.sendResponse(response);
+      await this.sendResponse(response);
     }
   }
 
@@ -1295,15 +1295,15 @@ export class GodotBridgeManager {
   }
 
   private async processQueryMessage(message: GodotMessage): Promise<void> {
-    const query = message?.payload as GodotQuery;
-    this?.statistics.totalQueries++;
+    const query = message.payload as GodotQuery;
+    this.statistics.totalQueries++;
 
     try {
-      const result = await this?.executeQuery(query);
+      const result = await this.executeQuery(query);
 
       const response: GodotResponse = {
-        id: `response_${message?.id}`,
-        correlationId: message?.id,
+        id: `response_${message.id}`,
+        correlationId: message.id,
         success: true,
         data: result,
         executionTime: 0,
@@ -1311,18 +1311,18 @@ export class GodotBridgeManager {
         metadata: {}
       };
 
-      await this?.sendResponse(response);
+      await this.sendResponse(response);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: GodotResponse = {
-        id: `response_${message?.id}`,
-        correlationId: message?.id,
+        id: `response_${message.id}`,
+        correlationId: message.id,
         success: false,
         data: null,
         error: {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
-          context: { queryId: query?.id },
+          context: { queryId: query.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1333,7 +1333,7 @@ export class GodotBridgeManager {
         metadata: {}
       };
 
-      await this?.sendResponse(response);
+      await this.sendResponse(response);
     }
   }
 
@@ -1343,14 +1343,14 @@ export class GodotBridgeManager {
   }
 
   private async processEventMessage(message: GodotMessage): Promise<void> {
-    const event = message?.payload as GodotEvent;
-    this?.statistics.totalEvents++;
+    const event = message.payload as GodotEvent;
+    this.statistics.totalEvents++;
 
     // Add to event queue
-    this?.eventQueue?.push(event);
+    this.eventQueue.push(event);
 
     // Process immediately
-    await this?.handleEvent(event);
+    await this.handleEvent(event);
   }
 
   private async handleEvent(event: GodotEvent): Promise<void> {
@@ -1359,26 +1359,26 @@ export class GodotBridgeManager {
   }
 
   private async processResponseMessage(message: GodotMessage): Promise<void> {
-    const response = message?.payload as GodotResponse;
-    this?.statistics.totalResponses++;
+    const response = message.payload as GodotResponse;
+    this.statistics.totalResponses++;
 
     // Add to response queue
-    this?.responseQueue?.push(response);
+    this.responseQueue.push(response);
   }
 
   private async processHeartbeatMessage(message: GodotMessage): Promise<void> {
-    this.lastHeartbeat = new Date();
-    this?.reconnectAttempts = 0;
+    this.lastHeartbeat = Date.now();
+    this.reconnectAttempts = 0;
   }
 
   private async processSignalMessage(message: GodotMessage): Promise<void> {
-    this?.statistics.totalSignals++;
+    this.statistics.totalSignals++;
 
     // Add to signal queue
-    this?.signalQueue?.push(message?.payload);
+    this.signalQueue.push(message.payload);
 
     // Process immediately
-    await this?.handleSignal(message?.payload);
+    await this.handleSignal(message.payload);
   }
 
   private async handleSignal(signal): Promise<void> {
@@ -1387,10 +1387,10 @@ export class GodotBridgeManager {
   }
 
   private async processPropertyMessage(message: GodotMessage): Promise<void> {
-    this?.statistics.totalProperties++;
+    this.statistics.totalProperties++;
 
     // Handle property get/set
-    await this?.handleProperty(message?.payload);
+    await this.handleProperty(message.payload);
   }
 
   private async handleProperty(property): Promise<void> {
@@ -1399,10 +1399,10 @@ export class GodotBridgeManager {
   }
 
   private async processMethodMessage(message: GodotMessage): Promise<void> {
-    this?.statistics.totalMethods++;
+    this.statistics.totalMethods++;
 
     // Handle method calls
-    await this?.handleMethod(message?.payload);
+    await this.handleMethod(message.payload);
   }
 
   private async handleMethod(method): Promise<void> {
@@ -1412,7 +1412,7 @@ export class GodotBridgeManager {
 
   private async sendResponse(response: GodotResponse): Promise<void> {
     const message: GodotMessage = {
-      id: response?.id,
+      id: response.id,
       type: 'response',
       source: 'bridge',
       destination: 'godot',
@@ -1426,11 +1426,11 @@ export class GodotBridgeManager {
       metadata: {}
     };
 
-    await this?.sendMessage(message);
+    await this.sendMessage(message);
   }
 
   private async sendHeartbeat(): Promise<void> {
-    if (!this?.isConnected) return;
+    if (!this.isConnected) return;
 
     const message: GodotMessage = {
       id: `heartbeat_${Date.now()}`,
@@ -1441,7 +1441,7 @@ export class GodotBridgeManager {
       payload: {
         timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0!],
-        statistics: this?.statistics
+        statistics: this.statistics
       },
       priority: 0,
       ttl: 5000,
@@ -1451,111 +1451,111 @@ export class GodotBridgeManager {
       metadata: {}
     };
 
-    await this?.sendMessage(message);
+    await this.sendMessage(message);
   }
 
   // Bridge management
   registerNode(node: GodotNodeBridge): void {
-    this?.nodes.set(node?.id, node);
+    this.nodes.set(node.id, node);
   }
 
   unregisterNode(nodeId: string): void {
-    this?.nodes.delete(nodeId);
+    this.nodes.delete(nodeId);
   }
 
   getNode(nodeId: string): GodotNodeBridge | undefined {
-    return this?.nodes.get(nodeId);
+    return this.nodes.get(nodeId);
   }
 
   registerScene(scene: GodotSceneBridge): void {
-    this?.scenes.set(scene?.id, scene);
+    this.scenes.set(scene.id, scene);
   }
 
   unregisterScene(sceneId: string): void {
-    this?.scenes.delete(sceneId);
+    this.scenes.delete(sceneId);
   }
 
   getScene(sceneId: string): GodotSceneBridge | undefined {
-    return this?.scenes.get(sceneId);
+    return this.scenes.get(sceneId);
   }
 
   registerResource(resource: GodotResourceBridge): void {
-    this?.resources.set(resource?.id, resource);
+    this.resources.set(resource.id, resource);
   }
 
   unregisterResource(resourceId: string): void {
-    this?.resources.delete(resourceId);
+    this.resources.delete(resourceId);
   }
 
   getResource(resourceId: string): GodotResourceBridge | undefined {
-    return this?.resources.get(resourceId);
+    return this.resources.get(resourceId);
   }
 
   // Statistics and monitoring
   getStatistics(): GodotBridgeStatistics {
-    this?.updateStatistics();
-    return { ...this?.statistics };
+    this.updateStatistics();
+    return { ...this.statistics };
   }
 
   private updateStatistics(): void {
     this.statistics.messagesPerSecond = this.statistics.totalMessages / Math.max(1, (Date.now() - this.statistics.connectionUptime) / 1000);
     this.statistics.errorRate = this.statistics.totalErrors / Math.max(1, this.statistics.totalMessages);
     this.statistics.averageMessageSize = this.statistics.dataTransferred / Math.max(1, this.statistics.totalMessages);
-    this?.statistics.queueDepth = this?.messageQueue.length + this?.eventQueue.length + this?.commandQueue.length + this?.queryQueue.length + this?.inputEventQueue.length + this?.signalQueue.length;
+    this.statistics.queueDepth = this.messageQueue.length + this.eventQueue.length + this.commandQueue.length + this.queryQueue.length + this.inputEventQueue.length + this.signalQueue.length;
     this.statistics.activeConnections = Array.from(this.connections.values()).filter((c: any) => c.status === 'connected').length;
-    this?.statistics.nodeCount = this?.nodes.size;
-    this?.statistics.sceneCount = this?.scenes.size;
-    this?.statistics.resourceCount = this?.resources.size;
-    this?.statistics.signalCount = this?.statistics.totalSignals;
-    this?.statistics.propertyCount = this?.statistics.totalProperties;
-    this?.statistics.methodCount = this?.statistics.totalMethods;
-    this?.statistics.inputEventCount = this?.inputEventQueue.length;
-    this?.statistics.bridgeCount = 1; // This bridge
+    this.statistics.nodeCount = this.nodes.size;
+    this.statistics.sceneCount = this.scenes.size;
+    this.statistics.resourceCount = this.resources.size;
+    this.statistics.signalCount = this.statistics.totalSignals;
+    this.statistics.propertyCount = this.statistics.totalProperties;
+    this.statistics.methodCount = this.statistics.totalMethods;
+    this.statistics.inputEventCount = this.inputEventQueue.length;
+    this.statistics.bridgeCount = 1; // This bridge
   }
 
   // Message queue processing
   private async processMessageQueue(): Promise<void> {
-    if (this?.messageQueue.length === 0) return;
+    if (this.messageQueue.length === 0) return;
 
-    const batch = this?.messageQueue.splice(0, this?.configuration.batchSize);
+    const batch = this.messageQueue.splice(0, this.configuration.batchSize);
     for (const message of batch) {
-      await this?.processMessage(message);
+      await this.processMessage(message);
     }
   }
 
   private async processEventQueue(): Promise<void> {
-    if (this?.eventQueue.length === 0) return;
+    if (this.eventQueue.length === 0) return;
 
-    const batch = this?.eventQueue.splice(0, this?.configuration.batchSize);
+    const batch = this.eventQueue.splice(0, this.configuration.batchSize);
     for (const event of batch) {
-      await this?.handleEvent(event);
+      await this.handleEvent(event);
     }
   }
 
   private async processCommandQueue(): Promise<void> {
-    if (this?.commandQueue.length === 0) return;
+    if (this.commandQueue.length === 0) return;
 
-    const batch = this?.commandQueue.splice(0, this?.configuration.batchSize);
+    const batch = this.commandQueue.splice(0, this.configuration.batchSize);
     for (const command of batch) {
-      await this?.executeCommand(command);
+      await this.executeCommand(command);
     }
   }
 
   private async processQueryQueue(): Promise<void> {
-    if (this?.queryQueue.length === 0) return;
+    if (this.queryQueue.length === 0) return;
 
-    const batch = this?.queryQueue.splice(0, this?.configuration.batchSize);
+    const batch = this.queryQueue.splice(0, this.configuration.batchSize);
     for (const query of batch) {
-      await this?.executeQuery(query);
+      await this.executeQuery(query);
     }
   }
 
   private async processInputEventQueue(): Promise<void> {
-    if (this?.inputEventQueue.length === 0) return;
+    if (this.inputEventQueue.length === 0) return;
 
-    const batch = this?.inputEventQueue.splice(0, this?.configuration.batchSize);
+    const batch = this.inputEventQueue.splice(0, this.configuration.batchSize);
     for (const inputEvent of batch) {
-      await this?.handleInputEvent(inputEvent);
+      await this.handleInputEvent(inputEvent);
     }
   }
 
@@ -1565,11 +1565,11 @@ export class GodotBridgeManager {
   }
 
   private async processSignalQueue(): Promise<void> {
-    if (this?.signalQueue.length === 0) return;
+    if (this.signalQueue.length === 0) return;
 
-    const batch = this?.signalQueue.splice(0, this?.configuration.batchSize);
+    const batch = this.signalQueue.splice(0, this.configuration.batchSize);
     for (const signal of batch) {
-      await this?.handleSignal(signal);
+      await this.handleSignal(signal);
     }
   }
 
@@ -1579,78 +1579,78 @@ export class GodotBridgeManager {
   }
 
   getConfiguration(): GodotBridgeConfiguration {
-    return { ...this?.configuration };
+    return { ...this.configuration };
   }
 
   // Utility methods
   isConnectedToGodot(): boolean {
-    return this?.isConnected;
+    return this.isConnected;
   }
 
   getConnectionStatus(): 'connected' | 'disconnected' | 'connecting' | 'error' {
-    if (!this?.isConnected) return 'disconnected';
+    if (!this.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0!];
     return connection?.status || 'disconnected';
   }
 
   getPerformanceMetrics(): GodotPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      configuration: this?.configuration,
+      configuration: this.configuration,
       connections: Array.from(this.connections.values()),
       nodes: Array.from(this.nodes.values()),
       scenes: Array.from(this.scenes.values()),
       resources: Array.from(this.resources.values()),
-      statistics: this?.statistics,
-      performanceMetrics: this?.performanceMetrics,
+      statistics: this.statistics,
+      performanceMetrics: this.performanceMetrics,
       timestamp: new Date()
     };
 
     if (format === 'json') {
       return JSON.stringify(data, null, 2);
     } else if (format === 'xml') {
-      return this?.convertToXML(data: any);
+      return this.convertToXML(data);
     } else {
-      return this?.convertToBinary(data: any);
+      return this.convertToBinary(data);
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     // Simple XML conversion - in production this would be more robust
     return '<godot_bridge_data><!-- XML export not fully implemented --></godot_bridge_data>';
   }
 
-  private convertToBinary(data: any): string {
+  private convertToBinary(data): string {
     // Simple binary conversion - in production this would use proper serialization
-    return JSON.stringify(data: any);
+    return JSON.stringify(data);
   }
 
   reset(): void {
-    this?.connections.clear();
-    this?.nodes.clear();
-    this?.scenes.clear();
-    this?.resources.clear();
-    this?.messageQueue = [];
-    this?.eventQueue = [];
-    this?.commandQueue = [];
-    this?.queryQueue = [];
-    this?.responseQueue = [];
-    this?.inputEventQueue = [];
-    this?.signalQueue = [];
-    this?.isConnected = false;
-    this?.lastHeartbeat = 0;
-    this?.reconnectAttempts = 0;
+    this.connections.clear();
+    this.nodes.clear();
+    this.scenes.clear();
+    this.resources.clear();
+    this.messageQueue = [];
+    this.eventQueue = [];
+    this.commandQueue = [];
+    this.queryQueue = [];
+    this.responseQueue = [];
+    this.inputEventQueue = [];
+    this.signalQueue = [];
+    this.isConnected = false;
+    this.lastHeartbeat = 0;
+    this.reconnectAttempts = 0;
 
     console.log('[GodotBridgeManager!] Reset to initial state');
   }
 
   dispose(): void {
-    this?.reset();
-    this?.isInitialized = false;
+    this.reset();
+    this.isInitialized = false;
     console.log('[GodotBridgeManager!] Disposed successfully');
   }
 }

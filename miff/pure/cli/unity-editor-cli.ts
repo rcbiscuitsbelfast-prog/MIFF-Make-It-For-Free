@@ -22,12 +22,12 @@ export class UnityEditorCLI {
   private isConnected = false;
 
   constructor(projectPath: string = './unity-project') {
-    this?.projectPath = path?.resolve(projectPath);
-    this?.assetsPath = path?.join(this?.projectPath, 'Assets');
-    this?.scriptsPath = path?.join(this?.assetsPath, 'Scripts');
+    this.projectPath = path.resolve(projectPath);
+    this.assetsPath = path.join(this.projectPath, 'Assets');
+    this.scriptsPath = path.join(this.assetsPath, 'Scripts');
 
     const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType?.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'editor',
@@ -55,8 +55,8 @@ export class UnityEditorCLI {
       }
     };
 
-    this?.bridge = new UnityBridgeManager(config);
-    this?.initializeUnityProject();
+    this.bridge = new UnityBridgeManager(config);
+    this.initializeUnityProject();
   }
 
   private initializeUnityProject(): void {
@@ -66,16 +66,16 @@ export class UnityEditorCLI {
     console.log(`🔧 Scripts Path: ${this.scriptsPath}`);
 
     // Ensure project directories exist
-    if (!fs?.existsSync(this?.projectPath)) {
-      fs?.mkdirSync(this?.projectPath, { recursive: true });
+    if (!fs.existsSync(this.projectPath)) {
+      fs.mkdirSync(this.projectPath, { recursive: true });
     }
 
-    if (!fs?.existsSync(this?.assetsPath)) {
-      fs?.mkdirSync(this?.assetsPath, { recursive: true });
+    if (!fs.existsSync(this.assetsPath)) {
+      fs.mkdirSync(this.assetsPath, { recursive: true });
     }
 
-    if (!fs?.existsSync(this?.scriptsPath)) {
-      fs?.mkdirSync(this?.scriptsPath, { recursive: true });
+    if (!fs.existsSync(this.scriptsPath)) {
+      fs.mkdirSync(this.scriptsPath, { recursive: true });
     }
 
     console.log('✅ Unity Editor CLI initialized');
@@ -89,7 +89,7 @@ export class UnityEditorCLI {
       // For now, we'll simulate the connection
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      this?.isConnected = true;
+      this.isConnected = true;
       console.log('✅ Connected to Unity Editor');
       return true;
     } catch (error: unknown) {
@@ -170,11 +170,11 @@ export class UnityEditorCLI {
         ]
       };
 
-      const sceneFile = path?.join(this?.assetsPath, 'Scenes', 'CombatTestScene?.unity');
-      const sceneDir = path?.dirname(sceneFile);
+      const sceneFile = path.join(this.assetsPath, 'Scenes', 'CombatTestScene.unity');
+      const sceneDir = path.dirname(sceneFile);
 
-      if (!fs?.existsSync(sceneDir)) {
-        fs?.mkdirSync(sceneDir, { recursive: true });
+      if (!fs.existsSync(sceneDir)) {
+        fs.mkdirSync(sceneDir, { recursive: true });
       }
 
       fs.writeFileSync(sceneFile, JSON.stringify(combatScene, null, 2));
@@ -311,11 +311,11 @@ export class UnityEditorCLI {
         ]
       };
 
-      const prefabFile = path?.join(this?.assetsPath, 'Prefabs', 'InventorySystem?.prefab');
-      const prefabDir = path?.dirname(prefabFile);
+      const prefabFile = path.join(this.assetsPath, 'Prefabs', 'InventorySystem.prefab');
+      const prefabDir = path.dirname(prefabFile);
 
-      if (!fs?.existsSync(prefabDir)) {
-        fs?.mkdirSync(prefabDir, { recursive: true });
+      if (!fs.existsSync(prefabDir)) {
+        fs.mkdirSync(prefabDir, { recursive: true });
       }
 
       fs.writeFileSync(prefabFile, JSON.stringify(inventorySystem, null, 2));
@@ -334,7 +334,7 @@ export class UnityEditorCLI {
           prefabPath: prefabFile,
           inventoryData: {
             maxSlots: 20,
-            items: inventorySystem?.components[0!].properties?.items
+            items: inventorySystem.components[0!].properties.items
           }
         },
         priority: 1,
@@ -441,11 +441,11 @@ export class UnityEditorCLI {
         ]
       };
 
-      const scriptFile = path?.join(this?.scriptsPath, 'MIFFBattleAI?.cs');
+      const scriptFile = path.join(this.scriptsPath, 'MIFFBattleAI.cs');
       const scriptContent = `using UnityEngine;
-using UnityEngine?.AI;
-using System?.Collections;
-using System?.Collections.Generic;
+using UnityEngine.AI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class MIFFBattleAI : MonoBehaviour
 {
@@ -475,10 +475,10 @@ public class MIFFBattleAI : MonoBehaviour
             if (currentTarget != null)
             {
                 // Move towards target
-                navAgent?.SetDestination(currentTarget?.position);
+                navAgent.SetDestination(currentTarget.position);
 
                 // Attack if in range
-                if (Vector3?.Distance(transform?.position, currentTarget?.position) < 2f)
+                if (Vector3.Distance(transform.position, currentTarget.position) < 2f)
                 {
                     PerformAttack();
                 }
@@ -491,11 +491,11 @@ public class MIFFBattleAI : MonoBehaviour
         // Implementation would find nearest enemy or objective
         // For demo purposes, we'll use a simple raycast
         RaycastHit hit;
-        if (Physics?.Raycast(transform?.position, transform?.forward, out hit, visionRange))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, visionRange))
         {
-            if (hit?.transform.CompareTag("Enemy"))
+            if (hit.transform.CompareTag("Enemy"))
             {
-                currentTarget = hit?.transform;
+                currentTarget = hit.transform;
             }
         }
     }
@@ -503,11 +503,11 @@ public class MIFFBattleAI : MonoBehaviour
     void PerformAttack()
     {
         // Implementation would trigger combat moves
-        Debug?.Log("MIFF AI performing attack on target");
+        Debug.Log("MIFF AI performing attack on target");
     }
 }`;
 
-      fs?.writeFileSync(scriptFile, scriptContent);
+      fs.writeFileSync(scriptFile, scriptContent);
 
       console.log(`✅ AI system created: ${scriptFile}`);
 
@@ -522,8 +522,8 @@ public class MIFFBattleAI : MonoBehaviour
           action: 'create_ai_system',
           scriptPath: scriptFile,
           aiData: {
-            policies: aiSystem?.components[0!].properties?.policies,
-            behaviorTree: aiSystem?.components[0!].properties?.behaviorTree
+            policies: aiSystem.components[0!].properties.policies,
+            behaviorTree: aiSystem.components[0!].properties.behaviorTree
           }
         },
         priority: 1,
@@ -549,8 +549,8 @@ public class MIFFBattleAI : MonoBehaviour
   async runLiveValidation(): Promise<void> {
     console.log('🔍 Running live validation in Unity Editor...');
 
-    if (!this?.isConnected) {
-      const connected = await this?.connectToEditor();
+    if (!this.isConnected) {
+      const connected = await this.connectToEditor();
       if (!connected) {
         console.log('⚠️  Skipping live validation - not connected to Unity Editor');
         return;
@@ -559,13 +559,13 @@ public class MIFFBattleAI : MonoBehaviour
 
     try {
       // Test combat integration
-      await this?.testCombatIntegration();
+      await this.testCombatIntegration();
 
       // Test item integration
-      await this?.testItemIntegration();
+      await this.testItemIntegration();
 
       // Test AI integration
-      await this?.testAIIntegration();
+      await this.testAIIntegration();
 
       console.log('✅ Live validation completed successfully');
     } catch (error: unknown) {
@@ -577,19 +577,19 @@ public class MIFFBattleAI : MonoBehaviour
   async createEditorPlugin(): Promise<void> {
     console.log('🔧 Creating Unity Editor Plugin...');
 
-    const pluginDir = path?.join(this?.assetsPath, 'Editor', 'MIFFBridge');
-    if (!fs?.existsSync(pluginDir)) {
-      fs?.mkdirSync(pluginDir, { recursive: true });
+    const pluginDir = path.join(this.assetsPath, 'Editor', 'MIFFBridge');
+    if (!fs.existsSync(pluginDir)) {
+      fs.mkdirSync(pluginDir, { recursive: true });
     }
 
     // Create plugin script
     const pluginScript = `using UnityEngine;
 using UnityEditor;
-using System?.IO;
-using System?.Net;
-using System?.Net.Sockets;
-using System?.Threading;
-using System?.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Collections.Generic;
 
 public class MIFFBridge : EditorWindow
 {
@@ -603,7 +603,7 @@ public class MIFFBridge : EditorWindow
     public static void ShowWindow()
     {
         window = GetWindow<MIFFBridge>("MIFF Bridge");
-        window?.Show();
+        window.Show();
     }
 
     void OnEnable()
@@ -618,47 +618,47 @@ public class MIFFBridge : EditorWindow
 
     void OnGUI()
     {
-        EditorGUILayout?.LabelField("MIFF Bridge", EditorStyles?.boldLabel);
-        EditorGUILayout?.LabelField("Status: " + (isConnected ? "Connected" : "Disconnected"), EditorStyles?.helpBox);
+        EditorGUILayout.LabelField("MIFF Bridge", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Status: " + (isConnected ? "Connected" : "Disconnected"), EditorStyles.helpBox);
 
-        scrollPosition = EditorGUILayout?.BeginScrollView(scrollPosition);
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
-        if (GUILayout?.Button("Test Combat Integration"))
+        if (GUILayout.Button("Test Combat Integration"))
         {
             TestCombatIntegration();
         }
 
-        if (GUILayout?.Button("Test Item Integration"))
+        if (GUILayout.Button("Test Item Integration"))
         {
             TestItemIntegration();
         }
 
-        if (GUILayout?.Button("Test AI Integration"))
+        if (GUILayout.Button("Test AI Integration"))
         {
             TestAIIntegration();
         }
 
-        if (GUILayout?.Button("Validate All"))
+        if (GUILayout.Button("Validate All"))
         {
             ValidateAll();
         }
 
-        EditorGUILayout?.EndScrollView();
+        EditorGUILayout.EndScrollView();
     }
 
     private void StartServer()
     {
         try
         {
-            server = new TcpListener(IPAddress?.Loopback, 8080);
-            server?.Start();
+            server = new TcpListener(IPAddress.Loopback, 8080);
+            server.Start();
             serverThread = new Thread(ServerLoop);
-            serverThread?.Start();
-            Debug?.Log("MIFF Bridge server started on port 8080");
+            serverThread.Start();
+            Debug.Log("MIFF Bridge server started on port 8080");
         }
-        catch (System?.Exception e)
+        catch (System.Exception e)
         {
-            Debug?.LogError("Failed to start MIFF Bridge server: " + e?.Message);
+            Debug.LogError("Failed to start MIFF Bridge server: " + e.Message);
         }
     }
 
@@ -666,13 +666,13 @@ public class MIFFBridge : EditorWindow
     {
         if (server != null)
         {
-            server?.Stop();
+            server.Stop();
             server = null;
         }
 
-        if (serverThread != null && serverThread?.IsAlive)
+        if (serverThread != null && serverThread.IsAlive)
         {
-            serverThread?.Abort();
+            serverThread.Abort();
             serverThread = null;
         }
     }
@@ -683,22 +683,22 @@ public class MIFFBridge : EditorWindow
         {
             try
             {
-                TcpClient client = server?.AcceptTcpClient();
+                TcpClient client = server.AcceptTcpClient();
                 isConnected = true;
-                Debug?.Log("MIFF Bridge client connected");
+                Debug.Log("MIFF Bridge client connected");
 
                 // Handle client communication
-                NetworkStream stream = client?.GetStream();
+                NetworkStream stream = client.GetStream();
                 // Implementation would handle MIFF protocol messages
 
-                client?.Close();
+                client.Close();
                 isConnected = false;
             }
-            catch (System?.Exception e)
+            catch (System.Exception e)
             {
                 if (server != null)
                 {
-                    Debug?.LogError("MIFF Bridge server error: " + e?.Message);
+                    Debug.LogError("MIFF Bridge server error: " + e.Message);
                 }
             }
         }
@@ -706,36 +706,36 @@ public class MIFFBridge : EditorWindow
 
     private void TestCombatIntegration()
     {
-        Debug?.Log("Testing CombatPure integration...");
+        Debug.Log("Testing CombatPure integration...");
         // Implementation would test combat system integration
-        EditorUtility?.DisplayDialog("Combat Integration", "Combat system integration test completed successfully!", "OK");
+        EditorUtility.DisplayDialog("Combat Integration", "Combat system integration test completed successfully!", "OK");
     }
 
     private void TestItemIntegration()
     {
-        Debug?.Log("Testing ItemsPure integration...");
+        Debug.Log("Testing ItemsPure integration...");
         // Implementation would test item system integration
-        EditorUtility?.DisplayDialog("Item Integration", "Item system integration test completed successfully!", "OK");
+        EditorUtility.DisplayDialog("Item Integration", "Item system integration test completed successfully!", "OK");
     }
 
     private void TestAIIntegration()
     {
-        Debug?.Log("Testing AIPure integration...");
+        Debug.Log("Testing AIPure integration...");
         // Implementation would test AI system integration
-        EditorUtility?.DisplayDialog("AI Integration", "AI system integration test completed successfully!", "OK");
+        EditorUtility.DisplayDialog("AI Integration", "AI system integration test completed successfully!", "OK");
     }
 
     private void ValidateAll()
     {
-        Debug?.Log("Running full MIFF validation...");
+        Debug.Log("Running full MIFF validation...");
         TestCombatIntegration();
         TestItemIntegration();
         TestAIIntegration();
-        EditorUtility?.DisplayDialog("Full Validation", "All MIFF integrations validated successfully!", "OK");
+        EditorUtility.DisplayDialog("Full Validation", "All MIFF integrations validated successfully!", "OK");
     }
 }`;
 
-    fs?.writeFileSync(path?.join(pluginDir, 'MIFFBridge?.cs'), pluginScript);
+    fs.writeFileSync(path.join(pluginDir, 'MIFFBridge.cs'), pluginScript);
 
     console.log(`✅ Unity Editor Plugin created: ${pluginDir}`);
   }
@@ -752,26 +752,26 @@ public class MIFFBridge : EditorWindow
       BuildTarget: 'StandaloneWindows64'
     };
 
-    // Create Package?.json manifest
+    // Create Package.json manifest
     const manifest = {
       dependencies: {
-        'com?.unity.2d?.sprite': '1.0.0',
-        'com?.unity.2d?.tilemap': '1.0.0',
-        'com?.unity.ai?.navigation': '1.0.0',
-        'com?.unity.inputsystem': '1.3.0',
-        'com?.unity.render-pipelines?.universal': '12.1.6',
-        'com?.unity.textmeshpro': '3.0.6'
+        'com.unity.2d.sprite': '1.0.0',
+        'com.unity.2d.tilemap': '1.0.0',
+        'com.unity.ai.navigation': '1.0.0',
+        'com.unity.inputsystem': '1.3.0',
+        'com.unity.render-pipelines.universal': '12.1.6',
+        'com.unity.textmeshpro': '3.0.6'
       }
     };
 
     // Write manifest file
-    const packagesDir = path?.join(this?.projectPath, 'Packages');
-    if (!fs?.existsSync(packagesDir)) {
-      fs?.mkdirSync(packagesDir, { recursive: true });
+    const packagesDir = path.join(this.projectPath, 'Packages');
+    if (!fs.existsSync(packagesDir)) {
+      fs.mkdirSync(packagesDir, { recursive: true });
     }
 
-    fs?.writeFileSync(
-      path?.join(packagesDir, 'manifest?.json'),
+    fs.writeFileSync(
+      path.join(packagesDir, 'manifest.json'),
       JSON.stringify(manifest, null, 2)
     );
 
@@ -810,13 +810,13 @@ public class MIFFBridge : EditorWindow
     console.log('   - Editor plugin for seamless workflow');
     console.log('');
 
-    await this?.runLiveValidation();
+    await this.runLiveValidation();
   }
 }
 
 // CLI Interface
 async function main() {
-  const args = process?.argv.slice(2);
+  const args = process.argv.slice(2);
   const command = args[0!] || 'help';
 
   const projectPath = args[1!] || './unity-project';
@@ -824,28 +824,28 @@ async function main() {
 
   switch (command) {
     case 'connect':
-      await cli?.connectToEditor();
+      await cli.connectToEditor();
       break;
     case 'combat':
-      await cli?.testCombatIntegration();
+      await cli.testCombatIntegration();
       break;
     case 'items':
-      await cli?.testItemIntegration();
+      await cli.testItemIntegration();
       break;
     case 'ai':
-      await cli?.testAIIntegration();
+      await cli.testAIIntegration();
       break;
     case 'validate':
-      await cli?.runLiveValidation();
+      await cli.runLiveValidation();
       break;
     case 'plugin':
-      await cli?.createEditorPlugin();
+      await cli.createEditorPlugin();
       break;
     case 'project':
-      await cli?.generateProjectFiles();
+      await cli.generateProjectFiles();
       break;
     case 'demo':
-      await cli?.demo();
+      await cli.demo();
       break;
     case 'help':
     default:
@@ -864,6 +864,6 @@ async function main() {
   }
 }
 
-if (require?.main === module) {
+if (require.main === module) {
   main().catch(console.error);
 }

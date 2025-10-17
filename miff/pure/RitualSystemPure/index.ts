@@ -207,11 +207,11 @@ export class RitualSystemPure {
   private rng: RNGPure;
 
   constructor(eventBus: EventBus, rng: RNGPure) {
-    this?.eventBus = eventBus;
-    this?.rng = rng;
-    this?.config = this?.initializeConfig();
-    this?.initializeBasicRituals();
-    this?.setupEventListeners();
+    this.eventBus = eventBus;
+    this.rng = rng;
+    this.config = this.initializeConfig();
+    this.initializeBasicRituals();
+    this.setupEventListeners();
   }
 
   /**
@@ -517,8 +517,8 @@ export class RitualSystemPure {
       }
     ];
 
-    basicRituals?.forEach((ritual: any) => {
-      this?.ritualDefinitions.set(ritual?.id, ritual);
+    basicRituals.forEach((ritual: any) => {
+      this.ritualDefinitions.set(ritual.id, ritual);
     });
   }
 
@@ -526,28 +526,28 @@ export class RitualSystemPure {
    * Start a new ritual
    */
   startRitual(ritualId: string, leaderId: string, participantIds: string[] = []): RitualInstance | null {
-    const ritualDef = this?.ritualDefinitions.get(ritualId);
+    const ritualDef = this.ritualDefinitions.get(ritualId);
     if (!ritualDef) {
       console.warn(`Ritual definition not found: ${ritualId}`);
       return null;
     }
 
     // Check active ritual limit
-    if (this?.activeRituals.size >= this?.config.maxActiveRituals) {
+    if (this.activeRituals.size >= this.config.maxActiveRituals) {
       console.warn('Maximum active rituals reached');
       return null;
     }
 
     // Check participant count
     const totalParticipants = [leaderId, ...participantIds];
-    if (totalParticipants?.length < ritualDef?.minParticipants || totalParticipants?.length > ritualDef?.maxParticipants) {
+    if (totalParticipants.length < ritualDef.minParticipants || totalParticipants.length > ritualDef.maxParticipants) {
       console.warn(`Invalid participant count: ${totalParticipants.length} (min: ${ritualDef.minParticipants}, max: ${ritualDef.maxParticipants})`);
       return null;
     }
 
     // Create ritual instance
     const ritualInstance: RitualInstance = {
-      id: this?.generateRitualId(),
+      id: this.generateRitualId(),
       definition: ritualDef,
       leaderId,
       participants: [],
@@ -569,25 +569,25 @@ export class RitualSystemPure {
     const participants: RitualParticipant[] = [];
 
     // Leader
-    const leader = this?.createParticipant(leaderId, 'leader', ritualDef);
-    participants?.push(leader);
+    const leader = this.createParticipant(leaderId, 'leader', ritualDef);
+    participants.push(leader);
 
     // Other participants
-    participantIds?.forEach((participantId, index) => {
-      const role = this?.config.autoAssignRoles ? this?.getAutoRole(index + 1, ritualDef) : 'participant';
-      const participant = this?.createParticipant(participantId, role, ritualDef);
-      participants?.push(participant);
+    participantIds.forEach((participantId, index) => {
+      const role = this.config.autoAssignRoles ? this.getAutoRole(index + 1, ritualDef) : 'participant';
+      const participant = this.createParticipant(participantId, role, ritualDef);
+      participants.push(participant);
     });
 
-    ritualInstance?.participants = participants;
-    this?.activeRituals.set(ritualInstance?.id, ritualInstance);
+    ritualInstance.participants = participants;
+    this.activeRituals.set(ritualInstance.id, ritualInstance);
 
     // Emit ritual started event
-    this?.eventBus.emit('ritual:started', {
-      ritualId: ritualInstance?.id,
-      ritualType: ritualDef?.id,
+    this.eventBus.emit('ritual:started', {
+      ritualId: ritualInstance.id,
+      ritualType: ritualDef.id,
       leaderId,
-      participantCount: totalParticipants?.length
+      participantCount: totalParticipants.length
     });
 
     console.log(`✅ Started ritual: ${ritualDef.name} (${ritualInstance.id})`);
@@ -603,14 +603,14 @@ export class RitualSystemPure {
     // Add role-specific requirements
     switch (role) {
       case 'leader':
-        requirements?.push({
+        requirements.push({
           type: 'level',
           requirement: '10',
           description: 'Must be at least level 10'
         });
         break;
       case 'participant':
-        requirements?.push({
+        requirements.push({
           type: 'mana',
           requirement: '50',
           description: 'Must contribute at least 50 mana'
@@ -638,48 +638,48 @@ export class RitualSystemPure {
    */
   private getAutoRole(participantIndex: number, ritualDef: RitualDefinition): string {
     const availableRoles = ['participant', 'observer', 'sacrifice'];
-    return availableRoles[participantIndex % availableRoles?.length];
+    return availableRoles[participantIndex % availableRoles.length];
   }
 
   /**
    * Progress a ritual to the next step
    */
   progressRitual(ritualId: string): RitualResult | null {
-    const ritual = this?.activeRituals.get(ritualId);
+    const ritual = this.activeRituals.get(ritualId);
     if (!ritual) {
       console.warn(`Ritual not found: ${ritualId}`);
       return null;
     }
 
-    if (ritual?.status !== 'active') {
+    if (ritual.status !== 'active') {
       console.warn(`Ritual not active: ${ritualId}`);
       return null;
     }
 
-    const currentStep = ritual?.definition.steps[ritual?.currentStep];
+    const currentStep = ritual.definition.steps[ritual.currentStep];
     if (!currentStep) {
       console.warn(`No current step for ritual: ${ritualId}`);
       return null;
     }
 
     // Check if step requirements are met
-    if (!this?.checkStepRequirements(ritual, currentStep)) {
+    if (!this.checkStepRequirements(ritual, currentStep)) {
       console.warn(`Step requirements not met for ritual: ${ritualId}`);
       return null;
     }
 
     // Execute step
-    const stepResult = this?.executeRitualStep(ritual, currentStep);
+    const stepResult = this.executeRitualStep(ritual, currentStep);
 
     // Move to next step or complete ritual
-    ritual?.currentStep++;
+    ritual.currentStep++;
 
-    if (ritual?.currentStep >= ritual?.definition.steps?.length) {
+    if (ritual.currentStep >= ritual.definition.steps.length) {
       // Ritual completed
-      return this?.completeRitual(ritual);
+      return this.completeRitual(ritual);
     } else {
       // Update progress
-      ritual?.progress = ritual?.currentStep / ritual?.definition.steps?.length;
+      ritual.progress = ritual.currentStep / ritual.definition.steps.length;
     }
 
     return stepResult;
@@ -690,21 +690,21 @@ export class RitualSystemPure {
    */
   private checkStepRequirements(ritual: RitualInstance, step: RitualStep): boolean {
     // Check participant requirements
-    if (ritual?.participants.length < step?.requiredParticipants) {
+    if (ritual.participants.length < step.requiredParticipants) {
       return false;
     }
 
     // Check required roles
-    const participantRoles = ritual?.participants.map((p: any) => p?.role);
-    for (const requiredRole of step?.participantRoles) {
-      if (!participantRoles?.includes(requiredRole as any)) {
+    const participantRoles = ritual.participants.map((p: any) => p.role);
+    for (const requiredRole of step.participantRoles) {
+      if (!participantRoles.includes(requiredRole as any)) {
         return false;
       }
     }
 
     // Check energy requirements
-    const totalMana = ritual?.participants.reduce((sum, p) => sum + (p?.manaContribution || 0), 0);
-    if (totalMana < step?.energyCost) {
+    const totalMana = ritual.participants.reduce((sum, p) => sum + (p.manaContribution || 0), 0);
+    if (totalMana < step.energyCost) {
       return false;
     }
 
@@ -718,39 +718,39 @@ export class RitualSystemPure {
     console.log(`🔮 Executing ritual step: ${step.name}`);
 
     // Consume energy
-    const energyConsumed = step?.energyCost;
-    ritual?.energySpent += energyConsumed;
+    const energyConsumed = step.energyCost;
+    ritual.energySpent += energyConsumed;
 
     // Apply step effects
-    for (const effect of step?.effects) {
-      this?.applyRitualEffect(ritual, effect);
+    for (const effect of step.effects) {
+      this.applyRitualEffect(ritual, effect);
     }
 
     // Update participants
-    ritual?.participants.forEach((participant: any) => {
-      participant?.energySpent += step?.energyCost / ritual?.participants.length;
+    ritual.participants.forEach((participant: any) => {
+      participant.energySpent += step.energyCost / ritual.participants.length;
     });
 
     // Emit step completed event
-    this?.eventBus.emit('ritual:step-completed', {
-      ritualId: ritual?.id,
-      stepId: step?.id,
-      stepName: step?.name,
+    this.eventBus.emit('ritual:step-completed', {
+      ritualId: ritual.id,
+      stepId: step.id,
+      stepName: step.name,
       energyConsumed
     });
 
     return {
       success: true,
-      ritualId: ritual?.id,
-      leaderId: ritual?.leaderId,
-      participants: ritual?.participants.map((p: any) => p?.id),
-      duration: new Date() - ritual?.startTime,
+      ritualId: ritual.id,
+      leaderId: ritual.leaderId,
+      participants: ritual.participants.map((p: any) => p.id),
+      duration: new Date() - ritual.startTime,
       energySpent: energyConsumed,
-      quality: ritual?.quality,
+      quality: ritual.quality,
       rewards: [],
       risksTriggered: [],
-      summonedEntities: ritual?.summonedEntities,
-      effectsApplied: step?.effects,
+      summonedEntities: ritual.summonedEntities,
+      effectsApplied: step.effects,
       experienceGained: 0
     };
   }
@@ -759,36 +759,36 @@ export class RitualSystemPure {
    * Apply ritual effect
    */
   private applyRitualEffect(ritual: RitualInstance, effect: RitualEffect): void {
-    if (this?.rng.nextFloat() > effect?.chance) {
+    if (this.rng.nextFloat() > effect.chance) {
       return; // Effect doesn't trigger
     }
 
     console.log(`✨ Applying ritual effect: ${effect.description}`);
 
-    switch (effect?.type) {
+    switch (effect.type) {
       case 'summon':
-        this?.summonEntity(ritual, effect);
+        this.summonEntity(ritual, effect);
         break;
       case 'buff':
-        this?.applyBuff(ritual, effect);
+        this.applyBuff(ritual, effect);
         break;
       case 'debuff':
-        this?.applyDebuff(ritual, effect);
+        this.applyDebuff(ritual, effect);
         break;
       case 'damage':
-        this?.applyDamage(ritual, effect);
+        this.applyDamage(ritual, effect);
         break;
       case 'heal':
-        this?.applyHealing(ritual, effect);
+        this.applyHealing(ritual, effect);
         break;
       case 'create-item':
-        this?.createItem(ritual, effect);
+        this.createItem(ritual, effect);
         break;
       case 'status':
-        this?.applyStatus(ritual, effect);
+        this.applyStatus(ritual, effect);
         break;
       case 'experience':
-        this?.grantExperience(ritual, effect);
+        this.grantExperience(ritual, effect);
         break;
     }
   }
@@ -797,18 +797,18 @@ export class RitualSystemPure {
    * Summon an entity
    */
   private summonEntity(ritual: RitualInstance, effect: RitualEffect): void {
-    const entityType = effect?.parameters.get('entityType') || 'creature';
+    const entityType = effect.parameters.get('entityType') || 'creature';
 
     const summonedEntity: SummonedEntity = {
-      id: this?.generateEntityId(),
+      id: this.generateEntityId(),
       name: `Summoned ${entityType}`,
       type: entityType as any,
       level: Math.floor(ritual.quality * 10) + 1,
-      health: 100 * ritual?.quality,
-      mana: 50 * ritual?.quality,
+      health: 100 * ritual.quality,
+      mana: 50 * ritual.quality,
       abilities: [`basic-${entityType}-ability`],
-      lifespan: effect?.duration || -1,
-      loyalty: ritual?.quality,
+      lifespan: effect.duration || -1,
+      loyalty: ritual.quality,
       visualAppearance: `${entityType}_summoned`,
       behavior: 'controlled',
       specialAbilities: [],
@@ -816,7 +816,7 @@ export class RitualSystemPure {
       resistances: [`${entityType}-resistance`]
     };
 
-    ritual?.summonedEntities?.push(summonedEntity);
+    ritual.summonedEntities.push(summonedEntity);
     console.log(`👻 Summoned entity: ${summonedEntity.name} (Level ${summonedEntity.level})`);
   }
 
@@ -856,7 +856,7 @@ export class RitualSystemPure {
    * Create item effect
    */
   private createItem(ritual: RitualInstance, effect: RitualEffect): void {
-    const itemType = effect?.parameters.get('itemType') || 'generic';
+    const itemType = effect.parameters.get('itemType') || 'generic';
     console.log(`🎁 Created item: ${itemType}`);
     // Would integrate with item creation system
   }
@@ -865,7 +865,7 @@ export class RitualSystemPure {
    * Apply status effect
    */
   private applyStatus(ritual: RitualInstance, effect: RitualEffect): void {
-    const statusType = effect?.parameters.get('statusType') || 'generic';
+    const statusType = effect.parameters.get('statusType') || 'generic';
     console.log(`📊 Applied status: ${statusType} for ${effect.duration}ms`);
     // Would integrate with status effect system
   }
@@ -874,8 +874,8 @@ export class RitualSystemPure {
    * Grant experience
    */
   private grantExperience(ritual: RitualInstance, effect: RitualEffect): void {
-    const expAmount = effect?.magnitude;
-    ritual?.experienceGained += expAmount;
+    const expAmount = effect.magnitude;
+    ritual.experienceGained += expAmount;
     console.log(`⭐ Granted experience: ${expAmount}`);
   }
 
@@ -883,43 +883,43 @@ export class RitualSystemPure {
    * Complete a ritual
    */
   private completeRitual(ritual: RitualInstance): RitualResult {
-    const duration = new Date() - ritual.startTime;
-    const quality = this?.calculateRitualQuality(ritual);
+    const duration = Date.now() - ritual.startTime;
+    const quality = this.calculateRitualQuality(ritual);
 
     // Calculate final quality
-    ritual?.quality = quality;
+    ritual.quality = quality;
 
     // Apply rewards
-    const rewards = this?.calculateRewards(ritual);
-    const risksTriggered = this?.calculateRisks(ritual);
+    const rewards = this.calculateRewards(ritual);
+    const risksTriggered = this.calculateRisks(ritual);
 
     const result: RitualResult = {
       success: true,
-      ritualId: ritual?.id,
-      leaderId: ritual?.leaderId,
-      participants: ritual?.participants.map((p: any) => p?.id),
+      ritualId: ritual.id,
+      leaderId: ritual.leaderId,
+      participants: ritual.participants.map((p: any) => p.id),
       duration,
-      energySpent: ritual?.energySpent,
+      energySpent: ritual.energySpent,
       quality,
       rewards,
       risksTriggered,
-      summonedEntities: ritual?.summonedEntities,
-      effectsApplied: ritual?.effectsApplied,
-      experienceGained: ritual?.experienceGained
+      summonedEntities: ritual.summonedEntities,
+      effectsApplied: ritual.effectsApplied,
+      experienceGained: ritual.experienceGained
     };
 
     // Mark ritual as completed
-    ritual?.status = 'completed';
-    this?.activeRituals.delete(ritual?.id);
-    this?.completedRituals?.push(result: any);
+    ritual.status = 'completed';
+    this.activeRituals.delete(ritual.id);
+    this.completedRituals.push(result);
 
     // Emit completion event
-    this?.eventBus.emit('ritual:completed', {
-      ritualId: ritual?.id,
-      ritualType: ritual?.definition.id,
+    this.eventBus.emit('ritual:completed', {
+      ritualId: ritual.id,
+      ritualType: ritual.definition.id,
       quality,
-      rewards: rewards?.length,
-      summonedEntities: ritual?.summonedEntities.length
+      rewards: rewards.length,
+      summonedEntities: ritual.summonedEntities.length
     });
 
     console.log(`🎉 Ritual completed: ${ritual.definition.name} (Quality: ${(quality * 100).toFixed(1)}%)`);
@@ -933,18 +933,18 @@ export class RitualSystemPure {
     let quality = 0.5; // Base quality
 
     // Factor in participant contributions
-    const totalMana = ritual?.participants.reduce((sum, p) => sum + (p?.manaContribution || 0), 0);
+    const totalMana = ritual.participants.reduce((sum, p) => sum + (p.manaContribution || 0), 0);
     const manaQuality = Math.min(1.0, totalMana / ritual.definition.manaCost);
     quality = (quality + manaQuality) / 2;
 
     // Factor in timing (faster is better)
-    const expectedDuration = ritual?.definition.baseDuration;
-    const actualDuration = new Date() - ritual.startTime;
+    const expectedDuration = ritual.definition.baseDuration;
+    const actualDuration = Date.now() - ritual.startTime;
     const timeEfficiency = Math.min(1.0, expectedDuration / Math.max(actualDuration, expectedDuration * 0.5));
     quality = (quality + timeEfficiency) / 2;
 
     // Add some randomness
-    quality += (this?.rng.nextFloat() - 0.5) * 0.2;
+    quality += (this.rng.nextFloat() - 0.5) * 0.2;
 
     return Math.max(0, Math.min(1, quality));
   }
@@ -954,19 +954,19 @@ export class RitualSystemPure {
    */
   private calculateRewards(ritual: RitualInstance): RitualReward[] {
     const rewards: RitualReward[] = [];
-    const quality = ritual?.quality;
+    const quality = ritual.quality;
 
-    for (const rewardDef of ritual?.definition.rewards) {
-      if (this?.rng.nextFloat() <= rewardDef?.chance) {
+    for (const rewardDef of ritual.definition.rewards) {
+      if (this.rng.nextFloat() <= rewardDef.chance) {
         const reward: RitualReward = {
-          type: rewardDef?.type,
-          reward: rewardDef?.reward,
-          quantity: rewardDef?.quantity || 1,
-          quality: (rewardDef?.quality || 1) * quality,
-          chance: rewardDef?.chance,
-          description: rewardDef?.description
+          type: rewardDef.type,
+          reward: rewardDef.reward,
+          quantity: rewardDef.quantity || 1,
+          quality: (rewardDef.quality || 1) * quality,
+          chance: rewardDef.chance,
+          description: rewardDef.description
         };
-        rewards?.push(reward);
+        rewards.push(reward);
       }
     }
 
@@ -979,9 +979,9 @@ export class RitualSystemPure {
   private calculateRisks(ritual: RitualInstance): RitualRisk[] {
     const risks: RitualRisk[] = [];
 
-    for (const riskDef of ritual?.definition.risks) {
-      if (this?.rng.nextFloat() <= riskDef?.chance) {
-        risks?.push(riskDef);
+    for (const riskDef of ritual.definition.risks) {
+      if (this.rng.nextFloat() <= riskDef.chance) {
+        risks.push(riskDef);
       }
     }
 
@@ -992,14 +992,14 @@ export class RitualSystemPure {
    * Get ritual definition
    */
   getRitualDefinition(ritualId: string): RitualDefinition | null {
-    return this?.ritualDefinitions.get(ritualId) || null;
+    return this.ritualDefinitions.get(ritualId) || null;
   }
 
   /**
    * Get active ritual
    */
   getActiveRitual(ritualId: string): RitualInstance | null {
-    return this?.activeRituals.get(ritualId) || null;
+    return this.activeRituals.get(ritualId) || null;
   }
 
   /**
@@ -1013,13 +1013,13 @@ export class RitualSystemPure {
    * Cancel a ritual
    */
   cancelRitual(ritualId: string): boolean {
-    const ritual = this?.activeRituals.get(ritualId);
+    const ritual = this.activeRituals.get(ritualId);
     if (!ritual) return false;
 
-    ritual?.status = 'aborted';
-    this?.activeRituals.delete(ritualId);
+    ritual.status = 'aborted';
+    this.activeRituals.delete(ritualId);
 
-    this?.eventBus.emit('ritual:cancelled', {
+    this.eventBus.emit('ritual:cancelled', {
       ritualId,
       reason: 'user-cancelled'
     });
@@ -1032,7 +1032,7 @@ export class RitualSystemPure {
    * Update ritual configuration
    */
   updateConfig(newConfig: Partial<RitualConfig>): void {
-    this?.config = { ...this?.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig };
     console.log('Ritual configuration updated');
   }
 
@@ -1047,26 +1047,26 @@ export class RitualSystemPure {
     mostCommonCategory: string;
     totalExperienceGranted: number;
   } {
-    const total = this?.activeRituals.size + this?.completedRituals.length;
-    const averageQuality = this?.completedRituals.length > 0 ?
-      this?.completedRituals.reduce((sum, r) => sum + r?.quality, 0) / this?.completedRituals.length : 0;
+    const total = this.activeRituals.size + this.completedRituals.length;
+    const averageQuality = this.completedRituals.length > 0 ?
+      this.completedRituals.reduce((sum, r) => sum + r.quality, 0) / this.completedRituals.length : 0;
 
     const categoryCount = new Map<string, number>();
-    this?.completedRituals.forEach((result: any) => {
-      const category = result?.ritualId.split('-')[0!]; // Simplified category detection
-      categoryCount?.set(category, (categoryCount?.get(category) || 0) + 1);
+    this.completedRituals.forEach((result: any) => {
+      const category = result.ritualId.split('-')[0!]; // Simplified category detection
+      categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
     });
 
     const mostCommonCategory = Array.from(categoryCount.entries())
       .sort((a: any, b: any) => b[1!] - a[1!])[0!]?.[0!] || 'none';
 
-    const totalExperienceGranted = this?.completedRituals
-      .reduce((sum, r) => sum + r?.experienceGained, 0);
+    const totalExperienceGranted = this.completedRituals
+      .reduce((sum, r) => sum + r.experienceGained, 0);
 
     return {
       totalRituals: total,
-      activeRituals: this?.activeRituals.size,
-      completedRituals: this?.completedRituals.length,
+      activeRituals: this.activeRituals.size,
+      completedRituals: this.completedRituals.length,
       averageQuality,
       mostCommonCategory,
       totalExperienceGranted
@@ -1075,23 +1075,23 @@ export class RitualSystemPure {
 
   private setupEventListeners(): void {
     // Listen for magic system events that might affect rituals
-    this?.eventBus.on('magic:spell-cast', (data: any) => {
+    this.eventBus.on('magic:spell-cast', (data: any) => {
       // Could enhance ritual effects based on spell casting
     });
 
-    this?.eventBus.on('ritual:participant-joined', (data: any) => {
+    this.eventBus.on('ritual:participant-joined', (data: any) => {
       // Handle participant joining
     });
   }
 
   private generateRitualId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `ritual_${timestamp}_${random}`;
   }
 
   private generateEntityId(): string {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     return `entity_${timestamp}_${random}`;
   }

@@ -3,7 +3,7 @@
 export interface GradientOptions { colors: string[]; width: number; height: number; direction?: 'horizontal'|'vertical'; }
 export interface NoiseOptions { type: 'perlin'|'simplex'|'worley'; width: number; height: number; octaves?: number; seed?: number; }
 
-function hexToRgb(hex: string){ const m = hex?.replace('#',''); const n = parseInt(m?.length===3? m?.split('').map(c=>c+c).join(''): m,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+function hexToRgb(hex: string){ const m = hex.replace('#',''); const n = parseInt(m.length===3? m.split('').map(c=>c+c).join(''): m,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
 function lerp(a:number,b:number,t:number){ return a+(b-a)*t; }
 
 // Minimal PNG encoder for RGBA using node canvas APIs would add deps; instead emit data URI from raw buffer using PNGjs only if present.
@@ -11,28 +11,28 @@ function lerp(a:number,b:number,t:number){ return a+(b-a)*t; }
 
 export class TextureSynthManager {
 	gradient(opts: GradientOptions){
-		const w = opts?.width, h = opts?.height;
-		const cols = opts?.colors.map(hexToRgb);
+		const w = opts.width, h = opts.height;
+		const cols = opts.colors.map(hexToRgb);
 		const data: number[] = [];
 		for (let y=0;y<h;y++){
 			for (let x=0;x<w;x++){
-				const t = (opts?.direction==='vertical'? y/(h-1||1): x/(w-1||1)) * (cols?.length-1);
+				const t = (opts.direction==='vertical'? y/(h-1||1): x/(w-1||1)) * (cols.length-1);
 				const i0 = Math.floor(t), i1 = Math.min(cols.length-1, i0+1);
 				const k = t - i0;
 				const c0 = cols[i0!], c1 = cols[i1!];
 				const r = Math.round(lerp(c0[0!], c1[0!], k));
 				const g = Math.round(lerp(c0[1!], c1[1!], k));
 				const b = Math.round(lerp(c0[2!], c1[2!], k));
-				data?.push(r,g,b,255);
+				data.push(r,g,b,255);
 			}
 		}
 		return { width:w, height:h, pixels:data };
 	}
 
 	noise(opts: NoiseOptions){
-		const w = opts?.width, h = opts?.height;
-		const oct = opts?.octaves ?? 4;
-		const seed = (opts?.seed ?? 1) >>> 0;
+		const w = opts.width, h = opts.height;
+		const oct = opts.octaves ?? 4;
+		const seed = (opts.seed ?? 1) >>> 0;
 		function hash(ix:number,iy:number){ let v=(ix*374761393)^(iy*668265263)^seed; v=(v^(v>>>13))*1274126177; v=(v^(v>>>16))>>>0; return v/4294967296; }
 		function smooth(t:number){ return t*t*(3-2*t); }
 		function vnoise(x:number,y:number){

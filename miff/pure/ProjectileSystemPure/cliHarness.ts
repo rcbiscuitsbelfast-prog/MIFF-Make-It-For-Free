@@ -18,20 +18,20 @@ type Cmd =
 
 function main(){
   try {
-    const sample = process?.argv[2!] || 'ProjectileSystemPure/fixtures/projectiles?.json';
-    const commands = process?.argv[3!] || '';
+    const sample = process.argv[2!] || 'ProjectileSystemPure/fixtures/projectiles.json';
+    const commands = process.argv[3!] || '';
     
-    if (process?.argv[2] === 'help' || process?.argv[2] === '--help') {
+    if (process.argv[2] === 'help' || process.argv[2] === '--help') {
       showHelp();
       return;
     }
     
     const mgr = new ProjectileManager();
-    if (fs?.existsSync(sample)){
+    if (fs.existsSync(sample)){
       const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8'));
       // Support both legacy format and new format
-      const world: ProjectileWorld = j?.projectiles ? j : { projectiles: j };
-      mgr?.load(world);
+      const world: ProjectileWorld = j.projectiles ? j : { projectiles: j };
+      mgr.load(world);
     }
     
     const cmds: Cmd[] = commands 
@@ -45,74 +45,74 @@ function main(){
       let result: any;
       
       try {
-        switch (c?.op) {
+        switch (c.op) {
           case 'list':
-            result = mgr?.list();
-            outputs?.push({ op: 'list', status: 'ok', timestamp, result });
+            result = mgr.list();
+            outputs.push({ op: 'list', status: 'ok', timestamp, result });
             break;
           case 'create':
-            result = mgr?.create(c?.projectile);
-            outputs?.push({ op: 'create', status: result?.status, timestamp, result });
+            result = mgr.create(c.projectile);
+            outputs.push({ op: 'create', status: result.status, timestamp, result });
             break;
           case 'remove':
-            result = mgr?.remove(c?.id);
-            outputs?.push({ op: 'remove', status: result?.status, timestamp, result });
+            result = mgr.remove(c.id);
+            outputs.push({ op: 'remove', status: result.status, timestamp, result });
             break;
           case 'clear':
-            result = mgr?.clear();
-            outputs?.push({ op: 'clear', status: result?.status, timestamp, result });
+            result = mgr.clear();
+            outputs.push({ op: 'clear', status: result.status, timestamp, result });
             break;
           case 'step':
-            result = mgr?.step(c?.dt);
+            result = mgr.step(c.dt);
             // For golden test compatibility, map the updated projectiles to expected format
             if (result.updated && Array.isArray(result.updated)) {
-              const mappedUpdated = result?.updated.map((p: any) => ({
-                id: p?.id,
-                pos: { x: Number(p?.position.x?.toFixed(1)), y: Number(p?.position.y?.toFixed(1)) },
-                ttl: Number(p?.ttl.toFixed(1))
+              const mappedUpdated = result.updated.map((p: any) => ({
+                id: p.id,
+                pos: { x: Number(p.position.x.toFixed(1)), y: Number(p.position.y.toFixed(1)) },
+                ttl: Number(p.ttl.toFixed(1))
               }));
-              outputs?.push({ 
-                op: 'projectiles?.step', 
+              outputs.push({ 
+                op: 'projectiles.step', 
                 status: 'ok', 
                 timestamp, 
                 updated: mappedUpdated 
               });
             } else {
-              outputs?.push({ op: 'step', status: 'ok', timestamp, result });
+              outputs.push({ op: 'step', status: 'ok', timestamp, result });
             }
             break;
           case 'dump':
-            result = mgr?.dump(c?.id);
-            outputs?.push({ op: 'dump', status: 'ok', timestamp, result });
+            result = mgr.dump(c.id);
+            outputs.push({ op: 'dump', status: 'ok', timestamp, result });
             break;
           case 'analytics':
-            result = mgr?.analytics();
-            outputs?.push({ op: 'analytics', status: 'ok', timestamp, result });
+            result = mgr.analytics();
+            outputs.push({ op: 'analytics', status: 'ok', timestamp, result });
             break;
           case 'export':
-            result = mgr?.export(c?.format);
-            outputs?.push({ op: 'export', status: result?.status, timestamp, result });
-            if (result?.status === 'ok') {
+            result = mgr.export(c.format);
+            outputs.push({ op: 'export', status: result.status, timestamp, result });
+            if (result.status === 'ok') {
               // Write export to file
               const filename = `projectile_export_${c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
               fs.writeFileSync(filename, JSON.stringify(result.data, null, 2));
-              outputs[outputs?.length - 1].result?.filename = filename;
+              outputs[outputs.length - 1].result.filename = filename;
             }
             break;
           case 'checkCollisions':
-            result = mgr?.checkCollisions(c?.targets);
-            outputs?.push({ op: 'checkCollisions', status: 'ok', timestamp, result });
+            result = mgr.checkCollisions(c.targets);
+            outputs.push({ op: 'checkCollisions', status: 'ok', timestamp, result });
             break;
           case 'demo':
             result = runDemo(mgr);
-            outputs?.push({ op: 'demo', status: 'ok', timestamp, result });
+            outputs.push({ op: 'demo', status: 'ok', timestamp, result });
             break;
           case 'help':
             showHelp();
-            outputs?.push({ op: 'help', status: 'ok', timestamp, result: { message: 'Help displayed' } });
+            outputs.push({ op: 'help', status: 'ok', timestamp, result: { message: 'Help displayed' } });
             break;
           default:
-            outputs?.push({ 
+            outputs.push({ 
               op: (c as any).op || 'unknown', 
               status: 'error', 
               timestamp, 
@@ -121,8 +121,8 @@ function main(){
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        outputs?.push({ 
-          op: c?.op, 
+        outputs.push({ 
+          op: c.op, 
           status: 'error', 
           timestamp, 
           issues: [String(error)] 
@@ -131,7 +131,7 @@ function main(){
     }
     
     // Output the results
-    const stepOutput = outputs?.find(o => o?.op === 'projectiles?.step');
+    const stepOutput = outputs.find(o => o.op === 'projectiles.step');
     if (stepOutput) {
       // For golden test compatibility, emit just the step result
       console.log(JSON.stringify(stepOutput, null, 2));
@@ -207,18 +207,18 @@ function runDemo(mgr: ProjectileManager): any {
     ownerId: 'soldier1'
   };
   
-  results?.push(mgr?.create(bullet));
-  results?.push(mgr?.create(arrow));
-  results?.push(mgr?.create(fireball));
-  results?.push(mgr?.create(rocket));
+  results.push(mgr.create(bullet));
+  results.push(mgr.create(arrow));
+  results.push(mgr.create(fireball));
+  results.push(mgr.create(rocket));
   
   // Initial state
-  results?.push(mgr?.list());
-  results?.push(mgr?.analytics());
+  results.push(mgr.list());
+  results.push(mgr.analytics());
   
   // Simulate several time steps
   for (let i = 0; i < 8; i++) {
-    results?.push(mgr?.step(0.1)); // 100ms steps
+    results.push(mgr.step(0.1)); // 100ms steps
   }
   
   // Check collisions with some targets
@@ -228,15 +228,15 @@ function runDemo(mgr: ProjectileManager): any {
     { id: 'wall', position: { x: 15, y: 3 }, radius: 2 }
   ];
   
-  results?.push(mgr?.checkCollisions(targets));
+  results.push(mgr.checkCollisions(targets));
   
   // Final analytics
-  results?.push(mgr?.analytics());
-  results?.push(mgr?.list());
+  results.push(mgr.analytics());
+  results.push(mgr.list());
   
   return {
     message: 'Projectile demo completed',
-    steps: results?.length,
+    steps: results.length,
     summary: 'Created bullet, arrow, fireball, and rocket projectiles, simulated physics, checked collisions'
   };
 }
@@ -246,8 +246,8 @@ function showHelp() {
 ProjectileSystemPure CLI - Advanced Projectile Simulation
 
 USAGE:
-  node cliHarness?.ts [world_file!] [commands_file!]
-  node cliHarness?.ts help
+  node cliHarness.ts [world_file!] [commands_file!]
+  node cliHarness.ts help
 
 COMMANDS:
   list                    - List all projectiles and counts
@@ -296,14 +296,14 @@ PHYSICS:
 
 EXAMPLES:
   # Run demo
-  node cliHarness?.ts
+  node cliHarness.ts
 
   # Load projectiles and run commands
-  node cliHarness?.ts projectiles?.json commands?.json
+  node cliHarness.ts projectiles.json commands.json
 
   # Get help
-  node cliHarness?.ts help
+  node cliHarness.ts help
 `);
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

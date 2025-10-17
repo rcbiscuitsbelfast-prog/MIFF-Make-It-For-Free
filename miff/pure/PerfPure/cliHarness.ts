@@ -77,11 +77,11 @@ function createDemoTests(): CLITest[] {
           for (let j = 0; j < 1000; j++) {
             arr[j!] = Math.random();
           }
-          arrays?.push(arr);
+          arrays.push(arr);
         }
         // Force garbage collection hint
-        if (global?.gc) {
-          global?.gc();
+        if (global.gc) {
+          global.gc();
         }
       }
     },
@@ -94,9 +94,9 @@ function createDemoTests(): CLITest[] {
         for (let i = 0; i < 1000; i++) {
           data += `Line ${i}: ${'x'.repeat(100)}\n`;
         }
-        const lines = data?.split('\n');
-        const filtered = lines?.filter((_, i) => i % 2 === 0);
-        const result = filtered?.join('\n');
+        const lines = data.split('\n');
+        const filtered = lines.filter((_, i) => i % 2 === 0);
+        const result = filtered.join('\n');
       }
     },
     {
@@ -125,23 +125,23 @@ function createDemoTests(): CLITest[] {
         }
 
         // Sort
-        arr?.sort((a: any, b: any) => a - b);
+        arr.sort((a: any, b: any) => a - b);
 
         // Filter
-        const filtered = arr?.filter((x: any) => x > 0.5);
+        const filtered = arr.filter((x: any) => x > 0.5);
 
         // Map
-        const mapped = filtered?.map((x: any) => x * x);
+        const mapped = filtered.map((x: any) => x * x);
 
         // Reduce
-        const sum = mapped?.reduce((acc, x) => acc + x, 0);
+        const sum = mapped.reduce((acc, x) => acc + x, 0);
 
         // Reverse
-        mapped?.reverse();
+        mapped.reverse();
 
         // Find operations
-        const found = arr?.find(x => x > 0.9);
-        const foundIndex = arr?.findIndex(x => x > 0.9);
+        const found = arr.find(x => x > 0.9);
+        const foundIndex = arr.findIndex(x => x > 0.9);
       }
     },
     {
@@ -153,8 +153,8 @@ function createDemoTests(): CLITest[] {
           public data: string;
 
           constructor(value: number) {
-            this?.value = value;
-            this?.data = 'x'.repeat(100);
+            this.value = value;
+            this.data = 'x'.repeat(100);
           }
 
           process(): number {
@@ -165,18 +165,18 @@ function createDemoTests(): CLITest[] {
         const objects: TestObject[] = [];
         for (let i = 0; i < 5000; i++) {
           const obj = new TestObject(i);
-          obj?.process({});
-          objects?.push(obj: any);
+          obj.process({});
+          objects.push(obj);
         }
 
         // Process objects
         let total = 0;
         for (const obj of objects) {
-          total += obj?.process({});
+          total += obj.process({});
         }
 
         // Clear references for GC
-        objects?.length = 0;
+        objects.length = 0;
       }
     },
     {
@@ -197,7 +197,7 @@ function createDemoTests(): CLITest[] {
         }
 
         // Quick sort simulation (using built-in sort)
-        arr1?.sort((a: any, b: any) => a - b);
+        arr1.sort((a: any, b: any) => a - b);
 
         // Bubble sort simulation
         for (let i = 0; i < size - 1; i++) {
@@ -212,20 +212,20 @@ function createDemoTests(): CLITest[] {
         const merge = (left: number[], right: number[]): number[] => {
           const result: number[] = [];
           let i = 0, j = 0;
-          while (i < left?.length && j < right?.length) {
+          while (i < left.length && j < right.length) {
             if (left[i!] <= right[j!]) {
-              result?.push(left[i++]);
+              result.push(left[i++]);
             } else {
-              result?.push(right[j++]);
+              result.push(right[j++]);
             }
           }
-          return result?.concat(left?.slice(i)).concat(right?.slice(j));
+          return result.concat(left.slice(i)).concat(right.slice(j));
         };
 
         // Split and merge (simplified merge sort)
         const mid = Math.floor(size / 2);
-        const left = arr3?.slice(0, mid);
-        const right = arr3?.slice(mid);
+        const left = arr3.slice(0, mid);
+        const right = arr3.slice(mid);
         const merged = merge(left, right);
       }
     }
@@ -239,17 +239,17 @@ function runDemo(): void {
 
   console.log(`Running ${tests.length} performance tests...\n`);
 
-  tests?.forEach((test, index) => {
+  tests.forEach((test, index) => {
     console.log(`--- Test ${index + 1}/${tests.length}: ${test.name} ---`);
     console.log(`${test.description}`);
 
-    const timer = new HighResPerfTimer(`Demo_${test?.name}`);
+    const timer = new HighResPerfTimer(`Demo_${test.name}`);
     try {
-      test?.fn();
-      timer?.stop();
+      test.fn();
+      timer.stop();
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      timer?.dispose();
+      timer.dispose();
       console.log(`❌ Test failed: ${error}`);
     }
 
@@ -257,7 +257,7 @@ function runDemo(): void {
   });
 
   // Show summary
-  const summary = defaultProfiler?.getSummary();
+  const summary = defaultProfiler.getSummary();
   console.log('📊 Overall Performance Summary:');
   console.log(`Total measurements: ${summary.totalMeasurements}`);
   console.log(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
@@ -269,18 +269,18 @@ function runDemo(): void {
 async function runCLI(): Promise<void> {
   console.log('⚡ PerfPure CLI - Type "help" for commands or "demo" to see performance testing in action\n');
 
-  const rl = readline?.createInterface({
-    input: process?.stdin,
-    output: process?.stdout,
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
     prompt: 'perf> '
   });
 
-  rl?.prompt();
+  rl.prompt();
 
-  rl?.on('line', (input: string) => {
-    const parts = input?.trim().split(/\s+/);
+  rl.on('line', (input: string) => {
+    const parts = input.trim().split(/\s+/);
     const command = parts[0!]?.toLowerCase() || '';
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     switch (command) {
       case 'help':
@@ -290,10 +290,10 @@ async function runCLI(): Promise<void> {
 
       case 'timer':
       case 'time':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: timer <label>');
         } else {
-          const label = args?.join(' ');
+          const label = args.join(' ');
           console.log(`⏱️  Creating timer: "${label}"`);
 
           const timer = new PerfTimer(label);
@@ -302,7 +302,7 @@ async function runCLI(): Promise<void> {
           for (let i = 0; i < 1000000; i++) {
             result += Math.random();
           }
-          timer?.dispose();
+          timer.dispose();
 
           console.log(`✅ Timer completed. Result: ${result.toFixed(2)}`);
         }
@@ -310,7 +310,7 @@ async function runCLI(): Promise<void> {
 
       case 'benchmark':
       case 'bench':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: benchmark <label> <iterations>');
         } else {
           const label = args[0!];
@@ -323,7 +323,7 @@ async function runCLI(): Promise<void> {
 
           console.log(`🔬 Running benchmark: "${label}" (${iterations} iterations)`);
 
-          PerfUtils?.benchmark(label, iterations, () => {
+          PerfUtils.benchmark(label, iterations, () => {
             // Simulate work
             let result = 0;
             for (let i = 0; i < 1000; i++) {
@@ -335,11 +335,11 @@ async function runCLI(): Promise<void> {
 
       case 'profile':
       case 'start':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: profile <label>');
         } else {
-          const label = args?.join(' ');
-          const timer = defaultProfiler?.start(label);
+          const label = args.join(' ');
+          const timer = defaultProfiler.start(label);
           console.log(`▶️  Started profiling: "${label}"`);
           console.log('💡 Use "stop <label>" when finished');
         }
@@ -347,12 +347,12 @@ async function runCLI(): Promise<void> {
 
       case 'stop':
       case 'end':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: stop <label>');
         } else {
-          const label = args?.join(' ');
-          const result = defaultProfiler?.stop(label);
-          if (result: any) {
+          const label = args.join(' ');
+          const result = defaultProfiler.stop(label);
+          if (result) {
             console.log(`⏹️  Stopped profiling: "${label}"`);
             console.log(`   Duration: ${result.durationMs.toFixed(2)} ms`);
           } else {
@@ -363,12 +363,12 @@ async function runCLI(): Promise<void> {
 
       case 'results':
       case 'list':
-        const results = defaultProfiler?.getResults();
-        if (results?.length === 0) {
+        const results = defaultProfiler.getResults();
+        if (results.length === 0) {
           console.log('No profiling results available');
         } else {
           console.log('\n📋 Profiling Results:');
-          results?.forEach((result, index) => {
+          results.forEach((result, index) => {
             console.log(`${index + 1}. ${result.label}: ${result.durationMs.toFixed(2)} ms`);
           });
         }
@@ -376,7 +376,7 @@ async function runCLI(): Promise<void> {
 
       case 'summary':
       case 'stats':
-        const summary = defaultProfiler?.getSummary();
+        const summary = defaultProfiler.getSummary();
         console.log('\n📊 Performance Summary:');
         console.log(`Total measurements: ${summary.totalMeasurements}`);
         console.log(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
@@ -386,7 +386,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'clear':
-        defaultProfiler?.clear();
+        defaultProfiler.clear();
         console.log('✅ Cleared all profiling data');
         break;
 
@@ -395,13 +395,13 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'test':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: test <name>');
           console.log('Available tests: cpu, memory, io, math, array, object, sort');
         } else {
           const testName = args[0!];
           const tests = createDemoTests();
-          const test = tests?.find(t => t?.name === testName);
+          const test = tests.find(t => t.name === testName);
 
           if (test) {
             console.log(`🧪 Running test: ${test.name}`);
@@ -409,12 +409,12 @@ async function runCLI(): Promise<void> {
 
             const timer = new HighResPerfTimer(`Test_${testName}`);
             try {
-              test?.fn();
-              timer?.stop();
+              test.fn();
+              timer.stop();
               console.log('✅ Test completed successfully');
             } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-              timer?.dispose();
+              timer.dispose();
               console.log(`❌ Test failed: ${error}`);
             }
           } else {
@@ -428,8 +428,8 @@ async function runCLI(): Promise<void> {
       case 'exit':
       case 'q':
         console.log('👋 Goodbye!');
-        rl?.close();
-        process?.exit(0);
+        rl.close();
+        process.exit(0);
 
       default:
         if (command !== '') {
@@ -437,20 +437,20 @@ async function runCLI(): Promise<void> {
         }
     }
 
-    rl?.prompt();
+    rl.prompt();
   });
 
-  rl?.on('SIGINT', () => {
+  rl.on('SIGINT', () => {
     console.log('\n👋 Goodbye!');
-    rl?.close();
-    process?.exit(0);
+    rl.close();
+    process.exit(0);
   });
 }
 
 // Main execution
-if (require?.main === module) {
+if (require.main === module) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
-    process?.exit(1);
+    process.exit(1);
   });
 }

@@ -6,6 +6,6 @@
  */
 
 export const mockProcess = {
-  exit: jest?.fn(),
-  argv: ['node', 'test?.js', 'demo']
+  exit: jest.fn(),
+  argv: ['node', 'test.js', 'demo']
 };

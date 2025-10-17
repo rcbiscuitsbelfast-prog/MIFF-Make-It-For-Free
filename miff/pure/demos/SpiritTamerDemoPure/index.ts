@@ -99,11 +99,11 @@ export class SpiritTamerDemo {
   };
 
   constructor() {
-    this?.state = this?.initializeGameState();
-    this?.engines = this?.initializeEngines();
-    this?.setupEventListeners();
-    this?.generateWorld();
-    this?.generateAssets();
+    this.state = this.initializeGameState();
+    this.engines = this.initializeEngines();
+    this.setupEventListeners();
+    this.generateWorld();
+    this.generateAssets();
   }
 
   private initializeGameState(): SpiritTamerGameState {
@@ -136,7 +136,7 @@ export class SpiritTamerDemo {
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: this?.state.player?.inventory,
+      inventory: this.state.player.inventory,
       flags: new Map()
     };
 
@@ -152,47 +152,47 @@ export class SpiritTamerDemo {
   }
 
   private setupEventListeners() {
-    EventBus?.on('spirit?.encountered', this?.handleSpiritEncounter.bind(this));
-    EventBus?.on('combat?.started', this?.handleCombatStart.bind(this));
-    EventBus?.on('combat?.ended', this?.handleCombatEnd.bind(this));
-    EventBus?.on('quest?.completed', this?.handleQuestComplete.bind(this));
-    EventBus?.on('item?.collected', this?.handleItemCollect.bind(this));
+    EventBus.on('spirit.encountered', this.handleSpiritEncounter.bind(this));
+    EventBus.on('combat.started', this.handleCombatStart.bind(this));
+    EventBus.on('combat.ended', this.handleCombatEnd.bind(this));
+    EventBus.on('quest.completed', this.handleQuestComplete.bind(this));
+    EventBus.on('item.collected', this.handleItemCollect.bind(this));
   }
 
   private generateWorld() {
     // Generate comprehensive game world
-    this?.generateZones();
-    this?.generateSpirits();
-    this?.generateNPCs();
-    this?.generateQuests();
-    this?.generateItems();
+    this.generateZones();
+    this.generateSpirits();
+    this.generateNPCs();
+    this.generateQuests();
+    this.generateItems();
   }
 
   private generateZones() {
-    this?.state.world?.zones = {
+    this.state.world.zones = {
       grove: {
         name: "Mystic Grove",
         description: "A peaceful forest glade where spirits gather",
         spirits: ["emberfox", "glimmerbat", "crystalowl"],
         npcs: ["ancient_spirit"],
-        background: "assets/grove_background?.png",
-        music: "assets/grove_theme?.mp3"
+        background: "assets/grove_background.png",
+        music: "assets/grove_theme.mp3"
       },
       forest: {
         name: "Whispering Forest",
         description: "Dense woodland with hidden spirit sanctuaries",
         spirits: ["shadowcat", "lightningbird", "earthgolem"],
         npcs: ["forest_guardian"],
-        background: "assets/forest_background?.png",
-        music: "assets/forest_theme?.mp3"
+        background: "assets/forest_background.png",
+        music: "assets/forest_theme.mp3"
       },
       mountain: {
         name: "Stormpeak Mountains",
         description: "Harsh mountain peaks home to powerful spirits",
         spirits: ["stormeagle", "icewolf", "rockgiant"],
         npcs: ["mountain_hermit"],
-        background: "assets/mountain_background?.png",
-        music: "assets/mountain_theme?.mp3"
+        background: "assets/mountain_background.png",
+        music: "assets/mountain_theme.mp3"
       }
     };
   }
@@ -255,36 +255,36 @@ export class SpiritTamerDemo {
       }
     ];
 
-    spirits?.forEach(spiritData => {
-      const spirit = this?.createSpiritFromData(spiritData);
-      this?.state.world?.spirits.set(spiritData?.id, spirit);
+    spirits.forEach(spiritData => {
+      const spirit = this.createSpiritFromData(spiritData);
+      this.state.world.spirits.set(spiritData.id, spirit);
     });
   }
 
   private createSpiritFromData(spiritData: any): SpiritInstance {
     // Create comprehensive spirit with all properties
-    const moves = spiritData?.moves.map((moveId: string) =>
+    const moves = spiritData.moves.map((moveId: string) =>
       new MoveData(moveId, `${moveId}_move`, 'physical', 50, 0.9, 10, 'neutral')
     );
 
     const stats = {
-      hp: spiritData?.stats.hp,
-      maxHp: spiritData?.stats.maxHp,
-      atk: spiritData?.stats.atk,
-      def: spiritData?.stats.def,
-      spd: spiritData?.stats.spd
+      hp: spiritData.stats.hp,
+      maxHp: spiritData.stats.maxHp,
+      atk: spiritData.stats.atk,
+      def: spiritData.stats.def,
+      spd: spiritData.stats.spd
     };
 
     const spirit = new SpiritInstance(
-      spiritData?.id,
-      spiritData?.name,
+      spiritData.id,
+      spiritData.name,
       'neutral',
       stats,
       moves,
-      spiritData?.type,
+      spiritData.type,
       20,
-      spiritData?.id,
-      spiritData?.level,
+      spiritData.id,
+      spiritData.level,
       0,
       [],
       []
@@ -313,8 +313,8 @@ export class SpiritTamerDemo {
       }
     ];
 
-    npcs?.forEach((npc: any) => {
-      this?.state.world?.npcs.set(npc?.id, npc);
+    npcs.forEach((npc: any) => {
+      this.state.world.npcs.set(npc.id, npc);
     });
   }
 
@@ -354,50 +354,50 @@ export class SpiritTamerDemo {
       }
     ];
 
-    quests?.forEach(questData => {
+    quests.forEach(questData => {
       const quest = new Quest(
-        questData?.id,
-        questData?.title,
-        questData?.description,
-        questData?.objectives.map((obj: any) =>
+        questData.id,
+        questData.title,
+        questData.description,
+        questData.objectives.map((obj: any) =>
           new QuestObjective(obj, false)
         ),
-        questData?.rewards,
-        questData?.prerequisites
+        questData.rewards,
+        questData.prerequisites
       );
 
-      this?.engines.quests?.addQuest(quest);
-      this?.state.player?.questLog?.push(quest);
+      this.engines.quests.addQuest(quest);
+      this.state.player.questLog.push(quest);
     });
   }
 
   private generateItems() {
     const items = [
-      new Item('spirit_crystal', 'Spirit Crystal', ItemType?.KEY,
+      new Item('spirit_crystal', 'Spirit Crystal', ItemType.KEY,
         'A crystal that captures spirit essence',
-        [new ItemEffect(ItemEffectType?.QUEST, { questId: 'taming_trial' })]
+        [new ItemEffect(ItemEffectType.QUEST, { questId: 'taming_trial' })]
       ),
-      new Item('tamer_gloves', 'Tamer Gloves', ItemType?.EQUIPMENT,
+      new Item('tamer_gloves', 'Tamer Gloves', ItemType.EQUIPMENT,
         'Gloves that improve spirit taming success',
-        [new ItemEffect(ItemEffectType?.BUFF, { stat: 'taming', value: 20 })]
+        [new ItemEffect(ItemEffectType.BUFF, { stat: 'taming', value: 20 })]
       ),
-      new Item('health_potion', 'Health Potion', ItemType?.CONSUMABLE,
+      new Item('health_potion', 'Health Potion', ItemType.CONSUMABLE,
         'Restores 50 HP to a spirit',
-        [new ItemEffect(ItemEffectType?.HEAL, { value: 50 })]
+        [new ItemEffect(ItemEffectType.HEAL, { value: 50 })]
       )
     ];
 
-    items?.forEach((item: any) => {
-      this?.engines.items?.registerItem(item: any);
+    items.forEach((item: any) => {
+      this.engines.items.registerItem(item);
     });
   }
 
   private generateAssets() {
     // Generate comprehensive game assets
-    this?.generateSprites();
-    this?.generateBackgrounds();
-    this?.generateAudio();
-    this?.generateUIAssets();
+    this.generateSprites();
+    this.generateBackgrounds();
+    this.generateAudio();
+    this.generateUIAssets();
   }
 
   private generateSprites() {
@@ -410,8 +410,8 @@ export class SpiritTamerDemo {
       { id: 'ancient_spirit', type: 'npc', frames: 4, size: { w: 28, h: 36 } }
     ];
 
-    sprites?.forEach((sprite: any) => {
-      this?.generateSpriteAsset(sprite);
+    sprites.forEach((sprite: any) => {
+      this.generateSpriteAsset(sprite);
     });
   }
 
@@ -427,8 +427,8 @@ export class SpiritTamerDemo {
       { id: 'mountain', layers: ['sky', 'peaks', 'rocks'], parallax: true }
     ];
 
-    backgrounds?.forEach((bg: any) => {
-      this?.generateBackgroundAsset(bg);
+    backgrounds.forEach((bg: any) => {
+      this.generateBackgroundAsset(bg);
     });
   }
 
@@ -447,7 +447,7 @@ export class SpiritTamerDemo {
       { id: 'battle_start', type: 'sfx', duration: 1 }
     ];
 
-    audioAssets?.forEach((audio: any) => {
+    audioAssets.forEach((audio: any) => {
       console.log(`Generated audio asset: ${audio.id}`);
     });
   }
@@ -460,32 +460,32 @@ export class SpiritTamerDemo {
       { id: 'dialogue_box', type: 'ui', size: { w: 500, h: 150 } }
     ];
 
-    uiAssets?.forEach((ui: any) => {
+    uiAssets.forEach((ui: any) => {
       console.log(`Generated UI asset: ${ui.id}`);
     });
   }
 
   private handleSpiritEncounter(event) {
-    const spirit = event?.spirit;
-    const player = this?.state.player;
+    const spirit = event.spirit;
+    const player = this.state.player;
 
     // Check if player can tame this spirit
-    const tamingSuccess = this?.calculateTamingSuccess(spirit, player);
+    const tamingSuccess = this.calculateTamingSuccess(spirit, player);
 
     if (tamingSuccess) {
       // Successful taming
-      player?.spirits?.push(spirit);
-      this?.state.world?.spirits.delete(spirit?.id);
-      EventBus?.publish('spirit?.tamed', { spirit, player });
+      player.spirits.push(spirit);
+      this.state.world.spirits.delete(spirit.id);
+      EventBus.publish('spirit.tamed', { spirit, player });
     } else {
       // Failed taming - start combat
-      this?.startCombat(player?.spirits[0!], spirit);
+      this.startCombat(player.spirits[0!], spirit);
     }
   }
 
   private calculateTamingSuccess(spirit: SpiritInstance, player: any): boolean {
     const baseSuccessRate = 0.6;
-    const levelDifference = player?.level - spirit?.level;
+    const levelDifference = player.level - spirit.level;
     const successBonus = levelDifference * 0.1;
 
     const successRate = Math.min(0.95, baseSuccessRate + successBonus);
@@ -493,67 +493,67 @@ export class SpiritTamerDemo {
   }
 
   private handleCombatStart(event) {
-    this?.state.combat = {
+    this.state.combat = {
       active: true,
-      enemySpirit: event?.enemySpirit,
+      enemySpirit: event.enemySpirit,
       turn: 1
     };
   }
 
   private handleCombatEnd(event) {
-    this?.state.combat = undefined;
-    if (event?.victory) {
-      EventBus?.publish('experience?.gained', { amount: event?.experience });
+    this.state.combat = undefined;
+    if (event.victory) {
+      EventBus.publish('experience.gained', { amount: event.experience });
     }
   }
 
   private handleQuestComplete(event) {
-    const quest = event?.quest;
-    const player = this?.state.player;
+    const quest = event.quest;
+    const player = this.state.player;
 
     // Award experience and items
-    player?.experience += quest?.rewards.experience;
-    quest?.rewards.items?.forEach((itemId: string) => {
-      const item = this?.engines.items?.getItem(itemId);
-      if (item: any) {
-        player?.inventory?.push(item: any);
+    player.experience += quest.rewards.experience;
+    quest.rewards.items.forEach((itemId: string) => {
+      const item = this.engines.items.getItem(itemId);
+      if (item) {
+        player.inventory.push(item);
       }
     });
 
     // Check for level up
-    if (player?.experience >= player?.level * 100) {
-      player?.level++;
-      EventBus?.publish('player?.levelUp', { newLevel: player?.level });
+    if (player.experience >= player.level * 100) {
+      player.level++;
+      EventBus.publish('player.levelUp', { newLevel: player.level });
     }
   }
 
   private handleItemCollect(event) {
-    const item = event?.item;
-    this?.state.player?.inventory?.push(item: any);
+    const item = event.item;
+    this.state.player.inventory.push(item);
   }
 
   private startCombat(playerSpirit: SpiritInstance, enemySpirit: SpiritInstance) {
-    this?.engines.combat?.addCombatant(playerSpirit);
-    this?.engines.combat?.addCombatant(enemySpirit);
-    this?.engines.combat?.startBattle();
+    this.engines.combat.addCombatant(playerSpirit);
+    this.engines.combat.addCombatant(enemySpirit);
+    this.engines.combat.startBattle();
 
-    EventBus?.publish('combat?.started', {
+    EventBus.publish('combat.started', {
       playerSpirit,
       enemySpirit,
-      engine: this?.engines.combat
+      engine: this.engines.combat
     });
   }
 
   // Public API methods for game interaction
   public getGameState(): SpiritTamerGameState {
-    return this?.state;
+    return this.state;
   }
 
   public update(deltaTime: number) {
     // Update all game systems
-    this?.updatePlayer();
-    this?.updateWorld();
-    this?.updateUI();
+    this.updatePlayer();
+    this.updateWorld();
+    this.updateUI();
   }
 
   private updatePlayer() {
@@ -565,35 +565,35 @@ export class SpiritTamerDemo {
   }
 
   private updateUI() {
-    if (this?.state.ui?.hudVisible) {
-      this?.renderHUD();
+    if (this.state.ui.hudVisible) {
+      this.renderHUD();
     }
   }
 
   private renderHUD() {
     // Render player HUD with health, spirits, inventory
-    const player = this?.state.player;
+    const player = this.state.player;
     const hudData = {
       player: {
-        name: player?.name,
-        level: player?.level,
+        name: player.name,
+        level: player.level,
         hp: 100, // Calculate from spirits
         mp: 50,
-        experience: player?.experience
+        experience: player.experience
       },
-      spirits: player?.spirits.slice(0, 6), // Show first 6 spirits
-      activeSpirit: player?.spirits[0!]
+      spirits: player.spirits.slice(0, 6), // Show first 6 spirits
+      activeSpirit: player.spirits[0!]
     };
 
     // Use HUDPure to render the HUD
-    this?.engines.hud?.updateModel(hudData);
+    this.engines.hud.updateModel(hudData);
   }
 
   public render() {
     // Render the game world
-    this?.renderWorld();
-    this?.renderUI();
-    this?.renderEffects();
+    this.renderWorld();
+    this.renderUI();
+    this.renderEffects();
   }
 
   private renderWorld() {
@@ -613,8 +613,8 @@ export class SpiritTamerDemo {
     return {
       op: 'spirit_tamer_demo',
       status: 'ok',
-      scene: this?.state.world?.currentZone,
-      player: this?.state.player?.position,
+      scene: this.state.world.currentZone,
+      player: this.state.player.position,
       spirits: Array.from(this.state.world.spirits.keys()),
       orchestrationReady: true,
       modulesIntegrated: [
@@ -642,5 +642,5 @@ export class SpiritTamerDemo {
 // Export for CLI harness
 export function spiritTamerDemo(): any {
   const game = new SpiritTamerDemo();
-  return game?.runDemo();
+  return game.runDemo();
 }

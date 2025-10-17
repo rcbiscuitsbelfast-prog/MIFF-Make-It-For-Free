@@ -31,8 +31,8 @@ interface UnrealCLIOperation {
 }
 
 function main() {
-  const argv = process?.argv.slice(2);
-  if (argv?.length === 0) {
+  const argv = process.argv.slice(2);
+  if (argv.length === 0) {
     console.error('Usage: tsx unreal-cli.ts <op> <module> [options...]');
     console.error('Operations:');
     console.error('  connect    - Connect to Unreal Editor');
@@ -54,14 +54,14 @@ function main() {
     console.error('  tsx unreal-cli.ts status');
     console.error('  tsx unreal-cli.ts config update enableDebugLogging true');
     console.error('  tsx unreal-cli.ts export scene markdown scene-report.md');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
     let input: UnrealCLIOperation;
-    if (argv?.length >= 2 && !argv[2!]?.endsWith('.json')) {
+    if (argv.length >= 2 && !argv[2!]?.endsWith('.json')) {
       input = { op: argv[0] as any, module: argv[1] } as UnrealCLIOperation;
-    } else if (argv?.length >= 3) {
+    } else if (argv.length >= 3) {
       const payload = argv[2!] && fs.existsSync(argv[2!]) ? JSON.parse(fs.readFileSync(argv[2!], 'utf-8')) : {};
       const configOverride = argv[3!] && fs.existsSync(argv[3!]) ? JSON.parse(fs.readFileSync(argv[3!], 'utf-8')) : undefined;
       input = { op: argv[0] as any, module: argv[1], data: payload, config: configOverride } as UnrealCLIOperation;
@@ -74,14 +74,14 @@ function main() {
       throw new Error('Invalid input: expected JSON object');
     }
 
-    if (!input?.op || !input?.module) {
+    if (!input.op || !input.module) {
       throw new Error('Invalid input: missing required fields "op" and "module"');
     }
 
     // Create configuration
     const config: UnrealBridgeConfiguration = {
-      bridgeType: UnrealBridgeType?.BLUEPRINT,
-      communicationProtocol: UnrealCommunicationProtocol?.MESSAGE_PASSING,
+      bridgeType: UnrealBridgeType.BLUEPRINT,
+      communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
       unrealVersion: '5.1',
       targetPlatform: 'windows',
       enableDebugLogging: true,
@@ -100,7 +100,7 @@ function main() {
       queueSize: 100,
       batchSize: 10,
       threadPoolSize: 4,
-      customSettings: input?.config || {}
+      customSettings: input.config || {}
     };
 
     // Create Unreal Editor configuration
@@ -167,23 +167,23 @@ function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', err instanceof Error ? err.message : String(err));
-    process?.exit(1);
+    process.exit(1);
   }
 
   async function executeOperation(harness: UnrealEditorHarnessPure, input: UnrealCLIOperation) {
     let result: any;
 
     try {
-      switch (input?.op) {
+      switch (input.op) {
         case 'connect':
           result = {
             op: 'connect',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
-              connected: await harness?.connect(),
-              status: harness?.getStatus()
+              connected: await harness.connect(),
+              status: harness.getStatus()
             }
           };
           break;
@@ -192,49 +192,49 @@ function main() {
           result = {
             op: 'disconnect',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               disconnected: true,
-              status: harness?.getStatus()
+              status: harness.getStatus()
             }
           };
-          await harness?.disconnect();
+          await harness.disconnect();
           break;
 
         case 'test':
-          const testSuite = input?.testSuite || 'all';
-          const testResults = await harness?.runTests(testSuite);
+          const testSuite = input.testSuite || 'all';
+          const testResults = await harness.runTests(testSuite);
           result = {
             op: 'test',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               testSuite,
-              passed: testResults?.filter((r: any) => r?.success).length,
-              total: testResults?.length,
+              passed: testResults.filter((r: any) => r.success).length,
+              total: testResults.length,
               results: testResults
             }
           };
           break;
 
         case 'demo':
-          const demoName = input?.demoName || 'default';
-          const demoResult = await harness?.runDemo(demoName);
+          const demoName = input.demoName || 'default';
+          const demoResult = await harness.runDemo(demoName);
           result = {
             op: 'demo',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               demoName,
-              success: demoResult?.success,
-              duration: demoResult?.duration,
-              scenesCreated: demoResult?.scenesCreated,
-              assetsGenerated: demoResult?.assetsGenerated,
-              eventsProcessed: demoResult?.eventsProcessed,
-              performanceMetrics: demoResult?.performanceMetrics,
+              success: demoResult.success,
+              duration: demoResult.duration,
+              scenesCreated: demoResult.scenesCreated,
+              assetsGenerated: demoResult.assetsGenerated,
+              eventsProcessed: demoResult.eventsProcessed,
+              performanceMetrics: demoResult.performanceMetrics,
               demoResult
             }
           };
@@ -244,41 +244,41 @@ function main() {
           result = {
             op: 'status',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
-            result: harness?.getStatus()
+            result: harness.getStatus()
           };
           break;
 
         case 'config':
-          if (input?.data?.action === 'update') {
-            harness?.updateConfiguration(input?.data.updates || {});
+          if (input.data?.action === 'update') {
+            harness.updateConfiguration(input.data.updates || {});
             result = {
               op: 'config',
               status: 'ok',
-              module: input?.module,
+              module: input.module,
               platform: 'unreal',
               result: {
                 action: 'updated',
-                configuration: harness?.getConfiguration()
+                configuration: harness.getConfiguration()
               }
             };
           } else {
             result = {
               op: 'config',
               status: 'ok',
-              module: input?.module,
+              module: input.module,
               platform: 'unreal',
               result: {
-                configuration: harness?.getConfiguration()
+                configuration: harness.getConfiguration()
               }
             };
           }
           break;
 
         case 'export':
-          const exportFormat = input?.format || 'json';
-          const exportData = harness?.generateReport();
+          const exportFormat = input.format || 'json';
+          const exportData = harness.generateReport();
 
           if (exportFormat === 'csv') {
             const csvData = convertToCSV(JSON.parse(exportData));
@@ -294,7 +294,7 @@ function main() {
           }
 
           // Save to file if specified
-          if (input?.outputFile) {
+          if (input.outputFile) {
             fs.writeFileSync(input.outputFile, JSON.stringify(result, null, 2));
           }
           break;
@@ -303,7 +303,7 @@ function main() {
           result = {
             op: 'import',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               imported: true,
@@ -316,15 +316,15 @@ function main() {
           result = {
             op: 'simulate',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               simulation: 'unreal_simulation',
-              data: input?.data || {},
+              data: input.data || {},
               performance: {
                 fps: 60,
                 memoryUsage: 'low',
-                unrealConnected: harness?.isConnectedToUnreal()
+                unrealConnected: harness.isConnectedToUnreal()
               }
             }
           };
@@ -334,13 +334,13 @@ function main() {
           result = {
             op: 'build',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               build: 'unreal_build',
               status: 'success',
               duration: 15000,
-              artifacts: ['game?.exe', 'game?.pak', 'assets/'],
+              artifacts: ['game.exe', 'game.pak', 'assets/'],
               warnings: ['Shader compilation warnings detected']
             }
           };
@@ -350,7 +350,7 @@ function main() {
           result = {
             op: 'validate',
             status: 'ok',
-            module: input?.module,
+            module: input.module,
             platform: 'unreal',
             result: {
               validation: 'unreal_validation',
@@ -369,7 +369,7 @@ function main() {
           break;
 
         default:
-          throw new Error(`Unknown operation: ${input?.op}`);
+          throw new Error(`Unknown operation: ${input.op}`);
       }
 
       console.log(JSON.stringify(result, null, 2));
@@ -378,116 +378,116 @@ function main() {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('Error executing operation:', err instanceof Error ? err.message : String(err));
       result = {
-        op: input?.op,
+        op: input.op,
         status: 'error',
-        module: input?.module,
+        module: input.module,
         platform: 'unreal',
         result: {
-          error: error instanceof Error ? error?.message : 'Unknown error',
-          stack: error instanceof Error ? error?.stack : undefined
+          error: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined
         }
       };
       console.log(JSON.stringify(result, null, 2));
-      process?.exit(1);
+      process.exit(1);
     }
   }
 }
 
 function convertToCSV(data: any): string {
-  if (!data?.harness) return 'No data available';
+  if (!data.harness) return 'No data available';
 
-  const harness = data?.harness;
+  const harness = data.harness;
   const lines: string[] = [];
 
-  lines?.push('=== Unreal Editor Harness CSV Export ===');
-  lines?.push(`Generated: ${data?.harness.generatedAt}`);
-  lines?.push('');
+  lines.push('=== Unreal Editor Harness CSV Export ===');
+  lines.push(`Generated: ${data.harness.generatedAt}`);
+  lines.push('');
 
   // Status section
-  lines?.push('=== Status ===');
-  lines?.push('Metric,Value');
-  lines?.push(`Connected,${harness?.status.connected}`);
-  lines?.push(`Running,${harness?.status.running}`);
-  lines?.push(`Bridge Status,${harness?.status.bridgeManager}`);
-  lines?.push(`Test Results,${harness?.status.testResults}`);
-  lines?.push(`Demo Results,${harness?.status.demoResults}`);
-  lines?.push('');
+  lines.push('=== Status ===');
+  lines.push('Metric,Value');
+  lines.push(`Connected,${harness.status.connected}`);
+  lines.push(`Running,${harness.status.running}`);
+  lines.push(`Bridge Status,${harness.status.bridgeManager}`);
+  lines.push(`Test Results,${harness.status.testResults}`);
+  lines.push(`Demo Results,${harness.status.demoResults}`);
+  lines.push('');
 
   // Test Results section
-  if (harness?.testResults && harness?.testResults.length > 0) {
-    lines?.push('=== Test Results ===');
-    lines?.push('Test Name,Success,Duration (ms),Errors,Warnings');
-    for (const result of harness?.testResults) {
-      lines?.push(`"${result?.testName}","${result?.success}","${result?.duration}","${result?.errors?.length}","${result?.warnings.length}"`);
+  if (harness.testResults && harness.testResults.length > 0) {
+    lines.push('=== Test Results ===');
+    lines.push('Test Name,Success,Duration (ms),Errors,Warnings');
+    for (const result of harness.testResults) {
+      lines.push(`"${result.testName}","${result.success}","${result.duration}","${result.errors?.length}","${result.warnings.length}"`);
     }
-    lines?.push('');
+    lines.push('');
   }
 
   // Demo Results section
-  if (harness?.demoResults && harness?.demoResults.length > 0) {
-    lines?.push('=== Demo Results ===');
-    lines?.push('Demo Name,Success,Duration (ms),Scenes Created,Assets Generated,Events Processed');
-    for (const result of harness?.demoResults) {
-      lines?.push(`"${result?.demoName}","${result?.success}","${result?.duration}","${result?.scenesCreated}","${result?.assetsGenerated}","${result?.eventsProcessed}"`);
+  if (harness.demoResults && harness.demoResults.length > 0) {
+    lines.push('=== Demo Results ===');
+    lines.push('Demo Name,Success,Duration (ms),Scenes Created,Assets Generated,Events Processed');
+    for (const result of harness.demoResults) {
+      lines.push(`"${result.demoName}","${result.success}","${result.duration}","${result.scenesCreated}","${result.assetsGenerated}","${result.eventsProcessed}"`);
     }
   }
 
-  return lines?.join('\n');
+  return lines.join('\n');
 }
 
 function convertToMarkdown(data: any): string {
-  if (!data?.harness) return '# No data available';
+  if (!data.harness) return '# No data available';
 
-  const harness = data?.harness;
+  const harness = data.harness;
   const lines: string[] = [];
 
-  lines?.push('# Unreal Editor Harness Report');
-  lines?.push('');
-  lines?.push(`Generated: ${data?.harness.generatedAt}`);
-  lines?.push('');
+  lines.push('# Unreal Editor Harness Report');
+  lines.push('');
+  lines.push(`Generated: ${data.harness.generatedAt}`);
+  lines.push('');
 
   // Status section
-  lines?.push('## Status');
-  lines?.push('');
-  lines?.push('| Metric | Value |');
-  lines?.push('|--------|--------|');
-  lines?.push(`| Connected | ${harness?.status.connected} |`);
-  lines?.push(`| Running | ${harness?.status.running} |`);
-  lines?.push(`| Bridge Status | ${harness?.status.bridgeManager} |`);
-  lines?.push(`| Test Results | ${harness?.status.testResults} |`);
-  lines?.push(`| Demo Results | ${harness?.status.demoResults} |`);
-  lines?.push('');
+  lines.push('## Status');
+  lines.push('');
+  lines.push('| Metric | Value |');
+  lines.push('|--------|--------|');
+  lines.push(`| Connected | ${harness.status.connected} |`);
+  lines.push(`| Running | ${harness.status.running} |`);
+  lines.push(`| Bridge Status | ${harness.status.bridgeManager} |`);
+  lines.push(`| Test Results | ${harness.status.testResults} |`);
+  lines.push(`| Demo Results | ${harness.status.demoResults} |`);
+  lines.push('');
 
   // Test Results section
-  if (harness?.testResults && harness?.testResults.length > 0) {
-    lines?.push('## Test Results');
-    lines?.push('');
-    lines?.push('| Test Name | Success | Duration | Errors | Warnings |');
-    lines?.push('|-----------|---------|----------|---------|----------|');
-    for (const result of harness?.testResults) {
-      lines?.push(`| ${result?.testName} | ${result?.success ? '✅' : '❌'} | ${result?.duration}ms | ${result?.errors?.length} | ${result?.warnings.length} |`);
+  if (harness.testResults && harness.testResults.length > 0) {
+    lines.push('## Test Results');
+    lines.push('');
+    lines.push('| Test Name | Success | Duration | Errors | Warnings |');
+    lines.push('|-----------|---------|----------|---------|----------|');
+    for (const result of harness.testResults) {
+      lines.push(`| ${result.testName} | ${result.success ? '✅' : '❌'} | ${result.duration}ms | ${result.errors?.length} | ${result.warnings.length} |`);
     }
-    lines?.push('');
+    lines.push('');
   }
 
   // Demo Results section
-  if (harness?.demoResults && harness?.demoResults.length > 0) {
-    lines?.push('## Demo Results');
-    lines?.push('');
-    lines?.push('| Demo Name | Success | Duration | Scenes | Assets | Events |');
-    lines?.push('|-----------|---------|----------|--------|--------|--------|');
-    for (const result of harness?.demoResults) {
-      lines?.push(`| ${result?.demoName} | ${result?.success ? '✅' : '❌'} | ${result?.duration}ms | ${result?.scenesCreated} | ${result?.assetsGenerated} | ${result?.eventsProcessed} |`);
+  if (harness.demoResults && harness.demoResults.length > 0) {
+    lines.push('## Demo Results');
+    lines.push('');
+    lines.push('| Demo Name | Success | Duration | Scenes | Assets | Events |');
+    lines.push('|-----------|---------|----------|--------|--------|--------|');
+    for (const result of harness.demoResults) {
+      lines.push(`| ${result.demoName} | ${result.success ? '✅' : '❌'} | ${result.duration}ms | ${result.scenesCreated} | ${result.assetsGenerated} | ${result.eventsProcessed} |`);
     }
   }
 
-  return lines?.join('\n');
+  return lines.join('\n');
 }
 
 function convertToHTML(data: any): string {
-  if (!data?.harness) return '<html><body><h1>No data available</h1></body></html>';
+  if (!data.harness) return '<html><body><h1>No data available</h1></body></html>';
 
-  const harness = data?.harness;
+  const harness = data.harness;
 
   return `
 <!DOCTYPE html>
@@ -513,60 +513,60 @@ function convertToHTML(data: any): string {
 <body>
     <div class="header">
         <h1>🎮 Unreal Editor Harness Report</h1>
-        <p>Generated: ${data?.harness.generatedAt}</p>
+        <p>Generated: ${data.harness.generatedAt}</p>
     </div>
 
     <div class="section">
         <h2>📊 Status</h2>
         <div class="metric">
-            <span class="status-indicator ${harness?.status.connected ? 'status-connected' : 'status-disconnected'}"></span>
-            Connected: <strong class="${harness?.status.connected ? 'success' : 'error'}">${harness?.status.connected}</strong>
+            <span class="status-indicator ${harness.status.connected ? 'status-connected' : 'status-disconnected'}"></span>
+            Connected: <strong class="${harness.status.connected ? 'success' : 'error'}">${harness.status.connected}</strong>
         </div>
         <div class="metric">
-            Running: <strong>${harness?.status.running}</strong>
+            Running: <strong>${harness.status.running}</strong>
         </div>
         <div class="metric">
-            Bridge Status: <strong>${harness?.status.bridgeManager}</strong>
+            Bridge Status: <strong>${harness.status.bridgeManager}</strong>
         </div>
         <div class="metric">
-            Test Results: <strong>${harness?.status.testResults}</strong>
+            Test Results: <strong>${harness.status.testResults}</strong>
         </div>
         <div class="metric">
-            Demo Results: <strong>${harness?.status.demoResults}</strong>
+            Demo Results: <strong>${harness.status.demoResults}</strong>
         </div>
     </div>
 
-    ${harness?.testResults && harness?.testResults.length > 0 ? `
+    ${harness.testResults && harness.testResults.length > 0 ? `
     <div class="section">
         <h2>🧪 Test Results</h2>
         <table>
             <tr><th>Test Name</th><th>Success</th><th>Duration</th><th>Errors</th><th>Warnings</th></tr>
-            ${harness?.testResults.map((result: any) => `
+            ${harness.testResults.map((result: any) => `
                 <tr>
-                    <td>${result?.testName}</td>
-                    <td class="${result?.success ? 'success' : 'error'}">${result?.success ? '✅' : '❌'}</td>
-                    <td>${result?.duration}ms</td>
-                    <td>${result?.errors?.length}</td>
-                    <td>${result?.warnings.length}</td>
+                    <td>${result.testName}</td>
+                    <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
+                    <td>${result.duration}ms</td>
+                    <td>${result.errors?.length}</td>
+                    <td>${result.warnings.length}</td>
                 </tr>
             `).join('')}
         </table>
     </div>
     ` : ''}
 
-    ${harness?.demoResults && harness?.demoResults.length > 0 ? `
+    ${harness.demoResults && harness.demoResults.length > 0 ? `
     <div class="section">
         <h2>🎮 Demo Results</h2>
         <table>
             <tr><th>Demo Name</th><th>Success</th><th>Duration</th><th>Scenes</th><th>Assets</th><th>Events</th></tr>
-            ${harness?.demoResults.map((result: any) => `
+            ${harness.demoResults.map((result: any) => `
                 <tr>
-                    <td>${result?.demoName}</td>
-                    <td class="${result?.success ? 'success' : 'error'}">${result?.success ? '✅' : '❌'}</td>
-                    <td>${result?.duration}ms</td>
-                    <td>${result?.scenesCreated}</td>
-                    <td>${result?.assetsGenerated}</td>
-                    <td>${result?.eventsProcessed}</td>
+                    <td>${result.demoName}</td>
+                    <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
+                    <td>${result.duration}ms</td>
+                    <td>${result.scenesCreated}</td>
+                    <td>${result.assetsGenerated}</td>
+                    <td>${result.eventsProcessed}</td>
                 </tr>
             `).join('')}
         </table>
@@ -577,9 +577,9 @@ function convertToHTML(data: any): string {
 }
 
 try {
-  const invoked = fs?.realpathSync(process?.argv[1!]);
-  const here = fs?.realpathSync(fileURLToPath(import?.meta.url));
+  const invoked = fs.realpathSync(process.argv[1!]);
+  const here = fs.realpathSync(fileURLToPath(import.meta.url));
   if (invoked === here) main();
 } catch {
-  if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+  if(import.meta.url === `file://${process.argv[1!]}`) main();
 }

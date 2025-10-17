@@ -53,57 +53,57 @@ export class ChainManager {
     const warnings: string[] = [];
 
     // Validate chain structure
-    if (!chain?.id || chain?.id.trim() === '') {
-      issues?.push('Chain ID is required');
+    if (!chain.id || chain.id.trim() === '') {
+      issues.push('Chain ID is required');
     }
 
-    if (!chain?.name || chain?.name.trim() === '') {
-      issues?.push('Chain name is required');
+    if (!chain.name || chain.name.trim() === '') {
+      issues.push('Chain name is required');
     }
 
-    if (!chain?.quests || chain?.quests.length === 0) {
-      issues?.push('Chain must have at least one quest');
+    if (!chain.quests || chain.quests.length === 0) {
+      issues.push('Chain must have at least one quest');
     }
 
     // Validate quest dependencies
-    for (const questId of chain?.quests) {
-      if (this?.questDependencies.has(questId)) {
-        const existingChains = this?.questDependencies.get(questId)!;
-        warnings?.push(`Quest ${questId} is already part of chains: ${existingChains?.join(', ')}`);
+    for (const questId of chain.quests) {
+      if (this.questDependencies.has(questId)) {
+        const existingChains = this.questDependencies.get(questId)!;
+        warnings.push(`Quest ${questId} is already part of chains: ${existingChains.join(', ')}`);
       }
     }
 
     // Check for circular dependencies
-    if (this?.hasCircularDependency(chain)) {
-      issues?.push('Circular dependency detected in chain prerequisites');
+    if (this.hasCircularDependency(chain)) {
+      issues.push('Circular dependency detected in chain prerequisites');
     }
 
-    const isValid = issues?.length === 0;
+    const isValid = issues.length === 0;
 
     if (isValid) {
-      this?.chains.set(chain?.id, { ...chain });
+      this.chains.set(chain.id, { ...chain });
       
       // Update quest dependencies
-      for (const questId of chain?.quests) {
-        if (!this?.questDependencies.has(questId)) {
-          this?.questDependencies.set(questId, []);
+      for (const questId of chain.quests) {
+        if (!this.questDependencies.has(questId)) {
+          this.questDependencies.set(questId, []);
         }
-        this?.questDependencies.get(questId)!.push(chain?.id);
+        this.questDependencies.get(questId)!.push(chain.id);
       }
 
       // Initialize progress
-      this?.progress.set(chain?.id, {
-        chainId: chain?.id,
+      this.progress.set(chain.id, {
+        chainId: chain.id,
         completedQuests: [],
         progress: 0,
-        status: chain?.prerequisites.length === 0 ? 'available' : 'locked'
+        status: chain.prerequisites.length === 0 ? 'available' : 'locked'
       });
     }
 
     return {
       op: 'validateChain',
       status: isValid ? 'ok' : 'error',
-      chainId: chain?.id,
+      chainId: chain.id,
       issues,
       warnings,
       isValid
@@ -112,47 +112,47 @@ export class ChainManager {
 
   // Progress Management
   updateProgress(chainId: string, questId: string, completed: boolean): ChainProgress | null {
-    const chain = this?.chains.get(chainId);
-    const progress = this?.progress.get(chainId);
+    const chain = this.chains.get(chainId);
+    const progress = this.progress.get(chainId);
     
     if (!chain || !progress) {
       return null;
     }
 
-    if (completed && !progress?.completedQuests.includes(questId)) {
-      progress?.completedQuests?.push(questId);
-    } else if (!completed && progress?.completedQuests.includes(questId)) {
-      progress?.completedQuests = progress?.completedQuests.filter((id: any) => id !== questId);
+    if (completed && !progress.completedQuests.includes(questId)) {
+      progress.completedQuests.push(questId);
+    } else if (!completed && progress.completedQuests.includes(questId)) {
+      progress.completedQuests = progress.completedQuests.filter((id: any) => id !== questId);
     }
 
     // Update progress percentage
     progress.progress = Math.round((progress.completedQuests.length / chain.quests.length) * 100);
 
     // Update status
-    if (progress?.progress === 100) {
-      progress?.status = 'completed';
-      progress.completedAt = new Date();
-    } else if (progress?.status === 'locked' && this?.arePrerequisitesMet(chain)) {
-      progress?.status = 'available';
-      progress.unlockedAt = new Date();
-    } else if (progress?.status === 'available' && progress?.completedQuests.length > 0) {
-      progress?.status = 'active';
+    if (progress.progress === 100) {
+      progress.status = 'completed';
+      progress.completedAt = Date.now();
+    } else if (progress.status === 'locked' && this.arePrerequisitesMet(chain)) {
+      progress.status = 'available';
+      progress.unlockedAt = Date.now();
+    } else if (progress.status === 'available' && progress.completedQuests.length > 0) {
+      progress.status = 'active';
     }
 
     // Set current quest
-    const remainingQuests = chain?.quests.filter((q: any) => !progress?.completedQuests.includes(q));
-    progress?.currentQuest = remainingQuests[0!];
+    const remainingQuests = chain.quests.filter((q: any) => !progress.completedQuests.includes(q));
+    progress.currentQuest = remainingQuests[0!];
 
     return { ...progress };
   }
 
   // Chain Queries
   getChain(chainId: string): QuestChain | null {
-    return this?.chains.get(chainId) || null;
+    return this.chains.get(chainId) || null;
   }
 
   getProgress(chainId: string): ChainProgress | null {
-    return this?.progress.get(chainId) || null;
+    return this.progress.get(chainId) || null;
   }
 
   getAllChains(): QuestChain[] {
@@ -160,32 +160,32 @@ export class ChainManager {
   }
 
   getAvailableChains(): QuestChain[] {
-    return this?.getAllChains().filter((chain: any) => {
-      const progress = this?.progress.get(chain?.id);
+    return this.getAllChains().filter((chain: any) => {
+      const progress = this.progress.get(chain.id);
       return progress?.status === 'available' || progress?.status === 'active';
     });
   }
 
   getChainsByQuest(questId: string): QuestChain[] {
-    const chainIds = this?.questDependencies.get(questId) || [];
-    return chainIds?.map((id: any) => this?.chains.get(id)).filter(Boolean) as QuestChain[];
+    const chainIds = this.questDependencies.get(questId) || [];
+    return chainIds.map((id: any) => this.chains.get(id)).filter(Boolean) as QuestChain[];
   }
 
   // Validation and Export
   validateAllChains(): ChainValidationResult[] {
     const results: ChainValidationResult[] = [];
     
-    for (const chain of this?.chains.values()) {
-      const result = this?.createChain(chain); // Re-validate
-      results?.push(result: any);
+    for (const chain of this.chains.values()) {
+      const result = this.createChain(chain); // Re-validate
+      results.push(result);
     }
 
     return results;
   }
 
   exportChain(chainId: string, format: 'json' | 'yaml' | 'csv' = 'json'): ChainExportResult {
-    const chain = this?.chains.get(chainId);
-    const progress = this?.progress.get(chainId);
+    const chain = this.chains.get(chainId);
+    const progress = this.progress.get(chainId);
 
     if (!chain) {
       throw new Error(`Chain not found: ${chainId}`);
@@ -204,10 +204,10 @@ export class ChainManager {
         data = exportData;
         break;
       case 'yaml':
-        data = this?.convertToYAML(exportData);
+        data = this.convertToYAML(exportData);
         break;
       case 'csv':
-        data = this?.convertToCSV(chain, progress);
+        data = this.convertToCSV(chain, progress);
         break;
       default:
         data = exportData;
@@ -228,55 +228,55 @@ export class ChainManager {
     const recursionStack = new Set<string>();
 
     const hasCycle = (chainId: string): boolean => {
-      if (recursionStack?.has(chainId)) return true;
-      if (visited?.has(chainId)) return false;
+      if (recursionStack.has(chainId)) return true;
+      if (visited.has(chainId)) return false;
 
-      visited?.add(chainId);
-      recursionStack?.add(chainId);
+      visited.add(chainId);
+      recursionStack.add(chainId);
 
-      const chain = this?.chains.get(chainId);
+      const chain = this.chains.get(chainId);
       if (chain) {
-        for (const prereq of chain?.prerequisites) {
+        for (const prereq of chain.prerequisites) {
           if (hasCycle(prereq)) return true;
         }
       }
 
-      recursionStack?.delete(chainId);
+      recursionStack.delete(chainId);
       return false;
     };
 
-    return hasCycle(chain?.id);
+    return hasCycle(chain.id);
   }
 
   private arePrerequisitesMet(chain: QuestChain): boolean {
-    return chain?.prerequisites.every(prereqId => {
-      const prereqProgress = this?.progress.get(prereqId);
+    return chain.prerequisites.every(prereqId => {
+      const prereqProgress = this.progress.get(prereqId);
       return prereqProgress?.status === 'completed';
     });
   }
 
-  private convertToYAML(data: any): string {
+  private convertToYAML(data): string {
     // Simple YAML conversion - in production, use a proper YAML library
     return `chain:
-  id: ${data?.chain.id}
-  name: ${data?.chain.name}
-  description: ${data?.chain.description}
-  quests: [${data?.chain.quests?.join(', ')}]
-  prerequisites: [${data?.chain.prerequisites?.join(', ')}]
+  id: ${data.chain.id}
+  name: ${data.chain.name}
+  description: ${data.chain.description}
+  quests: [${data.chain.quests.join(', ')}]
+  prerequisites: [${data.chain.prerequisites.join(', ')}]
 progress:
-  chainId: ${data?.progress.chainId}
-  completedQuests: [${data?.progress.completedQuests?.join(', ')}]
-  progress: ${data?.progress.progress}
-  status: ${data?.progress.status}
-exportedAt: ${data?.exportedAt}`;
+  chainId: ${data.progress.chainId}
+  completedQuests: [${data.progress.completedQuests.join(', ')}]
+  progress: ${data.progress.progress}
+  status: ${data.progress.status}
+exportedAt: ${data.exportedAt}`;
   }
 
   private convertToCSV(chain: QuestChain, progress: ChainProgress | undefined): string {
     let csv = 'Quest ID,Quest Name,Status,Completed\n';
     
-    for (const questId of chain?.quests) {
-      const isCompleted = progress?.completedQuests?.includes(questId) || false;
-      csv += `${questId},${questId?.replace(/_/g, ' ').toUpperCase()},${isCompleted ? 'Completed' : 'Pending'},${isCompleted}\n`;
+    for (const questId of chain.quests) {
+      const isCompleted = progress?.completedQuests.includes(questId) || false;
+      csv += `${questId},${questId.replace(/_/g, ' ').toUpperCase()},${isCompleted ? 'Completed' : 'Pending'},${isCompleted}\n`;
     }
 
     return csv;
@@ -291,12 +291,12 @@ exportedAt: ${data?.exportedAt}`;
     averageProgress: number;
   } {
     const chains = Array.from(this.progress.values());
-    const totalChains = chains?.length;
-    const completedChains = chains?.filter((p: any) => p?.status === 'completed').length;
-    const activeChains = chains?.filter((p: any) => p?.status === 'active').length;
-    const lockedChains = chains?.filter((p: any) => p?.status === 'locked').length;
-    const averageProgress = chains?.length > 0 
-      ? chains?.reduce((sum, p) => sum + p?.progress, 0) / chains?.length 
+    const totalChains = chains.length;
+    const completedChains = chains.filter((p: any) => p.status === 'completed').length;
+    const activeChains = chains.filter((p: any) => p.status === 'active').length;
+    const lockedChains = chains.filter((p: any) => p.status === 'locked').length;
+    const averageProgress = chains.length > 0 
+      ? chains.reduce((sum, p) => sum + p.progress, 0) / chains.length 
       : 0;
 
     return {

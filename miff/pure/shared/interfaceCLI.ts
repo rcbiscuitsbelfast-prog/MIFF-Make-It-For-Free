@@ -6,7 +6,7 @@
  * Command-line interface for standardizing interfaces across the MIFF framework.
  */
 
-import { InterfaceStandardizer } from './InterfaceStandardizer?.js';
+import { InterfaceStandardizer } from './InterfaceStandardizer.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -17,46 +17,46 @@ class InterfaceCLI {
 
   constructor(...args: any[]) {
     
-    this?.standardizer = new InterfaceStandardizer();
+    this.standardizer = new InterfaceStandardizer();
   }
 
   async run(): Promise<void> {
-    const args = process?.argv.slice(2);
+    const args = process.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'standardize':
-          await this?.standardizeInterfaces(args?.slice(1));
+          await this.standardizeInterfaces(args.slice(1));
           break;
         case 'check':
-          await this?.checkCompliance(args?.slice(1));
+          await this.checkCompliance(args.slice(1));
           break;
         case 'report':
-          await this?.generateReport(args?.slice(1));
+          await this.generateReport(args.slice(1));
           break;
         case 'fix':
-          await this?.fixInterfaces(args?.slice(1));
+          await this.fixInterfaces(args.slice(1));
           break;
         case 'help':
         default:
-          this?.showHelp();
+          this.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process?.exit(1);
+      process.exit(1);
     }
   }
 
   private async standardizeInterfaces(args: string[]): Promise<void> {
     const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'interface-standardization?.json';
+    const outputFile = args[1!] || 'interface-standardization.json';
 
     console.info(`🔧 Standardizing interfaces in ${rootPath}...`);
     
-    const results = await this?.standardizer.standardizeAllInterfaces(rootPath);
+    const results = await this.standardizer.standardizeAllInterfaces(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
@@ -65,7 +65,7 @@ class InterfaceCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
-    const stats = this?.standardizer.getStats();
+    const stats = this.standardizer.getStats();
     console.info('\n📊 Standardization Summary:');
     console.info(`Total modules: ${stats.totalModules}`);
     console.info(`Compliant modules: ${stats.compliantModules}`);
@@ -75,15 +75,15 @@ class InterfaceCLI {
     console.info(`Total recommendations: ${stats.recommendations}`);
 
     // Show non-compliant modules
-    const nonCompliant = this?.standardizer.getNonCompliantModules();
-    if (nonCompliant?.length > 0) {
+    const nonCompliant = this.standardizer.getNonCompliantModules();
+    if (nonCompliant.length > 0) {
       console.info('\n❌ Non-Compliant Modules:');
-      nonCompliant?.forEach((result: any) => {
+      nonCompliant.forEach((result: any) => {
         console.info(`  ${result.module} (${result.interface}): ${result.score}%`);
-        if (result?.missingMethods.length > 0) {
+        if (result.missingMethods.length > 0) {
           console.info(`    Missing methods: ${result.missingMethods.join(', ')}`);
         }
-        if (result?.missingProperties.length > 0) {
+        if (result.missingProperties.length > 0) {
           console.info(`    Missing properties: ${result.missingProperties.join(', ')}`);
         }
       });
@@ -101,8 +101,8 @@ class InterfaceCLI {
 
     console.info(`✅ Checking compliance for module: ${moduleName}`);
     
-    const results = this?.standardizer.getAllResults();
-    const result = results?.find(r => r?.module === moduleName);
+    const results = this.standardizer.getAllResults();
+    const result = results.find(r => r.module === moduleName);
     
     if (!result) {
       console.error(`❌ Module not found: ${moduleName}`);
@@ -114,32 +114,32 @@ class InterfaceCLI {
     console.info(`Compliant: ${result.compliant ? 'Yes' : 'No'}`);
     console.info(`Score: ${result.score}%`);
 
-    if (result?.missingMethods.length > 0) {
+    if (result.missingMethods.length > 0) {
       console.info(`\n❌ Missing Methods:`);
       result.missingMethods.forEach((method: any) => console.info(`  - ${method}`));
     }
 
-    if (result?.extraMethods.length > 0) {
+    if (result.extraMethods.length > 0) {
       console.info(`\n⚠️ Extra Methods:`);
       result.extraMethods.forEach((method: any) => console.info(`  - ${method}`));
     }
 
-    if (result?.missingProperties.length > 0) {
+    if (result.missingProperties.length > 0) {
       console.info(`\n❌ Missing Properties:`);
       result.missingProperties.forEach((prop: any) => console.info(`  - ${prop}`));
     }
 
-    if (result?.extraProperties.length > 0) {
+    if (result.extraProperties.length > 0) {
       console.info(`\n⚠️ Extra Properties:`);
       result.extraProperties.forEach((prop: any) => console.info(`  - ${prop}`));
     }
 
-    if (result?.missingEvents.length > 0) {
+    if (result.missingEvents.length > 0) {
       console.info(`\n❌ Missing Events:`);
       result.missingEvents.forEach((event: any) => console.info(`  - ${event}`));
     }
 
-    if (result?.extraEvents.length > 0) {
+    if (result.extraEvents.length > 0) {
       console.info(`\n⚠️ Extra Events:`);
       result.extraEvents.forEach((event: any) => console.info(`  - ${event}`));
     }
@@ -162,22 +162,22 @@ class InterfaceCLI {
     console.info(`  Error Types: ${result.errorHandlingCompliance.errorTypes.join(', ')}`);
     console.info(`  Score: ${result.errorHandlingCompliance.score.toFixed(1)}%`);
 
-    if (result?.recommendations.length > 0) {
+    if (result.recommendations.length > 0) {
       console.info(`\n💡 Recommendations:`);
       result.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'interface-compliance-report?.html';
+    const outputFile = args[0!] || 'interface-compliance-report.html';
 
     console.info('📊 Generating interface compliance report...');
     
-    const report = this?.standardizer.generateComplianceReport();
-    const html = this?.generateHTMLReport(report);
+    const report = this.standardizer.generateComplianceReport();
+    const html = this.generateHTMLReport(report);
     
     // Save report to file
-    fs?.writeFileSync(outputFile, html);
+    fs.writeFileSync(outputFile, html);
     
     console.info(`✅ Interface compliance report generated`);
     console.info(`📄 Report saved to ${outputFile}`);
@@ -194,15 +194,15 @@ class InterfaceCLI {
 
     console.info(`🔧 Fixing interface for module: ${moduleName}`);
     
-    const results = this?.standardizer.getAllResults();
-    const result = results?.find(r => r?.module === moduleName);
+    const results = this.standardizer.getAllResults();
+    const result = results.find(r => r.module === moduleName);
     
     if (!result) {
       console.error(`❌ Module not found: ${moduleName}`);
       return;
     }
 
-    if (result?.compliant) {
+    if (result.compliant) {
       console.info(`✅ Module ${moduleName} is already compliant`);
       return;
     }
@@ -210,88 +210,88 @@ class InterfaceCLI {
     console.info(`\n🔧 Fixing ${result.module} interface...`);
     
     // Generate fix suggestions
-    const fixes = this?.generateFixSuggestions(result: any);
+    const fixes = this.generateFixSuggestions(result);
     
     console.info(`\n💡 Fix Suggestions for ${result.module}:`);
     fixes.forEach((fix: any) => console.info(`  - ${fix}`));
     
     // Save fix suggestions to file
-    const fixFile = `${moduleName}-interface-fixes?.md`;
-    fs?.writeFileSync(fixFile, this?.generateFixMarkdown(result, fixes));
+    const fixFile = `${moduleName}-interface-fixes.md`;
+    fs.writeFileSync(fixFile, this.generateFixMarkdown(result, fixes));
     
     console.info(`\n📄 Fix suggestions saved to ${fixFile}`);
   }
 
-  private generateFixSuggestions(result: any): string[] {
+  private generateFixSuggestions(result): string[] {
     const fixes: string[] = [];
     
-    if (result?.missingMethods.length > 0) {
-      fixes?.push(`Implement missing methods: ${result?.missingMethods.join(', ')}`);
+    if (result.missingMethods.length > 0) {
+      fixes.push(`Implement missing methods: ${result.missingMethods.join(', ')}`);
     }
     
-    if (result?.missingProperties.length > 0) {
-      fixes?.push(`Add missing properties: ${result?.missingProperties.join(', ')}`);
+    if (result.missingProperties.length > 0) {
+      fixes.push(`Add missing properties: ${result.missingProperties.join(', ')}`);
     }
     
-    if (result?.missingEvents.length > 0) {
-      fixes?.push(`Add missing events: ${result?.missingEvents.join(', ')}`);
+    if (result.missingEvents.length > 0) {
+      fixes.push(`Add missing events: ${result.missingEvents.join(', ')}`);
     }
     
-    if (result?.extraMethods.length > 0) {
-      fixes?.push(`Consider removing extra methods: ${result?.extraMethods.join(', ')}`);
+    if (result.extraMethods.length > 0) {
+      fixes.push(`Consider removing extra methods: ${result.extraMethods.join(', ')}`);
     }
     
-    if (result?.extraProperties.length > 0) {
-      fixes?.push(`Consider removing extra properties: ${result?.extraProperties.join(', ')}`);
+    if (result.extraProperties.length > 0) {
+      fixes.push(`Consider removing extra properties: ${result.extraProperties.join(', ')}`);
     }
     
-    if (result?.extraEvents.length > 0) {
-      fixes?.push(`Consider removing extra events: ${result?.extraEvents.join(', ')}`);
+    if (result.extraEvents.length > 0) {
+      fixes.push(`Consider removing extra events: ${result.extraEvents.join(', ')}`);
     }
     
-    if (result?.lifecycleCompliance.score < 80) {
-      fixes?.push('Improve lifecycle method compliance');
+    if (result.lifecycleCompliance.score < 80) {
+      fixes.push('Improve lifecycle method compliance');
     }
     
-    if (result?.errorHandlingCompliance.score < 80) {
-      fixes?.push('Improve error handling compliance');
+    if (result.errorHandlingCompliance.score < 80) {
+      fixes.push('Improve error handling compliance');
     }
     
     return fixes;
   }
 
   private generateFixMarkdown(result: any, fixes: string[]): string {
-    let markdown = `# Interface Fix Suggestions for ${result?.module}\n\n`;
-    markdown += `**Interface:** ${result?.interface}\n`;
-    markdown += `**Current Score:** ${result?.score}%\n`;
-    markdown += `**Compliant:** ${result?.compliant ? 'Yes' : 'No'}\n\n`;
+    let markdown = `# Interface Fix Suggestions for ${result.module}\n\n`;
+    markdown += `**Interface:** ${result.interface}\n`;
+    markdown += `**Current Score:** ${result.score}%\n`;
+    markdown += `**Compliant:** ${result.compliant ? 'Yes' : 'No'}\n\n`;
     
     markdown += `## Fix Suggestions\n\n`;
-    fixes?.forEach((fix, index) => {
+    fixes.forEach((fix, index) => {
       markdown += `${index + 1}. ${fix}\n`;
     });
     
     markdown += `\n## Detailed Analysis\n\n`;
     
-    if (result?.missingMethods.length > 0) {
+    if (result.missingMethods.length > 0) {
       markdown += `### Missing Methods\n`;
-      result?.missingMethods.forEach((method: string) => {
+      result.missingMethods.forEach((method: string) => {
         markdown += `- \`${method}\`\n`;
       });
       markdown += `\n`;
     }
     
-    if (result?.missingProperties.length > 0) {
+    if (result.missingProperties.length > 0) {
       markdown += `### Missing Properties\n`;
-      result?.missingProperties.forEach((prop: string) => {
+      result.missingProperties.forEach((prop: string) => {
         markdown += `- \`${prop}\`\n`;
       });
       markdown += `\n`;
     }
     
-    if (result?.missingEvents.length > 0) {
+    if (result.missingEvents.length > 0) {
       markdown += `### Missing Events\n`;
-      result?.missingEvents.forEach((event: string) => {
+      result.missingEvents.forEach((event: string) => {
         markdown += `- \`${event}\`\n`;
       });
       markdown += `\n`;
@@ -330,23 +330,23 @@ class InterfaceCLI {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${this?.standardizer.getStats().totalModules}</div>
+            <div class="stat-value">${this.standardizer.getStats().totalModules}</div>
             <div class="stat-label">Total Modules</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value compliant">${this?.standardizer.getStats().compliantModules}</div>
+            <div class="stat-value compliant">${this.standardizer.getStats().compliantModules}</div>
             <div class="stat-label">Compliant</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value non-compliant">${this?.standardizer.getStats().nonCompliantModules}</div>
+            <div class="stat-value non-compliant">${this.standardizer.getStats().nonCompliantModules}</div>
             <div class="stat-label">Non-Compliant</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${this?.standardizer.getStats().averageScore?.toFixed(1)}%</div>
+            <div class="stat-value">${this.standardizer.getStats().averageScore.toFixed(1)}%</div>
             <div class="stat-label">Average Score</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${this?.standardizer.getStats().criticalIssues}</div>
+            <div class="stat-value">${this.standardizer.getStats().criticalIssues}</div>
             <div class="stat-label">Critical Issues</div>
         </div>
     </div>
@@ -363,7 +363,7 @@ class InterfaceCLI {
     console.info(`
 🔧 MIFF Interface Standardization CLI
 
-Usage: tsx interfaceCLI?.ts <command> [options!]
+Usage: tsx interfaceCLI.ts <command> [options!]
 
 Commands:
   standardize [path!] [output!]      Standardize interfaces across all modules
@@ -373,11 +373,11 @@ Commands:
   help                            Show this help
 
 Examples:
-  tsx interfaceCLI?.ts standardize miff/pure
-  tsx interfaceCLI?.ts standardize miff/pure interfaces?.json
-  tsx interfaceCLI?.ts check CombatPure
-  tsx interfaceCLI?.ts report compliance-report?.html
-  tsx interfaceCLI?.ts fix CombatPure
+  tsx interfaceCLI.ts standardize miff/pure
+  tsx interfaceCLI.ts standardize miff/pure interfaces.json
+  tsx interfaceCLI.ts check CombatPure
+  tsx interfaceCLI.ts report compliance-report.html
+  tsx interfaceCLI.ts fix CombatPure
 
 Interface Standards:
   - manager: Manager modules (CombatPure, HealthSystemPure, etc.)
@@ -397,7 +397,7 @@ Compliance Levels:
 }
 
 // Run the CLI if this file is executed directly
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new InterfaceCLI();
   cli.run().catch(console.error);
 }

@@ -50,7 +50,7 @@ export class RealTransport {
 
   constructor(options: TransportOptions = {}) {
     
-    this?.options = {
+    this.options = {
       url: 'ws://localhost:8080',
       protocols: ['miff-protocol'],
       reconnectInterval: 5000,
@@ -62,31 +62,31 @@ export class RealTransport {
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        this?.ws = new WebSocket(this?.options.url!, this?.options.protocols);
+        this.ws = new WebSocket(this.options.url!, this.options.protocols);
         
-        this?.ws.onopen = () => {
-          this?.isConnected = true;
-          this?.reconnectAttempts = 0;
+        this.ws.onopen = () => {
+          this.isConnected = true;
+          this.reconnectAttempts = 0;
           console.info('Transport connected');
           resolve();
         };
 
-        this?.ws.onmessage = (event: any) => {
+        this.ws.onmessage = (event: any) => {
           try {
-            const message: TransportMessage = SafeJSONParser?.parse(event?.data);
-            this?.handleMessage(message);
+            const message: TransportMessage = SafeJSONParser.parse(event.data);
+            this.handleMessage(message);
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
             console.error('Failed to parse message:', err instanceof Error ? err.message : String(err));
           }
         };
 
-        this?.ws.onclose = () => {
-          this?.isConnected = false;
-          this?.handleReconnect();
+        this.ws.onclose = () => {
+          this.isConnected = false;
+          this.handleReconnect();
         };
 
-        this?.ws.onerror = (error) => {
+        this.ws.onerror = (error) => {
           console.error('Transport error:', err instanceof Error ? err.message : String(err));
           reject(error);
         };
@@ -99,22 +99,22 @@ export class RealTransport {
 
   async disconnect(): Promise<void> {
     return new Promise((resolve) => {
-      if (this?.ws) {
-        this?.ws.close();
-        this?.ws = null;
+      if (this.ws) {
+        this.ws.close();
+        this.ws = null;
       }
-      this?.isConnected = false;
+      this.isConnected = false;
       resolve();
     });
   }
 
-  async send(data: any): Promise<void> {
-    if (!this?.isConnected || !this?.ws) {
+  async send(data): Promise<void> {
+    if (!this.isConnected || !this.ws) {
       throw new Error('Transport not connected');
     }
 
     const message: TransportMessage = {
-      id: this?.generateId(),
+      id: this.generateId(),
       type: 'data',
       data,
       timestamp: new Date()
@@ -124,33 +124,33 @@ export class RealTransport {
   }
 
   on(event: string, handler: Function): void {
-    if (!this?.messageHandlers.has(event)) {
-      this?.messageHandlers.set(event, []);
+    if (!this.messageHandlers.has(event)) {
+      this.messageHandlers.set(event, []);
     }
-    this?.messageHandlers.get(event)?.push(handler);
+    this.messageHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler?: Function): void {
-    if (!this?.messageHandlers.has(event)) {
+    if (!this.messageHandlers.has(event)) {
       return;
     }
 
     if (handler) {
-      const handlers = this?.messageHandlers.get(event)!;
-      const index = handlers?.indexOf(handler);
+      const handlers = this.messageHandlers.get(event)!;
+      const index = handlers.indexOf(handler);
       if (index > -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     } else {
-      this?.messageHandlers.delete(event);
+      this.messageHandlers.delete(event);
     }
   }
 
   private handleMessage(message: TransportMessage): void {
-    const handlers = this?.messageHandlers.get(message?.type) || [];
-    handlers?.forEach((handler: any) => {
+    const handlers = this.messageHandlers.get(message.type) || [];
+    handlers.forEach((handler: any) => {
       try {
-        handler(message?.data);
+        handler(message.data);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error('Error in message handler:', err instanceof Error ? err.message : String(err));
@@ -159,15 +159,15 @@ export class RealTransport {
   }
 
   private handleReconnect(): void {
-    if (this?.reconnectAttempts < this?.options.maxReconnectAttempts!) {
-      this?.reconnectAttempts++;
+    if (this.reconnectAttempts < this.options.maxReconnectAttempts!) {
+      this.reconnectAttempts++;
       console.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
       
       setTimeout(() => {
-        this?.connect().catch(error => {
+        this.connect().catch(error => {
           console.error('Reconnect failed:', err instanceof Error ? err.message : String(err));
         });
-      }, this?.options.reconnectInterval);
+      }, this.options.reconnectInterval);
     } else {
       console.error('Max reconnect attempts reached');
     }
@@ -178,7 +178,7 @@ export class RealTransport {
   }
 
   get connected(): boolean {
-    return this?.isConnected;
+    return this.isConnected;
   }
 }
 

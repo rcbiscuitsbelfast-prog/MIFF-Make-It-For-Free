@@ -4,12 +4,12 @@ export function getOverride(): LicenseAuditOverride {
   return {
     validateLicense: (license: LicenseInfo): boolean => {
       // Custom validation: ensure all licenses have descriptions
-      if (!license?.description || license?.description.length < 10) {
+      if (!license.description || license.description.length < 10) {
         return false;
       }
       
       // Ensure remix-safe licenses have clear requirements
-      if (license?.remixSafe && license?.requirements.length === 0) {
+      if (license.remixSafe && license.requirements.length === 0) {
         return false;
       }
       
@@ -22,7 +22,7 @@ export function getOverride(): LicenseAuditOverride {
         'MiffAttributionPure': {
           type: 'AGPLv3',
           version: '3.0',
-          url: 'https://www?.gnu.org/licenses/agpl-3.0?.en.html',
+          url: 'https://www.gnu.org/licenses/agpl-3.0.en.html',
           spdxId: 'AGPL-3.0',
           description: 'GNU Affero General Public License v3.0 with MIFF attribution requirements',
           requirements: [
@@ -46,7 +46,7 @@ export function getOverride(): LicenseAuditOverride {
         'BridgeSchemaPure': {
           type: 'CC-BY-SA-4.0',
           version: '4.0',
-          url: 'https://creativecommons?.org/licenses/by-sa/4.0/',
+          url: 'https://creativecommons.org/licenses/by-sa/4.0/',
           spdxId: 'CC-BY-SA-4.0',
           description: 'Creative Commons Attribution-ShareAlike 4.0 International for schema definitions',
           requirements: [

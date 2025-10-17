@@ -22,7 +22,7 @@ export class SharedSchemaManager {
       status: 'ok',
       issues: [],
       resolvedRefs: {},
-      types: this?.listTypes(),
+      types: this.listTypes(),
     };
   }
 }

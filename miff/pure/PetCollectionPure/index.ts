@@ -90,34 +90,34 @@ export class PetCollectionPure {
   private pets: Map<string, Pet> = new Map();
   private eggs: Map<string, Egg> = new Map();
   private trades: Map<string, TradeOffer> = new Map();
-  private incubationTimer: NodeJS?.Timeout | null = null;
+  private incubationTimer: NodeJS.Timeout | null = null;
 
   constructor(eventBus: EventBus) {
-    this?.eventBus = eventBus;
-    this?.startIncubationTimer();
+    this.eventBus = eventBus;
+    this.startIncubationTimer();
   }
 
   private startIncubationTimer(): void {
-    this?.incubationTimer = setInterval(() => {
-      this?.updateIncubation();
+    this.incubationTimer = setInterval(() => {
+      this.updateIncubation();
     }, 1000); // Check every second
   }
 
   private updateIncubation(): void {
-    const now = new Date();
+    const now = Date.now();
 
-    this?.eggs.forEach((egg, eggId) => {
-      if (egg?.isIncubating && now >= egg?.hatchTime) {
-        this?.hatchEgg(eggId);
-      } else if (egg?.isIncubating) {
+    this.eggs.forEach((egg, eggId) => {
+      if (egg.isIncubating && now >= egg.hatchTime) {
+        this.hatchEgg(eggId);
+      } else if (egg.isIncubating) {
         egg.progress = Math.min(100, ((now - (egg.hatchTime - egg.incubationTime)) / egg.incubationTime) * 100);
       }
     });
   }
 
   public createEgg(ownerId: string, eggType: EggType, species: string): Egg {
-    const rarity = this?.determineEggRarity(eggType);
-    const incubationTime = this?.getIncubationTime(eggType, rarity);
+    const rarity = this.determineEggRarity(eggType);
+    const incubationTime = this.getIncubationTime(eggType, rarity);
 
     const egg: Egg = {
       id: `egg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -131,9 +131,9 @@ export class PetCollectionPure {
       ownerId: ownerId
     };
 
-    this?.eggs.set(egg?.id, egg);
+    this.eggs.set(egg.id, egg);
 
-    this?.eventBus.publish('pet:egg_created', {
+    this.eventBus.publish('pet:egg_created', {
       egg: egg,
       ownerId: ownerId,
       timestamp: new Date()
@@ -143,23 +143,23 @@ export class PetCollectionPure {
   }
 
   public hatchEgg(eggId: string): Pet | null {
-    const egg = this?.eggs.get(eggId);
-    if (!egg || !egg?.isIncubating) {
+    const egg = this.eggs.get(eggId);
+    if (!egg || !egg.isIncubating) {
       return null;
     }
 
-    egg?.isIncubating = false;
-    egg?.progress = 100;
+    egg.isIncubating = false;
+    egg.progress = 100;
 
-    const pet = this?.generatePetFromEgg(egg);
-    this?.pets.set(pet?.id, pet);
+    const pet = this.generatePetFromEgg(egg);
+    this.pets.set(pet.id, pet);
 
-    this?.eggs.delete(eggId);
+    this.eggs.delete(eggId);
 
-    this?.eventBus.publish('pet:egg_hatched', {
+    this.eventBus.publish('pet:egg_hatched', {
       eggId: eggId,
       pet: pet,
-      ownerId: egg?.ownerId,
+      ownerId: egg.ownerId,
       timestamp: new Date()
     });
 
@@ -167,15 +167,15 @@ export class PetCollectionPure {
   }
 
   private generatePetFromEgg(egg: Egg): Pet {
-    const baseStats = this?.getBaseStatsForSpecies(egg?.species);
-    const rarityMultiplier = this?.getRarityMultiplier(egg?.rarity);
+    const baseStats = this.getBaseStatsForSpecies(egg.species);
+    const rarityMultiplier = this.getRarityMultiplier(egg.rarity);
 
     const pet: Pet = {
       id: `pet_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: this?.generatePetName(egg?.species),
-      species: egg?.species,
-      type: this?.getPetTypeForSpecies(egg?.species),
-      rarity: egg?.rarity,
+      name: this.generatePetName(egg.species),
+      species: egg.species,
+      type: this.getPetTypeForSpecies(egg.species),
+      rarity: egg.rarity,
       level: 1,
       experience: 0,
       stats: {
@@ -186,16 +186,16 @@ export class PetCollectionPure {
         intelligence: Math.floor(baseStats.intelligence * rarityMultiplier),
         charisma: Math.floor(baseStats.charisma * rarityMultiplier)
       },
-      abilities: this?.getAbilitiesForSpecies(egg?.species, egg?.rarity),
+      abilities: this.getAbilitiesForSpecies(egg.species, egg.rarity),
       evolutionStage: 1,
-      maxEvolutionStage: this?.getMaxEvolutionStage(egg?.rarity),
+      maxEvolutionStage: this.getMaxEvolutionStage(egg.rarity),
       isLocked: false,
       isFavorite: false,
       hatchDate: new Date(),
       lastFed: new Date(),
       happiness: 50,
       loyalty: 50,
-      ownerId: egg?.ownerId
+      ownerId: egg.ownerId
     };
 
     return pet;
@@ -210,17 +210,17 @@ export class PetCollectionPure {
   }
 
   public getCollectionStats(ownerId: string): CollectionStats {
-    const pets = this?.getPetsByOwner(ownerId);
-    const eggs = this?.getEggsByOwner(ownerId);
+    const pets = this.getPetsByOwner(ownerId);
+    const eggs = this.getEggsByOwner(ownerId);
 
-    const totalPets = pets?.length;
-    const uniqueSpecies = new Set(pets?.map((p: any) => p?.species)).size;
-    const averageRarity = pets?.reduce((sum, p) => sum + this?.getRarityValue(p?.rarity), 0) / totalPets || 0;
+    const totalPets = pets.length;
+    const uniqueSpecies = new Set(pets.map((p: any) => p.species)).size;
+    const averageRarity = pets.reduce((sum, p) => sum + this.getRarityValue(p.rarity), 0) / totalPets || 0;
     const totalTrades = Array.from(this.trades.values()).filter((t: any) => t.ownerId === ownerId).length;
-    const eggsHatched = pets?.length;
-    const favoritePets = pets?.filter((p: any) => p?.isFavorite).length;
+    const eggsHatched = pets.length;
+    const favoritePets = pets.filter((p: any) => p.isFavorite).length;
     const maxLevel = pets.reduce((max, p) => Math.max(max, p.level), 0);
-    const collectionValue = pets?.reduce((sum, p) => sum + this?.calculatePetValue(p), 0);
+    const collectionValue = pets.reduce((sum, p) => sum + this.calculatePetValue(p), 0);
 
     return {
       totalPets,
@@ -235,8 +235,8 @@ export class PetCollectionPure {
   }
 
   public createTradeOffer(ownerId: string, petId: string, requestedPetId?: string, requestedItems?: string[]): TradeOffer | null {
-    const pet = this?.pets.get(petId);
-    if (!pet || pet?.ownerId !== ownerId || pet?.isLocked) {
+    const pet = this.pets.get(petId);
+    if (!pet || pet.ownerId !== ownerId || pet.isLocked) {
       return null;
     }
 
@@ -251,9 +251,9 @@ export class PetCollectionPure {
       expiresAt: new Date() + (7 * 24 * 60 * 60 * 1000) // 7 days
     };
 
-    this?.trades.set(tradeOffer?.id, tradeOffer);
+    this.trades.set(tradeOffer.id, tradeOffer);
 
-    this?.eventBus.publish('pet:trade_created', {
+    this.eventBus.publish('pet:trade_created', {
       tradeOffer: tradeOffer,
       ownerId: ownerId,
       timestamp: new Date()
@@ -263,32 +263,32 @@ export class PetCollectionPure {
   }
 
   public acceptTradeOffer(tradeId: string, accepterId: string): boolean {
-    const trade = this?.trades.get(tradeId);
-    if (!trade || trade?.status !== 'pending') {
+    const trade = this.trades.get(tradeId);
+    if (!trade || trade.status !== 'pending') {
       return false;
     }
 
-    const accepterPets = this?.getPetsByOwner(accepterId);
-    const accepterPet = trade?.requestedPetId ? accepterPets?.find(p => p?.id === trade?.requestedPetId) : null;
+    const accepterPets = this.getPetsByOwner(accepterId);
+    const accepterPet = trade.requestedPetId ? accepterPets.find(p => p.id === trade.requestedPetId) : null;
 
-    if (trade?.requestedPetId && !accepterPet) {
+    if (trade.requestedPetId && !accepterPet) {
       return false; // Accepter doesn't have the requested pet
     }
 
     // Execute the trade
-    const offeringPet = this?.pets.get(trade?.petId);
+    const offeringPet = this.pets.get(trade.petId);
     if (offeringPet && accepterPet) {
       // Swap pets
-      const tempOwnerId = offeringPet?.ownerId;
-      offeringPet?.ownerId = accepterId;
-      accepterPet?.ownerId = tempOwnerId;
+      const tempOwnerId = offeringPet.ownerId;
+      offeringPet.ownerId = accepterId;
+      accepterPet.ownerId = tempOwnerId;
     }
 
-    trade?.status = 'completed';
+    trade.status = 'completed';
 
-    this?.eventBus.publish('pet:trade_completed', {
+    this.eventBus.publish('pet:trade_completed', {
       tradeId: tradeId,
-      participants: [trade?.ownerId, accepterId],
+      participants: [trade.ownerId, accepterId],
       timestamp: new Date()
     });
 
@@ -296,15 +296,15 @@ export class PetCollectionPure {
   }
 
   public feedPet(petId: string, ownerId: string): boolean {
-    const pet = this?.pets.get(petId);
-    if (!pet || pet?.ownerId !== ownerId) {
+    const pet = this.pets.get(petId);
+    if (!pet || pet.ownerId !== ownerId) {
       return false;
     }
 
-    pet.lastFed = new Date();
+    pet.lastFed = Date.now();
     pet.happiness = Math.min(100, pet.happiness + 10);
 
-    this?.eventBus.publish('pet:fed', {
+    this.eventBus.publish('pet:fed', {
       petId: petId,
       ownerId: ownerId,
       timestamp: new Date()
@@ -314,16 +314,16 @@ export class PetCollectionPure {
   }
 
   public toggleFavorite(petId: string, ownerId: string): boolean {
-    const pet = this?.pets.get(petId);
-    if (!pet || pet?.ownerId !== ownerId) {
+    const pet = this.pets.get(petId);
+    if (!pet || pet.ownerId !== ownerId) {
       return false;
     }
 
-    pet?.isFavorite = !pet?.isFavorite;
+    pet.isFavorite = !pet.isFavorite;
 
-    this?.eventBus.publish('pet:favorite_toggled', {
+    this.eventBus.publish('pet:favorite_toggled', {
       petId: petId,
-      isFavorite: pet?.isFavorite,
+      isFavorite: pet.isFavorite,
       ownerId: ownerId,
       timestamp: new Date()
     });
@@ -422,7 +422,7 @@ export class PetCollectionPure {
       mythic: 3
     };
 
-    return baseAbilities?.slice(0, rarityBonusAbilities[rarity!]);
+    return baseAbilities.slice(0, rarityBonusAbilities[rarity!]);
   }
 
   private getMaxEvolutionStage(rarity: PetRarity): number {
@@ -475,8 +475,8 @@ export class PetCollectionPure {
   }
 
   private calculatePetValue(pet: Pet): number {
-    const rarityMultiplier = this?.getRarityValue(pet?.rarity);
-    const levelMultiplier = pet?.level;
+    const rarityMultiplier = this.getRarityValue(pet.rarity);
+    const levelMultiplier = pet.level;
     const statSum = Object.values(pet.stats).reduce((sum, stat) => sum + stat, 0);
 
     return Math.floor((statSum * rarityMultiplier * levelMultiplier) / 6);

@@ -95,7 +95,7 @@ export class SpiritTamerManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.player = {
+    this.player = {
       name: 'Tamer',
       level: 1,
       experience: 0,
@@ -114,7 +114,7 @@ export class SpiritTamerManager {
       }
     };
 
-    this?.initializeSpirits();
+    this.initializeSpirits();
   }
 
   private initializeSpirits() {
@@ -193,8 +193,8 @@ export class SpiritTamerManager {
       }
     ];
 
-    defaultSpirits?.forEach((spirit: any) => {
-      this?.spirits.set(spirit?.id, spirit);
+    defaultSpirits.forEach((spirit: any) => {
+      this.spirits.set(spirit.id, spirit);
     });
   }
 
@@ -202,7 +202,7 @@ export class SpiritTamerManager {
    * Get player state
    */
   getPlayer(): { ok: boolean; player: PlayerState } {
-    return { ok: true, player: this?.player };
+    return { ok: true, player: this.player };
   }
 
   /**
@@ -210,14 +210,14 @@ export class SpiritTamerManager {
    */
   movePlayer(x: number, y: number, zone?: string): { ok: boolean; location?: PlayerState['location']; errors?: string[] } {
     try {
-      this?.player.location.x = x;
-      this?.player.location.y = y;
-      if (zone) this?.player.location?.zone = zone;
+      this.player.location.x = x;
+      this.player.location.y = y;
+      if (zone) this.player.location.zone = zone;
 
-      return { ok: true, location: this?.player.location };
+      return { ok: true, location: this.player.location };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -225,7 +225,7 @@ export class SpiritTamerManager {
    * Get spirit by ID
    */
   getSpirit(spiritId: string): { ok: boolean; spirit?: Spirit; errors?: string[] } {
-    const spirit = this?.spirits.get(spiritId);
+    const spirit = this.spirits.get(spiritId);
     if (!spirit) {
       return { ok: false, errors: [`Spirit ${spiritId} not found`] };
     }
@@ -239,14 +239,14 @@ export class SpiritTamerManager {
     let spirits = Array.from(this.spirits.values());
 
     if (location) {
-      spirits = spirits?.filter((s: any) => s?.location === location);
+      spirits = spirits.filter((s: any) => s.location === location);
     }
 
     if (!includeWild) {
-      spirits = spirits?.filter((s: any) => !s?.isWild || this?.player.tamedSpirits?.includes(s?.id));
+      spirits = spirits.filter((s: any) => !s.isWild || this.player.tamedSpirits.includes(s.id));
     }
 
-    return { ok: true, spirits, total: spirits?.length };
+    return { ok: true, spirits, total: spirits.length };
   }
 
   /**
@@ -254,40 +254,40 @@ export class SpiritTamerManager {
    */
   startTaming(spiritId: string): { ok: boolean; session?: TamingSession; errors?: string[] } {
     try {
-      const spirit = this?.spirits.get(spiritId);
+      const spirit = this.spirits.get(spiritId);
       if (!spirit) {
         return { ok: false, errors: [`Spirit ${spiritId} not found`] };
       }
 
-      if (!spirit?.isWild) {
+      if (!spirit.isWild) {
         return { ok: false, errors: [`Spirit ${spiritId} is already tamed`] };
       }
 
-      if (this?.activeSession) {
+      if (this.activeSession) {
         return { ok: false, errors: ['Another taming session is already active'] };
       }
 
       // Generate rhythm pattern based on spirit difficulty
-      const beats = this?.generateRhythmPattern(spirit?.stats.tamingDifficulty);
+      const beats = this.generateRhythmPattern(spirit.stats.tamingDifficulty);
       
       const session: TamingSession = {
         id: `taming-${spiritId}-${Date.now()}`,
         spiritId,
         startTime: new Date(),
         beats,
-        timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit?.stats.tamingDifficulty, progress: 0, tamed: false }],
+        timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false }],
         result: 'in_progress',
         score: 0,
         accuracy: 0
       };
 
-      this?.activeSession = session;
-      this?.tamingSessions.set(session?.id, session);
+      this.activeSession = session;
+      this.tamingSessions.set(session.id, session);
 
       return { ok: true, session };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -295,16 +295,16 @@ export class SpiritTamerManager {
    * Process rhythm input during taming
    */
   processRhythmInput(time: number, hit: boolean): { ok: boolean; result?: any; errors?: string[] } {
-    if (!this?.activeSession) {
+    if (!this.activeSession) {
       return { ok: false, errors: ['No active taming session'] };
     }
 
     try {
-      const session = this?.activeSession;
-      const spirit = this?.spirits.get(session?.spiritId)!;
+      const session = this.activeSession;
+      const spirit = this.spirits.get(session.spiritId)!;
       
       // Find the closest beat
-      const closestBeat = session?.beats.reduce((closest, beat) => {
+      const closestBeat = session.beats.reduce((closest, beat) => {
         const currentDistance = Math.abs(beat.time - time);
         const closestDistance = Math.abs(closest.time - time);
         return currentDistance < closestDistance ? beat : closest;
@@ -316,19 +316,19 @@ export class SpiritTamerManager {
       const timing = isInWindow ? 1 - (distance / timingWindow) : 0;
 
       // Update beat
-      if (isInWindow && closestBeat?.expected && !closestBeat?.hit) {
-        closestBeat?.hit = hit;
-        closestBeat?.timing = timing;
+      if (isInWindow && closestBeat.expected && !closestBeat.hit) {
+        closestBeat.hit = hit;
+        closestBeat.timing = timing;
       }
 
       // Calculate progress
-      const hitBeats = session?.beats.filter((b: any) => b?.hit && b?.expected).length;
-      const expectedBeats = session?.beats.filter((b: any) => b?.expected).length;
+      const hitBeats = session.beats.filter((b: any) => b.hit && b.expected).length;
+      const expectedBeats = session.beats.filter((b: any) => b.expected).length;
       const accuracy = expectedBeats > 0 ? hitBeats / expectedBeats : 0;
       const progress = Math.min(100, accuracy * 100);
 
       // Update timeline
-      const lastEntry = session?.timeline[session?.timeline.length - 1];
+      const lastEntry = session.timeline[session.timeline.length - 1];
       const newEntry: TimelineEntry = {
         time,
         hits: hitBeats,
@@ -338,18 +338,18 @@ export class SpiritTamerManager {
         tamed: progress >= 75 // 75% accuracy needed to tame
       };
 
-      session?.timeline?.push(newEntry);
-      session?.accuracy = accuracy;
+      session.timeline.push(newEntry);
+      session.accuracy = accuracy;
       session.score = Math.floor(accuracy * 1000 * timing);
 
       // Check if taming is complete
-      if (newEntry?.tamed) {
-        session?.result = 'success';
-        this?.completeTaming(session?.spiritId, true);
-      } else if (session?.timeline.length > 20 && progress < 25) {
+      if (newEntry.tamed) {
+        session.result = 'success';
+        this.completeTaming(session.spiritId, true);
+      } else if (session.timeline.length > 20 && progress < 25) {
         // Failed if too many attempts with low progress
-        session?.result = 'failure';
-        this?.completeTaming(session?.spiritId, false);
+        session.result = 'failure';
+        this.completeTaming(session.spiritId, false);
       }
 
       return {
@@ -358,14 +358,14 @@ export class SpiritTamerManager {
           timing,
           accuracy,
           progress,
-          aggression: newEntry?.aggression,
-          tamed: newEntry?.tamed,
-          sessionComplete: session?.result !== 'in_progress'
+          aggression: newEntry.aggression,
+          tamed: newEntry.tamed,
+          sessionComplete: session.result !== 'in_progress'
         }
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -374,19 +374,19 @@ export class SpiritTamerManager {
    */
   private completeTaming(spiritId: string, success: boolean): void {
     if (success) {
-      this?.player.tamedSpirits?.push(spiritId);
-      this?.player.stats?.totalSpirits++;
-      this?.player.stats?.successfulTamings++;
-      this?.player.experience += 50;
+      this.player.tamedSpirits.push(spiritId);
+      this.player.stats.totalSpirits++;
+      this.player.stats.successfulTamings++;
+      this.player.experience += 50;
 
       // Mark spirit as tamed
-      const spirit = this?.spirits.get(spiritId);
+      const spirit = this.spirits.get(spiritId);
       if (spirit) {
-        spirit?.isWild = false;
+        spirit.isWild = false;
       }
     }
 
-    this?.activeSession = null;
+    this.activeSession = null;
   }
 
   /**
@@ -394,25 +394,25 @@ export class SpiritTamerManager {
    */
   simulateBattle(spiritId: string): { ok: boolean; battle?: BattleResult; errors?: string[] } {
     try {
-      const spirit = this?.spirits.get(spiritId);
+      const spirit = this.spirits.get(spiritId);
       if (!spirit) {
         return { ok: false, errors: [`Spirit ${spiritId} not found`] };
       }
 
       const turns: BattleTurn[] = [];
       let playerHealth = 100;
-      let spiritHealth = spirit?.stats.health;
+      let spiritHealth = spirit.stats.health;
       let turn = 1;
-      const startTime = new Date();
+      const startTime = Date.now();
 
       while (playerHealth > 0 && spiritHealth > 0 && turn <= 20) {
         // Player turn
         const playerAttack = Math.floor(Math.random() * 20) + 10;
-        const spiritDefense = spirit?.stats.defense;
+        const spiritDefense = spirit.stats.defense;
         const playerDamage = Math.max(1, playerAttack - spiritDefense);
         spiritHealth = Math.max(0, spiritHealth - playerDamage);
 
-        turns?.push({
+        turns.push({
           turn: turn++,
           actor: 'player',
           action: 'attack',
@@ -423,12 +423,12 @@ export class SpiritTamerManager {
         if (spiritHealth <= 0) break;
 
         // Spirit turn
-        const spiritAttack = spirit?.stats.attack;
+        const spiritAttack = spirit.stats.attack;
         const playerDefense = 5; // Base player defense
         const spiritDamage = Math.max(1, spiritAttack - playerDefense);
         playerHealth = Math.max(0, playerHealth - spiritDamage);
 
-        turns?.push({
+        turns.push({
           turn: turn++,
           actor: 'spirit',
           action: spirit.abilities[Math.floor(Math.random() * spirit.abilities.length)],
@@ -438,12 +438,12 @@ export class SpiritTamerManager {
       }
 
       const winner = playerHealth > 0 ? 'player' : 'spirit';
-      const experience = winner === 'player' ? spirit?.level * 10 : 0;
+      const experience = winner === 'player' ? spirit.level * 10 : 0;
       const rewards = winner === 'player' ? ['experience', 'spirit_essence'] : [];
 
       if (winner === 'player') {
-        this?.player.stats?.battleWins++;
-        this?.player.experience += experience;
+        this.player.stats.battleWins++;
+        this.player.experience += experience;
       }
 
       const battle: BattleResult = {
@@ -457,7 +457,7 @@ export class SpiritTamerManager {
       return { ok: true, battle };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -465,7 +465,7 @@ export class SpiritTamerManager {
    * Get taming session by ID
    */
   getTamingSession(sessionId: string): { ok: boolean; session?: TamingSession; errors?: string[] } {
-    const session = this?.tamingSessions.get(sessionId);
+    const session = this.tamingSessions.get(sessionId);
     if (!session) {
       return { ok: false, errors: [`Taming session ${sessionId} not found`] };
     }
@@ -477,34 +477,34 @@ export class SpiritTamerManager {
    */
   listTamingSessions(): { ok: boolean; sessions: TamingSession[]; total: number } {
     const sessions = Array.from(this.tamingSessions.values());
-    return { ok: true, sessions, total: sessions?.length };
+    return { ok: true, sessions, total: sessions.length };
   }
 
   /**
    * Get game statistics
    */
   getStats(): { ok: boolean; stats: any } {
-    const managerData = this?.getStats();
+    const managerData = this.getStats();
     const wildSpirits = Array.from(this.spirits.values()).filter((s: any) => s.isWild).length;
-    const tamedSpirits = this?.player.tamedSpirits?.length;
+    const tamedSpirits = this.player.tamedSpirits.length;
     const completedSessions = Array.from(this.tamingSessions.values()).filter((s: any) => s.result !== 'in_progress').length;
 
     return {
       ok: true,
       stats: {
-        player: this?.player.stats,
+        player: this.player.stats,
         spirits: {
-          total: this?.spirits.size,
+          total: this.spirits.size,
           wild: wildSpirits,
           tamed: tamedSpirits,
-          tamingRate: this?.spirits.size > 0 ? (tamedSpirits / this?.spirits.size) * 100 : 0
+          tamingRate: this.spirits.size > 0 ? (tamedSpirits / this.spirits.size) * 100 : 0
         },
         sessions: {
-          total: this?.tamingSessions.size,
+          total: this.tamingSessions.size,
           completed: completedSessions,
-          active: this?.activeSession ? 1 : 0
+          active: this.activeSession ? 1 : 0
         },
-        location: this?.player.location
+        location: this.player.location
       }
     };
   }
@@ -519,11 +519,11 @@ export class SpiritTamerManager {
           return {
             ok: true,
             data: {
-              schema: 'miff?.spirit-tamer?.save.v1',
-              player: this?.player,
+              schema: 'miff.spirit-tamer.save.v1',
+              player: this.player,
               spirits: Object.fromEntries(this.spirits.entries()),
               sessions: Object.fromEntries(this.tamingSessions.entries()),
-              activeSession: this?.activeSession?.id || null,
+              activeSession: this.activeSession?.id || null,
               exportedAt: new Date().toISOString()
             }
           };
@@ -543,18 +543,18 @@ export class SpiritTamerManager {
           };
 
         case 'summary':
-          const stats = this?.getStats();
-    const managerData = this?.getStats();
+          const stats = this.getStats();
+    const managerData = this.getStats();
           return {
             ok: true,
             data: {
-              playerName: this?.player.name,
-              level: this?.player.level,
-              experience: this?.player.experience,
-              spiritsTamed: this?.player.tamedSpirits?.length,
-              successRate: stats?.stats.spirits?.tamingRate,
-              currentLocation: this?.player.location,
-              inventory: this?.player.inventory?.length
+              playerName: this.player.name,
+              level: this.player.level,
+              experience: this.player.experience,
+              spiritsTamed: this.player.tamedSpirits.length,
+              successRate: stats.stats.spirits.tamingRate,
+              currentLocation: this.player.location,
+              inventory: this.player.inventory.length
             }
           };
 
@@ -563,7 +563,7 @@ export class SpiritTamerManager {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error?.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -578,17 +578,17 @@ export class SpiritTamerManager {
     for (let i = 0; i < beatCount; i++) {
       const time = (i / beatCount) * duration;
       const expected = Math.random() < 0.7; // 70% of beats require input
-      beats?.push({ time, expected });
+      beats.push({ time, expected });
     }
 
-    return beats?.sort((a: any, b: any) => a?.time - b?.time);
+    return beats.sort((a: any, b: any) => a.time - b.time);
   }
 
   /**
    * Reset game state
    */
   reset(): { ok: boolean; message: string } {
-    this?.player = {
+    this.player = {
       name: 'Tamer',
       level: 1,
       experience: 0,
@@ -599,10 +599,10 @@ export class SpiritTamerManager {
       stats: { totalSpirits: 0, successfulTamings: 0, battleWins: 0, rhythmAccuracy: 0 }
     };
 
-    this?.spirits.clear();
-    this?.tamingSessions.clear();
-    this?.activeSession = null;
-    this?.initializeSpirits();
+    this.spirits.clear();
+    this.tamingSessions.clear();
+    this.activeSession = null;
+    this.initializeSpirits();
 
     return { ok: true, message: 'Game state reset successfully' };
   }

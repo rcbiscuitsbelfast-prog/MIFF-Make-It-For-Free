@@ -17,21 +17,21 @@ describe('AIProfileIntegrationLayer Golden', () => {
       metadata: {}
     };
 
-    ai?.createProfile(profile);
+    ai.createProfile(profile);
     const actions: AIAction[] = [
       { id: 'a', name: 'Attack', type: 'attack', target: 'enemy', parameters: {}, confidence: 0, reasoning: '' },
       { id: 'd', name: 'Defend', type: 'defend', parameters: {}, confidence: 0, reasoning: '' }
     ];
 
-    const decision = ai?.makeDecision('p1', 'enemies_present', actions);
+    const decision = ai.makeDecision('p1', 'enemies_present', actions);
     expect(decision).toBeTruthy();
-    expect(decision!.chosenAction?.type).toBe('attack');
+    expect(decision!.chosenAction.type).toBe('attack');
 
-    const integrated = ai?.integrateWithGameplay('p1', { health: 0.9, enemies: ['e1'], allies: [] });
+    const integrated = ai.integrateWithGameplay('p1', { health: 0.9, enemies: ['e1'], allies: [] });
     expect(integrated?.status).toBe('success');
     expect(integrated?.performance).toBeGreaterThanOrEqual(0);
 
-    ai?.recordLearning('p1', {
+    ai.recordLearning('p1', {
       profileId: 'p1',
       situation: 'combat',
       action: decision!.chosenAction,
@@ -41,9 +41,9 @@ describe('AIProfileIntegrationLayer Golden', () => {
       context: {}
     });
 
-    const stats = ai?.getAIStatistics();
-    expect(stats?.totalProfiles).toBe(1);
-    expect(stats?.totalDecisions).toBeGreaterThan(0);
+    const stats = ai.getAIStatistics();
+    expect(stats.totalProfiles).toBe(1);
+    expect(stats.totalDecisions).toBeGreaterThan(0);
   });
 });
 

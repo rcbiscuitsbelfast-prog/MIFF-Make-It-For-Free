@@ -308,9 +308,9 @@ export class UnrealPayloadAdapterPure {
   private conversionConfigurations: Map<string, PayloadConversionConfiguration> = new Map();
 
   constructor(renderPayloadManager: RenderPayloadManager, bridgeManager: UnrealBridgeManager) {
-    this?.renderPayloadManager = renderPayloadManager;
-    this?.bridgeManager = bridgeManager;
-    this?.initializeDefaultConfigurations();
+    this.renderPayloadManager = renderPayloadManager;
+    this.bridgeManager = bridgeManager;
+    this.initializeDefaultConfigurations();
   }
 
   private initializeDefaultConfigurations(): void {
@@ -318,7 +318,7 @@ export class UnrealPayloadAdapterPure {
 
     // Static Mesh Configuration
     const staticMeshConfig: PayloadConversionConfiguration = {
-      mode: PayloadConversionMode?.STATIC_MESH,
+      mode: PayloadConversionMode.STATIC_MESH,
       targetEngineVersion: '5.1',
       targetPlatform: 'windows',
       optimizationLevel: 'quality',
@@ -367,11 +367,11 @@ export class UnrealPayloadAdapterPure {
       customSettings: {}
     };
 
-    this?.conversionConfigurations.set('static_mesh', staticMeshConfig);
+    this.conversionConfigurations.set('static_mesh', staticMeshConfig);
 
     // Skeletal Mesh Configuration
     const skeletalMeshConfig: PayloadConversionConfiguration = {
-      mode: PayloadConversionMode?.SKELETAL_MESH,
+      mode: PayloadConversionMode.SKELETAL_MESH,
       targetEngineVersion: '5.1',
       targetPlatform: 'windows',
       optimizationLevel: 'quality',
@@ -420,11 +420,11 @@ export class UnrealPayloadAdapterPure {
       customSettings: {}
     };
 
-    this?.conversionConfigurations.set('skeletal_mesh', skeletalMeshConfig);
+    this.conversionConfigurations.set('skeletal_mesh', skeletalMeshConfig);
 
     // Animation Configuration
     const animationConfig: PayloadConversionConfiguration = {
-      mode: PayloadConversionMode?.ANIMATION,
+      mode: PayloadConversionMode.ANIMATION,
       targetEngineVersion: '5.1',
       targetPlatform: 'windows',
       optimizationLevel: 'quality',
@@ -473,11 +473,11 @@ export class UnrealPayloadAdapterPure {
       customSettings: {}
     };
 
-    this?.conversionConfigurations.set('animation', animationConfig);
+    this.conversionConfigurations.set('animation', animationConfig);
 
     // Material Configuration
     const materialConfig: PayloadConversionConfiguration = {
-      mode: PayloadConversionMode?.MATERIAL,
+      mode: PayloadConversionMode.MATERIAL,
       targetEngineVersion: '5.1',
       targetPlatform: 'windows',
       optimizationLevel: 'quality',
@@ -526,7 +526,7 @@ export class UnrealPayloadAdapterPure {
       customSettings: {}
     };
 
-    this?.conversionConfigurations.set('material', materialConfig);
+    this.conversionConfigurations.set('material', materialConfig);
 
     console.log(`[UnrealPayloadAdapterPure!] Initialized ${this.conversionConfigurations.size} conversion configurations`);
   }
@@ -540,7 +540,7 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Get source payload
-      const sourcePayload = this?.renderPayloadManager.getPayload(payloadId);
+      const sourcePayload = this.renderPayloadManager.getPayload(payloadId);
       if (!sourcePayload) {
         throw new Error(`Render payload not found: ${payloadId}`);
       }
@@ -548,14 +548,14 @@ export class UnrealPayloadAdapterPure {
       // Get or create configuration
       let config: PayloadConversionConfiguration;
       if (configurationId) {
-        const existingConfig = this?.conversionConfigurations.get(configurationId);
+        const existingConfig = this.conversionConfigurations.get(configurationId);
         if (!existingConfig) {
           throw new Error(`Conversion configuration not found: ${configurationId}`);
         }
         config = { ...existingConfig, ...options };
       } else {
         config = {
-          mode: PayloadConversionMode?.STATIC_MESH,
+          mode: PayloadConversionMode.STATIC_MESH,
           targetEngineVersion: '5.1',
           targetPlatform: 'windows',
           optimizationLevel: 'quality',
@@ -606,7 +606,7 @@ export class UnrealPayloadAdapterPure {
         };
       }
 
-      const startTime = new Date();
+      const startTime = Date.now();
 
       // Convert based on mode
       let convertedAssets: UnrealAssetBridge[] = [];
@@ -616,98 +616,98 @@ export class UnrealPayloadAdapterPure {
       const warnings: string[] = [];
       const errors: string[] = [];
 
-      switch (config?.mode) {
-        case PayloadConversionMode?.STATIC_MESH:
-          const staticMeshResult = await this?.convertToStaticMesh(sourcePayload, config);
-          convertedAssets = staticMeshResult?.assets;
-          convertedActors = staticMeshResult?.actors;
-          warnings?.push(...staticMeshResult?.warnings);
-          errors?.push(...(staticMeshResult?.errors ?? []));
+      switch (config.mode) {
+        case PayloadConversionMode.STATIC_MESH:
+          const staticMeshResult = await this.convertToStaticMesh(sourcePayload, config);
+          convertedAssets = staticMeshResult.assets;
+          convertedActors = staticMeshResult.actors;
+          warnings.push(...staticMeshResult.warnings);
+          errors.push(...(staticMeshResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.SKELETAL_MESH:
-          const skeletalMeshResult = await this?.convertToSkeletalMesh(sourcePayload, config);
-          convertedAssets = skeletalMeshResult?.assets;
-          convertedActors = skeletalMeshResult?.actors;
-          warnings?.push(...skeletalMeshResult?.warnings);
-          errors?.push(...(skeletalMeshResult?.errors ?? []));
+        case PayloadConversionMode.SKELETAL_MESH:
+          const skeletalMeshResult = await this.convertToSkeletalMesh(sourcePayload, config);
+          convertedAssets = skeletalMeshResult.assets;
+          convertedActors = skeletalMeshResult.actors;
+          warnings.push(...skeletalMeshResult.warnings);
+          errors.push(...(skeletalMeshResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.BLUEPRINT:
-          const blueprintResult = await this?.convertToBlueprint(sourcePayload, config);
-          convertedAssets = blueprintResult?.assets;
-          convertedActors = blueprintResult?.actors;
-          warnings?.push(...blueprintResult?.warnings);
-          errors?.push(...(blueprintResult?.errors ?? []));
+        case PayloadConversionMode.BLUEPRINT:
+          const blueprintResult = await this.convertToBlueprint(sourcePayload, config);
+          convertedAssets = blueprintResult.assets;
+          convertedActors = blueprintResult.actors;
+          warnings.push(...blueprintResult.warnings);
+          errors.push(...(blueprintResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.LEVEL:
-          const levelResult = await this?.convertToLevel(sourcePayload, config);
-          convertedScenes = levelResult?.scenes;
-          warnings?.push(...levelResult?.warnings);
-          errors?.push(...(levelResult?.errors ?? []));
+        case PayloadConversionMode.LEVEL:
+          const levelResult = await this.convertToLevel(sourcePayload, config);
+          convertedScenes = levelResult.scenes;
+          warnings.push(...levelResult.warnings);
+          errors.push(...(levelResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.MATERIAL:
-          const materialResult = await this?.convertToMaterial(sourcePayload, config);
-          convertedAssets = materialResult?.assets;
-          warnings?.push(...materialResult?.warnings);
-          errors?.push(...(materialResult?.errors ?? []));
+        case PayloadConversionMode.MATERIAL:
+          const materialResult = await this.convertToMaterial(sourcePayload, config);
+          convertedAssets = materialResult.assets;
+          warnings.push(...materialResult.warnings);
+          errors.push(...(materialResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.TEXTURE:
-          const textureResult = await this?.convertToTexture(sourcePayload, config);
-          convertedAssets = textureResult?.assets;
-          warnings?.push(...textureResult?.warnings);
-          errors?.push(...(textureResult?.errors ?? []));
+        case PayloadConversionMode.TEXTURE:
+          const textureResult = await this.convertToTexture(sourcePayload, config);
+          convertedAssets = textureResult.assets;
+          warnings.push(...textureResult.warnings);
+          errors.push(...(textureResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.ANIMATION:
-          const animationResult = await this?.convertToAnimation(sourcePayload, config);
-          convertedAssets = animationResult?.assets;
-          warnings?.push(...animationResult?.warnings);
-          errors?.push(...(animationResult?.errors ?? []));
+        case PayloadConversionMode.ANIMATION:
+          const animationResult = await this.convertToAnimation(sourcePayload, config);
+          convertedAssets = animationResult.assets;
+          warnings.push(...animationResult.warnings);
+          errors.push(...(animationResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.PARTICLE_SYSTEM:
-          const particleResult = await this?.convertToParticleSystem(sourcePayload, config);
-          convertedAssets = particleResult?.assets;
-          warnings?.push(...particleResult?.warnings);
-          errors?.push(...(particleResult?.errors ?? []));
+        case PayloadConversionMode.PARTICLE_SYSTEM:
+          const particleResult = await this.convertToParticleSystem(sourcePayload, config);
+          convertedAssets = particleResult.assets;
+          warnings.push(...particleResult.warnings);
+          errors.push(...(particleResult.errors ?? []));
           break;
 
-        case PayloadConversionMode?.SOUND:
-          const soundResult = await this?.convertToSound(sourcePayload, config);
-          convertedAssets = soundResult?.assets;
-          warnings?.push(...soundResult?.warnings);
-          errors?.push(...(soundResult?.errors ?? []));
+        case PayloadConversionMode.SOUND:
+          const soundResult = await this.convertToSound(sourcePayload, config);
+          convertedAssets = soundResult.assets;
+          warnings.push(...soundResult.warnings);
+          errors.push(...(soundResult.errors ?? []));
           break;
 
         default:
-          throw new Error(`Unsupported conversion mode: ${config?.mode}`);
+          throw new Error(`Unsupported conversion mode: ${config.mode}`);
       }
 
-      const conversionTime = new Date() - startTime;
+      const conversionTime = Date.now() - startTime;
 
       // Register converted assets with bridge manager
       for (const asset of convertedAssets) {
-        this?.bridgeManager.registerAsset(asset);
+        this.bridgeManager.registerAsset(asset);
       }
 
       for (const actor of convertedActors) {
-        this?.bridgeManager.registerActor(actor);
+        this.bridgeManager.registerActor(actor);
       }
 
       for (const component of convertedComponents) {
-        this?.bridgeManager.registerComponent(component);
+        this.bridgeManager.registerComponent(component);
       }
 
       for (const scene of convertedScenes) {
-        this?.bridgeManager.registerScene(scene);
+        this.bridgeManager.registerScene(scene);
       }
 
       const result: UnrealPayloadConversionResult = {
-        success: errors?.length === 0,
+        success: errors.length === 0,
         conversionId: `conversion_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         conversionTime,
         sourcePayload,
@@ -720,10 +720,10 @@ export class UnrealPayloadAdapterPure {
         metadata: {
           configuration: config,
           sourcePayloadId: payloadId,
-          conversionMode: config?.mode,
-          targetEngineVersion: config?.targetEngineVersion,
-          targetPlatform: config?.targetPlatform,
-          optimizationLevel: config?.optimizationLevel
+          conversionMode: config.mode,
+          targetEngineVersion: config.targetEngineVersion,
+          targetPlatform: config.targetPlatform,
+          optimizationLevel: config.optimizationLevel
         }
       };
 
@@ -748,7 +748,7 @@ export class UnrealPayloadAdapterPure {
         convertedComponents: [],
         convertedScenes: [],
         warnings: [],
-        errors: [error instanceof Error ? error?.message : 'Unknown error'],
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {
           configuration: null,
           sourcePayloadId: payloadId,
@@ -771,8 +771,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert geometry data to static mesh
-      if (sourcePayload?.geometry && sourcePayload?.geometry.meshes) {
-        for (const [index, mesh] of sourcePayload?.geometry.meshes?.entries()) {
+      if (sourcePayload.geometry && sourcePayload.geometry.meshes) {
+        for (const [index, mesh] of sourcePayload.geometry.meshes.entries()) {
           const assetId = `static_mesh_${index}_${Date.now()}`;
           const asset: UnrealAssetBridge = {
             id: assetId,
@@ -789,7 +789,7 @@ export class UnrealPayloadAdapterPure {
             chunkIds: [],
             isLocalizedResource: false,
             localizationId: '',
-            size: mesh?.vertices?.length || 0,
+            size: mesh.vertices?.length || 0,
             diskSize: 0,
             memorySize: 0,
             uncompressedSize: 0,
@@ -802,19 +802,19 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceMeshIndex: index,
-              vertexCount: mesh?.vertices?.length || 0,
-              triangleCount: mesh?.indices?.length || 0,
-              materialCount: mesh?.materials?.length || 0,
-              hasNormals: !!mesh?.normals,
-              hasTangents: !!mesh?.tangents,
-              hasUVs: !!mesh?.uvs,
-              hasColors: !!mesh?.colors,
-              boundingBox: mesh?.boundingBox,
-              lodLevels: config?.meshOptimization === 'lod' ? 4 : 1
+              vertexCount: mesh.vertices?.length || 0,
+              triangleCount: mesh.indices?.length || 0,
+              materialCount: mesh.materials?.length || 0,
+              hasNormals: !!mesh.normals,
+              hasTangents: !!mesh.tangents,
+              hasUVs: !!mesh.uvs,
+              hasColors: !!mesh.colors,
+              boundingBox: mesh.boundingBox,
+              lodLevels: config.meshOptimization === 'lod' ? 4 : 1
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
 
           // Create actor for the static mesh
           const actor: UnrealActorBridge = {
@@ -846,23 +846,23 @@ export class UnrealPayloadAdapterPure {
                 name: `StaticMeshComponent_${index}`,
                 className: 'StaticMeshComponent',
                 properties: {
-                  staticMesh: asset?.assetPath,
-                  materials: mesh?.materials?.map((material: any, matIndex: number) => ({
+                  staticMesh: asset.assetPath,
+                  materials: mesh.materials?.map((material: any, matIndex: number) => ({
                     materialSlotName: `Material_${matIndex}`,
-                    materialInterface: material?.path || '/Game/MIFF/Materials/DefaultMaterial',
+                    materialInterface: material.path || '/Game/MIFF/Materials/DefaultMaterial',
                     materialOverride: null,
                     enableMaterialOverride: false
                   })) || [],
-                  collisionEnabled: config?.enablePhysics ? 'query_and_physics' : 'no_collision',
+                  collisionEnabled: config.enablePhysics ? 'query_and_physics' : 'no_collision',
                   collisionProfileName: 'BlockAll',
                   mobility: 'static',
                   castShadow: true,
                   receiveShadow: true,
-                  enableLightmap: config?.generateLightmaps,
-                  lightmapResolution: config?.lightmapResolution,
+                  enableLightmap: config.generateLightmaps,
+                  lightmapResolution: config.lightmapResolution,
                   useDefaultLightmap: true,
-                  enableDistanceField: config?.enableDistanceField,
-                  enableSignedDistanceField: config?.enableSignedDistanceField,
+                  enableDistanceField: config.enableDistanceField,
+                  enableSignedDistanceField: config.enableSignedDistanceField,
                   distanceFieldResolution: 16,
                   generateDistanceFieldAsIfTwoSided: false,
                   customPrimitiveData: null,
@@ -878,12 +878,12 @@ export class UnrealPayloadAdapterPure {
                   },
                   lightmapType: 'surface',
                   indirectLightingCacheQuality: 'ilcq_high',
-                  forceDisableNanite: !config?.enableNanite,
-                  enableVirtualTextureLightmap: config?.enableVirtualTextures,
-                  enableVirtualTexture: config?.enableVirtualTextures,
+                  forceDisableNanite: !config.enableNanite,
+                  enableVirtualTextureLightmap: config.enableVirtualTextures,
+                  enableVirtualTexture: config.enableVirtualTextures,
                   virtualTextureRenderPassType: 'always',
                   naniteSettings: {
-                    enabled: config?.enableNanite,
+                    enabled: config.enableNanite,
                     fallbackRelativeError: 0.1,
                     fallbackPercentTriangles: 0.5
                   }
@@ -916,14 +916,14 @@ export class UnrealPayloadAdapterPure {
                 metadata: {
                   sourceMeshIndex: index,
                   conversionMode: 'static_mesh',
-                  optimizationLevel: config?.optimizationLevel
+                  optimizationLevel: config.optimizationLevel
                 }
               }
             ],
             properties: {
               staticMeshComponent: `static_mesh_component_${index}`,
               mobility: 'static',
-              collisionEnabled: config?.enablePhysics ? 'query_and_physics' : 'no_collision',
+              collisionEnabled: config.enablePhysics ? 'query_and_physics' : 'no_collision',
               collisionProfileName: 'BlockAll',
               castShadow: true,
               receiveShadow: true
@@ -964,14 +964,14 @@ export class UnrealPayloadAdapterPure {
             netUpdateFrequency: 10.0,
             netPriority: 1.0,
             metadata: {
-              sourcePayloadId: sourcePayload?.id,
+              sourcePayloadId: sourcePayload.id,
               conversionMode: 'static_mesh',
               meshIndex: index,
-              optimizationLevel: config?.optimizationLevel
+              optimizationLevel: config.optimizationLevel
             }
           };
 
-          actors?.push(actor);
+          actors.push(actor);
         }
       }
 
@@ -981,7 +981,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Static mesh conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
   }
@@ -999,8 +999,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert skeletal geometry data to skeletal mesh
-      if (sourcePayload?.geometry && sourcePayload?.geometry.skeletalMeshes) {
-        for (const [index, skeletalMesh] of sourcePayload?.geometry.skeletalMeshes?.entries()) {
+      if (sourcePayload.geometry && sourcePayload.geometry.skeletalMeshes) {
+        for (const [index, skeletalMesh] of sourcePayload.geometry.skeletalMeshes.entries()) {
           const assetId = `skeletal_mesh_${index}_${Date.now()}`;
           const asset: UnrealAssetBridge = {
             id: assetId,
@@ -1017,7 +1017,7 @@ export class UnrealPayloadAdapterPure {
             chunkIds: [],
             isLocalizedResource: false,
             localizationId: '',
-            size: skeletalMesh?.vertices?.length || 0,
+            size: skeletalMesh.vertices?.length || 0,
             diskSize: 0,
             memorySize: 0,
             uncompressedSize: 0,
@@ -1030,23 +1030,23 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceMeshIndex: index,
-              vertexCount: skeletalMesh?.vertices?.length || 0,
-              triangleCount: skeletalMesh?.indices?.length || 0,
-              boneCount: skeletalMesh?.bones?.length || 0,
-              socketCount: skeletalMesh?.sockets?.length || 0,
-              materialCount: skeletalMesh?.materials?.length || 0,
-              hasNormals: !!skeletalMesh?.normals,
-              hasTangents: !!skeletalMesh?.tangents,
-              hasUVs: !!skeletalMesh?.uvs,
-              hasColors: !!skeletalMesh?.colors,
-              hasSkinWeights: !!skeletalMesh?.skinWeights,
-              hasBoneIndices: !!skeletalMesh?.boneIndices,
-              boundingBox: skeletalMesh?.boundingBox,
-              lodLevels: config?.meshOptimization === 'lod' ? 4 : 1
+              vertexCount: skeletalMesh.vertices?.length || 0,
+              triangleCount: skeletalMesh.indices?.length || 0,
+              boneCount: skeletalMesh.bones?.length || 0,
+              socketCount: skeletalMesh.sockets?.length || 0,
+              materialCount: skeletalMesh.materials?.length || 0,
+              hasNormals: !!skeletalMesh.normals,
+              hasTangents: !!skeletalMesh.tangents,
+              hasUVs: !!skeletalMesh.uvs,
+              hasColors: !!skeletalMesh.colors,
+              hasSkinWeights: !!skeletalMesh.skinWeights,
+              hasBoneIndices: !!skeletalMesh.boneIndices,
+              boundingBox: skeletalMesh.boundingBox,
+              lodLevels: config.meshOptimization === 'lod' ? 4 : 1
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
 
           // Create skeletal mesh component
           const component: UnrealComponentBridge = {
@@ -1054,10 +1054,10 @@ export class UnrealPayloadAdapterPure {
             name: `SkeletalMeshComponent_${index}`,
             className: 'SkeletalMeshComponent',
             properties: {
-              skeletalMesh: asset?.assetPath,
-              materials: skeletalMesh?.materials?.map((material: any, matIndex: number) => ({
+              skeletalMesh: asset.assetPath,
+              materials: skeletalMesh.materials?.map((material: any, matIndex: number) => ({
                 materialSlotName: `Material_${matIndex}`,
-                materialInterface: material?.path || '/Game/MIFF/Materials/DefaultMaterial',
+                materialInterface: material.path || '/Game/MIFF/Materials/DefaultMaterial',
                 materialOverride: null,
                 enableMaterialOverride: false
               })) || [],
@@ -1066,16 +1066,16 @@ export class UnrealPayloadAdapterPure {
               animationMode: 'animation_blueprint',
               physicsAsset: null,
               bodySetup: null,
-              collisionEnabled: config?.enablePhysics ? 'query_and_physics' : 'no_collision',
+              collisionEnabled: config.enablePhysics ? 'query_and_physics' : 'no_collision',
               collisionProfileName: 'Pawn',
               mobility: 'movable',
               castShadow: true,
               receiveShadow: true,
-              enableLightmap: config?.generateLightmaps,
-              lightmapResolution: config?.lightmapResolution,
+              enableLightmap: config.generateLightmaps,
+              lightmapResolution: config.lightmapResolution,
               useDefaultLightmap: true,
-              enableDistanceField: config?.enableDistanceField,
-              enableSignedDistanceField: config?.enableSignedDistanceField,
+              enableDistanceField: config.enableDistanceField,
+              enableSignedDistanceField: config.enableSignedDistanceField,
               distanceFieldResolution: 16,
               generateDistanceFieldAsIfTwoSided: false,
               customPrimitiveData: null,
@@ -1091,12 +1091,12 @@ export class UnrealPayloadAdapterPure {
               },
               lightmapType: 'surface',
               indirectLightingCacheQuality: 'ilcq_high',
-              forceDisableNanite: !config?.enableNanite,
-              enableVirtualTextureLightmap: config?.enableVirtualTextures,
-              enableVirtualTexture: config?.enableVirtualTextures,
+              forceDisableNanite: !config.enableNanite,
+              enableVirtualTextureLightmap: config.enableVirtualTextures,
+              enableVirtualTexture: config.enableVirtualTextures,
               virtualTextureRenderPassType: 'always',
               naniteSettings: {
-                enabled: config?.enableNanite,
+                enabled: config.enableNanite,
                 fallbackRelativeError: 0.1,
                 fallbackPercentTriangles: 0.5
               },
@@ -1163,9 +1163,9 @@ export class UnrealPayloadAdapterPure {
             metadata: {
               sourceMeshIndex: index,
               conversionMode: 'skeletal_mesh',
-              optimizationLevel: config?.optimizationLevel,
-              boneCount: skeletalMesh?.bones?.length || 0,
-              socketCount: skeletalMesh?.sockets?.length || 0
+              optimizationLevel: config.optimizationLevel,
+              boneCount: skeletalMesh.bones?.length || 0,
+              socketCount: skeletalMesh.sockets?.length || 0
             }
           };
 
@@ -1197,7 +1197,7 @@ export class UnrealPayloadAdapterPure {
             properties: {
               skeletalMeshComponent: `skeletal_mesh_component_${index}`,
               mobility: 'movable',
-              collisionEnabled: config?.enablePhysics ? 'query_and_physics' : 'no_collision',
+              collisionEnabled: config.enablePhysics ? 'query_and_physics' : 'no_collision',
               collisionProfileName: 'Pawn',
               castShadow: true,
               receiveShadow: true,
@@ -1239,16 +1239,16 @@ export class UnrealPayloadAdapterPure {
             netUpdateFrequency: 10.0,
             netPriority: 1.0,
             metadata: {
-              sourcePayloadId: sourcePayload?.id,
+              sourcePayloadId: sourcePayload.id,
               conversionMode: 'skeletal_mesh',
               meshIndex: index,
-              optimizationLevel: config?.optimizationLevel,
-              boneCount: skeletalMesh?.bones?.length || 0,
-              socketCount: skeletalMesh?.sockets?.length || 0
+              optimizationLevel: config.optimizationLevel,
+              boneCount: skeletalMesh.bones?.length || 0,
+              socketCount: skeletalMesh.sockets?.length || 0
             }
           };
 
-          actors?.push(actor);
+          actors.push(actor);
         }
       }
 
@@ -1258,7 +1258,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Skeletal mesh conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
   }
@@ -1307,7 +1307,7 @@ export class UnrealPayloadAdapterPure {
         loadOrder: 0,
         loadState: 'uninitialized',
         metadata: {
-          sourcePayloadId: sourcePayload?.id,
+          sourcePayloadId: sourcePayload.id,
           conversionMode: 'blueprint',
           nodeCount: 0,
           variableCount: 0,
@@ -1316,7 +1316,7 @@ export class UnrealPayloadAdapterPure {
         }
       };
 
-      assets?.push(blueprintAsset);
+      assets.push(blueprintAsset);
 
       console.log('[UnrealPayloadAdapterPure!] Converted to blueprint');
       return { assets, actors, warnings, errors };
@@ -1324,7 +1324,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Blueprint conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
   }
@@ -1378,7 +1378,7 @@ export class UnrealPayloadAdapterPure {
         bIsWorldPartitioned: false,
         bCanBePartitioned: false,
         metadata: {
-          sourcePayloadId: sourcePayload?.id,
+          sourcePayloadId: sourcePayload.id,
           conversionMode: 'level',
           actorCount: 0,
           lightCount: 0,
@@ -1386,7 +1386,7 @@ export class UnrealPayloadAdapterPure {
         }
       };
 
-      scenes?.push(levelScene);
+      scenes.push(levelScene);
 
       console.log('[UnrealPayloadAdapterPure!] Converted to level');
       return { scenes, warnings, errors };
@@ -1394,7 +1394,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Level conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { scenes: [], warnings, errors };
     }
   }
@@ -1411,8 +1411,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert material data to Unreal material
-      if (sourcePayload?.materials) {
-        for (const [index, material] of sourcePayload?.materials.entries()) {
+      if (sourcePayload.materials) {
+        for (const [index, material] of sourcePayload.materials.entries()) {
           const asset: UnrealAssetBridge = {
             id: `material_${index}_${Date.now()}`,
             name: `Material_${index}`,
@@ -1420,7 +1420,7 @@ export class UnrealPayloadAdapterPure {
             packagePath: '/Game/MIFF/Materials',
             assetPath: `/Game/MIFF/Materials/Material_${index}`,
             className: 'Material',
-            dependencies: material?.textures?.map((tex: any) => tex?.path) || [],
+            dependencies: material.textures?.map((tex: any) => tex.path) || [],
             references: [],
             thumbnailInfo: null,
             assetBundleData: null,
@@ -1441,15 +1441,15 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceMaterialIndex: index,
-              textureCount: material?.textures?.length || 0,
-              parameterCount: material?.parameters?.length || 0,
+              textureCount: material.textures?.length || 0,
+              parameterCount: material.parameters?.length || 0,
               materialDomain: 'surface',
               blendMode: 'opaque',
               shadingModel: 'default_lit'
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
         }
       }
 
@@ -1459,7 +1459,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Material conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
   }
@@ -1476,8 +1476,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert texture data to Unreal texture
-      if (sourcePayload?.textures) {
-        for (const [index, texture] of sourcePayload?.textures.entries()) {
+      if (sourcePayload.textures) {
+        for (const [index, texture] of sourcePayload.textures.entries()) {
           const asset: UnrealAssetBridge = {
             id: `texture_${index}_${Date.now()}`,
             name: `Texture_${index}`,
@@ -1493,10 +1493,10 @@ export class UnrealPayloadAdapterPure {
             chunkIds: [],
             isLocalizedResource: false,
             localizationId: '',
-            size: texture?.width * texture?.height * 4, // Assuming RGBA
+            size: texture.width * texture.height * 4, // Assuming RGBA
             diskSize: 0,
             memorySize: 0,
-            uncompressedSize: texture?.width * texture?.height * 4,
+            uncompressedSize: texture.width * texture.height * 4,
             compressionBlockSize: 0,
             compressionBlockCount: 0,
             cookedHash: '',
@@ -1506,17 +1506,17 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceTextureIndex: index,
-              width: texture?.width,
-              height: texture?.height,
-              format: texture?.format || 'auto',
-              compressionFormat: config?.textureFormat,
-              maxSize: config?.maxTextureSize,
-              enableMipmaps: config?.enableMipmaps,
-              enableStreaming: config?.enableStreaming
+              width: texture.width,
+              height: texture.height,
+              format: texture.format || 'auto',
+              compressionFormat: config.textureFormat,
+              maxSize: config.maxTextureSize,
+              enableMipmaps: config.enableMipmaps,
+              enableStreaming: config.enableStreaming
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
         }
       }
 
@@ -1526,7 +1526,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Texture conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
   }
@@ -1543,8 +1543,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert animation data to Unreal animation sequence
-      if (sourcePayload?.animations) {
-        for (const [index, animation] of sourcePayload?.animations.entries()) {
+      if (sourcePayload.animations) {
+        for (const [index, animation] of sourcePayload.animations.entries()) {
           const asset: UnrealAssetBridge = {
             id: `animation_${index}_${Date.now()}`,
             name: `Animation_${index}`,
@@ -1560,10 +1560,10 @@ export class UnrealPayloadAdapterPure {
             chunkIds: [],
             isLocalizedResource: false,
             localizationId: '',
-            size: animation?.frameCount * animation?.boneCount * 12, // Rough estimate
+            size: animation.frameCount * animation.boneCount * 12, // Rough estimate
             diskSize: 0,
             memorySize: 0,
-            uncompressedSize: animation?.frameCount * animation?.boneCount * 12,
+            uncompressedSize: animation.frameCount * animation.boneCount * 12,
             compressionBlockSize: 0,
             compressionBlockCount: 0,
             cookedHash: '',
@@ -1573,16 +1573,16 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceAnimationIndex: index,
-              frameCount: animation?.frameCount,
-              frameRate: animation?.frameRate,
-              duration: animation?.duration,
-              boneCount: animation?.boneCount,
-              trackCount: animation?.tracks?.length || 0,
-              compression: config?.animationCompression
+              frameCount: animation.frameCount,
+              frameRate: animation.frameRate,
+              duration: animation.duration,
+              boneCount: animation.boneCount,
+              trackCount: animation.tracks?.length || 0,
+              compression: config.animationCompression
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
         }
       }
 
@@ -1592,7 +1592,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Animation conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
   }
@@ -1609,8 +1609,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert particle data to Unreal particle system
-      if (sourcePayload?.particles) {
-        for (const [index, particle] of sourcePayload?.particles.entries()) {
+      if (sourcePayload.particles) {
+        for (const [index, particle] of sourcePayload.particles.entries()) {
           const asset: UnrealAssetBridge = {
             id: `particle_${index}_${Date.now()}`,
             name: `Particle_${index}`,
@@ -1618,7 +1618,7 @@ export class UnrealPayloadAdapterPure {
             packagePath: '/Game/MIFF/Particles',
             assetPath: `/Game/MIFF/Particles/Particle_${index}`,
             className: 'ParticleSystem',
-            dependencies: particle?.textures?.map((tex: any) => tex?.path) || [],
+            dependencies: particle.textures?.map((tex: any) => tex.path) || [],
             references: [],
             thumbnailInfo: null,
             assetBundleData: null,
@@ -1639,17 +1639,17 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceParticleIndex: index,
-              emitterCount: particle?.emitters?.length || 0,
-              textureCount: particle?.textures?.length || 0,
-              moduleCount: particle?.modules?.length || 0,
-              maxParticles: particle?.maxParticles,
-              spawnRate: particle?.spawnRate,
-              duration: particle?.duration,
-              loop: particle?.loop
+              emitterCount: particle.emitters?.length || 0,
+              textureCount: particle.textures?.length || 0,
+              moduleCount: particle.modules?.length || 0,
+              maxParticles: particle.maxParticles,
+              spawnRate: particle.spawnRate,
+              duration: particle.duration,
+              loop: particle.loop
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
         }
       }
 
@@ -1659,7 +1659,7 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Particle system conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
   }
@@ -1676,8 +1676,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Convert audio data to Unreal sound wave
-      if (sourcePayload?.audio) {
-        for (const [index, audio] of sourcePayload?.audio.entries()) {
+      if (sourcePayload.audio) {
+        for (const [index, audio] of sourcePayload.audio.entries()) {
           const asset: UnrealAssetBridge = {
             id: `sound_${index}_${Date.now()}`,
             name: `Sound_${index}`,
@@ -1693,10 +1693,10 @@ export class UnrealPayloadAdapterPure {
             chunkIds: [],
             isLocalizedResource: false,
             localizationId: '',
-            size: audio?.data?.length || 0,
+            size: audio.data?.length || 0,
             diskSize: 0,
             memorySize: 0,
-            uncompressedSize: audio?.data?.length || 0,
+            uncompressedSize: audio.data?.length || 0,
             compressionBlockSize: 0,
             compressionBlockCount: 0,
             cookedHash: '',
@@ -1706,16 +1706,16 @@ export class UnrealPayloadAdapterPure {
             loadState: 'uninitialized',
             metadata: {
               sourceAudioIndex: index,
-              sampleRate: audio?.sampleRate,
-              bitDepth: audio?.bitDepth,
-              channelCount: audio?.channelCount,
-              duration: audio?.duration,
-              compression: config?.soundCompression,
-              format: audio?.format || 'wav'
+              sampleRate: audio.sampleRate,
+              bitDepth: audio.bitDepth,
+              channelCount: audio.channelCount,
+              duration: audio.duration,
+              compression: config.soundCompression,
+              format: audio.format || 'wav'
             }
           };
 
-          assets?.push(asset);
+          assets.push(asset);
         }
       }
 
@@ -1725,29 +1725,29 @@ export class UnrealPayloadAdapterPure {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[UnrealPayloadAdapterPure!] Sound conversion failed:', err instanceof Error ? err.message : String(err));
-      errors?.push(error instanceof Error ? error?.message : 'Unknown error');
+      errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
   }
 
   // Configuration management
   addConfiguration(name: string, config: PayloadConversionConfiguration): void {
-    this?.conversionConfigurations.set(name, config);
+    this.conversionConfigurations.set(name, config);
   }
 
   getConfiguration(name: string): PayloadConversionConfiguration | undefined {
-    return this?.conversionConfigurations.get(name);
+    return this.conversionConfigurations.get(name);
   }
 
   updateConfiguration(name: string, updates: Partial<PayloadConversionConfiguration>): void {
-    const existing = this?.conversionConfigurations.get(name);
+    const existing = this.conversionConfigurations.get(name);
     if (existing) {
       Object.assign(existing, updates);
     }
   }
 
   removeConfiguration(name: string): void {
-    this?.conversionConfigurations.delete(name);
+    this.conversionConfigurations.delete(name);
   }
 
   getAllConfigurations(): string[] {
@@ -1757,20 +1757,20 @@ export class UnrealPayloadAdapterPure {
   // Utility methods
   getConversionStats(): any {
     return {
-      configurations: this?.conversionConfigurations.size,
-      renderPayloadManager: this?.renderPayloadManager.getPayloadCount(),
+      configurations: this.conversionConfigurations.size,
+      renderPayloadManager: this.renderPayloadManager.getPayloadCount(),
       bridgeManager: {
-        actors: this?.bridgeManager['actors']?.size || 0,
-        components: this?.bridgeManager['components']?.size || 0,
-        assets: this?.bridgeManager['assets']?.size || 0,
-        scenes: this?.bridgeManager['scenes']?.size || 0
+        actors: this.bridgeManager['actors']?.size || 0,
+        components: this.bridgeManager['components']?.size || 0,
+        assets: this.bridgeManager['assets']?.size || 0,
+        scenes: this.bridgeManager['scenes']?.size || 0
       }
     };
   }
 
   dispose(): void {
     console.log('[UnrealPayloadAdapterPure!] Disposing payload adapter...');
-    this?.conversionConfigurations.clear();
+    this.conversionConfigurations.clear();
     console.log('[UnrealPayloadAdapterPure!] Payload adapter disposed successfully');
   }
 }

@@ -3,34 +3,34 @@
 import { beats, judge } from './index';
 import fs from 'fs';
 
-const inputFile = process?.argv[2!];
+const inputFile = process.argv[2!];
 if (!inputFile) {
   console.error('Usage: ts-node cliHarness.ts <input-file>');
-  process?.exit(1);
+  process.exit(1);
 }
 
 try {
   const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
-  const command = input?.command;
+  const command = input.command;
   
   let result;
   if (command === 'beats') {
-    const beatTimes = beats(input?.bpm, input?.count);
+    const beatTimes = beats(input.bpm, input.count);
     result = {
-      op: 'rhythm?.beats',
+      op: 'rhythm.beats',
       status: 'ok',
-      bpm: input?.bpm,
-      count: input?.count,
+      bpm: input.bpm,
+      count: input.count,
       beatTimes
     };
   } else if (command === 'judge') {
-    const judgment = judge(input?.tap, input?.beat, input?.window);
+    const judgment = judge(input.tap, input.beat, input.window);
     result = {
-      op: 'rhythm?.judge',
+      op: 'rhythm.judge',
       status: 'ok',
-      tap: input?.tap,
-      beat: input?.beat,
-      window: input?.window,
+      tap: input.tap,
+      beat: input.beat,
+      window: input.window,
       judgment
     };
   } else {
@@ -41,5 +41,5 @@ try {
 } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
   console.error('Error:', err instanceof Error ? err.message : String(err));
-  process?.exit(1);
+  process.exit(1);
 }

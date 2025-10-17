@@ -18,11 +18,11 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -30,7 +30,7 @@ function main() {
     let operation: Cmd;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as Cmd;
     } else {
@@ -105,13 +105,13 @@ function main() {
     const chainManager = new ChainManager();
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'createChain':
-        result = chainManager?.createChain(operation?.chain);
+        result = chainManager.createChain(operation.chain);
         break;
 
       case 'updateProgress':
-        const progress = chainManager?.updateProgress(operation?.chainId, operation?.questId, operation?.completed);
+        const progress = chainManager.updateProgress(operation.chainId, operation.questId, operation.completed);
         result = {
           updated: progress !== null,
           progress: progress || null
@@ -119,7 +119,7 @@ function main() {
         break;
 
       case 'getChain':
-        const chain = chainManager?.getChain(operation?.chainId);
+        const chain = chainManager.getChain(operation.chainId);
         result = {
           found: chain !== null,
           chain: chain || null
@@ -127,7 +127,7 @@ function main() {
         break;
 
       case 'getProgress':
-        const chainProgress = chainManager?.getProgress(operation?.chainId);
+        const chainProgress = chainManager.getProgress(operation.chainId);
         result = {
           found: chainProgress !== null,
           progress: chainProgress || null
@@ -136,38 +136,38 @@ function main() {
 
       case 'getAllChains':
         result = {
-          chains: chainManager?.getAllChains(),
-          count: chainManager?.getAllChains().length
+          chains: chainManager.getAllChains(),
+          count: chainManager.getAllChains().length
         };
         break;
 
       case 'getAvailableChains':
         result = {
-          chains: chainManager?.getAvailableChains(),
-          count: chainManager?.getAvailableChains().length
+          chains: chainManager.getAvailableChains(),
+          count: chainManager.getAvailableChains().length
         };
         break;
 
       case 'getChainsByQuest':
         result = {
-          chains: chainManager?.getChainsByQuest(operation?.questId),
-          questId: operation?.questId
+          chains: chainManager.getChainsByQuest(operation.questId),
+          questId: operation.questId
         };
         break;
 
       case 'validateAllChains':
         result = {
-          results: chainManager?.validateAllChains(),
-          totalValidated: chainManager?.validateAllChains().length
+          results: chainManager.validateAllChains(),
+          totalValidated: chainManager.validateAllChains().length
         };
         break;
 
       case 'exportChain':
-        result = chainManager?.exportChain(operation?.chainId, operation?.format as any);
+        result = chainManager.exportChain(operation.chainId, operation.format as any);
         break;
 
       case 'getStatistics':
-        result = chainManager?.getChainStatistics();
+        result = chainManager.getChainStatistics();
         break;
 
       case 'dump':
@@ -208,14 +208,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -227,7 +227,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -243,13 +243,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

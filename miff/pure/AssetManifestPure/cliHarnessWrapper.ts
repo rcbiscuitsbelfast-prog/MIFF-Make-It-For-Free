@@ -19,7 +19,7 @@ class AssetManifest {
   private assets: Map<string, AssetEntry> = new Map();
   
   addAsset(asset: AssetEntry) {
-    this?.assets.set(asset?.id, asset);
+    this.assets.set(asset.id, asset);
   }
   
   getAllAssets() {
@@ -27,7 +27,7 @@ class AssetManifest {
   }
   
   getAsset(id: string) {
-    return this?.assets.get(id);
+    return this.assets.get(id);
   }
   
   getTotalSize() {
@@ -35,11 +35,11 @@ class AssetManifest {
   }
   
   exportManifest() {
-    return { assets: this?.getAllAssets(), totalSize: this?.getTotalSize() };
+    return { assets: this.getAllAssets(), totalSize: this.getTotalSize() };
   }
 }
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 const manifest = new AssetManifest();
 
 try {
@@ -50,10 +50,10 @@ try {
       const assets: AssetEntry[] = [];
       
       if (includeTextures !== false) {
-        assets?.push({
+        assets.push({
           id: 'texture_001',
           type: 'texture',
-          path: 'assets/textures/player?.png',
+          path: 'assets/textures/player.png',
           size: 2048 * 1024,
           format: 'png',
           compressed: compression === 'high'
@@ -61,10 +61,10 @@ try {
       }
       
       if (includeAudio !== false) {
-        assets?.push({
+        assets.push({
           id: 'audio_001',
           type: 'audio',
-          path: 'assets/audio/music?.mp3',
+          path: 'assets/audio/music.mp3',
           size: 5 * 1024 * 1024,
           format: 'mp3',
           compressed: compression === 'high'
@@ -72,40 +72,40 @@ try {
       }
       
       if (includeModels !== false) {
-        assets?.push({
+        assets.push({
           id: 'model_001',
           type: 'model',
-          path: 'assets/models/character?.glb',
+          path: 'assets/models/character.glb',
           size: 10 * 1024 * 1024,
           format: 'glb',
           compressed: compression === 'high'
         });
       }
       
-      assets?.forEach((asset: any) => manifest?.addAsset(asset));
+      assets.forEach((asset: any) => manifest.addAsset(asset));
       
       handleSuccess({
         assets,
-        count: assets?.length,
-        totalSize: assets?.reduce((sum, a) => sum + a?.size, 0),
+        count: assets.length,
+        totalSize: assets.reduce((sum, a) => sum + a.size, 0),
         compression: compression || 'none'
       }, 'prepareAssets');
       break;
     }
 
     case 'listAssets': {
-      const assets = manifest?.getAllAssets();
+      const assets = manifest.getAllAssets();
       handleSuccess({
         assets,
-        count: assets?.length,
-        totalSize: manifest?.getTotalSize()
+        count: assets.length,
+        totalSize: manifest.getTotalSize()
       }, 'listAssets');
       break;
     }
 
     case 'getAsset': {
       const { assetId } = params;
-      const asset = manifest?.getAsset(assetId);
+      const asset = manifest.getAsset(assetId);
       if (!asset) {
         throw new Error(`Asset not found: ${assetId}`);
       }
@@ -114,7 +114,7 @@ try {
     }
 
     case 'export': {
-      const manifestData = manifest?.exportManifest();
+      const manifestData = manifest.exportManifest();
       handleSuccess({
         manifest: manifestData,
         exported: true

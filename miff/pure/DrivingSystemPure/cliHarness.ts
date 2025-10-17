@@ -38,17 +38,17 @@ class MockRNG {
 }
 
 class DrivingSystemCLI {
-  private rl: readline?.Interface;
+  private rl: readline.Interface;
   private drivingSystem: DrivingSystemPure;
   private isRunning: boolean = false;
   private currentVehicle: VehicleInstance | null = null;
   private currentSession: DrivingSession | null = null;
-  private lastUpdateTime: number = new Date();
+  private lastUpdateTime: number = Date.now();
 
   constructor() {
-    this?.rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
     });
 
     // Initialize mock systems
@@ -56,8 +56,8 @@ class DrivingSystemCLI {
     const inputSystem = new MockInputSystem() as any;
     const rng = new MockRNG() as any;
 
-    this?.drivingSystem = new DrivingSystemPure(eventBus, inputSystem, rng);
-    this?.setupDemoData();
+    this.drivingSystem = new DrivingSystemPure(eventBus, inputSystem, rng);
+    this.setupDemoData();
   }
 
   /**
@@ -75,7 +75,7 @@ class DrivingSystemCLI {
    * Start the CLI interface
    */
   start(): void {
-    this?.isRunning = true;
+    this.isRunning = true;
     console.log('🚗 Welcome to MIFF DrivingSystemPure CLI!');
     console.log('=========================================');
     console.log('Available commands:');
@@ -93,15 +93,15 @@ class DrivingSystemCLI {
     console.log('  exit           - Exit the CLI');
     console.log('');
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this?.rl.question('driving> ', (input) => {
-      this?.processCommand(input?.trim());
+    this.rl.question('driving> ', (input) => {
+      this.processCommand(input.trim());
     });
   }
 
@@ -109,64 +109,64 @@ class DrivingSystemCLI {
    * Process user command
    */
   private async processCommand(input: string): Promise<void> {
-    if (!this?.isRunning) return;
+    if (!this.isRunning) return;
 
-    const parts = input?.split(' ');
+    const parts = input.split(' ');
     const command = parts[0!]?.toLowerCase();
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     try {
       switch (command) {
         case 'vehicles':
-          this?.showVehicles();
+          this.showVehicles();
           break;
 
         case 'create-vehicle':
-          await this?.createVehicleInteractive();
+          await this.createVehicleInteractive();
           break;
 
         case 'select':
-          if (args?.length === 0) {
+          if (args.length === 0) {
             console.log('❌ Usage: select <vehicle-id>');
           } else {
-            this?.selectVehicle(args[0!]);
+            this.selectVehicle(args[0!]);
           }
           break;
 
         case 'tracks':
-          this?.showTracks();
+          this.showTracks();
           break;
 
         case 'start-race':
-          await this?.startRaceInteractive();
+          await this.startRaceInteractive();
           break;
 
         case 'drive':
-          await this?.driveInteractive();
+          await this.driveInteractive();
           break;
 
         case 'controls':
-          this?.showControls();
+          this.showControls();
           break;
 
         case 'status':
-          this?.showVehicleStatus();
+          this.showVehicleStatus();
           break;
 
         case 'stats':
-          this?.showStats();
+          this.showStats();
           break;
 
         case 'demo':
-          await this?.runDemo();
+          await this.runDemo();
           break;
 
         case 'help':
-          this?.showHelp();
+          this.showHelp();
           break;
 
         case 'exit':
-          this?.exit();
+          this.exit();
           return;
 
         default:
@@ -179,8 +179,8 @@ class DrivingSystemCLI {
       console.error(`❌ Error: ${error.message}`);
     }
 
-    if (this?.isRunning) {
-      this?.showPrompt();
+    if (this.isRunning) {
+      this.showPrompt();
     }
   }
 
@@ -188,17 +188,17 @@ class DrivingSystemCLI {
    * Show available vehicles
    */
   private showVehicles(): void {
-    const vehicles = this?.getAvailableVehicles();
+    const vehicles = this.getAvailableVehicles();
 
     console.log('\n🚗 Available Vehicles:');
     console.log('=======================');
 
-    if (vehicles?.length === 0) {
+    if (vehicles.length === 0) {
       console.log('No vehicles available. Create some with "create-vehicle"');
       return;
     }
 
-    vehicles?.forEach((vehicle: any) => {
+    vehicles.forEach((vehicle: any) => {
       console.log(`${vehicle.name} (${vehicle.id})`);
       console.log(`  Type: ${vehicle.type} | Category: ${vehicle.category}`);
       console.log(`  Max Speed: ${vehicle.maxSpeed} m/s (${(vehicle.maxSpeed * 3.6).toFixed(0)} km/h)`);
@@ -336,8 +336,8 @@ class DrivingSystemCLI {
    * Select a vehicle to drive
    */
   private selectVehicle(vehicleId: string): void {
-    const vehicles = this?.getAvailableVehicles();
-    const vehicle = vehicles?.find(v => v?.id === vehicleId);
+    const vehicles = this.getAvailableVehicles();
+    const vehicle = vehicles.find(v => v.id === vehicleId);
 
     if (!vehicle) {
       console.log(`❌ Vehicle not found: ${vehicleId}`);
@@ -345,9 +345,9 @@ class DrivingSystemCLI {
     }
 
     // Create vehicle instance
-    this?.currentVehicle = this?.drivingSystem.createVehicle(vehicleId, 'demo-player');
+    this.currentVehicle = this.drivingSystem.createVehicle(vehicleId, 'demo-player');
 
-    if (this?.currentVehicle) {
+    if (this.currentVehicle) {
       console.log(`✅ Selected vehicle: ${vehicle.name}`);
       console.log(`   Type: ${vehicle.type}`);
       console.log(`   Max Speed: ${vehicle.maxSpeed} m/s`);
@@ -361,17 +361,17 @@ class DrivingSystemCLI {
    * Show available tracks
    */
   private showTracks(): void {
-    const tracks = this?.getAvailableTracks();
+    const tracks = this.getAvailableTracks();
 
     console.log('\n🏁 Available Tracks:');
     console.log('====================');
 
-    if (tracks?.length === 0) {
+    if (tracks.length === 0) {
       console.log('No tracks available.');
       return;
     }
 
-    tracks?.forEach((track: any) => {
+    tracks.forEach((track: any) => {
       console.log(`${track.name} (${track.id})`);
       console.log(`  Type: ${track.type}`);
       console.log(`  Length: ${track.length}m`);
@@ -453,7 +453,7 @@ class DrivingSystemCLI {
    * Start a race interactively
    */
   private async startRaceInteractive(): Promise<void> {
-    if (!this?.currentVehicle) {
+    if (!this.currentVehicle) {
       console.log('❌ No vehicle selected. Use "select <vehicle>" first.');
       return;
     }
@@ -461,8 +461,8 @@ class DrivingSystemCLI {
     console.log('\n🏁 Starting Race');
     console.log('================');
 
-    const trackId = await this?.askQuestion('Track ID (demo-circuit): ') || 'demo-circuit';
-    const laps = parseInt(await this?.askQuestion('Number of laps (3): ') || '3');
+    const trackId = await this.askQuestion('Track ID (demo-circuit): ') || 'demo-circuit';
+    const laps = parseInt(await this.askQuestion('Number of laps (3): ') || '3');
 
     console.log(`🏁 Starting race on ${trackId} with ${laps} laps...`);
 
@@ -474,7 +474,7 @@ class DrivingSystemCLI {
    * Drive interactively
    */
   private async driveInteractive(): Promise<void> {
-    if (!this?.currentVehicle) {
+    if (!this.currentVehicle) {
       console.log('❌ No vehicle selected. Use "select <vehicle>" first.');
       return;
     }
@@ -485,16 +485,16 @@ class DrivingSystemCLI {
     console.log('Press SPACE for boost, ENTER to exit');
 
     // Simple driving simulation
-    const startTime = new Date();
+    const startTime = Date.now();
     let distance = 0;
 
-    while (this?.isRunning) {
-      const now = new Date();
-      const deltaTime = (now - this?.lastUpdateTime) / 1000;
-      this?.lastUpdateTime = now;
+    while (this.isRunning) {
+      const now = Date.now();
+      const deltaTime = (now - this.lastUpdateTime) / 1000;
+      this.lastUpdateTime = now;
 
       // Update vehicle physics (mock)
-      distance += this?.currentVehicle.currentSpeed * deltaTime;
+      distance += this.currentVehicle.currentSpeed * deltaTime;
 
       // Show driving status
       console.log(`\rSpeed: ${this.currentVehicle.currentSpeed.toFixed(1)} m/s | Distance: ${distance.toFixed(0)}m | Fuel: ${this.currentVehicle.fuel.toFixed(1)}L`);
@@ -536,13 +536,13 @@ class DrivingSystemCLI {
    * Show vehicle status
    */
   private showVehicleStatus(): void {
-    if (!this?.currentVehicle) {
+    if (!this.currentVehicle) {
       console.log('❌ No vehicle selected');
       return;
     }
 
-    const vehicle = this?.currentVehicle;
-    const definition = vehicle?.definition;
+    const vehicle = this.currentVehicle;
+    const definition = vehicle.definition;
 
     console.log('\n📊 Vehicle Status:');
     console.log('==================');
@@ -562,7 +562,7 @@ class DrivingSystemCLI {
    * Show driving statistics
    */
   private showStats(): void {
-    const stats = this?.drivingSystem.getStats();
+    const stats = this.drivingSystem.getStats();
 
     console.log('\n📊 Driving Statistics:');
     console.log('======================');
@@ -590,27 +590,27 @@ class DrivingSystemCLI {
 
     // Show available vehicles
     console.log('\n🚗 Available vehicles:');
-    this?.showVehicles();
+    this.showVehicles();
 
     // Select a vehicle
     console.log('\n🎯 Selecting demo car...');
-    this?.selectVehicle('demo-car');
+    this.selectVehicle('demo-car');
 
     // Show tracks
     console.log('\n🏁 Available tracks:');
-    this?.showTracks();
+    this.showTracks();
 
     // Start a race
     console.log('\n🏁 Starting demo race...');
-    await this?.startRaceInteractive();
+    await this.startRaceInteractive();
 
     // Drive for a bit
     console.log('\n🚗 Demo drive mode...');
-    await this?.driveInteractive();
+    await this.driveInteractive();
 
     // Show final stats
     console.log('\n📊 Demo Results:');
-    this?.showStats();
+    this.showStats();
 
     console.log('\n✅ Demo complete!');
   }
@@ -666,8 +666,8 @@ class DrivingSystemCLI {
     console.log('\n🆕 Creating New Vehicle');
     console.log('=======================');
 
-    const name = await this?.askQuestion('Vehicle name: ');
-    const type = await this?.askQuestion('Vehicle type (car/bike/truck/boat/aircraft): ');
+    const name = await this.askQuestion('Vehicle name: ');
+    const type = await this.askQuestion('Vehicle type (car/bike/truck/boat/aircraft): ');
 
     console.log(`✅ Vehicle "${name}" created successfully!`);
   }
@@ -677,9 +677,9 @@ class DrivingSystemCLI {
    */
   private exit(): void {
     console.log('\n👋 Thank you for using MIFF DrivingSystemPure CLI!');
-    this?.isRunning = false;
-    this?.rl.close();
-    process?.exit(0);
+    this.isRunning = false;
+    this.rl.close();
+    process.exit(0);
   }
 
   /**
@@ -687,17 +687,17 @@ class DrivingSystemCLI {
    */
   private askQuestion(question: string): Promise<string> {
     return new Promise((resolve) => {
-      this?.rl.question(question, (answer) => {
-        resolve(answer?.trim());
+      this.rl.question(question, (answer) => {
+        resolve(answer.trim());
       });
     });
   }
 }
 
 // Main execution
-if (require?.main === module) {
+if (require.main === module) {
   const cli = new DrivingSystemCLI();
-  cli?.start();
+  cli.start();
 }
 
-module?.exports = DrivingSystemCLI;
+module.exports = DrivingSystemCLI;

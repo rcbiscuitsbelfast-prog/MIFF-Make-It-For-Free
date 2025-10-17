@@ -1198,7 +1198,7 @@ export class DataVisualizationPure {
 
   constructor(config: Partial<DataVisualizationConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableVisualizationManagement: true,
       enableChartCreation: true,
       enableDataProcessing: true,
@@ -1216,7 +1216,7 @@ export class DataVisualizationPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalCharts: 0,
       activeCharts: 0,
       totalDatasets: 0,
@@ -1228,7 +1228,7 @@ export class DataVisualizationPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalCharts: 0,
       totalDatasets: 0,
       averageRenderTime: 0,
@@ -1242,7 +1242,7 @@ export class DataVisualizationPure {
    * Create a new data visualization manager
    */
   createManager(): DataVisualizationOutput {
-    if (!this?.config.enableVisualizationManagement) {
+    if (!this.config.enableVisualizationManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1252,8 +1252,8 @@ export class DataVisualizationPure {
 
     const manager: DataVisualizationManager = {
       id: managerData.id || `datavis-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Data Visualization Manager',
-      type: managerData?.type || 'business',
+      name: managerData.name || 'Unnamed Data Visualization Manager',
+      type: managerData.type || 'business',
       status: 'active',
       charts: [],
       datasets: [],
@@ -1316,7 +1316,7 @@ export class DataVisualizationPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -1329,7 +1329,7 @@ export class DataVisualizationPure {
    * Get manager by ID
    */
   getManager(): DataVisualizationOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1349,7 +1349,7 @@ export class DataVisualizationPure {
    * Create chart
    */
   createChart(): DataVisualizationOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-chart',
@@ -1358,7 +1358,7 @@ export class DataVisualizationPure {
       };
     }
 
-    if (manager?.charts.length >= this?.config.maxCharts) {
+    if (manager.charts.length >= this.config.maxCharts) {
       return {
         op: 'create-chart',
         status: 'error',
@@ -1368,10 +1368,10 @@ export class DataVisualizationPure {
 
     const newChart: Chart = {
       id: chart.id || `chart-${Date.now()}`,
-      name: chart?.name || 'Unnamed Chart',
-      type: chart?.type || 'line',
+      name: chart.name || 'Unnamed Chart',
+      type: chart.type || 'line',
       status: 'draft',
-      data: chart?.data || {
+      data: chart.data || {
         source: {
           type: 'database',
           connection: '',
@@ -1386,7 +1386,7 @@ export class DataVisualizationPure {
         aggregations: [],
         transformations: []
       },
-      configuration: chart?.configuration || {
+      configuration: chart.configuration || {
         title: '',
         subtitle: '',
         axes: {
@@ -1479,7 +1479,7 @@ export class DataVisualizationPure {
           rules: []
         }
       },
-      styling: chart?.styling || {
+      styling: chart.styling || {
         colors: {
           primary: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'],
           secondary: ['#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5'],
@@ -1529,7 +1529,7 @@ export class DataVisualizationPure {
           }
         }
       },
-      interactions: chart?.interactions || {
+      interactions: chart.interactions || {
         zoom: {
           enabled: true,
           type: 'wheel',
@@ -1584,9 +1584,9 @@ export class DataVisualizationPure {
       ...chart
     };
 
-    manager?.charts?.push(newChart);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalCharts++;
+    manager.charts.push(newChart);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalCharts++;
 
     return {
       op: 'create-chart',
@@ -1599,14 +1599,14 @@ export class DataVisualizationPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DataVisualizationPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DataVisualizationAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1620,26 +1620,26 @@ export class DataVisualizationPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalCharts = 0;
     let activeCharts = 0;
     let totalDatasets = 0;
     let totalDataPoints = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalCharts += manager?.charts.length;
-      activeCharts += manager?.charts.filter((c: any) => c?.status === 'published').length;
-      totalDatasets += manager?.datasets.length;
+    for (const manager of this.managers.values()) {
+      totalCharts += manager.charts.length;
+      activeCharts += manager.charts.filter((c: any) => c.status === 'published').length;
+      totalDatasets += manager.datasets.length;
       
-      for (const chart of manager?.charts) {
-        totalDataPoints += chart?.data.rows?.length;
+      for (const chart of manager.charts) {
+        totalDataPoints += chart.data.rows.length;
       }
     }
 
-    this?.performanceMetrics.totalCharts = totalCharts;
-    this?.performanceMetrics.activeCharts = activeCharts;
-    this?.performanceMetrics.totalDatasets = totalDatasets;
-    this?.performanceMetrics.totalDataPoints = totalDataPoints;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalCharts = totalCharts;
+    this.performanceMetrics.activeCharts = activeCharts;
+    this.performanceMetrics.totalDatasets = totalDatasets;
+    this.performanceMetrics.totalDataPoints = totalDataPoints;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

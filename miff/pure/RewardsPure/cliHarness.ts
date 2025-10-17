@@ -62,14 +62,14 @@ function printStatus(state: CLIState): void {
   console.log('\n🎁 Rewards System Status:');
   console.log(`Reward History: ${state.rewardHistory.length} rewards`);
   console.log(`Drop Table: ${state.currentDropTable ? state.currentDropTable.entries.length + ' items' : 'None'}`);
-  if (state?.currentDropTable && state?.currentDropTable.entries?.length > 0) {
+  if (state.currentDropTable && state.currentDropTable.entries.length > 0) {
     console.log(`Total Weight: ${state.currentDropTable.getTotalWeight()}`);
   }
   console.log(`Simulations Run: ${state.simulationResults.size > 0 ? 'Yes' : 'None'}`);
 }
 
 function printTable(dropTable: DropTable | null): void {
-  if (!dropTable || dropTable?.entries.length === 0) {
+  if (!dropTable || dropTable.entries.length === 0) {
     console.log('❌ No drop table loaded or table is empty');
     return;
   }
@@ -78,34 +78,34 @@ function printTable(dropTable: DropTable | null): void {
   console.log(`Total Entries: ${dropTable.entries.length}`);
   console.log(`Total Weight: ${dropTable.getTotalWeight()}`);
 
-  if (dropTable?.entries.length > 0) {
+  if (dropTable.entries.length > 0) {
     console.log('\nItems:');
-    dropTable?.getEntriesByWeight().forEach((entry, index) => {
-      const dropRate = dropTable?.getTotalWeight() > 0 ? (entry?.weight / dropTable?.getTotalWeight() * 100).toFixed(2) : '0.00';
+    dropTable.getEntriesByWeight().forEach((entry, index) => {
+      const dropRate = dropTable.getTotalWeight() > 0 ? (entry.weight / dropTable.getTotalWeight() * 100).toFixed(2) : '0.00';
       console.log(`  ${index + 1}. ${entry.itemId} (weight: ${entry.weight}, rate: ${dropRate}%)`);
     });
   }
 }
 
 function printHistory(rewardHistory: RewardStub[]): void {
-  if (rewardHistory?.length === 0) {
+  if (rewardHistory.length === 0) {
     console.log('📜 No rewards in history');
     return;
   }
 
   console.log('\n📜 Reward History:');
-  rewardHistory?.slice(-10).forEach((reward, index) => {
+  rewardHistory.slice(-10).forEach((reward, index) => {
     console.log(`  ${rewardHistory.length - 10 + index + 1}. ${reward.toString()}`);
   });
 
-  if (rewardHistory?.length > 10) {
+  if (rewardHistory.length > 10) {
     console.log(`  ... and ${rewardHistory.length - 10} more`);
   }
 
   // Calculate totals
-  const totalCurrency = rewardHistory?.reduce((sum, r) => sum + r?.currency, 0);
-  const totalXP = rewardHistory?.reduce((sum, r) => sum + r?.xpGain, 0);
-  const itemCount = rewardHistory?.filter((r: any) => r?.itemId).length;
+  const totalCurrency = rewardHistory.reduce((sum, r) => sum + r.currency, 0);
+  const totalXP = rewardHistory.reduce((sum, r) => sum + r.xpGain, 0);
+  const itemCount = rewardHistory.filter((r: any) => r.itemId).length;
 
   console.log(`\n💰 Totals: ${totalCurrency} currency, ${totalXP} XP, ${itemCount} items`);
 }
@@ -117,7 +117,7 @@ function createDemoData(): { rewardManager: RewardManager; rng: IRNGProvider; dr
   const rng = new RNGProvider(12345);
 
   // Create demo drop table
-  const dropTable = RewardUtils?.createStandardDropTable([
+  const dropTable = RewardUtils.createStandardDropTable([
     { itemId: 'health_potion', weight: 50 },
     { itemId: 'mana_potion', weight: 30 },
     { itemId: 'common_ore', weight: 100 },
@@ -141,26 +141,26 @@ function runDemo(state: CLIState): void {
     { type: 'boss', playerLevel: 20, enemyLevel: 25 }
   ];
 
-  scenarios?.forEach((scenario: any) => {
-    const reward = state?.rewardManager.generateRewards(
-      scenario?.type,
-      scenario?.playerLevel,
-      scenario?.enemyLevel
+  scenarios.forEach((scenario: any) => {
+    const reward = state.rewardManager.generateRewards(
+      scenario.type,
+      scenario.playerLevel,
+      scenario.enemyLevel
     );
 
     console.log(`${scenario.type} (P${scenario.playerLevel} vs E${scenario.enemyLevel}): ${reward.toString()}`);
-    state?.rewardHistory?.push(reward);
+    state.rewardHistory.push(reward);
   });
 
   // Test drop table
   console.log('\n--- Drop Table Test (100 drops) ---');
-  const resolver = new DropResolver(state?.rng);
+  const resolver = new DropResolver(state.rng);
   const dropResults = new Map<string, number>();
 
   for (let i = 0; i < 100; i++) {
-    const item = resolver?.resolve(state?.currentDropTable!);
-    if (item: any) {
-      dropResults?.set(item, (dropResults?.get(item: any) || 0) + 1);
+    const item = resolver.resolve(state.currentDropTable!);
+    if (item) {
+      dropResults.set(item, (dropResults.get(item) || 0) + 1);
     }
   }
 
@@ -172,12 +172,12 @@ function runDemo(state: CLIState): void {
 
   // Test bonus rewards
   console.log('\n--- Bonus Rewards Test ---');
-  const baseReward = state?.rewardManager.generateRewards('boss', 20, 25);
+  const baseReward = state.rewardManager.generateRewards('boss', 20, 25);
   console.log(`Base reward: ${baseReward.toString()}`);
 
   const bonusTypes: Array<'rare' | 'epic' | 'legendary'> = ['rare', 'epic', 'legendary'];
-  bonusTypes?.forEach((type: any) => {
-    const bonusReward = state?.rewardManager.generateBonusRewards(baseReward, type);
+  bonusTypes.forEach((type: any) => {
+    const bonusReward = state.rewardManager.generateBonusRewards(baseReward, type);
     console.log(`${type} bonus: ${bonusReward.toString()}`);
   });
 
@@ -187,23 +187,23 @@ function runDemo(state: CLIState): void {
 function runSimulation(state: CLIState, runs: number): void {
   console.log(`🎲 Running ${runs} reward simulations...\n`);
 
-  const startTime = new Date();
+  const startTime = Date.now();
 
   for (let i = 0; i < runs; i++) {
-    const reward = state?.rewardManager.generateRewards('simulation', 10, 12);
-    state?.rewardHistory?.push(reward);
+    const reward = state.rewardManager.generateRewards('simulation', 10, 12);
+    state.rewardHistory.push(reward);
 
     // Simulate occasional item drops
     if (state.currentDropTable && Math.random() < 0.3) {
-      const resolver = new DropResolver(state?.rng);
-      const item = resolver?.resolve(state?.currentDropTable);
-      if (item: any) {
-        reward?.itemId = item;
+      const resolver = new DropResolver(state.rng);
+      const item = resolver.resolve(state.currentDropTable);
+      if (item) {
+        reward.itemId = item;
       }
     }
   }
 
-  const endTime = new Date();
+  const endTime = Date.now();
   const duration = endTime - startTime;
 
   console.log(`✅ Simulation complete in ${duration}ms`);
@@ -224,18 +224,18 @@ async function runCLI(): Promise<void> {
 
   console.log('🎁 RewardsPure CLI - Type "help" for commands or "demo" to see rewards in action\n');
 
-  const rl = readline?.createInterface({
-    input: process?.stdin,
-    output: process?.stdout,
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
     prompt: 'rewards> '
   });
 
-  rl?.prompt();
+  rl.prompt();
 
-  rl?.on('line', (input: string) => {
-    const parts = input?.trim().split(/\s+/);
+  rl.on('line', (input: string) => {
+    const parts = input.trim().split(/\s+/);
     const command = parts[0!]?.toLowerCase() || '';
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     switch (command) {
       case 'help':
@@ -248,7 +248,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'reward':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: reward <encounter_type> <player_level> <enemy_level>');
         } else {
           const encounterType = args[0!];
@@ -258,19 +258,19 @@ async function runCLI(): Promise<void> {
           if (isNaN(playerLevel) || isNaN(enemyLevel)) {
             console.log('❌ Player and enemy levels must be numbers');
           } else {
-            const reward = state?.rewardManager.generateRewards(encounterType, playerLevel, enemyLevel);
-            state?.rewardHistory?.push(reward);
+            const reward = state.rewardManager.generateRewards(encounterType, playerLevel, enemyLevel);
+            state.rewardHistory.push(reward);
             console.log(`✅ Generated reward: ${reward.toString()}`);
           }
         }
         break;
 
       case 'table':
-        printTable(state?.currentDropTable);
+        printTable(state.currentDropTable);
         break;
 
       case 'add':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: add <item_id> <weight>');
         } else {
           const itemId = args[0!];
@@ -279,12 +279,12 @@ async function runCLI(): Promise<void> {
           if (isNaN(weight) || weight < 0) {
             console.log('❌ Weight must be a non-negative number');
           } else {
-            if (!state?.currentDropTable) {
-              state?.currentDropTable = new DropTable();
+            if (!state.currentDropTable) {
+              state.currentDropTable = new DropTable();
             }
 
             const entry = new (require('./index').DropEntry)(itemId, weight);
-            if (state?.currentDropTable.addEntry(entry)) {
+            if (state.currentDropTable.addEntry(entry)) {
               console.log(`✅ Added ${itemId} to drop table (weight: ${weight})`);
             } else {
               console.log('❌ Failed to add item');
@@ -297,8 +297,8 @@ async function runCLI(): Promise<void> {
         if (!args[0!]) {
           console.log('❌ Usage: remove <item_id>');
         } else {
-          if (state?.currentDropTable) {
-            const removed = state?.currentDropTable.removeEntriesByItem(args[0!]);
+          if (state.currentDropTable) {
+            const removed = state.currentDropTable.removeEntriesByItem(args[0!]);
             console.log(`✅ Removed ${removed} entries for item: ${args[0!]}`);
           } else {
             console.log('❌ No drop table loaded');
@@ -307,25 +307,25 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'drop':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: drop <count>');
         } else {
           const count = parseInt(args[0!]);
 
           if (isNaN(count) || count <= 0) {
             console.log('❌ Count must be a positive number');
-          } else if (!state?.currentDropTable || state?.currentDropTable.entries?.length === 0) {
+          } else if (!state.currentDropTable || state.currentDropTable.entries.length === 0) {
             console.log('❌ No drop table loaded');
           } else {
             console.log(`🎲 Simulating ${count} drops...\n`);
 
-            const resolver = new DropResolver(state?.rng);
+            const resolver = new DropResolver(state.rng);
             const results = new Map<string, number>();
 
             for (let i = 0; i < count; i++) {
-              const item = resolver?.resolve(state?.currentDropTable);
-              if (item: any) {
-                results?.set(item, (results?.get(item: any) || 0) + 1);
+              const item = resolver.resolve(state.currentDropTable);
+              if (item) {
+                results.set(item, (results.get(item) || 0) + 1);
               }
             }
 
@@ -335,13 +335,13 @@ async function runCLI(): Promise<void> {
               console.log(`  ${item}: ${count} (${rate}%)`);
             });
 
-            state?.simulationResults = results;
+            state.simulationResults = results;
           }
         }
         break;
 
       case 'simulate':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: simulate <runs>');
         } else {
           const runs = parseInt(args[0!]);
@@ -355,33 +355,33 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'history':
-        printHistory(state?.rewardHistory);
+        printHistory(state.rewardHistory);
         break;
 
       case 'clear':
-        state?.currentDropTable = null;
-        state?.simulationResults.clear();
-        state?.rewardHistory.length = 0;
+        state.currentDropTable = null;
+        state.simulationResults.clear();
+        state.rewardHistory.length = 0;
         console.log('✅ All data cleared');
         break;
 
       case 'demo':
         const demoData = createDemoData();
-        state?.rewardManager = demoData?.rewardManager;
-        state?.rng = demoData?.rng;
-        state?.currentDropTable = demoData?.dropTable;
+        state.rewardManager = demoData.rewardManager;
+        state.rng = demoData.rng;
+        state.currentDropTable = demoData.dropTable;
         runDemo(state);
         break;
 
       case 'config':
-        if (args?.length === 0) {
-          const config = state?.rewardManager.getScalingConfig();
+        if (args.length === 0) {
+          const config = state.rewardManager.getScalingConfig();
           console.log('Current reward scaling configuration:');
           console.log(`  Base Currency: ${config.baseCurrency}`);
           console.log(`  Level Currency Multiplier: ${config.levelCurrencyMultiplier}`);
           console.log(`  Base XP: ${config.baseXP}`);
           console.log(`  Level XP Multiplier: ${config.levelXPMultiplier}`);
-        } else if (args?.length === 4) {
+        } else if (args.length === 4) {
           const baseCurrency = parseFloat(args[0!]);
           const levelCurrencyMultiplier = parseFloat(args[1!]);
           const baseXP = parseFloat(args[2!]);
@@ -390,7 +390,7 @@ async function runCLI(): Promise<void> {
           if ([baseCurrency, levelCurrencyMultiplier, baseXP, levelXPMultiplier].some(isNaN)) {
             console.log('❌ All values must be numbers');
           } else {
-            state?.rewardManager.configureScaling(baseCurrency, levelCurrencyMultiplier, baseXP, levelXPMultiplier);
+            state.rewardManager.configureScaling(baseCurrency, levelCurrencyMultiplier, baseXP, levelXPMultiplier);
             console.log('✅ Reward scaling configuration updated');
           }
         } else {
@@ -399,14 +399,14 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'test':
-        if (!state?.currentDropTable || state?.currentDropTable.entries?.length === 0) {
+        if (!state.currentDropTable || state.currentDropTable.entries.length === 0) {
           console.log('❌ No drop table loaded');
         } else {
           const simulations = args[0!] ? parseInt(args[0!]) : 1000;
           console.log(`🧪 Testing drop rates with ${simulations} simulations...\n`);
 
-          const resolver = new DropResolver(state?.rng);
-          const results = resolver?.testDropRates(state?.currentDropTable, simulations);
+          const resolver = new DropResolver(state.rng);
+          const results = resolver.testDropRates(state.currentDropTable, simulations);
 
           console.log('Drop Rate Results:');
           Array.from(results.entries()).sort((a: any, b: any) => b[1!] - a[1!]).forEach(([item, rate]) => {
@@ -420,8 +420,8 @@ async function runCLI(): Promise<void> {
       case 'exit':
       case 'q':
         console.log('👋 Goodbye!');
-        rl?.close();
-        process?.exit(0);
+        rl.close();
+        process.exit(0);
 
       default:
         if (command !== '') {
@@ -429,20 +429,20 @@ async function runCLI(): Promise<void> {
         }
     }
 
-    rl?.prompt();
+    rl.prompt();
   });
 
-  rl?.on('SIGINT', () => {
+  rl.on('SIGINT', () => {
     console.log('\n👋 Goodbye!');
-    rl?.close();
-    process?.exit(0);
+    rl.close();
+    process.exit(0);
   });
 }
 
 // Main execution
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
-    process?.exit(1);
+    process.exit(1);
   });
 }

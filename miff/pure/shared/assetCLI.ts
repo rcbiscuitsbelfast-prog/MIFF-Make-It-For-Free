@@ -7,7 +7,7 @@
  * across the MIFF framework.
  */
 
-import { AssetValidator, AssetType } from './AssetValidator?.js';
+import { AssetValidator, AssetType } from './AssetValidator.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '/security/SafeJSONParser';
@@ -19,46 +19,46 @@ class AssetCLI {
 
   constructor(...args: any[]) {
     
-    this?.validator = new AssetValidator();
+    this.validator = new AssetValidator();
   }
 
   async run(): Promise<void> {
-    const args = process?.argv.slice(2);
+    const args = process.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'scan':
-          await this?.scanAssets(args?.slice(1));
+          await this.scanAssets(args.slice(1));
           break;
         case 'validate':
-          await this?.validateAssets(args?.slice(1));
+          await this.validateAssets(args.slice(1));
           break;
         case 'pipeline':
-          await this?.checkPipeline(args?.slice(1));
+          await this.checkPipeline(args.slice(1));
           break;
         case 'report':
-          await this?.generateReport(args?.slice(1));
+          await this.generateReport(args.slice(1));
           break;
         case 'help':
         default:
-          this?.showHelp();
+          this.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process?.exit(1);
+      process.exit(1);
     }
   }
 
   private async scanAssets(args: string[]): Promise<void> {
     const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'asset-references?.json';
+    const outputFile = args[1!] || 'asset-references.json';
 
     console.info(`🔍 Scanning for asset references in ${rootPath}...`);
     
-    const references = await this?.validator.scanAssetReferences(rootPath);
+    const references = await this.validator.scanAssetReferences(rootPath);
     
     // Save references to file
     fs.writeFileSync(outputFile, JSON.stringify(references, null, 2));
@@ -69,8 +69,8 @@ class AssetCLI {
     // Show breakdown by type
     const typeCounts = new Map<AssetType, number>();
     for (const ref of references) {
-      const count = typeCounts?.get(ref?.type) || 0;
-      typeCounts?.set(ref?.type, count + 1);
+      const count = typeCounts.get(ref.type) || 0;
+      typeCounts.set(ref.type, count + 1);
     }
 
     console.info('\n📊 Asset references by type:');
@@ -81,20 +81,20 @@ class AssetCLI {
 
   private async validateAssets(args: string[]): Promise<void> {
     const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'asset-validation?.json';
+    const outputFile = args[1!] || 'asset-validation.json';
 
     console.info(`🔍 Validating assets in ${rootPath}...`);
     
     // First scan for references
-    await this?.validator.scanAssetReferences(rootPath);
+    await this.validator.scanAssetReferences(rootPath);
     
     // Then validate them
-    const results = await this?.validator.validateAssets(rootPath);
+    const results = await this.validator.validateAssets(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    const stats = this?.validator.getStats();
+    const stats = this.validator.getStats();
     
     console.info('\n📊 Asset Validation Results:');
     console.info(`Total assets: ${stats.totalAssets}`);
@@ -105,14 +105,14 @@ class AssetCLI {
     console.info(`Total size: ${this.formatBytes(stats.totalSize)}`);
     console.info(`Average size: ${this.formatBytes(stats.averageSize)}`);
     
-    if (stats?.invalidAssets > 0) {
+    if (stats.invalidAssets > 0) {
       console.info('\n❌ Invalid assets:');
-      const invalidResults = results?.filter((r: any) => !r?.valid);
-      for (const result of invalidResults?.slice(0, 10)) { // Show first 10
+      const invalidResults = results.filter((r: any) => !r.valid);
+      for (const result of invalidResults.slice(0, 10)) { // Show first 10
         console.info(`  ${result.asset.path} (${result.asset.module})`);
         result.errors?.forEach((error: any) => console.info(`    - ${error}`));
       }
-      if (invalidResults?.length > 10) {
+      if (invalidResults.length > 10) {
         console.info(`  ... and ${invalidResults.length - 10} more`);
       }
     }
@@ -122,41 +122,41 @@ class AssetCLI {
 
   private async checkPipeline(args: string[]): Promise<void> {
     const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'pipeline-integrity?.json';
+    const outputFile = args[1!] || 'pipeline-integrity.json';
 
     console.info(`🔍 Checking pipeline integrity in ${rootPath}...`);
     
     // First scan for references
-    await this?.validator.scanAssetReferences(rootPath);
+    await this.validator.scanAssetReferences(rootPath);
     
     // Then check pipeline integrity
-    const results = await this?.validator.checkPipelineIntegrity(rootPath);
+    const results = await this.validator.checkPipelineIntegrity(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
     console.info('\n📊 Pipeline Integrity Results:');
     for (const result of results) {
-      const status = result?.valid ? '✅' : '❌';
+      const status = result.valid ? '✅' : '❌';
       console.info(`${status} ${result.pipeline} Pipeline`);
       
-      if (result?.missingAssets.length > 0) {
+      if (result.missingAssets.length > 0) {
         console.info(`  Missing assets: ${result.missingAssets.length}`);
         result.missingAssets.slice(0, 5).forEach((asset: any) => console.info(`    - ${asset}`));
-        if (result?.missingAssets.length > 5) {
+        if (result.missingAssets.length > 5) {
           console.info(`    ... and ${result.missingAssets.length - 5} more`);
         }
       }
       
-      if (result?.brokenReferences.length > 0) {
+      if (result.brokenReferences.length > 0) {
         console.info(`  Broken references: ${result.brokenReferences.length}`);
       }
       
-      if (result?.versionMismatches.length > 0) {
+      if (result.versionMismatches.length > 0) {
         console.info(`  Version mismatches: ${result.versionMismatches.length}`);
       }
       
-      if (result?.recommendations.length > 0) {
+      if (result.recommendations.length > 0) {
         console.info(`  Recommendations:`);
         result.recommendations.forEach((rec: any) => console.info(`    - ${rec}`));
       }
@@ -166,25 +166,25 @@ class AssetCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const inputFile = args[0!] || 'asset-validation?.json';
-    const outputFile = args[1!] || 'asset-report?.html';
+    const inputFile = args[0!] || 'asset-validation.json';
+    const outputFile = args[1!] || 'asset-report.html';
 
-    if (!fs?.existsSync(inputFile)) {
+    if (!fs.existsSync(inputFile)) {
       console.error(`❌ Validation file not found: ${inputFile}`);
       console.error('Run asset validation first with: tsx assetCLI.ts validate');
       return;
     }
 
-    const results = SafeJSONParser?.parse(fs?.readFileSync(inputFile, 'utf-8'));
-    const report = this?.validator.generateReport();
-    const html = this?.generateHTMLReport(results);
+    const results = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
+    const report = this.validator.generateReport();
+    const html = this.generateHTMLReport(results);
 
-    fs?.writeFileSync(outputFile, html);
+    fs.writeFileSync(outputFile, html);
     console.info(`📄 HTML report generated: ${outputFile}`);
   }
 
   private generateHTMLReport(results: any[]): string {
-    const stats = this?.calculateStatsFromResults(results);
+    const stats = this.calculateStatsFromResults(results);
     
     return `
 <!DOCTYPE html>
@@ -217,35 +217,35 @@ class AssetCLI {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${stats?.totalAssets}</div>
+            <div class="stat-value">${stats.totalAssets}</div>
             <div class="stat-label">Total Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value valid">${stats?.validAssets}</div>
+            <div class="stat-value valid">${stats.validAssets}</div>
             <div class="stat-label">Valid Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value invalid">${stats?.invalidAssets}</div>
+            <div class="stat-value invalid">${stats.invalidAssets}</div>
             <div class="stat-label">Invalid Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value missing">${stats?.missingAssets}</div>
+            <div class="stat-value missing">${stats.missingAssets}</div>
             <div class="stat-label">Missing Assets</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${this?.formatBytes(stats?.totalSize)}</div>
+            <div class="stat-value">${this.formatBytes(stats.totalSize)}</div>
             <div class="stat-label">Total Size</div>
         </div>
     </div>
 
     <div class="asset-list">
         <h3>Invalid Assets</h3>
-        ${results?.filter((r: any) => !r?.valid).map((result: any) => `
+        ${results.filter((r: any) => !r.valid).map((result: any) => `
             <div class="asset-item">
-                <div class="asset-path">${result?.asset.path}</div>
-                <div class="asset-module">Module: ${result?.asset.module} | Type: ${result?.asset.type}</div>
-                ${result?.errors?.length > 0 ? `<div class="asset-errors">Errors: ${result?.errors?.join(', ')}</div>` : ''}
-                ${result?.warnings.length > 0 ? `<div class="asset-warnings">Warnings: ${result?.warnings.join(', ')}</div>` : ''}
+                <div class="asset-path">${result.asset.path}</div>
+                <div class="asset-module">Module: ${result.asset.module} | Type: ${result.asset.type}</div>
+                ${result.errors?.length > 0 ? `<div class="asset-errors">Errors: ${result.errors?.join(', ')}</div>` : ''}
+                ${result.warnings.length > 0 ? `<div class="asset-warnings">Warnings: ${result.warnings.join(', ')}</div>` : ''}
             </div>
         `).join('')}
     </div>
@@ -254,11 +254,11 @@ class AssetCLI {
   }
 
   private calculateStatsFromResults(results: any[]): any {
-    const totalAssets = results?.length;
-    const validAssets = results?.filter((r: any) => r?.valid).length;
-    const invalidAssets = results?.filter((r: any) => !r?.valid).length;
-    const missingAssets = results?.filter((r: any) => r?.errors.some((e: string) => e?.includes('not found'))).length;
-    const totalSize = results?.reduce((sum, r: any) => sum + (r?.asset.size || 0), 0);
+    const totalAssets = results.length;
+    const validAssets = results.filter((r: any) => r.valid).length;
+    const invalidAssets = results.filter((r: any) => !r.valid).length;
+    const missingAssets = results.filter((r: any) => r.errors.some((e: string) => e.includes('not found'))).length;
+    const totalSize = results.reduce((sum, r: any) => sum + (r.asset.size || 0), 0);
     
     return {
       totalAssets,
@@ -281,7 +281,7 @@ class AssetCLI {
     console.info(`
 🎨 MIFF Asset Validation CLI
 
-Usage: tsx assetCLI?.ts <command> [options!]
+Usage: tsx assetCLI.ts <command> [options!]
 
 Commands:
   scan [path!] [output!]           Scan for asset references in codebase
@@ -291,10 +291,10 @@ Commands:
   help                          Show this help
 
 Examples:
-  tsx assetCLI?.ts scan miff/pure
-  tsx assetCLI?.ts validate miff/pure asset-validation?.json
-  tsx assetCLI?.ts pipeline miff/pure pipeline-integrity?.json
-  tsx assetCLI?.ts report asset-validation?.json report?.html
+  tsx assetCLI.ts scan miff/pure
+  tsx assetCLI.ts validate miff/pure asset-validation.json
+  tsx assetCLI.ts pipeline miff/pure pipeline-integrity.json
+  tsx assetCLI.ts report asset-validation.json report.html
 
 Supported Asset Types:
   - Images: png, jpg, jpeg, gif, svg, webp, bmp, ico
@@ -314,7 +314,7 @@ Pipeline Checks:
 }
 
 // Run the CLI if this file is executed directly
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new AssetCLI();
   cli.run().catch(console.error);
 }

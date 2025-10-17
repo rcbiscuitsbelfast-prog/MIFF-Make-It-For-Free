@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { CombatEngine, Combatant } from './engine';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 const engine = new CombatEngine();
 
 try {
@@ -21,9 +21,9 @@ try {
                      Array.isArray(enemyTeam) ? enemyTeam : ['shadow_dragon'];
       
       // Create combatants
-      const playerCombatants: Combatant[] = players?.map((id: string, i: number) => ({
+      const playerCombatants: Combatant[] = players.map((id: string, i: number) => ({
         id,
-        name: id?.charAt(0).toUpperCase() + id?.slice(1),
+        name: id.charAt(0).toUpperCase() + id.slice(1),
         team: 'player',
         stats: {
           hp: 100,
@@ -35,9 +35,9 @@ try {
         moves: ['attack', 'defend', 'special']
       }));
       
-      const enemyCombatants: Combatant[] = enemies?.map((id: string, i: number) => ({
+      const enemyCombatants: Combatant[] = enemies.map((id: string, i: number) => ({
         id,
-        name: id?.charAt(0).toUpperCase() + id?.slice(1),
+        name: id.charAt(0).toUpperCase() + id.slice(1),
         team: 'enemy',
         stats: {
           hp: 150 + i * 50,
@@ -50,8 +50,8 @@ try {
       }));
       
       // Add combatants to engine
-      playerCombatants?.forEach((c: any) => engine?.addCombatant(c));
-      enemyCombatants?.forEach((c: any) => engine?.addCombatant(c));
+      playerCombatants.forEach((c: any) => engine.addCombatant(c));
+      enemyCombatants.forEach((c: any) => engine.addCombatant(c));
       
       handleSuccess({
         combatId: combatId || 'combat_001',
@@ -79,25 +79,25 @@ try {
         },
         moves: ['attack', 'defend']
       };
-      engine?.addCombatant(combatant);
+      engine.addCombatant(combatant);
       handleSuccess({ combatant, added: true }, 'addCombatant');
       break;
     }
 
     case 'stepTurn': {
-      const result = engine?.stepTurn();
+      const result = engine.stepTurn();
       handleSuccess({ result, turnCompleted: true }, 'stepTurn');
       break;
     }
 
     case 'stepBattle': {
-      const result = engine?.stepBattle();
+      const result = engine.stepBattle();
       handleSuccess({ result, battleStep: true }, 'stepBattle');
       break;
     }
 
     case 'dump': {
-      const state = engine?.dumpState();
+      const state = engine.dumpState();
       handleSuccess({ state }, 'dump');
       break;
     }

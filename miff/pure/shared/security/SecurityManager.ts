@@ -1,5 +1,5 @@
 /**
- * SecurityManager?.ts - Advanced Security Management System
+ * SecurityManager.ts - Advanced Security Management System
  *
  * Provides comprehensive security features for:
  * - Authentication and authorization
@@ -14,7 +14,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../../EventBusPure/index?.js';
+import { EventBus } from '../../EventBusPure/index.js';
 import * as crypto from 'crypto';
 
 // ============================================================================
@@ -164,7 +164,7 @@ export interface ComplianceFinding {
 export interface SecurityMetrics {
   timestamp: Date;
   totalEvents: number;
-  eventsByType: Record<T extends Record<string, any>hreatType, number>;
+  eventsByType: Record<ThreatType, number>;
   eventsByLevel: Record<SecurityLevel, number>;
   activeAlerts: number;
   resolvedAlerts: number;
@@ -193,10 +193,10 @@ export class SecurityManager {
   private isRunning: boolean = false;
 
   constructor(config: SecurityConfig, eventBus: EventBus) {
-    this?.config = config;
-    this?.eventBus = eventBus;
-    this?.encryptionKey = this?.generateEncryptionKey();
-    this?.initialize({});
+    this.config = config;
+    this.eventBus = eventBus;
+    this.encryptionKey = this.generateEncryptionKey();
+    this.initialize();
   }
 
   /**
@@ -204,14 +204,14 @@ export class SecurityManager {
    */
   private initialize(): void {
     // Set up event listeners
-    this?.setupEventListeners();
+    this.setupEventListeners();
     
     // Start monitoring
-    this?.startMonitoring();
+    this.startMonitoring();
     
     // Initialize compliance monitoring
-    if (this?.config.enableComplianceMonitoring) {
-      this?.initializeComplianceMonitoring();
+    if (this.config.enableComplianceMonitoring) {
+      this.initializeComplianceMonitoring();
     }
   }
 
@@ -219,20 +219,20 @@ export class SecurityManager {
    * Initialize compliance monitoring
    */
   private initializeComplianceMonitoring(): void {
-    this?.log('Initializing compliance monitoring');
+    this.log('Initializing compliance monitoring');
     
     // Set up compliance checks
-    this?.complianceChecks = {
-      gdpr: this?.checkGDPRCompliance(),
-      ccpa: this?.checkCCPACompliance(),
-      sox: this?.checkSOXCompliance(),
-      hipaa: this?.checkHIPAACompliance()
+    this.complianceChecks = {
+      gdpr: this.checkGDPRCompliance(),
+      ccpa: this.checkCCPACompliance(),
+      sox: this.checkSOXCompliance(),
+      hipaa: this.checkHIPAACompliance()
     };
     
     // Start periodic compliance audits
     setInterval(() => {
-      this?.performComplianceAudit();
-    }, this?.config.complianceAuditInterval! || 3600000); // 1 hour default
+      this.performComplianceAudit();
+    }, this.config.complianceAuditInterval! || 3600000); // 1 hour default
   }
 
   /**
@@ -240,22 +240,22 @@ export class SecurityManager {
    */
   private setupEventListeners(): void {
     // Listen for authentication events
-    this?.eventBus.subscribe('auth:login', (data: any) => {
-      this?.handleLoginAttempt(data: any);
+    this.eventBus.subscribe('auth:login', (data) => {
+      this.handleLoginAttempt(data);
     });
     
-    this?.eventBus.subscribe('auth:logout', (data: any) => {
-      this?.handleLogout(data: any);
+    this.eventBus.subscribe('auth:logout', (data) => {
+      this.handleLogout(data);
     });
     
     // Listen for API requests
-    this?.eventBus.subscribe('api:request', (data: any) => {
-      this?.handleApiRequest(data: any);
+    this.eventBus.subscribe('api:request', (data) => {
+      this.handleApiRequest(data);
     });
     
     // Listen for data access events
-    this?.eventBus.subscribe('data:access', (data: any) => {
-      this?.handleDataAccess(data: any);
+    this.eventBus.subscribe('data:access', (data) => {
+      this.handleDataAccess(data);
     });
   }
 
@@ -263,36 +263,36 @@ export class SecurityManager {
    * Start security monitoring
    */
   private startMonitoring(): void {
-    this?.isRunning = true;
+    this.isRunning = true;
     
     // Monitor for threats
-    if (this?.config.enableThreatDetection) {
+    if (this.config.enableThreatDetection) {
       setInterval(() => {
-        this?.detectThreats();
+        this.detectThreats();
       }, 5000);
     }
     
     // Monitor compliance
-    if (this?.config.enableComplianceMonitoring) {
+    if (this.config.enableComplianceMonitoring) {
       setInterval(() => {
-        this?.monitorCompliance();
+        this.monitorCompliance();
       }, 300000); // 5 minutes
     }
     
     // Clean up old data
     setInterval(() => {
-      this?.cleanupOldData();
+      this.cleanupOldData();
     }, 3600000); // 1 hour
   }
 
   /**
    * Handle login attempt
    */
-  private handleLoginAttempt(data: any): void {
+  private handleLoginAttempt(data): void {
     const { userId, ipAddress, success, failureReason } = data;
     
     // Log the attempt
-    this?.logAudit({
+    this.logAudit({
       action: 'login_attempt',
       userId,
       resource: 'authentication',
@@ -304,32 +304,32 @@ export class SecurityManager {
     
     if (!success) {
       // Track failed attempts
-      this?.trackFailedLogin(userId, ipAddress);
+      this.trackFailedLogin(userId, ipAddress);
       
       // Check for brute force
-      if (this?.isBruteForceAttempt(userId, ipAddress)) {
-        this?.createSecurityEvent({
-          type: ThreatType?.BRUTE_FORCE,
-          level: SecurityLevel?.HIGH,
+      if (this.isBruteForceAttempt(userId, ipAddress)) {
+        this.createSecurityEvent({
+          type: ThreatType.BRUTE_FORCE,
+          level: SecurityLevel.HIGH,
           source: ipAddress,
           target: userId,
           description: 'Brute force attack detected',
-          details: { userId, ipAddress, attemptCount: this?.getFailedLoginCount(userId, ipAddress) }
+          details: { userId, ipAddress, attemptCount: this.getFailedLoginCount(userId, ipAddress) }
         });
       }
     } else {
       // Reset failed attempts on successful login
-      this?.resetFailedLogin(userId, ipAddress);
+      this.resetFailedLogin(userId, ipAddress);
     }
   }
 
   /**
    * Handle logout
    */
-  private handleLogout(data: any): void {
+  private handleLogout(data): void {
     const { userId, ipAddress } = data;
     
-    this?.logAudit({
+    this.logAudit({
       action: 'logout',
       userId,
       resource: 'authentication',
@@ -342,15 +342,15 @@ export class SecurityManager {
   /**
    * Handle API request
    */
-  private handleApiRequest(data: any): void {
+  private handleApiRequest(data): void {
     const { method, path, ipAddress, userId, headers } = data;
     
     // Check rate limiting
-    if (this?.config.enableRateLimiting) {
-      if (!this?.checkRateLimit(ipAddress)) {
-        this?.createSecurityEvent({
-          type: ThreatType?.DDOS,
-          level: SecurityLevel?.MEDIUM,
+    if (this.config.enableRateLimiting) {
+      if (!this.checkRateLimit(ipAddress)) {
+        this.createSecurityEvent({
+          type: ThreatType.DDOS,
+          level: SecurityLevel.MEDIUM,
           source: ipAddress,
           target: path,
           description: 'Rate limit exceeded',
@@ -361,23 +361,23 @@ export class SecurityManager {
     }
     
     // Validate input
-    if (this?.config.enableInputValidation) {
-      const validationResult = this?.validateInput(data: any);
-      if (!validationResult?.valid) {
-        this?.createSecurityEvent({
-          type: ThreatType?.XSS,
-          level: SecurityLevel?.HIGH,
+    if (this.config.enableInputValidation) {
+      const validationResult = this.validateInput(data);
+      if (!validationResult.valid) {
+        this.createSecurityEvent({
+          type: ThreatType.XSS,
+          level: SecurityLevel.HIGH,
           source: ipAddress,
           target: path,
           description: 'Invalid input detected',
-          details: { method, path, validationErrors: validationResult?.errors }
+          details: { method, path, validationErrors: validationResult.errors }
         });
         return;
       }
     }
     
     // Log the request
-    this?.logAudit({
+    this.logAudit({
       action: 'api_request',
       userId,
       resource: path,
@@ -390,15 +390,15 @@ export class SecurityManager {
   /**
    * Handle data access
    */
-  private handleDataAccess(data: any): void {
+  private handleDataAccess(data): void {
     const { userId, resource, action, ipAddress } = data;
     
     // Check authorization
-    if (this?.config.enableAuthorization) {
-      if (!this?.checkAuthorization(userId, resource, action)) {
-        this?.createSecurityEvent({
-          type: ThreatType?.UNAUTHORIZED_ACCESS,
-          level: SecurityLevel?.HIGH,
+    if (this.config.enableAuthorization) {
+      if (!this.checkAuthorization(userId, resource, action)) {
+        this.createSecurityEvent({
+          type: ThreatType.UNAUTHORIZED_ACCESS,
+          level: SecurityLevel.HIGH,
           source: ipAddress,
           target: resource,
           description: 'Unauthorized access attempt',
@@ -409,7 +409,7 @@ export class SecurityManager {
     }
     
     // Log the access
-    this?.logAudit({
+    this.logAudit({
       action: 'data_access',
       userId,
       resource,
@@ -424,13 +424,13 @@ export class SecurityManager {
    */
   private trackFailedLogin(userId: string, ipAddress: string): void {
     const key = `${userId}:${ipAddress}`;
-    const existing = this?.failedLoginAttempts.get(key);
+    const existing = this.failedLoginAttempts.get(key);
     
     if (existing) {
-      existing?.count++;
-      existing?.lastAttempt = new Date();
+      existing.count++;
+      existing.lastAttempt = new Date();
     } else {
-      this?.failedLoginAttempts.set(key, {
+      this.failedLoginAttempts.set(key, {
         count: 1,
         lastAttempt: new Date()
       });
@@ -442,18 +442,18 @@ export class SecurityManager {
    */
   private isBruteForceAttempt(userId: string, ipAddress: string): boolean {
     const key = `${userId}:${ipAddress}`;
-    const attempts = this?.failedLoginAttempts.get(key);
+    const attempts = this.failedLoginAttempts.get(key);
     
     if (!attempts) return false;
     
     // Check if within lockout duration
-    const timeSinceLastAttempt = new Date() - attempts.lastAttempt.getTime();
-    if (timeSinceLastAttempt > this?.config.lockoutDuration) {
-      this?.resetFailedLogin(userId, ipAddress);
+    const timeSinceLastAttempt = Date.now() - attempts.lastAttempt.getTime();
+    if (timeSinceLastAttempt > this.config.lockoutDuration) {
+      this.resetFailedLogin(userId, ipAddress);
       return false;
     }
     
-    return attempts?.count >= this?.config.maxLoginAttempts;
+    return attempts.count >= this.config.maxLoginAttempts;
   }
 
   /**
@@ -461,8 +461,8 @@ export class SecurityManager {
    */
   private getFailedLoginCount(userId: string, ipAddress: string): number {
     const key = `${userId}:${ipAddress}`;
-    const attempts = this?.failedLoginAttempts.get(key);
-    return attempts ? attempts?.count : 0;
+    const attempts = this.failedLoginAttempts.get(key);
+    return attempts ? attempts.count : 0;
   }
 
   /**
@@ -470,39 +470,39 @@ export class SecurityManager {
    */
   private resetFailedLogin(userId: string, ipAddress: string): void {
     const key = `${userId}:${ipAddress}`;
-    this?.failedLoginAttempts.delete(key);
+    this.failedLoginAttempts.delete(key);
   }
 
   /**
    * Check rate limit
    */
   private checkRateLimit(ipAddress: string): boolean {
-    const now = new Date();
-    const windowStart = now - this?.config.rateLimitWindow;
+    const now = Date.now();
+    const windowStart = now - this.config.rateLimitWindow;
     
-    const existing = this?.rateLimitMap.get(ipAddress);
+    const existing = this.rateLimitMap.get(ipAddress);
     
-    if (!existing || existing?.resetTime < windowStart) {
+    if (!existing || existing.resetTime < windowStart) {
       // Reset or create new entry
-      this?.rateLimitMap.set(ipAddress, {
+      this.rateLimitMap.set(ipAddress, {
         count: 1,
         resetTime: now
       });
       return true;
     }
     
-    if (existing?.count >= this?.config.rateLimitMaxRequests) {
+    if (existing.count >= this.config.rateLimitMaxRequests) {
       return false;
     }
     
-    existing?.count++;
+    existing.count++;
     return true;
   }
 
   /**
    * Validate input
    */
-  private validateInput(data: any): { valid: boolean; errors: string[] } {
+  private validateInput(data): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
     
     // Check for SQL injection patterns
@@ -513,10 +513,10 @@ export class SecurityManager {
       /(\b(OR|AND)\s+['"]\s*LIKE\s*['"])/i
     ];
     
-    const inputString = JSON.stringify(data: any);
+    const inputString = JSON.stringify(data);
     for (const pattern of sqlPatterns) {
-      if (pattern?.test(inputString)) {
-        errors?.push('Potential SQL injection detected');
+      if (pattern.test(inputString)) {
+        errors.push('Potential SQL injection detected');
         break;
       }
     }
@@ -532,14 +532,14 @@ export class SecurityManager {
     ];
     
     for (const pattern of xssPatterns) {
-      if (pattern?.test(inputString)) {
-        errors?.push('Potential XSS attack detected');
+      if (pattern.test(inputString)) {
+        errors.push('Potential XSS attack detected');
         break;
       }
     }
     
     return {
-      valid: errors?.length === 0,
+      valid: errors.length === 0,
       errors
     };
   }
@@ -558,15 +558,15 @@ export class SecurityManager {
    */
   private detectThreats(): void {
     // Analyze recent events for threat patterns
-    const recentEvents = this?.events.filter(
+    const recentEvents = this.events.filter(
       event => Date.now() - event.timestamp.getTime() < 300000 // Last 5 minutes
     );
     
     // Check for suspicious patterns
-    this?.checkSuspiciousPatterns(recentEvents);
+    this.checkSuspiciousPatterns(recentEvents);
     
     // Check for anomaly detection
-    this?.checkAnomalies(recentEvents);
+    this.checkAnomalies(recentEvents);
   }
 
   /**
@@ -574,24 +574,24 @@ export class SecurityManager {
    */
   private checkSuspiciousPatterns(events: SecurityEvent[]): void {
     // Group events by source
-    const eventsBySource = events?.reduce((acc, event) => {
-      if (!acc[event?.source]) {
-        acc[event?.source] = [];
+    const eventsBySource = events.reduce((acc, event) => {
+      if (!acc[event.source]) {
+        acc[event.source] = [];
       }
-      acc[event?.source].push(event);
+      acc[event.source].push(event);
       return acc;
     }, {} as Record<string, SecurityEvent[]>);
     
     // Check for high frequency from single source
     for (const [source, sourceEvents] of Object.entries(eventsBySource)) {
-      if (sourceEvents?.length > this?.config.threatDetectionThreshold) {
-        this?.createSecurityEvent({
-          type: ThreatType?.DDOS,
-          level: SecurityLevel?.HIGH,
+      if (sourceEvents.length > this.config.threatDetectionThreshold) {
+        this.createSecurityEvent({
+          type: ThreatType.DDOS,
+          level: SecurityLevel.HIGH,
           source,
           target: 'system',
           description: 'High frequency of events from single source',
-          details: { eventCount: sourceEvents?.length, timeWindow: '5 minutes' }
+          details: { eventCount: sourceEvents.length, timeWindow: '5 minutes' }
         });
       }
     }
@@ -602,13 +602,13 @@ export class SecurityManager {
    */
   private checkAnomalies(events: SecurityEvent[]): void {
     // Check for unusual event types
-    const eventTypes = events?.map((e: any) => e?.type);
+    const eventTypes = events.map((e: any) => e.type);
     const uniqueTypes = new Set(eventTypes);
     
-    if (uniqueTypes?.size > 5) {
-      this?.createSecurityEvent({
-        type: ThreatType?.MALWARE,
-        level: SecurityLevel?.MEDIUM,
+    if (uniqueTypes.size > 5) {
+      this.createSecurityEvent({
+        type: ThreatType.MALWARE,
+        level: SecurityLevel.MEDIUM,
         source: 'system',
         target: 'system',
         description: 'Unusual variety of security events detected',
@@ -621,8 +621,8 @@ export class SecurityManager {
    * Monitor compliance
    */
   private monitorCompliance(): void {
-    for (const standard of this?.config.complianceStandards) {
-      this?.checkComplianceStandard(standard);
+    for (const standard of this.config.complianceStandards) {
+      this.checkComplianceStandard(standard);
     }
   }
 
@@ -635,42 +635,42 @@ export class SecurityManager {
     
     // Check password requirements
     if (standard === 'PCI_DSS' || standard === 'SOX') {
-      findings?.push({
-        id: this?.generateId(),
+      findings.push({
+        id: this.generateId(),
         requirement: 'Password complexity',
-        status: this?.config.passwordMinLength >= 8 ? 'pass' : 'fail',
+        status: this.config.passwordMinLength >= 8 ? 'pass' : 'fail',
         description: 'Password minimum length requirement',
-        evidence: [`Current minimum length: ${this?.config.passwordMinLength}`],
+        evidence: [`Current minimum length: ${this.config.passwordMinLength}`],
         remediation: 'Increase minimum password length to 8 characters'
       });
     }
     
     // Check encryption
     if (standard === 'GDPR' || standard === 'HIPAA') {
-      findings?.push({
-        id: this?.generateId(),
+      findings.push({
+        id: this.generateId(),
         requirement: 'Data encryption',
-        status: this?.config.enableEncryption ? 'pass' : 'fail',
+        status: this.config.enableEncryption ? 'pass' : 'fail',
         description: 'Data encryption at rest and in transit',
-        evidence: [`Encryption enabled: ${this?.config.enableEncryption}`],
+        evidence: [`Encryption enabled: ${this.config.enableEncryption}`],
         remediation: 'Enable data encryption'
       });
     }
     
     // Create compliance report
     const report: ComplianceReport = {
-      id: this?.generateId(),
+      id: this.generateId(),
       timestamp: new Date(),
       standard,
-      status: findings?.every(f => f?.status === 'pass') ? 'compliant' : 'non_compliant',
-      score: (findings?.filter((f: any) => f?.status === 'pass').length / findings?.length) * 100,
+      status: findings.every(f => f.status === 'pass') ? 'compliant' : 'non_compliant',
+      score: (findings.filter((f: any) => f.status === 'pass').length / findings.length) * 100,
       findings,
-      recommendations: findings?.filter((f: any) => f?.status !== 'pass').map((f: any) => f?.remediation),
+      recommendations: findings.filter((f: any) => f.status !== 'pass').map((f: any) => f.remediation),
       nextAuditDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
     };
     
-    this?.complianceReports?.push(report);
-    this?.eventBus.publish('security:compliance', report);
+    this.complianceReports.push(report);
+    this.eventBus.publish('security:compliance', report);
   }
 
   /**
@@ -679,19 +679,19 @@ export class SecurityManager {
   private createSecurityEvent(eventData: Omit<SecurityEvent, 'id' | 'timestamp' | 'resolved'>): void {
     const event: SecurityEvent = {
       ...eventData,
-      id: this?.generateId(),
+      id: this.generateId(),
       timestamp: new Date(),
       resolved: false
     };
     
-    this?.events?.push(event);
+    this.events.push(event);
     
     // Create alert if severity is high enough
-    if (event?.level === SecurityLevel?.HIGH || event?.level === SecurityLevel?.CRITICAL) {
-      this?.createSecurityAlert(event);
+    if (event.level === SecurityLevel.HIGH || event.level === SecurityLevel.CRITICAL) {
+      this.createSecurityAlert(event);
     }
     
-    this?.eventBus.publish('security:event', event);
+    this.eventBus.publish('security:event', event);
   }
 
   /**
@@ -699,17 +699,17 @@ export class SecurityManager {
    */
   private createSecurityAlert(event: SecurityEvent): void {
     const alert: SecurityAlert = {
-      id: this?.generateId(),
+      id: this.generateId(),
       eventId: event?.id,
       timestamp: new Date(),
-      level: event?.level,
-      message: event?.description,
+      level: event.level,
+      message: event.description,
       action: 'investigate',
       acknowledged: false
     };
     
-    this?.alerts?.push(alert);
-    this?.eventBus.publish('security:alert', alert);
+    this.alerts.push(alert);
+    this.eventBus.publish('security:alert', alert);
   }
 
   /**
@@ -718,12 +718,12 @@ export class SecurityManager {
   private logAudit(auditData: Omit<SecurityAudit, 'id' | 'timestamp'>): void {
     const audit: SecurityAudit = {
       ...auditData,
-      id: this?.generateId(),
+      id: this.generateId(),
       timestamp: new Date()
     };
     
-    this?.audits?.push(audit);
-    this?.eventBus.publish('security:audit', audit);
+    this.audits.push(audit);
+    this.eventBus.publish('security:audit', audit);
   }
 
   /**
@@ -733,53 +733,53 @@ export class SecurityManager {
     const cutoffDate = new Date(Date.now() - this.config.auditRetentionDays * 24 * 60 * 60 * 1000);
     
     // Clean up old events
-    this?.events = this?.events.filter((event: any) => event?.timestamp > cutoffDate);
+    this.events = this.events.filter((event: any) => event.timestamp > cutoffDate);
     
     // Clean up old audits
-    this?.audits = this?.audits.filter((audit: any) => audit?.timestamp > cutoffDate);
+    this.audits = this.audits.filter((audit: any) => audit.timestamp > cutoffDate);
     
     // Clean up old compliance reports
-    this?.complianceReports = this?.complianceReports.filter((report: any) => report?.timestamp > cutoffDate);
+    this.complianceReports = this.complianceReports.filter((report: any) => report.timestamp > cutoffDate);
   }
 
   /**
    * Generate encryption key
    */
   private generateEncryptionKey(): Buffer {
-    return crypto?.randomBytes(32);
+    return crypto.randomBytes(32);
   }
 
   /**
    * Encrypt data
    */
   encrypt(data: string): string {
-    if (!this?.config.enableEncryption) return data;
+    if (!this.config.enableEncryption) return data;
     
-    const iv = crypto?.randomBytes(16);
-    const key = crypto?.scryptSync(this?.encryptionKey, 'salt', 32);
-    const cipher = crypto?.createCipheriv(this?.config.encryptionAlgorithm, key, iv);
+    const iv = crypto.randomBytes(16);
+    const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
+    const cipher = crypto.createCipheriv(this.config.encryptionAlgorithm, key, iv);
     
-    let encrypted = cipher?.update(data, 'utf8', 'hex');
-    encrypted += cipher?.final('hex');
+    let encrypted = cipher.update(data, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
     
-    return iv?.toString('hex') + ':' + encrypted;
+    return iv.toString('hex') + ':' + encrypted;
   }
 
   /**
    * Decrypt data
    */
   decrypt(encryptedData: string): string {
-    if (!this?.config.enableEncryption) return encryptedData;
+    if (!this.config.enableEncryption) return encryptedData;
     
-    const parts = encryptedData?.split(':');
-    const iv = Buffer?.from(parts[0!], 'hex');
+    const parts = encryptedData.split(':');
+    const iv = Buffer.from(parts[0!], 'hex');
     const encrypted = parts[1!];
     
-    const key = crypto?.scryptSync(this?.encryptionKey, 'salt', 32);
-    const decipher = crypto?.createDecipheriv(this?.config.encryptionAlgorithm, key, iv);
+    const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
+    const decipher = crypto.createDecipheriv(this.config.encryptionAlgorithm, key, iv);
     
-    let decrypted = decipher?.update(encrypted, 'hex', 'utf8');
-    decrypted += decipher?.final('utf8');
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
     
     return decrypted;
   }
@@ -788,19 +788,19 @@ export class SecurityManager {
    * Hash data
    */
   hash(data: string, salt?: string): string {
-    if (this?.config.hashAlgorithm === HashAlgorithm?.BCRYPT) {
+    if (this.config.hashAlgorithm === HashAlgorithm.BCRYPT) {
       // In a real implementation, you would use bcrypt
-      return crypto?.createHash('sha256').update(data + (salt || '')).digest('hex');
+      return crypto.createHash('sha256').update(data + (salt || '')).digest('hex');
     }
     
-    return crypto?.createHash(this?.config.hashAlgorithm).update(data + (salt || '')).digest('hex');
+    return crypto.createHash(this.config.hashAlgorithm).update(data + (salt || '')).digest('hex');
   }
 
   /**
    * Verify hash
    */
   verifyHash(data: string, hash: string, salt?: string): boolean {
-    const computedHash = this?.hash(data, salt);
+    const computedHash = this.hash(data, salt);
     return computedHash === hash;
   }
 
@@ -809,34 +809,34 @@ export class SecurityManager {
    */
   getSecurityMetrics(): SecurityMetrics {
     const now = new Date();
-    const last24Hours = new Date(now?.getTime() - 24 * 60 * 60 * 1000);
+    const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     
-    const recentEvents = this?.events.filter((event: any) => event?.timestamp > last24Hours);
-    const recentAlerts = this?.alerts.filter((alert: any) => alert?.timestamp > last24Hours);
+    const recentEvents = this.events.filter((event: any) => event.timestamp > last24Hours);
+    const recentAlerts = this.alerts.filter((alert: any) => alert.timestamp > last24Hours);
     
-    const eventsByType = recentEvents?.reduce((acc, event) => {
-      acc[event?.type] = (acc[event?.type] || 0) + 1;
+    const eventsByType = recentEvents.reduce((acc, event) => {
+      acc[event.type] = (acc[event.type] || 0) + 1;
       return acc;
-    }, {} as Record<T extends Record<string, any>hreatType, number>);
+    }, {} as Record<ThreatType, number>);
     
-    const eventsByLevel = recentEvents?.reduce((acc, event) => {
-      acc[event?.level] = (acc[event?.level] || 0) + 1;
+    const eventsByLevel = recentEvents.reduce((acc, event) => {
+      acc[event.level] = (acc[event.level] || 0) + 1;
       return acc;
     }, {} as Record<SecurityLevel, number>);
     
-    const activeAlerts = this?.alerts.filter((alert: any) => !alert?.acknowledged).length;
-    const resolvedAlerts = this?.alerts.filter((alert: any) => alert?.acknowledged).length;
+    const activeAlerts = this.alerts.filter((alert: any) => !alert.acknowledged).length;
+    const resolvedAlerts = this.alerts.filter((alert: any) => alert.acknowledged).length;
     
-    const vulnerabilitiesFound = this?.vulnerabilities.length;
-    const vulnerabilitiesResolved = this?.vulnerabilities.filter((v: any) => v?.status === 'resolved').length;
+    const vulnerabilitiesFound = this.vulnerabilities.length;
+    const vulnerabilitiesResolved = this.vulnerabilities.filter((v: any) => v.status === 'resolved').length;
     
-    const complianceScore = this?.complianceReports.length > 0 
-      ? this?.complianceReports[this?.complianceReports.length - 1].score 
+    const complianceScore = this.complianceReports.length > 0 
+      ? this.complianceReports[this.complianceReports.length - 1].score 
       : 100;
     
     return {
       timestamp: now,
-      totalEvents: recentEvents?.length,
+      totalEvents: recentEvents.length,
       eventsByType,
       eventsByLevel,
       activeAlerts,
@@ -845,7 +845,7 @@ export class SecurityManager {
       vulnerabilitiesResolved,
       complianceScore,
       averageResponseTime: 0, // Would be calculated from actual data
-      blockedRequests: recentEvents?.filter((e: any) => e?.type === ThreatType?.DDOS).length,
+      blockedRequests: recentEvents.filter((e: any) => e.type === ThreatType.DDOS).length,
       allowedRequests: 0 // Would be calculated from actual data
     };
   }
@@ -862,12 +862,12 @@ export class SecurityManager {
     metrics: SecurityMetrics;
   } {
     return {
-      events: [...this?.events],
-      alerts: [...this?.alerts],
-      audits: [...this?.audits],
-      vulnerabilities: [...this?.vulnerabilities],
-      complianceReports: [...this?.complianceReports],
-      metrics: this?.getSecurityMetrics()
+      events: [...this.events],
+      alerts: [...this.alerts],
+      audits: [...this.audits],
+      vulnerabilities: [...this.vulnerabilities],
+      complianceReports: [...this.complianceReports],
+      metrics: this.getSecurityMetrics()
     };
   }
 
@@ -875,11 +875,11 @@ export class SecurityManager {
    * Acknowledge alert
    */
   acknowledgeAlert(alertId: string, acknowledgedBy: string): boolean {
-    const alert = this?.alerts.find(a => a?.id === alertId);
+    const alert = this.alerts.find(a => a.id === alertId);
     if (alert) {
-      alert?.acknowledged = true;
-      alert?.acknowledgedAt = new Date();
-      alert?.acknowledgedBy = acknowledgedBy;
+      alert.acknowledged = true;
+      alert.acknowledgedAt = new Date();
+      alert.acknowledgedBy = acknowledgedBy;
       return true;
     }
     return false;
@@ -889,11 +889,11 @@ export class SecurityManager {
    * Resolve security event
    */
   resolveSecurityEvent(eventId: string, resolvedBy: string): boolean {
-    const event = this?.events.find(e => e?.id === eventId);
+    const event = this.events.find(e => e.id === eventId);
     if (event) {
-      event?.resolved = true;
-      event?.resolvedAt = new Date();
-      event?.resolvedBy = resolvedBy;
+      event.resolved = true;
+      event.resolvedAt = new Date();
+      event.resolvedBy = resolvedBy;
       return true;
     }
     return false;
@@ -903,7 +903,7 @@ export class SecurityManager {
    * Update configuration
    */
   updateConfig(config: Partial<SecurityConfig>): void {
-    this?.config = { ...this?.config, ...config };
+    this.config = { ...this.config, ...config };
   }
 
   /**
@@ -917,14 +917,14 @@ export class SecurityManager {
    * Cleanup resources
    */
   destroy(): void {
-    this?.isRunning = false;
-    this?.events = [];
-    this?.alerts = [];
-    this?.audits = [];
-    this?.vulnerabilities = [];
-    this?.complianceReports = [];
-    this?.rateLimitMap.clear();
-    this?.failedLoginAttempts.clear();
+    this.isRunning = false;
+    this.events = [];
+    this.alerts = [];
+    this.audits = [];
+    this.vulnerabilities = [];
+    this.complianceReports = [];
+    this.rateLimitMap.clear();
+    this.failedLoginAttempts.clear();
   }
 }
 
@@ -949,8 +949,8 @@ export const defaultSecurityManager = new SecurityManager({
   passwordRequireSpecialChars: true,
   passwordRequireNumbers: true,
   passwordRequireUppercase: true,
-  encryptionAlgorithm: EncryptionAlgorithm?.AES_256_GCM,
-  hashAlgorithm: HashAlgorithm?.SHA_256,
+  encryptionAlgorithm: EncryptionAlgorithm.AES_256_GCM,
+  hashAlgorithm: HashAlgorithm.SHA_256,
   rateLimitWindow: 60000, // 1 minute
   rateLimitMaxRequests: 100,
   threatDetectionThreshold: 10,

@@ -83,7 +83,7 @@ export class QuestsManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.initializeDefaultQuests();
+    this.initializeDefaultQuests();
   }
 
   private initializeDefaultQuests() {
@@ -164,18 +164,18 @@ export class QuestsManager {
       }
     ];
 
-    defaultQuests?.forEach((quest: any) => this?.quests.set(quest?.id, quest));
+    defaultQuests.forEach((quest: any) => this.quests.set(quest.id, quest));
   }
 
   /**
    * Create a new quest
    */
   createQuest(quest: Quest): QuestOutput {
-    if (this?.quests.has(quest?.id)) {
+    if (this.quests.has(quest.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`Quest ${quest?.id} already exists`]
+        issues: [`Quest ${quest.id} already exists`]
       };
     }
 
@@ -185,7 +185,7 @@ export class QuestsManager {
       updatedAt: new Date()
     };
 
-    this?.quests.set(quest?.id, newQuest);
+    this.quests.set(quest.id, newQuest);
     return {
       op: 'create',
       status: 'ok',
@@ -197,7 +197,7 @@ export class QuestsManager {
    * Update quest
    */
   updateQuest(questId: string, updates: Partial<Quest>): QuestOutput {
-    const quest = this?.quests.get(questId);
+    const quest = this.quests.get(questId);
     if (!quest) {
       return {
         op: 'update',
@@ -212,7 +212,7 @@ export class QuestsManager {
       updatedAt: new Date()
     };
 
-    this?.quests.set(questId, updatedQuest);
+    this.quests.set(questId, updatedQuest);
     return {
       op: 'update',
       status: 'ok',
@@ -224,7 +224,7 @@ export class QuestsManager {
    * Delete quest
    */
   deleteQuest(questId: string): QuestOutput {
-    if (!this?.quests.has(questId)) {
+    if (!this.quests.has(questId)) {
       return {
         op: 'delete',
         status: 'error',
@@ -232,9 +232,9 @@ export class QuestsManager {
       };
     }
 
-    this?.quests.delete(questId);
-    this?.activeQuests.delete(questId);
-    this?.questProgress.delete(questId);
+    this.quests.delete(questId);
+    this.activeQuests.delete(questId);
+    this.questProgress.delete(questId);
     return {
       op: 'delete',
       status: 'ok'
@@ -245,7 +245,7 @@ export class QuestsManager {
    * Get quest by ID
    */
   getQuest(questId: string): QuestOutput {
-    const quest = this?.quests.get(questId);
+    const quest = this.quests.get(questId);
     if (!quest) {
       return {
         op: 'get',
@@ -268,14 +268,14 @@ export class QuestsManager {
     let quests = Array.from(this.quests.values());
 
     if (filter) {
-      quests = quests?.filter((quest: any) => {
-        if (filter?.status && quest?.status !== filter?.status) return false;
-        if (filter?.category && quest?.category !== filter?.category) return false;
-        if (filter?.giver && quest?.giver !== filter?.giver) return false;
-        if (filter?.level && quest?.level && quest?.level > filter?.level) return false;
-        if (filter?.hasPrerequisites !== undefined) {
-          const hasPrereqs = quest?.prerequisites && quest?.prerequisites.length > 0;
-          if (filter?.hasPrerequisites !== hasPrereqs) return false;
+      quests = quests.filter((quest: any) => {
+        if (filter.status && quest.status !== filter.status) return false;
+        if (filter.category && quest.category !== filter.category) return false;
+        if (filter.giver && quest.giver !== filter.giver) return false;
+        if (filter.level && quest.level && quest.level > filter.level) return false;
+        if (filter.hasPrerequisites !== undefined) {
+          const hasPrereqs = quest.prerequisites && quest.prerequisites.length > 0;
+          if (filter.hasPrerequisites !== hasPrereqs) return false;
         }
         return true;
       });
@@ -292,7 +292,7 @@ export class QuestsManager {
    * Start a quest
    */
   startQuest(questId: string): QuestOutput {
-    const quest = this?.quests.get(questId);
+    const quest = this.quests.get(questId);
     if (!quest) {
       return {
         op: 'start',
@@ -301,19 +301,19 @@ export class QuestsManager {
       };
     }
 
-    if (quest?.status !== 'available') {
+    if (quest.status !== 'available') {
       return {
         op: 'start',
         status: 'error',
-        issues: [`Quest ${questId} is not available (status: ${quest?.status})`]
+        issues: [`Quest ${questId} is not available (status: ${quest.status})`]
       };
     }
 
     // Check prerequisites
-    if (quest?.prerequisites) {
-      for (const prereqId of quest?.prerequisites) {
-        const prereq = this?.quests.get(prereqId);
-        if (!prereq || prereq?.status !== 'completed') {
+    if (quest.prerequisites) {
+      for (const prereqId of quest.prerequisites) {
+        const prereq = this.quests.get(prereqId);
+        if (!prereq || prereq.status !== 'completed') {
           return {
             op: 'start',
             status: 'error',
@@ -324,21 +324,21 @@ export class QuestsManager {
     }
 
     // Update quest status
-    quest?.status = 'active';
-    quest.updatedAt = new Date();
-    this?.quests.set(questId, quest);
-    this?.activeQuests.add(questId);
+    quest.status = 'active';
+    quest.updatedAt = Date.now();
+    this.quests.set(questId, quest);
+    this.activeQuests.add(questId);
 
     // Initialize progress
     const progress: QuestProgress = {
       questId,
       currentStep: 0,
       completedSteps: 0,
-      totalSteps: quest?.steps.length,
+      totalSteps: quest.steps.length,
       progress: 0,
       timeSpent: 0
     };
-    this?.questProgress.set(questId, progress);
+    this.questProgress.set(questId, progress);
 
     return {
       op: 'start',
@@ -351,7 +351,7 @@ export class QuestsManager {
    * Complete a quest
    */
   completeQuest(questId: string): QuestOutput {
-    const quest = this?.quests.get(questId);
+    const quest = this.quests.get(questId);
     if (!quest) {
       return {
         op: 'complete',
@@ -360,16 +360,16 @@ export class QuestsManager {
       };
     }
 
-    if (quest?.status !== 'active') {
+    if (quest.status !== 'active') {
       return {
         op: 'complete',
         status: 'error',
-        issues: [`Quest ${questId} is not active (status: ${quest?.status})`]
+        issues: [`Quest ${questId} is not active (status: ${quest.status})`]
       };
     }
 
     // Check if all steps are completed
-    const allStepsCompleted = quest?.steps.every(step => step?.completed);
+    const allStepsCompleted = quest.steps.every(step => step.completed);
     if (!allStepsCompleted) {
       return {
         op: 'complete',
@@ -379,17 +379,17 @@ export class QuestsManager {
     }
 
     // Update quest status
-    quest?.status = 'completed';
-    quest.completedAt = new Date();
-    quest.updatedAt = new Date();
-    this?.quests.set(questId, quest);
-    this?.activeQuests.delete(questId);
+    quest.status = 'completed';
+    quest.completedAt = Date.now();
+    quest.updatedAt = Date.now();
+    this.quests.set(questId, quest);
+    this.activeQuests.delete(questId);
 
     // Update progress
-    const progress = this?.questProgress.get(questId);
+    const progress = this.questProgress.get(questId);
     if (progress) {
-      progress?.progress = 100;
-      this?.questProgress.set(questId, progress);
+      progress.progress = 100;
+      this.questProgress.set(questId, progress);
     }
 
     return {
@@ -403,7 +403,7 @@ export class QuestsManager {
    * Update quest progress
    */
   updateQuestProgress(questId: string, stepId: string, completed: boolean): QuestOutput {
-    const quest = this?.quests.get(questId);
+    const quest = this.quests.get(questId);
     if (!quest) {
       return {
         op: 'progress',
@@ -412,7 +412,7 @@ export class QuestsManager {
       };
     }
 
-    const step = quest?.steps.find(s => s?.id === stepId);
+    const step = quest.steps.find(s => s.id === stepId);
     if (!step) {
       return {
         op: 'progress',
@@ -421,17 +421,17 @@ export class QuestsManager {
       };
     }
 
-    step?.completed = completed;
-    quest.updatedAt = new Date();
-    this?.quests.set(questId, quest);
+    step.completed = completed;
+    quest.updatedAt = Date.now();
+    this.quests.set(questId, quest);
 
     // Update progress tracking
-    const progress = this?.questProgress.get(questId);
+    const progress = this.questProgress.get(questId);
     if (progress) {
-      const completedSteps = quest?.steps.filter((s: any) => s?.completed).length;
-      progress?.completedSteps = completedSteps;
-      progress?.progress = (completedSteps / quest?.steps.length) * 100;
-      this?.questProgress.set(questId, progress);
+      const completedSteps = quest.steps.filter((s: any) => s.completed).length;
+      progress.completedSteps = completedSteps;
+      progress.progress = (completedSteps / quest.steps.length) * 100;
+      this.questProgress.set(questId, progress);
     }
 
     return {
@@ -447,11 +447,11 @@ export class QuestsManager {
   getQuestStats(): QuestOutput {
     const quests = Array.from(this.quests.values());
     const stats: QuestStats = {
-      totalQuests: quests?.length,
-      availableQuests: quests?.filter((q: any) => q?.status === 'available').length,
-      activeQuests: quests?.filter((q: any) => q?.status === 'active').length,
-      completedQuests: quests?.filter((q: any) => q?.status === 'completed').length,
-      failedQuests: quests?.filter((q: any) => q?.status === 'failed').length,
+      totalQuests: quests.length,
+      availableQuests: quests.filter((q: any) => q.status === 'available').length,
+      activeQuests: quests.filter((q: any) => q.status === 'active').length,
+      completedQuests: quests.filter((q: any) => q.status === 'completed').length,
+      failedQuests: quests.filter((q: any) => q.status === 'failed').length,
       questsByCategory: {},
       averageCompletionTime: 0,
       totalExperienceRewarded: 0,
@@ -459,19 +459,19 @@ export class QuestsManager {
     };
 
     // Calculate category distribution
-    quests?.forEach((quest: any) => {
-      if (quest?.category) {
-        stats?.questsByCategory[quest?.category] = (stats?.questsByCategory[quest?.category] || 0) + 1;
+    quests.forEach((quest: any) => {
+      if (quest.category) {
+        stats.questsByCategory[quest.category] = (stats.questsByCategory[quest.category] || 0) + 1;
       }
     });
 
     // Calculate rewards
-    quests?.forEach((quest: any) => {
-      quest?.rewards.forEach((reward: any) => {
-        if (reward?.type === 'experience') {
-          stats?.totalExperienceRewarded += reward?.amount;
-        } else if (reward?.type === 'gold') {
-          stats?.totalGoldRewarded += reward?.amount;
+    quests.forEach((quest: any) => {
+      quest.rewards.forEach((reward: any) => {
+        if (reward.type === 'experience') {
+          stats.totalExperienceRewarded += reward.amount;
+        } else if (reward.type === 'gold') {
+          stats.totalGoldRewarded += reward.amount;
         }
       });
     });
@@ -494,7 +494,7 @@ export class QuestsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { quests, total: quests?.length }
+          result: { quests, total: quests.length }
         };
       
       case 'manifest':
@@ -502,43 +502,43 @@ export class QuestsManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff?.quests.export?.v1',
+            schema: 'miff.quests.export.v1',
             quests,
             progress: Array.from(this.questProgress.values()),
             exportedAt: new Date().toISOString(),
-            total: quests?.length
+            total: quests.length
           }
         };
       
       case 'summary':
-        const stats = this?.getQuestStats();
+        const stats = this.getQuestStats();
         return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats?.result,
-            quests: quests?.map((quest: any) => ({
-              id: quest?.id,
-              title: quest?.title,
-              status: quest?.status,
-              category: quest?.category,
-              level: quest?.level,
-              progress: this?.questProgress.get(quest?.id)?.progress || 0
+            summary: stats.result,
+            quests: quests.map((quest: any) => ({
+              id: quest.id,
+              title: quest.title,
+              status: quest.status,
+              category: quest.category,
+              level: quest.level,
+              progress: this.questProgress.get(quest.id)?.progress || 0
             }))
           }
         };
       
       case 'active':
-        const activeQuests = quests?.filter((q: any) => q?.status === 'active');
+        const activeQuests = quests.filter((q: any) => q.status === 'active');
         return {
           op: 'export',
           status: 'ok',
           result: {
-            activeQuests: activeQuests?.map((quest: any) => ({
+            activeQuests: activeQuests.map((quest: any) => ({
               quest,
-              progress: this?.questProgress.get(quest?.id)
+              progress: this.questProgress.get(quest.id)
             })),
-            total: activeQuests?.length
+            total: activeQuests.length
           }
         };
       
@@ -555,10 +555,10 @@ export class QuestsManager {
    * Reset all quests
    */
   resetQuests(): QuestOutput {
-    this?.quests.clear();
-    this?.activeQuests.clear();
-    this?.questProgress.clear();
-    this?.initializeDefaultQuests();
+    this.quests.clear();
+    this.activeQuests.clear();
+    this.questProgress.clear();
+    this.initializeDefaultQuests();
     return {
       op: 'reset',
       status: 'ok',

@@ -5,7 +5,7 @@
  * Provides dynamic module discovery, capability validation, and integration.
  */
 
-import { MIFFCapable, ModuleCapabilities } from './MIFFCapable?.js';
+import { MIFFCapable, ModuleCapabilities } from './MIFFCapable.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { glob } from 'glob';
@@ -57,7 +57,7 @@ export class CapabilityDiscovery {
 
   constructor(...args: any[]) {
     
-    this?.stats = this?.initializeStats();
+    this.stats = this.initializeStats();
   }
 
   /**
@@ -69,18 +69,18 @@ export class CapabilityDiscovery {
     const results: DiscoveryResult[] = [];
     
     try {
-      // Find all *Capable?.ts files
-      const capableFiles = await this?.findCapableFiles(rootPath);
+      // Find all *Capable.ts files
+      const capableFiles = await this.findCapableFiles(rootPath);
       console.info(`📁 Found ${capableFiles.length} capability files`);
       
       // Discover capabilities from each file
       for (const filePath of capableFiles) {
-        const result = await this?.discoverModuleCapabilities(filePath);
-        results?.push(result: any);
-        this?.discoveryResults.set(result?.moduleId, result);
+        const result = await this.discoverModuleCapabilities(filePath);
+        results.push(result);
+        this.discoveryResults.set(result.moduleId, result);
       }
       
-      this?.updateStats(results);
+      this.updateStats(results);
       console.info(`✅ Discovered capabilities for ${results.length} modules`);
       
       return results;
@@ -96,8 +96,8 @@ export class CapabilityDiscovery {
    * Discover capabilities for a specific module
    */
   async discoverModuleCapabilities(filePath: string): Promise<DiscoveryResult> {
-    const moduleId = this?.extractModuleId(filePath);
-    const moduleName = this?.extractModuleName(filePath);
+    const moduleId = this.extractModuleId(filePath);
+    const moduleName = this.extractModuleName(filePath);
     
     const result: DiscoveryResult = {
       moduleId,
@@ -112,16 +112,16 @@ export class CapabilityDiscovery {
 
     try {
       // Read and parse the capability file
-      const content = fs?.readFileSync(filePath, 'utf-8');
-      const capabilities = await this?.parseCapabilities(content, filePath);
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const capabilities = await this.parseCapabilities(content, filePath);
       
-      result?.capabilities = capabilities;
-      result?.status = 'success';
+      result.capabilities = capabilities;
+      result.status = 'success';
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      result?.status = 'error';
-      result?.errors?.push(error instanceof Error ? error?.message : String(error));
+      result.status = 'error';
+      result.errors?.push(error instanceof Error ? error.message : String(error));
     }
 
     return result;
@@ -131,49 +131,49 @@ export class CapabilityDiscovery {
    * Generate dynamic CLI help from capabilities
    */
   generateDynamicCLIHelp(): string {
-    const result = this?.discoveryResults.get(moduleId);
-    if (!result || result?.status !== 'success') {
+    const result = this.discoveryResults.get(moduleId);
+    if (!result || result.status !== 'success') {
       return `No capabilities found for module: ${moduleId}`;
     }
 
-    const capabilities = result?.capabilities;
-    let help = `# ${result?.moduleName} CLI Help\n\n`;
+    const capabilities = result.capabilities;
+    let help = `# ${result.moduleName} CLI Help\n\n`;
     
     // Module information
-    help += `**Module:** ${result?.moduleName}\n`;
-    help += `**Module ID:** ${result?.moduleId}\n`;
-    help += `**File Path:** ${result?.filePath}\n\n`;
+    help += `**Module:** ${result.moduleName}\n`;
+    help += `**Module ID:** ${result.moduleId}\n`;
+    help += `**File Path:** ${result.filePath}\n\n`;
 
     // Operations
-    if (capabilities?.operations && capabilities?.operations.length > 0) {
+    if (capabilities.operations && capabilities.operations.length > 0) {
       help += `## Operations\n\n`;
-      for (const op of capabilities?.operations) {
-        help += `### ${op?.name}\n`;
-        help += `- **Description:** ${op?.description}\n`;
-        help += `- **Category:** ${op?.category}\n`;
-        help += `- **Complexity:** ${op?.complexity}\n`;
-        help += `- **Requires Auth:** ${op?.requiresAuth}\n\n`;
+      for (const op of capabilities.operations) {
+        help += `### ${op.name}\n`;
+        help += `- **Description:** ${op.description}\n`;
+        help += `- **Category:** ${op.category}\n`;
+        help += `- **Complexity:** ${op.complexity}\n`;
+        help += `- **Requires Auth:** ${op.requiresAuth}\n\n`;
       }
     }
 
 
     // Data processing capabilities
-    if (capabilities?.dataProcessing && capabilities?.dataProcessing.length > 0) {
+    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
       help += `## Data Processing\n\n`;
-      for (const dp of capabilities?.dataProcessing) {
-        help += `- **${dp?.name}:** ${dp?.description}\n`;
-        help += `  - Input: ${dp?.inputTypes.join(', ')}\n`;
-        help += `  - Output: ${dp?.outputTypes.join(', ')}\n\n`;
+      for (const dp of capabilities.dataProcessing) {
+        help += `- **${dp.name}:** ${dp.description}\n`;
+        help += `  - Input: ${dp.inputTypes.join(', ')}\n`;
+        help += `  - Output: ${dp.outputTypes.join(', ')}\n\n`;
       }
     }
 
     // Integration capabilities
-    if (capabilities?.integrations && capabilities?.integrations.length > 0) {
+    if (capabilities.integrations && capabilities.integrations.length > 0) {
       help += `## Integrations\n\n`;
-      for (const integration of capabilities?.integrations) {
-        help += `- **${integration?.name}:** ${integration?.description}\n`;
-        help += `  - Type: ${integration?.integrationType}\n`;
-        help += `  - Target: ${integration?.targetSystem}\n\n`;
+      for (const integration of capabilities.integrations) {
+        help += `- **${integration.name}:** ${integration.description}\n`;
+        help += `  - Type: ${integration.integrationType}\n`;
+        help += `  - Target: ${integration.targetSystem}\n\n`;
       }
     }
 
@@ -184,39 +184,39 @@ export class CapabilityDiscovery {
    * Generate dynamic test templates from capabilities
    */
   generateDynamicTestTemplates(): string {
-    const result = this?.discoveryResults.get(moduleId);
-    if (!result || result?.status !== 'success') {
+    const result = this.discoveryResults.get(moduleId);
+    if (!result || result.status !== 'success') {
       return `// No capabilities found for module: ${moduleId}`;
     }
 
-    const capabilities = result?.capabilities;
+    const capabilities = result.capabilities;
     let testTemplate = `/**
- * Dynamic Test Template for ${result?.moduleName}
+ * Dynamic Test Template for ${result.moduleName}
  * Generated from module capabilities
  */
 
-import { ${result?.moduleName} } from './index?.js';
+import { ${result.moduleName} } from './index.js';
 import { expect } from 'chai';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-describe('${result?.moduleName} Capabilities', () => {
-  let module: ${result?.moduleName};
+describe('${result.moduleName} Capabilities', () => {
+  let module: ${result.moduleName};
 
   beforeEach(() => {
-    module = new ${result?.moduleName}();
+    module = new ${result.moduleName}();
   });
 
 `;
 
     // Test operations
-    if (capabilities?.operations && capabilities?.operations.length > 0) {
+    if (capabilities.operations && capabilities.operations.length > 0) {
       testTemplate += `  describe('Operations', () => {\n`;
       
-      for (const op of capabilities?.operations) {
-        testTemplate += `    it('should execute ${op?.name} operation', async () => {\n`;
-        testTemplate += `      // Test ${op?.name} operation\n`;
-        testTemplate += `      const result = await module.${op?.name}();\n`;
-        testTemplate += `      expect(result: any).to?.be.defined;\n`;
+      for (const op of capabilities.operations) {
+        testTemplate += `    it('should execute ${op.name} operation', async () => {\n`;
+        testTemplate += `      // Test ${op.name} operation\n`;
+        testTemplate += `      const result = await module.${op.name}();\n`;
+        testTemplate += `      expect(result).to.be.defined;\n`;
         testTemplate += `    });\n\n`;
       }
       
@@ -224,15 +224,15 @@ describe('${result?.moduleName} Capabilities', () => {
     }
 
     // Test data processing
-    if (capabilities?.dataProcessing && capabilities?.dataProcessing.length > 0) {
+    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
       testTemplate += `  describe('Data Processing', () => {\n`;
       
-      for (const dp of capabilities?.dataProcessing) {
-        testTemplate += `    it('should process ${dp?.name}', async () => {\n`;
-        testTemplate += `      // Test ${dp?.name} data processing\n`;
-        testTemplate += `      const input = ${this?.generateTestData(dp?.inputTypes.join(', '))};\n`;
-        testTemplate += `      const result = await module?.processData(input);\n`;
-        testTemplate += `      expect(result: any).to?.be.${this?.generateTestExpectation(dp?.outputTypes.join(', '))};\n`;
+      for (const dp of capabilities.dataProcessing) {
+        testTemplate += `    it('should process ${dp.name}', async () => {\n`;
+        testTemplate += `      // Test ${dp.name} data processing\n`;
+        testTemplate += `      const input = ${this.generateTestData(dp.inputTypes.join(', '))};\n`;
+        testTemplate += `      const result = await module.processData(input);\n`;
+        testTemplate += `      expect(result).to.be.${this.generateTestExpectation(dp.outputTypes.join(', '))};\n`;
         testTemplate += `    });\n\n`;
       }
       
@@ -240,14 +240,14 @@ describe('${result?.moduleName} Capabilities', () => {
     }
 
     // Test integrations
-    if (capabilities?.integrations && capabilities?.integrations.length > 0) {
+    if (capabilities.integrations && capabilities.integrations.length > 0) {
       testTemplate += `  describe('Integrations', () => {\n`;
       
-      for (const integration of capabilities?.integrations) {
-        testTemplate += `    it('should integrate with ${integration?.name}', async () => {\n`;
-        testTemplate += `      // Test ${integration?.name} integration\n`;
-        testTemplate += `      const result = await module?.integrate('${integration?.name}');\n`;
-        testTemplate += `      expect(result: any).to?.be.${this?.generateTestExpectation('boolean')};\n`;
+      for (const integration of capabilities.integrations) {
+        testTemplate += `    it('should integrate with ${integration.name}', async () => {\n`;
+        testTemplate += `      // Test ${integration.name} integration\n`;
+        testTemplate += `      const result = await module.integrate('${integration.name}');\n`;
+        testTemplate += `      expect(result).to.be.${this.generateTestExpectation('boolean')};\n`;
         testTemplate += `    });\n\n`;
       }
       
@@ -262,7 +262,7 @@ describe('${result?.moduleName} Capabilities', () => {
    * Get discovery statistics
    */
   getStats(): DiscoveryStats {
-    return { ...this?.stats };
+    return { ...this.stats };
   }
 
   /**
@@ -280,7 +280,7 @@ describe('${result?.moduleName} Capabilities', () => {
   }
 
   private async findCapableFiles(rootPath: string): Promise<string[]> {
-    const pattern = `${rootPath}/**/*Capable?.ts`;
+    const pattern = `${rootPath}/**/*Capable.ts`;
     try {
       const files = await glob(pattern);
       return files;
@@ -294,7 +294,7 @@ describe('${result?.moduleName} Capabilities', () => {
   private async parseCapabilities(content: string, filePath: string): Promise<ModuleCapabilities> {
     // This would parse the actual capability file content
     // For now, return mock capabilities based on the file path
-    const moduleName = this?.extractModuleName(filePath);
+    const moduleName = this.extractModuleName(filePath);
     
     return {
       operations: [
@@ -375,29 +375,29 @@ describe('${result?.moduleName} Capabilities', () => {
   }
 
   private extractModuleId(filePath: string): string {
-    const parts = filePath?.split('/');
-    const moduleIndex = parts?.findIndex(part => part === 'pure');
+    const parts = filePath.split('/');
+    const moduleIndex = parts.findIndex(part => part === 'pure');
     if (moduleIndex !== -1 && parts[moduleIndex + 1]) {
       const moduleId = parts[moduleIndex + 1];
       // Remove 'Pure' suffix if present
-      return moduleId?.replace('Pure', '');
+      return moduleId.replace('Pure', '');
     }
-    // Fallback: look for *Capable?.ts pattern
-    const fileName = path?.basename(filePath);
-    if (fileName?.endsWith('Capable?.ts')) {
-      return fileName?.replace('Capable?.ts', '').replace('Pure', '');
+    // Fallback: look for *Capable.ts pattern
+    const fileName = path.basename(filePath);
+    if (fileName.endsWith('Capable.ts')) {
+      return fileName.replace('Capable.ts', '').replace('Pure', '');
     }
     return 'unknown';
   }
 
   private extractModuleName(filePath: string): string {
-    const moduleId = this?.extractModuleId(filePath);
-    return moduleId?.replace('Pure', '');
+    const moduleId = this.extractModuleId(filePath);
+    return moduleId.replace('Pure', '');
   }
 
   private generateTestParameters(inputSchema: any[]): string {
-    if (inputSchema?.length === 0) return '';
-    return inputSchema?.map((p: any) => `/* ${p?.name}: ${p?.integrationType} */`).join(', ');
+    if (inputSchema.length === 0) return '';
+    return inputSchema.map((p: any) => `/* ${p.name}: ${p.integrationType} */`).join(', ');
   }
 
   private generateTestData(integrationType: string): string {
@@ -412,42 +412,42 @@ describe('${result?.moduleName} Capabilities', () => {
   }
 
   private generateTestExpectation(integrationType: string): string {
-    if (integrationType?.includes('Promise')) {
-      return 'a?.promise';
+    if (integrationType.includes('Promise')) {
+      return 'a.promise';
     }
     if (integrationType === 'boolean') {
-      return 'a?.boolean';
+      return 'a.boolean';
     }
     if (integrationType === 'string') {
-      return 'a?.string';
+      return 'a.string';
     }
     if (integrationType === 'number') {
-      return 'a?.number';
+      return 'a.number';
     }
     if (integrationType === 'object') {
-      return 'an?.object';
+      return 'an.object';
     }
     if (integrationType === 'array') {
-      return 'an?.array';
+      return 'an.array';
     }
     return 'defined';
   }
 
   private updateStats(results: DiscoveryResult[]): void {
-    this?.stats.totalModules = results?.length;
-    this?.stats.successfulDiscoveries = results?.filter((r: any) => r?.status === 'success').length;
-    this?.stats.failedDiscoveries = results?.filter((r: any) => r?.status === 'error').length;
-    this?.stats.warningDiscoveries = results?.filter((r: any) => r?.status === 'warning').length;
+    this.stats.totalModules = results.length;
+    this.stats.successfulDiscoveries = results.filter((r: any) => r.status === 'success').length;
+    this.stats.failedDiscoveries = results.filter((r: any) => r.status === 'error').length;
+    this.stats.warningDiscoveries = results.filter((r: any) => r.status === 'warning').length;
     
-    const totalCapabilities = results?.reduce((sum, r) => {
-      if (r?.status === 'success' && r?.capabilities.operations) {
-        return sum + r?.capabilities.operations?.length;
+    const totalCapabilities = results.reduce((sum, r) => {
+      if (r.status === 'success' && r.capabilities.operations) {
+        return sum + r.capabilities.operations.length;
       }
       return sum;
     }, 0);
     
-    this?.stats.totalCapabilities = totalCapabilities;
-    this?.stats.averageCapabilitiesPerModule = this?.stats.totalModules > 0 ? totalCapabilities / this?.stats.totalModules : 0;
+    this.stats.totalCapabilities = totalCapabilities;
+    this.stats.averageCapabilitiesPerModule = this.stats.totalModules > 0 ? totalCapabilities / this.stats.totalModules : 0;
   }
 
   private initializeStats(): DiscoveryStats {

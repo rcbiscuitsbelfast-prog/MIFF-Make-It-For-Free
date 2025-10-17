@@ -9,7 +9,7 @@ describe('StructuredLogger', () => {
   let logger: StructuredLogger;
 
   beforeEach(() => {
-    logger = StructuredLogger?.getInstance('test');
+    logger = StructuredLogger.getInstance('test');
   });
 
   test('should create logger instance', () => {
@@ -18,45 +18,45 @@ describe('StructuredLogger', () => {
   });
 
   test('should have info method', () => {
-    expect(typeof logger?.info).toBe('function');
+    expect(typeof logger.info).toBe('function');
   });
 
   test('should have warn method', () => {
-    expect(typeof logger?.warn).toBe('function');
+    expect(typeof logger.warn).toBe('function');
   });
 
   test('should have error method', () => {
-    expect(typeof logger?.error).toBe('function');
+    expect(typeof logger.error).toBe('function');
   });
 
   test('should have debug method', () => {
-    expect(typeof logger?.debug).toBe('function');
+    expect(typeof logger.debug).toBe('function');
   });
 
   test('should log info message', () => {
-    const consoleSpy = jest?.spyOn(console, 'log').mockImplementation();
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
     
-    logger?.info('Test message');
+    logger.info('Test message');
     
     expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy?.mockRestore();
+    consoleSpy.mockRestore();
   });
 
   test('should log warning message', () => {
-    const consoleSpy = jest?.spyOn(console, 'warn').mockImplementation();
+    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
     
-    logger?.warn('Test warning');
+    logger.warn('Test warning');
     
     expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy?.mockRestore();
+    consoleSpy.mockRestore();
   });
 
   test('should log error message', () => {
-    const consoleSpy = jest?.spyOn(console, 'error').mockImplementation();
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
     
-    logger?.error('Test error');
+    logger.error('Test error');
     
     expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy?.mockRestore();
+    consoleSpy.mockRestore();
   });
 });

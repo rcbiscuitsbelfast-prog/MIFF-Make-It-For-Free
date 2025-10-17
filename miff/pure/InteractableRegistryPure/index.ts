@@ -110,21 +110,21 @@ export class InteractableRegistry {
    * Register an interactable object
    */
   register(interactable: InteractableObject): void {
-    this?.interactables.set(interactable?.id, interactable);
+    this.interactables.set(interactable.id, interactable);
   }
 
   /**
    * Unregister an interactable object
    */
   unregister(id: string): boolean {
-    return this?.interactables.delete(id);
+    return this.interactables.delete(id);
   }
 
   /**
    * Get an interactable object by ID
    */
   get(id: string): InteractableObject | undefined {
-    return this?.interactables.get(id);
+    return this.interactables.get(id);
   }
 
   /**
@@ -140,10 +140,10 @@ export class InteractableRegistry {
   getNearby(position: { x: number; y: number; z: number }, radius: number): InteractableObject[] {
     const nearby: InteractableObject[] = [];
     
-    for (const interactable of this?.interactables.values()) {
-      const distance = this?.calculateDistance(position, interactable?.position);
+    for (const interactable of this.interactables.values()) {
+      const distance = this.calculateDistance(position, interactable.position);
       if (distance <= radius) {
-        nearby?.push(interactable);
+        nearby.push(interactable);
       }
     }
     
@@ -162,7 +162,7 @@ export class InteractableRegistry {
    */
   getByBehavior(behavior: InteractionBehavior): InteractableObject[] {
     return Array.from(this.interactables.values()).filter((i: any) => 
-      i?.behaviors.includes(behavior)
+      i.behaviors.includes(behavior)
     );
   }
 
@@ -170,7 +170,7 @@ export class InteractableRegistry {
    * Attempt to interact with an object
    */
   interact(id: string, behavior: InteractionBehavior): InteractionResult {
-    const interactable = this?.interactables.get(id);
+    const interactable = this.interactables.get(id);
     if (!interactable) {
       return {
         success: false,
@@ -181,57 +181,57 @@ export class InteractableRegistry {
     }
 
     // Check if behavior is supported
-    if (!interactable?.behaviors.includes(behavior)) {
+    if (!interactable.behaviors.includes(behavior)) {
       return {
         success: false,
-        message: `Behavior ${behavior} not supported by ${interactable?.name}`,
+        message: `Behavior ${behavior} not supported by ${interactable.name}`,
         requirementsMet: false,
         missingRequirements: []
       };
     }
 
     // Check state
-    if (interactable?.state === InteractionState?.LOCKED) {
+    if (interactable.state === InteractionState.LOCKED) {
       return {
         success: false,
-        message: `${interactable?.name} is locked`,
+        message: `${interactable.name} is locked`,
         requirementsMet: false,
         missingRequirements: []
       };
     }
 
-    if (interactable?.state === InteractionState?.USED) {
+    if (interactable.state === InteractionState.USED) {
       return {
         success: false,
-        message: `${interactable?.name} has already been used`,
+        message: `${interactable.name} has already been used`,
         requirementsMet: false,
         missingRequirements: []
       };
     }
 
-    if (interactable?.state === InteractionState?.BROKEN) {
+    if (interactable.state === InteractionState.BROKEN) {
       return {
         success: false,
-        message: `${interactable?.name} is broken`,
+        message: `${interactable.name} is broken`,
         requirementsMet: false,
         missingRequirements: []
       };
     }
 
-    if (interactable?.state === InteractionState?.HIDDEN) {
+    if (interactable.state === InteractionState.HIDDEN) {
       return {
         success: false,
-        message: `${interactable?.name} is not visible`,
+        message: `${interactable.name} is not visible`,
         requirementsMet: false,
         missingRequirements: []
       };
     }
 
     // Check cooldown
-    if (interactable?.state === InteractionState?.COOLDOWN) {
-      const timeSinceLastUse = new Date() - (interactable.lastUsed || 0);
-      if (timeSinceLastUse < interactable?.cooldownDuration) {
-        const remainingTime = interactable?.cooldownDuration - timeSinceLastUse;
+    if (interactable.state === InteractionState.COOLDOWN) {
+      const timeSinceLastUse = Date.now() - (interactable.lastUsed || 0);
+      if (timeSinceLastUse < interactable.cooldownDuration) {
+        const remainingTime = interactable.cooldownDuration - timeSinceLastUse;
         return {
           success: false,
           message: `${interactable.name} is on cooldown for ${Math.ceil(remainingTime / 1000)} seconds`,
@@ -242,24 +242,24 @@ export class InteractableRegistry {
     }
 
     // Check requirements
-    const requirementsCheck = this?.checkRequirements(interactable?.requirements);
-    if (!requirementsCheck?.met) {
+    const requirementsCheck = this.checkRequirements(interactable.requirements);
+    if (!requirementsCheck.met) {
       return {
         success: false,
-        message: `Requirements not met for ${interactable?.name}`,
+        message: `Requirements not met for ${interactable.name}`,
         requirementsMet: false,
-        missingRequirements: requirementsCheck?.missing
+        missingRequirements: requirementsCheck.missing
       };
     }
 
     // Execute interaction
-    const result = this?.executeInteraction(interactable, behavior);
+    const result = this.executeInteraction(interactable, behavior);
     
     // Update state if successful
-    if (result?.success) {
-      interactable.lastUsed = new Date();
-      if (result?.newState) {
-        interactable?.state = result?.newState;
+    if (result.success) {
+      interactable.lastUsed = Date.now();
+      if (result.newState) {
+        interactable.state = result.newState;
       }
     }
 
@@ -276,13 +276,13 @@ export class InteractableRegistry {
     const missing: InteractionRequirement[] = [];
     
     for (const requirement of requirements) {
-      if (!this?.checkRequirement(requirement)) {
-        missing?.push(requirement);
+      if (!this.checkRequirement(requirement)) {
+        missing.push(requirement);
       }
     }
     
     return {
-      met: missing?.length === 0,
+      met: missing.length === 0,
       missing
     };
   }
@@ -291,26 +291,26 @@ export class InteractableRegistry {
    * Check a single requirement
    */
   private checkRequirement(requirement: InteractionRequirement): boolean {
-    switch (requirement?.type) {
+    switch (requirement.type) {
       case 'item':
-        return this?.playerContext.inventory?.includes(requirement?.value as string);
+        return this.playerContext.inventory.includes(requirement.value as string);
       
       case 'level':
-        return this?.compareValues(
-          this?.playerContext.level,
-          requirement?.value as number,
-          requirement?.operator
+        return this.compareValues(
+          this.playerContext.level,
+          requirement.value as number,
+          requirement.operator
         );
       
       case 'quest':
-        return this?.playerContext.quests?.includes(requirement?.value as string);
+        return this.playerContext.quests.includes(requirement.value as string);
       
       case 'skill':
-        const skillLevel = this?.playerContext.skills[requirement?.value as string] || 0;
-        return this?.compareValues(skillLevel, requirement?.value as number, requirement?.operator);
+        const skillLevel = this.playerContext.skills[requirement.value as string] || 0;
+        return this.compareValues(skillLevel, requirement.value as number, requirement.operator);
       
       case 'key':
-        return this?.playerContext.inventory?.includes(requirement?.value as string);
+        return this.playerContext.inventory.includes(requirement.value as string);
       
       case 'custom':
         // Custom requirements would need to be implemented by the game
@@ -349,41 +349,41 @@ export class InteractableRegistry {
     behavior: InteractionBehavior
   ): InteractionResult {
     switch (behavior) {
-      case InteractionBehavior?.PICKUP:
-        return this?.executePickup(interactable);
+      case InteractionBehavior.PICKUP:
+        return this.executePickup(interactable);
       
-      case InteractionBehavior?.TALK:
-        return this?.executeTalk(interactable);
+      case InteractionBehavior.TALK:
+        return this.executeTalk(interactable);
       
-      case InteractionBehavior?.SCAN:
-        return this?.executeScan(interactable);
+      case InteractionBehavior.SCAN:
+        return this.executeScan(interactable);
       
-      case InteractionBehavior?.USE:
-        return this?.executeUse(interactable);
+      case InteractionBehavior.USE:
+        return this.executeUse(interactable);
       
-      case InteractionBehavior?.EXAMINE:
-        return this?.executeExamine(interactable);
+      case InteractionBehavior.EXAMINE:
+        return this.executeExamine(interactable);
       
-      case InteractionBehavior?.OPEN:
-        return this?.executeOpen(interactable);
+      case InteractionBehavior.OPEN:
+        return this.executeOpen(interactable);
       
-      case InteractionBehavior?.CLOSE:
-        return this?.executeClose(interactable);
+      case InteractionBehavior.CLOSE:
+        return this.executeClose(interactable);
       
-      case InteractionBehavior?.ACTIVATE:
-        return this?.executeActivate(interactable);
+      case InteractionBehavior.ACTIVATE:
+        return this.executeActivate(interactable);
       
-      case InteractionBehavior?.DEACTIVATE:
-        return this?.executeDeactivate(interactable);
+      case InteractionBehavior.DEACTIVATE:
+        return this.executeDeactivate(interactable);
       
-      case InteractionBehavior?.CRAFT:
-        return this?.executeCraft(interactable);
+      case InteractionBehavior.CRAFT:
+        return this.executeCraft(interactable);
       
-      case InteractionBehavior?.TRADE:
-        return this?.executeTrade(interactable);
+      case InteractionBehavior.TRADE:
+        return this.executeTrade(interactable);
       
-      case InteractionBehavior?.QUEST:
-        return this?.executeQuest(interactable);
+      case InteractionBehavior.QUEST:
+        return this.executeQuest(interactable);
       
       default:
         return {
@@ -401,9 +401,9 @@ export class InteractableRegistry {
   private executePickup(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Picked up ${interactable?.name}`,
-      data: { itemId: interactable?.id },
-      newState: InteractionState?.USED,
+      message: `Picked up ${interactable.name}`,
+      data: { itemId: interactable.id },
+      newState: InteractionState.USED,
       requirementsMet: true,
       missingRequirements: []
     };
@@ -415,8 +415,8 @@ export class InteractableRegistry {
   private executeTalk(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Talking to ${interactable?.name}`,
-      data: { npcId: interactable?.id },
+      message: `Talking to ${interactable.name}`,
+      data: { npcId: interactable.id },
       requirementsMet: true,
       missingRequirements: []
     };
@@ -428,10 +428,10 @@ export class InteractableRegistry {
   private executeScan(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Scanned ${interactable?.name}`,
+      message: `Scanned ${interactable.name}`,
       data: { 
-        scanData: interactable?.metadata,
-        type: interactable?.type
+        scanData: interactable.metadata,
+        type: interactable.type
       },
       requirementsMet: true,
       missingRequirements: []
@@ -444,9 +444,9 @@ export class InteractableRegistry {
   private executeUse(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Used ${interactable?.name}`,
-      data: { interactableId: interactable?.id },
-      newState: InteractionState?.USED,
+      message: `Used ${interactable.name}`,
+      data: { interactableId: interactable.id },
+      newState: InteractionState.USED,
       requirementsMet: true,
       missingRequirements: []
     };
@@ -458,10 +458,10 @@ export class InteractableRegistry {
   private executeExamine(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Examined ${interactable?.name}: ${interactable?.description}`,
+      message: `Examined ${interactable.name}: ${interactable.description}`,
       data: { 
-        description: interactable?.description,
-        metadata: interactable?.metadata
+        description: interactable.description,
+        metadata: interactable.metadata
       },
       requirementsMet: true,
       missingRequirements: []
@@ -474,9 +474,9 @@ export class InteractableRegistry {
   private executeOpen(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Opened ${interactable?.name}`,
-      data: { interactableId: interactable?.id },
-      newState: InteractionState?.USED,
+      message: `Opened ${interactable.name}`,
+      data: { interactableId: interactable.id },
+      newState: InteractionState.USED,
       requirementsMet: true,
       missingRequirements: []
     };
@@ -488,9 +488,9 @@ export class InteractableRegistry {
   private executeClose(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Closed ${interactable?.name}`,
-      data: { interactableId: interactable?.id },
-      newState: InteractionState?.AVAILABLE,
+      message: `Closed ${interactable.name}`,
+      data: { interactableId: interactable.id },
+      newState: InteractionState.AVAILABLE,
       requirementsMet: true,
       missingRequirements: []
     };
@@ -502,9 +502,9 @@ export class InteractableRegistry {
   private executeActivate(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Activated ${interactable?.name}`,
-      data: { interactableId: interactable?.id },
-      newState: InteractionState?.USED,
+      message: `Activated ${interactable.name}`,
+      data: { interactableId: interactable.id },
+      newState: InteractionState.USED,
       requirementsMet: true,
       missingRequirements: []
     };
@@ -516,9 +516,9 @@ export class InteractableRegistry {
   private executeDeactivate(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Deactivated ${interactable?.name}`,
-      data: { interactableId: interactable?.id },
-      newState: InteractionState?.AVAILABLE,
+      message: `Deactivated ${interactable.name}`,
+      data: { interactableId: interactable.id },
+      newState: InteractionState.AVAILABLE,
       requirementsMet: true,
       missingRequirements: []
     };
@@ -530,8 +530,8 @@ export class InteractableRegistry {
   private executeCraft(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Crafted at ${interactable?.name}`,
-      data: { interactableId: interactable?.id },
+      message: `Crafted at ${interactable.name}`,
+      data: { interactableId: interactable.id },
       requirementsMet: true,
       missingRequirements: []
     };
@@ -543,8 +543,8 @@ export class InteractableRegistry {
   private executeTrade(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Trading with ${interactable?.name}`,
-      data: { npcId: interactable?.id },
+      message: `Trading with ${interactable.name}`,
+      data: { npcId: interactable.id },
       requirementsMet: true,
       missingRequirements: []
     };
@@ -556,10 +556,10 @@ export class InteractableRegistry {
   private executeQuest(interactable: InteractableObject): InteractionResult {
     return {
       success: true,
-      message: `Quest interaction with ${interactable?.name}`,
+      message: `Quest interaction with ${interactable.name}`,
       data: { 
-        questId: interactable?.metadata.questId,
-        npcId: interactable?.id
+        questId: interactable.metadata.questId,
+        npcId: interactable.id
       },
       requirementsMet: true,
       missingRequirements: []
@@ -569,15 +569,15 @@ export class InteractableRegistry {
   /**
    * Update player context
    */
-  updatePlayerContext(context: Partial<typeof this?.playerContext>): void {
-    this?.playerContext = { ...this?.playerContext, ...context };
+  updatePlayerContext(context: Partial<typeof this.playerContext>): void {
+    this.playerContext = { ...this.playerContext, ...context };
   }
 
   /**
    * Get player context
    */
-  getPlayerContext(): typeof this?.playerContext {
-    return { ...this?.playerContext };
+  getPlayerContext(): typeof this.playerContext {
+    return { ...this.playerContext };
   }
 
   /**
@@ -597,14 +597,14 @@ export class InteractableRegistry {
    * Clear all interactables
    */
   clear(): void {
-    this?.interactables.clear();
+    this.interactables.clear();
   }
 
   /**
    * Get interactable count
    */
   getCount(): number {
-    return this?.interactables.size;
+    return this.interactables.size;
   }
 
   /**
@@ -612,12 +612,12 @@ export class InteractableRegistry {
    */
   exportData(): Record<string, any> {
     const data: Record<string, any> = {
-      playerContext: this?.playerContext,
+      playerContext: this.playerContext,
       interactables: {}
     };
     
-    for (const [id, interactable] of this?.interactables) {
-      data?.interactables[id!] = interactable;
+    for (const [id, interactable] of this.interactables) {
+      data.interactables[id!] = interactable;
     }
     
     return data;
@@ -627,15 +627,15 @@ export class InteractableRegistry {
    * Import interactable data
    */
   importData(data: Record<string, any>): void {
-    this?.clear();
+    this.clear();
     
-    if (data?.playerContext) {
-      this?.playerContext = { ...this?.playerContext, ...data?.playerContext };
+    if (data.playerContext) {
+      this.playerContext = { ...this.playerContext, ...data.playerContext };
     }
     
-    if (data?.interactables) {
+    if (data.interactables) {
       for (const [id, interactable] of Object.entries(data.interactables)) {
-        this?.interactables.set(id, interactable as InteractableObject);
+        this.interactables.set(id, interactable as InteractableObject);
       }
     }
   }

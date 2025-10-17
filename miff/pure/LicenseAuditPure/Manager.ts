@@ -89,7 +89,7 @@ export class LicenseAuditManager {
 
   constructor(config: AuditConfig = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       strictMode: true,
       checkDependencies: true,
       validateSpdx: true,
@@ -100,25 +100,25 @@ export class LicenseAuditManager {
       ...config
     };
 
-    this?.licenseRegistry = this?.initializeLicenseRegistry();
+    this.licenseRegistry = this.initializeLicenseRegistry();
   }
 
   setOverride(ovr: LicenseAuditOverride) {
-    this?.override = ovr;
+    this.override = ovr;
   }
 
   setConfig(config: Partial<AuditConfig>) {
-    this?.config = { ...this?.config, ...config };
+    this.config = { ...this.config, ...config };
   }
 
   private initializeLicenseRegistry(): Map<LicenseType, LicenseInfo> {
     const registry = new Map<LicenseType, LicenseInfo>();
 
     // AGPLv3 - Strong copyleft, requires source distribution
-    registry?.set('AGPLv3', {
+    registry.set('AGPLv3', {
       type: 'AGPLv3',
       version: '3.0',
-      url: 'https://www?.gnu.org/licenses/agpl-3.0?.en.html',
+      url: 'https://www.gnu.org/licenses/agpl-3.0.en.html',
       spdxId: 'AGPL-3.0',
       description: 'GNU Affero General Public License v3.0',
       requirements: [
@@ -138,10 +138,10 @@ export class LicenseAuditManager {
     });
 
     // MIT - Permissive, very remix-friendly
-    registry?.set('MIT', {
+    registry.set('MIT', {
       type: 'MIT',
       version: '1.0',
-      url: 'https://opensource?.org/licenses/MIT',
+      url: 'https://opensource.org/licenses/MIT',
       spdxId: 'MIT',
       description: 'MIT License',
       requirements: [
@@ -156,10 +156,10 @@ export class LicenseAuditManager {
     });
 
     // CC-BY-SA-4.0 - Share-alike, remix-friendly with attribution
-    registry?.set('CC-BY-SA-4.0', {
+    registry.set('CC-BY-SA-4.0', {
       type: 'CC-BY-SA-4.0',
       version: '4.0',
-      url: 'https://creativecommons?.org/licenses/by-sa/4.0/',
+      url: 'https://creativecommons.org/licenses/by-sa/4.0/',
       spdxId: 'CC-BY-SA-4.0',
       description: 'Creative Commons Attribution-ShareAlike 4.0 International',
       requirements: [
@@ -177,10 +177,10 @@ export class LicenseAuditManager {
     });
 
     // GPLv3 - Strong copyleft
-    registry?.set('GPLv3', {
+    registry.set('GPLv3', {
       type: 'GPLv3',
       version: '3.0',
-      url: 'https://www?.gnu.org/licenses/gpl-3.0?.en.html',
+      url: 'https://www.gnu.org/licenses/gpl-3.0.en.html',
       spdxId: 'GPL-3.0',
       description: 'GNU General Public License v3.0',
       requirements: [
@@ -198,7 +198,7 @@ export class LicenseAuditManager {
     });
 
     // Proprietary - Not remix-safe
-    registry?.set('Proprietary', {
+    registry.set('Proprietary', {
       type: 'Proprietary',
       version: '1.0',
       description: 'Proprietary License',
@@ -223,14 +223,14 @@ export class LicenseAuditManager {
     let score = 100;
 
     // Base score adjustments
-    if (!license?.remixSafe) score -= 50;
-    if (license?.commercialUse === 'prohibited') score -= 20;
-    if (license?.derivativeWorks === 'prohibited') score -= 30;
-    if (license?.sourceCodeRequired) score -= 10;
+    if (!license.remixSafe) score -= 50;
+    if (license.commercialUse === 'prohibited') score -= 20;
+    if (license.derivativeWorks === 'prohibited') score -= 30;
+    if (license.sourceCodeRequired) score -= 10;
 
     // Issue-based deductions
-    issues?.forEach((issue: any) => {
-      switch (issue?.severity) {
+    issues.forEach((issue: any) => {
+      switch (issue.severity) {
         case 'error':
           score -= 20;
           break;
@@ -244,8 +244,8 @@ export class LicenseAuditManager {
     });
 
     // Bonus for permissive licenses
-    if (license?.type === 'MIT' || license?.type === 'CC0') score += 10;
-    if (license?.type === 'CC-BY-4.0') score += 5;
+    if (license.type === 'MIT' || license.type === 'CC0') score += 10;
+    if (license.type === 'CC-BY-4.0') score += 5;
 
     return Math.max(0, Math.min(100, score));
   }
@@ -254,30 +254,30 @@ export class LicenseAuditManager {
     const issues: LicenseIssue[] = [];
 
     // Check if license is blocked
-    if (this?.config.blockedLicenses?.includes(license?.type)) {
-      issues?.push({
+    if (this.config.blockedLicenses?.includes(license.type)) {
+      issues.push({
         code: 'blocked_license',
         severity: 'error',
-        message: `License type '${license?.type}' is blocked by configuration`,
+        message: `License type '${license.type}' is blocked by configuration`,
         suggestion: 'Use an allowed license type'
       });
     }
 
     // Check if license is allowed (when restrictions are set)
-    if (this?.config.allowedLicenses && this?.config.allowedLicenses?.length > 0) {
-      if (!this?.config.allowedLicenses?.includes(license?.type)) {
-        issues?.push({
+    if (this.config.allowedLicenses && this.config.allowedLicenses.length > 0) {
+      if (!this.config.allowedLicenses.includes(license.type)) {
+        issues.push({
           code: 'license_not_allowed',
           severity: 'warning',
-          message: `License type '${license?.type}' is not in allowed list`,
+          message: `License type '${license.type}' is not in allowed list`,
           suggestion: 'Consider using an allowed license type'
         });
       }
     }
 
     // Validate SPDX ID if required
-    if (this?.config.validateSpdx && !license?.spdxId) {
-      issues?.push({
+    if (this.config.validateSpdx && !license.spdxId) {
+      issues.push({
         code: 'missing_spdx',
         severity: 'warning',
         message: 'SPDX identifier is missing',
@@ -286,8 +286,8 @@ export class LicenseAuditManager {
     }
 
     // Check remix safety
-    if (!license?.remixSafe && this?.config.strictMode) {
-      issues?.push({
+    if (!license.remixSafe && this.config.strictMode) {
+      issues.push({
         code: 'not_remix_safe',
         severity: 'warning',
         message: 'License is not marked as remix-safe',
@@ -310,11 +310,11 @@ export class LicenseAuditManager {
     const recommendations: string[] = [];
 
     // Check for custom license override
-    const customLicense = this?.override?.getCustomLicense?.(moduleId);
-    const license = customLicense || this?.licenseRegistry.get(licenseType);
+    const customLicense = this.override?.getCustomLicense?.(moduleId);
+    const license = customLicense || this.licenseRegistry.get(licenseType);
 
     if (!license) {
-      issues?.push({
+      issues.push({
         code: 'unknown_license',
         severity: 'error',
         message: `Unknown license type: ${licenseType}`,
@@ -335,16 +335,16 @@ export class LicenseAuditManager {
         derivativeWorks: 'prohibited'
       };
       
-      return this?.createAuditResult(moduleId, moduleName, minimalLicense, dependencies, licenseFiles, issues, warnings, recommendations);
+      return this.createAuditResult(moduleId, moduleName, minimalLicense, dependencies, licenseFiles, issues, warnings, recommendations);
     }
 
     // Validate license
-    const licenseIssues = this?.validateLicense(license);
-    issues?.push(...licenseIssues);
+    const licenseIssues = this.validateLicense(license);
+    issues.push(...licenseIssues);
 
     // Check license files requirement
-    if (this?.config.requireLicenseFiles && licenseFiles?.length === 0) {
-      issues?.push({
+    if (this.config.requireLicenseFiles && licenseFiles.length === 0) {
+      issues.push({
         code: 'missing_license_files',
         severity: 'warning',
         message: 'No license files found',
@@ -353,48 +353,48 @@ export class LicenseAuditManager {
     }
 
     // Check dependencies if enabled
-    if (this?.config.checkDependencies && dependencies?.length > 0) {
-      const dependencyIssues = this?.auditDependencies(dependencies);
-      issues?.push(...dependencyIssues);
+    if (this.config.checkDependencies && dependencies.length > 0) {
+      const dependencyIssues = this.auditDependencies(dependencies);
+      issues.push(...dependencyIssues);
     }
 
     // Generate recommendations
-    if (license?.commercialUse === 'prohibited') {
-      recommendations?.push('Consider using a license that allows commercial use for broader adoption');
+    if (license.commercialUse === 'prohibited') {
+      recommendations.push('Consider using a license that allows commercial use for broader adoption');
     }
     
-    if (!license?.remixSafe) {
-      recommendations?.push('Consider using a remix-safe license to encourage community contributions');
+    if (!license.remixSafe) {
+      recommendations.push('Consider using a remix-safe license to encourage community contributions');
     }
 
-    if (license?.derivativeWorks === 'prohibited') {
-      recommendations?.push('Allowing derivative works can increase module adoption and community engagement');
+    if (license.derivativeWorks === 'prohibited') {
+      recommendations.push('Allowing derivative works can increase module adoption and community engagement');
     }
 
-    return this?.createAuditResult(moduleId, moduleName, license, dependencies, licenseFiles, issues, warnings, recommendations);
+    return this.createAuditResult(moduleId, moduleName, license, dependencies, licenseFiles, issues, warnings, recommendations);
   }
 
   private auditDependencies(dependencies: string[]): LicenseIssue[] {
     const issues: LicenseIssue[] = [];
     
     // Check for circular dependencies
-    const circularDeps = this?.detectCircularDependencies(dependencies);
-    if (circularDeps?.length > 0) {
-      issues?.push({
+    const circularDeps = this.detectCircularDependencies(dependencies);
+    if (circularDeps.length > 0) {
+      issues.push({
         code: 'circular_dependencies',
         severity: 'warning',
-        message: `Circular dependencies detected: ${circularDeps?.join(' -> ')}`,
+        message: `Circular dependencies detected: ${circularDeps.join(' -> ')}`,
         suggestion: 'Review and resolve circular dependency chain'
       });
     }
 
     // Check for unknown dependencies
-    const unknownDeps = dependencies?.filter(depId => !this?.auditedModules.has(depId));
-    if (unknownDeps?.length > 0) {
-      issues?.push({
+    const unknownDeps = dependencies.filter(depId => !this.auditedModules.has(depId));
+    if (unknownDeps.length > 0) {
+      issues.push({
         code: 'unknown_dependencies',
         severity: 'info',
-        message: `Unknown dependencies: ${unknownDeps?.join(', ')}`,
+        message: `Unknown dependencies: ${unknownDeps.join(', ')}`,
         suggestion: 'Audit dependencies to ensure license compatibility'
       });
     }
@@ -409,35 +409,35 @@ export class LicenseAuditManager {
     const recursionStack = new Set<string>();
     
     const hasCycle = (depId: string): string[] => {
-      if (recursionStack?.has(depId)) {
+      if (recursionStack.has(depId)) {
         return [depId!]; // Found cycle
       }
       
-      if (visited?.has(depId)) {
+      if (visited.has(depId)) {
         return []; // Already processed
       }
       
-      visited?.add(depId);
-      recursionStack?.add(depId);
+      visited.add(depId);
+      recursionStack.add(depId);
       
-      const module = this?.auditedModules.get(depId);
+      const module = this.auditedModules.get(depId);
       if (module) {
-        for (const dep of module?.dependencies) {
+        for (const dep of module.dependencies) {
           const cycle = hasCycle(dep);
-          if (cycle?.length > 0) {
-            recursionStack?.delete(depId);
+          if (cycle.length > 0) {
+            recursionStack.delete(depId);
             return [depId, ...cycle];
           }
         }
       }
       
-      recursionStack?.delete(depId);
+      recursionStack.delete(depId);
       return [];
     };
     
     for (const dep of dependencies) {
       const cycle = hasCycle(dep);
-      if (cycle?.length > 0) {
+      if (cycle.length > 0) {
         return cycle;
       }
     }
@@ -455,13 +455,13 @@ export class LicenseAuditManager {
     warnings: string[],
     recommendations: string[]
   ): AuditResult {
-    const remixSafetyScore = this?.calculateRemixSafetyScore(license, issues);
+    const remixSafetyScore = this.calculateRemixSafetyScore(license, issues);
     
     // Determine overall status
     let status: 'pass' | 'warning' | 'fail' = 'pass';
-    if (issues?.some(i => i?.severity === 'error')) {
+    if (issues.some(i => i.severity === 'error')) {
       status = 'fail';
-    } else if (issues?.some(i => i?.severity === 'warning') || remixSafetyScore < this?.config.maxRemixScore!) {
+    } else if (issues.some(i => i.severity === 'warning') || remixSafetyScore < this.config.maxRemixScore!) {
       status = 'warning';
     }
 
@@ -478,7 +478,7 @@ export class LicenseAuditManager {
       remixSafetyScore
     };
     
-    this?.auditedModules.set(moduleId, moduleLicense);
+    this.auditedModules.set(moduleId, moduleLicense);
 
     return {
       op: 'auditLicense',
@@ -492,7 +492,7 @@ export class LicenseAuditManager {
       recommendations,
       metadata: {
         auditedAt: new Date().toISOString(),
-        config: this?.config,
+        config: this.config,
         dependencies,
         licenseFiles
       }
@@ -500,7 +500,7 @@ export class LicenseAuditManager {
   }
 
   getModuleLicense(moduleId: string): ModuleLicense | null {
-    return this?.auditedModules.get(moduleId) || null;
+    return this.auditedModules.get(moduleId) || null;
   }
 
   getAllLicenses(): ModuleLicense[] {
@@ -508,11 +508,11 @@ export class LicenseAuditManager {
   }
 
   getLicensesByType(licenseType: LicenseType): ModuleLicense[] {
-    return this?.getAllLicenses().filter((ml: any) => ml?.license.type === licenseType);
+    return this.getAllLicenses().filter((ml: any) => ml.license.type === licenseType);
   }
 
   getRemixSafeModules(): ModuleLicense[] {
-    return this?.getAllLicenses().filter((ml: any) => ml?.license.remixSafe);
+    return this.getAllLicenses().filter((ml: any) => ml.license.remixSafe);
   }
 
   getAuditStats(): {
@@ -544,27 +544,27 @@ export class LicenseAuditManager {
     let totalScore = 0;
     let lastAudited: string | null = null;
 
-    this?.auditedModules.forEach((module: any) => {
+    this.auditedModules.forEach((module: any) => {
       // Count by status
-      const status = module?.issues.some(i => i?.severity === 'error') ? 'fail' :
-                    module?.issues.some(i => i?.severity === 'warning') || module?.remixSafetyScore < this?.config.maxRemixScore! ? 'warning' : 'pass';
+      const status = module.issues.some(i => i.severity === 'error') ? 'fail' :
+                    module.issues.some(i => i.severity === 'warning') || module.remixSafetyScore < this.config.maxRemixScore! ? 'warning' : 'pass';
       byStatus[status!]++;
 
       // Count by license type
-      const licenseType = module?.license.type;
+      const licenseType = module.license.type;
       byLicenseType[licenseType!] = (byLicenseType[licenseType!] || 0) + 1;
 
       // Accumulate scores
-      totalScore += module?.remixSafetyScore;
+      totalScore += module.remixSafetyScore;
 
       // Track last audit
-      if (!lastAudited || module?.lastAudited > lastAudited) {
-        lastAudited = module?.lastAudited;
+      if (!lastAudited || module.lastAudited > lastAudited) {
+        lastAudited = module.lastAudited;
       }
     });
 
     return {
-      total: this?.auditedModules.size,
+      total: this.auditedModules.size,
       byStatus,
       byLicenseType,
       averageRemixScore: this.auditedModules.size > 0 ? Math.round(totalScore / this.auditedModules.size) : 0,
@@ -573,6 +573,6 @@ export class LicenseAuditManager {
   }
 
   removeAudit(moduleId: string): boolean {
-    return this?.auditedModules.delete(moduleId);
+    return this.auditedModules.delete(moduleId);
   }
 }

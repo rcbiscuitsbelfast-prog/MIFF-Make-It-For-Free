@@ -11,10 +11,10 @@ type Cmd =
   | { op: 'steps' };
 
 function main() {
-  const questPath = process?.argv[2!] || 'QuestModulePure/fixtures/branching?.quest';
-  const commandsPath = process?.argv[3!] || '';
+  const questPath = process.argv[2!] || 'QuestModulePure/fixtures/branching.quest';
+  const commandsPath = process.argv[3!] || '';
   
-  const questText = fs?.readFileSync(path?.resolve(questPath), 'utf-8');
+  const questText = fs.readFileSync(path.resolve(questPath), 'utf-8');
 
   const log: string[] = [];
   const parseResult = parseQuestText(questText);
@@ -23,33 +23,33 @@ function main() {
   const outputs: any[] = [];
 
   for (const c of cmds) {
-    if (c?.op === 'parse') {
-      outputs?.push(parseResult);
-    } else if (c?.op === 'validate') {
-      if (parseResult?.quest) {
-        const issues = validateQuest(parseResult?.quest);
-        outputs?.push({ op: 'validate', issues, valid: issues?.length === 0 });
+    if (c.op === 'parse') {
+      outputs.push(parseResult);
+    } else if (c.op === 'validate') {
+      if (parseResult.quest) {
+        const issues = validateQuest(parseResult.quest);
+        outputs.push({ op: 'validate', issues, valid: issues.length === 0 });
       } else {
-        outputs?.push({ op: 'validate', issues: ['No quest to validate'], valid: false });
+        outputs.push({ op: 'validate', issues: ['No quest to validate'], valid: false });
       }
-    } else if (c?.op === 'list') {
-      if (parseResult?.quest) {
-        outputs?.push({ op: 'list', quests: [parseResult?.quest.id] });
+    } else if (c.op === 'list') {
+      if (parseResult.quest) {
+        outputs.push({ op: 'list', quests: [parseResult.quest.id] });
       } else {
-        outputs?.push({ op: 'list', quests: [] });
+        outputs.push({ op: 'list', quests: [] });
       }
-    } else if (c?.op === 'dump') {
-      if (parseResult?.quest) {
-        outputs?.push({ op: 'dump', quest: parseResult?.quest });
+    } else if (c.op === 'dump') {
+      if (parseResult.quest) {
+        outputs.push({ op: 'dump', quest: parseResult.quest });
       } else {
-        outputs?.push({ op: 'dump', quest: null });
+        outputs.push({ op: 'dump', quest: null });
       }
-    } else if (c?.op === 'steps') {
-      if (parseResult?.quest) {
+    } else if (c.op === 'steps') {
+      if (parseResult.quest) {
         const steps = Object.keys(parseResult.quest.steps);
-        outputs?.push({ op: 'steps', steps });
+        outputs.push({ op: 'steps', steps });
       } else {
-        outputs?.push({ op: 'steps', steps: [] });
+        outputs.push({ op: 'steps', steps: [] });
       }
     }
   }
@@ -58,4 +58,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

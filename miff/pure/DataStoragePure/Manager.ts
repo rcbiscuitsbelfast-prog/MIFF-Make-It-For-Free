@@ -349,13 +349,13 @@ export class DataStorageManager {
   constructor(config?: Partial<DataStorageConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this?.memoryManager = new MemoryManager({});
-    this?.errorHandler = new StandardErrorHandler({});
-    this?.logger = StructuredLogger?.getInstance('DataStorageManager');
-    this.startTime = new Date();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
+    this.logger = StructuredLogger.getInstance('DataStorageManager');
+    this.startTime = Date.now();
 
-    this?.config = {
+    this.config = {
       enableMultiDatabaseSupport: true,
       enableDataPersistence: true,
       enablePerformanceOptimization: true,
@@ -374,30 +374,30 @@ export class DataStorageManager {
    * Initialize the Data Storage System
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
-      StructuredLogger?.warn('DataStoragePure' ?? 'unknown', { context: { message: 'Data Storage System already initialized' } });
+    if (this.isInitialized) {
+      StructuredLogger.warn('DataStoragePure' ?? 'unknown', { context: { message: 'Data Storage System already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger?.info('DataStoragePure', { context: { message: 'Initializing Data Storage System...' } });
+      StructuredLogger.info('DataStoragePure', { context: { message: 'Initializing Data Storage System...' } });
 
       // Initialize performance optimizer
-      if (this?.config.enablePerformanceOptimization ?? false) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this?.config.enableProfiling) {
+      if (this.config.enableProfiling) {
         // MemoryManager initialization handled internally
       }
 
-      this?.isInitialized = true;
-      StructuredLogger?.info('DataStoragePure', { context: { message: 'Data Storage System initialized successfully' } });
+      this.isInitialized = true;
+      StructuredLogger.info('DataStoragePure', { context: { message: 'Data Storage System initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -406,14 +406,14 @@ export class DataStorageManager {
    * Create a new data storage system
    */
   async createStorage(storageData: Omit<DataStorage, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<DataStorage> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
       const storage: DataStorage = {
         ...storageData,
-        id: this?.generateStorageId(),
+        id: this.generateStorageId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -429,15 +429,15 @@ export class DataStorageManager {
         }
       };
 
-      this?.storages.set(storage?.id, storage);
-      this?.updateAnalytics();
+      this.storages.set(storage.id, storage);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Data storage system created', { context: { message: { storageId: storage?.id, storageName: storage?.name } } });
+      StructuredLogger.info('Data storage system created', { context: { message: { storageId: storage.id, storageName: storage.name } } });
       return storage;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -446,25 +446,25 @@ export class DataStorageManager {
    * Get a data storage system by ID
    */
   getStorage(storageId: string): DataStorage | null {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
-    return this?.storages.get(storageId) || null;
+    return this.storages.get(storageId) || null;
   }
 
   /**
    * Update a data storage system
    */
   async updateStorage(storageId: string, updates: Partial<DataStorage>): Promise<DataStorage | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return null;
       }
 
@@ -472,18 +472,18 @@ export class DataStorageManager {
         ...storage,
         ...updates,
         updatedAt: new Date(),
-        version: this?.incrementVersion(storage?.version)
+        version: this.incrementVersion(storage.version)
       };
 
-      this?.storages.set(storageId, updatedStorage);
-      this?.updateAnalytics();
+      this.storages.set(storageId, updatedStorage);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Data storage system updated', { context: { message: { storageId, storageName: updatedStorage?.name } } });
+      StructuredLogger.info('Data storage system updated', { context: { message: { storageId, storageName: updatedStorage.name } } });
       return updatedStorage;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -492,26 +492,26 @@ export class DataStorageManager {
    * Delete a data storage system
    */
   async deleteStorage(storageId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return false;
       }
 
-      this?.storages.delete(storageId);
-      this?.updateAnalytics();
+      this.storages.delete(storageId);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Data storage system deleted', { context: { message: { storageId, storageName: storage?.name } } });
+      StructuredLogger.info('Data storage system deleted', { context: { message: { storageId, storageName: storage.name } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -520,7 +520,7 @@ export class DataStorageManager {
    * Get all data storage systems
    */
   getAllStorages(): DataStorage[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
@@ -531,7 +531,7 @@ export class DataStorageManager {
    * Get storages by type
    */
   getStoragesByType(type: StorageType): DataStorage[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
@@ -542,7 +542,7 @@ export class DataStorageManager {
    * Get storages by status
    */
   getStoragesByStatus(status: StorageStatus): DataStorage[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
@@ -553,31 +553,31 @@ export class DataStorageManager {
    * Add a database to a storage
    */
   async addDatabase(storageId: string, databaseData: Omit<Database, 'id'>): Promise<Database | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return null;
       }
 
       const database: Database = {
         ...databaseData,
-        id: this?.generateDatabaseId()
+        id: this.generateDatabaseId()
       };
 
-      storage?.databases?.push(database);
-      this?.updateAnalytics();
+      storage.databases.push(database);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Database added to storage', { context: { message: { storageId, databaseId: database?.id, databaseName: database?.name } } });
+      StructuredLogger.info('Database added to storage', { context: { message: { storageId, databaseId: database.id, databaseName: database.name } } });
       return database;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -586,32 +586,32 @@ export class DataStorageManager {
    * Remove a database from a storage
    */
   async removeDatabase(storageId: string, databaseId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return false;
       }
 
-      const databaseIndex = storage?.databases.findIndex(d => d?.id === databaseId);
+      const databaseIndex = storage.databases.findIndex(d => d.id === databaseId);
       if (databaseIndex === -1) {
-        StructuredLogger?.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
         return false;
       }
 
-      storage?.databases.splice(databaseIndex, 1);
-      this?.updateAnalytics();
+      storage.databases.splice(databaseIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Database removed from storage', { context: { message: { storageId, databaseId } } });
+      StructuredLogger.info('Database removed from storage', { context: { message: { storageId, databaseId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -620,31 +620,31 @@ export class DataStorageManager {
    * Add a connection to a storage
    */
   async addConnection(storageId: string, connectionData: Omit<DatabaseConnection, 'id'>): Promise<DatabaseConnection | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return null;
       }
 
       const connection: DatabaseConnection = {
         ...connectionData,
-        id: this?.generateConnectionId()
+        id: this.generateConnectionId()
       };
 
-      storage?.connections?.push(connection);
-      this?.updateAnalytics();
+      storage.connections.push(connection);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Connection added to storage', { context: { message: { storageId, connectionId: connection?.id, connectionName: connection?.name } } });
+      StructuredLogger.info('Connection added to storage', { context: { message: { storageId, connectionId: connection.id, connectionName: connection.name } } });
       return connection;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -653,32 +653,32 @@ export class DataStorageManager {
    * Remove a connection from a storage
    */
   async removeConnection(storageId: string, connectionId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return false;
       }
 
-      const connectionIndex = storage?.connections.findIndex(c => c?.id === connectionId);
+      const connectionIndex = storage.connections.findIndex(c => c.id === connectionId);
       if (connectionIndex === -1) {
-        StructuredLogger?.warn('Connection not found' ?? 'unknown', { context: { message: { storageId, connectionId } } });
+        StructuredLogger.warn('Connection not found' ?? 'unknown', { context: { message: { storageId, connectionId } } });
         return false;
       }
 
-      storage?.connections.splice(connectionIndex, 1);
-      this?.updateAnalytics();
+      storage.connections.splice(connectionIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Connection removed from storage', { context: { message: { storageId, connectionId } } });
+      StructuredLogger.info('Connection removed from storage', { context: { message: { storageId, connectionId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -687,49 +687,49 @@ export class DataStorageManager {
    * Execute a query
    */
   async executeQuery(storageId: string, databaseId: string, query: string, parameters?: any[]): Promise<{ success: boolean; data?: any[]; error?: string }> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return { success: false, error: 'Storage not found' };
       }
 
-      const database = storage?.databases.find(d => d?.id === databaseId);
+      const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        StructuredLogger?.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
         return { success: false, error: 'Database not found' };
       }
 
-      if (database?.status !== 'connected') {
-        StructuredLogger?.warn('Database not connected' ?? 'unknown', { context: { message: { storageId, databaseId, status: database?.status } } });
+      if (database.status !== 'connected') {
+        StructuredLogger.warn('Database not connected' ?? 'unknown', { context: { message: { storageId, databaseId, status: database.status } } });
         return { success: false, error: 'Database not connected' };
       }
 
       // Simulate query execution
-      const startTime = new Date();
-      const result = await this?.simulateQueryExecution(query, parameters);
-      const endTime = new Date();
+      const startTime = Date.now();
+      const result = await this.simulateQueryExecution(query, parameters);
+      const endTime = Date.now();
 
-      this?.updateAnalytics();
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Query executed', { 
+      StructuredLogger.info('Query executed', { 
         storageId, 
         databaseId, 
-        query: query?.substring(0, 100) + '...', 
+        query: query.substring(0, 100) + '...', 
         duration: endTime - startTime,
-        resultCount: result?.length
+        resultCount: result.length
       });
 
       return { success: true, data: result };
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
-      return { success: false, error: error?.message };
+      this.errorHandler.handleError();
+      return { success: false, error: error.message };
     }
   }
 
@@ -741,17 +741,17 @@ export class DataStorageManager {
     await new Promise(resolve => setTimeout(resolve, Math.random() * 100));
 
     // Return mock data based on query type
-    if (query?.toLowerCase().includes('select')) {
+    if (query.toLowerCase().includes('select')) {
       return [
         { id: 1, name: 'Sample Data 1', value: 100 },
         { id: 2, name: 'Sample Data 2', value: 200 },
         { id: 3, name: 'Sample Data 3', value: 300 }
       ];
-    } else if (query?.toLowerCase().includes('insert')) {
+    } else if (query.toLowerCase().includes('insert')) {
       return [{ id: 4, message: 'Record inserted successfully' }];
-    } else if (query?.toLowerCase().includes('update')) {
+    } else if (query.toLowerCase().includes('update')) {
       return [{ id: 1, message: 'Record updated successfully' }];
-    } else if (query?.toLowerCase().includes('delete')) {
+    } else if (query.toLowerCase().includes('delete')) {
       return [{ id: 1, message: 'Record deleted successfully' }];
     } else {
       return [{ message: 'Query executed successfully' }];
@@ -762,39 +762,39 @@ export class DataStorageManager {
    * Create a table
    */
   async createTable(storageId: string, databaseId: string, tableData: Omit<DatabaseTable, 'id' | 'rows' | 'size'>): Promise<DatabaseTable | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return null;
       }
 
-      const database = storage?.databases.find(d => d?.id === databaseId);
+      const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        StructuredLogger?.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
         return null;
       }
 
       const table: DatabaseTable = {
         ...tableData,
-        id: this?.generateTableId(),
+        id: this.generateTableId(),
         rows: 0,
         size: 0
       };
 
-      database?.tables?.push(table);
-      this?.updateAnalytics();
+      database.tables.push(table);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Table created', { context: { message: { storageId, databaseId, tableId: table?.id, tableName: table?.name } } });
+      StructuredLogger.info('Table created', { context: { message: { storageId, databaseId, tableId: table.id, tableName: table.name } } });
       return table;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -803,38 +803,38 @@ export class DataStorageManager {
    * Drop a table
    */
   async dropTable(storageId: string, databaseId: string, tableId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     try {
-      const storage = this?.storages.get(storageId);
+      const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger?.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
         return false;
       }
 
-      const database = storage?.databases.find(d => d?.id === databaseId);
+      const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        StructuredLogger?.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
         return false;
       }
 
-      const tableIndex = database?.tables.findIndex(t => t?.id === tableId);
+      const tableIndex = database.tables.findIndex(t => t.id === tableId);
       if (tableIndex === -1) {
-        StructuredLogger?.warn('Table not found' ?? 'unknown', { context: { message: { storageId, databaseId, tableId } } });
+        StructuredLogger.warn('Table not found' ?? 'unknown', { context: { message: { storageId, databaseId, tableId } } });
         return false;
       }
 
-      database?.tables.splice(tableIndex, 1);
-      this?.updateAnalytics();
+      database.tables.splice(tableIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Table dropped', { context: { message: { storageId, databaseId, tableId } } });
+      StructuredLogger.info('Table dropped', { context: { message: { storageId, databaseId, tableId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -871,7 +871,7 @@ export class DataStorageManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version?.split('.');
+    const parts = version.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -881,18 +881,18 @@ export class DataStorageManager {
    */
   private updateAnalytics(): void {
     const storages = Array.from(this.storages.values());
-    const totalDatabases = storages?.reduce((sum: any, s: any) => sum + s?.databases.length, 0);
-    const totalConnections = storages?.reduce((sum: any, s: any) => sum + s?.connections.length, 0);
-    const totalTables = storages?.reduce((sum: any, s: any) => sum + s?.databases.reduce((sum: any, d: any) => sum + d?.tables.length, 0), 0);
+    const totalDatabases = storages.reduce((sum: any, s: any) => sum + s.databases.length, 0);
+    const totalConnections = storages.reduce((sum: any, s: any) => sum + s.connections.length, 0);
+    const totalTables = storages.reduce((sum: any, s: any) => sum + s.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0), 0);
 
     for (const storage of storages) {
-      storage?.analytics = {
-        totalStorages: storages?.length,
-        activeStorages: storages?.filter((s: any) => s?.status === 'active').length,
-        totalDatabases: storage?.databases.length,
-        totalConnections: storage?.connections.length,
-        totalTables: storage?.databases.reduce((sum: any, d: any) => sum + d?.tables.length, 0),
-        totalQueries: storage?.analytics.totalQueries,
+      storage.analytics = {
+        totalStorages: storages.length,
+        activeStorages: storages.filter((s: any) => s.status === 'active').length,
+        totalDatabases: storage.databases.length,
+        totalConnections: storage.connections.length,
+        totalTables: storage.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0),
+        totalQueries: storage.analytics.totalQueries,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };
@@ -912,15 +912,15 @@ export class DataStorageManager {
     totalTables: number;
     uptime: number;
   } {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Data Storage System not initialized');
     }
 
     const storages = Array.from(this.storages.values());
-    const activeStorages = storages?.filter((s: any) => s?.status === 'active');
-    const totalDatabases = storages?.reduce((sum: any, s: any) => sum + s?.databases.length, 0);
-    const totalConnections = storages?.reduce((sum: any, s: any) => sum + s?.connections.length, 0);
-    const totalTables = storages?.reduce((sum: any, s: any) => sum + s?.databases.reduce((sum: any, d: any) => sum + d?.tables.length, 0), 0);
+    const activeStorages = storages.filter((s: any) => s.status === 'active');
+    const totalDatabases = storages.reduce((sum: any, s: any) => sum + s.databases.length, 0);
+    const totalConnections = storages.reduce((sum: any, s: any) => sum + s.connections.length, 0);
+    const totalTables = storages.reduce((sum: any, s: any) => sum + s.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0), 0);
 
     const storagesByType: Record<StorageType, number> = {
       relational: 0,
@@ -938,19 +938,19 @@ export class DataStorageManager {
     };
 
     for (const storage of storages) {
-      storagesByType[storage?.type]++;
-      storagesByStatus[storage?.status]++;
+      storagesByType[storage.type]++;
+      storagesByStatus[storage.status]++;
     }
 
     return {
-      totalStorages: storages?.length,
-      activeStorages: activeStorages?.length,
+      totalStorages: storages.length,
+      activeStorages: activeStorages.length,
       storagesByType,
       storagesByStatus,
       totalDatabases,
       totalConnections,
       totalTables,
-      uptime: new Date() - this?.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 
@@ -958,12 +958,12 @@ export class DataStorageManager {
    * Destroy the Data Storage System
    */
   async destroy(): Promise<void> {
-    StructuredLogger?.info('DataStoragePure', { context: { message: 'Destroying Data Storage System...' } });
+    StructuredLogger.info('DataStoragePure', { context: { message: 'Destroying Data Storage System...' } });
 
-    this?.storages.clear();
-    this?.isInitialized = false;
+    this.storages.clear();
+    this.isInitialized = false;
 
-    StructuredLogger?.info('DataStoragePure', { context: { message: 'Data Storage System destroyed' } });
+    StructuredLogger.info('DataStoragePure', { context: { message: 'Data Storage System destroyed' } });
   }
 }
 

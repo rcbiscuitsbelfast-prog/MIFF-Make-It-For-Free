@@ -13,8 +13,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const inputPath = process?.argv[2!] || 'CameraBridgePure/fixtures/camera?.json';
-  const commandsPath = process?.argv[3!] || '';
+  const inputPath = process.argv[2!] || 'CameraBridgePure/fixtures/camera.json';
+  const commandsPath = process.argv[3!] || '';
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
   const manager = new CameraManager();
@@ -22,24 +22,24 @@ function main() {
   const log: string[] = [];
 
   const cmds: CameraCommand[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
-    { op: 'follow', target: input?.target, alpha: input?.alpha ?? 1 } as CameraCommand
+    { op: 'follow', target: input.target, alpha: input.alpha ?? 1 } as CameraCommand
   ];
   const outputs: any[] = [];
 
   // Process commands
-  const result = manager?.process(cmds);
-  outputs?.push(result: any);
+  const result = manager.process(cmds);
+  outputs.push(result);
 
   // Additional commands
   if (commandsPath) {
     const additionalCmds: Cmd[] = JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8'));
     for (const c of additionalCmds) {
-      if (c?.op === 'list') {
-        const camera = manager?.getCamera();
-        outputs?.push({ op: 'list', camera });
-      } else if (c?.op === 'dump') {
-        const camera = manager?.getCamera();
-        outputs?.push({ op: 'dump', camera });
+      if (c.op === 'list') {
+        const camera = manager.getCamera();
+        outputs.push({ op: 'list', camera });
+      } else if (c.op === 'dump') {
+        const camera = manager.getCamera();
+        outputs.push({ op: 'dump', camera });
       }
     }
   }
@@ -48,4 +48,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

@@ -81,27 +81,27 @@ export class SocialDeductionPure {
   private minPlayers: number = 4;
 
   constructor(eventBus: EventBus) {
-    this?.eventBus = eventBus;
+    this.eventBus = eventBus;
   }
 
   public getPlayers(): Map<string, GamePlayer> {
-    return new Map(this?.players);
+    return new Map(this.players);
   }
 
   public getCurrentPhase(): GamePhase {
-    return this?.currentPhase;
+    return this.currentPhase;
   }
 
   public getDiscussionRounds(): DiscussionRound[] {
-    return [...this?.discussionRounds];
+    return [...this.discussionRounds];
   }
 
   public getVotes(): GameVote[] {
-    return [...this?.votes];
+    return [...this.votes];
   }
 
   public addPlayer(playerId: string, playerName: string): boolean {
-    if (this?.players.size >= this?.maxPlayers || this?.currentPhase !== 'lobby') {
+    if (this.players.size >= this.maxPlayers || this.currentPhase !== 'lobby') {
       return false;
     }
 
@@ -118,9 +118,9 @@ export class SocialDeductionPure {
       trustLevel: 50
     };
 
-    this?.players.set(playerId, player);
+    this.players.set(playerId, player);
 
-    this?.eventBus.publish('social:player_joined', {
+    this.eventBus.publish('social:player_joined', {
       playerId: playerId,
       player: player,
       timestamp: new Date()
@@ -130,34 +130,34 @@ export class SocialDeductionPure {
   }
 
   public assignRoles(): boolean {
-    if (this?.players.size < this?.minPlayers || this?.currentPhase !== 'lobby') {
+    if (this.players.size < this.minPlayers || this.currentPhase !== 'lobby') {
       return false;
     }
 
     const playerIds = Array.from(this.players.keys());
-    const shuffledIds = this?.shuffleArray(playerIds);
+    const shuffledIds = this.shuffleArray(playerIds);
 
     // Assign roles
-    for (let i = 0; i < shuffledIds?.length; i++) {
+    for (let i = 0; i < shuffledIds.length; i++) {
       const playerId = shuffledIds[i!];
-      const player = this?.players.get(playerId)!;
+      const player = this.players.get(playerId)!;
 
-      if (i < this?.traitorCount) {
-        player?.role = 'traitor';
-        player?.specialAbilities = ['kill'];
-      } else if (i < this?.traitorCount + this?.detectiveCount) {
-        player?.role = 'detective';
-        player?.specialAbilities = ['investigate'];
+      if (i < this.traitorCount) {
+        player.role = 'traitor';
+        player.specialAbilities = ['kill'];
+      } else if (i < this.traitorCount + this.detectiveCount) {
+        player.role = 'detective';
+        player.specialAbilities = ['investigate'];
       } else {
-        player?.role = 'innocent';
-        player?.specialAbilities = [];
+        player.role = 'innocent';
+        player.specialAbilities = [];
       }
     }
 
-    this?.currentPhase = 'role_assignment';
+    this.currentPhase = 'role_assignment';
 
-    this?.eventBus.publish('social:roles_assigned', {
-      players: this?.players,
+    this.eventBus.publish('social:roles_assigned', {
+      players: this.players,
       timestamp: new Date()
     });
 
@@ -165,14 +165,14 @@ export class SocialDeductionPure {
   }
 
   public startGame(): boolean {
-    if (this?.players.size < this?.minPlayers) {
+    if (this.players.size < this.minPlayers) {
       return false;
     }
 
-    this?.currentPhase = 'discussion';
+    this.currentPhase = 'discussion';
 
-    this?.eventBus.publish('social:game_started', {
-      phase: this?.currentPhase,
+    this.eventBus.publish('social:game_started', {
+      phase: this.currentPhase,
       timestamp: new Date()
     });
 
@@ -180,10 +180,10 @@ export class SocialDeductionPure {
   }
 
   public castVote(voterId: string, targetId: string, voteType: VoteType, reason?: string): boolean {
-    const voter = this?.players.get(voterId);
-    const target = this?.players.get(targetId);
+    const voter = this.players.get(voterId);
+    const target = this.players.get(targetId);
 
-    if (!voter || !target || !voter?.canVote || voter?.role === 'traitor') {
+    if (!voter || !target || !voter.canVote || voter.role === 'traitor') {
       return false;
     }
 
@@ -195,10 +195,10 @@ export class SocialDeductionPure {
       timestamp: new Date()
     };
 
-    this?.votes?.push(vote);
-    voter?.canVote = false;
+    this.votes.push(vote);
+    voter.canVote = false;
 
-    this?.eventBus.publish('social:vote_cast', {
+    this.eventBus.publish('social:vote_cast', {
       vote: vote,
       timestamp: new Date()
     });
@@ -207,22 +207,22 @@ export class SocialDeductionPure {
   }
 
   public useAbility(playerId: string, abilityId: string, targetId?: string): boolean {
-    const player = this?.players.get(playerId);
-    if (!player || !player?.specialAbilities.includes(abilityId)) {
+    const player = this.players.get(playerId);
+    if (!player || !player.specialAbilities.includes(abilityId)) {
       return false;
     }
 
-    const cooldown = player?.cooldowns.get(abilityId) || 0;
+    const cooldown = player.cooldowns.get(abilityId) || 0;
     if (cooldown > Date.now()) {
       return false; // Ability on cooldown
     }
 
-    const effect = this?.processAbility(playerId, abilityId, targetId);
+    const effect = this.processAbility(playerId, abilityId, targetId);
 
     // Set cooldown (24 hours for most abilities)
     player.cooldowns.set(abilityId, Date.now() + 86400000);
 
-    this?.eventBus.publish('social:ability_used', {
+    this.eventBus.publish('social:ability_used', {
       playerId: playerId,
       abilityId: abilityId,
       targetId: targetId,
@@ -230,24 +230,24 @@ export class SocialDeductionPure {
       timestamp: new Date()
     });
 
-    return effect?.success;
+    return effect.success;
   }
 
   private processAbility(playerId: string, abilityId: string, targetId?: string): AbilityEffect {
-    const player = this?.players.get(playerId)!;
+    const player = this.players.get(playerId)!;
 
     switch (abilityId) {
       case 'kill':
-        if (player?.role === 'traitor' && targetId) {
-          const target = this?.players.get(targetId);
-          if (target && target?.isAlive) {
-            target?.isAlive = false;
+        if (player.role === 'traitor' && targetId) {
+          const target = this.players.get(targetId);
+          if (target && target.isAlive) {
+            target.isAlive = false;
             return {
               abilityId: abilityId,
               targetId: targetId,
               effectType: 'kill',
               success: true,
-              message: `${player?.name} eliminated ${target?.name}`
+              message: `${player.name} eliminated ${target.name}`
             };
           }
         }
@@ -259,8 +259,8 @@ export class SocialDeductionPure {
         };
 
       case 'investigate':
-        if (player?.role === 'detective' && targetId) {
-          const target = this?.players.get(targetId);
+        if (player.role === 'detective' && targetId) {
+          const target = this.players.get(targetId);
           const roleInfo = target?.role === 'traitor' ? 'Traitor' : 'Innocent';
           return {
             abilityId: abilityId,
@@ -287,9 +287,9 @@ export class SocialDeductionPure {
     }
   }
 
-  private shuffleArray<T extends Record<string, any> extends object>(array: T[]): T[] {
+  private shuffleArray<T extends object>(array: T[]): T[] {
     const shuffled = [...array];
-    for (let i = shuffled?.length - 1; i > 0; i--) {
+    for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
     }
@@ -297,22 +297,22 @@ export class SocialDeductionPure {
   }
 
   public endGame(winner: GameRole): void {
-    this?.currentPhase = 'ended';
+    this.currentPhase = 'ended';
 
-    this?.eventBus.publish('social:game_ended', {
+    this.eventBus.publish('social:game_ended', {
       winner: winner,
-      finalVotes: this?.votes,
+      finalVotes: this.votes,
       timestamp: new Date()
     });
   }
 
   public resetGame(): void {
-    this?.players.clear();
-    this?.votes = [];
-    this?.discussionRounds = [];
-    this?.currentPhase = 'lobby';
+    this.players.clear();
+    this.votes = [];
+    this.discussionRounds = [];
+    this.currentPhase = 'lobby';
 
-    this?.eventBus.publish('social:game_reset', {
+    this.eventBus.publish('social:game_reset', {
       timestamp: new Date()
     });
   }

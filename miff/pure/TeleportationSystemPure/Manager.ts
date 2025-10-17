@@ -21,7 +21,7 @@ export class TeleportationManager {
 
   constructor(teleportationSystem: TeleportationSystemPure) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.teleportationSystem = teleportationSystem;
+    this.teleportationSystem = teleportationSystem;
   }
 
   /**
@@ -29,41 +29,41 @@ export class TeleportationManager {
    */
   createAnchor(anchorData: Partial<SpatialAnchor>): SpatialAnchor | null {
     // Validate anchor data
-    if (!anchorData?.name || anchorData?.name.trim() === '') {
+    if (!anchorData.name || anchorData.name.trim() === '') {
       console.error('❌ Anchor name is required');
       return null;
     }
 
-    if (!anchorData?.position) {
+    if (!anchorData.position) {
       console.error('❌ Anchor position is required');
       return null;
     }
 
-    if (!anchorData?.zoneId) {
+    if (!anchorData.zoneId) {
       console.error('❌ Zone ID is required');
       return null;
     }
 
     // Check if zone exists and has capacity
-    const zone = this?.teleportationSystem.getZone(anchorData?.zoneId);
+    const zone = this.teleportationSystem.getZone(anchorData.zoneId);
     if (!zone) {
       console.error(`❌ Zone not found: ${anchorData.zoneId}`);
       return null;
     }
 
-    if (!zone?.teleportEnabled) {
+    if (!zone.teleportEnabled) {
       console.error(`❌ Teleportation disabled in zone: ${zone.name}`);
       return null;
     }
 
-    const existingAnchors = this?.teleportationSystem.getAnchorsInZone(zone?.id);
-    if (existingAnchors?.length >= zone?.anchorLimit) {
+    const existingAnchors = this.teleportationSystem.getAnchorsInZone(zone.id);
+    if (existingAnchors.length >= zone.anchorLimit) {
       console.error(`❌ Zone at anchor capacity: ${zone.name} (${zone.anchorLimit})`);
       return null;
     }
 
     // Create the anchor
-    const anchor = this?.teleportationSystem.createSpatialAnchor(anchorData);
+    const anchor = this.teleportationSystem.createSpatialAnchor(anchorData);
     if (anchor) {
       console.log(`✅ Created anchor: ${anchor.name} in ${zone.name}`);
     }
@@ -75,8 +75,8 @@ export class TeleportationManager {
    * Create a portal with validation
    */
   createPortal(sourceAnchorId: string, destinationAnchorId: string, portalData: Partial<Portal> = {}): Portal | null {
-    const sourceAnchor = this?.teleportationSystem.getAnchor(sourceAnchorId);
-    const destinationAnchor = this?.teleportationSystem.getAnchor(destinationAnchorId);
+    const sourceAnchor = this.teleportationSystem.getAnchor(sourceAnchorId);
+    const destinationAnchor = this.teleportationSystem.getAnchor(destinationAnchorId);
 
     if (!sourceAnchor) {
       console.error(`❌ Source anchor not found: ${sourceAnchorId}`);
@@ -88,14 +88,14 @@ export class TeleportationManager {
       return null;
     }
 
-    if (!sourceAnchor?.isActive || !destinationAnchor?.isActive) {
+    if (!sourceAnchor.isActive || !destinationAnchor.isActive) {
       console.error('❌ One or both anchors are inactive');
       return null;
     }
 
     // Check distance
-    const distance = this?.calculateDistance(sourceAnchor?.position, destinationAnchor?.position);
-    const maxDistance = this?.teleportationSystem.getConfig().maxPortalDistance;
+    const distance = this.calculateDistance(sourceAnchor.position, destinationAnchor.position);
+    const maxDistance = this.teleportationSystem.getConfig().maxPortalDistance;
 
     if (distance > maxDistance) {
       console.error(`❌ Distance ${distance.toFixed(1)} exceeds limit ${maxDistance}`);
@@ -103,10 +103,10 @@ export class TeleportationManager {
     }
 
     // Check portal limits
-    const existingPortals = this?.teleportationSystem.getPortalsForAnchor(sourceAnchorId);
-    const maxPortals = this?.teleportationSystem.getConfig().maxPortalsPerAnchor;
+    const existingPortals = this.teleportationSystem.getPortalsForAnchor(sourceAnchorId);
+    const maxPortals = this.teleportationSystem.getConfig().maxPortalsPerAnchor;
 
-    if (existingPortals?.length >= maxPortals) {
+    if (existingPortals.length >= maxPortals) {
       console.error(`❌ Source anchor at portal limit (${maxPortals})`);
       return null;
     }
@@ -118,7 +118,7 @@ export class TeleportationManager {
       destinationAnchor
     };
 
-    const portal = this?.teleportationSystem.createPortal(portalDataWithAnchors);
+    const portal = this.teleportationSystem.createPortal(portalDataWithAnchors);
     if (portal) {
       console.log(`✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
     }
@@ -132,27 +132,27 @@ export class TeleportationManager {
   requestTeleportationEnhanced(request: TeleportationRequest): TeleportationResult {
     try {
       // Validate request
-      if (!request?.entityId || request?.entityId.trim() === '') {
+      if (!request.entityId || request.entityId.trim() === '') {
         throw new Error('Entity ID is required');
       }
 
-      if (!request?.destinationId || request?.destinationId.trim() === '') {
+      if (!request.destinationId || request.destinationId.trim() === '') {
         throw new Error('Destination ID is required');
       }
 
       // Perform teleportation
-      const result = this?.teleportationSystem.requestTeleportation(request);
+      const result = this.teleportationSystem.requestTeleportation(request);
 
       // Log result
-      if (result?.success) {
+      if (result.success) {
         console.log(`✅ Teleportation successful: ${request.entityId} → ${request.destinationId}`);
       } else {
         console.warn(`⚠️ Teleportation failed: ${request.entityId} - ${result.failureReason}`);
       }
 
       // Apply side effects if any
-      if (result?.sideEffects && result?.sideEffects.length > 0) {
-        this?.applySideEffects(request?.entityId, result?.sideEffects);
+      if (result.sideEffects && result.sideEffects.length > 0) {
+        this.applySideEffects(request.entityId, result.sideEffects);
       }
 
       return result;
@@ -161,12 +161,12 @@ export class TeleportationManager {
       console.error(`❌ Teleportation error: ${error.message}`);
       return {
         success: false,
-        entityId: request?.entityId,
+        entityId: request.entityId,
         fromPosition: { x: 0, y: 0, z: 0 },
         toPosition: { x: 0, y: 0, z: 0 },
         energySpent: 0,
         cooldownApplied: 0,
-        failureReason: error?.message
+        failureReason: error.message
       };
     }
   }
@@ -182,31 +182,31 @@ export class TeleportationManager {
     mostUsedPortal: string;
     recentFailures: string[];
   } {
-    const stats = this?.teleportationSystem.getStats();
-    const managerData = this?.getStats();
+    const stats = this.teleportationSystem.getStats();
+    const managerData = this.getStats();
 
-    const successRate = stats?.totalTeleports > 0 ?
-      (stats?.successfulTeleports / stats?.totalTeleports) * 100 : 0;
+    const successRate = stats.totalTeleports > 0 ?
+      (stats.successfulTeleports / stats.totalTeleports) * 100 : 0;
 
-    const averageEnergyCost = stats?.totalTeleports > 0 ?
-      stats?.totalEnergySpent / stats?.successfulTeleports : 0;
+    const averageEnergyCost = stats.totalTeleports > 0 ?
+      stats.totalEnergySpent / stats.successfulTeleports : 0;
 
     // Find most active zone
-    const zones = this?.teleportationSystem.getAllZones();
-    const mostActiveZone = zones?.reduce((mostActive, zone) => {
-      const anchorsInZone = this?.teleportationSystem.getAnchorsInZone(zone?.id);
-      const portalsInZone = this?.getPortalsInZone(zone?.id);
+    const zones = this.teleportationSystem.getAllZones();
+    const mostActiveZone = zones.reduce((mostActive, zone) => {
+      const anchorsInZone = this.teleportationSystem.getAnchorsInZone(zone.id);
+      const portalsInZone = this.getPortalsInZone(zone.id);
 
-      const totalInZone = anchorsInZone?.length + portalsInZone?.length;
-      const totalInMostActive = this?.teleportationSystem.getAnchorsInZone(mostActive?.id).length +
-                               this?.getPortalsInZone(mostActive?.id).length;
+      const totalInZone = anchorsInZone.length + portalsInZone.length;
+      const totalInMostActive = this.teleportationSystem.getAnchorsInZone(mostActive.id).length +
+                               this.getPortalsInZone(mostActive.id).length;
 
       return totalInZone > totalInMostActive ? zone : mostActive;
     }, zones[0!] || { id: 'none', name: 'None' });
 
     // Find most used portal
-    const portals = this?.teleportationSystem.getAllPortals();
-    const mostUsedPortal = portals?.reduce((mostUsed, portal) => {
+    const portals = this.teleportationSystem.getAllPortals();
+    const mostUsedPortal = portals.reduce((mostUsed, portal) => {
       // This would normally come from usage statistics
       // For now, just return the first portal
       return mostUsed || portal;
@@ -219,10 +219,10 @@ export class TeleportationManager {
       .map(([reason!]) => reason);
 
     return {
-      totalTeleports: stats?.totalTeleports,
+      totalTeleports: stats.totalTeleports,
       successRate: Math.round(successRate * 100) / 100,
       averageEnergyCost: Math.round(averageEnergyCost * 100) / 100,
-      mostActiveZone: mostActiveZone?.name,
+      mostActiveZone: mostActiveZone.name,
       mostUsedPortal: mostUsedPortal?.name || 'None',
       recentFailures
     };
@@ -232,11 +232,11 @@ export class TeleportationManager {
    * Get portals in a zone
    */
   private getPortalsInZone(zoneId: string): Portal[] {
-    const anchorsInZone = this?.teleportationSystem.getAnchorsInZone(zoneId);
-    const anchorIds = anchorsInZone?.map((anchor: any) => anchor?.id);
+    const anchorsInZone = this.teleportationSystem.getAnchorsInZone(zoneId);
+    const anchorIds = anchorsInZone.map((anchor: any) => anchor.id);
 
-    return this?.teleportationSystem.getAllPortals().filter((portal: any) =>
-      anchorIds?.includes(portal?.sourceAnchor.id) || anchorIds?.includes(portal?.destinationAnchor.id)
+    return this.teleportationSystem.getAllPortals().filter((portal: any) =>
+      anchorIds.includes(portal.sourceAnchor.id) || anchorIds.includes(portal.destinationAnchor.id)
     );
   }
 
@@ -265,40 +265,40 @@ export class TeleportationManager {
     const currentPosition = { x: 0, y: 0, z: 0 }; // Would get from entity system
 
     // Add accessible anchors
-    const allAnchors = this?.teleportationSystem.getAllAnchors();
+    const allAnchors = this.teleportationSystem.getAllAnchors();
     for (const anchor of allAnchors) {
-      if (this?.canAccessDestination(entityId, anchor?.id, 'anchor')) {
-        const distance = this?.calculateDistance(currentPosition, anchor?.position);
-        destinations?.push({
-          id: anchor?.id,
-          name: anchor?.name,
+      if (this.canAccessDestination(entityId, anchor.id, 'anchor')) {
+        const distance = this.calculateDistance(currentPosition, anchor.position);
+        destinations.push({
+          id: anchor.id,
+          name: anchor.name,
           type: 'anchor',
-          position: anchor?.position,
-          energyCost: anchor?.energyCost,
-          description: anchor?.description,
+          position: anchor.position,
+          energyCost: anchor.energyCost,
+          description: anchor.description,
           distance
         });
       }
     }
 
     // Add accessible portals
-    const allPortals = this?.teleportationSystem.getAllPortals();
+    const allPortals = this.teleportationSystem.getAllPortals();
     for (const portal of allPortals) {
-      if (portal?.isActive && this?.canAccessDestination(entityId, portal?.id, 'portal')) {
-        destinations?.push({
-          id: portal?.id,
-          name: portal?.name,
+      if (portal.isActive && this.canAccessDestination(entityId, portal.id, 'portal')) {
+        destinations.push({
+          id: portal.id,
+          name: portal.name,
           type: 'portal',
-          position: portal?.destinationAnchor.position,
-          energyCost: portal?.energyCost,
-          description: `Portal to ${portal?.destinationAnchor.name}`,
-          distance: this?.calculateDistance(currentPosition, portal?.destinationAnchor.position)
+          position: portal.destinationAnchor.position,
+          energyCost: portal.energyCost,
+          description: `Portal to ${portal.destinationAnchor.name}`,
+          distance: this.calculateDistance(currentPosition, portal.destinationAnchor.position)
         });
       }
     }
 
     // Sort by distance
-    return destinations?.sort((a: any, b: any) => a?.distance - b?.distance);
+    return destinations.sort((a: any, b: any) => a.distance - b.distance);
   }
 
   /**
@@ -306,11 +306,11 @@ export class TeleportationManager {
    */
   private canAccessDestination(entityId: string, destinationId: string, type: 'anchor' | 'portal'): boolean {
     if (type === 'anchor') {
-      const anchor = this?.teleportationSystem.getAnchor(destinationId);
-      return anchor ? this?.checkAnchorAccess(entityId, anchor) : false;
+      const anchor = this.teleportationSystem.getAnchor(destinationId);
+      return anchor ? this.checkAnchorAccess(entityId, anchor) : false;
     } else {
-      const portal = this?.teleportationSystem.getPortal(destinationId);
-      return portal ? this?.checkPortalAccess(entityId, portal) : false;
+      const portal = this.teleportationSystem.getPortal(destinationId);
+      return portal ? this.checkPortalAccess(entityId, portal) : false;
     }
   }
 
@@ -319,18 +319,18 @@ export class TeleportationManager {
    */
   private checkAnchorAccess(entityId: string, anchor: SpatialAnchor): boolean {
     // Check if anchor is active
-    if (!anchor?.isActive) return false;
+    if (!anchor.isActive) return false;
 
     // Check restrictions (simplified)
-    for (const restriction of anchor?.restrictions) {
-      if (!this?.evaluateRestriction(entityId, restriction)) {
+    for (const restriction of anchor.restrictions) {
+      if (!this.evaluateRestriction(entityId, restriction)) {
         return false;
       }
     }
 
     // Check permissions (simplified)
-    for (const permission of anchor?.requiredPermissions) {
-      if (!this?.evaluatePermission(entityId, permission)) {
+    for (const permission of anchor.requiredPermissions) {
+      if (!this.evaluatePermission(entityId, permission)) {
         return false;
       }
     }
@@ -343,21 +343,21 @@ export class TeleportationManager {
    */
   private checkPortalAccess(entityId: string, portal: Portal): boolean {
     // Check if portal is active
-    if (!portal?.isActive) return false;
+    if (!portal.isActive) return false;
 
     // Check charges
-    if (portal?.charges === 0) return false;
+    if (portal.charges === 0) return false;
 
     // Check restrictions (simplified)
-    for (const restriction of portal?.restrictions) {
-      if (!this?.evaluateRestriction(entityId, restriction)) {
+    for (const restriction of portal.restrictions) {
+      if (!this.evaluateRestriction(entityId, restriction)) {
         return false;
       }
     }
 
     // Check permissions (simplified)
-    for (const permission of portal?.requiredPermissions) {
-      if (!this?.evaluatePermission(entityId, permission)) {
+    for (const permission of portal.requiredPermissions) {
+      if (!this.evaluatePermission(entityId, permission)) {
         return false;
       }
     }
@@ -398,7 +398,7 @@ export class TeleportationManager {
       console.log(`✨ Applying side effect: ${effect.description}`);
 
       // This would integrate with health, status effect, or other systems
-      switch (effect?.type) {
+      switch (effect.type) {
         case 'buff':
           console.log(`  💪 ${entityId} gains buff: +${effect.magnitude} for ${effect.duration}s`);
           break;
@@ -422,14 +422,14 @@ export class TeleportationManager {
    * Get teleportation configuration
    */
   getConfig(): TeleportationConfig {
-    return this?.teleportationSystem.getConfig();
+    return this.teleportationSystem.getConfig();
   }
 
   /**
    * Update teleportation configuration
    */
   updateConfig(newConfig: Partial<TeleportationConfig>): void {
-    this?.teleportationSystem.updateConfig(newConfig);
+    this.teleportationSystem.updateConfig(newConfig);
     console.log('Teleportation configuration updated');
   }
 
@@ -437,42 +437,42 @@ export class TeleportationManager {
    * Get zone information
    */
   getZoneInfo(zoneId: string): ZoneInfo | null {
-    return this?.teleportationSystem.getZone(zoneId);
+    return this.teleportationSystem.getZone(zoneId);
   }
 
   /**
    * Get all zones
    */
   getAllZones(): ZoneInfo[] {
-    return this?.teleportationSystem.getAllZones();
+    return this.teleportationSystem.getAllZones();
   }
 
   /**
    * Add a zone
    */
   addZone(zone: ZoneInfo): void {
-    this?.teleportationSystem.addZone(zone);
+    this.teleportationSystem.addZone(zone);
   }
 
   /**
    * Remove a zone
    */
   removeZone(zoneId: string): boolean {
-    return this?.teleportationSystem.removeZone(zoneId);
+    return this.teleportationSystem.removeZone(zoneId);
   }
 
   /**
    * Get anchor information
    */
   getAnchorInfo(anchorId: string): SpatialAnchor | null {
-    return this?.teleportationSystem.getAnchor(anchorId);
+    return this.teleportationSystem.getAnchor(anchorId);
   }
 
   /**
    * Get portal information
    */
   getPortalInfo(portalId: string): Portal | null {
-    return this?.teleportationSystem.getPortal(portalId);
+    return this.teleportationSystem.getPortal(portalId);
   }
 
   /**
@@ -489,14 +489,14 @@ export class TeleportationManager {
    * Get all anchors
    */
   getAllAnchors(): SpatialAnchor[] {
-    return this?.teleportationSystem.getAllAnchors();
+    return this.teleportationSystem.getAllAnchors();
   }
 
   /**
    * Get all portals
    */
   getAllPortals(): Portal[] {
-    return this?.teleportationSystem.getAllPortals();
+    return this.teleportationSystem.getAllPortals();
   }
 
   /**
@@ -507,15 +507,15 @@ export class TeleportationManager {
     portals: Portal[];
     zones: ZoneInfo[];
     stats: ReturnType<TeleportationSystemPure['getStats']>;
-    const managerData = this?.getStats();
+    const managerData = this.getStats();
     timestamp: number;
   } {
     return {
-      anchors: this?.teleportationSystem.getAllAnchors(),
-      portals: this?.teleportationSystem.getAllPortals(),
-      zones: this?.teleportationSystem.getAllZones(),
-      stats: this?.teleportationSystem.getStats(),
-    const managerData = this?.getStats();
+      anchors: this.teleportationSystem.getAllAnchors(),
+      portals: this.teleportationSystem.getAllPortals(),
+      zones: this.teleportationSystem.getAllZones(),
+      stats: this.teleportationSystem.getStats(),
+    const managerData = this.getStats();
       timestamp: new Date()
     };
   }
@@ -523,7 +523,7 @@ export class TeleportationManager {
   /**
    * Import teleportation system data
    */
-  importData(data: ReturnType<typeof this?.exportData>): void {
+  importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
     console.log('Teleportation system data imported');
   }

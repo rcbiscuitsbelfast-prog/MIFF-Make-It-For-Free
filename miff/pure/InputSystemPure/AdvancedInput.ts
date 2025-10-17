@@ -146,30 +146,30 @@ export class AdvancedInput {
   private hapticManager: HapticManager;
 
   constructor() {
-    this?.gestureRecognition = new GestureRecognition(this);
-    this?.hapticManager = new HapticManager();
-    this?.initializeDefaultGestures();
-    this?.initializeDefaultHaptics();
-    this?.initializeDefaultMappings();
-    this?.initializeDefaultProfiles();
+    this.gestureRecognition = new GestureRecognition(this);
+    this.hapticManager = new HapticManager();
+    this.initializeDefaultGestures();
+    this.initializeDefaultHaptics();
+    this.initializeDefaultMappings();
+    this.initializeDefaultProfiles();
   }
 
   /**
    * Create a gesture
    */
   createGesture(gesture: InputGesture): void {
-    this?.gestures.set(gesture?.id, gesture);
-    this?.gestureRecognition.registerGesture(gesture);
+    this.gestures.set(gesture.id, gesture);
+    this.gestureRecognition.registerGesture(gesture);
   }
 
   /**
    * Update gesture
    */
   updateGesture(gestureId: string, properties: Partial<InputGesture>): void {
-    const gesture = this?.gestures.get(gestureId);
+    const gesture = this.gestures.get(gestureId);
     if (gesture) {
       Object.assign(gesture, properties);
-      this?.gestureRecognition.updateGesture(gesture);
+      this.gestureRecognition.updateGesture(gesture);
     }
   }
 
@@ -177,24 +177,24 @@ export class AdvancedInput {
    * Remove gesture
    */
   removeGesture(gestureId: string): void {
-    this?.gestures.delete(gestureId);
-    this?.gestureRecognition.unregisterGesture(gestureId);
+    this.gestures.delete(gestureId);
+    this.gestureRecognition.unregisterGesture(gestureId);
   }
 
   /**
    * Create haptic feedback
    */
   createHapticFeedback(haptic: HapticFeedback): void {
-    this?.hapticFeedbacks.set(haptic?.id, haptic);
+    this.hapticFeedbacks.set(haptic.id, haptic);
   }
 
   /**
    * Trigger haptic feedback
    */
   triggerHapticFeedback(hapticId: string): void {
-    const haptic = this?.hapticFeedbacks.get(hapticId);
-    if (haptic && haptic?.enabled) {
-      this?.hapticManager.trigger(haptic);
+    const haptic = this.hapticFeedbacks.get(hapticId);
+    if (haptic && haptic.enabled) {
+      this.hapticManager.trigger(haptic);
     }
   }
 
@@ -202,14 +202,14 @@ export class AdvancedInput {
    * Create input mapping
    */
   createInputMapping(mapping: InputMapping): void {
-    this?.inputMappings.set(mapping?.id, mapping);
+    this.inputMappings.set(mapping.id, mapping);
   }
 
   /**
    * Update input mapping
    */
   updateInputMapping(mappingId: string, properties: Partial<InputMapping>): void {
-    const mapping = this?.inputMappings.get(mappingId);
+    const mapping = this.inputMappings.get(mappingId);
     if (mapping) {
       Object.assign(mapping, properties);
     }
@@ -219,22 +219,22 @@ export class AdvancedInput {
    * Remove input mapping
    */
   removeInputMapping(mappingId: string): void {
-    this?.inputMappings.delete(mappingId);
+    this.inputMappings.delete(mappingId);
   }
 
   /**
    * Create input profile
    */
   createInputProfile(profile: InputProfile): void {
-    this?.inputProfiles.set(profile?.id, profile);
+    this.inputProfiles.set(profile.id, profile);
   }
 
   /**
    * Set active input profile
    */
   setActiveProfile(profileId: string): void {
-    if (this?.inputProfiles.has(profileId)) {
-      this?.activeProfile = profileId;
+    if (this.inputProfiles.has(profileId)) {
+      this.activeProfile = profileId;
     }
   }
 
@@ -243,39 +243,39 @@ export class AdvancedInput {
    */
   processInput(input: InputData): void {
     // Add to input history
-    this?.inputHistory?.push(input);
-    if (this?.inputHistory.length > this?.maxHistorySize) {
-      this?.inputHistory.shift();
+    this.inputHistory.push(input);
+    if (this.inputHistory.length > this.maxHistorySize) {
+      this.inputHistory.shift();
     }
 
     // Process gestures
-    this?.gestureRecognition.processInput(input);
+    this.gestureRecognition.processInput(input);
 
     // Process input mappings
-    this?.processInputMappings(input);
+    this.processInputMappings(input);
 
     // Process haptic feedback
-    this?.processHapticTriggers(input);
+    this.processHapticTriggers(input);
   }
 
   /**
    * Process input mappings
    */
   private processInputMappings(input: InputData): void {
-    if (!this?.activeProfile) return;
+    if (!this.activeProfile) return;
 
-    const profile = this?.inputProfiles.get(this?.activeProfile);
+    const profile = this.inputProfiles.get(this.activeProfile);
     if (!profile) return;
 
-    for (const mapping of profile?.mappings) {
-      if (!mapping?.enabled) continue;
+    for (const mapping of profile.mappings) {
+      if (!mapping.enabled) continue;
 
       // Check if input matches mapping
-      if (this?.matchesInputMapping(input, mapping)) {
+      if (this.matchesInputMapping(input, mapping)) {
         // Check conditions
-        if (this?.checkInputConditions(mapping, input)) {
+        if (this.checkInputConditions(mapping, input)) {
           // Execute action
-          this?.executeInputAction(mapping?.action, input);
+          this.executeInputAction(mapping.action, input);
         }
       }
     }
@@ -285,12 +285,12 @@ export class AdvancedInput {
    * Check if input matches mapping
    */
   private matchesInputMapping(input: InputData, mapping: InputMapping): boolean {
-    const sequence = mapping?.input;
+    const sequence = mapping.input;
     
-    if (input?.type !== sequence?.type) return false;
-    if (input?.value !== sequence?.value) return false;
+    if (input.type !== sequence.type) return false;
+    if (input.value !== sequence.value) return false;
     
-    if (sequence?.position && input?.position) {
+    if (sequence.position && input.position) {
       const distance = Math.sqrt(
         Math.pow(input.position.x - sequence.position.x, 2) +
         Math.pow(input.position.y - sequence.position.y, 2)
@@ -309,13 +309,13 @@ export class AdvancedInput {
   private checkInputConditions(mapping: InputMapping, input: InputData): boolean {
     const context: InputContext = {
       currentInputs: [input!],
-      previousInputs: this?.inputHistory.slice(-5),
-      mousePosition: input?.position,
-      gamepadState: this?.getGamepadState(),
-      timestamp: input?.timestamp
+      previousInputs: this.inputHistory.slice(-5),
+      mousePosition: input.position,
+      gamepadState: this.getGamepadState(),
+      timestamp: input.timestamp
     };
 
-    return mapping?.conditions.every(condition => condition?.check(context));
+    return mapping.conditions.every(condition => condition.check(context));
   }
 
   /**
@@ -332,17 +332,17 @@ export class AdvancedInput {
    * Process haptic triggers
    */
   private processHapticTriggers(input: InputData): void {
-    if (!this?.activeProfile) return;
+    if (!this.activeProfile) return;
 
-    const profile = this?.inputProfiles.get(this?.activeProfile);
+    const profile = this.inputProfiles.get(this.activeProfile);
     if (!profile) return;
 
-    for (const haptic of profile?.haptics) {
-      if (!haptic?.enabled) continue;
+    for (const haptic of profile.haptics) {
+      if (!haptic.enabled) continue;
 
       // Check if input should trigger haptic feedback
-      if (this?.shouldTriggerHaptic(input, haptic)) {
-        this?.triggerHapticFeedback(haptic?.id);
+      if (this.shouldTriggerHaptic(input, haptic)) {
+        this.triggerHapticFeedback(haptic.id);
       }
     }
   }
@@ -352,13 +352,13 @@ export class AdvancedInput {
    */
   private shouldTriggerHaptic(input: InputData, haptic: HapticFeedback): boolean {
     // Simple implementation - trigger on certain input types
-    switch (haptic?.type) {
+    switch (haptic.type) {
       case 'impact':
-        return input?.type === 'touch' && input?.pressure > 0.5;
+        return input.type === 'touch' && input.pressure > 0.5;
       case 'notification':
-        return input?.type === 'key' && input?.value === 'Enter';
+        return input.type === 'key' && input.value === 'Enter';
       case 'selection':
-        return input?.type === 'mouse' && input?.value === 'click';
+        return input.type === 'mouse' && input.value === 'click';
       default:
         return false;
     }
@@ -383,7 +383,7 @@ export class AdvancedInput {
    */
   private initializeDefaultGestures(): void {
     // Tap gesture
-    this?.createGesture({
+    this.createGesture({
       id: 'tap',
       name: 'Tap',
       type: 'tap',
@@ -411,7 +411,7 @@ export class AdvancedInput {
     });
 
     // Swipe gesture
-    this?.createGesture({
+    this.createGesture({
       id: 'swipe',
       name: 'Swipe',
       type: 'swipe',
@@ -449,7 +449,7 @@ export class AdvancedInput {
    */
   private initializeDefaultHaptics(): void {
     // Impact haptic
-    this?.createHapticFeedback({
+    this.createHapticFeedback({
       id: 'impact_light',
       name: 'Light Impact',
       type: 'impact',
@@ -464,7 +464,7 @@ export class AdvancedInput {
     });
 
     // Notification haptic
-    this?.createHapticFeedback({
+    this.createHapticFeedback({
       id: 'notification',
       name: 'Notification',
       type: 'notification',
@@ -484,7 +484,7 @@ export class AdvancedInput {
    */
   private initializeDefaultMappings(): void {
     // WASD movement
-    this?.createInputMapping({
+    this.createInputMapping({
       id: 'move_forward',
       name: 'Move Forward',
       input: {
@@ -499,7 +499,7 @@ export class AdvancedInput {
     });
 
     // Mouse click
-    this?.createInputMapping({
+    this.createInputMapping({
       id: 'mouse_click',
       name: 'Mouse Click',
       input: {
@@ -519,7 +519,7 @@ export class AdvancedInput {
    */
   private initializeDefaultProfiles(): void {
     // Default profile
-    this?.createInputProfile({
+    this.createInputProfile({
       id: 'default',
       name: 'Default Profile',
       mappings: Array.from(this.inputMappings.values()),
@@ -534,14 +534,14 @@ export class AdvancedInput {
       enabled: true
     });
 
-    this?.setActiveProfile('default');
+    this.setActiveProfile('default');
   }
 
   /**
    * Get gesture
    */
   getGesture(gestureId: string): InputGesture | null {
-    return this?.gestures.get(gestureId) || null;
+    return this.gestures.get(gestureId) || null;
   }
 
   /**
@@ -555,35 +555,35 @@ export class AdvancedInput {
    * Get haptic feedback
    */
   getHapticFeedback(hapticId: string): HapticFeedback | null {
-    return this?.hapticFeedbacks.get(hapticId) || null;
+    return this.hapticFeedbacks.get(hapticId) || null;
   }
 
   /**
    * Get input mapping
    */
   getInputMapping(mappingId: string): InputMapping | null {
-    return this?.inputMappings.get(mappingId) || null;
+    return this.inputMappings.get(mappingId) || null;
   }
 
   /**
    * Get input profile
    */
   getInputProfile(profileId: string): InputProfile | null {
-    return this?.inputProfiles.get(profileId) || null;
+    return this.inputProfiles.get(profileId) || null;
   }
 
   /**
    * Get active profile
    */
   getActiveProfile(): InputProfile | null {
-    return this?.activeProfile ? this?.inputProfiles.get(this?.activeProfile) || null : null;
+    return this.activeProfile ? this.inputProfiles.get(this.activeProfile) || null : null;
   }
 
   /**
    * Get input history
    */
   getInputHistory(): InputData[] {
-    return [...this?.inputHistory];
+    return [...this.inputHistory];
   }
 
   /**
@@ -591,13 +591,13 @@ export class AdvancedInput {
    */
   getAdvancedInputStatistics(): any {
     return {
-      gestures: this?.gestures.size,
-      hapticFeedbacks: this?.hapticFeedbacks.size,
-      inputMappings: this?.inputMappings.size,
-      inputProfiles: this?.inputProfiles.size,
-      activeProfile: this?.activeProfile,
-      inputHistorySize: this?.inputHistory.length,
-      maxHistorySize: this?.maxHistorySize
+      gestures: this.gestures.size,
+      hapticFeedbacks: this.hapticFeedbacks.size,
+      inputMappings: this.inputMappings.size,
+      inputProfiles: this.inputProfiles.size,
+      activeProfile: this.activeProfile,
+      inputHistorySize: this.inputHistory.length,
+      maxHistorySize: this.maxHistorySize
     };
   }
 }
@@ -614,79 +614,79 @@ class GestureRecognition {
   constructor(private advancedInput: AdvancedInput) {}
 
   registerGesture(gesture: InputGesture): void {
-    this?.gestures.set(gesture?.id, gesture);
+    this.gestures.set(gesture.id, gesture);
   }
 
   updateGesture(gesture: InputGesture): void {
-    this?.gestures.set(gesture?.id, gesture);
+    this.gestures.set(gesture.id, gesture);
   }
 
   unregisterGesture(gestureId: string): void {
-    this?.gestures.delete(gestureId);
-    this?.activeGestures.delete(gestureId);
+    this.gestures.delete(gestureId);
+    this.activeGestures.delete(gestureId);
   }
 
   processInput(input: InputData): void {
     // Add to input buffer
-    this?.inputBuffer?.push(input);
-    if (this?.inputBuffer.length > this?.maxBufferSize) {
-      this?.inputBuffer.shift();
+    this.inputBuffer.push(input);
+    if (this.inputBuffer.length > this.maxBufferSize) {
+      this.inputBuffer.shift();
     }
 
     // Check all gestures
-    for (const [gestureId, gesture] of this?.gestures) {
-      if (!gesture?.enabled) continue;
+    for (const [gestureId, gesture] of this.gestures) {
+      if (!gesture.enabled) continue;
 
-      const state = this?.activeGestures.get(gestureId) || {
+      const state = this.activeGestures.get(gestureId) || {
         gestureId,
-        startTime: input?.timestamp,
+        startTime: input.timestamp,
         inputs: [],
         currentStep: 0
       };
 
-      if (this?.checkGestureStep(gesture, state, input)) {
-        state?.inputs?.push(input);
-        state?.currentStep++;
+      if (this.checkGestureStep(gesture, state, input)) {
+        state.inputs.push(input);
+        state.currentStep++;
 
-        if (this?.isGestureComplete(gesture, state)) {
-          this?.completeGesture(gesture, state);
+        if (this.isGestureComplete(gesture, state)) {
+          this.completeGesture(gesture, state);
         } else {
-          this?.activeGestures.set(gestureId, state);
+          this.activeGestures.set(gestureId, state);
         }
       } else {
         // Reset gesture if step doesn't match
-        this?.activeGestures.delete(gestureId);
+        this.activeGestures.delete(gestureId);
       }
     }
   }
 
   private checkGestureStep(gesture: InputGesture, state: GestureState, input: InputData): boolean {
-    const pattern = gesture?.pattern;
-    const currentStep = state?.currentStep;
+    const pattern = gesture.pattern;
+    const currentStep = state.currentStep;
 
-    if (currentStep >= pattern?.inputs.length) return false;
+    if (currentStep >= pattern.inputs.length) return false;
 
-    const expectedInput = pattern?.inputs[currentStep!];
+    const expectedInput = pattern.inputs[currentStep!];
     
     // Check input type
-    if (input?.type !== expectedInput?.type) return false;
+    if (input.type !== expectedInput.type) return false;
     
     // Check input value
-    if (input?.value !== expectedInput?.value) return false;
+    if (input.value !== expectedInput.value) return false;
     
     // Check duration if specified
-    if (expectedInput?.duration) {
-      const duration = input?.timestamp - state?.startTime;
+    if (expectedInput.duration) {
+      const duration = input.timestamp - state.startTime;
       if (Math.abs(duration - expectedInput.duration) > gesture.threshold.tolerance) return false;
     }
     
     // Check position if specified
-    if (expectedInput?.position && input?.position) {
+    if (expectedInput.position && input.position) {
       const distance = Math.sqrt(
         Math.pow(input.position.x - expectedInput.position.x, 2) +
         Math.pow(input.position.y - expectedInput.position.y, 2)
       );
-      if (distance > (gesture?.threshold.tolerance || 10)) return false;
+      if (distance > (gesture.threshold.tolerance || 10)) return false;
     }
     
     // Check pressure if specified
@@ -696,39 +696,39 @@ class GestureRecognition {
   }
 
   private isGestureComplete(gesture: InputGesture, state: GestureState): boolean {
-    return state?.currentStep >= gesture?.pattern.inputs?.length;
+    return state.currentStep >= gesture.pattern.inputs.length;
   }
 
   private completeGesture(gesture: InputGesture, state: GestureState): void {
     const gestureData: GestureData = {
       gesture,
-      inputs: state?.inputs,
-      startTime: state?.startTime,
-      endTime: state?.inputs[state?.inputs.length - 1].timestamp,
-      duration: state?.inputs[state?.inputs.length - 1].timestamp - state?.startTime,
+      inputs: state.inputs,
+      startTime: state.startTime,
+      endTime: state.inputs[state.inputs.length - 1].timestamp,
+      duration: state.inputs[state.inputs.length - 1].timestamp - state.startTime,
       metadata: {}
     };
 
     // Calculate additional gesture data
-    if (gesture?.type === 'swipe' && state?.inputs.length >= 2) {
-      const start = state?.inputs[0!].position;
-      const end = state?.inputs[state?.inputs.length - 1].position;
+    if (gesture.type === 'swipe' && state.inputs.length >= 2) {
+      const start = state.inputs[0!].position;
+      const end = state.inputs[state.inputs.length - 1].position;
       
       gestureData.distance = Math.sqrt(
         Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)
       );
       
-      gestureData?.velocity = {
-        x: (end.x - start.x) / gestureData?.duration,
-        y: (end.y - start.y) / gestureData?.duration
+      gestureData.velocity = {
+        x: (end.x - start.x) / gestureData.duration,
+        y: (end.y - start.y) / gestureData.duration
       };
     }
 
     // Execute gesture callback
-    gesture?.callback(gesture, gestureData);
+    gesture.callback(gesture, gestureData);
 
     // Remove from active gestures
-    this?.activeGestures.delete(gesture?.id);
+    this.activeGestures.delete(gesture.id);
   }
 }
 
@@ -746,39 +746,39 @@ class HapticManager {
   private activeHaptics: Map<string, HapticState> = new Map();
 
   trigger(haptic: HapticFeedback): void {
-    if (!haptic?.enabled) return;
+    if (!haptic.enabled) return;
 
     const state: HapticState = {
-      hapticId: haptic?.id,
+      hapticId: haptic.id,
       startTime: new Date(),
       currentStep: 0,
-      pattern: haptic?.pattern,
-      intensity: haptic?.intensity,
-      duration: haptic?.duration
+      pattern: haptic.pattern,
+      intensity: haptic.intensity,
+      duration: haptic.duration
     };
 
-    this?.activeHaptics.set(haptic?.id, state);
-    this?.executeHapticPattern(state);
+    this.activeHaptics.set(haptic.id, state);
+    this.executeHapticPattern(state);
   }
 
   private executeHapticPattern(state: HapticState): void {
-    const pattern = state?.pattern;
+    const pattern = state.pattern;
     
-    switch (pattern?.type) {
+    switch (pattern.type) {
       case 'single':
-        this?.executeSingleHaptic(state);
+        this.executeSingleHaptic(state);
         break;
       case 'double':
-        this?.executeDoubleHaptic(state);
+        this.executeDoubleHaptic(state);
         break;
       case 'triple':
-        this?.executeTripleHaptic(state);
+        this.executeTripleHaptic(state);
         break;
       case 'continuous':
-        this?.executeContinuousHaptic(state);
+        this.executeContinuousHaptic(state);
         break;
       case 'custom':
-        this?.executeCustomHaptic(state);
+        this.executeCustomHaptic(state);
         break;
     }
   }

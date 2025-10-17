@@ -8,7 +8,7 @@ describe('GodotBridgePure Golden Tests', () => {
       npcId: 'npc_001',
       duration: 3600
     };
-    const testFile = path?.resolve('GodotBridgePure/test_npc_sim?.json');
+    const testFile = path.resolve('GodotBridgePure/test_npc_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -22,15 +22,15 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('simulate');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
-      expect(result?.renderData.nodes).toBeDefined();
-      expect(result?.renderData.scripts).toBeDefined();
-      expect(result?.renderData.scenes).toBeDefined();
+      expect(result.op).toBe('simulate');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
+      expect(result.renderData.nodes).toBeDefined();
+      expect(result.renderData.scripts).toBeDefined();
+      expect(result.renderData.scenes).toBeDefined();
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
     }
   });
@@ -41,7 +41,7 @@ describe('GodotBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path?.resolve('GodotBridgePure/test_npc_render?.json');
+    const testFile = path.resolve('GodotBridgePure/test_npc_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -55,9 +55,9 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('render');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
+      expect(result.op).toBe('render');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
       expect(Array.isArray(result.renderData.nodes)).toBe(true);
       expect(Array.isArray(result.renderData.resources)).toBe(true);
       expect(Array.isArray(result.renderData.scripts)).toBe(true);
@@ -65,8 +65,8 @@ describe('GodotBridgePure Golden Tests', () => {
       expect(Array.isArray(result.renderData.animations)).toBe(true);
       expect(Array.isArray(result.renderData.inputs)).toBe(true);
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
     }
   });
@@ -81,7 +81,7 @@ describe('GodotBridgePure Golden Tests', () => {
         questIds: ['quest_tutorial', 'quest_side_quest']
       }
     };
-    const testFile = path?.resolve('GodotBridgePure/test_godot_npc?.json');
+    const testFile = path.resolve('GodotBridgePure/test_godot_npc.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -95,12 +95,12 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('interop');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
+      expect(result.op).toBe('interop');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
     }
   });
@@ -115,9 +115,9 @@ describe('GodotBridgePure Golden Tests', () => {
     ], { encoding: 'utf-8' });
 
     const result = JSON.parse(output);
-    expect(result?.op).toBe('dump');
-    expect(result?.status).toBe('ok');
-    expect(result?.renderData).toBeDefined();
+    expect(result.op).toBe('dump');
+    expect(result.status).toBe('ok');
+    expect(result.renderData).toBeDefined();
   });
 
   test('✓ simulate combat with Godot bridge', () => {
@@ -132,7 +132,7 @@ describe('GodotBridgePure Golden Tests', () => {
         stats: [{ key: 'health', base: 100 }]
       }
     };
-    const testFile = path?.resolve('GodotBridgePure/test_combat_sim?.json');
+    const testFile = path.resolve('GodotBridgePure/test_combat_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -146,15 +146,15 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('render');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
-      expect(result?.renderData.entities).toBeDefined();
-      expect(result?.renderData.scenes).toContain('CombatScene?.tscn');
-      expect(result?.renderData.scripts).toContain('CombatController');
+      expect(result.op).toBe('render');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
+      expect(result.renderData.entities).toBeDefined();
+      expect(result.renderData.scenes).toContain('CombatScene.tscn');
+      expect(result.renderData.scripts).toContain('CombatController');
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
     }
   });
@@ -168,7 +168,7 @@ describe('GodotBridgePure Golden Tests', () => {
         { id: 'item_potion', quantity: 3 }
       ]
     };
-    const testFile = path?.resolve('GodotBridgePure/test_ui_render?.json');
+    const testFile = path.resolve('GodotBridgePure/test_ui_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -182,15 +182,15 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('render');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
-      expect(result?.renderData.nodes).toBeDefined();
-      expect(result?.renderData.scenes).toContain('InventoryScene?.tscn');
-      expect(result?.renderData.scripts).toContain('res://miff/scripts/UIController?.gd');
+      expect(result.op).toBe('render');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
+      expect(result.renderData.nodes).toBeDefined();
+      expect(result.renderData.scenes).toContain('InventoryScene.tscn');
+      expect(result.renderData.scripts).toContain('res://miff/scripts/UIController.gd');
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
     }
   });
@@ -201,8 +201,8 @@ describe('GodotBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path?.resolve('GodotBridgePure/test_npc_render?.json');
-    const configFile = path?.resolve('GodotBridgePure/test_gdscript_config?.json');
+    const testFile = path.resolve('GodotBridgePure/test_npc_render.json');
+    const configFile = path.resolve('GodotBridgePure/test_gdscript_config.json');
     
     const config = {
       language: 'gdscript',
@@ -226,16 +226,16 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('render');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
-      expect(result?.renderData.scripts).toContain('res://miff/scripts/NPCController?.gd');
+      expect(result.op).toBe('render');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
+      expect(result.renderData.scripts).toContain('res://miff/scripts/NPCController.gd');
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
-      if (fs?.existsSync(configFile)) {
-        fs?.unlinkSync(configFile);
+      if (fs.existsSync(configFile)) {
+        fs.unlinkSync(configFile);
       }
     }
   });
@@ -246,8 +246,8 @@ describe('GodotBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path?.resolve('GodotBridgePure/test_npc_render?.json');
-    const configFile = path?.resolve('GodotBridgePure/test_csharp_config?.json');
+    const testFile = path.resolve('GodotBridgePure/test_npc_render.json');
+    const configFile = path.resolve('GodotBridgePure/test_csharp_config.json');
     
     const config = {
       language: 'csharp',
@@ -271,16 +271,16 @@ describe('GodotBridgePure Golden Tests', () => {
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result?.op).toBe('render');
-      expect(result?.status).toBe('ok');
-      expect(result?.renderData).toBeDefined();
-      expect(result?.renderData.scripts).toContain('res://miff/scripts/NPCController?.cs');
+      expect(result.op).toBe('render');
+      expect(result.status).toBe('ok');
+      expect(result.renderData).toBeDefined();
+      expect(result.renderData.scripts).toContain('res://miff/scripts/NPCController.cs');
     } finally {
-      if (fs?.existsSync(testFile)) {
-        fs?.unlinkSync(testFile);
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
       }
-      if (fs?.existsSync(configFile)) {
-        fs?.unlinkSync(configFile);
+      if (fs.existsSync(configFile)) {
+        fs.unlinkSync(configFile);
       }
     }
   });

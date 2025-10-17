@@ -83,75 +83,75 @@ export class BridgeSchemaValidator {
     const issues: string[] = [];
 
     // Required fields
-    if (!data?.id) {
-      issues?.push('RenderData must have an id');
+    if (!data.id) {
+      issues.push('RenderData must have an id');
     }
-    if (!data?.type) {
-      issues?.push('RenderData must have a type');
+    if (!data.type) {
+      issues.push('RenderData must have a type');
     }
 
     // Type validation
-    if (data?.type && !['sprite', 'text', 'sound', 'animation', 'node', 'component', 'resource', 'scene', 'input', 'ui'].includes(data?.type)) {
-      issues?.push(`Invalid render type: ${data?.type}`);
+    if (data.type && !['sprite', 'text', 'sound', 'animation', 'node', 'component', 'resource', 'scene', 'input', 'ui'].includes(data.type)) {
+      issues.push(`Invalid render type: ${data.type}`);
     }
 
     // Position validation
-    if (data?.position) {
-      const xInvalid = typeof (data?.position as any).x !== 'number';
-      const yInvalid = typeof (data?.position as any).y !== 'number';
+    if (data.position) {
+      const xInvalid = typeof (data.position as any).x !== 'number';
+      const yInvalid = typeof (data.position as any).y !== 'number';
       if (xInvalid || yInvalid) {
-        issues?.push('Position x and y must be numbers');
-        if (xInvalid) issues?.push('Position x must be a number');
-        if (yInvalid) issues?.push('Position y must be a number');
+        issues.push('Position x and y must be numbers');
+        if (xInvalid) issues.push('Position x must be a number');
+        if (yInvalid) issues.push('Position y must be a number');
       }
-      if (data?.position.z !== undefined && typeof data?.position.z !== 'number') {
-        issues?.push('Position z must be a number if provided');
+      if (data.position.z !== undefined && typeof data.position.z !== 'number') {
+        issues.push('Position z must be a number if provided');
       }
     }
 
     // Scale validation
-    if (data?.scale) {
-      if (typeof data?.scale.x !== 'number' || typeof data?.scale.y !== 'number') {
-        issues?.push('Scale x and y must be numbers');
+    if (data.scale) {
+      if (typeof data.scale.x !== 'number' || typeof data.scale.y !== 'number') {
+        issues.push('Scale x and y must be numbers');
       }
-      if (data?.scale.z !== undefined && typeof data?.scale.z !== 'number') {
-        issues?.push('Scale z must be a number if provided');
+      if (data.scale.z !== undefined && typeof data.scale.z !== 'number') {
+        issues.push('Scale z must be a number if provided');
       }
     }
 
     // Rotation validation
-    if (data?.rotation) {
-      if (typeof data?.rotation.x !== 'number' || typeof data?.rotation.y !== 'number' || typeof data?.rotation.z !== 'number') {
-        issues?.push('Rotation x, y, and z must be numbers');
+    if (data.rotation) {
+      if (typeof data.rotation.x !== 'number' || typeof data.rotation.y !== 'number' || typeof data.rotation.z !== 'number') {
+        issues.push('Rotation x, y, and z must be numbers');
       }
     }
 
     // Children validation
-    if (data?.children) {
+    if (data.children) {
       if (!Array.isArray(data.children)) {
-        issues?.push('Children must be an array');
+        issues.push('Children must be an array');
       } else {
-        data?.children.forEach((child, index) => {
-          const childIssues = this?.validateRenderData(child);
-          childIssues?.forEach((issue: any) => issues?.push(`Child ${index}: ${issue}`));
+        data.children.forEach((child, index) => {
+          const childIssues = this.validateRenderData(child);
+          childIssues.forEach((issue: any) => issues.push(`Child ${index}: ${issue}`));
         });
       }
     }
 
     // Signals validation
-    if (data?.signals) {
+    if (data.signals) {
       if (!Array.isArray(data.signals)) {
-        issues?.push('Signals must be an array');
+        issues.push('Signals must be an array');
       } else {
-        data?.signals.forEach((signal, index) => {
-          if (!signal?.name) {
-            issues?.push(`Signal ${index}: must have a name`);
+        data.signals.forEach((signal, index) => {
+          if (!signal.name) {
+            issues.push(`Signal ${index}: must have a name`);
           }
           if (signal.parameters && !Array.isArray(signal.parameters)) {
-            issues?.push(`Signal ${index}: parameters must be an array`);
+            issues.push(`Signal ${index}: parameters must be an array`);
           }
           if (signal.connectedTo && !Array.isArray(signal.connectedTo)) {
-            issues?.push(`Signal ${index}: connectedTo must be an array`);
+            issues.push(`Signal ${index}: connectedTo must be an array`);
           }
         });
       }
@@ -164,32 +164,32 @@ export class BridgeSchemaValidator {
     const issues: string[] = [];
 
     // Required fields
-    if (!payload?.op) {
-      issues?.push('RenderPayload must have an op');
+    if (!payload.op) {
+      issues.push('RenderPayload must have an op');
     }
-    if (!payload?.status) {
-      issues?.push('RenderPayload must have a status');
+    if (!payload.status) {
+      issues.push('RenderPayload must have a status');
     }
     if (!Array.isArray(payload.renderData)) {
-      issues?.push('RenderPayload renderData must be an array');
+      issues.push('RenderPayload renderData must be an array');
     }
 
     // Status validation
-    if (payload?.status && !['ok', 'error'].includes(payload?.status)) {
-      issues?.push('Status must be "ok" or "error"');
+    if (payload.status && !['ok', 'error'].includes(payload.status)) {
+      issues.push('Status must be "ok" or "error"');
     }
 
     // RenderData validation
-    if (payload?.renderData) {
-      payload?.renderData.forEach((data, index) => {
-        const dataIssues = this?.validateRenderData(data: any);
-        dataIssues?.forEach((issue: any) => issues?.push(`RenderData ${index}: ${issue}`));
+    if (payload.renderData) {
+      payload.renderData.forEach((data, index) => {
+        const dataIssues = this.validateRenderData(data);
+        dataIssues.forEach((issue: any) => issues.push(`RenderData ${index}: ${issue}`));
       });
     }
 
     // Issues validation
     if (payload.issues && !Array.isArray(payload.issues)) {
-      issues?.push('Issues must be an array');
+      issues.push('Issues must be an array');
     }
 
     return issues;
@@ -197,27 +197,27 @@ export class BridgeSchemaValidator {
 
   static convertFromUnity(unityData: any): RenderData {
     return {
-      id: unityData?.id || unityData?.gameObject,
-      type: this?.mapUnityType(unityData),
-      name: unityData?.name,
-      position: unityData?.transform?.position,
-      scale: unityData?.transform?.scale,
-      rotation: unityData?.transform?.rotation,
-      asset: unityData?.prefab,
-      props: unityData?.components,
+      id: unityData.id || unityData.gameObject,
+      type: this.mapUnityType(unityData),
+      name: unityData.name,
+      position: unityData.transform?.position,
+      scale: unityData.transform?.scale,
+      rotation: unityData.transform?.rotation,
+      asset: unityData.prefab,
+      props: unityData.components,
       engineHints: {
         unity: {
-          gameObject: unityData?.gameObject,
-          component: unityData?.componentType,
-          prefab: unityData?.prefab,
-          useECS: unityData?.useECS
+          gameObject: unityData.gameObject,
+          component: unityData.componentType,
+          prefab: unityData.prefab,
+          useECS: unityData.useECS
         }
       },
-      children: unityData?.children?.map((child: any) => this?.convertFromUnity(child)),
-      signals: unityData?.signals?.map((signal: any) => ({
-        name: signal?.name,
-        parameters: signal?.parameters,
-        connectedTo: signal?.connectedTo,
+      children: unityData.children?.map((child: any) => this.convertFromUnity(child)),
+      signals: unityData.signals?.map((signal: any) => ({
+        name: signal.name,
+        parameters: signal.parameters,
+        connectedTo: signal.connectedTo,
         engine: 'unity'
       }))
     };
@@ -225,26 +225,26 @@ export class BridgeSchemaValidator {
 
   static convertFromWeb(webData: any): RenderData {
     return {
-      id: webData?.id,
-      type: this?.mapWebType(webData),
-      name: webData?.name,
+      id: webData.id,
+      type: this.mapWebType(webData),
+      name: webData.name,
       position: { x: webData.x, y: webData.y },
-      scale: webData?.width && webData?.height ? { x: webData?.width, y: webData?.height } : undefined,
-      asset: webData?.texture || webData?.src,
-      props: webData?.properties,
+      scale: webData.width && webData.height ? { x: webData.width, y: webData.height } : undefined,
+      asset: webData.texture || webData.src,
+      props: webData.properties,
       engineHints: {
         web: {
-          element: webData?.element,
-          canvas: webData?.canvas,
-          dom: webData?.dom,
-          useWebGL: webData?.useWebGL
+          element: webData.element,
+          canvas: webData.canvas,
+          dom: webData.dom,
+          useWebGL: webData.useWebGL
         }
       },
-      children: webData?.children?.map((child: any) => this?.convertFromWeb(child)),
-      signals: webData?.events?.map((event: any) => ({
-        name: event?.name,
-        parameters: event?.parameters,
-        connectedTo: event?.handlers,
+      children: webData.children?.map((child: any) => this.convertFromWeb(child)),
+      signals: webData.events?.map((event: any) => ({
+        name: event.name,
+        parameters: event.parameters,
+        connectedTo: event.handlers,
         engine: 'web'
       }))
     };
@@ -252,115 +252,115 @@ export class BridgeSchemaValidator {
 
   static convertFromGodot(godotData: any): RenderData {
     return {
-      id: godotData?.id,
-      type: this?.mapGodotType(godotData),
-      name: godotData?.name,
-      position: godotData?.position,
-      scale: godotData?.scale,
-      rotation: godotData?.rotation ? { x: 0, y: 0, z: godotData?.rotation } : undefined,
-      asset: godotData?.texture || godotData?.script,
-      props: godotData?.properties,
+      id: godotData.id,
+      type: this.mapGodotType(godotData),
+      name: godotData.name,
+      position: godotData.position,
+      scale: godotData.scale,
+      rotation: godotData.rotation ? { x: 0, y: 0, z: godotData.rotation } : undefined,
+      asset: godotData.texture || godotData.script,
+      props: godotData.properties,
       engineHints: {
         godot: {
-          node: godotData?.type,
-          script: godotData?.script,
-          scene: godotData?.scene,
-          language: godotData?.language
+          node: godotData.type,
+          script: godotData.script,
+          scene: godotData.scene,
+          language: godotData.language
         }
       },
-      children: godotData?.children?.map((child: any) => this?.convertFromGodot(child)),
-      signals: godotData?.signals?.map((signal: any) => ({
-        name: signal?.name,
-        parameters: signal?.parameters,
-        connectedTo: signal?.connectedTo,
+      children: godotData.children?.map((child: any) => this.convertFromGodot(child)),
+      signals: godotData.signals?.map((signal: any) => ({
+        name: signal.name,
+        parameters: signal.parameters,
+        connectedTo: signal.connectedTo,
         engine: 'godot'
       }))
     };
   }
 
   private static mapUnityType(unityData: any): RenderDataType {
-    if (unityData?.componentType === 'Transform') return 'node';
-    if (unityData?.componentType === 'SpriteRenderer') return 'sprite';
-    if (unityData?.componentType === 'TextMesh') return 'text';
-    if (unityData?.componentType === 'AudioSource') return 'sound';
-    if (unityData?.componentType === 'Animator') return 'animation';
+    if (unityData.componentType === 'Transform') return 'node';
+    if (unityData.componentType === 'SpriteRenderer') return 'sprite';
+    if (unityData.componentType === 'TextMesh') return 'text';
+    if (unityData.componentType === 'AudioSource') return 'sound';
+    if (unityData.componentType === 'Animator') return 'animation';
     return 'component';
   }
 
   private static mapWebType(webData: any): RenderDataType {
-    if (webData?.type === 'sprite') return 'sprite';
-    if (webData?.type === 'text') return 'text';
-    if (webData?.type === 'audio') return 'sound';
-    if (webData?.type === 'animation') return 'animation';
-    if (webData?.type === 'container' || webData?.type === 'group') return 'node';
+    if (webData.type === 'sprite') return 'sprite';
+    if (webData.type === 'text') return 'text';
+    if (webData.type === 'audio') return 'sound';
+    if (webData.type === 'animation') return 'animation';
+    if (webData.type === 'container' || webData.type === 'group') return 'node';
     return 'component';
   }
 
   private static mapGodotType(godotData: any): RenderDataType {
-    if (godotData?.type === 'Sprite') return 'sprite';
-    if (godotData?.type === 'Label') return 'text';
-    if (godotData?.type === 'AudioStreamPlayer') return 'sound';
-    if (godotData?.type === 'AnimationPlayer') return 'animation';
-    if (godotData?.type === 'Node2D' || godotData?.type === 'Control') return 'node';
+    if (godotData.type === 'Sprite') return 'sprite';
+    if (godotData.type === 'Label') return 'text';
+    if (godotData.type === 'AudioStreamPlayer') return 'sound';
+    if (godotData.type === 'AnimationPlayer') return 'animation';
+    if (godotData.type === 'Node2D' || godotData.type === 'Control') return 'node';
     return 'component';
   }
 
   static convertToUnity(renderData: RenderData): any {
     return {
-      id: renderData?.id,
-      gameObject: renderData?.name || renderData?.id,
+      id: renderData.id,
+      gameObject: renderData.name || renderData.id,
       transform: {
-        position: renderData?.position,
-        scale: renderData?.scale,
-        rotation: renderData?.rotation
+        position: renderData.position,
+        scale: renderData.scale,
+        rotation: renderData.rotation
       },
-      componentType: this?.mapToUnityComponent(renderData?.type),
-      prefab: renderData?.asset,
-      components: renderData?.props,
-      children: renderData?.children?.map((child: any) => this?.convertToUnity(child)),
-      signals: renderData?.signals?.filter((s: any) => s?.engine === 'unity').map((signal: any) => ({
-        name: signal?.name,
-        parameters: signal?.parameters,
-        connectedTo: signal?.connectedTo
+      componentType: this.mapToUnityComponent(renderData.type),
+      prefab: renderData.asset,
+      components: renderData.props,
+      children: renderData.children?.map((child: any) => this.convertToUnity(child)),
+      signals: renderData.signals?.filter((s: any) => s.engine === 'unity').map((signal: any) => ({
+        name: signal.name,
+        parameters: signal.parameters,
+        connectedTo: signal.connectedTo
       }))
     };
   }
 
   static convertToWeb(renderData: RenderData): any {
     return {
-      id: renderData?.id,
-      type: this?.mapToWebType(renderData?.type),
-      name: renderData?.name,
-      x: renderData?.position?.x,
-      y: renderData?.position?.y,
-      width: renderData?.scale?.x,
-      height: renderData?.scale?.y,
-      texture: renderData?.asset,
-      properties: renderData?.props,
-      children: renderData?.children?.map((child: any) => this?.convertToWeb(child)),
-      events: renderData?.signals?.filter((s: any) => s?.engine === 'web').map((signal: any) => ({
-        name: signal?.name,
-        parameters: signal?.parameters,
-        handlers: signal?.connectedTo
+      id: renderData.id,
+      type: this.mapToWebType(renderData.type),
+      name: renderData.name,
+      x: renderData.position?.x,
+      y: renderData.position?.y,
+      width: renderData.scale?.x,
+      height: renderData.scale?.y,
+      texture: renderData.asset,
+      properties: renderData.props,
+      children: renderData.children?.map((child: any) => this.convertToWeb(child)),
+      events: renderData.signals?.filter((s: any) => s.engine === 'web').map((signal: any) => ({
+        name: signal.name,
+        parameters: signal.parameters,
+        handlers: signal.connectedTo
       }))
     };
   }
 
   static convertToGodot(renderData: RenderData): any {
     return {
-      id: renderData?.id,
-      type: this?.mapToGodotType(renderData?.type),
-      name: renderData?.name,
-      position: renderData?.position,
-      scale: renderData?.scale,
-      rotation: renderData?.rotation?.z,
-      texture: renderData?.asset,
-      properties: renderData?.props,
-      children: renderData?.children?.map((child: any) => this?.convertToGodot(child)),
-      signals: renderData?.signals?.filter((s: any) => s?.engine === 'godot').map((signal: any) => ({
-        name: signal?.name,
-        parameters: signal?.parameters,
-        connectedTo: signal?.connectedTo
+      id: renderData.id,
+      type: this.mapToGodotType(renderData.type),
+      name: renderData.name,
+      position: renderData.position,
+      scale: renderData.scale,
+      rotation: renderData.rotation?.z,
+      texture: renderData.asset,
+      properties: renderData.props,
+      children: renderData.children?.map((child: any) => this.convertToGodot(child)),
+      signals: renderData.signals?.filter((s: any) => s.engine === 'godot').map((signal: any) => ({
+        name: signal.name,
+        parameters: signal.parameters,
+        connectedTo: signal.connectedTo
       }))
     };
   }

@@ -1,5 +1,5 @@
 /**
- * ModdingPure?.ts - Modding and Plugin Management System
+ * ModdingPure.ts - Modding and Plugin Management System
  * 
  * Inspired by Crystal Space SCF plugin framework and Godot export templates.
  * Provides plugin discovery, loading, and management capabilities for MIFF games.
@@ -82,7 +82,7 @@ export class PluginDiscovery {
   private config: ModdingConfig;
 
   constructor(config: ModdingConfig) {
-    this?.config = config;
+    this.config = config;
   }
 
   /**
@@ -93,10 +93,10 @@ export class PluginDiscovery {
     
     // In a real implementation, this would scan the filesystem
     // For now, we'll return mock plugins
-    const mockPlugins = this?.createMockPlugins();
+    const mockPlugins = this.createMockPlugins();
     
     for (const plugin of mockPlugins) {
-      this?.plugins.set(plugin?.id, plugin);
+      this.plugins.set(plugin.id, plugin);
     }
     
     console.log(`✅ Discovered ${mockPlugins.length} plugins`);
@@ -107,12 +107,12 @@ export class PluginDiscovery {
    * Load a plugin by ID
    */
   async loadPlugin(id: string): Promise<PluginInstance> {
-    const plugin = this?.plugins.get(id);
+    const plugin = this.plugins.get(id);
     if (!plugin) {
       throw new Error(`Plugin not found: ${id}`);
     }
 
-    if (plugin?.status === 'loaded') {
+    if (plugin.status === 'loaded') {
       return plugin;
     }
 
@@ -120,21 +120,21 @@ export class PluginDiscovery {
     
     try {
       // Check dependencies
-      await this?.resolveDependencies(plugin);
+      await this.resolveDependencies(plugin);
       
       // Load entry point (in real implementation, this would be dynamic import)
-      plugin?.entryPoint = this?.createMockEntryPoint(plugin?.manifest);
+      plugin.entryPoint = this.createMockEntryPoint(plugin.manifest);
       
       // Load assets
-      await this?.loadPluginAssets(plugin);
+      await this.loadPluginAssets(plugin);
       
-      plugin?.status = 'loaded';
+      plugin.status = 'loaded';
       console.log(`✅ Plugin loaded: ${plugin.manifest.name}`);
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      plugin?.status = 'error';
-      plugin?.error = error instanceof Error ? error?.message : 'Unknown error';
+      plugin.status = 'error';
+      plugin.error = error instanceof Error ? error.message : 'Unknown error';
       console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, err instanceof Error ? err.message : String(err));
     }
 
@@ -145,7 +145,7 @@ export class PluginDiscovery {
    * Unload a plugin
    */
   async unloadPlugin(id: string): Promise<boolean> {
-    const plugin = this?.plugins.get(id);
+    const plugin = this.plugins.get(id);
     if (!plugin) {
       return false;
     }
@@ -153,9 +153,9 @@ export class PluginDiscovery {
     console.log(`📦 Unloading plugin: ${plugin.manifest.name}`);
     
     // Cleanup plugin resources
-    plugin?.assets.clear();
-    plugin?.entryPoint = null;
-    plugin?.status = 'disabled';
+    plugin.assets.clear();
+    plugin.entryPoint = null;
+    plugin.status = 'disabled';
     
     console.log(`✅ Plugin unloaded: ${plugin.manifest.name}`);
     return true;
@@ -172,7 +172,7 @@ export class PluginDiscovery {
    * Get plugin by ID
    */
   getPlugin(id: string): PluginInstance | undefined {
-    return this?.plugins.get(id);
+    return this.plugins.get(id);
   }
 
   /**
@@ -181,30 +181,30 @@ export class PluginDiscovery {
   private async resolveDependencies(plugin: PluginInstance): Promise<void> {
     const dependencies: PluginInstance[] = [];
     
-    for (const depId of plugin?.manifest.dependencies) {
-      const dep = this?.plugins.get(depId);
+    for (const depId of plugin.manifest.dependencies) {
+      const dep = this.plugins.get(depId);
       if (!dep) {
         throw new Error(`Dependency not found: ${depId}`);
       }
       
-      if (dep?.status !== 'loaded') {
-        await this?.loadPlugin(depId);
+      if (dep.status !== 'loaded') {
+        await this.loadPlugin(depId);
       }
       
-      dependencies?.push(dep);
+      dependencies.push(dep);
     }
     
-    plugin?.dependencies = dependencies;
+    plugin.dependencies = dependencies;
   }
 
   /**
    * Load plugin assets
    */
   private async loadPluginAssets(plugin: PluginInstance): Promise<void> {
-    for (const assetPath of plugin?.manifest.assets) {
+    for (const assetPath of plugin.manifest.assets) {
       // In a real implementation, this would load actual assets
-      const asset = await this?.loadAsset(assetPath);
-      plugin?.assets.set(assetPath, asset);
+      const asset = await this.loadAsset(assetPath);
+      plugin.assets.set(assetPath, asset);
     }
   }
 
@@ -215,7 +215,7 @@ export class PluginDiscovery {
     // Mock asset loading
     return {
       path,
-      type: this?.getAssetType(path),
+      type: this.getAssetType(path),
       data: `mock_data_for_${path}`,
       size: Math.floor(Math.random() * 1000) + 100
     };
@@ -225,7 +225,7 @@ export class PluginDiscovery {
    * Get asset type from path
    */
   private getAssetType(path: string): string {
-    const ext = path?.split('.').pop()?.toLowerCase();
+    const ext = path.split('.').pop()?.toLowerCase();
     switch (ext) {
       case 'png':
       case 'jpg':
@@ -278,8 +278,8 @@ export class PluginDiscovery {
           author: 'MIFF Community',
           license: 'MIT',
           dependencies: [],
-          entryPoint: './ui-enhancements?.js',
-          assets: ['assets/ui/button?.png', 'assets/ui/panel?.json'],
+          entryPoint: './ui-enhancements.js',
+          assets: ['assets/ui/button.png', 'assets/ui/panel.json'],
           metadata: { category: 'ui', priority: 'high' }
         },
         config: {
@@ -303,8 +303,8 @@ export class PluginDiscovery {
           author: 'Physics Labs',
           license: 'GPL-3.0',
           dependencies: ['core-physics'],
-          entryPoint: './physics-extended?.js',
-          assets: ['assets/physics/particles?.json', 'assets/physics/forces?.dat'],
+          entryPoint: './physics-extended.js',
+          assets: ['assets/physics/particles.json', 'assets/physics/forces.dat'],
           metadata: { category: 'physics', complexity: 'advanced' }
         },
         config: {
@@ -328,8 +328,8 @@ export class PluginDiscovery {
           author: 'MIFF Core Team',
           license: 'MIT',
           dependencies: [],
-          entryPoint: './core-physics?.js',
-          assets: ['assets/physics/basic?.json'],
+          entryPoint: './core-physics.js',
+          assets: ['assets/physics/basic.json'],
           metadata: { category: 'core', required: true }
         },
         config: {
@@ -357,7 +357,7 @@ export class AssetPipeline {
   private templates: Map<string, ExportTemplate> = new Map();
 
   constructor() {
-    this?.initializeTemplates();
+    this.initializeTemplates();
   }
 
   /**
@@ -376,11 +376,11 @@ export class AssetPipeline {
       name,
       assets,
       metadata,
-      size: this?.calculateBundleSize(assets),
-      checksum: this?.calculateChecksum(assets)
+      size: this.calculateBundleSize(assets),
+      checksum: this.calculateChecksum(assets)
     };
 
-    this?.bundles.set(id, bundle);
+    this.bundles.set(id, bundle);
     console.log(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
     
     return bundle;
@@ -394,8 +394,8 @@ export class AssetPipeline {
     templateId: string,
     outputPath: string
   ): Promise<string> {
-    const bundle = this?.bundles.get(bundleId);
-    const template = this?.templates.get(templateId);
+    const bundle = this.bundles.get(bundleId);
+    const template = this.templates.get(templateId);
 
     if (!bundle) {
       throw new Error(`Bundle not found: ${bundleId}`);
@@ -407,13 +407,13 @@ export class AssetPipeline {
     console.log(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
 
     // Apply template configuration
-    const exportedAssets = this?.applyTemplateConfig(bundle, template);
+    const exportedAssets = this.applyTemplateConfig(bundle, template);
     
     // Generate export manifest
-    const manifest = this?.generateExportManifest(bundle, template, exportedAssets);
+    const manifest = this.generateExportManifest(bundle, template, exportedAssets);
     
     // In a real implementation, this would write files to disk
-    const exportPath = `${outputPath}/${bundle?.id}-${template?.platform}.json`;
+    const exportPath = `${outputPath}/${bundle.id}-${template.platform}.json`;
     
     console.log(`✅ Bundle exported to: ${exportPath}`);
     return exportPath;
@@ -430,7 +430,7 @@ export class AssetPipeline {
    * Add custom export template
    */
   addExportTemplate(template: ExportTemplate): void {
-    this?.templates.set(template?.id, template);
+    this.templates.set(template.id, template);
     console.log(`📋 Added export template: ${template.name}`);
   }
 
@@ -439,8 +439,8 @@ export class AssetPipeline {
    */
   private calculateBundleSize(assets: Map<string, any>): number {
     let totalSize = 0;
-    for (const asset of assets?.values()) {
-      totalSize += asset?.size || 0;
+    for (const asset of assets.values()) {
+      totalSize += asset.size || 0;
     }
     return totalSize;
   }
@@ -451,11 +451,11 @@ export class AssetPipeline {
   private calculateChecksum(assets: Map<string, any>): string {
     // Simple checksum calculation
     const assetList = Array.from(assets.entries())
-      .map(([path, asset]) => `${path}:${asset?.size}`)
+      .map(([path, asset]) => `${path}:${asset.size}`)
       .sort()
       .join('|');
     
-    return Buffer?.from(assetList).toString('base64').substring(0, 16);
+    return Buffer.from(assetList).toString('base64').substring(0, 16);
   }
 
   /**
@@ -464,12 +464,12 @@ export class AssetPipeline {
   private applyTemplateConfig(bundle: AssetBundle, template: ExportTemplate): Map<string, any> {
     const exportedAssets = new Map<string, any>();
     
-    for (const [path, asset] of bundle?.assets) {
+    for (const [path, asset] of bundle.assets) {
       // Check if asset should be included based on template
-      if (this?.shouldIncludeAsset(path, template)) {
+      if (this.shouldIncludeAsset(path, template)) {
         // Apply template-specific transformations
-        const transformedAsset = this?.transformAsset(asset, template);
-        exportedAssets?.set(path, transformedAsset);
+        const transformedAsset = this.transformAsset(asset, template);
+        exportedAssets.set(path, transformedAsset);
       }
     }
     
@@ -481,8 +481,8 @@ export class AssetPipeline {
    */
   private shouldIncludeAsset(path: string, template: ExportTemplate): boolean {
     // Check if asset is in template's asset list
-    if (template?.assets.length > 0) {
-      return template?.assets.some(pattern => path?.includes(pattern));
+    if (template.assets.length > 0) {
+      return template.assets.some(pattern => path.includes(pattern));
     }
     
     // Default: include all assets
@@ -496,21 +496,21 @@ export class AssetPipeline {
     // Apply platform-specific transformations
     const transformed = { ...asset };
     
-    switch (template?.platform) {
+    switch (template.platform) {
       case 'web':
         // Optimize for web delivery
-        transformed?.compressed = true;
-        transformed?.format = 'webp';
+        transformed.compressed = true;
+        transformed.format = 'webp';
         break;
       case 'mobile':
         // Optimize for mobile
-        transformed?.compressed = true;
-        transformed?.format = 'png';
+        transformed.compressed = true;
+        transformed.format = 'png';
         break;
       case 'desktop':
         // High quality for desktop
-        transformed?.compressed = false;
-        transformed?.format = 'original';
+        transformed.compressed = false;
+        transformed.format = 'original';
         break;
     }
     
@@ -527,25 +527,25 @@ export class AssetPipeline {
   ): any {
     return {
       bundle: {
-        id: bundle?.id,
-        name: bundle?.name,
-        version: bundle?.metadata.version || '1.0.0'
+        id: bundle.id,
+        name: bundle.name,
+        version: bundle.metadata.version || '1.0.0'
       },
       template: {
-        id: template?.id,
-        platform: template?.platform,
-        target: template?.target
+        id: template.id,
+        platform: template.platform,
+        target: template.target
       },
       assets: Array.from(assets.entries()).map(([path, asset]) => ({
         path,
-        size: asset?.size,
-        type: asset?.type,
-        checksum: asset?.checksum || 'unknown'
+        size: asset.size,
+        type: asset.type,
+        checksum: asset.checksum || 'unknown'
       })),
       metadata: {
-        ...bundle?.metadata,
+        ...bundle.metadata,
         exportTimestamp: new Date().toISOString(),
-        exportTemplate: template?.id
+        exportTemplate: template.id
       }
     };
   }
@@ -597,7 +597,7 @@ export class AssetPipeline {
     ];
 
     for (const template of defaultTemplates) {
-      this?.templates.set(template?.id, template);
+      this.templates.set(template.id, template);
     }
   }
 }
@@ -613,9 +613,9 @@ export class ModdingSystem {
   private config: ModdingConfig;
 
   constructor(config: ModdingConfig) {
-    this?.config = config;
-    this?.discovery = new PluginDiscovery(config);
-    this?.pipeline = new AssetPipeline();
+    this.config = config;
+    this.discovery = new PluginDiscovery(config);
+    this.pipeline = new AssetPipeline();
   }
 
   /**
@@ -624,9 +624,9 @@ export class ModdingSystem {
   async initialize(): Promise<void> {
     console.log('🎮 Initializing modding system...');
     
-    if (this?.config.autoLoad) {
-      await this?.discovery.discoverPlugins();
-      await this?.loadEnabledPlugins();
+    if (this.config.autoLoad) {
+      await this.discovery.discoverPlugins();
+      await this.loadEnabledPlugins();
     }
     
     console.log('✅ Modding system initialized');
@@ -636,18 +636,18 @@ export class ModdingSystem {
    * Load all enabled plugins
    */
   async loadEnabledPlugins(): Promise<PluginInstance[]> {
-    const plugins = await this?.discovery.discoverPlugins();
-    const enabledPlugins = plugins?.filter((p: any) => p?.config.enabled);
+    const plugins = await this.discovery.discoverPlugins();
+    const enabledPlugins = plugins.filter((p: any) => p.config.enabled);
     
     // Sort by load order
-    enabledPlugins?.sort((a: any, b: any) => a?.config.loadOrder - b?.config.loadOrder);
+    enabledPlugins.sort((a: any, b: any) => a.config.loadOrder - b.config.loadOrder);
     
     const loadedPlugins: PluginInstance[] = [];
     
     for (const plugin of enabledPlugins) {
       try {
-        const loaded = await this?.discovery.loadPlugin(plugin?.id);
-        loadedPlugins?.push(loaded);
+        const loaded = await this.discovery.loadPlugin(plugin.id);
+        loadedPlugins.push(loaded);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error(`Failed to load plugin ${plugin.manifest.name}:`, err instanceof Error ? err.message : String(err));
@@ -661,14 +661,14 @@ export class ModdingSystem {
    * Get all loaded plugins
    */
   getLoadedPlugins(): PluginInstance[] {
-    return this?.discovery.getLoadedPlugins();
+    return this.discovery.getLoadedPlugins();
   }
 
   /**
    * Get plugin by ID
    */
   getPlugin(id: string): PluginInstance | undefined {
-    return this?.discovery.getPlugin(id);
+    return this.discovery.getPlugin(id);
   }
 
   /**
@@ -678,26 +678,26 @@ export class ModdingSystem {
     const assets = new Map<string, any>();
     
     // Ensure discovery has run so assets exist on loaded plugins
-    if ((this?.discovery as any).discoverPlugins) {
-      await this?.discovery.discoverPlugins();
+    if ((this.discovery as any).discoverPlugins) {
+      await this.discovery.discoverPlugins();
     }
-    if (this?.getLoadedPlugins().length === 0) {
-      await this?.loadEnabledPlugins();
+    if (this.getLoadedPlugins().length === 0) {
+      await this.loadEnabledPlugins();
     }
 
     for (const pluginId of pluginIds) {
-      const plugin = this?.discovery.getPlugin(pluginId);
-      if (plugin && plugin?.status === 'loaded') {
+      const plugin = this.discovery.getPlugin(pluginId);
+      if (plugin && plugin.status === 'loaded') {
         // Merge plugin assets
-        for (const [path, asset] of plugin?.assets) {
-          assets?.set(`${pluginId}/${path}`, asset);
+        for (const [path, asset] of plugin.assets) {
+          assets.set(`${pluginId}/${path}`, asset);
         }
       }
     }
     
-    const bundle = await this?.pipeline.createBundle(
+    const bundle = await this.pipeline.createBundle(
       forcedId || `bundle-${Date.now()}`,
-      forcedName || `Plugin Bundle (${pluginIds?.join(', ')})`,
+      forcedName || `Plugin Bundle (${pluginIds.join(', ')})`,
       assets,
       { plugins: pluginIds, timestamp: new Date().toISOString() }
     );
@@ -713,48 +713,48 @@ export class ModdingSystem {
     templateId: string,
     outputPath: string
   ): Promise<string> {
-    return this?.pipeline.exportBundle(bundleId, templateId, outputPath);
+    return this.pipeline.exportBundle(bundleId, templateId, outputPath);
   }
 
   /**
    * Get available export templates
    */
   getExportTemplates(): ExportTemplate[] {
-    return this?.pipeline.getExportTemplates();
+    return this.pipeline.getExportTemplates();
   }
 
   /**
    * Generate modding report
    */
   generateReport(): any {
-    const plugins = this?.getLoadedPlugins();
-    const templates = this?.getExportTemplates();
+    const plugins = this.getLoadedPlugins();
+    const templates = this.getExportTemplates();
     
     return {
       system: {
-        config: this?.config,
+        config: this.config,
         status: 'active',
         timestamp: new Date().toISOString()
       },
       plugins: {
-        total: plugins?.length,
-        loaded: plugins?.filter((p: any) => p?.status === 'loaded').length,
-        errors: plugins?.filter((p: any) => p?.status === 'error').length,
-        list: plugins?.map((p: any) => ({
-          id: p?.id,
-          name: p?.manifest.name,
-          version: p?.manifest.version,
-          status: p?.status,
-          dependencies: p?.manifest.dependencies?.length
+        total: plugins.length,
+        loaded: plugins.filter((p: any) => p.status === 'loaded').length,
+        errors: plugins.filter((p: any) => p.status === 'error').length,
+        list: plugins.map((p: any) => ({
+          id: p.id,
+          name: p.manifest.name,
+          version: p.manifest.version,
+          status: p.status,
+          dependencies: p.manifest.dependencies.length
         }))
       },
       assets: {
-        templates: templates?.length,
-        available: templates?.map((t: any) => ({
-          id: t?.id,
-          name: t?.name,
-          platform: t?.platform,
-          target: t?.target
+        templates: templates.length,
+        available: templates.map((t: any) => ({
+          id: t.id,
+          name: t.name,
+          platform: t.platform,
+          target: t.target
         }))
       }
     };

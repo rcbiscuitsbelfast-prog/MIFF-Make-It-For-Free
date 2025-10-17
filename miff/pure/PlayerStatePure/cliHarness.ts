@@ -18,11 +18,11 @@ interface PlayerStateOperation {
 }
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -30,7 +30,7 @@ function main() {
     let operation: PlayerStateOperation;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as PlayerStateOperation;
     } else {
@@ -41,7 +41,7 @@ function main() {
           operation = { 
             op: 'create', 
             playerId: argv[1!],
-            avatarPath: argv[2!] || 'default_avatar?.json',
+            avatarPath: argv[2!] || 'default_avatar.json',
             style: (argv[3!] as any) || '2d-side'
           };
           break;
@@ -65,7 +65,7 @@ function main() {
           break;
         case 'deserialize':
           if (!argv[1!]) throw new Error('deserialize requires JSON string file');
-          const jsonStr = fs?.readFileSync(argv[1!], 'utf-8');
+          const jsonStr = fs.readFileSync(argv[1!], 'utf-8');
           operation = { op: 'deserialize', json: jsonStr };
           break;
         case 'demo':
@@ -81,106 +81,106 @@ function main() {
 
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'create':
-        const state = PlayerStatePure?.create(
-          operation?.playerId!,
-          operation?.avatarPath!,
-          operation?.style!
+        const state = PlayerStatePure.create(
+          operation.playerId!,
+          operation.avatarPath!,
+          operation.style!
         );
         result = {
-          playerId: operation?.playerId,
+          playerId: operation.playerId,
           state,
           summary: {
-            position: state?.position,
-            velocity: state?.velocity,
-            input: state?.input,
-            tick: state?.tick
+            position: state.position,
+            velocity: state.velocity,
+            input: state.input,
+            tick: state.tick
           }
         };
         break;
 
       case 'apply-input':
-        const { state: inputState, input: inputData } = operation?.data as { 
+        const { state: inputState, input: inputData } = operation.data as { 
           state: PlayerStateSnapshot; 
           input: Partial<InputState> 
         };
-        const newState = PlayerStatePure?.applyInput(inputState, inputData);
+        const newState = PlayerStatePure.applyInput(inputState, inputData);
         result = {
           originalState: inputState,
           appliedInput: inputData,
           newState,
           changes: {
             input: {
-              before: inputState?.input,
-              after: newState?.input
+              before: inputState.input,
+              after: newState.input
             }
           }
         };
         break;
 
       case 'simulate':
-        const { state: simState, dt: deltaTime } = operation?.data as { 
+        const { state: simState, dt: deltaTime } = operation.data as { 
           state: PlayerStateSnapshot; 
           dt: number 
         };
-        const simulatedState = PlayerStatePure?.simulate(simState, deltaTime);
+        const simulatedState = PlayerStatePure.simulate(simState, deltaTime);
         result = {
           originalState: simState,
           deltaTime,
           simulatedState,
           changes: {
             position: {
-              before: simState?.position,
-              after: simulatedState?.position,
+              before: simState.position,
+              after: simulatedState.position,
               delta: {
-                x: simulatedState?.position.x - simState?.position.x,
-                y: simulatedState?.position.y - simState?.position.y
+                x: simulatedState.position.x - simState.position.x,
+                y: simulatedState.position.y - simState.position.y
               }
             },
             velocity: {
-              before: simState?.velocity,
-              after: simulatedState?.velocity
+              before: simState.velocity,
+              after: simulatedState.velocity
             },
             tick: {
-              before: simState?.tick,
-              after: simulatedState?.tick
+              before: simState.tick,
+              after: simulatedState.tick
             }
           }
         };
         break;
 
       case 'serialize':
-        const { state: serState } = operation?.data as { state: PlayerStateSnapshot };
-        const serialized = PlayerStatePure?.serialize(serState);
+        const { state: serState } = operation.data as { state: PlayerStateSnapshot };
+        const serialized = PlayerStatePure.serialize(serState);
         result = {
           state: serState,
           serialized,
-          size: serialized?.length
+          size: serialized.length
         };
         break;
 
       case 'deserialize':
-        const deserialized = PlayerStatePure?.deserialize(operation?.json!);
+        const deserialized = PlayerStatePure.deserialize(operation.json!);
         result = {
-          json: operation?.json,
+          json: operation.json,
           deserialized,
           validation: {
-            hasIdentity: !!deserialized?.identity,
-            hasPosition: !!deserialized?.position,
-            hasVelocity: !!deserialized?.velocity,
-            hasInput: !!deserialized?.input,
-            hasTick: typeof deserialized?.tick === 'number'
+            hasIdentity: !!deserialized.identity,
+            hasPosition: !!deserialized.position,
+            hasVelocity: !!deserialized.velocity,
+            hasInput: !!deserialized.input,
+            hasTick: typeof deserialized.tick === 'number'
           }
         };
         break;
 
       case 'demo':
         // Create a demo player and simulate movement
-        const demoPlayer = PlayerStatePure?.create('demo_player', 'demo_avatar?.json', '2d-side');
+        const demoPlayer = PlayerStatePure.create('demo_player', 'demo_avatar.json', '2d-side');
         
         // Apply some input
-        const demoWithInput = PlayerStatePure?.applyInput(demoPlayer, {
+        const demoWithInput = PlayerStatePure.applyInput(demoPlayer, {
           right: true,
           jump: true
         });
@@ -189,12 +189,12 @@ function main() {
         const frames = [];
         let currentState = demoWithInput;
         for (let i = 0; i < 5; i++) {
-          currentState = PlayerStatePure?.simulate(currentState, 0.016);
-          frames?.push({
+          currentState = PlayerStatePure.simulate(currentState, 0.016);
+          frames.push({
             frame: i + 1,
-            position: { ...currentState?.position },
-            velocity: { ...currentState?.velocity },
-            tick: currentState?.tick
+            position: { ...currentState.position },
+            velocity: { ...currentState.velocity },
+            tick: currentState.tick
           });
         }
         
@@ -204,8 +204,8 @@ function main() {
           simulationFrames: frames,
           finalState: currentState,
           summary: {
-            totalFrames: frames?.length,
-            finalPosition: currentState?.position,
+            totalFrames: frames.length,
+            finalPosition: currentState.position,
             totalDistance: Math.sqrt(
               Math.pow(currentState.position.x - demoPlayer.position.x, 2) +
               Math.pow(currentState.position.y - demoPlayer.position.y, 2)
@@ -232,14 +232,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -251,7 +251,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -267,13 +267,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

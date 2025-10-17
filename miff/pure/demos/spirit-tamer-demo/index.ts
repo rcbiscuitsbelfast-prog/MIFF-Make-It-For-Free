@@ -202,24 +202,24 @@ class SpiritTamerGame {
   private aiSystem: any;
   private logSystem: any;
   private saveSystem: any;
-  private rl: readline?.Interface;
+  private rl: readline.Interface;
   private battleState: BattleState | null = null;
 
   constructor() {
-    this?.healthSystem = new (HealthSystemPure as any).HealthSystemManager();
-    this?.combatSystem = new (CombatPure as any).CombatEngine();
-    this?.teamSystem = new (TeamsPure as any).TeamManager();
-    this?.itemSystem = new (ItemsPure as any).ItemUsageManager({} as any);
-    this?.aiSystem = new (AIPure as any).AIManager();
-    this?.logSystem = new (LogPure as any).BattleLogger();
-    this?.saveSystem = new (SavePure as any).SaveManager();
+    this.healthSystem = new (HealthSystemPure as any).HealthSystemManager();
+    this.combatSystem = new (CombatPure as any).CombatEngine();
+    this.teamSystem = new (TeamsPure as any).TeamManager();
+    this.itemSystem = new (ItemsPure as any).ItemUsageManager({} as any);
+    this.aiSystem = new (AIPure as any).AIManager();
+    this.logSystem = new (LogPure as any).BattleLogger();
+    this.saveSystem = new (SavePure as any).SaveManager();
 
-    this?.rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
     });
 
-    this?.initializeGame();
+    this.initializeGame();
   }
 
   private initializeGame(): void {
@@ -227,15 +227,15 @@ class SpiritTamerGame {
     console.log('🌟 Welcome to Spirit Tamer! 🌟');
     console.log('A creature collection adventure game built with MIFF Framework\n');
 
-    this?.askQuestion('What is your name, trainer? ')
+    this.askQuestion('What is your name, trainer? ')
       .then((name: string) => {
-        this?.createNewPlayer(name?.trim());
-        this?.startGame();
+        this.createNewPlayer(name.trim());
+        this.startGame();
       });
   }
 
   private createNewPlayer(name: string): void {
-    this?.player = {
+    this.player = {
       name,
       spirits: [],
       activeTeam: [],
@@ -249,13 +249,13 @@ class SpiritTamerGame {
       badges: [],
       location: 'pallet_town',
       playTime: 0,
-      saveFile: `save_${name?.toLowerCase().replace(/\s+/g, '_')}.json`
+      saveFile: `save_${name.toLowerCase().replace(/\s+/g, '_')}.json`
     };
 
     // Give starter spirits
-    this?.giveStarterSpirit('charmander');
-    this?.giveStarterSpirit('squirtle');
-    this?.giveStarterSpirit('bulbasaur');
+    this.giveStarterSpirit('charmander');
+    this.giveStarterSpirit('squirtle');
+    this.giveStarterSpirit('bulbasaur');
   }
 
   private giveStarterSpirit(speciesId: string): void {
@@ -265,23 +265,23 @@ class SpiritTamerGame {
     const spirit: PlayerSpirit = {
       id: `${speciesId}_${Date.now()}`,
       speciesId,
-      name: species?.name,
+      name: species.name,
       level: 5,
       experience: 0,
-      currentHp: species?.baseStats.hp,
-      maxHp: species?.baseStats.hp,
-      stats: { ...species?.baseStats },
-      abilities: species?.abilities,
+      currentHp: species.baseStats.hp,
+      maxHp: species.baseStats.hp,
+      stats: { ...species.baseStats },
+      abilities: species.abilities,
       status: 'normal',
-      type: species?.type,
-      canEvolve: species?.evolutionLevel > 0,
+      type: species.type,
+      canEvolve: species.evolutionLevel > 0,
       friendship: 50,
       syncLevel: 10,
-      moves: this?.getMovesForLevel(speciesId, 5)
+      moves: this.getMovesForLevel(speciesId, 5)
     };
 
-    this?.player.spirits?.push(spirit);
-    this?.updateActiveTeam();
+    this.player.spirits.push(spirit);
+    this.updateActiveTeam();
   }
 
   private getMovesForLevel(speciesId: string, level: number): string[] {
@@ -298,12 +298,12 @@ class SpiritTamerGame {
   }
 
   private updateActiveTeam(): void {
-    this?.player.activeTeam = this?.player.spirits?.slice(0, 6);
+    this.player.activeTeam = this.player.spirits.slice(0, 6);
   }
 
   private async askQuestion(question: string): Promise<string> {
     return new Promise((resolve) => {
-      this?.rl.question(question, resolve);
+      this.rl.question(question, resolve);
     });
   }
 
@@ -312,7 +312,7 @@ class SpiritTamerGame {
     console.log('Your adventure begins in Pallet Town.');
     console.log(`You have ${this.player.spirits.length} spirits in your collection.`);
 
-    this?.showMainMenu();
+    this.showMainMenu();
   }
 
   private showMainMenu(): void {
@@ -325,34 +325,34 @@ class SpiritTamerGame {
     console.log('6. 📊 Statistics');
     console.log('7. ❌ Quit');
 
-    this?.askQuestion('What would you like to do? ')
+    this.askQuestion('What would you like to do? ')
       .then((choice: string) => {
-        switch (choice?.trim()) {
+        switch (choice.trim()) {
           case '1':
-            this?.explore();
+            this.explore();
             break;
           case '2':
-            this?.startBattleTraining();
+            this.startBattleTraining();
             break;
           case '3':
-            this?.showInventory();
+            this.showInventory();
             break;
           case '4':
-            this?.manageTeam();
+            this.manageTeam();
             break;
           case '5':
-            this?.saveGame();
+            this.saveGame();
             break;
           case '6':
-            this?.showStatistics();
+            this.showStatistics();
             break;
           case '7':
             console.log('👋 Thanks for playing Spirit Tamer!');
-            this?.rl.close();
+            this.rl.close();
             break;
           default:
             console.log('❌ Invalid choice. Please try again.');
-            this?.showMainMenu();
+            this.showMainMenu();
         }
       });
   }
@@ -373,21 +373,21 @@ class SpiritTamerGame {
     ];
 
     const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-    this?.player.location = randomLocation;
+    this.player.location = randomLocation;
 
     console.log(`You are now in ${randomLocation.replace('_', ' ').toUpperCase()}!`);
 
-    const encounters = this?.getRandomEncounters(randomLocation);
+    const encounters = this.getRandomEncounters(randomLocation);
     if (encounters.length > 0 && Math.random() < 0.3) {
-      const enemy = this?.generateWildSpirit(encounters);
+      const enemy = this.generateWildSpirit(encounters);
       console.log(`\n⚔️  A wild ${enemy.name} appeared!`);
 
-      this?.startWildBattle(enemy);
+      this.startWildBattle(enemy);
     } else {
       console.log('Nothing interesting happened...');
 
       setTimeout(() => {
-        this?.showMainMenu();
+        this.showMainMenu();
       }, 1000);
     }
   }
@@ -413,7 +413,7 @@ class SpiritTamerGame {
     const species = SPIRIT_SPECIES[speciesId!];
 
     const level = Math.floor(Math.random() * 10) + 3; // Levels 3-12
-    const stats = { ...species?.baseStats };
+    const stats = { ...species.baseStats };
 
     // Scale stats with level
     Object.keys(stats).forEach((key: any) => {
@@ -423,35 +423,35 @@ class SpiritTamerGame {
     return {
       id: `${speciesId}_wild_${Date.now()}`,
       speciesId,
-      name: species?.name,
+      name: species.name,
       level,
       experience: 0,
-      currentHp: stats?.hp,
-      maxHp: stats?.hp,
+      currentHp: stats.hp,
+      maxHp: stats.hp,
       stats,
-      abilities: species?.abilities,
+      abilities: species.abilities,
       status: 'normal',
-      type: species?.type,
-      canEvolve: species?.evolutionLevel > 0 && level >= species?.evolutionLevel,
+      type: species.type,
+      canEvolve: species.evolutionLevel > 0 && level >= species.evolutionLevel,
       friendship: 0,
       syncLevel: 0,
-      moves: this?.getMovesForLevel(speciesId, level)
+      moves: this.getMovesForLevel(speciesId, level)
     };
   }
 
   private startWildBattle(enemy: PlayerSpirit): void {
-    if (this?.player.activeTeam?.length === 0) {
+    if (this.player.activeTeam.length === 0) {
       console.log('❌ You have no spirits ready for battle!');
-      this?.showMainMenu();
+      this.showMainMenu();
       return;
     }
 
-    const playerSpirit = this?.player.activeTeam[0!];
-    this?.battleState = {
+    const playerSpirit = this.player.activeTeam[0!];
+    this.battleState = {
       playerSpirit,
       enemySpirit: enemy,
-      playerMoves: playerSpirit?.moves,
-      enemyMoves: enemy?.moves,
+      playerMoves: playerSpirit.moves,
+      enemyMoves: enemy.moves,
       turn: 1,
       battleLog: [],
       weather: 'clear',
@@ -461,73 +461,73 @@ class SpiritTamerGame {
     console.log(`\n⚔️  ${this.player.name}'s ${playerSpirit.name} vs Wild ${enemy.name}!`);
     console.log(`Level ${playerSpirit.level} vs Level ${enemy.level}`);
 
-    this?.battleLoop();
+    this.battleLoop();
   }
 
   private battleLoop(): void {
-    if (!this?.battleState) return;
+    if (!this.battleState) return;
 
-    const { playerSpirit, enemySpirit } = this?.battleState;
+    const { playerSpirit, enemySpirit } = this.battleState;
 
     console.log(`\n🔄 Turn ${this.battleState.turn}`);
     console.log(`${playerSpirit.name} (${playerSpirit.currentHp}/${playerSpirit.maxHp} HP)`);
     console.log(`${enemySpirit.name} (${enemySpirit.currentHp}/${enemySpirit.maxHp} HP)`);
 
-    this?.askQuestion('Choose your action (attack, item, switch, run): ')
+    this.askQuestion('Choose your action (attack, item, switch, run): ')
       .then((action: string) => {
-        switch (action?.toLowerCase().trim()) {
+        switch (action.toLowerCase().trim()) {
           case 'attack':
-            this?.showMoves();
+            this.showMoves();
             break;
           case 'item':
-            this?.showInventory();
+            this.showInventory();
             break;
           case 'switch':
-            this?.switchSpirit();
+            this.switchSpirit();
             break;
           case 'run':
             if (Math.random() < 0.5) {
               console.log('🏃 You got away safely!');
-              this?.endBattle();
+              this.endBattle();
             } else {
               console.log('❌ Couldn\'t escape!');
-              this?.enemyTurn();
+              this.enemyTurn();
             }
             break;
           default:
             console.log('❌ Invalid action!');
-            this?.battleLoop();
+            this.battleLoop();
         }
       });
   }
 
   private showMoves(): void {
-    if (!this?.battleState) return;
+    if (!this.battleState) return;
 
     console.log('\n⚔️  Available Moves:');
-    this?.battleState.playerMoves?.forEach((move, index) => {
+    this.battleState.playerMoves.forEach((move, index) => {
       const moveData = MOVES[move!];
       console.log(`${index + 1}. ${moveData.name} (${moveData.type}, ${moveData.category})`);
     });
 
-    this?.askQuestion('Choose a move (1-4): ')
+    this.askQuestion('Choose a move (1-4): ')
       .then((choice: string) => {
         const moveIndex = parseInt(choice) - 1;
-        if (moveIndex >= 0 && moveIndex < this?.battleState.playerMoves?.length) {
-          const moveName = this?.battleState.playerMoves[moveIndex!];
-          this?.executeMove(moveName);
+        if (moveIndex >= 0 && moveIndex < this.battleState.playerMoves.length) {
+          const moveName = this.battleState.playerMoves[moveIndex!];
+          this.executeMove(moveName);
         } else {
           console.log('❌ Invalid move!');
-          this?.showMoves();
+          this.showMoves();
         }
       });
   }
 
   private executeMove(moveName: string): void {
-    if (!this?.battleState) return;
+    if (!this.battleState) return;
 
     const moveData = MOVES[moveName!];
-    const { playerSpirit, enemySpirit } = this?.battleState;
+    const { playerSpirit, enemySpirit } = this.battleState;
 
     console.log(`\n${playerSpirit.name} used ${moveData.name}!`);
 
@@ -535,7 +535,7 @@ class SpiritTamerGame {
     let damage = Math.floor(moveData.power * (playerSpirit.stats.attack / enemySpirit.stats.defense));
 
     // Type effectiveness
-    const effectiveness = this?.getTypeEffectiveness(moveData?.type, enemySpirit?.type);
+    const effectiveness = this.getTypeEffectiveness(moveData.type, enemySpirit.type);
     damage = Math.floor(damage * effectiveness);
 
     // Apply damage
@@ -546,24 +546,24 @@ class SpiritTamerGame {
     if (effectiveness < 1) console.log('💨 It\'s not very effective...');
 
     // Check if enemy fainted
-    if (enemySpirit?.currentHp <= 0) {
+    if (enemySpirit.currentHp <= 0) {
       console.log(`${enemySpirit.name} fainted!`);
-      this?.gainExperience(enemySpirit);
-      this?.endBattle();
+      this.gainExperience(enemySpirit);
+      this.endBattle();
       return;
     }
 
     // Enemy turn
-    this?.enemyTurn();
+    this.enemyTurn();
   }
 
   private enemyTurn(): void {
-    if (!this?.battleState) return;
+    if (!this.battleState) return;
 
-    const { enemySpirit, playerSpirit } = this?.battleState;
-    const availableMoves = enemySpirit?.moves.filter((move: any) => MOVES[move!]);
+    const { enemySpirit, playerSpirit } = this.battleState;
+    const availableMoves = enemySpirit.moves.filter((move: any) => MOVES[move!]);
 
-    if (availableMoves?.length === 0) {
+    if (availableMoves.length === 0) {
       console.log(`${enemySpirit.name} struggles!`);
       return;
     }
@@ -574,7 +574,7 @@ class SpiritTamerGame {
     console.log(`\n${enemySpirit.name} used ${moveData.name}!`);
 
     let damage = Math.floor(moveData.power * (enemySpirit.stats.attack / playerSpirit.stats.defense));
-    const effectiveness = this?.getTypeEffectiveness(moveData?.type, playerSpirit?.type);
+    const effectiveness = this.getTypeEffectiveness(moveData.type, playerSpirit.type);
     damage = Math.floor(damage * effectiveness);
 
     playerSpirit.currentHp = Math.max(0, playerSpirit.currentHp - damage);
@@ -582,14 +582,14 @@ class SpiritTamerGame {
     console.log(`It dealt ${damage} damage!`);
 
     // Check if player fainted
-    if (playerSpirit?.currentHp <= 0) {
+    if (playerSpirit.currentHp <= 0) {
       console.log(`${playerSpirit.name} fainted!`);
-      this?.endBattle();
+      this.endBattle();
       return;
     }
 
-    this?.battleState.turn++;
-    this?.battleLoop();
+    this.battleState.turn++;
+    this.battleLoop();
   }
 
   private getTypeEffectiveness(attackerType: string, defenderType: string): number {
@@ -598,36 +598,36 @@ class SpiritTamerGame {
 
     if (!type1 || !type2) return 1;
 
-    if (type1?.weaknesses.includes(defenderType)) return 0.5;
-    if (type1?.resistances.includes(defenderType)) return 2;
+    if (type1.weaknesses.includes(defenderType)) return 0.5;
+    if (type1.resistances.includes(defenderType)) return 2;
 
     return 1;
   }
 
   private gainExperience(enemy: PlayerSpirit): void {
-    const expGained = enemy?.level * 10;
+    const expGained = enemy.level * 10;
     console.log(`\n⭐ Gained ${expGained} experience points!`);
 
     // Distribute XP to all active team members
-    this?.player.activeTeam?.forEach((spirit: any) => {
-      if (spirit?.currentHp > 0) {
-        spirit?.experience += expGained;
-        this?.checkLevelUp(spirit);
+    this.player.activeTeam.forEach((spirit: any) => {
+      if (spirit.currentHp > 0) {
+        spirit.experience += expGained;
+        this.checkLevelUp(spirit);
       }
     });
   }
 
   private checkLevelUp(spirit: PlayerSpirit): void {
-    const expNeeded = spirit?.level * 100;
+    const expNeeded = spirit.level * 100;
 
-    if (spirit?.experience >= expNeeded) {
-      spirit?.level++;
-      spirit?.experience -= expNeeded;
+    if (spirit.experience >= expNeeded) {
+      spirit.level++;
+      spirit.experience -= expNeeded;
 
       console.log(`🎉 ${spirit.name} reached level ${spirit.level}!`);
 
       // Update stats
-      const species = SPIRIT_SPECIES[spirit?.speciesId];
+      const species = SPIRIT_SPECIES[spirit.speciesId];
       if (species) {
         spirit.maxHp = Math.floor(species.baseStats.hp * (spirit.level / 5));
         spirit.stats.attack = Math.floor(species.baseStats.attack * (spirit.level / 5));
@@ -638,26 +638,26 @@ class SpiritTamerGame {
       }
 
       // Heal to full
-      spirit?.currentHp = spirit?.maxHp;
+      spirit.currentHp = spirit.maxHp;
 
       // Learn new moves
-      const newMoves = this?.getMovesForLevel(spirit?.speciesId, spirit?.level);
-      newMoves?.forEach((move: any) => {
-        if (!spirit?.moves.includes(move)) {
-          spirit?.moves?.push(move);
+      const newMoves = this.getMovesForLevel(spirit.speciesId, spirit.level);
+      newMoves.forEach((move: any) => {
+        if (!spirit.moves.includes(move)) {
+          spirit.moves.push(move);
           console.log(`📚 ${spirit.name} learned ${MOVES[move!].name}!`);
         }
       });
 
       // Check evolution
-      if (spirit?.canEvolve && spirit?.level >= SPIRIT_SPECIES[spirit?.speciesId].evolutionLevel) {
-        this?.evolveSpirit(spirit);
+      if (spirit.canEvolve && spirit.level >= SPIRIT_SPECIES[spirit.speciesId].evolutionLevel) {
+        this.evolveSpirit(spirit);
       }
     }
   }
 
   private evolveSpirit(spirit: PlayerSpirit): void {
-    const species = SPIRIT_SPECIES[spirit?.speciesId];
+    const species = SPIRIT_SPECIES[spirit.speciesId];
     if (!species) return;
 
     // Simple evolution (in a real game, this would be more complex)
@@ -667,24 +667,24 @@ class SpiritTamerGame {
       bulbasaur: 'ivysaur'
     };
 
-    const evolution = evolutions[spirit?.speciesId];
+    const evolution = evolutions[spirit.speciesId];
     if (evolution) {
       console.log(`\n✨ ${spirit.name} is evolving!`);
 
-      spirit?.speciesId = evolution;
-      spirit?.name = SPIRIT_SPECIES[evolution!]?.name || spirit?.name;
-      spirit?.canEvolve = false;
+      spirit.speciesId = evolution;
+      spirit.name = SPIRIT_SPECIES[evolution!]?.name || spirit.name;
+      spirit.canEvolve = false;
 
       console.log(`🎉 ${spirit.name} evolved!`);
     }
   }
 
   private endBattle(): void {
-    this?.battleState = null;
+    this.battleState = null;
     console.log('\n🏁 Battle ended!');
 
     setTimeout(() => {
-      this?.showMainMenu();
+      this.showMainMenu();
     }, 2000);
   }
 
@@ -692,32 +692,32 @@ class SpiritTamerGame {
     console.log('\n⚔️  Battle Training Mode');
     console.log('Choose a spirit to battle against:');
 
-    this?.player.spirits?.forEach((spirit, index) => {
-      if (index < this?.player.activeTeam?.length) {
+    this.player.spirits.forEach((spirit, index) => {
+      if (index < this.player.activeTeam.length) {
         console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level})`);
       }
     });
 
-    this?.askQuestion('Choose your opponent (1-6): ')
+    this.askQuestion('Choose your opponent (1-6): ')
       .then((choice: string) => {
         const index = parseInt(choice) - 1;
-        if (index >= 0 && index < this?.player.activeTeam?.length) {
-          const enemy = this?.player.activeTeam[index!];
-          this?.startTrainingBattle(enemy);
+        if (index >= 0 && index < this.player.activeTeam.length) {
+          const enemy = this.player.activeTeam[index!];
+          this.startTrainingBattle(enemy);
         } else {
           console.log('❌ Invalid choice!');
-          this?.showMainMenu();
+          this.showMainMenu();
         }
       });
   }
 
   private startTrainingBattle(enemy: PlayerSpirit): void {
-    const playerSpirit = this?.player.activeTeam[0!];
-    this?.battleState = {
+    const playerSpirit = this.player.activeTeam[0!];
+    this.battleState = {
       playerSpirit,
       enemySpirit: enemy,
-      playerMoves: playerSpirit?.moves,
-      enemyMoves: enemy?.moves,
+      playerMoves: playerSpirit.moves,
+      enemyMoves: enemy.moves,
       turn: 1,
       battleLog: [],
       weather: 'clear',
@@ -725,23 +725,23 @@ class SpiritTamerGame {
     };
 
     console.log(`\n⚔️  Training Battle: ${playerSpirit.name} vs ${enemy.name}!`);
-    this?.battleLoop();
+    this.battleLoop();
   }
 
   private showInventory(): void {
     console.log('\n🎒 Inventory:');
     console.log(`💰 Money: $${this.player.money}`);
 
-    this?.player.inventory?.forEach((quantity, item) => {
+    this.player.inventory.forEach((quantity, item) => {
       console.log(`${item}: ${quantity}`);
     });
 
-    this?.askQuestion('Use an item? (y/n): ')
+    this.askQuestion('Use an item? (y/n): ')
       .then((answer: string) => {
-        if (answer?.toLowerCase() === 'y') {
-          this?.useItem();
+        if (answer.toLowerCase() === 'y') {
+          this.useItem();
         } else {
-          this?.showMainMenu();
+          this.showMainMenu();
         }
       });
   }
@@ -749,53 +749,53 @@ class SpiritTamerGame {
   private useItem(): void {
     console.log('\n💊 Available Items:');
     const items = Array.from(this.player.inventory.keys());
-    items?.forEach((item, index) => {
+    items.forEach((item, index) => {
       console.log(`${index + 1}. ${item}`);
     });
 
-    this?.askQuestion('Choose an item (1-4): ')
+    this.askQuestion('Choose an item (1-4): ')
       .then((choice: string) => {
         const index = parseInt(choice) - 1;
-        if (index >= 0 && index < items?.length) {
+        if (index >= 0 && index < items.length) {
           const item = items[index!];
-          const quantity = this?.player.inventory?.get(item: any) || 0;
+          const quantity = this.player.inventory.get(item) || 0;
 
           if (quantity > 0) {
             console.log(`Using ${item}...`);
-            this?.player.inventory?.set(item, quantity - 1);
+            this.player.inventory.set(item, quantity - 1);
 
             // Apply item effects
-            switch (item: any) {
+            switch (item) {
               case 'potion':
                 this.player.activeTeam[0!].currentHp = Math.min(
-                  this?.player.activeTeam[0!].maxHp,
-                  this?.player.activeTeam[0!].currentHp + 20
+                  this.player.activeTeam[0!].maxHp,
+                  this.player.activeTeam[0!].currentHp + 20
                 );
                 console.log('❤️ HP restored by 20!');
                 break;
               case 'super_potion':
                 this.player.activeTeam[0!].currentHp = Math.min(
-                  this?.player.activeTeam[0!].maxHp,
-                  this?.player.activeTeam[0!].currentHp + 50
+                  this.player.activeTeam[0!].maxHp,
+                  this.player.activeTeam[0!].currentHp + 50
                 );
                 console.log('❤️ HP restored by 50!');
                 break;
               case 'antidote':
-                if (this?.player.activeTeam[0!].status !== 'normal') {
-                  this?.player.activeTeam[0!].status = 'normal';
+                if (this.player.activeTeam[0!].status !== 'normal') {
+                  this.player.activeTeam[0!].status = 'normal';
                   console.log('🧪 Status condition cured!');
                 }
                 break;
             }
 
-            this?.showMainMenu();
+            this.showMainMenu();
           } else {
             console.log('❌ Not enough of that item!');
-            this?.useItem();
+            this.useItem();
           }
         } else {
           console.log('❌ Invalid item!');
-          this?.useItem();
+          this.useItem();
         }
       });
   }
@@ -804,16 +804,16 @@ class SpiritTamerGame {
     console.log('\n👥 Team Management');
     console.log('Current Team:');
 
-    this?.player.activeTeam?.forEach((spirit, index) => {
+    this.player.activeTeam.forEach((spirit, index) => {
       console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level}, ${spirit.currentHp}/${spirit.maxHp} HP)`);
     });
 
-    this?.askQuestion('Switch spirits? (y/n): ')
+    this.askQuestion('Switch spirits? (y/n): ')
       .then((answer: string) => {
-        if (answer?.toLowerCase() === 'y') {
-          this?.switchSpirits();
+        if (answer.toLowerCase() === 'y') {
+          this.switchSpirits();
         } else {
-          this?.showMainMenu();
+          this.showMainMenu();
         }
       });
   }
@@ -822,35 +822,35 @@ class SpiritTamerGame {
     console.log('\n🔄 Switch Spirits');
     console.log('Available Spirits:');
 
-    this?.player.spirits?.forEach((spirit, index) => {
-      const inTeam = this?.player.activeTeam?.some(teamSpirit => teamSpirit?.id === spirit?.id);
+    this.player.spirits.forEach((spirit, index) => {
+      const inTeam = this.player.activeTeam.some(teamSpirit => teamSpirit.id === spirit.id);
       console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level}) ${inTeam ? '[IN TEAM]' : ''}`);
     });
 
-    this?.askQuestion('Choose spirits to switch (format: 1 2): ')
+    this.askQuestion('Choose spirits to switch (format: 1 2): ')
       .then((choice: string) => {
-        const indices = choice?.trim().split(' ').map((n: any) => parseInt(n) - 1);
+        const indices = choice.trim().split(' ').map((n: any) => parseInt(n) - 1);
 
-        if (indices?.length === 2 && indices?.every(i => i >= 0 && i < this?.player.spirits?.length)) {
-          const spirit1 = this?.player.spirits[indices[0!]];
-          const spirit2 = this?.player.spirits[indices[1!]];
+        if (indices.length === 2 && indices.every(i => i >= 0 && i < this.player.spirits.length)) {
+          const spirit1 = this.player.spirits[indices[0!]];
+          const spirit2 = this.player.spirits[indices[1!]];
 
           if (spirit1 && spirit2) {
             console.log(`🔄 Switching ${spirit1.name} and ${spirit2.name}...`);
 
             // Simple switch logic
             const temp = spirit1;
-            this?.player.spirits[indices[0!]] = spirit2;
-            this?.player.spirits[indices[1!]] = temp;
+            this.player.spirits[indices[0!]] = spirit2;
+            this.player.spirits[indices[1!]] = temp;
 
-            this?.updateActiveTeam();
+            this.updateActiveTeam();
             console.log('✅ Spirits switched!');
           }
         } else {
           console.log('❌ Invalid choice!');
         }
 
-        this?.showMainMenu();
+        this.showMainMenu();
       });
   }
 
@@ -859,21 +859,21 @@ class SpiritTamerGame {
 
     try {
       const saveData = {
-        player: this?.player,
+        player: this.player,
         timestamp: new Date(),
         version: '1.0.0'
       };
 
-      const savePath = path?.join(process?.cwd(), 'saves', this?.player.saveFile);
+      const savePath = path.join(process.cwd(), 'saves', this.player.saveFile);
       fs.writeFileSync(savePath, JSON.stringify(saveData, null, 2));
 
       console.log('✅ Game saved successfully!');
-      this?.showMainMenu();
+      this.showMainMenu();
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.log('❌ Failed to save game!');
-      this?.showMainMenu();
+      this.showMainMenu();
     }
   }
 
@@ -887,11 +887,11 @@ class SpiritTamerGame {
     console.log(`⏱️  Play Time: ${Math.floor(this.player.playTime / 60)}m ${this.player.playTime % 60}s`);
 
     console.log('\n👥 Team:');
-    this?.player.activeTeam?.forEach((spirit, index) => {
+    this.player.activeTeam.forEach((spirit, index) => {
       console.log(`  ${index + 1}. ${spirit.name} (Lv.${spirit.level}) - ${spirit.type}`);
     });
 
-    this?.showMainMenu();
+    this.showMainMenu();
   }
 }
 
@@ -914,6 +914,6 @@ async function main() {
 export { SpiritTamerGame, main };
 
 // Run if executed directly
-if (require?.main === module) {
+if (require.main === module) {
   main().catch(console.error);
 }

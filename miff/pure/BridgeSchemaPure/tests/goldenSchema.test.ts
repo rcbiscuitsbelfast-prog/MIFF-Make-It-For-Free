@@ -3,12 +3,12 @@ import fs from 'fs';
 import path from 'path';
 
 describe('BridgeSchemaPure Golden Tests', () => {
-  const samplePath = path?.resolve(__dirname, '../sample_render?.json');
+  const samplePath = path.resolve(__dirname, '../sample_render.json');
 
   beforeAll(() => {
     console.log('Looking for sample file at:', samplePath);
     console.log('File exists:', fs.existsSync(samplePath));
-    expect(fs?.existsSync(samplePath)).toBe(true);
+    expect(fs.existsSync(samplePath)).toBe(true);
   });
 
   describe('Schema Validation', () => {
@@ -17,11 +17,11 @@ describe('BridgeSchemaPure Golden Tests', () => {
         id: 'test_sprite',
         type: 'sprite',
         position: { x: 100, y: 200 },
-        asset: 'test?.png',
-        props: { texture: 'test?.png' }
+        asset: 'test.png',
+        props: { texture: 'test.png' }
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(validData);
+      const issues = BridgeSchemaValidator.validateRenderData(validData);
       expect(issues).toHaveLength(0);
     });
 
@@ -34,12 +34,12 @@ describe('BridgeSchemaPure Golden Tests', () => {
             id: 'test_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'test?.png'
+            asset: 'test.png'
           }
         ]
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderPayload(validPayload);
+      const issues = BridgeSchemaValidator.validateRenderPayload(validPayload);
       expect(issues).toHaveLength(0);
     });
 
@@ -50,7 +50,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         position: { x: 100, y: 200 }
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(invalidData);
+      const issues = BridgeSchemaValidator.validateRenderData(invalidData);
       expect(issues).toContain('Invalid render type: invalid_type'); // message comes raw from validateRenderData
     });
 
@@ -60,7 +60,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         position: { x: 100, y: 200 }
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(invalidData);
+      const issues = BridgeSchemaValidator.validateRenderData(invalidData);
       expect(issues).toContain('RenderData must have an id');
     });
 
@@ -71,7 +71,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         position: { x: 'not_a_number', y: 200 }
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(invalidData);
+      const issues = BridgeSchemaValidator.validateRenderData(invalidData);
       expect(issues).toContain('Position x and y must be numbers');
     });
 
@@ -88,7 +88,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         ]
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(dataWithChildren);
+      const issues = BridgeSchemaValidator.validateRenderData(dataWithChildren);
       expect(issues).toHaveLength(0);
     });
 
@@ -99,7 +99,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         children: 'not_an_array'
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(dataWithInvalidChildren);
+      const issues = BridgeSchemaValidator.validateRenderData(dataWithInvalidChildren);
       expect(issues).toContain('Children must be an array');
     });
 
@@ -116,7 +116,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         ]
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(dataWithSignals);
+      const issues = BridgeSchemaValidator.validateRenderData(dataWithSignals);
       expect(issues).toHaveLength(0);
     });
 
@@ -127,7 +127,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         signals: 'not_an_array'
       };
 
-      const issues = BridgeSchemaValidator?.validateRenderData(dataWithInvalidSignals);
+      const issues = BridgeSchemaValidator.validateRenderData(dataWithInvalidSignals);
       expect(issues).toContain('Signals must be an array');
     });
   });
@@ -150,13 +150,13 @@ describe('BridgeSchemaPure Golden Tests', () => {
         }
       };
 
-      const renderData = BridgeSchemaValidator?.convertFromUnity(unityData);
+      const renderData = BridgeSchemaValidator.convertFromUnity(unityData);
       
-      expect(renderData?.id).toBe('npc_001');
-      expect(renderData?.type).toBe('component');
-      expect(renderData?.position).toEqual({ x: 640, y: 960, z: 0 });
-      expect(renderData?.engineHints?.unity?.gameObject).toBe('GameObject_npc_001');
-      expect(renderData?.engineHints?.unity?.component).toBe('NPCController');
+      expect(renderData.id).toBe('npc_001');
+      expect(renderData.type).toBe('component');
+      expect(renderData.position).toEqual({ x: 640, y: 960, z: 0 });
+      expect(renderData.engineHints?.unity?.gameObject).toBe('GameObject_npc_001');
+      expect(renderData.engineHints?.unity?.component).toBe('NPCController');
     });
 
     test('✓ converts Web data to RenderData', () => {
@@ -167,20 +167,20 @@ describe('BridgeSchemaPure Golden Tests', () => {
         y: 960,
         width: 32,
         height: 32,
-        texture: 'npc_sprite?.png',
+        texture: 'npc_sprite.png',
         properties: {
           npc_id: 'npc_001',
           behavior_type: 'quest_giver'
         }
       };
 
-      const renderData = BridgeSchemaValidator?.convertFromWeb(webData);
+      const renderData = BridgeSchemaValidator.convertFromWeb(webData);
       
-      expect(renderData?.id).toBe('npc_001');
-      expect(renderData?.type).toBe('sprite');
-      expect(renderData?.position).toEqual({ x: 640, y: 960 });
-      expect(renderData?.scale).toEqual({ x: 32, y: 32 });
-      expect(renderData?.asset).toBe('npc_sprite?.png');
+      expect(renderData.id).toBe('npc_001');
+      expect(renderData.type).toBe('sprite');
+      expect(renderData.position).toEqual({ x: 640, y: 960 });
+      expect(renderData.scale).toEqual({ x: 32, y: 32 });
+      expect(renderData.asset).toBe('npc_sprite.png');
     });
 
     test('✓ converts Godot data to RenderData', () => {
@@ -191,21 +191,21 @@ describe('BridgeSchemaPure Golden Tests', () => {
         position: { x: 640, y: 960 },
         scale: { x: 1, y: 1 },
         rotation: 0,
-        texture: 'npc_sprite?.png',
+        texture: 'npc_sprite.png',
         properties: {
           npc_id: 'npc_001',
           behavior_type: 'quest_giver'
         }
       };
 
-      const renderData = BridgeSchemaValidator?.convertFromGodot(godotData);
+      const renderData = BridgeSchemaValidator.convertFromGodot(godotData);
       
-      expect(renderData?.id).toBe('npc_001');
-      expect(renderData?.type).toBe('node');
-      expect(renderData?.name).toBe('Guard Captain Marcus');
-      expect(renderData?.position).toEqual({ x: 640, y: 960 });
-      expect(renderData?.asset).toBe('npc_sprite?.png');
-      expect(renderData?.engineHints?.godot?.node).toBe('Node2D');
+      expect(renderData.id).toBe('npc_001');
+      expect(renderData.type).toBe('node');
+      expect(renderData.name).toBe('Guard Captain Marcus');
+      expect(renderData.position).toEqual({ x: 640, y: 960 });
+      expect(renderData.asset).toBe('npc_sprite.png');
+      expect(renderData.engineHints?.godot?.node).toBe('Node2D');
     });
 
     test('✓ converts RenderData to Unity format', () => {
@@ -215,7 +215,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         name: 'Test NPC',
         position: { x: 640, y: 960, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
-        asset: 'npc_sprite?.png',
+        asset: 'npc_sprite.png',
         props: { npc_id: 'npc_001' },
         signals: [
           {
@@ -227,14 +227,14 @@ describe('BridgeSchemaPure Golden Tests', () => {
         ]
       };
 
-      const unityData = BridgeSchemaValidator?.convertToUnity(renderData);
+      const unityData = BridgeSchemaValidator.convertToUnity(renderData);
       
-      expect(unityData?.id).toBe('npc_001');
-      expect(unityData?.gameObject).toBe('Test NPC');
-      expect(unityData?.componentType).toBe('SpriteRenderer');
-      expect(unityData?.transform.position).toEqual({ x: 640, y: 960, z: 0 });
-      expect(unityData?.signals).toHaveLength(1);
-      expect(unityData?.signals[0!].name).toBe('npc_interacted');
+      expect(unityData.id).toBe('npc_001');
+      expect(unityData.gameObject).toBe('Test NPC');
+      expect(unityData.componentType).toBe('SpriteRenderer');
+      expect(unityData.transform.position).toEqual({ x: 640, y: 960, z: 0 });
+      expect(unityData.signals).toHaveLength(1);
+      expect(unityData.signals[0!].name).toBe('npc_interacted');
     });
 
     test('✓ converts RenderData to Web format', () => {
@@ -244,7 +244,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         name: 'Test NPC',
         position: { x: 640, y: 960 },
         scale: { x: 32, y: 32 },
-        asset: 'npc_sprite?.png',
+        asset: 'npc_sprite.png',
         props: { npc_id: 'npc_001' },
         signals: [
           {
@@ -256,16 +256,16 @@ describe('BridgeSchemaPure Golden Tests', () => {
         ]
       };
 
-      const webData = BridgeSchemaValidator?.convertToWeb(renderData);
+      const webData = BridgeSchemaValidator.convertToWeb(renderData);
       
-      expect(webData?.id).toBe('npc_001');
-      expect(webData?.type).toBe('sprite');
+      expect(webData.id).toBe('npc_001');
+      expect(webData.type).toBe('sprite');
       expect(webData.x).toBe(640);
       expect(webData.y).toBe(960);
-      expect(webData?.width).toBe(32);
-      expect(webData?.height).toBe(32);
-      expect(webData?.events).toHaveLength(1);
-      expect(webData?.events[0!].name).toBe('click');
+      expect(webData.width).toBe(32);
+      expect(webData.height).toBe(32);
+      expect(webData.events).toHaveLength(1);
+      expect(webData.events[0!].name).toBe('click');
     });
 
     test('✓ converts RenderData to Godot format', () => {
@@ -276,7 +276,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
         position: { x: 640, y: 960 },
         scale: { x: 1, y: 1 },
         rotation: { x: 0, y: 0, z: 45 },
-        asset: 'npc_sprite?.png',
+        asset: 'npc_sprite.png',
         props: { npc_id: 'npc_001' },
         signals: [
           {
@@ -288,39 +288,39 @@ describe('BridgeSchemaPure Golden Tests', () => {
         ]
       };
 
-      const godotData = BridgeSchemaValidator?.convertToGodot(renderData);
+      const godotData = BridgeSchemaValidator.convertToGodot(renderData);
       
-      expect(godotData?.id).toBe('npc_001');
-      expect(godotData?.type).toBe('Sprite');
-      expect(godotData?.name).toBe('Test NPC');
-      expect(godotData?.position).toEqual({ x: 640, y: 960 });
-      expect(godotData?.rotation).toBe(45);
-      expect(godotData?.signals).toHaveLength(1);
-      expect(godotData?.signals[0!].name).toBe('npc_interacted');
+      expect(godotData.id).toBe('npc_001');
+      expect(godotData.type).toBe('Sprite');
+      expect(godotData.name).toBe('Test NPC');
+      expect(godotData.position).toEqual({ x: 640, y: 960 });
+      expect(godotData.rotation).toBe(45);
+      expect(godotData.signals).toHaveLength(1);
+      expect(godotData.signals[0!].name).toBe('npc_interacted');
     });
   });
 
   describe('Sample Data Validation', () => {
     test('✓ validates sample render data from file', () => {
-      const fileContent = fs?.readFileSync(samplePath, 'utf-8');
+      const fileContent = fs.readFileSync(samplePath, 'utf-8');
       const sampleData = JSON.parse(fileContent);
       
       // Test the actual structure being read (fixtures file)
-      if (sampleData?.op === 'render' && sampleData?.renderData) {
-        const renderIssues = BridgeSchemaValidator?.validateRenderPayload(sampleData);
+      if (sampleData.op === 'render' && sampleData.renderData) {
+        const renderIssues = BridgeSchemaValidator.validateRenderPayload(sampleData);
         expect(renderIssues).toHaveLength(0);
       } else {
         // Test the expected structure (main sample file)
-        const npcPayload = sampleData?.examples.npc_rendering?.unified;
-        const npcIssues = BridgeSchemaValidator?.validateRenderPayload(npcPayload);
+        const npcPayload = sampleData.examples.npc_rendering.unified;
+        const npcIssues = BridgeSchemaValidator.validateRenderPayload(npcPayload);
         expect(npcIssues).toHaveLength(0);
 
-        const combatPayload = sampleData?.examples.combat_rendering?.unified;
-        const combatIssues = BridgeSchemaValidator?.validateRenderPayload(combatPayload);
+        const combatPayload = sampleData.examples.combat_rendering.unified;
+        const combatIssues = BridgeSchemaValidator.validateRenderPayload(combatPayload);
         expect(combatIssues).toHaveLength(0);
 
-        const uiPayload = sampleData?.examples.ui_rendering?.unified;
-        const uiIssues = BridgeSchemaValidator?.validateRenderPayload(uiPayload);
+        const uiPayload = sampleData.examples.ui_rendering.unified;
+        const uiIssues = BridgeSchemaValidator.validateRenderPayload(uiPayload);
         expect(uiIssues).toHaveLength(0);
       }
     });
@@ -329,27 +329,27 @@ describe('BridgeSchemaPure Golden Tests', () => {
       const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
       
       // Skip this test if reading fixtures file (doesn't have engine_conversions)
-      if (sampleData?.op === 'render' && sampleData?.renderData) {
+      if (sampleData.op === 'render' && sampleData.renderData) {
         expect(true).toBe(true); // Skip test
         return;
       }
       
       // Test Unity conversion
-      const unityExample = sampleData?.engine_conversions.unity_example;
-      const unityRenderData = BridgeSchemaValidator?.convertFromUnity(unityExample?.unity_data);
-      const unityIssues = BridgeSchemaValidator?.validateRenderData(unityRenderData);
+      const unityExample = sampleData.engine_conversions.unity_example;
+      const unityRenderData = BridgeSchemaValidator.convertFromUnity(unityExample.unity_data);
+      const unityIssues = BridgeSchemaValidator.validateRenderData(unityRenderData);
       expect(unityIssues).toHaveLength(0);
 
       // Test Web conversion
-      const webExample = sampleData?.engine_conversions.web_example;
-      const webRenderData = BridgeSchemaValidator?.convertFromWeb(webExample?.web_data);
-      const webIssues = BridgeSchemaValidator?.validateRenderData(webRenderData);
+      const webExample = sampleData.engine_conversions.web_example;
+      const webRenderData = BridgeSchemaValidator.convertFromWeb(webExample.web_data);
+      const webIssues = BridgeSchemaValidator.validateRenderData(webRenderData);
       expect(webIssues).toHaveLength(0);
 
       // Test Godot conversion
-      const godotExample = sampleData?.engine_conversions.godot_example;
-      const godotRenderData = BridgeSchemaValidator?.convertFromGodot(godotExample?.godot_data);
-      const godotIssues = BridgeSchemaValidator?.validateRenderData(godotRenderData);
+      const godotExample = sampleData.engine_conversions.godot_example;
+      const godotRenderData = BridgeSchemaValidator.convertFromGodot(godotExample.godot_data);
+      const godotIssues = BridgeSchemaValidator.validateRenderData(godotRenderData);
       expect(godotIssues).toHaveLength(0);
     });
 
@@ -357,20 +357,20 @@ describe('BridgeSchemaPure Golden Tests', () => {
       const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
       
       // Skip this test if reading fixtures file (doesn't have validation_examples)
-      if (sampleData?.op === 'render' && sampleData?.renderData) {
+      if (sampleData.op === 'render' && sampleData.renderData) {
         expect(true).toBe(true); // Skip test
         return;
       }
       
       // Test valid payload
-      const validPayload = sampleData?.validation_examples.valid_payload;
-      const validIssues = BridgeSchemaValidator?.validateRenderPayload(validPayload);
+      const validPayload = sampleData.validation_examples.valid_payload;
+      const validIssues = BridgeSchemaValidator.validateRenderPayload(validPayload);
       expect(validIssues).toHaveLength(0);
 
       // Test invalid payload
-      const invalidPayload = sampleData?.validation_examples.invalid_payload;
-      const invalidIssues = BridgeSchemaValidator?.validateRenderPayload(invalidPayload);
-      expect(invalidIssues?.length).toBeGreaterThan(0);
+      const invalidPayload = sampleData.validation_examples.invalid_payload;
+      const invalidIssues = BridgeSchemaValidator.validateRenderPayload(invalidPayload);
+      expect(invalidIssues.length).toBeGreaterThan(0);
       expect(invalidIssues).toContain('RenderData 0: Invalid render type: invalid_type');
       expect(invalidIssues).toContain('RenderData 0: Position x and y must be numbers');
     });
@@ -401,24 +401,24 @@ describe('BridgeSchemaPure Golden Tests', () => {
         { input: { type: 'Node2D' }, expected: 'node', engine: 'godot' }
       ];
 
-      testCases?.forEach(({ input, expected, engine }) => {
+      testCases.forEach(({ input, expected, engine }) => {
         let renderData: RenderData;
         
         switch (engine) {
           case 'unity':
-            renderData = BridgeSchemaValidator?.convertFromUnity(input);
+            renderData = BridgeSchemaValidator.convertFromUnity(input);
             break;
           case 'web':
-            renderData = BridgeSchemaValidator?.convertFromWeb(input);
+            renderData = BridgeSchemaValidator.convertFromWeb(input);
             break;
           case 'godot':
-            renderData = BridgeSchemaValidator?.convertFromGodot(input);
+            renderData = BridgeSchemaValidator.convertFromGodot(input);
             break;
           default:
             throw new Error(`Unknown engine: ${engine}`);
         }
         
-        expect(renderData?.type).toBe(expected);
+        expect(renderData.type).toBe(expected);
       });
     });
   });
@@ -436,17 +436,17 @@ describe('BridgeSchemaPure Golden Tests', () => {
         ]
       };
 
-      const unityData = BridgeSchemaValidator?.convertToUnity(renderData);
-      expect(unityData?.signals).toHaveLength(1); // Only unity_signal
-      expect(unityData?.signals?.map((s: any) => s?.name)).toContain('unity_signal');
+      const unityData = BridgeSchemaValidator.convertToUnity(renderData);
+      expect(unityData.signals).toHaveLength(1); // Only unity_signal
+      expect(unityData.signals?.map((s: any) => s.name)).toContain('unity_signal');
 
-      const webData = BridgeSchemaValidator?.convertToWeb(renderData);
-      expect(webData?.events).toHaveLength(1); // Only web_signal
-      expect(webData?.events?.map((s: any) => s?.name)).toContain('web_signal');
+      const webData = BridgeSchemaValidator.convertToWeb(renderData);
+      expect(webData.events).toHaveLength(1); // Only web_signal
+      expect(webData.events?.map((s: any) => s.name)).toContain('web_signal');
 
-      const godotData = BridgeSchemaValidator?.convertToGodot(renderData);
-      expect(godotData?.signals).toHaveLength(1); // Only godot_signal
-      expect(godotData?.signals?.map((s: any) => s?.name)).toContain('godot_signal');
+      const godotData = BridgeSchemaValidator.convertToGodot(renderData);
+      expect(godotData.signals).toHaveLength(1); // Only godot_signal
+      expect(godotData.signals?.map((s: any) => s.name)).toContain('godot_signal');
     });
   });
 });

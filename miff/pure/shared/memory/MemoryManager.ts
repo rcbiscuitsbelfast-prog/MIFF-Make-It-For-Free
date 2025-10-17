@@ -22,20 +22,20 @@ export interface CleanupCallback {
 export class MemoryManager {
   private cleanupCallbacks: Map<string, CleanupCallback> = new Map();
   private isMonitoring: boolean = false;
-  private monitoringInterval?: NodeJS?.Timeout;
+  private monitoringInterval?: NodeJS.Timeout;
   private memoryThreshold: number = 100 * 1024 * 1024; // 100MB
 
   /**
    * Get current memory usage
    */
   getMemoryStats(): MemoryStats {
-    const usage = process?.memoryUsage();
+    const usage = process.memoryUsage();
     return {
-      heapUsed: usage?.heapUsed,
-      heapTotal: usage?.heapTotal,
-      external: usage?.external,
-      rss: usage?.rss,
-      arrayBuffers: usage?.arrayBuffers
+      heapUsed: usage.heapUsed,
+      heapTotal: usage.heapTotal,
+      external: usage.external,
+      rss: usage.rss,
+      arrayBuffers: usage.arrayBuffers
     };
   }
 
@@ -43,7 +43,7 @@ export class MemoryManager {
    * Get memory usage in MB
    */
   getMemoryUsageMB(): { heapUsed: number; heapTotal: number; rss: number } {
-    const stats = this?.getMemoryStats();
+    const stats = this.getMemoryStats();
     return {
       heapUsed: Math.round(stats.heapUsed / 1024 / 1024),
       heapTotal: Math.round(stats.heapTotal / 1024 / 1024),
@@ -55,14 +55,14 @@ export class MemoryManager {
    * Register a cleanup callback
    */
   registerCleanup(id: string, callback: () => void, priority: number = 0): void {
-    this?.cleanupCallbacks.set(id, { id, callback, priority });
+    this.cleanupCallbacks.set(id, { id, callback, priority });
   }
 
   /**
    * Unregister a cleanup callback
    */
   unregisterCleanup(id: string): boolean {
-    return this?.cleanupCallbacks.delete(id);
+    return this.cleanupCallbacks.delete(id);
   }
 
   /**
@@ -70,7 +70,7 @@ export class MemoryManager {
    */
   executeCleanup(): void {
     const callbacks = Array.from(this.cleanupCallbacks.values())
-      .sort((a: any, b: any) => b?.priority - a?.priority);
+      .sort((a: any, b: any) => b.priority - a.priority);
 
     for (const { callback } of callbacks) {
       try {
@@ -86,15 +86,15 @@ export class MemoryManager {
    * Start memory monitoring
    */
   startMonitoring(intervalMs: number = 30000): void {
-    if (this?.isMonitoring) return;
+    if (this.isMonitoring) return;
 
-    this?.isMonitoring = true;
-    this?.monitoringInterval = setInterval(() => {
-      const stats = this?.getMemoryStats();
+    this.isMonitoring = true;
+    this.monitoringInterval = setInterval(() => {
+      const stats = this.getMemoryStats();
       
-      if (stats?.heapUsed > this?.memoryThreshold) {
+      if (stats.heapUsed > this.memoryThreshold) {
         console.warn(`Memory usage high: ${Math.round(stats.heapUsed / 1024 / 1024)}MB`);
-        this?.executeCleanup();
+        this.executeCleanup();
       }
     }, intervalMs);
   }
@@ -103,19 +103,19 @@ export class MemoryManager {
    * Stop memory monitoring
    */
   stopMonitoring(): void {
-    if (this?.monitoringInterval) {
-      clearInterval(this?.monitoringInterval);
-      this?.monitoringInterval = undefined;
+    if (this.monitoringInterval) {
+      clearInterval(this.monitoringInterval);
+      this.monitoringInterval = undefined;
     }
-    this?.isMonitoring = false;
+    this.isMonitoring = false;
   }
 
   /**
    * Force garbage collection (if available)
    */
   forceGC(): void {
-    if (global?.gc) {
-      global?.gc();
+    if (global.gc) {
+      global.gc();
     }
   }
 
@@ -123,7 +123,7 @@ export class MemoryManager {
    * Set memory threshold for monitoring
    */
   setMemoryThreshold(thresholdMB: number): void {
-    this?.memoryThreshold = thresholdMB * 1024 * 1024;
+    this.memoryThreshold = thresholdMB * 1024 * 1024;
   }
 
   /**
@@ -131,8 +131,8 @@ export class MemoryManager {
    */
   getCleanupStats(): { registeredCallbacks: number; isMonitoring: boolean } {
     return {
-      registeredCallbacks: this?.cleanupCallbacks.size,
-      isMonitoring: this?.isMonitoring
+      registeredCallbacks: this.cleanupCallbacks.size,
+      isMonitoring: this.isMonitoring
     };
   }
 
@@ -140,7 +140,7 @@ export class MemoryManager {
    * Clear all cleanup callbacks
    */
   clearAllCleanups(): void {
-    this?.cleanupCallbacks.clear();
+    this.cleanupCallbacks.clear();
   }
 }
 

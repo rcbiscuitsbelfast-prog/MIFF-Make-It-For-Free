@@ -24,11 +24,11 @@ interface DialogueOperation {
 }
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -36,7 +36,7 @@ function main() {
     let operation: DialogueOperation;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as DialogueOperation;
     } else {
@@ -78,16 +78,16 @@ function main() {
 
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'parse':
         const treeData = JSON.parse(fs.readFileSync(operation.treeFile!, 'utf-8'));
         const tree = DialogueEngine.deserialize(JSON.stringify(treeData));
         result = {
           parsed: {
-            treeId: tree?.id,
-            name: tree?.name,
-            version: tree?.version,
-            nodeCount: tree?.nodes.size,
+            treeId: tree.id,
+            name: tree.name,
+            version: tree.version,
+            nodeCount: tree.nodes.size,
             variables: Array.from(tree.variables.keys()),
             flags: Array.from(tree.flags)
           },
@@ -157,17 +157,17 @@ function main() {
           content: 'Farewell, traveler!'
         };
         
-        sampleTree?.nodes.set('start', startNode);
-        sampleTree?.nodes.set('quest_info', questNode);
-        sampleTree?.nodes.set('quest_accepted', questAcceptedNode);
-        sampleTree?.nodes.set('end', endNode);
+        sampleTree.nodes.set('start', startNode);
+        sampleTree.nodes.set('quest_info', questNode);
+        sampleTree.nodes.set('quest_accepted', questAcceptedNode);
+        sampleTree.nodes.set('end', endNode);
         
         result = {
           created: {
-            treeId: sampleTree?.id,
-            name: sampleTree?.name,
-            version: sampleTree?.version,
-            nodeCount: sampleTree?.nodes.size,
+            treeId: sampleTree.id,
+            name: sampleTree.name,
+            version: sampleTree.version,
+            nodeCount: sampleTree.nodes.size,
             nodes: Array.from(sampleTree.nodes.keys())
           },
           tree: sampleTree
@@ -207,11 +207,11 @@ function main() {
           type: 'end',
           content: 'Thanks for talking with me!'
         };
-        simpleTree?.nodes.set('start', simpleStartNode);
-        simpleTree?.nodes.set('end', simpleEndNode);
+        simpleTree.nodes.set('start', simpleStartNode);
+        simpleTree.nodes.set('end', simpleEndNode);
         
         const engine = new DialogueEngine(simpleTree);
-        const startResult = engine?.start('start');
+        const startResult = engine.start('start');
         
         result = {
           action: 'dialogue_started',
@@ -235,17 +235,17 @@ function main() {
         const contStart: DialogueNode = { id: 'start', type: 'text', content: 'Step 1', next: 'step2' };
         const contStep2: DialogueNode = { id: 'step2', type: 'text', content: 'Step 2', next: 'end' };
         const contEnd: DialogueNode = { id: 'end', type: 'end', content: 'Done' };
-        contTree?.nodes.set('start', contStart);
-        contTree?.nodes.set('step2', contStep2);
-        contTree?.nodes.set('end', contEnd);
+        contTree.nodes.set('start', contStart);
+        contTree.nodes.set('step2', contStep2);
+        contTree.nodes.set('end', contEnd);
         const contEngine = new DialogueEngine(contTree);
-        const contStartRes = contEngine?.start('start');
-        const contRes = contEngine?.continue();
+        const contStartRes = contEngine.start('start');
+        const contRes = contEngine.continue();
         result = {
           action: 'continued',
           start: contStartRes,
           next: contRes,
-          final: contEngine?.continue()
+          final: contEngine.continue()
         };
         break;
 
@@ -269,15 +269,15 @@ function main() {
         const n1: DialogueNode = { id: 'n1', type: 'text', content: 'You chose one', next: 'end' };
         const n2: DialogueNode = { id: 'n2', type: 'text', content: 'You chose two', next: 'end' };
         const cEnd: DialogueNode = { id: 'end', type: 'end', content: 'Finished' };
-        choiceTree?.nodes.set('start', choiceStart);
-        choiceTree?.nodes.set('n1', n1);
-        choiceTree?.nodes.set('n2', n2);
-        choiceTree?.nodes.set('end', cEnd);
+        choiceTree.nodes.set('start', choiceStart);
+        choiceTree.nodes.set('n1', n1);
+        choiceTree.nodes.set('n2', n2);
+        choiceTree.nodes.set('end', cEnd);
         const choiceEngine = new DialogueEngine(choiceTree);
-        choiceEngine?.start('start');
-        const choiceId = operation?.choiceId || 'c1';
-        const choiceRes = choiceEngine?.selectChoice(choiceId);
-        result = { action: 'choice_made', choiceId, result: choiceRes, context: choiceEngine?.getContext() };
+        choiceEngine.start('start');
+        const choiceId = operation.choiceId || 'c1';
+        const choiceRes = choiceEngine.selectChoice(choiceId);
+        result = { action: 'choice_made', choiceId, result: choiceRes, context: choiceEngine.getContext() };
         break;
 
       case 'get-context':
@@ -292,11 +292,11 @@ function main() {
         const ctxTree = DialogueEngine.deserialize(JSON.stringify(ctxTreeData));
         const ctxStart: DialogueNode = { id: 'start', type: 'text', content: 'Ctx', next: 'end' };
         const ctxEnd: DialogueNode = { id: 'end', type: 'end', content: 'E' };
-        ctxTree?.nodes.set('start', ctxStart);
-        ctxTree?.nodes.set('end', ctxEnd);
+        ctxTree.nodes.set('start', ctxStart);
+        ctxTree.nodes.set('end', ctxEnd);
         const ctxEngine = new DialogueEngine(ctxTree);
-        ctxEngine?.start('start');
-        result = { action: 'context', context: ctxEngine?.getContext() };
+        ctxEngine.start('start');
+        result = { action: 'context', context: ctxEngine.getContext() };
         break;
 
       case 'demo':
@@ -342,20 +342,20 @@ function main() {
           content: 'The owl flies away into the trees. Your adventure continues...'
         };
         
-        demoTree?.nodes.set('demo_start', demoStartNode);
-        demoTree?.nodes.set('owl_greeting', owlGreetingNode);
-        demoTree?.nodes.set('demo_end', demoEndNode);
+        demoTree.nodes.set('demo_start', demoStartNode);
+        demoTree.nodes.set('owl_greeting', owlGreetingNode);
+        demoTree.nodes.set('demo_end', demoEndNode);
         
         const demoEngine = new DialogueEngine(demoTree);
-        const demoStart = demoEngine?.start('demo_start');
-        const demoChoice = demoEngine?.selectChoice('talk_to_owl');
-        const demoContinue = demoEngine?.continue();
+        const demoStart = demoEngine.start('demo_start');
+        const demoChoice = demoEngine.selectChoice('talk_to_owl');
+        const demoContinue = demoEngine.continue();
         
         result = {
           demo: {
             treeId: 'demo_dialogue',
             name: 'Demo Dialogue',
-            nodeCount: demoTree?.nodes.size,
+            nodeCount: demoTree.nodes.size,
             dialogueFlow: [
               { step: 1, action: 'start', result: demoStart },
               { step: 2, action: 'choice: talk_to_owl', result: demoChoice },
@@ -364,7 +364,7 @@ function main() {
             summary: {
               totalSteps: 3,
               choicesMade: 1,
-              finalNode: demoContinue?.node?.id || 'unknown'
+              finalNode: demoContinue?.node.id || 'unknown'
             }
           }
         };
@@ -391,14 +391,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -410,7 +410,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -426,13 +426,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

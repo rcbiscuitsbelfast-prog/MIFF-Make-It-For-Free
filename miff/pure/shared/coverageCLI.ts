@@ -6,7 +6,7 @@
  * Command-line interface for analyzing test coverage across the MIFF framework.
  */
 
-import { TestCoverageAnalyzer } from './TestCoverageAnalyzer?.js';
+import { TestCoverageAnalyzer } from './TestCoverageAnalyzer.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -17,46 +17,46 @@ class CoverageCLI {
 
   constructor(...args: any[]) {
     
-    this?.analyzer = new TestCoverageAnalyzer();
+    this.analyzer = new TestCoverageAnalyzer();
   }
 
   async run(): Promise<void> {
-    const args = process?.argv.slice(2);
+    const args = process.argv.slice(2);
     const command = args[0!];
 
     try {
       switch (command) {
         case 'analyze':
-          await this?.analyzeCoverage(args?.slice(1));
+          await this.analyzeCoverage(args.slice(1));
           break;
         case 'module':
-          await this?.showModuleCoverage(args?.slice(1));
+          await this.showModuleCoverage(args.slice(1));
           break;
         case 'export':
-          await this?.exportCoverage(args?.slice(1));
+          await this.exportCoverage(args.slice(1));
           break;
         case 'recommendations':
-          await this?.showRecommendations(args?.slice(1));
+          await this.showRecommendations(args.slice(1));
           break;
         case 'help':
         default:
-          this?.showHelp();
+          this.showHelp();
           break;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
-      process?.exit(1);
+      process.exit(1);
     }
   }
 
   private async analyzeCoverage(args: string[]): Promise<void> {
     const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'coverage-report?.json';
+    const outputFile = args[1!] || 'coverage-report.json';
 
     console.info(`📊 Analyzing test coverage in ${rootPath}...`);
     
-    const report = await this?.analyzer.analyzeCoverage(rootPath);
+    const report = await this.analyzer.analyzeCoverage(rootPath);
     
     // Save report to file
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
@@ -72,11 +72,11 @@ class CoverageCLI {
     console.info(`Covered lines: ${report.coveredLines}`);
     console.info(`Modules analyzed: ${report.modules.length}`);
 
-    if (report?.criticalModules.length > 0) {
+    if (report.criticalModules.length > 0) {
       console.info(`\n🚨 Critical modules (coverage < 50%): ${report.criticalModules.join(', ')}`);
     }
 
-    if (report?.recommendations.length > 0) {
+    if (report.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
       report.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
@@ -93,7 +93,7 @@ class CoverageCLI {
 
     console.info(`📊 Coverage for module: ${moduleName}`);
     
-    const coverage = this?.analyzer.getModuleCoverage(moduleName);
+    const coverage = this.analyzer.getModuleCoverage(moduleName);
     
     if (!coverage) {
       console.error(`❌ Module not found: ${moduleName}`);
@@ -109,15 +109,15 @@ class CoverageCLI {
     console.info(`Statement coverage: ${coverage.statementCoverage.toFixed(1)}%`);
     console.info(`Quality: ${coverage.quality.toUpperCase()}`);
 
-    if (coverage?.files.length > 0) {
+    if (coverage.files.length > 0) {
       console.info('\n📁 File Coverage:');
-      for (const file of coverage?.files) {
-        const fileCoverage = (file?.coveredLines / file?.totalLines) * 100;
+      for (const file of coverage.files) {
+        const fileCoverage = (file.coveredLines / file.totalLines) * 100;
         console.info(`  ${file.filePath}: ${fileCoverage.toFixed(1)}% (${file.coveredLines}/${file.totalLines})`);
       }
     }
 
-    if (coverage?.recommendations.length > 0) {
+    if (coverage.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
       coverage.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
@@ -134,9 +134,9 @@ class CoverageCLI {
 
     console.info(`📄 Exporting coverage data as ${format.toUpperCase()}...`);
     
-    const data = this?.analyzer.exportCoverage(format as 'json' | 'html' | 'csv');
+    const data = this.analyzer.exportCoverage(format as 'json' | 'html' | 'csv');
     
-    fs?.writeFileSync(outputFile, data);
+    fs.writeFileSync(outputFile, data);
     
     console.info(`✅ Coverage data exported to ${outputFile}`);
   }
@@ -144,27 +144,27 @@ class CoverageCLI {
   private async showRecommendations(args: string[]): Promise<void> {
     console.info('💡 Generating coverage recommendations...');
     
-    const recommendations = this?.analyzer.generateRecommendations();
+    const recommendations = this.analyzer.generateRecommendations();
     
-    if (recommendations?.length === 0) {
+    if (recommendations.length === 0) {
       console.info('✅ No specific recommendations at this time.');
       return;
     }
 
     console.info('\n💡 Coverage Recommendations:');
-    recommendations?.forEach((rec, index) => {
+    recommendations.forEach((rec, index) => {
       console.info(`${index + 1}. ${rec}`);
     });
 
     // Show module-specific recommendations
-    const modules = this?.analyzer.getAllModuleCoverages();
-    const lowCoverageModules = modules?.filter((m: any) => m?.coveragePercentage < 70);
+    const modules = this.analyzer.getAllModuleCoverages();
+    const lowCoverageModules = modules.filter((m: any) => m.coveragePercentage < 70);
     
-    if (lowCoverageModules?.length > 0) {
+    if (lowCoverageModules.length > 0) {
       console.info('\n📊 Low Coverage Modules:');
-      lowCoverageModules?.forEach((module: any) => {
+      lowCoverageModules.forEach((module: any) => {
         console.info(`  ${module.module}: ${module.coveragePercentage.toFixed(1)}%`);
-        if (module?.recommendations.length > 0) {
+        if (module.recommendations.length > 0) {
           module.recommendations.forEach((rec: any) => console.info(`    - ${rec}`));
         }
       });
@@ -175,7 +175,7 @@ class CoverageCLI {
     console.info(`
 📊 MIFF Test Coverage CLI
 
-Usage: tsx coverageCLI?.ts <command> [options!]
+Usage: tsx coverageCLI.ts <command> [options!]
 
 Commands:
   analyze [path!] [output!]         Analyze test coverage for all modules
@@ -185,12 +185,12 @@ Commands:
   help                           Show this help
 
 Examples:
-  tsx coverageCLI?.ts analyze miff/pure
-  tsx coverageCLI?.ts analyze miff/pure coverage-report?.json
-  tsx coverageCLI?.ts module CombatPure
-  tsx coverageCLI?.ts export html coverage-report?.html
-  tsx coverageCLI?.ts export csv coverage-data?.csv
-  tsx coverageCLI?.ts recommendations
+  tsx coverageCLI.ts analyze miff/pure
+  tsx coverageCLI.ts analyze miff/pure coverage-report.json
+  tsx coverageCLI.ts module CombatPure
+  tsx coverageCLI.ts export html coverage-report.html
+  tsx coverageCLI.ts export csv coverage-data.csv
+  tsx coverageCLI.ts recommendations
 
 Coverage Quality Levels:
   - excellent: 90%+ coverage
@@ -207,7 +207,7 @@ Export Formats:
 }
 
 // Run the CLI if this file is executed directly
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new CoverageCLI();
   cli.run().catch(console.error);
 }

@@ -401,7 +401,7 @@ export class NaturalLanguageProcessingPure {
 
   constructor(config: Partial<NLPConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableTextAnalysis: true,
       enableSentimentAnalysis: true,
       enableLanguageDetection: true,
@@ -420,7 +420,7 @@ export class NaturalLanguageProcessingPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalRequests: 0,
       successfulRequests: 0,
       failedRequests: 0,
@@ -431,7 +431,7 @@ export class NaturalLanguageProcessingPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalRequests: 0,
       successRate: 0,
       averageProcessingTime: 0,
@@ -445,7 +445,7 @@ export class NaturalLanguageProcessingPure {
    * Create a new NLP manager
    */
   createManager(): NLPOutput {
-    if (!this?.config.enableTextAnalysis) {
+    if (!this.config.enableTextAnalysis) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -455,8 +455,8 @@ export class NaturalLanguageProcessingPure {
 
     const manager: NLPManager = {
       id: managerData.id || `nlp-${Date.now()}`,
-      name: managerData?.name || 'Unnamed NLP Manager',
-      type: managerData?.type || 'basic',
+      name: managerData.name || 'Unnamed NLP Manager',
+      type: managerData.type || 'basic',
       status: 'active',
       models: [],
       processors: [],
@@ -517,7 +517,7 @@ export class NaturalLanguageProcessingPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -530,7 +530,7 @@ export class NaturalLanguageProcessingPure {
    * Get manager by ID
    */
   getManager(): NLPOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -550,7 +550,7 @@ export class NaturalLanguageProcessingPure {
    * Analyze text sentiment
    */
   analyzeSentiment(): NLPOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'analyze-sentiment',
@@ -559,7 +559,7 @@ export class NaturalLanguageProcessingPure {
       };
     }
 
-    if (text?.length > this?.config.maxTextLength) {
+    if (text.length > this.config.maxTextLength) {
       return {
         op: 'analyze-sentiment',
         status: 'error',
@@ -567,13 +567,13 @@ export class NaturalLanguageProcessingPure {
       };
     }
 
-    const startTime = new Date();
+    const startTime = Date.now();
     
     // Simple sentiment analysis simulation
-    const sentiment = this?.performSentimentAnalysis(text);
-    const confidence = this?.calculateConfidence(text, sentiment);
+    const sentiment = this.performSentimentAnalysis(text);
+    const confidence = this.calculateConfidence(text, sentiment);
     
-    const processingTime = new Date() - startTime;
+    const processingTime = Date.now() - startTime;
     
     // Create request record
     const request: NLPRequest = {
@@ -588,16 +588,16 @@ export class NaturalLanguageProcessingPure {
       metadata: {}
     };
 
-    manager?.requests?.push(request);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalRequests++;
-    this?.performanceMetrics.successfulRequests++;
-    this?.performanceMetrics.averageProcessingTime = 
-      (this?.performanceMetrics.averageProcessingTime * (this?.performanceMetrics.totalRequests - 1) + processingTime) / 
-      this?.performanceMetrics.totalRequests;
-    this?.performanceMetrics.averageConfidence = 
-      (this?.performanceMetrics.averageConfidence * (this?.performanceMetrics.totalRequests - 1) + confidence) / 
-      this?.performanceMetrics.totalRequests;
+    manager.requests.push(request);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalRequests++;
+    this.performanceMetrics.successfulRequests++;
+    this.performanceMetrics.averageProcessingTime = 
+      (this.performanceMetrics.averageProcessingTime * (this.performanceMetrics.totalRequests - 1) + processingTime) / 
+      this.performanceMetrics.totalRequests;
+    this.performanceMetrics.averageConfidence = 
+      (this.performanceMetrics.averageConfidence * (this.performanceMetrics.totalRequests - 1) + confidence) / 
+      this.performanceMetrics.totalRequests;
 
     return {
       op: 'analyze-sentiment',
@@ -614,7 +614,7 @@ export class NaturalLanguageProcessingPure {
    * Detect language
    */
   detectLanguage(): NLPOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'detect-language',
@@ -623,7 +623,7 @@ export class NaturalLanguageProcessingPure {
       };
     }
 
-    if (text?.length > this?.config.maxTextLength) {
+    if (text.length > this.config.maxTextLength) {
       return {
         op: 'detect-language',
         status: 'error',
@@ -631,13 +631,13 @@ export class NaturalLanguageProcessingPure {
       };
     }
 
-    const startTime = new Date();
+    const startTime = Date.now();
     
     // Simple language detection simulation
-    const language = this?.performLanguageDetection(text);
-    const confidence = this?.calculateConfidence(text, language);
+    const language = this.performLanguageDetection(text);
+    const confidence = this.calculateConfidence(text, language);
     
-    const processingTime = new Date() - startTime;
+    const processingTime = Date.now() - startTime;
     
     // Create request record
     const request: NLPRequest = {
@@ -652,10 +652,10 @@ export class NaturalLanguageProcessingPure {
       metadata: {}
     };
 
-    manager?.requests?.push(request);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalRequests++;
-    this?.performanceMetrics.successfulRequests++;
+    manager.requests.push(request);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalRequests++;
+    this.performanceMetrics.successfulRequests++;
 
     return {
       op: 'detect-language',
@@ -672,7 +672,7 @@ export class NaturalLanguageProcessingPure {
    * Translate text
    */
   translateText(): NLPOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'translate-text',
@@ -681,7 +681,7 @@ export class NaturalLanguageProcessingPure {
       };
     }
 
-    if (text?.length > this?.config.maxTextLength) {
+    if (text.length > this.config.maxTextLength) {
       return {
         op: 'translate-text',
         status: 'error',
@@ -689,13 +689,13 @@ export class NaturalLanguageProcessingPure {
       };
     }
 
-    const startTime = new Date();
+    const startTime = Date.now();
     
     // Simple translation simulation
-    const translation = this?.performTranslation(text, targetLanguage, sourceLanguage);
-    const confidence = this?.calculateConfidence(text, translation);
+    const translation = this.performTranslation(text, targetLanguage, sourceLanguage);
+    const confidence = this.calculateConfidence(text, translation);
     
-    const processingTime = new Date() - startTime;
+    const processingTime = Date.now() - startTime;
     
     // Create request record
     const request: NLPRequest = {
@@ -710,10 +710,10 @@ export class NaturalLanguageProcessingPure {
       metadata: { targetLanguage, sourceLanguage }
     };
 
-    manager?.requests?.push(request);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalRequests++;
-    this?.performanceMetrics.successfulRequests++;
+    manager.requests.push(request);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalRequests++;
+    this.performanceMetrics.successfulRequests++;
 
     return {
       op: 'translate-text',
@@ -736,13 +736,13 @@ export class NaturalLanguageProcessingPure {
     const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'love', 'like'];
     const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'dislike', 'horrible', 'worst', 'disappointed'];
     
-    const words = text?.toLowerCase().split(/\s+/);
+    const words = text.toLowerCase().split(/\s+/);
     let positiveCount = 0;
     let negativeCount = 0;
     
     for (const word of words) {
-      if (positiveWords?.includes(word)) positiveCount++;
-      if (negativeWords?.includes(word)) negativeCount++;
+      if (positiveWords.includes(word)) positiveCount++;
+      if (negativeWords.includes(word)) negativeCount++;
     }
     
     const total = positiveCount + negativeCount;
@@ -776,8 +776,8 @@ export class NaturalLanguageProcessingPure {
     let detectedLanguage = 'en';
     
     for (const [lang, pattern] of Object.entries(patterns)) {
-      const matches = text?.match(pattern);
-      const score = matches ? matches?.length / text?.length : 0;
+      const matches = text.match(pattern);
+      const score = matches ? matches.length / text.length : 0;
       if (score > maxScore) {
         maxScore = score;
         detectedLanguage = lang;
@@ -808,14 +808,14 @@ export class NaturalLanguageProcessingPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): NLPPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): NLPAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -829,20 +829,20 @@ export class NaturalLanguageProcessingPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalRequests = 0;
     let successfulRequests = 0;
     let failedRequests = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalRequests += manager?.requests.length;
-      successfulRequests += manager?.requests.filter((req: any) => req?.status === 'completed').length;
-      failedRequests += manager?.requests.filter((req: any) => req?.status === 'failed').length;
+    for (const manager of this.managers.values()) {
+      totalRequests += manager.requests.length;
+      successfulRequests += manager.requests.filter((req: any) => req.status === 'completed').length;
+      failedRequests += manager.requests.filter((req: any) => req.status === 'failed').length;
     }
 
-    this?.performanceMetrics.totalRequests = totalRequests;
-    this?.performanceMetrics.successfulRequests = successfulRequests;
-    this?.performanceMetrics.failedRequests = failedRequests;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalRequests = totalRequests;
+    this.performanceMetrics.successfulRequests = successfulRequests;
+    this.performanceMetrics.failedRequests = failedRequests;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

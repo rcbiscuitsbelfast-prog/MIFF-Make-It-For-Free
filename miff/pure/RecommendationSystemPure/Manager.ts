@@ -797,7 +797,7 @@ export class RecommendationSystemPure {
 
   constructor(config: Partial<RecommendationSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableRecommendationManagement: true,
       enableMachineLearning: true,
       enableUserBehaviorAnalysis: true,
@@ -815,7 +815,7 @@ export class RecommendationSystemPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalModels: 0,
       activeModels: 0,
       totalUsers: 0,
@@ -827,7 +827,7 @@ export class RecommendationSystemPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalUsers: 0,
       totalItems: 0,
       totalInteractions: 0,
@@ -842,7 +842,7 @@ export class RecommendationSystemPure {
    * Create a new recommendation system manager
    */
   createManager(managerData: any = {}): RecommendationSystemOutput {
-    if (!this?.config.enableRecommendationManagement) {
+    if (!this.config.enableRecommendationManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -852,8 +852,8 @@ export class RecommendationSystemPure {
 
     const manager: RecommendationSystemManager = {
       id: managerData.id || `recommendation-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Recommendation System Manager',
-      type: managerData?.type || 'ecommerce',
+      name: managerData.name || 'Unnamed Recommendation System Manager',
+      type: managerData.type || 'ecommerce',
       status: 'active',
       models: [],
       users: [],
@@ -918,7 +918,7 @@ export class RecommendationSystemPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -931,7 +931,7 @@ export class RecommendationSystemPure {
    * Get manager by ID
    */
   getManager(): RecommendationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -951,7 +951,7 @@ export class RecommendationSystemPure {
    * Create recommendation model
    */
   createModel(): RecommendationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-model',
@@ -960,7 +960,7 @@ export class RecommendationSystemPure {
       };
     }
 
-    if (manager?.models.length >= this?.config.maxModels) {
+    if (manager.models.length >= this.config.maxModels) {
       return {
         op: 'create-model',
         status: 'error',
@@ -970,11 +970,11 @@ export class RecommendationSystemPure {
 
     const newModel: RecommendationModel = {
       id: model.id || `model-${Date.now()}`,
-      name: model?.name || 'Unnamed Model',
-      type: model?.type || 'collaborative',
+      name: model.name || 'Unnamed Model',
+      type: model.type || 'collaborative',
       status: 'training',
-      algorithm: model?.algorithm || 'collaborative_filtering',
-      parameters: model?.parameters || {
+      algorithm: model.algorithm || 'collaborative_filtering',
+      parameters: model.parameters || {
         learningRate: 0.01,
         epochs: 100,
         batchSize: 32,
@@ -982,7 +982,7 @@ export class RecommendationSystemPure {
         features: [],
         hyperparameters: {}
       },
-      training: model?.training || {
+      training: model.training || {
         dataset: '',
         size: 0,
         features: 0,
@@ -1000,7 +1000,7 @@ export class RecommendationSystemPure {
           dimensionalityReduction: false
         }
       },
-      performance: model?.performance || {
+      performance: model.performance || {
         accuracy: 0,
         precision: 0,
         recall: 0,
@@ -1014,9 +1014,9 @@ export class RecommendationSystemPure {
       ...model
     };
 
-    manager?.models?.push(newModel);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalModels++;
+    manager.models.push(newModel);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalModels++;
 
     return {
       op: 'create-model',
@@ -1029,7 +1029,7 @@ export class RecommendationSystemPure {
    * Create user
    */
   createUser(): RecommendationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-user',
@@ -1038,7 +1038,7 @@ export class RecommendationSystemPure {
       };
     }
 
-    if (manager?.users.length >= this?.config.maxUsers) {
+    if (manager.users.length >= this.config.maxUsers) {
       return {
         op: 'create-user',
         status: 'error',
@@ -1048,9 +1048,9 @@ export class RecommendationSystemPure {
 
     const newUser: User = {
       id: user.id || `user-${Date.now()}`,
-      name: user?.name || 'Unnamed User',
-      email: user?.email || '',
-      profile: user?.profile || {
+      name: user.name || 'Unnamed User',
+      email: user.email || '',
+      profile: user.profile || {
         age: 25,
         gender: 'unknown',
         location: '',
@@ -1058,14 +1058,14 @@ export class RecommendationSystemPure {
         skills: [],
         experience: 0
       },
-      preferences: user?.preferences || {
+      preferences: user.preferences || {
         categories: [],
         brands: [],
         priceRange: { min: 0, max: 1000, currency: 'USD' },
         quality: { level: 'medium', importance: 0.5 },
         features: []
       },
-      behavior: user?.behavior || {
+      behavior: user.behavior || {
         interactions: [],
         patterns: [],
         preferences: [],
@@ -1077,7 +1077,7 @@ export class RecommendationSystemPure {
           monetary: 0
         }
       },
-      demographics: user?.demographics || {
+      demographics: user.demographics || {
         age: 25,
         gender: 'unknown',
         location: '',
@@ -1089,9 +1089,9 @@ export class RecommendationSystemPure {
       ...user
     };
 
-    manager?.users?.push(newUser);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalUsers++;
+    manager.users.push(newUser);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalUsers++;
 
     return {
       op: 'create-user',
@@ -1104,7 +1104,7 @@ export class RecommendationSystemPure {
    * Create item
    */
   createItem(): RecommendationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-item',
@@ -1115,10 +1115,10 @@ export class RecommendationSystemPure {
 
     const newItem: Item = {
       id: item.id || `item-${Date.now()}`,
-      name: item?.name || 'Unnamed Item',
-      type: item?.type || 'product',
-      category: item?.category || 'general',
-      attributes: item?.attributes || {
+      name: item.name || 'Unnamed Item',
+      type: item.type || 'product',
+      category: item.category || 'general',
+      attributes: item.attributes || {
         price: 0,
         rating: 0,
         popularity: 0,
@@ -1126,7 +1126,7 @@ export class RecommendationSystemPure {
         features: [],
         tags: []
       },
-      content: item?.content || {
+      content: item.content || {
         title: '',
         description: '',
         images: [],
@@ -1138,9 +1138,9 @@ export class RecommendationSystemPure {
       ...item
     };
 
-    manager?.items?.push(newItem);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalItems++;
+    manager.items.push(newItem);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalItems++;
 
     return {
       op: 'create-item',
@@ -1153,7 +1153,7 @@ export class RecommendationSystemPure {
    * Record interaction
    */
   recordInteraction(): RecommendationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'record-interaction',
@@ -1164,11 +1164,11 @@ export class RecommendationSystemPure {
 
     const newInteraction: Interaction = {
       id: interaction.id || `interaction-${Date.now()}`,
-      userId: interaction?.userId || '',
-      itemId: interaction?.itemId || '',
-      type: interaction?.type || 'view',
-      value: interaction?.value || 1,
-      context: interaction?.context || {
+      userId: interaction.userId || '',
+      itemId: interaction.itemId || '',
+      type: interaction.type || 'view',
+      value: interaction.value || 1,
+      context: interaction.context || {
         sessionId: '',
         device: 'unknown',
         location: '',
@@ -1181,9 +1181,9 @@ export class RecommendationSystemPure {
       ...interaction
     };
 
-    manager?.interactions?.push(newInteraction);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalInteractions++;
+    manager.interactions.push(newInteraction);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalInteractions++;
 
     return {
       op: 'record-interaction',
@@ -1196,14 +1196,14 @@ export class RecommendationSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): RecommendationSystemPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): RecommendationSystemAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1217,26 +1217,26 @@ export class RecommendationSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalModels = 0;
     let activeModels = 0;
     let totalUsers = 0;
     let totalItems = 0;
     let totalInteractions = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalModels += manager?.models.length;
-      activeModels += manager?.models.filter((m: any) => m?.status === 'deployed').length;
-      totalUsers += manager?.users.length;
-      totalItems += manager?.items.length;
-      totalInteractions += manager?.interactions.length;
+    for (const manager of this.managers.values()) {
+      totalModels += manager.models.length;
+      activeModels += manager.models.filter((m: any) => m.status === 'deployed').length;
+      totalUsers += manager.users.length;
+      totalItems += manager.items.length;
+      totalInteractions += manager.interactions.length;
     }
 
-    this?.performanceMetrics.totalModels = totalModels;
-    this?.performanceMetrics.activeModels = activeModels;
-    this?.performanceMetrics.totalUsers = totalUsers;
-    this?.performanceMetrics.totalItems = totalItems;
-    this?.performanceMetrics.totalInteractions = totalInteractions;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalModels = totalModels;
+    this.performanceMetrics.activeModels = activeModels;
+    this.performanceMetrics.totalUsers = totalUsers;
+    this.performanceMetrics.totalItems = totalItems;
+    this.performanceMetrics.totalInteractions = totalInteractions;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

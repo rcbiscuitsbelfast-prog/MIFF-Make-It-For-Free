@@ -17,27 +17,27 @@ describe('ServiceDiscoveryPureManager', () => {
       memoryTracking: false
     });
     
-    await manager?.initialize({});
+    await manager.initialize();
   });
 
   afterEach(async () => {
     if (manager) {
-      await manager?.destroy();
+      await manager.destroy();
     }
   });
 
   describe('Initialization', () => {
     it('should initialize successfully', async () => {
       expect(manager).toBeDefined();
-      expect(manager?.getStats).toBeDefined();
-      expect(manager?.getAnalytics).toBeDefined();
+      expect(manager.getStats).toBeDefined();
+      expect(manager.getAnalytics).toBeDefined();
     });
 
     it('should have default configuration', () => {
-      const stats = manager?.getStats();
+      const stats = manager.getStats();
       expect(stats).toBeDefined();
-      expect(typeof stats?.totalItems).toBe('number');
-      expect(typeof stats?.activeItems).toBe('number');
+      expect(typeof stats.totalItems).toBe('number');
+      expect(typeof stats.activeItems).toBe('number');
     });
   });
 
@@ -54,12 +54,12 @@ describe('ServiceDiscoveryPureManager', () => {
         version: '1.0.0'
       };
 
-      const item = await manager?.createItem(itemData);
-      expect(item: any).toBeDefined();
-      expect(item?.id).toBeDefined();
-      expect(item?.name).toBe('Test Item');
-      expect(item?.type).toBe('test');
-      expect(item?.status).toBe('active');
+      const item = await manager.createItem(itemData);
+      expect(item).toBeDefined();
+      expect(item.id).toBeDefined();
+      expect(item.name).toBe('Test Item');
+      expect(item.type).toBe('test');
+      expect(item.status).toBe('active');
     });
 
     it('should retrieve items by ID', async () => {
@@ -74,11 +74,11 @@ describe('ServiceDiscoveryPureManager', () => {
         version: '1.0.0'
       };
 
-      const createdItem = await manager?.createItem(itemData);
-      const retrievedItem = manager?.getItem(createdItem?.id);
+      const createdItem = await manager.createItem(itemData);
+      const retrievedItem = manager.getItem(createdItem.id);
       
       expect(retrievedItem).toBeDefined();
-      expect(retrievedItem?.id).toBe(createdItem?.id);
+      expect(retrievedItem?.id).toBe(createdItem.id);
       expect(retrievedItem?.name).toBe('Test Item');
     });
 
@@ -94,11 +94,11 @@ describe('ServiceDiscoveryPureManager', () => {
         version: '1.0.0'
       };
 
-      await manager?.createItem(itemData);
-      const allItems = manager?.getAllItems();
+      await manager.createItem(itemData);
+      const allItems = manager.getAllItems();
       
       expect(Array.isArray(allItems)).toBe(true);
-      expect(allItems?.length).toBeGreaterThan(0);
+      expect(allItems.length).toBeGreaterThan(0);
     });
 
     it('should update items', async () => {
@@ -113,8 +113,8 @@ describe('ServiceDiscoveryPureManager', () => {
         version: '1.0.0'
       };
 
-      const createdItem = await manager?.createItem(itemData);
-      const updatedItem = await manager?.updateItem(createdItem?.id, {
+      const createdItem = await manager.createItem(itemData);
+      const updatedItem = await manager.updateItem(createdItem.id, {
         name: 'Updated Item',
         status: 'inactive' as const
       });
@@ -136,67 +136,67 @@ describe('ServiceDiscoveryPureManager', () => {
         version: '1.0.0'
       };
 
-      const createdItem = await manager?.createItem(itemData);
-      const deleted = await manager?.deleteItem(createdItem?.id);
+      const createdItem = await manager.createItem(itemData);
+      const deleted = await manager.deleteItem(createdItem.id);
       
       expect(deleted).toBe(true);
       
-      const retrievedItem = manager?.getItem(createdItem?.id);
+      const retrievedItem = manager.getItem(createdItem.id);
       expect(retrievedItem).toBeUndefined();
     });
   });
 
   describe('Analytics and Statistics', () => {
     it('should provide analytics', () => {
-      const analytics = manager?.getAnalytics();
+      const analytics = manager.getAnalytics();
       expect(analytics).toBeDefined();
-      expect(typeof analytics?.totalItems).toBe('number');
-      expect(typeof analytics?.activeItems).toBe('number');
-      expect(typeof analytics?.inactiveItems).toBe('number');
-      expect(typeof analytics?.errorItems).toBe('number');
-      expect(typeof analytics?.averageProcessingTime).toBe('number');
-      expect(typeof analytics?.totalOperations).toBe('number');
-      expect(typeof analytics?.successRate).toBe('number');
-      expect(analytics?.lastUpdated).toBeInstanceOf(Date);
+      expect(typeof analytics.totalItems).toBe('number');
+      expect(typeof analytics.activeItems).toBe('number');
+      expect(typeof analytics.inactiveItems).toBe('number');
+      expect(typeof analytics.errorItems).toBe('number');
+      expect(typeof analytics.averageProcessingTime).toBe('number');
+      expect(typeof analytics.totalOperations).toBe('number');
+      expect(typeof analytics.successRate).toBe('number');
+      expect(analytics.lastUpdated).toBeInstanceOf(Date);
     });
 
     it('should provide statistics', () => {
-      const stats = manager?.getStats();
+      const stats = manager.getStats();
       expect(stats).toBeDefined();
-      expect(typeof stats?.totalItems).toBe('number');
-      expect(typeof stats?.activeItems).toBe('number');
-      expect(typeof stats?.errorCount).toBe('number');
-      expect(typeof stats?.averageResponseTime).toBe('number');
-      expect(typeof stats?.memoryUsage).toBe('number');
-      expect(typeof stats?.uptime).toBe('number');
-      expect(stats?.lastActivity).toBeInstanceOf(Date);
+      expect(typeof stats.totalItems).toBe('number');
+      expect(typeof stats.activeItems).toBe('number');
+      expect(typeof stats.errorCount).toBe('number');
+      expect(typeof stats.averageResponseTime).toBe('number');
+      expect(typeof stats.memoryUsage).toBe('number');
+      expect(typeof stats.uptime).toBe('number');
+      expect(stats.lastActivity).toBeInstanceOf(Date);
     });
   });
 
   describe('Error Handling', () => {
     it('should handle invalid item updates gracefully', async () => {
-      const result = await manager?.updateItem('non-existent-id', {
+      const result = await manager.updateItem('non-existent-id', {
         name: 'Updated Item'
       });
       
-      expect(result: any).toBeUndefined();
+      expect(result).toBeUndefined();
     });
 
     it('should handle invalid item deletions gracefully', async () => {
-      const result = await manager?.deleteItem('non-existent-id');
+      const result = await manager.deleteItem('non-existent-id');
       
-      expect(result: any).toBe(false);
+      expect(result).toBe(false);
     });
   });
 
   describe('Performance', () => {
     it('should handle multiple item operations efficiently', async () => {
-      const startTime = new Date();
+      const startTime = Date.now();
       
       // Create multiple items
       const promises = [];
       for (let i = 0; i < 10; i++) {
-        promises?.push(manager?.createItem({
+        promises.push(manager.createItem({
           name: `Test Item ${i}`,
           type: 'test',
           status: 'active' as const,
@@ -208,22 +208,22 @@ describe('ServiceDiscoveryPureManager', () => {
         }));
       }
       
-      await Promise?.all(promises);
+      await Promise.all(promises);
       
-      const endTime = new Date();
+      const endTime = Date.now();
       const duration = endTime - startTime;
       
       // Should complete within reasonable time (5 seconds)
       expect(duration).toBeLessThan(5000);
       
-      const allItems = manager?.getAllItems();
-      expect(allItems?.length).toBeGreaterThanOrEqual(10);
+      const allItems = manager.getAllItems();
+      expect(allItems.length).toBeGreaterThanOrEqual(10);
     });
   });
 
   describe('Cleanup', () => {
     it('should destroy manager without errors', async () => {
-      await expect(manager?.destroy()).resolves?.not.toThrow();
+      await expect(manager.destroy()).resolves.not.toThrow();
     });
   });
 });

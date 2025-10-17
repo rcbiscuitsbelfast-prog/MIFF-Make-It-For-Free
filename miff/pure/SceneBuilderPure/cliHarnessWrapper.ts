@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { SceneBuilder, Scene, SceneObject } from './Builder';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 const builder = new SceneBuilder();
 
 try {
@@ -27,22 +27,22 @@ try {
       };
       
       // Add sample objects
-      if (scene?.procedural) {
-        scene?.objects = [
+      if (scene.procedural) {
+        scene.objects = [
           { id: 'floor', type: 'ground', position: { x: 0, y: 0, z: 0 } },
-          { id: 'wall_north', type: 'wall', position: { x: 0, y: 0, z: dims?.height / 2 } },
-          { id: 'wall_south', type: 'wall', position: { x: 0, y: 0, z: -dims?.height / 2 } },
-          { id: 'wall_east', type: 'wall', position: { x: dims?.width / 2, y: 0, z: 0 } },
-          { id: 'wall_west', type: 'wall', position: { x: -dims?.width / 2, y: 0, z: 0 } },
+          { id: 'wall_north', type: 'wall', position: { x: 0, y: 0, z: dims.height / 2 } },
+          { id: 'wall_south', type: 'wall', position: { x: 0, y: 0, z: -dims.height / 2 } },
+          { id: 'wall_east', type: 'wall', position: { x: dims.width / 2, y: 0, z: 0 } },
+          { id: 'wall_west', type: 'wall', position: { x: -dims.width / 2, y: 0, z: 0 } },
           { id: 'puzzle_element', type: 'interactive', position: { x: 0, y: 1, z: 0 } }
         ];
       }
       
-      builder?.createScene(scene);
+      builder.createScene(scene);
       
       handleSuccess({
         scene,
-        objectCount: scene?.objects.length,
+        objectCount: scene.objects.length,
         built: true
       }, 'buildScene');
       break;
@@ -56,20 +56,20 @@ try {
         type: objectType || 'prop',
         position: pos
       };
-      builder?.addObject(sceneId || 'scene_001', obj);
+      builder.addObject(sceneId || 'scene_001', obj);
       handleSuccess({ sceneId, object: obj, added: true }, 'addObject');
       break;
     }
 
     case 'listScenes': {
-      const scenes = builder?.getAllScenes();
-      handleSuccess({ scenes, count: scenes?.length }, 'listScenes');
+      const scenes = builder.getAllScenes();
+      handleSuccess({ scenes, count: scenes.length }, 'listScenes');
       break;
     }
 
     case 'getScene': {
       const { sceneId } = params;
-      const scene = builder?.getScene(sceneId || 'scene_001');
+      const scene = builder.getScene(sceneId || 'scene_001');
       handleSuccess({ scene }, 'getScene');
       break;
     }

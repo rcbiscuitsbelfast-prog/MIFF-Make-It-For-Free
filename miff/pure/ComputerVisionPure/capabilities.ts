@@ -30,7 +30,7 @@ export const computervisionCapability = {
       "isAsync": true,
       "isPublic": true,
       "examples": [
-        "await manager?.initialize({});"
+        "await manager.initialize();"
       ]
     },
     {
@@ -41,7 +41,7 @@ export const computervisionCapability = {
       "isAsync": true,
       "isPublic": true,
       "examples": [
-        "await manager?.destroy();"
+        "await manager.destroy();"
       ]
     }
   ],

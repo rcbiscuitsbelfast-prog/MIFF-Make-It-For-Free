@@ -4,12 +4,12 @@ import path from 'path';
 import { SettingsManager, SettingsConfig, SettingsValidation, SettingsStats } from './Manager';
 
 function main() {
-  const args = process?.argv.slice(2);
+  const args = process.argv.slice(2);
   const command = args[0!] || 'help';
   const initFile = args[1!];
   
   let manager: SettingsManager;
-  if (initFile && fs?.existsSync(initFile)) {
+  if (initFile && fs.existsSync(initFile)) {
     manager = new SettingsManager(initFile);
   } else {
     manager = new SettingsManager();
@@ -22,10 +22,10 @@ function main() {
       case 'get':
         const getKey = args[1!];
         if (getKey) {
-          result?.result = { key: getKey, value: manager?.get(getKey) };
+          result.result = { key: getKey, value: manager.get(getKey) };
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Key required' };
+          result.status = 'error';
+          result.result = { error: 'Key required' };
         }
         break;
 
@@ -33,21 +33,21 @@ function main() {
         const setKey = args[1!];
         const setValue = args[2!];
         if (setKey && setValue !== undefined) {
-          const success = manager?.set(setKey, setValue);
-          result?.result = { success, message: success ? 'Setting updated' : 'Invalid value' };
+          const success = manager.set(setKey, setValue);
+          result.result = { success, message: success ? 'Setting updated' : 'Invalid value' };
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Key and value required' };
+          result.status = 'error';
+          result.result = { error: 'Key and value required' };
         }
         break;
 
       case 'getCategory':
         const getCategory = args[1!];
         if (getCategory) {
-          result?.result = manager?.getCategory(getCategory);
+          result.result = manager.getCategory(getCategory);
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Category required' };
+          result.status = 'error';
+          result.result = { error: 'Category required' };
         }
         break;
 
@@ -57,75 +57,75 @@ function main() {
         if (setCategory && categoryData) {
           try {
             const values = JSON.parse(categoryData);
-            const success = manager?.setCategory(setCategory, values);
-            result?.result = { success, message: success ? 'Category updated' : 'Invalid values' };
+            const success = manager.setCategory(setCategory, values);
+            result.result = { success, message: success ? 'Category updated' : 'Invalid values' };
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            result?.status = 'error';
-            result?.result = { error: 'Invalid JSON data' };
+            result.status = 'error';
+            result.result = { error: 'Invalid JSON data' };
           }
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Category and data required' };
+          result.status = 'error';
+          result.result = { error: 'Category and data required' };
         }
         break;
 
       case 'validate':
-        result?.result = manager?.validate({});
+        result.result = manager.validate({});
         break;
 
       case 'reset':
-        manager?.reset();
-        result?.result = { message: 'Settings reset to defaults' };
+        manager.reset();
+        result.result = { message: 'Settings reset to defaults' };
         break;
 
       case 'resetCategory':
         const resetCategory = args[1!];
         if (resetCategory) {
-          const success = manager?.resetCategory(resetCategory);
-          result?.result = { success, message: success ? 'Category reset' : 'Category not found' };
+          const success = manager.resetCategory(resetCategory);
+          result.result = { success, message: success ? 'Category reset' : 'Category not found' };
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Category required' };
+          result.status = 'error';
+          result.result = { error: 'Category required' };
         }
         break;
 
       case 'getHistory':
-        result?.result = manager?.getHistory();
+        result.result = manager.getHistory();
         break;
 
       case 'getStats':
-        result?.result = manager?.getStats();
+        result.result = manager.getStats();
         break;
 
       case 'export':
         const format = (args[1!] as 'json' | 'yaml' | 'markdown' | 'html') || 'json';
-        result?.result = { data: manager?.export(format), format };
+        result.result = { data: manager.export(format), format };
         break;
 
       case 'save':
-        const savePath = args[1!] || 'settings?.json';
-        manager?.save(savePath);
-        result?.result = { message: `Settings saved to ${savePath}` };
+        const savePath = args[1!] || 'settings.json';
+        manager.save(savePath);
+        result.result = { message: `Settings saved to ${savePath}` };
         break;
 
       case 'load':
         const loadPath = args[1!];
         if (loadPath) {
-          const success = manager?.load(loadPath);
-          result?.result = { success, message: success ? 'Settings loaded' : 'Failed to load settings' };
+          const success = manager.load(loadPath);
+          result.result = { success, message: success ? 'Settings loaded' : 'Failed to load settings' };
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Path required' };
+          result.status = 'error';
+          result.result = { error: 'Path required' };
         }
         break;
 
       case 'demo':
-        result?.result = runDemo(manager);
+        result.result = runDemo(manager);
         break;
 
       case 'help':
-        result?.result = {
+        result.result = {
           usage: 'SettingsPure CLI Harness',
           commands: [
             'get [key!] - Get setting value',
@@ -144,22 +144,22 @@ function main() {
             'help - Show this help'
           ],
           examples: [
-            'node cliHarness?.ts get musicVolume',
-            'node cliHarness?.ts set graphics?.textureQuality ultra',
-            'node cliHarness?.ts export markdown',
-            'node cliHarness?.ts demo'
+            'node cliHarness.ts get musicVolume',
+            'node cliHarness.ts set graphics.textureQuality ultra',
+            'node cliHarness.ts export markdown',
+            'node cliHarness.ts demo'
           ]
         };
         break;
 
       default:
-        result?.status = 'error';
-        result?.result = { error: `Unknown command: ${command}` };
+        result.status = 'error';
+        result.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    result?.status = 'error';
-    result?.result = { error: error instanceof Error ? error?.message : 'Unknown error' };
+    result.status = 'error';
+    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));
@@ -167,13 +167,13 @@ function main() {
 
 function runDemo(manager: SettingsManager): any {
   // Demo various settings operations
-  manager?.set('musicVolume', 0.9);
-  manager?.set('graphics?.textureQuality', 'ultra');
-  manager?.set('gameplay?.difficulty', 'hard');
+  manager.set('musicVolume', 0.9);
+  manager.set('graphics.textureQuality', 'ultra');
+  manager.set('gameplay.difficulty', 'hard');
   
-  const validation = manager?.validate({});
-  const stats = manager?.getStats();
-  const history = manager?.getHistory();
+  const validation = manager.validate({});
+  const stats = manager.getStats();
+  const history = manager.getHistory();
   
   return {
     message: 'SettingsPure Demo completed',
@@ -185,14 +185,14 @@ function runDemo(manager: SettingsManager): any {
     ],
     validation,
     stats,
-    history: history?.slice(-5), // Last 5 changes
+    history: history.slice(-5), // Last 5 changes
     exportFormats: {
-      json: manager?.export('json'),
-      yaml: manager?.export('yaml'),
-      markdown: manager?.export('markdown'),
-      html: manager?.export('html')
+      json: manager.export('json'),
+      yaml: manager.export('yaml'),
+      markdown: manager.export('markdown'),
+      html: manager.export('html')
     }
   };
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

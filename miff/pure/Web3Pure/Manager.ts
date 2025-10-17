@@ -473,7 +473,7 @@ export class Web3Pure {
 
   constructor(config: Partial<Web3Config> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableBlockchainConnection: true,
       enableSmartContractInteraction: true,
       enableWalletManagement: true,
@@ -494,7 +494,7 @@ export class Web3Pure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalTransactions: 0,
       pendingTransactions: 0,
       confirmedTransactions: 0,
@@ -507,7 +507,7 @@ export class Web3Pure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalWallets: 0,
       totalContracts: 0,
       totalTransactions: 0,
@@ -525,7 +525,7 @@ export class Web3Pure {
    * Create a new Web3 manager
    */
   createManager(managerData: any = {}): Web3Output {
-    if (!this?.config.enableBlockchainConnection) {
+    if (!this.config.enableBlockchainConnection) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -535,8 +535,8 @@ export class Web3Pure {
 
     const manager: Web3Manager = {
       id: managerData.id || `manager-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Manager',
-      type: managerData?.type || 'ethereum',
+      name: managerData.name || 'Unnamed Manager',
+      type: managerData.type || 'ethereum',
       status: 'active',
       blockchains: [],
       wallets: [],
@@ -608,7 +608,7 @@ export class Web3Pure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -621,7 +621,7 @@ export class Web3Pure {
    * Get manager by ID
    */
   getManager(): Web3Output {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -641,7 +641,7 @@ export class Web3Pure {
    * Add blockchain to manager
    */
   addBlockchain(): Web3Output {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-blockchain',
@@ -652,11 +652,11 @@ export class Web3Pure {
 
     const newBlockchain: Blockchain = {
       id: blockchain.id || `blockchain-${Date.now()}`,
-      name: blockchain?.name || 'Unknown Blockchain',
-      chainId: blockchain?.chainId || 1,
-      rpcUrl: blockchain?.rpcUrl || '',
-      explorerUrl: blockchain?.explorerUrl || '',
-      nativeCurrency: blockchain?.nativeCurrency || {
+      name: blockchain.name || 'Unknown Blockchain',
+      chainId: blockchain.chainId || 1,
+      rpcUrl: blockchain.rpcUrl || '',
+      explorerUrl: blockchain.explorerUrl || '',
+      nativeCurrency: blockchain.nativeCurrency || {
         name: 'Ether',
         symbol: 'ETH',
         decimals: 18
@@ -668,8 +668,8 @@ export class Web3Pure {
       ...blockchain
     };
 
-    manager?.blockchains?.push(newBlockchain);
-    manager.updatedAt = new Date();
+    manager.blockchains.push(newBlockchain);
+    manager.updatedAt = Date.now();
 
     return {
       op: 'add-blockchain',
@@ -682,7 +682,7 @@ export class Web3Pure {
    * Add wallet to manager
    */
   addWallet(): Web3Output {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-wallet',
@@ -691,7 +691,7 @@ export class Web3Pure {
       };
     }
 
-    if (manager?.wallets.length >= this?.config.maxWallets) {
+    if (manager.wallets.length >= this.config.maxWallets) {
       return {
         op: 'add-wallet',
         status: 'error',
@@ -701,10 +701,10 @@ export class Web3Pure {
 
     const newWallet: Wallet = {
       id: wallet.id || `wallet-${Date.now()}`,
-      name: wallet?.name || 'Unnamed Wallet',
-      address: wallet?.address || '',
-      type: wallet?.type || 'ethereum',
-      blockchain: wallet?.blockchain || 'ethereum',
+      name: wallet.name || 'Unnamed Wallet',
+      address: wallet.address || '',
+      type: wallet.type || 'ethereum',
+      blockchain: wallet.blockchain || 'ethereum',
       balance: 0,
       nonce: 0,
       isActive: true,
@@ -712,9 +712,9 @@ export class Web3Pure {
       ...wallet
     };
 
-    manager?.wallets?.push(newWallet);
-    manager.updatedAt = new Date();
-    this?.analytics.totalWallets++;
+    manager.wallets.push(newWallet);
+    manager.updatedAt = Date.now();
+    this.analytics.totalWallets++;
 
     return {
       op: 'add-wallet',
@@ -727,7 +727,7 @@ export class Web3Pure {
    * Deploy smart contract
    */
   deployContract(): Web3Output {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'deploy-contract',
@@ -736,7 +736,7 @@ export class Web3Pure {
       };
     }
 
-    if (manager?.contracts.length >= this?.config.maxContracts) {
+    if (manager.contracts.length >= this.config.maxContracts) {
       return {
         op: 'deploy-contract',
         status: 'error',
@@ -746,20 +746,20 @@ export class Web3Pure {
 
     const newContract: SmartContract = {
       id: contract.id || `contract-${Date.now()}`,
-      name: contract?.name || 'Unnamed Contract',
+      name: contract.name || 'Unnamed Contract',
       address: contract.address || `0x${Math.random().toString(16).substr(2, 40)}`,
-      abi: contract?.abi || [],
-      blockchain: contract?.blockchain || 'ethereum',
-      bytecode: contract?.bytecode,
+      abi: contract.abi || [],
+      blockchain: contract.blockchain || 'ethereum',
+      bytecode: contract.bytecode,
       deployedAt: new Date(),
       gasUsed: 0,
       metadata: {},
       ...contract
     };
 
-    manager?.contracts?.push(newContract);
-    manager.updatedAt = new Date();
-    this?.analytics.totalContracts++;
+    manager.contracts.push(newContract);
+    manager.updatedAt = Date.now();
+    this.analytics.totalContracts++;
 
     return {
       op: 'deploy-contract',
@@ -772,7 +772,7 @@ export class Web3Pure {
    * Send transaction
    */
   sendTransaction(): Web3Output {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'send-transaction',
@@ -784,31 +784,31 @@ export class Web3Pure {
     const newTransaction: Transaction = {
       id: transaction.id || `tx-${Date.now()}`,
       hash: transaction.hash || `0x${Math.random().toString(16).substr(2, 64)}`,
-      from: transaction?.from || '',
-      to: transaction?.to || '',
-      value: transaction?.value || 0,
-      gasPrice: transaction?.gasPrice || 0,
-      gasLimit: transaction?.gasLimit || 21000,
+      from: transaction.from || '',
+      to: transaction.to || '',
+      value: transaction.value || 0,
+      gasPrice: transaction.gasPrice || 0,
+      gasLimit: transaction.gasLimit || 21000,
       gasUsed: 0,
-      nonce: transaction?.nonce || 0,
+      nonce: transaction.nonce || 0,
       status: 'pending',
       timestamp: new Date(),
       metadata: {},
       ...transaction
     };
 
-    manager?.transactions?.push(newTransaction);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalTransactions++;
-    this?.performanceMetrics.pendingTransactions++;
-    this?.analytics.totalTransactions++;
+    manager.transactions.push(newTransaction);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalTransactions++;
+    this.performanceMetrics.pendingTransactions++;
+    this.analytics.totalTransactions++;
 
     // Simulate transaction confirmation after a delay
     setTimeout(() => {
-      newTransaction?.status = 'confirmed';
+      newTransaction.status = 'confirmed';
       newTransaction.blockNumber = Math.floor(Math.random() * 1000000);
-      this?.performanceMetrics.pendingTransactions--;
-      this?.performanceMetrics.confirmedTransactions++;
+      this.performanceMetrics.pendingTransactions--;
+      this.performanceMetrics.confirmedTransactions++;
     }, 5000);
 
     return {
@@ -822,14 +822,14 @@ export class Web3Pure {
    * Get performance metrics
    */
   getPerformanceMetrics(): Web3PerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): Web3Analytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -843,23 +843,23 @@ export class Web3Pure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalTransactions = 0;
     let pendingTransactions = 0;
     let confirmedTransactions = 0;
     let failedTransactions = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalTransactions += manager?.transactions.length;
-      pendingTransactions += manager?.transactions.filter((t: any) => t?.status === 'pending').length;
-      confirmedTransactions += manager?.transactions.filter((t: any) => t?.status === 'confirmed').length;
-      failedTransactions += manager?.transactions.filter((t: any) => t?.status === 'failed').length;
+    for (const manager of this.managers.values()) {
+      totalTransactions += manager.transactions.length;
+      pendingTransactions += manager.transactions.filter((t: any) => t.status === 'pending').length;
+      confirmedTransactions += manager.transactions.filter((t: any) => t.status === 'confirmed').length;
+      failedTransactions += manager.transactions.filter((t: any) => t.status === 'failed').length;
     }
 
-    this?.performanceMetrics.totalTransactions = totalTransactions;
-    this?.performanceMetrics.pendingTransactions = pendingTransactions;
-    this?.performanceMetrics.confirmedTransactions = confirmedTransactions;
-    this?.performanceMetrics.failedTransactions = failedTransactions;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalTransactions = totalTransactions;
+    this.performanceMetrics.pendingTransactions = pendingTransactions;
+    this.performanceMetrics.confirmedTransactions = confirmedTransactions;
+    this.performanceMetrics.failedTransactions = failedTransactions;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

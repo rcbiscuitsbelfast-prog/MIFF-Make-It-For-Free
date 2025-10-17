@@ -12,46 +12,46 @@ import * as fs from 'fs';
  * - No external state or side effects
  */
 test('golden navigation system flow', () => {
-  const root = path?.resolve(__dirname, '..');
-  const grid = path?.resolve(root, 'fixtures/grid?.json');
+  const root = path.resolve(__dirname, '..');
+  const grid = path.resolve(root, 'fixtures/grid.json');
   
   // Run CLI harness with navigation data
-  const out = (global as any).testUtils?.runCLI(
-    path?.resolve(root, 'cliHarness?.ts'), 
+  const out = (global as any).testUtils.runCLI(
+    path.resolve(root, 'cliHarness.ts'), 
     [grid!]
   );
   
   const got = JSON.parse(out);
   
   // Verify expected structure
-  expect(got?.outputs).toBeDefined();
-  expect(got?.outputs).toBeInstanceOf(Array);
-  expect(got?.outputs.length).toBeGreaterThan(0);
+  expect(got.outputs).toBeDefined();
+  expect(got.outputs).toBeInstanceOf(Array);
+  expect(got.outputs.length).toBeGreaterThan(0);
   
-  const result = got?.outputs[0!];
-  expect(result?.op).toBe('nav?.path');
-  expect(result?.status).toBe('ok');
-  expect(result?.path).toBeDefined();
-  expect(result?.path).toBeInstanceOf(Array);
+  const result = got.outputs[0!];
+  expect(result.op).toBe('nav.path');
+  expect(result.status).toBe('ok');
+  expect(result.path).toBeDefined();
+  expect(result.path).toBeInstanceOf(Array);
   
   // Verify deterministic pathfinding
-  const pathResult = result?.path;
+  const pathResult = result.path;
   
   // Path should start from start point (A* includes start in path)
   expect(pathResult[0!]).toEqual({ x: 0, y: 0 });
   
   // Path should end at goal point
-  expect(pathResult[pathResult?.length - 1]).toEqual({ x: 9, y: 9 });
+  expect(pathResult[pathResult.length - 1]).toEqual({ x: 9, y: 9 });
   
   // Path should avoid walls at (5,5), (5,6), (6,5), (6,6)
   const wallPositions = ['5,5', '5,6', '6,5', '6,6'];
   for (const pos of pathResult) {
     const posKey = `${pos.x},${pos.y}`;
-    expect(wallPositions).not?.toContain(posKey);
+    expect(wallPositions).not.toContain(posKey);
   }
   
   // Path should be continuous (each step moves by 1 in x or y)
-  for (let i = 1; i < pathResult?.length; i++) {
+  for (let i = 1; i < pathResult.length; i++) {
     const prev = pathResult[i - 1];
     const curr = pathResult[i!];
     const dx = Math.abs(curr.x - prev.x);

@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { EquipmentManager, EquipmentSlot } from './Manager';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 const manager = new EquipmentManager();
 
 try {
@@ -23,21 +23,21 @@ try {
         equipped: true
       };
       
-      manager?.equip(playerId || 'player', equipment);
+      manager.equip(playerId || 'player', equipment);
       
       handleSuccess({
         playerId,
         itemId,
         slot,
         equipped: true,
-        currentEquipment: manager?.getEquipped(playerId || 'player')
+        currentEquipment: manager.getEquipped(playerId || 'player')
       }, 'equipItem');
       break;
     }
 
     case 'unequip': {
       const { playerId, slot } = params;
-      manager?.unequip(playerId || 'player', (slot || 'main_hand') as EquipmentSlot);
+      manager.unequip(playerId || 'player', (slot || 'main_hand') as EquipmentSlot);
       handleSuccess({
         playerId,
         slot,
@@ -48,14 +48,14 @@ try {
 
     case 'list': {
       const { playerId } = params;
-      const equipment = manager?.getEquipped(playerId || 'player');
+      const equipment = manager.getEquipped(playerId || 'player');
       handleSuccess({ playerId, equipment }, 'list');
       break;
     }
 
     case 'getStats': {
       const { playerId } = params;
-      const stats = manager?.calculateStats(playerId || 'player');
+      const stats = manager.calculateStats(playerId || 'player');
       handleSuccess({ playerId, stats }, 'getStats');
       break;
     }

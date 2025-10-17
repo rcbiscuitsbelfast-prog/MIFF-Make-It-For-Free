@@ -17,7 +17,7 @@
  * @returns Parsed mode and arguments
  */
 function parseCLIArgs(argv: string[]) {
-  const args = argv?.slice(2);
+  const args = argv.slice(2);
   const mode = args[0!] || 'default';
   return { mode, args };
 }
@@ -28,20 +28,20 @@ function parseCLIArgs(argv: string[]) {
  * @returns Parsed command, arguments, and options
  */
 function parseComplexCLIArgs(argv: string[]) {
-  const args = argv?.slice(2);
+  const args = argv.slice(2);
   const command = args[0!];
-  const commandArgs = args?.slice(1);
+  const commandArgs = args.slice(1);
   const options: Record<string, any> = {};
 
   // Parse options
-  for (let i = 0; i < commandArgs?.length; i++) {
+  for (let i = 0; i < commandArgs.length; i++) {
     const arg = commandArgs[i!];
     
-    if (arg?.startsWith('--')) {
-      const optionName = arg?.slice(2);
+    if (arg.startsWith('--')) {
+      const optionName = arg.slice(2);
       const nextArg = commandArgs[i + 1];
       
-      if (nextArg && !nextArg?.startsWith('--')) {
+      if (nextArg && !nextArg.startsWith('--')) {
         options[optionName!] = nextArg;
         i++; // Skip next arg since we consumed it
       } else {
@@ -52,7 +52,7 @@ function parseComplexCLIArgs(argv: string[]) {
 
   return { 
     command, 
-    args: commandArgs?.filter((arg: string) => !arg?.startsWith('--')), 
+    args: commandArgs.filter((arg: string) => !arg.startsWith('--')), 
     options 
   };
 }
@@ -64,27 +64,27 @@ function parseComplexCLIArgs(argv: string[]) {
  * @returns Parsed mode and parameters object
  */
 function parseKeyValueArgs(argv: string[]) {
-  const args = argv?.slice(2);
+  const args = argv.slice(2);
   const params: Record<string, any> = {};
   let mode = '';
 
   for (const arg of args) {
-    if (arg?.startsWith('--')) {
-      const equalsIndex = arg?.indexOf('=');
+    if (arg.startsWith('--')) {
+      const equalsIndex = arg.indexOf('=');
       if (equalsIndex > 0) {
-        const key = arg?.slice(2, equalsIndex);
-        let value: any = arg?.slice(equalsIndex + 1);
+        const key = arg.slice(2, equalsIndex);
+        let value: any = arg.slice(equalsIndex + 1);
         
         // Remove surrounding quotes if present
-        if ((value?.startsWith('"') && value?.endsWith('"')) || 
-            (value?.startsWith("'") && value?.endsWith("'"))) {
-          value = value?.slice(1, -1);
+        if ((value.startsWith('"') && value.endsWith('"')) || 
+            (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1);
         }
         
         // Try to parse as JSON for objects/arrays
-        if (value?.startsWith('{') || value?.startsWith('[')) {
+        if (value.startsWith('{') || value.startsWith('[')) {
           try {
-            value = JSON.parse(value: any);
+            value = JSON.parse(value);
           } catch {
             // Keep as string if JSON parse fails
           }
@@ -93,8 +93,8 @@ function parseKeyValueArgs(argv: string[]) {
         else if (value === 'true') value = true;
         else if (value === 'false') value = false;
         // Parse numbers
-        else if (!isNaN(Number(value: any)) && value !== '') {
-          value = Number(value: any);
+        else if (!isNaN(Number(value)) && value !== '') {
+          value = Number(value);
         }
         
         if (key === 'mode') {
@@ -128,12 +128,12 @@ function handleError(error: any, exitCode = 1) {
   const errorOutput = {
     op: 'error',
     status: 'error',
-    error: error instanceof Error ? error?.message : String(error),
+    error: error instanceof Error ? error.message : String(error),
     timestamp: new Date()
   };
   
   console.error(formatOutput(errorOutput));
-  process?.exit(exitCode);
+  process.exit(exitCode);
 }
 
 /**
@@ -162,16 +162,16 @@ function handleSuccess(data: any, operation = 'operation') {
 function runCLI(cliPath: string, args: string[] = []): string {
   const path = require('path');
   const { execFileSync } = require('child_process');
-  const resolvedPath = path?.isAbsolute(cliPath) ? cliPath : path?.resolve(cliPath);
+  const resolvedPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
   try {
     const output = execFileSync('npx', ['tsx', resolvedPath, ...args], { encoding: 'utf-8', timeout: 15000 });
-    return output?.trim();
+    return output.trim();
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     return JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     });
   }

@@ -25,61 +25,61 @@ import {
  */
 export class TeamsPureStrategicCLI {
   private teamManager: TeamManager;
-  private rl: readline?.Interface;
+  private rl: readline.Interface;
   private isRunning: boolean = false;
   private mockSpirits: ISpiritInstance[] = [];
 
   constructor() {
-    this?.teamManager = new TeamManager();
-    this?.rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout
+    this.teamManager = new TeamManager();
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
     });
 
-    this?.initializeDemoData();
+    this.initializeDemoData();
   }
 
   /**
    * Initialize demo spirits and teams
    */
   private initializeDemoData(): void {
-    this?.createDemoSpirits();
-    this?.createDemoTeams();
+    this.createDemoSpirits();
+    this.createDemoTeams();
   }
 
   /**
    * Create demo spirits with various stats
    */
   private createDemoSpirits(): void {
-    this?.mockSpirits = [
-      this?.createMockSpirit('fire_dragon', 'Fire', 45, {
+    this.mockSpirits = [
+      this.createMockSpirit('fire_dragon', 'Fire', 45, {
         attack: 95, defense: 75, speed: 80, hp: 85
       }),
-      this?.createMockSpirit('water_serpent', 'Water', 42, {
+      this.createMockSpirit('water_serpent', 'Water', 42, {
         attack: 80, defense: 90, speed: 65, hp: 95
       }),
-      this?.createMockSpirit('thunder_bird', 'Electric', 48, {
+      this.createMockSpirit('thunder_bird', 'Electric', 48, {
         attack: 90, defense: 70, speed: 95, hp: 80
       }),
-      this?.createMockSpirit('earth_golem', 'Ground', 40, {
+      this.createMockSpirit('earth_golem', 'Ground', 40, {
         attack: 85, defense: 95, speed: 45, hp: 90
       }),
-      this?.createMockSpirit('wind_sprite', 'Flying', 38, {
+      this.createMockSpirit('wind_sprite', 'Flying', 38, {
         attack: 75, defense: 60, speed: 100, hp: 70
       }),
-      this?.createMockSpirit('psychic_mage', 'Psychic', 50, {
+      this.createMockSpirit('psychic_mage', 'Psychic', 50, {
         attack: 100, defense: 80, speed: 85, hp: 75
       }),
-      this?.createMockSpirit('dark_knight', 'Dark', 47, {
+      this.createMockSpirit('dark_knight', 'Dark', 47, {
         attack: 88, defense: 85, speed: 75, hp: 88
       }),
-      this?.createMockSpirit('light_warrior', 'Light', 44, {
+      this.createMockSpirit('light_warrior', 'Light', 44, {
         attack: 82, defense: 78, speed: 82, hp: 85
       }),
-      this?.createMockSpirit('nature_guardian', 'Grass', 41, {
+      this.createMockSpirit('nature_guardian', 'Grass', 41, {
         attack: 78, defense: 85, speed: 70, hp: 92
       }),
-      this?.createMockSpirit('ice_crystal', 'Ice', 39, {
+      this.createMockSpirit('ice_crystal', 'Ice', 39, {
         attack: 85, defense: 75, speed: 75, hp: 80
       })
     ];
@@ -90,24 +90,24 @@ export class TeamsPureStrategicCLI {
    */
   private createDemoTeams(): void {
     // Create offensive team
-    const offensiveTeam = this?.teamManager.createTeam('offensive_force', 'Offensive Force', 6);
-    const offensiveSpirits = this?.mockSpirits.filter((s: any) => ['Fire', 'Electric', 'Psychic'].includes(s?.type));
-    offensiveSpirits?.forEach((spirit: any) => {
-      this?.teamManager.addSpiritToTeam('offensive_force', spirit);
+    const offensiveTeam = this.teamManager.createTeam('offensive_force', 'Offensive Force', 6);
+    const offensiveSpirits = this.mockSpirits.filter((s: any) => ['Fire', 'Electric', 'Psychic'].includes(s.type));
+    offensiveSpirits.forEach((spirit: any) => {
+      this.teamManager.addSpiritToTeam('offensive_force', spirit);
     });
 
     // Create defensive team
-    const defensiveTeam = this?.teamManager.createTeam('defensive_wall', 'Defensive Wall', 6);
-    const defensiveSpirits = this?.mockSpirits.filter((s: any) => ['Water', 'Ground', 'Grass'].includes(s?.type));
-    defensiveSpirits?.forEach((spirit: any) => {
-      this?.teamManager.addSpiritToTeam('defensive_wall', spirit);
+    const defensiveTeam = this.teamManager.createTeam('defensive_wall', 'Defensive Wall', 6);
+    const defensiveSpirits = this.mockSpirits.filter((s: any) => ['Water', 'Ground', 'Grass'].includes(s.type));
+    defensiveSpirits.forEach((spirit: any) => {
+      this.teamManager.addSpiritToTeam('defensive_wall', spirit);
     });
 
     // Create balanced team
-    const balancedTeam = this?.teamManager.createTeam('balanced_squad', 'Balanced Squad', 6);
-    const balancedSpirits = this?.mockSpirits.filter((s: any) => ['Light', 'Dark', 'Ice', 'Flying'].includes(s?.type));
-    balancedSpirits?.forEach((spirit: any) => {
-      this?.teamManager.addSpiritToTeam('balanced_squad', spirit);
+    const balancedTeam = this.teamManager.createTeam('balanced_squad', 'Balanced Squad', 6);
+    const balancedSpirits = this.mockSpirits.filter((s: any) => ['Light', 'Dark', 'Ice', 'Flying'].includes(s.type));
+    balancedSpirits.forEach((spirit: any) => {
+      this.teamManager.addSpiritToTeam('balanced_squad', spirit);
     });
   }
 
@@ -126,10 +126,10 @@ export class TeamsPureStrategicCLI {
       type,
       level,
       getEffectiveStats: () => ({
-        attack: stats?.attack,
-        defense: stats?.defense,
-        speed: stats?.speed,
-        hp: stats?.hp,
+        attack: stats.attack,
+        defense: stats.defense,
+        speed: stats.speed,
+        hp: stats.hp,
         specialAttack: Math.floor(stats.attack * 0.9),
         specialDefense: Math.floor(stats.defense * 0.9)
       }),
@@ -145,13 +145,13 @@ export class TeamsPureStrategicCLI {
    * Start the CLI
    */
   async start(): Promise<void> {
-    this?.isRunning = true;
+    this.isRunning = true;
     console.log('🛡️  TeamsPure Strategic CLI - Advanced Team Management');
     console.log('Type "help" for commands or "exit" to quit.\n');
 
-    while (this?.isRunning) {
-      const input = await this?.prompt('teams> ');
-      await this?.processCommand(input);
+    while (this.isRunning) {
+      const input = await this.prompt('teams> ');
+      await this.processCommand(input);
     }
   }
 
@@ -159,8 +159,8 @@ export class TeamsPureStrategicCLI {
    * Stop the CLI
    */
   stop(): void {
-    this?.isRunning = false;
-    this?.rl.close();
+    this.isRunning = false;
+    this.rl.close();
     console.log('👋 TeamsPure Strategic CLI stopped.');
   }
 
@@ -168,51 +168,51 @@ export class TeamsPureStrategicCLI {
    * Process user command
    */
   private async processCommand(input: string): Promise<void> {
-    const parts = input?.trim().split(' ');
+    const parts = input.trim().split(' ');
     const command = parts[0!]?.toLowerCase();
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     try {
       switch (command) {
         case 'help':
-          this?.showHelp();
+          this.showHelp();
           break;
         case 'exit':
         case 'quit':
-          this?.stop();
+          this.stop();
           break;
         case 'clear':
           console.clear();
           break;
         case 'list-teams':
-          this?.listTeams();
+          this.listTeams();
           break;
         case 'list-spirits':
-          this?.listSpirits();
+          this.listSpirits();
           break;
         case 'analyze':
-          await this?.analyzeTeam(args);
+          await this.analyzeTeam(args);
           break;
         case 'optimal':
-          await this?.getOptimalComposition(args);
+          await this.getOptimalComposition(args);
           break;
         case 'threats':
-          await this?.analyzeThreats(args);
+          await this.analyzeThreats(args);
           break;
         case 'strategy':
-          await this?.showStrategy(args);
+          await this.showStrategy(args);
           break;
         case 'compare':
-          await this?.compareTeams(args);
+          await this.compareTeams(args);
           break;
         case 'simulate':
-          await this?.simulateBattle(args);
+          await this.simulateBattle(args);
           break;
         case 'build':
-          await this?.buildOptimalTeam(args);
+          await this.buildOptimalTeam(args);
           break;
         case 'demo':
-          this?.runDemo();
+          this.runDemo();
           break;
         default:
           console.log('❌ Unknown command. Type "help" for available commands.');
@@ -255,18 +255,18 @@ export class TeamsPureStrategicCLI {
    * List all teams
    */
   private listTeams(): void {
-    const teams = this?.teamManager.getAllTeams();
+    const teams = this.teamManager.getAllTeams();
 
-    if (teams?.length === 0) {
+    if (teams.length === 0) {
       console.log('No teams found. Try "demo" to create sample teams.');
       return;
     }
 
     console.log('\n📋 Available Teams:');
-    teams?.forEach((team: any) => {
-      const spirits = team?.spirits;
-      const types = new Set(spirits?.map((s: any) => s?.type));
-      const avgLevel = spirits?.length > 0 ? spirits?.reduce((sum, s) => sum + s?.level, 0) / spirits?.length : 0;
+    teams.forEach((team: any) => {
+      const spirits = team.spirits;
+      const types = new Set(spirits.map((s: any) => s.type));
+      const avgLevel = spirits.length > 0 ? spirits.reduce((sum, s) => sum + s.level, 0) / spirits.length : 0;
 
       console.log(`  ${team.name} (${spirits.length}/${team.maxSize} spirits)`);
       console.log(`    Types: ${Array.from(types).join(', ')}`);
@@ -280,8 +280,8 @@ export class TeamsPureStrategicCLI {
    */
   private listSpirits(): void {
     console.log('\n🧬 Available Spirits:');
-    this?.mockSpirits.forEach((spirit: any) => {
-      const stats = spirit?.getEffectiveStats();
+    this.mockSpirits.forEach((spirit: any) => {
+      const stats = spirit.getEffectiveStats();
       console.log(`  ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
       console.log(`    ATK: ${stats.attack} | DEF: ${stats.defense} | SPD: ${stats.speed} | HP: ${stats.hp}`);
     });
@@ -291,13 +291,13 @@ export class TeamsPureStrategicCLI {
    * Analyze team strategically
    */
   private async analyzeTeam(args: string[]): Promise<void> {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('❌ Usage: analyze <team_id>');
       return;
     }
 
     const teamId = args[0!];
-    const team = this?.teamManager.getTeam(teamId);
+    const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
       console.log('❌ Team not found');
@@ -305,7 +305,7 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log(`\n🔍 Strategic Analysis for ${team.name}:`);
-    const analysis = this?.teamManager.getStrategicAnalysis(teamId);
+    const analysis = this.teamManager.getStrategicAnalysis(teamId);
 
     console.log(`Overall Strength: ${analysis.overallStrength}/100`);
     console.log(`Offensive Rating: ${analysis.offensiveRating}/100`);
@@ -315,25 +315,25 @@ export class TeamsPureStrategicCLI {
     console.log(`Type Coverage: ${analysis.typeCoverage.toFixed(1)}%`);
 
     console.log('\n💪 Strengths:');
-    analysis?.strengths.forEach((strength: any) => {
+    analysis.strengths.forEach((strength: any) => {
       console.log(`  ✅ ${strength}`);
     });
 
-    if (analysis?.weaknesses.length > 0) {
+    if (analysis.weaknesses.length > 0) {
       console.log('\n⚠️  Weaknesses:');
-      analysis?.weaknesses.forEach((weakness: any) => {
+      analysis.weaknesses.forEach((weakness: any) => {
         console.log(`  ⚠️  ${weakness}`);
       });
     }
 
     console.log('\n🎯 Recommended Strategies:');
-    analysis?.recommendedStrategies.forEach((strategy: any) => {
+    analysis.recommendedStrategies.forEach((strategy: any) => {
       console.log(`  🎯 ${strategy}`);
     });
 
-    if (analysis?.riskFactors.length > 0) {
+    if (analysis.riskFactors.length > 0) {
       console.log('\n⚠️  Risk Factors:');
-      analysis?.riskFactors.forEach((risk: any) => {
+      analysis.riskFactors.forEach((risk: any) => {
         console.log(`  ⚠️  ${risk}`);
       });
     }
@@ -343,13 +343,13 @@ export class TeamsPureStrategicCLI {
    * Get optimal team composition
    */
   private async getOptimalComposition(args: string[]): Promise<void> {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('❌ Usage: optimal <team_id>');
       return;
     }
 
     const teamId = args[0!];
-    const team = this?.teamManager.getTeam(teamId);
+    const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
       console.log('❌ Team not found');
@@ -357,28 +357,28 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log(`\n🎯 Optimal Composition for ${team.name}:`);
-    const recommendation = this?.teamManager.getOptimalTeamComposition(teamId, this?.mockSpirits);
+    const recommendation = this.teamManager.getOptimalTeamComposition(teamId, this.mockSpirits);
 
     console.log(`Predicted Performance: ${recommendation.predictedPerformance}/100`);
     console.log(`Risk Level: ${recommendation.riskLevel.toUpperCase()}`);
 
     console.log('\n📋 Recommended Team:');
-    recommendation?.recommendedTeam.forEach((spirit, index) => {
-      const stats = spirit?.getEffectiveStats();
+    recommendation.recommendedTeam.forEach((spirit, index) => {
+      const stats = spirit.getEffectiveStats();
       console.log(`  ${index + 1}. ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
       console.log(`     ATK: ${stats.attack} | DEF: ${stats.defense} | SPD: ${stats.speed}`);
     });
 
     console.log('\n💭 Reasoning:');
-    recommendation?.reasoning.forEach((reason: any) => {
+    recommendation.reasoning.forEach((reason: any) => {
       console.log(`  • ${reason}`);
     });
 
-    if (recommendation?.alternativeCompositions.length > 0) {
+    if (recommendation.alternativeCompositions.length > 0) {
       console.log('\n🔄 Alternative Compositions:');
-      recommendation?.alternativeCompositions.forEach((comp, index) => {
-        const types = new Set(comp?.map((s: any) => s?.type));
-        const avgLevel = comp?.reduce((sum, s) => sum + s?.level, 0) / comp?.length;
+      recommendation.alternativeCompositions.forEach((comp, index) => {
+        const types = new Set(comp.map((s: any) => s.type));
+        const avgLevel = comp.reduce((sum, s) => sum + s.level, 0) / comp.length;
         console.log(`  ${index + 1}. ${Array.from(types).join(', ')} (Avg Lv${avgLevel.toFixed(1)})`);
       });
     }
@@ -388,7 +388,7 @@ export class TeamsPureStrategicCLI {
    * Analyze threats against enemy teams
    */
   private async analyzeThreats(args: string[]): Promise<void> {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('❌ Usage: threats <team_id> <enemy_team_id>');
       return;
     }
@@ -396,8 +396,8 @@ export class TeamsPureStrategicCLI {
     const teamId = args[0!];
     const enemyTeamId = args[1!];
 
-    const team = this?.teamManager.getTeam(teamId);
-    const enemyTeam = this?.teamManager.getTeam(enemyTeamId);
+    const team = this.teamManager.getTeam(teamId);
+    const enemyTeam = this.teamManager.getTeam(enemyTeamId);
 
     if (!team) {
       console.log('❌ Team not found');
@@ -410,21 +410,21 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log(`\n⚔️  Threat Analysis: ${team.name} vs ${enemyTeam.name}`);
-    const analysis = this?.teamManager.analyzeThreats(teamId, [enemyTeam!]);
+    const analysis = this.teamManager.analyzeThreats(teamId, [enemyTeam!]);
 
     console.log(`Threat Level: ${analysis.threatLevel.toUpperCase()}`);
     console.log(`Vulnerability Score: ${analysis.vulnerabilityScore}/100`);
 
-    if (analysis?.primaryThreats.length > 0) {
+    if (analysis.primaryThreats.length > 0) {
       console.log('\n🚨 Primary Threats:');
-      analysis?.primaryThreats.forEach((threat: any) => {
+      analysis.primaryThreats.forEach((threat: any) => {
         console.log(`  🚨 ${threat}`);
       });
     }
 
-    if (analysis?.counterStrategies.length > 0) {
+    if (analysis.counterStrategies.length > 0) {
       console.log('\n🛡️  Counter Strategies:');
-      analysis?.counterStrategies.forEach((strategy: any) => {
+      analysis.counterStrategies.forEach((strategy: any) => {
         console.log(`  🛡️  ${strategy}`);
       });
     }
@@ -434,13 +434,13 @@ export class TeamsPureStrategicCLI {
    * Show recommended strategies
    */
   private async showStrategy(args: string[]): Promise<void> {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('❌ Usage: strategy <team_id>');
       return;
     }
 
     const teamId = args[0!];
-    const team = this?.teamManager.getTeam(teamId);
+    const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
       console.log('❌ Team not found');
@@ -448,18 +448,18 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log(`\n🎯 Strategic Recommendations for ${team.name}:`);
-    const analysis = this?.teamManager.getStrategicAnalysis(teamId);
+    const analysis = this.teamManager.getStrategicAnalysis(teamId);
 
     console.log(`Overall Strategy: ${this.getTeamStrategy(team)}`);
     console.log(`Recommended Approach: ${this.getRecommendedApproach(analysis)}`);
 
     console.log('\n📊 Detailed Recommendations:');
-    analysis?.recommendedStrategies.forEach((strategy, index) => {
+    analysis.recommendedStrategies.forEach((strategy, index) => {
       console.log(`  ${index + 1}. ${strategy}`);
     });
 
     console.log('\n🎮 Tactical Tips:');
-    this?.generateTacticalTips(analysis).forEach((tip: any) => {
+    this.generateTacticalTips(analysis).forEach((tip: any) => {
       console.log(`  💡 ${tip}`);
     });
   }
@@ -468,7 +468,7 @@ export class TeamsPureStrategicCLI {
    * Compare two teams
    */
   private async compareTeams(args: string[]): Promise<void> {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('❌ Usage: compare <team1_id> <team2_id>');
       return;
     }
@@ -476,8 +476,8 @@ export class TeamsPureStrategicCLI {
     const team1Id = args[0!];
     const team2Id = args[1!];
 
-    const team1 = this?.teamManager.getTeam(team1Id);
-    const team2 = this?.teamManager.getTeam(team2Id);
+    const team1 = this.teamManager.getTeam(team1Id);
+    const team2 = this.teamManager.getTeam(team2Id);
 
     if (!team1 || !team2) {
       console.log('❌ One or both teams not found');
@@ -486,8 +486,8 @@ export class TeamsPureStrategicCLI {
 
     console.log(`\n⚖️  Team Comparison: ${team1.name} vs ${team2.name}`);
 
-    const analysis1 = this?.teamManager.getStrategicAnalysis(team1Id);
-    const analysis2 = this?.teamManager.getStrategicAnalysis(team2Id);
+    const analysis1 = this.teamManager.getStrategicAnalysis(team1Id);
+    const analysis2 = this.teamManager.getStrategicAnalysis(team2Id);
 
     console.log(`\n${team1.name}:`);
     console.log(`  Strength: ${analysis1.overallStrength}/100`);
@@ -497,17 +497,17 @@ export class TeamsPureStrategicCLI {
     console.log(`  Strength: ${analysis2.overallStrength}/100`);
     console.log(`  Strategy: ${this.getTeamStrategy(team2)}`);
 
-    const winner = analysis1?.overallStrength > analysis2?.overallStrength ? team1 : team2;
+    const winner = analysis1.overallStrength > analysis2.overallStrength ? team1 : team2;
     console.log(`\n🏆 Predicted Winner: ${winner.name} (${Math.abs(analysis1.overallStrength - analysis2.overallStrength)} point advantage)`);
 
-    this?.showComparisonDetails(analysis1, analysis2);
+    this.showComparisonDetails(analysis1, analysis2);
   }
 
   /**
    * Simulate battle between teams
    */
   private async simulateBattle(args: string[]): Promise<void> {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('❌ Usage: simulate <team1_id> <team2_id>');
       return;
     }
@@ -515,8 +515,8 @@ export class TeamsPureStrategicCLI {
     const team1Id = args[0!];
     const team2Id = args[1!];
 
-    const team1 = this?.teamManager.getTeam(team1Id);
-    const team2 = this?.teamManager.getTeam(team2Id);
+    const team1 = this.teamManager.getTeam(team1Id);
+    const team2 = this.teamManager.getTeam(team2Id);
 
     if (!team1 || !team2) {
       console.log('❌ One or both teams not found');
@@ -525,19 +525,19 @@ export class TeamsPureStrategicCLI {
 
     console.log(`\n⚔️  Battle Simulation: ${team1.name} vs ${team2.name}`);
 
-    const analysis1 = this?.teamManager.getStrategicAnalysis(team1Id);
-    const analysis2 = this?.teamManager.getStrategicAnalysis(team2Id);
+    const analysis1 = this.teamManager.getStrategicAnalysis(team1Id);
+    const analysis2 = this.teamManager.getStrategicAnalysis(team2Id);
 
     // Simple battle simulation based on ratings
-    const team1Score = (analysis1?.offensiveRating * 0.4) + (analysis1?.defensiveRating * 0.3) + (analysis1?.mobilityRating * 0.3);
-    const team2Score = (analysis2?.offensiveRating * 0.4) + (analysis2?.defensiveRating * 0.3) + (analysis2?.mobilityRating * 0.3);
+    const team1Score = (analysis1.offensiveRating * 0.4) + (analysis1.defensiveRating * 0.3) + (analysis1.mobilityRating * 0.3);
+    const team2Score = (analysis2.offensiveRating * 0.4) + (analysis2.defensiveRating * 0.3) + (analysis2.mobilityRating * 0.3);
 
     console.log(`\nRound 1: Positioning`);
     console.log(`  ${team1.name}: ${analysis1.mobilityRating > analysis2.mobilityRating ? 'Takes initiative' : 'Defensive stance'}`);
     console.log(`  ${team2.name}: ${analysis2.mobilityRating > analysis1.mobilityRating ? 'Takes initiative' : 'Defensive stance'}`);
 
     console.log(`\nRound 2: Combat`);
-    if (analysis1?.offensiveRating > analysis2?.defensiveRating) {
+    if (analysis1.offensiveRating > analysis2.defensiveRating) {
       console.log(`  ${team1.name} breaks through ${team2.name}'s defenses!`);
     } else {
       console.log(`  ${team2.name} holds against ${team1.name}'s assault!`);
@@ -559,13 +559,13 @@ export class TeamsPureStrategicCLI {
    * Build optimal team composition
    */
   private async buildOptimalTeam(args: string[]): Promise<void> {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('❌ Usage: build <team_id>');
       return;
     }
 
     const teamId = args[0!];
-    const team = this?.teamManager.getTeam(teamId);
+    const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
       console.log('❌ Team not found');
@@ -573,21 +573,21 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log(`\n🏗️  Building Optimal Team: ${team.name}`);
-    const recommendation = this?.teamManager.getOptimalTeamComposition(teamId, this?.mockSpirits);
+    const recommendation = this.teamManager.getOptimalTeamComposition(teamId, this.mockSpirits);
 
     console.log(`Target Performance: ${recommendation.predictedPerformance}/100`);
     console.log(`Risk Level: ${recommendation.riskLevel.toUpperCase()}`);
 
     // Clear current team
-    const currentSpirits = [...team?.spirits];
-    currentSpirits?.forEach((spirit: any) => {
-      this?.teamManager.removeSpiritFromTeam(teamId, spirit?.instanceId);
+    const currentSpirits = [...team.spirits];
+    currentSpirits.forEach((spirit: any) => {
+      this.teamManager.removeSpiritFromTeam(teamId, spirit.instanceId);
     });
 
     // Add recommended spirits
     console.log('\n📋 Adding Optimal Spirits:');
-    recommendation?.recommendedTeam.forEach((spirit, index) => {
-      this?.teamManager.addSpiritToTeam(teamId, spirit);
+    recommendation.recommendedTeam.forEach((spirit, index) => {
+      this.teamManager.addSpiritToTeam(teamId, spirit);
       console.log(`  ✅ Added ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
     });
 
@@ -595,7 +595,7 @@ export class TeamsPureStrategicCLI {
     console.log(`Team now has ${recommendation.recommendedTeam.length} spirits`);
     console.log(`Performance: ${recommendation.predictedPerformance}/100`);
 
-    if (recommendation?.riskLevel === 'high') {
+    if (recommendation.riskLevel === 'high') {
       console.log('⚠️  Warning: High risk composition - consider alternatives');
     }
   }
@@ -606,8 +606,8 @@ export class TeamsPureStrategicCLI {
   private runDemo(): void {
     console.log('🚀 Running TeamsPure Strategic Demo...\n');
 
-    this?.listTeams();
-    this?.listSpirits();
+    this.listTeams();
+    this.listSpirits();
 
     console.log('\n🎯 Demo Actions:');
     console.log('  1. analyze offensive_force      - Analyze offensive team');
@@ -622,8 +622,8 @@ export class TeamsPureStrategicCLI {
 
   // Helper methods
   private getTeamStrategy(team): string {
-    const spirits = team?.spirits;
-    if (spirits?.length === 0) return 'No spirits';
+    const spirits = team.spirits;
+    if (spirits.length === 0) return 'No spirits';
 
     const offensiveRating = TeamStrategyAnalyzer['calculateOffensiveRating'](spirits);
     const defensiveRating = TeamStrategyAnalyzer['calculateDefensiveRating'](spirits);
@@ -636,33 +636,33 @@ export class TeamsPureStrategicCLI {
   }
 
   private getRecommendedApproach(analysis: IStrategicAnalysis): string {
-    if (analysis?.offensiveRating > 70) return 'Focus on aggressive attacks and exploiting weaknesses';
-    if (analysis?.defensiveRating > 70) return 'Focus on endurance and counter-attacks';
-    if (analysis?.mobilityRating > 70) return 'Focus on positioning and hit-and-run tactics';
+    if (analysis.offensiveRating > 70) return 'Focus on aggressive attacks and exploiting weaknesses';
+    if (analysis.defensiveRating > 70) return 'Focus on endurance and counter-attacks';
+    if (analysis.mobilityRating > 70) return 'Focus on positioning and hit-and-run tactics';
     return 'Focus on balanced approach and team coordination';
   }
 
   private generateTacticalTips(analysis: IStrategicAnalysis): string[] {
     const tips: string[] = [];
 
-    if (analysis?.offensiveRating > 70) {
-      tips?.push('Use type advantages to maximize damage output');
-      tips?.push('Focus high-attack spirits on enemy weak points');
+    if (analysis.offensiveRating > 70) {
+      tips.push('Use type advantages to maximize damage output');
+      tips.push('Focus high-attack spirits on enemy weak points');
     }
 
-    if (analysis?.defensiveRating > 70) {
-      tips?.push('Protect vulnerable team members with defensive positioning');
-      tips?.push('Use defensive spirits to create chokepoints');
+    if (analysis.defensiveRating > 70) {
+      tips.push('Protect vulnerable team members with defensive positioning');
+      tips.push('Use defensive spirits to create chokepoints');
     }
 
-    if (analysis?.mobilityRating > 70) {
-      tips?.push('Control the battlefield with superior positioning');
-      tips?.push('Use speed to outmaneuver slower opponents');
+    if (analysis.mobilityRating > 70) {
+      tips.push('Control the battlefield with superior positioning');
+      tips.push('Use speed to outmaneuver slower opponents');
     }
 
-    if (analysis?.synergyRating > 70) {
-      tips?.push('Coordinate attacks for maximum combined effectiveness');
-      tips?.push('Use team synergies to create powerful combinations');
+    if (analysis.synergyRating > 70) {
+      tips.push('Coordinate attacks for maximum combined effectiveness');
+      tips.push('Use team synergies to create powerful combinations');
     }
 
     return tips;
@@ -672,15 +672,15 @@ export class TeamsPureStrategicCLI {
     console.log('\n📊 Detailed Comparison:');
 
     const categories = [
-      { name: 'Offense', val1: analysis1?.offensiveRating, val2: analysis2?.offensiveRating },
-      { name: 'Defense', val1: analysis1?.defensiveRating, val2: analysis2?.defensiveRating },
-      { name: 'Mobility', val1: analysis1?.mobilityRating, val2: analysis2?.mobilityRating },
-      { name: 'Synergy', val1: analysis1?.synergyRating, val2: analysis2?.synergyRating },
-      { name: 'Type Coverage', val1: analysis1?.typeCoverage, val2: analysis2?.typeCoverage }
+      { name: 'Offense', val1: analysis1.offensiveRating, val2: analysis2.offensiveRating },
+      { name: 'Defense', val1: analysis1.defensiveRating, val2: analysis2.defensiveRating },
+      { name: 'Mobility', val1: analysis1.mobilityRating, val2: analysis2.mobilityRating },
+      { name: 'Synergy', val1: analysis1.synergyRating, val2: analysis2.synergyRating },
+      { name: 'Type Coverage', val1: analysis1.typeCoverage, val2: analysis2.typeCoverage }
     ];
 
-    categories?.forEach((cat: any) => {
-      const diff = cat?.val1 - cat?.val2;
+    categories.forEach((cat: any) => {
+      const diff = cat.val1 - cat.val2;
       const symbol = diff > 0 ? '>' : diff < 0 ? '<' : '=';
       console.log(`  ${cat.name}: ${cat.val1} ${symbol} ${cat.val2}`);
     });
@@ -688,7 +688,7 @@ export class TeamsPureStrategicCLI {
 
   private prompt(query: string): Promise<string> {
     return new Promise((resolve) => {
-      this?.rl.question(query, resolve);
+      this.rl.question(query, resolve);
     });
   }
 }
@@ -699,14 +699,14 @@ export class TeamsPureStrategicCLI {
 async function main() {
   const cli = new TeamsPureStrategicCLI();
 
-  if (process?.argv.includes('--demo')) {
-    cli?.runDemo();
+  if (process.argv.includes('--demo')) {
+    cli.runDemo();
   }
 
-  await cli?.start();
+  await cli.start();
 }
 
 // Run CLI
-if (require?.main === module) {
+if (require.main === module) {
   main().catch(console.error);
 }

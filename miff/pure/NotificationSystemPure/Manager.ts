@@ -110,7 +110,7 @@ export interface NotificationRecipient {
   userId: string;
   email: string;
   phone: string;
-  device?.id: string;
+  device.id: string;
   preferences: UserPreferences;
 }
 
@@ -1011,7 +1011,7 @@ export class NotificationSystemPure {
 
   constructor(config: Partial<NotificationSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableNotificationManagement: true,
       enableNotificationDelivery: true,
       enableMultiChannelSupport: true,
@@ -1029,7 +1029,7 @@ export class NotificationSystemPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalNotifications: 0,
       sentNotifications: 0,
       failedNotifications: 0,
@@ -1044,7 +1044,7 @@ export class NotificationSystemPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalNotifications: 0,
       sentNotifications: 0,
       averageDeliveryTime: 0,
@@ -1058,7 +1058,7 @@ export class NotificationSystemPure {
    * Create a new notification system manager
    */
   createManager(): NotificationSystemOutput {
-    if (!this?.config.enableNotificationManagement) {
+    if (!this.config.enableNotificationManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1068,8 +1068,8 @@ export class NotificationSystemPure {
 
     const manager: NotificationSystemManager = {
       id: managerData.id || `notificationsystem-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Notification System Manager',
-      type: managerData?.type || 'web',
+      name: managerData.name || 'Unnamed Notification System Manager',
+      type: managerData.type || 'web',
       status: 'active',
       notifications: [],
       channels: [],
@@ -1136,7 +1136,7 @@ export class NotificationSystemPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -1149,7 +1149,7 @@ export class NotificationSystemPure {
    * Get manager by ID
    */
   getManager(): NotificationSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1169,14 +1169,14 @@ export class NotificationSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): NotificationSystemPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): NotificationSystemAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1190,7 +1190,7 @@ export class NotificationSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalNotifications = 0;
     let sentNotifications = 0;
     let failedNotifications = 0;
@@ -1199,23 +1199,23 @@ export class NotificationSystemPure {
     let totalTemplates = 0;
     let totalUsers = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalNotifications += manager?.notifications.length;
-      sentNotifications += manager?.notifications.filter((n: any) => n?.status === 'sent' || n?.status === 'delivered').length;
-      failedNotifications += manager?.notifications.filter((n: any) => n?.status === 'failed').length;
-      totalChannels += manager?.channels.length;
-      activeChannels += manager?.channels.filter((c: any) => c?.status === 'active').length;
-      totalTemplates += manager?.templates.length;
-      totalUsers += manager?.users.length;
+    for (const manager of this.managers.values()) {
+      totalNotifications += manager.notifications.length;
+      sentNotifications += manager.notifications.filter((n: any) => n.status === 'sent' || n.status === 'delivered').length;
+      failedNotifications += manager.notifications.filter((n: any) => n.status === 'failed').length;
+      totalChannels += manager.channels.length;
+      activeChannels += manager.channels.filter((c: any) => c.status === 'active').length;
+      totalTemplates += manager.templates.length;
+      totalUsers += manager.users.length;
     }
 
-    this?.performanceMetrics.totalNotifications = totalNotifications;
-    this?.performanceMetrics.sentNotifications = sentNotifications;
-    this?.performanceMetrics.failedNotifications = failedNotifications;
-    this?.performanceMetrics.totalChannels = totalChannels;
-    this?.performanceMetrics.activeChannels = activeChannels;
-    this?.performanceMetrics.totalTemplates = totalTemplates;
-    this?.performanceMetrics.totalUsers = totalUsers;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalNotifications = totalNotifications;
+    this.performanceMetrics.sentNotifications = sentNotifications;
+    this.performanceMetrics.failedNotifications = failedNotifications;
+    this.performanceMetrics.totalChannels = totalChannels;
+    this.performanceMetrics.activeChannels = activeChannels;
+    this.performanceMetrics.totalTemplates = totalTemplates;
+    this.performanceMetrics.totalUsers = totalUsers;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

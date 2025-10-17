@@ -59,8 +59,8 @@ Examples:
 }
 
 function printStatus(state: CLIState): void {
-  const allSpirits = state?.syncManager.getAllSpirits();
-  const stats = state?.syncManager.getStatistics();
+  const allSpirits = state.syncManager.getAllSpirits();
+  const stats = state.syncManager.getStatistics();
 
   console.log('\n🎵 Sync System Status:');
   console.log(`Total Spirits: ${allSpirits.length}`);
@@ -72,7 +72,7 @@ function printStatus(state: CLIState): void {
 }
 
 function printSpiritInfo(state: CLIState, spiritId: string): void {
-  const entry = state?.syncManager.getSyncEntry(spiritId);
+  const entry = state.syncManager.getSyncEntry(spiritId);
 
   if (!entry) {
     console.log(`❌ Spirit '${spiritId}' not found`);
@@ -92,14 +92,14 @@ function createDemoData(): SyncManager {
   const syncManager = new SyncManager();
 
   // Create demo spirits
-  syncManager?.increaseSync('ember', 25);
-  syncManager?.increaseSync('ripple', 15);
-  syncManager?.increaseSync('sprout', 5);
+  syncManager.increaseSync('ember', 25);
+  syncManager.increaseSync('ripple', 15);
+  syncManager.increaseSync('sprout', 5);
 
   // Set thresholds
-  syncManager?.setThresholds('ember', SyncUtils?.createStandardThresholds(100));
-  syncManager?.setThresholds('ripple', SyncUtils?.createStandardThresholds(100));
-  syncManager?.setThresholds('sprout', SyncUtils?.createStandardThresholds(100));
+  syncManager.setThresholds('ember', SyncUtils.createStandardThresholds(100));
+  syncManager.setThresholds('ripple', SyncUtils.createStandardThresholds(100));
+  syncManager.setThresholds('sprout', SyncUtils.createStandardThresholds(100));
 
   console.log('✅ Demo data created with 3 spirits');
   return syncManager;
@@ -109,31 +109,31 @@ function runDemo(state: CLIState): void {
   console.log('🎯 Running SyncPure Demo...\n');
 
   const demoData = createDemoData();
-  state?.syncManager = demoData;
+  state.syncManager = demoData;
 
   // Simulate various sync events
   console.log('--- Simulating Sync Events ---\n');
 
   // Battle events
   console.log('⚔️ Battle Events:');
-  state?.syncManager.processSyncEvent('ember', SyncEvent?.createBattleWin(1));
+  state.syncManager.processSyncEvent('ember', SyncEvent.createBattleWin(1));
   console.log('  Ember wins easy battle (+10 sync)');
 
-  state?.syncManager.processSyncEvent('ripple', SyncEvent?.createBattleWin(2));
+  state.syncManager.processSyncEvent('ripple', SyncEvent.createBattleWin(2));
   console.log('  Ripple wins normal battle (+20 sync)');
 
   // Item events
   console.log('🎒 Item Usage Events:');
-  state?.syncManager.processSyncEvent('ember', SyncEvent?.createItemUsage('health_potion', 1));
+  state.syncManager.processSyncEvent('ember', SyncEvent.createItemUsage('health_potion', 1));
   console.log('  Ember uses common item (+5 sync)');
 
-  state?.syncManager.processSyncEvent('sprout', SyncEvent?.createItemUsage('legendary_weapon', 5));
+  state.syncManager.processSyncEvent('sprout', SyncEvent.createItemUsage('legendary_weapon', 5));
   console.log('  Sprout uses legendary item (+40 sync)\n');
 
   // Show final results
   console.log('--- Final Sync Levels ---');
-  state?.syncManager.getAllSpirits().forEach(spiritId => {
-    const level = state?.syncManager.getSyncLevel(spiritId);
+  state.syncManager.getAllSpirits().forEach(spiritId => {
+    const level = state.syncManager.getSyncLevel(spiritId);
     console.log(`  ${spiritId}: Level ${level}`);
   });
 
@@ -152,18 +152,18 @@ async function runCLI(): Promise<void> {
 
   console.log('🎵 SyncPure CLI - Type "help" for commands or "demo" to see sync system in action\n');
 
-  const rl = readline?.createInterface({
-    input: process?.stdin,
-    output: process?.stdout,
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
     prompt: 'sync> '
   });
 
-  rl?.prompt();
+  rl.prompt();
 
-  rl?.on('line', (input: string) => {
-    const parts = input?.trim().split(/\s+/);
+  rl.on('line', (input: string) => {
+    const parts = input.trim().split(/\s+/);
     const command = parts[0!]?.toLowerCase() || '';
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     switch (command) {
       case 'help':
@@ -176,7 +176,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'spirit':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: spirit <spirit_id>');
         } else {
           printSpiritInfo(state, args[0!]);
@@ -184,7 +184,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'add':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: add <spirit_id> <initial_level>');
         } else {
           const spiritId = args[0!];
@@ -193,15 +193,15 @@ async function runCLI(): Promise<void> {
           if (isNaN(initialLevel) || initialLevel < 0) {
             console.log('❌ Initial level must be a non-negative number');
           } else {
-            state?.syncManager.increaseSync(spiritId, initialLevel);
-            state?.syncManager.setThresholds(spiritId, SyncUtils?.createStandardThresholds(100));
+            state.syncManager.increaseSync(spiritId, initialLevel);
+            state.syncManager.setThresholds(spiritId, SyncUtils.createStandardThresholds(100));
             console.log(`✅ Added ${spiritId} with initial sync level ${initialLevel}`);
           }
         }
         break;
 
       case 'sync':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: sync <spirit_id> <amount>');
         } else {
           const spiritId = args[0!];
@@ -210,24 +210,24 @@ async function runCLI(): Promise<void> {
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Sync amount must be a positive number');
           } else {
-            const increase = state?.syncManager.increaseSync(spiritId, amount);
+            const increase = state.syncManager.increaseSync(spiritId, amount);
             console.log(`✅ Added ${amount} sync to ${spiritId} (+${increase} levels)`);
           }
         }
         break;
 
       case 'reset':
-        if (args?.length === 0) {
+        if (args.length === 0) {
           console.log('❌ Usage: reset <spirit_id>');
         } else {
           const spiritId = args[0!];
-          const oldLevel = state?.syncManager.resetSync(spiritId);
+          const oldLevel = state.syncManager.resetSync(spiritId);
           console.log(`✅ Reset ${spiritId} sync from ${oldLevel} to 0`);
         }
         break;
 
       case 'event':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: event <spirit_id> <trigger>');
         } else {
           const spiritId = args[0!];
@@ -236,51 +236,51 @@ async function runCLI(): Promise<void> {
 
           let syncEvent: SyncEvent;
 
-          switch (triggerStr?.toLowerCase()) {
+          switch (triggerStr.toLowerCase()) {
             case 'battle_win':
               const difficulty = tag ? parseInt(tag) : 1;
-              syncEvent = SyncEvent?.createBattleWin(difficulty);
+              syncEvent = SyncEvent.createBattleWin(difficulty);
               break;
             case 'item_usage':
               const rarity = (tag as any) || 'common';
-              syncEvent = SyncEvent?.createItemUsage(tag || 'unknown_item', SyncUtils?.calculateItemSyncGain(rarity));
+              syncEvent = SyncEvent.createItemUsage(tag || 'unknown_item', SyncUtils.calculateItemSyncGain(rarity));
               break;
             case 'dialogue_choice':
               const emotionalWeight = tag ? parseFloat(tag) : 1;
-              syncEvent = SyncEvent?.createDialogueChoice(tag || 'unknown_choice', emotionalWeight);
+              syncEvent = SyncEvent.createDialogueChoice(tag || 'unknown_choice', emotionalWeight);
               break;
             case 'rhythm_challenge_success':
               const accuracy = tag ? parseFloat(tag) : 0.8;
-              syncEvent = SyncEvent?.createRhythmChallenge(accuracy);
+              syncEvent = SyncEvent.createRhythmChallenge(accuracy);
               break;
             default:
               console.log('❌ Unknown trigger. Use: battle_win, item_usage, dialogue_choice, rhythm_challenge_success');
               return;
           }
 
-          const increase = state?.syncManager.processSyncEvent(spiritId, syncEvent);
+          const increase = state.syncManager.processSyncEvent(spiritId, syncEvent);
           console.log(`✅ Processed ${syncEvent.getSummary()} (+${increase} levels)`);
         }
         break;
 
       case 'thresholds':
-        if (args?.length < 1) {
+        if (args.length < 1) {
           console.log('❌ Usage: thresholds <spirit_id> [threshold1 threshold2 ...]');
         } else {
           const spiritId = args[0!];
-          const thresholds = args?.slice(1).map((t: any) => parseInt(t)).filter((t: any) => !isNaN(t));
+          const thresholds = args.slice(1).map((t: any) => parseInt(t)).filter((t: any) => !isNaN(t));
 
-          if (thresholds?.length === 0) {
+          if (thresholds.length === 0) {
             console.log('❌ At least one threshold value required');
           } else {
-            const success = state?.syncManager.setThresholds(spiritId, thresholds);
+            const success = state.syncManager.setThresholds(spiritId, thresholds);
             console.log(success ? `✅ Set thresholds for ${spiritId}: ${thresholds.join(', ')}` : '❌ Failed');
           }
         }
         break;
 
       case 'challenge':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: challenge <bpm> <difficulty>');
         } else {
           const bpm = parseFloat(args[0!]);
@@ -298,9 +298,9 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'play':
-        if (!state?.currentChallenge) {
+        if (!state.currentChallenge) {
           console.log('❌ No challenge active. Create one with "challenge" command');
-        } else if (args?.length === 0) {
+        } else if (args.length === 0) {
           console.log('❌ Usage: play <accuracy>');
         } else {
           const accuracy = parseFloat(args[0!]);
@@ -308,25 +308,25 @@ async function runCLI(): Promise<void> {
           if (isNaN(accuracy) || accuracy < 0 || accuracy > 1) {
             console.log('❌ Accuracy must be between 0.0 and 1.0');
           } else {
-            const syncGain = state?.currentChallenge.evaluatePerformance(accuracy);
+            const syncGain = state.currentChallenge.evaluatePerformance(accuracy);
             console.log(`🎵 Challenge completed! Accuracy: ${(accuracy * 100).toFixed(1)}%`);
             console.log(`   Sync gained: ${syncGain}`);
 
             // Apply to random spirit
-            const spirits = state?.syncManager.getAllSpirits();
-            if (spirits?.length > 0) {
+            const spirits = state.syncManager.getAllSpirits();
+            if (spirits.length > 0) {
               const randomSpirit = spirits[Math.floor(Math.random() * spirits.length)];
-              state?.syncManager.processSyncEvent(randomSpirit, SyncEvent?.createRhythmChallenge(accuracy, state?.currentChallenge.difficulty));
+              state.syncManager.processSyncEvent(randomSpirit, SyncEvent.createRhythmChallenge(accuracy, state.currentChallenge.difficulty));
               console.log(`   Applied to ${randomSpirit}`);
             }
 
-            state?.currentChallenge = null;
+            state.currentChallenge = null;
           }
         }
         break;
 
       case 'battle':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: battle <spirit_id> <difficulty>');
         } else {
           const spiritId = args[0!];
@@ -335,8 +335,8 @@ async function runCLI(): Promise<void> {
           if (isNaN(difficulty) || difficulty < 1) {
             console.log('❌ Difficulty must be a positive number');
           } else {
-            const syncGain = SyncUtils?.calculateBattleSyncGain(10, 10 + difficulty, true, difficulty);
-            const increase = state?.syncManager.processSyncEvent(spiritId, SyncEvent?.createBattleWin(difficulty));
+            const syncGain = SyncUtils.calculateBattleSyncGain(10, 10 + difficulty, true, difficulty);
+            const increase = state.syncManager.processSyncEvent(spiritId, SyncEvent.createBattleWin(difficulty));
             console.log(`⚔️ ${spiritId} wins battle (difficulty ${difficulty})`);
             console.log(`   Sync gained: ${syncGain} (+${increase} levels)`);
           }
@@ -344,7 +344,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'item':
-        if (args?.length < 2) {
+        if (args.length < 2) {
           console.log('❌ Usage: item <spirit_id> <rarity>');
         } else {
           const spiritId = args[0!];
@@ -353,8 +353,8 @@ async function runCLI(): Promise<void> {
           if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(rarity)) {
             console.log('❌ Rarity must be: common, uncommon, rare, epic, legendary');
           } else {
-            const syncGain = SyncUtils?.calculateItemSyncGain(rarity);
-            const increase = state?.syncManager.processSyncEvent(spiritId, SyncEvent?.createItemUsage(`item_${rarity}`, syncGain));
+            const syncGain = SyncUtils.calculateItemSyncGain(rarity);
+            const increase = state.syncManager.processSyncEvent(spiritId, SyncEvent.createItemUsage(`item_${rarity}`, syncGain));
             console.log(`🎒 ${spiritId} uses ${rarity} item`);
             console.log(`   Sync gained: ${syncGain} (+${increase} levels)`);
           }
@@ -362,7 +362,7 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'stats':
-        const stats = state?.syncManager.getStatistics();
+        const stats = state.syncManager.getStatistics();
         console.log('\n📊 Sync Statistics:');
         console.log(`Total Events: ${stats.totalSyncEvents}`);
         console.log(`Total Sync Gained: ${stats.totalSyncGained}`);
@@ -372,9 +372,9 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'clear':
-        state?.syncManager.clear();
-        state?.eventHistory.length = 0;
-        state?.currentChallenge = null;
+        state.syncManager.clear();
+        state.eventHistory.length = 0;
+        state.currentChallenge = null;
         console.log('✅ All sync data cleared');
         break;
 
@@ -386,8 +386,8 @@ async function runCLI(): Promise<void> {
       case 'exit':
       case 'q':
         console.log('👋 Goodbye!');
-        rl?.close();
-        process?.exit(0);
+        rl.close();
+        process.exit(0);
 
       default:
         if (command !== '') {
@@ -395,20 +395,20 @@ async function runCLI(): Promise<void> {
         }
     }
 
-    rl?.prompt();
+    rl.prompt();
   });
 
-  rl?.on('SIGINT', () => {
+  rl.on('SIGINT', () => {
     console.log('\n👋 Goodbye!');
-    rl?.close();
-    process?.exit(0);
+    rl.close();
+    process.exit(0);
   });
 }
 
 // Main execution
-if (require?.main === module) {
+if (require.main === module) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
-    process?.exit(1);
+    process.exit(1);
   });
 }

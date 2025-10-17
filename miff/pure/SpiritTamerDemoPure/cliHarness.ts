@@ -24,82 +24,82 @@ class SpiritTamerCLI {
   private manager: SpiritTamerManager;
 
   constructor() {
-    this?.manager = new SpiritTamerManager();
+    this.manager = new SpiritTamerManager();
   }
 
   async execute(operation: SpiritTamerOperation): Promise<any> {
     try {
-      switch (operation?.op) {
+      switch (operation.op) {
         case 'demo':
-          return this?.runDemo();
+          return this.runDemo();
         
         case 'scenario':
-          return this?.runScenario();
+          return this.runScenario();
         
         case 'tame':
-          return this?.tameSpirit(operation);
+          return this.tameSpirit(operation);
         
         case 'battle':
-          return this?.simulateBattle(operation);
+          return this.simulateBattle(operation);
         
         case 'dump':
-          return this?.dump();
+          return this.dump();
         
         case 'list':
-          return this?.listSpirits(operation);
+          return this.listSpirits(operation);
         
         case 'player':
-          return this?.getPlayer();
+          return this.getPlayer();
         
         case 'move':
-          return this?.movePlayer(operation);
+          return this.movePlayer(operation);
         
         case 'startTaming':
-          return this?.startTaming(operation);
+          return this.startTaming(operation);
         
         case 'rhythm':
-          return this?.processRhythm(operation);
+          return this.processRhythm(operation);
         
         case 'session':
-          return this?.getSession(operation);
+          return this.getSession(operation);
         
         case 'sessions':
-          return this?.listSessions();
+          return this.listSessions();
         
         case 'stats':
-          return this?.getStats();
+          return this.getStats();
         
         case 'export':
-          return this?.exportData(operation);
+          return this.exportData(operation);
         
         case 'reset':
-          return this?.reset();
+          return this.reset();
         
         default:
-          throw new Error(`Unknown operation: ${operation?.op}`);
+          throw new Error(`Unknown operation: ${operation.op}`);
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation?.op,
+        op: operation.op,
         status: 'error',
-        error: error instanceof Error ? error?.message : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date()
       };
     }
   }
 
   private runDemo(): any {
-    const playerResult = this?.manager.getPlayer();
-    const spiritsResult = this?.manager.listSpirits('grove');
+    const playerResult = this.manager.getPlayer();
+    const spiritsResult = this.manager.listSpirits('grove');
 
     return {
       op: 'demo',
       status: 'ok',
       result: {
         scene: 'grove',
-        player: playerResult?.player.location,
-        spirits: spiritsResult?.spirits.map((s: any) => s?.id),
+        player: playerResult.player.location,
+        spirits: spiritsResult.spirits.map((s: any) => s.id),
         orchestrationReady: true,
         metadata: {
           scenario: 'spirit-tamer-trial-of-grove',
@@ -112,96 +112,96 @@ class SpiritTamerCLI {
   }
 
   private runScenario(): any {
-    const exportResult = this?.manager.exportData('scenario');
+    const exportResult = this.manager.exportData('scenario');
     
     return {
       op: 'scenario',
-      status: exportResult?.ok ? 'ok' : 'error',
-      result: exportResult?.data,
-      errors: exportResult?.errors,
+      status: exportResult.ok ? 'ok' : 'error',
+      result: exportResult.data,
+      errors: exportResult.errors,
       timestamp: new Date()
     };
   }
 
   private tameSpirit(op: SpiritTamerOperation): any {
-    if (!op?.spiritId) {
+    if (!op.spiritId) {
       throw new Error('Missing required field: spiritId');
     }
 
     // Simple taming without rhythm for backward compatibility
-    const battleResult = this?.manager.simulateBattle(op?.spiritId);
-    if (!battleResult?.ok) {
+    const battleResult = this.manager.simulateBattle(op.spiritId);
+    if (!battleResult.ok) {
       return {
         op: 'tame',
         status: 'error',
-        errors: battleResult?.errors,
+        errors: battleResult.errors,
         timestamp: new Date()
       };
     }
 
-    const success = battleResult?.battle?.winner === 'player';
-    const statsResult = this?.manager.getStats();
+    const success = battleResult.battle?.winner === 'player';
+    const statsResult = this.manager.getStats();
 
     return {
       op: 'tame',
       status: 'ok',
       result: {
-        spirit: op?.spiritId,
+        spirit: op.spiritId,
         success,
-        battle: battleResult?.battle,
-        stats: statsResult?.stats
+        battle: battleResult.battle,
+        stats: statsResult.stats
       },
       timestamp: new Date()
     };
   }
 
   private simulateBattle(op: SpiritTamerOperation): any {
-    if (!op?.spiritId) {
+    if (!op.spiritId) {
       throw new Error('Missing required field: spiritId');
     }
 
-    const result = this?.manager.simulateBattle(op?.spiritId);
+    const result = this.manager.simulateBattle(op.spiritId);
 
     return {
       op: 'battle',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.battle,
-      errors: result?.errors,
+      status: result.ok ? 'ok' : 'error',
+      result: result.battle,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private listSpirits(op: SpiritTamerOperation): any {
-    const result = this?.manager.listSpirits(op?.location, op?.includeWild);
+    const result = this.manager.listSpirits(op.location, op.includeWild);
 
     return {
       op: 'list',
       status: 'ok',
       result: {
-        spirits: result?.spirits.map((spirit: any) => ({
-          id: spirit?.id,
-          name: spirit?.name,
-          type: spirit?.type,
-          level: spirit?.level,
-          rarity: spirit?.rarity,
-          location: spirit?.location,
-          isWild: spirit?.isWild,
-          tamingDifficulty: spirit?.stats.tamingDifficulty
+        spirits: result.spirits.map((spirit: any) => ({
+          id: spirit.id,
+          name: spirit.name,
+          type: spirit.type,
+          level: spirit.level,
+          rarity: spirit.rarity,
+          location: spirit.location,
+          isWild: spirit.isWild,
+          tamingDifficulty: spirit.stats.tamingDifficulty
         })),
-        total: result?.total,
-        location: op?.location || 'all'
+        total: result.total,
+        location: op.location || 'all'
       },
       timestamp: new Date()
     };
   }
 
   private getPlayer(): any {
-    const result = this?.manager.getPlayer();
+    const result = this.manager.getPlayer();
 
     return {
       op: 'player',
       status: 'ok',
-      result: result?.player,
+      result: result.player,
       timestamp: new Date()
     };
   }
@@ -211,105 +211,105 @@ class SpiritTamerCLI {
       throw new Error('Missing required fields: x, y');
     }
 
-    const result = this?.manager.movePlayer(op.x, op.y, op?.zone);
+    const result = this.manager.movePlayer(op.x, op.y, op.zone);
 
     return {
       op: 'move',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        location: result?.location,
-        message: `Moved to (${op.x}, ${op.y})${op?.zone ? ` in ${op?.zone}` : ''}`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        location: result.location,
+        message: `Moved to (${op.x}, ${op.y})${op.zone ? ` in ${op.zone}` : ''}`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private startTaming(op: SpiritTamerOperation): any {
-    if (!op?.spiritId) {
+    if (!op.spiritId) {
       throw new Error('Missing required field: spiritId');
     }
 
-    const result = this?.manager.startTaming(op?.spiritId);
+    const result = this.manager.startTaming(op.spiritId);
 
     return {
       op: 'startTaming',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        session: result?.session,
-        message: `Started taming session for ${op?.spiritId}`,
-        beats: result?.session?.beats?.length || 0
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        session: result.session,
+        message: `Started taming session for ${op.spiritId}`,
+        beats: result.session?.beats.length || 0
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private processRhythm(op: SpiritTamerOperation): any {
-    if (op?.time === undefined || op?.hit === undefined) {
+    if (op.time === undefined || op.hit === undefined) {
       throw new Error('Missing required fields: time, hit');
     }
 
-    const result = this?.manager.processRhythmInput(op?.time, op?.hit);
+    const result = this.manager.processRhythmInput(op.time, op.hit);
 
     return {
       op: 'rhythm',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.result,
-      errors: result?.errors,
+      status: result.ok ? 'ok' : 'error',
+      result: result.result,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private getSession(op: SpiritTamerOperation): any {
-    if (!op?.sessionId) {
+    if (!op.sessionId) {
       throw new Error('Missing required field: sessionId');
     }
 
-    const result = this?.manager.getTamingSession(op?.sessionId);
+    const result = this.manager.getTamingSession(op.sessionId);
 
     return {
       op: 'session',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.session,
-      errors: result?.errors,
+      status: result.ok ? 'ok' : 'error',
+      result: result.session,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private listSessions(): any {
-    const result = this?.manager.listTamingSessions();
+    const result = this.manager.listTamingSessions();
 
     return {
       op: 'sessions',
       status: 'ok',
       result: {
-        sessions: result?.sessions.map((session: any) => ({
-          id: session?.id,
-          spiritId: session?.spiritId,
-          result: session?.result,
-          score: session?.score,
-          accuracy: session?.accuracy,
-          startTime: session?.startTime
+        sessions: result.sessions.map((session: any) => ({
+          id: session.id,
+          spiritId: session.spiritId,
+          result: session.result,
+          score: session.score,
+          accuracy: session.accuracy,
+          startTime: session.startTime
         })),
-        total: result?.total
+        total: result.total
       },
       timestamp: new Date()
     };
   }
 
   private getStats(): any {
-    const result = this?.manager.getStats();
+    const result = this.manager.getStats();
 
     return {
       op: 'stats',
       status: 'ok',
       result: {
-        stats: result?.stats,
+        stats: result.stats,
         summary: {
-          message: `Level ${result?.stats.player?.level} tamer with ${result?.stats.spirits?.tamed} spirits tamed`,
-          tamingRate: `${result?.stats.spirits?.tamingRate.toFixed(1)}%`,
-          location: `${result?.stats.location?.zone} (${result?.stats.location.x}, ${result?.stats.location.y})`
+          message: `Level ${result.stats.player.level} tamer with ${result.stats.spirits.tamed} spirits tamed`,
+          tamingRate: `${result.stats.spirits.tamingRate.toFixed(1)}%`,
+          location: `${result.stats.location.zone} (${result.stats.location.x}, ${result.stats.location.y})`
         }
       },
       timestamp: new Date()
@@ -317,41 +317,41 @@ class SpiritTamerCLI {
   }
 
   private exportData(op: SpiritTamerOperation): any {
-    const format = op?.format || 'save';
+    const format = op.format || 'save';
     
     // Handle special export formats
     if (['save', 'scenario', 'summary'].includes(format)) {
-      const result = this?.manager.exportData(format as any);
+      const result = this.manager.exportData(format as any);
       return {
         op: 'export',
-        status: result?.ok ? 'ok' : 'error',
-        result: result?.data,
+        status: result.ok ? 'ok' : 'error',
+        result: result.data,
         format,
-        errors: result?.errors,
+        errors: result.errors,
         timestamp: new Date()
       };
     }
 
     // Handle standard export formats
-    const saveResult = this?.manager.exportData('save');
-    if (!saveResult?.ok) {
+    const saveResult = this.manager.exportData('save');
+    if (!saveResult.ok) {
       return {
         op: 'export',
         status: 'error',
-        errors: saveResult?.errors,
+        errors: saveResult.errors,
         timestamp: new Date()
       };
     }
 
-    const data = saveResult?.data;
+    const data = saveResult.data;
 
     switch (format) {
       case 'yaml': {
-        const yaml = this?.toYAML(data: any);
+        const yaml = this.toYAML(data);
         return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
-        const xml = this?.toXML(data, 'spiritTamerSave');
+        const xml = this.toXML(data, 'spiritTamerSave');
         return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
@@ -384,32 +384,32 @@ class SpiritTamerCLI {
   }
 
   private reset(): any {
-    const result = this?.manager.reset();
+    const result = this.manager.reset();
 
     return {
       op: 'reset',
       status: 'ok',
       result: {
-        message: result?.message
+        message: result.message
       },
       timestamp: new Date()
     };
   }
 
   private dump(): any {
-    const playerResult = this?.manager.getPlayer();
-    const spiritsResult = this?.manager.listSpirits();
-    const statsResult = this?.manager.getStats();
-    const sessionsResult = this?.manager.listTamingSessions();
+    const playerResult = this.manager.getPlayer();
+    const spiritsResult = this.manager.listSpirits();
+    const statsResult = this.manager.getStats();
+    const sessionsResult = this.manager.listTamingSessions();
 
     return {
       op: 'dump',
       status: 'ok',
       result: {
-        player: playerResult?.player,
-        spirits: spiritsResult?.spirits,
-        stats: statsResult?.stats,
-        sessions: sessionsResult?.sessions,
+        player: playerResult.player,
+        spirits: spiritsResult.spirits,
+        stats: statsResult.stats,
+        sessions: sessionsResult.sessions,
         info: {
           version: '1.0.0',
           capabilities: ['demo', 'scenario', 'tame', 'battle', 'rhythm', 'multiplayer'],
@@ -424,21 +424,21 @@ class SpiritTamerCLI {
   private toYAML(obj: any, indent = 0): string {
     const pad = '  '.repeat(indent);
     if (obj === null || obj === undefined) return 'null';
-    if (typeof obj !== 'object') return String(obj: any);
-    if (Array.isArray(obj: any)) {
-      return obj?.map((v: any) => `${pad}- ${this?.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+    if (typeof obj !== 'object') return String(obj);
+    if (Array.isArray(obj)) {
+      return obj.map((v: any) => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
     }
-    return Object.entries(obj: any).map(([k, v]) => {
-      const val = typeof v === 'object' && v !== null ? `\n${this?.toYAML(v, indent + 1)}` : `${this?.toYAML(v, 0)}`;
+    return Object.entries(obj).map(([k, v]) => {
+      const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
       return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
     }).join('\n');
   }
 
   private toXML(obj: any, tag = 'root'): string {
     if (obj === null || obj === undefined) return `<${tag}/>`;
-    if (typeof obj !== 'object') return `<${tag}>${String(obj: any)}</${tag}>`;
-    if (Array.isArray(obj: any)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
-    const children = Object.entries(obj: any).map(([k, v]) => this.toXML(v as any, k)).join('');
+    if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
+    if (Array.isArray(obj)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
+    const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
     return `<${tag}>${children}</${tag}>`;
   }
 }
@@ -446,15 +446,15 @@ class SpiritTamerCLI {
 async function main() {
   const cli = new SpiritTamerCLI();
   
-  if (process?.argv.length < 3) {
+  if (process.argv.length < 3) {
     // Run demo by default when no arguments provided
-    const result = await cli?.execute({ op: 'demo' });
+    const result = await cli.execute({ op: 'demo' });
     console.log(JSON.stringify(result, null, 2));
     return;
   }
 
-  const operation = process?.argv[2!];
-  const args = process?.argv.slice(3);
+  const operation = process.argv[2!];
+  const args = process.argv.slice(3);
 
   let op: SpiritTamerOperation;
   
@@ -493,7 +493,7 @@ async function main() {
         break;
         
       case 'move':
-        if (args?.length < 2) throw new Error('move requires x and y coordinates');
+        if (args.length < 2) throw new Error('move requires x and y coordinates');
         op = { 
           op: 'move', 
           x: parseFloat(args[0!]), 
@@ -503,12 +503,12 @@ async function main() {
         break;
         
       case 'startTaming':
-        if (args?.length < 1) throw new Error('startTaming requires spiritId');
+        if (args.length < 1) throw new Error('startTaming requires spiritId');
         op = { op: 'startTaming', spiritId: args[0!] };
         break;
         
       case 'rhythm':
-        if (args?.length < 2) throw new Error('rhythm requires time and hit (true/false)');
+        if (args.length < 2) throw new Error('rhythm requires time and hit (true/false)');
         op = { 
           op: 'rhythm', 
           time: parseFloat(args[0!]), 
@@ -517,7 +517,7 @@ async function main() {
         break;
         
       case 'session':
-        if (args?.length < 1) throw new Error('session requires sessionId');
+        if (args.length < 1) throw new Error('session requires sessionId');
         op = { op: 'session', sessionId: args[0!] };
         break;
         
@@ -544,15 +544,15 @@ async function main() {
         throw new Error(`Unknown operation: ${operation}`);
     }
 
-    const result = await cli?.execute(op);
+    const result = await cli.execute(op);
     console.log(JSON.stringify(result, null, 2));
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', error instanceof Error ? error.message : error);
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

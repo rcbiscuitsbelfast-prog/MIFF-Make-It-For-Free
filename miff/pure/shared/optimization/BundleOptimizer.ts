@@ -51,15 +51,15 @@ export class BundleOptimizer {
   private unusedExports: Map<string, Set<string>> = new Map();
 
   constructor(config: BundleConfig) {
-    this?.config = {
+    this.config = {
       ...config,
-      optimizationLevel: config?.optimizationLevel ?? 'aggressive',
-      minify: config?.minify ?? true,
-      sourcemap: config?.sourcemap ?? false,
-      treeShaking: config?.treeShaking ?? true,
-      codeSplitting: config?.codeSplitting ?? true,
-      deadCodeElimination: config?.deadCodeElimination ?? true,
-      compression: config?.compression ?? true,
+      optimizationLevel: config.optimizationLevel ?? 'aggressive',
+      minify: config.minify ?? true,
+      sourcemap: config.sourcemap ?? false,
+      treeShaking: config.treeShaking ?? true,
+      codeSplitting: config.codeSplitting ?? true,
+      deadCodeElimination: config.deadCodeElimination ?? true,
+      compression: config.compression ?? true,
     };
   }
 
@@ -67,63 +67,63 @@ export class BundleOptimizer {
    * Optimize bundle with comprehensive analysis
    */
   async optimize(): Promise<OptimizationResult> {
-    const startTime = performance?.now();
-    this?.log('🚀 Starting bundle optimization...');
+    const startTime = performance.now();
+    this.log('🚀 Starting bundle optimization...');
 
     try {
       // Phase 1: Analyze modules
-      await this?.analyzeModules();
+      await this.analyzeModules();
 
       // Phase 2: Build dependency graph
-      this?.buildDependencyGraph();
+      this.buildDependencyGraph();
 
       // Phase 3: Tree shaking analysis
-      if (this?.config.treeShaking) {
-        this?.performTreeShaking();
+      if (this.config.treeShaking) {
+        this.performTreeShaking();
       }
 
       // Phase 4: Dead code elimination
-      if (this?.config.deadCodeElimination) {
-        this?.eliminateDeadCode();
+      if (this.config.deadCodeElimination) {
+        this.eliminateDeadCode();
       }
 
       // Phase 5: Code splitting
-      if (this?.config.codeSplitting) {
-        this?.performCodeSplitting();
+      if (this.config.codeSplitting) {
+        this.performCodeSplitting();
       }
 
       // Phase 6: Generate optimized bundle
-      const bundleResult = await this?.generateBundle();
+      const bundleResult = await this.generateBundle();
 
       // Phase 7: Compression
-      if (this?.config.compression) {
-        this?.compressBundle(bundleResult?.bundlePath);
+      if (this.config.compression) {
+        this.compressBundle(bundleResult.bundlePath);
       }
 
-      const endTime = performance?.now();
+      const endTime = performance.now();
       const optimizationTime = endTime - startTime;
 
-      const stats = this?.calculateStats(bundleResult, optimizationTime);
+      const stats = this.calculateStats(bundleResult, optimizationTime);
       const result: OptimizationResult = {
         success: true,
-        bundlePath: bundleResult?.bundlePath,
+        bundlePath: bundleResult.bundlePath,
         stats,
-        warnings: this?.collectWarnings(),
-        errors: this?.collectErrors()
+        warnings: this.collectWarnings(),
+        errors: this.collectErrors()
       };
 
-      this?.log(`✅ Bundle optimization complete: ${(stats?.compressionRatio * 100).toFixed(1)}% size reduction`);
+      this.log(`✅ Bundle optimization complete: ${(stats.compressionRatio * 100).toFixed(1)}% size reduction`);
       return result;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.log(`❌ Bundle optimization failed: ${error?.message}`, 'error');
+      this.log(`❌ Bundle optimization failed: ${error.message}`, 'error');
       return {
         success: false,
         bundlePath: '',
-        stats: this?.createEmptyStats(),
+        stats: this.createEmptyStats(),
         warnings: [],
-        errors: [error?.message]
+        errors: [error.message]
       };
     }
   }
@@ -132,34 +132,34 @@ export class BundleOptimizer {
    * Analyze all modules for optimization opportunities
    */
   private async analyzeModules(): Promise<void> {
-    this?.log('🔍 Analyzing modules...');
+    this.log('🔍 Analyzing modules...');
 
-    for (const entryPoint of this?.config.entryPoints) {
-      const analysis = await this?.analyzeModule(entryPoint);
-      this?.analyzedModules.set(entryPoint, analysis);
+    for (const entryPoint of this.config.entryPoints) {
+      const analysis = await this.analyzeModule(entryPoint);
+      this.analyzedModules.set(entryPoint, analysis);
 
       // Analyze dependencies recursively
-      await this?.analyzeDependencies(analysis?.dependencies);
+      await this.analyzeDependencies(analysis.dependencies);
     }
 
-    this?.log(`Analyzed ${this?.analyzedModules.size} modules`);
+    this.log(`Analyzed ${this.analyzedModules.size} modules`);
   }
 
   /**
    * Analyze single module
    */
   private async analyzeModule(modulePath: string): Promise<ModuleAnalysis> {
-    const content = await this?.readModuleFile(modulePath);
-    const ast = this?.parseAST(content);
+    const content = await this.readModuleFile(modulePath);
+    const ast = this.parseAST(content);
 
     const analysis: ModuleAnalysis = {
       path: modulePath,
-      size: content?.length,
-      exports: this?.extractExports(ast),
-      imports: this?.extractImports(ast),
-      dependencies: this?.extractDependencies(ast),
-      sideEffects: this?.detectSideEffects(ast),
-      complexity: this?.calculateComplexity(ast),
+      size: content.length,
+      exports: this.extractExports(ast),
+      imports: this.extractImports(ast),
+      dependencies: this.extractDependencies(ast),
+      sideEffects: this.detectSideEffects(ast),
+      complexity: this.calculateComplexity(ast),
       usage: new Set()
     };
 
@@ -170,108 +170,108 @@ export class BundleOptimizer {
    * Build complete dependency graph
    */
   private buildDependencyGraph(): void {
-    this?.log('📊 Building dependency graph...');
+    this.log('📊 Building dependency graph...');
 
-    for (const [modulePath, analysis] of this?.analyzedModules) {
+    for (const [modulePath, analysis] of this.analyzedModules) {
       const dependencies = new Set<string>();
 
-      for (const dep of analysis?.dependencies) {
-        dependencies?.add(dep);
+      for (const dep of analysis.dependencies) {
+        dependencies.add(dep);
 
         // Add transitive dependencies
-        const transitiveDeps = this?.getTransitiveDependencies(dep);
-        transitiveDeps?.forEach((d: any) => dependencies?.add(d));
+        const transitiveDeps = this.getTransitiveDependencies(dep);
+        transitiveDeps.forEach((d: any) => dependencies.add(d));
       }
 
-      this?.dependencyGraph.set(modulePath, dependencies);
+      this.dependencyGraph.set(modulePath, dependencies);
     }
 
-    this?.log(`Built dependency graph with ${this?.dependencyGraph.size} nodes`);
+    this.log(`Built dependency graph with ${this.dependencyGraph.size} nodes`);
   }
 
   /**
    * Perform tree shaking analysis
    */
   private performTreeShaking(): void {
-    this?.log('🌳 Performing tree shaking analysis...');
+    this.log('🌳 Performing tree shaking analysis...');
 
     const usedExports = new Map<string, Set<string>>();
 
     // Start from entry points
-    for (const entryPoint of this?.config.entryPoints) {
-      this?.markUsedExports(entryPoint, usedExports);
+    for (const entryPoint of this.config.entryPoints) {
+      this.markUsedExports(entryPoint, usedExports);
     }
 
     // Find unused exports
-    for (const [modulePath, analysis] of this?.analyzedModules) {
-      const used = usedExports?.get(modulePath) || new Set();
+    for (const [modulePath, analysis] of this.analyzedModules) {
+      const used = usedExports.get(modulePath) || new Set();
       const unused = new Set<string>();
 
-      for (const exportName of analysis?.exports) {
-        if (!used?.has(exportName)) {
-          unused?.add(exportName);
+      for (const exportName of analysis.exports) {
+        if (!used.has(exportName)) {
+          unused.add(exportName);
         }
       }
 
-      if (unused?.size > 0) {
-        this?.unusedExports.set(modulePath, unused);
+      if (unused.size > 0) {
+        this.unusedExports.set(modulePath, unused);
       }
     }
 
     const totalUnused = Array.from(this.unusedExports.values())
-      .reduce((sum, set) => sum + set?.size, 0);
+      .reduce((sum, set) => sum + set.size, 0);
 
-    this?.log(`Found ${totalUnused} unused exports for elimination`);
+    this.log(`Found ${totalUnused} unused exports for elimination`);
   }
 
   /**
    * Eliminate dead code
    */
   private eliminateDeadCode(): void {
-    this?.log('💀 Eliminating dead code...');
+    this.log('💀 Eliminating dead code...');
 
     // Mark all reachable code from entry points
     const reachable = new Set<string>();
 
-    for (const entryPoint of this?.config.entryPoints) {
-      this?.markReachable(entryPoint, reachable);
+    for (const entryPoint of this.config.entryPoints) {
+      this.markReachable(entryPoint, reachable);
     }
 
     // Find unreachable modules
-    for (const [modulePath, analysis] of this?.analyzedModules) {
-      if (!reachable?.has(modulePath)) {
-        this?.deadCode.add(modulePath);
+    for (const [modulePath, analysis] of this.analyzedModules) {
+      if (!reachable.has(modulePath)) {
+        this.deadCode.add(modulePath);
       }
     }
 
-    this?.log(`Marked ${this?.deadCode.size} modules as dead code`);
+    this.log(`Marked ${this.deadCode.size} modules as dead code`);
   }
 
   /**
    * Perform intelligent code splitting
    */
   private performCodeSplitting(): void {
-    this?.log('✂️  Performing code splitting...');
+    this.log('✂️  Performing code splitting...');
 
-    const chunks = this?.createOptimalChunks();
-    this?.log(`Created ${chunks?.length} optimized chunks`);
+    const chunks = this.createOptimalChunks();
+    this.log(`Created ${chunks.length} optimized chunks`);
   }
 
   /**
    * Generate optimized bundle
    */
   private async generateBundle(): Promise<{ bundlePath: string; size: number }> {
-    this?.log('📦 Generating optimized bundle...');
+    this.log('📦 Generating optimized bundle...');
 
     const modulesToInclude = Array.from(this.analyzedModules.keys())
-      .filter((module: any) => !this?.deadCode.has(module));
+      .filter((module: any) => !this.deadCode.has(module));
 
-    const bundleContent = await this?.buildBundleContent(modulesToInclude);
-    const bundlePath = this?.writeBundle(bundleContent);
+    const bundleContent = await this.buildBundleContent(modulesToInclude);
+    const bundlePath = this.writeBundle(bundleContent);
 
     return {
       bundlePath,
-      size: bundleContent?.length
+      size: bundleContent.length
     };
   }
 
@@ -279,60 +279,60 @@ export class BundleOptimizer {
    * Compress bundle using advanced algorithms
    */
   private compressBundle(bundlePath: string): void {
-    this?.log('🗜️  Compressing bundle...');
+    this.log('🗜️  Compressing bundle...');
 
     try {
       const content = require('fs').readFileSync(bundlePath, 'utf8');
-      const compressed = this?.compressContent(content);
+      const compressed = this.compressContent(content);
 
       require('fs').writeFileSync(bundlePath + '.gz', compressed);
-      require('fs').writeFileSync(bundlePath + '.br', this?.brotliCompress(compressed));
+      require('fs').writeFileSync(bundlePath + '.br', this.brotliCompress(compressed));
 
-      this?.log('Bundle compressed with gzip and brotli');
+      this.log('Bundle compressed with gzip and brotli');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.log(`Compression failed: ${error?.message}`, 'error');
+      this.log(`Compression failed: ${error.message}`, 'error');
     }
   }
 
   // Helper methods
   private async analyzeDependencies(dependencies: string[]): Promise<void> {
     for (const dep of dependencies) {
-      if (!this?.analyzedModules.has(dep)) {
-        const analysis = await this?.analyzeModule(dep);
-        this?.analyzedModules.set(dep, analysis);
+      if (!this.analyzedModules.has(dep)) {
+        const analysis = await this.analyzeModule(dep);
+        this.analyzedModules.set(dep, analysis);
       }
     }
   }
 
   private markUsedExports(modulePath: string, usedExports: Map<string, Set<string>>): void {
-    const analysis = this?.analyzedModules.get(modulePath);
+    const analysis = this.analyzedModules.get(modulePath);
     if (!analysis) return;
 
-    if (!usedExports?.has(modulePath)) {
-      usedExports?.set(modulePath, new Set());
+    if (!usedExports.has(modulePath)) {
+      usedExports.set(modulePath, new Set());
     }
 
     // Mark all exports as used (simplified - real implementation would be more complex)
-    analysis?.exports.forEach(exportName => {
-      usedExports?.get(modulePath)!.add(exportName);
+    analysis.exports.forEach(exportName => {
+      usedExports.get(modulePath)!.add(exportName);
     });
 
     // Recursively mark dependencies
-    for (const dep of analysis?.dependencies) {
-      this?.markUsedExports(dep, usedExports);
+    for (const dep of analysis.dependencies) {
+      this.markUsedExports(dep, usedExports);
     }
   }
 
   private markReachable(modulePath: string, reachable: Set<string>): void {
-    if (reachable?.has(modulePath)) return;
+    if (reachable.has(modulePath)) return;
 
-    reachable?.add(modulePath);
-    const analysis = this?.analyzedModules.get(modulePath);
+    reachable.add(modulePath);
+    const analysis = this.analyzedModules.get(modulePath);
     if (!analysis) return;
 
-    for (const dep of analysis?.dependencies) {
-      this?.markReachable(dep, reachable);
+    for (const dep of analysis.dependencies) {
+      this.markReachable(dep, reachable);
     }
   }
 
@@ -341,13 +341,13 @@ export class BundleOptimizer {
     const chunks: string[][] = [];
     const processed = new Set<string>();
 
-    for (const [modulePath!] of this?.analyzedModules) {
-      if (processed?.has(modulePath) || this?.deadCode.has(modulePath)) continue;
+    for (const [modulePath!] of this.analyzedModules) {
+      if (processed.has(modulePath) || this.deadCode.has(modulePath)) continue;
 
-      const chunk = this?.getChunkForModule(modulePath);
-      chunks?.push(chunk);
+      const chunk = this.getChunkForModule(modulePath);
+      chunks.push(chunk);
 
-      chunk?.forEach((mod: any) => processed?.add(mod));
+      chunk.forEach((mod: any) => processed.add(mod));
     }
 
     return chunks;
@@ -355,12 +355,12 @@ export class BundleOptimizer {
 
   private getChunkForModule(modulePath: string): string[] {
     const chunk = [modulePath!];
-    const dependencies = this?.dependencyGraph.get(modulePath) || new Set();
+    const dependencies = this.dependencyGraph.get(modulePath) || new Set();
 
     // Add direct dependencies to same chunk for better caching
-    dependencies?.forEach((dep: any) => {
-      if (!this?.deadCode.has(dep)) {
-        chunk?.push(dep);
+    dependencies.forEach((dep: any) => {
+      if (!this.deadCode.has(dep)) {
+        chunk.push(dep);
       }
     });
 
@@ -372,15 +372,15 @@ export class BundleOptimizer {
 
     // Add module headers and optimized content
     for (const modulePath of modules) {
-      const analysis = this?.analyzedModules.get(modulePath);
+      const analysis = this.analyzedModules.get(modulePath);
       if (!analysis) continue;
 
       // Remove unused exports
-      const unused = this?.unusedExports.get(modulePath) || new Set();
-      const usedExports = analysis?.exports.filter((exp: any) => !unused?.has(exp));
+      const unused = this.unusedExports.get(modulePath) || new Set();
+      const usedExports = analysis.exports.filter((exp: any) => !unused.has(exp));
 
       // Generate optimized module content
-      const optimizedContent = this?.optimizeModuleContent(modulePath, usedExports);
+      const optimizedContent = this.optimizeModuleContent(modulePath, usedExports);
       bundle += optimizedContent + '\n';
     }
 
@@ -390,18 +390,18 @@ export class BundleOptimizer {
   private optimizeModuleContent(modulePath: string, usedExports: string[]): string {
     // This would integrate with a real bundler like esbuild/rollup
     // For now, return a placeholder
-    return `// Optimized module: ${modulePath}\n// Used exports: ${usedExports?.join(', ')}\n`;
+    return `// Optimized module: ${modulePath}\n// Used exports: ${usedExports.join(', ')}\n`;
   }
 
   private writeBundle(content: string): string {
-    const outputPath = this?.config.outputPath! || './dist/bundle?.js';
+    const outputPath = this.config.outputPath! || './dist/bundle.js';
     require('fs').writeFileSync(outputPath, content);
     return outputPath;
   }
 
   private compressContent(content: string): string {
     // Simple compression simulation
-    return content?.replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '');
+    return content.replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '');
   }
 
   private brotliCompress(content: string): string {
@@ -410,17 +410,17 @@ export class BundleOptimizer {
   }
 
   private calculateStats(bundleResult: { bundlePath: string; size: number }, optimizationTime: number): BundleStats {
-    const originalSize = this?.calculateOriginalSize();
-    const optimizedSize = bundleResult?.size;
+    const originalSize = this.calculateOriginalSize();
+    const optimizedSize = bundleResult.size;
     const compressionRatio = originalSize > 0 ? optimizedSize / originalSize : 1;
 
-    const modulesIncluded = this?.analyzedModules.size - this?.deadCode.size;
-    const modulesExcluded = this?.deadCode.size;
+    const modulesIncluded = this.analyzedModules.size - this.deadCode.size;
+    const modulesExcluded = this.deadCode.size;
 
-    const treeShakingSavings = this?.calculateTreeShakingSavings();
+    const treeShakingSavings = this.calculateTreeShakingSavings();
     const minificationSavings = optimizedSize * 0.1; // Estimate 10% from minification
     const compressionSavings = optimizedSize * 0.05; // Estimate 5% from compression
-    const deadCodeSavings = this?.calculateDeadCodeSavings();
+    const deadCodeSavings = this.calculateDeadCodeSavings();
     const splittingSavings = optimizedSize * 0.02; // Estimate 2% from splitting
 
     return {
@@ -429,7 +429,7 @@ export class BundleOptimizer {
       compressionRatio,
       modulesIncluded,
       modulesExcluded,
-      chunksCreated: this?.createOptimalChunks().length,
+      chunksCreated: this.createOptimalChunks().length,
       optimizationTime,
       savings: {
         treeShaking: treeShakingSavings,
@@ -443,16 +443,16 @@ export class BundleOptimizer {
 
   private calculateOriginalSize(): number {
     return Array.from(this.analyzedModules.values())
-      .reduce((sum, analysis) => sum + analysis?.size, 0);
+      .reduce((sum, analysis) => sum + analysis.size, 0);
   }
 
   private calculateTreeShakingSavings(): number {
     let totalSavings = 0;
-    for (const [modulePath, unused] of this?.unusedExports) {
-      const analysis = this?.analyzedModules.get(modulePath);
+    for (const [modulePath, unused] of this.unusedExports) {
+      const analysis = this.analyzedModules.get(modulePath);
       if (analysis) {
-        const unusedRatio = unused?.size / analysis?.exports.length;
-        totalSavings += analysis?.size * unusedRatio * 0.3; // Estimate 30% savings per unused export
+        const unusedRatio = unused.size / analysis.exports.length;
+        totalSavings += analysis.size * unusedRatio * 0.3; // Estimate 30% savings per unused export
       }
     }
     return totalSavings;
@@ -461,7 +461,7 @@ export class BundleOptimizer {
   private calculateDeadCodeSavings(): number {
     return Array.from(this.deadCode)
       .reduce((sum, modulePath) => {
-        const analysis = this?.analyzedModules.get(modulePath);
+        const analysis = this.analyzedModules.get(modulePath);
         return sum + (analysis?.size || 0);
       }, 0);
   }
@@ -488,15 +488,15 @@ export class BundleOptimizer {
   private collectWarnings(): string[] {
     const warnings: string[] = [];
 
-    if (this?.deadCode.size > 0) {
-      warnings?.push(`${this?.deadCode.size} modules eliminated as dead code`);
+    if (this.deadCode.size > 0) {
+      warnings.push(`${this.deadCode.size} modules eliminated as dead code`);
     }
 
     const totalUnused = Array.from(this.unusedExports.values())
-      .reduce((sum, set) => sum + set?.size, 0);
+      .reduce((sum, set) => sum + set.size, 0);
 
     if (totalUnused > 0) {
-      warnings?.push(`${totalUnused} unused exports eliminated by tree shaking`);
+      warnings.push(`${totalUnused} unused exports eliminated by tree shaking`);
     }
 
     return warnings;

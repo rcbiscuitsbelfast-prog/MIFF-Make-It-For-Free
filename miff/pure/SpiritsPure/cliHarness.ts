@@ -23,21 +23,21 @@ import {
 
 // CLI Application
 class SpiritsPureCLI {
-  private rl: readline?.Interface;
+  private rl: readline.Interface;
   private collection: SpiritCollection;
   private filter: SpiritFilter;
   private sorter: SpiritSorter;
-  private currentSortOption: SortOption = SortOption?.ALPHABETICAL_ASC;
+  private currentSortOption: SortOption = SortOption.ALPHABETICAL_ASC;
 
   constructor() {
-    this?.rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
     });
 
-    this?.collection = SpiritUtils?.createDemoCollection();
-    this?.filter = SpiritUtils?.createDefaultFilter();
-    this?.sorter = SpiritUtils?.createDefaultSorter();
+    this.collection = SpiritUtils.createDemoCollection();
+    this.filter = SpiritUtils.createDefaultFilter();
+    this.sorter = SpiritUtils.createDefaultSorter();
   }
 
   /**
@@ -68,15 +68,15 @@ class SpiritsPureCLI {
     console.log(`Current collection: ${this.collection.totalSpirits} spirits`);
     console.log(`Captured: ${this.collection.capturedCount} (${this.collection.completionPercentage.toFixed(1)}%)`);
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this?.rl.question('SpiritsPure> ', (input) => {
-      this?.processCommand(input?.trim());
+    this.rl.question('SpiritsPure> ', (input) => {
+      this.processCommand(input.trim());
     });
   }
 
@@ -85,73 +85,73 @@ class SpiritsPureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this?.showPrompt();
+      this.showPrompt();
       return;
     }
 
-    const parts = input?.split(' ');
+    const parts = input.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this?.showHelp();
+          this.showHelp();
           break;
         case 'list':
         case 'l':
-          this?.listSpirits(args[0!]);
+          this.listSpirits(args[0!]);
           break;
         case 'add':
         case 'a':
-          this?.addSpirit(args[0!]);
+          this.addSpirit(args[0!]);
           break;
         case 'remove':
         case 'r':
-          this?.removeSpirit(args[0!]);
+          this.removeSpirit(args[0!]);
           break;
         case 'search':
         case 's':
-          this?.searchSpirits(args[0!]);
+          this.searchSpirits(args[0!]);
           break;
         case 'filter':
         case 'f':
-          this?.applyFilter(args);
+          this.applyFilter(args);
           break;
         case 'sort':
-          this?.applySort(args[0!]);
+          this.applySort(args[0!]);
           break;
         case 'capture':
         case 'c':
-          this?.captureSpirit(args[0!]);
+          this.captureSpirit(args[0!]);
           break;
         case 'release':
-          this?.releaseSpirit(args[0!]);
+          this.releaseSpirit(args[0!]);
           break;
         case 'favorite':
         case 'fav':
-          this?.toggleFavorite(args[0!]);
+          this.toggleFavorite(args[0!]);
           break;
         case 'stats':
-          this?.showStatistics();
+          this.showStatistics();
           break;
         case 'completion':
         case 'comp':
-          this?.showCompletion();
+          this.showCompletion();
           break;
         case 'info':
         case 'i':
-          this?.showSpiritInfo(args[0!]);
+          this.showSpiritInfo(args[0!]);
           break;
         case 'demo':
         case 'd':
-          this?.resetDemo();
+          this.resetDemo();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this?.exit();
+          this.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -162,7 +162,7 @@ class SpiritsPureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
@@ -177,46 +177,46 @@ class SpiritsPureCLI {
    * List spirits with optional filter
    */
   private listSpirits(filterArg?: string): void {
-    let spirits = this?.collection.spirits;
+    let spirits = this.collection.spirits;
 
     if (filterArg) {
-      switch (filterArg?.toLowerCase()) {
+      switch (filterArg.toLowerCase()) {
         case 'captured':
-          spirits = this?.collection.capturedSpirits;
+          spirits = this.collection.capturedSpirits;
           break;
         case 'uncaptured':
-          spirits = this?.collection.uncapturedSpirits;
+          spirits = this.collection.uncapturedSpirits;
           break;
         case 'favorites':
-          spirits = this?.collection.favoriteSpirits;
+          spirits = this.collection.favoriteSpirits;
           break;
         case 'evolved':
-          spirits = this?.collection.getEvolvedSpirits();
+          spirits = this.collection.getEvolvedSpirits();
           break;
         case 'unevolved':
-          spirits = this?.collection.getUnevolvedSpirits();
+          spirits = this.collection.getUnevolvedSpirits();
           break;
         default:
-          spirits = this?.collection.filterSpirits(this?.filter);
+          spirits = this.collection.filterSpirits(this.filter);
       }
     } else {
-      spirits = this?.collection.sortSpirits(this?.currentSortOption);
+      spirits = this.collection.sortSpirits(this.currentSortOption);
     }
 
     console.log('='.repeat(70));
     console.log(`👻 Spirits (${spirits.length} shown)`);
     console.log('='.repeat(70));
 
-    if (spirits?.length === 0) {
+    if (spirits.length === 0) {
       console.log('No spirits found.');
       return;
     }
 
-    spirits?.forEach((spirit, index) => {
-      const typeIcon = this?.getTypeIcon(spirit?.primaryType);
-      const rarityIcon = this?.getRarityIcon(spirit?.rarity);
-      const statusIcon = spirit?.isCaptured ? '✅' : '❌';
-      const favoriteIcon = spirit?.isFavorite ? '⭐' : '  ';
+    spirits.forEach((spirit, index) => {
+      const typeIcon = this.getTypeIcon(spirit.primaryType);
+      const rarityIcon = this.getRarityIcon(spirit.rarity);
+      const statusIcon = spirit.isCaptured ? '✅' : '❌';
+      const favoriteIcon = spirit.isFavorite ? '⭐' : '  ';
 
       console.log(`${index + 1}. ${typeIcon} ${spirit.spiritName} ${rarityIcon}`);
       console.log(`    ${favoriteIcon} ${statusIcon} Lv.${spirit.level} | Sync: ${spirit.syncLevel}% | ${spirit.getTypeDescription()}`);
@@ -237,16 +237,16 @@ class SpiritsPureCLI {
       return;
     }
 
-    const spirit = Spirit?.create(
-      SpiritUtils?.generateSpiritId(),
+    const spirit = Spirit.create(
+      SpiritUtils.generateSpiritId(),
       name,
-      `A ${name?.toLowerCase()} spirit`,
-      SpiritType?.FIRE, // Default to fire for demo
+      `A ${name.toLowerCase()} spirit`,
+      SpiritType.FIRE, // Default to fire for demo
       undefined,
-      SpiritRarity?.COMMON
+      SpiritRarity.COMMON
     );
 
-    this?.collection.addSpirit(spirit);
+    this.collection.addSpirit(spirit);
     console.log(`✅ Added ${name} to collection (ID: ${spirit.spiritId})`);
   }
 
@@ -259,7 +259,7 @@ class SpiritsPureCLI {
       return;
     }
 
-    const removed = this?.collection.removeSpirit(spiritId);
+    const removed = this.collection.removeSpirit(spiritId);
     if (removed) {
       console.log(`✅ Removed spirit with ID: ${spiritId}`);
     } else {
@@ -277,18 +277,18 @@ class SpiritsPureCLI {
       return;
     }
 
-    const results = this?.collection.searchSpirits(query);
+    const results = this.collection.searchSpirits(query);
 
     console.log(`🔍 Search results for "${query}" (${results.length} found):`);
 
-    if (results?.length === 0) {
+    if (results.length === 0) {
       console.log('No spirits found.');
       return;
     }
 
-    results?.forEach((spirit, index) => {
-      const typeIcon = this?.getTypeIcon(spirit?.primaryType);
-      const statusIcon = spirit?.isCaptured ? '✅' : '❌';
+    results.forEach((spirit, index) => {
+      const typeIcon = this.getTypeIcon(spirit.primaryType);
+      const statusIcon = spirit.isCaptured ? '✅' : '❌';
       console.log(`${index + 1}. ${typeIcon} ${spirit.spiritName} ${statusIcon}`);
       console.log(`    ${spirit.getTypeDescription()} | Lv.${spirit.level} | ID: ${spirit.spiritId}`);
       console.log('');
@@ -301,43 +301,43 @@ class SpiritsPureCLI {
   private applyFilter(args: string[]): void {
     const filterType = args[0!]?.toLowerCase();
 
-    this?.filter.reset();
+    this.filter.reset();
 
     switch (filterType) {
       case 'captured':
-        this?.filter.captured = true;
+        this.filter.captured = true;
         console.log('🔍 Filter: Captured spirits only');
         break;
       case 'uncaptured':
-        this?.filter.captured = false;
+        this.filter.captured = false;
         console.log('🔍 Filter: Uncaptured spirits only');
         break;
       case 'fire':
-        this?.filter.type = SpiritType?.FIRE;
+        this.filter.type = SpiritType.FIRE;
         console.log('🔍 Filter: Fire-type spirits');
         break;
       case 'water':
-        this?.filter.type = SpiritType?.WATER;
+        this.filter.type = SpiritType.WATER;
         console.log('🔍 Filter: Water-type spirits');
         break;
       case 'high-sync':
-        this?.filter.minSync = 50;
+        this.filter.minSync = 50;
         console.log('🔍 Filter: High sync spirits (50%+)');
         break;
       case 'legendary':
-        this?.filter.rarity = SpiritRarity?.LEGENDARY;
+        this.filter.rarity = SpiritRarity.LEGENDARY;
         console.log('🔍 Filter: Legendary spirits');
         break;
       case 'evolved':
-        this?.filter.hasEvolved = true;
+        this.filter.hasEvolved = true;
         console.log('🔍 Filter: Evolved spirits');
         break;
       case 'favorites':
-        this?.filter.isFavorite = true;
+        this.filter.isFavorite = true;
         console.log('🔍 Filter: Favorite spirits');
         break;
       case 'clear':
-        this?.filter.reset();
+        this.filter.reset();
         console.log('🔍 Filter cleared');
         break;
       default:
@@ -345,29 +345,29 @@ class SpiritsPureCLI {
         return;
     }
 
-    this?.listSpirits();
+    this.listSpirits();
   }
 
   /**
    * Apply sort
    */
   private applySort(sortOptionStr?: string): void {
-    let sortOption: SortOption = SortOption?.ALPHABETICAL_ASC;
+    let sortOption: SortOption = SortOption.ALPHABETICAL_ASC;
 
     if (sortOptionStr) {
-      switch (sortOptionStr?.toLowerCase()) {
+      switch (sortOptionStr.toLowerCase()) {
         case 'alpha':
         case 'name':
-          sortOption = SortOption?.ALPHABETICAL_ASC;
+          sortOption = SortOption.ALPHABETICAL_ASC;
           break;
         case 'sync':
-          sortOption = SortOption?.SYNC_DESC;
+          sortOption = SortOption.SYNC_DESC;
           break;
         case 'rarity':
-          sortOption = SortOption?.RARITY_DESC;
+          sortOption = SortOption.RARITY_DESC;
           break;
         case 'level':
-          sortOption = SortOption?.LEVEL_DESC;
+          sortOption = SortOption.LEVEL_DESC;
           break;
         default:
           console.log('🔄 Available sorts: alpha, sync, rarity, level');
@@ -375,10 +375,10 @@ class SpiritsPureCLI {
       }
     }
 
-    this?.currentSortOption = sortOption;
-    const sortDescription = this?.sorter.getSortDescription(sortOption);
+    this.currentSortOption = sortOption;
+    const sortDescription = this.sorter.getSortDescription(sortOption);
     console.log(`🔄 Sorting by: ${sortDescription}`);
-    this?.listSpirits();
+    this.listSpirits();
   }
 
   /**
@@ -390,20 +390,20 @@ class SpiritsPureCLI {
       return;
     }
 
-    const spirit = this?.collection.getSpirit(spiritId);
+    const spirit = this.collection.getSpirit(spiritId);
     if (!spirit) {
       console.log(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    if (spirit?.isCaptured) {
+    if (spirit.isCaptured) {
       console.log(`ℹ️ ${spirit.spiritName} is already captured`);
       return;
     }
 
-    spirit?.isCaptured = true;
-    spirit?.captureDate = new Date();
-    spirit?.captureLevel = spirit?.level;
+    spirit.isCaptured = true;
+    spirit.captureDate = new Date();
+    spirit.captureLevel = spirit.level;
     spirit.syncLevel = Math.floor(Math.random() * 100); // Random sync level
 
     console.log(`✅ Captured ${spirit.spiritName}!`);
@@ -420,21 +420,21 @@ class SpiritsPureCLI {
       return;
     }
 
-    const spirit = this?.collection.getSpirit(spiritId);
+    const spirit = this.collection.getSpirit(spiritId);
     if (!spirit) {
       console.log(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    if (!spirit?.isCaptured) {
+    if (!spirit.isCaptured) {
       console.log(`ℹ️ ${spirit.spiritName} is not captured`);
       return;
     }
 
-    spirit?.isCaptured = false;
-    spirit?.captureDate = undefined;
-    spirit?.captureLocation = undefined;
-    spirit?.captureLevel = undefined;
+    spirit.isCaptured = false;
+    spirit.captureDate = undefined;
+    spirit.captureLocation = undefined;
+    spirit.captureLevel = undefined;
 
     console.log(`✅ Released ${spirit.spiritName} back into the wild`);
     console.log(`📉 Collection: ${this.collection.capturedCount}/${this.collection.totalSpirits} captured (${this.collection.completionPercentage.toFixed(1)}%)`);
@@ -449,14 +449,14 @@ class SpiritsPureCLI {
       return;
     }
 
-    const spirit = this?.collection.getSpirit(spiritId);
+    const spirit = this.collection.getSpirit(spiritId);
     if (!spirit) {
       console.log(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    spirit?.isFavorite = !spirit?.isFavorite;
-    const status = spirit?.isFavorite ? 'added to favorites' : 'removed from favorites';
+    spirit.isFavorite = !spirit.isFavorite;
+    const status = spirit.isFavorite ? 'added to favorites' : 'removed from favorites';
     console.log(`⭐ ${spirit.spiritName} ${status}`);
   }
 
@@ -464,7 +464,7 @@ class SpiritsPureCLI {
    * Show collection statistics
    */
   private showStatistics(): void {
-    const stats = this?.collection.getStatistics();
+    const stats = this.collection.getStatistics();
 
     console.log('='.repeat(70));
     console.log('📊 Collection Statistics');
@@ -492,8 +492,8 @@ class SpiritsPureCLI {
    * Show completion statistics
    */
   private showCompletion(): void {
-    const typeCompletion = this?.collection.getCompletionByType();
-    const rarityCompletion = this?.collection.getCompletionByRarity();
+    const typeCompletion = this.collection.getCompletionByType();
+    const rarityCompletion = this.collection.getCompletionByRarity();
 
     console.log('='.repeat(70));
     console.log('🎯 Completion Statistics');
@@ -501,7 +501,7 @@ class SpiritsPureCLI {
 
     console.log('📋 By Type:');
     Object.entries(typeCompletion).forEach(([type, stats]) => {
-      if (stats?.total > 0) {
+      if (stats.total > 0) {
         console.log(`  ${type}: ${stats.captured}/${stats.total} (${stats.percentage.toFixed(1)}%)`);
       }
     });
@@ -509,7 +509,7 @@ class SpiritsPureCLI {
     console.log('');
     console.log('🏆 By Rarity:');
     Object.entries(rarityCompletion).forEach(([rarity, stats]) => {
-      if (stats?.total > 0) {
+      if (stats.total > 0) {
         console.log(`  ${rarity}: ${stats.captured}/${stats.total} (${stats.percentage.toFixed(1)}%)`);
       }
     });
@@ -524,7 +524,7 @@ class SpiritsPureCLI {
       return;
     }
 
-    const spirit = this?.collection.getSpirit(spiritId);
+    const spirit = this.collection.getSpirit(spiritId);
     if (!spirit) {
       console.log(`❌ Spirit not found: ${spiritId}`);
       return;
@@ -547,7 +547,7 @@ class SpiritsPureCLI {
     console.log('');
     console.log(`Status: ${spirit.isCaptured ? '✅ Captured' : '❌ Uncaptured'}`);
     console.log(`Favorite: ${spirit.isFavorite ? '⭐ Yes' : '☆ No'}`);
-    if (spirit?.captureDate) {
+    if (spirit.captureDate) {
       console.log(`Captured: ${spirit.captureDate.toLocaleDateString()} (Lv.${spirit.captureLevel})`);
     }
     console.log('');
@@ -572,7 +572,7 @@ class SpiritsPureCLI {
     console.log(`Growth Rate: ${spirit.growthRate}`);
     console.log('');
     console.log(`Moves: ${spirit.moves.length}/4`);
-    spirit?.moves.forEach((move: any) => {
+    spirit.moves.forEach((move: any) => {
       console.log(`  - ${move.name} (${move.type}, ${move.power} power)`);
     });
   }
@@ -581,11 +581,11 @@ class SpiritsPureCLI {
    * Reset to demo data
    */
   private resetDemo(): void {
-    this?.collection = SpiritUtils?.createDemoCollection();
-    this?.filter.reset();
-    this?.currentSortOption = SortOption?.ALPHABETICAL_ASC;
+    this.collection = SpiritUtils.createDemoCollection();
+    this.filter.reset();
+    this.currentSortOption = SortOption.ALPHABETICAL_ASC;
     console.log('🔄 Reset to demo data');
-    this?.listSpirits();
+    this.listSpirits();
   }
 
   /**
@@ -594,8 +594,8 @@ class SpiritsPureCLI {
   private exit(): void {
     console.log('');
     console.log('👋 Thank you for using SpiritsPure CLI!');
-    this?.rl.close();
-    process?.exit(0);
+    this.rl.close();
+    process.exit(0);
   }
 
   /**
@@ -603,35 +603,35 @@ class SpiritsPureCLI {
    */
   private getTypeIcon(type: SpiritType): string {
     const icons: Record<SpiritType, string> = {
-      [SpiritType?.NONE]: '❓',
-      [SpiritType?.FIRE]: '🔥',
-      [SpiritType?.WATER]: '💧',
-      [SpiritType?.GRASS]: '🌱',
-      [SpiritType?.ELECTRIC]: '⚡',
-      [SpiritType?.PSYCHIC]: '🧠',
-      [SpiritType?.ICE]: '❄️',
-      [SpiritType?.DRAGON]: '🐉',
-      [SpiritType?.DARK]: '🌑',
-      [SpiritType?.FAIRY]: '🧚',
-      [SpiritType?.NORMAL]: '⚪',
-      [SpiritType?.FIGHTING]: '🥊',
-      [SpiritType?.POISON]: '☠️',
-      [SpiritType?.GROUND]: '🌍',
-      [SpiritType?.FLYING]: '🕊️',
-      [SpiritType?.BUG]: '🐛',
-      [SpiritType?.ROCK]: '🪨',
-      [SpiritType?.GHOST]: '👻',
-      [SpiritType?.STEEL]: '⚙️',
-      [SpiritType?.LIGHT]: '✨',
-      [SpiritType?.SHADOW]: '🌑',
-      [SpiritType?.TIME]: '⏰',
-      [SpiritType?.SPACE]: '🌌',
-      [SpiritType?.SOUND]: '🔊',
-      [SpiritType?.CHAOS]: '🌪️',
-      [SpiritType?.ORDER]: '⚖️',
-      [SpiritType?.LIFE]: '🌿',
-      [SpiritType?.DEATH]: '💀',
-      [SpiritType?.BALANCE]: '☯️'
+      [SpiritType.NONE]: '❓',
+      [SpiritType.FIRE]: '🔥',
+      [SpiritType.WATER]: '💧',
+      [SpiritType.GRASS]: '🌱',
+      [SpiritType.ELECTRIC]: '⚡',
+      [SpiritType.PSYCHIC]: '🧠',
+      [SpiritType.ICE]: '❄️',
+      [SpiritType.DRAGON]: '🐉',
+      [SpiritType.DARK]: '🌑',
+      [SpiritType.FAIRY]: '🧚',
+      [SpiritType.NORMAL]: '⚪',
+      [SpiritType.FIGHTING]: '🥊',
+      [SpiritType.POISON]: '☠️',
+      [SpiritType.GROUND]: '🌍',
+      [SpiritType.FLYING]: '🕊️',
+      [SpiritType.BUG]: '🐛',
+      [SpiritType.ROCK]: '🪨',
+      [SpiritType.GHOST]: '👻',
+      [SpiritType.STEEL]: '⚙️',
+      [SpiritType.LIGHT]: '✨',
+      [SpiritType.SHADOW]: '🌑',
+      [SpiritType.TIME]: '⏰',
+      [SpiritType.SPACE]: '🌌',
+      [SpiritType.SOUND]: '🔊',
+      [SpiritType.CHAOS]: '🌪️',
+      [SpiritType.ORDER]: '⚖️',
+      [SpiritType.LIFE]: '🌿',
+      [SpiritType.DEATH]: '💀',
+      [SpiritType.BALANCE]: '☯️'
     };
     return icons[type!] || '❓';
   }
@@ -641,22 +641,22 @@ class SpiritsPureCLI {
    */
   private getRarityIcon(rarity: SpiritRarity): string {
     const icons: Record<SpiritRarity, string> = {
-      [SpiritRarity?.COMMON]: '⚪',
-      [SpiritRarity?.UNCOMMON]: '🟢',
-      [SpiritRarity?.RARE]: '🔵',
-      [SpiritRarity?.EPIC]: '🟣',
-      [SpiritRarity?.LEGENDARY]: '🟡',
-      [SpiritRarity?.MYTHICAL]: '🟠',
-      [SpiritRarity?.UNIQUE]: '🔴'
+      [SpiritRarity.COMMON]: '⚪',
+      [SpiritRarity.UNCOMMON]: '🟢',
+      [SpiritRarity.RARE]: '🔵',
+      [SpiritRarity.EPIC]: '🟣',
+      [SpiritRarity.LEGENDARY]: '🟡',
+      [SpiritRarity.MYTHICAL]: '🟠',
+      [SpiritRarity.UNIQUE]: '🔴'
     };
     return icons[rarity!] || '⚪';
   }
 }
 
 // Start CLI if run directly
-if (require?.main === module) {
+if (require.main === module) {
   const cli = new SpiritsPureCLI();
-  cli?.start();
+  cli.start();
 }
 
 export { SpiritsPureCLI };

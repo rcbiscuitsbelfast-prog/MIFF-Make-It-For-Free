@@ -20,7 +20,7 @@ import {
 
 import { renderWorldDemo } from './index';
 
-const { mode } = parseCLIArgs(process?.argv);
+const { mode } = parseCLIArgs(process.argv);
 
 // Select output based on CLI argument
 let output;

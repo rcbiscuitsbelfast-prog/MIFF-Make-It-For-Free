@@ -90,18 +90,18 @@ export class StatusEffectsManager {
   private stackingRules: Map<string, EffectStackingRule> = new Map();
 
   constructor() {
-    this?.initializeDefaultStackingRules();
+    this.initializeDefaultStackingRules();
   }
 
   // Shim methods expected by CLI wrapper
   getActiveEffects(entityId: string): StatusEffect[] {
-    const entity = this?.entities.get(entityId);
-    return entity ? [...entity?.effects] : [];
+    const entity = this.entities.get(entityId);
+    return entity ? [...entity.effects] : [];
   }
 
   calculateModifiedStats(entityId: string, base: { attack: number; defense: number; speed: number }) {
-    const effects = this?.getActiveEffects(entityId);
-    return effects?.reduce((acc, e) => {
+    const effects = this.getActiveEffects(entityId);
+    return effects.reduce((acc, e) => {
       // Simple modifier: buffs increase attack, debuffs reduce speed
       if (e.type === 'buff') acc.attack += Math.floor(e.magnitude);
       if (e.type === 'debuff') acc.speed = Math.max(0, acc.speed - Math.floor(e.magnitude));
@@ -123,8 +123,8 @@ export class StatusEffectsManager {
       { category: 'fear', rule: 'stack', maxStacks: 5 }
     ];
 
-    defaultRules?.forEach((rule: any) => {
-      this?.stackingRules.set(rule?.category, rule);
+    defaultRules.forEach((rule: any) => {
+      this.stackingRules.set(rule.category, rule);
     });
   }
 
@@ -132,7 +132,7 @@ export class StatusEffectsManager {
    * Create a new status entity
    */
   createEntity(id: string, maxHp: number, effects: StatusEffect[] = []): StatusOutput {
-    if (this?.entities.has(id)) {
+    if (this.entities.has(id)) {
       return {
         op: 'create',
         status: 'error',
@@ -150,7 +150,7 @@ export class StatusEffectsManager {
       lastUpdate: new Date()
     };
 
-    this?.entities.set(id, entity);
+    this.entities.set(id, entity);
     return {
       op: 'create',
       status: 'ok',
@@ -162,7 +162,7 @@ export class StatusEffectsManager {
    * Apply status effect to entity
    */
   applyEffect(entityId: string, effect: Omit<StatusEffect, 'appliedAt' | 'expiresAt' | 'currentStacks'>): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'apply_effect',
@@ -172,19 +172,19 @@ export class StatusEffectsManager {
     }
 
     // Check immunity
-    if (entity?.immunities.includes(effect?.category)) {
-      this?.recordEvent('immunity_triggered', entityId, effect?.id, { category: effect?.category });
+    if (entity.immunities.includes(effect.category)) {
+      this.recordEvent('immunity_triggered', entityId, effect.id, { category: effect.category });
       return {
         op: 'apply_effect',
         status: 'error',
-        issues: [`Entity ${entityId} is immune to ${effect?.category} effects`]
+        issues: [`Entity ${entityId} is immune to ${effect.category} effects`]
       };
     }
 
     // Apply resistance
-    const resistance = entity?.resistances[effect?.category] || 0;
+    const resistance = entity.resistances[effect.category] || 0;
     const resistanceFactor = 1 - (resistance / 100);
-    const finalMagnitude = effect?.magnitude * resistanceFactor;
+    const finalMagnitude = effect.magnitude * resistanceFactor;
     const finalDuration = Math.floor(effect.duration * resistanceFactor);
 
     const fullEffect: StatusEffect = {
@@ -197,43 +197,43 @@ export class StatusEffectsManager {
     };
 
     // Handle stacking
-    const existingEffect = entity?.effects.find(e => e?.id === effect?.id);
+    const existingEffect = entity.effects.find(e => e.id === effect.id);
     if (existingEffect) {
-      const stackingRule = this?.stackingRules.get(effect?.category);
+      const stackingRule = this.stackingRules.get(effect.category);
       if (stackingRule) {
-        switch (stackingRule?.rule) {
+        switch (stackingRule.rule) {
           case 'replace':
-            this?.removeEffect(entityId, effect?.id);
+            this.removeEffect(entityId, effect.id);
             break;
           case 'stack':
-            if (existingEffect?.currentStacks < (stackingRule?.maxStacks || 1)) {
-              existingEffect?.currentStacks++;
-              existingEffect?.magnitude += effect?.magnitude;
+            if (existingEffect.currentStacks < (stackingRule.maxStacks || 1)) {
+              existingEffect.currentStacks++;
+              existingEffect.magnitude += effect.magnitude;
               existingEffect.duration = Math.max(existingEffect.duration, effect.duration);
-              existingEffect.expiresAt = new Date() + (existingEffect.duration * 1000);
-              this?.recordEvent('effect_modified', entityId, effect?.id, { stacks: existingEffect?.currentStacks });
+              existingEffect.expiresAt = Date.now() + (existingEffect.duration * 1000);
+              this.recordEvent('effect_modified', entityId, effect.id, { stacks: existingEffect.currentStacks });
               return { op: 'apply_effect', status: 'ok', result: entity };
             }
             break;
           case 'extend':
             existingEffect.duration = Math.max(existingEffect.duration, effect.duration);
-            existingEffect.expiresAt = new Date() + (existingEffect.duration * 1000);
-            this?.recordEvent('effect_modified', entityId, effect?.id, { extended: true });
+            existingEffect.expiresAt = Date.now() + (existingEffect.duration * 1000);
+            this.recordEvent('effect_modified', entityId, effect.id, { extended: true });
             return { op: 'apply_effect', status: 'ok', result: entity };
           case 'block':
             return {
               op: 'apply_effect',
               status: 'error',
-              issues: [`Effect ${effect?.id} is blocked by existing effect`]
+              issues: [`Effect ${effect.id} is blocked by existing effect`]
             };
         }
       }
     }
 
-    entity?.effects?.push(fullEffect);
-    entity.lastUpdate = new Date();
+    entity.effects.push(fullEffect);
+    entity.lastUpdate = Date.now();
 
-    this?.recordEvent('effect_applied', entityId, effect?.id, { category: effect?.category, magnitude: finalMagnitude });
+    this.recordEvent('effect_applied', entityId, effect.id, { category: effect.category, magnitude: finalMagnitude });
 
     return {
       op: 'apply_effect',
@@ -246,7 +246,7 @@ export class StatusEffectsManager {
    * Remove status effect from entity
    */
   removeEffect(entityId: string, effectId: string): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'remove_effect',
@@ -255,7 +255,7 @@ export class StatusEffectsManager {
       };
     }
 
-    const effectIndex = entity?.effects.findIndex(e => e?.id === effectId);
+    const effectIndex = entity.effects.findIndex(e => e.id === effectId);
     if (effectIndex === -1) {
       return {
         op: 'remove_effect',
@@ -264,10 +264,10 @@ export class StatusEffectsManager {
       };
     }
 
-    const removedEffect = entity?.effects.splice(effectIndex, 1)[0!];
-    entity.lastUpdate = new Date();
+    const removedEffect = entity.effects.splice(effectIndex, 1)[0!];
+    entity.lastUpdate = Date.now();
 
-    this?.recordEvent('effect_expired', entityId, effectId, { category: removedEffect?.category });
+    this.recordEvent('effect_expired', entityId, effectId, { category: removedEffect.category });
 
     return {
       op: 'remove_effect',
@@ -280,7 +280,7 @@ export class StatusEffectsManager {
    * Simulate status effects for an entity
    */
   simulateEntity(entityId: string): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'simulate',
@@ -289,7 +289,7 @@ export class StatusEffectsManager {
       };
     }
 
-    const result = this?.processEntityEffects(entity);
+    const result = this.processEntityEffects(entity);
     return {
       op: 'simulate',
       status: 'ok',
@@ -303,9 +303,9 @@ export class StatusEffectsManager {
   simulateAll(): StatusOutput {
     const results: TickResult[] = [];
 
-    for (const [entityId, entity] of this?.entities) {
-      const result = this?.processEntityEffects(entity);
-      results?.push(result: any);
+    for (const [entityId, entity] of this.entities) {
+      const result = this.processEntityEffects(entity);
+      results.push(result);
     }
 
     return {
@@ -319,7 +319,7 @@ export class StatusEffectsManager {
    * Process effects for a specific entity
    */
   processEffects(entityId: string): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'process_effects',
@@ -328,7 +328,7 @@ export class StatusEffectsManager {
       };
     }
 
-    const result = this?.processEntityEffects(entity);
+    const result = this.processEntityEffects(entity);
     return {
       op: 'process_effects',
       status: 'ok',
@@ -346,30 +346,30 @@ export class StatusEffectsManager {
     const effectsModified: StatusEffect[] = [];
     let hpDelta = 0;
 
-    const currentTime = new Date();
+    const currentTime = Date.now();
 
     // Process each effect
-    for (let i = entity?.effects.length - 1; i >= 0; i--) {
-      const effect = entity?.effects[i!];
+    for (let i = entity.effects.length - 1; i >= 0; i--) {
+      const effect = entity.effects[i!];
 
       // Check if effect has expired
-      if (currentTime >= effect?.expiresAt) {
-        entity?.effects.splice(i, 1);
-        effectsExpired?.push(effect);
-        this?.recordEvent('effect_expired', entity?.id, effect?.id, { category: effect?.category });
+      if (currentTime >= effect.expiresAt) {
+        entity.effects.splice(i, 1);
+        effectsExpired.push(effect);
+        this.recordEvent('effect_expired', entity.id, effect.id, { category: effect.category });
         continue;
       }
 
       // Apply effect based on category
-      switch (effect?.category) {
+      switch (effect.category) {
         case 'poison':
-          hpDelta -= effect?.magnitude * effect?.currentStacks;
+          hpDelta -= effect.magnitude * effect.currentStacks;
           break;
         case 'regen':
-          hpDelta += effect?.magnitude * effect?.currentStacks;
+          hpDelta += effect.magnitude * effect.currentStacks;
           break;
         case 'burn':
-          hpDelta -= effect?.magnitude * effect?.currentStacks;
+          hpDelta -= effect.magnitude * effect.currentStacks;
           break;
         case 'shield':
           // Shield effects are handled separately
@@ -399,21 +399,21 @@ export class StatusEffectsManager {
     }
 
     // Apply HP changes
-    const oldHp = entity?.hp;
+    const oldHp = entity.hp;
     entity.hp = Math.max(0, Math.min(entity.maxHp, entity.hp + hpDelta));
-    entity?.lastUpdate = currentTime;
+    entity.lastUpdate = currentTime;
 
     // Check for death/revival
-    if (oldHp > 0 && entity?.hp <= 0) {
-      this?.recordEvent('entity_died', entity?.id, undefined, { hp: entity?.hp });
-    } else if (oldHp <= 0 && entity?.hp > 0) {
-      this?.recordEvent('entity_revived', entity?.id, undefined, { hp: entity?.hp });
+    if (oldHp > 0 && entity.hp <= 0) {
+      this.recordEvent('entity_died', entity.id, undefined, { hp: entity.hp });
+    } else if (oldHp <= 0 && entity.hp > 0) {
+      this.recordEvent('entity_revived', entity.id, undefined, { hp: entity.hp });
     }
 
     return {
-      entityId: entity?.id,
+      entityId: entity.id,
       hpDelta,
-      newHp: entity?.hp,
+      newHp: entity.hp,
       effectsApplied,
       effectsExpired,
       effectsModified,
@@ -425,7 +425,7 @@ export class StatusEffectsManager {
    * Get entity by ID
    */
   getEntity(entityId: string): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'get',
@@ -448,18 +448,18 @@ export class StatusEffectsManager {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
-      entities = entities?.filter((entity: any) => {
-        if (filter?.category && !entity?.effects.some(e => e?.category === filter?.category)) return false;
-        if (filter?.type && !entity?.effects.some(e => e?.type === filter?.type)) return false;
-        if (filter?.minHp !== undefined && entity?.hp < filter?.minHp) return false;
-        if (filter?.maxHp !== undefined && entity?.hp > filter?.maxHp) return false;
-        if (filter?.hasEffects !== undefined) {
-          const hasEffects = entity?.effects.length > 0;
-          if (filter?.hasEffects !== hasEffects) return false;
+      entities = entities.filter((entity: any) => {
+        if (filter.category && !entity.effects.some(e => e.category === filter.category)) return false;
+        if (filter.type && !entity.effects.some(e => e.type === filter.type)) return false;
+        if (filter.minHp !== undefined && entity.hp < filter.minHp) return false;
+        if (filter.maxHp !== undefined && entity.hp > filter.maxHp) return false;
+        if (filter.hasEffects !== undefined) {
+          const hasEffects = entity.effects.length > 0;
+          if (filter.hasEffects !== hasEffects) return false;
         }
-        if (filter?.isDead !== undefined) {
-          const isDead = entity?.hp <= 0;
-          if (filter?.isDead !== isDead) return false;
+        if (filter.isDead !== undefined) {
+          const isDead = entity.hp <= 0;
+          if (filter.isDead !== isDead) return false;
         }
         return true;
       });
@@ -477,32 +477,32 @@ export class StatusEffectsManager {
    */
   getStatusStats(): StatusOutput {
     const entities = Array.from(this.entities.values());
-    const allEffects = entities?.flatMap(e => e?.effects);
+    const allEffects = entities.flatMap(e => e.effects);
     
     const stats: StatusStats = {
-      totalEntities: entities?.length,
-      entitiesWithEffects: entities?.filter((e: any) => e?.effects.length > 0).length,
-      totalEffects: allEffects?.length,
+      totalEntities: entities.length,
+      entitiesWithEffects: entities.filter((e: any) => e.effects.length > 0).length,
+      totalEffects: allEffects.length,
       effectDistribution: {},
       averageHp: 0,
-      deadEntities: entities?.filter((e: any) => e?.hp <= 0).length,
+      deadEntities: entities.filter((e: any) => e.hp <= 0).length,
       mostCommonEffect: ''
     };
 
-    if (entities?.length > 0) {
-      const totalHp = entities?.reduce((sum, e) => sum + e?.hp, 0);
-      stats?.averageHp = totalHp / entities?.length;
+    if (entities.length > 0) {
+      const totalHp = entities.reduce((sum, e) => sum + e.hp, 0);
+      stats.averageHp = totalHp / entities.length;
     }
 
     // Calculate effect distribution
-    allEffects?.forEach((effect: any) => {
-      stats?.effectDistribution[effect?.category] = (stats?.effectDistribution[effect?.category] || 0) + 1;
+    allEffects.forEach((effect: any) => {
+      stats.effectDistribution[effect.category] = (stats.effectDistribution[effect.category] || 0) + 1;
     });
 
     // Find most common effect
     const sortedEffects = Object.entries(stats.effectDistribution)
       .sort(([,a], [,b]) => b - a);
-    stats?.mostCommonEffect = sortedEffects[0!]?.[0!] || '';
+    stats.mostCommonEffect = sortedEffects[0!]?.[0!] || '';
 
     return {
       op: 'stats',
@@ -515,7 +515,7 @@ export class StatusEffectsManager {
    * Add immunity to entity
    */
   addImmunity(entityId: string, category: string): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'add_immunity',
@@ -524,9 +524,9 @@ export class StatusEffectsManager {
       };
     }
 
-    if (!entity?.immunities.includes(category)) {
-      entity?.immunities?.push(category);
-      entity.lastUpdate = new Date();
+    if (!entity.immunities.includes(category)) {
+      entity.immunities.push(category);
+      entity.lastUpdate = Date.now();
     }
 
     return {
@@ -540,7 +540,7 @@ export class StatusEffectsManager {
    * Add resistance to entity
    */
   addResistance(entityId: string, category: string, percentage: number): StatusOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'add_resistance',
@@ -550,7 +550,7 @@ export class StatusEffectsManager {
     }
 
     entity.resistances[category!] = Math.min(100, (entity.resistances[category!] || 0) + percentage);
-    entity.lastUpdate = new Date();
+    entity.lastUpdate = Date.now();
 
     return {
       op: 'add_resistance',
@@ -570,7 +570,7 @@ export class StatusEffectsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities?.length }
+          result: { entities, total: entities.length }
         };
       
       case 'manifest':
@@ -578,29 +578,29 @@ export class StatusEffectsManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff?.status.export?.v1',
+            schema: 'miff.status.export.v1',
             entities,
-            events: this?.events.slice(-100), // Last 100 events
+            events: this.events.slice(-100), // Last 100 events
             stackingRules: Array.from(this.stackingRules.entries()),
             exportedAt: new Date().toISOString(),
-            total: entities?.length
+            total: entities.length
           }
         };
       
       case 'summary':
-        const stats = this?.getStatusStats();
+        const stats = this.getStatusStats();
         return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats?.result,
-            entities: entities?.map((entity: any) => ({
-              id: entity?.id,
-              hp: entity?.hp,
-              maxHp: entity?.maxHp,
-              effectCount: entity?.effects.length,
-              immunities: entity?.immunities,
-              resistances: entity?.resistances
+            summary: stats.result,
+            entities: entities.map((entity: any) => ({
+              id: entity.id,
+              hp: entity.hp,
+              maxHp: entity.maxHp,
+              effectCount: entity.effects.length,
+              immunities: entity.immunities,
+              resistances: entity.resistances
             }))
           }
         };
@@ -610,8 +610,8 @@ export class StatusEffectsManager {
           op: 'export',
           status: 'ok',
           result: {
-            events: this?.events,
-            total: this?.events.length
+            events: this.events,
+            total: this.events.length
           }
         };
       
@@ -628,9 +628,9 @@ export class StatusEffectsManager {
    * Reset all status data
    */
   resetStatus(): StatusOutput {
-    this?.entities.clear();
-    this?.events = [];
-    this?.initializeDefaultStackingRules();
+    this.entities.clear();
+    this.events = [];
+    this.initializeDefaultStackingRules();
     return {
       op: 'reset',
       status: 'ok',
@@ -649,6 +649,6 @@ export class StatusEffectsManager {
       timestamp: new Date(),
       data
     };
-    this?.events?.push(event);
+    this.events.push(event);
   }
 }

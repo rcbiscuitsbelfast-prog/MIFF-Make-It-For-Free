@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index?.js';
+import { EventBus } from '../EventBusPure/index.js';
 // Types are defined in this file to avoid circular imports
 
 // ============================================================================
@@ -338,9 +338,9 @@ export class TycoonManagerPure {
     performanceMode: 'high',
     debugMode: false
   }) {
-    this?.eventBus = eventBus;
-    this?.config = config;
-    this?.tycoonSystem = new TycoonSystemPure(eventBus, {
+    this.eventBus = eventBus;
+    this.config = config;
+    this.tycoonSystem = new TycoonSystemPure(eventBus, {
       initialCapital: 100000,
       enableMarketFluctuations: true,
       enableCompetition: true,
@@ -349,23 +349,23 @@ export class TycoonManagerPure {
       enableLoans: true,
       enableInvestments: true,
       updateInterval: 3600,
-      performanceMode: config?.performanceMode,
-      debugMode: config?.debugMode
+      performanceMode: config.performanceMode,
+      debugMode: config.debugMode
     });
 
-    this?.initializeManagers();
-    this?.setupEventListeners();
-    this?.initialize({});
+    this.initializeManagers();
+    this.setupEventListeners();
+    this.initialize();
   }
 
   /**
    * Initialize managers
    */
   private initializeManagers(): void {
-    this?.facilityManager = this?.createFacilityManager();
-    this?.staffManager = this?.createStaffManager();
-    this?.financialManager = this?.createFinancialManager();
-    this?.marketManager = this?.createMarketManager();
+    this.facilityManager = this.createFacilityManager();
+    this.staffManager = this.createStaffManager();
+    this.financialManager = this.createFinancialManager();
+    this.marketManager = this.createMarketManager();
   }
 
   /**
@@ -387,43 +387,43 @@ export class TycoonManagerPure {
       },
 
       calculateFacilityROI: (facilityId: string) => {
-        const facility = this?.tycoonSystem.getFacility(facilityId);
-        if (!facility || !facility?.operational) return 0;
+        const facility = this.tycoonSystem.getFacility(facilityId);
+        if (!facility || !facility.operational) return 0;
 
-        const revenue = facility?.currentValue * facility?.revenueMultiplier * 24; // Daily revenue
-        const costs = facility?.maintenanceCost * 24; // Daily maintenance
+        const revenue = facility.currentValue * facility.revenueMultiplier * 24; // Daily revenue
+        const costs = facility.maintenanceCost * 24; // Daily maintenance
         const netIncome = revenue - costs;
-        const investment = facility?.constructionCost;
+        const investment = facility.constructionCost;
 
         return investment > 0 ? (netIncome / investment) * 365 : 0; // Annual ROI
       },
 
       optimizeFacilityLayout: () => {
         // Optimize facility placement and resource allocation
-        this?.eventBus.emit('tycoon:facility_optimization', {
+        this.eventBus.emit('tycoon:facility_optimization', {
           timestamp: new Date()
         });
       },
 
       getFacilityUpgradePriority: () => {
-        const facilities = this?.tycoonSystem.getFacilities();
+        const facilities = this.tycoonSystem.getFacilities();
         return Array.from(facilities.keys())
           .filter((id: any) => {
-            const facility = facilities?.get(id)!;
-            return facility?.operational && facility?.level < facility?.maxLevel;
+            const facility = facilities.get(id)!;
+            return facility.operational && facility.level < facility.maxLevel;
           })
           .sort((a: any, b: any) => {
-            const roiA = this?.facilityManager.calculateFacilityROI(a);
-            const roiB = this?.facilityManager.calculateFacilityROI(b);
+            const roiA = this.facilityManager.calculateFacilityROI(a);
+            const roiB = this.facilityManager.calculateFacilityROI(b);
             return roiB - roiA;
           });
       },
 
       predictFacilityRevenue: (facilityId: string, timeframe: number) => {
-        const facility = this?.tycoonSystem.getFacility(facilityId);
-        if (!facility || !facility?.operational) return 0;
+        const facility = this.tycoonSystem.getFacility(facilityId);
+        if (!facility || !facility.operational) return 0;
 
-        const dailyRevenue = facility?.currentValue * facility?.revenueMultiplier;
+        const dailyRevenue = facility.currentValue * facility.revenueMultiplier;
         return dailyRevenue * (timeframe / 24); // Convert to timeframe
       },
 
@@ -431,7 +431,7 @@ export class TycoonManagerPure {
         const opportunities: FacilityExpansion[] = [
           {
             type: 'retail',
-            location: this?.facilityManager.getOptimalFacilityLocation('retail'),
+            location: this.facilityManager.getOptimalFacilityLocation('retail'),
             expectedROI: 0.25,
             constructionCost: 50000,
             timeframe: 48, // 2 days
@@ -439,7 +439,7 @@ export class TycoonManagerPure {
           },
           {
             type: 'manufacturing',
-            location: this?.facilityManager.getOptimalFacilityLocation('manufacturing'),
+            location: this.facilityManager.getOptimalFacilityLocation('manufacturing'),
             expectedROI: 0.35,
             constructionCost: 200000,
             timeframe: 120, // 5 days
@@ -447,9 +447,9 @@ export class TycoonManagerPure {
           }
         ];
 
-        return opportunities?.filter((opp: any) => {
-          const capital = this?.tycoonSystem.getCapital();
-          return capital >= opp?.constructionCost;
+        return opportunities.filter((opp: any) => {
+          const capital = this.tycoonSystem.getCapital();
+          return capital >= opp.constructionCost;
         });
       }
     };
@@ -462,11 +462,11 @@ export class TycoonManagerPure {
     return {
       getOptimalStaffingLevels: () => {
         const optimalLevels = new Map<string, number>();
-        const facilities = this?.tycoonSystem.getFacilities();
+        const facilities = this.tycoonSystem.getFacilities();
 
-        facilities?.forEach((facility, facilityId) => {
-          if (facility?.operational) {
-            const currentStaff = this?.getStaffCount(facilityId);
+        facilities.forEach((facility, facilityId) => {
+          if (facility.operational) {
+            const currentStaff = this.getStaffCount(facilityId);
             const optimalStaff = Math.floor(facility.capacity * 0.8); // 80% capacity
             optimalLevels.set(facilityId, Math.max(0, optimalStaff - currentStaff));
           }
@@ -476,11 +476,11 @@ export class TycoonManagerPure {
       },
 
       calculateStaffEfficiency: (facilityId: string) => {
-        const facility = this?.tycoonSystem.getFacility(facilityId);
+        const facility = this.tycoonSystem.getFacility(facilityId);
         if (!facility) return 0;
 
-        const currentStaff = this?.getStaffCount(facilityId);
-        const optimalStaff = facility?.capacity * 0.8;
+        const currentStaff = this.getStaffCount(facilityId);
+        const optimalStaff = facility.capacity * 0.8;
 
         if (optimalStaff === 0) return 1.0;
 
@@ -490,18 +490,18 @@ export class TycoonManagerPure {
 
       optimizeStaffAllocation: () => {
         // Reallocate staff based on facility needs
-        this?.eventBus.emit('tycoon:staff_optimization', {
+        this.eventBus.emit('tycoon:staff_optimization', {
           timestamp: new Date()
         });
       },
 
       getTrainingRecommendations: () => {
-        const staff = this?.tycoonSystem.getStaff();
+        const staff = this.tycoonSystem.getStaff();
         const recommendations: string[] = [];
 
-        staff?.forEach((employee, employeeId) => {
-          if (employee?.skill < 80 || employee?.experience < 80) {
-            recommendations?.push(employeeId);
+        staff.forEach((employee, employeeId) => {
+          if (employee.skill < 80 || employee.experience < 80) {
+            recommendations.push(employeeId);
           }
         });
 
@@ -509,12 +509,12 @@ export class TycoonManagerPure {
       },
 
       predictStaffTurnover: (timeframe: number) => {
-        const staff = this?.tycoonSystem.getStaff();
+        const staff = this.tycoonSystem.getStaff();
         let totalTurnoverRisk = 0;
 
-        staff?.forEach((employee: any) => {
-          const moraleFactor = (100 - employee?.morale) / 100;
-          const experienceFactor = employee?.experience < 50 ? 0.3 : 0.1;
+        staff.forEach((employee: any) => {
+          const moraleFactor = (100 - employee.morale) / 100;
+          const experienceFactor = employee.experience < 50 ? 0.3 : 0.1;
           totalTurnoverRisk += moraleFactor * experienceFactor;
         });
 
@@ -523,16 +523,16 @@ export class TycoonManagerPure {
 
       getHiringPriority: () => {
         const priorities: { facilityId: string; role: StaffRole; count: number }[] = [];
-        const facilities = this?.tycoonSystem.getFacilities();
+        const facilities = this.tycoonSystem.getFacilities();
 
-        facilities?.forEach((facility, facilityId) => {
-          if (!facility?.operational) return;
+        facilities.forEach((facility, facilityId) => {
+          if (!facility.operational) return;
 
-          const currentStaff = this?.getStaffCount(facilityId);
+          const currentStaff = this.getStaffCount(facilityId);
           const neededStaff = Math.max(0, facility.staffSlots - currentStaff);
 
           if (neededStaff > 0) {
-            priorities?.push({
+            priorities.push({
               facilityId: facilityId,
               role: 'worker', // Default role
               count: neededStaff
@@ -540,7 +540,7 @@ export class TycoonManagerPure {
           }
         });
 
-        return priorities?.sort((a: any, b: any) => b?.count - a?.count);
+        return priorities.sort((a: any, b: any) => b.count - a.count);
       }
     };
   }
@@ -551,20 +551,20 @@ export class TycoonManagerPure {
   private createFinancialManager(): FinancialManager {
     return {
       calculateBusinessValuation: () => {
-        const stats = this?.tycoonSystem.getBusinessStats();
-        const facilities = this?.tycoonSystem.getFacilities();
+        const stats = this.tycoonSystem.getBusinessStats();
+        const facilities = this.tycoonSystem.getFacilities();
 
-        let totalValue = stats?.totalAssets;
+        let totalValue = stats.totalAssets;
 
         // Add facility values
-        facilities?.forEach((facility: any) => {
-          totalValue += facility?.currentValue;
+        facilities.forEach((facility: any) => {
+          totalValue += facility.currentValue;
         });
 
         // Add market conditions multiplier
-        const marketData = this?.tycoonSystem.getMarketData();
-        const marketMultiplier = marketData?.condition === 'booming' ? 1.2 :
-                                marketData?.condition === 'recession' ? 0.8 : 1.0;
+        const marketData = this.tycoonSystem.getMarketData();
+        const marketMultiplier = marketData.condition === 'booming' ? 1.2 :
+                                marketData.condition === 'recession' ? 0.8 : 1.0;
 
         return totalValue * marketMultiplier;
       },
@@ -595,7 +595,7 @@ export class TycoonManagerPure {
       },
 
       optimizeLoanStrategy: () => {
-        const capital = this?.tycoonSystem.getCapital();
+        const capital = this.tycoonSystem.getCapital();
         const maxLoanAmount = capital * 2; // 2x current capital
 
         return {
@@ -608,16 +608,16 @@ export class TycoonManagerPure {
       },
 
       predictCashFlow: (timeframe: number) => {
-        const stats = this?.tycoonSystem.getBusinessStats();
-        const facilities = this?.tycoonSystem.getFacilities();
+        const stats = this.tycoonSystem.getBusinessStats();
+        const facilities = this.tycoonSystem.getFacilities();
 
-        let projectedIncome = stats?.totalRevenue * (timeframe / 30); // Monthly projection
-        let projectedExpenses = stats?.totalExpenses * (timeframe / 30);
+        let projectedIncome = stats.totalRevenue * (timeframe / 30); // Monthly projection
+        let projectedExpenses = stats.totalExpenses * (timeframe / 30);
 
         // Add facility revenue
-        facilities?.forEach((facility: any) => {
-          if (facility?.operational) {
-            projectedIncome += facility?.currentValue * facility?.revenueMultiplier * (timeframe / 24);
+        facilities.forEach((facility: any) => {
+          if (facility.operational) {
+            projectedIncome += facility.currentValue * facility.revenueMultiplier * (timeframe / 24);
           }
         });
 
@@ -648,8 +648,8 @@ export class TycoonManagerPure {
           }
         ];
 
-        const riskScore = risks?.reduce((score, risk) => {
-          return score + (risk?.probability * risk?.impact);
+        const riskScore = risks.reduce((score, risk) => {
+          return score + (risk.probability * risk.impact);
         }, 0);
 
         return {
@@ -747,8 +747,8 @@ export class TycoonManagerPure {
       },
 
       calculateMarketShare: (businessType: BusinessType) => {
-        const stats = this?.tycoonSystem.getBusinessStats();
-        return stats?.marketShare * 0.8; // Simplified calculation
+        const stats = this.tycoonSystem.getBusinessStats();
+        return stats.marketShare * 0.8; // Simplified calculation
       },
 
       getCompetitiveAdvantage: () => {
@@ -779,19 +779,19 @@ export class TycoonManagerPure {
   private async initialize(): Promise<void> {
     try {
       // Start analytics if enabled
-      if (this?.config.enableAnalytics) {
-        this?.startAnalytics();
+      if (this.config.enableAnalytics) {
+        this.startAnalytics();
       }
 
       // Start optimization if enabled
-      if (this?.config.enableOptimization) {
-        this?.startOptimization();
+      if (this.config.enableOptimization) {
+        this.startOptimization();
       }
 
-      this?.isInitialized = true;
+      this.isInitialized = true;
 
-      this?.eventBus.emit('tycoon:manager_initialized', {
-        config: this?.config,
+      this.eventBus.emit('tycoon:manager_initialized', {
+        config: this.config,
         timestamp: new Date()
       });
 
@@ -806,21 +806,21 @@ export class TycoonManagerPure {
    * Set up event listeners
    */
   private setupEventListeners(): void {
-    this?.eventBus.on('tycoon:revenue', (data: any) => {
-      if (this?.config.enableAnalytics) {
-        this?.recordAnalytics('revenue', data);
+    this.eventBus.on('tycoon:revenue', (data) => {
+      if (this.config.enableAnalytics) {
+        this.recordAnalytics('revenue', data);
       }
     });
 
-    this?.eventBus.on('tycoon:expense', (data: any) => {
-      if (this?.config.enableAnalytics) {
-        this?.recordAnalytics('expense', data);
+    this.eventBus.on('tycoon:expense', (data) => {
+      if (this.config.enableAnalytics) {
+        this.recordAnalytics('expense', data);
       }
     });
 
-    this?.eventBus.on('tycoon:facility_constructed', (data: any) => {
-      if (this?.config.enableAnalytics) {
-        this?.recordAnalytics('facility_constructed', data);
+    this.eventBus.on('tycoon:facility_constructed', (data) => {
+      if (this.config.enableAnalytics) {
+        this.recordAnalytics('facility_constructed', data);
       }
     });
   }
@@ -830,7 +830,7 @@ export class TycoonManagerPure {
    */
   private startAnalytics(): void {
     setInterval(() => {
-      this?.updateAnalytics();
+      this.updateAnalytics();
     }, 60000); // Update every minute
   }
 
@@ -839,23 +839,23 @@ export class TycoonManagerPure {
    */
   private startOptimization(): void {
     setInterval(() => {
-      this?.runOptimizations();
-    }, this?.config.managementInterval);
+      this.runOptimizations();
+    }, this.config.managementInterval);
   }
 
   /**
    * Record analytics data
    */
   private recordAnalytics(event: string, data: any): void {
-    this?.analyticsData?.push({
+    this.analyticsData.push({
       event: event,
       data: data,
       timestamp: new Date()
     });
 
     // Keep only last 1000 entries
-    if (this?.analyticsData.length > 1000) {
-      this?.analyticsData = this?.analyticsData.slice(-1000);
+    if (this.analyticsData.length > 1000) {
+      this.analyticsData = this.analyticsData.slice(-1000);
     }
   }
 
@@ -863,16 +863,16 @@ export class TycoonManagerPure {
    * Update analytics
    */
   private updateAnalytics(): void {
-    const stats = this?.tycoonSystem.getBusinessStats();
-    const now = new Date();
+    const stats = this.tycoonSystem.getBusinessStats();
+    const now = Date.now();
 
-    if (now - this?.lastAnalyticsUpdate > 60000) {
-      this?.eventBus.emit('tycoon:analytics_update', {
+    if (now - this.lastAnalyticsUpdate > 60000) {
+      this.eventBus.emit('tycoon:analytics_update', {
         stats: stats,
         timestamp: now
       });
 
-      this?.lastAnalyticsUpdate = now;
+      this.lastAnalyticsUpdate = now;
     }
   }
 
@@ -880,16 +880,16 @@ export class TycoonManagerPure {
    * Run optimizations
    */
   private runOptimizations(): void {
-    if (!this?.config.enableOptimization) return;
+    if (!this.config.enableOptimization) return;
 
     // Optimize facility layout
-    this?.facilityManager.optimizeFacilityLayout();
+    this.facilityManager.optimizeFacilityLayout();
 
     // Optimize staff allocation
-    this?.staffManager.optimizeStaffAllocation();
+    this.staffManager.optimizeStaffAllocation();
 
     // Record optimization decision
-    this?.recordDecision('optimization', 'system_optimization', {
+    this.recordDecision('optimization', 'system_optimization', {
       timestamp: new Date(),
       description: 'Automated system optimization completed'
     });
@@ -899,7 +899,7 @@ export class TycoonManagerPure {
    * Record management decision
    */
   private recordDecision(type: string, action: string, data: any): void {
-    this?.decisionHistory?.push({
+    this.decisionHistory.push({
       type: type,
       action: action,
       data: data,
@@ -907,8 +907,8 @@ export class TycoonManagerPure {
     });
 
     // Keep only last 100 decisions
-    if (this?.decisionHistory.length > 100) {
-      this?.decisionHistory = this?.decisionHistory.slice(-100);
+    if (this.decisionHistory.length > 100) {
+      this.decisionHistory = this.decisionHistory.slice(-100);
     }
   }
 
@@ -916,11 +916,11 @@ export class TycoonManagerPure {
    * Get staff count for facility
    */
   private getStaffCount(facilityId: string): number {
-    const staff = this?.tycoonSystem.getStaff();
+    const staff = this.tycoonSystem.getStaff();
     let count = 0;
 
-    staff?.forEach((employee: any) => {
-      if (employee?.facilityId === facilityId) {
+    staff.forEach((employee: any) => {
+      if (employee.facilityId === facilityId) {
         count++;
       }
     });
@@ -936,92 +936,92 @@ export class TycoonManagerPure {
    * Get tycoon system instance
    */
   public getTycoonSystem(): TycoonSystemPure {
-    return this?.tycoonSystem;
+    return this.tycoonSystem;
   }
 
   /**
    * Set integrations
    */
   public setIntegrations(integrations: TycoonIntegration): void {
-    this?.integrations = { ...this?.integrations, ...integrations };
-    this?.tycoonSystem.setIntegrations(integrations);
+    this.integrations = { ...this.integrations, ...integrations };
+    this.tycoonSystem.setIntegrations(integrations);
   }
 
   /**
    * Get optimal facility location
    */
   public getOptimalFacilityLocation(type: BusinessType): { x: number; y: number } {
-    return this?.facilityManager.getOptimalFacilityLocation(type);
+    return this.facilityManager.getOptimalFacilityLocation(type);
   }
 
   /**
    * Get facility upgrade priority
    */
   public getFacilityUpgradePriority(): string[] {
-    return this?.facilityManager.getFacilityUpgradePriority();
+    return this.facilityManager.getFacilityUpgradePriority();
   }
 
   /**
    * Get optimal staffing levels
    */
   public getOptimalStaffingLevels(): Map<string, number> {
-    return this?.staffManager.getOptimalStaffingLevels();
+    return this.staffManager.getOptimalStaffingLevels();
   }
 
   /**
    * Get hiring priority
    */
   public getHiringPriority(): { facilityId: string; role: StaffRole; count: number }[] {
-    return this?.staffManager.getHiringPriority();
+    return this.staffManager.getHiringPriority();
   }
 
   /**
    * Get business valuation
    */
   public getBusinessValuation(): number {
-    return this?.financialManager.calculateBusinessValuation();
+    return this.financialManager.calculateBusinessValuation();
   }
 
   /**
    * Get investment opportunities
    */
   public getInvestmentOpportunities(): InvestmentOpportunity[] {
-    return this?.financialManager.getInvestmentOpportunities();
+    return this.financialManager.getInvestmentOpportunities();
   }
 
   /**
    * Get cash flow projection
    */
   public getCashFlowProjection(timeframe: number): CashFlowProjection {
-    return this?.financialManager.predictCashFlow(timeframe);
+    return this.financialManager.predictCashFlow(timeframe);
   }
 
   /**
    * Get market trends
    */
   public getMarketTrends(): MarketTrend[] {
-    return this?.marketManager.analyzeMarketTrends();
+    return this.marketManager.analyzeMarketTrends();
   }
 
   /**
    * Get competitive advantage analysis
    */
   public getCompetitiveAdvantage(): CompetitiveAdvantage {
-    return this?.marketManager.getCompetitiveAdvantage();
+    return this.marketManager.getCompetitiveAdvantage();
   }
 
   /**
    * Optimize pricing strategy
    */
   public optimizePricing(): PricingStrategy {
-    return this?.marketManager.optimizePricingStrategy();
+    return this.marketManager.optimizePricingStrategy();
   }
 
   /**
    * Get system statistics
    */
   public getStats(): {
-    const managerData = this?.getStats();
+    const managerData = this.getStats();
     isInitialized: boolean;
     capital: number;
     facilities: number;
@@ -1032,18 +1032,18 @@ export class TycoonManagerPure {
     analyticsEnabled: boolean;
     optimizationEnabled: boolean;
   } {
-    const tycoonStats = this?.tycoonSystem.getStats();
-    const managerData = this?.getStats();
-    const valuation = this?.financialManager.calculateBusinessValuation();
-    const riskAssessment = this?.financialManager.getRiskAssessment();
+    const tycoonStats = this.tycoonSystem.getStats();
+    const managerData = this.getStats();
+    const valuation = this.financialManager.calculateBusinessValuation();
+    const riskAssessment = this.financialManager.getRiskAssessment();
 
     return {
       ...tycoonStats,
-      isInitialized: this?.isInitialized,
+      isInitialized: this.isInitialized,
       businessValuation: valuation,
-      riskLevel: riskAssessment?.overallRisk,
-      analyticsEnabled: this?.config.enableAnalytics,
-      optimizationEnabled: this?.config.enableOptimization
+      riskLevel: riskAssessment.overallRisk,
+      analyticsEnabled: this.config.enableAnalytics,
+      optimizationEnabled: this.config.enableOptimization
     };
   }
 
@@ -1051,31 +1051,31 @@ export class TycoonManagerPure {
    * Get analytics data
    */
   public getAnalyticsData(): any[] {
-    return [...this?.analyticsData];
+    return [...this.analyticsData];
   }
 
   /**
    * Get decision history
    */
   public getDecisionHistory(): any[] {
-    return [...this?.decisionHistory];
+    return [...this.decisionHistory];
   }
 
   /**
    * Set performance mode
    */
   public setPerformanceMode(mode: 'high' | 'medium' | 'low'): void {
-    this?.config.performanceMode = mode;
-    this?.tycoonSystem.setIntegrations({} as any); // Trigger update
+    this.config.performanceMode = mode;
+    this.tycoonSystem.setIntegrations({} as any); // Trigger update
   }
 
   /**
    * Cleanup resources
    */
   public cleanup(): void {
-    this?.analyticsData = [];
-    this?.decisionHistory = [];
-    this?.tycoonSystem.setPaused(true);
+    this.analyticsData = [];
+    this.decisionHistory = [];
+    this.tycoonSystem.setPaused(true);
   }
 }
 

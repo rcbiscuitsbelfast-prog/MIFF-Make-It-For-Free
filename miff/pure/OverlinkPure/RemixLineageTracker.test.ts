@@ -19,8 +19,8 @@ describe('RemixLineageTracker', () => {
         remixNotes: 'Test remix project'
       };
 
-      tracker?.registerRemixOrigin(origin);
-      const origins = tracker?.getRemixOrigins();
+      tracker.registerRemixOrigin(origin);
+      const origins = tracker.getRemixOrigins();
       
       expect(origins).toHaveLength(1);
       expect(origins[0!].id).toBe('test_001');
@@ -37,8 +37,8 @@ describe('RemixLineageTracker', () => {
         remixLicense: 'MIT'
       };
 
-      tracker?.registerRemixOrigin(origin);
-      const metadata = tracker?.exportMetadata();
+      tracker.registerRemixOrigin(origin);
+      const metadata = tracker.exportMetadata();
       
       expect(metadata).toBeDefined();
       expect(metadata?.projectId).toContain('remix_');
@@ -64,10 +64,10 @@ describe('RemixLineageTracker', () => {
         remixLicense: 'MIT'
       };
 
-      tracker?.registerRemixOrigin(origin1);
-      tracker?.registerRemixOrigin(origin2);
+      tracker.registerRemixOrigin(origin1);
+      tracker.registerRemixOrigin(origin2);
       
-      const origins = tracker?.getRemixOrigins();
+      const origins = tracker.getRemixOrigins();
       expect(origins).toHaveLength(2);
     });
   });
@@ -76,8 +76,8 @@ describe('RemixLineageTracker', () => {
     test('should register asset lineages correctly', () => {
       const lineage: AssetLineage = {
         assetId: 'test_texture',
-        originalPath: 'assets/original?.png',
-        remixPath: 'assets/remix?.png',
+        originalPath: 'assets/original.png',
+        remixPath: 'assets/remix.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -86,8 +86,8 @@ describe('RemixLineageTracker', () => {
         checksum: 'abc123'
       };
 
-      tracker?.registerAssetLineage(lineage);
-      const retrieved = tracker?.getAssetLineage('test_texture');
+      tracker.registerAssetLineage(lineage);
+      const retrieved = tracker.getAssetLineage('test_texture');
       
       expect(retrieved).toBeDefined();
       expect(retrieved?.assetId).toBe('test_texture');
@@ -97,8 +97,8 @@ describe('RemixLineageTracker', () => {
     test('should update asset validation status', () => {
       const lineage: AssetLineage = {
         assetId: 'test_texture',
-        originalPath: 'assets/original?.png',
-        remixPath: 'assets/remix?.png',
+        originalPath: 'assets/original.png',
+        remixPath: 'assets/remix.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -107,10 +107,10 @@ describe('RemixLineageTracker', () => {
         checksum: 'abc123'
       };
 
-      tracker?.registerAssetLineage(lineage);
-      tracker?.updateAssetValidation('test_texture', 'validated', 'Asset validated successfully');
+      tracker.registerAssetLineage(lineage);
+      tracker.updateAssetValidation('test_texture', 'validated', 'Asset validated successfully');
       
-      const retrieved = tracker?.getAssetLineage('test_texture');
+      const retrieved = tracker.getAssetLineage('test_texture');
       expect(retrieved?.validationStatus).toBe('validated');
       expect(retrieved?.validationNotes).toBe('Asset validated successfully');
     });
@@ -118,8 +118,8 @@ describe('RemixLineageTracker', () => {
     test('should get all asset lineages', () => {
       const lineage1: AssetLineage = {
         assetId: 'texture1',
-        originalPath: 'assets/texture1?.png',
-        remixPath: 'assets/remix1?.png',
+        originalPath: 'assets/texture1.png',
+        remixPath: 'assets/remix1.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -130,8 +130,8 @@ describe('RemixLineageTracker', () => {
 
       const lineage2: AssetLineage = {
         assetId: 'shader1',
-        originalPath: 'assets/shader1?.glsl',
-        remixPath: 'assets/remix1?.glsl',
+        originalPath: 'assets/shader1.glsl',
+        remixPath: 'assets/remix1.glsl',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: ['texture1'],
@@ -140,10 +140,10 @@ describe('RemixLineageTracker', () => {
         checksum: 'def456'
       };
 
-      tracker?.registerAssetLineage(lineage1);
-      tracker?.registerAssetLineage(lineage2);
+      tracker.registerAssetLineage(lineage1);
+      tracker.registerAssetLineage(lineage2);
       
-      const allLineages = tracker?.getAllAssetLineages();
+      const allLineages = tracker.getAllAssetLineages();
       expect(allLineages).toHaveLength(2);
     });
   });
@@ -159,50 +159,50 @@ describe('RemixLineageTracker', () => {
         remixLicense: 'MIT'
       };
 
-      tracker?.registerRemixOrigin(origin);
-      const contributors = tracker?.getAllContributors();
+      tracker.registerRemixOrigin(origin);
+      const contributors = tracker.getAllContributors();
       
-      expect(contributors?.get('miff_team')).toBe('Original Project');
-      expect(contributors?.get('test_user')).toBe('Remix Contributor');
+      expect(contributors.get('miff_team')).toBe('Original Project');
+      expect(contributors.get('test_user')).toBe('Remix Contributor');
     });
 
     test('should register contributors manually', () => {
-      tracker?.registerContributor('manual_user', 'Custom Role');
+      tracker.registerContributor('manual_user', 'Custom Role');
       
-      const contributors = tracker?.getAllContributors();
-      expect(contributors?.get('manual_user')).toBe('Custom Role');
+      const contributors = tracker.getAllContributors();
+      expect(contributors.get('manual_user')).toBe('Custom Role');
     });
 
     test('should get contributor roles', () => {
-      tracker?.registerContributor('test_user', 'Test Role');
+      tracker.registerContributor('test_user', 'Test Role');
       
-      const role = tracker?.getContributorRole('test_user');
+      const role = tracker.getContributorRole('test_user');
       expect(role).toBe('Test Role');
     });
   });
 
   describe('Validation Hook Management', () => {
     test('should have default validation hooks', () => {
-      const state = tracker?.exportState();
-      expect(state?.validationHooks.size).toBeGreaterThan(0);
+      const state = tracker.exportState();
+      expect(state.validationHooks.size).toBeGreaterThan(0);
     });
 
     test('should add custom validation hooks', () => {
       const customHook: ValidationHook = {
         id: 'custom_validator',
         type: 'texture',
-        validator: (asset) => asset?.remixSafe && asset?.originalPath.includes('custom'),
+        validator: (asset) => asset.remixSafe && asset.originalPath.includes('custom'),
         priority: 10,
         enabled: true
       };
 
-      tracker?.addValidationHook(customHook);
+      tracker.addValidationHook(customHook);
       
       // Test the hook
       const lineage: AssetLineage = {
         assetId: 'custom_texture',
-        originalPath: 'assets/custom?.png',
-        remixPath: 'assets/remix?.png',
+        originalPath: 'assets/custom.png',
+        remixPath: 'assets/remix.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -211,9 +211,9 @@ describe('RemixLineageTracker', () => {
         checksum: 'abc123'
       };
 
-      tracker?.registerAssetLineage(lineage);
-      const result = tracker?.validateAsset('custom_texture');
-      expect(result: any).toBe(true);
+      tracker.registerAssetLineage(lineage);
+      const result = tracker.validateAsset('custom_texture');
+      expect(result).toBe(true);
     });
 
     test('should toggle validation hooks', () => {
@@ -225,12 +225,12 @@ describe('RemixLineageTracker', () => {
         enabled: true
       };
 
-      tracker?.addValidationHook(customHook);
+      tracker.addValidationHook(customHook);
       
       const lineage: AssetLineage = {
         assetId: 'test_texture',
-        originalPath: 'assets/test?.png',
-        remixPath: 'assets/remix?.png',
+        originalPath: 'assets/test.png',
+        remixPath: 'assets/remix.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -239,16 +239,16 @@ describe('RemixLineageTracker', () => {
         checksum: 'abc123'
       };
 
-      tracker?.registerAssetLineage(lineage);
+      tracker.registerAssetLineage(lineage);
       
       // Initially should fail
-      let result = tracker?.validateAsset('test_texture');
-      expect(result: any).toBe(false);
+      let result = tracker.validateAsset('test_texture');
+      expect(result).toBe(false);
       
       // Disable hook
-      tracker?.toggleValidationHook('toggle_test');
-      result = tracker?.validateAsset('test_texture');
-      expect(result: any).toBe(true); // Should pass without the failing hook
+      tracker.toggleValidationHook('toggle_test');
+      result = tracker.validateAsset('test_texture');
+      expect(result).toBe(true); // Should pass without the failing hook
     });
 
     test('should remove validation hooks', () => {
@@ -260,8 +260,8 @@ describe('RemixLineageTracker', () => {
         enabled: true
       };
 
-      tracker?.addValidationHook(customHook);
-      const removed = tracker?.removeValidationHook('removable_hook');
+      tracker.addValidationHook(customHook);
+      const removed = tracker.removeValidationHook('removable_hook');
       expect(removed).toBe(true);
     });
   });
@@ -270,8 +270,8 @@ describe('RemixLineageTracker', () => {
     test('should validate assets with hooks', () => {
       const lineage: AssetLineage = {
         assetId: 'test_texture',
-        originalPath: 'assets/test?.png',
-        remixPath: 'assets/remix?.png',
+        originalPath: 'assets/test.png',
+        remixPath: 'assets/remix.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -280,17 +280,17 @@ describe('RemixLineageTracker', () => {
         checksum: 'abc123'
       };
 
-      tracker?.registerAssetLineage(lineage);
-      const result = tracker?.validateAsset('test_texture');
+      tracker.registerAssetLineage(lineage);
+      const result = tracker.validateAsset('test_texture');
       
-      expect(result: any).toBe(true); // Should pass default texture validation
+      expect(result).toBe(true); // Should pass default texture validation
     });
 
     test('should validate all assets', () => {
       const lineage1: AssetLineage = {
         assetId: 'texture1',
-        originalPath: 'assets/texture1?.png',
-        remixPath: 'assets/remix1?.png',
+        originalPath: 'assets/texture1.png',
+        remixPath: 'assets/remix1.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -301,8 +301,8 @@ describe('RemixLineageTracker', () => {
 
       const lineage2: AssetLineage = {
         assetId: 'shader1',
-        originalPath: 'assets/shader1?.glsl',
-        remixPath: 'assets/remix1?.glsl',
+        originalPath: 'assets/shader1.glsl',
+        remixPath: 'assets/remix1.glsl',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -311,13 +311,13 @@ describe('RemixLineageTracker', () => {
         checksum: 'def456'
       };
 
-      tracker?.registerAssetLineage(lineage1);
-      tracker?.registerAssetLineage(lineage2);
+      tracker.registerAssetLineage(lineage1);
+      tracker.registerAssetLineage(lineage2);
       
-      const validation = tracker?.validateAllAssets();
-      expect(validation?.total).toBe(2);
-      expect(validation?.validated).toBe(2);
-      expect(validation?.failed).toBe(0);
+      const validation = tracker.validateAllAssets();
+      expect(validation.total).toBe(2);
+      expect(validation.validated).toBe(2);
+      expect(validation.failed).toBe(0);
     });
   });
 
@@ -334,8 +334,8 @@ describe('RemixLineageTracker', () => {
 
       const lineage: AssetLineage = {
         assetId: 'test_texture',
-        originalPath: 'assets/test?.png',
-        remixPath: 'assets/remix?.png',
+        originalPath: 'assets/test.png',
+        remixPath: 'assets/remix.png',
         remixSafe: true,
         validationStatus: 'validated',
         dependencies: [],
@@ -344,10 +344,10 @@ describe('RemixLineageTracker', () => {
         checksum: 'abc123'
       };
 
-      tracker?.registerRemixOrigin(origin);
-      tracker?.registerAssetLineage(lineage);
+      tracker.registerRemixOrigin(origin);
+      tracker.registerAssetLineage(lineage);
       
-      const summary = tracker?.getCLISummary();
+      const summary = tracker.getCLISummary();
       expect(summary).toContain('Remix Project: Unknown Remix Project');
       expect(summary).toContain('Total Assets: 1');
       expect(summary).toContain('Remix-Safe Assets: 1');
@@ -365,13 +365,13 @@ describe('RemixLineageTracker', () => {
         remixLicense: 'MIT'
       };
 
-      tracker?.registerRemixOrigin(origin);
+      tracker.registerRemixOrigin(origin);
       
-      const integration = tracker?.getSamplerIntegration();
-      expect(integration?.totalAssets).toBe(0);
-      expect(integration?.remixSafeAssets).toBe(0);
-      expect(integration?.contributors).toContain('miff_team');
-      expect(integration?.contributors).toContain('test_user');
+      const integration = tracker.getSamplerIntegration();
+      expect(integration.totalAssets).toBe(0);
+      expect(integration.remixSafeAssets).toBe(0);
+      expect(integration.contributors).toContain('miff_team');
+      expect(integration.contributors).toContain('test_user');
     });
   });
 
@@ -386,12 +386,12 @@ describe('RemixLineageTracker', () => {
         remixLicense: 'MIT'
       };
 
-      tracker?.registerRemixOrigin(origin);
+      tracker.registerRemixOrigin(origin);
       
-      const state = tracker?.exportState();
-      expect(state?.remixMetadata).toBeDefined();
-      expect(state?.assetRegistry.size).toBe(0);
-      expect(state?.contributorRegistry.size).toBe(2);
+      const state = tracker.exportState();
+      expect(state.remixMetadata).toBeDefined();
+      expect(state.assetRegistry.size).toBe(0);
+      expect(state.contributorRegistry.size).toBe(2);
     });
 
     test('should import state correctly', () => {
@@ -409,8 +409,8 @@ describe('RemixLineageTracker', () => {
         }
       };
 
-      tracker?.importState(testState);
-      const metadata = tracker?.exportMetadata();
+      tracker.importState(testState);
+      const metadata = tracker.exportMetadata();
       expect(metadata?.projectName).toBe('Test Project');
     });
   });
@@ -427,13 +427,13 @@ describe('RemixLineageTracker', () => {
         remixLicense: 'MIT'
       };
 
-      tracker?.registerRemixOrigin(origin);
+      tracker.registerRemixOrigin(origin);
       
       // Register asset lineages
       const textureLineage: AssetLineage = {
         assetId: 'workflow_texture',
-        originalPath: 'assets/original?.png',
-        remixPath: 'assets/workflow?.png',
+        originalPath: 'assets/original.png',
+        remixPath: 'assets/workflow.png',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: [],
@@ -444,8 +444,8 @@ describe('RemixLineageTracker', () => {
 
       const shaderLineage: AssetLineage = {
         assetId: 'workflow_shader',
-        originalPath: 'assets/original?.glsl',
-        remixPath: 'assets/workflow?.glsl',
+        originalPath: 'assets/original.glsl',
+        remixPath: 'assets/workflow.glsl',
         remixSafe: true,
         validationStatus: 'pending',
         dependencies: ['workflow_texture'],
@@ -454,16 +454,16 @@ describe('RemixLineageTracker', () => {
         checksum: 'def456'
       };
 
-      tracker?.registerAssetLineage(textureLineage);
-      tracker?.registerAssetLineage(shaderLineage);
+      tracker.registerAssetLineage(textureLineage);
+      tracker.registerAssetLineage(shaderLineage);
       
       // Validate assets
-      const validation = tracker?.validateAllAssets();
-      expect(validation?.total).toBe(2);
-      expect(validation?.validated).toBe(2);
+      const validation = tracker.validateAllAssets();
+      expect(validation.total).toBe(2);
+      expect(validation.validated).toBe(2);
       
       // Check final state
-      const metadata = tracker?.exportMetadata();
+      const metadata = tracker.exportMetadata();
       expect(metadata?.totalAssets).toBe(2);
       expect(metadata?.remixSafeAssets).toBe(2);
       expect(metadata?.contributors).toHaveLength(2);

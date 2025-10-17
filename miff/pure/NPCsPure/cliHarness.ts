@@ -16,21 +16,21 @@ import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import fs from 'fs';
 import path from 'path';
 
-const { mode, args } = parseCLIArgs(process?.argv);
+const { mode, args } = parseCLIArgs(process.argv);
 const manager = new NPCsManager();
 
 // Parse additional arguments
-const npcId = args?.find(arg => arg?.startsWith('--npc-id='))?.split('=')[1!] || 'npc_001';
-const questId = args?.find(arg => arg?.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';
-const zoneId = args?.find(arg => arg?.startsWith('--zone-id='))?.split('=')[1!] || 'zone_village';
-const faction = args?.find(arg => arg?.startsWith('--faction='))?.split('=')[1!] || 'village_elders';
-const behaviorType = args?.find(arg => arg?.startsWith('--behavior='))?.split('=')[1!] || 'quest_giver';
-const format = args?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'quests' || 'json';
-const x = parseInt(args?.find(arg => arg?.startsWith('--x='))?.split('=')[1!] || '0');
-const y = parseInt(args?.find(arg => arg?.startsWith('--y='))?.split('=')[1!] || '0');
-const z = parseInt(args?.find(arg => arg?.startsWith('--z='))?.split('=')[1!] || '0');
-const reputation = parseInt(args?.find(arg => arg?.startsWith('--reputation='))?.split('=')[1!] || '50');
-const duration = parseInt(args?.find(arg => arg?.startsWith('--duration='))?.split('=')[1!] || '60');
+const npcId = args.find(arg => arg.startsWith('--npc-id='))?.split('=')[1!] || 'npc_001';
+const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';
+const zoneId = args.find(arg => arg.startsWith('--zone-id='))?.split('=')[1!] || 'zone_village';
+const faction = args.find(arg => arg.startsWith('--faction='))?.split('=')[1!] || 'village_elders';
+const behaviorType = args.find(arg => arg.startsWith('--behavior='))?.split('=')[1!] || 'quest_giver';
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'quests' || 'json';
+const x = parseInt(args.find(arg => arg.startsWith('--x='))?.split('=')[1!] || '0');
+const y = parseInt(args.find(arg => arg.startsWith('--y='))?.split('=')[1!] || '0');
+const z = parseInt(args.find(arg => arg.startsWith('--z='))?.split('=')[1!] || '0');
+const reputation = parseInt(args.find(arg => arg.startsWith('--reputation='))?.split('=')[1!] || '50');
+const duration = parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1!] || '60');
 
 let output: any;
 
@@ -38,24 +38,24 @@ try {
   switch (mode) {
     case 'create':
       // Allow passing a JSON file path as first non-flag arg for creation (used in tests)
-      if (args?.length > 1 && !args[1!].startsWith('--')) {
-        const filePath = path?.isAbsolute(args[1]) ? args[1] : path?.resolve(args[1]);
-        if (fs?.existsSync(filePath)) {
+      if (args.length > 1 && !args[1!].startsWith('--')) {
+        const filePath = path.isAbsolute(args[1]) ? args[1] : path.resolve(args[1]);
+        if (fs.existsSync(filePath)) {
           const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
           // Normalize shapes where stats are object -> array of {key, base}
           const statsArr = Array.isArray(raw.stats)
-            ? raw?.stats
+            ? raw.stats
             : Object.entries(raw.stats || {}).map(([key, base]) => ({ key, base }));
-          const created = manager?.createNPC({
-            id: raw?.id,
-            name: raw?.name,
+          const created = manager.createNPC({
+            id: raw.id,
+            name: raw.name,
             stats: statsArr,
-            behavior: raw?.behavior,
-            location: raw?.location,
-            questIds: raw?.questIds || [],
-            movementPattern: raw?.movementPattern || { type: 'idle', speed: 1 },
-            faction: raw?.faction,
-            reputation: raw?.reputation
+            behavior: raw.behavior,
+            location: raw.location,
+            questIds: raw.questIds || [],
+            movementPattern: raw.movementPattern || { type: 'idle', speed: 1 },
+            faction: raw.faction,
+            reputation: raw.reputation
           } as any);
           output = created;
           break;
@@ -63,7 +63,7 @@ try {
       }
       const newNPC: NPC = {
         id: npcId as any,
-        name: args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!] || 'New NPC',
+        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'New NPC',
         stats: [
           { key: 'health', base: 100 },
           { key: 'mana', base: 50 },
@@ -82,96 +82,96 @@ try {
         faction,
         reputation: 50
       };
-      output = manager?.createNPC(newNPC);
+      output = manager.createNPC(newNPC);
       break;
 
     case 'get':
-      output = manager?.getNPC(npcId as any);
+      output = manager.getNPC(npcId as any);
       break;
 
     case 'update':
       const updates: Partial<NPC> = {};
-      if (args?.includes('--name')) {
-        updates?.name = args?.find(arg => arg?.startsWith('--name='))?.split('=')[1!];
+      if (args.includes('--name')) {
+        updates.name = args.find(arg => arg.startsWith('--name='))?.split('=')[1!];
       }
-      if (args?.includes('--reputation')) {
-        updates?.reputation = reputation;
+      if (args.includes('--reputation')) {
+        updates.reputation = reputation;
       }
-      output = manager?.updateNPC(npcId as any, updates);
+      output = manager.updateNPC(npcId as any, updates);
       break;
 
     case 'delete':
-      output = manager?.deleteNPC(npcId as any);
+      output = manager.deleteNPC(npcId as any);
       break;
 
     case 'list':
       const filter: any = {};
       // Support both --zone-id= and positional key=value used by tests
-      const zoneArg = args?.find(a => a?.startsWith('--zone-id=')) || args?.find(a => a?.startsWith('zoneId='));
-      if (zoneArg) filter?.zoneId = (zoneArg?.split('=')[1!]);
-      const behArg = args?.find(a => a?.startsWith('--behavior=')) || args?.find(a => a?.startsWith('behavior='));
-      if (behArg) filter?.behaviorType = (behArg?.split('=')[1!]);
-      const facArg = args?.find(a => a?.startsWith('--faction=')) || args?.find(a => a?.startsWith('faction='));
-      if (facArg) filter?.faction = (facArg?.split('=')[1!]);
-      if (args?.includes('--has-quest') || args?.includes('hasQuest')) filter?.hasQuest = true;
+      const zoneArg = args.find(a => a.startsWith('--zone-id=')) || args.find(a => a.startsWith('zoneId='));
+      if (zoneArg) filter.zoneId = (zoneArg.split('=')[1!]);
+      const behArg = args.find(a => a.startsWith('--behavior=')) || args.find(a => a.startsWith('behavior='));
+      if (behArg) filter.behaviorType = (behArg.split('=')[1!]);
+      const facArg = args.find(a => a.startsWith('--faction=')) || args.find(a => a.startsWith('faction='));
+      if (facArg) filter.faction = (facArg.split('=')[1!]);
+      if (args.includes('--has-quest') || args.includes('hasQuest')) filter.hasQuest = true;
       
-      output = manager?.listNPCs(filter);
+      output = manager.listNPCs(filter);
       break;
 
     case 'simulate':
-      output = manager?.simulateNPC(npcId as any, duration);
+      output = manager.simulateNPC(npcId as any, duration);
       break;
 
     case 'update-location':
-      output = manager?.updateNPCLocation(npcId as any, x, y, z);
+      output = manager.updateNPCLocation(npcId as any, x, y, z);
       break;
 
     case 'add-quest':
-      output = manager?.addQuestToNPC(npcId as any, questId as any);
+      output = manager.addQuestToNPC(npcId as any, questId as any);
       break;
 
     case 'remove-quest':
-      output = manager?.removeQuestFromNPC(npcId as any, questId as any);
+      output = manager.removeQuestFromNPC(npcId as any, questId as any);
       break;
 
     case 'update-behavior':
       const behavior: Partial<NPBehavior> = {};
-      if (args?.includes('--aggression')) {
-        behavior?.aggression = parseInt(args?.find(arg => arg?.startsWith('--aggression='))?.split('=')[1!] || '0');
+      if (args.includes('--aggression')) {
+        behavior.aggression = parseInt(args.find(arg => arg.startsWith('--aggression='))?.split('=')[1!] || '0');
       }
-      if (args?.includes('--curiosity')) {
-        behavior?.curiosity = parseInt(args?.find(arg => arg?.startsWith('--curiosity='))?.split('=')[1!] || '50');
+      if (args.includes('--curiosity')) {
+        behavior.curiosity = parseInt(args.find(arg => arg.startsWith('--curiosity='))?.split('=')[1!] || '50');
       }
-      if (args?.includes('--loyalty')) {
-        behavior?.loyalty = parseInt(args?.find(arg => arg?.startsWith('--loyalty='))?.split('=')[1!] || '50');
+      if (args.includes('--loyalty')) {
+        behavior.loyalty = parseInt(args.find(arg => arg.startsWith('--loyalty='))?.split('=')[1!] || '50');
       }
-      output = manager?.updateNPCBehavior(npcId as any, behavior);
+      output = manager.updateNPCBehavior(npcId as any, behavior);
       break;
 
     case 'update-reputation':
-      output = manager?.updateNPCReputation(npcId as any, reputation);
+      output = manager.updateNPCReputation(npcId as any, reputation);
       break;
 
     case 'get-by-behavior':
-      output = manager?.getNPCsByBehavior(behaviorType);
+      output = manager.getNPCsByBehavior(behaviorType);
       break;
 
     case 'get-by-reputation':
-      const minRep = parseInt(args?.find(arg => arg?.startsWith('--min-rep='))?.split('=')[1!] || '0');
-      const maxRep = parseInt(args?.find(arg => arg?.startsWith('--max-rep='))?.split('=')[1!] || '100');
-      output = manager?.getNPCsByReputation(minRep, maxRep);
+      const minRep = parseInt(args.find(arg => arg.startsWith('--min-rep='))?.split('=')[1!] || '0');
+      const maxRep = parseInt(args.find(arg => arg.startsWith('--max-rep='))?.split('=')[1!] || '100');
+      output = manager.getNPCsByReputation(minRep, maxRep);
       break;
 
     case 'stats':
-      output = manager?.getNPCStats();
+      output = manager.getNPCStats();
       break;
 
     case 'export':
-      output = manager?.exportNPCs(format);
+      output = manager.exportNPCs(format);
       break;
 
     case 'reset':
-      output = manager?.resetNPCs();
+      output = manager.resetNPCs();
       break;
 
     case 'demo':
@@ -198,14 +198,14 @@ try {
         reputation: 85
       };
       
-      const createResult = manager?.createNPC(demoNPC);
-      if (createResult?.status === 'ok') {
+      const createResult = manager.createNPC(demoNPC);
+      if (createResult.status === 'ok') {
         output = {
           op: 'demo',
           status: 'ok',
           result: {
             message: 'Demo NPC created successfully',
-            npc: createResult?.result
+            npc: createResult.result
           }
         };
       } else {
@@ -240,19 +240,19 @@ try {
         }
       ];
 
-      const results = sampleNPCs?.map((npc: any) => manager?.createNPC(npc));
+      const results = sampleNPCs.map((npc: any) => manager.createNPC(npc));
       output = {
         op: 'sample',
         status: 'ok',
         result: {
           message: 'Sample NPCs created',
-          results: results?.map((r: any) => ({ status: r?.status, npc: r?.result }))
+          results: results.map((r: any) => ({ status: r.status, npc: r.result }))
         }
       };
       break;
 
     case 'dump':
-      output = manager?.dumpAll?.() || { op: 'dump', status: 'ok', result: manager?.listNPCs({}).result };
+      output = manager.dumpAll?.() || { op: 'dump', status: 'ok', result: manager.listNPCs({}).result };
       break;
 
     default:
@@ -282,10 +282,10 @@ try {
             'sample'
           ],
           examples: [
-            'node cliHarness?.ts create --npc-id=guard_001 --name="Town Guard" --behavior=aggressive --faction=guards',
-            'node cliHarness?.ts simulate --npc-id=npc_001 --duration=120',
-            'node cliHarness?.ts export --format=manifest',
-            'node cliHarness?.ts get-by-behavior --behavior=quest_giver'
+            'node cliHarness.ts create --npc-id=guard_001 --name="Town Guard" --behavior=aggressive --faction=guards',
+            'node cliHarness.ts simulate --npc-id=npc_001 --duration=120',
+            'node cliHarness.ts export --format=manifest',
+            'node cliHarness.ts get-by-behavior --behavior=quest_giver'
           ]
         }
       };
@@ -295,7 +295,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error?.message : 'Unknown error']
+    issues: [error instanceof Error ? error.message : 'Unknown error']
   };
 }
 

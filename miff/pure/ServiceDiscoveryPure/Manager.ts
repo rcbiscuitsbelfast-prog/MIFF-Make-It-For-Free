@@ -1872,7 +1872,7 @@ export class ServiceDiscoveryPure {
 
   constructor(config: Partial<ServiceDiscoveryConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableServiceDiscovery: true,
       enableServiceRegistration: true,
       enableHealthMonitoring: true,
@@ -1890,7 +1890,7 @@ export class ServiceDiscoveryPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalServices: 0,
       activeServices: 0,
       totalInstances: 0,
@@ -1904,7 +1904,7 @@ export class ServiceDiscoveryPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalServices: 0,
       totalInstances: 0,
       averageResponseTime: 0,
@@ -1918,7 +1918,7 @@ export class ServiceDiscoveryPure {
    * Create a new service discovery manager
    */
   createManager(): ServiceDiscoveryOutput {
-    if (!this?.config.enableServiceDiscovery) {
+    if (!this.config.enableServiceDiscovery) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1928,8 +1928,8 @@ export class ServiceDiscoveryPure {
 
     const manager: ServiceDiscoveryManager = {
       id: managerData.id || `servicediscovery-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Service Discovery Manager',
-      type: managerData?.type || 'microservices',
+      name: managerData.name || 'Unnamed Service Discovery Manager',
+      type: managerData.type || 'microservices',
       status: 'active',
       services: [],
       instances: [],
@@ -1995,7 +1995,7 @@ export class ServiceDiscoveryPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -2008,7 +2008,7 @@ export class ServiceDiscoveryPure {
    * Get manager by ID
    */
   getManager(): ServiceDiscoveryOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -2028,14 +2028,14 @@ export class ServiceDiscoveryPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): ServiceDiscoveryPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): ServiceDiscoveryAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -2049,7 +2049,7 @@ export class ServiceDiscoveryPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalServices = 0;
     let activeServices = 0;
     let totalInstances = 0;
@@ -2057,21 +2057,21 @@ export class ServiceDiscoveryPure {
     let totalLoadBalancers = 0;
     let totalHealthChecks = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalServices += manager?.services.length;
-      activeServices += manager?.services.filter((s: any) => s?.status === 'active').length;
-      totalInstances += manager?.instances.length;
-      totalRegistries += manager?.registries.length;
-      totalLoadBalancers += manager?.loadBalancers.length;
-      totalHealthChecks += manager?.healthChecks.length;
+    for (const manager of this.managers.values()) {
+      totalServices += manager.services.length;
+      activeServices += manager.services.filter((s: any) => s.status === 'active').length;
+      totalInstances += manager.instances.length;
+      totalRegistries += manager.registries.length;
+      totalLoadBalancers += manager.loadBalancers.length;
+      totalHealthChecks += manager.healthChecks.length;
     }
 
-    this?.performanceMetrics.totalServices = totalServices;
-    this?.performanceMetrics.activeServices = activeServices;
-    this?.performanceMetrics.totalInstances = totalInstances;
-    this?.performanceMetrics.totalRegistries = totalRegistries;
-    this?.performanceMetrics.totalLoadBalancers = totalLoadBalancers;
-    this?.performanceMetrics.totalHealthChecks = totalHealthChecks;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalServices = totalServices;
+    this.performanceMetrics.activeServices = activeServices;
+    this.performanceMetrics.totalInstances = totalInstances;
+    this.performanceMetrics.totalRegistries = totalRegistries;
+    this.performanceMetrics.totalLoadBalancers = totalLoadBalancers;
+    this.performanceMetrics.totalHealthChecks = totalHealthChecks;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

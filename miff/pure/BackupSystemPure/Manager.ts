@@ -432,12 +432,12 @@ export class BackupSystemManager {
   constructor(config?: Partial<BackupSystemConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this?.memoryManager = new MemoryManager({});
-    this?.errorHandler = new StandardErrorHandler({});
-    this.startTime = new Date();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
+    this.startTime = Date.now();
 
-    this?.config = {
+    this.config = {
       enableAutomatedBackups: true,
       enableIncrementalBackups: true,
       enableDataCompression: true,
@@ -459,7 +459,7 @@ export class BackupSystemManager {
    * Initialize the Backup System Manager
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
+    if (this.isInitialized) {
       console.warn('BackupSystemPure', 'Backup System Manager already initialized');
       return;
     }
@@ -468,21 +468,21 @@ export class BackupSystemManager {
       console.info('BackupSystemPure', 'Initializing Backup System Manager...');
 
       // Initialize performance optimizer
-      if (this?.config.enablePerformanceOptimization ?? false ?? false) {
+      if (this.config.enablePerformanceOptimization ?? false ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this?.config.enableMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
-      this?.isInitialized = true;
+      this.isInitialized = true;
       console.info('BackupSystemPure', 'Backup System Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -491,14 +491,14 @@ export class BackupSystemManager {
    * Create a new backup system
    */
   async createSystem(systemData: Omit<BackupSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<BackupSystem> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
       const system: BackupSystem = {
         ...systemData,
-        id: this?.generateSystemId(),
+        id: this.generateSystemId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -513,15 +513,15 @@ export class BackupSystemManager {
         }
       };
 
-      this?.systems.set(system?.id, system);
-      this?.updateAnalytics();
+      this.systems.set(system.id, system);
+      this.updateAnalytics();
 
       console.info('Backup system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -530,23 +530,23 @@ export class BackupSystemManager {
    * Get a backup system by ID
    */
   getSystem(systemId: string): BackupSystem | null {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
-    return this?.systems.get(systemId) || null;
+    return this.systems.get(systemId) || null;
   }
 
   /**
    * Update a backup system
    */
   async updateSystem(systemId: string, updates: Partial<BackupSystem>): Promise<BackupSystem | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
@@ -556,18 +556,18 @@ export class BackupSystemManager {
         ...system,
         ...updates,
         updatedAt: new Date(),
-        version: this?.incrementVersion(system?.version)
+        version: this.incrementVersion(system.version)
       };
 
-      this?.systems.set(systemId, updatedSystem);
-      this?.updateAnalytics();
+      this.systems.set(systemId, updatedSystem);
+      this.updateAnalytics();
 
       console.info('Backup system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -576,26 +576,26 @@ export class BackupSystemManager {
    * Delete a backup system
    */
   async deleteSystem(systemId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return false;
       }
 
-      this?.systems.delete(systemId);
-      this?.updateAnalytics();
+      this.systems.delete(systemId);
+      this.updateAnalytics();
 
       console.info('Backup system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -604,7 +604,7 @@ export class BackupSystemManager {
    * Get all backup systems
    */
   getAllSystems(): BackupSystem[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
@@ -615,7 +615,7 @@ export class BackupSystemManager {
    * Get systems by type
    */
   getSystemsByType(type: SystemType): BackupSystem[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
@@ -626,7 +626,7 @@ export class BackupSystemManager {
    * Get systems by status
    */
   getSystemsByStatus(status: SystemStatus): BackupSystem[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
@@ -637,12 +637,12 @@ export class BackupSystemManager {
    * Create a new backup
    */
   async createBackup(systemId: string, backupData: Omit<Backup, 'id' | 'createdAt'>): Promise<Backup | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
@@ -650,19 +650,19 @@ export class BackupSystemManager {
 
       const backup: Backup = {
         ...backupData,
-        id: this?.generateBackupId(),
+        id: this.generateBackupId(),
         createdAt: new Date()
       };
 
-      system?.backups?.push(backup);
-      this?.updateAnalytics();
+      system.backups.push(backup);
+      this.updateAnalytics();
 
       console.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
       return backup;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -671,44 +671,44 @@ export class BackupSystemManager {
    * Execute a backup
    */
   async executeBackup(systemId: string, backupId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return false;
       }
 
-      const backup = system?.backups.find(b => b?.id === backupId);
+      const backup = system.backups.find(b => b.id === backupId);
       if (!backup) {
         console.warn('Backup not found', { systemId, backupId });
         return false;
       }
 
-      backup?.status = 'running';
+      backup.status = 'running';
       console.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
 
       // Simulate backup execution
-      await this?.performBackup(backup);
+      await this.performBackup(backup);
 
-      backup?.status = 'completed';
-      backup.completedAt = new Date();
-      this?.updateAnalytics();
+      backup.status = 'completed';
+      backup.completedAt = Date.now();
+      this.updateAnalytics();
 
       console.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
-      const system = this?.systems.get(systemId);
+      this.errorHandler.handleError();
+      const system = this.systems.get(systemId);
       if (system) {
-        const backup = system?.backups.find(b => b?.id === backupId);
+        const backup = system.backups.find(b => b.id === backupId);
         if (backup) {
-          backup?.status = 'failed';
+          backup.status = 'failed';
         }
       }
       return false;
@@ -719,24 +719,24 @@ export class BackupSystemManager {
    * Restore from a backup
    */
   async restoreBackup(systemId: string, backupId: string, destination: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return false;
       }
 
-      const backup = system?.backups.find(b => b?.id === backupId);
+      const backup = system.backups.find(b => b.id === backupId);
       if (!backup) {
         console.warn('Backup not found', { systemId, backupId });
         return false;
       }
 
-      if (backup?.status !== 'completed') {
+      if (backup.status !== 'completed') {
         console.warn('Backup not completed', { systemId, backupId, status: backup.status });
         return false;
       }
@@ -744,14 +744,14 @@ export class BackupSystemManager {
       console.info('Starting backup restore', { systemId, backupId, destination });
 
       // Simulate restore operation
-      await this?.performRestore(backup, destination);
+      await this.performRestore(backup, destination);
 
       console.info('Backup restored successfully', { systemId, backupId, destination });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -760,12 +760,12 @@ export class BackupSystemManager {
    * Create a backup schedule
    */
   async createSchedule(systemId: string, scheduleData: Omit<BackupSchedule, 'id'>): Promise<BackupSchedule | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
@@ -773,16 +773,16 @@ export class BackupSystemManager {
 
       const schedule: BackupSchedule = {
         ...scheduleData,
-        id: this?.generateScheduleId()
+        id: this.generateScheduleId()
       };
 
-      system?.schedules?.push(schedule);
+      system.schedules.push(schedule);
       console.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
       return schedule;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -791,12 +791,12 @@ export class BackupSystemManager {
    * Create a backup policy
    */
   async createPolicy(systemId: string, policyData: Omit<BackupPolicy, 'id'>): Promise<BackupPolicy | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
         console.warn('System not found', { systemId });
         return null;
@@ -804,16 +804,16 @@ export class BackupSystemManager {
 
       const policy: BackupPolicy = {
         ...policyData,
-        id: this?.generatePolicyId()
+        id: this.generatePolicyId()
       };
 
-      system?.policies?.push(policy);
+      system.policies.push(policy);
       console.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
       return policy;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -870,7 +870,7 @@ export class BackupSystemManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version?.split('.');
+    const parts = version.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -880,22 +880,22 @@ export class BackupSystemManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalBackups = systems?.reduce((sum: any, s: any) => sum + s?.backups.length, 0);
-    const successfulBackups = systems?.reduce((sum: any, s: any) => sum + s?.backups.filter((b: any) => b?.status === 'completed').length, 0);
-    const failedBackups = systems?.reduce((sum: any, s: any) => sum + s?.backups.filter((b: any) => b?.status === 'failed').length, 0);
-    const totalSize = systems?.reduce((sum: any, s: any) => sum + s?.backups.reduce((s: any, b: any) => s + b?.size, 0), 0);
-    const compressedSize = systems?.reduce((sum: any, s: any) => sum + s?.backups.reduce((s: any, b: any) => s + b?.compressedSize, 0), 0);
+    const totalBackups = systems.reduce((sum: any, s: any) => sum + s.backups.length, 0);
+    const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'completed').length, 0);
+    const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'failed').length, 0);
+    const totalSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.size, 0), 0);
+    const compressedSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.compressedSize, 0), 0);
 
     for (const system of systems) {
-      system?.analytics = {
-        totalBackups: system?.backups.length,
-        successfulBackups: system?.backups.filter((b: any) => b?.status === 'completed').length,
-        failedBackups: system?.backups.filter((b: any) => b?.status === 'failed').length,
-        totalSize: system?.backups.reduce((sum: any, b: any) => sum + b?.size, 0),
-        compressedSize: system?.backups.reduce((sum: any, b: any) => sum + b?.compressedSize, 0),
+      system.analytics = {
+        totalBackups: system.backups.length,
+        successfulBackups: system.backups.filter((b: any) => b.status === 'completed').length,
+        failedBackups: system.backups.filter((b: any) => b.status === 'failed').length,
+        totalSize: system.backups.reduce((sum: any, b: any) => sum + b.size, 0),
+        compressedSize: system.backups.reduce((sum: any, b: any) => sum + b.compressedSize, 0),
         averageBackupTime: 0, // Would be calculated from actual backup times
-        lastBackup: system?.backups.length > 0 ? 
-          system?.backups.sort((a: any, b: any) => b?.createdAt.getTime() - a?.createdAt.getTime())[0!].createdAt : undefined,
+        lastBackup: system.backups.length > 0 ? 
+          system.backups.sort((a: any, b: any) => b.createdAt.getTime() - a.createdAt.getTime())[0!].createdAt : undefined,
         lastUpdated: new Date()
       };
     }
@@ -916,17 +916,17 @@ export class BackupSystemManager {
     compressedSize: number;
     uptime: number;
   } {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Backup System Manager not initialized');
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
-    const totalBackups = systems?.reduce((sum: any, s: any) => sum + s?.backups.length, 0);
-    const successfulBackups = systems?.reduce((sum: any, s: any) => sum + s?.backups.filter((b: any) => b?.status === 'completed').length, 0);
-    const failedBackups = systems?.reduce((sum: any, s: any) => sum + s?.backups.filter((b: any) => b?.status === 'failed').length, 0);
-    const totalSize = systems?.reduce((sum: any, s: any) => sum + s?.backups.reduce((s: any, b: any) => s + b?.size, 0), 0);
-    const compressedSize = systems?.reduce((sum: any, s: any) => sum + s?.backups.reduce((s: any, b: any) => s + b?.compressedSize, 0), 0);
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
+    const totalBackups = systems.reduce((sum: any, s: any) => sum + s.backups.length, 0);
+    const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'completed').length, 0);
+    const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'failed').length, 0);
+    const totalSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.size, 0), 0);
+    const compressedSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.compressedSize, 0), 0);
 
     const systemsByType: Record<SystemType, number> = {
       local: 0,
@@ -943,13 +943,13 @@ export class BackupSystemManager {
     };
 
     for (const system of systems) {
-      systemsByType[system?.type]++;
-      systemsByStatus[system?.status]++;
+      systemsByType[system.type]++;
+      systemsByStatus[system.status]++;
     }
 
     return {
-      totalSystems: systems?.length,
-      activeSystems: activeSystems?.length,
+      totalSystems: systems.length,
+      activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,
       totalBackups,
@@ -957,7 +957,7 @@ export class BackupSystemManager {
       failedBackups,
       totalSize,
       compressedSize,
-      uptime: new Date() - this?.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 
@@ -967,8 +967,8 @@ export class BackupSystemManager {
   async destroy(): Promise<void> {
     console.info('BackupSystemPure', 'Destroying Backup System Manager...');
 
-    this?.systems.clear();
-    this?.isInitialized = false;
+    this.systems.clear();
+    this.isInitialized = false;
 
     console.info('BackupSystemPure', 'Backup System Manager destroyed');
   }

@@ -458,7 +458,7 @@ export class CryptocurrencyPure {
 
   constructor(config: Partial<CryptocurrencyConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableWalletManagement: true,
       enablePortfolioTracking: true,
       enablePriceMonitoring: true,
@@ -477,7 +477,7 @@ export class CryptocurrencyPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalWallets: 0,
       activeWallets: 0,
       totalTransactions: 0,
@@ -489,7 +489,7 @@ export class CryptocurrencyPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalTransactions: 0,
       totalVolume: 0,
       averageTransactionValue: 0,
@@ -503,7 +503,7 @@ export class CryptocurrencyPure {
    * Create a new cryptocurrency manager
    */
   createManager(): CryptocurrencyOutput {
-    if (!this?.config.enableWalletManagement) {
+    if (!this.config.enableWalletManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -513,8 +513,8 @@ export class CryptocurrencyPure {
 
     const manager: CryptocurrencyManager = {
       id: managerData.id || `crypto-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Cryptocurrency Manager',
-      type: managerData?.type || 'personal',
+      name: managerData.name || 'Unnamed Cryptocurrency Manager',
+      type: managerData.type || 'personal',
       status: 'active',
       wallets: [],
       transactions: [],
@@ -578,7 +578,7 @@ export class CryptocurrencyPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -591,7 +591,7 @@ export class CryptocurrencyPure {
    * Get manager by ID
    */
   getManager(): CryptocurrencyOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -611,7 +611,7 @@ export class CryptocurrencyPure {
    * Create wallet
    */
   createWallet(): CryptocurrencyOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-wallet',
@@ -620,7 +620,7 @@ export class CryptocurrencyPure {
       };
     }
 
-    if (manager?.wallets.length >= this?.config.maxWallets) {
+    if (manager.wallets.length >= this.config.maxWallets) {
       return {
         op: 'create-wallet',
         status: 'error',
@@ -630,22 +630,22 @@ export class CryptocurrencyPure {
 
     const newWallet: CryptoWallet = {
       id: wallet.id || `wallet-${Date.now()}`,
-      name: wallet?.name || 'Unnamed Wallet',
-      type: wallet?.type || 'hot',
-      address: wallet?.address || this?.generateAddress(),
-      currency: wallet?.currency || 'BTC',
+      name: wallet.name || 'Unnamed Wallet',
+      type: wallet.type || 'hot',
+      address: wallet.address || this.generateAddress(),
+      currency: wallet.currency || 'BTC',
       balance: 0,
-      publicKey: wallet?.publicKey || this?.generatePublicKey(),
-      privateKey: wallet?.privateKey ? this?.encryptPrivateKey(wallet?.privateKey) : undefined,
+      publicKey: wallet.publicKey || this.generatePublicKey(),
+      privateKey: wallet.privateKey ? this.encryptPrivateKey(wallet.privateKey) : undefined,
       isActive: true,
       metadata: {},
       ...wallet
     };
 
-    manager?.wallets?.push(newWallet);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalWallets++;
-    this?.performanceMetrics.activeWallets++;
+    manager.wallets.push(newWallet);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalWallets++;
+    this.performanceMetrics.activeWallets++;
 
     return {
       op: 'create-wallet',
@@ -658,7 +658,7 @@ export class CryptocurrencyPure {
    * Send transaction
    */
   sendTransaction(): CryptocurrencyOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'send-transaction',
@@ -667,7 +667,7 @@ export class CryptocurrencyPure {
       };
     }
 
-    const sourceWallet = manager?.wallets.find(w => w?.id === fromWallet);
+    const sourceWallet = manager.wallets.find(w => w.id === fromWallet);
     if (!sourceWallet) {
       return {
         op: 'send-transaction',
@@ -676,7 +676,7 @@ export class CryptocurrencyPure {
       };
     }
 
-    if (sourceWallet?.balance < amount) {
+    if (sourceWallet.balance < amount) {
       return {
         op: 'send-transaction',
         status: 'error',
@@ -686,35 +686,35 @@ export class CryptocurrencyPure {
 
     const transaction: CryptoTransaction = {
       id: `tx-${Date.now()}`,
-      hash: this?.generateTransactionHash(),
+      hash: this.generateTransactionHash(),
       fromWallet,
       toWallet,
       amount,
       currency,
-      fee: this?.calculateTransactionFee(amount, currency),
+      fee: this.calculateTransactionFee(amount, currency),
       status: 'pending',
       timestamp: new Date(),
       confirmations: 0,
       metadata: {}
     };
 
-    manager?.transactions?.push(transaction);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalTransactions++;
-    this?.performanceMetrics.pendingTransactions++;
+    manager.transactions.push(transaction);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalTransactions++;
+    this.performanceMetrics.pendingTransactions++;
 
     // Simulate transaction confirmation
     setTimeout(() => {
-      transaction?.status = 'confirmed';
+      transaction.status = 'confirmed';
       transaction.blockNumber = Math.floor(Math.random() * 1000000);
-      transaction?.confirmations = 6;
-      this?.performanceMetrics.pendingTransactions--;
+      transaction.confirmations = 6;
+      this.performanceMetrics.pendingTransactions--;
       
 //       // Update wallet balances
-      sourceWallet?.balance -= amount;
-      const destWallet = manager?.wallets.find(w => w?.id === toWallet);
+      sourceWallet.balance -= amount;
+      const destWallet = manager.wallets.find(w => w.id === toWallet);
       if (destWallet) {
-        destWallet?.balance += amount;
+        destWallet.balance += amount;
       }
     }, 5000);
 
@@ -729,7 +729,7 @@ export class CryptocurrencyPure {
    * Create portfolio
    */
   createPortfolio(): CryptocurrencyOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-portfolio',
@@ -740,9 +740,9 @@ export class CryptocurrencyPure {
 
     const newPortfolio: Portfolio = {
       id: portfolio.id || `portfolio-${Date.now()}`,
-      name: portfolio?.name || 'Unnamed Portfolio',
-      description: portfolio?.description || '',
-      wallets: portfolio?.wallets || [],
+      name: portfolio.name || 'Unnamed Portfolio',
+      description: portfolio.description || '',
+      wallets: portfolio.wallets || [],
       totalValue: 0,
       totalValueUSD: 0,
       assets: [],
@@ -760,8 +760,8 @@ export class CryptocurrencyPure {
       ...portfolio
     };
 
-    manager?.portfolios?.push(newPortfolio);
-    manager.updatedAt = new Date();
+    manager.portfolios.push(newPortfolio);
+    manager.updatedAt = Date.now();
 
     return {
       op: 'create-portfolio',
@@ -789,7 +789,7 @@ export class CryptocurrencyPure {
    */
   private encryptPrivateKey(privateKey: string): string {
     // Simple encryption simulation
-    return Buffer?.from(privateKey).toString('base64');
+    return Buffer.from(privateKey).toString('base64');
   }
 
   /**
@@ -813,14 +813,14 @@ export class CryptocurrencyPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): CryptocurrencyPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): CryptocurrencyAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -834,26 +834,26 @@ export class CryptocurrencyPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalWallets = 0;
     let activeWallets = 0;
     let totalTransactions = 0;
     let pendingTransactions = 0;
     let totalPortfolioValue = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalWallets += manager?.wallets.length;
-      activeWallets += manager?.wallets.filter((w: any) => w?.isActive).length;
-      totalTransactions += manager?.transactions.length;
-      pendingTransactions += manager?.transactions.filter((t: any) => t?.status === 'pending').length;
-      totalPortfolioValue += manager?.portfolios.reduce((sum: any, p: any) => sum + p?.totalValueUSD, 0);
+    for (const manager of this.managers.values()) {
+      totalWallets += manager.wallets.length;
+      activeWallets += manager.wallets.filter((w: any) => w.isActive).length;
+      totalTransactions += manager.transactions.length;
+      pendingTransactions += manager.transactions.filter((t: any) => t.status === 'pending').length;
+      totalPortfolioValue += manager.portfolios.reduce((sum: any, p: any) => sum + p.totalValueUSD, 0);
     }
 
-    this?.performanceMetrics.totalWallets = totalWallets;
-    this?.performanceMetrics.activeWallets = activeWallets;
-    this?.performanceMetrics.totalTransactions = totalTransactions;
-    this?.performanceMetrics.pendingTransactions = pendingTransactions;
-    this?.performanceMetrics.totalPortfolioValue = totalPortfolioValue;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalWallets = totalWallets;
+    this.performanceMetrics.activeWallets = activeWallets;
+    this.performanceMetrics.totalTransactions = totalTransactions;
+    this.performanceMetrics.pendingTransactions = pendingTransactions;
+    this.performanceMetrics.totalPortfolioValue = totalPortfolioValue;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

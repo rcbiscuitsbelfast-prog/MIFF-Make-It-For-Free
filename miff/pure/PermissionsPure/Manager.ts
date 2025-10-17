@@ -18,13 +18,13 @@ export class PermissionsManager {
   }
 
   async query(name: PermissionName): Promise<PermissionQueryResult> {
-    const fallback = this?.cache.get(name) ?? 'prompt';
+    const fallback = this.cache.get(name) ?? 'prompt';
     try {
       const nave: any = (globalThis as any).navigator;
       if (nave?.permissions?.query) {
-        const status = await nave?.permissions.query({ name } as any);
-        const state: PermissionState = status?.state;
-        this?.cache.set(name, state);
+        const status = await nave.permissions.query({ name } as any);
+        const state: PermissionState = status.state;
+        this.cache.set(name, state);
         return { name, state };
       }
     } catch {}
@@ -32,15 +32,15 @@ export class PermissionsManager {
   }
 
   set(name: PermissionName, state: PermissionState): void {
-    this?.cache.set(name, state);
+    this.cache.set(name, state);
   }
 
   async request(name: PermissionName): Promise<PermissionQueryResult> {
-    // Simulated request flow for tests; real impl would call getUserMedia, Notification?.requestPermission, etc.
-    const current = this?.cache.get(name) ?? 'prompt';
+    // Simulated request flow for tests; real impl would call getUserMedia, Notification.requestPermission, etc.
+    const current = this.cache.get(name) ?? 'prompt';
     if (current === 'granted' || current === 'denied') return { name, state: current };
     // default happy-path
-    this?.cache.set(name, 'granted');
+    this.cache.set(name, 'granted');
     return { name, state: 'granted' };
   }
 }

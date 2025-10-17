@@ -26,8 +26,8 @@ export class SkeletonAnimatorCLI {
   private commands: Map<string, CLICommand> = new Map();
 
   constructor() {
-    this?.manager = new SkeletonAnimatorManager();
-    this?.registerCommands();
+    this.manager = new SkeletonAnimatorManager();
+    this.registerCommands();
   }
 
   /**
@@ -35,244 +35,244 @@ export class SkeletonAnimatorCLI {
    */
   private registerCommands(): void {
     // System commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'init',
       description: 'Initialize skeleton animator system',
       args: ['[characterType!]'],
-      execute: async (args) => this?.initSystem(args)
+      execute: async (args) => this.initSystem(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'status',
       description: 'Get system status',
       args: [],
-      execute: async () => this?.getStatus()
+      execute: async () => this.getStatus()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'validate',
       description: 'Validate complete system',
       args: [],
-      execute: async () => this?.validateSystem()
+      execute: async () => this.validateSystem()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'reset',
       description: 'Reset system to initial state',
       args: [],
-      execute: async () => this?.resetSystem()
+      execute: async () => this.resetSystem()
     });
 
     // Rig commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'rig-create',
       description: 'Create core body rig',
       args: [],
-      execute: async () => this?.createRig()
+      execute: async () => this.createRig()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'rig-export',
       description: 'Export rig as JSON',
       args: ['[filename!]'],
-      execute: async (args) => this?.exportRig(args)
+      execute: async (args) => this.exportRig(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'rig-import',
       description: 'Import rig from JSON',
       args: ['<filename>'],
-      execute: async (args) => this?.importRig(args)
+      execute: async (args) => this.importRig(args)
     });
 
     // Limb commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'limb-add-arms',
       description: 'Add humanoid arms',
       args: [],
-      execute: async () => this?.addArms()
+      execute: async () => this.addArms()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'limb-add-legs',
       description: 'Add humanoid legs',
       args: [],
-      execute: async () => this?.addLegs()
+      execute: async () => this.addLegs()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'limb-add-wings',
       description: 'Add wings',
       args: ['<attachmentPoint>'],
-      execute: async (args) => this?.addWings(args)
+      execute: async (args) => this.addWings(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'limb-add-tail',
       description: 'Add tail',
       args: ['<attachmentPoint>', '[segments!]'],
-      execute: async (args) => this?.addTail(args)
+      execute: async (args) => this.addTail(args)
     });
 
     // Skin commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'skin-generate',
       description: 'Generate skin mesh',
       args: [],
-      execute: async () => this?.generateSkin()
+      execute: async () => this.generateSkin()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'skin-add-morph',
       description: 'Add morph target',
       args: ['<name>', '<weight>'],
-      execute: async (args) => this?.addMorphTarget(args)
+      execute: async (args) => this.addMorphTarget(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'skin-export',
       description: 'Export skin as JSON',
       args: ['[filename!]'],
-      execute: async (args) => this?.exportSkin(args)
+      execute: async (args) => this.exportSkin(args)
     });
 
     // Face commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'face-add-eyes',
       description: 'Add eyes',
       args: [],
-      execute: async () => this?.addEyes()
+      execute: async () => this.addEyes()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'face-add-nose',
       description: 'Add nose',
       args: [],
-      execute: async () => this?.addNose()
+      execute: async () => this.addNose()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'face-add-mouth',
       description: 'Add mouth',
       args: [],
-      execute: async () => this?.addMouth()
+      execute: async () => this.addMouth()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'face-add-ears',
       description: 'Add ears',
       args: [],
-      execute: async () => this?.addEars()
+      execute: async () => this.addEars()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'face-toggle-symmetry',
       description: 'Toggle facial symmetry',
       args: ['<enabled>'],
-      execute: async (args) => this?.toggleSymmetry(args)
+      execute: async (args) => this.toggleSymmetry(args)
     });
 
     // Animation commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'anim-walk',
       description: 'Generate walk animation',
       args: ['[speed!]'],
-      execute: async (args) => this?.generateWalkAnimation(args)
+      execute: async (args) => this.generateWalkAnimation(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'anim-idle',
       description: 'Generate idle animation',
       args: [],
-      execute: async () => this?.generateIdleAnimation()
+      execute: async () => this.generateIdleAnimation()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'anim-jump',
       description: 'Generate jump animation',
       args: [],
-      execute: async () => this?.generateJumpAnimation()
+      execute: async () => this.generateJumpAnimation()
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'anim-attack',
       description: 'Generate attack animation',
       args: ['<type>'],
-      execute: async (args) => this?.generateAttackAnimation(args)
+      execute: async (args) => this.generateAttackAnimation(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'anim-emote',
       description: 'Generate emote animation',
       args: ['<type>'],
-      execute: async (args) => this?.generateEmoteAnimation(args)
+      execute: async (args) => this.generateEmoteAnimation(args)
     });
 
     // Export commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'export-gbpg',
       description: 'Export as .gbpg format',
       args: ['<name>', '[filename!]'],
-      execute: async (args) => this?.exportGbpkg(args)
+      execute: async (args) => this.exportGbpkg(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'export-gltf',
       description: 'Export as GLTF format',
       args: ['<name>', '[filename!]'],
-      execute: async (args) => this?.exportGLTF(args)
+      execute: async (args) => this.exportGLTF(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'export-integration',
       description: 'Generate integration data',
       args: ['<system>', '<name>'],
-      execute: async (args) => this?.exportIntegration(args)
+      execute: async (args) => this.exportIntegration(args)
     });
 
     // UI commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'ui-mode',
       description: 'Set UI mode',
       args: ['<mode>'],
-      execute: async (args) => this?.setUIMode(args)
+      execute: async (args) => this.setUIMode(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'ui-tool',
       description: 'Set UI tool',
       args: ['<tool>'],
-      execute: async (args) => this?.setUITool(args)
+      execute: async (args) => this.setUITool(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'ui-export',
       description: 'Export UI state',
       args: ['[filename!]'],
-      execute: async (args) => this?.exportUIState(args)
+      execute: async (args) => this.exportUIState(args)
     });
 
     // Test commands
-    this?.registerCommand({
+    this.registerCommand({
       name: 'test-golden',
       description: 'Run golden tests',
       args: ['[testName!]'],
-      execute: async (args) => this?.runGoldenTests(args)
+      execute: async (args) => this.runGoldenTests(args)
     });
 
-    this?.registerCommand({
+    this.registerCommand({
       name: 'test-scenario',
       description: 'Run scenario tests',
       args: ['<scenario>'],
-      execute: async (args) => this?.runScenarioTests(args)
+      execute: async (args) => this.runScenarioTests(args)
     });
 
     // Help command
-    this?.registerCommand({
+    this.registerCommand({
       name: 'help',
       description: 'Show help information',
       args: ['[command!]'],
-      execute: async (args) => this?.showHelp(args)
+      execute: async (args) => this.showHelp(args)
     });
   }
 
@@ -280,20 +280,20 @@ export class SkeletonAnimatorCLI {
    * Register a command
    */
   private registerCommand(command: CLICommand): void {
-    this?.commands.set(command?.name, command);
+    this.commands.set(command.name, command);
   }
 
   /**
    * Execute a command
    */
   async executeCommand(commandName: string, args: string[]): Promise<string> {
-    const command = this?.commands.get(commandName);
+    const command = this.commands.get(commandName);
     if (!command) {
       return `Unknown command: ${commandName}. Use 'help' to see available commands.`;
     }
 
     try {
-      return await command?.execute(args);
+      return await command.execute(args);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return `Error executing command ${commandName}: ${error}`;
@@ -310,38 +310,38 @@ export class SkeletonAnimatorCLI {
   // Command implementations
   private async initSystem(args: string[]): Promise<string> {
     const characterType = args[0!] as 'humanoid' | 'creature' | 'robot' || 'humanoid';
-    this?.manager.createFullCharacter('TestCharacter', { characterType });
+    this.manager.createFullCharacter('TestCharacter', { characterType });
     return `System initialized with ${characterType} character.`;
   }
 
   private async getStatus(): Promise<string> {
-    const status = this?.manager.getStatus();
+    const status = this.manager.getStatus();
     return JSON.stringify(status, null, 2);
   }
 
   private async validateSystem(): Promise<string> {
-    const validation = this?.manager.validate({});
-    if (validation?.valid) {
+    const validation = this.manager.validate({});
+    if (validation.valid) {
       return 'System validation passed.';
     } else {
-      return `System validation failed:\n${validation?.errors.join('\n')}`;
+      return `System validation failed:\n${validation.errors.join('\n')}`;
     }
   }
 
   private async resetSystem(): Promise<string> {
-    this?.manager.reset();
+    this.manager.reset();
     return 'System reset to initial state.';
   }
 
   private async createRig(): Promise<string> {
-    this?.manager.initializeRigBuilder();
-    this?.manager.getRigBuilder().createCoreBody();
+    this.manager.initializeRigBuilder();
+    this.manager.getRigBuilder().createCoreBody();
     return 'Core body rig created.';
   }
 
   private async exportRig(args: string[]): Promise<string> {
-    const filename = args[0!] || 'rig?.json';
-    const rigJson = this?.manager.getRigBuilder().exportRigJson();
+    const filename = args[0!] || 'rig.json';
+    const rigJson = this.manager.getRigBuilder().exportRigJson();
     // In a real implementation, this would write to file
     return `Rig exported to ${filename}:\n${rigJson}`;
   }
@@ -353,158 +353,158 @@ export class SkeletonAnimatorCLI {
   }
 
   private async addArms(): Promise<string> {
-    this?.manager.initializeLimbAttachment();
-    this?.manager.getLimbAttachment()?.addHumanoidArms();
+    this.manager.initializeLimbAttachment();
+    this.manager.getLimbAttachment()?.addHumanoidArms();
     return 'Humanoid arms added.';
   }
 
   private async addLegs(): Promise<string> {
-    this?.manager.initializeLimbAttachment();
-    this?.manager.getLimbAttachment()?.addHumanoidLegs();
+    this.manager.initializeLimbAttachment();
+    this.manager.getLimbAttachment()?.addHumanoidLegs();
     return 'Humanoid legs added.';
   }
 
   private async addWings(args: string[]): Promise<string> {
     const attachmentPoint = args[0!];
-    this?.manager.initializeLimbAttachment();
-    this?.manager.getLimbAttachment()?.addWings(attachmentPoint);
+    this.manager.initializeLimbAttachment();
+    this.manager.getLimbAttachment()?.addWings(attachmentPoint);
     return `Wings added to ${attachmentPoint}.`;
   }
 
   private async addTail(args: string[]): Promise<string> {
     const attachmentPoint = args[0!];
     const segments = parseInt(args[1!]) || 5;
-    this?.manager.initializeLimbAttachment();
-    this?.manager.getLimbAttachment()?.addTail(attachmentPoint, segments);
+    this.manager.initializeLimbAttachment();
+    this.manager.getLimbAttachment()?.addTail(attachmentPoint, segments);
     return `Tail with ${segments} segments added to ${attachmentPoint}.`;
   }
 
   private async generateSkin(): Promise<string> {
-    this?.manager.initializeSkinMeshGenerator();
-    this?.manager.getSkinMeshGenerator()?.generateBaseMesh();
+    this.manager.initializeSkinMeshGenerator();
+    this.manager.getSkinMeshGenerator()?.generateBaseMesh();
     return 'Skin mesh generated.';
   }
 
   private async addMorphTarget(args: string[]): Promise<string> {
     const name = args[0!];
     const weight = parseFloat(args[1!]) || 1.0;
-    this?.manager.initializeSkinMeshGenerator();
-    this?.manager.getSkinMeshGenerator()?.addMorphTarget(name, [], weight);
+    this.manager.initializeSkinMeshGenerator();
+    this.manager.getSkinMeshGenerator()?.addMorphTarget(name, [], weight);
     return `Morph target '${name}' added with weight ${weight}.`;
   }
 
   private async exportSkin(args: string[]): Promise<string> {
-    const filename = args[0!] || 'skin?.json';
-    const skinJson = this?.manager.getSkinMeshGenerator()?.exportSkinJson() || '{}';
+    const filename = args[0!] || 'skin.json';
+    const skinJson = this.manager.getSkinMeshGenerator()?.exportSkinJson() || '{}';
     return `Skin exported to ${filename}:\n${skinJson}`;
   }
 
   private async addEyes(): Promise<string> {
-    this?.manager.initializeFacialDetailBuilder();
-    this?.manager.getFacialDetailBuilder()?.addEyes();
+    this.manager.initializeFacialDetailBuilder();
+    this.manager.getFacialDetailBuilder()?.addEyes();
     return 'Eyes added.';
   }
 
   private async addNose(): Promise<string> {
-    this?.manager.initializeFacialDetailBuilder();
-    this?.manager.getFacialDetailBuilder()?.addNose();
+    this.manager.initializeFacialDetailBuilder();
+    this.manager.getFacialDetailBuilder()?.addNose();
     return 'Nose added.';
   }
 
   private async addMouth(): Promise<string> {
-    this?.manager.initializeFacialDetailBuilder();
-    this?.manager.getFacialDetailBuilder()?.addMouth();
+    this.manager.initializeFacialDetailBuilder();
+    this.manager.getFacialDetailBuilder()?.addMouth();
     return 'Mouth added.';
   }
 
   private async addEars(): Promise<string> {
-    this?.manager.initializeFacialDetailBuilder();
-    this?.manager.getFacialDetailBuilder()?.addEars();
+    this.manager.initializeFacialDetailBuilder();
+    this.manager.getFacialDetailBuilder()?.addEars();
     return 'Ears added.';
   }
 
   private async toggleSymmetry(args: string[]): Promise<string> {
     const enabled = args[0] === 'true';
-    this?.manager.initializeFacialDetailBuilder();
-    this?.manager.getFacialDetailBuilder()?.toggleSymmetry(enabled);
+    this.manager.initializeFacialDetailBuilder();
+    this.manager.getFacialDetailBuilder()?.toggleSymmetry(enabled);
     return `Facial symmetry ${enabled ? 'enabled' : 'disabled'}.`;
   }
 
   private async generateWalkAnimation(args: string[]): Promise<string> {
     const speed = parseFloat(args[0!]) || 1.0;
-    this?.manager.initializeAnimationSequencer();
-    this?.manager.getAnimationSequencer()?.generateWalkAnimation(speed);
+    this.manager.initializeAnimationSequencer();
+    this.manager.getAnimationSequencer()?.generateWalkAnimation(speed);
     return `Walk animation generated with speed ${speed}.`;
   }
 
   private async generateIdleAnimation(): Promise<string> {
-    this?.manager.initializeAnimationSequencer();
-    this?.manager.getAnimationSequencer()?.generateIdleAnimation();
+    this.manager.initializeAnimationSequencer();
+    this.manager.getAnimationSequencer()?.generateIdleAnimation();
     return 'Idle animation generated.';
   }
 
   private async generateJumpAnimation(): Promise<string> {
-    this?.manager.initializeAnimationSequencer();
-    this?.manager.getAnimationSequencer()?.generateJumpAnimation();
+    this.manager.initializeAnimationSequencer();
+    this.manager.getAnimationSequencer()?.generateJumpAnimation();
     return 'Jump animation generated.';
   }
 
   private async generateAttackAnimation(args: string[]): Promise<string> {
     const type = args[0!] as 'punch' | 'kick' | 'slash';
-    this?.manager.initializeAnimationSequencer();
-    this?.manager.getAnimationSequencer()?.generateAttackAnimation(type);
+    this.manager.initializeAnimationSequencer();
+    this.manager.getAnimationSequencer()?.generateAttackAnimation(type);
     return `${type} attack animation generated.`;
   }
 
   private async generateEmoteAnimation(args: string[]): Promise<string> {
     const type = args[0!] as 'wave' | 'nod' | 'shake' | 'dance';
-    this?.manager.initializeAnimationSequencer();
-    this?.manager.getAnimationSequencer()?.generateEmoteAnimation(type);
+    this.manager.initializeAnimationSequencer();
+    this.manager.getAnimationSequencer()?.generateEmoteAnimation(type);
     return `${type} emote animation generated.`;
   }
 
   private async exportGbpkg(args: string[]): Promise<string> {
     const name = args[0!];
     const filename = args[1!] || `${name}.gbpg`;
-    const gbpkgData = this?.manager.exportCharacter(name, 'gbpg');
+    const gbpkgData = this.manager.exportCharacter(name, 'gbpg');
     return `Character exported to ${filename}:\n${gbpkgData}`;
   }
 
   private async exportGLTF(args: string[]): Promise<string> {
     const name = args[0!];
     const filename = args[1!] || `${name}.gltf`;
-    const gltfData = this?.manager.exportCharacter(name, 'gltf');
+    const gltfData = this.manager.exportCharacter(name, 'gltf');
     return `Character exported to ${filename}:\n${gltfData}`;
   }
 
   private async exportIntegration(args: string[]): Promise<string> {
     const system = args[0!];
     const name = args[1!];
-    this?.manager.initializeExportIntegration();
-    const exportIntegration = this?.manager.getExportIntegration();
+    this.manager.initializeExportIntegration();
+    const exportIntegration = this.manager.getExportIntegration();
     
     if (!exportIntegration) {
       return 'Export integration not initialized.';
     }
 
-    const exportConfig = exportIntegration?.createCreatureExport(name);
+    const exportConfig = exportIntegration.createCreatureExport(name);
     let integrationData;
 
     switch (system) {
       case 'renderworld':
-        integrationData = exportIntegration?.generateRenderWorldIntegration(exportConfig);
+        integrationData = exportIntegration.generateRenderWorldIntegration(exportConfig);
         break;
       case 'combatcore':
-        integrationData = exportIntegration?.generateCombatCoreIntegration(exportConfig);
+        integrationData = exportIntegration.generateCombatCoreIntegration(exportConfig);
         break;
       case 'dialogue':
-        integrationData = exportIntegration?.generateDialogueIntegration(exportConfig);
+        integrationData = exportIntegration.generateDialogueIntegration(exportConfig);
         break;
       case 'startmenu':
-        integrationData = exportIntegration?.generateStartMenuIntegration(exportConfig);
+        integrationData = exportIntegration.generateStartMenuIntegration(exportConfig);
         break;
       case 'saveload':
-        integrationData = exportIntegration?.generateSaveLoadIntegration(exportConfig);
+        integrationData = exportIntegration.generateSaveLoadIntegration(exportConfig);
         break;
       default:
         return `Unknown system: ${system}`;
@@ -515,22 +515,22 @@ export class SkeletonAnimatorCLI {
 
   private async setUIMode(args: string[]): Promise<string> {
     const mode = args[0!] as 'rig' | 'limb' | 'skin' | 'face' | 'animation' | 'export';
-    this?.manager.initializeUIBuilder();
-    this?.manager.getUIBuilder()?.setMode(mode);
+    this.manager.initializeUIBuilder();
+    this.manager.getUIBuilder()?.setMode(mode);
     return `UI mode set to ${mode}.`;
   }
 
   private async setUITool(args: string[]): Promise<string> {
     const tool = args[0!];
-    this?.manager.initializeUIBuilder();
-    this?.manager.getUIBuilder()?.setTool(tool);
+    this.manager.initializeUIBuilder();
+    this.manager.getUIBuilder()?.setTool(tool);
     return `UI tool set to ${tool}.`;
   }
 
   private async exportUIState(args: string[]): Promise<string> {
-    const filename = args[0!] || 'ui_state?.json';
-    this?.manager.initializeUIBuilder();
-    const uiState = this?.manager.getUIBuilder()?.exportUIState() || '{}';
+    const filename = args[0!] || 'ui_state.json';
+    this.manager.initializeUIBuilder();
+    const uiState = this.manager.getUIBuilder()?.exportUIState() || '{}';
     return `UI state exported to ${filename}:\n${uiState}`;
   }
 
@@ -550,21 +550,21 @@ export class SkeletonAnimatorCLI {
     const commandName = args[0!];
     
     if (commandName) {
-      const command = this?.commands.get(commandName);
+      const command = this.commands.get(commandName);
       if (command) {
-        return `Command: ${command?.name}\nDescription: ${command?.description}\nUsage: ${command?.name} ${command?.args.join(' ')}`;
+        return `Command: ${command.name}\nDescription: ${command.description}\nUsage: ${command.name} ${command.args.join(' ')}`;
       } else {
         return `Command '${commandName}' not found.`;
       }
     }
 
     const helpText = ['Available commands:', ''];
-    this?.commands.forEach((command: any) => {
-      helpText?.push(`${command?.name.padEnd(20)} - ${command?.description}`);
+    this.commands.forEach((command: any) => {
+      helpText.push(`${command.name.padEnd(20)} - ${command.description}`);
     });
-    helpText?.push('', 'Use "help <command>" for detailed information about a specific command.');
+    helpText.push('', 'Use "help <command>" for detailed information about a specific command.');
 
-    return helpText?.join('\n');
+    return helpText.join('\n');
   }
 }
 

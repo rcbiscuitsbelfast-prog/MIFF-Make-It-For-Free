@@ -148,53 +148,53 @@ export class SportsSystemPure {
   private players: Map<string, Player> = new Map();
   private balls: Map<string, Ball> = new Map();
   private fields: Map<string, GameField> = new Map();
-  private physicsTimer: NodeJS?.Timeout | null = null;
+  private physicsTimer: NodeJS.Timeout | null = null;
 
   constructor(eventBus: EventBus) {
-    this?.eventBus = eventBus;
-    this?.startPhysicsSimulation();
+    this.eventBus = eventBus;
+    this.startPhysicsSimulation();
   }
 
   private startPhysicsSimulation(): void {
-    this?.physicsTimer = setInterval(() => {
-      this?.updateBallPhysics();
+    this.physicsTimer = setInterval(() => {
+      this.updateBallPhysics();
     }, 16); // 60 FPS
   }
 
   private updateBallPhysics(): void {
-    this?.balls.forEach((ball, ballId) => {
-      if (ball?.state === 'free') {
+    this.balls.forEach((ball, ballId) => {
+      if (ball.state === 'free') {
         // Apply gravity
-        ball?.velocity.y -= 0.5;
+        ball.velocity.y -= 0.5;
 
         // Update position
-        ball?.position.x += ball?.velocity.x;
-        ball?.position.y += ball?.velocity.y;
-        ball?.position.z += ball?.velocity.z;
+        ball.position.x += ball.velocity.x;
+        ball.position.y += ball.velocity.y;
+        ball.position.z += ball.velocity.z;
 
         // Apply air resistance
-        ball?.velocity.x *= 0.98;
-        ball?.velocity.y *= 0.98;
-        ball?.velocity.z *= 0.98;
+        ball.velocity.x *= 0.98;
+        ball.velocity.y *= 0.98;
+        ball.velocity.z *= 0.98;
 
         // Check ground collision
-        if (ball?.position.y <= 0) {
-          ball?.position.y = 0;
-          ball?.velocity.y = -ball?.velocity.y * 0.8; // Bounce
+        if (ball.position.y <= 0) {
+          ball.position.y = 0;
+          ball.velocity.y = -ball.velocity.y * 0.8; // Bounce
 
           if (Math.abs(ball.velocity.y) < 0.1) {
-            ball?.velocity.y = 0;
-            ball?.airTime = 0;
+            ball.velocity.y = 0;
+            ball.airTime = 0;
           }
         } else {
-          ball?.airTime += 0.016;
+          ball.airTime += 0.016;
         }
 
         // Check boundary collisions
-        this?.checkBoundaryCollisions(ball);
+        this.checkBoundaryCollisions(ball);
 
         // Check goal collisions
-        this?.checkGoalCollisions(ball);
+        this.checkGoalCollisions(ball);
       }
     });
   }
@@ -203,13 +203,13 @@ export class SportsSystemPure {
     // This would check collisions with field boundaries
     // For now, simplified boundary check
     if (Math.abs(ball.position.x) > 50 || Math.abs(ball.position.z) > 50) {
-      ball?.state = 'out_of_bounds';
-      ball?.velocity.x = 0;
-      ball?.velocity.z = 0;
+      ball.state = 'out_of_bounds';
+      ball.velocity.x = 0;
+      ball.velocity.z = 0;
 
-      this?.eventBus.publish('sports:ball_out_of_bounds', {
-        ballId: ball?.id,
-        position: ball?.position,
+      this.eventBus.publish('sports:ball_out_of_bounds', {
+        ballId: ball.id,
+        position: ball.position,
         timestamp: new Date()
       });
     }
@@ -219,17 +219,17 @@ export class SportsSystemPure {
     // This would check if ball entered goal areas
     // Simplified goal detection
     if (ball.position.y < 3 && Math.abs(ball.position.x) < 5 && Math.abs(ball.position.z) < 2) {
-      this?.scoreGoal(ball);
+      this.scoreGoal(ball);
     }
   }
 
   private scoreGoal(ball: Ball): void {
-    ball?.state = 'scored';
+    ball.state = 'scored';
 
-    this?.eventBus.publish('sports:goal_scored', {
-      ballId: ball?.id,
-      scorer: ball?.lastTouchedBy,
-      position: ball?.position,
+    this.eventBus.publish('sports:goal_scored', {
+      ballId: ball.id,
+      scorer: ball.lastTouchedBy,
+      position: ball.position,
       timestamp: new Date()
     });
   }
@@ -246,9 +246,9 @@ export class SportsSystemPure {
       homeAdvantage: false
     };
 
-    this?.teams.set(team?.id, team);
+    this.teams.set(team.id, team);
 
-    this?.eventBus.publish('sports:team_created', {
+    this.eventBus.publish('sports:team_created', {
       team: team,
       timestamp: new Date()
     });
@@ -257,7 +257,7 @@ export class SportsSystemPure {
   }
 
   public createPlayer(name: string, teamId: string, position: TeamPosition): Player {
-    const team = this?.teams.get(teamId);
+    const team = this.teams.get(teamId);
     if (!team) {
       throw new Error(`Team ${teamId} not found`);
     }
@@ -282,10 +282,10 @@ export class SportsSystemPure {
       skillLevel: 5
     };
 
-    this?.players.set(player?.id, player);
-    team?.players?.push(player);
+    this.players.set(player.id, player);
+    team.players.push(player);
 
-    this?.eventBus.publish('sports:player_created', {
+    this.eventBus.publish('sports:player_created', {
       player: player,
       teamId: teamId,
       timestamp: new Date()
@@ -295,15 +295,15 @@ export class SportsSystemPure {
   }
 
   public createGame(sportType: SportType, team1Id: string, team2Id: string): Game {
-    const team1 = this?.teams.get(team1Id);
-    const team2 = this?.teams.get(team2Id);
+    const team1 = this.teams.get(team1Id);
+    const team2 = this.teams.get(team2Id);
 
     if (!team1 || !team2) {
       throw new Error('Both teams must exist to create a game');
     }
 
-    const rules = this?.getRulesForSport(sportType);
-    const field = this?.generateField(sportType);
+    const rules = this.getRulesForSport(sportType);
+    const field = this.generateField(sportType);
 
     const game: Game = {
       id: `game_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -312,7 +312,7 @@ export class SportsSystemPure {
       state: 'waiting',
       rules: rules,
       field: field,
-      ball: this?.createBall(sportType),
+      ball: this.createBall(sportType),
       stats: {
         totalTime: 0,
         shots: 0,
@@ -328,9 +328,9 @@ export class SportsSystemPure {
       currentTime: 0
     };
 
-    this?.games.set(game?.id, game);
+    this.games.set(game.id, game);
 
-    this?.eventBus.publish('sports:game_created', {
+    this.eventBus.publish('sports:game_created', {
       game: game,
       timestamp: new Date()
     });
@@ -339,20 +339,20 @@ export class SportsSystemPure {
   }
 
   public startGame(gameId: string): boolean {
-    const game = this?.games.get(gameId);
-    if (!game || game?.state !== 'waiting') {
+    const game = this.games.get(gameId);
+    if (!game || game.state !== 'waiting') {
       return false;
     }
 
-    game?.state = 'playing';
-    game.startTime = new Date();
+    game.state = 'playing';
+    game.startTime = Date.now();
 
     // Give home advantage to first team
-    game?.teams[0!].homeAdvantage = true;
+    game.teams[0!].homeAdvantage = true;
 
-    this?.eventBus.publish('sports:game_started', {
+    this.eventBus.publish('sports:game_started', {
       gameId: gameId,
-      teams: game?.teams,
+      teams: game.teams,
       timestamp: new Date()
     });
 
@@ -360,14 +360,14 @@ export class SportsSystemPure {
   }
 
   public pauseGame(gameId: string): boolean {
-    const game = this?.games.get(gameId);
-    if (!game || game?.state !== 'playing') {
+    const game = this.games.get(gameId);
+    if (!game || game.state !== 'playing') {
       return false;
     }
 
-    game?.state = 'paused';
+    game.state = 'paused';
 
-    this?.eventBus.publish('sports:game_paused', {
+    this.eventBus.publish('sports:game_paused', {
       gameId: gameId,
       timestamp: new Date()
     });
@@ -376,14 +376,14 @@ export class SportsSystemPure {
   }
 
   public resumeGame(gameId: string): boolean {
-    const game = this?.games.get(gameId);
-    if (!game || game?.state !== 'paused') {
+    const game = this.games.get(gameId);
+    if (!game || game.state !== 'paused') {
       return false;
     }
 
-    game?.state = 'playing';
+    game.state = 'playing';
 
-    this?.eventBus.publish('sports:game_resumed', {
+    this.eventBus.publish('sports:game_resumed', {
       gameId: gameId,
       timestamp: new Date()
     });
@@ -392,44 +392,44 @@ export class SportsSystemPure {
   }
 
   public shootBall(gameId: string, playerId: string, targetPosition: { x: number; y: number; z: number }): boolean {
-    const game = this?.games.get(gameId);
-    if (!game || game?.state !== 'playing') {
+    const game = this.games.get(gameId);
+    if (!game || game.state !== 'playing') {
       return false;
     }
 
-    const player = this?.players.get(playerId);
-    if (!player || !player?.isActive) {
+    const player = this.players.get(playerId);
+    if (!player || !player.isActive) {
       return false;
     }
 
-    const ball = game?.ball;
-    if (ball?.state !== 'held' || ball?.ownerId !== playerId) {
+    const ball = game.ball;
+    if (ball.state !== 'held' || ball.ownerId !== playerId) {
       return false;
     }
 
     // Release ball
-    ball?.state = 'free';
-    ball?.ownerId = undefined;
-    ball?.lastTouchedBy = playerId;
+    ball.state = 'free';
+    ball.ownerId = undefined;
+    ball.lastTouchedBy = playerId;
 
     // Calculate shot velocity based on player stats
-    const power = player?.skillLevel / 10;
+    const power = player.skillLevel / 10;
     const direction = {
-      x: targetPosition.x - ball?.position.x,
-      y: targetPosition.y - ball?.position.y,
-      z: targetPosition.z - ball?.position.z
+      x: targetPosition.x - ball.position.x,
+      y: targetPosition.y - ball.position.y,
+      z: targetPosition.z - ball.position.z
     };
 
     const distance = Math.sqrt(direction.x ** 2 + direction.y ** 2 + direction.z ** 2);
-    ball?.velocity = {
+    ball.velocity = {
       x: (direction.x / distance) * power * 20,
       y: (direction.y / distance) * power * 15,
       z: (direction.z / distance) * power * 20
     };
 
-    player?.stats.shots++;
+    player.stats.shots++;
 
-    this?.eventBus.publish('sports:shot_taken', {
+    this.eventBus.publish('sports:shot_taken', {
       gameId: gameId,
       playerId: playerId,
       targetPosition: targetPosition,
@@ -440,30 +440,30 @@ export class SportsSystemPure {
   }
 
   public passBall(gameId: string, fromPlayerId: string, toPlayerId: string): boolean {
-    const game = this?.games.get(gameId);
-    if (!game || game?.state !== 'playing') {
+    const game = this.games.get(gameId);
+    if (!game || game.state !== 'playing') {
       return false;
     }
 
-    const fromPlayer = this?.players.get(fromPlayerId);
-    const toPlayer = this?.players.get(toPlayerId);
+    const fromPlayer = this.players.get(fromPlayerId);
+    const toPlayer = this.players.get(toPlayerId);
 
-    if (!fromPlayer || !toPlayer || !fromPlayer?.isActive || !toPlayer?.isActive) {
+    if (!fromPlayer || !toPlayer || !fromPlayer.isActive || !toPlayer.isActive) {
       return false;
     }
 
-    const ball = game?.ball;
-    if (ball?.state !== 'held' || ball?.ownerId !== fromPlayerId) {
+    const ball = game.ball;
+    if (ball.state !== 'held' || ball.ownerId !== fromPlayerId) {
       return false;
     }
 
     // Transfer ball
-    ball?.ownerId = toPlayerId;
-    ball?.lastTouchedBy = fromPlayerId;
+    ball.ownerId = toPlayerId;
+    ball.lastTouchedBy = fromPlayerId;
 
-    fromPlayer?.stats.passes++;
+    fromPlayer.stats.passes++;
 
-    this?.eventBus.publish('sports:pass_completed', {
+    this.eventBus.publish('sports:pass_completed', {
       gameId: gameId,
       fromPlayerId: fromPlayerId,
       toPlayerId: toPlayerId,
@@ -474,35 +474,35 @@ export class SportsSystemPure {
   }
 
   public tackle(gameId: string, tacklerId: string, targetId: string): boolean {
-    const game = this?.games.get(gameId);
-    if (!game || game?.state !== 'playing') {
+    const game = this.games.get(gameId);
+    if (!game || game.state !== 'playing') {
       return false;
     }
 
-    const tackler = this?.players.get(tacklerId);
-    const target = this?.players.get(targetId);
+    const tackler = this.players.get(tacklerId);
+    const target = this.players.get(targetId);
 
-    if (!tackler || !target || !tackler?.isActive || !target?.isActive) {
+    if (!tackler || !target || !tackler.isActive || !target.isActive) {
       return false;
     }
 
-    const ball = game?.ball;
-    if (ball?.state !== 'held' || ball?.ownerId !== targetId) {
+    const ball = game.ball;
+    if (ball.state !== 'held' || ball.ownerId !== targetId) {
       return false; // Target doesn't have the ball
     }
 
     // Calculate tackle success based on player stats
-    const tacklerSkill = tackler?.skillLevel + tackler?.stats.tackles;
-    const targetSkill = target?.skillLevel + target?.stats.shots;
+    const tacklerSkill = tackler.skillLevel + tackler.stats.tackles;
+    const targetSkill = target.skillLevel + target.stats.shots;
 
     if (tacklerSkill > targetSkill || Math.random() > 0.5) {
       // Successful tackle
-      ball?.ownerId = tacklerId;
-      ball?.lastTouchedBy = tacklerId;
+      ball.ownerId = tacklerId;
+      ball.lastTouchedBy = tacklerId;
 
-      tackler?.stats.tackles++;
+      tackler.stats.tackles++;
 
-      this?.eventBus.publish('sports:tackle_successful', {
+      this.eventBus.publish('sports:tackle_successful', {
         gameId: gameId,
         tacklerId: tacklerId,
         targetId: targetId,
@@ -512,9 +512,9 @@ export class SportsSystemPure {
       return true;
     } else {
       // Failed tackle - foul
-      tackler?.stats.fouls++;
+      tackler.stats.fouls++;
 
-      this?.eventBus.publish('sports:foul_committed', {
+      this.eventBus.publish('sports:foul_committed', {
         gameId: gameId,
         playerId: tacklerId,
         type: 'tackle',
@@ -526,21 +526,21 @@ export class SportsSystemPure {
   }
 
   public getGameState(gameId: string): Game | null {
-    return this?.games.get(gameId) || null;
+    return this.games.get(gameId) || null;
   }
 
   public getPlayerStats(playerId: string): PlayerStats | null {
-    const player = this?.players.get(playerId);
-    return player ? player?.stats : null;
+    const player = this.players.get(playerId);
+    return player ? player.stats : null;
   }
 
   public getTeamStats(teamId: string): { score: number; players: Player[] } | null {
-    const team = this?.teams.get(teamId);
+    const team = this.teams.get(teamId);
     if (!team) return null;
 
     return {
-      score: team?.score,
-      players: team?.players
+      score: team.score,
+      players: team.players
     };
   }
 
@@ -556,11 +556,11 @@ export class SportsSystemPure {
       bowling: { radius: 0.108, weight: 7.26 }
     };
 
-    const ballType = ballTypes[sportType!] || ballTypes?.soccer;
+    const ballType = ballTypes[sportType!] || ballTypes.soccer;
 
     return {
       id: `ball_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      position: { x: 0, y: ballType?.radius, z: 0 },
+      position: { x: 0, y: ballType.radius, z: 0 },
       velocity: { x: 0, y: 0, z: 0 },
       state: 'free',
       spin: 0,
@@ -595,16 +595,16 @@ export class SportsSystemPure {
       }
     };
 
-    const config = fieldConfigs[sportType!] || fieldConfigs?.soccer;
+    const config = fieldConfigs[sportType!] || fieldConfigs.soccer;
 
     return {
       id: `field_${sportType}_${Date.now()}`,
       sportType: sportType,
-      dimensions: { width: config?.width, height: config?.height, depth: config?.depth },
-      boundaries: config?.boundaries! || [],
-      goals: config?.goals! || [],
+      dimensions: { width: config.width, height: config.height, depth: config.depth },
+      boundaries: config.boundaries! || [],
+      goals: config.goals! || [],
       obstacles: [],
-      surface: config?.surface
+      surface: config.surface
     };
   }
 
@@ -700,7 +700,7 @@ export class SportsSystemPure {
       }
     };
 
-    return rules[sportType!] || rules?.soccer;
+    return rules[sportType!] || rules.soccer;
   }
 }
 

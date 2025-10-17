@@ -12,27 +12,27 @@ import fs from 'fs';
  * - No external state or side effects
  */
 test('golden dialogue system flow', () => {
-  const root = path?.resolve(__dirname, '..');
-  const dialogue = path?.resolve(root, 'fixtures/dialogue?.json');
+  const root = path.resolve(__dirname, '..');
+  const dialogue = path.resolve(root, 'fixtures/dialogue.json');
   
   // Run CLI harness with dialogue data
-  const out = (global as any).testUtils?.runCLI(
-    path?.resolve(root, 'cliHarness?.ts'), 
+  const out = (global as any).testUtils.runCLI(
+    path.resolve(root, 'cliHarness.ts'), 
     [dialogue!]
   );
   
   const got = JSON.parse(out);
   
   // Verify expected structure
-  expect(got?.op).toBe('dialogue?.next');
-  expect(got?.status).toBe('ok');
-  expect(got?.id).toBeDefined();
+  expect(got.op).toBe('dialogue.next');
+  expect(got.status).toBe('ok');
+  expect(got.id).toBeDefined();
   
   // Verify deterministic dialogue navigation:
   // Current: "greeting" with choiceIndex: 0
   // Choice 0: "Hello there!" -> "quest_offer"
-  expect(got?.id).toBe('quest_offer');
+  expect(got.id).toBe('quest_offer');
   
   // Verify no error occurred
-  expect(got?.issue).toBeUndefined();
+  expect(got.issue).toBeUndefined();
 });

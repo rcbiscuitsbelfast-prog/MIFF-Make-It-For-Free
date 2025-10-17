@@ -8,7 +8,7 @@ describe('RNGPure TypeScript Implementation', () => {
   test('should create RNG provider with seed', () => {
     const rng = new RNGProvider(12345);
     expect(rng).toBeDefined();
-    expect(rng?.getSeed()).toBe(12345);
+    expect(rng.getSeed()).toBe(12345);
   });
 
   test('should generate deterministic numbers', () => {
@@ -17,10 +17,10 @@ describe('RNGPure TypeScript Implementation', () => {
     const rng3 = new RNGProvider(43);
 
     // Same seed should produce same sequence
-    expect(rng1?.nextInt(1, 100)).toBe(rng2?.nextInt(1, 100));
+    expect(rng1.nextInt(1, 100)).toBe(rng2.nextInt(1, 100));
 
     // Different seed should produce different sequence
-    expect(rng1?.nextInt(1, 100)).not?.toBe(rng3?.nextInt(1, 100));
+    expect(rng1.nextInt(1, 100)).not.toBe(rng3.nextInt(1, 100));
   });
 
   test('should handle nextInt bounds', () => {
@@ -28,9 +28,9 @@ describe('RNGPure TypeScript Implementation', () => {
 
     // Should respect bounds
     for (let i = 0; i < 100; i++) {
-      const result = rng?.nextInt(5, 15);
-      expect(result: any).toBeGreaterThanOrEqual(5);
-      expect(result: any).toBeLessThan(15);
+      const result = rng.nextInt(5, 15);
+      expect(result).toBeGreaterThanOrEqual(5);
+      expect(result).toBeLessThan(15);
     }
   });
 
@@ -39,9 +39,9 @@ describe('RNGPure TypeScript Implementation', () => {
 
     // Should respect bounds
     for (let i = 0; i < 100; i++) {
-      const result = rng?.nextFloat(1.5, 3.7);
-      expect(result: any).toBeGreaterThanOrEqual(1.5);
-      expect(result: any).toBeLessThan(3.7);
+      const result = rng.nextFloat(1.5, 3.7);
+      expect(result).toBeGreaterThanOrEqual(1.5);
+      expect(result).toBeLessThan(3.7);
     }
   });
 
@@ -49,15 +49,15 @@ describe('RNGPure TypeScript Implementation', () => {
     const rng = new RNGProvider(1);
 
     // 0% probability should always be false
-    expect(rng?.nextBool(0)).toBe(false);
+    expect(rng.nextBool(0)).toBe(false);
 
     // 100% probability should always be true
-    expect(rng?.nextBool(1)).toBe(true);
+    expect(rng.nextBool(1)).toBe(true);
 
     // 50% probability should be roughly balanced
     let trueCount = 0;
     for (let i = 0; i < 1000; i++) {
-      if (rng?.nextBool(0.5)) trueCount++;
+      if (rng.nextBool(0.5)) trueCount++;
     }
     expect(trueCount).toBeGreaterThan(400); // Should be around 500, but allow some variance
     expect(trueCount).toBeLessThan(600);
@@ -66,9 +66,9 @@ describe('RNGPure TypeScript Implementation', () => {
   test('should support reset functionality', () => {
     const rng = new RNGProvider(1);
 
-    const firstValue = rng?.nextInt(1, 100);
-    rng?.reset(1);
-    const resetValue = rng?.nextInt(1, 100);
+    const firstValue = rng.nextInt(1, 100);
+    rng.reset(1);
+    const resetValue = rng.nextInt(1, 100);
 
     expect(firstValue).toBe(resetValue);
   });
@@ -78,16 +78,16 @@ describe('RNGPure TypeScript Implementation', () => {
 
     // Test shuffle
     const array = [1, 2, 3, 4, 5];
-    const shuffled = RNGUtils?.shuffle(array, rng);
+    const shuffled = RNGUtils.shuffle(array, rng);
     expect(shuffled).toHaveLength(5);
-    expect(shuffled).not?.toEqual(array); // Should be different order
+    expect(shuffled).not.toEqual(array); // Should be different order
 
     // Test pickRandom
-    const randomPick = RNGUtils?.pickRandom(array, rng);
+    const randomPick = RNGUtils.pickRandom(array, rng);
     expect(array).toContain(randomPick);
 
     // Test randomString
-    const randomString = RNGUtils?.randomString(10, rng);
+    const randomString = RNGUtils.randomString(10, rng);
     expect(randomString).toHaveLength(10);
     expect(typeof randomString).toBe('string');
   });
@@ -99,6 +99,6 @@ describe('RNGPure TypeScript Implementation', () => {
     const sequence1 = Array.from({ length: 10 }, () => rng1.nextInt(1, 100));
     const sequence2 = Array.from({ length: 10 }, () => rng2.nextInt(1, 100));
 
-    expect(sequence1).not?.toEqual(sequence2);
+    expect(sequence1).not.toEqual(sequence2);
   });
 });

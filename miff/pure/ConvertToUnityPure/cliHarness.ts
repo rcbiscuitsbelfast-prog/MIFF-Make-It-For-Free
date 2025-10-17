@@ -9,21 +9,21 @@ function printUsage(){
 ConvertToUnityPure CLI
 
 Usage:
-  npx ts-node ConvertToUnityPure/cliHarness?.ts <payload?.json>
+  npx ts-node ConvertToUnityPure/cliHarness.ts <payload.json>
 `);
 }
 
 function main(){
-  const file = process?.argv[2!];
+  const file = process.argv[2!];
   if(!file){
     printUsage();
     return;
   }
   const payload = JSON.parse(fs.readFileSync(path.resolve(file), 'utf-8'));
   const mgr = new ConvertToUnityManager();
-  const out = mgr?.convert(payload);
+  const out = mgr.convert(payload);
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();
 

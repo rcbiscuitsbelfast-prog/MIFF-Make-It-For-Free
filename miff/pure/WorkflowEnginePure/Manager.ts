@@ -1000,7 +1000,7 @@ export class WorkflowEnginePure {
 
   constructor(config: Partial<WorkflowEngineConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableWorkflowManagement: true,
       enableProcessAutomation: true,
       enableTaskScheduling: true,
@@ -1017,7 +1017,7 @@ export class WorkflowEnginePure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalWorkflows: 0,
       activeWorkflows: 0,
       totalTasks: 0,
@@ -1034,7 +1034,7 @@ export class WorkflowEnginePure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalWorkflows: 0,
       totalTasks: 0,
       totalExecutions: 0,
@@ -1050,7 +1050,7 @@ export class WorkflowEnginePure {
    * Create a new workflow engine manager
    */
   createManager(): WorkflowEngineOutput {
-    if (!this?.config.enableWorkflowManagement) {
+    if (!this.config.enableWorkflowManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1060,8 +1060,8 @@ export class WorkflowEnginePure {
 
     const manager: WorkflowEngineManager = {
       id: managerData.id || `workflowengine-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Workflow Engine Manager',
-      type: managerData?.type || 'sequential',
+      name: managerData.name || 'Unnamed Workflow Engine Manager',
+      type: managerData.type || 'sequential',
       status: 'active',
       workflows: [],
       tasks: [],
@@ -1132,7 +1132,7 @@ export class WorkflowEnginePure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -1145,7 +1145,7 @@ export class WorkflowEnginePure {
    * Get manager by ID
    */
   getManager(): WorkflowEngineOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1165,14 +1165,14 @@ export class WorkflowEnginePure {
    * Get performance metrics
    */
   getPerformanceMetrics(): WorkflowEnginePerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): WorkflowEngineAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1186,7 +1186,7 @@ export class WorkflowEnginePure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalWorkflows = 0;
     let activeWorkflows = 0;
     let totalTasks = 0;
@@ -1197,27 +1197,27 @@ export class WorkflowEnginePure {
     let activeSchedules = 0;
     let totalMonitors = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalWorkflows += manager?.workflows.length;
-      activeWorkflows += manager?.workflows.filter((w: any) => w?.status === 'active').length;
-      totalTasks += manager?.tasks.length;
-      activeTasks += manager?.tasks.filter((t: any) => t?.status === 'in_progress').length;
-      totalExecutions += manager?.executions.length;
-      runningExecutions += manager?.executions.filter((e: any) => e?.status === 'running').length;
-      totalSchedules += manager?.schedules.length;
-      activeSchedules += manager?.schedules.filter((s: any) => s?.status === 'active').length;
-      totalMonitors += manager?.monitors.length;
+    for (const manager of this.managers.values()) {
+      totalWorkflows += manager.workflows.length;
+      activeWorkflows += manager.workflows.filter((w: any) => w.status === 'active').length;
+      totalTasks += manager.tasks.length;
+      activeTasks += manager.tasks.filter((t: any) => t.status === 'in_progress').length;
+      totalExecutions += manager.executions.length;
+      runningExecutions += manager.executions.filter((e: any) => e.status === 'running').length;
+      totalSchedules += manager.schedules.length;
+      activeSchedules += manager.schedules.filter((s: any) => s.status === 'active').length;
+      totalMonitors += manager.monitors.length;
     }
 
-    this?.performanceMetrics.totalWorkflows = totalWorkflows;
-    this?.performanceMetrics.activeWorkflows = activeWorkflows;
-    this?.performanceMetrics.totalTasks = totalTasks;
-    this?.performanceMetrics.activeTasks = activeTasks;
-    this?.performanceMetrics.totalExecutions = totalExecutions;
-    this?.performanceMetrics.runningExecutions = runningExecutions;
-    this?.performanceMetrics.totalSchedules = totalSchedules;
-    this?.performanceMetrics.activeSchedules = activeSchedules;
-    this?.performanceMetrics.totalMonitors = totalMonitors;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalWorkflows = totalWorkflows;
+    this.performanceMetrics.activeWorkflows = activeWorkflows;
+    this.performanceMetrics.totalTasks = totalTasks;
+    this.performanceMetrics.activeTasks = activeTasks;
+    this.performanceMetrics.totalExecutions = totalExecutions;
+    this.performanceMetrics.runningExecutions = runningExecutions;
+    this.performanceMetrics.totalSchedules = totalSchedules;
+    this.performanceMetrics.activeSchedules = activeSchedules;
+    this.performanceMetrics.totalMonitors = totalMonitors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

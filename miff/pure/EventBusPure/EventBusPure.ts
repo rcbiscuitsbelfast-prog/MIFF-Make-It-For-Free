@@ -1,5 +1,5 @@
 /**
- * EventBusPure?.ts - Event and Messaging System
+ * EventBusPure.ts - Event and Messaging System
  * 
  * Inspired by Delta Engine event bus and Panda3D messenger.
  * Provides pub/sub messaging, event routing, and network replication capabilities.
@@ -84,7 +84,7 @@ export class EventBus {
   private networkCallbacks: Map<string, (message: NetworkMessage) => void> = new Map();
 
   constructor(config: Partial<EventBusConfig> = {}) {
-    this?.config = {
+    this.config = {
       maxEvents: 1000,
       enableReplication: false,
       networkLatency: 50,
@@ -94,7 +94,7 @@ export class EventBus {
       ...config
     };
 
-    this?.stats = {
+    this.stats = {
       totalEvents: 0,
       eventsByType: {},
       averageLatency: 0,
@@ -104,10 +104,10 @@ export class EventBus {
   }
 
   /**
-   * Backward-compatible alias: some modules call eventBus?.emit(type, data)
+   * Backward-compatible alias: some modules call eventBus.emit(type, data)
    */
   async emit(eventType: string, data: any, options: any = {}): Promise<string> {
-    return this?.publish(eventType, data, options);
+    return this.publish(eventType, data, options);
   }
 
   /**
@@ -129,19 +129,19 @@ export class EventBus {
       id: subscriptionId,
       eventType,
       handler,
-      priority: options?.priority || EventPriority?.NORMAL,
-      filter: options?.filter,
-      once: options?.once || false
+      priority: options.priority || EventPriority.NORMAL,
+      filter: options.filter,
+      once: options.once || false
     };
 
-    if (!this?.handlers.has(eventType)) {
-      this?.handlers.set(eventType, []);
+    if (!this.handlers.has(eventType)) {
+      this.handlers.set(eventType, []);
     }
 
-    this?.handlers.get(eventType)!.push(eventHandler);
+    this.handlers.get(eventType)!.push(eventHandler);
     
     // Sort by priority (higher priority first)
-    this?.handlers.get(eventType)!.sort((a: any, b: any) => b?.priority - a?.priority);
+    this.handlers.get(eventType)!.sort((a: any, b: any) => b.priority - a.priority);
 
     const subscription: EventSubscription = {
       id: subscriptionId,
@@ -150,9 +150,9 @@ export class EventBus {
       active: true
     };
 
-    this?.subscriptions.set(subscriptionId, subscription);
+    this.subscriptions.set(subscriptionId, subscription);
 
-    if (this?.config.enableLogging) {
+    if (this.config.enableLogging) {
       console.log(`📡 Event subscription created: ${eventType} (${subscriptionId})`);
     }
 
@@ -163,23 +163,23 @@ export class EventBus {
    * Unsubscribe from an event type
    */
   unsubscribe(subscriptionId: string): boolean {
-    const subscription = this?.subscriptions.get(subscriptionId);
+    const subscription = this.subscriptions.get(subscriptionId);
     if (!subscription) {
       return false;
     }
 
-    const handlers = this?.handlers.get(subscription?.eventType);
+    const handlers = this.handlers.get(subscription.eventType);
     if (handlers) {
-      const index = handlers?.findIndex(h => h?.id === subscriptionId);
+      const index = handlers.findIndex(h => h.id === subscriptionId);
       if (index !== -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     }
 
-    subscription?.active = false;
-    this?.subscriptions.delete(subscriptionId);
+    subscription.active = false;
+    this.subscriptions.delete(subscriptionId);
 
-    if (this?.config.enableLogging) {
+    if (this.config.enableLogging) {
       console.log(`📡 Event subscription removed: ${subscriptionId}`);
     }
 
@@ -207,35 +207,35 @@ export class EventBus {
       type: eventType,
       data,
       timestamp: new Date(),
-      source: options?.source || 'local',
-      priority: options?.priority || EventPriority?.NORMAL,
-      metadata: options?.metadata || {}
+      source: options.source || 'local',
+      priority: options.priority || EventPriority.NORMAL,
+      metadata: options.metadata || {}
     };
 
     // Add to events list
-    this?.events?.push(event);
-    if (this?.events.length > this?.config.maxEvents) {
-      this?.events.shift();
-      this?.stats.droppedEvents++;
+    this.events.push(event);
+    if (this.events.length > this.config.maxEvents) {
+      this.events.shift();
+      this.stats.droppedEvents++;
     }
 
     // Update stats
-    this?.stats.totalEvents++;
-    this?.stats.eventsByType[eventType!] = (this?.stats.eventsByType[eventType!] || 0) + 1;
+    this.stats.totalEvents++;
+    this.stats.eventsByType[eventType!] = (this.stats.eventsByType[eventType!] || 0) + 1;
 
-    if (this?.config.enableLogging) {
+    if (this.config.enableLogging) {
       console.log(`📢 Event published: ${eventType} (${eventId})`);
     }
 
     // Handle replication
-    if (this?.config.enableReplication && options?.replicate !== false) {
-      if (this?.config.replicationFilter(event)) {
-        await this?.replicateEvent(event);
+    if (this.config.enableReplication && options.replicate !== false) {
+      if (this.config.replicationFilter(event)) {
+        await this.replicateEvent(event);
       }
     }
 
     // Process event handlers
-    await this?.processEvent(event);
+    await this.processEvent(event);
 
     return eventId;
   }
@@ -244,7 +244,7 @@ export class EventBus {
    * Process an event through its handlers
    */
   private async processEvent(event: Event): Promise<void> {
-    const handlers = this?.handlers.get(event?.type);
+    const handlers = this.handlers.get(event.type);
     if (!handlers) {
       return;
     }
@@ -252,12 +252,12 @@ export class EventBus {
     const handlersToRemove: string[] = [];
 
     for (const handler of handlers) {
-      if (!handler?.filter || handler?.filter(event)) {
+      if (!handler.filter || handler.filter(event)) {
         try {
-          await handler?.handler(event);
+          await handler.handler(event);
           
-          if (handler?.once) {
-            handlersToRemove?.push(handler?.id);
+          if (handler.once) {
+            handlersToRemove.push(handler.id);
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -268,7 +268,7 @@ export class EventBus {
 
     // Remove one-time handlers
     for (const handlerId of handlersToRemove) {
-      this?.unsubscribe(handlerId);
+      this.unsubscribe(handlerId);
     }
   }
 
@@ -280,15 +280,15 @@ export class EventBus {
       id: `net_${event?.id}`,
       event,
       target: 'broadcast',
-      reliable: event?.priority >= EventPriority?.HIGH,
+      reliable: event.priority >= EventPriority.HIGH,
       timestamp: new Date()
     };
 
-    this?.stats.networkMessages++;
+    this.stats.networkMessages++;
 
     // Simulate network latency
-    if (this?.config.networkLatency > 0) {
-      await new Promise(resolve => setTimeout(resolve, this?.config.networkLatency));
+    if (this.config.networkLatency > 0) {
+      await new Promise(resolve => setTimeout(resolve, this.config.networkLatency));
     }
 
     // Call network callbacks
@@ -301,7 +301,7 @@ export class EventBus {
       }
     }
 
-    if (this?.config.enableLogging) {
+    if (this.config.enableLogging) {
       console.log(`🌐 Event replicated: ${event.type} (${event?.id})`);
     }
   }
@@ -310,43 +310,43 @@ export class EventBus {
    * Receive event from network
    */
   async receiveNetworkEvent(message: NetworkMessage): Promise<void> {
-    const event = message?.event;
+    const event = message.event;
     
     // Add network latency to event timestamp
-    event?.timestamp += this?.config.networkLatency;
+    event.timestamp += this.config.networkLatency;
     
     // Update stats
-    this?.stats.totalEvents++;
-    this?.stats.eventsByType[event?.type] = (this?.stats.eventsByType[event?.type] || 0) + 1;
+    this.stats.totalEvents++;
+    this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
-    if (this?.config.enableLogging) {
+    if (this.config.enableLogging) {
       console.log(`📡 Network event received: ${event.type} (${event?.id}) from ${event.source}`);
     }
 
     // Process the event
-    await this?.processEvent(event);
+    await this.processEvent(event);
   }
 
   /**
    * Register network callback
    */
   registerNetworkCallback(id: string, callback: (message: NetworkMessage) => void): void {
-    this?.networkCallbacks.set(id, callback);
+    this.networkCallbacks.set(id, callback);
   }
 
   /**
    * Unregister network callback
    */
   unregisterNetworkCallback(id: string): boolean {
-    return this?.networkCallbacks.delete(id);
+    return this.networkCallbacks.delete(id);
   }
 
   /**
    * Get events by type
    */
   getEventsByType(eventType: string, limit: number = 100): Event[] {
-    return this?.events
-      .filter((event: any) => event?.type === eventType)
+    return this.events
+      .filter((event: any) => event.type === eventType)
       .slice(-limit);
   }
 
@@ -354,33 +354,33 @@ export class EventBus {
    * Get recent events
    */
   getRecentEvents(limit: number = 100): Event[] {
-    return this?.events.slice(-limit);
+    return this.events.slice(-limit);
   }
 
   /**
    * Clear old events
    */
   clearOldEvents(maxAge: number = 60000): number {
-    const cutoff = new Date() - maxAge;
-    const initialCount = this?.events.length;
+    const cutoff = Date.now() - maxAge;
+    const initialCount = this.events.length;
     
-    this?.events = this?.events.filter((event: any) => event?.timestamp > cutoff);
+    this.events = this.events.filter((event: any) => event.timestamp > cutoff);
     
-    return initialCount - this?.events.length;
+    return initialCount - this.events.length;
   }
 
   /**
    * Get event statistics
    */
   getStats(): EventStats {
-    return { ...this?.stats };
+    return { ...this.stats };
   }
 
   /**
    * Reset statistics
    */
   resetStats(): void {
-    this?.stats = {
+    this.stats = {
       totalEvents: 0,
       eventsByType: {},
       averageLatency: 0,
@@ -401,10 +401,10 @@ export class EventBus {
    */
   getSubscriptionCount(eventType?: string): number {
     if (eventType) {
-      return this?.handlers.get(eventType)?.length || 0;
+      return this.handlers.get(eventType)?.length || 0;
     }
     
-    return this?.subscriptions.size;
+    return this.subscriptions.size;
   }
 }
 
@@ -418,37 +418,37 @@ export class EventRouter {
   private eventBus: EventBus;
 
   constructor(eventBus: EventBus) {
-    this?.eventBus = eventBus;
+    this.eventBus = eventBus;
   }
 
   /**
    * Add a route from source event type to target event types
    */
   addRoute(sourceType: string, targetTypes: string[]): void {
-    this?.routes.set(sourceType, targetTypes);
+    this.routes.set(sourceType, targetTypes);
   }
 
   /**
    * Remove a route
    */
   removeRoute(sourceType: string): boolean {
-    return this?.routes.delete(sourceType);
+    return this.routes.delete(sourceType);
   }
 
   /**
    * Route an event to its targets
    */
   async routeEvent(event: Event): Promise<void> {
-    const targetTypes = this?.routes.get(event?.type);
+    const targetTypes = this.routes.get(event.type);
     if (!targetTypes) {
       return;
     }
 
     for (const targetType of targetTypes) {
-      await this?.eventBus.publish(targetType, event?.data, {
-        source: event?.source,
-        priority: event?.priority,
-        metadata: { ...event?.metadata, routedFrom: event?.type }
+      await this.eventBus.publish(targetType, event.data, {
+        source: event.source,
+        priority: event.priority,
+        metadata: { ...event.metadata, routedFrom: event.type }
       });
     }
   }
@@ -457,7 +457,7 @@ export class EventRouter {
    * Get all routes
    */
   getRoutes(): Map<string, string[]> {
-    return new Map(this?.routes);
+    return new Map(this.routes);
   }
 }
 
@@ -473,14 +473,14 @@ export class EventFilter {
    * Add a filter
    */
   addFilter(name: string, filter: (event: Event) => boolean): void {
-    this?.filters.set(name, filter);
+    this.filters.set(name, filter);
   }
 
   /**
    * Remove a filter
    */
   removeFilter(name: string): boolean {
-    return this?.filters.delete(name);
+    return this.filters.delete(name);
   }
 
   /**
@@ -499,7 +499,7 @@ export class EventFilter {
    * Get all filters
    */
   getFilters(): Map<string, (event: Event) => boolean> {
-    return new Map(this?.filters);
+    return new Map(this.filters);
   }
 }
 
@@ -513,45 +513,45 @@ export class EventReplicator {
   private replicationRules: Map<string, ReplicationRule> = new Map();
 
   constructor(eventBus: EventBus) {
-    this?.eventBus = eventBus;
+    this.eventBus = eventBus;
   }
 
   /**
    * Add replication rule
    */
   addReplicationRule(eventType: string, rule: ReplicationRule): void {
-    this?.replicationRules.set(eventType, rule);
+    this.replicationRules.set(eventType, rule);
   }
 
   /**
    * Remove replication rule
    */
   removeReplicationRule(eventType: string): boolean {
-    return this?.replicationRules.delete(eventType);
+    return this.replicationRules.delete(eventType);
   }
 
   /**
    * Check if event should be replicated
    */
   shouldReplicate(event: Event): boolean {
-    const rule = this?.replicationRules.get(event?.type);
+    const rule = this.replicationRules.get(event.type);
     if (!rule) {
       return false;
     }
 
-    return rule?.shouldReplicate(event);
+    return rule.shouldReplicate(event);
   }
 
   /**
    * Transform event for replication
    */
   transformForReplication(event: Event): Event {
-    const rule = this?.replicationRules.get(event?.type);
+    const rule = this.replicationRules.get(event.type);
     if (!rule) {
       return event;
     }
 
-    return rule?.transform(event);
+    return rule.transform(event);
   }
 }
 
@@ -569,11 +569,11 @@ export interface ReplicationRule {
 export class EventScheduler {
   private scheduledEvents: Map<string, ScheduledEvent> = new Map();
   private eventBus: EventBus;
-  private interval: NodeJS?.Timeout | null = null;
+  private interval: NodeJS.Timeout | null = null;
 
   constructor(eventBus: EventBus) {
-    this?.eventBus = eventBus;
-    this?.startScheduler();
+    this.eventBus = eventBus;
+    this.startScheduler();
   }
 
   /**
@@ -597,12 +597,12 @@ export class EventScheduler {
       eventType,
       data,
       options,
-      executeAt: this?.getCurrentTime() + delay,
+      executeAt: this.getCurrentTime() + delay,
       recurring: false,
       interval: 0
     };
 
-    this?.scheduledEvents.set(eventId, scheduledEvent);
+    this.scheduledEvents.set(eventId, scheduledEvent);
     return eventId;
   }
 
@@ -628,14 +628,14 @@ export class EventScheduler {
       eventType,
       data,
       options,
-      executeAt: this?.getCurrentTime() + interval,
+      executeAt: this.getCurrentTime() + interval,
       recurring: true,
       interval,
       executions: 0,
-      maxExecutions: options?.maxExecutions || -1
+      maxExecutions: options.maxExecutions || -1
     };
 
-    this?.scheduledEvents.set(eventId, scheduledEvent);
+    this.scheduledEvents.set(eventId, scheduledEvent);
     return eventId;
   }
 
@@ -643,7 +643,7 @@ export class EventScheduler {
    * Cancel a scheduled event
    */
   cancelScheduled(eventId: string): boolean {
-    return this?.scheduledEvents.delete(eventId);
+    return this.scheduledEvents.delete(eventId);
   }
 
   /**
@@ -657,13 +657,13 @@ export class EventScheduler {
    * Start the scheduler
    */
   private startScheduler(): void {
-    this?.interval = setInterval(() => {
-      this?.processScheduledEvents();
+    this.interval = setInterval(() => {
+      this.processScheduledEvents();
     }, 100); // Check every 100ms
     
     // Unref the interval to prevent hanging in tests
-    if (this?.interval && typeof this?.interval.unref === 'function') {
-      this?.interval.unref();
+    if (this.interval && typeof this.interval.unref === 'function') {
+      this.interval.unref();
     }
   }
 
@@ -671,9 +671,9 @@ export class EventScheduler {
    * Stop the scheduler
    */
   stopScheduler(): void {
-    if (this?.interval) {
-      clearInterval(this?.interval);
-      this?.interval = null;
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
     }
   }
 
@@ -681,17 +681,17 @@ export class EventScheduler {
    * Process scheduled events
    */
   private processScheduledEvents(): void {
-    const now = this?.getCurrentTime();
+    const now = this.getCurrentTime();
     const eventsToExecute: ScheduledEvent[] = [];
 
     for (const event of Array.from(this.scheduledEvents.values())) {
-      if (event?.executeAt <= now) {
-        eventsToExecute?.push(event);
+      if (event.executeAt <= now) {
+        eventsToExecute.push(event);
       }
     }
 
     for (const event of eventsToExecute) {
-      this?.executeScheduledEvent(event);
+      this.executeScheduledEvent(event);
     }
   }
 
@@ -706,18 +706,18 @@ export class EventScheduler {
    * Execute a scheduled event
    */
   private async executeScheduledEvent(scheduledEvent: ScheduledEvent): Promise<void> {
-    await this?.eventBus.publish(scheduledEvent?.eventType, scheduledEvent?.data, scheduledEvent?.options);
+    await this.eventBus.publish(scheduledEvent.eventType, scheduledEvent.data, scheduledEvent.options);
 
-    if (scheduledEvent?.recurring) {
-      scheduledEvent?.executions = (scheduledEvent?.executions || 0) + 1;
+    if (scheduledEvent.recurring) {
+      scheduledEvent.executions = (scheduledEvent.executions || 0) + 1;
       
-      if (scheduledEvent?.maxExecutions && scheduledEvent?.maxExecutions > 0 && scheduledEvent?.executions >= scheduledEvent?.maxExecutions) {
-        this?.scheduledEvents.delete(scheduledEvent?.id);
+      if (scheduledEvent.maxExecutions && scheduledEvent.maxExecutions > 0 && scheduledEvent.executions >= scheduledEvent.maxExecutions) {
+        this.scheduledEvents.delete(scheduledEvent.id);
       } else {
-        scheduledEvent?.executeAt = this?.getCurrentTime() + scheduledEvent?.interval;
+        scheduledEvent.executeAt = this.getCurrentTime() + scheduledEvent.interval;
       }
     } else {
-      this?.scheduledEvents.delete(scheduledEvent?.id);
+      this.scheduledEvents.delete(scheduledEvent.id);
     }
   }
 }

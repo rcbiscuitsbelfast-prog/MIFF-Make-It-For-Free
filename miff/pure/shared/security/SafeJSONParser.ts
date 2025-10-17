@@ -21,32 +21,32 @@ export class SafeJSONParser {
   /**
    * Safely parse JSON string
    */
-  static parse<T extends Record<string, any> = any>(
+  static parse<T = any>(
     json: string, 
     options: SafeJSONParseOptions = {}
   ): T {
-    const opts = { ...this?.DEFAULT_OPTIONS, ...options };
+    const opts = { ...this.DEFAULT_OPTIONS, ...options };
     
     if (typeof json !== 'string') {
       throw new Error('Input must be a string');
     }
 
-    if (json?.length === 0) {
+    if (json.length === 0) {
       throw new Error('Input cannot be empty');
     }
 
-    if (json?.length > 1024 * 1024) { // 1MB limit
+    if (json.length > 1024 * 1024) { // 1MB limit
       throw new Error('Input too large');
     }
 
     try {
       const parsed = JSON.parse(json);
-      this?.validateObject(parsed, opts, 0);
+      this.validateObject(parsed, opts, 0);
       return parsed;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       if (error instanceof Error) {
-        throw new Error(`SafeJSONParser: ${error?.message}`);
+        throw new Error(`SafeJSONParser: ${error.message}`);
       }
       throw new Error('SafeJSONParser: Invalid JSON');
     }
@@ -55,12 +55,12 @@ export class SafeJSONParser {
   /**
    * Safely parse JSON with reviver function
    */
-  static parseWithReviver<T extends Record<string, any> = any>(
+  static parseWithReviver<T = any>(
     json: string,
     reviver: (key: string, value: any) => any,
     options: SafeJSONParseOptions = {}
   ): T {
-    const opts = { ...this?.DEFAULT_OPTIONS, ...options };
+    const opts = { ...this.DEFAULT_OPTIONS, ...options };
     
     if (typeof json !== 'string') {
       throw new Error('Input must be a string');
@@ -72,12 +72,12 @@ export class SafeJSONParser {
 
     try {
       const parsed = JSON.parse(json, reviver);
-      this?.validateObject(parsed, opts, 0);
+      this.validateObject(parsed, opts, 0);
       return parsed;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       if (error instanceof Error) {
-        throw new Error(`SafeJSONParser: ${error?.message}`);
+        throw new Error(`SafeJSONParser: ${error.message}`);
       }
       throw new Error('SafeJSONParser: Invalid JSON');
     }
@@ -91,7 +91,7 @@ export class SafeJSONParser {
     options: Required<SafeJSONParseOptions>, 
     depth: number
   ): void {
-    if (depth > options?.maxDepth) {
+    if (depth > options.maxDepth) {
       throw new Error('Object depth exceeds maximum allowed');
     }
 
@@ -99,20 +99,20 @@ export class SafeJSONParser {
       return;
     }
 
-    if (Array.isArray(obj: any)) {
-      if (obj?.length > options?.maxKeys) {
+    if (Array.isArray(obj)) {
+      if (obj.length > options.maxKeys) {
         throw new Error('Array length exceeds maximum allowed');
       }
       
       for (const item of obj) {
-        this?.validateObject(item, options, depth + 1);
+        this.validateObject(item, options, depth + 1);
       }
       return;
     }
 
     // Check for prototype pollution
-    if (!options?.allowPrototypes) {
-      if (obj?.constructor && obj?.constructor.name !== 'Object') {
+    if (!options.allowPrototypes) {
+      if (obj.constructor && obj.constructor.name !== 'Object') {
         throw new Error('Prototype pollution detected');
       }
       
@@ -122,7 +122,7 @@ export class SafeJSONParser {
     }
 
     // Check for functions
-    if (!options?.allowFunctions) {
+    if (!options.allowFunctions) {
       for (const key in obj) {
         if (typeof obj[key!] === 'function') {
           throw new Error('Functions not allowed in JSON');
@@ -131,18 +131,18 @@ export class SafeJSONParser {
     }
 
     // Count keys
-    const keys = Object.keys(obj: any);
-    if (keys?.length > options?.maxKeys) {
+    const keys = Object.keys(obj);
+    if (keys.length > options.maxKeys) {
       throw new Error('Object has too many keys');
     }
 
     // Validate each property
     for (const key of keys) {
-      if (key?.startsWith('__') || key?.endsWith('__')) {
+      if (key.startsWith('__') || key.endsWith('__')) {
         throw new Error('Dangerous key detected');
       }
       
-      this?.validateObject(obj[key!], options, depth + 1);
+      this.validateObject(obj[key!], options, depth + 1);
     }
   }
 
@@ -167,7 +167,7 @@ export class SafeJSONParser {
    */
   static isValid(json: string): boolean {
     try {
-      this?.parse(json);
+      this.parse(json);
       return true;
     } catch {
       return false;
@@ -176,6 +176,6 @@ export class SafeJSONParser {
 }
 
 // Export convenience functions
-export const safeJSONParse = SafeJSONParser?.parse;
-export const safeJSONStringify = SafeJSONParser?.stringify;
-export const isValidJSON = SafeJSONParser?.isValid;
+export const safeJSONParse = SafeJSONParser.parse;
+export const safeJSONStringify = SafeJSONParser.stringify;
+export const isValidJSON = SafeJSONParser.isValid;

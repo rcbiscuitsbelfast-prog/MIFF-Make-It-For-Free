@@ -7,9 +7,9 @@ describe('SceneBuilderPure Tests', () => {
       name: 'Test Scene',
       description: 'A test scene for validation',
       dimensions: { width: 1920, height: 1080 },
-      layers: [SceneLayer?.BACKGROUND, SceneLayer?.TERRAIN, SceneLayer?.CHARACTERS],
-      optimizationMode: SceneOptimizationMode?.CULLING,
-      exportFormats: [SceneExportFormat?.UNITY, SceneExportFormat?.JSON],
+      layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
+      optimizationMode: SceneOptimizationMode.CULLING,
+      exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.JSON],
       enablePhysics: true,
       enableLighting: true,
       enableAudio: false,
@@ -32,10 +32,10 @@ describe('SceneBuilderPure Tests', () => {
     const builder = new SceneBuilderManager(config);
 
     expect(builder).toBeDefined();
-    expect(builder?.getConfiguration().name).toBe('Test Scene');
-    expect(builder?.getConfiguration().description).toBe('A test scene for validation');
-    expect(builder?.getNodeCount()).toBe(0);
-    expect(builder?.getAssetCount()).toBe(0);
+    expect(builder.getConfiguration().name).toBe('Test Scene');
+    expect(builder.getConfiguration().description).toBe('A test scene for validation');
+    expect(builder.getNodeCount()).toBe(0);
+    expect(builder.getAssetCount()).toBe(0);
   });
 
   test('✓ SceneBuilderManager supports different optimization modes', () => {
@@ -43,9 +43,9 @@ describe('SceneBuilderPure Tests', () => {
       name: 'Culling Scene',
       description: 'Scene with culling optimization',
       dimensions: { width: 1000, height: 1000 },
-      layers: [SceneLayer?.BACKGROUND],
-      optimizationMode: SceneOptimizationMode?.CULLING,
-      exportFormats: [SceneExportFormat?.JSON],
+      layers: [SceneLayer.BACKGROUND],
+      optimizationMode: SceneOptimizationMode.CULLING,
+      exportFormats: [SceneExportFormat.JSON],
       enablePhysics: false,
       enableLighting: false,
       enableAudio: false,
@@ -68,14 +68,14 @@ describe('SceneBuilderPure Tests', () => {
     const lodConfig: SceneBuildConfiguration = {
       ...cullingConfig,
       name: 'LOD Scene',
-      optimizationMode: SceneOptimizationMode?.LOD
+      optimizationMode: SceneOptimizationMode.LOD
     };
 
     const builder1 = new SceneBuilderManager(cullingConfig);
     const builder2 = new SceneBuilderManager(lodConfig);
 
-    expect(builder1?.getConfiguration().optimizationMode).toBe('culling');
-    expect(builder2?.getConfiguration().optimizationMode).toBe('lod');
+    expect(builder1.getConfiguration().optimizationMode).toBe('culling');
+    expect(builder2.getConfiguration().optimizationMode).toBe('lod');
   });
 
   test('✓ SceneBuilderManager scene validation works', () => {
@@ -83,9 +83,9 @@ describe('SceneBuilderPure Tests', () => {
       name: 'Validation Test Scene',
       description: 'Scene for validation testing',
       dimensions: { width: 500, height: 500 },
-      layers: [SceneLayer?.BACKGROUND, SceneLayer?.CHARACTERS],
-      optimizationMode: SceneOptimizationMode?.NONE,
-      exportFormats: [SceneExportFormat?.JSON],
+      layers: [SceneLayer.BACKGROUND, SceneLayer.CHARACTERS],
+      optimizationMode: SceneOptimizationMode.NONE,
+      exportFormats: [SceneExportFormat.JSON],
       enablePhysics: false,
       enableLighting: false,
       enableAudio: false,
@@ -106,15 +106,15 @@ describe('SceneBuilderPure Tests', () => {
     };
 
     const builder = new SceneBuilderManager(config);
-    const validation = builder?.validateScene();
+    const validation = builder.validateScene();
 
     expect(validation).toBeDefined();
-    expect(typeof validation?.valid).toBe('boolean');
+    expect(typeof validation.valid).toBe('boolean');
     expect(Array.isArray(validation.errors)).toBe(true);
     expect(Array.isArray(validation.warnings)).toBe(true);
     expect(Array.isArray(validation.suggestions)).toBe(true);
-    expect(typeof validation?.performanceScore).toBe('number');
-    expect(validation?.compatibility).toBeDefined();
+    expect(typeof validation.performanceScore).toBe('number');
+    expect(validation.compatibility).toBeDefined();
   });
 
   test('✓ SceneBuilderManager handles empty scenes correctly', () => {
@@ -123,7 +123,7 @@ describe('SceneBuilderPure Tests', () => {
       description: 'An empty scene for testing',
       dimensions: { width: 100, height: 100 },
       layers: [],
-      optimizationMode: SceneOptimizationMode?.NONE,
+      optimizationMode: SceneOptimizationMode.NONE,
       exportFormats: [],
       enablePhysics: false,
       enableLighting: false,
@@ -146,14 +146,14 @@ describe('SceneBuilderPure Tests', () => {
 
     const builder = new SceneBuilderManager(config);
 
-    expect(builder?.getNodeCount()).toBe(0);
-    expect(builder?.getAssetCount()).toBe(0);
+    expect(builder.getNodeCount()).toBe(0);
+    expect(builder.getAssetCount()).toBe(0);
 
-    const bounds = builder?.getSceneBounds();
-    expect(bounds?.min.x).toBe(0);
-    expect(bounds?.min.y).toBe(0);
-    expect(bounds?.max.x).toBe(0);
-    expect(bounds?.max.y).toBe(0);
+    const bounds = builder.getSceneBounds();
+    expect(bounds.min.x).toBe(0);
+    expect(bounds.min.y).toBe(0);
+    expect(bounds.max.x).toBe(0);
+    expect(bounds.max.y).toBe(0);
   });
 
   test('✓ SceneBuilderManager supports multiple export formats', () => {
@@ -161,9 +161,9 @@ describe('SceneBuilderPure Tests', () => {
       name: 'Multi-format Scene',
       description: 'Scene with multiple export formats',
       dimensions: { width: 800, height: 600 },
-      layers: [SceneLayer?.BACKGROUND],
-      optimizationMode: SceneOptimizationMode?.BATCHING,
-      exportFormats: [SceneExportFormat?.UNITY, SceneExportFormat?.GODOT, SceneExportFormat?.WEBGL, SceneExportFormat?.JSON],
+      layers: [SceneLayer.BACKGROUND],
+      optimizationMode: SceneOptimizationMode.BATCHING,
+      exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.WEBGL, SceneExportFormat.JSON],
       enablePhysics: true,
       enableLighting: true,
       enableAudio: true,
@@ -185,11 +185,11 @@ describe('SceneBuilderPure Tests', () => {
 
     const builder = new SceneBuilderManager(config);
 
-    expect(builder?.getConfiguration().exportFormats).toContain('unity');
-    expect(builder?.getConfiguration().exportFormats).toContain('godot');
-    expect(builder?.getConfiguration().exportFormats).toContain('webgl');
-    expect(builder?.getConfiguration().exportFormats).toContain('json');
-    expect(builder?.getConfiguration().exportFormats?.length).toBe(4);
+    expect(builder.getConfiguration().exportFormats).toContain('unity');
+    expect(builder.getConfiguration().exportFormats).toContain('godot');
+    expect(builder.getConfiguration().exportFormats).toContain('webgl');
+    expect(builder.getConfiguration().exportFormats).toContain('json');
+    expect(builder.getConfiguration().exportFormats.length).toBe(4);
   });
 
   test('✓ SceneBuilderManager configuration can be updated', () => {
@@ -197,9 +197,9 @@ describe('SceneBuilderPure Tests', () => {
       name: 'Original Scene',
       description: 'Original description',
       dimensions: { width: 100, height: 100 },
-      layers: [SceneLayer?.BACKGROUND],
-      optimizationMode: SceneOptimizationMode?.NONE,
-      exportFormats: [SceneExportFormat?.JSON],
+      layers: [SceneLayer.BACKGROUND],
+      optimizationMode: SceneOptimizationMode.NONE,
+      exportFormats: [SceneExportFormat.JSON],
       enablePhysics: false,
       enableLighting: false,
       enableAudio: false,
@@ -222,7 +222,7 @@ describe('SceneBuilderPure Tests', () => {
     const builder = new SceneBuilderManager(config);
 
     // Update configuration
-    builder?.updateConfiguration({
+    builder.updateConfiguration({
       name: 'Updated Scene',
       description: 'Updated description',
       dimensions: { width: 200, height: 200 },
@@ -230,12 +230,12 @@ describe('SceneBuilderPure Tests', () => {
       enableLighting: true
     });
 
-    const updatedConfig = builder?.getConfiguration();
-    expect(updatedConfig?.name).toBe('Updated Scene');
-    expect(updatedConfig?.description).toBe('Updated description');
-    expect(updatedConfig?.dimensions.width).toBe(200);
-    expect(updatedConfig?.dimensions.height).toBe(200);
-    expect(updatedConfig?.enablePhysics).toBe(true);
-    expect(updatedConfig?.enableLighting).toBe(true);
+    const updatedConfig = builder.getConfiguration();
+    expect(updatedConfig.name).toBe('Updated Scene');
+    expect(updatedConfig.description).toBe('Updated description');
+    expect(updatedConfig.dimensions.width).toBe(200);
+    expect(updatedConfig.dimensions.height).toBe(200);
+    expect(updatedConfig.enablePhysics).toBe(true);
+    expect(updatedConfig.enableLighting).toBe(true);
   });
 });

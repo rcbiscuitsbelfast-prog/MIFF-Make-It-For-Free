@@ -90,10 +90,10 @@ export class ConvertToGodotManager {
 
   constructor(config?: Partial<GodotExportConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
-      version: GodotVersion?.GODOT_4_2,
-      platform: GodotPlatform?.WEB,
-      optimization: OptimizationLevel?.SIZE_SPEED,
+    this.config = {
+      version: GodotVersion.GODOT_4_2,
+      platform: GodotPlatform.WEB,
+      optimization: OptimizationLevel.SIZE_SPEED,
       debug: false,
       exportPath: './export/godot',
       projectName: 'MIFFGame',
@@ -102,16 +102,16 @@ export class ConvertToGodotManager {
       ...config
     };
 
-    this?.project = this?.initializeProject();
+    this.project = this.initializeProject();
   }
 
   private initializeProject(): GodotProject {
     return {
       project: {
         config_version: 5,
-        name: this?.config.projectName,
-        version: this?.config.version,
-        features: this?.config.features
+        name: this.config.projectName,
+        version: this.config.version,
+        features: this.config.features
       },
       scenes: [],
       resources: [],
@@ -128,16 +128,16 @@ export class ConvertToGodotManager {
 
     try {
       // Validate input
-      const validationIssues = BridgeSchemaValidator?.validateRenderPayload(payload);
-      issues?.push(...validationIssues);
+      const validationIssues = BridgeSchemaValidator.validateRenderPayload(payload);
+      issues.push(...validationIssues);
 
-      if (validationIssues?.length > 0) {
+      if (validationIssues.length > 0) {
         return {
           op: 'convert',
           status: 'error',
           engine: 'godot',
-          config: this?.config,
-          project: this?.project,
+          config: this.config,
+          project: this.project,
           scenes: [],
           resources: [],
           scripts: [],
@@ -149,32 +149,32 @@ export class ConvertToGodotManager {
       }
 
       // Convert render data to Godot scenes
-      const scenes = this?.convertRenderDataToScenes(payload?.renderData || []);
+      const scenes = this.convertRenderDataToScenes(payload.renderData || []);
 
       // Generate resources
-      const resources = this?.generateResources(payload);
+      const resources = this.generateResources(payload);
 
       // Generate scripts
-      const scripts = this?.generateScripts(payload);
+      const scripts = this.generateScripts(payload);
 
       // Generate shaders
-      const shaders = this?.generateShaders(payload);
+      const shaders = this.generateShaders(payload);
 
       // Apply optimizations
-      optimizations?.push(...this?.applyOptimizations());
+      optimizations.push(...this.applyOptimizations());
 
       // Update project
-      this?.project.scenes?.push(...scenes);
-      this?.project.resources?.push(...resources);
-      this?.project.scripts?.push(...scripts);
-      this?.project.shaders?.push(...shaders);
+      this.project.scenes.push(...scenes);
+      this.project.resources.push(...resources);
+      this.project.scripts.push(...scripts);
+      this.project.shaders.push(...shaders);
 
       return {
         op: 'convert',
         status: 'ok',
         engine: 'godot',
-        config: this?.config,
-        project: this?.project,
+        config: this.config,
+        project: this.project,
         scenes,
         resources,
         scripts,
@@ -186,13 +186,13 @@ export class ConvertToGodotManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      issues?.push(`Conversion failed: ${error instanceof Error ? error?.message : 'Unknown error'}`);
+      issues.push(`Conversion failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return {
         op: 'convert',
         status: 'error',
         engine: 'godot',
-        config: this?.config,
-        project: this?.project,
+        config: this.config,
+        project: this.project,
         scenes: [],
         resources: [],
         scripts: [],
@@ -208,9 +208,9 @@ export class ConvertToGodotManager {
     const scenes: GodotSceneNode[] = [];
 
     for (const data of renderData) {
-      const scene = this?.convertRenderDataToScene(data: any);
+      const scene = this.convertRenderDataToScene(data);
       if (scene) {
-        scenes?.push(scene);
+        scenes.push(scene);
       }
     }
 
@@ -221,9 +221,9 @@ export class ConvertToGodotManager {
     // Create main scene node
     const sceneNode: GodotSceneNode = {
       type: 'Node3D',
-      name: data?.id || `scene_${this?.sceneCounter++}`,
+      name: data.id || `scene_${this.sceneCounter++}`,
       properties: {
-        transform: this?.convertTransform(data?.position, data?.rotation, data?.scale),
+        transform: this.convertTransform(data.position, data.rotation, data.scale),
         visible: true
       },
       children: [],
@@ -232,25 +232,25 @@ export class ConvertToGodotManager {
     };
 
     // Convert children recursively
-    if (data?.children) {
-      for (const child of data?.children) {
-        const childNode = this?.convertRenderDataToScene(child);
+    if (data.children) {
+      for (const child of data.children) {
+        const childNode = this.convertRenderDataToScene(child);
         if (childNode) {
-          sceneNode?.children?.push(childNode);
+          sceneNode.children.push(childNode);
         }
       }
     }
 
     // Add any additional properties from props
-    if (data?.props) {
+    if (data.props) {
       Object.assign(sceneNode.properties, data.props);
     }
 
     // Add asset if present
-    if (data?.asset) {
-      const assetNode = this?.convertAssetToNode(data?.asset, data?.type);
+    if (data.asset) {
+      const assetNode = this.convertAssetToNode(data.asset, data.type);
       if (assetNode) {
-        sceneNode?.children?.push(assetNode);
+        sceneNode.children.push(assetNode);
       }
     }
 
@@ -263,7 +263,7 @@ export class ConvertToGodotManager {
       case 'sprite':
         return {
           type: 'Node3D',
-          name: `sprite_${this?.sceneCounter++}`,
+          name: `sprite_${this.sceneCounter++}`,
           properties: { texture: asset },
           children: [],
           scripts: [],
@@ -272,7 +272,7 @@ export class ConvertToGodotManager {
       case 'text':
         return {
           type: 'Node3D',
-          name: `text_${this?.sceneCounter++}`,
+          name: `text_${this.sceneCounter++}`,
           properties: { text: asset },
           children: [],
           scripts: [],
@@ -281,7 +281,7 @@ export class ConvertToGodotManager {
       case 'sound':
         return {
           type: 'Node3D',
-          name: `sound_${this?.sceneCounter++}`,
+          name: `sound_${this.sceneCounter++}`,
           properties: { stream: asset },
           children: [],
           scripts: [],
@@ -290,7 +290,7 @@ export class ConvertToGodotManager {
       default:
         return {
           type: 'Node3D',
-          name: `asset_${this?.sceneCounter++}`,
+          name: `asset_${this.sceneCounter++}`,
           properties: { asset: asset },
           children: [],
           scripts: [],
@@ -303,7 +303,7 @@ export class ConvertToGodotManager {
     // Convert MIFF transform to Godot Transform3D
     return {
       origin: position || { x: 0, y: 0, z: 0 },
-      basis: this?.convertRotation(rotation) || [
+      basis: this.convertRotation(rotation) || [
         [1, 0, 0],
         [0, 1, 0],
         [0, 0, 1]
@@ -346,9 +346,9 @@ export class ConvertToGodotManager {
   private convertMeshToNode(mesh): GodotSceneNode | null {
     return {
       type: 'MeshInstance3D',
-      name: mesh?.id || 'mesh',
+      name: mesh.id || 'mesh',
       properties: {
-        mesh: this?.generateMeshResource(mesh),
+        mesh: this.generateMeshResource(mesh),
         material_override: null,
         cast_shadow: true,
         layers: 1
@@ -362,13 +362,13 @@ export class ConvertToGodotManager {
   private convertLightToNode(light): GodotSceneNode | null {
     return {
       type: 'Node3D',
-      name: light?.id || 'light',
+      name: light.id || 'light',
       properties: {
-        light_energy: light?.intensity || 1,
-        light_color: light?.color || { r: 1, g: 1, b: 1 },
-        light_range: light?.range || 10,
-        light_attenuation: light?.attenuation || 1,
-        shadow_enabled: light?.castShadow !== false
+        light_energy: light.intensity || 1,
+        light_color: light.color || { r: 1, g: 1, b: 1 },
+        light_range: light.range || 10,
+        light_attenuation: light.attenuation || 1,
+        shadow_enabled: light.castShadow !== false
       },
       children: [],
       scripts: [],
@@ -379,13 +379,13 @@ export class ConvertToGodotManager {
   private convertCameraToNode(camera): GodotSceneNode | null {
     return {
       type: 'Node3D',
-      name: camera?.id || 'camera',
+      name: camera.id || 'camera',
       properties: {
-        fov: camera?.fov || 75,
-        near: camera?.near || 0.1,
-        far: camera?.far || 1000,
+        fov: camera.fov || 75,
+        near: camera.near || 0.1,
+        far: camera.far || 1000,
         environment: null,
-        current: camera?.active || false
+        current: camera.active || false
       },
       children: [],
       scripts: [],
@@ -396,19 +396,19 @@ export class ConvertToGodotManager {
   private convertPhysicsToNode(physics): GodotSceneNode | null {
     return {
       type: 'Node3D',
-      name: physics?.id || 'physics_body',
+      name: physics.id || 'physics_body',
       properties: {
-        mass: physics?.mass || 1,
-        friction: physics?.friction || 0.5,
-        bounce: physics?.bounce || 0,
-        gravity_scale: physics?.gravityScale || 1
+        mass: physics.mass || 1,
+        friction: physics.friction || 0.5,
+        bounce: physics.bounce || 0,
+        gravity_scale: physics.gravityScale || 1
       },
       children: [
         {
           type: 'CollisionShape3D',
           name: 'collision_shape',
           properties: {
-            shape: this?.generateCollisionShape(physics?.collider)
+            shape: this.generateCollisionShape(physics.collider)
           },
           children: [],
           scripts: [],
@@ -421,37 +421,37 @@ export class ConvertToGodotManager {
   }
 
   private generateMeshResource(mesh): string {
-    const resourceId = `mesh_${this?.resourceCounter++}`;
+    const resourceId = `mesh_${this.resourceCounter++}`;
     const resource: GodotResource = {
       type: 'Mesh',
       id: resourceId,
       path: `res://${resourceId}.tres`,
       dependencies: [],
       data: {
-        surfaces: mesh?.surfaces || [],
-        blend_shapes: mesh?.blendShapes || [],
-        shadows: mesh?.castShadow !== false
+        surfaces: mesh.surfaces || [],
+        blend_shapes: mesh.blendShapes || [],
+        shadows: mesh.castShadow !== false
       }
     };
 
-    this?.project.resources?.push(resource);
-    return resource?.path;
+    this.project.resources.push(resource);
+    return resource.path;
   }
 
   private convertMaterialToResource(material): GodotResource | null {
-    const resourceId = `material_${this?.resourceCounter++}`;
+    const resourceId = `material_${this.resourceCounter++}`;
     const resource: GodotResource = {
       type: 'Material',
       id: resourceId,
       path: `res://${resourceId}.tres`,
       dependencies: [],
       data: {
-        albedo_color: material?.color || { r: 1, g: 1, b: 1, a: 1 },
-        metallic: material?.metallic || 0,
-        roughness: material?.roughness || 0.5,
-        emission: material?.emissive || { r: 0, g: 0, b: 0 },
-        normal_scale: material?.normalScale || 1,
-        alpha_scissor_threshold: material?.alphaTest || 0
+        albedo_color: material.color || { r: 1, g: 1, b: 1, a: 1 },
+        metallic: material.metallic || 0,
+        roughness: material.roughness || 0.5,
+        emission: material.emissive || { r: 0, g: 0, b: 0 },
+        normal_scale: material.normalScale || 1,
+        alpha_scissor_threshold: material.alphaTest || 0
       }
     };
 
@@ -459,34 +459,34 @@ export class ConvertToGodotManager {
   }
 
   private generateCollisionShape(collider): string {
-    const resourceId = `shape_${this?.resourceCounter++}`;
+    const resourceId = `shape_${this.resourceCounter++}`;
     const resource: GodotResource = {
       type: 'Mesh',
       id: resourceId,
       path: `res://${resourceId}.tres`,
       dependencies: [],
       data: {
-        type: collider?.type || 'box',
-        extents: collider?.size || { x: 1, y: 1, z: 1 },
-        radius: collider?.radius || 0.5,
-        height: collider?.height || 2
+        type: collider.type || 'box',
+        extents: collider.size || { x: 1, y: 1, z: 1 },
+        radius: collider.radius || 0.5,
+        height: collider.height || 2
       }
     };
 
-    this?.project.resources?.push(resource);
-    return resource?.path;
+    this.project.resources.push(resource);
+    return resource.path;
   }
 
   private generateResources(payload: RenderPayload): GodotResource[] {
     const resources: GodotResource[] = [];
 
     // Generate resources from renderData assets
-    for (const renderData of payload?.renderData) {
-      if (renderData?.asset) {
+    for (const renderData of payload.renderData) {
+      if (renderData.asset) {
         const resource: GodotResource = {
           type: 'Texture',
-          id: `asset_${this?.resourceCounter++}`,
-          path: renderData?.asset,
+          id: `asset_${this.resourceCounter++}`,
+          path: renderData.asset,
           dependencies: [],
           data: {
             width: 256,
@@ -495,7 +495,7 @@ export class ConvertToGodotManager {
             flags: 'normal'
           }
         };
-        resources?.push(resource);
+        resources.push(resource);
       }
     }
 
@@ -506,9 +506,9 @@ export class ConvertToGodotManager {
     const scripts: string[] = [];
 
     // Generate basic game scripts
-    scripts?.push(this?.generateMainScript());
-    scripts?.push(this?.generatePlayerScript());
-    scripts?.push(this?.generateWorldScript());
+    scripts.push(this.generateMainScript());
+    scripts.push(this.generatePlayerScript());
+    scripts.push(this.generateWorldScript());
 
     return scripts;
   }
@@ -517,8 +517,8 @@ export class ConvertToGodotManager {
     const shaders: string[] = [];
 
     // Generate basic shaders
-    shaders?.push(this?.generateVertexShader());
-    shaders?.push(this?.generateFragmentShader());
+    shaders.push(this.generateVertexShader());
+    shaders.push(this.generateFragmentShader());
 
     return shaders;
   }
@@ -527,7 +527,7 @@ export class ConvertToGodotManager {
     return `extends Node3D
 
 func _ready():
-    print("MIFF Game loaded in Godot ${this?.config.version}")
+    print("MIFF Game loaded in Godot ${this.config.version}")
 
 func _process(delta):
     # Game logic here
@@ -542,18 +542,18 @@ func _process(delta):
 
 func _physics_process(delta):
     # Player movement logic
-    var velocity = Vector3?.ZERO
+    var velocity = Vector3.ZERO
 
-    if Input?.is_action_pressed("move_right"):
+    if Input.is_action_pressed("move_right"):
         velocity.x += 1
-    if Input?.is_action_pressed("move_left"):
+    if Input.is_action_pressed("move_left"):
         velocity.x -= 1
-    if Input?.is_action_pressed("move_back"):
+    if Input.is_action_pressed("move_back"):
         velocity.z += 1
-    if Input?.is_action_pressed("move_forward"):
+    if Input.is_action_pressed("move_forward"):
         velocity.z -= 1
 
-    velocity = velocity?.normalized() * speed
+    velocity = velocity.normalized() * speed
     set_velocity(velocity)
     move_and_slide()`;
   }
@@ -589,42 +589,42 @@ void fragment():
   private applyOptimizations(): string[] {
     const optimizations: string[] = [];
 
-    switch (this?.config.optimization) {
-      case OptimizationLevel?.SIZE:
-        optimizations?.push('Mesh compression enabled');
-        optimizations?.push('Texture compression enabled');
-        optimizations?.push('Audio compression enabled');
-        optimizations?.push('Removed debug symbols');
+    switch (this.config.optimization) {
+      case OptimizationLevel.SIZE:
+        optimizations.push('Mesh compression enabled');
+        optimizations.push('Texture compression enabled');
+        optimizations.push('Audio compression enabled');
+        optimizations.push('Removed debug symbols');
         break;
 
-      case OptimizationLevel?.SPEED:
-        optimizations?.push('GPU instancing enabled');
-        optimizations?.push('Frustum culling enabled');
-        optimizations?.push('LOD system enabled');
-        optimizations?.push('Physics optimization enabled');
+      case OptimizationLevel.SPEED:
+        optimizations.push('GPU instancing enabled');
+        optimizations.push('Frustum culling enabled');
+        optimizations.push('LOD system enabled');
+        optimizations.push('Physics optimization enabled');
         break;
 
-      case OptimizationLevel?.SIZE_SPEED:
-        optimizations?.push('All size optimizations applied');
-        optimizations?.push('All speed optimizations applied');
-        optimizations?.push('Advanced compression enabled');
+      case OptimizationLevel.SIZE_SPEED:
+        optimizations.push('All size optimizations applied');
+        optimizations.push('All speed optimizations applied');
+        optimizations.push('Advanced compression enabled');
         break;
     }
 
-    if (this?.config.platform === GodotPlatform?.WEB) {
-      optimizations?.push('WebGL optimizations applied');
-      optimizations?.push('WebAssembly optimizations applied');
+    if (this.config.platform === GodotPlatform.WEB) {
+      optimizations.push('WebGL optimizations applied');
+      optimizations.push('WebAssembly optimizations applied');
     }
 
-    if (this?.config.platform === GodotPlatform?.ANDROID || this?.config.platform === GodotPlatform?.IOS) {
-      optimizations?.push('Mobile optimizations applied');
+    if (this.config.platform === GodotPlatform.ANDROID || this.config.platform === GodotPlatform.IOS) {
+      optimizations.push('Mobile optimizations applied');
     }
 
     return optimizations;
   }
 
   public updateConfig(config: Partial<GodotExportConfig>): void {
-    this?.config = { ...this?.config, ...config };
+    this.config = { ...this.config, ...config };
     console.log('Godot export configuration updated');
   }
 
@@ -633,7 +633,7 @@ void fragment():
     console.log(`Exporting Godot project to: ${outputPath}`);
 
     // Simulate export process
-    const projectPath = `${outputPath}/${this?.config.projectName}`;
+    const projectPath = `${outputPath}/${this.config.projectName}`;
     const exportSize = Math.floor(Math.random() * 1000000) + 500000; // 500KB - 1.5MB
 
     return {

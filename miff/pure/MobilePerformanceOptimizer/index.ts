@@ -61,33 +61,33 @@ export class MobilePerformanceOptimizer {
   private isOptimizing: boolean = false;
 
   constructor() {
-    this?.deviceCapabilities = this?.detectDeviceCapabilities();
-    this?.currentPerformanceLevel = this?.determineOptimalPerformanceLevel();
-    this?.config = this?.generatePerformanceConfig();
+    this.deviceCapabilities = this.detectDeviceCapabilities();
+    this.currentPerformanceLevel = this.determineOptimalPerformanceLevel();
+    this.config = this.generatePerformanceConfig();
   }
 
   /**
    * Detect device capabilities
    */
   private detectDeviceCapabilities(): DeviceCapabilities {
-    const userAgent = typeof navigator !== 'undefined' ? navigator?.userAgent : '';
-    const memory = this?.getDeviceMemory();
-    const cores = this?.getCPUCores();
-    const gpuTier = this?.getGPUTier();
+    const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    const memory = this.getDeviceMemory();
+    const cores = this.getCPUCores();
+    const gpuTier = this.getGPUTier();
 
-    let deviceType: DeviceType = DeviceType?.DESKTOP;
+    let deviceType: DeviceType = DeviceType.DESKTOP;
     
     if (typeof window !== 'undefined') {
-      if (/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i?.test(userAgent)) {
+      if (/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
         if (memory < 2048) {
-          deviceType = DeviceType?.MOBILE_LOW;
+          deviceType = DeviceType.MOBILE_LOW;
         } else if (memory < 4096) {
-          deviceType = DeviceType?.MOBILE_MID;
+          deviceType = DeviceType.MOBILE_MID;
         } else {
-          deviceType = DeviceType?.MOBILE_HIGH;
+          deviceType = DeviceType.MOBILE_HIGH;
         }
-      } else if (/Tablet|iPad/i?.test(userAgent)) {
-        deviceType = DeviceType?.TABLET;
+      } else if (/Tablet|iPad/i.test(userAgent)) {
+        deviceType = DeviceType.TABLET;
       }
     }
 
@@ -96,12 +96,12 @@ export class MobilePerformanceOptimizer {
       memory,
       cpuCores: cores,
       gpuTier,
-      supportsWebGL2: this?.supportsWebGL2(),
-      supportsWebAssembly: this?.supportsWebAssembly(),
-      supportsSharedArrayBuffer: this?.supportsSharedArrayBuffer(),
-      batteryLevel: this?.getBatteryLevel(),
-      isCharging: this?.isCharging(),
-      thermalState: this?.getThermalState()
+      supportsWebGL2: this.supportsWebGL2(),
+      supportsWebAssembly: this.supportsWebAssembly(),
+      supportsSharedArrayBuffer: this.supportsSharedArrayBuffer(),
+      batteryLevel: this.getBatteryLevel(),
+      isCharging: this.isCharging(),
+      thermalState: this.getThermalState()
     };
   }
 
@@ -114,10 +114,10 @@ export class MobilePerformanceOptimizer {
     }
     
     // Fallback based on user agent
-    const userAgent = typeof navigator !== 'undefined' ? navigator?.userAgent : '';
-    if (/iPhone|iPad/i?.test(userAgent)) {
+    const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    if (/iPhone|iPad/i.test(userAgent)) {
       return 4096; // Assume 4GB for iOS devices
-    } else if (/Android/i?.test(userAgent)) {
+    } else if (/Android/i.test(userAgent)) {
       return 2048; // Assume 2GB for Android devices
     }
     
@@ -129,7 +129,7 @@ export class MobilePerformanceOptimizer {
    */
   private getCPUCores(): number {
     if (typeof navigator !== 'undefined' && 'hardwareConcurrency' in navigator) {
-      return navigator?.hardwareConcurrency;
+      return navigator.hardwareConcurrency;
     }
     return 4; // Default assumption
   }
@@ -140,21 +140,21 @@ export class MobilePerformanceOptimizer {
   private getGPUTier(): number {
     if (typeof window === 'undefined') return 1;
     
-    const canvas = document?.createElement('canvas');
-    const gl = canvas?.getContext('webgl2') || canvas?.getContext('webgl');
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     
     if (!gl) return 0;
     
-    const debugInfo = gl?.getExtension('WEBGL_debug_renderer_info');
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
     if (debugInfo) {
-      const renderer = gl?.getParameter(debugInfo?.UNMASKED_RENDERER_WEBGL);
+      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
       
       // GPU tier detection based on renderer string
-      if (renderer?.includes('Adreno 6') || renderer?.includes('Mali-G7')) {
+      if (renderer.includes('Adreno 6') || renderer.includes('Mali-G7')) {
         return 3; // High-end mobile GPU
-      } else if (renderer?.includes('Adreno 5') || renderer?.includes('Mali-G5')) {
+      } else if (renderer.includes('Adreno 5') || renderer.includes('Mali-G5')) {
         return 2; // Mid-range mobile GPU
-      } else if (renderer?.includes('Adreno 4') || renderer?.includes('Mali-T8')) {
+      } else if (renderer.includes('Adreno 4') || renderer.includes('Mali-T8')) {
         return 1; // Low-end mobile GPU
       }
     }
@@ -168,8 +168,8 @@ export class MobilePerformanceOptimizer {
   private supportsWebGL2(): boolean {
     if (typeof window === 'undefined') return false;
     
-    const canvas = document?.createElement('canvas');
-    return !!(canvas?.getContext('webgl2'));
+    const canvas = document.createElement('canvas');
+    return !!(canvas.getContext('webgl2'));
   }
 
   /**
@@ -218,16 +218,16 @@ export class MobilePerformanceOptimizer {
    * Determine optimal performance level based on device capabilities
    */
   private determineOptimalPerformanceLevel(): PerformanceLevel {
-    const { type, memory, gpuTier } = this?.deviceCapabilities;
+    const { type, memory, gpuTier } = this.deviceCapabilities;
     
-    if (type === DeviceType?.MOBILE_LOW || memory < 2048 || gpuTier < 1) {
-      return PerformanceLevel?.LOW;
-    } else if (type === DeviceType?.MOBILE_MID || memory < 4096 || gpuTier < 2) {
-      return PerformanceLevel?.MEDIUM;
-    } else if (type === DeviceType?.MOBILE_HIGH || memory < 8192 || gpuTier < 3) {
-      return PerformanceLevel?.HIGH;
+    if (type === DeviceType.MOBILE_LOW || memory < 2048 || gpuTier < 1) {
+      return PerformanceLevel.LOW;
+    } else if (type === DeviceType.MOBILE_MID || memory < 4096 || gpuTier < 2) {
+      return PerformanceLevel.MEDIUM;
+    } else if (type === DeviceType.MOBILE_HIGH || memory < 8192 || gpuTier < 3) {
+      return PerformanceLevel.HIGH;
     } else {
-      return PerformanceLevel?.ULTRA;
+      return PerformanceLevel.ULTRA;
     }
   }
 
@@ -235,10 +235,10 @@ export class MobilePerformanceOptimizer {
    * Generate performance configuration based on level
    */
   private generatePerformanceConfig(): PerformanceConfig {
-    const level = this?.currentPerformanceLevel;
+    const level = this.currentPerformanceLevel;
     
     switch (level) {
-      case PerformanceLevel?.LOW:
+      case PerformanceLevel.LOW:
         return {
           targetFPS: 30,
           maxMemoryUsage: 256,
@@ -254,7 +254,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'low'
         };
       
-      case PerformanceLevel?.MEDIUM:
+      case PerformanceLevel.MEDIUM:
         return {
           targetFPS: 45,
           maxMemoryUsage: 512,
@@ -270,7 +270,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'medium'
         };
       
-      case PerformanceLevel?.HIGH:
+      case PerformanceLevel.HIGH:
         return {
           targetFPS: 60,
           maxMemoryUsage: 1024,
@@ -286,7 +286,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'high'
         };
       
-      case PerformanceLevel?.ULTRA:
+      case PerformanceLevel.ULTRA:
         return {
           targetFPS: 60,
           maxMemoryUsage: 2048,
@@ -308,23 +308,23 @@ export class MobilePerformanceOptimizer {
    * Update performance monitoring
    */
   updatePerformance(deltaTime: number): void {
-    this?.frameTimeHistory?.push(deltaTime);
-    if (this?.frameTimeHistory.length > 60) {
-      this?.frameTimeHistory.shift();
+    this.frameTimeHistory.push(deltaTime);
+    if (this.frameTimeHistory.length > 60) {
+      this.frameTimeHistory.shift();
     }
 
     // Monitor memory usage
     if (typeof performance !== 'undefined' && 'memory' in performance) {
       const memory = (performance as any).memory;
-      this?.memoryUsageHistory?.push(memory?.usedJSHeapSize / 1024 / 1024); // Convert to MB
-      if (this?.memoryUsageHistory.length > 60) {
-        this?.memoryUsageHistory.shift();
+      this.memoryUsageHistory.push(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
+      if (this.memoryUsageHistory.length > 60) {
+        this.memoryUsageHistory.shift();
       }
     }
 
     // Adaptive quality adjustment
-    if (this?.config.enableAdaptiveQuality) {
-      this?.adjustQualityIfNeeded();
+    if (this.config.enableAdaptiveQuality) {
+      this.adjustQualityIfNeeded();
     }
   }
 
@@ -332,17 +332,17 @@ export class MobilePerformanceOptimizer {
    * Adjust quality based on performance
    */
   private adjustQualityIfNeeded(): void {
-    if (this?.frameTimeHistory.length < 30) return;
+    if (this.frameTimeHistory.length < 30) return;
 
-    const avgFrameTime = this?.frameTimeHistory.reduce((a, b) => a + b, 0) / this?.frameTimeHistory.length;
-    const targetFrameTime = 1000 / this?.config.targetFPS;
+    const avgFrameTime = this.frameTimeHistory.reduce((a, b) => a + b, 0) / this.frameTimeHistory.length;
+    const targetFrameTime = 1000 / this.config.targetFPS;
     const performanceRatio = avgFrameTime / targetFrameTime;
 
     // If performance is poor, reduce quality
     if (performanceRatio > 1.2) {
-      this?.reduceQuality();
-    } else if (performanceRatio < 0.8 && this?.currentPerformanceLevel !== PerformanceLevel?.ULTRA) {
-      this?.increaseQuality();
+      this.reduceQuality();
+    } else if (performanceRatio < 0.8 && this.currentPerformanceLevel !== PerformanceLevel.ULTRA) {
+      this.increaseQuality();
     }
   }
 
@@ -350,13 +350,13 @@ export class MobilePerformanceOptimizer {
    * Reduce quality level
    */
   private reduceQuality(): void {
-    const levels = [PerformanceLevel?.ULTRA, PerformanceLevel?.HIGH, PerformanceLevel?.MEDIUM, PerformanceLevel?.LOW];
-    const currentIndex = levels?.indexOf(this?.currentPerformanceLevel);
+    const levels = [PerformanceLevel.ULTRA, PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
+    const currentIndex = levels.indexOf(this.currentPerformanceLevel);
     
-    if (currentIndex < levels?.length - 1) {
-      this?.currentPerformanceLevel = levels[currentIndex + 1];
-      this?.config = this?.generatePerformanceConfig();
-      this?.isOptimizing = true;
+    if (currentIndex < levels.length - 1) {
+      this.currentPerformanceLevel = levels[currentIndex + 1];
+      this.config = this.generatePerformanceConfig();
+      this.isOptimizing = true;
     }
   }
 
@@ -364,13 +364,13 @@ export class MobilePerformanceOptimizer {
    * Increase quality level
    */
   private increaseQuality(): void {
-    const levels = [PerformanceLevel?.ULTRA, PerformanceLevel?.HIGH, PerformanceLevel?.MEDIUM, PerformanceLevel?.LOW];
-    const currentIndex = levels?.indexOf(this?.currentPerformanceLevel);
+    const levels = [PerformanceLevel.ULTRA, PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
+    const currentIndex = levels.indexOf(this.currentPerformanceLevel);
     
     if (currentIndex > 0) {
-      this?.currentPerformanceLevel = levels[currentIndex - 1];
-      this?.config = this?.generatePerformanceConfig();
-      this?.isOptimizing = true;
+      this.currentPerformanceLevel = levels[currentIndex - 1];
+      this.config = this.generatePerformanceConfig();
+      this.isOptimizing = true;
     }
   }
 
@@ -378,29 +378,29 @@ export class MobilePerformanceOptimizer {
    * Get current performance configuration
    */
   getConfig(): PerformanceConfig {
-    return { ...this?.config };
+    return { ...this.config };
   }
 
   /**
    * Get device capabilities
    */
   getDeviceCapabilities(): DeviceCapabilities {
-    return { ...this?.deviceCapabilities };
+    return { ...this.deviceCapabilities };
   }
 
   /**
    * Get current performance level
    */
   getPerformanceLevel(): PerformanceLevel {
-    return this?.currentPerformanceLevel;
+    return this.currentPerformanceLevel;
   }
 
   /**
    * Set performance level manually
    */
   setPerformanceLevel(level: PerformanceLevel): void {
-    this?.currentPerformanceLevel = level;
-    this?.config = this?.generatePerformanceConfig();
+    this.currentPerformanceLevel = level;
+    this.config = this.generatePerformanceConfig();
   }
 
   /**
@@ -412,21 +412,21 @@ export class MobilePerformanceOptimizer {
     memoryUsage: number;
     isOptimizing: boolean;
   } {
-    const avgFrameTime = this?.frameTimeHistory.length > 0 
-      ? this?.frameTimeHistory.reduce((a, b) => a + b, 0) / this?.frameTimeHistory.length 
+    const avgFrameTime = this.frameTimeHistory.length > 0 
+      ? this.frameTimeHistory.reduce((a, b) => a + b, 0) / this.frameTimeHistory.length 
       : 0;
     
     const avgFPS = avgFrameTime > 0 ? 1000 / avgFrameTime : 0;
     
-    const memoryUsage = this?.memoryUsageHistory.length > 0 
-      ? this?.memoryUsageHistory[this?.memoryUsageHistory.length - 1] 
+    const memoryUsage = this.memoryUsageHistory.length > 0 
+      ? this.memoryUsageHistory[this.memoryUsageHistory.length - 1] 
       : 0;
 
     return {
       avgFrameTime,
       avgFPS,
       memoryUsage,
-      isOptimizing: this?.isOptimizing
+      isOptimizing: this.isOptimizing
     };
   }
 
@@ -434,8 +434,8 @@ export class MobilePerformanceOptimizer {
    * Check if current performance is acceptable
    */
   isPerformanceAcceptable(): boolean {
-    const stats = this?.getPerformanceStats();
-    return stats?.avgFPS >= this?.config.targetFPS * 0.9; // 90% of target FPS
+    const stats = this.getPerformanceStats();
+    return stats.avgFPS >= this.config.targetFPS * 0.9; // 90% of target FPS
   }
 
   /**
@@ -443,22 +443,22 @@ export class MobilePerformanceOptimizer {
    */
   getOptimizationRecommendations(): string[] {
     const recommendations: string[] = [];
-    const stats = this?.getPerformanceStats();
+    const stats = this.getPerformanceStats();
     
-    if (stats?.avgFPS < this?.config.targetFPS * 0.8) {
-      recommendations?.push('Consider reducing particle count or shadow quality');
+    if (stats.avgFPS < this.config.targetFPS * 0.8) {
+      recommendations.push('Consider reducing particle count or shadow quality');
     }
     
-    if (stats?.memoryUsage > this?.config.maxMemoryUsage * 0.9) {
-      recommendations?.push('Memory usage is high, consider reducing texture quality');
+    if (stats.memoryUsage > this.config.maxMemoryUsage * 0.9) {
+      recommendations.push('Memory usage is high, consider reducing texture quality');
     }
     
-    if (this?.deviceCapabilities.batteryLevel && this?.deviceCapabilities.batteryLevel < 0.2) {
-      recommendations?.push('Low battery detected, enabling power saving mode');
+    if (this.deviceCapabilities.batteryLevel && this.deviceCapabilities.batteryLevel < 0.2) {
+      recommendations.push('Low battery detected, enabling power saving mode');
     }
     
-    if (this?.deviceCapabilities.thermalState === 'warning') {
-      recommendations?.push('Device is warming up, reducing performance to prevent overheating');
+    if (this.deviceCapabilities.thermalState === 'warning') {
+      recommendations.push('Device is warming up, reducing performance to prevent overheating');
     }
     
     return recommendations;
@@ -468,9 +468,9 @@ export class MobilePerformanceOptimizer {
    * Reset performance monitoring
    */
   reset(): void {
-    this?.frameTimeHistory = [];
-    this?.memoryUsageHistory = [];
-    this?.isOptimizing = false;
+    this.frameTimeHistory = [];
+    this.memoryUsageHistory = [];
+    this.isOptimizing = false;
   }
 }
 

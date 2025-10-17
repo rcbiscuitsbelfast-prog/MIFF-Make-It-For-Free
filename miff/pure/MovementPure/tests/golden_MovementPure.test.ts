@@ -4,7 +4,7 @@
  * Tests movement management, pattern assignment, simulation,
  * and export functionality with comprehensive scenarios.
  * 
- * @module MovementPure/tests/golden_MovementPure?.test
+ * @module MovementPure/tests/golden_MovementPure.test
  * @version 1.0.0
  * @license MIT
  */
@@ -37,14 +37,14 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      const createResult = manager?.createEntity('test_entity', position, pattern);
-      expect(createResult?.status).toBe('ok');
-      expect(createResult?.result?.id).toBe('test_entity');
-      expect(createResult?.result?.position).toEqual(position);
+      const createResult = manager.createEntity('test_entity', position, pattern);
+      expect(createResult.status).toBe('ok');
+      expect(createResult.result?.id).toBe('test_entity');
+      expect(createResult.result?.position).toEqual(position);
 
-      const getResult = manager?.getEntity('test_entity');
-      expect(getResult?.status).toBe('ok');
-      expect(getResult?.result?.pattern?.type).toBe('idle');
+      const getResult = manager.getEntity('test_entity');
+      expect(getResult.status).toBe('ok');
+      expect(getResult.result?.pattern.type).toBe('idle');
     });
 
     test('should handle pattern updates', () => {
@@ -65,16 +65,16 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      manager?.createEntity('test_entity', position, pattern);
+      manager.createEntity('test_entity', position, pattern);
       
-      const updateResult = manager?.updatePattern('test_entity', { 
+      const updateResult = manager.updatePattern('test_entity', { 
         type: 'patrol',
         speed: 2.0,
         waypoints: [{ x: 0, y: 0 }, { x: 100, y: 0 }]
       });
-      expect(updateResult?.status).toBe('ok');
-      expect(updateResult?.result?.pattern?.type).toBe('patrol');
-      expect(updateResult?.result?.pattern?.speed).toBe(2.0);
+      expect(updateResult.status).toBe('ok');
+      expect(updateResult.result?.pattern.type).toBe('patrol');
+      expect(updateResult.result?.pattern.speed).toBe(2.0);
     });
 
     test('should handle follow target assignment', () => {
@@ -95,13 +95,13 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      manager?.createEntity('follower', position, pattern);
-      manager?.createEntity('target', { x: 100, y: 100 }, pattern);
+      manager.createEntity('follower', position, pattern);
+      manager.createEntity('target', { x: 100, y: 100 }, pattern);
 
-      const followResult = manager?.setFollowTarget('follower', 'target');
-      expect(followResult?.status).toBe('ok');
-      expect(followResult?.result?.pattern?.type).toBe('follow');
-      expect(followResult?.result?.pattern?.targetId).toBe('target');
+      const followResult = manager.setFollowTarget('follower', 'target');
+      expect(followResult.status).toBe('ok');
+      expect(followResult.result?.pattern.type).toBe('follow');
+      expect(followResult.result?.pattern.targetId).toBe('target');
     });
 
     test('should handle waypoint assignment', () => {
@@ -122,7 +122,7 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      manager?.createEntity('patrol_entity', position, pattern);
+      manager.createEntity('patrol_entity', position, pattern);
       
       const waypoints: Vector2[] = [
         { x: 0, y: 0 },
@@ -131,10 +131,10 @@ describe('MovementPure Golden Tests', () => {
         { x: 0, y: 100 }
       ];
 
-      const waypointResult = manager?.setWaypoints('patrol_entity', waypoints);
-      expect(waypointResult?.status).toBe('ok');
-      expect(waypointResult?.result?.pattern?.type).toBe('patrol');
-      expect(waypointResult?.result?.pattern?.waypoints).toEqual(waypoints);
+      const waypointResult = manager.setWaypoints('patrol_entity', waypoints);
+      expect(waypointResult.status).toBe('ok');
+      expect(waypointResult.result?.pattern.type).toBe('patrol');
+      expect(waypointResult.result?.pattern.waypoints).toEqual(waypoints);
     });
   });
 
@@ -157,12 +157,12 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      manager?.createEntity('wanderer', position, pattern);
+      manager.createEntity('wanderer', position, pattern);
       
-      const simulateResult = manager?.simulateTick(0.016); // 60fps
-      expect(simulateResult?.status).toBe('ok');
+      const simulateResult = manager.simulateTick(0.016); // 60fps
+      expect(simulateResult.status).toBe('ok');
       expect(Array.isArray(simulateResult.result)).toBe(true);
-      expect(simulateResult?.result?.length).toBe(1);
+      expect(simulateResult.result?.length).toBe(1);
     });
 
     test('should handle different movement patterns', () => {
@@ -212,13 +212,13 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities?.forEach(entity => {
-        manager?.createEntity(entity?.id, entity?.position, entity?.pattern);
+      entities.forEach(entity => {
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
-      const simulateResult = manager?.simulateTick(0.016);
-      expect(simulateResult?.status).toBe('ok');
-      expect(simulateResult?.result?.length).toBe(2);
+      const simulateResult = manager.simulateTick(0.016);
+      expect(simulateResult.status).toBe('ok');
+      expect(simulateResult.result?.length).toBe(2);
     });
   });
 
@@ -265,14 +265,14 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities?.forEach(entity => {
-        manager?.createEntity(entity?.id, entity?.position, entity?.pattern);
+      entities.forEach(entity => {
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
-      const filterResult = manager?.listEntities({ patternType: 'idle' });
-      expect(filterResult?.status).toBe('ok');
-      expect(filterResult?.result?.length).toBe(1);
-      expect(filterResult?.result?.[0!].id).toBe('idle_entity');
+      const filterResult = manager.listEntities({ patternType: 'idle' });
+      expect(filterResult.status).toBe('ok');
+      expect(filterResult.result?.length).toBe(1);
+      expect(filterResult.result?.[0!].id).toBe('idle_entity');
     });
 
     test('should filter entities by speed range', () => {
@@ -317,19 +317,19 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities?.forEach(entity => {
-        manager?.createEntity(entity?.id, entity?.position, entity?.pattern);
+      entities.forEach(entity => {
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
       // Simulate movement to get entities moving (need multiple ticks to reach target speed)
       for (let i = 0; i < 20; i++) {
-        manager?.simulateTick(0.016);
+        manager.simulateTick(0.016);
       }
 
-      const filterResult = manager?.listEntities({ minSpeed: 1.0, maxSpeed: 4.0 });
-      expect(filterResult?.status).toBe('ok');
-      expect(filterResult?.result?.length).toBe(1);
-      expect(filterResult?.result?.[0!].id).toBe('fast_entity');
+      const filterResult = manager.listEntities({ minSpeed: 1.0, maxSpeed: 4.0 });
+      expect(filterResult.status).toBe('ok');
+      expect(filterResult.result?.length).toBe(1);
+      expect(filterResult.result?.[0!].id).toBe('fast_entity');
     });
   });
 
@@ -376,22 +376,22 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities?.forEach(entity => {
-        manager?.createEntity(entity?.id, entity?.position, entity?.pattern);
+      entities.forEach(entity => {
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
-      const statsResult = manager?.getMovementStats();
-      expect(statsResult?.status).toBe('ok');
-      expect(statsResult?.result?.totalEntities).toBe(2);
-      expect(statsResult?.result?.patternDistribution).toBeDefined();
+      const statsResult = manager.getMovementStats();
+      expect(statsResult.status).toBe('ok');
+      expect(statsResult.result?.totalEntities).toBe(2);
+      expect(statsResult.result?.patternDistribution).toBeDefined();
     });
   });
 
   describe('Obstacle Management', () => {
     test('should add obstacles', () => {
-      const obstacleResult = manager?.addObstacle({ x: 50, y: 50 });
-      expect(obstacleResult?.status).toBe('ok');
-      expect(obstacleResult?.result?.position).toEqual({ x: 50, y: 50 });
+      const obstacleResult = manager.addObstacle({ x: 50, y: 50 });
+      expect(obstacleResult.status).toBe('ok');
+      expect(obstacleResult.result?.position).toEqual({ x: 50, y: 50 });
     });
   });
 
@@ -414,39 +414,39 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      manager?.createEntity('export_entity', position, pattern);
+      manager.createEntity('export_entity', position, pattern);
 
       // JSON export
-      const jsonResult = manager?.exportMovement('json');
-      expect(jsonResult?.status).toBe('ok');
-      expect(jsonResult?.result?.total).toBe(1);
+      const jsonResult = manager.exportMovement('json');
+      expect(jsonResult.status).toBe('ok');
+      expect(jsonResult.result?.total).toBe(1);
 
       // Manifest export
-      const manifestResult = manager?.exportMovement('manifest');
-      expect(manifestResult?.status).toBe('ok');
-      expect(manifestResult?.result?.schema).toBe('miff?.movement.export?.v1');
+      const manifestResult = manager.exportMovement('manifest');
+      expect(manifestResult.status).toBe('ok');
+      expect(manifestResult.result?.schema).toBe('miff.movement.export.v1');
 
       // Summary export
-      const summaryResult = manager?.exportMovement('summary');
-      expect(summaryResult?.status).toBe('ok');
-      expect(summaryResult?.result?.summary).toBeDefined();
+      const summaryResult = manager.exportMovement('summary');
+      expect(summaryResult.status).toBe('ok');
+      expect(summaryResult.result?.summary).toBeDefined();
 
       // Events export
-      const eventsResult = manager?.exportMovement('events');
-      expect(eventsResult?.status).toBe('ok');
-      expect(eventsResult?.result?.total).toBeGreaterThanOrEqual(0);
+      const eventsResult = manager.exportMovement('events');
+      expect(eventsResult.status).toBe('ok');
+      expect(eventsResult.result?.total).toBeGreaterThanOrEqual(0);
     });
   });
 
   describe('Error Handling', () => {
     test('should handle invalid entity operations', () => {
-      const getResult = manager?.getEntity('nonexistent');
-      expect(getResult?.status).toBe('error');
-      expect(getResult?.issues).toContain('Entity nonexistent not found');
+      const getResult = manager.getEntity('nonexistent');
+      expect(getResult.status).toBe('error');
+      expect(getResult.issues).toContain('Entity nonexistent not found');
 
-      const updateResult = manager?.updatePattern('nonexistent', { type: 'idle' });
-      expect(updateResult?.status).toBe('error');
-      expect(updateResult?.issues).toContain('Entity nonexistent not found');
+      const updateResult = manager.updatePattern('nonexistent', { type: 'idle' });
+      expect(updateResult.status).toBe('error');
+      expect(updateResult.issues).toContain('Entity nonexistent not found');
     });
 
     test('should handle duplicate entity creation', () => {
@@ -467,10 +467,10 @@ describe('MovementPure Golden Tests', () => {
         }
       };
 
-      manager?.createEntity('duplicate_test', position, pattern);
-      const duplicateResult = manager?.createEntity('duplicate_test', position, pattern);
-      expect(duplicateResult?.status).toBe('error');
-      expect(duplicateResult?.issues).toContain('Entity duplicate_test already exists');
+      manager.createEntity('duplicate_test', position, pattern);
+      const duplicateResult = manager.createEntity('duplicate_test', position, pattern);
+      expect(duplicateResult.status).toBe('error');
+      expect(duplicateResult.issues).toContain('Entity duplicate_test already exists');
     });
   });
 
@@ -526,27 +526,27 @@ describe('MovementPure Golden Tests', () => {
         }
       ];
 
-      entities?.forEach(entity => {
-        const createResult = manager?.createEntity(entity?.id, entity?.position, entity?.pattern);
-        expect(createResult?.status).toBe('ok');
+      entities.forEach(entity => {
+        const createResult = manager.createEntity(entity.id, entity.position, entity.pattern);
+        expect(createResult.status).toBe('ok');
       });
 
       // Simulate movement
-      const simulateResult = manager?.simulateTick(1.0);
-      expect(simulateResult?.status).toBe('ok');
+      const simulateResult = manager.simulateTick(1.0);
+      expect(simulateResult.status).toBe('ok');
 
       // Get statistics
-      const statsResult = manager?.getMovementStats();
-      expect(statsResult?.status).toBe('ok');
+      const statsResult = manager.getMovementStats();
+      expect(statsResult.status).toBe('ok');
 
       // Export data
-      const exportResult = manager?.exportMovement('manifest');
-      expect(exportResult?.status).toBe('ok');
+      const exportResult = manager.exportMovement('manifest');
+      expect(exportResult.status).toBe('ok');
 
       // List entities
-      const listResult = manager?.listEntities();
-      expect(listResult?.status).toBe('ok');
-      expect(listResult?.result?.length).toBe(2);
+      const listResult = manager.listEntities();
+      expect(listResult.status).toBe('ok');
+      expect(listResult.result?.length).toBe(2);
     });
   });
 });

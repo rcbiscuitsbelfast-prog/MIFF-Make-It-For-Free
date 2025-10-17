@@ -14,22 +14,22 @@ type Operation =
   | { op: 'dump' };
 
 function readJSON(file: string): any {
-  const p = path?.isAbsolute(file) ? file : path?.resolve(process?.cwd(), file);
+  const p = path.isAbsolute(file) ? file : path.resolve(process.cwd(), file);
   return JSON.parse(fs.readFileSync(p, 'utf-8'));
 }
 
 function main() {
-  const argv = process?.argv.slice(2);
-  if (argv?.length === 0) {
+  const argv = process.argv.slice(2);
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!] [--format json|csv|markdown|html]');
-    process?.exit(1);
+    process.exit(1);
   }
   try {
     const mgr = new RemixTaggingManager();
     const first = argv[0!];
     let op: Operation;
 
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       op = readJSON(first) as Operation;
     } else {
       switch (first) {
@@ -78,44 +78,44 @@ function main() {
     }
 
     let result: any;
-    switch (op?.op) {
+    switch (op.op) {
       case 'tag': {
-        result = mgr?.tagModule(op?.moduleId, op?.moduleName, op?.level, op?.reason);
+        result = mgr.tagModule(op.moduleId, op.moduleName, op.level, op.reason);
         break;
       }
       case 'get': {
-        result = mgr?.getModuleTag(op?.moduleId);
+        result = mgr.getModuleTag(op.moduleId);
         break;
       }
       case 'list': {
-        result = mgr?.getAllTags();
+        result = mgr.getAllTags();
         break;
       }
       case 'stats': {
-        result = mgr?.getTaggingStats();
+        result = mgr.getTaggingStats();
         break;
       }
       case 'config': {
-        const cfg = readJSON(op?.file);
-        mgr?.setConfig(cfg);
+        const cfg = readJSON(op.file);
+        mgr.setConfig(cfg);
         result = { applied: true, config: cfg };
         break;
       }
       case 'batch': {
-        const cmds = readJSON(op?.file) as Array<{ op: string; [k: string]: any }>;
+        const cmds = readJSON(op.file) as Array<{ op: string; [k: string]: any }>;
         const outputs: any[] = [];
         for (const cmd of cmds) {
-          if (cmd?.op === 'tag') {
-            outputs?.push(mgr?.tagModule(cmd?.moduleId, cmd?.moduleName || cmd?.moduleId, cmd?.level, cmd?.reason));
-          } else if (cmd?.op === 'get') {
-            outputs?.push(mgr?.getModuleTag(cmd?.moduleId));
-          } else if (cmd?.op === 'list') {
-            outputs?.push(mgr?.getAllTags());
-          } else if (cmd?.op === 'stats') {
-            outputs?.push(mgr?.getTaggingStats());
+          if (cmd.op === 'tag') {
+            outputs.push(mgr.tagModule(cmd.moduleId, cmd.moduleName || cmd.moduleId, cmd.level, cmd.reason));
+          } else if (cmd.op === 'get') {
+            outputs.push(mgr.getModuleTag(cmd.moduleId));
+          } else if (cmd.op === 'list') {
+            outputs.push(mgr.getAllTags());
+          } else if (cmd.op === 'stats') {
+            outputs.push(mgr.getTaggingStats());
           }
         }
-        result = { outputs, total: outputs?.length };
+        result = { outputs, total: outputs.length };
         break;
       }
       case 'dump': {
@@ -127,9 +127,9 @@ function main() {
       }
     }
 
-    const fmtArg = argv?.find(a => a?.startsWith('--format='))?.split('=')[1!] || argv[argv?.indexOf('--format') + 1];
+    const fmtArg = argv.find(a => a.startsWith('--format='))?.split('=')[1!] || argv[argv.indexOf('--format') + 1];
     const valid = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = valid?.includes(fmtArg || '') ? fmtArg : undefined;
+    const exportFormat = valid.includes(fmtArg || '') ? fmtArg : undefined;
     const { result: finalResult, exportData } = addExportSupport(
       result,
       exportFormat,
@@ -138,7 +138,7 @@ function main() {
     );
 
     console.log(JSON.stringify({
-      op: op?.op,
+      op: op.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -149,13 +149,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

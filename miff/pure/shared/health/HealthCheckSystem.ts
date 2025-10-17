@@ -120,17 +120,17 @@ export class HealthCheckSystem {
   private checks: Map<string, HealthCheck> = new Map();
   private healthHistory: HealthStatus[] = [];
   private isInitialized: boolean = false;
-  private monitoringInterval?: NodeJS?.Timeout;
+  private monitoringInterval?: NodeJS.Timeout;
   private startTime: Date;
 
   constructor() {
-    this?.logger = StructuredLogger?.getInstance('HealthCheckSystem');
-    this?.performanceOptimizer = PerformanceOptimizer?.getInstance();
-    this?.memoryManager = MemoryManager?.getInstance();
-    this?.errorHandler = StandardErrorHandler?.getInstance();
-    this?.startTime = new Date();
+    this.logger = StructuredLogger.getInstance('HealthCheckSystem');
+    this.performanceOptimizer = PerformanceOptimizer.getInstance();
+    this.memoryManager = MemoryManager.getInstance();
+    this.errorHandler = StandardErrorHandler.getInstance();
+    this.startTime = new Date();
 
-    this?.config = {
+    this.config = {
       enabled: true,
       interval: 30000, // 30 seconds
       timeout: 10000, // 10 seconds
@@ -147,38 +147,38 @@ export class HealthCheckSystem {
   }
 
   static getInstance(): HealthCheckSystem {
-    if (!HealthCheckSystem?.instance) {
-      HealthCheckSystem?.instance = new HealthCheckSystem();
+    if (!HealthCheckSystem.instance) {
+      HealthCheckSystem.instance = new HealthCheckSystem();
     }
-    return HealthCheckSystem?.instance;
+    return HealthCheckSystem.instance;
   }
 
   /**
    * Initialize the health check system
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
-      StructuredLogger?.warn('Health check system already initialized');
+    if (this.isInitialized) {
+      StructuredLogger.warn('Health check system already initialized');
       return;
     }
 
     try {
-      StructuredLogger?.info('Initializing health check system...');
+      StructuredLogger.info('Initializing health check system...');
 
       // Register default health checks
-      await this?.registerDefaultChecks();
+      await this.registerDefaultChecks();
 
       // Start monitoring
-      if (this?.config.enabled) {
-        await this?.startMonitoring();
+      if (this.config.enabled) {
+        await this.startMonitoring();
       }
 
-      this?.isInitialized = true;
-      StructuredLogger?.info('Health check system initialized successfully');
+      this.isInitialized = true;
+      StructuredLogger.info('Health check system initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError(error);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -187,23 +187,23 @@ export class HealthCheckSystem {
    * Get current health status
    */
   async getHealthStatus(): Promise<HealthStatus> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Health check system not initialized');
     }
 
-    const startTime = new Date();
-    const checks = await this?.runAllChecks();
-    const duration = new Date() - startTime;
+    const startTime = Date.now();
+    const checks = await this.runAllChecks();
+    const duration = Date.now() - startTime;
 
-    const summary = this?.calculateSummary(checks);
-    const status = this?.determineStatus(summary);
-    const metrics = await this?.collectMetrics();
-    const alerts = this?.generateAlerts(checks, metrics);
+    const summary = this.calculateSummary(checks);
+    const status = this.determineStatus(summary);
+    const metrics = await this.collectMetrics();
+    const alerts = this.generateAlerts(checks, metrics);
 
     const healthStatus: HealthStatus = {
       status,
       timestamp: new Date(),
-      uptime: new Date() - this?.startTime.getTime(),
+      uptime: new Date() - this.startTime.getTime(),
       summary,
       checks,
       metrics,
@@ -211,8 +211,8 @@ export class HealthCheckSystem {
     };
 
     // Store in history
-    this?.healthHistory?.push(healthStatus);
-    this?.trimHistory();
+    this.healthHistory.push(healthStatus);
+    this.trimHistory();
 
     return healthStatus;
   }
@@ -221,16 +221,16 @@ export class HealthCheckSystem {
    * Register a custom health check
    */
   registerCheck(check: HealthCheck): void {
-    this?.checks.set(check?.name, check);
-    StructuredLogger?.info('Health check registered', { context: { message: { name: check?.name, category: check?.category } } });
+    this.checks.set(check.name, check);
+    StructuredLogger.info('Health check registered', { context: { message: { name: check.name, category: check.category } } });
   }
 
   /**
    * Unregister a health check
    */
   unregisterCheck(name: string): void {
-    if (this?.checks.delete(name)) {
-      StructuredLogger?.info('Health check unregistered', { context: { message: { name } } });
+    if (this.checks.delete(name)) {
+      StructuredLogger.info('Health check unregistered', { context: { message: { name } } });
     }
   }
 
@@ -239,9 +239,9 @@ export class HealthCheckSystem {
    */
   getHealthHistory(limit?: number): HealthStatus[] {
     if (limit) {
-      return this?.healthHistory.slice(-limit);
+      return this.healthHistory.slice(-limit);
     }
-    return [...this?.healthHistory];
+    return [...this.healthHistory];
   }
 
   /**
@@ -255,11 +255,11 @@ export class HealthCheckSystem {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
-    const recentHistory = this?.healthHistory.filter((h: any) => h?.timestamp >= cutoffDate);
+    const recentHistory = this.healthHistory.filter((h: any) => h.timestamp >= cutoffDate);
 
-    const statusTrend = this?.calculateStatusTrend(recentHistory);
-    const performanceTrend = this?.calculatePerformanceTrend(recentHistory);
-    const alertTrend = this?.calculateAlertTrend(recentHistory);
+    const statusTrend = this.calculateStatusTrend(recentHistory);
+    const performanceTrend = this.calculatePerformanceTrend(recentHistory);
+    const alertTrend = this.calculateAlertTrend(recentHistory);
 
     return {
       statusTrend,
@@ -272,52 +272,52 @@ export class HealthCheckSystem {
    * Start monitoring
    */
   async startMonitoring(): Promise<void> {
-    if (this?.monitoringInterval) {
-      StructuredLogger?.warn('Monitoring already started');
+    if (this.monitoringInterval) {
+      StructuredLogger.warn('Monitoring already started');
       return;
     }
 
-    StructuredLogger?.info('Starting health monitoring...');
+    StructuredLogger.info('Starting health monitoring...');
 
-    this?.monitoringInterval = setInterval(async () => {
+    this.monitoringInterval = setInterval(async () => {
       try {
-        const healthStatus = await this?.getHealthStatus();
+        const healthStatus = await this.getHealthStatus();
         
-        if (this?.config.loggingEnabled) {
-          StructuredLogger?.info('Health check completed', {
-            status: healthStatus?.status,
-            successRate: healthStatus?.summary.successRate,
-            totalChecks: healthStatus?.summary.totalChecks
+        if (this.config.loggingEnabled) {
+          StructuredLogger.info('Health check completed', {
+            status: healthStatus.status,
+            successRate: healthStatus.summary.successRate,
+            totalChecks: healthStatus.summary.totalChecks
           });
         }
 
         // Handle alerts
-        if (healthStatus?.alerts.length > 0) {
-          await this?.handleAlerts(healthStatus?.alerts);
+        if (healthStatus.alerts.length > 0) {
+          await this.handleAlerts(healthStatus.alerts);
         }
 
         // Auto-recovery
-        if (this?.config.autoRecovery && healthStatus?.status === 'critical') {
-          await this?.attemptAutoRecovery(healthStatus);
+        if (this.config.autoRecovery && healthStatus.status === 'critical') {
+          await this.attemptAutoRecovery(healthStatus);
         }
 
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        this?.errorHandler.handleError(error);
+        this.errorHandler.handleError(error);
       }
-    }, this?.config.interval);
+    }, this.config.interval);
 
-    StructuredLogger?.info('Health monitoring started', { context: { message: { interval: this?.config.interval } } });
+    StructuredLogger.info('Health monitoring started', { context: { message: { interval: this.config.interval } } });
   }
 
   /**
    * Stop monitoring
    */
   async stopMonitoring(): Promise<void> {
-    if (this?.monitoringInterval) {
-      clearInterval(this?.monitoringInterval);
-      this?.monitoringInterval = undefined;
-      StructuredLogger?.info('Health monitoring stopped');
+    if (this.monitoringInterval) {
+      clearInterval(this.monitoringInterval);
+      this.monitoringInterval = undefined;
+      StructuredLogger.info('Health monitoring stopped');
     }
   }
 
@@ -326,18 +326,18 @@ export class HealthCheckSystem {
    */
   async destroy(): Promise<void> {
     try {
-      StructuredLogger?.info('Destroying health check system...');
+      StructuredLogger.info('Destroying health check system...');
 
-      await this?.stopMonitoring();
-      this?.checks.clear();
-      this?.healthHistory = [];
+      await this.stopMonitoring();
+      this.checks.clear();
+      this.healthHistory = [];
 
-      this?.isInitialized = false;
-      StructuredLogger?.info('Health check system destroyed');
+      this.isInitialized = false;
+      StructuredLogger.info('Health check system destroyed');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError(error);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -346,7 +346,7 @@ export class HealthCheckSystem {
 
   private async registerDefaultChecks(): Promise<void> {
     // System checks
-    this?.registerCheck({
+    this.registerCheck({
       name: 'system_cpu',
       category: 'system',
       severity: 'high',
@@ -354,7 +354,7 @@ export class HealthCheckSystem {
       timeout: 5000,
       retries: 2,
       check: async () => {
-        const usage = await this?.getCpuUsage();
+        const usage = await this.getCpuUsage();
         if (usage > 90) {
           return { status: 'critical', message: `CPU usage critical: ${usage}%`, details: { usage } };
         } else if (usage > 80) {
@@ -364,7 +364,7 @@ export class HealthCheckSystem {
       }
     });
 
-    this?.registerCheck({
+    this.registerCheck({
       name: 'system_memory',
       category: 'system',
       severity: 'high',
@@ -372,17 +372,17 @@ export class HealthCheckSystem {
       timeout: 5000,
       retries: 2,
       check: async () => {
-        const memory = await this?.getMemoryUsage();
-        if (memory?.usage > 95) {
-          return { status: 'critical', message: `Memory usage critical: ${memory?.usage}%`, details: memory };
-        } else if (memory?.usage > 85) {
-          return { status: 'warning', message: `Memory usage high: ${memory?.usage}%`, details: memory };
+        const memory = await this.getMemoryUsage();
+        if (memory.usage > 95) {
+          return { status: 'critical', message: `Memory usage critical: ${memory.usage}%`, details: memory };
+        } else if (memory.usage > 85) {
+          return { status: 'warning', message: `Memory usage high: ${memory.usage}%`, details: memory };
         }
-        return { status: 'pass', message: `Memory usage normal: ${memory?.usage}%`, details: memory };
+        return { status: 'pass', message: `Memory usage normal: ${memory.usage}%`, details: memory };
       }
     });
 
-    this?.registerCheck({
+    this.registerCheck({
       name: 'system_disk',
       category: 'system',
       severity: 'high',
@@ -390,18 +390,18 @@ export class HealthCheckSystem {
       timeout: 5000,
       retries: 2,
       check: async () => {
-        const disk = await this?.getDiskUsage();
-        if (disk?.usage > 95) {
-          return { status: 'critical', message: `Disk usage critical: ${disk?.usage}%`, details: disk };
-        } else if (disk?.usage > 85) {
-          return { status: 'warning', message: `Disk usage high: ${disk?.usage}%`, details: disk };
+        const disk = await this.getDiskUsage();
+        if (disk.usage > 95) {
+          return { status: 'critical', message: `Disk usage critical: ${disk.usage}%`, details: disk };
+        } else if (disk.usage > 85) {
+          return { status: 'warning', message: `Disk usage high: ${disk.usage}%`, details: disk };
         }
-        return { status: 'pass', message: `Disk usage normal: ${disk?.usage}%`, details: disk };
+        return { status: 'pass', message: `Disk usage normal: ${disk.usage}%`, details: disk };
       }
     });
 
     // Performance checks
-    this?.registerCheck({
+    this.registerCheck({
       name: 'performance_response_time',
       category: 'security' // Changed from performance,
       severity: 'medium',
@@ -409,7 +409,7 @@ export class HealthCheckSystem {
       timeout: 10000,
       retries: 2,
       check: async () => {
-        const responseTime = await this?.getResponseTime();
+        const responseTime = await this.getResponseTime();
         if (responseTime > 5000) {
           return { status: 'critical', message: `Response time critical: ${responseTime}ms`, details: { responseTime } };
         } else if (responseTime > 2000) {
@@ -420,7 +420,7 @@ export class HealthCheckSystem {
     });
 
     // Application checks
-    this?.registerCheck({
+    this.registerCheck({
       name: 'application_errors',
       category: 'application',
       severity: 'high',
@@ -428,7 +428,7 @@ export class HealthCheckSystem {
       timeout: 5000,
       retries: 2,
       check: async () => {
-        const errorRate = await this?.getErrorRate();
+        const errorRate = await this.getErrorRate();
         if (errorRate > 10) {
           return { status: 'critical', message: `Error rate critical: ${errorRate}%`, details: { errorRate } };
         } else if (errorRate > 5) {
@@ -438,60 +438,60 @@ export class HealthCheckSystem {
       }
     });
 
-    StructuredLogger?.info('Default health checks registered', { context: { message: { count: this?.checks.size } } });
+    StructuredLogger.info('Default health checks registered', { context: { message: { count: this.checks.size } } });
   }
 
   private async runAllChecks(): Promise<HealthStatus['checks']> {
     const results: HealthStatus['checks'] = [];
     const checkPromises = Array.from(this.checks.values())
-      .filter((check: any) => check?.enabled)
+      .filter((check: any) => check.enabled)
       .map(async (check) => {
-        const startTime = new Date();
+        const startTime = Date.now();
         try {
-          const result = await Promise?.race([
-            check?.check(),
+          const result = await Promise.race([
+            check.check(),
             new Promise<never>((_, reject) => 
-              setTimeout(() => reject(new Error('Check timeout')), check?.timeout)
+              setTimeout(() => reject(new Error('Check timeout')), check.timeout)
             )
           ]);
 
-          const duration = new Date() - startTime;
-          results?.push({
-            name: check?.name,
-            status: result?.status,
-            message: result?.message,
+          const duration = Date.now() - startTime;
+          results.push({
+            name: check.name,
+            status: result.status,
+            message: result.message,
             duration,
             timestamp: new Date(),
-            category: check?.category,
-            severity: check?.severity,
-            details: result?.details
+            category: check.category,
+            severity: check.severity,
+            details: result.details
           });
 
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          const duration = new Date() - startTime;
-          results?.push({
-            name: check?.name,
+          const duration = Date.now() - startTime;
+          results.push({
+            name: check.name,
             status: 'critical',
-            message: `Check failed: ${error instanceof Error ? error?.message : 'Unknown error'}`,
+            message: `Check failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
             duration,
             timestamp: new Date(),
-            category: check?.category,
-            severity: check?.severity
+            category: check.category,
+            severity: check.severity
           });
         }
       });
 
-    await Promise?.allSettled(checkPromises);
+    await Promise.allSettled(checkPromises);
     return results;
   }
 
   private calculateSummary(checks: HealthStatus['checks']): HealthStatus['summary'] {
-    const totalChecks = checks?.length;
-    const passedChecks = checks?.filter((c: any) => c?.status === 'pass').length;
-    const failedChecks = checks?.filter((c: any) => c?.status === 'fail').length;
-    const warnings = checks?.filter((c: any) => c?.status === 'warning').length;
-    const criticalIssues = checks?.filter((c: any) => c?.status === 'critical').length;
+    const totalChecks = checks.length;
+    const passedChecks = checks.filter((c: any) => c.status === 'pass').length;
+    const failedChecks = checks.filter((c: any) => c.status === 'fail').length;
+    const warnings = checks.filter((c: any) => c.status === 'warning').length;
+    const criticalIssues = checks.filter((c: any) => c.status === 'critical').length;
     const successRate = totalChecks > 0 ? (passedChecks / totalChecks) * 100 : 0;
 
     return {
@@ -505,23 +505,23 @@ export class HealthCheckSystem {
   }
 
   private determineStatus(summary: HealthStatus['summary']): HealthStatus['status'] {
-    if (summary?.criticalIssues > 0 || summary?.successRate < this?.config.criticalThreshold * 100) {
+    if (summary.criticalIssues > 0 || summary.successRate < this.config.criticalThreshold * 100) {
       return 'critical';
-    } else if (summary?.failedChecks > 0 || summary?.successRate < this?.config.warningThreshold * 100) {
+    } else if (summary.failedChecks > 0 || summary.successRate < this.config.warningThreshold * 100) {
       return 'degraded';
-    } else if (summary?.warnings > 0 || summary?.successRate < this?.config.alertThreshold * 100) {
+    } else if (summary.warnings > 0 || summary.successRate < this.config.alertThreshold * 100) {
       return 'unhealthy';
     }
     return 'healthy';
   }
 
   private async collectMetrics(): Promise<HealthStatus['metrics']> {
-    const [cpu, memory, disk, network, application] = await Promise?.all([
-      this?.getCpuMetrics(),
-      this?.getMemoryMetrics(),
-      this?.getDiskMetrics(),
-      this?.getNetworkMetrics(),
-      this?.getApplicationMetrics()
+    const [cpu, memory, disk, network, application] = await Promise.all([
+      this.getCpuMetrics(),
+      this.getMemoryMetrics(),
+      this.getDiskMetrics(),
+      this.getNetworkMetrics(),
+      this.getApplicationMetrics()
     ]);
 
     return {
@@ -537,24 +537,24 @@ export class HealthCheckSystem {
     const alerts: HealthStatus['alerts'] = [];
 
     // Check for critical issues
-    checks?.filter((c: any) => c?.status === 'critical').forEach((check: any) => {
-      alerts?.push({
+    checks.filter((c: any) => c.status === 'critical').forEach((check: any) => {
+      alerts.push({
         id: `critical_${check.name}_${Date.now()}`,
         type: 'critical',
-        message: check?.message,
+        message: check.message,
         timestamp: new Date(),
         resolved: false,
-        category: check?.category,
-        severity: check?.severity
+        category: check.category,
+        severity: check.severity
       });
     });
 
     // Check for performance issues
-    if (metrics?.application.responseTime > 5000) {
-      alerts?.push({
+    if (metrics.application.responseTime > 5000) {
+      alerts.push({
         id: `performance_response_time_${Date.now()}`,
         type: 'warning',
-        message: `Response time is ${metrics?.application.responseTime}ms`,
+        message: `Response time is ${metrics.application.responseTime}ms`,
         timestamp: new Date(),
         resolved: false,
         category: 'security' // Changed from performance,
@@ -567,30 +567,30 @@ export class HealthCheckSystem {
 
   private async handleAlerts(alerts: HealthStatus['alerts']): Promise<void> {
     for (const alert of alerts) {
-      if (this?.config.notificationEnabled) {
-        StructuredLogger?.warn('Health alert triggered', {
-          id: alert?.id,
-          type: alert?.type,
-          message: alert?.message,
-          category: alert?.category,
-          severity: alert?.severity
+      if (this.config.notificationEnabled) {
+        StructuredLogger.warn('Health alert triggered', {
+          id: alert.id,
+          type: alert.type,
+          message: alert.message,
+          category: alert.category,
+          severity: alert.severity
         });
       }
     }
   }
 
   private async attemptAutoRecovery(healthStatus: HealthStatus): Promise<void> {
-    StructuredLogger?.info('Attempting auto-recovery...');
+    StructuredLogger.info('Attempting auto-recovery...');
 
     // Implement auto-recovery logic based on health status
     // This would typically involve restarting services, clearing caches, etc.
     
-    StructuredLogger?.info('Auto-recovery completed');
+    StructuredLogger.info('Auto-recovery completed');
   }
 
   private trimHistory(): void {
-    if (this?.healthHistory.length > this?.config.historyRetention) {
-      this?.healthHistory = this?.healthHistory.slice(-this?.config.historyRetention);
+    if (this.healthHistory.length > this.config.historyRetention) {
+      this.healthHistory = this.healthHistory.slice(-this.config.historyRetention);
     }
   }
 
@@ -636,18 +636,18 @@ export class HealthCheckSystem {
 
   private async getCpuMetrics(): Promise<HealthStatus['metrics']['cpu']> {
     return {
-      usage: await this?.getCpuUsage(),
+      usage: await this.getCpuUsage(),
       load: Math.random() * 4,
       cores: 8
     };
   }
 
   private async getMemoryMetrics(): Promise<HealthStatus['metrics']['memory']> {
-    return await this?.getMemoryUsage();
+    return await this.getMemoryUsage();
   }
 
   private async getDiskMetrics(): Promise<HealthStatus['metrics']['disk']> {
-    return await this?.getDiskUsage();
+    return await this.getDiskUsage();
   }
 
   private async getNetworkMetrics(): Promise<HealthStatus['metrics']['network']> {
@@ -660,9 +660,9 @@ export class HealthCheckSystem {
 
   private async getApplicationMetrics(): Promise<HealthStatus['metrics']['application']> {
     return {
-      responseTime: await this?.getResponseTime(),
+      responseTime: await this.getResponseTime(),
       throughput: Math.random() * 1000,
-      errorRate: await this?.getErrorRate(),
+      errorRate: await this.getErrorRate(),
       activeConnections: Math.floor(Math.random() * 100)
     };
   }
@@ -684,5 +684,5 @@ export class HealthCheckSystem {
 }
 
 // Export singleton instance
-export const healthCheckSystem = HealthCheckSystem?.getInstance();
+export const healthCheckSystem = HealthCheckSystem.getInstance();
 export default healthCheckSystem;

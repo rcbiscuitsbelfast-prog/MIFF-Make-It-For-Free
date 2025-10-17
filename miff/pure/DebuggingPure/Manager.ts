@@ -744,7 +744,7 @@ export class DebuggingPure {
 
   constructor(config: Partial<DebuggingConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableDebugManagement: true,
       enableSessionManagement: true,
       enableBreakpointHandling: true,
@@ -760,7 +760,7 @@ export class DebuggingPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalSessions: 0,
       activeSessions: 0,
       totalBreakpoints: 0,
@@ -773,7 +773,7 @@ export class DebuggingPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalSessions: 0,
       totalBreakpoints: 0,
       averageSessionTime: 0,
@@ -787,7 +787,7 @@ export class DebuggingPure {
    * Create a new debugging manager
    */
   createManager(): DebuggingOutput {
-    if (!this?.config.enableDebugManagement) {
+    if (!this.config.enableDebugManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -797,8 +797,8 @@ export class DebuggingPure {
 
     const manager: DebuggingManager = {
       id: managerData.id || `debugging-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Debugging Manager',
-      type: managerData?.type || 'local',
+      name: managerData.name || 'Unnamed Debugging Manager',
+      type: managerData.type || 'local',
       status: 'active',
       sessions: [],
       breakpoints: [],
@@ -862,7 +862,7 @@ export class DebuggingPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -875,7 +875,7 @@ export class DebuggingPure {
    * Get manager by ID
    */
   getManager(): DebuggingOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -895,14 +895,14 @@ export class DebuggingPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): DebuggingPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): DebuggingAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -916,7 +916,7 @@ export class DebuggingPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalSessions = 0;
     let activeSessions = 0;
     let totalBreakpoints = 0;
@@ -924,21 +924,21 @@ export class DebuggingPure {
     let totalWatchpoints = 0;
     let totalProfilers = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalSessions += manager?.sessions.length;
-      activeSessions += manager?.sessions.filter((s: any) => s?.status === 'running' || s?.status === 'paused').length;
-      totalBreakpoints += manager?.breakpoints.length;
-      activeBreakpoints += manager?.breakpoints.filter((b: any) => b?.status === 'active').length;
-      totalWatchpoints += manager?.watchpoints.length;
-      totalProfilers += manager?.profilers.length;
+    for (const manager of this.managers.values()) {
+      totalSessions += manager.sessions.length;
+      activeSessions += manager.sessions.filter((s: any) => s.status === 'running' || s.status === 'paused').length;
+      totalBreakpoints += manager.breakpoints.length;
+      activeBreakpoints += manager.breakpoints.filter((b: any) => b.status === 'active').length;
+      totalWatchpoints += manager.watchpoints.length;
+      totalProfilers += manager.profilers.length;
     }
 
-    this?.performanceMetrics.totalSessions = totalSessions;
-    this?.performanceMetrics.activeSessions = activeSessions;
-    this?.performanceMetrics.totalBreakpoints = totalBreakpoints;
-    this?.performanceMetrics.activeBreakpoints = activeBreakpoints;
-    this?.performanceMetrics.totalWatchpoints = totalWatchpoints;
-    this?.performanceMetrics.totalProfilers = totalProfilers;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalSessions = totalSessions;
+    this.performanceMetrics.activeSessions = activeSessions;
+    this.performanceMetrics.totalBreakpoints = totalBreakpoints;
+    this.performanceMetrics.activeBreakpoints = activeBreakpoints;
+    this.performanceMetrics.totalWatchpoints = totalWatchpoints;
+    this.performanceMetrics.totalProfilers = totalProfilers;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

@@ -5,17 +5,17 @@ describe('PlayerStatePure golden', () => {
     let s = createPlayerState();
     s = reducePlayer(s, { type: 'move', dir: { x: 1, y: 0 } }, { speed: 0.01 });
     s = reducePlayer(s, { type: 'tick', dt: 100 }, { speed: 0.01 });
-    expect(s?.anim).toBe('walk');
-    expect(s?.pos.x).toBeGreaterThan(0);
+    expect(s.anim).toBe('walk');
+    expect(s.pos.x).toBeGreaterThan(0);
     s = reducePlayer(s, { type: 'stop' }, { speed: 0.01 });
-    expect(s?.anim).toBe('idle');
+    expect(s.anim).toBe('idle');
   });
 
   test('interaction switches anim', () => {
     let s = createPlayerState();
     s = reducePlayer(s, { type: 'interact', target: 'npc_01' }, { speed: 0.01 });
-    expect(s?.anim).toBe('interact');
-    expect(s?.interactable).toBe('npc_01');
+    expect(s.anim).toBe('interact');
+    expect(s.interactable).toBe('npc_01');
   });
 });
 

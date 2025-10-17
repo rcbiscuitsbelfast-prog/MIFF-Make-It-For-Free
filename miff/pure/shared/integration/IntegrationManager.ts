@@ -1,5 +1,5 @@
 /**
- * IntegrationManager?.ts - Advanced Integration Management System
+ * IntegrationManager.ts - Advanced Integration Management System
  *
  * Provides comprehensive integration capabilities for:
  * - Cross-module communication and coordination
@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../../EventBusPure/index?.js';
+import { EventBus } from '../../EventBusPure/index.js';
 
 // ============================================================================
 // INTEGRATION MANAGER INTERFACES
@@ -125,13 +125,13 @@ export class IntegrationManager {
   private metrics: Map<string, IntegrationMetrics> = new Map();
   private eventQueue: IntegrationEvent[] = [];
   private isProcessing: boolean = false;
-  private healthCheckTimer?: NodeJS?.Timeout;
-  private metricsTimer?: NodeJS?.Timeout;
+  private healthCheckTimer?: NodeJS.Timeout;
+  private metricsTimer?: NodeJS.Timeout;
 
   constructor(config: IntegrationManagerConfig) {
-    this?.eventBus = config?.eventBus;
-    this?.config = config;
-    this?.initialize({});
+    this.eventBus = config.eventBus;
+    this.config = config;
+    this.initialize();
   }
 
   /**
@@ -139,36 +139,36 @@ export class IntegrationManager {
    */
   private initialize(): void {
     // Set up event listeners
-    this?.setupEventListeners();
+    this.setupEventListeners();
     
     // Start health monitoring
-    if (this?.config.healthCheckInterval > 0) {
-      this?.startHealthMonitoring();
+    if (this.config.healthCheckInterval > 0) {
+      this.startHealthMonitoring();
     }
     
     // Start metrics collection
-    if (this?.config.enablePerformanceMonitoring) {
-      this?.startMetricsCollection();
+    if (this.config.enablePerformanceMonitoring) {
+      this.startMetricsCollection();
     }
     
     // Start event processing
-    this?.startEventProcessing();
+    this.startEventProcessing();
   }
 
   /**
    * Set up event listeners
    */
   private setupEventListeners(): void {
-    this?.eventBus.subscribe('integration:register', (data: any) => {
-      this?.registerIntegration(data: any);
+    this.eventBus.subscribe('integration:register', (data) => {
+      this.registerIntegration(data);
     });
     
-    this?.eventBus.subscribe('integration:unregister', (data: any) => {
-      this?.unregisterIntegration(data?.id);
+    this.eventBus.subscribe('integration:unregister', (data) => {
+      this.unregisterIntegration(data.id);
     });
     
-    this?.eventBus.subscribe('integration:event', (data: any) => {
-      this?.processEvent(data: any);
+    this.eventBus.subscribe('integration:event', (data) => {
+      this.processEvent(data);
     });
   }
 
@@ -178,21 +178,21 @@ export class IntegrationManager {
   registerIntegration(config: IntegrationConfig): boolean {
     try {
       // Validate configuration
-      if (!this?.validateConfig(config)) {
-        throw new Error(`Invalid configuration for integration ${config?.id}`);
+      if (!this.validateConfig(config)) {
+        throw new Error(`Invalid configuration for integration ${config.id}`);
       }
 
       // Check dependencies
-      if (!this?.checkDependencies(config?.dependencies)) {
-        throw new Error(`Missing dependencies for integration ${config?.id}`);
+      if (!this.checkDependencies(config.dependencies)) {
+        throw new Error(`Missing dependencies for integration ${config.id}`);
       }
 
       // Store configuration
-      this?.integrations.set(config?.id, config);
+      this.integrations.set(config.id, config);
       
       // Initialize health status
-      this?.healthStatus.set(config?.id, {
-        status: IntegrationStatus?.INITIALIZING,
+      this.healthStatus.set(config.id, {
+        status: IntegrationStatus.INITIALIZING,
         lastCheck: new Date(),
         uptime: 0,
         memoryUsage: 0,
@@ -204,7 +204,7 @@ export class IntegrationManager {
       });
 
       // Initialize metrics
-      this?.metrics.set(config?.id, {
+      this.metrics.set(config.id, {
         totalEvents: 0,
         successfulEvents: 0,
         failedEvents: 0,
@@ -217,15 +217,15 @@ export class IntegrationManager {
       });
 
       // Auto-start if enabled
-      if (config?.autoStart) {
-        this?.startIntegration(config?.id);
+      if (config.autoStart) {
+        this.startIntegration(config.id);
       }
 
-      this?.eventBus.publish('integration:registered', { id: config?.id, config });
+      this.eventBus.publish('integration:registered', { id: config.id, config });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.eventBus.publish('integration:error', { id: config?.id, error });
+      this.eventBus.publish('integration:error', { id: config.id, error });
       return false;
     }
   }
@@ -234,21 +234,21 @@ export class IntegrationManager {
    * Unregister integration
    */
   unregisterIntegration(integrationId: string): boolean {
-    const config = this?.integrations.get(integrationId);
+    const config = this.integrations.get(integrationId);
     if (!config) {
       return false;
     }
 
     // Stop integration if running
-    this?.stopIntegration(integrationId);
+    this.stopIntegration(integrationId);
     
     // Remove from all maps
-    this?.integrations.delete(integrationId);
-    this?.healthStatus.delete(integrationId);
-    this?.metrics.delete(integrationId);
-    this?.hooks.delete(integrationId);
+    this.integrations.delete(integrationId);
+    this.healthStatus.delete(integrationId);
+    this.metrics.delete(integrationId);
+    this.hooks.delete(integrationId);
     
-    this?.eventBus.publish('integration:unregistered', { id: integrationId });
+    this.eventBus.publish('integration:unregistered', { id: integrationId });
     return true;
   }
 
@@ -256,27 +256,27 @@ export class IntegrationManager {
    * Start integration
    */
   startIntegration(integrationId: string): boolean {
-    const config = this?.integrations.get(integrationId);
-    if (!config || !config?.enabled) {
+    const config = this.integrations.get(integrationId);
+    if (!config || !config.enabled) {
       return false;
     }
 
-    const health = this?.healthStatus.get(integrationId);
+    const health = this.healthStatus.get(integrationId);
     if (!health) {
       return false;
     }
 
     try {
-      health?.status = IntegrationStatus?.ACTIVE;
-      health?.lastCheck = new Date();
+      health.status = IntegrationStatus.ACTIVE;
+      health.lastCheck = new Date();
       
-      this?.eventBus.publish('integration:started', { id: integrationId });
+      this.eventBus.publish('integration:started', { id: integrationId });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      health?.status = IntegrationStatus?.ERROR;
-      health?.lastError = error as Error;
-      this?.eventBus.publish('integration:error', { id: integrationId, error });
+      health.status = IntegrationStatus.ERROR;
+      health.lastError = error as Error;
+      this.eventBus.publish('integration:error', { id: integrationId, error });
       return false;
     }
   }
@@ -285,15 +285,15 @@ export class IntegrationManager {
    * Stop integration
    */
   stopIntegration(integrationId: string): boolean {
-    const health = this?.healthStatus.get(integrationId);
+    const health = this.healthStatus.get(integrationId);
     if (!health) {
       return false;
     }
 
-    health?.status = IntegrationStatus?.INACTIVE;
-    health?.lastCheck = new Date();
+    health.status = IntegrationStatus.INACTIVE;
+    health.lastCheck = new Date();
     
-    this?.eventBus.publish('integration:stopped', { id: integrationId });
+    this.eventBus.publish('integration:stopped', { id: integrationId });
     return true;
   }
 
@@ -301,10 +301,10 @@ export class IntegrationManager {
    * Add integration hook
    */
   addHook(hook: IntegrationHook): boolean {
-    const hooks = this?.hooks.get(hook?.integrationId) || [];
-    hooks?.push(hook);
-    hooks?.sort((a: any, b: any) => b?.priority - a?.priority);
-    this?.hooks.set(hook?.integrationId, hooks);
+    const hooks = this.hooks.get(hook.integrationId) || [];
+    hooks.push(hook);
+    hooks.sort((a: any, b: any) => b.priority - a.priority);
+    this.hooks.set(hook.integrationId, hooks);
     return true;
   }
 
@@ -312,17 +312,17 @@ export class IntegrationManager {
    * Remove integration hook
    */
   removeHook(integrationId: string, hookId: string): boolean {
-    const hooks = this?.hooks.get(integrationId);
+    const hooks = this.hooks.get(integrationId);
     if (!hooks) {
       return false;
     }
 
-    const index = hooks?.findIndex(h => h?.id === hookId);
+    const index = hooks.findIndex(h => h.id === hookId);
     if (index === -1) {
       return false;
     }
 
-    hooks?.splice(index, 1);
+    hooks.splice(index, 1);
     return true;
   }
 
@@ -330,10 +330,10 @@ export class IntegrationManager {
    * Process integration event
    */
   processEvent(event: IntegrationEvent): void {
-    this?.eventQueue?.push(event);
+    this.eventQueue.push(event);
     
-    if (!this?.isProcessing) {
-      this?.processEventQueue();
+    if (!this.isProcessing) {
+      this.processEventQueue();
     }
   }
 
@@ -341,26 +341,26 @@ export class IntegrationManager {
    * Process event queue
    */
   private async processEventQueue(): Promise<void> {
-    this?.isProcessing = true;
+    this.isProcessing = true;
     
-    while (this?.eventQueue.length > 0) {
-      const event = this?.eventQueue.shift();
+    while (this.eventQueue.length > 0) {
+      const event = this.eventQueue.shift();
       if (!event) continue;
 
-      await this?.handleEvent(event);
+      await this.handleEvent(event);
     }
     
-    this?.isProcessing = false;
+    this.isProcessing = false;
   }
 
   /**
    * Handle individual event
    */
   private async handleEvent(event: IntegrationEvent): Promise<void> {
-    const startTime = new Date();
-    const integrationId = event?.integrationId;
-    const hooks = this?.hooks.get(integrationId) || [];
-    const metrics = this?.metrics.get(integrationId);
+    const startTime = Date.now();
+    const integrationId = event.integrationId;
+    const hooks = this.hooks.get(integrationId) || [];
+    const metrics = this.metrics.get(integrationId);
     
     if (!metrics) {
       return;
@@ -369,26 +369,26 @@ export class IntegrationManager {
     try {
       // Execute hooks
       for (const hook of hooks) {
-        if (!hook?.enabled || hook?.event !== event?.type) {
+        if (!hook.enabled || hook.event !== event.type) {
           continue;
         }
 
-        if (hook?.async) {
-          await this?.executeHookAsync(hook, event);
+        if (hook.async) {
+          await this.executeHookAsync(hook, event);
         } else {
-          this?.executeHook(hook, event);
+          this.executeHook(hook, event);
         }
       }
 
       // Update metrics
-      const processingTime = new Date() - startTime;
-      this?.updateMetrics(integrationId, true, processingTime);
+      const processingTime = Date.now() - startTime;
+      this.updateMetrics(integrationId, true, processingTime);
       
-      this?.eventBus.publish('integration:eventProcessed', { event, processingTime });
+      this.eventBus.publish('integration:eventProcessed', { event, processingTime });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.updateMetrics(integrationId, false, Date.now() - startTime);
-      this?.eventBus.publish('integration:eventError', { event, error });
+      this.eventBus.publish('integration:eventError', { event, error });
     }
   }
 
@@ -397,10 +397,10 @@ export class IntegrationManager {
    */
   private executeHook(hook: IntegrationHook, event: IntegrationEvent): void {
     try {
-      hook?.handler(event);
+      hook.handler(event);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.eventBus.publish('integration:hookError', { hook, event, error });
+      this.eventBus.publish('integration:hookError', { hook, event, error });
     }
   }
 
@@ -409,15 +409,15 @@ export class IntegrationManager {
    */
   private async executeHookAsync(hook: IntegrationHook, event: IntegrationEvent): Promise<void> {
     try {
-      await Promise?.race([
-        hook?.handler(event),
+      await Promise.race([
+        hook.handler(event),
         new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Hook timeout')), hook?.timeout)
+          setTimeout(() => reject(new Error('Hook timeout')), hook.timeout)
         )
       ]);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.eventBus.publish('integration:hookError', { hook, event, error });
+      this.eventBus.publish('integration:hookError', { hook, event, error });
     }
   }
 
@@ -425,48 +425,48 @@ export class IntegrationManager {
    * Update integration metrics
    */
   private updateMetrics(integrationId: string, success: boolean, processingTime: number): void {
-    const metrics = this?.metrics.get(integrationId);
+    const metrics = this.metrics.get(integrationId);
     if (!metrics) return;
 
-    metrics?.totalEvents++;
+    metrics.totalEvents++;
     if (success) {
-      metrics?.successfulEvents++;
+      metrics.successfulEvents++;
     } else {
-      metrics?.failedEvents++;
+      metrics.failedEvents++;
     }
 
     // Update average processing time
-    metrics?.averageProcessingTime = 
-      (metrics?.averageProcessingTime * (metrics?.totalEvents - 1) + processingTime) / 
-      metrics?.totalEvents;
+    metrics.averageProcessingTime = 
+      (metrics.averageProcessingTime * (metrics.totalEvents - 1) + processingTime) / 
+      metrics.totalEvents;
 
     // Update error rate
-    metrics?.errorRate = (metrics?.failedEvents / metrics?.totalEvents) * 100;
+    metrics.errorRate = (metrics.failedEvents / metrics.totalEvents) * 100;
 
     // Update throughput (events per second)
-    const now = new Date();
-    const timeDiff = now - metrics?.lastActivity.getTime();
+    const now = Date.now();
+    const timeDiff = now - metrics.lastActivity.getTime();
     if (timeDiff > 0) {
-      metrics?.throughput = (metrics?.totalEvents / timeDiff) * 1000;
+      metrics.throughput = (metrics.totalEvents / timeDiff) * 1000;
     }
-    metrics?.lastActivity = new Date();
+    metrics.lastActivity = new Date();
   }
 
   /**
    * Start health monitoring
    */
   private startHealthMonitoring(): void {
-    this?.healthCheckTimer = setInterval(() => {
-      this?.performHealthChecks();
-    }, this?.config.healthCheckInterval);
+    this.healthCheckTimer = setInterval(() => {
+      this.performHealthChecks();
+    }, this.config.healthCheckInterval);
   }
 
   /**
    * Perform health checks
    */
   private performHealthChecks(): void {
-    for (const [integrationId, health] of this?.healthStatus) {
-      this?.checkIntegrationHealth(integrationId, health);
+    for (const [integrationId, health] of this.healthStatus) {
+      this.checkIntegrationHealth(integrationId, health);
     }
   }
 
@@ -475,37 +475,37 @@ export class IntegrationManager {
    */
   private checkIntegrationHealth(integrationId: string, health: IntegrationHealth): void {
     const now = new Date();
-    const config = this?.integrations.get(integrationId);
+    const config = this.integrations.get(integrationId);
     
     if (!config) {
       return;
     }
 
     // Update uptime
-    health?.uptime = now?.getTime() - health?.lastCheck.getTime();
-    health?.lastCheck = now;
+    health.uptime = now.getTime() - health.lastCheck.getTime();
+    health.lastCheck = now;
 
     // Check memory usage
-    if (process?.memoryUsage) {
-      const memUsage = process?.memoryUsage();
-      health?.memoryUsage = memUsage?.heapUsed / 1024 / 1024; // MB
+    if (process.memoryUsage) {
+      const memUsage = process.memoryUsage();
+      health.memoryUsage = memUsage.heapUsed / 1024 / 1024; // MB
       
-      if (health?.memoryUsage > config?.maxMemoryUsage) {
-        health?.status = IntegrationStatus?.ERROR;
-        this?.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health?.memoryUsage });
+      if (health.memoryUsage > config.maxMemoryUsage) {
+        health.status = IntegrationStatus.ERROR;
+        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health.memoryUsage });
       }
     }
 
     // Check error rate
-    const metrics = this?.metrics.get(integrationId);
-    if (metrics && metrics?.errorRate > 50) {
-      health?.status = IntegrationStatus?.ERROR;
-      this?.eventBus.publish('integration:errorRateWarning', { id: integrationId, rate: metrics?.errorRate });
+    const metrics = this.metrics.get(integrationId);
+    if (metrics && metrics.errorRate > 50) {
+      health.status = IntegrationStatus.ERROR;
+      this.eventBus.publish('integration:errorRateWarning', { id: integrationId, rate: metrics.errorRate });
     }
 
     // Auto-recovery
-    if (this?.config.enableErrorRecovery && health?.status === IntegrationStatus?.ERROR) {
-      this?.attemptRecovery(integrationId);
+    if (this.config.enableErrorRecovery && health.status === IntegrationStatus.ERROR) {
+      this.attemptRecovery(integrationId);
     }
   }
 
@@ -513,25 +513,25 @@ export class IntegrationManager {
    * Attempt integration recovery
    */
   private attemptRecovery(integrationId: string): void {
-    const config = this?.integrations.get(integrationId);
-    const health = this?.healthStatus.get(integrationId);
+    const config = this.integrations.get(integrationId);
+    const health = this.healthStatus.get(integrationId);
     
     if (!config || !health) {
       return;
     }
 
-    if (health?.errorCount < config?.retryAttempts) {
-      health?.errorCount++;
-      health?.status = IntegrationStatus?.INITIALIZING;
+    if (health.errorCount < config.retryAttempts) {
+      health.errorCount++;
+      health.status = IntegrationStatus.INITIALIZING;
       
       setTimeout(() => {
-        this?.startIntegration(integrationId);
-      }, config?.retryDelay);
+        this.startIntegration(integrationId);
+      }, config.retryDelay);
       
-      this?.eventBus.publish('integration:recoveryAttempted', { id: integrationId, attempt: health?.errorCount });
+      this.eventBus.publish('integration:recoveryAttempted', { id: integrationId, attempt: health.errorCount });
     } else {
-      health?.status = IntegrationStatus?.DISABLED;
-      this?.eventBus.publish('integration:recoveryFailed', { id: integrationId });
+      health.status = IntegrationStatus.DISABLED;
+      this.eventBus.publish('integration:recoveryFailed', { id: integrationId });
     }
   }
 
@@ -539,8 +539,8 @@ export class IntegrationManager {
    * Start metrics collection
    */
   private startMetricsCollection(): void {
-    this?.metricsTimer = setInterval(() => {
-      this?.collectMetrics();
+    this.metricsTimer = setInterval(() => {
+      this.collectMetrics();
     }, 60000); // Every minute
   }
 
@@ -548,16 +548,16 @@ export class IntegrationManager {
    * Collect system metrics
    */
   private collectMetrics(): void {
-    for (const [integrationId, health] of this?.healthStatus) {
-      const metrics = this?.metrics.get(integrationId);
+    for (const [integrationId, health] of this.healthStatus) {
+      const metrics = this.metrics.get(integrationId);
       if (!metrics) continue;
 
       // Update peak usage
-      if (health?.memoryUsage > metrics?.peakMemoryUsage) {
-        metrics?.peakMemoryUsage = health?.memoryUsage;
+      if (health.memoryUsage > metrics.peakMemoryUsage) {
+        metrics.peakMemoryUsage = health.memoryUsage;
       }
-      if (health?.cpuUsage > metrics?.peakCpuUsage) {
-        metrics?.peakCpuUsage = health?.cpuUsage;
+      if (health.cpuUsage > metrics.peakCpuUsage) {
+        metrics.peakCpuUsage = health.cpuUsage;
       }
     }
   }
@@ -567,8 +567,8 @@ export class IntegrationManager {
    */
   private startEventProcessing(): void {
     setInterval(() => {
-      if (!this?.isProcessing && this?.eventQueue.length > 0) {
-        this?.processEventQueue();
+      if (!this.isProcessing && this.eventQueue.length > 0) {
+        this.processEventQueue();
       }
     }, 100);
   }
@@ -578,13 +578,13 @@ export class IntegrationManager {
    */
   private validateConfig(config: IntegrationConfig): boolean {
     return !!(
-      config?.id &&
-      config?.name &&
-      config?.type &&
-      config?.version &&
-      typeof config?.priority === 'number' &&
+      config.id &&
+      config.name &&
+      config.type &&
+      config.version &&
+      typeof config.priority === 'number' &&
       Array.isArray(config.dependencies) &&
-      typeof config?.enabled === 'boolean'
+      typeof config.enabled === 'boolean'
     );
   }
 
@@ -592,21 +592,21 @@ export class IntegrationManager {
    * Check integration dependencies
    */
   private checkDependencies(dependencies: string[]): boolean {
-    return dependencies?.every(dep => this?.integrations.has(dep));
+    return dependencies.every(dep => this.integrations.has(dep));
   }
 
   /**
    * Get integration status
    */
   getIntegrationStatus(integrationId: string): IntegrationHealth | null {
-    return this?.healthStatus.get(integrationId) || null;
+    return this.healthStatus.get(integrationId) || null;
   }
 
   /**
    * Get integration metrics
    */
   getIntegrationMetrics(integrationId: string): IntegrationMetrics | null {
-    return this?.metrics.get(integrationId) || null;
+    return this.metrics.get(integrationId) || null;
   }
 
   /**
@@ -620,9 +620,9 @@ export class IntegrationManager {
    * Get active integrations
    */
   getActiveIntegrations(): IntegrationConfig[] {
-    return this?.getAllIntegrations().filter((config: any) => {
-      const health = this?.healthStatus.get(config?.id);
-      return health && health?.status === IntegrationStatus?.ACTIVE;
+    return this.getAllIntegrations().filter((config: any) => {
+      const health = this.healthStatus.get(config.id);
+      return health && health.status === IntegrationStatus.ACTIVE;
     });
   }
 
@@ -643,37 +643,37 @@ export class IntegrationManager {
     averageProcessingTime: number;
     systemUptime: number;
   } {
-    const integrations = this?.getAllIntegrations();
-    const activeIntegrations = this?.getActiveIntegrations();
+    const integrations = this.getAllIntegrations();
+    const activeIntegrations = this.getActiveIntegrations();
     const allMetrics = Array.from(this.metrics.values());
     
     return {
-      totalIntegrations: integrations?.length,
-      activeIntegrations: activeIntegrations?.length,
-      totalEvents: allMetrics?.reduce((sum, m) => sum + m?.totalEvents, 0),
-      averageProcessingTime: allMetrics?.reduce((sum, m) => sum + m?.averageProcessingTime, 0) / allMetrics?.length || 0,
-      systemUptime: new Date() - this?.startTime
+      totalIntegrations: integrations.length,
+      activeIntegrations: activeIntegrations.length,
+      totalEvents: allMetrics.reduce((sum, m) => sum + m.totalEvents, 0),
+      averageProcessingTime: allMetrics.reduce((sum, m) => sum + m.averageProcessingTime, 0) / allMetrics.length || 0,
+      systemUptime: new Date() - this.startTime
     };
   }
 
-  private startTime = new Date();
+  private startTime = Date.now();
 
   /**
    * Cleanup resources
    */
   destroy(): void {
-    if (this?.healthCheckTimer) {
-      clearInterval(this?.healthCheckTimer);
+    if (this.healthCheckTimer) {
+      clearInterval(this.healthCheckTimer);
     }
-    if (this?.metricsTimer) {
-      clearInterval(this?.metricsTimer);
+    if (this.metricsTimer) {
+      clearInterval(this.metricsTimer);
     }
     
-    this?.integrations.clear();
-    this?.healthStatus.clear();
-    this?.hooks.clear();
-    this?.metrics.clear();
-    this?.eventQueue = [];
+    this.integrations.clear();
+    this.healthStatus.clear();
+    this.hooks.clear();
+    this.metrics.clear();
+    this.eventQueue = [];
   }
 }
 

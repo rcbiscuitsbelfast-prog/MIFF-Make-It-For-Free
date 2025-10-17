@@ -104,9 +104,9 @@ export class EquipmentManager {
   private stats: EquipmentStats;
 
   constructor(hooks: Hooks = {}, inventory?: InventoryPort) {
-    this?.hooks = hooks;
-    this?.inventory = inventory;
-    this?.stats = {
+    this.hooks = hooks;
+    this.inventory = inventory;
+    this.stats = {
       totalItems: 0,
       itemsBySlot: {},
       itemsByRarity: {
@@ -128,7 +128,7 @@ export class EquipmentManager {
    * Sync with inventory system
    */
   syncInventory(port: InventoryPort): EquipmentOutput {
-    this?.inventory = port;
+    this.inventory = port;
     return {
       op: 'sync-inventory',
       status: 'ok',
@@ -151,7 +151,7 @@ export class EquipmentManager {
    * Get equipped item in slot
    */
   getEquipped(slot: string): EquipmentOutput {
-    const item = this?.equipped.get(slot);
+    const item = this.equipped.get(slot);
     if (!item) {
       return {
         op: 'get-equipped',
@@ -171,10 +171,10 @@ export class EquipmentManager {
    */
   getModifiers(): EquipmentOutput {
     const mods: StatModifier[] = [];
-    for (const item of this?.equipped.values()) {
-      for (const modifier of item?.modifiers) {
-        mods?.push({ ...modifier });
-        this?.hooks.onModifierApplied?.(modifier, item);
+    for (const item of this.equipped.values()) {
+      for (const modifier of item.modifiers) {
+        mods.push({ ...modifier });
+        this.hooks.onModifierApplied?.(modifier, item);
       }
     }
     return {
@@ -196,7 +196,7 @@ export class EquipmentManager {
         issues: [`Item not found: ${itemId}`]
       };
     }
-    if (def?.slot !== slot) {
+    if (def.slot !== slot) {
       return {
         op: 'equip',
         status: 'error',
@@ -204,8 +204,8 @@ export class EquipmentManager {
       };
     }
 
-    if (this?.inventory) {
-      const ok = this?.inventory.removeItem(itemId, 1);
+    if (this.inventory) {
+      const ok = this.inventory.removeItem(itemId, 1);
       if (!ok) {
         return {
           op: 'equip',
@@ -216,15 +216,15 @@ export class EquipmentManager {
     }
 
     // Unequip existing in slot (return to inventory)
-    const prev = this?.equipped.get(slot);
-    if (prev && this?.inventory) {
-      this?.inventory.addItem(prev?.id, 1);
+    const prev = this.equipped.get(slot);
+    if (prev && this.inventory) {
+      this.inventory.addItem(prev.id, 1);
     }
 
     const item: EquippedItem = { ...def, source: 'inventory' };
-    this?.equipped.set(slot, item);
-    this?.hooks.onEquip?.(item: any);
-    this?.updateStats();
+    this.equipped.set(slot, item);
+    this.hooks.onEquip?.(item);
+    this.updateStats();
     return {
       op: 'equip',
       status: 'ok',
@@ -236,7 +236,7 @@ export class EquipmentManager {
    * Unequip item from slot
    */
   unequip(slot: string): EquipmentOutput {
-    const prev = this?.equipped.get(slot);
+    const prev = this.equipped.get(slot);
     if (!prev) {
       return {
         op: 'unequip',
@@ -245,12 +245,12 @@ export class EquipmentManager {
       };
     }
 
-    if (this?.inventory) {
-      this?.inventory.addItem(prev?.id, 1);
+    if (this.inventory) {
+      this.inventory.addItem(prev.id, 1);
     }
-    this?.equipped.delete(slot);
-    this?.hooks.onUnequip?.(slot, prev);
-    this?.updateStats();
+    this.equipped.delete(slot);
+    this.hooks.onUnequip?.(slot, prev);
+    this.updateStats();
     return {
       op: 'unequip',
       status: 'ok',
@@ -262,7 +262,7 @@ export class EquipmentManager {
    * Add enchantment to item
    */
   addEnchantment(slot: string, enchantment: Enchantment): EquipmentOutput {
-    const item = this?.equipped.get(slot);
+    const item = this.equipped.get(slot);
     if (!item) {
       return {
         op: 'add-enchantment',
@@ -271,12 +271,12 @@ export class EquipmentManager {
       };
     }
 
-    if (!item?.enchantments) {
-      item?.enchantments = [];
+    if (!item.enchantments) {
+      item.enchantments = [];
     }
-    item?.enchantments?.push(enchantment);
-    this?.hooks.onEnchantmentAdded?.(item, enchantment);
-    this?.updateStats();
+    item.enchantments.push(enchantment);
+    this.hooks.onEnchantmentAdded?.(item, enchantment);
+    this.updateStats();
     return {
       op: 'add-enchantment',
       status: 'ok',
@@ -288,7 +288,7 @@ export class EquipmentManager {
    * Remove enchantment from item
    */
   removeEnchantment(slot: string, enchantmentId: string): EquipmentOutput {
-    const item = this?.equipped.get(slot);
+    const item = this.equipped.get(slot);
     if (!item) {
       return {
         op: 'remove-enchantment',
@@ -297,7 +297,7 @@ export class EquipmentManager {
       };
     }
 
-    if (!item?.enchantments) {
+    if (!item.enchantments) {
       return {
         op: 'remove-enchantment',
         status: 'error',
@@ -305,7 +305,7 @@ export class EquipmentManager {
       };
     }
 
-    const index = item?.enchantments.findIndex(e => e?.id === enchantmentId);
+    const index = item.enchantments.findIndex(e => e.id === enchantmentId);
     if (index === -1) {
       return {
         op: 'remove-enchantment',
@@ -314,9 +314,9 @@ export class EquipmentManager {
       };
     }
 
-    item?.enchantments.splice(index, 1);
-    this?.hooks.onEnchantmentRemoved?.(item, enchantmentId);
-    this?.updateStats();
+    item.enchantments.splice(index, 1);
+    this.hooks.onEnchantmentRemoved?.(item, enchantmentId);
+    this.updateStats();
     return {
       op: 'remove-enchantment',
       status: 'ok',
@@ -328,7 +328,7 @@ export class EquipmentManager {
    * Update item durability
    */
   updateDurability(slot: string, durability: number): EquipmentOutput {
-    const item = this?.equipped.get(slot);
+    const item = this.equipped.get(slot);
     if (!item) {
       return {
         op: 'update-durability',
@@ -337,10 +337,10 @@ export class EquipmentManager {
       };
     }
 
-    const oldDurability = item?.durability || 0;
+    const oldDurability = item.durability || 0;
     item.durability = Math.max(0, Math.min(durability, item.maxDurability || 100));
-    this?.hooks.onDurabilityChange?.(item, oldDurability, item?.durability);
-    this?.updateStats();
+    this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
+    this.updateStats();
     return {
       op: 'update-durability',
       status: 'ok',
@@ -359,7 +359,7 @@ export class EquipmentManager {
     rarity?: ItemRarity;
     enchantments?: Enchantment[];
   }): EquipmentOutput {
-    const item = this?.equipped.get(slot);
+    const item = this.equipped.get(slot);
     if (!item) {
       return {
         op: 'modify-equipment',
@@ -369,33 +369,33 @@ export class EquipmentManager {
     }
 
     // Apply modifications
-    if (modifications?.name !== undefined) {
-      item?.name = modifications?.name;
+    if (modifications.name !== undefined) {
+      item.name = modifications.name;
     }
 
-    if (modifications?.modifiers !== undefined) {
-      item?.modifiers = modifications?.modifiers;
+    if (modifications.modifiers !== undefined) {
+      item.modifiers = modifications.modifiers;
     }
 
-    if (modifications?.durability !== undefined) {
-      const oldDurability = item?.durability || 0;
+    if (modifications.durability !== undefined) {
+      const oldDurability = item.durability || 0;
       item.durability = Math.max(0, Math.min(modifications.durability, item.maxDurability || 100));
-      this?.hooks.onDurabilityChange?.(item, oldDurability, item?.durability);
+      this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
     }
 
-    if (modifications?.level !== undefined) {
+    if (modifications.level !== undefined) {
       item.level = Math.max(1, modifications.level);
     }
 
-    if (modifications?.rarity !== undefined) {
-      item?.rarity = modifications?.rarity;
+    if (modifications.rarity !== undefined) {
+      item.rarity = modifications.rarity;
     }
 
-    if (modifications?.enchantments !== undefined) {
-      item?.enchantments = modifications?.enchantments;
+    if (modifications.enchantments !== undefined) {
+      item.enchantments = modifications.enchantments;
     }
 
-    this?.updateStats();
+    this.updateStats();
     return {
       op: 'modify-equipment',
       status: 'ok',
@@ -407,15 +407,15 @@ export class EquipmentManager {
    * Add equipment set
    */
   addEquipmentSet(set: EquipmentSet): EquipmentOutput {
-    if (this?.equipmentSets.has(set?.id)) {
+    if (this.equipmentSets.has(set.id)) {
       return {
         op: 'add-equipment-set',
         status: 'error',
-        issues: [`Equipment set ${set?.id} already exists`]
+        issues: [`Equipment set ${set.id} already exists`]
       };
     }
 
-    this?.equipmentSets.set(set?.id, set);
+    this.equipmentSets.set(set.id, set);
     return {
       op: 'add-equipment-set',
       status: 'ok',
@@ -427,7 +427,7 @@ export class EquipmentManager {
    * Remove equipment set
    */
   removeEquipmentSet(setId: string): EquipmentOutput {
-    if (!this?.equipmentSets.has(setId)) {
+    if (!this.equipmentSets.has(setId)) {
       return {
         op: 'remove-equipment-set',
         status: 'error',
@@ -435,7 +435,7 @@ export class EquipmentManager {
       };
     }
 
-    this?.equipmentSets.delete(setId);
+    this.equipmentSets.delete(setId);
     return {
       op: 'remove-equipment-set',
       status: 'ok',
@@ -449,16 +449,16 @@ export class EquipmentManager {
   getActiveSets(): EquipmentOutput {
     const activeSets: { set: EquipmentSet; activePieces: number; bonuses: SetBonus[] }[] = [];
 
-    for (const set of this?.equipmentSets.values()) {
+    for (const set of this.equipmentSets.values()) {
       const activePieces = Array.from(this.equipped.values()).filter((item: any) =>
-        item?.set === set?.id
+        item.set === set.id
       ).length;
 
-      const bonuses = set?.bonuses.filter((bonus: any) =>
-        activePieces >= bonus?.piecesRequired
+      const bonuses = set.bonuses.filter((bonus: any) =>
+        activePieces >= bonus.piecesRequired
       );
 
-      activeSets?.push({
+      activeSets.push({
         set,
         activePieces,
         bonuses
@@ -476,12 +476,12 @@ export class EquipmentManager {
    * Get all stat modifiers including set bonuses
    */
   getAllModifiers(): EquipmentOutput {
-    const mods = this?.getModifiers().result as StatModifier[];
-    const setBonuses = this?.getActiveSets().result as { bonuses: SetBonus[] }[];
+    const mods = this.getModifiers().result as StatModifier[];
+    const setBonuses = this.getActiveSets().result as { bonuses: SetBonus[] }[];
 
     for (const setData of setBonuses) {
-      for (const bonus of setData?.bonuses) {
-        mods?.push(...bonus?.bonuses);
+      for (const bonus of setData.bonuses) {
+        mods.push(...bonus.bonuses);
       }
     }
 
@@ -496,7 +496,7 @@ export class EquipmentManager {
    * Compare equipment with another item
    */
   compareEquipment(slot: string, itemId: string, catalogLookup: (id: string) => Omit<EquippedItem, 'source'> | undefined): EquipmentOutput {
-    const currentItem = this?.equipped.get(slot);
+    const currentItem = this.equipped.get(slot);
     const newItem = catalogLookup(itemId);
 
     if (!newItem) {
@@ -523,7 +523,7 @@ export class EquipmentManager {
     const properties = ['name', 'level', 'rarity', 'durability', 'maxDurability'];
     for (const prop of properties) {
       if (currentItem?.[prop as keyof EquippedItem] !== newItem[prop as keyof typeof newItem]) {
-        comparison?.differences[prop!] = {
+        comparison.differences[prop!] = {
           current: currentItem?.[prop as keyof EquippedItem],
           new: newItem[prop as keyof typeof newItem],
           change: currentItem?.[prop as keyof EquippedItem] ?
@@ -535,15 +535,15 @@ export class EquipmentManager {
 
     // Compare modifiers
     const currentModifiers = currentItem?.modifiers || [];
-    const newModifiers = newItem?.modifiers;
+    const newModifiers = newItem.modifiers;
 
     for (const newMod of newModifiers) {
-      const currentMod = currentModifiers?.find(m => m?.stat === newMod?.stat);
-      if (!currentMod || currentMod?.value !== newMod?.value) {
-        comparison?.differences[newMod?.stat] = {
+      const currentMod = currentModifiers.find(m => m.stat === newMod.stat);
+      if (!currentMod || currentMod.value !== newMod.value) {
+        comparison.differences[newMod.stat] = {
           current: currentMod?.value || 0,
-          new: newMod?.value,
-          change: !currentMod ? 'new' : (newMod?.value > currentMod?.value ? 'upgrade' : 'downgrade')
+          new: newMod.value,
+          change: !currentMod ? 'new' : (newMod.value > currentMod.value ? 'upgrade' : 'downgrade')
         };
       }
     }
@@ -553,9 +553,9 @@ export class EquipmentManager {
     const downgrades = Object.values(comparison.differences).filter((d: any) => d.change === 'downgrade').length;
 
     if (upgrades > downgrades) {
-      comparison?.recommendation = 'upgrade';
+      comparison.recommendation = 'upgrade';
     } else if (downgrades > upgrades) {
-      comparison?.recommendation = 'downgrade';
+      comparison.recommendation = 'downgrade';
     }
 
     return {
@@ -584,23 +584,23 @@ export class EquipmentManager {
       previewStats: EquipmentStats;
       changes: Record<string, number>;
     } = {
-      originalStats: { ...this?.stats },
-      previewStats: { ...this?.stats },
+      originalStats: { ...this.stats },
+      previewStats: { ...this.stats },
       changes: {}
     };
 
     // Calculate preview stats (simplified)
     const currentItems = Array.from(this.equipped.values());
-    const totalItems = currentItems?.length + 1;
-    preview?.previewStats.totalItems = totalItems;
-    preview?.previewStats.averageLevel = currentItems?.reduce((acc, item) => acc + item?.level, newItem?.level) / totalItems;
+    const totalItems = currentItems.length + 1;
+    preview.previewStats.totalItems = totalItems;
+    preview.previewStats.averageLevel = currentItems.reduce((acc, item) => acc + item.level, newItem.level) / totalItems;
     // For preview, we need to replace the item in the same slot, not add to total
-    preview?.previewStats.totalModifiers = currentItems?.reduce((acc, item) => acc + item?.modifiers.length, 0) + newItem?.modifiers.length;
+    preview.previewStats.totalModifiers = currentItems.reduce((acc, item) => acc + item.modifiers.length, 0) + newItem.modifiers.length;
 
     // Track changes
-    preview?.changes.totalItems = totalItems - preview?.originalStats.totalItems;
-    preview?.changes.averageLevel = preview?.previewStats.averageLevel - preview?.originalStats.averageLevel;
-    preview?.changes.totalModifiers = preview?.previewStats.totalModifiers - preview?.originalStats.totalModifiers;
+    preview.changes.totalItems = totalItems - preview.originalStats.totalItems;
+    preview.changes.averageLevel = preview.previewStats.averageLevel - preview.originalStats.averageLevel;
+    preview.changes.totalModifiers = preview.previewStats.totalModifiers - preview.originalStats.totalModifiers;
 
     return {
       op: 'preview-equipment',
@@ -613,7 +613,7 @@ export class EquipmentManager {
    * Repair item durability
    */
   repairItem(slot: string, amount?: number): EquipmentOutput {
-    const item = this?.equipped.get(slot);
+    const item = this.equipped.get(slot);
     if (!item) {
       return {
         op: 'repair',
@@ -622,11 +622,11 @@ export class EquipmentManager {
       };
     }
 
-    const repairAmount = amount || (item?.maxDurability || 100);
-    const oldDurability = item?.durability || 0;
+    const repairAmount = amount || (item.maxDurability || 100);
+    const oldDurability = item.durability || 0;
     item.durability = Math.min(repairAmount, item.maxDurability || 100);
-    this?.hooks.onDurabilityChange?.(item, oldDurability, item?.durability);
-    this?.updateStats();
+    this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
+    this.updateStats();
     return {
       op: 'repair',
       status: 'ok',
@@ -641,7 +641,7 @@ export class EquipmentManager {
     return {
       op: 'get-stats',
       status: 'ok',
-      result: { ...this?.stats }
+      result: { ...this.stats }
     };
   }
 
@@ -652,20 +652,20 @@ export class EquipmentManager {
     let items = Array.from(this.equipped.values());
 
     if (filter) {
-      items = items?.filter((item: any) => {
-        if (filter?.slot && item?.slot !== filter?.slot) return false;
-        if (filter?.rarity && item?.rarity !== filter?.rarity) return false;
-        if (filter?.minLevel !== undefined && item?.level < filter?.minLevel) return false;
-        if (filter?.maxLevel !== undefined && item?.level > filter?.maxLevel) return false;
-        if (filter?.hasEnchantments !== undefined) {
-          if (filter?.hasEnchantments && (!item?.enchantments || item?.enchantments.length === 0)) return false;
-          if (!filter?.hasEnchantments && item?.enchantments && item?.enchantments.length > 0) return false;
+      items = items.filter((item: any) => {
+        if (filter.slot && item.slot !== filter.slot) return false;
+        if (filter.rarity && item.rarity !== filter.rarity) return false;
+        if (filter.minLevel !== undefined && item.level < filter.minLevel) return false;
+        if (filter.maxLevel !== undefined && item.level > filter.maxLevel) return false;
+        if (filter.hasEnchantments !== undefined) {
+          if (filter.hasEnchantments && (!item.enchantments || item.enchantments.length === 0)) return false;
+          if (!filter.hasEnchantments && item.enchantments && item.enchantments.length > 0) return false;
         }
-        if (filter?.hasSet !== undefined) {
-          if (filter?.hasSet && !item?.set) return false;
-          if (!filter?.hasSet && item?.set) return false;
+        if (filter.hasSet !== undefined) {
+          if (filter.hasSet && !item.set) return false;
+          if (!filter.hasSet && item.set) return false;
         }
-        if (filter?.minDurability !== undefined && (item?.durability || 0) < filter?.minDurability) return false;
+        if (filter.minDurability !== undefined && (item.durability || 0) < filter.minDurability) return false;
         return true;
       });
     }
@@ -690,7 +690,7 @@ export class EquipmentManager {
           status: 'ok',
           result: {
             items,
-            stats: this?.stats
+            stats: this.stats
           }
         };
       
@@ -699,9 +699,9 @@ export class EquipmentManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff?.equipment.export?.v1',
+            schema: 'miff.equipment.export.v1',
             items,
-            stats: this?.stats,
+            stats: this.stats,
             exportedAt: new Date().toISOString()
           }
         };
@@ -711,10 +711,10 @@ export class EquipmentManager {
           op: 'export',
           status: 'ok',
           result: {
-            summary: this?.stats,
-            totalItems: items?.length,
-            itemsBySlot: this?.stats.itemsBySlot,
-            itemsByRarity: this?.stats.itemsByRarity
+            summary: this.stats,
+            totalItems: items.length,
+            itemsBySlot: this.stats.itemsBySlot,
+            itemsByRarity: this.stats.itemsByRarity
           }
         };
       
@@ -724,7 +724,7 @@ export class EquipmentManager {
           status: 'ok',
           result: {
             items,
-            total: items?.length
+            total: items.length
           }
         };
       
@@ -741,9 +741,9 @@ export class EquipmentManager {
    * Reset equipment system
    */
   resetEquipment(): EquipmentOutput {
-    this?.equipped.clear();
-    this?.equipmentSets.clear();
-    this?.stats = {
+    this.equipped.clear();
+    this.equipmentSets.clear();
+    this.stats = {
       totalItems: 0,
       itemsBySlot: {},
       itemsByRarity: {
@@ -771,11 +771,11 @@ export class EquipmentManager {
    */
   private updateStats(): void {
     const items = Array.from(this.equipped.values());
-    this?.stats.totalItems = items?.length;
+    this.stats.totalItems = items.length;
 
     // Reset counts
-    this?.stats.itemsBySlot = {};
-    this?.stats.itemsByRarity = {
+    this.stats.itemsBySlot = {};
+    this.stats.itemsByRarity = {
       common: 0,
       uncommon: 0,
       rare: 0,
@@ -785,16 +785,16 @@ export class EquipmentManager {
     };
 
     // Count by slot and rarity
-    items?.forEach((item: any) => {
-      this?.stats.itemsBySlot[item?.slot] = (this?.stats.itemsBySlot[item?.slot] || 0) + 1;
-      this?.stats.itemsByRarity[item?.rarity]++;
+    items.forEach((item: any) => {
+      this.stats.itemsBySlot[item.slot] = (this.stats.itemsBySlot[item.slot] || 0) + 1;
+      this.stats.itemsByRarity[item.rarity]++;
     });
 
     // Calculate totals
-    this?.stats.totalModifiers = items?.reduce((acc, item) => acc + item?.modifiers.length, 0);
-    this?.stats.averageLevel = items?.length > 0 ? items?.reduce((acc, item) => acc + item?.level, 0) / items?.length : 0;
-    this?.stats.durability = items?.reduce((acc, item) => acc + (item?.durability || 0), 0);
-    this?.stats.enchantments = items?.reduce((acc, item) => acc + (item?.enchantments?.length || 0), 0);
+    this.stats.totalModifiers = items.reduce((acc, item) => acc + item.modifiers.length, 0);
+    this.stats.averageLevel = items.length > 0 ? items.reduce((acc, item) => acc + item.level, 0) / items.length : 0;
+    this.stats.durability = items.reduce((acc, item) => acc + (item.durability || 0), 0);
+    this.stats.enchantments = items.reduce((acc, item) => acc + (item.enchantments?.length || 0), 0);
   }
 }
 

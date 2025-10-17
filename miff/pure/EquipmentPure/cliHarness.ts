@@ -13,26 +13,26 @@ type Cmd =
   | { op: 'syncInventory' };
 
 function main() {
-  const catalogPath = process?.argv[2!] || 'EquipmentPure/sample_equipment?.json';
-  const commandsPath = process?.argv[3!] || '';
+  const catalogPath = process.argv[2!] || 'EquipmentPure/sample_equipment.json';
+  const commandsPath = process.argv[3!] || '';
   const obj = JSON.parse(fs.readFileSync(path.resolve(catalogPath), 'utf-8')) as { items: CatalogItem[], inventory?: { id: string, quantity: number }[] };
 
   const inventory = new Map<string, number>();
-  for (const e of obj?.inventory || []) inventory?.set(e?.id, e?.quantity);
+  for (const e of obj.inventory || []) inventory.set(e.id, e.quantity);
 
   const invPort = {
-    getQuantity: (id: string) => inventory?.get(id) || 0,
-    addItem: (id: string, q: number) => inventory?.set(id, (inventory?.get(id) || 0) + q),
+    getQuantity: (id: string) => inventory.get(id) || 0,
+    addItem: (id: string, q: number) => inventory.set(id, (inventory.get(id) || 0) + q),
     removeItem: (id: string, q: number) => {
-      const n = inventory?.get(id) || 0; if (n < q) return false; inventory?.set(id, n - q); return true;
+      const n = inventory.get(id) || 0; if (n < q) return false; inventory.set(id, n - q); return true;
     },
   };
 
-  const lookup = (id: string): CatalogItem | undefined => obj?.items.find(i => i?.id === id);
+  const lookup = (id: string): CatalogItem | undefined => obj.items.find(i => i.id === id);
   const log: string[] = [];
   const mgr = new EquipmentManager({
-    onEquip: (item: any) => log?.push(`EQUIP ${item?.id} -> ${item?.slot}`),
-    onUnequip: (slot, item) => log?.push(`UNEQUIP ${slot}${item ? ' ' + item?.id : ''}`),
+    onEquip: (item) => log.push(`EQUIP ${item.id} -> ${item.slot}`),
+    onUnequip: (slot, item) => log.push(`UNEQUIP ${slot}${item ? ' ' + item.id : ''}`),
     onModifierApplied: (m, item) => {/* trace modifiers on dump only */},
   }, invPort);
 
@@ -40,22 +40,22 @@ function main() {
   const outputs: any[] = [];
 
   for (const c of cmds) {
-    if (c?.op === 'listEquipment') {
+    if (c.op === 'listEquipment') {
       const eq = ['weapon', 'armor', 'mount'].map((s: any) => {
-        const result = mgr?.getEquipped(s);
-        return { slot: s, item: result?.status === 'ok' ? result?.result : null };
+        const result = mgr.getEquipped(s);
+        return { slot: s, item: result.status === 'ok' ? result.result : null };
       });
-      outputs?.push({ op: 'listEquipment', equipped: eq });
-    } else if (c?.op === 'equip') {
-      mgr?.equip(c?.itemId, c?.slot, lookup);
-      outputs?.push({ op: 'equip', slot: c?.slot, itemId: c?.itemId });
-    } else if (c?.op === 'unequip') {
-      mgr?.unequip(c?.slot);
-      outputs?.push({ op: 'unequip', slot: c?.slot });
-    } else if (c?.op === 'dumpModifiers') {
-      const result = mgr?.getModifiers();
-      outputs?.push({ op: 'dumpModifiers', modifiers: result?.status === 'ok' ? result?.result : [] });
-    } else if (c?.op === 'syncInventory') {
+      outputs.push({ op: 'listEquipment', equipped: eq });
+    } else if (c.op === 'equip') {
+      mgr.equip(c.itemId, c.slot, lookup);
+      outputs.push({ op: 'equip', slot: c.slot, itemId: c.itemId });
+    } else if (c.op === 'unequip') {
+      mgr.unequip(c.slot);
+      outputs.push({ op: 'unequip', slot: c.slot });
+    } else if (c.op === 'dumpModifiers') {
+      const result = mgr.getModifiers();
+      outputs.push({ op: 'dumpModifiers', modifiers: result.status === 'ok' ? result.result : [] });
+    } else if (c.op === 'syncInventory') {
       // no-op in this harness; inventory is already synced
       outputs.push({ op: 'syncInventory', inventory: Array.from(inventory.entries()).map(([id, quantity]) => ({ id, quantity })) });
     }
@@ -65,5 +65,5 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();
 

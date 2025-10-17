@@ -36,17 +36,17 @@ class AnimationPure {
         completed: false
       };
 
-      this?.activeAnimations.set(animationId, animation);
+      this.activeAnimations.set(animationId, animation);
 
       // Simulate animation progress
       return new Promise((resolve) => {
         const updateInterval = setInterval(() => {
           animation.progress = Math.min(1, (Date.now() - animation.startTime) / animation.duration);
           
-          if (animation?.progress >= 1) {
-            animation?.completed = true;
+          if (animation.progress >= 1) {
+            animation.completed = true;
             clearInterval(updateInterval);
-            this?.activeAnimations.delete(animationId);
+            this.activeAnimations.delete(animationId);
             resolve();
           }
         }, 16); // ~60fps
@@ -59,29 +59,29 @@ class AnimationPure {
   }
 
   updateAnimation(animationId: string, progress: number): void {
-    const animation = this?.activeAnimations.get(animationId);
+    const animation = this.activeAnimations.get(animationId);
     if (animation) {
       animation.progress = Math.max(0, Math.min(1, progress));
     }
   }
 
   completeAnimation(animationId: string): void {
-    const animation = this?.activeAnimations.get(animationId);
+    const animation = this.activeAnimations.get(animationId);
     if (animation) {
-      animation?.progress = 1;
-      animation?.completed = true;
-      this?.activeAnimations.delete(animationId);
+      animation.progress = 1;
+      animation.completed = true;
+      this.activeAnimations.delete(animationId);
     }
   }
 
   getAnimationProgress(animationId: string): number {
-    const animation = this?.activeAnimations.get(animationId);
-    return animation ? animation?.progress : 0;
+    const animation = this.activeAnimations.get(animationId);
+    return animation ? animation.progress : 0;
   }
 
   isAnimationComplete(animationId: string): boolean {
-    const animation = this?.activeAnimations.get(animationId);
-    return animation ? animation?.completed : true;
+    const animation = this.activeAnimations.get(animationId);
+    return animation ? animation.completed : true;
   }
 }
 
@@ -92,37 +92,37 @@ class SceneFlowPure {
   private sceneTransitions: Map<string, string[]> = new Map();
 
   setCurrentScene(sceneId: string): void {
-    if (this?.currentScene) {
-      this?.sceneHistory?.push(this?.currentScene);
+    if (this.currentScene) {
+      this.sceneHistory.push(this.currentScene);
     }
-    this?.currentScene = sceneId;
+    this.currentScene = sceneId;
   }
 
   getCurrentScene(): string | null {
-    return this?.currentScene;
+    return this.currentScene;
   }
 
   getSceneHistory(): string[] {
-    return [...this?.sceneHistory];
+    return [...this.sceneHistory];
   }
 
   canTransitionTo(sceneId: string): boolean {
-    if (!this?.currentScene) return true;
+    if (!this.currentScene) return true;
     
-    const allowedTransitions = this?.sceneTransitions.get(this?.currentScene) || [];
-    return allowedTransitions?.includes(sceneId);
+    const allowedTransitions = this.sceneTransitions.get(this.currentScene) || [];
+    return allowedTransitions.includes(sceneId);
   }
 
   addTransition(fromScene: string, toScene: string): void {
-    if (!this?.sceneTransitions.has(fromScene)) {
-      this?.sceneTransitions.set(fromScene, []);
+    if (!this.sceneTransitions.has(fromScene)) {
+      this.sceneTransitions.set(fromScene, []);
     }
-    this?.sceneTransitions.get(fromScene)!.push(toScene);
+    this.sceneTransitions.get(fromScene)!.push(toScene);
   }
 
   reset(): void {
-    this?.currentScene = null;
-    this?.sceneHistory = [];
+    this.currentScene = null;
+    this.sceneHistory = [];
   }
 }
 
@@ -134,7 +134,7 @@ class DialogueSystemPureStub {
   async startDialogue(dialogueId: string): Promise<void> {
     try {
       // Load dialogue data (in real implementation, this would load from files)
-      this?.currentDialogue = {
+      this.currentDialogue = {
         id: dialogueId,
         nodes: [],
         currentNode: 0,
@@ -154,31 +154,31 @@ class DialogueSystemPureStub {
   }
 
   completeDialogue(): void {
-    if (this?.currentDialogue) {
-      this?.currentDialogue.completed = true;
-      this?.currentDialogue = null;
+    if (this.currentDialogue) {
+      this.currentDialogue.completed = true;
+      this.currentDialogue = null;
       console.log('Dialogue completed');
     }
   }
 
   getCurrentDialogue(): any {
-    return this?.currentDialogue;
+    return this.currentDialogue;
   }
 
   isDialogueActive(): boolean {
-    return this?.currentDialogue && !this?.currentDialogue.completed;
+    return this.currentDialogue && !this.currentDialogue.completed;
   }
 
   queueDialogue(dialogueId: string): void {
-    this?.dialogueQueue?.push(dialogueId);
+    this.dialogueQueue.push(dialogueId);
   }
 
   processDialogueQueue(): Promise<void> {
-    if (this?.dialogueQueue.length > 0 && !this?.isDialogueActive()) {
-      const nextDialogue = this?.dialogueQueue.shift()!;
-      return this?.startDialogue(nextDialogue);
+    if (this.dialogueQueue.length > 0 && !this.isDialogueActive()) {
+      const nextDialogue = this.dialogueQueue.shift()!;
+      return this.startDialogue(nextDialogue);
     }
-    return Promise?.resolve();
+    return Promise.resolve();
   }
 }
 
@@ -193,22 +193,22 @@ class CameraSystemPureStub {
         id: transitionId,
         payload,
         startTime: new Date(),
-        duration: payload?.duration || 1000,
+        duration: payload.duration || 1000,
         progress: 0,
         completed: false
       };
 
-      this?.activeTransitions.set(transitionId, transition);
+      this.activeTransitions.set(transitionId, transition);
 
       // Simulate camera transition
       return new Promise((resolve) => {
         const updateInterval = setInterval(() => {
           transition.progress = Math.min(1, (Date.now() - transition.startTime) / transition.duration);
           
-          if (transition?.progress >= 1) {
-            transition?.completed = true;
+          if (transition.progress >= 1) {
+            transition.completed = true;
             clearInterval(updateInterval);
-            this?.activeTransitions.delete(transitionId);
+            this.activeTransitions.delete(transitionId);
             resolve();
           }
         }, 16); // ~60fps
@@ -221,33 +221,33 @@ class CameraSystemPureStub {
   }
 
   updateTransition(payload): void {
-    const transitionId = payload?.id;
-    const transition = this?.activeTransitions.get(transitionId);
+    const transitionId = payload.id;
+    const transition = this.activeTransitions.get(transitionId);
     
     if (transition) {
-      transition?.payload = { ...transition?.payload, ...payload };
+      transition.payload = { ...transition.payload, ...payload };
       console.log(`Updated camera transition: ${transitionId}`);
     }
   }
 
   completeTransition(): void {
     // Complete all active transitions
-    for (const [id, transition] of this?.activeTransitions) {
-      transition?.completed = true;
-      transition?.progress = 1;
-      this?.activeTransitions.delete(id);
+    for (const [id, transition] of this.activeTransitions) {
+      transition.completed = true;
+      transition.progress = 1;
+      this.activeTransitions.delete(id);
     }
     console.log('Completed camera transitions');
   }
 
   getTransitionProgress(transitionId: string): number {
-    const transition = this?.activeTransitions.get(transitionId);
-    return transition ? transition?.progress : 0;
+    const transition = this.activeTransitions.get(transitionId);
+    return transition ? transition.progress : 0;
   }
 
   isTransitionActive(transitionId: string): boolean {
-    const transition = this?.activeTransitions.get(transitionId);
-    return transition ? !transition?.completed : false;
+    const transition = this.activeTransitions.get(transitionId);
+    return transition ? !transition.completed : false;
   }
 }
 
@@ -267,16 +267,16 @@ class AudioPureStub {
         playing: true
       };
 
-      this?.activeSounds.set(soundId, sound);
+      this.activeSounds.set(soundId, sound);
 
       // Simulate sound playback
       return new Promise((resolve) => {
-        if (!sound?.loop) {
+        if (!sound.loop) {
           setTimeout(() => {
-            sound?.playing = false;
-            this?.activeSounds.delete(soundId);
+            sound.playing = false;
+            this.activeSounds.delete(soundId);
             resolve();
-          }, sound?.duration);
+          }, sound.duration);
         } else {
           resolve();
         }
@@ -289,7 +289,7 @@ class AudioPureStub {
   }
 
   updateSound(soundId: string, properties: any): void {
-    const sound = this?.activeSounds.get(soundId);
+    const sound = this.activeSounds.get(soundId);
     if (sound) {
       Object.assign(sound, properties);
       console.log(`Updated sound: ${soundId}`);
@@ -297,25 +297,25 @@ class AudioPureStub {
   }
 
   stopSound(soundId: string): void {
-    const sound = this?.activeSounds.get(soundId);
+    const sound = this.activeSounds.get(soundId);
     if (sound) {
-      sound?.playing = false;
-      this?.activeSounds.delete(soundId);
+      sound.playing = false;
+      this.activeSounds.delete(soundId);
       console.log(`Stopped sound: ${soundId}`);
     }
   }
 
   stopAllSounds(): void {
-    for (const [id, sound] of this?.activeSounds) {
-      sound?.playing = false;
+    for (const [id, sound] of this.activeSounds) {
+      sound.playing = false;
     }
-    this?.activeSounds.clear();
+    this.activeSounds.clear();
     console.log('Stopped all sounds');
   }
 
   isSoundPlaying(soundId: string): boolean {
-    const sound = this?.activeSounds.get(soundId);
-    return sound ? sound?.playing : false;
+    const sound = this.activeSounds.get(soundId);
+    return sound ? sound.playing : false;
   }
 
   getActiveSounds(): string[] {
@@ -337,43 +337,43 @@ class AvatarSystemPureStub {
       animations: []
     };
 
-    this?.activeAvatars.set(avatarId, avatar);
+    this.activeAvatars.set(avatarId, avatar);
     return avatar;
   }
 
   updateAvatar(avatarId: string, properties: any): void {
-    const avatar = this?.activeAvatars.get(avatarId);
+    const avatar = this.activeAvatars.get(avatarId);
     if (avatar) {
       Object.assign(avatar, properties);
     }
   }
 
   playAvatarAnimation(avatarId: string, animationId: string): Promise<void> {
-    const avatar = this?.activeAvatars.get(avatarId);
+    const avatar = this.activeAvatars.get(avatarId);
     if (avatar) {
-      avatar?.animations?.push({
+      avatar.animations.push({
         id: animationId,
         startTime: new Date(),
         duration: 1000,
         progress: 0
       });
     }
-    return Promise?.resolve();
+    return Promise.resolve();
   }
 
   setAvatarVisibility(avatarId: string, visible: boolean): void {
-    const avatar = this?.activeAvatars.get(avatarId);
+    const avatar = this.activeAvatars.get(avatarId);
     if (avatar) {
-      avatar?.visible = visible;
+      avatar.visible = visible;
     }
   }
 
   removeAvatar(avatarId: string): void {
-    this?.activeAvatars.delete(avatarId);
+    this.activeAvatars.delete(avatarId);
   }
 
   getAvatar(avatarId: string): any {
-    return this?.activeAvatars.get(avatarId);
+    return this.activeAvatars.get(avatarId);
   }
 
   getAllAvatars(): any[] {
@@ -470,47 +470,47 @@ export class CutSceneEngine {
   private cutScene: CutScenePure;
 
   constructor(definition: CutSceneDefinition) {
-    this?.cutScene = new CutScenePure(definition);
+    this.cutScene = new CutScenePure(definition);
   }
 
   getDuration(): number {
-    return this?.cutScene.getConfig().duration;
+    return this.cutScene.getConfig().duration;
   }
 
   getTracks(): CutSceneTrack[] {
-    return this?.cutScene.getDefinition().tracks;
+    return this.cutScene.getDefinition().tracks;
   }
 
   getTrack(trackId: string): CutSceneTrack | undefined {
-    return this?.cutScene.getDefinition().tracks?.find(t => t?.id === trackId);
+    return this.cutScene.getDefinition().tracks.find(t => t.id === trackId);
   }
 
   getActions(): CutSceneAction[] {
-    return this?.cutScene.getDefinition().actions;
+    return this.cutScene.getDefinition().actions;
   }
 
   getAction(actionId: string): CutSceneAction | undefined {
-    return this?.cutScene.getDefinition().actions?.find(a => a?.id === actionId);
+    return this.cutScene.getDefinition().actions.find(a => a.id === actionId);
   }
 
   play(): void {
-    this?.cutScene.play();
+    this.cutScene.play();
   }
 
   pause(): void {
-    this?.cutScene.pause();
+    this.cutScene.pause();
   }
 
   stop(): void {
-    this?.cutScene.stop();
+    this.cutScene.stop();
   }
 
   isPlaying(): boolean {
-    return this?.cutScene.isPlaying();
+    return this.cutScene.isPlaying();
   }
 
   getCurrentTime(): number {
-    return this?.cutScene.getCurrentTime();
+    return this.cutScene.getCurrentTime();
   }
 
   setCurrentTime(time: number): void {
@@ -529,38 +529,38 @@ export class CutSceneWebBridge {
     return `
 function CutSceneWebBridge() {
   this.definition = ${JSON.stringify(definition, null, 2)};
-  this?.isPlaying = false;
-  this?.currentTime = 0;
-  this?.startTime = 0;
+  this.isPlaying = false;
+  this.currentTime = 0;
+  this.startTime = 0;
 }
 
-CutSceneWebBridge?.prototype.playCutScene = function() {
-  this?.isPlaying = true;
-  this?.startTime = performance?.now();
-  this?.update();
+CutSceneWebBridge.prototype.playCutScene = function() {
+  this.isPlaying = true;
+  this.startTime = performance.now();
+  this.update();
 };
 
-CutSceneWebBridge?.prototype.pauseCutScene = function() {
-  this?.isPlaying = false;
+CutSceneWebBridge.prototype.pauseCutScene = function() {
+  this.isPlaying = false;
 };
 
-CutSceneWebBridge?.prototype.stopCutScene = function() {
-  this?.isPlaying = false;
-  this?.currentTime = 0;
+CutSceneWebBridge.prototype.stopCutScene = function() {
+  this.isPlaying = false;
+  this.currentTime = 0;
 };
 
-CutSceneWebBridge?.prototype.update = function() {
-  if (!this?.isPlaying) return;
+CutSceneWebBridge.prototype.update = function() {
+  if (!this.isPlaying) return;
 
-  const now = performance?.now();
-  this?.currentTime = now - this?.startTime;
+  const now = performance.now();
+  this.currentTime = now - this.startTime;
 
-  if (this?.currentTime >= this?.definition.config?.duration) {
-    this?.stopCutScene();
+  if (this.currentTime >= this.definition.config.duration) {
+    this.stopCutScene();
     return;
   }
 
-  requestAnimationFrame(this?.update.bind(this));
+  requestAnimationFrame(this.update.bind(this));
 };
     `.trim();
   }
@@ -570,8 +570,8 @@ export class CutSceneUnityBridge {
   generateCutSceneScript(definition: CutSceneDefinition): string {
     return `
 using UnityEngine;
-using UnityEngine?.Playables;
-using UnityEngine?.Timeline;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class CutScenePlayer : MonoBehaviour
 {
@@ -581,7 +581,7 @@ public class CutScenePlayer : MonoBehaviour
     {
         if (director != null)
         {
-            director?.Play();
+            director.Play();
         }
     }
 }
@@ -619,7 +619,7 @@ export class CutSceneUnrealBridge {
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "CutScenePlayer?.generated.h"
+#include "CutScenePlayer.generated.h"
 
 UCLASS()
 class ACutScenePlayer : public AActor
@@ -645,7 +645,7 @@ public:
 
 ACutScenePlayer::ACutScenePlayer()
 {
-    PrimaryActorTick?.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = true;
 }
 
 void ACutScenePlayer::BeginPlay()
@@ -680,14 +680,14 @@ export class CutScenePure {
     engines: Partial<CutSceneEngine> = {},
     config: Partial<CutSceneConfig> = {}
   ) {
-    this?.definition = definition;
-    this?.config = { ...definition?.config, ...config };
-    this?.state = this?.initializeState();
-    this?.engines = this?.initializeEngines(engines);
-    this?.actionQueue = [...definition?.actions].sort((a: any, b: any) => a?.timestamp - b?.timestamp);
+    this.definition = definition;
+    this.config = { ...definition.config, ...config };
+    this.state = this.initializeState();
+    this.engines = this.initializeEngines(engines);
+    this.actionQueue = [...definition.actions].sort((a: any, b: any) => a.timestamp - b.timestamp);
 
-    this?.setupEventListeners();
-    this?.validateDefinition();
+    this.setupEventListeners();
+    this.validateDefinition();
   }
 
   private initializeState(): CutSceneState {
@@ -695,63 +695,63 @@ export class CutScenePure {
       isPlaying: false,
       isPaused: false,
       currentTime: 0,
-      duration: this?.config.duration,
+      duration: this.config.duration,
       currentTrackStates: new Map(),
       completedActions: new Set(),
       activeBranches: [],
-      variables: { ...this?.definition.variables },
+      variables: { ...this.definition.variables },
       engineContext: 'web' // Default to web, will be updated by bridges
     };
   }
 
   private initializeEngines(engines: Partial<CutSceneEngine>): CutSceneEngine {
     return {
-      dialogue: engines?.dialogue || new DialogueSystemPureStub(),
-      camera: engines?.camera || new CameraSystemPureStub(),
-      audio: engines?.audio || new AudioPureStub(),
-      avatar: engines?.avatar || new AvatarSystemPureStub(),
-      animation: engines?.animation || new AnimationPure(),
-      sceneFlow: engines?.sceneFlow || new SceneFlowPure()
+      dialogue: engines.dialogue || new DialogueSystemPureStub(),
+      camera: engines.camera || new CameraSystemPureStub(),
+      audio: engines.audio || new AudioPureStub(),
+      avatar: engines.avatar || new AvatarSystemPureStub(),
+      animation: engines.animation || new AnimationPure(),
+      sceneFlow: engines.sceneFlow || new SceneFlowPure()
     };
   }
 
   private setupEventListeners(): void {
     // Listen for cut scene events
-    EventBus?.subscribe('cutscene?.start', this?.handleStart.bind(this));
-    EventBus?.subscribe('cutscene?.stop', this?.handleStop.bind(this));
-    EventBus?.subscribe('cutscene?.pause', this?.handlePause.bind(this));
-    EventBus?.subscribe('cutscene?.resume', this?.handleResume.bind(this));
-    EventBus?.subscribe('cutscene?.skip', this?.handleSkip.bind(this));
-    EventBus?.subscribe('cutscene?.branch', this?.handleBranch.bind(this));
-    EventBus?.subscribe('cutscene?.variable.set', this?.handleVariableSet.bind(this));
-    EventBus?.subscribe('cutscene?.engine.ready', this?.handleEngineReady.bind(this));
+    EventBus.subscribe('cutscene.start', this.handleStart.bind(this));
+    EventBus.subscribe('cutscene.stop', this.handleStop.bind(this));
+    EventBus.subscribe('cutscene.pause', this.handlePause.bind(this));
+    EventBus.subscribe('cutscene.resume', this.handleResume.bind(this));
+    EventBus.subscribe('cutscene.skip', this.handleSkip.bind(this));
+    EventBus.subscribe('cutscene.branch', this.handleBranch.bind(this));
+    EventBus.subscribe('cutscene.variable.set', this.handleVariableSet.bind(this));
+    EventBus.subscribe('cutscene.engine.ready', this.handleEngineReady.bind(this));
   }
 
   private validateDefinition(): void {
-    if (!this?.definition.config?.id) {
+    if (!this.definition.config.id) {
       throw new Error('Cut scene definition must have an ID');
     }
 
-    if (!this?.definition.tracks || this?.definition.tracks?.length === 0) {
+    if (!this.definition.tracks || this.definition.tracks.length === 0) {
       throw new Error('Cut scene must have at least one track');
     }
 
-    if (!this?.definition.actions || this?.definition.actions?.length === 0) {
+    if (!this.definition.actions || this.definition.actions.length === 0) {
       throw new Error('Cut scene must have at least one action');
     }
 
     // Validate track references
-    const trackIds = new Set(this?.definition.tracks?.map((t: any) => t?.id));
-    for (const action of this?.definition.actions) {
-      if (!trackIds?.has(action?.trackId)) {
-        throw new Error(`Action ${action?.id} references unknown track ${action?.trackId}`);
+    const trackIds = new Set(this.definition.tracks.map((t: any) => t.id));
+    for (const action of this.definition.actions) {
+      if (!trackIds.has(action.trackId)) {
+        throw new Error(`Action ${action.id} references unknown track ${action.trackId}`);
       }
     }
 
     // Validate timing
-    for (const track of this?.definition.tracks) {
-      if (track?.startTime >= track?.endTime) {
-        throw new Error(`Track ${track?.id} has invalid timing: start >= end`);
+    for (const track of this.definition.tracks) {
+      if (track.startTime >= track.endTime) {
+        throw new Error(`Track ${track.id} has invalid timing: start >= end`);
       }
     }
 
@@ -759,90 +759,90 @@ export class CutScenePure {
   }
 
   public async play(onComplete?: (result: any) => void): Promise<any> {
-    if (this?.state.isPlaying) {
+    if (this.state.isPlaying) {
       console.warn('Cut scene is already playing');
       return;
     }
 
-    this?.onCompleteCallback = onComplete || null;
-    this?.state.isPlaying = true;
-    this?.state.currentTime = 0;
+    this.onCompleteCallback = onComplete || null;
+    this.state.isPlaying = true;
+    this.state.currentTime = 0;
 
     console.log(`🎬 Starting cut scene: ${this.config.name}`);
 
     // Notify engine-specific systems
-    EventBus?.publish('cutscene?.playing', {
-      cutSceneId: this?.config.id,
-      engineContext: this?.state.engineContext
+    EventBus.publish('cutscene.playing', {
+      cutSceneId: this.config.id,
+      engineContext: this.state.engineContext
     });
 
     // Start the main update loop
-    await this?.startPlayback();
+    await this.startPlayback();
 
     return {
-      cutSceneId: this?.config.id,
-      duration: this?.config.duration,
-      tracks: this?.definition.tracks?.length,
-      actions: this?.definition.actions?.length,
+      cutSceneId: this.config.id,
+      duration: this.config.duration,
+      tracks: this.definition.tracks.length,
+      actions: this.definition.actions.length,
       status: 'completed'
     };
   }
 
   public pause(): void {
-    if (!this?.state.isPlaying) return;
+    if (!this.state.isPlaying) return;
 
-    this?.state.isPaused = true;
-    this?.state.isPlaying = false; // Fix: Set isPlaying to false when paused
-    EventBus?.publish('cutscene?.paused', {
-      cutSceneId: this?.config.id,
-      currentTime: this?.state.currentTime
+    this.state.isPaused = true;
+    this.state.isPlaying = false; // Fix: Set isPlaying to false when paused
+    EventBus.publish('cutscene.paused', {
+      cutSceneId: this.config.id,
+      currentTime: this.state.currentTime
     });
   }
 
   public resume(): void {
-    if (this?.state.isPlaying || !this?.state.isPaused) return;
+    if (this.state.isPlaying || !this.state.isPaused) return;
 
-    this?.state.isPaused = false;
-    this?.state.isPlaying = true; // Fix: Set isPlaying to true when resumed
-    EventBus?.publish('cutscene?.resumed', {
-      cutSceneId: this?.config.id,
-      currentTime: this?.state.currentTime
+    this.state.isPaused = false;
+    this.state.isPlaying = true; // Fix: Set isPlaying to true when resumed
+    EventBus.publish('cutscene.resumed', {
+      cutSceneId: this.config.id,
+      currentTime: this.state.currentTime
     });
   }
 
   public stop(): void {
-    if (!this?.state.isPlaying) return;
+    if (!this.state.isPlaying) return;
 
-    this?.state.isPlaying = false;
-    this?.state.isPaused = false;
+    this.state.isPlaying = false;
+    this.state.isPaused = false;
 
-    EventBus?.publish('cutscene?.stopped', {
-      cutSceneId: this?.config.id,
-      currentTime: this?.state.currentTime,
-      wasCompleted: this?.state.currentTime >= this?.config.duration
+    EventBus.publish('cutscene.stopped', {
+      cutSceneId: this.config.id,
+      currentTime: this.state.currentTime,
+      wasCompleted: this.state.currentTime >= this.config.duration
     });
 
-    this?.onCompleteCallback?.({
-      cutSceneId: this?.config.id,
-      completed: this?.state.currentTime >= this?.config.duration,
-      finalTime: this?.state.currentTime
+    this.onCompleteCallback?.({
+      cutSceneId: this.config.id,
+      completed: this.state.currentTime >= this.config.duration,
+      finalTime: this.state.currentTime
     });
   }
 
   public skip(): void {
     console.log(`⏭️ Skipping cut scene: ${this.config.name}`);
-    this?.stop();
-    EventBus?.publish('cutscene?.skipped', { cutSceneId: this?.config.id });
+    this.stop();
+    EventBus.publish('cutscene.skipped', { cutSceneId: this.config.id });
   }
 
   private async startPlayback(): Promise<void> {
-    const startTime = new Date();
+    const startTime = Date.now();
 
-    while (this?.state.isPlaying && this?.state.currentTime < this?.config.duration) {
-      if (this?.state.isPaused) {
+    while (this.state.isPlaying && this.state.currentTime < this.config.duration) {
+      if (this.state.isPaused) {
         await new Promise(resolve => {
           const checkPaused = () => {
-            if (!this?.state.isPaused) {
+            if (!this.state.isPaused) {
               resolve(void 0);
             } else {
               setTimeout(checkPaused, 16); // Check every frame
@@ -853,40 +853,40 @@ export class CutScenePure {
         continue;
       }
 
-      const currentTime = new Date() - startTime;
-      this?.state.currentTime = currentTime;
+      const currentTime = Date.now() - startTime;
+      this.state.currentTime = currentTime;
 
       // Process actions at current time
-      await this?.processActionsAtTime(currentTime);
+      await this.processActionsAtTime(currentTime);
 
       // Update active tracks
-      this?.updateActiveTracks(currentTime);
+      this.updateActiveTracks(currentTime);
 
       // Check for branching conditions
-      this?.evaluateBranches(currentTime);
+      this.evaluateBranches(currentTime);
 
       // Small delay to prevent blocking
       await new Promise(resolve => setTimeout(resolve, 16)); // ~60fps
     }
 
-    if (this?.state.isPlaying) {
-      this?.stop();
+    if (this.state.isPlaying) {
+      this.stop();
     }
   }
 
   private async processActionsAtTime(currentTime: number): Promise<void> {
-    const actionsToProcess = this?.actionQueue.filter((action: any) =>
-      action?.timestamp <= currentTime &&
-      !this?.state.completedActions?.has(action?.id)
+    const actionsToProcess = this.actionQueue.filter((action: any) =>
+      action.timestamp <= currentTime &&
+      !this.state.completedActions.has(action.id)
     );
 
     for (const action of actionsToProcess) {
-      if (this?.evaluateConditions(action?.conditions || [])) {
-        await this?.executeAction(action);
-        this?.state.completedActions?.add(action?.id);
+      if (this.evaluateConditions(action.conditions || [])) {
+        await this.executeAction(action);
+        this.state.completedActions.add(action.id);
 
         // Remove from queue
-        this?.actionQueue = this?.actionQueue.filter((a: any) => a?.id !== action?.id);
+        this.actionQueue = this.actionQueue.filter((a: any) => a.id !== action.id);
       }
     }
   }
@@ -894,145 +894,145 @@ export class CutScenePure {
   private async executeAction(action: CutSceneAction): Promise<void> {
     console.log(`🎬 Executing action: ${action.id} (${action.type})`);
 
-    switch (action?.type) {
+    switch (action.type) {
       case 'start':
-        await this?.executeStartAction(action);
+        await this.executeStartAction(action);
         break;
       case 'update':
-        await this?.executeUpdateAction(action);
+        await this.executeUpdateAction(action);
         break;
       case 'complete':
-        await this?.executeCompleteAction(action);
+        await this.executeCompleteAction(action);
         break;
       case 'trigger':
-        await this?.executeTriggerAction(action);
+        await this.executeTriggerAction(action);
         break;
     }
 
     // Emit action completion event
-    EventBus?.publish('cutscene?.action.completed', {
-      cutSceneId: this?.config.id,
-      actionId: action?.id,
-      timestamp: this?.state.currentTime
+    EventBus.publish('cutscene.action.completed', {
+      cutSceneId: this.config.id,
+      actionId: action.id,
+      timestamp: this.state.currentTime
     });
   }
 
   private async executeStartAction(action: CutSceneAction): Promise<void> {
-    const track = this?.definition.tracks?.find(t => t?.id === action?.trackId);
+    const track = this.definition.tracks.find(t => t.id === action.trackId);
     if (!track) return;
 
-    switch (track?.type) {
+    switch (track.type) {
       case 'camera':
-        await this?.engines.camera?.startTransition(action?.payload);
+        await this.engines.camera.startTransition(action.payload);
         break;
       case 'dialogue':
-        await this?.engines.dialogue?.startDialogue(action?.payload.dialogueId);
+        await this.engines.dialogue.startDialogue(action.payload.dialogueId);
         break;
       case 'audio':
-        await this?.engines.audio?.playSound(action?.payload.soundId, action?.payload.options);
+        await this.engines.audio.playSound(action.payload.soundId, action.payload.options);
         break;
       case 'animation':
-        await this?.engines.animation?.playAnimation(action?.payload.animationId, action?.payload.target);
+        await this.engines.animation.playAnimation(action.payload.animationId, action.payload.target);
         break;
       case 'event':
-        EventBus?.publish(action?.payload.eventName, action?.payload.eventData);
+        EventBus.publish(action.payload.eventName, action.payload.eventData);
         break;
       case 'custom':
-        await this?.executeCustomAction(action);
+        await this.executeCustomAction(action);
         break;
     }
   }
 
   private async executeUpdateAction(action: CutSceneAction): Promise<void> {
-    const track = this?.definition.tracks?.find(t => t?.id === action?.trackId);
+    const track = this.definition.tracks.find(t => t.id === action.trackId);
     if (!track) return;
 
-    switch (track?.type) {
+    switch (track.type) {
       case 'camera':
-        this?.engines.camera?.updateTransition(action?.payload);
+        this.engines.camera.updateTransition(action.payload);
         break;
       case 'animation':
-        this?.engines.animation?.updateAnimation(action?.payload.animationId, action?.payload.progress);
+        this.engines.animation.updateAnimation(action.payload.animationId, action.payload.progress);
         break;
       case 'audio':
-        this?.engines.audio?.updateSound(action?.payload.soundId, action?.payload.properties);
+        this.engines.audio.updateSound(action.payload.soundId, action.payload.properties);
         break;
     }
   }
 
   private async executeCompleteAction(action: CutSceneAction): Promise<void> {
-    const track = this?.definition.tracks?.find(t => t?.id === action?.trackId);
+    const track = this.definition.tracks.find(t => t.id === action.trackId);
     if (!track) return;
 
-    switch (track?.type) {
+    switch (track.type) {
       case 'camera':
-        this?.engines.camera?.completeTransition();
+        this.engines.camera.completeTransition();
         break;
       case 'dialogue':
-        this?.engines.dialogue?.completeDialogue();
+        this.engines.dialogue.completeDialogue();
         break;
       case 'animation':
-        this?.engines.animation?.completeAnimation(action?.payload.animationId);
+        this.engines.animation.completeAnimation(action.payload.animationId);
         break;
       case 'audio':
-        this?.engines.audio?.stopSound(action?.payload.soundId);
+        this.engines.audio.stopSound(action.payload.soundId);
         break;
     }
   }
 
   private async executeTriggerAction(action: CutSceneAction): Promise<void> {
-    EventBus?.publish('cutscene?.trigger', {
-      cutSceneId: this?.config.id,
-      triggerId: action?.id,
-      payload: action?.payload
+    EventBus.publish('cutscene.trigger', {
+      cutSceneId: this.config.id,
+      triggerId: action.id,
+      payload: action.payload
     });
   }
 
   private async executeCustomAction(action: CutSceneAction): Promise<void> {
     // Allow for custom action implementations
-    EventBus?.publish('cutscene?.custom.action', {
-      cutSceneId: this?.config.id,
-      actionId: action?.id,
-      payload: action?.payload
+    EventBus.publish('cutscene.custom.action', {
+      cutSceneId: this.config.id,
+      actionId: action.id,
+      payload: action.payload
     });
   }
 
   private updateActiveTracks(currentTime: number): void {
-    for (const track of this?.definition.tracks) {
-      if (track?.enabled && currentTime >= track?.startTime && currentTime <= track?.endTime) {
-        if (!this?.state.currentTrackStates?.has(track?.id)) {
-          this?.state.currentTrackStates?.set(track?.id, {
+    for (const track of this.definition.tracks) {
+      if (track.enabled && currentTime >= track.startTime && currentTime <= track.endTime) {
+        if (!this.state.currentTrackStates.has(track.id)) {
+          this.state.currentTrackStates.set(track.id, {
             track: track,
-            progress: (currentTime - track?.startTime) / (track?.endTime - track?.startTime)
+            progress: (currentTime - track.startTime) / (track.endTime - track.startTime)
           });
         } else {
-          const state = this?.state.currentTrackStates?.get(track?.id);
-          state?.progress = (currentTime - track?.startTime) / (track?.endTime - track?.startTime);
+          const state = this.state.currentTrackStates.get(track.id);
+          state.progress = (currentTime - track.startTime) / (track.endTime - track.startTime);
         }
       } else {
-        this?.state.currentTrackStates?.delete(track?.id);
+        this.state.currentTrackStates.delete(track.id);
       }
     }
   }
 
   private evaluateBranches(currentTime: number): void {
-    if (!this?.definition.branches) return;
+    if (!this.definition.branches) return;
 
-    for (const branch of this?.definition.branches) {
-      if (this?.evaluateConditions([branch?.condition]) && !this?.state.activeBranches?.includes(branch?.id)) {
-        this?.state.activeBranches?.push(branch?.id);
+    for (const branch of this.definition.branches) {
+      if (this.evaluateConditions([branch.condition]) && !this.state.activeBranches.includes(branch.id)) {
+        this.state.activeBranches.push(branch.id);
 
         // Execute branch actions
-        for (const action of branch?.actions) {
-          this?.executeAction(action);
+        for (const action of branch.actions) {
+          this.executeAction(action);
         }
 
         // Optionally trigger new scene
-        if (branch?.targetSceneId) {
-          EventBus?.publish('cutscene?.branch.taken', {
-            cutSceneId: this?.config.id,
-            branchId: branch?.id,
-            targetSceneId: branch?.targetSceneId
+        if (branch.targetSceneId) {
+          EventBus.publish('cutscene.branch.taken', {
+            cutSceneId: this.config.id,
+            branchId: branch.id,
+            targetSceneId: branch.targetSceneId
           });
         }
       }
@@ -1043,22 +1043,22 @@ export class CutScenePure {
     for (const condition of conditions) {
       let result = false;
 
-      switch (condition?.type) {
+      switch (condition.type) {
         case 'time':
-          result = this?.evaluateTimeCondition(condition);
+          result = this.evaluateTimeCondition(condition);
           break;
         case 'variable':
-          result = this?.evaluateVariableCondition(condition);
+          result = this.evaluateVariableCondition(condition);
           break;
         case 'event':
-          result = this?.evaluateEventCondition(condition);
+          result = this.evaluateEventCondition(condition);
           break;
         case 'user_input':
-          result = this?.evaluateUserInputCondition(condition);
+          result = this.evaluateUserInputCondition(condition);
           break;
       }
 
-      if (condition?.negate) {
+      if (condition.negate) {
         result = !result;
       }
 
@@ -1072,32 +1072,32 @@ export class CutScenePure {
   }
 
   private evaluateTimeCondition(condition: CutSceneCondition): boolean {
-    const currentTime = this?.state.currentTime;
+    const currentTime = this.state.currentTime;
 
-    switch (condition?.operator) {
+    switch (condition.operator) {
       case 'greater_than':
-        return currentTime > (condition?.value as number);
+        return currentTime > (condition.value as number);
       case 'less_than':
-        return currentTime < (condition?.value as number);
+        return currentTime < (condition.value as number);
       case 'equals':
-        return currentTime === (condition?.value as number);
+        return currentTime === (condition.value as number);
       default:
         return false;
     }
   }
 
   private evaluateVariableCondition(condition: CutSceneCondition): boolean {
-    const variableValue = this?.state.variables[condition?.target];
+    const variableValue = this.state.variables[condition.target];
 
-    switch (condition?.operator) {
+    switch (condition.operator) {
       case 'equals':
-        return variableValue === condition?.value;
+        return variableValue === condition.value;
       case 'greater_than':
-        return variableValue > condition?.value;
+        return variableValue > condition.value;
       case 'less_than':
-        return variableValue < condition?.value;
+        return variableValue < condition.value;
       case 'contains':
-        return String(variableValue).includes(String(condition?.value));
+        return String(variableValue).includes(String(condition.value));
       case 'exists':
         return variableValue !== undefined && variableValue !== null;
       default:
@@ -1108,7 +1108,7 @@ export class CutScenePure {
   private evaluateEventCondition(condition: CutSceneCondition): boolean {
     // Event conditions are evaluated when the specific event is triggered
     // This is a simplified implementation
-    return this?.state.variables[`event_${condition?.target}`] === condition?.value;
+    return this.state.variables[`event_${condition.target}`] === condition.value;
   }
 
   private evaluateUserInputCondition(condition: CutSceneCondition): boolean {
@@ -1119,89 +1119,89 @@ export class CutScenePure {
 
   // Event handlers
   private handleStart(event): void {
-    if (event?.cutSceneId === this?.config.id) {
-      this?.play();
+    if (event.cutSceneId === this.config.id) {
+      this.play();
     }
   }
 
   private handleStop(event): void {
-    if (event?.cutSceneId === this?.config.id) {
-      this?.stop();
+    if (event.cutSceneId === this.config.id) {
+      this.stop();
     }
   }
 
   private handlePause(event): void {
-    if (event?.cutSceneId === this?.config.id) {
-      this?.pause();
+    if (event.cutSceneId === this.config.id) {
+      this.pause();
     }
   }
 
   private handleResume(event): void {
-    if (event?.cutSceneId === this?.config.id) {
-      this?.resume();
+    if (event.cutSceneId === this.config.id) {
+      this.resume();
     }
   }
 
   private handleSkip(event): void {
-    if (event?.cutSceneId === this?.config.id) {
-      this?.skip();
+    if (event.cutSceneId === this.config.id) {
+      this.skip();
     }
   }
 
   private handleBranch(event): void {
-    if (event?.cutSceneId === this?.config.id) {
+    if (event.cutSceneId === this.config.id) {
       // Force evaluation of branches
-      this?.evaluateBranches(this?.state.currentTime);
+      this.evaluateBranches(this.state.currentTime);
     }
   }
 
   private handleVariableSet(event): void {
-    if (event?.cutSceneId === this?.config.id) {
-      this?.state.variables[event?.variable] = event?.value;
+    if (event.cutSceneId === this.config.id) {
+      this.state.variables[event.variable] = event.value;
     }
   }
 
   private handleEngineReady(event): void {
-    this?.state.engineContext = event?.engineType;
+    this.state.engineContext = event.engineType;
     console.log(`🔧 Cut scene engine ready: ${event.engineType}`);
   }
 
   // Public API methods
   public getConfig(): CutSceneConfig {
-    return { ...this?.config };
+    return { ...this.config };
   }
 
   public getState(): CutSceneState {
-    return { ...this?.state };
+    return { ...this.state };
   }
 
   public getDefinition(): CutSceneDefinition {
-    return { ...this?.definition };
+    return { ...this.definition };
   }
 
   public setVariable(key: string, value: any): void {
-    this?.state.variables[key!] = value;
-    EventBus?.publish('cutscene?.variable.changed', {
-      cutSceneId: this?.config.id,
+    this.state.variables[key!] = value;
+    EventBus.publish('cutscene.variable.changed', {
+      cutSceneId: this.config.id,
       variable: key,
       value: value
     });
   }
 
   public getVariable(key: string): any {
-    return this?.state.variables[key!];
+    return this.state.variables[key!];
   }
 
   public isPlaying(): boolean {
-    return this?.state.isPlaying;
+    return this.state.isPlaying;
   }
 
   public getCurrentTime(): number {
-    return this?.state.currentTime;
+    return this.state.currentTime;
   }
 
   public getProgress(): number {
-    return this?.state.currentTime / this?.config.duration;
+    return this.state.currentTime / this.config.duration;
   }
 
   public static createSampleDefinition(): CutSceneDefinition {
@@ -1328,7 +1328,7 @@ export class CutScenePure {
     const data = JSON.parse(jsonString);
 
     // Validate and convert to proper format
-    if (!data?.config || !data?.tracks || !data?.actions) {
+    if (!data.config || !data.tracks || !data.actions) {
       throw new Error('Invalid cut scene JSON format');
     }
 
@@ -1338,7 +1338,7 @@ export class CutScenePure {
   public static parseFromTokens(tokenString: string): CutSceneDefinition {
     // Parse token-based cut scene definition
     // This is a simplified implementation
-    const tokens = tokenString?.split(/\s+/);
+    const tokens = tokenString.split(/\s+/);
     const definition: Partial<CutSceneDefinition> = {
       config: { id: 'token_cutscene', name: 'Token Cut Scene', duration: 3000, skippable: true, autoStart: false, engineTargets: ['web'] },
       tracks: [],
@@ -1360,7 +1360,7 @@ export class CutScenePure {
 
 // Export for CLI harness
 export function cutSceneDemo(): any {
-  const sampleDefinition = CutScenePure?.createSampleDefinition();
+  const sampleDefinition = CutScenePure.createSampleDefinition();
 
   return {
     op: 'cutscene_demo',
@@ -1376,10 +1376,10 @@ export function cutSceneDemo(): any {
       'Performance-optimized playback engine'
     ],
     sampleCutScene: {
-      id: sampleDefinition?.config.id,
-      tracks: sampleDefinition?.tracks.length,
-      actions: sampleDefinition?.actions.length,
-      duration: sampleDefinition?.config.duration
+      id: sampleDefinition.config.id,
+      tracks: sampleDefinition.tracks.length,
+      actions: sampleDefinition.actions.length,
+      duration: sampleDefinition.config.duration
     },
     orchestrationReady: true,
     modulesIntegrated: [

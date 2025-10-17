@@ -14,17 +14,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
-const { mode, args } = parseCLIArgs(process?.argv);
+const { mode, args } = parseCLIArgs(process.argv);
 const manager = new QuestsManager();
 
 // Parse additional arguments
-const questId = args?.find(arg => arg?.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';
-const stepId = args?.find(arg => arg?.startsWith('--step-id='))?.split('=')[1!] || 'step_001';
-const category = args?.find(arg => arg?.startsWith('--category='))?.split('=')[1!] || 'main';
-const level = parseInt(args?.find(arg => arg?.startsWith('--level='))?.split('=')[1!] || '1');
-const format = args?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'active' || 'json';
-const status = args?.find(arg => arg?.startsWith('--status='))?.split('=')[1!] || 'available';
-const giver = args?.find(arg => arg?.startsWith('--giver='))?.split('=')[1!] || 'npc_001';
+const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';
+const stepId = args.find(arg => arg.startsWith('--step-id='))?.split('=')[1!] || 'step_001';
+const category = args.find(arg => arg.startsWith('--category='))?.split('=')[1!] || 'main';
+const level = parseInt(args.find(arg => arg.startsWith('--level='))?.split('=')[1!] || '1');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'active' || 'json';
+const status = args.find(arg => arg.startsWith('--status='))?.split('=')[1!] || 'available';
+const giver = args.find(arg => arg.startsWith('--giver='))?.split('=')[1!] || 'npc_001';
 
 let output: any;
 
@@ -33,8 +33,8 @@ try {
     case 'create':
       const newQuest: Quest = {
         id: questId,
-        title: args?.find(arg => arg?.startsWith('--title='))?.split('=')[1!] || 'New Quest',
-        description: args?.find(arg => arg?.startsWith('--description='))?.split('=')[1!] || 'A new quest',
+        title: args.find(arg => arg.startsWith('--title='))?.split('=')[1!] || 'New Quest',
+        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'A new quest',
         status: 'available',
         steps: [
           {
@@ -55,65 +55,65 @@ try {
         createdAt: new Date(),
         updatedAt: new Date()
       };
-      output = manager?.createQuest(newQuest);
+      output = manager.createQuest(newQuest);
       break;
 
     case 'get':
-      output = manager?.getQuest(questId);
+      output = manager.getQuest(questId);
       break;
 
     case 'update':
       const updates: Partial<Quest> = {};
-      if (args?.includes('--title')) {
-        updates?.title = args?.find(arg => arg?.startsWith('--title='))?.split('=')[1!];
+      if (args.includes('--title')) {
+        updates.title = args.find(arg => arg.startsWith('--title='))?.split('=')[1!];
       }
-      if (args?.includes('--status')) {
-        updates?.status = status as any;
+      if (args.includes('--status')) {
+        updates.status = status as any;
       }
-      if (args?.includes('--level')) {
-        updates?.level = level;
+      if (args.includes('--level')) {
+        updates.level = level;
       }
-      output = manager?.updateQuest(questId, updates);
+      output = manager.updateQuest(questId, updates);
       break;
 
     case 'delete':
-      output = manager?.deleteQuest(questId);
+      output = manager.deleteQuest(questId);
       break;
 
     case 'list':
       const filter: any = {};
-      if (args?.includes('--status')) filter?.status = status;
-      if (args?.includes('--category')) filter?.category = category;
-      if (args?.includes('--giver')) filter?.giver = giver;
-      if (args?.includes('--level')) filter?.level = level;
-      if (args?.includes('--has-prerequisites')) filter?.hasPrerequisites = true;
+      if (args.includes('--status')) filter.status = status;
+      if (args.includes('--category')) filter.category = category;
+      if (args.includes('--giver')) filter.giver = giver;
+      if (args.includes('--level')) filter.level = level;
+      if (args.includes('--has-prerequisites')) filter.hasPrerequisites = true;
       
-      output = manager?.listQuests(filter);
+      output = manager.listQuests(filter);
       break;
 
     case 'start':
-      output = manager?.startQuest(questId);
+      output = manager.startQuest(questId);
       break;
 
     case 'complete':
-      output = manager?.completeQuest(questId);
+      output = manager.completeQuest(questId);
       break;
 
     case 'progress':
-      const completed = args?.includes('--completed');
-      output = manager?.updateQuestProgress(questId, stepId, completed);
+      const completed = args.includes('--completed');
+      output = manager.updateQuestProgress(questId, stepId, completed);
       break;
 
     case 'stats':
-      output = manager?.getQuestStats();
+      output = manager.getQuestStats();
       break;
 
     case 'export':
-      output = manager?.exportQuests(format);
+      output = manager.exportQuests(format);
       break;
 
     case 'reset':
-      output = manager?.resetQuests();
+      output = manager.resetQuests();
       break;
 
     case 'demo':
@@ -159,14 +159,14 @@ try {
         updatedAt: new Date()
       };
       
-      const createResult = manager?.createQuest(demoQuest);
-      if (createResult?.status === 'ok') {
+      const createResult = manager.createQuest(demoQuest);
+      if (createResult.status === 'ok') {
         output = {
           op: 'demo',
           status: 'ok',
           result: {
             message: 'Demo quest created successfully',
-            quest: createResult?.result
+            quest: createResult.result
           }
         };
       } else {
@@ -234,22 +234,22 @@ try {
         }
       ];
 
-      const results = sampleQuests?.map((quest: any) => manager?.createQuest(quest));
+      const results = sampleQuests.map((quest: any) => manager.createQuest(quest));
       output = {
         op: 'sample',
         status: 'ok',
         result: {
           message: 'Sample quests created',
-          results: results?.map((r: any) => ({ status: r?.status, quest: r?.result }))
+          results: results.map((r: any) => ({ status: r.status, quest: r.result }))
         }
       };
       break;
 
     default:
       // Legacy mode: run with fixture path and seed
-      if (args?.length >= 2 && args[0!].endsWith('.json')) {
+      if (args.length >= 2 && args[0!].endsWith('.json')) {
         try {
-          const fixturePath = path?.isAbsolute(args[0]) ? args[0] : path?.resolve(args[0]);
+          const fixturePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
           const seed = parseInt(args[1!]);
           const content = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
           // Simulate deterministic quest based on seed
@@ -289,10 +289,10 @@ try {
             'sample'
           ],
           examples: [
-            'node cliHarness?.ts create --quest-id=main_quest --title="Save the Kingdom" --category=main --level=5',
-            'node cliHarness?.ts start --quest-id=tutorial_quest',
-            'node cliHarness?.ts progress --quest-id=tutorial_quest --step-id=talk_to_elder --completed',
-            'node cliHarness?.ts export --format=manifest'
+            'node cliHarness.ts create --quest-id=main_quest --title="Save the Kingdom" --category=main --level=5',
+            'node cliHarness.ts start --quest-id=tutorial_quest',
+            'node cliHarness.ts progress --quest-id=tutorial_quest --step-id=talk_to_elder --completed',
+            'node cliHarness.ts export --format=manifest'
           ]
         }
       };
@@ -302,7 +302,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error?.message : 'Unknown error']
+    issues: [error instanceof Error ? error.message : 'Unknown error']
   };
 }
 

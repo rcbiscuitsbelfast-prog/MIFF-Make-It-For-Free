@@ -45,32 +45,32 @@ export interface ScenarioConfig {
  * Deterministic, remix-safe, and ready for golden fixtures.
  */
 export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
-  const steps = cfg?.steps ?? 8;
-  const enableDebug = cfg?.enableDebug ?? false;
-  const enableRemixMode = cfg?.enableRemixMode ?? false;
-  const enableThemes = cfg?.enableThemes ?? false;
-  const enableLineageTracking = cfg?.enableLineageTracking ?? false;
-  const enableAudio = cfg?.enableAudio ?? false;
-  const defaultTheme = cfg?.defaultTheme ?? 'neonGrid';
-  const audioOptions = cfg?.audioOptions;
-  const enableBadges = cfg?.enableBadges ?? false;
-  const badgeOptions = cfg?.badgeOptions;
-  const remixOrigin = cfg?.remixOrigin;
+  const steps = cfg.steps ?? 8;
+  const enableDebug = cfg.enableDebug ?? false;
+  const enableRemixMode = cfg.enableRemixMode ?? false;
+  const enableThemes = cfg.enableThemes ?? false;
+  const enableLineageTracking = cfg.enableLineageTracking ?? false;
+  const enableAudio = cfg.enableAudio ?? false;
+  const defaultTheme = cfg.defaultTheme ?? 'neonGrid';
+  const audioOptions = cfg.audioOptions;
+  const enableBadges = cfg.enableBadges ?? false;
+  const badgeOptions = cfg.badgeOptions;
+  const remixOrigin = cfg.remixOrigin;
   
   const overlink = new OverlinkZone();
   const timeline: ScenarioState[] = [];
   const issues: string[] = [];
 
   // Step 1: Register zones
-  overlink?.registerZone('hub', 'Central Hub', ['meta', 'transition']);
-  overlink?.registerZone('toppler', 'Toppler Demo', ['physics', 'puzzle']);
-  overlink?.registerZone('spirit_tamer', 'Spirit Tamer', ['rpg', 'combat']);
-  overlink?.registerZone('preview', 'Remix Preview', ['meta', 'preview']);
+  overlink.registerZone('hub', 'Central Hub', ['meta', 'transition']);
+  overlink.registerZone('toppler', 'Toppler Demo', ['physics', 'puzzle']);
+  overlink.registerZone('spirit_tamer', 'Spirit Tamer', ['rpg', 'combat']);
+  overlink.registerZone('preview', 'Remix Preview', ['meta', 'preview']);
 
   // Step 2: Register modules with dependencies
-  const topplerModule = overlink?.registerModule('toppler_demo', 'toppler', []);
-  const spiritTamerModule = overlink?.registerModule('spirit_tamer_demo', 'spirit_tamer', []);
-  const previewModule = overlink?.registerModule('remix_preview', 'preview', ['toppler_demo', 'spirit_tamer_demo']);
+  const topplerModule = overlink.registerModule('toppler_demo', 'toppler', []);
+  const spiritTamerModule = overlink.registerModule('spirit_tamer_demo', 'spirit_tamer', []);
+  const previewModule = overlink.registerModule('remix_preview', 'preview', ['toppler_demo', 'spirit_tamer_demo']);
 
   // Step 3: Add draw reducers
   const spriteReducer: DrawReducer = {
@@ -105,48 +105,48 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     data: { showFPS: true, showBounds: false }
   };
 
-  overlink?.addDrawReducer(spriteReducer);
-  overlink?.addDrawReducer(uiReducer);
-  overlink?.addDrawReducer(effectReducer);
-  overlink?.addDrawReducer(debugReducer);
+  overlink.addDrawReducer(spriteReducer);
+  overlink.addDrawReducer(uiReducer);
+  overlink.addDrawReducer(effectReducer);
+  overlink.addDrawReducer(debugReducer);
 
   // Step 4: Bind assets
   const textureBinding: AssetBinding = {
     id: 'main_textures',
     type: 'texture',
-    path: 'assets/textures/main?.atlas',
+    path: 'assets/textures/main.atlas',
     remixSafe: true,
-    fallback: 'assets/textures/fallback?.atlas'
+    fallback: 'assets/textures/fallback.atlas'
   };
 
   const audioBinding: AssetBinding = {
     id: 'background_music',
     type: 'audio',
-    path: 'assets/audio/ambient?.ogg',
+    path: 'assets/audio/ambient.ogg',
     remixSafe: false,
-    fallback: 'assets/audio/silence?.ogg'
+    fallback: 'assets/audio/silence.ogg'
   };
 
   const shaderBinding: AssetBinding = {
     id: 'transition_shader',
     type: 'shader',
-    path: 'assets/shaders/transition?.glsl',
+    path: 'assets/shaders/transition.glsl',
     remixSafe: true
   };
 
-  overlink?.bindAsset(textureBinding);
-  overlink?.bindAsset(audioBinding);
-  overlink?.bindAsset(shaderBinding);
+  overlink.bindAsset(textureBinding);
+  overlink.bindAsset(audioBinding);
+  overlink.bindAsset(shaderBinding);
 
   // Step 5: Enable debug mode if requested
   if (enableDebug) {
-    overlink?.toggleDebugMode();
-    overlink?.toggleDrawReducer('debug_renderer');
+    overlink.toggleDebugMode();
+    overlink.toggleDrawReducer('debug_renderer');
   }
 
   // Step 5.5: Setup themes if requested
   if (enableThemes) {
-    overlink?.activateTheme(defaultTheme as any);
+    overlink.activateTheme(defaultTheme as any);
     
     // Play theme audio if enabled
     if (enableAudio) {
@@ -163,17 +163,17 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
 
   // Step 5.6: Setup lineage tracking if requested
   if (enableLineageTracking && remixOrigin) {
-    overlink?.enableLineageTracking();
-    overlink?.registerRemixOrigin(remixOrigin);
+    overlink.enableLineageTracking();
+    overlink.registerRemixOrigin(remixOrigin);
   }
 
   // Step 5.7: Setup audio if requested
   if (enableAudio && audioOptions) {
-    if (audioOptions?.masterVolume !== undefined) {
-      overlink?.setMasterVolume(audioOptions?.masterVolume);
+    if (audioOptions.masterVolume !== undefined) {
+      overlink.setMasterVolume(audioOptions.masterVolume);
     }
-    if (audioOptions?.themeVolume !== undefined && defaultTheme) {
-      overlink?.setThemeVolume(defaultTheme as any, audioOptions?.themeVolume);
+    if (audioOptions.themeVolume !== undefined && defaultTheme) {
+      overlink.setThemeVolume(defaultTheme as any, audioOptions.themeVolume);
     }
   }
 
@@ -184,99 +184,99 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   }
 
   // Step 6: Activate modules
-  overlink?.activateModule('toppler_demo');
-  overlink?.activateModule('spirit_tamer_demo');
+  overlink.activateModule('toppler_demo');
+  overlink.activateModule('spirit_tamer_demo');
   
   if (enableRemixMode) {
-    overlink?.activateModule('remix_preview');
+    overlink.activateModule('remix_preview');
   }
 
   // Step 7: Navigate through zones
-  overlink?.enterZone('hub');
+  overlink.enterZone('hub');
   captureState(overlink, timeline, 1, 'hub');
 
-  overlink?.enterZone('toppler');
+  overlink.enterZone('toppler');
   captureState(overlink, timeline, 2, 'toppler');
 
-  overlink?.enterZone('spirit_tamer');
+  overlink.enterZone('spirit_tamer');
   captureState(overlink, timeline, 3, 'spirit_tamer');
 
-  overlink?.enterZone('preview');
+  overlink.enterZone('preview');
   captureState(overlink, timeline, 4, 'preview');
 
   // Step 8: Toggle overlay layers
-  overlink?.toggleOverlayLayer('preview');
+  overlink.toggleOverlayLayer('preview');
   captureState(overlink, timeline, 5, 'preview');
 
-  overlink?.toggleOverlayLayer('debug');
+  overlink.toggleOverlayLayer('debug');
   captureState(overlink, timeline, 6, 'debug');
 
   // Step 9: Process transitions
-  const transitions = overlink?.processTransitions();
+  const transitions = overlink.processTransitions();
   captureState(overlink, timeline, 7, 'preview');
 
   // Step 10: Final state
-  overlink?.enterZone('hub');
+  overlink.enterZone('hub');
   captureState(overlink, timeline, 8, 'hub');
 
   // Validate final state
-  const finalState = overlink?.exportState();
-  if (finalState?.currentZone !== 'hub') {
-    issues?.push(`Expected final zone to be 'hub', got '${finalState?.currentZone}'`);
+  const finalState = overlink.exportState();
+  if (finalState.currentZone !== 'hub') {
+    issues.push(`Expected final zone to be 'hub', got '${finalState.currentZone}'`);
   }
 
-  if (finalState?.activeModules.length < 2) {
-    issues?.push(`Expected at least 2 active modules, got ${finalState?.activeModules.length}`);
+  if (finalState.activeModules.length < 2) {
+    issues.push(`Expected at least 2 active modules, got ${finalState.activeModules.length}`);
   }
 
-  if (finalState?.drawReducers.length !== 4) {
-    issues?.push(`Expected 4 draw reducers, got ${finalState?.drawReducers.length}`);
+  if (finalState.drawReducers.length !== 4) {
+    issues.push(`Expected 4 draw reducers, got ${finalState.drawReducers.length}`);
   }
 
-  if (finalState?.assetBindings.length !== 3) {
-    issues?.push(`Expected 3 asset bindings, got ${finalState?.assetBindings.length}`);
+  if (finalState.assetBindings.length !== 3) {
+    issues.push(`Expected 3 asset bindings, got ${finalState.assetBindings.length}`);
   }
 
-  if (enableThemes && !finalState?.activeTheme) {
-    issues?.push(`Expected active theme when themes enabled, got none`);
+  if (enableThemes && !finalState.activeTheme) {
+    issues.push(`Expected active theme when themes enabled, got none`);
   }
 
-  if (enableLineageTracking && !finalState?.lineageTracking) {
-    issues?.push(`Expected lineage tracking when enabled, got disabled`);
+  if (enableLineageTracking && !finalState.lineageTracking) {
+    issues.push(`Expected lineage tracking when enabled, got disabled`);
   }
 
   return {
     op: 'scenario',
-    status: issues?.length === 0 ? 'ok' : 'error',
+    status: issues.length === 0 ? 'ok' : 'error',
     name: 'OverlinkPure',
     timeline,
     finalState: {
-      currentZone: finalState?.currentZone,
-      activeModules: finalState?.activeModules.map((m: any) => ({ id: m?.id, status: m?.status })),
+      currentZone: finalState.currentZone,
+      activeModules: finalState.activeModules.map((m: any) => ({ id: m.id, status: m.status })),
       overlayLayers: Object.fromEntries(finalState.overlayLayers),
-      drawReducers: finalState?.drawReducers.map((r: any) => ({ id: r?.id, enabled: r?.enabled })),
-      assetBindings: finalState?.assetBindings.map((a: any) => ({ id: a?.id, type: a?.type, remixSafe: a?.remixSafe })),
-      debugMode: finalState?.debugMode,
-      activeTheme: finalState?.activeTheme,
-      lineageTracking: finalState?.lineageTracking
+      drawReducers: finalState.drawReducers.map((r: any) => ({ id: r.id, enabled: r.enabled })),
+      assetBindings: finalState.assetBindings.map((a: any) => ({ id: a.id, type: a.type, remixSafe: a.remixSafe })),
+      debugMode: finalState.debugMode,
+      activeTheme: finalState.activeTheme,
+      lineageTracking: finalState.lineageTracking
     },
     issues
   };
 }
 
 function captureState(overlink: OverlinkZone, timeline: ScenarioState[], step: number, zone: string): void {
-  const state = overlink?.exportState();
+  const state = overlink.exportState();
   
-  timeline?.push({
+  timeline.push({
     step,
     currentZone: zone,
-    activeModules: state?.activeModules.map((m: any) => m?.id),
+    activeModules: state.activeModules.map((m: any) => m.id),
     overlayLayers: Object.fromEntries(state.overlayLayers),
-    drawReducers: state?.drawReducers.length,
-    assetBindings: state?.assetBindings.length,
-    transitions: state?.transitions.length,
-    debugMode: state?.debugMode,
-    activeTheme: state?.activeTheme,
-    lineageTracking: state?.lineageTracking
+    drawReducers: state.drawReducers.length,
+    assetBindings: state.assetBindings.length,
+    transitions: state.transitions.length,
+    debugMode: state.debugMode,
+    activeTheme: state.activeTheme,
+    lineageTracking: state.lineageTracking
   });
 }

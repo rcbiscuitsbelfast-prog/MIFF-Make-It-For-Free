@@ -48,7 +48,7 @@ interface ReplayHook {
 export function runCLI(cliPath: string, args: string[] = []): string {
   try {
     const path = require('path');
-    const resolvedPath = path?.isAbsolute(cliPath) ? cliPath : path?.resolve(cliPath);
+    const resolvedPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
     
     // Capture console output
     let output = '';
@@ -70,8 +70,8 @@ export function runCLI(cliPath: string, args: string[] = []): string {
       
       if (scenarioId && fixture) {
         const result: CLIOutput = orchestrateScenario(scenarioId, fixture, args);
-        console.log(JSON.stringify(result: any));
-        return output?.trim();
+        console.log(JSON.stringify(result));
+        return output.trim();
       }
       
       // Fallback to existing mock logic for backward compatibility
@@ -84,14 +84,14 @@ export function runCLI(cliPath: string, args: string[] = []): string {
       console.error = originalError;
     }
     
-    return output?.trim();
+    return output.trim();
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     // Return error information as JSON
     return JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     });
   }
@@ -102,7 +102,7 @@ export function runCLI(cliPath: string, args: string[] = []): string {
  */
 function extractScenarioId(cliPath: string): string | null {
   const path = require('path');
-  const basename = path?.basename(path?.dirname(cliPath));
+  const basename = path.basename(path.dirname(cliPath));
   
   // Map common scenario patterns
   const scenarioMap: Record<string, string> = {
@@ -196,9 +196,9 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
   if (scenarioId === 'visual_replay') {
     return {
       op: "replay",
-      session: finalState?.session,
-      frames: finalState?.frames,
-      statistics: finalState?.statistics,
+      session: finalState.session,
+      frames: finalState.frames,
+      statistics: finalState.statistics,
       status: "ok",
       scenarioId,
       timestamp: new Date()
@@ -208,7 +208,7 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
   if (scenarioId === 'toppler_physics_demo') {
     return {
       op: "scenario",
-      timeline: finalState?.timeline,
+      timeline: finalState.timeline,
       issues: [],
       status: "ok",
       scenarioId,
@@ -326,36 +326,36 @@ function executeScenario(scenarioId: string, fixture: any, args: string[]): any 
  * Extract outputs from final state
  */
 function extractOutputs(finalState: any): any[] {
-  if (finalState?.timeline) {
-    return [{ op: "scenario", timeline: finalState?.timeline, issues: [] }];
+  if (finalState.timeline) {
+    return [{ op: "scenario", timeline: finalState.timeline, issues: [] }];
   }
   
-  if (finalState?.events) {
-    return [{ op: "runScenario", events: finalState?.events, finalState }];
+  if (finalState.events) {
+    return [{ op: "runScenario", events: finalState.events, finalState }];
   }
   
-  if (finalState?.combatLog) {
-    return finalState?.combatLog;
+  if (finalState.combatLog) {
+    return finalState.combatLog;
   }
   
-  if (finalState?.unlocked) {
+  if (finalState.unlocked) {
     return generateSkillTreeOutputs(finalState);
   }
   
-  if (finalState?.npcs) {
+  if (finalState.npcs) {
     return generateAIProfileOutputs(finalState);
   }
   
-  if (finalState?.issues) {
-    return [{ op: "validateAll", status: "error", issues: finalState?.issues, resolvedRefs: {} }];
+  if (finalState.issues) {
+    return [{ op: "validateAll", status: "error", issues: finalState.issues, resolvedRefs: {} }];
   }
   
-  if (finalState?.time !== undefined) {
+  if (finalState.time !== undefined) {
     return generateTimeSystemOutputs(finalState);
   }
   
-  if (finalState?.session) {
-    return [{ op: "replay", session: finalState?.session, frames: finalState?.frames, statistics: finalState?.statistics }];
+  if (finalState.session) {
+    return [{ op: "replay", session: finalState.session, frames: finalState.frames, statistics: finalState.statistics }];
   }
   
   return [{ op: "demo", status: "ok", data: finalState }];
@@ -406,7 +406,7 @@ function generateSkillTreeOutputs(finalState: any): any[] {
     { op: "unlock", id: "root", ok: true },
     { op: "canUnlock", id: "strike", ok: true },
     { op: "unlock", id: "strike", ok: true },
-    { op: "dump", unlocked: finalState?.unlocked }
+    { op: "dump", unlocked: finalState.unlocked }
   ];
 }
 
@@ -430,27 +430,27 @@ function generateAIProfileOutputs(finalState: any): any[] {
     { npcId: "guard1", role: "guard", actions: ["patrol", "schedule:10:00:patrol_gate"] },
     { op: "assignRole", npcId: "merchant", role: "wanderer" },
     { npcId: "merchant", role: "wanderer", actions: ["wander", "schedule:09:00:open_shop"], dialogId: "shop_welcome" },
-    { op: "dumpSchedule", schedule: finalState?.schedule }
+    { op: "dumpSchedule", schedule: finalState.schedule }
   ];
 }
 
 function generateValidationIssues(fixture: any): any[] {
   return [
     { code: "missing_ref", message: "Missing reference equip:sword:item", ref: "equip:sword:item" },
-    { code: "stat_bounds", message: "hero?.hp out of bounds: 1000", ref: "hero?.hp" },
+    { code: "stat_bounds", message: "hero.hp out of bounds: 1000", ref: "hero.hp" },
     { code: "zone_overlap", message: "Zones A and B overlap", ref: "A|B" }
   ];
 }
 
 function generateTimeSystemOutputs(finalState: any): any[] {
   return [
-    { op: "list", timers: finalState?.timers, cooldowns: finalState?.cooldowns, scheduled: finalState?.scheduled },
+    { op: "list", timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled },
     { op: "addTimer", id: "t1" },
     { op: "addCooldown", id: "cd1", duration: 1.5 },
     { op: "schedule", id: "ev1", at: 1 },
     { op: "tick", dt: 1, time: 1, fired: ["scheduled:ev1"] },
     { op: "tick", dt: 1, time: 2, fired: ["timer:t1", "cooldown:cd1"] },
-    { op: "dump", time: finalState?.time, timers: finalState?.timers, cooldowns: finalState?.cooldowns, scheduled: finalState?.scheduled }
+    { op: "dump", time: finalState.time, timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled }
   ];
 }
 
@@ -535,7 +535,7 @@ function generateReplayStatistics(fixture: any): any {
  */
 function generateMockResponse(resolvedPath: string, args: string[]): any {
   // This maintains the existing mock logic for modules not yet migrated
-  if (resolvedPath?.includes('TopplerDemoPure')) {
+  if (resolvedPath.includes('TopplerDemoPure')) {
     return {
       "op": "scenario",
       "status": "ok",
@@ -561,27 +561,27 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
  * VisualReplaySystemPure Hook Registration and Detection
  */
 export function registerReplayHooks(system: any): void {
-  if (!system || typeof system?.on !== 'function') {
+  if (!system || typeof system.on !== 'function') {
     console.warn('[ReplayHook!] System does not support event handling');
     return;
   }
 
-  system?.on("hookRegistered", (hook: ReplayHook) => {
+  system.on("hookRegistered", (hook: ReplayHook) => {
     console.log(`[ReplayHook!] Registered: ${hook.name}`);
   });
 
-  system?.on("replayStart", async () => {
+  system.on("replayStart", async () => {
     const unresolved = detectUnresolvedHooks(system);
-    if (unresolved?.length > 0) {
+    if (unresolved.length > 0) {
       console.warn(`[ReplayHook!] Unresolved hooks:`, unresolved);
     }
   });
 
-  system?.on("replayEnd", () => {
+  system.on("replayEnd", () => {
     console.log('[ReplayHook!] Replay session completed');
   });
 
-  system?.on("hookError", (error: Error, hook: ReplayHook) => {
+  system.on("hookError", (error: Error, hook: ReplayHook) => {
     console.error(`[ReplayHook!] Error in hook ${hook.name}:`, error.message);
   });
 }
@@ -593,19 +593,19 @@ function detectUnresolvedHooks(system: any): ReplayHook[] {
   const unresolved: ReplayHook[] = [];
   
   // Check for common unresolved hook patterns
-  if (system?.hooks) {
-    system?.hooks.forEach((hook: ReplayHook) => {
-      if (!hook?.name || !hook?.type) {
-        unresolved?.push(hook);
+  if (system.hooks) {
+    system.hooks.forEach((hook: ReplayHook) => {
+      if (!hook.name || !hook.type) {
+        unresolved.push(hook);
       }
     });
   }
   
   // Check for missing required hooks
   const requiredHooks = ['player_sprite', 'block_sprite', 'jump_sound', 'jump_particles'];
-  requiredHooks?.forEach(hookName => {
-    if (!system?.hooks || !system?.hooks.find((h: ReplayHook) => h?.id === hookName)) {
-      unresolved?.push({ name: hookName, type: 'missing', id: hookName });
+  requiredHooks.forEach(hookName => {
+    if (!system.hooks || !system.hooks.find((h: ReplayHook) => h.id === hookName)) {
+      unresolved.push({ name: hookName, type: 'missing', id: hookName });
     }
   });
   
@@ -651,22 +651,22 @@ export function loadFixtureForScenario(scenarioName: string): any {
  */
 export const validationChecklist = {
   runCLIReturnsRunScenario: (result: any): boolean => {
-    return result?.op === "runScenario" && result?.finalState && result?.outputs;
+    return result.op === "runScenario" && result.finalState && result.outputs;
   },
   
   runCLIReturnsValidFormat: (result: any): boolean => {
-    return (result?.op === "runScenario" && result?.finalState && result?.outputs) ||
-           (result?.op === "replay" && result?.session && result?.frames) ||
-           (result?.op === "scenario" && result?.timeline) ||
-           (result?.op === "demo" && result?.status === "ok");
+    return (result.op === "runScenario" && result.finalState && result.outputs) ||
+           (result.op === "replay" && result.session && result.frames) ||
+           (result.op === "scenario" && result.timeline) ||
+           (result.op === "demo" && result.status === "ok");
   },
   
   visualReplayLogsHooks: (logs: string[]): boolean => {
-    return logs?.some(log => log?.includes('[ReplayHook!] Registered:'));
+    return logs.some(log => log.includes('[ReplayHook!] Registered:'));
   },
   
   unresolvedHooksDetected: (warnings: string[]): boolean => {
-    return warnings?.some(warning => warning?.includes('[ReplayHook!] Unresolved hooks:'));
+    return warnings.some(warning => warning.includes('[ReplayHook!] Unresolved hooks:'));
   },
   
   fixturesInjected: (scenarioId: string): boolean => {
@@ -674,6 +674,6 @@ export const validationChecklist = {
   },
   
   jestSnapshotsPass: (testResults: any): boolean => {
-    return testResults?.passed === testResults?.total;
+    return testResults.passed === testResults.total;
   }
 };

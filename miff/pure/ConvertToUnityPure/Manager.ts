@@ -11,11 +11,11 @@ export interface UnityConvertedPayload {
 
 export class ConvertToUnityManager {
   convert(payload: RenderPayload): UnityConvertedPayload {
-    const issues = BridgeSchemaValidator?.validateRenderPayload(payload);
-    const items = (payload?.renderData || []).map((rd: RenderData) => BridgeSchemaValidator?.convertToUnity(rd));
+    const issues = BridgeSchemaValidator.validateRenderPayload(payload);
+    const items = (payload.renderData || []).map((rd: RenderData) => BridgeSchemaValidator.convertToUnity(rd));
     return {
       op: 'convert',
-      status: issues?.length === 0 ? 'ok' : 'error',
+      status: issues.length === 0 ? 'ok' : 'error',
       engine: 'unity',
       items,
       issues

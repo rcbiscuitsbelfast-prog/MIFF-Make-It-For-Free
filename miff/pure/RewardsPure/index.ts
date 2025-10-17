@@ -51,9 +51,9 @@ export class RewardStub implements IRewardStub {
   public itemId?: string;
 
   constructor(currency: number = 0, xpGain: number = 0, itemId?: string) {
-    this?._currency = currency;
-    this?._xpGain = xpGain;
-    this?.itemId = itemId;
+    this._currency = currency;
+    this._xpGain = xpGain;
+    this.itemId = itemId;
   }
 
   get currency(): number {
@@ -68,9 +68,9 @@ export class RewardStub implements IRewardStub {
    * Create a string representation of the reward
    */
   toString(): string {
-    let result = `+${this?.currency}c, +${this?.xpGain}xp`;
-    if (this?.itemId) {
-      result += `, item:${this?.itemId}`;
+    let result = `+${this.currency}c, +${this.xpGain}xp`;
+    if (this.itemId) {
+      result += `, item:${this.itemId}`;
     }
     return result;
   }
@@ -79,7 +79,7 @@ export class RewardStub implements IRewardStub {
    * Create a copy of this reward
    */
   clone(): RewardStub {
-    return new RewardStub(this?.currency, this?.xpGain, this?.itemId);
+    return new RewardStub(this.currency, this.xpGain, this.itemId);
   }
 
   /**
@@ -88,8 +88,8 @@ export class RewardStub implements IRewardStub {
   add(other: IRewardStub): void {
     this._currency += Math.max(0, other.currency);
     this._xpGain += Math.max(0, other.xpGain);
-    if (other?.itemId && !this?.itemId) {
-      this?.itemId = other?.itemId;
+    if (other.itemId && !this.itemId) {
+      this.itemId = other.itemId;
     }
   }
 
@@ -107,16 +107,16 @@ export class RewardStub implements IRewardStub {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (this?._currency < 0) {
-      errors?.push('Currency cannot be negative');
+    if (this._currency < 0) {
+      errors.push('Currency cannot be negative');
     }
 
-    if (this?._xpGain < 0) {
-      errors?.push('XP gain cannot be negative');
+    if (this._xpGain < 0) {
+      errors.push('XP gain cannot be negative');
     }
 
-    if (this?.itemId !== undefined && this?.itemId.trim() === '') {
-      errors?.push('Item ID cannot be empty string');
+    if (this.itemId !== undefined && this.itemId.trim() === '') {
+      errors.push('Item ID cannot be empty string');
     }
 
     return errors;
@@ -126,14 +126,14 @@ export class RewardStub implements IRewardStub {
    * Check if reward has any meaningful content
    */
   isEmpty(): boolean {
-    return this?.currency === 0 && this?.xpGain === 0 && !this?.itemId;
+    return this.currency === 0 && this.xpGain === 0 && !this.itemId;
   }
 
   /**
    * Get total value (currency + xp equivalent)
    */
   getTotalValue(xpValue: number = 1): number {
-    return this?.currency + (this?.xpGain * xpValue);
+    return this.currency + (this.xpGain * xpValue);
   }
 }
 
@@ -145,7 +145,7 @@ export class DropEntry implements IDropEntry {
   public weight: number;
 
   constructor(itemId: string = '', weight: number = 1) {
-    this?.itemId = itemId;
+    this.itemId = itemId;
     this.weight = Math.max(0, weight);
   }
 
@@ -153,7 +153,7 @@ export class DropEntry implements IDropEntry {
    * Create a copy of this entry
    */
   clone(): DropEntry {
-    return new DropEntry(this?.itemId, this?.weight);
+    return new DropEntry(this.itemId, this.weight);
   }
 
   /**
@@ -162,12 +162,12 @@ export class DropEntry implements IDropEntry {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this?.itemId || this?.itemId.trim() === '') {
-      errors?.push('Item ID cannot be empty');
+    if (!this.itemId || this.itemId.trim() === '') {
+      errors.push('Item ID cannot be empty');
     }
 
-    if (this?.weight < 0) {
-      errors?.push('Weight cannot be negative');
+    if (this.weight < 0) {
+      errors.push('Weight cannot be negative');
     }
 
     return errors;
@@ -181,20 +181,20 @@ export class DropTable implements IDropTable {
   public entries: DropEntry[];
 
   constructor(entries: DropEntry[] = []) {
-    this?.entries = [...entries];
+    this.entries = [...entries];
   }
 
   /**
    * Add an entry to the table
    */
   addEntry(entry: DropEntry): boolean {
-    const errors = entry?.validate({});
-    if (errors?.length > 0) {
+    const errors = entry.validate({});
+    if (errors.length > 0) {
       console.warn('Invalid drop entry:', errors);
       return false;
     }
 
-    this?.entries?.push(entry);
+    this.entries.push(entry);
     return true;
   }
 
@@ -202,34 +202,34 @@ export class DropTable implements IDropTable {
    * Remove entries by item ID
    */
   removeEntriesByItem(itemId: string): number {
-    const initialLength = this?.entries.length;
-    this?.entries = this?.entries.filter((entry: any) => entry?.itemId !== itemId);
-    return initialLength - this?.entries.length;
+    const initialLength = this.entries.length;
+    this.entries = this.entries.filter((entry: any) => entry.itemId !== itemId);
+    return initialLength - this.entries.length;
   }
 
   /**
    * Get total weight of all entries
    */
   getTotalWeight(): number {
-    return this?.entries.reduce((sum, entry) => sum + entry?.weight, 0);
+    return this.entries.reduce((sum, entry) => sum + entry.weight, 0);
   }
 
   /**
    * Get entries sorted by weight (descending)
    */
   getEntriesByWeight(): DropEntry[] {
-    return [...this?.entries].sort((a: any, b: any) => b?.weight - a?.weight);
+    return [...this.entries].sort((a: any, b: any) => b.weight - a.weight);
   }
 
   /**
    * Get drop rate for a specific item
    */
   getDropRate(itemId: string): number {
-    const entry = this?.entries.find(e => e?.itemId === itemId);
+    const entry = this.entries.find(e => e.itemId === itemId);
     if (!entry) return 0;
 
-    const totalWeight = this?.getTotalWeight();
-    return totalWeight > 0 ? entry?.weight / totalWeight : 0;
+    const totalWeight = this.getTotalWeight();
+    return totalWeight > 0 ? entry.weight / totalWeight : 0;
   }
 
   /**
@@ -238,14 +238,14 @@ export class DropTable implements IDropTable {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (this?.entries.length === 0) {
-      errors?.push('Drop table must have at least one entry');
+    if (this.entries.length === 0) {
+      errors.push('Drop table must have at least one entry');
     }
 
-    this?.entries.forEach((entry, index) => {
-      const entryErrors = entry?.validate({});
-      entryErrors?.forEach((error: any) => {
-        errors?.push(`Entry ${index}: ${error}`);
+    this.entries.forEach((entry, index) => {
+      const entryErrors = entry.validate({});
+      entryErrors.forEach((error: any) => {
+        errors.push(`Entry ${index}: ${error}`);
       });
     });
 
@@ -256,7 +256,7 @@ export class DropTable implements IDropTable {
    * Create a copy of this table
    */
   clone(): DropTable {
-    return new DropTable(this?.entries.map((entry: any) => entry?.clone()));
+    return new DropTable(this.entries.map((entry: any) => entry.clone()));
   }
 }
 
@@ -275,8 +275,8 @@ export class RewardManager {
   generateRewards(encounterType: string, playerLevel: number, enemyLevel: number): RewardStub {
     const levelDifference = Math.max(0, enemyLevel - playerLevel);
 
-    const currency = this?.baseCurrency + (levelDifference * this?.levelCurrencyMultiplier);
-    const xp = this?.baseXP + (levelDifference * this?.levelXPMultiplier);
+    const currency = this.baseCurrency + (levelDifference * this.levelCurrencyMultiplier);
+    const xp = this.baseXP + (levelDifference * this.levelXPMultiplier);
 
     return new RewardStub(currency, xp);
   }
@@ -291,9 +291,9 @@ export class RewardManager {
     currencyMultiplier: number = 1,
     xpMultiplier: number = 1
   ): RewardStub {
-    const baseReward = this?.generateRewards(encounterType, playerLevel, enemyLevel);
+    const baseReward = this.generateRewards(encounterType, playerLevel, enemyLevel);
 
-    baseReward?.multiply(currencyMultiplier);
+    baseReward.multiply(currencyMultiplier);
 
     if (xpMultiplier !== 1) {
       (baseReward as any)._xpGain = Math.floor((baseReward as any)._xpGain * xpMultiplier);
@@ -311,9 +311,9 @@ export class RewardManager {
     multiplier: number = 1
   ): RewardStub {
     const bonusReward = new RewardStub(
-      baseReward?.currency,
-      baseReward?.xpGain,
-      baseReward?.itemId
+      baseReward.currency,
+      baseReward.xpGain,
+      baseReward.itemId
     );
 
     const bonusMultipliers = {
@@ -323,7 +323,7 @@ export class RewardManager {
     };
 
     const bonusMultiplier = bonusMultipliers[bonusType!] || 1.0;
-    bonusReward?.multiply(bonusMultiplier * multiplier);
+    bonusReward.multiply(bonusMultiplier * multiplier);
 
     return bonusReward;
   }
@@ -338,8 +338,8 @@ export class RewardManager {
     attempts: number = 100
   ): number {
     const totalValue = Array.from({ length: attempts }, () => {
-      const reward = this?.generateRewards(encounterType, playerLevel, enemyLevel);
-      return reward?.getTotalValue();
+      const reward = this.generateRewards(encounterType, playerLevel, enemyLevel);
+      return reward.getTotalValue();
     }).reduce((sum, value) => sum + value, 0);
 
     return totalValue / attempts;
@@ -365,10 +365,10 @@ export class RewardManager {
     levelXPMultiplier: number;
   } {
     return {
-      baseCurrency: this?.baseCurrency,
-      levelCurrencyMultiplier: this?.levelCurrencyMultiplier,
-      baseXP: this?.baseXP,
-      levelXPMultiplier: this?.levelXPMultiplier
+      baseCurrency: this.baseCurrency,
+      levelCurrencyMultiplier: this.levelCurrencyMultiplier,
+      baseXP: this.baseXP,
+      levelXPMultiplier: this.levelXPMultiplier
     };
   }
 }
@@ -383,14 +383,14 @@ export class DropResolver {
     if (!rng) {
       throw new Error('RNG provider is required');
     }
-    this?.rng = rng;
+    this.rng = rng;
   }
 
   /**
    * Resolve a single item from the drop table
    */
   resolve(table: IDropTable): string | null {
-    if (!table || !table?.entries || table?.entries.length === 0) {
+    if (!table || !table.entries || table.entries.length === 0) {
       return null;
     }
 
@@ -400,18 +400,18 @@ export class DropResolver {
       return null;
     }
 
-    const roll = this?.rng.nextFloat(0, totalWeight);
+    const roll = this.rng.nextFloat(0, totalWeight);
     let accumulatedWeight = 0;
 
-    for (const entry of table?.entries) {
+    for (const entry of table.entries) {
       accumulatedWeight += Math.max(0, entry.weight);
       if (roll <= accumulatedWeight) {
-        return entry?.itemId;
+        return entry.itemId;
       }
     }
 
     // Fallback to last entry (should not happen)
-    return table?.entries[table?.entries.length - 1].itemId;
+    return table.entries[table.entries.length - 1].itemId;
   }
 
   /**
@@ -421,9 +421,9 @@ export class DropResolver {
     const results: string[] = [];
 
     for (let i = 0; i < count; i++) {
-      const item = this?.resolve(table);
-      if (item: any) {
-        results?.push(item: any);
+      const item = this.resolve(table);
+      if (item) {
+        results.push(item);
       }
     }
 
@@ -437,23 +437,23 @@ export class DropResolver {
     const results = new Map<string, number>();
 
     // Initialize results map
-    table?.entries.forEach((entry: any) => {
-      results?.set(entry?.itemId, 0);
+    table.entries.forEach((entry: any) => {
+      results.set(entry.itemId, 0);
     });
 
     // Run simulations
     for (let i = 0; i < simulations; i++) {
-      const item = this?.resolve(table);
-      if (item: any) {
-        results?.set(item, (results?.get(item: any) || 0) + 1);
+      const item = this.resolve(table);
+      if (item) {
+        results.set(item, (results.get(item) || 0) + 1);
       }
     }
 
     // Convert to rates
     const totalDrops = Array.from(results.values()).reduce((sum, count) => sum + count, 0);
     if (totalDrops > 0) {
-      results?.forEach((count, itemId) => {
-        results?.set(itemId, count / totalDrops);
+      results.forEach((count, itemId) => {
+        results.set(itemId, count / totalDrops);
       });
     }
 
@@ -464,28 +464,28 @@ export class DropResolver {
    * Check if a specific item would drop from the table
    */
   wouldDrop(table: IDropTable, itemId: string): boolean {
-    if (!table || !table?.entries || table?.entries.length === 0) {
+    if (!table || !table.entries || table.entries.length === 0) {
       return false;
     }
 
-    return table?.entries.some(entry => entry?.itemId === itemId);
+    return table.entries.some(entry => entry.itemId === itemId);
   }
 
   /**
    * Get the drop rate for a specific item
    */
   getDropRate(table: IDropTable, itemId: string): number {
-    if (!table || !table?.entries || table?.entries.length === 0) {
+    if (!table || !table.entries || table.entries.length === 0) {
       return 0;
     }
 
-    const entry = table?.entries.find(e => e?.itemId === itemId);
+    const entry = table.entries.find(e => e.itemId === itemId);
     if (!entry) {
       return 0;
     }
 
     const totalWeight = table.entries.reduce((sum, e) => sum + Math.max(0, e.weight), 0);
-    return totalWeight > 0 ? entry?.weight / totalWeight : 0;
+    return totalWeight > 0 ? entry.weight / totalWeight : 0;
   }
 }
 
@@ -505,8 +505,8 @@ export const RewardUtils = {
    */
   createStandardDropTable(items: Array<{ itemId: string; weight: number }>): DropTable {
     const table = new DropTable();
-    items?.forEach(itemData => {
-      table?.addEntry(new DropEntry(itemData?.itemId, itemData?.weight));
+    items.forEach(itemData => {
+      table.addEntry(new DropEntry(itemData.itemId, itemData.weight));
     });
     return table;
   },
@@ -522,13 +522,13 @@ export const RewardUtils = {
     const table = new DropTable();
 
     // Add common items with normal weight
-    commonItems?.forEach((item: any) => {
-      table?.addEntry(new DropEntry(item?.itemId, item?.weight));
+    commonItems.forEach((item: any) => {
+      table.addEntry(new DropEntry(item.itemId, item.weight));
     });
 
     // Add rare items with reduced weight
-    rareItems?.forEach((item: any) => {
-      table?.addEntry(new DropEntry(item?.itemId, item?.weight * rareChance));
+    rareItems.forEach((item: any) => {
+      table.addEntry(new DropEntry(item.itemId, item.weight * rareChance));
     });
 
     return table;
@@ -555,11 +555,11 @@ export const RewardUtils = {
   mergeRewards(rewards: IRewardStub[]): RewardStub {
     const merged = new RewardStub();
 
-    rewards?.forEach((reward: any) => {
-      merged?.currency += reward?.currency;
-      merged?.xpGain += reward?.xpGain;
-      if (reward?.itemId && !merged?.itemId) {
-        merged?.itemId = reward?.itemId;
+    rewards.forEach((reward: any) => {
+      merged.currency += reward.currency;
+      merged.xpGain += reward.xpGain;
+      if (reward.itemId && !merged.itemId) {
+        merged.itemId = reward.itemId;
       }
     });
 
@@ -577,18 +577,18 @@ export const RewardUtils = {
     const rewards: RewardStub[] = [];
 
     for (let i = 0; i < recipientCount; i++) {
-      rewards?.push(new RewardStub(
+      rewards.push(new RewardStub(
         Math.floor(reward.currency / recipientCount),
         Math.floor(reward.xpGain / recipientCount),
-        i === 0 ? reward?.itemId : undefined // First recipient gets the item
+        i === 0 ? reward.itemId : undefined // First recipient gets the item
       ));
     }
 
     // Add remainder to first reward
-    if (rewards?.length > 0) {
+    if (rewards.length > 0) {
       const remainder = new RewardStub(
-        reward?.currency % recipientCount,
-        reward?.xpGain % recipientCount
+        reward.currency % recipientCount,
+        reward.xpGain % recipientCount
       );
       rewards[0!].add(remainder);
     }
@@ -600,7 +600,7 @@ export const RewardUtils = {
    * Calculate the total value of multiple rewards
    */
   calculateTotalValue(rewards: IRewardStub[], xpValue: number = 1): number {
-    return rewards?.reduce((total, reward) => total + reward?.getTotalValue(xpValue), 0);
+    return rewards.reduce((total, reward) => total + reward.getTotalValue(xpValue), 0);
   },
 
   /**
@@ -609,16 +609,16 @@ export const RewardUtils = {
   validateReward(reward: IRewardStub): string[] {
     const errors: string[] = [];
 
-    if (reward?.currency < 0) {
-      errors?.push('Currency cannot be negative');
+    if (reward.currency < 0) {
+      errors.push('Currency cannot be negative');
     }
 
-    if (reward?.xpGain < 0) {
-      errors?.push('XP gain cannot be negative');
+    if (reward.xpGain < 0) {
+      errors.push('XP gain cannot be negative');
     }
 
-    if (reward?.itemId !== undefined && reward?.itemId.trim() === '') {
-      errors?.push('Item ID cannot be empty string');
+    if (reward.itemId !== undefined && reward.itemId.trim() === '') {
+      errors.push('Item ID cannot be empty string');
     }
 
     return errors;
@@ -630,17 +630,17 @@ export const RewardUtils = {
   validateDropTable(table: IDropTable): string[] {
     const errors: string[] = [];
 
-    if (!table?.entries || table?.entries.length === 0) {
-      errors?.push('Drop table must have at least one entry');
+    if (!table.entries || table.entries.length === 0) {
+      errors.push('Drop table must have at least one entry');
     }
 
-    table?.entries.forEach((entry, index) => {
-      if (!entry?.itemId || entry?.itemId.trim() === '') {
-        errors?.push(`Entry ${index}: Item ID cannot be empty`);
+    table.entries.forEach((entry, index) => {
+      if (!entry.itemId || entry.itemId.trim() === '') {
+        errors.push(`Entry ${index}: Item ID cannot be empty`);
       }
 
-      if (entry?.weight < 0) {
-        errors?.push(`Entry ${index}: Weight cannot be negative`);
+      if (entry.weight < 0) {
+        errors.push(`Entry ${index}: Weight cannot be negative`);
       }
     });
 

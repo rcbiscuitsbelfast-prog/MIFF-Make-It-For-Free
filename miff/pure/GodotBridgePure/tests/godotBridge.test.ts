@@ -4,7 +4,7 @@ describe('GodotBridgePure Tests', () => {
 
   test('✓ GodotBridgeManager can be created with valid configuration', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType?.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -30,14 +30,14 @@ describe('GodotBridgePure Tests', () => {
     const bridge = new GodotBridgeManager(config);
 
     expect(bridge).toBeDefined();
-    expect(bridge?.getConfiguration()).toEqual(config);
-    expect(bridge?.getStatistics()).toBeDefined();
-    expect(bridge?.getConnectionStatus()).toBe('disconnected');
+    expect(bridge.getConfiguration()).toEqual(config);
+    expect(bridge.getStatistics()).toBeDefined();
+    expect(bridge.getConnectionStatus()).toBe('disconnected');
   });
 
   test('✓ GodotBridgeManager supports different bridge types', () => {
     const nodeConfig: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType?.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -62,19 +62,19 @@ describe('GodotBridgePure Tests', () => {
 
     const sceneConfig: GodotBridgeConfiguration = {
       ...nodeConfig,
-      bridgeType: GodotBridgeType?.SCENE
+      bridgeType: GodotBridgeType.SCENE
     };
 
     const bridge1 = new GodotBridgeManager(nodeConfig);
     const bridge2 = new GodotBridgeManager(sceneConfig);
 
-    expect(bridge1?.getConfiguration().bridgeType).toBe('node');
-    expect(bridge2?.getConfiguration().bridgeType).toBe('scene');
+    expect(bridge1.getConfiguration().bridgeType).toBe('node');
+    expect(bridge2.getConfiguration().bridgeType).toBe('scene');
   });
 
   test('✓ GodotBridgeManager handles communication protocols correctly', () => {
     const gdnativeConfig: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType?.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -105,13 +105,13 @@ describe('GodotBridgePure Tests', () => {
     const bridge1 = new GodotBridgeManager(gdnativeConfig);
     const bridge2 = new GodotBridgeManager(gdscriptConfig);
 
-    expect(bridge1?.getConfiguration().communicationProtocol).toBe('gdnative');
-    expect(bridge2?.getConfiguration().communicationProtocol).toBe('gdscript');
+    expect(bridge1.getConfiguration().communicationProtocol).toBe('gdnative');
+    expect(bridge2.getConfiguration().communicationProtocol).toBe('gdscript');
   });
 
   test('✓ GodotBridgeManager performance metrics are initialized', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType?.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -135,17 +135,17 @@ describe('GodotBridgePure Tests', () => {
     };
 
     const bridge = new GodotBridgeManager(config);
-    const metrics = bridge?.getPerformanceMetrics();
+    const metrics = bridge.getPerformanceMetrics();
 
     expect(metrics).toBeDefined();
-    expect(metrics?.frameRate).toBe(0);
-    expect(metrics?.targetFrameRate).toBe(60);
-    expect(metrics?.vsyncEnabled).toBe(false);
+    expect(metrics.frameRate).toBe(0);
+    expect(metrics.targetFrameRate).toBe(60);
+    expect(metrics.vsyncEnabled).toBe(false);
   });
 
   test('✓ GodotBridgeManager statistics tracking works', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType?.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -169,18 +169,18 @@ describe('GodotBridgePure Tests', () => {
     };
 
     const bridge = new GodotBridgeManager(config);
-    const stats = bridge?.getStatistics();
+    const stats = bridge.getStatistics();
 
     expect(stats).toBeDefined();
-    expect(stats?.totalMessages).toBe(0);
-    expect(stats?.errorRate).toBe(0);
-    expect(stats?.activeConnections).toBe(0);
-    expect(stats?.queueDepth).toBe(0);
+    expect(stats.totalMessages).toBe(0);
+    expect(stats.errorRate).toBe(0);
+    expect(stats.activeConnections).toBe(0);
+    expect(stats.queueDepth).toBe(0);
   });
 
   test('✓ GodotBridgeManager handles lifecycle events', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: GodotBridgeType?.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -206,15 +206,15 @@ describe('GodotBridgePure Tests', () => {
     const bridge = new GodotBridgeManager(config);
 
     // Test configuration retrieval
-    const retrievedConfig = bridge?.getConfiguration();
-    expect(retrievedConfig?.bridgeType).toBe('node');
-    expect(retrievedConfig?.communicationProtocol).toBe('gdnative');
-    expect(retrievedConfig?.godotVersion).toBe('4.0');
+    const retrievedConfig = bridge.getConfiguration();
+    expect(retrievedConfig.bridgeType).toBe('node');
+    expect(retrievedConfig.communicationProtocol).toBe('gdnative');
+    expect(retrievedConfig.godotVersion).toBe('4.0');
 
     // Test statistics functionality
-    const stats = bridge?.getStatistics();
-    expect(stats?.totalMessages).toBe(0);
-    expect(stats?.activeConnections).toBe(0);
+    const stats = bridge.getStatistics();
+    expect(stats.totalMessages).toBe(0);
+    expect(stats.activeConnections).toBe(0);
 
     expect(bridge).toBeDefined();
   });

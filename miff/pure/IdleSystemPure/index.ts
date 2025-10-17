@@ -14,7 +14,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index?.js';
+import { EventBus } from '../EventBusPure/index.js';
 
 // ============================================================================
 // IDLE SYSTEM TYPES & INTERFACES
@@ -215,7 +215,7 @@ export class IdleSystemPure {
   private prestigeConfigs: Map<string, PrestigeConfig> = new Map();
 
   // Game mechanics state
-  private lastUpdateTime: number = new Date();
+  private lastUpdateTime: number = Date.now();
   private totalPlayTime: number = 0;
   private totalIdleTime: number = 0;
   private prestigeCount: number = 0;
@@ -225,7 +225,7 @@ export class IdleSystemPure {
   // Production tracking
   private productionMultipliers: Map<string, number> = new Map();
   private efficiencyMultipliers: Map<string, number> = new Map();
-  private lastProductionUpdate: number = new Date();
+  private lastProductionUpdate: number = Date.now();
   private productionCache: Map<string, number> = new Map();
 
   // Save/load state
@@ -242,33 +242,33 @@ export class IdleSystemPure {
     performanceMode: 'high',
     debugMode: false
   }) {
-    this?.eventBus = eventBus;
-    this?.config = config;
+    this.eventBus = eventBus;
+    this.config = config;
 
-    this?.initializeSystem();
-    this?.startUpdateLoop();
-    this?.startAutoSave();
+    this.initializeSystem();
+    this.startUpdateLoop();
+    this.startAutoSave();
   }
 
   /**
    * Initialize the idle system with default resources and generators
    */
   private initializeSystem(): void {
-    this?.initializeResources();
-    this?.initializeGenerators();
-    this?.initializeUpgrades();
-    this?.initializeAchievements();
-    this?.initializePrestige();
+    this.initializeResources();
+    this.initializeGenerators();
+    this.initializeUpgrades();
+    this.initializeAchievements();
+    this.initializePrestige();
 
-    this?.setupEventListeners();
+    this.setupEventListeners();
 
     // Emit initialization event
-    this?.eventBus.emit('idle:system_initialized', {
-      config: this?.config,
-      resources: this?.resources.size,
-      generators: this?.generators.size,
-      upgrades: this?.upgrades.size,
-      achievements: this?.achievements.size,
+    this.eventBus.emit('idle:system_initialized', {
+      config: this.config,
+      resources: this.resources.size,
+      generators: this.generators.size,
+      upgrades: this.upgrades.size,
+      achievements: this.achievements.size,
       timestamp: new Date()
     });
   }
@@ -317,8 +317,8 @@ export class IdleSystemPure {
       }
     ];
 
-    resources?.forEach((resource: any) => {
-      this?.resources.set(resource?.id, resource);
+    resources.forEach((resource: any) => {
+      this.resources.set(resource.id, resource);
     });
   }
 
@@ -393,8 +393,8 @@ export class IdleSystemPure {
       }
     ];
 
-    generators?.forEach((generator: any) => {
-      this?.generators.set(generator?.id, generator);
+    generators.forEach((generator: any) => {
+      this.generators.set(generator.id, generator);
     });
   }
 
@@ -465,8 +465,8 @@ export class IdleSystemPure {
       }
     ];
 
-    upgrades?.forEach((upgrade: any) => {
-      this?.upgrades.set(upgrade?.id, upgrade);
+    upgrades.forEach((upgrade: any) => {
+      this.upgrades.set(upgrade.id, upgrade);
     });
   }
 
@@ -517,8 +517,8 @@ export class IdleSystemPure {
       }
     ];
 
-    achievements?.forEach((achievement: any) => {
-      this?.achievements.set(achievement?.id, achievement);
+    achievements.forEach((achievement: any) => {
+      this.achievements.set(achievement.id, achievement);
     });
   }
 
@@ -553,8 +553,8 @@ export class IdleSystemPure {
       }
     ];
 
-    prestigeConfigs?.forEach((config: any) => {
-      this?.prestigeConfigs.set(config?.tier, config);
+    prestigeConfigs.forEach((config: any) => {
+      this.prestigeConfigs.set(config.tier, config);
     });
   }
 
@@ -563,31 +563,31 @@ export class IdleSystemPure {
    */
   private setupEventListeners(): void {
     // Listen for integration events
-    if (this?.integrations.onResourceChange) {
-      this?.eventBus.subscribe('idle:resource_change', (event: any) => {
-        const data = event?.data || event;
-        this?.integrations.onResourceChange!(data?.resourceId, data?.oldAmount, data?.newAmount);
+    if (this.integrations.onResourceChange) {
+      this.eventBus.subscribe('idle:resource_change', (event: any) => {
+        const data = event.data || event;
+        this.integrations.onResourceChange!(data.resourceId, data.oldAmount, data.newAmount);
       });
     }
 
-    if (this?.integrations.onGeneratorPurchase) {
-      this?.eventBus.subscribe('idle:generator_purchase', (event: any) => {
-        const data = event?.data || event;
-        this?.integrations.onGeneratorPurchase!(data?.generatorId, data?.amount);
+    if (this.integrations.onGeneratorPurchase) {
+      this.eventBus.subscribe('idle:generator_purchase', (event: any) => {
+        const data = event.data || event;
+        this.integrations.onGeneratorPurchase!(data.generatorId, data.amount);
       });
     }
 
-    if (this?.integrations.onUpgradePurchase) {
-      this?.eventBus.subscribe('idle:upgrade_purchase', (event: any) => {
-        const data = event?.data || event;
-        this?.integrations.onUpgradePurchase!(data?.upgradeId, data?.level);
+    if (this.integrations.onUpgradePurchase) {
+      this.eventBus.subscribe('idle:upgrade_purchase', (event: any) => {
+        const data = event.data || event;
+        this.integrations.onUpgradePurchase!(data.upgradeId, data.level);
       });
     }
 
-    if (this?.integrations.onAchievementUnlock) {
-      this?.eventBus.subscribe('idle:achievement_unlock', (event: any) => {
-        const data = event?.data || event;
-        this?.integrations.onAchievementUnlock!(data?.achievementId);
+    if (this.integrations.onAchievementUnlock) {
+      this.eventBus.subscribe('idle:achievement_unlock', (event: any) => {
+        const data = event.data || event;
+        this.integrations.onAchievementUnlock!(data.achievementId);
       });
     }
   }
@@ -597,10 +597,10 @@ export class IdleSystemPure {
    */
   private startUpdateLoop(): void {
     setInterval(() => {
-      if (!this?.isPaused) {
-        this?.updateProduction();
-        this?.updateAchievements();
-        this?.checkPrestige();
+      if (!this.isPaused) {
+        this.updateProduction();
+        this.updateAchievements();
+        this.checkPrestige();
       }
     }, 1000); // Update every second
   }
@@ -609,10 +609,10 @@ export class IdleSystemPure {
    * Start auto-save system
    */
   private startAutoSave(): void {
-    if (this?.config.saveInterval > 0) {
-      this?.autoSaveInterval = setInterval(() => {
-        this?.saveGame();
-      }, this?.config.saveInterval * 1000) as any;
+    if (this.config.saveInterval > 0) {
+      this.autoSaveInterval = setInterval(() => {
+        this.saveGame();
+      }, this.config.saveInterval * 1000) as any;
     }
   }
 
@@ -620,43 +620,43 @@ export class IdleSystemPure {
    * Update resource production
    */
   private updateProduction(): void {
-    const now = new Date();
-    const deltaTime = (now - this?.lastProductionUpdate) / 1000;
-    this?.lastProductionUpdate = now;
+    const now = Date.now();
+    const deltaTime = (now - this.lastProductionUpdate) / 1000;
+    this.lastProductionUpdate = now;
 
     if (deltaTime <= 0) return;
 
     // Calculate offline progress if enabled
-    if (this?.config.enableOfflineProgress) {
-      this?.processOfflineProgress();
+    if (this.config.enableOfflineProgress) {
+      this.processOfflineProgress();
     }
 
     // Update each generator
-    this?.generators.forEach((generator, generatorId) => {
-      if (!generator?.unlocked || generator?.owned === 0) return;
+    this.generators.forEach((generator, generatorId) => {
+      if (!generator.unlocked || generator.owned === 0) return;
 
-      const resource = this?.resources.get(generator?.producesResource);
+      const resource = this.resources.get(generator.producesResource);
       if (!resource) return;
 
       // Calculate production
-      const baseProduction = generator?.baseProduction * generator?.owned;
-      const multiplier = this?.getTotalMultiplier(generatorId);
-      const efficiency = this?.getTotalEfficiency(generatorId);
+      const baseProduction = generator.baseProduction * generator.owned;
+      const multiplier = this.getTotalMultiplier(generatorId);
+      const efficiency = this.getTotalEfficiency(generatorId);
       const actualProduction = baseProduction * multiplier * efficiency * deltaTime;
 
       // Add production to resource
-      const newAmount = resource?.currentAmount + actualProduction;
+      const newAmount = resource.currentAmount + actualProduction;
 
       // Check resource limits
       const cappedAmount = resource.maxAmount ? Math.min(newAmount, resource.maxAmount) : newAmount;
 
-      if (cappedAmount !== resource?.currentAmount) {
-        this?.updateResource(generator?.producesResource, cappedAmount);
+      if (cappedAmount !== resource.currentAmount) {
+        this.updateResource(generator.producesResource, cappedAmount);
 
         // Emit resource change event
-        this?.eventBus.emit('idle:resource_change', {
-          resourceId: generator?.producesResource,
-          oldAmount: resource?.currentAmount,
+        this.eventBus.emit('idle:resource_change', {
+          resourceId: generator.producesResource,
+          oldAmount: resource.currentAmount,
           newAmount: cappedAmount,
           timestamp: now
         });
@@ -664,16 +664,16 @@ export class IdleSystemPure {
     });
 
     // Update resource regeneration
-    this?.resources.forEach((resource, resourceId) => {
-      if (resource?.generationRate > 0) {
-        const regeneration = resource?.generationRate * deltaTime;
+    this.resources.forEach((resource, resourceId) => {
+      if (resource.generationRate > 0) {
+        const regeneration = resource.generationRate * deltaTime;
         const newAmount = Math.min(
-          resource?.currentAmount + regeneration,
-          resource?.maxAmount || Infinity
+          resource.currentAmount + regeneration,
+          resource.maxAmount || Infinity
         );
 
-        if (newAmount !== resource?.currentAmount) {
-          this?.updateResource(resourceId, newAmount);
+        if (newAmount !== resource.currentAmount) {
+          this.updateResource(resourceId, newAmount);
         }
       }
     });
@@ -683,28 +683,28 @@ export class IdleSystemPure {
    * Process offline progress
    */
   private processOfflineProgress(): void {
-    const now = new Date();
-    const lastSaveTime = this?.saveData.lastSaveTime || now;
+    const now = Date.now();
+    const lastSaveTime = this.saveData.lastSaveTime || now;
     const offlineTime = Math.min(
       (now - lastSaveTime) / 1000,
-      this?.config.maxIdleTime
+      this.config.maxIdleTime
     );
 
     if (offlineTime > 60) { // Only process if offline for more than 1 minute
-      const totalOfflineProduction = this?.calculateTotalProduction() * offlineTime * this?.config.offlineProgressMultiplier;
+      const totalOfflineProduction = this.calculateTotalProduction() * offlineTime * this.config.offlineProgressMultiplier;
 
-      const currencyResource = this?.resources.get('currency');
+      const currencyResource = this.resources.get('currency');
       if (currencyResource) {
-        this?.updateResource('currency', currencyResource?.currentAmount + totalOfflineProduction);
+        this.updateResource('currency', currencyResource.currentAmount + totalOfflineProduction);
 
-        this?.eventBus.emit('idle:offline_progress', {
+        this.eventBus.emit('idle:offline_progress', {
           offlineTime: offlineTime,
           production: totalOfflineProduction,
           timestamp: now
         });
       }
 
-      this?.totalIdleTime += offlineTime;
+      this.totalIdleTime += offlineTime;
     }
   }
 
@@ -714,12 +714,12 @@ export class IdleSystemPure {
   private calculateTotalProduction(): number {
     let totalProduction = 0;
 
-    this?.generators.forEach((generator, generatorId) => {
-      if (!generator?.unlocked || generator?.owned === 0) return;
+    this.generators.forEach((generator, generatorId) => {
+      if (!generator.unlocked || generator.owned === 0) return;
 
-      const baseProduction = generator?.baseProduction * generator?.owned;
-      const multiplier = this?.getTotalMultiplier(generatorId);
-      const efficiency = this?.getTotalEfficiency(generatorId);
+      const baseProduction = generator.baseProduction * generator.owned;
+      const multiplier = this.getTotalMultiplier(generatorId);
+      const efficiency = this.getTotalEfficiency(generatorId);
       totalProduction += baseProduction * multiplier * efficiency;
     });
 
@@ -733,23 +733,23 @@ export class IdleSystemPure {
     let multiplier = 1.0;
 
     // Base production multiplier
-    const generator = this?.generators.get(generatorId);
+    const generator = this.generators.get(generatorId);
     if (generator) {
-      multiplier *= generator?.productionMultiplier;
+      multiplier *= generator.productionMultiplier;
     }
 
     // Global multipliers
-    this?.productionMultipliers.forEach((value, key) => {
+    this.productionMultipliers.forEach((value, key) => {
       if (key === 'all' || key === generatorId) {
         multiplier *= value;
       }
     });
 
     // Upgrade effects
-    this?.upgrades.forEach((upgrade: any) => {
-      if (upgrade?.currentLevel > 0) {
-        upgrade?.effects.forEach((effect: any) => {
-          if (effect?.target === generatorId && effect?.type === 'multiplier') {
+    this.upgrades.forEach((upgrade: any) => {
+      if (upgrade.currentLevel > 0) {
+        upgrade.effects.forEach((effect: any) => {
+          if (effect.target === generatorId && effect.type === 'multiplier') {
             multiplier *= Math.pow(effect.value, upgrade.currentLevel);
           }
         });
@@ -765,24 +765,24 @@ export class IdleSystemPure {
   private getTotalEfficiency(generatorId: string): number {
     let efficiency = 1.0;
 
-    const generator = this?.generators.get(generatorId);
+    const generator = this.generators.get(generatorId);
     if (generator) {
-      efficiency *= generator?.efficiency;
+      efficiency *= generator.efficiency;
     }
 
     // Efficiency multipliers
-    this?.efficiencyMultipliers.forEach((value, key) => {
+    this.efficiencyMultipliers.forEach((value, key) => {
       if (key === 'all' || key === generatorId) {
         efficiency *= value;
       }
     });
 
     // Upgrade effects
-    this?.upgrades.forEach((upgrade: any) => {
-      if (upgrade?.currentLevel > 0) {
-        upgrade?.effects.forEach((effect: any) => {
-          if (effect?.target === generatorId && effect?.type === 'efficiency') {
-            efficiency += effect?.value * upgrade?.currentLevel;
+    this.upgrades.forEach((upgrade: any) => {
+      if (upgrade.currentLevel > 0) {
+        upgrade.effects.forEach((effect: any) => {
+          if (effect.target === generatorId && effect.type === 'efficiency') {
+            efficiency += effect.value * upgrade.currentLevel;
           }
         });
       }
@@ -795,13 +795,13 @@ export class IdleSystemPure {
    * Update resource amount
    */
   private updateResource(resourceId: string, newAmount: number): void {
-    const resource = this?.resources.get(resourceId);
+    const resource = this.resources.get(resourceId);
     if (!resource) return;
 
-    const oldAmount = resource?.currentAmount;
-    resource?.currentAmount = newAmount;
+    const oldAmount = resource.currentAmount;
+    resource.currentAmount = newAmount;
 
-    this?.eventBus.emit('idle:resource_change', {
+    this.eventBus.emit('idle:resource_change', {
       resourceId: resourceId,
       oldAmount: oldAmount,
       newAmount: newAmount,
@@ -813,15 +813,15 @@ export class IdleSystemPure {
    * Update achievements
    */
   private updateAchievements(): void {
-    if (!this?.config.enableAchievements) return;
+    if (!this.config.enableAchievements) return;
 
-    this?.achievements.forEach((achievement, achievementId) => {
-      if (achievement?.unlocked) return;
+    this.achievements.forEach((achievement, achievementId) => {
+      if (achievement.unlocked) return;
 
-      this?.updateAchievementProgress(achievement);
+      this.updateAchievementProgress(achievement);
 
-      if (achievement?.progress >= achievement?.maxProgress) {
-        this?.unlockAchievement(achievementId);
+      if (achievement.progress >= achievement.maxProgress) {
+        this.unlockAchievement(achievementId);
       }
     });
   }
@@ -830,12 +830,12 @@ export class IdleSystemPure {
    * Update achievement progress
    */
   private updateAchievementProgress(achievement: Achievement): void {
-    const requirement = achievement?.requirement;
+    const requirement = achievement.requirement;
 
-    switch (requirement?.type) {
+    switch (requirement.type) {
       case 'amount':
-        if (requirement?.target in this?.resources) {
-          const resource = this?.resources.get(requirement?.target)!;
+        if (requirement.target in this.resources) {
+          const resource = this.resources.get(requirement.target)!;
           achievement.progress = Math.min(achievement.maxProgress, resource.currentAmount);
         }
         break;
@@ -851,7 +851,7 @@ export class IdleSystemPure {
 
       case 'rate':
         // Handle production rates
-        const production = this?.calculateTotalProduction();
+        const production = this.calculateTotalProduction();
         achievement.progress = Math.min(achievement.maxProgress, production);
         break;
     }
@@ -861,15 +861,15 @@ export class IdleSystemPure {
    * Unlock achievement
    */
   private unlockAchievement(achievementId: string): void {
-    const achievement = this?.achievements.get(achievementId);
+    const achievement = this.achievements.get(achievementId);
     if (!achievement) return;
 
-    achievement?.unlocked = true;
+    achievement.unlocked = true;
 
     // Apply reward
-    this?.applyAchievementReward(achievement);
+    this.applyAchievementReward(achievement);
 
-    this?.eventBus.emit('idle:achievement_unlock', {
+    this.eventBus.emit('idle:achievement_unlock', {
       achievementId: achievementId,
       achievement: achievement,
       timestamp: new Date()
@@ -880,27 +880,27 @@ export class IdleSystemPure {
    * Apply achievement reward
    */
   private applyAchievementReward(achievement: Achievement): void {
-    const reward = achievement?.reward;
+    const reward = achievement.reward;
 
-    switch (reward?.type) {
+    switch (reward.type) {
       case 'resource':
-        const resource = this?.resources.get(reward?.target);
+        const resource = this.resources.get(reward.target);
         if (resource) {
-          this?.updateResource(reward?.target, resource?.currentAmount + reward?.value);
+          this.updateResource(reward.target, resource.currentAmount + reward.value);
         }
         break;
 
       case 'multiplier':
-        this?.productionMultipliers.set(reward?.target, (this?.productionMultipliers.get(reward?.target) || 1) * reward?.value);
+        this.productionMultipliers.set(reward.target, (this.productionMultipliers.get(reward.target) || 1) * reward.value);
         break;
 
       case 'unlock':
         // Unlock generators, upgrades, etc.
-        if (reward?.target.startsWith('generator:')) {
-          const generatorId = reward?.target.replace('generator:', '');
-          const generator = this?.generators.get(generatorId);
+        if (reward.target.startsWith('generator:')) {
+          const generatorId = reward.target.replace('generator:', '');
+          const generator = this.generators.get(generatorId);
           if (generator) {
-            generator?.unlocked = true;
+            generator.unlocked = true;
           }
         }
         break;
@@ -911,16 +911,16 @@ export class IdleSystemPure {
    * Check prestige opportunities
    */
   private checkPrestige(): void {
-    if (!this?.config.enablePrestige) return;
+    if (!this.config.enablePrestige) return;
 
-    const currencyResource = this?.resources.get('currency');
+    const currencyResource = this.resources.get('currency');
     if (!currencyResource) return;
 
-    this?.prestigeConfigs.forEach((config, tier) => {
-      if (!config?.unlocked! || config?.completed) return;
+    this.prestigeConfigs.forEach((config, tier) => {
+      if (!config.unlocked! || config.completed) return;
 
-      if (currencyResource?.currentAmount >= config?.requirement) {
-        this?.performPrestige(tier as PrestigeTier);
+      if (currencyResource.currentAmount >= config.requirement) {
+        this.performPrestige(tier as PrestigeTier);
       }
     });
   }
@@ -929,32 +929,32 @@ export class IdleSystemPure {
    * Perform prestige
    */
   private performPrestige(tier: PrestigeTier): void {
-    const config = this?.prestigeConfigs.get(tier);
+    const config = this.prestigeConfigs.get(tier);
     if (!config) return;
 
-    const currencyResource = this?.resources.get('currency');
+    const currencyResource = this.resources.get('currency');
     if (!currencyResource) return;
 
     // Reset resources and generators (keep permanent upgrades)
-    this?.resetGameState();
+    this.resetGameState();
 
     // Apply prestige bonus
-    this?.productionMultipliers.set('all', (this?.productionMultipliers.get('all') || 1) * config?.multiplier);
+    this.productionMultipliers.set('all', (this.productionMultipliers.get('all') || 1) * config.multiplier);
 
     // Mark prestige as completed
-    config?.completed = true;
-    config.completionTime = new Date();
-    this?.prestigeCount++;
+    config.completed = true;
+    config.completionTime = Date.now();
+    this.prestigeCount++;
 
-    this?.eventBus.emit('idle:prestige', {
+    this.eventBus.emit('idle:prestige', {
       tier: tier,
-      bonus: config?.multiplier,
-      totalPrestige: this?.prestigeCount,
+      bonus: config.multiplier,
+      totalPrestige: this.prestigeCount,
       timestamp: new Date()
     });
 
     // Unlock next prestige tier
-    this?.unlockNextPrestigeTier(tier);
+    this.unlockNextPrestigeTier(tier);
   }
 
   /**
@@ -962,23 +962,23 @@ export class IdleSystemPure {
    */
   private resetGameState(): void {
     // Reset resources (keep permanent bonuses)
-    this?.resources.forEach((resource, resourceId) => {
-      if (resource?.type !== 'experience') { // Keep experience
-        resource?.currentAmount = resource?.baseValue;
+    this.resources.forEach((resource, resourceId) => {
+      if (resource.type !== 'experience') { // Keep experience
+        resource.currentAmount = resource.baseValue;
       }
     });
 
     // Reset generators
-    this?.generators.forEach((generator, generatorId) => {
-      generator?.owned = 0;
-      generator?.currentCost = generator?.baseCost;
-      generator?.unlocked = generatorId === 'clicker'; // Keep clicker unlocked
+    this.generators.forEach((generator, generatorId) => {
+      generator.owned = 0;
+      generator.currentCost = generator.baseCost;
+      generator.unlocked = generatorId === 'clicker'; // Keep clicker unlocked
     });
 
     // Keep permanent upgrades
-    this?.upgrades.forEach((upgrade: any) => {
-      if (!upgrade?.permanent) {
-        upgrade?.currentLevel = 0;
+    this.upgrades.forEach((upgrade: any) => {
+      if (!upgrade.permanent) {
+        upgrade.currentLevel = 0;
       }
     });
   }
@@ -988,13 +988,13 @@ export class IdleSystemPure {
    */
   private unlockNextPrestigeTier(currentTier: PrestigeTier): void {
     const tiers: PrestigeTier[] = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster'];
-    const currentIndex = tiers?.indexOf(currentTier);
+    const currentIndex = tiers.indexOf(currentTier);
 
-    if (currentIndex < tiers?.length - 1) {
+    if (currentIndex < tiers.length - 1) {
       const nextTier = tiers[currentIndex + 1];
-      const nextConfig = this?.prestigeConfigs.get(nextTier);
+      const nextConfig = this.prestigeConfigs.get(nextTier);
       if (nextConfig) {
-        nextConfig?.unlocked = true;
+        nextConfig.unlocked = true;
       }
     }
   }
@@ -1003,22 +1003,22 @@ export class IdleSystemPure {
    * Save game state
    */
   private saveGame(): void {
-    this?.saveData = {
+    this.saveData = {
       resources: Array.from(this.resources.entries()),
       generators: Array.from(this.generators.entries()),
       upgrades: Array.from(this.upgrades.entries()),
       achievements: Array.from(this.achievements.entries()),
       prestigeConfigs: Array.from(this.prestigeConfigs.entries()),
-      totalPlayTime: this?.totalPlayTime,
-      totalIdleTime: this?.totalIdleTime,
-      prestigeCount: this?.prestigeCount,
+      totalPlayTime: this.totalPlayTime,
+      totalIdleTime: this.totalIdleTime,
+      prestigeCount: this.prestigeCount,
       lastSaveTime: new Date()
     };
 
-    this?.eventBus.emit('idle:game_saved', {
+    this.eventBus.emit('idle:game_saved', {
       timestamp: new Date(),
-      resources: this?.resources.size,
-      generators: this?.generators.size
+      resources: this.resources.size,
+      generators: this.generators.size
     });
   }
 
@@ -1026,25 +1026,25 @@ export class IdleSystemPure {
    * Load game state
    */
   private loadGame(): void {
-    if (this?.saveData.resources) {
-      this?.resources = new Map(this?.saveData.resources);
+    if (this.saveData.resources) {
+      this.resources = new Map(this.saveData.resources);
     }
-    if (this?.saveData.generators) {
-      this?.generators = new Map(this?.saveData.generators);
+    if (this.saveData.generators) {
+      this.generators = new Map(this.saveData.generators);
     }
-    if (this?.saveData.upgrades) {
-      this?.upgrades = new Map(this?.saveData.upgrades);
+    if (this.saveData.upgrades) {
+      this.upgrades = new Map(this.saveData.upgrades);
     }
-    if (this?.saveData.achievements) {
-      this?.achievements = new Map(this?.saveData.achievements);
+    if (this.saveData.achievements) {
+      this.achievements = new Map(this.saveData.achievements);
     }
-    if (this?.saveData.prestigeConfigs) {
-      this?.prestigeConfigs = new Map(this?.saveData.prestigeConfigs);
+    if (this.saveData.prestigeConfigs) {
+      this.prestigeConfigs = new Map(this.saveData.prestigeConfigs);
     }
 
-    this?.totalPlayTime = this?.saveData.totalPlayTime || 0;
-    this?.totalIdleTime = this?.saveData.totalIdleTime || 0;
-    this?.prestigeCount = this?.saveData.prestigeCount || 0;
+    this.totalPlayTime = this.saveData.totalPlayTime || 0;
+    this.totalIdleTime = this.saveData.totalIdleTime || 0;
+    this.prestigeCount = this.saveData.prestigeCount || 0;
   }
 
   // ============================================================================
@@ -1055,58 +1055,58 @@ export class IdleSystemPure {
    * Get current resource amounts
    */
   public getResources(): Map<string, Resource> {
-    return new Map(this?.resources);
+    return new Map(this.resources);
   }
 
   /**
    * Get specific resource
    */
   public getResource(resourceId: string): Resource | null {
-    return this?.resources.get(resourceId) || null;
+    return this.resources.get(resourceId) || null;
   }
 
   /**
    * Get generators
    */
   public getGenerators(): Map<string, Generator> {
-    return new Map(this?.generators);
+    return new Map(this.generators);
   }
 
   /**
    * Get specific generator
    */
   public getGenerator(generatorId: string): Generator | null {
-    return this?.generators.get(generatorId) || null;
+    return this.generators.get(generatorId) || null;
   }
 
   /**
    * Purchase generator
    */
   public purchaseGenerator(generatorId: string, amount: number = 1): boolean {
-    const generator = this?.generators.get(generatorId);
-    if (!generator || !generator?.unlocked) return false;
+    const generator = this.generators.get(generatorId);
+    if (!generator || !generator.unlocked) return false;
 
-    const totalCost = this?.calculateGeneratorCost(generator, amount);
-    const currencyResource = this?.resources.get('currency');
+    const totalCost = this.calculateGeneratorCost(generator, amount);
+    const currencyResource = this.resources.get('currency');
 
-    if (!currencyResource || currencyResource?.currentAmount < totalCost) {
+    if (!currencyResource || currencyResource.currentAmount < totalCost) {
       return false;
     }
 
     // Deduct cost
-    this?.updateResource('currency', currencyResource?.currentAmount - totalCost);
+    this.updateResource('currency', currencyResource.currentAmount - totalCost);
 
     // Add generators
-    generator?.owned += amount;
-    generator?.currentCost = this?.calculateGeneratorCost(generator, 1); // Cost for next purchase
+    generator.owned += amount;
+    generator.currentCost = this.calculateGeneratorCost(generator, 1); // Cost for next purchase
 
     // Apply upgrade effects
-    this?.applyUpgradeEffects();
+    this.applyUpgradeEffects();
 
-    this?.eventBus.emit('idle:generator_purchase', {
+    this.eventBus.emit('idle:generator_purchase', {
       generatorId: generatorId,
       amount: amount,
-      newOwned: generator?.owned,
+      newOwned: generator.owned,
       timestamp: new Date()
     });
 
@@ -1120,8 +1120,8 @@ export class IdleSystemPure {
     let totalCost = 0;
 
     for (let i = 0; i < amount; i++) {
-      totalCost += generator?.currentCost;
-      generator?.currentCost *= generator?.costMultiplier;
+      totalCost += generator.currentCost;
+      generator.currentCost *= generator.costMultiplier;
     }
 
     // Reset cost for next calculation
@@ -1134,26 +1134,26 @@ export class IdleSystemPure {
    * Purchase upgrade
    */
   public purchaseUpgrade(upgradeId: string): boolean {
-    const upgrade = this?.upgrades.get(upgradeId);
-    if (!upgrade || !upgrade?.unlocked || upgrade?.currentLevel >= upgrade?.maxLevel) return false;
+    const upgrade = this.upgrades.get(upgradeId);
+    if (!upgrade || !upgrade.unlocked || upgrade.currentLevel >= upgrade.maxLevel) return false;
 
     const cost = upgrade.cost * Math.pow(2, upgrade.currentLevel); // Exponential cost scaling
-    const costResource = this?.resources.get(upgrade?.costResource);
+    const costResource = this.resources.get(upgrade.costResource);
 
-    if (!costResource || costResource?.currentAmount < cost) {
+    if (!costResource || costResource.currentAmount < cost) {
       return false;
     }
 
     // Deduct cost
-    this?.updateResource(upgrade?.costResource, costResource?.currentAmount - cost);
+    this.updateResource(upgrade.costResource, costResource.currentAmount - cost);
 
     // Apply upgrade
-    upgrade?.currentLevel++;
-    this?.applyUpgradeEffects();
+    upgrade.currentLevel++;
+    this.applyUpgradeEffects();
 
-    this?.eventBus.emit('idle:upgrade_purchase', {
+    this.eventBus.emit('idle:upgrade_purchase', {
       upgradeId: upgradeId,
-      level: upgrade?.currentLevel,
+      level: upgrade.currentLevel,
       timestamp: new Date()
     });
 
@@ -1165,22 +1165,22 @@ export class IdleSystemPure {
    */
   private applyUpgradeEffects(): void {
     // Reset multipliers
-    this?.productionMultipliers.clear();
-    this?.efficiencyMultipliers.clear();
+    this.productionMultipliers.clear();
+    this.efficiencyMultipliers.clear();
 
     // Reapply all upgrade effects
-    this?.upgrades.forEach((upgrade: any) => {
-      if (upgrade?.currentLevel > 0) {
-        upgrade?.effects.forEach((effect: any) => {
-          switch (effect?.type) {
+    this.upgrades.forEach((upgrade: any) => {
+      if (upgrade.currentLevel > 0) {
+        upgrade.effects.forEach((effect: any) => {
+          switch (effect.type) {
             case 'multiplier':
-              const current = this?.productionMultipliers.get(effect?.target) || 1;
+              const current = this.productionMultipliers.get(effect.target) || 1;
               this.productionMultipliers.set(effect.target, current * Math.pow(effect.value, upgrade.currentLevel));
               break;
 
             case 'efficiency':
-              const currentEff = this?.efficiencyMultipliers.get(effect?.target) || 1;
-              this?.efficiencyMultipliers.set(effect?.target, currentEff + (effect?.value * upgrade?.currentLevel));
+              const currentEff = this.efficiencyMultipliers.get(effect.target) || 1;
+              this.efficiencyMultipliers.set(effect.target, currentEff + (effect.value * upgrade.currentLevel));
               break;
           }
         });
@@ -1192,37 +1192,37 @@ export class IdleSystemPure {
    * Get total production rate
    */
   public getTotalProduction(): number {
-    return this?.calculateTotalProduction();
+    return this.calculateTotalProduction();
   }
 
   /**
    * Get achievements
    */
   public getAchievements(): Map<string, Achievement> {
-    return new Map(this?.achievements);
+    return new Map(this.achievements);
   }
 
   /**
    * Get prestige configs
    */
   public getPrestigeConfigs(): Map<string, PrestigeConfig> {
-    return new Map(this?.prestigeConfigs);
+    return new Map(this.prestigeConfigs);
   }
 
   /**
    * Set integrations
    */
   public setIntegrations(integrations: IdleIntegration): void {
-    this?.integrations = { ...this?.integrations, ...integrations };
+    this.integrations = { ...this.integrations, ...integrations };
   }
 
   /**
    * Set paused state
    */
   public setPaused(paused: boolean): void {
-    this?.isPaused = paused;
+    this.isPaused = paused;
 
-    this?.eventBus.emit('idle:paused', {
+    this.eventBus.emit('idle:paused', {
       paused: paused,
       timestamp: new Date()
     });
@@ -1243,14 +1243,14 @@ export class IdleSystemPure {
     unlockedAchievements: number;
   } {
     return {
-      totalResources: this?.resources.size,
-      totalGenerators: this?.generators.size,
-      totalUpgrades: this?.upgrades.size,
-      totalAchievements: this?.achievements.size,
-      totalPrestige: this?.prestigeCount,
-      totalPlayTime: this?.totalPlayTime,
-      totalIdleTime: this?.totalIdleTime,
-      currentProduction: this?.getTotalProduction(),
+      totalResources: this.resources.size,
+      totalGenerators: this.generators.size,
+      totalUpgrades: this.upgrades.size,
+      totalAchievements: this.achievements.size,
+      totalPrestige: this.prestigeCount,
+      totalPlayTime: this.totalPlayTime,
+      totalIdleTime: this.totalIdleTime,
+      currentProduction: this.getTotalProduction(),
       unlockedAchievements: Array.from(this.achievements.values()).filter((a: any) => a.unlocked).length
     };
   }
@@ -1259,33 +1259,33 @@ export class IdleSystemPure {
    * Save game state
    */
   public saveGameData(): void {
-    this?.saveGame();
+    this.saveGame();
   }
 
   /**
    * Load game state
    */
   public loadGameData(): void {
-    this?.loadGame();
+    this.loadGame();
   }
 
   /**
    * Reset entire game
    */
   public resetGame(): void {
-    this?.resources.clear();
-    this?.generators.clear();
-    this?.upgrades.clear();
-    this?.achievements.clear();
-    this?.prestigeConfigs.clear();
-    this?.productionMultipliers.clear();
-    this?.efficiencyMultipliers.clear();
-    this?.saveData = {};
-    this?.totalPlayTime = 0;
-    this?.totalIdleTime = 0;
-    this?.prestigeCount = 0;
+    this.resources.clear();
+    this.generators.clear();
+    this.upgrades.clear();
+    this.achievements.clear();
+    this.prestigeConfigs.clear();
+    this.productionMultipliers.clear();
+    this.efficiencyMultipliers.clear();
+    this.saveData = {};
+    this.totalPlayTime = 0;
+    this.totalIdleTime = 0;
+    this.prestigeCount = 0;
 
-    this?.initializeSystem();
+    this.initializeSystem();
   }
 
   /**
@@ -1297,8 +1297,8 @@ export class IdleSystemPure {
       generators: Array.from(this.generators.entries()),
       upgrades: Array.from(this.upgrades.entries()),
       achievements: Array.from(this.achievements.entries()),
-      stats: this?.getStats(),
-      config: this?.config
+      stats: this.getStats(),
+      config: this.config
     };
   }
 }

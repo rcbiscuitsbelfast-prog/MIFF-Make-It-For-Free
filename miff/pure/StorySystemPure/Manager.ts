@@ -87,57 +87,57 @@ export class StoryManager {
     const warnings: string[] = [];
 
     // Validate arc structure
-    if (!arc?.id || arc?.id.trim() === '') {
-      issues?.push('Arc ID is required');
+    if (!arc.id || arc.id.trim() === '') {
+      issues.push('Arc ID is required');
     }
 
-    if (!arc?.name || arc?.name.trim() === '') {
-      issues?.push('Arc name is required');
+    if (!arc.name || arc.name.trim() === '') {
+      issues.push('Arc name is required');
     }
 
-    if (!arc?.startNode || !arc?.nodes.has(arc?.startNode)) {
-      issues?.push('Start node must exist in arc nodes');
+    if (!arc.startNode || !arc.nodes.has(arc.startNode)) {
+      issues.push('Start node must exist in arc nodes');
     }
 
     // Validate nodes
-    for (const [nodeId, node] of arc?.nodes) {
-      if (!node?.id || node?.id !== nodeId) {
-        issues?.push(`Node ID mismatch: ${nodeId}`);
+    for (const [nodeId, node] of arc.nodes) {
+      if (!node.id || node.id !== nodeId) {
+        issues.push(`Node ID mismatch: ${nodeId}`);
       }
 
-      if (!node?.title || node?.title.trim() === '') {
-        issues?.push(`Node ${nodeId}: title is required`);
+      if (!node.title || node.title.trim() === '') {
+        issues.push(`Node ${nodeId}: title is required`);
       }
 
-      if (!node?.content || node?.content.trim() === '') {
-        issues?.push(`Node ${nodeId}: content is required`);
+      if (!node.content || node.content.trim() === '') {
+        issues.push(`Node ${nodeId}: content is required`);
       }
 
       // Validate next nodes exist
-      for (const nextNodeId of node?.nextNodes) {
-        if (!arc?.nodes.has(nextNodeId)) {
-          issues?.push(`Node ${nodeId}: references non-existent next node ${nextNodeId}`);
+      for (const nextNodeId of node.nextNodes) {
+        if (!arc.nodes.has(nextNodeId)) {
+          issues.push(`Node ${nodeId}: references non-existent next node ${nextNodeId}`);
         }
       }
     }
 
     // Check for unreachable nodes
-    const reachableNodes = this?.findReachableNodes(arc, arc?.startNode);
+    const reachableNodes = this.findReachableNodes(arc, arc.startNode);
     const unreachableNodes = Array.from(arc.nodes.keys()).filter((id: any) => !reachableNodes.has(id));
-    if (unreachableNodes?.length > 0) {
-      warnings?.push(`Unreachable nodes: ${unreachableNodes?.join(', ')}`);
+    if (unreachableNodes.length > 0) {
+      warnings.push(`Unreachable nodes: ${unreachableNodes.join(', ')}`);
     }
 
-    const isValid = issues?.length === 0;
+    const isValid = issues.length === 0;
 
     if (isValid) {
-      this?.arcs.set(arc?.id, { ...arc });
+      this.arcs.set(arc.id, { ...arc });
     }
 
     return {
       op: 'validateStory',
       status: isValid ? 'ok' : 'error',
-      arcId: arc?.id,
+      arcId: arc.id,
       issues,
       warnings,
       isValid
@@ -146,18 +146,18 @@ export class StoryManager {
 
   // Story Progression
   startArc(arcId: string): StoryResult | null {
-    const arc = this?.arcs.get(arcId);
+    const arc = this.arcs.get(arcId);
     if (!arc) return null;
 
-    const startNode = arc?.nodes.get(arc?.startNode);
+    const startNode = arc.nodes.get(arc.startNode);
     if (!startNode) return null;
 
-    return this?.processNode(arc, startNode);
+    return this.processNode(arc, startNode);
   }
 
   processNode(arc: StoryArc, node: StoryNode): StoryResult {
     // Check conditions
-    const canAccess = this?.checkConditions(node?.conditions);
+    const canAccess = this.checkConditions(node.conditions);
     if (!canAccess) {
       return {
         op: 'storyResult',
@@ -166,25 +166,25 @@ export class StoryManager {
         availableChoices: [],
         rewards: [],
         flags: Array.from(arc.flags.values()),
-        progress: this?.calculateProgress(arc),
+        progress: this.calculateProgress(arc),
         nextNodes: []
       };
     }
 
     // Apply rewards
-    const rewards = this?.applyRewards(node?.rewards, arc);
+    const rewards = this.applyRewards(node.rewards, arc);
 
     // Update flags
-    const newFlags = this?.updateFlags(node, arc);
+    const newFlags = this.updateFlags(node, arc);
 
     // Get available choices
-    const availableChoices = this?.getAvailableChoices(node, arc);
+    const availableChoices = this.getAvailableChoices(node, arc);
 
     // Calculate progress
-    const progress = this?.calculateProgress(arc);
+    const progress = this.calculateProgress(arc);
 
     // Update progress tracking
-    this?.updateProgress(arc, node?.id, rewards, newFlags);
+    this.updateProgress(arc, node.id, rewards, newFlags);
 
     return {
       op: 'storyResult',
@@ -194,18 +194,18 @@ export class StoryManager {
       rewards,
       flags: Array.from(arc.flags.values()),
       progress,
-      nextNodes: node?.nextNodes
+      nextNodes: node.nextNodes
     };
   }
 
   advanceToNode(arcId: string, nodeId: string): StoryResult | null {
-    const arc = this?.arcs.get(arcId);
+    const arc = this.arcs.get(arcId);
     if (!arc) return null;
 
-    const node = arc?.nodes.get(nodeId);
+    const node = arc.nodes.get(nodeId);
     if (!node) return null;
 
-    return this?.processNode(arc, node);
+    return this.processNode(arc, node);
   }
 
   // Flag Management
@@ -220,16 +220,16 @@ export class StoryManager {
       expiresAt
     };
 
-    this?.globalFlags.set(flagId, flag);
+    this.globalFlags.set(flagId, flag);
   }
 
   getFlag(flagId: string): StoryFlag | null {
-    const flag = this?.globalFlags.get(flagId);
+    const flag = this.globalFlags.get(flagId);
     if (!flag) return null;
 
     // Check expiration
     if (flag.expiresAt && Date.now() > flag.expiresAt) {
-      this?.globalFlags.delete(flagId);
+      this.globalFlags.delete(flagId);
       return null;
     }
 
@@ -237,36 +237,36 @@ export class StoryManager {
   }
 
   hasFlag(flagId: string): boolean {
-    return this?.getFlag(flagId) !== null;
+    return this.getFlag(flagId) !== null;
   }
 
   // Player Stats
   setStat(statId: string, value: number): void {
-    this?.playerStats.set(statId, value);
+    this.playerStats.set(statId, value);
   }
 
   getStat(statId: string): number {
-    return this?.playerStats.get(statId) || 0;
+    return this.playerStats.get(statId) || 0;
   }
 
   // Private Helper Methods
   private checkConditions(conditions: StoryCondition[]): boolean {
-    return conditions?.every(condition => {
-      switch (condition?.type) {
+    return conditions.every(condition => {
+      switch (condition.type) {
         case 'level':
-          return this?.checkNumericCondition(this?.getStat('level'), condition);
+          return this.checkNumericCondition(this.getStat('level'), condition);
         case 'quest':
-          return this?.checkFlagCondition(condition);
+          return this.checkFlagCondition(condition);
         case 'item':
-          return this?.checkFlagCondition(condition);
+          return this.checkFlagCondition(condition);
         case 'flag':
-          return this?.checkFlagCondition(condition);
+          return this.checkFlagCondition(condition);
         case 'stat':
-          return this?.checkNumericCondition(this?.getStat(condition?.target), condition);
+          return this.checkNumericCondition(this.getStat(condition.target), condition);
         case 'location':
-          return this?.checkFlagCondition(condition);
+          return this.checkFlagCondition(condition);
         case 'time':
-          return this?.checkTimeCondition(condition);
+          return this.checkTimeCondition(condition);
         default:
           return false;
       }
@@ -274,39 +274,39 @@ export class StoryManager {
   }
 
   private checkNumericCondition(value: number, condition: StoryCondition): boolean {
-    switch (condition?.operator) {
+    switch (condition.operator) {
       case 'equals':
-        return value === condition?.value;
+        return value === condition.value;
       case 'greater':
-        return value > condition?.value;
+        return value > condition.value;
       case 'less':
-        return value < condition?.value;
+        return value < condition.value;
       default:
         return false;
     }
   }
 
   private checkFlagCondition(condition: StoryCondition): boolean {
-    const flag = this?.getFlag(condition?.target);
-    switch (condition?.operator) {
+    const flag = this.getFlag(condition.target);
+    switch (condition.operator) {
       case 'exists':
         return flag !== null;
       case 'equals':
-        return flag?.value === condition?.value;
+        return flag?.value === condition.value;
       case 'contains':
-        return flag?.value?.includes?.(condition?.value) || false;
+        return flag?.value?.includes?.(condition.value) || false;
       default:
         return false;
     }
   }
 
   private checkTimeCondition(condition: StoryCondition): boolean {
-    const currentTime = new Date();
-    switch (condition?.operator) {
+    const currentTime = Date.now();
+    switch (condition.operator) {
       case 'greater':
-        return currentTime > condition?.value;
+        return currentTime > condition.value;
       case 'less':
-        return currentTime < condition?.value;
+        return currentTime < condition.value;
       default:
         return false;
     }
@@ -316,37 +316,37 @@ export class StoryManager {
     const appliedRewards: StoryReward[] = [];
 
     for (const reward of rewards) {
-      switch (reward?.type) {
+      switch (reward.type) {
         case 'xp':
-          const currentXP = this?.getStat('xp');
-          this?.setStat('xp', currentXP + (reward?.amount || 0));
-          appliedRewards?.push(reward);
+          const currentXP = this.getStat('xp');
+          this.setStat('xp', currentXP + (reward.amount || 0));
+          appliedRewards.push(reward);
           break;
         case 'item':
-          this?.setFlag(`item_${reward?.id}`, true, 'boolean', `Acquired item: ${reward?.id}`);
-          appliedRewards?.push(reward);
+          this.setFlag(`item_${reward.id}`, true, 'boolean', `Acquired item: ${reward.id}`);
+          appliedRewards.push(reward);
           break;
         case 'currency':
-          const currentCurrency = this?.getStat('currency');
-          this?.setStat('currency', currentCurrency + (reward?.amount || 0));
-          appliedRewards?.push(reward);
+          const currentCurrency = this.getStat('currency');
+          this.setStat('currency', currentCurrency + (reward.amount || 0));
+          appliedRewards.push(reward);
           break;
         case 'unlock':
-          this?.setFlag(`unlock_${reward?.id}`, true, 'boolean', `Unlocked: ${reward?.id}`);
-          appliedRewards?.push(reward);
+          this.setFlag(`unlock_${reward.id}`, true, 'boolean', `Unlocked: ${reward.id}`);
+          appliedRewards.push(reward);
           break;
         case 'flag':
-          this?.setFlag(reward?.id!, reward?.amount || true, 'boolean', reward?.description);
-          appliedRewards?.push(reward);
+          this.setFlag(reward.id!, reward.amount || true, 'boolean', reward.description);
+          appliedRewards.push(reward);
           break;
         case 'stat':
-          const currentStat = this?.getStat(reward?.id!);
-          this?.setStat(reward?.id!, currentStat + (reward?.amount || 0));
-          appliedRewards?.push(reward);
+          const currentStat = this.getStat(reward.id!);
+          this.setStat(reward.id!, currentStat + (reward.amount || 0));
+          appliedRewards.push(reward);
           break;
         case 'cutscene':
-          this?.setFlag(`cutscene_${reward?.id}`, true, 'boolean', `Cutscene unlocked: ${reward?.id}`);
-          appliedRewards?.push(reward);
+          this.setFlag(`cutscene_${reward.id}`, true, 'boolean', `Cutscene unlocked: ${reward.id}`);
+          appliedRewards.push(reward);
           break;
       }
     }
@@ -358,18 +358,18 @@ export class StoryManager {
     const newFlags: StoryFlag[] = [];
 
     // Update arc-specific flags
-    for (const reward of node?.rewards) {
-      if (reward?.type === 'flag') {
+    for (const reward of node.rewards) {
+      if (reward.type === 'flag') {
         const flag: StoryFlag = {
-          id: reward?.id!,
-          name: reward?.id!,
-          value: reward?.amount || true,
+          id: reward.id!,
+          name: reward.id!,
+          value: reward.amount || true,
           type: 'boolean',
-          description: reward?.description,
+          description: reward.description,
           setAt: new Date()
         };
-        arc?.flags.set(flag?.id, flag);
-        newFlags?.push(flag);
+        arc.flags.set(flag.id, flag);
+        newFlags.push(flag);
       }
     }
 
@@ -378,25 +378,25 @@ export class StoryManager {
 
   private getAvailableChoices(node: StoryNode, arc: StoryArc): string[] {
     // For choice nodes, return the choice IDs
-    if (node?.type === 'choice') {
-      return node?.nextNodes;
+    if (node.type === 'choice') {
+      return node.nextNodes;
     }
 
     // For other nodes, return next nodes that can be accessed
-    return node?.nextNodes.filter(nextNodeId => {
-      const nextNode = arc?.nodes.get(nextNodeId);
-      return nextNode && this?.checkConditions(nextNode?.conditions);
+    return node.nextNodes.filter(nextNodeId => {
+      const nextNode = arc.nodes.get(nextNodeId);
+      return nextNode && this.checkConditions(nextNode.conditions);
     });
   }
 
   private calculateProgress(arc: StoryArc): number {
-    const totalNodes = arc?.nodes.size;
+    const totalNodes = arc.nodes.size;
     const completedNodes = Array.from(arc.progress.values()).filter((p: any) => p.completed).length;
     return Math.round((completedNodes / totalNodes) * 100);
   }
 
   private updateProgress(arc: StoryArc, nodeId: string, rewards: StoryReward[], flags: StoryFlag[]): void {
-    const progress = arc?.progress.get(nodeId) || {
+    const progress = arc.progress.get(nodeId) || {
       nodeId,
       completed: false,
       choices: [],
@@ -404,26 +404,26 @@ export class StoryManager {
       flags: []
     };
 
-    progress?.completed = true;
-    progress.completedAt = new Date();
-    progress?.rewards?.push(...rewards);
-    progress?.flags?.push(...flags?.map((f: any) => f?.id));
+    progress.completed = true;
+    progress.completedAt = Date.now();
+    progress.rewards.push(...rewards);
+    progress.flags.push(...flags.map((f: any) => f.id));
 
-    arc?.progress.set(nodeId, progress);
+    arc.progress.set(nodeId, progress);
   }
 
   private findReachableNodes(arc: StoryArc, startNodeId: string): Set<string> {
     const reachable = new Set<string>();
     const queue = [startNodeId!];
 
-    while (queue?.length > 0) {
-      const nodeId = queue?.shift()!;
-      if (reachable?.has(nodeId)) continue;
+    while (queue.length > 0) {
+      const nodeId = queue.shift()!;
+      if (reachable.has(nodeId)) continue;
 
-      reachable?.add(nodeId);
-      const node = arc?.nodes.get(nodeId);
+      reachable.add(nodeId);
+      const node = arc.nodes.get(nodeId);
       if (node) {
-        queue?.push(...node?.nextNodes);
+        queue.push(...node.nextNodes);
       }
     }
 
@@ -432,7 +432,7 @@ export class StoryManager {
 
   // Query Methods
   getArc(arcId: string): StoryArc | null {
-    return this?.arcs.get(arcId) || null;
+    return this.arcs.get(arcId) || null;
   }
 
   getAllArcs(): StoryArc[] {
@@ -440,9 +440,9 @@ export class StoryManager {
   }
 
   getArcProgress(arcId: string): number {
-    const arc = this?.arcs.get(arcId);
+    const arc = this.arcs.get(arcId);
     if (!arc) return 0;
-    return this?.calculateProgress(arc);
+    return this.calculateProgress(arc);
   }
 
   // Statistics
@@ -454,15 +454,15 @@ export class StoryManager {
     completedArcs: number;
   } {
     const arcs = Array.from(this.arcs.values());
-    const totalNodes = arcs?.reduce((sum, arc) => sum + arc?.nodes.size, 0);
-    const totalFlags = this?.globalFlags.size;
-    const averageProgress = arcs?.length > 0 
-      ? arcs?.reduce((sum, arc) => sum + this?.calculateProgress(arc), 0) / arcs?.length 
+    const totalNodes = arcs.reduce((sum, arc) => sum + arc.nodes.size, 0);
+    const totalFlags = this.globalFlags.size;
+    const averageProgress = arcs.length > 0 
+      ? arcs.reduce((sum, arc) => sum + this.calculateProgress(arc), 0) / arcs.length 
       : 0;
-    const completedArcs = arcs?.filter((arc: any) => this?.calculateProgress(arc) === 100).length;
+    const completedArcs = arcs.filter((arc: any) => this.calculateProgress(arc) === 100).length;
 
     return {
-      totalArcs: arcs?.length,
+      totalArcs: arcs.length,
       totalNodes,
       totalFlags,
       averageProgress: Math.round(averageProgress * 100) / 100,

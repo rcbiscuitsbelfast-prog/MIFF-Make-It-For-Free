@@ -72,13 +72,13 @@ export class UnityBridge {
   private economyManager: EconomyManager;
 
   constructor() {
-    this?.npcsManager = new NPCsManager();
-    this?.questsManager = new QuestsManager();
-    this?.combatManager = new CombatManager();
-    this?.statsManager = new StatsManager();
-    this?.craftingManager = new CraftingManager();
-    this?.lootManager = new LootTablesManager();
-    this?.economyManager = new EconomyManager();
+    this.npcsManager = new NPCsManager();
+    this.questsManager = new QuestsManager();
+    this.combatManager = new CombatManager();
+    this.statsManager = new StatsManager();
+    this.craftingManager = new CraftingManager();
+    this.lootManager = new LootTablesManager();
+    this.economyManager = new EconomyManager();
   }
 
   simulate(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
@@ -87,19 +87,19 @@ export class UnityBridge {
       
       switch (module) {
         case 'npcs':
-          result = this?.npcsManager.simulateNPC(data?.npcId, data?.duration);
+          result = this.npcsManager.simulateNPC(data.npcId, data.duration);
           break;
         case 'combat':
-          result = this?.combatManager.simulate(data?.attacker, data?.defender);
+          result = this.combatManager.simulate(data.attacker, data.defender);
           break;
         case 'crafting':
-          result = this?.craftingManager.simulateCraft(data?.recipeId, data?.ingredients);
+          result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
           break;
         case 'loot':
-          result = this?.lootManager.rollLoot(data?.tableId, data?.level);
+          result = this.lootManager.rollLoot(data.tableId, data.level);
           break;
         case 'economy':
-          result = this?.economyManager.calculatePrice(data?.itemId, data?.quantity);
+          result = this.economyManager.calculatePrice(data.itemId, data.quantity);
           break;
         default:
           return {
@@ -112,14 +112,14 @@ export class UnityBridge {
       return {
         op: 'simulate',
         status: 'ok',
-        renderData: this?.convertToUnityRenderData(result, config)
+        renderData: this.convertToUnityRenderData(result, config)
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'simulate',
         status: 'error',
-        issues: [error instanceof Error ? error?.message : String(error)]
+        issues: [error instanceof Error ? error.message : String(error)]
       };
     }
   }
@@ -133,23 +133,23 @@ export class UnityBridge {
 
       switch (module) {
         case 'npcs':
-          const npcs = this?.npcsManager.listNPCs();
-          if (npcs?.status === 'ok' && npcs?.result) {
-            entities = (npcs?.result as NPC[]).map((npc: any) => this?.createUnityEntity(npc, config));
-            components = this?.createNPCComponents(npcs?.result as NPC[]);
+          const npcs = this.npcsManager.listNPCs();
+          if (npcs.status === 'ok' && npcs.result) {
+            entities = (npcs.result as NPC[]).map((npc: any) => this.createUnityEntity(npc, config));
+            components = this.createNPCComponents(npcs.result as NPC[]);
             prefabs = ['NPCPrefab', 'QuestGiverPrefab', 'MerchantPrefab'];
             scripts = ['NPCController', 'QuestGiver', 'MerchantBehavior'];
           }
           break;
         case 'combat':
-          entities = this?.createCombatEntities(data, config);
-          components = this?.createCombatComponents(data: any);
+          entities = this.createCombatEntities(data, config);
+          components = this.createCombatComponents(data);
           prefabs = ['CombatantPrefab', 'WeaponPrefab', 'EffectPrefab'];
           scripts = ['CombatController', 'WeaponSystem', 'EffectManager'];
           break;
         case 'world':
-          entities = this?.createWorldEntities(data, config);
-          components = this?.createWorldComponents(data: any);
+          entities = this.createWorldEntities(data, config);
+          components = this.createWorldComponents(data);
           prefabs = ['ZonePrefab', 'ItemPrefab', 'InteractablePrefab'];
           scripts = ['ZoneController', 'ItemSystem', 'InteractionManager'];
           break;
@@ -177,7 +177,7 @@ export class UnityBridge {
       return {
         op: 'render',
         status: 'error',
-        issues: [error instanceof Error ? error?.message : String(error)]
+        issues: [error instanceof Error ? error.message : String(error)]
       };
     }
   }
@@ -185,19 +185,19 @@ export class UnityBridge {
   interop(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
     try {
       // Handle Unity-specific data conversion
-      const convertedData = this?.convertFromUnity(data: any);
+      const convertedData = this.convertFromUnity(data);
       
       let result: Record<string, unknown>;
       switch (module) {
         case 'npcs':
-          result = this?.npcsManager.updateNPC(convertedData?.id, convertedData);
+          result = this.npcsManager.updateNPC(convertedData.id, convertedData);
           break;
         case 'quests':
-          result = this?.questsManager.updateQuest(convertedData?.id, convertedData);
+          result = this.questsManager.updateQuest(convertedData.id, convertedData);
           break;
         case 'stats':
-          this?.statsManager.setStat(convertedData?.id, convertedData?.key, convertedData?.base);
-          result = this?.statsManager.get(convertedData?.id);
+          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
+          result = this.statsManager.get(convertedData.id);
           break;
         default:
           return {
@@ -210,43 +210,43 @@ export class UnityBridge {
       return {
         op: 'interop',
         status: 'ok',
-        renderData: this?.convertToUnityRenderData(result, config)
+        renderData: this.convertToUnityRenderData(result, config)
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'interop',
         status: 'error',
-        issues: [error instanceof Error ? error?.message : String(error)]
+        issues: [error instanceof Error ? error.message : String(error)]
       };
     }
   }
 
   private createUnityEntity(npc: NPC, config: UnityBridgeConfig): UnityEntity {
     return {
-      id: npc?.id,
-      gameObject: `GameObject_${npc?.id}`,
+      id: npc.id,
+      gameObject: `GameObject_${npc.id}`,
       transform: {
-        position: { x: npc?.location.x, y: npc?.location.y, z: npc?.location.z || 0 },
+        position: { x: npc.location.x, y: npc.location.y, z: npc.location.z || 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 }
       },
       components: {
-        NPCController: { npcId: npc?.id, behavior: npc?.behavior },
-        Transform: { position: npc?.location },
-        Stats: { stats: npc?.stats }
+        NPCController: { npcId: npc.id, behavior: npc.behavior },
+        Transform: { position: npc.location },
+        Stats: { stats: npc.stats }
       }
     };
   }
 
   private createNPCComponents(npcs: NPC[]): UnityComponent[] {
-    return npcs?.map((npc: any) => ({
+    return npcs.map((npc: any) => ({
       type: 'NPCController',
       data: {
-        npcId: npc?.id,
-        behavior: npc?.behavior,
-        movementPattern: npc?.movementPattern,
-        questIds: npc?.questIds
+        npcId: npc.id,
+        behavior: npc.behavior,
+        movementPattern: npc.movementPattern,
+        questIds: npc.questIds
       },
       enabled: true
     }));
@@ -255,12 +255,12 @@ export class UnityBridge {
   private createCombatEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
     return [
       {
-        id: data?.attackerId,
-        gameObject: `Combatant_${data?.attackerId}`,
+        id: data.attackerId,
+        gameObject: `Combatant_${data.attackerId}`,
         transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
         components: {
-          CombatController: { combatantId: data?.attackerId, isAttacker: true },
-          Stats: { stats: data?.attackerStats }
+          CombatController: { combatantId: data.attackerId, isAttacker: true },
+          Stats: { stats: data.attackerStats }
         }
       }
     ];
@@ -277,12 +277,12 @@ export class UnityBridge {
   }
 
   private createWorldEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
-    return (data?.zones as Array<Record<string, unknown>>)?.map((zone: Record<string, unknown>) => ({
-      id: zone?.id,
-      gameObject: `Zone_${zone?.id}`,
+    return (data.zones as Array<Record<string, unknown>>)?.map((zone: Record<string, unknown>) => ({
+      id: zone.id,
+      gameObject: `Zone_${zone.id}`,
       transform: { position: { x: zone.x, y: zone.y, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
       components: {
-        ZoneController: { zoneId: zone?.id, zoneData: zone }
+        ZoneController: { zoneId: zone.id, zoneData: zone }
       }
     })) || [];
   }
@@ -300,8 +300,8 @@ export class UnityBridge {
   private convertFromUnity(unityData: Record<string, unknown>): Record<string, unknown> {
     // Convert Unity-specific data back to MIFF format
     return {
-      id: unityData?.id,
-      ...unityData?.data
+      id: unityData.id,
+      ...unityData.data
     };
   }
 

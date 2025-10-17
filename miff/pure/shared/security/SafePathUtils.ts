@@ -41,7 +41,7 @@ export class SafePathUtils {
   static safeResolve(basePath: string, inputPath: string, allowedDirs?: string[]): PathValidationResult {
     try {
       // Validate input parameters
-      if (!this?.isValidPathString(basePath) || !this?.isValidPathString(inputPath)) {
+      if (!this.isValidPathString(basePath) || !this.isValidPathString(inputPath)) {
         return {
           isValid: false,
           normalizedPath: '',
@@ -50,19 +50,19 @@ export class SafePathUtils {
       }
 
       // Normalize the base path
-      const normalizedBase = path?.resolve(basePath);
+      const normalizedBase = path.resolve(basePath);
       
       // Normalize the input path
-      let normalizedInput = path?.normalize(inputPath);
+      let normalizedInput = path.normalize(inputPath);
       
       // Remove any leading path separators to prevent absolute path injection
-      normalizedInput = normalizedInput?.replace(/^[\/\\]+/, '');
+      normalizedInput = normalizedInput.replace(/^[\/\\]+/, '');
       
       // Resolve the full path
-      const fullPath = path?.resolve(normalizedBase, normalizedInput);
+      const fullPath = path.resolve(normalizedBase, normalizedInput);
       
       // Check if the resolved path is within the base directory
-      if (!fullPath?.startsWith(normalizedBase)) {
+      if (!fullPath.startsWith(normalizedBase)) {
         return {
           isValid: false,
           normalizedPath: '',
@@ -71,10 +71,10 @@ export class SafePathUtils {
       }
 
       // Check against allowed directories if provided
-      if (allowedDirs && allowedDirs?.length > 0) {
-        const isInAllowedDir = allowedDirs?.some(dir => {
-          const normalizedDir = path?.resolve(dir);
-          return fullPath?.startsWith(normalizedDir);
+      if (allowedDirs && allowedDirs.length > 0) {
+        const isInAllowedDir = allowedDirs.some(dir => {
+          const normalizedDir = path.resolve(dir);
+          return fullPath.startsWith(normalizedDir);
         });
         
         if (!isInAllowedDir) {
@@ -87,9 +87,9 @@ export class SafePathUtils {
       }
 
       // Validate file extension if it's a file
-      if (this?.isFilePath(fullPath)) {
-        const ext = path?.extname(fullPath).toLowerCase();
-        if (!this?.ALLOWED_EXTENSIONS.includes(ext)) {
+      if (this.isFilePath(fullPath)) {
+        const ext = path.extname(fullPath).toLowerCase();
+        if (!this.ALLOWED_EXTENSIONS.includes(ext)) {
           return {
             isValid: false,
             normalizedPath: '',
@@ -99,21 +99,21 @@ export class SafePathUtils {
       }
 
       // Check path length limits
-      if (fullPath?.length > this?.MAX_PATH_LENGTH) {
+      if (fullPath.length > this.MAX_PATH_LENGTH) {
         return {
           isValid: false,
           normalizedPath: '',
-          error: `Path too long: ${fullPath?.length} > ${this?.MAX_PATH_LENGTH}`
+          error: `Path too long: ${fullPath.length} > ${this.MAX_PATH_LENGTH}`
         };
       }
 
       // Check filename length
-      const filename = path?.basename(fullPath);
-      if (filename?.length > this?.MAX_FILENAME_LENGTH) {
+      const filename = path.basename(fullPath);
+      if (filename.length > this.MAX_FILENAME_LENGTH) {
         return {
           isValid: false,
           normalizedPath: '',
-          error: `Filename too long: ${filename?.length} > ${this?.MAX_FILENAME_LENGTH}`
+          error: `Filename too long: ${filename.length} > ${this.MAX_FILENAME_LENGTH}`
         };
       }
 
@@ -126,7 +126,7 @@ export class SafePathUtils {
       return {
         isValid: false,
         normalizedPath: '',
-        error: error instanceof Error ? error?.message : 'Path validation failed'
+        error: error instanceof Error ? error.message : 'Path validation failed'
       };
     }
   }
@@ -136,17 +136,17 @@ export class SafePathUtils {
    */
   static safeReadFile(filePath: string, basePath: string, allowedDirs?: string[]): { success: boolean; data?: string; error?: string } {
     try {
-      const validation = this?.safeResolve(basePath, filePath, allowedDirs);
+      const validation = this.safeResolve(basePath, filePath, allowedDirs);
       
-      if (!validation?.isValid) {
+      if (!validation.isValid) {
         return {
           success: false,
-          error: validation?.error
+          error: validation.error
         };
       }
 
       // Check if file exists
-      if (!fs?.existsSync(validation?.normalizedPath)) {
+      if (!fs.existsSync(validation.normalizedPath)) {
         return {
           success: false,
           error: 'File does not exist'
@@ -154,8 +154,8 @@ export class SafePathUtils {
       }
 
       // Check if it's actually a file (not a directory)
-      const stats = fs?.statSync(validation?.normalizedPath);
-      if (!stats?.isFile()) {
+      const stats = fs.statSync(validation.normalizedPath);
+      if (!stats.isFile()) {
         return {
           success: false,
           error: 'Path is not a file'
@@ -163,7 +163,7 @@ export class SafePathUtils {
       }
 
       // Read the file
-      const data = fs?.readFileSync(validation?.normalizedPath, 'utf-8');
+      const data = fs.readFileSync(validation.normalizedPath, 'utf-8');
       
       return {
         success: true,
@@ -173,7 +173,7 @@ export class SafePathUtils {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        error: error instanceof Error ? error?.message : 'File read failed'
+        error: error instanceof Error ? error.message : 'File read failed'
       };
     }
   }
@@ -183,23 +183,23 @@ export class SafePathUtils {
    */
   static safeWriteFile(filePath: string, data: string, basePath: string, allowedDirs?: string[]): { success: boolean; error?: string } {
     try {
-      const validation = this?.safeResolve(basePath, filePath, allowedDirs);
+      const validation = this.safeResolve(basePath, filePath, allowedDirs);
       
-      if (!validation?.isValid) {
+      if (!validation.isValid) {
         return {
           success: false,
-          error: validation?.error
+          error: validation.error
         };
       }
 
       // Ensure directory exists
-      const dir = path?.dirname(validation?.normalizedPath);
-      if (!fs?.existsSync(dir)) {
-        fs?.mkdirSync(dir, { recursive: true });
+      const dir = path.dirname(validation.normalizedPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
       }
 
       // Write the file
-      fs?.writeFileSync(validation?.normalizedPath, data, 'utf-8');
+      fs.writeFileSync(validation.normalizedPath, data, 'utf-8');
       
       return {
         success: true
@@ -208,7 +208,7 @@ export class SafePathUtils {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        error: error instanceof Error ? error?.message : 'File write failed'
+        error: error instanceof Error ? error.message : 'File write failed'
       };
     }
   }
@@ -221,11 +221,11 @@ export class SafePathUtils {
       return false;
     }
 
-    if (pathStr?.length === 0) {
+    if (pathStr.length === 0) {
       return false;
     }
 
-    if (pathStr?.length > this?.MAX_PATH_LENGTH) {
+    if (pathStr.length > this.MAX_PATH_LENGTH) {
       return false;
     }
 
@@ -241,7 +241,7 @@ export class SafePathUtils {
     ];
 
     for (const pattern of dangerousPatterns) {
-      if (pattern?.test(pathStr)) {
+      if (pattern.test(pathStr)) {
         return false;
       }
     }
@@ -253,31 +253,31 @@ export class SafePathUtils {
    * Check if a path is a file (not a directory)
    */
   private static isFilePath(pathStr: string): boolean {
-    return path?.extname(pathStr) !== '';
+    return path.extname(pathStr) !== '';
   }
 
   /**
    * Get safe working directory for a module
    */
   static getSafeWorkingDir(modulePath: string): string {
-    const moduleDir = path?.dirname(modulePath);
-    return path?.resolve(moduleDir);
+    const moduleDir = path.dirname(modulePath);
+    return path.resolve(moduleDir);
   }
 
   /**
    * Get allowed directories for a module
    */
   static getAllowedDirs(modulePath: string): string[] {
-    const moduleDir = path?.dirname(modulePath);
-    const projectRoot = this?.findProjectRoot(moduleDir);
+    const moduleDir = path.dirname(modulePath);
+    const projectRoot = this.findProjectRoot(moduleDir);
     
     return [
       moduleDir,
-      path?.join(moduleDir, 'tests'),
-      path?.join(moduleDir, 'fixtures'),
-      path?.join(projectRoot, 'miff'),
-      path?.join(projectRoot, 'docs'),
-      path?.join(projectRoot, 'scripts')
+      path.join(moduleDir, 'tests'),
+      path.join(moduleDir, 'fixtures'),
+      path.join(projectRoot, 'miff'),
+      path.join(projectRoot, 'docs'),
+      path.join(projectRoot, 'scripts')
     ];
   }
 
@@ -287,11 +287,11 @@ export class SafePathUtils {
   private static findProjectRoot(startPath: string): string {
     let currentPath = startPath;
     
-    while (currentPath !== path?.dirname(currentPath)) {
-      if (fs?.existsSync(path?.join(currentPath, 'package?.json'))) {
+    while (currentPath !== path.dirname(currentPath)) {
+      if (fs.existsSync(path.join(currentPath, 'package.json'))) {
         return currentPath;
       }
-      currentPath = path?.dirname(currentPath);
+      currentPath = path.dirname(currentPath);
     }
     
     return startPath;

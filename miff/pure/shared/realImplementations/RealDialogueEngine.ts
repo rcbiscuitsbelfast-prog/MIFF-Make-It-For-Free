@@ -202,8 +202,8 @@ export class RealDialogueEngine {
 
   constructor(...args: any[]) {
     
-    this?.initializeDefaultCharacters();
-    this?.initializeVoiceSynthesis();
+    this.initializeDefaultCharacters();
+    this.initializeVoiceSynthesis();
   }
 
   /**
@@ -211,7 +211,7 @@ export class RealDialogueEngine {
    */
   private initializeDefaultCharacters(): void {
     // Create default NPCs
-    this?.addCharacter({
+    this.addCharacter({
       id: 'narrator',
       name: 'Narrator',
       personality: {
@@ -236,7 +236,7 @@ export class RealDialogueEngine {
       }
     });
 
-    this?.addCharacter({
+    this.addCharacter({
       id: 'merchant',
       name: 'Merchant',
       personality: {
@@ -261,8 +261,8 @@ export class RealDialogueEngine {
       }
     });
 
-    this?.isInitialized = true;
-    this?.emit('initialized', { characterCount: this?.characters.size });
+    this.isInitialized = true;
+    this.emit('initialized', { characterCount: this.characters.size });
   }
 
   /**
@@ -270,7 +270,7 @@ export class RealDialogueEngine {
    */
   private initializeVoiceSynthesis(): void {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      this?.voiceSynthesis = window?.speechSynthesis;
+      this.voiceSynthesis = window.speechSynthesis;
     }
   }
 
@@ -279,8 +279,8 @@ export class RealDialogueEngine {
    */
   addDialogueTree(): boolean {
     try {
-      this?.dialogueTrees.set(treeId, nodes);
-      this?.emit('dialogueTreeAdded', { treeId, nodeCount: nodes?.length });
+      this.dialogueTrees.set(treeId, nodes);
+      this.emit('dialogueTreeAdded', { treeId, nodeCount: nodes.length });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -293,7 +293,7 @@ export class RealDialogueEngine {
    * Get a dialogue tree
    */
   getDialogueTree(treeId: string): DialogueNode[] | undefined {
-    return this?.dialogueTrees.get(treeId);
+    return this.dialogueTrees.get(treeId);
   }
 
   /**
@@ -301,8 +301,8 @@ export class RealDialogueEngine {
    */
   addCharacter(): boolean {
     try {
-      this?.characters.set(character?.id, character);
-      this?.emit('characterAdded', { characterId: character?.id, character });
+      this.characters.set(character.id, character);
+      this.emit('characterAdded', { characterId: character.id, character });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -315,21 +315,21 @@ export class RealDialogueEngine {
    * Get a character
    */
   getCharacter(characterId: string): Character! {
-    return this?.characters.get(characterId);
+    return this.characters.get(characterId);
   }
 
   /**
    * Update character relationship
    */
   updateRelationship(): boolean {
-    const character = this?.characters.get(characterId);
+    const character = this.characters.get(characterId);
     if (!character) return false;
 
-    const currentValue = character?.relationships.get(targetId) || 0;
+    const currentValue = character.relationships.get(targetId) || 0;
     const newValue = Math.max(-100, Math.min(100, currentValue + change));
-    character?.relationships.set(targetId, newValue);
+    character.relationships.set(targetId, newValue);
 
-    this?.emit('relationshipUpdated', { characterId, targetId, oldValue: currentValue, newValue });
+    this.emit('relationshipUpdated', { characterId, targetId, oldValue: currentValue, newValue });
     return true;
   }
 
@@ -337,8 +337,8 @@ export class RealDialogueEngine {
    * Start a dialogue session
    */
   startDialogueSession(): string {
-    const sessionId = this?.generateId();
-    const tree = this?.dialogueTrees.get(treeId);
+    const sessionId = this.generateId();
+    const tree = this.dialogueTrees.get(treeId);
     if (!tree) {
       throw new Error(`Dialogue tree not found: ${treeId}`);
     }
@@ -361,13 +361,13 @@ export class RealDialogueEngine {
       isActive: true
     };
 
-    this?.activeSessions.set(sessionId, session);
-    this?.emit('dialogueStarted', { sessionId, session });
+    this.activeSessions.set(sessionId, session);
+    this.emit('dialogueStarted', { sessionId, session });
 
     // Start with the first node
-    const firstNode = tree?.find(node => !node?.conditions || this?.evaluateConditions(node?.conditions, session?.context));
+    const firstNode = tree.find(node => !node.conditions || this.evaluateConditions(node.conditions, session.context));
     if (firstNode) {
-      this?.processDialogueNode(sessionId, firstNode);
+      this.processDialogueNode(sessionId, firstNode);
     }
 
     return sessionId;
@@ -377,32 +377,32 @@ export class RealDialogueEngine {
    * Process a dialogue node
    */
   private processDialogueNode(sessionId: string, node: DialogueNode): void {
-    const session = this?.activeSessions.get(sessionId);
+    const session = this.activeSessions.get(sessionId);
     if (!session) return;
 
     // Update current node
-    session?.currentNodeId = node?.id;
-    session?.history?.push(node);
+    session.currentNodeId = node.id;
+    session.history.push(node);
 
     // Update character dialogue history
-    const character = this?.characters.get(node?.speaker);
+    const character = this.characters.get(node.speaker);
     if (character) {
-      character?.dialogueHistory?.push(node?.text);
-      if (node?.emotion) {
-        character?.currentEmotion = node?.emotion;
+      character.dialogueHistory.push(node.text);
+      if (node.emotion) {
+        character.currentEmotion = node.emotion;
       }
     }
 
     // Execute actions
-    if (node?.actions) {
-      this?.executeActions(node?.actions, session?.context);
+    if (node.actions) {
+      this.executeActions(node.actions, session.context);
     }
 
-    this?.emit('dialogueNodeProcessed', { sessionId, node, session });
+    this.emit('dialogueNodeProcessed', { sessionId, node, session });
 
     // Speak the dialogue if voice synthesis is available
-    if (this?.voiceSynthesis && character?.voiceSettings) {
-      this?.speakDialogue(node?.text, character?.voiceSettings);
+    if (this.voiceSynthesis && character?.voiceSettings) {
+      this.speakDialogue(node.text, character.voiceSettings);
     }
   }
 
@@ -410,40 +410,40 @@ export class RealDialogueEngine {
    * Select a response
    */
   selectResponse(): boolean {
-    const session = this?.activeSessions.get(sessionId);
-    if (!session || !session?.currentNodeId) return false;
+    const session = this.activeSessions.get(sessionId);
+    if (!session || !session.currentNodeId) return false;
 
-    const tree = this?.dialogueTrees.get(session?.participants[0!]); // Assuming first participant owns the tree
+    const tree = this.dialogueTrees.get(session.participants[0!]); // Assuming first participant owns the tree
     if (!tree) return false;
 
-    const currentNode = tree?.find(node => node?.id === session?.currentNodeId);
-    if (!currentNode || !currentNode?.responses) return false;
+    const currentNode = tree.find(node => node.id === session.currentNodeId);
+    if (!currentNode || !currentNode.responses) return false;
 
-    const response = currentNode?.responses.find(r => r?.id === responseId);
+    const response = currentNode.responses.find(r => r.id === responseId);
     if (!response) return false;
 
     // Check conditions
-    if (response?.conditions && !this?.evaluateConditions(response?.conditions, session?.context)) {
+    if (response.conditions && !this.evaluateConditions(response.conditions, session.context)) {
       return false;
     }
 
     // Execute response actions
-    if (response?.actions) {
-      this?.executeActions(response?.actions, session?.context);
+    if (response.actions) {
+      this.executeActions(response.actions, session.context);
     }
 
     // Move to next node
-    if (response?.nextNodeId) {
-      const nextNode = tree?.find(node => node?.id === response?.nextNodeId);
+    if (response.nextNodeId) {
+      const nextNode = tree.find(node => node.id === response.nextNodeId);
       if (nextNode) {
-        this?.processDialogueNode(sessionId, nextNode);
+        this.processDialogueNode(sessionId, nextNode);
       }
     } else {
       // End dialogue if no next node
-      this?.endDialogueSession(sessionId);
+      this.endDialogueSession(sessionId);
     }
 
-    this?.emit('responseSelected', { sessionId, responseId, response });
+    this.emit('responseSelected', { sessionId, responseId, response });
     return true;
   }
 
@@ -451,26 +451,26 @@ export class RealDialogueEngine {
    * Evaluate dialogue conditions
    */
   private evaluateConditions(conditions: DialogueCondition[], context: DialogueContext): boolean {
-    return conditions?.every(condition => {
-      switch (condition?.type) {
+    return conditions.every(condition => {
+      switch (condition.type) {
         case 'variable':
-          const varValue = context?.variables.get(condition?.key);
-          return this?.compareValues(varValue, condition?.operator, condition?.value);
+          const varValue = context.variables.get(condition.key);
+          return this.compareValues(varValue, condition.operator, condition.value);
         
         case 'flag':
-          return condition?.operator === 'exists' ? context?.flags.has(condition?.key) : !context?.flags.has(condition?.key);
+          return condition.operator === 'exists' ? context.flags.has(condition.key) : !context.flags.has(condition.key);
         
         case 'inventory':
-          return condition?.operator === 'contains' ? context?.inventory.includes(condition?.value) : !context?.inventory.includes(condition?.value);
+          return condition.operator === 'contains' ? context.inventory.includes(condition.value) : !context.inventory.includes(condition.value);
         
         case 'relationship':
-          const relationshipValue = context?.relationshipModifiers.get(condition?.key) || 0;
-          return this?.compareValues(relationshipValue, condition?.operator, condition?.value);
+          const relationshipValue = context.relationshipModifiers.get(condition.key) || 0;
+          return this.compareValues(relationshipValue, condition.operator, condition.value);
         
         case 'time':
           const currentHour = new Date().getHours();
           const timeValue = currentHour < 6 ? 'night' : currentHour < 12 ? 'morning' : currentHour < 18 ? 'afternoon' : 'evening';
-          return this?.compareValues(timeValue, condition?.operator, condition?.value);
+          return this.compareValues(timeValue, condition.operator, condition.value);
         
         case 'random':
           return Math.random() < (condition.probability || 0.5);
@@ -507,41 +507,41 @@ export class RealDialogueEngine {
    * Execute dialogue actions
    */
   private executeActions(actions: DialogueAction[], context: DialogueContext): void {
-    actions?.forEach((action: any) => {
-      switch (action?.type) {
+    actions.forEach((action: any) => {
+      switch (action.type) {
         case 'set_variable':
-          context?.variables.set(action?.key, action?.value);
+          context.variables.set(action.key, action.value);
           break;
         case 'set_flag':
-          if (action?.value) {
-            context?.flags.add(action?.key);
+          if (action.value) {
+            context.flags.add(action.key);
           } else {
-            context?.flags.delete(action?.key);
+            context.flags.delete(action.key);
           }
           break;
         case 'add_item':
-          if (!context?.inventory.includes(action?.value)) {
-            context?.inventory?.push(action?.value);
+          if (!context.inventory.includes(action.value)) {
+            context.inventory.push(action.value);
           }
           break;
         case 'remove_item':
-          const index = context?.inventory.indexOf(action?.value);
+          const index = context.inventory.indexOf(action.value);
           if (index > -1) {
-            context?.inventory.splice(index, 1);
+            context.inventory.splice(index, 1);
           }
           break;
         case 'change_relationship':
-          const currentRel = context?.relationshipModifiers.get(action?.key) || 0;
-          context?.relationshipModifiers.set(action?.key, currentRel + Number(action?.value));
+          const currentRel = context.relationshipModifiers.get(action.key) || 0;
+          context.relationshipModifiers.set(action.key, currentRel + Number(action.value));
           break;
         case 'play_sound':
-          this?.playSound(action?.value);
+          this.playSound(action.value);
           break;
         case 'show_animation':
-          this?.showAnimation(action?.value, action?.metadata);
+          this.showAnimation(action.value, action.metadata);
           break;
         case 'trigger_event':
-          this?.emit('dialogueEvent', { event: action?.key, data: action?.value });
+          this.emit('dialogueEvent', { event: action.key, data: action.value });
           break;
       }
     });
@@ -551,23 +551,23 @@ export class RealDialogueEngine {
    * Speak dialogue using voice synthesis
    */
   private speakDialogue(text: string, voiceSettings: VoiceSettings): void {
-    if (!this?.voiceSynthesis) return;
+    if (!this.voiceSynthesis) return;
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance?.pitch = voiceSettings?.pitch;
-    utterance?.rate = voiceSettings?.rate;
-    utterance?.volume = voiceSettings?.volume;
-    utterance?.lang = voiceSettings?.language;
+    utterance.pitch = voiceSettings.pitch;
+    utterance.rate = voiceSettings.rate;
+    utterance.volume = voiceSettings.volume;
+    utterance.lang = voiceSettings.language;
 
-    if (voiceSettings?.gender) {
-      const voices = this?.voiceSynthesis.getVoices();
-      const voice = voices?.find(v => v?.name.toLowerCase().includes(voiceSettings?.gender!));
+    if (voiceSettings.gender) {
+      const voices = this.voiceSynthesis.getVoices();
+      const voice = voices.find(v => v.name.toLowerCase().includes(voiceSettings.gender!));
       if (voice) {
-        utterance?.voice = voice;
+        utterance.voice = voice;
       }
     }
 
-    this?.voiceSynthesis.speak(utterance);
+    this.voiceSynthesis.speak(utterance);
   }
 
   /**
@@ -575,7 +575,7 @@ export class RealDialogueEngine {
    */
   private playSound(soundId: string): void {
     // Implement sound playing logic
-    this?.emit('soundPlayed', { soundId });
+    this.emit('soundPlayed', { soundId });
   }
 
   /**
@@ -583,21 +583,21 @@ export class RealDialogueEngine {
    */
   private showAnimation(animationId: string, metadata?: Record<string, any>): void {
     // Implement animation logic
-    this?.emit('animationShown', { animationId, metadata });
+    this.emit('animationShown', { animationId, metadata });
   }
 
   /**
    * End a dialogue session
    */
   endDialogueSession(): boolean {
-    const session = this?.activeSessions.get(sessionId);
+    const session = this.activeSessions.get(sessionId);
     if (!session) return false;
 
-    session?.isActive = false;
-    session?.endTime = new Date();
-    this?.activeSessions.delete(sessionId);
+    session.isActive = false;
+    session.endTime = new Date();
+    this.activeSessions.delete(sessionId);
 
-    this?.emit('dialogueEnded', { sessionId, session });
+    this.emit('dialogueEnded', { sessionId, session });
     return true;
   }
 
@@ -605,7 +605,7 @@ export class RealDialogueEngine {
    * Get active dialogue session
    */
   getDialogueSession(sessionId: string): DialogueSession! {
-    return this?.activeSessions.get(sessionId);
+    return this.activeSessions.get(sessionId);
   }
 
   /**
@@ -619,44 +619,44 @@ export class RealDialogueEngine {
    * Get dialogue history for a character
    */
   getCharacterDialogueHistory(characterId: string): string[] {
-    const character = this?.characters.get(characterId);
-    return character ? character?.dialogueHistory : [];
+    const character = this.characters.get(characterId);
+    return character ? character.dialogueHistory : [];
   }
 
   /**
    * Generate dialogue based on character personality
    */
   generateDialogue(): string {
-    const character = this?.characters.get(characterId);
+    const character = this.characters.get(characterId);
     if (!character) return '';
 
-    const personality = character?.personality;
+    const personality = character.personality;
     let response = '';
 
     // Generate response based on personality traits
-    if (personality?.extraversion > 70) {
+    if (personality.extraversion > 70) {
       response += 'Well, ';
-    } else if (personality?.extraversion < 30) {
+    } else if (personality.extraversion < 30) {
       response += 'I suppose ';
     }
 
-    if (personality?.agreeableness > 70) {
+    if (personality.agreeableness > 70) {
       response += 'I understand your concern. ';
-    } else if (personality?.agreeableness < 30) {
+    } else if (personality.agreeableness < 30) {
       response += 'That\'s not really my problem. ';
     }
 
-    if (personality?.humor > 70) {
+    if (personality.humor > 70) {
       response += 'Ha! ';
     }
 
-    if (personality?.intelligence > 80) {
+    if (personality.intelligence > 80) {
       response += 'From an analytical perspective, ';
     }
 
     response += context;
 
-    if (personality?.creativity > 70) {
+    if (personality.creativity > 70) {
       response += ' What do you think about that?';
     }
 
@@ -667,28 +667,28 @@ export class RealDialogueEngine {
    * Event handling
    */
   on(): void {
-    if (!this?.eventHandlers.has(event)) {
-      this?.eventHandlers.set(event, []);
+    if (!this.eventHandlers.has(event)) {
+      this.eventHandlers.set(event, []);
     }
-    this?.eventHandlers.get(event)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers?.indexOf(handler);
+      const index = handlers.indexOf(handler);
       if (index > -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers?.forEach((handler: any) => {
+      handlers.forEach((handler: any) => {
         try {
-          handler(data: any);
+          handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -709,10 +709,10 @@ export class RealDialogueEngine {
    */
   getStatus(): { initialized: boolean; characterCount: number; treeCount: number; activeSessions: number } {
     return {
-      initialized: this?.isInitialized,
-      characterCount: this?.characters.size,
-      treeCount: this?.dialogueTrees.size,
-      activeSessions: this?.activeSessions.size
+      initialized: this.isInitialized,
+      characterCount: this.characters.size,
+      treeCount: this.dialogueTrees.size,
+      activeSessions: this.activeSessions.size
     };
   }
 
@@ -722,10 +722,10 @@ export class RealDialogueEngine {
   cleanupDialogueHistory(): number {
     let cleanedCount = 0;
 
-    this?.characters.forEach((character: any) => {
-      if (character?.dialogueHistory.length > maxHistory) {
-        const removed = character?.dialogueHistory.splice(0, character?.dialogueHistory.length - maxHistory);
-        cleanedCount += removed?.length;
+    this.characters.forEach((character: any) => {
+      if (character.dialogueHistory.length > maxHistory) {
+        const removed = character.dialogueHistory.splice(0, character.dialogueHistory.length - maxHistory);
+        cleanedCount += removed.length;
       }
     });
 
@@ -736,13 +736,13 @@ export class RealDialogueEngine {
    * Reset system
    */
   reset(): void {
-    this?.dialogueTrees.clear();
-    this?.characters.clear();
-    this?.activeSessions.clear();
-    this?.eventHandlers.clear();
-    this?.isInitialized = false;
+    this.dialogueTrees.clear();
+    this.characters.clear();
+    this.activeSessions.clear();
+    this.eventHandlers.clear();
+    this.isInitialized = false;
 
-    this?.initializeDefaultCharacters();
+    this.initializeDefaultCharacters();
   }
 }
 

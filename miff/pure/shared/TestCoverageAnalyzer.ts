@@ -89,16 +89,16 @@ export class TestCoverageAnalyzer {
   async analyzeCoverage(rootPath: string): Promise<CoverageReport> {
     console.info('📊 Analyzing test coverage...');
     
-    const modules = await this?.findModules(rootPath);
+    const modules = await this.findModules(rootPath);
     const moduleCoverages: ModuleCoverage[] = [];
     
     for (const module of modules) {
-      const coverage = await this?.analyzeModuleCoverage(module);
-      moduleCoverages?.push(coverage);
-      this?.moduleCoverage.set(module, coverage);
+      const coverage = await this.analyzeModuleCoverage(module);
+      moduleCoverages.push(coverage);
+      this.moduleCoverage.set(module, coverage);
     }
     
-    const report = this?.generateCoverageReport(moduleCoverages);
+    const report = this.generateCoverageReport(moduleCoverages);
     console.info(`✅ Analyzed coverage for ${modules.length} modules`);
     
     return report;
@@ -108,7 +108,7 @@ export class TestCoverageAnalyzer {
    * Get coverage for a specific module
    */
   getModuleCoverage(module: string): ModuleCoverage! {
-    return this?.moduleCoverage.get(module);
+    return this.moduleCoverage.get(module);
   }
 
   /**
@@ -123,42 +123,42 @@ export class TestCoverageAnalyzer {
    */
   generateRecommendations(): string[] {
     const recommendations: string[] = [];
-    const modules = this?.getAllModuleCoverages();
+    const modules = this.getAllModuleCoverages();
     
     // Overall coverage recommendations
-    const avgCoverage = modules?.reduce((sum, m) => sum + m?.coveragePercentage, 0) / modules?.length;
+    const avgCoverage = modules.reduce((sum, m) => sum + m.coveragePercentage, 0) / modules.length;
     
     if (avgCoverage < 70) {
-      recommendations?.push('Overall test coverage is below 70%. Focus on increasing coverage across all modules.');
+      recommendations.push('Overall test coverage is below 70%. Focus on increasing coverage across all modules.');
     }
     
     if (avgCoverage < 50) {
-      recommendations?.push('Critical: Test coverage is below 50%. Immediate action required.');
+      recommendations.push('Critical: Test coverage is below 50%. Immediate action required.');
     }
     
     // Module-specific recommendations
-    const lowCoverageModules = modules?.filter((m: any) => m?.coveragePercentage < 70);
+    const lowCoverageModules = modules.filter((m: any) => m.coveragePercentage < 70);
     
-    if (lowCoverageModules?.length > 0) {
-      recommendations?.push(`Focus on improving coverage for ${lowCoverageModules?.length} modules with low coverage.`);
+    if (lowCoverageModules.length > 0) {
+      recommendations.push(`Focus on improving coverage for ${lowCoverageModules.length} modules with low coverage.`);
       
       for (const module of lowCoverageModules) {
-        recommendations?.push(`- ${module?.module}: ${module?.coveragePercentage}% coverage`);
+        recommendations.push(`- ${module.module}: ${module.coveragePercentage}% coverage`);
       }
     }
     
     // Branch coverage recommendations
-    const lowBranchCoverage = modules?.filter((m: any) => m?.branchCoverage < 60);
+    const lowBranchCoverage = modules.filter((m: any) => m.branchCoverage < 60);
     
-    if (lowBranchCoverage?.length > 0) {
-      recommendations?.push(`Improve branch coverage for ${lowBranchCoverage?.length} modules.`);
+    if (lowBranchCoverage.length > 0) {
+      recommendations.push(`Improve branch coverage for ${lowBranchCoverage.length} modules.`);
     }
     
     // Function coverage recommendations
-    const lowFunctionCoverage = modules?.filter((m: any) => m?.functionCoverage < 80);
+    const lowFunctionCoverage = modules.filter((m: any) => m.functionCoverage < 80);
     
-    if (lowFunctionCoverage?.length > 0) {
-      recommendations?.push(`Improve function coverage for ${lowFunctionCoverage?.length} modules.`);
+    if (lowFunctionCoverage.length > 0) {
+      recommendations.push(`Improve function coverage for ${lowFunctionCoverage.length} modules.`);
     }
     
     return recommendations;
@@ -168,17 +168,17 @@ export class TestCoverageAnalyzer {
    * Export coverage data to various formats
    */
   exportCoverage(): string {
-    const modules = this?.getAllModuleCoverages();
+    const modules = this.getAllModuleCoverages();
     
     switch (format) {
       case 'json':
         return JSON.stringify(modules, null, 2);
       
       case 'html':
-        return this?.generateHTMLReport(modules);
+        return this.generateHTMLReport(modules);
       
       case 'csv':
-        return this?.generateCSVReport(modules);
+        return this.generateCSVReport(modules);
       
       default:
         throw new Error(`Unsupported format: ${format}`);
@@ -210,7 +210,7 @@ export class TestCoverageAnalyzer {
     const mockFiles: CoverageData[] = [
       {
         module,
-        filePath: `${module}/Manager?.ts`,
+        filePath: `${module}/Manager.ts`,
         totalLines: 100,
         coveredLines: 75,
         uncoveredLines: [1, 2, 3, 4, 5],
@@ -221,7 +221,7 @@ export class TestCoverageAnalyzer {
       },
       {
         module,
-        filePath: `${module}/index?.ts`,
+        filePath: `${module}/index.ts`,
         totalLines: 50,
         coveredLines: 40,
         uncoveredLines: [1, 2],
@@ -232,15 +232,15 @@ export class TestCoverageAnalyzer {
       }
     ];
     
-    this?.coverageData.set(module, mockFiles);
+    this.coverageData.set(module, mockFiles);
     
-    const totalLines = mockFiles?.reduce((sum, f) => sum + f?.totalLines, 0);
-    const coveredLines = mockFiles?.reduce((sum, f) => sum + f?.coveredLines, 0);
+    const totalLines = mockFiles.reduce((sum, f) => sum + f.totalLines, 0);
+    const coveredLines = mockFiles.reduce((sum, f) => sum + f.coveredLines, 0);
     const coveragePercentage = totalLines > 0 ? (coveredLines / totalLines) * 100 : 0;
     
-    const branchCoverage = mockFiles?.reduce((sum, f) => sum + f?.branchCoverage, 0) / mockFiles?.length;
-    const functionCoverage = mockFiles?.reduce((sum, f) => sum + f?.functionCoverage, 0) / mockFiles?.length;
-    const statementCoverage = mockFiles?.reduce((sum, f) => sum + f?.statementCoverage, 0) / mockFiles?.length;
+    const branchCoverage = mockFiles.reduce((sum, f) => sum + f.branchCoverage, 0) / mockFiles.length;
+    const functionCoverage = mockFiles.reduce((sum, f) => sum + f.functionCoverage, 0) / mockFiles.length;
+    const statementCoverage = mockFiles.reduce((sum, f) => sum + f.statementCoverage, 0) / mockFiles.length;
     
     let quality: 'excellent' | 'good' | 'fair' | 'poor';
     if (coveragePercentage >= 90) quality = 'excellent';
@@ -251,15 +251,15 @@ export class TestCoverageAnalyzer {
     const recommendations: string[] = [];
     
     if (coveragePercentage < 80) {
-      recommendations?.push('Increase test coverage');
+      recommendations.push('Increase test coverage');
     }
     
     if (branchCoverage < 70) {
-      recommendations?.push('Improve branch coverage');
+      recommendations.push('Improve branch coverage');
     }
     
     if (functionCoverage < 85) {
-      recommendations?.push('Improve function coverage');
+      recommendations.push('Improve function coverage');
     }
     
     return {
@@ -277,16 +277,16 @@ export class TestCoverageAnalyzer {
   }
 
   private generateCoverageReport(modules: ModuleCoverage[]): CoverageReport {
-    const totalFiles = modules?.reduce((sum, m) => sum + m?.files.length, 0);
-    const totalLines = modules?.reduce((sum, m) => sum + m?.totalLines, 0);
-    const coveredLines = modules?.reduce((sum, m) => sum + m?.coveredLines, 0);
+    const totalFiles = modules.reduce((sum, m) => sum + m.files.length, 0);
+    const totalLines = modules.reduce((sum, m) => sum + m.totalLines, 0);
+    const coveredLines = modules.reduce((sum, m) => sum + m.coveredLines, 0);
     const overallCoverage = totalLines > 0 ? (coveredLines / totalLines) * 100 : 0;
     
     const criticalModules = modules
-      .filter((m: any) => m?.coveragePercentage < 50)
-      .map((m: any) => m?.module);
+      .filter((m: any) => m.coveragePercentage < 50)
+      .map((m: any) => m.module);
     
-    const recommendations = this?.generateRecommendations();
+    const recommendations = this.generateRecommendations();
     
     return {
       generatedAt: new Date(),
@@ -301,9 +301,9 @@ export class TestCoverageAnalyzer {
   }
 
   private generateHTMLReport(modules: ModuleCoverage[]): string {
-    const totalFiles = modules?.reduce((sum, m) => sum + m?.files.length, 0);
-    const totalLines = modules?.reduce((sum, m) => sum + m?.totalLines, 0);
-    const coveredLines = modules?.reduce((sum, m) => sum + m?.coveredLines, 0);
+    const totalFiles = modules.reduce((sum, m) => sum + m.files.length, 0);
+    const totalLines = modules.reduce((sum, m) => sum + m.totalLines, 0);
+    const coveredLines = modules.reduce((sum, m) => sum + m.coveredLines, 0);
     const overallCoverage = totalLines > 0 ? (coveredLines / totalLines) * 100 : 0;
     
     return `
@@ -342,7 +342,7 @@ export class TestCoverageAnalyzer {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">${overallCoverage?.toFixed(1)}%</div>
+            <div class="stat-value">${overallCoverage.toFixed(1)}%</div>
             <div class="stat-label">Overall Coverage</div>
         </div>
         <div class="stat-card">
@@ -358,28 +358,28 @@ export class TestCoverageAnalyzer {
             <div class="stat-label">Covered Lines</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">${modules?.length}</div>
+            <div class="stat-value">${modules.length}</div>
             <div class="stat-label">Modules</div>
         </div>
     </div>
 
     <div class="module-list">
         <h3>Module Coverage Details</h3>
-        ${modules?.map((module: any) => `
+        ${modules.map((module: any) => `
             <div class="module-item">
-                <div class="module-name">${module?.module}</div>
+                <div class="module-name">${module.module}</div>
                 <div class="module-stats">
-                    Coverage: ${module?.coveragePercentage.toFixed(1)}% | 
-                    Files: ${module?.files.length} | 
-                    Lines: ${module?.coveredLines}/${module?.totalLines} |
-                    Quality: <span class="${module?.quality}">${module?.quality.toUpperCase()}</span>
+                    Coverage: ${module.coveragePercentage.toFixed(1)}% | 
+                    Files: ${module.files.length} | 
+                    Lines: ${module.coveredLines}/${module.totalLines} |
+                    Quality: <span class="${module.quality}">${module.quality.toUpperCase()}</span>
                 </div>
                 <div class="coverage-bar">
-                    <div class="coverage-fill coverage-${module?.quality}" style="width: ${module?.coveragePercentage}%"></div>
+                    <div class="coverage-fill coverage-${module.quality}" style="width: ${module.coveragePercentage}%"></div>
                 </div>
-                ${module?.recommendations.length > 0 ? `
+                ${module.recommendations.length > 0 ? `
                     <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                        <strong>Recommendations:</strong> ${module?.recommendations.join(', ')}
+                        <strong>Recommendations:</strong> ${module.recommendations.join(', ')}
                     </div>
                 ` : ''}
             </div>
@@ -393,7 +393,7 @@ export class TestCoverageAnalyzer {
     let csv = 'Module,Total Lines,Covered Lines,Coverage %,Branch Coverage %,Function Coverage %,Quality\n';
     
     for (const module of modules) {
-      csv += `${module?.module},${module?.totalLines},${module?.coveredLines},${module?.coveragePercentage.toFixed(1)},${module?.branchCoverage.toFixed(1)},${module?.functionCoverage.toFixed(1)},${module?.quality}\n`;
+      csv += `${module.module},${module.totalLines},${module.coveredLines},${module.coveragePercentage.toFixed(1)},${module.branchCoverage.toFixed(1)},${module.functionCoverage.toFixed(1)},${module.quality}\n`;
     }
     
     return csv;

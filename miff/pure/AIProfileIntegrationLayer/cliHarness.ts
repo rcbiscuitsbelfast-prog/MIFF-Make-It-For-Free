@@ -19,11 +19,11 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -31,7 +31,7 @@ function main() {
     let operation: Cmd;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as Cmd;
     } else {
@@ -131,21 +131,21 @@ function main() {
     const aiLayer = new AIProfileIntegrationLayer();
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'createProfile':
-        result = aiLayer?.createProfile(operation?.profile);
+        result = aiLayer.createProfile(operation.profile);
         break;
 
       case 'updateProfile':
-        const updated = aiLayer?.updateProfile(operation?.profileId, operation?.updates);
+        const updated = aiLayer.updateProfile(operation.profileId, operation.updates);
         result = {
           updated,
-          profileId: operation?.profileId
+          profileId: operation.profileId
         };
         break;
 
       case 'getProfile':
-        const profile = aiLayer?.getProfile(operation?.profileId);
+        const profile = aiLayer.getProfile(operation.profileId);
         result = {
           found: profile !== null,
           profile: profile || null
@@ -153,7 +153,7 @@ function main() {
         break;
 
       case 'makeDecision':
-        const decision = aiLayer?.makeDecision(operation?.profileId, operation?.situation, operation?.actions);
+        const decision = aiLayer.makeDecision(operation.profileId, operation.situation, operation.actions);
         result = {
           made: decision !== null,
           decision: decision || null
@@ -161,7 +161,7 @@ function main() {
         break;
 
       case 'integrateWithGameplay':
-        const integration = aiLayer?.integrateWithGameplay(operation?.profileId, operation?.gameState);
+        const integration = aiLayer.integrateWithGameplay(operation.profileId, operation.gameState);
         result = {
           integrated: integration !== null,
           result: integration || null
@@ -169,41 +169,41 @@ function main() {
         break;
 
       case 'recordLearning':
-        aiLayer?.recordLearning(operation?.profileId, operation?.learningData);
+        aiLayer.recordLearning(operation.profileId, operation.learningData);
         result = {
           recorded: true,
-          profileId: operation?.profileId
+          profileId: operation.profileId
         };
         break;
 
       case 'getAllProfiles':
         result = {
-          profiles: aiLayer?.getAllProfiles(),
-          count: aiLayer?.getAllProfiles().length
+          profiles: aiLayer.getAllProfiles(),
+          count: aiLayer.getAllProfiles().length
         };
         break;
 
       case 'getDecisions':
         result = {
-          decisions: aiLayer?.getDecisions(operation?.profileId),
-          count: aiLayer?.getDecisions(operation?.profileId).length
+          decisions: aiLayer.getDecisions(operation.profileId),
+          count: aiLayer.getDecisions(operation.profileId).length
         };
         break;
 
       case 'getLearningData':
         result = {
-          learningData: aiLayer?.getLearningData(operation?.profileId),
-          count: aiLayer?.getLearningData(operation?.profileId).length
+          learningData: aiLayer.getLearningData(operation.profileId),
+          count: aiLayer.getLearningData(operation.profileId).length
         };
         break;
 
       case 'getStatistics':
-        result = aiLayer?.getAIStatistics();
+        result = aiLayer.getAIStatistics();
         break;
 
       case 'simulateAI':
         // Simulate AI behavior
-        const simProfile = aiLayer?.getProfile(operation?.profileId);
+        const simProfile = aiLayer.getProfile(operation.profileId);
         if (!simProfile) {
           result = { error: 'Profile not found' };
           break;
@@ -238,15 +238,15 @@ function main() {
           }
         ];
 
-        const simDecision = aiLayer?.makeDecision(operation?.profileId, 'combat', sampleActions);
-        const simIntegration = aiLayer?.integrateWithGameplay(operation?.profileId, operation?.gameState);
+        const simDecision = aiLayer.makeDecision(operation.profileId, 'combat', sampleActions);
+        const simIntegration = aiLayer.integrateWithGameplay(operation.profileId, operation.gameState);
 
         result = {
           simulation: {
             profile: simProfile,
             decision: simDecision,
             integration: simIntegration,
-            gameState: operation?.gameState
+            gameState: operation.gameState
           }
         };
         break;
@@ -308,10 +308,10 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -323,7 +323,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -339,13 +339,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

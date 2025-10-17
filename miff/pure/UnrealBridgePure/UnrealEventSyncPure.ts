@@ -322,10 +322,10 @@ export class UnrealEventSyncPure {
     bridgeManager: UnrealBridgeManager,
     configuration: EventSyncConfiguration
   ) {
-    this?.bridgeManager = bridgeManager;
-    this?.configuration = configuration;
-    this?.statistics = this?.initializeStatistics();
-    this?.initializeEventSync();
+    this.bridgeManager = bridgeManager;
+    this.configuration = configuration;
+    this.statistics = this.initializeStatistics();
+    this.initializeEventSync();
   }
 
   private initializeStatistics(): EventStatistics {
@@ -361,24 +361,24 @@ export class UnrealEventSyncPure {
 
     try {
       // Initialize event queues
-      await this?.initializeEventQueues();
+      await this.initializeEventQueues();
 
       // Initialize event mappings
-      await this?.initializeEventMappings();
+      await this.initializeEventMappings();
 
       // Initialize event filters
-      await this?.initializeEventFilters();
+      await this.initializeEventFilters();
 
       // Initialize event transformers
-      await this?.initializeEventTransformers();
+      await this.initializeEventTransformers();
 
       // Initialize event validators
-      await this?.initializeEventValidators();
+      await this.initializeEventValidators();
 
       // Start event processing
-      this?.startEventProcessing();
+      this.startEventProcessing();
 
-      this?.isInitialized = true;
+      this.isInitialized = true;
       console.log('[UnrealEventSyncPure!] Event synchronization initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -391,44 +391,44 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure!] Initializing event queues...');
 
     // Create priority-based queues
-    const priorityQueues = this?.configuration?.priorityQueues || [EventPriority?.NORMAL];
+    const priorityQueues = this.configuration?.priorityQueues || [EventPriority.NORMAL];
     for (const priority of priorityQueues) {
       const queue: EventQueue = {
         id: `queue_${priority}`,
-        name: `${priority?.charAt(0).toUpperCase() + priority?.slice(1)} Priority Queue`,
+        name: `${priority.charAt(0).toUpperCase() + priority.slice(1)} Priority Queue`,
         priority: priority as EventPriority,
         events: [],
-        maxSize: this?.configuration?.maxBufferSize || 1000,
+        maxSize: this.configuration?.maxBufferSize || 1000,
         currentSize: 0,
         overflowPolicy: 'drop',
-        batchSize: this?.configuration?.maxBatchSize || 10,
-        batchTimeout: this?.configuration?.batchTimeout || 1000,
+        batchSize: this.configuration?.maxBatchSize || 10,
+        batchTimeout: this.configuration?.batchTimeout || 1000,
         lastBatchTime: new Date(),
         enabled: true,
         metadata: {}
       };
 
-      this?.eventQueues.set(queue?.id, queue);
+      this.eventQueues.set(queue.id, queue);
     }
 
     // Create default queue if none exist
-    if (this?.eventQueues.size === 0) {
+    if (this.eventQueues.size === 0) {
       const defaultQueue: EventQueue = {
         id: 'queue_default',
         name: 'Default Event Queue',
-        priority: EventPriority?.NORMAL,
+        priority: EventPriority.NORMAL,
         events: [],
-        maxSize: this?.configuration?.maxBufferSize || 1000,
+        maxSize: this.configuration?.maxBufferSize || 1000,
         currentSize: 0,
         overflowPolicy: 'drop',
-        batchSize: this?.configuration?.maxBatchSize || 10,
-        batchTimeout: this?.configuration?.batchTimeout || 1000,
+        batchSize: this.configuration?.maxBatchSize || 10,
+        batchTimeout: this.configuration?.batchTimeout || 1000,
         lastBatchTime: new Date(),
         enabled: true,
         metadata: {}
       };
 
-      this?.eventQueues.set('queue_default', defaultQueue);
+      this.eventQueues.set('queue_default', defaultQueue);
     }
 
     console.log(`[UnrealEventSyncPure!] Initialized ${this.eventQueues.size} event queues`);
@@ -440,63 +440,63 @@ export class UnrealEventSyncPure {
     // Default event mappings for common MIFF events
     const defaultMappings: EventMapping[] = [
       {
-        miffEvent: 'combat?.attack',
-        unrealEvent: UnrealEventType?.ACTOR_DAMAGE,
-        priority: EventPriority?.HIGH,
-        deliveryMode: EventDeliveryMode?.RELIABLE,
-        scope: EventScope?.NETWORK,
+        miffEvent: 'combat.attack',
+        unrealEvent: UnrealEventType.ACTOR_DAMAGE,
+        priority: EventPriority.HIGH,
+        deliveryMode: EventDeliveryMode.RELIABLE,
+        scope: EventScope.NETWORK,
         enabled: true,
         metadata: {}
       },
       {
-        miffEvent: 'combat?.defend',
-        unrealEvent: UnrealEventType?.ANIMATION_STARTED,
-        priority: EventPriority?.NORMAL,
-        deliveryMode: EventDeliveryMode?.UNRELIABLE,
-        scope: EventScope?.LOCAL,
+        miffEvent: 'combat.defend',
+        unrealEvent: UnrealEventType.ANIMATION_STARTED,
+        priority: EventPriority.NORMAL,
+        deliveryMode: EventDeliveryMode.UNRELIABLE,
+        scope: EventScope.LOCAL,
         enabled: true,
         metadata: {}
       },
       {
-        miffEvent: 'item?.use',
-        unrealEvent: UnrealEventType?.ACTOR_HEAL,
-        priority: EventPriority?.HIGH,
-        deliveryMode: EventDeliveryMode?.RELIABLE,
-        scope: EventScope?.NETWORK,
+        miffEvent: 'item.use',
+        unrealEvent: UnrealEventType.ACTOR_HEAL,
+        priority: EventPriority.HIGH,
+        deliveryMode: EventDeliveryMode.RELIABLE,
+        scope: EventScope.NETWORK,
         enabled: true,
         metadata: {}
       },
       {
-        miffEvent: 'ai?.decision',
-        unrealEvent: UnrealEventType?.AI_DECISION_MADE,
-        priority: EventPriority?.NORMAL,
-        deliveryMode: EventDeliveryMode?.UNRELIABLE,
-        scope: EventScope?.LOCAL,
+        miffEvent: 'ai.decision',
+        unrealEvent: UnrealEventType.AI_DECISION_MADE,
+        priority: EventPriority.NORMAL,
+        deliveryMode: EventDeliveryMode.UNRELIABLE,
+        scope: EventScope.LOCAL,
         enabled: true,
         metadata: {}
       },
       {
-        miffEvent: 'scene?.load',
-        unrealEvent: UnrealEventType?.LEVEL_LOADED,
-        priority: EventPriority?.CRITICAL,
-        deliveryMode: EventDeliveryMode?.RELIABLE_ORDERED,
-        scope: EventScope?.GLOBAL,
+        miffEvent: 'scene.load',
+        unrealEvent: UnrealEventType.LEVEL_LOADED,
+        priority: EventPriority.CRITICAL,
+        deliveryMode: EventDeliveryMode.RELIABLE_ORDERED,
+        scope: EventScope.GLOBAL,
         enabled: true,
         metadata: {}
       },
       {
-        miffEvent: 'input?.key',
-        unrealEvent: UnrealEventType?.INPUT_KEY_PRESSED,
-        priority: EventPriority?.HIGHEST,
-        deliveryMode: EventDeliveryMode?.RELIABLE_ORDERED,
-        scope: EventScope?.PRIVATE,
+        miffEvent: 'input.key',
+        unrealEvent: UnrealEventType.INPUT_KEY_PRESSED,
+        priority: EventPriority.HIGHEST,
+        deliveryMode: EventDeliveryMode.RELIABLE_ORDERED,
+        scope: EventScope.PRIVATE,
         enabled: true,
         metadata: {}
       }
     ];
 
     for (const mapping of defaultMappings) {
-      this?.eventMappings.set(mapping?.miffEvent, mapping);
+      this.eventMappings.set(mapping.miffEvent, mapping);
     }
 
     console.log(`[UnrealEventSyncPure!] Initialized ${this.eventMappings.size} event mappings`);
@@ -505,13 +505,13 @@ export class UnrealEventSyncPure {
   private async initializeEventFilters(): Promise<void> {
     console.log('[UnrealEventSyncPure!] Initializing event filters...');
 
-    if (!this?.configuration?.enableEventFiltering) {
+    if (!this.configuration?.enableEventFiltering) {
       console.log('[UnrealEventSyncPure!] Event filtering disabled');
       return;
     }
 
     // Create default event filters
-    const eventFilters = this?.configuration?.eventFilters || [];
+    const eventFilters = this.configuration?.eventFilters || [];
     for (const filterConfig of eventFilters) {
       const filter: EventFilter = {
         ...filterConfig,
@@ -519,7 +519,7 @@ export class UnrealEventSyncPure {
         metadata: {}
       };
 
-      this?.eventFilters.set(filter?.id, filter);
+      this.eventFilters.set(filter.id, filter);
     }
 
     console.log(`[UnrealEventSyncPure!] Initialized ${this.eventFilters.size} event filters`);
@@ -529,7 +529,7 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure!] Initializing event transformers...');
 
     // Create default event transformers
-    const eventTransformers = this?.configuration?.eventTransformers || [];
+    const eventTransformers = this.configuration?.eventTransformers || [];
     for (const transformerConfig of eventTransformers) {
       const transformer: EventTransformer = {
         ...transformerConfig,
@@ -537,7 +537,7 @@ export class UnrealEventSyncPure {
         metadata: {}
       };
 
-      this?.eventTransformers.set(transformer?.id, transformer);
+      this.eventTransformers.set(transformer.id, transformer);
     }
 
     console.log(`[UnrealEventSyncPure!] Initialized ${this.eventTransformers.size} event transformers`);
@@ -547,7 +547,7 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure!] Initializing event validators...');
 
     // Create default event validators
-    const eventValidators = this?.configuration?.eventValidators || [];
+    const eventValidators = this.configuration?.eventValidators || [];
     for (const validatorConfig of eventValidators) {
       const validator: EventValidator = {
         ...validatorConfig,
@@ -555,7 +555,7 @@ export class UnrealEventSyncPure {
         metadata: {}
       };
 
-      this?.eventValidators.set(validator?.id, validator);
+      this.eventValidators.set(validator.id, validator);
     }
 
     console.log(`[UnrealEventSyncPure!] Initialized ${this.eventValidators.size} event validators`);
@@ -564,84 +564,84 @@ export class UnrealEventSyncPure {
   private startEventProcessing(): void {
     // Start event processing intervals
     setInterval(() => {
-      this?.processEventBuffer();
+      this.processEventBuffer();
     }, 16); // 60 FPS
 
     setInterval(() => {
-      this?.processEventQueues();
+      this.processEventQueues();
     }, 50); // 20 FPS
 
     setInterval(() => {
-      this?.checkEventTimeouts();
+      this.checkEventTimeouts();
     }, 1000); // 1 FPS
 
     setInterval(() => {
-      this?.updateStatistics();
+      this.updateStatistics();
     }, 1000); // 1 FPS
 
-    if (this?.configuration?.enableEventBatching || false) {
+    if (this.configuration?.enableEventBatching || false) {
       setInterval(() => {
-        this?.processBatchedEvents();
-      }, this?.configuration?.batchTimeout || 1000);
+        this.processBatchedEvents();
+      }, this.configuration?.batchTimeout || 1000);
     }
 
     console.log('[UnrealEventSyncPure!] Event processing started');
   }
 
   async syncEvent(miffEvent: any): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Event synchronization not initialized');
     }
 
     console.log(`[UnrealEventSyncPure!] Syncing MIFF event: ${miffEvent.type || miffEvent.name}`);
 
-    const startTime = new Date();
+    const startTime = Date.now();
 
     try {
       // Convert MIFF event to Unreal event
-      const unrealEvent = await this?.convertMiffEventToUnreal(miffEvent);
+      const unrealEvent = await this.convertMiffEventToUnreal(miffEvent);
       if (!unrealEvent) {
         console.warn(`[UnrealEventSyncPure!] Failed to convert MIFF event: ${miffEvent.type || miffEvent.name}`);
         return false;
       }
 
       // Apply filters
-      if (this?.configuration.enableEventFiltering) {
-        const filtered = await this?.applyEventFilters(unrealEvent);
-        if (!filtered?.allowed) {
+      if (this.configuration.enableEventFiltering) {
+        const filtered = await this.applyEventFilters(unrealEvent);
+        if (!filtered.allowed) {
           console.log(`[UnrealEventSyncPure!] Event filtered: ${unrealEvent.name} (${filtered.reason})`);
-          this?.statistics.filteredEvents++;
+          this.statistics.filteredEvents++;
           return true; // Event was filtered, not an error
         }
       }
 
       // Apply transformations
-      const transformedEvent = await this?.applyEventTransformers(unrealEvent);
+      const transformedEvent = await this.applyEventTransformers(unrealEvent);
 
       // Apply validation
-      const validationResult = await this?.validateEvent(transformedEvent);
-      if (!validationResult?.valid) {
+      const validationResult = await this.validateEvent(transformedEvent);
+      if (!validationResult.valid) {
         console.warn(`[UnrealEventSyncPure!] Event validation failed: ${transformedEvent.name}`);
         console.warn(`[UnrealEventSyncPure!] Validation errors: ${validationResult.errors.join(', ')}`);
-        this?.statistics.failedEvents++;
+        this.statistics.failedEvents++;
         return false;
       }
 
       // Add to appropriate queue
-      const queued = await this?.queueEvent(transformedEvent);
+      const queued = await this.queueEvent(transformedEvent);
       if (!queued) {
         console.error(`[UnrealEventSyncPure!] Failed to queue event: ${transformedEvent.name}`);
-        this?.statistics.failedEvents++;
+        this.statistics.failedEvents++;
         return false;
       }
 
-      const processingTime = new Date() - startTime;
-      this?.statistics.processedEvents++;
-      this?.statistics.averageProcessingTime = (this?.statistics.averageProcessingTime * (this?.statistics.processedEvents - 1) + processingTime) / this?.statistics.processedEvents;
-      if (processingTime > this?.statistics.peakProcessingTime) {
-        this?.statistics.peakProcessingTime = processingTime;
+      const processingTime = Date.now() - startTime;
+      this.statistics.processedEvents++;
+      this.statistics.averageProcessingTime = (this.statistics.averageProcessingTime * (this.statistics.processedEvents - 1) + processingTime) / this.statistics.processedEvents;
+      if (processingTime > this.statistics.peakProcessingTime) {
+        this.statistics.peakProcessingTime = processingTime;
       }
-      this?.statistics.totalProcessingTime += processingTime;
+      this.statistics.totalProcessingTime += processingTime;
       this.statistics.eventsPerSecond = this.statistics.processedEvents / Math.max(1, (Date.now() - (this.statistics as any).startTime) / 1000);
 
       console.log(`[UnrealEventSyncPure!] Event synced successfully: ${transformedEvent.name} (${processingTime}ms)`);
@@ -649,8 +649,8 @@ export class UnrealEventSyncPure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      const processingTime = new Date() - startTime;
-      this?.statistics.failedEvents++;
+      const processingTime = Date.now() - startTime;
+      this.statistics.failedEvents++;
 
       console.error(`[UnrealEventSyncPure!] Failed to sync event: ${miffEvent.type || miffEvent.name}`, err instanceof Error ? err.message : String(err));
       return false;
@@ -659,13 +659,13 @@ export class UnrealEventSyncPure {
 
   private async convertMiffEventToUnreal(miffEvent: any): Promise<UnrealEvent | null> {
     // Find event mapping
-    const mapping = this?.eventMappings.get(miffEvent?.type || miffEvent?.name);
+    const mapping = this.eventMappings.get(miffEvent.type || miffEvent.name);
     if (!mapping) {
       console.warn(`[UnrealEventSyncPure!] No mapping found for MIFF event: ${miffEvent.type || miffEvent.name}`);
       return null;
     }
 
-    if (!mapping?.enabled) {
+    if (!mapping.enabled) {
       console.log(`[UnrealEventSyncPure!] Event mapping disabled: ${mapping.miffEvent}`);
       return null;
     }
@@ -673,13 +673,13 @@ export class UnrealEventSyncPure {
     // Convert MIFF event to Unreal event
     const unrealEvent: UnrealEvent = {
       id: `unreal_event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: mapping?.unrealEvent,
+      name: mapping.unrealEvent,
       source: 'miff_bridge',
       data: miffEvent,
       timestamp: new Date(),
-      eventType: mapping?.unrealEvent,
-      category: this?.getEventCategory(mapping?.unrealEvent),
-      severity: this?.getEventSeverity(mapping?.priority),
+      eventType: mapping.unrealEvent,
+      category: this.getEventCategory(mapping.unrealEvent),
+      severity: this.getEventSeverity(mapping.priority),
       metadata: {
         miffEvent: miffEvent,
         mapping: mapping,
@@ -691,30 +691,30 @@ export class UnrealEventSyncPure {
   }
 
   private getEventCategory(eventType: UnrealEventType): string {
-    if (eventType?.startsWith('ACTOR_')) return 'actor';
-    if (eventType?.startsWith('COMPONENT_')) return 'component';
-    if (eventType?.startsWith('INPUT_')) return 'input';
-    if (eventType?.startsWith('PHYSICS_')) return 'physics';
-    if (eventType?.startsWith('ANIMATION_')) return 'animation';
-    if (eventType?.startsWith('AUDIO_')) return 'audio';
-    if (eventType?.startsWith('UI_')) return 'ui';
-    if (eventType?.startsWith('GAME_')) return 'gameplay';
-    if (eventType?.startsWith('AI_')) return 'ai';
-    if (eventType?.startsWith('NETWORK_')) return 'network';
+    if (eventType.startsWith('ACTOR_')) return 'actor';
+    if (eventType.startsWith('COMPONENT_')) return 'component';
+    if (eventType.startsWith('INPUT_')) return 'input';
+    if (eventType.startsWith('PHYSICS_')) return 'physics';
+    if (eventType.startsWith('ANIMATION_')) return 'animation';
+    if (eventType.startsWith('AUDIO_')) return 'audio';
+    if (eventType.startsWith('UI_')) return 'ui';
+    if (eventType.startsWith('GAME_')) return 'gameplay';
+    if (eventType.startsWith('AI_')) return 'ai';
+    if (eventType.startsWith('NETWORK_')) return 'network';
     return 'custom';
   }
 
   private getEventSeverity(priority: EventPriority): 'low' | 'medium' | 'high' | 'critical' {
     switch (priority) {
-      case EventPriority?.LOWEST:
-      case EventPriority?.LOW:
+      case EventPriority.LOWEST:
+      case EventPriority.LOW:
         return 'low';
-      case EventPriority?.NORMAL:
+      case EventPriority.NORMAL:
         return 'medium';
-      case EventPriority?.HIGH:
+      case EventPriority.HIGH:
         return 'high';
-      case EventPriority?.HIGHEST:
-      case EventPriority?.CRITICAL:
+      case EventPriority.HIGHEST:
+      case EventPriority.CRITICAL:
         return 'critical';
       default:
         return 'medium';
@@ -722,36 +722,36 @@ export class UnrealEventSyncPure {
   }
 
   private async applyEventFilters(event: UnrealEvent): Promise<{ allowed: boolean; reason?: string }> {
-    for (const filter of this?.eventFilters.values()) {
-      if (!filter?.enabled) continue;
+    for (const filter of this.eventFilters.values()) {
+      if (!filter.enabled) continue;
 
       // Check event types
-      if (filter?.eventTypes.length > 0 && !filter?.eventTypes.includes(event?.eventType)) {
+      if (filter.eventTypes.length > 0 && !filter.eventTypes.includes(event.eventType)) {
         continue;
       }
 
       // Check priorities
-      if (filter?.priorities.length > 0 && !filter?.priorities.includes(event?.category as EventPriority)) {
+      if (filter.priorities.length > 0 && !filter.priorities.includes(event.category as EventPriority)) {
         continue;
       }
 
       // Check sources
-      if (filter?.sources.length > 0 && !filter?.sources.includes(event?.source)) {
+      if (filter.sources.length > 0 && !filter.sources.includes(event.source)) {
         continue;
       }
 
       // Check targets
-      if (filter?.targets.length > 0 && !filter?.targets.some(target => event?.data?.target === target)) {
+      if (filter.targets.length > 0 && !filter.targets.some(target => event.data?.target === target)) {
         continue;
       }
 
       // Check conditions
-      for (const condition of filter?.conditions) {
-        const fieldValue = this?.getFieldValue(event, condition?.field);
-        const matches = this?.evaluateCondition(fieldValue, condition);
+      for (const condition of filter.conditions) {
+        const fieldValue = this.getFieldValue(event, condition.field);
+        const matches = this.evaluateCondition(fieldValue, condition);
 
         if (!matches) {
-          return { allowed: false, reason: `Filter condition failed: ${condition?.field} ${condition?.operator} ${condition?.value}` };
+          return { allowed: false, reason: `Filter condition failed: ${condition.field} ${condition.operator} ${condition.value}` };
         }
       }
     }
@@ -760,7 +760,7 @@ export class UnrealEventSyncPure {
   }
 
   private getFieldValue(event: UnrealEvent, field: string): any {
-    const keys = field?.split('.');
+    const keys = field.split('.');
     let value: any = event;
 
     for (const key of keys) {
@@ -775,50 +775,50 @@ export class UnrealEventSyncPure {
   }
 
   private evaluateCondition(fieldValue: any, condition: EventCondition): boolean {
-    switch (condition?.operator) {
+    switch (condition.operator) {
       case 'equals':
-        return fieldValue === condition?.value;
+        return fieldValue === condition.value;
       case 'not_equals':
-        return fieldValue !== condition?.value;
+        return fieldValue !== condition.value;
       case 'contains':
-        return condition?.caseSensitive ?
-          String(fieldValue).includes(String(condition?.value)) :
-          String(fieldValue).toLowerCase().includes(String(condition?.value).toLowerCase());
+        return condition.caseSensitive ?
+          String(fieldValue).includes(String(condition.value)) :
+          String(fieldValue).toLowerCase().includes(String(condition.value).toLowerCase());
       case 'not_contains':
-        return !this?.evaluateCondition(fieldValue, { ...condition, operator: 'contains' });
+        return !this.evaluateCondition(fieldValue, { ...condition, operator: 'contains' });
       case 'starts_with':
-        return condition?.caseSensitive ?
-          String(fieldValue).startsWith(String(condition?.value)) :
-          String(fieldValue).toLowerCase().startsWith(String(condition?.value).toLowerCase());
+        return condition.caseSensitive ?
+          String(fieldValue).startsWith(String(condition.value)) :
+          String(fieldValue).toLowerCase().startsWith(String(condition.value).toLowerCase());
       case 'ends_with':
-        return condition?.caseSensitive ?
-          String(fieldValue).endsWith(String(condition?.value)) :
-          String(fieldValue).toLowerCase().endsWith(String(condition?.value).toLowerCase());
+        return condition.caseSensitive ?
+          String(fieldValue).endsWith(String(condition.value)) :
+          String(fieldValue).toLowerCase().endsWith(String(condition.value).toLowerCase());
       case 'greater_than':
-        return fieldValue > condition?.value;
+        return fieldValue > condition.value;
       case 'less_than':
-        return fieldValue < condition?.value;
+        return fieldValue < condition.value;
       case 'greater_equal':
-        return fieldValue >= condition?.value;
+        return fieldValue >= condition.value;
       case 'less_equal':
-        return fieldValue <= condition?.value;
+        return fieldValue <= condition.value;
       case 'in':
         return Array.isArray(condition.value) && condition.value.includes(fieldValue);
       case 'not_in':
-        return !this?.evaluateCondition(fieldValue, { ...condition, operator: 'in' });
+        return !this.evaluateCondition(fieldValue, { ...condition, operator: 'in' });
       case 'exists':
         return fieldValue !== undefined && fieldValue !== null;
       case 'not_exists':
         return fieldValue === undefined || fieldValue === null;
       case 'matches':
         try {
-          const regex = new RegExp(condition?.value, condition?.caseSensitive ? 'g' : 'gi');
-          return regex?.test(String(fieldValue));
+          const regex = new RegExp(condition.value, condition.caseSensitive ? 'g' : 'gi');
+          return regex.test(String(fieldValue));
         } catch {
           return false;
         }
       case 'not_matches':
-        return !this?.evaluateCondition(fieldValue, { ...condition, operator: 'matches' });
+        return !this.evaluateCondition(fieldValue, { ...condition, operator: 'matches' });
       default:
         return false;
     }
@@ -827,12 +827,12 @@ export class UnrealEventSyncPure {
   private async applyEventTransformers(event: UnrealEvent): Promise<UnrealEvent> {
     let transformedEvent = { ...event };
 
-    for (const transformer of this?.eventTransformers.values()) {
-      if (!transformer?.enabled) continue;
+    for (const transformer of this.eventTransformers.values()) {
+      if (!transformer.enabled) continue;
 
-      if (transformer?.eventTypes.includes(event?.eventType)) {
-        transformedEvent = await this?.applyTransformer(transformedEvent, transformer);
-        this?.statistics.transformedEvents++;
+      if (transformer.eventTypes.includes(event.eventType)) {
+        transformedEvent = await this.applyTransformer(transformedEvent, transformer);
+        this.statistics.transformedEvents++;
       }
     }
 
@@ -845,8 +845,8 @@ export class UnrealEventSyncPure {
     return {
       ...event,
       metadata: {
-        ...event?.metadata,
-        transformer: transformer?.id,
+        ...event.metadata,
+        transformer: transformer.id,
         transformTime: new Date()
       }
     };
@@ -855,21 +855,21 @@ export class UnrealEventSyncPure {
   private async validateEvent(event: UnrealEvent): Promise<{ valid: boolean; errors: string[] }> {
     const errors: string[] = [];
 
-    for (const validator of this?.eventValidators.values()) {
-      if (!validator?.enabled) continue;
+    for (const validator of this.eventValidators.values()) {
+      if (!validator.enabled) continue;
 
-      if (validator?.eventTypes.includes(event?.eventType)) {
-        const validationErrors = await this?.applyValidator(event, validator);
-        errors?.push(...validationErrors);
-        if (errors?.length > 0) {
-          this?.statistics.failedEvents++;
+      if (validator.eventTypes.includes(event.eventType)) {
+        const validationErrors = await this.applyValidator(event, validator);
+        errors.push(...validationErrors);
+        if (errors.length > 0) {
+          this.statistics.failedEvents++;
           break;
         }
       }
     }
 
     return {
-      valid: errors?.length === 0,
+      valid: errors.length === 0,
       errors
     };
   }
@@ -877,40 +877,40 @@ export class UnrealEventSyncPure {
   private async applyValidator(event: UnrealEvent, validator: EventValidator): Promise<string[]> {
     const errors: string[] = [];
 
-    for (const rule of validator?.validationRules) {
-      const fieldValue = this?.getFieldValue(event, rule?.field);
-      const isValid = this?.validateRule(fieldValue, rule);
+    for (const rule of validator.validationRules) {
+      const fieldValue = this.getFieldValue(event, rule.field);
+      const isValid = this.validateRule(fieldValue, rule);
 
       if (!isValid) {
-        errors?.push(rule?.message);
+        errors.push(rule.message);
       }
     }
 
-    if (errors?.length === 0) {
-      this?.statistics.validatedEvents++;
+    if (errors.length === 0) {
+      this.statistics.validatedEvents++;
     }
 
     return errors;
   }
 
   private validateRule(fieldValue: any, rule: ValidationRule): boolean {
-    switch (rule?.rule) {
+    switch (rule.rule) {
       case 'required':
         return fieldValue !== undefined && fieldValue !== null && fieldValue !== '';
       case 'optional':
         return true;
       case 'min_length':
-        return String(fieldValue).length >= rule?.value;
+        return String(fieldValue).length >= rule.value;
       case 'max_length':
-        return String(fieldValue).length <= rule?.value;
+        return String(fieldValue).length <= rule.value;
       case 'min_value':
-        return fieldValue >= rule?.value;
+        return fieldValue >= rule.value;
       case 'max_value':
-        return fieldValue <= rule?.value;
+        return fieldValue <= rule.value;
       case 'pattern':
         try {
-          const regex = new RegExp(rule?.value);
-          return regex?.test(String(fieldValue));
+          const regex = new RegExp(rule.value);
+          return regex.test(String(fieldValue));
         } catch {
           return false;
         }
@@ -922,18 +922,18 @@ export class UnrealEventSyncPure {
   }
 
   private async queueEvent(event: UnrealEvent): Promise<boolean> {
-    if (this?.configuration.enableEventBuffering) {
+    if (this.configuration.enableEventBuffering) {
       // Add to buffer
-      this?.eventBuffer?.push(event);
+      this.eventBuffer.push(event);
 
-      if (this?.eventBuffer.length >= this?.configuration?.maxBufferSize || 1000) {
-        await this?.processEventBuffer();
+      if (this.eventBuffer.length >= this.configuration?.maxBufferSize || 1000) {
+        await this.processEventBuffer();
       }
 
       return true;
     } else {
       // Process immediately
-      return await this?.processEventImmediately(event);
+      return await this.processEventImmediately(event);
     }
   }
 
@@ -947,29 +947,29 @@ export class UnrealEventSyncPure {
         destination: 'unreal',
         timestamp: new Date(),
         payload: event,
-        priority: this?.getEventPriorityValue(event?.category as EventPriority),
-        ttl: this?.configuration.eventTimeout,
-        retries: this?.configuration.retryAttempts,
-        encrypted: this?.configuration.enableEventEncryption,
-        compressed: this?.configuration.enableEventCompression,
+        priority: this.getEventPriorityValue(event.category as EventPriority),
+        ttl: this.configuration.eventTimeout,
+        retries: this.configuration.retryAttempts,
+        encrypted: this.configuration.enableEventEncryption,
+        compressed: this.configuration.enableEventCompression,
         metadata: {
           eventSync: true,
           immediate: true
         }
       };
 
-      return await this?.bridgeManager.sendMessage(message);
+      return await this.bridgeManager.sendMessage(message);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[UnrealEventSyncPure!] Failed to process event immediately: ${event.name}`, err instanceof Error ? err.message : String(err));
 
       // Add to dead letter queue if enabled
-      if (this?.configuration.enableDeadLetterQueue) {
-        this?.deadLetterQueue?.push(event);
-        this?.statistics.deadLetterCount++;
+      if (this.configuration.enableDeadLetterQueue) {
+        this.deadLetterQueue.push(event);
+        this.statistics.deadLetterCount++;
 
-        if (this?.deadLetterQueue.length > this?.configuration.deadLetterQueueSize) {
-          this?.deadLetterQueue.shift(); // Remove oldest
+        if (this.deadLetterQueue.length > this.configuration.deadLetterQueueSize) {
+          this.deadLetterQueue.shift(); // Remove oldest
         }
       }
 
@@ -979,25 +979,25 @@ export class UnrealEventSyncPure {
 
   private getEventPriorityValue(priority: EventPriority): number {
     switch (priority) {
-      case EventPriority?.LOWEST: return 1;
-      case EventPriority?.LOW: return 2;
-      case EventPriority?.NORMAL: return 3;
-      case EventPriority?.HIGH: return 4;
-      case EventPriority?.HIGHEST: return 5;
-      case EventPriority?.CRITICAL: return 6;
+      case EventPriority.LOWEST: return 1;
+      case EventPriority.LOW: return 2;
+      case EventPriority.NORMAL: return 3;
+      case EventPriority.HIGH: return 4;
+      case EventPriority.HIGHEST: return 5;
+      case EventPriority.CRITICAL: return 6;
       default: return 3;
     }
   }
 
   private async processEventBuffer(): Promise<void> {
-    if (this?.eventBuffer.length === 0) return;
+    if (this.eventBuffer.length === 0) return;
 
     console.log(`[UnrealEventSyncPure!] Processing event buffer: ${this.eventBuffer.length} events`);
 
     // Group events by priority
     const priorityGroups: Record<string, UnrealEvent[]> = {};
-    for (const event of this?.eventBuffer) {
-      const priority = event?.category;
+    for (const event of this.eventBuffer) {
+      const priority = event.category;
       if (!priorityGroups[priority!]) {
         priorityGroups[priority!] = [];
       }
@@ -1006,25 +1006,25 @@ export class UnrealEventSyncPure {
 
     // Process each priority group
     for (const [priority, events] of Object.entries(priorityGroups)) {
-      await this?.processPriorityGroup(priority, events);
+      await this.processPriorityGroup(priority, events);
     }
 
-    this?.eventBuffer = [];
+    this.eventBuffer = [];
   }
 
   private async processPriorityGroup(priority: string, events: UnrealEvent[]): Promise<void> {
-    if (this?.configuration?.enableEventBatching || false) {
+    if (this.configuration?.enableEventBatching || false) {
       // Process in batches
-      for (let i = 0; i < events?.length; i += this?.configuration?.maxBatchSize || 10) {
-        const batch = events?.slice(i, i + this?.configuration?.maxBatchSize || 10);
-        await this?.processEventBatch(priority, batch);
-        this?.statistics.batchCount++;
-        this?.statistics.averageBatchSize = (this?.statistics.averageBatchSize * (this?.statistics.batchCount - 1) + batch?.length) / this?.statistics.batchCount;
+      for (let i = 0; i < events.length; i += this.configuration?.maxBatchSize || 10) {
+        const batch = events.slice(i, i + this.configuration?.maxBatchSize || 10);
+        await this.processEventBatch(priority, batch);
+        this.statistics.batchCount++;
+        this.statistics.averageBatchSize = (this.statistics.averageBatchSize * (this.statistics.batchCount - 1) + batch.length) / this.statistics.batchCount;
       }
     } else {
       // Process individually
       for (const event of events) {
-        await this?.processEventImmediately(event);
+        await this.processEventImmediately(event);
       }
     }
   }
@@ -1041,98 +1041,98 @@ export class UnrealEventSyncPure {
         priority,
         events
       },
-      priority: this?.getEventPriorityValue(priority as EventPriority),
-      ttl: this?.configuration.eventTimeout,
-      retries: this?.configuration.retryAttempts,
-      encrypted: this?.configuration.enableEventEncryption,
-      compressed: this?.configuration.enableEventCompression,
+      priority: this.getEventPriorityValue(priority as EventPriority),
+      ttl: this.configuration.eventTimeout,
+      retries: this.configuration.retryAttempts,
+      encrypted: this.configuration.enableEventEncryption,
+      compressed: this.configuration.enableEventCompression,
       metadata: {
         eventSync: true,
         batched: true,
-        batchSize: events?.length
+        batchSize: events.length
       }
     };
 
-    await this?.bridgeManager.sendMessage(message);
+    await this.bridgeManager.sendMessage(message);
   }
 
   private async processEventQueues(): Promise<void> {
-    for (const queue of this?.eventQueues.values()) {
-      if (!queue?.enabled || queue?.events.length === 0) continue;
+    for (const queue of this.eventQueues.values()) {
+      if (!queue.enabled || queue.events.length === 0) continue;
 
-      await this?.processEventQueue(queue);
+      await this.processEventQueue(queue);
     }
   }
 
   private async processEventQueue(queue: EventQueue): Promise<void> {
     // Process events in queue
-    const eventsToProcess = queue?.events.splice(0, queue?.batchSize);
+    const eventsToProcess = queue.events.splice(0, queue.batchSize);
 
     for (const event of eventsToProcess) {
-      await this?.processEventImmediately(event);
+      await this.processEventImmediately(event);
     }
 
     // Update queue statistics
-    queue?.currentSize = queue?.events.length;
+    queue.currentSize = queue.events.length;
   }
 
   private async checkEventTimeouts(): Promise<void> {
-    const now = new Date();
-    const timeoutThreshold = now - this?.configuration.eventTimeout;
+    const now = Date.now();
+    const timeoutThreshold = now - this.configuration.eventTimeout;
 
     // Check event buffer for timeouts
     const timedOutEvents: UnrealEvent[] = [];
-    for (let i = this?.eventBuffer.length - 1; i >= 0; i--) {
-      if (this?.eventBuffer[i!].timestamp < timeoutThreshold) {
-        timedOutEvents?.push(this?.eventBuffer.splice(i, 1)[0!]);
+    for (let i = this.eventBuffer.length - 1; i >= 0; i--) {
+      if (this.eventBuffer[i!].timestamp < timeoutThreshold) {
+        timedOutEvents.push(this.eventBuffer.splice(i, 1)[0!]);
       }
     }
 
     for (const event of timedOutEvents) {
       console.warn(`[UnrealEventSyncPure!] Event timed out: ${event.name}`);
-      this?.statistics.timeoutCount++;
+      this.statistics.timeoutCount++;
 
-      if (this?.configuration.enableDeadLetterQueue) {
-        this?.deadLetterQueue?.push(event);
-        this?.statistics.deadLetterCount++;
+      if (this.configuration.enableDeadLetterQueue) {
+        this.deadLetterQueue.push(event);
+        this.statistics.deadLetterCount++;
       }
     }
 
     // Check event queues for timeouts
-    for (const queue of this?.eventQueues.values()) {
+    for (const queue of this.eventQueues.values()) {
       const queueTimedOutEvents: UnrealEvent[] = [];
-      for (let i = queue?.events.length - 1; i >= 0; i--) {
-        if (queue?.events[i!].timestamp < timeoutThreshold) {
-          queueTimedOutEvents?.push(queue?.events.splice(i, 1)[0!]);
+      for (let i = queue.events.length - 1; i >= 0; i--) {
+        if (queue.events[i!].timestamp < timeoutThreshold) {
+          queueTimedOutEvents.push(queue.events.splice(i, 1)[0!]);
         }
       }
 
       for (const event of queueTimedOutEvents) {
         console.warn(`[UnrealEventSyncPure!] Queue event timed out: ${event.name}`);
-        this?.statistics.timeoutCount++;
+        this.statistics.timeoutCount++;
 
-        if (this?.configuration.enableDeadLetterQueue) {
-          this?.deadLetterQueue?.push(event);
-          this?.statistics.deadLetterCount++;
+        if (this.configuration.enableDeadLetterQueue) {
+          this.deadLetterQueue.push(event);
+          this.statistics.deadLetterCount++;
         }
       }
     }
   }
 
   private updateStatistics(): void {
-    this?.statistics.queueDepth = this?.calculateQueueDepth();
-    this?.statistics.bufferUsage = this?.eventBuffer.length / this?.configuration?.maxBufferSize || 1000;
-    this?.statistics.eventTypeDistribution = this?.calculateEventTypeDistribution();
-    this?.statistics.priorityDistribution = this?.calculatePriorityDistribution();
-    this?.statistics.sourceDistribution = this?.calculateSourceDistribution();
-    this?.statistics.targetDistribution = this?.calculateTargetDistribution();
-    this?.statistics.errorDistribution = this?.calculateErrorDistribution();
+    this.statistics.queueDepth = this.calculateQueueDepth();
+    this.statistics.bufferUsage = this.eventBuffer.length / this.configuration?.maxBufferSize || 1000;
+    this.statistics.eventTypeDistribution = this.calculateEventTypeDistribution();
+    this.statistics.priorityDistribution = this.calculatePriorityDistribution();
+    this.statistics.sourceDistribution = this.calculateSourceDistribution();
+    this.statistics.targetDistribution = this.calculateTargetDistribution();
+    this.statistics.errorDistribution = this.calculateErrorDistribution();
   }
 
   private calculateQueueDepth(): number {
-    let totalDepth = this?.eventBuffer.length;
-    for (const queue of this?.eventQueues.values()) {
-      totalDepth += queue?.currentSize;
+    let totalDepth = this.eventBuffer.length;
+    for (const queue of this.eventQueues.values()) {
+      totalDepth += queue.currentSize;
     }
     return totalDepth;
   }
@@ -1140,13 +1140,13 @@ export class UnrealEventSyncPure {
   private calculateEventTypeDistribution(): Record<string, number> {
     const distribution: Record<string, number> = {};
 
-    for (const event of this?.eventBuffer) {
-      distribution[event?.eventType] = (distribution[event?.eventType] || 0) + 1;
+    for (const event of this.eventBuffer) {
+      distribution[event.eventType] = (distribution[event.eventType] || 0) + 1;
     }
 
-    for (const queue of this?.eventQueues.values()) {
-      for (const event of queue?.events) {
-        distribution[event?.eventType] = (distribution[event?.eventType] || 0) + 1;
+    for (const queue of this.eventQueues.values()) {
+      for (const event of queue.events) {
+        distribution[event.eventType] = (distribution[event.eventType] || 0) + 1;
       }
     }
 
@@ -1156,13 +1156,13 @@ export class UnrealEventSyncPure {
   private calculatePriorityDistribution(): Record<string, number> {
     const distribution: Record<string, number> = {};
 
-    for (const event of this?.eventBuffer) {
-      distribution[event?.category] = (distribution[event?.category] || 0) + 1;
+    for (const event of this.eventBuffer) {
+      distribution[event.category] = (distribution[event.category] || 0) + 1;
     }
 
-    for (const queue of this?.eventQueues.values()) {
-      for (const event of queue?.events) {
-        distribution[event?.category] = (distribution[event?.category] || 0) + 1;
+    for (const queue of this.eventQueues.values()) {
+      for (const event of queue.events) {
+        distribution[event.category] = (distribution[event.category] || 0) + 1;
       }
     }
 
@@ -1172,13 +1172,13 @@ export class UnrealEventSyncPure {
   private calculateSourceDistribution(): Record<string, number> {
     const distribution: Record<string, number> = {};
 
-    for (const event of this?.eventBuffer) {
-      distribution[event?.source] = (distribution[event?.source] || 0) + 1;
+    for (const event of this.eventBuffer) {
+      distribution[event.source] = (distribution[event.source] || 0) + 1;
     }
 
-    for (const queue of this?.eventQueues.values()) {
-      for (const event of queue?.events) {
-        distribution[event?.source] = (distribution[event?.source] || 0) + 1;
+    for (const queue of this.eventQueues.values()) {
+      for (const event of queue.events) {
+        distribution[event.source] = (distribution[event.source] || 0) + 1;
       }
     }
 
@@ -1188,14 +1188,14 @@ export class UnrealEventSyncPure {
   private calculateTargetDistribution(): Record<string, number> {
     const distribution: Record<string, number> = {};
 
-    for (const event of this?.eventBuffer) {
-      const target = event?.data?.target || 'unknown';
+    for (const event of this.eventBuffer) {
+      const target = event.data?.target || 'unknown';
       distribution[target!] = (distribution[target!] || 0) + 1;
     }
 
-    for (const queue of this?.eventQueues.values()) {
-      for (const event of queue?.events) {
-        const target = event?.data?.target || 'unknown';
+    for (const queue of this.eventQueues.values()) {
+      for (const event of queue.events) {
+        const target = event.data?.target || 'unknown';
         distribution[target!] = (distribution[target!] || 0) + 1;
       }
     }
@@ -1210,17 +1210,17 @@ export class UnrealEventSyncPure {
 
   // Subscription management
   subscribeToEvent(subscription: EventSubscription): void {
-    this?.eventSubscriptions.set(subscription?.id, subscription);
+    this.eventSubscriptions.set(subscription.id, subscription);
     console.log(`[UnrealEventSyncPure!] Event subscription created: ${subscription.id} for ${subscription.eventType}`);
   }
 
   unsubscribeFromEvent(subscriptionId: string): void {
-    this?.eventSubscriptions.delete(subscriptionId);
+    this.eventSubscriptions.delete(subscriptionId);
     console.log(`[UnrealEventSyncPure!] Event subscription removed: ${subscriptionId}`);
   }
 
   getEventSubscription(subscriptionId: string): EventSubscription | undefined {
-    return this?.eventSubscriptions.get(subscriptionId);
+    return this.eventSubscriptions.get(subscriptionId);
   }
 
   getAllEventSubscriptions(): EventSubscription[] {
@@ -1229,17 +1229,17 @@ export class UnrealEventSyncPure {
 
   // Event mapping management
   addEventMapping(mapping: EventMapping): void {
-    this?.eventMappings.set(mapping?.miffEvent, mapping);
+    this.eventMappings.set(mapping.miffEvent, mapping);
     console.log(`[UnrealEventSyncPure!] Event mapping added: ${mapping.miffEvent} → ${mapping.unrealEvent}`);
   }
 
   removeEventMapping(miffEvent: string): void {
-    this?.eventMappings.delete(miffEvent);
+    this.eventMappings.delete(miffEvent);
     console.log(`[UnrealEventSyncPure!] Event mapping removed: ${miffEvent}`);
   }
 
   getEventMapping(miffEvent: string): EventMapping | undefined {
-    return this?.eventMappings.get(miffEvent);
+    return this.eventMappings.get(miffEvent);
   }
 
   getAllEventMappings(): EventMapping[] {
@@ -1251,49 +1251,49 @@ export class UnrealEventSyncPure {
     Object.assign(this.configuration, updates);
 
     // Reinitialize affected components
-    if (updates?.enableEventFiltering !== undefined) {
-      this?.initializeEventFilters();
+    if (updates.enableEventFiltering !== undefined) {
+      this.initializeEventFilters();
     }
 
-    if (updates?.eventTransformers !== undefined) {
-      this?.initializeEventTransformers();
+    if (updates.eventTransformers !== undefined) {
+      this.initializeEventTransformers();
     }
 
-    if (updates?.eventValidators !== undefined) {
-      this?.initializeEventValidators();
+    if (updates.eventValidators !== undefined) {
+      this.initializeEventValidators();
     }
 
     console.log('[UnrealEventSyncPure!] Configuration updated');
   }
 
   getConfiguration(): EventSyncConfiguration {
-    return { ...this?.configuration };
+    return { ...this.configuration };
   }
 
   // Statistics and monitoring
   getStatistics(): EventStatistics {
-    this?.updateStatistics();
-    return { ...this?.statistics };
+    this.updateStatistics();
+    return { ...this.statistics };
   }
 
   getEventBufferInfo(): any {
     return {
-      bufferSize: this?.eventBuffer.length,
-      maxBufferSize: this?.configuration?.maxBufferSize || 1000,
-      usage: (this?.eventBuffer.length / this?.configuration?.maxBufferSize || 1000) * 100,
-      oldestEvent: this?.eventBuffer.length > 0 ? this?.eventBuffer[0!].timestamp : null,
-      newestEvent: this?.eventBuffer.length > 0 ? this?.eventBuffer[this?.eventBuffer.length - 1].timestamp : null
+      bufferSize: this.eventBuffer.length,
+      maxBufferSize: this.configuration?.maxBufferSize || 1000,
+      usage: (this.eventBuffer.length / this.configuration?.maxBufferSize || 1000) * 100,
+      oldestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[0!].timestamp : null,
+      newestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[this.eventBuffer.length - 1].timestamp : null
     };
   }
 
   getDeadLetterQueueInfo(): any {
     return {
-      queueSize: this?.deadLetterQueue.length,
-      maxQueueSize: this?.configuration.deadLetterQueueSize,
-      oldestEvent: this?.deadLetterQueue.length > 0 ? this?.deadLetterQueue[0!].timestamp : null,
-      newestEvent: this?.deadLetterQueue.length > 0 ? this?.deadLetterQueue[this?.deadLetterQueue.length - 1].timestamp : null,
-      eventTypes: this?.deadLetterQueue.reduce((types, event) => {
-        types[event?.eventType] = (types[event?.eventType] || 0) + 1;
+      queueSize: this.deadLetterQueue.length,
+      maxQueueSize: this.configuration.deadLetterQueueSize,
+      oldestEvent: this.deadLetterQueue.length > 0 ? this.deadLetterQueue[0!].timestamp : null,
+      newestEvent: this.deadLetterQueue.length > 0 ? this.deadLetterQueue[this.deadLetterQueue.length - 1].timestamp : null,
+      eventTypes: this.deadLetterQueue.reduce((types, event) => {
+        types[event.eventType] = (types[event.eventType] || 0) + 1;
         return types;
       }, {} as Record<string, number>)
     };
@@ -1301,41 +1301,41 @@ export class UnrealEventSyncPure {
 
   // Utility methods
   clearEventBuffer(): void {
-    this?.eventBuffer = [];
+    this.eventBuffer = [];
     console.log('[UnrealEventSyncPure!] Event buffer cleared');
   }
 
   clearDeadLetterQueue(): void {
-    this?.deadLetterQueue = [];
+    this.deadLetterQueue = [];
     console.log('[UnrealEventSyncPure!] Dead letter queue cleared');
   }
 
   clearAllQueues(): void {
-    this?.clearEventBuffer();
+    this.clearEventBuffer();
 
-    for (const queue of this?.eventQueues.values()) {
-      queue?.events = [];
-      queue?.currentSize = 0;
+    for (const queue of this.eventQueues.values()) {
+      queue.events = [];
+      queue.currentSize = 0;
     }
 
     console.log('[UnrealEventSyncPure!] All event queues cleared');
   }
 
   reset(): void {
-    this?.clearAllQueues();
-    this?.eventMappings.clear();
-    this?.eventSubscriptions.clear();
-    this?.eventFilters.clear();
-    this?.eventTransformers.clear();
-    this?.eventValidators.clear();
-    this?.initializeEventMappings();
-    this?.initializeEventQueues();
+    this.clearAllQueues();
+    this.eventMappings.clear();
+    this.eventSubscriptions.clear();
+    this.eventFilters.clear();
+    this.eventTransformers.clear();
+    this.eventValidators.clear();
+    this.initializeEventMappings();
+    this.initializeEventQueues();
     console.log('[UnrealEventSyncPure!] Event synchronization reset to initial state');
   }
 
   dispose(): void {
-    this?.reset();
-    this?.isInitialized = false;
+    this.reset();
+    this.isInitialized = false;
     console.log('[UnrealEventSyncPure!] Event synchronization disposed successfully');
   }
 }

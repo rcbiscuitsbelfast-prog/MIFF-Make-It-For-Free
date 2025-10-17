@@ -40,14 +40,14 @@ export class MobileOptimizer {
   private config: MobileConfig;
   private metrics: MobileMetrics;
   private touchConfig: TouchConfig;
-  private optimizationTimer?: NodeJS?.Timeout;
-  private memoryWatcher?: NodeJS?.Timeout;
-  private batteryMonitor?: NodeJS?.Timeout;
+  private optimizationTimer?: NodeJS.Timeout;
+  private memoryWatcher?: NodeJS.Timeout;
+  private batteryMonitor?: NodeJS.Timeout;
   private performanceObserver?: PerformanceObserver;
   private touchEventListeners: Map<string, Function[]> = new Map();
 
   constructor(config: Partial<MobileConfig> = {}) {
-    this?.config = {
+    this.config = {
       targetPlatform: 'web-mobile',
       deviceClass: 'phone',
       performanceMode: 'adaptive',
@@ -60,61 +60,61 @@ export class MobileOptimizer {
       ...config
     };
 
-    this?.metrics = this?.initializeMetrics();
-    this?.touchConfig = this?.initializeTouchConfig();
-    this?.initializeOptimization();
-    this?.setupEventListeners();
-    this?.startMonitoring();
+    this.metrics = this.initializeMetrics();
+    this.touchConfig = this.initializeTouchConfig();
+    this.initializeOptimization();
+    this.setupEventListeners();
+    this.startMonitoring();
   }
 
   /**
    * Initialize mobile optimization
    */
   initializeOptimization(): void {
-    this?.log('🚀 Initializing mobile optimization...');
+    this.log('🚀 Initializing mobile optimization...');
 
     // Detect device capabilities
-    this?.detectDeviceCapabilities();
+    this.detectDeviceCapabilities();
 
     // Apply platform-specific optimizations
-    this?.applyPlatformOptimizations();
+    this.applyPlatformOptimizations();
 
     // Initialize touch system
-    if (this?.config.enableTouchOptimization) {
-      this?.initializeTouchSystem();
+    if (this.config.enableTouchOptimization) {
+      this.initializeTouchSystem();
     }
 
     // Initialize memory management
-    if (this?.config.enableMemoryManagement) {
-      this?.initializeMemoryManagement();
+    if (this.config.enableMemoryManagement) {
+      this.initializeMemoryManagement();
     }
 
     // Initialize battery optimization
-    if (this?.config.enableBatteryOptimization) {
-      this?.initializeBatteryOptimization();
+    if (this.config.enableBatteryOptimization) {
+      this.initializeBatteryOptimization();
     }
 
-    this?.log('Mobile optimization initialized');
+    this.log('Mobile optimization initialized');
   }
 
   /**
    * Optimize for current performance mode
    */
   optimizeForPerformanceMode(): void {
-    this?.log(`Optimizing for performance mode: ${this?.config.performanceMode}`);
+    this.log(`Optimizing for performance mode: ${this.config.performanceMode}`);
 
-    switch (this?.config.performanceMode) {
+    switch (this.config.performanceMode) {
       case 'high':
-        this?.applyHighPerformanceMode();
+        this.applyHighPerformanceMode();
         break;
       case 'balanced':
-        this?.applyBalancedMode();
+        this.applyBalancedMode();
         break;
       case 'power-saver':
-        this?.applyPowerSaverMode();
+        this.applyPowerSaverMode();
         break;
       case 'adaptive':
-        this?.applyAdaptiveMode();
+        this.applyAdaptiveMode();
         break;
     }
   }
@@ -123,22 +123,22 @@ export class MobileOptimizer {
    * Initialize touch optimization system
    */
   initializeTouchSystem(): void {
-    this?.log('👆 Initializing touch optimization system...');
+    this.log('👆 Initializing touch optimization system...');
 
     if (typeof window !== 'undefined') {
       // Add touch event listeners
-      this?.addTouchEventListener('touchstart', this?.handleTouchStart.bind(this));
-      this?.addTouchEventListener('touchmove', this?.handleTouchMove.bind(this));
-      this?.addTouchEventListener('touchend', this?.handleTouchEnd.bind(this));
-      this?.addTouchEventListener('gesturestart', this?.handleGestureStart.bind(this));
-      this?.addTouchEventListener('gesturechange', this?.handleGestureChange.bind(this));
-      this?.addTouchEventListener('gestureend', this?.handleGestureEnd.bind(this));
+      this.addTouchEventListener('touchstart', this.handleTouchStart.bind(this));
+      this.addTouchEventListener('touchmove', this.handleTouchMove.bind(this));
+      this.addTouchEventListener('touchend', this.handleTouchEnd.bind(this));
+      this.addTouchEventListener('gesturestart', this.handleGestureStart.bind(this));
+      this.addTouchEventListener('gesturechange', this.handleGestureChange.bind(this));
+      this.addTouchEventListener('gestureend', this.handleGestureEnd.bind(this));
 
       // Optimize touch event handling
-      this?.optimizeTouchEvents();
+      this.optimizeTouchEvents();
 
       // Enable gesture recognition
-      this?.enableGestureRecognition();
+      this.enableGestureRecognition();
     }
   }
 
@@ -146,61 +146,61 @@ export class MobileOptimizer {
    * Initialize memory management
    */
   initializeMemoryManagement(): void {
-    this?.log('🧠 Initializing memory management...');
+    this.log('🧠 Initializing memory management...');
 
     // Start memory monitoring
-    this?.memoryWatcher = setInterval(() => {
-      this?.monitorMemoryUsage();
+    this.memoryWatcher = setInterval(() => {
+      this.monitorMemoryUsage();
     }, 5000); // Check every 5 seconds
 
     // Set up garbage collection optimization
-    this?.optimizeGarbageCollection();
+    this.optimizeGarbageCollection();
 
     // Implement memory pooling
-    this?.initializeMemoryPools();
+    this.initializeMemoryPools();
   }
 
   /**
    * Initialize battery optimization
    */
   initializeBatteryOptimization(): void {
-    this?.log('🔋 Initializing battery optimization...');
+    this.log('🔋 Initializing battery optimization...');
 
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
-      this?.batteryMonitor = setInterval(() => {
-        this?.monitorBatteryLevel();
+      this.batteryMonitor = setInterval(() => {
+        this.monitorBatteryLevel();
       }, 30000); // Check every 30 seconds
 
       // Start battery monitoring
-      this?.startBatteryMonitoring();
+      this.startBatteryMonitoring();
     }
 
     // Apply battery-saving measures
-    this?.applyBatteryOptimizations();
+    this.applyBatteryOptimizations();
   }
 
   /**
    * Get current mobile metrics
    */
   getMetrics(): MobileMetrics {
-    return { ...this?.metrics };
+    return { ...this.metrics };
   }
 
   /**
    * Update optimization configuration
    */
   updateConfig(newConfig: Partial<MobileConfig>): void {
-    this?.config = { ...this?.config, ...newConfig };
-    this?.optimizeForPerformanceMode();
+    this.config = { ...this.config, ...newConfig };
+    this.optimizeForPerformanceMode();
   }
 
   /**
    * Enable/disable specific optimizations
    */
   setOptimizationEnabled(type: keyof MobileConfig, enabled: boolean): void {
-    if (type in this?.config) {
-      (this?.config as any)[type!] = enabled;
-      this?.log(`Mobile optimization ${type}: ${enabled ? 'enabled' : 'disabled'}`);
+    if (type in this.config) {
+      (this.config as any)[type!] = enabled;
+      this.log(`Mobile optimization ${type}: ${enabled ? 'enabled' : 'disabled'}`);
     }
   }
 
@@ -208,14 +208,14 @@ export class MobileOptimizer {
    * Force optimization cycle
    */
   forceOptimization(): void {
-    this?.log('🔄 Forcing optimization cycle...');
+    this.log('🔄 Forcing optimization cycle...');
 
-    this?.performMemoryCleanup();
-    this?.optimizeRendering();
-    this?.optimizeNetworkRequests();
-    this?.updateTouchResponsiveness();
+    this.performMemoryCleanup();
+    this.optimizeRendering();
+    this.optimizeNetworkRequests();
+    this.updateTouchResponsiveness();
 
-    this?.log('Optimization cycle complete');
+    this.log('Optimization cycle complete');
   }
 
   /**
@@ -223,15 +223,15 @@ export class MobileOptimizer {
    */
   addTouchEventListener(event: string, handler: Function): void {
     if (typeof window !== 'undefined') {
-      const listeners = this?.touchEventListeners.get(event) || [];
-      listeners?.push(handler);
+      const listeners = this.touchEventListeners.get(event) || [];
+      listeners.push(handler);
 
-      window?.addEventListener(event, handler as EventListener, {
+      window.addEventListener(event, handler as EventListener, {
         passive: true,
         capture: false
       });
 
-      this?.touchEventListeners.set(event, listeners);
+      this.touchEventListeners.set(event, listeners);
     }
   }
 
@@ -240,182 +240,182 @@ export class MobileOptimizer {
    */
   removeTouchEventListener(event: string, handler: Function): void {
     if (typeof window !== 'undefined') {
-      const listeners = this?.touchEventListeners.get(event) || [];
-      const index = listeners?.indexOf(handler);
+      const listeners = this.touchEventListeners.get(event) || [];
+      const index = listeners.indexOf(handler);
 
       if (index !== -1) {
-        listeners?.splice(index, 1);
-        window?.removeEventListener(event, handler as EventListener);
-        this?.touchEventListeners.set(event, listeners);
+        listeners.splice(index, 1);
+        window.removeEventListener(event, handler as EventListener);
+        this.touchEventListeners.set(event, listeners);
       }
     }
   }
 
   private detectDeviceCapabilities(): void {
-    this?.log('📱 Detecting device capabilities...');
+    this.log('📱 Detecting device capabilities...');
 
     // Detect device type
     if (typeof window !== 'undefined') {
-      const userAgent = navigator?.userAgent.toLowerCase();
-      const screenWidth = window?.screen.width;
-      const screenHeight = window?.screen.height;
+      const userAgent = navigator.userAgent.toLowerCase();
+      const screenWidth = window.screen.width;
+      const screenHeight = window.screen.height;
 
       // Determine device class
       if (screenWidth >= 1024 || screenHeight >= 1024) {
-        this?.config.deviceClass = 'tablet';
+        this.config.deviceClass = 'tablet';
       } else if (screenWidth >= 600 || screenHeight >= 600) {
-        this?.config.deviceClass = 'phablet';
+        this.config.deviceClass = 'phablet';
       } else {
-        this?.config.deviceClass = 'phone';
+        this.config.deviceClass = 'phone';
       }
 
       // Detect platform
-      if (userAgent?.includes('android')) {
-        this?.config.targetPlatform = 'android';
-      } else if (userAgent?.includes('iphone') || userAgent?.includes('ipad')) {
-        this?.config.targetPlatform = 'ios';
+      if (userAgent.includes('android')) {
+        this.config.targetPlatform = 'android';
+      } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+        this.config.targetPlatform = 'ios';
       }
 
       // Detect performance capabilities
-      const canvas = document?.createElement('canvas');
-      const gl = canvas?.getContext('webgl') || canvas?.getContext('experimental-webgl');
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
       if (gl) {
-        this?.log('WebGL support detected - enabling GPU acceleration');
+        this.log('WebGL support detected - enabling GPU acceleration');
       } else {
-        this?.log('WebGL not available - using software rendering');
-        this?.config.performanceMode = 'balanced';
+        this.log('WebGL not available - using software rendering');
+        this.config.performanceMode = 'balanced';
       }
     }
 
-    this?.log(`Device class: ${this?.config.deviceClass}, Platform: ${this?.config.targetPlatform}`);
+    this.log(`Device class: ${this.config.deviceClass}, Platform: ${this.config.targetPlatform}`);
   }
 
   private applyPlatformOptimizations(): void {
-    this?.log('⚙️ Applying platform-specific optimizations...');
+    this.log('⚙️ Applying platform-specific optimizations...');
 
-    switch (this?.config.targetPlatform) {
+    switch (this.config.targetPlatform) {
       case 'ios':
-        this?.applyIOSOptimizations();
+        this.applyIOSOptimizations();
         break;
       case 'android':
-        this?.applyAndroidOptimizations();
+        this.applyAndroidOptimizations();
         break;
       case 'web-mobile':
-        this?.applyWebMobileOptimizations();
+        this.applyWebMobileOptimizations();
         break;
       case 'hybrid':
-        this?.applyHybridOptimizations();
+        this.applyHybridOptimizations();
         break;
     }
   }
 
   private applyIOSOptimizations(): void {
     // iOS-specific optimizations
-    this?.log('🍎 Applying iOS optimizations...');
+    this.log('🍎 Applying iOS optimizations...');
 
     // Enable iOS-specific memory management
-    this?.setMemoryLimit(150 * 1024 * 1024); // 150MB for iOS
+    this.setMemoryLimit(150 * 1024 * 1024); // 150MB for iOS
 
     // Optimize for iOS touch events
-    this?.touchConfig.swipeThreshold = 10;
-    this?.touchConfig.gestureSensitivity = 0.8;
+    this.touchConfig.swipeThreshold = 10;
+    this.touchConfig.gestureSensitivity = 0.8;
 
     // Enable iOS battery optimizations
-    this?.enableBackgroundProcessing(false);
-    this?.optimizeForSafari();
+    this.enableBackgroundProcessing(false);
+    this.optimizeForSafari();
   }
 
   private applyAndroidOptimizations(): void {
     // Android-specific optimizations
-    this?.log('🤖 Applying Android optimizations...');
+    this.log('🤖 Applying Android optimizations...');
 
     // Android memory management
-    this?.setMemoryLimit(200 * 1024 * 1024); // 200MB for Android
+    this.setMemoryLimit(200 * 1024 * 1024); // 200MB for Android
 
     // Optimize for Android touch events
-    this?.touchConfig.swipeThreshold = 15;
-    this?.touchConfig.gestureSensitivity = 1.0;
-    this?.touchConfig.multiTouchSupport = true;
+    this.touchConfig.swipeThreshold = 15;
+    this.touchConfig.gestureSensitivity = 1.0;
+    this.touchConfig.multiTouchSupport = true;
 
     // Enable Android performance optimizations
-    this?.enableHardwareAcceleration();
-    this?.optimizeWebViewPerformance();
+    this.enableHardwareAcceleration();
+    this.optimizeWebViewPerformance();
   }
 
   private applyWebMobileOptimizations(): void {
     // Web mobile optimizations
-    this?.log('🌐 Applying web mobile optimizations...');
+    this.log('🌐 Applying web mobile optimizations...');
 
     // Conservative memory limits for web
-    this?.setMemoryLimit(80 * 1024 * 1024); // 80MB for web
+    this.setMemoryLimit(80 * 1024 * 1024); // 80MB for web
 
     // Optimize for various browsers
-    this?.detectBrowserCapabilities();
-    this?.optimizeForBrowser();
+    this.detectBrowserCapabilities();
+    this.optimizeForBrowser();
   }
 
   private applyHybridOptimizations(): void {
     // Hybrid app optimizations
-    this?.log('🔄 Applying hybrid optimizations...');
+    this.log('🔄 Applying hybrid optimizations...');
 
     // Balanced approach for hybrid apps
-    this?.setMemoryLimit(120 * 1024 * 1024); // 120MB for hybrid
-    this?.enableCrossPlatformOptimizations();
+    this.setMemoryLimit(120 * 1024 * 1024); // 120MB for hybrid
+    this.enableCrossPlatformOptimizations();
   }
 
   private applyHighPerformanceMode(): void {
-    this?.log('🚀 Applying high performance mode...');
+    this.log('🚀 Applying high performance mode...');
 
     // Enable all optimizations
-    this?.setOptimizationEnabled('enableTouchOptimization', true);
-    this?.setOptimizationEnabled('enableMemoryManagement', true);
-    this?.setOptimizationEnabled('enableBatteryOptimization', true);
-    this?.setOptimizationEnabled('enableNetworkOptimization', true);
-    this?.setOptimizationEnabled('enableRenderingOptimization', true);
+    this.setOptimizationEnabled('enableTouchOptimization', true);
+    this.setOptimizationEnabled('enableMemoryManagement', true);
+    this.setOptimizationEnabled('enableBatteryOptimization', true);
+    this.setOptimizationEnabled('enableNetworkOptimization', true);
+    this.setOptimizationEnabled('enableRenderingOptimization', true);
 
     // Increase performance limits
-    this?.setMemoryLimit(200 * 1024 * 1024);
-    this?.touchConfig.gestureSensitivity = 1.2;
-    this?.touchConfig.swipeThreshold = 20;
+    this.setMemoryLimit(200 * 1024 * 1024);
+    this.touchConfig.gestureSensitivity = 1.2;
+    this.touchConfig.swipeThreshold = 20;
   }
 
   private applyBalancedMode(): void {
-    this?.log('⚖️ Applying balanced mode...');
+    this.log('⚖️ Applying balanced mode...');
 
     // Moderate optimizations
-    this?.setOptimizationEnabled('enableTouchOptimization', true);
-    this?.setOptimizationEnabled('enableMemoryManagement', true);
-    this?.setOptimizationEnabled('enableBatteryOptimization', false);
-    this?.setOptimizationEnabled('enableNetworkOptimization', true);
-    this?.setOptimizationEnabled('enableRenderingOptimization', true);
+    this.setOptimizationEnabled('enableTouchOptimization', true);
+    this.setOptimizationEnabled('enableMemoryManagement', true);
+    this.setOptimizationEnabled('enableBatteryOptimization', false);
+    this.setOptimizationEnabled('enableNetworkOptimization', true);
+    this.setOptimizationEnabled('enableRenderingOptimization', true);
 
     // Balanced memory limits
-    this?.setMemoryLimit(100 * 1024 * 1024);
+    this.setMemoryLimit(100 * 1024 * 1024);
   }
 
   private applyPowerSaverMode(): void {
-    this?.log('🔋 Applying power saver mode...');
+    this.log('🔋 Applying power saver mode...');
 
     // Minimize power consumption
-    this?.setOptimizationEnabled('enableTouchOptimization', true);
-    this?.setOptimizationEnabled('enableMemoryManagement', false);
-    this?.setOptimizationEnabled('enableBatteryOptimization', true);
-    this?.setOptimizationEnabled('enableNetworkOptimization', false);
-    this?.setOptimizationEnabled('enableRenderingOptimization', false);
+    this.setOptimizationEnabled('enableTouchOptimization', true);
+    this.setOptimizationEnabled('enableMemoryManagement', false);
+    this.setOptimizationEnabled('enableBatteryOptimization', true);
+    this.setOptimizationEnabled('enableNetworkOptimization', false);
+    this.setOptimizationEnabled('enableRenderingOptimization', false);
 
     // Conservative memory limits
-    this?.setMemoryLimit(50 * 1024 * 1024);
-    this?.touchConfig.gestureSensitivity = 0.6;
-    this?.touchConfig.swipeThreshold = 5;
+    this.setMemoryLimit(50 * 1024 * 1024);
+    this.touchConfig.gestureSensitivity = 0.6;
+    this.touchConfig.swipeThreshold = 5;
   }
 
   private applyAdaptiveMode(): void {
-    this?.log('🎯 Applying adaptive mode...');
+    this.log('🎯 Applying adaptive mode...');
 
     // Dynamic optimization based on device state
-    this?.monitorDeviceState();
-    this?.adaptToCurrentConditions();
+    this.monitorDeviceState();
+    this.adaptToCurrentConditions();
   }
 
   private initializeTouchConfig(): TouchConfig {
@@ -445,31 +445,31 @@ export class MobileOptimizer {
   private setupEventListeners(): void {
     // Performance observer for mobile metrics
     if (typeof PerformanceObserver !== 'undefined') {
-      this?.performanceObserver = new PerformanceObserver((list) => {
-        for (const entry of list?.getEntries()) {
-          this?.updatePerformanceMetrics(entry);
+      this.performanceObserver = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          this.updatePerformanceMetrics(entry);
         }
       });
 
-      this?.performanceObserver.observe({ entryTypes: ['measure', 'navigation'] });
+      this.performanceObserver.observe({ entryTypes: ['measure', 'navigation'] });
     }
   }
 
   private startMonitoring(): void {
-    this?.optimizationTimer = setInterval(() => {
-      this?.forceOptimization();
-      this?.updateMetrics();
+    this.optimizationTimer = setInterval(() => {
+      this.forceOptimization();
+      this.updateMetrics();
     }, 10000); // Optimize every 10 seconds
   }
 
   private monitorMemoryUsage(): void {
-    if (typeof performance !== 'undefined' && 'memory' in performance && performance?.memory) {
-      const memoryUsage = (performance?.memory as any).usedJSHeapSize;
-      this?.metrics.memoryUsage = memoryUsage;
+    if (typeof performance !== 'undefined' && 'memory' in performance && performance.memory) {
+      const memoryUsage = (performance.memory as any).usedJSHeapSize;
+      this.metrics.memoryUsage = memoryUsage;
 
-      if (memoryUsage > this?.config.memoryLimit * 0.8) {
-        this?.log(`High memory usage: ${(memoryUsage / 1024 / 1024).toFixed(1)}MB`, 'warn');
-        this?.performMemoryCleanup();
+      if (memoryUsage > this.config.memoryLimit * 0.8) {
+        this.log(`High memory usage: ${(memoryUsage / 1024 / 1024).toFixed(1)}MB`, 'warn');
+        this.performMemoryCleanup();
       }
     }
   }
@@ -477,8 +477,8 @@ export class MobileOptimizer {
   private monitorBatteryLevel(): void {
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
       (navigator as any).getBattery().then((battery: any) => {
-        this?.metrics.batteryLevel = battery?.level * 100;
-        this?.metrics.powerConsumption = battery?.dischargingTime || 0;
+        this.metrics.batteryLevel = battery.level * 100;
+        this.metrics.powerConsumption = battery.dischargingTime || 0;
       });
     }
   }
@@ -486,16 +486,16 @@ export class MobileOptimizer {
   private startBatteryMonitoring(): void {
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
       (navigator as any).getBattery().then((battery: any) => {
-        battery?.addEventListener('levelchange', () => {
-          this?.metrics.batteryLevel = battery?.level * 100;
-          this?.adaptToBatteryLevel(battery?.level);
+        battery.addEventListener('levelchange', () => {
+          this.metrics.batteryLevel = battery.level * 100;
+          this.adaptToBatteryLevel(battery.level);
         });
       });
     }
   }
 
   private performMemoryCleanup(): void {
-    this?.log('🧹 Performing memory cleanup...');
+    this.log('🧹 Performing memory cleanup...');
 
     // Force garbage collection if available
     if (typeof window !== 'undefined' && 'gc' in window) {
@@ -504,10 +504,10 @@ export class MobileOptimizer {
 
     // Clear unused caches
     if (typeof caches !== 'undefined') {
-      caches?.keys().then(names => {
-        names?.forEach((name: any) => {
-          if (name?.startsWith('temp-')) {
-            caches?.delete(name);
+      caches.keys().then(names => {
+        names.forEach((name: any) => {
+          if (name.startsWith('temp-')) {
+            caches.delete(name);
           }
         });
       });
@@ -523,7 +523,7 @@ export class MobileOptimizer {
       const gcLoop = () => {
         frameCount++;
         if (frameCount >= gcInterval) {
-          this?.performMemoryCleanup();
+          this.performMemoryCleanup();
           frameCount = 0;
         }
         requestAnimationFrame(gcLoop);
@@ -535,94 +535,94 @@ export class MobileOptimizer {
 
   private initializeMemoryPools(): void {
     // Create object pools for frequently used objects
-    this?.log('🏊 Initializing memory pools...');
+    this.log('🏊 Initializing memory pools...');
 
     // This would create pools for common game objects
     // Implementation would depend on specific object types
   }
 
   private optimizeTouchEvents(): void {
-    this?.log('👆 Optimizing touch events...');
+    this.log('👆 Optimizing touch events...');
 
     // Prevent default behaviors for better performance
-    document?.addEventListener('touchstart', (e) => {
-      if (e?.touches.length > 1) {
-        e?.preventDefault();
+    document.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
       }
     }, { passive: false });
 
     // Optimize event delegation
-    this?.implementTouchEventDelegation();
+    this.implementTouchEventDelegation();
   }
 
   private enableGestureRecognition(): void {
     // Enable advanced gesture recognition
-    if (this?.touchConfig.enableGestures) {
-      this?.log('🎯 Enabling gesture recognition...');
+    if (this.touchConfig.enableGestures) {
+      this.log('🎯 Enabling gesture recognition...');
 
       // Implement swipe detection
-      this?.implementSwipeDetection();
+      this.implementSwipeDetection();
 
       // Implement pinch detection
-      this?.implementPinchDetection();
+      this.implementPinchDetection();
 
       // Implement pan detection
-      this?.implementPanDetection();
+      this.implementPanDetection();
     }
   }
 
   private applyBatteryOptimizations(): void {
-    this?.log('🔋 Applying battery optimizations...');
+    this.log('🔋 Applying battery optimizations...');
 
     // Reduce rendering frequency when battery is low
-    if (this?.metrics.batteryLevel < 20) {
-      this?.reduceRenderingQuality();
+    if (this.metrics.batteryLevel < 20) {
+      this.reduceRenderingQuality();
     }
 
     // Limit network requests
-    this?.optimizeNetworkForBattery();
+    this.optimizeNetworkForBattery();
 
     // Reduce animation complexity
-    this?.simplifyAnimations();
+    this.simplifyAnimations();
   }
 
   private optimizeRendering(): void {
-    if (this?.config.enableRenderingOptimization) {
-      this?.log('🎨 Optimizing rendering...');
+    if (this.config.enableRenderingOptimization) {
+      this.log('🎨 Optimizing rendering...');
 
       // Use requestAnimationFrame efficiently
-      this?.optimizeAnimationFrames();
+      this.optimizeAnimationFrames();
 
       // Implement level-of-detail rendering
-      this?.implementLODRendering();
+      this.implementLODRendering();
 
       // Optimize canvas operations
-      this?.optimizeCanvasOperations();
+      this.optimizeCanvasOperations();
     }
   }
 
   private optimizeNetworkRequests(): void {
-    if (this?.config.enableNetworkOptimization) {
-      this?.log('📡 Optimizing network requests...');
+    if (this.config.enableNetworkOptimization) {
+      this.log('📡 Optimizing network requests...');
 
       // Implement request batching
-      this?.batchNetworkRequests();
+      this.batchNetworkRequests();
 
       // Add request caching
-      this?.cacheNetworkResponses();
+      this.cacheNetworkResponses();
 
       // Optimize image loading
-      this?.optimizeImageLoading();
+      this.optimizeImageLoading();
     }
   }
 
   private updateTouchResponsiveness(): void {
     // Measure and update touch responsiveness
-    const startTime = performance?.now();
+    const startTime = performance.now();
 
     // Simulate touch responsiveness test
     setTimeout(() => {
-      const endTime = performance?.now();
+      const endTime = performance.now();
       const responseTime = endTime - startTime;
       this.metrics.touchResponsiveness = Math.max(0, 100 - responseTime);
     }, 1);
@@ -630,23 +630,23 @@ export class MobileOptimizer {
 
   private updatePerformanceMetrics(entry: PerformanceEntry): void {
     // Update metrics based on performance entries
-    if (entry?.entryType === 'measure') {
-      this?.metrics.frameRate = this?.calculateFrameRate();
+    if (entry.entryType === 'measure') {
+      this.metrics.frameRate = this.calculateFrameRate();
     }
   }
 
   private updateMetrics(): void {
     // Update all mobile metrics
-    this?.metrics.frameRate = this?.calculateFrameRate();
-    this?.metrics.memoryUsage = this?.getMemoryUsage();
-    this?.metrics.networkLatency = this?.measureNetworkLatency();
-    this?.metrics.optimizationScore = this?.calculateOptimizationScore();
+    this.metrics.frameRate = this.calculateFrameRate();
+    this.metrics.memoryUsage = this.getMemoryUsage();
+    this.metrics.networkLatency = this.measureNetworkLatency();
+    this.metrics.optimizationScore = this.calculateOptimizationScore();
   }
 
   private calculateFrameRate(): number {
     // Calculate current frame rate
     if (typeof performance !== 'undefined') {
-      const now = performance?.now();
+      const now = performance.now();
       // This would need more sophisticated tracking in real implementation
       return 60; // Placeholder
     }
@@ -654,8 +654,8 @@ export class MobileOptimizer {
   }
 
   private getMemoryUsage(): number {
-    if (typeof performance !== 'undefined' && 'memory' in performance && performance?.memory) {
-      return (performance?.memory as any).usedJSHeapSize;
+    if (typeof performance !== 'undefined' && 'memory' in performance && performance.memory) {
+      return (performance.memory as any).usedJSHeapSize;
     }
     return 0;
   }
@@ -669,135 +669,135 @@ export class MobileOptimizer {
   private calculateOptimizationScore(): number {
     // Calculate overall optimization effectiveness
     const memoryScore = Math.max(0, 100 - (this.metrics.memoryUsage / this.config.memoryLimit) * 100);
-    const batteryScore = this?.metrics.batteryLevel;
-    const frameRateScore = (this?.metrics.frameRate / 60) * 100;
-    const touchScore = this?.metrics.touchResponsiveness;
+    const batteryScore = this.metrics.batteryLevel;
+    const frameRateScore = (this.metrics.frameRate / 60) * 100;
+    const touchScore = this.metrics.touchResponsiveness;
 
     return (memoryScore + batteryScore + frameRateScore + touchScore) / 4;
   }
 
   private setMemoryLimit(limit: number): void {
-    this?.config.memoryLimit = limit;
-    this?.log(`Memory limit set to ${(limit / 1024 / 1024).toFixed(1)}MB`);
+    this.config.memoryLimit = limit;
+    this.log(`Memory limit set to ${(limit / 1024 / 1024).toFixed(1)}MB`);
   }
 
   private implementTouchEventDelegation(): void {
     // Implement efficient event delegation for touch events
-    this?.log('📱 Implementing touch event delegation...');
+    this.log('📱 Implementing touch event delegation...');
   }
 
   private implementSwipeDetection(): void {
     // Implement swipe gesture detection
-    this?.log('👆 Implementing swipe detection...');
+    this.log('👆 Implementing swipe detection...');
   }
 
   private implementPinchDetection(): void {
     // Implement pinch gesture detection
-    this?.log('👆 Implementing pinch detection...');
+    this.log('👆 Implementing pinch detection...');
   }
 
   private implementPanDetection(): void {
     // Implement pan gesture detection
-    this?.log('👆 Implementing pan detection...');
+    this.log('👆 Implementing pan detection...');
   }
 
   private enableHardwareAcceleration(): void {
     // Enable hardware acceleration for better performance
-    this?.log('⚡ Enabling hardware acceleration...');
+    this.log('⚡ Enabling hardware acceleration...');
   }
 
   private optimizeWebViewPerformance(): void {
     // Optimize for WebView environments
-    this?.log('🌐 Optimizing WebView performance...');
+    this.log('🌐 Optimizing WebView performance...');
   }
 
   private detectBrowserCapabilities(): void {
     // Detect browser capabilities and limitations
-    this?.log('🔍 Detecting browser capabilities...');
+    this.log('🔍 Detecting browser capabilities...');
   }
 
   private optimizeForBrowser(): void {
     // Apply browser-specific optimizations
-    this?.log('🌐 Applying browser optimizations...');
+    this.log('🌐 Applying browser optimizations...');
   }
 
   private optimizeForSafari(): void {
     // Apply Safari-specific optimizations
-    this?.log('🍎 Applying Safari optimizations...');
+    this.log('🍎 Applying Safari optimizations...');
   }
 
   private enableBackgroundProcessing(enabled: boolean): void {
     // Enable/disable background processing
-    this?.log(`Background processing: ${enabled ? 'enabled' : 'disabled'}`);
+    this.log(`Background processing: ${enabled ? 'enabled' : 'disabled'}`);
   }
 
   private enableCrossPlatformOptimizations(): void {
     // Apply cross-platform optimizations
-    this?.log('🔄 Applying cross-platform optimizations...');
+    this.log('🔄 Applying cross-platform optimizations...');
   }
 
   private monitorDeviceState(): void {
     // Monitor device state for adaptive optimization
-    this?.log('📊 Monitoring device state...');
+    this.log('📊 Monitoring device state...');
   }
 
   private adaptToCurrentConditions(): void {
     // Adapt optimization based on current conditions
-    this?.log('🎯 Adapting to current conditions...');
+    this.log('🎯 Adapting to current conditions...');
   }
 
   private adaptToBatteryLevel(level: number): void {
     // Adapt optimization based on battery level
     if (level < 0.2) {
-      this?.applyPowerSaverMode();
+      this.applyPowerSaverMode();
     } else if (level > 0.8) {
-      this?.applyHighPerformanceMode();
+      this.applyHighPerformanceMode();
     }
   }
 
   private reduceRenderingQuality(): void {
     // Reduce rendering quality to save battery
-    this?.log('🎨 Reducing rendering quality for battery savings...');
+    this.log('🎨 Reducing rendering quality for battery savings...');
   }
 
   private optimizeNetworkForBattery(): void {
     // Optimize network usage for battery conservation
-    this?.log('📡 Optimizing network for battery...');
+    this.log('📡 Optimizing network for battery...');
   }
 
   private simplifyAnimations(): void {
     // Simplify animations to reduce power consumption
-    this?.log('🎬 Simplifying animations...');
+    this.log('🎬 Simplifying animations...');
   }
 
   private optimizeAnimationFrames(): void {
     // Optimize animation frame usage
-    this?.log('🎬 Optimizing animation frames...');
+    this.log('🎬 Optimizing animation frames...');
   }
 
   private implementLODRendering(): void {
     // Implement level-of-detail rendering
-    this?.log('🎨 Implementing LOD rendering...');
+    this.log('🎨 Implementing LOD rendering...');
   }
 
   private optimizeCanvasOperations(): void {
     // Optimize canvas operations for mobile
-    this?.log('🎨 Optimizing canvas operations...');
+    this.log('🎨 Optimizing canvas operations...');
   }
 
   private batchNetworkRequests(): void {
     // Implement network request batching
-    this?.log('📡 Batching network requests...');
+    this.log('📡 Batching network requests...');
   }
 
   private cacheNetworkResponses(): void {
     // Implement network response caching
-    this?.log('📡 Caching network responses...');
+    this.log('📡 Caching network responses...');
   }
 
   private optimizeImageLoading(): void {
     // Optimize image loading for mobile
-    this?.log('🖼️ Optimizing image loading...');
+    this.log('🖼️ Optimizing image loading...');
   }
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
@@ -809,41 +809,41 @@ export class MobileOptimizer {
    * Shutdown mobile optimizer
    */
   shutdown(): void {
-    this?.log('🛑 Shutting down mobile optimizer...');
+    this.log('🛑 Shutting down mobile optimizer...');
 
-    if (this?.optimizationTimer) {
-      clearInterval(this?.optimizationTimer);
+    if (this.optimizationTimer) {
+      clearInterval(this.optimizationTimer);
     }
 
-    if (this?.memoryWatcher) {
-      clearInterval(this?.memoryWatcher);
+    if (this.memoryWatcher) {
+      clearInterval(this.memoryWatcher);
     }
 
-    if (this?.batteryMonitor) {
-      clearInterval(this?.batteryMonitor);
+    if (this.batteryMonitor) {
+      clearInterval(this.batteryMonitor);
     }
 
-    if (this?.performanceObserver) {
-      this?.performanceObserver.disconnect();
+    if (this.performanceObserver) {
+      this.performanceObserver.disconnect();
     }
 
     // Remove all touch event listeners
-    for (const [event, listeners] of this?.touchEventListeners) {
-      listeners?.forEach((listener: any) => {
+    for (const [event, listeners] of this.touchEventListeners) {
+      listeners.forEach((listener: any) => {
         if (typeof window !== 'undefined') {
-          window?.removeEventListener(event, listener as EventListener);
+          window.removeEventListener(event, listener as EventListener);
         }
       });
     }
 
-    this?.touchEventListeners.clear();
-    this?.log('Mobile optimizer shutdown complete');
+    this.touchEventListeners.clear();
+    this.log('Mobile optimizer shutdown complete');
   }
 
   // Event handlers
   private handleTouchStart(event: TouchEvent): void {
     // Handle touch start
-    this?.updateTouchResponsiveness();
+    this.updateTouchResponsiveness();
   }
 
   private handleTouchMove(event: TouchEvent): void {

@@ -113,7 +113,7 @@ export class MovementManager {
 
   constructor() {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.initializeDefaultPatterns();
+    this.initializeDefaultPatterns();
   }
 
   private initializeDefaultPatterns() {
@@ -124,7 +124,7 @@ export class MovementManager {
    * Create a new movement entity
    */
   createEntity(id: string, position: Vector2, pattern: MovementPattern): MovementOutput {
-    if (this?.entities.has(id)) {
+    if (this.entities.has(id)) {
       return {
         op: 'create',
         status: 'error',
@@ -149,7 +149,7 @@ export class MovementManager {
       lastUpdate: new Date()
     };
 
-    this?.entities.set(id, entity);
+    this.entities.set(id, entity);
     return {
       op: 'create',
       status: 'ok',
@@ -161,7 +161,7 @@ export class MovementManager {
    * Update entity movement pattern
    */
   updatePattern(entityId: string, pattern: Partial<MovementPattern>): MovementOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'update_pattern',
@@ -170,13 +170,13 @@ export class MovementManager {
       };
     }
 
-    entity?.pattern = { ...entity?.pattern, ...pattern };
-    entity.lastUpdate = new Date();
+    entity.pattern = { ...entity.pattern, ...pattern };
+    entity.lastUpdate = Date.now();
 
     // Reset state when pattern changes
-    entity?.state.current = 'idle';
-    entity?.state.pathIndex = 0;
-    entity?.state.stuckTime = 0;
+    entity.state.current = 'idle';
+    entity.state.pathIndex = 0;
+    entity.state.stuckTime = 0;
 
     return {
       op: 'update_pattern',
@@ -189,7 +189,7 @@ export class MovementManager {
    * Set follow target
    */
   setFollowTarget(entityId: string, targetId: string): MovementOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'set_follow_target',
@@ -198,9 +198,9 @@ export class MovementManager {
       };
     }
 
-    entity?.pattern.type = 'follow';
-    entity?.pattern.targetId = targetId;
-    entity.lastUpdate = new Date();
+    entity.pattern.type = 'follow';
+    entity.pattern.targetId = targetId;
+    entity.lastUpdate = Date.now();
 
     return {
       op: 'set_follow_target',
@@ -213,7 +213,7 @@ export class MovementManager {
    * Set waypoints for patrol
    */
   setWaypoints(entityId: string, waypoints: Vector2[]): MovementOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'set_waypoints',
@@ -222,10 +222,10 @@ export class MovementManager {
       };
     }
 
-    entity?.pattern.waypoints = [...waypoints];
-    entity?.pattern.type = 'patrol';
-    entity?.state.pathIndex = 0;
-    entity.lastUpdate = new Date();
+    entity.pattern.waypoints = [...waypoints];
+    entity.pattern.type = 'patrol';
+    entity.state.pathIndex = 0;
+    entity.lastUpdate = Date.now();
 
     return {
       op: 'set_waypoints',
@@ -239,11 +239,11 @@ export class MovementManager {
    */
   simulateTick(deltaTime: number): MovementOutput {
     const results: MovementResult[] = [];
-    const currentTime = new Date();
+    const currentTime = Date.now();
 
-    for (const [entityId, entity] of this?.entities) {
-      const result = this?.updateEntityMovement(entity, deltaTime, currentTime);
-      results?.push(result: any);
+    for (const [entityId, entity] of this.entities) {
+      const result = this.updateEntityMovement(entity, deltaTime, currentTime);
+      results.push(result);
     }
 
     return {
@@ -258,58 +258,58 @@ export class MovementManager {
    */
   private updateEntityMovement(entity: MovementEntity, deltaTime: number, currentTime: number): MovementResult {
     const events: MovementEvent[] = [];
-    const oldPosition = { ...entity?.position };
-    const oldVelocity = { ...entity?.velocity };
+    const oldPosition = { ...entity.position };
+    const oldVelocity = { ...entity.velocity };
 
     // Update based on pattern type
-    switch (entity?.pattern.type) {
+    switch (entity.pattern.type) {
       case 'idle':
-        this?.updateIdleMovement(entity, deltaTime);
+        this.updateIdleMovement(entity, deltaTime);
         break;
       case 'patrol':
-        this?.updatePatrolMovement(entity, deltaTime);
+        this.updatePatrolMovement(entity, deltaTime);
         break;
       case 'follow':
-        this?.updateFollowMovement(entity, deltaTime);
+        this.updateFollowMovement(entity, deltaTime);
         break;
       case 'flee':
-        this?.updateFleeMovement(entity, deltaTime);
+        this.updateFleeMovement(entity, deltaTime);
         break;
       case 'wander':
-        this?.updateWanderMovement(entity, deltaTime);
+        this.updateWanderMovement(entity, deltaTime);
         break;
       case 'seek':
-        this?.updateSeekMovement(entity, deltaTime);
+        this.updateSeekMovement(entity, deltaTime);
         break;
       case 'pursue':
-        this?.updatePursueMovement(entity, deltaTime);
+        this.updatePursueMovement(entity, deltaTime);
         break;
       case 'evade':
-        this?.updateEvadeMovement(entity, deltaTime);
+        this.updateEvadeMovement(entity, deltaTime);
         break;
     }
 
     // Apply physics
-    this?.applyPhysics(entity, deltaTime);
+    this.applyPhysics(entity, deltaTime);
 
     // Check for collisions
-    this?.checkCollisions(entity, events);
+    this.checkCollisions(entity, events);
 
     // Update state
-    this?.updateMovementState(entity, oldPosition, events);
+    this.updateMovementState(entity, oldPosition, events);
 
     // Record events
-    events?.forEach((event: any) => this?.events?.push(event));
+    events.forEach((event: any) => this.events.push(event));
 
-    const distanceMoved = this?.calculateDistance(oldPosition, entity?.position);
+    const distanceMoved = this.calculateDistance(oldPosition, entity.position);
 
     return {
-      entityId: entity?.id,
-      newPosition: { ...entity?.position },
-      newVelocity: { ...entity?.velocity },
-      newRotation: entity?.rotation,
+      entityId: entity.id,
+      newPosition: { ...entity.position },
+      newVelocity: { ...entity.velocity },
+      newRotation: entity.rotation,
       distanceMoved,
-      state: { ...entity?.state },
+      state: { ...entity.state },
       events
     };
   }
@@ -320,13 +320,13 @@ export class MovementManager {
   private updateIdleMovement(entity: MovementEntity, deltaTime: number): void {
     // Gradually slow down to stop
     const friction = 0.9;
-    entity?.velocity.x *= friction;
-    entity?.velocity.y *= friction;
+    entity.velocity.x *= friction;
+    entity.velocity.y *= friction;
 
     if (Math.abs(entity.velocity.x) < 0.1 && Math.abs(entity.velocity.y) < 0.1) {
-      entity?.velocity.x = 0;
-      entity?.velocity.y = 0;
-      entity?.state.current = 'idle';
+      entity.velocity.x = 0;
+      entity.velocity.y = 0;
+      entity.state.current = 'idle';
     }
   }
 
@@ -334,21 +334,21 @@ export class MovementManager {
    * Update patrol movement
    */
   private updatePatrolMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity?.pattern.waypoints || entity?.pattern.waypoints?.length === 0) {
-      this?.updateIdleMovement(entity, deltaTime);
+    if (!entity.pattern.waypoints || entity.pattern.waypoints.length === 0) {
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const currentWaypoint = entity?.pattern.waypoints[entity?.state.pathIndex];
-    const distance = this?.calculateDistance(entity?.position, currentWaypoint);
+    const currentWaypoint = entity.pattern.waypoints[entity.state.pathIndex];
+    const distance = this.calculateDistance(entity.position, currentWaypoint);
 
     if (distance < 5) {
       // Reached waypoint, move to next
-      entity?.state.pathIndex = (entity?.state.pathIndex + 1) % entity?.pattern.waypoints?.length;
-      entity?.state.current = 'turning';
+      entity.state.pathIndex = (entity.state.pathIndex + 1) % entity.pattern.waypoints.length;
+      entity.state.current = 'turning';
     } else {
       // Move towards current waypoint
-      this?.moveTowards(entity, currentWaypoint, entity?.pattern.speed);
+      this.moveTowards(entity, currentWaypoint, entity.pattern.speed);
     }
   }
 
@@ -356,24 +356,24 @@ export class MovementManager {
    * Update follow movement
    */
   private updateFollowMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity?.pattern.targetId) {
-      this?.updateIdleMovement(entity, deltaTime);
+    if (!entity.pattern.targetId) {
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const target = this?.entities.get(entity?.pattern.targetId);
+    const target = this.entities.get(entity.pattern.targetId);
     if (!target) {
-      this?.updateIdleMovement(entity, deltaTime);
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const distance = this?.calculateDistance(entity?.position, target?.position);
-    const followRange = entity?.pattern.range || 50;
+    const distance = this.calculateDistance(entity.position, target.position);
+    const followRange = entity.pattern.range || 50;
 
     if (distance > followRange) {
-      this?.moveTowards(entity, target?.position, entity?.pattern.speed);
+      this.moveTowards(entity, target.position, entity.pattern.speed);
     } else {
-      this?.updateIdleMovement(entity, deltaTime);
+      this.updateIdleMovement(entity, deltaTime);
     }
   }
 
@@ -381,21 +381,21 @@ export class MovementManager {
    * Update flee movement
    */
   private updateFleeMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity?.pattern.targetId) {
-      this?.updateIdleMovement(entity, deltaTime);
+    if (!entity.pattern.targetId) {
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const target = this?.entities.get(entity?.pattern.targetId);
+    const target = this.entities.get(entity.pattern.targetId);
     if (!target) {
-      this?.updateIdleMovement(entity, deltaTime);
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
     // Move away from target
-    const direction = this?.calculateDirection(target?.position, entity?.position);
-    entity?.velocity.x = direction.x * entity?.pattern.speed;
-    entity?.velocity.y = direction.y * entity?.pattern.speed;
+    const direction = this.calculateDirection(target.position, entity.position);
+    entity.velocity.x = direction.x * entity.pattern.speed;
+    entity.velocity.y = direction.y * entity.pattern.speed;
   }
 
   /**
@@ -421,28 +421,28 @@ export class MovementManager {
    * Update seek movement
    */
   private updateSeekMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity?.pattern.target) {
-      this?.updateIdleMovement(entity, deltaTime);
+    if (!entity.pattern.target) {
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const distance = this?.calculateDistance(entity?.position, entity?.pattern.target);
+    const distance = this.calculateDistance(entity.position, entity.pattern.target);
     const arrivalThreshold = 0.1; // Stop when within 0.1 units of target
 
     if (distance > arrivalThreshold) {
       // Check if we would overshoot the target
-      const maxDistanceThisTick = entity?.pattern.speed * deltaTime;
+      const maxDistanceThisTick = entity.pattern.speed * deltaTime;
       if (distance <= maxDistanceThisTick) {
         // Move directly to target to avoid overshooting
-        entity?.velocity.x = (entity?.pattern.target.x - entity?.position.x) / deltaTime;
-        entity?.velocity.y = (entity?.pattern.target.y - entity?.position.y) / deltaTime;
+        entity.velocity.x = (entity.pattern.target.x - entity.position.x) / deltaTime;
+        entity.velocity.y = (entity.pattern.target.y - entity.position.y) / deltaTime;
       } else {
-        this?.moveTowards(entity, entity?.pattern.target, entity?.pattern.speed);
+        this.moveTowards(entity, entity.pattern.target, entity.pattern.speed);
       }
     } else {
       // Stop when reached target
-      entity?.velocity.x = 0;
-      entity?.velocity.y = 0;
+      entity.velocity.x = 0;
+      entity.velocity.y = 0;
     }
   }
 
@@ -450,42 +450,42 @@ export class MovementManager {
    * Update pursue movement
    */
   private updatePursueMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity?.pattern.targetId) {
-      this?.updateIdleMovement(entity, deltaTime);
+    if (!entity.pattern.targetId) {
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const target = this?.entities.get(entity?.pattern.targetId);
+    const target = this.entities.get(entity.pattern.targetId);
     if (!target) {
-      this?.updateIdleMovement(entity, deltaTime);
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
     // Predict target position
-    const predictedPosition = this?.predictPosition(target, deltaTime);
-    this?.moveTowards(entity, predictedPosition, entity?.pattern.speed);
+    const predictedPosition = this.predictPosition(target, deltaTime);
+    this.moveTowards(entity, predictedPosition, entity.pattern.speed);
   }
 
   /**
    * Update evade movement
    */
   private updateEvadeMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity?.pattern.targetId) {
-      this?.updateIdleMovement(entity, deltaTime);
+    if (!entity.pattern.targetId) {
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const target = this?.entities.get(entity?.pattern.targetId);
+    const target = this.entities.get(entity.pattern.targetId);
     if (!target) {
-      this?.updateIdleMovement(entity, deltaTime);
+      this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
     // Predict where target will be and move away
-    const predictedPosition = this?.predictPosition(target, deltaTime);
-    const direction = this?.calculateDirection(predictedPosition, entity?.position);
-    entity?.velocity.x = direction.x * entity?.pattern.speed;
-    entity?.velocity.y = direction.y * entity?.pattern.speed;
+    const predictedPosition = this.predictPosition(target, deltaTime);
+    const direction = this.calculateDirection(predictedPosition, entity.position);
+    entity.velocity.x = direction.x * entity.pattern.speed;
+    entity.velocity.y = direction.y * entity.pattern.speed;
   }
 
   /**
@@ -493,18 +493,18 @@ export class MovementManager {
    */
   private applyPhysics(entity: MovementEntity, deltaTime: number): void {
     // Update position
-    entity?.position.x += entity?.velocity.x * deltaTime;
-    entity?.position.y += entity?.velocity.y * deltaTime;
+    entity.position.x += entity.velocity.x * deltaTime;
+    entity.position.y += entity.velocity.y * deltaTime;
 
     // Apply acceleration
-    entity?.velocity.x += entity?.acceleration.x * deltaTime;
-    entity?.velocity.y += entity?.acceleration.y * deltaTime;
+    entity.velocity.x += entity.acceleration.x * deltaTime;
+    entity.velocity.y += entity.acceleration.y * deltaTime;
 
     // Limit speed
     const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
-    if (speed > entity?.pattern.maxSpeed) {
-      entity?.velocity.x = (entity?.velocity.x / speed) * entity?.pattern.maxSpeed;
-      entity?.velocity.y = (entity?.velocity.y / speed) * entity?.pattern.maxSpeed;
+    if (speed > entity.pattern.maxSpeed) {
+      entity.velocity.x = (entity.velocity.x / speed) * entity.pattern.maxSpeed;
+      entity.velocity.y = (entity.velocity.y / speed) * entity.pattern.maxSpeed;
     }
 
     // Update rotation
@@ -522,13 +522,13 @@ export class MovementManager {
    */
   private checkCollisions(entity: MovementEntity, events: MovementEvent[]): void {
     // Check obstacle collisions
-    for (const obstacle of this?.obstacles) {
-      const distance = this?.calculateDistance(entity?.position, obstacle);
+    for (const obstacle of this.obstacles) {
+      const distance = this.calculateDistance(entity.position, obstacle);
       if (distance < 10) {
-        entity?.state.collisionCount++;
-        events?.push({
+        entity.state.collisionCount++;
+        events.push({
           type: 'collided',
-          entityId: entity?.id,
+          entityId: entity.id,
           timestamp: new Date(),
           data: { obstacle }
         });
@@ -536,15 +536,15 @@ export class MovementManager {
     }
 
     // Check entity collisions
-    for (const [otherId, other] of this?.entities) {
-      if (otherId === entity?.id) continue;
+    for (const [otherId, other] of this.entities) {
+      if (otherId === entity.id) continue;
 
-      const distance = this?.calculateDistance(entity?.position, other?.position);
+      const distance = this.calculateDistance(entity.position, other.position);
       if (distance < 20) {
-        entity?.state.collisionCount++;
-        events?.push({
+        entity.state.collisionCount++;
+        events.push({
           type: 'collided',
-          entityId: entity?.id,
+          entityId: entity.id,
           timestamp: new Date(),
           data: { otherEntity: otherId }
         });
@@ -556,49 +556,49 @@ export class MovementManager {
    * Update movement state
    */
   private updateMovementState(entity: MovementEntity, oldPosition: Vector2, events: MovementEvent[]): void {
-    const distance = this?.calculateDistance(oldPosition, entity?.position);
+    const distance = this.calculateDistance(oldPosition, entity.position);
     const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
 
     // Check if stuck
     if (distance < 0.1) {
-      entity?.state.stuckTime += 1;
-      if (entity?.state.stuckTime > 60) { // 1 second at 60fps
-        entity?.state.current = 'stuck';
-        events?.push({
+      entity.state.stuckTime += 1;
+      if (entity.state.stuckTime > 60) { // 1 second at 60fps
+        entity.state.current = 'stuck';
+        events.push({
           type: 'stuck',
-          entityId: entity?.id,
+          entityId: entity.id,
           timestamp: new Date()
         });
       }
     } else {
-      if (entity?.state.stuckTime > 0) {
-        events?.push({
+      if (entity.state.stuckTime > 0) {
+        events.push({
           type: 'unstuck',
-          entityId: entity?.id,
+          entityId: entity.id,
           timestamp: new Date()
         });
       }
-      entity?.state.stuckTime = 0;
+      entity.state.stuckTime = 0;
     }
 
     // Update state based on movement
     if (speed > 0.1) {
-      entity?.state.current = 'moving';
+      entity.state.current = 'moving';
     } else {
-      entity?.state.current = 'idle';
+      entity.state.current = 'idle';
     }
 
-    entity?.state.lastPosition = { ...oldPosition };
-    entity.lastUpdate = new Date();
+    entity.state.lastPosition = { ...oldPosition };
+    entity.lastUpdate = Date.now();
   }
 
   /**
    * Move entity towards target
    */
   private moveTowards(entity: MovementEntity, target: Vector2, speed: number): void {
-    const direction = this?.calculateDirection(entity?.position, target);
-    entity?.velocity.x = direction.x * speed;
-    entity?.velocity.y = direction.y * speed;
+    const direction = this.calculateDirection(entity.position, target);
+    entity.velocity.x = direction.x * speed;
+    entity.velocity.y = direction.y * speed;
   }
 
   /**
@@ -628,8 +628,8 @@ export class MovementManager {
    */
   private predictPosition(entity: MovementEntity, deltaTime: number): Vector2 {
     return {
-      x: entity?.position.x + entity?.velocity.x * deltaTime,
-      y: entity?.position.y + entity?.velocity.y * deltaTime
+      x: entity.position.x + entity.velocity.x * deltaTime,
+      y: entity.position.y + entity.velocity.y * deltaTime
     };
   }
 
@@ -637,7 +637,7 @@ export class MovementManager {
    * Get entity by ID
    */
   getEntity(entityId: string): MovementOutput {
-    const entity = this?.entities.get(entityId);
+    const entity = this.entities.get(entityId);
     if (!entity) {
       return {
         op: 'get',
@@ -660,20 +660,20 @@ export class MovementManager {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
-      entities = entities?.filter((entity: any) => {
-        if (filter?.patternType && entity?.pattern.type !== filter?.patternType) return false;
-        if (filter?.state && entity?.state.current !== filter?.state) return false;
-        if (filter?.minSpeed !== undefined) {
+      entities = entities.filter((entity: any) => {
+        if (filter.patternType && entity.pattern.type !== filter.patternType) return false;
+        if (filter.state && entity.state.current !== filter.state) return false;
+        if (filter.minSpeed !== undefined) {
           const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
-          if (speed < filter?.minSpeed) return false;
+          if (speed < filter.minSpeed) return false;
         }
-        if (filter?.maxSpeed !== undefined) {
+        if (filter.maxSpeed !== undefined) {
           const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
-          if (speed > filter?.maxSpeed) return false;
+          if (speed > filter.maxSpeed) return false;
         }
-        if (filter?.inRange) {
-          const distance = this?.calculateDistance(entity?.position, filter?.inRange.center);
-          if (distance > filter?.inRange.radius) return false;
+        if (filter.inRange) {
+          const distance = this.calculateDistance(entity.position, filter.inRange.center);
+          if (distance > filter.inRange.radius) return false;
         }
         return true;
       });
@@ -692,27 +692,27 @@ export class MovementManager {
   getMovementStats(): MovementOutput {
     const entities = Array.from(this.entities.values());
     const stats: MovementStats = {
-      totalEntities: entities?.length,
-      activeEntities: entities?.filter((e: any) => e?.state.current === 'moving').length,
+      totalEntities: entities.length,
+      activeEntities: entities.filter((e: any) => e.state.current === 'moving').length,
       averageSpeed: 0,
       totalDistance: 0,
-      collisionCount: entities?.reduce((sum, e) => sum + e?.state.collisionCount, 0),
-      stuckEntities: entities?.filter((e: any) => e?.state.current === 'stuck').length,
+      collisionCount: entities.reduce((sum, e) => sum + e.state.collisionCount, 0),
+      stuckEntities: entities.filter((e: any) => e.state.current === 'stuck').length,
       patternDistribution: {}
     };
 
-    if (entities?.length > 0) {
-      const totalSpeed = entities?.reduce((sum, e) => {
+    if (entities.length > 0) {
+      const totalSpeed = entities.reduce((sum, e) => {
         const speed = Math.sqrt(e.velocity.x ** 2 + e.velocity.y ** 2);
         return sum + speed;
       }, 0);
-      stats?.averageSpeed = totalSpeed / entities?.length;
+      stats.averageSpeed = totalSpeed / entities.length;
     }
 
     // Calculate pattern distribution
-    entities?.forEach((entity: any) => {
-      const type = entity?.pattern.type;
-      stats?.patternDistribution[type!] = (stats?.patternDistribution[type!] || 0) + 1;
+    entities.forEach((entity: any) => {
+      const type = entity.pattern.type;
+      stats.patternDistribution[type!] = (stats.patternDistribution[type!] || 0) + 1;
     });
 
     return {
@@ -726,11 +726,11 @@ export class MovementManager {
    * Add obstacle
    */
   addObstacle(position: Vector2): MovementOutput {
-    this?.obstacles?.push({ ...position });
+    this.obstacles.push({ ...position });
     return {
       op: 'add_obstacle',
       status: 'ok',
-      result: { position, totalObstacles: this?.obstacles.length }
+      result: { position, totalObstacles: this.obstacles.length }
     };
   }
 
@@ -738,7 +738,7 @@ export class MovementManager {
    * Remove entity
    */
   removeEntity(entityId: string): MovementOutput {
-    if (!this?.entities.has(entityId)) {
+    if (!this.entities.has(entityId)) {
       return {
         op: 'remove',
         status: 'error',
@@ -746,7 +746,7 @@ export class MovementManager {
       };
     }
 
-    this?.entities.delete(entityId);
+    this.entities.delete(entityId);
     return {
       op: 'remove',
       status: 'ok'
@@ -764,7 +764,7 @@ export class MovementManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities?.length }
+          result: { entities, total: entities.length }
         };
       
       case 'manifest':
@@ -772,28 +772,28 @@ export class MovementManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff?.movement.export?.v1',
+            schema: 'miff.movement.export.v1',
             entities,
-            events: this?.events.slice(-100), // Last 100 events
-            obstacles: this?.obstacles,
-            worldBounds: this?.worldBounds,
+            events: this.events.slice(-100), // Last 100 events
+            obstacles: this.obstacles,
+            worldBounds: this.worldBounds,
             exportedAt: new Date().toISOString(),
-            total: entities?.length
+            total: entities.length
           }
         };
       
       case 'summary':
-        const stats = this?.getMovementStats();
+        const stats = this.getMovementStats();
         return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats?.result,
-            entities: entities?.map((entity: any) => ({
-              id: entity?.id,
-              position: entity?.position,
-              pattern: entity?.pattern.type,
-              state: entity?.state.current,
+            summary: stats.result,
+            entities: entities.map((entity: any) => ({
+              id: entity.id,
+              position: entity.position,
+              pattern: entity.pattern.type,
+              state: entity.state.current,
               speed: Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2)
             }))
           }
@@ -804,8 +804,8 @@ export class MovementManager {
           op: 'export',
           status: 'ok',
           result: {
-            events: this?.events,
-            total: this?.events.length
+            events: this.events,
+            total: this.events.length
           }
         };
       
@@ -822,9 +822,9 @@ export class MovementManager {
    * Reset all movement data
    */
   resetMovement(): MovementOutput {
-    this?.entities.clear();
-    this?.events = [];
-    this?.obstacles = [];
+    this.entities.clear();
+    this.events = [];
+    this.obstacles = [];
     return {
       op: 'reset',
       status: 'ok',

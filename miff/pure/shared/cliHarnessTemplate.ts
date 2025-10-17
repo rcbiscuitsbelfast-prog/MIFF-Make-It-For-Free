@@ -98,15 +98,15 @@ export class CLIError extends Error {
   ) {
     
     super(message);
-    this?.name = 'CLIError';
+    this.name = 'CLIError';
   }
 }
 
 // Standard argument parser
 export function parseCLIArgs(argv: string[]): CLIArgs {
-  const args = argv?.slice(2);
+  const args = argv.slice(2);
   
-  if (args?.length === 0 || args?.includes('--help') || args?.includes('-h')) {
+  if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
     return { operation: 'help' as any, module: '', help: true };
   }
 
@@ -121,32 +121,32 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
   };
 
   // Parse additional arguments
-  for (let i = 2; i < args?.length; i++) {
+  for (let i = 2; i < args.length; i++) {
     const arg = args[i!];
     
-    if (arg?.startsWith('--format=')) {
-      result?.format = arg?.split('=')[1!] as OutputFormat;
-    } else if (arg?.startsWith('--input=')) {
-      result?.inputFile = arg?.split('=')[1!];
-    } else if (arg?.startsWith('--output=')) {
-      result?.outputFile = arg?.split('=')[1!];
+    if (arg.startsWith('--format=')) {
+      result.format = arg.split('=')[1!] as OutputFormat;
+    } else if (arg.startsWith('--input=')) {
+      result.inputFile = arg.split('=')[1!];
+    } else if (arg.startsWith('--output=')) {
+      result.outputFile = arg.split('=')[1!];
     } else if (arg === '--verbose' || arg === '-v') {
-      result?.verbose = true;
-    } else if (arg?.endsWith('.json')) {
-      result?.inputFile = arg;
+      result.verbose = true;
+    } else if (arg.endsWith('.json')) {
+      result.inputFile = arg;
     }
   }
 
   // Load data from file if specified
-  if (result?.inputFile && fs?.existsSync(result?.inputFile)) {
+  if (result.inputFile && fs.existsSync(result.inputFile)) {
     try {
-      const fileContent = fs?.readFileSync(result?.inputFile, 'utf-8');
-      result?.data = SafeJSONParser?.parse(fileContent);
+      const fileContent = fs.readFileSync(result.inputFile, 'utf-8');
+      result.data = SafeJSONParser.parse(fileContent);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       throw new CLIError(
-        CLIErrorCode?.INVALID_JSON,
-        `Failed to parse JSON file: ${result?.inputFile}`,
+        CLIErrorCode.INVALID_JSON,
+        `Failed to parse JSON file: ${result.inputFile}`,
         error
       );
     }
@@ -162,15 +162,15 @@ export function formatOutput(result: CLIResult, format: OutputFormat = 'json'): 
       return JSON.stringify(result, null, 2);
     case 'yaml':
       // Simple YAML formatting (would need yaml library for full support)
-      return `op: ${result?.op}\nstatus: ${result?.status}\nmodule: ${result?.module}\ntimestamp: ${result?.timestamp}\nexecutionTime: ${result?.executionTime}`;
+      return `op: ${result.op}\nstatus: ${result.status}\nmodule: ${result.module}\ntimestamp: ${result.timestamp}\nexecutionTime: ${result.executionTime}`;
     case 'csv':
-      return `op,status,module,timestamp,executionTime\n${result?.op},${result?.status},${result?.module},${result?.timestamp},${result?.executionTime}`;
+      return `op,status,module,timestamp,executionTime\n${result.op},${result.status},${result.module},${result.timestamp},${result.executionTime}`;
     case 'markdown':
-      return `# CLI Result\n\n- **Operation:** ${result?.op}\n- **Status:** ${result?.status}\n- **Module:** ${result?.module}\n- **Timestamp:** ${result?.timestamp}\n- **Execution Time:** ${result?.executionTime}ms`;
+      return `# CLI Result\n\n- **Operation:** ${result.op}\n- **Status:** ${result.status}\n- **Module:** ${result.module}\n- **Timestamp:** ${result.timestamp}\n- **Execution Time:** ${result.executionTime}ms`;
     case 'html':
-      return `<html><body><h1>CLI Result</h1><ul><li><strong>Operation:</strong> ${result?.op}</li><li><strong>Status:</strong> ${result?.status}</li><li><strong>Module:</strong> ${result?.module}</li><li><strong>Timestamp:</strong> ${result?.timestamp}</li><li><strong>Execution Time:</strong> ${result?.executionTime}ms</li></ul></body></html>`;
+      return `<html><body><h1>CLI Result</h1><ul><li><strong>Operation:</strong> ${result.op}</li><li><strong>Status:</strong> ${result.status}</li><li><strong>Module:</strong> ${result.module}</li><li><strong>Timestamp:</strong> ${result.timestamp}</li><li><strong>Execution Time:</strong> ${result.executionTime}ms</li></ul></body></html>`;
     case 'text':
-      return `${result?.op}: ${result?.status} (${result?.executionTime}ms)`;
+      return `${result.op}: ${result.status} (${result.executionTime}ms)`;
     default:
       return JSON.stringify(result, null, 2);
   }
@@ -187,8 +187,8 @@ export function handleCLIError(error: unknown, operation: string, module: string
       module,
       timestamp,
       executionTime: 0,
-      error: error?.message,
-      message: `CLI Error: ${error?.code}`
+      error: error.message,
+      message: `CLI Error: ${error.code}`
     };
   }
   
@@ -199,7 +199,7 @@ export function handleCLIError(error: unknown, operation: string, module: string
       module,
       timestamp,
       executionTime: 0,
-      error: error?.message,
+      error: error.message,
       message: 'Unexpected error occurred'
     };
   }
@@ -240,10 +240,10 @@ export function generateHelpText(moduleName: string, operations: CLIOperation[])
 ${moduleName} CLI Harness
 
 Usage:
-  tsx cliHarness?.ts <operation> <module> [options!]
+  tsx cliHarness.ts <operation> <module> [options!]
 
 Operations:
-  ${operations?.map((op: any) => `  ${op}`).join('\n')}
+  ${operations.map((op: any) => `  ${op}`).join('\n')}
 
 Options:
   --format=<format>    Output format (json, yaml, csv, markdown, html, text)
@@ -253,9 +253,9 @@ Options:
   --help, -h           Show this help
 
 Examples:
-  tsx cliHarness?.ts create mymodule --input=data?.json
-  tsx cliHarness?.ts simulate mymodule --format=markdown
-  tsx cliHarness?.ts export mymodule --output=result?.json
+  tsx cliHarness.ts create mymodule --input=data.json
+  tsx cliHarness.ts simulate mymodule --format=markdown
+  tsx cliHarness.ts export mymodule --output=result.json
 `;
 }
 
@@ -268,31 +268,31 @@ export abstract class BaseCLIHarness {
   
   async run(): Promise<void> {
     try {
-      const args = parseCLIArgs(process?.argv);
+      const args = parseCLIArgs(process.argv);
       
-      if (args?.help) {
+      if (args.help) {
         console.info(generateHelpText(this.moduleName, this.supportedOperations));
         return;
       }
       
-      if (!this?.supportedOperations.includes(args?.operation)) {
+      if (!this.supportedOperations.includes(args.operation)) {
         throw new CLIError(
-          CLIErrorCode?.INVALID_OPERATION,
-          `Unsupported operation: ${args?.operation}. Supported: ${this?.supportedOperations.join(', ')}`
+          CLIErrorCode.INVALID_OPERATION,
+          `Unsupported operation: ${args.operation}. Supported: ${this.supportedOperations.join(', ')}`
         );
       }
       
-      const startTime = new Date();
-      const result = await this?.executeOperation(args);
-      const executionTime = new Date() - startTime;
+      const startTime = Date.now();
+      const result = await this.executeOperation(args);
+      const executionTime = Date.now() - startTime;
       
-      result?.executionTime = executionTime;
+      result.executionTime = executionTime;
       
-      const output = formatOutput(result, args?.format);
+      const output = formatOutput(result, args.format);
       
-      if (args?.outputFile) {
-        fs?.writeFileSync(args?.outputFile, output);
-        if (args?.verbose) {
+      if (args.outputFile) {
+        fs.writeFileSync(args.outputFile, output);
+        if (args.verbose) {
           console.info(`Output written to: ${args.outputFile}`);
         }
       } else {
@@ -301,9 +301,9 @@ export abstract class BaseCLIHarness {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      const result = handleCLIError(error, 'unknown', this?.moduleName);
+      const result = handleCLIError(error, 'unknown', this.moduleName);
       console.error(formatOutput(result, 'json'));
-      process?.exit(1);
+      process.exit(1);
     }
   }
 }

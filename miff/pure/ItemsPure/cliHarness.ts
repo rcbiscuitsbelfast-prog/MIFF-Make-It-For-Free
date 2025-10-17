@@ -31,24 +31,24 @@ class MockSpiritInstance implements ISpiritInstance {
   private fainted: boolean;
 
   constructor(id: string, name: string, maxHP: number = 100, currentHP?: number, syncLevel?: number) {
-    this?.id = id;
-    this?.name = name;
-    this?.maxHP = maxHP;
-    this?.currentHP = currentHP ?? maxHP;
-    this?.syncLevel = syncLevel;
-    this?.fainted = this?.currentHP <= 0;
+    this.id = id;
+    this.name = name;
+    this.maxHP = maxHP;
+    this.currentHP = currentHP ?? maxHP;
+    this.syncLevel = syncLevel;
+    this.fainted = this.currentHP <= 0;
   }
 
   isFainted(): boolean {
-    return this?.fainted;
+    return this.fainted;
   }
 
   canEvolve(): boolean {
-    return this?.syncLevel !== undefined && this?.syncLevel >= 50;
+    return this.syncLevel !== undefined && this.syncLevel >= 50;
   }
 
   evolve(evolutionId: string): boolean {
-    if (!this?.canEvolve()) {
+    if (!this.canEvolve()) {
       return false;
     }
     console.log(`${this.name} evolved to ${evolutionId}!`);
@@ -58,20 +58,20 @@ class MockSpiritInstance implements ISpiritInstance {
 
 // CLI Application
 class ItemsPureCLI {
-  private rl: readline?.Interface;
+  private rl: readline.Interface;
   private manager: ItemUsageManager;
   private context: IPlayerContext;
   private spirits: Map<string, MockSpiritInstance>;
   private items: Item[];
 
   constructor() {
-    this?.rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
     });
 
     // Initialize context
-    this?.context = {
+    this.context = {
       playerId: 'player1',
       inventory: {
         'health_potion': 5,
@@ -84,20 +84,20 @@ class ItemsPureCLI {
       flags: {}
     };
 
-    this?.manager = new ItemUsageManager(this?.context);
-    this?.spirits = new Map();
-    this?.items = [];
+    this.manager = new ItemUsageManager(this.context);
+    this.spirits = new Map();
+    this.items = [];
 
-    this?.initializeItems();
-    this?.initializeSpirits();
+    this.initializeItems();
+    this.initializeSpirits();
   }
 
   /**
    * Initialize default items
    */
   private initializeItems(): void {
-    this?.items = ItemUtils?.createStandardItemSet();
-    this?.items.forEach((item: any) => this?.manager.registerItem(item: any));
+    this.items = ItemUtils.createStandardItemSet();
+    this.items.forEach((item: any) => this.manager.registerItem(item));
     console.log(`Loaded ${this.items.length} items into registry`);
   }
 
@@ -113,8 +113,8 @@ class ItemsPureCLI {
       new MockSpiritInstance('spirit5', 'Light Spirit', 70, 35, 80) // High sync, can evolve
     ];
 
-    spirits?.forEach((spirit: any) => {
-      this?.spirits.set(spirit?.id, spirit);
+    spirits.forEach((spirit: any) => {
+      this.spirits.set(spirit.id, spirit);
     });
 
     console.log(`Created ${spirits.length} test spirits`);
@@ -141,15 +141,15 @@ class ItemsPureCLI {
     console.log('  exit          - Exit application');
     console.log('');
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this?.rl.question('ItemsPure> ', (input) => {
-      this?.processCommand(input?.trim());
+    this.rl.question('ItemsPure> ', (input) => {
+      this.processCommand(input.trim());
     });
   }
 
@@ -158,53 +158,53 @@ class ItemsPureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this?.showPrompt();
+      this.showPrompt();
       return;
     }
 
-    const parts = input?.split(' ');
+    const parts = input.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this?.showHelp();
+          this.showHelp();
           break;
         case 'items':
         case 'i':
-          this?.showItems();
+          this.showItems();
           break;
         case 'spirits':
         case 's':
-          this?.showSpirits();
+          this.showSpirits();
           break;
         case 'use':
         case 'u':
-          await this?.useItem(args);
+          await this.useItem(args);
           break;
         case 'info':
-          this?.showItemInfo(args[0!]);
+          this.showItemInfo(args[0!]);
           break;
         case 'search':
-          this?.searchItems(args?.join(' '));
+          this.searchItems(args.join(' '));
           break;
         case 'heal':
-          this?.healSpirit(args[0!], parseInt(args[1!]) || 20);
+          this.healSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'damage':
         case 'dmg':
-          this?.damageSpirit(args[0!], parseInt(args[1!]) || 20);
+          this.damageSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'status':
         case 'stat':
-          this?.showStatus();
+          this.showStatus();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this?.exit();
+          this.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -215,7 +215,7 @@ class ItemsPureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
@@ -255,14 +255,14 @@ class ItemsPureCLI {
     console.log('📦 Registered Items');
     console.log('='.repeat(60));
 
-    if (this?.items.length === 0) {
+    if (this.items.length === 0) {
       console.log('No items registered.');
       return;
     }
 
-    this?.items.forEach((item, index) => {
-      const inventoryCount = this?.context.inventory[item?.itemID] || 0;
-      const effectIcon = this?.getEffectIcon(item?.effect.effectType);
+    this.items.forEach((item, index) => {
+      const inventoryCount = this.context.inventory[item.itemID] || 0;
+      const effectIcon = this.getEffectIcon(item.effect.effectType);
       console.log(`${index + 1}. ${effectIcon} ${item.name} (${item.type})`);
       console.log(`   ID: ${item.itemID}`);
       console.log(`   Effect: ${item.effect.getSummary()}`);
@@ -280,16 +280,16 @@ class ItemsPureCLI {
     console.log('👻 Available Spirits');
     console.log('='.repeat(60));
 
-    if (this?.spirits.size === 0) {
+    if (this.spirits.size === 0) {
       console.log('No spirits available.');
       return;
     }
 
     Array.from(this.spirits.values()).forEach((spirit, index) => {
-      const status = spirit?.isFainted() ? '💀 Fainted' : '✅ Active';
-      const syncInfo = spirit?.syncLevel !== undefined ? ` | Sync: ${spirit?.syncLevel}` : '';
-      const healthBar = this?.createHealthBar(spirit?.currentHP, spirit?.maxHP);
-      const evolveStatus = spirit?.canEvolve() ? '✨ Can Evolve' : '';
+      const status = spirit.isFainted() ? '💀 Fainted' : '✅ Active';
+      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
+      const healthBar = this.createHealthBar(spirit.currentHP, spirit.maxHP);
+      const evolveStatus = spirit.canEvolve() ? '✨ Can Evolve' : '';
 
       console.log(`${index + 1}. ${spirit.name} [${spirit.id}]`);
       console.log(`   HP: ${spirit.currentHP}/${spirit.maxHP} ${healthBar}`);
@@ -302,7 +302,7 @@ class ItemsPureCLI {
    * Use item on spirit
    */
   private async useItem(args: string[]): Promise<void> {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('❌ Usage: use [item!] [spirit!]');
       return;
     }
@@ -310,8 +310,8 @@ class ItemsPureCLI {
     const itemId = args[0!];
     const spiritId = args[1!];
 
-    const item = this?.manager.getItem(itemId);
-    const spirit = this?.spirits.get(spiritId);
+    const item = this.manager.getItem(itemId);
+    const spirit = this.spirits.get(spiritId);
 
     if (!item) {
       console.log(`❌ Item not found: ${itemId}`);
@@ -326,15 +326,15 @@ class ItemsPureCLI {
     console.log(`🎒 Using ${item.name} on ${spirit.name}...`);
 
     // Check if can use
-    if (!this?.manager.canUseItem(itemId, spirit)) {
+    if (!this.manager.canUseItem(itemId, spirit)) {
       console.log(`❌ Cannot use ${item.name} on ${spirit.name}`);
       return;
     }
 
     // Use item
-    const result = this?.manager.useItem(itemId, spirit);
+    const result = this.manager.useItem(itemId, spirit);
 
-    if (result?.isSuccess) {
+    if (result.isSuccess) {
       console.log(`✅ ${result.message}`);
       console.log(`📊 ${spirit.name} HP: ${spirit.currentHP}/${spirit.maxHP}`);
     } else {
@@ -351,7 +351,7 @@ class ItemsPureCLI {
       return;
     }
 
-    const item = this?.manager.getItem(itemId);
+    const item = this.manager.getItem(itemId);
     if (!item) {
       console.log(`❌ Item not found: ${itemId}`);
       return;
@@ -367,11 +367,11 @@ class ItemsPureCLI {
     console.log('');
 
     // Show effect details
-    const effect = item?.effect;
+    const effect = item.effect;
     console.log('Effect Details:');
     console.log(`  Type: ${effect.effectType}`);
     console.log(`  Amount: ${effect.amount}`);
-    if (effect?.param) {
+    if (effect.param) {
       console.log(`  Parameter: ${effect.param}`);
     }
     console.log(`  Cooldown: ${effect.cooldownSeconds}s`);
@@ -379,8 +379,8 @@ class ItemsPureCLI {
     console.log('');
 
     // Show validation
-    const errors = item?.validate({});
-    if (errors?.length === 0) {
+    const errors = item.validate({});
+    if (errors.length === 0) {
       console.log('✅ Item is valid');
     } else {
       console.log('❌ Validation errors:');
@@ -392,18 +392,18 @@ class ItemsPureCLI {
    * Search items
    */
   private searchItems(query: string): void {
-    const results = this?.manager.searchItems(query);
+    const results = this.manager.searchItems(query);
 
     console.log('='.repeat(60));
     console.log(`🔍 Search Results for "${query}"`);
     console.log('='.repeat(60));
 
-    if (results?.length === 0) {
+    if (results.length === 0) {
       console.log('No items found.');
       return;
     }
 
-    results?.forEach((item, index) => {
+    results.forEach((item, index) => {
       console.log(`${index + 1}. ${item.name} (${item.type}) - ${item.itemID}`);
     });
     console.log(`\nFound ${results.length} items.`);
@@ -413,14 +413,14 @@ class ItemsPureCLI {
    * Heal spirit
    */
   private healSpirit(spiritId: string, amount: number): void {
-    const spirit = this?.spirits.get(spiritId);
+    const spirit = this.spirits.get(spiritId);
     if (!spirit) {
       console.log(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    const oldHP = spirit?.currentHP;
-    const maxHeal = spirit?.maxHP - oldHP;
+    const oldHP = spirit.currentHP;
+    const maxHeal = spirit.maxHP - oldHP;
     const actualHeal = Math.min(amount, maxHeal);
 
     if (actualHeal <= 0) {
@@ -428,7 +428,7 @@ class ItemsPureCLI {
       return;
     }
 
-    spirit?.currentHP += actualHeal;
+    spirit.currentHP += actualHeal;
     console.log(`❤️ Healed ${spirit.name} by ${actualHeal} HP`);
     console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
   }
@@ -437,24 +437,24 @@ class ItemsPureCLI {
    * Damage spirit
    */
   private damageSpirit(spiritId: string, amount: number): void {
-    const spirit = this?.spirits.get(spiritId);
+    const spirit = this.spirits.get(spiritId);
     if (!spirit) {
       console.log(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    if (spirit?.isFainted()) {
+    if (spirit.isFainted()) {
       console.log(`❌ ${spirit.name} is already fainted`);
       return;
     }
 
-    const oldHP = spirit?.currentHP;
+    const oldHP = spirit.currentHP;
     spirit.currentHP = Math.max(0, spirit.currentHP - amount);
 
     console.log(`💔 Damaged ${spirit.name} by ${amount} HP`);
     console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
 
-    if (spirit?.isFainted()) {
+    if (spirit.isFainted()) {
       console.log(`💀 ${spirit.name} fainted!`);
     }
   }
@@ -463,7 +463,7 @@ class ItemsPureCLI {
    * Show system status
    */
   private showStatus(): void {
-    const stats = ItemUtils?.getItemStatistics(this?.items);
+    const stats = ItemUtils.getItemStatistics(this.items);
 
     console.log('='.repeat(60));
     console.log('📊 System Status');
@@ -491,7 +491,7 @@ class ItemsPureCLI {
     console.log('Current Inventory:');
     Object.entries(this.context.inventory).forEach(([itemId, count]) => {
       if (count > 0) {
-        const item = this?.manager.getItem(itemId);
+        const item = this.manager.getItem(itemId);
         console.log(`  ${item?.name || itemId}: ${count}`);
       }
     });
@@ -499,9 +499,9 @@ class ItemsPureCLI {
 
     console.log('Active Spirits:');
     Array.from(this.spirits.values()).forEach((spirit: any) => {
-      const status = spirit?.isFainted() ? '💀 Fainted' : '✅ Active';
-      const syncInfo = spirit?.syncLevel !== undefined ? ` | Sync: ${spirit?.syncLevel}` : '';
-      const evolveStatus = spirit?.canEvolve() ? ' ✨ Can Evolve' : '';
+      const status = spirit.isFainted() ? '💀 Fainted' : '✅ Active';
+      const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
+      const evolveStatus = spirit.canEvolve() ? ' ✨ Can Evolve' : '';
       console.log(`  ${spirit.name}: ${spirit.currentHP}/${spirit.maxHP} HP ${status}${syncInfo}${evolveStatus}`);
     });
   }
@@ -511,14 +511,14 @@ class ItemsPureCLI {
    */
   private getEffectIcon(effectType: ItemEffectType): string {
     switch (effectType) {
-      case ItemEffectType?.HEAL: return '❤️';
-      case ItemEffectType?.REVIVE: return '💚';
-      case ItemEffectType?.BUFF_ATTACK: return '⚔️';
-      case ItemEffectType?.BUFF_DEFENSE: return '🛡️';
-      case ItemEffectType?.SYNC_BOOST: return '🔄';
-      case ItemEffectType?.EVOLVE: return '✨';
-      case ItemEffectType?.UNLOCK_FLAG: return '🔑';
-      case ItemEffectType?.NONE: return '❓';
+      case ItemEffectType.HEAL: return '❤️';
+      case ItemEffectType.REVIVE: return '💚';
+      case ItemEffectType.BUFF_ATTACK: return '⚔️';
+      case ItemEffectType.BUFF_DEFENSE: return '🛡️';
+      case ItemEffectType.SYNC_BOOST: return '🔄';
+      case ItemEffectType.EVOLVE: return '✨';
+      case ItemEffectType.UNLOCK_FLAG: return '🔑';
+      case ItemEffectType.NONE: return '❓';
       default: return '❓';
     }
   }
@@ -543,15 +543,15 @@ class ItemsPureCLI {
   private exit(): void {
     console.log('');
     console.log('👋 Thank you for using ItemsPure CLI!');
-    this?.rl.close();
-    process?.exit(0);
+    this.rl.close();
+    process.exit(0);
   }
 }
 
 // Start CLI if run directly
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new ItemsPureCLI();
-  cli?.start();
+  cli.start();
 }
 
 export { ItemsPureCLI };

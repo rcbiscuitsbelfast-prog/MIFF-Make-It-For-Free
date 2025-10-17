@@ -29,344 +29,344 @@ class WorldManifestCLI {
   private manager: WorldManifestManager;
 
   constructor() {
-    this?.manager = new WorldManifestManager();
+    this.manager = new WorldManifestManager();
   }
 
   async execute(operation: WorldOperation): Promise<any> {
     try {
-      switch (operation?.op) {
+      switch (operation.op) {
         case 'create':
-          return this?.createWorld(operation);
+          return this.createWorld(operation);
         
         case 'get':
-          return this?.getWorld(operation);
+          return this.getWorld(operation);
         
         case 'list':
-          return this?.listWorlds();
+          return this.listWorlds();
         
         case 'addZone':
-          return this?.addZone(operation);
+          return this.addZone(operation);
         
         case 'removeZone':
-          return this?.removeZone(operation);
+          return this.removeZone(operation);
         
         case 'placeAsset':
-          return this?.placeAsset(operation);
+          return this.placeAsset(operation);
         
         case 'removeAsset':
-          return this?.removeAsset(operation);
+          return this.removeAsset(operation);
         
         case 'findAssets':
-          return this?.findAssets(operation);
+          return this.findAssets(operation);
         
         case 'generate':
-          return this?.generateWorld(operation);
+          return this.generateWorld(operation);
         
         case 'validate':
-          return this?.validateWorld(operation);
+          return this.validateWorld(operation);
         
         case 'stats':
-          return this?.getWorldStats(operation);
+          return this.getWorldStats(operation);
         
         case 'export':
-          return this?.exportWorld(operation);
+          return this.exportWorld(operation);
         
         case 'delete':
-          return this?.deleteWorld(operation);
+          return this.deleteWorld(operation);
         
         case 'globalStats':
-          return this?.getGlobalStats();
+          return this.getGlobalStats();
         
         default:
-          throw new Error(`Unknown operation: ${operation?.op}`);
+          throw new Error(`Unknown operation: ${operation.op}`);
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: operation?.op,
+        op: operation.op,
         status: 'error',
-        error: error instanceof Error ? error?.message : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date()
       };
     }
   }
 
   private createWorld(op: WorldOperation): any {
-    if (!op?.worldId || !op?.name || !op?.width || !op?.height) {
+    if (!op.worldId || !op.name || !op.width || !op.height) {
       throw new Error('Missing required fields: worldId, name, width, height');
     }
 
-    const result = this?.manager.createWorld(op?.worldId, op?.name, op?.width, op?.height);
+    const result = this.manager.createWorld(op.worldId, op.name, op.width, op.height);
 
     return {
       op: 'create',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        world: result?.world,
-        message: `World ${op?.worldId} created successfully (${op?.width}x${op?.height})`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        world: result.world,
+        message: `World ${op.worldId} created successfully (${op.width}x${op.height})`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private getWorld(op: WorldOperation): any {
-    if (!op?.worldId) {
+    if (!op.worldId) {
       throw new Error('Missing required field: worldId');
     }
 
-    const result = this?.manager.getWorld(op?.worldId);
+    const result = this.manager.getWorld(op.worldId);
 
     return {
       op: 'get',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.world,
-      errors: result?.errors,
+      status: result.ok ? 'ok' : 'error',
+      result: result.world,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private listWorlds(): any {
-    const result = this?.manager.listWorlds();
+    const result = this.manager.listWorlds();
 
     return {
       op: 'list',
       status: 'ok',
       result: {
-        worlds: result?.worlds.map((world: any) => ({
-          id: world?.zones[0!]?.id || 'unknown',
-          name: world?.metadata?.title || 'Unnamed World',
-          zones: world?.zones.length,
-          totalTiles: world?.zones.reduce((sum, zone) => sum + zone?.tiles.length, 0),
-          schema: world?.schema,
-          version: world?.version,
-          created: world?.metadata?.created
+        worlds: result.worlds.map((world: any) => ({
+          id: world.zones[0!]?.id || 'unknown',
+          name: world.metadata?.title || 'Unnamed World',
+          zones: world.zones.length,
+          totalTiles: world.zones.reduce((sum, zone) => sum + zone.tiles.length, 0),
+          schema: world.schema,
+          version: world.version,
+          created: world.metadata?.created
         })),
-        total: result?.total
+        total: result.total
       },
       timestamp: new Date()
     };
   }
 
   private addZone(op: WorldOperation): any {
-    if (!op?.worldId || !op?.zoneId || !op?.name || !op?.width || !op?.height) {
+    if (!op.worldId || !op.zoneId || !op.name || !op.width || !op.height) {
       throw new Error('Missing required fields: worldId, zoneId, name, width, height');
     }
 
-    const result = this?.manager.addZone(op?.worldId, op?.zoneId, op?.name, op?.width, op?.height);
+    const result = this.manager.addZone(op.worldId, op.zoneId, op.name, op.width, op.height);
 
     return {
       op: 'addZone',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        zone: result?.zone,
-        message: `Zone ${op?.zoneId} added to world ${op?.worldId}`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        zone: result.zone,
+        message: `Zone ${op.zoneId} added to world ${op.worldId}`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private removeZone(op: WorldOperation): any {
-    if (!op?.worldId || !op?.zoneId) {
+    if (!op.worldId || !op.zoneId) {
       throw new Error('Missing required fields: worldId, zoneId');
     }
 
-    const result = this?.manager.removeZone(op?.worldId, op?.zoneId);
+    const result = this.manager.removeZone(op.worldId, op.zoneId);
 
     return {
       op: 'removeZone',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        message: `Zone ${op?.zoneId} removed from world ${op?.worldId}`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        message: `Zone ${op.zoneId} removed from world ${op.worldId}`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private placeAsset(op: WorldOperation): any {
-    if (!op?.worldId || !op?.zoneId || op.x === undefined || op.y === undefined || !op?.assetId) {
+    if (!op.worldId || !op.zoneId || op.x === undefined || op.y === undefined || !op.assetId) {
       throw new Error('Missing required fields: worldId, zoneId, x, y, assetId');
     }
 
-    const result = this?.manager.placeAsset(
-      op?.worldId,
-      op?.zoneId,
+    const result = this.manager.placeAsset(
+      op.worldId,
+      op.zoneId,
       op.x,
       op.y,
-      op?.assetId,
-      op?.layer || 1,
-      op?.metadata
+      op.assetId,
+      op.layer || 1,
+      op.metadata
     );
 
     return {
       op: 'placeAsset',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        anchor: result?.anchor,
-        message: `Asset ${op?.assetId} placed at (${op.x}, ${op.y}) in zone ${op?.zoneId}`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        anchor: result.anchor,
+        message: `Asset ${op.assetId} placed at (${op.x}, ${op.y}) in zone ${op.zoneId}`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private removeAsset(op: WorldOperation): any {
-    if (!op?.worldId || !op?.zoneId || op.x === undefined || op.y === undefined) {
+    if (!op.worldId || !op.zoneId || op.x === undefined || op.y === undefined) {
       throw new Error('Missing required fields: worldId, zoneId, x, y');
     }
 
-    const result = this?.manager.removeAsset(op?.worldId, op?.zoneId, op.x, op.y, op?.layer);
+    const result = this.manager.removeAsset(op.worldId, op.zoneId, op.x, op.y, op.layer);
 
     return {
       op: 'removeAsset',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        removed: result?.removed,
-        count: result?.removed?.length || 0,
-        message: `Removed ${result?.removed?.length || 0} assets from (${op.x}, ${op.y})`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        removed: result.removed,
+        count: result.removed?.length || 0,
+        message: `Removed ${result.removed?.length || 0} assets from (${op.x}, ${op.y})`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private findAssets(op: WorldOperation): any {
-    if (!op?.worldId || !op?.zoneId || op.x === undefined || op.y === undefined || op?.endX === undefined || op?.endY === undefined) {
+    if (!op.worldId || !op.zoneId || op.x === undefined || op.y === undefined || op.endX === undefined || op.endY === undefined) {
       throw new Error('Missing required fields: worldId, zoneId, x, y, endX, endY');
     }
 
-    const result = this?.manager.findAssetsInArea(op?.worldId, op?.zoneId, op.x, op.y, op?.endX, op?.endY);
+    const result = this.manager.findAssetsInArea(op.worldId, op.zoneId, op.x, op.y, op.endX, op.endY);
 
     return {
       op: 'findAssets',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        tiles: result?.tiles,
-        count: result?.tiles?.length || 0,
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        tiles: result.tiles,
+        count: result.tiles?.length || 0,
         area: {
           startX: op.x,
           startY: op.y,
-          endX: op?.endX,
-          endY: op?.endY,
+          endX: op.endX,
+          endY: op.endY,
           width: Math.abs(op.endX - op.x) + 1,
           height: Math.abs(op.endY - op.y) + 1
         }
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private generateWorld(op: WorldOperation): any {
-    if (!op?.worldId || !op?.zoneId) {
+    if (!op.worldId || !op.zoneId) {
       throw new Error('Missing required fields: worldId, zoneId');
     }
 
-    const worldResult = this?.manager.getWorld(op?.worldId);
-    if (!worldResult?.ok) {
+    const worldResult = this.manager.getWorld(op.worldId);
+    if (!worldResult.ok) {
       return {
         op: 'generate',
         status: 'error',
-        errors: worldResult?.errors,
+        errors: worldResult.errors,
         timestamp: new Date()
       };
     }
 
-    const result = this?.manager.generateWorld(worldResult?.world!, op?.zoneId, op?.config || {});
+    const result = this.manager.generateWorld(worldResult.world!, op.zoneId, op.config || {});
 
     return {
       op: 'generate',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        generated: result?.generated,
-        config: op?.config,
-        message: `Generated ${result?.generated} tiles in zone ${op?.zoneId}`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        generated: result.generated,
+        config: op.config,
+        message: `Generated ${result.generated} tiles in zone ${op.zoneId}`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private validateWorld(op: WorldOperation): any {
-    if (!op?.worldId) {
+    if (!op.worldId) {
       throw new Error('Missing required field: worldId');
     }
 
-    const result = this?.manager.validateWorld(op?.worldId);
+    const result = this.manager.validateWorld(op.worldId);
 
     return {
       op: 'validate',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.validation,
-      errors: result?.errors,
+      status: result.ok ? 'ok' : 'error',
+      result: result.validation,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private getWorldStats(op: WorldOperation): any {
-    if (!op?.worldId) {
+    if (!op.worldId) {
       throw new Error('Missing required field: worldId');
     }
 
-    const result = this?.manager.getWorldStats(op?.worldId);
+    const result = this.manager.getWorldStats(op.worldId);
 
     return {
       op: 'stats',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        stats: result?.stats,
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        stats: result.stats,
         summary: {
-          message: `${result?.stats?.totalZones} zones, ${result?.stats?.totalTiles} tiles, ${result?.stats?.totalAssets} unique assets`,
-          averageTiles: result?.stats?.averageTilesPerZone?.toFixed(1)
+          message: `${result.stats?.totalZones} zones, ${result.stats?.totalTiles} tiles, ${result.stats?.totalAssets} unique assets`,
+          averageTiles: result.stats?.averageTilesPerZone.toFixed(1)
         }
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private exportWorld(op: WorldOperation): any {
-    if (!op?.worldId) {
+    if (!op.worldId) {
       throw new Error('Missing required field: worldId');
     }
 
-    const format = op?.format || 'json';
+    const format = op.format || 'json';
     
     // Handle special world export formats
     if (['manifest', 'summary', 'tiles'].includes(format)) {
-      const result = this?.manager.exportWorld(op?.worldId, format as any);
+      const result = this.manager.exportWorld(op.worldId, format as any);
       return {
         op: 'export',
-        status: result?.ok ? 'ok' : 'error',
-        result: result?.data,
+        status: result.ok ? 'ok' : 'error',
+        result: result.data,
         format,
-        errors: result?.errors,
+        errors: result.errors,
         timestamp: new Date()
       };
     }
 
     // Handle standard export formats
-    const worldResult = this?.manager.getWorld(op?.worldId);
-    if (!worldResult?.ok) {
+    const worldResult = this.manager.getWorld(op.worldId);
+    if (!worldResult.ok) {
       return {
         op: 'export',
         status: 'error',
-        errors: worldResult?.errors,
+        errors: worldResult.errors,
         timestamp: new Date()
       };
     }
 
-    const data = worldResult?.world;
+    const data = worldResult.world;
 
     switch (format) {
       case 'yaml': {
-        const yaml = this?.toYAML(data: any);
+        const yaml = this.toYAML(data);
         return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
-        const xml = this?.toXML(data, 'world');
+        const xml = this.toXML(data, 'world');
         return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
@@ -376,7 +376,7 @@ class WorldManifestCLI {
           format: format as ExportFormat,
           includeMetadata: true,
           includeTimestamp: true,
-          title: `World ${op?.worldId}`,
+          title: `World ${op.worldId}`,
           description: `World manifest for ${data?.metadata?.title || 'Unnamed World'}`
         });
         return { 
@@ -399,25 +399,25 @@ class WorldManifestCLI {
   }
 
   private deleteWorld(op: WorldOperation): any {
-    if (!op?.worldId) {
+    if (!op.worldId) {
       throw new Error('Missing required field: worldId');
     }
 
-    const result = this?.manager.deleteWorld(op?.worldId);
+    const result = this.manager.deleteWorld(op.worldId);
 
     return {
       op: 'delete',
-      status: result?.ok ? 'ok' : 'error',
-      result: result?.ok ? {
-        message: `World ${op?.worldId} deleted successfully`
+      status: result.ok ? 'ok' : 'error',
+      result: result.ok ? {
+        message: `World ${op.worldId} deleted successfully`
       } : undefined,
-      errors: result?.errors,
+      errors: result.errors,
       timestamp: new Date()
     };
   }
 
   private getGlobalStats(): any {
-    const stats = this?.manager.getGlobalStats();
+    const stats = this.manager.getGlobalStats();
 
     return {
       op: 'globalStats',
@@ -425,9 +425,9 @@ class WorldManifestCLI {
       result: {
         stats,
         summary: {
-          message: `${stats?.totalWorlds} worlds, ${stats?.totalZones} zones, ${stats?.totalTiles} tiles, ${stats?.totalAssets} assets`,
-          averageZonesPerWorld: stats?.totalWorlds > 0 ? (stats?.totalZones / stats?.totalWorlds).toFixed(1) : '0',
-          averageTilesPerZone: stats?.totalZones > 0 ? (stats?.totalTiles / stats?.totalZones).toFixed(1) : '0'
+          message: `${stats.totalWorlds} worlds, ${stats.totalZones} zones, ${stats.totalTiles} tiles, ${stats.totalAssets} assets`,
+          averageZonesPerWorld: stats.totalWorlds > 0 ? (stats.totalZones / stats.totalWorlds).toFixed(1) : '0',
+          averageTilesPerZone: stats.totalZones > 0 ? (stats.totalTiles / stats.totalZones).toFixed(1) : '0'
         }
       },
       timestamp: new Date()
@@ -437,21 +437,21 @@ class WorldManifestCLI {
   private toYAML(obj: any, indent = 0): string {
     const pad = '  '.repeat(indent);
     if (obj === null || obj === undefined) return 'null';
-    if (typeof obj !== 'object') return String(obj: any);
-    if (Array.isArray(obj: any)) {
-      return obj?.map((v: any) => `${pad}- ${this?.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+    if (typeof obj !== 'object') return String(obj);
+    if (Array.isArray(obj)) {
+      return obj.map((v: any) => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
     }
-    return Object.entries(obj: any).map(([k, v]) => {
-      const val = typeof v === 'object' && v !== null ? `\n${this?.toYAML(v, indent + 1)}` : `${this?.toYAML(v, 0)}`;
+    return Object.entries(obj).map(([k, v]) => {
+      const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
       return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
     }).join('\n');
   }
 
   private toXML(obj: any, tag = 'root'): string {
     if (obj === null || obj === undefined) return `<${tag}/>`;
-    if (typeof obj !== 'object') return `<${tag}>${String(obj: any)}</${tag}>`;
-    if (Array.isArray(obj: any)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
-    const children = Object.entries(obj: any).map(([k, v]) => this.toXML(v as any, k)).join('');
+    if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
+    if (Array.isArray(obj)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
+    const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
     return `<${tag}>${children}</${tag}>`;
   }
 }
@@ -459,7 +459,7 @@ class WorldManifestCLI {
 async function main() {
   const cli = new WorldManifestCLI();
   
-  if (process?.argv.length < 3) {
+  if (process.argv.length < 3) {
     console.error('Usage: cliHarness.ts <operation> [args...]');
     console.error('Operations: create, get, list, addZone, removeZone, placeAsset, removeAsset, findAssets, generate, validate, stats, export, delete, globalStats');
     console.error('Examples:');
@@ -470,18 +470,18 @@ async function main() {
     console.error('  cliHarness.ts generate my-world zone1 --seed 12345 --density 0.6 --style forest');
     console.error('  cliHarness.ts stats my-world');
     console.error('  cliHarness.ts export my-world yaml');
-    process?.exit(1);
+    process.exit(1);
   }
 
-  const operation = process?.argv[2!];
-  const args = process?.argv.slice(3);
+  const operation = process.argv[2!];
+  const args = process.argv.slice(3);
 
   let op: WorldOperation;
   
   try {
     switch (operation) {
       case 'create':
-        if (args?.length < 4) throw new Error('create requires worldId, name, width, height');
+        if (args.length < 4) throw new Error('create requires worldId, name, width, height');
         op = { 
           op: 'create', 
           worldId: args[0!], 
@@ -492,7 +492,7 @@ async function main() {
         break;
         
       case 'get':
-        if (args?.length < 1) throw new Error('get requires worldId');
+        if (args.length < 1) throw new Error('get requires worldId');
         op = { op: 'get', worldId: args[0!] };
         break;
         
@@ -501,7 +501,7 @@ async function main() {
         break;
         
       case 'addZone':
-        if (args?.length < 5) throw new Error('addZone requires worldId, zoneId, name, width, height');
+        if (args.length < 5) throw new Error('addZone requires worldId, zoneId, name, width, height');
         op = { 
           op: 'addZone', 
           worldId: args[0!],
@@ -513,12 +513,12 @@ async function main() {
         break;
         
       case 'removeZone':
-        if (args?.length < 2) throw new Error('removeZone requires worldId and zoneId');
+        if (args.length < 2) throw new Error('removeZone requires worldId and zoneId');
         op = { op: 'removeZone', worldId: args[0], zoneId: args[1] };
         break;
         
       case 'placeAsset':
-        if (args?.length < 5) throw new Error('placeAsset requires worldId, zoneId, x, y, assetId');
+        if (args.length < 5) throw new Error('placeAsset requires worldId, zoneId, x, y, assetId');
         op = { 
           op: 'placeAsset', 
           worldId: args[0!],
@@ -531,7 +531,7 @@ async function main() {
         break;
         
       case 'removeAsset':
-        if (args?.length < 4) throw new Error('removeAsset requires worldId, zoneId, x, y');
+        if (args.length < 4) throw new Error('removeAsset requires worldId, zoneId, x, y');
         op = { 
           op: 'removeAsset', 
           worldId: args[0!],
@@ -543,7 +543,7 @@ async function main() {
         break;
         
       case 'findAssets':
-        if (args?.length < 6) throw new Error('findAssets requires worldId, zoneId, x, y, endX, endY');
+        if (args.length < 6) throw new Error('findAssets requires worldId, zoneId, x, y, endX, endY');
         op = { 
           op: 'findAssets', 
           worldId: args[0!],
@@ -556,26 +556,26 @@ async function main() {
         break;
         
       case 'generate':
-        if (args?.length < 2) throw new Error('generate requires worldId and zoneId');
+        if (args.length < 2) throw new Error('generate requires worldId and zoneId');
         const config: WorldGenerationConfig = {};
         
         // Parse optional config from remaining args
-        for (let i = 2; i < args?.length; i += 2) {
+        for (let i = 2; i < args.length; i += 2) {
           const key = args[i!]?.replace('--', '');
           const value = args[i + 1];
           if (key && value) {
             switch (key) {
               case 'seed':
-                config?.seed = parseInt(value: any);
+                config.seed = parseInt(value);
                 break;
               case 'density':
-                config?.density = parseFloat(value: any);
+                config.density = parseFloat(value);
                 break;
               case 'style':
-                config?.style = value as any;
+                config.style = value as any;
                 break;
               case 'layering':
-                config?.layering = value as any;
+                config.layering = value as any;
                 break;
             }
           }
@@ -590,17 +590,17 @@ async function main() {
         break;
         
       case 'validate':
-        if (args?.length < 1) throw new Error('validate requires worldId');
+        if (args.length < 1) throw new Error('validate requires worldId');
         op = { op: 'validate', worldId: args[0!] };
         break;
         
       case 'stats':
-        if (args?.length < 1) throw new Error('stats requires worldId');
+        if (args.length < 1) throw new Error('stats requires worldId');
         op = { op: 'stats', worldId: args[0!] };
         break;
         
       case 'export':
-        if (args?.length < 1) throw new Error('export requires worldId');
+        if (args.length < 1) throw new Error('export requires worldId');
         op = { 
           op: 'export', 
           worldId: args[0!], 
@@ -609,7 +609,7 @@ async function main() {
         break;
         
       case 'delete':
-        if (args?.length < 1) throw new Error('delete requires worldId');
+        if (args.length < 1) throw new Error('delete requires worldId');
         op = { op: 'delete', worldId: args[0!] };
         break;
         
@@ -621,15 +621,15 @@ async function main() {
         throw new Error(`Unknown operation: ${operation}`);
     }
 
-    const result = await cli?.execute(op);
+    const result = await cli.execute(op);
     console.log(JSON.stringify(result, null, 2));
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', error instanceof Error ? error.message : error);
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

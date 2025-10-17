@@ -28,7 +28,7 @@ import {
   GameState,
   TeamPosition,
   BallState
-} from './index?.js';
+} from './index.js';
 
 export interface SportsConfig {
   maxGamesPerPlayer?: number;
@@ -88,8 +88,8 @@ export class SportsManager {
 
   constructor(eventBus: EventBus, config: SportsConfig = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.eventBus = eventBus;
-    this?.config = {
+    this.eventBus = eventBus;
+    this.config = {
       maxGamesPerPlayer: 10,
       maxTeamsPerPlayer: 5,
       enableTournaments: true,
@@ -100,30 +100,30 @@ export class SportsManager {
       ...config
     };
 
-    this?.sportsSystem = new SportsSystemPure(eventBus);
+    this.sportsSystem = new SportsSystemPure(eventBus);
 
-    this?.setupEventListeners();
+    this.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    this?.eventBus.on('sports:game_created', (data: any) => {
-      this?.handleGameCreated(data?.game);
+    this.eventBus.on('sports:game_created', (data) => {
+      this.handleGameCreated(data.game);
     });
 
-    this?.eventBus.on('sports:goal_scored', (data: any) => {
-      this?.handleGoalScored(data: any);
+    this.eventBus.on('sports:goal_scored', (data) => {
+      this.handleGoalScored(data);
     });
 
-    this?.eventBus.on('sports:game_ended', (data: any) => {
-      this?.handleGameEnded(data?.gameId, data?.result);
+    this.eventBus.on('sports:game_ended', (data) => {
+      this.handleGameEnded(data.gameId, data.result);
     });
   }
 
   private handleGameCreated(game: Game): void {
     // Initialize game tracking
-    this?.activeMatches.set(game?.id, {
-      gameId: game?.id,
-      teams: game?.teams,
+    this.activeMatches.set(game.id, {
+      gameId: game.id,
+      teams: game.teams,
       finalScore: { team1: 0, team2: 0 },
       winner: null,
       duration: 0,
@@ -132,43 +132,43 @@ export class SportsManager {
     });
   }
 
-  private handleGoalScored(data: any): void {
-    const game = this?.sportsSystem.getGameState(data?.gameId);
+  private handleGoalScored(data): void {
+    const game = this.sportsSystem.getGameState(data.gameId);
     if (!game) return;
 
     // Update team scores
-    if (data?.position.x < 0) {
-      game?.teams[1!].score += 1; // Team 2 scored
+    if (data.position.x < 0) {
+      game.teams[1!].score += 1; // Team 2 scored
     } else {
-      game?.teams[0!].score += 1; // Team 1 scored
+      game.teams[0!].score += 1; // Team 1 scored
     }
 
     // Update player stats
-    const player = this?.sportsSystem.getPlayerStats(data?.scorer);
+    const player = this.sportsSystem.getPlayerStats(data.scorer);
     if (player) {
-      player?.goals += 1;
+      player.goals += 1;
     }
   }
 
   private handleGameEnded(gameId: string, result: MatchResult): void {
-    this?.activeMatches.set(gameId, result);
+    this.activeMatches.set(gameId, result);
   }
 
   public createTeam(name: string, color: string, creatorId: string): SportsOutput {
     try {
       // Check team limit per player
       const playerTeams = Array.from(this.sportsSystem['teams'].values())
-        .filter((team: any) => team?.players.some(p => p?.id === creatorId));
+        .filter((team: any) => team.players.some(p => p.id === creatorId));
 
-      if (playerTeams?.length >= this?.config.maxTeamsPerPlayer!) {
+      if (playerTeams.length >= this.config.maxTeamsPerPlayer!) {
         return {
           success: false,
-          message: `Maximum teams per player (${this?.config.maxTeamsPerPlayer}) reached`,
+          message: `Maximum teams per player (${this.config.maxTeamsPerPlayer}) reached`,
           timestamp: new Date()
         };
       }
 
-      const team = this?.sportsSystem.createTeam(name, color);
+      const team = this.sportsSystem.createTeam(name, color);
 
       return {
         success: true,
@@ -180,7 +180,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create team: ${error?.message}`,
+        message: `Failed to create team: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -189,7 +189,7 @@ export class SportsManager {
   public createPlayer(name: string, teamId: string, position: TeamPosition, creatorId: string): SportsOutput {
     try {
       // Validate team ownership
-      const team = this?.sportsSystem['teams'].get(teamId);
+      const team = this.sportsSystem['teams'].get(teamId);
       if (!team) {
         return {
           success: false,
@@ -199,8 +199,8 @@ export class SportsManager {
       }
 
       // Check if creator has permission to add players to this team
-      const creatorInTeam = team?.players.some(p => p?.id === creatorId);
-      if (!creatorInTeam && team?.players.length > 0) {
+      const creatorInTeam = team.players.some(p => p.id === creatorId);
+      if (!creatorInTeam && team.players.length > 0) {
         return {
           success: false,
           message: 'No permission to add players to this team',
@@ -208,7 +208,7 @@ export class SportsManager {
         };
       }
 
-      const player = this?.sportsSystem.createPlayer(name, teamId, position);
+      const player = this.sportsSystem.createPlayer(name, teamId, position);
 
       return {
         success: true,
@@ -220,7 +220,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create player: ${error?.message}`,
+        message: `Failed to create player: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -229,8 +229,8 @@ export class SportsManager {
   public createGame(sportType: SportType, team1Id: string, team2Id: string, creatorId: string): SportsOutput {
     try {
       // Validate team ownership
-      const team1 = this?.sportsSystem['teams'].get(team1Id);
-      const team2 = this?.sportsSystem['teams'].get(team2Id);
+      const team1 = this.sportsSystem['teams'].get(team1Id);
+      const team2 = this.sportsSystem['teams'].get(team2Id);
 
       if (!team1 || !team2) {
         return {
@@ -241,8 +241,8 @@ export class SportsManager {
       }
 
       // Check if creator has permission
-      const creatorInTeam1 = team1?.players.some(p => p?.id === creatorId);
-      const creatorInTeam2 = team2?.players.some(p => p?.id === creatorId);
+      const creatorInTeam1 = team1.players.some(p => p.id === creatorId);
+      const creatorInTeam2 = team2.players.some(p => p.id === creatorId);
 
       if (!creatorInTeam1 && !creatorInTeam2) {
         return {
@@ -254,10 +254,10 @@ export class SportsManager {
 
       // Check active games limit
       const activeGames = Array.from(this.sportsSystem['games'].values())
-        .filter((game: any) => game?.state === 'playing' || game?.state === 'paused')
-        .filter((game: any) => game?.teams.some(team => team?.id === team1Id || team?.id === team2Id));
+        .filter((game: any) => game.state === 'playing' || game.state === 'paused')
+        .filter((game: any) => game.teams.some(team => team.id === team1Id || team.id === team2Id));
 
-      if (activeGames?.length > 0) {
+      if (activeGames.length > 0) {
         return {
           success: false,
           message: 'One or both teams are already in an active game',
@@ -265,7 +265,7 @@ export class SportsManager {
         };
       }
 
-      const game = this?.sportsSystem.createGame(sportType, team1Id, team2Id);
+      const game = this.sportsSystem.createGame(sportType, team1Id, team2Id);
 
       return {
         success: true,
@@ -277,7 +277,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create game: ${error?.message}`,
+        message: `Failed to create game: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -285,7 +285,7 @@ export class SportsManager {
 
   public startGame(gameId: string, starterId: string): SportsOutput {
     try {
-      const game = this?.sportsSystem.getGameState(gameId);
+      const game = this.sportsSystem.getGameState(gameId);
       if (!game) {
         return {
           success: false,
@@ -295,8 +295,8 @@ export class SportsManager {
       }
 
       // Validate starter permission
-      const starterInGame = game?.teams.some(team =>
-        team?.players.some(player => player?.id === starterId)
+      const starterInGame = game.teams.some(team =>
+        team.players.some(player => player.id === starterId)
       );
 
       if (!starterInGame) {
@@ -307,7 +307,7 @@ export class SportsManager {
         };
       }
 
-      const success = this?.sportsSystem.startGame(gameId);
+      const success = this.sportsSystem.startGame(gameId);
 
       if (success) {
         return {
@@ -327,7 +327,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to start game: ${error?.message}`,
+        message: `Failed to start game: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -335,7 +335,7 @@ export class SportsManager {
 
   public pauseGame(gameId: string, requesterId: string): SportsOutput {
     try {
-      const game = this?.sportsSystem.getGameState(gameId);
+      const game = this.sportsSystem.getGameState(gameId);
       if (!game) {
         return {
           success: false,
@@ -345,8 +345,8 @@ export class SportsManager {
       }
 
       // Validate requester permission
-      const requesterInGame = game?.teams.some(team =>
-        team?.players.some(player => player?.id === requesterId)
+      const requesterInGame = game.teams.some(team =>
+        team.players.some(player => player.id === requesterId)
       );
 
       if (!requesterInGame) {
@@ -357,7 +357,7 @@ export class SportsManager {
         };
       }
 
-      const success = this?.sportsSystem.pauseGame(gameId);
+      const success = this.sportsSystem.pauseGame(gameId);
 
       if (success) {
         return {
@@ -377,7 +377,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to pause game: ${error?.message}`,
+        message: `Failed to pause game: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -385,7 +385,7 @@ export class SportsManager {
 
   public shootBall(gameId: string, playerId: string, targetPosition: { x: number; y: number; z: number }): SportsOutput {
     try {
-      const success = this?.sportsSystem.shootBall(gameId, playerId, targetPosition);
+      const success = this.sportsSystem.shootBall(gameId, playerId, targetPosition);
 
       if (success) {
         return {
@@ -405,7 +405,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to take shot: ${error?.message}`,
+        message: `Failed to take shot: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -413,7 +413,7 @@ export class SportsManager {
 
   public passBall(gameId: string, fromPlayerId: string, toPlayerId: string): SportsOutput {
     try {
-      const success = this?.sportsSystem.passBall(gameId, fromPlayerId, toPlayerId);
+      const success = this.sportsSystem.passBall(gameId, fromPlayerId, toPlayerId);
 
       if (success) {
         return {
@@ -433,7 +433,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to complete pass: ${error?.message}`,
+        message: `Failed to complete pass: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -441,7 +441,7 @@ export class SportsManager {
 
   public tackle(gameId: string, tacklerId: string, targetId: string): SportsOutput {
     try {
-      const success = this?.sportsSystem.tackle(gameId, tacklerId, targetId);
+      const success = this.sportsSystem.tackle(gameId, tacklerId, targetId);
 
       if (success) {
         return {
@@ -461,7 +461,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to perform tackle: ${error?.message}`,
+        message: `Failed to perform tackle: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -469,7 +469,7 @@ export class SportsManager {
 
   public joinMatchmaking(playerId: string, preferences: MatchmakingPreferences): SportsOutput {
     try {
-      const player = this?.sportsSystem['players'].get(playerId);
+      const player = this.sportsSystem['players'].get(playerId);
       if (!player) {
         return {
           success: false,
@@ -479,7 +479,7 @@ export class SportsManager {
       }
 
       // Check if player is already in queue
-      const existingIndex = this?.matchmakingQueue.findIndex(p => p?.id === playerId);
+      const existingIndex = this.matchmakingQueue.findIndex(p => p.id === playerId);
       if (existingIndex >= 0) {
         return {
           success: false,
@@ -490,10 +490,10 @@ export class SportsManager {
 
       // Check active games
       const activeGames = Array.from(this.sportsSystem['games'].values())
-        .filter((game: any) => game?.state === 'playing' || game?.state === 'paused')
-        .filter((game: any) => game?.teams.some(team => team?.players.some(p => p?.id === playerId)));
+        .filter((game: any) => game.state === 'playing' || game.state === 'paused')
+        .filter((game: any) => game.teams.some(team => team.players.some(p => p.id === playerId)));
 
-      if (activeGames?.length > 0) {
+      if (activeGames.length > 0) {
         return {
           success: false,
           message: 'Player is already in an active game',
@@ -501,22 +501,22 @@ export class SportsManager {
         };
       }
 
-      this?.matchmakingQueue?.push(player);
+      this.matchmakingQueue.push(player);
       player.stats = Object.assign(player.stats, preferences);
 
-      this?.attemptMatchmaking();
+      this.attemptMatchmaking();
 
       return {
         success: true,
         message: 'Joined matchmaking queue',
-        data: { queuePosition: this?.matchmakingQueue.length },
+        data: { queuePosition: this.matchmakingQueue.length },
         timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to join matchmaking: ${error?.message}`,
+        message: `Failed to join matchmaking: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -524,10 +524,10 @@ export class SportsManager {
 
   public leaveMatchmaking(playerId: string): SportsOutput {
     try {
-      const index = this?.matchmakingQueue.findIndex(p => p?.id === playerId);
+      const index = this.matchmakingQueue.findIndex(p => p.id === playerId);
 
       if (index >= 0) {
-        this?.matchmakingQueue.splice(index, 1);
+        this.matchmakingQueue.splice(index, 1);
 
         return {
           success: true,
@@ -545,7 +545,7 @@ export class SportsManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to leave matchmaking: ${error?.message}`,
+        message: `Failed to leave matchmaking: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -555,64 +555,64 @@ export class SportsManager {
     // Simple matchmaking algorithm - pair players with similar skill levels
     const playersBySport = new Map<SportType, Player[]>();
 
-    this?.matchmakingQueue.forEach((player: any) => {
-      const sport = player?.stats.sportType || 'soccer';
-      if (!playersBySport?.has(sport)) {
-        playersBySport?.set(sport, []);
+    this.matchmakingQueue.forEach((player: any) => {
+      const sport = player.stats.sportType || 'soccer';
+      if (!playersBySport.has(sport)) {
+        playersBySport.set(sport, []);
       }
-      playersBySport?.get(sport)!.push(player);
+      playersBySport.get(sport)!.push(player);
     });
 
-    playersBySport?.forEach((players, sport) => {
+    playersBySport.forEach((players, sport) => {
       // Sort by skill level
-      players?.sort((a: any, b: any) => (a?.skillLevel || 5) - (b?.skillLevel || 5));
+      players.sort((a: any, b: any) => (a.skillLevel || 5) - (b.skillLevel || 5));
 
       // Create matches
-      for (let i = 0; i < players?.length - 1; i += 2) {
+      for (let i = 0; i < players.length - 1; i += 2) {
         const player1 = players[i!];
         const player2 = players[i + 1];
 
         // Check if they can form teams
-        const team1 = this?.sportsSystem.createTeam(`${player1?.name}'s Team`, '#FF0000');
-        const team2 = this?.sportsSystem.createTeam(`${player2?.name}'s Team`, '#0000FF');
+        const team1 = this.sportsSystem.createTeam(`${player1.name}'s Team`, '#FF0000');
+        const team2 = this.sportsSystem.createTeam(`${player2.name}'s Team`, '#0000FF');
 
-        this?.sportsSystem.createPlayer(player1?.name, team1?.id, 'forward');
-        this?.sportsSystem.createPlayer(player2?.name, team2?.id, 'forward');
+        this.sportsSystem.createPlayer(player1.name, team1.id, 'forward');
+        this.sportsSystem.createPlayer(player2.name, team2.id, 'forward');
 
         try {
-          const game = this?.sportsSystem.createGame(sport, team1?.id, team2?.id);
+          const game = this.sportsSystem.createGame(sport, team1.id, team2.id);
 
           // Remove players from queue
-          this?.matchmakingQueue = this?.matchmakingQueue.filter((p: any) =>
-            p?.id !== player1?.id && p?.id !== player2?.id
+          this.matchmakingQueue = this.matchmakingQueue.filter((p: any) =>
+            p.id !== player1.id && p.id !== player2.id
           );
 
-          this?.eventBus.publish('sports:match_found', {
-            gameId: game?.id,
-            players: [player1?.id, player2?.id],
+          this.eventBus.publish('sports:match_found', {
+            gameId: game.id,
+            players: [player1.id, player2.id],
             sport: sport,
             timestamp: new Date()
           });
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           // Clean up teams if game creation fails
-          this?.sportsSystem['teams'].delete(team1?.id);
-          this?.sportsSystem['teams'].delete(team2?.id);
+          this.sportsSystem['teams'].delete(team1.id);
+          this.sportsSystem['teams'].delete(team2.id);
         }
       }
     });
   }
 
   public getGameState(gameId: string): Game | null {
-    return this?.sportsSystem.getGameState(gameId);
+    return this.sportsSystem.getGameState(gameId);
   }
 
   public getPlayerStats(playerId: string): PlayerStats | null {
-    return this?.sportsSystem.getPlayerStats(playerId);
+    return this.sportsSystem.getPlayerStats(playerId);
   }
 
   public getTeamStats(teamId: string): { score: number; players: Player[] } | null {
-    return this?.sportsSystem.getTeamStats(teamId);
+    return this.sportsSystem.getTeamStats(teamId);
   }
 
   public getAvailableSports(): SportType[] {
@@ -624,15 +624,15 @@ export class SportsManager {
   }
 
   public exportGameState(gameId: string): string {
-    const game = this?.sportsSystem.getGameState(gameId);
+    const game = this.sportsSystem.getGameState(gameId);
     if (!game) return '{}';
 
     return JSON.stringify({
       game,
-      teams: game?.teams,
-      players: game?.teams.flatMap(team => team?.players),
-      ball: game?.ball,
-      stats: game?.stats,
+      teams: game.teams,
+      players: game.teams.flatMap(team => team.players),
+      ball: game.ball,
+      stats: game.stats,
       exportDate: new Date()
     }, null, 2);
   }

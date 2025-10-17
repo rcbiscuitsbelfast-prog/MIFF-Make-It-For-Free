@@ -119,7 +119,7 @@ export class RealAISystem {
 
   constructor(...args: any[]) {
     
-    this?.initializeDefaultModels();
+    this.initializeDefaultModels();
   }
 
   /**
@@ -127,7 +127,7 @@ export class RealAISystem {
    */
   private initializeDefaultModels(): void {
     // Initialize with basic models
-    this?.addModel({
+    this.addModel({
       id: 'text-classifier',
       name: 'Text Classifier',
       type: 'classification',
@@ -139,7 +139,7 @@ export class RealAISystem {
       lastUpdated: new Date()
     });
 
-    this?.addModel({
+    this.addModel({
       id: 'sentiment-analyzer',
       name: 'Sentiment Analyzer',
       type: 'nlp',
@@ -151,7 +151,7 @@ export class RealAISystem {
       lastUpdated: new Date()
     });
 
-    this?.addModel({
+    this.addModel({
       id: 'decision-tree',
       name: 'Decision Tree',
       type: 'classification',
@@ -163,8 +163,8 @@ export class RealAISystem {
       lastUpdated: new Date()
     });
 
-    this?.isInitialized = true;
-    this?.emit('initialized', { modelCount: this?.models.size });
+    this.isInitialized = true;
+    this.emit('initialized', { modelCount: this.models.size });
   }
 
   /**
@@ -172,9 +172,9 @@ export class RealAISystem {
    */
   addModel(): boolean {
     try {
-      this?.models.set(model?.id, model);
-      this?.performanceMetrics.modelCount = this?.models.size;
-      this?.emit('modelAdded', { modelId: model?.id, model });
+      this.models.set(model.id, model);
+      this.performanceMetrics.modelCount = this.models.size;
+      this.emit('modelAdded', { modelId: model.id, model });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -187,7 +187,7 @@ export class RealAISystem {
    * Get an AI model by ID
    */
   getModel(modelId: string): AIModel! {
-    return this?.models.get(modelId);
+    return this.models.get(modelId);
   }
 
   /**
@@ -201,13 +201,13 @@ export class RealAISystem {
    * Update an existing model
    */
   updateModel(): boolean {
-    const model = this?.models.get(modelId);
+    const model = this.models.get(modelId);
     if (!model) return false;
 
     try {
       const updatedModel = { ...model, ...updates, lastUpdated: new Date() };
-      this?.models.set(modelId, updatedModel);
-      this?.emit('modelUpdated', { modelId, model: updatedModel });
+      this.models.set(modelId, updatedModel);
+      this.emit('modelUpdated', { modelId, model: updatedModel });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -221,12 +221,12 @@ export class RealAISystem {
    */
   removeModel(): boolean {
     try {
-      const model = this?.models.get(modelId);
+      const model = this.models.get(modelId);
       if (!model) return false;
 
-      this?.models.delete(modelId);
-      this?.performanceMetrics.modelCount = this?.models.size;
-      this?.emit('modelRemoved', { modelId, model });
+      this.models.delete(modelId);
+      this.performanceMetrics.modelCount = this.models.size;
+      this.emit('modelRemoved', { modelId, model });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -239,7 +239,7 @@ export class RealAISystem {
    * Create a new AI task
    */
   createTask(): string {
-    const taskId = this?.generateId();
+    const taskId = this.generateId();
     const newTask: AITask = {
       ...task,
       id: taskId,
@@ -247,12 +247,12 @@ export class RealAISystem {
       status: 'pending'
     };
 
-    this?.tasks.set(taskId, newTask);
-    this?.performanceMetrics.totalTasks++;
-    this?.emit('taskCreated', { taskId, task: newTask });
+    this.tasks.set(taskId, newTask);
+    this.performanceMetrics.totalTasks++;
+    this.emit('taskCreated', { taskId, task: newTask });
 
     // Process task asynchronously
-    this?.processTask(taskId);
+    this.processTask(taskId);
     return taskId;
   }
 
@@ -260,32 +260,32 @@ export class RealAISystem {
    * Process an AI task
    */
   private async processTask(taskId: string): Promise<void> {
-    const task = this?.tasks.get(taskId);
+    const task = this.tasks.get(taskId);
     if (!task) return;
 
     try {
-      task?.status = 'processing';
-      this?.emit('taskStarted', { taskId, task });
+      task.status = 'processing';
+      this.emit('taskStarted', { taskId, task });
 
-      const startTime = new Date();
-      const result = await this?.executeTask(task);
-      const processingTime = new Date() - startTime;
+      const startTime = Date.now();
+      const result = await this.executeTask(task);
+      const processingTime = Date.now() - startTime;
 
-      task?.output = result;
-      task?.status = 'completed';
-      task?.completedAt = new Date();
+      task.output = result;
+      task.status = 'completed';
+      task.completedAt = new Date();
 
-      this?.performanceMetrics.completedTasks++;
-      this?.updateAverageProcessingTime(processingTime);
+      this.performanceMetrics.completedTasks++;
+      this.updateAverageProcessingTime(processingTime);
 
-      this?.emit('taskCompleted', { taskId, task, result, processingTime });
+      this.emit('taskCompleted', { taskId, task, result, processingTime });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      task?.status = 'failed';
-      task?.error = error instanceof Error ? error?.message : String(error);
-      this?.performanceMetrics.failedTasks++;
+      task.status = 'failed';
+      task.error = error instanceof Error ? error.message : String(error);
+      this.performanceMetrics.failedTasks++;
 
-      this?.emit('taskFailed', { taskId, task, error });
+      this.emit('taskFailed', { taskId, task, error });
     }
   }
 
@@ -296,17 +296,17 @@ export class RealAISystem {
     // Simulate AI processing based on task type
     await new Promise(resolve => setTimeout(resolve, Math.random() * 1000 + 500));
 
-    switch (task?.type) {
+    switch (task.type) {
       case 'prediction':
-        return this?.performPrediction(task?.input);
+        return this.performPrediction(task.input);
       case 'classification':
-        return this?.performClassification(task?.input);
+        return this.performClassification(task.input);
       case 'generation':
-        return this?.performGeneration(task?.input);
+        return this.performGeneration(task.input);
       case 'analysis':
-        return this?.performAnalysis(task?.input);
+        return this.performAnalysis(task.input);
       default:
-        throw new Error(`Unknown task type: ${task?.type}`);
+        throw new Error(`Unknown task type: ${task.type}`);
     }
   }
 
@@ -363,7 +363,7 @@ export class RealAISystem {
 
     return {
       generated,
-      length: generated?.length,
+      length: generated.length,
       timestamp: new Date(),
       model: 'generation-model'
     };
@@ -400,7 +400,7 @@ export class RealAISystem {
    * Start a learning session
    */
   startLearningSession(): string {
-    const sessionId = this?.generateId();
+    const sessionId = this.generateId();
     const newSession: AILearningSession = {
       ...session,
       id: sessionId,
@@ -408,12 +408,12 @@ export class RealAISystem {
       status: 'running'
     };
 
-    this?.learningSessions.set(sessionId, newSession);
-    this?.performanceMetrics.activeLearningSessions++;
-    this?.emit('learningStarted', { sessionId, session: newSession });
+    this.learningSessions.set(sessionId, newSession);
+    this.performanceMetrics.activeLearningSessions++;
+    this.emit('learningStarted', { sessionId, session: newSession });
 
     // Run learning session asynchronously
-    this?.runLearningSession(sessionId);
+    this.runLearningSession(sessionId);
     return sessionId;
   }
 
@@ -421,13 +421,13 @@ export class RealAISystem {
    * Run a learning session
    */
   private async runLearningSession(sessionId: string): Promise<void> {
-    const session = this?.learningSessions.get(sessionId);
+    const session = this.learningSessions.get(sessionId);
     if (!session) return;
 
     try {
       // Simulate learning process
-      for (let epoch = 0; epoch < session?.epochs; epoch++) {
-        session?.currentEpoch = epoch;
+      for (let epoch = 0; epoch < session.epochs; epoch++) {
+        session.currentEpoch = epoch;
         
         // Simulate epoch processing
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -436,21 +436,21 @@ export class RealAISystem {
         session.accuracy = Math.min(0.95, 0.5 + (epoch / session.epochs) * 0.45);
         session.loss = Math.max(0.01, 1.0 - (epoch / session.epochs) * 0.99);
 
-        this?.emit('learningProgress', { sessionId, session, epoch });
+        this.emit('learningProgress', { sessionId, session, epoch });
       }
 
-      session?.status = 'completed';
-      session?.endTime = new Date();
-      this?.performanceMetrics.activeLearningSessions--;
+      session.status = 'completed';
+      session.endTime = new Date();
+      this.performanceMetrics.activeLearningSessions--;
 
-      this?.emit('learningCompleted', { sessionId, session });
+      this.emit('learningCompleted', { sessionId, session });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      session?.status = 'failed';
-      session?.endTime = new Date();
-      this?.performanceMetrics.activeLearningSessions--;
+      session.status = 'failed';
+      session.endTime = new Date();
+      this.performanceMetrics.activeLearningSessions--;
 
-      this?.emit('learningFailed', { sessionId, session, error });
+      this.emit('learningFailed', { sessionId, session, error });
     }
   }
 
@@ -458,7 +458,7 @@ export class RealAISystem {
    * Get task by ID
    */
   getTask(taskId: string): AITask! {
-    return this?.tasks.get(taskId);
+    return this.tasks.get(taskId);
   }
 
   /**
@@ -479,7 +479,7 @@ export class RealAISystem {
    * Get learning session by ID
    */
   getLearningSession(sessionId: string): AILearningSession! {
-    return this?.learningSessions.get(sessionId);
+    return this.learningSessions.get(sessionId);
   }
 
   /**
@@ -493,44 +493,44 @@ export class RealAISystem {
    * Get performance metrics
    */
   getPerformanceMetrics(): AIPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Update average processing time
    */
   private updateAverageProcessingTime(newTime: number): void {
-    const total = this?.performanceMetrics.completedTasks;
-    const current = this?.performanceMetrics.averageProcessingTime;
-    this?.performanceMetrics.averageProcessingTime = (current * (total - 1) + newTime) / total;
+    const total = this.performanceMetrics.completedTasks;
+    const current = this.performanceMetrics.averageProcessingTime;
+    this.performanceMetrics.averageProcessingTime = (current * (total - 1) + newTime) / total;
   }
 
   /**
    * Event handling
    */
   on(): void {
-    if (!this?.eventHandlers.has(event)) {
-      this?.eventHandlers.set(event, []);
+    if (!this.eventHandlers.has(event)) {
+      this.eventHandlers.set(event, []);
     }
-    this?.eventHandlers.get(event)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      const index = handlers?.indexOf(handler);
+      const index = handlers.indexOf(handler);
       if (index > -1) {
-        handlers?.splice(index, 1);
+        handlers.splice(index, 1);
       }
     }
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this?.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers?.forEach((handler: any) => {
+      handlers.forEach((handler: any) => {
         try {
-          handler(data: any);
+          handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
@@ -551,10 +551,10 @@ export class RealAISystem {
    */
   getStatus(): { initialized: boolean; modelCount: number; taskCount: number; activeSessions: number } {
     return {
-      initialized: this?.isInitialized,
-      modelCount: this?.models.size,
-      taskCount: this?.tasks.size,
-      activeSessions: this?.performanceMetrics.activeLearningSessions
+      initialized: this.isInitialized,
+      modelCount: this.models.size,
+      taskCount: this.tasks.size,
+      activeSessions: this.performanceMetrics.activeLearningSessions
     };
   }
 
@@ -563,29 +563,29 @@ export class RealAISystem {
    */
   cleanupCompletedTasks(): number {
     const completedTasks = Array.from(this.tasks.values())
-      .filter((task: any) => task?.status === 'completed' && task?.completedAt)
+      .filter((task: any) => task.status === 'completed' && task.completedAt)
       .filter((task: any) => {
-        const age = new Date() - task.completedAt?.getTime();
+        const age = Date.now() - task.completedAt?.getTime();
         return age > 24 * 60 * 60 * 1000; // 24 hours
       });
 
-    completedTasks?.forEach((task: any) => {
-      this?.tasks.delete(task?.id);
+    completedTasks.forEach((task: any) => {
+      this.tasks.delete(task.id);
     });
 
-    return completedTasks?.length;
+    return completedTasks.length;
   }
 
   /**
    * Reset system
    */
   reset(): void {
-    this?.models.clear();
-    this?.tasks.clear();
-    this?.learningSessions.clear();
-    this?.eventHandlers.clear();
-    this?.isInitialized = false;
-    this?.performanceMetrics = {
+    this.models.clear();
+    this.tasks.clear();
+    this.learningSessions.clear();
+    this.eventHandlers.clear();
+    this.isInitialized = false;
+    this.performanceMetrics = {
       totalTasks: 0,
       completedTasks: 0,
       failedTasks: 0,
@@ -597,7 +597,7 @@ export class RealAISystem {
       activeLearningSessions: 0
     };
 
-    this?.initializeDefaultModels();
+    this.initializeDefaultModels();
   }
 }
 

@@ -2,7 +2,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { createBlockState, reduceBlockAction } from './index';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 
 try {
   const base = createBlockState({ blocks: [{ type: 'stone', hardness: 3, color: '#777' }] });

@@ -35,23 +35,23 @@ export class LazyLoader {
   private idleCallbackId?: number;
 
   constructor(cacheManager: CacheManager) {
-    this?.cacheManager = cacheManager;
-    this?.initializeModuleRegistry();
-    this?.initializeLoadingStrategies();
-    this?.setupIntersectionObserver();
-    this?.setupIdleLoading();
+    this.cacheManager = cacheManager;
+    this.initializeModuleRegistry();
+    this.initializeLoadingStrategies();
+    this.setupIntersectionObserver();
+    this.setupIdleLoading();
   }
 
   /**
    * Register a module for lazy loading
    */
   registerModule(moduleInfo: ModuleInfo): void {
-    this?.moduleRegistry.set(moduleInfo?.name, moduleInfo);
-    this?.log(`Registered module: ${moduleInfo?.name} (${moduleInfo?.priority} priority)`);
+    this.moduleRegistry.set(moduleInfo.name, moduleInfo);
+    this.log(`Registered module: ${moduleInfo.name} (${moduleInfo.priority} priority)`);
 
     // Auto-preload critical modules
-    if (moduleInfo?.preload && moduleInfo?.priority === 'critical') {
-      this?.preloadModule(moduleInfo?.name);
+    if (moduleInfo.preload && moduleInfo.priority === 'critical') {
+      this.preloadModule(moduleInfo.name);
     }
   }
 
@@ -60,40 +60,40 @@ export class LazyLoader {
    */
   async loadModule(moduleName: string, options: { force?: boolean; priority?: boolean } = {}): Promise<any> {
     // Check if already loaded
-    if (this?.loadedModules.has(moduleName) && !options?.force) {
-      const cached = this?.cacheManager.get(`module:${moduleName}`);
+    if (this.loadedModules.has(moduleName) && !options.force) {
+      const cached = this.cacheManager.get(`module:${moduleName}`);
       if (cached) {
-        this?.log(`Module ${moduleName} already loaded and cached`);
+        this.log(`Module ${moduleName} already loaded and cached`);
         return cached;
       }
     }
 
     // Check if already loading
-    if (this?.loadingPromises.has(moduleName)) {
-      this?.log(`Module ${moduleName} already loading, waiting...`);
-      return this?.loadingPromises.get(moduleName);
+    if (this.loadingPromises.has(moduleName)) {
+      this.log(`Module ${moduleName} already loading, waiting...`);
+      return this.loadingPromises.get(moduleName);
     }
 
     // Start loading
-    const loadingPromise = this?.performModuleLoad(moduleName, options);
-    this?.loadingPromises.set(moduleName, loadingPromise);
+    const loadingPromise = this.performModuleLoad(moduleName, options);
+    this.loadingPromises.set(moduleName, loadingPromise);
 
     try {
       const module = await loadingPromise;
-      this?.loadedModules.add(moduleName);
-      this?.cacheManager.set(`module:${moduleName}`, module, {
+      this.loadedModules.add(moduleName);
+      this.cacheManager.set(`module:${moduleName}`, module, {
         ttl: 3600000, // 1 hour
         metadata: { type: 'module', loaded: true }
       });
 
-      this?.log(`✅ Module loaded: ${moduleName}`);
+      this.log(`✅ Module loaded: ${moduleName}`);
       return module;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.log(`❌ Failed to load module ${moduleName}: ${error?.message}`, 'error');
+      this.log(`❌ Failed to load module ${moduleName}: ${error.message}`, 'error');
       throw error;
     } finally {
-      this?.loadingPromises.delete(moduleName);
+      this.loadingPromises.delete(moduleName);
     }
   }
 
@@ -102,19 +102,19 @@ export class LazyLoader {
    */
   async preloadModules(strategyName?: string): Promise<void> {
     const strategies = strategyName
-      ? this?.loadingStrategies.filter((s: any) => s?.name === strategyName)
-      : this?.loadingStrategies;
+      ? this.loadingStrategies.filter((s: any) => s.name === strategyName)
+      : this.loadingStrategies;
 
     for (const strategy of strategies) {
-      this?.log(`Preloading strategy: ${strategy?.name} (${strategy?.modules.length} modules)`);
+      this.log(`Preloading strategy: ${strategy.name} (${strategy.modules.length} modules)`);
 
-      for (const moduleName of strategy?.modules) {
-        if (strategy?.preload) {
+      for (const moduleName of strategy.modules) {
+        if (strategy.preload) {
           try {
-            await this?.preloadModule(moduleName);
+            await this.preloadModule(moduleName);
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            this?.log(`Preload failed for ${moduleName}: ${error?.message}`, 'debug');
+            this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
           }
         }
       }
@@ -125,9 +125,9 @@ export class LazyLoader {
    * Get module loading status
    */
   getModuleStatus(moduleName: string): 'not-loaded' | 'loading' | 'loaded' | 'error' {
-    if (this?.loadedModules.has(moduleName)) return 'loaded';
-    if (this?.loadingPromises.has(moduleName)) return 'loading';
-    if (this?.cacheManager.has(`module:${moduleName}`)) return 'loaded';
+    if (this.loadedModules.has(moduleName)) return 'loaded';
+    if (this.loadingPromises.has(moduleName)) return 'loading';
+    if (this.cacheManager.has(`module:${moduleName}`)) return 'loaded';
     return 'not-loaded';
   }
 
@@ -136,17 +136,17 @@ export class LazyLoader {
    */
   getLoadingStats() {
     const modules = Array.from(this.moduleRegistry.values());
-    const loadedCount = this?.loadedModules.size;
+    const loadedCount = this.loadedModules.size;
     const cachedCount = Array.from(this.cacheManager.getEntriesByPattern('module:')).length;
-    const totalSize = modules?.reduce((sum, mod) => sum + mod?.size, 0);
+    const totalSize = modules.reduce((sum, mod) => sum + mod.size, 0);
 
     return {
-      totalModules: modules?.length,
+      totalModules: modules.length,
       loadedModules: loadedCount,
       cachedModules: cachedCount,
-      loadingModules: this?.loadingPromises.size,
+      loadingModules: this.loadingPromises.size,
       totalSize,
-      averageLoadTime: this?.calculateAverageLoadTime(),
+      averageLoadTime: this.calculateAverageLoadTime(),
       loadingEfficiency: loadedCount / Math.max(1, modules.length - cachedCount)
     };
   }
@@ -156,9 +156,9 @@ export class LazyLoader {
    */
   createLazyComponent(moduleName: string, componentName: string) {
     return {
-      load: () => this?.loadModule(moduleName),
-      isLoaded: () => this?.loadedModules.has(moduleName),
-      getStatus: () => this?.getModuleStatus(moduleName)
+      load: () => this.loadModule(moduleName),
+      isLoaded: () => this.loadedModules.has(moduleName),
+      getStatus: () => this.getModuleStatus(moduleName)
     };
   }
 
@@ -170,74 +170,74 @@ export class LazyLoader {
     averageSessionTime: number;
     peakUsageHours: number[];
   }): void {
-    this?.log('Optimizing loading strategy based on user behavior...');
+    this.log('Optimizing loading strategy based on user behavior...');
 
     // Adjust loading strategies
-    this?.loadingStrategies.forEach((strategy: any) => {
-      const priorityBoost = interactionData?.mostUsedModules.includes(strategy?.name) ? 2 : 1;
+    this.loadingStrategies.forEach((strategy: any) => {
+      const priorityBoost = interactionData.mostUsedModules.includes(strategy.name) ? 2 : 1;
       strategy.priority = Math.min(10, strategy.priority * priorityBoost);
     });
 
     // Preload frequently used modules
-    interactionData?.mostUsedModules.slice(0, 5).forEach(moduleName => {
-      if (!this?.loadedModules.has(moduleName)) {
-        this?.preloadModule(moduleName);
+    interactionData.mostUsedModules.slice(0, 5).forEach(moduleName => {
+      if (!this.loadedModules.has(moduleName)) {
+        this.preloadModule(moduleName);
       }
     });
 
-    this?.log('Loading optimization complete');
+    this.log('Loading optimization complete');
   }
 
   private async performModuleLoad(moduleName: string, options: { force?: boolean; priority?: boolean } = {}): Promise<any> {
-    const moduleInfo = this?.moduleRegistry.get(moduleName);
+    const moduleInfo = this.moduleRegistry.get(moduleName);
     if (!moduleInfo) {
       throw new Error(`Module ${moduleName} not registered`);
     }
 
-    const startTime = performance?.now();
+    const startTime = performance.now();
 
     try {
       // Simulate module loading with realistic timing
-      await this?.simulateModuleLoad(moduleInfo);
+      await this.simulateModuleLoad(moduleInfo);
 
-      const endTime = performance?.now();
+      const endTime = performance.now();
       const loadTime = endTime - startTime;
 
-      this?.log(`Module ${moduleName} loaded in ${loadTime?.toFixed(2)}ms`);
+      this.log(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`);
 
       // Update module info
-      moduleInfo?.loadTime = loadTime;
-      moduleInfo?.lazy = false;
+      moduleInfo.loadTime = loadTime;
+      moduleInfo.lazy = false;
 
       return { moduleName, loadTime, status: 'success' };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.log(`Module load failed: ${error?.message}`, 'error');
+      this.log(`Module load failed: ${error.message}`, 'error');
       throw error;
     }
   }
 
   private async preloadModule(moduleName: string): Promise<void> {
-    if (this?.loadedModules.has(moduleName)) {
-      this?.log(`Module ${moduleName} already loaded`);
+    if (this.loadedModules.has(moduleName)) {
+      this.log(`Module ${moduleName} already loaded`);
       return;
     }
 
     try {
-      this?.log(`Preloading module: ${moduleName}`);
-      await this?.loadModule(moduleName, { priority: true });
+      this.log(`Preloading module: ${moduleName}`);
+      await this.loadModule(moduleName, { priority: true });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.log(`Preload failed for ${moduleName}: ${error?.message}`, 'debug');
+      this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
     }
   }
 
   private async simulateModuleLoad(moduleInfo: ModuleInfo): Promise<void> {
     // Simulate realistic loading time based on module size and complexity
     const baseLoadTime = 50; // Base 50ms
-    const sizeFactor = moduleInfo?.size / 1000; // Size factor
-    const dependencyFactor = moduleInfo?.dependencies.length * 10; // Dependency factor
-    const complexityFactor = moduleInfo?.priority === 'critical' ? 1.5 : 1; // Critical modules load faster
+    const sizeFactor = moduleInfo.size / 1000; // Size factor
+    const dependencyFactor = moduleInfo.dependencies.length * 10; // Dependency factor
+    const complexityFactor = moduleInfo.priority === 'critical' ? 1.5 : 1; // Critical modules load faster
 
     const totalLoadTime = (baseLoadTime + sizeFactor + dependencyFactor) * complexityFactor;
 
@@ -254,9 +254,9 @@ export class LazyLoader {
     });
 
     // Simulate dependency loading
-    for (const dependency of moduleInfo?.dependencies) {
-      if (!this?.loadedModules.has(dependency)) {
-        await this?.loadModule(dependency);
+    for (const dependency of moduleInfo.dependencies) {
+      if (!this.loadedModules.has(dependency)) {
+        await this.loadModule(dependency);
       }
     }
   }
@@ -266,7 +266,7 @@ export class LazyLoader {
     const coreModules: ModuleInfo[] = [
       {
         name: 'HealthSystemPure',
-        path: './HealthSystemPure/index?.ts',
+        path: './HealthSystemPure/index.ts',
         dependencies: [],
         priority: 'critical',
         preload: true,
@@ -276,7 +276,7 @@ export class LazyLoader {
       },
       {
         name: 'CombatPure',
-        path: './CombatPure/index?.ts',
+        path: './CombatPure/index.ts',
         dependencies: ['HealthSystemPure'],
         priority: 'critical',
         preload: true,
@@ -286,7 +286,7 @@ export class LazyLoader {
       },
       {
         name: 'TeamsPure',
-        path: './TeamsPure/index?.ts',
+        path: './TeamsPure/index.ts',
         dependencies: [],
         priority: 'high',
         preload: true,
@@ -296,7 +296,7 @@ export class LazyLoader {
       },
       {
         name: 'EffectsPure',
-        path: './EffectsPure/index?.ts',
+        path: './EffectsPure/index.ts',
         dependencies: ['HealthSystemPure'],
         priority: 'high',
         preload: true,
@@ -306,7 +306,7 @@ export class LazyLoader {
       },
       {
         name: 'AudioPure',
-        path: './AudioPure/index?.ts',
+        path: './AudioPure/index.ts',
         dependencies: [],
         priority: 'medium',
         preload: false,
@@ -316,7 +316,7 @@ export class LazyLoader {
       },
       {
         name: 'ExportAndroidPure',
-        path: './ExportAndroidPure/index?.ts',
+        path: './ExportAndroidPure/index.ts',
         dependencies: [],
         priority: 'low',
         preload: false,
@@ -326,11 +326,11 @@ export class LazyLoader {
       }
     ];
 
-    coreModules?.forEach((module: any) => this?.registerModule(module));
+    coreModules.forEach((module: any) => this.registerModule(module));
   }
 
   private initializeLoadingStrategies(): void {
-    this?.loadingStrategies = [
+    this.loadingStrategies = [
       {
         name: 'critical-first',
         modules: ['HealthSystemPure', 'CombatPure'],
@@ -364,13 +364,13 @@ export class LazyLoader {
 
   private setupIntersectionObserver(): void {
     if (typeof window !== 'undefined') {
-      this?.intersectionObserver = new IntersectionObserver(
+      this.intersectionObserver = new IntersectionObserver(
         (entries) => {
-          entries?.forEach((entry: any) => {
-            if (entry?.isIntersecting) {
-              const moduleName = entry?.target.getAttribute('data-module');
-              if (moduleName && !this?.loadedModules.has(moduleName)) {
-                this?.loadModule(moduleName);
+          entries.forEach((entry: any) => {
+            if (entry.isIntersecting) {
+              const moduleName = entry.target.getAttribute('data-module');
+              if (moduleName && !this.loadedModules.has(moduleName)) {
+                this.loadModule(moduleName);
               }
             }
           });
@@ -382,19 +382,19 @@ export class LazyLoader {
 
   private setupIdleLoading(): void {
     if (typeof window !== 'undefined') {
-      this?.idleCallbackId = requestIdleCallback(() => {
-        this?.preloadModules('system-utilities');
+      this.idleCallbackId = requestIdleCallback(() => {
+        this.preloadModules('system-utilities');
       });
     }
   }
 
   private calculateAverageLoadTime(): number {
     const modules = Array.from(this.moduleRegistry.values());
-    const loadedModules = modules?.filter((m: any) => m?.loadTime > 0);
+    const loadedModules = modules.filter((m: any) => m.loadTime > 0);
 
-    if (loadedModules?.length === 0) return 0;
+    if (loadedModules.length === 0) return 0;
 
-    return loadedModules?.reduce((sum, m) => sum + m?.loadTime, 0) / loadedModules?.length;
+    return loadedModules.reduce((sum, m) => sum + m.loadTime, 0) / loadedModules.length;
   }
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
@@ -406,15 +406,15 @@ export class LazyLoader {
    * Shutdown lazy loader
    */
   shutdown(): void {
-    if (this?.intersectionObserver) {
-      this?.intersectionObserver.disconnect();
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
     }
 
-    if (this?.idleCallbackId) {
-      cancelIdleCallback(this?.idleCallbackId);
+    if (this.idleCallbackId) {
+      cancelIdleCallback(this.idleCallbackId);
     }
 
-    this?.loadingPromises.clear();
-    this?.log('Lazy loader shutdown complete');
+    this.loadingPromises.clear();
+    this.log('Lazy loader shutdown complete');
   }
 }

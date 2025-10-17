@@ -6,8 +6,8 @@
  * Interactive time control and testing interface
  */
 
-import { EventBus } from '../EventBusPure/index?.js';
-import TimeSystemPure, { TimeAcceleration } from './index?.js';
+import { EventBus } from '../EventBusPure/index.js';
+import TimeSystemPure, { TimeAcceleration } from './index.js';
 
 export class TimeSystemCLI {
   private timeSystem: TimeSystemPure;
@@ -15,85 +15,85 @@ export class TimeSystemCLI {
   private readline: any;
 
   constructor() {
-    this?.eventBus = new EventBus();
-    this?.timeSystem = new TimeSystemPure(this?.eventBus);
-    this?.setupEventHandlers();
-    this?.setupReadline();
+    this.eventBus = new EventBus();
+    this.timeSystem = new TimeSystemPure(this.eventBus);
+    this.setupEventHandlers();
+    this.setupReadline();
   }
 
   private setupEventHandlers(): void {
-    this?.eventBus.on('time:time_of_day_change', (data: any) => {
+    this.eventBus.on('time:time_of_day_change', (data) => {
       console.log(`🌅 Time changed: ${data.old} → ${data.new}`);
     });
   }
 
   private setupReadline(): void {
-    this?.readline = require('readline').createInterface({
-      input: process?.stdin,
-      output: process?.stdout,
+    this.readline = require('readline').createInterface({
+      input: process.stdin,
+      output: process.stdout,
       prompt: 'Time> '
     });
 
-    this?.readline.on('line', (line: string) => {
-      this?.processCommand(line?.trim());
-      this?.readline.prompt();
+    this.readline.on('line', (line: string) => {
+      this.processCommand(line.trim());
+      this.readline.prompt();
     });
 
-    this?.readline.on('SIGINT', () => {
+    this.readline.on('SIGINT', () => {
       console.log('\n👋 Shutting down...');
-      this?.readline.close();
-      process?.exit(0);
+      this.readline.close();
+      process.exit(0);
     });
   }
 
   private processCommand(command: string): void {
-    const parts = command?.split(' ');
+    const parts = command.split(' ');
     const cmd = parts[0!].toLowerCase();
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     switch (cmd) {
       case 'status':
       case 's':
-        this?.showStatus();
+        this.showStatus();
         break;
 
       case 'set':
-        this?.setTime(args);
+        this.setTime(args);
         break;
 
       case 'speed':
-        this?.setSpeed(args);
+        this.setSpeed(args);
         break;
 
       case 'pause':
-        this?.timeSystem.setPaused(true);
+        this.timeSystem.setPaused(true);
         console.log('⏸️  Paused');
         break;
 
       case 'resume':
-        this?.timeSystem.setPaused(false);
+        this.timeSystem.setPaused(false);
         console.log('▶️  Resumed');
         break;
 
       case 'reset':
-        this?.timeSystem.reset();
+        this.timeSystem.reset();
         console.log('🔄 Reset');
         break;
 
       case 'quit':
       case 'exit':
-        this?.readline.close();
-        process?.exit(0);
+        this.readline.close();
+        process.exit(0);
         break;
 
       default:
-        this?.showHelp();
+        this.showHelp();
     }
   }
 
   private showStatus(): void {
-    const timeData = this?.timeSystem.getCurrentTimeData();
-    const stats = this?.timeSystem.getStats();
+    const timeData = this.timeSystem.getCurrentTimeData();
+    const stats = this.timeSystem.getStats();
 
     console.log('\n=== TIME STATUS ===');
     console.log(`🕐 Time: ${Math.floor(timeData.hour)}:${Math.floor(timeData.minute)}:${Math.floor(timeData.second)}`);
@@ -105,7 +105,7 @@ export class TimeSystemCLI {
   }
 
   private setTime(args: string[]): void {
-    if (args?.length < 3) {
+    if (args.length < 3) {
       console.log('Usage: set <hour> <minute> <second>');
       return;
     }
@@ -120,19 +120,19 @@ export class TimeSystemCLI {
     }
 
     const gameTime = hour * 3600 + minute * 60 + second;
-    this?.timeSystem.reset(gameTime);
+    this.timeSystem.reset(gameTime);
     console.log(`✅ Set to ${hour}:${minute}:${second}`);
   }
 
   private setSpeed(args: string[]): void {
-    if (args?.length === 0) {
+    if (args.length === 0) {
       console.log('Usage: speed <acceleration>');
       console.log('Accelerations: paused, x1, x2, x5, x10, x50, x100, max');
       return;
     }
 
     const acceleration = args[0!] as TimeAcceleration;
-    this?.timeSystem.setTimeAcceleration(acceleration);
+    this.timeSystem.setTimeAcceleration(acceleration);
     console.log(`✅ Speed set to ${acceleration}`);
   }
 
@@ -154,14 +154,14 @@ export class TimeSystemCLI {
     console.log('⏰ TimeSystemPure CLI v1.0.0');
     console.log('Type "help" for commands');
     console.log('');
-    this?.readline.prompt();
+    this.readline.prompt();
   }
 }
 
 // CLI entry point
-if (typeof window === 'undefined' && import?.meta.url === `file://${process?.argv[1!]}`) {
+if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new TimeSystemCLI();
-  cli?.run();
+  cli.run();
 }
 
 export default TimeSystemCLI;

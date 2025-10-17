@@ -1,5 +1,5 @@
 /**
- * NetworkBridgePure?.ts
+ * NetworkBridgePure.ts
  * 
  * Inspired by Godot's high-level multiplayer node API and rollback netcode patterns.
  * Provides pure, remix-safe networking for MIFF games with deterministic state sync.
@@ -38,25 +38,25 @@ export class Peer {
   public lastSeen: number;
 
   constructor(id: string, isHost: boolean = false) {
-    this?.id = id;
-    this?.isHost = isHost;
-    this?.isConnected = false;
-    this?.latency = 0;
-    this.lastSeen = new Date();
+    this.id = id;
+    this.isHost = isHost;
+    this.isConnected = false;
+    this.latency = 0;
+    this.lastSeen = Date.now();
   }
 
   updateLatency(latency: number): void {
-    this?.latency = latency;
-    this.lastSeen = new Date();
+    this.latency = latency;
+    this.lastSeen = Date.now();
   }
 
   markConnected(): void {
-    this?.isConnected = true;
-    this.lastSeen = new Date();
+    this.isConnected = true;
+    this.lastSeen = Date.now();
   }
 
   markDisconnected(): void {
-    this?.isConnected = false;
+    this.isConnected = false;
   }
 }
 
@@ -68,38 +68,38 @@ export class StateSyncScheduler {
   private currentFrame: number;
 
   constructor(config: NetworkConfig) {
-    this?.config = config;
-    this?.peers = new Map();
-    this?.inputBuffer = new Map();
-    this?.stateHistory = new Map();
-    this?.currentFrame = 0;
+    this.config = config;
+    this.peers = new Map();
+    this.inputBuffer = new Map();
+    this.stateHistory = new Map();
+    this.currentFrame = 0;
   }
 
   addPeer(peer: Peer): void {
-    this?.peers.set(peer?.id, peer);
-    this?.inputBuffer.set(peer?.id, new Map());
+    this.peers.set(peer.id, peer);
+    this.inputBuffer.set(peer.id, new Map());
   }
 
   removePeer(peerId: string): void {
-    this?.peers.delete(peerId);
-    this?.inputBuffer.delete(peerId);
+    this.peers.delete(peerId);
+    this.inputBuffer.delete(peerId);
   }
 
   submitInput(peerId: string, frame: number, input: any): void {
-    const buffer = this?.inputBuffer.get(peerId);
+    const buffer = this.inputBuffer.get(peerId);
     if (buffer) {
-      buffer?.set(frame, input);
+      buffer.set(frame, input);
     }
   }
 
   canAdvanceFrame(): boolean {
-    const minFrame = this?.currentFrame - this?.config.rollbackFrames;
-    for (const [peerId, buffer] of this?.inputBuffer) {
-      const peer = this?.peers.get(peerId);
-      if (peer && peer?.isConnected) {
+    const minFrame = this.currentFrame - this.config.rollbackFrames;
+    for (const [peerId, buffer] of this.inputBuffer) {
+      const peer = this.peers.get(peerId);
+      if (peer && peer.isConnected) {
         let hasInput = false;
-        for (let frame = minFrame; frame <= this?.currentFrame; frame++) {
-          if (buffer?.has(frame)) {
+        for (let frame = minFrame; frame <= this.currentFrame; frame++) {
+          if (buffer.has(frame)) {
             hasInput = true;
             break;
           }
@@ -111,25 +111,25 @@ export class StateSyncScheduler {
   }
 
   advanceFrame(): GameState | null {
-    if (!this?.canAdvanceFrame()) return null;
+    if (!this.canAdvanceFrame()) return null;
 
     const inputs = new Map();
-    for (const [peerId, buffer] of this?.inputBuffer) {
-      const input = buffer?.get(this?.currentFrame);
+    for (const [peerId, buffer] of this.inputBuffer) {
+      const input = buffer.get(this.currentFrame);
       if (input) {
-        inputs?.set(peerId, input);
+        inputs.set(peerId, input);
       }
     }
 
     const state: GameState = {
-      frame: this?.currentFrame,
+      frame: this.currentFrame,
       inputs,
       entities: new Map(), // Would be populated by game logic
-      checksum: this?.calculateChecksum(inputs)
+      checksum: this.calculateChecksum(inputs)
     };
 
-    this?.stateHistory.set(this?.currentFrame, state);
-    this?.currentFrame++;
+    this.stateHistory.set(this.currentFrame, state);
+    this.currentFrame++;
 
     return state;
   }
@@ -143,11 +143,11 @@ export class StateSyncScheduler {
   }
 
   rollbackToFrame(frame: number): void {
-    this?.currentFrame = frame;
+    this.currentFrame = frame;
     // Clear future state history
-    for (const key of this?.stateHistory.keys()) {
+    for (const key of this.stateHistory.keys()) {
       if (key > frame) {
-        this?.stateHistory.delete(key);
+        this.stateHistory.delete(key);
       }
     }
   }
@@ -161,11 +161,11 @@ export class NetworkBridge {
   private localPeerId: string;
 
   constructor(transport: INetworkTransport, config: NetworkConfig) {
-    this?.transport = transport;
-    this?.scheduler = new StateSyncScheduler(config);
-    this?.peers = new Map();
-    this?.isHost = false;
-    this?.localPeerId = this?.generatePeerId();
+    this.transport = transport;
+    this.scheduler = new StateSyncScheduler(config);
+    this.peers = new Map();
+    this.isHost = false;
+    this.localPeerId = this.generatePeerId();
   }
 
   private generatePeerId(): string {
@@ -173,62 +173,62 @@ export class NetworkBridge {
   }
 
   async startHosting(): Promise<string> {
-    this?.isHost = true;
-    const localPeer = new Peer(this?.localPeerId, true);
-    localPeer?.markConnected();
-    this?.peers.set(this?.localPeerId, localPeer);
-    this?.scheduler.addPeer(localPeer);
-    return this?.localPeerId;
+    this.isHost = true;
+    const localPeer = new Peer(this.localPeerId, true);
+    localPeer.markConnected();
+    this.peers.set(this.localPeerId, localPeer);
+    this.scheduler.addPeer(localPeer);
+    return this.localPeerId;
   }
 
   async joinGame(hostId: string): Promise<boolean> {
-    const success = await this?.transport.connect(hostId);
+    const success = await this.transport.connect(hostId);
     if (success) {
-      const localPeer = new Peer(this?.localPeerId, false);
-      localPeer?.markConnected();
-      this?.peers.set(this?.localPeerId, localPeer);
-      this?.scheduler.addPeer(localPeer);
+      const localPeer = new Peer(this.localPeerId, false);
+      localPeer.markConnected();
+      this.peers.set(this.localPeerId, localPeer);
+      this.scheduler.addPeer(localPeer);
     }
     return success;
   }
 
   submitLocalInput(input): void {
-    const currentFrame = this?.scheduler['currentFrame'];
-    this?.scheduler.submitInput(this?.localPeerId, currentFrame, input);
+    const currentFrame = this.scheduler['currentFrame'];
+    this.scheduler.submitInput(this.localPeerId, currentFrame, input);
     
     // Broadcast to other peers
-    for (const [peerId, peer] of this?.peers) {
-      if (peerId !== this?.localPeerId && peer?.isConnected) {
-        this?.transport.send(peerId, this?.serializeInput(currentFrame, input));
+    for (const [peerId, peer] of this.peers) {
+      if (peerId !== this.localPeerId && peer.isConnected) {
+        this.transport.send(peerId, this.serializeInput(currentFrame, input));
       }
     }
   }
 
   private serializeInput(frame: number, input: any): Uint8Array {
     const data = JSON.stringify({ frame, input });
-    return new TextEncoder().encode(data: any);
+    return new TextEncoder().encode(data);
   }
 
   private deserializeInput(data: Uint8Array): { frame: number; input: any } {
-    const text = new TextDecoder().decode(data: any);
+    const text = new TextDecoder().decode(data);
     return JSON.parse(text);
   }
 
   update(): GameState | null {
     // Process incoming messages
-    this?.processIncomingMessages();
+    this.processIncomingMessages();
     
     // Try to advance frame
-    return this?.scheduler.advanceFrame();
+    return this.scheduler.advanceFrame();
   }
 
   private async processIncomingMessages(): Promise<void> {
     while (true) {
-      const message = await this?.transport.receive();
+      const message = await this.transport.receive();
       if (!message) break;
 
-      const { frame, input } = this?.deserializeInput(message?.data);
-      this?.scheduler.submitInput(message?.peerId, frame, input);
+      const { frame, input } = this.deserializeInput(message.data);
+      this.scheduler.submitInput(message.peerId, frame, input);
     }
   }
 
@@ -237,12 +237,12 @@ export class NetworkBridge {
   }
 
   disconnect(): void {
-    for (const [peerId, peer] of this?.peers) {
-      if (peerId !== this?.localPeerId) {
-        this?.transport.disconnect(peerId);
+    for (const [peerId, peer] of this.peers) {
+      if (peerId !== this.localPeerId) {
+        this.transport.disconnect(peerId);
       }
     }
-    this?.peers.clear();
+    this.peers.clear();
   }
 }
 

@@ -21,7 +21,7 @@ export interface LoopMetrics {
   optimizationApplied: string;
 }
 
-export interface OptimizationResult<T extends Record<string, any> extends object> {
+export interface OptimizationResult<T extends object> {
   result: T;
   metrics: LoopMetrics;
   performanceGain: number;
@@ -43,28 +43,28 @@ export class LoopOptimizer {
   };
 
   constructor() {
-    this?.logger = StructuredLogger?.getInstance('LoopOptimizer');
+    this.logger = StructuredLogger.getInstance('LoopOptimizer');
   }
 
   static getInstance(): LoopOptimizer {
-    if (!LoopOptimizer?.instance) {
-      LoopOptimizer?.instance = new LoopOptimizer();
+    if (!LoopOptimizer.instance) {
+      LoopOptimizer.instance = new LoopOptimizer();
     }
-    return LoopOptimizer?.instance;
+    return LoopOptimizer.instance;
   }
 
   /**
    * Optimize nested loops by combining operations into single pass
    */
-  optimizeNestedLoops<T extends Record<string, any>, R>(
+  optimizeNestedLoops<T, R>(
     outerArray: T[],
     innerArrayAccessor: (item: T) => any[],
     processor: (outerItem: T, innerItem: any, outerIndex: number, innerIndex: number) => void,
     initialResult: R,
     resultUpdater: (result: R, outerItem: T, innerItem: any) => R
   ): OptimizationResult<R> {
-    const startTime = performance?.now();
-    const startMemory = this?.getMemoryUsage();
+    const startTime = performance.now();
+    const startMemory = this.getMemoryUsage();
     
     let result = initialResult;
     let totalIterations = 0;
@@ -87,8 +87,8 @@ export class LoopOptimizer {
       }
     }
 
-    const duration = performance?.now() - startTime;
-    const endMemory = this?.getMemoryUsage();
+    const duration = performance.now() - startTime;
+    const endMemory = this.getMemoryUsage();
     const memoryUsage = endMemory - startMemory;
 
     const metrics: LoopMetrics = {
@@ -99,7 +99,7 @@ export class LoopOptimizer {
       optimizationApplied: 'single-pass-nested-optimization'
     };
 
-    this?.updateMetrics(metrics, 0); // No performance gain calculation for this method
+    this.updateMetrics(metrics, 0); // No performance gain calculation for this method
 
     return {
       result,
@@ -111,7 +111,7 @@ export class LoopOptimizer {
   /**
    * Optimize array operations by combining map, filter, reduce into single pass
    */
-  optimizeArrayOperations<T extends Record<string, any>, R>(
+  optimizeArrayOperations<T, R>(
     array: T[],
     operations: {
       filter?: (item: T, index: number) => boolean;
@@ -120,37 +120,37 @@ export class LoopOptimizer {
     },
     initialReduceValue?: R
   ): OptimizationResult<R | any[]> {
-    const startTime = performance?.now();
-    const startMemory = this?.getMemoryUsage();
+    const startTime = performance.now();
+    const startMemory = this.getMemoryUsage();
     
     let result: R | any[] = initialReduceValue || [];
     let iterations = 0;
     let filteredCount = 0;
 
     // Single pass optimization
-    for (let i = 0; i < array?.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       const item = array[i!];
       iterations++;
 
       // Apply filter if provided
-      if (operations?.filter && !operations?.filter(item, i)) {
+      if (operations.filter && !operations.filter(item, i)) {
         filteredCount++;
         continue;
       }
 
       // Apply map if provided
-      const mappedItem = operations?.map ? operations?.map(item, i) : item;
+      const mappedItem = operations.map ? operations.map(item, i) : item;
 
       // Apply reduce if provided
-      if (operations?.reduce && initialReduceValue !== undefined) {
-        result = operations?.reduce(result as R, item, i);
+      if (operations.reduce && initialReduceValue !== undefined) {
+        result = operations.reduce(result as R, item, i);
       } else {
         (result as any[]).push(mappedItem);
       }
     }
 
-    const duration = performance?.now() - startTime;
-    const endMemory = this?.getMemoryUsage();
+    const duration = performance.now() - startTime;
+    const endMemory = this.getMemoryUsage();
     const memoryUsage = endMemory - startMemory;
 
     const metrics: LoopMetrics = {
@@ -162,10 +162,10 @@ export class LoopOptimizer {
     };
 
     // Calculate performance gain (estimated)
-    const estimatedOriginalOperations = (operations?.filter ? 1 : 0) + (operations?.map ? 1 : 0) + (operations?.reduce ? 1 : 0);
+    const estimatedOriginalOperations = (operations.filter ? 1 : 0) + (operations.map ? 1 : 0) + (operations.reduce ? 1 : 0);
     const performanceGain = estimatedOriginalOperations > 1 ? (estimatedOriginalOperations - 1) * 100 / estimatedOriginalOperations : 0;
 
-    this?.updateMetrics(metrics, performanceGain);
+    this.updateMetrics(metrics, performanceGain);
 
     return {
       result,
@@ -177,22 +177,22 @@ export class LoopOptimizer {
   /**
    * Optimize object property iteration
    */
-  optimizeObjectIteration<T extends Record<string, any> extends Record<string, any>, R>(
+  optimizeObjectIteration<T extends Record<string, any>, R>(
     obj: T,
     processor: (key: string, value: any, index: number) => void,
     resultBuilder: (key: string, value: any) => R,
     initialResult: R,
     resultUpdater: (result: R, key: string, value: any) => R
   ): OptimizationResult<R> {
-    const startTime = performance?.now();
-    const startMemory = this?.getMemoryUsage();
+    const startTime = performance.now();
+    const startMemory = this.getMemoryUsage();
     
     let result = initialResult;
-    const keys = Object.keys(obj: any);
+    const keys = Object.keys(obj);
     let iterations = 0;
 
     // Optimized object iteration
-    for (let i = 0; i < keys?.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       const key = keys[i!];
       const value = obj[key!];
       
@@ -201,8 +201,8 @@ export class LoopOptimizer {
       iterations++;
     }
 
-    const duration = performance?.now() - startTime;
-    const endMemory = this?.getMemoryUsage();
+    const duration = performance.now() - startTime;
+    const endMemory = this.getMemoryUsage();
     const memoryUsage = endMemory - startMemory;
 
     const metrics: LoopMetrics = {
@@ -213,7 +213,7 @@ export class LoopOptimizer {
       optimizationApplied: 'optimized-object-iteration'
     };
 
-    this?.updateMetrics(metrics, 0);
+    this.updateMetrics(metrics, 0);
 
     return {
       result,
@@ -232,8 +232,8 @@ export class LoopOptimizer {
     initialResult: R,
     resultUpdater: (result: R, key: K, value: V) => R
   ): OptimizationResult<R> {
-    const startTime = performance?.now();
-    const startMemory = this?.getMemoryUsage();
+    const startTime = performance.now();
+    const startMemory = this.getMemoryUsage();
     
     let result = initialResult;
     let iterations = 0;
@@ -245,8 +245,8 @@ export class LoopOptimizer {
       iterations++;
     }
 
-    const duration = performance?.now() - startTime;
-    const endMemory = this?.getMemoryUsage();
+    const duration = performance.now() - startTime;
+    const endMemory = this.getMemoryUsage();
     const memoryUsage = endMemory - startMemory;
 
     const metrics: LoopMetrics = {
@@ -257,7 +257,7 @@ export class LoopOptimizer {
       optimizationApplied: 'optimized-map-iteration'
     };
 
-    this?.updateMetrics(metrics, 0);
+    this.updateMetrics(metrics, 0);
 
     return {
       result,
@@ -269,35 +269,35 @@ export class LoopOptimizer {
   /**
    * Batch process large arrays to prevent blocking
    */
-  async batchProcess<T extends Record<string, any>, R>(
+  async batchProcess<T, R>(
     array: T[],
     processor: (item: T, index: number) => R,
     batchSize: number = 100,
     delayBetweenBatches: number = 0
   ): Promise<OptimizationResult<R[]>> {
-    const startTime = performance?.now();
-    const startMemory = this?.getMemoryUsage();
+    const startTime = performance.now();
+    const startMemory = this.getMemoryUsage();
     
     const results: R[] = [];
     let iterations = 0;
 
-    for (let i = 0; i < array?.length; i += batchSize) {
-      const batch = array?.slice(i, i + batchSize);
+    for (let i = 0; i < array.length; i += batchSize) {
+      const batch = array.slice(i, i + batchSize);
       
-      for (let j = 0; j < batch?.length; j++) {
+      for (let j = 0; j < batch.length; j++) {
         const result = processor(batch[j!], i + j);
-        results?.push(result: any);
+        results.push(result);
         iterations++;
       }
 
       // Yield control between batches
-      if (delayBetweenBatches > 0 && i + batchSize < array?.length) {
+      if (delayBetweenBatches > 0 && i + batchSize < array.length) {
         await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
       }
     }
 
-    const duration = performance?.now() - startTime;
-    const endMemory = this?.getMemoryUsage();
+    const duration = performance.now() - startTime;
+    const endMemory = this.getMemoryUsage();
     const memoryUsage = endMemory - startMemory;
 
     const metrics: LoopMetrics = {
@@ -308,7 +308,7 @@ export class LoopOptimizer {
       optimizationApplied: 'batch-processing'
     };
 
-    this?.updateMetrics(metrics, 0);
+    this.updateMetrics(metrics, 0);
 
     return {
       result: results,
@@ -322,7 +322,7 @@ export class LoopOptimizer {
    */
   getMetrics() {
     return {
-      ...this?.performanceMetrics,
+      ...this.performanceMetrics,
       averageIterationsPerOptimization: this.performanceMetrics.totalIterations / Math.max(1, this.performanceMetrics.totalOptimizations)
     };
   }
@@ -331,16 +331,16 @@ export class LoopOptimizer {
    * Update performance metrics
    */
   private updateMetrics(metrics: LoopMetrics, performanceGain: number): void {
-    this?.performanceMetrics.totalOptimizations++;
-    this?.performanceMetrics.totalIterations += metrics?.iterations;
+    this.performanceMetrics.totalOptimizations++;
+    this.performanceMetrics.totalIterations += metrics.iterations;
     
-    if (metrics?.nestedLevel > 0) {
-      this?.performanceMetrics.nestedLoopsOptimized++;
+    if (metrics.nestedLevel > 0) {
+      this.performanceMetrics.nestedLoopsOptimized++;
     }
 
     // Update average performance gain
-    const totalGain = this?.performanceMetrics.averagePerformanceGain * (this?.performanceMetrics.totalOptimizations - 1) + performanceGain;
-    this?.performanceMetrics.averagePerformanceGain = totalGain / this?.performanceMetrics.totalOptimizations;
+    const totalGain = this.performanceMetrics.averagePerformanceGain * (this.performanceMetrics.totalOptimizations - 1) + performanceGain;
+    this.performanceMetrics.averagePerformanceGain = totalGain / this.performanceMetrics.totalOptimizations;
   }
 
   /**
@@ -348,12 +348,12 @@ export class LoopOptimizer {
    */
   private getMemoryUsage(): number {
     if (typeof performance !== 'undefined' && (performance as any).memory) {
-      return (performance as any).memory?.usedJSHeapSize;
+      return (performance as any).memory.usedJSHeapSize;
     }
     return 0;
   }
 }
 
 // Export singleton instance
-export const loopOptimizer = LoopOptimizer?.getInstance();
+export const loopOptimizer = LoopOptimizer.getInstance();
 export default loopOptimizer;

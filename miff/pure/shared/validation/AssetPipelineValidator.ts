@@ -121,15 +121,15 @@ export class AssetPipelineValidator {
 
   constructor(config?: Partial<AssetPipelineConfig>) {
     
-    this?.errorHandler = new StandardErrorHandler({});
-    this?.config = this?.mergeConfig(config);
+    this.errorHandler = new StandardErrorHandler({});
+    this.config = this.mergeConfig(config);
   }
 
   /**
    * Initialize the asset pipeline validator
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
+    if (this.isInitialized) {
       console.warn('Asset pipeline validator already initialized');
       return;
     }
@@ -138,17 +138,17 @@ export class AssetPipelineValidator {
       console.info('Initializing asset pipeline validator...');
       
       // Load validation rules
-      await this?.loadValidationRules();
+      await this.loadValidationRules();
       
       // Validate configuration
-      this?.validateConfiguration();
+      this.validateConfiguration();
       
-      this?.isInitialized = true;
+      this.isInitialized = true;
       console.info('Asset pipeline validator initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError(error, 'Failed to initialize asset pipeline validator');
+      this.errorHandler.handleError(error, 'Failed to initialize asset pipeline validator');
       throw error;
     }
   }
@@ -157,33 +157,33 @@ export class AssetPipelineValidator {
    * Validate a single asset
    */
   async validateAsset(assetPath: string): Promise<ValidationResult> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Asset pipeline validator not initialized');
     }
 
     try {
       // Get asset information
-      const assetInfo = await this?.getAssetInfo(assetPath, bridge);
+      const assetInfo = await this.getAssetInfo(assetPath, bridge);
       
       // Run validation rules
-      const result = await this?.runValidationRules(assetInfo, bridge);
+      const result = await this.runValidationRules(assetInfo, bridge);
       
       console.debug('Asset validation completed', {
         asset: assetPath,
         bridge,
-        valid: result?.valid,
-        errorCount: result?.errors ?? []?.length,
-        warningCount: result?.warnings.length
+        valid: result.valid,
+        errorCount: result.errors ?? []?.length,
+        warningCount: result.warnings.length
       });
       
       return result;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError(error, `Failed to validate asset: ${assetPath}`);
+      this.errorHandler.handleError(error, `Failed to validate asset: ${assetPath}`);
       return {
         valid: false,
-        errors: [`Validation failed: ${error?.message}`],
+        errors: [`Validation failed: ${error.message}`],
         warnings: [],
         suggestions: ['Check asset file integrity and permissions'],
         metadata: {}
@@ -195,16 +195,16 @@ export class AssetPipelineValidator {
    * Validate all assets in a directory
    */
   async validateDirectory(dirPath: string, bridge: 'unity' | 'godot' | 'unreal' | 'web'): Promise<ValidationReport> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Asset pipeline validator not initialized');
     }
 
     try {
       console.info('Starting directory validation', { dirPath, bridge });
       
-      const assets = await this?.discoverAssets(dirPath, bridge);
+      const assets = await this.discoverAssets(dirPath, bridge);
       const report: ValidationReport = {
-        totalAssets: assets?.length,
+        totalAssets: assets.length,
         validAssets: 0,
         invalidAssets: 0,
         errors: 0,
@@ -215,8 +215,8 @@ export class AssetPipelineValidator {
       };
 
       // Initialize bridge breakdown
-      report?.bridgeBreakdown[bridge!] = {
-        total: assets?.length,
+      report.bridgeBreakdown[bridge!] = {
+        total: assets.length,
         valid: 0,
         invalid: 0,
         errors: 0,
@@ -225,46 +225,46 @@ export class AssetPipelineValidator {
 
       // Validate each asset
       for (const asset of assets) {
-        const result = await this?.validateAsset(asset?.path);
+        const result = await this.validateAsset(asset.path);
         
-        if (result?.valid) {
-          report?.validAssets++;
-          report?.bridgeBreakdown[bridge!].valid++;
+        if (result.valid) {
+          report.validAssets++;
+          report.bridgeBreakdown[bridge!].valid++;
         } else {
-          report?.invalidAssets++;
-          report?.bridgeBreakdown[bridge!].invalid++;
+          report.invalidAssets++;
+          report.bridgeBreakdown[bridge!].invalid++;
         }
         
-        report?.errors += result?.errors ?? []?.length;
-        report?.warnings += result?.warnings.length;
-        report?.suggestions += result?.suggestions.length;
-        report?.bridgeBreakdown[bridge!].errors += result?.errors ?? []?.length;
-        report?.bridgeBreakdown[bridge!].warnings += result?.warnings.length;
+        report.errors += result.errors ?? []?.length;
+        report.warnings += result.warnings.length;
+        report.suggestions += result.suggestions.length;
+        report.bridgeBreakdown[bridge!].errors += result.errors ?? []?.length;
+        report.bridgeBreakdown[bridge!].warnings += result.warnings.length;
         
         // Add critical issues
-        if (result?.errors ?? []?.length > 0) {
-          report?.criticalIssues?.push({
-            asset: asset?.path,
-            issue: result?.errors ?? [][0!],
+        if (result.errors ?? []?.length > 0) {
+          report.criticalIssues.push({
+            asset: asset.path,
+            issue: result.errors ?? [][0!],
             severity: 'error',
-            suggestion: result?.suggestions[0!] || 'Fix validation errors'
+            suggestion: result.suggestions[0!] || 'Fix validation errors'
           });
         }
       }
 
       console.info('Directory validation completed', {
-        totalAssets: report?.totalAssets,
-        validAssets: report?.validAssets,
-        invalidAssets: report?.invalidAssets,
-        errorCount: report?.errors,
-        warningCount: report?.warnings
+        totalAssets: report.totalAssets,
+        validAssets: report.validAssets,
+        invalidAssets: report.invalidAssets,
+        errorCount: report.errors,
+        warningCount: report.warnings
       });
 
       return report;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError(error, `Failed to validate directory: ${dirPath}`);
+      this.errorHandler.handleError(error, `Failed to validate directory: ${dirPath}`);
       throw error;
     }
   }
@@ -278,12 +278,12 @@ export class AssetPipelineValidator {
 
     for (const bridge of bridges) {
       try {
-        results[bridge!] = await this?.validateAsset(assetPath);
+        results[bridge!] = await this.validateAsset(assetPath);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         results[bridge!] = {
           valid: false,
-          errors: [`Bridge validation failed: ${error?.message}`],
+          errors: [`Bridge validation failed: ${error.message}`],
           warnings: [],
           suggestions: [`Check ${bridge} compatibility`],
           metadata: {}
@@ -298,16 +298,16 @@ export class AssetPipelineValidator {
    * Get asset information
    */
   private async getAssetInfo(assetPath: string, bridge: 'unity' | 'godot' | 'unreal' | 'web'): Promise<AssetInfo> {
-    const stats = await fs?.promises.stat(assetPath);
-    const parsedPath = path?.parse(assetPath);
+    const stats = await fs.promises.stat(assetPath);
+    const parsedPath = path.parse(assetPath);
     
     // Load metadata if available
     let metadata: Record<string, any> = {};
     try {
       const metadataPath = assetPath + '.meta';
-      if (await this?.fileExists(metadataPath)) {
-        const metadataContent = await fs?.promises.readFile(metadataPath, 'utf-8');
-        metadata = SafeJSONParser?.parse(metadataContent);
+      if (await this.fileExists(metadataPath)) {
+        const metadataContent = await fs.promises.readFile(metadataPath, 'utf-8');
+        metadata = SafeJSONParser.parse(metadataContent);
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -316,10 +316,10 @@ export class AssetPipelineValidator {
 
     return {
       path: assetPath,
-      name: parsedPath?.name,
-      extension: parsedPath?.ext.toLowerCase(),
-      size: stats?.size,
-      lastModified: stats?.mtime,
+      name: parsedPath.name,
+      extension: parsedPath.ext.toLowerCase(),
+      size: stats.size,
+      lastModified: stats.mtime,
       metadata,
       bridge
     };
@@ -338,20 +338,20 @@ export class AssetPipelineValidator {
     };
 
     // Get bridge-specific rules
-    const bridgeRules = this?.config.bridgeSpecificRules[bridge!] || [];
+    const bridgeRules = this.config.bridgeSpecificRules[bridge!] || [];
     
     // Run each rule
     for (const rule of bridgeRules) {
       try {
-        const ruleResult = rule?.validator(asset);
+        const ruleResult = rule.validator(asset);
         
-        if (!ruleResult?.valid) {
-          result?.valid = false;
+        if (!ruleResult.valid) {
+          result.valid = false;
         }
         
-        result?.errors ?? []?.push(...(ruleResult?.errors ?? []));
-        result?.warnings?.push(...ruleResult?.warnings);
-        result?.suggestions?.push(...ruleResult?.suggestions);
+        result.errors ?? []?.push(...(ruleResult.errors ?? []));
+        result.warnings?.push(...ruleResult.warnings);
+        result.suggestions.push(...ruleResult.suggestions);
         
         // Merge metadata
         Object.assign(result.metadata, ruleResult.metadata);
@@ -359,7 +359,7 @@ export class AssetPipelineValidator {
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Rule validation failed', { rule: rule.id, error: error.message });
-        result?.warnings?.push(`Rule ${rule?.name} failed: ${error?.message}`);
+        result.warnings?.push(`Rule ${rule.name} failed: ${error.message}`);
       }
     }
 
@@ -373,18 +373,18 @@ export class AssetPipelineValidator {
     const assets: AssetInfo[] = [];
     
     try {
-      const entries = await fs?.promises.readdir(dirPath, { withFileTypes: true });
+      const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
       
       for (const entry of entries) {
-        const fullPath = path?.join(dirPath, entry?.name);
+        const fullPath = path.join(dirPath, entry.name);
         
-        if (entry?.isFile()) {
-          const assetInfo = await this?.getAssetInfo(fullPath, bridge as any);
-          assets?.push(assetInfo);
-        } else if (entry?.isDirectory()) {
+        if (entry.isFile()) {
+          const assetInfo = await this.getAssetInfo(fullPath, bridge as any);
+          assets.push(assetInfo);
+        } else if (entry.isDirectory()) {
           // Recursively discover assets in subdirectories
-          const subAssets = await this?.discoverAssets(fullPath, bridge);
-          assets?.push(...subAssets);
+          const subAssets = await this.discoverAssets(fullPath, bridge);
+          assets.push(...subAssets);
         }
       }
     } catch (error: unknown) {
@@ -400,7 +400,7 @@ export class AssetPipelineValidator {
    */
   private async loadValidationRules(): Promise<void> {
     // File size validation
-    this?.addRule({
+    this.addRule({
       id: 'file-size',
       name: 'File Size Validation',
       description: 'Validates file size against maximum allowed size',
@@ -413,10 +413,10 @@ export class AssetPipelineValidator {
           metadata: {}
         };
 
-        if (asset?.size > this?.config.maxFileSize) {
-          result?.valid = false;
-          result?.errors ?? []?.push(`File size ${asset?.size} bytes exceeds maximum ${this?.config.maxFileSize} bytes`);
-          result?.suggestions?.push('Compress or optimize the asset');
+        if (asset.size > this.config.maxFileSize) {
+          result.valid = false;
+          result.errors ?? []?.push(`File size ${asset.size} bytes exceeds maximum ${this.config.maxFileSize} bytes`);
+          result.suggestions.push('Compress or optimize the asset');
         }
 
         return result;
@@ -426,7 +426,7 @@ export class AssetPipelineValidator {
     });
 
     // Extension validation
-    this?.addRule({
+    this.addRule({
       id: 'file-extension',
       name: 'File Extension Validation',
       description: 'Validates file extension against allowed extensions',
@@ -439,10 +439,10 @@ export class AssetPipelineValidator {
           metadata: {}
         };
 
-        if (!this?.config.allowedExtensions?.includes(asset?.extension)) {
-          result?.valid = false;
-          result?.errors ?? []?.push(`File extension ${asset?.extension} is not allowed`);
-          result?.suggestions?.push(`Use one of: ${this?.config.allowedExtensions?.join(', ')}`);
+        if (!this.config.allowedExtensions.includes(asset.extension)) {
+          result.valid = false;
+          result.errors ?? []?.push(`File extension ${asset.extension} is not allowed`);
+          result.suggestions.push(`Use one of: ${this.config.allowedExtensions.join(', ')}`);
         }
 
         return result;
@@ -452,7 +452,7 @@ export class AssetPipelineValidator {
     });
 
     // Metadata validation
-    this?.addRule({
+    this.addRule({
       id: 'metadata-required',
       name: 'Required Metadata Validation',
       description: 'Validates presence of required metadata fields',
@@ -465,11 +465,11 @@ export class AssetPipelineValidator {
           metadata: {}
         };
 
-        for (const field of this?.config.requiredMetadata) {
-          if (!(field in asset?.metadata)) {
-            result?.valid = false;
-            result?.errors ?? []?.push(`Required metadata field '${field}' is missing`);
-            result?.suggestions?.push(`Add metadata field '${field}' to ${asset?.path}.meta`);
+        for (const field of this.config.requiredMetadata) {
+          if (!(field in asset.metadata)) {
+            result.valid = false;
+            result.errors ?? []?.push(`Required metadata field '${field}' is missing`);
+            result.suggestions.push(`Add metadata field '${field}' to ${asset.path}.meta`);
           }
         }
 
@@ -480,7 +480,7 @@ export class AssetPipelineValidator {
     });
 
     // Bridge-specific rules
-    this?.loadBridgeSpecificRules();
+    this.loadBridgeSpecificRules();
   }
 
   /**
@@ -488,7 +488,7 @@ export class AssetPipelineValidator {
    */
   private loadBridgeSpecificRules(): void {
     // Unity-specific rules
-    this?.config.bridgeSpecificRules?.unity = [
+    this.config.bridgeSpecificRules.unity = [
       {
         id: 'unity-prefab-format',
         name: 'Unity Prefab Format',
@@ -502,12 +502,12 @@ export class AssetPipelineValidator {
             metadata: {}
           };
 
-          if (asset?.extension === '.prefab') {
+          if (asset.extension === '.prefab') {
             // Check for Unity-specific prefab structure
-            if (!asset?.metadata?.guid) {
-              result?.valid = false;
-              result?.errors ?? []?.push('Unity prefab missing GUID');
-              result?.suggestions?.push('Generate GUID for prefab');
+            if (!asset.metadata?.guid) {
+              result.valid = false;
+              result.errors ?? []?.push('Unity prefab missing GUID');
+              result.suggestions.push('Generate GUID for prefab');
             }
           }
 
@@ -519,7 +519,7 @@ export class AssetPipelineValidator {
     ];
 
     // Godot-specific rules
-    this?.config.bridgeSpecificRules?.godot = [
+    this.config.bridgeSpecificRules.godot = [
       {
         id: 'godot-scene-format',
         name: 'Godot Scene Format',
@@ -533,12 +533,12 @@ export class AssetPipelineValidator {
             metadata: {}
           };
 
-          if (asset?.extension === '.tscn') {
+          if (asset.extension === '.tscn') {
             // Check for Godot-specific scene structure
-            if (!asset?.metadata?.resource_type) {
-              result?.valid = false;
-              result?.errors ?? []?.push('Godot scene missing resource type');
-              result?.suggestions?.push('Add resource_type to scene metadata');
+            if (!asset.metadata?.resource_type) {
+              result.valid = false;
+              result.errors ?? []?.push('Godot scene missing resource type');
+              result.suggestions.push('Add resource_type to scene metadata');
             }
           }
 
@@ -550,7 +550,7 @@ export class AssetPipelineValidator {
     ];
 
     // Unreal-specific rules
-    this?.config.bridgeSpecificRules?.unreal = [
+    this.config.bridgeSpecificRules.unreal = [
       {
         id: 'unreal-asset-format',
         name: 'Unreal Asset Format',
@@ -564,12 +564,12 @@ export class AssetPipelineValidator {
             metadata: {}
           };
 
-          if (asset?.extension === '.uasset') {
+          if (asset.extension === '.uasset') {
             // Check for Unreal-specific asset structure
-            if (!asset?.metadata?.asset_class) {
-              result?.valid = false;
-              result?.errors ?? []?.push('Unreal asset missing asset class');
-              result?.suggestions?.push('Add asset_class to asset metadata');
+            if (!asset.metadata?.asset_class) {
+              result.valid = false;
+              result.errors ?? []?.push('Unreal asset missing asset class');
+              result.suggestions.push('Add asset_class to asset metadata');
             }
           }
 
@@ -581,7 +581,7 @@ export class AssetPipelineValidator {
     ];
 
     // Web-specific rules
-    this?.config.bridgeSpecificRules?.web = [
+    this.config.bridgeSpecificRules.web = [
       {
         id: 'web-asset-optimization',
         name: 'Web Asset Optimization',
@@ -596,9 +596,9 @@ export class AssetPipelineValidator {
           };
 
           // Check for web optimization
-          if (asset?.size > 1024 * 1024) { // 1MB
-            result?.warnings?.push('Large asset may impact web performance');
-            result?.suggestions?.push('Consider compressing or optimizing for web');
+          if (asset.size > 1024 * 1024) { // 1MB
+            result.warnings?.push('Large asset may impact web performance');
+            result.suggestions.push('Consider compressing or optimizing for web');
           }
 
           return result;
@@ -613,7 +613,7 @@ export class AssetPipelineValidator {
    * Add a validation rule
    */
   private addRule(rule: AssetValidationRule): void {
-    this?.rules.set(rule?.id, rule);
+    this.rules.set(rule.id, rule);
   }
 
   /**
@@ -635,15 +635,15 @@ export class AssetPipelineValidator {
    * Validate configuration
    */
   private validateConfiguration(): void {
-    if (this?.config.maxFileSize <= 0) {
+    if (this.config.maxFileSize <= 0) {
       throw new Error('maxFileSize must be positive');
     }
 
-    if (this?.config.allowedExtensions?.length === 0) {
+    if (this.config.allowedExtensions.length === 0) {
       throw new Error('allowedExtensions cannot be empty');
     }
 
-    if (this?.config.validationTimeout <= 0) {
+    if (this.config.validationTimeout <= 0) {
       throw new Error('validationTimeout must be positive');
     }
   }
@@ -653,7 +653,7 @@ export class AssetPipelineValidator {
    */
   private async fileExists(filePath: string): Promise<boolean> {
     try {
-      await fs?.promises.access(filePath);
+      await fs.promises.access(filePath);
       return true;
     } catch {
       return false;
@@ -666,8 +666,8 @@ export class AssetPipelineValidator {
   async destroy(): Promise<void> {
     console.info('Destroying asset pipeline validator...');
     
-    this?.rules.clear();
-    this?.isInitialized = false;
+    this.rules.clear();
+    this.isInitialized = false;
     
     console.info('Asset pipeline validator destroyed');
   }

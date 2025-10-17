@@ -278,13 +278,13 @@ export class ChatSystemManager {
   constructor(config?: Partial<ChatSystemConfig>) {
     const managerId = this.id ?? `manager_${Date.now()}`;
     
-    this?.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this?.memoryManager = new MemoryManager({});
-    this?.errorHandler = new StandardErrorHandler({});
-    this?.logger = StructuredLogger?.getInstance('ChatSystemManager');
-    this.startTime = new Date();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
+    this.logger = StructuredLogger.getInstance('ChatSystemManager');
+    this.startTime = Date.now();
 
-    this?.config = {
+    this.config = {
       enableMultiChannelSupport: true,
       enableRealTimeMessaging: true,
       enableUserManagement: true,
@@ -303,30 +303,30 @@ export class ChatSystemManager {
    * Initialize the Chat System
    */
   async initialize(): Promise<void> {
-    if (this?.isInitialized) {
-      StructuredLogger?.warn('Chat System already initialized');
+    if (this.isInitialized) {
+      StructuredLogger.warn('Chat System already initialized');
       return;
     }
 
     try {
-      StructuredLogger?.info('Initializing Chat System...');
+      StructuredLogger.info('Initializing Chat System...');
 
       // Initialize performance optimizer
-      if (this?.config.enablePerformanceOptimization ?? false) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
-      if (this?.config.enableProfiling) {
+      if (this.config.enableProfiling) {
         // MemoryManager initialization handled internally
       }
 
-      this?.isInitialized = true;
-      StructuredLogger?.info('Chat System initialized successfully');
+      this.isInitialized = true;
+      StructuredLogger.info('Chat System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -335,14 +335,14 @@ export class ChatSystemManager {
    * Create a new chat system
    */
   async createSystem(systemData: Omit<ChatSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<ChatSystem> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
       const system: ChatSystem = {
         ...systemData,
-        id: this?.generateSystemId(),
+        id: this.generateSystemId(),
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
@@ -358,15 +358,15 @@ export class ChatSystemManager {
         }
       };
 
-      this?.systems.set(system?.id, system);
-      this?.updateAnalytics();
+      this.systems.set(system.id, system);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Chat system created', { context: { message: { systemId: system?.id, systemName: system?.name } } });
+      StructuredLogger.info('Chat system created', { context: { message: { systemId: system.id, systemName: system.name } } });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -375,25 +375,25 @@ export class ChatSystemManager {
    * Get a chat system by ID
    */
   getSystem(systemId: string): ChatSystem | null {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
-    return this?.systems.get(systemId) || null;
+    return this.systems.get(systemId) || null;
   }
 
   /**
    * Update a chat system
    */
   async updateSystem(systemId: string, updates: Partial<ChatSystem>): Promise<ChatSystem | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -401,18 +401,18 @@ export class ChatSystemManager {
         ...system,
         ...updates,
         updatedAt: new Date(),
-        version: this?.incrementVersion(system?.version)
+        version: this.incrementVersion(system.version)
       };
 
-      this?.systems.set(systemId, updatedSystem);
-      this?.updateAnalytics();
+      this.systems.set(systemId, updatedSystem);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Chat system updated', { context: { message: { systemId, systemName: updatedSystem?.name } } });
+      StructuredLogger.info('Chat system updated', { context: { message: { systemId, systemName: updatedSystem.name } } });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -421,26 +421,26 @@ export class ChatSystemManager {
    * Delete a chat system
    */
   async deleteSystem(systemId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      this?.systems.delete(systemId);
-      this?.updateAnalytics();
+      this.systems.delete(systemId);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Chat system deleted', { context: { message: { systemId, systemName: system?.name } } });
+      StructuredLogger.info('Chat system deleted', { context: { message: { systemId, systemName: system.name } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -449,7 +449,7 @@ export class ChatSystemManager {
    * Get all chat systems
    */
   getAllSystems(): ChatSystem[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
@@ -460,7 +460,7 @@ export class ChatSystemManager {
    * Get systems by type
    */
   getSystemsByType(type: SystemType): ChatSystem[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
@@ -471,7 +471,7 @@ export class ChatSystemManager {
    * Get systems by status
    */
   getSystemsByStatus(status: SystemStatus): ChatSystem[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
@@ -482,33 +482,33 @@ export class ChatSystemManager {
    * Add a channel to a system
    */
   async addChannel(systemId: string, channelData: Omit<ChatChannel, 'id' | 'users' | 'messages'>): Promise<ChatChannel | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const channel: ChatChannel = {
         ...channelData,
-        id: this?.generateChannelId(),
+        id: this.generateChannelId(),
         users: [],
         messages: []
       };
 
-      system?.channels?.push(channel);
-      this?.updateAnalytics();
+      system.channels.push(channel);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Channel added to system', { context: { message: { systemId, channelId: channel?.id, channelName: channel?.name } } });
+      StructuredLogger.info('Channel added to system', { context: { message: { systemId, channelId: channel.id, channelName: channel.name } } });
       return channel;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -517,32 +517,32 @@ export class ChatSystemManager {
    * Remove a channel from a system
    */
   async removeChannel(systemId: string, channelId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const channelIndex = system?.channels.findIndex(c => c?.id === channelId);
+      const channelIndex = system.channels.findIndex(c => c.id === channelId);
       if (channelIndex === -1) {
-        StructuredLogger?.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
         return false;
       }
 
-      system?.channels.splice(channelIndex, 1);
-      this?.updateAnalytics();
+      system.channels.splice(channelIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Channel removed from system', { context: { message: { systemId, channelId } } });
+      StructuredLogger.info('Channel removed from system', { context: { message: { systemId, channelId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -551,31 +551,31 @@ export class ChatSystemManager {
    * Add a user to a system
    */
   async addUser(systemId: string, userData: Omit<ChatUser, 'id'>): Promise<ChatUser | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const user: ChatUser = {
         ...userData,
-        id: this?.generateUserId()
+        id: this.generateUserId()
       };
 
-      system?.users?.push(user);
-      this?.updateAnalytics();
+      system.users.push(user);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('User added to system', { context: { message: { systemId, userId: user?.id, userName: user?.name } } });
+      StructuredLogger.info('User added to system', { context: { message: { systemId, userId: user.id, userName: user.name } } });
       return user;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -584,32 +584,32 @@ export class ChatSystemManager {
    * Remove a user from a system
    */
   async removeUser(systemId: string, userId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const userIndex = system?.users.findIndex(u => u?.id === userId);
+      const userIndex = system.users.findIndex(u => u.id === userId);
       if (userIndex === -1) {
-        StructuredLogger?.warn('User not found' ?? 'unknown', { context: { message: { systemId, userId } } });
+        StructuredLogger.warn('User not found' ?? 'unknown', { context: { message: { systemId, userId } } });
         return false;
       }
 
-      system?.users.splice(userIndex, 1);
-      this?.updateAnalytics();
+      system.users.splice(userIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('User removed from system', { context: { message: { systemId, userId } } });
+      StructuredLogger.info('User removed from system', { context: { message: { systemId, userId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -618,37 +618,37 @@ export class ChatSystemManager {
    * Send a message to a channel
    */
   async sendMessage(systemId: string, channelId: string, userId: string, content: string, type: MessageType = 'text'): Promise<ChatMessage | null> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
-      const channel = system?.channels.find(c => c?.id === channelId);
+      const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger?.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
         return null;
       }
 
-      const user = system?.users.find(u => u?.id === userId);
+      const user = system.users.find(u => u.id === userId);
       if (!user) {
-        StructuredLogger?.warn('User not found' ?? 'unknown', { context: { message: { systemId, userId } } });
+        StructuredLogger.warn('User not found' ?? 'unknown', { context: { message: { systemId, userId } } });
         return null;
       }
 
       // Check if user is in channel
-      if (!channel?.users.includes(userId)) {
-        StructuredLogger?.warn('User not in channel' ?? 'unknown', { context: { message: { systemId, channelId, userId } } });
+      if (!channel.users.includes(userId)) {
+        StructuredLogger.warn('User not in channel' ?? 'unknown', { context: { message: { systemId, channelId, userId } } });
         return null;
       }
 
       const message: ChatMessage = {
-        id: this?.generateMessageId(),
+        id: this.generateMessageId(),
         channelId,
         userId,
         content,
@@ -659,16 +659,16 @@ export class ChatSystemManager {
         metadata: {}
       };
 
-      channel?.messages?.push(message);
-      system?.messages?.push(message);
-      this?.updateAnalytics();
+      channel.messages.push(message);
+      system.messages.push(message);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('Message sent', { context: { message: { systemId, channelId, userId, messageId: message?.id } } });
+      StructuredLogger.info('Message sent', { context: { message: { systemId, channelId, userId, messageId: message.id } } });
       return message;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -677,30 +677,30 @@ export class ChatSystemManager {
    * Get messages from a channel
    */
   getChannelMessages(systemId: string, channelId: string, limit: number = 50): ChatMessage[] {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return [];
       }
 
-      const channel = system?.channels.find(c => c?.id === channelId);
+      const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger?.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
         return [];
       }
 
-      return channel?.messages
-        .sort((a: any, b: any) => b?.timestamp.getTime() - a?.timestamp.getTime())
+      return channel.messages
+        .sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime())
         .slice(0, limit);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -709,37 +709,37 @@ export class ChatSystemManager {
    * Join a channel
    */
   async joinChannel(systemId: string, channelId: string, userId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const channel = system?.channels.find(c => c?.id === channelId);
+      const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger?.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
         return false;
       }
 
-      if (channel?.users.includes(userId)) {
-        StructuredLogger?.warn('User already in channel' ?? 'unknown', { context: { message: { systemId, channelId, userId } } });
+      if (channel.users.includes(userId)) {
+        StructuredLogger.warn('User already in channel' ?? 'unknown', { context: { message: { systemId, channelId, userId } } });
         return false;
       }
 
-      channel?.users?.push(userId);
-      this?.updateAnalytics();
+      channel.users.push(userId);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('User joined channel', { context: { message: { systemId, channelId, userId } } });
+      StructuredLogger.info('User joined channel', { context: { message: { systemId, channelId, userId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -748,38 +748,38 @@ export class ChatSystemManager {
    * Leave a channel
    */
   async leaveChannel(systemId: string, channelId: string, userId: string): Promise<boolean> {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     try {
-      const system = this?.systems.get(systemId);
+      const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger?.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
-      const channel = system?.channels.find(c => c?.id === channelId);
+      const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger?.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { context: { message: { systemId, channelId } } });
         return false;
       }
 
-      const userIndex = channel?.users.indexOf(userId);
+      const userIndex = channel.users.indexOf(userId);
       if (userIndex === -1) {
-        StructuredLogger?.warn('User not in channel' ?? 'unknown', { context: { message: { systemId, channelId, userId } } });
+        StructuredLogger.warn('User not in channel' ?? 'unknown', { context: { message: { systemId, channelId, userId } } });
         return false;
       }
 
-      channel?.users.splice(userIndex, 1);
-      this?.updateAnalytics();
+      channel.users.splice(userIndex, 1);
+      this.updateAnalytics();
 
-      StructuredLogger?.info('User left channel', { context: { message: { systemId, channelId, userId } } });
+      StructuredLogger.info('User left channel', { context: { message: { systemId, channelId, userId } } });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this?.errorHandler.handleError();
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -816,7 +816,7 @@ export class ChatSystemManager {
    * Increment version number
    */
   private incrementVersion(version: string): string {
-    const parts = version?.split('.');
+    const parts = version.split('.');
     const patch = parseInt(parts[2!]) + 1;
     return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
@@ -826,17 +826,17 @@ export class ChatSystemManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalChannels = systems?.reduce((sum: any, s: any) => sum + s?.channels.length, 0);
-    const totalUsers = systems?.reduce((sum: any, s: any) => sum + s?.users.length, 0);
-    const totalMessages = systems?.reduce((sum: any, s: any) => sum + s?.messages.length, 0);
+    const totalChannels = systems.reduce((sum: any, s: any) => sum + s.channels.length, 0);
+    const totalUsers = systems.reduce((sum: any, s: any) => sum + s.users.length, 0);
+    const totalMessages = systems.reduce((sum: any, s: any) => sum + s.messages.length, 0);
 
     for (const system of systems) {
-      system?.analytics = {
-        totalSystems: systems?.length,
-        activeSystems: systems?.filter((s: any) => s?.status === 'active').length,
-        totalChannels: system?.channels.length,
-        totalUsers: system?.users.length,
-        totalMessages: system?.messages.length,
+      system.analytics = {
+        totalSystems: systems.length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
+        totalChannels: system.channels.length,
+        totalUsers: system.users.length,
+        totalMessages: system.messages.length,
         averageMessagesPerMinute: 0, // Calculate based on recent activity
         averageResponseTime: 0, // Calculate based on message timestamps
         lastUpdated: new Date()
@@ -857,15 +857,15 @@ export class ChatSystemManager {
     totalMessages: number;
     uptime: number;
   } {
-    if (!this?.isInitialized) {
+    if (!this.isInitialized) {
       throw new Error('Chat System not initialized');
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems?.filter((s: any) => s?.status === 'active');
-    const totalChannels = systems?.reduce((sum: any, s: any) => sum + s?.channels.length, 0);
-    const totalUsers = systems?.reduce((sum: any, s: any) => sum + s?.users.length, 0);
-    const totalMessages = systems?.reduce((sum: any, s: any) => sum + s?.messages.length, 0);
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
+    const totalChannels = systems.reduce((sum: any, s: any) => sum + s.channels.length, 0);
+    const totalUsers = systems.reduce((sum: any, s: any) => sum + s.users.length, 0);
+    const totalMessages = systems.reduce((sum: any, s: any) => sum + s.messages.length, 0);
 
     const systemsByType: Record<SystemType, number> = {
       public: 0,
@@ -883,19 +883,19 @@ export class ChatSystemManager {
     };
 
     for (const system of systems) {
-      systemsByType[system?.type]++;
-      systemsByStatus[system?.status]++;
+      systemsByType[system.type]++;
+      systemsByStatus[system.status]++;
     }
 
     return {
-      totalSystems: systems?.length,
-      activeSystems: activeSystems?.length,
+      totalSystems: systems.length,
+      activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,
       totalChannels,
       totalUsers,
       totalMessages,
-      uptime: new Date() - this?.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 
@@ -903,12 +903,12 @@ export class ChatSystemManager {
    * Destroy the Chat System
    */
   async destroy(): Promise<void> {
-    StructuredLogger?.info('Destroying Chat System...');
+    StructuredLogger.info('Destroying Chat System...');
 
-    this?.systems.clear();
-    this?.isInitialized = false;
+    this.systems.clear();
+    this.isInitialized = false;
 
-    StructuredLogger?.info('Chat System destroyed');
+    StructuredLogger.info('Chat System destroyed');
   }
 }
 

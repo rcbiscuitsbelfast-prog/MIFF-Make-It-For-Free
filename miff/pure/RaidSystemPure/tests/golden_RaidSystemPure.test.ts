@@ -18,8 +18,8 @@ describe('RaidSystemPure Golden', () => {
       metadata: {}
     };
 
-    raid?.createBoss(boss);
-    expect(raid?.getBoss('dragon')?.name).toBe('Ancient Dragon');
+    raid.createBoss(boss);
+    expect(raid.getBoss('dragon')?.name).toBe('Ancient Dragon');
 
     const party: RaidParty = {
       id: 'alpha',
@@ -36,14 +36,14 @@ describe('RaidSystemPure Golden', () => {
       debuffs: []
     };
 
-    const createdParty = raid?.createParty(party);
-    expect(createdParty?.averageLevel).toBeGreaterThan(0);
+    const createdParty = raid.createParty(party);
+    expect(createdParty.averageLevel).toBeGreaterThan(0);
 
-    const encounter = raid?.startEncounter('dragon', 'alpha', 'heroic');
+    const encounter = raid.startEncounter('dragon', 'alpha', 'heroic');
     expect(encounter?.status).toBe('active');
     expect(encounter?.totalPhases).toBeGreaterThan(0);
 
-    const processed = raid?.processEncounter(encounter!.id, [
+    const processed = raid.processEncounter(encounter!.id, [
       { timestamp: new Date(), type: 'damage', source: 'd1', target: 'dragon', value: 1200, description: '' },
       { timestamp: new Date(), type: 'healing', source: 'h1', target: 't1', value: 800, description: '' },
       { timestamp: new Date(), type: 'phase_change', source: 'system', target: 'phase', value: 2, description: '' }
@@ -52,26 +52,26 @@ describe('RaidSystemPure Golden', () => {
     expect(processed?.damageDealt).toBeGreaterThan(0);
     expect(processed?.currentPhase).toBe(2);
 
-    const stats = raid?.getRaidStatistics();
-    expect(stats?.totalBosses).toBe(1);
-    expect(stats?.totalParties).toBe(1);
-    expect(stats?.totalEncounters).toBe(1);
+    const stats = raid.getRaidStatistics();
+    expect(stats.totalBosses).toBe(1);
+    expect(stats.totalParties).toBe(1);
+    expect(stats.totalEncounters).toBe(1);
 
     // Test simulateRaid functionality
-    const simulatedEncounter = raid?.startEncounter('dragon', 'alpha', 'mythic');
+    const simulatedEncounter = raid.startEncounter('dragon', 'alpha', 'mythic');
     expect(simulatedEncounter).toBeDefined();
     expect(simulatedEncounter?.difficulty).toBe('mythic');
 
     // Test exportRaidStats functionality
-    const exportStats = raid?.exportRaidStats();
-    expect(exportStats?.op).toBe('exportRaidStats');
-    expect(exportStats?.status).toBe('ok');
-    expect(exportStats?.data.summary?.totalBosses).toBe(1);
-    expect(exportStats?.data.summary?.totalParties).toBe(1);
-    expect(exportStats?.data.summary?.totalEncounters).toBeGreaterThanOrEqual(1);
-    expect(exportStats?.data.bosses).toHaveLength(1);
-    expect(exportStats?.data.parties).toHaveLength(1);
-    expect(exportStats?.data.difficultyBreakdown).toBeDefined();
+    const exportStats = raid.exportRaidStats();
+    expect(exportStats.op).toBe('exportRaidStats');
+    expect(exportStats.status).toBe('ok');
+    expect(exportStats.data.summary.totalBosses).toBe(1);
+    expect(exportStats.data.summary.totalParties).toBe(1);
+    expect(exportStats.data.summary.totalEncounters).toBeGreaterThanOrEqual(1);
+    expect(exportStats.data.bosses).toHaveLength(1);
+    expect(exportStats.data.parties).toHaveLength(1);
+    expect(exportStats.data.difficultyBreakdown).toBeDefined();
   });
 });
 

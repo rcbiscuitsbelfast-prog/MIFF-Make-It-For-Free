@@ -7,7 +7,7 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { StatusEffectsManager, StatusEffect, StatusEffectType } from './StatusEffectsManager';
 
-const { mode, params } = parseKeyValueArgs(process?.argv);
+const { mode, params } = parseKeyValueArgs(process.argv);
 const manager = new StatusEffectsManager();
 
 try {
@@ -25,19 +25,19 @@ try {
         appliedAt: new Date()
       };
       
-      manager?.applyEffect(targetId || 'player', statusEffect);
+      manager.applyEffect(targetId || 'player', statusEffect);
       
       handleSuccess({
         targetId,
         effect: statusEffect,
-        activeEffects: manager?.getActiveEffects(targetId || 'player').length
+        activeEffects: manager.getActiveEffects(targetId || 'player').length
       }, 'applyStatusEffect');
       break;
     }
 
     case 'removeEffect': {
       const { targetId, effectId } = params;
-      manager?.removeEffect(targetId || 'player', effectId);
+      manager.removeEffect(targetId || 'player', effectId);
       handleSuccess({
         targetId,
         effectId,
@@ -48,7 +48,7 @@ try {
 
     case 'update': {
       const { deltaTime } = params;
-      manager?.update(deltaTime || 1);
+      manager.update(deltaTime || 1);
       handleSuccess({
         deltaTime,
         updated: true
@@ -58,18 +58,18 @@ try {
 
     case 'listEffects': {
       const { targetId } = params;
-      const effects = manager?.getActiveEffects(targetId || 'player');
+      const effects = manager.getActiveEffects(targetId || 'player');
       handleSuccess({
         targetId,
         effects,
-        count: effects?.length
+        count: effects.length
       }, 'listEffects');
       break;
     }
 
     case 'calculateStats': {
       const { targetId } = params;
-      const stats = manager?.calculateModifiedStats(targetId || 'player', {
+      const stats = manager.calculateModifiedStats(targetId || 'player', {
         attack: 10,
         defense: 10,
         speed: 10

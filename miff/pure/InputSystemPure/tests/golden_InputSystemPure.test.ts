@@ -4,7 +4,7 @@
  * Tests input management, action binding, gesture recognition,
  * and export functionality with comprehensive scenarios.
  * 
- * @module InputSystemPure/tests/golden_InputSystemPure?.test
+ * @module InputSystemPure/tests/golden_InputSystemPure.test
  * @version 1.0.0
  * @license MIT
  */
@@ -20,30 +20,30 @@ describe('InputSystemPure Golden Tests', () => {
 
   describe('Profile Management', () => {
     test('should create and manage input profiles', () => {
-      const createResult = manager?.createProfile('test_profile', 'Test Profile', 'Test input profile');
-      expect(createResult?.status).toBe('ok');
-      expect(createResult?.result?.id).toBe('test_profile');
-      expect(createResult?.result?.name).toBe('Test Profile');
+      const createResult = manager.createProfile('test_profile', 'Test Profile', 'Test input profile');
+      expect(createResult.status).toBe('ok');
+      expect(createResult.result?.id).toBe('test_profile');
+      expect(createResult.result?.name).toBe('Test Profile');
 
-      const setResult = manager?.setActiveProfile('test_profile');
-      expect(setResult?.status).toBe('ok');
+      const setResult = manager.setActiveProfile('test_profile');
+      expect(setResult.status).toBe('ok');
 
-      const getResult = manager?.getActiveProfile();
-      expect(getResult?.status).toBe('ok');
-      expect(getResult?.result?.id).toBe('test_profile');
+      const getResult = manager.getActiveProfile();
+      expect(getResult.status).toBe('ok');
+      expect(getResult.result?.id).toBe('test_profile');
     });
 
     test('should handle duplicate profile creation', () => {
-      manager?.createProfile('duplicate_test', 'Duplicate Test');
-      const duplicateResult = manager?.createProfile('duplicate_test', 'Duplicate Test');
-      expect(duplicateResult?.status).toBe('error');
-      expect(duplicateResult?.issues).toContain('Profile with ID duplicate_test already exists');
+      manager.createProfile('duplicate_test', 'Duplicate Test');
+      const duplicateResult = manager.createProfile('duplicate_test', 'Duplicate Test');
+      expect(duplicateResult.status).toBe('error');
+      expect(duplicateResult.issues).toContain('Profile with ID duplicate_test already exists');
     });
 
     test('should handle invalid profile operations', () => {
-      const setResult = manager?.setActiveProfile('nonexistent');
-      expect(setResult?.status).toBe('error');
-      expect(setResult?.issues).toContain('Profile with ID nonexistent not found');
+      const setResult = manager.setActiveProfile('nonexistent');
+      expect(setResult.status).toBe('error');
+      expect(setResult.issues).toContain('Profile with ID nonexistent not found');
     });
   });
 
@@ -60,13 +60,13 @@ describe('InputSystemPure Golden Tests', () => {
         enabled: true
       };
 
-      const addResult = manager?.addAction(action);
-      expect(addResult?.status).toBe('ok');
-      expect(addResult?.result?.id).toBe('test_action');
+      const addResult = manager.addAction(action);
+      expect(addResult.status).toBe('ok');
+      expect(addResult.result?.id).toBe('test_action');
     });
 
     test('should handle actions without active profile', () => {
-      manager?.resetInput(); // Clear default profile
+      manager.resetInput(); // Clear default profile
       const action: InputAction = {
         id: 'test_action',
         name: 'Test Action',
@@ -78,9 +78,9 @@ describe('InputSystemPure Golden Tests', () => {
         enabled: true
       };
 
-      const addResult = manager?.addAction(action);
-      expect(addResult?.status).toBe('error');
-      expect(addResult?.issues).toContain('No active profile set');
+      const addResult = manager.addAction(action);
+      expect(addResult.status).toBe('error');
+      expect(addResult.issues).toContain('No active profile set');
     });
   });
 
@@ -96,13 +96,13 @@ describe('InputSystemPure Golden Tests', () => {
         enabled: true
       };
 
-      const addResult = manager?.addBinding(binding);
-      expect(addResult?.status).toBe('ok');
-      expect(addResult?.result?.id).toBe('test_binding');
+      const addResult = manager.addBinding(binding);
+      expect(addResult.status).toBe('ok');
+      expect(addResult.result?.id).toBe('test_binding');
     });
 
     test('should handle bindings without active profile', () => {
-      manager?.resetInput(); // Clear default profile
+      manager.resetInput(); // Clear default profile
       const binding: InputBinding = {
         id: 'test_binding',
         actionId: 'test_action',
@@ -113,9 +113,9 @@ describe('InputSystemPure Golden Tests', () => {
         enabled: true
       };
 
-      const addResult = manager?.addBinding(binding);
-      expect(addResult?.status).toBe('error');
-      expect(addResult?.issues).toContain('No active profile set');
+      const addResult = manager.addBinding(binding);
+      expect(addResult.status).toBe('error');
+      expect(addResult.issues).toContain('No active profile set');
     });
   });
 
@@ -130,13 +130,13 @@ describe('InputSystemPure Golden Tests', () => {
         source: 'test'
       };
 
-      const processResult = manager?.processInputEvent(event);
-      expect(processResult?.status).toBe('ok');
-      expect(processResult?.result?.event).toBeDefined();
+      const processResult = manager.processInputEvent(event);
+      expect(processResult.status).toBe('ok');
+      expect(processResult.result?.event).toBeDefined();
     });
 
     test('should handle events without active profile', () => {
-      manager?.resetInput(); // Clear default profile
+      manager.resetInput(); // Clear default profile
       const event: InputEvent = {
         id: 'test_event',
         type: 'key',
@@ -146,9 +146,9 @@ describe('InputSystemPure Golden Tests', () => {
         source: 'test'
       };
 
-      const processResult = manager?.processInputEvent(event);
-      expect(processResult?.status).toBe('error');
-      expect(processResult?.issues).toContain('No active profile set');
+      const processResult = manager.processInputEvent(event);
+      expect(processResult.status).toBe('error');
+      expect(processResult.issues).toContain('No active profile set');
     });
   });
 
@@ -165,9 +165,9 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: new Date()
       };
 
-      const recognizeResult = manager?.recognizeGesture(gesture);
-      expect(recognizeResult?.status).toBe('ok');
-      expect(recognizeResult?.result?.recognized).toBe(true);
+      const recognizeResult = manager.recognizeGesture(gesture);
+      expect(recognizeResult.status).toBe('ok');
+      expect(recognizeResult.result?.recognized).toBe(true);
     });
 
     test('should handle gestures below threshold', () => {
@@ -182,13 +182,13 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: new Date()
       };
 
-      const recognizeResult = manager?.recognizeGesture(gesture);
-      expect(recognizeResult?.status).toBe('ok');
-      expect(recognizeResult?.result?.recognized).toBe(false);
+      const recognizeResult = manager.recognizeGesture(gesture);
+      expect(recognizeResult.status).toBe('ok');
+      expect(recognizeResult.result?.recognized).toBe(false);
     });
 
     test('should handle gestures without active profile', () => {
-      manager?.resetInput(); // Clear default profile
+      manager.resetInput(); // Clear default profile
       const gesture: InputGesture = {
         id: 'test_gesture',
         type: 'swipe',
@@ -200,9 +200,9 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: new Date()
       };
 
-      const recognizeResult = manager?.recognizeGesture(gesture);
-      expect(recognizeResult?.status).toBe('error');
-      expect(recognizeResult?.issues).toContain('No active profile set');
+      const recognizeResult = manager.recognizeGesture(gesture);
+      expect(recognizeResult.status).toBe('error');
+      expect(recognizeResult.issues).toContain('No active profile set');
     });
   });
 
@@ -215,22 +215,22 @@ describe('InputSystemPure Golden Tests', () => {
         { type: 'key', code: 'KeyW', value: 1 }
       ];
 
-      events?.forEach(eventData => {
+      events.forEach(eventData => {
         const event: InputEvent = {
           id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          type: eventData?.type as any,
-          code: eventData?.code,
-          value: eventData?.value,
+          type: eventData.type as any,
+          code: eventData.code,
+          value: eventData.value,
           timestamp: new Date(),
           source: 'test'
         };
-        manager?.processInputEvent(event);
+        manager.processInputEvent(event);
       });
 
-      const statsResult = manager?.getInputStats();
-      expect(statsResult?.status).toBe('ok');
-      expect(statsResult?.result?.totalEvents).toBeGreaterThan(0);
-      expect(statsResult?.result?.eventsByType).toBeDefined();
+      const statsResult = manager.getInputStats();
+      expect(statsResult.status).toBe('ok');
+      expect(statsResult.result?.totalEvents).toBeGreaterThan(0);
+      expect(statsResult.result?.eventsByType).toBeDefined();
     });
   });
 
@@ -246,12 +246,12 @@ describe('InputSystemPure Golden Tests', () => {
           timestamp: new Date(),
           source: 'test'
         };
-        manager?.processInputEvent(event);
+        manager.processInputEvent(event);
       }
 
-      const recentResult = manager?.getRecentEvents(3);
-      expect(recentResult?.status).toBe('ok');
-      expect(recentResult?.result?.length).toBeLessThanOrEqual(3);
+      const recentResult = manager.getRecentEvents(3);
+      expect(recentResult.status).toBe('ok');
+      expect(recentResult.result?.length).toBeLessThanOrEqual(3);
     });
 
     test('should clear event history', () => {
@@ -264,13 +264,13 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: new Date(),
         source: 'test'
       };
-      manager?.processInputEvent(event);
+      manager.processInputEvent(event);
 
-      const clearResult = manager?.clearHistory();
-      expect(clearResult?.status).toBe('ok');
+      const clearResult = manager.clearHistory();
+      expect(clearResult.status).toBe('ok');
 
-      const recentResult = manager?.getRecentEvents();
-      expect(recentResult?.result?.length).toBe(0);
+      const recentResult = manager.getRecentEvents();
+      expect(recentResult.result?.length).toBe(0);
     });
   });
 
@@ -285,43 +285,43 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: new Date(),
         source: 'test'
       };
-      manager?.processInputEvent(event);
+      manager.processInputEvent(event);
 
       // JSON export
-      const jsonResult = manager?.exportInput('json');
-      expect(jsonResult?.status).toBe('ok');
-      expect(jsonResult?.result?.profiles).toBeDefined();
+      const jsonResult = manager.exportInput('json');
+      expect(jsonResult.status).toBe('ok');
+      expect(jsonResult.result?.profiles).toBeDefined();
 
       // Manifest export
-      const manifestResult = manager?.exportInput('manifest');
-      expect(manifestResult?.status).toBe('ok');
-      expect(manifestResult?.result?.schema).toBe('miff?.input.export?.v1');
+      const manifestResult = manager.exportInput('manifest');
+      expect(manifestResult.status).toBe('ok');
+      expect(manifestResult.result?.schema).toBe('miff.input.export.v1');
 
       // Summary export
-      const summaryResult = manager?.exportInput('summary');
-      expect(summaryResult?.status).toBe('ok');
-      expect(summaryResult?.result?.summary).toBeDefined();
+      const summaryResult = manager.exportInput('summary');
+      expect(summaryResult.status).toBe('ok');
+      expect(summaryResult.result?.summary).toBeDefined();
 
       // Events export
-      const eventsResult = manager?.exportInput('events');
-      expect(eventsResult?.status).toBe('ok');
-      expect(eventsResult?.result?.events).toBeDefined();
+      const eventsResult = manager.exportInput('events');
+      expect(eventsResult.status).toBe('ok');
+      expect(eventsResult.result?.events).toBeDefined();
     });
   });
 
   describe('Error Handling', () => {
     test('should handle invalid export formats', () => {
-      const exportResult = manager?.exportInput('invalid' as any);
-      expect(exportResult?.status).toBe('error');
-      expect(exportResult?.issues).toContain('Unknown export format: invalid');
+      const exportResult = manager.exportInput('invalid' as any);
+      expect(exportResult.status).toBe('error');
+      expect(exportResult.issues).toContain('Unknown export format: invalid');
     });
   });
 
   describe('Integration Scenarios', () => {
     test('should handle complete input workflow', () => {
       // Create profile
-      manager?.createProfile('workflow_profile', 'Workflow Profile', 'Complete input workflow');
-      manager?.setActiveProfile('workflow_profile');
+      manager.createProfile('workflow_profile', 'Workflow Profile', 'Complete input workflow');
+      manager.setActiveProfile('workflow_profile');
 
       // Add actions
       const actions = [
@@ -347,7 +347,7 @@ describe('InputSystemPure Golden Tests', () => {
         }
       ];
 
-      actions?.forEach(action => manager?.addAction(action));
+      actions.forEach(action => manager.addAction(action));
 
       // Add bindings
       const bindings = [
@@ -371,7 +371,7 @@ describe('InputSystemPure Golden Tests', () => {
         }
       ];
 
-      bindings?.forEach(binding => manager?.addBinding(binding));
+      bindings.forEach(binding => manager.addBinding(binding));
 
       // Process events
       const events = [
@@ -380,16 +380,16 @@ describe('InputSystemPure Golden Tests', () => {
         { type: 'key', code: 'KeyW', value: 0 }
       ];
 
-      const eventResults = events?.map(eventData => {
+      const eventResults = events.map(eventData => {
         const event: InputEvent = {
           id: `workflow_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          type: eventData?.type as any,
-          code: eventData?.code,
-          value: eventData?.value,
+          type: eventData.type as any,
+          code: eventData.code,
+          value: eventData.value,
           timestamp: new Date(),
           source: 'workflow'
         };
-        return manager?.processInputEvent(event);
+        return manager.processInputEvent(event);
       });
 
       // Recognize gestures
@@ -403,19 +403,19 @@ describe('InputSystemPure Golden Tests', () => {
         duration: 200,
         timestamp: new Date()
       };
-      const gestureResult = manager?.recognizeGesture(gesture);
+      const gestureResult = manager.recognizeGesture(gesture);
 
       // Get statistics
-      const statsResult = manager?.getInputStats();
-      expect(statsResult?.status).toBe('ok');
+      const statsResult = manager.getInputStats();
+      expect(statsResult.status).toBe('ok');
 
       // Export data
-      const exportResult = manager?.exportInput('manifest');
-      expect(exportResult?.status).toBe('ok');
+      const exportResult = manager.exportInput('manifest');
+      expect(exportResult.status).toBe('ok');
 
       // Reset
-      const resetResult = manager?.resetInput();
-      expect(resetResult?.status).toBe('ok');
+      const resetResult = manager.resetInput();
+      expect(resetResult.status).toBe('ok');
     });
   });
 });

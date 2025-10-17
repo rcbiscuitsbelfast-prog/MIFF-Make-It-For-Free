@@ -491,7 +491,7 @@ export class PhysicsPure {
 
   constructor(config: Partial<PhysicsConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableRigidBodyDynamics: true,
       enableCollisionDetection: true,
       enableForceCalculations: true,
@@ -511,7 +511,7 @@ export class PhysicsPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalBodies: 0,
       activeBodies: 0,
       totalConstraints: 0,
@@ -525,7 +525,7 @@ export class PhysicsPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalSimulations: 0,
       averageStepTime: 0,
       peakStepTime: 0,
@@ -540,7 +540,7 @@ export class PhysicsPure {
    * Create a new physics manager
    */
   createManager(managerData: any = {}): PhysicsOutput {
-    if (!this?.config.enableRigidBodyDynamics) {
+    if (!this.config.enableRigidBodyDynamics) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -550,8 +550,8 @@ export class PhysicsPure {
 
     const manager: PhysicsManager = {
       id: managerData.id || `physics-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Physics Manager',
-      type: managerData?.type || '3d',
+      name: managerData.name || 'Unnamed Physics Manager',
+      type: managerData.type || '3d',
       status: 'active',
       bodies: [],
       constraints: [],
@@ -618,7 +618,7 @@ export class PhysicsPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -631,7 +631,7 @@ export class PhysicsPure {
    * Get manager by ID
    */
   getManager(managerId: string): PhysicsOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -651,7 +651,7 @@ export class PhysicsPure {
    * Add rigid body to manager
    */
   addBody(): PhysicsOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-body',
@@ -660,7 +660,7 @@ export class PhysicsPure {
       };
     }
 
-    if (manager?.bodies.length >= this?.config.maxBodies) {
+    if (manager.bodies.length >= this.config.maxBodies) {
       return {
         op: 'add-body',
         status: 'error',
@@ -670,23 +670,23 @@ export class PhysicsPure {
 
     const newBody: RigidBody = {
       id: body.id || `body-${Date.now()}`,
-      name: body?.name || 'Unnamed Body',
-      type: body?.type || 'dynamic',
-      position: body?.position || { x: 0, y: 0, z: 0 },
-      rotation: body?.rotation || { x: 0, y: 0, z: 0, w: 1 },
-      velocity: body?.velocity || { x: 0, y: 0, z: 0 },
-      angularVelocity: body?.angularVelocity || { x: 0, y: 0, z: 0 },
-      mass: body?.mass || 1,
-      inertia: body?.inertia || {
+      name: body.name || 'Unnamed Body',
+      type: body.type || 'dynamic',
+      position: body.position || { x: 0, y: 0, z: 0 },
+      rotation: body.rotation || { x: 0, y: 0, z: 0, w: 1 },
+      velocity: body.velocity || { x: 0, y: 0, z: 0 },
+      angularVelocity: body.angularVelocity || { x: 0, y: 0, z: 0 },
+      mass: body.mass || 1,
+      inertia: body.inertia || {
         m00: 1, m01: 0, m02: 0,
         m10: 0, m11: 1, m12: 0,
         m20: 0, m21: 0, m22: 1
       },
-      restitution: body?.restitution || 0.5,
-      friction: body?.friction || 0.5,
-      isStatic: body?.isStatic || false,
-      isKinematic: body?.isKinematic || false,
-      shape: body?.shape || {
+      restitution: body.restitution || 0.5,
+      friction: body.friction || 0.5,
+      isStatic: body.isStatic || false,
+      isKinematic: body.isKinematic || false,
+      shape: body.shape || {
         type: 'box',
         dimensions: { x: 1, y: 1, z: 1 },
         center: { x: 0, y: 0, z: 0 }
@@ -697,10 +697,10 @@ export class PhysicsPure {
       ...body
     };
 
-    manager?.bodies?.push(newBody);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalBodies++;
-    this?.performanceMetrics.activeBodies++;
+    manager.bodies.push(newBody);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalBodies++;
+    this.performanceMetrics.activeBodies++;
 
     return {
       op: 'add-body',
@@ -713,7 +713,7 @@ export class PhysicsPure {
    * Add constraint to manager
    */
   addConstraint(): PhysicsOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-constraint',
@@ -722,7 +722,7 @@ export class PhysicsPure {
       };
     }
 
-    if (manager?.constraints.length >= this?.config.maxConstraints) {
+    if (manager.constraints.length >= this.config.maxConstraints) {
       return {
         op: 'add-constraint',
         status: 'error',
@@ -732,28 +732,28 @@ export class PhysicsPure {
 
     const newConstraint: Constraint = {
       id: constraint.id || `constraint-${Date.now()}`,
-      name: constraint?.name || 'Unnamed Constraint',
-      type: constraint?.type || 'fixed',
-      bodyA: constraint?.bodyA || '',
-      bodyB: constraint?.bodyB || '',
-      anchorA: constraint?.anchorA || { x: 0, y: 0, z: 0 },
-      anchorB: constraint?.anchorB || { x: 0, y: 0, z: 0 },
-      limits: constraint?.limits || {
+      name: constraint.name || 'Unnamed Constraint',
+      type: constraint.type || 'fixed',
+      bodyA: constraint.bodyA || '',
+      bodyB: constraint.bodyB || '',
+      anchorA: constraint.anchorA || { x: 0, y: 0, z: 0 },
+      anchorB: constraint.anchorB || { x: 0, y: 0, z: 0 },
+      limits: constraint.limits || {
         min: 0,
         max: 0,
         enabled: false
       },
-      stiffness: constraint?.stiffness || 1,
-      damping: constraint?.damping || 0.1,
+      stiffness: constraint.stiffness || 1,
+      damping: constraint.damping || 0.1,
       enabled: true,
       metadata: {},
       ...constraint
     };
 
-    manager?.constraints?.push(newConstraint);
-    manager.updatedAt = new Date();
-    this?.performanceMetrics.totalConstraints++;
-    this?.performanceMetrics.activeConstraints++;
+    manager.constraints.push(newConstraint);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalConstraints++;
+    this.performanceMetrics.activeConstraints++;
 
     return {
       op: 'add-constraint',
@@ -766,7 +766,7 @@ export class PhysicsPure {
    * Add force to body
    */
   addForce(): PhysicsOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-force',
@@ -777,19 +777,19 @@ export class PhysicsPure {
 
     const newForce: Force = {
       id: force.id || `force-${Date.now()}`,
-      name: force?.name || 'Unnamed Force',
-      type: force?.type || 'constant',
-      bodyId: force?.bodyId || '',
-      force: force?.force || { x: 0, y: 0, z: 0 },
-      point: force?.point || { x: 0, y: 0, z: 0 },
-      duration: force?.duration || 0,
+      name: force.name || 'Unnamed Force',
+      type: force.type || 'constant',
+      bodyId: force.bodyId || '',
+      force: force.force || { x: 0, y: 0, z: 0 },
+      point: force.point || { x: 0, y: 0, z: 0 },
+      duration: force.duration || 0,
       enabled: true,
       metadata: {},
       ...force
     };
 
-    manager?.forces?.push(newForce);
-    manager.updatedAt = new Date();
+    manager.forces.push(newForce);
+    manager.updatedAt = Date.now();
 
     return {
       op: 'add-force',
@@ -802,7 +802,7 @@ export class PhysicsPure {
    * Simulate physics step
    */
   simulate(): PhysicsOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'simulate',
@@ -811,81 +811,81 @@ export class PhysicsPure {
       };
     }
 
-    const startTime = new Date();
+    const startTime = Date.now();
 
     // Apply forces
-    for (const body of manager?.bodies) {
-      if (body?.isStatic || body?.isKinematic) continue;
+    for (const body of manager.bodies) {
+      if (body.isStatic || body.isKinematic) continue;
 
       // Apply gravity
-      if (this?.config.enableGravity) {
-        body?.forces?.push({
-          x: this?.gravity.x * body?.mass,
-          y: this?.gravity.y * body?.mass,
-          z: this?.gravity.z * body?.mass
+      if (this.config.enableGravity) {
+        body.forces.push({
+          x: this.gravity.x * body.mass,
+          y: this.gravity.y * body.mass,
+          z: this.gravity.z * body.mass
         });
       }
 
       // Apply external forces
-      for (const force of manager?.forces) {
-        if (force?.enabled && force?.bodyId === body?.id) {
-          body?.forces?.push(force?.force);
+      for (const force of manager.forces) {
+        if (force.enabled && force.bodyId === body.id) {
+          body.forces.push(force.force);
         }
       }
 
       // Calculate acceleration
-      const totalForce = this?.sumForces(body?.forces);
+      const totalForce = this.sumForces(body.forces);
       const acceleration = {
-        x: totalForce.x / body?.mass,
-        y: totalForce.y / body?.mass,
-        z: totalForce.z / body?.mass
+        x: totalForce.x / body.mass,
+        y: totalForce.y / body.mass,
+        z: totalForce.z / body.mass
       };
 
       // Update velocity
-      body?.velocity.x += acceleration.x * deltaTime;
-      body?.velocity.y += acceleration.y * deltaTime;
-      body?.velocity.z += acceleration.z * deltaTime;
+      body.velocity.x += acceleration.x * deltaTime;
+      body.velocity.y += acceleration.y * deltaTime;
+      body.velocity.z += acceleration.z * deltaTime;
 
       // Update position
-      body?.position.x += body?.velocity.x * deltaTime;
-      body?.position.y += body?.velocity.y * deltaTime;
-      body?.position.z += body?.velocity.z * deltaTime;
+      body.position.x += body.velocity.x * deltaTime;
+      body.position.y += body.velocity.y * deltaTime;
+      body.position.z += body.velocity.z * deltaTime;
 
       // Clear forces
-      body?.forces = [];
+      body.forces = [];
     }
 
     // Update particles
-    for (const particle of manager?.particles) {
-      particle?.velocity.x += particle?.acceleration.x * deltaTime;
-      particle?.velocity.y += particle?.acceleration.y * deltaTime;
-      particle?.velocity.z += particle?.acceleration.z * deltaTime;
+    for (const particle of manager.particles) {
+      particle.velocity.x += particle.acceleration.x * deltaTime;
+      particle.velocity.y += particle.acceleration.y * deltaTime;
+      particle.velocity.z += particle.acceleration.z * deltaTime;
 
-      particle?.position.x += particle?.velocity.x * deltaTime;
-      particle?.position.y += particle?.velocity.y * deltaTime;
-      particle?.position.z += particle?.velocity.z * deltaTime;
+      particle.position.x += particle.velocity.x * deltaTime;
+      particle.position.y += particle.velocity.y * deltaTime;
+      particle.position.z += particle.velocity.z * deltaTime;
 
-      particle?.age += deltaTime;
+      particle.age += deltaTime;
     }
 
     // Remove expired particles
-    manager?.particles = manager?.particles.filter((particle: any) => particle?.age < particle?.lifetime);
+    manager.particles = manager.particles.filter((particle: any) => particle.age < particle.lifetime);
 
-    const stepTime = new Date() - startTime;
-    this?.performanceMetrics.simulationSteps++;
-    this?.performanceMetrics.averageStepTime = 
-      (this?.performanceMetrics.averageStepTime * (this?.performanceMetrics.simulationSteps - 1) + stepTime) / 
-      this?.performanceMetrics.simulationSteps;
+    const stepTime = Date.now() - startTime;
+    this.performanceMetrics.simulationSteps++;
+    this.performanceMetrics.averageStepTime = 
+      (this.performanceMetrics.averageStepTime * (this.performanceMetrics.simulationSteps - 1) + stepTime) / 
+      this.performanceMetrics.simulationSteps;
 
-    manager.updatedAt = new Date();
+    manager.updatedAt = Date.now();
 
     return {
       op: 'simulate',
       status: 'ok',
       result: {
         stepTime,
-        bodies: manager?.bodies.length,
-        particles: manager?.particles.length
+        bodies: manager.bodies.length,
+        particles: manager.particles.length
       }
     };
   }
@@ -894,7 +894,7 @@ export class PhysicsPure {
    * Sum forces vector
    */
   private sumForces(forces: Vector3[]): Vector3 {
-    return forces?.reduce((sum, force) => ({
+    return forces.reduce((sum, force) => ({
       x: sum.x + force.x,
       y: sum.y + force.y,
       z: sum.z + force.z
@@ -905,14 +905,14 @@ export class PhysicsPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): PhysicsPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): PhysicsAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -926,13 +926,13 @@ export class PhysicsPure {
    * Set gravity
    */
   setGravity(): void {
-    this?.gravity = gravity;
+    this.gravity = gravity;
   }
 
   /**
    * Get gravity
    */
   getGravity(): Vector3 {
-    return { ...this?.gravity };
+    return { ...this.gravity };
   }
 }

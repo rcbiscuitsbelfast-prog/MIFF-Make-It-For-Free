@@ -93,17 +93,17 @@ export class PathfindingManager {
    * Load a new grid
    */
   loadGrid(grid: Grid): PathfindingOutput {
-    this?.grid = {
-      width: grid?.width,
-      height: grid?.height,
-      blocks: [...grid?.blocks],
-      costs: grid?.costs ? [...grid?.costs] : undefined,
-      dynamic: grid?.dynamic ? [...grid?.dynamic] : undefined
+    this.grid = {
+      width: grid.width,
+      height: grid.height,
+      blocks: [...grid.blocks],
+      costs: grid.costs ? [...grid.costs] : undefined,
+      dynamic: grid.dynamic ? [...grid.dynamic] : undefined
     };
     return {
       op: 'load',
       status: 'ok',
-      result: this?.grid
+      result: this.grid
     };
   }
 
@@ -114,7 +114,7 @@ export class PathfindingManager {
     return {
       op: 'get',
       status: 'ok',
-      result: this?.grid
+      result: this.grid
     };
   }
 
@@ -122,7 +122,7 @@ export class PathfindingManager {
    * Add dynamic obstacle
    */
   addDynamicObstacle(x: number, y: number, duration: number = 5000): PathfindingOutput {
-    if (!this?.inBounds(x, y)) {
+    if (!this.inBounds(x, y)) {
       return {
         op: 'add-obstacle',
         status: 'error',
@@ -130,11 +130,11 @@ export class PathfindingManager {
       };
     }
 
-    if (!this?.grid.dynamic) {
-      this?.grid.dynamic = [];
+    if (!this.grid.dynamic) {
+      this.grid.dynamic = [];
     }
 
-    this?.grid.dynamic?.push({
+    this.grid.dynamic.push({
       x,
       y,
       timestamp: new Date() + duration
@@ -151,9 +151,9 @@ export class PathfindingManager {
    * Remove dynamic obstacles
    */
   removeDynamicObstacles(): PathfindingOutput {
-    const now = new Date();
-    if (this?.grid.dynamic) {
-      this?.grid.dynamic = this?.grid.dynamic?.filter((obs: any) => obs?.timestamp > now);
+    const now = Date.now();
+    if (this.grid.dynamic) {
+      this.grid.dynamic = this.grid.dynamic.filter((obs: any) => obs.timestamp > now);
     }
     return {
       op: 'remove-obstacles',
@@ -167,15 +167,15 @@ export class PathfindingManager {
    */
   isBlocked(x: number, y: number): boolean {
     // Check static blocks
-    if (this?.grid.blocks?.some(b => b.x === x && b.y === y)) {
+    if (this.grid.blocks.some(b => b.x === x && b.y === y)) {
       return true;
     }
 
     // Check dynamic obstacles
-    if (this?.grid.dynamic) {
-      const now = new Date();
-      return this?.grid.dynamic?.some(obs => 
-        obs.x === x && obs.y === y && obs?.timestamp > now
+    if (this.grid.dynamic) {
+      const now = Date.now();
+      return this.grid.dynamic.some(obs => 
+        obs.x === x && obs.y === y && obs.timestamp > now
       );
     }
 
@@ -186,17 +186,17 @@ export class PathfindingManager {
    * Check if position is in bounds
    */
   inBounds(x: number, y: number): boolean {
-    return x >= 0 && y >= 0 && x < this?.grid.width && y < this?.grid.height;
+    return x >= 0 && y >= 0 && x < this.grid.width && y < this.grid.height;
   }
 
   /**
    * Get movement cost for a position
    */
   getCost(x: number, y: number): number {
-    if (this?.grid.costs) {
-      const costEntry = this?.grid.costs?.find(c => c.x === x && c.y === y);
+    if (this.grid.costs) {
+      const costEntry = this.grid.costs.find(c => c.x === x && c.y === y);
       if (costEntry) {
-        return costEntry?.cost;
+        return costEntry.cost;
       }
     }
     return 1; // Default cost
@@ -211,10 +211,10 @@ export class PathfindingManager {
     maxIterations?: number;
   } = {}): PathfindingResult {
     const requestId = `astar_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const startTime = new Date();
-    const maxIterations = options?.maxIterations || 10000;
-    const allowDiagonal = options?.allowDiagonal || false;
-    const heuristic = options?.heuristic || 'manhattan';
+    const startTime = Date.now();
+    const maxIterations = options.maxIterations || 10000;
+    const allowDiagonal = options.allowDiagonal || false;
+    const heuristic = options.heuristic || 'manhattan';
 
     const openSet: Node[] = [];
     const closedSet = new Set<string>();
@@ -230,8 +230,8 @@ export class PathfindingManager {
       for (const [dx, dy] of directions) {
         const nx = node.x + dx;
         const ny = node.y + dy;
-        if (this?.inBounds(nx, ny) && (!this?.isBlocked(nx, ny) || (nx === goal.x && ny === goal.y))) {
-          neighbors?.push({ x: nx, y: ny });
+        if (this.inBounds(nx, ny) && (!this.isBlocked(nx, ny) || (nx === goal.x && ny === goal.y))) {
+          neighbors.push({ x: nx, y: ny });
         }
       }
       return neighbors;
@@ -253,30 +253,30 @@ export class PathfindingManager {
 
     const startNode: Node = { ...start, g: 0, h: heuristicCost(start, goal), f: 0 };
     startNode.f = startNode.g! + startNode.h!;
-    openSet?.push(startNode);
+    openSet.push(startNode);
 
     let iterations = 0;
-    while (openSet?.length > 0 && iterations < maxIterations) {
+    while (openSet.length > 0 && iterations < maxIterations) {
       iterations++;
       
       // Find node with lowest f cost
       let currentIndex = 0;
-      for (let i = 1; i < openSet?.length; i++) {
+      for (let i = 1; i < openSet.length; i++) {
         if (openSet[i!].f! < openSet[currentIndex!].f!) {
           currentIndex = i;
         }
       }
 
-      const current = openSet?.splice(currentIndex, 1)[0!];
-      closedSet?.add(key(current));
+      const current = openSet.splice(currentIndex, 1)[0!];
+      closedSet.add(key(current));
 
       // Check if we reached the goal
       if (current.x === goal.x && current.y === goal.y) {
         const path: Node[] = [];
         let node: Node | undefined = current;
         while (node) {
-          path?.unshift({ x: node.x, y: node.y });
-          node = cameFrom?.get(key(node));
+          path.unshift({ x: node.x, y: node.y });
+          node = cameFrom.get(key(node));
         }
 
         const result: PathfindingResult = {
@@ -290,17 +290,17 @@ export class PathfindingManager {
           timestamp: new Date()
         };
 
-        this?.results?.push(result: any);
+        this.results.push(result);
         return result;
       }
 
       // Explore neighbors
       for (const neighbor of getNeighbors(current)) {
         const neighborKey = key(neighbor);
-        if (closedSet?.has(neighborKey)) continue;
+        if (closedSet.has(neighborKey)) continue;
 
-        const tentativeG = current.g! + this?.getCost(neighbor.x, neighbor.y);
-        const existingNode = openSet?.find(n => n.x === neighbor.x && n.y === neighbor.y);
+        const tentativeG = current.g! + this.getCost(neighbor.x, neighbor.y);
+        const existingNode = openSet.find(n => n.x === neighbor.x && n.y === neighbor.y);
         
         if (!existingNode) {
           const newNode: Node = {
@@ -311,13 +311,13 @@ export class PathfindingManager {
             parent: current
           };
           newNode.f = newNode.g! + newNode.h!;
-          openSet?.push(newNode);
-          cameFrom?.set(neighborKey, current);
+          openSet.push(newNode);
+          cameFrom.set(neighborKey, current);
         } else if (tentativeG < existingNode.g!) {
           existingNode.g = tentativeG;
           existingNode.f = existingNode.g! + existingNode.h!;
-          existingNode?.parent = current;
-          cameFrom?.set(neighborKey, current);
+          existingNode.parent = current;
+          cameFrom.set(neighborKey, current);
         }
       }
     }
@@ -334,7 +334,7 @@ export class PathfindingManager {
       timestamp: new Date()
     };
 
-    this?.results?.push(result: any);
+    this.results.push(result);
     return result;
   }
 
@@ -346,8 +346,8 @@ export class PathfindingManager {
     maxIterations?: number;
   } = {}): PathfindingResult {
     const requestId = `dijkstra_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const maxIterations = options?.maxIterations || 10000;
-    const allowDiagonal = options?.allowDiagonal || false;
+    const maxIterations = options.maxIterations || 10000;
+    const allowDiagonal = options.allowDiagonal || false;
 
     const key = (n: Node) => `${n.x},${n.y}`;
     const getNeighbors = (node: Node): Node[] => {
@@ -358,7 +358,7 @@ export class PathfindingManager {
       for (const [dx, dy] of dirs) {
         const nx = node.x + dx;
         const ny = node.y + dy;
-        if (this?.inBounds(nx, ny) && (!this?.isBlocked(nx, ny) || (nx === goal.x && ny === goal.y))) out?.push({ x: nx, y: ny });
+        if (this.inBounds(nx, ny) && (!this.isBlocked(nx, ny) || (nx === goal.x && ny === goal.y))) out.push({ x: nx, y: ny });
       }
       return out;
     };
@@ -368,74 +368,74 @@ export class PathfindingManager {
     const pq: { key: string; d: number }[] = [];
     const visited = new Set<string>();
     const pushPQ = (k: string, d: number) => {
-      pq?.push({ key: k, d });
+      pq.push({ key: k, d });
     };
     const popMin = () => {
       let idx = 0;
-      for (let i = 1; i < pq?.length; i++) if (pq[i!].d < pq[idx!].d) idx = i;
-      return pq?.splice(idx, 1)[0!];
+      for (let i = 1; i < pq.length; i++) if (pq[i!].d < pq[idx!].d) idx = i;
+      return pq.splice(idx, 1)[0!];
     };
 
     // initialize distances
-    for (let x = 0; x < this?.grid.width; x++) {
-      for (let y = 0; y < this?.grid.height; y++) {
-        if (!this?.isBlocked(x, y)) {
+    for (let x = 0; x < this.grid.width; x++) {
+      for (let y = 0; y < this.grid.height; y++) {
+        if (!this.isBlocked(x, y)) {
           const k = `${x},${y}`;
-          dist?.set(k, Infinity);
+          dist.set(k, Infinity);
         }
       }
     }
     const startKey = key(start);
     const goalKey = key(goal);
-    if (!dist?.has(startKey) || !dist?.has(goalKey)) {
+    if (!dist.has(startKey) || !dist.has(goalKey)) {
       const result: PathfindingResult = { requestId, path: [], cost: 0, iterations: 0, success: false, algorithm: 'dijkstra', timestamp: new Date() };
-      this?.results?.push(result: any);
+      this.results.push(result);
       return result;
     }
-    dist?.set(startKey, 0);
+    dist.set(startKey, 0);
     pushPQ(startKey, 0);
 
     let iterations = 0;
-    while (pq?.length > 0 && iterations < maxIterations) {
+    while (pq.length > 0 && iterations < maxIterations) {
       iterations++;
       const current = popMin();
-      const [cx, cy] = current?.key.split(',').map(Number);
-      if (visited?.has(current?.key)) continue;
-      visited?.add(current?.key);
-      if (current?.key === goalKey) {
+      const [cx, cy] = current.key.split(',').map(Number);
+      if (visited.has(current.key)) continue;
+      visited.add(current.key);
+      if (current.key === goalKey) {
         const path: Node[] = [];
         let node: Node | undefined = { x: cx, y: cy };
         while (node) {
-          path?.unshift({ x: node.x, y: node.y });
-          node = prev?.get(key(node));
+          path.unshift({ x: node.x, y: node.y });
+          node = prev.get(key(node));
         }
-        const result: PathfindingResult = { requestId, path, cost: dist?.get(goalKey) || 0, iterations, success: true, algorithm: 'dijkstra', timestamp: new Date() };
-        this?.results?.push(result: any);
+        const result: PathfindingResult = { requestId, path, cost: dist.get(goalKey) || 0, iterations, success: true, algorithm: 'dijkstra', timestamp: new Date() };
+        this.results.push(result);
         return result;
       }
       const currentNode = { x: cx, y: cy };
       for (const n of getNeighbors(currentNode)) {
         const nk = key(n);
-        const alt = (dist?.get(current?.key) || Infinity) + this?.getCost(n.x, n.y);
-        if (alt < (dist?.get(nk) || Infinity)) {
-          dist?.set(nk, alt);
-          prev?.set(nk, currentNode);
+        const alt = (dist.get(current.key) || Infinity) + this.getCost(n.x, n.y);
+        if (alt < (dist.get(nk) || Infinity)) {
+          dist.set(nk, alt);
+          prev.set(nk, currentNode);
           pushPQ(nk, alt);
         }
       }
     }
     // Fallback: attempt A* as a secondary strategy to improve robustness
-    const prevLen = this?.results.length;
-    const astar = this?.findPathAStar(start, goal, { heuristic: 'manhattan', allowDiagonal: false, maxIterations });
+    const prevLen = this.results.length;
+    const astar = this.findPathAStar(start, goal, { heuristic: 'manhattan', allowDiagonal: false, maxIterations });
     // Remove the internal A* result to avoid inflating stats; we will record a mapped dijkstra result instead
-    if (this?.results.length > prevLen) this?.results.pop();
-    if (astar?.success) {
+    if (this.results.length > prevLen) this.results.pop();
+    if (astar.success) {
       const mapped: PathfindingResult = { ...astar, requestId, algorithm: 'dijkstra' };
-      this?.results?.push(mapped);
+      this.results.push(mapped);
       return mapped;
     }
     const result: PathfindingResult = { requestId, path: [], cost: 0, iterations, success: false, algorithm: 'dijkstra', timestamp: new Date() };
-    this?.results?.push(result: any);
+    this.results.push(result);
     return result;
   }
 
@@ -447,8 +447,8 @@ export class PathfindingManager {
     maxIterations?: number;
   } = {}): PathfindingResult {
     const requestId = `bfs_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const maxIterations = options?.maxIterations || 10000;
-    const allowDiagonal = options?.allowDiagonal || false;
+    const maxIterations = options.maxIterations || 10000;
+    const allowDiagonal = options.allowDiagonal || false;
 
     const queue: Node[] = [start!];
     const visited = new Set<string>();
@@ -464,49 +464,49 @@ export class PathfindingManager {
       for (const [dx, dy] of directions) {
         const nx = node.x + dx;
         const ny = node.y + dy;
-        if (this?.inBounds(nx, ny) && !this?.isBlocked(nx, ny)) {
-          neighbors?.push({ x: nx, y: ny });
+        if (this.inBounds(nx, ny) && !this.isBlocked(nx, ny)) {
+          neighbors.push({ x: nx, y: ny });
         }
       }
       return neighbors;
     };
 
-    visited?.add(key(start));
+    visited.add(key(start));
     let iterations = 0;
 
-    while (queue?.length > 0 && iterations < maxIterations) {
+    while (queue.length > 0 && iterations < maxIterations) {
       iterations++;
-      const current = queue?.shift()!;
+      const current = queue.shift()!;
 
       if (current.x === goal.x && current.y === goal.y) {
         // Reconstruct path
         const path: Node[] = [];
         let node: Node | undefined = current;
         while (node) {
-          path?.unshift({ x: node.x, y: node.y });
-          node = cameFrom?.get(key(node));
+          path.unshift({ x: node.x, y: node.y });
+          node = cameFrom.get(key(node));
         }
 
         const result: PathfindingResult = {
           requestId,
           path,
-          cost: path?.length - 1,
+          cost: path.length - 1,
           iterations,
           success: true,
           algorithm: 'bfs',
           timestamp: new Date()
         };
 
-        this?.results?.push(result: any);
+        this.results.push(result);
         return result;
       }
 
       for (const neighbor of getNeighbors(current)) {
         const neighborKey = key(neighbor);
-        if (!visited?.has(neighborKey)) {
-          visited?.add(neighborKey);
-          cameFrom?.set(neighborKey, current);
-          queue?.push(neighbor);
+        if (!visited.has(neighborKey)) {
+          visited.add(neighborKey);
+          cameFrom.set(neighborKey, current);
+          queue.push(neighbor);
         }
       }
     }
@@ -522,7 +522,7 @@ export class PathfindingManager {
       timestamp: new Date()
     };
 
-    this?.results?.push(result: any);
+    this.results.push(result);
     return result;
   }
 
@@ -536,13 +536,13 @@ export class PathfindingManager {
   } = {}): PathfindingResult {
     switch (algorithm) {
       case 'astar':
-        return this?.findPathAStar(start, goal, options);
+        return this.findPathAStar(start, goal, options);
       case 'dijkstra':
-        return this?.findPathDijkstra(start, goal, options);
+        return this.findPathDijkstra(start, goal, options);
       case 'bfs':
-        return this?.findPathBFS(start, goal, options);
+        return this.findPathBFS(start, goal, options);
       default:
-        return this?.findPathAStar(start, goal, options);
+        return this.findPathAStar(start, goal, options);
     }
   }
 
@@ -550,35 +550,35 @@ export class PathfindingManager {
    * Get pathfinding statistics
    */
   getPathfindingStats(): PathfindingOutput {
-    const totalRequests = this?.results.length;
-    const successfulPaths = this?.results.filter((r: any) => r?.success).length;
+    const totalRequests = this.results.length;
+    const successfulPaths = this.results.filter((r: any) => r.success).length;
     const failedPaths = totalRequests - successfulPaths;
     
     const averagePathLength = successfulPaths > 0 
-      ? this?.results.filter((r: any) => r?.success).reduce((sum, r) => sum + r?.path.length, 0) / successfulPaths
+      ? this.results.filter((r: any) => r.success).reduce((sum, r) => sum + r.path.length, 0) / successfulPaths
       : 0;
     
     const averageCost = successfulPaths > 0
-      ? this?.results.filter((r: any) => r?.success).reduce((sum, r) => sum + r?.cost, 0) / successfulPaths
+      ? this.results.filter((r: any) => r.success).reduce((sum, r) => sum + r.cost, 0) / successfulPaths
       : 0;
     
     const averageIterations = totalRequests > 0
-      ? this?.results.reduce((sum, r) => sum + r?.iterations, 0) / totalRequests
+      ? this.results.reduce((sum, r) => sum + r.iterations, 0) / totalRequests
       : 0;
 
     const algorithmUsage: Record<string, number> = {};
     const heuristicUsage: Record<string, number> = {};
     
-    this?.results.forEach((result: any) => {
-      algorithmUsage[result?.algorithm] = (algorithmUsage[result?.algorithm] || 0) + 1;
-      if (result?.heuristic) {
-        heuristicUsage[result?.heuristic] = (heuristicUsage[result?.heuristic] || 0) + 1;
+    this.results.forEach((result: any) => {
+      algorithmUsage[result.algorithm] = (algorithmUsage[result.algorithm] || 0) + 1;
+      if (result.heuristic) {
+        heuristicUsage[result.heuristic] = (heuristicUsage[result.heuristic] || 0) + 1;
       }
     });
 
     const times = this.results.map((r: any) => Date.now() - r.timestamp);
     const performanceMetrics = {
-      averageTime: times?.length > 0 ? times?.reduce((sum, t) => sum + t, 0) / times?.length : 0,
+      averageTime: times.length > 0 ? times.reduce((sum, t) => sum + t, 0) / times.length : 0,
       maxTime: times.length > 0 ? Math.max(...times) : 0,
       minTime: times.length > 0 ? Math.min(...times) : 0
     };
@@ -611,7 +611,7 @@ export class PathfindingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { grid: this?.grid, results: this?.results, total: this?.results.length }
+          result: { grid: this.grid, results: this.results, total: this.results.length }
         };
       
       case 'manifest':
@@ -619,26 +619,26 @@ export class PathfindingManager {
           op: 'export',
           status: 'ok',
           result: {
-            schema: 'miff?.pathfinding.export?.v1',
-            grid: this?.grid,
-            results: this?.results.slice(-100), // Last 100 results
+            schema: 'miff.pathfinding.export.v1',
+            grid: this.grid,
+            results: this.results.slice(-100), // Last 100 results
             exportedAt: new Date().toISOString(),
-            total: this?.results.length
+            total: this.results.length
           }
         };
       
       case 'summary':
-        const stats = this?.getPathfindingStats();
+        const stats = this.getPathfindingStats();
         return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats?.result,
+            summary: stats.result,
             grid: {
-              width: this?.grid.width,
-              height: this?.grid.height,
-              totalBlocks: this?.grid.blocks?.length,
-              dynamicObstacles: this?.grid.dynamic?.length || 0
+              width: this.grid.width,
+              height: this.grid.height,
+              totalBlocks: this.grid.blocks.length,
+              dynamicObstacles: this.grid.dynamic?.length || 0
             }
           }
         };
@@ -648,8 +648,8 @@ export class PathfindingManager {
           op: 'export',
           status: 'ok',
           result: {
-            results: this?.results,
-            total: this?.results.length
+            results: this.results,
+            total: this.results.length
           }
         };
       
@@ -666,11 +666,11 @@ export class PathfindingManager {
    * Reset pathfinding data
    */
   resetPathfinding(): PathfindingOutput {
-    this?.results = [];
-    this?.requests.clear();
-    this?.pathHistory.clear();
-    if (this?.grid.dynamic) {
-      this?.grid.dynamic = [];
+    this.results = [];
+    this.requests.clear();
+    this.pathHistory.clear();
+    if (this.grid.dynamic) {
+      this.grid.dynamic = [];
     }
     return {
       op: 'reset',

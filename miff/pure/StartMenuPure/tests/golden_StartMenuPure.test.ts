@@ -7,6 +7,6 @@ test('StartMenuPure deterministic navigation', () => {
 	const state3 = reduceStartMenuAction(state2, { type: 'SELECT_NEXT' });
 	const state4 = reduceStartMenuAction(state3, { type: 'CONFIRM' });
 	expect(getSelectedItem(state3)).toBe('newGame'); // wrap-around
-	expect(state4?.isActive).toBe(false);
+	expect(state4.isActive).toBe(false);
 });
 

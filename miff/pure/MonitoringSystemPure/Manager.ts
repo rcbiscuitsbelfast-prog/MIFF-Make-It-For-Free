@@ -1283,7 +1283,7 @@ export class MonitoringSystemPure {
 
   constructor(config: Partial<MonitoringSystemConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableMonitoringManagement: true,
       enableSystemMonitoring: true,
       enableApplicationMonitoring: true,
@@ -1301,7 +1301,7 @@ export class MonitoringSystemPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalMetrics: 0,
       activeMetrics: 0,
       totalAlerts: 0,
@@ -1318,7 +1318,7 @@ export class MonitoringSystemPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalMetrics: 0,
       totalAlerts: 0,
       averageCollectionTime: 0,
@@ -1332,7 +1332,7 @@ export class MonitoringSystemPure {
    * Create a new monitoring system manager
    */
   createManager(): MonitoringSystemOutput {
-    if (!this?.config.enableMonitoringManagement) {
+    if (!this.config.enableMonitoringManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1342,8 +1342,8 @@ export class MonitoringSystemPure {
 
     const manager: MonitoringSystemManager = {
       id: managerData.id || `monitoringsystem-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Monitoring System Manager',
-      type: managerData?.type || 'system',
+      name: managerData.name || 'Unnamed Monitoring System Manager',
+      type: managerData.type || 'system',
       status: 'active',
       metrics: [],
       alerts: [],
@@ -1413,7 +1413,7 @@ export class MonitoringSystemPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -1426,7 +1426,7 @@ export class MonitoringSystemPure {
    * Get manager by ID
    */
   getManager(): MonitoringSystemOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1446,14 +1446,14 @@ export class MonitoringSystemPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): MonitoringSystemPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): MonitoringSystemAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1467,7 +1467,7 @@ export class MonitoringSystemPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalMetrics = 0;
     let activeMetrics = 0;
     let totalAlerts = 0;
@@ -1479,29 +1479,29 @@ export class MonitoringSystemPure {
     let totalCollectors = 0;
     let activeCollectors = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalMetrics += manager?.metrics.length;
-      activeMetrics += manager?.metrics.filter((m: any) => m?.status === 'active').length;
-      totalAlerts += manager?.alerts.length;
-      firingAlerts += manager?.alerts.filter((a: any) => a?.status === 'firing').length;
-      totalDashboards += manager?.dashboards.length;
-      totalReports += manager?.reports.length;
-      totalAgents += manager?.agents.length;
-      onlineAgents += manager?.agents.filter((a: any) => a?.status === 'online').length;
-      totalCollectors += manager?.collectors.length;
-      activeCollectors += manager?.collectors.filter((c: any) => c?.status === 'active').length;
+    for (const manager of this.managers.values()) {
+      totalMetrics += manager.metrics.length;
+      activeMetrics += manager.metrics.filter((m: any) => m.status === 'active').length;
+      totalAlerts += manager.alerts.length;
+      firingAlerts += manager.alerts.filter((a: any) => a.status === 'firing').length;
+      totalDashboards += manager.dashboards.length;
+      totalReports += manager.reports.length;
+      totalAgents += manager.agents.length;
+      onlineAgents += manager.agents.filter((a: any) => a.status === 'online').length;
+      totalCollectors += manager.collectors.length;
+      activeCollectors += manager.collectors.filter((c: any) => c.status === 'active').length;
     }
 
-    this?.performanceMetrics.totalMetrics = totalMetrics;
-    this?.performanceMetrics.activeMetrics = activeMetrics;
-    this?.performanceMetrics.totalAlerts = totalAlerts;
-    this?.performanceMetrics.firingAlerts = firingAlerts;
-    this?.performanceMetrics.totalDashboards = totalDashboards;
-    this?.performanceMetrics.totalReports = totalReports;
-    this?.performanceMetrics.totalAgents = totalAgents;
-    this?.performanceMetrics.onlineAgents = onlineAgents;
-    this?.performanceMetrics.totalCollectors = totalCollectors;
-    this?.performanceMetrics.activeCollectors = activeCollectors;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalMetrics = totalMetrics;
+    this.performanceMetrics.activeMetrics = activeMetrics;
+    this.performanceMetrics.totalAlerts = totalAlerts;
+    this.performanceMetrics.firingAlerts = firingAlerts;
+    this.performanceMetrics.totalDashboards = totalDashboards;
+    this.performanceMetrics.totalReports = totalReports;
+    this.performanceMetrics.totalAgents = totalAgents;
+    this.performanceMetrics.onlineAgents = onlineAgents;
+    this.performanceMetrics.totalCollectors = totalCollectors;
+    this.performanceMetrics.activeCollectors = activeCollectors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

@@ -1014,7 +1014,7 @@ export class ErrorHandlingPure {
 
   constructor(config: Partial<ErrorHandlingConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.config = {
+    this.config = {
       enableErrorHandlingManagement: true,
       enableErrorDetection: true,
       enableErrorLogging: true,
@@ -1032,7 +1032,7 @@ export class ErrorHandlingPure {
       ...config
     };
 
-    this?.performanceMetrics = {
+    this.performanceMetrics = {
       totalErrors: 0,
       newErrors: 0,
       resolvedErrors: 0,
@@ -1049,7 +1049,7 @@ export class ErrorHandlingPure {
       uptime: 0
     };
 
-    this?.analytics = {
+    this.analytics = {
       totalErrors: 0,
       totalHandlers: 0,
       averageResolutionTime: 0,
@@ -1063,7 +1063,7 @@ export class ErrorHandlingPure {
    * Create a new error handling manager
    */
   createManager(): ErrorHandlingOutput {
-    if (!this?.config.enableErrorHandlingManagement) {
+    if (!this.config.enableErrorHandlingManagement) {
       return {
         op: 'create-manager',
         status: 'error',
@@ -1073,8 +1073,8 @@ export class ErrorHandlingPure {
 
     const manager: ErrorHandlingManager = {
       id: managerData.id || `errorhandling-${Date.now()}`,
-      name: managerData?.name || 'Unnamed Error Handling Manager',
-      type: managerData?.type || 'system',
+      name: managerData.name || 'Unnamed Error Handling Manager',
+      type: managerData.type || 'system',
       status: 'active',
       errors: [],
       handlers: [],
@@ -1143,7 +1143,7 @@ export class ErrorHandlingPure {
       ...managerData
     };
 
-    this?.managers.set(manager?.id, manager);
+    this.managers.set(manager.id, manager);
 
     return {
       op: 'create-manager',
@@ -1156,7 +1156,7 @@ export class ErrorHandlingPure {
    * Get manager by ID
    */
   getManager(): ErrorHandlingOutput {
-    const manager = this?.managers.get(managerId);
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1176,14 +1176,14 @@ export class ErrorHandlingPure {
    * Get performance metrics
    */
   getPerformanceMetrics(): ErrorHandlingPerformanceMetrics {
-    return { ...this?.performanceMetrics };
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
   getAnalytics(): ErrorHandlingAnalytics {
-    return { ...this?.analytics };
+    return { ...this.analytics };
   }
 
   /**
@@ -1197,7 +1197,7 @@ export class ErrorHandlingPure {
    * Update performance metrics
    */
   updatePerformanceMetrics(): void {
-    const now = new Date();
+    const now = Date.now();
     let totalErrors = 0;
     let newErrors = 0;
     let resolvedErrors = 0;
@@ -1208,27 +1208,27 @@ export class ErrorHandlingPure {
     let totalReports = 0;
     let totalMonitors = 0;
 
-    for (const manager of this?.managers.values()) {
-      totalErrors += manager?.errors.length;
-      newErrors += manager?.errors.filter((e: any) => e?.status === 'new').length;
-      resolvedErrors += manager?.errors.filter((e: any) => e?.status === 'resolved').length;
-      totalHandlers += manager?.handlers.length;
-      activeHandlers += manager?.handlers.filter((h: any) => h?.status === 'active').length;
-      totalPolicies += manager?.policies.length;
-      activePolicies += manager?.policies.filter((p: any) => p?.status === 'active').length;
-      totalReports += manager?.reports.length;
-      totalMonitors += manager?.monitors.length;
+    for (const manager of this.managers.values()) {
+      totalErrors += manager.errors.length;
+      newErrors += manager.errors.filter((e: any) => e.status === 'new').length;
+      resolvedErrors += manager.errors.filter((e: any) => e.status === 'resolved').length;
+      totalHandlers += manager.handlers.length;
+      activeHandlers += manager.handlers.filter((h: any) => h.status === 'active').length;
+      totalPolicies += manager.policies.length;
+      activePolicies += manager.policies.filter((p: any) => p.status === 'active').length;
+      totalReports += manager.reports.length;
+      totalMonitors += manager.monitors.length;
     }
 
-    this?.performanceMetrics.totalErrors = totalErrors;
-    this?.performanceMetrics.newErrors = newErrors;
-    this?.performanceMetrics.resolvedErrors = resolvedErrors;
-    this?.performanceMetrics.totalHandlers = totalHandlers;
-    this?.performanceMetrics.activeHandlers = activeHandlers;
-    this?.performanceMetrics.totalPolicies = totalPolicies;
-    this?.performanceMetrics.activePolicies = activePolicies;
-    this?.performanceMetrics.totalReports = totalReports;
-    this?.performanceMetrics.totalMonitors = totalMonitors;
-    this?.performanceMetrics.uptime = now - (this?.performanceMetrics.uptime || now);
+    this.performanceMetrics.totalErrors = totalErrors;
+    this.performanceMetrics.newErrors = newErrors;
+    this.performanceMetrics.resolvedErrors = resolvedErrors;
+    this.performanceMetrics.totalHandlers = totalHandlers;
+    this.performanceMetrics.activeHandlers = activeHandlers;
+    this.performanceMetrics.totalPolicies = totalPolicies;
+    this.performanceMetrics.activePolicies = activePolicies;
+    this.performanceMetrics.totalReports = totalReports;
+    this.performanceMetrics.totalMonitors = totalMonitors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

@@ -36,8 +36,8 @@ function roundVec(v: Vector2): Vector2 { return { x: round(v.x), y: round(v.y) }
  * Deterministic, remix-safe, and ready for golden fixtures.
  */
 export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
-  const dt = cfg?.dt ?? 0.1;
-  const total = cfg?.total ?? 1.0;
+  const dt = cfg.dt ?? 0.1;
+  const total = cfg.total ?? 1.0;
   const physics = new PhysicsManager();
   const collisions = new CollisionManager();
   const time = new TimeManager();
@@ -55,11 +55,11 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
       } as Body
     ]
   };
-  physics?.load(world);
+  physics.load(world);
 
   // Platform AABB (static). Wide platform spanning x, at y ∈ [0, 0.5].
   const platform: AABB = { id: 'platform', min: { x: -5, y: 0 }, max: { x: 5, y: 0.5 } };
-  collisions?.load([platform!]);
+  collisions.load([platform!]);
 
   // Helper to sync the dynamic block to collision AABB
   const half = 0.25; // block half-size (0.5x0.5) to match fixture capture
@@ -69,11 +69,11 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
       min: { x: center.x - half, y: center.y - half },
       max: { x: center.x + half, y: center.y + half }
     };
-    collisions?.upsert(box);
+    collisions.upsert(box);
   }
 
   function centerFromBox(aabb: AABB): Vector2 {
-    return { x: (aabb?.min.x + aabb?.max.x) / 2, y: (aabb?.min.y + aabb?.max.y) / 2 };
+    return { x: (aabb.min.x + aabb.max.x) / 2, y: (aabb.min.y + aabb.max.y) / 2 };
   }
 
   // Capture states at key times
@@ -83,80 +83,80 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   let grounded = false;
 
   // Initial state capture
-  const initialDump = physics?.dump('block');
-  upsertBlockBox(initialDump?.body!.position);
-  timeline?.push({ t: 0, position: initialDump?.body!.position, velocity: initialDump?.body!.velocity, collided: false });
+  const initialDump = physics.dump('block');
+  upsertBlockBox(initialDump.body!.position);
+  timeline.push({ t: 0, position: initialDump.body!.position, velocity: initialDump.body!.velocity, collided: false });
 
   // Sim loop
   let t = 0;
   while (round(t + dt) <= round(total + 1e-9)) {
     // Advance time and physics
-    time?.tick(dt);
-    const step = physics?.step(dt);
-    t = round(time?.now());
+    time.tick(dt);
+    const step = physics.step(dt);
+    t = round(time.now());
 
     // Update collision box for block from physics position
-    const blockDump = physics?.dump('block');
-    const center = blockDump?.body!.position;
+    const blockDump = physics.dump('block');
+    const center = blockDump.body!.position;
     upsertBlockBox(center);
 
     // Check collision and resolve penetration; reflect into physics state (simple support)
-    const check = collisions?.check();
+    const check = collisions.check();
     let collided = false;
-    for (const c of check?.collisions) {
+    for (const c of check.collisions) {
       if ((c.a === 'platform' && c.b === 'block') || (c.b === 'platform' && c.a === 'block')) {
         collided = true;
       }
     }
     if (collided) {
-      const resolved = collisions?.resolve();
-      const blockBox = resolved?.resolved.find(r => r?.id === 'block');
+      const resolved = collisions.resolve();
+      const blockBox = resolved.resolved.find(r => r.id === 'block');
       if (blockBox) {
         // Snap to platform top and rest: center.y = 0, vy = 0
-        const bd = physics?.dump('block').body!;
-        bd?.position = { x: round(bd?.position.x), y: 0 };
-        bd?.velocity = { x: round(bd?.velocity.x), y: 0 };
+        const bd = physics.dump('block').body!;
+        bd.position = { x: round(bd.position.x), y: 0 };
+        bd.velocity = { x: round(bd.velocity.x), y: 0 };
         grounded = true;
-        upsertBlockBox(bd?.position);
+        upsertBlockBox(bd.position);
       }
     }
     // Maintain rest if grounded and still in contact zone
     else if (grounded) {
-      const bd = physics?.dump('block').body!;
+      const bd = physics.dump('block').body!;
       // Keep snapped to platform top and cancel vertical motion
-      bd?.position = { x: round(bd?.position.x), y: 0 };
-      bd?.velocity = { x: round(bd?.velocity.x), y: 0 };
-      upsertBlockBox(bd?.position);
+      bd.position = { x: round(bd.position.x), y: 0 };
+      bd.velocity = { x: round(bd.velocity.x), y: 0 };
+      upsertBlockBox(bd.position);
       // Keep grounded for this fixed scenario (no external forces to release)
     }
 
-    if (captureAt?.has(t)) {
-      const d = physics?.dump('block').body!;
-      timeline?.push({ t, position: d?.position, velocity: d?.velocity, collided });
+    if (captureAt.has(t)) {
+      const d = physics.dump('block').body!;
+      timeline.push({ t, position: d.position, velocity: d.velocity, collided });
     }
   }
 
   // Extract events from timeline for golden fixture compatibility
   const events = timeline
-    .filter((state: any) => state?.collided)
+    .filter((state: any) => state.collided)
     .map((state: any) => ({
       type: 'collision',
       t: state.t,
-      position: state?.position,
-      velocity: state?.velocity
+      position: state.position,
+      velocity: state.velocity
     }));
   
   // Extract final state for golden fixture compatibility
-  const finalState = timeline?.length > 0 ? {
+  const finalState = timeline.length > 0 ? {
     player: {
-      position: timeline[timeline?.length - 1].position,
-      velocity: timeline[timeline?.length - 1].velocity,
-      grounded: timeline[timeline?.length - 1].collided
+      position: timeline[timeline.length - 1].position,
+      velocity: timeline[timeline.length - 1].velocity,
+      grounded: timeline[timeline.length - 1].collided
     },
     scenario: {
       completed: true,
       duration: total,
-      steps: timeline?.length
+      steps: timeline.length
     }
   } : {};
 

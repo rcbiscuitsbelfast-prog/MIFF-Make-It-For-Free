@@ -2,7 +2,7 @@
  * SplashScreenPure Integration System
  *
  * Provides automatic splash screen injection into various MIFF deployment methods:
- * - WebBridgePure exports (index?.html)
+ * - WebBridgePure exports (index.html)
  * - UnityBridgePure scene loaders
  * - CLI commands (miff-cli preview, export-web, build-unity)
  *
@@ -43,29 +43,29 @@ export class SplashScreenIntegration {
   private cliCommands: Map<string, CLICommand> = new Map();
 
   constructor(config: Partial<IntegrationConfig> = {}) {
-    this?.config = {
+    this.config = {
       enableSplashScreen: true,
-      splashScreenConfig: SplashScreenPure?.createDefaultConfig(),
+      splashScreenConfig: SplashScreenPure.createDefaultConfig(),
       targetPlatform: 'web',
       outputPath: './dist',
       injectMethod: 'prepend',
       ...config
     };
 
-    this?.splashScreen = new SplashScreenPure(this?.config.splashScreenConfig);
-    this?.setupCLICommands();
-    this?.setupEventListeners();
+    this.splashScreen = new SplashScreenPure(this.config.splashScreenConfig);
+    this.setupCLICommands();
+    this.setupEventListeners();
   }
 
   private setupEventListeners(): void {
-    EventBus?.on('splashscreen?.inject.web', this?.injectIntoWebExport.bind(this));
-    EventBus?.on('splashscreen?.inject.unity', this?.injectIntoUnityScene.bind(this));
-    EventBus?.on('splashscreen?.inject.cli', this?.handleCLICommand.bind(this));
+    EventBus.on('splashscreen.inject.web', this.injectIntoWebExport.bind(this));
+    EventBus.on('splashscreen.inject.unity', this.injectIntoUnityScene.bind(this));
+    EventBus.on('splashscreen.inject.cli', this.handleCLICommand.bind(this));
   }
 
   private setupCLICommands(): void {
     // CLI command: miff-cli preview
-    this?.cliCommands.set('preview', {
+    this.cliCommands.set('preview', {
       name: 'preview',
       description: 'Preview a MIFF scene with splash screen',
       flags: [
@@ -88,11 +88,11 @@ export class SplashScreenIntegration {
           defaultValue: 'dark'
         }
       ],
-      handler: this?.handlePreviewCommand.bind(this)
+      handler: this.handlePreviewCommand.bind(this)
     });
 
     // CLI command: miff-cli export-web
-    this?.cliCommands.set('export-web', {
+    this.cliCommands.set('export-web', {
       name: 'export-web',
       description: 'Export scene to web with splash screen integration',
       flags: [
@@ -116,11 +116,11 @@ export class SplashScreenIntegration {
           defaultValue: './dist'
         }
       ],
-      handler: this?.handleExportWebCommand.bind(this)
+      handler: this.handleExportWebCommand.bind(this)
     });
 
     // CLI command: miff-cli build-unity
-    this?.cliCommands.set('build-unity', {
+    this.cliCommands.set('build-unity', {
       name: 'build-unity',
       description: 'Build Unity project with splash screen integration',
       flags: [
@@ -143,25 +143,25 @@ export class SplashScreenIntegration {
           defaultValue: '2021.3'
         }
       ],
-      handler: this?.handleBuildUnityCommand.bind(this)
+      handler: this.handleBuildUnityCommand.bind(this)
     });
   }
 
   private async injectIntoWebExport(event): Promise<void> {
     const { htmlContent, config } = event;
 
-    if (!this?.config.enableSplashScreen) {
+    if (!this.config.enableSplashScreen) {
       console.log('⚠️ Splash screen disabled via configuration');
       return;
     }
 
     try {
-      const splashConfig = { ...this?.config.splashScreenConfig, ...config };
-      const modifiedHtml = SplashScreenPure?.injectSplashScreen(htmlContent, splashConfig);
+      const splashConfig = { ...this.config.splashScreenConfig, ...config };
+      const modifiedHtml = SplashScreenPure.injectSplashScreen(htmlContent, splashConfig);
 
-      EventBus?.publish('splashscreen?.web.injected', {
-        originalLength: htmlContent?.length,
-        modifiedLength: modifiedHtml?.length,
+      EventBus.publish('splashscreen.web.injected', {
+        originalLength: htmlContent.length,
+        modifiedLength: modifiedHtml.length,
         splashConfig: splashConfig
       });
 
@@ -176,18 +176,18 @@ export class SplashScreenIntegration {
   private async injectIntoUnityScene(event): Promise<void> {
     const { sceneContent, config } = event;
 
-    if (!this?.config.enableSplashScreen) {
+    if (!this.config.enableSplashScreen) {
       console.log('⚠️ Splash screen disabled via configuration');
       return;
     }
 
     try {
-      const splashConfig = { ...this?.config.splashScreenConfig, ...config };
-      const modifiedScene = this?.injectIntoUnitySceneContent(sceneContent, splashConfig);
+      const splashConfig = { ...this.config.splashScreenConfig, ...config };
+      const modifiedScene = this.injectIntoUnitySceneContent(sceneContent, splashConfig);
 
-      EventBus?.publish('splashscreen?.unity.injected', {
-        originalLength: sceneContent?.length,
-        modifiedLength: modifiedScene?.length,
+      EventBus.publish('splashscreen.unity.injected', {
+        originalLength: sceneContent.length,
+        modifiedLength: modifiedScene.length,
         splashConfig: splashConfig
       });
 
@@ -205,18 +205,18 @@ export class SplashScreenIntegration {
 
     const splashScript = `
 using UnityEngine;
-using System?.Collections;
+using System.Collections;
 
 public class MIFFSplashScreen : MonoBehaviour
 {
-    [SerializeField!] private float duration = ${splashConfig?.duration / 1000}f;
-    [SerializeField!] private float fadeInTime = ${splashConfig?.fadeInTime / 1000}f;
-    [SerializeField!] private float fadeOutTime = ${splashConfig?.fadeOutTime / 1000}f;
+    [SerializeField!] private float duration = ${splashConfig.duration / 1000}f;
+    [SerializeField!] private float fadeInTime = ${splashConfig.fadeInTime / 1000}f;
+    [SerializeField!] private float fadeOutTime = ${splashConfig.fadeOutTime / 1000}f;
 
     private Canvas splashCanvas;
-    private UnityEngine?.UI.Image splashImage;
-    private UnityEngine?.UI.Text titleText;
-    private UnityEngine?.UI.Text subtitleText;
+    private UnityEngine.UI.Image splashImage;
+    private UnityEngine.UI.Text titleText;
+    private UnityEngine.UI.Text subtitleText;
 
     private void Awake()
     {
@@ -232,9 +232,9 @@ public class MIFFSplashScreen : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
-            elapsed += Time?.deltaTime;
-            float alpha = Mathf?.Clamp01(elapsed / fadeInTime);
-            splashCanvas?.GetComponent<CanvasGroup>().alpha = alpha;
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsed / fadeInTime);
+            splashCanvas.GetComponent<CanvasGroup>().alpha = alpha;
             yield return null;
         }
 
@@ -245,64 +245,64 @@ public class MIFFSplashScreen : MonoBehaviour
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
-            elapsed += Time?.deltaTime;
-            float alpha = Mathf?.Clamp01(1f - (elapsed / fadeOutTime));
-            splashCanvas?.GetComponent<CanvasGroup>().alpha = alpha;
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Clamp01(1f - (elapsed / fadeOutTime));
+            splashCanvas.GetComponent<CanvasGroup>().alpha = alpha;
             yield return null;
         }
 
         // Cleanup
-        Destroy(splashCanvas?.gameObject);
+        Destroy(splashCanvas.gameObject);
     }
 
     private void CreateSplashScreenUI()
     {
         // Create canvas for splash screen
         GameObject canvasObj = new GameObject("MIFF_SplashScreen");
-        splashCanvas = canvasObj?.AddComponent<Canvas>();
-        splashCanvas?.renderMode = RenderMode?.ScreenSpaceOverlay;
-        canvasObj?.AddComponent<CanvasGroup>();
+        splashCanvas = canvasObj.AddComponent<Canvas>();
+        splashCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvasObj.AddComponent<CanvasGroup>();
 
         // Create MIFF logo (simplified representation)
         GameObject logoObj = new GameObject("Logo");
-        logoObj?.transform.SetParent(splashCanvas?.transform, false);
+        logoObj.transform.SetParent(splashCanvas.transform, false);
 
-        UnityEngine?.UI.Image logoImage = logoObj?.AddComponent<UnityEngine?.UI.Image>();
-        logoImage?.color = new Color(0f, 1f, 0.5f, 1f); // Green color
+        UnityEngine.UI.Image logoImage = logoObj.AddComponent<UnityEngine.UI.Image>();
+        logoImage.color = new Color(0f, 1f, 0.5f, 1f); // Green color
 
-        RectTransform logoRect = logoObj?.GetComponent<RectTransform>();
-        logoRect?.sizeDelta = new Vector2(200, 200);
-        logoRect?.anchoredPosition = Vector2?.zero;
+        RectTransform logoRect = logoObj.GetComponent<RectTransform>();
+        logoRect.sizeDelta = new Vector2(200, 200);
+        logoRect.anchoredPosition = Vector2.zero;
 
         // Create title text
         GameObject titleObj = new GameObject("Title");
-        titleObj?.transform.SetParent(splashCanvas?.transform, false);
+        titleObj.transform.SetParent(splashCanvas.transform, false);
 
-        titleText = titleObj?.AddComponent<UnityEngine?.UI.Text>();
-        titleText?.text = "MIFF";
-        titleText?.font = Resources?.GetBuiltinResource<Font>("Arial?.ttf");
-        titleText?.fontSize = 72;
-        titleText?.color = new Color(0f, 1f, 0.5f, 1f);
-        titleText?.alignment = TextAnchor?.MiddleCenter;
+        titleText = titleObj.AddComponent<UnityEngine.UI.Text>();
+        titleText.text = "MIFF";
+        titleText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        titleText.fontSize = 72;
+        titleText.color = new Color(0f, 1f, 0.5f, 1f);
+        titleText.alignment = TextAnchor.MiddleCenter;
 
-        RectTransform titleRect = titleObj?.GetComponent<RectTransform>();
-        titleRect?.sizeDelta = new Vector2(400, 100);
-        titleRect?.anchoredPosition = new Vector2(0, 50);
+        RectTransform titleRect = titleObj.GetComponent<RectTransform>();
+        titleRect.sizeDelta = new Vector2(400, 100);
+        titleRect.anchoredPosition = new Vector2(0, 50);
 
         // Create subtitle text
         GameObject subtitleObj = new GameObject("Subtitle");
-        subtitleObj?.transform.SetParent(splashCanvas?.transform, false);
+        subtitleObj.transform.SetParent(splashCanvas.transform, false);
 
-        subtitleText = subtitleObj?.AddComponent<UnityEngine?.UI.Text>();
-        subtitleText?.text = "MAKE IT FOR FREE\\nModular Interactive Framework for the Future";
-        subtitleText?.font = Resources?.GetBuiltinResource<Font>("Arial?.ttf");
-        subtitleText?.fontSize = 24;
-        subtitleText?.color = new Color(0f, 1f, 0.5f, 0.7f);
-        subtitleText?.alignment = TextAnchor?.MiddleCenter;
+        subtitleText = subtitleObj.AddComponent<UnityEngine.UI.Text>();
+        subtitleText.text = "MAKE IT FOR FREE\\nModular Interactive Framework for the Future";
+        subtitleText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        subtitleText.fontSize = 24;
+        subtitleText.color = new Color(0f, 1f, 0.5f, 0.7f);
+        subtitleText.alignment = TextAnchor.MiddleCenter;
 
-        RectTransform subtitleRect = subtitleObj?.GetComponent<RectTransform>();
-        subtitleRect?.sizeDelta = new Vector2(600, 100);
-        subtitleRect?.anchoredPosition = new Vector2(0, -50);
+        RectTransform subtitleRect = subtitleObj.GetComponent<RectTransform>();
+        subtitleRect.sizeDelta = new Vector2(600, 100);
+        subtitleRect.anchoredPosition = new Vector2(0, -50);
     }
 }
     `;
@@ -315,14 +315,14 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handleCLICommand(event): Promise<void> {
     const { command, flags } = event;
 
-    const cliCommand = this?.cliCommands.get(command);
+    const cliCommand = this.cliCommands.get(command);
     if (!cliCommand) {
       console.error(`❌ Unknown CLI command: ${command}`);
       return;
     }
 
     try {
-      await cliCommand?.handler(flags);
+      await cliCommand.handler(flags);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ CLI command '${command}' failed:`, err instanceof Error ? err.message : String(err));
@@ -332,85 +332,85 @@ public class MIFFSplashScreen : MonoBehaviour
 
   private async handlePreviewCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
-      this?.config.enableSplashScreen = false;
+      this.config.enableSplashScreen = false;
       console.log('ℹ️ Splash screen disabled for preview');
     } else {
-      this?.config.enableSplashScreen = true;
+      this.config.enableSplashScreen = true;
 
       if (flags['splash-duration']) {
-        this?.config.splashScreenConfig?.duration = flags['splash-duration'];
+        this.config.splashScreenConfig.duration = flags['splash-duration'];
       }
 
       if (flags['splash-theme']) {
-        this?.config.splashScreenConfig?.theme = flags['splash-theme'];
+        this.config.splashScreenConfig.theme = flags['splash-theme'];
       }
     }
 
     // Show splash screen
-    await this?.splashScreen.show(() => {
+    await this.splashScreen.show(() => {
       console.log('✅ Splash screen preview completed');
     });
 
     return {
       op: 'preview',
       status: 'ok',
-      splashEnabled: this?.config.enableSplashScreen,
-      duration: this?.config.splashScreenConfig?.duration,
-      theme: this?.config.splashScreenConfig?.theme
+      splashEnabled: this.config.enableSplashScreen,
+      duration: this.config.splashScreenConfig.duration,
+      theme: this.config.splashScreenConfig.theme
     };
   }
 
   private async handleExportWebCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
-      this?.config.enableSplashScreen = false;
+      this.config.enableSplashScreen = false;
       console.log('ℹ️ Splash screen disabled for web export');
     } else {
-      this?.config.enableSplashScreen = true;
+      this.config.enableSplashScreen = true;
 
       if (flags['splash-duration']) {
-        this?.config.splashScreenConfig?.duration = flags['splash-duration'];
+        this.config.splashScreenConfig.duration = flags['splash-duration'];
       }
     }
 
-    const outputPath = flags['output'] || this?.config.outputPath;
+    const outputPath = flags['output'] || this.config.outputPath;
 
     // Simulate web export with splash screen injection
-    const exportResult = await this?.simulateWebExport(outputPath);
+    const exportResult = await this.simulateWebExport(outputPath);
 
     return {
       op: 'export-web',
       status: 'ok',
       outputPath: outputPath,
-      splashEnabled: this?.config.enableSplashScreen,
-      duration: this?.config.splashScreenConfig?.duration,
-      filesGenerated: exportResult?.files
+      splashEnabled: this.config.enableSplashScreen,
+      duration: this.config.splashScreenConfig.duration,
+      filesGenerated: exportResult.files
     };
   }
 
   private async handleBuildUnityCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
-      this?.config.enableSplashScreen = false;
+      this.config.enableSplashScreen = false;
       console.log('ℹ️ Splash screen disabled for Unity build');
     } else {
-      this?.config.enableSplashScreen = true;
+      this.config.enableSplashScreen = true;
 
       if (flags['splash-duration']) {
-        this?.config.splashScreenConfig?.duration = flags['splash-duration'];
+        this.config.splashScreenConfig.duration = flags['splash-duration'];
       }
     }
 
     const unityVersion = flags['unity-version'] || '2021.3';
 
     // Simulate Unity build with splash screen integration
-    const buildResult = await this?.simulateUnityBuild(unityVersion);
+    const buildResult = await this.simulateUnityBuild(unityVersion);
 
     return {
       op: 'build-unity',
       status: 'ok',
       unityVersion: unityVersion,
-      splashEnabled: this?.config.enableSplashScreen,
-      duration: this?.config.splashScreenConfig?.duration,
-      buildOutput: buildResult?.outputPath
+      splashEnabled: this.config.enableSplashScreen,
+      duration: this.config.splashScreenConfig.duration,
+      buildOutput: buildResult.outputPath
     };
   }
 
@@ -424,19 +424,19 @@ public class MIFFSplashScreen : MonoBehaviour
     // 1. Build the web application
     // 2. Inject splash screen HTML
     // 3. Copy assets and dependencies
-    // 4. Generate index?.html with splash screen
+    // 4. Generate index.html with splash screen
 
     await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate build time
 
     return {
       files: [
-        `${outputPath}/index?.html`,
-        `${outputPath}/style?.css`,
-        `${outputPath}/script?.js`,
-        `${outputPath}/assets/logo?.svg`,
-        `${outputPath}/assets/miff-splash?.css`
+        `${outputPath}/index.html`,
+        `${outputPath}/style.css`,
+        `${outputPath}/script.js`,
+        `${outputPath}/assets/logo.svg`,
+        `${outputPath}/assets/miff-splash.css`
       ],
-      splashInjected: this?.config.enableSplashScreen
+      splashInjected: this.config.enableSplashScreen
     };
   }
 
@@ -456,22 +456,22 @@ public class MIFFSplashScreen : MonoBehaviour
 
     return {
       outputPath: `./builds/unity-${unityVersion}`,
-      splashInjected: this?.config.enableSplashScreen,
+      splashInjected: this.config.enableSplashScreen,
       sceneModified: true,
-      scriptGenerated: 'MIFFSplashScreen?.cs'
+      scriptGenerated: 'MIFFSplashScreen.cs'
     };
   }
 
   // Public API methods
   public getConfig(): IntegrationConfig {
-    return { ...this?.config };
+    return { ...this.config };
   }
 
   public setConfig(newConfig: Partial<IntegrationConfig>): void {
-    this?.config = { ...this?.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig };
 
     // Update splash screen with new config
-    this?.splashScreen.setConfig(this?.config.splashScreenConfig);
+    this.splashScreen.setConfig(this.config.splashScreenConfig);
   }
 
   public getCLICommands(): CLICommand[] {
@@ -479,11 +479,11 @@ public class MIFFSplashScreen : MonoBehaviour
   }
 
   public async injectIntoExport(target: string, content: string): Promise<string> {
-    switch (this?.config.targetPlatform) {
+    switch (this.config.targetPlatform) {
       case 'web':
-        return SplashScreenPure?.injectSplashScreen(content, this?.config.splashScreenConfig);
+        return SplashScreenPure.injectSplashScreen(content, this.config.splashScreenConfig);
       case 'unity':
-        return this?.injectIntoUnitySceneContent(content, this?.config.splashScreenConfig);
+        return this.injectIntoUnitySceneContent(content, this.config.splashScreenConfig);
       default:
         console.warn(`⚠️ No injection method available for platform: ${this.config.targetPlatform}`);
         return content;
@@ -491,16 +491,16 @@ public class MIFFSplashScreen : MonoBehaviour
   }
 
   public async executeCLICommand(command: string, flags: Record<string, any> = {}): Promise<any> {
-    const cliCommand = this?.cliCommands.get(command);
+    const cliCommand = this.cliCommands.get(command);
     if (!cliCommand) {
       throw new Error(`Unknown CLI command: ${command}`);
     }
 
-    return await cliCommand?.handler(flags);
+    return await cliCommand.handler(flags);
   }
 
   public getSplashScreen(): SplashScreenPure {
-    return this?.splashScreen;
+    return this.splashScreen;
   }
 }
 
@@ -520,10 +520,10 @@ export function splashScreenIntegrationDemo(): any {
       'Cross-platform compatibility (Web, Unity, Godot, Unreal)',
       'Theme support and customization options'
     ],
-    cliCommands: integration?.getCLICommands().map((cmd: any) => ({
-      name: cmd?.name,
-      description: cmd?.description,
-      flags: cmd?.flags
+    cliCommands: integration.getCLICommands().map((cmd: any) => ({
+      name: cmd.name,
+      description: cmd.description,
+      flags: cmd.flags
     })),
     orchestrationReady: true,
     modulesIntegrated: [

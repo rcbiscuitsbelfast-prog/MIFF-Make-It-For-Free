@@ -40,12 +40,12 @@ export type ThemeDrawReducer = {
 
 export type ThemeState = {
   activeTheme: ThemeId | null;
-  availableThemes: Map<T extends Record<string, any>hemeId, ThemeConfig>;
-  themeAssets: Map<T extends Record<string, any>hemeId, ThemeAsset[]>;
-  themeReducers: Map<T extends Record<string, any>hemeId, ThemeDrawReducer[]>;
-  layerVisibility: Map<T extends Record<string, any>hemeLayer, boolean>;
-  audioPresets: Map<T extends Record<string, any>hemeId, string>;
-  shaderPresets: Map<T extends Record<string, any>hemeId, string>;
+  availableThemes: Map<ThemeId, ThemeConfig>;
+  themeAssets: Map<ThemeId, ThemeAsset[]>;
+  themeReducers: Map<ThemeId, ThemeDrawReducer[]>;
+  layerVisibility: Map<ThemeLayer, boolean>;
+  audioPresets: Map<ThemeId, string>;
+  shaderPresets: Map<ThemeId, string>;
 };
 
 export class OverlinkThemes {
@@ -55,7 +55,7 @@ export class OverlinkThemes {
   private audioManager: any = null; // Will be AudioManager instance
 
   constructor() {
-    this?.state = {
+    this.state = {
       activeTheme: null,
       availableThemes: new Map(),
       themeAssets: new Map(),
@@ -72,49 +72,49 @@ export class OverlinkThemes {
     };
 
     // Initialize default themes
-    this?.initializeDefaultThemes();
+    this.initializeDefaultThemes();
   }
 
   // Theme Management
   registerTheme(config: ThemeConfig): void {
-    this?.state.availableThemes?.set(config?.id, config);
+    this.state.availableThemes.set(config.id, config);
     
     // Register theme assets
-    const themeAssets = config?.assets! || [];
-    this?.state.themeAssets?.set(config?.id, themeAssets);
+    const themeAssets = config.assets! || [];
+    this.state.themeAssets.set(config.id, themeAssets);
     
     // Register theme draw reducers
-    const themeReducers = config?.drawReducers! || [];
-    this?.state.themeReducers?.set(config?.id, themeReducers);
+    const themeReducers = config.drawReducers! || [];
+    this.state.themeReducers.set(config.id, themeReducers);
     
     // Register audio and shader presets
-    if (config?.audioPreset) {
-      this?.state.audioPresets?.set(config?.id, config?.audioPreset);
+    if (config.audioPreset) {
+      this.state.audioPresets.set(config.id, config.audioPreset);
     }
-    if (config?.shaderPreset) {
-      this?.state.shaderPresets?.set(config?.id, config?.shaderPreset);
+    if (config.shaderPreset) {
+      this.state.shaderPresets.set(config.id, config.shaderPreset);
     }
 
     // Register individual assets and reducers
-    themeAssets?.forEach((asset: any) => this?.registerAsset(asset));
-    themeReducers?.forEach((reducer: any) => this?.registerReducer(reducer));
+    themeAssets.forEach((asset: any) => this.registerAsset(asset));
+    themeReducers.forEach((reducer: any) => this.registerReducer(reducer));
   }
 
   activateTheme(themeId: ThemeId): boolean {
-    if (!this?.state.availableThemes?.has(themeId)) {
+    if (!this.state.availableThemes.has(themeId)) {
       return false;
     }
 
-    this?.state.activeTheme = themeId;
+    this.state.activeTheme = themeId;
     return true;
   }
 
   deactivateTheme(): void {
-    this?.state.activeTheme = null;
+    this.state.activeTheme = null;
   }
 
   getActiveTheme(): ThemeId | null {
-    return this?.state.activeTheme;
+    return this.state.activeTheme;
   }
 
   getAvailableThemes(): ThemeId[] {
@@ -122,32 +122,32 @@ export class OverlinkThemes {
   }
 
   getThemeConfig(themeId: ThemeId): ThemeConfig | undefined {
-    return this?.state.availableThemes?.get(themeId);
+    return this.state.availableThemes.get(themeId);
   }
 
   // Layer Management
   toggleLayer(layer: ThemeLayer): boolean {
-    const current = this?.state.layerVisibility?.get(layer) || false;
+    const current = this.state.layerVisibility.get(layer) || false;
     const newState = !current;
-    this?.state.layerVisibility?.set(layer, newState);
+    this.state.layerVisibility.set(layer, newState);
     return newState;
   }
 
   setLayer(layer: ThemeLayer, visible: boolean): void {
-    this?.state.layerVisibility?.set(layer, visible);
+    this.state.layerVisibility.set(layer, visible);
   }
 
-  getLayerVisibility(): Map<T extends Record<string, any>hemeLayer, boolean> {
-    return new Map(this?.state.layerVisibility);
+  getLayerVisibility(): Map<ThemeLayer, boolean> {
+    return new Map(this.state.layerVisibility);
   }
 
   // Asset Management
   private registerAsset(asset: ThemeAsset): void {
-    this?.assetRegistry.set(`${asset?.themeId}_${asset?.id}`, asset);
+    this.assetRegistry.set(`${asset.themeId}_${asset.id}`, asset);
   }
 
   getThemeAssets(themeId: ThemeId): ThemeAsset[] {
-    return this?.state.themeAssets?.get(themeId) || [];
+    return this.state.themeAssets.get(themeId) || [];
   }
 
   getAssetByType(type: 'texture' | 'shader' | 'audio' | 'data'): ThemeAsset[] {
@@ -160,29 +160,29 @@ export class OverlinkThemes {
 
   // Draw Reducer Management
   private registerReducer(reducer: ThemeDrawReducer): void {
-    this?.reducerRegistry.set(`${reducer?.themeId}_${reducer?.id}`, reducer);
+    this.reducerRegistry.set(`${reducer.themeId}_${reducer.id}`, reducer);
   }
 
   getThemeReducers(themeId: ThemeId): ThemeDrawReducer[] {
-    return this?.state.themeReducers?.get(themeId) || [];
+    return this.state.themeReducers.get(themeId) || [];
   }
 
   getActiveThemeReducers(): ThemeDrawReducer[] {
-    if (!this?.state.activeTheme) return [];
+    if (!this.state.activeTheme) return [];
     
-    const themeReducers = this?.getThemeReducers(this?.state.activeTheme);
-    return themeReducers?.filter((reducer: any) => 
-      this?.state.layerVisibility?.get(reducer?.layer) || false
+    const themeReducers = this.getThemeReducers(this.state.activeTheme);
+    return themeReducers.filter((reducer: any) => 
+      this.state.layerVisibility.get(reducer.layer) || false
     );
   }
 
   toggleThemeReducer(themeId: ThemeId, reducerId: string): boolean {
     const key = `${themeId}_${reducerId}`;
-    const reducer = this?.reducerRegistry.get(key);
+    const reducer = this.reducerRegistry.get(key);
     
     if (reducer) {
-      reducer?.enabled = !reducer?.enabled;
-      return reducer?.enabled;
+      reducer.enabled = !reducer.enabled;
+      return reducer.enabled;
     }
     
     return false;
@@ -190,11 +190,11 @@ export class OverlinkThemes {
 
   // Audio and Shader Presets
   getAudioPreset(themeId: ThemeId): string {
-    return this?.state.audioPresets?.get(themeId);
+    return this.state.audioPresets.get(themeId);
   }
 
   getShaderPreset(themeId: ThemeId): string {
-    return this?.state.shaderPresets?.get(themeId);
+    return this.state.shaderPresets.get(themeId);
   }
 
   // Theme Preview
@@ -205,42 +205,42 @@ export class OverlinkThemes {
     audioPreset?: string;
     shaderPreset?: string;
   } | null {
-    const theme = this?.state.availableThemes?.get(themeId);
+    const theme = this.state.availableThemes.get(themeId);
     if (!theme) return null;
 
     return {
       theme,
-      assets: this?.getThemeAssets(themeId),
-      reducers: this?.getThemeReducers(themeId),
-      audioPreset: this?.getAudioPreset(themeId),
-      shaderPreset: this?.getShaderPreset(themeId)
+      assets: this.getThemeAssets(themeId),
+      reducers: this.getThemeReducers(themeId),
+      audioPreset: this.getAudioPreset(themeId),
+      shaderPreset: this.getShaderPreset(themeId)
     };
   }
 
   // CLI Preview Mode
   getCLIPreview(themeId: ThemeId): string {
-    const preview = this?.previewTheme(themeId);
+    const preview = this.previewTheme(themeId);
     if (!preview) return `Theme '${themeId}' not found`;
 
     const { theme, assets, reducers, audioPreset, shaderPreset } = preview;
     
-    let output = `Theme: ${theme?.name}\n`;
-    output += `Description: ${theme?.description}\n`;
-    output += `Layers: ${theme?.layers.join(', ')}\n`;
-    output += `Assets: ${assets?.length}\n`;
-    output += `Draw Reducers: ${reducers?.length}\n`;
+    let output = `Theme: ${theme.name}\n`;
+    output += `Description: ${theme.description}\n`;
+    output += `Layers: ${theme.layers.join(', ')}\n`;
+    output += `Assets: ${assets.length}\n`;
+    output += `Draw Reducers: ${reducers.length}\n`;
     
     if (audioPreset) output += `Audio Preset: ${audioPreset}\n`;
     if (shaderPreset) output += `Shader Preset: ${shaderPreset}\n`;
     
     output += '\nAssets:\n';
-    assets?.forEach((asset: any) => {
-      output += `  ${asset?.type}: ${asset?.id} (${asset?.remixSafe ? 'remix-safe' : 'remix-restricted'})\n`;
+    assets.forEach((asset: any) => {
+      output += `  ${asset.type}: ${asset.id} (${asset.remixSafe ? 'remix-safe' : 'remix-restricted'})\n`;
     });
     
     output += '\nDraw Reducers:\n';
-    reducers?.forEach((reducer: any) => {
-      output += `  ${reducer?.type}: ${reducer?.id} (priority: ${reducer?.priority}, layer: ${reducer?.layer})\n`;
+    reducers.forEach((reducer: any) => {
+      output += `  ${reducer.type}: ${reducer.id} (priority: ${reducer.priority}, layer: ${reducer.layer})\n`;
     });
     
     return output;
@@ -248,79 +248,79 @@ export class OverlinkThemes {
 
   // Audio Management
   setAudioManager(audioManager: any): void {
-    this?.audioManager = audioManager;
+    this.audioManager = audioManager;
   }
 
   async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
-    if (!this?.audioManager) {
+    if (!this.audioManager) {
       console.warn('Audio manager not set');
       return false;
     }
 
-    return await this?.audioManager.playThemeAudio(themeId, options);
+    return await this.audioManager.playThemeAudio(themeId, options);
   }
 
   async stopThemeAudio(): Promise<void> {
-    if (!this?.audioManager) {
+    if (!this.audioManager) {
       console.warn('Audio manager not set');
       return;
     }
 
-    await this?.audioManager.stopCurrentAudio();
+    await this.audioManager.stopCurrentAudio();
   }
 
   setThemeVolume(themeId: ThemeId, volume: number): void {
-    if (!this?.audioManager) {
+    if (!this.audioManager) {
       console.warn('Audio manager not set');
       return;
     }
 
-    this?.audioManager.setThemeVolume(themeId, volume);
+    this.audioManager.setThemeVolume(themeId, volume);
   }
 
   getAudioPreview(themeId: ThemeId): string {
-    if (!this?.audioManager) {
+    if (!this.audioManager) {
       return 'Audio manager not set';
     }
 
-    return this?.audioManager.getCLIPreview(themeId);
+    return this.audioManager.getCLIPreview(themeId);
   }
 
   validateAudioRemixSafety(themeId: ThemeId): any {
-    if (!this?.audioManager) {
+    if (!this.audioManager) {
       return { theme: themeId, overall: false, error: 'Audio manager not set' };
     }
 
-    return this?.audioManager.validateRemixSafety(themeId);
+    return this.audioManager.validateRemixSafety(themeId);
   }
 
   // State Management
   exportState(): ThemeState {
     return {
-      ...this?.state,
-      availableThemes: new Map(this?.state.availableThemes),
-      themeAssets: new Map(this?.state.themeAssets),
-      themeReducers: new Map(this?.state.themeReducers),
-      layerVisibility: new Map(this?.state.layerVisibility),
-      audioPresets: new Map(this?.state.audioPresets),
-      shaderPresets: new Map(this?.state.shaderPresets)
+      ...this.state,
+      availableThemes: new Map(this.state.availableThemes),
+      themeAssets: new Map(this.state.themeAssets),
+      themeReducers: new Map(this.state.themeReducers),
+      layerVisibility: new Map(this.state.layerVisibility),
+      audioPresets: new Map(this.state.audioPresets),
+      shaderPresets: new Map(this.state.shaderPresets)
     };
   }
 
-  importState(state: Partial<T extends Record<string, any>hemeState>): void {
-    if (state?.activeTheme !== undefined) this?.state.activeTheme = state?.activeTheme;
-    if (state?.availableThemes) this?.state.availableThemes = new Map(state?.availableThemes);
-    if (state?.themeAssets) this?.state.themeAssets = new Map(state?.themeAssets);
-    if (state?.themeReducers) this?.state.themeReducers = new Map(state?.themeReducers);
-    if (state?.layerVisibility) this?.state.layerVisibility = new Map(state?.layerVisibility);
-    if (state?.audioPresets) this?.state.audioPresets = new Map(state?.audioPresets);
-    if (state?.shaderPresets) this?.state.shaderPresets = new Map(state?.shaderPresets);
+  importState(state: Partial<ThemeState>): void {
+    if (state.activeTheme !== undefined) this.state.activeTheme = state.activeTheme;
+    if (state.availableThemes) this.state.availableThemes = new Map(state.availableThemes);
+    if (state.themeAssets) this.state.themeAssets = new Map(state.themeAssets);
+    if (state.themeReducers) this.state.themeReducers = new Map(state.themeReducers);
+    if (state.layerVisibility) this.state.layerVisibility = new Map(state.layerVisibility);
+    if (state.audioPresets) this.state.audioPresets = new Map(state.audioPresets);
+    if (state.shaderPresets) this.state.shaderPresets = new Map(state.shaderPresets);
   }
 
   // Default Theme Initialization
   private initializeDefaultThemes(): void {
     // Neon Grid Theme
-    this?.registerTheme({
+    this.registerTheme({
       id: 'neonGrid',
       name: 'Neon Grid',
       description: 'Cyberpunk-inspired neon grid with electric blue and pink accents',
@@ -329,9 +329,9 @@ export class OverlinkThemes {
         {
           id: 'grid_texture',
           type: 'texture',
-          path: 'assets/themes/neon_grid/grid?.png',
+          path: 'assets/themes/neon_grid/grid.png',
           remixSafe: true,
-          fallback: 'assets/themes/fallback/grid?.png',
+          fallback: 'assets/themes/fallback/grid.png',
           themeId: 'neonGrid',
           layer: 'background',
           priority: 1
@@ -339,7 +339,7 @@ export class OverlinkThemes {
         {
           id: 'neon_shader',
           type: 'shader',
-          path: 'assets/themes/neon_grid/neon?.glsl',
+          path: 'assets/themes/neon_grid/neon.glsl',
           remixSafe: true,
           themeId: 'neonGrid',
           layer: 'effects',
@@ -348,9 +348,9 @@ export class OverlinkThemes {
         {
           id: 'synth_audio',
           type: 'audio',
-          path: 'assets/themes/neon_grid/synth?.ogg',
+          path: 'assets/themes/neon_grid/synth.ogg',
           remixSafe: false,
-          fallback: 'assets/themes/fallback/silence?.ogg',
+          fallback: 'assets/themes/fallback/silence.ogg',
           themeId: 'neonGrid',
           layer: 'audio',
           priority: 10
@@ -381,7 +381,7 @@ export class OverlinkThemes {
     });
 
     // Forest Glade Theme
-    this?.registerTheme({
+    this.registerTheme({
       id: 'forestGlade',
       name: 'Forest Glade',
       description: 'Peaceful forest environment with natural greens and earth tones',
@@ -390,9 +390,9 @@ export class OverlinkThemes {
         {
           id: 'forest_texture',
           type: 'texture',
-          path: 'assets/themes/forest_glade/forest?.png',
+          path: 'assets/themes/forest_glade/forest.png',
           remixSafe: true,
-          fallback: 'assets/themes/fallback/forest?.png',
+          fallback: 'assets/themes/fallback/forest.png',
           themeId: 'forestGlade',
           layer: 'background',
           priority: 1
@@ -400,7 +400,7 @@ export class OverlinkThemes {
         {
           id: 'nature_shader',
           type: 'shader',
-          path: 'assets/themes/forest_glade/nature?.glsl',
+          path: 'assets/themes/forest_glade/nature.glsl',
           remixSafe: true,
           themeId: 'forestGlade',
           layer: 'effects',
@@ -409,9 +409,9 @@ export class OverlinkThemes {
         {
           id: 'ambient_audio',
           type: 'audio',
-          path: 'assets/themes/forest_glade/ambient?.ogg',
+          path: 'assets/themes/forest_glade/ambient.ogg',
           remixSafe: false,
-          fallback: 'assets/themes/fallback/silence?.ogg',
+          fallback: 'assets/themes/fallback/silence.ogg',
           themeId: 'forestGlade',
           layer: 'audio',
           priority: 8
@@ -442,7 +442,7 @@ export class OverlinkThemes {
     });
 
     // Cosmic Void Theme
-    this?.registerTheme({
+    this.registerTheme({
       id: 'cosmicVoid',
       name: 'Cosmic Void',
       description: 'Deep space environment with stars, nebulae, and cosmic effects',
@@ -451,9 +451,9 @@ export class OverlinkThemes {
         {
           id: 'space_texture',
           type: 'texture',
-          path: 'assets/themes/cosmic_void/space?.png',
+          path: 'assets/themes/cosmic_void/space.png',
           remixSafe: true,
-          fallback: 'assets/themes/fallback/space?.png',
+          fallback: 'assets/themes/fallback/space.png',
           themeId: 'cosmicVoid',
           layer: 'background',
           priority: 1
@@ -461,7 +461,7 @@ export class OverlinkThemes {
         {
           id: 'cosmic_shader',
           type: 'shader',
-          path: 'assets/themes/cosmic_void/cosmic?.glsl',
+          path: 'assets/themes/cosmic_void/cosmic.glsl',
           remixSafe: true,
           themeId: 'cosmicVoid',
           layer: 'effects',
@@ -470,9 +470,9 @@ export class OverlinkThemes {
         {
           id: 'space_audio',
           type: 'audio',
-          path: 'assets/themes/cosmic_void/space?.ogg',
+          path: 'assets/themes/cosmic_void/space.ogg',
           remixSafe: false,
-          fallback: 'assets/themes/fallback/silence?.ogg',
+          fallback: 'assets/themes/fallback/silence.ogg',
           themeId: 'cosmicVoid',
           layer: 'audio',
           priority: 6

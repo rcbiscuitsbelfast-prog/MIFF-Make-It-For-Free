@@ -22,22 +22,22 @@ class MockRNGProvider {
   private seed: number = 0;
 
   setSeed(seed: number): void {
-    this?.seed = seed;
+    this.seed = seed;
   }
 
   nextInt(min: number = 0, max: number = 100): number {
-    this?.seed = (this?.seed * 9301 + 49297) % 233280;
+    this.seed = (this.seed * 9301 + 49297) % 233280;
     return Math.floor((this.seed / 233280) * (max - min)) + min;
   }
 
   nextFloat(min: number = 0, max: number = 1): number {
-    this?.seed = (this?.seed * 9301 + 49297) % 233280;
-    return ((this?.seed / 233280) * (max - min)) + min;
+    this.seed = (this.seed * 9301 + 49297) % 233280;
+    return ((this.seed / 233280) * (max - min)) + min;
   }
 
-  shuffle<T extends Record<string, any> extends object>(array: T[]): T[] {
+  shuffle<T extends object>(array: T[]): T[] {
     const shuffled = [...array];
-    for (let i = shuffled?.length - 1; i > 0; i--) {
+    for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
     }
@@ -47,7 +47,7 @@ class MockRNGProvider {
 
 // CLI Application
 class BattleLoopPureCLI {
-  private rl: readline?.Interface;
+  private rl: readline.Interface;
   private controller: BattleLoopManager;
   private availableActors: number[] = [1, 2]; // Player and AI
   private availableMoves: Record<number, string[]> = {
@@ -58,15 +58,15 @@ class BattleLoopPureCLI {
   private currentTurn: number = 0;
 
   constructor() {
-    this?.rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
     });
 
     const rng = new MockRNGProvider();
-    this?.controller = new BattleLoopManager();
+    this.controller = new BattleLoopManager();
 
-    this?.initializeDemo();
+    this.initializeDemo();
   }
 
   /**
@@ -81,12 +81,12 @@ class BattleLoopPureCLI {
       const moveId = availableMoves[moveIndex!];
 
       return actorId === 1 
-        ? BattleAction?.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
-        : BattleAction?.ai(actorId, actorId === 1 ? 2 : 1, moveId, 50);
+        ? BattleAction.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
+        : BattleAction.ai(actorId, actorId === 1 ? 2 : 1, moveId, 50);
     };
 
     // Run a few demo turns
-    this?.runDemoTurns(actionSelector);
+    this.runDemoTurns(actionSelector);
   }
 
   /**
@@ -98,16 +98,16 @@ class BattleLoopPureCLI {
     for (let i = 0; i < 3; i++) {
       const seed = 1000 + i;
       // Start the battle if not already active
-      if (!this?.controller.getState().isActive) {
-        this?.controller.start();
+      if (!this.controller.getState().isActive) {
+        this.controller.start();
       }
 
       // Advance to next turn
-      this?.controller.nextTurn();
+      this.controller.nextTurn();
       
-      const state = this?.controller.getState();
-      this?.battleHistory?.push(state);
-      this?.currentTurn = state?.currentTurn;
+      const state = this.controller.getState();
+      this.battleHistory.push(state);
+      this.currentTurn = state.currentTurn;
 
       console.log(`Demo Turn ${state.currentTurn} completed. Active: ${state.isActive}`);
     }
@@ -139,15 +139,15 @@ class BattleLoopPureCLI {
     console.log('  exit              - Exit application');
     console.log('');
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
    * Show command prompt
    */
   private showPrompt(): void {
-    this?.rl.question('BattleLoop> ', (input) => {
-      this?.processCommand(input?.trim());
+    this.rl.question('BattleLoop> ', (input) => {
+      this.processCommand(input.trim());
     });
   }
 
@@ -156,65 +156,65 @@ class BattleLoopPureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     if (!input) {
-      this?.showPrompt();
+      this.showPrompt();
       return;
     }
 
-    const parts = input?.split(' ');
+    const parts = input.split(' ');
     const command = parts[0!].toLowerCase();
-    const args = parts?.slice(1);
+    const args = parts.slice(1);
 
     try {
       switch (command) {
         case 'help':
         case 'h':
-          this?.showHelp();
+          this.showHelp();
           break;
         case 'battle':
         case 'b':
-          await this?.runBattle(args);
+          await this.runBattle(args);
           break;
         case 'phase':
         case 'p':
-          this?.showCurrentPhase();
+          this.showCurrentPhase();
           break;
         case 'state':
         case 's':
-          this?.showBattleState();
+          this.showBattleState();
           break;
         case 'history':
         case 'hist':
-          this?.showBattleHistory();
+          this.showBattleHistory();
           break;
         case 'stats':
-          this?.showStatistics();
+          this.showStatistics();
           break;
         case 'actors':
         case 'a':
-          this?.showActors();
+          this.showActors();
           break;
         case 'moves':
         case 'm':
-          this?.showMoves();
+          this.showMoves();
           break;
         case 'addactor':
-          this?.addActor(args);
+          this.addActor(args);
           break;
         case 'addmove':
-          this?.addMove(args);
+          this.addMove(args);
           break;
         case 'clear':
         case 'c':
-          this?.clearBattle();
+          this.clearBattle();
           break;
         case 'demo':
         case 'd':
-          this?.runDemo();
+          this.runDemo();
           break;
         case 'exit':
         case 'quit':
         case 'q':
-          this?.exit();
+          this.exit();
           return;
         default:
           console.log(`❌ Unknown command: ${command}`);
@@ -225,7 +225,7 @@ class BattleLoopPureCLI {
       console.log(`❌ Error: ${error}`);
     }
 
-    this?.showPrompt();
+    this.showPrompt();
   }
 
   /**
@@ -275,31 +275,31 @@ class BattleLoopPureCLI {
       const targetId = actorId === 1 ? 2 : 1; // Target opposite actor
 
       return actorId === 1 
-        ? BattleAction?.player(actorId, targetId, moveId, 50)
-        : BattleAction?.ai(actorId, targetId, moveId, 50);
+        ? BattleAction.player(actorId, targetId, moveId, 50)
+        : BattleAction.ai(actorId, targetId, moveId, 50);
     };
 
     for (let turn = 1; turn <= turnCount; turn++) {
-      const seed = new Date() + turn;
+      const seed = Date.now() + turn;
       console.log(`📍 Turn ${turn} (Seed: ${seed})`);
 
       // Start the battle if not already active
-      if (!this?.controller.getState().isActive) {
-        this?.controller.start();
+      if (!this.controller.getState().isActive) {
+        this.controller.start();
       }
 
       // Advance to next turn
-      this?.controller.nextTurn();
+      this.controller.nextTurn();
       
-      const state = this?.controller.getState();
-      this?.battleHistory?.push(state);
-      this?.currentTurn = state?.currentTurn;
+      const state = this.controller.getState();
+      this.battleHistory.push(state);
+      this.currentTurn = state.currentTurn;
 
       console.log(`   Turn: ${state.currentTurn}`);
       console.log(`   Active: ${state.isActive}`);
       console.log(`   Paused: ${state.isPaused}`);
 
-      if (state?.winner) {
+      if (state.winner) {
         console.log(`🏁 Battle ended: Winner ${state.winner} (${state.reason})`);
         break;
       }
@@ -315,7 +315,7 @@ class BattleLoopPureCLI {
    * Show current phase
    */
   private showCurrentPhase(): void {
-    const state = this?.controller.getState();
+    const state = this.controller.getState();
     console.log('='.repeat(60));
     console.log('📍 Current Battle State');
     console.log('='.repeat(60));
@@ -323,7 +323,7 @@ class BattleLoopPureCLI {
     console.log(`Current Turn: ${state.currentTurn}`);
     console.log(`Active: ${state.isActive}`);
     console.log(`Paused: ${state.isPaused}`);
-    if (state?.winner) {
+    if (state.winner) {
       console.log(`Winner: ${state.winner} (${state.reason})`);
     }
   }
@@ -332,7 +332,7 @@ class BattleLoopPureCLI {
    * Show current battle state
    */
   private showBattleState(): void {
-    const state = this?.controller.getState();
+    const state = this.controller.getState();
 
     console.log('='.repeat(60));
     console.log('📊 Current Battle State');
@@ -341,12 +341,12 @@ class BattleLoopPureCLI {
     console.log(`Current Turn: ${state.currentTurn}`);
     console.log(`Active: ${state.isActive}`);
     console.log(`Paused: ${state.isPaused}`);
-    if (state?.winner) {
+    if (state.winner) {
       console.log(`Winner: ${state.winner} (${state.reason})`);
     }
 
     console.log('Battle History:');
-    this?.battleHistory.slice(-3).forEach((historyState, index) => {
+    this.battleHistory.slice(-3).forEach((historyState, index) => {
       console.log(`  ${index + 1}. Turn ${historyState.currentTurn} - Active: ${historyState.isActive}`);
     });
   }
@@ -359,16 +359,16 @@ class BattleLoopPureCLI {
     console.log('📜 Battle History');
     console.log('='.repeat(60));
 
-    if (this?.battleHistory.length === 0) {
+    if (this.battleHistory.length === 0) {
       console.log('No battle history available.');
       return;
     }
 
-    this?.battleHistory.forEach((state, index) => {
+    this.battleHistory.forEach((state, index) => {
       console.log(`Turn ${state.currentTurn}:`);
       console.log(`  Active: ${state.isActive}`);
       console.log(`  Paused: ${state.isPaused}`);
-      if (state?.winner) {
+      if (state.winner) {
         console.log(`  Winner: ${state.winner} (${state.reason})`);
       }
       console.log('');
@@ -382,8 +382,8 @@ class BattleLoopPureCLI {
    * Show battle statistics
    */
   private showStatistics(): void {
-    const state = this?.controller.getState();
-    const config = this?.controller.getConfig();
+    const state = this.controller.getState();
+    const config = this.controller.getConfig();
 
     console.log('='.repeat(60));
     console.log('📈 Battle Statistics');
@@ -406,8 +406,8 @@ class BattleLoopPureCLI {
     console.log('='.repeat(60));
 
     console.log(`Total Actors: ${this.availableActors.length}`);
-    this?.availableActors.forEach((actorId, index) => {
-      const moves = this?.availableMoves[actorId!] || [];
+    this.availableActors.forEach((actorId, index) => {
+      const moves = this.availableMoves[actorId!] || [];
       console.log(`${index + 1}. Actor ${actorId} - Moves: ${moves.join(', ')}`);
     });
   }
@@ -430,9 +430,9 @@ class BattleLoopPureCLI {
       Object.values(this.availableMoves).flat()
     )).sort();
 
-    allMoves?.forEach((move, index) => {
+    allMoves.forEach((move, index) => {
       const actors = Object.entries(this.availableMoves)
-        .filter(([, moves]) => moves?.includes(move))
+        .filter(([, moves]) => moves.includes(move))
         .map(([actorId!]) => actorId);
 
       console.log(`${index + 1}. ${move} (Actors: ${actors.join(', ')})`);
@@ -443,7 +443,7 @@ class BattleLoopPureCLI {
    * Add actor to battle
    */
   private addActor(args: string[]): void {
-    if (args?.length === 0) {
+    if (args.length === 0) {
       console.log('❌ Usage: addactor [actor_id!]');
       return;
     }
@@ -454,13 +454,13 @@ class BattleLoopPureCLI {
       return;
     }
 
-    if (this?.availableActors.includes(actorId)) {
+    if (this.availableActors.includes(actorId)) {
       console.log(`❌ Actor ${actorId} already exists.`);
       return;
     }
 
-    this?.availableActors?.push(actorId);
-    this?.availableMoves[actorId!] = ['attack', 'defend']; // Default moves
+    this.availableActors.push(actorId);
+    this.availableMoves[actorId!] = ['attack', 'defend']; // Default moves
 
     console.log(`✅ Added Actor ${actorId} with default moves: attack, defend`);
   }
@@ -469,7 +469,7 @@ class BattleLoopPureCLI {
    * Add move to actor
    */
   private addMove(args: string[]): void {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('❌ Usage: addmove [actor_id!] [move_name!]');
       return;
     }
@@ -477,21 +477,21 @@ class BattleLoopPureCLI {
     const actorId = parseInt(args[0!]);
     const moveName = args[1!];
 
-    if (!this?.availableActors.includes(actorId)) {
+    if (!this.availableActors.includes(actorId)) {
       console.log(`❌ Actor ${actorId} not found. Use "addactor" first.`);
       return;
     }
 
-    if (!this?.availableMoves[actorId!]) {
-      this?.availableMoves[actorId!] = [];
+    if (!this.availableMoves[actorId!]) {
+      this.availableMoves[actorId!] = [];
     }
 
-    if (this?.availableMoves[actorId!].includes(moveName)) {
+    if (this.availableMoves[actorId!].includes(moveName)) {
       console.log(`❌ Move "${moveName}" already exists for actor ${actorId}.`);
       return;
     }
 
-    this?.availableMoves[actorId!].push(moveName);
+    this.availableMoves[actorId!].push(moveName);
     console.log(`✅ Added move "${moveName}" to actor ${actorId}`);
   }
 
@@ -499,9 +499,9 @@ class BattleLoopPureCLI {
    * Clear battle state
    */
   private clearBattle(): void {
-    this?.controller.stop();
-    this?.battleHistory = [];
-    this?.currentTurn = 0;
+    this.controller.stop();
+    this.battleHistory = [];
+    this.currentTurn = 0;
 
     console.log('🗑️ Battle state cleared');
     console.log('Use "demo" to run a new demo or "battle" to start a custom battle.');
@@ -511,18 +511,18 @@ class BattleLoopPureCLI {
    * Run demo battle
    */
   private runDemo(): void {
-    this?.clearBattle();
+    this.clearBattle();
 
     const actionSelector = (actorId: number, availableMoves: string[]) => {
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
       const moveId = availableMoves[moveIndex!];
 
       return actorId === 1 
-        ? BattleAction?.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
-        : BattleAction?.ai(actorId, actorId === 1 ? 2 : 1, moveId, 50);
+        ? BattleAction.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
+        : BattleAction.ai(actorId, actorId === 1 ? 2 : 1, moveId, 50);
     };
 
-    this?.runDemoTurns(actionSelector);
+    this.runDemoTurns(actionSelector);
   }
 
   /**
@@ -531,15 +531,15 @@ class BattleLoopPureCLI {
   private exit(): void {
     console.log('');
     console.log('👋 Thank you for using BattleLoopPure CLI!');
-    this?.rl.close();
-    process?.exit(0);
+    this.rl.close();
+    process.exit(0);
   }
 }
 
 // Start CLI if run directly
-if (require?.main === module) {
+if (require.main === module) {
   const cli = new BattleLoopPureCLI();
-  cli?.start();
+  cli.start();
 }
 
 export { BattleLoopPureCLI };

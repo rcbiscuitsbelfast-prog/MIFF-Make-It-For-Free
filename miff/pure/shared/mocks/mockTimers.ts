@@ -6,9 +6,9 @@
  */
 
 export const mockTimers = {
-  setTimeout: jest?.fn().mockReturnValue(1),
-  clearTimeout: jest?.fn(),
-  setInterval: jest?.fn().mockReturnValue(1),
-  clearInterval: jest?.fn(),
-  clearAllTimers: jest?.fn()
+  setTimeout: jest.fn().mockReturnValue(1),
+  clearTimeout: jest.fn(),
+  setInterval: jest.fn().mockReturnValue(1),
+  clearInterval: jest.fn(),
+  clearAllTimers: jest.fn()
 };

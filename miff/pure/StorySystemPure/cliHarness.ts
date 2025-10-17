@@ -21,11 +21,11 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -33,7 +33,7 @@ function main() {
     let operation: Cmd;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as Cmd;
     } else {
@@ -133,13 +133,13 @@ function main() {
     const storyManager = new StoryManager();
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'createArc':
-        result = storyManager?.createArc(operation?.arc);
+        result = storyManager.createArc(operation.arc);
         break;
 
       case 'startArc':
-        const startResult = storyManager?.startArc(operation?.arcId);
+        const startResult = storyManager.startArc(operation.arcId);
         result = {
           started: startResult !== null,
           result: startResult || null
@@ -147,7 +147,7 @@ function main() {
         break;
 
       case 'advanceToNode':
-        const advanceResult = storyManager?.advanceToNode(operation?.arcId, operation?.nodeId);
+        const advanceResult = storyManager.advanceToNode(operation.arcId, operation.nodeId);
         result = {
           advanced: advanceResult !== null,
           result: advanceResult || null
@@ -155,16 +155,16 @@ function main() {
         break;
 
       case 'setFlag':
-        storyManager?.setFlag(operation?.flagId, operation?.value, operation?.type as any, operation?.description);
+        storyManager.setFlag(operation.flagId, operation.value, operation.type as any, operation.description);
         result = {
           set: true,
-          flagId: operation?.flagId,
-          value: operation?.value
+          flagId: operation.flagId,
+          value: operation.value
         };
         break;
 
       case 'getFlag':
-        const flag = storyManager?.getFlag(operation?.flagId);
+        const flag = storyManager.getFlag(operation.flagId);
         result = {
           found: flag !== null,
           flag: flag || null
@@ -172,32 +172,32 @@ function main() {
         break;
 
       case 'hasFlag':
-        const hasFlag = storyManager?.hasFlag(operation?.flagId);
+        const hasFlag = storyManager.hasFlag(operation.flagId);
         result = {
           hasFlag,
-          flagId: operation?.flagId
+          flagId: operation.flagId
         };
         break;
 
       case 'setStat':
-        storyManager?.setStat(operation?.statId, operation?.value);
+        storyManager.setStat(operation.statId, operation.value);
         result = {
           set: true,
-          statId: operation?.statId,
-          value: operation?.value
+          statId: operation.statId,
+          value: operation.value
         };
         break;
 
       case 'getStat':
-        const statValue = storyManager?.getStat(operation?.statId);
+        const statValue = storyManager.getStat(operation.statId);
         result = {
-          statId: operation?.statId,
+          statId: operation.statId,
           value: statValue
         };
         break;
 
       case 'getArc':
-        const arc = storyManager?.getArc(operation?.arcId);
+        const arc = storyManager.getArc(operation.arcId);
         result = {
           found: arc !== null,
           arc: arc || null
@@ -206,49 +206,49 @@ function main() {
 
       case 'getAllArcs':
         result = {
-          arcs: storyManager?.getAllArcs(),
-          count: storyManager?.getAllArcs().length
+          arcs: storyManager.getAllArcs(),
+          count: storyManager.getAllArcs().length
         };
         break;
 
       case 'getArcProgress':
-        const progress = storyManager?.getArcProgress(operation?.arcId);
+        const progress = storyManager.getArcProgress(operation.arcId);
         result = {
-          arcId: operation?.arcId,
+          arcId: operation.arcId,
           progress
         };
         break;
 
       case 'getStatistics':
-        result = storyManager?.getStoryStatistics();
+        result = storyManager.getStoryStatistics();
         break;
 
       case 'simulateStory':
         // Simulate a story progression
-        const simArc = storyManager?.getArc(operation?.arcId);
+        const simArc = storyManager.getArc(operation.arcId);
         if (!simArc) {
           result = { error: 'Arc not found' };
           break;
         }
 
         // Set some initial stats and flags
-        storyManager?.setStat('level', 5);
-        storyManager?.setStat('xp', 1000);
-        storyManager?.setFlag('tutorial_completed', true, 'boolean', 'Tutorial completed');
+        storyManager.setStat('level', 5);
+        storyManager.setStat('xp', 1000);
+        storyManager.setFlag('tutorial_completed', true, 'boolean', 'Tutorial completed');
 
         // Start the arc
-        const simResult = storyManager?.startArc(operation?.arcId);
+        const simResult = storyManager.startArc(operation.arcId);
         
         result = {
           simulation: {
             arc: simArc,
             result: simResult,
             stats: {
-              level: storyManager?.getStat('level'),
-              xp: storyManager?.getStat('xp')
+              level: storyManager.getStat('level'),
+              xp: storyManager.getStat('xp')
             },
             flags: {
-              tutorial_completed: storyManager?.hasFlag('tutorial_completed')
+              tutorial_completed: storyManager.hasFlag('tutorial_completed')
             }
           }
         };
@@ -299,14 +299,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -318,7 +318,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -334,13 +334,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

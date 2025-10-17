@@ -5,11 +5,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Check for help command
-if (process?.argv.includes('--help') || process?.argv.includes('-h')) {
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 TeamsPure CLI Harness - Team Management System
 
-Usage: npx tsx miff/pure/TeamsPure/cliHarness?.ts [command!] [options!]
+Usage: npx tsx miff/pure/TeamsPure/cliHarness.ts [command!] [options!]
 
 Commands:
   add <spiritId>           - Add spirit to team
@@ -24,11 +24,11 @@ Commands:
   help                     - Show this help
 
 Examples:
-  npx tsx miff/pure/TeamsPure/cliHarness?.ts add "spirit1"
-  npx tsx miff/pure/TeamsPure/cliHarness?.ts list
-  npx tsx miff/pure/TeamsPure/cliHarness?.ts set-max-size 4
+  npx tsx miff/pure/TeamsPure/cliHarness.ts add "spirit1"
+  npx tsx miff/pure/TeamsPure/cliHarness.ts list
+  npx tsx miff/pure/TeamsPure/cliHarness.ts set-max-size 4
 `);
-  process?.exit(0);
+  process.exit(0);
 }
 
 interface TeamOperation {
@@ -62,112 +62,112 @@ class TeamManager {
 
   addToTeam(spirit: SpiritInstance): boolean {
     if (!spirit) {
-      this?.logOperation('add', false);
+      this.logOperation('add', false);
       return false;
     }
     
-    if (this?.activeTeam.length >= this?.maxTeamSize) {
-      this?.reserves?.push(spirit);
-      this?.logOperation('add', false);
+    if (this.activeTeam.length >= this.maxTeamSize) {
+      this.reserves.push(spirit);
+      this.logOperation('add', false);
       return false;
     }
     
-    this?.activeTeam?.push(spirit);
-    this?.logOperation('add', true);
+    this.activeTeam.push(spirit);
+    this.logOperation('add', true);
     return true;
   }
 
   removeFromTeam(spiritId: string): boolean {
     if (!spiritId) {
-      this?.logOperation('remove', false);
+      this.logOperation('remove', false);
       return false;
     }
     
     // Try to remove from active team
-    const activeIndex = this?.activeTeam.findIndex(s => s?.instanceId === spiritId);
+    const activeIndex = this.activeTeam.findIndex(s => s.instanceId === spiritId);
     if (activeIndex >= 0) {
-      this?.activeTeam.splice(activeIndex, 1);
-      this?.logOperation('remove', true);
+      this.activeTeam.splice(activeIndex, 1);
+      this.logOperation('remove', true);
       return true;
     }
     
     // Try to remove from reserves
-    const reserveIndex = this?.reserves.findIndex(s => s?.instanceId === spiritId);
+    const reserveIndex = this.reserves.findIndex(s => s.instanceId === spiritId);
     if (reserveIndex >= 0) {
-      this?.reserves.splice(reserveIndex, 1);
-      this?.logOperation('remove', true);
+      this.reserves.splice(reserveIndex, 1);
+      this.logOperation('remove', true);
       return true;
     }
     
-    this?.logOperation('remove', false);
+    this.logOperation('remove', false);
     return false;
   }
 
   swapTeamMembers(indexA: number, indexB: number): boolean {
-    if (indexA < 0 || indexA >= this?.activeTeam.length || 
-        indexB < 0 || indexB >= this?.activeTeam.length) {
-      this?.logOperation('swap', false);
+    if (indexA < 0 || indexA >= this.activeTeam.length || 
+        indexB < 0 || indexB >= this.activeTeam.length) {
+      this.logOperation('swap', false);
       return false;
     }
     
-    [this?.activeTeam[indexA!], this?.activeTeam[indexB!]] = [this?.activeTeam[indexB!], this?.activeTeam[indexA!]];
-    this?.logOperation('swap', true);
+    [this.activeTeam[indexA!], this.activeTeam[indexB!]] = [this.activeTeam[indexB!], this.activeTeam[indexA!]];
+    this.logOperation('swap', true);
     return true;
   }
 
   setMaxTeamSize(size: number): boolean {
     if (size < 1 || size > 10) {
-      this?.logOperation('set-max-size', false);
+      this.logOperation('set-max-size', false);
       return false;
     }
     
-    this?.maxTeamSize = size;
+    this.maxTeamSize = size;
     
     // Move excess spirits to reserves if needed
-    while (this?.activeTeam.length > this?.maxTeamSize) {
-      const excess = this?.activeTeam.pop()!;
-      this?.reserves?.push(excess);
+    while (this.activeTeam.length > this.maxTeamSize) {
+      const excess = this.activeTeam.pop()!;
+      this.reserves.push(excess);
     }
     
-    this?.logOperation('set-max-size', true);
+    this.logOperation('set-max-size', true);
     return true;
   }
 
   getTeam(): SpiritInstance[] {
-    return [...this?.activeTeam];
+    return [...this.activeTeam];
   }
 
   getReserves(): SpiritInstance[] {
-    return [...this?.reserves];
+    return [...this.reserves];
   }
 
   getAllSpirits(): SpiritInstance[] {
-    return [...this?.activeTeam, ...this?.reserves];
+    return [...this.activeTeam, ...this.reserves];
   }
 
   getTeamStats(): { totalSpirits: number; activeCount: number; reserveCount: number; maxSize: number } {
     return {
-      totalSpirits: this?.activeTeam.length + this?.reserves.length,
-      activeCount: this?.activeTeam.length,
-      reserveCount: this?.reserves.length,
-      maxSize: this?.maxTeamSize
+      totalSpirits: this.activeTeam.length + this.reserves.length,
+      activeCount: this.activeTeam.length,
+      reserveCount: this.reserves.length,
+      maxSize: this.maxTeamSize
     };
   }
 
   private logOperation(op: string, success: boolean): void {
-    this?.operations?.push({
+    this.operations.push({
       op,
       success,
       timestamp: new Date()
     });
   }
 
-  getOperationHistory(): typeof this?.operations {
-    return [...this?.operations];
+  getOperationHistory(): typeof this.operations {
+    return [...this.operations];
   }
 
   clearHistory(): void {
-    this?.operations = [];
+    this.operations = [];
   }
 }
 
@@ -190,11 +190,11 @@ function createSampleSpirit(id: string, name: string, type: string, level: numbe
 }
 
 function main() {
-  const argv = process?.argv.slice(2);
+  const argv = process.argv.slice(2);
   
-  if (argv?.length === 0) {
+  if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -202,7 +202,7 @@ function main() {
     let operation: TeamOperation;
 
     // Handle direct command or JSON file input
-    if (first?.endsWith('.json') && fs?.existsSync(first)) {
+    if (first.endsWith('.json') && fs.existsSync(first)) {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as TeamOperation;
     } else {
@@ -247,71 +247,71 @@ function main() {
     const teamManager = new TeamManager();
     let result: any;
 
-    switch (operation?.op) {
+    switch (operation.op) {
       case 'add':
         // Create a sample spirit for demonstration
         const spirit = createSampleSpirit(
-          operation?.spiritId!,
-          `Spirit_${operation?.spiritId}`,
+          operation.spiritId!,
+          `Spirit_${operation.spiritId}`,
           'elemental',
           Math.floor(Math.random() * 10) + 1
         );
-        const addSuccess = teamManager?.addToTeam(spirit);
+        const addSuccess = teamManager.addToTeam(spirit);
         result = {
-          spiritId: operation?.spiritId,
+          spiritId: operation.spiritId,
           success: addSuccess,
           spirit: addSuccess ? spirit : null,
-          teamStats: teamManager?.getTeamStats()
+          teamStats: teamManager.getTeamStats()
         };
         break;
 
       case 'remove':
-        const removeSuccess = teamManager?.removeFromTeam(operation?.spiritId!);
+        const removeSuccess = teamManager.removeFromTeam(operation.spiritId!);
         result = {
-          spiritId: operation?.spiritId,
+          spiritId: operation.spiritId,
           success: removeSuccess,
-          teamStats: teamManager?.getTeamStats()
+          teamStats: teamManager.getTeamStats()
         };
         break;
 
       case 'swap':
-        const swapSuccess = teamManager?.swapTeamMembers(operation?.indexA!, operation?.indexB!);
+        const swapSuccess = teamManager.swapTeamMembers(operation.indexA!, operation.indexB!);
         result = {
-          indexA: operation?.indexA,
-          indexB: operation?.indexB,
+          indexA: operation.indexA,
+          indexB: operation.indexB,
           success: swapSuccess,
-          team: teamManager?.getTeam()
+          team: teamManager.getTeam()
         };
         break;
 
       case 'list':
         result = {
-          team: teamManager?.getTeam(),
-          reserves: teamManager?.getReserves(),
-          stats: teamManager?.getTeamStats()
+          team: teamManager.getTeam(),
+          reserves: teamManager.getReserves(),
+          stats: teamManager.getTeamStats()
         };
         break;
 
       case 'get-team':
         result = {
-          team: teamManager?.getTeam(),
-          count: teamManager?.getTeam().length
+          team: teamManager.getTeam(),
+          count: teamManager.getTeam().length
         };
         break;
 
       case 'get-reserves':
         result = {
-          reserves: teamManager?.getReserves(),
-          count: teamManager?.getReserves().length
+          reserves: teamManager.getReserves(),
+          count: teamManager.getReserves().length
         };
         break;
 
       case 'set-max-size':
-        const sizeSuccess = teamManager?.setMaxTeamSize(operation?.maxSize!);
+        const sizeSuccess = teamManager.setMaxTeamSize(operation.maxSize!);
         result = {
-          maxSize: operation?.maxSize,
+          maxSize: operation.maxSize,
           success: sizeSuccess,
-          teamStats: teamManager?.getTeamStats()
+          teamStats: teamManager.getTeamStats()
         };
         break;
 
@@ -328,22 +328,22 @@ function main() {
         ];
 
         // Add spirits to team
-        spirits?.forEach((spirit: any) => teamManager?.addToTeam(spirit));
+        spirits.forEach((spirit: any) => teamManager.addToTeam(spirit));
         
         // Try some operations
-        teamManager?.swapTeamMembers(0, 1);
-        teamManager?.setMaxTeamSize(4);
+        teamManager.swapTeamMembers(0, 1);
+        teamManager.setMaxTeamSize(4);
         
         result = {
-          team: teamManager?.getTeam(),
-          reserves: teamManager?.getReserves(),
-          stats: teamManager?.getTeamStats(),
-          operationHistory: teamManager?.getOperationHistory(),
+          team: teamManager.getTeam(),
+          reserves: teamManager.getReserves(),
+          stats: teamManager.getTeamStats(),
+          operationHistory: teamManager.getOperationHistory(),
           summary: {
-            totalSpirits: spirits?.length,
-            activeTeamSize: teamManager?.getTeam().length,
-            reserveCount: teamManager?.getReserves().length,
-            operationsPerformed: teamManager?.getOperationHistory().length
+            totalSpirits: spirits.length,
+            activeTeamSize: teamManager.getTeam().length,
+            reserveCount: teamManager.getReserves().length,
+            operationsPerformed: teamManager.getOperationHistory().length
           }
         };
         break;
@@ -365,14 +365,14 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation?.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
-    const exportFormatArg = argv?.find(arg => arg?.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv?.indexOf('--format') + 1];
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+                           argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats?.includes(exportFormatArg) ? exportFormatArg : undefined;
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
     // Handle export format
     const { result: finalResult, exportData } = addExportSupport(
@@ -384,7 +384,7 @@ function main() {
 
     // Output in JSON envelope format
     console.log(JSON.stringify({
-      op: operation?.op,
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()
@@ -400,13 +400,13 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error?.message : String(error),
+      error: error instanceof Error ? error.message : String(error),
       timestamp: new Date()
     }, null, 2));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

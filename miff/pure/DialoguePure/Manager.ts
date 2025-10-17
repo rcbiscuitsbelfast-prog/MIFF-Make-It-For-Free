@@ -1,5 +1,5 @@
 /**
- * DialoguePure?.ts
+ * DialoguePure.ts
  * 
  * Inspired by Crystal Space's CEL scripting and jMonkeyEngine dialog utilities.
  * Provides pure, remix-safe dialogue and narrative systems for MIFF games.
@@ -74,38 +74,38 @@ export class DialogueParser {
   private static parseCELScript(script: string): any {
     // Simplified CEL-like parser stub
     // In a full implementation, this would parse Crystal Space's CEL syntax
-    const trimmed = script?.trim();
-    const assignMatch = trimmed?.match(/^(\w+)\s*=\s*(.+)$/);
+    const trimmed = script.trim();
+    const assignMatch = trimmed.match(/^(\w+)\s*=\s*(.+)$/);
     if (assignMatch) {
       return { type: 'assignment', variable: assignMatch[1], value: assignMatch[2] };
     }
 
-    const condMatch = trimmed?.match(/^if\s*\(([^)]+)\)\s*(.+)$/);
+    const condMatch = trimmed.match(/^if\s*\(([^)]+)\)\s*(.+)$/);
     if (condMatch) {
       return { type: 'condition', condition: condMatch[1].trim(), action: condMatch[2].trim() };
     }
 
-    const tokens = trimmed?.split(/\s+/);
+    const tokens = trimmed.split(/\s+/);
     return { type: 'script', tokens };
   }
 
   static parseCondition(condition: DialogueCondition): boolean {
-    if (condition?.script) {
-      const parsed = this?.parseCELScript(condition?.script);
+    if (condition.script) {
+      const parsed = this.parseCELScript(condition.script);
       // Simplified evaluation - in full implementation would use proper CEL interpreter
-      return parsed?.type === 'condition';
+      return parsed.type === 'condition';
     }
 
     // Basic condition evaluation
-    switch (condition?.type) {
+    switch (condition.type) {
       case 'variable':
-        return this?.evaluateVariableCondition(condition);
+        return this.evaluateVariableCondition(condition);
       case 'flag':
-        return this?.evaluateFlagCondition(condition);
+        return this.evaluateFlagCondition(condition);
       case 'inventory':
-        return this?.evaluateInventoryCondition(condition);
+        return this.evaluateInventoryCondition(condition);
       case 'quest':
-        return this?.evaluateQuestCondition(condition);
+        return this.evaluateQuestCondition(condition);
       default:
         return false;
     }
@@ -114,54 +114,54 @@ export class DialogueParser {
   private static evaluateVariableCondition(condition: DialogueCondition): boolean {
     // This would be evaluated against the current context
     // For now, return a simple boolean based on the condition
-    return condition?.operator === 'exists' || condition?.operator === 'equals';
+    return condition.operator === 'exists' || condition.operator === 'equals';
   }
 
   private static evaluateFlagCondition(condition: DialogueCondition): boolean {
-    return condition?.operator === 'exists';
+    return condition.operator === 'exists';
   }
 
   private static evaluateInventoryCondition(condition: DialogueCondition): boolean {
-    return condition?.operator === 'contains';
+    return condition.operator === 'contains';
   }
 
   private static evaluateQuestCondition(condition: DialogueCondition): boolean {
-    return condition?.operator === 'equals';
+    return condition.operator === 'equals';
   }
 
   static executeAction(action: DialogueAction, context: DialogueContext): void {
-    if (action?.script) {
-      const parsed = this?.parseCELScript(action?.script);
+    if (action.script) {
+      const parsed = this.parseCELScript(action.script);
       // Execute CEL-like script
-      this?.executeCELScript(parsed, context);
+      this.executeCELScript(parsed, context);
       return;
     }
 
-    switch (action?.type) {
+    switch (action.type) {
       case 'set_variable':
-        context?.variables.set(action?.target, action?.value);
+        context.variables.set(action.target, action.value);
         break;
       case 'set_flag':
-        if (action?.value) {
-          context?.flags.add(action?.target);
+        if (action.value) {
+          context.flags.add(action.target);
         } else {
-          context?.flags.delete(action?.target);
+          context.flags.delete(action.target);
         }
         break;
       case 'add_item':
-        context?.inventory.add(action?.target);
+        context.inventory.add(action.target);
         break;
       case 'remove_item':
-        context?.inventory.delete(action?.target);
+        context.inventory.delete(action.target);
         break;
       case 'start_quest':
-        context?.quests.set(action?.target, { status: 'active', progress: 0 });
+        context.quests.set(action.target, { status: 'active', progress: 0 });
         break;
       case 'complete_quest':
-        const quest = context?.quests.get(action?.target);
+        const quest = context.quests.get(action.target);
         if (quest) {
-          quest?.status = 'completed';
-          quest?.progress = 100;
+          quest.status = 'completed';
+          quest.progress = 100;
         }
         break;
       case 'play_sound':
@@ -172,9 +172,9 @@ export class DialogueParser {
   }
 
   private static executeCELScript(parsed: any, context: DialogueContext): void {
-    switch (parsed?.type) {
+    switch (parsed.type) {
       case 'assignment':
-        context?.variables.set(parsed?.variable, parsed?.value);
+        context.variables.set(parsed.variable, parsed.value);
         break;
       case 'condition':
         // Execute conditional action
@@ -192,10 +192,10 @@ export class DialogueEngine {
 
   constructor(tree: DialogueTree) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this?.tree = tree;
-    this?.context = {
-      variables: new Map(tree?.variables),
-      flags: new Set(tree?.flags),
+    this.tree = tree;
+    this.context = {
+      variables: new Map(tree.variables),
+      flags: new Set(tree.flags),
       inventory: new Set(Array.isArray(tree.metadata?.__inventory) ? tree.metadata?.__inventory : []),
       quests: new Map(),
       history: []
@@ -203,63 +203,63 @@ export class DialogueEngine {
   }
 
   start(startNodeId: string = 'start'): DialogueResult | null {
-    const startNode = this?.tree.nodes?.get(startNodeId);
+    const startNode = this.tree.nodes.get(startNodeId);
     if (!startNode) {
       console.error(`[DialoguePure!] Start node not found: ${startNodeId}`);
       return null;
     }
 
-    this?.context.currentNode = startNodeId;
+    this.context.currentNode = startNodeId;
     // Don't process the node, just return it
     return {
       node: startNode,
-      canContinue: !!startNode?.next,
-      isEnd: !startNode?.next || startNode?.next === 'end',
-      context: { ...this?.context }
+      canContinue: !!startNode.next,
+      isEnd: !startNode.next || startNode.next === 'end',
+      context: { ...this.context }
     };
   }
 
   continue(): DialogueResult | null {
-    if (!this?.context.currentNode) {
+    if (!this.context.currentNode) {
       return null;
     }
 
-    const currentNode = this?.tree.nodes?.get(this?.context.currentNode);
+    const currentNode = this.tree.nodes.get(this.context.currentNode);
     if (!currentNode) {
       return null;
     }
 
     // If current node is a choice, return it with filtered choices without advancing
-    if (currentNode?.type === 'choice' && currentNode?.choices) {
+    if (currentNode.type === 'choice' && currentNode.choices) {
       const result: DialogueResult = {
         node: currentNode,
         canContinue: false,
         isEnd: false,
-        context: { ...this?.context },
-        choices: currentNode?.choices.filter((choice: any) => {
-          if (!choice?.condition) return true;
-          return this?.evaluateChoiceCondition(choice?.condition);
+        context: { ...this.context },
+        choices: currentNode.choices.filter((choice: any) => {
+          if (!choice.condition) return true;
+          return this.evaluateChoiceCondition(choice.condition);
         })
       };
       return result;
     }
 
     // Process current node to advance to next
-    this?.processNode(currentNode);
+    this.processNode(currentNode);
     
     // Return the next node
-    const nextNode = this?.tree.nodes?.get(this?.context.currentNode!);
+    const nextNode = this.tree.nodes.get(this.context.currentNode!);
     if (nextNode) {
       const result: DialogueResult = {
         node: nextNode,
-        canContinue: !!nextNode?.next,
-        isEnd: !nextNode?.next || nextNode?.next === 'end',
-        context: { ...this?.context }
+        canContinue: !!nextNode.next,
+        isEnd: !nextNode.next || nextNode.next === 'end',
+        context: { ...this.context }
       };
-      if (nextNode?.type === 'choice' && nextNode?.choices) {
-        result?.choices = nextNode?.choices.filter((choice: any) => {
-          if (!choice?.condition) return true;
-          return DialogueParser?.parseCondition(choice?.condition);
+      if (nextNode.type === 'choice' && nextNode.choices) {
+        result.choices = nextNode.choices.filter((choice: any) => {
+          if (!choice.condition) return true;
+          return DialogueParser.parseCondition(choice.condition);
         });
       }
       return result;
@@ -269,28 +269,28 @@ export class DialogueEngine {
   }
 
   selectChoice(choiceId: string): DialogueResult | null {
-    const currentNode = this?.tree.nodes?.get(this?.context.currentNode!);
+    const currentNode = this.tree.nodes.get(this.context.currentNode!);
     if (!currentNode) {
       return null;
     }
 
-    const choice = currentNode?.choices?.find(c => c?.id === choiceId);
+    const choice = currentNode.choices?.find(c => c.id === choiceId);
     if (!choice) {
       return null;
     }
 
     // Execute choice action
-    if (choice?.action) {
-      DialogueParser?.executeAction(choice?.action, this?.context);
+    if (choice.action) {
+      DialogueParser.executeAction(choice.action, this.context);
     }
 
     // Move to next node
-    this?.context.currentNode = choice?.next;
-    this?.context.history?.push(choiceId);
+    this.context.currentNode = choice.next;
+    this.context.history.push(choiceId);
 
-    const nextNode = this?.tree.nodes?.get(choice?.next);
+    const nextNode = this.tree.nodes.get(choice.next);
     if (nextNode) {
-      return this?.processNode(nextNode);
+      return this.processNode(nextNode);
     }
 
     // If next node doesn't exist, return a result indicating end
@@ -298,59 +298,59 @@ export class DialogueEngine {
       node: currentNode, // Return current node as fallback
       canContinue: false,
       isEnd: true,
-      context: { ...this?.context }
+      context: { ...this.context }
     };
   }
 
   private processNode(node: DialogueNode): DialogueResult {
     // If this is a choice node, do not advance; present choices
-    if (node?.type === 'choice' && node?.choices) {
+    if (node.type === 'choice' && node.choices) {
       return {
         node,
         canContinue: false,
         isEnd: false,
-        context: { ...this?.context },
-        choices: node?.choices.filter((choice: any) => {
-          if (!choice?.condition) return true;
-          return this?.evaluateChoiceCondition(choice?.condition);
+        context: { ...this.context },
+        choices: node.choices.filter((choice: any) => {
+          if (!choice.condition) return true;
+          return this.evaluateChoiceCondition(choice.condition);
         })
       };
     }
 
     // Execute node actions
-    if (node?.actions) {
-      node?.actions.forEach((action: any) => {
-        DialogueParser?.executeAction(action, this?.context);
+    if (node.actions) {
+      node.actions.forEach((action: any) => {
+        DialogueParser.executeAction(action, this.context);
       });
     }
 
     // Check conditions
-    if (node?.conditions) {
-      const allConditionsMet = node?.conditions.every(condition => 
-        DialogueParser?.parseCondition(condition)
+    if (node.conditions) {
+      const allConditionsMet = node.conditions.every(condition => 
+        DialogueParser.parseCondition(condition)
       );
 
       if (!allConditionsMet) {
         // Find fallback or end dialogue
-        return this?.handleConditionFailure(node);
+        return this.handleConditionFailure(node);
       }
     }
 
     // Determine next node
     let nextNodeId: string;
-    if (node?.next) {
+    if (node.next) {
       if (Array.isArray(node.next)) {
         // Branch based on conditions or random selection
-        nextNodeId = this?.selectNextBranch(node?.next);
+        nextNodeId = this.selectNextBranch(node.next);
       } else {
-        nextNodeId = node?.next;
+        nextNodeId = node.next;
       }
     }
 
     // Update context
-    this?.context.currentNode = nextNodeId;
-    if (node?.content) {
-      this?.context.history?.push(node?.content);
+    this.context.currentNode = nextNodeId;
+    if (node.content) {
+      this.context.history.push(node.content);
     }
 
     // Return result
@@ -358,14 +358,14 @@ export class DialogueEngine {
       node,
       canContinue: !!nextNodeId && nextNodeId !== 'end',
       isEnd: !nextNodeId || nextNodeId === 'end',
-      context: { ...this?.context }
+      context: { ...this.context }
     };
 
-    if (node?.type === 'choice' && node?.choices) {
+    if (node.type === 'choice' && node.choices) {
       // Filter choices based on conditions
-      result?.choices = node?.choices.filter((choice: any) => {
-        if (!choice?.condition) return true;
-        return DialogueParser?.parseCondition(choice?.condition);
+      result.choices = node.choices.filter((choice: any) => {
+        if (!choice.condition) return true;
+        return DialogueParser.parseCondition(choice.condition);
       });
     }
 
@@ -374,19 +374,19 @@ export class DialogueEngine {
 
   private evaluateChoiceCondition(condition: DialogueCondition): boolean {
     // Prefer engine context for concrete checks
-    switch (condition?.type) {
+    switch (condition.type) {
       case 'flag':
-        if (condition?.operator === 'exists') {
-          return this?.context.flags?.has(condition?.target);
+        if (condition.operator === 'exists') {
+          return this.context.flags.has(condition.target);
         }
         return false;
       case 'variable':
-        const value = this?.context.variables?.get(condition?.target);
-        switch (condition?.operator) {
+        const value = this.context.variables.get(condition.target);
+        switch (condition.operator) {
           case 'equals':
-            return value === condition?.value;
+            return value === condition.value;
           case 'not_equals':
-            return value !== condition?.value;
+            return value !== condition.value;
           case 'exists':
             return typeof value !== 'undefined';
           default:
@@ -394,19 +394,19 @@ export class DialogueEngine {
         }
       default:
         // Fallback to generic parser for script/inventory/quest
-        return DialogueParser?.parseCondition(condition);
+        return DialogueParser.parseCondition(condition);
     }
   }
 
   private handleConditionFailure(node: DialogueNode): DialogueResult {
     // Find fallback node or end dialogue
-    const fallbackNode = this?.tree.nodes?.get('fallback') || this?.tree.nodes?.get('end');
+    const fallbackNode = this.tree.nodes.get('fallback') || this.tree.nodes.get('end');
     
     return {
       node: fallbackNode || node,
       canContinue: false,
       isEnd: true,
-      context: { ...this?.context }
+      context: { ...this.context }
     };
   }
 
@@ -416,49 +416,49 @@ export class DialogueEngine {
   }
 
   getContext(): DialogueContext {
-    return { ...this?.context };
+    return { ...this.context };
   }
 
   setVariable(name: string, value: any): void {
-    this?.context.variables?.set(name, value);
+    this.context.variables.set(name, value);
   }
 
   getVariable(name: string): any {
-    return this?.context.variables?.get(name);
+    return this.context.variables.get(name);
   }
 
   setFlag(name: string, value: boolean = true): void {
-    if (value: any) {
-      this?.context.flags?.add(name);
+    if (value) {
+      this.context.flags.add(name);
     } else {
-      this?.context.flags?.delete(name);
+      this.context.flags.delete(name);
     }
   }
 
   hasFlag(name: string): boolean {
-    return this?.context.flags?.has(name);
+    return this.context.flags.has(name);
   }
 
   addToInventory(itemId: string): void {
-    this?.context.inventory?.add(itemId);
+    this.context.inventory.add(itemId);
   }
 
   removeFromInventory(itemId: string): void {
-    this?.context.inventory?.delete(itemId);
+    this.context.inventory.delete(itemId);
   }
 
   hasItem(itemId: string): boolean {
-    return this?.context.inventory?.has(itemId);
+    return this.context.inventory.has(itemId);
   }
 
   getDialogueHistory(): string[] {
-    return [...this?.context.history];
+    return [...this.context.history];
   }
 
   // Serialization
   serialize(): string {
     const serializableTree = {
-      ...this?.tree,
+      ...this.tree,
       nodes: Object.fromEntries(this.tree.nodes),
       // Preserve current context state
       variables: Object.fromEntries(this.context.variables),
@@ -470,20 +470,20 @@ export class DialogueEngine {
   }
 
   static deserialize(data: string): DialogueTree {
-    const parsed = JSON.parse(data: any);
+    const parsed = JSON.parse(data);
     
     return {
       ...parsed,
       nodes: new Map(Object.entries(parsed.nodes || {})),
       variables: new Map(Object.entries(parsed.variables || {})),
-      flags: new Set(parsed?.flags || [])
+      flags: new Set(parsed.flags || [])
     };
   }
 }
 
 // CLI interface
 export function createDialogueEngine(treeData: string): DialogueEngine {
-  const tree = DialogueEngine?.deserialize(treeData);
+  const tree = DialogueEngine.deserialize(treeData);
   return new DialogueEngine(tree);
 }
 

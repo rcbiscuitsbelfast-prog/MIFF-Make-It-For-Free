@@ -16,8 +16,8 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
-import { SportsManager, SportsConfig } from './Manager?.js';
-import { SportType, TeamPosition, GameState } from './index?.js';
+import { SportsManager, SportsConfig } from './Manager.js';
+import { SportType, TeamPosition, GameState } from './index.js';
 
 interface CliCommand {
   command: string;
@@ -35,183 +35,183 @@ class SportsCli {
   private demoMode: boolean = false;
 
   constructor(config?: SportsConfig) {
-    this?.eventBus = new EventBus();
-    this?.manager = new SportsManager(this?.eventBus, config);
+    this.eventBus = new EventBus();
+    this.manager = new SportsManager(this.eventBus, config);
 
-    this?.setupCommands();
-    this?.setupEventListeners();
+    this.setupCommands();
+    this.setupEventListeners();
 
     console.log('⚽ SportsSystemPure CLI - AAA Sports Management System');
     console.log('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
-    this?.commands.set('create-team', {
+    this.commands.set('create-team', {
       command: 'create-team <name> <color>',
       description: 'Create a new team',
-      handler: (args) => this?.handleCreateTeam(args)
+      handler: (args) => this.handleCreateTeam(args)
     });
 
-    this?.commands.set('create-player', {
+    this.commands.set('create-player', {
       command: 'create-player <name> <teamId> <position>',
       description: 'Add a player to a team (goalkeeper, defender, midfielder, forward)',
-      handler: (args) => this?.handleCreatePlayer(args)
+      handler: (args) => this.handleCreatePlayer(args)
     });
 
-    this?.commands.set('create-game', {
+    this.commands.set('create-game', {
       command: 'create-game <sport> <team1Id> <team2Id>',
       description: 'Create a new game (soccer, basketball, tennis, etc.)',
-      handler: (args) => this?.handleCreateGame(args)
+      handler: (args) => this.handleCreateGame(args)
     });
 
-    this?.commands.set('start-game', {
+    this.commands.set('start-game', {
       command: 'start-game <gameId>',
       description: 'Start a game',
-      handler: (args) => this?.handleStartGame(args)
+      handler: (args) => this.handleStartGame(args)
     });
 
-    this?.commands.set('pause-game', {
+    this.commands.set('pause-game', {
       command: 'pause-game',
       description: 'Pause current game',
-      handler: (args) => this?.handlePauseGame(args)
+      handler: (args) => this.handlePauseGame(args)
     });
 
-    this?.commands.set('shoot', {
+    this.commands.set('shoot', {
       command: 'shoot <x> <y> <z>',
       description: 'Shoot ball to target position',
-      handler: (args) => this?.handleShoot(args)
+      handler: (args) => this.handleShoot(args)
     });
 
-    this?.commands.set('pass', {
+    this.commands.set('pass', {
       command: 'pass <toPlayerId>',
       description: 'Pass ball to another player',
-      handler: (args) => this?.handlePass(args)
+      handler: (args) => this.handlePass(args)
     });
 
-    this?.commands.set('tackle', {
+    this.commands.set('tackle', {
       command: 'tackle <targetPlayerId>',
       description: 'Attempt to tackle another player',
-      handler: (args) => this?.handleTackle(args)
+      handler: (args) => this.handleTackle(args)
     });
 
-    this?.commands.set('show-game', {
+    this.commands.set('show-game', {
       command: 'show-game [gameId!]',
       description: 'Display current game state',
-      handler: (args) => this?.handleShowGame(args)
+      handler: (args) => this.handleShowGame(args)
     });
 
-    this?.commands.set('show-teams', {
+    this.commands.set('show-teams', {
       command: 'show-teams',
       description: 'List all teams',
-      handler: (args) => this?.handleShowTeams(args)
+      handler: (args) => this.handleShowTeams(args)
     });
 
-    this?.commands.set('show-players', {
+    this.commands.set('show-players', {
       command: 'show-players [teamId!]',
       description: 'List players in a team',
-      handler: (args) => this?.handleShowPlayers(args)
+      handler: (args) => this.handleShowPlayers(args)
     });
 
-    this?.commands.set('matchmaking', {
+    this.commands.set('matchmaking', {
       command: 'matchmaking <sport>',
       description: 'Join matchmaking for a sport',
-      handler: (args) => this?.handleMatchmaking(args)
+      handler: (args) => this.handleMatchmaking(args)
     });
 
-    this?.commands.set('demo', {
+    this.commands.set('demo', {
       command: 'demo <sport> <duration>',
       description: 'Run demo game simulation',
-      handler: (args) => this?.handleDemo(args)
+      handler: (args) => this.handleDemo(args)
     });
 
-    this?.commands.set('simulate', {
+    this.commands.set('simulate', {
       command: 'simulate <games>',
       description: 'Run automated sports simulation',
-      handler: (args) => this?.handleSimulate(args)
+      handler: (args) => this.handleSimulate(args)
     });
 
-    this?.commands.set('benchmark', {
+    this.commands.set('benchmark', {
       command: 'benchmark <operations>',
       description: 'Run performance benchmark',
-      handler: (args) => this?.handleBenchmark(args)
+      handler: (args) => this.handleBenchmark(args)
     });
 
-    this?.commands.set('sports', {
+    this.commands.set('sports', {
       command: 'sports',
       description: 'List available sports',
-      handler: (args) => this?.handleSports(args)
+      handler: (args) => this.handleSports(args)
     });
 
-    this?.commands.set('positions', {
+    this.commands.set('positions', {
       command: 'positions',
       description: 'List available positions',
-      handler: (args) => this?.handlePositions(args)
+      handler: (args) => this.handlePositions(args)
     });
 
-    this?.commands.set('help', {
+    this.commands.set('help', {
       command: 'help',
       description: 'Show available commands',
-      handler: (args) => this?.handleHelp(args)
+      handler: (args) => this.handleHelp(args)
     });
 
-    this?.commands.set('quit', {
+    this.commands.set('quit', {
       command: 'quit',
       description: 'Exit the CLI',
-      handler: (args) => this?.handleQuit(args)
+      handler: (args) => this.handleQuit(args)
     });
   }
 
   private setupEventListeners(): void {
-    this?.eventBus.on('sports:game_created', (data: any) => {
+    this.eventBus.on('sports:game_created', (data) => {
       console.log(`🎮 Game created: ${data.game.sportType} - ${data.game.teams[0!].name} vs ${data.game.teams[1!].name}`);
-      this?.currentGameId = data?.game.id;
+      this.currentGameId = data.game.id;
     });
 
-    this?.eventBus.on('sports:game_started', (data: any) => {
+    this.eventBus.on('sports:game_started', (data) => {
       console.log(`🏁 Game started!`);
     });
 
-    this?.eventBus.on('sports:game_paused', (data: any) => {
+    this.eventBus.on('sports:game_paused', (data) => {
       console.log(`⏸️ Game paused`);
     });
 
-    this?.eventBus.on('sports:goal_scored', (data: any) => {
+    this.eventBus.on('sports:goal_scored', (data) => {
       console.log(`⚽ GOAL! Scored by ${data.scorer || 'unknown player'}`);
     });
 
-    this?.eventBus.on('sports:shot_taken', (data: any) => {
+    this.eventBus.on('sports:shot_taken', (data) => {
       console.log(`🥅 Shot taken by ${data.playerId}`);
     });
 
-    this?.eventBus.on('sports:pass_completed', (data: any) => {
+    this.eventBus.on('sports:pass_completed', (data) => {
       console.log(`🎯 Pass completed from ${data.fromPlayerId} to ${data.toPlayerId}`);
     });
 
-    this?.eventBus.on('sports:tackle_successful', (data: any) => {
+    this.eventBus.on('sports:tackle_successful', (data) => {
       console.log(`💪 Tackle successful by ${data.tacklerId} on ${data.targetId}`);
     });
 
-    this?.eventBus.on('sports:foul_committed', (data: any) => {
+    this.eventBus.on('sports:foul_committed', (data) => {
       console.log(`🟨 Foul committed by ${data.playerId}`);
     });
 
-    this?.eventBus.on('sports:match_found', (data: any) => {
+    this.eventBus.on('sports:match_found', (data) => {
       console.log(`🎉 Match found! Game: ${data.gameId}`);
     });
   }
 
   private handleCreateTeam(args: string[]): void {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('Usage: create-team <name> <color>');
       return;
     }
 
     const [name, color] = args;
-    const result = this?.manager.createTeam(name, color, this?.currentPlayerId || 'admin');
+    const result = this.manager.createTeam(name, color, this.currentPlayerId || 'admin');
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
-      if (result?.data) {
+      if (result.data) {
         console.log(`   Team ID: ${result.data.team.id}`);
         console.log(`   Color: ${result.data.team.color}`);
       }
@@ -221,35 +221,35 @@ class SportsCli {
   }
 
   private handleCreatePlayer(args: string[]): void {
-    if (args?.length < 3) {
+    if (args.length < 3) {
       console.log('Usage: create-player <name> <teamId> <position>');
       return;
     }
 
     const [name, teamId, position] = args;
-    const result = this?.manager.createPlayer(name, teamId, position as TeamPosition, this?.currentPlayerId || 'admin');
+    const result = this.manager.createPlayer(name, teamId, position as TeamPosition, this.currentPlayerId || 'admin');
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
-      this?.currentPlayerId = result?.data.player?.id;
+      this.currentPlayerId = result.data.player.id;
     } else {
       console.log('❌', result.message);
     }
   }
 
   private handleCreateGame(args: string[]): void {
-    if (args?.length < 3) {
+    if (args.length < 3) {
       console.log('Usage: create-game <sport> <team1Id> <team2Id>');
       return;
     }
 
     const [sport, team1Id, team2Id] = args;
-    const result = this?.manager.createGame(sport as SportType, team1Id, team2Id, this?.currentPlayerId || 'admin');
+    const result = this.manager.createGame(sport as SportType, team1Id, team2Id, this.currentPlayerId || 'admin');
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
-      if (result?.data) {
-        this?.currentGameId = result?.data.game?.id;
+      if (result.data) {
+        this.currentGameId = result.data.game.id;
         console.log(`   Game ID: ${this.currentGameId}`);
         console.log(`   Sport: ${result.data.game.sportType}`);
       }
@@ -259,16 +259,16 @@ class SportsCli {
   }
 
   private handleStartGame(args: string[]): void {
-    const gameId = args[0!] || this?.currentGameId;
+    const gameId = args[0!] || this.currentGameId;
 
     if (!gameId) {
       console.log('❌ No game ID specified. Use create-game first or specify gameId.');
       return;
     }
 
-    const result = this?.manager.startGame(gameId, this?.currentPlayerId || 'admin');
+    const result = this.manager.startGame(gameId, this.currentPlayerId || 'admin');
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
     } else {
       console.log('❌', result.message);
@@ -276,9 +276,9 @@ class SportsCli {
   }
 
   private handlePauseGame(args: string[]): void {
-    const result = this?.manager.pauseGame(this?.currentGameId, this?.currentPlayerId || 'admin');
+    const result = this.manager.pauseGame(this.currentGameId, this.currentPlayerId || 'admin');
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
     } else {
       console.log('❌', result.message);
@@ -286,20 +286,20 @@ class SportsCli {
   }
 
   private handleShoot(args: string[]): void {
-    if (args?.length < 3) {
+    if (args.length < 3) {
       console.log('Usage: shoot <x> <y> <z>');
       return;
     }
 
-    if (!this?.currentGameId) {
+    if (!this.currentGameId) {
       console.log('❌ No current game. Use create-game first.');
       return;
     }
 
-    const [x, y, z] = args?.map(Number);
-    const result = this?.manager.shootBall(this?.currentGameId, this?.currentPlayerId, { x, y, z });
+    const [x, y, z] = args.map(Number);
+    const result = this.manager.shootBall(this.currentGameId, this.currentPlayerId, { x, y, z });
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
     } else {
       console.log('❌', result.message);
@@ -307,20 +307,20 @@ class SportsCli {
   }
 
   private handlePass(args: string[]): void {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('Usage: pass <toPlayerId>');
       return;
     }
 
-    if (!this?.currentGameId) {
+    if (!this.currentGameId) {
       console.log('❌ No current game. Use create-game first.');
       return;
     }
 
     const [toPlayerId!] = args;
-    const result = this?.manager.passBall(this?.currentGameId, this?.currentPlayerId, toPlayerId);
+    const result = this.manager.passBall(this.currentGameId, this.currentPlayerId, toPlayerId);
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
     } else {
       console.log('❌', result.message);
@@ -328,20 +328,20 @@ class SportsCli {
   }
 
   private handleTackle(args: string[]): void {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('Usage: tackle <targetPlayerId>');
       return;
     }
 
-    if (!this?.currentGameId) {
+    if (!this.currentGameId) {
       console.log('❌ No current game. Use create-game first.');
       return;
     }
 
     const [targetPlayerId!] = args;
-    const result = this?.manager.tackle(this?.currentGameId, this?.currentPlayerId, targetPlayerId);
+    const result = this.manager.tackle(this.currentGameId, this.currentPlayerId, targetPlayerId);
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
     } else {
       console.log('❌', result.message);
@@ -349,14 +349,14 @@ class SportsCli {
   }
 
   private handleShowGame(args: string[]): void {
-    const gameId = args[0!] || this?.currentGameId;
+    const gameId = args[0!] || this.currentGameId;
 
     if (!gameId) {
       console.log('❌ No game ID specified. Use create-game first or specify gameId.');
       return;
     }
 
-    const game = this?.manager.getGameState(gameId);
+    const game = this.manager.getGameState(gameId);
 
     if (game) {
       console.log(`\n🏟️ Game State (${game.sportType.toUpperCase()}):`);
@@ -375,7 +375,7 @@ class SportsCli {
   private handleShowTeams(args: string[]): void {
     const teams = Array.from(this.manager['sportsSystem']['teams'].values());
 
-    if (teams?.length === 0) {
+    if (teams.length === 0) {
       console.log('No teams found.');
       return;
     }
@@ -385,11 +385,11 @@ class SportsCli {
     console.log('Name                    | ID                          | Players | Score');
     console.log('─'.repeat(60));
 
-    teams?.forEach((team: any) => {
-      const name = team?.name.padEnd(23);
-      const id = team?.id.substring(0, 27);
-      const players = team?.players.length?.toString().padStart(7);
-      const score = team?.score.toString().padStart(5);
+    teams.forEach((team: any) => {
+      const name = team.name.padEnd(23);
+      const id = team.id.substring(0, 27);
+      const players = team.players.length.toString().padStart(7);
+      const score = team.score.toString().padStart(5);
 
       console.log(`${name} | ${id} | ${players} | ${score}`);
     });
@@ -404,7 +404,7 @@ class SportsCli {
       return;
     }
 
-    const teamStats = this?.manager.getTeamStats(teamId);
+    const teamStats = this.manager.getTeamStats(teamId);
 
     if (teamStats) {
       console.log(`\n👥 Players in ${this.manager['sportsSystem']['teams'].get(teamId)?.name}:`);
@@ -412,12 +412,12 @@ class SportsCli {
       console.log('Name                    | Position    | Goals | Assists | Energy');
       console.log('─'.repeat(70));
 
-      teamStats?.players.forEach((player: any) => {
-        const name = player?.name.padEnd(23);
-        const position = player?.position.padEnd(11);
-        const goals = player?.stats.goals?.toString().padStart(5);
-        const assists = player?.stats.assists?.toString().padStart(8);
-        const energy = player?.energy.toString().padStart(6);
+      teamStats.players.forEach((player: any) => {
+        const name = player.name.padEnd(23);
+        const position = player.position.padEnd(11);
+        const goals = player.stats.goals.toString().padStart(5);
+        const assists = player.stats.assists.toString().padStart(8);
+        const energy = player.energy.toString().padStart(6);
 
         console.log(`${name} | ${position} | ${goals} | ${assists} | ${energy}%`);
       });
@@ -428,15 +428,15 @@ class SportsCli {
   }
 
   private handleMatchmaking(args: string[]): void {
-    if (args?.length < 1) {
+    if (args.length < 1) {
       console.log('Usage: matchmaking <sport>');
       return;
     }
 
     const [sport!] = args;
-    const result = this?.manager.joinMatchmaking(this?.currentPlayerId, { sportType: sport as SportType });
+    const result = this.manager.joinMatchmaking(this.currentPlayerId, { sportType: sport as SportType });
 
-    if (result?.success) {
+    if (result.success) {
       console.log(result.message);
     } else {
       console.log('❌', result.message);
@@ -444,49 +444,49 @@ class SportsCli {
   }
 
   private async handleDemo(args: string[]): Promise<void> {
-    if (args?.length < 2) {
+    if (args.length < 2) {
       console.log('Usage: demo <sport> <duration>');
       return;
     }
 
     const [sport, durationStr] = args;
     const duration = parseInt(durationStr) || 60;
-    this?.demoMode = true;
+    this.demoMode = true;
 
     console.log(`🎮 Starting ${sport} demo for ${duration} seconds...`);
 
     // Create teams and players
-    const team1Result = this?.manager.createTeam('Demo Team 1', '#FF0000', 'demo');
-    const team2Result = this?.manager.createTeam('Demo Team 2', '#0000FF', 'demo');
+    const team1Result = this.manager.createTeam('Demo Team 1', '#FF0000', 'demo');
+    const team2Result = this.manager.createTeam('Demo Team 2', '#0000FF', 'demo');
 
-    if (!team1Result?.success || !team2Result?.success) {
+    if (!team1Result.success || !team2Result.success) {
       console.log('❌ Failed to create demo teams');
       return;
     }
 
-    const team1Id = team1Result?.data.team?.id;
-    const team2Id = team2Result?.data.team?.id;
+    const team1Id = team1Result.data.team.id;
+    const team2Id = team2Result.data.team.id;
 
     // Add players
-    this?.manager.createPlayer('Player 1', team1Id, 'forward', 'demo');
-    this?.manager.createPlayer('Player 2', team2Id, 'forward', 'demo');
-    this?.manager.createPlayer('Goalie 1', team1Id, 'goalkeeper', 'demo');
-    this?.manager.createPlayer('Goalie 2', team2Id, 'goalkeeper', 'demo');
+    this.manager.createPlayer('Player 1', team1Id, 'forward', 'demo');
+    this.manager.createPlayer('Player 2', team2Id, 'forward', 'demo');
+    this.manager.createPlayer('Goalie 1', team1Id, 'goalkeeper', 'demo');
+    this.manager.createPlayer('Goalie 2', team2Id, 'goalkeeper', 'demo');
 
     // Create game
-    const gameResult = this?.manager.createGame(sport as SportType, team1Id, team2Id, 'demo');
-    if (!gameResult?.success) {
+    const gameResult = this.manager.createGame(sport as SportType, team1Id, team2Id, 'demo');
+    if (!gameResult.success) {
       console.log('❌ Failed to create demo game');
       return;
     }
 
-    this?.currentGameId = gameResult?.data.game?.id;
+    this.currentGameId = gameResult.data.game.id;
 
     // Start game
-    this?.manager.startGame(this?.currentGameId, 'demo');
+    this.manager.startGame(this.currentGameId, 'demo');
 
     // Simulate gameplay
-    const endTime = new Date() + (duration * 1000);
+    const endTime = Date.now() + (duration * 1000);
     let shots = 0;
 
     while (Date.now() < endTime) {
@@ -498,12 +498,12 @@ class SportsCli {
         const x = (Math.random() - 0.5) * 20;
         const y = Math.random() * 5;
         const z = (Math.random() - 0.5) * 20;
-        this?.manager.shootBall(this?.currentGameId, 'player1', { x, y, z });
+        this.manager.shootBall(this.currentGameId, 'player1', { x, y, z });
         shots++;
       } else if (action === 'pass') {
-        this?.manager.passBall(this?.currentGameId, 'player1', 'player2');
+        this.manager.passBall(this.currentGameId, 'player1', 'player2');
       } else if (action === 'tackle') {
-        this?.manager.tackle(this?.currentGameId, 'player1', 'player2');
+        this.manager.tackle(this.currentGameId, 'player1', 'player2');
       }
 
       await this.sleep(1000 + Math.random() * 2000); // 1-3 seconds between actions
@@ -511,9 +511,9 @@ class SportsCli {
 
     console.log(`\n🏁 Demo completed!`);
     console.log(`Total shots: ${shots}`);
-    this?.showGame([]);
+    this.showGame([]);
 
-    this?.demoMode = false;
+    this.demoMode = false;
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
@@ -524,27 +524,27 @@ class SportsCli {
       console.log(`\n--- Game ${i + 1} ---`);
 
       // Create teams
-      const team1Result = this?.manager.createTeam(`Sim Team ${i}_1`, '#FF0000', 'sim');
-      const team2Result = this?.manager.createTeam(`Sim Team ${i}_2`, '#0000FF', 'sim');
+      const team1Result = this.manager.createTeam(`Sim Team ${i}_1`, '#FF0000', 'sim');
+      const team2Result = this.manager.createTeam(`Sim Team ${i}_2`, '#0000FF', 'sim');
 
-      if (!team1Result?.success || !team2Result?.success) continue;
+      if (!team1Result.success || !team2Result.success) continue;
 
-      const team1Id = team1Result?.data.team?.id;
-      const team2Id = team2Result?.data.team?.id;
+      const team1Id = team1Result.data.team.id;
+      const team2Id = team2Result.data.team.id;
 
       // Add players
-      this?.manager.createPlayer(`Player ${i}_1`, team1Id, 'forward', 'sim');
-      this?.manager.createPlayer(`Player ${i}_2`, team2Id, 'forward', 'sim');
+      this.manager.createPlayer(`Player ${i}_1`, team1Id, 'forward', 'sim');
+      this.manager.createPlayer(`Player ${i}_2`, team2Id, 'forward', 'sim');
 
       // Create and start game
-      const gameResult = this?.manager.createGame('soccer', team1Id, team2Id, 'sim');
-      if (!gameResult?.success) continue;
+      const gameResult = this.manager.createGame('soccer', team1Id, team2Id, 'sim');
+      if (!gameResult.success) continue;
 
-      const gameId = gameResult?.data.game?.id;
-      this?.manager.startGame(gameId, 'sim');
+      const gameId = gameResult.data.game.id;
+      this.manager.startGame(gameId, 'sim');
 
       // Simulate 2 minutes of gameplay
-      const endTime = new Date() + 120000;
+      const endTime = Date.now() + 120000;
       let shots = 0;
 
       while (Date.now() < endTime) {
@@ -552,14 +552,14 @@ class SportsCli {
         const y = Math.random() * 3;
         const z = (Math.random() - 0.5) * 10;
 
-        this?.manager.shootBall(gameId, `player${i}_1`, { x, y, z });
+        this.manager.shootBall(gameId, `player${i}_1`, { x, y, z });
         shots++;
 
         await this.sleep(5000 + Math.random() * 5000);
       }
 
       console.log(`Shots: ${shots}`);
-      await this?.sleep(1000);
+      await this.sleep(1000);
     }
 
     console.log('\n✅ Simulation completed!');
@@ -569,20 +569,20 @@ class SportsCli {
     const operations = parseInt(args[0!]) || 1000;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
-    const startTime = performance?.now();
+    const startTime = performance.now();
 
     for (let i = 0; i < operations; i++) {
       // Create teams
-      this?.manager.createTeam(`Bench Team ${i}`, '#FF0000', 'bench');
+      this.manager.createTeam(`Bench Team ${i}`, '#FF0000', 'bench');
 
       // Get team stats
-      this?.manager.getTeamStats(`bench_team_${i}`);
+      this.manager.getTeamStats(`bench_team_${i}`);
 
       // Simulate ball physics
       // This would be more intensive operations in a real benchmark
     }
 
-    const endTime = performance?.now();
+    const endTime = performance.now();
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
@@ -595,20 +595,20 @@ class SportsCli {
   }
 
   private handleSports(args: string[]): void {
-    const sports = this?.manager.getAvailableSports();
+    const sports = this.manager.getAvailableSports();
     console.log('\n⚽ Available Sports:');
     console.log('─'.repeat(30));
-    sports?.forEach((sport, index) => {
+    sports.forEach((sport, index) => {
       console.log(`${(index + 1).toString().padStart(2)}. ${sport.charAt(0).toUpperCase() + sport.slice(1)}`);
     });
     console.log('─'.repeat(30));
   }
 
   private handlePositions(args: string[]): void {
-    const positions = this?.manager.getTeamPositions();
+    const positions = this.manager.getTeamPositions();
     console.log('\n🏃 Available Positions:');
     console.log('─'.repeat(30));
-    positions?.forEach((position, index) => {
+    positions.forEach((position, index) => {
       console.log(`${(index + 1).toString().padStart(2)}. ${position.charAt(0).toUpperCase() + position.slice(1)}`);
     });
     console.log('─'.repeat(30));
@@ -617,7 +617,7 @@ class SportsCli {
   private handleHelp(args: string[]): void {
     console.log('\n🛠️ Available Commands:');
     console.log('─'.repeat(60));
-    this?.commands.forEach((cmd, key) => {
+    this.commands.forEach((cmd, key) => {
       console.log(`  ${cmd.command.padEnd(50)} | ${cmd.description}`);
     });
     console.log('─'.repeat(60));
@@ -625,7 +625,7 @@ class SportsCli {
 
   private handleQuit(args: string[]): void {
     console.log('👋 Goodbye!');
-    this?.isRunning = false;
+    this.isRunning = false;
   }
 
   private async sleep(ms: number): Promise<void> {
@@ -634,20 +634,20 @@ class SportsCli {
 
   public async run(): Promise<void> {
     // CI fast-path / non-interactive mode: support --mode=simulate/demo and --timeout
-    const argv = process?.argv.slice(2);
-    const modeArg = argv?.find(a => a?.startsWith('--mode='));
+    const argv = process.argv.slice(2);
+    const modeArg = argv.find(a => a.startsWith('--mode='));
     if (modeArg) {
       const kv = (key: string) => {
-        const raw = argv?.find(a => a?.startsWith(`--${key}=`));
-        return raw ? raw?.split('=')[1!] : undefined;
+        const raw = argv.find(a => a.startsWith(`--${key}=`));
+        return raw ? raw.split('=')[1!] : undefined;
       };
-      const parsedMode = modeArg?.split('=')[1!];
-      const ci = (kv('ci') || process?.env.CI || 'false').toString() === 'true';
+      const parsedMode = modeArg.split('=')[1!];
+      const ci = (kv('ci') || process.env.CI || 'false').toString() === 'true';
       const timeoutSec = parseInt(kv('timeout') || '0');
 
       // Reduce sleeps when in CI to avoid timeouts
-      const originalSleep = this?.sleep.bind(this);
-      this?.sleep = async (ms: number) => {
+      const originalSleep = this.sleep.bind(this);
+      this.sleep = async (ms: number) => {
         if (ci) return; // no-op sleep in CI
         // Respect timeout budget if provided
         if (timeoutSec > 0) {
@@ -660,68 +660,68 @@ class SportsCli {
       if (parsedMode === 'simulate') {
         const games = parseInt(kv('games') || '3');
         console.log(`[CI!] simulate ${games} game(s)${ci ? ' (fast-path)' : ''}`);
-        await this?.handleSimulate([String(games)]);
-        process?.exit(0);
+        await this.handleSimulate([String(games)]);
+        process.exit(0);
       }
       if (parsedMode === 'initMatch') {
         // Fast init in CI: avoid heavy permission checks; report success
         console.log('[CI!] initMatch complete');
-        process?.exit(0);
+        process.exit(0);
       }
       if (parsedMode === 'runMatch') {
         // Fast run respects timeout
         const seconds = timeoutSec > 0 ? Math.min(timeoutSec, 10) : 5;
-        const end = new Date() + seconds * 1000;
+        const end = Date.now() + seconds * 1000;
         while (Date.now() < end) {
-          await this?.sleep(ci ? 0 : 100);
+          await this.sleep(ci ? 0 : 100);
         }
         console.log(`[CI!] runMatch completed in ${seconds}s`);
-        process?.exit(0);
+        process.exit(0);
       }
       if (parsedMode === 'demo') {
         const sport = kv('sport') || 'soccer';
         const duration = parseInt(kv('duration') || '10');
         console.log(`[CI!] demo ${sport} for ${duration}s${ci ? ' (fast-path)' : ''}`);
-        await this?.handleDemo([sport, String(duration)]);
-        process?.exit(0);
+        await this.handleDemo([sport, String(duration)]);
+        process.exit(0);
       }
       // Fallback: print help and exit non-zero for unknown mode
       console.error(`Unknown --mode=${parsedMode}. Supported: simulate, demo`);
-      process?.exit(2);
+      process.exit(2);
     }
 
     const readline = await import('readline');
-    const rl = readline?.createInterface({
-      input: process?.stdin,
-      output: process?.stdout,
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
       prompt: 'sports> '
     });
 
-    rl?.prompt();
+    rl.prompt();
 
-    rl?.on('line', (line) => {
-      const input = line?.trim();
+    rl.on('line', (line) => {
+      const input = line.trim();
       if (input) {
-        const [command, ...args] = input?.split(' ');
-        const cmd = this?.commands.get(command);
+        const [command, ...args] = input.split(' ');
+        const cmd = this.commands.get(command);
 
         if (cmd) {
-          cmd?.handler(args);
+          cmd.handler(args);
         } else {
           console.log(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
-      if (this?.isRunning) {
-        rl?.prompt();
+      if (this.isRunning) {
+        rl.prompt();
       } else {
-        rl?.close();
+        rl.close();
       }
     });
 
-    rl?.on('close', () => {
+    rl.on('close', () => {
       console.log('CLI session ended.');
-      process?.exit(0);
+      process.exit(0);
     });
   }
 }
@@ -734,26 +734,26 @@ async function main() {
     enableTournaments: true,
     physicsUpdateRate: 60,
     enablePersistence: false,
-    debugMode: process?.env.NODE_ENV === 'development',
+    debugMode: process.env.NODE_ENV === 'development',
     mobileOptimized: true
   };
 
   const cli = new SportsCli(config);
-  await cli?.run();
+  await cli.run();
 }
 
 // Handle process termination
-process?.on('SIGINT', () => {
+process.on('SIGINT', () => {
   console.log('\n👋 Received SIGINT. Exiting...');
-  process?.exit(0);
+  process.exit(0);
 });
 
-process?.on('SIGTERM', () => {
+process.on('SIGTERM', () => {
   console.log('\n👋 Received SIGTERM. Exiting...');
-  process?.exit(0);
+  process.exit(0);
 });
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }
 

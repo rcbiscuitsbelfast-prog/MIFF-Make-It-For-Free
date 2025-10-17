@@ -10,18 +10,18 @@ import {
 } from './index';
 
 function main() {
-  const args = process?.argv.slice(2);
+  const args = process.argv.slice(2);
   const command = args[0!] || 'help';
   const configFile = args[1!];
   
   let config: Partial<PerfConfig> = {};
-  if (configFile && fs?.existsSync(configFile)) {
+  if (configFile && fs.existsSync(configFile)) {
     try {
       config = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('Error loading config:', err instanceof Error ? err.message : String(err));
-      process?.exit(1);
+      process.exit(1);
     }
   }
 
@@ -32,65 +32,65 @@ function main() {
     switch (command) {
       case 'record':
         const sampleData = args[1!];
-        if (sampleData && fs?.existsSync(sampleData)) {
+        if (sampleData && fs.existsSync(sampleData)) {
           const samples = JSON.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
-          samples?.forEach((sample: any) => {
-            perf?.record(
-              sample?.dtMs, 
-              sample?.tickStartMs, 
-              sample?.tickEndMs, 
-              sample?.playersSimulated,
-              sample?.category,
-              sample?.metadata
+          samples.forEach((sample: any) => {
+            perf.record(
+              sample.dtMs, 
+              sample.tickStartMs, 
+              sample.tickEndMs, 
+              sample.playersSimulated,
+              sample.category,
+              sample.metadata
             );
           });
-          result?.result = { message: `Recorded ${samples?.length} samples` };
+          result.result = { message: `Recorded ${samples.length} samples` };
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Sample data file required' };
+          result.status = 'error';
+          result.result = { error: 'Sample data file required' };
         }
         break;
 
       case 'snapshot':
-        result?.result = perf?.snapshot();
+        result.result = perf.snapshot();
         break;
 
       case 'getMetrics':
-        result?.result = perf?.getMetrics();
+        result.result = perf.getMetrics();
         break;
 
       case 'getStats':
-        result?.result = perf?.getStats();
+        result.result = perf.getStats();
         break;
 
       case 'export':
         const format = (args[1!] as 'json' | 'csv' | 'markdown') || 'json';
-        result?.result = { data: perf?.exportMetrics(format), format };
+        result.result = { data: perf.exportMetrics(format), format };
         break;
 
       case 'reset':
-        perf?.reset();
-        result?.result = { message: 'PerfMetricsPure reset successfully' };
+        perf.reset();
+        result.result = { message: 'PerfMetricsPure reset successfully' };
         break;
 
       case 'updateConfig':
         const newConfigFile = args[1!];
-        if (newConfigFile && fs?.existsSync(newConfigFile)) {
+        if (newConfigFile && fs.existsSync(newConfigFile)) {
           const newConfig = JSON.parse(fs.readFileSync(path.resolve(newConfigFile), 'utf-8'));
-          perf?.updateConfig(newConfig);
-          result?.result = { message: 'Configuration updated successfully' };
+          perf.updateConfig(newConfig);
+          result.result = { message: 'Configuration updated successfully' };
         } else {
-          result?.status = 'error';
-          result?.result = { error: 'Config file required' };
+          result.status = 'error';
+          result.result = { error: 'Config file required' };
         }
         break;
 
       case 'demo':
-        result?.result = runDemo(perf);
+        result.result = runDemo(perf);
         break;
 
       case 'help':
-        result?.result = {
+        result.result = {
           usage: 'PerfMetricsPure CLI Harness',
           commands: [
             'record [sampleFile!] - Record performance samples',
@@ -104,22 +104,22 @@ function main() {
             'help - Show this help'
           ],
           examples: [
-            'node cliHarness?.ts record samples?.json',
-            'node cliHarness?.ts snapshot',
-            'node cliHarness?.ts export csv',
-            'node cliHarness?.ts demo'
+            'node cliHarness.ts record samples.json',
+            'node cliHarness.ts snapshot',
+            'node cliHarness.ts export csv',
+            'node cliHarness.ts demo'
           ]
         };
         break;
 
       default:
-        result?.status = 'error';
-        result?.result = { error: `Unknown command: ${command}` };
+        result.status = 'error';
+        result.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    result?.status = 'error';
-    result?.result = { error: error instanceof Error ? error?.message : 'Unknown error' };
+    result.status = 'error';
+    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));
@@ -136,36 +136,36 @@ function runDemo(perf: PerfMetricsPure): any {
   ];
 
   // Record samples for each scenario
-  scenarios?.forEach((scenario, index) => {
+  scenarios.forEach((scenario, index) => {
     for (let i = 0; i < 10; i++) {
-      const tickStart = new Date() - scenario.dtMs;
-      const tickEnd = new Date();
-      perf?.record(
-        scenario?.dtMs,
+      const tickStart = Date.now() - scenario.dtMs;
+      const tickEnd = Date.now();
+      perf.record(
+        scenario.dtMs,
         tickStart,
         tickEnd,
-        scenario?.players,
-        scenario?.category,
-        { scenario: scenario?.name, iteration: i }
+        scenario.players,
+        scenario.category,
+        { scenario: scenario.name, iteration: i }
       );
     }
   });
 
   // Get metrics and stats
-  const metrics = perf?.getMetrics();
-  const stats = perf?.getStats();
+  const metrics = perf.getMetrics();
+  const stats = perf.getStats();
 
   return {
     message: 'PerfMetricsPure Demo completed',
-    scenarios: scenarios?.map((s: any) => s?.name),
+    scenarios: scenarios.map((s: any) => s.name),
     metrics,
     stats,
     exportFormats: {
-      json: perf?.exportMetrics('json'),
-      csv: perf?.exportMetrics('csv'),
-      markdown: perf?.exportMetrics('markdown')
+      json: perf.exportMetrics('json'),
+      csv: perf.exportMetrics('csv'),
+      markdown: perf.exportMetrics('markdown')
     }
   };
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

@@ -11,87 +11,87 @@ type Cmd =
   | { op: 'removeAudit'; moduleId: string };
 
 function main() {
-  const configPath = process?.argv[2!] || '';
-  const cmdsPath = process?.argv[3!] || '';
+  const configPath = process.argv[2!] || '';
+  const cmdsPath = process.argv[3!] || '';
   
   const mgr = new LicenseAuditManager();
   
   // Load config if provided
-  if (configPath && fs?.existsSync(configPath)) {
+  if (configPath && fs.existsSync(configPath)) {
     const config = JSON.parse(fs.readFileSync(path.resolve(configPath), 'utf-8'));
-    mgr?.setConfig(config);
+    mgr.setConfig(config);
   }
   
   // Load commands
-  const commands: Cmd[] = cmdsPath && fs?.existsSync(cmdsPath) 
+  const commands: Cmd[] = cmdsPath && fs.existsSync(cmdsPath) 
     ? JSON.parse(fs.readFileSync(path.resolve(cmdsPath), 'utf-8'))
     : [{ op: 'getAuditStats' }];
   
   const outputs: any[] = [];
   
   for (const cmd of commands) {
-    switch (cmd?.op) {
+    switch (cmd.op) {
       case 'auditModule':
-        outputs?.push(mgr?.auditModule(
-          cmd?.moduleId, 
-          cmd?.moduleName, 
-          cmd?.licenseType, 
-          cmd?.dependencies || [], 
-          cmd?.licenseFiles || []
+        outputs.push(mgr.auditModule(
+          cmd.moduleId, 
+          cmd.moduleName, 
+          cmd.licenseType, 
+          cmd.dependencies || [], 
+          cmd.licenseFiles || []
         ));
         break;
         
       case 'getLicense':
-        const license = mgr?.getModuleLicense(cmd?.moduleId);
-        outputs?.push({
+        const license = mgr.getModuleLicense(cmd.moduleId);
+        outputs.push({
           op: 'getLicense',
           status: license ? 'ok' : 'not_found',
-          moduleId: cmd?.moduleId,
+          moduleId: cmd.moduleId,
           license: license
         });
         break;
         
       case 'listLicenses':
-        const licenses = cmd?.licenseType ? mgr?.getLicensesByType(cmd?.licenseType) : mgr?.getAllLicenses();
-        outputs?.push({
+        const licenses = cmd.licenseType ? mgr.getLicensesByType(cmd.licenseType) : mgr.getAllLicenses();
+        outputs.push({
           op: 'listLicenses',
           status: 'ok',
-          licenseType: cmd?.licenseType || 'all',
-          count: licenses?.length,
+          licenseType: cmd.licenseType || 'all',
+          count: licenses.length,
           licenses: licenses
         });
         break;
         
       case 'getRemixSafe':
-        const remixSafe = mgr?.getRemixSafeModules();
-        outputs?.push({
+        const remixSafe = mgr.getRemixSafeModules();
+        outputs.push({
           op: 'getRemixSafe',
           status: 'ok',
-          count: remixSafe?.length,
+          count: remixSafe.length,
           modules: remixSafe
         });
         break;
         
       case 'getAuditStats':
-        outputs?.push({
+        outputs.push({
           op: 'getAuditStats',
           status: 'ok',
-          stats: mgr?.getAuditStats()
+          stats: mgr.getAuditStats()
         });
         break;
         
       case 'removeAudit':
-        const removed = mgr?.removeAudit(cmd?.moduleId);
-        outputs?.push({
+        const removed = mgr.removeAudit(cmd.moduleId);
+        outputs.push({
           op: 'removeAudit',
           status: removed ? 'ok' : 'not_found',
-          moduleId: cmd?.moduleId,
+          moduleId: cmd.moduleId,
           removed: removed
         });
         break;
         
       default:
-        outputs?.push({
+        outputs.push({
           op: 'unknown',
           status: 'error',
           message: `Unknown operation: ${(cmd as any).op}`
@@ -102,4 +102,4 @@ function main() {
   console.log(JSON.stringify({ outputs }, null, 2));
 }
 
-if (import?.meta.url === `file://${process?.argv[1!]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

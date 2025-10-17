@@ -9,16 +9,16 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const gridPath = process?.argv[2!] || '';
-  const commandsPath = process?.argv[3!] || '';
+  const gridPath = process.argv[2!] || '';
+  const commandsPath = process.argv[3!] || '';
   const manager = new PathfindingManager();
 
   // Load grid if provided
   let gridData: any = null;
-  if (gridPath && fs?.existsSync(gridPath)) {
+  if (gridPath && fs.existsSync(gridPath)) {
     gridData = JSON.parse(fs.readFileSync(path.resolve(gridPath), 'utf-8'));
-    if (gridData?.grid) {
-      manager?.loadGrid(gridData?.grid);
+    if (gridData.grid) {
+      manager.loadGrid(gridData.grid);
     }
   }
 
@@ -29,15 +29,15 @@ function main() {
   const outputs: any[] = [];
 
   for (const c of cmds) {
-    if (c?.op === 'list') {
-      const result = manager?.getGrid();
-      outputs?.push({ op: 'list', grid: result?.result?.grid || [] });
-    } else if (c?.op === 'simulate') {
-      const result = manager?.findPath(c?.start, c?.goal);
-      outputs?.push({ op: 'simulate', path: result?.result?.path || [] });
-    } else if (c?.op === 'dump') {
-      const result = manager?.getGrid();
-      outputs?.push({ op: 'dump', grid: result?.result?.grid || { width: 0, height: 0 } });
+    if (c.op === 'list') {
+      const result = manager.getGrid();
+      outputs.push({ op: 'list', grid: result.result?.grid || [] });
+    } else if (c.op === 'simulate') {
+      const result = manager.findPath(c.start, c.goal);
+      outputs.push({ op: 'simulate', path: result.result?.path || [] });
+    } else if (c.op === 'dump') {
+      const result = manager.getGrid();
+      outputs.push({ op: 'dump', grid: result.result?.grid || { width: 0, height: 0 } });
     }
   }
 
@@ -45,4 +45,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import?.meta.url === `file://${process?.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

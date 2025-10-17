@@ -4,10 +4,10 @@ import { enforceCIStandardsForModules, generateCIEnforcementReport } from './ind
 import * as fs from 'fs';
 
 async function main() {
-  const inputFile = process?.argv[2!];
+  const inputFile = process.argv[2!];
   if (!inputFile) {
     console.error('Usage: ts-node cliHarness.ts <input-file>');
-    process?.exit(1);
+    process.exit(1);
   }
 
   try {
@@ -21,7 +21,7 @@ async function main() {
       throw new Error('Invalid input: missing required field "modulePaths" (array)');
     }
     
-    const modulePaths: string[] = input?.modulePaths;
+    const modulePaths: string[] = input.modulePaths;
     
     // Enforce CI standards for all modules
     const report = await enforceCIStandardsForModules(modulePaths);
@@ -30,17 +30,17 @@ async function main() {
     console.log(JSON.stringify(report, null, 2));
     
     // Also output human-readable report if requested
-    if (input?.verbose) {
+    if (input.verbose) {
       console.error('\n' + generateCIEnforcementReport(report));
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', err instanceof Error ? err.message : String(err));
-    process?.exit(1);
+    process.exit(1);
   }
 }
 
 main().catch(error => {
   console.error('Unhandled error:', err instanceof Error ? err.message : String(err));
-  process?.exit(1);
+  process.exit(1);
 });
