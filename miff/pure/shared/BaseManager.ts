@@ -267,9 +267,9 @@ export abstract class BaseManager extends EventEmitter {
    */
   protected async executeOperation<T extends object>(
     operationName: string,
-    operation: () => Promise<T extends object>,
+    operation: () => Promise<T>,
     metadata?: Record<string, unknown>
-  ): Promise<T extends object> {
+  ): Promise<T> {
     const operationId = `${operationName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const operationRecord: ManagerOperation = {
       id: operationId,

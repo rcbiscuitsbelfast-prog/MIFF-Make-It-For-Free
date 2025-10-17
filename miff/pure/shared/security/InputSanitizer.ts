@@ -267,7 +267,7 @@ export class InputSanitizer {
   /**
    * Sanitize an object input
    */
-  static sanitizeObject<T extends Record<string, any>>(input: T, options: SanitizationOptions = {}): SanitizationResult<T extends object> {
+  static sanitizeObject<T extends Record<string, any>>(input: T, options: SanitizationOptions = {}): SanitizationResult<T> {
     const warnings: string[] = [];
     const errors: string[] = [];
 
@@ -445,15 +445,15 @@ export class InputSanitizer {
   /**
    * Sanitize any input type
    */
-  static sanitize<T = any>(input: T, options: SanitizationOptions = {}): SanitizationResult<T extends object> {
+  static sanitize<T = any>(input: T, options: SanitizationOptions = {}): SanitizationResult<T> {
     if (typeof input === 'string') {
-      return this.sanitizeString(input, options) as SanitizationResult<T extends object>;
+      return this.sanitizeString(input, options) as SanitizationResult<T>;
     } else if (typeof input === 'number') {
-      return this.sanitizeNumber(input) as SanitizationResult<T extends object>;
+      return this.sanitizeNumber(input) as SanitizationResult<T>;
     } else if (Array.isArray(input)) {
-      return this.sanitizeArray(input, options) as SanitizationResult<T extends object>;
+      return this.sanitizeArray(input, options) as SanitizationResult<T>;
     } else if (input !== null && typeof input === 'object') {
-      return this.sanitizeObject(input, options) as SanitizationResult<T extends object>;
+      return this.sanitizeObject(input, options) as SanitizationResult<T>;
     } else {
       // Other types (boolean, null, undefined, etc.)
       return {

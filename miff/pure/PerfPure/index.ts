@@ -376,7 +376,7 @@ export const PerfUtils = {
   /**
    * Measure execution time of an asynchronous function
    */
-  async measureAsync<T extends object>(label: string, fn: () => Promise<T extends object>): Promise<T extends object> {
+  async measureAsync<T extends object>(label: string, fn: () => Promise<T>): Promise<T> {
     const timer = new PerfTimer(label);
     try {
       return await fn();

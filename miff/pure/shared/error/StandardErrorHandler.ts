@@ -187,7 +187,7 @@ export class StandardErrorHandler {
    * Wrap a function with error handling
    */
   async wrapWithErrorHandling<T extends object>(
-    operation: () => Promise<T extends object>,
+    operation: () => Promise<T>,
     context: ErrorContext,
     fallback?: () => T
   ): Promise<T | null> {
