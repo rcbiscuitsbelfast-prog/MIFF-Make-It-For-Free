@@ -226,7 +226,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0!]?.toLowerCase() || '';
+    const command = parts[0]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -243,14 +243,14 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log(`Current zone: ${state.currentZone}`);
         } else {
-          state.currentZone = args[0!];
+          state.currentZone = args[0];
           state.playerState.zoneId = state.currentZone;
           console.log(`Set zone to: ${state.currentZone}`);
         }
         break;
 
       case 'table':
-        const zoneId = args[0!] || state.currentZone;
+        const zoneId = args[0] || state.currentZone;
         printTable(state.controller, zoneId);
         break;
 
@@ -258,10 +258,10 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: add <spirit_id> <weight> [min_level] [max_level]');
         } else {
-          const spiritId = args[0!];
-          const weight = parseInt(args[1!]);
-          const minLevel = args[2!] ? parseInt(args[2!]) : 1;
-          const maxLevel = args[3!] ? parseInt(args[3!]) : 5;
+          const spiritId = args[0];
+          const weight = parseInt(args[1]);
+          const minLevel = args[2] ? parseInt(args[2]) : 1;
+          const maxLevel = args[3] ? parseInt(args[3]) : 5;
 
           if (isNaN(weight) || weight <= 0) {
             console.log('❌ Weight must be a positive number');
@@ -294,7 +294,7 @@ async function runCLI(): Promise<void> {
         if (args.length < 1) {
           console.log('❌ Usage: trigger <type> [param]');
         } else {
-          const triggerTypeStr = args[0!];
+          const triggerTypeStr = args[0];
           let triggerType: TriggerType;
 
           switch (triggerTypeStr) {
@@ -322,9 +322,9 @@ async function runCLI(): Promise<void> {
 
           const triggerParams: Record<string, string> = {};
           if (triggerType === TriggerType.TILE_TYPE) {
-            triggerParams['tile'] = args[1!];
+            triggerParams['tile'] = args[1];
           } else if (triggerType === TriggerType.TIME_OF_DAY) {
-            triggerParams['time'] = args[1!];
+            triggerParams['time'] = args[1];
           }
 
           const trigger = new (require('./index').EncounterTrigger)(
@@ -343,7 +343,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: simulate <steps>');
         } else {
-          const steps = parseInt(args[0!]);
+          const steps = parseInt(args[0]);
 
           if (isNaN(steps) || steps <= 0) {
             console.log('❌ Steps must be a positive number');
@@ -375,8 +375,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: setstate <tile_type> <time_of_day>');
         } else {
-          state.playerState.tileType = args[0!];
-          state.playerState.timeOfDay = args[1!];
+          state.playerState.tileType = args[0];
+          state.playerState.timeOfDay = args[1];
           console.log(`✅ Set tile type to: ${args[0]}, time of day to: ${args[1]}`);
         }
         break;

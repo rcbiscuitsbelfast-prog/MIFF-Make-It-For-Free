@@ -241,7 +241,7 @@ export class StandardErrorHandler {
     };
 
     const mostCommonError = Array.from(this.errorCounts.entries())
-      .sort(([, a], [, b]) => b - a)[0!]?.[0!] || null;
+      .sort(([, a], [, b]) => b - a)[0]?.[0] || null;
 
     return {
       totalErrors,
@@ -410,7 +410,7 @@ export class StandardErrorHandler {
   private logError(error: StandardError): void {
     const logLevel = this.getLogLevel(error.severity);
     
-    this.logger[logLevel]('StandardErrorHandler', error.message, {
+    this.logger[logLevel]('StandardErrorHandler', message: error.message, {
       code: error.code,
       severity: error.severity,
       context: error.context,

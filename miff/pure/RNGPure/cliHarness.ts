@@ -16,7 +16,7 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const commandsPath = process.argv[2!] || '';
+  const commandsPath = process.argv[2] || '';
   const rng = new RNGProvider(12345);
 
   const log: string[] = [];
@@ -62,4 +62,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -371,7 +371,7 @@ export class MovementManager {
     const followRange = entity.pattern.range || 50;
 
     if (distance > followRange) {
-      this.moveTowards(entity, target.position, entity.pattern.speed);
+      this.moveTowards(entity, position: target.position, entity.pattern.speed);
     } else {
       this.updateIdleMovement(entity, deltaTime);
     }

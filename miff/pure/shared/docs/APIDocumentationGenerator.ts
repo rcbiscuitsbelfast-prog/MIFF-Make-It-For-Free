@@ -486,7 +486,7 @@ export class APIDocumentationGenerator {
     const match = line.match(/export interface (\w+)/);
     if (!match) return null;
 
-    const name = match[1!];
+    const name = match[1];
     const description = this.extractJSDocComment(lines, startIndex);
     
     const interfaceInfo: InterfaceInfo = {
@@ -520,7 +520,7 @@ export class APIDocumentationGenerator {
     const match = line.match(/export class (\w+)/);
     if (!match) return null;
 
-    const name = match[1!];
+    const name = match[1];
     const description = this.extractJSDocComment(lines, startIndex);
     
     const classInfo: ClassInfo = {
@@ -580,7 +580,7 @@ export class APIDocumentationGenerator {
     const match = line.match(/export enum (\w+)/);
     if (!match) return null;
 
-    const name = match[1!];
+    const name = match[1];
     const description = this.extractJSDocComment(lines, startIndex);
     
     const enumInfo: EnumInfo = {
@@ -614,7 +614,7 @@ export class APIDocumentationGenerator {
     const match = line.match(/export function (\w+)/);
     if (!match) return null;
 
-    const name = match[1!];
+    const name = match[1];
     const description = this.extractJSDocComment(lines, startIndex);
     
     return {
@@ -634,7 +634,7 @@ export class APIDocumentationGenerator {
     const match = line.match(/export type (\w+)/);
     if (!match) return null;
 
-    const name = match[1!];
+    const name = match[1];
     const description = this.extractJSDocComment(lines, startIndex);
     
     return {
@@ -653,7 +653,7 @@ export class APIDocumentationGenerator {
     const match = line.match(/(\w+)\s*\(/);
     if (!match) return null;
 
-    const name = match[1!];
+    const name = match[1];
     const description = this.extractJSDocComment(lines, startIndex);
     
     return {
@@ -676,9 +676,9 @@ export class APIDocumentationGenerator {
     if (!match) return null;
 
     return {
-      name: match[1!],
-      type: match[3!].trim(),
-      optional: !!match[2!],
+      name: match[1],
+      type: match[3].trim(),
+      optional: !!match[2],
       readonly: line.includes('readonly'),
       visibility: this.extractVisibility(line),
       static: line.includes('static'),
@@ -694,8 +694,8 @@ export class APIDocumentationGenerator {
     if (!match) return null;
 
     return {
-      name: match[1!],
-      value: match[2!].trim().replace(/['"]/g, ''),
+      name: match[1],
+      value: match[2].trim().replace(/['"]/g, ''),
       source: filePath
     };
   }
@@ -748,7 +748,7 @@ export class APIDocumentationGenerator {
     const paramMatch = line.match(/\(([^)]*)\)/);
     if (!paramMatch) return [];
 
-    const params = paramMatch[1!].split(',').map((p: any) => p.trim()).filter((p: any) => p);
+    const params = paramMatch[1].split(',').map((p: any) => p.trim()).filter((p: any) => p);
     return params.map((param: any) => {
       const [name, type] = param.split(':').map((s: any) => s.trim());
       return {
@@ -765,7 +765,7 @@ export class APIDocumentationGenerator {
    */
   private extractReturnType(line: string): string {
     const returnMatch = line.match(/\)\s*:\s*([^{]+)/);
-    return returnMatch ? returnMatch[1!].trim() : 'void';
+    return returnMatch ? returnMatch[1].trim() : 'void';
   }
 
   /**

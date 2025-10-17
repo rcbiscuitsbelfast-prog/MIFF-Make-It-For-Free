@@ -88,7 +88,7 @@ export class ExportIntegration {
       },
       scene: 0,
       scenes: [{
-        nodes: [0!]
+        nodes: [0]
       }],
       nodes: this.generateGLTFNodes(exportConfig),
       meshes: exportConfig.skin ? this.generateGLTFMeshes(exportConfig.skin) : [],

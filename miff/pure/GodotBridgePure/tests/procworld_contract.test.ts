@@ -26,7 +26,7 @@ describe('GodotBridgePure ← ProceduralWorldPure integration', () => {
     expect(Array.isArray(tile?.data?.tileIndices)).toBe(true);
     const nav = rd.resources.find((r: any)=>r.type==='NavigationRegion');
     expect(Array.isArray(nav?.data?.polygons)).toBe(true);
-    expect(nav.data.polygons[0!].points.length).toBeGreaterThan(2);
+    expect(nav.data.polygons[0].points.length).toBeGreaterThan(2);
     // Future: assert material atlas and nav polygon counts once fully wired
   });
 });

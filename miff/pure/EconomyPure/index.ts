@@ -535,7 +535,7 @@ export class EconomicEngine {
       const buyer = this.entities.get(transaction.buyerId!);
       const totalCost = transaction.price * transaction.quantity + fees + taxes;
 
-      if (!this.hasSufficientFunds(buyer!, transaction.currency, totalCost)) {
+      if (!this.hasSufficientFunds(buyer!, currency: transaction.currency, totalCost)) {
         console.error('Insufficient funds for transaction');
         return false;
       }

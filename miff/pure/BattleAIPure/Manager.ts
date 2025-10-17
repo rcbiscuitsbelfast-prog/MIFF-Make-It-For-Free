@@ -470,10 +470,10 @@ export class BattleAIManager {
         value = this.getConditionValue(condition.type, aiState);
         break;
       case 'enemy':
-        value = this.getConditionValue(condition.type, context.enemies[0!]);
+        value = this.getConditionValue(condition.type, context.enemies[0]);
         break;
       case 'ally':
-        value = this.getConditionValue(condition.type, context.allies[0!]);
+        value = this.getConditionValue(condition.type, context.allies[0]);
         break;
       case 'all_enemies':
         value = context.enemies.length;
@@ -485,7 +485,7 @@ export class BattleAIManager {
         return true;
     }
 
-    return this.compareValues(value, condition.operator, condition.value);
+    return this.compareValues(value, operator: condition.operator, condition.value);
   }
 
   /**
@@ -594,7 +594,7 @@ export class BattleAIManager {
   private getDefaultStrategy(): AIStrategyConfig {
     return Array.from(this.strategies.values())
       .find(s => s.type === this.config.defaultStrategy) || 
-      Array.from(this.strategies.values())[0!];
+      Array.from(this.strategies.values())[0];
   }
 
   /**

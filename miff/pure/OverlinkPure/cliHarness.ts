@@ -29,7 +29,7 @@ function main() {
   }
   
   // Original functionality
-  const configFile = args[0!];
+  const configFile = args[0];
   
   if (!configFile) {
     console.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
@@ -56,4 +56,4 @@ function main() {
   }
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -455,7 +455,7 @@ export class XPLevelingManager {
       // Find most common level
       const sortedLevels = Object.entries(stats.levelDistribution)
         .sort(([,a], [,b]) => b - a);
-      stats.mostCommonLevel = parseInt(sortedLevels[0!]?.[0!] || '1');
+      stats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
 
       // Calculate skill distribution
       entities.forEach((entity: any) => {
@@ -843,7 +843,7 @@ export class XPLevelingManager {
     }
 
     // Award XP for completing challenge
-    const xpResult = this.addXP(entityId, challenge.xpReward, challenge.currency);
+    const xpResult = this.addXP(entityId, xpReward: challenge.xpReward, challenge.currency);
 
     if (xpResult.status === 'ok') {
       entity.activeChallenges.push(challengeId);
@@ -895,7 +895,7 @@ export class XPLevelingManager {
       // Find most common level
       const sortedLevels = Object.entries(detailedStats.levelDistribution)
         .sort(([,a], [,b]) => b - a);
-      detailedStats.mostCommonLevel = parseInt(sortedLevels[0!]?.[0!] || '1');
+      detailedStats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
 
       // Calculate skill distribution
       entities.forEach((entity: any) => {

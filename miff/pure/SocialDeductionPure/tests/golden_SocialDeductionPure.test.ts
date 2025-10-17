@@ -230,7 +230,7 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
         const voteResult = manager.castVote('player1', 'player2', 'accuse', 'Suspicious');
         const votes = manager.getVotes();
 
-        if (voteResult.success && votes.length === 1 && votes[0!].voterId === 'player1') {
+        if (voteResult.success && votes.length === 1 && votes[0].voterId === 'player1') {
           return {
             passed: true,
             message: 'Voting system works correctly'
@@ -262,7 +262,7 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
         manager.startGame();
 
         const players = manager.getPlayers();
-        const detective = Array.from(players.entries()).find(([_, p]) => p.role === 'detective')?.[0!];
+        const detective = Array.from(players.entries()).find(([_, p]) => p.role === 'detective')?.[0];
 
         if (detective) {
           const abilityResult = manager.useAbility(detective, 'investigate', 'player1');
@@ -382,7 +382,7 @@ function createEdgeCaseSuite(): GoldenTestSuite {
 
         // Simulate traitor elimination
         const players = manager.getPlayers();
-        const traitor = Array.from(players.entries()).find(([_, p]) => p.role === 'traitor')?.[0!];
+        const traitor = Array.from(players.entries()).find(([_, p]) => p.role === 'traitor')?.[0];
 
         if (traitor) {
           // Manually mark traitor as dead (normally done by kill ability)

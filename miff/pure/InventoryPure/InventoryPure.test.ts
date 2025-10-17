@@ -161,7 +161,7 @@ describe('InventoryPure', () => {
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.size).toBe(1); // Should be stacked
       
-      const item = Array.from(inventory!.items.values())[0!];
+      const item = Array.from(inventory!.items.values())[0];
       expect(item.quantity).toBe(8);
     });
 
@@ -186,7 +186,7 @@ describe('InventoryPure', () => {
       expect(success).toBe(true);
       
       const inventory = manager.getInventory('player1');
-      const item = Array.from(inventory!.items.values())[0!];
+      const item = Array.from(inventory!.items.values())[0];
       expect(item.quantity).toBe(3);
     });
 
@@ -268,7 +268,7 @@ describe('InventoryPure', () => {
       expect(success).toBe(true);
       
       const inventory = manager.getInventory('player1');
-      const item = Array.from(inventory!.items.values())[0!];
+      const item = Array.from(inventory!.items.values())[0];
       expect(item.quantity).toBe(2);
     });
 
@@ -293,7 +293,7 @@ describe('InventoryPure', () => {
       const afterUse = Date.now();
       
       const inventory = manager.getInventory('player1');
-      const item = Array.from(inventory!.items.values())[0!];
+      const item = Array.from(inventory!.items.values())[0];
       expect(item.lastUsed).toBeGreaterThanOrEqual(beforeUse);
       expect(item.lastUsed).toBeLessThanOrEqual(afterUse);
     });
@@ -396,21 +396,21 @@ describe('InventoryPure', () => {
     it('should notify observers when items are added', () => {
       manager.addItem('player1', 'sword');
       expect(receivedTransactions.length).toBe(1);
-      expect(receivedTransactions[0!].type).toBe('add');
+      expect(receivedTransactions[0].type).toBe('add');
     });
 
     it('should notify observers when items are removed', () => {
       manager.addItem('player1', 'sword');
       manager.removeItem('player1', 'slot_0');
       expect(receivedTransactions.length).toBe(2);
-      expect(receivedTransactions[1!].type).toBe('remove');
+      expect(receivedTransactions[1].type).toBe('remove');
     });
 
     it('should notify observers when items are used', () => {
       manager.addItem('player1', 'health_potion');
       manager.useItem('player1', 'slot_0');
       expect(receivedTransactions.length).toBe(2); // add + use
-      expect(receivedTransactions[1!].type).toBe('use');
+      expect(receivedTransactions[1].type).toBe('use');
     });
 
     it('should remove observers', () => {

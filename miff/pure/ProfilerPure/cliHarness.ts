@@ -13,8 +13,8 @@ import {
 
 function main() {
   const args = process.argv.slice(2);
-  const command = args[0!] || 'help';
-  const configFile = args[1!];
+  const command = args[0] || 'help';
+  const configFile = args[1];
   
   let config: ProfilerConfig = {
     enabled: true,
@@ -52,7 +52,7 @@ function main() {
         break;
 
       case 'startFrame':
-        const frameNumber = parseInt(args[1!]) || 0;
+        const frameNumber = parseInt(args[1]) || 0;
         profiler.startFrame(frameNumber);
         result.result = { message: `Frame ${frameNumber} started` };
         break;
@@ -63,14 +63,14 @@ function main() {
         break;
 
       case 'beginSample':
-        const sampleName = args[1!] || 'sample';
-        const category = args[2!] || 'default';
+        const sampleName = args[1] || 'sample';
+        const category = args[2] || 'default';
         const newSampleId = profiler.beginSample(sampleName, category);
         result.result = { sampleId: newSampleId, message: `Sample '${sampleName}' started` };
         break;
 
       case 'endSample':
-        const endSampleId = args[1!];
+        const endSampleId = args[1];
         if (endSampleId) {
           profiler.endSample(endSampleId);
           result.result = { message: `Sample ${endSampleId} ended` };
@@ -81,10 +81,10 @@ function main() {
         break;
 
       case 'recordMetric':
-        const metricName = args[1!] || 'metric';
-        const value = parseFloat(args[2!]) || 0;
-        const unit = args[3!] || '';
-        const metricCategory = args[4!] || 'default';
+        const metricName = args[1] || 'metric';
+        const value = parseFloat(args[2]) || 0;
+        const unit = args[3] || '';
+        const metricCategory = args[4] || 'default';
         profiler.recordMetric(metricName, value, unit, metricCategory);
         result.result = { message: `Metric '${metricName}' recorded` };
         break;
@@ -115,7 +115,7 @@ function main() {
         break;
 
       case 'exportReport':
-        const format = (args[1!] as 'json' | 'csv' | 'console') || 'json';
+        const format = (args[1] as 'json' | 'csv' | 'console') || 'json';
         const reportData = profiler.exportReport(format);
         result.result = { data: reportData, format };
         break;
@@ -255,4 +255,4 @@ function runDemo(profiler: Profiler): any {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) main();
+if (import.meta.url === `file://${process.argv[1]}`) main();

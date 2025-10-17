@@ -33,7 +33,7 @@ async function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: TestHarnessOperation;
 
     // Handle direct command or JSON file input
@@ -44,7 +44,7 @@ async function main() {
       // Parse subcommand
       switch (first) {
         case 'create':
-          const configFile = argv[1!];
+          const configFile = argv[1];
           const config = configFile && fs.existsSync(configFile) 
             ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
             : {
@@ -60,22 +60,22 @@ async function main() {
           operation = { op: 'create', config };
           break;
         case 'add-suite':
-          if (!argv[1!]) throw new Error('add-suite requires suite JSON');
-          operation = { op: 'add-suite', suite: JSON.parse(argv[1!]) };
+          if (!argv[1]) throw new Error('add-suite requires suite JSON');
+          operation = { op: 'add-suite', suite: JSON.parse(argv[1]) };
           break;
         case 'add-test':
-          if (!argv[1!] || !argv[2!]) throw new Error('add-test requires suiteId and test JSON');
+          if (!argv[1] || !argv[2]) throw new Error('add-test requires suiteId and test JSON');
           operation = { op: 'add-test', suiteId: argv[1], test: JSON.parse(argv[2]) };
           break;
         case 'run':
           operation = { op: 'run' };
           break;
         case 'run-suite':
-          if (!argv[1!]) throw new Error('run-suite requires suiteId');
-          operation = { op: 'run-suite', suiteId: argv[1!] };
+          if (!argv[1]) throw new Error('run-suite requires suiteId');
+          operation = { op: 'run-suite', suiteId: argv[1] };
           break;
         case 'run-test':
-          if (!argv[1!] || !argv[2!]) throw new Error('run-test requires suiteId and testId');
+          if (!argv[1] || !argv[2]) throw new Error('run-test requires suiteId and testId');
           operation = { op: 'run-test', suiteId: argv[1], testId: argv[2] };
           break;
         case 'get-report':
@@ -428,7 +428,7 @@ async function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -466,6 +466,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

@@ -23,8 +23,8 @@ describe('RemixLineageTracker', () => {
       const origins = tracker.getRemixOrigins();
       
       expect(origins).toHaveLength(1);
-      expect(origins[0!].id).toBe('test_001');
-      expect(origins[0!].originalProject).toBe('MIFF Framework');
+      expect(origins[0].id).toBe('test_001');
+      expect(origins[0].originalProject).toBe('MIFF Framework');
     });
 
     test('should create metadata when first origin is registered', () => {

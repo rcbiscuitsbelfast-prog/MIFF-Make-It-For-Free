@@ -515,7 +515,7 @@ export class CacheManager {
     this.log(`Preloading ${items.length} items`);
     
     for (const item of items) {
-      this.set(item.key, item.data, { ttl: item.ttl });
+      this.set(item.key, data: item.data, { ttl: item.ttl });
     }
   }
 

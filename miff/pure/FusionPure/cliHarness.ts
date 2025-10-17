@@ -239,8 +239,8 @@ class FusionCli {
     const [spiritIdA, spiritIdB] = args;
 
     // Create mock spirits for testing
-    const spiritA = this.createMockSpirit(spiritIdA.split('_')[0!] || 'fire_spirit', 25);
-    const spiritB = this.createMockSpirit(spiritIdB.split('_')[0!] || 'water_spirit', 25);
+    const spiritA = this.createMockSpirit(spiritIdA.split('_')[0] || 'fire_spirit', 25);
+    const spiritB = this.createMockSpirit(spiritIdB.split('_')[0] || 'water_spirit', 25);
 
     if (!spiritA || !spiritB) {
       console.log('❌ Invalid spirit IDs. Use species names like fire_spirit, water_spirit.');
@@ -303,7 +303,7 @@ class FusionCli {
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
-    const attempts = parseInt(args[0!]) || 10;
+    const attempts = parseInt(args[0]) || 10;
     console.log(`🧪 Running fusion simulation for ${attempts} attempts...`);
 
     const species = ['fire_spirit', 'water_spirit', 'grass_spirit', 'electric_spirit', 'poison_spirit', 'steel_spirit'];
@@ -344,7 +344,7 @@ class FusionCli {
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
-    const operations = parseInt(args[0!]) || 100;
+    const operations = parseInt(args[0]) || 100;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
@@ -379,7 +379,7 @@ class FusionCli {
   }
 
   private handleEnergy(args: string[]): void {
-    const amount = args[0!] ? parseInt(args[0!]) : 100;
+    const amount = args[0] ? parseInt(args[0]) : 100;
     this.context.energy = Math.max(0, Math.min(100, amount));
 
     console.log(`⚡ Energy set to: ${this.context.energy}`);
@@ -492,7 +492,7 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 

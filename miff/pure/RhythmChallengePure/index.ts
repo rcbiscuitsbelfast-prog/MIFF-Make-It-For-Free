@@ -586,7 +586,7 @@ export class RhythmChallengePure {
     this.eventBus.publish('rhythm:game_updated', {
       gameId: gameId,
       currentTime: game.currentTime,
-      score: game.players[0!]?.score || 0,
+      score: game.players[0]?.score || 0,
       health: game.health,
       timestamp: new Date()
     });
@@ -617,7 +617,7 @@ export class RhythmChallengePure {
     game.state = game.state === 'failed' ? 'failed' : 'finished';
 
     // Calculate final results
-    const player = game.players[0!];
+    const player = game.players[0];
     if (player) {
       const result: ChallengeResult = {
         gameId: gameId,

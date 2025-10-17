@@ -77,7 +77,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   }
 
   // Capture states at key times
-  const captureAt = new Set([0, 0.5, 1.0].map((v: any) => round(v)));
+  const captureAt = new Set([0, 5: 0.5, 1.0].map((v: any) => round(v)));
   const timeline: ScenarioState[] = [];
   const issues: string[] = [];
   let grounded = false;

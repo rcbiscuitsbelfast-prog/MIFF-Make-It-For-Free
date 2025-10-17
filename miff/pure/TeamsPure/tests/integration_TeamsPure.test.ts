@@ -104,9 +104,9 @@ describe('TeamsPure Integration Tests', () => {
     itemManager = new ItemUsageManager({ playerId: 'test', inventory, flags: {} } as IPlayerContext);
     
     // Register items
-    const healthPotion = new Item('health_potion', 'Health Potion', ItemType.CONSUMABLE, new ItemEffect(ItemEffectType.HEAL, 10), 'any');
-    const reviveCrystal = new Item('revive_crystal', 'Revive Crystal', ItemType.CONSUMABLE, new ItemEffect(ItemEffectType.REVIVE, 50), 'faintedonly');
-    const flameSword = new Item('flame_sword', 'Flame Sword', ItemType.WEAPON, new ItemEffect(ItemEffectType.BUFF_ATTACK, 100), 'any');
+    const healthPotion = new Item('health_potion', 'Health Potion', CONSUMABLE: ItemType.CONSUMABLE, new ItemEffect(ItemEffectType.HEAL, 10), 'any');
+    const reviveCrystal = new Item('revive_crystal', 'Revive Crystal', CONSUMABLE: ItemType.CONSUMABLE, new ItemEffect(ItemEffectType.REVIVE, 50), 'faintedonly');
+    const flameSword = new Item('flame_sword', 'Flame Sword', WEAPON: ItemType.WEAPON, new ItemEffect(ItemEffectType.BUFF_ATTACK, 100), 'any');
     
     itemManager.registerItem(healthPotion);
     itemManager.registerItem(reviveCrystal);
@@ -114,7 +114,7 @@ describe('TeamsPure Integration Tests', () => {
     
     // Register potions
     for (let i = 0; i < 5; i++) {
-      const potion = new Item(`potion_${i}`, `Potion ${i}`, ItemType.CONSUMABLE, ItemEffectType.HEAL, `Healing potion ${i}`, 10, 'self');
+      const potion = new Item(`potion_${i}`, `Potion ${i}`, CONSUMABLE: ItemType.CONSUMABLE, ItemEffectType.HEAL, `Healing potion ${i}`, 10, 'self');
       itemManager.registerItem(potion);
     }
     
@@ -187,8 +187,8 @@ describe('TeamsPure Integration Tests', () => {
       });
 
       // Test combat interactions
-      const tank = spirits[0!];
-      const dps = spirits[1!];
+      const tank = spirits[0];
+      const dps = spirits[1];
 
       // Tank should have higher defense
       expect(tank.stats.def).toBeGreaterThan(dps.stats.def);
@@ -278,10 +278,10 @@ describe('TeamsPure Integration Tests', () => {
       itemManager.registerItem(attackBuff);
 
       // Test item usage
-      const healResult = itemManager.useItem('health_potion', spirits[0!]);
+      const healResult = itemManager.useItem('health_potion', spirits[0]);
       expect(healResult.status).toBe('Success');
 
-      const reviveResult = itemManager.useItem('revive_crystal', spirits[1!]);
+      const reviveResult = itemManager.useItem('revive_crystal', spirits[1]);
       expect(reviveResult.status).toBe('Success');
 
       // Test team statistics after healing
@@ -321,8 +321,8 @@ describe('TeamsPure Integration Tests', () => {
       itemManager.registerItem(supportItem);
 
       // Test item compatibility
-      const tankResult = itemManager.canUseItem('iron_shield', spirits[1!]);
-      const dpsResult = itemManager.canUseItem('flame_sword', spirits[2!]);
+      const tankResult = itemManager.canUseItem('iron_shield', spirits[1]);
+      const dpsResult = itemManager.canUseItem('flame_sword', spirits[2]);
 
       expect(tankResult).toBe(true); // Tank can use defensive item
       expect(dpsResult).toBe(true); // DPS can use offensive item
@@ -356,7 +356,7 @@ describe('TeamsPure Integration Tests', () => {
 
       // Use multiple potions
       for (let i = 0; i < 5; i++) {
-        const result = itemManager.useItem(`potion_${i}`, spirits[0!]);
+        const result = itemManager.useItem(`potion_${i}`, spirits[0]);
         expect(result.status).toBe('Success');
       }
 
@@ -425,9 +425,9 @@ describe('TeamsPure Integration Tests', () => {
 
       // Create sync entries with different levels
       const syncEntries = [
-        new SpiritSyncEntry(spirits[0!].instanceId, 85), // High sync
-        new SpiritSyncEntry(spirits[1!].instanceId, 60), // Medium sync
-        new SpiritSyncEntry(spirits[2!].instanceId, 35)  // Low sync
+        new SpiritSyncEntry(spirits[0].instanceId, 85), // High sync
+        new SpiritSyncEntry(spirits[1].instanceId, 60), // Medium sync
+        new SpiritSyncEntry(spirits[2].instanceId, 35)  // Low sync
       ];
 
       syncEntries.forEach(entry => {
@@ -436,9 +436,9 @@ describe('TeamsPure Integration Tests', () => {
 
       // Set sync levels
       const syncMap = new Map<string, number>();
-      syncMap.set(spirits[0!].instanceId, 85);
-      syncMap.set(spirits[1!].instanceId, 60);
-      syncMap.set(spirits[2!].instanceId, 35);
+      syncMap.set(spirits[0].instanceId, 85);
+      syncMap.set(spirits[1].instanceId, 60);
+      syncMap.set(spirits[2].instanceId, 35);
 
       // Test sync-based calculations
       const avgSync = team.getAverageSync(syncMap);
@@ -448,8 +448,8 @@ describe('TeamsPure Integration Tests', () => {
       expect(synergy).toBeGreaterThan(55);
 
       // High sync should contribute more to team strength
-      const highSyncSpirit = spirits[0!];
-      const lowSyncSpirit = spirits[2!];
+      const highSyncSpirit = spirits[0];
+      const lowSyncSpirit = spirits[2];
 
       expect(highSyncSpirit.level).toBeGreaterThan(lowSyncSpirit.level);
     });
@@ -582,8 +582,8 @@ describe('TeamsPure Integration Tests', () => {
 
       // Test item usage in battle context
       // First damage the spirit so healing will have an effect
-      playerSpirits[0!].currentHP = Math.floor(playerSpirits[0!].maxHP * 0.5); // Damage to 50% HP
-      const healResult = itemManager.useItem('health_potion', playerSpirits[0!]);
+      playerSpirits[0].currentHP = Math.floor(playerSpirits[0].maxHP * 0.5); // Damage to 50% HP
+      const healResult = itemManager.useItem('health_potion', playerSpirits[0]);
       expect(healResult.status).toBe('success');
 
       // Verify combat engine integration
@@ -684,7 +684,7 @@ describe('TeamsPure Integration Tests', () => {
       ];
 
       const spiritInstances = spirits.map(spiritData =>
-        spiritManager.createSpirit(spiritData.name, spiritData.type, spiritData.level, spiritData.stats)
+        spiritManager.createSpirit(spiritData.name, type: spiritData.type, spiritData.level, spiritData.stats)
       );
 
       spiritInstances.forEach(spirit => {

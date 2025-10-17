@@ -253,7 +253,7 @@ export class AudioSystem {
   }
 
   playSpatialSound(soundId: string, spatialConfig: SpatialAudioConfig): string | null {
-    const instanceId = this.playSound(soundId, spatialConfig.volume, spatialConfig.pitch);
+    const instanceId = this.playSound(soundId, volume: spatialConfig.volume, spatialConfig.pitch);
 
     if (instanceId && this.audioContext) {
       const instance = this.activeSounds.get(instanceId);
@@ -490,7 +490,7 @@ export class AudioSystem {
 
     const spatial = instance.spatial as SpatialAudioConfig;
     const distance = this.calculateDistance(spatial.position, this.listenerPosition);
-    const volume = this.calculateSpatialVolume(distance, spatial.volume, spatial);
+    const volume = this.calculateSpatialVolume(distance, volume: spatial.volume, spatial);
     const dopplerShift = this.calculateAdvancedDopplerEffect(spatial.velocity, this.listenerVelocity);
     const directivity = this.calculateDirectivity(spatial);
 

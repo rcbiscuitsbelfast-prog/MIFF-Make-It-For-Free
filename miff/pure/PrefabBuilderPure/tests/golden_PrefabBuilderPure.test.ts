@@ -8,8 +8,8 @@ describe('PrefabBuilderPure golden', () => {
 
     expect(moved.id).toBe('pf1');
     expect(moved.blocks).toHaveLength(2);
-    expect(moved.blocks[0!].x).toBe(2);
-    expect(moved.blocks[1!].type).toBe('door');
+    expect(moved.blocks[0].x).toBe(2);
+    expect(moved.blocks[1].type).toBe('door');
   });
 });
 

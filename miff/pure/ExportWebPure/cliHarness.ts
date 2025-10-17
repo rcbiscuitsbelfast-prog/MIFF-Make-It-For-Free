@@ -36,6 +36,6 @@ function main() {
   // TODO: implement Godot HTML5 export and manifest generation
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }

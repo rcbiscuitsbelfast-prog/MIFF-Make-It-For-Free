@@ -189,7 +189,7 @@ export class AvatarSystemPure {
 
     for (const comp of components) {
       const anchor = AvatarSystemPure.anchorFor(comp);
-      const url = AvatarSystemPure.findAssetURL(anchor, opts.registry, opts.style);
+      const url = AvatarSystemPure.findAssetURL(anchor, registry: opts.registry, opts.style);
       entries.push({
         anchor,
         url,

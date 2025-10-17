@@ -23,7 +23,7 @@ class ProductionCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -67,7 +67,7 @@ class ProductionCLI {
   }
 
   private async assessReadiness(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'production-readiness-report.json';
+    const outputFile = args[0] || 'production-readiness-report.json';
 
     console.info('🔍 Assessing production readiness...');
     
@@ -117,7 +117,7 @@ class ProductionCLI {
   }
 
   private async setupPipeline(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'deployment-pipeline-config.json';
+    const outputFile = args[0] || 'deployment-pipeline-config.json';
 
     console.info('🚀 Setting up deployment pipeline...');
     
@@ -135,8 +135,8 @@ class ProductionCLI {
   }
 
   private async configureEnvironment(args: string[]): Promise<void> {
-    const environment = args[0!] || 'production';
-    const outputFile = args[1!] || `${environment}-config.json`;
+    const environment = args[0] || 'production';
+    const outputFile = args[1] || `${environment}-config.json`;
 
     console.info(`⚙️ Configuring ${environment} environment...`);
     
@@ -154,7 +154,7 @@ class ProductionCLI {
   }
 
   private async setupMonitoring(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'monitoring-config.json';
+    const outputFile = args[0] || 'monitoring-config.json';
 
     console.info('📊 Setting up monitoring and alerting...');
     
@@ -172,7 +172,7 @@ class ProductionCLI {
   }
 
   private async performSecurityAudit(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'security-audit-report.json';
+    const outputFile = args[0] || 'security-audit-report.json';
 
     console.info('🔒 Performing security audit...');
     
@@ -189,7 +189,7 @@ class ProductionCLI {
   }
 
   private async listEnvironments(args: string[]): Promise<void> {
-    const outputFile = args[0!];
+    const outputFile = args[0];
 
     console.info('🌐 Listing deployment environments...');
     
@@ -214,7 +214,7 @@ class ProductionCLI {
   }
 
   private async listPipelines(args: string[]): Promise<void> {
-    const outputFile = args[0!];
+    const outputFile = args[0];
 
     console.info('🚀 Listing deployment pipelines...');
     
@@ -239,7 +239,7 @@ class ProductionCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'production-deployment-report.html';
+    const outputFile = args[0] || 'production-deployment-report.html';
 
     console.info('📊 Generating production deployment report...');
     
@@ -268,8 +268,8 @@ class ProductionCLI {
   }
 
   private async deployToEnvironment(args: string[]): Promise<void> {
-    const environment = args[0!] || 'production';
-    const version = args[1!] || 'latest';
+    const environment = args[0] || 'production';
+    const version = args[1] || 'latest';
 
     console.info(`🚀 Deploying version ${version} to ${environment} environment...`);
     
@@ -475,7 +475,7 @@ Environment Types:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new ProductionCLI();
   cli.run().catch(console.error);
 }

@@ -11,8 +11,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const manifestPath = process.argv[2!] || 'AssetManifestPure/fixtures/sprites.json';
-  const commandsPath = process.argv[3!] || '';
+  const manifestPath = process.argv[2] || 'AssetManifestPure/fixtures/sprites.json';
+  const commandsPath = process.argv[3] || '';
   
   const obj = JSON.parse(fs.readFileSync(path.resolve(manifestPath), 'utf-8')) as { assets: AssetEntry[] };
 
@@ -42,4 +42,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -94,7 +94,7 @@ export class EvolutionPureCLI {
    */
   private async processCommand(input: string): Promise<void> {
     const parts = input.trim().split(' ');
-    const command = parts[0!]?.toLowerCase();
+    const command = parts[0]?.toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -180,9 +180,9 @@ export class EvolutionPureCLI {
       return;
     }
 
-    const name = args[0!];
-    const type = args[1!];
-    const level = parseInt(args[2!], 10);
+    const name = args[0];
+    const type = args[1];
+    const level = parseInt(args[2], 10);
 
     if (level <= 0 || level > 100) {
       console.log('❌ Level must be between 1 and 100');
@@ -222,7 +222,7 @@ export class EvolutionPureCLI {
       return;
     }
 
-    const spiritId = args[0!];
+    const spiritId = args[0];
     const spirit = EvolutionUtils.createMockSpirit(spiritId, 1);
 
     console.log(`🔄 Attempting to evolve: ${spiritId}`);
@@ -265,7 +265,7 @@ export class EvolutionPureCLI {
       return;
     }
 
-    const speciesId = args[0!];
+    const speciesId = args[0];
     const spirit = EvolutionUtils.createMockSpirit(speciesId, 1);
 
     console.log(`🔍 Checking evolution for: ${speciesId}`);
@@ -332,10 +332,10 @@ export class EvolutionPureCLI {
       return;
     }
 
-    const speciesId = args[0!];
-    const targetId = args[1!];
-    const conditionType = args[2!]?.toLowerCase();
-    const value = args[3!];
+    const speciesId = args[0];
+    const targetId = args[1];
+    const conditionType = args[2]?.toLowerCase();
+    const value = args[3];
 
     let condition: EvolutionCondition | null = null;
 
@@ -401,7 +401,7 @@ export class EvolutionPureCLI {
       return;
     }
 
-    const speciesId = args[0!];
+    const speciesId = args[0];
     const chain = this.evolutionManager.getEvolutionChain(speciesId);
 
     console.log(`\n🧬 Evolution Chain for ${speciesId}:`);
@@ -417,7 +417,7 @@ export class EvolutionPureCLI {
 
     console.log(`\n📊 Chain Statistics:`);
     console.log(`  Length: ${chain.length}`);
-    console.log(`  Starting species: ${chain[0!]}`);
+    console.log(`  Starting species: ${chain[0]}`);
     console.log(`  Final evolution: ${chain[chain.length - 1]}`);
   }
 
@@ -481,10 +481,10 @@ export class EvolutionPureCLI {
 
     // Test different evolution scenarios
     const scenarios = [
-      { name: 'Level Evolution', spirit: spirits[0!], expected: 'Can evolve via level' },
-      { name: 'Item Evolution', spirit: spirits[1!], expected: 'Cannot evolve (no fire stone)' },
-      { name: 'Sync Evolution', spirit: spirits[2!], expected: 'Can evolve via sync' },
-      { name: 'Complex Evolution', spirit: spirits[3!], expected: 'Can evolve (high level + item)' }
+      { name: 'Level Evolution', spirit: spirits[0], expected: 'Can evolve via level' },
+      { name: 'Item Evolution', spirit: spirits[1], expected: 'Cannot evolve (no fire stone)' },
+      { name: 'Sync Evolution', spirit: spirits[2], expected: 'Can evolve via sync' },
+      { name: 'Complex Evolution', spirit: spirits[3], expected: 'Can evolve (high level + item)' }
     ];
 
     scenarios.forEach((scenario, index) => {
@@ -568,10 +568,10 @@ export const EvolutionPureCLIUtils = {
       return false;
     }
 
-    const speciesId = args[0!];
-    const targetId = args[1!];
-    const conditionType = args[2!]?.toLowerCase();
-    const value = args[3!];
+    const speciesId = args[0];
+    const targetId = args[1];
+    const conditionType = args[2]?.toLowerCase();
+    const value = args[3];
 
     let condition: EvolutionCondition | null = null;
 
@@ -622,7 +622,7 @@ export const EvolutionPureCLIUtils = {
       return;
     }
 
-    const speciesId = args[0!];
+    const speciesId = args[0];
     const spirit = EvolutionUtils.createMockSpirit(speciesId, 25);
 
     console.log(`🧬 Testing evolution for: ${speciesId}`);

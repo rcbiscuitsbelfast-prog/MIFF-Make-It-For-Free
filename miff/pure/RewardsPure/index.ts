@@ -79,7 +79,7 @@ export class RewardStub implements IRewardStub {
    * Create a copy of this reward
    */
   clone(): RewardStub {
-    return new RewardStub(this.currency, this.xpGain, this.itemId);
+    return new RewardStub(this.currency, xpGain: this.xpGain, this.itemId);
   }
 
   /**
@@ -590,7 +590,7 @@ export const RewardUtils = {
         reward.currency % recipientCount,
         reward.xpGain % recipientCount
       );
-      rewards[0!].add(remainder);
+      rewards[0].add(remainder);
     }
 
     return rewards;

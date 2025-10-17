@@ -441,7 +441,7 @@ export class WeatherSystemManager {
     }
 
     if (transition && this.config.enableDynamicTransitions) {
-      this.createWeatherTransition(zoneId, zone.weather, weather);
+      this.createWeatherTransition(zoneId, weather: zone.weather, weather);
     } else {
       zone.weather = weather;
       zone.lastUpdate = Date.now();

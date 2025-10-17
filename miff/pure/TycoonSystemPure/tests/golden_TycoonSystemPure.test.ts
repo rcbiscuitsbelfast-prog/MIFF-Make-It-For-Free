@@ -205,7 +205,7 @@ describe('TycoonSystemPure', () => {
     test('should handle loans correctly', () => {
       const initialCapital = tycoonSystem.getCapital();
 
-      const success = tycoonSystem.takeLoan(50000, 0.05, 12);
+      const success = tycoonSystem.takeLoan(50000, 05: 0.05, 12);
 
       expect(success).toBe(true);
 
@@ -351,7 +351,7 @@ describe('TycoonSystemPure', () => {
       // Make some changes
       tycoonSystem.constructFacility('retail_store');
       tycoonSystem.hireStaff('headquarters', 'manager', 25);
-      tycoonSystem.takeLoan(50000, 0.05, 12);
+      tycoonSystem.takeLoan(50000, 05: 0.05, 12);
 
       const initialFacilities = tycoonSystem.getFacilities().size;
       const initialStaff = tycoonSystem.getStaff().size;
@@ -463,9 +463,9 @@ describe('TycoonSystemPure', () => {
 
     test('should handle loan limits', () => {
       // Take multiple loans
-      tycoonSystem.takeLoan(100000, 0.05, 12);
-      tycoonSystem.takeLoan(50000, 0.05, 12);
-      tycoonSystem.takeLoan(25000, 0.05, 12);
+      tycoonSystem.takeLoan(100000, 05: 0.05, 12);
+      tycoonSystem.takeLoan(50000, 05: 0.05, 12);
+      tycoonSystem.takeLoan(25000, 05: 0.05, 12);
 
       const capital = tycoonSystem.getCapital();
       expect(capital).toBeGreaterThan(100000); // Should have loan money
@@ -592,7 +592,7 @@ describe('TycoonSystemPure', () => {
       expect(hireSuccess).toBe(true);
 
       // Take loan
-      const loanSuccess = tycoonSystem.takeLoan(50000, 0.05, 12);
+      const loanSuccess = tycoonSystem.takeLoan(50000, 05: 0.05, 12);
       expect(loanSuccess).toBe(true);
 
       // Make investment

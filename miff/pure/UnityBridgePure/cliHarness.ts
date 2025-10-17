@@ -22,15 +22,15 @@ function main() {
 
   try {
     let input: UnityBridgeOperation;
-    if (argv.length >= 2 && !argv[2!]?.endsWith('.json')) {
+    if (argv.length >= 2 && !argv[2]?.endsWith('.json')) {
       // subcommand style without payload file
       input = { op: argv[0] as any, module: argv[1] } as UnityBridgeOperation;
     } else if (argv.length >= 3) {
-      const payload = argv[2!] && fs.existsSync(argv[2!]) ? JSON.parse(fs.readFileSync(argv[2!], 'utf-8')) : {};
+      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
       input = { op: argv[0] as any, module: argv[1], data: payload } as UnityBridgeOperation;
     } else {
       // file-only invocation
-      const inputFile = argv[0!];
+      const inputFile = argv[0];
       input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as UnityBridgeOperation;
     }
     
@@ -206,9 +206,9 @@ ${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name
 }
 
 try {
-  const invoked = fs.realpathSync(process.argv[1!]);
+  const invoked = fs.realpathSync(process.argv[1]);
   const here = fs.realpathSync(fileURLToPath(import.meta.url));
   if (invoked === here) main();
 } catch {
-  if(import.meta.url === `file://${process.argv[1!]}`) main();
+  if(import.meta.url === `file://${process.argv[1]}`) main();
 }

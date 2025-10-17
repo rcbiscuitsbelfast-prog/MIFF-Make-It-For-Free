@@ -514,7 +514,7 @@ export class AIProfileManager {
 
     // Schedule-based behavior
     if (profile.schedule && profile.schedule.length > 0) {
-      const currentEntry = profile.schedule[0!];
+      const currentEntry = profile.schedule[0];
       actions.push(`schedule:${currentEntry.time}:${currentEntry.action}`);
       this.hooks.onScheduleTrigger?.(npcId, currentEntry);
     }

@@ -11,8 +11,8 @@ type Cmd =
   | { op: 'exportDialog'; dialogId: string };
 
 function main() {
-  const dialogsPath = process.argv[2!] || path.resolve('DialogPure/sample_dialog.json');
-  const commandsPath = process.argv[3!] || '';
+  const dialogsPath = process.argv[2] || path.resolve('DialogPure/sample_dialog.json');
+  const commandsPath = process.argv[3] || '';
   const obj = JSON.parse(fs.readFileSync(path.resolve(dialogsPath), 'utf-8'));
   const sim = new DialogSim({
     onDialogChoiceMade: (d, c) => {/* hook for remix */},
@@ -44,5 +44,5 @@ function main() {
   console.log(JSON.stringify({ outputs }, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
 

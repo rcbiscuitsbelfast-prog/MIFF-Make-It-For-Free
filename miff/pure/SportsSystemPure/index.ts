@@ -348,7 +348,7 @@ export class SportsSystemPure {
     game.startTime = Date.now();
 
     // Give home advantage to first team
-    game.teams[0!].homeAdvantage = true;
+    game.teams[0].homeAdvantage = true;
 
     this.eventBus.publish('sports:game_started', {
       gameId: gameId,

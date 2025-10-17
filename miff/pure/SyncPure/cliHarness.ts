@@ -162,7 +162,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0!]?.toLowerCase() || '';
+    const command = parts[0]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -179,7 +179,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: spirit <spirit_id>');
         } else {
-          printSpiritInfo(state, args[0!]);
+          printSpiritInfo(state, args[0]);
         }
         break;
 
@@ -187,8 +187,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: add <spirit_id> <initial_level>');
         } else {
-          const spiritId = args[0!];
-          const initialLevel = parseInt(args[1!]);
+          const spiritId = args[0];
+          const initialLevel = parseInt(args[1]);
 
           if (isNaN(initialLevel) || initialLevel < 0) {
             console.log('❌ Initial level must be a non-negative number');
@@ -204,8 +204,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: sync <spirit_id> <amount>');
         } else {
-          const spiritId = args[0!];
-          const amount = parseInt(args[1!]);
+          const spiritId = args[0];
+          const amount = parseInt(args[1]);
 
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Sync amount must be a positive number');
@@ -220,7 +220,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: reset <spirit_id>');
         } else {
-          const spiritId = args[0!];
+          const spiritId = args[0];
           const oldLevel = state.syncManager.resetSync(spiritId);
           console.log(`✅ Reset ${spiritId} sync from ${oldLevel} to 0`);
         }
@@ -230,9 +230,9 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: event <spirit_id> <trigger>');
         } else {
-          const spiritId = args[0!];
-          const triggerStr = args[1!];
-          const tag = args[2!];
+          const spiritId = args[0];
+          const triggerStr = args[1];
+          const tag = args[2];
 
           let syncEvent: SyncEvent;
 
@@ -267,7 +267,7 @@ async function runCLI(): Promise<void> {
         if (args.length < 1) {
           console.log('❌ Usage: thresholds <spirit_id> [threshold1 threshold2 ...]');
         } else {
-          const spiritId = args[0!];
+          const spiritId = args[0];
           const thresholds = args.slice(1).map((t: any) => parseInt(t)).filter((t: any) => !isNaN(t));
 
           if (thresholds.length === 0) {
@@ -283,8 +283,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: challenge <bpm> <difficulty>');
         } else {
-          const bpm = parseFloat(args[0!]);
-          const difficulty = parseInt(args[1!]);
+          const bpm = parseFloat(args[0]);
+          const difficulty = parseInt(args[1]);
 
           if (isNaN(bpm) || bpm < 60 || bpm > 200) {
             console.log('❌ BPM must be between 60 and 200');
@@ -303,7 +303,7 @@ async function runCLI(): Promise<void> {
         } else if (args.length === 0) {
           console.log('❌ Usage: play <accuracy>');
         } else {
-          const accuracy = parseFloat(args[0!]);
+          const accuracy = parseFloat(args[0]);
 
           if (isNaN(accuracy) || accuracy < 0 || accuracy > 1) {
             console.log('❌ Accuracy must be between 0.0 and 1.0');
@@ -329,8 +329,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: battle <spirit_id> <difficulty>');
         } else {
-          const spiritId = args[0!];
-          const difficulty = parseInt(args[1!]);
+          const spiritId = args[0];
+          const difficulty = parseInt(args[1]);
 
           if (isNaN(difficulty) || difficulty < 1) {
             console.log('❌ Difficulty must be a positive number');
@@ -347,8 +347,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: item <spirit_id> <rarity>');
         } else {
-          const spiritId = args[0!];
-          const rarity = args[1!] as 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+          const spiritId = args[0];
+          const rarity = args[1] as 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
           if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(rarity)) {
             console.log('❌ Rarity must be: common, uncommon, rare, epic, legendary');

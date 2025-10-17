@@ -1792,7 +1792,7 @@ export class UnrealBridgeManager {
       timestamp: new Date(),
       payload: {
         timestamp: new Date(),
-        connectionId: Array.from(this.connections.keys())[0!],
+        connectionId: Array.from(this.connections.keys())[0],
         statistics: this.statistics
       },
       priority: 0,
@@ -2069,7 +2069,7 @@ export class UnrealBridgeManager {
   getConnectionStatus(): 'connected' | 'disconnected' | 'connecting' | 'error' {
     if (!this.isConnected) return 'disconnected';
 
-    const connection = Array.from(this.connections.values())[0!];
+    const connection = Array.from(this.connections.values())[0];
     return connection?.status || 'disconnected';
   }
 

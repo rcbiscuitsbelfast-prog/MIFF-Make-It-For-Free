@@ -90,7 +90,7 @@ class SpiritsPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0!].toLowerCase();
+    const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -101,37 +101,37 @@ class SpiritsPureCLI {
           break;
         case 'list':
         case 'l':
-          this.listSpirits(args[0!]);
+          this.listSpirits(args[0]);
           break;
         case 'add':
         case 'a':
-          this.addSpirit(args[0!]);
+          this.addSpirit(args[0]);
           break;
         case 'remove':
         case 'r':
-          this.removeSpirit(args[0!]);
+          this.removeSpirit(args[0]);
           break;
         case 'search':
         case 's':
-          this.searchSpirits(args[0!]);
+          this.searchSpirits(args[0]);
           break;
         case 'filter':
         case 'f':
           this.applyFilter(args);
           break;
         case 'sort':
-          this.applySort(args[0!]);
+          this.applySort(args[0]);
           break;
         case 'capture':
         case 'c':
-          this.captureSpirit(args[0!]);
+          this.captureSpirit(args[0]);
           break;
         case 'release':
-          this.releaseSpirit(args[0!]);
+          this.releaseSpirit(args[0]);
           break;
         case 'favorite':
         case 'fav':
-          this.toggleFavorite(args[0!]);
+          this.toggleFavorite(args[0]);
           break;
         case 'stats':
           this.showStatistics();
@@ -142,7 +142,7 @@ class SpiritsPureCLI {
           break;
         case 'info':
         case 'i':
-          this.showSpiritInfo(args[0!]);
+          this.showSpiritInfo(args[0]);
           break;
         case 'demo':
         case 'd':
@@ -299,7 +299,7 @@ class SpiritsPureCLI {
    * Apply filter
    */
   private applyFilter(args: string[]): void {
-    const filterType = args[0!]?.toLowerCase();
+    const filterType = args[0]?.toLowerCase();
 
     this.filter.reset();
 

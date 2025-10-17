@@ -165,7 +165,7 @@ class BridgeSchemaCLI {
       throw new Error('Missing required fields: data, fromEngine, toEngine');
     }
 
-    const result = this.manager.convert(op.data, op.fromEngine, op.toEngine);
+    const result = this.manager.convert(op.data, fromEngine: op.fromEngine, op.toEngine);
 
     return {
       op: 'convert',
@@ -188,7 +188,7 @@ class BridgeSchemaCLI {
       throw new Error('Missing required fields: data, id, name, engine');
     }
 
-    const result = this.manager.generateSchema(op.data, op.id, op.name, op.engine);
+    const result = this.manager.generateSchema(op.data, id: op.id, op.name, op.engine);
 
     return {
       op: 'generate',
@@ -234,7 +234,7 @@ class BridgeSchemaCLI {
         summary: {
           message: `${stats.totalSchemas} schemas, ${stats.totalConversions} conversions, ${stats.validationCacheSize} cached validations`,
           engines: Object.keys(stats.schemasByEngine).join(', '),
-          topSchema: stats.mostUsedSchemas[0!]?.id || 'none'
+          topSchema: stats.mostUsedSchemas[0]?.id || 'none'
         }
       },
       timestamp: new Date()
@@ -362,7 +362,7 @@ async function main() {
     process.exit(1);
   }
 
-  const operation = process.argv[2!];
+  const operation = process.argv[2];
   const args = process.argv.slice(3);
 
   let op: BridgeSchemaOperation;
@@ -371,51 +371,51 @@ async function main() {
     switch (operation) {
       case 'addSchema':
         if (args.length < 1) throw new Error('addSchema requires JSON file path');
-        const schemaData = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
+        const schemaData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'addSchema', schema: schemaData };
         break;
         
       case 'getSchema':
         if (args.length < 1) throw new Error('getSchema requires schemaId');
-        op = { op: 'getSchema', schemaId: args[0!] };
+        op = { op: 'getSchema', schemaId: args[0] };
         break;
         
       case 'listSchemas':
-        op = { op: 'listSchemas', engine: args[0!] };
+        op = { op: 'listSchemas', engine: args[0] };
         break;
         
       case 'validate':
         if (args.length < 2) throw new Error('validate requires schemaId and data file');
-        const validateData = JSON.parse(fs.readFileSync(args[1!], 'utf-8'));
-        op = { op: 'validate', schemaId: args[0!], data: validateData };
+        const validateData = JSON.parse(fs.readFileSync(args[1], 'utf-8'));
+        op = { op: 'validate', schemaId: args[0], data: validateData };
         break;
         
       case 'convert':
         if (args.length < 3) throw new Error('convert requires data file, fromEngine, toEngine');
-        const convertData = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
+        const convertData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { 
           op: 'convert', 
           data: convertData, 
-          fromEngine: args[1!], 
-          toEngine: args[2!] 
+          fromEngine: args[1], 
+          toEngine: args[2] 
         };
         break;
         
       case 'generate':
         if (args.length < 4) throw new Error('generate requires data file, id, name, engine');
-        const genData = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
+        const genData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { 
           op: 'generate', 
           data: genData, 
-          id: args[1!], 
-          name: args[2!], 
-          engine: args[3!] 
+          id: args[1], 
+          name: args[2], 
+          engine: args[3] 
         };
         break;
         
       case 'addConversion':
         if (args.length < 1) throw new Error('addConversion requires JSON file path');
-        const ruleData = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
+        const ruleData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'addConversion', rule: ruleData };
         break;
         
@@ -426,7 +426,7 @@ async function main() {
       case 'export':
         op = { 
           op: 'export', 
-          format: args[0!] as any || 'full' 
+          format: args[0] as any || 'full' 
         };
         break;
         
@@ -447,6 +447,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

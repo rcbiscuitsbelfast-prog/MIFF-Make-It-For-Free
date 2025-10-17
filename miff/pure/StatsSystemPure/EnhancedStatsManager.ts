@@ -310,7 +310,7 @@ export class EnhancedStatsManager {
       };
     }
 
-    const removedModifier = entity.modifiers.splice(index, 1)[0!];
+    const removedModifier = entity.modifiers.splice(index, 1)[0];
     this.calculateStats(entityId);
 
     return {
@@ -872,8 +872,8 @@ export class EnhancedStatsManager {
           case 'less': return statValue < condition.value;
           case 'between': 
             return Array.isArray(condition.value) && 
-                   statValue >= condition.value[0!] && 
-                   statValue <= condition.value[1!];
+                   statValue >= condition.value[0] && 
+                   statValue <= condition.value[1];
           default: return false;
         }
       
@@ -884,8 +884,8 @@ export class EnhancedStatsManager {
           case 'less': return now < condition.value;
           case 'between':
             return Array.isArray(condition.value) && 
-                   now >= condition.value[0!] && 
-                   now <= condition.value[1!];
+                   now >= condition.value[0] && 
+                   now <= condition.value[1];
           default: return false;
         }
       
@@ -904,8 +904,8 @@ export class EnhancedStatsManager {
       if (expression.includes('*')) {
         const parts = expression.split('*').map((p: any) => p.trim());
         if (parts.length === 2) {
-          const multiplier = parseFloat(parts[1!].split('+')[0!].trim());
-          const addition = parts[1!].includes('+') ? parseFloat(parts[1!].split('+')[1!].trim()) : 0;
+          const multiplier = parseFloat(parts[1].split('+')[0].trim());
+          const addition = parts[1].includes('+') ? parseFloat(parts[1].split('+')[1].trim()) : 0;
           return sourceValue * multiplier + addition;
         }
       }

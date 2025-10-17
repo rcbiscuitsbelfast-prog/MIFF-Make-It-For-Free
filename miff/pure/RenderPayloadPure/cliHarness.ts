@@ -16,10 +16,10 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new RenderPayloadManager();
 
 // Parse additional arguments
-const frameId = args.find(arg => arg.startsWith('--frame-id='))?.split('=')[1!] || 'default';
-const engine = args.find(arg => arg.startsWith('--engine='))?.split('=')[1!] || 'unified';
-const quality = args.find(arg => arg.startsWith('--quality='))?.split('=')[1!] as 'low' | 'medium' | 'high' | 'ultra' || 'medium';
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'assets' || 'json';
+const frameId = args.find(arg => arg.startsWith('--frame-id='))?.split('=')[1] || 'default';
+const engine = args.find(arg => arg.startsWith('--engine='))?.split('=')[1] || 'unified';
+const quality = args.find(arg => arg.startsWith('--quality='))?.split('=')[1] as 'low' | 'medium' | 'high' | 'ultra' || 'medium';
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'assets' || 'json';
 
 let output: any;
 
@@ -37,7 +37,7 @@ try {
       break;
     }
     case 'validate': {
-      const filePath = args[0!];
+      const filePath = args[0];
       try {
         if (!filePath) throw new Error('No file provided');
         const ok = !!filePath; // placeholder; Manager may have a validator elsewhere

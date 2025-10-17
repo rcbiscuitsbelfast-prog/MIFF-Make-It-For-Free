@@ -24,7 +24,7 @@ class AssetCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -53,8 +53,8 @@ class AssetCLI {
   }
 
   private async scanAssets(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'asset-references.json';
+    const rootPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'asset-references.json';
 
     console.info(`🔍 Scanning for asset references in ${rootPath}...`);
     
@@ -80,8 +80,8 @@ class AssetCLI {
   }
 
   private async validateAssets(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'asset-validation.json';
+    const rootPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'asset-validation.json';
 
     console.info(`🔍 Validating assets in ${rootPath}...`);
     
@@ -121,8 +121,8 @@ class AssetCLI {
   }
 
   private async checkPipeline(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'pipeline-integrity.json';
+    const rootPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'pipeline-integrity.json';
 
     console.info(`🔍 Checking pipeline integrity in ${rootPath}...`);
     
@@ -166,8 +166,8 @@ class AssetCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const inputFile = args[0!] || 'asset-validation.json';
-    const outputFile = args[1!] || 'asset-report.html';
+    const inputFile = args[0] || 'asset-validation.json';
+    const outputFile = args[1] || 'asset-report.html';
 
     if (!fs.existsSync(inputFile)) {
       console.error(`❌ Validation file not found: ${inputFile}`);
@@ -314,7 +314,7 @@ Pipeline Checks:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new AssetCLI();
   cli.run().catch(console.error);
 }

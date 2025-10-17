@@ -30,7 +30,7 @@ function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: Cmd;
 
     // Handle direct command or JSON file input
@@ -41,64 +41,64 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'createBoss':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('createBoss requires boss data JSON file');
           }
-          const bossData = JSON.parse(fs.readFileSync(argv[1!], 'utf-8'));
+          const bossData = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
           operation = { op: 'createBoss', boss: bossData };
           break;
         case 'createParty':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('createParty requires party data JSON file');
           }
-          const partyData = JSON.parse(fs.readFileSync(argv[1!], 'utf-8'));
+          const partyData = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
           operation = { op: 'createParty', party: partyData };
           break;
         case 'startEncounter':
-          if (!argv[1!] || !argv[2!] || !argv[3!]) {
+          if (!argv[1] || !argv[2] || !argv[3]) {
             throw new Error('startEncounter requires bossId, partyId, and difficulty');
           }
           operation = { 
             op: 'startEncounter', 
-            bossId: argv[1!],
-            partyId: argv[2!],
-            difficulty: argv[3!]
+            bossId: argv[1],
+            partyId: argv[2],
+            difficulty: argv[3]
           };
           break;
         case 'processEncounter':
-          if (!argv[1!] || !argv[2!]) {
+          if (!argv[1] || !argv[2]) {
             throw new Error('processEncounter requires encounterId and events JSON file');
           }
-          const eventsData = JSON.parse(fs.readFileSync(argv[2!], 'utf-8'));
+          const eventsData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
           operation = { 
             op: 'processEncounter', 
-            encounterId: argv[1!],
+            encounterId: argv[1],
             events: eventsData
           };
           break;
         case 'completeEncounter':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('completeEncounter requires encounterId');
           }
-          operation = { op: 'completeEncounter', encounterId: argv[1!] };
+          operation = { op: 'completeEncounter', encounterId: argv[1] };
           break;
         case 'getBoss':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('getBoss requires bossId');
           }
-          operation = { op: 'getBoss', bossId: argv[1!] };
+          operation = { op: 'getBoss', bossId: argv[1] };
           break;
         case 'getParty':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('getParty requires partyId');
           }
-          operation = { op: 'getParty', partyId: argv[1!] };
+          operation = { op: 'getParty', partyId: argv[1] };
           break;
         case 'getEncounter':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('getEncounter requires encounterId');
           }
-          operation = { op: 'getEncounter', encounterId: argv[1!] };
+          operation = { op: 'getEncounter', encounterId: argv[1] };
           break;
         case 'getAllBosses':
           operation = { op: 'getAllBosses' };
@@ -113,14 +113,14 @@ function main() {
           operation = { op: 'getStatistics' };
           break;
         case 'simulateRaid':
-          if (!argv[1!] || !argv[2!] || !argv[3!]) {
+          if (!argv[1] || !argv[2] || !argv[3]) {
             throw new Error('simulateRaid requires bossId, partyId, and difficulty');
           }
           operation = { 
             op: 'simulateRaid', 
-            bossId: argv[1!],
-            partyId: argv[2!],
-            difficulty: argv[3!]
+            bossId: argv[1],
+            partyId: argv[2],
+            difficulty: argv[3]
           };
           break;
         case 'exportRaidStats':
@@ -317,7 +317,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -355,6 +355,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }

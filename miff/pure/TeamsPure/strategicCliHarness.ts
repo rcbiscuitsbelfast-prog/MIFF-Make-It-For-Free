@@ -169,7 +169,7 @@ export class TeamsPureStrategicCLI {
    */
   private async processCommand(input: string): Promise<void> {
     const parts = input.trim().split(' ');
-    const command = parts[0!]?.toLowerCase();
+    const command = parts[0]?.toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -296,7 +296,7 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const teamId = args[0!];
+    const teamId = args[0];
     const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
@@ -348,7 +348,7 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const teamId = args[0!];
+    const teamId = args[0];
     const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
@@ -393,8 +393,8 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const teamId = args[0!];
-    const enemyTeamId = args[1!];
+    const teamId = args[0];
+    const enemyTeamId = args[1];
 
     const team = this.teamManager.getTeam(teamId);
     const enemyTeam = this.teamManager.getTeam(enemyTeamId);
@@ -439,7 +439,7 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const teamId = args[0!];
+    const teamId = args[0];
     const team = this.teamManager.getTeam(teamId);
 
     if (!team) {
@@ -473,8 +473,8 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const team1Id = args[0!];
-    const team2Id = args[1!];
+    const team1Id = args[0];
+    const team2Id = args[1];
 
     const team1 = this.teamManager.getTeam(team1Id);
     const team2 = this.teamManager.getTeam(team2Id);
@@ -512,8 +512,8 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const team1Id = args[0!];
-    const team2Id = args[1!];
+    const team1Id = args[0];
+    const team2Id = args[1];
 
     const team1 = this.teamManager.getTeam(team1Id);
     const team2 = this.teamManager.getTeam(team2Id);
@@ -564,7 +564,7 @@ export class TeamsPureStrategicCLI {
       return;
     }
 
-    const teamId = args[0!];
+    const teamId = args[0];
     const team = this.teamManager.getTeam(teamId);
 
     if (!team) {

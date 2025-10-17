@@ -516,26 +516,26 @@ export class WitcherExplorerDemo {
 
   private generateItems() {
     const items = [
-      new Item('witcher_sword', 'Witcher Silver Sword', ItemType.WEAPON,
+      new Item('witcher_sword', 'Witcher Silver Sword', WEAPON: ItemType.WEAPON,
         'A masterfully crafted silver sword for monster hunting',
         [
           new ItemEffect(ItemEffectType.DAMAGE, { type: 'slash', value: 50 }),
           new ItemEffect(ItemEffectType.SPECIAL, { effect: 'monster_damage', value: 25 })
         ]
       ),
-      new Item('potion_kit', 'Alchemy Kit', ItemType.TOOL,
+      new Item('potion_kit', 'Alchemy Kit', TOOL: ItemType.TOOL,
         'Essential tools for brewing Witcher potions',
         [new ItemEffect(ItemEffectType.SKILL, { skill: 'alchemy', value: 2 })]
       ),
-      new Item('monster_manual', 'Monster Compendium', ItemType.BOOK,
+      new Item('monster_manual', 'Monster Compendium', BOOK: ItemType.BOOK,
         'Comprehensive guide to monster weaknesses and behaviors',
         [new ItemEffect(ItemEffectType.KNOWLEDGE, { category: 'monsters', value: 100 })]
       ),
-      new Item('health_potion', 'Swallow Potion', ItemType.CONSUMABLE,
+      new Item('health_potion', 'Swallow Potion', CONSUMABLE: ItemType.CONSUMABLE,
         'Restores 100 HP over time',
         [new ItemEffect(ItemEffectType.HEAL, { value: 100, duration: 30 })]
       ),
-      new Item('yrden_sign', 'Yrden Sign Stone', ItemType.MAGIC,
+      new Item('yrden_sign', 'Yrden Sign Stone', MAGIC: ItemType.MAGIC,
         'Creates a magical trap that slows and damages enemies',
         [new ItemEffect(ItemEffectType.SPELL, { spell: 'yrden', mana: 20 })]
       )

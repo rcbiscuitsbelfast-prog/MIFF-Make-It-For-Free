@@ -33,20 +33,20 @@ test('golden cutscene system flow', () => {
   const timeline = got.timeline;
   
   // Events should be sorted by timing
-  expect(timeline[0!].at).toBe(0.0);
-  expect(timeline[1!].at).toBe(2.0);
-  expect(timeline[2!].at).toBe(5.0);
-  expect(timeline[3!].at).toBe(8.0);
+  expect(timeline[0].at).toBe(0.0);
+  expect(timeline[1].at).toBe(2.0);
+  expect(timeline[2].at).toBe(5.0);
+  expect(timeline[3].at).toBe(8.0);
   
   // Verify event commands
-  expect(timeline[0!].cmd).toBe('fadeIn');
-  expect(timeline[1!].cmd).toBe('showText');
-  expect(timeline[2!].cmd).toBe('playMusic');
-  expect(timeline[3!].cmd).toBe('fadeOut');
+  expect(timeline[0].cmd).toBe('fadeIn');
+  expect(timeline[1].cmd).toBe('showText');
+  expect(timeline[2].cmd).toBe('playMusic');
+  expect(timeline[3].cmd).toBe('fadeOut');
   
   // Verify event arguments
-  expect(timeline[0!].args.duration).toBe(2.0);
-  expect(timeline[1!].args.text).toBe('Welcome to the adventure!');
-  expect(timeline[2!].args.track).toBe('intro_theme');
-  expect(timeline[3!].args.duration).toBe(2.0);
+  expect(timeline[0].args.duration).toBe(2.0);
+  expect(timeline[1].args.text).toBe('Welcome to the adventure!');
+  expect(timeline[2].args.track).toBe('intro_theme');
+  expect(timeline[3].args.duration).toBe(2.0);
 });

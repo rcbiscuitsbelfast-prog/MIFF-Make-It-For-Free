@@ -485,7 +485,7 @@ export class DebugOverlayManager {
       }
 
       // Create overlay from first payload (or combine multiple)
-      return this.createOverlay(payloads[0!]);
+      return this.createOverlay(payloads[0]);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
@@ -525,7 +525,7 @@ export class DebugOverlayManager {
       }
 
       // Create overlay from first payload
-      return this.createOverlay(renderPayloads[0!]);
+      return this.createOverlay(renderPayloads[0]);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {

@@ -33,7 +33,7 @@ describe('RenderReplayPure Golden Tests', () => {
       const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
-      const jsonOutput = JSON.parse(jsonMatch![1!]);
+      const jsonOutput = JSON.parse(jsonMatch![1]);
       expect(jsonOutput.op).toBe('replay');
       expect(jsonOutput.status).toBe('ok');
       expect(jsonOutput.session).toBeDefined();
@@ -60,7 +60,7 @@ describe('RenderReplayPure Golden Tests', () => {
       const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
-      const jsonOutput = JSON.parse(jsonMatch![1!]);
+      const jsonOutput = JSON.parse(jsonMatch![1]);
       expect(jsonOutput.op).toBe('replay');
       expect(jsonOutput.status).toBe('ok');
       expect(jsonOutput.session.config.engine).toBe('web');
@@ -88,7 +88,7 @@ describe('RenderReplayPure Golden Tests', () => {
       const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
-      const jsonOutput = JSON.parse(jsonMatch![1!]);
+      const jsonOutput = JSON.parse(jsonMatch![1]);
       expect(jsonOutput.op).toBe('replay');
       expect(jsonOutput.status).toBe('ok');
       expect(jsonOutput.session.config.engine).toBe('godot');
@@ -131,12 +131,12 @@ describe('RenderReplayPure Golden Tests', () => {
         const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
         expect(jsonMatch).toBeTruthy();
         
-        const jsonOutput = JSON.parse(jsonMatch![1!]);
+        const jsonOutput = JSON.parse(jsonMatch![1]);
         expect(jsonOutput.op).toBe('replay');
         expect(jsonOutput.status).toBe('ok');
         expect(jsonOutput.session.steps).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData[0!].id).toBe('test_sprite');
+        expect(jsonOutput.session.steps[0].renderData).toHaveLength(1);
+        expect(jsonOutput.session.steps[0].renderData[0].id).toBe('test_sprite');
       } finally {
         // Clean up temp file
         if (fs.existsSync(tempFile)) {
@@ -181,12 +181,12 @@ describe('RenderReplayPure Golden Tests', () => {
         const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
         expect(jsonMatch).toBeTruthy();
         
-        const jsonOutput = JSON.parse(jsonMatch![1!]);
+        const jsonOutput = JSON.parse(jsonMatch![1]);
         expect(jsonOutput.op).toBe('replay');
         expect(jsonOutput.status).toBe('ok');
         expect(jsonOutput.session.steps).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData).toHaveLength(1);
-        expect(jsonOutput.session.steps[0!].renderData[0!].id).toBe('payload_sprite');
+        expect(jsonOutput.session.steps[0].renderData).toHaveLength(1);
+        expect(jsonOutput.session.steps[0].renderData[0].id).toBe('payload_sprite');
       } finally {
         // Clean up temp file
         if (fs.existsSync(tempFile)) {
@@ -283,8 +283,8 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.session.config.loop).toBe(true);
       expect(result.session.config.showDebug).toBe(false);
       expect(result.session.steps).toHaveLength(1);
-      expect(result.session.steps[0!].renderData).toHaveLength(1);
-      expect(result.session.steps[0!].renderData[0!].id).toBe('cli_sprite');
+      expect(result.session.steps[0].renderData).toHaveLength(1);
+      expect(result.session.steps[0].renderData[0].id).toBe('cli_sprite');
     });
 
     test('✓ creates replay session from payload', () => {
@@ -318,8 +318,8 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.session.config.engine).toBe('godot');
       expect(result.session.config.speed).toBe(0.5);
       expect(result.session.steps).toHaveLength(1);
-      expect(result.session.steps[0!].renderData).toHaveLength(1);
-      expect(result.session.steps[0!].renderData[0!].id).toBe('payload_sprite');
+      expect(result.session.steps[0].renderData).toHaveLength(1);
+      expect(result.session.steps[0].renderData[0].id).toBe('payload_sprite');
     });
 
     test('✓ handles invalid golden test gracefully', () => {
@@ -339,7 +339,7 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.status).toBe('error');
       expect(result.issues).toBeDefined();
       expect(result.issues!.length).toBeGreaterThan(0);
-      expect(result.issues![0!]).toContain('Failed to load golden test');
+      expect(result.issues![0]).toContain('Failed to load golden test');
     });
 
     test('✓ handles invalid CLI output gracefully', () => {
@@ -359,7 +359,7 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.status).toBe('error');
       expect(result.issues).toBeDefined();
       expect(result.issues!.length).toBeGreaterThan(0);
-      expect(result.issues![0!]).toContain('No renderData found in CLI output');
+      expect(result.issues![0]).toContain('No renderData found in CLI output');
     });
 
     test('✓ handles invalid payload gracefully', () => {

@@ -81,7 +81,7 @@ class MockEvolutionSpirit implements IEvolutionSpiritInstance {
   }
 
   clone(): MockEvolutionSpirit {
-    return new MockEvolutionSpirit(this.speciesId, this.level, {
+    return new MockEvolutionSpirit(this.speciesId, level: this.level, {
       syncLevel: this.syncLevel,
       friendshipLevel: this.friendshipLevel,
       battleCount: this.battleCount,
@@ -175,7 +175,7 @@ class MockPlayerContext implements IPlayerContext {
   }
 
   clone(): MockPlayerContext {
-    const cloned = new MockPlayerContext(this.playerId, this.currentLocationId, this.gameData.timeOfDay);
+    const cloned = new MockPlayerContext(this.playerId, currentLocationId: this.currentLocationId, this.gameData.timeOfDay);
     cloned.gameData.onboardingFlags = new Map(this.gameData.onboardingFlags);
     cloned.gameData.inventory = new Map(this.gameData.inventory);
     return cloned;
@@ -355,7 +355,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       expect(validErrors).toHaveLength(0);
       expect(invalidErrors).toHaveLength(1);
-      expect(invalidErrors[0!]).toBe('Level must be greater than 0');
+      expect(invalidErrors[0]).toBe('Level must be greater than 0');
     });
 
     test('should validate item conditions correctly', () => {
@@ -367,7 +367,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       expect(validErrors).toHaveLength(0);
       expect(invalidErrors).toHaveLength(1);
-      expect(invalidErrors[0!]).toBe('Item ID is required');
+      expect(invalidErrors[0]).toBe('Item ID is required');
     });
 
     test('should validate sync conditions correctly', () => {
@@ -524,7 +524,7 @@ describe('EvolutionPure Golden Tests', () => {
       expect(data.speciesId).toBe('pikachu');
       expect(data.evolutionTargetId).toBe('raichu');
       expect(data.conditions).toHaveLength(1);
-      expect(data.conditions[0!].conditionType).toBe(EvolutionConditionType.LEVEL_AT_LEAST);
+      expect(data.conditions[0].conditionType).toBe(EvolutionConditionType.LEVEL_AT_LEAST);
     });
 
     test('should create level evolution correctly', () => {
@@ -533,8 +533,8 @@ describe('EvolutionPure Golden Tests', () => {
       expect(data.speciesId).toBe('eevee');
       expect(data.evolutionTargetId).toBe('flareon');
       expect(data.conditions).toHaveLength(1);
-      expect(data.conditions[0!].conditionType).toBe(EvolutionConditionType.LEVEL_AT_LEAST);
-      expect(data.conditions[0!].intValue).toBe(30);
+      expect(data.conditions[0].conditionType).toBe(EvolutionConditionType.LEVEL_AT_LEAST);
+      expect(data.conditions[0].intValue).toBe(30);
     });
 
     test('should create item evolution correctly', () => {
@@ -543,8 +543,8 @@ describe('EvolutionPure Golden Tests', () => {
       expect(data.speciesId).toBe('poliwag');
       expect(data.evolutionTargetId).toBe('poliwhirl');
       expect(data.conditions).toHaveLength(1);
-      expect(data.conditions[0!].conditionType).toBe(EvolutionConditionType.REQUIRES_ITEM);
-      expect(data.conditions[0!].stringValue).toBe('water_stone');
+      expect(data.conditions[0].conditionType).toBe(EvolutionConditionType.REQUIRES_ITEM);
+      expect(data.conditions[0].stringValue).toBe('water_stone');
     });
 
     test('should create sync evolution correctly', () => {
@@ -553,8 +553,8 @@ describe('EvolutionPure Golden Tests', () => {
       expect(data.speciesId).toBe('ralts');
       expect(data.evolutionTargetId).toBe('kirlia');
       expect(data.conditions).toHaveLength(1);
-      expect(data.conditions[0!].conditionType).toBe(EvolutionConditionType.SYNC_AT_LEAST);
-      expect(data.conditions[0!].intValue).toBe(70);
+      expect(data.conditions[0].conditionType).toBe(EvolutionConditionType.SYNC_AT_LEAST);
+      expect(data.conditions[0].intValue).toBe(70);
     });
   });
 
@@ -575,7 +575,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       const errors = data.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0!]).toBe('Species ID is required');
+      expect(errors[0]).toBe('Species ID is required');
     });
 
     test('should reject missing evolution target', () => {
@@ -585,7 +585,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       const errors = data.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0!]).toBe('Evolution target ID is required');
+      expect(errors[0]).toBe('Evolution target ID is required');
     });
 
     test('should reject self-evolution', () => {
@@ -595,7 +595,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       const errors = data.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0!]).toBe('Species cannot evolve into itself');
+      expect(errors[0]).toBe('Species cannot evolve into itself');
     });
 
     test('should validate condition errors', () => {
@@ -605,7 +605,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       const errors = data.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0!]).toBe('Condition 0: Level must be greater than 0');
+      expect(errors[0]).toBe('Condition 0: Level must be greater than 0');
     });
   });
 
@@ -805,7 +805,7 @@ describe('EvolutionPure Golden Tests', () => {
 
       expect(lowLevelEvolutions).toHaveLength(0);
       expect(highLevelEvolutions).toHaveLength(1);
-      expect(highLevelEvolutions[0!]).toBe('evolved');
+      expect(highLevelEvolutions[0]).toBe('evolved');
     });
   });
 
@@ -855,10 +855,10 @@ describe('EvolutionPure Golden Tests', () => {
       const chain = EvolutionUtils.createLevelEvolutionChain('starter', [15, 30, 50]);
 
       expect(chain).toHaveLength(3);
-      expect(chain[0!].speciesId).toBe('starter');
-      expect(chain[0!].evolutionTargetId).toBe('starter_evo_1');
-      expect(chain[1!].evolutionTargetId).toBe('starter_evo_2');
-      expect(chain[2!].evolutionTargetId).toBe('starter_evo_3');
+      expect(chain[0].speciesId).toBe('starter');
+      expect(chain[0].evolutionTargetId).toBe('starter_evo_1');
+      expect(chain[1].evolutionTargetId).toBe('starter_evo_2');
+      expect(chain[2].evolutionTargetId).toBe('starter_evo_3');
     });
 
     test('should create item evolutions correctly', () => {
@@ -869,8 +869,8 @@ describe('EvolutionPure Golden Tests', () => {
       });
 
       expect(itemEvolutions).toHaveLength(3);
-      expect(itemEvolutions[0!].conditions[0!].conditionType).toBe(EvolutionConditionType.REQUIRES_ITEM);
-      expect(itemEvolutions[0!].conditions[0!].stringValue).toBe('fire_stone');
+      expect(itemEvolutions[0].conditions[0].conditionType).toBe(EvolutionConditionType.REQUIRES_ITEM);
+      expect(itemEvolutions[0].conditions[0].stringValue).toBe('fire_stone');
     });
 
     test('should create sync evolutions correctly', () => {
@@ -881,8 +881,8 @@ describe('EvolutionPure Golden Tests', () => {
       });
 
       expect(syncEvolutions).toHaveLength(3);
-      expect(syncEvolutions[0!].conditions[0!].conditionType).toBe(EvolutionConditionType.SYNC_AT_LEAST);
-      expect(syncEvolutions[0!].conditions[0!].intValue).toBe(70);
+      expect(syncEvolutions[0].conditions[0].conditionType).toBe(EvolutionConditionType.SYNC_AT_LEAST);
+      expect(syncEvolutions[0].conditions[0].intValue).toBe(70);
     });
 
     test('should validate evolution chain for circular references', () => {
@@ -896,7 +896,7 @@ describe('EvolutionPure Golden Tests', () => {
       const errors = EvolutionUtils.validateEvolutionChain(manager, 'species1');
 
       expect(errors).toHaveLength(1);
-      expect(errors[0!]).toContain('Circular evolution reference');
+      expect(errors[0]).toContain('Circular evolution reference');
     });
 
     test('should get evolution requirements summary', () => {
@@ -911,9 +911,9 @@ describe('EvolutionPure Golden Tests', () => {
 
       expect(requirements.targetSpecies).toBe('target');
       expect(requirements.conditions).toHaveLength(3);
-      expect(requirements.conditions[0!].description).toContain('Reach level 30');
-      expect(requirements.conditions[1!].description).toContain('Have item: magic_stone');
-      expect(requirements.conditions[2!].description).toContain('Reach 70% sync level');
+      expect(requirements.conditions[0].description).toContain('Reach level 30');
+      expect(requirements.conditions[1].description).toContain('Have item: magic_stone');
+      expect(requirements.conditions[2].description).toContain('Reach 70% sync level');
     });
 
     test('should get condition descriptions correctly', () => {
@@ -933,15 +933,15 @@ describe('EvolutionPure Golden Tests', () => {
         EvolutionUtils.getConditionDescription(condition)
       );
 
-      expect(descriptions[0!]).toContain('Reach level 25');
-      expect(descriptions[1!]).toContain('Have item: fire_stone');
-      expect(descriptions[2!]).toContain('Reach 75% sync level');
-      expect(descriptions[3!]).toContain('Unlock lore flag: boss_defeated');
-      expect(descriptions[4!]).toContain('Evolve during specific time of day');
-      expect(descriptions[5!]).toContain('Be at location: mountain');
-      expect(descriptions[6!]).toContain('Reach friendship level 80');
-      expect(descriptions[7!]).toContain('Win 100 battles');
-      expect(descriptions[8!]).toContain('Use evolution item: mega_stone');
+      expect(descriptions[0]).toContain('Reach level 25');
+      expect(descriptions[1]).toContain('Have item: fire_stone');
+      expect(descriptions[2]).toContain('Reach 75% sync level');
+      expect(descriptions[3]).toContain('Unlock lore flag: boss_defeated');
+      expect(descriptions[4]).toContain('Evolve during specific time of day');
+      expect(descriptions[5]).toContain('Be at location: mountain');
+      expect(descriptions[6]).toContain('Reach friendship level 80');
+      expect(descriptions[7]).toContain('Win 100 battles');
+      expect(descriptions[8]).toContain('Use evolution item: mega_stone');
     });
   });
 
@@ -1238,7 +1238,7 @@ describe('EvolutionPure Golden Tests', () => {
       const errors = EvolutionUtils.validateEvolutionChain(manager, 'species_a');
 
       expect(errors).toHaveLength(1);
-      expect(errors[0!]).toContain('Circular evolution reference');
+      expect(errors[0]).toContain('Circular evolution reference');
     });
 
     test('should handle very high level requirements', () => {

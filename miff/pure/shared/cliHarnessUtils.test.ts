@@ -25,9 +25,9 @@ describe('CLI Harness Utilities', () => {
       expect(payload.status).toBe('ok');
       expect(payload.payload).toBeDefined();
       expect(payload.payload.renderData).toBeInstanceOf(Array);
-      expect(payload.payload.renderData[0!]).toHaveProperty('id');
-      expect(payload.payload.renderData[0!]).toHaveProperty('type');
-      expect(payload.payload.renderData[0!]).toHaveProperty('timestamp');
+      expect(payload.payload.renderData[0]).toHaveProperty('id');
+      expect(payload.payload.renderData[0]).toHaveProperty('type');
+      expect(payload.payload.renderData[0]).toHaveProperty('timestamp');
     });
   });
 
@@ -136,8 +136,8 @@ describe('CLI Harness Utilities', () => {
       
       // Payload structure should be consistent
       expect(first.payload.renderData.length).toBe(second.payload.renderData.length);
-      expect(first.payload.renderData[0!].id).toBe(second.payload.renderData[0!].id);
-      expect(first.payload.renderData[0!].type).toBe(second.payload.renderData[0!].type);
+      expect(first.payload.renderData[0].id).toBe(second.payload.renderData[0].id);
+      expect(first.payload.renderData[0].type).toBe(second.payload.renderData[0].type);
       
       // Timestamps should be numbers (dynamic content)
       expect(typeof first.payload.metadata.timestamp).toBe('number');

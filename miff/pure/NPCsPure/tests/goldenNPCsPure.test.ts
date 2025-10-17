@@ -24,7 +24,7 @@ describe('NPCsPure Golden Tests', () => {
     expect(result.result.length).toBeGreaterThan(0);
     
     // Check first NPC structure
-    const firstNPC = result.result[0!];
+    const firstNPC = result.result[0];
     expect(firstNPC).toHaveProperty('id');
     expect(firstNPC).toHaveProperty('name');
     expect(firstNPC).toHaveProperty('stats');

@@ -48,7 +48,7 @@ export class TimeSystemCLI {
 
   private processCommand(command: string): void {
     const parts = command.split(' ');
-    const cmd = parts[0!].toLowerCase();
+    const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     switch (cmd) {
@@ -110,9 +110,9 @@ export class TimeSystemCLI {
       return;
     }
 
-    const hour = parseInt(args[0!]);
-    const minute = parseInt(args[1!]);
-    const second = parseInt(args[2!]);
+    const hour = parseInt(args[0]);
+    const minute = parseInt(args[1]);
+    const second = parseInt(args[2]);
 
     if (isNaN(hour) || isNaN(minute) || isNaN(second)) {
       console.log('Invalid time values');
@@ -131,7 +131,7 @@ export class TimeSystemCLI {
       return;
     }
 
-    const acceleration = args[0!] as TimeAcceleration;
+    const acceleration = args[0] as TimeAcceleration;
     this.timeSystem.setTimeAcceleration(acceleration);
     console.log(`✅ Speed set to ${acceleration}`);
   }
@@ -159,7 +159,7 @@ export class TimeSystemCLI {
 }
 
 // CLI entry point
-if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1!]}`) {
+if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
   const cli = new TimeSystemCLI();
   cli.run();
 }

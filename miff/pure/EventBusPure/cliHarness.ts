@@ -39,7 +39,7 @@ async function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: EventBusOperation;
 
     // Handle direct command or JSON file input
@@ -50,40 +50,40 @@ async function main() {
       // Parse subcommand
       switch (first) {
         case 'create':
-          const configFile = argv[1!];
+          const configFile = argv[1];
           const config = configFile && fs.existsSync(configFile) 
             ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
             : { enableLogging: true, maxEvents: 1000 };
           operation = { op: 'create', config };
           break;
         case 'subscribe':
-          if (!argv[1!]) throw new Error('subscribe requires eventType');
+          if (!argv[1]) throw new Error('subscribe requires eventType');
           operation = { 
             op: 'subscribe', 
-            eventType: argv[1!],
-            handlerId: argv[2!] || `handler_${Date.now()}`
+            eventType: argv[1],
+            handlerId: argv[2] || `handler_${Date.now()}`
           };
           break;
         case 'unsubscribe':
-          if (!argv[1!]) throw new Error('unsubscribe requires handlerId');
-          operation = { op: 'unsubscribe', handlerId: argv[1!] };
+          if (!argv[1]) throw new Error('unsubscribe requires handlerId');
+          operation = { op: 'unsubscribe', handlerId: argv[1] };
           break;
         case 'publish':
-          if (!argv[1!] || !argv[2!]) throw new Error('publish requires eventType and data');
-          const data = JSON.parse(argv[2!]);
+          if (!argv[1] || !argv[2]) throw new Error('publish requires eventType and data');
+          const data = JSON.parse(argv[2]);
           operation = { 
             op: 'publish', 
-            eventType: argv[1!], 
+            eventType: argv[1], 
             data,
-            source: argv[3!] || 'cli',
-            priority: argv[4!] as EventPriority || EventPriority.NORMAL
+            source: argv[3] || 'cli',
+            priority: argv[4] as EventPriority || EventPriority.NORMAL
           };
           break;
         case 'get-events':
           operation = { 
             op: 'get-events', 
-            eventType: argv[1!],
-            limit: parseInt(argv[2!]) || 100
+            eventType: argv[1],
+            limit: parseInt(argv[2]) || 100
           };
           break;
         case 'get-stats':
@@ -92,7 +92,7 @@ async function main() {
         case 'clear-events':
           operation = { 
             op: 'clear-events', 
-            maxAge: parseInt(argv[1!]) || 60000
+            maxAge: parseInt(argv[1]) || 60000
           };
           break;
         case 'demo':
@@ -136,7 +136,7 @@ async function main() {
         const handlerId = eventBus.subscribe(
           operation.eventType!,
           (event: any) => {
-            console.log(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
+            console.log(`📡 Handler ${operation.handlerId} received event:`, type: event.type, event.data);
           },
           {
             id: operation.handlerId,
@@ -314,7 +314,7 @@ async function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -352,6 +352,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

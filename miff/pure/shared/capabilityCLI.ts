@@ -27,7 +27,7 @@ class CapabilityCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -62,8 +62,8 @@ class CapabilityCLI {
   }
 
   private async discoverCapabilities(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'capability-discovery.json';
+    const rootPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'capability-discovery.json';
 
     console.info(`🔍 Discovering capabilities in ${rootPath}...`);
     
@@ -96,8 +96,8 @@ class CapabilityCLI {
   }
 
   private async listCapabilities(args: string[]): Promise<void> {
-    const moduleId = args[0!];
-    const outputFile = args[1!];
+    const moduleId = args[0];
+    const outputFile = args[1];
 
     if (!moduleId) {
       console.error('❌ Module ID required');
@@ -172,8 +172,8 @@ class CapabilityCLI {
   }
 
   private async generateHelp(args: string[]): Promise<void> {
-    const moduleId = args[0!];
-    const outputFile = args[1!] || `${moduleId}-help.md`;
+    const moduleId = args[0];
+    const outputFile = args[1] || `${moduleId}-help.md`;
 
     if (!moduleId) {
       console.error('❌ Module ID required');
@@ -200,8 +200,8 @@ class CapabilityCLI {
   }
 
   private async generateTests(args: string[]): Promise<void> {
-    const moduleId = args[0!];
-    const outputFile = args[1!] || `${moduleId}-tests.test.ts`;
+    const moduleId = args[0];
+    const outputFile = args[1] || `${moduleId}-tests.test.ts`;
 
     if (!moduleId) {
       console.error('❌ Module ID required');
@@ -228,7 +228,7 @@ class CapabilityCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'capability-report.html';
+    const outputFile = args[0] || 'capability-report.html';
 
     console.info('📊 Generating capability report...');
     
@@ -245,7 +245,7 @@ class CapabilityCLI {
   }
 
   private async validateCapabilities(args: string[]): Promise<void> {
-    const moduleId = args[0!];
+    const moduleId = args[0];
 
     if (!moduleId) {
       console.error('❌ Module ID required');
@@ -402,7 +402,7 @@ Capability Types:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new CapabilityCLI();
   cli.run().catch(console.error);
 }

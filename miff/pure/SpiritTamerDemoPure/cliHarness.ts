@@ -211,7 +211,7 @@ class SpiritTamerCLI {
       throw new Error('Missing required fields: x, y');
     }
 
-    const result = this.manager.movePlayer(op.x, op.y, op.zone);
+    const result = this.manager.movePlayer(op.x, y: op.y, op.zone);
 
     return {
       op: 'move',
@@ -453,7 +453,7 @@ async function main() {
     return;
   }
 
-  const operation = process.argv[2!];
+  const operation = process.argv[2];
   const args = process.argv.slice(3);
 
   let op: SpiritTamerOperation;
@@ -469,11 +469,11 @@ async function main() {
         break;
         
       case 'tame':
-        op = { op: 'tame', spiritId: args[0!] || 'emberfox' };
+        op = { op: 'tame', spiritId: args[0] || 'emberfox' };
         break;
         
       case 'battle':
-        op = { op: 'battle', spiritId: args[0!] || 'emberfox' };
+        op = { op: 'battle', spiritId: args[0] || 'emberfox' };
         break;
         
       case 'dump':
@@ -483,8 +483,8 @@ async function main() {
       case 'list':
         op = { 
           op: 'list', 
-          location: args[0!],
-          includeWild: args[1!] !== 'false'
+          location: args[0],
+          includeWild: args[1] !== 'false'
         };
         break;
         
@@ -496,29 +496,29 @@ async function main() {
         if (args.length < 2) throw new Error('move requires x and y coordinates');
         op = { 
           op: 'move', 
-          x: parseFloat(args[0!]), 
-          y: parseFloat(args[1!]), 
-          zone: args[2!] 
+          x: parseFloat(args[0]), 
+          y: parseFloat(args[1]), 
+          zone: args[2] 
         };
         break;
         
       case 'startTaming':
         if (args.length < 1) throw new Error('startTaming requires spiritId');
-        op = { op: 'startTaming', spiritId: args[0!] };
+        op = { op: 'startTaming', spiritId: args[0] };
         break;
         
       case 'rhythm':
         if (args.length < 2) throw new Error('rhythm requires time and hit (true/false)');
         op = { 
           op: 'rhythm', 
-          time: parseFloat(args[0!]), 
+          time: parseFloat(args[0]), 
           hit: args[1] === 'true' 
         };
         break;
         
       case 'session':
         if (args.length < 1) throw new Error('session requires sessionId');
-        op = { op: 'session', sessionId: args[0!] };
+        op = { op: 'session', sessionId: args[0] };
         break;
         
       case 'sessions':
@@ -532,7 +532,7 @@ async function main() {
       case 'export':
         op = { 
           op: 'export', 
-          format: args[0!] as any || 'save' 
+          format: args[0] as any || 'save' 
         };
         break;
         
@@ -553,6 +553,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

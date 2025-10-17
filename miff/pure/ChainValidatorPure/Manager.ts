@@ -190,7 +190,7 @@ export class ChainValidatorManager {
     // Detect cycles
     const cycles = this.findCycles();
     for (const cycle of cycles) {
-      issues.push({ code: 'cycle', message: `Cycle detected: ${cycle.join(' -> ')} -> ${cycle[0!]}` });
+      issues.push({ code: 'cycle', message: `Cycle detected: ${cycle.join(' -> ')} -> ${cycle[0]}` });
     }
 
     const status: 'ok' | 'error' | 'warning' = issues.length > 0 ? 'error' : warnings.length > 0 ? 'warning' : 'ok';

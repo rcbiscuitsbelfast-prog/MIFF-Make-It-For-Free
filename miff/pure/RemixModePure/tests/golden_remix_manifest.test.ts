@@ -26,9 +26,9 @@ describe('Golden: Remix manifest', () => {
       baseScenario: manifest.baseScenario,
       remixSafe: manifest.remixSafe,
       assets: manifest.assets.slice().sort(),
-      firstChange: manifest.changes[0!] && {
-        pos: manifest.changes[0!].pos,
-        block: manifest.changes[0!].block,
+      firstChange: manifest.changes[0] && {
+        pos: manifest.changes[0].pos,
+        block: manifest.changes[0].block,
       },
     };
     expect(minimal).toMatchObject({

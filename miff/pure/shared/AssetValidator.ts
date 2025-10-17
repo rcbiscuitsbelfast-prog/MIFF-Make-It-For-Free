@@ -147,7 +147,7 @@ export class AssetValidator {
         for (const pattern of patterns) {
           let match;
           while ((match = pattern.exec(content)) !== null) {
-            const assetPath = match[1!];
+            const assetPath = match[1];
             const assetType = this.determineAssetType(assetPath);
             
             const reference: AssetReference = {

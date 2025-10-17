@@ -149,7 +149,7 @@ export class PixelAnimManager {
         return { ok: false, errors: [`Preset ${presetId} not found`] };
       }
 
-      const animation = PixelAnimPure.createAnimation(preset.name, preset.frames, preset.fps, preset.loop);
+      const animation = PixelAnimPure.createAnimation(preset.name, frames: preset.frames, preset.fps, preset.loop);
       return { ok: true, animation };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));

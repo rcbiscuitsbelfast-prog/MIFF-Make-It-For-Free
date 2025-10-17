@@ -20,17 +20,17 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new NPCsManager();
 
 // Parse additional arguments
-const npcId = args.find(arg => arg.startsWith('--npc-id='))?.split('=')[1!] || 'npc_001';
-const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';
-const zoneId = args.find(arg => arg.startsWith('--zone-id='))?.split('=')[1!] || 'zone_village';
-const faction = args.find(arg => arg.startsWith('--faction='))?.split('=')[1!] || 'village_elders';
-const behaviorType = args.find(arg => arg.startsWith('--behavior='))?.split('=')[1!] || 'quest_giver';
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'quests' || 'json';
-const x = parseInt(args.find(arg => arg.startsWith('--x='))?.split('=')[1!] || '0');
-const y = parseInt(args.find(arg => arg.startsWith('--y='))?.split('=')[1!] || '0');
-const z = parseInt(args.find(arg => arg.startsWith('--z='))?.split('=')[1!] || '0');
-const reputation = parseInt(args.find(arg => arg.startsWith('--reputation='))?.split('=')[1!] || '50');
-const duration = parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1!] || '60');
+const npcId = args.find(arg => arg.startsWith('--npc-id='))?.split('=')[1] || 'npc_001';
+const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1] || 'quest_001';
+const zoneId = args.find(arg => arg.startsWith('--zone-id='))?.split('=')[1] || 'zone_village';
+const faction = args.find(arg => arg.startsWith('--faction='))?.split('=')[1] || 'village_elders';
+const behaviorType = args.find(arg => arg.startsWith('--behavior='))?.split('=')[1] || 'quest_giver';
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'quests' || 'json';
+const x = parseInt(args.find(arg => arg.startsWith('--x='))?.split('=')[1] || '0');
+const y = parseInt(args.find(arg => arg.startsWith('--y='))?.split('=')[1] || '0');
+const z = parseInt(args.find(arg => arg.startsWith('--z='))?.split('=')[1] || '0');
+const reputation = parseInt(args.find(arg => arg.startsWith('--reputation='))?.split('=')[1] || '50');
+const duration = parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1] || '60');
 
 let output: any;
 
@@ -38,7 +38,7 @@ try {
   switch (mode) {
     case 'create':
       // Allow passing a JSON file path as first non-flag arg for creation (used in tests)
-      if (args.length > 1 && !args[1!].startsWith('--')) {
+      if (args.length > 1 && !args[1].startsWith('--')) {
         const filePath = path.isAbsolute(args[1]) ? args[1] : path.resolve(args[1]);
         if (fs.existsSync(filePath)) {
           const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -63,7 +63,7 @@ try {
       }
       const newNPC: NPC = {
         id: npcId as any,
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'New NPC',
+        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
         stats: [
           { key: 'health', base: 100 },
           { key: 'mana', base: 50 },
@@ -92,7 +92,7 @@ try {
     case 'update':
       const updates: Partial<NPC> = {};
       if (args.includes('--name')) {
-        updates.name = args.find(arg => arg.startsWith('--name='))?.split('=')[1!];
+        updates.name = args.find(arg => arg.startsWith('--name='))?.split('=')[1];
       }
       if (args.includes('--reputation')) {
         updates.reputation = reputation;
@@ -108,11 +108,11 @@ try {
       const filter: any = {};
       // Support both --zone-id= and positional key=value used by tests
       const zoneArg = args.find(a => a.startsWith('--zone-id=')) || args.find(a => a.startsWith('zoneId='));
-      if (zoneArg) filter.zoneId = (zoneArg.split('=')[1!]);
+      if (zoneArg) filter.zoneId = (zoneArg.split('=')[1]);
       const behArg = args.find(a => a.startsWith('--behavior=')) || args.find(a => a.startsWith('behavior='));
-      if (behArg) filter.behaviorType = (behArg.split('=')[1!]);
+      if (behArg) filter.behaviorType = (behArg.split('=')[1]);
       const facArg = args.find(a => a.startsWith('--faction=')) || args.find(a => a.startsWith('faction='));
-      if (facArg) filter.faction = (facArg.split('=')[1!]);
+      if (facArg) filter.faction = (facArg.split('=')[1]);
       if (args.includes('--has-quest') || args.includes('hasQuest')) filter.hasQuest = true;
       
       output = manager.listNPCs(filter);
@@ -137,13 +137,13 @@ try {
     case 'update-behavior':
       const behavior: Partial<NPBehavior> = {};
       if (args.includes('--aggression')) {
-        behavior.aggression = parseInt(args.find(arg => arg.startsWith('--aggression='))?.split('=')[1!] || '0');
+        behavior.aggression = parseInt(args.find(arg => arg.startsWith('--aggression='))?.split('=')[1] || '0');
       }
       if (args.includes('--curiosity')) {
-        behavior.curiosity = parseInt(args.find(arg => arg.startsWith('--curiosity='))?.split('=')[1!] || '50');
+        behavior.curiosity = parseInt(args.find(arg => arg.startsWith('--curiosity='))?.split('=')[1] || '50');
       }
       if (args.includes('--loyalty')) {
-        behavior.loyalty = parseInt(args.find(arg => arg.startsWith('--loyalty='))?.split('=')[1!] || '50');
+        behavior.loyalty = parseInt(args.find(arg => arg.startsWith('--loyalty='))?.split('=')[1] || '50');
       }
       output = manager.updateNPCBehavior(npcId as any, behavior);
       break;
@@ -157,8 +157,8 @@ try {
       break;
 
     case 'get-by-reputation':
-      const minRep = parseInt(args.find(arg => arg.startsWith('--min-rep='))?.split('=')[1!] || '0');
-      const maxRep = parseInt(args.find(arg => arg.startsWith('--max-rep='))?.split('=')[1!] || '100');
+      const minRep = parseInt(args.find(arg => arg.startsWith('--min-rep='))?.split('=')[1] || '0');
+      const maxRep = parseInt(args.find(arg => arg.startsWith('--max-rep='))?.split('=')[1] || '100');
       output = manager.getNPCsByReputation(minRep, maxRep);
       break;
 

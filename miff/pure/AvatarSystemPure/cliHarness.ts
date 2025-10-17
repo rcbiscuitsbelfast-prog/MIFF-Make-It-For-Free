@@ -79,10 +79,10 @@ class AvatarSystemCLI {
         await this.runTests();
         break;
       case 'validate':
-        await this.validateManifest(args[0!]);
+        await this.validateManifest(args[0]);
         break;
       case 'resolve':
-        await this.resolveAvatar(args[0!]);
+        await this.resolveAvatar(args[0]);
         break;
       case 'create-manifest':
         await this.createManifest();
@@ -97,10 +97,10 @@ class AvatarSystemCLI {
         this.listAnimations();
         break;
       case 'optimize':
-        await this.optimizeAvatar(args[0!]);
+        await this.optimizeAvatar(args[0]);
         break;
       case 'export':
-        await this.exportAvatar(args[0!]);
+        await this.exportAvatar(args[0]);
         break;
       case 'simulate':
         await this.simulate();
@@ -483,6 +483,6 @@ async function main() {
   await cli.start();
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

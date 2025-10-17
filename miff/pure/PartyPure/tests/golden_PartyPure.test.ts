@@ -316,10 +316,10 @@ describe('PartyPure Golden Tests', () => {
       const ko = party.getKOMembers();
 
       expect(active).toHaveLength(1);
-      expect(active[0!].name).toBe('Hero');
+      expect(active[0].name).toBe('Hero');
 
       expect(ko).toHaveLength(1);
-      expect(ko[0!].name).toBe('Mage');
+      expect(ko[0].name).toBe('Mage');
 
       expect(party.hasKOMembers()).toBe(true);
     });
@@ -421,7 +421,7 @@ describe('PartyPure Golden Tests', () => {
       party.healAll();
 
       expect(revivedMembers).toHaveLength(1);
-      expect(revivedMembers[0!].name).toBe('Hero');
+      expect(revivedMembers[0].name).toBe('Hero');
     });
 
     test('should handle KO handler revival events', () => {
@@ -435,7 +435,7 @@ describe('PartyPure Golden Tests', () => {
       koHandler.revive('spirit1');
 
       expect(revivedIds).toHaveLength(1);
-      expect(revivedIds[0!]).toBe('spirit1');
+      expect(revivedIds[0]).toBe('spirit1');
     });
   });
 
@@ -536,12 +536,12 @@ describe('PartyPure Golden Tests', () => {
       party.addMember(member2);
 
       const sortedAsc = PartyUtils.getMembersByHP(party, true);
-      expect(sortedAsc[0!].name).toBe('Low HP');
-      expect(sortedAsc[1!].name).toBe('High HP');
+      expect(sortedAsc[0].name).toBe('Low HP');
+      expect(sortedAsc[1].name).toBe('High HP');
 
       const sortedDesc = PartyUtils.getMembersByHP(party, false);
-      expect(sortedDesc[0!].name).toBe('High HP');
-      expect(sortedDesc[1!].name).toBe('Low HP');
+      expect(sortedDesc[0].name).toBe('High HP');
+      expect(sortedDesc[1].name).toBe('Low HP');
     });
 
     test('should get healable members', () => {
@@ -575,7 +575,7 @@ describe('PartyPure Golden Tests', () => {
 
       const healable = PartyUtils.getHealableMembers(party);
       expect(healable).toHaveLength(1);
-      expect(healable[0!].name).toBe('Half HP');
+      expect(healable[0].name).toBe('Half HP');
     });
 
     test('should get critical members', () => {
@@ -600,7 +600,7 @@ describe('PartyPure Golden Tests', () => {
 
       const critical = PartyUtils.getCriticalMembers(party);
       expect(critical).toHaveLength(1);
-      expect(critical[0!].name).toBe('Critical');
+      expect(critical[0].name).toBe('Critical');
     });
   });
 

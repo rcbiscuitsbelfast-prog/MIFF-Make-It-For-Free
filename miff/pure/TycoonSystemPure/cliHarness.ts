@@ -182,7 +182,7 @@ export class TycoonSystemCLI {
 
   private processCommand(command: string): void {
     const parts = command.split(' ');
-    const cmd = parts[0!].toLowerCase();
+    const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     switch (cmd) {
@@ -254,7 +254,7 @@ export class TycoonSystemCLI {
         break;
 
       case 'export':
-        this.exportData(args[0!]);
+        this.exportData(args[0]);
         break;
 
       case 'quit':
@@ -308,7 +308,7 @@ export class TycoonSystemCLI {
       return;
     }
 
-    const facilityId = args[0!];
+    const facilityId = args[0];
     const facilities = this.tycoonSystem.getFacilities();
 
     if (!facilities.has(facilityId)) {
@@ -341,9 +341,9 @@ export class TycoonSystemCLI {
       return;
     }
 
-    const facilityId = args[0!];
-    const role = args[1!] as any;
-    const salary = args[2!] ? parseFloat(args[2!]) : 20; // Default 0/hour
+    const facilityId = args[0];
+    const role = args[1] as any;
+    const salary = args[2] ? parseFloat(args[2]) : 20; // Default 0/hour
 
     const success = this.tycoonSystem.hireStaff(facilityId, role, salary);
 
@@ -360,7 +360,7 @@ export class TycoonSystemCLI {
       return;
     }
 
-    const facilityId = args[0!];
+    const facilityId = args[0];
     const success = this.tycoonSystem.upgradeFacility(facilityId);
 
     if (success) {
@@ -377,9 +377,9 @@ export class TycoonSystemCLI {
       return;
     }
 
-    const amount = parseFloat(args[0!]);
-    const interestRate = parseFloat(args[1!]);
-    const term = parseInt(args[2!]);
+    const amount = parseFloat(args[0]);
+    const interestRate = parseFloat(args[1]);
+    const term = parseInt(args[2]);
 
     if (isNaN(amount) || isNaN(interestRate) || isNaN(term)) {
       this.log('❌ Invalid loan parameters');
@@ -402,8 +402,8 @@ export class TycoonSystemCLI {
       return;
     }
 
-    const opportunityId = args[0!];
-    const amount = parseFloat(args[1!]);
+    const opportunityId = args[0];
+    const amount = parseFloat(args[1]);
 
     if (isNaN(amount)) {
       this.log('❌ Invalid investment amount');
@@ -469,12 +469,12 @@ export class TycoonSystemCLI {
 
     // Apply optimizations
     if (facilityPriorities.length > 0) {
-      this.tycoonSystem.upgradeFacility(facilityPriorities[0!]);
+      this.tycoonSystem.upgradeFacility(facilityPriorities[0]);
     }
 
     if (hiringPriorities.length > 0) {
-      const priority = hiringPriorities[0!];
-      this.tycoonSystem.hireStaff(priority.facilityId, priority.role, 25);
+      const priority = hiringPriorities[0];
+      this.tycoonSystem.hireStaff(priority.facilityId, role: priority.role, 25);
     }
   }
 
@@ -767,7 +767,7 @@ async function main(): Promise<void> {
   await cli.run();
 }
 
-if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1!]}`) {
+if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 

@@ -780,7 +780,7 @@ export class CombatEngine {
   }
 
   private async processDamage(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> {
-    const calculation = this.calculateDamage(sourceEntity, targetEntity, effect.value, effect.type === 'damage' ? PHYSICAL: DamageType.MAGICAL);
+    const calculation = this.calculateDamage(sourceEntity, targetEntity, value: effect.value, effect.type === 'damage' ? PHYSICAL: DamageType.MAGICAL);
     const actualDamage = Math.min(calculation.finalDamage, targetEntity.health);
 
     targetEntity.health -= actualDamage;
@@ -1061,7 +1061,7 @@ export class CombatEngine {
       .filter(([_, entities]) => entities.length > 0)
       .map(([team, _]) => team);
 
-    return aliveTeams.length === 1 ? aliveTeams[0!] : 'draw';
+    return aliveTeams.length === 1 ? aliveTeams[0] : 'draw';
   }
 
   // Utility methods

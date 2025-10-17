@@ -299,7 +299,7 @@ class ChallengesPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0!].toLowerCase();
+    const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -314,14 +314,14 @@ class ChallengesPureCLI {
           break;
         case 'show':
         case 's':
-          this.showChallenge(args[0!]);
+          this.showChallenge(args[0]);
           break;
         case 'start':
-          this.startChallenge(args[0!]);
+          this.startChallenge(args[0]);
           break;
         case 'complete':
         case 'c':
-          this.completeChallenge(args[0!], args.slice(1));
+          this.completeChallenge(args[0], args.slice(1));
           break;
         case 'search':
           this.searchChallenges(args.join(' '));
@@ -338,27 +338,27 @@ class ChallengesPureCLI {
           this.showProgress();
           break;
         case 'setflag':
-          this.setFlag(args[0!]);
+          this.setFlag(args[0]);
           break;
         case 'setlocation':
         case 'sl':
-          this.setLocation(args[0!]);
+          this.setLocation(args[0]);
           break;
         case 'setlevel':
         case 'lvl':
-          this.setLevel(args[0!]);
+          this.setLevel(args[0]);
           break;
         case 'capturespirit':
         case 'cs':
-          this.captureSpirit(args[0!]);
+          this.captureSpirit(args[0]);
           break;
         case 'export':
         case 'e':
-          this.exportChallenges(args[0!]);
+          this.exportChallenges(args[0]);
           break;
         case 'import':
         case 'i':
-          this.importChallenges(args[0!]);
+          this.importChallenges(args[0]);
           break;
         case 'clear':
           this.clearChallengeData();
@@ -396,7 +396,7 @@ class ChallengesPureCLI {
    * List challenges
    */
   private listChallenges(args: string[]): void {
-    const filterType = args[0!] || 'all';
+    const filterType = args[0] || 'all';
     let filter: IChallengeFilter = { ...this.currentFilter };
 
     switch (filterType.toLowerCase()) {
@@ -574,8 +574,8 @@ class ChallengesPureCLI {
       return;
     }
 
-    const outcomeStr = args[0!] || 'victory';
-    const turnsStr = args[1!] || '10';
+    const outcomeStr = args[0] || 'victory';
+    const turnsStr = args[1] || '10';
 
     const outcome = this.parseOutcome(outcomeStr);
     const turns = parseInt(turnsStr);
@@ -590,7 +590,7 @@ class ChallengesPureCLI {
 
     switch (outcome) {
       case VICTORY:
-        result = ChallengeResult.victory(challenge.rewards, challenge.loreFlagsToSet, challenge.syncBoosts, 'Challenge completed successfully!', turns);
+        result = ChallengeResult.victory(challenge.rewards, loreFlagsToSet: challenge.loreFlagsToSet, challenge.syncBoosts, 'Challenge completed successfully!', turns);
         message = `✅ Completed challenge: ${challenge.name}`;
         break;
       case DEFEAT:
@@ -657,8 +657,8 @@ class ChallengesPureCLI {
       return;
     }
 
-    const filterType = args[0!].toLowerCase();
-    const filterValue = args[1!];
+    const filterType = args[0].toLowerCase();
+    const filterValue = args[1];
 
     this.currentFilter = {};
 

@@ -175,12 +175,12 @@ export function createCLI() {
       
       switch (command) {
         case 'create-character':
-          animator.createCharacter(args[0!] || 'TestCharacter');
-          return `Character '${args[0!] || 'TestCharacter'}' created successfully.`;
+          animator.createCharacter(args[0] || 'TestCharacter');
+          return `Character '${args[0] || 'TestCharacter'}' created successfully.`;
         
         case 'export-character':
-          animator.createCharacter(args[0!] || 'TestCharacter');
-          const data = animator.exportCharacter(args[0!] || 'TestCharacter');
+          animator.createCharacter(args[0] || 'TestCharacter');
+          const data = animator.exportCharacter(args[0] || 'TestCharacter');
           return `Character exported:\n${data}`;
         
         case 'validate':

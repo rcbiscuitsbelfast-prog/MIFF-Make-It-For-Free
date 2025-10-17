@@ -228,7 +228,7 @@ class TeleportationSystemCLI {
     if (!this.isRunning) return;
 
     const parts = input.split(' ');
-    const command = parts[0!]?.toLowerCase();
+    const command = parts[0]?.toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -249,7 +249,7 @@ class TeleportationSystemCLI {
           if (args.length === 0) {
             console.log('❌ Usage: teleport <destination-id>');
           } else {
-            await this.teleport(args[0!]);
+            await this.teleport(args[0]);
           }
           break;
 

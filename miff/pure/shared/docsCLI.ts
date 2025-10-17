@@ -22,7 +22,7 @@ class DocsCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -60,8 +60,8 @@ class DocsCLI {
   }
 
   private async generateDocumentation(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputDir = args[1!] || 'docs';
+    const rootPath = args[0] || 'miff/pure';
+    const outputDir = args[1] || 'docs';
 
     console.info(`📚 Generating comprehensive documentation for ${rootPath}...`);
     
@@ -80,8 +80,8 @@ class DocsCLI {
   }
 
   private async generateAPI(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputDir = args[1!] || 'docs/api';
+    const rootPath = args[0] || 'miff/pure';
+    const outputDir = args[1] || 'docs/api';
 
     console.info(`📖 Generating API documentation for ${rootPath}...`);
     
@@ -103,7 +103,7 @@ class DocsCLI {
   }
 
   private async generateGuides(args: string[]): Promise<void> {
-    const outputDir = args[0!] || 'docs/guides';
+    const outputDir = args[0] || 'docs/guides';
 
     console.info('👥 Generating contributor guides...');
     
@@ -126,7 +126,7 @@ class DocsCLI {
   }
 
   private async generateTutorials(args: string[]): Promise<void> {
-    const outputDir = args[0!] || 'docs/tutorials';
+    const outputDir = args[0] || 'docs/tutorials';
 
     console.info('🎓 Generating tutorials...');
     
@@ -149,7 +149,7 @@ class DocsCLI {
   }
 
   private async generateExamples(args: string[]): Promise<void> {
-    const outputDir = args[0!] || 'docs/examples';
+    const outputDir = args[0] || 'docs/examples';
 
     console.info('💻 Generating code examples...');
     
@@ -172,7 +172,7 @@ class DocsCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'docs/documentation-report.html';
+    const outputFile = args[0] || 'docs/documentation-report.html';
 
     console.info('📊 Generating documentation report...');
     
@@ -198,8 +198,8 @@ class DocsCLI {
   }
 
   private async serveDocumentation(args: string[]): Promise<void> {
-    const port = parseInt(args[0!]) || 3000;
-    const rootDir = args[1!] || 'docs';
+    const port = parseInt(args[0]) || 3000;
+    const rootDir = args[1] || 'docs';
 
     console.info(`🌐 Starting documentation server on port ${port}...`);
     console.info(`📁 Serving from ${rootDir}`);
@@ -441,7 +441,7 @@ Output Formats:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new DocsCLI();
   cli.run().catch(console.error);
 }

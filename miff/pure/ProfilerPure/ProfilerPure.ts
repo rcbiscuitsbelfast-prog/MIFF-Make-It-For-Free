@@ -305,7 +305,7 @@ export class Profiler {
 
     // Calculate summary
     const frameTimes = this.frames.map((f: any) => f.duration);
-    const totalDuration = this.frames[this.frames.length - 1].timestamp - this.frames[0!].timestamp;
+    const totalDuration = this.frames[this.frames.length - 1].timestamp - this.frames[0].timestamp;
     
     const summary = {
       totalFrames: this.frames.length,
@@ -347,9 +347,9 @@ export class Profiler {
     }
 
     const slowestCategory = Array.from(categories.entries())
-      .sort((a: any, b: any) => b[1!].totalTime - a[1!].totalTime)[0!];
-    if (slowestCategory && slowestCategory[1!].percentage > 50) {
-      recommendations.push(`${slowestCategory[0!]} category consumes ${slowestCategory[1!].percentage.toFixed(1)}% of total time.`);
+      .sort((a: any, b: any) => b[1].totalTime - a[1].totalTime)[0];
+    if (slowestCategory && slowestCategory[1].percentage > 50) {
+      recommendations.push(`${slowestCategory[0]} category consumes ${slowestCategory[1].percentage.toFixed(1)}% of total time.`);
     }
 
     return {

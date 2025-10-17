@@ -551,7 +551,7 @@ describe('ChallengesPure Golden Tests', () => {
       const hardChallenge = BattleChallenge.boss('hard', 'Hard', 'Hard challenge', ['opp1', 'opp2', 'opp3'], ['flag']);
       expect(hardChallenge.getEstimatedDuration()).toBe(23); // 15 base * 1.5 opponents * 1.0 turns
 
-      const customChallenge = new BattleChallenge('custom', 'Custom', 'Custom', ['opp'], new ChallengeRuleset(), {}, ChallengeCategory.MAIN_STORY, ChallengeDifficulty.EXPERT, 50);
+      const customChallenge = new BattleChallenge('custom', 'Custom', 'Custom', ['opp'], new ChallengeRuleset(), {}, MAIN_STORY: ChallengeCategory.MAIN_STORY, ChallengeDifficulty.EXPERT, 50);
       expect(customChallenge.getEstimatedDuration()).toBe(40); // 20 base * 1.0 opponents * 2.0 turns
     });
 
@@ -771,7 +771,7 @@ describe('ChallengesPure Golden Tests', () => {
         category: ChallengeCategory.TUTORIAL
       });
       expect(tutorials).toHaveLength(1);
-      expect(tutorials[0!]).toBe(challenge1);
+      expect(tutorials[0]).toBe(challenge1);
 
       // Filter by status
       const available = challengeManager.getFilteredChallenges({
@@ -791,7 +791,7 @@ describe('ChallengesPure Golden Tests', () => {
         tags: ['story']
       });
       expect(storyTagged).toHaveLength(1);
-      expect(storyTagged[0!]).toBe(challenge2);
+      expect(storyTagged[0]).toBe(challenge2);
     });
 
     test('should handle challenge lifecycle correctly', () => {
@@ -933,9 +933,9 @@ describe('ChallengesPure Golden Tests', () => {
 
     test('should filter challenges correctly', () => {
       const challenges: IBattleChallenge[] = [
-        new BattleChallenge('1', 'T1', 'Text1', ['opp1'], new ChallengeRuleset(), {}, ChallengeCategory.MAIN_STORY, ChallengeDifficulty.MEDIUM, 20, 8, ['important']),
-        new BattleChallenge('2', 'T2', 'Text2', ['opp2'], new ChallengeRuleset(), {}, ChallengeCategory.TUTORIAL, ChallengeDifficulty.EASY, 10, 3, ['tutorial']),
-        new BattleChallenge('3', 'T3', 'Text3', ['opp3'], new ChallengeRuleset(), {}, ChallengeCategory.DAILY, ChallengeDifficulty.HARD, 15, 6, ['daily', 'important']),
+        new BattleChallenge('1', 'T1', 'Text1', ['opp1'], new ChallengeRuleset(), {}, MAIN_STORY: ChallengeCategory.MAIN_STORY, ChallengeDifficulty.MEDIUM, 20, 8, ['important']),
+        new BattleChallenge('2', 'T2', 'Text2', ['opp2'], new ChallengeRuleset(), {}, TUTORIAL: ChallengeCategory.TUTORIAL, ChallengeDifficulty.EASY, 10, 3, ['tutorial']),
+        new BattleChallenge('3', 'T3', 'Text3', ['opp3'], new ChallengeRuleset(), {}, DAILY: ChallengeCategory.DAILY, ChallengeDifficulty.HARD, 15, 6, ['daily', 'important']),
       ];
 
       const filtered = ChallengeUtils.filterChallenges(challenges, {
@@ -952,25 +952,25 @@ describe('ChallengesPure Golden Tests', () => {
 
     test('should sort challenges correctly', () => {
       const challenges: IBattleChallenge[] = [
-        new BattleChallenge('2', 'B Title', 'Text2', ['opp'], new ChallengeRuleset(), {}, ChallengeCategory.MAIN_STORY, ChallengeDifficulty.MEDIUM, 20, 3),
-        new BattleChallenge('1', 'A Title', 'Text1', ['opp'], new ChallengeRuleset(), {}, ChallengeCategory.MAIN_STORY, ChallengeDifficulty.HARD, 20, 8),
-        new BattleChallenge('3', 'C Title', 'Text3', ['opp'], new ChallengeRuleset(), {}, ChallengeCategory.MAIN_STORY, ChallengeDifficulty.EASY, 20, 5),
+        new BattleChallenge('2', 'B Title', 'Text2', ['opp'], new ChallengeRuleset(), {}, MAIN_STORY: ChallengeCategory.MAIN_STORY, ChallengeDifficulty.MEDIUM, 20, 3),
+        new BattleChallenge('1', 'A Title', 'Text1', ['opp'], new ChallengeRuleset(), {}, MAIN_STORY: ChallengeCategory.MAIN_STORY, ChallengeDifficulty.HARD, 20, 8),
+        new BattleChallenge('3', 'C Title', 'Text3', ['opp'], new ChallengeRuleset(), {}, MAIN_STORY: ChallengeCategory.MAIN_STORY, ChallengeDifficulty.EASY, 20, 5),
       ];
 
       const sortedByPriority = ChallengeUtils.sortChallenges(challenges, 'priority');
-      expect(sortedByPriority[0!].priority).toBe(8);
-      expect(sortedByPriority[1!].priority).toBe(5);
-      expect(sortedByPriority[2!].priority).toBe(3);
+      expect(sortedByPriority[0].priority).toBe(8);
+      expect(sortedByPriority[1].priority).toBe(5);
+      expect(sortedByPriority[2].priority).toBe(3);
 
       const sortedByName = ChallengeUtils.sortChallenges(challenges, 'name');
-      expect(sortedByName[0!].name).toBe('A Title');
-      expect(sortedByName[1!].name).toBe('B Title');
-      expect(sortedByName[2!].name).toBe('C Title');
+      expect(sortedByName[0].name).toBe('A Title');
+      expect(sortedByName[1].name).toBe('B Title');
+      expect(sortedByName[2].name).toBe('C Title');
 
       const sortedByDifficulty = ChallengeUtils.sortChallenges(challenges, 'difficulty');
-      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[0!].difficulty)).toBe(3); // HARD
-      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[1!].difficulty)).toBe(2); // MEDIUM
-      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[2!].difficulty)).toBe(1); // EASY
+      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[0].difficulty)).toBe(3); // HARD
+      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[1].difficulty)).toBe(2); // MEDIUM
+      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[2].difficulty)).toBe(1); // EASY
     });
   });
 
@@ -1162,14 +1162,14 @@ describe('ChallengesPure Golden Tests', () => {
         category: ChallengeCategory.TUTORIAL
       });
       expect(tutorials).toHaveLength(1);
-      expect(tutorials[0!].challengeId).toBe('tut_001');
+      expect(tutorials[0].challengeId).toBe('tut_001');
 
       // Test difficulty filtering
       const hardChallenges = challengeManager.getFilteredChallenges({
         difficulty: ChallengeDifficulty.HARD
       });
       expect(hardChallenges).toHaveLength(1);
-      expect(hardChallenges[0!].challengeId).toBe('boss_001');
+      expect(hardChallenges[0].challengeId).toBe('boss_001');
 
       // Test search
       const fireChallenges = challengeManager.getFilteredChallenges({
@@ -1183,12 +1183,12 @@ describe('ChallengesPure Golden Tests', () => {
       expect(waterChallenges).toHaveLength(2);
 
       // Test tag filtering
-      challenges[1!].addTag('fire');
+      challenges[1].addTag('fire');
       const fireTagged = challengeManager.getFilteredChallenges({
         tags: ['fire']
       });
       expect(fireTagged).toHaveLength(1);
-      expect(fireTagged[0!].challengeId).toBe('story_001');
+      expect(fireTagged[0].challengeId).toBe('story_001');
     });
   });
 

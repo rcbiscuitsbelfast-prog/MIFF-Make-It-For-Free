@@ -5,7 +5,7 @@ import path from 'path';
 import { ConvertToWebManager } from './Manager';
 
 function main(){
-  const file = process.argv[2!];
+  const file = process.argv[2];
   if(!file){
     console.log('Usage: npx ts-node ConvertToWebPure/cliHarness.ts <payload.json>');
     return;
@@ -16,5 +16,5 @@ function main(){
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
 

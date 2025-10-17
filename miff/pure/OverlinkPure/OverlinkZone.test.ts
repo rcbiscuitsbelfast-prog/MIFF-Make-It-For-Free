@@ -47,7 +47,7 @@ describe('OverlinkZone', () => {
       
       expect(result).toBe(true);
       expect(overlink.getActiveModules()).toHaveLength(1);
-      expect(overlink.getActiveModules()[0!].status).toBe('active');
+      expect(overlink.getActiveModules()[0].status).toBe('active');
     });
 
     test('should not activate modules with unmet dependencies', () => {
@@ -92,7 +92,7 @@ describe('OverlinkZone', () => {
       const reducers = overlink.getDrawReducers();
       
       expect(reducers).toHaveLength(1);
-      expect(reducers[0!].id).toBe('test_renderer');
+      expect(reducers[0].id).toBe('test_renderer');
     });
 
     test('should sort draw reducers by priority', () => {
@@ -113,8 +113,8 @@ describe('OverlinkZone', () => {
       });
       
       const reducers = overlink.getDrawReducers();
-      expect(reducers[0!].priority).toBe(1);
-      expect(reducers[1!].priority).toBe(10);
+      expect(reducers[0].priority).toBe(1);
+      expect(reducers[1].priority).toBe(10);
     });
 
     test('should toggle draw reducers correctly', () => {
@@ -188,7 +188,7 @@ describe('OverlinkZone', () => {
       const bindings = overlink.getAssetBindings();
       
       expect(bindings).toHaveLength(1);
-      expect(bindings[0!].id).toBe('test_texture');
+      expect(bindings[0].id).toBe('test_texture');
     });
 
     test('should retrieve asset bindings by ID', () => {
@@ -232,7 +232,7 @@ describe('OverlinkZone', () => {
       
       const transitions = overlink.processTransitions();
       expect(transitions).toHaveLength(1);
-      expect(transitions[0!].toZone).toBe('toppler');
+      expect(transitions[0].toZone).toBe('toppler');
     });
 
     test('should process and clear transition queue', () => {
@@ -395,7 +395,7 @@ describe('OverlinkZone', () => {
       overlink.unbindAsset('audio');
       bindings = overlink.getAssetBindings();
       expect(bindings).toHaveLength(1);
-      expect(bindings[0!].id).toBe('textures');
+      expect(bindings[0].id).toBe('textures');
     });
   });
 });

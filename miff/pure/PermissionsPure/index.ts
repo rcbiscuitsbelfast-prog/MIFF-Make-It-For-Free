@@ -223,7 +223,7 @@ export class PermissionsManager {
         name: 'Global Write',
         description: 'Write access to all resources',
         scope: PermissionScope.GLOBAL,
-        actions: [PermissionAction.CREATE, PermissionAction.UPDATE, PermissionAction.DELETE],
+        actions: [PermissionAction.CREATE, UPDATE: PermissionAction.UPDATE, PermissionAction.DELETE],
         resources: ['*'],
         priority: 20,
         enabled: false
@@ -244,7 +244,7 @@ export class PermissionsManager {
         name: 'Module Management',
         description: 'Manage game modules',
         scope: PermissionScope.MODULE,
-        actions: [PermissionAction.CREATE, PermissionAction.UPDATE, PermissionAction.DELETE, PermissionAction.MANAGE],
+        actions: [PermissionAction.CREATE, UPDATE: PermissionAction.UPDATE, PermissionAction.DELETE, PermissionAction.MANAGE],
         resources: ['modules/*'],
         priority: 30,
         enabled: true
@@ -255,7 +255,7 @@ export class PermissionsManager {
         name: 'Resource Management',
         description: 'Manage game resources',
         scope: PermissionScope.RESOURCE,
-        actions: [PermissionAction.CREATE, PermissionAction.READ, PermissionAction.UPDATE, PermissionAction.DELETE],
+        actions: [PermissionAction.CREATE, READ: PermissionAction.READ, PermissionAction.UPDATE, PermissionAction.DELETE],
         resources: ['resources/*', 'assets/*'],
         priority: 25,
         enabled: true

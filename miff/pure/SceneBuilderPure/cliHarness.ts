@@ -21,14 +21,14 @@ async function main() {
 
   try {
     let input: SceneBuilderOperation;
-    if (argv.length >= 2 && !argv[1!]?.endsWith('.json')) {
+    if (argv.length >= 2 && !argv[1]?.endsWith('.json')) {
       input = { op: argv[0] as any, template: argv[1] } as SceneBuilderOperation;
     } else if (argv.length >= 2) {
-      const configFile = argv[1!];
+      const configFile = argv[1];
       const config = fs.existsSync(configFile) ? JSON.parse(fs.readFileSync(configFile, 'utf-8')) : {};
-      input = { op: argv[0!] as any, config } as SceneBuilderOperation;
+      input = { op: argv[0] as any, config } as SceneBuilderOperation;
     } else {
-      input = { op: argv[0!] as any } as SceneBuilderOperation;
+      input = { op: argv[0] as any } as SceneBuilderOperation;
     }
 
     if (!input || typeof input !== 'object') {
@@ -44,9 +44,9 @@ async function main() {
       name: 'MIFF Scene',
       description: 'Scene built with MIFF SceneBuilder',
       dimensions: { width: 1920, height: 1080 },
-      layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS, SceneLayer.UI],
+      layers: [SceneLayer.BACKGROUND, TERRAIN: SceneLayer.TERRAIN, SceneLayer.CHARACTERS, SceneLayer.UI],
       optimizationMode: SceneOptimizationMode.CULLING,
-      exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.JSON],
+      exportFormats: [SceneExportFormat.UNITY, GODOT: SceneExportFormat.GODOT, SceneExportFormat.JSON],
       enablePhysics: true,
       enableLighting: true,
       enableAudio: true,
@@ -206,9 +206,9 @@ function getSceneInfo(builder: SceneBuilderManager): any {
 }
 
 try {
-  const invoked = fs.realpathSync(process.argv[1!]);
+  const invoked = fs.realpathSync(process.argv[1]);
   const here = fs.realpathSync(path.resolve(__filename));
   if (invoked === here) await main();
 } catch {
-  if (import.meta.url === `file://${process.argv[1!]}`) await main();
+  if (import.meta.url === `file://${process.argv[1]}`) await main();
 }

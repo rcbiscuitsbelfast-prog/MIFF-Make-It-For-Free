@@ -24,7 +24,7 @@ class MigrationCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -64,10 +64,10 @@ class MigrationCLI {
       return;
     }
 
-    const inputFile = args[0!];
-    const fromVersion = args[1!];
-    const toVersion = args[2!];
-    const outputFile = args[3!] || inputFile.replace('.json', '_migrated.json');
+    const inputFile = args[0];
+    const fromVersion = args[1];
+    const toVersion = args[2];
+    const outputFile = args[3] || inputFile.replace('.json', '_migrated.json');
 
     try {
       // Load input data
@@ -124,8 +124,8 @@ class MigrationCLI {
       return;
     }
 
-    const fromVersion = args[0!];
-    const toVersion = args[1!];
+    const fromVersion = args[0];
+    const toVersion = args[1];
 
     console.info(`🔍 Checking compatibility from ${fromVersion} to ${toVersion}...`);
     
@@ -206,7 +206,7 @@ class MigrationCLI {
   }
 
   private async showHistory(args: string[]): Promise<void> {
-    const limit = args[0!] ? parseInt(args[0!]) : 10;
+    const limit = args[0] ? parseInt(args[0]) : 10;
     const history = this.migrationManager.getMigrationHistory(limit);
     
     if (history.length === 0) {
@@ -219,7 +219,7 @@ class MigrationCLI {
     history.forEach((entry: any) => {
       const status = entry.success ? '✅' : '❌';
       const duration = entry.duration.toFixed(1);
-      const timestamp = entry.timestamp.toISOString().split('T')[0!];
+      const timestamp = entry.timestamp.toISOString().split('T')[0];
       
       console.info(`${status} ${entry.id} - ${timestamp} (${duration}ms)`);
     });
@@ -231,8 +231,8 @@ class MigrationCLI {
       return;
     }
 
-    const migrationId = args[0!];
-    const dataFile = args[1!];
+    const migrationId = args[0];
+    const dataFile = args[1];
 
     try {
       const data = SafeJSONParser.parse(fs.readFileSync(dataFile, 'utf-8'));
@@ -289,7 +289,7 @@ Supported Versions:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new MigrationCLI();
   cli.run().catch(console.error);
 }

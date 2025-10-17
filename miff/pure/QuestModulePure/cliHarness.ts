@@ -11,8 +11,8 @@ type Cmd =
   | { op: 'steps' };
 
 function main() {
-  const questPath = process.argv[2!] || 'QuestModulePure/fixtures/branching.quest';
-  const commandsPath = process.argv[3!] || '';
+  const questPath = process.argv[2] || 'QuestModulePure/fixtures/branching.quest';
+  const commandsPath = process.argv[3] || '';
   
   const questText = fs.readFileSync(path.resolve(questPath), 'utf-8');
 
@@ -58,4 +58,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

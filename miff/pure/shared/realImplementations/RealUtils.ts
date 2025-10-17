@@ -501,7 +501,7 @@ export class RealUtils {
     mode: (...values: number[]) => {
       const frequency: Record<number, number> = {};
       let maxFreq = 0;
-      let mode = values[0!];
+      let mode = values[0];
       
       for (const value of values) {
         frequency[value] = (frequency[value] || 0) + 1;

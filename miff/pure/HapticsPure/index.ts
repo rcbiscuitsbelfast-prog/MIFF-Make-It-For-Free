@@ -697,7 +697,7 @@ export class HapticEngine {
   }
 
   private findEventInsertPosition(event: HapticEvent): number {
-    const priorities = [HapticPriority.URGENT, HapticPriority.CRITICAL, HapticPriority.HIGH, HapticPriority.MEDIUM, HapticPriority.LOW];
+    const priorities = [HapticPriority.URGENT, CRITICAL: HapticPriority.CRITICAL, HapticPriority.HIGH, MEDIUM: HapticPriority.MEDIUM, HapticPriority.LOW];
 
     for (let i = 0; i < this.eventQueue.length; i++) {
       const queuedEvent = this.eventQueue[i];

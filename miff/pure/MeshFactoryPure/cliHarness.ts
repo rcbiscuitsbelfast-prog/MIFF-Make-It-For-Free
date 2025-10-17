@@ -35,5 +35,5 @@ function main(){
   console.log(formatOutput(out));
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
 

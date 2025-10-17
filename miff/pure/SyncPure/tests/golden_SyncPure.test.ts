@@ -486,9 +486,9 @@ describe('SyncPure Golden Tests', () => {
       syncManager.increaseSync('test_spirit', 25);
 
       expect(callbackCalls).toHaveLength(1);
-      expect(callbackCalls[0!].spiritId).toBe('test_spirit');
-      expect(callbackCalls[0!].oldLevel).toBe(0);
-      expect(callbackCalls[0!].newLevel).toBe(25);
+      expect(callbackCalls[0].spiritId).toBe('test_spirit');
+      expect(callbackCalls[0].oldLevel).toBe(0);
+      expect(callbackCalls[0].newLevel).toBe(25);
     });
 
     test('should remove event callbacks correctly', () => {
@@ -543,10 +543,10 @@ describe('SyncPure Golden Tests', () => {
 
       const candidates = syncManager.getLevelUpCandidates();
       expect(candidates).toHaveLength(2);
-      expect(candidates[0!].spiritId).toBe('spirit2'); // 5 sync needed (30 - 25)
-      expect(candidates[0!].syncNeeded).toBe(5);
-      expect(candidates[1!].spiritId).toBe('spirit1'); // 10 sync needed (20 - 10)
-      expect(candidates[1!].syncNeeded).toBe(10);
+      expect(candidates[0].spiritId).toBe('spirit2'); // 5 sync needed (30 - 25)
+      expect(candidates[0].syncNeeded).toBe(5);
+      expect(candidates[1].spiritId).toBe('spirit1'); // 10 sync needed (20 - 10)
+      expect(candidates[1].syncNeeded).toBe(10);
     });
   });
 
@@ -673,7 +673,7 @@ describe('SyncPure Golden Tests', () => {
       ];
 
       // Play challenges with improving accuracy
-      const accuracies = [0.7, 0.85, 0.95];
+      const accuracies = [0.7, 85: 0.85, 0.95];
       let totalSyncGained = 0;
 
       challenges.forEach((challenge, index) => {

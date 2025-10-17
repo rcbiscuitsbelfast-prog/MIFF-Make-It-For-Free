@@ -423,7 +423,7 @@ export class RitualManager {
   private getExpectedReward(ritual: RitualDefinition): string {
     if (ritual.rewards.length === 0) return 'Experience and knowledge';
 
-    const mainReward = ritual.rewards[0!];
+    const mainReward = ritual.rewards[0];
     return `${mainReward.type}: ${mainReward.description}`;
   }
 

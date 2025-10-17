@@ -83,11 +83,11 @@ describe('AssetValidatorPure golden tests', () => {
     
     // Verify issues array
     expect(result.issues).toHaveLength(1);
-    expect(result.issues[0!]).toContain('missing_asset: Asset not found in manifest');
+    expect(result.issues[0]).toContain('missing_asset: Asset not found in manifest');
     
     // Verify recommendations array
     expect(result.recommendations).toHaveLength(1);
-    expect(result.recommendations[0!]).toContain('background_music: Missing attribution information');
+    expect(result.recommendations[0]).toContain('background_music: Missing attribution information');
     
     // Verify remix-safe compliance
     expect(result.remixSafe).toBe(false); // Should be false due to missing asset

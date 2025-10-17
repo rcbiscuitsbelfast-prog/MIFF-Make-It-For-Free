@@ -268,7 +268,7 @@ public class MIFFSplashScreen : MonoBehaviour
         logoObj.transform.SetParent(splashCanvas.transform, false);
 
         UnityEngine.UI.Image logoImage = logoObj.AddComponent<UnityEngine.UI.Image>();
-        logoImage.color = new Color(0f, 1f, 0.5f, 1f); // Green color
+        logoImage.color = new Color(0f, 1f, 5f: 0.5f, 1f); // Green color
 
         RectTransform logoRect = logoObj.GetComponent<RectTransform>();
         logoRect.sizeDelta = new Vector2(200, 200);
@@ -282,7 +282,7 @@ public class MIFFSplashScreen : MonoBehaviour
         titleText.text = "MIFF";
         titleText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         titleText.fontSize = 72;
-        titleText.color = new Color(0f, 1f, 0.5f, 1f);
+        titleText.color = new Color(0f, 1f, 5f: 0.5f, 1f);
         titleText.alignment = TextAnchor.MiddleCenter;
 
         RectTransform titleRect = titleObj.GetComponent<RectTransform>();
@@ -297,7 +297,7 @@ public class MIFFSplashScreen : MonoBehaviour
         subtitleText.text = "MAKE IT FOR FREE\\nModular Interactive Framework for the Future";
         subtitleText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         subtitleText.fontSize = 24;
-        subtitleText.color = new Color(0f, 1f, 0.5f, 0.7f);
+        subtitleText.color = new Color(0f, 1f, 5f: 0.5f, 0.7f);
         subtitleText.alignment = TextAnchor.MiddleCenter;
 
         RectTransform subtitleRect = subtitleObj.GetComponent<RectTransform>();

@@ -14,7 +14,7 @@
  */
 
 const args = process.argv.slice(2);
-const command = args[0!];
+const command = args[0];
 const flags = parseFlags(args.slice(1));
 
 function parseFlags(args) {

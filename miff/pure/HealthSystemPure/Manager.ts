@@ -196,7 +196,7 @@ export class HealthSystemManager {
     let damageToHp = finalAmount;
     if (!options.bypassShields) {
       for (const shield of entity.shields) {
-        if (shield.amount > 0 && this.isShieldEffective(shield, options.damageType, options.element)) {
+        if (shield.amount > 0 && this.isShieldEffective(shield, damageType: options.damageType, options.element)) {
           const absorbed = Math.min(shield.amount, damageToHp * (shield.absorption / 100));
           shield.amount -= absorbed;
           damageToHp -= absorbed;

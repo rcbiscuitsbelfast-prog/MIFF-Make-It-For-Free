@@ -96,7 +96,7 @@ class WorldManifestCLI {
       throw new Error('Missing required fields: worldId, name, width, height');
     }
 
-    const result = this.manager.createWorld(op.worldId, op.name, op.width, op.height);
+    const result = this.manager.createWorld(op.worldId, name: op.name, op.width, op.height);
 
     return {
       op: 'create',
@@ -134,7 +134,7 @@ class WorldManifestCLI {
       status: 'ok',
       result: {
         worlds: result.worlds.map((world: any) => ({
-          id: world.zones[0!]?.id || 'unknown',
+          id: world.zones[0]?.id || 'unknown',
           name: world.metadata?.title || 'Unnamed World',
           zones: world.zones.length,
           totalTiles: world.zones.reduce((sum, zone) => sum + zone.tiles.length, 0),
@@ -153,7 +153,7 @@ class WorldManifestCLI {
       throw new Error('Missing required fields: worldId, zoneId, name, width, height');
     }
 
-    const result = this.manager.addZone(op.worldId, op.zoneId, op.name, op.width, op.height);
+    const result = this.manager.addZone(op.worldId, zoneId: op.zoneId, op.name, width: op.width, op.height);
 
     return {
       op: 'addZone',
@@ -217,7 +217,7 @@ class WorldManifestCLI {
       throw new Error('Missing required fields: worldId, zoneId, x, y');
     }
 
-    const result = this.manager.removeAsset(op.worldId, op.zoneId, op.x, op.y, op.layer);
+    const result = this.manager.removeAsset(op.worldId, zoneId: op.zoneId, op.x, y: op.y, op.layer);
 
     return {
       op: 'removeAsset',
@@ -237,7 +237,7 @@ class WorldManifestCLI {
       throw new Error('Missing required fields: worldId, zoneId, x, y, endX, endY');
     }
 
-    const result = this.manager.findAssetsInArea(op.worldId, op.zoneId, op.x, op.y, op.endX, op.endY);
+    const result = this.manager.findAssetsInArea(op.worldId, zoneId: op.zoneId, op.x, y: op.y, op.endX, op.endY);
 
     return {
       op: 'findAssets',
@@ -274,7 +274,7 @@ class WorldManifestCLI {
       };
     }
 
-    const result = this.manager.generateWorld(worldResult.world!, op.zoneId, op.config || {});
+    const result = this.manager.generateWorld(worldResult.world!, zoneId: op.zoneId, op.config || {});
 
     return {
       op: 'generate',
@@ -473,7 +473,7 @@ async function main() {
     process.exit(1);
   }
 
-  const operation = process.argv[2!];
+  const operation = process.argv[2];
   const args = process.argv.slice(3);
 
   let op: WorldOperation;
@@ -484,16 +484,16 @@ async function main() {
         if (args.length < 4) throw new Error('create requires worldId, name, width, height');
         op = { 
           op: 'create', 
-          worldId: args[0!], 
-          name: args[1!],
-          width: parseInt(args[2!]),
-          height: parseInt(args[3!])
+          worldId: args[0], 
+          name: args[1],
+          width: parseInt(args[2]),
+          height: parseInt(args[3])
         };
         break;
         
       case 'get':
         if (args.length < 1) throw new Error('get requires worldId');
-        op = { op: 'get', worldId: args[0!] };
+        op = { op: 'get', worldId: args[0] };
         break;
         
       case 'list':
@@ -504,11 +504,11 @@ async function main() {
         if (args.length < 5) throw new Error('addZone requires worldId, zoneId, name, width, height');
         op = { 
           op: 'addZone', 
-          worldId: args[0!],
-          zoneId: args[1!],
-          name: args[2!],
-          width: parseInt(args[3!]),
-          height: parseInt(args[4!])
+          worldId: args[0],
+          zoneId: args[1],
+          name: args[2],
+          width: parseInt(args[3]),
+          height: parseInt(args[4])
         };
         break;
         
@@ -521,12 +521,12 @@ async function main() {
         if (args.length < 5) throw new Error('placeAsset requires worldId, zoneId, x, y, assetId');
         op = { 
           op: 'placeAsset', 
-          worldId: args[0!],
-          zoneId: args[1!],
-          x: parseInt(args[2!]),
-          y: parseInt(args[3!]),
-          assetId: args[4!],
-          layer: args[5!] ? parseInt(args[5!]) : 1
+          worldId: args[0],
+          zoneId: args[1],
+          x: parseInt(args[2]),
+          y: parseInt(args[3]),
+          assetId: args[4],
+          layer: args[5] ? parseInt(args[5]) : 1
         };
         break;
         
@@ -534,11 +534,11 @@ async function main() {
         if (args.length < 4) throw new Error('removeAsset requires worldId, zoneId, x, y');
         op = { 
           op: 'removeAsset', 
-          worldId: args[0!],
-          zoneId: args[1!],
-          x: parseInt(args[2!]),
-          y: parseInt(args[3!]),
-          layer: args[4!] ? parseInt(args[4!]) : undefined
+          worldId: args[0],
+          zoneId: args[1],
+          x: parseInt(args[2]),
+          y: parseInt(args[3]),
+          layer: args[4] ? parseInt(args[4]) : undefined
         };
         break;
         
@@ -546,12 +546,12 @@ async function main() {
         if (args.length < 6) throw new Error('findAssets requires worldId, zoneId, x, y, endX, endY');
         op = { 
           op: 'findAssets', 
-          worldId: args[0!],
-          zoneId: args[1!],
-          x: parseInt(args[2!]),
-          y: parseInt(args[3!]),
-          endX: parseInt(args[4!]),
-          endY: parseInt(args[5!])
+          worldId: args[0],
+          zoneId: args[1],
+          x: parseInt(args[2]),
+          y: parseInt(args[3]),
+          endX: parseInt(args[4]),
+          endY: parseInt(args[5])
         };
         break;
         
@@ -583,34 +583,34 @@ async function main() {
         
         op = { 
           op: 'generate', 
-          worldId: args[0!],
-          zoneId: args[1!],
+          worldId: args[0],
+          zoneId: args[1],
           config
         };
         break;
         
       case 'validate':
         if (args.length < 1) throw new Error('validate requires worldId');
-        op = { op: 'validate', worldId: args[0!] };
+        op = { op: 'validate', worldId: args[0] };
         break;
         
       case 'stats':
         if (args.length < 1) throw new Error('stats requires worldId');
-        op = { op: 'stats', worldId: args[0!] };
+        op = { op: 'stats', worldId: args[0] };
         break;
         
       case 'export':
         if (args.length < 1) throw new Error('export requires worldId');
         op = { 
           op: 'export', 
-          worldId: args[0!], 
-          format: args[1!] as any || 'json' 
+          worldId: args[0], 
+          format: args[1] as any || 'json' 
         };
         break;
         
       case 'delete':
         if (args.length < 1) throw new Error('delete requires worldId');
-        op = { op: 'delete', worldId: args[0!] };
+        op = { op: 'delete', worldId: args[0] };
         break;
         
       case 'globalStats':
@@ -630,6 +630,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

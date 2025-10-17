@@ -512,9 +512,9 @@ enabled=${projectConfig.audio.enabled}`;
 // CLI Interface
 async function main() {
   const args = process.argv.slice(2);
-  const command = args[0!] || 'help';
+  const command = args[0] || 'help';
 
-  const projectPath = args[1!] || './godot-project';
+  const projectPath = args[1] || './godot-project';
   const cli = new GodotEditorCLI(projectPath);
 
   switch (command) {

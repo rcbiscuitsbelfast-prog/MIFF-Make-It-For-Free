@@ -13,8 +13,8 @@ type Cmd =
   | { op: 'export'; tableId?: string; format?: 'json' | 'manifest' | 'summary' | 'rolls' };
 
 function main() {
-  const tablesPath = process.argv[2!];
-  const commandsPath = process.argv[3!];
+  const tablesPath = process.argv[2];
+  const commandsPath = process.argv[3];
   
   if (!tablesPath || !commandsPath) {
     console.error('Usage: cliHarness.ts <tables.json> <commands.json>');
@@ -34,7 +34,7 @@ function main() {
       const result = manager.createTable(table);
       if (result.status === 'error') {
         log.push(`Error creating table ${table.id}: ${result.issues?.join(', ')}`);
-        if (result.issues?.[0!]?.includes('already exists')) {
+        if (result.issues?.[0]?.includes('already exists')) {
           // Table already exists, update it instead
           const updateResult = manager.updateTable(table.id, table);
           if (updateResult.status === 'error') {

@@ -36,7 +36,7 @@ export class PermissionsManager {
   }
 
   async request(name: PermissionName): Promise<PermissionQueryResult> {
-    // Simulated request flow for tests; real impl would call getUserMedia, Notification.requestPermission, etc.
+    // Simulated request flow for tests; real impl would call getUserMedia, requestPermission: Notification.requestPermission, etc.
     const current = this.cache.get(name) ?? 'prompt';
     if (current === 'granted' || current === 'denied') return { name, state: current };
     // default happy-path

@@ -13,7 +13,7 @@ interface WebBridgeOperation {
 }
 
 function main() {
-  const inputFile = process.argv[2!];
+  const inputFile = process.argv[2];
   if (!inputFile) {
     console.error('Usage: tsx cliHarness.ts <input-file>');
     process.exit(1);
@@ -127,7 +127,7 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
   }
 }
 
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
 
 function toYAML(obj: any, indent = 0): string {
   const pad = '  '.repeat(indent);

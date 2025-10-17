@@ -23,7 +23,7 @@ class CPUOptimizerCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -58,7 +58,7 @@ class CPUOptimizerCLI {
   }
 
   private async optimizeCPU(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'cpu-optimization-results.json';
+    const outputFile = args[0] || 'cpu-optimization-results.json';
 
     console.info('🚀 Starting CPU optimization...');
     
@@ -87,7 +87,7 @@ class CPUOptimizerCLI {
   }
 
   private async showMetrics(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'cpu-metrics.json';
+    const outputFile = args[0] || 'cpu-metrics.json';
 
     console.info('📊 Collecting CPU metrics...');
     
@@ -110,7 +110,7 @@ class CPUOptimizerCLI {
   }
 
   private async manageCache(args: string[]): Promise<void> {
-    const subcommand = args[0!];
+    const subcommand = args[0];
 
     switch (subcommand) {
       case 'stats':
@@ -157,9 +157,9 @@ class CPUOptimizerCLI {
       return;
     }
 
-    const key = args[0!];
-    const value = args[1!];
-    const ttl = args[2!] ? parseInt(args[2!]) : 300000; // 5 minutes default
+    const key = args[0];
+    const value = args[1];
+    const ttl = args[2] ? parseInt(args[2]) : 300000; // 5 minutes default
 
     this.optimizer.cacheValue(key, value, ttl);
     console.info(`✅ Cached value for key: ${key}`);
@@ -171,7 +171,7 @@ class CPUOptimizerCLI {
       return;
     }
 
-    const key = args[0!];
+    const key = args[0];
     const value = this.optimizer.getCached(key);
     
     if (value !== null) {
@@ -183,7 +183,7 @@ class CPUOptimizerCLI {
   }
 
   private async manageResourcePools(args: string[]): Promise<void> {
-    const subcommand = args[0!];
+    const subcommand = args[0];
 
     switch (subcommand) {
       case 'stats':
@@ -227,7 +227,7 @@ class CPUOptimizerCLI {
   }
 
   private async showResults(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'optimization-results.json';
+    const outputFile = args[0] || 'optimization-results.json';
 
     console.info('📊 Optimization Results:');
     
@@ -315,7 +315,7 @@ Metrics:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new CPUOptimizerCLI();
   cli.run().catch(console.error);
 }

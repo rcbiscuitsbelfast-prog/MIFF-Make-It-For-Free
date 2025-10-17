@@ -425,7 +425,7 @@ function calculateReplayStatistics(session: ReplaySession, frames: ReplayFrame[]
   // Calculate duration from frame timestamps if available
   let totalDuration = session.duration;
   if (frames.length > 1) {
-    const firstFrame = frames[0!];
+    const firstFrame = frames[0];
     const lastFrame = frames[frames.length - 1];
     totalDuration = Math.max(lastFrame.timestamp - firstFrame.timestamp, 1); // Ensure minimum 1ms
   } else if (totalDuration <= 0) {

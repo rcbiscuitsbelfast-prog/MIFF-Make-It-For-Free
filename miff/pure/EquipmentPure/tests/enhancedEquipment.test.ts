@@ -150,8 +150,8 @@ describe('EquipmentPure Enhanced Functionality', () => {
       expect(modifyResult.status).toBe('ok');
       const modifiedItem = modifyResult.result as any;
       expect(modifiedItem.modifiers).toHaveLength(2);
-      expect(modifiedItem.modifiers[0!].stat).toBe('atk');
-      expect(modifiedItem.modifiers[0!].value).toBe(25);
+      expect(modifiedItem.modifiers[0].stat).toBe('atk');
+      expect(modifiedItem.modifiers[0].value).toBe(25);
     });
 
     test('should modify enchantments', () => {
@@ -186,7 +186,7 @@ describe('EquipmentPure Enhanced Functionality', () => {
       expect(modifyResult.status).toBe('ok');
       const modifiedItem = modifyResult.result as any;
       expect(modifiedItem.enchantments).toHaveLength(1);
-      expect(modifiedItem.enchantments[0!].name).toBe('Ice Enchantment');
+      expect(modifiedItem.enchantments[0].name).toBe('Ice Enchantment');
     });
   });
 
@@ -220,7 +220,7 @@ describe('EquipmentPure Enhanced Functionality', () => {
       expect(activeSets.status).toBe('ok');
       const sets = activeSets.result as any[];
       expect(sets).toHaveLength(1);
-      expect(sets[0!].set.id).toBe('dragon_set');
+      expect(sets[0].set.id).toBe('dragon_set');
     });
 
     test('should activate set bonuses when enough pieces are equipped', () => {
@@ -249,9 +249,9 @@ describe('EquipmentPure Enhanced Functionality', () => {
 
       const activeSets = manager.getActiveSets();
       const sets = activeSets.result as any[];
-      expect(sets[0!].activePieces).toBe(2);
-      expect(sets[0!].bonuses).toHaveLength(1);
-      expect(sets[0!].bonuses[0!].bonuses).toHaveLength(2);
+      expect(sets[0].activePieces).toBe(2);
+      expect(sets[0].bonuses).toHaveLength(1);
+      expect(sets[0].bonuses[0].bonuses).toHaveLength(2);
     });
 
     test('should get all modifiers including set bonuses', () => {

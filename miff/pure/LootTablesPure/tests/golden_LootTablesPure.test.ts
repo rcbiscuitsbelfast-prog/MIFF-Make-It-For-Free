@@ -93,7 +93,7 @@ describe('LootTablesPure Golden Tests', () => {
       
       expect(roll1.status).toBe('ok');
       expect(roll2.status).toBe('ok');
-      expect(roll1.result?.drops[0!]?.id).toBe(roll2.result?.drops[0!]?.id);
+      expect(roll1.result?.drops[0]?.id).toBe(roll2.result?.drops[0]?.id);
     });
   });
 

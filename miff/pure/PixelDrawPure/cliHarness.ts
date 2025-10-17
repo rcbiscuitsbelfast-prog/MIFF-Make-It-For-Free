@@ -31,7 +31,7 @@ function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: PixelDrawOperation;
 
     // Handle direct command or JSON file input
@@ -42,95 +42,95 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'create':
-          if (!argv[1!] || !argv[2!]) throw new Error('create requires width and height');
+          if (!argv[1] || !argv[2]) throw new Error('create requires width and height');
           operation = { 
             op: 'create', 
-            width: parseInt(argv[1!]),
-            height: parseInt(argv[2!]),
-            cellSize: parseInt(argv[3!]) || 1
+            width: parseInt(argv[1]),
+            height: parseInt(argv[2]),
+            cellSize: parseInt(argv[3]) || 1
           };
           break;
         case 'set-color':
-          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!]) {
+          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
             throw new Error('set-color requires x, y, color, and grid JSON');
           }
           operation = { 
             op: 'set-color', 
-            x: parseInt(argv[1!]),
-            y: parseInt(argv[2!]),
-            color: argv[3!] as RgbHex,
-            grid: JSON.parse(argv[4!])
+            x: parseInt(argv[1]),
+            y: parseInt(argv[2]),
+            color: argv[3] as RgbHex,
+            grid: JSON.parse(argv[4])
           };
           break;
         case 'get-color':
-          if (!argv[1!] || !argv[2!] || !argv[3!]) {
+          if (!argv[1] || !argv[2] || !argv[3]) {
             throw new Error('get-color requires x, y, and grid JSON');
           }
           operation = { 
             op: 'get-color', 
-            x: parseInt(argv[1!]),
-            y: parseInt(argv[2!]),
-            grid: JSON.parse(argv[3!])
+            x: parseInt(argv[1]),
+            y: parseInt(argv[2]),
+            grid: JSON.parse(argv[3])
           };
           break;
         case 'draw-rect':
-          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!] || !argv[5!] || !argv[6!]) {
+          if (!argv[1] || !argv[2] || !argv[3] || !argv[4] || !argv[5] || !argv[6]) {
             throw new Error('draw-rect requires x, y, width, height, color, and grid JSON');
           }
           operation = { 
             op: 'draw-rect', 
-            x: parseInt(argv[1!]),
-            y: parseInt(argv[2!]),
-            width: parseInt(argv[3!]),
-            height: parseInt(argv[4!]),
-            color: argv[5!] as RgbHex,
-            grid: JSON.parse(argv[6!])
+            x: parseInt(argv[1]),
+            y: parseInt(argv[2]),
+            width: parseInt(argv[3]),
+            height: parseInt(argv[4]),
+            color: argv[5] as RgbHex,
+            grid: JSON.parse(argv[6])
           };
           break;
         case 'draw-circle':
-          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!] || !argv[5!]) {
+          if (!argv[1] || !argv[2] || !argv[3] || !argv[4] || !argv[5]) {
             throw new Error('draw-circle requires x, y, radius, color, and grid JSON');
           }
           operation = { 
             op: 'draw-circle', 
-            x: parseInt(argv[1!]),
-            y: parseInt(argv[2!]),
-            radius: parseInt(argv[3!]),
-            color: argv[4!] as RgbHex,
-            grid: JSON.parse(argv[5!])
+            x: parseInt(argv[1]),
+            y: parseInt(argv[2]),
+            radius: parseInt(argv[3]),
+            color: argv[4] as RgbHex,
+            grid: JSON.parse(argv[5])
           };
           break;
         case 'draw-line':
-          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!] || !argv[5!] || !argv[6!]) {
+          if (!argv[1] || !argv[2] || !argv[3] || !argv[4] || !argv[5] || !argv[6]) {
             throw new Error('draw-line requires x1, y1, x2, y2, color, and grid JSON');
           }
           operation = { 
             op: 'draw-line', 
-            x1: parseInt(argv[1!]),
-            y1: parseInt(argv[2!]),
-            x2: parseInt(argv[3!]),
-            y2: parseInt(argv[4!]),
-            color: argv[5!] as RgbHex,
-            grid: JSON.parse(argv[6!])
+            x1: parseInt(argv[1]),
+            y1: parseInt(argv[2]),
+            x2: parseInt(argv[3]),
+            y2: parseInt(argv[4]),
+            color: argv[5] as RgbHex,
+            grid: JSON.parse(argv[6])
           };
           break;
         case 'fill':
-          if (!argv[1!] || !argv[2!]) {
+          if (!argv[1] || !argv[2]) {
             throw new Error('fill requires color and grid JSON');
           }
           operation = { 
             op: 'fill', 
-            color: argv[1!] as RgbHex,
-            grid: JSON.parse(argv[2!])
+            color: argv[1] as RgbHex,
+            grid: JSON.parse(argv[2])
           };
           break;
         case 'clear':
-          if (!argv[1!]) throw new Error('clear requires grid JSON');
-          operation = { op: 'clear', grid: JSON.parse(argv[1!]) };
+          if (!argv[1]) throw new Error('clear requires grid JSON');
+          operation = { op: 'clear', grid: JSON.parse(argv[1]) };
           break;
         case 'export-json':
-          if (!argv[1!]) throw new Error('export-json requires grid JSON');
-          operation = { op: 'export-json', grid: JSON.parse(argv[1!]) };
+          if (!argv[1]) throw new Error('export-json requires grid JSON');
+          operation = { op: 'export-json', grid: JSON.parse(argv[1]) };
           break;
         case 'demo':
           operation = { op: 'demo' };
@@ -486,7 +486,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -524,6 +524,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }

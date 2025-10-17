@@ -202,7 +202,7 @@ export class TeleportationManager {
                                this.getPortalsInZone(mostActive.id).length;
 
       return totalInZone > totalInMostActive ? zone : mostActive;
-    }, zones[0!] || { id: 'none', name: 'None' });
+    }, zones[0] || { id: 'none', name: 'None' });
 
     // Find most used portal
     const portals = this.teleportationSystem.getAllPortals();
@@ -214,7 +214,7 @@ export class TeleportationManager {
 
     // Get recent failure reasons
     const recentFailures = Array.from(stats.failureReasons.entries())
-      .sort((a: any, b: any) => b[1!] - a[1!])
+      .sort((a: any, b: any) => b[1] - a[1])
       .slice(0, 5)
       .map(([reason]) => reason);
 
@@ -267,7 +267,7 @@ export class TeleportationManager {
     // Add accessible anchors
     const allAnchors = this.teleportationSystem.getAllAnchors();
     for (const anchor of allAnchors) {
-      if (this.canAccessDestination(entityId, anchor.id, 'anchor')) {
+      if (this.canAccessDestination(entityId, id: anchor.id, 'anchor')) {
         const distance = this.calculateDistance(currentPosition, anchor.position);
         destinations.push({
           id: anchor.id,
@@ -284,7 +284,7 @@ export class TeleportationManager {
     // Add accessible portals
     const allPortals = this.teleportationSystem.getAllPortals();
     for (const portal of allPortals) {
-      if (portal.isActive && this.canAccessDestination(entityId, portal.id, 'portal')) {
+      if (portal.isActive && this.canAccessDestination(entityId, id: portal.id, 'portal')) {
         destinations.push({
           id: portal.id,
           name: portal.name,

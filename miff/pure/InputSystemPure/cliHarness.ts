@@ -16,23 +16,23 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new InputSystemManager();
 
 // Parse additional arguments
-const profileId = args.find(arg => arg.startsWith('--profile-id='))?.split('=')[1!] || 'default';
-const actionId = args.find(arg => arg.startsWith('--action-id='))?.split('=')[1!] || 'test_action';
-const bindingId = args.find(arg => arg.startsWith('--binding-id='))?.split('=')[1!] || 'test_binding';
-const eventType = args.find(arg => arg.startsWith('--event-type='))?.split('=')[1!] as 'key' | 'mouse' | 'touch' | 'gamepad' | 'gesture' || 'key';
-const eventCode = args.find(arg => arg.startsWith('--event-code='))?.split('=')[1!] || 'Space';
-const eventValue = parseFloat(args.find(arg => arg.startsWith('--event-value='))?.split('=')[1!] || '1');
-const gestureType = args.find(arg => arg.startsWith('--gesture-type='))?.split('=')[1!] as 'swipe' | 'pinch' | 'rotate' | 'tap' | 'hold' | 'drag' || 'tap';
-const gestureDistance = parseFloat(args.find(arg => arg.startsWith('--gesture-distance='))?.split('=')[1!] || '100');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
+const profileId = args.find(arg => arg.startsWith('--profile-id='))?.split('=')[1] || 'default';
+const actionId = args.find(arg => arg.startsWith('--action-id='))?.split('=')[1] || 'test_action';
+const bindingId = args.find(arg => arg.startsWith('--binding-id='))?.split('=')[1] || 'test_binding';
+const eventType = args.find(arg => arg.startsWith('--event-type='))?.split('=')[1] as 'key' | 'mouse' | 'touch' | 'gamepad' | 'gesture' || 'key';
+const eventCode = args.find(arg => arg.startsWith('--event-code='))?.split('=')[1] || 'Space';
+const eventValue = parseFloat(args.find(arg => arg.startsWith('--event-value='))?.split('=')[1] || '1');
+const gestureType = args.find(arg => arg.startsWith('--gesture-type='))?.split('=')[1] as 'swipe' | 'pinch' | 'rotate' | 'tap' | 'hold' | 'drag' || 'tap';
+const gestureDistance = parseFloat(args.find(arg => arg.startsWith('--gesture-distance='))?.split('=')[1] || '100');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
 
 let output: any;
 
 try {
   switch (mode) {
     case 'create-profile':
-      const profileName = args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Profile';
-      const profileDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'Test profile description';
+      const profileName = args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'Test Profile';
+      const profileDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'Test profile description';
       output = manager.createProfile(profileId, profileName, profileDescription);
       break;
 
@@ -47,12 +47,12 @@ try {
     case 'add-action':
       const action: InputAction = {
         id: actionId,
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Test Action',
-        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'Test action description',
-        category: args.find(arg => arg.startsWith('--category='))?.split('=')[1!] || 'general',
+        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'Test Action',
+        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'Test action description',
+        category: args.find(arg => arg.startsWith('--category='))?.split('=')[1] || 'general',
         defaultBindings: [],
         modifiers: args.includes('--modifiers') ? JSON.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
-        priority: parseInt(args.find(arg => arg.startsWith('--priority='))?.split('=')[1!] || '1'),
+        priority: parseInt(args.find(arg => arg.startsWith('--priority='))?.split('=')[1] || '1'),
         enabled: !args.includes('--disabled')
       };
       output = manager.addAction(action);
@@ -78,7 +78,7 @@ try {
         code: eventCode,
         value: eventValue,
         timestamp: new Date(),
-        source: args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'cli'
+        source: args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'cli'
       };
       output = manager.processInputEvent(event);
       break;
@@ -91,7 +91,7 @@ try {
         endPosition: { x: gestureDistance, y: 0 },
         direction: 'right',
         distance: gestureDistance,
-        duration: parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1!] || '100'),
+        duration: parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1] || '100'),
         timestamp: new Date()
       };
       output = manager.recognizeGesture(gesture);
@@ -102,7 +102,7 @@ try {
       break;
 
     case 'recent-events':
-      const limit = parseInt(args.find(arg => arg.startsWith('--limit='))?.split('=')[1!] || '100');
+      const limit = parseInt(args.find(arg => arg.startsWith('--limit='))?.split('=')[1] || '100');
       output = manager.getRecentEvents(limit);
       break;
 

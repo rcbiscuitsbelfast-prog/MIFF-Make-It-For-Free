@@ -26,7 +26,7 @@ function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: PlayerStateOperation;
 
     // Handle direct command or JSON file input
@@ -37,35 +37,35 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'create':
-          if (!argv[1!]) throw new Error('create requires playerId');
+          if (!argv[1]) throw new Error('create requires playerId');
           operation = { 
             op: 'create', 
-            playerId: argv[1!],
-            avatarPath: argv[2!] || 'default_avatar.json',
-            style: (argv[3!] as any) || '2d-side'
+            playerId: argv[1],
+            avatarPath: argv[2] || 'default_avatar.json',
+            style: (argv[3] as any) || '2d-side'
           };
           break;
         case 'apply-input':
-          if (!argv[1!]) throw new Error('apply-input requires JSON state file');
-          if (!argv[2!]) throw new Error('apply-input requires input JSON');
-          const state = JSON.parse(fs.readFileSync(argv[1!], 'utf-8')) as PlayerStateSnapshot;
-          const input = JSON.parse(fs.readFileSync(argv[2!], 'utf-8')) as Partial<InputState>;
+          if (!argv[1]) throw new Error('apply-input requires JSON state file');
+          if (!argv[2]) throw new Error('apply-input requires input JSON');
+          const state = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
+          const input = JSON.parse(fs.readFileSync(argv[2], 'utf-8')) as Partial<InputState>;
           operation = { op: 'apply-input', data: { state, input } };
           break;
         case 'simulate':
-          if (!argv[1!]) throw new Error('simulate requires JSON state file');
-          const simState = JSON.parse(fs.readFileSync(argv[1!], 'utf-8')) as PlayerStateSnapshot;
-          const dt = parseFloat(argv[2!]) || 0.016; // 60 FPS default
+          if (!argv[1]) throw new Error('simulate requires JSON state file');
+          const simState = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
+          const dt = parseFloat(argv[2]) || 0.016; // 60 FPS default
           operation = { op: 'simulate', data: { state: simState, dt } };
           break;
         case 'serialize':
-          if (!argv[1!]) throw new Error('serialize requires JSON state file');
-          const serState = JSON.parse(fs.readFileSync(argv[1!], 'utf-8')) as PlayerStateSnapshot;
+          if (!argv[1]) throw new Error('serialize requires JSON state file');
+          const serState = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
           operation = { op: 'serialize', data: { state: serState } };
           break;
         case 'deserialize':
-          if (!argv[1!]) throw new Error('deserialize requires JSON string file');
-          const jsonStr = fs.readFileSync(argv[1!], 'utf-8');
+          if (!argv[1]) throw new Error('deserialize requires JSON string file');
+          const jsonStr = fs.readFileSync(argv[1], 'utf-8');
           operation = { op: 'deserialize', json: jsonStr };
           break;
         case 'demo':
@@ -236,7 +236,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -274,6 +274,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }

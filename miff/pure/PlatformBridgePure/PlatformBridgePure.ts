@@ -484,16 +484,16 @@ export class PlatformBridge {
 
     switch (platform) {
       case WEB:
-        types.push(InputType.KEYBOARD, InputType.MOUSE, InputType.GAMEPAD);
+        types.push(InputType.KEYBOARD, MOUSE: InputType.MOUSE, InputType.GAMEPAD);
         if (this.isTouchAvailable()) {
           types.push(InputType.TOUCH);
         }
         break;
       case MOBILE:
-        types.push(InputType.TOUCH, InputType.GYROSCOPE, InputType.ACCELEROMETER);
+        types.push(InputType.TOUCH, GYROSCOPE: InputType.GYROSCOPE, InputType.ACCELEROMETER);
         break;
       case DESKTOP:
-        types.push(InputType.KEYBOARD, InputType.MOUSE, InputType.GAMEPAD);
+        types.push(InputType.KEYBOARD, MOUSE: InputType.MOUSE, InputType.GAMEPAD);
         break;
     }
 

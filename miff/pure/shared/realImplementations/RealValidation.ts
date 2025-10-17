@@ -434,7 +434,7 @@ export class RealValidation {
   private validateSchemaSpecific(data: any, schema: any, issues: ValidationIssue[]): void {
     // Add specific validation rules based on schema patterns
     if (schema.format) {
-      this.validateFormat(data, schema.format, issues);
+      this.validateFormat(data, format: schema.format, issues);
     }
 
     if (schema.minimum !== undefined && typeof data === 'number') {

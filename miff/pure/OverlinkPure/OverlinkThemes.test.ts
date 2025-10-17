@@ -74,7 +74,7 @@ describe('OverlinkThemes', () => {
       
       const textureAssets = neonAssets.filter(a => a.type === 'texture');
       expect(textureAssets).toHaveLength(1);
-      expect(textureAssets[0!].id).toBe('grid_texture');
+      expect(textureAssets[0].id).toBe('grid_texture');
     });
 
     test('should get assets by type', () => {
@@ -224,7 +224,7 @@ describe('OverlinkThemes', () => {
       expect(activeReducers.length).toBeGreaterThan(0);
       
       // Toggle reducers
-      const reducer = activeReducers[0!];
+      const reducer = activeReducers[0];
       const enabled = themes.toggleThemeReducer('neonGrid', reducer.id);
       expect(enabled).toBe(false);
       

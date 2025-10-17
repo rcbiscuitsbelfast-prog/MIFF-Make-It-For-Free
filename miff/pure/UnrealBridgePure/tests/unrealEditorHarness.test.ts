@@ -202,7 +202,7 @@ describe('UnrealEditorHarnessPure Golden Tests', () => {
 
     // Check structure of first test result
     if (testResults.length > 0) {
-      const firstResult = testResults[0!];
+      const firstResult = testResults[0];
       expect(firstResult).toHaveProperty('success');
       expect(firstResult).toHaveProperty('testName');
       expect(firstResult).toHaveProperty('duration');
@@ -264,7 +264,7 @@ describe('UnrealEditorHarnessPure Golden Tests', () => {
     expect(logs).toBeDefined();
     expect(Array.isArray(logs)).toBe(true);
     expect(logs.length).toBeGreaterThan(0);
-    expect(logs[0!]).toContain('Unreal Editor Harness Report');
+    expect(logs[0]).toContain('Unreal Editor Harness Report');
     expect(logs[logs.length - 1]).toContain('End Report');
   });
 
@@ -323,8 +323,8 @@ describe('UnrealEditorHarnessPure Golden Tests', () => {
 
     const testResults = await harness.runTests('bridge');
     expect(testResults.length).toBeGreaterThan(0);
-    expect(testResults[0!].success).toBe(false);
-    expect(testResults[0!].errors).toContain('Test error');
+    expect(testResults[0].success).toBe(false);
+    expect(testResults[0].errors).toContain('Test error');
   });
 
   test('✓ UnrealEditorHarnessPure handles demo failures gracefully', async () => {

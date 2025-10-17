@@ -234,7 +234,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       expect(unityData.componentType).toBe('SpriteRenderer');
       expect(unityData.transform.position).toEqual({ x: 640, y: 960, z: 0 });
       expect(unityData.signals).toHaveLength(1);
-      expect(unityData.signals[0!].name).toBe('npc_interacted');
+      expect(unityData.signals[0].name).toBe('npc_interacted');
     });
 
     test('✓ converts RenderData to Web format', () => {
@@ -265,7 +265,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       expect(webData.width).toBe(32);
       expect(webData.height).toBe(32);
       expect(webData.events).toHaveLength(1);
-      expect(webData.events[0!].name).toBe('click');
+      expect(webData.events[0].name).toBe('click');
     });
 
     test('✓ converts RenderData to Godot format', () => {
@@ -296,7 +296,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       expect(godotData.position).toEqual({ x: 640, y: 960 });
       expect(godotData.rotation).toBe(45);
       expect(godotData.signals).toHaveLength(1);
-      expect(godotData.signals[0!].name).toBe('npc_interacted');
+      expect(godotData.signals[0].name).toBe('npc_interacted');
     });
   });
 

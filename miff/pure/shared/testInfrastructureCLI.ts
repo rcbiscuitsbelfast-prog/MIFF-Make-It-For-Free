@@ -23,7 +23,7 @@ class TestInfrastructureCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -58,8 +58,8 @@ class TestInfrastructureCLI {
   }
 
   private async scanInfrastructure(args: string[]): Promise<void> {
-    const rootPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'test-infrastructure.json';
+    const rootPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'test-infrastructure.json';
 
     console.info(`🔍 Scanning test infrastructure in ${rootPath}...`);
     
@@ -82,7 +82,7 @@ class TestInfrastructureCLI {
   }
 
   private async identifyMocks(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'mock-replacements.json';
+    const outputFile = args[0] || 'mock-replacements.json';
 
     console.info('🔍 Identifying mock replacements...');
     
@@ -115,7 +115,7 @@ class TestInfrastructureCLI {
   }
 
   private async generateCoverage(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'test-coverage.json';
+    const outputFile = args[0] || 'test-coverage.json';
 
     console.info('📊 Generating test coverage report...');
     
@@ -144,7 +144,7 @@ class TestInfrastructureCLI {
   }
 
   private async assessQuality(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'test-quality.json';
+    const outputFile = args[0] || 'test-quality.json';
 
     console.info('🧪 Assessing test quality...');
     
@@ -176,7 +176,7 @@ class TestInfrastructureCLI {
   }
 
   private async replaceMocks(args: string[]): Promise<void> {
-    const priority = args[0!] || 'critical';
+    const priority = args[0] || 'critical';
 
     console.info(`🔄 Replacing ${priority} priority mocks...`);
     
@@ -188,7 +188,7 @@ class TestInfrastructureCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'test-infrastructure-report.html';
+    const outputFile = args[0] || 'test-infrastructure-report.html';
 
     console.info('📄 Generating comprehensive test infrastructure report...');
     
@@ -302,7 +302,7 @@ Quality Levels:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new TestInfrastructureCLI();
   cli.run().catch(console.error);
 }

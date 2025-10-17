@@ -163,7 +163,7 @@ class ItemsPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0!].toLowerCase();
+    const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -185,17 +185,17 @@ class ItemsPureCLI {
           await this.useItem(args);
           break;
         case 'info':
-          this.showItemInfo(args[0!]);
+          this.showItemInfo(args[0]);
           break;
         case 'search':
           this.searchItems(args.join(' '));
           break;
         case 'heal':
-          this.healSpirit(args[0!], parseInt(args[1!]) || 20);
+          this.healSpirit(args[0], parseInt(args[1]) || 20);
           break;
         case 'damage':
         case 'dmg':
-          this.damageSpirit(args[0!], parseInt(args[1!]) || 20);
+          this.damageSpirit(args[0], parseInt(args[1]) || 20);
           break;
         case 'status':
         case 'stat':
@@ -307,8 +307,8 @@ class ItemsPureCLI {
       return;
     }
 
-    const itemId = args[0!];
-    const spiritId = args[1!];
+    const itemId = args[0];
+    const spiritId = args[1];
 
     const item = this.manager.getItem(itemId);
     const spirit = this.spirits.get(spiritId);
@@ -549,7 +549,7 @@ class ItemsPureCLI {
 }
 
 // Start CLI if run directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new ItemsPureCLI();
   cli.start();
 }

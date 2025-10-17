@@ -298,7 +298,7 @@ export class NPCsManager {
     
     if (npc.behavior.schedule) {
       const currentActivity = npc.behavior.schedule.activities.find(
-        activity => parseInt(activity.time.split(':')[0!]) === currentHour
+        activity => parseInt(activity.time.split(':')[0]) === currentHour
       );
       
       if (currentActivity) {

@@ -529,7 +529,7 @@ export class SpiritTamerManager {
           };
 
         case 'scenario':
-          const activeSession = this.activeSession || Array.from(this.tamingSessions.values())[0!];
+          const activeSession = this.activeSession || Array.from(this.tamingSessions.values())[0];
           return {
             ok: true,
             data: {

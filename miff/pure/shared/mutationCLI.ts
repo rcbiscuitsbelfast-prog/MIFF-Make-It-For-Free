@@ -26,7 +26,7 @@ class MutationCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -52,8 +52,8 @@ class MutationCLI {
   }
 
   private async runMutationTesting(args: string[]): Promise<void> {
-    const targetPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'mutation-report.json';
+    const targetPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'mutation-report.json';
 
     console.info(`🧬 Running mutation testing on ${targetPath}...`);
 
@@ -94,8 +94,8 @@ class MutationCLI {
   }
 
   private async generateMutations(args: string[]): Promise<void> {
-    const targetPath = args[0!] || 'miff/pure';
-    const outputFile = args[1!] || 'mutations.json';
+    const targetPath = args[0] || 'miff/pure';
+    const outputFile = args[1] || 'mutations.json';
 
     console.info(`🔬 Generating mutations for ${targetPath}...`);
 
@@ -131,8 +131,8 @@ class MutationCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const inputFile = args[0!] || 'mutation-report.json';
-    const outputFile = args[1!] || 'mutation-report.html';
+    const inputFile = args[0] || 'mutation-report.json';
+    const outputFile = args[1] || 'mutation-report.html';
 
     if (!fs.existsSync(inputFile)) {
       console.error(`❌ Report file not found: ${inputFile}`);
@@ -262,7 +262,7 @@ Test Quality Levels:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new MutationCLI();
   cli.run().catch(console.error);
 }

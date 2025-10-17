@@ -89,7 +89,7 @@ describe('Enhanced Scenario Orchestration', () => {
     registerReplayHooks(mockSystem);
     
     // Simulate replay start to trigger unresolved hook detection
-    const replayStartHandler = mockSystem.on.mock.calls.find(call => call[0] === "replayStart")[1!];
+    const replayStartHandler = mockSystem.on.mock.calls.find(call => call[0] === "replayStart")[1];
     replayStartHandler();
 
     // Verify unresolved hooks warning was logged
@@ -255,7 +255,7 @@ describe('VisualReplaySystemPure Integration', () => {
     registerReplayHooks(mockSystem);
     
     // Simulate hook registration
-    const hookRegisteredHandler = mockSystem.on.mock.calls.find(call => call[0] === "hookRegistered")[1!];
+    const hookRegisteredHandler = mockSystem.on.mock.calls.find(call => call[0] === "hookRegistered")[1];
     mockSystem.hooks.forEach(hook => hookRegisteredHandler(hook));
 
     // Verify all hooks were logged

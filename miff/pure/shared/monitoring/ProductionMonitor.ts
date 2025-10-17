@@ -552,7 +552,7 @@ export class ProductionMonitor {
     }
   }
 
-  private async executeAction(action: Alert['actions'][0!], alert: Alert): Promise<void> {
+  private async executeAction(action: Alert['actions'][0], alert: Alert): Promise<void> {
     switch (action.type) {
       case 'notification':
         await this.sendNotification(alert);

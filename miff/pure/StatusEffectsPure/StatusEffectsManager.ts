@@ -173,7 +173,7 @@ export class StatusEffectsManager {
 
     // Check immunity
     if (entity.immunities.includes(effect.category)) {
-      this.recordEvent('immunity_triggered', entityId, effect.id, { category: effect.category });
+      this.recordEvent('immunity_triggered', entityId, id: effect.id, { category: effect.category });
       return {
         op: 'apply_effect',
         status: 'error',
@@ -211,14 +211,14 @@ export class StatusEffectsManager {
               existingEffect.magnitude += effect.magnitude;
               existingEffect.duration = Math.max(existingEffect.duration, effect.duration);
               existingEffect.expiresAt = Date.now() + (existingEffect.duration * 1000);
-              this.recordEvent('effect_modified', entityId, effect.id, { stacks: existingEffect.currentStacks });
+              this.recordEvent('effect_modified', entityId, id: effect.id, { stacks: existingEffect.currentStacks });
               return { op: 'apply_effect', status: 'ok', result: entity };
             }
             break;
           case 'extend':
             existingEffect.duration = Math.max(existingEffect.duration, effect.duration);
             existingEffect.expiresAt = Date.now() + (existingEffect.duration * 1000);
-            this.recordEvent('effect_modified', entityId, effect.id, { extended: true });
+            this.recordEvent('effect_modified', entityId, id: effect.id, { extended: true });
             return { op: 'apply_effect', status: 'ok', result: entity };
           case 'block':
             return {
@@ -233,7 +233,7 @@ export class StatusEffectsManager {
     entity.effects.push(fullEffect);
     entity.lastUpdate = Date.now();
 
-    this.recordEvent('effect_applied', entityId, effect.id, { category: effect.category, magnitude: finalMagnitude });
+    this.recordEvent('effect_applied', entityId, id: effect.id, { category: effect.category, magnitude: finalMagnitude });
 
     return {
       op: 'apply_effect',
@@ -264,7 +264,7 @@ export class StatusEffectsManager {
       };
     }
 
-    const removedEffect = entity.effects.splice(effectIndex, 1)[0!];
+    const removedEffect = entity.effects.splice(effectIndex, 1)[0];
     entity.lastUpdate = Date.now();
 
     this.recordEvent('effect_expired', entityId, effectId, { category: removedEffect.category });
@@ -356,7 +356,7 @@ export class StatusEffectsManager {
       if (currentTime >= effect.expiresAt) {
         entity.effects.splice(i, 1);
         effectsExpired.push(effect);
-        this.recordEvent('effect_expired', entity.id, effect.id, { category: effect.category });
+        this.recordEvent('effect_expired', id: entity.id, effect.id, { category: effect.category });
         continue;
       }
 
@@ -405,9 +405,9 @@ export class StatusEffectsManager {
 
     // Check for death/revival
     if (oldHp > 0 && entity.hp <= 0) {
-      this.recordEvent('entity_died', entity.id, undefined, { hp: entity.hp });
+      this.recordEvent('entity_died', id: entity.id, undefined, { hp: entity.hp });
     } else if (oldHp <= 0 && entity.hp > 0) {
-      this.recordEvent('entity_revived', entity.id, undefined, { hp: entity.hp });
+      this.recordEvent('entity_revived', id: entity.id, undefined, { hp: entity.hp });
     }
 
     return {
@@ -502,7 +502,7 @@ export class StatusEffectsManager {
     // Find most common effect
     const sortedEffects = Object.entries(stats.effectDistribution)
       .sort(([,a], [,b]) => b - a);
-    stats.mostCommonEffect = sortedEffects[0!]?.[0!] || '';
+    stats.mostCommonEffect = sortedEffects[0]?.[0] || '';
 
     return {
       op: 'stats',

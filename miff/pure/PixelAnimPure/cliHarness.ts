@@ -297,7 +297,7 @@ class PixelAnimCLI {
       throw new Error('Missing required fields: animationNames, frameWidth, frameHeight');
     }
 
-    const result = this.manager.createSpriteSheet(op.animationNames, op.frameWidth, op.frameHeight);
+    const result = this.manager.createSpriteSheet(op.animationNames, frameWidth: op.frameWidth, op.frameHeight);
 
     return {
       op: 'createSpriteSheet',
@@ -484,13 +484,13 @@ async function main() {
     console.error('  cliHarness.ts list');
     console.error('  cliHarness.ts listPresets character');
     console.error('  cliHarness.ts createFromPreset walk-basic');
-    console.error('  cliHarness.ts create my-anim frame1.png,frame2.png,frame3.png 10 true');
+    console.error('  cliHarness.ts create my-anim frame1.png, png: frame2.png,frame3.png 10 true');
     console.error('  cliHarness.ts simulate "Basic Walk Cycle" 3000');
     console.error('  cliHarness.ts export "Basic Walk Cycle" manifest');
     process.exit(1);
   }
 
-  const operation = process.argv[2!];
+  const operation = process.argv[2];
   const args = process.argv.slice(3);
 
   let op: PixelAnimOperation;
@@ -501,21 +501,21 @@ async function main() {
         if (args.length < 2) throw new Error('create requires name and frames');
         op = { 
           op: 'create', 
-          name: args[0!], 
-          frames: args[1!].split(','),
-          fps: args[2!] ? parseInt(args[2!]) : 8,
-          loop: args[3!] !== 'false'
+          name: args[0], 
+          frames: args[1].split(','),
+          fps: args[2] ? parseInt(args[2]) : 8,
+          loop: args[3] !== 'false'
         };
         break;
         
       case 'createFromPreset':
         if (args.length < 1) throw new Error('createFromPreset requires presetId');
-        op = { op: 'createFromPreset', presetId: args[0!] };
+        op = { op: 'createFromPreset', presetId: args[0] };
         break;
         
       case 'get':
         if (args.length < 1) throw new Error('get requires name');
-        op = { op: 'get', name: args[0!] };
+        op = { op: 'get', name: args[0] };
         break;
         
       case 'list':
@@ -526,22 +526,22 @@ async function main() {
         break;
         
       case 'listPresets':
-        op = { op: 'listPresets', category: args[0!] };
+        op = { op: 'listPresets', category: args[0] };
         break;
         
       case 'createSequence':
         if (args.length < 3) throw new Error('createSequence requires sequenceId, sequenceName, and animationNames');
         op = { 
           op: 'createSequence', 
-          sequenceId: args[0!],
-          sequenceName: args[1!],
-          animationNames: args[2!].split(',')
+          sequenceId: args[0],
+          sequenceName: args[1],
+          animationNames: args[2].split(',')
         };
         break;
         
       case 'getSequence':
         if (args.length < 1) throw new Error('getSequence requires sequenceId');
-        op = { op: 'getSequence', sequenceId: args[0!] };
+        op = { op: 'getSequence', sequenceId: args[0] };
         break;
         
       case 'listSequences':
@@ -552,9 +552,9 @@ async function main() {
         if (args.length < 3) throw new Error('createSpriteSheet requires animationNames, frameWidth, frameHeight');
         op = { 
           op: 'createSpriteSheet', 
-          animationNames: args[0!].split(','),
-          frameWidth: parseInt(args[1!]),
-          frameHeight: parseInt(args[2!])
+          animationNames: args[0].split(','),
+          frameWidth: parseInt(args[1]),
+          frameHeight: parseInt(args[2])
         };
         break;
         
@@ -562,8 +562,8 @@ async function main() {
         if (args.length < 1) throw new Error('simulate requires name');
         op = { 
           op: 'simulate', 
-          name: args[0!], 
-          duration: args[1!] ? parseInt(args[1!]) : 5000 
+          name: args[0], 
+          duration: args[1] ? parseInt(args[1]) : 5000 
         };
         break;
         
@@ -575,20 +575,20 @@ async function main() {
         if (args.length < 1) throw new Error('export requires name');
         op = { 
           op: 'export', 
-          name: args[0!], 
-          format: args[1!] as any || 'json' 
+          name: args[0], 
+          format: args[1] as any || 'json' 
         };
         break;
         
       case 'validate':
         if (args.length < 1) throw new Error('validate requires JSON file path');
-        const data = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
+        const data = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'validate', data };
         break;
         
       case 'delete':
         if (args.length < 1) throw new Error('delete requires name');
-        op = { op: 'delete', name: args[0!] };
+        op = { op: 'delete', name: args[0] };
         break;
         
       default:
@@ -604,6 +604,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

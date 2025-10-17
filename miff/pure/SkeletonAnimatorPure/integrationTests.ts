@@ -184,9 +184,9 @@ export class SkeletonAnimatorIntegrationTests {
       const tails = limbAttachment.getLimbsByType('tail');
       tests.push({
         name: 'Add tail',
-        passed: tails.length === 1 && tails[0!].segments.length === 5,
+        passed: tails.length === 1 && tails[0].segments.length === 5,
         duration: new Date() - startTime,
-        details: { tailCount: tails.length, segmentCount: tails[0!]?.segments.length }
+        details: { tailCount: tails.length, segmentCount: tails[0]?.segments.length }
       });
 
       // Test 6: Export limbs
@@ -256,7 +256,7 @@ export class SkeletonAnimatorIntegrationTests {
       const morphTargets = skinConfig.morphTargets;
       tests.push({
         name: 'Add morph target',
-        passed: morphTargets.length === 1 && morphTargets[0!].weight === 0.5,
+        passed: morphTargets.length === 1 && morphTargets[0].weight === 0.5,
         duration: new Date() - startTime,
         details: { morphTargetCount: morphTargets.length }
       });
@@ -268,7 +268,7 @@ export class SkeletonAnimatorIntegrationTests {
         scale: { x: 1, y: 1, z: 1 },
         offset: { x: 0, y: 0, z: 0 }
       });
-      const textures = skinConfig.materials[0!].textures;
+      const textures = skinConfig.materials[0].textures;
       tests.push({
         name: 'Add texture',
         passed: textures.length === 1,

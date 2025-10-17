@@ -338,9 +338,9 @@ export class ZoneServerPure {
     // Use load balancing strategy
     switch (this.config.loadBalanceStrategy) {
       case ROUND_ROBIN:
-        return suitableZones[0!]; // Simplified - would track rotation in real implementation
+        return suitableZones[0]; // Simplified - would track rotation in real implementation
       case LEAST_CONNECTIONS:
-        return suitableZones[0!]; // Would check actual zone loads
+        return suitableZones[0]; // Would check actual zone loads
       default:
         return suitableZones[Math.floor(Math.random() * suitableZones.length)];
     }
@@ -416,7 +416,7 @@ export class ZoneServerPure {
     const index = this.zoneConnections.findIndex(conn => conn.zoneId === zoneId);
     if (index === -1) return false;
 
-    const removed = this.zoneConnections.splice(index, 1)[0!];
+    const removed = this.zoneConnections.splice(index, 1)[0];
     this.emitEvent('zone_connection_removed', { connection: removed, zoneId: this.config.zoneId });
     return true;
   }
@@ -442,7 +442,7 @@ export class ZoneServerPure {
     const index = this.zoneEvents.findIndex(event => event?.id === eventId);
     if (index === -1) return false;
 
-    const cancelledEvent = this.zoneEvents.splice(index, 1)[0!];
+    const cancelledEvent = this.zoneEvents.splice(index, 1)[0];
     this.emitEvent('zone_event_cancelled', { event: cancelledEvent, zoneId: this.config.zoneId });
     return true;
   }

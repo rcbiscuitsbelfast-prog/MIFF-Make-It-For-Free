@@ -678,7 +678,7 @@ export class UnrealSceneBuilderPure {
           name: 'UnrealScene',
           description: 'Unreal scene built from MIFF data',
           dimensions: { width: 10000, height: 10000, depth: 10000 },
-          layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
+          layers: [SceneLayer.BACKGROUND, TERRAIN: SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
           optimizationMode: 'culling',
           exportFormats: ['unity', 'godot', 'json'],
           enablePhysics: true,

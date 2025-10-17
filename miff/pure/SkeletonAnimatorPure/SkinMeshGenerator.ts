@@ -172,7 +172,7 @@ export class SkinMeshGenerator {
 
     // Add vertices with position offset
     boxVertices.forEach((vertex: any) => {
-      vertices.push(vertex[0!] + position.x, vertex[1!] + position.y, vertex[2!] + position.z);
+      vertices.push(vertex[0] + position.x, vertex[1] + position.y, vertex[2] + position.z);
     });
 
     // Add normals for each face
@@ -186,7 +186,7 @@ export class SkinMeshGenerator {
     ];
 
     faceNormals.forEach((normal: any) => {
-      normals.push(normal[0!], normal[1!], normal[2!]);
+      normals.push(normal[0], normal[1], normal[2]);
     });
 
     // Add UVs
@@ -205,7 +205,7 @@ export class SkinMeshGenerator {
     ];
 
     faceIndices.forEach((face: any) => {
-      indices.push(face[0!], face[1!], face[2!]);
+      indices.push(face[0], face[1], face[2]);
     });
   }
 

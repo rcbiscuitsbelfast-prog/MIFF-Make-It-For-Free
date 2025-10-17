@@ -109,7 +109,7 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
         const step = quest.steps[event.stepId];
         if (step && !step.completed) {
           // Check if trigger conditions are met
-          if (checkTriggerConditions(step, event.triggerData, newState)) {
+          if (checkTriggerConditions(step, triggerData: event.triggerData, newState)) {
             step.completed = true;
             step.triggers.forEach((t: any) => t.completed = true);
             

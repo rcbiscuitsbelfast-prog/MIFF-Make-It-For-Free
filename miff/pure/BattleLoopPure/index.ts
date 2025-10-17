@@ -150,7 +150,7 @@ export class BattlePhaseManager {
   }
 
   getCurrentPhase(): BattlePhase {
-    return this.phases[this.currentPhaseIndex] || this.phases[0!];
+    return this.phases[this.currentPhaseIndex] || this.phases[0];
   }
 
   advancePhase(): BattlePhase | null {

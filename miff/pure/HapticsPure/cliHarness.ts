@@ -8,7 +8,7 @@ async function main() {
     console.error('Usage: tsx cliHarness.ts <requests.json>');
     process.exit(1);
   }
-  const file = argv[0!];
+  const file = argv[0];
   const reqs = JSON.parse(fs.readFileSync(file, 'utf-8')) as HapticRequest[];
   const manager = new HapticsManager();
   manager.enqueue(reqs);

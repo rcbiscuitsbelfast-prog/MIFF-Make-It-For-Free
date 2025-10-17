@@ -38,7 +38,7 @@ export class MeshFactoryManager {
 		const rng = new RNG(seed);
 		const canopyBaseY = trunkHeight;
 		const apex = [0, canopyBaseY + canopyHeight, 0];
-		const apexIndex = verts.length; verts.push([apex[0!],apex[1!],apex[2!]]);
+		const apexIndex = verts.length; verts.push([apex[0],apex[1],apex[2]]);
 		for (let i = 0; i < canopySegments; i++) {
 			const a0 = (i / canopySegments) * Math.PI * 2;
 			const a1 = ((i + 1) / canopySegments) * Math.PI * 2;

@@ -159,24 +159,24 @@ function main() {
     if (argv.length === 0) {
       // Default to demo mode
       operation = { op: 'demo' };
-    } else if (argv[0!].endsWith('.json') && fs.existsSync(argv[0!])) {
-      const content = JSON.parse(fs.readFileSync(argv[0!], 'utf-8'));
+    } else if (argv[0].endsWith('.json') && fs.existsSync(argv[0])) {
+      const content = JSON.parse(fs.readFileSync(argv[0], 'utf-8'));
       operation = content as WitcherExplorerOperation;
     } else {
       // Parse subcommand
-      const command = argv[0!];
+      const command = argv[0];
       switch (command) {
         case 'demo':
           operation = { op: 'demo' };
           break;
         case 'navigate':
-          operation = { op: 'navigate', target: argv[1!] || 'grove_clearing' };
+          operation = { op: 'navigate', target: argv[1] || 'grove_clearing' };
           break;
         case 'dialogue':
-          operation = { op: 'dialogue', target: argv[1!] || 'npc1' };
+          operation = { op: 'dialogue', target: argv[1] || 'npc1' };
           break;
         case 'quest':
-          operation = { op: 'quest', target: argv[1!] || 'campfire_intro' };
+          operation = { op: 'quest', target: argv[1] || 'campfire_intro' };
           break;
         case 'dump':
           operation = { op: 'dump' };
@@ -222,5 +222,5 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) main();
+if (import.meta.url === `file://${process.argv[1]}`) main();
 

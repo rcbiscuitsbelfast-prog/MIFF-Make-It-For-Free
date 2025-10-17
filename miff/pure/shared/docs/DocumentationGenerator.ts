@@ -451,7 +451,7 @@ export class DocumentationGenerator {
    */
   private extractDescription(sourceCode: string): string {
     const match = sourceCode.match(/\/\*\*\s*\n\s*\*\s*(.+?)\s*\n\s*\*\//);
-    return match ? match[1!].trim() : '';
+    return match ? match[1].trim() : '';
   }
 
   /**
@@ -459,7 +459,7 @@ export class DocumentationGenerator {
    */
   private extractVersion(sourceCode: string): string {
     const match = sourceCode.match(/@version\s+([^\n]+)/);
-    return match ? match[1!].trim() : '1.0.0';
+    return match ? match[1].trim() : '1.0.0';
   }
 
   /**
@@ -472,11 +472,11 @@ export class DocumentationGenerator {
 
     while ((match = exportRegex.exec(sourceCode)) !== null) {
       exports.push({
-        name: match[1!],
-        type: this.getExportType(sourceCode, match[1!]),
-        description: this.extractItemDescription(sourceCode, match[1!]),
+        name: match[1],
+        type: this.getExportType(sourceCode, match[1]),
+        description: this.extractItemDescription(sourceCode, match[1]),
         exported: true,
-        default: sourceCode.includes(`export default ${match[1!]}`)
+        default: sourceCode.includes(`export default ${match[1]}`)
       });
     }
 
@@ -492,8 +492,8 @@ export class DocumentationGenerator {
     let match;
 
     while ((match = classRegex.exec(sourceCode)) !== null) {
-      const className = match[1!];
-      const extendsClass = match[2!];
+      const className = match[1];
+      const extendsClass = match[2];
       const implementsClasses = match[3] ? match[3].split(',').map((s: any) => s.trim()) : [];
 
       classes.push({
@@ -523,7 +523,7 @@ export class DocumentationGenerator {
     let match;
 
     while ((match = interfaceRegex.exec(sourceCode)) !== null) {
-      const interfaceName = match[1!];
+      const interfaceName = match[1];
       const extendsInterfaces = match[2] ? match[2].split(',').map((s: any) => s.trim()) : [];
 
       interfaces.push({
@@ -548,7 +548,7 @@ export class DocumentationGenerator {
     let match;
 
     while ((match = enumRegex.exec(sourceCode)) !== null) {
-      const enumName = match[1!];
+      const enumName = match[1];
       const isConst = sourceCode.includes(`const enum ${enumName}`);
 
       enums.push({
@@ -573,7 +573,7 @@ export class DocumentationGenerator {
     let match;
 
     while ((match = functionRegex.exec(sourceCode)) !== null) {
-      const functionName = match[1!];
+      const functionName = match[1];
       const isAsync = sourceCode.includes(`async function ${functionName}`);
 
       functions.push({
@@ -611,7 +611,7 @@ export class DocumentationGenerator {
   private extractItemDescription(sourceCode: string, name: string): string {
     const regex = new RegExp(`/\\*\\*\\s*\\n\\s*\\*\\s*(.+?)\\s*\\n\\s*\\*\\s*@`, 's');
     const match = sourceCode.match(regex);
-    return match ? match[1!].trim() : '';
+    return match ? match[1].trim() : '';
   }
 
   private extractItemDecorators(sourceCode: string, name: string): string[] {
@@ -619,7 +619,7 @@ export class DocumentationGenerator {
     const decoratorRegex = /@(\w+)/g;
     let match;
     while ((match = decoratorRegex.exec(sourceCode)) !== null) {
-      decorators.push(match[1!]);
+      decorators.push(match[1]);
     }
     return decorators;
   }
@@ -1126,7 +1126,7 @@ export const defaultDocumentationGenerator = new DocumentationGenerator({
   license: 'MIT',
   repository: 'miff-framework',
   outputDir: './docs',
-  formats: [DocumentationFormat.MARKDOWN, DocumentationFormat.HTML, DocumentationFormat.JSON],
+  formats: [DocumentationFormat.MARKDOWN, HTML: DocumentationFormat.HTML, DocumentationFormat.JSON],
   includeExamples: true,
   includeTests: true,
   includeChangelog: true,

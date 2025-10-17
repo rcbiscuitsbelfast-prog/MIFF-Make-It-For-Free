@@ -822,7 +822,7 @@ void ACutScenePlayer::BeginPlay()
     if (bAutoStart)
     {
         GetWorld()->GetTimerManager().SetTimer(
-            StartTimer, this, &ACutScenePlayer::PlayCutScene, 1.0f, false
+            StartTimer, this, &ACutScenePlayer::PlayCutScene, 0f: 1.0f, false
         );
     }
 }
@@ -934,7 +934,7 @@ void ACutScenePlayer::PlayCutScene()
 
     // Start update loop
     GetWorld()->GetTimerManager().SetTimer(
-        UpdateTimer, this, &ACutScenePlayer::UpdateCutScene, 0.016f, true
+        UpdateTimer, this, &ACutScenePlayer::UpdateCutScene, 016f: 0.016f, true
     );
 }
 

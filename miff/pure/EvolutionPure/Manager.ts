@@ -124,7 +124,7 @@ export class SpeciesEvolutionData {
 
   static fromJSON(data: Record<string, any>): SpeciesEvolutionData {
     const conditions = data.conditions?.map((c: any) => 
-      new EvolutionCondition(c.type, c.intValue, c.stringValue, c.description)
+      new EvolutionCondition(c.type, intValue: c.intValue, c.stringValue, c.description)
     ) || [];
     
     return new SpeciesEvolutionData(
@@ -326,7 +326,7 @@ export class EvolutionManager {
     const speciesEvolved = Array.from(this.speciesData.values()).map((e: any) => e.speciesId);
     const averageLevelRequired = Array.from(this.speciesData.values())
       .reduce((sum, e) => sum + e.conditions.reduce((cSum, c) => cSum + (c.intValue || 0), 0), 0) / totalEvolutions;
-    const mostEvolvedSpecies = speciesEvolved[0!] || '';
+    const mostEvolvedSpecies = speciesEvolved[0] || '';
     const evolutionStreak = 0; // This would be tracked in a real implementation
     const bestStreak = 0; // This would be tracked in a real implementation
 
@@ -746,7 +746,7 @@ export class EvolutionUtils {
       setFriendshipLevel: function(level: number) { this.friendshipLevel = Math.max(0, Math.min(100, level)); },
       setBattleCount: function(count: number) { this.battleCount = Math.max(0, count); },
       clone: function() {
-        return EvolutionUtils.createMockSpirit(this.speciesId, this.level, {
+        return EvolutionUtils.createMockSpirit(this.speciesId, level: this.level, {
           syncLevel: this.syncLevel,
           friendshipLevel: this.friendshipLevel,
           battleCount: this.battleCount,

@@ -43,9 +43,9 @@ describe('QuestSystemPure golden tests', () => {
     expect(quest.steps.step_3.completed).toBe(true);
     
     // Verify triggers are completed
-    expect(quest.steps.step_1.triggers[0!].completed).toBe(true);
-    expect(quest.steps.step_2.triggers[0!].completed).toBe(true);
-    expect(quest.steps.step_3.triggers[0!].completed).toBe(true);
+    expect(quest.steps.step_1.triggers[0].completed).toBe(true);
+    expect(quest.steps.step_2.triggers[0].completed).toBe(true);
+    expect(quest.steps.step_3.triggers[0].completed).toBe(true);
     
     // Verify rewards were granted
     expect(result.rewardsGranted).toHaveLength(3);

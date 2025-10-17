@@ -145,7 +145,7 @@ export class FusionManager {
     const rule = this.findMatchingRule(spiritA.speciesId, spiritB.speciesId);
     if (!rule) return false;
 
-    return this.constraintsMet(rule, spiritA.instanceId, spiritB.instanceId);
+    return this.constraintsMet(rule, instanceId: spiritA.instanceId, spiritB.instanceId);
   }
 
   public fuse(spiritA: any, spiritB: any): FusionResult {
@@ -158,7 +158,7 @@ export class FusionManager {
       return this.createFailure('incompatible_pair', 'No matching fusion rule');
     }
 
-    if (!this.constraintsMet(rule, spiritA.instanceId, spiritB.instanceId)) {
+    if (!this.constraintsMet(rule, instanceId: spiritA.instanceId, spiritB.instanceId)) {
       return this.createFailure('constraints_not_met', 'Fusion constraints not met');
     }
 

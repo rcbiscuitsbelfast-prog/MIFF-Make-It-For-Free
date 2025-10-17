@@ -87,16 +87,16 @@ describe('CutScenePure Golden Tests', () => {
       const tracks = engine.getTracks();
       expect(tracks.length).toBeGreaterThan(0);
 
-      const firstTrack = engine.getTrack(tracks[0!].id);
+      const firstTrack = engine.getTrack(tracks[0].id);
       expect(firstTrack).toBeDefined();
-      expect(firstTrack?.id).toBe(tracks[0!].id);
+      expect(firstTrack?.id).toBe(tracks[0].id);
 
       // Test action access
       const actions = engine.getActions();
       if (actions.length > 0) {
-        const firstAction = engine.getAction(actions[0!].id);
+        const firstAction = engine.getAction(actions[0].id);
         expect(firstAction).toBeDefined();
-        expect(firstAction?.id).toBe(actions[0!].id);
+        expect(firstAction?.id).toBe(actions[0].id);
       }
     });
   });

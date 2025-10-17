@@ -221,7 +221,7 @@ class ProgressionCli {
   }
 
   private handleShowCurve(args: string[]): void {
-    const levels = parseInt(args[0!]) || 10;
+    const levels = parseInt(args[0]) || 10;
 
     console.log(`\n📈 XP Curve (Levels 1-${levels}):`);
     console.log('─'.repeat(40));
@@ -381,7 +381,7 @@ class ProgressionCli {
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
-    const operations = parseInt(args[0!]) || 1000;
+    const operations = parseInt(args[0]) || 1000;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
@@ -518,7 +518,7 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 

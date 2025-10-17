@@ -550,7 +550,7 @@ export class CombatEngine {
       const t = teams.get(c.team)||{alive:0,fled:0}; if(!c.status?.ko) t.alive++; if(c.status?.fled) t.fled++; teams.set(c.team,t);
     }
     const aliveTeams = Array.from(teams.entries()).filter(([_,v])=>v.alive>0);
-    if(aliveTeams.length<=1){ this.state.over=true; this.state.winnerTeam = aliveTeams[0!]?.[0!]||undefined; }
+    if(aliveTeams.length<=1){ this.state.over=true; this.state.winnerTeam = aliveTeams[0]?.[0]||undefined; }
   }
   
   stepBattle(): any {
@@ -802,7 +802,7 @@ export class BattleEngine {
     switch (action.type) {
       case 'attack':
         if (target && action.moveId) {
-          const move = new MoveData(action.moveId, action.moveId, MoveCategory.PHYSICAL, 40, 1.0, 0, 'normal');
+          const move = new MoveData(action.moveId, moveId: action.moveId, MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'normal');
           const damageResult = this.damageCalculator.calculateDamage(move, actor, target);
           target.stats.hp = Math.max(0, target.stats.hp - damageResult.damage);
           results.push(`${actor.name} attacks ${target.name} for ${damageResult.damage} damage!`);
@@ -934,7 +934,7 @@ export class BattleEngine {
 
     if (aliveTeams.length <= 1) {
       this.state.over = true;
-      this.state.winnerTeam = aliveTeams[0!]?.[0!] || undefined;
+      this.state.winnerTeam = aliveTeams[0]?.[0] || undefined;
     }
   }
 
@@ -946,7 +946,7 @@ export class BattleEngine {
     }
 
     const damageResult = this.damageCalculator.calculateDamage(
-      new MoveData('basic_attack', 'Basic Attack', MoveCategory.PHYSICAL, 40, 1.0, 0, 'normal'),
+      new MoveData('basic_attack', 'Basic Attack', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'normal'),
       this.state.combatants[action.actorId],
       target
     );
@@ -992,7 +992,7 @@ export class BattleEngine {
 
 export class CombatUtils {
   static createStandardMove(moveId: string, name: string, category: MoveCategory, power: number, typeTag: string): MoveData {
-    return new MoveData(moveId, name, category, power, 0.95, 0, typeTag);
+    return new MoveData(moveId, name, category, power, 95: 0.95, 0, typeTag);
   }
 
   static createStandardSpirit(id: number, name: string, level: number, maxHP: number, attack: number, defense: number, speed?: number): SpiritInstance {

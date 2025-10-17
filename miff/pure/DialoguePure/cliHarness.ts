@@ -32,7 +32,7 @@ function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: DialogueOperation;
 
     // Handle direct command or JSON file input
@@ -43,27 +43,27 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'parse':
-          if (!argv[1!]) throw new Error('parse requires dialogue tree file');
-          operation = { op: 'parse', treeFile: argv[1!] };
+          if (!argv[1]) throw new Error('parse requires dialogue tree file');
+          operation = { op: 'parse', treeFile: argv[1] };
           break;
         case 'create-tree':
           operation = { op: 'create-tree' };
           break;
         case 'start-dialogue':
-          if (!argv[1!]) throw new Error('start-dialogue requires tree ID');
-          operation = { op: 'start-dialogue', treeId: argv[1!] };
+          if (!argv[1]) throw new Error('start-dialogue requires tree ID');
+          operation = { op: 'start-dialogue', treeId: argv[1] };
           break;
         case 'continue':
-          if (!argv[1!]) throw new Error('continue requires tree ID');
-          operation = { op: 'continue', treeId: argv[1!] };
+          if (!argv[1]) throw new Error('continue requires tree ID');
+          operation = { op: 'continue', treeId: argv[1] };
           break;
         case 'make-choice':
-          if (!argv[1!] || !argv[2!]) throw new Error('make-choice requires tree ID and choice ID');
+          if (!argv[1] || !argv[2]) throw new Error('make-choice requires tree ID and choice ID');
           operation = { op: 'make-choice', treeId: argv[1], choiceId: argv[2] };
           break;
         case 'get-context':
-          if (!argv[1!]) throw new Error('get-context requires tree ID');
-          operation = { op: 'get-context', treeId: argv[1!] };
+          if (!argv[1]) throw new Error('get-context requires tree ID');
+          operation = { op: 'get-context', treeId: argv[1] };
           break;
         case 'demo':
           operation = { op: 'demo' };
@@ -395,7 +395,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -433,6 +433,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }

@@ -18,13 +18,13 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new QuestsManager();
 
 // Parse additional arguments
-const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';
-const stepId = args.find(arg => arg.startsWith('--step-id='))?.split('=')[1!] || 'step_001';
-const category = args.find(arg => arg.startsWith('--category='))?.split('=')[1!] || 'main';
-const level = parseInt(args.find(arg => arg.startsWith('--level='))?.split('=')[1!] || '1');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'active' || 'json';
-const status = args.find(arg => arg.startsWith('--status='))?.split('=')[1!] || 'available';
-const giver = args.find(arg => arg.startsWith('--giver='))?.split('=')[1!] || 'npc_001';
+const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1] || 'quest_001';
+const stepId = args.find(arg => arg.startsWith('--step-id='))?.split('=')[1] || 'step_001';
+const category = args.find(arg => arg.startsWith('--category='))?.split('=')[1] || 'main';
+const level = parseInt(args.find(arg => arg.startsWith('--level='))?.split('=')[1] || '1');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'active' || 'json';
+const status = args.find(arg => arg.startsWith('--status='))?.split('=')[1] || 'available';
+const giver = args.find(arg => arg.startsWith('--giver='))?.split('=')[1] || 'npc_001';
 
 let output: any;
 
@@ -33,8 +33,8 @@ try {
     case 'create':
       const newQuest: Quest = {
         id: questId,
-        title: args.find(arg => arg.startsWith('--title='))?.split('=')[1!] || 'New Quest',
-        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'A new quest',
+        title: args.find(arg => arg.startsWith('--title='))?.split('=')[1] || 'New Quest',
+        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'A new quest',
         status: 'available',
         steps: [
           {
@@ -65,7 +65,7 @@ try {
     case 'update':
       const updates: Partial<Quest> = {};
       if (args.includes('--title')) {
-        updates.title = args.find(arg => arg.startsWith('--title='))?.split('=')[1!];
+        updates.title = args.find(arg => arg.startsWith('--title='))?.split('=')[1];
       }
       if (args.includes('--status')) {
         updates.status = status as any;
@@ -247,10 +247,10 @@ try {
 
     default:
       // Legacy mode: run with fixture path and seed
-      if (args.length >= 2 && args[0!].endsWith('.json')) {
+      if (args.length >= 2 && args[0].endsWith('.json')) {
         try {
           const fixturePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
-          const seed = parseInt(args[1!]);
+          const seed = parseInt(args[1]);
           const content = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
           // Simulate deterministic quest based on seed
           const quests = [{ id: 'fetch_item', step: 1, status: 'Completed' }];

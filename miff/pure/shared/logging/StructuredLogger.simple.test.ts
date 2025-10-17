@@ -16,6 +16,6 @@ describe('StructuredLogger Simple Test', () => {
   test('should handle arrays', () => {
     const arr = [1, 2, 3];
     expect(arr).toHaveLength(3);
-    expect(arr[0!]).toBe(1);
+    expect(arr[0]).toBe(1);
   });
 });

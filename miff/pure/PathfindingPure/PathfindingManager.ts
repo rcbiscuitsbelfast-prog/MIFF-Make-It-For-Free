@@ -267,7 +267,7 @@ export class PathfindingManager {
         }
       }
 
-      const current = openSet.splice(currentIndex, 1)[0!];
+      const current = openSet.splice(currentIndex, 1)[0];
       closedSet.add(key(current));
 
       // Check if we reached the goal
@@ -373,7 +373,7 @@ export class PathfindingManager {
     const popMin = () => {
       let idx = 0;
       for (let i = 1; i < pq.length; i++) if (pq[i].d < pq[idx].d) idx = i;
-      return pq.splice(idx, 1)[0!];
+      return pq.splice(idx, 1)[0];
     };
 
     // initialize distances

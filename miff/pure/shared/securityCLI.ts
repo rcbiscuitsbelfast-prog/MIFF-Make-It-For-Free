@@ -42,7 +42,7 @@ class SecurityCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0!];
+    const command = args[0];
 
     try {
       switch (command) {
@@ -106,7 +106,7 @@ class SecurityCLI {
   }
 
   private async runSecurityAudit(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'security-audit-report.json';
+    const outputFile = args[0] || 'security-audit-report.json';
 
     console.info('🔍 Running security audit...');
     
@@ -151,7 +151,7 @@ class SecurityCLI {
   }
 
   private async showSecurityHeaders(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'security-headers.json';
+    const outputFile = args[0] || 'security-headers.json';
 
     console.info('📋 Security Headers:');
     
@@ -177,8 +177,8 @@ class SecurityCLI {
       return;
     }
 
-    const input = args[0!];
-    const type = args[1!] as 'string' | 'number' | 'email' | 'url' | 'json';
+    const input = args[0];
+    const type = args[1] as 'string' | 'number' | 'email' | 'url' | 'json';
 
     console.info(`🔍 Validating input as ${type}...`);
     
@@ -204,7 +204,7 @@ class SecurityCLI {
       return;
     }
 
-    const password = args[0!];
+    const password = args[0];
 
     console.info('🔍 Validating password...');
     
@@ -227,7 +227,7 @@ class SecurityCLI {
       return;
     }
 
-    const data = args[0!];
+    const data = args[0];
 
     console.info('🔐 Encrypting data...');
     
@@ -243,7 +243,7 @@ class SecurityCLI {
       return;
     }
 
-    const encryptedData = args[0!];
+    const encryptedData = args[0];
 
     console.info('🔓 Decrypting data...');
     
@@ -259,7 +259,7 @@ class SecurityCLI {
   }
 
   private async showSecurityEvents(args: string[]): Promise<void> {
-    const limit = args[0!] ? parseInt(args[0!]) : 50;
+    const limit = args[0] ? parseInt(args[0]) : 50;
 
     console.info(`📊 Security Events (last ${limit}):`);
     
@@ -281,7 +281,7 @@ class SecurityCLI {
   }
 
   private async showSecurityStats(args: string[]): Promise<void> {
-    const outputFile = args[0!] || 'security-stats.json';
+    const outputFile = args[0] || 'security-stats.json';
 
     console.info('📊 Security Statistics:');
     
@@ -316,7 +316,7 @@ class SecurityCLI {
       return;
     }
 
-    const ip = args[0!];
+    const ip = args[0];
     const reason = args.slice(1).join(' ');
 
     console.info(`🚫 Blocking IP: ${ip}`);
@@ -333,7 +333,7 @@ class SecurityCLI {
       return;
     }
 
-    const ip = args[0!];
+    const ip = args[0];
 
     console.info(`🔓 Unblocking IP: ${ip}`);
     
@@ -398,7 +398,7 @@ Security Features:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new SecurityCLI();
   cli.run().catch(console.error);
 }

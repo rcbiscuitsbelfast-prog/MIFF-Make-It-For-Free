@@ -342,7 +342,7 @@ class DialogueCLI {
     }
 
     const choiceIndex = op.choiceIndex || 0;
-    const result = nextNode(this.currentDialogue, this.currentNode, choiceIndex);
+    const result = nextNode(this.currentDialogue, currentNode: this.currentNode, choiceIndex);
     
     if (result.status === 'ok' && result.id) {
       const previousNode = this.currentNode;
@@ -668,9 +668,9 @@ async function main() {
   const argv = process.argv.slice(2);
 
   // Legacy mode: single JSON path argument triggers one deterministic next step
-  if (argv.length === 1 && argv[0!].endsWith('.json')) {
+  if (argv.length === 1 && argv[0].endsWith('.json')) {
     try {
-      const jsonPath = argv[0!];
+      const jsonPath = argv[0];
       const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
       const data: Dialogue = (raw && raw.dialogue) ? dialogue: raw;
       const choiceIndex = typeof raw?.choiceIndex === 'number' ? choiceIndex: 0;
@@ -697,7 +697,7 @@ async function main() {
     process.exit(1);
   }
 
-  const operation = process.argv[2!];
+  const operation = process.argv[2];
   const args = process.argv.slice(3);
 
   let op: DialogueOperation;
@@ -707,7 +707,7 @@ async function main() {
       op = { op: 'start' };
       break;
     case 'next':
-      op = { op: 'next', choiceIndex: args[0!] ? parseInt(args[0!]) : 0 };
+      op = { op: 'next', choiceIndex: args[0] ? parseInt(args[0]) : 0 };
       break;
     case 'dump':
       op = { op: 'dump' };
@@ -722,7 +722,7 @@ async function main() {
       op = { op: 'reset' };
       break;
     case 'export':
-      op = { op: 'export', format: args[0!] as any || 'json' };
+      op = { op: 'export', format: args[0] as any || 'json' };
       break;
     default:
       console.error(`Unknown operation: ${operation}`);
@@ -733,6 +733,6 @@ async function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

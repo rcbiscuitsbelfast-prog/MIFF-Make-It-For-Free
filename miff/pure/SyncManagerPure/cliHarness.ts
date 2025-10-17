@@ -27,7 +27,7 @@ function main() {
   }
 
   try {
-    const first = argv[0!];
+    const first = argv[0];
     let operation: SyncManagerOperation;
 
     // Handle direct command or JSON file input
@@ -38,19 +38,19 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'diff':
-          if (!argv[1!] || !argv[2!]) {
+          if (!argv[1] || !argv[2]) {
             throw new Error('diff requires two snapshot files');
           }
-          const prev = JSON.parse(fs.readFileSync(argv[1!], 'utf-8')) as SnapshotPacket;
-          const next = JSON.parse(fs.readFileSync(argv[2!], 'utf-8')) as SnapshotPacket;
+          const prev = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as SnapshotPacket;
+          const next = JSON.parse(fs.readFileSync(argv[2], 'utf-8')) as SnapshotPacket;
           operation = { op: 'diff', data: { prev, next } };
           break;
         case 'snapshot':
-          if (!argv[1!]) {
+          if (!argv[1]) {
             throw new Error('snapshot requires a tick number');
           }
-          const tick = parseInt(argv[1!]);
-          const statesFile = argv[2!] || 'sample_states.json';
+          const tick = parseInt(argv[1]);
+          const statesFile = argv[2] || 'sample_states.json';
           const states = JSON.parse(fs.readFileSync(statesFile, 'utf-8')) as PlayerStateSnapshot[];
           operation = { op: 'snapshot', data: { tick, states } };
           break;
@@ -137,7 +137,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -175,6 +175,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1!]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }

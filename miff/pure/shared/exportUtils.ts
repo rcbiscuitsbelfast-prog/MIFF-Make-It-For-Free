@@ -71,7 +71,7 @@ function exportToCSV(data: any, options: ExportOptions): string {
 function exportArrayToCSV(array: any[], options: ExportOptions): string {
   if (array.length === 0) return '';
   
-  const firstItem = array[0!];
+  const firstItem = array[0];
   if (typeof firstItem === 'object' && firstItem !== null) {
     // Object array - use keys as headers
     const headers = Object.keys(firstItem);
@@ -138,7 +138,7 @@ function exportToMarkdown(data: any, options: ExportOptions): string {
 function exportArrayToMarkdown(array: any[]): string {
   if (array.length === 0) return 'No data available.\n';
   
-  const firstItem = array[0!];
+  const firstItem = array[0];
   if (typeof firstItem === 'object' && firstItem !== null) {
     // Object array - create table
     const headers = Object.keys(firstItem);
@@ -228,7 +228,7 @@ function exportToHTML(data: any, options: ExportOptions): string {
 function exportArrayToHTML(array: any[]): string {
   if (array.length === 0) return '<p>No data available.</p>';
   
-  const firstItem = array[0!];
+  const firstItem = array[0];
   if (typeof firstItem === 'object' && firstItem !== null) {
     // Object array - create table
     const headers = Object.keys(firstItem);

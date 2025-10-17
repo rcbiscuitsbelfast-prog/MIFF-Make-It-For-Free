@@ -245,9 +245,9 @@ export class AssetPipelineValidator {
         if (result.errors ?? []?.length > 0) {
           report.criticalIssues.push({
             asset: asset.path,
-            issue: result.errors ?? [][0!],
+            issue: result.errors ?? [][0],
             severity: 'error',
-            suggestion: result.suggestions[0!] || 'Fix validation errors'
+            suggestion: result.suggestions[0] || 'Fix validation errors'
           });
         }
       }

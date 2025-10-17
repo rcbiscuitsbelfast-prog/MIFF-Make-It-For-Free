@@ -344,7 +344,7 @@ export class RealDialogueEngine {
     }
 
     const defaultContext: DialogueContext = {
-      currentSpeaker: participants[0!],
+      currentSpeaker: participants[0],
       participants,
       variables: new Map(),
       flags: new Set(),
@@ -413,7 +413,7 @@ export class RealDialogueEngine {
     const session = this.activeSessions.get(sessionId);
     if (!session || !session.currentNodeId) return false;
 
-    const tree = this.dialogueTrees.get(session.participants[0!]); // Assuming first participant owns the tree
+    const tree = this.dialogueTrees.get(session.participants[0]); // Assuming first participant owns the tree
     if (!tree) return false;
 
     const currentNode = tree.find(node => node.id === session.currentNodeId);
@@ -455,7 +455,7 @@ export class RealDialogueEngine {
       switch (condition.type) {
         case 'variable':
           const varValue = context.variables.get(condition.key);
-          return this.compareValues(varValue, condition.operator, condition.value);
+          return this.compareValues(varValue, operator: condition.operator, condition.value);
         
         case 'flag':
           return condition.operator === 'exists' ? context.flags.has(condition.key) : !context.flags.has(condition.key);
@@ -465,12 +465,12 @@ export class RealDialogueEngine {
         
         case 'relationship':
           const relationshipValue = context.relationshipModifiers.get(condition.key) || 0;
-          return this.compareValues(relationshipValue, condition.operator, condition.value);
+          return this.compareValues(relationshipValue, operator: condition.operator, condition.value);
         
         case 'time':
           const currentHour = new Date().getHours();
           const timeValue = currentHour < 6 ? 'night' : currentHour < 12 ? 'morning' : currentHour < 18 ? 'afternoon' : 'evening';
-          return this.compareValues(timeValue, condition.operator, condition.value);
+          return this.compareValues(timeValue, operator: condition.operator, condition.value);
         
         case 'random':
           return Math.random() < (condition.probability || 0.5);

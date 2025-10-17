@@ -20,9 +20,9 @@ export class TextureSynthManager {
 				const i0 = Math.floor(t), i1 = Math.min(cols.length-1, i0+1);
 				const k = t - i0;
 				const c0 = cols[i0], c1 = cols[i1];
-				const r = Math.round(lerp(c0[0!], c1[0!], k));
-				const g = Math.round(lerp(c0[1!], c1[1!], k));
-				const b = Math.round(lerp(c0[2!], c1[2!], k));
+				const r = Math.round(lerp(c0[0], c1[0], k));
+				const g = Math.round(lerp(c0[1], c1[1], k));
+				const b = Math.round(lerp(c0[2], c1[2], k));
 				data.push(r,g,b,255);
 			}
 		}

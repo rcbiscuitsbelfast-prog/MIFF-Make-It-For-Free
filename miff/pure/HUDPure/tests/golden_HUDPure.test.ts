@@ -304,15 +304,15 @@ describe('HUDPure Golden Tests', () => {
     test('should get all spirits correctly', () => {
       const allSpirits = hudModel.allSpirits;
       expect(allSpirits).toHaveLength(2);
-      expect(allSpirits[0!].spiritId).toBe('player1');
-      expect(allSpirits[1!].spiritId).toBe('opponent1');
+      expect(allSpirits[0].spiritId).toBe('player1');
+      expect(allSpirits[1].spiritId).toBe('opponent1');
     });
 
     test('should get living and KO spirits correctly', () => {
       expect(hudModel.livingSpirits).toHaveLength(2);
 
       // Make opponent KO
-      hudModel.opponent[0!].currentHP = 0;
+      hudModel.opponent[0].currentHP = 0;
       expect(hudModel.livingSpirits).toHaveLength(1);
       expect(hudModel.koSpirits).toHaveLength(1);
     });
@@ -329,8 +329,8 @@ describe('HUDPure Golden Tests', () => {
 
       expect(playerSpirits).toHaveLength(1);
       expect(opponentSpirits).toHaveLength(1);
-      expect(playerSpirits[0!].spiritId).toBe('player1');
-      expect(opponentSpirits[0!].spiritId).toBe('opponent1');
+      expect(playerSpirits[0].spiritId).toBe('player1');
+      expect(opponentSpirits[0].spiritId).toBe('opponent1');
     });
 
     test('should add spirits correctly', () => {
@@ -339,7 +339,7 @@ describe('HUDPure Golden Tests', () => {
 
       expect(success).toBe(true);
       expect(hudModel.player).toHaveLength(2);
-      expect(hudModel.player[1!]).toBe(newSpirit);
+      expect(hudModel.player[1]).toBe(newSpirit);
     });
 
     test('should reject invalid spirits', () => {
@@ -372,8 +372,8 @@ describe('HUDPure Golden Tests', () => {
     test('should update spirits correctly', () => {
       const success = hudModel.updateSpirit('player1', { currentHP: 80, statusEffects: ['poison'] });
       expect(success).toBe(true);
-      expect(hudModel.player[0!].currentHP).toBe(80);
-      expect(hudModel.player[0!].statusEffects).toContain('poison');
+      expect(hudModel.player[0].currentHP).toBe(80);
+      expect(hudModel.player[0].statusEffects).toContain('poison');
     });
 
     test('should reject invalid spirit updates', () => {
@@ -382,8 +382,8 @@ describe('HUDPure Golden Tests', () => {
 
       expect(success1).toBe(false);
       expect(success2).toBe(false);
-      expect(hudModel.player[0!].maxHP).toBe(100); // Should not change
-      expect(hudModel.player[0!].currentHP).toBe(100); // Should not change
+      expect(hudModel.player[0].maxHP).toBe(100); // Should not change
+      expect(hudModel.player[0].currentHP).toBe(100); // Should not change
     });
 
     test('should handle non-existent spirit updates', () => {
@@ -413,12 +413,12 @@ describe('HUDPure Golden Tests', () => {
       expect(hudModel.battleResult).toBe('ongoing');
 
       // KO opponent
-      hudModel.opponent[0!].currentHP = 0;
+      hudModel.opponent[0].currentHP = 0;
       expect(hudModel.isBattleOver).toBe(true);
       expect(hudModel.battleResult).toBe('player_win');
 
       // Also KO player
-      hudModel.player[0!].currentHP = 0;
+      hudModel.player[0].currentHP = 0;
       expect(hudModel.battleResult).toBe('opponent_win');
     });
 
@@ -429,7 +429,7 @@ describe('HUDPure Golden Tests', () => {
       expect(clone.opponent).toHaveLength(1);
       expect(clone.turn.phaseName).toBe(hudModel.turn.phaseName);
       expect(clone).not.toBe(hudModel);
-      expect(clone.player[0!]).not.toBe(hudModel.player[0!]); // Deep clone
+      expect(clone.player[0]).not.toBe(hudModel.player[0]); // Deep clone
     });
 
     test('should create snapshots correctly', () => {
@@ -438,7 +438,7 @@ describe('HUDPure Golden Tests', () => {
       expect(snapshot.player).toHaveLength(1);
       expect(snapshot.opponent).toHaveLength(1);
       expect(snapshot.turn.phaseName).toBe(hudModel.turn.phaseName);
-      expect(snapshot.player[0!]).not.toBeInstanceOf(SpiritHUDState); // Plain objects
+      expect(snapshot.player[0]).not.toBeInstanceOf(SpiritHUDState); // Plain objects
     });
 
     test('should validate correctly', () => {
@@ -544,9 +544,9 @@ describe('HUDPure Golden Tests', () => {
 
       const model = hudManager.getModel();
       expect(model.player).toHaveLength(1);
-      expect(model.player[0!].spiritId).toBe('player2');
+      expect(model.player[0].spiritId).toBe('player2');
       expect(model.opponent).toHaveLength(1);
-      expect(model.opponent[0!].spiritId).toBe('opponent2');
+      expect(model.opponent[0].spiritId).toBe('opponent2');
       expect(model.turn.phaseName).toBe('ResolveAction');
     });
 
@@ -562,10 +562,10 @@ describe('HUDPure Golden Tests', () => {
       hudManager.changePhase('ResolveAction', 'player1');
 
       expect(updateHistory).toHaveLength(3);
-      expect(updateHistory[0!].type).toBe(HUDUpdateType.SPIRIT_UPDATE);
-      expect(updateHistory[0!].spiritId).toBe('player1');
-      expect(updateHistory[1!].type).toBe(HUDUpdateType.TURN_UPDATE);
-      expect(updateHistory[2!].type).toBe(HUDUpdateType.PHASE_CHANGE);
+      expect(updateHistory[0].type).toBe(HUDUpdateType.SPIRIT_UPDATE);
+      expect(updateHistory[0].spiritId).toBe('player1');
+      expect(updateHistory[1].type).toBe(HUDUpdateType.TURN_UPDATE);
+      expect(updateHistory[2].type).toBe(HUDUpdateType.PHASE_CHANGE);
     });
 
     test('should remove update callbacks', () => {
@@ -591,7 +591,7 @@ describe('HUDPure Golden Tests', () => {
       expect(model.turn.phaseName).toBe(''); // Empty turn state
 
       expect(updateHistory).toHaveLength(1);
-      expect(updateHistory[0!].type).toBe(HUDUpdateType.BATTLE_END);
+      expect(updateHistory[0].type).toBe(HUDUpdateType.BATTLE_END);
     });
   });
 
@@ -673,10 +673,10 @@ describe('HUDPure Golden Tests', () => {
 
       const priorityOrder = HUDPureUtils.getSpiritsByPriority(hudModel);
 
-      expect(priorityOrder[0!].spiritId).toBe('ko'); // KO first
-      expect(priorityOrder[1!].spiritId).toBe('critical'); // Lowest HP
-      expect(priorityOrder[2!].spiritId).toBe('low');
-      expect(priorityOrder[3!].spiritId).toBe('healthy'); // Highest HP
+      expect(priorityOrder[0].spiritId).toBe('ko'); // KO first
+      expect(priorityOrder[1].spiritId).toBe('critical'); // Lowest HP
+      expect(priorityOrder[2].spiritId).toBe('low');
+      expect(priorityOrder[3].spiritId).toBe('healthy'); // Highest HP
     });
 
     test('should validate HUD model correctly', () => {
@@ -725,10 +725,10 @@ describe('HUDPure Golden Tests', () => {
 
       // Verify final state
       const finalModel = hudManager.getModel();
-      expect(finalModel.player[0!].currentHP).toBe(100);
-      expect(finalModel.opponent[0!].currentHP).toBe(15);
-      expect(finalModel.player[0!].statusEffects).toContain('regen');
-      expect(finalModel.opponent[0!].statusEffects).toContain('poison');
+      expect(finalModel.player[0].currentHP).toBe(100);
+      expect(finalModel.opponent[0].currentHP).toBe(15);
+      expect(finalModel.player[0].statusEffects).toContain('regen');
+      expect(finalModel.opponent[0].statusEffects).toContain('poison');
     });
 
     test('should handle multi-spirit battles', () => {
@@ -755,9 +755,9 @@ describe('HUDPure Golden Tests', () => {
       hudManager.updateSpirit('mage', { currentHP: 60 });
 
       const updatedModel = hudManager.getModel();
-      expect(updatedModel.opponent[0!].currentHP).toBe(100);
-      expect(updatedModel.opponent[1!].currentHP).toBe(30);
-      expect(updatedModel.player[1!].currentHP).toBe(60);
+      expect(updatedModel.opponent[0].currentHP).toBe(100);
+      expect(updatedModel.opponent[1].currentHP).toBe(30);
+      expect(updatedModel.player[1].currentHP).toBe(60);
 
       // Check battle status
       expect(updatedModel.isBattleOver).toBe(false);
@@ -801,17 +801,17 @@ describe('HUDPure Golden Tests', () => {
 
       const updatedModel = hudManager.getModel();
 
-      expect(updatedModel.player[0!].statusEffects).toHaveLength(4);
-      expect(updatedModel.player[0!].hasStatusEffect('poison')).toBe(true);
-      expect(updatedModel.player[0!].hasStatusEffect('burn')).toBe(true);
+      expect(updatedModel.player[0].statusEffects).toHaveLength(4);
+      expect(updatedModel.player[0].hasStatusEffect('poison')).toBe(true);
+      expect(updatedModel.player[0].hasStatusEffect('burn')).toBe(true);
 
-      expect(updatedModel.opponent[0!].statusEffects).toHaveLength(2);
-      expect(updatedModel.opponent[0!].hasStatusEffect('freeze')).toBe(true);
-      expect(updatedModel.opponent[0!].hasStatusEffect('stun')).toBe(true);
+      expect(updatedModel.opponent[0].statusEffects).toHaveLength(2);
+      expect(updatedModel.opponent[0].hasStatusEffect('freeze')).toBe(true);
+      expect(updatedModel.opponent[0].hasStatusEffect('stun')).toBe(true);
 
       // Test removal
       hudManager.updateSpirit('spirit1', { statusEffects: ['poison', 'haste'] });
-      expect(hudManager.getModel().player[0!].statusEffects).toEqual(['poison', 'haste']);
+      expect(hudManager.getModel().player[0].statusEffects).toEqual(['poison', 'haste']);
     });
   });
 

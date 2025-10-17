@@ -8,7 +8,7 @@ function main() {
     console.error('Usage: tsx cliHarness.ts <events.json>');
     process.exit(1);
   }
-  const events = JSON.parse(fs.readFileSync(argv[0!], 'utf-8')) as TouchEventLike[];
+  const events = JSON.parse(fs.readFileSync(argv[0], 'utf-8')) as TouchEventLike[];
   const mgr = new TouchGestureManager();
   for (const e of events) mgr.feed(e);
   const gestures = mgr.analyze();

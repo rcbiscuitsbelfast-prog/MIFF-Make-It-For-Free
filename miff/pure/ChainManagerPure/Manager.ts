@@ -141,7 +141,7 @@ export class ChainManager {
 
     // Set current quest
     const remainingQuests = chain.quests.filter((q: any) => !progress.completedQuests.includes(q));
-    progress.currentQuest = remainingQuests[0!];
+    progress.currentQuest = remainingQuests[0];
 
     return { ...progress };
   }

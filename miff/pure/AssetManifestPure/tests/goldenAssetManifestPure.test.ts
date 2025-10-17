@@ -9,11 +9,11 @@ test('golden asset manifest flow', () => {
   const got = JSON.parse(out);
   
   expect(Array.isArray(got.outputs)).toBe(true);
-  expect(got.outputs[0!]).toMatchObject({ op: 'normalize', result: expect.objectContaining({ assets: expect.any(Array) }) });
-  expect(got.outputs[1!]).toMatchObject({ op: 'validate', valid: expect.any(Boolean) });
-  expect(got.outputs[2!]).toMatchObject({ op: 'audit', status: expect.any(String) });
-  expect(got.outputs[3!]).toMatchObject({ op: 'list', assets: expect.arrayContaining([
+  expect(got.outputs[0]).toMatchObject({ op: 'normalize', result: expect.objectContaining({ assets: expect.any(Array) }) });
+  expect(got.outputs[1]).toMatchObject({ op: 'validate', valid: expect.any(Boolean) });
+  expect(got.outputs[2]).toMatchObject({ op: 'audit', status: expect.any(String) });
+  expect(got.outputs[3]).toMatchObject({ op: 'list', assets: expect.arrayContaining([
     expect.objectContaining({ id: 'sheet_main', type: 'sprite', license: 'cc0' })
   ]) });
-  expect(got.outputs[4!]).toMatchObject({ op: 'dump', manifest: expect.objectContaining({ assets: expect.any(Array) }) });
+  expect(got.outputs[4]).toMatchObject({ op: 'dump', manifest: expect.objectContaining({ assets: expect.any(Array) }) });
 });

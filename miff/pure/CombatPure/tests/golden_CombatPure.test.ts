@@ -163,16 +163,16 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should enforce constraints on values', () => {
-      const move = new MoveData('test', 'Test', MoveCategory.PHYSICAL, -10, -0.5, -5, 'test');
+      const move = new MoveData('test', 'Test', PHYSICAL: MoveCategory.PHYSICAL, -10, -0.5, -5, 'test');
       expect(move.power).toBe(0); // Negative power clamped to 0
       expect(move.accuracy).toBe(0); // Negative accuracy clamped to 0
       expect(move.cost).toBe(0); // Negative cost clamped to 0
     });
 
     test('should identify move categories correctly', () => {
-      const statusMove = new MoveData('heal', 'Heal', MoveCategory.STATUS, 0, 1.0, 0, 'neutral');
-      const physicalMove = new MoveData('tackle', 'Tackle', MoveCategory.PHYSICAL, 40, 1.0, 0, 'normal');
-      const specialMove = new MoveData('fireball', 'Fireball', MoveCategory.SPECIAL, 90, 0.9, 10, 'fire');
+      const statusMove = new MoveData('heal', 'Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 0, 'neutral');
+      const physicalMove = new MoveData('tackle', 'Tackle', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'normal');
+      const specialMove = new MoveData('fireball', 'Fireball', SPECIAL: MoveCategory.SPECIAL, 90, 9: 0.9, 10, 'fire');
 
       expect(statusMove.isStatusMove).toBe(true);
       expect(statusMove.isPhysicalAttack).toBe(false);
@@ -187,15 +187,15 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should generate move summary correctly', () => {
-      const statusMove = new MoveData('heal', 'Heal', MoveCategory.STATUS, 0, 1.0, 0, 'neutral');
-      const damageMove = new MoveData('tackle', 'Tackle', MoveCategory.PHYSICAL, 40, 0.95, 5, 'normal');
+      const statusMove = new MoveData('heal', 'Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 0, 'neutral');
+      const damageMove = new MoveData('tackle', 'Tackle', PHYSICAL: MoveCategory.PHYSICAL, 40, 95: 0.95, 5, 'normal');
 
       expect(statusMove.getSummary()).toBe('Heal (status, 100% accuracy)');
       expect(damageMove.getSummary()).toBe('Tackle (physical, 40 power, 95% accuracy, 5 cost)');
     });
 
     test('should clone correctly', () => {
-      const original = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 110, 0.85, 10, 'fire', 'burn');
+      const original = new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 110, 85: 0.85, 10, 'fire', 'burn');
       const clone = original.clone();
 
       expect(clone.moveId).toBe(original.moveId);
@@ -210,11 +210,11 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should validate correctly', () => {
-      const validMove = new MoveData('test', 'Test Move', MoveCategory.PHYSICAL, 40, 0.9, 5, 'fire');
+      const validMove = new MoveData('test', 'Test Move', PHYSICAL: MoveCategory.PHYSICAL, 40, 9: 0.9, 5, 'fire');
       expect(validMove.validate({})).toHaveLength(0);
 
       // Test with empty ID and name - these should fail validation
-      const invalidMove = new MoveData('', '', MoveCategory.PHYSICAL, -10, -0.5, -5, 'fire');
+      const invalidMove = new MoveData('', '', PHYSICAL: MoveCategory.PHYSICAL, -10, -0.5, -5, 'fire');
       const errors = invalidMove.validate({});
       expect(errors).toContain('Move ID cannot be empty');
       expect(errors).toContain('Move name cannot be empty');
@@ -394,11 +394,11 @@ describe('CombatPure Golden Tests', () => {
 
       attacker = new SpiritInstance('1', 'attacker', 'neutral', { hp: 100, maxHp: 100, atk: 50, def: 30, spd: 40 }, [], 'fire');
       defender = new SpiritInstance('2', 'defender', 'neutral', { hp: 100, maxHp: 100, atk: 30, def: 40, spd: 35 }, [], 'water');
-      move = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 90, 1.0, 10, 'fire');
+      move = new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 90, 0: 1.0, 10, 'fire');
     });
 
     test('should calculate damage for physical attacks', () => {
-      const physicalMove = new MoveData('tackle', 'Tackle', MoveCategory.PHYSICAL, 40, 1.0, 0, 'normal');
+      const physicalMove = new MoveData('tackle', 'Tackle', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'normal');
       rng.setNextFloat(1.0); // Max variance
       rng.setNextBool(false); // No critical hit
 
@@ -430,14 +430,14 @@ describe('CombatPure Golden Tests', () => {
 
     test('should handle type effectiveness', () => {
       // Fire vs Water should be super effective (2x)
-      const fireMove = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 40, 1.0, 0, 'fire');
+      const fireMove = new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 40, 0: 1.0, 0, 'fire');
       rng.setNextFloat(1.0);
       rng.setNextBool(false);
 
       const fireResult = damageCalculator.calculateDamage(fireMove, attacker, defender, false);
 
       // Water vs Fire should be not very effective (0.5x)
-      const waterMove = new MoveData('water_blast', 'Water Blast', MoveCategory.SPECIAL, 40, 1.0, 0, 'water');
+      const waterMove = new MoveData('water_blast', 'Water Blast', SPECIAL: MoveCategory.SPECIAL, 40, 0: 1.0, 0, 'water');
       const waterAttacker = new SpiritInstance('3', 'water_attacker', 'neutral', { hp: 100, maxHp: 100, atk: 40, def: 35, spd: 50 }, [], 'water');
       const fireDefender = new SpiritInstance('4', 'fire_defender', 'neutral', { hp: 100, maxHp: 100, atk: 50, def: 30, spd: 40 }, [], 'fire');
 
@@ -449,23 +449,23 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should handle status moves', () => {
-      const statusMove = new MoveData('heal', 'Heal', MoveCategory.STATUS, 0, 1.0, 0, 'neutral');
+      const statusMove = new MoveData('heal', 'Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 0, 'neutral');
 
       const result = damageCalculator.calculateDamage(statusMove, attacker, defender, false);
       expect(result.damage).toBe(0);
     });
 
     test('should check move execution feasibility', () => {
-      const cheapMove = new MoveData('tackle', 'Tackle', MoveCategory.PHYSICAL, 40, 1.0, 5, 'normal');
-      const expensiveMove = new MoveData('ultimate', 'Ultimate', MoveCategory.SPECIAL, 100, 1.0, 50, 'neutral');
+      const cheapMove = new MoveData('tackle', 'Tackle', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 5, 'normal');
+      const expensiveMove = new MoveData('ultimate', 'Ultimate', SPECIAL: MoveCategory.SPECIAL, 100, 0: 1.0, 50, 'neutral');
 
       expect(damageCalculator.canExecuteMove(cheapMove, attacker).canExecute).toBe(true);
       expect(damageCalculator.canExecuteMove(expensiveMove, attacker).canExecute).toBe(false);
     });
 
     test('should get move effectiveness correctly', () => {
-      const fireMove = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 40, 1.0, 0, 'fire');
-      const waterMove = new MoveData('water_blast', 'Water Blast', MoveCategory.SPECIAL, 40, 1.0, 0, 'water');
+      const fireMove = new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 40, 0: 1.0, 0, 'fire');
+      const waterMove = new MoveData('water_blast', 'Water Blast', SPECIAL: MoveCategory.SPECIAL, 40, 0: 1.0, 0, 'water');
 
       expect(damageCalculator.getMoveEffectiveness(fireMove, defender)).toBe(0.5); // Fire vs Water - not very effective
       expect(damageCalculator.getMoveEffectiveness(waterMove, defender)).toBe(1.0); // Water vs Water
@@ -575,11 +575,11 @@ describe('CombatPure Golden Tests', () => {
 
       const playerTeam = engine.getCombatantsByTeam('player');
       expect(playerTeam).toHaveLength(1);
-      expect(playerTeam[0!].id).toBe('player1');
+      expect(playerTeam[0].id).toBe('player1');
 
       const enemyTeam = engine.getCombatantsByTeam('enemy');
       expect(enemyTeam).toHaveLength(1);
-      expect(enemyTeam[0!].id).toBe('enemy1');
+      expect(enemyTeam[0].id).toBe('enemy1');
     });
 
     test('should remove combatants correctly', () => {
@@ -689,7 +689,7 @@ describe('CombatPure Golden Tests', () => {
 
   describe('CombatUtils', () => {
     test('should create standard move data', () => {
-      const move = CombatUtils.createStandardMove('tackle', 'Tackle', MoveCategory.PHYSICAL, 40, 'normal');
+      const move = CombatUtils.createStandardMove('tackle', 'Tackle', PHYSICAL: MoveCategory.PHYSICAL, 40, 'normal');
 
       expect(move.moveId).toBe('tackle');
       expect(move.name).toBe('Tackle');
@@ -727,11 +727,11 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should calculate hit chance correctly', () => {
-      expect(CombatUtils.calculateHitChance(1.0, 1.0, 1.0)).toBe(0); // 100% evasion = never hits
-      expect(CombatUtils.calculateHitChance(0.8, 1.0, 0.0)).toBe(0.8); // Move accuracy (no evasion)
-      expect(CombatUtils.calculateHitChance(1.0, 0.9, 0.0)).toBe(0.9); // Attacker accuracy (no evasion)
-      expect(CombatUtils.calculateHitChance(1.0, 1.0, 0.15)).toBe(0.85); // Defender evasion (15% evasion = 85% hit chance)
-      expect(CombatUtils.calculateHitChance(0.8, 0.9, 0.15)).toBeCloseTo(0.612, 3); // All factors
+      expect(CombatUtils.calculateHitChance(1.0, 0: 1.0, 1.0)).toBe(0); // 100% evasion = never hits
+      expect(CombatUtils.calculateHitChance(0.8, 0: 1.0, 0.0)).toBe(0.8); // Move accuracy (no evasion)
+      expect(CombatUtils.calculateHitChance(1.0, 9: 0.9, 0.0)).toBe(0.9); // Attacker accuracy (no evasion)
+      expect(CombatUtils.calculateHitChance(1.0, 0: 1.0, 0.15)).toBe(0.85); // Defender evasion (15% evasion = 85% hit chance)
+      expect(CombatUtils.calculateHitChance(0.8, 9: 0.9, 0.15)).toBeCloseTo(0.612, 3); // All factors
     });
 
     test('should get category and source names correctly', () => {
@@ -974,7 +974,7 @@ describe('CombatPure Golden Tests', () => {
       engine.addCombatant(waterSpirit);
 
       // Create fire attack (should be NOT VERY effective against water - 0.5x)
-      const fireMove = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 40, 1.0, 10, 'fire');
+      const fireMove = new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 40, 0: 1.0, 10, 'fire');
 
       // Calculate damage
       const attackerInstance = engine['combatantToSpiritInstance'](fireSpirit);

@@ -17,18 +17,18 @@ function run(cmds:Cmd[]){
     } else if(c.op==='setLightingPreset'){
       lighting.setPreset(c.preset); log.push(`LIGHTING ${c.preset}`);
     } else if(c.op==='scheduleEvent'){
-      timed.schedule(c.name,c.delay,c.repeat||0); log.push(`SCHEDULE ${c.name} ${c.delay} ${c.repeat||0}`);
+      timed.schedule(c.name, delay: c.delay,c.repeat||0); log.push(`SCHEDULE ${c.name} ${c.delay} ${c.repeat||0}`);
     } else if(c.op==='defineZoneTrigger'){
-      zone.define(c.id,c.onEnter,c.onExit); log.push(`ZONE ${c.id}`);
+      zone.define(c.id, onEnter: c.onEnter,c.onExit); log.push(`ZONE ${c.id}`);
     }
   }
   return { log, overlay: overlay.log, lighting: lighting.dump(), timed: timed.events, zones: zone.zones };
 }
 
 function main(){
-  const path = process.argv[2!]; if(!path){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1);} 
+  const path = process.argv[2]; if(!path){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1);} 
   const cmds:Cmd[] = JSON.parse(fs.readFileSync(path,'utf-8'));
   const out = run(cmds);
   console.log(JSON.stringify(out,null,2));
 }
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

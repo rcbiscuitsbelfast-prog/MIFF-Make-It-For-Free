@@ -5,7 +5,7 @@ test('golden gradient and noise deterministic', () => {
 	const cli = path.resolve(root, 'cliHarness.ts');
 	const outGrad = (global as any).testUtils.runCLI(cli, ['texture:gradient', '--colors', '#000,#fff', '--width', '8', '--height', '1']);
 	const gotGrad = JSON.parse(outGrad);
-	const gradTex = gotGrad.outputs[0!].texture;
+	const gradTex = gotGrad.outputs[0].texture;
 	expect(gradTex.width).toBe(8);
 	expect(gradTex.height).toBe(1);
 	// first pixel black, last pixel white
@@ -15,7 +15,7 @@ test('golden gradient and noise deterministic', () => {
 
 	const outNoise = (global as any).testUtils.runCLI(cli, ['texture:noise', '--type', 'perlin', '--octaves', '3', '--seed', '123', '--width', '4', '--height', '4']);
 	const gotNoise = JSON.parse(outNoise);
-	const tex = gotNoise.outputs[0!].texture;
+	const tex = gotNoise.outputs[0].texture;
 	expect(tex.width).toBe(4);
 	expect(tex.height).toBe(4);
 	expect(Array.isArray(tex.pixels)).toBe(true);

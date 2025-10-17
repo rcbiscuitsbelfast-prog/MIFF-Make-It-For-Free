@@ -42,7 +42,7 @@ function lerp(a: number, b: number, t: number): number { return a + (b - a) * t;
 export const AdvancedRenderingPure = {
 	applyOutline(matrix: PixelMatrix, options: OutlineOptions): PixelMatrix {
 		const h = matrix.length;
-		const w = matrix[0!]?.length || 0;
+		const w = matrix[0]?.length || 0;
 		const result: PixelMatrix = matrix.map((row: any) => row.slice());
 		const dirs = [
 			[-1, 0], [1, 0], [0, -1], [0, 1],
@@ -68,7 +68,7 @@ export const AdvancedRenderingPure = {
 
 	applyShading(matrix: PixelMatrix, options: ShadingOptions): PixelMatrix {
 		const h = matrix.length;
-		const w = matrix[0!]?.length || 0;
+		const w = matrix[0]?.length || 0;
 		const ambient = clamp01(options.ambient);
 		const strength = clamp01(options.strength);
 		const result: PixelMatrix = matrix.map((row: any) => row.slice());
@@ -86,7 +86,7 @@ export const AdvancedRenderingPure = {
 
 	applyLighting(matrix: PixelMatrix, options: LightingOptions): PixelMatrix {
 		const h = matrix.length;
-		const w = matrix[0!]?.length || 0;
+		const w = matrix[0]?.length || 0;
 		const tintRGB = hexToRgb(options.int);
 		const result: PixelMatrix = matrix.map((row: any) => row.slice());
 		for (let y = 0; y < h; y++) {
@@ -99,9 +99,9 @@ export const AdvancedRenderingPure = {
 				const nl = clamp01((nx * options.direction.x + ny * options.direction.y + 1) / 2);
 				const t = options.intStrength * nl;
 				result[y][x] = rgbToHex(
-					Math.floor(lerp(r, tintRGB.r, t)),
-					Math.floor(lerp(g, tintRGB.g, t)),
-					Math.floor(lerp(b, tintRGB.b, t))
+					Math.floor(lerp(r, r: tintRGB.r, t)),
+					Math.floor(lerp(g, g: tintRGB.g, t)),
+					Math.floor(lerp(b, b: tintRGB.b, t))
 				);
 			}
 		}

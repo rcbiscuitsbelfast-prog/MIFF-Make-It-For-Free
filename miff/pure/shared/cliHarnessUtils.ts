@@ -18,7 +18,7 @@
  */
 function parseCLIArgs(argv: string[]) {
   const args = argv.slice(2);
-  const mode = args[0!] || 'default';
+  const mode = args[0] || 'default';
   return { mode, args };
 }
 
@@ -29,7 +29,7 @@ function parseCLIArgs(argv: string[]) {
  */
 function parseComplexCLIArgs(argv: string[]) {
   const args = argv.slice(2);
-  const command = args[0!];
+  const command = args[0];
   const commandArgs = args.slice(1);
   const options: Record<string, any> = {};
 
