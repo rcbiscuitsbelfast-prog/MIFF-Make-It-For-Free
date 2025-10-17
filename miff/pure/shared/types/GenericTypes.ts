@@ -119,7 +119,7 @@ export interface TypeFactory<T extends object> {
   equals(a: T, b: T): boolean;
 }
 
-export class GenericTypeFactory<T extends object> implements TypeFactory<T extends object> {
+export class GenericTypeFactory<T extends object> implements TypeFactory<T> {
   private logger: StructuredLogger;
   private validator: (data: any) => data is T;
   private cloner: (instance: T) => T;
