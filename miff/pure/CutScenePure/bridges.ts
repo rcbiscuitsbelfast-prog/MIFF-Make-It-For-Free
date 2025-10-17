@@ -366,7 +366,9 @@ public class CutScenePlayer : MonoBehaviour
     public PlayableDirector director;
     public TimelineAsset cutSceneTimeline;
 
-    private ${'CutSceneDefinition'} definition;
+    // Note: Using a placeholder type name in generated code block for illustration purposes.
+    // In real engine code, this would be a concrete class.
+    private /*CutSceneDefinition*/ object definition;
 
     void Start()
     {

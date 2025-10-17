@@ -170,14 +170,14 @@ async function handlePreview() {
 }
 
 async function handleExport() {
-  const inputFile = flags['input'] || flags['i'];
-  const outputDir = flags['output'] || flags['o'] || './export';
-  const engine = flags['engine'] || flags['e'] || 'web';
-  const format = flags['format'] || 'json';
-  const optimize = flags['optimize'];
-  const includeAssets = flags['include-assets'];
-  const noDialogue = flags['no-dialogue'];
-  const skipAnimations = flags['skip-animations'];
+  const inputFile = (flags['input'] as string) || (flags['i'] as string);
+  const outputDir = (flags['output'] as string) || (flags['o'] as string) || './export';
+  const engine = ((flags['engine'] as string) || (flags['e'] as string) || 'web').toString();
+  const format = ((flags['format'] as string) || 'json').toString();
+  const optimize = Boolean(flags['optimize']);
+  const includeAssets = Boolean(flags['include-assets']);
+  const noDialogue = Boolean(flags['no-dialogue']);
+  const skipAnimations = Boolean(flags['skip-animations']);
 
   if (flags.verbose) {
     console.log(`📦 Exporting cut scene for ${engine} engine...`);
@@ -283,9 +283,9 @@ function generateOutputFiles(engine, format, outputDir) {
 }
 
 async function handleValidate() {
-  const inputFile = flags['input'] || flags['i'];
-  const strict = flags['strict'];
-  const fix = flags['fix'];
+  const inputFile = (flags['input'] as string) || (flags['i'] as string);
+  const strict = Boolean(flags['strict']);
+  const fix = Boolean(flags['fix']);
 
   if (flags.verbose) {
     console.log(`🔍 Validating cut scene definition...`);
@@ -355,8 +355,8 @@ async function handleValidate() {
 }
 
 async function handleSimulate() {
-  const inputFile = flags['input'] || flags['i'];
-  const debug = flags['debug'];
+  const inputFile = (flags['input'] as string) || (flags['i'] as string);
+  const debug = Boolean(flags['debug']);
 
   if (flags.verbose) {
     console.log(`🎭 Simulating cut scene timing...`);
