@@ -269,7 +269,7 @@ export class ProductionMonitor {
     return {
       overview: {
         status: this.determineOverallStatus(),
-        uptime: Date.now() - this.startTime.getTime(),
+        uptime: new Date() - this.startTime.getTime(),
         lastUpdated: new Date(),
         totalAlerts: this.alerts.length,
         activeAlerts: this.alerts.filter((a: any) => !a.resolved).length,
@@ -552,7 +552,7 @@ export class ProductionMonitor {
     }
   }
 
-  private async executeAction(action: Alert['actions'][0], alert: Alert): Promise<void> {
+  private async executeAction(action: Alert['actions'][0!], alert: Alert): Promise<void> {
     switch (action.type) {
       case 'notification':
         await this.sendNotification(alert);

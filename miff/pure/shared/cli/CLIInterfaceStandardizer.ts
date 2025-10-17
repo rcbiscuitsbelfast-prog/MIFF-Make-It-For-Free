@@ -163,7 +163,7 @@ export class CLIInterfaceStandardizer {
       }
 
       // Parse command
-      result.command = args[0];
+      result.command = args[0!];
       
       // Validate command exists
       const command = this.config.commands.find(cmd => cmd.name === result.command);
@@ -701,7 +701,7 @@ async function main(...args: any[]) {
 }
 
 // Run if called directly
-if (import.meta.url === \`file://\${process.argv[1]}\`) {
+if (import.meta.url === \`file://\${process.argv[1!]}\`) {
   main();
 }
 `;

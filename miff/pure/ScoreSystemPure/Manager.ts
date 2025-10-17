@@ -390,7 +390,7 @@ export class ScoreManager {
         name: `Leaderboard ${leaderboardId}`,
         category: 'general',
         entries: [],
-        lastUpdated: Date.now(),
+        lastUpdated: new Date(),
         metadata: {}
       };
       this.leaderboards.set(leaderboardId, leaderboard);
@@ -522,7 +522,7 @@ export class ScoreManager {
             achievements,
             leaderboards,
             stats: this.stats,
-            exportedAt: Date.now().toISOString()
+            exportedAt: new Date().toISOString()
           }
         };
       

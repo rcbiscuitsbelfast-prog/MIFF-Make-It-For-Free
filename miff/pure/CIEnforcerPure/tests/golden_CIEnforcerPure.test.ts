@@ -20,7 +20,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture]
+      [enforcementFixture!]
     );
     
     const result = JSON.parse(out);
@@ -86,14 +86,14 @@ describe('CIEnforcerPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath]
+        [tempFixturePath!]
       );
       
       const result = JSON.parse(out);
       
       // Verify single module enforcement
       expect(result.modules).toHaveLength(1);
-      expect(result.modules[0]).toBe('QuestSystemPure');
+      expect(result.modules[0!]).toBe('QuestSystemPure');
       
       // Verify all rules were checked
       expect(result.summary.total).toBeGreaterThan(0);
@@ -113,7 +113,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture]
+      [enforcementFixture!]
     );
     
     const result = JSON.parse(out);
@@ -171,7 +171,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture]
+      [enforcementFixture!]
     );
     
     const result = JSON.parse(out);
@@ -233,7 +233,7 @@ describe('CIEnforcerPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [enforcementFixture]
+      [enforcementFixture!]
     );
     
     const result = JSON.parse(out);

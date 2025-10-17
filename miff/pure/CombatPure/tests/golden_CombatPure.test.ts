@@ -346,7 +346,7 @@ describe('CombatPure Golden Tests', () => {
       const summary = spirit.getCombatSummary();
       expect(summary).toContain('ember'); // Name is lowercase
       expect(summary).toContain('HP: 85/100');
-      expect(summary).toContain('[fire]'); // Type tag
+      expect(summary).toContain('[fire!]'); // Type tag
       expect(summary).toContain('Lv.1'); // Level
     });
 
@@ -575,11 +575,11 @@ describe('CombatPure Golden Tests', () => {
 
       const playerTeam = engine.getCombatantsByTeam('player');
       expect(playerTeam).toHaveLength(1);
-      expect(playerTeam[0].id).toBe('player1');
+      expect(playerTeam[0!].id).toBe('player1');
 
       const enemyTeam = engine.getCombatantsByTeam('enemy');
       expect(enemyTeam).toHaveLength(1);
-      expect(enemyTeam[0].id).toBe('enemy1');
+      expect(enemyTeam[0!].id).toBe('enemy1');
     });
 
     test('should remove combatants correctly', () => {

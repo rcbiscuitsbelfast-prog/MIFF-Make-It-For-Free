@@ -403,7 +403,7 @@ export class UnrealEventSyncPure {
         overflowPolicy: 'drop',
         batchSize: this.configuration?.maxBatchSize || 10,
         batchTimeout: this.configuration?.batchTimeout || 1000,
-        lastBatchTime: Date.now(),
+        lastBatchTime: new Date(),
         enabled: true,
         metadata: {}
       };
@@ -423,7 +423,7 @@ export class UnrealEventSyncPure {
         overflowPolicy: 'drop',
         batchSize: this.configuration?.maxBatchSize || 10,
         batchTimeout: this.configuration?.batchTimeout || 1000,
-        lastBatchTime: Date.now(),
+        lastBatchTime: new Date(),
         enabled: true,
         metadata: {}
       };
@@ -683,7 +683,7 @@ export class UnrealEventSyncPure {
       metadata: {
         miffEvent: miffEvent,
         mapping: mapping,
-        conversionTime: Date.now()
+        conversionTime: new Date()
       }
     };
 
@@ -847,7 +847,7 @@ export class UnrealEventSyncPure {
       metadata: {
         ...event.metadata,
         transformer: transformer.id,
-        transformTime: Date.now()
+        transformTime: new Date()
       }
     };
   }
@@ -1084,7 +1084,7 @@ export class UnrealEventSyncPure {
     const timedOutEvents: UnrealEvent[] = [];
     for (let i = this.eventBuffer.length - 1; i >= 0; i--) {
       if (this.eventBuffer[i!].timestamp < timeoutThreshold) {
-        timedOutEvents.push(this.eventBuffer.splice(i, 1)[0]);
+        timedOutEvents.push(this.eventBuffer.splice(i, 1)[0!]);
       }
     }
 
@@ -1103,7 +1103,7 @@ export class UnrealEventSyncPure {
       const queueTimedOutEvents: UnrealEvent[] = [];
       for (let i = queue.events.length - 1; i >= 0; i--) {
         if (queue.events[i!].timestamp < timeoutThreshold) {
-          queueTimedOutEvents.push(queue.events.splice(i, 1)[0]);
+          queueTimedOutEvents.push(queue.events.splice(i, 1)[0!]);
         }
       }
 
@@ -1281,7 +1281,7 @@ export class UnrealEventSyncPure {
       bufferSize: this.eventBuffer.length,
       maxBufferSize: this.configuration?.maxBufferSize || 1000,
       usage: (this.eventBuffer.length / this.configuration?.maxBufferSize || 1000) * 100,
-      oldestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[0].timestamp : null,
+      oldestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[0!].timestamp : null,
       newestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[this.eventBuffer.length - 1].timestamp : null
     };
   }
@@ -1290,7 +1290,7 @@ export class UnrealEventSyncPure {
     return {
       queueSize: this.deadLetterQueue.length,
       maxQueueSize: this.configuration.deadLetterQueueSize,
-      oldestEvent: this.deadLetterQueue.length > 0 ? this.deadLetterQueue[0].timestamp : null,
+      oldestEvent: this.deadLetterQueue.length > 0 ? this.deadLetterQueue[0!].timestamp : null,
       newestEvent: this.deadLetterQueue.length > 0 ? this.deadLetterQueue[this.deadLetterQueue.length - 1].timestamp : null,
       eventTypes: this.deadLetterQueue.reduce((types, event) => {
         types[event.eventType] = (types[event.eventType] || 0) + 1;

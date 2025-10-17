@@ -303,7 +303,7 @@ export class SessionManifestManager {
             schema: 'miff.session.manifest.v1',
             session,
             metadata: {
-              exportedAt: Date.now().toISOString(),
+              exportedAt: new Date().toISOString(),
               startTime: this.sessionStartTimes.get(sessionId),
               playerCount: session.players.length
             }

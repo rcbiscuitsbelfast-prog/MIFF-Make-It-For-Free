@@ -982,7 +982,7 @@ export class UnrealEditorHarnessPure {
         metadata: {
           demoType: demoName,
           startTime,
-          endTime: Date.now(),
+          endTime: new Date(),
           configuration: this.configuration
         }
       };
@@ -1006,7 +1006,7 @@ export class UnrealEditorHarnessPure {
         performanceMetrics: {},
         screenshots: [],
         logs: [error instanceof Error ? error.message : 'Unknown error'],
-        metadata: { error, startTime, endTime: Date.now() }
+        metadata: { error, startTime, endTime: new Date() }
       };
 
       console.error(`❌ Demo failed: ${demoName || 'default'}`, err instanceof Error ? err.message : String(err));

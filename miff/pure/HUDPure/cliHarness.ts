@@ -280,7 +280,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0]?.toLowerCase() || '';
+    const command = parts[0!]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -301,13 +301,13 @@ async function runCLI(): Promise<void> {
         if (args.length < 4) {
           console.log('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp!] [level!] [element!]');
         } else {
-          const side = args[0];
-          const spiritId = args[1];
-          const name = args[2];
-          const maxHP = parseInt(args[3]);
-          const currentHP = args[4] ? parseInt(args[4]) : maxHP;
-          const level = args[5] ? parseInt(args[5]) : undefined;
-          const element = args[6];
+          const side = args[0!];
+          const spiritId = args[1!];
+          const name = args[2!];
+          const maxHP = parseInt(args[3!]);
+          const currentHP = args[4!] ? parseInt(args[4!]) : maxHP;
+          const level = args[5!] ? parseInt(args[5!]) : undefined;
+          const element = args[6!];
 
           if (isNaN(maxHP) || maxHP <= 0) {
             console.log('❌ Max HP must be a positive number');
@@ -325,8 +325,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: update <spirit_id> <current_hp>');
         } else {
-          const spiritId = args[0];
-          const currentHP = parseInt(args[1]);
+          const spiritId = args[0!];
+          const currentHP = parseInt(args[1!]);
 
           if (isNaN(currentHP) || currentHP < 0) {
             console.log('❌ Current HP must be a non-negative number');
@@ -341,8 +341,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: damage <spirit_id> <amount>');
         } else {
-          const spiritId = args[0];
-          const amount = parseInt(args[1]);
+          const spiritId = args[0!];
+          const amount = parseInt(args[1!]);
 
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Damage amount must be a positive number');
@@ -364,8 +364,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: heal <spirit_id> <amount>');
         } else {
-          const spiritId = args[0];
-          const amount = parseInt(args[1]);
+          const spiritId = args[0!];
+          const amount = parseInt(args[1!]);
 
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Heal amount must be a positive number');
@@ -387,8 +387,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: status <spirit_id> <effect>');
         } else {
-          const spiritId = args[0];
-          const effect = args[1];
+          const spiritId = args[0!];
+          const effect = args[1!];
 
           const model = state.hudManager.getModel();
           const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
@@ -409,8 +409,8 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'phase':
-        const phaseName = args[0];
-        const activeSpiritId = args[1];
+        const phaseName = args[0!];
+        const activeSpiritId = args[1!];
 
         if (!phaseName) {
           console.log('❌ Usage: phase <phase_name> [active_spirit_id!]');
@@ -424,7 +424,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: turn <number>');
         } else {
-          const turnNumber = parseInt(args[0]);
+          const turnNumber = parseInt(args[0!]);
           if (isNaN(turnNumber) || turnNumber < 0) {
             console.log('❌ Turn number must be a non-negative integer');
           } else {
@@ -438,7 +438,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: round <number>');
         } else {
-          const roundNumber = parseInt(args[0]);
+          const roundNumber = parseInt(args[0!]);
           if (isNaN(roundNumber) || roundNumber < 0) {
             console.log('❌ Round number must be a non-negative integer');
           } else {
@@ -462,7 +462,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: simulate <turns>');
         } else {
-          const turns = parseInt(args[0]);
+          const turns = parseInt(args[0!]);
           if (isNaN(turns) || turns <= 0) {
             console.log('❌ Turns must be a positive number');
           } else {

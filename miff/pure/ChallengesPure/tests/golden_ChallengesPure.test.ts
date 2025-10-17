@@ -771,7 +771,7 @@ describe('ChallengesPure Golden Tests', () => {
         category: ChallengeCategory.TUTORIAL
       });
       expect(tutorials).toHaveLength(1);
-      expect(tutorials[0]).toBe(challenge1);
+      expect(tutorials[0!]).toBe(challenge1);
 
       // Filter by status
       const available = challengeManager.getFilteredChallenges({
@@ -791,7 +791,7 @@ describe('ChallengesPure Golden Tests', () => {
         tags: ['story']
       });
       expect(storyTagged).toHaveLength(1);
-      expect(storyTagged[0]).toBe(challenge2);
+      expect(storyTagged[0!]).toBe(challenge2);
     });
 
     test('should handle challenge lifecycle correctly', () => {
@@ -958,19 +958,19 @@ describe('ChallengesPure Golden Tests', () => {
       ];
 
       const sortedByPriority = ChallengeUtils.sortChallenges(challenges, 'priority');
-      expect(sortedByPriority[0].priority).toBe(8);
-      expect(sortedByPriority[1].priority).toBe(5);
-      expect(sortedByPriority[2].priority).toBe(3);
+      expect(sortedByPriority[0!].priority).toBe(8);
+      expect(sortedByPriority[1!].priority).toBe(5);
+      expect(sortedByPriority[2!].priority).toBe(3);
 
       const sortedByName = ChallengeUtils.sortChallenges(challenges, 'name');
-      expect(sortedByName[0].name).toBe('A Title');
-      expect(sortedByName[1].name).toBe('B Title');
-      expect(sortedByName[2].name).toBe('C Title');
+      expect(sortedByName[0!].name).toBe('A Title');
+      expect(sortedByName[1!].name).toBe('B Title');
+      expect(sortedByName[2!].name).toBe('C Title');
 
       const sortedByDifficulty = ChallengeUtils.sortChallenges(challenges, 'difficulty');
-      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[0].difficulty)).toBe(3); // HARD
-      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[1].difficulty)).toBe(2); // MEDIUM
-      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[2].difficulty)).toBe(1); // EASY
+      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[0!].difficulty)).toBe(3); // HARD
+      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[1!].difficulty)).toBe(2); // MEDIUM
+      expect(ChallengeUtils.getDifficultyLevel(sortedByDifficulty[2!].difficulty)).toBe(1); // EASY
     });
   });
 
@@ -1162,14 +1162,14 @@ describe('ChallengesPure Golden Tests', () => {
         category: ChallengeCategory.TUTORIAL
       });
       expect(tutorials).toHaveLength(1);
-      expect(tutorials[0].challengeId).toBe('tut_001');
+      expect(tutorials[0!].challengeId).toBe('tut_001');
 
       // Test difficulty filtering
       const hardChallenges = challengeManager.getFilteredChallenges({
         difficulty: ChallengeDifficulty.HARD
       });
       expect(hardChallenges).toHaveLength(1);
-      expect(hardChallenges[0].challengeId).toBe('boss_001');
+      expect(hardChallenges[0!].challengeId).toBe('boss_001');
 
       // Test search
       const fireChallenges = challengeManager.getFilteredChallenges({
@@ -1183,12 +1183,12 @@ describe('ChallengesPure Golden Tests', () => {
       expect(waterChallenges).toHaveLength(2);
 
       // Test tag filtering
-      challenges[1].addTag('fire');
+      challenges[1!].addTag('fire');
       const fireTagged = challengeManager.getFilteredChallenges({
         tags: ['fire']
       });
       expect(fireTagged).toHaveLength(1);
-      expect(fireTagged[0].challengeId).toBe('story_001');
+      expect(fireTagged[0!].challengeId).toBe('story_001');
     });
   });
 

@@ -361,7 +361,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     const processed = bridge.processMessageQueue();
     expect(Array.isArray(processed)).toBe(true);
     expect(processed.length).toBe(1);
-    expect(processed[0].id).toBe('test_message');
+    expect(processed[0!].id).toBe('test_message');
   });
 
   test('✓ UnrealBridgeManager lifecycle event handling works', () => {
@@ -817,7 +817,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     // Check that messages are processed in order
     expect(processed.length).toBe(5);
     for (let i = 0; i < processed.length; i++) {
-      expect(processed[i].payload.index).toBe(i);
+      expect(processed[i!].payload.index).toBe(i);
     }
   });
 
@@ -894,7 +894,7 @@ describe('UnrealBridgePure Golden Tests', () => {
 
     // High priority message should be processed first
     expect(processed.length).toBe(4);
-    expect(processed[0].id).toBe('high_priority');
-    expect(processed[0].priority).toBe(10);
+    expect(processed[0!].id).toBe('high_priority');
+    expect(processed[0!].priority).toBe(10);
   });
 });

@@ -27,7 +27,7 @@ class CAPACLI {
     await this.registry.initialize();
 
     const args = process.argv.slice(2);
-    const command = args[0];
+    const command = args[0!];
 
     try {
       switch (command) {
@@ -109,7 +109,7 @@ class CAPACLI {
       
       console.info(`${statusIcon} ${severityIcon} ${entry.id}: ${entry.title}`);
       console.info(`   Category: ${entry.category} | Modules: ${entry.relatedModules.join(', ')}`);
-      console.info(`   Discovered: ${entry.discoveredAt.toISOString().split('T')[0]}`);
+      console.info(`   Discovered: ${entry.discoveredAt.toISOString().split('T')[0!]}`);
       if (entry.assignedTo) {
         console.info(`   Assigned to: ${entry.assignedTo}`);
       }
@@ -124,8 +124,8 @@ class CAPACLI {
       return;
     }
 
-    const title = args[0];
-    const description = args[1];
+    const title = args[0!];
+    const description = args[1!];
     
     const entry: any = {
       title,
@@ -189,9 +189,9 @@ class CAPACLI {
       return;
     }
 
-    const id = args[0];
-    const status = args[1] as CAPAStatus;
-    const resolution = args[2];
+    const id = args[0!];
+    const status = args[1!] as CAPAStatus;
+    const resolution = args[2!];
 
     const success = await this.registry.updateStatus(id, status, resolution);
     
@@ -208,7 +208,7 @@ class CAPACLI {
       return;
     }
 
-    const id = args[0];
+    const id = args[0!];
     const entries = this.registry.getEntries();
     const entry = entries.find(e => e.id === id);
 
@@ -273,7 +273,7 @@ class CAPACLI {
       return;
     }
 
-    const module = args[0];
+    const module = args[0!];
     const changes = args.slice(1);
 
     const result = this.registry.shouldBlockPR(module, changes);
@@ -367,12 +367,12 @@ Examples:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new CAPACLI();
   cli.run().catch((error) => {
     console.error('CAPA CLI Error:', err instanceof Error ? err.message : String(err));
     // Only exit with code 1 for non-list commands
-    if (process.argv[2] !== 'list') {
+    if (process.argv[2!] !== 'list') {
       process.exit(1);
     }
   });

@@ -235,7 +235,7 @@ export class AudioSystem {
       pitch: pitch * sound.pitch,
       loop: sound.loop,
       spatial: sound.spatial,
-      startTime: Date.now(),
+      startTime: new Date(),
       position: { x: 0, y: 0, z: 0 },
       velocity: { x: 0, y: 0, z: 0 }
     };
@@ -413,7 +413,7 @@ export class AudioSystem {
       type: 'stop',
       soundId: instance.soundId,
       timestamp: new Date(),
-      data: { instanceId, duration: Date.now() - instance.startTime }
+      data: { instanceId, duration: new Date() - instance.startTime }
     });
 
     return true;

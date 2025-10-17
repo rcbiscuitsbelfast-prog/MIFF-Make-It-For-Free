@@ -314,7 +314,7 @@ export class FusionManager {
       fusionHistory: this.context.fusionHistory,
       totalFusions: this.context.fusionHistory.length,
       lastFusionTime: this.context.lastFusionTime,
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

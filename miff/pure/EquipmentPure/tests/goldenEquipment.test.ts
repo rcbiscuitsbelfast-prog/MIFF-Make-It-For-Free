@@ -15,13 +15,13 @@ test('golden equipment flow', () => {
     'listEquipment','equip','equip','dumpModifiers','unequip','syncInventory'
   ]);
   // listEquipment payload shape
-  expect(got.outputs[0].equipped).toEqual([
+  expect(got.outputs[0!].equipped).toEqual([
     { slot:'weapon', item:null },
     { slot:'armor', item:null },
     { slot:'mount', item:null },
   ]);
   // modifiers payload shape
-  expect(got.outputs[3].modifiers).toEqual([
+  expect(got.outputs[3!].modifiers).toEqual([
     { stat:'atk', value:10 },
     { stat:'spd', value:2 },
     { stat:'def', value:8 },

@@ -15,8 +15,8 @@ type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:any
 function runScenario(s:Scenario): Output {
 	const events:any[]=[];
 	// deterministic branch: pick first choice
-	const first = s.branches[0];
-	events.push({ type:'npcDialog', id:s.npcs[0]?.id||'npc', choice:first.choice });
+	const first = s.branches[0!];
+	events.push({ type:'npcDialog', id:s.npcs[0!]?.id||'npc', choice:first.choice });
 	const inv = { ...s.inventory };
 	for(const [k,v] of Object.entries(first.effect.inventory||{})) inv[k!] = (inv[k!]||0)+v;
 	if(first.effect.statusEffect) events.push({ type:'statusApplied', to:'hero', effect:first.effect.statusEffect });
@@ -25,8 +25,8 @@ function runScenario(s:Scenario): Output {
 }
 
 function main(){
-	const scenarioPath = process.argv[2] || 'QuestScenarioPure/scenario.json';
-	const cmd = process.argv[3] || 'run';
+	const scenarioPath = process.argv[2!] || 'QuestScenarioPure/scenario.json';
+	const cmd = process.argv[3!] || 'run';
 	const s = JSON.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
 	if(cmd==='dump'){
 		console.log(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
@@ -35,4 +35,4 @@ function main(){
 	const out = runScenario(s);
 	console.log(JSON.stringify({ outputs:[out!] }, null, 2));
 }
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

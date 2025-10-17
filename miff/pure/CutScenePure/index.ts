@@ -30,7 +30,7 @@ class AnimationPure {
       const animation = {
         id: animationId,
         target,
-        startTime: Date.now(),
+        startTime: new Date(),
         duration: 1000, // Default 1 second
         progress: 0,
         completed: false
@@ -192,7 +192,7 @@ class CameraSystemPureStub {
       const transition = {
         id: transitionId,
         payload,
-        startTime: Date.now(),
+        startTime: new Date(),
         duration: payload.duration || 1000,
         progress: 0,
         completed: false
@@ -260,7 +260,7 @@ class AudioPureStub {
       const sound = {
         id: soundId,
         options: options || {},
-        startTime: Date.now(),
+        startTime: new Date(),
         duration: options?.duration || 1000,
         volume: options?.volume || 1.0,
         loop: options?.loop || false,
@@ -353,7 +353,7 @@ class AvatarSystemPureStub {
     if (avatar) {
       avatar.animations.push({
         id: animationId,
-        startTime: Date.now(),
+        startTime: new Date(),
         duration: 1000,
         progress: 0
       });

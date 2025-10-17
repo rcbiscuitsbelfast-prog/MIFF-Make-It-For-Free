@@ -789,7 +789,7 @@ export const SimpleGameUtils = {
       name,
       description,
       icon,
-      unlockedAt: Date.now()
+      unlockedAt: new Date()
     };
   },
 

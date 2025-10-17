@@ -246,8 +246,8 @@ export class EnhancedEconomyManager {
         name: 'General Store',
         type: 'general',
         inventory: {
-          'health_potion': { quantity: 50, maxStock: 100, restockRate: 10, lastRestock: Date.now(), demand: 0.7, supply: 0.8 },
-          'iron_sword': { quantity: 5, maxStock: 20, restockRate: 2, lastRestock: Date.now(), demand: 0.5, supply: 0.6 }
+          'health_potion': { quantity: 50, maxStock: 100, restockRate: 10, lastRestock: new Date(), demand: 0.7, supply: 0.8 },
+          'iron_sword': { quantity: 5, maxStock: 20, restockRate: 2, lastRestock: new Date(), demand: 0.5, supply: 0.6 }
         },
         markup: 0.2,
         markdown: 0.1,
@@ -264,7 +264,7 @@ export class EnhancedEconomyManager {
         name: 'Magic Emporium',
         type: 'specialist',
         inventory: {
-          'magic_scroll': { quantity: 20, maxStock: 50, restockRate: 5, lastRestock: Date.now(), demand: 0.8, supply: 0.4 }
+          'magic_scroll': { quantity: 20, maxStock: 50, restockRate: 5, lastRestock: new Date(), demand: 0.8, supply: 0.4 }
         },
         markup: 0.5,
         markdown: 0.2,

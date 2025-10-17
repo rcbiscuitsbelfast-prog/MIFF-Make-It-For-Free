@@ -219,7 +219,7 @@ export class RenderPayloadManager {
       return { ok: false, errors: [`Render data ${dataId} not found in frame`] };
     }
 
-    const removed = frame.renderData.splice(index, 1)[0];
+    const removed = frame.renderData.splice(index, 1)[0!];
     this.frames.set(frameId, frame);
     return { ok: true, removed };
   }
@@ -398,7 +398,7 @@ export class RenderPayloadManager {
               frame,
               assets: Array.from(this.assets.values()),
               animations: Array.from(this.animations.values()),
-              exportedAt: Date.now().toISOString()
+              exportedAt: new Date().toISOString()
             }
           };
         

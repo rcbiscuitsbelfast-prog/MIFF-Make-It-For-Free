@@ -314,7 +314,7 @@ class BattleAIPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -348,21 +348,21 @@ class BattleAIPureCLI {
           this.showThreatLevel(args);
           break;
         case 'profile':
-          this.showProfileDetails(args[0]);
+          this.showProfileDetails(args[0!]);
           break;
         case 'compare':
         case 'c':
-          this.compareProfiles(args[0], args[1]);
+          this.compareProfiles(args[0!], args[1!]);
           break;
         case 'heal':
-          this.healSpirit(args[0], parseInt(args[1]) || 20);
+          this.healSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'damage':
         case 'dmg':
-          this.damageSpirit(args[0], parseInt(args[1]) || 20);
+          this.damageSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'status':
-          this.showSpiritStatus(args[0]);
+          this.showSpiritStatus(args[0!]);
           break;
         case 'exit':
         case 'quit':
@@ -486,9 +486,9 @@ class BattleAIPureCLI {
       return;
     }
 
-    const spiritId = args[0];
-    const opponentId = args[1];
-    const profileId = args[2] || 'balanced';
+    const spiritId = args[0!];
+    const opponentId = args[1!];
+    const profileId = args[2!] || 'balanced';
 
     const spirit = this.spirits.get(spiritId);
     const opponent = this.spirits.get(opponentId);
@@ -558,9 +558,9 @@ class BattleAIPureCLI {
       return;
     }
 
-    const spirit1Id = args[0];
-    const spirit2Id = args[1];
-    const profileId = args[2] || 'balanced';
+    const spirit1Id = args[0!];
+    const spirit2Id = args[1!];
+    const profileId = args[2!] || 'balanced';
 
     const spirit1 = this.spirits.get(spirit1Id);
     const spirit2 = this.spirits.get(spirit2Id);
@@ -647,8 +647,8 @@ class BattleAIPureCLI {
       return;
     }
 
-    const spiritId = args[0];
-    const opponentId = args[1];
+    const spiritId = args[0!];
+    const opponentId = args[1!];
 
     const spirit = this.spirits.get(spiritId);
     const opponent = this.spirits.get(opponentId);

@@ -210,7 +210,7 @@ export class RaidManager {
       bossId,
       partyId,
       difficulty,
-      startTime: Date.now(),
+      startTime: new Date(),
       status: 'active',
       currentPhase: 1,
       totalPhases: this.calculatePhases(boss, party),

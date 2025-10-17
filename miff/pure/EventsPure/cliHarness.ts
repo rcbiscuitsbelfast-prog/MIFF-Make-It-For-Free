@@ -17,7 +17,7 @@ interface CLIState {
 function parseCommand(input: string): { command: string; args: string[] } {
   const parts = input.trim().split(/\s+/);
   return {
-    command: parts[0]?.toLowerCase() || '',
+    command: parts[0!]?.toLowerCase() || '',
     args: parts.slice(1)
   };
 }
@@ -127,7 +127,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: publish <topic> [data!]');
         } else {
-          const topic = args[0];
+          const topic = args[0!];
           const payload = args.slice(1).length > 0 ? JSON.parse(args.slice(1).join(' ')) : undefined;
           state.eventBus.publish(topic, payload);
           console.log(`✅ Published event to '${topic}'`);
@@ -139,7 +139,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: subscribe <topic>');
         } else {
-          const topic = args[0];
+          const topic = args[0!];
           const listener = state.eventBus.subscribe(topic, createSubscriptionListener(topic));
           const subscriptionId = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
           state.subscriptions.set(subscriptionId, listener);
@@ -152,7 +152,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: unsubscribe <id>');
         } else {
-          const subscriptionId = args[0];
+          const subscriptionId = args[0!];
           const listener = state.subscriptions.get(subscriptionId);
           if (listener) {
             listener.dispose();

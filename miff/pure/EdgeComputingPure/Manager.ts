@@ -1161,8 +1161,8 @@ export class EdgeComputingPure {
         status: 'healthy',
         score: 100,
         issues: [],
-        lastCheck: Date.now(),
-        nextCheck: Date.now() + 60000
+        lastCheck: new Date(),
+        nextCheck: new Date() + 60000
       },
       metadata: {},
       ...node

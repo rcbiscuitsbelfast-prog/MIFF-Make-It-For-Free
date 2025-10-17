@@ -556,7 +556,7 @@ export class CharacterCustomizationManager {
           totalAssets: 0,
           averageCustomizationTime: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -1043,8 +1043,8 @@ export class CharacterCustomizationManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -1065,7 +1065,7 @@ export class CharacterCustomizationManager {
         totalAssets: system.assets.length,
         averageCustomizationTime: 0, // Calculate based on recent activity
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -1120,7 +1120,7 @@ export class CharacterCustomizationManager {
       totalCharacters,
       totalPresets,
       totalAssets,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

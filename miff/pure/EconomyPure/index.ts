@@ -762,7 +762,7 @@ export class EconomicEngine {
       type: eventType,
       name: `${eventType === EconomicEventType.BOOM ? 'Price Surge' : 'Market Crash'}`,
       description: `Unusual price movement detected in ${market.name}`,
-      startTime: Date.now(),
+      startTime: new Date(),
       duration: 3600000, // 1 hour
       effects: [{
         type: 'price_change',
@@ -865,7 +865,7 @@ export class EconomicEngine {
       currencyAnalysis: new Map(),
       entityAnalysis: [],
       recommendations: this.generateRecommendations(),
-      generatedAt: Date.now()
+      generatedAt: new Date()
     };
 
     // Generate market analysis

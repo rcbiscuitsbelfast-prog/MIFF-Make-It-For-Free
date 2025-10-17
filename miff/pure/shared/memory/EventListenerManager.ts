@@ -79,7 +79,7 @@ export class EventListenerManager {
       });
 
       // Track lifetime
-      this.listenerLifetimes.set(listenerId, { startTime: Date.now() });
+      this.listenerLifetimes.set(listenerId, { startTime: new Date() });
 
       // Update metrics
       this.metrics.totalListeners++;

@@ -470,7 +470,7 @@ export class RealBrowserAPIs {
       defaultPrevented: false,
       eventPhase: 2,
       isTrusted: true,
-      timeStamp: Date.now(),
+      timeStamp: new Date(),
       data: eventData
     };
 

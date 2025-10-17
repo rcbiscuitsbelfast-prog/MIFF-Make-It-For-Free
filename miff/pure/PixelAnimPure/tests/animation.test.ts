@@ -47,7 +47,7 @@ describe('PixelAnimPure', () => {
 
   test('exports sprite sheet with correct schema', () => {
     const anim = PixelAnimPure.createAnimation('test', ['t1.png'], 8);
-    const spriteSheet = PixelAnimPure.createSpriteSheet([anim], 32, 32);
+    const spriteSheet = PixelAnimPure.createSpriteSheet([anim!], 32, 32);
     const exported = PixelAnimPure.exportSpriteSheet(spriteSheet);
     
     expect(exported).toMatchObject({

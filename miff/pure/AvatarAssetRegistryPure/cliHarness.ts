@@ -71,13 +71,13 @@ class AvatarAssetRegistryCLI {
         await this.runTests();
         break;
       case 'resolve':
-        await this.resolveAsset(args[0], args[1]);
+        await this.resolveAsset(args[0!], args[1!]);
         break;
       case 'list-assets':
         this.listAssets();
         break;
       case 'add-asset':
-        await this.addAsset(args[0]);
+        await this.addAsset(args[0!]);
         break;
       case 'create-sample-registry':
         await this.createSampleRegistry();
@@ -462,6 +462,6 @@ async function main() {
   await cli.start();
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

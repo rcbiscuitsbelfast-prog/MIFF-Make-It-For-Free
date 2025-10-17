@@ -129,8 +129,8 @@ describe('SyncPure Golden Tests', () => {
       const event1 = new SyncEvent(SyncTrigger.BATTLE_WIN, 15, 'boss_fight');
       const event2 = new SyncEvent(SyncTrigger.ITEM_USAGE, 25, 'legendary', 'unlock', 'evolve');
 
-      expect(event1.getSummary()).toBe('battle_win (+15 sync) [boss_fight]');
-      expect(event2.getSummary()).toBe('item_usage (+25 sync) [legendary] -> evolve');
+      expect(event1.getSummary()).toBe('battle_win (+15 sync) [boss_fight!]');
+      expect(event2.getSummary()).toBe('item_usage (+25 sync) [legendary!] -> evolve');
     });
   });
 
@@ -486,9 +486,9 @@ describe('SyncPure Golden Tests', () => {
       syncManager.increaseSync('test_spirit', 25);
 
       expect(callbackCalls).toHaveLength(1);
-      expect(callbackCalls[0].spiritId).toBe('test_spirit');
-      expect(callbackCalls[0].oldLevel).toBe(0);
-      expect(callbackCalls[0].newLevel).toBe(25);
+      expect(callbackCalls[0!].spiritId).toBe('test_spirit');
+      expect(callbackCalls[0!].oldLevel).toBe(0);
+      expect(callbackCalls[0!].newLevel).toBe(25);
     });
 
     test('should remove event callbacks correctly', () => {
@@ -543,10 +543,10 @@ describe('SyncPure Golden Tests', () => {
 
       const candidates = syncManager.getLevelUpCandidates();
       expect(candidates).toHaveLength(2);
-      expect(candidates[0].spiritId).toBe('spirit2'); // 5 sync needed (30 - 25)
-      expect(candidates[0].syncNeeded).toBe(5);
-      expect(candidates[1].spiritId).toBe('spirit1'); // 10 sync needed (20 - 10)
-      expect(candidates[1].syncNeeded).toBe(10);
+      expect(candidates[0!].spiritId).toBe('spirit2'); // 5 sync needed (30 - 25)
+      expect(candidates[0!].syncNeeded).toBe(5);
+      expect(candidates[1!].spiritId).toBe('spirit1'); // 10 sync needed (20 - 10)
+      expect(candidates[1!].syncNeeded).toBe(10);
     });
   });
 
@@ -677,14 +677,14 @@ describe('SyncPure Golden Tests', () => {
       let totalSyncGained = 0;
 
       challenges.forEach((challenge, index) => {
-        const syncGain = challenge.evaluatePerformance(accuracies[index]);
+        const syncGain = challenge.evaluatePerformance(accuracies[index!]);
         const levelIncrease = syncManager.processSyncEvent(
           'musician',
-          SyncEvent.createRhythmChallenge(accuracies[index], challenge.difficulty)
+          SyncEvent.createRhythmChallenge(accuracies[index!], challenge.difficulty)
         );
 
         totalSyncGained += syncGain;
-        console.log(`Challenge ${index + 1}: +${syncGain} sync (${(accuracies[index] * 100).toFixed(1)}% accuracy)`);
+        console.log(`Challenge ${index + 1}: +${syncGain} sync (${(accuracies[index!] * 100).toFixed(1)}% accuracy)`);
       });
 
       const finalLevel = syncManager.getSyncLevel('musician');

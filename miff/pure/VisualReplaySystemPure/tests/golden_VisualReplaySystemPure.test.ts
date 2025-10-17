@@ -21,7 +21,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const result = JSON.parse(out);
@@ -44,18 +44,18 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     // Verify frames
     expect(result.frames).toHaveLength(3);
-    expect(result.frames[0].frameNumber).toBe(1);
-    expect(result.frames[1].frameNumber).toBe(2);
-    expect(result.frames[2].frameNumber).toBe(3);
+    expect(result.frames[0!].frameNumber).toBe(1);
+    expect(result.frames[1!].frameNumber).toBe(2);
+    expect(result.frames[2!].frameNumber).toBe(3);
     
     // Verify visual hooks
-    expect(result.frames[0].visualHooks).toHaveLength(2); // player_sprite, block_sprite
-    expect(result.frames[1].visualHooks).toHaveLength(1); // player_sprite update
-    expect(result.frames[2].visualHooks).toHaveLength(3); // player_sprite, jump_sound, jump_particles
+    expect(result.frames[0!].visualHooks).toHaveLength(2); // player_sprite, block_sprite
+    expect(result.frames[1!].visualHooks).toHaveLength(1); // player_sprite update
+    expect(result.frames[2!].visualHooks).toHaveLength(3); // player_sprite, jump_sound, jump_particles
     
     // Verify input events
-    expect(result.session.inputStream[0].type).toBe('keydown');
-    expect(result.session.inputStream[0].data.key).toBe('Space');
+    expect(result.session.inputStream[0!].type).toBe('keydown');
+    expect(result.session.inputStream[0!].data.key).toBe('Space');
     
     // Verify outcome
     expect(result.session.outcome.success).toBe(true);
@@ -65,8 +65,8 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     // Verify checkpoints
     expect(result.session.outcome.checkpoints).toHaveLength(1);
-    expect(result.session.outcome.checkpoints[0].passed).toBe(true);
-    expect(result.session.outcome.checkpoints[0].description).toBe('Player successfully jumped');
+    expect(result.session.outcome.checkpoints[0!].passed).toBe(true);
+    expect(result.session.outcome.checkpoints[0!].description).toBe('Player successfully jumped');
   });
   
   test('golden visual replay - statistics calculation', () => {
@@ -75,7 +75,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const result = JSON.parse(out);
@@ -124,7 +124,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const result = JSON.parse(out);
@@ -173,7 +173,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test JSON export (default)
     const jsonOut = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const jsonResult = JSON.parse(jsonOut);
@@ -196,7 +196,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     try {
       const csvOut = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempCsvFixture]
+        [tempCsvFixture!]
       );
       
       const csvResult = JSON.parse(csvOut);
@@ -217,7 +217,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     try {
       const summaryOut = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempSummaryFixture]
+        [tempSummaryFixture!]
       );
       
       const summaryResult = JSON.parse(summaryOut);
@@ -235,7 +235,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const result = JSON.parse(out);
@@ -286,7 +286,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const result = JSON.parse(out);
@@ -315,7 +315,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     // Verify frame rate calculation
     if (result.frames.length > 1) {
-      const firstFrame = result.frames[0];
+      const firstFrame = result.frames[0!];
       const lastFrame = result.frames[result.frames.length - 1];
       const duration = lastFrame.timestamp - firstFrame.timestamp;
       if (duration > 0) {
@@ -331,7 +331,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
+      [replayFixture!]
     );
     
     const result = JSON.parse(out);
@@ -362,10 +362,10 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Verify input event recording
     const { inputStream } = result.session;
     expect(inputStream).toHaveLength(1);
-    expect(inputStream[0].frameNumber).toBe(3);
-    expect(inputStream[0].type).toBe('keydown');
-    expect(inputStream[0].data.key).toBe('Space');
-    expect(inputStream[0].timestamp).toBeGreaterThan(0);
+    expect(inputStream[0!].frameNumber).toBe(3);
+    expect(inputStream[0!].type).toBe('keydown');
+    expect(inputStream[0!].data.key).toBe('Space');
+    expect(inputStream[0!].timestamp).toBeGreaterThan(0);
     
     // Verify input analysis statistics
     const { statistics } = result;

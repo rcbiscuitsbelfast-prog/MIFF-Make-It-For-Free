@@ -620,22 +620,22 @@ describe('AIPure Golden Tests', () => {
       ];
 
       // Set low HP for the low_hp spirit to trigger defensive policy
-      spirits[1].currentHP = 30; // 30% HP to trigger defensive policy
+      spirits[1!].currentHP = 30; // 30% HP to trigger defensive policy
 
       // Test high attack policy
-      const highAttackPolicy = AIUtils.createAdaptivePolicyWithId(spirits[0], 'adaptive_high_attack');
+      const highAttackPolicy = AIUtils.createAdaptivePolicyWithId(spirits[0!], 'adaptive_high_attack');
       aiManager.registerPolicy(highAttackPolicy);
 
       // Test low HP policy
-      const lowHpPolicy = AIUtils.createAdaptivePolicyWithId(spirits[1], 'adaptive_low_hp');
+      const lowHpPolicy = AIUtils.createAdaptivePolicyWithId(spirits[1!], 'adaptive_low_hp');
       aiManager.registerPolicy(lowHpPolicy);
 
       // Test high defense policy
-      const highDefensePolicy = AIUtils.createAdaptivePolicyWithId(spirits[2], 'adaptive_high_defense');
+      const highDefensePolicy = AIUtils.createAdaptivePolicyWithId(spirits[2!], 'adaptive_high_defense');
       aiManager.registerPolicy(highDefensePolicy);
 
       // Test balanced policy
-      const balancedPolicy = AIUtils.createAdaptivePolicyWithId(spirits[3], 'adaptive_balanced');
+      const balancedPolicy = AIUtils.createAdaptivePolicyWithId(spirits[3!], 'adaptive_balanced');
       aiManager.registerPolicy(balancedPolicy);
 
       // Test that adaptive policies reflect spirit characteristics
@@ -768,7 +768,7 @@ describe('AIPure Golden Tests', () => {
 
       // Compare all policies to reference
       for (let i = 0; i < 100; i++) {
-        const policy = policies[i];
+        const policy = policies[i!];
         AIUtils.comparePolicies(referencePolicy, policy);
         AIUtils.getBehaviorDescription(policy);
         policy.validate({});

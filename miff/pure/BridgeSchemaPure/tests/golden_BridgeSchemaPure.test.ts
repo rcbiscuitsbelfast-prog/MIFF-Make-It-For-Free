@@ -327,7 +327,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     // Invalid conversion
     const badConvertResult = manager.convert({}, 'non-existent-engine', 'another-non-existent');
     expect(badConvertResult.ok).toBe(false);
-    expect(badConvertResult.errors?.[0]).toContain('No conversion rule found');
+    expect(badConvertResult.errors?.[0!]).toContain('No conversion rule found');
 
     // Validation against non-existent schema
     const badValidateResult = manager.validateAgainstSchema('non-existent', {});

@@ -791,10 +791,10 @@ export class CameraSystemPure {
         mode: definition.mode.type,
         activeTransitions: [],
         activeEffects: [],
-        lastInputTime: Date.now(),
+        lastInputTime: new Date(),
         inputIdleTime: 0
       },
-      lastUpdateTime: Date.now(),
+      lastUpdateTime: new Date(),
       updateCount: 0,
       performanceMetrics: {
         updateTime: 0,

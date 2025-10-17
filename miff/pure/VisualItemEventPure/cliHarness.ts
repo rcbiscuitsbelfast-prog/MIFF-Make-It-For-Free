@@ -9,8 +9,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const inputPath = process.argv[2] || 'VisualItemEventPure/fixtures/sample_event.json';
-  const commandsPath = process.argv[3] || '';
+  const inputPath = process.argv[2!] || 'VisualItemEventPure/fixtures/sample_event.json';
+  const commandsPath = process.argv[3!] || '';
   
   let input: any = {};
   try {
@@ -42,4 +42,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

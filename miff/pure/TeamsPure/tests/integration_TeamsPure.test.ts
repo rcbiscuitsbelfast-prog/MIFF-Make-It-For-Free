@@ -187,8 +187,8 @@ describe('TeamsPure Integration Tests', () => {
       });
 
       // Test combat interactions
-      const tank = spirits[0];
-      const dps = spirits[1];
+      const tank = spirits[0!];
+      const dps = spirits[1!];
 
       // Tank should have higher defense
       expect(tank.stats.def).toBeGreaterThan(dps.stats.def);
@@ -278,10 +278,10 @@ describe('TeamsPure Integration Tests', () => {
       itemManager.registerItem(attackBuff);
 
       // Test item usage
-      const healResult = itemManager.useItem('health_potion', spirits[0]);
+      const healResult = itemManager.useItem('health_potion', spirits[0!]);
       expect(healResult.status).toBe('Success');
 
-      const reviveResult = itemManager.useItem('revive_crystal', spirits[1]);
+      const reviveResult = itemManager.useItem('revive_crystal', spirits[1!]);
       expect(reviveResult.status).toBe('Success');
 
       // Test team statistics after healing
@@ -321,8 +321,8 @@ describe('TeamsPure Integration Tests', () => {
       itemManager.registerItem(supportItem);
 
       // Test item compatibility
-      const tankResult = itemManager.canUseItem('iron_shield', spirits[1]);
-      const dpsResult = itemManager.canUseItem('flame_sword', spirits[2]);
+      const tankResult = itemManager.canUseItem('iron_shield', spirits[1!]);
+      const dpsResult = itemManager.canUseItem('flame_sword', spirits[2!]);
 
       expect(tankResult).toBe(true); // Tank can use defensive item
       expect(dpsResult).toBe(true); // DPS can use offensive item
@@ -356,7 +356,7 @@ describe('TeamsPure Integration Tests', () => {
 
       // Use multiple potions
       for (let i = 0; i < 5; i++) {
-        const result = itemManager.useItem(`potion_${i}`, spirits[0]);
+        const result = itemManager.useItem(`potion_${i}`, spirits[0!]);
         expect(result.status).toBe('Success');
       }
 
@@ -425,9 +425,9 @@ describe('TeamsPure Integration Tests', () => {
 
       // Create sync entries with different levels
       const syncEntries = [
-        new SpiritSyncEntry(spirits[0].instanceId, 85), // High sync
-        new SpiritSyncEntry(spirits[1].instanceId, 60), // Medium sync
-        new SpiritSyncEntry(spirits[2].instanceId, 35)  // Low sync
+        new SpiritSyncEntry(spirits[0!].instanceId, 85), // High sync
+        new SpiritSyncEntry(spirits[1!].instanceId, 60), // Medium sync
+        new SpiritSyncEntry(spirits[2!].instanceId, 35)  // Low sync
       ];
 
       syncEntries.forEach(entry => {
@@ -436,9 +436,9 @@ describe('TeamsPure Integration Tests', () => {
 
       // Set sync levels
       const syncMap = new Map<string, number>();
-      syncMap.set(spirits[0].instanceId, 85);
-      syncMap.set(spirits[1].instanceId, 60);
-      syncMap.set(spirits[2].instanceId, 35);
+      syncMap.set(spirits[0!].instanceId, 85);
+      syncMap.set(spirits[1!].instanceId, 60);
+      syncMap.set(spirits[2!].instanceId, 35);
 
       // Test sync-based calculations
       const avgSync = team.getAverageSync(syncMap);
@@ -448,8 +448,8 @@ describe('TeamsPure Integration Tests', () => {
       expect(synergy).toBeGreaterThan(55);
 
       // High sync should contribute more to team strength
-      const highSyncSpirit = spirits[0];
-      const lowSyncSpirit = spirits[2];
+      const highSyncSpirit = spirits[0!];
+      const lowSyncSpirit = spirits[2!];
 
       expect(highSyncSpirit.level).toBeGreaterThan(lowSyncSpirit.level);
     });
@@ -582,8 +582,8 @@ describe('TeamsPure Integration Tests', () => {
 
       // Test item usage in battle context
       // First damage the spirit so healing will have an effect
-      playerSpirits[0].currentHP = Math.floor(playerSpirits[0].maxHP * 0.5); // Damage to 50% HP
-      const healResult = itemManager.useItem('health_potion', playerSpirits[0]);
+      playerSpirits[0!].currentHP = Math.floor(playerSpirits[0!].maxHP * 0.5); // Damage to 50% HP
+      const healResult = itemManager.useItem('health_potion', playerSpirits[0!]);
       expect(healResult.status).toBe('success');
 
       // Verify combat engine integration
@@ -695,7 +695,7 @@ describe('TeamsPure Integration Tests', () => {
       const syncMap = new Map<string, number>();
       spiritInstances.forEach((spirit, index) => {
         // Higher sync for key roles
-        const syncLevel = spirits[index].role === 'Tank' || spirits[index].role === 'Support' ?
+        const syncLevel = spirits[index!].role === 'Tank' || spirits[index!].role === 'Support' ?
           80 : 60 + Math.floor(Math.random() * 20);
         syncMap.set(spirit.instanceId, syncLevel);
         syncManager.increaseSync(spirit.instanceId, syncLevel);
@@ -796,21 +796,21 @@ describe('TeamsPure Integration Tests', () => {
           case 1: // Remove spirit
             if (dynamicTeam.spirits.length > 0) {
               const randomIndex = Math.floor(Math.random() * dynamicTeam.spirits.length);
-              const spiritToRemove = dynamicTeam.spirits[randomIndex];
+              const spiritToRemove = dynamicTeam.spirits[randomIndex!];
               teamManager.removeSpiritFromTeam(dynamicTeam.teamId, spiritToRemove.instanceId);
             }
             break;
           case 2: // Move to reserve
             if (dynamicTeam.spirits.length > 0) {
               const randomIndex = Math.floor(Math.random() * dynamicTeam.spirits.length);
-              const spiritToMove = dynamicTeam.spirits[randomIndex];
+              const spiritToMove = dynamicTeam.spirits[randomIndex!];
               teamManager.moveSpiritToReserve(dynamicTeam.teamId, spiritToMove.instanceId);
             }
             break;
           case 3: // Move from reserve
             if (dynamicTeam.reserves.length > 0 && dynamicTeam.spirits.length < 5) {
               const randomIndex = Math.floor(Math.random() * dynamicTeam.reserves.length);
-              const spiritToMove = dynamicTeam.reserves[randomIndex];
+              const spiritToMove = dynamicTeam.reserves[randomIndex!];
               teamManager.moveSpiritFromReserve(dynamicTeam.teamId, spiritToMove.instanceId);
             }
             break;

@@ -185,7 +185,7 @@ export class DrivingManager {
         id: this.generateSessionId(),
         vehicleId,
         driverId: playerId,
-        startTime: Date.now(),
+        startTime: new Date(),
         startPosition: { ...vehicle.currentPosition },
         currentLap: 1,
         totalLaps: track.lapCount,

@@ -88,7 +88,7 @@ function main() {
   try {
     switch (cmd) {
       case 'replay-golden': {
-        let testPath = rest[0];
+        let testPath = rest[0!];
         if (!testPath) {
           console.log('Error: Test path required');
           printHelp();
@@ -117,7 +117,7 @@ function main() {
         break;
       }
       case 'replay-cli': {
-        const jsonPath = rest[0];
+        const jsonPath = rest[0!];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
           console.log('Error reading CLI output file: file not found');
           return;
@@ -130,7 +130,7 @@ function main() {
         break;
       }
       case 'replay-payload': {
-        const jsonPath = rest[0];
+        const jsonPath = rest[0!];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
           console.log('Error reading JSON payload file: file not found');
           return;
@@ -144,8 +144,8 @@ function main() {
         break;
       }
       case 'export': {
-        const sessionId = rest[0];
-        const outputPath = rest[1];
+        const sessionId = rest[0!];
+        const outputPath = rest[1!];
         const flags = parseFlags(rest.slice(2));
         const config = ensureConfig(flags);
         if (!sessionId || !outputPath) {
@@ -190,4 +190,4 @@ function main() {
   }
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

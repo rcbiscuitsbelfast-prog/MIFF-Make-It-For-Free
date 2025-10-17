@@ -422,7 +422,7 @@ export class LootTablesManager {
             schema: 'miff.loot.export.v1',
             tables,
             rollHistory: this.rollHistory.slice(-100), // Last 100 rolls
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: tables.length
           }
         };
@@ -516,7 +516,7 @@ export class LootTablesManager {
     if (entries.length === 0) return null;
 
     const totalWeight = entries.reduce((sum, entry) => sum + entry.weight, 0);
-    if (totalWeight === 0) return entries[0]; // Fallback to first entry
+    if (totalWeight === 0) return entries[0!]; // Fallback to first entry
 
     // Use seed for deterministic results
     const random = seed ? this.seededRandom(seed) : Math.random();

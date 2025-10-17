@@ -26,7 +26,7 @@ function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: Cmd;
 
     // Handle direct command or JSON file input
@@ -37,34 +37,34 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'createChain':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('createChain requires chain data JSON file');
           }
-          const chainData = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
+          const chainData = JSON.parse(fs.readFileSync(argv[1!], 'utf-8'));
           operation = { op: 'createChain', chain: chainData };
           break;
         case 'updateProgress':
-          if (!argv[1] || !argv[2] || !argv[3]) {
+          if (!argv[1!] || !argv[2!] || !argv[3!]) {
             throw new Error('updateProgress requires chainId, questId, and completed (true/false)');
           }
           operation = { 
             op: 'updateProgress', 
-            chainId: argv[1],
-            questId: argv[2],
+            chainId: argv[1!],
+            questId: argv[2!],
             completed: argv[3] === 'true'
           };
           break;
         case 'getChain':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getChain requires chainId');
           }
-          operation = { op: 'getChain', chainId: argv[1] };
+          operation = { op: 'getChain', chainId: argv[1!] };
           break;
         case 'getProgress':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getProgress requires chainId');
           }
-          operation = { op: 'getProgress', chainId: argv[1] };
+          operation = { op: 'getProgress', chainId: argv[1!] };
           break;
         case 'getAllChains':
           operation = { op: 'getAllChains' };
@@ -73,22 +73,22 @@ function main() {
           operation = { op: 'getAvailableChains' };
           break;
         case 'getChainsByQuest':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getChainsByQuest requires questId');
           }
-          operation = { op: 'getChainsByQuest', questId: argv[1] };
+          operation = { op: 'getChainsByQuest', questId: argv[1!] };
           break;
         case 'validateAllChains':
           operation = { op: 'validateAllChains' };
           break;
         case 'exportChain':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('exportChain requires chainId');
           }
           operation = { 
             op: 'exportChain', 
-            chainId: argv[1],
-            format: argv[2] || 'json'
+            chainId: argv[1!],
+            format: argv[2!] || 'json'
           };
           break;
         case 'getStatistics':
@@ -212,7 +212,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -250,6 +250,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

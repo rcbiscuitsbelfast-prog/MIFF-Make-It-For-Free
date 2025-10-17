@@ -190,7 +190,7 @@ export class ChainValidatorManager {
     // Detect cycles
     const cycles = this.findCycles();
     for (const cycle of cycles) {
-      issues.push({ code: 'cycle', message: `Cycle detected: ${cycle.join(' -> ')} -> ${cycle[0]}` });
+      issues.push({ code: 'cycle', message: `Cycle detected: ${cycle.join(' -> ')} -> ${cycle[0!]}` });
     }
 
     const status: 'ok' | 'error' | 'warning' = issues.length > 0 ? 'error' : warnings.length > 0 ? 'warning' : 'ok';
@@ -252,7 +252,7 @@ export class ChainValidatorManager {
       edges: this.listEdges(),
       stats: this.getStats().result,
     const managerData = this.getStats();
-      exportedAt: Date.now().toISOString(),
+      exportedAt: new Date().toISOString(),
       version: '1.0.0'
     };
     switch (format) {
@@ -334,7 +334,7 @@ export class ChainValidatorManager {
     const indeg = new Map<string, number>();
     for (const id of this.nodes.keys()) indeg.set(id, 0);
     for (const [u, vs] of this.adjacency.entries()) for (const v of vs) indeg.set(v, (indeg.get(v) || 0) + 1);
-    const queue: string[] = Array.from(indeg.entries()).filter(([, d]) => d === 0).map(([id]) => id);
+    const queue: string[] = Array.from(indeg.entries()).filter(([, d]) => d === 0).map(([id!]) => id);
     const order: string[] = [];
     const indegMutable = new Map(indeg);
     while (queue.length > 0) {

@@ -112,7 +112,7 @@ export class BridgeSchemaManager {
       metadata: {
         description: 'Standard Unity bridge schema for game objects',
         author: 'MIFF Framework',
-        created: Date.now().toISOString(),
+        created: new Date().toISOString(),
         tags: ['unity', 'bridge', 'gameobject'],
         compatibility: ['unity-2021.3', 'unity-2022.3', 'unity-2023.3']
       }
@@ -159,7 +159,7 @@ export class BridgeSchemaManager {
       metadata: {
         description: 'Standard Web/HTML bridge schema for DOM elements',
         author: 'MIFF Framework',
-        created: Date.now().toISOString(),
+        created: new Date().toISOString(),
         tags: ['web', 'bridge', 'dom', 'html'],
         compatibility: ['chrome', 'firefox', 'safari', 'edge']
       }
@@ -197,7 +197,7 @@ export class BridgeSchemaManager {
       metadata: {
         description: 'Standard Godot bridge schema for nodes',
         author: 'MIFF Framework',
-        created: Date.now().toISOString(),
+        created: new Date().toISOString(),
         tags: ['godot', 'bridge', 'node'],
         compatibility: ['godot-4.0', 'godot-4.1', 'godot-4.2']
       }
@@ -220,8 +220,8 @@ export class BridgeSchemaManager {
         'gameObject.components': 'element.attributes'
       },
       transformations: {
-        position: (pos: number[]) => `translate3d(${pos[0]}px, ${pos[1]}px, ${pos[2]}px)`,
-        rotation: (rot: number[]) => `rotate(${rot[1]}rad)` // Simplified rotation
+        position: (pos: number[]) => `translate3d(${pos[0!]}px, ${pos[1!]}px, ${pos[2!]}px)`,
+        rotation: (rot: number[]) => `rotate(${rot[1!]}rad)` // Simplified rotation
       }
     });
 
@@ -233,8 +233,8 @@ export class BridgeSchemaManager {
       mappings: {
         'element.id': 'node.name',
         'element.tag': 'node.type',
-        'element.style.left': 'node.position[0]',
-        'element.style.top': 'node.position[1]'
+        'element.style.left': 'node.position[0!]',
+        'element.style.top': 'node.position[1!]'
       },
       transformations: {
         position: (styleValue: string) => parseFloat(styleValue.replace('px', '')) || 0
@@ -368,7 +368,7 @@ export class BridgeSchemaManager {
         metadata: {
           description: `Generated schema for ${name}`,
           author: 'MIFF Bridge Schema Generator',
-          created: Date.now().toISOString(),
+          created: new Date().toISOString(),
           tags: ['generated', engine]
         }
       };
@@ -436,7 +436,7 @@ export class BridgeSchemaManager {
               version: this.config.version,
               schemas,
               conversions,
-              exportedAt: Date.now().toISOString()
+              exportedAt: new Date().toISOString()
             }
           };
       }
@@ -548,7 +548,7 @@ export class BridgeSchemaManager {
     }
 
     if (Array.isArray(data)) {
-      const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0]) : { type: 'any' };
+      const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0!]) : { type: 'any' };
       return {
         type: 'array',
         items: itemSchema

@@ -70,12 +70,12 @@ function createMockPlayerState(playerId: string, position?: { x: number; y: numb
     identity: { playerId },
     position: position || { x: Math.random() * 100, y: 0, z: Math.random() * 100 },
     velocity: { x: (Math.random() - 0.5) * 10, y: 0, z: (Math.random() - 0.5) * 10 },
-    tick: Date.now()
+    tick: new Date()
   };
 }
 
 async function main(): Promise<void> {
-  const command = process.argv[2];
+  const command = process.argv[2!];
 
   if (!command) {
     showUsage();
@@ -195,8 +195,8 @@ async function main(): Promise<void> {
             id: event?.id,
             type: event.type,
             description: event.description,
-            startTime: Date.now(),
-            endTime: Date.now() + (event.duration * 1000),
+            startTime: new Date(),
+            endTime: new Date() + (event.duration * 1000),
             affectedPlayers: [],
             zoneWide: true
           });
@@ -253,8 +253,8 @@ async function main(): Promise<void> {
     }
 
     case 'create-zone': {
-      const zoneId = process.argv[3];
-      const zoneType = process.argv[4] as ZoneType;
+      const zoneId = process.argv[3!];
+      const zoneType = process.argv[4!] as ZoneType;
 
       if (!zoneId || !zoneType) {
         console.error('Error: create-zone requires zoneId and zoneType');
@@ -309,7 +309,7 @@ async function main(): Promise<void> {
 
     case 'add-player': {
       const zoneServer = (global as any).currentZoneServer as ZoneServerPure;
-      const playerId = process.argv[3];
+      const playerId = process.argv[3!];
 
       if (!zoneServer || !playerId) {
         console.error('Error: Need zone server and player ID');
@@ -330,7 +330,7 @@ async function main(): Promise<void> {
 
     case 'remove-player': {
       const zoneServer = (global as any).currentZoneServer as ZoneServerPure;
-      const playerId = process.argv[3];
+      const playerId = process.argv[3!];
 
       if (!zoneServer || !playerId) {
         console.error('Error: Need zone server and player ID');
@@ -349,8 +349,8 @@ async function main(): Promise<void> {
 
     case 'update-status': {
       const zoneServer = (global as any).currentZoneServer as ZoneServerPure;
-      const status = process.argv[3] as ZoneStatus;
-      const reason = process.argv[4] || 'Administrative action';
+      const status = process.argv[3!] as ZoneStatus;
+      const reason = process.argv[4!] || 'Administrative action';
 
       if (!zoneServer || !status) {
         console.error('Error: Need zone server and status');
@@ -365,9 +365,9 @@ async function main(): Promise<void> {
 
     case 'create-connection': {
       const zoneServer = (global as any).currentZoneServer as ZoneServerPure;
-      const targetZoneId = process.argv[3];
-      const connectionType = process.argv[4];
-      const requirements = process.argv[5] ? process.argv[5].split(',') : undefined;
+      const targetZoneId = process.argv[3!];
+      const connectionType = process.argv[4!];
+      const requirements = process.argv[5!] ? process.argv[5!].split(',') : undefined;
 
       if (!zoneServer || !targetZoneId || !connectionType) {
         console.error('Error: Need zone server, target zone ID, and connection type');
@@ -389,10 +389,10 @@ async function main(): Promise<void> {
 
     case 'create-event': {
       const zoneServer = (global as any).currentZoneServer as ZoneServerPure;
-      const eventId = process.argv[3];
-      const eventType = process.argv[4];
-      const description = process.argv[5];
-      const duration = process.argv[6] ? parseInt(process.argv[6]) : 3600;
+      const eventId = process.argv[3!];
+      const eventType = process.argv[4!];
+      const description = process.argv[5!];
+      const duration = process.argv[6!] ? parseInt(process.argv[6!]) : 3600;
 
       if (!zoneServer || !eventId || !eventType || !description) {
         console.error('Error: Need zone server, event ID, type, and description');
@@ -404,8 +404,8 @@ async function main(): Promise<void> {
         id: eventId,
         type: eventType,
         description,
-        startTime: Date.now(),
-        endTime: Date.now() + (duration * 1000),
+        startTime: new Date(),
+        endTime: new Date() + (duration * 1000),
         affectedPlayers: [],
         zoneWide: true
       };
@@ -495,7 +495,7 @@ async function main(): Promise<void> {
     }
 
     case 'stress-test': {
-      const playerCount = parseInt(process.argv[3] || '10');
+      const playerCount = parseInt(process.argv[3!] || '10');
       console.log(`=== STRESS TEST: ${playerCount} PLAYERS ===\n`);
 
       // Create a zone for stress testing
@@ -699,7 +699,7 @@ async function main(): Promise<void> {
     }
 
     case 'simulate': {
-      const duration = parseInt(process.argv[3] || '30');
+      const duration = parseInt(process.argv[3!] || '30');
       console.log(`=== ZONE SIMULATION: ${duration} SECONDS ===\n`);
 
       const config: ZoneServerConfig = {
@@ -732,8 +732,8 @@ async function main(): Promise<void> {
         id: 'weather_rain',
         type: 'environmental',
         description: 'Rain reduces visibility and movement speed',
-        startTime: Date.now(),
-        endTime: Date.now() + (duration * 1000),
+        startTime: new Date(),
+        endTime: new Date() + (duration * 1000),
         affectedPlayers: [],
         zoneWide: true
       });
@@ -742,8 +742,8 @@ async function main(): Promise<void> {
         id: 'spawn_event',
         type: 'combat',
         description: 'Increased creature spawns',
-        startTime: Date.now() + 5000, // Start in 5 seconds
-        endTime: Date.now() + (duration * 1000 * 0.5), // End halfway through
+        startTime: new Date() + 5000, // Start in 5 seconds
+        endTime: new Date() + (duration * 1000 * 0.5), // End halfway through
         affectedPlayers: [],
         zoneWide: false
       });

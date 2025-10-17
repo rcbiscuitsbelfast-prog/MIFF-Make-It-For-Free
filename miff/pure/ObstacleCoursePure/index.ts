@@ -167,7 +167,7 @@ export class ObstacleCoursePure {
 
     const attempt: CourseAttempt = {
       playerId: playerId,
-      startTime: Date.now(),
+      startTime: new Date(),
       checkpoints: [],
       score: 0,
       completed: false

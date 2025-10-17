@@ -340,7 +340,7 @@ export class AnimationSequencer {
       const armNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
         node.metadata?.limbType === 'arm'
       );
-      const wavingArm = armNodes[0];
+      const wavingArm = armNodes[0!];
 
       if (wavingArm) {
         keyframes.push(

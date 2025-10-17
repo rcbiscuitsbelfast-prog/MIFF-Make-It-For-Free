@@ -882,7 +882,7 @@ export class UnrealSceneBuilderPure {
       metadata: {
         configuration: config,
         conversionResult: conversionResult,
-        compositionTime: Date.now()
+        compositionTime: new Date()
       }
     };
 
@@ -922,7 +922,7 @@ export class UnrealSceneBuilderPure {
       metadata: {
         configuration: config,
         composition: composition,
-        creationTime: Date.now()
+        creationTime: new Date()
       }
     };
   }
@@ -958,7 +958,7 @@ export class UnrealSceneBuilderPure {
       metadata: {
         configuration: config,
         composition: composition,
-        creationTime: Date.now()
+        creationTime: new Date()
       }
     };
   }
@@ -999,7 +999,7 @@ export class UnrealSceneBuilderPure {
       bAllowAutoRebuilding: true,
       metadata: {
         configuration: config,
-        creationTime: Date.now()
+        creationTime: new Date()
       }
     };
   }
@@ -1055,7 +1055,7 @@ export class UnrealSceneBuilderPure {
       bUseLandscapeDistanceFields: config.enableLandscapeDistanceFields,
       metadata: {
         configuration: config,
-        creationTime: Date.now()
+        creationTime: new Date()
       }
     };
   }
@@ -1110,7 +1110,7 @@ export class UnrealSceneBuilderPure {
       angularVelocityTolerance: 10.0,
       metadata: {
         configuration: config,
-        creationTime: Date.now()
+        creationTime: new Date()
       }
     };
   }
@@ -1182,7 +1182,7 @@ export class UnrealSceneBuilderPure {
       bEnableSoundEngineStats: false,
       metadata: {
         configuration: config,
-        creationTime: Date.now()
+        creationTime: new Date()
       }
     };
   }

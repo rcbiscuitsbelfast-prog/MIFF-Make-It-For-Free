@@ -41,7 +41,7 @@ EXAMPLES:
 }
 
 async function main() {
-  const command = process.argv[2];
+  const command = process.argv[2!];
 
   if (!command) {
     showUsage();
@@ -50,7 +50,7 @@ async function main() {
 
   switch (command) {
     case 'legacy': {
-      const inputFile = process.argv[3];
+      const inputFile = process.argv[3!];
       if (!inputFile) {
         console.error('Error: legacy command requires input file');
         showUsage();
@@ -362,7 +362,7 @@ async function main() {
     }
 
     case 'market': {
-      const type = process.argv[3];
+      const type = process.argv[3!];
       if (!type) {
         console.error('Error: market requires mount type');
         showUsage();

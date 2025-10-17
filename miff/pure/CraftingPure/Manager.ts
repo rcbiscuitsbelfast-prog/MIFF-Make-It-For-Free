@@ -355,7 +355,7 @@ export class CraftingManager {
     const session: CraftingSession = {
       id: sessionId,
       recipeId,
-      startTime: Date.now(),
+      startTime: new Date(),
       status: 'active',
       crafterId,
       quality: this.calculateBaseQuality(recipe),
@@ -433,7 +433,7 @@ export class CraftingManager {
       experience,
       success,
       sessionId,
-      craftingTime: Date.now() - session.startTime,
+      craftingTime: new Date() - session.startTime,
       metadata: {
         recipeId: session.recipeId,
         crafterId: session.crafterId,
@@ -572,7 +572,7 @@ export class CraftingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: sessions[0] // Return first session or undefined
+          result: sessions[0!] // Return first session or undefined
         };
       
       default:

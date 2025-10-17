@@ -427,8 +427,8 @@ export class AdvancedStatusEffects {
           maxStacks: 1,
           currentStacks: 1,
           source: 'aura',
-          appliedAt: Date.now(),
-          expiresAt: Date.now() + 1000
+          appliedAt: new Date(),
+          expiresAt: new Date() + 1000
         }
       ],
       conditions: [
@@ -461,8 +461,8 @@ export class AdvancedStatusEffects {
           maxStacks: 1,
           currentStacks: 1,
           source: 'aura',
-          appliedAt: Date.now(),
-          expiresAt: Date.now() + 1000
+          appliedAt: new Date(),
+          expiresAt: new Date() + 1000
         }
       ],
       conditions: [

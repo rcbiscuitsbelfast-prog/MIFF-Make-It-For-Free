@@ -144,7 +144,7 @@ export class ProceduralWorldManager {
 
 	applyBiomes(heightmap: number[][], rules: BiomeRulesSchema): string[][] {
 		const h = heightmap.length;
-		const w = heightmap[0]?.length ?? 0;
+		const w = heightmap[0!]?.length ?? 0;
 		const biomes: string[][] = Array.from({ length: h }, () => Array<string>(w).fill('unknown'));
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
@@ -163,7 +163,7 @@ export class ProceduralWorldManager {
 
 	carveRivers(heightmap: number[][], opts: RiverOptions): RiverSegment[] {
 		const h = heightmap.length; if (h === 0) return [];
-		const w = heightmap[0].length;
+		const w = heightmap[0!].length;
 		const flat: { x: number; y: number; z: number }[] = [];
 		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y!][x!] });
 		flat.sort((a: any, b: any) => b.z - a.z);

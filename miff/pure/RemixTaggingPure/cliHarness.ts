@@ -26,7 +26,7 @@ function main() {
   }
   try {
     const mgr = new RemixTaggingManager();
-    const first = argv[0];
+    const first = argv[0!];
     let op: Operation;
 
     if (first.endsWith('.json') && fs.existsSync(first)) {
@@ -34,16 +34,16 @@ function main() {
     } else {
       switch (first) {
         case 'tag': {
-          const moduleId = argv[1];
-          const moduleName = argv[2] || moduleId;
-          const level = argv[3] as RemixLevel | undefined;
-          const reason = argv[4];
+          const moduleId = argv[1!];
+          const moduleName = argv[2!] || moduleId;
+          const level = argv[3!] as RemixLevel | undefined;
+          const reason = argv[4!];
           if (!moduleId) throw new Error('tag requires moduleId');
           op = { op: 'tag', moduleId, moduleName, level, reason };
           break;
         }
         case 'get': {
-          const moduleId = argv[1];
+          const moduleId = argv[1!];
           if (!moduleId) throw new Error('get requires moduleId');
           op = { op: 'get', moduleId };
           break;
@@ -57,13 +57,13 @@ function main() {
           break;
         }
         case 'config': {
-          const file = argv[1];
+          const file = argv[1!];
           if (!file) throw new Error('config requires JSON file');
           op = { op: 'config', file };
           break;
         }
         case 'batch': {
-          const file = argv[1];
+          const file = argv[1!];
           if (!file) throw new Error('batch requires commands JSON file');
           op = { op: 'batch', file };
           break;
@@ -127,7 +127,7 @@ function main() {
       }
     }
 
-    const fmtArg = argv.find(a => a.startsWith('--format='))?.split('=')[1] || argv[argv.indexOf('--format') + 1];
+    const fmtArg = argv.find(a => a.startsWith('--format='))?.split('=')[1!] || argv[argv.indexOf('--format') + 1];
     const valid = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = valid.includes(fmtArg || '') ? fmtArg : undefined;
     const { result: finalResult, exportData } = addExportSupport(
@@ -156,6 +156,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

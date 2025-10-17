@@ -153,7 +153,7 @@ class SlicePureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -164,7 +164,7 @@ class SlicePureCLI {
           break;
         case 'roam':
         case 'r':
-          const steps = args[0] ? parseInt(args[0]) : 10;
+          const steps = args[0!] ? parseInt(args[0!]) : 10;
           await this.roamSteps(steps);
           break;
         case 'battle':
@@ -177,15 +177,15 @@ class SlicePureCLI {
           break;
         case 'move':
         case 'm':
-          this.movePlayer(args[0]);
+          this.movePlayer(args[0!]);
           break;
         case 'time':
         case 't':
-          this.setTimeOfDay(args[0]);
+          this.setTimeOfDay(args[0!]);
           break;
         case 'weather':
         case 'w':
-          this.setWeather(args[0]);
+          this.setWeather(args[0!]);
           break;
         case 'reset':
           this.resetState();

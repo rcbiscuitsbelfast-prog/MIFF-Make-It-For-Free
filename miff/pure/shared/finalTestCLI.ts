@@ -23,7 +23,7 @@ class FinalTestCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0];
+    const command = args[0!];
 
     try {
       switch (command) {
@@ -64,7 +64,7 @@ class FinalTestCLI {
   }
 
   private async runEndToEndTesting(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'e2e-test-results.json';
+    const outputFile = args[0!] || 'e2e-test-results.json';
 
     console.info('🧪 Running comprehensive end-to-end testing...');
     
@@ -92,7 +92,7 @@ class FinalTestCLI {
   }
 
   private async runIntegrationTesting(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'integration-test-results.json';
+    const outputFile = args[0!] || 'integration-test-results.json';
 
     console.info('🔗 Running integration validation tests...');
     
@@ -121,7 +121,7 @@ class FinalTestCLI {
   }
 
   private async runPerformanceTesting(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'performance-test-results.json';
+    const outputFile = args[0!] || 'performance-test-results.json';
 
     console.info('⚡ Running performance and load testing...');
     
@@ -151,7 +151,7 @@ class FinalTestCLI {
   }
 
   private async runSecurityTesting(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'security-test-results.json';
+    const outputFile = args[0!] || 'security-test-results.json';
 
     console.info('🔒 Running security testing and validation...');
     
@@ -184,7 +184,7 @@ class FinalTestCLI {
   }
 
   private async runUserAcceptanceTesting(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'uat-test-results.json';
+    const outputFile = args[0!] || 'uat-test-results.json';
 
     console.info('👥 Running user acceptance testing...');
     
@@ -216,7 +216,7 @@ class FinalTestCLI {
   }
 
   private async runAllTests(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'all-test-results.json';
+    const outputFile = args[0!] || 'all-test-results.json';
 
     console.info('🚀 Running all test suites...');
     
@@ -274,7 +274,7 @@ class FinalTestCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'final-validation-report.html';
+    const outputFile = args[0!] || 'final-validation-report.html';
 
     console.info('📊 Generating final validation report...');
     
@@ -578,7 +578,7 @@ Report Status:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new FinalTestCLI();
   cli.run().catch(console.error);
 }

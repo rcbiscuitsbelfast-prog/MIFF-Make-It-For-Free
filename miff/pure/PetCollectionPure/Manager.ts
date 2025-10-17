@@ -575,7 +575,7 @@ export class PetCollectionManager {
       pets,
       eggs,
       stats,
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

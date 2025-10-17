@@ -511,7 +511,7 @@ describe('LorePure Golden Tests', () => {
       const invalidCondition = LoreUnlockCondition.spiritCaptured('');
       const errors = invalidCondition.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0]).toContain('String value required');
+      expect(errors[0!]).toContain('String value required');
     });
 
     test('should clone correctly', () => {
@@ -654,7 +654,7 @@ describe('LorePure Golden Tests', () => {
 
       const filtered = loreManager.getFilteredLoreEntries(filter);
       expect(filtered).toHaveLength(1);
-      expect(filtered[0]).toBe(entry1);
+      expect(filtered[0!]).toBe(entry1);
     });
 
     test('should provide correct statistics', () => {
@@ -843,14 +843,14 @@ describe('LorePure Golden Tests', () => {
       ];
 
       const sortedByPriority = LoreUtils.sortEntries(entries, 'priority');
-      expect(sortedByPriority[0].priority).toBe(8);
-      expect(sortedByPriority[1].priority).toBe(5);
-      expect(sortedByPriority[2].priority).toBe(3);
+      expect(sortedByPriority[0!].priority).toBe(8);
+      expect(sortedByPriority[1!].priority).toBe(5);
+      expect(sortedByPriority[2!].priority).toBe(3);
 
       const sortedByTitle = LoreUtils.sortEntries(entries, 'title');
-      expect(sortedByTitle[0].title).toBe('A Title');
-      expect(sortedByTitle[1].title).toBe('B Title');
-      expect(sortedByTitle[2].title).toBe('C Title');
+      expect(sortedByTitle[0!].title).toBe('A Title');
+      expect(sortedByTitle[1!].title).toBe('B Title');
+      expect(sortedByTitle[2!].title).toBe('C Title');
     });
 
     test('should get completion percentage correctly', () => {

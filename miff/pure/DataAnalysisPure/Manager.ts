@@ -407,7 +407,7 @@ export class DataAnalysisManager {
           totalVisualizations: 0,
           averageAccuracy: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -623,7 +623,7 @@ export class DataAnalysisManager {
       const analysis: Analysis = {
         ...analysisData,
         id: this.generateAnalysisId(),
-        created: Date.now(),
+        created: new Date(),
         status: 'pending',
         results: {
           success: false,
@@ -891,8 +891,8 @@ export class DataAnalysisManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -915,7 +915,7 @@ export class DataAnalysisManager {
         averageAccuracy: system.analyses.length > 0 ? 
           system.analyses.reduce((sum: any, a: any) => sum + (a.results.metrics.accuracy || 0), 0) / system.analyses.length : 0,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -970,7 +970,7 @@ export class DataAnalysisManager {
       totalDatasets,
       totalAnalyses,
       totalVisualizations,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

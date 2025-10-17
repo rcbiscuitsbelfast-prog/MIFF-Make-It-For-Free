@@ -21,11 +21,11 @@ type Cmd =
 
 function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0!] || 'help';
   const mgr = new EntityLinkerManager();
 
   // Load external references if provided
-  const externFile = args[1];
+  const externFile = args[1!];
   if (externFile && fs.existsSync(externFile)) {
     try {
       const extern = JSON.parse(fs.readFileSync(path.resolve(externFile), 'utf-8')) as ExternalRefMaps;
@@ -42,7 +42,7 @@ function main() {
   try {
     switch (command) {
       case 'resolveRefs':
-        const inputFile = args[1];
+        const inputFile = args[1!];
         let input: LinkInput = {};
         
         if (inputFile && fs.existsSync(inputFile)) {
@@ -64,7 +64,7 @@ function main() {
         break;
 
       case 'validate':
-        const validateInputFile = args[1];
+        const validateInputFile = args[1!];
         let validateInput: LinkInput = {};
         
         if (validateInputFile && fs.existsSync(validateInputFile)) {
@@ -91,7 +91,7 @@ function main() {
         break;
 
       case 'export':
-        const format = (args[1] as 'json' | 'csv' | 'markdown') || 'json';
+        const format = (args[1!] as 'json' | 'csv' | 'markdown') || 'json';
         result.result = { data: mgr.exportLinks(format), format };
         break;
 
@@ -206,4 +206,4 @@ function runDemo(mgr: EntityLinkerManager): any {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

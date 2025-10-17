@@ -552,7 +552,7 @@ export class RitualSystemPure {
       leaderId,
       participants: [],
       currentStep: 0,
-      startTime: Date.now(),
+      startTime: new Date(),
       status: 'preparing',
       progress: 0,
       energySpent: 0,
@@ -744,7 +744,7 @@ export class RitualSystemPure {
       ritualId: ritual.id,
       leaderId: ritual.leaderId,
       participants: ritual.participants.map((p: any) => p.id),
-      duration: Date.now() - ritual.startTime,
+      duration: new Date() - ritual.startTime,
       energySpent: energyConsumed,
       quality: ritual.quality,
       rewards: [],
@@ -1053,12 +1053,12 @@ export class RitualSystemPure {
 
     const categoryCount = new Map<string, number>();
     this.completedRituals.forEach((result: any) => {
-      const category = result.ritualId.split('-')[0]; // Simplified category detection
+      const category = result.ritualId.split('-')[0!]; // Simplified category detection
       categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
     });
 
     const mostCommonCategory = Array.from(categoryCount.entries())
-      .sort((a: any, b: any) => b[1] - a[1])[0]?.[0] || 'none';
+      .sort((a: any, b: any) => b[1!] - a[1!])[0!]?.[0!] || 'none';
 
     const totalExperienceGranted = this.completedRituals
       .reduce((sum, r) => sum + r.experienceGained, 0);

@@ -329,9 +329,9 @@ describe('LogPure Golden Tests', () => {
       expect(logger.getEntryCount()).toBe(1);
 
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('phase');
-      expect(entries[0].result).toBe(BattlePhase.PRE_TURN);
-      expect(entries[0].turnNumber).toBe(1);
+      expect(entries[0!].actionType).toBe('phase');
+      expect(entries[0!].result).toBe(BattlePhase.PRE_TURN);
+      expect(entries[0!].turnNumber).toBe(1);
     });
 
     test('should log battle actions correctly', () => {
@@ -347,12 +347,12 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actorId).toBe(1);
-      expect(entries[0].actionType).toBe('fire_blast');
-      expect(entries[0].targetId).toBe(2);
-      expect(entries[0].damageDealt).toBe(45);
-      expect(entries[0].statusApplied).toBe('burned');
-      expect(entries[0].debugNotes).toBe('Type advantage');
+      expect(entries[0!].actorId).toBe(1);
+      expect(entries[0!].actionType).toBe('fire_blast');
+      expect(entries[0!].targetId).toBe(2);
+      expect(entries[0!].damageDealt).toBe(45);
+      expect(entries[0!].statusApplied).toBe('burned');
+      expect(entries[0!].debugNotes).toBe('Type advantage');
     });
 
     test('should log battle effects correctly', () => {
@@ -361,10 +361,10 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actorId).toBe(1);
-      expect(entries[0].actionType).toBe('effect_burn');
-      expect(entries[0].targetId).toBe(2);
-      expect(entries[0].debugNotes).toBe('Applied burn');
+      expect(entries[0!].actorId).toBe(1);
+      expect(entries[0!].actionType).toBe('effect_burn');
+      expect(entries[0!].targetId).toBe(2);
+      expect(entries[0!].debugNotes).toBe('Applied burn');
     });
 
     test('should log system messages correctly', () => {
@@ -372,10 +372,10 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('system');
-      expect(entries[0].result).toBe('Battle started');
-      expect(entries[0].category).toBe(LogCategory.BATTLE);
-      expect(entries[0].level).toBe(LogLevel.INFO);
+      expect(entries[0!].actionType).toBe('system');
+      expect(entries[0!].result).toBe('Battle started');
+      expect(entries[0!].category).toBe(LogCategory.BATTLE);
+      expect(entries[0!].level).toBe(LogLevel.INFO);
     });
 
     test('should log debug messages correctly', () => {
@@ -383,11 +383,11 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('debug');
-      expect(entries[0].result).toBe('Debug information');
-      expect(entries[0].actorId).toBe(1);
-      expect(entries[0].targetId).toBe(2);
-      expect(entries[0].level).toBe(LogLevel.DEBUG);
+      expect(entries[0!].actionType).toBe('debug');
+      expect(entries[0!].result).toBe('Debug information');
+      expect(entries[0!].actorId).toBe(1);
+      expect(entries[0!].targetId).toBe(2);
+      expect(entries[0!].level).toBe(LogLevel.DEBUG);
     });
 
     test('should log warnings correctly', () => {
@@ -395,8 +395,8 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('warning');
-      expect(entries[0].level).toBe(LogLevel.WARN);
+      expect(entries[0!].actionType).toBe('warning');
+      expect(entries[0!].level).toBe(LogLevel.WARN);
     });
 
     test('should log errors correctly', () => {
@@ -404,8 +404,8 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('error');
-      expect(entries[0].level).toBe(LogLevel.ERROR);
+      expect(entries[0!].actionType).toBe('error');
+      expect(entries[0!].level).toBe(LogLevel.ERROR);
     });
 
     test('should filter entries correctly', () => {
@@ -695,8 +695,8 @@ describe('LogPure Golden Tests', () => {
 
       const actionEntries = logger.getFilteredEntries({ actionType: 'fire_blast' });
       expect(actionEntries).toHaveLength(1);
-      expect(actionEntries[0].damageDealt).toBe(45);
-      expect(actionEntries[0].statusApplied).toBe('burned');
+      expect(actionEntries[0!].damageDealt).toBe(45);
+      expect(actionEntries[0!].statusApplied).toBe('burned');
     });
 
     test('should handle multi-turn battle scenarios', () => {
@@ -815,8 +815,8 @@ describe('LogPure Golden Tests', () => {
 
       // Verify entry content matches
       for (let i = 0; i < originalEntries.length; i++) {
-        const original = originalEntries[i];
-        const imported = importedEntries[i];
+        const original = originalEntries[i!];
+        const imported = importedEntries[i!];
 
         expect(imported.actionType).toBe(original.actionType);
         expect(imported.result).toBe(original.result);

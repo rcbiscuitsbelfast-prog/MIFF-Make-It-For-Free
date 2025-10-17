@@ -28,7 +28,7 @@ class World {
     this.createdIds.push(id);
     return c;
   }
-  resolveId(val:string){ const m = /^\$(\d+)$/.exec(val||''); if(m){ const idx=Number(m[1]); return this.createdIds[idx!]; } return val; }
+  resolveId(val:string){ const m = /^\$(\d+)$/.exec(val||''); if(m){ const idx=Number(m[1!]); return this.createdIds[idx!]; } return val; }
   addToParty(id:string){ id=this.resolveId(id); if(!this.party.includes(id) && this.party.length<6){ this.party.push(id); return true;} return false; }
   removeFromParty(id:string){ id=this.resolveId(id); const i=this.party.indexOf(id); if(i>=0){ this.party.splice(i,1); return true;} return false; }
   swap(a:number,b:number){ if(a<0||b<0||a>=this.party.length||b>=this.party.length) return false; [this.party[a!],this.party[b!]]=[this.party[b!],this.party[a!]]; return true; }
@@ -55,12 +55,12 @@ function run(speciesPath:string, cmds:Cmd[]){
 }
 
 function main(){
-  const speciesPath = process.argv[2];
-  const cmdPath = process.argv[3];
+  const speciesPath = process.argv[2!];
+  const cmdPath = process.argv[3!];
   if(!speciesPath||!cmdPath){ console.error('Usage: cliHarness.ts <species.json> <commands.json>'); process.exit(1); }
   const cmds:Cmd[] = JSON.parse(fs.readFileSync(cmdPath,'utf-8'));
   const out = run(speciesPath, cmds);
   console.log(JSON.stringify(out,null,2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

@@ -138,9 +138,9 @@ export class SportsManager {
 
     // Update team scores
     if (data.position.x < 0) {
-      game.teams[1].score += 1; // Team 2 scored
+      game.teams[1!].score += 1; // Team 2 scored
     } else {
-      game.teams[0].score += 1; // Team 1 scored
+      game.teams[0!].score += 1; // Team 1 scored
     }
 
     // Update player stats
@@ -633,7 +633,7 @@ export class SportsManager {
       players: game.teams.flatMap(team => team.players),
       ball: game.ball,
       stats: game.stats,
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

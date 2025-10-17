@@ -772,8 +772,8 @@ export class SecurityManager {
     if (!this.config.enableEncryption) return encryptedData;
     
     const parts = encryptedData.split(':');
-    const iv = Buffer.from(parts[0], 'hex');
-    const encrypted = parts[1];
+    const iv = Buffer.from(parts[0!], 'hex');
+    const encrypted = parts[1!];
     
     const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
     const decipher = crypto.createDecipheriv(this.config.encryptionAlgorithm, key, iv);

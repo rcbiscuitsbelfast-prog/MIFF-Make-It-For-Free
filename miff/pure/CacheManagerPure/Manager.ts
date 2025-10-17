@@ -273,7 +273,7 @@ export class CacheManagerManager {
           totalHits: 0,
           totalMisses: 0,
           averageHitRate: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -539,7 +539,7 @@ export class CacheManagerManager {
         value,
         ttl: ttl || cache.policy.ttl,
         createdAt: new Date(),
-        lastAccessed: Date.now(),
+        lastAccessed: new Date(),
         accessCount: 0,
         size: this.calculateSize(value),
         metadata: {}
@@ -742,8 +742,8 @@ export class CacheManagerManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -766,7 +766,7 @@ export class CacheManagerManager {
         totalMisses: manager.analytics.totalMisses,
         averageHitRate: manager.analytics.totalHits + manager.analytics.totalMisses > 0 ? 
           manager.analytics.totalHits / (manager.analytics.totalHits + manager.analytics.totalMisses) : 0,
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -823,7 +823,7 @@ export class CacheManagerManager {
       totalCaches,
       totalEntries,
       averageHitRate: totalHits + totalMisses > 0 ? totalHits / (totalHits + totalMisses) : 0,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

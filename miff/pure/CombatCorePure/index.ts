@@ -469,7 +469,7 @@ export class CombatEngine {
     const session: CombatSession = {
       id: sessionId,
       scenarioId,
-      startTime: Date.now(),
+      startTime: new Date(),
       entities: new Map(),
       events: [],
       state: CombatState.IDLE,
@@ -1061,7 +1061,7 @@ export class CombatEngine {
       .filter(([_, entities]) => entities.length > 0)
       .map(([team, _]) => team);
 
-    return aliveTeams.length === 1 ? aliveTeams[0] : 'draw';
+    return aliveTeams.length === 1 ? aliveTeams[0!] : 'draw';
   }
 
   // Utility methods

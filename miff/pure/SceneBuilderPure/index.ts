@@ -540,7 +540,7 @@ export class SceneBuilderManager {
       const result: SceneBuildResult = {
         success: true,
         sceneId: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        buildTime: Date.now(),
+        buildTime: new Date(),
         fileSize: 0, // Would be calculated from actual files
         assetCount: this.assets.size,
         nodeCount: this.nodes.size,
@@ -551,7 +551,7 @@ export class SceneBuilderManager {
         metadata: {
           configuration: this.configuration,
           template: templateId,
-          buildDuration: Date.now()
+          buildDuration: new Date()
         }
       };
 
@@ -565,7 +565,7 @@ export class SceneBuilderManager {
       const result: SceneBuildResult = {
         success: false,
         sceneId: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        buildTime: Date.now(),
+        buildTime: new Date(),
         fileSize: 0,
         assetCount: this.assets.size,
         nodeCount: this.nodes.size,
@@ -576,7 +576,7 @@ export class SceneBuilderManager {
         metadata: {
           configuration: this.configuration,
           template: templateId,
-          buildDuration: Date.now(),
+          buildDuration: new Date(),
           error: error
         }
       };

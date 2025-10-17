@@ -242,7 +242,7 @@ describe('RewardsPure Golden Tests', () => {
       const removed = table.removeEntriesByItem('potion');
       expect(removed).toBe(2);
       expect(table.entries).toHaveLength(1);
-      expect(table.entries[0].itemId).toBe('sword');
+      expect(table.entries[0!].itemId).toBe('sword');
     });
 
     test('should sort entries by weight', () => {
@@ -254,9 +254,9 @@ describe('RewardsPure Golden Tests', () => {
 
       const sorted = table.getEntriesByWeight();
       expect(sorted).toHaveLength(3);
-      expect(sorted[0].itemId).toBe('rare'); // Highest weight
-      expect(sorted[1].itemId).toBe('legendary');
-      expect(sorted[2].itemId).toBe('common'); // Lowest weight
+      expect(sorted[0!].itemId).toBe('rare'); // Highest weight
+      expect(sorted[1!].itemId).toBe('legendary');
+      expect(sorted[2!].itemId).toBe('common'); // Lowest weight
     });
 
     test('should get drop rate for item', () => {
@@ -287,7 +287,7 @@ describe('RewardsPure Golden Tests', () => {
 
       const clone = original.clone();
       expect(clone.entries).toHaveLength(1);
-      expect(clone.entries[0]).not.toBe(original.entries[0]); // Deep clone
+      expect(clone.entries[0!]).not.toBe(original.entries[0!]); // Deep clone
     });
   });
 
@@ -478,10 +478,10 @@ describe('RewardsPure Golden Tests', () => {
       const split = RewardUtils.splitRewards(reward, 3);
 
       expect(split).toHaveLength(3);
-      expect(split[0].currency).toBe(34); // 100/3 rounded up + remainder
-      expect(split[0].itemId).toBe('test_item'); // First gets the item
-      expect(split[1].itemId).toBeUndefined();
-      expect(split[2].itemId).toBeUndefined();
+      expect(split[0!].currency).toBe(34); // 100/3 rounded up + remainder
+      expect(split[0!].itemId).toBe('test_item'); // First gets the item
+      expect(split[1!].itemId).toBeUndefined();
+      expect(split[2!].itemId).toBeUndefined();
     });
 
     test('should calculate total value', () => {
@@ -565,9 +565,9 @@ describe('RewardsPure Golden Tests', () => {
         rewardManager.generateBonusRewards(baseReward, 'legendary')
       ];
 
-      expect(bonusRewards[0].currency).toBe(baseReward.currency * 1.5);
-      expect(bonusRewards[1].currency).toBe(baseReward.currency * 2.0);
-      expect(bonusRewards[2].currency).toBe(baseReward.currency * 3.0);
+      expect(bonusRewards[0!].currency).toBe(baseReward.currency * 1.5);
+      expect(bonusRewards[1!].currency).toBe(baseReward.currency * 2.0);
+      expect(bonusRewards[2!].currency).toBe(baseReward.currency * 3.0);
     });
 
     test('should handle complex drop tables', () => {
@@ -587,7 +587,7 @@ describe('RewardsPure Golden Tests', () => {
       // Test that rare items have reduced drop rates
       const testResults = dropResolver.testDropRates(table, 1000);
       const rareTotal = Array.from(testResults.entries())
-        .filter(([item]) => ['iron_ore', 'gem'].includes(item))
+        .filter(([item!]) => ['iron_ore', 'gem'].includes(item))
         .reduce((sum, [, rate]) => sum + rate, 0);
 
       expect(rareTotal).toBeLessThan(0.2); // Should be less than 20% total

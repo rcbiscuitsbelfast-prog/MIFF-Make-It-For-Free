@@ -18,7 +18,7 @@ test('golden camera bridge flow', () => {
   // Run CLI harness with camera data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [camera]
+    [camera!]
   );
   
   const got = JSON.parse(out);
@@ -28,7 +28,7 @@ test('golden camera bridge flow', () => {
   expect(got.outputs).toBeInstanceOf(Array);
   expect(got.outputs.length).toBeGreaterThan(0);
   
-  const result = got.outputs[0];
+  const result = got.outputs[0!];
   expect(result.op).toBe('camera');
   expect(result.status).toBe('ok');
   expect(result.camera).toBeDefined();

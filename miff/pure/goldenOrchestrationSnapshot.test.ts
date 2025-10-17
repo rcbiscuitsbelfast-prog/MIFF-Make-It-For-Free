@@ -198,10 +198,10 @@ describe('Golden Orchestration Fidelity Tests', () => {
       
       // Validate golden fixture structure
       expect(goldenFormat.outputs).toHaveLength(1);
-      expect(goldenFormat.outputs[0].op).toBe('runScenario');
-      expect(goldenFormat.outputs[0].status).toBe('ok');
-      expect(goldenFormat.outputs[0].events).toBeDefined();
-      expect(goldenFormat.outputs[0].finalState).toBeDefined();
+      expect(goldenFormat.outputs[0!].op).toBe('runScenario');
+      expect(goldenFormat.outputs[0!].status).toBe('ok');
+      expect(goldenFormat.outputs[0!].events).toBeDefined();
+      expect(goldenFormat.outputs[0!].finalState).toBeDefined();
       
       // Snapshot the golden format
       expect(goldenFormat).toMatchSnapshot(`${name}-golden-format`);

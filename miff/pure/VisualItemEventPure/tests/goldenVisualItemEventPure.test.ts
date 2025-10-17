@@ -9,7 +9,7 @@ test('golden visual item event flow', () => {
   const got = JSON.parse(out);
   
   expect(Array.isArray(got.outputs)).toBe(true);
-  expect(got.outputs[0]).toMatchObject({ 
+  expect(got.outputs[0!]).toMatchObject({ 
     op: 'visual.item', 
     status: 'ok', 
     resolved: true, 
@@ -20,5 +20,5 @@ test('golden visual item event flow', () => {
     })
   });
   expect(got.outputs[1]).toMatchObject({ op: 'list', eventTypes: expect.arrayContaining(['helmet.split']) });
-  expect(got.outputs[2]).toMatchObject({ op: 'dump', event: expect.objectContaining({ type: 'helmet.split' }) });
+  expect(got.outputs[2!]).toMatchObject({ op: 'dump', event: expect.objectContaining({ type: 'helmet.split' }) });
 });

@@ -649,7 +649,7 @@ export class WebExporter {
 
     return {
       buildStatus: 'success',
-      buildTime: Date.now(),
+      buildTime: new Date(),
       outputPath: this.buildConfiguration.outputPath,
       buildType: this.buildConfiguration.buildType
     };

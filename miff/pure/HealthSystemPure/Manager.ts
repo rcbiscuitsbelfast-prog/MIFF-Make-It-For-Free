@@ -116,7 +116,7 @@ export class HealthSystemManager {
       regeneration: [],
       immunities: options.immunities || [],
       resistances: options.resistances || {},
-      lastUpdate: Date.now()
+      lastUpdate: new Date()
     };
 
     this.entities.set(id, entity);
@@ -494,7 +494,7 @@ export class HealthSystemManager {
             schema: 'miff.health.export.v1',
             entities,
             events: this.events.slice(-100), // Last 100 events
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: entities.length
           }
         };

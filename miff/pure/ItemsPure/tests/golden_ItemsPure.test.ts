@@ -237,9 +237,9 @@ describe('ItemsPure Golden Tests', () => {
       const noEffectItem = new Item('key', 'Mystery Key', ItemType.KEY_ITEM,
         new ItemEffect(ItemEffectType.NONE, 0), 'any');
 
-      expect(healItem.getDescription()).toBe('Health Potion (consumable) - Heal 50 HP [notfainted]');
-      expect(reviveItem.getDescription()).toBe('Revive (consumable) - Revive with 50% HP [faintedonly]');
-      expect(noEffectItem.getDescription()).toBe('Mystery Key (key_item) - No effect [any]');
+      expect(healItem.getDescription()).toBe('Health Potion (consumable) - Heal 50 HP [notfainted!]');
+      expect(reviveItem.getDescription()).toBe('Revive (consumable) - Revive with 50% HP [faintedonly!]');
+      expect(noEffectItem.getDescription()).toBe('Mystery Key (key_item) - No effect [any!]');
     });
 
     test('should clone correctly', () => {
@@ -707,7 +707,7 @@ describe('ItemsPure Golden Tests', () => {
       const errors = ItemUtils.validateItemRegistry(items);
       expect(errors).toHaveLength(0); // All standard items should be valid
 
-      const duplicateItems = [...items, items[0]]; // Add duplicate
+      const duplicateItems = [...items, items[0!]]; // Add duplicate
       const duplicateErrors = ItemUtils.validateItemRegistry(duplicateItems);
       expect(duplicateErrors).toContain('health_potion: Duplicate item ID'); // Should contain the specific duplicate error
     });
@@ -830,17 +830,17 @@ describe('ItemsPure Golden Tests', () => {
       ];
 
       // Use different items on different spirits
-      const healResult = manager.useItem('health_potion', spirits[0]);
-      const reviveResult = manager.useItem('revive', spirits[1]);
-      const syncResult = manager.useItem('sync_crystal', spirits[2]);
+      const healResult = manager.useItem('health_potion', spirits[0!]);
+      const reviveResult = manager.useItem('revive', spirits[1!]);
+      const syncResult = manager.useItem('sync_crystal', spirits[2!]);
 
       expect(healResult.isSuccess).toBe(true);
       expect(reviveResult.isSuccess).toBe(true);
       expect(syncResult.isSuccess).toBe(true);
 
-      expect(spirits[0].currentHP).toBe(100);
-      expect(spirits[1].currentHP).toBe(50); // 50% of 100
-      expect(spirits[2].syncLevel).toBe(90); // 80 + 10
+      expect(spirits[0!].currentHP).toBe(100);
+      expect(spirits[1!].currentHP).toBe(50); // 50% of 100
+      expect(spirits[2!].syncLevel).toBe(90); // 80 + 10
     });
 
     test('should handle item searching and filtering', () => {

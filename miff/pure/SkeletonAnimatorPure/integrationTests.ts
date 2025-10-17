@@ -78,7 +78,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Create core body',
         passed: rig.nodes['torso'] !== undefined && rig.nodes['neck'] !== undefined && rig.nodes['head'] !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { nodeCount: Object.keys(rig.nodes).length }
       });
 
@@ -87,7 +87,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add snap points',
         passed: snapPointCount > 0,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { snapPointCount }
       });
 
@@ -96,7 +96,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Validate rig',
         passed: validation.valid,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { errors: validation.errors }
       });
 
@@ -105,7 +105,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export rig JSON',
         passed: rigJson.length > 0 && rigJson.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jsonLength: rigJson.length }
       });
 
@@ -115,14 +115,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'RigBuilder error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'RigBuilder Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -146,7 +146,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Initialize limb attachment',
         passed: limbAttachment !== null,
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
 
       // Test 2: Add humanoid arms
@@ -155,7 +155,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add humanoid arms',
         passed: arms.length === 2,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { armCount: arms.length }
       });
 
@@ -165,7 +165,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add humanoid legs',
         passed: legs.length === 2,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { legCount: legs.length }
       });
 
@@ -175,7 +175,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add wings',
         passed: wings.length === 2,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { wingCount: wings.length }
       });
 
@@ -184,9 +184,9 @@ export class SkeletonAnimatorIntegrationTests {
       const tails = limbAttachment.getLimbsByType('tail');
       tests.push({
         name: 'Add tail',
-        passed: tails.length === 1 && tails[0].segments.length === 5,
-        duration: Date.now() - startTime,
-        details: { tailCount: tails.length, segmentCount: tails[0]?.segments.length }
+        passed: tails.length === 1 && tails[0!].segments.length === 5,
+        duration: new Date() - startTime,
+        details: { tailCount: tails.length, segmentCount: tails[0!]?.segments.length }
       });
 
       // Test 6: Export limbs
@@ -194,7 +194,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export limbs JSON',
         passed: limbsJson.length > 0 && limbsJson.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jsonLength: limbsJson.length }
       });
 
@@ -204,14 +204,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'LimbAttachment error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'LimbAttachment Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -235,7 +235,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Initialize skin mesh generator',
         passed: skinGenerator !== null,
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
 
       // Test 2: Generate base mesh
@@ -244,7 +244,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate base mesh',
         passed: skinConfig.meshData.vertices.length > 0,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { 
           vertexCount: skinConfig.meshData.vertices.length / 3,
           materialCount: skinConfig.materials.length
@@ -256,8 +256,8 @@ export class SkeletonAnimatorIntegrationTests {
       const morphTargets = skinConfig.morphTargets;
       tests.push({
         name: 'Add morph target',
-        passed: morphTargets.length === 1 && morphTargets[0].weight === 0.5,
-        duration: Date.now() - startTime,
+        passed: morphTargets.length === 1 && morphTargets[0!].weight === 0.5,
+        duration: new Date() - startTime,
         details: { morphTargetCount: morphTargets.length }
       });
 
@@ -268,11 +268,11 @@ export class SkeletonAnimatorIntegrationTests {
         scale: { x: 1, y: 1, z: 1 },
         offset: { x: 0, y: 0, z: 0 }
       });
-      const textures = skinConfig.materials[0].textures;
+      const textures = skinConfig.materials[0!].textures;
       tests.push({
         name: 'Add texture',
         passed: textures.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { textureCount: textures.length }
       });
 
@@ -281,7 +281,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Validate skin',
         passed: validation.valid,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { errors: validation.errors }
       });
 
@@ -290,7 +290,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export skin JSON',
         passed: skinJson.length > 0 && skinJson.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jsonLength: skinJson.length }
       });
 
@@ -300,14 +300,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'SkinMeshGenerator error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'SkinMeshGenerator Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -331,7 +331,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Initialize facial detail builder',
         passed: faceBuilder !== null,
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
 
       // Test 2: Add eyes
@@ -340,7 +340,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add eyes',
         passed: eyes.length === 2,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { eyeCount: eyes.length }
       });
 
@@ -350,7 +350,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add nose',
         passed: noses.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { noseCount: noses.length }
       });
 
@@ -360,7 +360,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add mouth',
         passed: mouths.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { mouthCount: mouths.length }
       });
 
@@ -370,7 +370,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add ears',
         passed: ears.length === 2,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { earCount: ears.length }
       });
 
@@ -380,7 +380,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Toggle symmetry',
         passed: faceConfig.symmetry === false,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { symmetry: faceConfig.symmetry }
       });
 
@@ -389,7 +389,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Validate face',
         passed: validation.valid,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { errors: validation.errors }
       });
 
@@ -398,7 +398,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export face JSON',
         passed: faceJson.length > 0 && faceJson.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jsonLength: faceJson.length }
       });
 
@@ -408,14 +408,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'FacialDetailBuilder error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'FacialDetailBuilder Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -439,7 +439,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Initialize animation sequencer',
         passed: animSequencer !== null,
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
 
       // Test 2: Generate walk animation
@@ -448,7 +448,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate walk animation',
         passed: walkAnims.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { walkAnimCount: walkAnims.length }
       });
 
@@ -458,7 +458,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate idle animation',
         passed: idleAnims.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { idleAnimCount: idleAnims.length }
       });
 
@@ -468,7 +468,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate jump animation',
         passed: jumpAnims.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jumpAnimCount: jumpAnims.length }
       });
 
@@ -478,7 +478,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate attack animation',
         passed: attackAnims.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { attackAnimCount: attackAnims.length }
       });
 
@@ -488,7 +488,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate emote animation',
         passed: emoteAnims.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { emoteAnimCount: emoteAnims.length }
       });
 
@@ -497,7 +497,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Validate animations',
         passed: validation.valid,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { errors: validation.errors }
       });
 
@@ -506,7 +506,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export animations JSON',
         passed: animsJson.length > 0 && animsJson.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jsonLength: animsJson.length }
       });
 
@@ -516,14 +516,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'AnimationSequencer error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'AnimationSequencer Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -553,7 +553,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Initialize export integration',
         passed: exportIntegration !== null,
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
 
       // Test 2: Create creature export
@@ -561,7 +561,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Create creature export',
         passed: exportConfig.id !== undefined && exportConfig.name === 'TestCharacter',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { exportId: exportConfig.id, format: exportConfig.format }
       });
 
@@ -570,7 +570,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export as .gbpg',
         passed: gbpkgData.length > 0 && gbpkgData.includes('"format"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { dataLength: gbpkgData.length }
       });
 
@@ -579,7 +579,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export as GLTF',
         passed: gltfData.length > 0 && gltfData.includes('"asset"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { dataLength: gltfData.length }
       });
 
@@ -588,7 +588,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate RenderWorld integration',
         passed: renderWorldData.type === 'creature',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { integrationType: renderWorldData.type }
       });
 
@@ -597,7 +597,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate CombatCore integration',
         passed: combatCoreData.type === 'combat_creature',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { integrationType: combatCoreData.type }
       });
 
@@ -606,7 +606,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate DialogueSystem integration',
         passed: dialogueData.type === 'dialogue_creature',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { integrationType: dialogueData.type }
       });
 
@@ -615,7 +615,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate StartMenu integration',
         passed: startMenuData.type === 'character_preset',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { integrationType: startMenuData.type }
       });
 
@@ -624,7 +624,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Generate SaveLoad integration',
         passed: saveLoadData.type === 'creature_save',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { integrationType: saveLoadData.type }
       });
 
@@ -634,14 +634,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'ExportIntegration error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'ExportIntegration Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -664,7 +664,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Initialize UI builder',
         passed: uiBuilder !== null,
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
 
       // Test 2: Set UI mode
@@ -673,7 +673,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Set UI mode',
         passed: uiState.mode === 'rig',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { mode: uiState.mode }
       });
 
@@ -683,7 +683,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Set UI tool',
         passed: updatedUIState.selectedTool === 'select',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { tool: updatedUIState.selectedTool }
       });
 
@@ -697,7 +697,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Update camera',
         passed: cameraState.position.y === 5 && cameraState.fov === 75,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { position: cameraState.position, fov: cameraState.fov }
       });
 
@@ -707,7 +707,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Toggle grid',
         passed: gridVisible === false,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { gridVisible }
       });
 
@@ -722,7 +722,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Add panel',
         passed: panels.length === 1,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { panelCount: panels.length }
       });
 
@@ -736,7 +736,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Handle UI action',
         passed: selectedNode === 'torso',
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { selectedNode }
       });
 
@@ -745,7 +745,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export UI state',
         passed: uiStateJson.length > 0 && uiStateJson.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { jsonLength: uiStateJson.length }
       });
 
@@ -755,14 +755,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'UIBuilder error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'UIBuilder Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -789,7 +789,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Create full character',
         passed: skeletonState.rig.nodes['torso'] !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { 
           rigNodes: Object.keys(skeletonState.rig.nodes).length,
           hasSkin: !!skeletonState.skin,
@@ -803,7 +803,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Validate complete system',
         passed: validation.valid,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { errors: validation.errors }
       });
 
@@ -812,7 +812,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export character',
         passed: characterData.length > 0 && characterData.includes('"format"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { dataLength: characterData.length }
       });
 
@@ -821,7 +821,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Get system status',
         passed: Object.values(status).every(Boolean),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: status
       });
 
@@ -830,7 +830,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Export system state',
         passed: stateData.length > 0 && stateData.includes('"exportFormat"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { dataLength: stateData.length }
       });
 
@@ -840,7 +840,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Import system state',
         passed: importedState.rig.id === skeletonState.rig.id,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { importedRigId: importedState.rig.id }
       });
 
@@ -850,14 +850,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'Full workflow error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'Full Workflow Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -882,7 +882,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'RenderWorldPure integration',
         passed: renderWorldData.components?.skeleton !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { hasSkeleton: !!renderWorldData.components?.skeleton }
       });
 
@@ -891,7 +891,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'CombatCorePure integration',
         passed: combatCoreData.combat?.stats !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { hasStats: !!combatCoreData.combat?.stats }
       });
 
@@ -900,7 +900,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'DialogueSystemPure integration',
         passed: dialogueData.dialogue?.expressions !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { hasExpressions: !!dialogueData.dialogue?.expressions }
       });
 
@@ -909,7 +909,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'StartMenuPure integration',
         passed: startMenuData.preview !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { hasPreview: !!startMenuData.preview }
       });
 
@@ -918,7 +918,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'SaveLoadModule integration',
         passed: saveLoadData.saveData !== undefined,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { hasSaveData: !!saveLoadData.saveData }
       });
 
@@ -928,14 +928,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'MIFF integration error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'MIFF Integration Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -958,7 +958,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: '.gbpg format export',
         passed: gbpkgData.includes('"format": "gbpkg-v1"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { format: 'gbpkg-v1' }
       });
 
@@ -967,7 +967,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'GLTF format export',
         passed: gltfData.includes('"asset"') && gltfData.includes('"version": "2.0"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { format: 'GLTF 2.0' }
       });
 
@@ -976,7 +976,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Rig JSON export',
         passed: rigJson.includes('"exportFormat": "miff-rig-v1"'),
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { format: 'miff-rig-v1' }
       });
 
@@ -985,7 +985,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Skin JSON export',
         passed: skinJson?.includes('"exportFormat": "miff-skin-v1"') || false,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { format: 'miff-skin-v1' }
       });
 
@@ -994,7 +994,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Face JSON export',
         passed: faceJson?.includes('"exportFormat": "miff-face-v1"') || false,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { format: 'miff-face-v1' }
       });
 
@@ -1003,7 +1003,7 @@ export class SkeletonAnimatorIntegrationTests {
       tests.push({
         name: 'Animation JSON export',
         passed: animJson?.includes('"exportFormat": "miff-anim-v1"') || false,
-        duration: Date.now() - startTime,
+        duration: new Date() - startTime,
         details: { format: 'miff-anim-v1' }
       });
 
@@ -1013,14 +1013,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'Export formats error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'Export Formats Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -1093,14 +1093,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'Performance test error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'Performance Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };
@@ -1121,7 +1121,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid rig node access',
           passed: false,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: 'Should have thrown error' }
         });
       } catch (error: unknown) {
@@ -1129,7 +1129,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid rig node access',
           passed: true,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: String(error) }
         });
       }
@@ -1141,7 +1141,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid limb attachment',
           passed: false,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: 'Should have thrown error' }
         });
       } catch (error: unknown) {
@@ -1149,7 +1149,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid limb attachment',
           passed: true,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: String(error) }
         });
       }
@@ -1161,7 +1161,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid morph target application',
           passed: false,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: 'Should have thrown error' }
         });
       } catch (error: unknown) {
@@ -1169,7 +1169,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid morph target application',
           passed: true,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: String(error) }
         });
       }
@@ -1189,7 +1189,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid animation keyframe',
           passed: false,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: 'Should have thrown error' }
         });
       } catch (error: unknown) {
@@ -1197,7 +1197,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid animation keyframe',
           passed: true,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: String(error) }
         });
       }
@@ -1208,7 +1208,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid export format',
           passed: false,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: 'Should have thrown error' }
         });
       } catch (error: unknown) {
@@ -1216,7 +1216,7 @@ export class SkeletonAnimatorIntegrationTests {
         tests.push({
           name: 'Invalid export format',
           passed: true,
-          duration: Date.now() - startTime,
+          duration: new Date() - startTime,
           details: { error: String(error) }
         });
       }
@@ -1227,14 +1227,14 @@ export class SkeletonAnimatorIntegrationTests {
         name: 'Error handling test error',
         passed: false,
         error: String(error),
-        duration: Date.now() - startTime
+        duration: new Date() - startTime
       });
     }
 
     return {
       name: 'Error Handling Tests',
       tests,
-      totalDuration: Date.now() - startTime,
+      totalDuration: new Date() - startTime,
       passed: tests.filter((t: any) => t.passed).length,
       failed: tests.filter((t: any) => !t.passed).length
     };

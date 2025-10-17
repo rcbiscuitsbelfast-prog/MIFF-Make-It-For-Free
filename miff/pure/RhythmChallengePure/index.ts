@@ -225,7 +225,7 @@ export class RhythmChallengePure {
         videoLatency: 0,
         inputLatency: 0,
         userOffset: 0,
-        lastCalibrated: Date.now(),
+        lastCalibrated: new Date(),
         calibrationScore: 0
       };
     } catch (error: unknown) {
@@ -384,7 +384,7 @@ export class RhythmChallengePure {
       score: 0,
       multiplier: 1,
       health: 100,
-      startTime: Date.now()
+      startTime: new Date()
     };
 
     this.games.set(gameState.id, gameState);
@@ -586,7 +586,7 @@ export class RhythmChallengePure {
     this.eventBus.publish('rhythm:game_updated', {
       gameId: gameId,
       currentTime: game.currentTime,
-      score: game.players[0]?.score || 0,
+      score: game.players[0!]?.score || 0,
       health: game.health,
       timestamp: new Date()
     });
@@ -617,7 +617,7 @@ export class RhythmChallengePure {
     game.state = game.state === 'failed' ? 'failed' : 'finished';
 
     // Calculate final results
-    const player = game.players[0];
+    const player = game.players[0!];
     if (player) {
       const result: ChallengeResult = {
         gameId: gameId,
@@ -659,7 +659,7 @@ export class RhythmChallengePure {
       videoLatency: 0, // Would be calculated from test
       inputLatency: inputLatency,
       userOffset: testResults.optimalOffset,
-      lastCalibrated: Date.now(),
+      lastCalibrated: new Date(),
       calibrationScore: testResults.accuracy
     };
 
@@ -731,7 +731,7 @@ export class RhythmChallengePure {
       beatMap: beatMap,
       timingWindows: this.timingWindows,
       calibrationData: this.calibrationData,
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

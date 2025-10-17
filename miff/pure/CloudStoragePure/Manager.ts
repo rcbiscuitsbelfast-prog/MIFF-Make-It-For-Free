@@ -364,7 +364,7 @@ export class CloudStorageManager {
           totalBuckets: 0,
           totalSize: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -579,7 +579,7 @@ export class CloudStorageManager {
       const file: StorageFile = {
         ...fileData,
         id: this.generateFileId(),
-        uploadedAt: Date.now(),
+        uploadedAt: new Date(),
         lastModified: new Date(),
         checksum: this.calculateChecksum(fileData.name + fileData.size)
       };
@@ -780,8 +780,8 @@ export class CloudStorageManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -805,7 +805,7 @@ export class CloudStorageManager {
         totalBuckets: storage.buckets.length,
         totalSize: storage.files.reduce((sum: any, f: any) => sum + f.size, 0),
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -863,7 +863,7 @@ export class CloudStorageManager {
       totalFiles,
       totalBuckets,
       totalSize,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

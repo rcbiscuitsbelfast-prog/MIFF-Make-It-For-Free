@@ -254,7 +254,7 @@ class SavePureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -265,11 +265,11 @@ class SavePureCLI {
           break;
         case 'save':
         case 's':
-          await this.saveGame(args[0]);
+          await this.saveGame(args[0!]);
           break;
         case 'load':
         case 'l':
-          await this.loadGame(args[0]);
+          await this.loadGame(args[0!]);
           break;
         case 'info':
         case 'i':
@@ -281,7 +281,7 @@ class SavePureCLI {
           break;
         case 'migrate':
         case 'm':
-          this.migrateSnapshot(args[0]);
+          this.migrateSnapshot(args[0!]);
           break;
         case 'party':
         case 'p':
@@ -496,8 +496,8 @@ class SavePureCLI {
    * Manage party members
    */
   private manageParty(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const entityName = args[1];
+    const subcommand = args[0!]?.toLowerCase();
+    const entityName = args[1!];
 
     switch (subcommand) {
       case 'add':
@@ -533,7 +533,7 @@ class SavePureCLI {
         break;
 
       case 'damage':
-        const damage = parseInt(args[1]) || 10;
+        const damage = parseInt(args[1!]) || 10;
         this.currentSnapshot.partyRoster.forEach((member: any) => {
           if (member.takeDamage) {
             (member as any).takeDamage(damage);
@@ -543,7 +543,7 @@ class SavePureCLI {
         break;
 
       case 'heal':
-        const heal = parseInt(args[1]) || 20;
+        const heal = parseInt(args[1!]) || 20;
         this.currentSnapshot.partyRoster.forEach((member: any) => {
           if (member.heal) {
             (member as any).heal(heal);
@@ -561,9 +561,9 @@ class SavePureCLI {
    * Manage inventory items
    */
   private manageInventory(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const itemId = args[1];
-    const quantity = parseInt(args[2]) || 1;
+    const subcommand = args[0!]?.toLowerCase();
+    const itemId = args[1!];
+    const quantity = parseInt(args[2!]) || 1;
 
     switch (subcommand) {
       case 'add':
@@ -611,9 +611,9 @@ class SavePureCLI {
    * Manage quest flags
    */
   private manageQuests(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const flagId = args[1];
-    const value = args[2]?.toLowerCase() === 'true';
+    const subcommand = args[0!]?.toLowerCase();
+    const flagId = args[1!];
+    const value = args[2!]?.toLowerCase() === 'true';
 
     switch (subcommand) {
       case 'set':
@@ -647,8 +647,8 @@ class SavePureCLI {
    * Manage unlocked content
    */
   private manageUnlocks(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const contentId = args[1];
+    const subcommand = args[0!]?.toLowerCase();
+    const contentId = args[1!];
 
     switch (subcommand) {
       case 'unlock':
@@ -692,9 +692,9 @@ class SavePureCLI {
    * Manage statistics
    */
   private manageStats(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const statId = args[1];
-    const value = parseInt(args[2]) || 0;
+    const subcommand = args[0!]?.toLowerCase();
+    const statId = args[1!];
+    const value = parseInt(args[2!]) || 0;
 
     switch (subcommand) {
       case 'set':
@@ -744,9 +744,9 @@ class SavePureCLI {
    * Manage game settings
    */
   private manageSettings(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const settingId = args[1];
-    const value = args[2];
+    const subcommand = args[0!]?.toLowerCase();
+    const settingId = args[1!];
+    const value = args[2!];
 
     switch (subcommand) {
       case 'set':
@@ -785,9 +785,9 @@ class SavePureCLI {
    * Manage metadata
    */
   private manageMetadata(args: string[]): void {
-    const subcommand = args[0]?.toLowerCase();
-    const key = args[1];
-    const value = args[2];
+    const subcommand = args[0!]?.toLowerCase();
+    const key = args[1!];
+    const value = args[2!];
 
     switch (subcommand) {
       case 'set':

@@ -203,7 +203,7 @@ export class HealthCheckSystem {
     const healthStatus: HealthStatus = {
       status,
       timestamp: new Date(),
-      uptime: Date.now() - this.startTime.getTime(),
+      uptime: new Date() - this.startTime.getTime(),
       summary,
       checks,
       metrics,

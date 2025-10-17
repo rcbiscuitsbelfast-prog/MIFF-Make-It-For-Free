@@ -218,7 +218,7 @@ export class BattleAIManager {
       strategyUsage: {},
       actionUsage: {},
       winRate: 0,
-      lastUpdated: Date.now()
+      lastUpdated: new Date()
     };
 
     this.initialize();
@@ -270,7 +270,7 @@ export class BattleAIManager {
       ],
       successRate: 0.7,
       usageCount: 0,
-      lastUsed: Date.now(),
+      lastUsed: new Date(),
       isActive: true
     });
 
@@ -304,7 +304,7 @@ export class BattleAIManager {
       ],
       successRate: 0.8,
       usageCount: 0,
-      lastUsed: Date.now(),
+      lastUsed: new Date(),
       isActive: true
     });
 
@@ -330,7 +330,7 @@ export class BattleAIManager {
       ],
       successRate: 0.75,
       usageCount: 0,
-      lastUsed: Date.now(),
+      lastUsed: new Date(),
       isActive: true
     });
   }
@@ -470,10 +470,10 @@ export class BattleAIManager {
         value = this.getConditionValue(condition.type, aiState);
         break;
       case 'enemy':
-        value = this.getConditionValue(condition.type, context.enemies[0]);
+        value = this.getConditionValue(condition.type, context.enemies[0!]);
         break;
       case 'ally':
-        value = this.getConditionValue(condition.type, context.allies[0]);
+        value = this.getConditionValue(condition.type, context.allies[0!]);
         break;
       case 'all_enemies':
         value = context.enemies.length;
@@ -594,7 +594,7 @@ export class BattleAIManager {
   private getDefaultStrategy(): AIStrategyConfig {
     return Array.from(this.strategies.values())
       .find(s => s.type === this.config.defaultStrategy) || 
-      Array.from(this.strategies.values())[0];
+      Array.from(this.strategies.values())[0!];
   }
 
   /**

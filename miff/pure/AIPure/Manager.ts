@@ -267,7 +267,7 @@ export class BattleAI {
     // Prioritize actions that were selected by HP-based override rules
     const hpActions = actions.filter((action: any) => action.reasoning.includes('Critical HP override rule'));
     if (hpActions.length > 0) {
-      return hpActions[0]; // Return the first HP-prioritized action
+      return hpActions[0!]; // Return the first HP-prioritized action
     }
 
     // Otherwise, select the action with highest confidence
@@ -779,13 +779,13 @@ export class SimpleNeuralNetwork {
     for (let layer = this.weights.length - 1; layer > 0; layer--) {
       const layerGradients: number[] = [];
 
-      for (let neuron = 0; neuron < this.weights[layer!][0].length; neuron++) {
+      for (let neuron = 0; neuron < this.weights[layer!][0!].length; neuron++) {
         let gradient = 0;
 
         for (let nextNeuron = 0; nextNeuron < this.weights[layer!].length; nextNeuron++) {
           for (let weight = 0; weight < this.weights[layer!][nextNeuron!].length; weight++) {
             if (weight === neuron) {
-              gradient += gradients[0][nextNeuron!] * this.weights[layer!][nextNeuron!][weight!];
+              gradient += gradients[0!][nextNeuron!] * this.weights[layer!][nextNeuron!][weight!];
             }
           }
         }
@@ -1040,7 +1040,7 @@ export class AIManager {
       id: `decision_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       context,
       options,
-      selectedOption: options[0] || 'none',
+      selectedOption: options[0!] || 'none',
       confidence: 0.5,
       timestamp: new Date()
     };
@@ -1212,7 +1212,7 @@ export class AIManager {
     let network = this.getNeuralNetwork(networkId);
 
     if (!network) {
-      network = this.createNeuralNetwork(networkId, trainingData[0]?.input.length || 8, trainingData[0]?.expectedOutput.length || 4);
+      network = this.createNeuralNetwork(networkId, trainingData[0!]?.input.length || 8, trainingData[0!]?.expectedOutput.length || 4);
     }
 
     if (!network || trainingData.length === 0) {
@@ -1295,8 +1295,8 @@ export class AIManager {
     const prediction = network.predict(input);
 
     return {
-      playerWinProbability: Math.max(0, Math.min(1, prediction[3] || 0)),
-      expectedDamage: (prediction[0] || 0) * 100, // Convert to actual damage
+      playerWinProbability: Math.max(0, Math.min(1, prediction[3!] || 0)),
+      expectedDamage: (prediction[0!] || 0) * 100, // Convert to actual damage
       recommendedStrategy: this.getStrategyRecommendation(prediction)
     };
   }
@@ -1305,8 +1305,8 @@ export class AIManager {
    * Get strategy recommendation based on neural network prediction
    */
   private getStrategyRecommendation(prediction: number[]): string {
-    const playerHealthRatio = prediction[0] || 0;
-    const opponentHealthRatio = prediction[1] || 0;
+    const playerHealthRatio = prediction[0!] || 0;
+    const opponentHealthRatio = prediction[1!] || 0;
 
     if (playerHealthRatio < 0.3) {
       return 'DEFENSIVE_HEALING';

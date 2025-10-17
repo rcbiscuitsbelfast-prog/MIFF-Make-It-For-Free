@@ -171,7 +171,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0]?.toLowerCase() || '';
+    const command = parts[0!]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -182,7 +182,7 @@ async function runCLI(): Promise<void> {
 
       case 'actions':
       case 'list':
-        const category = args[0];
+        const category = args[0!];
         printActions(state.profile, category);
         break;
 
@@ -207,7 +207,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: test <input>');
         } else {
-          const input = args[0];
+          const input = args[0!];
           const action = state.profile.getActionForInput(input);
           console.log(`Input '${input}' → ${action ? action.actionId + ' (' + action.category + ')' : 'no action'}`);
         }
@@ -229,7 +229,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: remove <id>');
         } else {
-          const actionId = args[0];
+          const actionId = args[0!];
           const success = state.profile.removeAction(actionId);
           console.log(`Remove ${actionId}: ${success ? '✅ Success' : '❌ Not found'}`);
         }
@@ -240,7 +240,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log(`Current category: ${state.currentCategory}`);
         } else {
-          state.currentCategory = args[0];
+          state.currentCategory = args[0!];
           console.log(`Set current category to: ${state.currentCategory}`);
         }
         break;
@@ -251,7 +251,7 @@ async function runCLI(): Promise<void> {
           console.log('❌ Usage: load <preset>');
           console.log('Available presets: standard, movement, combat, ui, debug');
         } else {
-          const preset = args[0];
+          const preset = args[0!];
           state.profile.clear();
 
           switch (preset) {

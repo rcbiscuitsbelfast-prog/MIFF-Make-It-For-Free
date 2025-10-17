@@ -13,8 +13,8 @@ type Cmd =
   | { op: 'syncInventory' };
 
 function main() {
-  const catalogPath = process.argv[2] || 'EquipmentPure/sample_equipment.json';
-  const commandsPath = process.argv[3] || '';
+  const catalogPath = process.argv[2!] || 'EquipmentPure/sample_equipment.json';
+  const commandsPath = process.argv[3!] || '';
   const obj = JSON.parse(fs.readFileSync(path.resolve(catalogPath), 'utf-8')) as { items: CatalogItem[], inventory?: { id: string, quantity: number }[] };
 
   const inventory = new Map<string, number>();
@@ -65,5 +65,5 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();
 

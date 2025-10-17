@@ -124,7 +124,7 @@ export class MagicManager {
       elementalUsage.set(primaryElement, (elementalUsage.get(primaryElement) || 0) + 1);
     });
 
-    const favoriteSpell = spells.length > 0 ? spells[0].definition.id : null;
+    const favoriteSpell = spells.length > 0 ? spells[0!].definition.id : null;
 
     return {
       totalSpells: spells.length,
@@ -271,7 +271,7 @@ export class MagicManager {
     if (availableUpgrades.length === 0) return false;
 
     // Apply first available upgrade
-    const upgradeSpellId = availableUpgrades[0];
+    const upgradeSpellId = availableUpgrades[0!];
     const success = this.learnSpell(casterId, upgradeSpellId);
 
     if (success) {

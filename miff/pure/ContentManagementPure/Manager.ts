@@ -297,7 +297,7 @@ export class ContentManagementManager {
           totalTags: 0,
           totalViews: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -439,8 +439,8 @@ export class ContentManagementManager {
       const content: Content = {
         ...contentData,
         id: this.generateContentId(),
-        created: Date.now(),
-        modified: Date.now()
+        created: new Date(),
+        modified: new Date()
       };
 
       system.contents.push(content);
@@ -514,7 +514,7 @@ export class ContentManagementManager {
       const updatedContent: Content = {
         ...content,
         ...updates,
-        modified: Date.now(),
+        modified: new Date(),
         version: this.incrementVersion(content.version)
       };
 
@@ -820,8 +820,8 @@ export class ContentManagementManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -842,7 +842,7 @@ export class ContentManagementManager {
         totalTags: system.tags.length,
         totalViews: system.analytics.totalViews,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -898,7 +898,7 @@ export class ContentManagementManager {
       totalContents,
       totalCategories,
       totalTags,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

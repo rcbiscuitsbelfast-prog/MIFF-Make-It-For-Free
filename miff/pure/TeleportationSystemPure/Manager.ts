@@ -202,7 +202,7 @@ export class TeleportationManager {
                                this.getPortalsInZone(mostActive.id).length;
 
       return totalInZone > totalInMostActive ? zone : mostActive;
-    }, zones[0] || { id: 'none', name: 'None' });
+    }, zones[0!] || { id: 'none', name: 'None' });
 
     // Find most used portal
     const portals = this.teleportationSystem.getAllPortals();
@@ -214,9 +214,9 @@ export class TeleportationManager {
 
     // Get recent failure reasons
     const recentFailures = Array.from(stats.failureReasons.entries())
-      .sort((a: any, b: any) => b[1] - a[1])
+      .sort((a: any, b: any) => b[1!] - a[1!])
       .slice(0, 5)
-      .map(([reason]) => reason);
+      .map(([reason!]) => reason);
 
     return {
       totalTeleports: stats.totalTeleports,

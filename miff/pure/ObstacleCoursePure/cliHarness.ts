@@ -73,13 +73,13 @@ class ObstacleCourseCLI {
         await this.runTests();
         break;
       case 'create-course':
-        await this.createCourse(args[0]);
+        await this.createCourse(args[0!]);
         break;
       case 'add-obstacle':
-        await this.addObstacle(args[0]);
+        await this.addObstacle(args[0!]);
         break;
       case 'add-checkpoint':
-        await this.addCheckpoint(args[0], args[1]);
+        await this.addCheckpoint(args[0!], args[1!]);
         break;
       case 'start-trial':
         await this.startTrial();
@@ -432,6 +432,6 @@ async function main() {
   await cli.start();
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

@@ -113,10 +113,10 @@ describe('AudioPure', () => {
       console.log('Final active sounds:', limitedAudioSystem.getActiveSounds());
 
       // First 2 should succeed, last 2 should return null
-      expect(results[0]).toBeTruthy();
-      expect(results[1]).toBeTruthy();
-      expect(results[2]).toBeNull();
-      expect(results[3]).toBeNull();
+      expect(results[0!]).toBeTruthy();
+      expect(results[1!]).toBeTruthy();
+      expect(results[2!]).toBeNull();
+      expect(results[3!]).toBeNull();
       
       expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
       expect(warnSpy).toHaveBeenCalledTimes(2); // Warning for the 2 failed attempts
@@ -185,7 +185,7 @@ describe('AudioPure', () => {
       expect(success).toBe(true);
 
       const activeSounds = audioSystem.getActiveSounds();
-      expect(activeSounds[0].volume).toBe(0.5);
+      expect(activeSounds[0!].volume).toBe(0.5);
     });
 
     it('should clamp volume between 0 and 1', () => {
@@ -204,10 +204,10 @@ describe('AudioPure', () => {
 
       // Try to set volume outside valid range
       audioSystem.setVolume(instanceId!, -0.5);
-      expect(audioSystem.getActiveSounds()[0].volume).toBe(0);
+      expect(audioSystem.getActiveSounds()[0!].volume).toBe(0);
 
       audioSystem.setVolume(instanceId!, 1.5);
-      expect(audioSystem.getActiveSounds()[0].volume).toBe(1);
+      expect(audioSystem.getActiveSounds()[0!].volume).toBe(1);
     });
   });
 
@@ -237,9 +237,9 @@ describe('AudioPure', () => {
       expect(instanceId).toBeDefined();
 
       const activeSounds = audioSystem.getActiveSounds();
-      expect(activeSounds[0].spatial).toBe(true);
-      expect(activeSounds[0].position).toEqual(spatialConfig.position);
-      expect(activeSounds[0].velocity).toEqual(spatialConfig.velocity);
+      expect(activeSounds[0!].spatial).toBe(true);
+      expect(activeSounds[0!].position).toEqual(spatialConfig.position);
+      expect(activeSounds[0!].velocity).toEqual(spatialConfig.velocity);
     });
 
     it('should update listener position and velocity', () => {

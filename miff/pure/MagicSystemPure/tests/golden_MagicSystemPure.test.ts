@@ -147,7 +147,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       expect(spells.length).toBeGreaterThan(0);
 
-      const firstSpell = spells[0];
+      const firstSpell = spells[0!];
       expect(firstSpell.id).toBeDefined();
       expect(firstSpell.name).toBeDefined();
       expect(firstSpell.manaCost).toBeGreaterThan(0);
@@ -164,23 +164,23 @@ describe('MagicSystemPure Golden Tests', () => {
     test('should unlock spells for casters', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length > 0) {
-        const spellId = spells[0].id;
+        const spellId = spells[0!].id;
 
         const success = magicSystem.unlockSpell(TEST_CASTER, spellId);
         expect(success).toBe(true);
 
         const casterSpells = magicSystem.getSpellsForCaster(TEST_CASTER);
         expect(casterSpells.length).toBe(1);
-        expect(casterSpells[0].definition.id).toBe(spellId);
+        expect(casterSpells[0!].definition.id).toBe(spellId);
       }
     });
 
     test('should not cast spells without learning them first', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length > 0) {
-        const spellId = spells[0].id;
+        const spellId = spells[0!].id;
 
-        const result = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET]);
+        const result = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET!]);
         expect(result.success).toBe(false);
         expect(result.failureReason).toContain('not unlocked');
       }
@@ -195,13 +195,13 @@ describe('MagicSystemPure Golden Tests', () => {
         return;
       }
 
-      const spellId = spells[0].id;
+      const spellId = spells[0!].id;
       magicSystem.unlockSpell(TEST_CASTER, spellId);
 
       const manaPool = magicSystem.getManaPool(TEST_CASTER)!;
       const initialMana = manaPool.current;
 
-      const result = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET]);
+      const result = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET!]);
 
       expect(result.success).toBe(true);
       expect(manaPool.current).toBeLessThan(initialMana); // Mana should be consumed
@@ -212,14 +212,14 @@ describe('MagicSystemPure Golden Tests', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length === 0) return;
 
-      const spellId = spells[0].id;
+      const spellId = spells[0!].id;
       magicSystem.unlockSpell(TEST_CASTER, spellId);
 
       // Set mana to 0
       const manaPool = magicSystem.getManaPool(TEST_CASTER)!;
       manaPool.current = 0;
 
-      const result = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET]);
+      const result = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET!]);
 
       expect(result.success).toBe(false);
       expect(result.failureReason).toContain('Insufficient mana');
@@ -229,15 +229,15 @@ describe('MagicSystemPure Golden Tests', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length === 0) return;
 
-      const spellId = spells[0].id;
+      const spellId = spells[0!].id;
       magicSystem.unlockSpell(TEST_CASTER, spellId);
 
       // Cast spell
-      const result1 = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET]);
+      const result1 = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET!]);
       expect(result1.success).toBe(true);
 
       // Try to cast immediately again (should fail due to cooldown)
-      const result2 = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET]);
+      const result2 = magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET!]);
       expect(result2.success).toBe(false);
       expect(result2.failureReason).toContain('cooldown');
     });
@@ -254,7 +254,7 @@ describe('MagicSystemPure Golden Tests', () => {
       magicSystem.unlockSpell(TEST_CASTER, damageSpell.id);
       const initialHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
 
-      const result = magicSystem.castSpell(TEST_CASTER, damageSpell.id, [TEST_TARGET]);
+      const result = magicSystem.castSpell(TEST_CASTER, damageSpell.id, [TEST_TARGET!]);
 
       if (result.success) {
         const finalHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
@@ -277,7 +277,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const damagedHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
 
       magicSystem.unlockSpell(TEST_CASTER, healSpell.id);
-      const result = magicSystem.castSpell(TEST_CASTER, healSpell.id, [TEST_TARGET]);
+      const result = magicSystem.castSpell(TEST_CASTER, healSpell.id, [TEST_TARGET!]);
 
       if (result.success) {
         const healedHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
@@ -389,13 +389,13 @@ describe('MagicSystemPure Golden Tests', () => {
 
       // Damage target
       const initialHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
-      magicSystem.castSpell(TEST_CASTER, damageSpell.id, [TEST_TARGET]);
+      magicSystem.castSpell(TEST_CASTER, damageSpell.id, [TEST_TARGET!]);
 
       const damagedHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
       expect(damagedHealth).toBeLessThan(initialHealth);
 
       // Heal target
-      magicSystem.castSpell(TEST_CASTER, healSpell.id, [TEST_TARGET]);
+      magicSystem.castSpell(TEST_CASTER, healSpell.id, [TEST_TARGET!]);
       const healedHealth = healthSystem.getEntity(TEST_TARGET)?.hp || 0;
       expect(healedHealth).toBeGreaterThan(damagedHealth);
     });
@@ -404,7 +404,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length === 0) return;
 
-      const spellId = spells[0].id;
+      const spellId = spells[0!].id;
       magicSystem.unlockSpell(TEST_CASTER, spellId);
 
       let eventEmitted = false;
@@ -415,7 +415,7 @@ describe('MagicSystemPure Golden Tests', () => {
         expect(data.manaSpent).toBeGreaterThan(0);
       });
 
-      magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET]);
+      magicSystem.castSpell(TEST_CASTER, spellId, [TEST_TARGET!]);
 
       // Event should have been emitted
       expect(eventEmitted).toBe(true);
@@ -486,7 +486,7 @@ describe('MagicSystemPure Golden Tests', () => {
 
   describe('Error Handling', () => {
     test('should handle invalid spell IDs gracefully', () => {
-      const result = magicSystem.castSpell(TEST_CASTER, 'invalid-spell', [TEST_TARGET]);
+      const result = magicSystem.castSpell(TEST_CASTER, 'invalid-spell', [TEST_TARGET!]);
 
       expect(result.success).toBe(false);
       expect(result.failureReason).toContain('not unlocked');
@@ -496,7 +496,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length === 0) return;
 
-      const spellId = spells[0].id;
+      const spellId = spells[0!].id;
       magicSystem.unlockSpell(TEST_CASTER, spellId);
 
       const result = magicSystem.castSpell(TEST_CASTER, spellId, []);
@@ -505,7 +505,7 @@ describe('MagicSystemPure Golden Tests', () => {
     });
 
     test('should handle missing mana pools', () => {
-      const result = magicSystem.castSpell('nonexistent-caster', 'any-spell', [TEST_TARGET]);
+      const result = magicSystem.castSpell('nonexistent-caster', 'any-spell', [TEST_TARGET!]);
 
       expect(result.success).toBe(false);
       expect(result.failureReason).toContain('not unlocked'); // Will fail at spell lookup first
@@ -541,7 +541,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length === 0) return;
 
-      const spell = spells[0];
+      const spell = spells[0!];
       expect(spell.effects).toBeDefined();
       expect(Array.isArray(spell.effects)).toBe(true);
       expect(spell.effects.length).toBeGreaterThan(0);

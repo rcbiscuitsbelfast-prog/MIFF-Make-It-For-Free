@@ -7,12 +7,12 @@ function runCLI(grid: number[][]) {
   const gridFile = path.resolve('miff/pure/PathfindingPure/tests/tmp_grid.fuzz.json');
   const blocks: { x: number; y: number }[] = [];
   for (let y = 0; y < grid.length; y++) {
-    for (let x = 0; x < grid[0].length; x++) {
-      if (grid[y][x] === 1) blocks.push({ x, y });
+    for (let x = 0; x < grid[0!].length; x++) {
+      if (grid[y!][x] === 1) blocks.push({ x, y });
     }
   }
   const payload = {
-    grid: { width: grid[0].length, height: grid.length, blocks }
+    grid: { width: grid[0!].length, height: grid.length, blocks }
   };
   fs.writeFileSync(gridFile, JSON.stringify(payload, null, 2));
   const out = execFileSync('npx', [
@@ -48,12 +48,12 @@ describe('PathfindingPure fuzz invariants', () => {
       const simulate = outputs.find(o => o.op === 'simulate') || outputs[outputs.length - 1];
       if (simulate?.path) {
         const path: { x: number; y: number }[] = simulate.path;
-        const goal = [grid[0].length - 1, grid.length - 1];
+        const goal = [grid[0!].length - 1, grid.length - 1];
         if (path.length) {
           const last = path[path.length - 1];
           expect([last.x, last.y]).toEqual(goal);
           for (const { x, y } of path) {
-            expect(grid[y][x]).toBe(0);
+            expect(grid[y!][x!]).toBe(0);
           }
         }
       }

@@ -230,7 +230,7 @@ export class PixelAnimManager {
         animations,
         transitions,
         metadata: {
-          created: Date.now().toISOString(),
+          created: new Date().toISOString(),
           category: 'custom'
         }
       };
@@ -424,7 +424,7 @@ export class PixelAnimManager {
             schema: 'miff.pixel.animation.manifest.v1',
             animation: PixelAnimPure.exportAnimation(animation),
             metadata: {
-              exportedAt: Date.now().toISOString(),
+              exportedAt: new Date().toISOString(),
               frameCount: animation.frames.length,
               duration: (animation.frames.length * 1000) / animation.speed
             }

@@ -19,8 +19,8 @@ type Cmd =
 
 function main(){
   try {
-    const sample = process.argv[2] || 'PhysicsSystemPure/sample_world.json';
-    const commands = process.argv[3] || '';
+    const sample = process.argv[2!] || 'PhysicsSystemPure/sample_world.json';
+    const commands = process.argv[3!] || '';
     
     if (process.argv[2] === 'help' || process.argv[2] === '--help') {
       showHelp();
@@ -251,4 +251,4 @@ EXAMPLES:
 `);
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

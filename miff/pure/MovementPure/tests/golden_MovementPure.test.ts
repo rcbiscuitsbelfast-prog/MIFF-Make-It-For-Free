@@ -272,7 +272,7 @@ describe('MovementPure Golden Tests', () => {
       const filterResult = manager.listEntities({ patternType: 'idle' });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('idle_entity');
+      expect(filterResult.result?.[0!].id).toBe('idle_entity');
     });
 
     test('should filter entities by speed range', () => {
@@ -329,7 +329,7 @@ describe('MovementPure Golden Tests', () => {
       const filterResult = manager.listEntities({ minSpeed: 1.0, maxSpeed: 4.0 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('fast_entity');
+      expect(filterResult.result?.[0!].id).toBe('fast_entity');
     });
   });
 

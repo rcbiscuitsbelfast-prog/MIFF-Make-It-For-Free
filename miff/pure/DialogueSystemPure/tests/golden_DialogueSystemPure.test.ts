@@ -18,7 +18,7 @@ test('golden dialogue system flow', () => {
   // Run CLI harness with dialogue data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [dialogue]
+    [dialogue!]
   );
   
   const got = JSON.parse(out);

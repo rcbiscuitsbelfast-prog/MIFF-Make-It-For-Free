@@ -22,7 +22,7 @@ try {
         duration: duration || 30,
         stackCount: 1,
         stats: typeof stats === 'string' ? JSON.parse(stats) : (stats || { attackBoost: 1.5 }),
-        appliedAt: Date.now()
+        appliedAt: new Date()
       };
       
       manager.applyEffect(targetId || 'player', statusEffect);

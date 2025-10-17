@@ -136,7 +136,7 @@ describe('XPLevelingPure Golden Tests', () => {
       const filterResult = manager.listEntities({ minLevel: 3, maxLevel: 8 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('mid_level');
+      expect(filterResult.result?.[0!].id).toBe('mid_level');
     });
 
     test('should filter entities by skill level', () => {
@@ -155,7 +155,7 @@ describe('XPLevelingPure Golden Tests', () => {
       const filterResult = manager.listEntities({ hasSkill: 'combat', minSkillLevel: 5 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('high_skill');
+      expect(filterResult.result?.[0!].id).toBe('high_skill');
     });
 
     test('should filter entities by XP range', () => {
@@ -174,7 +174,7 @@ describe('XPLevelingPure Golden Tests', () => {
       const filterResult = manager.listEntities({ minXp: 500 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('high_xp');
+      expect(filterResult.result?.[0!].id).toBe('high_xp');
     });
   });
 

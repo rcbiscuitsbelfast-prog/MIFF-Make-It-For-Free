@@ -737,7 +737,7 @@ export class TimelineSystemPure {
         s.branchId === timeline.branches.find(b => b.isActive)?.id
       ),
       stats: this.getTimelineStats(timelineId),
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

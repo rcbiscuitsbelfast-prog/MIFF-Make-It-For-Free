@@ -35,7 +35,7 @@ describe('PixelAnimPure Golden Tests', () => {
     result.animation?.frames.forEach((frame, index) => {
       expect(frame.frame).toBe(index);
       expect(frame.duration).toBe(1000 / 12); // 1000ms / 12fps
-      expect(frame.layer).toBe(frames[index]);
+      expect(frame.layer).toBe(frames[index!]);
     });
   });
 
@@ -162,9 +162,9 @@ describe('PixelAnimPure Golden Tests', () => {
     // Verify frame progression
     const events = simResult.simulation?.events;
     if (events && events.length > 0) {
-      expect(events[0].frame).toBe(0);
-      expect(events[0].cycle).toBe(0);
-      expect(typeof events[0].timestamp).toBe('number');
+      expect(events[0!].frame).toBe(0);
+      expect(events[0!].cycle).toBe(0);
+      expect(typeof events[0!].timestamp).toBe('number');
     }
     
     // Test with non-existent animation
@@ -269,7 +269,7 @@ describe('PixelAnimPure Golden Tests', () => {
     // Try to delete animation (should fail due to sequence dependency)
     const deleteResult = manager.deleteAnimation('DeleteTest');
     expect(deleteResult.ok).toBe(false);
-    expect(deleteResult.errors?.[0]).toContain('is used in sequences');
+    expect(deleteResult.errors?.[0!]).toContain('is used in sequences');
     
     // Delete sequence first
     const deleteSeqResult = manager.deleteSequence('delete-seq');

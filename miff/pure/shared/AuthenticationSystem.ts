@@ -505,7 +505,7 @@ export class AuthenticationSystem {
       const parts = token.split('.');
       if (parts.length !== 3) return null;
 
-      const payload = SafeJSONParser.parse(Buffer.from(parts[1], 'base64url').toString());
+      const payload = SafeJSONParser.parse(Buffer.from(parts[1!], 'base64url').toString());
       return payload as JWTClaims;
     } catch {
       return null;

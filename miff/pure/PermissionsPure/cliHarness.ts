@@ -8,8 +8,8 @@ async function main() {
     console.error('Usage: tsx cliHarness.ts <query|request> <permissionName>');
     process.exit(1);
   }
-  const op = argv[0];
-  const name = argv[1] as PermissionName;
+  const op = argv[0!];
+  const name = argv[1!] as PermissionName;
   const mgr = new PermissionsManager();
   const res = op === 'request' ? await mgr.request(name) : await mgr.query(name);
   console.log(JSON.stringify({ op: `perm:${op}`, status: 'ok', result: res }, null, 2));

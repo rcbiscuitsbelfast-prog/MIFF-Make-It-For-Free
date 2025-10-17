@@ -749,7 +749,7 @@ export class TeamRules implements ITeamRules {
     // Check team size
     if (spirits.length > this.maxTeamSize) {
       errors.push(`Team has ${spirits.length} members, maximum is ${this.maxTeamSize}`);
-      return new ValidationResult(ValidationStatus.TOO_MANY_MEMBERS, errors[0], [], errors);
+      return new ValidationResult(ValidationStatus.TOO_MANY_MEMBERS, errors[0!], [], errors);
     }
 
     // Check for duplicates
@@ -757,7 +757,7 @@ export class TeamRules implements ITeamRules {
       const speciesIds = new Set(spirits.map((s: any) => s.speciesId));
       if (speciesIds.size < spirits.length) {
         errors.push('Duplicate spirits are not allowed in this team');
-        return new ValidationResult(ValidationStatus.DUPLICATE_SPECIES, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.DUPLICATE_SPECIES, errors[0!], [], errors);
       }
     }
 
@@ -767,7 +767,7 @@ export class TeamRules implements ITeamRules {
       const minDiversity = Math.min(spirits.length, 3);
       if (types.size < minDiversity) {
         errors.push(`Team requires at least ${minDiversity} different types, has ${types.size}`);
-        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0!], [], errors);
       }
     }
 
@@ -785,7 +785,7 @@ export class TeamRules implements ITeamRules {
       const forbiddenInTeam = spirits.filter((s: any) => this.forbiddenTypes!.includes(s.type));
       if (forbiddenInTeam.length > 0) {
         errors.push(`Team contains forbidden types: ${forbiddenInTeam.map((s: any) => s.type).join(', ')}`);
-        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0!], [], errors);
       }
     }
 
@@ -799,7 +799,7 @@ export class TeamRules implements ITeamRules {
 
       if (averageSync < minRequiredSync) {
         errors.push(`Team average sync (${averageSync.toFixed(1)}) is below minimum (${minRequiredSync})`);
-        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0!], [], errors);
       }
     }
 
@@ -811,12 +811,12 @@ export class TeamRules implements ITeamRules {
 
       if (this.maxLevelDifference && maxDifference > this.maxLevelDifference) {
         errors.push(`Level difference (${maxDifference}) exceeds maximum (${this.maxLevelDifference})`);
-        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0!], [], errors);
       }
 
       if (this.minAverageLevel && avgLevel < this.minAverageLevel) {
         errors.push(`Average team level (${avgLevel.toFixed(1)}) is below minimum (${this.minAverageLevel})`);
-        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0!], [], errors);
       }
     }
 
@@ -825,7 +825,7 @@ export class TeamRules implements ITeamRules {
       const diversityScore = this.calculateDiversityScore(spirits);
       if (diversityScore < this.minDiversityScore) {
         errors.push(`Team diversity score (${diversityScore.toFixed(2)}) is below minimum (${this.minDiversityScore})`);
-        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
+        return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0!], [], errors);
       }
     }
 
@@ -1151,7 +1151,7 @@ export class Team implements ITeam {
   moveSpiritToReserve(spiritId: string): TeamOperationResult {
     const index = this.spirits.findIndex(s => s.instanceId === spiritId);
     if (index >= 0) {
-      const spirit = this.spirits.splice(index, 1)[0];
+      const spirit = this.spirits.splice(index, 1)[0!];
       this.reserves.push(spirit);
       this.updatedAt = new Date();
       return TeamOperationResult.SUCCESS;
@@ -1165,7 +1165,7 @@ export class Team implements ITeam {
   moveSpiritFromReserve(spiritId: string): TeamOperationResult {
     const index = this.reserves.findIndex(s => s.instanceId === spiritId);
     if (index >= 0 && this.spirits.length < this.maxSize) {
-      const spirit = this.reserves.splice(index, 1)[0];
+      const spirit = this.reserves.splice(index, 1)[0!];
       this.spirits.push(spirit);
       this.updatedAt = new Date();
       return TeamOperationResult.SUCCESS;

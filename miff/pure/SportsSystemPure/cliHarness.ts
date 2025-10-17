@@ -163,7 +163,7 @@ class SportsCli {
 
   private setupEventListeners(): void {
     this.eventBus.on('sports:game_created', (data) => {
-      console.log(`🎮 Game created: ${data.game.sportType} - ${data.game.teams[0].name} vs ${data.game.teams[1].name}`);
+      console.log(`🎮 Game created: ${data.game.sportType} - ${data.game.teams[0!].name} vs ${data.game.teams[1!].name}`);
       this.currentGameId = data.game.id;
     });
 
@@ -259,7 +259,7 @@ class SportsCli {
   }
 
   private handleStartGame(args: string[]): void {
-    const gameId = args[0] || this.currentGameId;
+    const gameId = args[0!] || this.currentGameId;
 
     if (!gameId) {
       console.log('❌ No game ID specified. Use create-game first or specify gameId.');
@@ -349,7 +349,7 @@ class SportsCli {
   }
 
   private handleShowGame(args: string[]): void {
-    const gameId = args[0] || this.currentGameId;
+    const gameId = args[0!] || this.currentGameId;
 
     if (!gameId) {
       console.log('❌ No game ID specified. Use create-game first or specify gameId.');
@@ -363,7 +363,7 @@ class SportsCli {
       console.log('─'.repeat(50));
       console.log(`ID: ${game.id}`);
       console.log(`State: ${game.state}`);
-      console.log(`Teams: ${game.teams[0].name} (${game.teams[0].score}) vs ${game.teams[1].name} (${game.teams[1].score})`);
+      console.log(`Teams: ${game.teams[0!].name} (${game.teams[0!].score}) vs ${game.teams[1!].name} (${game.teams[1!].score})`);
       console.log(`Ball: (${game.ball.position.x.toFixed(1)}, ${game.ball.position.y.toFixed(1)}, ${game.ball.position.z.toFixed(1)}) - ${game.ball.state}`);
       console.log(`Time: ${Math.floor(game.currentTime / 60)}:${(game.currentTime % 60).toString().padStart(2, '0')}`);
       console.log('─'.repeat(50));
@@ -397,7 +397,7 @@ class SportsCli {
   }
 
   private handleShowPlayers(args: string[]): void {
-    const teamId = args[0];
+    const teamId = args[0!];
 
     if (!teamId) {
       console.log('Usage: show-players <teamId>');
@@ -517,7 +517,7 @@ class SportsCli {
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
-    const games = parseInt(args[0]) || 5;
+    const games = parseInt(args[0!]) || 5;
     console.log(`🧪 Running simulation for ${games} games...`);
 
     for (let i = 0; i < games; i++) {
@@ -566,7 +566,7 @@ class SportsCli {
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
-    const operations = parseInt(args[0]) || 1000;
+    const operations = parseInt(args[0!]) || 1000;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
@@ -639,9 +639,9 @@ class SportsCli {
     if (modeArg) {
       const kv = (key: string) => {
         const raw = argv.find(a => a.startsWith(`--${key}=`));
-        return raw ? raw.split('=')[1] : undefined;
+        return raw ? raw.split('=')[1!] : undefined;
       };
-      const parsedMode = modeArg.split('=')[1];
+      const parsedMode = modeArg.split('=')[1!];
       const ci = (kv('ci') || process.env.CI || 'false').toString() === 'true';
       const timeoutSec = parseInt(kv('timeout') || '0');
 
@@ -753,7 +753,7 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }
 

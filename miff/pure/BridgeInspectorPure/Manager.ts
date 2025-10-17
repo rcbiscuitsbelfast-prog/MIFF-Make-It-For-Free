@@ -681,7 +681,7 @@ export class BridgeInspectorManager {
 
     const uniqueEngines = [...new Set(engines)];
     if (uniqueEngines.length > 0) {
-      return `${uniqueEngines[0]}BridgePure`;
+      return `${uniqueEngines[0!]}BridgePure`;
     }
 
     return 'UnknownBridge';
@@ -702,7 +702,7 @@ export class BridgeInspectorManager {
 
     const uniqueEngines = [...new Set(engines)];
     if (uniqueEngines.length > 0) {
-      return uniqueEngines[0];
+      return uniqueEngines[0!];
     }
 
     return 'unknown';

@@ -165,8 +165,8 @@ describe('PlatformBridgePure', () => {
       
       expect(keyboards).toHaveLength(1);
       expect(mice).toHaveLength(1);
-      expect(keyboards[0].name).toBe('Keyboard 1');
-      expect(mice[0].name).toBe('Mouse 1');
+      expect(keyboards[0!].name).toBe('Keyboard 1');
+      expect(mice[0!].name).toBe('Mouse 1');
     });
 
     it('should process input events', () => {

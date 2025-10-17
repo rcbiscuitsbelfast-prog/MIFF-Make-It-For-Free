@@ -343,7 +343,7 @@ export class RacingSystemPure {
       lapNumber: lapNumber,
       time: lapTime,
       penalties: 0,
-      completedAt: Date.now()
+      completedAt: new Date()
     };
 
     race.lapTimes.push(lap);
@@ -577,7 +577,7 @@ export class RacingSystemPure {
     return race.vehicles.map((vehicle: any) => ({
       position: race.positions.get(vehicle.id) || 0,
       vehicleId: vehicle.id,
-      lapTime: Date.now() - race.lapStartTime,
+      lapTime: new Date() - race.lapStartTime,
       bestLap: race.bestLapTime,
       laps: race.completedLaps
     })).sort((a: any, b: any) => a.position - b.position);
@@ -792,7 +792,7 @@ export class RacingSystemPure {
     const results: RaceResult[] = race.vehicles.map((vehicle: any) => ({
       raceId: raceId,
       position: race.positions.get(vehicle.id) || 0,
-      totalTime: Date.now() - race.startTime,
+      totalTime: new Date() - race.startTime,
       bestLapTime: race.bestLapTime,
       lapsCompleted: race.completedLaps,
       penalties: 0,

@@ -63,7 +63,7 @@ export class TimeSystemPure {
     const gameTime = this.config.initialTime! || 0;
     return {
       currentTime: gameTime,
-      realTime: Date.now(),
+      realTime: new Date(),
       timeOfDay: this.getTimeOfDay(gameTime),
       season: this.getSeason(gameTime),
       dayOfYear: Math.floor(gameTime / (this.config.dayLength! || 1440)),
@@ -145,7 +145,7 @@ export class TimeSystemPure {
     return {
       ...this.currentTimeData,
       currentTime: newGameTime,
-      realTime: Date.now(),
+      realTime: new Date(),
       timeOfDay: this.getTimeOfDay(newGameTime),
       season: this.getSeason(newGameTime),
       dayOfYear: Math.floor(newGameTime / (this.config.dayLength! || 1440)),

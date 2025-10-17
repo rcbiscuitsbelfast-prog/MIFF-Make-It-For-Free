@@ -41,7 +41,7 @@ class MockRNGProvider {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = this.nextInt(0, i + 1);
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
     }
     return shuffled;
   }
@@ -471,7 +471,7 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(actor1Actions).toHaveLength(2);
       expect(actor2Actions).toHaveLength(1);
       expect(actor1Actions).toEqual([action1, action2]);
-      expect(actor2Actions).toEqual([action3]);
+      expect(actor2Actions).toEqual([action3!]);
     });
 
     test('should get actions by source correctly', () => {
@@ -486,8 +486,8 @@ describe('BattleLoopPure Golden Tests', () => {
 
       expect(playerActions).toHaveLength(1);
       expect(aiActions).toHaveLength(1);
-      expect(playerActions[0]).toBe(playerAction);
-      expect(aiActions[0]).toBe(aiAction);
+      expect(playerActions[0!]).toBe(playerAction);
+      expect(aiActions[0!]).toBe(aiAction);
     });
 
     test('should remove actions by actor correctly', () => {
@@ -505,7 +505,7 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(actionQueue.getLength()).toBe(1);
 
       const remaining = actionQueue.getAllActions();
-      expect(remaining).toEqual([action3]);
+      expect(remaining).toEqual([action3!]);
     });
 
     test('should clear queue correctly', () => {
@@ -552,7 +552,7 @@ describe('BattleLoopPure Golden Tests', () => {
         pendingActions: [],
         processedActions: [],
         battleResult: BattleResult.ONGOING,
-        startTime: Date.now()
+        startTime: new Date()
       };
     });
 
@@ -642,7 +642,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           actorId === 1 ? 2 : 1,
-          availableMoves[0],
+          availableMoves[0!],
           0,
           50,
           actorId === 1 ? ActionSource.PLAYER : ActionSource.AI
@@ -680,7 +680,7 @@ describe('BattleLoopPure Golden Tests', () => {
         );
       };
 
-      const availableActors = [1];
+      const availableActors = [1!];
       const availableMoves = {
         1: ['defeat']
       };
@@ -753,8 +753,8 @@ describe('BattleLoopPure Golden Tests', () => {
 
       expect(phaseEvents).toHaveLength(1);
       expect(phaseEnteredEvents).toHaveLength(1);
-      expect(phaseEvents[0]).toBe(BattlePhase.SELECT_ACTION);
-      expect(phaseEnteredEvents[0]).toBe(BattlePhase.SELECT_ACTION);
+      expect(phaseEvents[0!]).toBe(BattlePhase.SELECT_ACTION);
+      expect(phaseEnteredEvents[0!]).toBe(BattlePhase.SELECT_ACTION);
     });
 
     test('should handle logging integration correctly', () => {
@@ -821,7 +821,7 @@ describe('BattleLoopPure Golden Tests', () => {
         pendingActions: [],
         processedActions: [],
         battleResult: BattleResult.ONGOING,
-        startTime: Date.now()
+        startTime: new Date()
       };
 
       const invalidState: IBattleState = {
@@ -933,7 +933,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           actorId === 1 ? 2 : 1,
-          availableMoves[moveIndex],
+          availableMoves[moveIndex!],
           0,
           50,
           actorId === 1 ? ActionSource.PLAYER : ActionSource.AI
@@ -983,7 +983,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           2,
-          availableMoves[0],
+          availableMoves[0!],
           0,
           50,
           source
@@ -1085,7 +1085,7 @@ describe('BattleLoopPure Golden Tests', () => {
       controller.executeTurn(
         12345,
         () => action,
-        [1],
+        [1!],
         { 1: ['test_action'] }
       );
 
@@ -1148,7 +1148,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           actorId === 1 ? 2 : 1,
-          availableMoves[moveIndex],
+          availableMoves[moveIndex!],
           0,
           50,
           actorId === 1 ? ActionSource.PLAYER : ActionSource.AI

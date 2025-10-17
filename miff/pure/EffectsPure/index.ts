@@ -1172,7 +1172,7 @@ export class EffectResolver implements IEffectResolver {
     // For each group, keep the effect with highest absolute value
     effectGroups.forEach((group: any) => {
       if (group.length === 1) {
-        resolvedEffects.push(group[0]);
+        resolvedEffects.push(group[0!]);
       } else {
         // Find effect with highest absolute value
         const bestEffect = group.reduce((best, current) =>
@@ -1347,7 +1347,7 @@ export class EffectManager implements IEffectManager {
       return false;
     }
 
-    const removedEffect = activeEffects.splice(effectIndex, 1)[0];
+    const removedEffect = activeEffects.splice(effectIndex, 1)[0!];
     this.onEffectRemoved?.(entityId, removedEffect.effect, removedEffect);
     return true;
   }

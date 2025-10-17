@@ -370,10 +370,10 @@ describe('BattleAIPure Golden Tests', () => {
       const defensiveProfiles = aiManager.getProfilesByStyle(AIDecisionStyle.DEFENSIVE);
 
       expect(aggressiveProfiles).toHaveLength(1);
-      expect(aggressiveProfiles[0].style).toBe(AIDecisionStyle.AGGRESSIVE);
+      expect(aggressiveProfiles[0!].style).toBe(AIDecisionStyle.AGGRESSIVE);
 
       expect(defensiveProfiles).toHaveLength(1);
-      expect(defensiveProfiles[0].style).toBe(AIDecisionStyle.DEFENSIVE);
+      expect(defensiveProfiles[0!].style).toBe(AIDecisionStyle.DEFENSIVE);
     });
 
     test('should get profiles with type preferences', () => {
@@ -382,7 +382,7 @@ describe('BattleAIPure Golden Tests', () => {
 
       const profilesWithTypes = aiManager.getProfilesWithTypePreferences();
       expect(profilesWithTypes).toHaveLength(1);
-      expect(profilesWithTypes[0].profileID).toBe('with_types');
+      expect(profilesWithTypes[0!].profileID).toBe('with_types');
     });
   });
 
@@ -799,7 +799,7 @@ describe('BattleAIPure Golden Tests', () => {
 
       // Compare all profiles to reference
       for (let i = 0; i < 100; i++) {
-        const profile = profiles[i];
+        const profile = profiles[i!];
         BattleAIUtils.compareProfiles(referenceProfile, profile);
         BattleAIUtils.getBehaviorDescription(profile);
         profile.validate({});

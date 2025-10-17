@@ -241,7 +241,7 @@ export class StandardErrorHandler {
     };
 
     const mostCommonError = Array.from(this.errorCounts.entries())
-      .sort(([, a], [, b]) => b - a)[0]?.[0] || null;
+      .sort(([, a], [, b]) => b - a)[0!]?.[0!] || null;
 
     return {
       totalErrors,

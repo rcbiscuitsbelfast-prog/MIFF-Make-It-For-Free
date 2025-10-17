@@ -84,7 +84,7 @@ try {
         totalMessagesSent: 0,
         totalMessagesReceived: 0,
         uptime: 0,
-        lastPing: Date.now()
+        lastPing: new Date()
       };
       
       handleSuccess({

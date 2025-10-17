@@ -12,8 +12,8 @@ type Cmd =
   | { op: 'linkQuest'; npcId: string; questId: string };
 
 function main() {
-  const profilesPath = process.argv[2] || 'AIProfilesPure/sample_profiles.json';
-  const commandsPath = process.argv[3] || '';
+  const profilesPath = process.argv[2!] || 'AIProfilesPure/sample_profiles.json';
+  const commandsPath = process.argv[3!] || '';
   const obj = JSON.parse(fs.readFileSync(path.resolve(profilesPath), 'utf-8')) as { profiles: any[] };
 
   const log: string[] = [];
@@ -47,5 +47,5 @@ function main() {
   console.log(JSON.stringify({ log, outputs }, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();
 

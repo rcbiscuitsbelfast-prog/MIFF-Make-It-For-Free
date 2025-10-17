@@ -59,6 +59,6 @@ function main() {
   // TODO: spawn Godot headless export in follow-up PR
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

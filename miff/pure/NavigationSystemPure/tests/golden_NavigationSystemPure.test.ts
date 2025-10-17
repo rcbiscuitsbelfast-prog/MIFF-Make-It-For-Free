@@ -18,7 +18,7 @@ test('golden navigation system flow', () => {
   // Run CLI harness with navigation data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [grid]
+    [grid!]
   );
   
   const got = JSON.parse(out);
@@ -28,7 +28,7 @@ test('golden navigation system flow', () => {
   expect(got.outputs).toBeInstanceOf(Array);
   expect(got.outputs.length).toBeGreaterThan(0);
   
-  const result = got.outputs[0];
+  const result = got.outputs[0!];
   expect(result.op).toBe('nav.path');
   expect(result.status).toBe('ok');
   expect(result.path).toBeDefined();
@@ -38,7 +38,7 @@ test('golden navigation system flow', () => {
   const pathResult = result.path;
   
   // Path should start from start point (A* includes start in path)
-  expect(pathResult[0]).toEqual({ x: 0, y: 0 });
+  expect(pathResult[0!]).toEqual({ x: 0, y: 0 });
   
   // Path should end at goal point
   expect(pathResult[pathResult.length - 1]).toEqual({ x: 9, y: 9 });
@@ -53,7 +53,7 @@ test('golden navigation system flow', () => {
   // Path should be continuous (each step moves by 1 in x or y)
   for (let i = 1; i < pathResult.length; i++) {
     const prev = pathResult[i - 1];
-    const curr = pathResult[i];
+    const curr = pathResult[i!];
     const dx = Math.abs(curr.x - prev.x);
     const dy = Math.abs(curr.y - prev.y);
     expect(dx + dy).toBe(1); // Manhattan distance of 1

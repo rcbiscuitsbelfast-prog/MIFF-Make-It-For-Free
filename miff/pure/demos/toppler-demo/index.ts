@@ -288,7 +288,7 @@ class TopplerGame {
         invulnerable: false,
         invulnerableTime: 0
       },
-      level: LEVEL_TEMPLATES.easy[0],
+      level: LEVEL_TEMPLATES.easy[0!],
       camera: { x: 0, y: 0 },
       gameTime: 0,
       paused: false,

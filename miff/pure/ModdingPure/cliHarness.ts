@@ -21,7 +21,7 @@ async function main() {
     try { process.stdout.write(JSON.stringify(obj) + '\n'); } catch (_) { originalLog(obj); }
   };
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0!] || 'help';
   
   const config: ModdingConfig = {
     pluginDirectory: './plugins',
@@ -48,7 +48,7 @@ async function main() {
         break;
 
       case 'loadPlugin':
-        const pluginId = args[1];
+        const pluginId = args[1!];
         if (pluginId) {
           try {
             // Ensure discovery has run
@@ -71,7 +71,7 @@ async function main() {
         break;
 
       case 'unloadPlugin':
-        const unloadPluginId = args[1];
+        const unloadPluginId = args[1!];
         if (unloadPluginId) {
           const success = await system.discovery.unloadPlugin(unloadPluginId);
           result.result = { success, message: success ? 'Plugin unloaded' : 'Failed to unload plugin' };
@@ -87,7 +87,7 @@ async function main() {
         break;
 
       case 'getPlugin':
-        const getPluginId = args[1];
+        const getPluginId = args[1!];
         if (getPluginId) {
           const plugin = system.getPlugin(getPluginId);
           result.result = plugin || { error: 'Plugin not found' };
@@ -98,8 +98,8 @@ async function main() {
         break;
 
       case 'createBundle':
-        const bundleId = args[1];
-        const bundleName = args[2];
+        const bundleId = args[1!];
+        const bundleName = args[2!];
         const pluginIds = args[3] ? args[3].split(',') : [];
         if (bundleId && bundleName) {
           const bundle = await system.createPluginBundle(pluginIds, bundleId, bundleName);
@@ -111,9 +111,9 @@ async function main() {
         break;
 
       case 'exportBundle':
-        const exportBundleId = args[1];
-        const templateId = args[2];
-        const outputPath = args[3] || './exports';
+        const exportBundleId = args[1!];
+        const templateId = args[2!];
+        const outputPath = args[3!] || './exports';
         if (exportBundleId && templateId) {
           try {
             // Ensure bundle exists: if not, create from common plugins
@@ -224,7 +224,7 @@ async function runDemo(system: ModdingSystem): Promise<any> {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch((err) => {
     console.error(err instanceof Error ? err.message : String(err));
     process.exit(1);

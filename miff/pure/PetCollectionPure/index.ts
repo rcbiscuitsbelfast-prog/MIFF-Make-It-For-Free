@@ -125,7 +125,7 @@ export class PetCollectionPure {
       species: species,
       rarity: rarity,
       incubationTime: incubationTime,
-      hatchTime: Date.now() + incubationTime,
+      hatchTime: new Date() + incubationTime,
       isIncubating: true,
       progress: 0,
       ownerId: ownerId
@@ -191,8 +191,8 @@ export class PetCollectionPure {
       maxEvolutionStage: this.getMaxEvolutionStage(egg.rarity),
       isLocked: false,
       isFavorite: false,
-      hatchDate: Date.now(),
-      lastFed: Date.now(),
+      hatchDate: new Date(),
+      lastFed: new Date(),
       happiness: 50,
       loyalty: 50,
       ownerId: egg.ownerId
@@ -248,7 +248,7 @@ export class PetCollectionPure {
       requestedItems: requestedItems,
       status: 'pending',
       createdAt: new Date(),
-      expiresAt: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+      expiresAt: new Date() + (7 * 24 * 60 * 60 * 1000) // 7 days
     };
 
     this.trades.set(tradeOffer.id, tradeOffer);

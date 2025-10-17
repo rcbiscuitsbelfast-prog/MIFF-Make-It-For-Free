@@ -109,8 +109,8 @@ describe('Module Integration Tests', () => {
       // Verify team has spirits
       const activeTeam = teamManager.getActiveTeam(team.teamId);
       expect(activeTeam).toHaveLength(2);
-      expect(activeTeam[0].name).toBe('Fire Spirit');
-      expect(activeTeam[1].name).toBe('Water Spirit');
+      expect(activeTeam[0!].name).toBe('Fire Spirit');
+      expect(activeTeam[1!].name).toBe('Water Spirit');
     });
 
     test('should apply stat boosting effects to team members', () => {
@@ -257,7 +257,7 @@ describe('Module Integration Tests', () => {
       const activeEffects = effectManager.getActiveEffects('spirit_1');
       expect(activeEffects.length).toBe(1);
 
-      const stackedEffect = activeEffects[0];
+      const stackedEffect = activeEffects[0!];
       expect(stackedEffect.stacks).toBe(3);
       expect(stackedEffect.effect.value).toBe(5); // Individual effect value
     });
@@ -364,8 +364,8 @@ describe('Module Integration Tests', () => {
       expect(playerEffectsActive.length).toBe(2);
 
       // Verify effect details
-      expect(playerEffectsActive[0].effect.value).toBe(15);
-      expect(playerEffectsActive[1].effect.value).toBe(10);
+      expect(playerEffectsActive[0!].effect.value).toBe(15);
+      expect(playerEffectsActive[1!].effect.value).toBe(10);
     });
 
     test('should handle effect interactions between team members', () => {
@@ -450,7 +450,7 @@ describe('Module Integration Tests', () => {
       // Verify team still functions correctly
       const activeTeam = teamManager.getActiveTeam(team.teamId);
       expect(activeTeam).toHaveLength(1);
-      expect(activeTeam[0].instanceId).toBe(spirit.instanceId);
+      expect(activeTeam[0!].instanceId).toBe(spirit.instanceId);
 
       // Effects should still be active
       const activeEffects = effectManager.getActiveEffects(spirit.instanceId);

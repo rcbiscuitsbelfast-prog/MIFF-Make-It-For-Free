@@ -439,7 +439,7 @@ export class WorldManifestManager {
             schema: 'miff.world.export.v1',
             world,
             anchors: Object.fromEntries(this.assetRegistry.entries()),
-            exportedAt: Date.now().toISOString()
+            exportedAt: new Date().toISOString()
           }
         };
       

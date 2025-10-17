@@ -354,7 +354,7 @@ export class ChatSystemManager {
           totalMessages: 0,
           averageMessagesPerMinute: 0,
           averageResponseTime: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -817,8 +817,8 @@ export class ChatSystemManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -839,7 +839,7 @@ export class ChatSystemManager {
         totalMessages: system.messages.length,
         averageMessagesPerMinute: 0, // Calculate based on recent activity
         averageResponseTime: 0, // Calculate based on message timestamps
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -895,7 +895,7 @@ export class ChatSystemManager {
       totalChannels,
       totalUsers,
       totalMessages,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

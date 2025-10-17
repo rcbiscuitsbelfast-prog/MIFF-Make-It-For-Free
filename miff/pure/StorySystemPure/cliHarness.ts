@@ -29,7 +29,7 @@ function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: Cmd;
 
     // Handle direct command or JSON file input
@@ -40,87 +40,87 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'createArc':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('createArc requires arc data JSON file');
           }
-          const arcData = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
+          const arcData = JSON.parse(fs.readFileSync(argv[1!], 'utf-8'));
           operation = { op: 'createArc', arc: arcData };
           break;
         case 'startArc':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('startArc requires arcId');
           }
-          operation = { op: 'startArc', arcId: argv[1] };
+          operation = { op: 'startArc', arcId: argv[1!] };
           break;
         case 'advanceToNode':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('advanceToNode requires arcId and nodeId');
           }
           operation = { op: 'advanceToNode', arcId: argv[1], nodeId: argv[2] };
           break;
         case 'setFlag':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('setFlag requires flagId and value');
           }
           operation = { 
             op: 'setFlag', 
-            flagId: argv[1],
-            value: JSON.parse(argv[2]),
-            type: argv[3] || 'boolean',
-            description: argv[4] || ''
+            flagId: argv[1!],
+            value: JSON.parse(argv[2!]),
+            type: argv[3!] || 'boolean',
+            description: argv[4!] || ''
           };
           break;
         case 'getFlag':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getFlag requires flagId');
           }
-          operation = { op: 'getFlag', flagId: argv[1] };
+          operation = { op: 'getFlag', flagId: argv[1!] };
           break;
         case 'hasFlag':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('hasFlag requires flagId');
           }
-          operation = { op: 'hasFlag', flagId: argv[1] };
+          operation = { op: 'hasFlag', flagId: argv[1!] };
           break;
         case 'setStat':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('setStat requires statId and value');
           }
           operation = { 
             op: 'setStat', 
-            statId: argv[1],
-            value: parseFloat(argv[2])
+            statId: argv[1!],
+            value: parseFloat(argv[2!])
           };
           break;
         case 'getStat':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getStat requires statId');
           }
-          operation = { op: 'getStat', statId: argv[1] };
+          operation = { op: 'getStat', statId: argv[1!] };
           break;
         case 'getArc':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getArc requires arcId');
           }
-          operation = { op: 'getArc', arcId: argv[1] };
+          operation = { op: 'getArc', arcId: argv[1!] };
           break;
         case 'getAllArcs':
           operation = { op: 'getAllArcs' };
           break;
         case 'getArcProgress':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getArcProgress requires arcId');
           }
-          operation = { op: 'getArcProgress', arcId: argv[1] };
+          operation = { op: 'getArcProgress', arcId: argv[1!] };
           break;
         case 'getStatistics':
           operation = { op: 'getStatistics' };
           break;
         case 'simulateStory':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('simulateStory requires arcId');
           }
-          operation = { op: 'simulateStory', arcId: argv[1] };
+          operation = { op: 'simulateStory', arcId: argv[1!] };
           break;
         case 'dump':
           operation = { op: 'dump' };
@@ -303,7 +303,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -341,6 +341,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

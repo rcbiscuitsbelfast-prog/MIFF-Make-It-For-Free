@@ -197,7 +197,7 @@ export class ClueSystemPure {
       state: 'discovered',
       discoveryMethod: 'found',
       location: clue.location as any,
-      discoveredAt: Date.now(),
+      discoveredAt: new Date(),
       discoveredBy: (clue as any).discoveredBy || 'cli',
       tags: [],
       metadata: {},
@@ -534,7 +534,7 @@ export class ClueSystemPure {
       state: 'discovered',
       discoveryMethod: clueData.discoveryMethod,
       location: clueData.location,
-      discoveredAt: Date.now(),
+      discoveredAt: new Date(),
       discoveredBy: clueData.discoveredBy,
       tags: clueData.tags,
       metadata: clueData.metadata || {},
@@ -673,7 +673,7 @@ export class ClueSystemPure {
       deductions: deductions,
       questions: questions,
       hypotheses: [],
-      completedAt: Date.now(),
+      completedAt: new Date(),
       updatedAt: new Date()
     };
 
@@ -789,7 +789,7 @@ export class ClueSystemPure {
       suspects: Array.from(investigation.suspects.values()),
       timeline: investigation.timeline,
       stats: this.getInvestigationStats(investigationId),
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

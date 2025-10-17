@@ -38,8 +38,8 @@ type Cmd =
   | { op: 'remove'; id: string; effectId: string };
 
 function main() {
-  const statusPath = process.argv[2] || 'StatusEffectsPure/sample_status.json';
-  const commandsPath = process.argv[3] || '';
+  const statusPath = process.argv[2!] || 'StatusEffectsPure/sample_status.json';
+  const commandsPath = process.argv[3!] || '';
   
   const obj = JSON.parse(fs.readFileSync(path.resolve(statusPath), 'utf-8')) as { 
     entities: Array<{ id: string; hp: number; effects: Array<{ id: string; type: string; magnitude: number; duration: number }> }> 
@@ -62,8 +62,8 @@ function main() {
       maxStacks: 5,
       currentStacks: 1,
       source: 'system',
-      appliedAt: Date.now(),
-      expiresAt: Date.now() + (effect.duration * 1000)
+      appliedAt: new Date(),
+      expiresAt: new Date() + (effect.duration * 1000)
     }));
     
     mgr.createEntity(entity.id, entity.hp, fullEffects);
@@ -102,4 +102,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

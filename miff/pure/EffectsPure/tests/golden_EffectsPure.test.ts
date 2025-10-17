@@ -726,7 +726,7 @@ describe('EffectsPure Golden Tests', () => {
       resolution.addResolvedEffect(activeEffect);
 
       expect(resolution.resolvedEffects).toHaveLength(1);
-      expect(resolution.resolvedEffects[0]).toBe(activeEffect);
+      expect(resolution.resolvedEffects[0!]).toBe(activeEffect);
     });
 
     test('should add applied effects', () => {
@@ -737,8 +737,8 @@ describe('EffectsPure Golden Tests', () => {
       resolution.addAppliedEffect(activeEffect, EffectApplicationResult.APPLIED);
 
       expect(resolution.appliedEffects).toHaveLength(1);
-      expect(resolution.appliedEffects[0].effect).toBe(activeEffect);
-      expect(resolution.appliedEffects[0].result).toBe(EffectApplicationResult.APPLIED);
+      expect(resolution.appliedEffects[0!].effect).toBe(activeEffect);
+      expect(resolution.appliedEffects[0!].result).toBe(EffectApplicationResult.APPLIED);
     });
 
     test('should add expired effects', () => {
@@ -749,8 +749,8 @@ describe('EffectsPure Golden Tests', () => {
       resolution.addExpiredEffect(activeEffect, EffectRemovalReason.EXPIRED);
 
       expect(resolution.expiredEffects).toHaveLength(1);
-      expect(resolution.expiredEffects[0].effect).toBe(activeEffect);
-      expect(resolution.expiredEffects[0].reason).toBe(EffectRemovalReason.EXPIRED);
+      expect(resolution.expiredEffects[0!].effect).toBe(activeEffect);
+      expect(resolution.expiredEffects[0!].reason).toBe(EffectRemovalReason.EXPIRED);
     });
 
     test('should add stat changes', () => {
@@ -773,7 +773,7 @@ describe('EffectsPure Golden Tests', () => {
       resolution.addEvent(event);
 
       expect(resolution.events).toHaveLength(1);
-      expect(resolution.events[0]).toBe(event);
+      expect(resolution.events[0!]).toBe(event);
     });
 
     test('should get total stat changes', () => {
@@ -853,7 +853,7 @@ describe('EffectsPure Golden Tests', () => {
       const resolvedEffects = effectResolver.resolveQueue(EffectPhase.PRE_TURN, effects, ['fire_immune']);
 
       expect(resolvedEffects).toHaveLength(1);
-      expect(resolvedEffects[0]).toBe(poisonActive); // Fire effect should be filtered out due to immunity
+      expect(resolvedEffects[0!]).toBe(poisonActive); // Fire effect should be filtered out due to immunity
     });
 
     test('should handle cleanse effects', () => {
@@ -888,20 +888,20 @@ describe('EffectsPure Golden Tests', () => {
 
       // Should keep only the effect with highest absolute value
       expect(resolvedEffects).toHaveLength(1);
-      expect(resolvedEffects[0].effect.value).toBe(15);
+      expect(resolvedEffects[0!].effect.value).toBe(15);
     });
 
     test('should resolve effects with context', () => {
       const effect = BattleEffect.statModifier('boost', 'Boost', 'Attack boost', TargetStat.ATK, ModifierType.FLAT, 10);
       const activeEffect = new ActiveEffect(effect, 'player');
 
-      const resolution = effectResolver.resolveEffects(EffectPhase.PRE_TURN, 'player', [activeEffect], entityContext);
+      const resolution = effectResolver.resolveEffects(EffectPhase.PRE_TURN, 'player', [activeEffect!], entityContext);
 
       expect(resolution.resolvedEffects).toHaveLength(1);
       expect(resolution.statChanges.has(TargetStat.ATK)).toBe(true);
       expect(resolution.statChanges.get(TargetStat.ATK)).toBe(10);
       expect(resolution.events).toHaveLength(1);
-      expect(resolution.events[0].type).toBe('tick');
+      expect(resolution.events[0!].type).toBe('tick');
     });
   });
 
@@ -943,7 +943,7 @@ describe('EffectsPure Golden Tests', () => {
 
       const effects = effectManager.getActiveEffects('player');
       expect(effects).toHaveLength(1);
-      expect(effects[0].stacks).toBe(2);
+      expect(effects[0!].stacks).toBe(2);
     });
 
     test('should reject non-stackable effects', () => {
@@ -995,7 +995,7 @@ describe('EffectsPure Golden Tests', () => {
 
       expect(resolution.resolvedEffects).toHaveLength(1);
       expect(resolution.events).toHaveLength(1);
-      expect(resolution.events[0].type).toBe('tick');
+      expect(resolution.events[0!].type).toBe('tick');
       expect(resolution.statChanges.has(TargetStat.HP)).toBe(true);
       expect(resolution.statChanges.get(TargetStat.HP)).toBe(-10);
     });
@@ -1103,9 +1103,9 @@ describe('EffectsPure Golden Tests', () => {
 
       const sorted = EffectUtils.sortEffectsByPriority(effects);
 
-      expect(sorted[0].effect.name).toBe('High'); // Stun - highest priority
-      expect(sorted[1].effect.name).toBe('Medium'); // Heal - medium priority
-      expect(sorted[2].effect.name).toBe('Low'); // Stat modifier - lowest priority
+      expect(sorted[0!].effect.name).toBe('High'); // Stun - highest priority
+      expect(sorted[1!].effect.name).toBe('Medium'); // Heal - medium priority
+      expect(sorted[2!].effect.name).toBe('Low'); // Stat modifier - lowest priority
     });
 
     test('should filter effects by type', () => {
@@ -1153,8 +1153,8 @@ describe('EffectsPure Golden Tests', () => {
       const statEffects = EffectUtils.getStatModifyingEffects(effects);
 
       expect(statEffects).toHaveLength(2);
-      expect(statEffects[0].effect.effectType).toBe(EffectType.STAT_MODIFIER);
-      expect(statEffects[1].effect.effectType).toBe(EffectType.STAT_MODIFIER);
+      expect(statEffects[0!].effect.effectType).toBe(EffectType.STAT_MODIFIER);
+      expect(statEffects[1!].effect.effectType).toBe(EffectType.STAT_MODIFIER);
     });
   });
 
@@ -1260,7 +1260,7 @@ describe('EffectsPure Golden Tests', () => {
 
       const effects = effectManager.getActiveEffects('player');
       expect(effects).toHaveLength(1);
-      expect(effects[0].stacks).toBe(3);
+      expect(effects[0!].stacks).toBe(3);
 
       // Update effects
       const resolution = effectManager.updateEffects(1.0, entityContext);

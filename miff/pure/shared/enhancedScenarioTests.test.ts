@@ -89,12 +89,12 @@ describe('Enhanced Scenario Orchestration', () => {
     registerReplayHooks(mockSystem);
     
     // Simulate replay start to trigger unresolved hook detection
-    const replayStartHandler = mockSystem.on.mock.calls.find(call => call[0] === "replayStart")[1];
+    const replayStartHandler = mockSystem.on.mock.calls.find(call => call[0] === "replayStart")[1!];
     replayStartHandler();
 
     // Verify unresolved hooks warning was logged
     expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining('[ReplayHook] Unresolved hooks:'),
+      expect.stringContaining('[ReplayHook!] Unresolved hooks:'),
       expect.any(Array)
     );
 
@@ -255,14 +255,14 @@ describe('VisualReplaySystemPure Integration', () => {
     registerReplayHooks(mockSystem);
     
     // Simulate hook registration
-    const hookRegisteredHandler = mockSystem.on.mock.calls.find(call => call[0] === "hookRegistered")[1];
+    const hookRegisteredHandler = mockSystem.on.mock.calls.find(call => call[0] === "hookRegistered")[1!];
     mockSystem.hooks.forEach(hook => hookRegisteredHandler(hook));
 
     // Verify all hooks were logged
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: player_sprite');
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: block_sprite');
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: jump_sound');
-    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook] Registered: jump_particles');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: player_sprite');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: block_sprite');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: jump_sound');
+    expect(consoleSpy).toHaveBeenCalledWith('[ReplayHook!] Registered: jump_particles');
 
     consoleSpy.mockRestore();
   });

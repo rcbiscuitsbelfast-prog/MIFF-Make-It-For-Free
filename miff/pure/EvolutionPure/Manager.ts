@@ -327,7 +327,7 @@ export class EvolutionManager {
     const speciesEvolved = Array.from(this.speciesData.values()).map((e: any) => e.speciesId);
     const averageLevelRequired = Array.from(this.speciesData.values())
       .reduce((sum, e) => sum + e.conditions.reduce((cSum, c) => cSum + (c.intValue || 0), 0), 0) / totalEvolutions;
-    const mostEvolvedSpecies = speciesEvolved[0] || '';
+    const mostEvolvedSpecies = speciesEvolved[0!] || '';
     const evolutionStreak = 0; // This would be tracked in a real implementation
     const bestStreak = 0; // This would be tracked in a real implementation
 
@@ -557,7 +557,7 @@ export class EvolutionManager {
       speciesData: Array.from(this.speciesData.entries()),
       context: this.context,
       stats: this.getEvolutionStats(),
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

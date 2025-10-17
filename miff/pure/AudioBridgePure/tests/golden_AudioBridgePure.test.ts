@@ -18,7 +18,7 @@ test('golden audio bridge flow', () => {
   // Run CLI harness with audio commands
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [audio]
+    [audio!]
   );
   
   const got = JSON.parse(out);
@@ -28,7 +28,7 @@ test('golden audio bridge flow', () => {
   expect(got.outputs).toBeInstanceOf(Array);
   expect(got.outputs.length).toBeGreaterThan(0);
   
-  const result = got.outputs[0];
+  const result = got.outputs[0!];
   expect(result.op).toBe('audio');
   expect(result.status).toBe('ok');
   expect(result.applied).toBeDefined();
@@ -38,19 +38,19 @@ test('golden audio bridge flow', () => {
   const commands = result.applied;
   
   // First command: play music_001
-  expect(commands[0].op).toBe('play');
-  expect(commands[0].id).toBe('music_001');
+  expect(commands[0!].op).toBe('play');
+  expect(commands[0!].id).toBe('music_001');
   
   // Second command: set volume for music_001
-  expect(commands[1].op).toBe('setVolume');
-  expect(commands[1].id).toBe('music_001');
-  expect(commands[1].volume).toBe(0.8);
+  expect(commands[1!].op).toBe('setVolume');
+  expect(commands[1!].id).toBe('music_001');
+  expect(commands[1!].volume).toBe(0.8);
   
   // Third command: play sfx_jump
-  expect(commands[2].op).toBe('play');
-  expect(commands[2].id).toBe('sfx_jump');
+  expect(commands[2!].op).toBe('play');
+  expect(commands[2!].id).toBe('sfx_jump');
   
   // Fourth command: stop music_001
-  expect(commands[3].op).toBe('stop');
-  expect(commands[3].id).toBe('music_001');
+  expect(commands[3!].op).toBe('stop');
+  expect(commands[3!].id).toBe('music_001');
 });

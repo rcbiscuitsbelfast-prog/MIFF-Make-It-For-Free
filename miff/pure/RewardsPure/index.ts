@@ -590,7 +590,7 @@ export const RewardUtils = {
         reward.currency % recipientCount,
         reward.xpGain % recipientCount
       );
-      rewards[0].add(remainder);
+      rewards[0!].add(remainder);
     }
 
     return rewards;

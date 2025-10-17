@@ -177,7 +177,7 @@ describe('EncounterPure Golden Tests', () => {
       const removed = table.removeEntriesBySpirit('sprout');
       expect(removed).toBe(2);
       expect(table.entries).toHaveLength(1);
-      expect(table.entries[0].spiritId).toBe('ripple');
+      expect(table.entries[0!].spiritId).toBe('ripple');
     });
 
     test('should get entries for level', () => {
@@ -203,9 +203,9 @@ describe('EncounterPure Golden Tests', () => {
 
       const sorted = table.getEntriesByWeight();
       expect(sorted).toHaveLength(3);
-      expect(sorted[0].spiritId).toBe('ripple'); // Highest weight
-      expect(sorted[1].spiritId).toBe('stone');
-      expect(sorted[2].spiritId).toBe('sprout'); // Lowest weight
+      expect(sorted[0!].spiritId).toBe('ripple'); // Highest weight
+      expect(sorted[1!].spiritId).toBe('stone');
+      expect(sorted[2!].spiritId).toBe('sprout'); // Lowest weight
     });
 
     test('should validate table correctly', () => {
@@ -227,7 +227,7 @@ describe('EncounterPure Golden Tests', () => {
       const clone = original.clone();
       expect(clone.zoneId).toBe(original.zoneId);
       expect(clone.entries).toHaveLength(1);
-      expect(clone.entries[0]).not.toBe(original.entries[0]); // Deep clone
+      expect(clone.entries[0!]).not.toBe(original.entries[0!]); // Deep clone
     });
   });
 

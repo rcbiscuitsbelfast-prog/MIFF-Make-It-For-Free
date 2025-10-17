@@ -404,7 +404,7 @@ export class CombatSystemManager {
           totalAbilities: 0,
           totalEffects: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -845,8 +845,8 @@ export class CombatSystemManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -870,7 +870,7 @@ export class CombatSystemManager {
         totalAbilities: system.combats.reduce((sum: any, c: any) => sum + c.participants.reduce((sum: any, p: any) => sum + p.abilities.length, 0), 0),
         totalEffects: system.combats.reduce((sum: any, c: any) => sum + c.effects.length, 0),
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -928,7 +928,7 @@ export class CombatSystemManager {
       activeCombats,
       totalParticipants,
       totalAbilities,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

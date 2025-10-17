@@ -268,7 +268,7 @@ export class RitualManager {
       ritualId: ritual.id,
       leaderId: ritual.leaderId,
       participants: ritual.participants.map((p: any) => p.id),
-      duration: Date.now() - ritual.startTime,
+      duration: new Date() - ritual.startTime,
       energySpent: ritual.energySpent,
       quality: ritual.quality,
       rewards: [],
@@ -423,7 +423,7 @@ export class RitualManager {
   private getExpectedReward(ritual: RitualDefinition): string {
     if (ritual.rewards.length === 0) return 'Experience and knowledge';
 
-    const mainReward = ritual.rewards[0];
+    const mainReward = ritual.rewards[0!];
     return `${mainReward.type}: ${mainReward.description}`;
   }
 

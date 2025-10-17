@@ -367,7 +367,7 @@ export class AudioMixerPure {
     // Apply effects
     const effectsChain = this.createEffectsChain(source.effects);
     if (effectsChain.length > 0) {
-      gainNode.connect(effectsChain[0]);
+      gainNode.connect(effectsChain[0!]);
       for (let i = 0; i < effectsChain.length - 1; i++) {
         effectsChain[i!].connect(effectsChain[i + 1]);
       }
@@ -423,7 +423,7 @@ export class AudioMixerPure {
   }
 
   public stopAllAudio(fadeOut: number = 0): void {
-    for (const [instanceId] of this.activeSources) {
+    for (const [instanceId!] of this.activeSources) {
       this.stopAudio(instanceId, fadeOut);
     }
   }

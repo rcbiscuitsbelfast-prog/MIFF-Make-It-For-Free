@@ -426,7 +426,7 @@ export class CharacterSystemManager {
           totalAnimations: 0,
           totalMovements: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -854,8 +854,8 @@ export class CharacterSystemManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -876,7 +876,7 @@ export class CharacterSystemManager {
         totalAnimations: system.characters.reduce((sum, ch) => sum + ch.animations.length, 0),
         totalMovements: system.analytics.totalMovements,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -932,7 +932,7 @@ export class CharacterSystemManager {
       totalCharacters,
       totalAnimations,
       totalMovements,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

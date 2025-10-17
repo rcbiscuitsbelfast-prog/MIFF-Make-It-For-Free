@@ -751,7 +751,7 @@ export class Web3Pure {
       abi: contract.abi || [],
       blockchain: contract.blockchain || 'ethereum',
       bytecode: contract.bytecode,
-      deployedAt: Date.now(),
+      deployedAt: new Date(),
       gasUsed: 0,
       metadata: {},
       ...contract

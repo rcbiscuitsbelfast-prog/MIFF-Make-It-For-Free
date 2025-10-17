@@ -320,7 +320,7 @@ export class APIGatewayManager {
           failedRequests: 0,
           averageResponseTime: 0,
           peakConcurrency: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -589,8 +589,8 @@ export class APIGatewayManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -611,7 +611,7 @@ export class APIGatewayManager {
         failedRequests: gateway.analytics.failedRequests,
         averageResponseTime: gateway.analytics.averageResponseTime,
         peakConcurrency: gateway.analytics.peakConcurrency,
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -667,7 +667,7 @@ export class APIGatewayManager {
       totalRequests,
       successRate: totalRequests > 0 ? totalSuccessful / totalRequests : 0,
       averageResponseTime: gateways.length > 0 ? totalResponseTime / gateways.length : 0,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

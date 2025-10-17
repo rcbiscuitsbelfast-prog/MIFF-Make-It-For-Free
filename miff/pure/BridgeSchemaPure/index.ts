@@ -77,7 +77,7 @@ export class BridgeSchema {
           version: config.version,
           type: 'bridge_schema',
           data: data,
-          generated: Date.now()
+          generated: new Date()
         }
       }
     };

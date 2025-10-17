@@ -70,10 +70,10 @@ class AvatarRendererGodotCLI {
         await this.runTests();
         break;
       case 'convert-to-scene':
-        await this.convertToScene(args[0]);
+        await this.convertToScene(args[0!]);
         break;
       case 'convert-manifest':
-        await this.convertManifest(args[0]);
+        await this.convertManifest(args[0!]);
         break;
       case 'create-sample-avatar':
         await this.createSampleAvatar();
@@ -524,6 +524,6 @@ async function main() {
   await cli.start();
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

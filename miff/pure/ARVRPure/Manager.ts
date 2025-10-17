@@ -326,7 +326,7 @@ export class ARVRManager {
           averageTrackingAccuracy: 0,
           hapticEvents: 0,
           trackingErrors: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -503,11 +503,11 @@ export class ARVRManager {
 
       device.haptics = {
         enabled: true,
-        intensity: pattern.sequence[0]?.intensity || 0.5,
-        frequency: pattern.sequence[0]?.frequency || 100,
+        intensity: pattern.sequence[0!]?.intensity || 0.5,
+        frequency: pattern.sequence[0!]?.frequency || 100,
         duration: pattern.duration,
         pattern,
-        lastTriggered: Date.now()
+        lastTriggered: new Date()
       };
 
       device.analytics.hapticEvents++;
@@ -603,8 +603,8 @@ export class ARVRManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -623,7 +623,7 @@ export class ARVRManager {
         averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
         hapticEvents: device.analytics.hapticEvents,
         trackingErrors: device.analytics.trackingErrors,
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -677,7 +677,7 @@ export class ARVRManager {
       devicesByStatus,
       averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
       totalHapticEvents,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

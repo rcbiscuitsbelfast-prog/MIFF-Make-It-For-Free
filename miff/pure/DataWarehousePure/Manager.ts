@@ -1088,7 +1088,7 @@ export class DataWarehousePure {
       statistics: table.statistics || {
         rowCount: 0,
         size: 0,
-        lastUpdated: Date.now(),
+        lastUpdated: new Date(),
         cardinality: 0,
         selectivity: 0,
         distribution: {

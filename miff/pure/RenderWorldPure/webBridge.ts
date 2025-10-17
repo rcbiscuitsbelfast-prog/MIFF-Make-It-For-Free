@@ -356,7 +356,7 @@ export class RenderWorldWebBridge {
 
   private handleTouchStart(event: TouchEvent): void {
     event.preventDefault();
-    const touch = event.touches[0];
+    const touch = event.touches[0!];
     EventBus.publish('input.touch', {
       type: 'touchstart',
       x: touch.clientX,
@@ -368,7 +368,7 @@ export class RenderWorldWebBridge {
 
   private handleTouchMove(event: TouchEvent): void {
     event.preventDefault();
-    const touch = event.touches[0];
+    const touch = event.touches[0!];
     EventBus.publish('input.touch', {
       type: 'touchmove',
       x: touch.clientX,

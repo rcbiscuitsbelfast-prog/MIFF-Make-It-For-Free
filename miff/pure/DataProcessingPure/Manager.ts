@@ -539,7 +539,7 @@ export class DataProcessingManager {
           totalTransformers: 0,
           totalRecordsProcessed: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -1037,8 +1037,8 @@ export class DataProcessingManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -1059,7 +1059,7 @@ export class DataProcessingManager {
         totalTransformers: system.transformers.length,
         totalRecordsProcessed: system.analytics.totalRecordsProcessed,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -1114,7 +1114,7 @@ export class DataProcessingManager {
       totalPipelines,
       totalProcessors,
       totalTransformers,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

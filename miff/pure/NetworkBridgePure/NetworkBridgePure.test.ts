@@ -151,7 +151,7 @@ describe('NetworkBridgePure', () => {
       
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(1);
-      expect(peers[0].isHost).toBe(true);
+      expect(peers[0!].isHost).toBe(true);
     });
 
     it('should join game successfully', async () => {
@@ -162,7 +162,7 @@ describe('NetworkBridgePure', () => {
       
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(1);
-      expect(peers[0].isHost).toBe(false);
+      expect(peers[0!].isHost).toBe(false);
     });
 
     it('should submit local input and broadcast to peers', async () => {

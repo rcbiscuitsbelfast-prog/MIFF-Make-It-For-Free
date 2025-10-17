@@ -305,7 +305,7 @@ class EffectsPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -316,15 +316,15 @@ class EffectsPureCLI {
           break;
         case 'list':
         case 'l':
-          this.listEffects(args[0]);
+          this.listEffects(args[0!]);
           break;
         case 'apply':
         case 'a':
-          this.applyEffect(args[0]);
+          this.applyEffect(args[0!]);
           break;
         case 'remove':
         case 'r':
-          this.removeEffect(args[0]);
+          this.removeEffect(args[0!]);
           break;
         case 'create':
         case 'c':
@@ -332,22 +332,22 @@ class EffectsPureCLI {
           break;
         case 'stats':
         case 's':
-          this.showStats(args[0]);
+          this.showStats(args[0!]);
           break;
         case 'update':
         case 'u':
-          this.updateEffects(args[0]);
+          this.updateEffects(args[0!]);
           break;
         case 'switch':
-          this.switchEntity(args[0]);
+          this.switchEntity(args[0!]);
           break;
         case 'phase':
         case 'p':
-          this.setPhase(args[0]);
+          this.setPhase(args[0!]);
           break;
         case 'immunity':
         case 'i':
-          this.toggleImmunity(args[0]);
+          this.toggleImmunity(args[0!]);
           break;
         case 'demo':
         case 'd':
@@ -469,7 +469,7 @@ class EffectsPureCLI {
     }
 
     const [type, name, description] = args;
-    const value = parseFloat(args[3]) || 0;
+    const value = parseFloat(args[3!]) || 0;
 
     let effect: IBattleEffect;
 

@@ -413,7 +413,7 @@ async function main() {
     process.exit(1);
   }
 
-  const operation = process.argv[2];
+  const operation = process.argv[2!];
   const args = process.argv.slice(3);
 
   let op: SessionOperation;
@@ -424,21 +424,21 @@ async function main() {
         if (args.length < 2) throw new Error('create requires sessionId and zone');
         op = { 
           op: 'create', 
-          sessionId: args[0], 
-          zone: args[1],
-          seed: args[2] ? parseInt(args[2]) : undefined
+          sessionId: args[0!], 
+          zone: args[1!],
+          seed: args[2!] ? parseInt(args[2!]) : undefined
         };
         break;
         
       case 'get':
         if (args.length < 1) throw new Error('get requires sessionId');
-        op = { op: 'get', sessionId: args[0] };
+        op = { op: 'get', sessionId: args[0!] };
         break;
         
       case 'list':
         const filter: any = {};
-        if (args[0]) filter.zone = args[0];
-        if (args[1]) filter.status = args[1];
+        if (args[0!]) filter.zone = args[0!];
+        if (args[1!]) filter.status = args[1!];
         op = { op: 'list', filter: Object.keys(filter).length > 0 ? filter : undefined };
         break;
         
@@ -446,12 +446,12 @@ async function main() {
         if (args.length < 4) throw new Error('addPlayer requires sessionId, playerId, avatar, style');
         op = { 
           op: 'addPlayer', 
-          sessionId: args[0],
+          sessionId: args[0!],
           player: {
-            playerId: args[1],
-            avatar: args[2],
-            style: args[3] as any,
-            team: args[4]
+            playerId: args[1!],
+            avatar: args[2!],
+            style: args[3!] as any,
+            team: args[4!]
           }
         };
         break;
@@ -465,15 +465,15 @@ async function main() {
         if (args.length < 3) throw new Error('updateStatus requires sessionId, playerId, and status');
         op = { 
           op: 'updateStatus', 
-          sessionId: args[0], 
-          playerId: args[1], 
-          status: args[2] as any 
+          sessionId: args[0!], 
+          playerId: args[1!], 
+          status: args[2!] as any 
         };
         break;
         
       case 'delete':
         if (args.length < 1) throw new Error('delete requires sessionId');
-        op = { op: 'delete', sessionId: args[0] };
+        op = { op: 'delete', sessionId: args[0!] };
         break;
         
       case 'cleanup':
@@ -488,8 +488,8 @@ async function main() {
         if (args.length < 1) throw new Error('simulate requires sessionId');
         op = { 
           op: 'simulate', 
-          sessionId: args[0], 
-          duration: args[1] ? parseInt(args[1]) : 30 
+          sessionId: args[0!], 
+          duration: args[1!] ? parseInt(args[1!]) : 30 
         };
         break;
         
@@ -497,14 +497,14 @@ async function main() {
         if (args.length < 1) throw new Error('export requires sessionId');
         op = { 
           op: 'export', 
-          sessionId: args[0], 
-          format: args[1] as any || 'json' 
+          sessionId: args[0!], 
+          format: args[1!] as any || 'json' 
         };
         break;
         
       case 'validate':
         if (args.length < 1) throw new Error('validate requires JSON file path');
-        const data = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const data = JSON.parse(fs.readFileSync(args[0!], 'utf-8'));
         op = { op: 'validate', data };
         break;
         
@@ -521,6 +521,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

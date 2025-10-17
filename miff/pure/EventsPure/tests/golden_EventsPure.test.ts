@@ -441,7 +441,7 @@ describe('EventsPure Golden Tests', () => {
       // Create many subscribers for same topic
       for (let i = 0; i < 100; i++) {
         eventBus.subscribe('mass_topic', () => {
-          receivedCounts[i]++;
+          receivedCounts[i!]++;
         });
       }
 

@@ -241,7 +241,7 @@ export class ExportPipelinePure {
 
       // Finalize export
       exportResult.success = exportStep.status === ExportStatus.COMPLETED;
-      exportResult.analytics = analyticsStep.status === ExportStatus.COMPLETED ? analyticsStep.issues[0] as any : undefined;
+      exportResult.analytics = analyticsStep.status === ExportStatus.COMPLETED ? analyticsStep.issues[0!] as any : undefined;
 
       return this.finalizeExport(exportId, startTime, exportResult);
 
@@ -291,7 +291,7 @@ export class ExportPipelinePure {
       step.duration = step.endTime - step.startTime;
       step.issues.push(error instanceof Error ? error.message : 'Unknown error');
 
-      this.log('error', `Step failed: ${step.name} - ${step.issues[0]}`);
+      this.log('error', `Step failed: ${step.name} - ${step.issues[0!]}`);
     }
 
     return step;

@@ -22,7 +22,7 @@ class InterfaceCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0];
+    const command = args[0!];
 
     try {
       switch (command) {
@@ -51,8 +51,8 @@ class InterfaceCLI {
   }
 
   private async standardizeInterfaces(args: string[]): Promise<void> {
-    const rootPath = args[0] || 'miff/pure';
-    const outputFile = args[1] || 'interface-standardization.json';
+    const rootPath = args[0!] || 'miff/pure';
+    const outputFile = args[1!] || 'interface-standardization.json';
 
     console.info(`🔧 Standardizing interfaces in ${rootPath}...`);
     
@@ -91,7 +91,7 @@ class InterfaceCLI {
   }
 
   private async checkCompliance(args: string[]): Promise<void> {
-    const moduleName = args[0];
+    const moduleName = args[0!];
     
     if (!moduleName) {
       console.error('❌ Module name required');
@@ -169,7 +169,7 @@ class InterfaceCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'interface-compliance-report.html';
+    const outputFile = args[0!] || 'interface-compliance-report.html';
 
     console.info('📊 Generating interface compliance report...');
     
@@ -184,7 +184,7 @@ class InterfaceCLI {
   }
 
   private async fixInterfaces(args: string[]): Promise<void> {
-    const moduleName = args[0];
+    const moduleName = args[0!];
     
     if (!moduleName) {
       console.error('❌ Module name required');
@@ -397,7 +397,7 @@ Compliance Levels:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new InterfaceCLI();
   cli.run().catch(console.error);
 }

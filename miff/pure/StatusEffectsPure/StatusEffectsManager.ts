@@ -147,7 +147,7 @@ export class StatusEffectsManager {
       effects: [...effects],
       immunities: [],
       resistances: {},
-      lastUpdate: Date.now()
+      lastUpdate: new Date()
     };
 
     this.entities.set(id, entity);
@@ -191,8 +191,8 @@ export class StatusEffectsManager {
       ...effect,
       magnitude: finalMagnitude,
       duration: finalDuration,
-      appliedAt: Date.now(),
-      expiresAt: Date.now() + (finalDuration * 1000),
+      appliedAt: new Date(),
+      expiresAt: new Date() + (finalDuration * 1000),
       currentStacks: 1
     };
 
@@ -264,7 +264,7 @@ export class StatusEffectsManager {
       };
     }
 
-    const removedEffect = entity.effects.splice(effectIndex, 1)[0];
+    const removedEffect = entity.effects.splice(effectIndex, 1)[0!];
     entity.lastUpdate = Date.now();
 
     this.recordEvent('effect_expired', entityId, effectId, { category: removedEffect.category });
@@ -502,7 +502,7 @@ export class StatusEffectsManager {
     // Find most common effect
     const sortedEffects = Object.entries(stats.effectDistribution)
       .sort(([,a], [,b]) => b - a);
-    stats.mostCommonEffect = sortedEffects[0]?.[0] || '';
+    stats.mostCommonEffect = sortedEffects[0!]?.[0!] || '';
 
     return {
       op: 'stats',

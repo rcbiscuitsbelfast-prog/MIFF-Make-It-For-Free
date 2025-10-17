@@ -20,7 +20,7 @@ describe('RemixAuditPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [auditFixture]
+      [auditFixture!]
     );
     
     const result = JSON.parse(out);
@@ -83,14 +83,14 @@ describe('RemixAuditPure golden tests', () => {
     try {
       const out = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),
-        [tempFixturePath]
+        [tempFixturePath!]
       );
       
       const result = JSON.parse(out);
       
       // Verify single module audit
       expect(result.modules).toHaveLength(1);
-      expect(result.modules[0]).toBe('QuestSystemPure');
+      expect(result.modules[0!]).toBe('QuestSystemPure');
       
       // Verify all rules were checked
       expect(result.summary.total).toBeGreaterThan(0);
@@ -110,7 +110,7 @@ describe('RemixAuditPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [auditFixture]
+      [auditFixture!]
     );
     
     const result = JSON.parse(out);
@@ -154,7 +154,7 @@ describe('RemixAuditPure golden tests', () => {
     
     const out = (global as any).testUtils.runCLI(
       path.resolve(root, 'cliHarness.ts'),
-      [auditFixture]
+      [auditFixture!]
     );
     
     const result = JSON.parse(out);

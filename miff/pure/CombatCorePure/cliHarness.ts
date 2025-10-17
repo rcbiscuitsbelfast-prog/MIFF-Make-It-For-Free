@@ -10,8 +10,8 @@ type Cmd =
   | { op: 'dump'; id: string };
 
 function main(){
-  const sample = process.argv[2] || 'CombatCorePure/sample_combat.json';
-  const commands = process.argv[3] || '';
+  const sample = process.argv[2!] || 'CombatCorePure/sample_combat.json';
+  const commands = process.argv[3!] || '';
   const mgr = new CombatManager();
   if (fs.existsSync(sample)){
     const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8')) as {entities:{id:string;hp:number;atk:number;def:number}[]};
@@ -27,4 +27,4 @@ function main(){
   }
   console.log(JSON.stringify({outputs}, null, 2));
 }
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

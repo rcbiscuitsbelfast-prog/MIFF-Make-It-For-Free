@@ -550,7 +550,7 @@ export class CombatEngine {
       const t = teams.get(c.team)||{alive:0,fled:0}; if(!c.status?.ko) t.alive++; if(c.status?.fled) t.fled++; teams.set(c.team,t);
     }
     const aliveTeams = Array.from(teams.entries()).filter(([_,v])=>v.alive>0);
-    if(aliveTeams.length<=1){ this.state.over=true; this.state.winnerTeam = aliveTeams[0]?.[0]||undefined; }
+    if(aliveTeams.length<=1){ this.state.over=true; this.state.winnerTeam = aliveTeams[0!]?.[0!]||undefined; }
   }
   
   stepBattle(): any {
@@ -934,7 +934,7 @@ export class BattleEngine {
 
     if (aliveTeams.length <= 1) {
       this.state.over = true;
-      this.state.winnerTeam = aliveTeams[0]?.[0] || undefined;
+      this.state.winnerTeam = aliveTeams[0!]?.[0!] || undefined;
     }
   }
 

@@ -425,7 +425,7 @@ export class DataStorageManager {
           totalTables: 0,
           totalQueries: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -872,8 +872,8 @@ export class DataStorageManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -894,7 +894,7 @@ export class DataStorageManager {
         totalTables: storage.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0),
         totalQueries: storage.analytics.totalQueries,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -950,7 +950,7 @@ export class DataStorageManager {
       totalDatabases,
       totalConnections,
       totalTables,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

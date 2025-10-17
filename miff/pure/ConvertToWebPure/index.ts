@@ -538,8 +538,8 @@ export class WebConverter {
     return {
       author: 'MIFF Converter',
       version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now(),
+      created: new Date(),
+      modified: new Date(),
       engine: 'MIFF',
       platform: 'Web',
       target: WebPlatform.WEBGL,
@@ -657,7 +657,7 @@ export class WebConverter {
         statistics: this.statistics,
         metadata: {
           error: error,
-          conversionTime: Date.now() - startTime
+          conversionTime: new Date() - startTime
         }
       };
     }
@@ -1241,7 +1241,7 @@ canvas {
   }
 
   private generateCSS(): string {
-    return this.project.styles[0]?.source || '';
+    return this.project.styles[0!]?.source || '';
   }
 
   private async generateJavaScript(script: WebScript): Promise<string> {

@@ -253,7 +253,7 @@ export class AdvancedCombat {
 
     // Check for phase transitions
     for (const transition of phase.transitions) {
-      if (transition.condition({ combatants, phase: this.activePhase, time: Date.now() - this.phaseStartTime })) {
+      if (transition.condition({ combatants, phase: this.activePhase, time: new Date() - this.phaseStartTime })) {
         if (transition.trigger === 'automatic') {
           this.startBattlePhase(transition.nextPhase);
           return transition.nextPhase;

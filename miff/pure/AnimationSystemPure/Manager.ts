@@ -260,7 +260,7 @@ export class AnimationSystemManager {
           averageDuration: 0,
           keyframeCount: 0,
           transitionCount: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -615,8 +615,8 @@ export class AnimationSystemManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -636,7 +636,7 @@ export class AnimationSystemManager {
         averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
         keyframeCount: totalKeyframes,
         transitionCount: totalTransitions,
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -691,7 +691,7 @@ export class AnimationSystemManager {
       animationsByStatus,
       averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
       totalKeyframes,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

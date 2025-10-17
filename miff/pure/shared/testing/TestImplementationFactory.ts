@@ -302,7 +302,7 @@ export class TestImplementationFactory {
         activeBattles.set(battleId, {
           id: battleId,
           participants,
-          startTime: Date.now(),
+          startTime: new Date(),
           status: 'active'
         });
         return battleId;
@@ -331,7 +331,7 @@ export class TestImplementationFactory {
           entity.metadata[`effect_${effect}`] = {
             effect,
             duration,
-            appliedAt: Date.now()
+            appliedAt: new Date()
           };
         }
       }

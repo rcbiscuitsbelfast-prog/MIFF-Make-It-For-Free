@@ -334,7 +334,7 @@ export class UnityEditorCLI {
           prefabPath: prefabFile,
           inventoryData: {
             maxSlots: 20,
-            items: inventorySystem.components[0].properties.items
+            items: inventorySystem.components[0!].properties.items
           }
         },
         priority: 1,
@@ -522,8 +522,8 @@ public class MIFFBattleAI : MonoBehaviour
           action: 'create_ai_system',
           scriptPath: scriptFile,
           aiData: {
-            policies: aiSystem.components[0].properties.policies,
-            behaviorTree: aiSystem.components[0].properties.behaviorTree
+            policies: aiSystem.components[0!].properties.policies,
+            behaviorTree: aiSystem.components[0!].properties.behaviorTree
           }
         },
         priority: 1,
@@ -817,9 +817,9 @@ public class MIFFBridge : EditorWindow
 // CLI Interface
 async function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0!] || 'help';
 
-  const projectPath = args[1] || './unity-project';
+  const projectPath = args[1!] || './unity-project';
   const cli = new UnityEditorCLI(projectPath);
 
   switch (command) {

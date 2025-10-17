@@ -479,7 +479,7 @@ export class SpiritTamerDemo {
       EventBus.publish('spirit.tamed', { spirit, player });
     } else {
       // Failed taming - start combat
-      this.startCombat(player.spirits[0], spirit);
+      this.startCombat(player.spirits[0!], spirit);
     }
   }
 
@@ -582,7 +582,7 @@ export class SpiritTamerDemo {
         experience: player.experience
       },
       spirits: player.spirits.slice(0, 6), // Show first 6 spirits
-      activeSpirit: player.spirits[0]
+      activeSpirit: player.spirits[0!]
     };
 
     // Use HUDPure to render the HUD

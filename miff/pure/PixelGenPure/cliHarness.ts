@@ -28,7 +28,7 @@ function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: PixelGenOperation;
 
     // Handle direct command or JSON file input
@@ -39,29 +39,29 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'generate':
-          if (!argv[1]) throw new Error('generate requires preset name');
+          if (!argv[1!]) throw new Error('generate requires preset name');
           operation = { 
             op: 'generate', 
-            preset: argv[1],
-            seed: parseInt(argv[2]) || 12345,
-            count: parseInt(argv[3]) || 1
+            preset: argv[1!],
+            seed: parseInt(argv[2!]) || 12345,
+            count: parseInt(argv[3!]) || 1
           };
           break;
         case 'list-presets':
           operation = { op: 'list-presets' };
           break;
         case 'create-preset':
-          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
+          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!]) {
             throw new Error('create-preset requires name, style, width, height');
           }
           const colors = argv[5] ? JSON.parse(argv[5]) : ['#000000', '#FFFFFF'];
           const patterns = argv[6] ? JSON.parse(argv[6]) : ['default'];
           operation = { 
             op: 'create-preset', 
-            name: argv[1],
-            style: argv[2],
-            width: parseInt(argv[3]),
-            height: parseInt(argv[4]),
+            name: argv[1!],
+            style: argv[2!],
+            width: parseInt(argv[3!]),
+            height: parseInt(argv[4!]),
             colors,
             patterns
           };
@@ -104,7 +104,7 @@ function main() {
             styles: [...new Set(assets.map((a: any) => a.style))],
             patterns: [...new Set(assets.map((a: any) => a.metadata?.preset))],
             averageSize: assets.length > 0 ? 
-              `${assets[0].metadata?.width}x${assets[0].metadata?.height}` : 'unknown'
+              `${assets[0!].metadata?.width}x${assets[0!].metadata?.height}` : 'unknown'
           }
         };
         break;
@@ -215,7 +215,7 @@ function main() {
               totalAssetsGenerated: demoResults.reduce((sum, r) => sum + r.generatedAssets.length, 0) + customAssets.length,
               styles: [...new Set([...demoResults.map((r: any) => r.presetInfo.style), customPreset.style])],
               averageDimensions: demoResults.length > 0 ? 
-                demoResults[0].presetInfo.dimensions : 'unknown'
+                demoResults[0!].presetInfo.dimensions : 'unknown'
             }
           }
         };
@@ -251,7 +251,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -289,6 +289,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

@@ -13,8 +13,8 @@ type Cmd =
   | { op: 'export'; id: string; format?: 'json'|'markdown'|'html' };
 
 function main(){
-  const sample = process.argv[2] || 'StatsSystemPure/sample_stats.json';
-  const commands = process.argv[3] || '';
+  const sample = process.argv[2!] || 'StatsSystemPure/sample_stats.json';
+  const commands = process.argv[3!] || '';
   const mgr = new StatsManager();
   // Do not preload sample; tests drive creation deterministically
   // if (fs.existsSync(sample)) { /* intentionally unused */ }
@@ -32,4 +32,4 @@ function main(){
   }
   console.log(JSON.stringify({log: [], outputs: out},null,2));
 }
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

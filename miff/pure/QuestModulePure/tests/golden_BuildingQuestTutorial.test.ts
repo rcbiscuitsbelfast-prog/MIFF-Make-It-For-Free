@@ -11,7 +11,7 @@ describe('Building Quest Tutorial - golden', () => {
     lines.push(`title: ${fixture.title}`);
     lines.push(`start: ${fixture.start}`);
     Object.values(fixture.steps).forEach((s: any) => {
-      const trigger = s.triggers[0];
+      const trigger = s.triggers[0!];
       let trgStr = '';
       if (trigger.type === 'talk') trgStr = `talk ${trigger.target}`;
       if (trigger.type === 'collect') trgStr = `collect ${trigger.target} ${trigger.amount}`;

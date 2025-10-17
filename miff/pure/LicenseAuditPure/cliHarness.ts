@@ -11,8 +11,8 @@ type Cmd =
   | { op: 'removeAudit'; moduleId: string };
 
 function main() {
-  const configPath = process.argv[2] || '';
-  const cmdsPath = process.argv[3] || '';
+  const configPath = process.argv[2!] || '';
+  const cmdsPath = process.argv[3!] || '';
   
   const mgr = new LicenseAuditManager();
   
@@ -102,4 +102,4 @@ function main() {
   console.log(JSON.stringify({ outputs }, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

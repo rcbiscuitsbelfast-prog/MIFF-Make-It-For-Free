@@ -172,7 +172,7 @@ export class AssetPipelineValidator {
         asset: assetPath,
         bridge,
         valid: result.valid,
-        errorCount: result.errors?.length,
+        errorCount: result.errors ?? []?.length,
         warningCount: result.warnings.length
       });
       
@@ -235,19 +235,19 @@ export class AssetPipelineValidator {
           report.bridgeBreakdown[bridge!].invalid++;
         }
         
-        report.errors += result.errors?.length;
+        report.errors += result.errors ?? []?.length;
         report.warnings += result.warnings.length;
         report.suggestions += result.suggestions.length;
-        report.bridgeBreakdown[bridge!].errors += result.errors?.length;
+        report.bridgeBreakdown[bridge!].errors += result.errors ?? []?.length;
         report.bridgeBreakdown[bridge!].warnings += result.warnings.length;
         
         // Add critical issues
-        if (result.errors?.length > 0) {
+        if (result.errors ?? []?.length > 0) {
           report.criticalIssues.push({
             asset: asset.path,
-            issue: result.errors[0],
+            issue: result.errors ?? [][0!],
             severity: 'error',
-            suggestion: result.suggestions[0] || 'Fix validation errors'
+            suggestion: result.suggestions[0!] || 'Fix validation errors'
           });
         }
       }
@@ -349,7 +349,7 @@ export class AssetPipelineValidator {
           result.valid = false;
         }
         
-        result.errors?.push(...(ruleResult.errors ?? []));
+        result.errors ?? []?.push(...(ruleResult.errors ?? []));
         result.warnings?.push(...ruleResult.warnings);
         result.suggestions.push(...ruleResult.suggestions);
         
@@ -415,7 +415,7 @@ export class AssetPipelineValidator {
 
         if (asset.size > this.config.maxFileSize) {
           result.valid = false;
-          result.errors?.push(`File size ${asset.size} bytes exceeds maximum ${this.config.maxFileSize} bytes`);
+          result.errors ?? []?.push(`File size ${asset.size} bytes exceeds maximum ${this.config.maxFileSize} bytes`);
           result.suggestions.push('Compress or optimize the asset');
         }
 
@@ -441,7 +441,7 @@ export class AssetPipelineValidator {
 
         if (!this.config.allowedExtensions.includes(asset.extension)) {
           result.valid = false;
-          result.errors?.push(`File extension ${asset.extension} is not allowed`);
+          result.errors ?? []?.push(`File extension ${asset.extension} is not allowed`);
           result.suggestions.push(`Use one of: ${this.config.allowedExtensions.join(', ')}`);
         }
 
@@ -468,7 +468,7 @@ export class AssetPipelineValidator {
         for (const field of this.config.requiredMetadata) {
           if (!(field in asset.metadata)) {
             result.valid = false;
-            result.errors?.push(`Required metadata field '${field}' is missing`);
+            result.errors ?? []?.push(`Required metadata field '${field}' is missing`);
             result.suggestions.push(`Add metadata field '${field}' to ${asset.path}.meta`);
           }
         }
@@ -506,7 +506,7 @@ export class AssetPipelineValidator {
             // Check for Unity-specific prefab structure
             if (!asset.metadata?.guid) {
               result.valid = false;
-              result.errors?.push('Unity prefab missing GUID');
+              result.errors ?? []?.push('Unity prefab missing GUID');
               result.suggestions.push('Generate GUID for prefab');
             }
           }
@@ -537,7 +537,7 @@ export class AssetPipelineValidator {
             // Check for Godot-specific scene structure
             if (!asset.metadata?.resource_type) {
               result.valid = false;
-              result.errors?.push('Godot scene missing resource type');
+              result.errors ?? []?.push('Godot scene missing resource type');
               result.suggestions.push('Add resource_type to scene metadata');
             }
           }
@@ -568,7 +568,7 @@ export class AssetPipelineValidator {
             // Check for Unreal-specific asset structure
             if (!asset.metadata?.asset_class) {
               result.valid = false;
-              result.errors?.push('Unreal asset missing asset class');
+              result.errors ?? []?.push('Unreal asset missing asset class');
               result.suggestions.push('Add asset_class to asset metadata');
             }
           }

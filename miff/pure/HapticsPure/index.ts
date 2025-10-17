@@ -643,7 +643,7 @@ export class HapticEngine {
       patternId,
       instanceId: effectId,
       device.id: device.id,
-      startTime: Date.now(),
+      startTime: new Date(),
       duration: pattern.duration,
       amplitude: options?.amplitude || pattern.amplitude,
       frequency: options?.frequency || pattern.frequency,

@@ -296,7 +296,7 @@ export class BattleHUDModel {
       errors.push(...errs);
       if (errs.includes('Max HP must be greater than 0')) anyPlayerMaxHp = true;
     });
-    this.opponent.forEach((s) => {
+    this.opponent.forEach((s: any) => {
       const errs = s.validate({});
       errors.push(...errs);
     });

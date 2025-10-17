@@ -363,7 +363,7 @@ export class BlockchainManager {
           totalContracts: 0,
           activeContracts: 0,
           averageBlockTime: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -573,7 +573,7 @@ export class BlockchainManager {
       const contract: SmartContract = {
         ...contractData,
         id: this.generateContractId(),
-        deployedAt: Date.now()
+        deployedAt: new Date()
       };
 
       blockchain.contracts.push(contract);
@@ -728,8 +728,8 @@ export class BlockchainManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -751,7 +751,7 @@ export class BlockchainManager {
         totalContracts: blockchain.contracts.length,
         activeContracts: blockchain.contracts.filter((c: any) => c.status === 'active').length,
         averageBlockTime: blockchain.performance.blockTime,
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -810,7 +810,7 @@ export class BlockchainManager {
       totalTransactions,
       totalContracts,
       averageTPS: blockchains.length > 0 ? totalTPS / blockchains.length : 0,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

@@ -344,7 +344,7 @@ export class RealDialogueEngine {
     }
 
     const defaultContext: DialogueContext = {
-      currentSpeaker: participants[0],
+      currentSpeaker: participants[0!],
       participants,
       variables: new Map(),
       flags: new Set(),
@@ -413,7 +413,7 @@ export class RealDialogueEngine {
     const session = this.activeSessions.get(sessionId);
     if (!session || !session.currentNodeId) return false;
 
-    const tree = this.dialogueTrees.get(session.participants[0]); // Assuming first participant owns the tree
+    const tree = this.dialogueTrees.get(session.participants[0!]); // Assuming first participant owns the tree
     if (!tree) return false;
 
     const currentNode = tree.find(node => node.id === session.currentNodeId);

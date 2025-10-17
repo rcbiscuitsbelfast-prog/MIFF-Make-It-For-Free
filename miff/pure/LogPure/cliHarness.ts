@@ -152,7 +152,7 @@ class LogPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -271,7 +271,7 @@ class LogPureCLI {
       return;
     }
 
-    const phaseName = args[0];
+    const phaseName = args[0!];
     const phase = phaseName as BattlePhase;
 
     if (Object.values(BattlePhase).includes(phase)) {
@@ -292,9 +292,9 @@ class LogPureCLI {
       return;
     }
 
-    const actorId = parseInt(args[0]);
-    const targetId = parseInt(args[1]);
-    const moveId = args[2];
+    const actorId = parseInt(args[0!]);
+    const targetId = parseInt(args[1!]);
+    const moveId = args[2!];
 
     const action: IBattleAction = {
       actorId,
@@ -318,10 +318,10 @@ class LogPureCLI {
       return;
     }
 
-    const effectId = args[0];
-    const description = args[1];
-    const sourceActor = parseInt(args[2]);
-    const targetActor = parseInt(args[3]);
+    const effectId = args[0!];
+    const description = args[1!];
+    const sourceActor = parseInt(args[2!]);
+    const targetActor = parseInt(args[3!]);
 
     const effect: IBattleEffect = BattleEffect.create(
       effectId,
@@ -338,7 +338,7 @@ class LogPureCLI {
    * Show log entries
    */
   private showLogEntries(args: string[]): void {
-    const filterType = args[0] || 'all';
+    const filterType = args[0!] || 'all';
 
     let filter: ILogFilter = {};
 
@@ -447,8 +447,8 @@ class LogPureCLI {
       return;
     }
 
-    const category = args[0] as LogCategory;
-    const level = args[1] as LogLevel;
+    const category = args[0!] as LogCategory;
+    const level = args[1!] as LogLevel;
 
     console.log(`✅ Filter set: ${category} / ${level}`);
     console.log('This filter will be used for subsequent show commands.');
@@ -463,8 +463,8 @@ class LogPureCLI {
       return;
     }
 
-    const format = args[0].toLowerCase() as LogOutputFormat;
-    const filename = args[1];
+    const format = args[0!].toLowerCase() as LogOutputFormat;
+    const filename = args[1!];
 
     let exportData: string;
 
@@ -503,7 +503,7 @@ class LogPureCLI {
       return;
     }
 
-    const filename = args[0];
+    const filename = args[0!];
 
     try {
       if (!fs.existsSync(filename)) {

@@ -746,7 +746,7 @@ export class IdleSystemPure {
     });
 
     // Upgrade effects
-    this.upgrades.forEach((upgrade) => {
+    this.upgrades.forEach((upgrade: any) => {
       if (upgrade.currentLevel > 0) {
         upgrade.effects.forEach((effect: any) => {
           if (effect.target === generatorId && effect.type === 'multiplier') {
@@ -778,7 +778,7 @@ export class IdleSystemPure {
     });
 
     // Upgrade effects
-    this.upgrades.forEach((upgrade) => {
+    this.upgrades.forEach((upgrade: any) => {
       if (upgrade.currentLevel > 0) {
         upgrade.effects.forEach((effect: any) => {
           if (effect.target === generatorId && effect.type === 'efficiency') {
@@ -976,7 +976,7 @@ export class IdleSystemPure {
     });
 
     // Keep permanent upgrades
-    this.upgrades.forEach((upgrade) => {
+    this.upgrades.forEach((upgrade: any) => {
       if (!upgrade.permanent) {
         upgrade.currentLevel = 0;
       }
@@ -1012,7 +1012,7 @@ export class IdleSystemPure {
       totalPlayTime: this.totalPlayTime,
       totalIdleTime: this.totalIdleTime,
       prestigeCount: this.prestigeCount,
-      lastSaveTime: Date.now()
+      lastSaveTime: new Date()
     };
 
     this.eventBus.emit('idle:game_saved', {
@@ -1169,7 +1169,7 @@ export class IdleSystemPure {
     this.efficiencyMultipliers.clear();
 
     // Reapply all upgrade effects
-    this.upgrades.forEach((upgrade) => {
+    this.upgrades.forEach((upgrade: any) => {
       if (upgrade.currentLevel > 0) {
         upgrade.effects.forEach((effect: any) => {
           switch (effect.type) {

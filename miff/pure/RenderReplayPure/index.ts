@@ -36,7 +36,7 @@ export class RenderReplaySystem {
       frames: [],
       metadata: {
         config,
-        startTime: Date.now(),
+        startTime: new Date(),
         frameRate: config.frameRate
       }
     };

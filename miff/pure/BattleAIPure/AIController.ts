@@ -31,7 +31,7 @@ export class BattleAIController implements IBattleAIController {
     if (spirit.knownMoves.includes('water_burst') && opponent.typeTag === 'fire') return 'water_burst';
 
     // Default to first move
-    return spirit.knownMoves[0] || null;
+    return spirit.knownMoves[0!] || null;
   }
 
   evaluateThreatLevel(opponent: ISpiritInstance | null): number {

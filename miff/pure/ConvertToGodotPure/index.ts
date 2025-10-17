@@ -395,7 +395,7 @@ export class GodotConverter {
           scriptsGenerated: 0,
           scenesCreated: this.sceneCounter,
           exportSize: 0,
-          conversionTime: Date.now() - this.conversionStartTime,
+          conversionTime: new Date() - this.conversionStartTime,
           optimizationSavings: 0
         }
       };

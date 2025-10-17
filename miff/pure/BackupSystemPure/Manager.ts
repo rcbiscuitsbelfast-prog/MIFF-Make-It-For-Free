@@ -468,7 +468,7 @@ export class BackupSystemManager {
       console.info('BackupSystemPure', 'Initializing Backup System Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false) {
+      if (this.config.enablePerformanceOptimization ?? false ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -509,7 +509,7 @@ export class BackupSystemManager {
           totalSize: 0,
           compressedSize: 0,
           averageBackupTime: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -871,8 +871,8 @@ export class BackupSystemManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -895,8 +895,8 @@ export class BackupSystemManager {
         compressedSize: system.backups.reduce((sum: any, b: any) => sum + b.compressedSize, 0),
         averageBackupTime: 0, // Would be calculated from actual backup times
         lastBackup: system.backups.length > 0 ? 
-          system.backups.sort((a: any, b: any) => b.createdAt.getTime() - a.createdAt.getTime())[0].createdAt : undefined,
-        lastUpdated: Date.now()
+          system.backups.sort((a: any, b: any) => b.createdAt.getTime() - a.createdAt.getTime())[0!].createdAt : undefined,
+        lastUpdated: new Date()
       };
     }
   }
@@ -957,7 +957,7 @@ export class BackupSystemManager {
       failedBackups,
       totalSize,
       compressedSize,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

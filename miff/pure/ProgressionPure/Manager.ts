@@ -316,7 +316,7 @@ export class XPManager {
       curve: this.curve,
       config: this.config,
       levelUpEffects: this.levelUpEffects,
-      exportDate: Date.now()
+      exportDate: new Date()
     }, null, 2);
   }
 

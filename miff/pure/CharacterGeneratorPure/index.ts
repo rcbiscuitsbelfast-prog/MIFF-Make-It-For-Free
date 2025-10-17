@@ -101,7 +101,7 @@ function emptyMatrix(w: number, h: number): PixelMatrix {
 }
 
 function drawBody(matrix: PixelMatrix, skinHex: string): PixelMatrix {
-	const h = matrix.length; const w = matrix[0].length;
+	const h = matrix.length; const w = matrix[0!].length;
 	const skin = `#${skinHex}`;
 	const cx = Math.floor(w / 2);
 	for (let y = Math.floor(h * 0.2); y < Math.floor(h * 0.9); y++) {
@@ -117,8 +117,8 @@ function drawBody(matrix: PixelMatrix, skinHex: string): PixelMatrix {
 }
 
 function drawClothing(matrix: PixelMatrix, colors: string[]): PixelMatrix {
-	const h = matrix.length; const w = matrix[0].length; const cx = Math.floor(w/2);
-	const top = colors[0]; const bottom = colors[1] || colors[0];
+	const h = matrix.length; const w = matrix[0!].length; const cx = Math.floor(w/2);
+	const top = colors[0!]; const bottom = colors[1!] || colors[0!];
 	for (let y = Math.floor(h * 0.35); y < Math.floor(h * 0.55); y++) {
 		for (let x = cx - 3; x <= cx + 3; x++) if (matrix[y!][x!]) matrix[y!][x!] = top;
 	}
@@ -129,7 +129,7 @@ function drawClothing(matrix: PixelMatrix, colors: string[]): PixelMatrix {
 }
 
 function drawHair(matrix: PixelMatrix, hair: string, hairHex: string): PixelMatrix {
-	const h = matrix.length; const w = matrix[0].length; const cx = Math.floor(w/2);
+	const h = matrix.length; const w = matrix[0!].length; const cx = Math.floor(w/2);
 	const c = `#${hairHex}`;
 	const y0 = Math.floor(h * 0.05);
 	if (hair === 'bald') return matrix;
@@ -146,11 +146,11 @@ function drawHair(matrix: PixelMatrix, hair: string, hairHex: string): PixelMatr
 }
 
 function drawAccessories(matrix: PixelMatrix, accessories: string[], palette: string[]): PixelMatrix {
-	const h = matrix.length; const w = matrix[0].length; const cx = Math.floor(w/2);
+	const h = matrix.length; const w = matrix[0!].length; const cx = Math.floor(w/2);
 	const acc = new Set(accessories);
 	if (acc.has('glasses')) { matrix[Math.floor(h*0.12)][cx-1] = '#000000'; matrix[Math.floor(h*0.12)][cx+1] = '#000000'; }
-	if (acc.has('scarf')) { for (let x = cx-3; x<=cx+3; x++) matrix[Math.floor(h*0.32)][x!] = palette[2]; }
-	if (acc.has('cape')) { for (let y = Math.floor(h*0.35); y<Math.floor(h*0.8); y++) matrix[y!][cx+4] = palette[3]; }
+	if (acc.has('scarf')) { for (let x = cx-3; x<=cx+3; x++) matrix[Math.floor(h*0.32)][x!] = palette[2!]; }
+	if (acc.has('cape')) { for (let y = Math.floor(h*0.35); y<Math.floor(h*0.8); y++) matrix[y!][cx+4] = palette[3!]; }
 	return matrix;
 }
 

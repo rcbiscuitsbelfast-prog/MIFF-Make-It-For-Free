@@ -728,7 +728,7 @@ export class RestaurantSimulationPure {
       satisfaction: 75,
       patience: this.getPatienceForType(customerType),
       groupSize: Math.floor(Math.random() * 4) + 1,
-      arrivalTime: Date.now(),
+      arrivalTime: new Date(),
       waitTime: 0,
       specialRequirements: [],
       behavior: this.getBehaviorForType(customerType)
@@ -1178,7 +1178,7 @@ export class RestaurantSimulationPure {
       staffPerformance: this.calculateAverageStaffPerformance(),
       equipmentEfficiency: this.calculateAverageEquipmentEfficiency(),
       inventoryTurnover: this.calculateInventoryTurnover(),
-      updateTime: Date.now()
+      updateTime: new Date()
     };
   }
 

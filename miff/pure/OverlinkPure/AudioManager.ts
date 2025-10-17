@@ -294,7 +294,7 @@ export class AudioManager {
         binding,
         type,
         gainNode,
-        startTime: Date.now()
+        startTime: new Date()
       });
 
       console.log(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);

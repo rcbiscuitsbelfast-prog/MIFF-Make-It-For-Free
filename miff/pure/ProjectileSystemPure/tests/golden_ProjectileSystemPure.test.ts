@@ -18,7 +18,7 @@ test('golden projectile system flow', () => {
   // Run CLI harness with projectile data
   const out = (global as any).testUtils.runCLI(
     path.resolve(root, 'cliHarness.ts'), 
-    [projectiles]
+    [projectiles!]
   );
   
   const got = JSON.parse(out);

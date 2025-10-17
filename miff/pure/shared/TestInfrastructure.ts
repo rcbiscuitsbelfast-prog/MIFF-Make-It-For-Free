@@ -342,7 +342,7 @@ export class TestInfrastructureManager {
       coveredLines: 700,
       coveragePercentage: 70,
       uncoveredLines: [1, 2, 3],
-      criticalUncovered: [1],
+      criticalUncovered: [1!],
       testFiles: module.testFiles,
       lastRun: new Date()
     };

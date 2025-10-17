@@ -34,9 +34,9 @@ describe('ModdingPure', () => {
 
       expect(plugins).toBeDefined();
       expect(plugins.length).toBeGreaterThan(0);
-      expect(plugins[0]).toHaveProperty('id');
-      expect(plugins[0]).toHaveProperty('manifest');
-      expect(plugins[0]).toHaveProperty('status');
+      expect(plugins[0!]).toHaveProperty('id');
+      expect(plugins[0!]).toHaveProperty('manifest');
+      expect(plugins[0!]).toHaveProperty('status');
     });
 
     it('should load plugin successfully', async () => {
@@ -58,7 +58,7 @@ describe('ModdingPure', () => {
       
       expect(plugin.status).toBe('loaded');
       expect(plugin.dependencies.length).toBeGreaterThan(0);
-      expect(plugin.dependencies[0].id).toBe('core-physics');
+      expect(plugin.dependencies[0!].id).toBe('core-physics');
     });
 
     it('should fail to load plugin with missing dependency', async () => {
@@ -92,8 +92,8 @@ describe('ModdingPure', () => {
       };
 
       // Mock the discoverPlugins method to return our broken plugin
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([mockPlugin]);
-      jest.spyOn(discovery as any, 'createMockPlugins').mockReturnValue([mockPlugin]);
+      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([mockPlugin!]);
+      jest.spyOn(discovery as any, 'createMockPlugins').mockReturnValue([mockPlugin!]);
 
       await discovery.discoverPlugins();
       
@@ -435,7 +435,7 @@ describe('ModdingPure', () => {
         status: 'loading' as const
       };
 
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([errorPlugin]);
+      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([errorPlugin!]);
       jest.spyOn(discovery as any, 'createMockEntryPoint').mockImplementation(() => {
         throw new Error('Plugin initialization failed');
       });
@@ -477,7 +477,7 @@ describe('ModdingPure', () => {
         status: 'loading' as const
       };
 
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([invalidPlugin]);
+      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([invalidPlugin!]);
 
       await discovery.discoverPlugins();
       

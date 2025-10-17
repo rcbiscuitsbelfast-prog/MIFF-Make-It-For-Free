@@ -10,8 +10,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const inputPath = process.argv[2] || 'NavigationSystemPure/fixtures/grid.json';
-  const commandsPath = process.argv[3] || '';
+  const inputPath = process.argv[2!] || 'NavigationSystemPure/fixtures/grid.json';
+  const commandsPath = process.argv[3!] || '';
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
   const grid: Grid = {
@@ -45,4 +45,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

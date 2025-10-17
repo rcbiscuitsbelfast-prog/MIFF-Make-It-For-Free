@@ -20,13 +20,13 @@ let legacyInputPath: string | null = null;
 let legacyCommandsPath: string | null = null;
 try {
   const ar = process.argv.slice(2);
-  if (ar.length >= 1 && ar[0] && !ar[0].startsWith('--')) legacyInputPath = ar[0];
-  if (ar.length >= 3 && ar[2] && !ar[2].startsWith('--')) legacyCommandsPath = ar[2];
+  if (ar.length >= 1 && ar[0!] && !ar[0!].startsWith('--')) legacyInputPath = ar[0!];
+  if (ar.length >= 3 && ar[2!] && !ar[2!].startsWith('--')) legacyCommandsPath = ar[2!];
 } catch {}
 const manager = new ValidationManager();
 
 // Parse additional arguments
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'report' || 'json';
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'report' || 'json';
 
 let output: any;
 
@@ -45,7 +45,7 @@ try {
 try {
   switch (mode) {
     case 'configure':
-      const config: ValidationConfig = args.includes('--config') ? JSON.parse(args.find(arg => arg.startsWith('--config='))!.split('=')[1]) : {
+      const config: ValidationConfig = args.includes('--config') ? JSON.parse(args.find(arg => arg.startsWith('--config='))!.split('=')[1!]) : {
         rules: ['missing_refs', 'stat_bounds', 'zone_overlap'],
         combatExpectedStatKeys: ['hp', 'attack', 'defense']
       };
@@ -56,7 +56,7 @@ try {
       let input: ValidationInput;
       const inline = args.find(arg => arg.startsWith('--input='));
       if (inline) {
-        input = JSON.parse(inline.split('=')[1]);
+        input = JSON.parse(inline.split('=')[1!]);
       } else if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
         input = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
       } else {

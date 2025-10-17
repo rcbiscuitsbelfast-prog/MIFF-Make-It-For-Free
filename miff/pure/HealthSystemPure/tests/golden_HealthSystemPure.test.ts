@@ -109,7 +109,7 @@ describe('HealthSystemPure Golden Tests', () => {
       const addResult = manager.addShield('shield_entity', shield);
       expect(addResult.status).toBe('ok');
       expect(addResult.result?.shields).toHaveLength(1);
-      expect(addResult.result?.shields[0].amount).toBe(25);
+      expect(addResult.result?.shields[0!].amount).toBe(25);
     });
 
     test('should absorb damage with shields', () => {
@@ -131,7 +131,7 @@ describe('HealthSystemPure Golden Tests', () => {
       });
       expect(damageResult.status).toBe('ok');
       expect(damageResult.result?.currentHp).toBe(100); // Shield should absorb all damage
-      expect(damageResult.result?.shields[0].amount).toBe(5); // Shield should be reduced
+      expect(damageResult.result?.shields[0!].amount).toBe(5); // Shield should be reduced
     });
   });
 
@@ -145,8 +145,8 @@ describe('HealthSystemPure Golden Tests', () => {
         amount: 5,
         duration: 10,
         interval: 1,
-        lastTick: Date.now(),
-        expiresAt: Date.now() + 10000
+        lastTick: new Date(),
+        expiresAt: new Date() + 10000
       };
       
       const addResult = manager.addRegeneration('regen_entity', regeneration);

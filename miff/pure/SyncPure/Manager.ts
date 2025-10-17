@@ -122,7 +122,7 @@ export class SyncManager {
       failedSyncs: 0,
       conflictsResolved: 0,
       dataTransferred: 0,
-      lastSyncTime: Date.now(),
+      lastSyncTime: new Date(),
       averageSyncTime: 0
     };
 
@@ -478,7 +478,7 @@ export class SyncManager {
       failedSyncs: 0,
       conflictsResolved: 0,
       dataTransferred: 0,
-      lastSyncTime: Date.now(),
+      lastSyncTime: new Date(),
       averageSyncTime: 0
     };
   }

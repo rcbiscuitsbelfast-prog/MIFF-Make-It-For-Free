@@ -216,7 +216,7 @@ export class StoryManager {
       value,
       type,
       description,
-      setAt: Date.now(),
+      setAt: new Date(),
       expiresAt
     };
 
@@ -366,7 +366,7 @@ export class StoryManager {
           value: reward.amount || true,
           type: 'boolean',
           description: reward.description,
-          setAt: Date.now()
+          setAt: new Date()
         };
         arc.flags.set(flag.id, flag);
         newFlags.push(flag);

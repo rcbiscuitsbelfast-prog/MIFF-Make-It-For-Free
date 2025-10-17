@@ -652,7 +652,7 @@ export class IntegrationManager {
       activeIntegrations: activeIntegrations.length,
       totalEvents: allMetrics.reduce((sum, m) => sum + m.totalEvents, 0),
       averageProcessingTime: allMetrics.reduce((sum, m) => sum + m.averageProcessingTime, 0) / allMetrics.length || 0,
-      systemUptime: Date.now() - this.startTime
+      systemUptime: new Date() - this.startTime
     };
   }
 

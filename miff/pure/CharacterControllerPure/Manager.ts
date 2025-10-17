@@ -418,7 +418,7 @@ export class CharacterControllerManager {
           totalMovements: 0,
           totalAnimations: 0,
           averagePerformance: 0,
-          lastUpdated: Date.now()
+          lastUpdated: new Date()
         }
       };
 
@@ -829,8 +829,8 @@ export class CharacterControllerManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**
@@ -850,7 +850,7 @@ export class CharacterControllerManager {
         totalMovements: controller.analytics.totalMovements,
         totalAnimations: controller.analytics.totalAnimations,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: Date.now()
+        lastUpdated: new Date()
       };
     }
   }
@@ -906,7 +906,7 @@ export class CharacterControllerManager {
       totalCharacters,
       totalMovements,
       totalAnimations,
-      uptime: Date.now() - this.startTime.getTime()
+      uptime: new Date() - this.startTime.getTime()
     };
   }
 

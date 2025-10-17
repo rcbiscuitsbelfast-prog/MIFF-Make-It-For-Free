@@ -115,7 +115,7 @@ class MagicSystemCLI {
     if (!this.isRunning) return;
 
     const parts = input.split(' ');
-    const command = parts[0]?.toLowerCase();
+    const command = parts[0!]?.toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -128,7 +128,7 @@ class MagicSystemCLI {
           if (args.length === 0) {
             console.log('❌ Usage: cast <spell-name>');
           } else {
-            await this.castSpell(args[0]);
+            await this.castSpell(args[0!]);
           }
           break;
 
@@ -136,7 +136,7 @@ class MagicSystemCLI {
           if (args.length === 0) {
             console.log('❌ Usage: learn <spell-name>');
           } else {
-            this.learnSpell(args[0]);
+            this.learnSpell(args[0!]);
           }
           break;
 
@@ -447,7 +447,7 @@ class MagicSystemCLI {
 
 // Main execution
 // ESM-safe main guard
-const isDirectRun = import.meta && (import.meta as any).url === `file://${process.argv[1]}`;
+const isDirectRun = import.meta && (import.meta as any).url === `file://${process.argv[1!]}`;
 if (isDirectRun) {
   const cli = new MagicSystemCLI();
   cli.start();
