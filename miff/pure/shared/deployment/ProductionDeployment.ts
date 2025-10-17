@@ -289,7 +289,7 @@ export class ProductionDeployment {
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
-      StructuredLogger.error('Production deployment failed', { context: { message: { error: error.message } } });
+      StructuredLogger.error('Production deployment failed', { error: error.message });
       this.addLog('error', 'Production deployment failed', { error: error.message });
 
       // Attempt rollback if enabled
@@ -357,7 +357,7 @@ export class ProductionDeployment {
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
-      StructuredLogger.error('Rollback failed', { context: { message: { error: error.message } } });
+      StructuredLogger.error('Rollback failed', { error: error.message });
       this.addLog('error', 'Rollback failed', { error: error.message });
 
       throw error;
@@ -410,12 +410,12 @@ export class ProductionDeployment {
     const env = process.env.NODE_ENV || 'production';
     this.config.environment = env as 'staging' | 'production';
     
-    StructuredLogger.info('Environment configuration loaded', { context: { message: { environment: env } } });
+    StructuredLogger.info('Environment configuration loaded', { environment: env });
   }
 
   private async loadDeploymentHistory(): Promise<void> {
     // Load deployment history from storage
-    StructuredLogger.info('Deployment history loaded', { context: { message: { count: this.deploymentHistory.length } } });
+    StructuredLogger.info('Deployment history loaded', { count: this.deploymentHistory.length });
   }
 
   private async saveDeploymentHistory(): Promise<void> {
@@ -528,7 +528,7 @@ export class ProductionDeployment {
     try {
       await this.rollback('Automatic rollback due to deployment failure');
     } catch (rollbackError) {
-      StructuredLogger.error('Automatic rollback failed', { context: { message: { error: rollbackError.message } } });
+      StructuredLogger.error('Automatic rollback failed', { error: rollbackError.message });
     }
   }
 

@@ -432,7 +432,7 @@ export class DataStorageManager {
       this.storages.set(storage.id, storage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data storage system created', { context: { message: { storageId: storage.id, storageName: storage.name } } });
+      StructuredLogger.info('Data storage system created', { storageId: storage.id, storageName: storage.name });
       return storage;
 
     } catch (error: unknown) {
@@ -464,7 +464,7 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
@@ -478,7 +478,7 @@ export class DataStorageManager {
       this.storages.set(storageId, updatedStorage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data storage system updated', { context: { message: { storageId, storageName: updatedStorage.name } } });
+      StructuredLogger.info('Data storage system updated', { storageId, storageName: updatedStorage.name });
       return updatedStorage;
 
     } catch (error: unknown) {
@@ -499,14 +499,14 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       this.storages.delete(storageId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data storage system deleted', { context: { message: { storageId, storageName: storage.name } } });
+      StructuredLogger.info('Data storage system deleted', { storageId, storageName: storage.name });
       return true;
 
     } catch (error: unknown) {
@@ -560,7 +560,7 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
@@ -572,7 +572,7 @@ export class DataStorageManager {
       storage.databases.push(database);
       this.updateAnalytics();
 
-      StructuredLogger.info('Database added to storage', { context: { message: { storageId, databaseId: database.id, databaseName: database.name } } });
+      StructuredLogger.info('Database added to storage', { storageId, databaseId: database.id, databaseName: database.name });
       return database;
 
     } catch (error: unknown) {
@@ -593,20 +593,20 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       const databaseIndex = storage.databases.findIndex(d => d.id === databaseId);
       if (databaseIndex === -1) {
-        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { storageId, databaseId });
         return false;
       }
 
       storage.databases.splice(databaseIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Database removed from storage', { context: { message: { storageId, databaseId } } });
+      StructuredLogger.info('Database removed from storage', { storageId, databaseId });
       return true;
 
     } catch (error: unknown) {
@@ -627,7 +627,7 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
@@ -639,7 +639,7 @@ export class DataStorageManager {
       storage.connections.push(connection);
       this.updateAnalytics();
 
-      StructuredLogger.info('Connection added to storage', { context: { message: { storageId, connectionId: connection.id, connectionName: connection.name } } });
+      StructuredLogger.info('Connection added to storage', { storageId, connectionId: connection.id, connectionName: connection.name });
       return connection;
 
     } catch (error: unknown) {
@@ -660,20 +660,20 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       const connectionIndex = storage.connections.findIndex(c => c.id === connectionId);
       if (connectionIndex === -1) {
-        StructuredLogger.warn('Connection not found' ?? 'unknown', { context: { message: { storageId, connectionId } } });
+        StructuredLogger.warn('Connection not found' ?? 'unknown', { storageId, connectionId });
         return false;
       }
 
       storage.connections.splice(connectionIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Connection removed from storage', { context: { message: { storageId, connectionId } } });
+      StructuredLogger.info('Connection removed from storage', { storageId, connectionId });
       return true;
 
     } catch (error: unknown) {
@@ -694,18 +694,18 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return { success: false, error: 'Storage not found' };
       }
 
       const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { storageId, databaseId });
         return { success: false, error: 'Database not found' };
       }
 
       if (database.status !== 'connected') {
-        StructuredLogger.warn('Database not connected' ?? 'unknown', { context: { message: { storageId, databaseId, status: database.status } } });
+        StructuredLogger.warn('Database not connected' ?? 'unknown', { storageId, databaseId, status: database.status });
         return { success: false, error: 'Database not connected' };
       }
 
@@ -769,13 +769,13 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
       const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { storageId, databaseId });
         return null;
       }
 
@@ -789,7 +789,7 @@ export class DataStorageManager {
       database.tables.push(table);
       this.updateAnalytics();
 
-      StructuredLogger.info('Table created', { context: { message: { storageId, databaseId, tableId: table.id, tableName: table.name } } });
+      StructuredLogger.info('Table created', { storageId, databaseId, tableId: table.id, tableName: table.name });
       return table;
 
     } catch (error: unknown) {
@@ -810,26 +810,26 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { context: { message: { storageId } } });
+        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        StructuredLogger.warn('Database not found' ?? 'unknown', { context: { message: { storageId, databaseId } } });
+        StructuredLogger.warn('Database not found' ?? 'unknown', { storageId, databaseId });
         return false;
       }
 
       const tableIndex = database.tables.findIndex(t => t.id === tableId);
       if (tableIndex === -1) {
-        StructuredLogger.warn('Table not found' ?? 'unknown', { context: { message: { storageId, databaseId, tableId } } });
+        StructuredLogger.warn('Table not found' ?? 'unknown', { storageId, databaseId, tableId });
         return false;
       }
 
       database.tables.splice(tableIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Table dropped', { context: { message: { storageId, databaseId, tableId } } });
+      StructuredLogger.info('Table dropped', { storageId, databaseId, tableId });
       return true;
 
     } catch (error: unknown) {

@@ -298,7 +298,7 @@ export class ProductionMonitor {
     };
 
     this.alerts.push(newAlert);
-    StructuredLogger.warn('Alert created' ?? 'unknown', { context: { message: { id: newAlert.id, type: newAlert.type, severity: newAlert.severity } } });
+    StructuredLogger.warn('Alert created' ?? 'unknown', { id: newAlert.id, type: newAlert.type, severity: newAlert.severity });
 
     // Trigger alert actions
     this.handleAlert(newAlert);
@@ -319,7 +319,7 @@ export class ProductionMonitor {
     alert.acknowledgedAt = new Date();
     alert.acknowledgedBy = acknowledgedBy;
 
-    StructuredLogger.info('Alert acknowledged', { context: { message: { id: alertId, acknowledgedBy } } });
+    StructuredLogger.info('Alert acknowledged', { id: alertId, acknowledgedBy });
     return true;
   }
 
@@ -335,7 +335,7 @@ export class ProductionMonitor {
     alert.resolved = true;
     alert.resolvedAt = new Date();
 
-    StructuredLogger.info('Alert resolved', { context: { message: { id: alertId } } });
+    StructuredLogger.info('Alert resolved', { id: alertId });
     return true;
   }
 
@@ -392,7 +392,7 @@ export class ProductionMonitor {
       }
     }, this.config.interval);
 
-    StructuredLogger.info('Production monitoring started', { context: { message: { interval: this.config.interval } } });
+    StructuredLogger.info('Production monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -547,7 +547,7 @@ export class ProductionMonitor {
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         action.status = 'failed';
-        StructuredLogger.error('Alert action failed', { context: { message: { alertId: alert.id, action: action.type, error: error.message } } });
+        StructuredLogger.error('Alert action failed', { alertId: alert.id, action: action.type, error: error.message });
       }
     }
   }
@@ -571,22 +571,22 @@ export class ProductionMonitor {
 
   private async sendNotification(alert: Alert): Promise<void> {
     // Send notification to configured channels
-    StructuredLogger.info('Sending notification', { context: { message: { alertId: alert.id, channels: this.config.notificationChannels } } });
+    StructuredLogger.info('Sending notification', { alertId: alert.id, channels: this.config.notificationChannels });
   }
 
   private async executeAutoResponse(alert: Alert): Promise<void> {
     // Execute automatic response based on alert type
-    StructuredLogger.info('Executing auto-response', { context: { message: { alertId: alert.id, type: alert.type } } });
+    StructuredLogger.info('Executing auto-response', { alertId: alert.id, type: alert.type });
   }
 
   private async escalateAlert(alert: Alert): Promise<void> {
     // Escalate alert to higher level
-    StructuredLogger.info('Escalating alert', { context: { message: { alertId: alert.id, severity: alert.severity } } });
+    StructuredLogger.info('Escalating alert', { alertId: alert.id, severity: alert.severity });
   }
 
   private async executeCustomAction(alert: Alert, details?: Record<string, any>): Promise<void> {
     // Execute custom action
-    StructuredLogger.info('Executing custom action', { context: { message: { alertId: alert.id, details } } });
+    StructuredLogger.info('Executing custom action', { alertId: alert.id, details });
   }
 
   private determineOverallStatus(): DashboardData['overview']['status'] {

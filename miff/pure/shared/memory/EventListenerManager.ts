@@ -64,7 +64,7 @@ export class EventListenerManager {
     const listenerId = config.id! || `listener_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (this.listeners.has(listenerId)) {
-      StructuredLogger.warn('Listener ID already exists' ?? 'unknown', { context: { message: { listenerId } } });
+      StructuredLogger.warn('Listener ID already exists' ?? 'unknown', { listenerId });
       return listenerId;
     }
 
@@ -113,7 +113,7 @@ export class EventListenerManager {
   removeEventListener(listenerId: string): boolean {
     const config = this.listeners.get(listenerId);
     if (!config) {
-      StructuredLogger.warn('Listener not found' ?? 'unknown', { context: { message: { listenerId } } });
+      StructuredLogger.warn('Listener not found' ?? 'unknown', { listenerId });
       return false;
     }
 

@@ -142,14 +142,14 @@ export class GenericTypeFactory<T extends object> implements TypeFactory<T exten
   }
 
   createFrom(data: Partial<T extends object>): T {
-    StructuredLogger.debug('Creating instance from partial data', { context: { message: { data } } });
+    StructuredLogger.debug('Creating instance from partial data', { data });
     return { ...data } as T;
   }
 
   validate(data: any): data is T {
     const isValid = this.validator(data: any);
     if (!isValid) {
-      StructuredLogger.warn('Validation failed' ?? 'unknown', { context: { message: { data, type: typeof data } } });
+      StructuredLogger.warn('Validation failed' ?? 'unknown', { data, type: typeof data });
     }
     return isValid;
   }
@@ -161,7 +161,7 @@ export class GenericTypeFactory<T extends object> implements TypeFactory<T exten
 
   equals(a: T, b: T): boolean {
     const isEqual = this.equalizer(a, b);
-    StructuredLogger.debug('Comparing instances', { context: { message: { isEqual } } });
+    StructuredLogger.debug('Comparing instances', { isEqual });
     return isEqual;
   }
 }
@@ -187,7 +187,7 @@ export class GenericUtils {
    */
   static safeAccess<T, K extends keyof T>(obj: T, key: K): T[K] | undefined {
     if (!TypeGuards.isObject(obj)) {
-      StructuredLogger.warn('Attempted to access property on non-object' ?? 'unknown', { context: { message: { obj, key } } });
+      StructuredLogger.warn('Attempted to access property on non-object' ?? 'unknown', { obj, key });
       return undefined;
     }
     return obj[key];

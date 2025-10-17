@@ -222,7 +222,7 @@ export class HealthCheckSystem {
    */
   registerCheck(check: HealthCheck): void {
     this.checks.set(check.name, check);
-    StructuredLogger.info('Health check registered', { context: { message: { name: check.name, category: check.category } } });
+    StructuredLogger.info('Health check registered', { name: check.name, category: check.category });
   }
 
   /**
@@ -230,7 +230,7 @@ export class HealthCheckSystem {
    */
   unregisterCheck(name: string): void {
     if (this.checks.delete(name)) {
-      StructuredLogger.info('Health check unregistered', { context: { message: { name } } });
+      StructuredLogger.info('Health check unregistered', { name });
     }
   }
 
@@ -307,7 +307,7 @@ export class HealthCheckSystem {
       }
     }, this.config.interval);
 
-    StructuredLogger.info('Health monitoring started', { context: { message: { interval: this.config.interval } } });
+    StructuredLogger.info('Health monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -438,7 +438,7 @@ export class HealthCheckSystem {
       }
     });
 
-    StructuredLogger.info('Default health checks registered', { context: { message: { count: this.checks.size } } });
+    StructuredLogger.info('Default health checks registered', { count: this.checks.size });
   }
 
   private async runAllChecks(): Promise<HealthStatus['checks']> {
