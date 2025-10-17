@@ -577,7 +577,7 @@ export class ARVRManager {
 
       // Return spatial mapping data
       return {
-        device.id,
+        deviceId: device.id,
         position: device.tracking.position,
         rotation: device.tracking.rotation,
         confidence: device.tracking.confidence,
