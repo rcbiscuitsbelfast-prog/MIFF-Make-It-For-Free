@@ -563,14 +563,14 @@ export class AudioSystemManager {
 
       const deviceIndex = system.devices.findIndex(device => device.id === device.id);
       if (deviceIndex === -1) {
-        StructuredLogger.warn('Device not found' ?? 'unknown', { systemId, device.id });
+        StructuredLogger.warn('Device not found' ?? 'unknown', { systemId, deviceId: id });
         return false;
       }
 
       system.devices.splice(deviceIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device removed from system', { systemId, device.id });
+      StructuredLogger.info('Device removed from system', { systemId, deviceId: id });
       return true;
 
     } catch (error: unknown) {
