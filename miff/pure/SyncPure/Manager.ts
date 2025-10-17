@@ -195,7 +195,7 @@ export class SyncManager {
       timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      device.id
+      deviceId: device.id
     };
 
     this.data.set(id, updatedData);
@@ -223,7 +223,7 @@ export class SyncManager {
       version: existingData.version + 1,
       timestamp: new Date(),
       isDeleted: true,
-      device.id
+      deviceId: device.id
     };
 
     this.data.set(id, deletedData);

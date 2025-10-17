@@ -1082,7 +1082,7 @@ export class DebugOverlayManager {
         description: 'Frame rate is below optimal levels',
         impact: 80,
         effort: 60,
-        category: 'security' // Changed from performance,
+        category: 'security', // Changed from performance
         implementation: 'Reduce draw calls, optimize shaders, use LOD systems'
       });
     }
