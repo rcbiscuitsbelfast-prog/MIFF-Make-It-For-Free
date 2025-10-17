@@ -240,6 +240,17 @@ export class EventBus {
     return eventId;
   }
 
+  // Back-compat alias for demos/tests that call EventBus.emit
+  emit(eventType: string, data?: any, options: {
+    id?: string;
+    source?: string;
+    priority?: EventPriority;
+    metadata?: Record<string, any>;
+    replicate?: boolean;
+  } = {}): Promise<string> {
+    return this.publish(eventType, data, options);
+  }
+
   /**
    * Process an event through its handlers
    */
