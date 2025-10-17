@@ -365,7 +365,7 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { device.id });
+        console.warn('Device not found', { deviceId: id });
         return null;
       }
 
@@ -379,7 +379,7 @@ export class ARVRManager {
       this.devices.set(device.id, updatedDevice);
       this.updateAnalytics();
 
-      console.info('AR/VR device updated', { device.id, deviceName: updatedDevice.name });
+      console.info('AR/VR device updated', { deviceId: id, deviceName: updatedDevice.name });
       return updatedDevice;
 
     } catch (error: unknown) {
@@ -400,14 +400,14 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { device.id });
+        console.warn('Device not found', { deviceId: id });
         return false;
       }
 
       this.devices.delete(device.id);
       this.updateAnalytics();
 
-      console.info('AR/VR device deleted', { device.id, deviceName: device.name });
+      console.info('AR/VR device deleted', { deviceId: id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -461,7 +461,7 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { device.id });
+        console.warn('Device not found', { deviceId: id });
         return false;
       }
 
@@ -471,7 +471,7 @@ export class ARVRManager {
         timestamp: new Date()
       };
 
-      console.debug('Tracking data updated', { device.id, position: trackingData.position });
+      console.debug('Tracking data updated', { deviceId: id, position: trackingData.position });
       return true;
 
     } catch (error: unknown) {
@@ -492,12 +492,12 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { device.id });
+        console.warn('Device not found', { deviceId: id });
         return false;
       }
 
       if (!device.capabilities.hapticFeedback) {
-        console.warn('Device does not support haptic feedback', { device.id });
+        console.warn('Device does not support haptic feedback', { deviceId: id });
         return false;
       }
 
@@ -512,7 +512,7 @@ export class ARVRManager {
 
       device.analytics.hapticEvents++;
 
-      console.debug('Haptic feedback triggered', { device.id, pattern: pattern.name });
+      console.debug('Haptic feedback triggered', { deviceId: id, pattern: pattern.name });
       return true;
 
     } catch (error: unknown) {
@@ -533,7 +533,7 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { device.id });
+        console.warn('Device not found', { deviceId: id });
         return false;
       }
 
@@ -545,7 +545,7 @@ export class ARVRManager {
       device.status = 'connected';
       device.tracking.confidence = 1.0;
 
-      console.info('Device calibrated', { device.id, deviceName: device.name });
+      console.info('Device calibrated', { deviceId: id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -566,12 +566,12 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { device.id });
+        console.warn('Device not found', { deviceId: id });
         return null;
       }
 
       if (!device.capabilities.spatialTracking) {
-        console.warn('Device does not support spatial tracking', { device.id });
+        console.warn('Device does not support spatial tracking', { deviceId: id });
         return null;
       }
 
