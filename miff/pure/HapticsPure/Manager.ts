@@ -141,7 +141,6 @@ export class HapticsManager {
   private now(): number { return Date.now(); }
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultDevices();
     this.initializeDeviceCapabilities();
     this.initializeEnvironmentalResponses();
@@ -679,7 +678,6 @@ export class HapticsManager {
   }
 
   getStats(): any {
-    const managerData = this.getStats();
     return {
       queuedRequests: this.getPending().length,
       activeRequests: this.activeRequests.size,

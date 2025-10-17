@@ -472,7 +472,6 @@ export class Web3Pure {
   private analytics: Web3Analytics;
 
   constructor(config: Partial<Web3Config> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableBlockchainConnection: true,
       enableSmartContractInteraction: true,

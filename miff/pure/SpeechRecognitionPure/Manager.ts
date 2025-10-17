@@ -528,7 +528,6 @@ export class SpeechRecognitionPure {
   private analytics: SpeechRecognitionAnalytics;
 
   constructor(config: Partial<SpeechRecognitionConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableSpeechToText: true,
       enableVoiceCommands: true,

@@ -127,7 +127,6 @@ export class ScoreManager {
   private stats: ScoreStats;
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.stats = {
       totalScores: 0,
       scoresByCategory: {},
@@ -483,7 +482,6 @@ export class ScoreManager {
    * Get score statistics
    */
   getStats(): ScoreOutput {
-    const managerData = this.getStats();
     return {
       op: 'get-stats',
       status: 'ok',

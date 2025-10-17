@@ -347,7 +347,6 @@ export class DataStorageManager {
   private startTime: Date;
 
   constructor(config?: Partial<DataStorageConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

@@ -19,7 +19,6 @@ export class MagicManager {
   private magicSystem: MagicSystemPure;
 
   constructor(magicSystem: MagicSystemPure) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.magicSystem = magicSystem;
   }
 

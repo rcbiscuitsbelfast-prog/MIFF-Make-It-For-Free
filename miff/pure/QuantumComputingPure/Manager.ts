@@ -1342,7 +1342,6 @@ export class QuantumComputingPure {
   private analytics: QuantumComputingAnalytics;
 
   constructor(config: Partial<QuantumComputingConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableQuantumManagement: true,
       enableCircuitDesign: true,

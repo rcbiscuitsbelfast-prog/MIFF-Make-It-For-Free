@@ -1355,7 +1355,6 @@ export class ComputerVisionPure {
   private analytics: ComputerVisionAnalytics;
 
   constructor(config: Partial<ComputerVisionConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableComputerVisionManagement: true,
       enableImageProcessing: true,

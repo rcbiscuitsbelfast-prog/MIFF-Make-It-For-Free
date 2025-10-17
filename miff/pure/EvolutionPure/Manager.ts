@@ -190,7 +190,6 @@ export class EvolutionCondition {
   description: string;
 
   constructor(type: EvolutionConditionType, intValue: number, stringValue: string, description: string = '') {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.id = `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     this.type = type;
     this.intValue = intValue;
@@ -307,7 +306,6 @@ export class EvolutionManager {
   private context: PlayerContext;
 
   constructor(eventBus: EventBus, context: PlayerContext) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.context = context;
     this.initializeDefaultSpecies();

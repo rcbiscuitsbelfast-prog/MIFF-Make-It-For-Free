@@ -756,7 +756,6 @@ export class DatabasePure {
   private analytics: DatabaseAnalytics;
 
   constructor(config: Partial<DatabaseConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableDatabaseManagement: true,
       enableConnectionManagement: true,

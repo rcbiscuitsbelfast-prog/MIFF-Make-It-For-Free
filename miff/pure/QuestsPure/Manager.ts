@@ -82,7 +82,6 @@ export class QuestsManager {
   private questProgress: Map<string, QuestProgress> = new Map();
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultQuests();
   }
 

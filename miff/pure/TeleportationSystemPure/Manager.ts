@@ -20,7 +20,6 @@ export class TeleportationManager {
   private teleportationSystem: TeleportationSystemPure;
 
   constructor(teleportationSystem: TeleportationSystemPure) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.teleportationSystem = teleportationSystem;
   }
 
@@ -183,7 +182,6 @@ export class TeleportationManager {
     recentFailures: string[];
   } {
     const stats = this.teleportationSystem.getStats();
-    const managerData = this.getStats();
 
     const successRate = stats.totalTeleports > 0 ?
       (stats.successfulTeleports / stats.totalTeleports) * 100 : 0;
@@ -507,7 +505,6 @@ export class TeleportationManager {
     portals: Portal[];
     zones: ZoneInfo[];
     stats: ReturnType<TeleportationSystemPure['getStats']>;
-    const managerData = this.getStats();
     timestamp: number;
   } {
     return {
@@ -515,7 +512,6 @@ export class TeleportationManager {
       portals: this.teleportationSystem.getAllPortals(),
       zones: this.teleportationSystem.getAllZones(),
       stats: this.teleportationSystem.getStats(),
-    const managerData = this.getStats();
       timestamp: new Date()
     };
   }

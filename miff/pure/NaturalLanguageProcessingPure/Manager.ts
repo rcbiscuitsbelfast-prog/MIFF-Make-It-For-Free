@@ -400,7 +400,6 @@ export class NaturalLanguageProcessingPure {
   private analytics: NLPAnalytics;
 
   constructor(config: Partial<NLPConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableTextAnalysis: true,
       enableSentimentAnalysis: true,

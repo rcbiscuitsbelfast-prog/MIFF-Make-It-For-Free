@@ -966,7 +966,6 @@ export class TestingSystemPure {
   private analytics: TestingSystemAnalytics;
 
   constructor(config: Partial<TestingSystemConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableTestingManagement: true,
       enableTestAutomation: true,

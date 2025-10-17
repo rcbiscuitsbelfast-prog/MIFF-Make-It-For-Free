@@ -310,7 +310,6 @@ export class AudioSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<AudioSystemConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

@@ -322,7 +322,6 @@ export class DebugOverlayManager {
   private networkMonitor?: NetworkMonitor;
 
   constructor(config: DebugConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
     this.startTime = Date.now();
     this.sessionId = this.generateSessionId();

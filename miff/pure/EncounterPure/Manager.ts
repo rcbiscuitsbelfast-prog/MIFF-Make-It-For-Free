@@ -109,7 +109,6 @@ export class EncounterManager {
   private isInitialized: boolean = false;
 
   constructor(config: Partial<EncounterConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       baseEncounterRate: 0.1,
       maxEncountersPerArea: 10,
@@ -319,7 +318,6 @@ export class EncounterController {
   private rng: IRNGProvider;
 
   constructor(rng?: IRNGProvider) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.manager = new EncounterManager();
     this.rng = rng || {
       nextInt: (min, max) => Math.floor(Math.random() * (max - min)) + min,

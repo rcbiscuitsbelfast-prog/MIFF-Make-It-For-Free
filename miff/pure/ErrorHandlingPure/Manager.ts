@@ -1013,7 +1013,6 @@ export class ErrorHandlingPure {
   private analytics: ErrorHandlingAnalytics;
 
   constructor(config: Partial<ErrorHandlingConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableErrorHandlingManagement: true,
       enableErrorDetection: true,

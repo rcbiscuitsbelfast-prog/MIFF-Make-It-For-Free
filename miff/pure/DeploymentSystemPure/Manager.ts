@@ -798,7 +798,6 @@ export class DeploymentSystemPure {
   private analytics: DeploymentAnalytics;
 
   constructor(config: Partial<DeploymentConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableApplicationDeployment: true,
       enableEnvironmentManagement: true,

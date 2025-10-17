@@ -87,7 +87,6 @@ export class SportsManager {
   private activeMatches: Map<string, MatchResult> = new Map();
 
   constructor(eventBus: EventBus, config: SportsConfig = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.config = {
       maxGamesPerPlayer: 10,

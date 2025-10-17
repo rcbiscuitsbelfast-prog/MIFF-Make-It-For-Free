@@ -1010,7 +1010,6 @@ export class NotificationSystemPure {
   private analytics: NotificationSystemAnalytics;
 
   constructor(config: Partial<NotificationSystemConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableNotificationManagement: true,
       enableNotificationDelivery: true,

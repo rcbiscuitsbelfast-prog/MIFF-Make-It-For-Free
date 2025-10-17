@@ -46,7 +46,6 @@ export class RenderReplayManager {
   private config: ReplayConfig;
 
   constructor(config: ReplayConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
   }
 

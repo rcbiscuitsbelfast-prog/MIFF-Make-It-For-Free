@@ -1871,7 +1871,6 @@ export class ServiceDiscoveryPure {
   private analytics: ServiceDiscoveryAnalytics;
 
   constructor(config: Partial<ServiceDiscoveryConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableServiceDiscovery: true,
       enableServiceRegistration: true,

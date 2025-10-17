@@ -182,7 +182,6 @@ export class AnimationSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<AnimationSystemConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

@@ -87,7 +87,6 @@ export class HealthSystemManager {
   private regenerationTicks: Map<string, number> = new Map();
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     // Initialize with default entities
   }
 

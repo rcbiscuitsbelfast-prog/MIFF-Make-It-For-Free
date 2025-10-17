@@ -62,7 +62,6 @@ export class CollisionManager {
   private collisionTests = 0;
 
   constructor(cellSize: number = 4, worldBounds: AABB = { id: 'world', min: { x: -100, y: -100 }, max: { x: 100, y: 100 } }) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.spatialGrid = {
       cellSize,
       bounds: worldBounds,

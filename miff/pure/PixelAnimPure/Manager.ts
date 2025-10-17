@@ -51,7 +51,6 @@ export class PixelAnimManager {
   private presets: Map<string, AnimationPreset> = new Map();
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultPresets();
     this.createSampleAnimations();
   }
@@ -373,7 +372,6 @@ export class PixelAnimManager {
    * Get animation statistics
    */
   getStats(): AnimationStats {
-    const managerData = this.getStats();
     const animations = Array.from(this.animations.values());
     const sequences = Array.from(this.sequences.values());
     

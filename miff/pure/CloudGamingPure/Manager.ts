@@ -881,7 +881,6 @@ export class CloudGamingPure {
   private analytics: CloudGamingAnalytics;
 
   constructor(config: Partial<CloudGamingConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableGamingManagement: true,
       enableSessionManagement: true,

@@ -334,7 +334,6 @@ export class LogManager {
   private flushTimer?: NodeJS.Timeout;
 
   constructor(config: LogManagerConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -670,7 +669,6 @@ export class LogManager {
    * Get log statistics
    */
   getStats(): LogStats {
-    const managerData = this.getStats();
     // Calculate error rate
     const errorCount = this.stats.entriesByLevel[LogLevel.ERROR] + this.stats.entriesByLevel[LogLevel.CRITICAL];
     this.stats.errorRate = this.stats.totalEntries > 0 ? (errorCount / this.stats.totalEntries) * 100 : 0;
@@ -724,7 +722,6 @@ export class LogManager {
         timestamp: entry.timestamp.toISOString()
       })),
       stats: this.getStats(),
-    const managerData = this.getStats();
       exportTime: new Date().toISOString()
     };
   }
@@ -1197,7 +1194,6 @@ export class BattleLogger {
   private entries: BattleLogEntry[] = [];
 
   constructor(logManager: LogManager, battleId: string = `battle_${Date.now()}`) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.logManager = logManager;
     this.battleId = battleId;
   }

@@ -112,7 +112,6 @@ export class MovementManager {
   };
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultPatterns();
   }
 

@@ -206,7 +206,6 @@ export class BattleAIManager {
   private currentStrategy?: AIStrategyConfig;
 
   constructor(config: BattleAIManagerConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;

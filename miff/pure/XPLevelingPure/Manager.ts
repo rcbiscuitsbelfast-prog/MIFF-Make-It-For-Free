@@ -117,7 +117,6 @@ export class XPLevelingManager {
   private globalMultipliers: XPMultiplier[] = [];
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultCurves();
   }
 

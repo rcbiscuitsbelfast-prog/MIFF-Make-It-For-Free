@@ -879,7 +879,6 @@ export class EcosystemExpansionPure {
   private analytics: EcosystemExpansionAnalytics;
 
   constructor(config: Partial<EcosystemExpansionConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableEcosystemGrowth: true,
       enableCommunityBuilding: true,

@@ -197,7 +197,6 @@ export class BattleAI {
   private rng: any;
 
   constructor(policy: AIPolicy, rng?: any) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.policy = policy;
     this.rng = rng || Math;
   }
@@ -682,7 +681,6 @@ export class SimpleNeuralNetwork {
   private activations: number[][] = [];
 
   constructor(config: NeuralNetworkConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
     this.initialize();
   }
@@ -859,7 +857,6 @@ export class AIManager {
   private trainingData: Map<string, TrainingData[]> = new Map();
 
   constructor(config: Partial<AIConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       maxMemory: 1000,
       learningRate: 0.1,
@@ -1365,7 +1362,6 @@ export class AIPerformanceMonitor {
   private monitorInterval?: NodeJS.Timeout;
 
   constructor(aiManager: AIManager) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.aiManager = aiManager;
   }
 

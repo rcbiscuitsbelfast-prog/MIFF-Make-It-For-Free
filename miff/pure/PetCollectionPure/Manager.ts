@@ -143,7 +143,6 @@ export class PetCollectionManager {
   private stats: CollectionStats;
 
   constructor(eventBus: EventBus, config: PetCollectionConfig = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.config = {
       maxPetsPerPlayer: 100,

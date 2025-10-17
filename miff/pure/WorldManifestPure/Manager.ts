@@ -44,7 +44,6 @@ export class WorldManifestManager {
   private assetRegistry: Map<string, AssetAnchor[]> = new Map();
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeSampleWorlds();
   }
 

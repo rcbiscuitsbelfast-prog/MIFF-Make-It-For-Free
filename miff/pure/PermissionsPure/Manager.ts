@@ -11,7 +11,6 @@ export class PermissionsManager {
   private cache = new Map<PermissionName, PermissionState>();
 
   constructor(initial?: Partial<Record<PermissionName, PermissionState>>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     if (initial) {
       for (const [k, v] of Object.entries(initial)) this.cache.set(k as PermissionName, v as PermissionState);
     }

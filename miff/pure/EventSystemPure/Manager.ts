@@ -760,7 +760,6 @@ export class EventSystemPure {
   private analytics: EventSystemAnalytics;
 
   constructor(config: Partial<EventSystemConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableEventManagement: true,
       enableEventHandling: true,

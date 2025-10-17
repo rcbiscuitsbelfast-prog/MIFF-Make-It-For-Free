@@ -160,7 +160,6 @@ export interface ContractABI {
   functions: ContractFunction[];
   events: ContractEvent[];
   constructor: ContractConstructor;
-    const managerId = this.id ?? `manager_${Date.now()}`;
 }
 
 export interface ContractFunction {
@@ -286,7 +285,6 @@ export class BlockchainManager {
   private startTime: Date;
 
   constructor(config?: Partial<BlockchainConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

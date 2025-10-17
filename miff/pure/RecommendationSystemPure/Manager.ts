@@ -796,7 +796,6 @@ export class RecommendationSystemPure {
   private analytics: RecommendationSystemAnalytics;
 
   constructor(config: Partial<RecommendationSystemConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableRecommendationManagement: true,
       enableMachineLearning: true,

@@ -88,7 +88,6 @@ export class CraftingManager {
   private craftingHistory: CraftResult[] = [];
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultRecipes();
   }
 

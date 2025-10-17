@@ -833,7 +833,6 @@ export class DataWarehousePure {
   private analytics: DataWarehouseAnalytics;
 
   constructor(config: Partial<DataWarehouseConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableWarehouseManagement: true,
       enableETLProcesses: true,

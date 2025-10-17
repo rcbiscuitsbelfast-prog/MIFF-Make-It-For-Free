@@ -1109,7 +1109,6 @@ export class GameLogicPure {
   private analytics: GameLogicAnalytics;
 
   constructor(config: Partial<GameLogicConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableGameLogicManagement: true,
       enableGameStateManagement: true,

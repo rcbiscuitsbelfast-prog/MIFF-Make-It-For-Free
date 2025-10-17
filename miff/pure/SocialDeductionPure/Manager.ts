@@ -136,7 +136,6 @@ export class SocialDeductionManager {
   private gameStartTime: number = 0;
 
   constructor(eventBus: EventBus, config: SocialDeductionConfig = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.config = {
       maxPlayers: 10,

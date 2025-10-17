@@ -107,7 +107,6 @@ export class NPCsManager {
   private npcs: Map<EntityID, NPC> = new Map();
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.loadDefaultNPCs();
   }
 

@@ -633,7 +633,6 @@ export class TimeSeriesAnalysisPure {
   private analytics: TimeSeriesAnalysisAnalytics;
 
   constructor(config: Partial<TimeSeriesAnalysisConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableDataProcessing: true,
       enableStatisticalAnalysis: true,

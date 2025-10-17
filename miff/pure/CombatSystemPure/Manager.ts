@@ -325,7 +325,6 @@ export class CombatSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<CombatSystemConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

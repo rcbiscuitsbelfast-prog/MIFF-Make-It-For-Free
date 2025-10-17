@@ -1164,7 +1164,6 @@ export class UIInterfacePure {
   private analytics: UIInterfaceAnalytics;
 
   constructor(config: Partial<UIInterfaceConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableUIManagement: true,
       enableComponentSystem: true,

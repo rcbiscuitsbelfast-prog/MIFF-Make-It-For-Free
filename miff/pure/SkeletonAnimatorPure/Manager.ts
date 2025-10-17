@@ -25,7 +25,6 @@ export class SkeletonAnimatorManager {
   private skeletonState: SkeletonState;
 
   constructor(initialRigConfig?: Partial<RigConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.rigBuilder = new RigBuilder(initialRigConfig);
     this.skeletonState = {
       rig: this.rigBuilder.getConfig(),
@@ -154,7 +153,6 @@ export class SkeletonAnimatorManager {
       if (this.skinMeshGenerator) {
         this.skinMeshGenerator.generateBaseMesh();
         // Materials are created automatically in constructor
-    const managerId = this.id ?? `manager_${Date.now()}`;
         this.skeletonState.skin = this.skinMeshGenerator.getSkinConfig();
       }
     }

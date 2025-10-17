@@ -1197,7 +1197,6 @@ export class DataVisualizationPure {
   private analytics: DataVisualizationAnalytics;
 
   constructor(config: Partial<DataVisualizationConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableVisualizationManagement: true,
       enableChartCreation: true,

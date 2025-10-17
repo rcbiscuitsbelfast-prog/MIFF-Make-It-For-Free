@@ -939,7 +939,6 @@ export class EdgeComputingPure {
   private analytics: EdgeComputingAnalytics;
 
   constructor(config: Partial<EdgeComputingConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableNodeManagement: true,
       enableDistributedComputing: true,

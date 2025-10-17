@@ -71,7 +71,6 @@ export class SettingsManager {
   private validationRules: Map<string, (value: any) => boolean> = new Map();
 
   constructor(initPath?: string) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.defaults = this.createDefaultSettings();
     
     if (initPath && fs.existsSync(initPath)) {
@@ -332,7 +331,6 @@ export class SettingsManager {
   }
 
   getStats(): SettingsStats {
-    const managerData = this.getStats();
     const totalSettings = this.countTotalSettings(this.settings);
     const modifiedSettings = this.countModifiedSettings();
     const categories: Record<string, number> = {};
@@ -463,7 +461,6 @@ export class SettingsManager {
         version: '1.0.0',
         timestamp: new Date().toISOString(),
         stats: this.getStats()
-    const managerData = this.getStats();
       }
     };
     

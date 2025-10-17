@@ -240,7 +240,6 @@ export class APIGatewayManager {
   private startTime: Date;
 
   constructor(config?: Partial<APIGatewayConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

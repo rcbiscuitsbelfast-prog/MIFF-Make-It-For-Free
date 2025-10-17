@@ -123,7 +123,6 @@ export class InputSystemManager {
   private settings: InputSettings;
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.settings = {
       sensitivity: 1.0,
       deadzone: 0.1,

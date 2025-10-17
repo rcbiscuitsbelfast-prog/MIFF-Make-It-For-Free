@@ -276,7 +276,6 @@ export class ChatSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<ChatSystemConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

@@ -457,7 +457,6 @@ export class CryptocurrencyPure {
   private analytics: CryptocurrencyAnalytics;
 
   constructor(config: Partial<CryptocurrencyConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableWalletManagement: true,
       enablePortfolioTracking: true,

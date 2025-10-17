@@ -106,7 +106,6 @@ export class BridgeInspectorManager {
   private config: InspectionConfig;
 
   constructor(config: InspectionConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
   }
 

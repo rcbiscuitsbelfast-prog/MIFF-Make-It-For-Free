@@ -112,7 +112,6 @@ export class SyncManager {
   private syncInProgress: boolean = false;
 
   constructor(config: SyncManagerConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -390,7 +389,6 @@ export class SyncManager {
    * Get sync statistics
    */
   getStats(): SyncStats {
-    const managerData = this.getStats();
     return { ...this.stats };
   }
 

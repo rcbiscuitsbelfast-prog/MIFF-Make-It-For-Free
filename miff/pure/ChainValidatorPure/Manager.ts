@@ -214,7 +214,6 @@ export class ChainValidatorManager {
 
   // Stats
   getStats(): StatsEnvelope {
-    const managerData = this.getStats();
     const nodes = this.nodes.size;
     const edges = this.listEdges().length;
     const density = nodes > 1 ? edges / (nodes * (nodes - 1)) : 0;
@@ -251,7 +250,6 @@ export class ChainValidatorManager {
       nodes: this.listNodes(),
       edges: this.listEdges(),
       stats: this.getStats().result,
-    const managerData = this.getStats();
       exportedAt: new Date().toISOString(),
       version: '1.0.0'
     };

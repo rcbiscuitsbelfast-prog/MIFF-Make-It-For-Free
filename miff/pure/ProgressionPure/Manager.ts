@@ -78,7 +78,6 @@ export class XPManager {
   private levelUpEffects: LevelUpEffect[] = [];
 
   constructor(eventBus: EventBus, curve: XPCurve, config: Partial<XPManagerConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.curve = curve;
     this.config = {

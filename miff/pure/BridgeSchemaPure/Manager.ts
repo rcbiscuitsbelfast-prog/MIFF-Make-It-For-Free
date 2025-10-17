@@ -51,7 +51,6 @@ export class BridgeSchemaManager {
   private config: BridgeSchemaConfig;
 
   constructor(config?: Partial<BridgeSchemaConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       version: '1.0.0',
       strict: true,
@@ -384,7 +383,6 @@ export class BridgeSchemaManager {
    * Get registry statistics
    */
   getStats(): SchemaStats {
-    const managerData = this.getStats();
     const schemas = Array.from(this.registry.schemas.values());
     const schemasByEngine: Record<string, number> = {};
     

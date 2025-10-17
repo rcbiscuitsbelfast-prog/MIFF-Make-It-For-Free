@@ -76,7 +76,6 @@ export class LootTablesManager {
   private rollHistory: Array<{ tableId: string; result: LootResult; timestamp: number }> = [];
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultTables();
   }
 

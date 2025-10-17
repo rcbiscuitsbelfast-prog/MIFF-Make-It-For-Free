@@ -219,7 +219,6 @@ export class ContentManagementManager {
   private startTime: Date;
 
   constructor(config?: Partial<ContentManagementConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

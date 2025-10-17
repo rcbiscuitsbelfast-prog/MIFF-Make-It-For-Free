@@ -169,7 +169,6 @@ export class HUDManager {
   private animationFrameId?: number;
 
   constructor(config: HUDManagerConfig) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -679,7 +678,6 @@ export class HUDManager {
    * Get HUD statistics
    */
   getStats(): HUDStats {
-    const managerData = this.getStats();
     return { ...this.stats };
   }
 

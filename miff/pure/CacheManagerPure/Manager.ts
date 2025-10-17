@@ -196,7 +196,6 @@ export class CacheManagerManager {
   private startTime: Date;
 
   constructor(config?: Partial<CacheManagerConfig>) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});

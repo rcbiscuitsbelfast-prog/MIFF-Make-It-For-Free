@@ -88,7 +88,6 @@ export class FusionManager {
   private onFusionPerformed?: (newSpiritId: string) => void;
 
   constructor(eventBus: EventBus, context: PlayerContext) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.context = context;
     this.initializeDefaultRules();

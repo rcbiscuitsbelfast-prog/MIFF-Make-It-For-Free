@@ -826,7 +826,6 @@ export class LoggingSystemPure {
   private analytics: LoggingSystemAnalytics;
 
   constructor(config: Partial<LoggingSystemConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableLoggingManagement: true,
       enableLogCollection: true,

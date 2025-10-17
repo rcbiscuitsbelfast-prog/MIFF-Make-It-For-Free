@@ -459,7 +459,6 @@ export class EntityLinkerManager {
   }
 
   getStats(): LinkerStats {
-    const managerData = this.getStats();
     return { ...this.stats };
   }
 

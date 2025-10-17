@@ -36,7 +36,6 @@ export class CameraManager {
   private cameraSystem: CameraSystemPure;
 
   constructor(cameraSystem: CameraSystemPure) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.cameraSystem = cameraSystem;
   }
 
@@ -179,7 +178,6 @@ export class CameraManager {
       if (success) {
         console.log(`📷 Switched camera ${cameraId} to mode: ${newMode}`);
         this.updateStats({ modeSwitches: this.cameraSystem.getStats().modeSwitches + 1 });
-    const managerData = this.getStats();
       }
 
       return success;
@@ -345,7 +343,6 @@ export class CameraManager {
       // Store path (would normally go through main system)
       console.log(`🛤️ Created camera path: ${path.name}`);
       this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
-    const managerData = this.getStats();
       return path;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -382,7 +379,6 @@ export class CameraManager {
       camera.effects.set(effect.id, effect);
       console.log(`✨ Applied ${effectType} effect to camera ${cameraId}`);
       this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
-    const managerData = this.getStats();
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -471,7 +467,6 @@ export class CameraManager {
     averagePerformanceRating: string;
   } {
     const stats = this.cameraSystem.getStats();
-    const managerData = this.getStats();
     const activeCameras = this.cameraSystem.getAllCameras();
     const mainCamera = this.cameraSystem.getMainCamera();
 
@@ -597,7 +592,6 @@ export class CameraManager {
       paths: [], // Would get from main system
       sequences: [], // Would get from main system
       stats: this.cameraSystem.getStats(),
-    const managerData = this.getStats();
       config: this.cameraSystem.getConfig(),
       timestamp: new Date()
     };

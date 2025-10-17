@@ -1175,7 +1175,6 @@ export class DataPipelinePure {
   private analytics: DataPipelineAnalytics;
 
   constructor(config: Partial<DataPipelineConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enablePipelineManagement: true,
       enableDataIngestion: true,

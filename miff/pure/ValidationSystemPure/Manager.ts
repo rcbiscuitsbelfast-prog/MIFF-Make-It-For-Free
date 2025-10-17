@@ -825,7 +825,6 @@ export class ValidationSystemPure {
   private analytics: ValidationSystemAnalytics;
 
   constructor(config: Partial<ValidationSystemConfig> = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableValidationManagement: true,
       enableDataValidation: true,

@@ -94,7 +94,6 @@ export class SpiritTamerManager {
   private activeSession: TamingSession | null = null;
 
   constructor() {
-    const managerId = this.id ?? `manager_${Date.now()}`;
     this.player = {
       name: 'Tamer',
       level: 1,
@@ -484,7 +483,6 @@ export class SpiritTamerManager {
    * Get game statistics
    */
   getStats(): { ok: boolean; stats: any } {
-    const managerData = this.getStats();
     const wildSpirits = Array.from(this.spirits.values()).filter((s: any) => s.isWild).length;
     const tamedSpirits = this.player.tamedSpirits.length;
     const completedSessions = Array.from(this.tamingSessions.values()).filter((s: any) => s.result !== 'in_progress').length;
@@ -544,7 +542,6 @@ export class SpiritTamerManager {
 
         case 'summary':
           const stats = this.getStats();
-    const managerData = this.getStats();
           return {
             ok: true,
             data: {
