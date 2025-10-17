@@ -40,9 +40,9 @@ function parseFlags(argv: string[]): FlagMap {
   return out;
 }
 
-const args = process.argv.slice(2);
-const command = args[0];
-const flags = parseFlags(args.slice(1));
+const args: string[] = process.argv.slice(2);
+const command: string | undefined = args[0];
+const flags: FlagMap = parseFlags(args.slice(1));
 
 function showHelp() {
   console.log(`
@@ -240,8 +240,8 @@ async function handleExport() {
   };
 }
 
-function generateOutputFiles(engine, format, outputDir) {
-  const files = [];
+function generateOutputFiles(engine: string, format: string, outputDir: string): string[] {
+  const files: string[] = [];
 
   switch (engine) {
     case 'web':
