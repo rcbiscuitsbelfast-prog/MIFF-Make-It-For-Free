@@ -86,7 +86,7 @@ class WorldManifestCLI {
         op: operation.op,
         status: 'error',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -106,7 +106,7 @@ class WorldManifestCLI {
         message: `World ${op.worldId} created successfully (${op.width}x${op.height})`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -122,7 +122,7 @@ class WorldManifestCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.world,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -144,7 +144,7 @@ class WorldManifestCLI {
         })),
         total: result.total
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -163,7 +163,7 @@ class WorldManifestCLI {
         message: `Zone ${op.zoneId} added to world ${op.worldId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -181,7 +181,7 @@ class WorldManifestCLI {
         message: `Zone ${op.zoneId} removed from world ${op.worldId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -208,7 +208,7 @@ class WorldManifestCLI {
         message: `Asset ${op.assetId} placed at (${op.x}, ${op.y}) in zone ${op.zoneId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -228,7 +228,7 @@ class WorldManifestCLI {
         message: `Removed ${result.removed?.length || 0} assets from (${op.x}, ${op.y})`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -255,7 +255,7 @@ class WorldManifestCLI {
         }
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -270,7 +270,7 @@ class WorldManifestCLI {
         op: 'generate',
         status: 'error',
         errors: worldResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -285,7 +285,7 @@ class WorldManifestCLI {
         message: `Generated ${result.generated} tiles in zone ${op.zoneId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -301,7 +301,7 @@ class WorldManifestCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.validation,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -323,7 +323,7 @@ class WorldManifestCLI {
         }
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -343,7 +343,7 @@ class WorldManifestCLI {
         result: result.data,
         format,
         errors: result.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -354,7 +354,7 @@ class WorldManifestCLI {
         op: 'export',
         status: 'error',
         errors: worldResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -363,11 +363,11 @@ class WorldManifestCLI {
     switch (format) {
       case 'yaml': {
         const yaml = this.toYAML(data);
-        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
         const xml = this.toXML(data, 'world');
-        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
       case 'markdown':
@@ -384,7 +384,7 @@ class WorldManifestCLI {
           status: 'ok', 
           result: { [format!]: exportData }, 
           format, 
-          timestamp: Date.now() 
+          timestamp: new Date() 
         };
       }
       default:
@@ -393,7 +393,7 @@ class WorldManifestCLI {
           status: 'ok',
           result: data,
           format: 'json',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
     }
   }
@@ -412,7 +412,7 @@ class WorldManifestCLI {
         message: `World ${op.worldId} deleted successfully`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -430,7 +430,7 @@ class WorldManifestCLI {
           averageTilesPerZone: stats.totalZones > 0 ? (stats.totalTiles / stats.totalZones).toFixed(1) : '0'
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

@@ -378,7 +378,7 @@ export class ZoneServerPure {
       fromZone: this.config.zoneId,
       toZone: targetZone,
       transitionType: transitionType as any,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       position: {
         x: (playerState.position as any).x || 0,
         y: (playerState.position as any).y || 0,
@@ -481,7 +481,7 @@ export class ZoneServerPure {
     this.emitEvent('zone_connected', {
       fromZone: this.config.zoneId,
       toZone: zoneId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -497,7 +497,7 @@ export class ZoneServerPure {
     this.emitEvent('zone_disconnected', {
       fromZone: this.config.zoneId,
       toZone: zoneId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -543,7 +543,7 @@ export class ZoneServerPure {
     const callback = this.eventSubscribers.get(eventType);
     if (callback) {
       try {
-        callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: Date.now() });
+        callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: new Date() });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error(`Error in event listener for ${eventType}:`, err instanceof Error ? err.message : String(err));

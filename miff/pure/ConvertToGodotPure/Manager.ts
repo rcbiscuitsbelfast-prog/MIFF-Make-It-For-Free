@@ -89,6 +89,7 @@ export class ConvertToGodotManager {
   private resourceCounter = 0;
 
   constructor(config?: Partial<GodotExportConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       version: GodotVersion.GODOT_4_2,
       platform: GodotPlatform.WEB,

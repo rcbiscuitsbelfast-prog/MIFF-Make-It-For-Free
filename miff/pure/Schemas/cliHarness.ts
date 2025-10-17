@@ -141,9 +141,9 @@ function formatValidationResult(result: any): void {
   console.log('\n📊 Validation Result:');
   console.log(`Status: ${result.isValid ? '✅ Valid' : '❌ Invalid'}`);
 
-  if (result.errors.length > 0) {
+  if (result.errors?.length > 0) {
     console.log('\n❌ Errors:');
-    result.errors.forEach((error: string, index: number) => {
+    result.errors?.forEach((error: string, index: number) => {
       console.log(`  ${index + 1}. ${error}`);
     });
   }

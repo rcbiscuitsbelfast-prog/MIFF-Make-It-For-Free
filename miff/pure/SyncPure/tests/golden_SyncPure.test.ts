@@ -118,10 +118,10 @@ describe('SyncPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validEvent = new SyncEvent(SyncTrigger.BATTLE_WIN, 10, 'test');
-      expect(validEvent.validate()).toHaveLength(0);
+      expect(validEvent.validate({})).toHaveLength(0);
 
       const invalidEvent = new SyncEvent(SyncTrigger.BATTLE_WIN, -5);
-      const errors = invalidEvent.validate();
+      const errors = invalidEvent.validate({});
       expect(errors).toContain('Sync event magnitude cannot be negative');
     });
 
@@ -216,10 +216,10 @@ describe('SyncPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validChallenge = new SyncChallenge(120, 2, 'test_theme');
-      expect(validChallenge.validate()).toHaveLength(0);
+      expect(validChallenge.validate({})).toHaveLength(0);
 
       const invalidChallenge = new SyncChallenge(50, 0, '');
-      const errors = invalidChallenge.validate();
+      const errors = invalidChallenge.validate({});
       expect(errors).toContain('BPM must be between 60 and 200');
       expect(errors).toContain('Difficulty must be between 1 and 3');
       expect(errors).toContain('Stem ID cannot be empty');
@@ -364,10 +364,10 @@ describe('SyncPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validEntry = new SpiritSyncEntry('test', 25, [10, 50, 100]);
-      expect(validEntry.validate()).toHaveLength(0);
+      expect(validEntry.validate({})).toHaveLength(0);
 
       const invalidEntry = new SpiritSyncEntry('', -10, [-5, 10]);
-      const errors = invalidEntry.validate();
+      const errors = invalidEntry.validate({});
       expect(errors).toContain('Spirit ID cannot be empty');
       expect(errors).toContain('Current level cannot be negative');
       expect(errors).toContain('Thresholds cannot contain negative values');
@@ -774,7 +774,7 @@ describe('SyncPure Golden Tests', () => {
     test('should handle invalid sync events', () => {
       const invalidEvent = new SyncEvent(SyncTrigger.BATTLE_WIN, -10);
 
-      const errors = invalidEvent.validate();
+      const errors = invalidEvent.validate({});
       expect(errors).toContain('Sync event magnitude cannot be negative');
 
       const levelIncrease = syncManager.processSyncEvent('test_spirit', invalidEvent);
@@ -798,7 +798,7 @@ describe('SyncPure Golden Tests', () => {
     test('should handle invalid challenge configurations', () => {
       const invalidChallenge = new SyncChallenge(50, 0, '');
 
-      const errors = invalidChallenge.validate();
+      const errors = invalidChallenge.validate({});
       expect(errors).toContain('BPM must be between 60 and 200');
       expect(errors).toContain('Difficulty must be between 1 and 3');
       expect(errors).toContain('Stem ID cannot be empty');

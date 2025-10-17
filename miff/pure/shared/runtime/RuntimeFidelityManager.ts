@@ -133,7 +133,7 @@ export class RuntimeFidelityManager {
 
   constructor(config?: Partial<RuntimeFidelityConfig>) {
     
-    this.errorHandler = new StandardErrorHandler();
+    this.errorHandler = new StandardErrorHandler({});
     this.eventBus = new EventBus();
     
     this.config = {

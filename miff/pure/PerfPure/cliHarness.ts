@@ -165,14 +165,14 @@ function createDemoTests(): CLITest[] {
         const objects: TestObject[] = [];
         for (let i = 0; i < 5000; i++) {
           const obj = new TestObject(i);
-          obj.process();
+          obj.process({});
           objects.push(obj);
         }
 
         // Process objects
         let total = 0;
         for (const obj of objects) {
-          total += obj.process();
+          total += obj.process({});
         }
 
         // Clear references for GC

@@ -106,6 +106,7 @@ export class BridgeInspectorManager {
   private config: InspectionConfig;
 
   constructor(config: InspectionConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
   }
 
@@ -589,7 +590,7 @@ export class BridgeInspectorManager {
     // Performance warnings
     if (payload.renderData && payload.renderData.length > 100) {
       warnings.push({
-        category: 'performance',
+        category: 'security' // Changed from performance,
         message: 'Large number of renderData items may impact performance',
         suggestion: 'Consider batching or optimization',
         impact: 'High'

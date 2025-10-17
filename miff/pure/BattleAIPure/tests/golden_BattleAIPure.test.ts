@@ -154,14 +154,14 @@ describe('BattleAIPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validProfile = new AIDecisionProfile('valid', AIDecisionStyle.BALANCED);
-      expect(validProfile.validate()).toHaveLength(0);
+      expect(validProfile.validate({})).toHaveLength(0);
 
       const invalidProfile = new AIDecisionProfile('', AIDecisionStyle.AGGRESSIVE, {
         [MoveCategory.DAMAGE]: -1,
         [MoveCategory.HEALING]: 3
       }, ['']);
 
-      const errors = invalidProfile.validate();
+      const errors = invalidProfile.validate({});
       expect(errors).toContain('Profile ID cannot be empty');
       expect(errors).toContain('damage weight must be between 0 and 2');
       expect(errors).toContain('healing weight must be between 0 and 2');
@@ -802,7 +802,7 @@ describe('BattleAIPure Golden Tests', () => {
         const profile = profiles[i];
         BattleAIUtils.compareProfiles(referenceProfile, profile);
         BattleAIUtils.getBehaviorDescription(profile);
-        profile.validate();
+        profile.validate({});
       }
 
       const endTime = performance.now();

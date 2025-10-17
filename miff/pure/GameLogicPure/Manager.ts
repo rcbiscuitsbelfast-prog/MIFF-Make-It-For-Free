@@ -1109,6 +1109,7 @@ export class GameLogicPure {
   private analytics: GameLogicAnalytics;
 
   constructor(config: Partial<GameLogicConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableGameLogicManagement: true,
       enableGameStateManagement: true,
@@ -1232,8 +1233,8 @@ export class GameLogicPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

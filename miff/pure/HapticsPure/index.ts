@@ -110,7 +110,7 @@ export interface HapticEffect {
   id: string;
   patternId: string;
   instanceId: string;
-  deviceId: string;
+  device.id: string;
   startTime: number;
   endTime?: number;
   duration: number;
@@ -251,7 +251,7 @@ export interface HapticGlobalSettings {
 export interface HapticResponse {
   id: string;
   effectId: string;
-  deviceId: string;
+  device.id: string;
   timestamp: number;
   success: boolean;
   error?: string;
@@ -622,7 +622,7 @@ export class HapticEngine {
   }
 
   // Core haptic functionality
-  async playPattern(patternId: string, deviceId?: string, options?: PlayOptions): Promise<string> {
+  async playPattern(patternId: string, device.id?: string, options?: PlayOptions): Promise<string> {
     if (!this.isInitialized) {
       throw new Error('HapticEngine not initialized');
     }
@@ -632,7 +632,7 @@ export class HapticEngine {
       throw new Error(`Pattern not found: ${patternId}`);
     }
 
-    const device = deviceId ? this.devices.get(deviceId) : this.getBestAvailableDevice(pattern);
+    const device = device.id ? this.devices.get(device.id) : this.getBestAvailableDevice(pattern);
     if (!device || !device.isConnected) {
       throw new Error(`No suitable device found for pattern: ${patternId}`);
     }
@@ -642,7 +642,7 @@ export class HapticEngine {
       id: effectId,
       patternId,
       instanceId: effectId,
-      deviceId: device.id,
+      device.id: device.id,
       startTime: Date.now(),
       duration: pattern.duration,
       amplitude: options?.amplitude || pattern.amplitude,
@@ -678,9 +678,9 @@ export class HapticEngine {
     const event: HapticEvent = {
       id: `event_${effect.id}`,
       type: 'effect',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       source: 'haptic_engine',
-      target: effect.deviceId,
+      target: effect.device.id,
       data: { effect },
       priority: effect.priority,
       processed: false
@@ -742,9 +742,9 @@ export class HapticEngine {
   }
 
   private async executeEffect(effect: HapticEffect): Promise<void> {
-    const device = this.devices.get(effect.deviceId);
+    const device = this.devices.get(effect.device.id);
     if (!device || !device.isConnected) {
-      throw new Error(`Device not available: ${effect.deviceId}`);
+      throw new Error(`Device not available: ${effect.device.id}`);
     }
 
     const pattern = this.patterns.get(effect.patternId);
@@ -986,8 +986,8 @@ export class HapticEngine {
   }
 
   // Device management
-  connectDevice(deviceId: string): boolean {
-    const device = this.devices.get(deviceId);
+  connectDevice(device.id: string): boolean {
+    const device = this.devices.get(device.id);
     if (!device) return false;
 
     device.isConnected = true;
@@ -996,8 +996,8 @@ export class HapticEngine {
     return true;
   }
 
-  disconnectDevice(deviceId: string): boolean {
-    const device = this.devices.get(deviceId);
+  disconnectDevice(device.id: string): boolean {
+    const device = this.devices.get(device.id);
     if (!device) return false;
 
     device.isConnected = false;
@@ -1005,7 +1005,7 @@ export class HapticEngine {
 
     // Stop all effects on this device
     for (const [effectId, effect] of this.activeEffects) {
-      if (effect.deviceId === deviceId && effect.status === 'playing') {
+      if (effect.device.id === device.id && effect.status === 'playing') {
         effect.status = 'cancelled';
       }
     }
@@ -1050,8 +1050,8 @@ export class HapticEngine {
     return Array.from(this.activeEffects.values());
   }
 
-  getDevice(deviceId: string): HapticDevice | undefined {
-    return this.devices.get(deviceId);
+  getDevice(device.id: string): HapticDevice | undefined {
+    return this.devices.get(device.id);
   }
 
   getAllDevices(): HapticDevice[] {

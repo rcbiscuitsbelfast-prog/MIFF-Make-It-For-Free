@@ -28,6 +28,7 @@ export class DrivingManager {
   private drivingSystem: DrivingSystemPure;
 
   constructor(drivingSystem: DrivingSystemPure) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.drivingSystem = drivingSystem;
   }
 
@@ -138,6 +139,7 @@ export class DrivingManager {
       if (vehicle) {
         console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
         this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
+    const managerData = this.getStats();
       }
 
       return vehicle;
@@ -203,6 +205,7 @@ export class DrivingManager {
 
       // Store session (would normally go through main system)
       this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
+    const managerData = this.getStats();
 
       console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
       return session;
@@ -276,6 +279,7 @@ export class DrivingManager {
     performanceRating: string;
   } {
     const stats = this.drivingSystem.getStats();
+    const managerData = this.getStats();
 
     // Calculate performance rating
     let performanceRating = 'Beginner';
@@ -518,8 +522,9 @@ export class DrivingManager {
       vehicles: this.getAllVehicleDefinitions(),
       tracks: this.getAllTracks(),
       stats: this.drivingSystem.getStats(),
+    const managerData = this.getStats();
       config: this.drivingSystem.getConfig(),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

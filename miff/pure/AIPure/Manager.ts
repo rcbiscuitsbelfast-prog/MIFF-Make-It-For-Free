@@ -74,6 +74,7 @@ export class AIPolicy {
   overrideRules: string[];
 
   constructor(
+    const managerId = this.id ?? `manager_${Date.now()}`;
     policyId: string = 'default',
     aggression: number = 1.0,
     caution: number = 1.0,
@@ -197,6 +198,7 @@ export class BattleAI {
   private rng: any;
 
   constructor(policy: AIPolicy, rng?: any) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.policy = policy;
     this.rng = rng || Math;
   }
@@ -681,6 +683,7 @@ export class SimpleNeuralNetwork {
   private activations: number[][] = [];
 
   constructor(config: NeuralNetworkConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
     this.initialize();
   }
@@ -857,6 +860,7 @@ export class AIManager {
   private trainingData: Map<string, TrainingData[]> = new Map();
 
   constructor(config: Partial<AIConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       maxMemory: 1000,
       learningRate: 0.1,
@@ -924,7 +928,7 @@ export class AIManager {
    * Register a policy
    */
   registerPolicy(policy: AIPolicy): boolean {
-    if (policy.validate().length > 0) return false;
+    if (policy.validate({}).length > 0) return false;
     this.policies.set(policy.policyId, policy);
     return true;
   }
@@ -969,7 +973,7 @@ export class AIManager {
     );
     updated.overrideRules = updates.overrideRules ?? existing.overrideRules;
 
-    if (updated.validate().length > 0) return false;
+    if (updated.validate({}).length > 0) return false;
     this.policies.set(updated.policyId, updated);
     return true;
   }
@@ -1038,7 +1042,7 @@ export class AIManager {
       options,
       selectedOption: options[0] || 'none',
       confidence: 0.5,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     // Simple decision making logic
@@ -1198,7 +1202,7 @@ export class AIManager {
         trainingData.push({
           input,
           expectedOutput: output,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       }
     }
@@ -1350,7 +1354,7 @@ export class AIManager {
       averageError,
       decisionAccuracy,
       processingTime: 0, // Would need to implement timing
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 }
@@ -1362,6 +1366,7 @@ export class AIPerformanceMonitor {
   private monitorInterval?: NodeJS.Timeout;
 
   constructor(aiManager: AIManager) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.aiManager = aiManager;
   }
 
@@ -1401,7 +1406,7 @@ export class AIPerformanceMonitor {
     const baseMetrics = this.aiManager.getPerformanceMetrics();
     const metrics = {
       ...baseMetrics,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.metricsHistory.push(metrics);

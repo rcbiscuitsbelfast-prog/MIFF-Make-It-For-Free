@@ -217,7 +217,7 @@ describe('UnityBridgePure Golden Tests', () => {
       type: 'event' as const,
       source: 'unity',
       destination: 'bridge',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: {
         name: 'update',
         source: 'unity',

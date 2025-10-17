@@ -405,7 +405,7 @@ export class EnhancedStatsManager {
     // Cache the result
     this.calculationCache.set(entityId, {
       result: { entity, calculations },
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return {

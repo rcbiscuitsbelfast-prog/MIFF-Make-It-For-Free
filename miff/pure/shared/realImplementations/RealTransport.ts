@@ -117,7 +117,7 @@ export class RealTransport {
       id: this.generateId(),
       type: 'data',
       data,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.ws.send(JSON.stringify(message));

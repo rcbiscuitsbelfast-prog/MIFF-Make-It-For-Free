@@ -44,6 +44,7 @@ export class RemixTaggingManager {
   private config: TaggingConfig;
 
   constructor(config: TaggingConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       strictMode: true,
       autoTag: false,

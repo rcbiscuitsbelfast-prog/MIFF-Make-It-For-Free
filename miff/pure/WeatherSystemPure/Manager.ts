@@ -181,6 +181,7 @@ export class WeatherManagerPure {
   private playerPosition: { x: number; y: number } = { x: 0, y: 0 };
 
   constructor(eventBus: EventBus, config: WeatherManagerConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       initialWeather: 'clear',
       initialIntensity: 'light',
@@ -235,7 +236,7 @@ export class WeatherManagerPure {
       // Emit initialization event
       this.weatherSystem['eventBus'].emit('weather:manager_initialized', {
         config: this.config,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
 
     } catch (error: unknown) {
@@ -514,6 +515,7 @@ export class WeatherManagerPure {
    * Get system statistics
    */
   public getStats(): {
+    const managerData = this.getStats();
     currentWeather: WeatherType;
     isInitialized: boolean;
     performanceMode: string;
@@ -524,6 +526,7 @@ export class WeatherManagerPure {
     weatherChanges: number;
   } {
     const stats = this.weatherSystem.getStats();
+    const managerData = this.getStats();
     return {
       ...stats,
       isInitialized: this.isInitialized,

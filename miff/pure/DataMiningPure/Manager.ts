@@ -621,6 +621,7 @@ export class DataMiningPure {
   private analytics: DataMiningAnalytics;
 
   constructor(config: Partial<DataMiningConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableDataPreprocessing: true,
       enablePatternDiscovery: true,
@@ -733,8 +734,8 @@ export class DataMiningPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -894,7 +895,7 @@ export class DataMiningPure {
         }
       },
       status: 'training',
-      createdAt: Date.now(),
+      createdAt: new Date(),
       metadata: {},
       ...model
     };

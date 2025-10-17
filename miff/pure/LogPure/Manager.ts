@@ -192,6 +192,7 @@ export class BattleResult implements IBattleResult {
   public metadata: Record<string, any>;
 
   constructor(
+    const managerId = this.id ?? `manager_${Date.now()}`;
     success: boolean = false,
     message: string = '',
     damage?: number,
@@ -258,6 +259,7 @@ export class BattleEffect implements IBattleEffect {
   public parameters: Record<string, any>;
 
   constructor(
+    const managerId = this.id ?? `manager_${Date.now()}`;
     effectType: string = '',
     targetId: string = '',
     duration: number = 0,
@@ -334,6 +336,7 @@ export class LogManager {
   private flushTimer?: NodeJS.Timeout;
 
   constructor(config: LogManagerConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -469,7 +472,7 @@ export class LogManager {
       level,
       category,
       message,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       source,
       metadata,
       tags: this.extractTags(message, metadata)
@@ -669,6 +672,7 @@ export class LogManager {
    * Get log statistics
    */
   getStats(): LogStats {
+    const managerData = this.getStats();
     // Calculate error rate
     const errorCount = this.stats.entriesByLevel[LogLevel.ERROR] + this.stats.entriesByLevel[LogLevel.CRITICAL];
     this.stats.errorRate = this.stats.totalEntries > 0 ? (errorCount / this.stats.totalEntries) * 100 : 0;
@@ -722,6 +726,7 @@ export class LogManager {
         timestamp: entry.timestamp.toISOString()
       })),
       stats: this.getStats(),
+    const managerData = this.getStats();
       exportTime: Date.now().toISOString()
     };
   }
@@ -810,6 +815,7 @@ export class BattleLogEntry implements IBattleLogEntry {
   public timestampUtc: number;
 
   constructor(
+    const managerId = this.id ?? `manager_${Date.now()}`;
     actorId: number = 0,
     actionType: string = '',
     targetId: number = 0,
@@ -1194,6 +1200,7 @@ export class BattleLogger {
   private entries: BattleLogEntry[] = [];
 
   constructor(logManager: LogManager, battleId: string = `battle_${Date.now()}`) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.logManager = logManager;
     this.battleId = battleId;
   }

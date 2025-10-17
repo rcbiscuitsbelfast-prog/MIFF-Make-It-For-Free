@@ -184,7 +184,7 @@ export class AssetValidator {
     const results: AssetValidationResult[] = [];
     
     for (const [id, asset] of this.assetReferences) {
-      const result = await this.validateAsset(asset, rootPath);
+      const result = await this.validateAsset(asset);
       results.push(result);
       this.validationResults.set(id, result);
     }
@@ -254,9 +254,9 @@ export class AssetValidator {
         report += `- **Type:** ${result.asset.type}\n`;
         report += `- **Referenced at:** ${result.asset.referencedAt}\n`;
         
-        if (result.errors.length > 0) {
+        if (result.errors?.length > 0) {
           report += `- **Errors:**\n`;
-          result.errors.forEach((error: any) => report += `  - ${error}\n`);
+          result.errors?.forEach((error: any) => report += `  - ${error}\n`);
         }
         
         if (result.warnings.length > 0) {
@@ -283,7 +283,7 @@ export class AssetValidator {
     return this.calculateStats();
   }
 
-  private async validateAsset(asset: AssetReference, rootPath: string): Promise<AssetValidationResult> {
+  private async validateAsset(asset: AssetReference): Promise<AssetValidationResult> {
     const errors: string[] = [];
     const warnings: string[] = [];
     const suggestions: string[] = [];

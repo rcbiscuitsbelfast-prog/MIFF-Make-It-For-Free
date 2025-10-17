@@ -169,6 +169,7 @@ export class HUDManager {
   private animationFrameId?: number;
 
   constructor(config: HUDManagerConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -251,8 +252,8 @@ export class HUDManager {
         fontSize: 'medium',
         colorBlindFriendly: false
       },
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...elementData
     };
 
@@ -280,7 +281,7 @@ export class HUDManager {
     const updatedElement = {
       ...element,
       ...updates,
-      updatedAt: Date.now()
+      updatedAt: new Date()
     };
 
     this.elements.set(elementId, updatedElement);
@@ -431,8 +432,8 @@ export class HUDManager {
       theme: layoutData.theme || this.currentTheme,
       customCSS: layoutData.customCSS,
       isActive: layoutData.isActive ?? false,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...layoutData
     };
 
@@ -678,6 +679,7 @@ export class HUDManager {
    * Get HUD statistics
    */
   getStats(): HUDStats {
+    const managerData = this.getStats();
     return { ...this.stats };
   }
 

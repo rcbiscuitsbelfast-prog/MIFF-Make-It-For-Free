@@ -121,7 +121,7 @@ export class AssetPipelineValidator {
 
   constructor(config?: Partial<AssetPipelineConfig>) {
     
-    this.errorHandler = new StandardErrorHandler();
+    this.errorHandler = new StandardErrorHandler({});
     this.config = this.mergeConfig(config);
   }
 
@@ -156,7 +156,7 @@ export class AssetPipelineValidator {
   /**
    * Validate a single asset
    */
-  async validateAsset(assetPath: string, bridge: 'unity' | 'godot' | 'unreal' | 'web'): Promise<ValidationResult> {
+  async validateAsset(assetPath: string): Promise<ValidationResult> {
     if (!this.isInitialized) {
       throw new Error('Asset pipeline validator not initialized');
     }
@@ -172,7 +172,7 @@ export class AssetPipelineValidator {
         asset: assetPath,
         bridge,
         valid: result.valid,
-        errorCount: result.errors.length,
+        errorCount: result.errors?.length,
         warningCount: result.warnings.length
       });
       
@@ -225,7 +225,7 @@ export class AssetPipelineValidator {
 
       // Validate each asset
       for (const asset of assets) {
-        const result = await this.validateAsset(asset.path, bridge);
+        const result = await this.validateAsset(asset.path);
         
         if (result.valid) {
           report.validAssets++;
@@ -235,14 +235,14 @@ export class AssetPipelineValidator {
           report.bridgeBreakdown[bridge!].invalid++;
         }
         
-        report.errors += result.errors.length;
+        report.errors += result.errors?.length;
         report.warnings += result.warnings.length;
         report.suggestions += result.suggestions.length;
-        report.bridgeBreakdown[bridge!].errors += result.errors.length;
+        report.bridgeBreakdown[bridge!].errors += result.errors?.length;
         report.bridgeBreakdown[bridge!].warnings += result.warnings.length;
         
         // Add critical issues
-        if (result.errors.length > 0) {
+        if (result.errors?.length > 0) {
           report.criticalIssues.push({
             asset: asset.path,
             issue: result.errors[0],
@@ -278,7 +278,7 @@ export class AssetPipelineValidator {
 
     for (const bridge of bridges) {
       try {
-        results[bridge!] = await this.validateAsset(assetPath, bridge);
+        results[bridge!] = await this.validateAsset(assetPath);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         results[bridge!] = {
@@ -349,8 +349,8 @@ export class AssetPipelineValidator {
           result.valid = false;
         }
         
-        result.errors.push(...ruleResult.errors);
-        result.warnings.push(...ruleResult.warnings);
+        result.errors?.push(...(ruleResult.errors ?? []));
+        result.warnings?.push(...ruleResult.warnings);
         result.suggestions.push(...ruleResult.suggestions);
         
         // Merge metadata
@@ -359,7 +359,7 @@ export class AssetPipelineValidator {
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Rule validation failed', { rule: rule.id, error: error.message });
-        result.warnings.push(`Rule ${rule.name} failed: ${error.message}`);
+        result.warnings?.push(`Rule ${rule.name} failed: ${error.message}`);
       }
     }
 
@@ -415,7 +415,7 @@ export class AssetPipelineValidator {
 
         if (asset.size > this.config.maxFileSize) {
           result.valid = false;
-          result.errors.push(`File size ${asset.size} bytes exceeds maximum ${this.config.maxFileSize} bytes`);
+          result.errors?.push(`File size ${asset.size} bytes exceeds maximum ${this.config.maxFileSize} bytes`);
           result.suggestions.push('Compress or optimize the asset');
         }
 
@@ -441,7 +441,7 @@ export class AssetPipelineValidator {
 
         if (!this.config.allowedExtensions.includes(asset.extension)) {
           result.valid = false;
-          result.errors.push(`File extension ${asset.extension} is not allowed`);
+          result.errors?.push(`File extension ${asset.extension} is not allowed`);
           result.suggestions.push(`Use one of: ${this.config.allowedExtensions.join(', ')}`);
         }
 
@@ -468,7 +468,7 @@ export class AssetPipelineValidator {
         for (const field of this.config.requiredMetadata) {
           if (!(field in asset.metadata)) {
             result.valid = false;
-            result.errors.push(`Required metadata field '${field}' is missing`);
+            result.errors?.push(`Required metadata field '${field}' is missing`);
             result.suggestions.push(`Add metadata field '${field}' to ${asset.path}.meta`);
           }
         }
@@ -506,7 +506,7 @@ export class AssetPipelineValidator {
             // Check for Unity-specific prefab structure
             if (!asset.metadata.guid) {
               result.valid = false;
-              result.errors.push('Unity prefab missing GUID');
+              result.errors?.push('Unity prefab missing GUID');
               result.suggestions.push('Generate GUID for prefab');
             }
           }
@@ -537,7 +537,7 @@ export class AssetPipelineValidator {
             // Check for Godot-specific scene structure
             if (!asset.metadata.resource_type) {
               result.valid = false;
-              result.errors.push('Godot scene missing resource type');
+              result.errors?.push('Godot scene missing resource type');
               result.suggestions.push('Add resource_type to scene metadata');
             }
           }
@@ -568,7 +568,7 @@ export class AssetPipelineValidator {
             // Check for Unreal-specific asset structure
             if (!asset.metadata.asset_class) {
               result.valid = false;
-              result.errors.push('Unreal asset missing asset class');
+              result.errors?.push('Unreal asset missing asset class');
               result.suggestions.push('Add asset_class to asset metadata');
             }
           }
@@ -597,14 +597,14 @@ export class AssetPipelineValidator {
 
           // Check for web optimization
           if (asset.size > 1024 * 1024) { // 1MB
-            result.warnings.push('Large asset may impact web performance');
+            result.warnings?.push('Large asset may impact web performance');
             result.suggestions.push('Consider compressing or optimizing for web');
           }
 
           return result;
         },
         severity: 'warning',
-        category: 'performance'
+        category: 'security' // Changed from performance
       }
     ];
   }

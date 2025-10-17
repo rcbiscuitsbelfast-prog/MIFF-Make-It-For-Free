@@ -72,6 +72,7 @@ function smoothstep(t: number) { return t * t * (3 - 2 * t); }
 class TileHash {
 	private seed: number;
 	constructor(seed: number) { this.seed = seed >>> 0; }
+    const managerId = this.id ?? `manager_${Date.now()}`;
 	randomAt(ix: number, iy: number): number {
 		// spatial hash -> 32-bit -> 0..1
 		let h = (ix * 374761393) ^ (iy * 668265263) ^ this.seed;

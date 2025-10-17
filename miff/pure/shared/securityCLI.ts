@@ -192,7 +192,7 @@ class SecurityCLI {
     } else {
       console.info('❌ Input is invalid');
       console.info('Errors:');
-      result.errors.forEach((error: any) => {
+      result.errors?.forEach((error: any) => {
         console.info(`  - ${error}`);
       });
     }
@@ -215,7 +215,7 @@ class SecurityCLI {
     } else {
       console.info('❌ Password is invalid');
       console.info('Errors:');
-      result.errors.forEach((error: any) => {
+      result.errors?.forEach((error: any) => {
         console.info(`  - ${error}`);
       });
     }

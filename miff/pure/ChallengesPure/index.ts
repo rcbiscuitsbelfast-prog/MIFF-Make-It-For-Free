@@ -505,7 +505,7 @@ export class BattleChallenge implements IBattleChallenge {
       errors.push('Max turns cannot be negative');
     }
 
-    const rulesetErrors = this.ruleset.validate();
+    const rulesetErrors = this.ruleset.validate({});
     errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;
@@ -1045,7 +1045,7 @@ export class ChallengeManager implements IChallengeManager {
       return false;
     }
 
-    const errors = challenge.validate();
+    const errors = challenge.validate({});
     if (errors.length > 0) {
       console.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
       return false;
@@ -1353,7 +1353,7 @@ export const ChallengeUtils = {
       errors.push('Max turns cannot be negative');
     }
 
-    const rulesetErrors = challenge.ruleset.validate();
+    const rulesetErrors = challenge.ruleset.validate({});
     errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;

@@ -51,6 +51,7 @@ export class SpeciesEvolutionData {
   description: string;
 
   constructor(
+    const managerId = this.id ?? `manager_${Date.now()}`;
     speciesId: string,
     evolutionTargetId: string,
     conditions: EvolutionCondition[] = [],
@@ -83,7 +84,7 @@ export class SpeciesEvolutionData {
     
     // Validate conditions
     for (const condition of this.conditions) {
-      errors.push(...condition.validate());
+      errors.push(...condition.validate({}));
     }
     
     return errors;
@@ -190,6 +191,7 @@ export class EvolutionCondition {
   description: string;
 
   constructor(type: EvolutionConditionType, intValue: number, stringValue: string, description: string = '') {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.id = `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     this.type = type;
     this.intValue = intValue;
@@ -306,6 +308,7 @@ export class EvolutionManager {
   private context: PlayerContext;
 
   constructor(eventBus: EventBus, context: PlayerContext) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.context = context;
     this.initializeDefaultSpecies();
@@ -460,7 +463,7 @@ export class EvolutionManager {
       spiritId: spirit.instanceId,
       fromSpecies: previousSpecies,
       toSpecies: target,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return this.createSuccess(target, `Successfully evolved to ${target}`);

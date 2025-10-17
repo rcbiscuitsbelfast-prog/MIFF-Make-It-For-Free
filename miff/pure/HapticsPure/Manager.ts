@@ -141,6 +141,7 @@ export class HapticsManager {
   private now(): number { return Date.now(); }
 
   constructor() {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultDevices();
     this.initializeDeviceCapabilities();
     this.initializeEnvironmentalResponses();
@@ -346,16 +347,16 @@ export class HapticsManager {
     return Array.from(this.devices.values());
   }
 
-  getDevice(deviceId: string): HapticDevice | undefined {
-    return this.devices.get(deviceId);
+  getDevice(device.id: string): HapticDevice | undefined {
+    return this.devices.get(device.id);
   }
 
   addDevice(device: HapticDevice): void {
     this.devices.set(device.id, device);
   }
 
-  removeDevice(deviceId: string): boolean {
-    return this.devices.delete(deviceId);
+  removeDevice(device.id: string): boolean {
+    return this.devices.delete(device.id);
   }
 
   createSequence(sequence: HapticSequence): void {
@@ -678,6 +679,7 @@ export class HapticsManager {
   }
 
   getStats(): any {
+    const managerData = this.getStats();
     return {
       queuedRequests: this.getPending().length,
       activeRequests: this.activeRequests.size,

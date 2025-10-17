@@ -1007,6 +1007,7 @@ export class SecuritySystemPure {
   private analytics: SecuritySystemAnalytics;
 
   constructor(config: Partial<SecuritySystemConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableSecurityManagement: true,
       enableAuthentication: true,
@@ -1131,8 +1132,8 @@ export class SecuritySystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

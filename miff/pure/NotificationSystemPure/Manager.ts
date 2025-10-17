@@ -110,7 +110,7 @@ export interface NotificationRecipient {
   userId: string;
   email: string;
   phone: string;
-  deviceId: string;
+  device.id: string;
   preferences: UserPreferences;
 }
 
@@ -1010,6 +1010,7 @@ export class NotificationSystemPure {
   private analytics: NotificationSystemAnalytics;
 
   constructor(config: Partial<NotificationSystemConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableNotificationManagement: true,
       enableNotificationDelivery: true,
@@ -1130,8 +1131,8 @@ export class NotificationSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

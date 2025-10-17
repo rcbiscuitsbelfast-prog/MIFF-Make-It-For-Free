@@ -22,6 +22,7 @@ export class RitualManager {
   private ritualSystem: RitualSystemPure;
 
   constructor(ritualSystem: RitualSystemPure) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.ritualSystem = ritualSystem;
   }
 
@@ -307,6 +308,7 @@ export class RitualManager {
     totalManaSpent: number;
   } {
     const stats = this.ritualSystem.getStats();
+    const managerData = this.getStats();
     const successRate = stats.completedRituals > 0 ?
       (stats.completedRituals / (stats.completedRituals + stats.totalRituals - stats.activeRituals)) * 100 : 0;
 
@@ -493,13 +495,15 @@ export class RitualManager {
     rituals: RitualDefinition[];
     activeRituals: RitualInstance[];
     stats: ReturnType<RitualSystemPure['getStats']>;
+    const managerData = this.getStats();
     timestamp: number;
   } {
     return {
       rituals: this.getAllRitualDefinitions(),
       activeRituals: this.ritualSystem.getActiveRituals(),
       stats: this.ritualSystem.getStats(),
-      timestamp: Date.now()
+    const managerData = this.getStats();
+      timestamp: new Date()
     };
   }
 

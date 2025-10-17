@@ -457,6 +457,7 @@ export class CryptocurrencyPure {
   private analytics: CryptocurrencyAnalytics;
 
   constructor(config: Partial<CryptocurrencyConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableWalletManagement: true,
       enablePortfolioTracking: true,
@@ -572,8 +573,8 @@ export class CryptocurrencyPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -692,7 +693,7 @@ export class CryptocurrencyPure {
       currency,
       fee: this.calculateTransactionFee(amount, currency),
       status: 'pending',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       confirmations: 0,
       metadata: {}
     };

@@ -235,7 +235,7 @@ export class UnrealEditorHarnessPure {
       name: 'TestEvent',
       source: 'harness',
       data: { message: 'Hello Unreal Editor!' },
-      timestamp: Date.now(),
+      timestamp: new Date(),
       eventType: 'custom_event_1',
       category: 'test',
       severity: 'low',
@@ -725,7 +725,7 @@ export class UnrealEditorHarnessPure {
           name: 'TestAttackEvent',
           source: 'harness',
           data: { damage: 25, target: 'enemy' },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           eventType: 'actor_damage',
           category: 'combat',
           severity: 'high',
@@ -736,7 +736,7 @@ export class UnrealEditorHarnessPure {
           name: 'TestItemEvent',
           source: 'harness',
           data: { item: 'health_potion', amount: 1 },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           eventType: 'actor_heal',
           category: 'items',
           severity: 'medium',
@@ -747,7 +747,7 @@ export class UnrealEditorHarnessPure {
           name: 'TestAIDecisionEvent',
           source: 'harness',
           data: { decision: 'attack', confidence: 0.8 },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           eventType: 'ai_decision_made',
           category: 'ai',
           severity: 'low',
@@ -1036,7 +1036,7 @@ export class UnrealEditorHarnessPure {
         name: event.type,
         source: 'demo',
         data: event.data,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         eventType: 'custom_event_1',
         category: 'combat',
         severity: 'medium',
@@ -1066,7 +1066,7 @@ export class UnrealEditorHarnessPure {
         name: event.type,
         source: 'demo',
         data: event.data,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         eventType: 'custom_event_2',
         category: 'items',
         severity: 'low',
@@ -1097,7 +1097,7 @@ export class UnrealEditorHarnessPure {
         name: event.type,
         source: 'demo',
         data: event.data,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         eventType: 'custom_event_3',
         category: 'ai',
         severity: 'low',
@@ -1149,11 +1149,11 @@ export class UnrealEditorHarnessPure {
       name: 'demo_event',
       source: 'demo',
       data: { message: 'Hello from MIFF Unreal Bridge!' },
-      timestamp: Date.now(),
+      timestamp: new Date(),
       eventType: 'custom_event_1',
       category: 'demo',
       severity: 'low',
-      metadata: { demo: 'default', timestamp: Date.now() }
+      metadata: { demo: 'default', timestamp: new Date() }
     };
 
     await this.eventSync.syncEvent(testEvent);
@@ -1282,8 +1282,8 @@ export class UnrealEditorHarnessPure {
       logs.push(`\n=== Test Results ===`);
       for (const result of this.testResults) {
         logs.push(`${result.testName}: ${result.success ? 'PASS' : 'FAIL'} (${result.duration}ms)`);
-        if (result.errors.length > 0) {
-          logs.push(`  Errors: ${result.errors.join(', ')}`);
+        if (result.errors?.length > 0) {
+          logs.push(`  Errors: ${result.errors?.join(', ')}`);
         }
         if (result.warnings.length > 0) {
           logs.push(`  Warnings: ${result.warnings.join(', ')}`);

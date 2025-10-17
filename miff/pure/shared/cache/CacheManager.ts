@@ -75,7 +75,7 @@ export class CacheManager {
   /**
    * Set cache entry with intelligent handling
    */
-  set<T>(key: string, data: T, options: Partial<CacheEntry> = {}): boolean {
+  set<T extends object>(key: string, data: T, options: Partial<CacheEntry> = {}): boolean {
     try {
       const now = Date.now();
       const size = this.estimateSize(data);
@@ -91,7 +91,7 @@ export class CacheManager {
         processedData = this.compressData(data);
       }
 
-      const entry: CacheEntry<T> = {
+      const entry: CacheEntry<T extends object> = {
         key,
         data: processedData as T,
         timestamp: now,
@@ -124,7 +124,7 @@ export class CacheManager {
   /**
    * Get cache entry with performance tracking
    */
-  get<T>(key: string): T | null {
+  get<T extends object>(key: string): T | null {
     const startTime = performance.now();
     const entry = this.cache.get(key);
 
@@ -411,7 +411,7 @@ export class CacheManager {
       if (!this.config.persistencePath) return;
 
       const cacheData = {
-        timestamp: Date.now(),
+        timestamp: new Date(),
         entries: Array.from(this.cache.entries()),
         stats: this.stats
       };

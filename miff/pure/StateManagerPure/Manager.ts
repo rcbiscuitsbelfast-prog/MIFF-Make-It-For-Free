@@ -875,6 +875,7 @@ export class StateManagerPure {
   private analytics: StateManagerAnalytics;
 
   constructor(config: Partial<StateManagerConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableStateManagement: true,
       enableStatePersistence: true,
@@ -990,8 +991,8 @@ export class StateManagerPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

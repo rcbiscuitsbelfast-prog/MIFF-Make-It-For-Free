@@ -935,7 +935,7 @@ export class SceneBuilderManager {
       triggers: Array.from(this.triggers.values()),
       colliders: Array.from(this.colliders.values()),
       postProcessing: Array.from(this.postProcessing.values()),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     return JSON.stringify(sceneData, null, 2);

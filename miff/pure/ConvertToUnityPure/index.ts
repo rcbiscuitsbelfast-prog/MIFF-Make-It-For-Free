@@ -1289,7 +1289,7 @@ export class UnityConverter {
         errorCode: 'CONVERSION_FAILED',
         errorMessage: `Conversion failed: ${error}`,
         stackTrace: '',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         severity: 'critical',
         category: 'conversion',
         retryable: true,
@@ -2080,7 +2080,7 @@ export class UnityConverter {
       exportConfiguration: this.exportConfiguration,
       buildOptions: this.buildOptions,
       conversionReports: this.conversionReports,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     if (format === 'json') {

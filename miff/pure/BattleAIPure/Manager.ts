@@ -206,6 +206,7 @@ export class BattleAIManager {
   private currentStrategy?: AIStrategyConfig;
 
   constructor(config: BattleAIManagerConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -361,7 +362,7 @@ export class BattleAIManager {
         confidence: action.confidence,
         alternatives: actions.filter((a: any) => a.id !== action.id),
         expectedOutcome: this.calculateExpectedOutcome(action, context, aiState),
-        timestamp: Date.now()
+        timestamp: new Date()
       };
 
       // Update performance
@@ -388,7 +389,7 @@ export class BattleAIManager {
         confidence: 0.1,
         alternatives: [],
         expectedOutcome: { probability: 0.1 },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
       
       this.eventBus.publish('ai:error', { error, context, aiState });

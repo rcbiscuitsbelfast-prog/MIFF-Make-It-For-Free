@@ -90,7 +90,7 @@ class PixelAnimCLI {
         op: operation.op,
         status: 'error',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -115,7 +115,7 @@ class PixelAnimCLI {
         message: `Animation ${op.name} created with ${op.frames.length} frames`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -134,7 +134,7 @@ class PixelAnimCLI {
         message: `Animation created from preset ${op.presetId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -150,7 +150,7 @@ class PixelAnimCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.animation,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -172,7 +172,7 @@ class PixelAnimCLI {
         total: result.total,
         filter
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -190,7 +190,7 @@ class PixelAnimCLI {
         message: `Preset ${op.preset.id} added successfully`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -213,7 +213,7 @@ class PixelAnimCLI {
         total: result.total,
         category: op.category || 'all'
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -231,7 +231,7 @@ class PixelAnimCLI {
           op: 'createSequence',
           status: 'error',
           errors: [`Animation ${name} not found`],
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
       animations.push(animResult.animation);
@@ -252,7 +252,7 @@ class PixelAnimCLI {
         message: `Sequence ${op.sequenceName} created with ${animations.length} animations`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -268,7 +268,7 @@ class PixelAnimCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.sequence,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -288,7 +288,7 @@ class PixelAnimCLI {
         })),
         total: result.total
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -307,7 +307,7 @@ class PixelAnimCLI {
         message: `Sprite sheet created from ${op.animationNames.length} animations`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -323,7 +323,7 @@ class PixelAnimCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.simulation,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -340,7 +340,7 @@ class PixelAnimCLI {
           averageFrames: stats.averageFramesPerAnimation.toFixed(1)
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -360,7 +360,7 @@ class PixelAnimCLI {
         result: result.data,
         format,
         errors: result.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -371,7 +371,7 @@ class PixelAnimCLI {
         op: 'export',
         status: 'error',
         errors: animResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -380,11 +380,11 @@ class PixelAnimCLI {
     switch (format) {
       case 'yaml': {
         const yaml = this.toYAML(data);
-        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
         const xml = this.toXML(data, 'animation');
-        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
       case 'markdown':
@@ -401,7 +401,7 @@ class PixelAnimCLI {
           status: 'ok', 
           result: { [format!]: exportData }, 
           format, 
-          timestamp: Date.now() 
+          timestamp: new Date() 
         };
       }
       default:
@@ -410,7 +410,7 @@ class PixelAnimCLI {
           status: 'ok',
           result: data,
           format: 'json',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
     }
   }
@@ -430,7 +430,7 @@ class PixelAnimCLI {
         errors: validation.errors,
         animation: validation.valid ? op.data : null
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -448,7 +448,7 @@ class PixelAnimCLI {
         message: `Animation ${op.name} deleted successfully`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

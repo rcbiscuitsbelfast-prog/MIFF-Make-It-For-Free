@@ -47,7 +47,7 @@ function mulberry32(seed: number): () => number {
 	};
 }
 
-function choice<T>(rng: () => number, items: T[]): T { return items[Math.floor(rng() * items.length)]; }
+function choice<T extends object>(rng: () => number, items: T[]): T { return items[Math.floor(rng() * items.length)]; }
 
 function randomHex(rng: () => number): string {
 	const v = Math.floor(rng() * 0xffffff);

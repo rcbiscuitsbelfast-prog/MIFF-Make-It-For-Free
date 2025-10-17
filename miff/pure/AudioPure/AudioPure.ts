@@ -193,7 +193,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'play',
       soundId: definition.id,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data: { action: 'registered', definition }
     });
   }
@@ -206,7 +206,7 @@ export class AudioSystem {
       this.emitEvent({
         type: 'stop',
         soundId,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         data: { action: 'unregistered' }
       });
     }
@@ -245,7 +245,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'play',
       soundId,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data: { instanceId, volume, pitch, loop: sound.loop }
     });
 
@@ -278,7 +278,7 @@ export class AudioSystem {
         this.emitEvent({
           type: 'spatial',
           soundId,
-          timestamp: Date.now(),
+          timestamp: new Date(),
           data: { instanceId, spatialConfig }
         });
       }
@@ -357,7 +357,7 @@ export class AudioSystem {
       spectralCentroid,
       spectralRolloff,
       sampleRate: this.config.sampleRate,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -412,7 +412,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'stop',
       soundId: instance.soundId,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data: { instanceId, duration: Date.now() - instance.startTime }
     });
 
@@ -435,7 +435,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'pause',
       soundId: instance.soundId,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data: { instanceId, paused: true }
     });
 
@@ -453,7 +453,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'volume',
       soundId: instance.soundId,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data: { instanceId, volume: instance.volume }
     });
 

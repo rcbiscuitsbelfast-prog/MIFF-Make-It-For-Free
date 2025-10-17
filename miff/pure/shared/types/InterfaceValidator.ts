@@ -73,7 +73,7 @@ export class InterfaceValidator {
    */
   registerSchema(name: string, schema: InterfaceSchema): void {
     this.schemas.set(name, schema);
-    StructuredLogger.debug('Schema registered', { name, keys: Object.keys(schema) });
+    StructuredLogger.debug('Schema registered', { message: { name, keys: Object.keys(schema }) });
   }
 
   /**
@@ -106,7 +106,7 @@ export class InterfaceValidator {
     const warnings: ValidationWarning[] = [];
 
     // Check if data is an object
-    if (!TypeGuards.isObject(data)) {
+    if (!TypeGuards.isObject(data: any)) {
       errors.push({
         path,
         message: 'Expected object',
@@ -124,9 +124,9 @@ export class InterfaceValidator {
 
       if (TypeGuards.isObject(rule) && !('type' in rule)) {
         // Nested schema
-        if (TypeGuards.isObject(value)) {
+        if (TypeGuards.isObject(value: any)) {
           const nestedResult = this.validateAgainstSchema(value, rule as InterfaceSchema, currentPath);
-          errors.push(...nestedResult.errors);
+          errors.push(...(nestedResult.errors ?? []));
           warnings.push(...nestedResult.warnings);
         } else {
           errors.push({
@@ -142,7 +142,7 @@ export class InterfaceValidator {
         const validationRule = rule as ValidationRule;
         const result = this.validateProperty(value, validationRule, currentPath);
         if (!result.isValid) {
-          errors.push(...result.errors);
+          errors.push(...(result.errors ?? []));
         }
         if (result.warnings.length > 0) {
           warnings.push(...result.warnings);
@@ -152,7 +152,7 @@ export class InterfaceValidator {
 
     // Check for extra properties not in schema
     const schemaKeys = Object.keys(schema);
-    const dataKeys = Object.keys(data);
+    const dataKeys = Object.keys(data: any);
     const extraKeys = dataKeys.filter((key: any) => !schemaKeys.includes(key));
     
     if (extraKeys.length > 0) {
@@ -215,7 +215,7 @@ export class InterfaceValidator {
     // Type validation
     switch (rule.type) {
       case 'string':
-        if (!TypeGuards.isString(value)) {
+        if (!TypeGuards.isString(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Expected string',
@@ -247,7 +247,7 @@ export class InterfaceValidator {
           });
         }
 
-        if (rule.pattern && !rule.pattern.test(value)) {
+        if (rule.pattern && !rule.pattern.test(value: any)) {
           errors.push({
             path,
             message: `String does not match required pattern`,
@@ -257,7 +257,7 @@ export class InterfaceValidator {
           });
         }
 
-        if (rule.enum && !rule.enum.includes(value)) {
+        if (rule.enum && !rule.enum.includes(value: any)) {
           errors.push({
             path,
             message: `String must be one of: ${rule.enum.join(', ')}`,
@@ -269,7 +269,7 @@ export class InterfaceValidator {
         break;
 
       case 'number':
-        if (!TypeGuards.isNumber(value)) {
+        if (!TypeGuards.isNumber(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Expected number',
@@ -301,7 +301,7 @@ export class InterfaceValidator {
           });
         }
 
-        if (rule.enum && !rule.enum.includes(value)) {
+        if (rule.enum && !rule.enum.includes(value: any)) {
           errors.push({
             path,
             message: `Number must be one of: ${rule.enum.join(', ')}`,
@@ -313,7 +313,7 @@ export class InterfaceValidator {
         break;
 
       case 'boolean':
-        if (!TypeGuards.isBoolean(value)) {
+        if (!TypeGuards.isBoolean(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Expected boolean',
@@ -326,7 +326,7 @@ export class InterfaceValidator {
         break;
 
       case 'array':
-        if (!TypeGuards.isArray(value)) {
+        if (!TypeGuards.isArray(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Expected array',
@@ -360,7 +360,7 @@ export class InterfaceValidator {
         break;
 
       case 'object':
-        if (!TypeGuards.isObject(value)) {
+        if (!TypeGuards.isObject(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Expected object',
@@ -373,7 +373,7 @@ export class InterfaceValidator {
         break;
 
       case 'date':
-        if (!TypeGuards.isDate(value)) {
+        if (!TypeGuards.isDate(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Expected date',
@@ -386,7 +386,7 @@ export class InterfaceValidator {
         break;
 
       case 'custom':
-        if (rule.customValidator && !rule.customValidator(value)) {
+        if (rule.customValidator && !rule.customValidator(value: any)) {
           errors.push({
             path,
             message: rule.errorMessage || 'Custom validation failed',
@@ -400,7 +400,7 @@ export class InterfaceValidator {
     }
 
     // Custom validator
-    if (rule.customValidator && !rule.customValidator(value)) {
+    if (rule.customValidator && !rule.customValidator(value: any)) {
       errors.push({
         path,
         message: rule.errorMessage || 'Custom validation failed',
@@ -416,7 +416,7 @@ export class InterfaceValidator {
   /**
    * Create a type-safe validator function
    */
-  createValidator<T>(schemaName: string): (data: any) => data is T {
+  createValidator<T extends object>(schemaName: string): (data: any) => data is T {
     return (data: any): data is T => {
       const result = this.validate(schemaName, data);
       return result.isValid;

@@ -714,7 +714,7 @@ class AIPureCLI {
       console.log('');
     }
 
-    const errors = policy.validate();
+    const errors = policy.validate({});
     if (errors.length === 0) {
       console.log('✅ Policy is valid');
     } else {

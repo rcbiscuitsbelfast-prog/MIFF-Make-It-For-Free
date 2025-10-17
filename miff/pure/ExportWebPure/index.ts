@@ -597,7 +597,7 @@ export class WebExporter {
         errorCode: 'EXPORT_FAILED',
         errorMessage: `Export failed: ${error}`,
         stackTrace: '',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         severity: 'critical',
         category: 'export',
         retryable: true,
@@ -680,7 +680,7 @@ export class WebExporter {
       projectSettings: this.projectSettings,
       buildConfiguration: this.buildConfiguration,
       exportReports: this.exportReports,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     if (format === 'json') {

@@ -279,7 +279,7 @@ describe('TeamsPure Golden Tests', () => {
     test('should validate empty locked slot', () => {
       const lockedSlot = TeamSlot.create(TeamPosition.FRONT, [], [], true);
 
-      const errors = lockedSlot.validate();
+      const errors = lockedSlot.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toBe('Slot is locked and requires a spirit');
     });

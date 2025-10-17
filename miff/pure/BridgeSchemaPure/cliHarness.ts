@@ -74,7 +74,7 @@ class BridgeSchemaCLI {
         op: operation.op,
         status: 'error',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -95,7 +95,7 @@ class BridgeSchemaCLI {
         version: op.schema.version
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -111,7 +111,7 @@ class BridgeSchemaCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.schema,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -134,7 +134,7 @@ class BridgeSchemaCLI {
         total: result.total,
         engine: op.engine || 'all'
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -156,7 +156,7 @@ class BridgeSchemaCLI {
         warningCount: result.result?.warnings.length || 0
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -175,11 +175,11 @@ class BridgeSchemaCLI {
         conversion: {
           from: op.fromEngine,
           to: op.toEngine,
-          timestamp: Date.now()
+          timestamp: new Date()
         }
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -199,7 +199,7 @@ class BridgeSchemaCLI {
         inferredProperties: Object.keys(result.schema?.schema.properties || {}).length
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -219,7 +219,7 @@ class BridgeSchemaCLI {
         mappings: Object.keys(op.rule.mappings).length
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -237,7 +237,7 @@ class BridgeSchemaCLI {
           topSchema: stats.mostUsedSchemas[0]?.id || 'none'
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -253,7 +253,7 @@ class BridgeSchemaCLI {
         result: result.data,
         format,
         errors: result.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -264,7 +264,7 @@ class BridgeSchemaCLI {
         op: 'export',
         status: 'error',
         errors: registryResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -273,11 +273,11 @@ class BridgeSchemaCLI {
     switch (format) {
       case 'yaml': {
         const yaml = this.toYAML(data);
-        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
         const xml = this.toXML(data, 'bridgeSchemaRegistry');
-        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
       case 'markdown':
@@ -294,7 +294,7 @@ class BridgeSchemaCLI {
           status: 'ok', 
           result: { [format!]: exportData }, 
           format, 
-          timestamp: Date.now() 
+          timestamp: new Date() 
         };
       }
       default:
@@ -303,7 +303,7 @@ class BridgeSchemaCLI {
           status: 'ok',
           result: data,
           format: 'json',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
     }
   }
@@ -318,7 +318,7 @@ class BridgeSchemaCLI {
         cleared: result.cleared,
         message: `Cleared ${result.cleared} cached validation results`
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

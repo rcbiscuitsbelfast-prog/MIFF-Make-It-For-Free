@@ -998,6 +998,7 @@ export class NetworkPure {
   private analytics: NetworkAnalytics;
 
   constructor(config: Partial<NetworkConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableNetworkManagement: true,
       enableConnectionManagement: true,
@@ -1119,8 +1120,8 @@ export class NetworkPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

@@ -253,7 +253,7 @@ export class TestHarness {
           duration,
           retries,
           metadata: testCase.metadata,
-          timestamp: Date.now()
+          timestamp: new Date()
         };
 
         this.notifyObservers('testPassed', testResult);
@@ -274,7 +274,7 @@ export class TestHarness {
             error: error as Error,
             retries,
             metadata: testCase.metadata,
-            timestamp: Date.now()
+            timestamp: new Date()
           };
 
           this.notifyObservers('testFailed', testResult);

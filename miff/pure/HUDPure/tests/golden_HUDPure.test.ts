@@ -198,10 +198,10 @@ describe('HUDPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validSpirit = new SpiritHUDState('test', 'Test', 75, 100, ['poison'], 15, 'fire', 1);
-      expect(validSpirit.validate()).toHaveLength(0);
+      expect(validSpirit.validate({})).toHaveLength(0);
 
       const invalidSpirit = new SpiritHUDState('', '', 150, 0, [], 0);
-      const errors = invalidSpirit.validate();
+      const errors = invalidSpirit.validate({});
       expect(errors).toContain('Spirit ID cannot be empty');
       expect(errors).toContain('Name cannot be empty');
       expect(errors).toContain('Max HP must be greater than 0');
@@ -272,10 +272,10 @@ describe('HUDPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validTurn = new TurnHUDState('SelectAction', 'spirit1', 'attack', 1, 1);
-      expect(validTurn.validate()).toHaveLength(0);
+      expect(validTurn.validate({})).toHaveLength(0);
 
       const invalidTurn = new TurnHUDState('', 'spirit1', 'attack', -1, -1);
-      const errors = invalidTurn.validate();
+      const errors = invalidTurn.validate({});
       expect(errors).toContain('Phase name cannot be empty');
       expect(errors).toContain('Turn number cannot be negative');
       expect(errors).toContain('Round number cannot be negative');
@@ -442,13 +442,13 @@ describe('HUDPure Golden Tests', () => {
     });
 
     test('should validate correctly', () => {
-      expect(hudModel.validate()).toHaveLength(0);
+      expect(hudModel.validate({})).toHaveLength(0);
 
       // Add invalid spirit
       const invalidSpirit = new SpiritHUDState('', '', 50, 0);
       hudModel.player.push(invalidSpirit);
 
-      const errors = hudModel.validate();
+      const errors = hudModel.validate({});
       expect(errors).toContain('Player 1 (test): Max HP must be greater than 0');
       expect(errors).toContain('Spirit ID cannot be empty');
       expect(errors).toContain('Name cannot be empty');

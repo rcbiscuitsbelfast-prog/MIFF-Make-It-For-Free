@@ -37,7 +37,7 @@ class MockRNGProvider {
     return result;
   }
 
-  shuffle<T>(array: T[]): T[] {
+  shuffle<T extends object>(array: T[]): T[] {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = this.nextInt(0, i + 1);
@@ -246,10 +246,10 @@ describe('BattleLoopPure Golden Tests', () => {
 
     test('should validate action correctly', () => {
       const validAction = new BattleAction(1, 2, 'fire_blast', 5, 75);
-      expect(validAction.validate()).toHaveLength(0);
+      expect(validAction.validate({})).toHaveLength(0);
 
       const invalidAction = new BattleAction(-1, -2, '', 15, -10);
-      const errors = invalidAction.validate();
+      const errors = invalidAction.validate({});
       expect(errors).toContain('Actor ID cannot be negative');
       expect(errors).toContain('Target ID cannot be negative');
       expect(errors).toContain('Move ID cannot be empty');

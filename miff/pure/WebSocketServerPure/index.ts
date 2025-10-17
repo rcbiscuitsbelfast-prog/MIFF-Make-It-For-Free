@@ -115,7 +115,7 @@ export class WebSocketServerPure extends EventEmitter {
       type: 'broadcast',
       channel,
       payload,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     for (const clientId of channelClients) {
@@ -137,7 +137,7 @@ export class WebSocketServerPure extends EventEmitter {
     const message = JSON.stringify({
       type: 'direct',
       payload,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     client.ws.send(message);

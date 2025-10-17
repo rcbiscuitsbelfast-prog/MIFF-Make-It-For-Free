@@ -51,6 +51,7 @@ export class BridgeSchemaManager {
   private config: BridgeSchemaConfig;
 
   constructor(config?: Partial<BridgeSchemaConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       version: '1.0.0',
       strict: true,
@@ -383,6 +384,7 @@ export class BridgeSchemaManager {
    * Get registry statistics
    */
   getStats(): SchemaStats {
+    const managerData = this.getStats();
     const schemas = Array.from(this.registry.schemas.values());
     const schemasByEngine: Record<string, number> = {};
     
@@ -499,7 +501,7 @@ export class BridgeSchemaManager {
         if (data[prop!] !== undefined) {
           const propSchema = schema.properties[prop!];
           const propResult = this.validateAgainstJSONSchema(data[prop!], propSchema);
-          errors.push(...propResult.errors.map((e: any) => `${prop}.${e}`));
+          errors.push(...(propResult.errors ?? []).map((e: any) => `${prop}.${e}`));
           warnings.push(...propResult.warnings.map((w: any) => `${prop}.${w}`));
         }
       });

@@ -466,7 +466,7 @@ export class IdleSystemCLI {
       stats: this.idleManager.getStats(),
       resources: Array.from(this.idleSystem.getResources().entries()),
       generators: Array.from(this.idleSystem.getGenerators().entries()),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     const outputFile = filename || `idle_export_${Date.now()}.json`;

@@ -194,10 +194,10 @@ describe('ChallengesPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validRuleset = ChallengeRuleset.create(['fire'], 25, ['potion']);
-      expect(validRuleset.validate()).toHaveLength(0);
+      expect(validRuleset.validate({})).toHaveLength(0);
 
       const invalidRuleset = ChallengeRuleset.create([''], -5, ['']);
-      const errors = invalidRuleset.validate();
+      const errors = invalidRuleset.validate({});
       expect(errors).toContain('Turn limit cannot be negative');
       expect(errors).toContain('Allowed spirit types cannot contain empty strings');
       expect(errors).toContain('Banned items cannot contain empty strings');
@@ -635,7 +635,7 @@ describe('ChallengesPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validChallenge = BattleChallenge.tutorial('valid', 'Valid', 'Valid challenge', ['opp'], 10);
-      expect(validChallenge.validate()).toHaveLength(0);
+      expect(validChallenge.validate({})).toHaveLength(0);
 
       const invalidChallenge = new BattleChallenge(
         '',
@@ -650,7 +650,7 @@ describe('ChallengesPure Golden Tests', () => {
         15
       );
 
-      const errors = invalidChallenge.validate();
+      const errors = invalidChallenge.validate({});
       expect(errors).toContain('Challenge ID cannot be empty');
       expect(errors).toContain('Challenge name cannot be empty');
       expect(errors).toContain('Challenge description cannot be empty');
@@ -1121,7 +1121,7 @@ describe('ChallengesPure Golden Tests', () => {
       expect(ruleset.isCompliant(['earth'], ['healing_potion'])).toBe(false);
 
       // Test challenge validation
-      const errors = challenge.validate();
+      const errors = challenge.validate({});
       expect(errors).toHaveLength(0); // Should be valid
 
       // Test invalid challenge
@@ -1138,7 +1138,7 @@ describe('ChallengesPure Golden Tests', () => {
         5
       );
 
-      const validationErrors = invalidChallenge.validate();
+      const validationErrors = invalidChallenge.validate({});
       expect(validationErrors).toContain('Allowed spirit types cannot contain empty strings');
       expect(validationErrors).toContain('Banned items cannot contain empty strings');
     });

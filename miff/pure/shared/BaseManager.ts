@@ -265,11 +265,11 @@ export abstract class BaseManager extends EventEmitter {
   /**
    * Execute an operation with standardized tracking and error handling
    */
-  protected async executeOperation<T>(
+  protected async executeOperation<T extends object>(
     operationName: string,
-    operation: () => Promise<T>,
+    operation: () => Promise<T extends object>,
     metadata?: Record<string, unknown>
-  ): Promise<T> {
+  ): Promise<T extends object> {
     const operationId = `${operationName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const operationRecord: ManagerOperation = {
       id: operationId,
@@ -356,7 +356,7 @@ export abstract class BaseManager extends EventEmitter {
     }
   }
 
-  protected getCacheValue<T>(key: string): T! {
+  protected getCacheValue<T extends object>(key: string): T! {
     return this.cache.get(key) as T!;
   }
 

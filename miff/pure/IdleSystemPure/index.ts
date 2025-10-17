@@ -269,7 +269,7 @@ export class IdleSystemPure {
       generators: this.generators.size,
       upgrades: this.upgrades.size,
       achievements: this.achievements.size,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -805,7 +805,7 @@ export class IdleSystemPure {
       resourceId: resourceId,
       oldAmount: oldAmount,
       newAmount: newAmount,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -872,7 +872,7 @@ export class IdleSystemPure {
     this.eventBus.emit('idle:achievement_unlock', {
       achievementId: achievementId,
       achievement: achievement,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -950,7 +950,7 @@ export class IdleSystemPure {
       tier: tier,
       bonus: config.multiplier,
       totalPrestige: this.prestigeCount,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     // Unlock next prestige tier
@@ -1016,7 +1016,7 @@ export class IdleSystemPure {
     };
 
     this.eventBus.emit('idle:game_saved', {
-      timestamp: Date.now(),
+      timestamp: new Date(),
       resources: this.resources.size,
       generators: this.generators.size
     });
@@ -1107,7 +1107,7 @@ export class IdleSystemPure {
       generatorId: generatorId,
       amount: amount,
       newOwned: generator.owned,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -1154,7 +1154,7 @@ export class IdleSystemPure {
     this.eventBus.emit('idle:upgrade_purchase', {
       upgradeId: upgradeId,
       level: upgrade.currentLevel,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -1224,7 +1224,7 @@ export class IdleSystemPure {
 
     this.eventBus.emit('idle:paused', {
       paused: paused,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 

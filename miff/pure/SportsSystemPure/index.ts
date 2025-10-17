@@ -210,7 +210,7 @@ export class SportsSystemPure {
       this.eventBus.publish('sports:ball_out_of_bounds', {
         ballId: ball.id,
         position: ball.position,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -230,7 +230,7 @@ export class SportsSystemPure {
       ballId: ball.id,
       scorer: ball.lastTouchedBy,
       position: ball.position,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -250,7 +250,7 @@ export class SportsSystemPure {
 
     this.eventBus.publish('sports:team_created', {
       team: team,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return team;
@@ -288,7 +288,7 @@ export class SportsSystemPure {
     this.eventBus.publish('sports:player_created', {
       player: player,
       teamId: teamId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return player;
@@ -332,7 +332,7 @@ export class SportsSystemPure {
 
     this.eventBus.publish('sports:game_created', {
       game: game,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return game;
@@ -353,7 +353,7 @@ export class SportsSystemPure {
     this.eventBus.publish('sports:game_started', {
       gameId: gameId,
       teams: game.teams,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -369,7 +369,7 @@ export class SportsSystemPure {
 
     this.eventBus.publish('sports:game_paused', {
       gameId: gameId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -385,7 +385,7 @@ export class SportsSystemPure {
 
     this.eventBus.publish('sports:game_resumed', {
       gameId: gameId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -433,7 +433,7 @@ export class SportsSystemPure {
       gameId: gameId,
       playerId: playerId,
       targetPosition: targetPosition,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -467,7 +467,7 @@ export class SportsSystemPure {
       gameId: gameId,
       fromPlayerId: fromPlayerId,
       toPlayerId: toPlayerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -506,7 +506,7 @@ export class SportsSystemPure {
         gameId: gameId,
         tacklerId: tacklerId,
         targetId: targetId,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
 
       return true;
@@ -518,7 +518,7 @@ export class SportsSystemPure {
         gameId: gameId,
         playerId: tacklerId,
         type: 'tackle',
-        timestamp: Date.now()
+        timestamp: new Date()
       });
 
       return false;

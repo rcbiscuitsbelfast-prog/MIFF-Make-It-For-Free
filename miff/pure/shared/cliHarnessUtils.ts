@@ -129,7 +129,7 @@ function handleError(error: any, exitCode = 1) {
     op: 'error',
     status: 'error',
     error: error instanceof Error ? error.message : String(error),
-    timestamp: Date.now()
+    timestamp: new Date()
   };
   
   console.error(formatOutput(errorOutput));
@@ -147,7 +147,7 @@ function handleSuccess(data: any, operation = 'operation') {
     op: operation,
     status: 'ok',
     data,
-    timestamp: Date.now()
+    timestamp: new Date()
   };
   
   console.log(formatOutput(successOutput));
@@ -172,7 +172,7 @@ function runCLI(cliPath: string, args: string[] = []): string {
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 }

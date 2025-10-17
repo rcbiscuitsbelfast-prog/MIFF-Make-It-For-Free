@@ -46,6 +46,7 @@ export class RenderReplayManager {
   private config: ReplayConfig;
 
   constructor(config: ReplayConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
   }
 
@@ -440,7 +441,7 @@ export class RenderReplayManager {
     payloads.forEach((payload, index) => {
       const step: ReplayStep = {
         step: index + 1,
-        timestamp: Date.now().toISOString(),
+        timestamp: new Date().toISOString(),
         renderData: payload.renderData || [],
         issues: payload.issues ?? [],
         annotations: this.generateAnnotations(payload, index)

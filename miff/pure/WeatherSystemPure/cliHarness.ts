@@ -99,7 +99,7 @@ export class WeatherSystemCLI {
 
     this.eventBus.on('weather:performance', (data) => {
       this.performanceData.push({
-        timestamp: Date.now(),
+        timestamp: new Date(),
         ...data
       });
 

@@ -84,7 +84,7 @@ class SpiritTamerCLI {
         op: operation.op,
         status: 'error',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -107,7 +107,7 @@ class SpiritTamerCLI {
           remixSafe: true
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -119,7 +119,7 @@ class SpiritTamerCLI {
       status: exportResult.ok ? 'ok' : 'error',
       result: exportResult.data,
       errors: exportResult.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -135,7 +135,7 @@ class SpiritTamerCLI {
         op: 'tame',
         status: 'error',
         errors: battleResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -151,7 +151,7 @@ class SpiritTamerCLI {
         battle: battleResult.battle,
         stats: statsResult.stats
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -167,7 +167,7 @@ class SpiritTamerCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.battle,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -191,7 +191,7 @@ class SpiritTamerCLI {
         total: result.total,
         location: op.location || 'all'
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -202,7 +202,7 @@ class SpiritTamerCLI {
       op: 'player',
       status: 'ok',
       result: result.player,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -221,7 +221,7 @@ class SpiritTamerCLI {
         message: `Moved to (${op.x}, ${op.y})${op.zone ? ` in ${op.zone}` : ''}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -241,7 +241,7 @@ class SpiritTamerCLI {
         beats: result.session?.beats.length || 0
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -257,7 +257,7 @@ class SpiritTamerCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.result,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -273,7 +273,7 @@ class SpiritTamerCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.session,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -294,7 +294,7 @@ class SpiritTamerCLI {
         })),
         total: result.total
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -312,7 +312,7 @@ class SpiritTamerCLI {
           location: `${result.stats.location.zone} (${result.stats.location.x}, ${result.stats.location.y})`
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -328,7 +328,7 @@ class SpiritTamerCLI {
         result: result.data,
         format,
         errors: result.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -339,7 +339,7 @@ class SpiritTamerCLI {
         op: 'export',
         status: 'error',
         errors: saveResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -348,11 +348,11 @@ class SpiritTamerCLI {
     switch (format) {
       case 'yaml': {
         const yaml = this.toYAML(data);
-        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
         const xml = this.toXML(data, 'spiritTamerSave');
-        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
       case 'markdown':
@@ -369,7 +369,7 @@ class SpiritTamerCLI {
           status: 'ok', 
           result: { [format!]: exportData }, 
           format, 
-          timestamp: Date.now() 
+          timestamp: new Date() 
         };
       }
       default:
@@ -378,7 +378,7 @@ class SpiritTamerCLI {
           status: 'ok',
           result: data,
           format: 'json',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
     }
   }
@@ -392,7 +392,7 @@ class SpiritTamerCLI {
       result: {
         message: result.message
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -417,7 +417,7 @@ class SpiritTamerCLI {
           locations: ['grove', 'forest', 'mountain', 'cave']
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

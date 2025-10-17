@@ -350,8 +350,8 @@ describe('EvolutionPure Golden Tests', () => {
       const validCondition = EvolutionCondition.levelAtLeast(25);
       const invalidCondition = EvolutionCondition.levelAtLeast(0);
 
-      const validErrors = validCondition.validate();
-      const invalidErrors = invalidCondition.validate();
+      const validErrors = validCondition.validate({});
+      const invalidErrors = invalidCondition.validate({});
 
       expect(validErrors).toHaveLength(0);
       expect(invalidErrors).toHaveLength(1);
@@ -362,8 +362,8 @@ describe('EvolutionPure Golden Tests', () => {
       const validCondition = EvolutionCondition.requiresItem('fire_stone');
       const invalidCondition = EvolutionCondition.requiresItem('');
 
-      const validErrors = validCondition.validate();
-      const invalidErrors = invalidCondition.validate();
+      const validErrors = validCondition.validate({});
+      const invalidErrors = invalidCondition.validate({});
 
       expect(validErrors).toHaveLength(0);
       expect(invalidErrors).toHaveLength(1);
@@ -375,25 +375,25 @@ describe('EvolutionPure Golden Tests', () => {
       const lowCondition = EvolutionCondition.syncAtLeast(-1);
       const highCondition = EvolutionCondition.syncAtLeast(101);
 
-      expect(validCondition.validate()).toHaveLength(0);
-      expect(lowCondition.validate()).toHaveLength(1);
-      expect(highCondition.validate()).toHaveLength(1);
+      expect(validCondition.validate({})).toHaveLength(0);
+      expect(lowCondition.validate({})).toHaveLength(1);
+      expect(highCondition.validate({})).toHaveLength(1);
     });
 
     test('should validate lore flag conditions correctly', () => {
       const validCondition = EvolutionCondition.loreFlag('flag_name');
       const invalidCondition = EvolutionCondition.loreFlag('');
 
-      expect(validCondition.validate()).toHaveLength(0);
-      expect(invalidCondition.validate()).toHaveLength(1);
+      expect(validCondition.validate({})).toHaveLength(0);
+      expect(invalidCondition.validate({})).toHaveLength(1);
     });
 
     test('should validate location conditions correctly', () => {
       const validCondition = EvolutionCondition.atLocation('forest');
       const invalidCondition = EvolutionCondition.atLocation('');
 
-      expect(validCondition.validate()).toHaveLength(0);
-      expect(invalidCondition.validate()).toHaveLength(1);
+      expect(validCondition.validate({})).toHaveLength(0);
+      expect(invalidCondition.validate({})).toHaveLength(1);
     });
 
     test('should validate friendship conditions correctly', () => {
@@ -401,17 +401,17 @@ describe('EvolutionPure Golden Tests', () => {
       const lowCondition = EvolutionCondition.friendshipLevel(-1);
       const highCondition = EvolutionCondition.friendshipLevel(101);
 
-      expect(validCondition.validate()).toHaveLength(0);
-      expect(lowCondition.validate()).toHaveLength(1);
-      expect(highCondition.validate()).toHaveLength(1);
+      expect(validCondition.validate({})).toHaveLength(0);
+      expect(lowCondition.validate({})).toHaveLength(1);
+      expect(highCondition.validate({})).toHaveLength(1);
     });
 
     test('should validate battle count conditions correctly', () => {
       const validCondition = EvolutionCondition.battleCount(10);
       const invalidCondition = EvolutionCondition.battleCount(-1);
 
-      expect(validCondition.validate()).toHaveLength(0);
-      expect(invalidCondition.validate()).toHaveLength(1);
+      expect(validCondition.validate({})).toHaveLength(0);
+      expect(invalidCondition.validate({})).toHaveLength(1);
     });
   });
 
@@ -564,7 +564,7 @@ describe('EvolutionPure Golden Tests', () => {
         EvolutionCondition.levelAtLeast(25)
       ]);
 
-      const errors = data.validate();
+      const errors = data.validate({});
       expect(errors).toHaveLength(0);
     });
 
@@ -573,7 +573,7 @@ describe('EvolutionPure Golden Tests', () => {
         EvolutionCondition.levelAtLeast(25)
       ]);
 
-      const errors = data.validate();
+      const errors = data.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toBe('Species ID is required');
     });
@@ -583,7 +583,7 @@ describe('EvolutionPure Golden Tests', () => {
         EvolutionCondition.levelAtLeast(25)
       ]);
 
-      const errors = data.validate();
+      const errors = data.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toBe('Evolution target ID is required');
     });
@@ -593,7 +593,7 @@ describe('EvolutionPure Golden Tests', () => {
         EvolutionCondition.levelAtLeast(25)
       ]);
 
-      const errors = data.validate();
+      const errors = data.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toBe('Species cannot evolve into itself');
     });
@@ -603,7 +603,7 @@ describe('EvolutionPure Golden Tests', () => {
         EvolutionCondition.levelAtLeast(0) // Invalid level
       ]);
 
-      const errors = data.validate();
+      const errors = data.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toBe('Condition 0: Level must be greater than 0');
     });

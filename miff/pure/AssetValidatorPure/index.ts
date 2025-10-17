@@ -109,7 +109,7 @@ export function validateAssetBundle(
 
   // Validate each scenario asset
   for (const assetRef of scenarioAssets) {
-    const result = validateAsset(assetRef, context);
+    const result = validateAsset(assetRef);
     results.push(result);
     
     if (result.status === 'missing' || result.status === 'invalid') {
@@ -225,7 +225,7 @@ function validateAsset(
 
   // Check attribution for remix-safe compliance
   if (!manifestAsset.attribution && context.strictMode) {
-    result.warnings.push('Missing attribution information');
+    result.warnings?.push('Missing attribution information');
   }
 
   // Set metadata

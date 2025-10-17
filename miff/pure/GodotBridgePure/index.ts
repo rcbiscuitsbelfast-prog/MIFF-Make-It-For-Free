@@ -1259,7 +1259,7 @@ export class GodotBridgeManager {
         data: result.data,
         error: result.error,
         executionTime: result.executionTime,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1275,13 +1275,13 @@ export class GodotBridgeManager {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
           context: { commandId: command.id },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           severity: 'high',
           category: 'execution',
           retryable: true
         },
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1307,7 +1307,7 @@ export class GodotBridgeManager {
         success: true,
         data: result,
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1323,13 +1323,13 @@ export class GodotBridgeManager {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
           context: { queryId: query.id },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           severity: 'high',
           category: 'execution',
           retryable: true
         },
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1416,7 +1416,7 @@ export class GodotBridgeManager {
       type: 'response',
       source: 'bridge',
       destination: 'godot',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: response,
       priority: 0,
       ttl: 30000,
@@ -1437,9 +1437,9 @@ export class GodotBridgeManager {
       type: 'heartbeat',
       source: 'bridge',
       destination: 'godot',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: {
-        timestamp: Date.now(),
+        timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0],
         statistics: this.statistics
       },
@@ -1607,7 +1607,7 @@ export class GodotBridgeManager {
       resources: Array.from(this.resources.values()),
       statistics: this.statistics,
       performanceMetrics: this.performanceMetrics,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     if (format === 'json') {

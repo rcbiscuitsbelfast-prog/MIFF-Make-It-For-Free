@@ -379,7 +379,7 @@ export class AudioManager {
       frequencyData: new Float32Array(1024),
       timeData: new Float32Array(1024),
       sampleRate: 44100,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

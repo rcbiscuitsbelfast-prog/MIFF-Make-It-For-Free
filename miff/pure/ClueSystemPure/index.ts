@@ -214,7 +214,7 @@ export class ClueSystemPure {
         questions: [],
         hypotheses: [],
         completedAt: 0,
-        updatedAt: Date.now()
+        updatedAt: new Date()
       }
     };
     this.clues.set(full.id, full);
@@ -258,7 +258,7 @@ export class ClueSystemPure {
         confidence: 90,
         category: 'logic',
         tags: ['timeline', 'consistency'],
-        createdAt: Date.now()
+        createdAt: new Date()
       },
       {
         id: 'motive_opportunity',
@@ -275,7 +275,7 @@ export class ClueSystemPure {
         confidence: 75,
         category: 'deduction',
         tags: ['motive', 'opportunity', 'suspect'],
-        createdAt: Date.now()
+        createdAt: new Date()
       }
     ];
 
@@ -375,7 +375,7 @@ export class ClueSystemPure {
       investigationId: investigation.id,
       conclusion: rule.conclusion,
       confidence: rule.confidence,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -398,7 +398,7 @@ export class ClueSystemPure {
     this.eventBus.publish('clue:progress_updated', {
       investigationId: investigation.id,
       progress: progress,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -455,7 +455,7 @@ export class ClueSystemPure {
       clue1Id: clue1Id,
       clue2Id: clue2Id,
       contradiction: contradiction,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -477,7 +477,7 @@ export class ClueSystemPure {
       this.eventBus.publish('clue:timeline_inconsistency', {
         investigationId: investigation.id,
         message: 'Timeline events are not in chronological order',
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -496,15 +496,15 @@ export class ClueSystemPure {
       timeline: [],
       progress: 0,
       difficulty: difficulty,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     this.investigations.set(investigation.id, investigation);
 
     this.eventBus.publish('clue:investigation_created', {
       investigation: investigation,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return investigation;
@@ -550,7 +550,7 @@ export class ClueSystemPure {
     this.eventBus.publish('clue:added', {
       investigationId: investigationId,
       clue: clue,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return clue;
@@ -569,7 +569,7 @@ export class ClueSystemPure {
       relationshipType: relationshipType,
       strength: Math.max(0, Math.min(100, strength)),
       description: description,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       createdBy: createdBy
     };
 
@@ -588,7 +588,7 @@ export class ClueSystemPure {
       connection: connection,
       clue1Id: clue1Id,
       clue2Id: clue2Id,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return connection;
@@ -606,8 +606,8 @@ export class ClueSystemPure {
       contradictingClues: [],
       confidence: 25, // Start low, build up with evidence
       status: 'active',
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       creator: createdBy
     };
 
@@ -616,7 +616,7 @@ export class ClueSystemPure {
     this.eventBus.publish('clue:hypothesis_created', {
       investigationId: investigationId,
       hypothesis: hypothesis,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return hypothesis;
@@ -654,7 +654,7 @@ export class ClueSystemPure {
     this.eventBus.publish('clue:suspect_added', {
       investigationId: investigationId,
       suspect: suspect,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return suspect;
@@ -674,7 +674,7 @@ export class ClueSystemPure {
       questions: questions,
       hypotheses: [],
       completedAt: Date.now(),
-      updatedAt: Date.now()
+      updatedAt: new Date()
     };
 
     clue.analysis = analysis;
@@ -683,7 +683,7 @@ export class ClueSystemPure {
     this.eventBus.publish('clue:analyzed', {
       clueId: clueId,
       analysis: analysis,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return analysis;
@@ -720,7 +720,7 @@ export class ClueSystemPure {
     this.eventBus.publish('clue:timeline_event_added', {
       investigationId: investigationId,
       event: event,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return event;
@@ -773,7 +773,7 @@ export class ClueSystemPure {
       questions: [],
       hypotheses: [],
       completedAt: 0,
-      updatedAt: Date.now()
+      updatedAt: new Date()
     };
   }
 

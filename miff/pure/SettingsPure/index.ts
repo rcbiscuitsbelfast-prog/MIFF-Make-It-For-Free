@@ -243,7 +243,7 @@ export class SettingsManager {
 
     // Record the change
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { [key!]: { old: oldValue, new: value } }
     });
 
@@ -277,7 +277,7 @@ export class SettingsManager {
     (this.settings as any)[category!] = { ...oldValues, ...values };
 
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { [category!]: { old: oldValues, new: values } }
     });
 
@@ -325,7 +325,7 @@ export class SettingsManager {
   reset(): void {
     this.settings = { ...this.defaults };
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { reset: true }
     });
   }
@@ -339,7 +339,7 @@ export class SettingsManager {
     (this.settings as any)[category!] = { ...(this.defaults as any)[category!] };
 
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { [category]: { old: oldValues, new: (this.defaults as any)[category] } }
     });
 

@@ -136,7 +136,7 @@ export class PetCollectionPure {
     this.eventBus.publish('pet:egg_created', {
       egg: egg,
       ownerId: ownerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return egg;
@@ -160,7 +160,7 @@ export class PetCollectionPure {
       eggId: eggId,
       pet: pet,
       ownerId: egg.ownerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return pet;
@@ -247,7 +247,7 @@ export class PetCollectionPure {
       requestedPetId: requestedPetId,
       requestedItems: requestedItems,
       status: 'pending',
-      createdAt: Date.now(),
+      createdAt: new Date(),
       expiresAt: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
     };
 
@@ -256,7 +256,7 @@ export class PetCollectionPure {
     this.eventBus.publish('pet:trade_created', {
       tradeOffer: tradeOffer,
       ownerId: ownerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return tradeOffer;
@@ -289,7 +289,7 @@ export class PetCollectionPure {
     this.eventBus.publish('pet:trade_completed', {
       tradeId: tradeId,
       participants: [trade.ownerId, accepterId],
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -307,7 +307,7 @@ export class PetCollectionPure {
     this.eventBus.publish('pet:fed', {
       petId: petId,
       ownerId: ownerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -325,7 +325,7 @@ export class PetCollectionPure {
       petId: petId,
       isFavorite: pet.isFavorite,
       ownerId: ownerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;

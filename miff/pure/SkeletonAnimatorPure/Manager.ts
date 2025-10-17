@@ -25,6 +25,7 @@ export class SkeletonAnimatorManager {
   private skeletonState: SkeletonState;
 
   constructor(initialRigConfig?: Partial<RigConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.rigBuilder = new RigBuilder(initialRigConfig);
     this.skeletonState = {
       rig: this.rigBuilder.getConfig(),
@@ -153,6 +154,7 @@ export class SkeletonAnimatorManager {
       if (this.skinMeshGenerator) {
         this.skinMeshGenerator.generateBaseMesh();
         // Materials are created automatically in constructor
+    const managerId = this.id ?? `manager_${Date.now()}`;
         this.skeletonState.skin = this.skinMeshGenerator.getSkinConfig();
       }
     }
@@ -317,32 +319,32 @@ export class SkeletonAnimatorManager {
     const errors: string[] = [];
 
     // Validate rig
-    const rigValidation = this.rigBuilder.validate();
+    const rigValidation = this.rigBuilder.validate({});
     if (!rigValidation.valid) {
-      errors.push(...rigValidation.errors.map((e: any) => `Rig: ${e}`));
+      errors.push(...(rigValidation.errors ?? []).map((e: any) => `Rig: ${e}`));
     }
 
     // Validate skin
     if (this.skinMeshGenerator) {
-      const skinValidation = this.skinMeshGenerator.validate();
+      const skinValidation = this.skinMeshGenerator.validate({});
       if (!skinValidation.valid) {
-        errors.push(...skinValidation.errors.map((e: any) => `Skin: ${e}`));
+        errors.push(...(skinValidation.errors ?? []).map((e: any) => `Skin: ${e}`));
       }
     }
 
     // Validate face
     if (this.facialDetailBuilder) {
-      const faceValidation = this.facialDetailBuilder.validate();
+      const faceValidation = this.facialDetailBuilder.validate({});
       if (!faceValidation.valid) {
-        errors.push(...faceValidation.errors.map((e: any) => `Face: ${e}`));
+        errors.push(...(faceValidation.errors ?? []).map((e: any) => `Face: ${e}`));
       }
     }
 
     // Validate animations
     if (this.animationSequencer) {
-      const animValidation = this.animationSequencer.validate();
+      const animValidation = this.animationSequencer.validate({});
       if (!animValidation.valid) {
-        errors.push(...animValidation.errors.map((e: any) => `Animation: ${e}`));
+        errors.push(...(animValidation.errors ?? []).map((e: any) => `Animation: ${e}`));
       }
     }
 
@@ -421,7 +423,7 @@ export class SkeletonAnimatorManager {
       skeletonState: this.skeletonState,
       status: this.getStatus(),
       exportFormat: 'miff-skeleton-state-v1',
-      timestamp: Date.now().toISOString()
+      timestamp: new Date().toISOString()
     };
     return JSON.stringify(exportData, null, 2);
   }

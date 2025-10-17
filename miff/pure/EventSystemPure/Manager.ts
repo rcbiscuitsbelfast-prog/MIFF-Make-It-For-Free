@@ -760,6 +760,7 @@ export class EventSystemPure {
   private analytics: EventSystemAnalytics;
 
   constructor(config: Partial<EventSystemConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableEventManagement: true,
       enableEventHandling: true,
@@ -875,8 +876,8 @@ export class EventSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -965,7 +966,7 @@ export class EventSystemPure {
         sessionId: '',
         requestId: ''
       },
-      timestamp: Date.now(),
+      timestamp: new Date(),
       source: event.source || {
         id: 'system',
         type: 'system',

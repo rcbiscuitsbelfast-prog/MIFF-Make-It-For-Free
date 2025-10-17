@@ -416,7 +416,7 @@ export class InventoryManager {
       fromSlot,
       toSlot,
       equipSlot,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.system.transactions.push(transaction);

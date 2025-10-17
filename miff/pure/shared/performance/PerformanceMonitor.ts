@@ -110,7 +110,7 @@ export class PerformanceMonitor {
    */
   private collectMetrics(): void {
     const metrics: PerformanceMetrics = {
-      timestamp: Date.now(),
+      timestamp: new Date(),
       memory: this.getMemoryMetrics(),
       cpu: this.getCPUMetrics(),
       network: { ...this.networkStats },

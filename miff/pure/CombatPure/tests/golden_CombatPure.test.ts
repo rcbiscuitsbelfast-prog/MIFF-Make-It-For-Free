@@ -211,11 +211,11 @@ describe('CombatPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validMove = new MoveData('test', 'Test Move', MoveCategory.PHYSICAL, 40, 0.9, 5, 'fire');
-      expect(validMove.validate()).toHaveLength(0);
+      expect(validMove.validate({})).toHaveLength(0);
 
       // Test with empty ID and name - these should fail validation
       const invalidMove = new MoveData('', '', MoveCategory.PHYSICAL, -10, -0.5, -5, 'fire');
-      const errors = invalidMove.validate();
+      const errors = invalidMove.validate({});
       expect(errors).toContain('Move ID cannot be empty');
       expect(errors).toContain('Move name cannot be empty');
       // Note: Other values are clamped by constructor, so they become valid
@@ -369,12 +369,12 @@ describe('CombatPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validSpirit = new SpiritInstance('100', 'test', 'neutral', { hp: 80, maxHp: 100, atk: 20, def: 15, spd: 25 });
-      expect(validSpirit.validate()).toHaveLength(0);
+      expect(validSpirit.validate({})).toHaveLength(0);
 
       // Test validation directly - create a valid spirit and modify its name
       const testSpirit = new SpiritInstance('101', 'test', 'neutral', { hp: 150, maxHp: 0, atk: 20, def: 15, spd: 25 });
       (testSpirit as any).name = ''; // Force empty name after construction
-      const errors = testSpirit.validate();
+      const errors = testSpirit.validate({});
       expect(errors).toContain('Spirit name cannot be empty');
     });
   });

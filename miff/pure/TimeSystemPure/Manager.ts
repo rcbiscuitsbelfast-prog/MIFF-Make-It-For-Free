@@ -89,6 +89,7 @@ export class TimeManager {
   private updateInterval: number;
 
   constructor(config: TimeManagerConfig = {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     initialTime: 0,
     updateInterval: 1000,
     enablePersistence: false,
@@ -514,6 +515,7 @@ export class TimeManager {
    * Get time statistics
    */
   getStats(): TimeOutput {
+    const managerData = this.getStats();
     const totalTimerDuration = Array.from(this.timers.values()).reduce((sum, t) => sum + t.duration, 0);
     const totalCooldownDuration = Array.from(this.cooldowns.values()).reduce((sum, c) => sum + c.duration, 0);
 

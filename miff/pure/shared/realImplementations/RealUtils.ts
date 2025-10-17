@@ -52,16 +52,16 @@ export interface ArrayUtils {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  unique<T>(arr: T[]): T[];
-  chunk<T>(arr: T[], size: number): T[][];
-  flatten<T>(arr: T[][]): T[];
-  groupBy<T>(arr: T[], key: keyof T): Record<string, T[]>;
-  sortBy<T>(arr: T[], key: keyof T): T[];
-  shuffle<T>(arr: T[]): T[];
-  sample<T>(arr: T[], count: number): T[];
-  difference<T>(arr1: T[], arr2: T[]): T[];
-  intersection<T>(arr1: T[], arr2: T[]): T[];
-  union<T>(arr1: T[], arr2: T[]): T[];
+  unique<T extends object>(arr: T[]): T[];
+  chunk<T extends object>(arr: T[], size: number): T[][];
+  flatten<T extends object>(arr: T[][]): T[];
+  groupBy<T extends object>(arr: T[], key: keyof T): Record<string, T[]>;
+  sortBy<T extends object>(arr: T[], key: keyof T): T[];
+  shuffle<T extends object>(arr: T[]): T[];
+  sample<T extends object>(arr: T[], count: number): T[];
+  difference<T extends object>(arr1: T[], arr2: T[]): T[];
+  intersection<T extends object>(arr1: T[], arr2: T[]): T[];
+  union<T extends object>(arr1: T[], arr2: T[]): T[];
   zip<T, U>(arr1: T[], arr2: U[]): [T, U][];
   unzip<T, U>(arr: [T, U][]): [T[], U[]];
 }
@@ -79,8 +79,8 @@ export interface ObjectUtils {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  deepClone<T>(obj: T): T;
-  deepMerge<T>(target: T, source: Partial<T>): T;
+  deepClone<T extends object>(obj: T): T;
+  deepMerge<T extends object>(target: T, source: Partial<T extends object>): T;
   pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
   omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>;
   isEmpty(obj): boolean;
@@ -88,7 +88,7 @@ export interface ObjectUtils {
   keys<T extends object>(obj: T): (keyof T)[];
   values<T extends object>(obj: T): T[keyof T][];
   entries<T extends object>(obj: T): [keyof T, T[keyof T]][];
-  fromEntries<T>(entries: [string, any][]): T;
+  fromEntries<T extends object>(entries: [string, any][]): T;
   mapKeys<T extends object>(obj: T, fn: (key: keyof T) => string): Record<string, any>;
   mapValues<T extends object>(obj: T, fn: (value: T[keyof T]) => any): Record<keyof T, any>;
 }
@@ -208,16 +208,16 @@ export class RealUtils {
    * Array utilities
    */
   array: ArrayUtils = {
-    unique: <T>(arr: T[]) => [...new Set(arr)],
-    chunk: <T>(arr: T[], size: number) => {
+    unique: <T extends object>(arr: T[]) => [...new Set(arr)],
+    chunk: <T extends object>(arr: T[], size: number) => {
       const chunks: T[][] = [];
       for (let i = 0; i < arr.length; i += size) {
         chunks.push(arr.slice(i, i + size));
       }
       return chunks;
     },
-    flatten: <T>(arr: T[][]) => arr.reduce((acc, val) => acc.concat(val), []),
-    groupBy: <T>(arr: T[], key: keyof T) => {
+    flatten: <T extends object>(arr: T[][]) => arr.reduce((acc, val) => acc.concat(val), []),
+    groupBy: <T extends object>(arr: T[], key: keyof T) => {
       return arr.reduce((groups, item) => {
         const group = String(item[key!]);
         groups[group!] = groups[group!] || [];
@@ -225,14 +225,14 @@ export class RealUtils {
         return groups;
       }, {} as Record<string, T[]>);
     },
-    sortBy: <T>(arr: T[], key: keyof T) => {
+    sortBy: <T extends object>(arr: T[], key: keyof T) => {
       return [...arr].sort((a: any, b: any) => {
         const aVal = a[key!];
         const bVal = b[key!];
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       });
     },
-    shuffle: <T>(arr: T[]) => {
+    shuffle: <T extends object>(arr: T[]) => {
       const shuffled = [...arr];
       for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -240,13 +240,13 @@ export class RealUtils {
       }
       return shuffled;
     },
-    sample: <T>(arr: T[], count: number) => {
+    sample: <T extends object>(arr: T[], count: number) => {
       const shuffled = this.array.shuffle(arr);
       return shuffled.slice(0, count);
     },
-    difference: <T>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => !arr2.includes(item)),
-    intersection: <T>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => arr2.includes(item)),
-    union: <T>(arr1: T[], arr2: T[]) => this.array.unique([...arr1, ...arr2]),
+    difference: <T extends object>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => !arr2.includes(item)),
+    intersection: <T extends object>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => arr2.includes(item)),
+    union: <T extends object>(arr1: T[], arr2: T[]) => this.array.unique([...arr1, ...arr2]),
     zip: <T, U>(arr1: T[], arr2: U[]) => {
       const length = Math.min(arr1.length, arr2.length);
       const result: [T, U][] = [];
@@ -270,7 +270,7 @@ export class RealUtils {
    * Object utilities
    */
   object: ObjectUtils = {
-    deepClone: <T>(obj: T): T => {
+    deepClone: <T extends object>(obj: T): T => {
       if (obj === null || typeof obj !== 'object') return obj;
       if (obj instanceof Date) return new Date(obj.getTime()) as any;
       if (obj instanceof Array) return obj.map((item: any) => this.object.deepClone(item)) as any;
@@ -285,7 +285,7 @@ export class RealUtils {
       }
       return obj;
     },
-    deepMerge: <T>(target: T, source: Partial<T>): T => {
+    deepMerge: <T extends object>(target: T, source: Partial<T extends object>): T => {
       const result = { ...target };
       for (const key in source) {
         if (source.hasOwnProperty(key)) {
@@ -344,7 +344,7 @@ export class RealUtils {
     keys: <T extends object>(obj: T) => Object.keys(obj) as (keyof T)[],
     values: <T extends object>(obj: T) => Object.values(obj) as T[keyof T][],
     entries: <T extends object>(obj: T) => Object.entries(obj) as [keyof T, T[keyof T]][],
-    fromEntries: <T>(entries: [string, any][]) => Object.fromEntries(entries) as T,
+    fromEntries: <T extends object>(entries: [string, any][]) => Object.fromEntries(entries) as T,
     mapKeys: <T extends object>(obj: T, fn: (key: keyof T) => string) => {
       const result: Record<string, any> = {};
       for (const [key, value] of this.object.entries(obj as object)) {

@@ -1614,7 +1614,7 @@ export class SpiritCollection implements ISpiritCollection {
     const errors: string[] = [];
 
     this.spirits.forEach((spirit, index) => {
-      const spiritErrors = spirit.validate();
+      const spiritErrors = spirit.validate({});
       if (spiritErrors.length > 0) {
         errors.push(`Spirit ${index} (${spirit.spiritName}): ${spiritErrors.join(', ')}`);
       }

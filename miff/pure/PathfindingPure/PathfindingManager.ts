@@ -137,7 +137,7 @@ export class PathfindingManager {
     this.grid.dynamic.push({
       x,
       y,
-      timestamp: Date.now() + duration
+      timestamp: new Date() + duration
     });
 
     return {
@@ -287,7 +287,7 @@ export class PathfindingManager {
           success: true,
           algorithm: 'astar',
           heuristic,
-          timestamp: Date.now()
+          timestamp: new Date()
         };
 
         this.results.push(result);
@@ -331,7 +331,7 @@ export class PathfindingManager {
       success: false,
       algorithm: 'astar',
       heuristic,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.results.push(result);
@@ -388,7 +388,7 @@ export class PathfindingManager {
     const startKey = key(start);
     const goalKey = key(goal);
     if (!dist.has(startKey) || !dist.has(goalKey)) {
-      const result: PathfindingResult = { requestId, path: [], cost: 0, iterations: 0, success: false, algorithm: 'dijkstra', timestamp: Date.now() };
+      const result: PathfindingResult = { requestId, path: [], cost: 0, iterations: 0, success: false, algorithm: 'dijkstra', timestamp: new Date() };
       this.results.push(result);
       return result;
     }
@@ -409,7 +409,7 @@ export class PathfindingManager {
           path.unshift({ x: node.x, y: node.y });
           node = prev.get(key(node));
         }
-        const result: PathfindingResult = { requestId, path, cost: dist.get(goalKey) || 0, iterations, success: true, algorithm: 'dijkstra', timestamp: Date.now() };
+        const result: PathfindingResult = { requestId, path, cost: dist.get(goalKey) || 0, iterations, success: true, algorithm: 'dijkstra', timestamp: new Date() };
         this.results.push(result);
         return result;
       }
@@ -434,7 +434,7 @@ export class PathfindingManager {
       this.results.push(mapped);
       return mapped;
     }
-    const result: PathfindingResult = { requestId, path: [], cost: 0, iterations, success: false, algorithm: 'dijkstra', timestamp: Date.now() };
+    const result: PathfindingResult = { requestId, path: [], cost: 0, iterations, success: false, algorithm: 'dijkstra', timestamp: new Date() };
     this.results.push(result);
     return result;
   }
@@ -494,7 +494,7 @@ export class PathfindingManager {
           iterations,
           success: true,
           algorithm: 'bfs',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
 
         this.results.push(result);
@@ -519,7 +519,7 @@ export class PathfindingManager {
       iterations,
       success: false,
       algorithm: 'bfs',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.results.push(result);

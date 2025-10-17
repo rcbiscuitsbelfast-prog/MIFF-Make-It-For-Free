@@ -571,7 +571,7 @@ export class RaidManager {
         encounters: encounterDetails,
         difficultyBreakdown
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 }

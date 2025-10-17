@@ -361,7 +361,7 @@ export class RestaurantSimulationPure {
       config: this.config,
       facilities: this.facilities.size,
       menuItems: this.menuItems.size,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -738,7 +738,7 @@ export class RestaurantSimulationPure {
 
     this.eventBus.emit('restaurant:customer_arrived', {
       customer: customer,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -834,7 +834,7 @@ export class RestaurantSimulationPure {
 
     this.eventBus.emit('restaurant:order_placed', {
       order: order,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -995,7 +995,7 @@ export class RestaurantSimulationPure {
 
     this.eventBus.emit('restaurant:order_completed', {
       order: order,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -1008,7 +1008,7 @@ export class RestaurantSimulationPure {
       ingredientId: ingredient.id,
       quantity: ingredient.reorderQuantity,
       supplier: ingredient.supplier,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -1103,7 +1103,7 @@ export class RestaurantSimulationPure {
         oldReputation: this.reputation - reputationChange,
         newReputation: this.reputation,
         change: reputationChange,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -1197,7 +1197,7 @@ export class RestaurantSimulationPure {
 
     this.eventBus.emit('restaurant:paused', {
       paused: paused,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 

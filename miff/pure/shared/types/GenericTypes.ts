@@ -12,59 +12,59 @@ import { StructuredLogger } from '../logging/StructuredLogger';
 import { TypeGuards } from './TypeGuards';
 
 // Advanced generic type utilities
-export type NonNullable<T> = T extends null | undefined ? never : T;
+export type NonNullable<T extends object> = T extends null | undefined ? never : T;
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type Required<T, K extends keyof T> = T & { [P in K]-?: T[P] };
-export type DeepPartial<T> = {
+export type DeepPartial<T extends object> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
-export type DeepRequired<T> = {
+export type DeepRequired<T extends object> = {
   [P in keyof T]-?: T[P] extends object ? DeepRequired<T[P]> : T[P];
 };
-export type DeepReadonly<T> = {
+export type DeepReadonly<T extends object> = {
   readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
 };
-export type DeepMutable<T> = {
+export type DeepMutable<T extends object> = {
   -readonly [P in keyof T]: T[P] extends object ? DeepMutable<T[P]> : T[P];
 };
 
 // Type constraint utilities
-export type StringKeys<T> = {
+export type StringKeys<T extends object> = {
   [K in keyof T]: T[K] extends string ? K : never;
 }[keyof T];
 
-export type NumberKeys<T> = {
+export type NumberKeys<T extends object> = {
   [K in keyof T]: T[K] extends number ? K : never;
 }[keyof T];
 
-export type BooleanKeys<T> = {
+export type BooleanKeys<T extends object> = {
   [K in keyof T]: T[K] extends boolean ? K : never;
 }[keyof T];
 
-export type FunctionKeys<T> = {
+export type FunctionKeys<T extends object> = {
   [K in keyof T]: T[K] extends Function ? K : never;
 }[keyof T];
 
-export type ArrayKeys<T> = {
+export type ArrayKeys<T extends object> = {
   [K in keyof T]: T[K] extends any[] ? K : never;
 }[keyof T];
 
-export type ObjectKeys<T> = {
+export type ObjectKeys<T extends object> = {
   [K in keyof T]: T[K] extends object ? K : never;
 }[keyof T];
 
 // Conditional type utilities
 export type If<C extends boolean, T, F> = C extends true ? T : F;
-export type IsArray<T> = T extends any[] ? true : false;
-export type IsObject<T> = T extends object ? true : false;
-export type IsFunction<T> = T extends Function ? true : false;
-export type IsString<T> = T extends string ? true : false;
-export type IsNumber<T> = T extends number ? true : false;
-export type IsBoolean<T> = T extends boolean ? true : false;
+export type IsArray<T extends object> = T extends any[] ? true : false;
+export type IsObject<T extends object> = T extends object ? true : false;
+export type IsFunction<T extends object> = T extends Function ? true : false;
+export type IsString<T extends object> = T extends string ? true : false;
+export type IsNumber<T extends object> = T extends number ? true : false;
+export type IsBoolean<T extends object> = T extends boolean ? true : false;
 
 // Utility type operations
 export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
-export type LastOf<T> = UnionToIntersection<T extends any ? () => T : never> extends () => infer R ? R : never;
+export type LastOf<T extends object> = UnionToIntersection<T extends any ? () => T : never> extends () => infer R ? R : never;
 export type Push<T extends any[], V> = [...T, V];
 export type Unshift<T extends any[], V> = [V, ...T];
 export type Concat<T extends any[], U extends any[]> = [...T, ...U];
@@ -102,7 +102,7 @@ export interface Equatable {
   equals(other: this): boolean;
 }
 
-export interface Comparable<T> {
+export interface Comparable<T extends object> {
   compareTo(other: T): number;
 }
 
@@ -111,15 +111,15 @@ export interface Hashable {
 }
 
 // Generic type factory
-export interface TypeFactory<T> {
+export interface TypeFactory<T extends object> {
   create(): T;
-  createFrom(data: Partial<T>): T;
-  validate(data): data is T;
+  createFrom(data: Partial<T extends object>): T;
+  validate(data: any): data is T;
   clone(instance: T): T;
   equals(a: T, b: T): boolean;
 }
 
-export class GenericTypeFactory<T> implements TypeFactory<T> {
+export class GenericTypeFactory<T extends object> implements TypeFactory<T extends object> {
   private logger: StructuredLogger;
   private validator: (data: any) => data is T;
   private cloner: (instance: T) => T;
@@ -141,15 +141,15 @@ export class GenericTypeFactory<T> implements TypeFactory<T> {
     return {} as T;
   }
 
-  createFrom(data: Partial<T>): T {
-    StructuredLogger.debug('Creating instance from partial data', { data });
+  createFrom(data: Partial<T extends object>): T {
+    StructuredLogger.debug('Creating instance from partial data', { message: { data } });
     return { ...data } as T;
   }
 
-  validate(data): data is T {
-    const isValid = this.validator(data);
+  validate(data: any): data is T {
+    const isValid = this.validator(data: any);
     if (!isValid) {
-      StructuredLogger.warn('Validation failed', { data, type: typeof data });
+      StructuredLogger.warn('Validation failed' ?? 'unknown', { message: { data, type: typeof data } });
     }
     return isValid;
   }
@@ -161,7 +161,7 @@ export class GenericTypeFactory<T> implements TypeFactory<T> {
 
   equals(a: T, b: T): boolean {
     const isEqual = this.equalizer(a, b);
-    StructuredLogger.debug('Comparing instances', { isEqual });
+    StructuredLogger.debug('Comparing instances', { message: { isEqual } });
     return isEqual;
   }
 }
@@ -187,7 +187,7 @@ export class GenericUtils {
    */
   static safeAccess<T, K extends keyof T>(obj: T, key: K): T[K!] | undefined {
     if (!TypeGuards.isObject(obj)) {
-      StructuredLogger.warn('Attempted to access property on non-object', { obj, key });
+      StructuredLogger.warn('Attempted to access property on non-object' ?? 'unknown', { message: { obj, key } });
       return undefined;
     }
     return obj[key!];
@@ -204,7 +204,7 @@ export class GenericUtils {
   /**
    * Deep clone with type safety
    */
-  static deepClone<T>(obj: T): T {
+  static deepClone<T extends object>(obj: T): T {
     if (obj === null || typeof obj !== 'object') {
       return obj;
     }
@@ -233,7 +233,7 @@ export class GenericUtils {
   /**
    * Deep merge with type safety
    */
-  static deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
+  static deepMerge<T extends Record<string, any>>(target: T, source: Partial<T extends object>): T {
     const result = { ...target };
     
     for (const key in source) {
@@ -328,20 +328,20 @@ export class GenericUtils {
   /**
    * Type-safe array some
    */
-  static some<T>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): boolean {
+  static some<T extends object>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): boolean {
     return array.some(predicate);
   }
 
   /**
    * Type-safe array every
    */
-  static every<T>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): boolean {
+  static every<T extends object>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): boolean {
     return array.every(predicate);
   }
 }
 
 // Generic type constraints
-export type NonEmptyArray<T> = [T, ...T[]];
+export type NonEmptyArray<T extends object> = [T, ...T[]];
 export type NonEmptyString = string & { readonly __brand: unique symbol };
 export type PositiveNumber = number & { readonly __brand: unique symbol };
 export type NonNegativeNumber = number & { readonly __brand: unique symbol };

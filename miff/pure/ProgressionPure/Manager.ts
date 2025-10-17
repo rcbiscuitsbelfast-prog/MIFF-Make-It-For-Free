@@ -78,6 +78,7 @@ export class XPManager {
   private levelUpEffects: LevelUpEffect[] = [];
 
   constructor(eventBus: EventBus, curve: XPCurve, config: Partial<XPManagerConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.curve = curve;
     this.config = {
@@ -134,7 +135,7 @@ export class XPManager {
       spiritId: spirit.instanceId,
       amount: actualAmount,
       totalXP: spirit.experience,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     // Check for level up
@@ -142,7 +143,7 @@ export class XPManager {
       this.eventBus.publish('spirit:level_up', {
         spiritId: spirit.instanceId,
         newLevel: spirit.level,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -195,7 +196,7 @@ export class XPManager {
       previousLevel: currentLevel,
       newLevel: spirit.level,
       remainingXP: spirit.experience,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -248,7 +249,7 @@ export class XPManager {
       spiritId: spirit.instanceId,
       level: spirit.level,
       speciesId: spirit.speciesId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 

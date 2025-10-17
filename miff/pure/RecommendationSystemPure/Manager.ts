@@ -796,6 +796,7 @@ export class RecommendationSystemPure {
   private analytics: RecommendationSystemAnalytics;
 
   constructor(config: Partial<RecommendationSystemConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableRecommendationManagement: true,
       enableMachineLearning: true,
@@ -912,8 +913,8 @@ export class RecommendationSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -1175,7 +1176,7 @@ export class RecommendationSystemPure {
         timeOfDay: 12,
         dayOfWeek: 1
       },
-      timestamp: Date.now(),
+      timestamp: new Date(),
       metadata: {},
       ...interaction
     };

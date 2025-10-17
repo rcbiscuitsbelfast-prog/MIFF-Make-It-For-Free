@@ -266,7 +266,7 @@ class CombatCLI {
         moveData.priority || 0
       );
       
-      const validationErrors = move.validate();
+      const validationErrors = move.validate({});
       
       return {
         op: 'create_move',

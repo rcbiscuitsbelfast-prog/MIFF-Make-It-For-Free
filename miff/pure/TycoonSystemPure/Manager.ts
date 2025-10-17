@@ -328,6 +328,7 @@ export class TycoonManagerPure {
   private decisionHistory: any[] = [];
 
   constructor(eventBus: EventBus, config: TycoonManagerConfig = {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     enableAutoManagement: true,
     managementInterval: 3600, // 1 hour
     enableAnalytics: true,
@@ -400,7 +401,7 @@ export class TycoonManagerPure {
       optimizeFacilityLayout: () => {
         // Optimize facility placement and resource allocation
         this.eventBus.emit('tycoon:facility_optimization', {
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       },
 
@@ -490,7 +491,7 @@ export class TycoonManagerPure {
       optimizeStaffAllocation: () => {
         // Reallocate staff based on facility needs
         this.eventBus.emit('tycoon:staff_optimization', {
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       },
 
@@ -791,7 +792,7 @@ export class TycoonManagerPure {
 
       this.eventBus.emit('tycoon:manager_initialized', {
         config: this.config,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
 
     } catch (error: unknown) {
@@ -849,7 +850,7 @@ export class TycoonManagerPure {
     this.analyticsData.push({
       event: event,
       data: data,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     // Keep only last 1000 entries
@@ -889,7 +890,7 @@ export class TycoonManagerPure {
 
     // Record optimization decision
     this.recordDecision('optimization', 'system_optimization', {
-      timestamp: Date.now(),
+      timestamp: new Date(),
       description: 'Automated system optimization completed'
     });
   }
@@ -902,7 +903,7 @@ export class TycoonManagerPure {
       type: type,
       action: action,
       data: data,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     // Keep only last 100 decisions
@@ -1020,6 +1021,7 @@ export class TycoonManagerPure {
    * Get system statistics
    */
   public getStats(): {
+    const managerData = this.getStats();
     isInitialized: boolean;
     capital: number;
     facilities: number;
@@ -1031,6 +1033,7 @@ export class TycoonManagerPure {
     optimizationEnabled: boolean;
   } {
     const tycoonStats = this.tycoonSystem.getStats();
+    const managerData = this.getStats();
     const valuation = this.financialManager.calculateBusinessValuation();
     const riskAssessment = this.financialManager.getRiskAssessment();
 

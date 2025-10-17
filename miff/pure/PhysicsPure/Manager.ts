@@ -490,6 +490,7 @@ export class PhysicsPure {
   private timeStep: number = 1/60; // 60 FPS
 
   constructor(config: Partial<PhysicsConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableRigidBodyDynamics: true,
       enableCollisionDetection: true,
@@ -612,8 +613,8 @@ export class PhysicsPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

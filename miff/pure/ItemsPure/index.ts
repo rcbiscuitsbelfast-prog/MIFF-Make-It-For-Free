@@ -128,7 +128,7 @@ export class Item {
     }
 
     if (this.effect) {
-      const effectErrors = this.effect.validate();
+      const effectErrors = this.effect.validate({});
       errors.push(...effectErrors.map((error: any) => `Effect: ${error}`));
     }
 
@@ -557,7 +557,7 @@ export class ItemUsageManager {
       updates.value ?? item.value,
       updates.targetRule ?? item.targetRule
     );
-    const validationErrors = updated.validate();
+    const validationErrors = updated.validate({});
 
     if (validationErrors.length > 0) {
       return false; // Don't apply invalid updates

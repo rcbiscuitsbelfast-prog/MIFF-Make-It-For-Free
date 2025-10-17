@@ -21,7 +21,7 @@ export interface LoopMetrics {
   optimizationApplied: string;
 }
 
-export interface OptimizationResult<T> {
+export interface OptimizationResult<T extends object> {
   result: T;
   metrics: LoopMetrics;
   performanceGain: number;

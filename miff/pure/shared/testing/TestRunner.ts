@@ -936,7 +936,7 @@ export class TestRunner {
   /**
    * Chunk array into smaller arrays
    */
-  private chunkArray<T>(array: T[], chunkSize: number): T[][] {
+  private chunkArray<T extends object>(array: T[], chunkSize: number): T[][] {
     const chunks: T[][] = [];
     for (let i = 0; i < array.length; i += chunkSize) {
       chunks.push(array.slice(i, i + chunkSize));

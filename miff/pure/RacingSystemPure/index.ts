@@ -325,7 +325,7 @@ export class RacingSystemPure {
       raceId: raceId,
       vehicleId: vehicleId,
       checkpointId: checkpoint.id,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -365,7 +365,7 @@ export class RacingSystemPure {
       vehicleId: vehicleId,
       lapNumber: lapNumber,
       lapTime: lapTime,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -379,7 +379,7 @@ export class RacingSystemPure {
         const ghost = this.ghostRacers.get(vehicleId);
         if (ghost) {
           const recording: GhostRecording = {
-            timestamp: Date.now(),
+            timestamp: new Date(),
             position: { ...vehicle.position },
             rotation: { ...vehicle.rotation },
             velocity: { ...vehicle.velocity },
@@ -419,7 +419,7 @@ export class RacingSystemPure {
 
     this.eventBus.publish('racing:track_created', {
       track: track,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return track;
@@ -456,7 +456,7 @@ export class RacingSystemPure {
 
     this.eventBus.publish('racing:vehicle_created', {
       vehicle: vehicle,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return vehicle;
@@ -506,7 +506,7 @@ export class RacingSystemPure {
 
     this.eventBus.publish('racing:race_created', {
       race: race,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return race;
@@ -529,7 +529,7 @@ export class RacingSystemPure {
 
         this.eventBus.publish('racing:race_started', {
           raceId: raceId,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       }
     }, 3000); // 3 second countdown
@@ -805,7 +805,7 @@ export class RacingSystemPure {
     this.eventBus.publish('racing:race_finished', {
       raceId: raceId,
       results: results,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 

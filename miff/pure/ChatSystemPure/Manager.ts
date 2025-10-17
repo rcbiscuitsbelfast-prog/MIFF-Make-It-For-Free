@@ -276,10 +276,11 @@ export class ChatSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<ChatSystemConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('ChatSystemManager');
     this.startTime = Date.now();
 
@@ -311,7 +312,7 @@ export class ChatSystemManager {
       StructuredLogger.info('Initializing Chat System...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -342,8 +343,8 @@ export class ChatSystemManager {
       const system: ChatSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -360,7 +361,7 @@ export class ChatSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Chat system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Chat system created', { message: { systemId: system.id, systemName: system.name } });
       return system;
 
     } catch (error: unknown) {
@@ -392,21 +393,21 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
       const updatedSystem: ChatSystem = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Chat system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Chat system updated', { message: { systemId, systemName: updatedSystem.name } });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -427,14 +428,14 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Chat system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Chat system deleted', { message: { systemId, systemName: system.name } });
       return true;
 
     } catch (error: unknown) {
@@ -488,7 +489,7 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
@@ -502,7 +503,7 @@ export class ChatSystemManager {
       system.channels.push(channel);
       this.updateAnalytics();
 
-      StructuredLogger.info('Channel added to system', { systemId, channelId: channel.id, channelName: channel.name });
+      StructuredLogger.info('Channel added to system', { message: { systemId, channelId: channel.id, channelName: channel.name } });
       return channel;
 
     } catch (error: unknown) {
@@ -523,20 +524,20 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const channelIndex = system.channels.findIndex(c => c.id === channelId);
       if (channelIndex === -1) {
-        StructuredLogger.warn('Channel not found', { systemId, channelId });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { message: { systemId, channelId } });
         return false;
       }
 
       system.channels.splice(channelIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Channel removed from system', { systemId, channelId });
+      StructuredLogger.info('Channel removed from system', { message: { systemId, channelId } });
       return true;
 
     } catch (error: unknown) {
@@ -557,7 +558,7 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
@@ -569,7 +570,7 @@ export class ChatSystemManager {
       system.users.push(user);
       this.updateAnalytics();
 
-      StructuredLogger.info('User added to system', { systemId, userId: user.id, userName: user.name });
+      StructuredLogger.info('User added to system', { message: { systemId, userId: user.id, userName: user.name } });
       return user;
 
     } catch (error: unknown) {
@@ -590,20 +591,20 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const userIndex = system.users.findIndex(u => u.id === userId);
       if (userIndex === -1) {
-        StructuredLogger.warn('User not found', { systemId, userId });
+        StructuredLogger.warn('User not found' ?? 'unknown', { message: { systemId, userId } });
         return false;
       }
 
       system.users.splice(userIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('User removed from system', { systemId, userId });
+      StructuredLogger.info('User removed from system', { message: { systemId, userId } });
       return true;
 
     } catch (error: unknown) {
@@ -624,25 +625,25 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger.warn('Channel not found', { systemId, channelId });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { message: { systemId, channelId } });
         return null;
       }
 
       const user = system.users.find(u => u.id === userId);
       if (!user) {
-        StructuredLogger.warn('User not found', { systemId, userId });
+        StructuredLogger.warn('User not found' ?? 'unknown', { message: { systemId, userId } });
         return null;
       }
 
       // Check if user is in channel
       if (!channel.users.includes(userId)) {
-        StructuredLogger.warn('User not in channel', { systemId, channelId, userId });
+        StructuredLogger.warn('User not in channel' ?? 'unknown', { message: { systemId, channelId, userId } });
         return null;
       }
 
@@ -653,7 +654,7 @@ export class ChatSystemManager {
         content,
         type,
         status: 'sent',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         attachments: [],
         metadata: {}
       };
@@ -662,7 +663,7 @@ export class ChatSystemManager {
       system.messages.push(message);
       this.updateAnalytics();
 
-      StructuredLogger.info('Message sent', { systemId, channelId, userId, messageId: message.id });
+      StructuredLogger.info('Message sent', { message: { systemId, channelId, userId, messageId: message.id } });
       return message;
 
     } catch (error: unknown) {
@@ -683,13 +684,13 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return [];
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger.warn('Channel not found', { systemId, channelId });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { message: { systemId, channelId } });
         return [];
       }
 
@@ -715,25 +716,25 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger.warn('Channel not found', { systemId, channelId });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { message: { systemId, channelId } });
         return false;
       }
 
       if (channel.users.includes(userId)) {
-        StructuredLogger.warn('User already in channel', { systemId, channelId, userId });
+        StructuredLogger.warn('User already in channel' ?? 'unknown', { message: { systemId, channelId, userId } });
         return false;
       }
 
       channel.users.push(userId);
       this.updateAnalytics();
 
-      StructuredLogger.info('User joined channel', { systemId, channelId, userId });
+      StructuredLogger.info('User joined channel', { message: { systemId, channelId, userId } });
       return true;
 
     } catch (error: unknown) {
@@ -754,26 +755,26 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        StructuredLogger.warn('Channel not found', { systemId, channelId });
+        StructuredLogger.warn('Channel not found' ?? 'unknown', { message: { systemId, channelId } });
         return false;
       }
 
       const userIndex = channel.users.indexOf(userId);
       if (userIndex === -1) {
-        StructuredLogger.warn('User not in channel', { systemId, channelId, userId });
+        StructuredLogger.warn('User not in channel' ?? 'unknown', { message: { systemId, channelId, userId } });
         return false;
       }
 
       channel.users.splice(userIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('User left channel', { systemId, channelId, userId });
+      StructuredLogger.info('User left channel', { message: { systemId, channelId, userId } });
       return true;
 
     } catch (error: unknown) {

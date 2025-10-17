@@ -191,6 +191,7 @@ export class DialogueEngine {
   private context: DialogueContext;
 
   constructor(tree: DialogueTree) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.tree = tree;
     this.context = {
       variables: new Map(tree.variables),

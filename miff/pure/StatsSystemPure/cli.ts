@@ -112,7 +112,7 @@ async function main() {
       op: operation.op,
       status: 'ok',
       result,
-      timestamp: Date.now()
+      timestamp: new Date()
     }, null, 2));
 
   } catch (error: unknown) {
@@ -121,7 +121,7 @@ async function main() {
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
+      timestamp: new Date()
     }, null, 2));
     process.exit(1);
   }

@@ -34,7 +34,7 @@ export class SafeObjectUtils {
   /**
    * Safely merge objects without prototype pollution
    */
-  static safeMerge<T extends Record<string, any>>(target: T, ...sources: Partial<T>[]): T {
+  static safeMerge<T extends Record<string, any>>(target: T, ...sources: Partial<T extends object>[]): T {
     const result = this.createSafeObject(target);
     
     for (const source of sources) {
@@ -49,7 +49,7 @@ export class SafeObjectUtils {
   /**
    * Safely assign properties to an object
    */
-  static safeAssign<T extends Record<string, any>>(target: T, ...sources: Partial<T>[]): T {
+  static safeAssign<T extends Record<string, any>>(target: T, ...sources: Partial<T extends object>[]): T {
     const result = this.createSafeObject(target);
     
     for (const source of sources) {
@@ -64,7 +64,7 @@ export class SafeObjectUtils {
   /**
    * Safely clone an object without prototype pollution
    */
-  static safeClone<T>(obj: T): T {
+  static safeClone<T extends object>(obj: T): T {
     if (obj === null || typeof obj !== 'object') {
       return obj;
     }
@@ -127,7 +127,7 @@ export class SafeObjectUtils {
   /**
    * Safely get a property value from an object
    */
-  static safeGet<T>(obj: any, path: string, defaultValue?: T): T! {
+  static safeGet<T extends object>(obj: any, path: string, defaultValue?: T): T! {
     if (!obj || typeof obj !== 'object') {
       return defaultValue;
     }

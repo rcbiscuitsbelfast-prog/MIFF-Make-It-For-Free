@@ -310,10 +310,11 @@ export class AudioSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<AudioSystemConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('AudioSystemManager');
     this.startTime = Date.now();
 
@@ -338,15 +339,15 @@ export class AudioSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('AudioSystemPure', 'Audio System Manager already initialized');
+      StructuredLogger.warn('AudioSystemPure' ?? 'unknown', { message: 'Audio System Manager already initialized' });
       return;
     }
 
     try {
-      StructuredLogger.info('AudioSystemPure', 'Initializing Audio System Manager...');
+      StructuredLogger.info('AudioSystemPure', { message: 'Initializing Audio System Manager...' });
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -356,7 +357,7 @@ export class AudioSystemManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('AudioSystemPure', 'Audio System Manager initialized successfully');
+      StructuredLogger.info('AudioSystemPure', { message: 'Audio System Manager initialized successfully' });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -377,8 +378,8 @@ export class AudioSystemManager {
       const system: AudioSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -395,7 +396,7 @@ export class AudioSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Audio system created', { message: { systemId: system.id, systemName: system.name } });
       return system;
 
     } catch (error: unknown) {
@@ -427,21 +428,21 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
       const updatedSystem: AudioSystem = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Audio system updated', { message: { systemId, systemName: updatedSystem.name } });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -462,14 +463,14 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Audio system deleted', { message: { systemId, systemName: system.name } });
       return true;
 
     } catch (error: unknown) {
@@ -523,7 +524,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
@@ -535,7 +536,7 @@ export class AudioSystemManager {
       system.devices.push(device);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device added to system', { systemId, deviceId: device.id, deviceName: device.name });
+      StructuredLogger.info('Device added to system', { message: { systemId, device.id: device.id, deviceName: device.name } });
       return device;
 
     } catch (error: unknown) {
@@ -548,7 +549,7 @@ export class AudioSystemManager {
   /**
    * Remove a device from a system
    */
-  async removeDevice(systemId: string, deviceId: string): Promise<boolean> {
+  async removeDevice(systemId: string, device.id: string): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }
@@ -556,20 +557,20 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
-      const deviceIndex = system.devices.findIndex(device => device.id === deviceId);
+      const deviceIndex = system.devices.findIndex(device => device.id === device.id);
       if (deviceIndex === -1) {
-        StructuredLogger.warn('Device not found', { systemId, deviceId });
+        StructuredLogger.warn('Device not found' ?? 'unknown', { message: { systemId, device.id } });
         return false;
       }
 
       system.devices.splice(deviceIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device removed from system', { systemId, deviceId });
+      StructuredLogger.info('Device removed from system', { message: { systemId, device.id } });
       return true;
 
     } catch (error: unknown) {
@@ -590,7 +591,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
@@ -602,7 +603,7 @@ export class AudioSystemManager {
       system.contexts.push(context);
       this.updateAnalytics();
 
-      StructuredLogger.info('Context added to system', { systemId, contextId: context.id, contextName: context.name });
+      StructuredLogger.info('Context added to system', { message: { systemId, contextId: context.id, contextName: context.name } });
       return context;
 
     } catch (error: unknown) {
@@ -623,20 +624,20 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const contextIndex = system.contexts.findIndex(context => context.id === contextId);
       if (contextIndex === -1) {
-        StructuredLogger.warn('Context not found', { systemId, contextId });
+        StructuredLogger.warn('Context not found' ?? 'unknown', { message: { systemId, contextId } });
         return false;
       }
 
       system.contexts.splice(contextIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Context removed from system', { systemId, contextId });
+      StructuredLogger.info('Context removed from system', { message: { systemId, contextId } });
       return true;
 
     } catch (error: unknown) {
@@ -657,7 +658,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
@@ -669,7 +670,7 @@ export class AudioSystemManager {
       system.pipeline.stages.push(stage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Processing stage added to system', { systemId, stageId: stage.id, stageName: stage.name });
+      StructuredLogger.info('Processing stage added to system', { message: { systemId, stageId: stage.id, stageName: stage.name } });
       return stage;
 
     } catch (error: unknown) {
@@ -690,20 +691,20 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const stageIndex = system.pipeline.stages.findIndex(stage => stage.id === stageId);
       if (stageIndex === -1) {
-        StructuredLogger.warn('Processing stage not found', { systemId, stageId });
+        StructuredLogger.warn('Processing stage not found' ?? 'unknown', { message: { systemId, stageId } });
         return false;
       }
 
       system.pipeline.stages.splice(stageIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Processing stage removed from system', { systemId, stageId });
+      StructuredLogger.info('Processing stage removed from system', { message: { systemId, stageId } });
       return true;
 
     } catch (error: unknown) {
@@ -724,14 +725,14 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       system.status = 'active';
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system started', { systemId, systemName: system.name });
+      StructuredLogger.info('Audio system started', { message: { systemId, systemName: system.name } });
       return true;
 
     } catch (error: unknown) {
@@ -752,14 +753,14 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       system.status = 'inactive';
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system stopped', { systemId, systemName: system.name });
+      StructuredLogger.info('Audio system stopped', { message: { systemId, systemName: system.name } });
       return true;
 
     } catch (error: unknown) {
@@ -897,12 +898,12 @@ export class AudioSystemManager {
    * Destroy the Audio System Manager
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('AudioSystemPure', 'Destroying Audio System Manager...');
+    StructuredLogger.info('AudioSystemPure', { message: 'Destroying Audio System Manager...' });
 
     this.systems.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('AudioSystemPure', 'Audio System Manager destroyed');
+    StructuredLogger.info('AudioSystemPure', { message: 'Audio System Manager destroyed' });
   }
 }
 

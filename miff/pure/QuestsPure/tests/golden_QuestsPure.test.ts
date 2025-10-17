@@ -41,8 +41,8 @@ describe('QuestsPure Golden Tests', () => {
         level: 1,
         category: 'test',
         giver: 'npc_001',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       const createResult = manager.createQuest(quest);
@@ -175,8 +175,8 @@ describe('QuestsPure Golden Tests', () => {
         status: 'available',
         steps: [],
         rewards: [],
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       const createResult = manager.createQuest(quest);
@@ -217,8 +217,8 @@ describe('QuestsPure Golden Tests', () => {
         level: 2,
         category: 'test',
         giver: 'npc_001',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       const createResult = manager.createQuest(quest);

@@ -622,7 +622,7 @@ export class UnrealPayloadAdapterPure {
           convertedAssets = staticMeshResult.assets;
           convertedActors = staticMeshResult.actors;
           warnings.push(...staticMeshResult.warnings);
-          errors.push(...staticMeshResult.errors);
+          errors.push(...(staticMeshResult.errors ?? []));
           break;
 
         case PayloadConversionMode.SKELETAL_MESH:
@@ -630,7 +630,7 @@ export class UnrealPayloadAdapterPure {
           convertedAssets = skeletalMeshResult.assets;
           convertedActors = skeletalMeshResult.actors;
           warnings.push(...skeletalMeshResult.warnings);
-          errors.push(...skeletalMeshResult.errors);
+          errors.push(...(skeletalMeshResult.errors ?? []));
           break;
 
         case PayloadConversionMode.BLUEPRINT:
@@ -638,49 +638,49 @@ export class UnrealPayloadAdapterPure {
           convertedAssets = blueprintResult.assets;
           convertedActors = blueprintResult.actors;
           warnings.push(...blueprintResult.warnings);
-          errors.push(...blueprintResult.errors);
+          errors.push(...(blueprintResult.errors ?? []));
           break;
 
         case PayloadConversionMode.LEVEL:
           const levelResult = await this.convertToLevel(sourcePayload, config);
           convertedScenes = levelResult.scenes;
           warnings.push(...levelResult.warnings);
-          errors.push(...levelResult.errors);
+          errors.push(...(levelResult.errors ?? []));
           break;
 
         case PayloadConversionMode.MATERIAL:
           const materialResult = await this.convertToMaterial(sourcePayload, config);
           convertedAssets = materialResult.assets;
           warnings.push(...materialResult.warnings);
-          errors.push(...materialResult.errors);
+          errors.push(...(materialResult.errors ?? []));
           break;
 
         case PayloadConversionMode.TEXTURE:
           const textureResult = await this.convertToTexture(sourcePayload, config);
           convertedAssets = textureResult.assets;
           warnings.push(...textureResult.warnings);
-          errors.push(...textureResult.errors);
+          errors.push(...(textureResult.errors ?? []));
           break;
 
         case PayloadConversionMode.ANIMATION:
           const animationResult = await this.convertToAnimation(sourcePayload, config);
           convertedAssets = animationResult.assets;
           warnings.push(...animationResult.warnings);
-          errors.push(...animationResult.errors);
+          errors.push(...(animationResult.errors ?? []));
           break;
 
         case PayloadConversionMode.PARTICLE_SYSTEM:
           const particleResult = await this.convertToParticleSystem(sourcePayload, config);
           convertedAssets = particleResult.assets;
           warnings.push(...particleResult.warnings);
-          errors.push(...particleResult.errors);
+          errors.push(...(particleResult.errors ?? []));
           break;
 
         case PayloadConversionMode.SOUND:
           const soundResult = await this.convertToSound(sourcePayload, config);
           convertedAssets = soundResult.assets;
           warnings.push(...soundResult.warnings);
-          errors.push(...soundResult.errors);
+          errors.push(...(soundResult.errors ?? []));
           break;
 
         default:

@@ -71,7 +71,7 @@ function main() {
         break;
 
       case 'validate':
-        result.result = manager.validate();
+        result.result = manager.validate({});
         break;
 
       case 'reset':
@@ -171,7 +171,7 @@ function runDemo(manager: SettingsManager): any {
   manager.set('graphics.textureQuality', 'ultra');
   manager.set('gameplay.difficulty', 'hard');
   
-  const validation = manager.validate();
+  const validation = manager.validate({});
   const stats = manager.getStats();
   const history = manager.getHistory();
   

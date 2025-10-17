@@ -418,7 +418,7 @@ function convertToCSV(data: any): string {
     lines.push('=== Test Results ===');
     lines.push('Test Name,Success,Duration (ms),Errors,Warnings');
     for (const result of harness.testResults) {
-      lines.push(`"${result.testName}","${result.success}","${result.duration}","${result.errors.length}","${result.warnings.length}"`);
+      lines.push(`"${result.testName}","${result.success}","${result.duration}","${result.errors?.length}","${result.warnings.length}"`);
     }
     lines.push('');
   }
@@ -465,7 +465,7 @@ function convertToMarkdown(data: any): string {
     lines.push('| Test Name | Success | Duration | Errors | Warnings |');
     lines.push('|-----------|---------|----------|---------|----------|');
     for (const result of harness.testResults) {
-      lines.push(`| ${result.testName} | ${result.success ? '✅' : '❌'} | ${result.duration}ms | ${result.errors.length} | ${result.warnings.length} |`);
+      lines.push(`| ${result.testName} | ${result.success ? '✅' : '❌'} | ${result.duration}ms | ${result.errors?.length} | ${result.warnings.length} |`);
     }
     lines.push('');
   }
@@ -546,7 +546,7 @@ function convertToHTML(data: any): string {
                     <td>${result.testName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
                     <td>${result.duration}ms</td>
-                    <td>${result.errors.length}</td>
+                    <td>${result.errors?.length}</td>
                     <td>${result.warnings.length}</td>
                 </tr>
             `).join('')}

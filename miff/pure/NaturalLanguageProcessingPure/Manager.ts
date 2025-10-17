@@ -400,6 +400,7 @@ export class NaturalLanguageProcessingPure {
   private analytics: NLPAnalytics;
 
   constructor(config: Partial<NLPConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableTextAnalysis: true,
       enableSentimentAnalysis: true,
@@ -511,8 +512,8 @@ export class NaturalLanguageProcessingPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -583,7 +584,7 @@ export class NaturalLanguageProcessingPure {
       status: 'completed',
       processingTime,
       confidence,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       metadata: {}
     };
 
@@ -647,7 +648,7 @@ export class NaturalLanguageProcessingPure {
       status: 'completed',
       processingTime,
       confidence,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       metadata: {}
     };
 
@@ -705,7 +706,7 @@ export class NaturalLanguageProcessingPure {
       status: 'completed',
       processingTime,
       confidence,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       metadata: { targetLanguage, sourceLanguage }
     };
 

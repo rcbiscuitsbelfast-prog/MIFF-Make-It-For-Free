@@ -1240,6 +1240,7 @@ export class GraphicsPure {
   private analytics: GraphicsAnalytics;
 
   constructor(config: Partial<GraphicsConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableGraphicsManagement: true,
       enableRenderingPipeline: true,
@@ -1370,8 +1371,8 @@ export class GraphicsPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

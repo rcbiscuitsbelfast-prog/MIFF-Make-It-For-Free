@@ -80,7 +80,7 @@ export class UnityBridgeHarness {
         type: 'command' as const,
         source: 'harness',
         destination: 'unity',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_spirit',
           data: {
@@ -138,7 +138,7 @@ export class UnityBridgeHarness {
         type: 'command' as const,
         source: 'harness',
         destination: 'unity',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_item',
           data: {
@@ -183,7 +183,7 @@ export class UnityBridgeHarness {
         type: 'command' as const,
         source: 'harness',
         destination: 'unity',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_ai_policy',
           data: {

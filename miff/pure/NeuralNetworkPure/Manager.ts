@@ -1028,6 +1028,7 @@ export class NeuralNetworkPure {
   private analytics: NeuralNetworkAnalytics;
 
   constructor(config: Partial<NeuralNetworkConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableNeuralNetworkManagement: true,
       enableModelCreation: true,
@@ -1143,8 +1144,8 @@ export class NeuralNetworkPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

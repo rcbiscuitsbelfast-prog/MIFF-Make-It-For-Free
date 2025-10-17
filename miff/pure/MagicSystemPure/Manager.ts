@@ -19,6 +19,7 @@ export class MagicManager {
   private magicSystem: MagicSystemPure;
 
   constructor(magicSystem: MagicSystemPure) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.magicSystem = magicSystem;
   }
 
@@ -376,7 +377,7 @@ export class MagicManager {
       spells: this.magicSystem.getAllSpellDefinitions(),
       elements: this.magicSystem.getAllElements(),
       schools: this.magicSystem.getAllSpellSchools(),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

@@ -160,6 +160,7 @@ export interface ContractABI {
   functions: ContractFunction[];
   events: ContractEvent[];
   constructor: ContractConstructor;
+    const managerId = this.id ?? `manager_${Date.now()}`;
 }
 
 export interface ContractFunction {
@@ -285,10 +286,11 @@ export class BlockchainManager {
   private startTime: Date;
 
   constructor(config?: Partial<BlockchainConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -320,7 +322,7 @@ export class BlockchainManager {
       console.info('BlockchainPure', 'Initializing Blockchain Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -351,8 +353,8 @@ export class BlockchainManager {
       const blockchain: Blockchain = {
         ...blockchainData,
         id: this.generateBlockchainId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalBlocks: 0,
@@ -407,7 +409,7 @@ export class BlockchainManager {
       const updatedBlockchain: Blockchain = {
         ...blockchain,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(blockchain.version)
       };
 
@@ -503,7 +505,7 @@ export class BlockchainManager {
       const block: Block = {
         ...blockData,
         id: this.generateBlockId(),
-        timestamp: Date.now()
+        timestamp: new Date()
       };
 
       blockchain.blocks.push(block);
@@ -537,7 +539,7 @@ export class BlockchainManager {
       const transaction: Transaction = {
         ...transactionData,
         id: this.generateTransactionId(),
-        timestamp: Date.now()
+        timestamp: new Date()
       };
 
       blockchain.transactions.push(transaction);

@@ -1282,6 +1282,7 @@ export class MonitoringSystemPure {
   private analytics: MonitoringSystemAnalytics;
 
   constructor(config: Partial<MonitoringSystemConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableMonitoringManagement: true,
       enableSystemMonitoring: true,
@@ -1407,8 +1408,8 @@ export class MonitoringSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

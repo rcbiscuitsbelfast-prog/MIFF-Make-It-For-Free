@@ -507,7 +507,7 @@ export class EnhancedEconomyManager {
       unitPrice: type === 'buy' ? price.buyPrice : price.sellPrice,
       totalPrice: (type === 'buy' ? price.buyPrice : price.sellPrice) * quantity,
       currency: price.currency,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       type,
       playerId
     };

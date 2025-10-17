@@ -248,10 +248,11 @@ export class ARVRManager {
   private startTime: Date;
 
   constructor(config?: Partial<ARVRConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -285,7 +286,7 @@ export class ARVRManager {
       console.info('ARVRPure', 'Initializing AR/VR Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -316,8 +317,8 @@ export class ARVRManager {
       const device: ARVRDevice = {
         ...deviceData,
         id: this.generateDeviceId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalDevices: 0,
@@ -332,7 +333,7 @@ export class ARVRManager {
       this.devices.set(device.id, device);
       this.updateAnalytics();
 
-      console.info('AR/VR device created', { deviceId: device.id, deviceName: device.name });
+      console.info('AR/VR device created', { device.id: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {
@@ -345,40 +346,40 @@ export class ARVRManager {
   /**
    * Get an AR/VR device by ID
    */
-  getDevice(deviceId: string): ARVRDevice | null {
+  getDevice(device.id: string): ARVRDevice | null {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
-    return this.devices.get(deviceId) || null;
+    return this.devices.get(device.id) || null;
   }
 
   /**
    * Update an AR/VR device
    */
-  async updateDevice(deviceId: string, updates: Partial<ARVRDevice>): Promise<ARVRDevice | null> {
+  async updateDevice(device.id: string, updates: Partial<ARVRDevice>): Promise<ARVRDevice | null> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this.devices.get(deviceId);
+      const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId });
+        console.warn('Device not found', { device.id });
         return null;
       }
 
       const updatedDevice: ARVRDevice = {
         ...device,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(device.version)
       };
 
-      this.devices.set(deviceId, updatedDevice);
+      this.devices.set(device.id, updatedDevice);
       this.updateAnalytics();
 
-      console.info('AR/VR device updated', { deviceId, deviceName: updatedDevice.name });
+      console.info('AR/VR device updated', { device.id, deviceName: updatedDevice.name });
       return updatedDevice;
 
     } catch (error: unknown) {
@@ -391,22 +392,22 @@ export class ARVRManager {
   /**
    * Delete an AR/VR device
    */
-  async deleteDevice(deviceId: string): Promise<boolean> {
+  async deleteDevice(device.id: string): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this.devices.get(deviceId);
+      const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId });
+        console.warn('Device not found', { device.id });
         return false;
       }
 
-      this.devices.delete(deviceId);
+      this.devices.delete(device.id);
       this.updateAnalytics();
 
-      console.info('AR/VR device deleted', { deviceId, deviceName: device.name });
+      console.info('AR/VR device deleted', { device.id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -452,25 +453,25 @@ export class ARVRManager {
   /**
    * Update device tracking data
    */
-  async updateTracking(deviceId: string, trackingData: Partial<TrackingData>): Promise<boolean> {
+  async updateTracking(device.id: string, trackingData: Partial<TrackingData>): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this.devices.get(deviceId);
+      const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId });
+        console.warn('Device not found', { device.id });
         return false;
       }
 
       device.tracking = {
         ...device.tracking,
         ...trackingData,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
 
-      console.debug('Tracking data updated', { deviceId, position: trackingData.position });
+      console.debug('Tracking data updated', { device.id, position: trackingData.position });
       return true;
 
     } catch (error: unknown) {
@@ -483,20 +484,20 @@ export class ARVRManager {
   /**
    * Trigger haptic feedback
    */
-  async triggerHaptic(deviceId: string, pattern: HapticPattern): Promise<boolean> {
+  async triggerHaptic(device.id: string, pattern: HapticPattern): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this.devices.get(deviceId);
+      const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId });
+        console.warn('Device not found', { device.id });
         return false;
       }
 
       if (!device.capabilities.hapticFeedback) {
-        console.warn('Device does not support haptic feedback', { deviceId });
+        console.warn('Device does not support haptic feedback', { device.id });
         return false;
       }
 
@@ -511,7 +512,7 @@ export class ARVRManager {
 
       device.analytics.hapticEvents++;
 
-      console.debug('Haptic feedback triggered', { deviceId, pattern: pattern.name });
+      console.debug('Haptic feedback triggered', { device.id, pattern: pattern.name });
       return true;
 
     } catch (error: unknown) {
@@ -524,15 +525,15 @@ export class ARVRManager {
   /**
    * Calibrate device
    */
-  async calibrateDevice(deviceId: string): Promise<boolean> {
+  async calibrateDevice(device.id: string): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this.devices.get(deviceId);
+      const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId });
+        console.warn('Device not found', { device.id });
         return false;
       }
 
@@ -544,7 +545,7 @@ export class ARVRManager {
       device.status = 'connected';
       device.tracking.confidence = 1.0;
 
-      console.info('Device calibrated', { deviceId, deviceName: device.name });
+      console.info('Device calibrated', { device.id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -563,20 +564,20 @@ export class ARVRManager {
     }
 
     try {
-      const device = this.devices.get(deviceId);
+      const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId });
+        console.warn('Device not found', { device.id });
         return null;
       }
 
       if (!device.capabilities.spatialTracking) {
-        console.warn('Device does not support spatial tracking', { deviceId });
+        console.warn('Device does not support spatial tracking', { device.id });
         return null;
       }
 
       // Return spatial mapping data
       return {
-        deviceId,
+        device.id,
         position: device.tracking.position,
         rotation: device.tracking.rotation,
         confidence: device.tracking.confidence,

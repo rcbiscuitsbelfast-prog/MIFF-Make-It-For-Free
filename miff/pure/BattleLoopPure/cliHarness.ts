@@ -35,7 +35,7 @@ class MockRNGProvider {
     return ((this.seed / 233280) * (max - min)) + min;
   }
 
-  shuffle<T>(array: T[]): T[] {
+  shuffle<T extends object>(array: T[]): T[] {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

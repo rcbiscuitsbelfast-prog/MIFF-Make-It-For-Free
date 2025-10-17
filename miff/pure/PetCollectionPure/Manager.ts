@@ -143,6 +143,7 @@ export class PetCollectionManager {
   private stats: CollectionStats;
 
   constructor(eventBus: EventBus, config: PetCollectionConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.config = {
       maxPetsPerPlayer: 100,
@@ -203,7 +204,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: `Maximum eggs per player (${this.config.maxEggsPerPlayer}) reached`,
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -213,14 +214,14 @@ export class PetCollectionManager {
         success: true,
         message: `Egg created successfully`,
         data: { egg },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create egg: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -234,7 +235,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Egg not found',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -244,7 +245,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Failed to hatch egg',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -252,14 +253,14 @@ export class PetCollectionManager {
         success: true,
         message: `Pet hatched successfully: ${pet.name}`,
         data: { pet },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to hatch egg: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -340,14 +341,14 @@ export class PetCollectionManager {
         success: true,
         message: `Found ${pets.length} pets`,
         data: { pets },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get pets: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -360,14 +361,14 @@ export class PetCollectionManager {
         success: true,
         message: `Found ${eggs.length} eggs`,
         data: { eggs },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get eggs: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -380,14 +381,14 @@ export class PetCollectionManager {
         success: true,
         message: 'Collection stats retrieved successfully',
         data: { stats },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get collection stats: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -401,7 +402,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Pet not found',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -412,7 +413,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: `Maximum active trades per player (${this.config.maxActiveTradesPerPlayer}) reached`,
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -422,7 +423,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Failed to create trade offer',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -430,14 +431,14 @@ export class PetCollectionManager {
         success: true,
         message: 'Trade offer created successfully',
         data: { tradeOffer },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create trade offer: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -450,7 +451,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Failed to accept trade offer',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -458,14 +459,14 @@ export class PetCollectionManager {
         success: true,
         message: 'Trade offer accepted successfully',
         data: { tradeId, accepterId },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to accept trade offer: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -478,7 +479,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Failed to feed pet',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -486,14 +487,14 @@ export class PetCollectionManager {
         success: true,
         message: 'Pet fed successfully',
         data: { petId, ownerId },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to feed pet: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -506,7 +507,7 @@ export class PetCollectionManager {
         return {
           success: false,
           message: 'Failed to toggle favorite',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -514,14 +515,14 @@ export class PetCollectionManager {
         success: true,
         message: 'Pet favorite status toggled successfully',
         data: { petId, ownerId },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to toggle favorite: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }

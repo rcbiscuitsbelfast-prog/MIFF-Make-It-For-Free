@@ -828,7 +828,7 @@ export class UnrealSceneBuilderPure {
       console.log(`[UnrealSceneBuilderPure!] Created level: ${persistentLevel.name} (${persistentLevel.id})`);
       console.log(`[UnrealSceneBuilderPure!] Registered ${composition.actors.length} actors, ${composition.components.length} components`);
       console.log(`[UnrealSceneBuilderPure!] Build time: ${buildTime}ms`);
-      console.log(`[UnrealSceneBuilderPure!] Warnings: ${result.warnings.length}, Errors: ${result.errors.length}`);
+      console.log(`[UnrealSceneBuilderPure!] Warnings: ${result.warnings.length}, Errors: ${result.errors?.length}`);
 
       return result;
 

@@ -939,6 +939,7 @@ export class EdgeComputingPure {
   private analytics: EdgeComputingAnalytics;
 
   constructor(config: Partial<EdgeComputingConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableNodeManagement: true,
       enableDistributedComputing: true,
@@ -1055,8 +1056,8 @@ export class EdgeComputingPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -1231,7 +1232,7 @@ export class EdgeComputingPure {
         checksum: ''
       },
       progress: 0,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       metadata: {},
       ...task
     };

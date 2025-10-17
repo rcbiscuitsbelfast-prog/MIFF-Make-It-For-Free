@@ -205,7 +205,7 @@ export class SchemaStandardizer {
     for (const fieldName of schema.required) {
       if (!(fieldName in data)) {
         result.valid = false;
-        result.errors.push(`Required field '${fieldName}' is missing`);
+        result.errors?.push(`Required field '${fieldName}' is missing`);
       }
     }
 
@@ -215,9 +215,9 @@ export class SchemaStandardizer {
         const fieldResult = this.validateField(data[field.name], field);
         if (!fieldResult.valid) {
           result.valid = false;
-          result.errors.push(...fieldResult.errors);
+          result.errors?.push(...(fieldResult.errors ?? []));
         }
-        result.warnings.push(...fieldResult.warnings);
+        result.warnings?.push(...fieldResult.warnings);
       }
     }
 
@@ -226,12 +226,12 @@ export class SchemaStandardizer {
       try {
         if (!validator(data)) {
           result.valid = false;
-          result.errors.push('Custom validation failed');
+          result.errors?.push('Custom validation failed');
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         result.valid = false;
-        result.errors.push(`Custom validation error: ${error.message}`);
+        result.errors?.push(`Custom validation error: ${error.message}`);
       }
     }
 
@@ -240,7 +240,7 @@ export class SchemaStandardizer {
       const allowedFields = new Set(schema.fields.map((f: any) => f.name));
       for (const key in data) {
         if (!allowedFields.has(key)) {
-          result.warnings.push(`Unexpected field '${key}' found`);
+          result.warnings?.push(`Unexpected field '${key}' found`);
         }
       }
     }
@@ -377,7 +377,7 @@ export class SchemaStandardizer {
     // Type validation
     if (!this.isValidType(value, field.type)) {
       result.valid = false;
-      result.errors.push(`Field '${field.name}' must be of type ${field.type}`);
+      result.errors?.push(`Field '${field.name}' must be of type ${field.type}`);
       return result;
     }
 
@@ -386,9 +386,9 @@ export class SchemaStandardizer {
       const fieldResult = this.validateFieldConstraints(value, field.validation);
       if (!fieldResult.valid) {
         result.valid = false;
-        result.errors.push(...fieldResult.errors);
+        result.errors?.push(...(fieldResult.errors ?? []));
       }
-      result.warnings.push(...fieldResult.warnings);
+      result.warnings?.push(...fieldResult.warnings);
     }
 
     return result;
@@ -431,44 +431,44 @@ export class SchemaStandardizer {
 
     if (validation.minLength && typeof value === 'string' && value.length < validation.minLength) {
       result.valid = false;
-      result.errors.push(`String too short (minimum ${validation.minLength} characters)`);
+      result.errors?.push(`String too short (minimum ${validation.minLength} characters)`);
     }
 
     if (validation.maxLength && typeof value === 'string' && value.length > validation.maxLength) {
       result.valid = false;
-      result.errors.push(`String too long (maximum ${validation.maxLength} characters)`);
+      result.errors?.push(`String too long (maximum ${validation.maxLength} characters)`);
     }
 
     if (validation.min !== undefined && typeof value === 'number' && value < validation.min) {
       result.valid = false;
-      result.errors.push(`Value too small (minimum ${validation.min})`);
+      result.errors?.push(`Value too small (minimum ${validation.min})`);
     }
 
     if (validation.max !== undefined && typeof value === 'number' && value > validation.max) {
       result.valid = false;
-      result.errors.push(`Value too large (maximum ${validation.max})`);
+      result.errors?.push(`Value too large (maximum ${validation.max})`);
     }
 
     if (validation.pattern && typeof value === 'string' && !new RegExp(validation.pattern).test(value)) {
       result.valid = false;
-      result.errors.push(`Value does not match required pattern`);
+      result.errors?.push(`Value does not match required pattern`);
     }
 
     if (validation.enum && !validation.enum.includes(value)) {
       result.valid = false;
-      result.errors.push(`Value must be one of: ${validation.enum.join(', ')}`);
+      result.errors?.push(`Value must be one of: ${validation.enum.join(', ')}`);
     }
 
     if (validation.custom) {
       try {
         if (!validation.custom(value)) {
           result.valid = false;
-          result.errors.push('Custom validation failed');
+          result.errors?.push('Custom validation failed');
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         result.valid = false;
-        result.errors.push(`Custom validation error: ${error.message}`);
+        result.errors?.push(`Custom validation error: ${error.message}`);
       }
     }
 

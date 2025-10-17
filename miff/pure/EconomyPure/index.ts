@@ -707,7 +707,7 @@ export class EconomicEngine {
 
     // Update price history
     const pricePoint: PricePoint = {
-      timestamp: Date.now(),
+      timestamp: new Date(),
       price: transaction.price,
       currency: transaction.currency,
       itemId: transaction.itemId
@@ -1004,7 +1004,7 @@ export class EconomicEngine {
       currencies: Array.from(this.currencies.values()),
       transactions: Array.from(this.transactions.values()),
       statistics: this.performanceMetrics,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     if (format === 'json') {

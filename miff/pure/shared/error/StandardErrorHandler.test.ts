@@ -9,7 +9,7 @@ describe('StandardErrorHandler', () => {
   let instance: StandardErrorHandler;
 
   beforeEach(() => {
-    instance = new StandardErrorHandler();
+    instance = new StandardErrorHandler({});
   });
 
   describe('constructor', () => {

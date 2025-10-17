@@ -187,7 +187,7 @@ export class UnityEditorCLI {
         type: 'command' as const,
         source: 'cli',
         destination: 'unity_editor',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'load_scene',
           scenePath: sceneFile,
@@ -328,7 +328,7 @@ export class UnityEditorCLI {
         type: 'command' as const,
         source: 'cli',
         destination: 'unity_editor',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_inventory_system',
           prefabPath: prefabFile,
@@ -517,7 +517,7 @@ public class MIFFBattleAI : MonoBehaviour
         type: 'command' as const,
         source: 'cli',
         destination: 'unity_editor',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_ai_system',
           scriptPath: scriptFile,

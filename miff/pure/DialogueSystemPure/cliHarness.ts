@@ -302,7 +302,7 @@ class DialogueCLI {
         op: operation.op,
         status: 'error',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -320,7 +320,7 @@ class DialogueCLI {
     this.history = [];
     this.log = [];
     
-    this.history.push({ node: this.currentNode, timestamp: Date.now() });
+    this.history.push({ node: this.currentNode, timestamp: new Date() });
     this.log.push(`Started dialogue: ${this.currentDialogue.start}`);
 
     return {
@@ -332,7 +332,7 @@ class DialogueCLI {
         totalNodes: Object.keys(this.currentDialogue.nodes).length,
         history: this.history
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -354,7 +354,7 @@ class DialogueCLI {
       this.history.push({ 
         node: this.currentNode, 
         choice: choiceText,
-        timestamp: Date.now() 
+        timestamp: new Date() 
       });
       
       this.log.push(`Moved from ${previousNode} to ${this.currentNode} via "${choiceText}"`);
@@ -370,7 +370,7 @@ class DialogueCLI {
         history: this.history,
         log: this.log
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -390,7 +390,7 @@ class DialogueCLI {
           hasChoices: this.currentNode && this.currentDialogue?.nodes[this.currentNode]?.choices?.length > 0
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -438,7 +438,7 @@ class DialogueCLI {
         finalNode: currentNode,
         dialogue: this.currentDialogue
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -516,7 +516,7 @@ class DialogueCLI {
             sum + (node.choices?.length || 0), 0)
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -532,7 +532,7 @@ class DialogueCLI {
         message: 'Dialogue reset to start',
         currentNode: this.currentNode
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -552,7 +552,7 @@ class DialogueCLI {
           status: 'ok',
           result: data,
           format: 'json',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
     }
   }
@@ -571,7 +571,7 @@ class DialogueCLI {
       status: 'ok',
       result: { csv },
       format: 'csv',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -606,7 +606,7 @@ class DialogueCLI {
       status: 'ok',
       result: { markdown: md },
       format: 'markdown',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -658,7 +658,7 @@ class DialogueCLI {
       status: 'ok',
       result: { html },
       format: 'html',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 }

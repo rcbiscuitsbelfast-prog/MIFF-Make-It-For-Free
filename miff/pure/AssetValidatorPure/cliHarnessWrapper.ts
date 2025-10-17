@@ -74,7 +74,7 @@ try {
           // Simulate format validation
           const validFormats = ['png', 'jpg', 'mp3', 'wav', 'glb', 'gltf'];
           if (!validFormats.includes(asset.format)) {
-            result.errors.push(`Invalid format: ${asset.format}`);
+            result.errors?.push(`Invalid format: ${asset.format}`);
             result.valid = false;
           }
         }

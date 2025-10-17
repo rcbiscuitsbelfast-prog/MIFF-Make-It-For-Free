@@ -68,6 +68,7 @@ export class RenderPayloadManager {
   private builder: RenderPayloadBuilder;
 
   constructor() {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.builder = new RenderPayloadBuilder();
     this.initializeDefaultAssets();
     this.initializeDefaultAnimations();
@@ -151,7 +152,7 @@ export class RenderPayloadManager {
         metadata: {
           schemaVersion: 'v1',
           engine,
-          timestamp: Date.now().toISOString(),
+          timestamp: new Date().toISOString(),
           module: 'render_payload_pure',
           frameId: id,
           frameName: name
@@ -458,6 +459,7 @@ export class RenderPayloadManager {
    * Get render statistics
    */
   getStats(): { ok: boolean; stats: RenderStats } {
+    const managerData = this.getStats();
     const frames = Array.from(this.frames.values());
     const totalFrames = frames.length;
     const totalAssets = this.assets.size;

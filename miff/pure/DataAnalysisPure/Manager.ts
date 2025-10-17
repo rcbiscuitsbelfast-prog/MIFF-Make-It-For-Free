@@ -330,10 +330,11 @@ export class DataAnalysisManager {
   private startTime: Date;
 
   constructor(config?: Partial<DataAnalysisConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -364,7 +365,7 @@ export class DataAnalysisManager {
       console.info('DataAnalysisPure', 'Initializing Data Analysis System...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -395,8 +396,8 @@ export class DataAnalysisManager {
       const system: DataAnalysis = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -452,7 +453,7 @@ export class DataAnalysisManager {
       const updatedSystem: DataAnalysis = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 

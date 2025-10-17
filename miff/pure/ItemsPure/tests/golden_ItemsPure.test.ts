@@ -151,10 +151,10 @@ describe('ItemsPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validEffect = new ItemEffect(ItemEffectType.HEAL, 50);
-      expect(validEffect.validate()).toHaveLength(0);
+      expect(validEffect.validate({})).toHaveLength(0);
 
       const invalidEffect = new ItemEffect(ItemEffectType.HEAL, -10);
-      const errors = invalidEffect.validate();
+      const errors = invalidEffect.validate({});
       expect(errors).toContain('Effect amount cannot be negative');
     });
 
@@ -258,11 +258,11 @@ describe('ItemsPure Golden Tests', () => {
     test('should validate correctly', () => {
       const validItem = new Item('valid_item', 'Valid Item', ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 50));
-      expect(validItem.validate()).toHaveLength(0);
+      expect(validItem.validate({})).toHaveLength(0);
 
       const invalidItem = new Item('', '', ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, -10));
-      const errors = invalidItem.validate();
+      const errors = invalidItem.validate({});
       expect(errors).toContain('Item ID cannot be empty');
       expect(errors).toContain('Item name cannot be empty');
       expect(errors).toContain('Effect: Effect amount cannot be negative');
@@ -444,7 +444,7 @@ describe('ItemsPure Golden Tests', () => {
       const item = new Item('invalid_rule', 'Invalid Rule', ItemType.CONSUMABLE,
         new ItemEffect(ItemEffectType.HEAL, 30), 'invalidrule');
 
-      const errors = item.validate();
+      const errors = item.validate({});
       expect(errors).toContain('Invalid target rule specified');
     });
   });

@@ -320,7 +320,7 @@ export class SkeletonAnimatorCLI {
   }
 
   private async validateSystem(): Promise<string> {
-    const validation = this.manager.validate();
+    const validation = this.manager.validate({});
     if (validation.valid) {
       return 'System validation passed.';
     } else {

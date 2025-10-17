@@ -149,7 +149,7 @@ function main() {
         result = { nodes: mgr.listNodes(), edges: mgr.listEdges() };
         break;
       case 'validate':
-        result = mgr.validate();
+        result = mgr.validate({});
         break;
       case 'stats':
         result = mgr.getStats();
@@ -191,7 +191,7 @@ function main() {
       op: operation.op,
       status: 'ok',
       result: finalResult,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
     if (operation.op === 'export') envelope.format = (operation as any).format || 'json';
 
@@ -205,7 +205,7 @@ function main() {
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
+      timestamp: new Date()
     }, null, 2));
     process.exit(1);
   }

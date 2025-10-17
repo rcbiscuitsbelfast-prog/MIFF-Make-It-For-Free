@@ -450,7 +450,7 @@ describe('Schemas Golden Tests', () => {
 
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Validation failed for ' + dataPaths[2] + ':');
-      expect(result.errors.some(error => error.includes('missing required field: id')));
+      expect(result.errors?.some(error => error.includes('missing required field: id')));
     });
   });
 
@@ -464,7 +464,7 @@ describe('Schemas Golden Tests', () => {
 
       const result = SchemaValidator.validate(schemaPath, dataPath);
       expect(result.isValid).toBe(false);
-      expect(result.errors.some(error => error.startsWith('Validation error:')));
+      expect(result.errors?.some(error => error.startsWith('Validation error:')));
     });
 
     test('should handle null and undefined values', () => {

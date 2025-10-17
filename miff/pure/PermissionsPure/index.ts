@@ -284,7 +284,7 @@ export class PermissionsManager {
     if (!userPerms) {
       this.logAuditEvent({
         id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         userId: request.userId,
         action: request.action,
         resource: request.resource,
@@ -313,7 +313,7 @@ export class PermissionsManager {
 
     this.logAuditEvent({
       id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       userId: request.userId,
       action: request.action,
       resource: request.resource,

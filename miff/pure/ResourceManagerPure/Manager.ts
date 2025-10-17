@@ -872,6 +872,7 @@ export class ResourceManagerPure {
   private analytics: ResourceManagerAnalytics;
 
   constructor(config: Partial<ResourceManagerConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableResourceManagement: true,
       enableResourceLoading: true,
@@ -990,8 +991,8 @@ export class ResourceManagerPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

@@ -243,7 +243,7 @@ export class RealProcess {
     this.emit('processHealth', {
       memory: memoryUsage,
       cpu: cpuUsage,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 

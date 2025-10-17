@@ -103,7 +103,7 @@ class MigrationCLI {
 
       } else {
         console.error('❌ Migration failed:');
-        result.errors.forEach((error: any) => console.error(`  - ${error}`));
+        result.errors?.forEach((error: any) => console.error(`  - ${error}`));
         
         if (result.rollbackData) {
           const rollbackFile = outputFile.replace('.json', '_rollback.json');
@@ -248,7 +248,7 @@ class MigrationCLI {
         console.info(`💾 Rolled back data saved to ${outputFile}`);
       } else {
         console.error('❌ Rollback failed:');
-        result.errors.forEach((error: any) => console.error(`  - ${error}`));
+        result.errors?.forEach((error: any) => console.error(`  - ${error}`));
       }
 
     } catch (error: unknown) {

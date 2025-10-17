@@ -149,7 +149,7 @@ export const RNGUtils = {
   /**
    * Shuffle an array using the given RNG provider
    */
-  shuffle<T>(array: T[], rng: IRNGProvider): T[] {
+  shuffle<T extends object>(array: T[], rng: IRNGProvider): T[] {
     const result = [...array];
     for (let i = result.length - 1; i > 0; i--) {
       const j = rng.nextInt(0, i + 1);
@@ -161,7 +161,7 @@ export const RNGUtils = {
   /**
    * Pick a random element from an array
    */
-  pickRandom<T>(array: T[], rng: IRNGProvider): T | undefined {
+  pickRandom<T extends object>(array: T[], rng: IRNGProvider): T | undefined {
     if (array.length === 0) return undefined;
     const index = rng.nextInt(0, array.length);
     return array[index!];

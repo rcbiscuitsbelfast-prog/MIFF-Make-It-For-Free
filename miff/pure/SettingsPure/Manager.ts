@@ -71,6 +71,7 @@ export class SettingsManager {
   private validationRules: Map<string, (value: any) => boolean> = new Map();
 
   constructor(initPath?: string) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.defaults = this.createDefaultSettings();
     
     if (initPath && fs.existsSync(initPath)) {
@@ -223,7 +224,7 @@ export class SettingsManager {
     
     // Record the change
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { [key!]: { old: oldValue, new: value } }
     });
     
@@ -257,7 +258,7 @@ export class SettingsManager {
     (this.settings as any)[category!] = { ...oldValues, ...values };
     
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { [category!]: { old: oldValues, new: values } }
     });
     
@@ -305,7 +306,7 @@ export class SettingsManager {
   reset(): void {
     this.settings = { ...this.defaults };
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { reset: true }
     });
   }
@@ -319,7 +320,7 @@ export class SettingsManager {
     (this.settings as any)[category!] = { ...(this.defaults as any)[category!] };
     
     this.history.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       changes: { [category]: { old: oldValues, new: (this.defaults as any)[category] } }
     });
     
@@ -331,6 +332,7 @@ export class SettingsManager {
   }
 
   getStats(): SettingsStats {
+    const managerData = this.getStats();
     const totalSettings = this.countTotalSettings(this.settings);
     const modifiedSettings = this.countModifiedSettings();
     const categories: Record<string, number> = {};
@@ -459,8 +461,9 @@ export class SettingsManager {
       settings: this.settings,
       metadata: {
         version: '1.0.0',
-        timestamp: Date.now().toISOString(),
+        timestamp: new Date().toISOString(),
         stats: this.getStats()
+    const managerData = this.getStats();
       }
     };
     

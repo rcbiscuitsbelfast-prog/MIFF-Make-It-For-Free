@@ -196,10 +196,11 @@ export class CachingSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<CachingSystemConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('CachingSystemManager');
     this.startTime = Date.now();
 
@@ -223,15 +224,15 @@ export class CachingSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('CachingSystemPure', 'Caching System already initialized');
+      StructuredLogger.warn('CachingSystemPure' ?? 'unknown', { message: 'Caching System already initialized' });
       return;
     }
 
     try {
-      StructuredLogger.info('CachingSystemPure', 'Initializing Caching System...');
+      StructuredLogger.info('CachingSystemPure', { message: 'Initializing Caching System...' });
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -241,7 +242,7 @@ export class CachingSystemManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('CachingSystemPure', 'Caching System initialized successfully');
+      StructuredLogger.info('CachingSystemPure', { message: 'Caching System initialized successfully' });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -262,8 +263,8 @@ export class CachingSystemManager {
       const system: CachingSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalCaches: 0,
@@ -279,7 +280,7 @@ export class CachingSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Caching system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Caching system created', { message: { systemId: system.id, systemName: system.name } });
       return system;
 
     } catch (error: unknown) {
@@ -311,21 +312,21 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
       const updatedSystem: CachingSystem = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Caching system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Caching system updated', { message: { systemId, systemName: updatedSystem.name } });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -346,14 +347,14 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Caching system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Caching system deleted', { message: { systemId, systemName: system.name } });
       return true;
 
     } catch (error: unknown) {
@@ -407,7 +408,7 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
@@ -419,7 +420,7 @@ export class CachingSystemManager {
       system.caches.push(cache);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache added to system', { systemId, cacheId: cache.id, cacheName: cache.name });
+      StructuredLogger.info('Cache added to system', { message: { systemId, cacheId: cache.id, cacheName: cache.name } });
       return cache;
 
     } catch (error: unknown) {
@@ -440,20 +441,20 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const cacheIndex = system.caches.findIndex(c => c.id === cacheId);
       if (cacheIndex === -1) {
-        StructuredLogger.warn('Cache not found', { systemId, cacheId });
+        StructuredLogger.warn('Cache not found' ?? 'unknown', { message: { systemId, cacheId } });
         return false;
       }
 
       system.caches.splice(cacheIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache removed from system', { systemId, cacheId });
+      StructuredLogger.info('Cache removed from system', { message: { systemId, cacheId } });
       return true;
 
     } catch (error: unknown) {
@@ -474,13 +475,13 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return null;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        StructuredLogger.warn('Cache not found', { systemId, cacheId });
+        StructuredLogger.warn('Cache not found' ?? 'unknown', { message: { systemId, cacheId } });
         return null;
       }
 
@@ -523,13 +524,13 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        StructuredLogger.warn('Cache not found', { systemId, cacheId });
+        StructuredLogger.warn('Cache not found' ?? 'unknown', { message: { systemId, cacheId } });
         return false;
       }
 
@@ -537,7 +538,7 @@ export class CachingSystemManager {
         key,
         value,
         ttl: ttl || cache.policy.ttl,
-        createdAt: Date.now(),
+        createdAt: new Date(),
         lastAccessed: Date.now(),
         accessCount: 0,
         size: this.calculateSize(value),
@@ -576,13 +577,13 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        StructuredLogger.warn('Cache not found', { systemId, cacheId });
+        StructuredLogger.warn('Cache not found' ?? 'unknown', { message: { systemId, cacheId } });
         return false;
       }
 
@@ -612,20 +613,20 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
         return false;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        StructuredLogger.warn('Cache not found', { systemId, cacheId });
+        StructuredLogger.warn('Cache not found' ?? 'unknown', { message: { systemId, cacheId } });
         return false;
       }
 
       cache.entries = [];
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache cleared', { systemId, cacheId });
+      StructuredLogger.info('Cache cleared', { message: { systemId, cacheId } });
       return true;
 
     } catch (error: unknown) {
@@ -830,12 +831,12 @@ export class CachingSystemManager {
    * Destroy the Caching System
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('CachingSystemPure', 'Destroying Caching System...');
+    StructuredLogger.info('CachingSystemPure', { message: 'Destroying Caching System...' });
 
     this.systems.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('CachingSystemPure', 'Caching System destroyed');
+    StructuredLogger.info('CachingSystemPure', { message: 'Caching System destroyed' });
   }
 }
 

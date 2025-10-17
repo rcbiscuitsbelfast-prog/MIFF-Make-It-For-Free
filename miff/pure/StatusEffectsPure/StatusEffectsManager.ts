@@ -646,7 +646,7 @@ export class StatusEffectsManager {
       type,
       entityId,
       effectId,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data
     };
     this.events.push(event);

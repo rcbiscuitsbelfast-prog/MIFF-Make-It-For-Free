@@ -1659,6 +1659,7 @@ export class DataLakePure {
   private analytics: DataLakeAnalytics;
 
   constructor(config: Partial<DataLakeConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableDataLakeManagement: true,
       enableDataIngestion: true,
@@ -1817,8 +1818,8 @@ export class DataLakePure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

@@ -58,7 +58,7 @@ try {
         id: sessionId || 'session_001',
         platform: platform || 'multi',
         exportFormats: formats,
-        createdAt: Date.now(),
+        createdAt: new Date(),
         status: 'active',
         metadata: {
           version: '1.0.0',

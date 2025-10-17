@@ -195,10 +195,10 @@ describe('AIPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validPolicy = new AIPolicy('valid', 1.0, 1.0, 1.0);
-      expect(validPolicy.validate()).toHaveLength(0);
+      expect(validPolicy.validate({})).toHaveLength(0);
 
       const invalidPolicy = new AIPolicy('', -1, 3, 1.5);
-      const errors = invalidPolicy.validate();
+      const errors = invalidPolicy.validate({});
       expect(errors).toContain('Policy ID cannot be empty');
       // Note: Values are clamped by constructor, so aggression and caution validation passes
       // expect(errors).toContain('Aggression must be between 0 and 2');
@@ -771,7 +771,7 @@ describe('AIPure Golden Tests', () => {
         const policy = policies[i];
         AIUtils.comparePolicies(referencePolicy, policy);
         AIUtils.getBehaviorDescription(policy);
-        policy.validate();
+        policy.validate({});
       }
 
       const endTime = performance.now();

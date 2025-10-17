@@ -379,7 +379,7 @@ class ItemsPureCLI {
     console.log('');
 
     // Show validation
-    const errors = item.validate();
+    const errors = item.validate({});
     if (errors.length === 0) {
       console.log('✅ Item is valid');
     } else {

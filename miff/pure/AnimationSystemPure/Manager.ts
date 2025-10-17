@@ -182,10 +182,11 @@ export class AnimationSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<AnimationSystemConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -219,7 +220,7 @@ export class AnimationSystemManager {
       console.info('AnimationSystemPure', 'Initializing Animation System Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -250,8 +251,8 @@ export class AnimationSystemManager {
       const animation: Animation = {
         ...animationData,
         id: this.generateAnimationId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalAnimations: 0,
@@ -305,7 +306,7 @@ export class AnimationSystemManager {
       const updatedAnimation: Animation = {
         ...animation,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(animation.version)
       };
 
@@ -540,10 +541,10 @@ export class AnimationSystemManager {
       );
 
       // Update animation value
-      animation.metadata.currentValue = interpolatedValue;
+      animation.metadata?.currentValue = interpolatedValue;
     } else if (currentKeyframe) {
       // Use current keyframe value
-      animation.metadata.currentValue = currentKeyframe.value;
+      animation.metadata?.currentValue = currentKeyframe.value;
     }
   }
 

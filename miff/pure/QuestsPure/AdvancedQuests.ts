@@ -231,7 +231,7 @@ export class AdvancedQuests {
     const context: QuestContext = {
       player,
       quest: {} as DynamicQuest,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     // Generate quest name and description
@@ -269,8 +269,8 @@ export class AdvancedQuests {
         seasonal: false
       },
       status: 'available',
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     this.dynamicQuests.set(quest.id, quest);
@@ -295,7 +295,7 @@ export class AdvancedQuests {
     this.activeQuests.add(questId);
 
     // Execute start triggers
-    this.executeTriggers(quest, 'on_quest_start', { player, quest, timestamp: Date.now() });
+    this.executeTriggers(quest, 'on_quest_start', { player, quest, timestamp: new Date() });
 
     return true;
   }
@@ -320,7 +320,7 @@ export class AdvancedQuests {
     this.applyStepRewards(step, player);
 
     // Execute step complete triggers
-    this.executeTriggers(quest, 'on_step_complete', { player, quest, step, timestamp: Date.now() });
+    this.executeTriggers(quest, 'on_step_complete', { player, quest, step, timestamp: new Date() });
 
     // Check if quest is complete
     if (this.isQuestComplete(quest)) {
@@ -346,7 +346,7 @@ export class AdvancedQuests {
     this.applyQuestRewards(quest, player);
 
     // Execute completion triggers
-    this.executeTriggers(quest, 'on_quest_complete', { player, quest, timestamp: Date.now() });
+    this.executeTriggers(quest, 'on_quest_complete', { player, quest, timestamp: new Date() });
 
     // Record quest history
     this.recordQuestHistory(questId, player, 'completed');
@@ -366,7 +366,7 @@ export class AdvancedQuests {
     this.activeQuests.delete(questId);
 
     // Execute failure triggers
-    this.executeTriggers(quest, 'on_failure', { player, quest, timestamp: Date.now(), reason });
+    this.executeTriggers(quest, 'on_failure', { player, quest, timestamp: new Date(), reason });
 
     // Record quest history
     this.recordQuestHistory(questId, player, 'failed', reason);
@@ -498,21 +498,21 @@ export class AdvancedQuests {
    * Check quest prerequisites
    */
   private checkPrerequisites(quest: DynamicQuest, player: any): boolean {
-    return quest.prerequisites.every(prereq => prereq.check({ player, quest, timestamp: Date.now() }));
+    return quest.prerequisites.every(prereq => prereq.check({ player, quest, timestamp: new Date() }));
   }
 
   /**
    * Check quest conditions
    */
   private checkQuestConditions(quest: DynamicQuest, player: any): boolean {
-    return quest.conditions.every(condition => condition.check({ player, quest, timestamp: Date.now() }));
+    return quest.conditions.every(condition => condition.check({ player, quest, timestamp: new Date() }));
   }
 
   /**
    * Check step conditions
    */
   private checkStepConditions(step: DynamicQuestStep, player: any): boolean {
-    return step.conditions.every(condition => condition.check({ player, step, timestamp: Date.now() }));
+    return step.conditions.every(condition => condition.check({ player, step, timestamp: new Date() }));
   }
 
   /**
@@ -520,7 +520,7 @@ export class AdvancedQuests {
    */
   private applyStepRewards(step: DynamicQuestStep, player: any): void {
     for (const reward of step.rewards) {
-      reward.apply({ player, step, timestamp: Date.now() });
+      reward.apply({ player, step, timestamp: new Date() });
     }
   }
 
@@ -529,7 +529,7 @@ export class AdvancedQuests {
    */
   private applyQuestRewards(quest: DynamicQuest, player: any): void {
     for (const reward of quest.rewards) {
-      reward.apply({ player, quest, timestamp: Date.now() });
+      reward.apply({ player, quest, timestamp: new Date() });
     }
   }
 
@@ -563,7 +563,7 @@ export class AdvancedQuests {
       playerId: player.id,
       status,
       reason,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
     this.questHistory.set(questId, history);
   }

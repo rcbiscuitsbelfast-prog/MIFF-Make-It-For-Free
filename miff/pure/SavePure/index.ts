@@ -973,7 +973,7 @@ export class SaveManager implements ISaveManager {
   async saveGame(snapshot: ISaveSnapshot, filePath: string): Promise<SaveOperationResult> {
     try {
       // Validate snapshot
-      const validationResult = snapshot.validate();
+      const validationResult = snapshot.validate({});
       if (!validationResult.isValid) {
         return {
           success: false,

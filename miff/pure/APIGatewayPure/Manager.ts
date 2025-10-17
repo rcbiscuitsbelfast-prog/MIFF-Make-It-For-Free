@@ -240,10 +240,11 @@ export class APIGatewayManager {
   private startTime: Date;
 
   constructor(config?: Partial<APIGatewayConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler();
+    this.errorHandler = new StandardErrorHandler({});
     this.startTime = new Date();
 
     this.config = {
@@ -279,7 +280,7 @@ export class APIGatewayManager {
       console.info('APIGatewayPure', 'Initializing API Gateway Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -310,8 +311,8 @@ export class APIGatewayManager {
       const gateway: APIGateway = {
         ...gatewayData,
         id: this.generateGatewayId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalRequests: 0,
@@ -365,7 +366,7 @@ export class APIGatewayManager {
       const updatedGateway: APIGateway = {
         ...gateway,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(gateway.version)
       };
 

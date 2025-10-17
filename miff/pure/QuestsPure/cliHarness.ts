@@ -52,8 +52,8 @@ try {
         level,
         category,
         giver,
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
       output = manager.createQuest(newQuest);
       break;
@@ -155,8 +155,8 @@ try {
         level: 3,
         category: 'demo',
         giver: 'demo_npc',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
       
       const createResult = manager.createQuest(demoQuest);
@@ -198,8 +198,8 @@ try {
           level: 1,
           category: 'tutorial',
           giver: 'combat_trainer',
-          createdAt: Date.now(),
-          updatedAt: Date.now()
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           id: 'exploration_quest' as any,
@@ -229,8 +229,8 @@ try {
           level: 2,
           category: 'exploration',
           giver: 'forest_guide',
-          createdAt: Date.now(),
-          updatedAt: Date.now()
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ];
 

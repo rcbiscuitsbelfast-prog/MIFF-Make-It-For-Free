@@ -347,7 +347,7 @@ export class RhythmChallengePure {
 
     this.eventBus.publish('rhythm:beatmap_created', {
       beatMap: beatMap,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return beatMap;
@@ -393,7 +393,7 @@ export class RhythmChallengePure {
       gameId: gameState.id,
       beatMapId: beatMapId,
       playerId: playerId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return gameState;
@@ -435,7 +435,7 @@ export class RhythmChallengePure {
         noteId: nextNote.id,
         judgment: judgment,
         timingOffset: timingOffset,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
 
       return judgment;
@@ -523,7 +523,7 @@ export class RhythmChallengePure {
         gameId: game.id,
         playerId: player.playerId,
         combo: player.combo,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -588,7 +588,7 @@ export class RhythmChallengePure {
       currentTime: game.currentTime,
       score: game.players[0]?.score || 0,
       health: game.health,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -604,7 +604,7 @@ export class RhythmChallengePure {
         gameId: game.id,
         noteId: note.id,
         note: note,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     });
   }
@@ -636,7 +636,7 @@ export class RhythmChallengePure {
       this.eventBus.publish('rhythm:game_ended', {
         gameId: gameId,
         result: result,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -665,7 +665,7 @@ export class RhythmChallengePure {
 
     this.eventBus.publish('rhythm:calibrated', {
       calibrationData: this.calibrationData,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return this.calibrationData;
@@ -697,7 +697,7 @@ export class RhythmChallengePure {
 
     this.eventBus.publish('rhythm:input_device_created', {
       device: device,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return device;

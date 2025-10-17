@@ -40,8 +40,8 @@ try {
 
     case 'apply-events':
       const events: ScoreEvent[] = args.includes('--events') ? JSON.parse(args.find(arg => arg.startsWith('--events='))!.split('=')[1]) : [
-        { id: 'evt1', type: 'add', value: 100, category: 'general', source: 'test', timestamp: Date.now() },
-        { id: 'evt2', type: 'multiply', value: 1.5, category: 'bonus', source: 'test', timestamp: Date.now() }
+        { id: 'evt1', type: 'add', value: 100, category: 'general', source: 'test', timestamp: new Date() },
+        { id: 'evt2', type: 'multiply', value: 1.5, category: 'bonus', source: 'test', timestamp: new Date() }
       ];
       output = manager.applyEvents(scoreId, events);
       break;
@@ -138,8 +138,8 @@ try {
 
       // Apply events
       manager.applyEvents('demo_player_1', [
-        { id: 'combat_win', type: 'add', value: 200, category: 'combat', source: 'battle', timestamp: Date.now() },
-        { id: 'bonus_multiplier', type: 'multiply', value: 1.5, category: 'bonus', source: 'achievement', timestamp: Date.now() }
+        { id: 'combat_win', type: 'add', value: 200, category: 'combat', source: 'battle', timestamp: new Date() },
+        { id: 'bonus_multiplier', type: 'multiply', value: 1.5, category: 'bonus', source: 'achievement', timestamp: new Date() }
       ]);
 
       // Add bonuses and penalties

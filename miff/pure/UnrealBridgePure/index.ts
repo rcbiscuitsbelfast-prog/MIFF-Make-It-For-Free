@@ -1633,7 +1633,7 @@ export class UnrealBridgeManager {
         data: result.data,
         error: result.error,
         executionTime: result.executionTime,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1649,14 +1649,14 @@ export class UnrealBridgeManager {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
           context: { commandId: command.id },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           severity: 'high',
           category: 'execution',
           retryable: true,
           errorType: 'native'
         },
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1682,7 +1682,7 @@ export class UnrealBridgeManager {
         success: true,
         data: result,
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1698,14 +1698,14 @@ export class UnrealBridgeManager {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
           context: { queryId: query.id },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           severity: 'high',
           category: 'execution',
           retryable: true,
           errorType: 'native'
         },
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1768,7 +1768,7 @@ export class UnrealBridgeManager {
       type: 'response',
       source: 'bridge',
       destination: 'unreal',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: response,
       priority: 0,
       ttl: 30000,
@@ -1789,9 +1789,9 @@ export class UnrealBridgeManager {
       type: 'heartbeat',
       source: 'bridge',
       destination: 'unreal',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: {
-        timestamp: Date.now(),
+        timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0],
         statistics: this.statistics
       },
@@ -2098,7 +2098,7 @@ export class UnrealBridgeManager {
       characters: Array.from(this.characters.values()),
       statistics: this.statistics,
       performanceMetrics: this.performanceMetrics,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     if (format === 'json') {

@@ -743,6 +743,7 @@ export class DebuggingPure {
   private analytics: DebuggingAnalytics;
 
   constructor(config: Partial<DebuggingConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableDebugManagement: true,
       enableSessionManagement: true,
@@ -856,8 +857,8 @@ export class DebuggingPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

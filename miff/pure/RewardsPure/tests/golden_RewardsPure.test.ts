@@ -138,10 +138,10 @@ describe('RewardsPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validReward = new RewardStub(100, 50, 'test_item');
-      expect(validReward.validate()).toHaveLength(0);
+      expect(validReward.validate({})).toHaveLength(0);
 
       const invalidReward = new RewardStub(-10, -5, '');
-      const errors = invalidReward.validate();
+      const errors = invalidReward.validate({});
       expect(errors).toContain('Currency cannot be negative');
       expect(errors).toContain('XP gain cannot be negative');
       expect(errors).toContain('Item ID cannot be empty string');
@@ -194,10 +194,10 @@ describe('RewardsPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validEntry = new (require('../index').DropEntry)('test_item', 25);
-      expect(validEntry.validate()).toHaveLength(0);
+      expect(validEntry.validate({})).toHaveLength(0);
 
       const invalidEntry = new (require('../index').DropEntry)('', -5);
-      const errors = invalidEntry.validate();
+      const errors = invalidEntry.validate({});
       expect(errors).toContain('Item ID cannot be empty');
       expect(errors).toContain('Weight cannot be negative');
     });
@@ -274,10 +274,10 @@ describe('RewardsPure Golden Tests', () => {
       const validTable = new DropTable();
       validTable.addEntry(new (require('../index').DropEntry)('test', 25));
 
-      expect(validTable.validate()).toHaveLength(0);
+      expect(validTable.validate({})).toHaveLength(0);
 
       const invalidTable = new DropTable();
-      const errors = invalidTable.validate();
+      const errors = invalidTable.validate({});
       expect(errors).toContain('Drop table must have at least one entry');
     });
 
@@ -602,7 +602,7 @@ describe('RewardsPure Golden Tests', () => {
       expect(reward.currency).toBe(0); // Should be clamped
 
       const invalidReward = new RewardStub(-100, -50);
-      expect(invalidReward.validate()).toHaveLength(2);
+      expect(invalidReward.validate({})).toHaveLength(2);
     });
 
     test('should handle invalid drop table operations', () => {

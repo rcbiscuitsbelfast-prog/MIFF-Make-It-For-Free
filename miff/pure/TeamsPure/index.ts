@@ -379,7 +379,7 @@ export class ValidationResult implements IValidationResult {
    * Add warning
    */
   addWarning(warning: string): void {
-    this.warnings.push(warning);
+    this.warnings?.push(warning);
   }
 
   /**
@@ -1683,7 +1683,7 @@ export class TeamManager implements ITeamManager {
       return new ValidationResult(ValidationStatus.INVALID_SYNERGY, 'Team not found');
     }
 
-    return team.validate();
+    return team.validate({});
   }
 
   /**
@@ -1897,7 +1897,7 @@ export const TeamUtils = {
    * Validate team composition
    */
   validateTeamComposition(team: ITeam): IValidationResult {
-    return team.validate();
+    return team.validate({});
   },
 
   /**

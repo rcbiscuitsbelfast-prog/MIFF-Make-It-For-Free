@@ -266,8 +266,8 @@ export interface IRNGProvider {
   nextInt(min?: number, max?: number): number;
   nextFloat(min?: number, max?: number): number;
   nextBoolean(chance?: number): boolean;
-  shuffle<T>(array: T[]): T[];
-  choose<T>(array: T[]): T;
+  shuffle<T extends object>(array: T[]): T[];
+  choose<T extends object>(array: T[]): T;
   seed: number;
 }
 
@@ -646,7 +646,7 @@ export class EncounterTable implements IEncounterTable {
     }
 
     this.entries.forEach((entry, index) => {
-      const entryErrors = entry.validate();
+      const entryErrors = entry.validate({});
       if (entryErrors.length > 0) {
         errors.push(`Entry ${index} (${entry.spiritId}): ${entryErrors.join(', ')}`);
       }
@@ -942,7 +942,7 @@ export class RNGProvider implements IRNGProvider {
   /**
    * Shuffle array
    */
-  shuffle<T>(array: T[]): T[] {
+  shuffle<T extends object>(array: T[]): T[] {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = this.nextInt(0, i);
@@ -954,7 +954,7 @@ export class RNGProvider implements IRNGProvider {
   /**
    * Choose random element from array
    */
-  choose<T>(array: T[]): T {
+  choose<T extends object>(array: T[]): T {
     if (array.length === 0) {
       throw new Error('Cannot choose from empty array');
     }

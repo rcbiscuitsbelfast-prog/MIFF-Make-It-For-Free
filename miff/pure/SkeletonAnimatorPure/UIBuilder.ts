@@ -70,7 +70,7 @@ export class UIBuilder {
     const fullAction: UIAction = {
       ...action,
       id: this.generateActionId(),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.actionHistory.push(fullAction);

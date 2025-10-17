@@ -197,6 +197,7 @@ export class IdleManagerPure {
   private lastAnalyticsUpdate: number = 0;
 
   constructor(eventBus: EventBus, config: IdleManagerConfig = {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     enableAutoSave: true,
     saveInterval: 60,
     enableAnalytics: true,
@@ -448,7 +449,7 @@ export class IdleManagerPure {
         this.eventBus.emit('idle:achievement_progress', {
           target: target,
           amount: amount,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       },
 
@@ -535,7 +536,7 @@ export class IdleManagerPure {
 
       this.eventBus.emit('idle:manager_initialized', {
         config: this.config,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
 
     } catch (error: unknown) {
@@ -584,7 +585,7 @@ export class IdleManagerPure {
     this.analyticsData.push({
       event: event,
       data: data,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     // Keep only last 1000 entries
@@ -598,6 +599,7 @@ export class IdleManagerPure {
    */
   private updateAnalytics(): void {
     const stats = this.idleSystem.getStats();
+    const managerData = this.getStats();
     const now = Date.now();
 
     if (now - this.lastAnalyticsUpdate > 60000) {
@@ -706,6 +708,7 @@ export class IdleManagerPure {
    * Get system statistics
    */
   public getStats(): {
+    const managerData = this.getStats();
     isInitialized: boolean;
     resources: number;
     generators: number;
@@ -719,6 +722,7 @@ export class IdleManagerPure {
     analyticsEnabled: boolean;
   } {
     const idleStats = this.idleSystem.getStats();
+    const managerData = this.getStats();
 
     return {
       ...idleStats,

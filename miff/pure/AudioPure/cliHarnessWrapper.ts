@@ -33,7 +33,7 @@ try {
         volume: volume || 0.7,
         is3D: is3D === true || is3D === 'true',
         playing: true,
-        timestamp: Date.now()
+        timestamp: new Date()
       }, 'playAudioCue');
       break;
     }

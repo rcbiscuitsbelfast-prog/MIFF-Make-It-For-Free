@@ -154,7 +154,7 @@ export class AIProfileIntegrationLayer {
       reasoning: this.generateReasoning(profile, chosenAction, situation),
       confidence: chosenAction.confidence,
       alternatives,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     // Store decision for learning

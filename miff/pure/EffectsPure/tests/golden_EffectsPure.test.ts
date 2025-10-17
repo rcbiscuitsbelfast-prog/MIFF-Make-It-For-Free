@@ -311,10 +311,10 @@ describe('EffectsPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validEffect = BattleEffect.statModifier('valid', 'Valid', 'Valid effect', TargetStat.ATK, ModifierType.FLAT, 10, 0, 3);
-      expect(validEffect.validate()).toHaveLength(0);
+      expect(validEffect.validate({})).toHaveLength(0);
 
       const invalidEffect = new BattleEffect('', '', '', EffectType.CUSTOM, TargetStat.CUSTOM, ModifierType.FLAT, 0, -5, -3);
-      const errors = invalidEffect.validate();
+      const errors = invalidEffect.validate({});
       expect(errors).toContain('Effect ID cannot be empty');
       expect(errors).toContain('Effect name cannot be empty');
       expect(errors).toContain('Effect description cannot be empty');

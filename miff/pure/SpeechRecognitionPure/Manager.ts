@@ -528,6 +528,7 @@ export class SpeechRecognitionPure {
   private analytics: SpeechRecognitionAnalytics;
 
   constructor(config: Partial<SpeechRecognitionConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableSpeechToText: true,
       enableVoiceCommands: true,
@@ -643,8 +644,8 @@ export class SpeechRecognitionPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -721,7 +722,7 @@ export class SpeechRecognitionPure {
         sentences: [],
         confidence: 0,
         language,
-        timestamp: Date.now()
+        timestamp: new Date()
       },
       confidence: 0,
       metadata: {}
@@ -913,7 +914,7 @@ export class SpeechRecognitionPure {
       sentences: this.generateSentences(words),
       confidence: 0.85 + Math.random() * 0.1,
       language,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

@@ -78,7 +78,7 @@ export class SaveLoadManager {
     };
     migrated.saves[slotId!] = {
       id: slotId,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data: snapshot,
       autosave: false,
     };

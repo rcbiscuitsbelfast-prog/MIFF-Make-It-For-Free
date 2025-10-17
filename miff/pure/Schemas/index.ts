@@ -247,7 +247,7 @@ export class SchemaValidator {
 
       if (!result.isValid) {
         allErrors.push(`Validation failed for ${jsonPath}:`);
-        allErrors.push(...result.errors.map((error: any) => `  - ${error}`));
+        allErrors.push(...(result.errors ?? [])?.map((error: any) => `  - ${error}`));
       }
 
       allWarnings.push(...result.warnings.map((warning: any) => `${jsonPath}: ${warning}`));

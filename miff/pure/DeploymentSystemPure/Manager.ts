@@ -798,6 +798,7 @@ export class DeploymentSystemPure {
   private analytics: DeploymentAnalytics;
 
   constructor(config: Partial<DeploymentConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableApplicationDeployment: true,
       enableEnvironmentManagement: true,
@@ -918,8 +919,8 @@ export class DeploymentSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -1007,8 +1008,8 @@ export class DeploymentSystemPure {
         scaleDownCooldown: 300
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...application
     };
 
@@ -1032,8 +1033,8 @@ export class DeploymentSystemPure {
         message: 'Starting deployment...'
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     manager.deployments.push(deployment);

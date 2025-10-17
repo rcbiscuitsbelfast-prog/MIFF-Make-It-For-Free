@@ -163,7 +163,7 @@ export class SimpleSkeletonAnimator {
   }
 
   validate(): { valid: boolean; errors: string[] } {
-    return this.rigBuilder.validate();
+    return this.rigBuilder.validate({});
   }
 }
 
@@ -185,7 +185,7 @@ export function createCLI() {
         
         case 'validate':
           animator.createCharacter('TestCharacter');
-          const validation = animator.validate();
+          const validation = animator.validate({});
           return validation.valid ? 'Validation passed.' : `Validation failed: ${validation.errors.join(', ')}`;
         
         case 'help':

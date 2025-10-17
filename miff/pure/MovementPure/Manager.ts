@@ -112,6 +112,7 @@ export class MovementManager {
   };
 
   constructor() {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.initializeDefaultPatterns();
   }
 
@@ -528,7 +529,7 @@ export class MovementManager {
         events.push({
           type: 'collided',
           entityId: entity.id,
-          timestamp: Date.now(),
+          timestamp: new Date(),
           data: { obstacle }
         });
       }
@@ -544,7 +545,7 @@ export class MovementManager {
         events.push({
           type: 'collided',
           entityId: entity.id,
-          timestamp: Date.now(),
+          timestamp: new Date(),
           data: { otherEntity: otherId }
         });
       }
@@ -566,7 +567,7 @@ export class MovementManager {
         events.push({
           type: 'stuck',
           entityId: entity.id,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       }
     } else {
@@ -574,7 +575,7 @@ export class MovementManager {
         events.push({
           type: 'unstuck',
           entityId: entity.id,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       }
       entity.state.stuckTime = 0;

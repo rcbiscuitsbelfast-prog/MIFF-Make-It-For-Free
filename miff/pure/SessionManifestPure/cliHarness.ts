@@ -104,7 +104,7 @@ class SessionManifestCLI {
         op: operation.op,
         status: 'error',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -129,7 +129,7 @@ class SessionManifestCLI {
         message: `Session ${op.sessionId} created successfully`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -145,7 +145,7 @@ class SessionManifestCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.session,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -160,7 +160,7 @@ class SessionManifestCLI {
         total: result.total,
         filter: op.filter || null
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -179,7 +179,7 @@ class SessionManifestCLI {
         message: `Player ${op.player.playerId} added to session ${op.sessionId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -198,7 +198,7 @@ class SessionManifestCLI {
         message: `Player ${op.playerId} removed from session ${op.sessionId}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -217,7 +217,7 @@ class SessionManifestCLI {
         message: `Player ${op.playerId} status updated to ${op.status}`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -235,7 +235,7 @@ class SessionManifestCLI {
         message: `Session ${op.sessionId} deleted successfully`
       } : undefined,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -249,7 +249,7 @@ class SessionManifestCLI {
         cleaned: result.cleaned,
         message: `Cleaned up ${result.cleaned} expired sessions`
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -266,7 +266,7 @@ class SessionManifestCLI {
           averageDuration: `${stats.averageSessionDuration.toFixed(1)} minutes`
         }
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -282,7 +282,7 @@ class SessionManifestCLI {
       status: result.ok ? 'ok' : 'error',
       result: result.simulation,
       errors: result.errors,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -302,7 +302,7 @@ class SessionManifestCLI {
         result: result.data,
         format,
         errors: result.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -313,7 +313,7 @@ class SessionManifestCLI {
         op: 'export',
         status: 'error',
         errors: sessionResult.errors,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -322,11 +322,11 @@ class SessionManifestCLI {
     switch (format) {
       case 'yaml': {
         const yaml = this.toYAML(data);
-        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: new Date() };
       }
       case 'xml': {
         const xml = this.toXML(data, 'session');
-        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: Date.now() };
+        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: new Date() };
       }
       case 'csv':
       case 'markdown':
@@ -343,7 +343,7 @@ class SessionManifestCLI {
           status: 'ok', 
           result: { [format!]: exportData }, 
           format, 
-          timestamp: Date.now() 
+          timestamp: new Date() 
         };
       }
       default:
@@ -352,7 +352,7 @@ class SessionManifestCLI {
           status: 'ok',
           result: data,
           format: 'json',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
     }
   }
@@ -372,7 +372,7 @@ class SessionManifestCLI {
         errors: validation.errors,
         manifest: validation.ok ? op.data : null
       },
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

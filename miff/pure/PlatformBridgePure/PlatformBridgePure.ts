@@ -222,13 +222,13 @@ export class PlatformBridge {
   /**
    * Unregister input device
    */
-  unregisterInputDevice(deviceId: string): boolean {
-    const device = this.inputDevices.get(deviceId);
+  unregisterInputDevice(device.id: string): boolean {
+    const device = this.inputDevices.get(device.id);
     if (!device) {
       return false;
     }
 
-    this.inputDevices.delete(deviceId);
+    this.inputDevices.delete(device.id);
     console.log(`🎮 Input device unregistered: ${device.name}`);
     
     return true;
@@ -237,8 +237,8 @@ export class PlatformBridge {
   /**
    * Get input device by ID
    */
-  getInputDevice(deviceId: string): InputDevice | undefined {
-    return this.inputDevices.get(deviceId);
+  getInputDevice(device.id: string): InputDevice | undefined {
+    return this.inputDevices.get(device.id);
   }
 
   /**
@@ -646,7 +646,7 @@ export class PlatformBridge {
     return {
       pollEvents: () => [],
       registerDevice: (device: InputDevice) => {},
-      unregisterDevice: (deviceId: string) => {}
+      unregisterDevice: (device.id: string) => {}
     };
   }
 

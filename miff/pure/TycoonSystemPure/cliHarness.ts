@@ -593,7 +593,7 @@ export class TycoonSystemCLI {
       stats: this.tycoonManager.getStats(),
       facilities: Array.from(this.tycoonSystem.getFacilities().entries()),
       staff: Array.from(this.tycoonSystem.getStaff().entries()),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     const outputFile = filename || `tycoon_export_${Date.now()}.json`;

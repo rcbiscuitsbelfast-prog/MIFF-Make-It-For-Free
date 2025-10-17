@@ -37,7 +37,7 @@ describe('AIProfileIntegrationLayer Golden', () => {
       action: decision!.chosenAction,
       outcome: 'success',
       feedback: 0.5,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       context: {}
     });
 

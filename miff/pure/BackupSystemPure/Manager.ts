@@ -430,10 +430,11 @@ export class BackupSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<BackupSystemConfig>) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     
     this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
+    this.memoryManager = new MemoryManager({});
+    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -467,7 +468,7 @@ export class BackupSystemManager {
       console.info('BackupSystemPure', 'Initializing Backup System Manager...');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization) {
+      if (this.config.enablePerformanceOptimization ?? false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -498,8 +499,8 @@ export class BackupSystemManager {
       const system: BackupSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalBackups: 0,
@@ -554,7 +555,7 @@ export class BackupSystemManager {
       const updatedSystem: BackupSystem = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 
@@ -650,7 +651,7 @@ export class BackupSystemManager {
       const backup: Backup = {
         ...backupData,
         id: this.generateBackupId(),
-        createdAt: Date.now()
+        createdAt: new Date()
       };
 
       system.backups.push(backup);

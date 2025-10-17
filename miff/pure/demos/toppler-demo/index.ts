@@ -318,7 +318,7 @@ class TopplerGame {
   private saveHighScore(score: number): void {
     try {
       const savePath = path.join(process.cwd(), 'toppler_save.json');
-      const data = { highScore: score, timestamp: Date.now() };
+      const data = { highScore: score, timestamp: new Date() };
       fs.writeFileSync(savePath, JSON.stringify(data, null, 2));
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));

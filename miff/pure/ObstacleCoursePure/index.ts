@@ -137,7 +137,7 @@ export class ObstacleCoursePure {
         this.eventBus.emit('obstacle:reached', {
           obstacleId: obstacleId,
           obstacle: obstacle,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       }
     });
@@ -153,7 +153,7 @@ export class ObstacleCoursePure {
         this.eventBus.emit('checkpoint:reached', {
           checkpointId: checkpointId,
           checkpoint: checkpoint,
-          timestamp: Date.now()
+          timestamp: new Date()
         });
       }
     });
@@ -178,7 +178,7 @@ export class ObstacleCoursePure {
     this.eventBus.emit('course:attempt_started', {
       playerId: playerId,
       attempt: attempt,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -198,7 +198,7 @@ export class ObstacleCoursePure {
       playerId: playerId,
       attempt: attempt,
       finalScore: score,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;

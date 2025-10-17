@@ -127,7 +127,7 @@ export interface TestRNGSystem {
   nextFloat(): number;
   nextInt(min: number, max: number): number;
   nextBoolean(): boolean;
-  shuffle<T>(array: T[]): T[];
+  shuffle<T extends object>(array: T[]): T[];
 }
 
 export interface TestInventorySystem {
@@ -368,7 +368,7 @@ export class TestImplementationFactory {
       nextBoolean(): boolean {
         return this.nextFloat() < 0.5;
       },
-      shuffle<T>(array: T[]): T[] {
+      shuffle<T extends object>(array: T[]): T[] {
         const shuffled = [...array];
         for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(this.nextFloat() * (i + 1));

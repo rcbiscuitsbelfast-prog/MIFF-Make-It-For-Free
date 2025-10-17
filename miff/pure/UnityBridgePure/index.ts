@@ -1031,7 +1031,7 @@ export class UnityBridgeManager {
         data: result.data,
         error: result.error,
         executionTime: result.executionTime,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1047,13 +1047,13 @@ export class UnityBridgeManager {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
           context: { commandId: command.id },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           severity: 'high',
           category: 'execution',
           retryable: true
         },
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1079,7 +1079,7 @@ export class UnityBridgeManager {
         success: true,
         data: result,
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1095,13 +1095,13 @@ export class UnityBridgeManager {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
           context: { queryId: query.id },
-          timestamp: Date.now(),
+          timestamp: new Date(),
           severity: 'high',
           category: 'execution',
           retryable: true
         },
         executionTime: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: {}
       };
 
@@ -1159,7 +1159,7 @@ export class UnityBridgeManager {
       type: 'response',
       source: 'bridge',
       destination: 'unity',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: response,
       priority: 0,
       ttl: 30000,
@@ -1180,9 +1180,9 @@ export class UnityBridgeManager {
       type: 'heartbeat',
       source: 'bridge',
       destination: 'unity',
-      timestamp: Date.now(),
+      timestamp: new Date(),
       payload: {
-        timestamp: Date.now(),
+        timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0],
         statistics: this.statistics
       },
@@ -1389,7 +1389,7 @@ export class UnityBridgeManager {
       statistics: this.statistics,
       performanceMetrics: this.performanceMetrics,
       synchronizationContexts: Array.from(this.synchronizationContexts.values()),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     if (format === 'json') {

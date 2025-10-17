@@ -110,7 +110,7 @@ class AssetCLI {
       const invalidResults = results.filter((r: any) => !r.valid);
       for (const result of invalidResults.slice(0, 10)) { // Show first 10
         console.info(`  ${result.asset.path} (${result.asset.module})`);
-        result.errors.forEach((error: any) => console.info(`    - ${error}`));
+        result.errors?.forEach((error: any) => console.info(`    - ${error}`));
       }
       if (invalidResults.length > 10) {
         console.info(`  ... and ${invalidResults.length - 10} more`);
@@ -244,7 +244,7 @@ class AssetCLI {
             <div class="asset-item">
                 <div class="asset-path">${result.asset.path}</div>
                 <div class="asset-module">Module: ${result.asset.module} | Type: ${result.asset.type}</div>
-                ${result.errors.length > 0 ? `<div class="asset-errors">Errors: ${result.errors.join(', ')}</div>` : ''}
+                ${result.errors?.length > 0 ? `<div class="asset-errors">Errors: ${result.errors?.join(', ')}</div>` : ''}
                 ${result.warnings.length > 0 ? `<div class="asset-warnings">Warnings: ${result.warnings.join(', ')}</div>` : ''}
             </div>
         `).join('')}

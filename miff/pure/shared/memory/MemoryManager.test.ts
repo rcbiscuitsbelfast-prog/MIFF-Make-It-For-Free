@@ -9,7 +9,7 @@ describe('MemoryManager', () => {
   let instance: MemoryManager;
 
   beforeEach(() => {
-    instance = new MemoryManager();
+    instance = new MemoryManager({});
   });
 
   describe('constructor', () => {

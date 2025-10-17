@@ -141,7 +141,7 @@ export class GodotEditorCLI {
         type: 'command' as const,
         source: 'cli',
         destination: 'godot_editor',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'load_scene',
           scenePath: sceneFile,
@@ -214,7 +214,7 @@ export class GodotEditorCLI {
         type: 'command' as const,
         source: 'cli',
         destination: 'godot_editor',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_inventory',
           scenePath: sceneFile,
@@ -308,7 +308,7 @@ export class GodotEditorCLI {
         type: 'command' as const,
         source: 'cli',
         destination: 'godot_editor',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         payload: {
           action: 'create_ai_behavior',
           scenePath: sceneFile,

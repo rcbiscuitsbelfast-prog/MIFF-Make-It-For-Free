@@ -121,7 +121,7 @@ export class CapabilityDiscovery {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       result.status = 'error';
-      result.errors.push(error instanceof Error ? error.message : String(error));
+      result.errors?.push(error instanceof Error ? error.message : String(error));
     }
 
     return result;

@@ -27,6 +27,7 @@ export class SessionManifestManager {
   private config: Required<SessionConfig>;
 
   constructor(config: SessionConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       maxPlayers: config.maxPlayers! || 8,
       autoStart: config.autoStart! || false,
@@ -211,6 +212,7 @@ export class SessionManifestManager {
    * Get session statistics
    */
   getStats(): SessionStats {
+    const managerData = this.getStats();
     const now = Date.now();
     const timeoutMs = this.config.sessionTimeout * 60 * 1000;
     

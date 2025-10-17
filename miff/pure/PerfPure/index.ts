@@ -364,7 +364,7 @@ export const PerfUtils = {
   /**
    * Measure execution time of a synchronous function
    */
-  measureSync<T>(label: string, fn: () => T): T {
+  measureSync<T extends object>(label: string, fn: () => T): T {
     const timer = new PerfTimer(label);
     try {
       return fn();
@@ -376,7 +376,7 @@ export const PerfUtils = {
   /**
    * Measure execution time of an asynchronous function
    */
-  async measureAsync<T>(label: string, fn: () => Promise<T>): Promise<T> {
+  async measureAsync<T extends object>(label: string, fn: () => Promise<T extends object>): Promise<T extends object> {
     const timer = new PerfTimer(label);
     try {
       return await fn();
@@ -388,7 +388,7 @@ export const PerfUtils = {
   /**
    * Measure execution time and log result
    */
-  measureAndLog<T>(label: string, fn: () => T): T {
+  measureAndLog<T extends object>(label: string, fn: () => T): T {
     const timer = new PerfTimer(label);
     try {
       const result = fn();

@@ -633,6 +633,7 @@ export class TimeSeriesAnalysisPure {
   private analytics: TimeSeriesAnalysisAnalytics;
 
   constructor(config: Partial<TimeSeriesAnalysisConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableDataProcessing: true,
       enableStatisticalAnalysis: true,
@@ -749,8 +750,8 @@ export class TimeSeriesAnalysisPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
@@ -907,7 +908,7 @@ export class TimeSeriesAnalysisPure {
         metadata: {}
       },
       status: 'running',
-      createdAt: Date.now(),
+      createdAt: new Date(),
       metadata: {}
     };
 
@@ -970,7 +971,7 @@ export class TimeSeriesAnalysisPure {
         rSquared: 0
       },
       status: 'running',
-      createdAt: Date.now(),
+      createdAt: new Date(),
       metadata: {}
     };
 
@@ -1182,7 +1183,7 @@ export class TimeSeriesAnalysisPure {
       const predictedValue = lastValue + (trend * i);
       
       predictions.push({
-        timestamp: Date.now() + (i * 3600000), // Assuming hourly data
+        timestamp: new Date() + (i * 3600000), // Assuming hourly data
         value: predictedValue,
         lowerBound: predictedValue * 0.9,
         upperBound: predictedValue * 1.1,

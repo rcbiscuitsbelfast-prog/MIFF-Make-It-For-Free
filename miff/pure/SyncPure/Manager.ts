@@ -41,7 +41,7 @@ export interface SyncData {
   timestamp: Date;
   data: any;
   checksum: string;
-  deviceId: string;
+  device.id: string;
   userId: string;
   isDeleted: boolean;
 }
@@ -112,6 +112,7 @@ export class SyncManager {
   private syncInProgress: boolean = false;
 
   constructor(config: SyncManagerConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = config.eventBus;
     this.config = config.config;
     this.integrations = config.integrations;
@@ -156,15 +157,15 @@ export class SyncManager {
   /**
    * Add data to sync
    */
-  addData(data: any, deviceId: string, userId: string): string {
+  addData(data: any, device.id: string, userId: string): string {
     const id = this.generateId();
     const syncData: SyncData = {
       id,
       version: 1,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      deviceId,
+      device.id,
       userId,
       isDeleted: false
     };
@@ -183,7 +184,7 @@ export class SyncManager {
   /**
    * Update existing data
    */
-  updateData(id: string, data: any, deviceId: string): boolean {
+  updateData(id: string, data: any, device.id: string): boolean {
     const existingData = this.data.get(id);
     if (!existingData) {
       return false;
@@ -192,10 +193,10 @@ export class SyncManager {
     const updatedData: SyncData = {
       ...existingData,
       version: existingData.version + 1,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      deviceId
+      device.id
     };
 
     this.data.set(id, updatedData);
@@ -212,7 +213,7 @@ export class SyncManager {
   /**
    * Delete data
    */
-  deleteData(id: string, deviceId: string): boolean {
+  deleteData(id: string, device.id: string): boolean {
     const existingData = this.data.get(id);
     if (!existingData) {
       return false;
@@ -221,9 +222,9 @@ export class SyncManager {
     const deletedData: SyncData = {
       ...existingData,
       version: existingData.version + 1,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       isDeleted: true,
-      deviceId
+      device.id
     };
 
     this.data.set(id, deletedData);
@@ -373,7 +374,7 @@ export class SyncManager {
       ...local,
       data: { ...local.data, ...remote.data },
       version: Math.max(local.version, remote.version) + 1,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -389,6 +390,7 @@ export class SyncManager {
    * Get sync statistics
    */
   getStats(): SyncStats {
+    const managerData = this.getStats();
     return { ...this.stats };
   }
 

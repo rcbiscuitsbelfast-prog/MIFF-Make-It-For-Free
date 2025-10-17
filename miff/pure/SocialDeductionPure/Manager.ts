@@ -136,6 +136,7 @@ export class SocialDeductionManager {
   private gameStartTime: number = 0;
 
   constructor(eventBus: EventBus, config: SocialDeductionConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.config = {
       maxPlayers: 10,
@@ -195,14 +196,14 @@ export class SocialDeductionManager {
         success: true,
         message: `Player ${playerName} joined the game`,
         data: { playerId, playerName },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
     return {
       success: false,
       message: 'Failed to add player',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -213,14 +214,14 @@ export class SocialDeductionManager {
       return {
         success: true,
         message: 'Roles assigned successfully',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
     return {
       success: false,
       message: 'Failed to assign roles',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -231,14 +232,14 @@ export class SocialDeductionManager {
       return {
         success: true,
         message: 'Game started successfully',
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
     return {
       success: false,
       message: 'Failed to start game',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -250,14 +251,14 @@ export class SocialDeductionManager {
         success: true,
         message: `Vote cast by ${voterId}`,
         data: { voterId, targetId, voteType, reason },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
     return {
       success: false,
       message: 'Failed to cast vote',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -269,14 +270,14 @@ export class SocialDeductionManager {
         success: true,
         message: `Ability ${abilityId} used successfully`,
         data: { playerId, abilityId, targetId },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
     return {
       success: false,
       message: 'Failed to use ability',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -326,7 +327,7 @@ export class SocialDeductionManager {
         this.eventBus.emit('social:phase_advanced', {
           from: 'discussion',
           to: 'voting',
-          timestamp: Date.now()
+          timestamp: new Date()
         });
         break;
       case 'voting':
@@ -334,7 +335,7 @@ export class SocialDeductionManager {
         this.eventBus.emit('social:phase_advanced', {
           from: 'voting',
           to: 'night',
-          timestamp: Date.now()
+          timestamp: new Date()
         });
         break;
       case 'night':
@@ -342,7 +343,7 @@ export class SocialDeductionManager {
         this.eventBus.emit('social:phase_advanced', {
           from: 'night',
           to: 'day',
-          timestamp: Date.now()
+          timestamp: new Date()
         });
         break;
       default:
@@ -350,7 +351,7 @@ export class SocialDeductionManager {
         this.eventBus.emit('social:phase_advanced', {
           from: currentPhase,
           to: 'ended',
-          timestamp: Date.now()
+          timestamp: new Date()
         });
     }
   }
@@ -403,7 +404,7 @@ export class SocialDeductionManager {
     return {
       success: true,
       message: 'Game reset successfully',
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 
@@ -414,7 +415,7 @@ export class SocialDeductionManager {
       votes: this.game.getVotes(),
       rounds: this.game.getDiscussionRounds(),
       stats: this.stats,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 

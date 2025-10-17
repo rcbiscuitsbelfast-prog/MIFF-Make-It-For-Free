@@ -178,7 +178,7 @@ export class TimeSystemPure {
       oldTime: oldTimeData,
       newTime: newTimeData,
       deltaTime: newTimeData.currentTime - oldTimeData.currentTime,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     // Emit time of day change
@@ -186,7 +186,7 @@ export class TimeSystemPure {
       this.eventBus.emit('time:time_of_day_change', {
         old: oldTimeData.timeOfDay,
         new: newTimeData.timeOfDay,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
 
@@ -195,7 +195,7 @@ export class TimeSystemPure {
       this.eventBus.emit('time:season_change', {
         old: oldTimeData.season,
         new: newTimeData.season,
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }

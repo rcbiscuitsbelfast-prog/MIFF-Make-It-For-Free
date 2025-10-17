@@ -148,7 +148,7 @@ export class StandardErrorHandler {
       severity,
       context: {
         ...context,
-        timestamp: Date.now()
+        timestamp: new Date()
       },
       originalError,
       stack: originalError?.stack,
@@ -186,8 +186,8 @@ export class StandardErrorHandler {
   /**
    * Wrap a function with error handling
    */
-  async wrapWithErrorHandling<T>(
-    operation: () => Promise<T>,
+  async wrapWithErrorHandling<T extends object>(
+    operation: () => Promise<T extends object>,
     context: ErrorContext,
     fallback?: () => T
   ): Promise<T | null> {
@@ -441,5 +441,5 @@ export class StandardErrorHandler {
 }
 
 // Export default instance
-// export const standardErrorHandler = new StandardErrorHandler();
+// export const standardErrorHandler = new StandardErrorHandler({});
 export { StandardErrorHandler as default };

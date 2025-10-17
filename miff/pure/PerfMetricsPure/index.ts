@@ -107,7 +107,7 @@ export class PerfMetricsPure {
       tickStartMs, 
       tickEndMs, 
       playersSimulated,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       category,
       metadata
     };
@@ -219,7 +219,7 @@ export class PerfMetricsPure {
         type: 'fps',
         severity: 'critical',
         message: `Critical FPS drop: ${fps.toFixed(1)} FPS`,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         threshold: this.config.alertThresholds.fps.critical,
         actual: fps,
         recommendations: ['Reduce visual complexity', 'Optimize rendering pipeline', 'Check for memory leaks']
@@ -230,7 +230,7 @@ export class PerfMetricsPure {
         type: 'fps',
         severity: 'medium',
         message: `FPS warning: ${fps.toFixed(1)} FPS`,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         threshold: this.config.alertThresholds.fps.warning,
         actual: fps,
         recommendations: ['Monitor performance trends', 'Consider optimizations']
@@ -244,7 +244,7 @@ export class PerfMetricsPure {
         type: 'latency',
         severity: 'critical',
         message: `Critical frame time: ${frameTime.toFixed(1)}ms`,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         threshold: this.config.alertThresholds.frameTime.critical,
         actual: frameTime,
         recommendations: ['Reduce frame complexity', 'Optimize update loops', 'Check for blocking operations']
@@ -255,7 +255,7 @@ export class PerfMetricsPure {
         type: 'latency',
         severity: 'medium',
         message: `Frame time warning: ${frameTime.toFixed(1)}ms`,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         threshold: this.config.alertThresholds.frameTime.warning,
         actual: frameTime,
         recommendations: ['Monitor frame time trends', 'Consider optimizations']

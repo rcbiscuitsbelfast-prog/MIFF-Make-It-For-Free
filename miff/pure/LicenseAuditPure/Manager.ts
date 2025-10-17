@@ -88,6 +88,7 @@ export class LicenseAuditManager {
   private licenseRegistry: Map<LicenseType, LicenseInfo>;
 
   constructor(config: AuditConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       strictMode: true,
       checkDependencies: true,

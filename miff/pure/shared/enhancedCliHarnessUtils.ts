@@ -92,7 +92,7 @@ export function runCLI(cliPath: string, args: string[] = []): string {
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 }
@@ -201,7 +201,7 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
       statistics: finalState.statistics,
       status: "ok",
       scenarioId,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
   
@@ -212,7 +212,7 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
       issues: [],
       status: "ok",
       scenarioId,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
   
@@ -224,7 +224,7 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
     logs,
     status: "ok",
     scenarioId,
-    timestamp: Date.now()
+    timestamp: new Date()
   };
 }
 
@@ -552,7 +552,7 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
     data: {
       message: 'CLI harness executed successfully',
       args: args,
-      timestamp: Date.now()
+      timestamp: new Date()
     }
   };
 }

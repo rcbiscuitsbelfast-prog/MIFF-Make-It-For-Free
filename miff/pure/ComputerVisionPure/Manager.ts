@@ -1355,6 +1355,7 @@ export class ComputerVisionPure {
   private analytics: ComputerVisionAnalytics;
 
   constructor(config: Partial<ComputerVisionConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableComputerVisionManagement: true,
       enableImageProcessing: true,
@@ -1473,8 +1474,8 @@ export class ComputerVisionPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

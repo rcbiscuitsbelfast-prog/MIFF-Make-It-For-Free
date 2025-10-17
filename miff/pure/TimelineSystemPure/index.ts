@@ -197,7 +197,7 @@ export class TimelineSystemPure {
       this.eventBus.publish('timeline:memory_warning', {
         usage: usage,
         limit: this.memoryManager.getLimit(),
-        timestamp: Date.now()
+        timestamp: new Date()
       });
     }
   }
@@ -227,8 +227,8 @@ export class TimelineSystemPure {
       playbackState: 'stopped',
       playbackSpeed: 1.0,
       branches: [],
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     // Create main branch
@@ -240,7 +240,7 @@ export class TimelineSystemPure {
 
     this.eventBus.publish('timeline:created', {
       timeline: timeline,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return timeline;
@@ -274,7 +274,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:playback_started', {
       timelineId: timelineId,
       speed: timeline.playbackSpeed,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     this.startPlaybackLoop(timelineId);
@@ -290,7 +290,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:playback_paused', {
       timelineId: timelineId,
       currentTime: timeline.currentTime,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -304,7 +304,7 @@ export class TimelineSystemPure {
 
     this.eventBus.publish('timeline:playback_stopped', {
       timelineId: timelineId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -319,7 +319,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:rewind_started', {
       timelineId: timelineId,
       speed: speed,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -334,7 +334,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:fast_forward_started', {
       timelineId: timelineId,
       speed: speed,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -349,7 +349,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:seeked', {
       timelineId: timelineId,
       newTime: clampedTime,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -364,7 +364,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:speed_changed', {
       timelineId: timelineId,
       newSpeed: clampedSpeed,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -388,7 +388,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:branch_switched', {
       timelineId: timelineId,
       newBranchId: branchId,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -421,7 +421,7 @@ export class TimelineSystemPure {
             timeline.playbackState = 'stopped';
             this.eventBus.publish('timeline:ended', {
               timelineId: timelineId,
-              timestamp: Date.now()
+              timestamp: new Date()
             });
             return;
           }
@@ -467,7 +467,7 @@ export class TimelineSystemPure {
       entityId: event.entityId,
       state: event.state,
       data: event.data,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -513,7 +513,7 @@ export class TimelineSystemPure {
     this.eventBus.publish('timeline:event_recorded', {
       timelineId: timelineId,
       event: event,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return event;
@@ -546,7 +546,7 @@ export class TimelineSystemPure {
 
     this.eventBus.publish('timeline:snapshot_created', {
       snapshot: snapshot,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return snapshot;
@@ -561,7 +561,7 @@ export class TimelineSystemPure {
         timelineState: timeline!,
         affectedEntities: [],
         paradoxes: [],
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -575,7 +575,7 @@ export class TimelineSystemPure {
         timelineState: timeline,
         affectedEntities: [],
         paradoxes: paradoxes,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -594,7 +594,7 @@ export class TimelineSystemPure {
         timelineState: timeline,
         affectedEntities: [],
         paradoxes: paradoxes,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
 
@@ -613,7 +613,7 @@ export class TimelineSystemPure {
       toTime: targetTime,
       affectedEntities: affectedEntities,
       paradoxes: paradoxes,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return {
@@ -622,7 +622,7 @@ export class TimelineSystemPure {
       timelineState: timeline,
       affectedEntities: affectedEntities,
       paradoxes: paradoxes,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
   }
 

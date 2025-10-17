@@ -1164,6 +1164,7 @@ export class UIInterfacePure {
   private analytics: UIInterfaceAnalytics;
 
   constructor(config: Partial<UIInterfaceConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableUIManagement: true,
       enableComponentSystem: true,
@@ -1277,8 +1278,8 @@ export class UIInterfacePure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

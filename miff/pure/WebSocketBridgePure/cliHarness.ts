@@ -69,7 +69,7 @@ try {
         message,
         channel: channel || 'default',
         recipientCount: 0,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         success: true
       };
       
@@ -113,7 +113,7 @@ try {
         connectionId,
         message,
         sent: true,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
       
       handleSuccess(sendResult, 'send');

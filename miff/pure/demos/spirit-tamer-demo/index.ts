@@ -860,7 +860,7 @@ class SpiritTamerGame {
     try {
       const saveData = {
         player: this.player,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         version: '1.0.0'
       };
 

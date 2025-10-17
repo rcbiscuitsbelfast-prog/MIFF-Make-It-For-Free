@@ -188,7 +188,7 @@ export class DropTable implements IDropTable {
    * Add an entry to the table
    */
   addEntry(entry: DropEntry): boolean {
-    const errors = entry.validate();
+    const errors = entry.validate({});
     if (errors.length > 0) {
       console.warn('Invalid drop entry:', errors);
       return false;
@@ -243,7 +243,7 @@ export class DropTable implements IDropTable {
     }
 
     this.entries.forEach((entry, index) => {
-      const entryErrors = entry.validate();
+      const entryErrors = entry.validate({});
       entryErrors.forEach((error: any) => {
         errors.push(`Entry ${index}: ${error}`);
       });

@@ -718,7 +718,7 @@ class BattleAIPureCLI {
       console.log('');
     }
 
-    const errors = profile.validate();
+    const errors = profile.validate({});
     if (errors.length === 0) {
       console.log('✅ Profile is valid');
     } else {

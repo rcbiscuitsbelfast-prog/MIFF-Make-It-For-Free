@@ -17,7 +17,7 @@ describe('ChainValidatorPure Golden', () => {
     mgr.addEdge({ from: 'C', to: 'A' });
     mgr.addEdge({ from: 'C', to: 'D' });
 
-    const validation = mgr.validate();
+    const validation = mgr.validate({});
     expect(validation.op).toBe('validate');
     expect(['warning', 'error', 'ok']).toContain(validation.status);
     expect(validation.result.summary.nodes).toBe(5);

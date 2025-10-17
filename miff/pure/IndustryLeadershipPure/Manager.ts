@@ -710,6 +710,7 @@ export class IndustryLeadershipPure {
   private analytics: IndustryLeadershipAnalytics;
 
   constructor(config: Partial<IndustryLeadershipConfig> = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = {
       enableIndustryAnalysis: true,
       enableCompetitiveIntelligence: true,
@@ -830,8 +831,8 @@ export class IndustryLeadershipPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 

@@ -90,7 +90,7 @@ class CapabilityCLI {
     if (failed.length > 0) {
       console.info('\n❌ Failed Discoveries:');
       failed.forEach((result: any) => {
-        console.info(`  ${result.moduleName}: ${result.errors.join(', ')}`);
+        console.info(`  ${result.moduleName}: ${result.errors?.join(', ')}`);
       });
     }
   }
@@ -116,7 +116,7 @@ class CapabilityCLI {
     }
 
     if (result.status !== 'success') {
-      console.error(`❌ Module discovery failed: ${result.errors.join(', ')}`);
+      console.error(`❌ Module discovery failed: ${result.errors?.join(', ')}`);
       return;
     }
 
@@ -266,9 +266,9 @@ class CapabilityCLI {
     console.info(`\n📊 Validation Results for ${result.moduleName}:`);
     console.info(`Status: ${result.status.toUpperCase()}`);
     
-    if (result.errors.length > 0) {
-      console.info(`Errors: ${result.errors.length}`);
-      result.errors.forEach((error: any) => console.info(`  - ${error}`));
+    if (result.errors?.length > 0) {
+      console.info(`Errors: ${result.errors?.length}`);
+      result.errors?.forEach((error: any) => console.info(`  - ${error}`));
     }
     
     if (result.warnings.length > 0) {
@@ -354,7 +354,7 @@ class CapabilityCLI {
                         Data Processing: ${result.capabilities.dataProcessing?.length || 0} | 
                         Integrations: ${result.capabilities.integrations?.length || 0}
                     ` : `
-                        Errors: ${result.errors.join(', ')}
+                        Errors: ${result.errors?.join(', ')}
                     `}
                 </div>
             </div>

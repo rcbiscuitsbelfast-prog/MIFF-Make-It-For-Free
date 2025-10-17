@@ -369,7 +369,7 @@ export class EntityLinkerManager {
     this.stats.totalResolutions++;
     this.stats.averageResolutionTime = (this.stats.averageResolutionTime + duration) / 2;
     this.stats.resolutionHistory.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       operation: 'resolve',
       success: issues.length === 0,
       duration
@@ -459,6 +459,7 @@ export class EntityLinkerManager {
   }
 
   getStats(): LinkerStats {
+    const managerData = this.getStats();
     return { ...this.stats };
   }
 

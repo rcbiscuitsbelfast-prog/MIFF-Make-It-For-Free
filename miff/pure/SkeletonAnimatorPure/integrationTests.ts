@@ -92,7 +92,7 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       // Test 3: Validate rig
-      const validation = rigBuilder.validate();
+      const validation = rigBuilder.validate({});
       tests.push({
         name: 'Validate rig',
         passed: validation.valid,
@@ -277,7 +277,7 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       // Test 5: Validate skin
-      const validation = skinGenerator.validate();
+      const validation = skinGenerator.validate({});
       tests.push({
         name: 'Validate skin',
         passed: validation.valid,
@@ -385,7 +385,7 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       // Test 7: Validate face
-      const validation = faceBuilder.validate();
+      const validation = faceBuilder.validate({});
       tests.push({
         name: 'Validate face',
         passed: validation.valid,
@@ -493,7 +493,7 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       // Test 7: Validate animations
-      const validation = animSequencer.validate();
+      const validation = animSequencer.validate({});
       tests.push({
         name: 'Validate animations',
         passed: validation.valid,
@@ -799,7 +799,7 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       // Test 2: Validate complete system
-      const validation = this.manager.validate();
+      const validation = this.manager.validate({});
       tests.push({
         name: 'Validate complete system',
         passed: validation.valid,
@@ -1058,7 +1058,7 @@ export class SkeletonAnimatorIntegrationTests {
 
       // Test 3: Validation performance
       const validationStart = Date.now();
-      const validation = this.manager.validate();
+      const validation = this.manager.validate({});
       const validationTime = Date.now() - validationStart;
       tests.push({
         name: 'Validation performance',

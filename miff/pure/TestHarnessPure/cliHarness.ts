@@ -446,7 +446,7 @@ async function main() {
       op: operation.op,
       status: 'ok',
       result: finalResult,
-      timestamp: Date.now()
+      timestamp: new Date()
     }, null, 2));
 
     // Output export data to stderr if available
@@ -460,7 +460,7 @@ async function main() {
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
+      timestamp: new Date()
     }, null, 2));
     process.exit(1);
   }

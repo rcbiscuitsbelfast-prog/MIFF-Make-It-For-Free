@@ -106,7 +106,7 @@ export class CLIInterfaceStandardizer {
 
   constructor(config: CLIConfig) {
     
-    this.errorHandler = new StandardErrorHandler();
+    this.errorHandler = new StandardErrorHandler({});
     this.config = config;
   }
 
@@ -157,7 +157,7 @@ export class CLIInterfaceStandardizer {
       const args = argv.slice(2);
       
       if (args.length === 0) {
-        result.errors.push('No command provided');
+        result.errors?.push('No command provided');
         result.isValid = false;
         return result;
       }
@@ -168,7 +168,7 @@ export class CLIInterfaceStandardizer {
       // Validate command exists
       const command = this.config.commands.find(cmd => cmd.name === result.command);
       if (!command) {
-        result.errors.push(`Unknown command: ${result.command}`);
+        result.errors?.push(`Unknown command: ${result.command}`);
         result.isValid = false;
         return result;
       }
@@ -182,7 +182,7 @@ export class CLIInterfaceStandardizer {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, 'Failed to parse CLI arguments');
-      result.errors.push(`Parse error: ${error.message}`);
+      result.errors?.push(`Parse error: ${error.message}`);
       result.isValid = false;
     }
 
@@ -219,7 +219,7 @@ export class CLIInterfaceStandardizer {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to execute command: ${command}`);
-      result.errors.push(error.message);
+      result.errors?.push(error.message);
       result.success = false;
       result.exitCode = 1;
     } finally {
@@ -386,7 +386,7 @@ export class CLIInterfaceStandardizer {
         const option = allOptions.find(opt => opt.name === optionName);
         
         if (!option) {
-          result.errors.push(`Unknown option: ${arg}`);
+          result.errors?.push(`Unknown option: ${arg}`);
           i++;
           continue;
         }
@@ -396,7 +396,7 @@ export class CLIInterfaceStandardizer {
           result.options[optionName!] = true;
         } else {
           if (i + 1 >= args.length) {
-            result.errors.push(`Option ${arg} requires a value`);
+            result.errors?.push(`Option ${arg} requires a value`);
             i++;
             continue;
           }
@@ -405,7 +405,7 @@ export class CLIInterfaceStandardizer {
           if (value !== null) {
             result.options[optionName!] = value;
           } else {
-            result.errors.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
+            result.errors?.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
           }
           i += 2;
         }
@@ -415,7 +415,7 @@ export class CLIInterfaceStandardizer {
         const option = allOptions.find(opt => opt.shortName === shortName);
         
         if (!option) {
-          result.errors.push(`Unknown option: ${arg}`);
+          result.errors?.push(`Unknown option: ${arg}`);
           i++;
           continue;
         }
@@ -425,7 +425,7 @@ export class CLIInterfaceStandardizer {
           result.options[option.name] = true;
         } else {
           if (i + 1 >= args.length) {
-            result.errors.push(`Option ${arg} requires a value`);
+            result.errors?.push(`Option ${arg} requires a value`);
             i++;
             continue;
           }
@@ -434,7 +434,7 @@ export class CLIInterfaceStandardizer {
           if (value !== null) {
             result.options[option.name] = value;
           } else {
-            result.errors.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
+            result.errors?.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
           }
           i += 2;
         }
@@ -444,7 +444,7 @@ export class CLIInterfaceStandardizer {
         const argument = command.arguments[argIndex!];
         
         if (!argument) {
-          result.errors.push(`Unexpected argument: ${arg}`);
+          result.errors?.push(`Unexpected argument: ${arg}`);
           i++;
           continue;
         }
@@ -453,7 +453,7 @@ export class CLIInterfaceStandardizer {
         if (value !== null) {
           result.arguments[argument.name] = value;
         } else {
-          result.errors.push(`Invalid argument value: ${arg}`);
+          result.errors?.push(`Invalid argument value: ${arg}`);
         }
         i++;
       }
@@ -523,7 +523,7 @@ export class CLIInterfaceStandardizer {
     // Check required options
     for (const option of command.options) {
       if (option.required && !(option.name in result.options)) {
-        result.errors.push(`Required option --${option.name} is missing`);
+        result.errors?.push(`Required option --${option.name} is missing`);
         result.isValid = false;
       }
     }
@@ -531,7 +531,7 @@ export class CLIInterfaceStandardizer {
     // Check required arguments
     for (const argument of command.arguments) {
       if (argument.required && !(argument.name in result.arguments)) {
-        result.errors.push(`Required argument ${argument.name} is missing`);
+        result.errors?.push(`Required argument ${argument.name} is missing`);
         result.isValid = false;
       }
     }
@@ -646,7 +646,7 @@ const cliConfig = {
 
 async function main(...args: any[]) {
   const logger = StructuredLogger.getInstance({ module: '${moduleName}CLI' });
-  const errorHandler = new StandardErrorHandler();
+  const errorHandler = new StandardErrorHandler({});
   
   try {
     // Initialize CLI standardizer
@@ -688,7 +688,7 @@ async function main(...args: any[]) {
       console.log(JSON.stringify(result.output, null, 2));
       process.exit(0);
     } else {
-      console.error('Error:', result.errors.join(', '));
+      console.error('Error:', result.errors?.join(', '));
       process.exit(result.exitCode);
     }
     

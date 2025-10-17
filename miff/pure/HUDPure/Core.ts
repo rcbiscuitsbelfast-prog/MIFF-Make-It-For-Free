@@ -209,7 +209,7 @@ export class BattleHUDModel {
 
   addSpirit(spirit: SpiritHUDState, side: 'player' | 'opponent'): boolean {
     if (this.getSpirit(spirit.spiritId)) return false;
-    if (spirit.validate().length > 0) return false;
+    if (spirit.validate({}).length > 0) return false;
     if (side === 'player') this.player.push(spirit); else this.opponent.push(spirit);
     return true;
   }
@@ -292,19 +292,19 @@ export class BattleHUDModel {
     const errors: string[] = [];
     let anyPlayerMaxHp = false;
     this.player.forEach((s, idx) => {
-      const errs = s.validate();
+      const errs = s.validate({});
       errors.push(...errs);
       if (errs.includes('Max HP must be greater than 0')) anyPlayerMaxHp = true;
     });
     this.opponent.forEach((s) => {
-      const errs = s.validate();
+      const errs = s.validate({});
       errors.push(...errs);
     });
     if (anyPlayerMaxHp) {
       const labeled = `Player 1 (test): Max HP must be greater than 0`;
       if (!errors.includes(labeled)) errors.push(labeled);
     }
-    errors.push(...this.turn.validate());
+    errors.push(...this.turn.validate({}));
     return errors;
   }
 }
@@ -451,7 +451,7 @@ export const HUDPureUtils = {
   },
 
   validateHUDModel(model: BattleHUDModel): string[] {
-    return model.validate();
+    return model.validate({});
   }
 };
 

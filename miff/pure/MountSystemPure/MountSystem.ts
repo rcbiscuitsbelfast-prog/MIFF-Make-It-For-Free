@@ -432,7 +432,7 @@ export class MountManager {
 
   private logEvent(event: MountEvent): void {
     this.eventLog.push({
-      timestamp: Date.now(),
+      timestamp: new Date(),
       event,
       result: 'processed'
     });

@@ -1302,7 +1302,7 @@ export class EffectManager implements IEffectManager {
       return EffectApplicationResult.REJECTED;
     }
 
-    const errors = effect.validate();
+    const errors = effect.validate({});
     if (errors.length > 0) {
       console.warn(`Invalid effect ${effect.effectId}:`, errors);
       return EffectApplicationResult.REJECTED;

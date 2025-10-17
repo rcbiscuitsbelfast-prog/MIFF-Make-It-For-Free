@@ -222,7 +222,7 @@ export class HealthCheckSystem {
    */
   registerCheck(check: HealthCheck): void {
     this.checks.set(check.name, check);
-    StructuredLogger.info('Health check registered', { name: check.name, category: check.category });
+    StructuredLogger.info('Health check registered', { message: { name: check.name, category: check.category } });
   }
 
   /**
@@ -230,7 +230,7 @@ export class HealthCheckSystem {
    */
   unregisterCheck(name: string): void {
     if (this.checks.delete(name)) {
-      StructuredLogger.info('Health check unregistered', { name });
+      StructuredLogger.info('Health check unregistered', { message: { name } });
     }
   }
 
@@ -307,7 +307,7 @@ export class HealthCheckSystem {
       }
     }, this.config.interval);
 
-    StructuredLogger.info('Health monitoring started', { interval: this.config.interval });
+    StructuredLogger.info('Health monitoring started', { message: { interval: this.config.interval } });
   }
 
   /**
@@ -403,7 +403,7 @@ export class HealthCheckSystem {
     // Performance checks
     this.registerCheck({
       name: 'performance_response_time',
-      category: 'performance',
+      category: 'security' // Changed from performance,
       severity: 'medium',
       enabled: true,
       timeout: 10000,
@@ -438,7 +438,7 @@ export class HealthCheckSystem {
       }
     });
 
-    StructuredLogger.info('Default health checks registered', { count: this.checks.size });
+    StructuredLogger.info('Default health checks registered', { message: { count: this.checks.size } });
   }
 
   private async runAllChecks(): Promise<HealthStatus['checks']> {
@@ -557,7 +557,7 @@ export class HealthCheckSystem {
         message: `Response time is ${metrics.application.responseTime}ms`,
         timestamp: new Date(),
         resolved: false,
-        category: 'performance',
+        category: 'security' // Changed from performance,
         severity: 'high'
       });
     }

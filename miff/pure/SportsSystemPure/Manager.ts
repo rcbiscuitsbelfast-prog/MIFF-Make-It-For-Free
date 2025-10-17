@@ -87,6 +87,7 @@ export class SportsManager {
   private activeMatches: Map<string, MatchResult> = new Map();
 
   constructor(eventBus: EventBus, config: SportsConfig = {}) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.eventBus = eventBus;
     this.config = {
       maxGamesPerPlayer: 10,
@@ -163,7 +164,7 @@ export class SportsManager {
         return {
           success: false,
           message: `Maximum teams per player (${this.config.maxTeamsPerPlayer}) reached`,
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -173,14 +174,14 @@ export class SportsManager {
         success: true,
         message: `Team "${name}" created successfully`,
         data: { team },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create team: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -193,7 +194,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Team not found',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -203,7 +204,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'No permission to add players to this team',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -213,14 +214,14 @@ export class SportsManager {
         success: true,
         message: `Player "${name}" created successfully`,
         data: { player },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create player: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -235,7 +236,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Both teams must exist',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -247,7 +248,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'No permission to create game with these teams',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -260,7 +261,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'One or both teams are already in an active game',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -270,14 +271,14 @@ export class SportsManager {
         success: true,
         message: `Game created successfully`,
         data: { game },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create game: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -289,7 +290,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Game not found',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -302,7 +303,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'No permission to start this game',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -313,13 +314,13 @@ export class SportsManager {
           success: true,
           message: 'Game started successfully',
           data: { gameId },
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       } else {
         return {
           success: false,
           message: 'Failed to start game',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
     } catch (error: unknown) {
@@ -327,7 +328,7 @@ export class SportsManager {
       return {
         success: false,
         message: `Failed to start game: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -339,7 +340,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Game not found',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -352,7 +353,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'No permission to pause this game',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -363,13 +364,13 @@ export class SportsManager {
           success: true,
           message: 'Game paused successfully',
           data: { gameId },
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       } else {
         return {
           success: false,
           message: 'Failed to pause game',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
     } catch (error: unknown) {
@@ -377,7 +378,7 @@ export class SportsManager {
       return {
         success: false,
         message: `Failed to pause game: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -391,13 +392,13 @@ export class SportsManager {
           success: true,
           message: 'Shot taken successfully',
           data: { gameId, playerId, targetPosition },
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       } else {
         return {
           success: false,
           message: 'Failed to take shot',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
     } catch (error: unknown) {
@@ -405,7 +406,7 @@ export class SportsManager {
       return {
         success: false,
         message: `Failed to take shot: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -419,13 +420,13 @@ export class SportsManager {
           success: true,
           message: 'Pass completed successfully',
           data: { gameId, fromPlayerId, toPlayerId },
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       } else {
         return {
           success: false,
           message: 'Failed to complete pass',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
     } catch (error: unknown) {
@@ -433,7 +434,7 @@ export class SportsManager {
       return {
         success: false,
         message: `Failed to complete pass: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -447,13 +448,13 @@ export class SportsManager {
           success: true,
           message: 'Tackle successful',
           data: { gameId, tacklerId, targetId },
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       } else {
         return {
           success: false,
           message: 'Tackle failed',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
     } catch (error: unknown) {
@@ -461,7 +462,7 @@ export class SportsManager {
       return {
         success: false,
         message: `Failed to perform tackle: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -473,7 +474,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Player not found',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -483,7 +484,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Player already in matchmaking queue',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -496,7 +497,7 @@ export class SportsManager {
         return {
           success: false,
           message: 'Player is already in an active game',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
 
@@ -509,14 +510,14 @@ export class SportsManager {
         success: true,
         message: 'Joined matchmaking queue',
         data: { queuePosition: this.matchmakingQueue.length },
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to join matchmaking: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -531,13 +532,13 @@ export class SportsManager {
         return {
           success: true,
           message: 'Left matchmaking queue',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       } else {
         return {
           success: false,
           message: 'Player not in matchmaking queue',
-          timestamp: Date.now()
+          timestamp: new Date()
         };
       }
     } catch (error: unknown) {
@@ -545,7 +546,7 @@ export class SportsManager {
       return {
         success: false,
         message: `Failed to leave matchmaking: ${error.message}`,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
     }
   }
@@ -590,7 +591,7 @@ export class SportsManager {
             gameId: game.id,
             players: [player1.id, player2.id],
             sport: sport,
-            timestamp: Date.now()
+            timestamp: new Date()
           });
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));

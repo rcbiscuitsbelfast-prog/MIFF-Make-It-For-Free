@@ -87,6 +87,7 @@ export class HealthSystemManager {
   private regenerationTicks: Map<string, number> = new Map();
 
   constructor() {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     // Initialize with default entities
   }
 
@@ -174,7 +175,7 @@ export class HealthSystemManager {
         target: entityId,
         damageType: options.damageType,
         element: options.element,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
       this.events.push(event);
       return {
@@ -219,7 +220,7 @@ export class HealthSystemManager {
       target: entityId,
       damageType: options.damageType,
       element: options.element,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
     this.events.push(event);
 
@@ -256,7 +257,7 @@ export class HealthSystemManager {
       amount: entity.currentHp - oldHp,
       source: options.source || 'system',
       target: entityId,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
     this.events.push(event);
 
@@ -289,7 +290,7 @@ export class HealthSystemManager {
       amount: shield.amount,
       source: 'system',
       target: entityId,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
     this.events.push(event);
 
@@ -322,7 +323,7 @@ export class HealthSystemManager {
       amount: regeneration.amount,
       source: 'system',
       target: entityId,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
     this.events.push(event);
 

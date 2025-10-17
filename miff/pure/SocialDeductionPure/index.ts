@@ -123,7 +123,7 @@ export class SocialDeductionPure {
     this.eventBus.publish('social:player_joined', {
       playerId: playerId,
       player: player,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -158,7 +158,7 @@ export class SocialDeductionPure {
 
     this.eventBus.publish('social:roles_assigned', {
       players: this.players,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -173,7 +173,7 @@ export class SocialDeductionPure {
 
     this.eventBus.publish('social:game_started', {
       phase: this.currentPhase,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -192,7 +192,7 @@ export class SocialDeductionPure {
       targetId: targetId,
       voteType: voteType,
       reason: reason,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.votes.push(vote);
@@ -200,7 +200,7 @@ export class SocialDeductionPure {
 
     this.eventBus.publish('social:vote_cast', {
       vote: vote,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return true;
@@ -227,7 +227,7 @@ export class SocialDeductionPure {
       abilityId: abilityId,
       targetId: targetId,
       effect: effect,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
 
     return effect.success;
@@ -287,7 +287,7 @@ export class SocialDeductionPure {
     }
   }
 
-  private shuffleArray<T>(array: T[]): T[] {
+  private shuffleArray<T extends object>(array: T[]): T[] {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -302,7 +302,7 @@ export class SocialDeductionPure {
     this.eventBus.publish('social:game_ended', {
       winner: winner,
       finalVotes: this.votes,
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 
@@ -313,7 +313,7 @@ export class SocialDeductionPure {
     this.currentPhase = 'lobby';
 
     this.eventBus.publish('social:game_reset', {
-      timestamp: Date.now()
+      timestamp: new Date()
     });
   }
 }

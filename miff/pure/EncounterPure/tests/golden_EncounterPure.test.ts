@@ -118,12 +118,12 @@ describe('EncounterPure Golden Tests', () => {
       const validEntry = new (require('../index').EncounterTableEntry)(
         'forest', 'sprout', 50, 2, 4
       );
-      expect(validEntry.validate()).toHaveLength(0);
+      expect(validEntry.validate({})).toHaveLength(0);
 
       const invalidEntry = new (require('../index').EncounterTableEntry)(
         '', '', 0, 2, 1
       );
-      const errors = invalidEntry.validate();
+      const errors = invalidEntry.validate({});
       expect(errors).toContain('Zone ID cannot be empty');
       expect(errors).toContain('Spirit ID cannot be empty');
       expect(errors).toContain('Weight must be at least 1');
@@ -212,10 +212,10 @@ describe('EncounterPure Golden Tests', () => {
       const validTable = new EncounterTable('forest');
       validTable.addEntry(new (require('../index').EncounterTableEntry)('forest', 'sprout', 50, 1, 3));
 
-      expect(validTable.validate()).toHaveLength(0);
+      expect(validTable.validate({})).toHaveLength(0);
 
       const invalidTable = new EncounterTable('');
-      const errors = invalidTable.validate();
+      const errors = invalidTable.validate({});
       expect(errors).toContain('Zone ID cannot be empty');
       expect(errors).toContain('Table must have at least one entry');
     });

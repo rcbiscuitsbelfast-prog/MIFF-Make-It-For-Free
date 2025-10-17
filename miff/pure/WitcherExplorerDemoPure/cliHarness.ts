@@ -215,7 +215,7 @@ function main() {
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
+      timestamp: new Date()
     };
     console.error(JSON.stringify(errorResult, null, 2));
     process.exit(1);

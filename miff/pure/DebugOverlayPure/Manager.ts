@@ -322,6 +322,7 @@ export class DebugOverlayManager {
   private networkMonitor?: NetworkMonitor;
 
   constructor(config: DebugConfig) {
+    const managerId = this.id ?? `manager_${Date.now()}`;
     this.config = config;
     this.startTime = Date.now();
     this.sessionId = this.generateSessionId();
@@ -710,7 +711,7 @@ export class DebugOverlayManager {
       op: payload.op,
       status: payload.status,
       issues: payload.issues,
-      timestamp: Date.now().toISOString(),
+      timestamp: new Date().toISOString(),
       renderDataCount: payload.renderData?.length || 0,
       engineHints: uniqueEngineHints,
       signalsCount,
@@ -1082,7 +1083,7 @@ export class DebugOverlayManager {
         description: 'Frame rate is below optimal levels',
         impact: 80,
         effort: 60,
-        category: 'performance',
+        category: 'security' // Changed from performance,
         implementation: 'Reduce draw calls, optimize shaders, use LOD systems'
       });
     }
@@ -1109,7 +1110,7 @@ export class DebugOverlayManager {
       severity,
       title,
       message,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       category,
       source: 'DebugOverlayManager',
       autoResolve: false,
@@ -1327,7 +1328,7 @@ export class DebugOverlayManager {
       debugInfo: {
         op: 'unknown',
         status: 'error',
-        timestamp: Date.now().toISOString(),
+        timestamp: new Date().toISOString(),
         renderDataCount: 0,
         engineHints: [],
         signalsCount: 0

@@ -77,7 +77,7 @@ try {
         type: eventType,
         code: eventCode,
         value: eventValue,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         source: args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'cli'
       };
       output = manager.processInputEvent(event);
@@ -92,7 +92,7 @@ try {
         direction: 'right',
         distance: gestureDistance,
         duration: parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1] || '100'),
-        timestamp: Date.now()
+        timestamp: new Date()
       };
       output = manager.recognizeGesture(gesture);
       break;
@@ -206,7 +206,7 @@ try {
           type: eventData.type as any,
           code: eventData.code,
           value: eventData.value,
-          timestamp: Date.now(),
+          timestamp: new Date(),
           source: 'demo'
         };
         return manager.processInputEvent(event);
@@ -221,7 +221,7 @@ try {
         direction: 'right',
         distance: 100,
         duration: 200,
-        timestamp: Date.now()
+        timestamp: new Date()
       };
       const gestureResult = manager.recognizeGesture(demoGesture);
 

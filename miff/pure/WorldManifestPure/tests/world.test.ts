@@ -82,7 +82,7 @@ describe('WorldManifestPure', () => {
     
     const result = WorldManifestPure.validate(invalidWorld as any);
     expect(result.valid).toBe(false);
-    expect(result.errors.length).toBeGreaterThan(0);
+    expect(result.errors?.length).toBeGreaterThan(0);
   });
 
   test('exports JSON correctly', () => {

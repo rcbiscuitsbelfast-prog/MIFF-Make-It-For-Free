@@ -360,9 +360,9 @@ describe('LorePure Golden Tests', () => {
         15 // Invalid priority
       );
 
-      expect(validEntry.validate()).toHaveLength(0);
+      expect(validEntry.validate({})).toHaveLength(0);
 
-      const errors = invalidEntry.validate();
+      const errors = invalidEntry.validate({});
       expect(errors).toContain('Lore ID cannot be empty');
       expect(errors).toContain('Title cannot be empty');
       expect(errors).toContain('Text cannot be empty');
@@ -506,10 +506,10 @@ describe('LorePure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validCondition = LoreUnlockCondition.spiritCaptured('spirit');
-      expect(validCondition.validate()).toHaveLength(0);
+      expect(validCondition.validate({})).toHaveLength(0);
 
       const invalidCondition = LoreUnlockCondition.spiritCaptured('');
-      const errors = invalidCondition.validate();
+      const errors = invalidCondition.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toContain('String value required');
     });

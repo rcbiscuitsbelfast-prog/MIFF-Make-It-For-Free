@@ -206,7 +206,7 @@ export class EventBus {
       id: eventId,
       type: eventType,
       data,
-      timestamp: Date.now(),
+      timestamp: new Date(),
       source: options.source || 'local',
       priority: options.priority || EventPriority.NORMAL,
       metadata: options.metadata || {}
@@ -281,7 +281,7 @@ export class EventBus {
       event,
       target: 'broadcast',
       reliable: event.priority >= EventPriority.HIGH,
-      timestamp: Date.now()
+      timestamp: new Date()
     };
 
     this.stats.networkMessages++;
