@@ -198,19 +198,19 @@ export class StructuredLogger {
     const formattedMessage = `${timestamp} ${levelName} ${module} ${entry.message}${context}`;
 
     switch (entry.level) {
-      case LogLevel.ERROR:
+      case ERROR:
         console.error(formattedMessage);
         break;
-      case LogLevel.WARN:
+      case WARN:
         console.warn(formattedMessage);
         break;
-      case LogLevel.INFO:
+      case INFO:
         console.info(formattedMessage);
         break;
-      case LogLevel.DEBUG:
+      case DEBUG:
         console.debug(formattedMessage);
         break;
-      case LogLevel.TRACE:
+      case TRACE:
         console.trace(formattedMessage);
         break;
     }
@@ -262,7 +262,7 @@ export class StructuredLogger {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to flush logs:', err instanceof Error ? err.message : String(err));
+      console.error('Failed to flush logs:', err instanceof Error ? message: String(err));
     }
   }
 

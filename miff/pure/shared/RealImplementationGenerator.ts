@@ -100,7 +100,7 @@ export class RealImplementationGenerator {
         results.push(...implementations);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Error generating implementations for ${moduleId}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Error generating implementations for ${moduleId}:`, err instanceof Error ? message: String(err));
       }
     }
     
@@ -123,7 +123,7 @@ export class RealImplementationGenerator {
           implementations.push(implementation);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`❌ Error generating ${template.name} for ${moduleId}:`, err instanceof Error ? err.message : String(err));
+          console.error(`❌ Error generating ${template.name} for ${moduleId}:`, err instanceof Error ? message: String(err));
         }
       }
     }
@@ -233,7 +233,7 @@ export class RealImplementationGenerator {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         valid: false,
-        errors: [`Validation error: ${error instanceof Error ? error.message : error}`],
+        errors: [`Validation error: ${error instanceof Error ? message: error}`],
         warnings
       };
     }

@@ -430,7 +430,7 @@ export class LimbAttachment {
         name: segment.name,
         type: 'limb',
         transform: segment.transform,
-        parent: index === 0 ? limbConfig.attachmentPoint : `${limbConfig.id}_${limbConfig.segments[index - 1].id}`,
+        parent: index === 0 ? attachmentPoint: `${limbConfig.id}_${limbConfig.segments[index - 1].id}`,
         children: segment.children.map(childId => `${limbConfig.id}_${childId}`),
         snapPoints: [],
         constraints: limbConfig.constraints,

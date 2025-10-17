@@ -108,7 +108,7 @@ export class UnityBridgeHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('💥 Combat integration test failed:', err instanceof Error ? err.message : String(err));
+      console.error('💥 Combat integration test failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -167,7 +167,7 @@ export class UnityBridgeHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('💥 Item integration test failed:', err instanceof Error ? err.message : String(err));
+      console.error('💥 Item integration test failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -212,7 +212,7 @@ export class UnityBridgeHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('💥 AI integration test failed:', err instanceof Error ? err.message : String(err));
+      console.error('💥 AI integration test failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -245,7 +245,7 @@ export class UnityBridgeHarness {
       console.log('✅ Unity bridge integration test completed successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('💥 Unity bridge integration test failed:', err instanceof Error ? err.message : String(err));
+      console.error('💥 Unity bridge integration test failed:', err instanceof Error ? message: String(err));
     }
   }
 

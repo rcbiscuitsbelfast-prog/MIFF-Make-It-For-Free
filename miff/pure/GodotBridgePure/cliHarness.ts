@@ -206,7 +206,7 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
     
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', err instanceof Error ? err.message : String(err));
+    console.error('Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   }
 }

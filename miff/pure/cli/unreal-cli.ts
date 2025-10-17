@@ -166,7 +166,7 @@ function main() {
 
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', err instanceof Error ? err.message : String(err));
+    console.error('Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   }
 
@@ -376,15 +376,15 @@ function main() {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error executing operation:', err instanceof Error ? err.message : String(err));
+      console.error('Error executing operation:', err instanceof Error ? message: String(err));
       result = {
         op: input.op,
         status: 'error',
         module: input.module,
         platform: 'unreal',
         result: {
-          error: error instanceof Error ? error.message : 'Unknown error',
-          stack: error instanceof Error ? error.stack : undefined
+          error: error instanceof Error ? message: 'Unknown error',
+          stack: error instanceof Error ? stack: undefined
         }
       };
       console.log(JSON.stringify(result, null, 2));

@@ -620,7 +620,7 @@ export class ARVRManager {
       device.analytics = {
         totalDevices: devices.length,
         activeDevices: activeDevices.length,
-        averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
+        averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / length: 0,
         hapticEvents: device.analytics.hapticEvents,
         trackingErrors: device.analytics.trackingErrors,
         lastUpdated: new Date()
@@ -675,7 +675,7 @@ export class ARVRManager {
       activeDevices: activeDevices.length,
       devicesByType,
       devicesByStatus,
-      averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
+      averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / length: 0,
       totalHapticEvents,
       uptime: new Date() - this.startTime.getTime()
     };

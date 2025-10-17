@@ -247,7 +247,7 @@ export class ExportPipelinePure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      exportResult.errors.push(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      exportResult.errors.push(`Export failed: ${error instanceof Error ? message: 'Unknown error'}`);
       exportResult.success = false;
       return this.finalizeExport(exportId, startTime, exportResult);
     }
@@ -289,7 +289,7 @@ export class ExportPipelinePure {
       step.status = ExportStatus.FAILED;
       step.endTime = Date.now();
       step.duration = step.endTime - step.startTime;
-      step.issues.push(error instanceof Error ? error.message : 'Unknown error');
+      step.issues.push(error instanceof Error ? message: 'Unknown error');
 
       this.log('error', `Step failed: ${step.name} - ${step.issues[0!]}`);
     }
@@ -350,11 +350,11 @@ export class ExportPipelinePure {
 
   private async convertToEngine(renderPayload: RenderPayload, config: ExportConfig): Promise<any> {
     switch (config.engine) {
-      case ExportEngine.GODOT:
+      case GODOT:
         return this.convertToGodot(renderPayload, config);
-      case ExportEngine.UNITY:
+      case UNITY:
         return this.convertToUnity(renderPayload, config);
-      case ExportEngine.WEB:
+      case WEB:
         return this.convertToWeb(renderPayload, config);
       default:
         throw new Error(`Unsupported engine: ${config.engine}`);
@@ -403,26 +403,26 @@ export class ExportPipelinePure {
 
     // Platform-specific optimizations
     switch (config.platform) {
-      case ExportPlatform.WEB_BROWSER:
+      case WEB_BROWSER:
         optimizations.push('WebGL optimization applied');
         optimizations.push('Texture compression for web');
         optimizations.push('JavaScript bundle optimization');
         break;
-      case ExportPlatform.ANDROID:
+      case ANDROID:
         optimizations.push('Android APK optimization');
         optimizations.push('Mobile texture compression');
         optimizations.push('ARM optimization');
         break;
-      case ExportPlatform.IOS:
+      case IOS:
         optimizations.push('iOS optimization applied');
         optimizations.push('Metal rendering optimization');
         optimizations.push('iOS App Store compliance');
         break;
-      case ExportPlatform.WINDOWS:
+      case WINDOWS:
         optimizations.push('DirectX optimization');
         optimizations.push('Windows installer creation');
         break;
-      case ExportPlatform.MACOS:
+      case MACOS:
         optimizations.push('Metal optimization');
         optimizations.push('macOS App Store compliance');
         break;
@@ -510,12 +510,12 @@ export class ExportPipelinePure {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log('error', `Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      this.log('error', `Export failed: ${error instanceof Error ? message: 'Unknown error'}`);
       return {
         exportPath,
         fileSize: 0,
         status: 'failed',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -712,7 +712,7 @@ export class ExportPipelinePure {
     // Texture complexity
     if (renderPayload.textures) {
       const avgTextureSize = renderPayload.textures.reduce((sum, texture) => {
-        return sum + (texture.size ? texture.size.width * texture.size.height : 0);
+        return sum + (texture.size ? texture.size.width * texture.height: 0);
       }, 0) / (renderPayload.textures.length || 1);
       complexity += Math.min(0.4, avgTextureSize / 1000000); // Normalize to 0-0.4
     }
@@ -743,17 +743,17 @@ export class ExportPipelinePure {
     }
 
     switch (engine) {
-      case ExportEngine.GODOT:
+      case GODOT:
         if (payload.renderData?.some(rd => rd.meshes?.some(m => m.vertices > 50000))) {
           warnings.push('High polygon count detected - may impact performance');
         }
         break;
-      case ExportEngine.UNITY:
+      case UNITY:
         if (payload.textures?.some(t => t.size?.width > 8192 || t.size?.height > 8192)) {
           warnings.push('Very large textures detected - consider reducing size');
         }
         break;
-      case ExportEngine.WEB:
+      case WEB:
         if (payload.renderData?.some(rd => rd.meshes?.some(m => m.vertices > 10000))) {
           issues.push('Mesh too complex for web platform');
         }
@@ -773,30 +773,30 @@ export class ExportPipelinePure {
 
     // Platform-specific compatibility checks
     switch (platform) {
-      case ExportPlatform.WEB_BROWSER:
+      case WEB_BROWSER:
         if (engine === ExportEngine.UNREAL) {
           issues.push('Unreal Engine not supported on web platform');
         }
         warnings.push('Web platform has memory and performance limitations');
         break;
-      case ExportPlatform.WEB_MOBILE:
+      case WEB_MOBILE:
         warnings.push('Mobile web has additional performance constraints');
         warnings.push('Touch input optimization recommended');
         break;
-      case ExportPlatform.ANDROID:
+      case ANDROID:
         warnings.push('Android fragmentation may affect compatibility');
         warnings.push('Consider providing multiple APK variants');
         break;
-      case ExportPlatform.IOS:
+      case IOS:
         warnings.push('iOS App Store approval process required');
         break;
-      case ExportPlatform.CONSOLE:
+      case CONSOLE:
         if (engine !== ExportEngine.UNITY && engine !== ExportEngine.UNREAL) {
           issues.push('Console platforms typically require Unity or Unreal Engine');
         }
         warnings.push('Console certification required');
         break;
-      case ExportPlatform.VR:
+      case VR:
         warnings.push('VR platform requires additional optimization');
         warnings.push('Motion sickness considerations needed');
         break;
@@ -820,13 +820,13 @@ export class ExportPipelinePure {
 
   private mapPlatformToGodot(platform: ExportPlatform): GodotPlatform {
     switch (platform) {
-      case ExportPlatform.WINDOWS: return GodotPlatform.WINDOWS;
-      case ExportPlatform.MACOS: return GodotPlatform.MACOS;
-      case ExportPlatform.LINUX: return GodotPlatform.LINUX;
-      case ExportPlatform.ANDROID: return GodotPlatform.ANDROID;
-      case ExportPlatform.IOS: return GodotPlatform.IOS;
-      case ExportPlatform.WEB_BROWSER: return GodotPlatform.WEB;
-      case ExportPlatform.WEB_MOBILE: return GodotPlatform.HTML5;
+      case WINDOWS: return GodotPlatform.WINDOWS;
+      case MACOS: return GodotPlatform.MACOS;
+      case LINUX: return GodotPlatform.LINUX;
+      case ANDROID: return GodotPlatform.ANDROID;
+      case IOS: return GodotPlatform.IOS;
+      case WEB_BROWSER: return GodotPlatform.WEB;
+      case WEB_MOBILE: return GodotPlatform.HTML5;
       default: return GodotPlatform.WEB;
     }
   }
@@ -835,26 +835,26 @@ export class ExportPipelinePure {
     const features: string[] = [];
 
     switch (platform) {
-      case ExportPlatform.WEB_BROWSER:
-      case ExportPlatform.WEB_MOBILE:
+      case WEB_BROWSER:
+      case WEB_MOBILE:
         features.push('web', 'javascript', 'webgl');
         break;
-      case ExportPlatform.ANDROID:
+      case ANDROID:
         features.push('mobile', 'android', 'touch');
         break;
-      case ExportPlatform.IOS:
+      case IOS:
         features.push('mobile', 'ios', 'metal');
         break;
-      case ExportPlatform.WINDOWS:
+      case WINDOWS:
         features.push('pc', 'windows', 'directx');
         break;
-      case ExportPlatform.MACOS:
+      case MACOS:
         features.push('pc', 'macos', 'metal');
         break;
-      case ExportPlatform.LINUX:
+      case LINUX:
         features.push('pc', 'linux', 'opengl');
         break;
-      case ExportPlatform.VR:
+      case VR:
         features.push('vr', '3d');
         break;
     }

@@ -115,7 +115,7 @@ export class WebBridge {
       return { op: 'simulate', status: 'ok', renderData: this.convertToWebRenderData(result, config) };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'simulate', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
+      return { op: 'simulate', status: 'error', issues: [error instanceof Error ? message: String(error)] };
     }
   }
 
@@ -163,7 +163,7 @@ export class WebBridge {
       return { op: 'render', status: 'ok', renderData: { entities, components, sprites, sounds, scripts, styles } };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'render', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
+      return { op: 'render', status: 'error', issues: [error instanceof Error ? message: String(error)] };
     }
   }
 
@@ -188,7 +188,7 @@ export class WebBridge {
       return { op: 'interop', status: 'ok', renderData: this.convertToWebRenderData(result, config) };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'interop', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
+      return { op: 'interop', status: 'error', issues: [error instanceof Error ? message: String(error)] };
     }
   }
 

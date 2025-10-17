@@ -86,7 +86,7 @@ class SecurityCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? message: error);
       process.exit(1);
     }
   }
@@ -254,7 +254,7 @@ class SecurityCLI {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.info('❌ Decryption failed');
-      console.info('Error:', error instanceof Error ? error.message : error);
+      console.info('Error:', error instanceof Error ? message: error);
     }
   }
 

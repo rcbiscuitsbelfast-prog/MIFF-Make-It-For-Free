@@ -94,7 +94,7 @@ async function main() {
 
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', err instanceof Error ? err.message : String(err));
+    console.error('Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   }
 }
@@ -121,7 +121,7 @@ async function buildScene(builder: SceneBuilderManager, templateId?: string): Pr
     return {
       op: 'build',
       status: 'error',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? message: 'Unknown error'
     };
   }
 }
@@ -167,7 +167,7 @@ async function exportScene(builder: SceneBuilderManager, format: SceneExportForm
       op: 'export',
       status: 'error',
       format: format,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? message: 'Unknown error'
     };
   }
 }

@@ -159,7 +159,7 @@ export class BridgeInspectorManager {
           totalWarnings: 0,
           overallStatus: 'fail'
         },
-        issues: [`Inspection failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Inspection failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -214,7 +214,7 @@ export class BridgeInspectorManager {
           totalWarnings: 0,
           overallStatus: 'fail'
         },
-        issues: [`Golden test inspection failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Golden test inspection failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -254,7 +254,7 @@ export class BridgeInspectorManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Export failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }

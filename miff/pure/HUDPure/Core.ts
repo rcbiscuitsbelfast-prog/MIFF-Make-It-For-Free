@@ -228,7 +228,7 @@ export class BattleHUDModel {
   }
 
   getSpiritsBySide(side: 'player' | 'opponent'): SpiritHUDState[] {
-    return side === 'player' ? this.player : this.opponent;
+    return side === 'player' ? player: this.opponent;
   }
 
   updateSpirit(spiritId: string, updates: Partial<SpiritHUDState>): boolean {

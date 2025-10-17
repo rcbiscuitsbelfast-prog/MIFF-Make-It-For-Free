@@ -122,7 +122,7 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
     
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', err instanceof Error ? err.message : String(err));
+    console.error('Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   }
 }

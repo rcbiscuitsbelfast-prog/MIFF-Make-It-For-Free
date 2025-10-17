@@ -214,7 +214,7 @@ function main() {
     const errorResult = {
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? message: String(error),
       timestamp: new Date()
     };
     console.error(JSON.stringify(errorResult, null, 2));

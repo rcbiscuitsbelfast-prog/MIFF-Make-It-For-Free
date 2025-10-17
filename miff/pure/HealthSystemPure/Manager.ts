@@ -111,7 +111,7 @@ export class HealthSystemManager {
     const entity: HealthEntity = {
       id,
       maxHp,
-      currentHp: options.currentHp !== undefined ? options.currentHp : maxHp,
+      currentHp: options.currentHp !== undefined ? currentHp: maxHp,
       shields: options.shields || [],
       regeneration: [],
       immunities: options.immunities || [],

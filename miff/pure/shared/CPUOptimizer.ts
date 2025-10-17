@@ -188,7 +188,7 @@ export class CPUOptimizer {
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ CPU optimization failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ CPU optimization failed:', err instanceof Error ? message: String(err));
       throw error;
     } finally {
       this.isOptimizing = false;
@@ -366,9 +366,9 @@ export class CPUOptimizer {
     const entries = Array.from(this.cache.values());
     const totalAccesses = entries.reduce((sum, entry) => sum + entry.accessCount, 0);
     const hitRate = totalAccesses > 0 ? 
-      entries.filter((entry: any) => entry.accessCount > 0).length / entries.length : 0;
+      entries.filter((entry: any) => entry.accessCount > 0).length / length: 0;
     const averageAccessTime = entries.length > 0 ?
-      entries.reduce((sum, entry) => sum + (Date.now() - entry.lastAccessed.getTime()), 0) / entries.length : 0;
+      entries.reduce((sum, entry) => sum + (Date.now() - entry.lastAccessed.getTime()), 0) / length: 0;
 
     return {
       size: this.cache.size,

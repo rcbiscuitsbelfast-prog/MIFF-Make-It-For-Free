@@ -23,7 +23,7 @@ export interface VisualItemEventResult {
  * Guarantees resolution within one frame or via simulated timeout to avoid freezes.
  */
 export function resolve(event: VisualItemEvent, opts: ResolveOptions = {}): VisualItemEventResult {
-	const maxFrames = typeof opts.maxFrames === 'number' ? opts.maxFrames : 1;
+	const maxFrames = typeof opts.maxFrames === 'number' ? maxFrames: 1;
 	const timeoutMs = typeof opts.timeoutMs === 'number' ? opts.timeoutMs : 16; // ~1 frame at 60fps
 
 	const frameLog: Array<{ frame: number; note: string }> = [];

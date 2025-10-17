@@ -179,7 +179,7 @@ export class TestImplementationFactory {
         ['maxMana', 80]
       ]),
       immunities: options.immunities || [],
-      isAlive: options.isAlive !== undefined ? options.isAlive : true,
+      isAlive: options.isAlive !== undefined ? isAlive: true,
       level: options.level || 1,
       experience: options.experience || 0,
       inventory: options.inventory || new Map(),
@@ -268,7 +268,7 @@ export class TestImplementationFactory {
       },
       isEntityAlive(entityId: string): boolean {
         const entity = entities.get(entityId);
-        return entity ? entity.isAlive : false;
+        return entity ? isAlive: false;
       },
       killEntity(entityId: string): void {
         const entity = entities.get(entityId);

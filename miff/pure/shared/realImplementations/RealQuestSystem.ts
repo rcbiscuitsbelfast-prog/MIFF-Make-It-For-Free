@@ -119,7 +119,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to add quest ${quest.id}:`, err instanceof Error ? err.message : String(err));
+      console.error(`Failed to add quest ${quest.id}:`, err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -177,7 +177,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to start quest ${questId}:`, err instanceof Error ? err.message : String(err));
+      console.error(`Failed to start quest ${questId}:`, err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -218,7 +218,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to complete quest ${questId}:`, err instanceof Error ? err.message : String(err));
+      console.error(`Failed to complete quest ${questId}:`, err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -258,7 +258,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to update objective ${objectiveId}:`, err instanceof Error ? err.message : String(err));
+      console.error(`Failed to update objective ${objectiveId}:`, err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -346,7 +346,7 @@ export class RealQuestSystem {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in quest event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in quest event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

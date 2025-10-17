@@ -62,7 +62,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 	const threshold = config.threshold ?? 3;
 	const dt = config.dt ?? 0.1;
 	const beats = buildBeats(bpm, totalBeats);
-	const taps: Tap[] = (config.taps && config.taps.length ? config.taps : defaultTapScript(bpm)).map((t: any) => ({ t: round(t.t) }));
+	const taps: Tap[] = (config.taps && config.taps.length ? taps: defaultTapScript(bpm)).map((t: any) => ({ t: round(t.t) }));
 
 	// Interaction zones — static trigger overlap to validate collision system usage
 	const col = new CollisionManager();

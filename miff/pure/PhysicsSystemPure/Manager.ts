@@ -249,7 +249,7 @@ export class PhysicsManager {
     return {
       op: 'analytics',
       totalEnergy: this.round(totalEnergy),
-      averageVelocity: this.round(this.bodies.size > 0 ? totalVelocity / this.bodies.size : 0),
+      averageVelocity: this.round(this.bodies.size > 0 ? totalVelocity / this.size: 0),
       bodyCount: this.bodies.size,
       forceCount: this.forces.size,
       constraintCount: this.constraints.size

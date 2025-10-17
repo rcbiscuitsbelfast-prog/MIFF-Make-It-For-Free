@@ -382,7 +382,7 @@ export class UnrealEventSyncPure {
       console.log('[UnrealEventSyncPure] Event synchronization initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnrealEventSyncPure] Failed to initialize event synchronization:', err instanceof Error ? err.message : String(err));
+      console.error('[UnrealEventSyncPure] Failed to initialize event synchronization:', err instanceof Error ? message: String(err));
       throw new Error(`Event synchronization initialization failed: ${error}`);
     }
   }
@@ -652,7 +652,7 @@ export class UnrealEventSyncPure {
       const processingTime = Date.now() - startTime;
       this.statistics.failedEvents++;
 
-      console.error(`[UnrealEventSyncPure] Failed to sync event: ${miffEvent.type || miffEvent.name}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnrealEventSyncPure] Failed to sync event: ${miffEvent.type || miffEvent.name}`, err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -706,15 +706,15 @@ export class UnrealEventSyncPure {
 
   private getEventSeverity(priority: EventPriority): 'low' | 'medium' | 'high' | 'critical' {
     switch (priority) {
-      case EventPriority.LOWEST:
-      case EventPriority.LOW:
+      case LOWEST:
+      case LOW:
         return 'low';
-      case EventPriority.NORMAL:
+      case NORMAL:
         return 'medium';
-      case EventPriority.HIGH:
+      case HIGH:
         return 'high';
-      case EventPriority.HIGHEST:
-      case EventPriority.CRITICAL:
+      case HIGHEST:
+      case CRITICAL:
         return 'critical';
       default:
         return 'medium';
@@ -961,7 +961,7 @@ export class UnrealEventSyncPure {
       return await this.bridgeManager.sendMessage(message);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[UnrealEventSyncPure] Failed to process event immediately: ${event.name}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnrealEventSyncPure] Failed to process event immediately: ${event.name}`, err instanceof Error ? message: String(err));
 
       // Add to dead letter queue if enabled
       if (this.configuration.enableDeadLetterQueue) {
@@ -979,12 +979,12 @@ export class UnrealEventSyncPure {
 
   private getEventPriorityValue(priority: EventPriority): number {
     switch (priority) {
-      case EventPriority.LOWEST: return 1;
-      case EventPriority.LOW: return 2;
-      case EventPriority.NORMAL: return 3;
-      case EventPriority.HIGH: return 4;
-      case EventPriority.HIGHEST: return 5;
-      case EventPriority.CRITICAL: return 6;
+      case LOWEST: return 1;
+      case LOW: return 2;
+      case NORMAL: return 3;
+      case HIGH: return 4;
+      case HIGHEST: return 5;
+      case CRITICAL: return 6;
       default: return 3;
     }
   }

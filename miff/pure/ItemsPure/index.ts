@@ -283,7 +283,7 @@ export class ItemEffect {
     }
 
     switch (this.effectType) {
-      case ItemEffectType.HEAL:
+      case HEAL:
         if (target.currentHP >= target.maxHP) {
           return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'already at full health');
         }
@@ -291,12 +291,12 @@ export class ItemEffect {
         target.currentHP += healAmount;
         return UsageResult.ok(`Healed ${healAmount} HP`, { healAmount });
 
-      case ItemEffectType.REVIVE:
+      case REVIVE:
         if (!target.isFainted) {
           return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target is not fainted');
         }
         // Use the amount as percentage of max HP to restore (default to 50% if not specified)
-        const revivePercent = this.amount > 0 ? this.amount : 50;
+        const revivePercent = this.amount > 0 ? amount: 50;
         const reviveAmount = Math.floor(target.maxHP * (revivePercent / 100));
         target.currentHP = Math.max(1, reviveAmount);
         // Mark spirit as not fainted after revive
@@ -306,14 +306,14 @@ export class ItemEffect {
         }
         return UsageResult.ok(`Revived with ${target.currentHP} HP`, { reviveAmount: target.currentHP });
 
-      case ItemEffectType.SYNC_BOOST:
+      case SYNC_BOOST:
         if (target.syncLevel === undefined) {
           return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Spirit has no sync level');
         }
         target.syncLevel = Math.min(100, target.syncLevel + this.amount);
         return UsageResult.ok(`Sync increased`, { newSyncLevel: target.syncLevel });
 
-      case ItemEffectType.EVOLVE:
+      case EVOLVE:
         if (!target.canEvolve()) {
           return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Spirit cannot evolve');
         }
@@ -323,7 +323,7 @@ export class ItemEffect {
         }
         return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Evolution failed');
 
-      case ItemEffectType.UNLOCK_FLAG:
+      case UNLOCK_FLAG:
         if (this.param) {
           // Handle both IItemEffectContext and IPlayerContext
           const flags = (context as any).playerContext?.flags || (context as any).flags;
@@ -334,9 +334,9 @@ export class ItemEffect {
         }
         return UsageResult.fail(UsageStatus.INVALID_TARGET, 'No flag to unlock specified');
 
-      case ItemEffectType.BUFF_ATTACK:
-      case ItemEffectType.BUFF_DEFENSE:
-      case ItemEffectType.BUFF_SPEED:
+      case BUFF_ATTACK:
+      case BUFF_DEFENSE:
+      case BUFF_SPEED:
         const buffType = this.effectType.replace('buff_', '');
         return UsageResult.ok(`Buff ${buffType} by ${this.amount}`, { buffType, duration: this.amount });
 
@@ -347,23 +347,23 @@ export class ItemEffect {
 
   getSummary(): string {
     switch (this.effectType) {
-      case ItemEffectType.NONE:
+      case NONE:
         return 'No effect';
-      case ItemEffectType.HEAL:
+      case HEAL:
         return `Heal ${this.amount} HP`;
-      case ItemEffectType.REVIVE:
+      case REVIVE:
         return `Revive with ${this.amount}% HP`;
-      case ItemEffectType.SYNC_BOOST:
+      case SYNC_BOOST:
         return `Sync increased`;
-      case ItemEffectType.EVOLVE:
+      case EVOLVE:
         return `Evolve to ${this.param || 'unknown'}`;
-      case ItemEffectType.UNLOCK_FLAG:
+      case UNLOCK_FLAG:
         return `Flag '${this.param}' unlocked`;
-      case ItemEffectType.BUFF_ATTACK:
+      case BUFF_ATTACK:
         return `Buff Attack by ${this.amount}`;
-      case ItemEffectType.BUFF_DEFENSE:
+      case BUFF_DEFENSE:
         return `Buff Defense by ${this.amount}`;
-      case ItemEffectType.BUFF_SPEED:
+      case BUFF_SPEED:
         return `Buff Speed by ${this.amount}`;
       default:
         return `Effect: ${this.effectType}`;
@@ -860,7 +860,7 @@ export class ItemUtils {
       byType,
       byRarity,
       byEffect,
-      averageValue: items.length > 0 ? totalValue / items.length : 0,
+      averageValue: items.length > 0 ? totalValue / length: 0,
       totalValue
     };
   }
@@ -875,7 +875,7 @@ export class ItemUtils {
       if (criteria.type && item.type !== criteria.type) return false;
       if (criteria.effectType && item.effect.effectType !== criteria.effectType) return false;
       if (criteria.targetRule && item.targetRule !== criteria.targetRule) return false;
-      if (criteria.hasEffect !== undefined && (criteria.hasEffect ? item.effect.effectType === ItemEffectType.NONE : item.effect.effectType !== ItemEffectType.NONE)) return false;
+      if (criteria.hasEffect !== undefined && (criteria.hasEffect ? item.effect.effectType === NONE: item.effect.effectType !== ItemEffectType.NONE)) return false;
       return true;
     });
   }

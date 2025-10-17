@@ -106,7 +106,7 @@ class CombatCLI {
       return {
         op: 'test',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? message: 'Unknown error',
         message: 'CombatPure module test failed'
       };
     }
@@ -148,7 +148,7 @@ class CombatCLI {
       return {
         op: 'create_battle',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -183,7 +183,7 @@ class CombatCLI {
       return {
         op: 'add_combatant',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -209,7 +209,7 @@ class CombatCLI {
       return {
         op: 'process_turn',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -244,7 +244,7 @@ class CombatCLI {
       return {
         op: 'get_status',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -283,7 +283,7 @@ class CombatCLI {
       return {
         op: 'create_move',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -339,7 +339,7 @@ class CombatCLI {
       return {
         op: 'calculate_damage',
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }
@@ -428,7 +428,7 @@ function main() {
     console.log(JSON.stringify({
       op: command,
       status: 'error',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? message: 'Unknown error',
       message: 'Command execution failed'
     }, null, 2));
     process.exit(1);

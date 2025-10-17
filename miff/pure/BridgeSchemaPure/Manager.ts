@@ -261,7 +261,7 @@ export class BridgeSchemaManager {
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -310,7 +310,7 @@ export class BridgeSchemaManager {
       return { ok: true, result: validation };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Validation error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Validation error'] };
     }
   }
 
@@ -327,7 +327,7 @@ export class BridgeSchemaManager {
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -348,7 +348,7 @@ export class BridgeSchemaManager {
       return { ok: true, result: converted };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Conversion error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Conversion error'] };
     }
   }
 
@@ -376,7 +376,7 @@ export class BridgeSchemaManager {
       return { ok: true, schema: schemaDefinition };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Schema generation error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Schema generation error'] };
     }
   }
 
@@ -442,7 +442,7 @@ export class BridgeSchemaManager {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Export error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Export error'] };
     }
   }
 

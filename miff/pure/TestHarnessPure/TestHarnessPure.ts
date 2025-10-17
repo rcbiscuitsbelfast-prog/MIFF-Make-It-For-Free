@@ -369,7 +369,7 @@ export class TestHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
+      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, err instanceof Error ? message: String(err));
     }
   }
 
@@ -388,7 +388,7 @@ export class TestHarness {
       console.log(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
+      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, err instanceof Error ? message: String(err));
     }
   }
 
@@ -447,7 +447,7 @@ export class TestHarness {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[TestHarnessPure] Observer error:', err instanceof Error ? err.message : String(err));
+        console.error('[TestHarnessPure] Observer error:', err instanceof Error ? message: String(err));
       }
     });
   }

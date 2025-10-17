@@ -124,7 +124,7 @@ export class UnrealEditorHarnessPure {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Failed to connect to Unreal Editor:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Failed to connect to Unreal Editor:', err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -396,12 +396,12 @@ export class UnrealEditorHarnessPure {
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Test suite failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Test suite failed:', err instanceof Error ? message: String(err));
       const errorResult: UnrealEditorTestResult = {
         success: false,
         testName: testSuite || 'all',
         duration: 0,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -519,7 +519,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'bridge_manager',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -589,7 +589,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'payload_adapter',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -636,7 +636,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'scene_builder',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -703,7 +703,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'asset_manager',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -790,7 +790,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'event_sync',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -843,7 +843,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'integration',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -895,7 +895,7 @@ export class UnrealEditorHarnessPure {
         success: false,
         testName: 'performance',
         duration,
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         warnings: [],
         metrics: {},
         artifacts: [],
@@ -1005,11 +1005,11 @@ export class UnrealEditorHarnessPure {
         eventsProcessed: 0,
         performanceMetrics: {},
         screenshots: [],
-        logs: [error instanceof Error ? error.message : 'Unknown error'],
+        logs: [error instanceof Error ? message: 'Unknown error'],
         metadata: { error, startTime, endTime: new Date() }
       };
 
-      console.error(`❌ Demo failed: ${demoName || 'default'}`, err instanceof Error ? err.message : String(err));
+      console.error(`❌ Demo failed: ${demoName || 'default'}`, err instanceof Error ? message: String(err));
       this.demoResults.push(result);
 
       return result;

@@ -794,7 +794,7 @@ async function main() {
 
 // Handle uncaught errors
 process.on('uncaughtException', (error) => {
-  console.error('❌ Uncaught Exception:', err instanceof Error ? err.message : String(err));
+  console.error('❌ Uncaught Exception:', err instanceof Error ? message: String(err));
   process.exit(1);
 });
 

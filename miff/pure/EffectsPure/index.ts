@@ -458,21 +458,21 @@ export class BattleEffect implements IBattleEffect {
    */
   getEffectDescription(): string {
     switch (this.effectType) {
-      case EffectType.STAT_MODIFIER:
+      case STAT_MODIFIER:
         const modType = this.modifierType === ModifierType.FLAT ? 'flat' : 'percent';
         const sign = this.value >= 0 ? '+' : '';
         const displayValue = this.modifierType === ModifierType.PERCENT ?
           `${Math.round(this.value * 100)}%` : `${this.value}`;
         return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat.toUpperCase()}`;
-      case EffectType.DAMAGE_OVER_TIME:
+      case DAMAGE_OVER_TIME:
         return `${this.name}: ${this.value} damage per tick`;
-      case EffectType.HEAL:
+      case HEAL:
         return `${this.name}: ${this.value} healing`;
-      case EffectType.STUN:
+      case STUN:
         return `${this.name}: Stunned for ${this.getDurationDescription()}`;
-      case EffectType.SHIELD:
+      case SHIELD:
         return `${this.name}: ${this.value} shield`;
-      case EffectType.CUSTOM:
+      case CUSTOM:
         return `${this.name}: ${this.description}`;
       default:
         return `${this.name}: ${this.description}`;
@@ -1217,7 +1217,7 @@ export class EffectResolver implements IEffectResolver {
     const statChanges = new Map<string, number>();
 
     switch (effect.effect.effectType) {
-      case EffectType.STAT_MODIFIER:
+      case STAT_MODIFIER:
         const currentValue = context.getEntityStat(effect.entityId, effect.effect.targetStat);
         const modifiedValue = this.calculateStatModification(effect.effect, currentValue);
         const change = modifiedValue - currentValue;
@@ -1226,20 +1226,20 @@ export class EffectResolver implements IEffectResolver {
         }
         break;
 
-      case EffectType.DAMAGE_OVER_TIME:
+      case DAMAGE_OVER_TIME:
         // Damage over time would be handled by the battle system
         statChanges.set(TargetStat.HP, -effect.effect.value * effect.stacks);
         break;
 
-      case EffectType.HEAL:
+      case HEAL:
         statChanges.set(TargetStat.HP, effect.effect.value * effect.stacks);
         break;
 
-      case EffectType.SHIELD:
+      case SHIELD:
         // Shield effects might add temporary HP
         break;
 
-      case EffectType.STUN:
+      case STUN:
         // Stun effects don't directly change stats
         break;
     }
@@ -1258,10 +1258,10 @@ export class EffectResolver implements IEffectResolver {
     }
 
     switch (effect.modifierType) {
-      case ModifierType.FLAT:
+      case FLAT:
         result += effect.value;
         break;
-      case ModifierType.PERCENT:
+      case PERCENT:
         result *= (1 + effect.value);
         break;
     }
@@ -1606,13 +1606,13 @@ export const EffectUtils = {
    */
   shouldTriggerOnPhase(effect: IBattleEffect, phase: EffectPhase): boolean {
     switch (phase) {
-      case EffectPhase.PRE_TURN:
+      case PRE_TURN:
         return effect.hasTrigger(EffectTrigger.ON_APPLY);
-      case EffectPhase.SELECT_ACTION:
+      case SELECT_ACTION:
         return effect.hasTrigger(EffectTrigger.ON_CAST);
-      case EffectPhase.RESOLVE_ACTION:
+      case RESOLVE_ACTION:
         return effect.hasTrigger(EffectTrigger.ON_HIT) || effect.hasTrigger(EffectTrigger.ON_CRIT);
-      case EffectPhase.END_TURN:
+      case END_TURN:
         return effect.hasTrigger(EffectTrigger.ON_TICK) || effect.hasTrigger(EffectTrigger.ON_REMOVE);
       default:
         return false;
@@ -1625,17 +1625,17 @@ export const EffectUtils = {
   getEffectPriority(effect: IBattleEffect): number {
     // Base priority on effect type
     switch (effect.effectType) {
-      case EffectType.STUN:
+      case STUN:
         return 100; // Highest priority
-      case EffectType.SHIELD:
+      case SHIELD:
         return 90;
-      case EffectType.HEAL:
+      case HEAL:
         return 80;
-      case EffectType.DAMAGE_OVER_TIME:
+      case DAMAGE_OVER_TIME:
         return 70;
-      case EffectType.STAT_MODIFIER:
+      case STAT_MODIFIER:
         return 50;
-      case EffectType.CUSTOM:
+      case CUSTOM:
         return 25;
       default:
         return 0;

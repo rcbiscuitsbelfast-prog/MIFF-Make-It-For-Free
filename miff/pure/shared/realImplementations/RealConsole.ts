@@ -265,7 +265,7 @@ export class RealConsole {
           destination.write(entry);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error('Error writing to custom destination:', err instanceof Error ? err.message : String(err));
+          console.error('Error writing to custom destination:', err instanceof Error ? message: String(err));
         }
       }
     });
@@ -385,7 +385,7 @@ export class RealConsole {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

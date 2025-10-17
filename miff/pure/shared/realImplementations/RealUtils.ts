@@ -587,7 +587,7 @@ export class RealUtils {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in utils event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in utils event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

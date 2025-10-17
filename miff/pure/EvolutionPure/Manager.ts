@@ -436,7 +436,7 @@ export class EvolutionManager {
       condition.isMet(spirit, this.context)
     );
 
-    return allConditionsMet ? data.evolutionTargetId : null;
+    return allConditionsMet ? evolutionTargetId: null;
   }
 
   public evolveSpirit(spirit): EvolutionResult {

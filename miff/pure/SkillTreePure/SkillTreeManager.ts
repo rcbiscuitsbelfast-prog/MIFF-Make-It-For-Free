@@ -415,7 +415,7 @@ export class SkillTreeManager {
     this.stats.unlockedSkills = this.unlocked.size;
     this.stats.lockedSkills = skills.length - this.unlocked.size;
     this.stats.totalLevels = progress.reduce((sum, p) => sum + p.level, 0);
-    this.stats.averageLevel = progress.length > 0 ? this.stats.totalLevels / progress.length : 0;
+    this.stats.averageLevel = progress.length > 0 ? this.stats.totalLevels / length: 0;
     this.stats.totalCost = this.calculateTotalCost();
     this.stats.spentCost = progress.reduce((sum, p) => sum + (p.unlocked ? (this.skills.get(p.skillId)?.cost || 0) : 0), 0);
     this.stats.remainingCost = this.stats.totalCost - this.stats.spentCost;

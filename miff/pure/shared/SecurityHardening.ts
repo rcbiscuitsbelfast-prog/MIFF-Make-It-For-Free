@@ -237,7 +237,7 @@ export class SecurityHardening {
       console.info('✅ Security hardening initialized');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Security hardening initialization failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Security hardening initialization failed:', err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -345,7 +345,7 @@ export class SecurityHardening {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      errors.push(`Validation error: ${error instanceof Error ? error.message : error}`);
+      errors.push(`Validation error: ${error instanceof Error ? message: error}`);
       return { valid: false, errors };
     }
   }

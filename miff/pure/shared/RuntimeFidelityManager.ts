@@ -157,7 +157,7 @@ export class RuntimeFidelityManager {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error scanning mock implementations:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Error scanning mock implementations:', err instanceof Error ? message: String(err));
       return [];
     }
   }
@@ -177,7 +177,7 @@ export class RuntimeFidelityManager {
         console.info(`✅ Replaced mock: ${mock.id} in ${mock.module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to replace mock ${mock.id}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to replace mock ${mock.id}:`, err instanceof Error ? message: String(err));
       }
     }
     
@@ -199,7 +199,7 @@ export class RuntimeFidelityManager {
         console.info(`✅ Implemented transport layer for ${module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to implement transport layer for ${module}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to implement transport layer for ${module}:`, err instanceof Error ? message: String(err));
       }
     }
   }
@@ -221,7 +221,7 @@ export class RuntimeFidelityManager {
         console.info(`✅ Implemented lifecycle hooks for ${module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to implement lifecycle hooks for ${module}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to implement lifecycle hooks for ${module}:`, err instanceof Error ? message: String(err));
       }
     }
   }

@@ -462,13 +462,13 @@ export class BattleChallenge implements IBattleChallenge {
     // This would be calculated based on actual progress
     // For now, return 0 for locked, 50 for available, 100 for completed
     switch (this.status) {
-      case ChallengeStatus.LOCKED:
+      case LOCKED:
         return 0;
-      case ChallengeStatus.AVAILABLE:
+      case AVAILABLE:
         return 50;
-      case ChallengeStatus.IN_PROGRESS:
+      case IN_PROGRESS:
         return 75;
-      case ChallengeStatus.COMPLETED:
+      case COMPLETED:
         return 100;
       default:
         return 0;
@@ -963,13 +963,13 @@ export class ChallengeResult implements IChallengeResult {
    */
   getDescription(): string {
     switch (this.outcome) {
-      case ChallengeOutcome.VICTORY:
+      case VICTORY:
         return `Victory! ${this.message || 'Challenge completed successfully.'}`;
-      case ChallengeOutcome.DEFEAT:
+      case DEFEAT:
         return `Defeat! ${this.message || 'Challenge failed.'}`;
-      case ChallengeOutcome.TIMEOUT:
+      case TIMEOUT:
         return `Timeout! ${this.message || 'Challenge timed out.'}`;
-      case ChallengeOutcome.FORFEIT:
+      case FORFEIT:
         return `Forfeit! ${this.message || 'Challenge forfeited.'}`;
       default:
         return `Unknown outcome: ${this.outcome}`;

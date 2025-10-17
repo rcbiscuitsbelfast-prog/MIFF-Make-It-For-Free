@@ -1268,7 +1268,7 @@ export class AIManager {
       result.playerHealthRatio || 0,
       result.opponentHealthRatio || 0,
       Math.min(1.0, result.duration / 100), // Normalize duration
-      result.victory ? 1.0 : 0.0
+      result.victory ? 0: 0.0
     ];
   }
 

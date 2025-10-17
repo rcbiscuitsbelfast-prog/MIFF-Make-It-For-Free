@@ -440,14 +440,14 @@ export class DebugOverlayManager {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const alert = this.createAlert('error', 'system', 'Debug overlay generation failed',
-        error instanceof Error ? error.message : 'Unknown error', 'critical');
+        error instanceof Error ? message: 'Unknown error', 'critical');
       this.alerts.push(alert);
 
       return {
         op: 'debug',
         status: 'error',
         overlay: this.createEmptyOverlay(),
-        issues: [`Debug overlay failed: ${error instanceof Error ? error.message : 'Unknown error'}`],
+        issues: [`Debug overlay failed: ${error instanceof Error ? message: 'Unknown error'}`],
         config: this.config,
         session: this.getSessionInfo()
       };
@@ -492,7 +492,7 @@ export class DebugOverlayManager {
         op: 'debug',
         status: 'error',
         overlay: this.createEmptyOverlay(),
-        issues: [`CLI debug overlay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`CLI debug overlay failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -532,7 +532,7 @@ export class DebugOverlayManager {
         op: 'debug',
         status: 'error',
         overlay: this.createEmptyOverlay(),
-        issues: [`Golden test debug overlay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Golden test debug overlay failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -572,7 +572,7 @@ export class DebugOverlayManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Export failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -666,7 +666,7 @@ export class DebugOverlayManager {
         lines.push('🎨 RENDERDATA PREVIEW:');
       }
 
-      const maxItems = this.config.maxRenderDataItems > 0 ? this.config.maxRenderDataItems : overlay.renderData.length;
+      const maxItems = this.config.maxRenderDataItems > 0 ? this.maxRenderDataItems: overlay.renderData.length;
       const itemsToShow = overlay.renderData.slice(0, maxItems);
 
       itemsToShow.forEach((data, index) => {
@@ -1521,7 +1521,7 @@ export class DebugOverlayManager {
       lines.push('<div class="section">');
       lines.push('<div class="section-title renderdata">🎨 RENDERDATA PREVIEW:</div>');
 
-      const maxItems = this.config.maxRenderDataItems > 0 ? this.config.maxRenderDataItems : overlay.renderData.length;
+      const maxItems = this.config.maxRenderDataItems > 0 ? this.maxRenderDataItems: overlay.renderData.length;
       const itemsToShow = overlay.renderData.slice(0, maxItems);
 
       itemsToShow.forEach((data, index) => {

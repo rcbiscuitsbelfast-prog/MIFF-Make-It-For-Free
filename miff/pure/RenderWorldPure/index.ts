@@ -776,8 +776,8 @@ export class RenderWorldPure {
     // Increase portal glow intensity based on scan results
     scanResults.portals.forEach((result: any) => {
       const portal = result.portal;
-      const intensity = portal.aura ? portal.aura.intensity + result.intensity :
-                       portal.shimmer ? portal.shimmer.intensity + result.intensity :
+      const intensity = portal.aura ? portal.aura.intensity + intensity:
+                       portal.shimmer ? portal.shimmer.intensity + intensity:
                        portal.glow.intensity + result.intensity;
 
       EventBus.publish('portal.highlight', {
@@ -1323,7 +1323,7 @@ export class RenderWorldPure {
         position: portal.position,
         radius: 3.0,
         behaviors: [InteractionBehavior.USE, InteractionBehavior.SCAN, InteractionBehavior.EXAMINE],
-        state: portal.active ? InteractionState.AVAILABLE : InteractionState.LOCKED,
+        state: portal.active ? AVAILABLE: InteractionState.LOCKED,
         requirements: [],
         cooldownDuration: 2000,
         metadata: {
@@ -1416,18 +1416,18 @@ export class RenderWorldPure {
    */
   private handleInteractionResult(objectId: string, behavior: InteractionBehavior, result: any): void {
     switch (behavior) {
-      case InteractionBehavior.PICKUP:
+      case PICKUP:
         if (objectId === 'spirit_lens') {
           this.state.player.holdingSpiritLens = true;
           this.state.world.spiritLens.active = false;
         }
         break;
-      case InteractionBehavior.USE:
+      case USE:
         if (objectId.startsWith('portal_')) {
           this.handlePortalActivation({ portalId: objectId });
         }
         break;
-      case InteractionBehavior.SCAN:
+      case SCAN:
         // Update scan progress
         this.engines.scanFeedback.updateScanProgress(1.0);
         break;

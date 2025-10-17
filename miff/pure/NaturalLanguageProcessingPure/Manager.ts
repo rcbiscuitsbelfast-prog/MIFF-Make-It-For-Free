@@ -777,7 +777,7 @@ export class NaturalLanguageProcessingPure {
     
     for (const [lang, pattern] of Object.entries(patterns)) {
       const matches = text.match(pattern);
-      const score = matches ? matches.length / text.length : 0;
+      const score = matches ? matches.length / length: 0;
       if (score > maxScore) {
         maxScore = score;
         detectedLanguage = lang;

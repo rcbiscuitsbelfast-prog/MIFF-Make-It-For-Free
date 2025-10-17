@@ -184,7 +184,7 @@ export class InputSanitizer {
       return {
         sanitized: '',
         isValid: false,
-        errors: [error instanceof Error ? error.message : 'Sanitization failed']
+        errors: [error instanceof Error ? message: 'Sanitization failed']
       };
     }
   }
@@ -259,7 +259,7 @@ export class InputSanitizer {
       return {
         sanitized: 0,
         isValid: false,
-        errors: [error instanceof Error ? error.message : 'Number sanitization failed']
+        errors: [error instanceof Error ? message: 'Number sanitization failed']
       };
     }
   }
@@ -351,7 +351,7 @@ export class InputSanitizer {
       return {
         sanitized: {} as T,
         isValid: false,
-        errors: [error instanceof Error ? error.message : 'Object sanitization failed']
+        errors: [error instanceof Error ? message: 'Object sanitization failed']
       };
     }
   }
@@ -437,7 +437,7 @@ export class InputSanitizer {
       return {
         sanitized: [],
         isValid: false,
-        errors: [error instanceof Error ? error.message : 'Array sanitization failed']
+        errors: [error instanceof Error ? message: 'Array sanitization failed']
       };
     }
   }

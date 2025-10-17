@@ -503,7 +503,7 @@ export class TestRunner {
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error parsing Jest results:', err instanceof Error ? err.message : String(err));
+      console.error('Error parsing Jest results:', err instanceof Error ? message: String(err));
       return [];
     }
   }
@@ -604,7 +604,7 @@ export class TestRunner {
     if (hasFailures) return TestStatus.FAILED;
     
     const allPassed = tests.every(test => test.status === TestStatus.PASSED);
-    return allPassed ? TestStatus.PASSED : TestStatus.SKIPPED;
+    return allPassed ? PASSED: TestStatus.SKIPPED;
   }
 
   /**
@@ -707,8 +707,8 @@ export class TestRunner {
     const recommendations = this.generateRecommendations(results, suites);
     
     // Determine overall status
-    const status = failedTests > 0 ? TestStatus.FAILED : 
-                  skippedTests === totalTests ? TestStatus.SKIPPED : 
+    const status = failedTests > 0 ? FAILED: 
+                  skippedTests === totalTests ? SKIPPED: 
                   TestStatus.PASSED;
     
     return {

@@ -362,7 +362,7 @@ export class DocumentationGenerator {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error generating documentation:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Error generating documentation:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -381,7 +381,7 @@ export class DocumentationGenerator {
         console.info(`✅ Generated API documentation for ${module}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to generate API documentation for ${module}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to generate API documentation for ${module}:`, err instanceof Error ? message: String(err));
       }
     }
   }
@@ -410,7 +410,7 @@ export class DocumentationGenerator {
         console.info(`✅ Generated contributor guide: ${guide.title}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to generate contributor guide for ${topic}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to generate contributor guide for ${topic}:`, err instanceof Error ? message: String(err));
       }
     }
   }
@@ -439,7 +439,7 @@ export class DocumentationGenerator {
         console.info(`✅ Generated tutorial: ${tutorial.title}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to generate tutorial for ${topic}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to generate tutorial for ${topic}:`, err instanceof Error ? message: String(err));
       }
     }
   }
@@ -470,7 +470,7 @@ export class DocumentationGenerator {
         console.info(`✅ Generated ${examples.length} code examples for ${category}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Failed to generate code examples for ${category}:`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to generate code examples for ${category}:`, err instanceof Error ? message: String(err));
       }
     }
   }

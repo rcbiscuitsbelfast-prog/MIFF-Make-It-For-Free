@@ -70,7 +70,7 @@ export class MobilePerformanceOptimizer {
    * Detect device capabilities
    */
   private detectDeviceCapabilities(): DeviceCapabilities {
-    const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    const userAgent = typeof navigator !== 'undefined' ? userAgent: '';
     const memory = this.getDeviceMemory();
     const cores = this.getCPUCores();
     const gpuTier = this.getGPUTier();
@@ -114,7 +114,7 @@ export class MobilePerformanceOptimizer {
     }
     
     // Fallback based on user agent
-    const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    const userAgent = typeof navigator !== 'undefined' ? userAgent: '';
     if (/iPhone|iPad/i.test(userAgent)) {
       return 4096; // Assume 4GB for iOS devices
     } else if (/Android/i.test(userAgent)) {
@@ -238,7 +238,7 @@ export class MobilePerformanceOptimizer {
     const level = this.currentPerformanceLevel;
     
     switch (level) {
-      case PerformanceLevel.LOW:
+      case LOW:
         return {
           targetFPS: 30,
           maxMemoryUsage: 256,
@@ -254,7 +254,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'low'
         };
       
-      case PerformanceLevel.MEDIUM:
+      case MEDIUM:
         return {
           targetFPS: 45,
           maxMemoryUsage: 512,
@@ -270,7 +270,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'medium'
         };
       
-      case PerformanceLevel.HIGH:
+      case HIGH:
         return {
           targetFPS: 60,
           maxMemoryUsage: 1024,
@@ -286,7 +286,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'high'
         };
       
-      case PerformanceLevel.ULTRA:
+      case ULTRA:
         return {
           targetFPS: 60,
           maxMemoryUsage: 2048,

@@ -68,8 +68,8 @@ export class SaveLoadManager {
       currentSlot: slotId,
       saves: {},
       // copy known legacy fields (best-effort)
-      xp: Array.isArray(input.xp) ? input.xp : [],
-      levels: Array.isArray(input.levels) ? input.levels : [],
+      xp: Array.isArray(input.xp) ? xp: [],
+      levels: Array.isArray(input.levels) ? levels: [],
       settings: input.settings,
       quests: input.quests,
       inventory: input.inventory,

@@ -92,7 +92,7 @@ export class WorldManifestManager {
       return { ok: true, world };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -216,7 +216,7 @@ export class WorldManifestManager {
       return { ok: true, anchor };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -261,7 +261,7 @@ export class WorldManifestManager {
       return { ok: true, removed: tilesToRemove };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 

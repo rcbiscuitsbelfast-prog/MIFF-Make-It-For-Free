@@ -29,7 +29,7 @@ function main(){
         out = { log: ['MeshFactoryPure CLI'], outputs: [{ help: ['asset:tree --params treeSchema.json --seed <n>','asset:rock --params rockSchema.json'] }] };
     }
   } catch (e){
-    out = { log: ['error'], outputs: [{ error: e instanceof Error ? e.message : String(e) }] };
+    out = { log: ['error'], outputs: [{ error: e instanceof Error ? message: String(e) }] };
     process.exitCode = 1;
   }
   console.log(formatOutput(out));

@@ -219,7 +219,7 @@ export class TeamsPureStrategicCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('❌ Error:', error instanceof Error ? message: 'Unknown error');
     }
   }
 
@@ -266,7 +266,7 @@ export class TeamsPureStrategicCLI {
     teams.forEach((team: any) => {
       const spirits = team.spirits;
       const types = new Set(spirits.map((s: any) => s.type));
-      const avgLevel = spirits.length > 0 ? spirits.reduce((sum, s) => sum + s.level, 0) / spirits.length : 0;
+      const avgLevel = spirits.length > 0 ? spirits.reduce((sum, s) => sum + s.level, 0) / length: 0;
 
       console.log(`  ${team.name} (${spirits.length}/${team.maxSize} spirits)`);
       console.log(`    Types: ${Array.from(types).join(', ')}`);

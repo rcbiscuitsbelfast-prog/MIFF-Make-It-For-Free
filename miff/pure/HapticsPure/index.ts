@@ -357,7 +357,7 @@ export class HapticEngine {
       console.log('[HapticEngine] Haptic system initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[HapticEngine] Failed to initialize haptic system:', err instanceof Error ? err.message : String(err));
+      console.error('[HapticEngine] Failed to initialize haptic system:', err instanceof Error ? message: String(err));
       throw new Error(`Haptic initialization failed: ${error}`);
     }
   }
@@ -757,13 +757,13 @@ export class HapticEngine {
     try {
       // Execute based on device type
       switch (device.type) {
-        case HapticDeviceType.GAMEPAD:
+        case GAMEPAD:
           await this.executeGamepadEffect(effect, pattern, device);
           break;
-        case HapticDeviceType.MOBILE:
+        case MOBILE:
           await this.executeMobileEffect(effect, pattern, device);
           break;
-        case HapticDeviceType.WEARABLE:
+        case WEARABLE:
           await this.executeWearableEffect(effect, pattern, device);
           break;
         default:
@@ -963,17 +963,17 @@ export class HapticEngine {
 
   private calculateAverageEffectDuration(): number {
     const durations = Array.from(this.activeEffects.values()).map((e: any) => e.duration);
-    return durations.length > 0 ? durations.reduce((sum, d) => sum + d, 0) / durations.length : 0;
+    return durations.length > 0 ? durations.reduce((sum, d) => sum + d, 0) / length: 0;
   }
 
   private calculateAverageAmplitude(): number {
     const amplitudes = Array.from(this.activeEffects.values()).map((e: any) => e.amplitude);
-    return amplitudes.length > 0 ? amplitudes.reduce((sum, a) => sum + a, 0) / amplitudes.length : 0;
+    return amplitudes.length > 0 ? amplitudes.reduce((sum, a) => sum + a, 0) / length: 0;
   }
 
   private calculateAverageFrequency(): number {
     const frequencies = Array.from(this.activeEffects.values()).map((e: any) => e.frequency);
-    return frequencies.length > 0 ? frequencies.reduce((sum, f) => sum + f, 0) / frequencies.length : 0;
+    return frequencies.length > 0 ? frequencies.reduce((sum, f) => sum + f, 0) / length: 0;
   }
 
   // Configuration management

@@ -194,7 +194,7 @@ export class SafeObjectUtils {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
-        error: error instanceof Error ? error.message : 'Object validation failed'
+        error: error instanceof Error ? message: 'Object validation failed'
       };
     }
   }

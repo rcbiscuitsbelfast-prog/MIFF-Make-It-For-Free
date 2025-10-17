@@ -240,7 +240,7 @@ export class AudioEngine {
       console.log('[AudioEngine] Initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AudioEngine] Failed to initialize:', err instanceof Error ? err.message : String(err));
+      console.error('[AudioEngine] Failed to initialize:', err instanceof Error ? message: String(err));
       throw new Error(`Audio initialization failed: ${error}`);
     }
   }
@@ -264,7 +264,7 @@ export class AudioEngine {
       console.log(`[AudioEngine] Loaded audio source: ${source.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, err instanceof Error ? err.message : String(err));
+      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, err instanceof Error ? message: String(err));
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -321,7 +321,7 @@ export class AudioEngine {
       console.log(`[AudioEngine] Playing source: ${source.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? err.message : String(err));
+      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? message: String(err));
       throw new Error(`Audio playback failed: ${error}`);
     }
   }

@@ -521,7 +521,7 @@ export class WebExporter {
       console.log('[WebExporter] Web exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebExporter] Failed to initialize Web exporter:', err instanceof Error ? err.message : String(err));
+      console.error('[WebExporter] Failed to initialize Web exporter:', err instanceof Error ? message: String(err));
       throw new Error(`Web exporter initialization failed: ${error}`);
     }
   }
@@ -606,7 +606,7 @@ export class WebExporter {
 
       report.exportErrors.push(exportError);
 
-      console.error(`[WebExporter] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[WebExporter] Export failed: ${exportId}`, err instanceof Error ? message: String(err));
     }
 
     this.exportReports.push(report);

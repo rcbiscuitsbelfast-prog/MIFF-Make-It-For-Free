@@ -958,35 +958,35 @@ export class GodotBridgeManager {
       console.log('[GodotBridgeManager] Godot bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotBridgeManager] Failed to initialize Godot bridge:', err instanceof Error ? err.message : String(err));
+      console.error('[GodotBridgeManager] Failed to initialize Godot bridge:', err instanceof Error ? message: String(err));
       throw new Error(`Godot bridge initialization failed: ${error}`);
     }
   }
 
   private async initializeCommunicationProtocol(): Promise<void> {
     switch (this.configuration.communicationProtocol) {
-      case GodotCommunicationProtocol.GDNATIVE:
+      case GDNATIVE:
         await this.initializeGDNative();
         break;
-      case GodotCommunicationProtocol.GDScript:
+      case GDScript:
         await this.initializeGDScript();
         break;
-      case GodotCommunicationProtocol.NETWORK:
+      case NETWORK:
         await this.initializeNetwork();
         break;
-      case GodotCommunicationProtocol.WEBSOCKET:
+      case WEBSOCKET:
         await this.initializeWebSocket();
         break;
-      case GodotCommunicationProtocol.HTTP:
+      case HTTP:
         await this.initializeHTTP();
         break;
-      case GodotCommunicationProtocol.FILE_SYSTEM:
+      case FILE_SYSTEM:
         await this.initializeFileSystem();
         break;
-      case GodotCommunicationProtocol.SHARED_MEMORY:
+      case SHARED_MEMORY:
         await this.initializeSharedMemory();
         break;
-      case GodotCommunicationProtocol.MESSAGE_QUEUE:
+      case MESSAGE_QUEUE:
         await this.initializeMessageQueue();
         break;
       default:
@@ -1114,21 +1114,21 @@ export class GodotBridgeManager {
 
   private async establishConnection(connection: GodotConnection): Promise<boolean> {
     switch (connection.protocol) {
-      case GodotCommunicationProtocol.GDNATIVE:
+      case GDNATIVE:
         return await this.establishGDNativeConnection(connection);
-      case GodotCommunicationProtocol.GDScript:
+      case GDScript:
         return await this.establishGDScriptConnection(connection);
-      case GodotCommunicationProtocol.NETWORK:
+      case NETWORK:
         return await this.establishNetworkConnection(connection);
-      case GodotCommunicationProtocol.WEBSOCKET:
+      case WEBSOCKET:
         return await this.establishWebSocketConnection(connection);
-      case GodotCommunicationProtocol.HTTP:
+      case HTTP:
         return await this.establishHTTPConnection(connection);
-      case GodotCommunicationProtocol.FILE_SYSTEM:
+      case FILE_SYSTEM:
         return await this.establishFileSystemConnection(connection);
-      case GodotCommunicationProtocol.SHARED_MEMORY:
+      case SHARED_MEMORY:
         return await this.establishSharedMemoryConnection(connection);
-      case GodotCommunicationProtocol.MESSAGE_QUEUE:
+      case MESSAGE_QUEUE:
         return await this.establishMessageQueueConnection(connection);
       default:
         return false;

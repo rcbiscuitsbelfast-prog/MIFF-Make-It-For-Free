@@ -87,7 +87,7 @@ export async function auditModule(modulePath: string): Promise<ModuleScanResult>
         passed: false,
         severity: 'critical',
         message: `Rule execution failed: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? stack: String(error),
         category: 'documentation' // Default category for error cases
       });
     }
@@ -127,7 +127,7 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
         passed: false,
         severity: 'critical',
         message: `Failed to audit module: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? stack: String(error),
         filePath: modulePath,
         category: 'documentation' // Default category for error cases
       };

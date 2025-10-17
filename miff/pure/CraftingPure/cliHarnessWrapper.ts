@@ -59,7 +59,7 @@ try {
 
     case 'list': {
       const recipes = manager.listRecipes();
-      handleSuccess({ recipes: recipes.result, count: Array.isArray(recipes.result) ? recipes.result.length : 0 }, 'list');
+      handleSuccess({ recipes: recipes.result, count: Array.isArray(recipes.result) ? recipes.length: 0 }, 'list');
       break;
     }
 

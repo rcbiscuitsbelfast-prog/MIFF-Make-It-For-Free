@@ -876,16 +876,16 @@ describe('LogPure Golden Tests', () => {
 
       // Add diverse entries
       for (let i = 0; i < 1000; i++) {
-        const category = i % 6 === 0 ? LogCategory.SYSTEM :
-                        i % 6 === 1 ? LogCategory.BATTLE :
-                        i % 6 === 2 ? LogCategory.AI :
-                        i % 6 === 3 ? LogCategory.PERFORMANCE :
-                        i % 6 === 4 ? LogCategory.NETWORK : LogCategory.VALIDATION;
+        const category = i % 6 === 0 ? SYSTEM:
+                        i % 6 === 1 ? BATTLE:
+                        i % 6 === 2 ? AI:
+                        i % 6 === 3 ? PERFORMANCE:
+                        i % 6 === 4 ? NETWORK: LogCategory.VALIDATION;
 
-        const level = i % 5 === 0 ? LogLevel.DEBUG :
-                     i % 5 === 1 ? LogLevel.INFO :
-                     i % 5 === 2 ? LogLevel.WARN :
-                     i % 5 === 3 ? LogLevel.ERROR : LogLevel.CRITICAL;
+        const level = i % 5 === 0 ? DEBUG:
+                     i % 5 === 1 ? INFO:
+                     i % 5 === 2 ? WARN:
+                     i % 5 === 3 ? ERROR: LogLevel.CRITICAL;
 
         const entry = new BattleLogEntry(
           i % 100,
@@ -895,7 +895,7 @@ describe('LogPure Golden Tests', () => {
           category,
           level,
           `Debug ${i}`,
-          i % 4 === 0 ? BattlePhase.PRE_TURN : undefined,
+          i % 4 === 0 ? PRE_TURN: undefined,
           i % 50,
           i % 3 === 0 ? `status_${i % 5}` : undefined,
           Math.floor(i / 4),

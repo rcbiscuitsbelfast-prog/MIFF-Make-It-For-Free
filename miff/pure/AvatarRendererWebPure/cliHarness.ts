@@ -130,7 +130,7 @@ class AvatarRendererWebCLI {
         console.log('   ✅ Rendering process simulated successfully');
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.log(`   ⚠️  Rendering simulation: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.log(`   ⚠️  Rendering simulation: ${error instanceof Error ? message: 'Unknown error'}`);
       }
 
       // Test 6: Asset validation
@@ -148,7 +148,7 @@ class AvatarRendererWebCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Test failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -173,7 +173,7 @@ class AvatarRendererWebCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Sample rendering failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Sample rendering failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -196,7 +196,7 @@ class AvatarRendererWebCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Test avatar creation failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Test avatar creation failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -235,7 +235,7 @@ class AvatarRendererWebCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Renderer validation failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Renderer validation failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -291,14 +291,14 @@ class AvatarRendererWebCLI {
         console.log('   ✅ Handled empty assets gracefully');
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.log(`   ⚠️  Error handling: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.log(`   ⚠️  Error handling: ${error instanceof Error ? message: 'Unknown error'}`);
       }
 
       console.log('✅ Web avatar rendering simulation completed successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Rendering simulation failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Rendering simulation failed:', err instanceof Error ? message: String(err));
     }
   }
 

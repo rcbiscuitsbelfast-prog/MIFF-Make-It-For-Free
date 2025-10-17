@@ -285,7 +285,7 @@ export class CollisionManager {
       op: 'analytics',
       totalShapes: this.aabbs.size + this.circles.size,
       activeCells: this.spatialGrid.cells.size,
-      averageShapesPerCell: this.round(this.spatialGrid.cells.size > 0 ? totalShapesInCells / this.spatialGrid.cells.size : 0),
+      averageShapesPerCell: this.round(this.spatialGrid.cells.size > 0 ? totalShapesInCells / this.spatialGrid.size: 0),
       collisionTests: this.collisionTests
     };
   }

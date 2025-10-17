@@ -666,7 +666,7 @@ export class APIGatewayManager {
       gatewaysByStatus,
       totalRequests,
       successRate: totalRequests > 0 ? totalSuccessful / totalRequests : 0,
-      averageResponseTime: gateways.length > 0 ? totalResponseTime / gateways.length : 0,
+      averageResponseTime: gateways.length > 0 ? totalResponseTime / length: 0,
       uptime: new Date() - this.startTime.getTime()
     };
   }

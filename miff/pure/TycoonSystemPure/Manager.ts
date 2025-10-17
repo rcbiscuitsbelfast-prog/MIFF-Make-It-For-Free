@@ -514,7 +514,7 @@ export class TycoonManagerPure {
 
         staff.forEach((employee: any) => {
           const moraleFactor = (100 - employee.morale) / 100;
-          const experienceFactor = employee.experience < 50 ? 0.3 : 0.1;
+          const experienceFactor = employee.experience < 50 ? 3: 0.1;
           totalTurnoverRisk += moraleFactor * experienceFactor;
         });
 
@@ -563,8 +563,8 @@ export class TycoonManagerPure {
 
         // Add market conditions multiplier
         const marketData = this.tycoonSystem.getMarketData();
-        const marketMultiplier = marketData.condition === 'booming' ? 1.2 :
-                                marketData.condition === 'recession' ? 0.8 : 1.0;
+        const marketMultiplier = marketData.condition === 'booming' ? 2:
+                                marketData.condition === 'recession' ? 8: 1.0;
 
         return totalValue * marketMultiplier;
       },
@@ -797,7 +797,7 @@ export class TycoonManagerPure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('TycoonManager initialization failed:', err instanceof Error ? err.message : String(err));
+      console.error('TycoonManager initialization failed:', err instanceof Error ? message: String(err));
       throw new Error(`TycoonManager initialization failed: ${error}`);
     }
   }

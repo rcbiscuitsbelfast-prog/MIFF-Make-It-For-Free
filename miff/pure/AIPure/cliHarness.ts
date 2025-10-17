@@ -925,9 +925,9 @@ class AIPureCLI {
    */
   private getMoveCategoryIcon(category: MoveCategory): string {
     switch (category) {
-      case MoveCategory.PHYSICAL: return '⚔️';
-      case MoveCategory.SPECIAL: return '🔮';
-      case MoveCategory.STATUS: return '💊';
+      case PHYSICAL: return '⚔️';
+      case SPECIAL: return '🔮';
+      case STATUS: return '💊';
       default: return '❓';
     }
   }

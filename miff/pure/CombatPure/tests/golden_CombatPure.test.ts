@@ -1204,7 +1204,7 @@ describe('CombatPure Golden Tests', () => {
         moves.push(new MoveData(
           `move_${i}`,
           `Move ${i}`,
-          i % 3 === 0 ? MoveCategory.STATUS : (i % 3 === 1 ? MoveCategory.PHYSICAL : MoveCategory.SPECIAL),
+          i % 3 === 0 ? STATUS: (i % 3 === 1 ? PHYSICAL: MoveCategory.SPECIAL),
           30 + i,
           0.8 + (i * 0.01),
           i * 2,

@@ -20,7 +20,7 @@ function main() {
       config = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error loading config:', err instanceof Error ? err.message : String(err));
+      console.error('Error loading config:', err instanceof Error ? message: String(err));
       process.exit(1);
     }
   }
@@ -119,7 +119,7 @@ function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
-    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+    result.result = { error: error instanceof Error ? message: 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));

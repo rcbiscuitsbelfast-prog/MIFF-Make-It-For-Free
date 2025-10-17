@@ -91,7 +91,7 @@ export function runCLI(cliPath: string, args: string[] = []): string {
     return JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? message: String(error),
       timestamp: new Date()
     });
   }

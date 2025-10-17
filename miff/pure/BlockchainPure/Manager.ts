@@ -809,7 +809,7 @@ export class BlockchainManager {
       totalBlocks,
       totalTransactions,
       totalContracts,
-      averageTPS: blockchains.length > 0 ? totalTPS / blockchains.length : 0,
+      averageTPS: blockchains.length > 0 ? totalTPS / length: 0,
       uptime: new Date() - this.startTime.getTime()
     };
   }

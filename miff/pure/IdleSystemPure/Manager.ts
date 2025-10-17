@@ -490,13 +490,13 @@ export class IdleManagerPure {
         if (!config || !config.unlocked! || config.completed) return false;
 
         const currencyResource = this.idleSystem.getResource('currency');
-        return currencyResource ? currencyResource.currentAmount >= config.requirement : false;
+        return currencyResource ? currencyResource.currentAmount >= requirement: false;
       },
 
       calculatePrestigeValue: (tier: string) => {
         const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
         const config = prestigeConfigs.get(tier);
-        return config ? config.multiplier : 1;
+        return config ? multiplier: 1;
       },
 
       getOptimalPrestigeTiming: () => {
@@ -541,7 +541,7 @@ export class IdleManagerPure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('IdleManager initialization failed:', err instanceof Error ? err.message : String(err));
+      console.error('IdleManager initialization failed:', err instanceof Error ? message: String(err));
       throw new Error(`IdleManager initialization failed: ${error}`);
     }
   }
@@ -855,7 +855,7 @@ export class IdleManagerPure {
   private calculatePrestigeValue(tier: string): number {
     const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
     const config = prestigeConfigs.get(tier);
-    return config ? config.multiplier : 0;
+    return config ? multiplier: 0;
   }
 }
 

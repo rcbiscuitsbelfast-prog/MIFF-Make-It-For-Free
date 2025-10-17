@@ -382,7 +382,7 @@ export class UnrealAssetManagerPure {
       console.log('[UnrealAssetManagerPure] Asset manager initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', err instanceof Error ? err.message : String(err));
+      console.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', err instanceof Error ? message: String(err));
       throw new Error(`Asset manager initialization failed: ${error}`);
     }
   }
@@ -510,19 +510,19 @@ export class UnrealAssetManagerPure {
 
     // Initialize cache storage based on strategy
     switch (this.configuration.cachingStrategy) {
-      case AssetCachingStrategy.MEMORY:
+      case MEMORY:
         await this.initializeMemoryCache();
         break;
-      case AssetCachingStrategy.DISK:
+      case DISK:
         await this.initializeDiskCache();
         break;
-      case AssetCachingStrategy.HYBRID:
+      case HYBRID:
         await this.initializeHybridCache();
         break;
-      case AssetCachingStrategy.VIRTUAL:
+      case VIRTUAL:
         await this.initializeVirtualCache();
         break;
-      case AssetCachingStrategy.PERSISTENT:
+      case PERSISTENT:
         await this.initializePersistentCache();
         break;
       default:
@@ -567,16 +567,16 @@ export class UnrealAssetManagerPure {
 
     // Initialize streaming components
     switch (this.configuration?.streamingMode || 'none') {
-      case AssetStreamingMode.ON_DEMAND:
+      case ON_DEMAND:
         await this.initializeOnDemandStreaming();
         break;
-      case AssetStreamingMode.PREDICTIVE:
+      case PREDICTIVE:
         await this.initializePredictiveStreaming();
         break;
-      case AssetStreamingMode.ADAPTIVE:
+      case ADAPTIVE:
         await this.initializeAdaptiveStreaming();
         break;
-      case AssetStreamingMode.PRIORITY:
+      case PRIORITY:
         await this.initializePriorityStreaming();
         break;
       default:
@@ -692,25 +692,25 @@ export class UnrealAssetManagerPure {
       let asset: UnrealAssetBridge | null = null;
 
       switch (this.configuration.loadingStrategy) {
-        case AssetLoadingStrategy.LAZY:
+        case LAZY:
           asset = await this.loadAssetLazy(request);
           break;
-        case AssetLoadingStrategy.EAGER:
+        case EAGER:
           asset = await this.loadAssetEager(request);
           break;
-        case AssetLoadingStrategy.PRELOAD:
+        case PRELOAD:
           asset = await this.loadAssetPreload(request);
           break;
-        case AssetLoadingStrategy.ON_DEMAND:
+        case ON_DEMAND:
           asset = await this.loadAssetOnDemand(request);
           break;
-        case AssetLoadingStrategy.STREAMING:
+        case STREAMING:
           asset = await this.loadAssetStreaming(request);
           break;
-        case AssetLoadingStrategy.VIRTUAL:
+        case VIRTUAL:
           asset = await this.loadAssetVirtual(request);
           break;
-        case AssetLoadingStrategy.PREDICTIVE:
+        case PREDICTIVE:
           asset = await this.loadAssetPredictive(request);
           break;
         default:
@@ -772,7 +772,7 @@ export class UnrealAssetManagerPure {
         memoryUsage: 0,
         diskUsage: 0,
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         metadata: {
           loadingStrategy: this.configuration.loadingStrategy,
           error: error
@@ -780,10 +780,10 @@ export class UnrealAssetManagerPure {
       };
 
       if (request.callback) {
-        request.callback(null, error instanceof Error ? error.message : 'Unknown error');
+        request.callback(null, error instanceof Error ? message: 'Unknown error');
       }
 
-      console.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, err instanceof Error ? message: String(err));
       return response;
     }
   }
@@ -1008,7 +1008,7 @@ export class UnrealAssetManagerPure {
         loadTime: new Date() - startTime,
         streamingTime,
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         metadata: {
           distance: request.distance,
           angle: request.angle,
@@ -1017,7 +1017,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      console.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, err instanceof Error ? message: String(err));
       return response;
     }
   }
@@ -1046,28 +1046,28 @@ export class UnrealAssetManagerPure {
       const level = optimizationLevel || this.configuration?.optimizationLevel || 'none';
 
       switch (level) {
-        case AssetOptimizationLevel.NONE:
+        case NONE:
           // No optimization
           break;
-        case AssetOptimizationLevel.FAST:
+        case FAST:
           // Fast optimization - minimal quality loss
           optimizedSize = Math.floor(originalSize * 0.9);
           compressionRatio = originalSize / optimizedSize;
           qualityLoss = 0.05;
           break;
-        case AssetOptimizationLevel.BALANCED:
+        case BALANCED:
           // Balanced optimization - moderate quality loss
           optimizedSize = Math.floor(originalSize * 0.7);
           compressionRatio = originalSize / optimizedSize;
           qualityLoss = 0.15;
           break;
-        case AssetOptimizationLevel.QUALITY:
+        case QUALITY:
           // Quality optimization - significant quality loss
           optimizedSize = Math.floor(originalSize * 0.5);
           compressionRatio = originalSize / optimizedSize;
           qualityLoss = 0.3;
           break;
-        case AssetOptimizationLevel.PRODUCTION:
+        case PRODUCTION:
           // Production optimization - maximum compression
           optimizedSize = Math.floor(originalSize * 0.3);
           compressionRatio = originalSize / optimizedSize;
@@ -1114,13 +1114,13 @@ export class UnrealAssetManagerPure {
         compressionRatio: 0,
         qualityLoss: 0,
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         metadata: {
           error: error
         }
       };
 
-      console.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, err instanceof Error ? message: String(err));
       return result;
     }
   }
@@ -1211,7 +1211,7 @@ export class UnrealAssetManagerPure {
 
   getQueueLength(priority: string): number {
     const queue = this.priorityQueues.get(priority);
-    return queue ? queue.length : 0;
+    return queue ? length: 0;
   }
 
   getAllQueues(): Record<string, number> {
@@ -1288,11 +1288,11 @@ export class UnrealAssetManagerPure {
     this.metrics.cacheEfficiency = this.statistics.cacheHitRate;
     this.metrics.compressionRatio = this.statistics.compressionRatio;
     this.metrics.optimizationEfficiency = this.statistics.optimizationCount > 0 ?
-      this.statistics.optimizationSavings / this.statistics.optimizationTime : 0;
+      this.statistics.optimizationSavings / this.optimizationTime: 0;
     this.metrics.streamingEfficiency = this.statistics.streamingRequests > 0 ?
-      this.statistics.streamingResponses / this.statistics.streamingRequests : 0;
+      this.statistics.streamingResponses / this.streamingRequests: 0;
     this.metrics.bundleEfficiency = this.statistics.bundleCount > 0 ?
-      this.statistics.bundleMemoryUsage / this.statistics.bundleDiskUsage : 0;
+      this.statistics.bundleMemoryUsage / this.bundleDiskUsage: 0;
   }
 
   private calculateQueueDepth(): number {

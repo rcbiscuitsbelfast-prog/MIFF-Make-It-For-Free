@@ -564,7 +564,7 @@ export class EconomicEngine {
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Transaction processing failed:', err instanceof Error ? err.message : String(err));
+      console.error('Transaction processing failed:', err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -755,7 +755,7 @@ export class EconomicEngine {
 
   private triggerPriceEvent(market: Market, currentPrice: number, averagePrice: number): void {
     // Create economic event based on price movement
-    const eventType = currentPrice > averagePrice ? EconomicEventType.BOOM : EconomicEventType.MARKET_CRASH;
+    const eventType = currentPrice > averagePrice ? BOOM: EconomicEventType.MARKET_CRASH;
 
     const event: EconomicEvent = {
       id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,

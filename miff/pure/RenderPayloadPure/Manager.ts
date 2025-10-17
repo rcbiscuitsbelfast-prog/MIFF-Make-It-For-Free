@@ -163,7 +163,7 @@ export class RenderPayloadManager {
       return { ok: true, frame };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -201,7 +201,7 @@ export class RenderPayloadManager {
       return { ok: true, frame };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -250,7 +250,7 @@ export class RenderPayloadManager {
       return { ok: true, result };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -431,7 +431,7 @@ export class RenderPayloadManager {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 

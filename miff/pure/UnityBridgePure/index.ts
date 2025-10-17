@@ -758,26 +758,26 @@ export class UnityBridgeManager {
       console.log('[UnityBridgeManager] Unity bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnityBridgeManager] Failed to initialize Unity bridge:', err instanceof Error ? err.message : String(err));
+      console.error('[UnityBridgeManager] Failed to initialize Unity bridge:', err instanceof Error ? message: String(err));
       throw new Error(`Unity bridge initialization failed: ${error}`);
     }
   }
 
   private async initializeCommunicationProtocol(): Promise<void> {
     switch (this.configuration.communicationProtocol) {
-      case UnityCommunicationProtocol.MESSAGE_PASSING:
+      case MESSAGE_PASSING:
         await this.initializeMessagePassing();
         break;
-      case UnityCommunicationProtocol.SHARED_MEMORY:
+      case SHARED_MEMORY:
         await this.initializeSharedMemory();
         break;
-      case UnityCommunicationProtocol.NETWORK_SOCKET:
+      case NETWORK_SOCKET:
         await this.initializeNetworkSocket();
         break;
-      case UnityCommunicationProtocol.FILE_SYSTEM:
+      case FILE_SYSTEM:
         await this.initializeFileSystem();
         break;
-      case UnityCommunicationProtocol.DATABASE:
+      case DATABASE:
         await this.initializeDatabase();
         break;
       default:
@@ -916,15 +916,15 @@ export class UnityBridgeManager {
 
   private async establishConnection(connection: UnityConnection): Promise<boolean> {
     switch (connection.protocol) {
-      case UnityCommunicationProtocol.MESSAGE_PASSING:
+      case MESSAGE_PASSING:
         return await this.establishMessagePassingConnection(connection);
-      case UnityCommunicationProtocol.SHARED_MEMORY:
+      case SHARED_MEMORY:
         return await this.establishSharedMemoryConnection(connection);
-      case UnityCommunicationProtocol.NETWORK_SOCKET:
+      case NETWORK_SOCKET:
         return await this.establishNetworkSocketConnection(connection);
-      case UnityCommunicationProtocol.FILE_SYSTEM:
+      case FILE_SYSTEM:
         return await this.establishFileSystemConnection(connection);
-      case UnityCommunicationProtocol.DATABASE:
+      case DATABASE:
         return await this.establishDatabaseConnection(connection);
       default:
         return false;

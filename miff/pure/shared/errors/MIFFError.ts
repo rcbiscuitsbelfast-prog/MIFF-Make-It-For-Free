@@ -223,16 +223,16 @@ export class MIFFError extends Error {
    */
   getSeverity(): 'low' | 'medium' | 'high' | 'critical' {
     switch (this.code) {
-      case ErrorCode.SECURITY_VIOLATION:
-      case ErrorCode.UNAUTHORIZED_ACCESS:
+      case SECURITY_VIOLATION:
+      case UNAUTHORIZED_ACCESS:
         return 'critical';
-      case ErrorCode.MODULE_INITIALIZATION_FAILED:
-      case ErrorCode.DATABASE_ERROR:
-      case ErrorCode.MEMORY_LIMIT_EXCEEDED:
+      case MODULE_INITIALIZATION_FAILED:
+      case DATABASE_ERROR:
+      case MEMORY_LIMIT_EXCEEDED:
         return 'high';
-      case ErrorCode.NETWORK_ERROR:
-      case ErrorCode.PERFORMANCE_ERROR:
-      case ErrorCode.TIMEOUT_ERROR:
+      case NETWORK_ERROR:
+      case PERFORMANCE_ERROR:
+      case TIMEOUT_ERROR:
         return 'medium';
       default:
         return 'low';
@@ -267,15 +267,15 @@ export class MIFFError extends Error {
    */
   getUserMessage(): string {
     switch (this.code) {
-      case ErrorCode.VALIDATION_ERROR:
+      case VALIDATION_ERROR:
         return 'Please check your input and try again.';
-      case ErrorCode.SECURITY_VIOLATION:
+      case SECURITY_VIOLATION:
         return 'A security issue was detected. Please contact support.';
-      case ErrorCode.MODULE_NOT_FOUND:
+      case MODULE_NOT_FOUND:
         return 'The requested feature is not available.';
-      case ErrorCode.NETWORK_ERROR:
+      case NETWORK_ERROR:
         return 'Network connection failed. Please check your internet connection.';
-      case ErrorCode.PERFORMANCE_ERROR:
+      case PERFORMANCE_ERROR:
         return 'The operation is taking longer than expected. Please try again.';
       default:
         return 'An unexpected error occurred. Please try again.';

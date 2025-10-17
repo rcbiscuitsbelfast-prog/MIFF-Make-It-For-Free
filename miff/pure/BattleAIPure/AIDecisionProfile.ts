@@ -133,13 +133,13 @@ export class AIDecisionProfile implements IAIDecisionProfile {
 
   getStyleDescription(): string {
     switch (this.style) {
-      case AIDecisionStyle.AGGRESSIVE:
+      case AGGRESSIVE:
         return 'Focuses on high damage moves with relentless offense';
-      case AIDecisionStyle.DEFENSIVE:
+      case DEFENSIVE:
         return 'Prioritizes healing and protection to outlast opponents';
-      case AIDecisionStyle.TRICKSTER:
+      case TRICKSTER:
         return 'Prefers support and utility moves to control the battle';
-      case AIDecisionStyle.BALANCED:
+      case BALANCED:
       default:
         return 'Balanced approach between offense and defense';
     }
@@ -151,7 +151,7 @@ export class AIDecisionProfile implements IAIDecisionProfile {
     const pair = `${attackType.toLowerCase()}->${defenderType.toLowerCase()}`;
     const advantageous = new Set(['fire->water', 'electric->water']);
     if (defenderType.toLowerCase() === attackType.toLowerCase()) return 0;
-    return advantageous.has(pair) ? 0.2 : 0;
+    return advantageous.has(pair) ? 2: 0;
   }
 
 }

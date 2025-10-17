@@ -479,7 +479,7 @@ export class RealBrowserAPIs {
         handler(eventInfo);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Error in event handler for ${eventType}:`, err instanceof Error ? err.message : String(err));
+        console.error(`Error in event handler for ${eventType}:`, err instanceof Error ? message: String(err));
       }
     });
 
@@ -544,7 +544,7 @@ export class RealBrowserAPIs {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in browser API event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in browser API event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

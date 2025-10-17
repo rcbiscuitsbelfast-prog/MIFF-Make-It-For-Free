@@ -32,7 +32,7 @@ function main() {
   const log: string[] = [];
   const mgr = new EquipmentManager({
     onEquip: (item) => log.push(`EQUIP ${item.id} -> ${item.slot}`),
-    onUnequip: (slot, item) => log.push(`UNEQUIP ${slot}${item ? ' ' + item.id : ''}`),
+    onUnequip: (slot, item) => log.push(`UNEQUIP ${slot}${item ? ' ' + id: ''}`),
     onModifierApplied: (m, item) => {/* trace modifiers on dump only */},
   }, invPort);
 
@@ -43,7 +43,7 @@ function main() {
     if (c.op === 'listEquipment') {
       const eq = ['weapon', 'armor', 'mount'].map((s: any) => {
         const result = mgr.getEquipped(s);
-        return { slot: s, item: result.status === 'ok' ? result.result : null };
+        return { slot: s, item: result.status === 'ok' ? result: null };
       });
       outputs.push({ op: 'listEquipment', equipped: eq });
     } else if (c.op === 'equip') {
@@ -54,7 +54,7 @@ function main() {
       outputs.push({ op: 'unequip', slot: c.slot });
     } else if (c.op === 'dumpModifiers') {
       const result = mgr.getModifiers();
-      outputs.push({ op: 'dumpModifiers', modifiers: result.status === 'ok' ? result.result : [] });
+      outputs.push({ op: 'dumpModifiers', modifiers: result.status === 'ok' ? result: [] });
     } else if (c.op === 'syncInventory') {
       // no-op in this harness; inventory is already synced
       outputs.push({ op: 'syncInventory', inventory: Array.from(inventory.entries()).map(([id, quantity]) => ({ id, quantity })) });

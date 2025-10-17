@@ -717,7 +717,7 @@ export class TimelineSystemPure {
     // Calculate complexity based on branches, events, and state changes
     const branchComplexity = timeline.branches.length * 0.2;
     const eventComplexity = (timeline.branches.reduce((sum, branch) => sum + branch.events.length, 0) / 1000) * 0.3;
-    const modeComplexity = timeline.mode === 'linear' ? 0.1 : timeline.mode === 'branching' ? 0.3 : 0.5;
+    const modeComplexity = timeline.mode === 'linear' ? 1: timeline.mode === 'branching' ? 3: 0.5;
 
     return Math.min(1, branchComplexity + eventComplexity + modeComplexity);
   }

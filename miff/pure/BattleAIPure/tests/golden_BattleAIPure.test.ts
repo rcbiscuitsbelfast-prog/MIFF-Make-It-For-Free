@@ -726,9 +726,9 @@ describe('BattleAIPure Golden Tests', () => {
       for (let i = 0; i < 1000; i++) {
         const profile = new AIDecisionProfile(
           `profile_${i}`,
-          i % 4 === 0 ? AIDecisionStyle.AGGRESSIVE :
-          i % 4 === 1 ? AIDecisionStyle.DEFENSIVE :
-          i % 4 === 2 ? AIDecisionStyle.BALANCED : AIDecisionStyle.TRICKSTER,
+          i % 4 === 0 ? AGGRESSIVE:
+          i % 4 === 1 ? DEFENSIVE:
+          i % 4 === 2 ? BALANCED: AIDecisionStyle.TRICKSTER,
           {
             [MoveCategory.DAMAGE]: 0.5 + Math.random(),
             [MoveCategory.HEALING]: 0.5 + Math.random(),
@@ -779,9 +779,9 @@ describe('BattleAIPure Golden Tests', () => {
       for (let i = 0; i < 500; i++) {
         const profile = new AIDecisionProfile(
           `complex_profile_${i}`,
-          i % 4 === 0 ? AIDecisionStyle.AGGRESSIVE :
-          i % 4 === 1 ? AIDecisionStyle.DEFENSIVE :
-          i % 4 === 2 ? AIDecisionStyle.BALANCED : AIDecisionStyle.TRICKSTER,
+          i % 4 === 0 ? AGGRESSIVE:
+          i % 4 === 1 ? DEFENSIVE:
+          i % 4 === 2 ? BALANCED: AIDecisionStyle.TRICKSTER,
           {
             [MoveCategory.DAMAGE]: 0.5 + Math.random(),
             [MoveCategory.HEALING]: 0.5 + Math.random(),

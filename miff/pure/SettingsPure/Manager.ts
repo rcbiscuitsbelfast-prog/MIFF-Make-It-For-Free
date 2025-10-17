@@ -477,7 +477,7 @@ export class SettingsManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to load settings:', err instanceof Error ? err.message : String(err));
+      console.error('Failed to load settings:', err instanceof Error ? message: String(err));
       return false;
     }
   }

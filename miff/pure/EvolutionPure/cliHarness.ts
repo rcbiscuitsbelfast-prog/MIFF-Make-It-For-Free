@@ -141,7 +141,7 @@ export class EvolutionPureCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('❌ Error:', error instanceof Error ? message: 'Unknown error');
     }
   }
 
@@ -243,13 +243,13 @@ export class EvolutionPureCLI {
     } else {
       console.log('❌ Evolution failed');
       switch (result.status) {
-        case EvolutionStatus.CONDITIONS_NOT_MET:
+        case CONDITIONS_NOT_MET:
           console.log('   💡 Try meeting the evolution requirements');
           break;
-        case EvolutionStatus.ALREADY_EVOLVED:
+        case ALREADY_EVOLVED:
           console.log('   ✨ Spirit is already at its final evolution');
           break;
-        case EvolutionStatus.INVALID_SPIRIT:
+        case INVALID_SPIRIT:
           console.log('   💡 Spirit not found or invalid');
           break;
       }

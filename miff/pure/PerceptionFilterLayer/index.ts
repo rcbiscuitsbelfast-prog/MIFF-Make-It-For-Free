@@ -180,22 +180,22 @@ export class PerceptionFilterManager {
     this.overlayManager.removeEffect('perception_mode', OverlayEffectType.VIGNETTE);
 
     switch (this.currentMode) {
-      case PerceptionMode.SCAN:
+      case SCAN:
         this.applyScanMode();
         break;
-      case PerceptionMode.DANGER:
+      case DANGER:
         this.applyDangerMode();
         break;
-      case PerceptionMode.INTERACT:
+      case INTERACT:
         this.applyInteractMode();
         break;
-      case PerceptionMode.QUEST:
+      case QUEST:
         this.applyQuestMode();
         break;
-      case PerceptionMode.STEALTH:
+      case STEALTH:
         this.applyStealthMode();
         break;
-      case PerceptionMode.NORMAL:
+      case NORMAL:
       default:
         this.applyNormalMode();
         break;

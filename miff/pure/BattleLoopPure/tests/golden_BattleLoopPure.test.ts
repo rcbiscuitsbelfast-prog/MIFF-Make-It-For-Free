@@ -645,7 +645,7 @@ describe('BattleLoopPure Golden Tests', () => {
           availableMoves[0!],
           0,
           50,
-          actorId === 1 ? ActionSource.PLAYER : ActionSource.AI
+          actorId === 1 ? PLAYER: ActionSource.AI
         );
       };
 
@@ -936,7 +936,7 @@ describe('BattleLoopPure Golden Tests', () => {
           availableMoves[moveIndex],
           0,
           50,
-          actorId === 1 ? ActionSource.PLAYER : ActionSource.AI
+          actorId === 1 ? PLAYER: ActionSource.AI
         );
       };
 
@@ -979,7 +979,7 @@ describe('BattleLoopPure Golden Tests', () => {
 
       const mixedActionSelector: ActionSelector = (actorId: number, availableMoves: string[]) => {
         // Alternate between player and AI actions
-        const source = actorId % 2 === 1 ? ActionSource.PLAYER : ActionSource.AI;
+        const source = actorId % 2 === 1 ? PLAYER: ActionSource.AI;
         return BattleAction.create(
           actorId,
           2,
@@ -1015,7 +1015,7 @@ describe('BattleLoopPure Golden Tests', () => {
 
       // Set up end condition
       controller.setEndCondition(BattleResult.PLAYER_WIN, (state) => {
-        return state.turnNumber >= 2 ? BattleResult.PLAYER_WIN : BattleResult.ONGOING;
+        return state.turnNumber >= 2 ? PLAYER_WIN: BattleResult.ONGOING;
       });
 
       const actionSelector: ActionSelector = (actorId: number, availableMoves: string[]) => {
@@ -1110,7 +1110,7 @@ describe('BattleLoopPure Golden Tests', () => {
           `action_${i % 10}`,
           Math.floor(i / 100),
           50 + (i % 50),
-          i % 2 === 0 ? ActionSource.PLAYER : ActionSource.AI
+          i % 2 === 0 ? PLAYER: ActionSource.AI
         );
         actionQueue.enqueue(action);
       }
@@ -1151,7 +1151,7 @@ describe('BattleLoopPure Golden Tests', () => {
           availableMoves[moveIndex],
           0,
           50,
-          actorId === 1 ? ActionSource.PLAYER : ActionSource.AI
+          actorId === 1 ? PLAYER: ActionSource.AI
         );
       };
 

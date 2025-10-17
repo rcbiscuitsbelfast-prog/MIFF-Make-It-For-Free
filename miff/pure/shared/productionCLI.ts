@@ -61,7 +61,7 @@ class ProductionCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? message: error);
       process.exit(1);
     }
   }

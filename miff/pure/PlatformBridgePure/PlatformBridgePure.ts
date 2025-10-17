@@ -449,17 +449,17 @@ export class PlatformBridge {
     const backends: RenderBackend[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         // In tests/headless, expose WEBGL alongside CANVAS_2D for broader compatibility
         backends.push(RenderBackend.CANVAS_2D, RenderBackend.WEBGL);
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         backends.push(RenderBackend.CANVAS_2D);
         if (this.isWebGLAvailable()) {
           backends.push(RenderBackend.WEBGL);
         }
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         backends.push(RenderBackend.CANVAS_2D, RenderBackend.OPENGL);
         if (this.isVulkanAvailable()) {
           backends.push(RenderBackend.VULKAN);
@@ -483,16 +483,16 @@ export class PlatformBridge {
     const types: InputType[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         types.push(InputType.KEYBOARD, InputType.MOUSE, InputType.GAMEPAD);
         if (this.isTouchAvailable()) {
           types.push(InputType.TOUCH);
         }
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         types.push(InputType.TOUCH, InputType.GYROSCOPE, InputType.ACCELEROMETER);
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         types.push(InputType.KEYBOARD, InputType.MOUSE, InputType.GAMEPAD);
         break;
     }
@@ -507,13 +507,13 @@ export class PlatformBridge {
     const formats: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         formats.push('mp3', 'ogg', 'wav', 'webm');
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         formats.push('mp3', 'aac', 'ogg');
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         formats.push('mp3', 'ogg', 'wav', 'flac');
         break;
     }
@@ -528,13 +528,13 @@ export class PlatformBridge {
     const types: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         types.push('localStorage', 'sessionStorage', 'indexedDB');
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         types.push('localStorage', 'sqlite');
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         types.push('fileSystem', 'sqlite', 'redis');
         break;
     }
@@ -549,13 +549,13 @@ export class PlatformBridge {
     const protocols: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         protocols.push('websocket', 'http', 'https');
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         protocols.push('websocket', 'http', 'https', 'tcp', 'udp');
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         protocols.push('websocket', 'http', 'https', 'tcp', 'udp', 'websocket');
         break;
     }
@@ -570,16 +570,16 @@ export class PlatformBridge {
     const features: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         features.push('webgl', 'webassembly', 'serviceworker', 'push');
         if (this.isWebGLAvailable()) {
           features.push('webgl2');
         }
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         features.push('touch', 'gyroscope', 'accelerometer', 'camera', 'microphone');
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         features.push('multithreading', 'filesystem', 'opengl', 'vulkan');
         break;
     }
@@ -594,13 +594,13 @@ export class PlatformBridge {
     const limitations: string[] = [];
 
     switch (platform) {
-      case Platform.WEB:
+      case WEB:
         limitations.push('no-filesystem', 'limited-memory', 'sandboxed');
         break;
-      case Platform.MOBILE:
+      case MOBILE:
         limitations.push('limited-memory', 'battery-constraints', 'small-screen');
         break;
-      case Platform.DESKTOP:
+      case DESKTOP:
         limitations.push('platform-specific', 'installation-required');
         break;
     }
@@ -628,11 +628,11 @@ export class PlatformBridge {
    */
   private createRenderBackend(backend: RenderBackend): any {
     switch (backend) {
-      case RenderBackend.CANVAS_2D:
+      case CANVAS_2D:
         return this.createCanvas2DBackend();
-      case RenderBackend.WEBGL:
+      case WEBGL:
         return this.createWebGLBackend();
-      case RenderBackend.OPENGL:
+      case OPENGL:
         return this.createOpenGLBackend();
       default:
         return this.createCanvas2DBackend(); // Fallback
@@ -954,16 +954,16 @@ function getDefaultConfig(platform: Platform): PlatformConfig {
   };
 
   switch (platform) {
-    case Platform.WEB:
+    case WEB:
       baseConfig.renderBackend = RenderBackend.CANVAS_2D;
       baseConfig.windowSize = { width: 800, height: 600 };
       break;
-    case Platform.MOBILE:
+    case MOBILE:
       baseConfig.renderBackend = RenderBackend.CANVAS_2D;
       baseConfig.windowSize = { width: 360, height: 640 };
       baseConfig.maxFPS = 30;
       break;
-    case Platform.DESKTOP:
+    case DESKTOP:
       baseConfig.renderBackend = RenderBackend.OPENGL;
       baseConfig.windowSize = { width: 1024, height: 768 };
       break;

@@ -317,7 +317,7 @@ class TeleportationSystemCLI {
 
     allAnchors.forEach((anchor: any) => {
       const zone = zones.find(z => z.id === anchor.zoneId);
-      const zoneName = zone ? zone.name : 'Unknown Zone';
+      const zoneName = zone ? name: 'Unknown Zone';
 
       console.log(`${anchor.name} (${anchor.id})`);
       console.log(`  Zone: ${zoneName}`);

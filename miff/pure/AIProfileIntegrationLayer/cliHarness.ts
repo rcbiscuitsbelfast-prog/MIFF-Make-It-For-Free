@@ -339,7 +339,7 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? message: String(error),
       timestamp: new Date()
     }, null, 2));
     process.exit(1);

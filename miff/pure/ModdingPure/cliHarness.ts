@@ -183,7 +183,7 @@ async function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
-    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+    result.result = { error: error instanceof Error ? message: 'Unknown error' };
   }
 
   writeJSON(result);
@@ -226,7 +226,7 @@ async function runDemo(system: ModdingSystem): Promise<any> {
 
 if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch((err) => {
-    console.error(err instanceof Error ? err.message : String(err));
+    console.error(err instanceof Error ? message: String(err));
     process.exit(1);
   });
 }

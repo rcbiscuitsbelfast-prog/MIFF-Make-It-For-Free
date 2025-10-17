@@ -51,7 +51,7 @@ function printHelp(): void {
 
 function ensureConfig(flags: Record<string, any>): ReplayConfig {
   const engine = (flags.engine || 'web') as ReplayConfig['engine'];
-  const speed = typeof flags.speed === 'number' ? flags.speed : 1.0;
+  const speed = typeof flags.speed === 'number' ? speed: 1.0;
   const loop = Boolean(flags.loop);
   const showDebug = flags['no-debug'] ? false : true;
   const outputFormat = (flags.format || 'json') as ReplayConfig['outputFormat'];
@@ -185,7 +185,7 @@ function main() {
     }
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', err instanceof Error ? err.message : String(err));
+    console.error('Error:', err instanceof Error ? message: String(err));
     process.exitCode = 1;
   }
 }

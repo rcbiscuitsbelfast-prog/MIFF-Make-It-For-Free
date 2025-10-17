@@ -124,7 +124,7 @@ export class MagicManager {
       elementalUsage.set(primaryElement, (elementalUsage.get(primaryElement) || 0) + 1);
     });
 
-    const favoriteSpell = spells.length > 0 ? spells[0!].definition.id : null;
+    const favoriteSpell = spells.length > 0 ? spells[0!].id: null;
 
     return {
       totalSpells: spells.length,

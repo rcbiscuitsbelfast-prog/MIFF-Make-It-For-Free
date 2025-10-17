@@ -95,7 +95,7 @@ export async function enforceCIStandards(modulePath: string): Promise<ModuleCIRe
         passed: false,
         severity: 'critical',
         message: `Rule execution failed: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? stack: String(error),
         category: 'standards' // Default category for error cases
       });
     }
@@ -137,7 +137,7 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
         passed: false,
         severity: 'critical',
         message: `Failed to enforce CI standards: ${error}`,
-        details: error instanceof Error ? error.stack : String(error),
+        details: error instanceof Error ? stack: String(error),
         filePath: modulePath,
         category: 'standards' // Default category for error cases
       };

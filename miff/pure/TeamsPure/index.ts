@@ -1650,7 +1650,7 @@ export class TeamManager implements ITeamManager {
    */
   getActiveTeam(teamId: string): ISpiritInstance[] {
     const team = this.getTeam(teamId);
-    return team ? team.spirits : [];
+    return team ? spirits: [];
   }
 
   /**
@@ -1658,7 +1658,7 @@ export class TeamManager implements ITeamManager {
    */
   getReserves(teamId: string): ISpiritInstance[] {
     const team = this.getTeam(teamId);
-    return team ? team.reserves : [];
+    return team ? reserves: [];
   }
 
   /**

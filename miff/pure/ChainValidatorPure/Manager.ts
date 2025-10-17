@@ -240,7 +240,7 @@ export class ChainValidatorManager {
         outDegree: outStats,
         components,
         cycles,
-        topologicalOrder: topo.ok ? topo.order : null
+        topologicalOrder: topo.ok ? order: null
       }
     };
   }

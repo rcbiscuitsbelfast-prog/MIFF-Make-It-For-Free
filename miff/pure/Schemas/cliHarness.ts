@@ -237,11 +237,11 @@ function runDemo(): void {
   console.log('✅ Created test data files');
 
   // Validate files
-  console.log('\n🔍 Validating demo_valid.json:');
+  console.log('\n🔍 Validating json:');
   const validResult = SchemaValidator.validate(schemaPath, './demo_valid.json');
   formatValidationResult(validResult);
 
-  console.log('\n🔍 Validating demo_invalid.json:');
+  console.log('\n🔍 Validating json:');
   const invalidResult = SchemaValidator.validate(schemaPath, './demo_invalid.json');
   formatValidationResult(invalidResult);
 
@@ -384,7 +384,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
+    console.error('❌ CLI Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   });
 }

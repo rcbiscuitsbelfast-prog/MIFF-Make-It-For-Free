@@ -269,7 +269,7 @@ export class RealModdingSystem {
       return {
         success: false,
         mod: {} as Mod,
-        errors: [error instanceof Error ? error.message : String(error)],
+        errors: [error instanceof Error ? message: String(error)],
         warnings: [],
         loadedFiles: [],
         failedFiles: []
@@ -644,7 +644,7 @@ export class RealModdingSystem {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in modding system event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in modding system event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

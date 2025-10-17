@@ -581,7 +581,7 @@ export class ExportIntegration {
             z: node.transform.scale.z
           },
           offset: node.transform.position,
-          damageMultiplier: node.type === 'head' ? 2.0 : 1.0
+          damageMultiplier: node.type === 'head' ? 0: 1.0
         });
       }
     });

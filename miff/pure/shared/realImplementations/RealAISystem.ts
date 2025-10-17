@@ -178,7 +178,7 @@ export class RealAISystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error adding AI model:', err instanceof Error ? err.message : String(err));
+      console.error('Error adding AI model:', err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -211,7 +211,7 @@ export class RealAISystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error updating AI model:', err instanceof Error ? err.message : String(err));
+      console.error('Error updating AI model:', err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -230,7 +230,7 @@ export class RealAISystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error removing AI model:', err instanceof Error ? err.message : String(err));
+      console.error('Error removing AI model:', err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -282,7 +282,7 @@ export class RealAISystem {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       task.status = 'failed';
-      task.error = error instanceof Error ? error.message : String(error);
+      task.error = error instanceof Error ? message: String(error);
       this.performanceMetrics.failedTasks++;
 
       this.emit('taskFailed', { taskId, task, error });
@@ -533,7 +533,7 @@ export class RealAISystem {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

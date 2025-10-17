@@ -913,7 +913,7 @@ export class DataAnalysisManager {
         totalAnalyses: system.analyses.length,
         totalVisualizations: system.visualizations.length,
         averageAccuracy: system.analyses.length > 0 ? 
-          system.analyses.reduce((sum: any, a: any) => sum + (a.results.metrics.accuracy || 0), 0) / system.analyses.length : 0,
+          system.analyses.reduce((sum: any, a: any) => sum + (a.results.metrics.accuracy || 0), 0) / system.length: 0,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };

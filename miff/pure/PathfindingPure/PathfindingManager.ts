@@ -578,7 +578,7 @@ export class PathfindingManager {
 
     const times = this.results.map((r: any) => Date.now() - r.timestamp);
     const performanceMetrics = {
-      averageTime: times.length > 0 ? times.reduce((sum, t) => sum + t, 0) / times.length : 0,
+      averageTime: times.length > 0 ? times.reduce((sum, t) => sum + t, 0) / length: 0,
       maxTime: times.length > 0 ? Math.max(...times) : 0,
       minTime: times.length > 0 ? Math.min(...times) : 0
     };

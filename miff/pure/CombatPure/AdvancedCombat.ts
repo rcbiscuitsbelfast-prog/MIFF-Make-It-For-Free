@@ -687,7 +687,7 @@ export class AdvancedCombat {
       tacticalPositions: this.tacticalPositions.size,
       battlePhases: this.battlePhases.size,
       activePhase: this.activePhase,
-      phaseTime: this.activePhase ? Date.now() - this.phaseStartTime : 0
+      phaseTime: this.activePhase ? Date.now() - phaseStartTime: 0
     };
   }
 }

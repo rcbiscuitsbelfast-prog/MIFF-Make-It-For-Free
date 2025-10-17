@@ -1210,7 +1210,7 @@ export class UnityConverter {
       console.log('[UnityConverter] Unity converter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnityConverter] Failed to initialize Unity converter:', err instanceof Error ? err.message : String(err));
+      console.error('[UnityConverter] Failed to initialize Unity converter:', err instanceof Error ? message: String(err));
       throw new Error(`Unity converter initialization failed: ${error}`);
     }
   }
@@ -1298,7 +1298,7 @@ export class UnityConverter {
 
       report.conversionErrors.push(conversionError);
 
-      console.error(`[UnityConverter] Conversion failed: ${conversionId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[UnityConverter] Conversion failed: ${conversionId}`, err instanceof Error ? message: String(err));
     }
 
     this.conversionReports.push(report);
@@ -2027,23 +2027,23 @@ export class UnityConverter {
 
   private getPlatformGroup(): string {
     switch (this.exportConfiguration.target) {
-      case UnityExportTarget.WINDOWS:
-      case UnityExportTarget.MACOS:
-      case UnityExportTarget.LINUX:
+      case WINDOWS:
+      case MACOS:
+      case LINUX:
         return 'Standalone';
-      case UnityExportTarget.ANDROID:
+      case ANDROID:
         return 'Android';
-      case UnityExportTarget.IOS:
+      case IOS:
         return 'iOS';
-      case UnityExportTarget.WEBGL:
+      case WEBGL:
         return 'WebGL';
-      case UnityExportTarget.XBOX:
+      case XBOX:
         return 'Xbox';
-      case UnityExportTarget.PLAYSTATION:
+      case PLAYSTATION:
         return 'PlayStation';
-      case UnityExportTarget.NINTENDO_SWITCH:
+      case NINTENDO_SWITCH:
         return 'NintendoSwitch';
-      case UnityExportTarget.HOLOLENS:
+      case HOLOLENS:
         return 'HoloLens';
       default:
         return 'Standalone';

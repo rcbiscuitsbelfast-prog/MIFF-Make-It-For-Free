@@ -473,7 +473,7 @@ export class HealthCheckSystem {
           results.push({
             name: check.name,
             status: 'critical',
-            message: `Check failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            message: `Check failed: ${error instanceof Error ? message: 'Unknown error'}`,
             duration,
             timestamp: new Date(),
             category: check.category,

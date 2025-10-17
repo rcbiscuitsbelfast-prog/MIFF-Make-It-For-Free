@@ -746,21 +746,21 @@ export class EncounterTrigger implements IEncounterTrigger {
    */
   shouldTrigger(state: IPlayerState, rng: IRNGProvider): boolean {
     switch (this.triggerType) {
-      case TriggerType.TILE_TYPE:
+      case TILE_TYPE:
         return state.tileType === this.triggerParams.tile;
 
-      case TriggerType.STEP_COUNT:
+      case STEP_COUNT:
         const interval = this.triggerParams.interval || 10;
         return state.stepsSinceLastEncounter >= interval;
 
-      case TriggerType.TIME_BASED:
+      case TIME_BASED:
         return state.timeOfDay === this.triggerParams.timeOfDay;
 
-      case TriggerType.RANDOM:
+      case RANDOM:
         const probability = this.triggerParams.probability || 0.1;
         return rng.nextFloat() < probability;
 
-      case TriggerType.ZONE_ENTRY:
+      case ZONE_ENTRY:
         return true; // Always trigger on zone entry
 
       default:
@@ -779,25 +779,25 @@ export class EncounterTrigger implements IEncounterTrigger {
     }
 
     switch (this.triggerType) {
-      case TriggerType.TILE_TYPE:
+      case TILE_TYPE:
         if (!this.triggerParams.tile) {
           errors.push('Tile type trigger requires tile parameter');
         }
         break;
 
-      case TriggerType.STEP_COUNT:
+      case STEP_COUNT:
         if (!this.triggerParams.interval || this.triggerParams.interval <= 0) {
           errors.push('Step count trigger requires positive interval');
         }
         break;
 
-      case TriggerType.TIME_BASED:
+      case TIME_BASED:
         if (!this.triggerParams.timeOfDay) {
           errors.push('Time-based trigger requires timeOfDay parameter');
         }
         break;
 
-      case TriggerType.RANDOM:
+      case RANDOM:
         if (this.triggerParams.probability === undefined || this.triggerParams.probability < 0 || this.triggerParams.probability > 1) {
           errors.push('Random trigger requires probability between 0 and 1');
         }

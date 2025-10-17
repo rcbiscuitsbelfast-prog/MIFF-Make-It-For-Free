@@ -186,7 +186,7 @@ export class ConvertToGodotManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      issues.push(`Conversion failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      issues.push(`Conversion failed: ${error instanceof Error ? message: 'Unknown error'}`);
       return {
         op: 'convert',
         status: 'error',
@@ -590,21 +590,21 @@ void fragment():
     const optimizations: string[] = [];
 
     switch (this.config.optimization) {
-      case OptimizationLevel.SIZE:
+      case SIZE:
         optimizations.push('Mesh compression enabled');
         optimizations.push('Texture compression enabled');
         optimizations.push('Audio compression enabled');
         optimizations.push('Removed debug symbols');
         break;
 
-      case OptimizationLevel.SPEED:
+      case SPEED:
         optimizations.push('GPU instancing enabled');
         optimizations.push('Frustum culling enabled');
         optimizations.push('LOD system enabled');
         optimizations.push('Physics optimization enabled');
         break;
 
-      case OptimizationLevel.SIZE_SPEED:
+      case SIZE_SPEED:
         optimizations.push('All size optimizations applied');
         optimizations.push('All speed optimizations applied');
         optimizations.push('Advanced compression enabled');

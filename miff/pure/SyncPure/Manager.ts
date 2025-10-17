@@ -337,15 +337,15 @@ export class SyncManager {
     let resolvedData: SyncData;
 
     switch (conflict.resolution) {
-      case ConflictResolution.LAST_WRITE_WINS:
+      case LAST_WRITE_WINS:
         resolvedData = conflict.localData.timestamp > conflict.remoteData.timestamp 
           ? conflict.localData 
           : conflict.remoteData;
         break;
-      case ConflictResolution.MERGE:
+      case MERGE:
         resolvedData = this.mergeData(conflict.localData, conflict.remoteData);
         break;
-      case ConflictResolution.AUTOMATIC:
+      case AUTOMATIC:
         resolvedData = this.autoResolveConflict(conflict);
         break;
       default:

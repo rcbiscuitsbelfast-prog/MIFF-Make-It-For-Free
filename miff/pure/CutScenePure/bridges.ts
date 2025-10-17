@@ -542,7 +542,7 @@ var animation_player: AnimationPlayer
 func _ready():
     load_cut_scene_definition()
     setup_scene()
-    if cut_scene_definition.config.autoStart:
+    if cut_scene_definition.autoStart:
         play_cut_scene()
 
 func load_cut_scene_definition():
@@ -565,11 +565,11 @@ func setup_scene():
     add_child(tween)
 
     # Set up tracks based on definition
-    for track in cut_scene_definition.tracks:
+    for track in tracks:
         setup_track(track)
 
 func setup_track(track: Dictionary):
-    match track.type:
+    match type:
         "camera":
             setup_camera_track(track)
         "dialogue":
@@ -621,7 +621,7 @@ func play_cut_scene():
     print("Starting cut scene: " + cut_scene_definition.config.name)
 
     # Start all tracks
-    for track in cut_scene_definition.tracks:
+    for track in tracks:
         start_track(track)
 
     # Set up process loop
@@ -634,20 +634,20 @@ func _process(delta):
     current_time = OS.get_ticks_msec() / 1000.0 - start_time
 
     # Update tracks
-    for track in cut_scene_definition.tracks:
+    for track in tracks:
         update_track(track)
 
     # Process actions
-    for action in cut_scene_definition.actions:
+    for action in actions:
         if action.timestamp <= current_time * 1000 and not completed_actions.has(action.id):
             execute_action(action)
 
     # Check if cut scene is complete
-    if current_time * 1000 >= cut_scene_definition.config.duration:
+    if current_time * 1000 >= cut_scene_definition.duration:
         stop_cut_scene()
 
 func start_track(track: Dictionary):
-    match track.type:
+    match type:
         "camera":
             tween.start()
         "audio":
@@ -666,22 +666,22 @@ func execute_action(action: Dictionary):
     print("Executing action: " + action.id)
     completed_actions.add(action.id)
 
-    match action.type:
+    match type:
         "start":
             start_track_by_id(action.trackId)
         "complete":
             complete_track_by_id(action.trackId)
 
 func start_track_by_id(track_id: String):
-    for track in cut_scene_definition.tracks:
+    for track in tracks:
         if track.id == track_id:
             start_track(track)
             break
 
 func complete_track_by_id(track_id: String):
-    for track in cut_scene_definition.tracks:
+    for track in tracks:
         if track.id == track_id:
-            match track.type:
+            match type:
                 "camera":
                     tween.stop_all()
                 "audio":

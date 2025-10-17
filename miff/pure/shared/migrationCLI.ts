@@ -53,7 +53,7 @@ class MigrationCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? message: error);
       process.exit(1);
     }
   }
@@ -114,7 +114,7 @@ class MigrationCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Migration error:', error instanceof Error ? error.message : error);
+      console.error('❌ Migration error:', error instanceof Error ? message: error);
     }
   }
 
@@ -253,7 +253,7 @@ class MigrationCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Rollback error:', error instanceof Error ? error.message : error);
+      console.error('❌ Rollback error:', error instanceof Error ? message: error);
     }
   }
 

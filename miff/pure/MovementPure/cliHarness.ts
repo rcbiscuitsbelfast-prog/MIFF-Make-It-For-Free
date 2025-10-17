@@ -329,7 +329,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error.message : 'Unknown error']
+    issues: [error instanceof Error ? message: 'Unknown error']
   };
 }
 

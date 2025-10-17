@@ -76,12 +76,12 @@ class AnimationPure {
 
   getAnimationProgress(animationId: string): number {
     const animation = this.activeAnimations.get(animationId);
-    return animation ? animation.progress : 0;
+    return animation ? progress: 0;
   }
 
   isAnimationComplete(animationId: string): boolean {
     const animation = this.activeAnimations.get(animationId);
-    return animation ? animation.completed : true;
+    return animation ? completed: true;
   }
 }
 
@@ -242,12 +242,12 @@ class CameraSystemPureStub {
 
   getTransitionProgress(transitionId: string): number {
     const transition = this.activeTransitions.get(transitionId);
-    return transition ? transition.progress : 0;
+    return transition ? progress: 0;
   }
 
   isTransitionActive(transitionId: string): boolean {
     const transition = this.activeTransitions.get(transitionId);
-    return transition ? !transition.completed : false;
+    return transition ? !completed: false;
   }
 }
 
@@ -315,7 +315,7 @@ class AudioPureStub {
 
   isSoundPlaying(soundId: string): boolean {
     const sound = this.activeSounds.get(soundId);
-    return sound ? sound.playing : false;
+    return sound ? playing: false;
   }
 
   getActiveSounds(): string[] {

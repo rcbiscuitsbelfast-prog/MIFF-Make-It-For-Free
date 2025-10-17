@@ -646,7 +646,7 @@ export class WebConverter {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebConverter] Conversion failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebConverter] Conversion failed:', err instanceof Error ? message: String(err));
 
       return {
         success: false,
@@ -735,7 +735,7 @@ export class WebConverter {
       rotation: entityData.rotation || 0,
       scale: entityData.scale || { x: 1, y: 1 },
       pivot: entityData.pivot || { x: 0.5, y: 0.5 },
-      alpha: entityData.alpha !== undefined ? entityData.alpha : 1,
+      alpha: entityData.alpha !== undefined ? alpha: 1,
       visible: entityData.visible !== false,
       interactive: entityData.interactive || false,
       buttonMode: entityData.buttonMode || false,
@@ -1137,25 +1137,25 @@ canvas {
 
     // Platform-specific adjustments
     switch (this.platform) {
-      case WebPlatform.WEBGL:
+      case WEBGL:
         config.renderer.type = WebRenderer.PIXI_JS;
         config.renderer.antialias = true;
         config.renderer.stencil = true;
         config.renderer.depth = true;
         break;
 
-      case WebPlatform.CANVAS_2D:
+      case CANVAS_2D:
         config.renderer.type = WebRenderer.PIXI_JS;
         config.renderer.antialias = false;
         break;
 
-      case WebPlatform.PROGRESSIVE_WEB_APP:
+      case PROGRESSIVE_WEB_APP:
         config.deployment.serviceWorker = true;
         config.deployment.manifest = true;
         config.deployment.offlineSupport = true;
         break;
 
-      case WebPlatform.WEBXR:
+      case WEBXR:
         config.renderer.powerPreference = 'high-performance';
         config.audio.spatialAudio = true;
         break;

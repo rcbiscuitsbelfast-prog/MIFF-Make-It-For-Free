@@ -319,19 +319,19 @@ export class DocumentationGenerator {
    */
   generateFormatDocumentation(format: DocumentationFormat): void {
     switch (format) {
-      case DocumentationFormat.MARKDOWN:
+      case MARKDOWN:
         this.generateMarkdownDocumentation();
         break;
-      case DocumentationFormat.HTML:
+      case HTML:
         this.generateHTMLDocumentation();
         break;
-      case DocumentationFormat.PDF:
+      case PDF:
         this.generatePDFDocumentation();
         break;
-      case DocumentationFormat.JSON:
+      case JSON:
         this.generateJSONDocumentation();
         break;
-      case DocumentationFormat.XML:
+      case XML:
         this.generateXMLDocumentation();
         break;
     }

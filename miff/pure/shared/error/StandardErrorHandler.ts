@@ -209,7 +209,7 @@ export class StandardErrorHandler {
         } catch (fallbackError) {
           console.error('StandardErrorHandler', 'Fallback operation also failed', {
             originalError: error.message,
-            fallbackError: fallbackError instanceof Error ? fallbackError.message : String(fallbackError)
+            fallbackError: fallbackError instanceof Error ? message: String(fallbackError)
           });
         }
       }
@@ -398,7 +398,7 @@ export class StandardErrorHandler {
           console.warn('StandardErrorHandler', 'Recovery strategy failed', {
             code: error.code,
             strategy: strategy.description,
-            error: recoveryError instanceof Error ? recoveryError.message : String(recoveryError)
+            error: recoveryError instanceof Error ? message: String(recoveryError)
           });
         }
       }
@@ -422,12 +422,12 @@ export class StandardErrorHandler {
 
   private getLogLevel(severity: ErrorSeverity): 'error' | 'warn' | 'info' | 'debug' {
     switch (severity) {
-      case ErrorSeverity.CRITICAL:
-      case ErrorSeverity.HIGH:
+      case CRITICAL:
+      case HIGH:
         return 'error';
-      case ErrorSeverity.MEDIUM:
+      case MEDIUM:
         return 'warn';
-      case ErrorSeverity.LOW:
+      case LOW:
         return 'info';
       default:
         return 'debug';

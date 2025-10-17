@@ -356,13 +356,13 @@ export class SaveSnapshot implements ISaveSnapshot {
 
     snapshot.timestampUtc = data.timestampUtc || new Date().toISOString();
     snapshot.checksum = data.checksum;
-    snapshot.partyRoster = Array.isArray(data.partyRoster) ? data.partyRoster : [];
-    snapshot.inventory = typeof data.inventory === 'object' && data.inventory ? data.inventory : {};
-    snapshot.questFlags = typeof data.questFlags === 'object' && data.questFlags ? data.questFlags : {};
-    snapshot.unlockedContent = Array.isArray(data.unlockedContent) ? data.unlockedContent : [];
-    snapshot.gameSettings = typeof data.gameSettings === 'object' && data.gameSettings ? data.gameSettings : {};
-    snapshot.statistics = typeof data.statistics === 'object' && data.statistics ? data.statistics : {};
-    snapshot.metadata = typeof data.metadata === 'object' && data.metadata ? data.metadata : {};
+    snapshot.partyRoster = Array.isArray(data.partyRoster) ? partyRoster: [];
+    snapshot.inventory = typeof data.inventory === 'object' && data.inventory ? inventory: {};
+    snapshot.questFlags = typeof data.questFlags === 'object' && data.questFlags ? questFlags: {};
+    snapshot.unlockedContent = Array.isArray(data.unlockedContent) ? unlockedContent: [];
+    snapshot.gameSettings = typeof data.gameSettings === 'object' && data.gameSettings ? gameSettings: {};
+    snapshot.statistics = typeof data.statistics === 'object' && data.statistics ? statistics: {};
+    snapshot.metadata = typeof data.metadata === 'object' && data.metadata ? metadata: {};
 
     return snapshot;
   }

@@ -48,7 +48,7 @@ export class PerfTimer implements Disposable {
    * Get the elapsed time in milliseconds
    */
   get elapsedMs(): number {
-    return this._endTime ? this._endTime - this._startTime : performance.now() - this._startTime;
+    return this._endTime ? this._endTime - _startTime: performance.now() - this._startTime;
   }
 
   /**

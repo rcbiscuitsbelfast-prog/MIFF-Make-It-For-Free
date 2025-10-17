@@ -77,7 +77,7 @@ export class MemoryManager {
         callback();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error during cleanup:', err instanceof Error ? err.message : String(err));
+        console.error('Error during cleanup:', err instanceof Error ? message: String(err));
       }
     }
   }

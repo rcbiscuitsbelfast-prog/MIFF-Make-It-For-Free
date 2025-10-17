@@ -72,7 +72,7 @@ async function main() {
         console.log(JSON.stringify(result, null, 2));
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error:', err instanceof Error ? err.message : String(err));
+        console.error('Error:', err instanceof Error ? message: String(err));
         process.exit(1);
       }
       break;
@@ -355,7 +355,7 @@ async function main() {
         console.log(result.status === 'ok' ? '✅' : '❌', result.message);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error parsing equipment JSON:', err instanceof Error ? err.message : String(err));
+        console.error('Error parsing equipment JSON:', err instanceof Error ? message: String(err));
         process.exit(1);
       }
       break;
@@ -394,7 +394,7 @@ async function main() {
 
 if (require.main === module) {
   main().catch(error => {
-    console.error('Error:', err instanceof Error ? err.message : String(err));
+    console.error('Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   });
 }

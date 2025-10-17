@@ -178,7 +178,7 @@ export class WebBridge {
       console.log(`[WebBridge] WebGL initialized: ${this.gl.constructor.name}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge] WebGL initialization failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebBridge] WebGL initialization failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -325,7 +325,7 @@ export class WebBridge {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge] WebAssembly compilation failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebBridge] WebAssembly compilation failed:', err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -370,7 +370,7 @@ export class WebBridge {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge] WebAssembly instantiation failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebBridge] WebAssembly instantiation failed:', err instanceof Error ? message: String(err));
       throw error;
     }
   }

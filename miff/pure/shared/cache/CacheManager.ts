@@ -208,7 +208,7 @@ export class CacheManager {
     const hitRate = totalAccesses > 0 ? (this.stats.hits / totalAccesses) * 100 : 0;
     const missRate = totalAccesses > 0 ? (this.stats.misses / totalAccesses) * 100 : 0;
 
-    const avgAccessTime = this.stats.hits > 0 ? this.stats.accessTime / this.stats.hits : 0;
+    const avgAccessTime = this.stats.hits > 0 ? this.stats.accessTime / this.hits: 0;
 
     // Determine memory pressure
     const memoryUsage = process.memoryUsage();

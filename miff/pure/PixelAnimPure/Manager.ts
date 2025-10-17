@@ -153,7 +153,7 @@ export class PixelAnimManager {
       return { ok: true, animation };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -180,7 +180,7 @@ export class PixelAnimManager {
       return { ok: true, animation };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -239,7 +239,7 @@ export class PixelAnimManager {
       return { ok: true, sequence };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -281,7 +281,7 @@ export class PixelAnimManager {
       return { ok: true, spriteSheet };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 
@@ -302,7 +302,7 @@ export class PixelAnimManager {
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 

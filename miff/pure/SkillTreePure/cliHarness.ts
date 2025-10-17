@@ -40,7 +40,7 @@ function main() {
 
           if (fileToRead) {
             const raw = JSON.parse(fs.readFileSync(fileToRead, 'utf-8')) as any;
-            const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? raw.skills : []);
+            const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? skills: []);
             if (!Array.isArray(skills) || skills.length === 0) {
               result.status = 'error';
               result.result = { error: 'No skills found in file' };
@@ -250,7 +250,7 @@ function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
-    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+    result.result = { error: error instanceof Error ? message: 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));

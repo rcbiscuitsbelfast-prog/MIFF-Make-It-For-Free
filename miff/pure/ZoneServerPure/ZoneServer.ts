@@ -122,38 +122,38 @@ export class ZoneServerPure {
   private initializeDefaultConnections(): void {
     // Add default zone connections based on zone type
     switch (this.config.zoneType) {
-      case ZoneType.STARTING:
+      case STARTING:
         this.zoneConnections.push(
           { zoneId: 'town_01', connectionType: 'portal', cost: 0 },
           { zoneId: 'wilderness_01', connectionType: 'walk', cost: 0 }
         );
         break;
-      case ZoneType.TOWN:
+      case TOWN:
         this.zoneConnections.push(
           { zoneId: 'starting_01', connectionType: 'portal', cost: 0 },
           { zoneId: 'dungeon_01', connectionType: 'portal', cost: 50 },
           { zoneId: 'wilderness_01', connectionType: 'walk', cost: 10 }
         );
         break;
-      case ZoneType.DUNGEON:
+      case DUNGEON:
         this.zoneConnections.push(
           { zoneId: 'town_01', connectionType: 'portal', requirements: ['dungeon_key'] },
           { zoneId: 'raid_01', connectionType: 'portal', requirements: ['boss_defeated'] }
         );
         break;
-      case ZoneType.WILDERNESS:
+      case WILDERNESS:
         this.zoneConnections.push(
           { zoneId: 'town_01', connectionType: 'walk', cost: 10 },
           { zoneId: 'pvp_01', connectionType: 'walk', cost: 25 }
         );
         break;
-      case ZoneType.PVP:
+      case PVP:
         this.zoneConnections.push(
           { zoneId: 'wilderness_01', connectionType: 'walk', cost: 25 },
           { zoneId: 'town_01', connectionType: 'portal', requirements: ['pvp_flag'] }
         );
         break;
-      case ZoneType.RAID:
+      case RAID:
         this.zoneConnections.push(
           { zoneId: 'dungeon_01', connectionType: 'portal', requirements: ['raid_ready'] },
           { zoneId: 'town_01', connectionType: 'portal', requirements: ['raid_completed'] }
@@ -269,7 +269,7 @@ export class ZoneServerPure {
         simulated += 1;
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Error simulating player ${id}:`, err instanceof Error ? err.message : String(err));
+        console.error(`Error simulating player ${id}:`, err instanceof Error ? message: String(err));
       }
     }
 
@@ -337,9 +337,9 @@ export class ZoneServerPure {
 
     // Use load balancing strategy
     switch (this.config.loadBalanceStrategy) {
-      case LoadBalanceStrategy.ROUND_ROBIN:
+      case ROUND_ROBIN:
         return suitableZones[0!]; // Simplified - would track rotation in real implementation
-      case LoadBalanceStrategy.LEAST_CONNECTIONS:
+      case LEAST_CONNECTIONS:
         return suitableZones[0!]; // Would check actual zone loads
       default:
         return suitableZones[Math.floor(Math.random() * suitableZones.length)];
@@ -546,7 +546,7 @@ export class ZoneServerPure {
         callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: new Date() });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Error in event listener for ${eventType}:`, err instanceof Error ? err.message : String(err));
+        console.error(`Error in event listener for ${eventType}:`, err instanceof Error ? message: String(err));
       }
     }
   }

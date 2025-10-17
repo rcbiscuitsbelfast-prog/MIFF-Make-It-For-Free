@@ -540,7 +540,7 @@ export class CombatEngine {
       case 'flee': actor.status={...(actor.status||{}), fled:true}; break;
     }
   }
-  attack(actor:Combatant, targetId:string){ const tgt = this.state.combatants[targetId]; if(!tgt||tgt.status?.ko) return; const base = Math.max(1, actor.stats.atk - tgt.stats.def); const defendMod = (tgt.status?.defending? 0.5 : 1.0); const dmg = Math.max(1, Math.floor(base*defendMod)); tgt.stats.hp = Math.max(0, tgt.stats.hp - dmg); tgt.status={...(tgt.status||{}), defending:false, ko:(tgt.stats.hp<=0)}; }
+  attack(actor:Combatant, targetId:string){ const tgt = this.state.combatants[targetId]; if(!tgt||tgt.status?.ko) return; const base = Math.max(1, actor.stats.atk - tgt.stats.def); const defendMod = (tgt.status?.defending? 5: 1.0); const dmg = Math.max(1, Math.floor(base*defendMod)); tgt.stats.hp = Math.max(0, tgt.stats.hp - dmg); tgt.status={...(tgt.status||{}), defending:false, ko:(tgt.stats.hp<=0)}; }
   useItem(actor:Combatant, a:Action){ const item = a.itemId || ''; if(this.inventory && !this.inventory.hasItem(item)){ return; }
     if(item==='potion'){ actor.stats.hp = Math.min(actor.stats.maxHp, actor.stats.hp + 20); }
     if(this.inventory) this.inventory.consumeItem(item);
@@ -1104,7 +1104,7 @@ export class CombatUtils {
       summary += `, ${koCombatants.length} KO'd`;
     }
     if (state.over) {
-      summary += ` - ${state.winnerTeam ? 'VICTORY for ' + state.winnerTeam : 'DRAW'}`;
+      summary += ` - ${state.winnerTeam ? 'VICTORY for ' + winnerTeam: 'DRAW'}`;
     }
 
     return summary;
@@ -1113,9 +1113,9 @@ export class CombatUtils {
   // Missing CombatUtils methods
   static getActionSourceName(source: ActionSource): string {
     switch (source) {
-      case ActionSource.PLAYER: return 'Player';
-      case ActionSource.AI: return 'AI';
-      case ActionSource.ENGINE: return 'Engine';
+      case PLAYER: return 'Player';
+      case AI: return 'AI';
+      case ENGINE: return 'Engine';
       default: return 'Unknown';
     }
   }

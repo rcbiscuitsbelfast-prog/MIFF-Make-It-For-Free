@@ -36,7 +36,7 @@ class CAPACLI {
             await this.listEntries(args.slice(1));
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Error listing entries:', err instanceof Error ? err.message : String(err));
+            console.error('Error listing entries:', err instanceof Error ? message: String(err));
             // Don't exit with error for list command
           }
           break;
@@ -62,7 +62,7 @@ class CAPACLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? message: error);
       process.exit(1);
     }
   }
@@ -345,22 +345,22 @@ Examples:
 
   private getStatusIcon(status: CAPAStatus): string {
     switch (status) {
-      case CAPAStatus.OPEN: return '🔴';
-      case CAPAStatus.IN_PROGRESS: return '🟡';
-      case CAPAStatus.REVIEW: return '🔵';
-      case CAPAStatus.RESOLVED: return '🟢';
-      case CAPAStatus.CLOSED: return '✅';
-      case CAPAStatus.DEFERRED: return '⏸️';
+      case OPEN: return '🔴';
+      case IN_PROGRESS: return '🟡';
+      case REVIEW: return '🔵';
+      case RESOLVED: return '🟢';
+      case CLOSED: return '✅';
+      case DEFERRED: return '⏸️';
       default: return '❓';
     }
   }
 
   private getSeverityIcon(severity: CAPASeverity): string {
     switch (severity) {
-      case CAPASeverity.CRITICAL: return '🚨';
-      case CAPASeverity.HIGH: return '⚠️';
-      case CAPASeverity.MEDIUM: return '📝';
-      case CAPASeverity.LOW: return 'ℹ️';
+      case CRITICAL: return '🚨';
+      case HIGH: return '⚠️';
+      case MEDIUM: return '📝';
+      case LOW: return 'ℹ️';
       default: return '❓';
     }
   }
@@ -370,7 +370,7 @@ Examples:
 if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new CAPACLI();
   cli.run().catch((error) => {
-    console.error('CAPA CLI Error:', err instanceof Error ? err.message : String(err));
+    console.error('CAPA CLI Error:', err instanceof Error ? message: String(err));
     // Only exit with code 1 for non-list commands
     if (process.argv[2!] !== 'list') {
       process.exit(1);

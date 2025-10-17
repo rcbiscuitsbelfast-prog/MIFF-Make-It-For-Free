@@ -131,7 +131,7 @@ export class AudioSystem {
       console.log('[AudioPure] Audio context initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AudioPure] Failed to initialize audio context:', err instanceof Error ? err.message : String(err));
+      console.error('[AudioPure] Failed to initialize audio context:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -182,7 +182,7 @@ export class AudioSystem {
         callback(event);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[AudioPure] Callback error:', err instanceof Error ? err.message : String(err));
+        console.error('[AudioPure] Callback error:', err instanceof Error ? message: String(err));
       }
     });
   }

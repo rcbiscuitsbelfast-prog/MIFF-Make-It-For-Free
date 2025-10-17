@@ -92,7 +92,7 @@ export class SchemaValidator {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
-        errors: [`Validation error: ${error instanceof Error ? error.message : String(error)}`],
+        errors: [`Validation error: ${error instanceof Error ? message: String(error)}`],
         warnings: []
       };
     }

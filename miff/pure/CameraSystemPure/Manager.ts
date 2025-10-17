@@ -145,7 +145,7 @@ export class CameraManager {
       return camera;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating camera ${cameraId}:`, error instanceof Error ? error.message : String(error));
+      console.error(`❌ Error creating camera ${cameraId}:`, error instanceof Error ? message: String(error));
       return null;
     }
   }
@@ -185,7 +185,7 @@ export class CameraManager {
       return success;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error switching camera mode:`, error instanceof Error ? error.message : String(error));
+      console.error(`❌ Error switching camera mode:`, error instanceof Error ? message: String(error));
       return false;
     }
   }
@@ -288,7 +288,7 @@ export class CameraManager {
       return sequence;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating cinematic sequence:`, error instanceof Error ? error.message : String(error));
+      console.error(`❌ Error creating cinematic sequence:`, error instanceof Error ? message: String(error));
       return null;
     }
   }
@@ -303,7 +303,7 @@ export class CameraManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error playing cinematic sequence:`, error instanceof Error ? error.message : String(error));
+      console.error(`❌ Error playing cinematic sequence:`, error instanceof Error ? message: String(error));
       return false;
     }
   }
@@ -349,7 +349,7 @@ export class CameraManager {
       return path;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating camera path:`, error instanceof Error ? error.message : String(error));
+      console.error(`❌ Error creating camera path:`, error instanceof Error ? message: String(error));
       return null;
     }
   }
@@ -386,7 +386,7 @@ export class CameraManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error applying camera effect:`, error instanceof Error ? error.message : String(error));
+      console.error(`❌ Error applying camera effect:`, error instanceof Error ? message: String(error));
       return false;
     }
   }

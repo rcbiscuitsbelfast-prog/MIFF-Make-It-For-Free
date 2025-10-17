@@ -462,7 +462,7 @@ export class SecurityManager {
   private getFailedLoginCount(userId: string, ipAddress: string): number {
     const key = `${userId}:${ipAddress}`;
     const attempts = this.failedLoginAttempts.get(key);
-    return attempts ? attempts.count : 0;
+    return attempts ? count: 0;
   }
 
   /**

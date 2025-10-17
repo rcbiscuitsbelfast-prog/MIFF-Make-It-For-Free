@@ -381,7 +381,7 @@ export class TimeManager {
             timer.callback();
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            console.error(`Error in timer callback ${timer.id}:`, err instanceof Error ? err.message : String(err));
+            console.error(`Error in timer callback ${timer.id}:`, err instanceof Error ? message: String(err));
           }
         }
         
@@ -418,7 +418,7 @@ export class TimeManager {
           scheduled.callback();
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in scheduled event callback ${scheduled.id}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in scheduled event callback ${scheduled.id}:`, err instanceof Error ? message: String(err));
         }
       }
       
@@ -519,8 +519,8 @@ export class TimeManager {
     const totalTimerDuration = Array.from(this.timers.values()).reduce((sum, t) => sum + t.duration, 0);
     const totalCooldownDuration = Array.from(this.cooldowns.values()).reduce((sum, c) => sum + c.duration, 0);
 
-    this.stats.averageTimerDuration = this.stats.totalTimers > 0 ? totalTimerDuration / this.stats.totalTimers : 0;
-    this.stats.averageCooldownDuration = this.stats.totalCooldowns > 0 ? totalCooldownDuration / this.stats.totalCooldowns : 0;
+    this.stats.averageTimerDuration = this.stats.totalTimers > 0 ? totalTimerDuration / this.totalTimers: 0;
+    this.stats.averageCooldownDuration = this.stats.totalCooldowns > 0 ? totalCooldownDuration / this.totalCooldowns: 0;
 
     return {
       op: 'stats',

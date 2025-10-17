@@ -121,7 +121,7 @@ export class GodotBridge {
       return {
         op: 'simulate',
         status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
+        issues: [error instanceof Error ? message: String(error)]
       };
     }
   }
@@ -228,7 +228,7 @@ export class GodotBridge {
       return {
         op: 'render',
         status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
+        issues: [error instanceof Error ? message: String(error)]
       };
     }
   }
@@ -268,7 +268,7 @@ export class GodotBridge {
       return {
         op: 'interop',
         status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
+        issues: [error instanceof Error ? message: String(error)]
       };
     }
   }

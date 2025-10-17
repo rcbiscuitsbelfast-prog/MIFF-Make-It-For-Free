@@ -834,7 +834,7 @@ export class UnrealSceneBuilderPure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnrealSceneBuilderPure] Scene build failed:', err instanceof Error ? err.message : String(err));
+      console.error('[UnrealSceneBuilderPure] Scene build failed:', err instanceof Error ? message: String(err));
 
       return {
         success: false,
@@ -843,7 +843,7 @@ export class UnrealSceneBuilderPure {
         buildTime: 0,
         composition: null as any,
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         metadata: {
           configuration: null,
           sourcePayloadId: payloadId,

@@ -383,7 +383,7 @@ export class GodotConverter {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotConverter] Conversion failed:', err instanceof Error ? err.message : String(err));
+      console.error('[GodotConverter] Conversion failed:', err instanceof Error ? message: String(err));
       return {
         success: false,
         project: this.currentProject,
@@ -890,7 +890,7 @@ func quit_game():
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotConverter] Export failed:', err instanceof Error ? err.message : String(err));
+      console.error('[GodotConverter] Export failed:', err instanceof Error ? message: String(err));
       return false;
     }
   }

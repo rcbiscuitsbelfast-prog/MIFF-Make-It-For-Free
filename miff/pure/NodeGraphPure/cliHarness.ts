@@ -32,7 +32,7 @@ function main(){
         out = { log: ['NodeGraphPure CLI'], outputs: [{ help: ['graph:run --file graphDefinition.json --seed <n>'] }] };
     }
   } catch(e){
-    out = { log: ['error'], outputs: [{ error: e instanceof Error ? e.message : String(e) }] };
+    out = { log: ['error'], outputs: [{ error: e instanceof Error ? message: String(e) }] };
     process.exitCode = 1;
   }
   console.log(formatOutput(out));

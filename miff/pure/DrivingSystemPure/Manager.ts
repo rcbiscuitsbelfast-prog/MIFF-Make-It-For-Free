@@ -333,7 +333,7 @@ export class DrivingManager {
     for (const vehicle of availableVehicles) {
       const suitability = this.assessVehicleSuitability(vehicle, playerId);
       const reason = this.getVehicleRecommendationReason(vehicle);
-      const estimatedCost = vehicle.value * (1 + (vehicle.rarity === 'rare' ? 0.5 : 0));
+      const estimatedCost = vehicle.value * (1 + (vehicle.rarity === 'rare' ? 5: 0));
 
       recommendations.push({
         vehicle,

@@ -241,7 +241,7 @@ export class WeatherManagerPure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('WeatherManager initialization failed:', err instanceof Error ? err.message : String(err));
+      console.error('WeatherManager initialization failed:', err instanceof Error ? message: String(err));
       throw new Error(`WeatherManager initialization failed: ${error}`);
     }
   }

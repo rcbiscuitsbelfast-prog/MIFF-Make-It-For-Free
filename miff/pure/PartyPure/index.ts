@@ -416,7 +416,7 @@ export class PartyManager {
         listener(member);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error in revival listener:', err instanceof Error ? err.message : String(err));
+        console.error('Error in revival listener:', err instanceof Error ? message: String(err));
       }
     }
   }
@@ -518,7 +518,7 @@ export class KOHandler {
         listener(spiritId);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error in revival listener:', err instanceof Error ? err.message : String(err));
+        console.error('Error in revival listener:', err instanceof Error ? message: String(err));
       }
     }
   }

@@ -204,7 +204,7 @@ export class AudioManager {
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to load audio config:', err instanceof Error ? err.message : String(err));
+      console.error('Failed to load audio config:', err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -302,7 +302,7 @@ export class AudioManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to play audio binding ${binding.id}:`, err instanceof Error ? err.message : String(err));
+      console.error(`Failed to play audio binding ${binding.id}:`, err instanceof Error ? message: String(err));
       this.playbackState.errorCount++;
       return false;
     }

@@ -60,7 +60,7 @@ class PerformanceCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? message: error);
       process.exit(1);
     }
   }
@@ -271,7 +271,7 @@ class PerformanceCLI {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('❌ Error during monitoring:', err instanceof Error ? err.message : String(err));
+        console.error('❌ Error during monitoring:', err instanceof Error ? message: String(err));
       }
     }, interval);
   }

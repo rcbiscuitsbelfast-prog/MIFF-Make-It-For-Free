@@ -19,7 +19,7 @@ try {
                          Array.isArray(members) ? members.map((m: any, i: number) => ({
                            id: typeof m === 'string' ? m : m.id || `member_${i}`,
                            name: typeof m === 'string' ? m : m.name || `Member ${i}`,
-                           role: typeof m === 'object' && m.role ? m.role : 'player',
+                           role: typeof m === 'object' && m.role ? role: 'player',
                            stats: { attack: 10, defense: 10, speed: 10 }
                          })) : [
                            { id: 'player', name: 'Player', role: 'captain', stats: { attack: 15, defense: 10, speed: 12 } },

@@ -853,7 +853,7 @@ export class AndroidExporter {
       console.log('[AndroidExporter] Android exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AndroidExporter] Failed to initialize Android exporter:', err instanceof Error ? err.message : String(err));
+      console.error('[AndroidExporter] Failed to initialize Android exporter:', err instanceof Error ? message: String(err));
       throw new Error(`Android exporter initialization failed: ${error}`);
     }
   }
@@ -941,7 +941,7 @@ export class AndroidExporter {
 
       report.exportErrors.push(exportError);
 
-      console.error(`[AndroidExporter] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[AndroidExporter] Export failed: ${exportId}`, err instanceof Error ? message: String(err));
     }
 
     this.exportReports.push(report);

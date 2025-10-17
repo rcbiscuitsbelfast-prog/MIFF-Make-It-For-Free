@@ -326,7 +326,7 @@ export class EventListenerManager {
 
     for (const [listenerId, config] of this.listeners) {
       const lifetime = this.listenerLifetimes.get(listenerId);
-      const lifetimeMs = lifetime ? Date.now() - lifetime.startTime : 0;
+      const lifetimeMs = lifetime ? Date.now() - startTime: 0;
 
       details.push({
         id: listenerId,

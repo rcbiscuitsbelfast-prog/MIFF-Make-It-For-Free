@@ -31,7 +31,7 @@ function main(){
         out = { log: ['TextureSynthPure CLI'], outputs: [{ help: ['texture:gradient --colors <c1,c2,...> --width <w> --height <h>','texture:noise --type perlin|simplex|worley --octaves <n> --seed <n> --width <w> --height <h>'] }] };
     }
   }catch(e){
-    out = { log: ['error'], outputs: [{ error: e instanceof Error ? e.message : String(e) }] };
+    out = { log: ['error'], outputs: [{ error: e instanceof Error ? message: String(e) }] };
     process.exitCode = 1;
   }
   console.log(formatOutput(out));

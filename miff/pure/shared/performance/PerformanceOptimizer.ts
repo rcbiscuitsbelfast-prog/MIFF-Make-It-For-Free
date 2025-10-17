@@ -433,21 +433,21 @@ export class PerformanceOptimizer {
    */
   private getMetricValue(metrics: PerformanceMetrics, metric: PerformanceMetric): number {
     switch (metric) {
-      case PerformanceMetric.CPU_USAGE:
+      case CPU_USAGE:
         return metrics.cpuUsage;
-      case PerformanceMetric.MEMORY_USAGE:
+      case MEMORY_USAGE:
         return metrics.memoryUsage;
-      case PerformanceMetric.NETWORK_LATENCY:
+      case NETWORK_LATENCY:
         return metrics.networkLatency;
-      case PerformanceMetric.RESPONSE_TIME:
+      case RESPONSE_TIME:
         return metrics.responseTime;
-      case PerformanceMetric.THROUGHPUT:
+      case THROUGHPUT:
         return metrics.throughput;
-      case PerformanceMetric.ERROR_RATE:
+      case ERROR_RATE:
         return metrics.errorRate;
-      case PerformanceMetric.CACHE_HIT_RATE:
+      case CACHE_HIT_RATE:
         return metrics.cacheHitRate;
-      case PerformanceMetric.DATABASE_QUERY_TIME:
+      case DATABASE_QUERY_TIME:
         return metrics.databaseQueryTime;
       default:
         return 0;

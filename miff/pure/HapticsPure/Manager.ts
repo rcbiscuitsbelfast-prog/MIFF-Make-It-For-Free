@@ -327,7 +327,7 @@ export class HapticsManager {
   private isPatternSupported(pattern: HapticPattern, capabilities: HapticCapabilities): boolean {
     switch (pattern.type) {
       case 'custom':
-        return pattern.waveform ? capabilities.supportsWaveforms : true;
+        return pattern.waveform ? supportsWaveforms: true;
       case 'sequence':
         return pattern.effects.every(effect => capabilities.supportedEffects.includes(effect));
       default:
@@ -507,7 +507,7 @@ export class HapticsManager {
   async play(req: HapticRequest): Promise<HapticResult> {
     const current = this.now();
     const device = req.device ? this.devices.get(req.device) : this.getBestAvailableDevice();
-    const capabilities = device ? device.capabilities : this.deviceCapabilities.get(HapticDeviceType.MOBILE);
+    const capabilities = device ? capabilities: this.deviceCapabilities.get(HapticDeviceType.MOBILE);
 
     if (!capabilities) {
       return {
@@ -584,7 +584,7 @@ export class HapticsManager {
   private patternToVibration(pattern: HapticPattern, capabilities: HapticCapabilities): any {
     switch (pattern.type) {
       case 'impact':
-        const intensity = pattern.style === 'light' ? 0.3 : pattern.style === 'medium' ? 0.7 : 1.0;
+        const intensity = pattern.style === 'light' ? 3: pattern.style === 'medium' ? 7: 1.0;
         return {
           type: 'simple',
           duration: Math.floor(50 * intensity),
@@ -592,7 +592,7 @@ export class HapticsManager {
         };
 
       case 'notification':
-        const levelIntensity = pattern.level === 'success' ? 0.4 : pattern.level === 'warning' ? 0.7 : 1.0;
+        const levelIntensity = pattern.level === 'success' ? 4: pattern.level === 'warning' ? 7: 1.0;
         return {
           type: 'pattern',
           pattern: pattern.level === 'success' ? [50, 100, 50] : [100, 80, 100],
@@ -603,7 +603,7 @@ export class HapticsManager {
         return {
           type: 'simple',
           duration: 20,
-          intensity: pattern.feedback === 'light' ? 0.3 : pattern.feedback === 'medium' ? 0.5 : 0.7
+          intensity: pattern.feedback === 'light' ? 3: pattern.feedback === 'medium' ? 5: 0.7
         };
 
       case 'custom':

@@ -154,7 +154,7 @@ export class TestInfrastructureManager {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error scanning test infrastructure:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Error scanning test infrastructure:', err instanceof Error ? message: String(err));
       return [];
     }
   }
@@ -234,7 +234,7 @@ export class TestInfrastructureManager {
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         replacement.status = 'failed';
-        console.error(`❌ Failed to replace mock: ${replacement.id}`, err instanceof Error ? err.message : String(err));
+        console.error(`❌ Failed to replace mock: ${replacement.id}`, err instanceof Error ? message: String(err));
       }
     }
     

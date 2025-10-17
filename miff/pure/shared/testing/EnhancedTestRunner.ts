@@ -100,7 +100,7 @@ export class EnhancedTestRunner {
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Test execution failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Test execution failed:', err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -141,7 +141,7 @@ export class EnhancedTestRunner {
       },
       setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
       testTimeout: this.config.timeout,
-      maxWorkers: this.config.parallel ? this.config.maxWorkers : 1,
+      maxWorkers: this.config.parallel ? this.maxWorkers: 1,
       verbose: this.config.verbose,
       detectOpenHandles: true,
       forceExit: true,

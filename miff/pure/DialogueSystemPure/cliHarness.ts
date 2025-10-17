@@ -301,7 +301,7 @@ class DialogueCLI {
       return {
         op: operation.op,
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
       };
     }
@@ -672,8 +672,8 @@ async function main() {
     try {
       const jsonPath = argv[0!];
       const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
-      const data: Dialogue = (raw && raw.dialogue) ? raw.dialogue : raw;
-      const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw.choiceIndex : 0;
+      const data: Dialogue = (raw && raw.dialogue) ? dialogue: raw;
+      const choiceIndex = typeof raw?.choiceIndex === 'number' ? choiceIndex: 0;
       // Start then take first choice deterministically
       await cli.execute({ op: 'start', dialogue: data });
       const step = await cli.execute({ op: 'next', choiceIndex });
@@ -684,7 +684,7 @@ async function main() {
       console.log(JSON.stringify(out));
       return;
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Unknown error';
+      const message = e instanceof Error ? message: 'Unknown error';
       const out = { op: 'dialogue.next', status: 'error', issue: message };
       console.log(JSON.stringify(out));
       process.exit(1);

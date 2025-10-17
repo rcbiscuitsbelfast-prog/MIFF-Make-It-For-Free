@@ -126,7 +126,7 @@ export class SafePathUtils {
       return {
         isValid: false,
         normalizedPath: '',
-        error: error instanceof Error ? error.message : 'Path validation failed'
+        error: error instanceof Error ? message: 'Path validation failed'
       };
     }
   }
@@ -173,7 +173,7 @@ export class SafePathUtils {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'File read failed'
+        error: error instanceof Error ? message: 'File read failed'
       };
     }
   }
@@ -208,7 +208,7 @@ export class SafePathUtils {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'File write failed'
+        error: error instanceof Error ? message: 'File write failed'
       };
     }
   }

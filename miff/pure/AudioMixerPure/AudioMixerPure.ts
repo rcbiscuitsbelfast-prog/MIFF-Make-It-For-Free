@@ -172,7 +172,7 @@ export class AudioMixerPure {
       console.log('🎵 AudioMixer initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to initialize AudioContext:', err instanceof Error ? err.message : String(err));
+      console.error('Failed to initialize AudioContext:', err instanceof Error ? message: String(err));
       this.isInitialized = false;
     }
   }
@@ -290,7 +290,7 @@ export class AudioMixerPure {
       console.log(`✅ Audio loaded: ${id}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to load audio ${id}:`, err instanceof Error ? err.message : String(err));
+      console.error(`Failed to load audio ${id}:`, err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -640,28 +640,28 @@ export class AudioMixerPure {
       let effectNode: AudioNode | null = null;
 
       switch (effect.type) {
-        case AudioEffectType.REVERB:
+        case REVERB:
           effectNode = this.createReverbNode(effect.parameters);
           break;
-        case AudioEffectType.ECHO:
+        case ECHO:
           effectNode = this.createEchoNode(effect.parameters);
           break;
-        case AudioEffectType.DISTORTION:
+        case DISTORTION:
           effectNode = this.createDistortionNode(effect.parameters);
           break;
-        case AudioEffectType.EQUALIZER:
+        case EQUALIZER:
           effectNode = this.createEqualizerNode(effect.parameters);
           break;
-        case AudioEffectType.COMPRESSOR:
+        case COMPRESSOR:
           effectNode = this.createCompressorNode(effect.parameters);
           break;
-        case AudioEffectType.FILTER:
+        case FILTER:
           effectNode = this.createFilterNode(effect.parameters);
           break;
-        case AudioEffectType.CHORUS:
+        case CHORUS:
           effectNode = this.createChorusNode(effect.parameters);
           break;
-        case AudioEffectType.FLANGER:
+        case FLANGER:
           effectNode = this.createFlangerNode(effect.parameters);
           break;
       }

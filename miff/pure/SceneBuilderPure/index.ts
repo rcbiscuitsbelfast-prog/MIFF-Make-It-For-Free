@@ -560,7 +560,7 @@ export class SceneBuilderManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[SceneBuilderManager] Scene build failed:', err instanceof Error ? err.message : String(err));
+      console.error('[SceneBuilderManager] Scene build failed:', err instanceof Error ? message: String(err));
 
       const result: SceneBuildResult = {
         success: false,
@@ -572,7 +572,7 @@ export class SceneBuilderManager {
         optimizationStats: this.calculateOptimizationStats(),
         exportPaths: {},
         warnings: [],
-        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        errors: [error instanceof Error ? message: 'Unknown error'],
         metadata: {
           configuration: this.configuration,
           template: templateId,
@@ -641,19 +641,19 @@ export class SceneBuilderManager {
     console.log(`[SceneBuilderManager] Applying optimizations: ${this.configuration.optimizationMode}`);
 
     switch (this.configuration.optimizationMode) {
-      case SceneOptimizationMode.CULLING:
+      case CULLING:
         await this.applyCullingOptimizations();
         break;
-      case SceneOptimizationMode.LOD:
+      case LOD:
         await this.applyLODOptimizations();
         break;
-      case SceneOptimizationMode.BATCHING:
+      case BATCHING:
         await this.applyBatchingOptimizations();
         break;
-      case SceneOptimizationMode.INSTANCING:
+      case INSTANCING:
         await this.applyInstancingOptimizations();
         break;
-      case SceneOptimizationMode.OCCLUSION:
+      case OCCLUSION:
         await this.applyOcclusionOptimizations();
         break;
       default:
@@ -695,16 +695,16 @@ export class SceneBuilderManager {
       console.log(`[SceneBuilderManager] Exporting to ${format}...`);
 
       switch (format) {
-        case SceneExportFormat.UNITY:
+        case UNITY:
           exportPaths[format] = await this.exportToUnity();
           break;
-        case SceneExportFormat.GODOT:
+        case GODOT:
           exportPaths[format] = await this.exportToGodot();
           break;
-        case SceneExportFormat.WEBGL:
+        case WEBGL:
           exportPaths[format] = await this.exportToWebGL();
           break;
-        case SceneExportFormat.JSON:
+        case JSON:
           exportPaths[format] = await this.exportToJSON();
           break;
         default:

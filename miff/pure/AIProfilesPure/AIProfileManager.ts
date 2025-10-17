@@ -718,7 +718,7 @@ export class AIProfileManager {
     this.stats.totalRelationships = profiles.reduce((acc, profile) => 
       acc + (profile.relationships ? Object.keys(profile.relationships).length : 0), 0);
     this.stats.activeSchedules = profiles.reduce((acc, profile) => 
-      acc + (profile.schedule ? profile.schedule.length : 0), 0);
+      acc + (profile.schedule ? profile.length: 0), 0);
   }
 }
 

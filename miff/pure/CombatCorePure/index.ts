@@ -731,7 +731,7 @@ export class CombatEngine {
       case 'all':
         return Array.from(session.entities.keys()).filter((id: any) => {
           const entity = session.entities.get(id)!;
-          return effect.type === 'heal' ? entity.team === sourceEntity.team : entity.team !== sourceEntity.team;
+          return effect.type === 'heal' ? entity.team === team: entity.team !== sourceEntity.team;
         });
 
       case 'random':
@@ -780,7 +780,7 @@ export class CombatEngine {
   }
 
   private async processDamage(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> {
-    const calculation = this.calculateDamage(sourceEntity, targetEntity, effect.value, effect.type === 'damage' ? DamageType.PHYSICAL : DamageType.MAGICAL);
+    const calculation = this.calculateDamage(sourceEntity, targetEntity, effect.value, effect.type === 'damage' ? PHYSICAL: DamageType.MAGICAL);
     const actualDamage = Math.min(calculation.finalDamage, targetEntity.health);
 
     targetEntity.health -= actualDamage;
@@ -799,7 +799,7 @@ export class CombatEngine {
       this.checkVictoryConditions(session);
     }
 
-    return calculation.critical ? CombatResult.CRITICAL : CombatResult.HIT;
+    return calculation.critical ? CRITICAL: CombatResult.HIT;
   }
 
   private calculateDamage(sourceEntity: CombatEntity, targetEntity: CombatEntity, baseDamage: number, damageType: DamageType): DamageCalculation {

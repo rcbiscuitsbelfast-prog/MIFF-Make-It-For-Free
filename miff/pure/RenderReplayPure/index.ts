@@ -87,7 +87,7 @@ export class RenderReplaySystem {
       analysis: {
         frameCount: session.frames.length,
         averageFrameTime: 16.67, // 60fps
-        compressionRatio: config.compression ? 0.7 : 1.0,
+        compressionRatio: config.compression ? 7: 1.0,
         quality: config.quality
       }
     };

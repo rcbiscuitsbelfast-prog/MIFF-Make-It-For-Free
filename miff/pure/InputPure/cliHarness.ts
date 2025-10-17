@@ -148,7 +148,7 @@ function runDemo(profile: InputProfile): void {
 
   testInputs.forEach((input: any) => {
     const action = profile.getActionForInput(input);
-    console.log(`Input '${input}' → ${action ? action.actionId : 'no action'}`);
+    console.log(`Input '${input}' → ${action ? actionId: 'no action'}`);
   });
 }
 
@@ -320,7 +320,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
+    console.error('❌ CLI Error:', err instanceof Error ? message: String(err));
     process.exit(1);
   });
 }

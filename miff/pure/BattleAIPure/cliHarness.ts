@@ -862,10 +862,10 @@ class BattleAIPureCLI {
    */
   private getProfileIcon(profile: IAIDecisionProfile): string {
     switch (profile.style) {
-      case AIDecisionStyle.AGGRESSIVE: return '🔥';
-      case AIDecisionStyle.DEFENSIVE: return '🛡️';
-      case AIDecisionStyle.BALANCED: return '⚖️';
-      case AIDecisionStyle.TRICKSTER: return '🎭';
+      case AGGRESSIVE: return '🔥';
+      case DEFENSIVE: return '🛡️';
+      case BALANCED: return '⚖️';
+      case TRICKSTER: return '🎭';
       default: return '❓';
     }
   }
@@ -875,11 +875,11 @@ class BattleAIPureCLI {
    */
   private getMoveCategoryIcon(category: MoveCategory): string {
     switch (category) {
-      case MoveCategory.DAMAGE: return '⚔️';
-      case MoveCategory.HEALING: return '❤️';
-      case MoveCategory.SUPPORT: return '🛡️';
-      case MoveCategory.STATUS: return '💊';
-      case MoveCategory.UTILITY: return '🔧';
+      case DAMAGE: return '⚔️';
+      case HEALING: return '❤️';
+      case SUPPORT: return '🛡️';
+      case STATUS: return '💊';
+      case UTILITY: return '🔧';
       default: return '❓';
     }
   }

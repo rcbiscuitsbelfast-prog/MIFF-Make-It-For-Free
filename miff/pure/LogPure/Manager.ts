@@ -559,17 +559,17 @@ export class LogManager {
     const logMessage = `[${timestamp}] ${levelName} [${categoryName}] ${entry.source}: ${entry.message}`;
     
     switch (entry.level) {
-      case LogLevel.DEBUG:
+      case DEBUG:
         console.debug(logMessage, entry.metadata);
         break;
-      case LogLevel.INFO:
+      case INFO:
         console.info(logMessage, entry.metadata);
         break;
-      case LogLevel.WARN:
+      case WARN:
         console.warn(logMessage, entry.metadata);
         break;
-      case LogLevel.ERROR:
-      case LogLevel.CRITICAL:
+      case ERROR:
+      case CRITICAL:
         console.error(logMessage, entry.metadata);
         if (entry.stackTrace) {
           console.error(entry.stackTrace);

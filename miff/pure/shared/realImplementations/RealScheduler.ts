@@ -330,7 +330,7 @@ export class RealScheduler {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       task.status = 'failed';
-      task.error = error instanceof Error ? error.message : String(error);
+      task.error = error instanceof Error ? message: String(error);
       task.completedAt = new Date();
       this.emit('taskFailed', { task, error });
     } finally {
@@ -453,7 +453,7 @@ export class RealScheduler {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in scheduler event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in scheduler event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

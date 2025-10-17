@@ -277,7 +277,7 @@ export class CAPARegistryManager {
       fs.writeFileSync(entriesPath, JSON.stringify({ entries: allEntries }, null, 2));
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Failed to save CAPA entry:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Failed to save CAPA entry:', err instanceof Error ? message: String(err));
     }
   }
 

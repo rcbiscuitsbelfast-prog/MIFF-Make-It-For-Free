@@ -43,7 +43,7 @@ try {
         const ok = !!filePath; // placeholder; Manager may have a validator elsewhere
         output = { op: 'validate', status: ok ? 'error' : 'error', issues: ['Invalid render type: spritee'] };
       } catch (e) {
-        output = { op: 'validate', status: 'error', issues: [e instanceof Error ? e.message : 'Unknown error'] };
+        output = { op: 'validate', status: 'error', issues: [e instanceof Error ? message: 'Unknown error'] };
       }
       break;
     }
@@ -231,7 +231,7 @@ try {
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? error.message : 'Unknown error']
+    issues: [error instanceof Error ? message: 'Unknown error']
   };
 }
 

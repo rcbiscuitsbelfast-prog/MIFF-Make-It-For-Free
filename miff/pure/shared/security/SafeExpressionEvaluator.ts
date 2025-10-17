@@ -79,7 +79,7 @@ export class SafeExpressionEvaluator {
       return {
         result: 0,
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       };
     }
   }

@@ -531,7 +531,7 @@ export class SportsSystemPure {
 
   public getPlayerStats(playerId: string): PlayerStats | null {
     const player = this.players.get(playerId);
-    return player ? player.stats : null;
+    return player ? stats: null;
   }
 
   public getTeamStats(teamId: string): { score: number; players: Player[] } | null {

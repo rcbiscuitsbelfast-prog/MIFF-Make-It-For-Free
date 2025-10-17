@@ -827,7 +827,7 @@ export class AudioSystemManager {
         activeDevices: activeDevices,
         totalContexts: totalContexts,
         activeContexts: activeContexts,
-        averageLatency: systems.length > 0 ? totalLatency / systems.length : 0,
+        averageLatency: systems.length > 0 ? totalLatency / length: 0,
         lastUpdated: new Date()
       };
     }
@@ -889,7 +889,7 @@ export class AudioSystemManager {
       activeDevices,
       totalContexts,
       activeContexts,
-      averageLatency: systems.length > 0 ? totalLatency / systems.length : 0,
+      averageLatency: systems.length > 0 ? totalLatency / length: 0,
       uptime: new Date() - this.startTime.getTime()
     };
   }

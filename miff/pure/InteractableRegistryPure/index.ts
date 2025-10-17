@@ -349,40 +349,40 @@ export class InteractableRegistry {
     behavior: InteractionBehavior
   ): InteractionResult {
     switch (behavior) {
-      case InteractionBehavior.PICKUP:
+      case PICKUP:
         return this.executePickup(interactable);
       
-      case InteractionBehavior.TALK:
+      case TALK:
         return this.executeTalk(interactable);
       
-      case InteractionBehavior.SCAN:
+      case SCAN:
         return this.executeScan(interactable);
       
-      case InteractionBehavior.USE:
+      case USE:
         return this.executeUse(interactable);
       
-      case InteractionBehavior.EXAMINE:
+      case EXAMINE:
         return this.executeExamine(interactable);
       
-      case InteractionBehavior.OPEN:
+      case OPEN:
         return this.executeOpen(interactable);
       
-      case InteractionBehavior.CLOSE:
+      case CLOSE:
         return this.executeClose(interactable);
       
-      case InteractionBehavior.ACTIVATE:
+      case ACTIVATE:
         return this.executeActivate(interactable);
       
-      case InteractionBehavior.DEACTIVATE:
+      case DEACTIVATE:
         return this.executeDeactivate(interactable);
       
-      case InteractionBehavior.CRAFT:
+      case CRAFT:
         return this.executeCraft(interactable);
       
-      case InteractionBehavior.TRADE:
+      case TRADE:
         return this.executeTrade(interactable);
       
-      case InteractionBehavior.QUEST:
+      case QUEST:
         return this.executeQuest(interactable);
       
       default:

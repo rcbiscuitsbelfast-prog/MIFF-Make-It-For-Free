@@ -265,7 +265,7 @@ async function main() {
           action: 'rules_listed',
           success: rulesResult.status === 'ok',
           rules: rulesResult.result,
-          count: Array.isArray(rulesResult.result) ? rulesResult.result.length : 0,
+          count: Array.isArray(rulesResult.result) ? rulesResult.length: 0,
           issues: rulesResult.issues || []
         };
         break;
@@ -276,7 +276,7 @@ async function main() {
           action: 'vendors_listed',
           success: vendorsResult.status === 'ok',
           vendors: vendorsResult.result,
-          count: Array.isArray(vendorsResult.result) ? vendorsResult.result.length : 0,
+          count: Array.isArray(vendorsResult.result) ? vendorsResult.length: 0,
           issues: vendorsResult.issues || []
         };
         break;
@@ -287,7 +287,7 @@ async function main() {
           action: 'currencies_listed',
           success: currenciesResult.status === 'ok',
           currencies: currenciesResult.result,
-          count: Array.isArray(currenciesResult.result) ? currenciesResult.result.length : 0,
+          count: Array.isArray(currenciesResult.result) ? currenciesResult.length: 0,
           issues: currenciesResult.issues || []
         };
         break;
@@ -504,7 +504,7 @@ async function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? message: String(error),
       timestamp: new Date()
     }, null, 2));
     process.exit(1);

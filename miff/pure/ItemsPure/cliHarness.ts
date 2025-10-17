@@ -511,14 +511,14 @@ class ItemsPureCLI {
    */
   private getEffectIcon(effectType: ItemEffectType): string {
     switch (effectType) {
-      case ItemEffectType.HEAL: return '❤️';
-      case ItemEffectType.REVIVE: return '💚';
-      case ItemEffectType.BUFF_ATTACK: return '⚔️';
-      case ItemEffectType.BUFF_DEFENSE: return '🛡️';
-      case ItemEffectType.SYNC_BOOST: return '🔄';
-      case ItemEffectType.EVOLVE: return '✨';
-      case ItemEffectType.UNLOCK_FLAG: return '🔑';
-      case ItemEffectType.NONE: return '❓';
+      case HEAL: return '❤️';
+      case REVIVE: return '💚';
+      case BUFF_ATTACK: return '⚔️';
+      case BUFF_DEFENSE: return '🛡️';
+      case SYNC_BOOST: return '🔄';
+      case EVOLVE: return '✨';
+      case UNLOCK_FLAG: return '🔑';
+      case NONE: return '❓';
       default: return '❓';
     }
   }

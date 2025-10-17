@@ -87,7 +87,7 @@ export class CapabilityDiscovery {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error discovering capabilities:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Error discovering capabilities:', err instanceof Error ? message: String(err));
       return [];
     }
   }
@@ -121,7 +121,7 @@ export class CapabilityDiscovery {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       result.status = 'error';
-      result.errors?.push(error instanceof Error ? error.message : String(error));
+      result.errors?.push(error instanceof Error ? message: String(error));
     }
 
     return result;
@@ -286,7 +286,7 @@ describe('${result.moduleName} Capabilities', () => {
       return files;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error finding capable files:', err instanceof Error ? err.message : String(err));
+      console.error('Error finding capable files:', err instanceof Error ? message: String(err));
       return [];
     }
   }
@@ -447,7 +447,7 @@ describe('${result.moduleName} Capabilities', () => {
     }, 0);
     
     this.stats.totalCapabilities = totalCapabilities;
-    this.stats.averageCapabilitiesPerModule = this.stats.totalModules > 0 ? totalCapabilities / this.stats.totalModules : 0;
+    this.stats.averageCapabilitiesPerModule = this.stats.totalModules > 0 ? totalCapabilities / this.totalModules: 0;
   }
 
   private initializeStats(): DiscoveryStats {

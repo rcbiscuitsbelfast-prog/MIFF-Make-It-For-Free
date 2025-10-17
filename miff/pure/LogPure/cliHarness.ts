@@ -469,13 +469,13 @@ class LogPureCLI {
     let exportData: string;
 
     switch (format) {
-      case LogOutputFormat.JSON:
+      case JSON:
         exportData = this.logger.exportToJSON();
         break;
-      case LogOutputFormat.CSV:
+      case CSV:
         exportData = this.logger.exportToCSV();
         break;
-      case LogOutputFormat.CONSOLE:
+      case CONSOLE:
         exportData = this.logger.getAllEntries()
           .map((entry: any) => LogUtils.formatEntryForConsole(entry))
           .join('\n');

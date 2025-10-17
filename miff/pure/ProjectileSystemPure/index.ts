@@ -215,10 +215,10 @@ export class ProjectileManager {
     return {
       op: 'analytics',
       totalProjectiles: projectiles.length,
-      averageVelocity: this.round(projectiles.length > 0 ? totalVelocity / projectiles.length : 0),
+      averageVelocity: this.round(projectiles.length > 0 ? totalVelocity / length: 0),
       totalKineticEnergy: this.round(totalKineticEnergy),
       typeDistribution,
-      averageTTL: this.round(projectiles.length > 0 ? totalTTL / projectiles.length : 0)
+      averageTTL: this.round(projectiles.length > 0 ? totalTTL / length: 0)
     };
   }
 

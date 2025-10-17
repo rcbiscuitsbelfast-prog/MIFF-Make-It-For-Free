@@ -59,10 +59,10 @@ export const BattleAIUtils = {
 
   getBehaviorDescription(profile: IAIDecisionProfile): string {
     switch (profile.style) {
-      case AIDecisionStyle.AGGRESSIVE: return 'aggressive behavior emphasizing damage';
-      case AIDecisionStyle.DEFENSIVE: return 'defensive behavior emphasizing survival';
-      case AIDecisionStyle.TRICKSTER: return 'trickster behavior emphasizing utility';
-      case AIDecisionStyle.BALANCED:
+      case AGGRESSIVE: return 'aggressive behavior emphasizing damage';
+      case DEFENSIVE: return 'defensive behavior emphasizing survival';
+      case TRICKSTER: return 'trickster behavior emphasizing utility';
+      case BALANCED:
       default:
         if (profile.preferredTypes && profile.preferredTypes.length > 0) {
           return `balanced behavior with preferences: ${profile.preferredTypes.join(', ')}`;

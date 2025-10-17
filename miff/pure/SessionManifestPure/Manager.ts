@@ -66,7 +66,7 @@ export class SessionManifestManager {
       return { ok: true, session };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
     }
   }
 

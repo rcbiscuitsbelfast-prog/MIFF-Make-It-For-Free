@@ -792,7 +792,7 @@ export class EquipmentManager {
 
     // Calculate totals
     this.stats.totalModifiers = items.reduce((acc, item) => acc + item.modifiers.length, 0);
-    this.stats.averageLevel = items.length > 0 ? items.reduce((acc, item) => acc + item.level, 0) / items.length : 0;
+    this.stats.averageLevel = items.length > 0 ? items.reduce((acc, item) => acc + item.level, 0) / length: 0;
     this.stats.durability = items.reduce((acc, item) => acc + (item.durability || 0), 0);
     this.stats.enchantments = items.reduce((acc, item) => acc + (item.enchantments?.length || 0), 0);
   }

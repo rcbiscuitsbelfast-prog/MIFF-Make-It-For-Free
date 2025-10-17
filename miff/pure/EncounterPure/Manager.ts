@@ -504,15 +504,15 @@ export class EncounterTrigger {
 
   matches(playerState: PlayerState): boolean {
     switch (this.type) {
-      case TriggerType.ZONE_ENTRY:
+      case ZONE_ENTRY:
         return this.matchesZone(playerState.currentZone);
-      case TriggerType.TILE_TYPE:
+      case TILE_TYPE:
         return this.matchesTileType(playerState.currentTileType);
-      case TriggerType.TIME_OF_DAY:
+      case TIME_OF_DAY:
         return this.matchesTimeOfDay(playerState.timeOfDay);
-      case TriggerType.PLAYER_LEVEL:
+      case PLAYER_LEVEL:
         return this.matchesLevel(playerState.level);
-      case TriggerType.RANDOM_CHANCE:
+      case RANDOM_CHANCE:
         return Math.random() < (this.chance || 0.1);
       default:
         return false;

@@ -189,7 +189,7 @@ export class TeleportationManager {
       (stats.successfulTeleports / stats.totalTeleports) * 100 : 0;
 
     const averageEnergyCost = stats.totalTeleports > 0 ?
-      stats.totalEnergySpent / stats.successfulTeleports : 0;
+      stats.totalEnergySpent / successfulTeleports: 0;
 
     // Find most active zone
     const zones = this.teleportationSystem.getAllZones();

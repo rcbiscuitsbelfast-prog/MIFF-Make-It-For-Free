@@ -147,7 +147,7 @@ class AvatarAssetRegistryCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Test failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -172,7 +172,7 @@ class AvatarAssetRegistryCLI {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Asset resolution failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Asset resolution failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -232,7 +232,7 @@ class AvatarAssetRegistryCLI {
       console.log(`   Remix Safety: ${newAsset.remixSafety}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Asset addition failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Asset addition failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -244,7 +244,7 @@ class AvatarAssetRegistryCLI {
       console.log(`   Version: ${this.registry.version}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Sample registry creation failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Sample registry creation failed:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -366,7 +366,7 @@ class AvatarAssetRegistryCLI {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Simulation failed:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Simulation failed:', err instanceof Error ? message: String(err));
     }
   }
 

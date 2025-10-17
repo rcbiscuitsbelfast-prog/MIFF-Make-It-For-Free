@@ -502,8 +502,8 @@ export class RaidManager {
 
     // Encounter details
     const encounterDetails = encounters.map((encounter: any) => {
-      const duration = encounter.endTime ? encounter.endTime - encounter.startTime : 0;
-      const efficiency = encounter.damageTaken > 0 ? encounter.damageDealt / encounter.damageTaken : encounter.damageDealt;
+      const duration = encounter.endTime ? encounter.endTime - startTime: 0;
+      const efficiency = encounter.damageTaken > 0 ? encounter.damageDealt / damageTaken: encounter.damageDealt;
       const performance = efficiency > 2 ? 'excellent' : 
                         efficiency > 1.5 ? 'good' : 
                         efficiency > 1 ? 'fair' : 'poor';
@@ -537,7 +537,7 @@ export class RaidManager {
         ? diffEncounters.filter((e: any) => e.status === 'completed')
             .reduce((sum, e) => sum + (e.endTime! - e.startTime), 0) / victories
         : 0;
-      const successRate = diffEncounters.length > 0 ? victories / diffEncounters.length : 0;
+      const successRate = diffEncounters.length > 0 ? victories / length: 0;
 
       difficultyBreakdown[diff as RaidDifficulty] = {
         encounters: diffEncounters.length,
@@ -563,7 +563,7 @@ export class RaidManager {
           totalHealingDone,
           totalLootGenerated: completedEncounters.reduce((sum, e) => {
             const boss = this.bosses.get(e.bossId);
-            return sum + (boss ? boss.lootTable.length : 0);
+            return sum + (boss ? boss.length: 0);
           }, 0)
         },
         bosses: bossStats,

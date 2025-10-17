@@ -230,7 +230,7 @@ export class AuthenticationSystem {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Registration failed' 
+        error: error instanceof Error ? message: 'Registration failed' 
       };
     }
   }
@@ -290,7 +290,7 @@ export class AuthenticationSystem {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Login failed' 
+        error: error instanceof Error ? message: 'Login failed' 
       };
     }
   }
@@ -310,7 +310,7 @@ export class AuthenticationSystem {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Logout failed' 
+        error: error instanceof Error ? message: 'Logout failed' 
       };
     }
   }
@@ -351,7 +351,7 @@ export class AuthenticationSystem {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         valid: false, 
-        error: error instanceof Error ? error.message : 'Token verification failed' 
+        error: error instanceof Error ? message: 'Token verification failed' 
       };
     }
   }
@@ -386,7 +386,7 @@ export class AuthenticationSystem {
       const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Token refresh failed' 
+        error: error instanceof Error ? message: 'Token refresh failed' 
       };
     }
   }

@@ -675,7 +675,7 @@ export class CraftingManager {
     const baseExp = 10;
     const difficultyMultiplier = this.getDifficultyMultiplier(recipe.difficulty);
     const qualityBonus = Math.floor((session.quality - 50) / 10);
-    const successBonus = success ? 1.5 : 0.5;
+    const successBonus = success ? 5: 0.5;
     
     return Math.floor((baseExp + qualityBonus) * difficultyMultiplier * successBonus);
   }

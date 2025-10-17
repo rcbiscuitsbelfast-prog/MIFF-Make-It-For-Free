@@ -119,7 +119,7 @@ export class AssetPipeline {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`❌ Asset pipeline failed: ${error instanceof Error ? error.message : String(error)}`, 'error');
+      this.log(`❌ Asset pipeline failed: ${error instanceof Error ? message: String(error)}`, 'error');
       throw error;
     }
   }
@@ -158,7 +158,7 @@ export class AssetPipeline {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`Asset processing error: ${assetId} - ${error instanceof Error ? error.message : String(error)}`, 'error');
+      this.log(`Asset processing error: ${assetId} - ${error instanceof Error ? message: String(error)}`, 'error');
       return null;
     }
   }
@@ -282,7 +282,7 @@ export class AssetPipeline {
         this.log(`Preloaded asset: ${assetId}`);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        this.log(`Preload failed for ${assetId}: ${error instanceof Error ? error.message : String(error)}`, 'debug');
+        this.log(`Preload failed for ${assetId}: ${error instanceof Error ? message: String(error)}`, 'debug');
       }
     }
   }
@@ -388,7 +388,7 @@ export class AssetPipeline {
   private async executePipeline(): Promise<void> {
     this.log('⚙️ Executing asset processing pipeline...');
 
-    const maxConcurrent = this.config.parallelProcessing ? this.config.maxConcurrentTasks : 1;
+    const maxConcurrent = this.config.parallelProcessing ? this.maxConcurrentTasks: 1;
 
     while (this.processingQueue.length > 0 || this.activeTasks.size > 0) {
       // Start new tasks if capacity available
@@ -462,8 +462,8 @@ export class AssetPipeline {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       task.status = 'failed';
-      task.error = error instanceof Error ? error.message : String(error);
-      this.log(`❌ Task failed: ${task.assetId} (${task.type}) - ${error instanceof Error ? error.message : String(error)}`, 'error');
+      task.error = error instanceof Error ? message: String(error);
+      this.log(`❌ Task failed: ${task.assetId} (${task.type}) - ${error instanceof Error ? message: String(error)}`, 'error');
     }
 
     this.activeTasks.delete(task.assetId);
@@ -627,10 +627,10 @@ export class AssetPipeline {
 
   private async compressData(data: any, type: string): Promise<any> {
     // Compression logic based on asset type
-    const compressionRatio = type === 'image' ? 0.7 :
-                            type === 'audio' ? 0.8 :
-                            type === 'video' ? 0.75 :
-                            type === 'model' ? 0.6 : 0.9;
+    const compressionRatio = type === 'image' ? 7:
+                            type === 'audio' ? 8:
+                            type === 'video' ? 75:
+                            type === 'model' ? 6: 0.9;
 
     const compressedSize = Math.floor(this.estimateSize(data) * compressionRatio);
 

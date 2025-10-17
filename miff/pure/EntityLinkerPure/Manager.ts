@@ -107,7 +107,7 @@ export class EntityLinkerManager {
     for (const n of input.npcs || []) {
       if (n.quest) {
         const ok = !!this.extern.quests?.[n.quest];
-        this.resolved[`npc:${n.id}:quest`] = { ok, target: ok ? n.quest : undefined, type: 'quest' };
+        this.resolved[`npc:${n.id}:quest`] = { ok, target: ok ? quest: undefined, type: 'quest' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -126,7 +126,7 @@ export class EntityLinkerManager {
 
       if (n.dialog) {
         const ok = !!this.extern.npcs?.[n.dialog];
-        this.resolved[`npc:${n.id}:dialog`] = { ok, target: ok ? n.dialog : undefined, type: 'dialog' };
+        this.resolved[`npc:${n.id}:dialog`] = { ok, target: ok ? dialog: undefined, type: 'dialog' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -145,7 +145,7 @@ export class EntityLinkerManager {
 
       if (n.skill) {
         const ok = !!this.extern.skills?.[n.skill];
-        this.resolved[`npc:${n.id}:skill`] = { ok, target: ok ? n.skill : undefined, type: 'skill' };
+        this.resolved[`npc:${n.id}:skill`] = { ok, target: ok ? skill: undefined, type: 'skill' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -166,7 +166,7 @@ export class EntityLinkerManager {
     // Equipment->Items, Enchantments
     for (const e of input.equipment || []) {
       const ok = !!this.extern.items?.[e.itemId];
-      this.resolved[`equip:${e.id}:item`] = { ok, target: ok ? e.itemId : undefined, type: 'item' };
+      this.resolved[`equip:${e.id}:item`] = { ok, target: ok ? itemId: undefined, type: 'item' };
       statistics.total++;
       if (ok) statistics.resolved++;
       else {
@@ -184,7 +184,7 @@ export class EntityLinkerManager {
 
       if (e.enchantment) {
         const ok = !!this.extern.items?.[e.enchantment];
-        this.resolved[`equip:${e.id}:enchantment`] = { ok, target: ok ? e.enchantment : undefined, type: 'enchantment' };
+        this.resolved[`equip:${e.id}:enchantment`] = { ok, target: ok ? enchantment: undefined, type: 'enchantment' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -205,7 +205,7 @@ export class EntityLinkerManager {
     // Placements->Zones, NPCs
     for (const p of input.placements || []) {
       const ok = !!this.extern.zones?.[p.zoneId];
-      this.resolved[`place:${p.id}:zone`] = { ok, target: ok ? p.zoneId : undefined, type: 'zone' };
+      this.resolved[`place:${p.id}:zone`] = { ok, target: ok ? zoneId: undefined, type: 'zone' };
       statistics.total++;
       if (ok) statistics.resolved++;
       else {
@@ -223,7 +223,7 @@ export class EntityLinkerManager {
 
       if (p.npcId) {
         const ok = !!this.extern.npcs?.[p.npcId];
-        this.resolved[`place:${p.id}:npc`] = { ok, target: ok ? p.npcId : undefined, type: 'npc' };
+        this.resolved[`place:${p.id}:npc`] = { ok, target: ok ? npcId: undefined, type: 'npc' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -245,7 +245,7 @@ export class EntityLinkerManager {
     for (const s of input.skills || []) {
       if (s.prerequisite) {
         const ok = !!this.extern.skills?.[s.prerequisite];
-        this.resolved[`skill:${s.id}:prerequisite`] = { ok, target: ok ? s.prerequisite : undefined, type: 'skill' };
+        this.resolved[`skill:${s.id}:prerequisite`] = { ok, target: ok ? prerequisite: undefined, type: 'skill' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -264,7 +264,7 @@ export class EntityLinkerManager {
 
       if (s.unlockCondition) {
         const ok = !!this.extern.achievements?.[s.unlockCondition];
-        this.resolved[`skill:${s.id}:unlock`] = { ok, target: ok ? s.unlockCondition : undefined, type: 'achievement' };
+        this.resolved[`skill:${s.id}:unlock`] = { ok, target: ok ? unlockCondition: undefined, type: 'achievement' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -286,7 +286,7 @@ export class EntityLinkerManager {
     for (const a of input.achievements || []) {
       if (a.requirement) {
         const ok = !!this.extern.achievements?.[a.requirement];
-        this.resolved[`achievement:${a.id}:requirement`] = { ok, target: ok ? a.requirement : undefined, type: 'achievement' };
+        this.resolved[`achievement:${a.id}:requirement`] = { ok, target: ok ? requirement: undefined, type: 'achievement' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -305,7 +305,7 @@ export class EntityLinkerManager {
 
       if (a.reward) {
         const ok = !!this.extern.items?.[a.reward];
-        this.resolved[`achievement:${a.id}:reward`] = { ok, target: ok ? a.reward : undefined, type: 'item' };
+        this.resolved[`achievement:${a.id}:reward`] = { ok, target: ok ? reward: undefined, type: 'item' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -327,7 +327,7 @@ export class EntityLinkerManager {
     for (const e of input.events || []) {
       if (e.trigger) {
         const ok = !!this.extern.events?.[e.trigger];
-        this.resolved[`event:${e.id}:trigger`] = { ok, target: ok ? e.trigger : undefined, type: 'event' };
+        this.resolved[`event:${e.id}:trigger`] = { ok, target: ok ? trigger: undefined, type: 'event' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {
@@ -346,7 +346,7 @@ export class EntityLinkerManager {
 
       if (e.target) {
         const ok = !!this.extern.npcs?.[e.target] || !!this.extern.items?.[e.target] || !!this.extern.zones?.[e.target];
-        this.resolved[`event:${e.id}:target`] = { ok, target: ok ? e.target : undefined, type: 'target' };
+        this.resolved[`event:${e.id}:target`] = { ok, target: ok ? target: undefined, type: 'target' };
         statistics.total++;
         if (ok) statistics.resolved++;
         else {

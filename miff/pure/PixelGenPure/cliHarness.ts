@@ -215,7 +215,7 @@ function main() {
               totalAssetsGenerated: demoResults.reduce((sum, r) => sum + r.generatedAssets.length, 0) + customAssets.length,
               styles: [...new Set([...demoResults.map((r: any) => r.presetInfo.style), customPreset.style])],
               averageDimensions: demoResults.length > 0 ? 
-                demoResults[0!].presetInfo.dimensions : 'unknown'
+                demoResults[0!].dimensions: 'unknown'
             }
           }
         };
@@ -282,7 +282,7 @@ function main() {
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? message: String(error),
       timestamp: new Date()
     }, null, 2));
     process.exit(1);

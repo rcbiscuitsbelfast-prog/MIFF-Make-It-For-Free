@@ -168,7 +168,7 @@ export class SplashScreenIntegration {
       console.log('✅ Splash screen injected into web export successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Failed to inject splash screen into web export:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Failed to inject splash screen into web export:', err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -194,7 +194,7 @@ export class SplashScreenIntegration {
       console.log('✅ Splash screen injected into Unity scene successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Failed to inject splash screen into Unity scene:', err instanceof Error ? err.message : String(err));
+      console.error('❌ Failed to inject splash screen into Unity scene:', err instanceof Error ? message: String(err));
       throw error;
     }
   }
@@ -325,7 +325,7 @@ public class MIFFSplashScreen : MonoBehaviour
       await cliCommand.handler(flags);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ CLI command '${command}' failed:`, err instanceof Error ? err.message : String(err));
+      console.error(`❌ CLI command '${command}' failed:`, err instanceof Error ? message: String(err));
       throw error;
     }
   }

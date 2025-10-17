@@ -309,7 +309,7 @@ export class APIDocumentationGenerator {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('APIDocumentationGenerator', 'Failed to generate documentation', {
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
       console.endTimer(timerId);
@@ -421,7 +421,7 @@ export class APIDocumentationGenerator {
       const err = error instanceof Error ? error : new Error(String(error));
       console.warn('APIDocumentationGenerator', 'Failed to analyze module', {
         module: name,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? message: 'Unknown error'
       });
       return null;
     }

@@ -633,7 +633,7 @@ export class AnimationSystemManager {
       animation.analytics = {
         totalAnimations: animations.length,
         activeAnimations: activeAnimations.length,
-        averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
+        averageDuration: animations.length > 0 ? totalDuration / length: 0,
         keyframeCount: totalKeyframes,
         transitionCount: totalTransitions,
         lastUpdated: new Date()
@@ -689,7 +689,7 @@ export class AnimationSystemManager {
       activeAnimations: activeAnimations.length,
       animationsByType,
       animationsByStatus,
-      averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
+      averageDuration: animations.length > 0 ? totalDuration / length: 0,
       totalKeyframes,
       uptime: new Date() - this.startTime.getTime()
     };

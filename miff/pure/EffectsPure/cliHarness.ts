@@ -428,13 +428,13 @@ class EffectsPureCLI {
     const result = this.effectManager.applyEffect(this.currentEntityId, effect);
 
     switch (result) {
-      case EffectApplicationResult.APPLIED:
+      case APPLIED:
         console.log(`✅ Applied ${effect.name} to ${this.currentEntityId}`);
         break;
-      case EffectApplicationResult.REFRESHED:
+      case REFRESHED:
         console.log(`🔄 Refreshed ${effect.name} on ${this.currentEntityId}`);
         break;
-      case EffectApplicationResult.REJECTED:
+      case REJECTED:
         console.log(`❌ Could not apply ${effect.name} to ${this.currentEntityId}`);
         break;
     }
@@ -766,12 +766,12 @@ class EffectsPureCLI {
    */
   private getEffectTypeIcon(effectType: EffectType): string {
     switch (effectType) {
-      case EffectType.STAT_MODIFIER: return '📊';
-      case EffectType.DAMAGE_OVER_TIME: return '☠️';
-      case EffectType.HEAL: return '💚';
-      case EffectType.STUN: return '😵';
-      case EffectType.SHIELD: return '🛡️';
-      case EffectType.CUSTOM: return '⚡';
+      case STAT_MODIFIER: return '📊';
+      case DAMAGE_OVER_TIME: return '☠️';
+      case HEAL: return '💚';
+      case STUN: return '😵';
+      case SHIELD: return '🛡️';
+      case CUSTOM: return '⚡';
       default: return '❓';
     }
   }
@@ -781,14 +781,14 @@ class EffectsPureCLI {
    */
   private getStatIcon(stat: TargetStat): string {
     switch (stat) {
-      case TargetStat.HP: return '❤️';
-      case TargetStat.ATK: return '⚔️';
-      case TargetStat.DEF: return '🛡️';
-      case TargetStat.SPD: return '💨';
-      case TargetStat.SPATK: return '🔥';
-      case TargetStat.SPDEF: return '❄️';
-      case TargetStat.ACC: return '🎯';
-      case TargetStat.EVA: return '💨';
+      case HP: return '❤️';
+      case ATK: return '⚔️';
+      case DEF: return '🛡️';
+      case SPD: return '💨';
+      case SPATK: return '🔥';
+      case SPDEF: return '❄️';
+      case ACC: return '🎯';
+      case EVA: return '💨';
       default: return '📊';
     }
   }

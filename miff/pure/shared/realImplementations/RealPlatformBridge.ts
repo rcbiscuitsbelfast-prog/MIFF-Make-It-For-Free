@@ -815,7 +815,7 @@ export class RealPlatformBridge {
       return result.state === 'granted';
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error requesting permission:', err instanceof Error ? err.message : String(err));
+      console.error('Error requesting permission:', err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -833,7 +833,7 @@ export class RealPlatformBridge {
         };
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error getting storage quota:', err instanceof Error ? err.message : String(err));
+        console.error('Error getting storage quota:', err instanceof Error ? message: String(err));
       }
     }
     
@@ -849,7 +849,7 @@ export class RealPlatformBridge {
         return await navigator.storage.persist();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error requesting persistent storage:', err instanceof Error ? err.message : String(err));
+        console.error('Error requesting persistent storage:', err instanceof Error ? message: String(err));
       }
     }
     
@@ -884,7 +884,7 @@ export class RealPlatformBridge {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
+          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
         }
       });
     }

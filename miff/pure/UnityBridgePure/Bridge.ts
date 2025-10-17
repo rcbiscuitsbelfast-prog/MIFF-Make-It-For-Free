@@ -119,7 +119,7 @@ export class UnityBridge {
       return {
         op: 'simulate',
         status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
+        issues: [error instanceof Error ? message: String(error)]
       };
     }
   }
@@ -177,7 +177,7 @@ export class UnityBridge {
       return {
         op: 'render',
         status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
+        issues: [error instanceof Error ? message: String(error)]
       };
     }
   }
@@ -217,7 +217,7 @@ export class UnityBridge {
       return {
         op: 'interop',
         status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
+        issues: [error instanceof Error ? message: String(error)]
       };
     }
   }

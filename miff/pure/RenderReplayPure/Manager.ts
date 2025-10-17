@@ -97,7 +97,7 @@ export class RenderReplayManager {
         op: 'replay',
         status: 'error',
         session: this.createEmptySession(),
-        issues: [`Replay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Replay failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -133,7 +133,7 @@ export class RenderReplayManager {
         op: 'replay',
         status: 'error',
         session: this.createEmptySession(),
-        issues: [`Replay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Replay failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -175,7 +175,7 @@ export class RenderReplayManager {
         op: 'replay',
         status: 'error',
         session: this.createEmptySession(),
-        issues: [`Replay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Replay failed: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }
@@ -216,7 +216,7 @@ export class RenderReplayManager {
           totalRenderData: sessionData.frames.reduce((sum: number, frame: any) => 
             sum + (frame.data ? 1 : 0), 0),
           totalIssues: sessionData.frames.reduce((sum: number, frame: any) => 
-            sum + (frame.issues ? frame.issues.length : 0), 0),
+            sum + (frame.issues ? frame.length: 0), 0),
           duration: sessionData.metadata?.duration || '0ms',
           engine: this.config.engine
         }
@@ -230,7 +230,7 @@ export class RenderReplayManager {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         ok: false,
-        issues: [`Failed to load session: ${error instanceof Error ? error.message : 'Unknown error'}`]
+        issues: [`Failed to load session: ${error instanceof Error ? message: 'Unknown error'}`]
       };
     }
   }

@@ -589,19 +589,19 @@ class ChallengesPureCLI {
     let message = '';
 
     switch (outcome) {
-      case ChallengeOutcome.VICTORY:
+      case VICTORY:
         result = ChallengeResult.victory(challenge.rewards, challenge.loreFlagsToSet, challenge.syncBoosts, 'Challenge completed successfully!', turns);
         message = `✅ Completed challenge: ${challenge.name}`;
         break;
-      case ChallengeOutcome.DEFEAT:
+      case DEFEAT:
         result = ChallengeResult.defeat('Challenge failed', turns);
         message = `❌ Failed challenge: ${challenge.name}`;
         break;
-      case ChallengeOutcome.TIMEOUT:
+      case TIMEOUT:
         result = ChallengeResult.timeout(turns, 'Challenge timed out');
         message = `⏰ Timed out: ${challenge.name}`;
         break;
-      case ChallengeOutcome.FORFEIT:
+      case FORFEIT:
         result = ChallengeResult.forfeit('Challenge forfeited', turns);
         message = `🏳️ Forfeited: ${challenge.name}`;
         break;
@@ -921,10 +921,10 @@ class ChallengesPureCLI {
    */
   private getStatusIcon(status: ChallengeStatus): string {
     switch (status) {
-      case ChallengeStatus.LOCKED: return '🔒';
-      case ChallengeStatus.AVAILABLE: return '⚔️';
-      case ChallengeStatus.IN_PROGRESS: return '⚡';
-      case ChallengeStatus.COMPLETED: return '🏆';
+      case LOCKED: return '🔒';
+      case AVAILABLE: return '⚔️';
+      case IN_PROGRESS: return '⚡';
+      case COMPLETED: return '🏆';
       default: return '❓';
     }
   }
@@ -934,11 +934,11 @@ class ChallengesPureCLI {
    */
   private getDifficultyIcon(difficulty: ChallengeDifficulty): string {
     switch (difficulty) {
-      case ChallengeDifficulty.EASY: return '🟢';
-      case ChallengeDifficulty.MEDIUM: return '🟡';
-      case ChallengeDifficulty.HARD: return '🟠';
-      case ChallengeDifficulty.EXPERT: return '🔴';
-      case ChallengeDifficulty.LEGENDARY: return '🟣';
+      case EASY: return '🟢';
+      case MEDIUM: return '🟡';
+      case HARD: return '🟠';
+      case EXPERT: return '🔴';
+      case LEGENDARY: return '🟣';
       default: return '⚪';
     }
   }
@@ -948,13 +948,13 @@ class ChallengesPureCLI {
    */
   private getCategoryIcon(category: ChallengeCategory): string {
     switch (category) {
-      case ChallengeCategory.TUTORIAL: return '📚';
-      case ChallengeCategory.MAIN_STORY: return '📜';
-      case ChallengeCategory.SIDE_QUEST: return '📖';
-      case ChallengeCategory.DAILY: return '🌅';
-      case ChallengeCategory.WEEKLY: return '📅';
-      case ChallengeCategory.SPECIAL: return '✨';
-      case ChallengeCategory.ACHIEVEMENT: return '🏅';
+      case TUTORIAL: return '📚';
+      case MAIN_STORY: return '📜';
+      case SIDE_QUEST: return '📖';
+      case DAILY: return '🌅';
+      case WEEKLY: return '📅';
+      case SPECIAL: return '✨';
+      case ACHIEVEMENT: return '🏅';
       default: return '📄';
     }
   }
@@ -964,10 +964,10 @@ class ChallengesPureCLI {
    */
   private getStatusDisplay(status: ChallengeStatus): string {
     switch (status) {
-      case ChallengeStatus.LOCKED: return '🔒 Locked';
-      case ChallengeStatus.AVAILABLE: return '⚔️ Available';
-      case ChallengeStatus.IN_PROGRESS: return '⚡ In Progress';
-      case ChallengeStatus.COMPLETED: return '🏆 Completed';
+      case LOCKED: return '🔒 Locked';
+      case AVAILABLE: return '⚔️ Available';
+      case IN_PROGRESS: return '⚡ In Progress';
+      case COMPLETED: return '🏆 Completed';
       default: return 'Unknown';
     }
   }
@@ -977,11 +977,11 @@ class ChallengesPureCLI {
    */
   private getDifficultyDisplay(difficulty: ChallengeDifficulty): string {
     switch (difficulty) {
-      case ChallengeDifficulty.EASY: return '🟢 Easy';
-      case ChallengeDifficulty.MEDIUM: return '🟡 Medium';
-      case ChallengeDifficulty.HARD: return '🟠 Hard';
-      case ChallengeDifficulty.EXPERT: return '🔴 Expert';
-      case ChallengeDifficulty.LEGENDARY: return '🟣 Legendary';
+      case EASY: return '🟢 Easy';
+      case MEDIUM: return '🟡 Medium';
+      case HARD: return '🟠 Hard';
+      case EXPERT: return '🔴 Expert';
+      case LEGENDARY: return '🟣 Legendary';
       default: return 'Unknown';
     }
   }
@@ -991,13 +991,13 @@ class ChallengesPureCLI {
    */
   private getCategoryDisplay(category: ChallengeCategory): string {
     switch (category) {
-      case ChallengeCategory.TUTORIAL: return '📚 Tutorial';
-      case ChallengeCategory.MAIN_STORY: return '📜 Main Story';
-      case ChallengeCategory.SIDE_QUEST: return '📖 Side Quest';
-      case ChallengeCategory.DAILY: return '🌅 Daily';
-      case ChallengeCategory.WEEKLY: return '📅 Weekly';
-      case ChallengeCategory.SPECIAL: return '✨ Special';
-      case ChallengeCategory.ACHIEVEMENT: return '🏅 Achievement';
+      case TUTORIAL: return '📚 Tutorial';
+      case MAIN_STORY: return '📜 Main Story';
+      case SIDE_QUEST: return '📖 Side Quest';
+      case DAILY: return '🌅 Daily';
+      case WEEKLY: return '📅 Weekly';
+      case SPECIAL: return '✨ Special';
+      case ACHIEVEMENT: return '🏅 Achievement';
       default: return 'Unknown';
     }
   }

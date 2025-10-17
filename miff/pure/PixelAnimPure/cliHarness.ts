@@ -89,7 +89,7 @@ class PixelAnimCLI {
       return {
         op: operation.op,
         status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
       };
     }
@@ -104,7 +104,7 @@ class PixelAnimCLI {
       op.name,
       op.frames,
       op.fps || 8,
-      op.loop !== undefined ? op.loop : true
+      op.loop !== undefined ? loop: true
     );
 
     return {
@@ -428,7 +428,7 @@ class PixelAnimCLI {
       result: {
         valid: validation.valid,
         errors: validation.errors,
-        animation: validation.valid ? op.data : null
+        animation: validation.valid ? data: null
       },
       timestamp: new Date()
     };
@@ -599,7 +599,7 @@ async function main() {
     console.log(JSON.stringify(result, null, 2));
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', error instanceof Error ? error.message : error);
+    console.error('Error:', error instanceof Error ? message: error);
     process.exit(1);
   }
 }

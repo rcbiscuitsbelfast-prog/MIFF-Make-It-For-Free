@@ -1049,7 +1049,7 @@ export class RitualSystemPure {
   } {
     const total = this.activeRituals.size + this.completedRituals.length;
     const averageQuality = this.completedRituals.length > 0 ?
-      this.completedRituals.reduce((sum, r) => sum + r.quality, 0) / this.completedRituals.length : 0;
+      this.completedRituals.reduce((sum, r) => sum + r.quality, 0) / this.length: 0;
 
     const categoryCount = new Map<string, number>();
     this.completedRituals.forEach((result: any) => {
