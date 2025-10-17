@@ -1,469 +1,368 @@
 /**
- * InputSanitizer - Comprehensive input validation and sanitization
+ * InputSanitizer - Security utility for validating and sanitizing user input
  * 
- * Provides comprehensive input sanitization for all user-provided data
- * including strings, numbers, objects, and arrays to prevent injection attacks.
- * 
- * @version 1.0.0
- * @author MIFF Framework Security Team
+ * Provides comprehensive input validation for CLI harnesses and user inputs
+ * to prevent command injection, path traversal, and other security vulnerabilities.
  */
 
-export interface SanitizationOptions {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
+export interface ValidationRule {
+  type: 'string' | 'number' | 'boolean' | 'path' | 'email' | 'url' | 'json' | 'custom';
+  required?: boolean;
+  minLength?: number;
   maxLength?: number;
-  allowHtml?: boolean;
-  allowScripts?: boolean;
-  allowSpecialChars?: boolean;
-  trimWhitespace?: boolean;
-  normalizeUnicode?: boolean;
+  min?: number;
+  max?: number;
+  pattern?: RegExp;
+  allowedValues?: string[];
+  customValidator?: (value: any) => boolean;
+  errorMessage?: string;
 }
 
-export interface SanitizationResult<T = any> {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
-  sanitized: T;
+export interface ValidationResult {
   isValid: boolean;
-  warnings?: string[];
-  errors?: string[];
+  sanitizedValue?: any;
+  errors: string[];
 }
 
 export class InputSanitizer {
-  private static readonly DEFAULT_MAX_LENGTH = 1000;
-  private static readonly DANGEROUS_PATTERNS = [
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-    /javascript:/gi,
-    /vbscript:/gi,
-    /onload\s*=/gi,
-    /onerror\s*=/gi,
-    /onclick\s*=/gi,
-    /onmouseover\s*=/gi,
-    /onfocus\s*=/gi,
-    /onblur\s*=/gi,
-    /onchange\s*=/gi,
-    /onsubmit\s*=/gi,
-    /onreset\s*=/gi,
-    /onkeydown\s*=/gi,
-    /onkeyup\s*=/gi,
-    /onkeypress\s*=/gi,
-    /onmousedown\s*=/gi,
-    /onmouseup\s*=/gi,
-    /onmousemove\s*=/gi,
-    /onmouseout\s*=/gi,
-    /onmouseenter\s*=/gi,
-    /onmouseleave\s*=/gi,
-    /oncontextmenu\s*=/gi,
-    /ondblclick\s*=/gi,
-    /onresize\s*=/gi,
-    /onscroll\s*=/gi,
-    /onunload\s*=/gi,
-    /onbeforeunload\s*=/gi,
-    /onabort\s*=/gi,
-    /onerror\s*=/gi,
-    /onload\s*=/gi,
-    /onloadstart\s*=/gi,
-    /onloadend\s*=/gi,
-    /onprogress\s*=/gi,
-    /ontimeout\s*=/gi,
-    /onabort\s*=/gi,
-    /onerror\s*=/gi,
-    /onload\s*=/gi,
-    /onloadstart\s*=/gi,
-    /onloadend\s*=/gi,
-    /onprogress\s*=/gi,
-    /ontimeout\s*=/gi,
-    /onabort\s*=/gi,
-    /onerror\s*=/gi,
-    /onload\s*=/gi,
-    /onloadstart\s*=/gi,
-    /onloadend\s*=/gi,
-    /onprogress\s*=/gi,
-    /ontimeout\s*=/gi,
-    /eval\s*\(/gi,
-    /function\s*\(/gi,
-    /new\s+\w+/gi,
-    /\.\w+\s*\(/gi,
-    /\[.*\]/gi,
-    /{.*}/gi,
-    /['"`]/gi,
-    /;|&|\||`|\$/gi
-  ];
-
+  
   /**
-   * Sanitize a string input
+   * Validate and sanitize a single input value
    */
-  static sanitizeString(input: string, options: SanitizationOptions = {}): SanitizationResult<string> {
-    const {
-      maxLength = this.DEFAULT_MAX_LENGTH,
-      allowHtml = false,
-      allowScripts = false,
-      allowSpecialChars = true,
-      trimWhitespace = true,
-      normalizeUnicode = true
-    } = options;
-
-    const warnings: string[] = [];
+  static validate(value: any, rule: ValidationRule): ValidationResult {
     const errors: string[] = [];
-
-    try {
-      let sanitized = input;
-
-      // Trim whitespace if requested
-      if (trimWhitespace) {
-        sanitized = sanitized.trim();
-      }
-
-      // Normalize unicode if requested
-      if (normalizeUnicode) {
-        sanitized = sanitized.normalize('NFC');
-      }
-
-      // Check length
-      if (sanitized.length > maxLength) {
-        errors.push(`String too long: ${sanitized.length} > ${maxLength}`);
-        sanitized = sanitized.substring(0, maxLength);
-        warnings.push('String truncated due to length limit');
-      }
-
-      // Remove dangerous patterns
-      for (const pattern of this.DANGEROUS_PATTERNS) {
-        if (pattern.test(sanitized)) {
-          sanitized = sanitized.replace(pattern, '');
-          warnings.push(`Dangerous pattern removed: ${pattern.source}`);
+    
+    // Check required
+    if (rule.required && (value === undefined || value === null || value === '')) {
+      errors.push(rule.errorMessage || 'Value is required');
+      return { isValid: false, errors };
+    }
+    
+    // Allow undefined/null for optional fields
+    if (!rule.required && (value === undefined || value === null)) {
+      return { isValid: true, sanitizedValue: value, errors: [] };
+    }
+    
+    let sanitizedValue = value;
+    
+    // Type-specific validation
+    switch (rule.type) {
+      case 'string':
+        sanitizedValue = this.sanitizeString(value, rule, errors);
+        break;
+      case 'number':
+        sanitizedValue = this.sanitizeNumber(value, rule, errors);
+        break;
+      case 'boolean':
+        sanitizedValue = this.sanitizeBoolean(value, errors);
+        break;
+      case 'path':
+        sanitizedValue = this.sanitizePath(value, errors);
+        break;
+      case 'email':
+        sanitizedValue = this.sanitizeEmail(value, errors);
+        break;
+      case 'url':
+        sanitizedValue = this.sanitizeUrl(value, errors);
+        break;
+      case 'json':
+        sanitizedValue = this.sanitizeJson(value, errors);
+        break;
+      case 'custom':
+        if (rule.customValidator && !rule.customValidator(value)) {
+          errors.push(rule.errorMessage || 'Custom validation failed');
         }
+        sanitizedValue = value;
+        break;
+    }
+    
+    return {
+      isValid: errors.length === 0,
+      sanitizedValue,
+      errors
+    };
+  }
+  
+  /**
+   * Validate CLI arguments
+   */
+  static validateArgs(args: string[], rules: ValidationRule[]): ValidationResult {
+    const errors: string[] = [];
+    const sanitizedValues: any[] = [];
+    
+    for (let i = 0; i < rules.length; i++) {
+      const result = this.validate(args[i], rules[i]);
+      if (!result.isValid) {
+        errors.push(`Argument ${i}: ${result.errors.join(', ')}`);
       }
-
-      // Remove HTML if not allowed
-      if (!allowHtml) {
-        sanitized = sanitized.replace(/<[^>]*>/g, '');
-        warnings.push('HTML tags removed');
+      sanitizedValues.push(result.sanitizedValue);
+    }
+    
+    return {
+      isValid: errors.length === 0,
+      sanitizedValue: sanitizedValues,
+      errors
+    };
+  }
+  
+  /**
+   * Safe process.argv access with validation
+   */
+  static getSafeArg(index: number, rule: ValidationRule, defaultValue?: any): any {
+    const value = process.argv[index];
+    
+    if (value === undefined) {
+      if (defaultValue !== undefined) {
+        return defaultValue;
       }
-
-      // Remove scripts if not allowed
-      if (!allowScripts) {
-        sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-        warnings.push('Script tags removed');
+      if (rule.required) {
+        throw new Error(`Required argument at index ${index} is missing`);
       }
-
-      // Remove special characters if not allowed
-      if (!allowSpecialChars) {
-        sanitized = sanitized.replace(/[^a-zA-Z0-9\s]/g, '');
-        warnings.push('Special characters removed');
+      return undefined;
+    }
+    
+    const result = this.validate(value, rule);
+    if (!result.isValid) {
+      throw new Error(`Invalid argument at index ${index}: ${result.errors.join(', ')}`);
+    }
+    
+    return result.sanitizedValue;
+  }
+  
+  // Private sanitization methods
+  
+  private static sanitizeString(value: any, rule: ValidationRule, errors: string[]): string {
+    const str = String(value);
+    
+    // Check length
+    if (rule.minLength !== undefined && str.length < rule.minLength) {
+      errors.push(`String must be at least ${rule.minLength} characters`);
+    }
+    if (rule.maxLength !== undefined && str.length > rule.maxLength) {
+      errors.push(`String must be at most ${rule.maxLength} characters`);
+    }
+    
+    // Check pattern
+    if (rule.pattern && !rule.pattern.test(str)) {
+      errors.push(rule.errorMessage || 'String does not match required pattern');
+    }
+    
+    // Check allowed values
+    if (rule.allowedValues && !rule.allowedValues.includes(str)) {
+      errors.push(`Value must be one of: ${rule.allowedValues.join(', ')}`);
+    }
+    
+    // Remove dangerous characters for command injection prevention
+    const sanitized = str
+      .replace(/[;&|`$()]/g, '') // Remove shell metacharacters
+      .replace(/\r?\n/g, '') // Remove newlines
+      .trim();
+    
+    return sanitized;
+  }
+  
+  private static sanitizeNumber(value: any, rule: ValidationRule, errors: string[]): number {
+    const num = Number(value);
+    
+    if (isNaN(num)) {
+      errors.push('Value must be a valid number');
+      return 0;
+    }
+    
+    if (rule.min !== undefined && num < rule.min) {
+      errors.push(`Number must be at least ${rule.min}`);
+    }
+    if (rule.max !== undefined && num > rule.max) {
+      errors.push(`Number must be at most ${rule.max}`);
+    }
+    
+    return num;
+  }
+  
+  private static sanitizeBoolean(value: any, errors: string[]): boolean {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    
+    const str = String(value).toLowerCase();
+    if (str === 'true' || str === '1' || str === 'yes') {
+      return true;
+    }
+    if (str === 'false' || str === '0' || str === 'no') {
+      return false;
+    }
+    
+    errors.push('Value must be a valid boolean (true/false)');
+    return false;
+  }
+  
+  private static sanitizePath(value: any, errors: string[]): string {
+    const str = String(value);
+    
+    // Prevent path traversal
+    if (str.includes('..')) {
+      errors.push('Path traversal detected (..)');
+      return '';
+    }
+    
+    // Prevent absolute paths to sensitive areas
+    if (str.startsWith('/etc') || str.startsWith('/root') || str.startsWith('/sys')) {
+      errors.push('Access to system directories is not allowed');
+      return '';
+    }
+    
+    // Remove null bytes
+    const sanitized = str.replace(/\0/g, '');
+    
+    // Basic path validation
+    if (!/^[a-zA-Z0-9_\-\/\.]+$/.test(sanitized)) {
+      errors.push('Path contains invalid characters');
+      return '';
+    }
+    
+    return sanitized;
+  }
+  
+  private static sanitizeEmail(value: any, errors: string[]): string {
+    const str = String(value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!emailRegex.test(str)) {
+      errors.push('Invalid email format');
+      return '';
+    }
+    
+    return str.toLowerCase().trim();
+  }
+  
+  private static sanitizeUrl(value: any, errors: string[]): string {
+    const str = String(value);
+    
+    try {
+      const url = new URL(str);
+      
+      // Only allow http/https
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        errors.push('Only HTTP/HTTPS URLs are allowed');
+        return '';
       }
-
-      // Remove control characters
-      sanitized = sanitized.replace(/[\x00-\x1f\x7f-\x9f]/g, '');
-      warnings.push('Control characters removed');
-
-      return {
-        sanitized,
-        isValid: errors.length === 0,
-        warnings: warnings.length > 0 ? warnings : undefined,
-        errors: errors.length > 0 ? errors : undefined
-      };
-    } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      return {
-        sanitized: '',
-        isValid: false,
-        errors: [error instanceof Error ? message: 'Sanitization failed']
-      };
+      
+      return url.toString();
+    } catch (e) {
+      errors.push('Invalid URL format');
+      return '';
     }
   }
-
-  /**
-   * Sanitize a number input
-   */
-  static sanitizeNumber(input: any, options: { min?: number; max?: number; allowFloat?: boolean } = {}): SanitizationResult<number> {
-    const { min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER, allowFloat = true } = options;
-    const warnings: string[] = [];
-    const errors: string[] = [];
-
+  
+  private static sanitizeJson(value: any, errors: string[]): any {
+    if (typeof value === 'object') {
+      return value;
+    }
+    
+    const str = String(value);
     try {
-      let sanitized: number;
-
-      if (typeof input === 'number') {
-        sanitized = input;
-      } else if (typeof input === 'string') {
-        sanitized = parseFloat(input);
-        if (isNaN(sanitized)) {
-          errors.push('Invalid number format');
-          return {
-            sanitized: 0,
-            isValid: false,
-            errors
-          };
-        }
+      return JSON.parse(str);
+    } catch (e) {
+      errors.push('Invalid JSON format');
+      return null;
+    }
+  }
+  
+  /**
+   * Sanitize file path to prevent directory traversal
+   */
+  static sanitizeFilePath(filePath: string): string {
+    return filePath
+      .replace(/\.\./g, '') // Remove ..
+      .replace(/[;&|`$()]/g, '') // Remove shell metacharacters
+      .replace(/\0/g, '') // Remove null bytes
+      .trim();
+  }
+  
+  /**
+   * Sanitize command to prevent injection
+   */
+  static sanitizeCommand(command: string): string {
+    return command
+      .replace(/[;&|`$()]/g, '') // Remove shell metacharacters
+      .replace(/\r?\n/g, ' ') // Replace newlines with spaces
+      .trim();
+  }
+  
+  /**
+   * Validate and sanitize JSON file path
+   */
+  static validateJsonPath(path: string): ValidationResult {
+    return this.validate(path, {
+      type: 'path',
+      required: true,
+      pattern: /\.json$/i,
+      errorMessage: 'Path must be a JSON file'
+    });
+  }
+  
+  /**
+   * Validate numeric ID
+   */
+  static validateId(id: string | number): ValidationResult {
+    if (typeof id === 'number') {
+      return this.validate(id, {
+        type: 'number',
+        required: true,
+        min: 0
+      });
+    }
+    
+    return this.validate(id, {
+      type: 'string',
+      required: true,
+      pattern: /^[a-zA-Z0-9_-]+$/,
+      minLength: 1,
+      maxLength: 100,
+      errorMessage: 'ID must contain only alphanumeric characters, hyphens, and underscores'
+    });
+  }
+  
+  /**
+   * Validate difficulty level
+   */
+  static validateDifficulty(difficulty: string): ValidationResult {
+    return this.validate(difficulty, {
+      type: 'string',
+      required: true,
+      allowedValues: ['easy', 'medium', 'hard', 'expert'],
+      errorMessage: 'Difficulty must be: easy, medium, hard, or expert'
+    });
+  }
+  
+  /**
+   * Sanitize object by removing dangerous properties
+   */
+  static sanitizeObject(obj: any): any {
+    if (typeof obj !== 'object' || obj === null) {
+      return obj;
+    }
+    
+    const sanitized: any = Array.isArray(obj) ? [] : {};
+    
+    for (const key in obj) {
+      // Skip prototype pollution
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        continue;
+      }
+      
+      const value = obj[key];
+      
+      if (typeof value === 'object' && value !== null) {
+        sanitized[key] = this.sanitizeObject(value);
       } else {
-        errors.push('Input is not a number');
-        return {
-          sanitized: 0,
-          isValid: false,
-          errors
-        };
+        sanitized[key] = value;
       }
-
-      // Check if it's a valid number
-      if (!isFinite(sanitized)) {
-        errors.push('Number is not finite');
-        return {
-          sanitized: 0,
-          isValid: false,
-          errors
-        };
-      }
-
-      // Check if it's an integer when float is not allowed
-      if (!allowFloat && !Number.isInteger(sanitized)) {
-        sanitized = Math.round(sanitized);
-        warnings.push('Number rounded to integer');
-      }
-
-      // Check bounds
-      if (sanitized < min) {
-        sanitized = min;
-        warnings.push(`Number clamped to minimum: ${min}`);
-      }
-
-      if (sanitized > max) {
-        sanitized = max;
-        warnings.push(`Number clamped to maximum: ${max}`);
-      }
-
-      return {
-        sanitized,
-        isValid: errors.length === 0,
-        warnings: warnings.length > 0 ? warnings : undefined,
-        errors: errors.length > 0 ? errors : undefined
-      };
-    } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      return {
-        sanitized: 0,
-        isValid: false,
-        errors: [error instanceof Error ? message: 'Number sanitization failed']
-      };
     }
-  }
-
-  /**
-   * Sanitize an object input
-   */
-  static sanitizeObject<T extends Record<string, any>>(input: T, options: SanitizationOptions = {}): SanitizationResult<T> {
-    const warnings: string[] = [];
-    const errors: string[] = [];
-
-    try {
-      if (input === null || typeof input !== 'object' || Array.isArray(input)) {
-        errors.push('Input is not a valid object');
-        return {
-          sanitized: {} as T,
-          isValid: false,
-          errors
-        };
-      }
-
-      const sanitized = {} as T;
-
-      for (const [key, value] of Object.entries(input)) {
-        // Sanitize key
-        const keyResult = this.sanitizeString(key, { maxLength: 100, allowSpecialChars: false });
-        if (!keyResult.isValid) {
-          errors.push(`Invalid key: ${key}`);
-          continue;
-        }
-
-        // Sanitize value based on type
-        if (typeof value === 'string') {
-          const valueResult = this.sanitizeString(value, options);
-          if (valueResult.isValid) {
-            sanitized[keyResult.sanitized as keyof T] = valueResult.sanitized;
-            if (valueResult.warnings) {
-              warnings.push(...valueResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid string value for key: ${key}`);
-          }
-        } else if (typeof value === 'number') {
-          const valueResult = this.sanitizeNumber(value);
-          if (valueResult.isValid) {
-            sanitized[keyResult.sanitized as keyof T] = valueResult.sanitized;
-            if (valueResult.warnings) {
-              warnings.push(...valueResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid number value for key: ${key}`);
-          }
-        } else if (typeof value === 'boolean') {
-          sanitized[keyResult.sanitized as keyof T] = value;
-        } else if (Array.isArray(value)) {
-          const arrayResult = this.sanitizeArray(value, options);
-          if (arrayResult.isValid) {
-            sanitized[keyResult.sanitized as keyof T] = arrayResult.sanitized;
-            if (arrayResult.warnings) {
-              warnings.push(...arrayResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid array value for key: ${key}`);
-          }
-        } else if (value !== null && typeof value === 'object') {
-          const objectResult = this.sanitizeObject(value, options);
-          if (objectResult.isValid) {
-            sanitized[keyResult.sanitized as keyof T] = objectResult.sanitized;
-            if (objectResult.warnings) {
-              warnings.push(...objectResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid object value for key: ${key}`);
-          }
-        } else {
-          // Other types (null, undefined, etc.)
-          sanitized[keyResult.sanitized as keyof T] = value;
-        }
-      }
-
-      return {
-        sanitized,
-        isValid: errors.length === 0,
-        warnings: warnings.length > 0 ? warnings : undefined,
-        errors: errors.length > 0 ? errors : undefined
-      };
-    } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      return {
-        sanitized: {} as T,
-        isValid: false,
-        errors: [error instanceof Error ? message: 'Object sanitization failed']
-      };
-    }
-  }
-
-  /**
-   * Sanitize an array input
-   */
-  static sanitizeArray<T = any>(input: T[], options: SanitizationOptions = {}): SanitizationResult<T[]> {
-    const warnings: string[] = [];
-    const errors: string[] = [];
-
-    try {
-      if (!Array.isArray(input)) {
-        errors.push('Input is not an array');
-        return {
-          sanitized: [],
-          isValid: false,
-          errors
-        };
-      }
-
-      const sanitized: T[] = [];
-
-      for (let i = 0; i < input.length; i++) {
-        const item = input[i];
-
-        if (typeof item === 'string') {
-          const itemResult = this.sanitizeString(item, options);
-          if (itemResult.isValid) {
-            sanitized.push(itemResult.sanitized as T);
-            if (itemResult.warnings) {
-              warnings.push(...itemResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid string item at index ${i}`);
-          }
-        } else if (typeof item === 'number') {
-          const itemResult = this.sanitizeNumber(item);
-          if (itemResult.isValid) {
-            sanitized.push(itemResult.sanitized as T);
-            if (itemResult.warnings) {
-              warnings.push(...itemResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid number item at index ${i}`);
-          }
-        } else if (typeof item === 'boolean') {
-          sanitized.push(item);
-        } else if (Array.isArray(item)) {
-          const itemResult = this.sanitizeArray(item, options);
-          if (itemResult.isValid) {
-            sanitized.push(itemResult.sanitized as T);
-            if (itemResult.warnings) {
-              warnings.push(...itemResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid array item at index ${i}`);
-          }
-        } else if (item !== null && typeof item === 'object') {
-          const itemResult = this.sanitizeObject(item, options);
-          if (itemResult.isValid) {
-            sanitized.push(itemResult.sanitized as T);
-            if (itemResult.warnings) {
-              warnings.push(...itemResult.warnings);
-            }
-          } else {
-            errors.push(`Invalid object item at index ${i}`);
-          }
-        } else {
-          // Other types (null, undefined, etc.)
-          sanitized.push(item);
-        }
-      }
-
-      return {
-        sanitized,
-        isValid: errors.length === 0,
-        warnings: warnings.length > 0 ? warnings : undefined,
-        errors: errors.length > 0 ? errors : undefined
-      };
-    } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      return {
-        sanitized: [],
-        isValid: false,
-        errors: [error instanceof Error ? message: 'Array sanitization failed']
-      };
-    }
-  }
-
-  /**
-   * Sanitize any input type
-   */
-  static sanitize<T = any>(input: T, options: SanitizationOptions = {}): SanitizationResult<T> {
-    if (typeof input === 'string') {
-      return this.sanitizeString(input, options) as SanitizationResult<T>;
-    } else if (typeof input === 'number') {
-      return this.sanitizeNumber(input) as SanitizationResult<T>;
-    } else if (Array.isArray(input)) {
-      return this.sanitizeArray(input, options) as SanitizationResult<T>;
-    } else if (input !== null && typeof input === 'object') {
-      return this.sanitizeObject(input, options) as SanitizationResult<T>;
-    } else {
-      // Other types (boolean, null, undefined, etc.)
-      return {
-        sanitized: input,
-        isValid: true
-      };
-    }
+    
+    return sanitized;
   }
 }
 
-// Export default instance
-// export const inputSanitizer = new InputSanitizer({});
-export { InputSanitizer as default };
+// Export default for convenience
+export default InputSanitizer;
