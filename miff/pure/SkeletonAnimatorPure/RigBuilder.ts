@@ -169,7 +169,7 @@ export class RigBuilder {
 
     // Update root node if necessary
     if (this.config.rootNode === nodeId) {
-      this.config.rootNode = Object.keys(this.config.nodes)[0] || '';
+      this.config.rootNode = Object.keys(this.config.nodes)[0!] || '';
     }
 
     return this;

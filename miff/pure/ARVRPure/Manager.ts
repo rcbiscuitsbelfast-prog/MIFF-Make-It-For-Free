@@ -503,8 +503,8 @@ export class ARVRManager {
 
       device.haptics = {
         enabled: true,
-        intensity: pattern.sequence[0]?.intensity || 0.5,
-        frequency: pattern.sequence[0]?.frequency || 100,
+        intensity: pattern.sequence[0!]?.intensity || 0.5,
+        frequency: pattern.sequence[0!]?.frequency || 100,
         duration: pattern.duration,
         pattern,
         lastTriggered: new Date()
@@ -603,8 +603,8 @@ export class ARVRManager {
    */
   private incrementVersion(version: string): string {
     const parts = version.split('.');
-    const patch = parseInt(parts[2]) + 1;
-    return `${parts[0]}.${parts[1]}.${patch}`;
+    const patch = parseInt(parts[2!]) + 1;
+    return `${parts[0!]}.${parts[1!]}.${patch}`;
   }
 
   /**

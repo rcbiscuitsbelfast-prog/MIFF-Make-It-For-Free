@@ -446,7 +446,7 @@ class SpiritTamerGame {
       return;
     }
 
-    const playerSpirit = this.player.activeTeam[0];
+    const playerSpirit = this.player.activeTeam[0!];
     this.battleState = {
       playerSpirit,
       enemySpirit: enemy,
@@ -712,7 +712,7 @@ class SpiritTamerGame {
   }
 
   private startTrainingBattle(enemy: PlayerSpirit): void {
-    const playerSpirit = this.player.activeTeam[0];
+    const playerSpirit = this.player.activeTeam[0!];
     this.battleState = {
       playerSpirit,
       enemySpirit: enemy,
@@ -767,22 +767,22 @@ class SpiritTamerGame {
             // Apply item effects
             switch (item) {
               case 'potion':
-                this.player.activeTeam[0].currentHp = Math.min(
-                  this.player.activeTeam[0].maxHp,
-                  this.player.activeTeam[0].currentHp + 20
+                this.player.activeTeam[0!].currentHp = Math.min(
+                  this.player.activeTeam[0!].maxHp,
+                  this.player.activeTeam[0!].currentHp + 20
                 );
                 console.log('❤️ HP restored by 20!');
                 break;
               case 'super_potion':
-                this.player.activeTeam[0].currentHp = Math.min(
-                  this.player.activeTeam[0].maxHp,
-                  this.player.activeTeam[0].currentHp + 50
+                this.player.activeTeam[0!].currentHp = Math.min(
+                  this.player.activeTeam[0!].maxHp,
+                  this.player.activeTeam[0!].currentHp + 50
                 );
                 console.log('❤️ HP restored by 50!');
                 break;
               case 'antidote':
-                if (this.player.activeTeam[0].status !== 'normal') {
-                  this.player.activeTeam[0].status = 'normal';
+                if (this.player.activeTeam[0!].status !== 'normal') {
+                  this.player.activeTeam[0!].status = 'normal';
                   console.log('🧪 Status condition cured!');
                 }
                 break;
@@ -832,16 +832,16 @@ class SpiritTamerGame {
         const indices = choice.trim().split(' ').map((n: any) => parseInt(n) - 1);
 
         if (indices.length === 2 && indices.every(i => i >= 0 && i < this.player.spirits.length)) {
-          const spirit1 = this.player.spirits[indices[0]];
-          const spirit2 = this.player.spirits[indices[1]];
+          const spirit1 = this.player.spirits[indices[0!]];
+          const spirit2 = this.player.spirits[indices[1!]];
 
           if (spirit1 && spirit2) {
             console.log(`🔄 Switching ${spirit1.name} and ${spirit2.name}...`);
 
             // Simple switch logic
             const temp = spirit1;
-            this.player.spirits[indices[0]] = spirit2;
-            this.player.spirits[indices[1]] = temp;
+            this.player.spirits[indices[0!]] = spirit2;
+            this.player.spirits[indices[1!]] = temp;
 
             this.updateActiveTeam();
             console.log('✅ Spirits switched!');

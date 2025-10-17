@@ -198,7 +198,7 @@ export class AdvancedAI {
       return { success: false, result: null };
     }
 
-    const childResult = await this.executeNode(node.children[0], context, tree);
+    const childResult = await this.executeNode(node.children[0!], context, tree);
     
     if (node.decorator) {
       return node.decorator(childResult);
@@ -465,10 +465,10 @@ export class AdvancedAI {
       preferenceCount: memory.preferences.size,
       lastUpdate: memory.lastUpdate,
       topPatterns: Array.from(memory.patterns.entries())
-        .sort((a: any, b: any) => b[1] - a[1])
+        .sort((a: any, b: any) => b[1!] - a[1!])
         .slice(0, 5),
       topPreferences: Array.from(memory.preferences.entries())
-        .sort((a: any, b: any) => b[1] - a[1])
+        .sort((a: any, b: any) => b[1!] - a[1!])
         .slice(0, 5)
     };
   }

@@ -138,9 +138,9 @@ export class SportsManager {
 
     // Update team scores
     if (data.position.x < 0) {
-      game.teams[1].score += 1; // Team 2 scored
+      game.teams[1!].score += 1; // Team 2 scored
     } else {
-      game.teams[0].score += 1; // Team 1 scored
+      game.teams[0!].score += 1; // Team 1 scored
     }
 
     // Update player stats
@@ -576,11 +576,11 @@ export class SportsManager {
         const team1 = this.sportsSystem.createTeam(`${player1.name}'s Team`, '#FF0000');
         const team2 = this.sportsSystem.createTeam(`${player2.name}'s Team`, '#0000FF');
 
-        this.sportsSystem.createPlayer(player1.name, id: team1.id, 'forward');
-        this.sportsSystem.createPlayer(player2.name, id: team2.id, 'forward');
+        this.sportsSystem.createPlayer(player1.name, team1.id, 'forward');
+        this.sportsSystem.createPlayer(player2.name, team2.id, 'forward');
 
         try {
-          const game = this.sportsSystem.createGame(sport, id: team1.id, team2.id);
+          const game = this.sportsSystem.createGame(sport, team1.id, team2.id);
 
           // Remove players from queue
           this.matchmakingQueue = this.matchmakingQueue.filter((p: any) =>

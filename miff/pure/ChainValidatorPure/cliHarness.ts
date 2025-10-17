@@ -32,7 +32,7 @@ function main() {
 
   try {
     const mgr = new ChainValidatorManager();
-    const first = argv[0];
+    const first = argv[0!];
     let operation: Operation;
 
     if (first.endsWith('.json') && fs.existsSync(first)) {
@@ -40,46 +40,46 @@ function main() {
     } else {
       switch (first) {
         case 'create': {
-          const file = argv[1];
+          const file = argv[1!];
           if (!file) throw new Error('create requires graph JSON file with { nodes, edges }');
           const payload = readJSONFile<{ nodes?: ChainNode[]; edges?: ChainEdge[] }>(file);
           operation = { op: 'create', nodes: payload.nodes || [], edges: payload.edges || [] };
           break;
         }
         case 'addNode': {
-          const file = argv[1];
+          const file = argv[1!];
           if (!file) throw new Error('addNode requires node JSON file');
           operation = { op: 'addNode', node: readJSONFile<ChainNode>(file) };
           break;
         }
         case 'updateNode': {
-          const id = argv[1];
-          const file = argv[2];
+          const id = argv[1!];
+          const file = argv[2!];
           if (!id || !file) throw new Error('updateNode requires id and updates JSON file');
           operation = { op: 'updateNode', id, updates: readJSONFile(file) };
           break;
         }
         case 'removeNode': {
-          const id = argv[1];
+          const id = argv[1!];
           if (!id) throw new Error('removeNode requires id');
           operation = { op: 'removeNode', id };
           break;
         }
         case 'addEdge': {
-          const file = argv[1];
+          const file = argv[1!];
           if (!file) throw new Error('addEdge requires edge JSON file');
           operation = { op: 'addEdge', edge: readJSONFile<ChainEdge>(file) };
           break;
         }
         case 'removeEdge': {
-          const from = argv[1];
-          const to = argv[2];
+          const from = argv[1!];
+          const to = argv[2!];
           if (!from || !to) throw new Error('removeEdge requires from and to');
           operation = { op: 'removeEdge', from, to };
           break;
         }
         case 'get': {
-          const id = argv[1];
+          const id = argv[1!];
           if (!id) throw new Error('get requires id');
           operation = { op: 'get', id };
           break;
@@ -97,7 +97,7 @@ function main() {
           break;
         }
         case 'export': {
-          const format = (argv[1] as any) || 'json';
+          const format = (argv[1!] as any) || 'json';
           operation = { op: 'export', format };
           break;
         }
@@ -177,7 +177,7 @@ function main() {
     }
 
     // Optional export formatting for stdout (wrapper)
-    const fmtArg = argv.find((a: string) => a.startsWith('--format='))?.split('=')[1] || argv[argv.indexOf('--format') + 1];
+    const fmtArg = argv.find((a: string) => a.startsWith('--format='))?.split('=')[1!] || argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml'];
     const exportFormat = validFormats.includes(fmtArg || '') ? fmtArg : undefined;
     const { result: finalResult, exportData } = addExportSupport(
@@ -211,7 +211,7 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }
 

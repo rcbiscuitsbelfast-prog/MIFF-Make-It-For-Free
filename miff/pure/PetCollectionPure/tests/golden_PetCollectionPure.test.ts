@@ -241,11 +241,11 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
         if (pets1.success && pets2.success &&
             pets1.data.pets.length > 0 && pets2.data.pets.length > 0) {
 
-          const pet1 = pets1.data.pets[0];
-          const pet2 = pets2.data.pets[0];
+          const pet1 = pets1.data.pets[0!];
+          const pet2 = pets2.data.pets[0!];
 
           // Create trade
-          const tradeResult = manager.createTradeOffer('player1', id: pet1.id, pet2.id);
+          const tradeResult = manager.createTradeOffer('player1', pet1.id, pet2.id);
           if (tradeResult.success && tradeResult.data) {
             const tradeOffer = tradeResult.data.tradeOffer;
 
@@ -569,7 +569,7 @@ function createIntegrationSuite(): GoldenTestSuite {
         // Manually complete incubation
         const eggsResult = manager.getEggsByOwner('test_player');
         if (eggsResult.success && eggsResult.data) {
-          const egg = eggsResult.data.eggs[0];
+          const egg = eggsResult.data.eggs[0!];
           manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
           manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
           manager.hatchEgg(egg.id, 'test_player');

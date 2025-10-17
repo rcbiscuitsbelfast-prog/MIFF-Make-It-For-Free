@@ -74,16 +74,16 @@ class ThemeParkCLI {
         await this.runTests();
         break;
       case 'create-park':
-        await this.createPark(args[0]);
+        await this.createPark(args[0!]);
         break;
       case 'add-ride':
-        await this.addRide(args[0], args[1]);
+        await this.addRide(args[0!], args[1!]);
         break;
       case 'add-guest':
-        await this.addGuest(args[0]);
+        await this.addGuest(args[0!]);
         break;
       case 'add-staff':
-        await this.addStaff(args[0]);
+        await this.addStaff(args[0!]);
         break;
       case 'get-park-status':
         this.getParkStatus();
@@ -610,6 +610,6 @@ async function main() {
   await cli.start();
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

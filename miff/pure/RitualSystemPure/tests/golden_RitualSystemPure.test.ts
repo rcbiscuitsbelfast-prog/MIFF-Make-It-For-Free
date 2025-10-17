@@ -265,7 +265,7 @@ describe('RitualSystemPure Golden Tests', () => {
 
       const activeRituals = ritualSystem.getActiveRituals();
       expect(activeRituals.length).toBe(1);
-      expect(activeRituals[0].definition.id).toBe('summon-familiar');
+      expect(activeRituals[0!].definition.id).toBe('summon-familiar');
     });
 
     test('should handle ritual limits', () => {
@@ -446,7 +446,7 @@ describe('RitualSystemPure Golden Tests', () => {
         const result = ritualSystem.progressRitual(ritual.id);
 
         if (result?.success && result.summonedEntities.length > 0) {
-          const entity = result.summonedEntities[0];
+          const entity = result.summonedEntities[0!];
           expect(entity.name).toContain('familiar');
           expect(entity.type).toBeDefined();
           expect(entity.level).toBeGreaterThan(0);
@@ -701,7 +701,7 @@ describe('RitualSystemPure Golden Tests', () => {
         // This would normally validate participant contributions
         // For now, just verify the structure exists
         expect(ritual.participants.length).toBeGreaterThan(0);
-        expect(ritual.participants[0].requirements).toBeDefined();
+        expect(ritual.participants[0!].requirements).toBeDefined();
       }
     });
   });

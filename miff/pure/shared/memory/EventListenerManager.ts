@@ -70,7 +70,7 @@ export class EventListenerManager {
 
     try {
       // Add the event listener
-      config.target.addEventListener(config.event, listener: config.listener, config.options);
+      config.target.addEventListener(config.event, config.listener, config.options);
       
       // Store configuration for management
       this.listeners.set(listenerId, {
@@ -119,7 +119,7 @@ export class EventListenerManager {
 
     try {
       // Remove the event listener
-      config.target.removeEventListener(config.event, listener: config.listener, config.options);
+      config.target.removeEventListener(config.event, config.listener, config.options);
       
       // Update lifetime tracking
       const lifetime = this.listenerLifetimes.get(listenerId);

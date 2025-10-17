@@ -22,7 +22,7 @@ class PerformanceCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0];
+    const command = args[0!];
 
     try {
       switch (command) {
@@ -66,7 +66,7 @@ class PerformanceCLI {
   }
 
   private async analyzePerformance(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'performance-analysis.json';
+    const outputFile = args[0!] || 'performance-analysis.json';
 
     console.info('📊 Analyzing performance metrics...');
     
@@ -87,7 +87,7 @@ class PerformanceCLI {
   }
 
   private async identifyTargets(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'optimization-targets.json';
+    const outputFile = args[0!] || 'optimization-targets.json';
 
     console.info('🎯 Identifying optimization targets...');
     
@@ -133,8 +133,8 @@ class PerformanceCLI {
   }
 
   private async optimizePerformance(args: string[]): Promise<void> {
-    const type = args[0] || 'all';
-    const outputFile = args[1] || 'optimization-results.json';
+    const type = args[0!] || 'all';
+    const outputFile = args[1!] || 'optimization-results.json';
 
     console.info(`⚡ Optimizing performance (${type})...`);
     
@@ -172,7 +172,7 @@ class PerformanceCLI {
   }
 
   private async optimizeMemory(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'memory-optimization.json';
+    const outputFile = args[0!] || 'memory-optimization.json';
 
     console.info('🧠 Implementing memory optimizations...');
     
@@ -184,7 +184,7 @@ class PerformanceCLI {
   }
 
   private async optimizeCPU(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'cpu-optimization.json';
+    const outputFile = args[0!] || 'cpu-optimization.json';
 
     console.info('⚡ Implementing CPU optimizations...');
     
@@ -196,7 +196,7 @@ class PerformanceCLI {
   }
 
   private async optimizeNetwork(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'network-optimization.json';
+    const outputFile = args[0!] || 'network-optimization.json';
 
     console.info('🌐 Implementing network optimizations...');
     
@@ -208,7 +208,7 @@ class PerformanceCLI {
   }
 
   private async optimizeCache(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'cache-optimization.json';
+    const outputFile = args[0!] || 'cache-optimization.json';
 
     console.info('💾 Implementing caching strategies...');
     
@@ -220,7 +220,7 @@ class PerformanceCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'performance-report.html';
+    const outputFile = args[0!] || 'performance-report.html';
 
     console.info('📊 Generating performance report...');
     
@@ -245,8 +245,8 @@ class PerformanceCLI {
   }
 
   private async monitorPerformance(args: string[]): Promise<void> {
-    const interval = parseInt(args[0]) || 5000; // 5 seconds default
-    const duration = parseInt(args[1]) || 60000; // 1 minute default
+    const interval = parseInt(args[0!]) || 5000; // 5 seconds default
+    const duration = parseInt(args[1!]) || 60000; // 1 minute default
 
     console.info(`📊 Monitoring performance (${interval}ms interval, ${duration}ms duration)...`);
     
@@ -412,7 +412,7 @@ Performance Metrics:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new PerformanceCLI();
   cli.run().catch(console.error);
 }

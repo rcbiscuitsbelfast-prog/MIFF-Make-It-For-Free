@@ -16,22 +16,22 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new HealthSystemManager();
 
 // Parse additional arguments
-const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
-const maxHp = parseInt(args.find(arg => arg.startsWith('--max-hp='))?.split('=')[1] || '100');
-const currentHp = parseInt(args.find(arg => arg.startsWith('--current-hp='))?.split('=')[1] || '100');
-const amount = parseInt(args.find(arg => arg.startsWith('--amount='))?.split('=')[1] || '10');
-const damageType = args.find(arg => arg.startsWith('--damage-type='))?.split('=')[1] as 'physical' | 'magical' | 'elemental' | 'pure' || 'physical';
-const element = args.find(arg => arg.startsWith('--element='))?.split('=')[1] as 'fire' | 'ice' | 'lightning' | 'poison' | 'holy' | 'dark' || 'fire';
-const source = args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'system';
-const shieldType = args.find(arg => arg.startsWith('--shield-type='))?.split('=')[1] as 'physical' | 'magical' | 'elemental' | 'all' || 'all';
-const shieldAmount = parseInt(args.find(arg => arg.startsWith('--shield-amount='))?.split('=')[1] || '50');
-const regenType = args.find(arg => arg.startsWith('--regen-type='))?.split('=')[1] as 'hp' | 'shield' | 'both' || 'hp';
-const regenAmount = parseInt(args.find(arg => arg.startsWith('--regen-amount='))?.split('=')[1] || '5');
-const regenDuration = parseInt(args.find(arg => arg.startsWith('--regen-duration='))?.split('=')[1] || '10');
-const immunity = args.find(arg => arg.startsWith('--immunity='))?.split('=')[1] || 'none';
-const resistance = args.find(arg => arg.startsWith('--resistance='))?.split('=')[1] || 'none';
-const resistanceValue = parseInt(args.find(arg => arg.startsWith('--resistance-value='))?.split('=')[1] || '25');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
+const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
+const maxHp = parseInt(args.find(arg => arg.startsWith('--max-hp='))?.split('=')[1!] || '100');
+const currentHp = parseInt(args.find(arg => arg.startsWith('--current-hp='))?.split('=')[1!] || '100');
+const amount = parseInt(args.find(arg => arg.startsWith('--amount='))?.split('=')[1!] || '10');
+const damageType = args.find(arg => arg.startsWith('--damage-type='))?.split('=')[1!] as 'physical' | 'magical' | 'elemental' | 'pure' || 'physical';
+const element = args.find(arg => arg.startsWith('--element='))?.split('=')[1!] as 'fire' | 'ice' | 'lightning' | 'poison' | 'holy' | 'dark' || 'fire';
+const source = args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'system';
+const shieldType = args.find(arg => arg.startsWith('--shield-type='))?.split('=')[1!] as 'physical' | 'magical' | 'elemental' | 'all' || 'all';
+const shieldAmount = parseInt(args.find(arg => arg.startsWith('--shield-amount='))?.split('=')[1!] || '50');
+const regenType = args.find(arg => arg.startsWith('--regen-type='))?.split('=')[1!] as 'hp' | 'shield' | 'both' || 'hp';
+const regenAmount = parseInt(args.find(arg => arg.startsWith('--regen-amount='))?.split('=')[1!] || '5');
+const regenDuration = parseInt(args.find(arg => arg.startsWith('--regen-duration='))?.split('=')[1!] || '10');
+const immunity = args.find(arg => arg.startsWith('--immunity='))?.split('=')[1!] || 'none';
+const resistance = args.find(arg => arg.startsWith('--resistance='))?.split('=')[1!] || 'none';
+const resistanceValue = parseInt(args.find(arg => arg.startsWith('--resistance-value='))?.split('=')[1!] || '25');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
 
 let output: any;
 
@@ -74,9 +74,9 @@ try {
         type: shieldType as any,
         amount: shieldAmount,
         maxAmount: shieldAmount,
-        absorption: parseInt(args.find(arg => arg.startsWith('--absorption='))?.split('=')[1] || '100'),
-        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1]) : -1,
-        expiresAt: args.includes('--duration') ? Date.now() + parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1]) * 1000 : undefined
+        absorption: parseInt(args.find(arg => arg.startsWith('--absorption='))?.split('=')[1!] || '100'),
+        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1!]) : -1,
+        expiresAt: args.includes('--duration') ? Date.now() + parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1!]) * 1000 : undefined
       };
       output = manager.addShield(entityId, shield);
       break;
@@ -87,7 +87,7 @@ try {
         type: regenType as any,
         amount: regenAmount,
         duration: regenDuration,
-        interval: parseInt(args.find(arg => arg.startsWith('--interval='))?.split('=')[1] || '1'),
+        interval: parseInt(args.find(arg => arg.startsWith('--interval='))?.split('=')[1!] || '1'),
         lastTick: new Date(),
         expiresAt: new Date() + regenDuration * 1000
       };
@@ -100,8 +100,8 @@ try {
 
     case 'list':
       const filter: any = {};
-      if (args.includes('--min-hp')) filter.minHp = parseInt(args.find(arg => arg.startsWith('--min-hp='))!.split('=')[1]);
-      if (args.includes('--max-hp')) filter.maxHp = parseInt(args.find(arg => arg.startsWith('--max-hp='))!.split('=')[1]);
+      if (args.includes('--min-hp')) filter.minHp = parseInt(args.find(arg => arg.startsWith('--min-hp='))!.split('=')[1!]);
+      if (args.includes('--max-hp')) filter.maxHp = parseInt(args.find(arg => arg.startsWith('--max-hp='))!.split('=')[1!]);
       if (args.includes('--has-shields')) filter.hasShields = true;
       if (args.includes('--has-regeneration')) filter.hasRegeneration = true;
       if (args.includes('--is-alive')) filter.isAlive = true;
@@ -150,7 +150,7 @@ try {
       ];
 
       const results = demoEntities.map((entity: any) => 
-        manager.createEntity(entity.id, maxHp: entity.maxHp, {
+        manager.createEntity(entity.id, entity.maxHp, {
           currentHp: entity.currentHp,
           immunities: entity.immunities,
           resistances: entity.resistances
@@ -235,7 +235,7 @@ try {
 
       const scenarioResults = sampleScenarios.map((scenario: any) => {
         const entityResults = scenario.entities.map((entity: any) => 
-          manager.createEntity(entity.id, maxHp: entity.maxHp, {
+          manager.createEntity(entity.id, entity.maxHp, {
             currentHp: entity.currentHp,
             immunities: entity.immunities,
             resistances: entity.resistances

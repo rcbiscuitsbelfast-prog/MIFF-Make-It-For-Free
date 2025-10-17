@@ -493,7 +493,7 @@ export class AudioEngine {
     this.audioListener.position = position;
     if (this.audioContext && this.audioContext.listener) {
       const listener = this.audioContext.listener;
-      listener.setPosition(position.x, y: position.y, position.z);
+      listener.setPosition(position.x, position.y, position.z);
     }
   }
 
@@ -501,7 +501,7 @@ export class AudioEngine {
     this.audioListener.orientation = { forward, up };
     if (this.audioContext && this.audioContext.listener) {
       const listener = this.audioContext.listener;
-      listener.setOrientation(forward.x, y: forward.y, forward.z, x: up.x, up.y, up.z);
+      listener.setOrientation(forward.x, forward.y, forward.z, up.x, up.y, up.z);
     }
   }
 

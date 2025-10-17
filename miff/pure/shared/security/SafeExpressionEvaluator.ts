@@ -266,8 +266,8 @@ export class SafeExpressionEvaluator {
       throw new Error('Invalid exponentiation expression');
     }
     
-    const base = this.evaluateExpression(parts[0]);
-    const exponent = this.evaluateExpression(parts[1]);
+    const base = this.evaluateExpression(parts[0!]);
+    const exponent = this.evaluateExpression(parts[1!]);
     
     return Math.pow(base, exponent);
   }
@@ -281,7 +281,7 @@ export class SafeExpressionEvaluator {
       throw new Error('Invalid multiplication/division expression');
     }
     
-    let result = this.evaluateExpression(parts[0]);
+    let result = this.evaluateExpression(parts[0!]);
     
     for (let i = 1; i < parts.length; i += 2) {
       const operator = parts[i];
@@ -309,7 +309,7 @@ export class SafeExpressionEvaluator {
       throw new Error('Invalid addition/subtraction expression');
     }
     
-    let result = this.evaluateExpression(parts[0]);
+    let result = this.evaluateExpression(parts[0!]);
     
     for (let i = 1; i < parts.length; i += 2) {
       const operator = parts[i];

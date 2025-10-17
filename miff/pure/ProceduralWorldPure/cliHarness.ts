@@ -18,8 +18,8 @@ function main() {
   try {
     switch (command) {
       case 'world:generate-terrain': {
-        const width = toInt(options.size?.split?.('x')?.[0] ?? options.width ?? 64, 64);
-        const height = toInt(options.size?.split?.('x')?.[1] ?? options.height ?? 64, 64);
+        const width = toInt(options.size?.split?.('x')?.[0!] ?? options.width ?? 64, 64);
+        const height = toInt(options.size?.split?.('x')?.[1!] ?? options.height ?? 64, 64);
         const noise = (options.noise || 'perlin') as TerrainOptions['noise'];
         const terrain = mgr.generateTerrain({
           seed,
@@ -78,5 +78,5 @@ function main() {
   console.log(formatOutput(out));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();
 

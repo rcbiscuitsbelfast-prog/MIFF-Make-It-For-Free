@@ -301,7 +301,7 @@ export class RacingSystemPure {
       );
 
       if (distance <= checkpoint.radius) {
-        this.handleCheckpointCollision(race.id, id: vehicle.id, checkpoint);
+        this.handleCheckpointCollision(race.id, vehicle.id, checkpoint);
       }
     });
   }

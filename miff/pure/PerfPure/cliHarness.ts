@@ -279,7 +279,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0]?.toLowerCase() || '';
+    const command = parts[0!]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -313,8 +313,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: benchmark <label> <iterations>');
         } else {
-          const label = args[0];
-          const iterations = parseInt(args[1]);
+          const label = args[0!];
+          const iterations = parseInt(args[1!]);
 
           if (isNaN(iterations) || iterations <= 0) {
             console.log('❌ Iterations must be a positive number');
@@ -399,7 +399,7 @@ async function runCLI(): Promise<void> {
           console.log('❌ Usage: test <name>');
           console.log('Available tests: cpu, memory, io, math, array, object, sort');
         } else {
-          const testName = args[0];
+          const testName = args[0!];
           const tests = createDemoTests();
           const test = tests.find(t => t.name === testName);
 

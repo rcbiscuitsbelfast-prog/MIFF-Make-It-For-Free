@@ -22,7 +22,7 @@ class CoverageCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0];
+    const command = args[0!];
 
     try {
       switch (command) {
@@ -51,8 +51,8 @@ class CoverageCLI {
   }
 
   private async analyzeCoverage(args: string[]): Promise<void> {
-    const rootPath = args[0] || 'miff/pure';
-    const outputFile = args[1] || 'coverage-report.json';
+    const rootPath = args[0!] || 'miff/pure';
+    const outputFile = args[1!] || 'coverage-report.json';
 
     console.info(`📊 Analyzing test coverage in ${rootPath}...`);
     
@@ -83,7 +83,7 @@ class CoverageCLI {
   }
 
   private async showModuleCoverage(args: string[]): Promise<void> {
-    const moduleName = args[0];
+    const moduleName = args[0!];
     
     if (!moduleName) {
       console.error('❌ Module name required');
@@ -124,8 +124,8 @@ class CoverageCLI {
   }
 
   private async exportCoverage(args: string[]): Promise<void> {
-    const format = args[0] || 'json';
-    const outputFile = args[1] || `coverage-report.${format}`;
+    const format = args[0!] || 'json';
+    const outputFile = args[1!] || `coverage-report.${format}`;
 
     if (!['json', 'html', 'csv'].includes(format)) {
       console.error('❌ Invalid format. Supported formats: json, html, csv');
@@ -207,7 +207,7 @@ Export Formats:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new CoverageCLI();
   cli.run().catch(console.error);
 }

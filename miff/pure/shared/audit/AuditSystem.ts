@@ -738,7 +738,7 @@ export class AuditSystem {
     let match;
     
     while ((match = functionRegex.exec(content)) !== null) {
-      const functionName = match[1];
+      const functionName = match[1!];
       const functionIndex = content.indexOf(`function ${functionName}`);
       const beforeFunction = content.substring(Math.max(0, functionIndex - 200), functionIndex);
       
@@ -830,7 +830,7 @@ export class AuditSystem {
     
     while ((match = functionRegex.exec(content)) !== null) {
       const functionStart = match.index;
-      const functionEnd = this.findMatchingBrace(content, functionStart + match[0].length - 1);
+      const functionEnd = this.findMatchingBrace(content, functionStart + match[0!].length - 1);
       const functionBody = content.substring(functionStart, functionEnd);
       const lines = functionBody.split('\n').length;
       
@@ -1125,7 +1125,7 @@ export class AuditSystem {
       fs.mkdirSync(reportDir, { recursive: true });
     }
     
-    const reportFile = path.join(reportDir, `audit-${report.timestamp.toISOString().split('T')[0]}.json`);
+    const reportFile = path.join(reportDir, `audit-${report.timestamp.toISOString().split('T')[0!]}.json`);
     fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
     
     this.auditHistory.push(report);

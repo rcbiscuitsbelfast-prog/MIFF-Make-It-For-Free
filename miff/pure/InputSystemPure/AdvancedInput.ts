@@ -457,7 +457,7 @@ export class AdvancedInput {
       duration: 100,
       pattern: {
         type: 'single',
-        intervals: [0],
+        intervals: [0!],
         intensities: [0.3]
       },
       enabled: true
@@ -711,7 +711,7 @@ class GestureRecognition {
 
     // Calculate additional gesture data
     if (gesture.type === 'swipe' && state.inputs.length >= 2) {
-      const start = state.inputs[0].position;
+      const start = state.inputs[0!].position;
       const end = state.inputs[state.inputs.length - 1].position;
       
       gestureData.distance = Math.sqrt(

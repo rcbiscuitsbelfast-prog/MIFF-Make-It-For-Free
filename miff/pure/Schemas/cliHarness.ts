@@ -274,7 +274,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0]?.toLowerCase() || '';
+    const command = parts[0!]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -287,7 +287,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: load <schema_file>');
         } else {
-          const schemaPath = args[0];
+          const schemaPath = args[0!];
           const schema = SchemaValidator.loadSchema(schemaPath);
           if (schema) {
             state.currentSchema = schema;
@@ -304,7 +304,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: validate <json_file>');
         } else {
-          const jsonPath = args[0];
+          const jsonPath = args[0!];
           if (state.currentSchema) {
             const result = SchemaValidator.validateData(
               JSON.parse(fs.readFileSync(jsonPath, 'utf8')),
@@ -328,7 +328,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: save <file>');
         } else {
-          const filePath = args[0];
+          const filePath = args[0!];
           if (state.currentSchema) {
             const success = SchemaValidator.saveSchema(filePath, state.currentSchema);
             if (success) {

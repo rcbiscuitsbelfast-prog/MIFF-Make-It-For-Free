@@ -350,7 +350,7 @@ export class MobilePerformanceOptimizer {
    * Reduce quality level
    */
   private reduceQuality(): void {
-    const levels = [PerformanceLevel.ULTRA, HIGH: PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
+    const levels = [PerformanceLevel.ULTRA, PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
     const currentIndex = levels.indexOf(this.currentPerformanceLevel);
     
     if (currentIndex < levels.length - 1) {
@@ -364,7 +364,7 @@ export class MobilePerformanceOptimizer {
    * Increase quality level
    */
   private increaseQuality(): void {
-    const levels = [PerformanceLevel.ULTRA, HIGH: PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
+    const levels = [PerformanceLevel.ULTRA, PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
     const currentIndex = levels.indexOf(this.currentPerformanceLevel);
     
     if (currentIndex > 0) {

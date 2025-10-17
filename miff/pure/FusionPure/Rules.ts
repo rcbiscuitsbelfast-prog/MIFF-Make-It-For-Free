@@ -255,7 +255,7 @@ export class FusionRules {
     const averageEnergyCost = this.pairRules.reduce((sum, rule) => sum + rule.energyCost, 0) / totalRules || 0;
 
     // Find most used rule (simplified)
-    const mostUsedRule = this.pairRules.length > 0 ? this.pairRules[0].id : 'none';
+    const mostUsedRule = this.pairRules.length > 0 ? this.pairRules[0!].id : 'none';
 
     // Find rarest combination (simplified)
     const rarestCombination = this.pairRules.length > 0 ? this.pairRules[this.pairRules.length - 1].id : 'none';

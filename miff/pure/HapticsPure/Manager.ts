@@ -162,7 +162,7 @@ export class HapticsManager {
           supportsLocationControl: false,
           supportsMultipleActuators: false,
           maxSimultaneousEffects: 1,
-          supportedEffects: [HapticEffect.BUZZ, CLICK: HapticEffect.CLICK, HapticEffect.THUMP],
+          supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
           latency: 5
         },
         connected: false,
@@ -208,7 +208,7 @@ export class HapticsManager {
       supportsLocationControl: false,
       supportsMultipleActuators: false,
       maxSimultaneousEffects: 1,
-      supportedEffects: [HapticEffect.BUZZ, CLICK: HapticEffect.CLICK, HapticEffect.THUMP],
+      supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
       latency: 5
     });
 
@@ -637,7 +637,7 @@ export class HapticsManager {
         return this.patternToVibration(pattern.response, capabilities);
 
       case 'adaptive':
-        return this.applyAdaptiveModifiers(pattern.basePattern, modifiers: pattern.modifiers, capabilities);
+        return this.applyAdaptiveModifiers(pattern.basePattern, pattern.modifiers, capabilities);
 
       default:
         return { type: 'simple', duration: 0, intensity: 0 };

@@ -38,8 +38,8 @@ type Cmd =
   | { op: 'remove'; id: string; effectId: string };
 
 function main() {
-  const statusPath = process.argv[2] || 'StatusEffectsPure/sample_status.json';
-  const commandsPath = process.argv[3] || '';
+  const statusPath = process.argv[2!] || 'StatusEffectsPure/sample_status.json';
+  const commandsPath = process.argv[3!] || '';
   
   const obj = JSON.parse(fs.readFileSync(path.resolve(statusPath), 'utf-8')) as { 
     entities: Array<{ id: string; hp: number; effects: Array<{ id: string; type: string; magnitude: number; duration: number }> }> 
@@ -66,7 +66,7 @@ function main() {
       expiresAt: new Date() + (effect.duration * 1000)
     }));
     
-    mgr.createEntity(entity.id, hp: entity.hp, fullEffects);
+    mgr.createEntity(entity.id, entity.hp, fullEffects);
   }
 
   const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'list' } as Cmd];
@@ -87,7 +87,7 @@ function main() {
         outputs.push({ op: 'dump', id: c.id, effects: result.result.effects || [] });
       }
     } else if (c.op === 'create') {
-      const result = mgr.createEntity(c.id, maxHp: c.maxHp, c.effects || []);
+      const result = mgr.createEntity(c.id, c.maxHp, c.effects || []);
       outputs.push({ op: 'create', id: c.id, status: result.status });
     } else if (c.op === 'apply') {
       const result = mgr.applyEffect(c.id, c.effect);
@@ -102,4 +102,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

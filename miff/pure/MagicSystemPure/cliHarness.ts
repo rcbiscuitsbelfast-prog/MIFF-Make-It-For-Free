@@ -115,7 +115,7 @@ class MagicSystemCLI {
     if (!this.isRunning) return;
 
     const parts = input.split(' ');
-    const command = parts[0]?.toLowerCase();
+    const command = parts[0!]?.toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -128,7 +128,7 @@ class MagicSystemCLI {
           if (args.length === 0) {
             console.log('❌ Usage: cast <spell-name>');
           } else {
-            await this.castSpell(args[0]);
+            await this.castSpell(args[0!]);
           }
           break;
 
@@ -136,7 +136,7 @@ class MagicSystemCLI {
           if (args.length === 0) {
             console.log('❌ Usage: learn <spell-name>');
           } else {
-            this.learnSpell(args[0]);
+            this.learnSpell(args[0!]);
           }
           break;
 
@@ -228,7 +228,7 @@ class MagicSystemCLI {
 
     // Cast the spell
     console.log(`🎯 Casting ${spell.name}...`);
-    const result = this.magicSystem.castSpell(this.currentCaster, id: spell.id, ['target-enemy']);
+    const result = this.magicSystem.castSpell(this.currentCaster, spell.id, ['target-enemy']);
 
     if (result.success) {
       console.log(`✅ Spell cast successfully!`);
@@ -388,7 +388,7 @@ class MagicSystemCLI {
         const spell = spells[i];
         if (spell) {
           console.log(`\n🎯 Casting ${spell.name}...`);
-          const result = this.magicSystem.castSpell(this.currentCaster, id: spell.id, ['demo-target']);
+          const result = this.magicSystem.castSpell(this.currentCaster, spell.id, ['demo-target']);
           console.log(`   Result: ${result.success ? 'Success' : 'Failed'}`);
           console.log(`   Mana spent: ${result.manaSpent}`);
           console.log(`   Damage: ${result.damageDealt}, Healing: ${result.healingDone}`);
@@ -447,7 +447,7 @@ class MagicSystemCLI {
 
 // Main execution
 // ESM-safe main guard
-const isDirectRun = import.meta && (import.meta as any).url === `file://${process.argv[1]}`;
+const isDirectRun = import.meta && (import.meta as any).url === `file://${process.argv[1!]}`;
 if (isDirectRun) {
   const cli = new MagicSystemCLI();
   cli.start();

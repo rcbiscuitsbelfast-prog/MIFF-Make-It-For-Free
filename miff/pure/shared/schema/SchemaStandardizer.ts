@@ -289,7 +289,7 @@ export class SchemaStandardizer {
     // Use the latest schema for standardization
     const latestSchema = moduleSchemas.sort((a: any, b: any) => 
       b.version.localeCompare(a.version)
-    )[0];
+    )[0!];
 
     return this.applySchemaDefaults(data, latestSchema);
   }

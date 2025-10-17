@@ -190,7 +190,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0]?.toLowerCase() || '';
+    const command = parts[0!]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -207,9 +207,9 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: add <name> <maxHP> [currentHP]');
         } else {
-          const name = args[0];
-          const maxHP = parseInt(args[1]);
-          const currentHP = args[2] ? parseInt(args[2]) : maxHP;
+          const name = args[0!];
+          const maxHP = parseInt(args[1!]);
+          const currentHP = args[2!] ? parseInt(args[2!]) : maxHP;
 
           if (isNaN(maxHP) || maxHP <= 0) {
             console.log('❌ Max HP must be a positive number');
@@ -226,7 +226,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: remove <id>');
         } else {
-          const memberId = args[0];
+          const memberId = args[0!];
           const success = state.party.removeMember(memberId);
           console.log(success ? '✅ Member removed' : '❌ Member not found');
         }
@@ -236,8 +236,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: swap <slot1> <slot2>');
         } else {
-          const slotA = parseInt(args[0]);
-          const slotB = parseInt(args[1]);
+          const slotA = parseInt(args[0!]);
+          const slotB = parseInt(args[1!]);
 
           if (isNaN(slotA) || isNaN(slotB)) {
             console.log('❌ Slot indices must be numbers');
@@ -252,8 +252,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: move <fromSlot> <toSlot>');
         } else {
-          const fromSlot = parseInt(args[0]);
-          const toSlot = parseInt(args[1]);
+          const fromSlot = parseInt(args[0!]);
+          const toSlot = parseInt(args[1!]);
 
           if (isNaN(fromSlot) || isNaN(toSlot)) {
             console.log('❌ Slot indices must be numbers');
@@ -268,7 +268,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: heal <id>');
         } else {
-          const memberId = args[0];
+          const memberId = args[0!];
           const member = state.party.getMemberAt(state.selectedSlot);
           if (member && (member.id.toString() === memberId || member.spiritId === memberId)) {
             const wasKO = member.currentHP <= 0;
@@ -290,8 +290,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: damage <id> <amount>');
         } else {
-          const memberId = args[0];
-          const amount = parseInt(args[1]);
+          const memberId = args[0!];
+          const amount = parseInt(args[1!]);
 
           if (isNaN(amount) || amount <= 0) {
             console.log('❌ Damage amount must be a positive number');
@@ -317,7 +317,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: ko <id>');
         } else {
-          const memberId = args[0];
+          const memberId = args[0!];
           const success = state.koHandler.markKO(memberId);
           if (success) {
             state.party.handleKO(memberId);
@@ -332,7 +332,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: revive <id>');
         } else {
-          const memberId = args[0];
+          const memberId = args[0!];
           const success = state.koHandler.revive(memberId);
           if (success) {
             // Also heal the member
@@ -372,7 +372,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log(`Current slot: ${state.selectedSlot}`);
         } else {
-          const slot = parseInt(args[0]);
+          const slot = parseInt(args[0!]);
           if (isNaN(slot) || slot < 0 || slot >= state.party.maxSize) {
             console.log(`❌ Invalid slot. Must be 0-${state.party.maxSize - 1}`);
           } else {
@@ -417,7 +417,7 @@ async function runCLI(): Promise<void> {
 }
 
 // Main execution
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', err instanceof Error ? message: String(err));
     process.exit(1);

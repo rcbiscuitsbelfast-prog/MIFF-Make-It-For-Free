@@ -566,7 +566,7 @@ export class IdleSystemPure {
     if (this.integrations.onResourceChange) {
       this.eventBus.subscribe('idle:resource_change', (event: any) => {
         const data = event.data || event;
-        this.integrations.onResourceChange!(data.resourceId, oldAmount: data.oldAmount, data.newAmount);
+        this.integrations.onResourceChange!(data.resourceId, data.oldAmount, data.newAmount);
       });
     }
 

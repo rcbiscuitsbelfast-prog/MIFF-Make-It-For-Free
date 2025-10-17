@@ -311,7 +311,7 @@ export class SaveSnapshot implements ISaveSnapshot {
    * Clone save snapshot
    */
   clone(): SaveSnapshot {
-    const cloned = new SaveSnapshot(this.playerId, zoneId: this.zoneId, this.version);
+    const cloned = new SaveSnapshot(this.playerId, this.zoneId, this.version);
     cloned.timestampUtc = this.timestampUtc;
     cloned.checksum = this.checksum;
     cloned.partyRoster = JSON.parse(JSON.stringify(this.partyRoster));

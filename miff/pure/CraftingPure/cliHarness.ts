@@ -12,8 +12,8 @@ type Cmd =
   | { op: 'start'; recipeId: string; crafterId: string; inventory: Inventory };
 
 function main() {
-  const recipesPath = process.argv[2] || 'CraftingPure/sample_recipes.json';
-  const commandsPath = process.argv[3] || '';
+  const recipesPath = process.argv[2!] || 'CraftingPure/sample_recipes.json';
+  const commandsPath = process.argv[3!] || '';
   
   const obj = JSON.parse(fs.readFileSync(path.resolve(recipesPath), 'utf-8')) as { 
     recipes: Array<{ id: string; inputs: Record<string, number>; outputs: Record<string, number>; statMods?: any[] }> 
@@ -69,7 +69,7 @@ function main() {
       const result = mgr.getRecipe(c.id);
       outputs.push({ op: 'get', id: c.id, result: result.result });
     } else if (c.op === 'start') {
-      const result = mgr.startCrafting(c.recipeId, crafterId: c.crafterId, c.inventory);
+      const result = mgr.startCrafting(c.recipeId, c.crafterId, c.inventory);
       outputs.push({ op: 'start', recipeId: c.recipeId, sessionId: result.result?.id, status: result.status });
     }
   }
@@ -78,4 +78,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

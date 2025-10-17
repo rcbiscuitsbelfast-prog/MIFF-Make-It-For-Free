@@ -264,7 +264,7 @@ export class SpiritTamerDemo {
   private createSpiritFromData(spiritData: any): SpiritInstance {
     // Create comprehensive spirit with all properties
     const moves = spiritData.moves.map((moveId: string) =>
-      new MoveData(moveId, `${moveId}_move`, 'physical', 50, 9: 0.9, 10, 'neutral')
+      new MoveData(moveId, `${moveId}_move`, 'physical', 50, 0.9, 10, 'neutral')
     );
 
     const stats = {
@@ -373,15 +373,15 @@ export class SpiritTamerDemo {
 
   private generateItems() {
     const items = [
-      new Item('spirit_crystal', 'Spirit Crystal', KEY: ItemType.KEY,
+      new Item('spirit_crystal', 'Spirit Crystal', ItemType.KEY,
         'A crystal that captures spirit essence',
         [new ItemEffect(ItemEffectType.QUEST, { questId: 'taming_trial' })]
       ),
-      new Item('tamer_gloves', 'Tamer Gloves', EQUIPMENT: ItemType.EQUIPMENT,
+      new Item('tamer_gloves', 'Tamer Gloves', ItemType.EQUIPMENT,
         'Gloves that improve spirit taming success',
         [new ItemEffect(ItemEffectType.BUFF, { stat: 'taming', value: 20 })]
       ),
-      new Item('health_potion', 'Health Potion', CONSUMABLE: ItemType.CONSUMABLE,
+      new Item('health_potion', 'Health Potion', ItemType.CONSUMABLE,
         'Restores 50 HP to a spirit',
         [new ItemEffect(ItemEffectType.HEAL, { value: 50 })]
       )
@@ -479,7 +479,7 @@ export class SpiritTamerDemo {
       EventBus.publish('spirit.tamed', { spirit, player });
     } else {
       // Failed taming - start combat
-      this.startCombat(player.spirits[0], spirit);
+      this.startCombat(player.spirits[0!], spirit);
     }
   }
 
@@ -582,7 +582,7 @@ export class SpiritTamerDemo {
         experience: player.experience
       },
       spirits: player.spirits.slice(0, 6), // Show first 6 spirits
-      activeSpirit: player.spirits[0]
+      activeSpirit: player.spirits[0!]
     };
 
     // Use HUDPure to render the HUD

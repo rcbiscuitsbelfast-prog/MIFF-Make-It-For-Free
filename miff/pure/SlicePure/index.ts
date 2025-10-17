@@ -717,28 +717,28 @@ export class EncounterTrigger implements IEncounterTrigger {
    * Create tile type trigger
    */
   static tileType(zoneId: string, tileType: string): EncounterTrigger {
-    return new EncounterTrigger(zoneId, TILE_TYPE: TriggerType.TILE_TYPE, { tile: tileType });
+    return new EncounterTrigger(zoneId, TriggerType.TILE_TYPE, { tile: tileType });
   }
 
   /**
    * Create step count trigger
    */
   static stepCount(zoneId: string, stepInterval: number): EncounterTrigger {
-    return new EncounterTrigger(zoneId, STEP_COUNT: TriggerType.STEP_COUNT, { interval: stepInterval });
+    return new EncounterTrigger(zoneId, TriggerType.STEP_COUNT, { interval: stepInterval });
   }
 
   /**
    * Create time-based trigger
    */
   static timeBased(zoneId: string, timeOfDay: TimeOfDay): EncounterTrigger {
-    return new EncounterTrigger(zoneId, TIME_BASED: TriggerType.TIME_BASED, { timeOfDay });
+    return new EncounterTrigger(zoneId, TriggerType.TIME_BASED, { timeOfDay });
   }
 
   /**
    * Create random trigger
    */
   static random(zoneId: string, probability: number): EncounterTrigger {
-    return new EncounterTrigger(zoneId, RANDOM: TriggerType.RANDOM, { probability });
+    return new EncounterTrigger(zoneId, TriggerType.RANDOM, { probability });
   }
 
   /**
@@ -1126,7 +1126,7 @@ export class OverworldBattleSliceTool {
     // 1) Setup Encounter table and triggers for Newhaven
     const encounterController = this.setupEncounterSystem();
 
-    const playerState = new PlayerState('newhaven', 'grass', DAY: TimeOfDay.DAY, 0, { x: 0, y: 0 }, 'clear');
+    const playerState = new PlayerState('newhaven', 'grass', TimeOfDay.DAY, 0, { x: 0, y: 0 }, 'clear');
 
     console.log(`🗺️ Roaming in ${playerState.zoneId} on ${playerState.tileType} tiles...`);
 
@@ -1443,7 +1443,7 @@ export const SliceUtils = {
    * Create demo player state
    */
   createDemoPlayerState(): PlayerState {
-    return new PlayerState('newhaven', 'grass', DAY: TimeOfDay.DAY, 0, { x: 10, y: 10 }, 'sunny');
+    return new PlayerState('newhaven', 'grass', TimeOfDay.DAY, 0, { x: 10, y: 10 }, 'sunny');
   },
 
   /**

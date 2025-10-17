@@ -28,7 +28,7 @@ test('golden navigation system flow', () => {
   expect(got.outputs).toBeInstanceOf(Array);
   expect(got.outputs.length).toBeGreaterThan(0);
   
-  const result = got.outputs[0];
+  const result = got.outputs[0!];
   expect(result.op).toBe('nav.path');
   expect(result.status).toBe('ok');
   expect(result.path).toBeDefined();
@@ -38,7 +38,7 @@ test('golden navigation system flow', () => {
   const pathResult = result.path;
   
   // Path should start from start point (A* includes start in path)
-  expect(pathResult[0]).toEqual({ x: 0, y: 0 });
+  expect(pathResult[0!]).toEqual({ x: 0, y: 0 });
   
   // Path should end at goal point
   expect(pathResult[pathResult.length - 1]).toEqual({ x: 9, y: 9 });

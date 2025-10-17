@@ -6,8 +6,8 @@ import { getOverride } from './override';
 type Cmd = { op: 'showAttribution' };
 
 function main(){
-  const cfgPath = process.argv[2] || 'MiffAttributionPure/sample_config.json';
-  const cmdsPath = process.argv[3] || '';
+  const cfgPath = process.argv[2!] || 'MiffAttributionPure/sample_config.json';
+  const cmdsPath = process.argv[3!] || '';
   const mgr = new MiffAttributionManager();
   const ovr = getOverride?.();
   if(ovr) mgr.setOverride(ovr);
@@ -17,4 +17,4 @@ function main(){
   for(const c of commands){ if(c.op==='showAttribution') outputs.push(mgr.showAttribution(cfg)); }
   console.log(JSON.stringify({outputs}, null, 2));
 }
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

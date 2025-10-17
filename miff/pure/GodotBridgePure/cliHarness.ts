@@ -22,14 +22,14 @@ function main() {
 
   try {
     let input: GodotBridgeOperation;
-    if (argv.length >= 2 && !argv[2]?.endsWith('.json')) {
+    if (argv.length >= 2 && !argv[2!]?.endsWith('.json')) {
       input = { op: argv[0] as any, module: argv[1] } as GodotBridgeOperation;
     } else if (argv.length >= 3) {
-      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
-      const configOverride = argv[3] && fs.existsSync(argv[3]) ? JSON.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
+      const payload = argv[2!] && fs.existsSync(argv[2!]) ? JSON.parse(fs.readFileSync(argv[2!], 'utf-8')) : {};
+      const configOverride = argv[3!] && fs.existsSync(argv[3!]) ? JSON.parse(fs.readFileSync(argv[3!], 'utf-8')) : undefined;
       input = { op: argv[0] as any, module: argv[1], data: payload, config: configOverride } as GodotBridgeOperation;
     } else {
-      const inputFile = argv[0];
+      const inputFile = argv[0!];
       input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
     }
     
@@ -212,9 +212,9 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
 }
 
 try {
-  const invoked = fs.realpathSync(process.argv[1]);
+  const invoked = fs.realpathSync(process.argv[1!]);
   const here = fs.realpathSync(fileURLToPath(import.meta.url));
   if (invoked === here) main();
 } catch {
-  if(import.meta.url === `file://${process.argv[1]}`) main();
+  if(import.meta.url === `file://${process.argv[1!]}`) main();
 }

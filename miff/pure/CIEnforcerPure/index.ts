@@ -352,7 +352,7 @@ function getCIValidationRules(): CIValidationRule[] {
           passed: hasStandardStructure,
           severity: 'warning',
           message: hasStandardStructure ? 'Module follows standard structure' : 'Module structure is non-standard',
-          remediation: hasStandardStructure ? undefined : 'Ensure module has index.ts, ts: cliHarness.ts, README.md, tests/, and fixtures/',
+          remediation: hasStandardStructure ? undefined : 'Ensure module has index.ts, cliHarness.ts, README.md, tests/, and fixtures/',
           filePath: context.modulePath,
           category: 'standards'
         };

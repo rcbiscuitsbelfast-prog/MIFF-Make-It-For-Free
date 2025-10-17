@@ -1042,7 +1042,7 @@ export class TimeSeriesAnalysisPure {
     });
     
     let maxFreq = 0;
-    let mode = values[0];
+    let mode = values[0!];
     for (const [val, freq] of Object.entries(frequency)) {
       if (freq > maxFreq) {
         maxFreq = freq;

@@ -49,7 +49,7 @@ export function reduceAnim(state: RigState, action: AnimAction, config?: RigConf
     }
     case 'transition': {
       if (!config) return state;
-      const blendMs = lookupBlend(config, current: state.current, action.to);
+      const blendMs = lookupBlend(config, state.current, action.to);
       return { ...state, next: action.to, tMs: 0, blendMs };
     }
     case 'override_joint': {
@@ -78,7 +78,7 @@ function blendJoints(current: Record<JointName, JointPose>, from: PoseDefinition
   keys.forEach((k: any) => {
     const fa = from.joints[k] || { rot: 0 };
     const fb = to.joints[k] || { rot: 0 };
-    out[k] = { rot: blend(fa.rot, rot: fb.rot, t), x: blend(fa.x || 0, fb.x || 0, t), y: blend(fa.y || 0, fb.y || 0, t) };
+    out[k] = { rot: blend(fa.rot, fb.rot, t), x: blend(fa.x || 0, fb.x || 0, t), y: blend(fa.y || 0, fb.y || 0, t) };
   });
   return out;
 }

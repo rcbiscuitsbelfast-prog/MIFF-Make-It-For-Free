@@ -22,7 +22,7 @@ class FidelityCLI {
 
   async run(): Promise<void> {
     const args = process.argv.slice(2);
-    const command = args[0];
+    const command = args[0!];
 
     try {
       switch (command) {
@@ -57,8 +57,8 @@ class FidelityCLI {
   }
 
   private async scanMocks(args: string[]): Promise<void> {
-    const rootPath = args[0] || 'miff/pure';
-    const outputFile = args[1] || 'mock-implementations.json';
+    const rootPath = args[0!] || 'miff/pure';
+    const outputFile = args[1!] || 'mock-implementations.json';
 
     console.info(`🔍 Scanning for mock implementations in ${rootPath}...`);
     
@@ -103,7 +103,7 @@ class FidelityCLI {
   }
 
   private async replaceMocks(args: string[]): Promise<void> {
-    const priority = args[0] || 'critical';
+    const priority = args[0!] || 'critical';
 
     console.info(`🔄 Replacing ${priority} priority mock implementations...`);
     
@@ -115,7 +115,7 @@ class FidelityCLI {
   }
 
   private async implementTransport(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'transport-layers.json';
+    const outputFile = args[0!] || 'transport-layers.json';
 
     console.info('🌐 Implementing real transport layers...');
     
@@ -127,7 +127,7 @@ class FidelityCLI {
   }
 
   private async implementLifecycle(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'lifecycle-hooks.json';
+    const outputFile = args[0!] || 'lifecycle-hooks.json';
 
     console.info('🔄 Implementing lifecycle hooks...');
     
@@ -139,7 +139,7 @@ class FidelityCLI {
   }
 
   private async generateReport(args: string[]): Promise<void> {
-    const outputFile = args[0] || 'runtime-fidelity-report.html';
+    const outputFile = args[0!] || 'runtime-fidelity-report.html';
 
     console.info('📊 Generating runtime fidelity report...');
     
@@ -154,8 +154,8 @@ class FidelityCLI {
   }
 
   private async analyzeModule(args: string[]): Promise<void> {
-    const moduleName = args[0];
-    const outputFile = args[1];
+    const moduleName = args[0!];
+    const outputFile = args[1!];
 
     if (!moduleName) {
       console.error('❌ Module name required');
@@ -344,7 +344,7 @@ Lifecycle Hooks:
 }
 
 // Run the CLI if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   const cli = new FidelityCLI();
   cli.run().catch(console.error);
 }

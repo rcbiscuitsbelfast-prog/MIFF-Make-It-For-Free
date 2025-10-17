@@ -29,9 +29,9 @@ export function parseQuestText(text: string): ParseResult {
       // step <id>: <desc> | trigger: ... | next: ... | reward: ...
       const m = line.match(/^step\s+(\S+):\s*(.*?)\s*(\|.*)?$/);
       if(!m){ issues.push(`Invalid step line: ${line}`); continue; }
-      const stepId = m[1];
-      const desc = m[2];
-      const tail = m[3] || '';
+      const stepId = m[1!];
+      const desc = m[2!];
+      const tail = m[3!] || '';
       const step: QuestStep = { id: stepId, description: desc, triggers: [] };
       const parts = tail.split('|').map((s: any) => s.trim()).filter(Boolean);
       for(const p of parts){
@@ -88,9 +88,9 @@ function parseRewards(s: string): QuestReward[] {
   return s.split(',').map(x=>x.trim()).map(tok=>{
     const mm = tok.match(/^(xp|item|currency)\s+(\w+)?\s*(\d+)?$/);
     if(!mm) return null;
-    const type = mm[1] as QuestReward['type'];
-    const id = mm[2];
-    const amount = mm[3]? parseInt(mm[3],10): undefined;
+    const type = mm[1!] as QuestReward['type'];
+    const id = mm[2!];
+    const amount = mm[3!]? parseInt(mm[3!],10): undefined;
     return { type, id, amount } as QuestReward;
   }).filter(Boolean) as QuestReward[];
 }

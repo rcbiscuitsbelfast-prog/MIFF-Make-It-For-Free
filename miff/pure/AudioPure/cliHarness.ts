@@ -35,7 +35,7 @@ function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: AudioOperation;
 
     // Handle direct command or JSON file input
@@ -46,7 +46,7 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'create':
-          const configFile = argv[1];
+          const configFile = argv[1!];
           const config = configFile && fs.existsSync(configFile) 
             ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
             : {
@@ -59,52 +59,52 @@ function main() {
           operation = { op: 'create', config };
           break;
         case 'register-sound':
-          if (!argv[1] || !argv[2] || !argv[3]) {
+          if (!argv[1!] || !argv[2!] || !argv[3!]) {
             throw new Error('register-sound requires soundId, name, and category');
           }
           operation = { 
             op: 'register-sound', 
-            soundId: argv[1],
-            soundName: argv[2],
-            category: argv[3],
-            volume: parseFloat(argv[4]) || 1.0,
-            pitch: parseFloat(argv[5]) || 1.0,
+            soundId: argv[1!],
+            soundName: argv[2!],
+            category: argv[3!],
+            volume: parseFloat(argv[4!]) || 1.0,
+            pitch: parseFloat(argv[5!]) || 1.0,
             loop: argv[6] === 'true',
             spatial: argv[7] === 'true'
           };
           break;
         case 'play':
-          if (!argv[1]) throw new Error('play requires soundId');
+          if (!argv[1!]) throw new Error('play requires soundId');
           operation = { 
             op: 'play', 
-            soundId: argv[1],
-            volume: parseFloat(argv[2]) || 1.0,
-            pitch: parseFloat(argv[3]) || 1.0
+            soundId: argv[1!],
+            volume: parseFloat(argv[2!]) || 1.0,
+            pitch: parseFloat(argv[3!]) || 1.0
           };
           break;
         case 'stop':
-          if (!argv[1]) throw new Error('stop requires soundId');
-          operation = { op: 'stop', soundId: argv[1] };
+          if (!argv[1!]) throw new Error('stop requires soundId');
+          operation = { op: 'stop', soundId: argv[1!] };
           break;
         case 'pause':
-          if (!argv[1]) throw new Error('pause requires soundId');
-          operation = { op: 'pause', soundId: argv[1] };
+          if (!argv[1!]) throw new Error('pause requires soundId');
+          operation = { op: 'pause', soundId: argv[1!] };
           break;
         case 'set-volume':
-          if (!argv[1] || !argv[2]) throw new Error('set-volume requires soundId and volume');
+          if (!argv[1!] || !argv[2!]) throw new Error('set-volume requires soundId and volume');
           operation = { op: 'set-volume', soundId: argv[1], volume: parseFloat(argv[2]) };
           break;
         case 'set-spatial':
-          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
+          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!]) {
             throw new Error('set-spatial requires soundId, x, y, z');
           }
           operation = { 
             op: 'set-spatial', 
-            soundId: argv[1],
+            soundId: argv[1!],
             position: { 
-              x: parseFloat(argv[2]), 
-              y: parseFloat(argv[3]), 
-              z: parseFloat(argv[4]) 
+              x: parseFloat(argv[2!]), 
+              y: parseFloat(argv[3!]), 
+              z: parseFloat(argv[4!]) 
             }
           };
           break;
@@ -259,9 +259,9 @@ function main() {
 
         // Play some sounds
         const playResults = [];
-        playResults.push(demoAudio.playSound('ambient_forest', 7: 0.7, 1.0));
-        playResults.push(demoAudio.playSound('footstep_grass', 8: 0.8, 1.0));
-        playResults.push(demoAudio.playSound('sword_clash', 0: 1.0, 1.0));
+        playResults.push(demoAudio.playSound('ambient_forest', 0.7, 1.0));
+        playResults.push(demoAudio.playSound('footstep_grass', 0.8, 1.0));
+        playResults.push(demoAudio.playSound('sword_clash', 1.0, 1.0));
 
         // Play spatial sounds
         const spatialInstance1 = demoAudio.playSpatialSound('ambient_forest', {
@@ -342,7 +342,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -380,6 +380,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

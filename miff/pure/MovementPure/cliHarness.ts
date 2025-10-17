@@ -16,14 +16,14 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new MovementManager();
 
 // Parse additional arguments
-const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
-const patternType = args.find(arg => arg.startsWith('--pattern='))?.split('=')[1] || 'idle';
-const speed = parseFloat(args.find(arg => arg.startsWith('--speed='))?.split('=')[1] || '1.0');
-const x = parseFloat(args.find(arg => arg.startsWith('--x='))?.split('=')[1] || '0');
-const y = parseFloat(args.find(arg => arg.startsWith('--y='))?.split('=')[1] || '0');
-const targetId = args.find(arg => arg.startsWith('--target-id='))?.split('=')[1] || 'target_001';
-const deltaTime = parseFloat(args.find(arg => arg.startsWith('--delta='))?.split('=')[1] || '0.016');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
+const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
+const patternType = args.find(arg => arg.startsWith('--pattern='))?.split('=')[1!] || 'idle';
+const speed = parseFloat(args.find(arg => arg.startsWith('--speed='))?.split('=')[1!] || '1.0');
+const x = parseFloat(args.find(arg => arg.startsWith('--x='))?.split('=')[1!] || '0');
+const y = parseFloat(args.find(arg => arg.startsWith('--y='))?.split('=')[1!] || '0');
+const targetId = args.find(arg => arg.startsWith('--target-id='))?.split('=')[1!] || 'target_001';
+const deltaTime = parseFloat(args.find(arg => arg.startsWith('--delta='))?.split('=')[1!] || '0.016');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'events' || 'json';
 
 let output: any;
 
@@ -57,7 +57,7 @@ try {
       const patternUpdates: Partial<MovementPattern> = {};
       if (args.includes('--type')) patternUpdates.type = patternType as any;
       if (args.includes('--speed')) patternUpdates.speed = speed;
-      if (args.includes('--max-speed')) patternUpdates.maxSpeed = parseFloat(args.find(arg => arg.startsWith('--max-speed='))?.split('=')[1] || '2.0');
+      if (args.includes('--max-speed')) patternUpdates.maxSpeed = parseFloat(args.find(arg => arg.startsWith('--max-speed='))?.split('=')[1!] || '2.0');
       
       output = manager.updatePattern(entityId, patternUpdates);
       break;
@@ -83,9 +83,9 @@ try {
     case 'list':
       const filter: any = {};
       if (args.includes('--pattern-type')) filter.patternType = patternType;
-      if (args.includes('--state')) filter.state = args.find(arg => arg.startsWith('--state='))?.split('=')[1];
-      if (args.includes('--min-speed')) filter.minSpeed = parseFloat(args.find(arg => arg.startsWith('--min-speed='))?.split('=')[1] || '0');
-      if (args.includes('--max-speed')) filter.maxSpeed = parseFloat(args.find(arg => arg.startsWith('--max-speed='))?.split('=')[1] || '10');
+      if (args.includes('--state')) filter.state = args.find(arg => arg.startsWith('--state='))?.split('=')[1!];
+      if (args.includes('--min-speed')) filter.minSpeed = parseFloat(args.find(arg => arg.startsWith('--min-speed='))?.split('=')[1!] || '0');
+      if (args.includes('--max-speed')) filter.maxSpeed = parseFloat(args.find(arg => arg.startsWith('--max-speed='))?.split('=')[1!] || '10');
       
       output = manager.listEntities(filter);
       break;
@@ -181,7 +181,7 @@ try {
         }
       ];
 
-      const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, position: entity.position, entity.pattern));
+      const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, entity.position, entity.pattern));
       const simulationResult = manager.simulateTick(1.0);
       
       output = {
@@ -276,7 +276,7 @@ try {
 
       const scenarioResults = sampleScenarios.map((scenario: any) => {
         const entityResults = scenario.entities.map((entity: any) => 
-          manager.createEntity(entity.id, position: entity.position, entity.pattern)
+          manager.createEntity(entity.id, entity.position, entity.pattern)
         );
         return {
           scenario: scenario.id,

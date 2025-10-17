@@ -198,7 +198,7 @@ function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: TeamOperation;
 
     // Handle direct command or JSON file input
@@ -209,15 +209,15 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'add':
-          if (!argv[1]) throw new Error('add requires spiritId');
-          operation = { op: 'add', spiritId: argv[1] };
+          if (!argv[1!]) throw new Error('add requires spiritId');
+          operation = { op: 'add', spiritId: argv[1!] };
           break;
         case 'remove':
-          if (!argv[1]) throw new Error('remove requires spiritId');
-          operation = { op: 'remove', spiritId: argv[1] };
+          if (!argv[1!]) throw new Error('remove requires spiritId');
+          operation = { op: 'remove', spiritId: argv[1!] };
           break;
         case 'swap':
-          if (!argv[1] || !argv[2]) throw new Error('swap requires two indices');
+          if (!argv[1!] || !argv[2!]) throw new Error('swap requires two indices');
           operation = { op: 'swap', indexA: parseInt(argv[1]), indexB: parseInt(argv[2]) };
           break;
         case 'list':
@@ -230,8 +230,8 @@ function main() {
           operation = { op: 'get-reserves' };
           break;
         case 'set-max-size':
-          if (!argv[1]) throw new Error('set-max-size requires a size');
-          operation = { op: 'set-max-size', maxSize: parseInt(argv[1]) };
+          if (!argv[1!]) throw new Error('set-max-size requires a size');
+          operation = { op: 'set-max-size', maxSize: parseInt(argv[1!]) };
           break;
         case 'simulate':
           operation = { op: 'simulate' };
@@ -369,7 +369,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -407,6 +407,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

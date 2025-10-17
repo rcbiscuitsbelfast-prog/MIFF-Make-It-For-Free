@@ -32,28 +32,28 @@ async function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: StatsOperation;
 
     switch (first) {
       case 'create-entity':
-        if (!argv[1]) throw new Error('create-entity requires entityId');
-        operation = { op: 'create-entity', entityId: argv[1] };
+        if (!argv[1!]) throw new Error('create-entity requires entityId');
+        operation = { op: 'create-entity', entityId: argv[1!] };
         break;
       case 'set-stat':
-        if (!argv[1] || !argv[2] || !argv[3]) {
+        if (!argv[1!] || !argv[2!] || !argv[3!]) {
           throw new Error('set-stat requires entityId, statKey, and baseValue');
         }
         operation = { 
           op: 'set-stat', 
-          entityId: argv[1], 
-          statKey: argv[2], 
-          baseValue: parseFloat(argv[3])
+          entityId: argv[1!], 
+          statKey: argv[2!], 
+          baseValue: parseFloat(argv[3!])
         };
         break;
       case 'get-entity':
-        if (!argv[1]) throw new Error('get-entity requires entityId');
-        operation = { op: 'get-entity', entityId: argv[1] };
+        if (!argv[1!]) throw new Error('get-entity requires entityId');
+        operation = { op: 'get-entity', entityId: argv[1!] };
         break;
       case 'get-analytics':
         operation = { op: 'get-analytics' };
@@ -127,6 +127,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

@@ -159,7 +159,7 @@ describe('PerfPure Golden Tests', () => {
 
       const updatedResults = profiler.getResults();
       expect(updatedResults).toHaveLength(1);
-      expect(updatedResults[0].label).toBe('Test');
+      expect(updatedResults[0!].label).toBe('Test');
     });
 
     test('should filter results by label', () => {
@@ -470,8 +470,8 @@ describe('PerfPure Golden Tests', () => {
 
       expect(sortResult).toEqual([1, 1, 2, 3, 4, 5, 6, 9]);
       expect(filterResult).toHaveLength(500);
-      expect(mapResult[0]).toBe(0);
-      expect(mapResult[1]).toBe(1);
+      expect(mapResult[0!]).toBe(0);
+      expect(mapResult[1!]).toBe(1);
 
       // All operations should have been measured
       expect(console.log).toHaveBeenCalledTimes(3);

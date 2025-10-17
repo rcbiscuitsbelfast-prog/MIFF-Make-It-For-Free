@@ -1241,7 +1241,7 @@ canvas {
   }
 
   private generateCSS(): string {
-    return this.project.styles[0]?.source || '';
+    return this.project.styles[0!]?.source || '';
   }
 
   private async generateJavaScript(script: WebScript): Promise<string> {

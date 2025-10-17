@@ -128,9 +128,9 @@ describe('EconomyPure CLI Harness', () => {
     expect(result.result.success).toBe(true);
     expect(Array.isArray(result.result.rules)).toBe(true);
     expect(result.result.count).toBeGreaterThan(0);
-    expect(result.result.rules[0]).toHaveProperty('id');
-    expect(result.result.rules[0]).toHaveProperty('itemId');
-    expect(result.result.rules[0]).toHaveProperty('basePrice');
+    expect(result.result.rules[0!]).toHaveProperty('id');
+    expect(result.result.rules[0!]).toHaveProperty('itemId');
+    expect(result.result.rules[0!]).toHaveProperty('basePrice');
   });
 
   test('list-vendors operation', async () => {
@@ -142,9 +142,9 @@ describe('EconomyPure CLI Harness', () => {
     expect(result.result.success).toBe(true);
     expect(Array.isArray(result.result.vendors)).toBe(true);
     expect(result.result.count).toBeGreaterThan(0);
-    expect(result.result.vendors[0]).toHaveProperty('id');
-    expect(result.result.vendors[0]).toHaveProperty('name');
-    expect(result.result.vendors[0]).toHaveProperty('type');
+    expect(result.result.vendors[0!]).toHaveProperty('id');
+    expect(result.result.vendors[0!]).toHaveProperty('name');
+    expect(result.result.vendors[0!]).toHaveProperty('type');
   });
 
   test('list-currencies operation', async () => {
@@ -156,9 +156,9 @@ describe('EconomyPure CLI Harness', () => {
     expect(result.result.success).toBe(true);
     expect(Array.isArray(result.result.currencies)).toBe(true);
     expect(result.result.count).toBeGreaterThan(0);
-    expect(result.result.currencies[0]).toHaveProperty('id');
-    expect(result.result.currencies[0]).toHaveProperty('name');
-    expect(result.result.currencies[0]).toHaveProperty('symbol');
+    expect(result.result.currencies[0!]).toHaveProperty('id');
+    expect(result.result.currencies[0!]).toHaveProperty('name');
+    expect(result.result.currencies[0!]).toHaveProperty('symbol');
   });
 
   test('export operation', async () => {

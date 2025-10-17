@@ -216,7 +216,7 @@ export class WebSocketServerPure extends EventEmitter {
         break;
       case 'broadcast':
         if (message.channel && message.payload) {
-          this.broadcast(message.channel, payload: message.payload, clientId);
+          this.broadcast(message.channel, message.payload, clientId);
         }
         break;
       case 'ping':

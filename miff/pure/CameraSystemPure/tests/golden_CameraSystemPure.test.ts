@@ -413,7 +413,7 @@ describe('CameraSystemPure Golden Tests', () => {
       if (path) {
         expect(path.waypoints.length).toBeGreaterThan(0);
 
-        const firstWaypoint = path.waypoints[0];
+        const firstWaypoint = path.waypoints[0!];
         expect(firstWaypoint.position).toBeDefined();
         expect(firstWaypoint.rotation).toBeDefined();
         expect(firstWaypoint.time).toBeGreaterThanOrEqual(0);

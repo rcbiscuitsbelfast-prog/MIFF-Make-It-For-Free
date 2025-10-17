@@ -410,7 +410,7 @@ export class ClueSystemPure {
         if (clue1.id !== clue2.id) {
           const contradiction = this.detectClueContradiction(clue1, clue2);
           if (contradiction) {
-            this.handleContradiction(investigation.id, id: clue1.id, clue2.id, contradiction);
+            this.handleContradiction(investigation.id, clue1.id, clue2.id, contradiction);
           }
         }
       });

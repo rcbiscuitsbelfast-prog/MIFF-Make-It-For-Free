@@ -511,7 +511,7 @@ describe('LorePure Golden Tests', () => {
       const invalidCondition = LoreUnlockCondition.spiritCaptured('');
       const errors = invalidCondition.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0]).toContain('String value required');
+      expect(errors[0!]).toContain('String value required');
     });
 
     test('should clone correctly', () => {
@@ -654,7 +654,7 @@ describe('LorePure Golden Tests', () => {
 
       const filtered = loreManager.getFilteredLoreEntries(filter);
       expect(filtered).toHaveLength(1);
-      expect(filtered[0]).toBe(entry1);
+      expect(filtered[0!]).toBe(entry1);
     });
 
     test('should provide correct statistics', () => {
@@ -818,9 +818,9 @@ describe('LorePure Golden Tests', () => {
 
     test('should filter entries correctly', () => {
       const entries: ILoreEntry[] = [
-        new LoreEntry('1', 'T1', 'Text1', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 8, ['important']),
-        new LoreEntry('2', 'T2', 'Text2', LoreUnlockCondition.alwaysTrue(), CHARACTER: LoreCategory.CHARACTER, 3, ['character']),
-        new LoreEntry('3', 'T3', 'Text3', LoreUnlockCondition.alwaysTrue(), WORLD: LoreCategory.WORLD, 6, ['world', 'important']),
+        new LoreEntry('1', 'T1', 'Text1', LoreUnlockCondition.alwaysTrue(), LoreCategory.MAIN_STORY, 8, ['important']),
+        new LoreEntry('2', 'T2', 'Text2', LoreUnlockCondition.alwaysTrue(), LoreCategory.CHARACTER, 3, ['character']),
+        new LoreEntry('3', 'T3', 'Text3', LoreUnlockCondition.alwaysTrue(), LoreCategory.WORLD, 6, ['world', 'important']),
       ];
 
       const filtered = LoreUtils.filterEntries(entries, {
@@ -837,20 +837,20 @@ describe('LorePure Golden Tests', () => {
 
     test('should sort entries correctly', () => {
       const entries: ILoreEntry[] = [
-        new LoreEntry('2', 'B Title', 'Text2', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 3),
-        new LoreEntry('1', 'A Title', 'Text1', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 8),
-        new LoreEntry('3', 'C Title', 'Text3', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 5),
+        new LoreEntry('2', 'B Title', 'Text2', LoreUnlockCondition.alwaysTrue(), LoreCategory.MAIN_STORY, 3),
+        new LoreEntry('1', 'A Title', 'Text1', LoreUnlockCondition.alwaysTrue(), LoreCategory.MAIN_STORY, 8),
+        new LoreEntry('3', 'C Title', 'Text3', LoreUnlockCondition.alwaysTrue(), LoreCategory.MAIN_STORY, 5),
       ];
 
       const sortedByPriority = LoreUtils.sortEntries(entries, 'priority');
-      expect(sortedByPriority[0].priority).toBe(8);
-      expect(sortedByPriority[1].priority).toBe(5);
-      expect(sortedByPriority[2].priority).toBe(3);
+      expect(sortedByPriority[0!].priority).toBe(8);
+      expect(sortedByPriority[1!].priority).toBe(5);
+      expect(sortedByPriority[2!].priority).toBe(3);
 
       const sortedByTitle = LoreUtils.sortEntries(entries, 'title');
-      expect(sortedByTitle[0].title).toBe('A Title');
-      expect(sortedByTitle[1].title).toBe('B Title');
-      expect(sortedByTitle[2].title).toBe('C Title');
+      expect(sortedByTitle[0!].title).toBe('A Title');
+      expect(sortedByTitle[1!].title).toBe('B Title');
+      expect(sortedByTitle[2!].title).toBe('C Title');
     });
 
     test('should get completion percentage correctly', () => {

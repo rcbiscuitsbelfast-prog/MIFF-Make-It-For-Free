@@ -213,7 +213,7 @@ describe('MovementPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
       const simulateResult = manager.simulateTick(0.016);
@@ -266,13 +266,13 @@ describe('MovementPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
       const filterResult = manager.listEntities({ patternType: 'idle' });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('idle_entity');
+      expect(filterResult.result?.[0!].id).toBe('idle_entity');
     });
 
     test('should filter entities by speed range', () => {
@@ -318,7 +318,7 @@ describe('MovementPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
       // Simulate movement to get entities moving (need multiple ticks to reach target speed)
@@ -329,7 +329,7 @@ describe('MovementPure Golden Tests', () => {
       const filterResult = manager.listEntities({ minSpeed: 1.0, maxSpeed: 4.0 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('fast_entity');
+      expect(filterResult.result?.[0!].id).toBe('fast_entity');
     });
   });
 
@@ -377,7 +377,7 @@ describe('MovementPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, position: entity.position, entity.pattern);
+        manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
       const statsResult = manager.getMovementStats();
@@ -527,7 +527,7 @@ describe('MovementPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        const createResult = manager.createEntity(entity.id, position: entity.position, entity.pattern);
+        const createResult = manager.createEntity(entity.id, entity.position, entity.pattern);
         expect(createResult.status).toBe('ok');
       });
 

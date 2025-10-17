@@ -494,20 +494,20 @@ export class MagicSystemPure {
     const debuffs: string[] = [];
 
     // Calculate effectiveness based on elemental interactions
-    const effectiveness = this.calculateElementalEffectiveness(effect.element, casterId, targets[0]);
+    const effectiveness = this.calculateElementalEffectiveness(effect.element, casterId, targets[0!]);
 
     switch (effect.type) {
       case 'damage':
         damage = Math.floor(effect.magnitude * effectiveness);
         if (targets.length > 0) {
-          this.healthSystem.damageEntity(targets[0], damage);
+          this.healthSystem.damageEntity(targets[0!], damage);
         }
         break;
 
       case 'heal':
         healing = Math.floor(effect.magnitude * effectiveness);
         if (targets.length > 0) {
-          this.healthSystem.healEntity(targets[0], healing);
+          this.healthSystem.healEntity(targets[0!], healing);
         }
         break;
 

@@ -1076,23 +1076,23 @@ export class Spirit implements ISpirit {
 
     // Check for super effective combinations
     const superEffective: Record<string, string[]> = {
-      [SpiritType.FIRE]: [SpiritType.GRASS, ICE: SpiritType.ICE, SpiritType.BUG, SpiritType.STEEL],
-      [SpiritType.WATER]: [SpiritType.FIRE, GROUND: SpiritType.GROUND, SpiritType.ROCK],
-      [SpiritType.GRASS]: [SpiritType.WATER, GROUND: SpiritType.GROUND, SpiritType.ROCK],
+      [SpiritType.FIRE]: [SpiritType.GRASS, SpiritType.ICE, SpiritType.BUG, SpiritType.STEEL],
+      [SpiritType.WATER]: [SpiritType.FIRE, SpiritType.GROUND, SpiritType.ROCK],
+      [SpiritType.GRASS]: [SpiritType.WATER, SpiritType.GROUND, SpiritType.ROCK],
       [SpiritType.ELECTRIC]: [SpiritType.WATER, SpiritType.FLYING],
-      [SpiritType.ICE]: [SpiritType.GRASS, GROUND: SpiritType.GROUND, SpiritType.FLYING, SpiritType.DRAGON],
-      [SpiritType.FIGHTING]: [SpiritType.NORMAL, ICE: SpiritType.ICE, SpiritType.ROCK, DARK: SpiritType.DARK, SpiritType.STEEL],
+      [SpiritType.ICE]: [SpiritType.GRASS, SpiritType.GROUND, SpiritType.FLYING, SpiritType.DRAGON],
+      [SpiritType.FIGHTING]: [SpiritType.NORMAL, SpiritType.ICE, SpiritType.ROCK, SpiritType.DARK, SpiritType.STEEL],
       [SpiritType.POISON]: [SpiritType.GRASS, SpiritType.FAIRY],
-      [SpiritType.GROUND]: [SpiritType.FIRE, ELECTRIC: SpiritType.ELECTRIC, SpiritType.POISON, ROCK: SpiritType.ROCK, SpiritType.STEEL],
-      [SpiritType.FLYING]: [SpiritType.GRASS, FIGHTING: SpiritType.FIGHTING, SpiritType.BUG],
+      [SpiritType.GROUND]: [SpiritType.FIRE, SpiritType.ELECTRIC, SpiritType.POISON, SpiritType.ROCK, SpiritType.STEEL],
+      [SpiritType.FLYING]: [SpiritType.GRASS, SpiritType.FIGHTING, SpiritType.BUG],
       [SpiritType.PSYCHIC]: [SpiritType.FIGHTING, SpiritType.POISON],
-      [SpiritType.BUG]: [SpiritType.GRASS, PSYCHIC: SpiritType.PSYCHIC, SpiritType.DARK],
-      [SpiritType.ROCK]: [SpiritType.FIRE, FLYING: SpiritType.FLYING, SpiritType.BUG],
+      [SpiritType.BUG]: [SpiritType.GRASS, SpiritType.PSYCHIC, SpiritType.DARK],
+      [SpiritType.ROCK]: [SpiritType.FIRE, SpiritType.FLYING, SpiritType.BUG],
       [SpiritType.GHOST]: [SpiritType.PSYCHIC, SpiritType.GHOST],
       [SpiritType.DRAGON]: [SpiritType.DRAGON],
       [SpiritType.DARK]: [SpiritType.PSYCHIC, SpiritType.GHOST],
-      [SpiritType.STEEL]: [SpiritType.ICE, ROCK: SpiritType.ROCK, SpiritType.FAIRY],
-      [SpiritType.FAIRY]: [SpiritType.FIGHTING, DRAGON: SpiritType.DRAGON, SpiritType.DARK]
+      [SpiritType.STEEL]: [SpiritType.ICE, SpiritType.ROCK, SpiritType.FAIRY],
+      [SpiritType.FAIRY]: [SpiritType.FIGHTING, SpiritType.DRAGON, SpiritType.DARK]
     };
 
     const typesToCheck = [this.primaryType];
@@ -1667,23 +1667,23 @@ export const SpiritUtils = {
     }
 
     const superEffective: Record<SpiritType, SpiritType[]> = {
-      [SpiritType.FIRE]: [SpiritType.GRASS, ICE: SpiritType.ICE, SpiritType.BUG],
-      [SpiritType.WATER]: [SpiritType.FIRE, GROUND: SpiritType.GROUND, SpiritType.ROCK],
-      [SpiritType.GRASS]: [SpiritType.WATER, GROUND: SpiritType.GROUND, SpiritType.ROCK],
+      [SpiritType.FIRE]: [SpiritType.GRASS, SpiritType.ICE, SpiritType.BUG],
+      [SpiritType.WATER]: [SpiritType.FIRE, SpiritType.GROUND, SpiritType.ROCK],
+      [SpiritType.GRASS]: [SpiritType.WATER, SpiritType.GROUND, SpiritType.ROCK],
       [SpiritType.ELECTRIC]: [SpiritType.WATER, SpiritType.FLYING],
-      [SpiritType.ICE]: [SpiritType.GRASS, GROUND: SpiritType.GROUND, SpiritType.FLYING, SpiritType.DRAGON],
-      [SpiritType.FIGHTING]: [SpiritType.NORMAL, ICE: SpiritType.ICE, SpiritType.ROCK],
+      [SpiritType.ICE]: [SpiritType.GRASS, SpiritType.GROUND, SpiritType.FLYING, SpiritType.DRAGON],
+      [SpiritType.FIGHTING]: [SpiritType.NORMAL, SpiritType.ICE, SpiritType.ROCK],
       [SpiritType.POISON]: [SpiritType.GRASS, SpiritType.FAIRY],
-      [SpiritType.GROUND]: [SpiritType.FIRE, ELECTRIC: SpiritType.ELECTRIC, SpiritType.POISON],
-      [SpiritType.FLYING]: [SpiritType.GRASS, FIGHTING: SpiritType.FIGHTING, SpiritType.BUG],
+      [SpiritType.GROUND]: [SpiritType.FIRE, SpiritType.ELECTRIC, SpiritType.POISON],
+      [SpiritType.FLYING]: [SpiritType.GRASS, SpiritType.FIGHTING, SpiritType.BUG],
       [SpiritType.PSYCHIC]: [SpiritType.FIGHTING, SpiritType.POISON],
-      [SpiritType.BUG]: [SpiritType.GRASS, PSYCHIC: SpiritType.PSYCHIC, SpiritType.DARK],
-      [SpiritType.ROCK]: [SpiritType.FIRE, FLYING: SpiritType.FLYING, SpiritType.BUG],
+      [SpiritType.BUG]: [SpiritType.GRASS, SpiritType.PSYCHIC, SpiritType.DARK],
+      [SpiritType.ROCK]: [SpiritType.FIRE, SpiritType.FLYING, SpiritType.BUG],
       [SpiritType.GHOST]: [SpiritType.PSYCHIC, SpiritType.GHOST],
       [SpiritType.DRAGON]: [SpiritType.DRAGON],
       [SpiritType.DARK]: [SpiritType.PSYCHIC, SpiritType.GHOST],
-      [SpiritType.STEEL]: [SpiritType.ICE, ROCK: SpiritType.ROCK, SpiritType.FAIRY],
-      [SpiritType.FAIRY]: [SpiritType.FIGHTING, DRAGON: SpiritType.DRAGON, SpiritType.DARK],
+      [SpiritType.STEEL]: [SpiritType.ICE, SpiritType.ROCK, SpiritType.FAIRY],
+      [SpiritType.FAIRY]: [SpiritType.FIGHTING, SpiritType.DRAGON, SpiritType.DARK],
       [SpiritType.NONE]: [],
       [SpiritType.NORMAL]: [],
       [SpiritType.LIGHT]: [SpiritType.DARK, SpiritType.GHOST],
@@ -1799,10 +1799,10 @@ export const SpiritUtils = {
     const collection = new SpiritCollection();
 
     // Add various demo spirits
-    collection.addSpirit(Spirit.create('fire_spirit', 'Fire Spirit', 'A fiery spirit', FIRE: SpiritType.FIRE, undefined, SpiritRarity.COMMON));
-    collection.addSpirit(Spirit.create('water_spirit', 'Water Spirit', 'A watery spirit', WATER: SpiritType.WATER, undefined, SpiritRarity.UNCOMMON));
-    collection.addSpirit(Spirit.create('grass_spirit', 'Grass Spirit', 'A grassy spirit', GRASS: SpiritType.GRASS, undefined, SpiritRarity.RARE));
-    collection.addSpirit(Spirit.create('electric_spirit', 'Electric Spirit', 'A shocking spirit', ELECTRIC: SpiritType.ELECTRIC, undefined, SpiritRarity.EPIC));
+    collection.addSpirit(Spirit.create('fire_spirit', 'Fire Spirit', 'A fiery spirit', SpiritType.FIRE, undefined, SpiritRarity.COMMON));
+    collection.addSpirit(Spirit.create('water_spirit', 'Water Spirit', 'A watery spirit', SpiritType.WATER, undefined, SpiritRarity.UNCOMMON));
+    collection.addSpirit(Spirit.create('grass_spirit', 'Grass Spirit', 'A grassy spirit', SpiritType.GRASS, undefined, SpiritRarity.RARE));
+    collection.addSpirit(Spirit.create('electric_spirit', 'Electric Spirit', 'A shocking spirit', SpiritType.ELECTRIC, undefined, SpiritRarity.EPIC));
 
     // Mark some as captured
     const fireSpirit = collection.getSpirit('fire_spirit');

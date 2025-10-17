@@ -301,7 +301,7 @@ export class RealScheduler {
     for (const rule of this.scheduleRules.values()) {
       if (!rule.enabled || !rule.nextRun || rule.nextRun > now) continue;
 
-      this.addTask(rule.taskName, data: rule.data, {
+      this.addTask(rule.taskName, rule.data, {
         priority: rule.priority,
         scheduledFor: now
       });

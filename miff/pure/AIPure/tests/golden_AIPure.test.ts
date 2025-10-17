@@ -154,7 +154,7 @@ describe('AIPure Golden Tests', () => {
     });
 
     test('should create policy with custom values', () => {
-      const policy = new AIPolicy('custom', 5: 1.5, 0.8, 2: 1.2, ['test_rule']);
+      const policy = new AIPolicy('custom', 1.5, 0.8, 1.2, ['test_rule']);
       expect(policy.policyId).toBe('custom');
       expect(policy.aggression).toBe(1.5);
       expect(policy.caution).toBe(0.8);
@@ -163,7 +163,7 @@ describe('AIPure Golden Tests', () => {
     });
 
     test('should enforce constraints on values', () => {
-      const policy = new AIPolicy('test', -1, 3, 5: 1.5, []);
+      const policy = new AIPolicy('test', -1, 3, 1.5, []);
       expect(policy.aggression).toBe(0); // Clamped to minimum
       expect(policy.caution).toBe(2); // Clamped to maximum
       expect(policy.efficiency).toBe(1.5); // Within range
@@ -194,7 +194,7 @@ describe('AIPure Golden Tests', () => {
     });
 
     test('should validate correctly', () => {
-      const validPolicy = new AIPolicy('valid', 0: 1.0, 1.0, 1.0);
+      const validPolicy = new AIPolicy('valid', 1.0, 1.0, 1.0);
       expect(validPolicy.validate({})).toHaveLength(0);
 
       const invalidPolicy = new AIPolicy('', -1, 3, 1.5);
@@ -206,12 +206,12 @@ describe('AIPure Golden Tests', () => {
     });
 
     test('should generate policy summary correctly', () => {
-      const policy = new AIPolicy('test', 2: 1.2, 0.8, 1.5);
+      const policy = new AIPolicy('test', 1.2, 0.8, 1.5);
       expect(policy.getSummary()).toBe('test (Agg: 1.2, Cau: 0.8, Eff: 1.5)');
     });
 
     test('should clone correctly', () => {
-      const original = new AIPolicy('original', 5: 1.5, 0.8, 2: 1.2, ['rule1', 'rule2']);
+      const original = new AIPolicy('original', 1.5, 0.8, 1.2, ['rule1', 'rule2']);
       const clone = original.clone();
 
       expect(clone.policyId).toBe(original.policyId);
@@ -246,7 +246,7 @@ describe('AIPure Golden Tests', () => {
 
     beforeEach(() => {
       aiManager = new AIManager();
-      testPolicy = new AIPolicy('test_policy', 2: 1.2, 0.8, 1.5);
+      testPolicy = new AIPolicy('test_policy', 1.2, 0.8, 1.5);
     });
 
     test('should create manager with type effectiveness', () => {
@@ -382,8 +382,8 @@ describe('AIPure Golden Tests', () => {
       const waterSpirit = new MockSpiritInstance('2', 'Water Spirit', 'water', 15, 100, 40, 45, 55, 50, 20);
 
       const moves = [
-        new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 60, 9: 0.9, 8, 'fire', undefined, undefined, undefined, 0),
-        new MoveData('basic_strike', 'Basic Strike', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral', undefined, undefined, undefined, 0)
+        new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 60, 0.9, 8, 'fire', undefined, undefined, undefined, 0),
+        new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral', undefined, undefined, undefined, 0)
       ];
 
       // Fire is NOT very effective against water (0.5x), so should prefer neutral move
@@ -396,8 +396,8 @@ describe('AIPure Golden Tests', () => {
       const opponent = new MockSpiritInstance('2', 'Opponent', 'neutral', 15, 100, 40, 45, 55, 50, 20);
 
       const moves = [
-        new MoveData('high_power_low_acc', 'High Power Low Acc', SPECIAL: MoveCategory.SPECIAL, 80, 7: 0.7, 10, 'neutral'),
-        new MoveData('low_power_high_acc', 'Low Power High Acc', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral')
+        new MoveData('high_power_low_acc', 'High Power Low Acc', MoveCategory.SPECIAL, 80, 0.7, 10, 'neutral'),
+        new MoveData('low_power_high_acc', 'Low Power High Acc', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral')
       ];
 
       // Cautious AI should prefer high accuracy
@@ -414,8 +414,8 @@ describe('AIPure Golden Tests', () => {
       const opponent = new MockSpiritInstance('2', 'Opponent', 'neutral', 15, 100, 40, 45, 55, 50, 20);
 
       const moves = [
-        new MoveData('expensive_move', 'Expensive Move', SPECIAL: MoveCategory.SPECIAL, 60, 9: 0.9, 15, 'neutral'),
-        new MoveData('cheap_move', 'Cheap Move', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral')
+        new MoveData('expensive_move', 'Expensive Move', MoveCategory.SPECIAL, 60, 0.9, 15, 'neutral'),
+        new MoveData('cheap_move', 'Cheap Move', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral')
       ];
 
       // Efficient AI should prefer low cost
@@ -434,8 +434,8 @@ describe('AIPure Golden Tests', () => {
       const opponent = new MockSpiritInstance('2', 'Opponent', 'neutral', 15, 100, 40, 45, 55, 50, 20);
 
       const moves = [
-        new MoveData('attack_move', 'Attack Move', PHYSICAL: MoveCategory.PHYSICAL, 60, 9: 0.9, 8, 'neutral'),
-        new MoveData('heal_move', 'Heal Move', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 5, 'neutral')
+        new MoveData('attack_move', 'Attack Move', MoveCategory.PHYSICAL, 60, 0.9, 8, 'neutral'),
+        new MoveData('heal_move', 'Heal Move', MoveCategory.STATUS, 0, 1.0, 5, 'neutral')
       ];
 
       const action = ai.selectAction(lowHpSpirit, opponent, moves, rng);
@@ -447,8 +447,8 @@ describe('AIPure Golden Tests', () => {
       const lowSyncSpirit = new MockSpiritInstance('2', 'Low Sync Spirit', 'neutral', 15, 100, 40, 45, 55, 50, 20, 30);
 
       const moves = [
-        new MoveData('regular_move', 'Regular Move', PHYSICAL: MoveCategory.PHYSICAL, 50, 9: 0.9, 5, 'neutral'),
-        new MoveData('sync_move', 'Sync Move', SPECIAL: MoveCategory.SPECIAL, 60, 85: 0.85, 8, 'neutral')
+        new MoveData('regular_move', 'Regular Move', MoveCategory.PHYSICAL, 50, 0.9, 5, 'neutral'),
+        new MoveData('sync_move', 'Sync Move', MoveCategory.SPECIAL, 60, 0.85, 8, 'neutral')
       ];
 
       const action = ai.selectAction(highSyncSpirit, lowSyncSpirit, moves, rng);
@@ -505,8 +505,8 @@ describe('AIPure Golden Tests', () => {
     });
 
     test('should compare policies correctly', () => {
-      const policy1 = new AIPolicy('policy1', 0: 1.0, 1.0, 1.0);
-      const policy2 = new AIPolicy('policy2', 5: 1.5, 0.5, 1.2);
+      const policy1 = new AIPolicy('policy1', 1.0, 1.0, 1.0);
+      const policy2 = new AIPolicy('policy2', 1.5, 0.5, 1.2);
 
       const comparison = AIUtils.comparePolicies(policy1, policy2);
 
@@ -544,10 +544,10 @@ describe('AIPure Golden Tests', () => {
 
       // Create moves - use neutral types to eliminate type effectiveness bias
       const moves = [
-        new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 60, 9: 0.9, 8, 'neutral'),
-        new MoveData('water_burst', 'Water Burst', SPECIAL: MoveCategory.SPECIAL, 55, 95: 0.95, 6, 'neutral'),
-        new MoveData('basic_strike', 'Basic Strike', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral'),
-        new MoveData('heal', 'Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 5, 'neutral')
+        new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 60, 0.9, 8, 'neutral'),
+        new MoveData('water_burst', 'Water Burst', MoveCategory.SPECIAL, 55, 0.95, 6, 'neutral'),
+        new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral'),
+        new MoveData('heal', 'Heal', MoveCategory.STATUS, 0, 1.0, 5, 'neutral')
       ];
 
       const mockRNG = new MockRNGProvider();
@@ -574,7 +574,7 @@ describe('AIPure Golden Tests', () => {
 
     test('should handle policy overrides', () => {
       const aiManager = new AIManager();
-      const policy = new AIPolicy('override_test', 0: 1.0, 1.0, 1.0);
+      const policy = new AIPolicy('override_test', 1.0, 1.0, 1.0);
 
       // Add override rules - HP rule last to test prioritization
       policy.addOverrideRule('prefer_move_if_type_advantage', 'water_burst');
@@ -587,9 +587,9 @@ describe('AIPure Golden Tests', () => {
       const opponent = new MockSpiritInstance('2', 'Opponent', 'fire', 15, 100, 40, 45, 55, 50, 20);
 
       const moves = [
-        new MoveData('water_burst', 'Water Burst', SPECIAL: MoveCategory.SPECIAL, 55, 95: 0.95, 6, 'water'),
-        new MoveData('basic_strike', 'Basic Strike', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral'),
-        new MoveData('heal', 'Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 5, 'neutral')
+        new MoveData('water_burst', 'Water Burst', MoveCategory.SPECIAL, 55, 0.95, 6, 'water'),
+        new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral'),
+        new MoveData('heal', 'Heal', MoveCategory.STATUS, 0, 1.0, 5, 'neutral')
       ];
 
       // Test type advantage override - water vs fire should be super effective
@@ -604,7 +604,7 @@ describe('AIPure Golden Tests', () => {
       lowHpRNG.setNextFloat(1.0); // Ensure consistent behavior
       const lowHpAction = ai.selectAction(spirit, opponent, moves, lowHpRNG);
       console.log('Low HP Action:', lowHpAction);
-      console.log('Spirit HP:', currentHP: spirit.currentHP, '/', spirit.maxHP);
+      console.log('Spirit HP:', spirit.currentHP, '/', spirit.maxHP);
       expect(lowHpAction.moveId).toBe('heal'); // Should force heal when HP below 30%
     });
 
@@ -620,22 +620,22 @@ describe('AIPure Golden Tests', () => {
       ];
 
       // Set low HP for the low_hp spirit to trigger defensive policy
-      spirits[1].currentHP = 30; // 30% HP to trigger defensive policy
+      spirits[1!].currentHP = 30; // 30% HP to trigger defensive policy
 
       // Test high attack policy
-      const highAttackPolicy = AIUtils.createAdaptivePolicyWithId(spirits[0], 'adaptive_high_attack');
+      const highAttackPolicy = AIUtils.createAdaptivePolicyWithId(spirits[0!], 'adaptive_high_attack');
       aiManager.registerPolicy(highAttackPolicy);
 
       // Test low HP policy
-      const lowHpPolicy = AIUtils.createAdaptivePolicyWithId(spirits[1], 'adaptive_low_hp');
+      const lowHpPolicy = AIUtils.createAdaptivePolicyWithId(spirits[1!], 'adaptive_low_hp');
       aiManager.registerPolicy(lowHpPolicy);
 
       // Test high defense policy
-      const highDefensePolicy = AIUtils.createAdaptivePolicyWithId(spirits[2], 'adaptive_high_defense');
+      const highDefensePolicy = AIUtils.createAdaptivePolicyWithId(spirits[2!], 'adaptive_high_defense');
       aiManager.registerPolicy(highDefensePolicy);
 
       // Test balanced policy
-      const balancedPolicy = AIUtils.createAdaptivePolicyWithId(spirits[3], 'adaptive_balanced');
+      const balancedPolicy = AIUtils.createAdaptivePolicyWithId(spirits[3!], 'adaptive_balanced');
       aiManager.registerPolicy(balancedPolicy);
 
       // Test that adaptive policies reflect spirit characteristics
@@ -660,9 +660,9 @@ describe('AIPure Golden Tests', () => {
 
       // Create moves
       const moves = [
-        new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 60, 9: 0.9, 8, 'fire'),
-        new MoveData('water_burst', 'Water Burst', SPECIAL: MoveCategory.SPECIAL, 55, 95: 0.95, 6, 'water'),
-        new MoveData('basic_strike', 'Basic Strike', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral')
+        new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 60, 0.9, 8, 'fire'),
+        new MoveData('water_burst', 'Water Burst', MoveCategory.SPECIAL, 55, 0.95, 6, 'water'),
+        new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral')
       ];
 
       const ai1 = aiManager.getAI('aggressive');

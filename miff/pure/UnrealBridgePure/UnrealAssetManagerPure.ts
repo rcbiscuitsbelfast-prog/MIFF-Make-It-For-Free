@@ -729,7 +729,7 @@ export class UnrealAssetManagerPure {
 
       // Cache the loaded asset
       if (asset && this.configuration.cachingStrategy !== AssetCachingStrategy.NONE) {
-        this.cacheAsset(asset, qualityLevel: request.qualityLevel, loadTime);
+        this.cacheAsset(asset, request.qualityLevel, loadTime);
       }
 
       const response: AssetLoadingResponse = {

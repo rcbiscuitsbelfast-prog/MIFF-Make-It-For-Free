@@ -555,7 +555,7 @@ class PetCollectionCli {
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
-    const rounds = parseInt(args[0]) || 5;
+    const rounds = parseInt(args[0!]) || 5;
     console.log(`🧪 Running simulation for ${rounds} rounds...`);
 
     for (let i = 0; i < rounds; i++) {
@@ -595,7 +595,7 @@ class PetCollectionCli {
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
-    const operations = parseInt(args[0]) || 1000;
+    const operations = parseInt(args[0!]) || 1000;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
@@ -725,7 +725,7 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }
 

@@ -165,7 +165,7 @@ function runDemo(state: CLIState): void {
   }
 
   console.log('Drop Results:');
-  Array.from(dropResults.entries()).sort((a: any, b: any) => b[1] - a[1]).forEach(([item, count]) => {
+  Array.from(dropResults.entries()).sort((a: any, b: any) => b[1!] - a[1!]).forEach(([item, count]) => {
     const rate = (count / 100 * 100).toFixed(2);
     console.log(`  ${item}: ${count} (${rate}%)`);
   });
@@ -234,7 +234,7 @@ async function runCLI(): Promise<void> {
 
   rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
-    const command = parts[0]?.toLowerCase() || '';
+    const command = parts[0!]?.toLowerCase() || '';
     const args = parts.slice(1);
 
     switch (command) {
@@ -251,9 +251,9 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: reward <encounter_type> <player_level> <enemy_level>');
         } else {
-          const encounterType = args[0];
-          const playerLevel = parseInt(args[1]);
-          const enemyLevel = parseInt(args[2]);
+          const encounterType = args[0!];
+          const playerLevel = parseInt(args[1!]);
+          const enemyLevel = parseInt(args[2!]);
 
           if (isNaN(playerLevel) || isNaN(enemyLevel)) {
             console.log('❌ Player and enemy levels must be numbers');
@@ -273,8 +273,8 @@ async function runCLI(): Promise<void> {
         if (args.length < 2) {
           console.log('❌ Usage: add <item_id> <weight>');
         } else {
-          const itemId = args[0];
-          const weight = parseFloat(args[1]);
+          const itemId = args[0!];
+          const weight = parseFloat(args[1!]);
 
           if (isNaN(weight) || weight < 0) {
             console.log('❌ Weight must be a non-negative number');
@@ -294,12 +294,12 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'remove':
-        if (!args[0]) {
+        if (!args[0!]) {
           console.log('❌ Usage: remove <item_id>');
         } else {
           if (state.currentDropTable) {
-            const removed = state.currentDropTable.removeEntriesByItem(args[0]);
-            console.log(`✅ Removed ${removed} entries for item: ${args[0]}`);
+            const removed = state.currentDropTable.removeEntriesByItem(args[0!]);
+            console.log(`✅ Removed ${removed} entries for item: ${args[0!]}`);
           } else {
             console.log('❌ No drop table loaded');
           }
@@ -310,7 +310,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: drop <count>');
         } else {
-          const count = parseInt(args[0]);
+          const count = parseInt(args[0!]);
 
           if (isNaN(count) || count <= 0) {
             console.log('❌ Count must be a positive number');
@@ -330,7 +330,7 @@ async function runCLI(): Promise<void> {
             }
 
             console.log('Drop Results:');
-            Array.from(results.entries()).sort((a: any, b: any) => b[1] - a[1]).forEach(([item, count]) => {
+            Array.from(results.entries()).sort((a: any, b: any) => b[1!] - a[1!]).forEach(([item, count]) => {
               const rate = ((count / count) * 100).toFixed(2);
               console.log(`  ${item}: ${count} (${rate}%)`);
             });
@@ -344,7 +344,7 @@ async function runCLI(): Promise<void> {
         if (args.length === 0) {
           console.log('❌ Usage: simulate <runs>');
         } else {
-          const runs = parseInt(args[0]);
+          const runs = parseInt(args[0!]);
 
           if (isNaN(runs) || runs <= 0) {
             console.log('❌ Runs must be a positive number');
@@ -382,10 +382,10 @@ async function runCLI(): Promise<void> {
           console.log(`  Base XP: ${config.baseXP}`);
           console.log(`  Level XP Multiplier: ${config.levelXPMultiplier}`);
         } else if (args.length === 4) {
-          const baseCurrency = parseFloat(args[0]);
-          const levelCurrencyMultiplier = parseFloat(args[1]);
-          const baseXP = parseFloat(args[2]);
-          const levelXPMultiplier = parseFloat(args[3]);
+          const baseCurrency = parseFloat(args[0!]);
+          const levelCurrencyMultiplier = parseFloat(args[1!]);
+          const baseXP = parseFloat(args[2!]);
+          const levelXPMultiplier = parseFloat(args[3!]);
 
           if ([baseCurrency, levelCurrencyMultiplier, baseXP, levelXPMultiplier].some(isNaN)) {
             console.log('❌ All values must be numbers');
@@ -402,14 +402,14 @@ async function runCLI(): Promise<void> {
         if (!state.currentDropTable || state.currentDropTable.entries.length === 0) {
           console.log('❌ No drop table loaded');
         } else {
-          const simulations = args[0] ? parseInt(args[0]) : 1000;
+          const simulations = args[0!] ? parseInt(args[0!]) : 1000;
           console.log(`🧪 Testing drop rates with ${simulations} simulations...\n`);
 
           const resolver = new DropResolver(state.rng);
           const results = resolver.testDropRates(state.currentDropTable, simulations);
 
           console.log('Drop Rate Results:');
-          Array.from(results.entries()).sort((a: any, b: any) => b[1] - a[1]).forEach(([item, rate]) => {
+          Array.from(results.entries()).sort((a: any, b: any) => b[1!] - a[1!]).forEach(([item, rate]) => {
             const percentage = (rate * 100).toFixed(2);
             console.log(`  ${item}: ${percentage}%`);
           });
@@ -440,7 +440,7 @@ async function runCLI(): Promise<void> {
 }
 
 // Main execution
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', err instanceof Error ? message: String(err));
     process.exit(1);

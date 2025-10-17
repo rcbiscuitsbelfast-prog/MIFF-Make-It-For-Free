@@ -9,10 +9,10 @@ test('golden quest timeline flow', () => {
   const got = JSON.parse(out);
   
   expect(Array.isArray(got.outputs)).toBe(true);
-  expect(got.outputs[0]).toMatchObject({ op: 'quest.timeline', status: 'ok', frames: expect.any(Number) });
-  expect(got.outputs[1]).toMatchObject({ op: 'validate', valid: true });
+  expect(got.outputs[0!]).toMatchObject({ op: 'quest.timeline', status: 'ok', frames: expect.any(Number) });
+  expect(got.outputs[1!]).toMatchObject({ op: 'validate', valid: true });
   expect(got.outputs[2]).toMatchObject({ op: 'list', timelines: expect.arrayContaining(['helmet_of_fate']) });
-  expect(got.outputs[3]).toMatchObject({ op: 'dump', timeline: expect.objectContaining({ 
+  expect(got.outputs[3!]).toMatchObject({ op: 'dump', timeline: expect.objectContaining({ 
     id: 'helmet_of_fate', 
     remixMode: true,
     events: expect.any(Array)

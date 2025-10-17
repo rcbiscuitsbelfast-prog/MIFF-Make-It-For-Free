@@ -97,7 +97,7 @@ describe('PathfindingPure Golden Tests', () => {
 
       expect(result.success).toBe(true);
       expect(result.path.length).toBeGreaterThan(0);
-      expect(result.path[0]).toEqual(start);
+      expect(result.path[0!]).toEqual(start);
       expect(result.path[result.path.length - 1]).toEqual(goal);
       expect(result.algorithm).toBe('astar');
     });
@@ -113,7 +113,7 @@ describe('PathfindingPure Golden Tests', () => {
 
       expect(result.success).toBe(true);
       expect(result.path.length).toBeGreaterThan(0);
-      expect(result.path[0]).toEqual(start);
+      expect(result.path[0!]).toEqual(start);
       expect(result.path[result.path.length - 1]).toEqual(goal);
       expect(result.algorithm).toBe('dijkstra');
     });
@@ -129,7 +129,7 @@ describe('PathfindingPure Golden Tests', () => {
 
       expect(result.success).toBe(true);
       expect(result.path.length).toBeGreaterThan(0);
-      expect(result.path[0]).toEqual(start);
+      expect(result.path[0!]).toEqual(start);
       expect(result.path[result.path.length - 1]).toEqual(goal);
       expect(result.algorithm).toBe('bfs');
     });

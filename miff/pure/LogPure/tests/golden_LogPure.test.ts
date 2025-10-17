@@ -329,9 +329,9 @@ describe('LogPure Golden Tests', () => {
       expect(logger.getEntryCount()).toBe(1);
 
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('phase');
-      expect(entries[0].result).toBe(BattlePhase.PRE_TURN);
-      expect(entries[0].turnNumber).toBe(1);
+      expect(entries[0!].actionType).toBe('phase');
+      expect(entries[0!].result).toBe(BattlePhase.PRE_TURN);
+      expect(entries[0!].turnNumber).toBe(1);
     });
 
     test('should log battle actions correctly', () => {
@@ -347,12 +347,12 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actorId).toBe(1);
-      expect(entries[0].actionType).toBe('fire_blast');
-      expect(entries[0].targetId).toBe(2);
-      expect(entries[0].damageDealt).toBe(45);
-      expect(entries[0].statusApplied).toBe('burned');
-      expect(entries[0].debugNotes).toBe('Type advantage');
+      expect(entries[0!].actorId).toBe(1);
+      expect(entries[0!].actionType).toBe('fire_blast');
+      expect(entries[0!].targetId).toBe(2);
+      expect(entries[0!].damageDealt).toBe(45);
+      expect(entries[0!].statusApplied).toBe('burned');
+      expect(entries[0!].debugNotes).toBe('Type advantage');
     });
 
     test('should log battle effects correctly', () => {
@@ -361,58 +361,58 @@ describe('LogPure Golden Tests', () => {
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actorId).toBe(1);
-      expect(entries[0].actionType).toBe('effect_burn');
-      expect(entries[0].targetId).toBe(2);
-      expect(entries[0].debugNotes).toBe('Applied burn');
+      expect(entries[0!].actorId).toBe(1);
+      expect(entries[0!].actionType).toBe('effect_burn');
+      expect(entries[0!].targetId).toBe(2);
+      expect(entries[0!].debugNotes).toBe('Applied burn');
     });
 
     test('should log system messages correctly', () => {
-      logger.logSystem('Battle started', BATTLE: LogCategory.BATTLE, LogLevel.INFO);
+      logger.logSystem('Battle started', LogCategory.BATTLE, LogLevel.INFO);
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('system');
-      expect(entries[0].result).toBe('Battle started');
-      expect(entries[0].category).toBe(LogCategory.BATTLE);
-      expect(entries[0].level).toBe(LogLevel.INFO);
+      expect(entries[0!].actionType).toBe('system');
+      expect(entries[0!].result).toBe('Battle started');
+      expect(entries[0!].category).toBe(LogCategory.BATTLE);
+      expect(entries[0!].level).toBe(LogLevel.INFO);
     });
 
     test('should log debug messages correctly', () => {
-      logger.logDebug('Debug information', SYSTEM: LogCategory.SYSTEM, 1, 2);
+      logger.logDebug('Debug information', LogCategory.SYSTEM, 1, 2);
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('debug');
-      expect(entries[0].result).toBe('Debug information');
-      expect(entries[0].actorId).toBe(1);
-      expect(entries[0].targetId).toBe(2);
-      expect(entries[0].level).toBe(LogLevel.DEBUG);
+      expect(entries[0!].actionType).toBe('debug');
+      expect(entries[0!].result).toBe('Debug information');
+      expect(entries[0!].actorId).toBe(1);
+      expect(entries[0!].targetId).toBe(2);
+      expect(entries[0!].level).toBe(LogLevel.DEBUG);
     });
 
     test('should log warnings correctly', () => {
-      logger.logWarning('Warning message', SYSTEM: LogCategory.SYSTEM, 1, 2);
+      logger.logWarning('Warning message', LogCategory.SYSTEM, 1, 2);
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('warning');
-      expect(entries[0].level).toBe(LogLevel.WARN);
+      expect(entries[0!].actionType).toBe('warning');
+      expect(entries[0!].level).toBe(LogLevel.WARN);
     });
 
     test('should log errors correctly', () => {
-      logger.logError('Error message', SYSTEM: LogCategory.SYSTEM, 1, 2);
+      logger.logError('Error message', LogCategory.SYSTEM, 1, 2);
 
       expect(logger.getEntryCount()).toBe(1);
       const entries = logger.getAllEntries();
-      expect(entries[0].actionType).toBe('error');
-      expect(entries[0].level).toBe(LogLevel.ERROR);
+      expect(entries[0!].actionType).toBe('error');
+      expect(entries[0!].level).toBe(LogLevel.ERROR);
     });
 
     test('should filter entries correctly', () => {
       // Add different types of entries
-      logger.logSystem('System message', SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
+      logger.logSystem('System message', LogCategory.SYSTEM, LogLevel.INFO);
       logger.logPhaseChange(BattlePhase.PRE_TURN);
-      logger.logDebug('Debug message', SYSTEM: LogCategory.SYSTEM, LogLevel.DEBUG);
+      logger.logDebug('Debug message', LogCategory.SYSTEM, LogLevel.DEBUG);
 
       // Test category filter
       const systemEntries = logger.getFilteredEntries({ category: LogCategory.SYSTEM });
@@ -450,9 +450,9 @@ describe('LogPure Golden Tests', () => {
     });
 
     test('should get entries by level correctly', () => {
-      logger.logSystem('Info message', SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
-      logger.logSystem('Debug message', SYSTEM: LogCategory.SYSTEM, LogLevel.DEBUG);
-      logger.logWarning('Warning message', SYSTEM: LogCategory.SYSTEM, LogLevel.WARN);
+      logger.logSystem('Info message', LogCategory.SYSTEM, LogLevel.INFO);
+      logger.logSystem('Debug message', LogCategory.SYSTEM, LogLevel.DEBUG);
+      logger.logWarning('Warning message', LogCategory.SYSTEM, LogLevel.WARN);
 
       const infoEntries = logger.getEntriesByLevel(LogLevel.INFO);
       const debugEntries = logger.getEntriesByLevel(LogLevel.DEBUG);
@@ -465,9 +465,9 @@ describe('LogPure Golden Tests', () => {
 
     test('should provide correct statistics', () => {
       // Add some entries
-      logger.logSystem('System message', SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
+      logger.logSystem('System message', LogCategory.SYSTEM, LogLevel.INFO);
       logger.logPhaseChange(BattlePhase.PRE_TURN);
-      logger.logDebug('Debug message', SYSTEM: LogCategory.SYSTEM, LogLevel.DEBUG);
+      logger.logDebug('Debug message', LogCategory.SYSTEM, LogLevel.DEBUG);
 
       const stats = logger.getStatistics();
 
@@ -587,11 +587,11 @@ describe('LogPure Golden Tests', () => {
     });
 
     test('should validate log entries correctly', () => {
-      const validEntry = new BattleLogEntry(1, 'fire_blast', 2, 'success', BATTLE: LogCategory.BATTLE, LogLevel.INFO);
+      const validEntry = new BattleLogEntry(1, 'fire_blast', 2, 'success', LogCategory.BATTLE, LogLevel.INFO);
       const validErrors = LogUtils.validateLogEntry(validEntry);
       expect(validErrors).toHaveLength(0);
 
-      const invalidEntry = new BattleLogEntry(0, '', 0, 'success', BATTLE: LogCategory.BATTLE, LogLevel.INFO);
+      const invalidEntry = new BattleLogEntry(0, '', 0, 'success', LogCategory.BATTLE, LogLevel.INFO);
       invalidEntry.timestampUtc = 0;
       const invalidErrors = LogUtils.validateLogEntry(invalidEntry);
       expect(invalidErrors).toContain('Action type cannot be empty');
@@ -645,7 +645,7 @@ describe('LogPure Golden Tests', () => {
       const logger = new BattleLogger();
 
       // Simulate complete battle
-      logger.logSystem('Battle started', BATTLE: LogCategory.BATTLE, LogLevel.INFO);
+      logger.logSystem('Battle started', LogCategory.BATTLE, LogLevel.INFO);
 
       // Turn 1
       logger.logPhaseChange(BattlePhase.PRE_TURN);
@@ -678,7 +678,7 @@ describe('LogPure Golden Tests', () => {
       logger.logAction(action2, result2);
 
       logger.logPhaseChange(BattlePhase.BATTLE_END);
-      logger.logSystem('Battle completed', BATTLE: LogCategory.BATTLE, LogLevel.INFO);
+      logger.logSystem('Battle completed', LogCategory.BATTLE, LogLevel.INFO);
 
       // Verify logging
       expect(logger.getEntryCount()).toBe(9);
@@ -695,8 +695,8 @@ describe('LogPure Golden Tests', () => {
 
       const actionEntries = logger.getFilteredEntries({ actionType: 'fire_blast' });
       expect(actionEntries).toHaveLength(1);
-      expect(actionEntries[0].damageDealt).toBe(45);
-      expect(actionEntries[0].statusApplied).toBe('burned');
+      expect(actionEntries[0!].damageDealt).toBe(45);
+      expect(actionEntries[0!].statusApplied).toBe('burned');
     });
 
     test('should handle multi-turn battle scenarios', () => {
@@ -742,9 +742,9 @@ describe('LogPure Golden Tests', () => {
       const logger = new BattleLogger();
 
       // Add diverse entries
-      logger.logSystem('Battle started', SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
+      logger.logSystem('Battle started', LogCategory.SYSTEM, LogLevel.INFO);
       logger.logPhaseChange(BattlePhase.PRE_TURN);
-      logger.logDebug('AI decision started', AI: LogCategory.AI, LogLevel.DEBUG);
+      logger.logDebug('AI decision started', LogCategory.AI, LogLevel.DEBUG);
 
       const action1: IBattleAction = {
         actorId: 1,
@@ -754,8 +754,8 @@ describe('LogPure Golden Tests', () => {
       };
 
       logger.logAction(action1, BattleResult.success(45));
-      logger.logWarning('High damage detected', BATTLE: LogCategory.BATTLE, LogLevel.WARN);
-      logger.logError('Invalid target', VALIDATION: LogCategory.VALIDATION, LogLevel.ERROR);
+      logger.logWarning('High damage detected', LogCategory.BATTLE, LogLevel.WARN);
+      logger.logError('Invalid target', LogCategory.VALIDATION, LogLevel.ERROR);
 
       // Test complex filters
       const systemEntries = logger.getFilteredEntries({
@@ -784,7 +784,7 @@ describe('LogPure Golden Tests', () => {
       const originalLogger = new BattleLogger();
 
       // Add test data
-      originalLogger.logSystem('Test battle log', SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
+      originalLogger.logSystem('Test battle log', LogCategory.SYSTEM, LogLevel.INFO);
       originalLogger.logPhaseChange(BattlePhase.PRE_TURN);
 
       const action: IBattleAction = {
@@ -834,7 +834,7 @@ describe('LogPure Golden Tests', () => {
       // Add many entries
       for (let i = 0; i < 1000; i++) {
         if (i % 4 === 0) {
-          logger.logSystem(`System message ${i}`, SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
+          logger.logSystem(`System message ${i}`, LogCategory.SYSTEM, LogLevel.INFO);
         } else if (i % 4 === 1) {
           logger.logPhaseChange(BattlePhase.PRE_TURN);
         } else if (i % 4 === 2) {
@@ -846,7 +846,7 @@ describe('LogPure Golden Tests', () => {
           };
           logger.logAction(action, BattleResult.success(i % 50));
         } else {
-          logger.logDebug(`Debug ${i}`, SYSTEM: LogCategory.SYSTEM, LogLevel.DEBUG);
+          logger.logDebug(`Debug ${i}`, LogCategory.SYSTEM, LogLevel.DEBUG);
         }
       }
 
@@ -862,7 +862,7 @@ describe('LogPure Golden Tests', () => {
 
       // Rapid logging
       for (let i = 0; i < 1000; i++) {
-        logger.logSystem(`Message ${i}`, SYSTEM: LogCategory.SYSTEM, LogLevel.INFO);
+        logger.logSystem(`Message ${i}`, LogCategory.SYSTEM, LogLevel.INFO);
       }
 
       const endTime = performance.now();

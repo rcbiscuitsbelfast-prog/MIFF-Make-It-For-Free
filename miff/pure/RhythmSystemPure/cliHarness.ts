@@ -3,7 +3,7 @@
 import { beats, judge } from './index';
 import fs from 'fs';
 
-const inputFile = process.argv[2];
+const inputFile = process.argv[2!];
 if (!inputFile) {
   console.error('Usage: ts-node cliHarness.ts <input-file>');
   process.exit(1);
@@ -24,7 +24,7 @@ try {
       beatTimes
     };
   } else if (command === 'judge') {
-    const judgment = judge(input.tap, beat: input.beat, input.window);
+    const judgment = judge(input.tap, input.beat, input.window);
     result = {
       op: 'rhythm.judge',
       status: 'ok',

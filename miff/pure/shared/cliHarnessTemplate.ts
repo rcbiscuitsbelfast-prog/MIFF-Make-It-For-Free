@@ -110,8 +110,8 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
     return { operation: 'help' as any, module: '', help: true };
   }
 
-  const operation = args[0] as CLIOperation;
-  const module = args[1] || 'default';
+  const operation = args[0!] as CLIOperation;
+  const module = args[1!] || 'default';
   
   const result: CLIArgs = {
     operation,
@@ -125,11 +125,11 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
     const arg = args[i];
     
     if (arg.startsWith('--format=')) {
-      result.format = arg.split('=')[1] as OutputFormat;
+      result.format = arg.split('=')[1!] as OutputFormat;
     } else if (arg.startsWith('--input=')) {
-      result.inputFile = arg.split('=')[1];
+      result.inputFile = arg.split('=')[1!];
     } else if (arg.startsWith('--output=')) {
-      result.outputFile = arg.split('=')[1];
+      result.outputFile = arg.split('=')[1!];
     } else if (arg === '--verbose' || arg === '-v') {
       result.verbose = true;
     } else if (arg.endsWith('.json')) {

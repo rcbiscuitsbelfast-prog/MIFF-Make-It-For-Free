@@ -48,9 +48,9 @@ describe('WorldManifestPure', () => {
     WorldManifestPure.addTile(world, 'test', 1, 1, 'old_asset', 1);
     WorldManifestPure.addTile(world, 'test', 1, 1, 'new_asset', 1);
     
-    const tiles = world.zones[0].tiles;
+    const tiles = world.zones[0!].tiles;
     expect(tiles).toHaveLength(1);
-    expect(tiles[0].assetId).toBe('new_asset');
+    expect(tiles[0!].assetId).toBe('new_asset');
   });
 
   test('validates world correctly', () => {

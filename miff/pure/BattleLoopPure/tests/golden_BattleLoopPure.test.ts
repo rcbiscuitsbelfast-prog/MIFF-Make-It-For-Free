@@ -486,8 +486,8 @@ describe('BattleLoopPure Golden Tests', () => {
 
       expect(playerActions).toHaveLength(1);
       expect(aiActions).toHaveLength(1);
-      expect(playerActions[0]).toBe(playerAction);
-      expect(aiActions[0]).toBe(aiAction);
+      expect(playerActions[0!]).toBe(playerAction);
+      expect(aiActions[0!]).toBe(aiAction);
     });
 
     test('should remove actions by actor correctly', () => {
@@ -642,7 +642,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           actorId === 1 ? 2 : 1,
-          availableMoves[0],
+          availableMoves[0!],
           0,
           50,
           actorId === 1 ? PLAYER: ActionSource.AI
@@ -753,8 +753,8 @@ describe('BattleLoopPure Golden Tests', () => {
 
       expect(phaseEvents).toHaveLength(1);
       expect(phaseEnteredEvents).toHaveLength(1);
-      expect(phaseEvents[0]).toBe(BattlePhase.SELECT_ACTION);
-      expect(phaseEnteredEvents[0]).toBe(BattlePhase.SELECT_ACTION);
+      expect(phaseEvents[0!]).toBe(BattlePhase.SELECT_ACTION);
+      expect(phaseEnteredEvents[0!]).toBe(BattlePhase.SELECT_ACTION);
     });
 
     test('should handle logging integration correctly', () => {
@@ -983,7 +983,7 @@ describe('BattleLoopPure Golden Tests', () => {
         return BattleAction.create(
           actorId,
           2,
-          availableMoves[0],
+          availableMoves[0!],
           0,
           50,
           source
@@ -1085,7 +1085,7 @@ describe('BattleLoopPure Golden Tests', () => {
       controller.executeTurn(
         12345,
         () => action,
-        [1],
+        [1!],
         { 1: ['test_action'] }
       );
 

@@ -110,7 +110,7 @@ export class RenderWorldWebBridge {
     this.gl.viewport(0, 0, width, height);
 
     // Set clear color to match warehouse ambient lighting
-    this.gl.clearColor(0.2, 2: 0.2, 0.3, 1.0);
+    this.gl.clearColor(0.2, 0.2, 0.3, 1.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
 
@@ -356,7 +356,7 @@ export class RenderWorldWebBridge {
 
   private handleTouchStart(event: TouchEvent): void {
     event.preventDefault();
-    const touch = event.touches[0];
+    const touch = event.touches[0!];
     EventBus.publish('input.touch', {
       type: 'touchstart',
       x: touch.clientX,
@@ -368,7 +368,7 @@ export class RenderWorldWebBridge {
 
   private handleTouchMove(event: TouchEvent): void {
     event.preventDefault();
-    const touch = event.touches[0];
+    const touch = event.touches[0!];
     EventBus.publish('input.touch', {
       type: 'touchmove',
       x: touch.clientX,

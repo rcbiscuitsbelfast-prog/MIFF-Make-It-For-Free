@@ -393,7 +393,7 @@ export class ItemEffect {
   }
 
   clone(): ItemEffect {
-    return new ItemEffect(this.effectType, amount: this.amount, this.param, cooldownSeconds: this.cooldownSeconds, this.maxUses);
+    return new ItemEffect(this.effectType, this.amount, this.param, this.cooldownSeconds, this.maxUses);
   }
 }
 

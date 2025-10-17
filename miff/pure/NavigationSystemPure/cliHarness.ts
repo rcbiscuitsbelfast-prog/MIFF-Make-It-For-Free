@@ -10,8 +10,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const inputPath = process.argv[2] || 'NavigationSystemPure/fixtures/grid.json';
-  const commandsPath = process.argv[3] || '';
+  const inputPath = process.argv[2!] || 'NavigationSystemPure/fixtures/grid.json';
+  const commandsPath = process.argv[3!] || '';
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
   const grid: Grid = {
@@ -29,10 +29,10 @@ function main() {
 
   for (const c of cmds) {
     if (c.op === 'pathfind') {
-      const result = pathfind(grid, start: c.start, c.goal);
+      const result = pathfind(grid, c.start, c.goal);
       outputs.push(result);
     } else if (c.op === 'check') {
-      const clear = isPathClear(grid, start: c.start, c.goal);
+      const clear = isPathClear(grid, c.start, c.goal);
       outputs.push({ op: 'check', clear, start: c.start, goal: c.goal });
     } else if (c.op === 'list') {
       outputs.push({ op: 'list', grid: { width: grid.width, height: grid.height, wallCount: grid.walls.size } });
@@ -45,4 +45,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

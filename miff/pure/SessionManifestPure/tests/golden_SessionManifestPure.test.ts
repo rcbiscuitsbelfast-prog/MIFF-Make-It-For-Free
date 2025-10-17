@@ -74,7 +74,7 @@ describe('SessionManifestPure Golden Tests', () => {
     // Update player status
     const statusResult = manager.updatePlayerStatus('player-ops', 'p1', 'inactive');
     expect(statusResult.ok).toBe(true);
-    expect(statusResult.session?.players[0].status).toBe('inactive');
+    expect(statusResult.session?.players[0!].status).toBe('inactive');
 
     // Remove player
     const removeResult = manager.removePlayer('player-ops', 'p2');

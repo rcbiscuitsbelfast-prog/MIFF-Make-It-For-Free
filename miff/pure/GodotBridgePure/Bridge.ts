@@ -247,7 +247,7 @@ export class GodotBridge {
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
           break;
         case 'stats':
-          this.statsManager.setStat(convertedData.id, key: convertedData.key, convertedData.base);
+          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
           result = this.statsManager.get(convertedData.id);
           break;
         default:

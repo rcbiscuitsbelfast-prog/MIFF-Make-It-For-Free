@@ -52,7 +52,7 @@ describe('StatusEffectsPure Golden Tests', () => {
       const createResult = manager.createEntity('poisoned_entity', 100, effects);
       expect(createResult.status).toBe('ok');
       expect(createResult.result?.effects.length).toBe(1);
-      expect(createResult.result?.effects[0].category).toBe('poison');
+      expect(createResult.result?.effects[0!].category).toBe('poison');
     });
 
     test('should handle duplicate entity creation', () => {
@@ -82,7 +82,7 @@ describe('StatusEffectsPure Golden Tests', () => {
       const applyResult = manager.applyEffect('test_entity', effect);
       expect(applyResult.status).toBe('ok');
       expect(applyResult.result?.effects.length).toBe(1);
-      expect(applyResult.result?.effects[0].category).toBe('poison');
+      expect(applyResult.result?.effects[0!].category).toBe('poison');
     });
 
     test('should handle effect stacking', () => {
@@ -105,8 +105,8 @@ describe('StatusEffectsPure Golden Tests', () => {
       const stackResult = manager.applyEffect('test_entity', effect);
       
       expect(stackResult.status).toBe('ok');
-      expect(stackResult.result?.effects[0].currentStacks).toBe(2);
-      expect(stackResult.result?.effects[0].magnitude).toBe(4); // 2 + 2
+      expect(stackResult.result?.effects[0!].currentStacks).toBe(2);
+      expect(stackResult.result?.effects[0!].magnitude).toBe(4); // 2 + 2
     });
 
     test('should handle effect replacement', () => {
@@ -224,7 +224,7 @@ describe('StatusEffectsPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+        manager.createEntity(entity.id, entity.maxHp, entity.effects);
       });
 
       const simulateResult = manager.simulateAll();
@@ -280,13 +280,13 @@ describe('StatusEffectsPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+        manager.createEntity(entity.id, entity.maxHp, entity.effects);
       });
 
       const filterResult = manager.listEntities({ category: 'poison' });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('poisoned_entity');
+      expect(filterResult.result?.[0!].id).toBe('poisoned_entity');
     });
 
     test('should filter entities by HP range', () => {
@@ -319,7 +319,7 @@ describe('StatusEffectsPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+        manager.createEntity(entity.id, entity.maxHp, entity.effects);
       });
 
       // Simulate multiple times to reduce HP below 80
@@ -330,7 +330,7 @@ describe('StatusEffectsPure Golden Tests', () => {
       const filterResult = manager.listEntities({ maxHp: 80 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('wounded_entity');
+      expect(filterResult.result?.[0!].id).toBe('wounded_entity');
     });
 
     test('should filter entities by effect presence', () => {
@@ -363,13 +363,13 @@ describe('StatusEffectsPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+        manager.createEntity(entity.id, entity.maxHp, entity.effects);
       });
 
       const filterResult = manager.listEntities({ hasEffects: true });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);
-      expect(filterResult.result?.[0].id).toBe('affected_entity');
+      expect(filterResult.result?.[0!].id).toBe('affected_entity');
     });
   });
 
@@ -413,7 +413,7 @@ describe('StatusEffectsPure Golden Tests', () => {
 
       const applyResult = manager.applyEffect('resistant_entity', effect);
       expect(applyResult.status).toBe('ok');
-      expect(applyResult.result?.effects[0].magnitude).toBe(2); // 50% reduction
+      expect(applyResult.result?.effects[0!].magnitude).toBe(2); // 50% reduction
     });
   });
 
@@ -463,7 +463,7 @@ describe('StatusEffectsPure Golden Tests', () => {
       ];
 
       entities.forEach(entity => {
-        manager.createEntity(entity.id, maxHp: entity.maxHp, entity.effects);
+        manager.createEntity(entity.id, entity.maxHp, entity.effects);
       });
 
       const statsResult = manager.getStatusStats();

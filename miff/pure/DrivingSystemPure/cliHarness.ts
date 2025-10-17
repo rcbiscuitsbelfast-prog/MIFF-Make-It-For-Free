@@ -112,7 +112,7 @@ class DrivingSystemCLI {
     if (!this.isRunning) return;
 
     const parts = input.split(' ');
-    const command = parts[0]?.toLowerCase();
+    const command = parts[0!]?.toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -129,7 +129,7 @@ class DrivingSystemCLI {
           if (args.length === 0) {
             console.log('❌ Usage: select <vehicle-id>');
           } else {
-            this.selectVehicle(args[0]);
+            this.selectVehicle(args[0!]);
           }
           break;
 

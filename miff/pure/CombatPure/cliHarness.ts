@@ -53,8 +53,8 @@ class CombatCLI {
       console.log('✅ Added combatants to battle');
       
       // Test 3: Create moves
-      const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', PHYSICAL: MoveCategory.PHYSICAL, 40, 'normal');
-      const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', SPECIAL: MoveCategory.SPECIAL, 60, 'fire');
+      const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', MoveCategory.PHYSICAL, 40, 'normal');
+      const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', MoveCategory.SPECIAL, 60, 'fire');
       
       console.log('✅ Created moves');
       
@@ -374,7 +374,7 @@ class CombatCLI {
 // CLI execution
 function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0!] || 'help';
   
   const cli = new CombatCLI();
   let result: CLIResult;
@@ -391,7 +391,7 @@ function main() {
         break;
         
       case 'add_combatant':
-        const combatantData = args[1] ? JSON.parse(args[1]) : {};
+        const combatantData = args[1!] ? JSON.parse(args[1!]) : {};
         result = cli.addCombatant(combatantData);
         break;
         
@@ -404,14 +404,14 @@ function main() {
         break;
         
       case 'create_move':
-        const moveData = args[1] ? JSON.parse(args[1]) : {};
+        const moveData = args[1!] ? JSON.parse(args[1!]) : {};
         result = cli.createMove(moveData);
         break;
         
       case 'calculate_damage':
-        const move = args[1] ? JSON.parse(args[1]) : {};
-        const attacker = args[2] ? JSON.parse(args[2]) : {};
-        const defender = args[3] ? JSON.parse(args[3]) : {};
+        const move = args[1!] ? JSON.parse(args[1!]) : {};
+        const attacker = args[2!] ? JSON.parse(args[2!]) : {};
+        const defender = args[3!] ? JSON.parse(args[3!]) : {};
         result = cli.calculateDamage(move, attacker, defender);
         break;
         
@@ -435,7 +435,7 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }
 

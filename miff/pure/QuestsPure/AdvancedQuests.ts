@@ -580,7 +580,7 @@ export class AdvancedQuests {
       if (random <= 0) return step;
     }
     
-    return template.structure.steps[0];
+    return template.structure.steps[0!];
   }
 
   /**
@@ -595,7 +595,7 @@ export class AdvancedQuests {
       if (random <= 0) return reward;
     }
     
-    return template.structure.rewards[0];
+    return template.structure.rewards[0!];
   }
 
   /**

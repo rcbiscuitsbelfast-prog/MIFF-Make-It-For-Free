@@ -212,11 +212,11 @@ export class InventoryManager {
     if (removeQuantity >= item.quantity) {
       // Remove entire item
       inventory.items.delete(slot);
-      this.recordTransaction('remove', entityId, definitionId: item.definitionId, item.quantity, slot);
+      this.recordTransaction('remove', entityId, item.definitionId, item.quantity, slot);
     } else {
       // Reduce quantity
       item.quantity -= removeQuantity;
-      this.recordTransaction('remove', entityId, definitionId: item.definitionId, removeQuantity, slot);
+      this.recordTransaction('remove', entityId, item.definitionId, removeQuantity, slot);
     }
 
     inventory.lastUpdated = Date.now();
@@ -239,7 +239,7 @@ export class InventoryManager {
     inventory.items.delete(fromSlot);
     inventory.lastUpdated = Date.now();
 
-    this.recordTransaction('move', entityId, definitionId: item.definitionId, item.quantity, toSlot, fromSlot);
+    this.recordTransaction('move', entityId, item.definitionId, item.quantity, toSlot, fromSlot);
     return true;
   }
 
@@ -262,7 +262,7 @@ export class InventoryManager {
     }
 
     inventory.equipped.set(equipSlot, item.id);
-    this.recordTransaction('equip', entityId, definitionId: item.definitionId, item.quantity, slot, undefined, equipSlot);
+    this.recordTransaction('equip', entityId, item.definitionId, item.quantity, slot, undefined, equipSlot);
     return true;
   }
 
@@ -306,7 +306,7 @@ export class InventoryManager {
     item.lastUsed = Date.now();
     inventory.lastUpdated = Date.now();
 
-    this.recordTransaction('use', entityId, definitionId: item.definitionId, 1, slot);
+    this.recordTransaction('use', entityId, item.definitionId, 1, slot);
     return true;
   }
 

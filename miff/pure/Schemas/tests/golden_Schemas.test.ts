@@ -276,7 +276,7 @@ describe('Schemas Golden Tests', () => {
       const invalidData = { items: ['item1', 123, 'item3'] };
       const invalidResult = SchemaValidator.validateData(invalidData, schema);
       expect(invalidResult.isValid).toBe(false);
-      expect(invalidResult.errors).toContain("field 'items[1]' should be string, got number");
+      expect(invalidResult.errors).toContain("field 'items[1!]' should be string, got number");
 
       // Invalid non-array
       const invalidData2 = { items: 'not_an_array' };
@@ -321,7 +321,7 @@ describe('Schemas Golden Tests', () => {
       };
       const invalidResult = SchemaValidator.validateData(invalidData, schema);
       expect(invalidResult.isValid).toBe(false);
-      expect(invalidResult.errors).toContain('missing required property: inventory[1].quantity');
+      expect(invalidResult.errors).toContain('missing required property: inventory[1!].quantity');
     });
   });
 
@@ -441,15 +441,15 @@ describe('Schemas Golden Tests', () => {
       fs.writeFileSync(schemaPath, JSON.stringify(schema, null, 2));
 
       // Create test data
-      fs.writeFileSync(dataPaths[0], JSON.stringify({ id: 'valid1' }, null, 2));
-      fs.writeFileSync(dataPaths[1], JSON.stringify({ id: 'valid2' }, null, 2));
-      fs.writeFileSync(dataPaths[2], JSON.stringify({ name: 'invalid' }, null, 2)); // Missing id
+      fs.writeFileSync(dataPaths[0!], JSON.stringify({ id: 'valid1' }, null, 2));
+      fs.writeFileSync(dataPaths[1!], JSON.stringify({ id: 'valid2' }, null, 2));
+      fs.writeFileSync(dataPaths[2!], JSON.stringify({ name: 'invalid' }, null, 2)); // Missing id
 
       // Batch validate
       const result = SchemaValidator.validateBatch(schemaPath, dataPaths);
 
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Validation failed for ' + dataPaths[2] + ':');
+      expect(result.errors).toContain('Validation failed for ' + dataPaths[2!] + ':');
       expect(result.errors?.some(error => error.includes('missing required field: id')));
     });
   });

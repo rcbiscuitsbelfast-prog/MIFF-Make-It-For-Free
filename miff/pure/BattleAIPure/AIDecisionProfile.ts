@@ -42,7 +42,7 @@ export class AIDecisionProfile implements IAIDecisionProfile {
   }
 
   static aggressive(id: string = 'aggressive'): AIDecisionProfile {
-    return new AIDecisionProfile(id, AGGRESSIVE: AIDecisionStyle.AGGRESSIVE, {
+    return new AIDecisionProfile(id, AIDecisionStyle.AGGRESSIVE, {
       [MoveCategory.DAMAGE]: 1.5,
       [MoveCategory.HEALING]: 0.3,
       [MoveCategory.SUPPORT]: 0.5
@@ -50,7 +50,7 @@ export class AIDecisionProfile implements IAIDecisionProfile {
   }
 
   static defensive(id: string = 'defensive'): AIDecisionProfile {
-    return new AIDecisionProfile(id, DEFENSIVE: AIDecisionStyle.DEFENSIVE, {
+    return new AIDecisionProfile(id, AIDecisionStyle.DEFENSIVE, {
       [MoveCategory.DAMAGE]: 0.6,
       [MoveCategory.HEALING]: 1.2,
       [MoveCategory.SUPPORT]: 1.0
@@ -58,11 +58,11 @@ export class AIDecisionProfile implements IAIDecisionProfile {
   }
 
   static balanced(id: string = 'balanced'): AIDecisionProfile {
-    return new AIDecisionProfile(id, BALANCED: AIDecisionStyle.BALANCED, DEFAULT_WEIGHTS);
+    return new AIDecisionProfile(id, AIDecisionStyle.BALANCED, DEFAULT_WEIGHTS);
   }
 
   static trickster(id: string = 'trickster'): AIDecisionProfile {
-    return new AIDecisionProfile(id, TRICKSTER: AIDecisionStyle.TRICKSTER, {
+    return new AIDecisionProfile(id, AIDecisionStyle.TRICKSTER, {
       [MoveCategory.DAMAGE]: 0.8,
       [MoveCategory.HEALING]: 0.5,
       [MoveCategory.SUPPORT]: 1.2

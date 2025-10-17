@@ -34,9 +34,9 @@ describe('ModdingPure', () => {
 
       expect(plugins).toBeDefined();
       expect(plugins.length).toBeGreaterThan(0);
-      expect(plugins[0]).toHaveProperty('id');
-      expect(plugins[0]).toHaveProperty('manifest');
-      expect(plugins[0]).toHaveProperty('status');
+      expect(plugins[0!]).toHaveProperty('id');
+      expect(plugins[0!]).toHaveProperty('manifest');
+      expect(plugins[0!]).toHaveProperty('status');
     });
 
     it('should load plugin successfully', async () => {
@@ -58,7 +58,7 @@ describe('ModdingPure', () => {
       
       expect(plugin.status).toBe('loaded');
       expect(plugin.dependencies.length).toBeGreaterThan(0);
-      expect(plugin.dependencies[0].id).toBe('core-physics');
+      expect(plugin.dependencies[0!].id).toBe('core-physics');
     });
 
     it('should fail to load plugin with missing dependency', async () => {
@@ -339,7 +339,7 @@ describe('ModdingPure', () => {
       // Export bundle for different platforms
       const templates = system.getExportTemplates();
       for (const template of templates.slice(0, 2)) { // Test first 2 templates
-        const exportPath = await system.exportBundle(bundle.id, id: template.id, './output');
+        const exportPath = await system.exportBundle(bundle.id, template.id, './output');
         expect(exportPath).toContain(template.platform);
       }
 

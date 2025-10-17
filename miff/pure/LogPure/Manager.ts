@@ -390,42 +390,42 @@ export class LogManager {
    * Log debug message
    */
   debug(message: string, metadata: Record<string, any> = {}, source: string = 'unknown'): void {
-    this.log(LogLevel.DEBUG, DEBUG: LogCategory.DEBUG, message, source, metadata);
+    this.log(LogLevel.DEBUG, LogCategory.DEBUG, message, source, metadata);
   }
 
   /**
    * Log info message
    */
   info(message: string, metadata: Record<string, any> = {}, source: string = 'unknown'): void {
-    this.log(LogLevel.INFO, SYSTEM: LogCategory.SYSTEM, message, source, metadata);
+    this.log(LogLevel.INFO, LogCategory.SYSTEM, message, source, metadata);
   }
 
   /**
    * Log warning message
    */
   warn(message: string, metadata: Record<string, any> = {}, source: string = 'unknown'): void {
-    this.log(LogLevel.WARN, SYSTEM: LogCategory.SYSTEM, message, source, metadata);
+    this.log(LogLevel.WARN, LogCategory.SYSTEM, message, source, metadata);
   }
 
   /**
    * Log error message
    */
   error(message: string, metadata: Record<string, any> = {}, source: string = 'unknown'): void {
-    this.log(LogLevel.ERROR, ERROR: LogCategory.ERROR, message, source, metadata);
+    this.log(LogLevel.ERROR, LogCategory.ERROR, message, source, metadata);
   }
 
   /**
    * Log critical message
    */
   critical(message: string, metadata: Record<string, any> = {}, source: string = 'unknown'): void {
-    this.log(LogLevel.CRITICAL, ERROR: LogCategory.ERROR, message, source, metadata);
+    this.log(LogLevel.CRITICAL, LogCategory.ERROR, message, source, metadata);
   }
 
   /**
    * Log performance metric
    */
   performance(operation: string, duration: number, metadata: Record<string, any> = {}): void {
-    this.log(LogLevel.INFO, PERFORMANCE: LogCategory.PERFORMANCE, `Performance: ${operation}`, 'performance', {
+    this.log(LogLevel.INFO, LogCategory.PERFORMANCE, `Performance: ${operation}`, 'performance', {
       ...metadata,
       operation,
       duration
@@ -436,7 +436,7 @@ export class LogManager {
    * Log user action
    */
   userAction(action: string, userId: string, metadata: Record<string, any> = {}): void {
-    this.log(LogLevel.INFO, USER: LogCategory.USER, `User Action: ${action}`, 'user', {
+    this.log(LogLevel.INFO, LogCategory.USER, `User Action: ${action}`, 'user', {
       ...metadata,
       action,
       userId
@@ -447,7 +447,7 @@ export class LogManager {
    * Log business event
    */
   business(event: string, metadata: Record<string, any> = {}): void {
-    this.log(LogLevel.INFO, BUSINESS: LogCategory.BUSINESS, `Business Event: ${event}`, 'business', metadata);
+    this.log(LogLevel.INFO, LogCategory.BUSINESS, `Business Event: ${event}`, 'business', metadata);
   }
 
   /**

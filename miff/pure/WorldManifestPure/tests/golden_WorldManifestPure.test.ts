@@ -16,9 +16,9 @@ describe('WorldManifestPure Golden Tests', () => {
     expect(result.ok).toBe(true);
     expect(result.world).toBeDefined();
     expect(result.world?.zones).toHaveLength(1);
-    expect(result.world?.zones[0].id).toBe('test-world');
-    expect(result.world?.zones[0].width).toBe(25);
-    expect(result.world?.zones[0].height).toBe(20);
+    expect(result.world?.zones[0!].id).toBe('test-world');
+    expect(result.world?.zones[0!].width).toBe(25);
+    expect(result.world?.zones[0!].height).toBe(20);
     expect(result.world?.schema).toBe('miff.world.v1');
   });
 
@@ -108,12 +108,12 @@ describe('WorldManifestPure Golden Tests', () => {
     const removeResult = manager.removeAsset('asset-test', 'asset-test', 5, 7, 1);
     expect(removeResult.ok).toBe(true);
     expect(removeResult.removed?.length).toBe(1);
-    expect(removeResult.removed?.[0].assetId).toBe('tree-oak');
+    expect(removeResult.removed?.[0!].assetId).toBe('tree-oak');
 
     // Verify only grass patch remains
     const findAfterRemove = manager.findAssetsInArea('asset-test', 'asset-test', 4, 6, 6, 8);
     expect(findAfterRemove.tiles?.length).toBe(1);
-    expect(findAfterRemove.tiles?.[0].assetId).toBe('grass-patch');
+    expect(findAfterRemove.tiles?.[0!].assetId).toBe('grass-patch');
   });
 
   test('generates world content procedurally', () => {
@@ -137,7 +137,7 @@ describe('WorldManifestPure Golden Tests', () => {
     // Verify generated content
     const worldAfterGen = manager.getWorld('gen-test');
     expect(worldAfterGen.ok).toBe(true);
-    expect(worldAfterGen.world?.zones[0].tiles.length).toBe(genResult.generated);
+    expect(worldAfterGen.world?.zones[0!].tiles.length).toBe(genResult.generated);
 
     // Verify deterministic generation with same seed
     const createResult2 = manager.createWorld('gen-test-2', 'Generation Test 2', 12, 10);
@@ -166,9 +166,9 @@ describe('WorldManifestPure Golden Tests', () => {
     expect(statsResult.stats?.averageTilesPerZone).toBe(5);
 
     // Check layer distribution
-    expect(statsResult.stats?.layerDistribution[0]).toBe(1); // rock-moss
-    expect(statsResult.stats?.layerDistribution[1]).toBe(3); // tree-oak x2, bush-small
-    expect(statsResult.stats?.layerDistribution[2]).toBe(1); // tree-pine
+    expect(statsResult.stats?.layerDistribution[0!]).toBe(1); // rock-moss
+    expect(statsResult.stats?.layerDistribution[1!]).toBe(3); // tree-oak x2, bush-small
+    expect(statsResult.stats?.layerDistribution[2!]).toBe(1); // tree-pine
 
     // Check asset usage
     expect(statsResult.stats?.assetUsage['tree-oak']).toBe(2);
@@ -285,7 +285,7 @@ describe('WorldManifestPure Golden Tests', () => {
     expect(validation.valid).toBe(true);
     expect(fixtureData.schema).toBe('miff.world.v1');
     expect(fixtureData.zones).toHaveLength(1);
-    expect(fixtureData.zones[0].tiles).toHaveLength(3);
+    expect(fixtureData.zones[0!].tiles).toHaveLength(3);
   });
 
   test('handles error cases gracefully', () => {
@@ -303,7 +303,7 @@ describe('WorldManifestPure Golden Tests', () => {
     manager.createWorld('bounds-test', 'Bounds Test', 5, 5);
     const placeResult = manager.placeAsset('bounds-test', 'bounds-test', 10, 10, 'tree-oak', 1);
     expect(placeResult.ok).toBe(false);
-    expect(placeResult.errors?.[0]).toContain('out of bounds');
+    expect(placeResult.errors?.[0!]).toContain('out of bounds');
 
     // Attempt to create duplicate world
     manager.createWorld('duplicate', 'Duplicate', 10, 10);

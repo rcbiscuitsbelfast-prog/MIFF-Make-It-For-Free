@@ -136,7 +136,7 @@ function overlay(args: string[], options: any): void {
     process.exit(1);
   }
 
-  const jsonFile = args[0];
+  const jsonFile = args[0!];
   updateConfig(options);
 
   console.log(`🔍 Creating debug overlay from: ${jsonFile}`);
@@ -163,7 +163,7 @@ function overlayCLI(args: string[], options: any): void {
     process.exit(1);
   }
 
-  const outputFile = args[0];
+  const outputFile = args[0!];
   updateConfig(options);
 
   console.log(`🔍 Creating debug overlay from CLI output: ${outputFile}`);
@@ -189,7 +189,7 @@ function overlayGolden(args: string[], options: any): void {
     process.exit(1);
   }
 
-  const testPath = args[0];
+  const testPath = args[0!];
   updateConfig(options);
 
   console.log(`🔍 Creating debug overlay from golden test: ${testPath}`);
@@ -209,8 +209,8 @@ function exportOverlay(args: string[], options: any): void {
     process.exit(1);
   }
 
-  const overlayId = args[0];
-  const outputPath = args[1];
+  const overlayId = args[0!];
+  const outputPath = args[1!];
   updateConfig(options);
 
   console.log(`📤 Exporting debug overlay: ${overlayId}`);
@@ -326,6 +326,6 @@ function main(): void {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

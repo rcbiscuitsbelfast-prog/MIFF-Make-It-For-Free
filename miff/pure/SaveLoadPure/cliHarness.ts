@@ -33,10 +33,10 @@ class FileStorageAdapter implements StorageAdapter {
 
 async function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0!] || 'help';
   // Normalize arguments: allow "command slotId" (no save file) or "command save.json slotId"
-  const second = args[1];
-  const third = args[2];
+  const second = args[1!];
+  const third = args[2!];
   const inferredSaveFile = (second && second.endsWith('.json')) ? second : 'save.json';
   const inferredSlot = (second && !second.endsWith('.json')) ? second : third;
   const saveFile = inferredSaveFile || 'save.json';
@@ -276,4 +276,4 @@ async function runDemo(storage: StorageAdapter): Promise<any> {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

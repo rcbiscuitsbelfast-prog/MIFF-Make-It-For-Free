@@ -309,7 +309,7 @@ export class SkeletonAnimatorCLI {
 
   // Command implementations
   private async initSystem(args: string[]): Promise<string> {
-    const characterType = args[0] as 'humanoid' | 'creature' | 'robot' || 'humanoid';
+    const characterType = args[0!] as 'humanoid' | 'creature' | 'robot' || 'humanoid';
     this.manager.createFullCharacter('TestCharacter', { characterType });
     return `System initialized with ${characterType} character.`;
   }
@@ -340,14 +340,14 @@ export class SkeletonAnimatorCLI {
   }
 
   private async exportRig(args: string[]): Promise<string> {
-    const filename = args[0] || 'rig.json';
+    const filename = args[0!] || 'rig.json';
     const rigJson = this.manager.getRigBuilder().exportRigJson();
     // In a real implementation, this would write to file
     return `Rig exported to ${filename}:\n${rigJson}`;
   }
 
   private async importRig(args: string[]): Promise<string> {
-    const filename = args[0];
+    const filename = args[0!];
     // In a real implementation, this would read from file
     return `Rig imported from ${filename}.`;
   }
@@ -365,15 +365,15 @@ export class SkeletonAnimatorCLI {
   }
 
   private async addWings(args: string[]): Promise<string> {
-    const attachmentPoint = args[0];
+    const attachmentPoint = args[0!];
     this.manager.initializeLimbAttachment();
     this.manager.getLimbAttachment()?.addWings(attachmentPoint);
     return `Wings added to ${attachmentPoint}.`;
   }
 
   private async addTail(args: string[]): Promise<string> {
-    const attachmentPoint = args[0];
-    const segments = parseInt(args[1]) || 5;
+    const attachmentPoint = args[0!];
+    const segments = parseInt(args[1!]) || 5;
     this.manager.initializeLimbAttachment();
     this.manager.getLimbAttachment()?.addTail(attachmentPoint, segments);
     return `Tail with ${segments} segments added to ${attachmentPoint}.`;
@@ -386,15 +386,15 @@ export class SkeletonAnimatorCLI {
   }
 
   private async addMorphTarget(args: string[]): Promise<string> {
-    const name = args[0];
-    const weight = parseFloat(args[1]) || 1.0;
+    const name = args[0!];
+    const weight = parseFloat(args[1!]) || 1.0;
     this.manager.initializeSkinMeshGenerator();
     this.manager.getSkinMeshGenerator()?.addMorphTarget(name, [], weight);
     return `Morph target '${name}' added with weight ${weight}.`;
   }
 
   private async exportSkin(args: string[]): Promise<string> {
-    const filename = args[0] || 'skin.json';
+    const filename = args[0!] || 'skin.json';
     const skinJson = this.manager.getSkinMeshGenerator()?.exportSkinJson() || '{}';
     return `Skin exported to ${filename}:\n${skinJson}`;
   }
@@ -431,7 +431,7 @@ export class SkeletonAnimatorCLI {
   }
 
   private async generateWalkAnimation(args: string[]): Promise<string> {
-    const speed = parseFloat(args[0]) || 1.0;
+    const speed = parseFloat(args[0!]) || 1.0;
     this.manager.initializeAnimationSequencer();
     this.manager.getAnimationSequencer()?.generateWalkAnimation(speed);
     return `Walk animation generated with speed ${speed}.`;
@@ -450,36 +450,36 @@ export class SkeletonAnimatorCLI {
   }
 
   private async generateAttackAnimation(args: string[]): Promise<string> {
-    const type = args[0] as 'punch' | 'kick' | 'slash';
+    const type = args[0!] as 'punch' | 'kick' | 'slash';
     this.manager.initializeAnimationSequencer();
     this.manager.getAnimationSequencer()?.generateAttackAnimation(type);
     return `${type} attack animation generated.`;
   }
 
   private async generateEmoteAnimation(args: string[]): Promise<string> {
-    const type = args[0] as 'wave' | 'nod' | 'shake' | 'dance';
+    const type = args[0!] as 'wave' | 'nod' | 'shake' | 'dance';
     this.manager.initializeAnimationSequencer();
     this.manager.getAnimationSequencer()?.generateEmoteAnimation(type);
     return `${type} emote animation generated.`;
   }
 
   private async exportGbpkg(args: string[]): Promise<string> {
-    const name = args[0];
-    const filename = args[1] || `${name}.gbpg`;
+    const name = args[0!];
+    const filename = args[1!] || `${name}.gbpg`;
     const gbpkgData = this.manager.exportCharacter(name, 'gbpg');
     return `Character exported to ${filename}:\n${gbpkgData}`;
   }
 
   private async exportGLTF(args: string[]): Promise<string> {
-    const name = args[0];
-    const filename = args[1] || `${name}.gltf`;
+    const name = args[0!];
+    const filename = args[1!] || `${name}.gltf`;
     const gltfData = this.manager.exportCharacter(name, 'gltf');
     return `Character exported to ${filename}:\n${gltfData}`;
   }
 
   private async exportIntegration(args: string[]): Promise<string> {
-    const system = args[0];
-    const name = args[1];
+    const system = args[0!];
+    const name = args[1!];
     this.manager.initializeExportIntegration();
     const exportIntegration = this.manager.getExportIntegration();
     
@@ -514,40 +514,40 @@ export class SkeletonAnimatorCLI {
   }
 
   private async setUIMode(args: string[]): Promise<string> {
-    const mode = args[0] as 'rig' | 'limb' | 'skin' | 'face' | 'animation' | 'export';
+    const mode = args[0!] as 'rig' | 'limb' | 'skin' | 'face' | 'animation' | 'export';
     this.manager.initializeUIBuilder();
     this.manager.getUIBuilder()?.setMode(mode);
     return `UI mode set to ${mode}.`;
   }
 
   private async setUITool(args: string[]): Promise<string> {
-    const tool = args[0];
+    const tool = args[0!];
     this.manager.initializeUIBuilder();
     this.manager.getUIBuilder()?.setTool(tool);
     return `UI tool set to ${tool}.`;
   }
 
   private async exportUIState(args: string[]): Promise<string> {
-    const filename = args[0] || 'ui_state.json';
+    const filename = args[0!] || 'ui_state.json';
     this.manager.initializeUIBuilder();
     const uiState = this.manager.getUIBuilder()?.exportUIState() || '{}';
     return `UI state exported to ${filename}:\n${uiState}`;
   }
 
   private async runGoldenTests(args: string[]): Promise<string> {
-    const testName = args[0];
+    const testName = args[0!];
     // In a real implementation, this would run actual golden tests
     return `Golden tests ${testName ? `for ${testName}` : ''} completed.`;
   }
 
   private async runScenarioTests(args: string[]): Promise<string> {
-    const scenario = args[0];
+    const scenario = args[0!];
     // In a real implementation, this would run scenario tests
     return `Scenario test '${scenario}' completed.`;
   }
 
   private async showHelp(args: string[]): Promise<string> {
-    const commandName = args[0];
+    const commandName = args[0!];
     
     if (commandName) {
       const command = this.commands.get(commandName);

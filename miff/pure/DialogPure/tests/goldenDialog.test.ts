@@ -10,10 +10,10 @@ test('golden dialog simulation', () => {
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs.length).toBe(3);
   // first op is listDialogs; subsequent outputs may not include an op field
-  expect(got.outputs[0].op).toBe('listDialogs');
+  expect(got.outputs[0!].op).toBe('listDialogs');
   // deterministic logs and triggers
-  expect(got.outputs[0].dialogs).toEqual(['elder_intro']);
-  expect(got.outputs[1].log).toEqual([
+  expect(got.outputs[0!].dialogs).toEqual(['elder_intro']);
+  expect(got.outputs[1!].log).toEqual([
     'DIALOG elder_intro',
     'TXT start Greetings, traveler. Will you help our village?',
     'CHOICE accept Yes, I will help.',
@@ -21,7 +21,7 @@ test('golden dialog simulation', () => {
     'TXT thanks Thank you. Seek the cave to the east.'
   ]);
   expect(got.outputs[1].triggers).toEqual({ quests:['village_help'], items:[] });
-  expect(got.outputs[2].log).toEqual([
+  expect(got.outputs[2!].log).toEqual([
     'CHOICE_RUN elder_intro ask_item',
     'CHOICE ask_item Any supplies for the road?',
     'ITEM potion x1',

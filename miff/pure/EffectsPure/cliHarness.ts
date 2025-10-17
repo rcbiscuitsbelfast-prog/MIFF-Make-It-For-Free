@@ -94,7 +94,7 @@ class MockEntityContext implements IEntityContext {
   }
 
   setEntityHp(entityId: string, hp: number): void {
-    this.setEntityStat(entityId, HP: TargetStat.HP, hp);
+    this.setEntityStat(entityId, TargetStat.HP, hp);
   }
 
   getEntityHp(entityId: string): number {
@@ -102,7 +102,7 @@ class MockEntityContext implements IEntityContext {
   }
 
   setEntityAtk(entityId: string, atk: number): void {
-    this.setEntityStat(entityId, ATK: TargetStat.ATK, atk);
+    this.setEntityStat(entityId, TargetStat.ATK, atk);
   }
 
   getEntityAtk(entityId: string): number {
@@ -140,13 +140,13 @@ class EffectsPureCLI {
     // Set up initial entity stats
     this.entityContext.setEntityHp('player', 100);
     this.entityContext.setEntityAtk('player', 50);
-    this.entityContext.setEntityStat('player', DEF: TargetStat.DEF, 30);
-    this.entityContext.setEntityStat('player', SPD: TargetStat.SPD, 40);
+    this.entityContext.setEntityStat('player', TargetStat.DEF, 30);
+    this.entityContext.setEntityStat('player', TargetStat.SPD, 40);
 
     this.entityContext.setEntityHp('enemy', 150);
     this.entityContext.setEntityAtk('enemy', 45);
-    this.entityContext.setEntityStat('enemy', DEF: TargetStat.DEF, 25);
-    this.entityContext.setEntityStat('enemy', SPD: TargetStat.SPD, 35);
+    this.entityContext.setEntityStat('enemy', TargetStat.DEF, 25);
+    this.entityContext.setEntityStat('enemy', TargetStat.SPD, 35);
 
     // Create demo effects
     this.createDemoEffects();
@@ -305,7 +305,7 @@ class EffectsPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -316,15 +316,15 @@ class EffectsPureCLI {
           break;
         case 'list':
         case 'l':
-          this.listEffects(args[0]);
+          this.listEffects(args[0!]);
           break;
         case 'apply':
         case 'a':
-          this.applyEffect(args[0]);
+          this.applyEffect(args[0!]);
           break;
         case 'remove':
         case 'r':
-          this.removeEffect(args[0]);
+          this.removeEffect(args[0!]);
           break;
         case 'create':
         case 'c':
@@ -332,22 +332,22 @@ class EffectsPureCLI {
           break;
         case 'stats':
         case 's':
-          this.showStats(args[0]);
+          this.showStats(args[0!]);
           break;
         case 'update':
         case 'u':
-          this.updateEffects(args[0]);
+          this.updateEffects(args[0!]);
           break;
         case 'switch':
-          this.switchEntity(args[0]);
+          this.switchEntity(args[0!]);
           break;
         case 'phase':
         case 'p':
-          this.setPhase(args[0]);
+          this.setPhase(args[0!]);
           break;
         case 'immunity':
         case 'i':
-          this.toggleImmunity(args[0]);
+          this.toggleImmunity(args[0!]);
           break;
         case 'demo':
         case 'd':
@@ -469,7 +469,7 @@ class EffectsPureCLI {
     }
 
     const [type, name, description] = args;
-    const value = parseFloat(args[3]) || 0;
+    const value = parseFloat(args[3!]) || 0;
 
     let effect: IBattleEffect;
 
@@ -622,8 +622,8 @@ class EffectsPureCLI {
       // Entity doesn't exist, create it
       this.entityContext.setEntityHp(entityId, 100);
       this.entityContext.setEntityAtk(entityId, 50);
-      this.entityContext.setEntityStat(entityId, DEF: TargetStat.DEF, 30);
-      this.entityContext.setEntityStat(entityId, SPD: TargetStat.SPD, 40);
+      this.entityContext.setEntityStat(entityId, TargetStat.DEF, 30);
+      this.entityContext.setEntityStat(entityId, TargetStat.SPD, 40);
     }
 
     this.currentEntityId = entityId;

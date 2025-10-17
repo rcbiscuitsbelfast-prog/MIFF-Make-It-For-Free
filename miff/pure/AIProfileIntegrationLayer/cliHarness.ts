@@ -27,7 +27,7 @@ function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: Cmd;
 
     // Handle direct command or JSON file input
@@ -38,56 +38,56 @@ function main() {
       // Parse subcommand
       switch (first) {
         case 'createProfile':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('createProfile requires profile data JSON file');
           }
-          const profileData = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
+          const profileData = JSON.parse(fs.readFileSync(argv[1!], 'utf-8'));
           operation = { op: 'createProfile', profile: profileData };
           break;
         case 'updateProfile':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('updateProfile requires profileId and updates JSON file');
           }
-          const updatesData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
-          operation = { op: 'updateProfile', profileId: argv[1], updates: updatesData };
+          const updatesData = JSON.parse(fs.readFileSync(argv[2!], 'utf-8'));
+          operation = { op: 'updateProfile', profileId: argv[1!], updates: updatesData };
           break;
         case 'getProfile':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getProfile requires profileId');
           }
-          operation = { op: 'getProfile', profileId: argv[1] };
+          operation = { op: 'getProfile', profileId: argv[1!] };
           break;
         case 'makeDecision':
-          if (!argv[1] || !argv[2] || !argv[3]) {
+          if (!argv[1!] || !argv[2!] || !argv[3!]) {
             throw new Error('makeDecision requires profileId, situation, and actions JSON file');
           }
-          const actionsData = JSON.parse(fs.readFileSync(argv[3], 'utf-8'));
+          const actionsData = JSON.parse(fs.readFileSync(argv[3!], 'utf-8'));
           operation = { 
             op: 'makeDecision', 
-            profileId: argv[1],
-            situation: argv[2],
+            profileId: argv[1!],
+            situation: argv[2!],
             actions: actionsData
           };
           break;
         case 'integrateWithGameplay':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('integrateWithGameplay requires profileId and gameState JSON file');
           }
-          const gameStateData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const gameStateData = JSON.parse(fs.readFileSync(argv[2!], 'utf-8'));
           operation = { 
             op: 'integrateWithGameplay', 
-            profileId: argv[1],
+            profileId: argv[1!],
             gameState: gameStateData
           };
           break;
         case 'recordLearning':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('recordLearning requires profileId and learningData JSON file');
           }
-          const learningData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const learningData = JSON.parse(fs.readFileSync(argv[2!], 'utf-8'));
           operation = { 
             op: 'recordLearning', 
-            profileId: argv[1],
+            profileId: argv[1!],
             learningData
           };
           break;
@@ -95,28 +95,28 @@ function main() {
           operation = { op: 'getAllProfiles' };
           break;
         case 'getDecisions':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getDecisions requires profileId');
           }
-          operation = { op: 'getDecisions', profileId: argv[1] };
+          operation = { op: 'getDecisions', profileId: argv[1!] };
           break;
         case 'getLearningData':
-          if (!argv[1]) {
+          if (!argv[1!]) {
             throw new Error('getLearningData requires profileId');
           }
-          operation = { op: 'getLearningData', profileId: argv[1] };
+          operation = { op: 'getLearningData', profileId: argv[1!] };
           break;
         case 'getStatistics':
           operation = { op: 'getStatistics' };
           break;
         case 'simulateAI':
-          if (!argv[1] || !argv[2]) {
+          if (!argv[1!] || !argv[2!]) {
             throw new Error('simulateAI requires profileId and gameState JSON file');
           }
-          const simGameStateData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const simGameStateData = JSON.parse(fs.readFileSync(argv[2!], 'utf-8'));
           operation = { 
             op: 'simulateAI', 
-            profileId: argv[1],
+            profileId: argv[1!],
             gameState: simGameStateData
           };
           break;
@@ -153,7 +153,7 @@ function main() {
         break;
 
       case 'makeDecision':
-        const decision = aiLayer.makeDecision(operation.profileId, situation: operation.situation, operation.actions);
+        const decision = aiLayer.makeDecision(operation.profileId, operation.situation, operation.actions);
         result = {
           made: decision !== null,
           decision: decision || null
@@ -308,7 +308,7 @@ function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -346,6 +346,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main();
 }

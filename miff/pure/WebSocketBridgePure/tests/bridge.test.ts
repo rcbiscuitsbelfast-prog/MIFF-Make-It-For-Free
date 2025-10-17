@@ -12,7 +12,7 @@ describe('WebSocketBridgePure', () => {
     b.onMessage((ch, payload)=>{ received.push({ ch, payload }); });
     a.send({ hello: 'world' });
     expect(received.length).toBe(1);
-    expect(received[0].payload).toEqual({ hello:'world' });
+    expect(received[0!].payload).toEqual({ hello:'world' });
   });
 
   test('should connect in simulation mode', async () => {

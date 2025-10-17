@@ -229,16 +229,16 @@ class BattleAIPureCLI {
 
     // Create test moves
     const moves = [
-      new MockMoveData('fire_blast', 'Fire Blast', DAMAGE: MoveCategory.DAMAGE, 60, 9: 0.9, 8, 'fire'),
-      new MockMoveData('water_burst', 'Water Burst', DAMAGE: MoveCategory.DAMAGE, 55, 95: 0.95, 6, 'water'),
-      new MockMoveData('basic_strike', 'Basic Strike', DAMAGE: MoveCategory.DAMAGE, 40, 0: 1.0, 0, 'neutral'),
-      new MockMoveData('heal', 'Heal', HEALING: MoveCategory.HEALING, 0, 0: 1.0, 5, 'neutral'),
-      new MockMoveData('protect', 'Protect', SUPPORT: MoveCategory.SUPPORT, 0, 0: 1.0, 3, 'neutral'),
-      new MockMoveData('thunder_bolt', 'Thunder Bolt', DAMAGE: MoveCategory.DAMAGE, 65, 85: 0.85, 10, 'electric'),
-      new MockMoveData('solar_beam', 'Solar Beam', DAMAGE: MoveCategory.DAMAGE, 80, 8: 0.8, 12, 'nature'),
-      new MockMoveData('rest', 'Rest', HEALING: MoveCategory.HEALING, 0, 0: 1.0, 0, 'neutral'),
-      new MockMoveData('agility', 'Agility', UTILITY: MoveCategory.UTILITY, 0, 0: 1.0, 4, 'neutral'),
-      new MockMoveData('toxic', 'Toxic', STATUS: MoveCategory.STATUS, 0, 85: 0.85, 6, 'poison')
+      new MockMoveData('fire_blast', 'Fire Blast', MoveCategory.DAMAGE, 60, 0.9, 8, 'fire'),
+      new MockMoveData('water_burst', 'Water Burst', MoveCategory.DAMAGE, 55, 0.95, 6, 'water'),
+      new MockMoveData('basic_strike', 'Basic Strike', MoveCategory.DAMAGE, 40, 1.0, 0, 'neutral'),
+      new MockMoveData('heal', 'Heal', MoveCategory.HEALING, 0, 1.0, 5, 'neutral'),
+      new MockMoveData('protect', 'Protect', MoveCategory.SUPPORT, 0, 1.0, 3, 'neutral'),
+      new MockMoveData('thunder_bolt', 'Thunder Bolt', MoveCategory.DAMAGE, 65, 0.85, 10, 'electric'),
+      new MockMoveData('solar_beam', 'Solar Beam', MoveCategory.DAMAGE, 80, 0.8, 12, 'nature'),
+      new MockMoveData('rest', 'Rest', MoveCategory.HEALING, 0, 1.0, 0, 'neutral'),
+      new MockMoveData('agility', 'Agility', MoveCategory.UTILITY, 0, 1.0, 4, 'neutral'),
+      new MockMoveData('toxic', 'Toxic', MoveCategory.STATUS, 0, 0.85, 6, 'poison')
     ];
 
     moves.forEach((move: any) => {
@@ -314,7 +314,7 @@ class BattleAIPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -348,21 +348,21 @@ class BattleAIPureCLI {
           this.showThreatLevel(args);
           break;
         case 'profile':
-          this.showProfileDetails(args[0]);
+          this.showProfileDetails(args[0!]);
           break;
         case 'compare':
         case 'c':
-          this.compareProfiles(args[0], args[1]);
+          this.compareProfiles(args[0!], args[1!]);
           break;
         case 'heal':
-          this.healSpirit(args[0], parseInt(args[1]) || 20);
+          this.healSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'damage':
         case 'dmg':
-          this.damageSpirit(args[0], parseInt(args[1]) || 20);
+          this.damageSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'status':
-          this.showSpiritStatus(args[0]);
+          this.showSpiritStatus(args[0!]);
           break;
         case 'exit':
         case 'quit':
@@ -486,9 +486,9 @@ class BattleAIPureCLI {
       return;
     }
 
-    const spiritId = args[0];
-    const opponentId = args[1];
-    const profileId = args[2] || 'balanced';
+    const spiritId = args[0!];
+    const opponentId = args[1!];
+    const profileId = args[2!] || 'balanced';
 
     const spirit = this.spirits.get(spiritId);
     const opponent = this.spirits.get(opponentId);
@@ -558,9 +558,9 @@ class BattleAIPureCLI {
       return;
     }
 
-    const spirit1Id = args[0];
-    const spirit2Id = args[1];
-    const profileId = args[2] || 'balanced';
+    const spirit1Id = args[0!];
+    const spirit2Id = args[1!];
+    const profileId = args[2!] || 'balanced';
 
     const spirit1 = this.spirits.get(spirit1Id);
     const spirit2 = this.spirits.get(spirit2Id);
@@ -647,8 +647,8 @@ class BattleAIPureCLI {
       return;
     }
 
-    const spiritId = args[0];
-    const opponentId = args[1];
+    const spiritId = args[0!];
+    const opponentId = args[1!];
 
     const spirit = this.spirits.get(spiritId);
     const opponent = this.spirits.get(opponentId);

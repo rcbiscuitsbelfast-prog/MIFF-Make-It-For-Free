@@ -41,7 +41,7 @@ async function main() {
   }
 
   try {
-    const first = argv[0];
+    const first = argv[0!];
     let operation: EconomyOperation;
 
     // Handle direct command or JSON file input
@@ -52,7 +52,7 @@ async function main() {
       // Legacy compatibility: allow "op,arg1,arg2,..." packed in first token
       if (first.includes(',')) {
         const parts = first.split(',');
-        const op = parts[0];
+        const op = parts[0!];
         const rest = parts.slice(1);
         switch (op) {
           case 'create-rule':
@@ -71,10 +71,10 @@ async function main() {
             operation = { op: 'execute-trade', vendorId: rest[0], itemId: rest[1], quantity: parseInt(rest[2]||'1'), type: rest[3] as any, playerId: rest[4] };
             break;
           case 'get-market-data':
-            operation = { op: 'get-market-data', itemId: rest[0] };
+            operation = { op: 'get-market-data', itemId: rest[0!] };
             break;
           case 'export':
-            operation = { op: 'export', exportFormat: rest[0] };
+            operation = { op: 'export', exportFormat: rest[0!] };
             break;
           default:
             throw new Error(`Unknown command: ${first}`);
@@ -83,46 +83,46 @@ async function main() {
       // Parse subcommand
       switch (first) {
         case 'create-rule':
-          if (!argv[1]) throw new Error('create-rule requires rule JSON');
-          operation = { op: 'create-rule', rule: JSON.parse(argv[1]) };
+          if (!argv[1!]) throw new Error('create-rule requires rule JSON');
+          operation = { op: 'create-rule', rule: JSON.parse(argv[1!]) };
           break;
         case 'create-vendor':
-          if (!argv[1]) throw new Error('create-vendor requires vendor JSON');
-          operation = { op: 'create-vendor', vendor: JSON.parse(argv[1]) };
+          if (!argv[1!]) throw new Error('create-vendor requires vendor JSON');
+          operation = { op: 'create-vendor', vendor: JSON.parse(argv[1!]) };
           break;
         case 'create-currency':
-          if (!argv[1]) throw new Error('create-currency requires currency JSON');
-          operation = { op: 'create-currency', currency: JSON.parse(argv[1]) };
+          if (!argv[1!]) throw new Error('create-currency requires currency JSON');
+          operation = { op: 'create-currency', currency: JSON.parse(argv[1!]) };
           break;
         case 'create-event':
-          if (!argv[1]) throw new Error('create-event requires event JSON');
-          operation = { op: 'create-event', event: JSON.parse(argv[1]) };
+          if (!argv[1!]) throw new Error('create-event requires event JSON');
+          operation = { op: 'create-event', event: JSON.parse(argv[1!]) };
           break;
         case 'calculate-price':
-          if (!argv[1] || !argv[2]) throw new Error('calculate-price requires vendorId and itemId');
+          if (!argv[1!] || !argv[2!]) throw new Error('calculate-price requires vendorId and itemId');
           operation = { 
             op: 'calculate-price', 
-            vendorId: argv[1], 
-            itemId: argv[2],
-            quantity: argv[3] ? parseInt(argv[3]) : 1
+            vendorId: argv[1!], 
+            itemId: argv[2!],
+            quantity: argv[3!] ? parseInt(argv[3!]) : 1
           };
           break;
         case 'execute-trade':
-          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
+          if (!argv[1!] || !argv[2!] || !argv[3!] || !argv[4!]) {
             throw new Error('execute-trade requires vendorId, itemId, quantity, and type (buy/sell)');
           }
           operation = { 
             op: 'execute-trade', 
-            vendorId: argv[1], 
-            itemId: argv[2],
-            quantity: parseInt(argv[3]),
-            type: argv[4] as 'buy' | 'sell',
-            playerId: argv[5]
+            vendorId: argv[1!], 
+            itemId: argv[2!],
+            quantity: parseInt(argv[3!]),
+            type: argv[4!] as 'buy' | 'sell',
+            playerId: argv[5!]
           };
           break;
         case 'get-market-data':
-          if (!argv[1]) throw new Error('get-market-data requires itemId');
-          operation = { op: 'get-market-data', itemId: argv[1] };
+          if (!argv[1!]) throw new Error('get-market-data requires itemId');
+          operation = { op: 'get-market-data', itemId: argv[1!] };
           break;
         case 'get-stats':
           operation = { op: 'get-stats' };
@@ -137,7 +137,7 @@ async function main() {
           operation = { op: 'list-currencies' };
           break;
         case 'export':
-          const exportFormat = argv[1] || 'json';
+          const exportFormat = argv[1!] || 'json';
           operation = { op: 'export', exportFormat };
           break;
         case 'reset':
@@ -473,7 +473,7 @@ async function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
                            argv[argv.indexOf('--format') + 1];
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
@@ -511,6 +511,6 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

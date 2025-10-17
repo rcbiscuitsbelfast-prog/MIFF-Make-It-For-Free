@@ -1053,12 +1053,12 @@ export class RitualSystemPure {
 
     const categoryCount = new Map<string, number>();
     this.completedRituals.forEach((result: any) => {
-      const category = result.ritualId.split('-')[0]; // Simplified category detection
+      const category = result.ritualId.split('-')[0!]; // Simplified category detection
       categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
     });
 
     const mostCommonCategory = Array.from(categoryCount.entries())
-      .sort((a: any, b: any) => b[1] - a[1])[0]?.[0] || 'none';
+      .sort((a: any, b: any) => b[1!] - a[1!])[0!]?.[0!] || 'none';
 
     const totalExperienceGranted = this.completedRituals
       .reduce((sum, r) => sum + r.experienceGained, 0);

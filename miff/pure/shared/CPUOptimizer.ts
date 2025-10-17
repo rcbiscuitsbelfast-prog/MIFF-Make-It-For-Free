@@ -597,12 +597,12 @@ export class CPUOptimizer {
 
   private async cleanupCache(): Promise<void> {
     const entries = Array.from(this.cache.entries());
-    const sortedEntries = entries.sort((a: any, b: any) => a[1].lastAccessed.getTime() - b[1].lastAccessed.getTime());
+    const sortedEntries = entries.sort((a: any, b: any) => a[1!].lastAccessed.getTime() - b[1!].lastAccessed.getTime());
     
     // Remove oldest 20% of entries
     const toRemove = Math.floor(sortedEntries.length * 0.2);
     for (let i = 0; i < toRemove; i++) {
-      this.cache.delete(sortedEntries[i][0]);
+      this.cache.delete(sortedEntries[i][0!]);
     }
   }
 

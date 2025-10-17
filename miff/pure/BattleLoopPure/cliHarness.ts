@@ -161,7 +161,7 @@ class BattleLoopPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -263,7 +263,7 @@ class BattleLoopPureCLI {
    * Run battle simulation
    */
   private async runBattle(args: string[]): Promise<void> {
-    const turnCount = parseInt(args[0]) || 3;
+    const turnCount = parseInt(args[0!]) || 3;
 
     console.log(`⚔️ Starting battle simulation for ${turnCount} turns...`);
 
@@ -448,7 +448,7 @@ class BattleLoopPureCLI {
       return;
     }
 
-    const actorId = parseInt(args[0]);
+    const actorId = parseInt(args[0!]);
     if (isNaN(actorId) || actorId <= 0) {
       console.log('❌ Invalid actor ID. Must be a positive number.');
       return;
@@ -474,8 +474,8 @@ class BattleLoopPureCLI {
       return;
     }
 
-    const actorId = parseInt(args[0]);
-    const moveName = args[1];
+    const actorId = parseInt(args[0!]);
+    const moveName = args[1!];
 
     if (!this.availableActors.includes(actorId)) {
       console.log(`❌ Actor ${actorId} not found. Use "addactor" first.`);

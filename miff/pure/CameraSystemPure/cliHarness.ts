@@ -146,13 +146,13 @@ class CameraCLIHarness {
 
     this.inputSystem.registerAction('apply_shake', () => {
       if (this.activeCamera) {
-        this.cameraSystem.applyShake(this.activeCamera.id, 5: 0.5, 1000);
+        this.cameraSystem.applyShake(this.activeCamera.id, 0.5, 1000);
       }
     });
 
     this.inputSystem.registerAction('apply_focus', () => {
       if (this.activeCamera) {
-        this.cameraSystem.applyFocus(this.activeCamera.id, 8: 0.8, 2000);
+        this.cameraSystem.applyFocus(this.activeCamera.id, 0.8, 2000);
       }
     });
   }
@@ -283,8 +283,8 @@ class CameraCLIHarness {
   }
 
   private async handleCreate(args: string[]) {
-    const type = args[0];
-    const target = args[1] || 'default-target';
+    const type = args[0!];
+    const target = args[1!] || 'default-target';
 
     if (!type || !['chase-camera', 'first-person-camera', 'orbit-camera', 'debug-camera'].includes(type)) {
       console.log('❌ Invalid camera type. Available: chase-camera, first-person-camera, orbit-camera, debug-camera');
@@ -324,7 +324,7 @@ class CameraCLIHarness {
   }
 
   private async handleInfo(args: string[]) {
-    const cameraId = args[0];
+    const cameraId = args[0!];
     if (!cameraId) {
       console.log('❌ Camera ID required. Use "list" to see available cameras.');
       return;
@@ -359,7 +359,7 @@ class CameraCLIHarness {
   }
 
   private async handleSetMain(args: string[]) {
-    const cameraId = args[0];
+    const cameraId = args[0!];
     if (!cameraId) {
       console.log('❌ Camera ID required.');
       return;
@@ -374,7 +374,7 @@ class CameraCLIHarness {
   }
 
   private async handleRemove(args: string[]) {
-    const cameraId = args[0];
+    const cameraId = args[0!];
     if (!cameraId) {
       console.log('❌ Camera ID required.');
       return;
@@ -392,7 +392,7 @@ class CameraCLIHarness {
   }
 
   private async handleSwitch(args: string[]) {
-    const mode = args[0];
+    const mode = args[0!];
     if (!mode || !['chase', 'first-person', 'orbit', 'debug'].includes(mode)) {
       console.log('❌ Invalid mode. Available: chase, first-person, orbit, debug');
       return;
@@ -427,7 +427,7 @@ class CameraCLIHarness {
   }
 
   private async handlePath(args: string[]) {
-    const pathName = args[0];
+    const pathName = args[0!];
     if (!pathName) {
       console.log('❌ Path name required.');
       return;
@@ -481,8 +481,8 @@ class CameraCLIHarness {
   }
 
   private async handleShake(args: string[]) {
-    const intensity = parseFloat(args[0] || '0.5');
-    const duration = parseInt(args[1] || '1000');
+    const intensity = parseFloat(args[0!] || '0.5');
+    const duration = parseInt(args[1!] || '1000');
 
     if (!this.activeCamera) {
       console.log('❌ No active camera.');
@@ -498,8 +498,8 @@ class CameraCLIHarness {
   }
 
   private async handleFocus(args: string[]) {
-    const intensity = parseFloat(args[0] || '0.8');
-    const duration = parseInt(args[1] || '2000');
+    const intensity = parseFloat(args[0!] || '0.8');
+    const duration = parseInt(args[1!] || '2000');
 
     if (!this.activeCamera) {
       console.log('❌ No active camera.');
@@ -553,7 +553,7 @@ class CameraCLIHarness {
   }
 
   private async handleSetRate(args: string[]) {
-    const fps = parseInt(args[0]);
+    const fps = parseInt(args[0!]);
     if (!fps || fps < 1 || fps > 240) {
       console.log('❌ Invalid FPS rate. Must be between 1-240.');
       return;
@@ -568,7 +568,7 @@ class CameraCLIHarness {
   }
 
   private async handleSetQuality(args: string[]) {
-    const quality = args[0];
+    const quality = args[0!];
     if (!quality || !['low', 'medium', 'high', 'ultra'].includes(quality)) {
       console.log('❌ Invalid quality level. Available: low, medium, high, ultra');
       return;
@@ -612,7 +612,7 @@ class CameraCLIHarness {
   }
 
   private async handleDemo(args: string[]) {
-    const duration = parseInt(args[0] || '30000'); // 30 seconds default
+    const duration = parseInt(args[0!] || '30000'); // 30 seconds default
     this.demoMode = true;
 
     console.log(`🎬 Starting demo sequence (${duration}ms)...`);
@@ -637,7 +637,7 @@ class CameraCLIHarness {
         switch (demoStep % 6) {
           case 0:
             this.cameraSystem.switchCameraMode(chaseCamera.id, 'chase');
-            this.cameraSystem.applyShake(chaseCamera.id, 3: 0.3, 500);
+            this.cameraSystem.applyShake(chaseCamera.id, 0.3, 500);
             console.log('🎯 Chase mode with shake');
             break;
           case 1:
@@ -649,7 +649,7 @@ class CameraCLIHarness {
             console.log('🌀 Orbit mode');
             break;
           case 3:
-            this.cameraSystem.applyFocus(orbitCamera.id, 7: 0.7, 1000);
+            this.cameraSystem.applyFocus(orbitCamera.id, 0.7, 1000);
             console.log('🎭 Focus effect');
             break;
           case 4:
@@ -657,7 +657,7 @@ class CameraCLIHarness {
             console.log('🎯 Back to chase');
             break;
           case 5:
-            this.cameraSystem.applyShake(chaseCamera.id, 8: 0.8, 2000);
+            this.cameraSystem.applyShake(chaseCamera.id, 0.8, 2000);
             console.log('💥 Strong shake effect');
             break;
         }
@@ -676,8 +676,8 @@ class CameraCLIHarness {
   }
 
   private async handleStressTest(args: string[]) {
-    const cameraCount = parseInt(args[0] || '20');
-    const duration = parseInt(args[1] || '10000');
+    const cameraCount = parseInt(args[0!] || '20');
+    const duration = parseInt(args[1!] || '10000');
 
     console.log(`🔥 Starting stress test with ${cameraCount} cameras for ${duration}ms...`);
 
@@ -750,7 +750,7 @@ class CameraCLIHarness {
       const input = line.trim();
       if (input) {
         const parts = input.split(' ');
-        const command = parts[0];
+        const command = parts[0!];
         const args = parts.slice(1);
 
         await this.runCommand(command, args);

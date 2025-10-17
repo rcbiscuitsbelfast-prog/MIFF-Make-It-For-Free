@@ -366,7 +366,7 @@ export class TimeManager {
     const fired: string[] = [];
 
     // Determine if scheduled events will fire this tick; used to gate lenient timer firing
-    const willFireScheduledThisTick = this.scheduled.length > 0 && this.scheduled[0].at <= this.time;
+    const willFireScheduledThisTick = this.scheduled.length > 0 && this.scheduled[0!].at <= this.time;
     const allowLenientTimerFire = !willFireScheduledThisTick;
 
     // Update timers
@@ -409,7 +409,7 @@ export class TimeManager {
     }
 
     // Fire scheduled events
-    while (this.scheduled.length && this.scheduled[0].at <= this.time) {
+    while (this.scheduled.length && this.scheduled[0!].at <= this.time) {
       const scheduled = this.scheduled.shift()!;
       fired.push(`scheduled:${scheduled.id}`);
       

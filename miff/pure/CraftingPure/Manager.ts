@@ -572,7 +572,7 @@ export class CraftingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: sessions[0] // Return first session or undefined
+          result: sessions[0!] // Return first session or undefined
         };
       
       default:

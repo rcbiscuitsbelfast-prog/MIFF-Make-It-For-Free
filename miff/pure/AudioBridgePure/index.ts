@@ -130,7 +130,7 @@ export class AudioManager {
         this.resumeAudio(cmd.id);
         break;
       case 'setVolume':
-        this.setVolume(cmd.id, volume: cmd.volume, cmd.fadeTime);
+        this.setVolume(cmd.id, cmd.volume, cmd.fadeTime);
         break;
       case 'setPitch':
         this.setPitch(cmd.id, cmd.pitch);
@@ -139,7 +139,7 @@ export class AudioManager {
         this.setLoop(cmd.id, cmd.loop);
         break;
       case 'fadeIn':
-        this.fadeIn(cmd.id, duration: cmd.duration, cmd.targetVolume ?? 1.0);
+        this.fadeIn(cmd.id, cmd.duration, cmd.targetVolume ?? 1.0);
         break;
       case 'fadeOut':
         this.fadeOut(cmd.id, cmd.duration);
@@ -154,7 +154,7 @@ export class AudioManager {
         // Get state command is handled in the result
         break;
       case 'playSpatial':
-        this.playSpatialAudio(cmd.id, spatialConfig: cmd.spatialConfig, cmd.fadeIn);
+        this.playSpatialAudio(cmd.id, cmd.spatialConfig, cmd.fadeIn);
         break;
       case 'setSpatial':
         this.setSpatialAudio(cmd.id, cmd.spatialConfig);
@@ -172,7 +172,7 @@ export class AudioManager {
         this.setReverb(cmd.decay, cmd.damping);
         break;
       case 'addEffect':
-        this.addEffect(cmd.id, effectType: cmd.effectType, cmd.parameters);
+        this.addEffect(cmd.id, cmd.effectType, cmd.parameters);
         break;
       case 'removeEffect':
         this.removeEffect(cmd.id, cmd.effectId);

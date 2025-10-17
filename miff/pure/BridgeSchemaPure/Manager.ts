@@ -220,8 +220,8 @@ export class BridgeSchemaManager {
         'gameObject.components': 'element.attributes'
       },
       transformations: {
-        position: (pos: number[]) => `translate3d(${pos[0]}px, ${pos[1]}px, ${pos[2]}px)`,
-        rotation: (rot: number[]) => `rotate(${rot[1]}rad)` // Simplified rotation
+        position: (pos: number[]) => `translate3d(${pos[0!]}px, ${pos[1!]}px, ${pos[2!]}px)`,
+        rotation: (rot: number[]) => `rotate(${rot[1!]}rad)` // Simplified rotation
       }
     });
 
@@ -233,8 +233,8 @@ export class BridgeSchemaManager {
       mappings: {
         'element.id': 'node.name',
         'element.tag': 'node.type',
-        'element.style.left': 'node.position[0]',
-        'element.style.top': 'node.position[1]'
+        'element.style.left': 'node.position[0!]',
+        'element.style.top': 'node.position[1!]'
       },
       transformations: {
         position: (styleValue: string) => parseFloat(styleValue.replace('px', '')) || 0
@@ -548,7 +548,7 @@ export class BridgeSchemaManager {
     }
 
     if (Array.isArray(data)) {
-      const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0]) : { type: 'any' };
+      const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0!]) : { type: 'any' };
       return {
         type: 'array',
         items: itemSchema

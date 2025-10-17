@@ -470,7 +470,7 @@ export class RealPlatformBridge {
   private getPlatformVersion(): string {
     const userAgent = navigator.userAgent;
     const match = userAgent.match(/(Windows|Mac|Linux|Android|iOS)\s+([\d.]+)/);
-    return match ? match[2] : 'Unknown';
+    return match ? match[2!] : 'Unknown';
   }
 
   /**

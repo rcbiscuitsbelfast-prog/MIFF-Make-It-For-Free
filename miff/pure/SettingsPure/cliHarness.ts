@@ -5,8 +5,8 @@ import { SettingsManager, SettingsConfig, SettingsValidation, SettingsStats } fr
 
 function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
-  const initFile = args[1];
+  const command = args[0!] || 'help';
+  const initFile = args[1!];
   
   let manager: SettingsManager;
   if (initFile && fs.existsSync(initFile)) {
@@ -20,7 +20,7 @@ function main() {
   try {
     switch (command) {
       case 'get':
-        const getKey = args[1];
+        const getKey = args[1!];
         if (getKey) {
           result.result = { key: getKey, value: manager.get(getKey) };
         } else {
@@ -30,8 +30,8 @@ function main() {
         break;
 
       case 'set':
-        const setKey = args[1];
-        const setValue = args[2];
+        const setKey = args[1!];
+        const setValue = args[2!];
         if (setKey && setValue !== undefined) {
           const success = manager.set(setKey, setValue);
           result.result = { success, message: success ? 'Setting updated' : 'Invalid value' };
@@ -42,7 +42,7 @@ function main() {
         break;
 
       case 'getCategory':
-        const getCategory = args[1];
+        const getCategory = args[1!];
         if (getCategory) {
           result.result = manager.getCategory(getCategory);
         } else {
@@ -52,8 +52,8 @@ function main() {
         break;
 
       case 'setCategory':
-        const setCategory = args[1];
-        const categoryData = args[2];
+        const setCategory = args[1!];
+        const categoryData = args[2!];
         if (setCategory && categoryData) {
           try {
             const values = JSON.parse(categoryData);
@@ -80,7 +80,7 @@ function main() {
         break;
 
       case 'resetCategory':
-        const resetCategory = args[1];
+        const resetCategory = args[1!];
         if (resetCategory) {
           const success = manager.resetCategory(resetCategory);
           result.result = { success, message: success ? 'Category reset' : 'Category not found' };
@@ -99,18 +99,18 @@ function main() {
         break;
 
       case 'export':
-        const format = (args[1] as 'json' | 'yaml' | 'markdown' | 'html') || 'json';
+        const format = (args[1!] as 'json' | 'yaml' | 'markdown' | 'html') || 'json';
         result.result = { data: manager.export(format), format };
         break;
 
       case 'save':
-        const savePath = args[1] || 'settings.json';
+        const savePath = args[1!] || 'settings.json';
         manager.save(savePath);
         result.result = { message: `Settings saved to ${savePath}` };
         break;
 
       case 'load':
-        const loadPath = args[1];
+        const loadPath = args[1!];
         if (loadPath) {
           const success = manager.load(loadPath);
           result.result = { success, message: success ? 'Settings loaded' : 'Failed to load settings' };
@@ -195,4 +195,4 @@ function runDemo(manager: SettingsManager): any {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

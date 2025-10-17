@@ -24,8 +24,8 @@ function runScenario(s:Scenario): Output {
 }
 
 function main(){
-	const scenarioPath = process.argv[2] || 'TutorialScenarioPure/scenario.json';
-	const cmd = process.argv[3] || 'run';
+	const scenarioPath = process.argv[2!] || 'TutorialScenarioPure/scenario.json';
+	const cmd = process.argv[3!] || 'run';
 	const s = JSON.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
 	if(cmd==='dump'){
 		console.log(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
@@ -34,4 +34,4 @@ function main(){
 	const out = runScenario(s);
 	console.log(JSON.stringify({ outputs:[out] }, null, 2));
 }
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

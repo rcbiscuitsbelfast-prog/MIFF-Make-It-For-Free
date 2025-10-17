@@ -10,8 +10,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const timelinePath = process.argv[2] || 'QuestTimelinePure/fixtures/helmet_of_fate.timeline.json';
-  const commandsPath = process.argv[3] || '';
+  const timelinePath = process.argv[2!] || 'QuestTimelinePure/fixtures/helmet_of_fate.timeline.json';
+  const commandsPath = process.argv[3!] || '';
   
   const timeline: QuestTimeline = JSON.parse(fs.readFileSync(path.resolve(timelinePath), 'utf-8'));
 
@@ -38,4 +38,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

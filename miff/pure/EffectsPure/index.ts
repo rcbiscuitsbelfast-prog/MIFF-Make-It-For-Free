@@ -1172,7 +1172,7 @@ export class EffectResolver implements IEffectResolver {
     // For each group, keep the effect with highest absolute value
     effectGroups.forEach((group: any) => {
       if (group.length === 1) {
-        resolvedEffects.push(group[0]);
+        resolvedEffects.push(group[0!]);
       } else {
         // Find effect with highest absolute value
         const bestEffect = group.reduce((best, current) =>
@@ -1197,7 +1197,7 @@ export class EffectResolver implements IEffectResolver {
       const statChanges = this.applyEffect(effect, context);
 
       // Create event
-      const event = EffectEvent.tick(entityId, effect: effect.effect, effect, phase);
+      const event = EffectEvent.tick(entityId, effect.effect, effect, phase);
       resolution.addEvent(event);
 
       // Add stat changes
@@ -1347,8 +1347,8 @@ export class EffectManager implements IEffectManager {
       return false;
     }
 
-    const removedEffect = activeEffects.splice(effectIndex, 1)[0];
-    this.onEffectRemoved?.(entityId, effect: removedEffect.effect, removedEffect);
+    const removedEffect = activeEffects.splice(effectIndex, 1)[0!];
+    this.onEffectRemoved?.(entityId, removedEffect.effect, removedEffect);
     return true;
   }
 
@@ -1446,8 +1446,8 @@ export class EffectManager implements IEffectManager {
       effect.tick(deltaTime);
 
       if ((effect.effect.triggers & EffectTrigger.ON_TICK) !== 0) {
-        this.onEffectTick?.(entityId, effect: effect.effect, effect);
-        resolution.addEvent(EffectEvent.tick(entityId, effect: effect.effect, effect, currentPhase));
+        this.onEffectTick?.(entityId, effect.effect, effect);
+        resolution.addEvent(EffectEvent.tick(entityId, effect.effect, effect, currentPhase));
       }
     }
 
@@ -1456,9 +1456,9 @@ export class EffectManager implements IEffectManager {
       effect.advanceTurn();
 
       if (effect.isExpired()) {
-        this.onEffectExpired?.(entityId, effect: effect.effect, effect);
+        this.onEffectExpired?.(entityId, effect.effect, effect);
         resolution.addExpiredEffect(effect, EffectRemovalReason.EXPIRED);
-        resolution.addEvent(EffectEvent.expired(entityId, effect: effect.effect, effect, currentPhase));
+        resolution.addEvent(EffectEvent.expired(entityId, effect.effect, effect, currentPhase));
       }
     }
 
@@ -1477,7 +1477,7 @@ export class EffectManager implements IEffectManager {
     const activeEffects = this.entityEffects.get(entityId);
     if (activeEffects) {
       for (const effect of activeEffects) {
-        this.onEffectRemoved?.(entityId, effect: effect.effect, effect);
+        this.onEffectRemoved?.(entityId, effect.effect, effect);
       }
       this.entityEffects.delete(entityId);
     }
@@ -1489,7 +1489,7 @@ export class EffectManager implements IEffectManager {
   clearAllEffects(): void {
     for (const [entityId, activeEffects] of this.entityEffects) {
       for (const effect of activeEffects) {
-        this.onEffectRemoved?.(entityId, effect: effect.effect, effect);
+        this.onEffectRemoved?.(entityId, effect.effect, effect);
       }
     }
     this.entityEffects.clear();

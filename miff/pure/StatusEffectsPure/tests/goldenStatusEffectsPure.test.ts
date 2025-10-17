@@ -9,9 +9,9 @@ test('golden status effects flow', () => {
   const got = JSON.parse(out);
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs[0]).toMatchObject({ op: 'list', ids: expect.arrayContaining(['hero']) });
-  expect(got.outputs[1]).toMatchObject({ id: 'hero', hpDelta: -2 });
-  expect(got.outputs[2]).toMatchObject({ op: 'dump', id: 'hero' });
-  expect(got.outputs[2].effects).toEqual(
+  expect(got.outputs[1!]).toMatchObject({ id: 'hero', hpDelta: -2 });
+  expect(got.outputs[2!]).toMatchObject({ op: 'dump', id: 'hero' });
+  expect(got.outputs[2!].effects).toEqual(
     expect.arrayContaining([
       expect.objectContaining({ id: 'p1', category: 'poison', magnitude: 2 })
     ])

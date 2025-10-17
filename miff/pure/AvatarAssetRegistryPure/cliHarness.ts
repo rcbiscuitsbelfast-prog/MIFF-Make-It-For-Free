@@ -71,13 +71,13 @@ class AvatarAssetRegistryCLI {
         await this.runTests();
         break;
       case 'resolve':
-        await this.resolveAsset(args[0], args[1]);
+        await this.resolveAsset(args[0!], args[1!]);
         break;
       case 'list-assets':
         this.listAssets();
         break;
       case 'add-asset':
-        await this.addAsset(args[0]);
+        await this.addAsset(args[0!]);
         break;
       case 'create-sample-registry':
         await this.createSampleRegistry();
@@ -126,7 +126,7 @@ class AvatarAssetRegistryCLI {
       ];
 
       for (const test of testAssets) {
-        const resolved = AvatarAssetRegistryPure.resolveVariant(test.id, style: test.style, this.registry);
+        const resolved = AvatarAssetRegistryPure.resolveVariant(test.id, test.style, this.registry);
         console.log(`   ${resolved ? '✅' : '❌'} ${test.id} (${test.style}): ${resolved || 'Not found'}`);
       }
 
@@ -321,7 +321,7 @@ class AvatarAssetRegistryCLI {
       ];
 
       for (const testCase of testCases) {
-        const resolved = AvatarAssetRegistryPure.resolveVariant(testCase.id, style: testCase.style, this.registry);
+        const resolved = AvatarAssetRegistryPure.resolveVariant(testCase.id, testCase.style, this.registry);
         console.log(`   ${resolved ? '✅' : '❌'} ${testCase.id} (${testCase.style}): ${resolved || 'Not found'}`);
       }
 
@@ -462,6 +462,6 @@ async function main() {
   await cli.start();
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }

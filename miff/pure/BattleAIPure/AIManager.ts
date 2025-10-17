@@ -32,7 +32,7 @@ export class AIControllerManager implements IAIControllerManager {
     if (!p) return null;
     // Normalize to AIDecisionProfile instance to ensure getters like isDefensive
     if (p instanceof AIDecisionProfile) return p;
-    return new AIDecisionProfile(p.profileID, style: p.style, p.movePriorityWeights, p.preferredTypes);
+    return new AIDecisionProfile(p.profileID, p.style, p.movePriorityWeights, p.preferredTypes);
   }
 
   hasProfile(id: string): boolean {

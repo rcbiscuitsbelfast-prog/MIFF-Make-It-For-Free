@@ -37,8 +37,8 @@ test('golden rhythm system flow', () => {
   // Beat 2: 2 * 0.5 = 1.0
   // Beat 3: 3 * 0.5 = 1.5
   // Beat 4: 4 * 0.5 = 2.0
-  expect(got.beatTimes[0]).toBe(0.5);
-  expect(got.beatTimes[1]).toBe(1.0);
-  expect(got.beatTimes[2]).toBe(1.5);
-  expect(got.beatTimes[3]).toBe(2.0);
+  expect(got.beatTimes[0!]).toBe(0.5);
+  expect(got.beatTimes[1!]).toBe(1.0);
+  expect(got.beatTimes[2!]).toBe(1.5);
+  expect(got.beatTimes[3!]).toBe(2.0);
 });

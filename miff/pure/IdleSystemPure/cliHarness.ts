@@ -174,7 +174,7 @@ export class IdleSystemCLI {
 
   private processCommand(command: string): void {
     const parts = command.split(' ');
-    const cmd = parts[0].toLowerCase();
+    const cmd = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     switch (cmd) {
@@ -237,7 +237,7 @@ export class IdleSystemCLI {
         break;
 
       case 'export':
-        this.exportData(args[0]);
+        this.exportData(args[0!]);
         break;
 
       case 'quit':
@@ -289,8 +289,8 @@ export class IdleSystemCLI {
       return;
     }
 
-    const generatorId = args[0];
-    const amount = args[1] ? parseInt(args[1]) : 1;
+    const generatorId = args[0!];
+    const amount = args[1!] ? parseInt(args[1!]) : 1;
 
     if (isNaN(amount) || amount <= 0) {
       this.log('❌ Invalid amount');
@@ -313,7 +313,7 @@ export class IdleSystemCLI {
       return;
     }
 
-    const upgradeId = args[0];
+    const upgradeId = args[0!];
     const success = this.idleSystem.purchaseUpgrade(upgradeId);
 
     if (success) {
@@ -627,7 +627,7 @@ async function main(): Promise<void> {
   await cli.run();
 }
 
-if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
+if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }
 

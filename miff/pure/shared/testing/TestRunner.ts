@@ -484,7 +484,7 @@ export class TestRunner {
             duration: assertionResult.duration || 0,
             startTime: new Date(testResult.startTime),
             endTime: new Date(testResult.endTime),
-            error: assertionResult.failureMessages?.[0],
+            error: assertionResult.failureMessages?.[0!],
             stackTrace: assertionResult.failureMessages?.join('\n'),
             assertions: this.parseAssertions(assertionResult),
             retries: assertionResult.retries || 0,
@@ -585,7 +585,7 @@ export class TestRunner {
     let match;
     
     while ((match = tagPattern.exec(testName)) !== null) {
-      tags.push(match[1]);
+      tags.push(match[1!]);
     }
     
     return tags;
@@ -1008,7 +1008,7 @@ export const defaultTestRunner = new TestRunner({
   updateSnapshots: false,
   collectCoverage: true,
   coverageThreshold: 80,
-  testTypes: [TestType.UNIT, INTEGRATION: TestType.INTEGRATION, TestType.GOLDEN],
+  testTypes: [TestType.UNIT, TestType.INTEGRATION, TestType.GOLDEN],
   excludePatterns: ['node_modules/**', 'dist/**', 'coverage/**'],
   includePatterns: ['**/*.test.ts', '**/*.spec.ts'],
   environment: {},

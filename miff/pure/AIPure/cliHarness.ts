@@ -258,14 +258,14 @@ class AIPureCLI {
 
     // Create test moves
     const moves = [
-      new MoveData('basic_strike', 'Basic Strike', PHYSICAL: MoveCategory.PHYSICAL, 40, 0: 1.0, 0, 'neutral'),
-      new MoveData('fire_blast', 'Fire Blast', SPECIAL: MoveCategory.SPECIAL, 60, 9: 0.9, 8, 'fire'),
-      new MoveData('water_burst', 'Water Burst', SPECIAL: MoveCategory.SPECIAL, 55, 95: 0.95, 6, 'water'),
-      new MoveData('nature_heal', 'Nature Heal', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 5, 'nature'),
-      new MoveData('thunder_bolt', 'Thunder Bolt', SPECIAL: MoveCategory.SPECIAL, 65, 85: 0.85, 10, 'electric'),
-      new MoveData('tackle', 'Tackle', PHYSICAL: MoveCategory.PHYSICAL, 35, 0: 1.0, 0, 'neutral'),
-      new MoveData('quick_attack', 'Quick Attack', PHYSICAL: MoveCategory.PHYSICAL, 30, 0: 1.0, 3, 'neutral'),
-      new MoveData('rest', 'Rest', STATUS: MoveCategory.STATUS, 0, 0: 1.0, 0, 'neutral')
+      new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral'),
+      new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 60, 0.9, 8, 'fire'),
+      new MoveData('water_burst', 'Water Burst', MoveCategory.SPECIAL, 55, 0.95, 6, 'water'),
+      new MoveData('nature_heal', 'Nature Heal', MoveCategory.STATUS, 0, 1.0, 5, 'nature'),
+      new MoveData('thunder_bolt', 'Thunder Bolt', MoveCategory.SPECIAL, 65, 0.85, 10, 'electric'),
+      new MoveData('tackle', 'Tackle', MoveCategory.PHYSICAL, 35, 1.0, 0, 'neutral'),
+      new MoveData('quick_attack', 'Quick Attack', MoveCategory.PHYSICAL, 30, 1.0, 3, 'neutral'),
+      new MoveData('rest', 'Rest', MoveCategory.STATUS, 0, 1.0, 0, 'neutral')
     ];
 
     moves.forEach((move: any) => {
@@ -321,7 +321,7 @@ class AIPureCLI {
     }
 
     const parts = input.split(' ');
-    const command = parts[0].toLowerCase();
+    const command = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     try {
@@ -351,21 +351,21 @@ class AIPureCLI {
           await this.showDecision(args);
           break;
         case 'policy':
-          this.showPolicyDetails(args[0]);
+          this.showPolicyDetails(args[0!]);
           break;
         case 'compare':
         case 'c':
-          this.comparePolicies(args[0], args[1]);
+          this.comparePolicies(args[0!], args[1!]);
           break;
         case 'damage':
         case 'dmg':
           await this.calculateDamage(args);
           break;
         case 'heal':
-          this.healSpirit(args[0], parseInt(args[1]) || 20);
+          this.healSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'hurt':
-          this.damageSpirit(args[0], parseInt(args[1]) || 20);
+          this.damageSpirit(args[0!], parseInt(args[1!]) || 20);
           break;
         case 'status':
         case 'stat':
@@ -498,9 +498,9 @@ class AIPureCLI {
       return;
     }
 
-    const spirit1Id = args[0];
-    const spirit2Id = args[1];
-    const policyId = args[2] || 'balanced';
+    const spirit1Id = args[0!];
+    const spirit2Id = args[1!];
+    const policyId = args[2!] || 'balanced';
 
     const spirit1 = this.spirits.get(spirit1Id);
     const spirit2 = this.spirits.get(spirit2Id);
@@ -609,9 +609,9 @@ class AIPureCLI {
       return;
     }
 
-    const spiritId = args[0];
-    const opponentId = args[1];
-    const policyId = args[2] || 'balanced';
+    const spiritId = args[0!];
+    const opponentId = args[1!];
+    const policyId = args[2!] || 'balanced';
 
     const spirit = this.spirits.get(spiritId);
     const opponent = this.spirits.get(opponentId);
@@ -783,9 +783,9 @@ class AIPureCLI {
       return;
     }
 
-    const attackerId = args[0];
-    const defenderId = args[1];
-    const moveId = args[2];
+    const attackerId = args[0!];
+    const defenderId = args[1!];
+    const moveId = args[2!];
 
     const attacker = this.spirits.get(attackerId);
     const defender = this.spirits.get(defenderId);
@@ -818,7 +818,7 @@ class AIPureCLI {
     const damageCalculator = new DamageCalculator(typeEffectiveness);
 
     // Calculate with different RNG values to show variance
-    const rngValues = [0.85, 9: 0.9, 0.95, 1.0];
+    const rngValues = [0.85, 0.9, 0.95, 1.0];
     const results: number[] = [];
 
     for (const variance of rngValues) {

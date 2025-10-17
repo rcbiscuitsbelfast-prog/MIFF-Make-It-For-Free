@@ -4,7 +4,7 @@ import { auditModules, generateAuditReport } from './index';
 import * as fs from 'fs';
 
 async function main() {
-  const inputFile = process.argv[2];
+  const inputFile = process.argv[2!];
   if (!inputFile) {
     console.error('Usage: ts-node cliHarness.ts <input-file>');
     process.exit(1);

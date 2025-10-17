@@ -15,22 +15,22 @@ test('golden loot roll flow', () => {
   expect(got.outputs.length).toBe(3);
   
   // Check list operation
-  expect(got.outputs[0]).toMatchObject({ op: 'list', status: 'ok' });
-  expect(got.outputs[0].result.result).toEqual(expect.arrayContaining([
+  expect(got.outputs[0!]).toMatchObject({ op: 'list', status: 'ok' });
+  expect(got.outputs[0!].result.result).toEqual(expect.arrayContaining([
     expect.objectContaining({ id: 'starter' })
   ]));
   
   // Check simulate operation
-  expect(got.outputs[1]).toMatchObject({ op: 'simulate', status: 'ok' });
-  expect(got.outputs[1].result.result).toMatchObject({
+  expect(got.outputs[1!]).toMatchObject({ op: 'simulate', status: 'ok' });
+  expect(got.outputs[1!].result.result).toMatchObject({
     drops: expect.any(Array),
     totalValue: expect.any(Number),
     rollCount: expect.any(Number)
   });
   
   // Check dump operation
-  expect(got.outputs[2]).toMatchObject({ op: 'dump', status: 'ok' });
-  expect(got.outputs[2].result.result).toMatchObject({
+  expect(got.outputs[2!]).toMatchObject({ op: 'dump', status: 'ok' });
+  expect(got.outputs[2!].result.result).toMatchObject({
     id: 'starter',
     name: 'Starter Loot Table',
     entries: expect.any(Array)

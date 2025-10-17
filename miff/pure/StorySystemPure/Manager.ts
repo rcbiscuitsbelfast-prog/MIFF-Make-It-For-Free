@@ -184,7 +184,7 @@ export class StoryManager {
     const progress = this.calculateProgress(arc);
 
     // Update progress tracking
-    this.updateProgress(arc, id: node.id, rewards, newFlags);
+    this.updateProgress(arc, node.id, rewards, newFlags);
 
     return {
       op: 'storyResult',

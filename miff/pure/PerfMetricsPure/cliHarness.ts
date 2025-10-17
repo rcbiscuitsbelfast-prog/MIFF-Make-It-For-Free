@@ -11,8 +11,8 @@ import {
 
 function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
-  const configFile = args[1];
+  const command = args[0!] || 'help';
+  const configFile = args[1!];
   
   let config: Partial<PerfConfig> = {};
   if (configFile && fs.existsSync(configFile)) {
@@ -31,7 +31,7 @@ function main() {
   try {
     switch (command) {
       case 'record':
-        const sampleData = args[1];
+        const sampleData = args[1!];
         if (sampleData && fs.existsSync(sampleData)) {
           const samples = JSON.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
           samples.forEach((sample: any) => {
@@ -64,7 +64,7 @@ function main() {
         break;
 
       case 'export':
-        const format = (args[1] as 'json' | 'csv' | 'markdown') || 'json';
+        const format = (args[1!] as 'json' | 'csv' | 'markdown') || 'json';
         result.result = { data: perf.exportMetrics(format), format };
         break;
 
@@ -74,7 +74,7 @@ function main() {
         break;
 
       case 'updateConfig':
-        const newConfigFile = args[1];
+        const newConfigFile = args[1!];
         if (newConfigFile && fs.existsSync(newConfigFile)) {
           const newConfig = JSON.parse(fs.readFileSync(path.resolve(newConfigFile), 'utf-8'));
           perf.updateConfig(newConfig);
@@ -168,4 +168,4 @@ function runDemo(perf: PerfMetricsPure): any {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

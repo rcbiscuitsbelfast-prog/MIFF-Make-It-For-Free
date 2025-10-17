@@ -172,8 +172,8 @@ describe('EventBusPure', () => {
       
       const recentEvents = eventBus.getRecentEvents();
       expect(recentEvents.length).toBe(3);
-      expect(recentEvents[0].data.index).toBe(2);
-      expect(recentEvents[2].data.index).toBe(4);
+      expect(recentEvents[0!].data.index).toBe(2);
+      expect(recentEvents[2!].data.index).toBe(4);
     });
 
     it('should track event statistics', async () => {
@@ -200,7 +200,7 @@ describe('EventBusPure', () => {
       
       const recentEvents = eventBus.getRecentEvents();
       expect(recentEvents.length).toBe(1);
-      expect(recentEvents[0].data.data).toBe('new');
+      expect(recentEvents[0!].data.data).toBe('new');
     });
 
     it('should get events by type', async () => {
@@ -210,8 +210,8 @@ describe('EventBusPure', () => {
       
       const event1Events = eventBus.getEventsByType('event1');
       expect(event1Events.length).toBe(2);
-      expect(event1Events[0].data.data).toBe('test1');
-      expect(event1Events[1].data.data).toBe('test3');
+      expect(event1Events[0!].data.data).toBe('test1');
+      expect(event1Events[1!].data.data).toBe('test3');
     });
   });
 
@@ -640,7 +640,7 @@ describe('EventBusPure', () => {
       
       const subscriptions = eventBus.getSubscriptions();
       expect(subscriptions.length).toBe(1);
-      expect(subscriptions[0].eventType).toBe('event2');
+      expect(subscriptions[0!].eventType).toBe('event2');
     });
   });
 

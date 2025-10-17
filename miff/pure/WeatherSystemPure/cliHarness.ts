@@ -151,7 +151,7 @@ export class WeatherSystemCLI {
    */
   private processCommand(command: string): void {
     const parts = command.split(' ');
-    const cmd = parts[0].toLowerCase();
+    const cmd = parts[0!].toLowerCase();
     const args = parts.slice(1);
 
     switch (cmd) {
@@ -202,7 +202,7 @@ export class WeatherSystemCLI {
         break;
 
       case 'export':
-        this.exportData(args[0]);
+        this.exportData(args[0!]);
         break;
 
       case 'quit':
@@ -228,8 +228,8 @@ export class WeatherSystemCLI {
       return;
     }
 
-    const weatherType = args[0] as WeatherType;
-    const intensity = args[1] as WeatherIntensity;
+    const weatherType = args[0!] as WeatherType;
+    const intensity = args[1!] as WeatherIntensity;
 
     this.weatherSystem.setWeather(weatherType, intensity);
     this.log(`✅ Set weather to: ${weatherType} (${intensity})`);
@@ -661,7 +661,7 @@ async function main(): Promise<void> {
 }
 
 // Run CLI if this file is executed directly
-if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
+if (typeof window === 'undefined' && import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }
 

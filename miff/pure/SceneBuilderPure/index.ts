@@ -358,7 +358,7 @@ export class SceneBuilderManager {
       category: 'basic',
       configuration: {
         dimensions: { width: 100, height: 100 },
-        layers: [SceneLayer.BACKGROUND, TERRAIN: SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
+        layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
         optimizationMode: SceneOptimizationMode.CULLING,
         exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT],
         enablePhysics: false,
@@ -395,9 +395,9 @@ export class SceneBuilderManager {
       category: '2d',
       configuration: {
         dimensions: { width: 1920, height: 1080 },
-        layers: [SceneLayer.BACKGROUND, TERRAIN: SceneLayer.TERRAIN, SceneLayer.INTERACTABLES, CHARACTERS: SceneLayer.CHARACTERS, SceneLayer.UI],
+        layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.INTERACTABLES, SceneLayer.CHARACTERS, SceneLayer.UI],
         optimizationMode: SceneOptimizationMode.CULLING,
-        exportFormats: [SceneExportFormat.UNITY, GODOT: SceneExportFormat.GODOT, SceneExportFormat.WEBGL],
+        exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.WEBGL],
         enablePhysics: true,
         enableLighting: true,
         enableAudio: true,

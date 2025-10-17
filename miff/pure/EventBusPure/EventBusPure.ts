@@ -445,7 +445,7 @@ export class EventRouter {
     }
 
     for (const targetType of targetTypes) {
-      await this.eventBus.publish(targetType, data: event.data, {
+      await this.eventBus.publish(targetType, event.data, {
         source: event.source,
         priority: event.priority,
         metadata: { ...event.metadata, routedFrom: event.type }
@@ -706,7 +706,7 @@ export class EventScheduler {
    * Execute a scheduled event
    */
   private async executeScheduledEvent(scheduledEvent: ScheduledEvent): Promise<void> {
-    await this.eventBus.publish(scheduledEvent.eventType, data: scheduledEvent.data, scheduledEvent.options);
+    await this.eventBus.publish(scheduledEvent.eventType, scheduledEvent.data, scheduledEvent.options);
 
     if (scheduledEvent.recurring) {
       scheduledEvent.executions = (scheduledEvent.executions || 0) + 1;

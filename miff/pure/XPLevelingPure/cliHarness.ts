@@ -16,17 +16,17 @@ const { mode, args } = parseCLIArgs(process.argv);
 const manager = new XPLevelingManager();
 
 // Parse additional arguments
-const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
-const curveId = args.find(arg => arg.startsWith('--curve-id='))?.split('=')[1] || 'standard';
-const initialLevel = parseInt(args.find(arg => arg.startsWith('--initial-level='))?.split('=')[1] || '1');
-const xpAmount = parseInt(args.find(arg => arg.startsWith('--xp='))?.split('=')[1] || '100');
-const skillId = args.find(arg => arg.startsWith('--skill-id='))?.split('=')[1] || 'combat';
-const skillLevel = parseInt(args.find(arg => arg.startsWith('--skill-level='))?.split('=')[1] || '1');
-const statId = args.find(arg => arg.startsWith('--stat-id='))?.split('=')[1] || 'strength';
-const statValue = parseInt(args.find(arg => arg.startsWith('--stat-value='))?.split('=')[1] || '10');
-const minLevel = parseInt(args.find(arg => arg.startsWith('--min-level='))?.split('=')[1] || '1');
-const maxLevel = parseInt(args.find(arg => arg.startsWith('--max-level='))?.split('=')[1] || '100');
-const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'history' || 'json';
+const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
+const curveId = args.find(arg => arg.startsWith('--curve-id='))?.split('=')[1!] || 'standard';
+const initialLevel = parseInt(args.find(arg => arg.startsWith('--initial-level='))?.split('=')[1!] || '1');
+const xpAmount = parseInt(args.find(arg => arg.startsWith('--xp='))?.split('=')[1!] || '100');
+const skillId = args.find(arg => arg.startsWith('--skill-id='))?.split('=')[1!] || 'combat';
+const skillLevel = parseInt(args.find(arg => arg.startsWith('--skill-level='))?.split('=')[1!] || '1');
+const statId = args.find(arg => arg.startsWith('--stat-id='))?.split('=')[1!] || 'strength';
+const statValue = parseInt(args.find(arg => arg.startsWith('--stat-value='))?.split('=')[1!] || '10');
+const minLevel = parseInt(args.find(arg => arg.startsWith('--min-level='))?.split('=')[1!] || '1');
+const maxLevel = parseInt(args.find(arg => arg.startsWith('--max-level='))?.split('=')[1!] || '100');
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'history' || 'json';
 
 let output: any;
 
@@ -73,10 +73,10 @@ try {
       if (args.includes('--min-level')) filter.minLevel = minLevel;
       if (args.includes('--max-level')) filter.maxLevel = maxLevel;
       if (args.includes('--has-skill')) filter.hasSkill = skillId;
-      if (args.includes('--min-skill-level')) filter.minSkillLevel = parseInt(args.find(arg => arg.startsWith('--min-skill-level='))?.split('=')[1] || '1');
-      if (args.includes('--max-skill-level')) filter.maxSkillLevel = parseInt(args.find(arg => arg.startsWith('--max-skill-level='))?.split('=')[1] || '10');
-      if (args.includes('--min-xp')) filter.minXp = parseInt(args.find(arg => arg.startsWith('--min-xp='))?.split('=')[1] || '0');
-      if (args.includes('--max-xp')) filter.maxXp = parseInt(args.find(arg => arg.startsWith('--max-xp='))?.split('=')[1] || '10000');
+      if (args.includes('--min-skill-level')) filter.minSkillLevel = parseInt(args.find(arg => arg.startsWith('--min-skill-level='))?.split('=')[1!] || '1');
+      if (args.includes('--max-skill-level')) filter.maxSkillLevel = parseInt(args.find(arg => arg.startsWith('--max-skill-level='))?.split('=')[1!] || '10');
+      if (args.includes('--min-xp')) filter.minXp = parseInt(args.find(arg => arg.startsWith('--min-xp='))?.split('=')[1!] || '0');
+      if (args.includes('--max-xp')) filter.maxXp = parseInt(args.find(arg => arg.startsWith('--max-xp='))?.split('=')[1!] || '10000');
       
       output = manager.listEntities(filter);
       break;
@@ -88,11 +88,11 @@ try {
     case 'create-curve':
       const curve: XPCurve = {
         id: curveId,
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'Custom Curve',
-        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'A custom XP curve',
-        maxLevel: parseInt(args.find(arg => arg.startsWith('--max-level='))?.split('=')[1] || '100'),
-        baseXp: parseInt(args.find(arg => arg.startsWith('--base-xp='))?.split('=')[1] || '100'),
-        growthRate: parseFloat(args.find(arg => arg.startsWith('--growth-rate='))?.split('=')[1] || '1.1'),
+        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'Custom Curve',
+        description: args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'A custom XP curve',
+        maxLevel: parseInt(args.find(arg => arg.startsWith('--max-level='))?.split('=')[1!] || '100'),
+        baseXp: parseInt(args.find(arg => arg.startsWith('--base-xp='))?.split('=')[1!] || '100'),
+        growthRate: parseFloat(args.find(arg => arg.startsWith('--growth-rate='))?.split('=')[1!] || '1.1'),
         levels: [], // Will be generated
         metadata: { type: 'custom' }
       };
@@ -112,11 +112,11 @@ try {
       break;
 
     case 'add-multiplier':
-      const multiplierEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
-      const multiplierSource = args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'combat';
-      const multiplierValue = parseFloat(args.find(arg => arg.startsWith('--multiplier='))?.split('=')[1] || '1.5');
-      const multiplierDuration = args.find(arg => arg.startsWith('--duration='))?.split('=')[1];
-      const multiplierDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'XP Multiplier';
+      const multiplierEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
+      const multiplierSource = args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'combat';
+      const multiplierValue = parseFloat(args.find(arg => arg.startsWith('--multiplier='))?.split('=')[1!] || '1.5');
+      const multiplierDuration = args.find(arg => arg.startsWith('--duration='))?.split('=')[1!];
+      const multiplierDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'XP Multiplier';
 
       output = manager.addXPMultiplier(multiplierEntityId, {
         source: multiplierSource as any,
@@ -127,10 +127,10 @@ try {
       break;
 
     case 'add-global-multiplier':
-      const globalMultiplierSource = args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'combat';
-      const globalMultiplierValue = parseFloat(args.find(arg => arg.startsWith('--multiplier='))?.split('=')[1] || '1.2');
-      const globalMultiplierDuration = args.find(arg => arg.startsWith('--duration='))?.split('=')[1];
-      const globalMultiplierDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'Global XP Multiplier';
+      const globalMultiplierSource = args.find(arg => arg.startsWith('--source='))?.split('=')[1!] || 'combat';
+      const globalMultiplierValue = parseFloat(args.find(arg => arg.startsWith('--multiplier='))?.split('=')[1!] || '1.2');
+      const globalMultiplierDuration = args.find(arg => arg.startsWith('--duration='))?.split('=')[1!];
+      const globalMultiplierDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'Global XP Multiplier';
 
       output = manager.addGlobalXPMultiplier({
         source: globalMultiplierSource as any,
@@ -141,11 +141,11 @@ try {
       break;
 
     case 'create-challenge':
-      const challengeId = args.find(arg => arg.startsWith('--challenge-id='))?.split('=')[1] || 'challenge_001';
-      const challengeName = args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New Challenge';
-      const challengeDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'A new XP challenge';
-      const challengeReward = parseInt(args.find(arg => arg.startsWith('--xp-reward='))?.split('=')[1] || '100');
-      const challengeCurrency = args.find(arg => arg.startsWith('--currency='))?.split('=')[1] || 'combat';
+      const challengeId = args.find(arg => arg.startsWith('--challenge-id='))?.split('=')[1!] || 'challenge_001';
+      const challengeName = args.find(arg => arg.startsWith('--name='))?.split('=')[1!] || 'New Challenge';
+      const challengeDescription = args.find(arg => arg.startsWith('--description='))?.split('=')[1!] || 'A new XP challenge';
+      const challengeReward = parseInt(args.find(arg => arg.startsWith('--xp-reward='))?.split('=')[1!] || '100');
+      const challengeCurrency = args.find(arg => arg.startsWith('--currency='))?.split('=')[1!] || 'combat';
 
       output = manager.createChallenge({
         id: challengeId,
@@ -159,8 +159,8 @@ try {
       break;
 
     case 'complete-challenge':
-      const completeEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
-      const completeChallengeId = args.find(arg => arg.startsWith('--challenge-id='))?.split('=')[1] || 'challenge_001';
+      const completeEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
+      const completeChallengeId = args.find(arg => arg.startsWith('--challenge-id='))?.split('=')[1!] || 'challenge_001';
 
       output = manager.completeChallenge(completeEntityId, completeChallengeId);
       break;
@@ -170,12 +170,12 @@ try {
       break;
 
     case 'currency-breakdown':
-      const currencyEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
+      const currencyEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
       output = manager.getXPCurrencyBreakdown(currencyEntityId);
       break;
 
     case 'active-challenges':
-      const challengesEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1] || 'entity_001';
+      const challengesEntityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';
       output = manager.getActiveChallenges(challengesEntityId);
       break;
 
@@ -199,7 +199,7 @@ try {
         }
       ];
 
-      const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel));
+      const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, entity.curveId, entity.initialLevel));
 
       // Add XP to some entities with different currencies
       manager.addXP('warrior', 500, 'combat');
@@ -296,7 +296,7 @@ try {
 
       const scenarioResults = sampleScenarios.map((scenario: any) => {
         const entityResults = scenario.entities.map((entity: any) => 
-          manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel)
+          manager.createEntity(entity.id, entity.curveId, entity.initialLevel)
         );
         
         // Add XP and skills to entities

@@ -546,13 +546,13 @@ export class HUDManager {
     let startY = 0;
 
     document.addEventListener('touchstart', (event: any) => {
-      const touch = event.touches[0];
+      const touch = event.touches[0!];
       startX = touch.clientX;
       startY = touch.clientY;
     });
 
     document.addEventListener('touchend', (event: any) => {
-      const touch = event.changedTouches[0];
+      const touch = event.changedTouches[0!];
       const deltaX = touch.clientX - startX;
       const deltaY = touch.clientY - startY;
 

@@ -5,16 +5,16 @@ import { InventoryManager } from './InventoryPure';
 
 function main() {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0!] || 'help';
   const manager = new InventoryManager();
   let result: any = { op: command, status: 'ok', result: null };
 
   try {
     switch (command) {
       case 'createInventory':
-        const entityId = args[1];
-        const maxWeight = parseInt(args[2]) || 100;
-        const maxSlots = parseInt(args[3]) || 20;
+        const entityId = args[1!];
+        const maxWeight = parseInt(args[2!]) || 100;
+        const maxSlots = parseInt(args[3!]) || 20;
         if (entityId) {
           const inventory = manager.createInventory(entityId, maxWeight, maxSlots);
           result.result = { message: `Inventory created for ${entityId}`, inventory };
@@ -25,7 +25,7 @@ function main() {
         break;
 
       case 'getInventory':
-        const getEntityId = args[1];
+        const getEntityId = args[1!];
         if (getEntityId) {
           const inventory = manager.getInventory(getEntityId);
           result.result = inventory || { error: 'Inventory not found' };
@@ -36,10 +36,10 @@ function main() {
         break;
 
       case 'addItem':
-        const addEntityId = args[1];
-        const addItemId = args[2];
-        const quantity = parseInt(args[3]) || 1;
-        const slot = args[4];
+        const addEntityId = args[1!];
+        const addItemId = args[2!];
+        const quantity = parseInt(args[3!]) || 1;
+        const slot = args[4!];
         if (addEntityId && addItemId) {
           const success = manager.addItem(addEntityId, addItemId, quantity, slot);
           result.result = { success, message: success ? 'Item added' : 'Failed to add item' };
@@ -50,9 +50,9 @@ function main() {
         break;
 
       case 'removeItem':
-        const removeEntityId = args[1];
-        const removeSlot = args[2];
-        const removeQuantity = parseInt(args[3]);
+        const removeEntityId = args[1!];
+        const removeSlot = args[2!];
+        const removeQuantity = parseInt(args[3!]);
         if (removeEntityId && removeSlot) {
           const success = manager.removeItem(removeEntityId, removeSlot, removeQuantity);
           result.result = { success, message: success ? 'Item removed' : 'Failed to remove item' };
@@ -110,4 +110,4 @@ function runDemo(manager: InventoryManager): any {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1!]}`) main();

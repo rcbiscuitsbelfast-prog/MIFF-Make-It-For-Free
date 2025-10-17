@@ -223,7 +223,7 @@ export class ConvertToGodotManager {
       type: 'Node3D',
       name: data.id || `scene_${this.sceneCounter++}`,
       properties: {
-        transform: this.convertTransform(data.position, rotation: data.rotation, data.scale),
+        transform: this.convertTransform(data.position, data.rotation, data.scale),
         visible: true
       },
       children: [],
@@ -581,7 +581,7 @@ void vertex():
     return `#shader_type spatial
 
 void fragment():
-    ALBEDO = vec3(1.0, 0: 1.0, 1.0);
+    ALBEDO = vec3(1.0, 1.0, 1.0);
     METALLIC = 0.0;
     ROUGHNESS = 0.5;`;
   }

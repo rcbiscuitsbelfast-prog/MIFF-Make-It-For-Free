@@ -9,8 +9,8 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const gridPath = process.argv[2] || '';
-  const commandsPath = process.argv[3] || '';
+  const gridPath = process.argv[2!] || '';
+  const commandsPath = process.argv[3!] || '';
   const manager = new PathfindingManager();
 
   // Load grid if provided
@@ -45,4 +45,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

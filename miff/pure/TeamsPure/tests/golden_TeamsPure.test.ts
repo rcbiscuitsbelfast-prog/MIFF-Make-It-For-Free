@@ -96,7 +96,7 @@ class MockSpiritInstance implements ISpiritInstance {
   }
 
   clone(): ISpiritInstance {
-    const cloned = new MockSpiritInstance(this.name, type: this.type, this.level, this.stats);
+    const cloned = new MockSpiritInstance(this.name, this.type, this.level, this.stats);
     // Generate new instanceId for cloned spirit
     cloned.instanceId = `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     cloned.speciesId = this.speciesId;
@@ -131,7 +131,7 @@ class MockSpiritInstance implements ISpiritInstance {
   }
 
   static fromJSON(data: Record<string, any>): MockSpiritInstance {
-    const spirit = new MockSpiritInstance(data.name, type: data.type, data.level, data.stats);
+    const spirit = new MockSpiritInstance(data.name, data.type, data.level, data.stats);
     spirit.instanceId = data.instanceId;
     spirit.speciesId = data.speciesId;
     spirit.statusEffects = data.statusEffects || [];
@@ -201,7 +201,7 @@ describe('TeamsPure Golden Tests', () => {
       expect(result.isValid).toBe(false);
       expect(result.warnings).toHaveLength(0);
       expect(result.errors).toHaveLength(1);
-      expect(result.errors[0]).toBe('Too many members');
+      expect(result.errors[0!]).toBe('Too many members');
     });
 
     test('should create validation result with warnings', () => {
@@ -281,7 +281,7 @@ describe('TeamsPure Golden Tests', () => {
 
       const errors = lockedSlot.validate({});
       expect(errors).toHaveLength(1);
-      expect(errors[0]).toBe('Slot is locked and requires a spirit');
+      expect(errors[0!]).toBe('Slot is locked and requires a spirit');
     });
 
     test('should validate spirit requirements', () => {
@@ -293,7 +293,7 @@ describe('TeamsPure Golden Tests', () => {
       const strongErrors = slot.validate(strongSpirit);
 
       expect(weakErrors).toHaveLength(1);
-      expect(weakErrors[0]).toBe('Spirit does not meet requirement: high_attack');
+      expect(weakErrors[0!]).toBe('Spirit does not meet requirement: high_attack');
       expect(strongErrors).toHaveLength(0);
     });
 
@@ -572,21 +572,21 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should add spirit to team successfully', () => {
       const team = testTeam;
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       const result = team.addSpirit(spirit);
 
       expect(result).toBe(TeamOperationResult.SUCCESS);
       expect(team.spirits).toHaveLength(1);
-      expect(team.spirits[0]).toBe(spirit);
+      expect(team.spirits[0!]).toBe(spirit);
     });
 
     test('should add spirit to reserves when team is full', () => {
       const team = manager.createTeam('Full Team', 2);
 
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
-      const spirit3 = testSpirits[2];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
+      const spirit3 = testSpirits[2!];
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -595,12 +595,12 @@ describe('TeamsPure Golden Tests', () => {
       expect(result).toBe(TeamOperationResult.TEAM_FULL);
       expect(team.spirits).toHaveLength(2);
       expect(team.reserves).toHaveLength(1);
-      expect(team.reserves[0]).toBe(spirit3);
+      expect(team.reserves[0!]).toBe(spirit3);
     });
 
     test('should not add duplicate spirit', () => {
       const team = testTeam;
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       team.addSpirit(spirit);
       const result = team.addSpirit(spirit);
@@ -611,7 +611,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should remove spirit from team', () => {
       const team = testTeam;
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       team.addSpirit(spirit);
       const result = team.removeSpirit(spirit.instanceId);
@@ -622,9 +622,9 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should remove spirit from reserves', () => {
       const team = manager.createTeam('Test', 2);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
-      const spirit3 = testSpirits[2];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
+      const spirit3 = testSpirits[2!];
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -637,8 +637,8 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should swap spirits in team', () => {
       const team = testTeam;
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -646,13 +646,13 @@ describe('TeamsPure Golden Tests', () => {
       const result = team.swapSpirits(0, 1);
 
       expect(result).toBe(TeamOperationResult.SUCCESS);
-      expect(team.spirits[0]).toBe(spirit2);
-      expect(team.spirits[1]).toBe(spirit1);
+      expect(team.spirits[0!]).toBe(spirit2);
+      expect(team.spirits[1!]).toBe(spirit1);
     });
 
     test('should move spirit to reserve', () => {
       const team = testTeam;
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       team.addSpirit(spirit);
       const result = team.moveSpiritToReserve(spirit.instanceId);
@@ -660,14 +660,14 @@ describe('TeamsPure Golden Tests', () => {
       expect(result).toBe(TeamOperationResult.SUCCESS);
       expect(team.spirits).toHaveLength(0);
       expect(team.reserves).toHaveLength(1);
-      expect(team.reserves[0]).toBe(spirit);
+      expect(team.reserves[0!]).toBe(spirit);
     });
 
     test('should move spirit from reserve to team', () => {
       const team = manager.createTeam('Test', 2);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
-      const spirit3 = testSpirits[2];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
+      const spirit3 = testSpirits[2!];
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -694,9 +694,9 @@ describe('TeamsPure Golden Tests', () => {
       const backSpirits = team.getSpiritsByPosition(TeamPosition.BACK);
 
       expect(frontSpirits).toHaveLength(1);
-      expect(frontSpirits[0]).toBe(frontSpirit);
+      expect(frontSpirits[0!]).toBe(frontSpirit);
       expect(backSpirits).toHaveLength(1);
-      expect(backSpirits[0]).toBe(backSpirit);
+      expect(backSpirits[0!]).toBe(backSpirit);
     });
 
     test('should get spirits by type', () => {
@@ -711,15 +711,15 @@ describe('TeamsPure Golden Tests', () => {
       const waterSpirits = team.getSpiritsByType('water');
 
       expect(fireSpirits).toHaveLength(1);
-      expect(fireSpirits[0]).toBe(fireSpirit);
+      expect(fireSpirits[0!]).toBe(fireSpirit);
       expect(waterSpirits).toHaveLength(1);
-      expect(waterSpirits[0]).toBe(waterSpirit);
+      expect(waterSpirits[0!]).toBe(waterSpirit);
     });
 
     test('should calculate total stats', () => {
       const team = testTeam;
-      const spirit1 = testSpirits[0]; // Pikachu: hp:60, attack:55, defense:40, speed:90
-      const spirit2 = testSpirits[1]; // Charizard: hp:78, attack:84, defense:78, speed:100
+      const spirit1 = testSpirits[0!]; // Pikachu: hp:60, attack:55, defense:40, speed:90
+      const spirit2 = testSpirits[1!]; // Charizard: hp:78, attack:84, defense:78, speed:100
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -772,7 +772,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should export and import team', () => {
       const team = testTeam;
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
       team.addSpirit(spirit);
 
       const exportData = team.exportTeam();
@@ -783,12 +783,12 @@ describe('TeamsPure Golden Tests', () => {
       expect(newTeam.description).toBe(team.description);
       expect(newTeam.maxSize).toBe(team.maxSize);
       expect(newTeam.spirits).toHaveLength(1);
-      expect(newTeam.spirits[0].name).toBe(spirit.name);
+      expect(newTeam.spirits[0!].name).toBe(spirit.name);
     });
 
     test('should clone team correctly', () => {
       const original = testTeam;
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
       original.addSpirit(spirit);
 
       const cloned = original.clone();
@@ -796,8 +796,8 @@ describe('TeamsPure Golden Tests', () => {
       expect(cloned.teamId).toBe(original.teamId);
       expect(cloned.name).toBe(original.name);
       expect(cloned.spirits).toHaveLength(1);
-      expect(cloned.spirits[0].name).toBe(spirit.name);
-      expect(cloned.spirits[0].instanceId).not.toBe(spirit.instanceId); // Different instance
+      expect(cloned.spirits[0!].name).toBe(spirit.name);
+      expect(cloned.spirits[0!].instanceId).not.toBe(spirit.instanceId); // Different instance
     });
   });
 
@@ -843,7 +843,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should add spirit to team', () => {
       const team = manager.createTeam('Test', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       const result = manager.addSpiritToTeam(team.teamId, spirit);
       expect(result).toBe(TeamOperationResult.SUCCESS);
@@ -854,7 +854,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should remove spirit from team', () => {
       const team = manager.createTeam('Test', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       manager.addSpiritToTeam(team.teamId, spirit);
       const result = manager.removeSpiritFromTeam(team.teamId, spirit.instanceId);
@@ -866,8 +866,8 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should swap team members', () => {
       const team = manager.createTeam('Test', 6);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
 
       manager.addSpiritToTeam(team.teamId, spirit1);
       manager.addSpiritToTeam(team.teamId, spirit2);
@@ -878,7 +878,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should move spirit to reserve', () => {
       const team = manager.createTeam('Test', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       manager.addSpiritToTeam(team.teamId, spirit);
       const result = manager.moveSpiritToReserve(team.teamId, spirit.instanceId);
@@ -891,9 +891,9 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should move spirit from reserve', () => {
       const team = manager.createTeam('Test', 2);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
-      const spirit3 = testSpirits[2];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
+      const spirit3 = testSpirits[2!];
 
       manager.addSpiritToTeam(team.teamId, spirit1);
       manager.addSpiritToTeam(team.teamId, spirit2);
@@ -910,19 +910,19 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should get active team', () => {
       const team = manager.createTeam('Test', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       manager.addSpiritToTeam(team.teamId, spirit);
       const active = manager.getActiveTeam(team.teamId);
       expect(active).toHaveLength(1);
-      expect(active[0]).toBe(spirit);
+      expect(active[0!]).toBe(spirit);
     });
 
     test('should get reserves', () => {
       const team = manager.createTeam('Test', 2);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
-      const spirit3 = testSpirits[2];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
+      const spirit3 = testSpirits[2!];
 
       manager.addSpiritToTeam(team.teamId, spirit1);
       manager.addSpiritToTeam(team.teamId, spirit2);
@@ -930,7 +930,7 @@ describe('TeamsPure Golden Tests', () => {
 
       const reserves = manager.getReserves(team.teamId);
       expect(reserves).toHaveLength(1);
-      expect(reserves[0]).toBe(spirit3);
+      expect(reserves[0!]).toBe(spirit3);
     });
 
     test('should set max team size', () => {
@@ -950,7 +950,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should get team statistics', () => {
       const team = manager.createTeam('Test', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       manager.addSpiritToTeam(team.teamId, spirit);
       const stats = manager.getTeamStatistics(team.teamId);
@@ -1031,7 +1031,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should calculate team power rating', () => {
       const team = TeamUtils.createBalancedTeam('Test');
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       team.addSpirit(spirit);
       const power = TeamUtils.calculateTeamPowerRating(team);
@@ -1055,7 +1055,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should get team synergy analysis', () => {
       const team = TeamUtils.createBalancedTeam('Test');
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
       team.addSpirit(spirit);
 
       const syncMap = new Map<string, number>();
@@ -1109,8 +1109,8 @@ describe('TeamsPure Golden Tests', () => {
 
       // Test operations
       manager.swapTeamMembers(team.teamId, 0, 1);
-      manager.moveSpiritToReserve(team.teamId, spirits[5].instanceId);
-      manager.moveSpiritFromReserve(team.teamId, spirits[5].instanceId);
+      manager.moveSpiritToReserve(team.teamId, spirits[5!].instanceId);
+      manager.moveSpiritFromReserve(team.teamId, spirits[5!].instanceId);
 
       // Export and import
       const exportData = manager.exportTeam(team.teamId);
@@ -1186,7 +1186,7 @@ describe('TeamsPure Golden Tests', () => {
     test('should handle large team operations', () => {
       const team = manager.createTeam('Large Team', 10);
       // Use custom rules with no diversity requirements for large team test
-      team.rules = TeamRules.create(10, false, false, true, false, 1, 50, [], [], 0: 0.0, 10);
+      team.rules = TeamRules.create(10, false, false, true, false, 1, 50, [], [], 0.0, 10);
 
       // Add 10 spirits
       for (let i = 0; i < 10; i++) {
@@ -1220,7 +1220,7 @@ describe('TeamsPure Golden Tests', () => {
     test('should handle rapid team operations efficiently', () => {
       const team = manager.createTeam('Performance Test', 6);
       // Use custom rules with no diversity requirements for performance test
-      team.rules = TeamRules.create(6, false, false, true, false, 1, 50, [], [], 0: 0.0, 10);
+      team.rules = TeamRules.create(6, false, false, true, false, 1, 50, [], [], 0.0, 10);
       const spirits = Array.from({ length: 100 }, (_, i) =>
         new MockSpiritInstance(`Spirit${i}`, 'normal', 1)
       );
@@ -1234,7 +1234,7 @@ describe('TeamsPure Golden Tests', () => {
 
       // Perform operations
       manager.swapTeamMembers(team.teamId, 0, 1);
-      manager.moveSpiritToReserve(team.teamId, spirits[50].instanceId);
+      manager.moveSpiritToReserve(team.teamId, spirits[50!].instanceId);
       manager.validateTeam(team.teamId);
 
       const endTime = Date.now();
@@ -1322,7 +1322,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should handle single spirit teams', () => {
       const team = manager.createTeam('Single Team', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       team.addSpirit(spirit);
 
@@ -1347,9 +1347,9 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should handle team size limits', () => {
       const team = manager.createTeam('Size Test', 2);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
-      const spirit3 = testSpirits[2];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
+      const spirit3 = testSpirits[2!];
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -1378,8 +1378,8 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should handle sync map calculations', () => {
       const team = manager.createTeam('Sync Test', 6);
-      const spirit1 = testSpirits[0];
-      const spirit2 = testSpirits[1];
+      const spirit1 = testSpirits[0!];
+      const spirit2 = testSpirits[1!];
 
       team.addSpirit(spirit1);
       team.addSpirit(spirit2);
@@ -1398,7 +1398,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should handle missing sync data gracefully', () => {
       const team = manager.createTeam('Missing Sync', 6);
-      const spirit = testSpirits[0];
+      const spirit = testSpirits[0!];
 
       team.addSpirit(spirit);
 

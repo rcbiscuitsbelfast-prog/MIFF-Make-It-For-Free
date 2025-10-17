@@ -281,7 +281,7 @@ class SocialDeductionCli {
   }
 
   private handleSimulate(args: string[]): void {
-    const rounds = parseInt(args[0]) || 5;
+    const rounds = parseInt(args[0!]) || 5;
     console.log(`🧪 Running simulation for ${rounds} rounds...`);
 
     for (let i = 0; i < rounds; i++) {
@@ -313,7 +313,7 @@ class SocialDeductionCli {
       // Random ability usage
       players.forEach((player, playerId) => {
         if (player.specialAbilities.length > 0) {
-          const ability = player.specialAbilities[0];
+          const ability = player.specialAbilities[0!];
           const targetId = playerIds[Math.floor(Math.random() * playerIds.length)];
           this.manager.useAbility(playerId, ability, targetId);
         }
@@ -328,7 +328,7 @@ class SocialDeductionCli {
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
-    const operations = parseInt(args[0]) || 1000;
+    const operations = parseInt(args[0!]) || 1000;
     console.log(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
@@ -436,7 +436,7 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1!]}`) {
   main().catch(console.error);
 }
 

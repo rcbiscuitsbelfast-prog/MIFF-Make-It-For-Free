@@ -4,7 +4,7 @@ type Cmd = { op: 'dumpTypes' } | { op: 'list' } | { op: 'dump' };
 
 function main(){
   const mgr = new SharedSchemaManager();
-  const cmdArg = process.argv[2] || 'dumpTypes';
+  const cmdArg = process.argv[2!] || 'dumpTypes';
   const cmd:Cmd = cmdArg==='dumpTypes' ? {op:'dumpTypes'} : cmdArg==='list' ? {op:'list'} : {op:'dump'};
   const outputs:any[]=[];
   if(cmd.op==='dumpTypes') outputs.push(mgr.dumpTypes());
@@ -12,4 +12,4 @@ function main(){
   else if(cmd.op==='dump') outputs.push({op:'dump', status:'ok', issues:[], resolvedRefs:{}, version:mgr.version()});
   console.log(JSON.stringify({outputs},null,2));
 }
-if(import.meta.url === `file://${process.argv[1]}`) main();
+if(import.meta.url === `file://${process.argv[1!]}`) main();

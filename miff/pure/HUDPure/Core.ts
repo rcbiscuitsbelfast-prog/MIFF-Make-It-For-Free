@@ -172,7 +172,7 @@ export class TurnHUDState {
   }
 
   clone(): TurnHUDState {
-    return new TurnHUDState(this.phaseName, activeSpiritId: this.activeSpiritId, this.actionPreview, turnNumber: this.turnNumber, this.roundNumber);
+    return new TurnHUDState(this.phaseName, this.activeSpiritId, this.actionPreview, this.turnNumber, this.roundNumber);
   }
 
   validate(): string[] {
@@ -322,7 +322,7 @@ export class CLIHUDRenderer {
   }
 
   renderSpirit(s: SpiritHUDState): string {
-    const bar = this.renderHealthBar(s.currentHP, maxHP: s.maxHP, 20);
+    const bar = this.renderHealthBar(s.currentHP, s.maxHP, 20);
     const status = s.statusEffects.length ? s.statusEffects.join(',') : '-';
     return `${s.name} (${s.spiritId})\nHP ${s.currentHP}/${s.maxHP}\nstatus[${status}]\n${bar}`;
   }
@@ -421,8 +421,8 @@ export const HUDPureUtils = {
     opponentSpirits: Array<{ spiritId: string; name: string; currentHP: number; maxHP: number; statusEffects?: string[]; level?: number; element?: string }>,
     turnState: { phaseName: string; activeSpiritId?: string }
   ): BattleHUDModel {
-    const p = playerSpirits.map((s: any) => new SpiritHUDState(s.spiritId, name: s.name, s.currentHP, maxHP: s.maxHP, s.statusEffects || [], level: s.level, s.element));
-    const o = opponentSpirits.map((s: any) => new SpiritHUDState(s.spiritId, name: s.name, s.currentHP, maxHP: s.maxHP, s.statusEffects || [], level: s.level, s.element));
+    const p = playerSpirits.map((s: any) => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects || [], s.level, s.element));
+    const o = opponentSpirits.map((s: any) => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects || [], s.level, s.element));
     const t = new TurnHUDState(turnState.phaseName, turnState.activeSpiritId);
     return new BattleHUDModel(p, o, t);
   },
@@ -434,7 +434,7 @@ export const HUDPureUtils = {
     maxHP: number,
     opts: { statusEffects?: string[]; level?: number; element?: string }
   ): SpiritHUDState {
-    return new SpiritHUDState(spiritId, name, currentHP, maxHP, opts.statusEffects || [], level: opts.level, opts.element);
+    return new SpiritHUDState(spiritId, name, currentHP, maxHP, opts.statusEffects || [], opts.level, opts.element);
   },
 
   calculateHealthStats(model: BattleHUDModel): { playerTotal: number; opponentTotal: number; playerAverage: number; opponentAverage: number } {

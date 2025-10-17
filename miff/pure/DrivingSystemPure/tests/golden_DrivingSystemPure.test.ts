@@ -876,7 +876,7 @@ describe('DrivingSystemPure Golden Tests', () => {
 
       expect(circuitTracks.length).toBeGreaterThan(0);
 
-      const track = circuitTracks[0];
+      const track = circuitTracks[0!];
       expect(track.lapCount).toBeGreaterThan(1);
       expect(track.direction).toBeDefined();
       expect(track.allowedVehicles).toBeDefined();

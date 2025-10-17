@@ -951,7 +951,7 @@ export class SpeechRecognitionPure {
       if (word.text.endsWith('.') || word.text.endsWith('!') || word.text.endsWith('?')) {
         sentences.push({
           text: currentSentence.map((w: any) => w.text).join(' '),
-          startTime: currentSentence[0].startTime,
+          startTime: currentSentence[0!].startTime,
           endTime: currentSentence[currentSentence.length - 1].endTime,
           confidence: currentSentence.reduce((sum, w) => sum + w.confidence, 0) / currentSentence.length,
           words: [...currentSentence]
