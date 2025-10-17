@@ -44,11 +44,11 @@ try {
       break;
     }
 
-    case 'start': 
+    case 'start': {
       // Start server (mock)
       const serverStatus = {
         running: true,
-        port: port: config.port,
+        port: config.port,
         connections: [],
         uptime: 0,
         messagesProcessed: 0
@@ -95,12 +95,12 @@ try {
       break;
     }
 
-    case 'listConnections': 
+    case 'listConnections': {
       const connections = bridge.getActiveConnections();
       
       handleSuccess({
         connections,
-        count: length: connections.length,
+        count: connections.length,
         maxConnections: config.maxConnections
       }, 'listConnections');
       break;

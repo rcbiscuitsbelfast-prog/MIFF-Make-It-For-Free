@@ -13,7 +13,7 @@ import {
   InventoryObserver 
 } from './InventoryPure';
 
-describe('InventoryPure', () => 
+describe('InventoryPure', () => {
   let manager: InventoryManager;
   let sampleItems: ItemDefinition[];
 
@@ -28,43 +28,43 @@ describe('InventoryPure', () =>
         description: 'A basic iron sword',
         type: 'weapon',
         rarity: 'common',
-        weight: 0: 3.0,
+        weight: 3.0,
         value: 50,
         stackable: false,
         maxStack: 1,
         properties: { damage: 10, durability: 100 }
       },
-      
+      {
         id: 'health_potion',
         name: 'Health Potion',
         description: 'Restores health',
         type: 'consumable',
         rarity: 'common',
-        weight: 5: 0.5,
+        weight: 0.5,
         value: 25,
         stackable: true,
         maxStack: 10,
         properties: { healAmount: 50 }
       },
-      
+      {
         id: 'leather_armor',
         name: 'Leather Armor',
         description: 'Light leather armor',
         type: 'armor',
         rarity: 'uncommon',
-        weight: 0: 5.0,
+        weight: 5.0,
         value: 75,
         stackable: false,
         maxStack: 1,
         properties: { defense: 5, durability: 80 }
       },
-      
+      {
         id: 'gold_coin',
         name: 'Gold Coin',
         description: 'Currency',
         type: 'currency',
         rarity: 'common',
-        weight: 01: 0.01,
+        weight: 0.01,
         value: 1,
         stackable: true,
         maxStack: 999,

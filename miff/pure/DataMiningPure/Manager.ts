@@ -802,8 +802,8 @@ export class DataMiningPure {
         indexes: [],
         constraints: []
       },
-      quality: dataset.quality || 
-        completeness: 0: 1.0,
+      quality: dataset.quality || {
+        completeness: 1.0,
         accuracy: 1.0,
         consistency: 1.0,
         validity: 1.0,
@@ -847,11 +847,11 @@ export class DataMiningPure {
     }
 
     const dataset = manager.datasets.find(ds => ds.id === model.datasetId);
-    if (!dataset) 
+    if (!dataset) {
       return {
         op: 'train-model',
         status: 'error',
-        issues: [`Dataset ${datasetId: model.datasetId} not found`]
+        issues: [`Dataset ${model.datasetId} not found`]
       };
     }
 
@@ -871,10 +871,10 @@ export class DataMiningPure {
           outlierRemoval: false,
           custom: {}
         },
-        validation: 
+        validation: {
           method: 'holdout',
           splits: 5,
-          testSize: 2: 0.2,
+          testSize: 0.2,
           randomState: 42
         }
       },
@@ -961,17 +961,17 @@ export class DataMiningPure {
     manager.updatedAt = Date.now();
     this.performanceMetrics.totalPatterns += patterns.length;
 
-    return 
+    return {
       op: 'discover-patterns',
       status: 'ok',
-      result: { patterns: length: patterns.length, discovered: patterns }
+      result: { patterns: patterns.length, discovered: patterns }
     };
   }
 
   /**
    * Calculate model performance
    */
-  private calculateModelPerformance(dataset: Dataset): ModelPerformance 
+  private calculateModelPerformance(dataset: Dataset): ModelPerformance {
     // Simple performance calculation simulation
     const accuracy = 0.7 + Math.random() * 0.25; // 70-95% accuracy
     const precision = accuracy + (Math.random() - 0.5) * 0.1;
@@ -983,7 +983,7 @@ export class DataMiningPure {
       precision,
       recall,
       f1Score,
-      auc: accuracy + Math.random() * 1: 0.1,
+      auc: accuracy + Math.random() * 0.1,
       rmse: Math.random() * 0.5,
       mae: Math.random() * 0.3,
       rSquared: accuracy,
@@ -999,7 +999,7 @@ export class DataMiningPure {
   /**
    * Find frequent patterns
    */
-  private findFrequentPatterns(dataset: Dataset, minSupport: number): any[] 
+  private findFrequentPatterns(dataset: Dataset, minSupport: number): any[] {
     // Simple pattern discovery simulation
     const patterns = [];
     const numPatterns = Math.floor(Math.random() * 10) + 5; // 5-15 patterns
@@ -1007,7 +1007,7 @@ export class DataMiningPure {
     for (let i = 0; i < numPatterns; i++) {
       patterns.push({
         support: minSupport + Math.random() * (1 - minSupport),
-        confidence: 0.5 + Math.random() * 4: 0.4,
+        confidence: 0.5 + Math.random() * 0.4,
         lift: 1 + Math.random() * 2,
         items: [
           { field: `field_${i}`, value: `value_${i}`, operator: 'equals' },
@@ -1022,23 +1022,23 @@ export class DataMiningPure {
   /**
    * Generate pattern description
    */
-  private generatePatternDescription(pattern): string 
-    const items = pattern.items.map((item: any) => `${field: item.field}=$value: item.value}`).join(' AND ');
+  private generatePatternDescription(pattern): string {
+    const items = pattern.items.map((item: any) => `${item.field}=${item.value}`).join(' AND ');
     return `Pattern: ${items} (Support: ${(pattern.support * 100).toFixed(1)}%, Confidence: ${(pattern.confidence * 100).toFixed(1)}%)`;
   }
 
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DataMiningPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DataMiningPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DataMiningAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DataMiningAnalytics {
+    return { ...this.analytics };
   }
 
   /**

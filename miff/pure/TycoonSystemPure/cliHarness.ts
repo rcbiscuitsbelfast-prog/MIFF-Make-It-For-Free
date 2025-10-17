@@ -46,7 +46,7 @@ interface BusinessState {
 // CLI HARNESS IMPLEMENTATION
 // ============================================================================
 
-export class TycoonSystemCLI 
+export class TycoonSystemCLI {
   private tycoonSystem: TycoonSystemPure;
   private tycoonManager: TycoonManagerPure;
   private eventBus: EventBus;
@@ -65,7 +65,7 @@ export class TycoonSystemCLI
   constructor(options: CLIOptions) {
     this.options = options;
     this.eventBus = new EventBus();
-    this.tycoonSystem = new TycoonSystemPure(eventBus: this.eventBus, {
+    this.tycoonSystem = new TycoonSystemPure(this.eventBus, {
       initialCapital: options.initialCapital || 100000,
       enableMarketFluctuations: true,
       enableCompetition: true,
@@ -114,7 +114,7 @@ export class TycoonSystemCLI
       this.businessState.capital += data.amount;
 
       if (this.options.verbose) {
-        this.log(`💰 Revenue: +${data.amount.toFixed(2)} from $source: data.source}`);
+        this.log(`💰 Revenue: +${data.amount.toFixed(2)} from ${data.source}`);
       }
     });
 
@@ -122,31 +122,31 @@ export class TycoonSystemCLI
       this.businessState.capital -= data.amount;
 
       if (this.options.verbose) {
-        this.log(`💸 Expense: -${data.amount.toFixed(2)} for $category: data.category}`);
+        this.log(`💸 Expense: -${data.amount.toFixed(2)} for ${data.category}`);
       }
     });
 
-    this.eventBus.on('tycoon:facility_constructed', (data) => 
+    this.eventBus.on('tycoon:facility_constructed', (data) => {
       this.businessState.facilities[data.facility.id] = data.facility;
 
       if (this.options.verbose) {
-        this.log(`🏭 Constructed: ${  name: facility.name} ($data.type: facility.type})`);
+        this.log(`🏭 Constructed: ${data.facility.name} (${data.facility.type})`);
       }
     });
 
-    this.eventBus.on('tycoon:staff_hired', (data) => 
+    this.eventBus.on('tycoon:staff_hired', (data) => {
       this.businessState.staff[data.staff.id] = data.staff;
 
       if (this.options.verbose) {
-        this.log(`👥 Hired: ${  name: staff.name} ($data.role: staff.role})`);
+        this.log(`👥 Hired: ${data.staff.name} (${data.staff.role})`);
       }
     });
 
-    this.eventBus.on('tycoon:market_change', (data) => 
+    this.eventBus.on('tycoon:market_change', (data) => {
       this.businessState.marketCondition = data.new;
 
       if (this.options.verbose) {
-        this.log(`📈 Market changed: ${old: data.old} → $new: data.new}`);
+        this.log(`📈 Market changed: ${data.old} → ${data.new}`);
       }
     });
   }
@@ -160,9 +160,9 @@ export class TycoonSystemCLI
     }
   }
 
-  private setupReadline(): void 
+  private setupReadline(): void {
     const rl = this.readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'Tycoon> '
     });
@@ -277,9 +277,9 @@ export class TycoonSystemCLI
 
     this.log('\n=== BUSINESS STATUS ===');
     this.log(`💰 Capital: $${capital.toFixed(2)}`);
-    this.log(`📈 Market Condition: $condition: marketData.condition}`);
-    this.log(`🏭 Facilities: $size: facilities.size}`);
-    this.log(`👥 Staff: $size: staff.size}`);
+    this.log(`📈 Market Condition: ${marketData.condition}`);
+    this.log(`🏭 Facilities: ${facilities.size}`);
+    this.log(`👥 Staff: ${staff.size}`);
     this.log(`📊 Customer Satisfaction: ${stats.customerSatisfaction.toFixed(1)}%`);
     this.log(`🏆 Reputation: ${stats.reputation.toFixed(1)}`);
     this.log(`📅 Business Age: ${stats.businessAge.toFixed(1)} days`);
@@ -287,15 +287,15 @@ export class TycoonSystemCLI
     this.log('\n🏭 FACILITIES:');
     facilities.forEach((facility, id) => {
       const status = facility.operational ? '✅' : '🚧';
-      this.log(`   ${status} $name: facility.name} ($type: facility.type}) - Level $level: facility.level}/$maxLevel: facility.maxLevel}`);
+      this.log(`   ${status} ${facility.name} (${facility.type}) - Level ${facility.level}/${facility.maxLevel}`);
       this.log(`      Efficiency: ${(facility.efficiency * 100).toFixed(1)}%`);
-      this.log(`      Staff: ${this.getStaffCount(id)}/$staffSlots: facility.staffSlots}`);
+      this.log(`      Staff: ${this.getStaffCount(id)}/${facility.staffSlots}`);
     });
 
     this.log('\n👥 STAFF:');
-    staff.forEach((employee, id) => 
-      this.log(`   👤 ${name: employee.name} ($role: employee.role}) - Efficiency: ${(employee.efficiency * 100).toFixed(1)}%`);
-      this.log(`      Salary: $$salary: employee.salary}/hr, Morale: ${employee.morale.toFixed(1)}`);
+    staff.forEach((employee, id) => {
+      this.log(`   👤 ${employee.name} (${employee.role}) - Efficiency: ${(employee.efficiency * 100).toFixed(1)}%`);
+      this.log(`      Salary: $${employee.salary}/hr, Morale: ${employee.morale.toFixed(1)}`);
     });
 
     this.log('');
@@ -325,8 +325,8 @@ export class TycoonSystemCLI
 
     const success = this.tycoonSystem.constructFacility(facilityId);
 
-    if (success) 
-      this.log(`✅ Started construction: ${name: facility.name}`);
+    if (success) {
+      this.log(`✅ Started construction: ${facility.name}`);
       this.log(`   Cost: $${facility.constructionCost.toFixed(2)}`);
       this.log(`   Time: ${facility.constructionTime / 3600} hours`);
     } else {
@@ -419,12 +419,12 @@ export class TycoonSystemCLI
     }
   }
 
-  private showMarket(): void 
+  private showMarket(): void {
     const marketData = this.tycoonSystem.getMarketData();
     const stats = this.tycoonSystem.getBusinessStats();
 
     this.log('\n=== MARKET ANALYSIS ===');
-    this.log(`📈 Condition: ${condition: marketData.condition}`);
+    this.log(`📈 Condition: ${marketData.condition}`);
     this.log(`🏢 Competition Level: ${(marketData.competitionLevel * 100).toFixed(1)}%`);
     this.log(`👥 Customer Demand: ${(marketData.customerDemand * 100).toFixed(1)}%`);
     this.log(`💰 Market Share: ${(stats.marketShare * 100).toFixed(1)}%`);
@@ -446,7 +446,7 @@ export class TycoonSystemCLI
 
     this.log(`   💰 Business Valuation: $${valuation.toFixed(2)}`);
     this.log(`   💵 30-Day Cash Flow: $${cashFlow.netCashFlow.toFixed(2)}`);
-    this.log(`   📈 Market Trends: $length: marketTrends.length} opportunities identified`);
+    this.log(`   📈 Market Trends: ${marketTrends.length} opportunities identified`);
     this.log(`   🏆 Competitive Score: ${competitiveAdvantage.score.toFixed(1)}/10`);
 
     // Auto-optimize
@@ -455,7 +455,7 @@ export class TycoonSystemCLI
     this.log('✅ Management complete');
   }
 
-  private optimizeBusiness(): void 
+  private optimizeBusiness(): void {
     this.log('🔧 Optimizing business operations...');
 
     // Get recommendations
@@ -463,18 +463,18 @@ export class TycoonSystemCLI
     const hiringPriorities = this.tycoonManager.getHiringPriority();
     const investmentOpportunities = this.tycoonManager.getInvestmentOpportunities();
 
-    this.log(`   📋 Facility upgrades needed: ${length: facilityPriorities.length}`);
-    this.log(`   👥 Staff hiring needed: $hiringPriorities.reduce((sum, p) => sum + count: p.count, 0)}`);
-    this.log(`   💼 Investment opportunities: $length: investmentOpportunities.length}`);
+    this.log(`   📋 Facility upgrades needed: ${facilityPriorities.length}`);
+    this.log(`   👥 Staff hiring needed: ${hiringPriorities.reduce((sum, p) => sum + p.count, 0)}`);
+    this.log(`   💼 Investment opportunities: ${investmentOpportunities.length}`);
 
     // Apply optimizations
     if (facilityPriorities.length > 0) {
       this.tycoonSystem.upgradeFacility(facilityPriorities[0]);
     }
 
-    if (hiringPriorities.length > 0) 
+    if (hiringPriorities.length > 0) {
       const priority = hiringPriorities[0];
-      this.tycoonSystem.hireStaff(facilityId: priority.facilityId, role: priority.role, 25);
+      this.tycoonSystem.hireStaff(priority.facilityId, role: priority.role, 25);
     }
   }
 
@@ -532,11 +532,11 @@ export class TycoonSystemCLI
     this.log(`💰 Capital: $${stats.capital.toFixed(2)}`);
     this.log(`🏢 Business Valuation: $${valuation.toFixed(2)}`);
     this.log(`📈 Market Share: ${(stats.marketShare * 100).toFixed(1)}%`);
-    this.log(`🏭 Facilities: $facilities: stats.facilities}`);
-    this.log(`👥 Staff: $staff: stats.staff}`);
+    this.log(`🏭 Facilities: ${stats.facilities}`);
+    this.log(`👥 Staff: ${stats.staff}`);
     this.log(`📅 Business Age: ${stats.businessAge.toFixed(1)} days`);
     this.log(`🏆 Reputation: ${stats.reputation.toFixed(1)}`);
-    this.log(`⚠️  Risk Level: $riskLevel: stats.riskLevel}`);
+    this.log(`⚠️  Risk Level: ${stats.riskLevel}`);
     this.log(`💵 30-Day Cash Flow: $${cashFlow.netCashFlow.toFixed(2)}`);
     this.log(`📊 Analytics: ${stats.analyticsEnabled ? 'Enabled' : 'Disabled'}`);
     this.log(`🔧 Optimization: ${stats.optimizationEnabled ? 'Enabled' : 'Disabled'}`);
@@ -587,9 +587,9 @@ export class TycoonSystemCLI
     this.log('🔄 Business reset');
   }
 
-  private exportData(filename?: string): void 
+  private exportData(filename?: string): void {
     const data = {
-      businessState: businessState: this.businessState,
+      businessState: this.businessState,
       stats: this.tycoonManager.getStats(),
       facilities: Array.from(this.tycoonSystem.getFacilities().entries()),
       staff: Array.from(this.tycoonSystem.getStaff().entries()),
@@ -682,8 +682,8 @@ export class TycoonSystemCLI
     } else if (this.options.mode === 'manage') {
       this.log('🤖 Management mode - running optimization loop...');
       this.startAutoMode();
-    } else 
-      this.log(`❌ Unsupported mode: ${  mode: options.mode}`);
+    } else {
+      this.log(`❌ Unsupported mode: ${this.options.mode}`);
       this.shutdown();
     }
   }

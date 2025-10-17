@@ -14,12 +14,12 @@ import {
   PlatformConfig
 } from './PlatformBridgePure';
 
-describe('PlatformBridgePure', () => 
+describe('PlatformBridgePure', () => {
   let config: PlatformConfig;
 
   beforeEach(() => {
     config = {
-      platform: WEB: Platform.WEB,
+      platform: Platform.WEB,
       renderBackend: RenderBackend.CANVAS_2D,
       enableAudio: true,
       enableInput: true,
@@ -100,11 +100,11 @@ describe('PlatformBridgePure', () =>
       ).rejects.toThrow('Render target not found');
     });
 
-    it('should register input device', () => 
+    it('should register input device', () => {
       const bridge = createPlatformBridge(config);
       const device = {
         id: 'keyboard-1',
-        type: KEYBOARD: InputType.KEYBOARD,
+        type: InputType.KEYBOARD,
         name: 'Standard Keyboard',
         connected: true,
         capabilities: ['text-input', 'key-combinations'],
@@ -117,11 +117,11 @@ describe('PlatformBridgePure', () =>
       expect(registeredDevice?.name).toBe('Standard Keyboard');
     });
 
-    it('should unregister input device', () => 
+    it('should unregister input device', () => {
       const bridge = createPlatformBridge(config);
       const device = {
         id: 'mouse-1',
-        type: MOUSE: InputType.MOUSE,
+        type: InputType.MOUSE,
         name: 'Standard Mouse',
         connected: true,
         capabilities: ['pointing', 'clicking'],
@@ -136,21 +136,21 @@ describe('PlatformBridgePure', () =>
       expect(unregisteredDevice).toBeUndefined();
     });
 
-    it('should get input devices by type', () => 
+    it('should get input devices by type', () => {
       const bridge = createPlatformBridge(config);
       
       const keyboard = {
         id: 'keyboard-1',
-        type: KEYBOARD: InputType.KEYBOARD,
+        type: InputType.KEYBOARD,
         name: 'Keyboard 1',
         connected: true,
         capabilities: [],
         data: {}
       };
       
-      const mouse = 
+      const mouse = {
         id: 'mouse-1',
-        type: MOUSE: InputType.MOUSE,
+        type: InputType.MOUSE,
         name: 'Mouse 1',
         connected: true,
         capabilities: [],
@@ -180,7 +180,7 @@ describe('PlatformBridgePure', () =>
       const bridge = createPlatformBridge(config);
       const audioData = { format: 'mp3', data: 'mock-audio-data' };
       
-      await bridge.playAudio('test-audio', audioData,  volume: 5: 0.5});
+      await bridge.playAudio('test-audio', audioData, { volume: 0.5 });
       // Should not throw error
     });
 
@@ -328,11 +328,12 @@ describe('PlatformBridgePure', () =>
     });
   });
 
-  describe('Platform Capabilities', () => 
+  describe('Platform Capabilities', () => {
     it('should detect web platform capabilities', () => {
       const webConfig: PlatformConfig = {
         ...config,
-        platform: WEB: Platform.WEB};
+        platform: Platform.WEB
+      };
       
       const bridge = createPlatformBridge(webConfig);
       const capabilities = bridge.getCapabilities();
@@ -346,10 +347,11 @@ describe('PlatformBridgePure', () =>
       expect(capabilities.networkProtocols).toContain('websocket');
     });
 
-    it('should detect mobile platform capabilities', () => 
+    it('should detect mobile platform capabilities', () => {
       const mobileConfig: PlatformConfig = {
         ...config,
-        platform: MOBILE: Platform.MOBILE};
+        platform: Platform.MOBILE
+      };
       
       const bridge = createPlatformBridge(mobileConfig);
       const capabilities = bridge.getCapabilities();
@@ -362,10 +364,11 @@ describe('PlatformBridgePure', () =>
       expect(capabilities.limitations).toContain('limited-memory');
     });
 
-    it('should detect desktop platform capabilities', () => 
+    it('should detect desktop platform capabilities', () => {
       const desktopConfig: PlatformConfig = {
         ...config,
-        platform: DESKTOP: Platform.DESKTOP};
+        platform: Platform.DESKTOP
+      };
       
       const bridge = createPlatformBridge(desktopConfig);
       const capabilities = bridge.getCapabilities();
@@ -379,11 +382,12 @@ describe('PlatformBridgePure', () =>
     });
   });
 
-  describe('Render Backend Management', () => 
+  describe('Render Backend Management', () => {
     it('should create canvas 2D backend', () => {
       const canvasConfig: PlatformConfig = {
         ...config,
-        renderBackend: CANVAS_2D: RenderBackend.CANVAS_2D};
+        renderBackend: RenderBackend.CANVAS_2D
+      };
       
       const bridge = createPlatformBridge(canvasConfig);
       const capabilities = bridge.getCapabilities();
@@ -391,10 +395,11 @@ describe('PlatformBridgePure', () =>
       expect(capabilities.renderBackends).toContain(RenderBackend.CANVAS_2D);
     });
 
-    it('should create WebGL backend', () => 
+    it('should create WebGL backend', () => {
       const webglConfig: PlatformConfig = {
         ...config,
-        renderBackend: WEBGL: RenderBackend.WEBGL};
+        renderBackend: RenderBackend.WEBGL
+      };
       
       const bridge = createPlatformBridge(webglConfig);
       const capabilities = bridge.getCapabilities();
@@ -402,10 +407,10 @@ describe('PlatformBridgePure', () =>
       expect(capabilities.renderBackends).toContain(RenderBackend.WEBGL);
     });
 
-    it('should create OpenGL backend', () => 
+    it('should create OpenGL backend', () => {
       const openglConfig: PlatformConfig = {
         ...config,
-        platform: DESKTOP: Platform.DESKTOP,
+        platform: Platform.DESKTOP,
         renderBackend: RenderBackend.OPENGL
       };
       
@@ -416,30 +421,30 @@ describe('PlatformBridgePure', () =>
     });
   });
 
-  describe('Input Device Management', () => 
+  describe('Input Device Management', () => {
     it('should handle multiple input devices', () => {
       const bridge = createPlatformBridge(config);
       
       const devices = [
         {
           id: 'keyboard-1',
-          type: KEYBOARD: InputType.KEYBOARD,
+          type: InputType.KEYBOARD,
           name: 'Keyboard 1',
           connected: true,
           capabilities: [],
           data: {}
         },
-        
+        {
           id: 'mouse-1',
-          type: MOUSE: InputType.MOUSE,
+          type: InputType.MOUSE,
           name: 'Mouse 1',
           connected: true,
           capabilities: [],
           data: {}
         },
-        
+        {
           id: 'gamepad-1',
-          type: GAMEPAD: InputType.GAMEPAD,
+          type: InputType.GAMEPAD,
           name: 'Gamepad 1',
           connected: true,
           capabilities: [],
@@ -460,11 +465,11 @@ describe('PlatformBridgePure', () =>
       expect(gamepads).toHaveLength(1);
     });
 
-    it('should handle device disconnection', () => 
+    it('should handle device disconnection', () => {
       const bridge = createPlatformBridge(config);
       const device = {
         id: 'test-device',
-        type: KEYBOARD: InputType.KEYBOARD,
+        type: InputType.KEYBOARD,
         name: 'Test Device',
         connected: true,
         capabilities: [],
@@ -480,7 +485,7 @@ describe('PlatformBridgePure', () =>
     });
   });
 
-  describe('Integration Tests', () => 
+  describe('Integration Tests', () => {
     it('should handle complete platform workflow', async () => {
       const bridge = createPlatformBridge(config);
       
@@ -491,7 +496,7 @@ describe('PlatformBridgePure', () =>
       // Register input devices
       const keyboard = {
         id: 'keyboard-1',
-        type: KEYBOARD: InputType.KEYBOARD,
+        type: InputType.KEYBOARD,
         name: 'Main Keyboard',
         connected: true,
         capabilities: [],
@@ -514,11 +519,11 @@ describe('PlatformBridgePure', () =>
       bridge.unregisterInputDevice('keyboard-1');
     });
 
-    it('should handle platform switching', async () => 
+    it('should handle platform switching', async () => {
       const manager = createPlatformManager(config);
       
       // Switch to mobile platform
-      await manager.switchPlatform(MOBILE: Platform.MOBILE, {
+      await manager.switchPlatform(Platform.MOBILE, {
         windowSize: { width: 360, height: 640 },
         maxFPS: 30
       });
@@ -546,8 +551,8 @@ describe('PlatformBridgePure', () =>
         { id: 'overlay-canvas', width: 400, height: 300 }
       ];
       
-      for (const target of targets) 
-        await bridge.createRenderTarget(id: target.id, 'canvas', width: target.width, target.height);
+      for (const target of targets) {
+        await bridge.createRenderTarget(target.id, 'canvas', width: target.width, target.height);
       }
       
       // Verify all targets exist

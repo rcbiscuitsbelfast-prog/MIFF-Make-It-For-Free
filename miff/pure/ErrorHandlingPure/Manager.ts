@@ -1175,15 +1175,15 @@ export class ErrorHandlingPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): ErrorHandlingPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): ErrorHandlingPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): ErrorHandlingAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): ErrorHandlingAnalytics {
+    return { ...this.analytics };
   }
 
   /**

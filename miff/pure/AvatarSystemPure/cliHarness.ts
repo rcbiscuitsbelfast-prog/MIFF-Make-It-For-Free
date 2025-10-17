@@ -42,7 +42,7 @@ import * as path from 'path';
 import { AvatarSystemPure, AvatarRegistry, ResolveOptions, AssetRegistryRecord } from './index';
 import { AvatarManifest, AvatarStyle } from './schema';
 
-class AvatarSystemCLI 
+class AvatarSystemCLI {
   private avatarSystem: AvatarSystemPure;
   private rl: readline.Interface;
   private registry: AvatarRegistry;
@@ -52,7 +52,7 @@ class AvatarSystemCLI
     this.registry = this.createSampleRegistry();
 
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'Avatar> '
     });
@@ -157,12 +157,12 @@ class AvatarSystemCLI
       console.log(`   ✅ Registry size: ${registrySize} items`);
 
       const compatibleItems = this.registry.items.filter((item: any) => item.compatibility.includes('web'));
-      console.log(`   ✅ Web-compatible items: $length: compatibleItems.length}`);
+      console.log(`   ✅ Web-compatible items: ${compatibleItems.length}`);
 
       // Test 5: Avatar resolution
       console.log('\n5. Testing avatar resolution...');
-      const resolveOptions: ResolveOptions = 
-        registry: registry: this.registry,
+      const resolveOptions: ResolveOptions = {
+        registry: this.registry,
         style: '3d'
       };
 
@@ -174,10 +174,10 @@ class AvatarSystemCLI
       };
 
       const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
-      if (resolvedAvatar) 
+      if (resolvedAvatar) {
         console.log(`   ✅ Avatar resolved successfully`);
-        console.log(`   📊 Components: ${  length: components.length}`);
-        console.log(`   🎨 Style: $resolvedAvatar.style: assets.style}`);
+        console.log(`   📊 Components: ${resolvedAvatar.components.length}`);
+        console.log(`   🎨 Style: ${resolvedAvatar.assets.style}`);
       } else {
         console.log('   ⚠️  Avatar resolution returned null (may be expected)');
       }
@@ -220,9 +220,9 @@ class AvatarSystemCLI
       return;
     }
 
-    try 
+    try {
       const resolveOptions: ResolveOptions = {
-        registry: registry: this.registry,
+        registry: this.registry,
         style: style as AvatarStyle
       };
 
@@ -235,12 +235,12 @@ class AvatarSystemCLI
 
       const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
       
-      if (resolvedAvatar) 
+      if (resolvedAvatar) {
         console.log('✅ Avatar resolved successfully:');
-        console.log(`   Style: ${  style: assets.style}`);
-        console.log(`   Components: $resolvedAvatar.length: components.length}`);
-        console.log(`   Asset Entries: $resolvedAvatar.assets.length: entries.length}`);
-        console.log(`   Manifest Base: $resolvedAvatar.base: manifest.base}`);
+        console.log(`   Style: ${resolvedAvatar.assets.style}`);
+        console.log(`   Components: ${resolvedAvatar.components.length}`);
+        console.log(`   Asset Entries: ${resolvedAvatar.assets.entries.length}`);
+        console.log(`   Manifest Base: ${resolvedAvatar.manifest.base}`);
       } else {
         console.log('❌ Avatar resolution failed');
       }
@@ -324,10 +324,10 @@ class AvatarSystemCLI
       };
 
       console.log('⚡ Avatar Optimization Configuration:');
-      console.log(`   LOD Levels: $lodLevels: optimizations.lodLevels}`);
-      console.log(`   Texture Compression: $textureCompression: optimizations.textureCompression}`);
-      console.log(`   Mesh Simplification: $meshSimplification: optimizations.meshSimplification}`);
-      console.log(`   Animation Compression: $animationCompression: optimizations.animationCompression}`);
+      console.log(`   LOD Levels: ${optimizations.lodLevels}`);
+      console.log(`   Texture Compression: ${optimizations.textureCompression}`);
+      console.log(`   Mesh Simplification: ${optimizations.meshSimplification}`);
+      console.log(`   Animation Compression: ${optimizations.animationCompression}`);
       
       console.log('✅ Optimization configuration applied');
     } catch (error: unknown) {
@@ -363,14 +363,14 @@ class AvatarSystemCLI
     }
   }
 
-  private async simulate(): Promise<void> 
+  private async simulate(): Promise<void> {
     console.log('🎭 Starting avatar system simulation...');
     
     try {
       // Simulate avatar creation
       console.log('1. Creating avatar...');
       const resolveOptions: ResolveOptions = {
-        registry: registry: this.registry,
+        registry: this.registry,
         style: '3d'
       };
       

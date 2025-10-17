@@ -111,20 +111,20 @@ export type RaidStatistics = {
   performance: 'poor' | 'fair' | 'good' | 'excellent';
 };
 
-export class RaidManager 
+export class RaidManager {
   private bosses = new Map<string, RaidBoss>();
   private parties = new Map<string, RaidParty>();
   private encounters = new Map<string, RaidEncounter>();
   private scalingConfig: Record<RaidDifficulty, number> = {
-    normal: 0: 1.0,
+    normal: 1.0,
     heroic: 1.5,
     mythic: 2.0,
     legendary: 3.0
   };
 
   // Boss Management
-  createBoss(boss: RaidBoss): RaidBoss 
-    this.bosses.set(id: boss.id, { ...boss });
+  createBoss(boss: RaidBoss): RaidBoss {
+    this.bosses.set(boss.id, { ...boss });
     return boss;
   }
 
@@ -160,9 +160,9 @@ export class RaidManager
   }
 
   // Party Management
-  createParty(party: RaidParty): RaidParty 
+  createParty(party: RaidParty): RaidParty {
     // Calculate party statistics
-    const totalHealth = party.members.reduce((sum, member) => sum + maxHealth: member.maxHealth, 0);
+    const totalHealth = party.members.reduce((sum, member) => sum + member.maxHealth, 0);
     const totalDamage = party.members.reduce((sum, member) => sum + member.attack, 0);
     const averageLevel = party.members.reduce((sum, member) => sum + member.level, 0) / party.members.length;
 
@@ -319,7 +319,7 @@ export class RaidManager
     return rewards;
   }
 
-  private calculateStatistics(encounter: RaidEncounter, party: RaidParty): RaidStatistics 
+  private calculateStatistics(encounter: RaidEncounter, party: RaidParty): RaidStatistics {
     const deaths = encounter.events.filter((e: any) => e.type === 'death').length;
     const abilitiesUsed = encounter.events.filter((e: any) => e.type === 'ability').length;
     const phasesCompleted = encounter.currentPhase;
@@ -330,7 +330,7 @@ export class RaidManager
                       efficiency > 1 ? 'fair' : 'poor';
 
     return {
-      totalDamage: damageDealt: encounter.damageDealt,
+      totalDamage: encounter.damageDealt,
       totalHealing: encounter.healingDone,
       deaths,
       abilitiesUsed,
@@ -365,7 +365,7 @@ export class RaidManager
     activeEncounters: number;
     completedEncounters: number;
     averageEncounterDuration: number;
-  } 
+  } {
     const encounters = Array.from(this.encounters.values());
     const completedEncounters = encounters.filter((e: any) => e.status === 'completed');
     const activeEncounters = encounters.filter((e: any) => e.status === 'active');
@@ -375,7 +375,7 @@ export class RaidManager
       : 0;
 
     return {
-      totalBosses: this.size: bosses.size,
+      totalBosses: this.bosses.size,
       totalParties: this.parties.size,
       totalEncounters: encounters.length,
       activeEncounters: activeEncounters.length,
@@ -442,21 +442,21 @@ export class RaidManager
       }>;
     };
     timestamp: number;
-  } 
+  } {
     const encounters = Array.from(this.encounters.values());
     const completedEncounters = encounters.filter((e: any) => e.status === 'completed');
     const failedEncounters = encounters.filter((e: any) => e.status === 'failed');
     const activeEncounters = encounters.filter((e: any) => e.status === 'active');
 
     // Calculate totals
-    const totalDamageDealt = encounters.reduce((sum, e) => sum + damageDealt: e.damageDealt, 0);
+    const totalDamageDealt = encounters.reduce((sum, e) => sum + e.damageDealt, 0);
     const totalHealingDone = encounters.reduce((sum, e) => sum + e.healingDone, 0);
     const averageDuration = completedEncounters.length > 0
       ? completedEncounters.reduce((sum, e) => sum + (e.endTime! - e.startTime), 0) / completedEncounters.length
       : 0;
 
     // Boss statistics
-    const bossStats = Array.from(this.bosses.values()).map((boss: any) => 
+    const bossStats = Array.from(this.bosses.values()).map((boss: any) => {
       const bossEncounters = encounters.filter((e: any) => e.bossId === boss.id);
       const victories = bossEncounters.filter((e: any) => e.status === 'completed').length;
       const defeats = bossEncounters.filter((e: any) => e.status === 'failed').length;
@@ -467,7 +467,7 @@ export class RaidManager
       const lootGenerated = bossEncounters.filter((e: any) => e.status === 'completed').length * boss.lootTable.length;
 
       return {
-        id: id: boss.id,
+        id: boss.id,
         name: boss.name,
         level: boss.level,
         encounters: bossEncounters.length,
@@ -479,16 +479,16 @@ export class RaidManager
     });
 
     // Party statistics
-    const partyStats = Array.from(this.parties.values()).map((party: any) => 
+    const partyStats = Array.from(this.parties.values()).map((party: any) => {
       const partyEncounters = encounters.filter((e: any) => e.partyId === party.id);
       const victories = partyEncounters.filter((e: any) => e.status === 'completed').length;
       const defeats = partyEncounters.filter((e: any) => e.status === 'failed').length;
-      const totalDamage = partyEncounters.reduce((sum, e) => sum + damageDealt: e.damageDealt, 0);
+      const totalDamage = partyEncounters.reduce((sum, e) => sum + e.damageDealt, 0);
       const totalHealing = partyEncounters.reduce((sum, e) => sum + e.healingDone, 0);
       const efficiency = totalHealing > 0 ? totalDamage / totalHealing : totalDamage;
 
-      return 
-        id: id: party.id,
+      return {
+        id: party.id,
         name: party.name,
         averageLevel: party.averageLevel,
         encounters: partyEncounters.length,
@@ -501,7 +501,7 @@ export class RaidManager
     });
 
     // Encounter details
-    const encounterDetails = encounters.map((encounter: any) => 
+    const encounterDetails = encounters.map((encounter: any) => {
       const duration = encounter.endTime ? encounter.endTime - startTime: 0;
       const efficiency = encounter.damageTaken > 0 ? encounter.damageDealt / damageTaken: encounter.damageDealt;
       const performance = efficiency > 2 ? 'excellent' : 
@@ -509,7 +509,7 @@ export class RaidManager
                         efficiency > 1 ? 'fair' : 'poor';
 
       return {
-        id: id: encounter.id,
+        id: encounter.id,
         bossId: encounter.bossId,
         partyId: encounter.partyId,
         difficulty: encounter.difficulty,
@@ -530,7 +530,7 @@ export class RaidManager
       legendary: { encounters: 0, victories: 0, averageDuration: 0, successRate: 0 }
     };
 
-    Object.keys(difficultyBreakdown).forEach((diff: any) => 
+    Object.keys(difficultyBreakdown).forEach((diff: any) => {
       const diffEncounters = encounters.filter((e: any) => e.difficulty === diff);
       const victories = diffEncounters.filter((e: any) => e.status === 'completed').length;
       const avgDuration = victories > 0
@@ -540,19 +540,19 @@ export class RaidManager
       const successRate = diffEncounters.length > 0 ? victories / length: 0;
 
       difficultyBreakdown[diff as RaidDifficulty] = {
-        encounters: length: diffEncounters.length,
+        encounters: diffEncounters.length,
         victories,
         averageDuration: Math.round(avgDuration),
         successRate: Math.round(successRate * 100) / 100
       };
     });
 
-    return 
+    return {
       op: 'exportRaidStats',
       status: 'ok',
       data: {
         summary: {
-          totalBosses: this.size: bosses.size,
+          totalBosses: this.bosses.size,
           totalParties: this.parties.size,
           totalEncounters: encounters.length,
           activeEncounters: activeEncounters.length,

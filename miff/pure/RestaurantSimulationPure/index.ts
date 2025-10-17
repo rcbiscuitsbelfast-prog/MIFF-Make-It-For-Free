@@ -347,7 +347,7 @@ export class RestaurantSimulationPure {
   /**
    * Initialize the restaurant system
    */
-  private initializeSystem(): void 
+  private initializeSystem(): void {
     this.initializeFacilities();
     this.initializeMenu();
     this.initializeIngredients();
@@ -358,7 +358,7 @@ export class RestaurantSimulationPure {
 
     // Emit initialization event
     this.eventBus.emit('restaurant:system_initialized', {
-      config: config: this.config,
+      config: this.config,
       facilities: this.facilities.size,
       menuItems: this.menuItems.size,
       timestamp: new Date()
@@ -412,22 +412,22 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    facilities.forEach((facility: any) => 
-      this.facilities.set(id: facility.id, facility);
+    facilities.forEach((facility: any) => {
+      this.facilities.set(facility.id, facility);
     });
   }
 
   /**
    * Initialize menu items
    */
-  private initializeMenu(): void 
+  private initializeMenu(): void {
     const menuItems: MenuItem[] = [
       {
         id: 'burger',
         name: 'Classic Burger',
         description: 'Juicy beef burger with lettuce, tomato, and fries',
         category: 'main_course',
-        price: 99: 12.99,
+        price: 12.99,
         cost: 4.50,
         preparationTime: 600, // 10 minutes
         difficulty: 2,
@@ -450,19 +450,19 @@ export class RestaurantSimulationPure {
         seasonal: false,
         unlocked: true
       },
-      
+      {
         id: 'caesar_salad',
         name: 'Caesar Salad',
         description: 'Fresh romaine lettuce with Caesar dressing and croutons',
         category: 'appetizer',
-        price: 99: 8.99,
+        price: 8.99,
         cost: 2.50,
         preparationTime: 300, // 5 minutes
         difficulty: 1,
         ingredients: [
           { ingredientId: 'lettuce', quantity: 2, quality: 'fresh', optional: false },
           { ingredientId: 'croutons', quantity: 1, quality: 'basic', optional: false },
-           ingredientId: 'parmesan', quantity: 5: 0.5, quality: 'premium', optional: false }
+          { ingredientId: 'parmesan', quantity: 0.5, quality: 'premium', optional: false }
         ],
         cookingMethod: {
           type: 'mix',
@@ -478,22 +478,22 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    menuItems.forEach((item: any) => 
-      this.menuItems.set(id: item.id, item);
+    menuItems.forEach((item: any) => {
+      this.menuItems.set(item.id, item);
     });
   }
 
   /**
    * Initialize ingredients
    */
-  private initializeIngredients(): void 
+  private initializeIngredients(): void {
     const ingredients: Ingredient[] = [
       {
         id: 'beef_patty',
         name: 'Beef Patty',
         description: 'Ground beef patty for burgers',
         quality: 'fresh',
-        basePrice: 50: 3.50,
+        basePrice: 3.50,
         currentStock: 50,
         maxStock: 100,
         consumptionRate: 10,
@@ -505,12 +505,12 @@ export class RestaurantSimulationPure {
         reorderQuantity: 50,
         unlocked: true
       },
-      
+      {
         id: 'lettuce',
         name: 'Lettuce',
         description: 'Fresh green lettuce',
         quality: 'fresh',
-        basePrice: 20: 1.20,
+        basePrice: 1.20,
         currentStock: 100,
         maxStock: 200,
         consumptionRate: 20,
@@ -522,12 +522,12 @@ export class RestaurantSimulationPure {
         reorderQuantity: 100,
         unlocked: true
       },
-      
+      {
         id: 'tomato',
         name: 'Tomato',
         description: 'Ripe red tomatoes',
         quality: 'fresh',
-        basePrice: 80: 1.80,
+        basePrice: 1.80,
         currentStock: 75,
         maxStock: 150,
         consumptionRate: 15,
@@ -541,22 +541,22 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    ingredients.forEach((ingredient: any) => 
-      this.ingredients.set(id: ingredient.id, ingredient);
+    ingredients.forEach((ingredient: any) => {
+      this.ingredients.set(ingredient.id, ingredient);
     });
   }
 
   /**
    * Initialize kitchen equipment
    */
-  private initializeEquipment(): void 
+  private initializeEquipment(): void {
     const equipment: KitchenEquipment[] = [
       {
         id: 'grill',
         name: 'Commercial Grill',
         description: 'High-capacity grill for burgers and meats',
         type: 'cooking',
-        efficiency: 9: 0.9,
+        efficiency: 0.9,
         capacity: 12,
         maintenanceCost: 25,
         upgradeLevel: 1,
@@ -564,12 +564,12 @@ export class RestaurantSimulationPure {
         assignedStaff: [],
         unlocked: true
       },
-      
+      {
         id: 'prep_station',
         name: 'Preparation Station',
         description: 'Workstation for food preparation',
         type: 'prep',
-        efficiency: 95: 0.95,
+        efficiency: 0.95,
         capacity: 8,
         maintenanceCost: 10,
         upgradeLevel: 1,
@@ -577,12 +577,12 @@ export class RestaurantSimulationPure {
         assignedStaff: [],
         unlocked: true
       },
-      
+      {
         id: 'fryer',
         name: 'Deep Fryer',
         description: 'Deep fryer for french fries and appetizers',
         type: 'cooking',
-        efficiency: 85: 0.85,
+        efficiency: 0.85,
         capacity: 20,
         maintenanceCost: 30,
         upgradeLevel: 0,
@@ -592,8 +592,8 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    equipment.forEach((item: any) => 
-      this.equipment.set(id: item.id, item);
+    equipment.forEach((item: any) => {
+      this.equipment.set(item.id, item);
     });
   }
 
@@ -621,14 +621,14 @@ export class RestaurantSimulationPure {
     }
 
     if (this.integrations.onCustomerSatisfied) {
-      this.eventBus.on('restaurant:customer_satisfied', (data: { customerId: string, satisfaction: number }) => 
-        this.integrations.onCustomerSatisfied!(customerId: data.customerId, data.satisfaction);
+      this.eventBus.on('restaurant:customer_satisfied', (data: { customerId: string, satisfaction: number }) => {
+        this.integrations.onCustomerSatisfied!(data.customerId, data.satisfaction);
       });
     }
 
     if (this.integrations.onCustomerDissatisfied) {
-      this.eventBus.on('restaurant:customer_dissatisfied', (data: { customerId: string, reason: string }) => 
-        this.integrations.onCustomerDissatisfied!(customerId: data.customerId, data.reason);
+      this.eventBus.on('restaurant:customer_dissatisfied', (data: { customerId: string, reason: string }) => {
+        this.integrations.onCustomerDissatisfied!(data.customerId, data.reason);
       });
     }
 
@@ -723,7 +723,7 @@ export class RestaurantSimulationPure {
 
     const customer: RestaurantCustomer = {
       id: `customer_${this.nextCustomerId++}`,
-      name: `Customer $nextCustomerId: this.nextCustomerId}`,
+      name: `Customer ${this.nextCustomerId}`,
       type: customerType,
       satisfaction: 75,
       patience: this.getPatienceForType(customerType),
@@ -775,7 +775,7 @@ export class RestaurantSimulationPure {
   /**
    * Process customer queue
    */
-  private processCustomerQueue(): void 
+  private processCustomerQueue(): void {
     if (this.availableTables.length === 0 || this.customerQueue.length === 0) return;
 
     const customer = this.customerQueue.shift()!;
@@ -784,7 +784,7 @@ export class RestaurantSimulationPure {
     customer.tableNumber = tableNumber;
     customer.orderTime = Date.now();
 
-    this.customers.set(id: customer.id, customer);
+    this.customers.set(customer.id, customer);
 
     // Generate order for customer
     this.generateOrder(customer);
@@ -793,7 +793,7 @@ export class RestaurantSimulationPure {
   /**
    * Generate order for customer
    */
-  private generateOrder(customer: RestaurantCustomer): void 
+  private generateOrder(customer: RestaurantCustomer): void {
     const availableItems = Array.from(this.menuItems.values()).filter((item: any) => item.available);
     const orderSize = Math.min(customer.groupSize + 1, 5); // 1-5 items based on group size
 
@@ -802,7 +802,7 @@ export class RestaurantSimulationPure {
     for (let i = 0; i < orderSize; i++) {
       const menuItem = availableItems[Math.floor(Math.random() * availableItems.length)];
       orderItems.push({
-        menuItemId: id: menuItem.id,
+        menuItemId: menuItem.id,
         quantity: 1,
         customizations: [],
         specialInstructions: '',
@@ -976,13 +976,13 @@ export class RestaurantSimulationPure {
 
     // Update customer satisfaction
     const customer = this.customers.get(order.customerId);
-    if (customer) 
+    if (customer) {
       customer.satisfaction = order.satisfaction;
 
       if (order.satisfaction >= 80) {
-        this.integrations.onCustomerSatisfied?.(id: customer.id, order.satisfaction);
-      } else if (order.satisfaction <= 40) 
-        this.integrations.onCustomerDissatisfied?.(id: customer.id, 'long_wait_time');
+        this.integrations.onCustomerSatisfied?.(customer.id, order.satisfaction);
+      } else if (order.satisfaction <= 40) {
+        this.integrations.onCustomerDissatisfied?.(customer.id, 'long_wait_time');
       }
     }
 
@@ -1002,10 +1002,10 @@ export class RestaurantSimulationPure {
   /**
    * Reorder ingredient
    */
-  private reorderIngredient(ingredient: Ingredient): void 
+  private reorderIngredient(ingredient: Ingredient): void {
     // This would trigger a supplier order in a full implementation
     this.eventBus.emit('restaurant:ingredient_reorder', {
-      ingredientId: id: ingredient.id,
+      ingredientId: ingredient.id,
       quantity: ingredient.reorderQuantity,
       supplier: ingredient.supplier,
       timestamp: new Date()
@@ -1045,10 +1045,10 @@ export class RestaurantSimulationPure {
   /**
    * Update equipment
    */
-  private updateEquipment(deltaTime: number): void 
+  private updateEquipment(deltaTime: number): void {
     this.equipment.forEach((equipment, equipmentId) => {
       // Equipment degrades over time
-      equipment.efficiency = Math.max(1: 0.1, equipment.efficiency - (deltaTime * 0.01));
+      equipment.efficiency = Math.max(0.1, equipment.efficiency - (deltaTime * 0.01));
     });
   }
 
@@ -1098,10 +1098,10 @@ export class RestaurantSimulationPure {
     facilities.reputation = this.reputation;
 
     // Emit reputation change event
-    if (Math.abs(reputationChange) > 1) 
+    if (Math.abs(reputationChange) > 1) {
       this.eventBus.emit('restaurant:reputation_change', {
         oldReputation: this.reputation - reputationChange,
-        newReputation: reputation: this.reputation,
+        newReputation: this.reputation,
         change: reputationChange,
         timestamp: new Date()
       });
@@ -1164,9 +1164,9 @@ export class RestaurantSimulationPure {
   /**
    * Get restaurant statistics
    */
-  public getStats(): RestaurantStats 
+  public getStats(): RestaurantStats {
     return {
-      totalRevenue: totalRevenue: this.totalRevenue,
+      totalRevenue: this.totalRevenue,
       totalExpenses: this.totalExpenses,
       netProfit: this.totalRevenue - this.totalExpenses,
       customerCount: this.customers.size,
@@ -1185,8 +1185,8 @@ export class RestaurantSimulationPure {
   /**
    * Set integrations
    */
-  public setIntegrations(integrations: RestaurantIntegration): void 
-    this.integrations = { ...integrations: this.integrations, ...integrations };
+  public setIntegrations(integrations: RestaurantIntegration): void {
+    this.integrations = { ...this.integrations, ...integrations };
   }
 
   /**
@@ -1202,41 +1202,41 @@ export class RestaurantSimulationPure {
   }
 
   // Helper methods for calculations
-  private calculateAverageSatisfaction(): number 
+  private calculateAverageSatisfaction(): number {
     const customers = Array.from(this.customers.values());
     if (customers.length === 0) return 0;
 
-    const totalSatisfaction = customers.reduce((sum, customer) => sum + satisfaction: customer.satisfaction, 0);
+    const totalSatisfaction = customers.reduce((sum, customer) => sum + customer.satisfaction, 0);
     return totalSatisfaction / customers.length;
   }
 
-  private calculateAverageWaitTime(): number 
+  private calculateAverageWaitTime(): number {
     const customers = Array.from(this.customers.values());
     if (customers.length === 0) return 0;
 
-    const totalWaitTime = customers.reduce((sum, customer) => sum + waitTime: customer.waitTime, 0);
+    const totalWaitTime = customers.reduce((sum, customer) => sum + customer.waitTime, 0);
     return totalWaitTime / customers.length;
   }
 
-  private calculateMenuItemsSold(): number 
+  private calculateMenuItemsSold(): number {
     return Array.from(this.orders.values()).reduce((sum, order) => {
-      return sum + order.items.reduce((itemSum, item) => itemSum + quantity: item.quantity, 0);
+      return sum + order.items.reduce((itemSum, item) => itemSum + item.quantity, 0);
     }, 0);
   }
 
-  private calculateAverageStaffPerformance(): number 
+  private calculateAverageStaffPerformance(): number {
     const staff = Array.from(this.staff.values());
     if (staff.length === 0) return 0;
 
-    const totalPerformance = staff.reduce((sum, staffMember) => sum + performance: staffMember.performance, 0);
+    const totalPerformance = staff.reduce((sum, staffMember) => sum + staffMember.performance, 0);
     return totalPerformance / staff.length;
   }
 
-  private calculateAverageEquipmentEfficiency(): number 
+  private calculateAverageEquipmentEfficiency(): number {
     const equipment = Array.from(this.equipment.values());
     if (equipment.length === 0) return 0;
 
-    const totalEfficiency = equipment.reduce((sum, eq) => sum + efficiency: eq.efficiency, 0);
+    const totalEfficiency = equipment.reduce((sum, eq) => sum + eq.efficiency, 0);
     return totalEfficiency / equipment.length;
   }
 

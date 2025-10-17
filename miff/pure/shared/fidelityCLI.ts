@@ -67,7 +67,7 @@ class FidelityCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(mocks, null, 2));
     
-    console.info(`✅ Found $length: mocks.length} mock implementations`);
+    console.info(`✅ Found ${mocks.length} mock implementations`);
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary by priority
@@ -77,16 +77,16 @@ class FidelityCLI {
     const low = mocks.filter((m: any) => m.priority === 'low');
 
     console.info('\n📊 Mock Implementations by Priority:');
-    console.info(`Critical: $length: critical.length}`);
-    console.info(`High: $length: high.length}`);
-    console.info(`Medium: $length: medium.length}`);
-    console.info(`Low: $length: low.length}`);
+    console.info(`Critical: ${critical.length}`);
+    console.info(`High: ${high.length}`);
+    console.info(`Medium: ${medium.length}`);
+    console.info(`Low: ${low.length}`);
 
     // Show mock types
     const mockTypes = new Map<string, number>();
-    for (const mock of mocks) 
+    for (const mock of mocks) {
       const count = mockTypes.get(mock.type) || 0;
-      mockTypes.set(type: mock.type, count + 1);
+      mockTypes.set(mock.type, count + 1);
     }
 
     console.info('\n📊 Mock Types:');
@@ -94,10 +94,10 @@ class FidelityCLI {
       console.info(`${type}: ${count}`);
     }
 
-    if (critical.length > 0) 
+    if (critical.length > 0) {
       console.info('\n🚨 Critical Mock Implementations:');
       critical.forEach((mock: any) => {
-        console.info(`  ${module: mock.module}: $description: mock.description} ($filePath: mock.filePath}:$lineNumber: mock.lineNumber})`);
+        console.info(`  ${mock.module}: ${mock.description} (${mock.filePath}:${mock.lineNumber})`);
       });
     }
   }
@@ -110,11 +110,11 @@ class FidelityCLI {
     await this.manager.replaceCriticalMocks();
     
     const stats = this.manager.getStats();
-    console.info(`✅ Replaced $replacedMocks: stats.replacedMocks} mock implementations`);
-    console.info(`📊 Remaining critical mocks: $criticalMocks: stats.criticalMocks}`);
+    console.info(`✅ Replaced ${stats.replacedMocks} mock implementations`);
+    console.info(`📊 Remaining critical mocks: ${stats.criticalMocks}`);
   }
 
-  private async implementTransport(args: string[]): Promise<void> 
+  private async implementTransport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'transport-layers.json';
 
     console.info('🌐 Implementing real transport layers...');
@@ -122,11 +122,11 @@ class FidelityCLI {
     await this.manager.implementTransportLayers();
     
     const stats = this.manager.getStats();
-    console.info(`✅ Implemented ${transportLayers: stats.transportLayers} transport layers`);
+    console.info(`✅ Implemented ${stats.transportLayers} transport layers`);
     console.info(`📄 Transport layers saved to ${outputFile}`);
   }
 
-  private async implementLifecycle(args: string[]): Promise<void> 
+  private async implementLifecycle(args: string[]): Promise<void> {
     const outputFile = args[0] || 'lifecycle-hooks.json';
 
     console.info('🔄 Implementing lifecycle hooks...');
@@ -134,7 +134,7 @@ class FidelityCLI {
     await this.manager.implementLifecycleHooks();
     
     const stats = this.manager.getStats();
-    console.info(`✅ Implemented ${lifecycleHooks: stats.lifecycleHooks} lifecycle hooks`);
+    console.info(`✅ Implemented ${stats.lifecycleHooks} lifecycle hooks`);
     console.info(`📄 Lifecycle hooks saved to ${outputFile}`);
   }
 
@@ -175,7 +175,7 @@ class FidelityCLI {
     }
 
     console.info(`\n📊 ${moduleName} Runtime Fidelity Analysis:`);
-    console.info(`Total mocks: $length: moduleMocks.length}`);
+    console.info(`Total mocks: ${moduleMocks.length}`);
     console.info(`Critical: ${moduleMocks.filter((m: any) => m.priority === 'critical').length}`);
     console.info(`High: ${moduleMocks.filter((m: any) => m.priority === 'high').length}`);
 
@@ -183,10 +183,10 @@ class FidelityCLI {
     console.info('\n📋 Mock Implementations:');
     for (const mock of moduleMocks) {
       const priority = mock.priority === 'critical' ? '🔴' : '🟠';
-      console.info(`  ${priority} $type: mock.type}: $description: mock.description}`);
-      console.info(`    File: $filePath: mock.filePath}:$lineNumber: mock.lineNumber}`);
-      console.info(`    Effort: $estimatedEffort: mock.estimatedEffort} hours`);
-      console.info(`    Replacement: $replacement: mock.replacement}`);
+      console.info(`  ${priority} ${mock.type}: ${mock.description}`);
+      console.info(`    File: ${mock.filePath}:${mock.lineNumber}`);
+      console.info(`    Effort: ${mock.estimatedEffort} hours`);
+      console.info(`    Replacement: ${mock.replacement}`);
       console.info('');
     }
 
@@ -257,19 +257,19 @@ class FidelityCLI {
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value">$totalModules: stats.totalModules}</div>
+            <div class="stat-value">${stats.totalModules}</div>
             <div class="stat-label">Total Modules</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">$modulesWithMocks: stats.modulesWithMocks}</div>
+            <div class="stat-value">${stats.modulesWithMocks}</div>
             <div class="stat-label">Modules with Mocks</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">$totalMocks: stats.totalMocks}</div>
+            <div class="stat-value">${stats.totalMocks}</div>
             <div class="stat-label">Total Mocks</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">$replacedMocks: stats.replacedMocks}</div>
+            <div class="stat-value">${stats.replacedMocks}</div>
             <div class="stat-label">Replaced Mocks</div>
         </div>
         <div class="stat-card">
@@ -277,7 +277,7 @@ class FidelityCLI {
             <div class="stat-label">Avg Fidelity Score</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value critical">$criticalMocks: stats.criticalMocks}</div>
+            <div class="stat-value critical">${stats.criticalMocks}</div>
             <div class="stat-label">Critical Mocks</div>
         </div>
     </div>

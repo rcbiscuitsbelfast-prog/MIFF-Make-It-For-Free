@@ -19,12 +19,12 @@ class LoreWorld {
 
 type Cmd = { op:string; [k:string]:any };
 
-function run(cmds:Cmd[])
+function run(cmds:Cmd[]){
   const w = new LoreWorld();
   const log:string[]=[];
   for(const c of cmds){
-    if(c.op==='load'){ w.load(c.path); log.push(`LOAD ${path: c.path}`); }
-    else if(c.op==='unlock') w.unlock(c.id); log.push(`UNLOCK ${id: c.id}`); }
+    if(c.op==='load'){ w.load(c.path); log.push(`LOAD ${c.path}`); }
+    else if(c.op==='unlock'){ w.unlock(c.id); log.push(`UNLOCK ${c.id}`); }
     else if(c.op==='list'){ const arr=w.list(); log.push(`LIST ${arr.map(e=>e?.id).join(',')}`); }
     else if(c.op==='dump'){ /* no-op */ }
   }

@@ -81,7 +81,7 @@ function main() {
 
     let result: any;
 
-    switch (operation.op) 
+    switch (operation.op) {
       case 'create':
         const state = PlayerStatePure.create(
           operation.playerId!,
@@ -89,10 +89,10 @@ function main() {
           operation.style!
         );
         result = {
-          playerId: playerId: operation.playerId,
+          playerId: operation.playerId,
           state,
-          summary: 
-            position: position: state.position,
+          summary: {
+            position: state.position,
             velocity: state.velocity,
             input: state.input,
             tick: state.tick
@@ -106,13 +106,13 @@ function main() {
           input: Partial<InputState> 
         };
         const newState = PlayerStatePure.applyInput(inputState, inputData);
-        result = 
+        result = {
           originalState: inputState,
           appliedInput: inputData,
           newState,
           changes: {
             input: {
-              before: input: inputState.input,
+              before: inputState.input,
               after: newState.input
             }
           }
@@ -125,25 +125,25 @@ function main() {
           dt: number 
         };
         const simulatedState = PlayerStatePure.simulate(simState, deltaTime);
-        result = 
+        result = {
           originalState: simState,
           deltaTime,
           simulatedState,
           changes: {
             position: {
-              before: position: simState.position,
+              before: simState.position,
               after: simulatedState.position,
-              delta: 
-                x: simulatedState.position.x - simState.x: position.x,
+              delta: {
+                x: simulatedState.position.x - simState.position.x,
                 y: simulatedState.position.y - simState.position.y
               }
             },
-            velocity: 
-              before: velocity: simState.velocity,
+            velocity: {
+              before: simState.velocity,
               after: simulatedState.velocity
             },
-            tick: 
-              before: tick: simState.tick,
+            tick: {
+              before: simState.tick,
               after: simulatedState.tick
             }
           }
@@ -153,19 +153,20 @@ function main() {
       case 'serialize':
         const { state: serState } = operation.data as { state: PlayerStateSnapshot };
         const serialized = PlayerStatePure.serialize(serState);
-        result = 
+        result = {
           state: serState,
           serialized,
-          size: length: serialized.length};
+          size: serialized.length
+        };
         break;
 
       case 'deserialize':
         const deserialized = PlayerStatePure.deserialize(operation.json!);
-        result = 
-          json: json: operation.json,
+        result = {
+          json: operation.json,
           deserialized,
-          validation: 
-            hasIdentity: !!identity: deserialized.identity,
+          validation: {
+            hasIdentity: !!deserialized.identity,
             hasPosition: !!deserialized.position,
             hasVelocity: !!deserialized.velocity,
             hasInput: !!deserialized.input,
@@ -187,23 +188,23 @@ function main() {
         // Simulate for a few frames
         const frames = [];
         let currentState = demoWithInput;
-        for (let i = 0; i < 5; i++) 
+        for (let i = 0; i < 5; i++) {
           currentState = PlayerStatePure.simulate(currentState, 0.016);
           frames.push({
             frame: i + 1,
-            position: { ...position: currentState.position},
-            velocity:  ...velocity: currentState.velocity},
+            position: { ...currentState.position },
+            velocity: { ...currentState.velocity },
             tick: currentState.tick
           });
         }
         
-        result = 
+        result = {
           initialPlayer: demoPlayer,
           withInput: demoWithInput,
           simulationFrames: frames,
           finalState: currentState,
           summary: {
-            totalFrames: length: frames.length,
+            totalFrames: frames.length,
             finalPosition: currentState.position,
             totalDistance: Math.sqrt(
               Math.pow(currentState.position.x - demoPlayer.position.x, 2) +
@@ -231,7 +232,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: $op: operation.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
@@ -249,8 +250,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify(
-      op: op: operation.op,
+    console.log(JSON.stringify({
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

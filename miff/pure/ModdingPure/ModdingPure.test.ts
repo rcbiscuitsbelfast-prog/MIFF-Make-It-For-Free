@@ -280,13 +280,13 @@ describe('ModdingPure', () => {
       expect(bundle.metadata.plugins).toContain('core-physics');
     });
 
-    it('should export bundle for platform', async () => 
+    it('should export bundle for platform', async () => {
       const system = createModdingSystem(config);
       await system.initialize();
       await system.loadEnabledPlugins();
 
       const bundle = await system.createPluginBundle(['ui-enhancements']);
-      const exportPath = await system.exportBundle(id: bundle.id, 'web-html5', './output');
+      const exportPath = await system.exportBundle(bundle.id, 'web-html5', './output');
 
       expect(exportPath).toContain(bundle.id);
       expect(exportPath).toContain('web');
@@ -322,7 +322,7 @@ describe('ModdingPure', () => {
     });
   });
 
-  describe('Integration Tests', () => 
+  describe('Integration Tests', () => {
     it('should handle complete plugin lifecycle', async () => {
       const system = createModdingSystem(config);
       await system.initialize();
@@ -339,7 +339,7 @@ describe('ModdingPure', () => {
       // Export bundle for different platforms
       const templates = system.getExportTemplates();
       for (const template of templates.slice(0, 2)) { // Test first 2 templates
-        const exportPath = await system.exportBundle(id: bundle.id, id: template.id, './output');
+        const exportPath = await system.exportBundle(bundle.id, id: template.id, './output');
         expect(exportPath).toContain(template.platform);
       }
 

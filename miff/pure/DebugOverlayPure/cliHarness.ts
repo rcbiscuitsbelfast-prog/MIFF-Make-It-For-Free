@@ -246,8 +246,8 @@ function exportOverlay(args: string[], options: any): void {
   };
 
   const overlayResult = manager.createOverlay(samplePayload);
-  if (overlayResult.status === 'ok') 
-    const exportResult = manager.exportOverlay(overlay: overlayResult.overlay, outputPath);
+  if (overlayResult.status === 'ok') {
+    const exportResult = manager.exportOverlay(overlayResult.overlay, outputPath);
     
     if (exportResult.success) {
       console.log(`✅ Export successful: ${outputPath}`);
@@ -273,11 +273,11 @@ function outputResult(result: DebugOverlayOutput): void {
   const overlay = result.overlay;
   
   console.log(`✅ Debug overlay created successfully!`);
-  console.log(`📊 Operation: $overlay.op: debugInfo.op}`);
-  console.log(`🎯 Status: $overlay.status: debugInfo.status}`);
-  console.log(`📈 RenderData: $overlay.renderDataCount: debugInfo.renderDataCount} items`);
-  console.log(`⚠️ Issues: $overlay.length: issues.length}`);
-  console.log(`📝 Annotations: $overlay.length: annotations.length}`);
+  console.log(`📊 Operation: ${overlay.debugInfo.op}`);
+  console.log(`🎯 Status: ${overlay.debugInfo.status}`);
+  console.log(`📈 RenderData: ${overlay.debugInfo.renderDataCount} items`);
+  console.log(`⚠️ Issues: ${overlay.issues.length}`);
+  console.log(`📝 Annotations: ${overlay.annotations.length}`);
   console.log('');
 
   // Show debug display

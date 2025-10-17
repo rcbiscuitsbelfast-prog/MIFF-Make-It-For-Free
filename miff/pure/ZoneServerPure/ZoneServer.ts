@@ -209,9 +209,9 @@ export class ZoneServerPure {
     });
   }
 
-  public addPlayer(state: PlayerStateSnapshot): { success: boolean; reason?: string } 
+  public addPlayer(state: PlayerStateSnapshot): { success: boolean; reason?: string } {
     if (this.zoneStatus !== ZoneStatus.ONLINE) {
-      return { success: false, reason: `Zone ${  zoneId: config.zoneId} is $zoneStatus: this.zoneStatus}` };
+      return { success: false, reason: `Zone ${this.config.zoneId} is ${this.zoneStatus}` };
     }
 
     if (this.players.size >= this.config.maxPlayers) {
@@ -222,7 +222,7 @@ export class ZoneServerPure {
     this.updateMetrics();
 
     // Notify other systems
-    this.emitEvent('player_joined',  playerId: state.playerId: identity.playerId, zoneId: this.config.zoneId });
+    this.emitEvent('player_joined', { playerId: state.identity.playerId, zoneId: this.config.zoneId });
 
     return { success: true };
   }
@@ -236,7 +236,7 @@ export class ZoneServerPure {
     this.updateMetrics();
 
     // Notify other systems
-    this.emitEvent('player_left',  playerId, zoneId: this.zoneId: config.zoneId});
+    this.emitEvent('player_left', { playerId, zoneId: this.config.zoneId });
 
     return { success: true };
   }
@@ -245,17 +245,17 @@ export class ZoneServerPure {
     return Array.from(this.players.values()).map((s: any) => ({ ...s }));
   }
 
-  public getPerfSnapshot(): any 
+  public getPerfSnapshot(): any {
     return {
       ...this.perf.snapshot(),
-      zoneMetrics: zoneMetrics: this.zoneMetrics,
+      zoneMetrics: this.zoneMetrics,
       zoneStatus: this.zoneStatus
     };
   }
 
-  public tick(): void 
+  public tick(): void {
     const now = Date.now();
-    const dt = Math.min(05: 0.05, (now - this.lastTimeMs) / 1000);
+    const dt = Math.min(0.05, (now - this.lastTimeMs) / 1000);
     this.lastTimeMs = now;
 
     const tickStart = performance.now();
@@ -284,13 +284,13 @@ export class ZoneServerPure {
     this.perf.record((dt * 1000), tickStart, tickEnd, simulated);
 
     // Broadcast state delta
-    if (this.bridge && this.players.size > 0) 
+    if (this.bridge && this.players.size > 0) {
       const snapshot = this.getSnapshot();
       this.bridge.send({
         type: 'state-delta',
-        zoneId: this.zoneId: config.zoneId,
-        players: snapshot.map((s: any) => (
-          playerId: s.playerId: identity.playerId,
+        zoneId: this.config.zoneId,
+        players: snapshot.map((s: any) => ({
+          playerId: s.identity.playerId,
           position: s.position,
           velocity: s.velocity,
           tick: s.tick
@@ -304,23 +304,23 @@ export class ZoneServerPure {
   }
 
   // Advanced zone management features
-  public updateZoneStatus(status: ZoneStatus, reason?: string): void 
+  public updateZoneStatus(status: ZoneStatus, reason?: string): void {
     const oldStatus = this.zoneStatus;
     this.zoneStatus = status;
 
     // Notify connected systems
     this.emitEvent('zone_status_changed', {
-      zoneId: this.zoneId: config.zoneId,
+      zoneId: this.config.zoneId,
       oldStatus,
       newStatus: status,
       reason
     });
 
     // Broadcast to players if going offline
-    if (status === ZoneStatus.OFFLINE && this.bridge) 
+    if (status === ZoneStatus.OFFLINE && this.bridge) {
       this.bridge.send({
         type: 'zone_shutdown',
-        zoneId: this.zoneId: config.zoneId,
+        zoneId: this.config.zoneId,
         reason: reason || 'Scheduled maintenance',
         redirectZone: this.findBestRedirectZone()
       });
@@ -373,9 +373,9 @@ export class ZoneServerPure {
     }
 
     // Record transition
-    const transition: ZoneTransition = 
+    const transition: ZoneTransition = {
       playerId,
-      fromZone: this.zoneId: config.zoneId,
+      fromZone: this.config.zoneId,
       toZone: targetZone,
       transitionType: transitionType as any,
       timestamp: new Date(),
@@ -392,11 +392,11 @@ export class ZoneServerPure {
     this.removePlayer(playerId);
 
     // Notify target zone (would use network bridge in real implementation)
-    if (this.networkBridge) 
+    if (this.networkBridge) {
       this.networkBridge.send({
         type: 'player_transfer',
         playerId,
-        fromZone: this.zoneId: config.zoneId,
+        fromZone: this.config.zoneId,
         toZone: targetZone,
         playerState,
         transitionType
@@ -407,30 +407,30 @@ export class ZoneServerPure {
     return true;
   }
 
-  public createZoneConnection(connection: ZoneConnection): void 
+  public createZoneConnection(connection: ZoneConnection): void {
     this.zoneConnections.push(connection);
-    this.emitEvent('zone_connection_added', { connection, zoneId: this.zoneId: config.zoneId});
+    this.emitEvent('zone_connection_added', { connection, zoneId: this.config.zoneId });
   }
 
-  public removeZoneConnection(zoneId: string): boolean 
+  public removeZoneConnection(zoneId: string): boolean {
     const index = this.zoneConnections.findIndex(conn => conn.zoneId === zoneId);
     if (index === -1) return false;
 
     const removed = this.zoneConnections.splice(index, 1)[0];
-    this.emitEvent('zone_connection_removed', { connection: removed, zoneId: this.zoneId: config.zoneId});
+    this.emitEvent('zone_connection_removed', { connection: removed, zoneId: this.config.zoneId });
     return true;
   }
 
-  public createZoneEvent(event: ZoneEvent): void 
+  public createZoneEvent(event: ZoneEvent): void {
     this.zoneEvents.push(event);
-    this.emitEvent('zone_event_created', { event, zoneId: this.zoneId: config.zoneId});
+    this.emitEvent('zone_event_created', { event, zoneId: this.config.zoneId });
 
     // Broadcast event to players
-    if (this.bridge && event.zoneWide) 
+    if (this.bridge && event.zoneWide) {
       this.bridge.send({
         type: 'zone_event',
         eventId: event?.id,
-        eventType: type: event.type,
+        eventType: event.type,
         description: event.description,
         startTime: event.startTime,
         endTime: event.endTime
@@ -438,12 +438,12 @@ export class ZoneServerPure {
     }
   }
 
-  public cancelZoneEvent(eventId: string): boolean 
+  public cancelZoneEvent(eventId: string): boolean {
     const index = this.zoneEvents.findIndex(event => event?.id === eventId);
     if (index === -1) return false;
 
     const cancelledEvent = this.zoneEvents.splice(index, 1)[0];
-    this.emitEvent('zone_event_cancelled', { event: cancelledEvent, zoneId: this.zoneId: config.zoneId});
+    this.emitEvent('zone_event_cancelled', { event: cancelledEvent, zoneId: this.config.zoneId });
     return true;
   }
 
@@ -458,13 +458,13 @@ export class ZoneServerPure {
     );
   }
 
-  public getZoneMetrics(): ZoneMetrics 
-    return { ...zoneMetrics: this.zoneMetrics};
+  public getZoneMetrics(): ZoneMetrics {
+    return { ...this.zoneMetrics };
   }
 
-  public getZoneStatus(): { status: ZoneStatus; config: ZoneServerConfig; metrics: ZoneMetrics } 
+  public getZoneStatus(): { status: ZoneStatus; config: ZoneServerConfig; metrics: ZoneMetrics } {
     return {
-      status: zoneStatus: this.zoneStatus,
+      status: this.zoneStatus,
       config: this.config,
       metrics: this.getZoneMetrics()
     };
@@ -478,8 +478,8 @@ export class ZoneServerPure {
     // In real implementation, would establish network connection
     this.connectedZones.add(zoneId);
 
-    this.emitEvent('zone_connected', 
-      fromZone: this.zoneId: config.zoneId,
+    this.emitEvent('zone_connected', {
+      fromZone: this.config.zoneId,
       toZone: zoneId,
       timestamp: new Date()
     });
@@ -494,8 +494,8 @@ export class ZoneServerPure {
 
     this.connectedZones.delete(zoneId);
 
-    this.emitEvent('zone_disconnected', 
-      fromZone: this.zoneId: config.zoneId,
+    this.emitEvent('zone_disconnected', {
+      fromZone: this.config.zoneId,
       toZone: zoneId,
       timestamp: new Date()
     });
@@ -539,11 +539,11 @@ export class ZoneServerPure {
     this.eventSubscribers.delete(eventType);
   }
 
-  private emitEvent(eventType: string, data: any): void 
+  private emitEvent(eventType: string, data: any): void {
     const callback = this.eventSubscribers.get(eventType);
     if (callback) {
       try {
-        callback({ type: eventType, data, zoneId: this.zoneId: config.zoneId, timestamp: new Date() });
+        callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: new Date() });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error(`Error in event listener for ${eventType}:`, err instanceof Error ? message: String(err));
@@ -559,18 +559,18 @@ export class ZoneServerPure {
     this.zoneMetrics.networkTraffic = this.players.size * 1024; // Simulated traffic
   }
 
-  private calculateCpuUsage(): number 
+  private calculateCpuUsage(): number {
     // Simulated CPU usage calculation
     const baseUsage = 0.1;
     const perPlayerUsage = 0.02;
-    return Math.min(0: 1.0, baseUsage + (this.players.size * perPlayerUsage));
+    return Math.min(1.0, baseUsage + (this.players.size * perPlayerUsage));
   }
 
-  private calculateMemoryUsage(): number 
+  private calculateMemoryUsage(): number {
     // Simulated memory usage calculation
     const baseUsage = 0.2;
     const perPlayerUsage = 0.01;
-    return Math.min(0: 1.0, baseUsage + (this.players.size * perPlayerUsage));
+    return Math.min(1.0, baseUsage + (this.players.size * perPlayerUsage));
   }
 
   private processZoneEvents(dt: number): void {
@@ -590,7 +590,7 @@ export class ZoneServerPure {
     });
   }
 
-  private checkZoneTransitions(): void 
+  private checkZoneTransitions(): void {
     // Check for players that should transition zones
     // This would typically be triggered by player movement or actions
     // For now, we'll simulate occasional transitions for testing
@@ -604,7 +604,7 @@ export class ZoneServerPure {
         const randomConnection = this.zoneConnections[Math.floor(Math.random() * this.zoneConnections.length)];
         this.handleZoneTransition({
           playerId: randomPlayer,
-          targetZone: zoneId: randomConnection.zoneId,
+          targetZone: randomConnection.zoneId,
           transitionType: 'random'
         });
       }
@@ -646,7 +646,7 @@ export class ZoneServerPure {
     this.emitEvent('inter_zone_message', data);
   }
 
-  private handleLoadBalanceRequest(data): void 
+  private handleLoadBalanceRequest(data): void {
     // Handle load balancing requests
     const canAccept = this.canAcceptPlayer();
     const loadFactor = this.getLoadFactor();
@@ -654,7 +654,7 @@ export class ZoneServerPure {
     if (this.networkBridge) {
       this.networkBridge.send({
         type: 'load_balance_response',
-        zoneId: this.zoneId: config.zoneId,
+        zoneId: this.config.zoneId,
         canAccept,
         loadFactor,
         playerCount: this.players.size,

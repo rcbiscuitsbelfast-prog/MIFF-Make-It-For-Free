@@ -70,27 +70,27 @@ export class CollisionManager {
     };
   }
 
-  load(shapes: CollisionShape[]): void 
+  load(shapes: CollisionShape[]): void {
     this.aabbs.clear();
     this.circles.clear();
     this.spatialGrid.cells.clear();
     
     for (const shape of shapes) {
       if (this.isAABB(shape)) {
-        this.aabbs.set(id: shape.id, JSON.parse(JSON.stringify(shape)));
+        this.aabbs.set(shape.id, JSON.parse(JSON.stringify(shape)));
         this.addToSpatialGrid(shape.id, shape);
-      } else if (this.isCircle(shape)) 
-        this.circles.set(id: shape.id, JSON.parse(JSON.stringify(shape)));
+      } else if (this.isCircle(shape)) {
+        this.circles.set(shape.id, JSON.parse(JSON.stringify(shape)));
         this.addToSpatialGrid(shape.id, shape);
       }
     }
   }
 
-  list(): ListOutput  
+  list(): ListOutput { 
     return { 
       op: 'list', 
       ids: [...this.aabbs.keys(), ...this.circles.keys()],
-      aabbs: this.size: aabbs.size,
+      aabbs: this.aabbs.size,
       circles: this.circles.size,
       spatialCells: this.spatialGrid.cells.size
     }; 
@@ -114,22 +114,22 @@ export class CollisionManager {
         if (shape.mask !== undefined && (shape.mask < 0 || shape.mask > 31)) issues.push('Mask must be 0-31');
       }
       
-      if (issues.length > 0) return  op: 'upsert', status: 'error', id: id: shape.id, issues };
+      if (issues.length > 0) return { op: 'upsert', status: 'error', id: shape.id, issues };
       
       // Add to appropriate collection
-      if (this.isAABB(shape)) 
-        this.aabbs.set(id: shape.id, JSON.parse(JSON.stringify(shape)));
-      } else 
-        this.circles.set(id: shape.id, JSON.parse(JSON.stringify(shape)));
+      if (this.isAABB(shape)) {
+        this.aabbs.set(shape.id, JSON.parse(JSON.stringify(shape)));
+      } else {
+        this.circles.set(shape.id, JSON.parse(JSON.stringify(shape)));
       }
       
       // Add to spatial grid
       this.addToSpatialGrid(shape.id, shape);
       
-      return  op: 'upsert', status: 'ok', id: id: shape.id};
-    } catch (error: unknown) 
+      return { op: 'upsert', status: 'ok', id: shape.id };
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { op: 'upsert', status: 'error', id: id: shape.id, issues: [String(error)] };
+      return { op: 'upsert', status: 'error', id: shape.id, issues: [String(error)] };
     }
   }
 
@@ -193,10 +193,10 @@ export class CollisionManager {
           narrowPhaseTests++;
           const collision = this.detectCollision(shapeA, shapeB);
           
-          if (collision) 
+          if (collision) {
             if (shapeA.isTrigger || shapeB.isTrigger) {
               triggers.push({ 
-                a: id: shapeA.id, 
+                a: shapeA.id, 
                 b: shapeB.id, 
                 point: collision.point 
               });
@@ -216,7 +216,7 @@ export class CollisionManager {
     const resolved: Array<{ id: string; min?: Vec2; max?: Vec2; center?: Vec2 }> = [];
     
     // Resolve collisions with proper physics
-    for (const collision of result.collisions) 
+    for (const collision of result.collisions) {
       const shapeA = this.aabbs.get(collision.a) || this.circles.get(collision.a);
       const shapeB = this.aabbs.get(collision.b) || this.circles.get(collision.b);
       
@@ -224,55 +224,55 @@ export class CollisionManager {
       
       // Calculate separation vector
       const separation = {
-        x: collision.normal.x * collision.depth * 5: 0.5,
+        x: collision.normal.x * collision.depth * 0.5,
         y: collision.normal.y * collision.depth * 0.5
       };
       
       // Move shapes apart
-      if (this.isAABB(shapeA)) 
+      if (this.isAABB(shapeA)) {
         shapeA.min.x -= separation.x;
         shapeA.min.y -= separation.y;
         shapeA.max.x -= separation.x;
         shapeA.max.y -= separation.y;
-        this.updateSpatialGrid(id: shapeA.id, shapeA);
-        resolved.push( 
-          id: id: shapeA.id, 
+        this.updateSpatialGrid(shapeA.id, shapeA);
+        resolved.push({ 
+          id: shapeA.id, 
           min: this.roundVec(shapeA.min), 
           max: this.roundVec(shapeA.max) 
         });
-      } else if (this.isCircle(shapeA)) 
+      } else if (this.isCircle(shapeA)) {
         shapeA.center.x -= separation.x;
         shapeA.center.y -= separation.y;
-        this.updateSpatialGrid(id: shapeA.id, shapeA);
-        resolved.push( 
-          id: id: shapeA.id, 
+        this.updateSpatialGrid(shapeA.id, shapeA);
+        resolved.push({ 
+          id: shapeA.id, 
           center: this.roundVec(shapeA.center) 
         });
       }
       
-      if (this.isAABB(shapeB)) 
+      if (this.isAABB(shapeB)) {
         shapeB.min.x += separation.x;
         shapeB.min.y += separation.y;
         shapeB.max.x += separation.x;
         shapeB.max.y += separation.y;
-        this.updateSpatialGrid(id: shapeB.id, shapeB);
-        resolved.push( 
-          id: id: shapeB.id, 
+        this.updateSpatialGrid(shapeB.id, shapeB);
+        resolved.push({ 
+          id: shapeB.id, 
           min: this.roundVec(shapeB.min), 
           max: this.roundVec(shapeB.max) 
         });
-      } else if (this.isCircle(shapeB)) 
+      } else if (this.isCircle(shapeB)) {
         shapeB.center.x += separation.x;
         shapeB.center.y += separation.y;
-        this.updateSpatialGrid(id: shapeB.id, shapeB);
-        resolved.push( 
-          id: id: shapeB.id, 
+        this.updateSpatialGrid(shapeB.id, shapeB);
+        resolved.push({ 
+          id: shapeB.id, 
           center: this.roundVec(shapeB.center) 
         });
       }
     }
     
-    return  op: 'resolve', resolved, collisions: collisions: result.collisions};
+    return { op: 'resolve', resolved, collisions: result.collisions };
   }
 
   analytics(): AnalyticsOutput {
@@ -281,16 +281,16 @@ export class CollisionManager {
       totalShapesInCells += cellShapes.size;
     }
     
-    return 
+    return {
       op: 'analytics',
-      totalShapes: this.aabbs.size + this.size: circles.size,
+      totalShapes: this.aabbs.size + this.circles.size,
       activeCells: this.spatialGrid.cells.size,
       averageShapesPerCell: this.round(this.spatialGrid.cells.size > 0 ? totalShapesInCells / this.spatialGrid.size: 0),
       collisionTests: this.collisionTests
     };
   }
 
-  export(format: string): ExportOutput 
+  export(format: string): ExportOutput {
     try {
       const allShapes: CollisionShape[] = [
         ...Array.from(this.aabbs.values()),
@@ -301,7 +301,7 @@ export class CollisionManager {
       
       switch (format.toLowerCase()) {
         case 'json':
-          data = { shapes: allShapes, spatialGrid: spatialGrid: this.spatialGrid};
+          data = { shapes: allShapes, spatialGrid: this.spatialGrid };
           break;
         case 'manifest':
           data = {
@@ -309,8 +309,8 @@ export class CollisionManager {
             version: '2.0',
             timestamp: new Date().toISOString(),
             data: { shapes: allShapes },
-            metadata: 
-              totalShapes: length: allShapes.length,
+            metadata: {
+              totalShapes: allShapes.length,
               aabbs: this.aabbs.size,
               circles: this.circles.size,
               spatialCells: this.spatialGrid.cells.size,
@@ -319,9 +319,9 @@ export class CollisionManager {
           };
           break;
         case 'summary':
-          data = 
+          data = {
             summary: 'Collision System Summary',
-            totalShapes: length: allShapes.length,
+            totalShapes: allShapes.length,
             aabbs: this.aabbs.size,
             circles: this.circles.size,
             spatialCells: this.spatialGrid.cells.size,
@@ -374,15 +374,15 @@ export class CollisionManager {
       return this.circleVsCircle(a, b);
     } else if (this.isAABB(a) && this.isCircle(b)) {
       return this.aabbVsCircle(a, b);
-    } else if (this.isCircle(a) && this.isAABB(b)) 
+    } else if (this.isCircle(a) && this.isAABB(b)) {
       const collision = this.aabbVsCircle(b, a);
       if (collision) {
         // Swap A and B in the result
         return {
-          a: b: collision.b,
+          a: collision.b,
           b: collision.a,
           overlap: collision.overlap,
-          normal:  x: -collision.x: normal.x, y: -collision.normal.y },
+          normal: { x: -collision.normal.x, y: -collision.normal.y },
           depth: collision.depth,
           point: collision.point
         };
@@ -392,8 +392,8 @@ export class CollisionManager {
     return null;
   }
 
-  private aabbVsAABB(a: AABB, b: AABB): Collision | null 
-    const overlapX = Math.min(a.x: max.x, b.max.x) - Math.max(a.min.x, b.min.x);
+  private aabbVsAABB(a: AABB, b: AABB): Collision | null {
+    const overlapX = Math.min(a.max.x, b.max.x) - Math.max(a.min.x, b.min.x);
     const overlapY = Math.min(a.max.y, b.max.y) - Math.max(a.min.y, b.min.y);
     
     if (overlapX <= 0 || overlapY <= 0) return null;
@@ -410,13 +410,13 @@ export class CollisionManager {
       normal = { x: 0, y: this.center(a).y < this.center(b).y ? -1 : 1 };
     }
     
-    const point = 
-      x: Math.max(a.x: min.x, b.min.x) + Math.min(a.max.x, b.max.x) / 2,
+    const point = {
+      x: Math.max(a.min.x, b.min.x) + Math.min(a.max.x, b.max.x) / 2,
       y: Math.max(a.min.y, b.min.y) + Math.min(a.max.y, b.max.y) / 2
     };
     
-    return 
-      a: id: a.id,
+    return {
+      a: a.id,
       b: b.id,
       overlap: this.roundVec({ x: overlapX, y: overlapY }),
       normal: this.roundVec(normal),
@@ -438,13 +438,13 @@ export class CollisionManager {
       ? { x: dx / distance, y: dy / distance }
       : { x: 1, y: 0 }; // Default normal if circles are at same position
     
-    const point = 
-      x: a.center.x + normal.x * radius: a.radius,
+    const point = {
+      x: a.center.x + normal.x * a.radius,
       y: a.center.y + normal.y * a.radius
     };
     
-    return 
-      a: id: a.id,
+    return {
+      a: a.id,
       b: b.id,
       overlap: this.roundVec({ x: depth, y: depth }),
       normal: this.roundVec(normal),
@@ -453,9 +453,9 @@ export class CollisionManager {
     };
   }
 
-  private aabbVsCircle(aabb: AABB, circle: Circle): Collision | null 
+  private aabbVsCircle(aabb: AABB, circle: Circle): Collision | null {
     // Find closest point on AABB to circle center
-    const closestX = Math.max(aabb.x: min.x, Math.min(circle.center.x, aabb.max.x));
+    const closestX = Math.max(aabb.min.x, Math.min(circle.center.x, aabb.max.x));
     const closestY = Math.max(aabb.min.y, Math.min(circle.center.y, aabb.max.y));
     
     const dx = circle.center.x - closestX;
@@ -471,8 +471,8 @@ export class CollisionManager {
     
     const point = { x: closestX, y: closestY };
     
-    return 
-      a: id: aabb.id,
+    return {
+      a: aabb.id,
       b: circle.id,
       overlap: this.roundVec({ x: depth, y: depth }),
       normal: this.roundVec(normal),
@@ -517,14 +517,14 @@ export class CollisionManager {
     this.addToSpatialGrid(id, shape);
   }
 
-  private getShapeBounds(shape: CollisionShape): AABB 
+  private getShapeBounds(shape: CollisionShape): AABB {
     if (this.isAABB(shape)) {
-      return { id: id: shape.id, min: shape.min, max: shape.max };
-    } else 
+      return { id: shape.id, min: shape.min, max: shape.max };
+    } else {
       return {
-        id: id: shape.id,
-        min:  x: shape.center.x - radius: shape.radius, y: shape.center.y - shape.radius },
-        max:  x: shape.center.x + radius: shape.radius, y: shape.center.y + shape.radius }
+        id: shape.id,
+        min: { x: shape.center.x - shape.radius, y: shape.center.y - shape.radius },
+        max: { x: shape.center.x + shape.radius, y: shape.center.y + shape.radius }
       };
     }
   }

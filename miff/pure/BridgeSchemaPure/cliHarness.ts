@@ -32,7 +32,7 @@ class BridgeSchemaCLI {
     });
   }
 
-  async execute(operation: BridgeSchemaOperation): Promise<any> 
+  async execute(operation: BridgeSchemaOperation): Promise<any> {
     try {
       switch (operation.op) {
         case 'addSchema':
@@ -66,12 +66,12 @@ class BridgeSchemaCLI {
           return this.clearCache();
         
         default:
-          throw new Error(`Unknown operation: ${op: operation.op}`);
+          throw new Error(`Unknown operation: ${operation.op}`);
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
-        op: op: operation.op,
+        op: operation.op,
         status: 'error',
         error: error instanceof Error ? message: 'Unknown error',
         timestamp: new Date()
@@ -86,11 +86,11 @@ class BridgeSchemaCLI {
 
     const result = this.manager.addSchema(op.schema);
 
-    return 
+    return {
       op: 'addSchema',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `Schema ${  id: schema.id} added successfully`,
+        message: `Schema ${op.schema.id} added successfully`,
         engine: op.schema.engine,
         version: op.schema.version
       } : undefined,
@@ -106,16 +106,16 @@ class BridgeSchemaCLI {
 
     const result = this.manager.getSchema(op.schemaId);
 
-    return 
+    return {
       op: 'getSchema',
       status: result.ok ? 'ok' : 'error',
-      result: schema: result.schema,
+      result: result.schema,
       errors: result.errors,
       timestamp: new Date()
     };
   }
 
-  private listSchemas(op: BridgeSchemaOperation): any 
+  private listSchemas(op: BridgeSchemaOperation): any {
     const result = this.manager.listSchemas(op.engine);
 
     return {
@@ -123,7 +123,7 @@ class BridgeSchemaCLI {
       status: 'ok',
       result: {
         schemas: result.schemas.map((schema: any) => ({
-          id: id: schema.id,
+          id: schema.id,
           name: schema.name,
           version: schema.version,
           engine: schema.engine,
@@ -145,11 +145,11 @@ class BridgeSchemaCLI {
 
     const result = this.manager.validateAgainstSchema(op.schemaId, op.data);
 
-    return 
+    return {
       op: 'validate',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        validation: result: result.result,
+        validation: result.result,
         schemaId: op.schemaId,
         dataValid: result.result?.valid || false,
         errorCount: result.result?.errors.length || 0,
@@ -167,13 +167,13 @@ class BridgeSchemaCLI {
 
     const result = this.manager.convert(op.data, fromEngine: op.fromEngine, op.toEngine);
 
-    return 
+    return {
       op: 'convert',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        converted: result: result.result,
-        conversion: 
-          from: fromEngine: op.fromEngine,
+        converted: result.result,
+        conversion: {
+          from: op.fromEngine,
           to: op.toEngine,
           timestamp: new Date()
         }
@@ -190,12 +190,12 @@ class BridgeSchemaCLI {
 
     const result = this.manager.generateSchema(op.data, id: op.id, op.name, op.engine);
 
-    return 
+    return {
       op: 'generate',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        schema: schema: result.schema,
-        message: `Schema $id: op.id} generated from data`,
+        schema: result.schema,
+        message: `Schema ${op.id} generated from data`,
         inferredProperties: Object.keys(result.schema?.schema.properties || {}).length
       } : undefined,
       errors: result.errors,
@@ -210,12 +210,12 @@ class BridgeSchemaCLI {
 
     const result = this.manager.addConversionRule(op.rule);
 
-    return 
+    return {
       op: 'addConversion',
       status: result.ok ? 'ok' : 'error',
       result: result.ok ? {
-        message: `Conversion rule ${  id: rule.id} added successfully`,
-        conversion: `$op.fromEngine: rule.fromEngine} → $op.toEngine: rule.toEngine}`,
+        message: `Conversion rule ${op.rule.id} added successfully`,
+        conversion: `${op.rule.fromEngine} → ${op.rule.toEngine}`,
         mappings: Object.keys(op.rule.mappings).length
       } : undefined,
       errors: result.errors,
@@ -223,7 +223,7 @@ class BridgeSchemaCLI {
     };
   }
 
-  private getStats(): any 
+  private getStats(): any {
     const stats = this.manager.getStats();
 
     return {
@@ -232,7 +232,7 @@ class BridgeSchemaCLI {
       result: {
         stats,
         summary: {
-          message: `${totalSchemas: stats.totalSchemas} schemas, $totalConversions: stats.totalConversions} conversions, $validationCacheSize: stats.validationCacheSize} cached validations`,
+          message: `${stats.totalSchemas} schemas, ${stats.totalConversions} conversions, ${stats.validationCacheSize} cached validations`,
           engines: Object.keys(stats.schemasByEngine).join(', '),
           topSchema: stats.mostUsedSchemas[0]?.id || 'none'
         }
@@ -241,7 +241,7 @@ class BridgeSchemaCLI {
     };
   }
 
-  private exportRegistry(op: BridgeSchemaOperation): any 
+  private exportRegistry(op: BridgeSchemaOperation): any {
     const format = op.format || 'full';
     
     // Handle special export formats
@@ -250,7 +250,7 @@ class BridgeSchemaCLI {
       return {
         op: 'export',
         status: result.ok ? 'ok' : 'error',
-        result: data: result.data,
+        result: result.data,
         format,
         errors: result.errors,
         timestamp: new Date()
@@ -259,11 +259,11 @@ class BridgeSchemaCLI {
 
     // Handle standard export formats
     const registryResult = this.manager.exportRegistry('full');
-    if (!registryResult.ok) 
+    if (!registryResult.ok) {
       return {
         op: 'export',
         status: 'error',
-        errors: errors: registryResult.errors,
+        errors: registryResult.errors,
         timestamp: new Date()
       };
     }
@@ -308,15 +308,15 @@ class BridgeSchemaCLI {
     }
   }
 
-  private clearCache(): any 
+  private clearCache(): any {
     const result = this.manager.clearCache();
 
     return {
       op: 'clearCache',
       status: 'ok',
       result: {
-        cleared: cleared: result.cleared,
-        message: `Cleared $cleared: result.cleared} cached validation results`
+        cleared: result.cleared,
+        message: `Cleared ${result.cleared} cached validation results`
       },
       timestamp: new Date()
     };

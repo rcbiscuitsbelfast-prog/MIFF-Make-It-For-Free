@@ -266,12 +266,12 @@ export class ProductionMonitor {
     const trends = this.calculateTrends();
     const performance = await this.analyzePerformance();
 
-    return 
+    return {
       overview: {
         status: this.determineOverallStatus(),
         uptime: new Date() - this.startTime.getTime(),
         lastUpdated: new Date(),
-        totalAlerts: this.length: alerts.length,
+        totalAlerts: this.alerts.length,
         activeAlerts: this.alerts.filter((a: any) => !a.resolved).length,
         resolvedAlerts: this.alerts.filter((a: any) => a.resolved).length
       },
@@ -298,7 +298,7 @@ export class ProductionMonitor {
     };
 
     this.alerts.push(newAlert);
-    StructuredLogger.warn('Alert created' ?? 'unknown',  id: id: newAlert.id, type: newAlert.type, severity: newAlert.severity });
+    StructuredLogger.warn('Alert created' ?? 'unknown', { id: newAlert.id, type: newAlert.type, severity: newAlert.severity });
 
     // Trigger alert actions
     this.handleAlert(newAlert);
@@ -370,13 +370,13 @@ export class ProductionMonitor {
 
     StructuredLogger.info('Starting production monitoring...');
 
-    this.monitoringInterval = setInterval(async () => 
+    this.monitoringInterval = setInterval(async () => {
       try {
         const metrics = await this.getMetrics();
         
         if (this.config.loggingEnabled) {
           StructuredLogger.debug('Metrics collected', {
-            timestamp: timestamp: metrics.timestamp,
+            timestamp: metrics.timestamp,
             cpu: metrics.system.cpu.usage,
             memory: metrics.system.memory.usage,
             responseTime: metrics.application.responseTime
@@ -392,7 +392,7 @@ export class ProductionMonitor {
       }
     }, this.config.interval);
 
-    StructuredLogger.info('Production monitoring started',  interval: this.interval: config.interval});
+    StructuredLogger.info('Production monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -480,8 +480,8 @@ export class ProductionMonitor {
         category: 'system',
         severity: 'high',
         title: 'High CPU Usage',
-        message: `CPU usage is ${metrics.system.cpu.usage.toFixed(2)}% (threshold: $cpu: thresholds.cpu}%)`,
-        metadata:  cpu: metrics.system.usage: cpu.usage, threshold: thresholds.cpu }
+        message: `CPU usage is ${metrics.system.cpu.usage.toFixed(2)}% (threshold: ${thresholds.cpu}%)`,
+        metadata: { cpu: metrics.system.cpu.usage, threshold: thresholds.cpu }
       });
     }
 
@@ -492,20 +492,20 @@ export class ProductionMonitor {
         category: 'system',
         severity: 'high',
         title: 'High Memory Usage',
-        message: `Memory usage is ${metrics.system.memory.usage.toFixed(2)}% (threshold: $memory: thresholds.memory}%)`,
-        metadata:  memory: metrics.system.usage: memory.usage, threshold: thresholds.memory }
+        message: `Memory usage is ${metrics.system.memory.usage.toFixed(2)}% (threshold: ${thresholds.memory}%)`,
+        metadata: { memory: metrics.system.memory.usage, threshold: thresholds.memory }
       });
     }
 
     // Response time alert
-    if (metrics.application.responseTime > thresholds.responseTime) 
+    if (metrics.application.responseTime > thresholds.responseTime) {
       this.createAlert({
         type: 'warning',
         category: 'security' // Changed from performance,
         severity: 'medium',
         title: 'High Response Time',
-        message: `Response time is ${  responseTime: application.responseTime}ms (threshold: $responseTime: thresholds.responseTime}ms)`,
-        metadata:  responseTime: metrics.responseTime: application.responseTime, threshold: thresholds.responseTime }
+        message: `Response time is ${metrics.application.responseTime}ms (threshold: ${thresholds.responseTime}ms)`,
+        metadata: { responseTime: metrics.application.responseTime, threshold: thresholds.responseTime }
       });
     }
 
@@ -516,8 +516,8 @@ export class ProductionMonitor {
         category: 'security' // Changed from performance,
         severity: 'high',
         title: 'High Error Rate',
-        message: `Error rate is ${metrics.application.errorRate.toFixed(2)}% (threshold: $errorRate: thresholds.errorRate}%)`,
-        metadata:  errorRate: metrics.errorRate: application.errorRate, threshold: thresholds.errorRate }
+        message: `Error rate is ${metrics.application.errorRate.toFixed(2)}% (threshold: ${thresholds.errorRate}%)`,
+        metadata: { errorRate: metrics.application.errorRate, threshold: thresholds.errorRate }
       });
     }
   }
@@ -544,10 +544,10 @@ export class ProductionMonitor {
       try {
         await this.executeAction(action, alert);
         action.status = 'completed';
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         action.status = 'failed';
-        StructuredLogger.error('Alert action failed', { alertId: id: alert.id, action: action.type, error: error.message });
+        StructuredLogger.error('Alert action failed', { alertId: alert.id, action: action.type, error: error.message });
       }
     }
   }
@@ -569,24 +569,24 @@ export class ProductionMonitor {
     }
   }
 
-  private async sendNotification(alert: Alert): Promise<void> 
+  private async sendNotification(alert: Alert): Promise<void> {
     // Send notification to configured channels
-    StructuredLogger.info('Sending notification', { alertId: id: alert.id, channels: this.config.notificationChannels });
+    StructuredLogger.info('Sending notification', { alertId: alert.id, channels: this.config.notificationChannels });
   }
 
-  private async executeAutoResponse(alert: Alert): Promise<void> 
+  private async executeAutoResponse(alert: Alert): Promise<void> {
     // Execute automatic response based on alert type
-    StructuredLogger.info('Executing auto-response', { alertId: id: alert.id, type: alert.type });
+    StructuredLogger.info('Executing auto-response', { alertId: alert.id, type: alert.type });
   }
 
-  private async escalateAlert(alert: Alert): Promise<void> 
+  private async escalateAlert(alert: Alert): Promise<void> {
     // Escalate alert to higher level
-    StructuredLogger.info('Escalating alert', { alertId: id: alert.id, severity: alert.severity });
+    StructuredLogger.info('Escalating alert', { alertId: alert.id, severity: alert.severity });
   }
 
-  private async executeCustomAction(alert: Alert, details?: Record<string, any>): Promise<void> 
+  private async executeCustomAction(alert: Alert, details?: Record<string, any>): Promise<void> {
     // Execute custom action
-    StructuredLogger.info('Executing custom action', { alertId: id: alert.id, details });
+    StructuredLogger.info('Executing custom action', { alertId: alert.id, details });
   }
 
   private determineOverallStatus(): DashboardData['overview']['status'] {
@@ -608,20 +608,20 @@ export class ProductionMonitor {
     return this.alerts.filter((a: any) => !a.resolved).slice(-10); // Last 10 active alerts
   }
 
-  private calculateTrends(): DashboardData['metrics']['trends'] 
+  private calculateTrends(): DashboardData['metrics']['trends'] {
     const recentMetrics = this.metrics.slice(-100); // Last 100 metrics
 
     return {
-      cpu: recentMetrics.map((m: any) => ({ timestamp: timestamp: m.timestamp, value: m.system.cpu.usage })),
-      memory: recentMetrics.map((m: any) => ( timestamp: timestamp: m.timestamp, value: m.system.memory.usage })),
-      responseTime: recentMetrics.map((m: any) => ( timestamp: timestamp: m.timestamp, value: m.application.responseTime })),
-      errorRate: recentMetrics.map((m: any) => ( timestamp: timestamp: m.timestamp, value: m.application.errorRate }))
+      cpu: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.system.cpu.usage })),
+      memory: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.system.memory.usage })),
+      responseTime: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.application.responseTime })),
+      errorRate: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.application.errorRate }))
     };
   }
 
-  private async analyzePerformance(): Promise<DashboardData['performance']> 
+  private async analyzePerformance(): Promise<DashboardData['performance']> {
     const recentMetrics = this.metrics.slice(-50); // Last 50 metrics
-    const avgResponseTime = recentMetrics.reduce((sum, m) => sum + m.responseTime: application.responseTime, 0) / recentMetrics.length;
+    const avgResponseTime = recentMetrics.reduce((sum, m) => sum + m.application.responseTime, 0) / recentMetrics.length;
     const avgErrorRate = recentMetrics.reduce((sum, m) => sum + m.application.errorRate, 0) / recentMetrics.length;
 
     let score = 100;

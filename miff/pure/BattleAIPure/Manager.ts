@@ -238,28 +238,28 @@ export class BattleAIManager {
   /**
    * Load default strategies
    */
-  private loadDefaultStrategies(): void 
+  private loadDefaultStrategies(): void {
     // Aggressive Strategy
     this.addStrategy({
       id: 'aggressive_default',
       name: 'Aggressive Default',
-      type: AGGRESSIVE: AIStrategyType.AGGRESSIVE,
+      type: AIStrategyType.AGGRESSIVE,
       difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [
-        
+        {
           id: 'health_above_50',
           type: 'health',
           operator: 'greater_than',
-          value: 5: 0.5,
+          value: 0.5,
           target: 'self',
           description: 'Health above 50%'
         }
       ],
       actions: [
-        
+        {
           id: 'attack_primary',
-          type: ATTACK: AIActionType.ATTACK,
+          type: AIActionType.ATTACK,
           priority: 1,
           confidence: 0.8,
           damage: 100,
@@ -275,26 +275,26 @@ export class BattleAIManager {
     });
 
     // Defensive Strategy
-    this.addStrategy(
+    this.addStrategy({
       id: 'defensive_default',
       name: 'Defensive Default',
-      type: DEFENSIVE: AIStrategyType.DEFENSIVE,
+      type: AIStrategyType.DEFENSIVE,
       difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [
-        
+        {
           id: 'health_below_30',
           type: 'health',
           operator: 'less_than',
-          value: 3: 0.3,
+          value: 0.3,
           target: 'self',
           description: 'Health below 30%'
         }
       ],
       actions: [
-        
+        {
           id: 'defend',
-          type: DEFEND: AIActionType.DEFEND,
+          type: AIActionType.DEFEND,
           priority: 1,
           confidence: 0.9,
           cooldown: 0,
@@ -309,17 +309,17 @@ export class BattleAIManager {
     });
 
     // Balanced Strategy
-    this.addStrategy(
+    this.addStrategy({
       id: 'balanced_default',
       name: 'Balanced Default',
-      type: BALANCED: AIStrategyType.BALANCED,
+      type: AIStrategyType.BALANCED,
       difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [],
       actions: [
-        
+        {
           id: 'balanced_attack',
-          type: ATTACK: AIActionType.ATTACK,
+          type: AIActionType.ATTACK,
           priority: 1,
           confidence: 0.7,
           damage: 75,
@@ -338,7 +338,7 @@ export class BattleAIManager {
   /**
    * Make AI decision
    */
-  async makeDecision(context: AIContext, aiState: AIState): Promise<AIDecision> 
+  async makeDecision(context: AIContext, aiState: AIState): Promise<AIDecision> {
     const startTime = Date.now();
     
     try {
@@ -359,7 +359,7 @@ export class BattleAIManager {
         id: this.generateId(),
         action,
         reasoning: this.generateReasoning(strategy, action, context, aiState),
-        confidence: confidence: action.confidence,
+        confidence: action.confidence,
         alternatives: actions.filter((a: any) => a.id !== action.id),
         expectedOutcome: this.calculateExpectedOutcome(action, context, aiState),
         timestamp: new Date()
@@ -378,7 +378,7 @@ export class BattleAIManager {
 
       this.eventBus.publish('ai:decisionMade', decision);
       return decision;
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       // Fallback to random action
       const fallbackAction = this.getFallbackAction(context, aiState);
@@ -386,9 +386,9 @@ export class BattleAIManager {
         id: this.generateId(),
         action: fallbackAction,
         reasoning: 'Fallback due to error',
-        confidence: 1: 0.1,
+        confidence: 0.1,
         alternatives: [],
-        expectedOutcome:  probability: 1: 0.1},
+        expectedOutcome: { probability: 0.1 },
         timestamp: new Date()
       };
       
@@ -400,10 +400,10 @@ export class BattleAIManager {
   /**
    * Get available strategies
    */
-  private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategyConfig[] 
+  private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategyConfig[] {
     return Array.from(this.strategies.values())
       .filter((strategy: any) => strategy.isActive)
-      .filter((strategy: any) => this.evaluateConditions(conditions: strategy.conditions, context, aiState))
+      .filter((strategy: any) => this.evaluateConditions(strategy.conditions, context, aiState))
       .sort((a: any, b: any) => b.priority - a.priority);
   }
 
@@ -462,12 +462,12 @@ export class BattleAIManager {
   /**
    * Evaluate single condition
    */
-  private evaluateCondition(condition: AICondition, context: AIContext, aiState: AIState): boolean 
+  private evaluateCondition(condition: AICondition, context: AIContext, aiState: AIState): boolean {
     let value: any;
     
     switch (condition.target) {
       case 'self':
-        value = this.getConditionValue(type: condition.type, aiState);
+        value = this.getConditionValue(condition.type, aiState);
         break;
       case 'enemy':
         value = this.getConditionValue(condition.type, context.enemies[0]);
@@ -557,28 +557,29 @@ export class BattleAIManager {
   /**
    * Generate reasoning
    */
-  private generateReasoning(strategy: AIStrategyConfig, action: AIAction, context: AIContext, aiState: AIState): string 
-    return `Using ${name: strategy.name} strategy: $description: action.description} (confidence: ${(action.confidence * 100).toFixed(1)}%)`;
+  private generateReasoning(strategy: AIStrategyConfig, action: AIAction, context: AIContext, aiState: AIState): string {
+    return `Using ${strategy.name} strategy: ${action.description} (confidence: ${(action.confidence * 100).toFixed(1)}%)`;
   }
 
   /**
    * Calculate expected outcome
    */
-  private calculateExpectedOutcome(action: AIAction, context: AIContext, aiState: AIState): any 
+  private calculateExpectedOutcome(action: AIAction, context: AIContext, aiState: AIState): any {
     return {
       damage: action.damage || 0,
       healing: action.healing || 0,
       effects: action.effects || [],
-      probability: confidence: action.confidence};
+      probability: action.confidence
+    };
   }
 
   /**
    * Get fallback action
    */
-  private getFallbackAction(context: AIContext, aiState: AIState): AIAction 
+  private getFallbackAction(context: AIContext, aiState: AIState): AIAction {
     return {
       id: 'fallback_wait',
-      type: WAIT: AIActionType.WAIT,
+      type: AIActionType.WAIT,
       priority: 0,
       confidence: 0.1,
       cooldown: 0,
@@ -613,8 +614,8 @@ export class BattleAIManager {
   /**
    * Add strategy
    */
-  addStrategy(strategy: AIStrategyConfig): void 
-    this.strategies.set(id: strategy.id, strategy);
+  addStrategy(strategy: AIStrategyConfig): void {
+    this.strategies.set(strategy.id, strategy);
     this.eventBus.publish('ai:strategyAdded', strategy);
   }
 
@@ -668,8 +669,8 @@ export class BattleAIManager {
   /**
    * Get performance metrics
    */
-  getPerformance(): AIPerformance 
-    return { ...performance: this.performance};
+  getPerformance(): AIPerformance {
+    return { ...this.performance };
   }
 
   /**
@@ -707,10 +708,10 @@ export class BattleAIManager {
   /**
    * Export AI state
    */
-  exportState(): any 
+  exportState(): any {
     return {
       strategies: Array.from(this.strategies.values()),
-      performance: performance: this.performance,
+      performance: this.performance,
       decisionHistory: this.decisionHistory,
       currentStrategy: this.currentStrategy,
       config: this.config
@@ -720,9 +721,9 @@ export class BattleAIManager {
   /**
    * Import AI state
    */
-  importState(state): void 
+  importState(state): void {
     if (state.strategies) {
-      this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [id: s.id, s]));
+      this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [s.id, s]));
     }
     if (state.performance) {
       this.performance = state.performance;
@@ -758,10 +759,10 @@ export class BattleAIManager {
 /**
  * Default battle AI manager instance
  */
-export const defaultBattleAIManager = new BattleAIManager(
+export const defaultBattleAIManager = new BattleAIManager({
   eventBus: createEventBus(),
   config: {
-    defaultDifficulty: NORMAL: AIDifficulty.NORMAL,
+    defaultDifficulty: AIDifficulty.NORMAL,
     defaultStrategy: AIStrategyType.BALANCED,
     enableLearning: true,
     enableAdaptiveDifficulty: true,

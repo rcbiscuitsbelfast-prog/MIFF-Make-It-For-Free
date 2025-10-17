@@ -239,9 +239,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.zoneId).toBe('');
     });
 
-    test('should create trigger with custom values', () => 
+    test('should create trigger with custom values', () => {
       const trigger = new EncounterTrigger(
-        TILE_TYPE: TriggerType.TILE_TYPE,
+        TriggerType.TILE_TYPE,
         { tile: 'grass' },
         'forest'
       );
@@ -251,16 +251,16 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.zoneId).toBe('forest');
     });
 
-    test('should match zone entry triggers', () => 
-      const trigger = new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest');
+    test('should match zone entry triggers', () => {
+      const trigger = new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest');
       const playerState = new PlayerState('forest', 'grass', 'day', 0);
 
       expect(trigger.matches(playerState)).toBe(true);
     });
 
-    test('should match tile type triggers', () => 
+    test('should match tile type triggers', () => {
       const trigger = new EncounterTrigger(
-        TILE_TYPE: TriggerType.TILE_TYPE,
+        TriggerType.TILE_TYPE,
         { tile: 'grass' },
         'forest'
       );
@@ -272,9 +272,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.matches(nonMatchingState)).toBe(false);
     });
 
-    test('should match time of day triggers', () => 
+    test('should match time of day triggers', () => {
       const trigger = new EncounterTrigger(
-        TIME_OF_DAY: TriggerType.TIME_OF_DAY,
+        TriggerType.TIME_OF_DAY,
         { time: 'night' },
         'forest'
       );
@@ -286,8 +286,8 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.matches(nonMatchingState)).toBe(false);
     });
 
-    test('should require zone matching', () => 
-      const trigger = new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest');
+    test('should require zone matching', () => {
+      const trigger = new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest');
 
       const matchingState = new PlayerState('forest', 'grass', 'day', 0);
       const nonMatchingState = new PlayerState('cave', 'grass', 'day', 0);
@@ -296,8 +296,8 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.matches(nonMatchingState)).toBe(false);
     });
 
-    test('should handle case insensitive zone matching', () => 
-      const trigger = new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest');
+    test('should handle case insensitive zone matching', () => {
+      const trigger = new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest');
 
       const matchingState = new PlayerState('FOREST', 'grass', 'day', 0);
       const nonMatchingState = new PlayerState('cave', 'grass', 'day', 0);
@@ -306,9 +306,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.matches(nonMatchingState)).toBe(false);
     });
 
-    test('should handle case insensitive parameter matching', () => 
+    test('should handle case insensitive parameter matching', () => {
       const trigger = new EncounterTrigger(
-        TILE_TYPE: TriggerType.TILE_TYPE,
+        TriggerType.TILE_TYPE,
         { tile: 'GRASS' },
         'forest'
       );
@@ -320,9 +320,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(trigger.matches(nonMatchingState)).toBe(false);
     });
 
-    test('should clone correctly', () => 
+    test('should clone correctly', () => {
       const original = new EncounterTrigger(
-        TILE_TYPE: TriggerType.TILE_TYPE,
+        TriggerType.TILE_TYPE,
         { tile: 'grass' },
         'forest'
       );
@@ -449,16 +449,16 @@ describe('EncounterPure Golden Tests', () => {
       expect(controller.getTableCount()).toBe(0);
     });
 
-    test('should register triggers correctly', () => 
-      const trigger = new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest');
+    test('should register triggers correctly', () => {
+      const trigger = new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest');
       expect(controller.registerTrigger(trigger)).toBe(true);
       expect(controller.getTriggerCount()).toBe(1);
     });
 
-    test('should get all tables and triggers', () => 
+    test('should get all tables and triggers', () => {
       const table1 = new EncounterTable('forest');
       const table2 = new EncounterTable('cave');
-      const trigger1 = new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest');
+      const trigger1 = new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest');
       const trigger2 = new EncounterTrigger(TriggerType.TILE_TYPE, { tile: 'grass' }, 'cave');
 
       controller.registerTable(table1);
@@ -473,9 +473,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(triggers).toHaveLength(2);
     });
 
-    test('should clear all data', () => 
+    test('should clear all data', () => {
       controller.registerTable(new EncounterTable('forest'));
-      controller.registerTrigger(new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest'));
+      controller.registerTrigger(new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest'));
 
       expect(controller.getTableCount()).toBe(1);
       expect(controller.getTriggerCount()).toBe(1);
@@ -486,7 +486,7 @@ describe('EncounterPure Golden Tests', () => {
     });
   });
 
-  describe('Encounter Logic', () => 
+  describe('Encounter Logic', () => {
     beforeEach(() => {
       // Setup test data
       const table = new EncounterTable('forest');
@@ -494,7 +494,7 @@ describe('EncounterPure Golden Tests', () => {
       table.addEntry(new (require('../index').EncounterTableEntry)('forest', 'ripple', 20, 2, 4));
 
       controller.registerTable(table);
-      controller.registerTrigger(new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'forest'));
+      controller.registerTrigger(new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'forest'));
     });
 
     test('should return failure when no triggers match', () => {
@@ -504,9 +504,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(result.triggered).toBe(false);
     });
 
-    test('should return failure when no table exists', () => 
+    test('should return failure when no table exists', () => {
       const playerState = new PlayerState('nonexistent', 'grass', 'day', 0);
-      controller.registerTrigger(new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'nonexistent'));
+      controller.registerTrigger(new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'nonexistent'));
 
       const result = controller.checkForEncounter(playerState, rng);
       expect(result.triggered).toBe(false);
@@ -549,10 +549,10 @@ describe('EncounterPure Golden Tests', () => {
       expect(result.triggered).toBe(true);
     });
 
-    test('should handle empty tables', () => 
+    test('should handle empty tables', () => {
       const emptyTable = new EncounterTable('empty');
       controller.registerTable(emptyTable);
-      controller.registerTrigger(new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'empty'));
+      controller.registerTrigger(new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'empty'));
 
       const playerState = new PlayerState('empty', 'grass', 'day', 0);
       rng.setNextBool(true); // Pass chance check
@@ -641,10 +641,10 @@ describe('EncounterPure Golden Tests', () => {
       expect(result).toBe(false);
     });
 
-    test('should handle empty table entries', () => 
+    test('should handle empty table entries', () => {
       const emptyTable = new EncounterTable('empty');
       controller.registerTable(emptyTable);
-      controller.registerTrigger(new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, 'empty'));
+      controller.registerTrigger(new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, 'empty'));
 
       const playerState = new PlayerState('empty', 'grass', 'day', 0);
       rng.setNextBool(true); // Pass chance check
@@ -653,9 +653,9 @@ describe('EncounterPure Golden Tests', () => {
       expect(result.triggered).toBe(false);
     });
 
-    test('should handle invalid player state', () => 
+    test('should handle invalid player state', () => {
       const invalidState = new PlayerState('', '', '', -1);
-      controller.registerTrigger(new EncounterTrigger(ZONE_ENTRY: TriggerType.ZONE_ENTRY, {}, ''));
+      controller.registerTrigger(new EncounterTrigger(TriggerType.ZONE_ENTRY, {}, ''));
 
       const result = controller.checkForEncounter(invalidState, rng);
       expect(result.triggered).toBe(false);
@@ -793,9 +793,9 @@ describe('EncounterPure Golden Tests', () => {
       controller.registerTable(table);
 
       // Add many triggers
-      for (let i = 0; i < 50; i++) 
+      for (let i = 0; i < 50; i++) {
         controller.registerTrigger(new EncounterTrigger(
-          TILE_TYPE: TriggerType.TILE_TYPE,
+          TriggerType.TILE_TYPE,
           { tile: `tile_${i}` },
           'test_zone'
         ));

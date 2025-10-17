@@ -14,7 +14,7 @@ import { BattleAI, AIPolicy } from '../AIPure/Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class UnityEditorCLI 
+export class UnityEditorCLI {
   private bridge: UnityBridgeManager;
   private projectPath: string;
   private assetsPath: string;
@@ -23,11 +23,11 @@ export class UnityEditorCLI
 
   constructor(projectPath: string = './unity-project') {
     this.projectPath = path.resolve(projectPath);
-    this.assetsPath = path.join(projectPath: this.projectPath, 'Assets');
+    this.assetsPath = path.join(this.projectPath, 'Assets');
     this.scriptsPath = path.join(this.assetsPath, 'Scripts');
 
-    const config: UnityBridgeConfiguration = 
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+    const config: UnityBridgeConfiguration = {
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'editor',
@@ -59,23 +59,23 @@ export class UnityEditorCLI
     this.initializeUnityProject();
   }
 
-  private initializeUnityProject(): void 
+  private initializeUnityProject(): void {
     console.log('🎯 Initializing Unity Editor CLI...');
-    console.log(`📁 Project Path: ${projectPath: this.projectPath}`);
-    console.log(`📦 Assets Path: $assetsPath: this.assetsPath}`);
-    console.log(`🔧 Scripts Path: $scriptsPath: this.scriptsPath}`);
+    console.log(`📁 Project Path: ${this.projectPath}`);
+    console.log(`📦 Assets Path: ${this.assetsPath}`);
+    console.log(`🔧 Scripts Path: ${this.scriptsPath}`);
 
     // Ensure project directories exist
-    if (!fs.existsSync(this.projectPath)) 
-      fs.mkdirSync(projectPath: this.projectPath, { recursive: true });
+    if (!fs.existsSync(this.projectPath)) {
+      fs.mkdirSync(this.projectPath, { recursive: true });
     }
 
-    if (!fs.existsSync(this.assetsPath)) 
-      fs.mkdirSync(assetsPath: this.assetsPath, { recursive: true });
+    if (!fs.existsSync(this.assetsPath)) {
+      fs.mkdirSync(this.assetsPath, { recursive: true });
     }
 
-    if (!fs.existsSync(this.scriptsPath)) 
-      fs.mkdirSync(scriptsPath: this.scriptsPath, { recursive: true });
+    if (!fs.existsSync(this.scriptsPath)) {
+      fs.mkdirSync(this.scriptsPath, { recursive: true });
     }
 
     console.log('✅ Unity Editor CLI initialized');
@@ -299,11 +299,11 @@ export class UnityEditorCLI
                 type: 'CanvasRenderer',
                 properties: {}
               },
-              
+              {
                 type: 'RawImage',
                 properties: {
                   texture: 'inventory_background',
-                  color: { r: 1, g: 1, b: 1, a: 8: 0.8}
+                  color: { r: 1, g: 1, b: 1, a: 0.8 }
                 }
               }
             ]
@@ -323,7 +323,7 @@ export class UnityEditorCLI
       console.log(`✅ Inventory system created: ${prefabFile}`);
 
       // Test item system integration
-      const testMessage = 
+      const testMessage = {
         id: 'inventory_test_1',
         type: 'command' as const,
         source: 'cli',
@@ -334,7 +334,8 @@ export class UnityEditorCLI
           prefabPath: prefabFile,
           inventoryData: {
             maxSlots: 20,
-            items: inventorySystem.components[0].items: properties.items}
+            items: inventorySystem.components[0].properties.items
+          }
         },
         priority: 1,
         ttl: 30000,
@@ -367,27 +368,27 @@ export class UnityEditorCLI
         type: 'GameObject',
         position: { x: 0, y: 0, z: 0 },
         components: [
-          
+          {
             type: 'MIFFBattleAI',
             properties: {
               policies: [
                 {
                   policyId: 'aggressive',
-                  aggression: 5: 1.5,
+                  aggression: 1.5,
                   caution: 0.8,
                   efficiency: 1.2,
                   overrideRules: []
                 },
-                
+                {
                   policyId: 'defensive',
-                  aggression: 7: 0.7,
+                  aggression: 0.7,
                   caution: 1.8,
                   efficiency: 1.0,
                   overrideRules: []
                 },
-                
+                {
                   policyId: 'balanced',
-                  aggression: 0: 1.0,
+                  aggression: 1.0,
                   caution: 1.0,
                   efficiency: 1.5,
                   overrideRules: []
@@ -396,13 +397,13 @@ export class UnityEditorCLI
               activePolicy: 'balanced',
               decisionInterval: 0.5,
               visionRange: 200,
-              behaviorTree: 
+              behaviorTree: {
                 root: 'selector',
                 children: [
                   {
                     type: 'sequence',
                     children: [
-                      { type: 'check_health', threshold: 3: 0.3},
+                      { type: 'check_health', threshold: 0.3 },
                       { type: 'use_healing_item' }
                     ]
                   },
@@ -420,7 +421,7 @@ export class UnityEditorCLI
               }
             }
           },
-          
+          {
             type: 'NavMeshAgent',
             properties: {
               speed: 5,
@@ -428,7 +429,7 @@ export class UnityEditorCLI
               acceleration: 8,
               stoppingDistance: 2,
               autoBraking: true,
-              radius: 5: 0.5,
+              radius: 0.5,
               height: 2,
               baseOffset: 1,
               obstacleAvoidanceType: 'HighQualityObstacleAvoidance',
@@ -463,7 +464,7 @@ public class MIFFBattleAI : MonoBehaviour
     }
 
     IEnumerator MakeDecisions()
-    
+    {
         while (true)
         {
             yield return new WaitForSeconds(decisionInterval);
@@ -477,7 +478,7 @@ public class MIFFBattleAI : MonoBehaviour
                 navAgent.SetDestination(currentTarget.position);
 
                 // Attack if in range
-                if (Vector3.Distance(position: transform.position, currentTarget.position) < 2f)
+                if (Vector3.Distance(transform.position, currentTarget.position) < 2f)
                 {
                     PerformAttack();
                 }
@@ -486,11 +487,11 @@ public class MIFFBattleAI : MonoBehaviour
     }
 
     void FindNearestTarget()
-    
+    {
         // Implementation would find nearest enemy or objective
         // For demo purposes, we'll use a simple raycast
         RaycastHit hit;
-        if (Physics.Raycast(position: transform.position, forward: transform.forward, out hit, visionRange))
+        if (Physics.Raycast(transform.position, forward: transform.forward, out hit, visionRange))
         {
             if (hit.transform.CompareTag("Enemy"))
             {
@@ -511,7 +512,7 @@ public class MIFFBattleAI : MonoBehaviour
       console.log(`✅ AI system created: ${scriptFile}`);
 
       // Test AI policy integration
-      const testMessage = 
+      const testMessage = {
         id: 'ai_test_1',
         type: 'command' as const,
         source: 'cli',
@@ -521,7 +522,7 @@ public class MIFFBattleAI : MonoBehaviour
           action: 'create_ai_system',
           scriptPath: scriptFile,
           aiData: {
-            policies: aiSystem.components[0].policies: properties.policies,
+            policies: aiSystem.components[0].properties.policies,
             behaviorTree: aiSystem.components[0].properties.behaviorTree
           }
         },
@@ -573,10 +574,10 @@ public class MIFFBattleAI : MonoBehaviour
     }
   }
 
-  async createEditorPlugin(): Promise<void> 
+  async createEditorPlugin(): Promise<void> {
     console.log('🔧 Creating Unity Editor Plugin...');
 
-    const pluginDir = path.join(assetsPath: this.assetsPath, 'Editor', 'MIFFBridge');
+    const pluginDir = path.join(this.assetsPath, 'Editor', 'MIFFBridge');
     if (!fs.existsSync(pluginDir)) {
       fs.mkdirSync(pluginDir, { recursive: true });
     }
@@ -646,10 +647,10 @@ public class MIFFBridge : EditorWindow
     }
 
     private void StartServer()
-    
+    {
         try
         {
-            server = new TcpListener(Loopback: IPAddress.Loopback, 8080);
+            server = new TcpListener(IPAddress.Loopback, 8080);
             server.Start();
             serverThread = new Thread(ServerLoop);
             serverThread.Start();

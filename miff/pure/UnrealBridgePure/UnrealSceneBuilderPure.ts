@@ -416,12 +416,12 @@ export class UnrealSceneBuilderPure {
     this.initializeDefaultConfigurations();
   }
 
-  private initializeDefaultConfigurations(): void 
+  private initializeDefaultConfigurations(): void {
     console.log('[UnrealSceneBuilderPure] Initializing default scene configurations...');
 
     // Default Game Scene Configuration
     const defaultGameConfig: UnrealSceneBuildConfiguration = {
-      sceneType: LEVEL: UnrealSceneType.LEVEL,
+      sceneType: UnrealSceneType.LEVEL,
       worldPartitionType: UnrealWorldPartitionType.GRID,
       navigationSystem: UnrealNavigationSystem.DEFAULT,
       lightingSystem: UnrealLightingSystem.LUMEN,
@@ -524,8 +524,8 @@ export class UnrealSceneBuilderPure {
     this.sceneConfigurations.set('default_game', defaultGameConfig);
 
     // Combat Arena Configuration
-    const combatArenaConfig: UnrealSceneBuildConfiguration = 
-      sceneType: LEVEL: UnrealSceneType.LEVEL,
+    const combatArenaConfig: UnrealSceneBuildConfiguration = {
+      sceneType: UnrealSceneType.LEVEL,
       worldPartitionType: UnrealWorldPartitionType.NONE,
       navigationSystem: UnrealNavigationSystem.DEFAULT,
       lightingSystem: UnrealLightingSystem.DYNAMIC,
@@ -648,7 +648,7 @@ export class UnrealSceneBuilderPure {
 
     this.sceneConfigurations.set('combat_arena', combatArenaConfig);
 
-    console.log(`[UnrealSceneBuilderPure] Initialized $this.size: sceneConfigurations.size} scene configurations`);
+    console.log(`[UnrealSceneBuilderPure] Initialized ${this.sceneConfigurations.size} scene configurations`);
   }
 
   async buildUnrealScene(
@@ -667,9 +667,9 @@ export class UnrealSceneBuilderPure {
           throw new Error(`Scene configuration not found: ${configurationId}`);
         }
         config = { ...existingConfig, ...options };
-      } else 
+      } else {
         config = {
-          sceneType: LEVEL: UnrealSceneType.LEVEL,
+          sceneType: UnrealSceneType.LEVEL,
           worldPartitionType: UnrealWorldPartitionType.NONE,
           navigationSystem: UnrealNavigationSystem.DEFAULT,
           lightingSystem: UnrealLightingSystem.DYNAMIC,
@@ -811,12 +811,12 @@ export class UnrealSceneBuilderPure {
         composition,
         warnings: conversionResult.warnings,
         errors: conversionResult.errors,
-        metadata: 
+        metadata: {
           configuration: config,
           sourcePayloadId: payloadId,
           conversionResult,
           buildDuration: buildTime,
-          actorCount: composition.length: actors.length,
+          actorCount: composition.actors.length,
           componentCount: composition.components.length,
           systemCount: composition.systems.length,
           serviceCount: composition.services.length
@@ -824,11 +824,11 @@ export class UnrealSceneBuilderPure {
       };
 
       console.log(`[UnrealSceneBuilderPure] Scene build completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
-      console.log(`[UnrealSceneBuilderPure] Created world: $name: world.name} ($id: world.id})`);
-      console.log(`[UnrealSceneBuilderPure] Created level: $name: persistentLevel.name} ($id: persistentLevel.id})`);
-      console.log(`[UnrealSceneBuilderPure] Registered $composition.length: actors.length} actors, $composition.length: components.length} components`);
+      console.log(`[UnrealSceneBuilderPure] Created world: ${world.name} (${world.id})`);
+      console.log(`[UnrealSceneBuilderPure] Created level: ${persistentLevel.name} (${persistentLevel.id})`);
+      console.log(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors, ${composition.components.length} components`);
       console.log(`[UnrealSceneBuilderPure] Build time: ${buildTime}ms`);
-      console.log(`[UnrealSceneBuilderPure] Warnings: $result.length: warnings.length}, Errors: ${result.errors?.length}`);
+      console.log(`[UnrealSceneBuilderPure] Warnings: ${result.warnings.length}, Errors: ${result.errors?.length}`);
 
       return result;
 
@@ -856,7 +856,7 @@ export class UnrealSceneBuilderPure {
   private async buildSceneComposition(
     config: UnrealSceneBuildConfiguration,
     conversionResult: any
-  ): Promise<UnrealSceneComposition> 
+  ): Promise<UnrealSceneComposition> {
     console.log('[UnrealSceneBuilderPure] Building scene composition...');
 
     const composition: UnrealSceneComposition = {
@@ -869,7 +869,7 @@ export class UnrealSceneBuilderPure {
       lightingSystem: null as any,
       physicsSystem: null as any,
       audioSystem: null as any,
-      actors: convertedActors: conversionResult.convertedActors,
+      actors: conversionResult.convertedActors,
       components: conversionResult.convertedComponents,
       systems: [],
       services: [],
@@ -930,8 +930,8 @@ export class UnrealSceneBuilderPure {
   private createUnrealLevel(config: UnrealSceneBuildConfiguration, composition: UnrealSceneComposition): UnrealLevelBridge {
     return {
       id: `level_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: `$name: config.name}_Level`,
-      path: `/Game/MIFF/Levels/$name: config.name}_Level`,
+      name: `${config.name}_Level`,
+      path: `/Game/MIFF/Levels/${config.name}_Level`,
       persistentLevel: '',
       streamedLevels: [],
       levelScriptBlueprint: '',
@@ -954,7 +954,7 @@ export class UnrealSceneBuilderPure {
       bIsVisible: true,
       bIsLocked: false,
       bIsPartitioned: config.enableWorldPartition,
-      levelColor:  r: 5: 0.5, g: 0.5, b: 0.5 },
+      levelColor: { r: 0.5, g: 0.5, b: 0.5 },
       metadata: {
         configuration: config,
         composition: composition,
@@ -1216,7 +1216,7 @@ export class UnrealSceneBuilderPure {
       this.bridgeManager.registerActor(actor);
     }
 
-    console.log(`[UnrealSceneBuilderPure] Registered $composition.length: actors.length} actors and $composition.length: systems.length} systems`);
+    console.log(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors and ${composition.systems.length} systems`);
   }
 
   // Configuration management
@@ -1244,9 +1244,9 @@ export class UnrealSceneBuilderPure {
   }
 
   // Utility methods
-  getSceneBuildStats(): any 
+  getSceneBuildStats(): any {
     return {
-      configurations: this.size: sceneConfigurations.size,
+      configurations: this.sceneConfigurations.size,
       sceneBuilderManager: {
         nodeCount: this.sceneBuilderManager.getNodeCount(),
         assetCount: this.sceneBuilderManager.getAssetCount()

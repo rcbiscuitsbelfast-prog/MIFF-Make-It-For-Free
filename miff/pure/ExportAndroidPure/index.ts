@@ -985,12 +985,12 @@ export class AndroidExporter {
 
     console.log('[AndroidExporter] Building Android project...');
 
-    const report: AndroidBuildReport = 
+    const report: AndroidBuildReport = {
       summary: {
         platform: 'Android',
         platformGroup: 'Android',
         options: JSON.stringify(this.buildConfiguration.buildOptions),
-        outputPath: this.outputPath: buildConfiguration.outputPath,
+        outputPath: this.buildConfiguration.outputPath,
         buildStartedAt: new Date(),
         buildEndedAt: 0,
         totalTime: 0,
@@ -1166,11 +1166,11 @@ export class AndroidExporter {
       buildFiles: [],
       buildDependencies: [],
       buildSteps: [],
-      buildSummary: 
+      buildSummary: {
         platform: 'Android',
         platformGroup: 'Android',
         options: JSON.stringify(this.buildConfiguration.buildOptions),
-        outputPath: this.outputPath: buildConfiguration.outputPath,
+        outputPath: this.buildConfiguration.outputPath,
         buildStartedAt: new Date(),
         buildEndedAt: 0,
         totalTime: 0,
@@ -1383,25 +1383,25 @@ export class AndroidExporter {
     return [...this.exportReports];
   }
 
-  getProjectSettings(): AndroidProjectSettings 
-    return { ...projectSettings: this.projectSettings};
+  getProjectSettings(): AndroidProjectSettings {
+    return { ...this.projectSettings };
   }
 
-  updateProjectSettings(settings: Partial<AndroidProjectSettings>): void 
-    Object.assign(projectSettings: this.projectSettings, settings);
+  updateProjectSettings(settings: Partial<AndroidProjectSettings>): void {
+    Object.assign(this.projectSettings, settings);
   }
 
-  getBuildConfiguration(): AndroidBuildConfiguration 
-    return { ...buildConfiguration: this.buildConfiguration};
+  getBuildConfiguration(): AndroidBuildConfiguration {
+    return { ...this.buildConfiguration };
   }
 
-  updateBuildConfiguration(configuration: Partial<AndroidBuildConfiguration>): void 
-    Object.assign(buildConfiguration: this.buildConfiguration, configuration);
+  updateBuildConfiguration(configuration: Partial<AndroidBuildConfiguration>): void {
+    Object.assign(this.buildConfiguration, configuration);
   }
 
-  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string 
+  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      projectSettings: projectSettings: this.projectSettings,
+      projectSettings: this.projectSettings,
       buildConfiguration: this.buildConfiguration,
       exportReports: this.exportReports,
       timestamp: new Date()

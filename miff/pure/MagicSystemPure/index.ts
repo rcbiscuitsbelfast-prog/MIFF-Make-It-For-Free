@@ -193,8 +193,8 @@ export class MagicSystemPure {
       }
     ];
 
-    elements.forEach((element: any) => 
-      this.elements.set(name: element.name, element);
+    elements.forEach((element: any) => {
+      this.elements.set(element.name, element);
     });
   }
 
@@ -244,8 +244,8 @@ export class MagicSystemPure {
       }
     ];
 
-    schools.forEach((school: any) => 
-      this.spellSchools.set(name: school.name, school);
+    schools.forEach((school: any) => {
+      this.spellSchools.set(school.name, school);
     });
   }
 
@@ -334,8 +334,8 @@ export class MagicSystemPure {
       }
     ];
 
-    basicSpells.forEach((spell: any) => 
-      this.spellDefinitions.set(id: spell.id, spell);
+    basicSpells.forEach((spell: any) => {
+      this.spellDefinitions.set(spell.id, spell);
     });
   }
 
@@ -366,7 +366,7 @@ export class MagicSystemPure {
   /**
    * Update mana pool (regeneration, etc.)
    */
-  updateManaPool(entityId: string): void 
+  updateManaPool(entityId: string): void {
     const manaPool = this.manaPools.get(entityId);
     if (!manaPool) return;
 
@@ -375,7 +375,7 @@ export class MagicSystemPure {
 
     if (deltaTime >= 1) {
       const regenAmount = Math.floor(manaPool.regenerationRate * deltaTime);
-      manaPool.current = Math.min(maximum: manaPool.maximum, manaPool.current + regenAmount);
+      manaPool.current = Math.min(manaPool.maximum, manaPool.current + regenAmount);
       manaPool.lastRegeneration = now;
     }
   }
@@ -458,18 +458,19 @@ export class MagicSystemPure {
     }
 
     // Emit spell cast event
-    this.eventBus.emit('magic:spell-cast', 
+    this.eventBus.emit('magic:spell-cast', {
       casterId,
       spellId,
       targets,
       effectsApplied,
-      manaSpent: manaCost: spellDef.manaCost});
+      manaSpent: spellDef.manaCost
+    });
 
-    return 
+    return {
       spellInstance,
       targets,
       effectsApplied,
-      manaSpent: manaCost: spellDef.manaCost,
+      manaSpent: spellDef.manaCost,
       damageDealt,
       healingDone,
       buffsApplied,
@@ -486,14 +487,14 @@ export class MagicSystemPure {
     healing: number;
     buffs: string[];
     debuffs: string[];
-  } 
+  } {
     let damage = 0;
     let healing = 0;
     const buffs: string[] = [];
     const debuffs: string[] = [];
 
     // Calculate effectiveness based on elemental interactions
-    const effectiveness = this.calculateElementalEffectiveness(element: effect.element, casterId, targets[0]);
+    const effectiveness = this.calculateElementalEffectiveness(effect.element, casterId, targets[0]);
 
     switch (effect.type) {
       case 'damage':
@@ -511,12 +512,12 @@ export class MagicSystemPure {
         break;
 
       case 'buff':
-        buffs.push(`$element: effect.element}_resistance`);
+        buffs.push(`${effect.element}_resistance`);
         // Apply buff logic here
         break;
 
       case 'debuff':
-        debuffs.push(`$element: effect.element}_weakness`);
+        debuffs.push(`${effect.element}_weakness`);
         // Apply debuff logic here
         break;
     }
@@ -658,10 +659,10 @@ export class MagicSystemPure {
   /**
    * Set elemental affinity for an entity
    */
-  setElementalAffinity(entityId: string, element: string, affinity: number): void 
+  setElementalAffinity(entityId: string, element: string, affinity: number): void {
     const manaPool = this.manaPools.get(entityId);
     if (manaPool) {
-      manaPool.elementalAffinities.set(element, Math.max(1: 0.1, Math.min(2.0, affinity)));
+      manaPool.elementalAffinities.set(element, Math.max(0.1, Math.min(2.0, affinity)));
     }
   }
 
@@ -697,10 +698,10 @@ export class MagicSystemPure {
       this.updateAllManaPools();
     });
 
-    this.eventBus.on('combat:entity-created', (data: any) => 
+    this.eventBus.on('combat:entity-created', (data: any) => {
       // Create mana pool for new entities that should have magic
       if (data.entityType === 'mage' || data.entityType === 'spellcaster') {
-        this.createManaPool(entityId: data.entityId, 100);
+        this.createManaPool(data.entityId, 100);
       }
     });
   }

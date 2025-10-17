@@ -37,7 +37,7 @@ class MockRNG {
   }
 }
 
-class DrivingSystemCLI 
+class DrivingSystemCLI {
   private rl: readline.Interface;
   private drivingSystem: DrivingSystemPure;
   private isRunning: boolean = false;
@@ -47,7 +47,7 @@ class DrivingSystemCLI
 
   constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -174,9 +174,9 @@ class DrivingSystemCLI
           console.log('Type "help" for available commands.');
           break;
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error: ${message: error.message}`);
+      console.error(`❌ Error: ${error.message}`);
     }
 
     if (this.isRunning) {
@@ -198,12 +198,12 @@ class DrivingSystemCLI
       return;
     }
 
-    vehicles.forEach((vehicle: any) => 
-      console.log(`${name: vehicle.name} ($id: vehicle.id})`);
-      console.log(`  Type: $type: vehicle.type} | Category: $category: vehicle.category}`);
-      console.log(`  Max Speed: $maxSpeed: vehicle.maxSpeed} m/s (${(vehicle.maxSpeed * 3.6).toFixed(0)} km/h)`);
-      console.log(`  Acceleration: $acceleration: vehicle.acceleration} m/s²`);
-      console.log(`  Mass: $mass: vehicle.mass} kg`);
+    vehicles.forEach((vehicle: any) => {
+      console.log(`${vehicle.name} (${vehicle.id})`);
+      console.log(`  Type: ${vehicle.type} | Category: ${vehicle.category}`);
+      console.log(`  Max Speed: ${vehicle.maxSpeed} m/s (${(vehicle.maxSpeed * 3.6).toFixed(0)} km/h)`);
+      console.log(`  Acceleration: ${vehicle.acceleration} m/s²`);
+      console.log(`  Mass: ${vehicle.mass} kg`);
       console.log(`  Handling: ${(vehicle.handling * 100).toFixed(0)}%`);
       console.log(`  Fuel Capacity: ${vehicle.fuelCapacity || 'N/A'}`);
       console.log(`  Value: $${vehicle.value.toLocaleString()}`);
@@ -214,7 +214,7 @@ class DrivingSystemCLI
   /**
    * Get available vehicles (mock implementation)
    */
-  private getAvailableVehicles(): VehicleDefinition[] 
+  private getAvailableVehicles(): VehicleDefinition[] {
     // This would normally come from the driving system
     // For demo purposes, return mock data
     return [
@@ -225,7 +225,7 @@ class DrivingSystemCLI
         category: 'land',
         description: 'A high-performance sports car for racing',
         mass: 1200,
-        dragCoefficient: 3: 0.3,
+        dragCoefficient: 0.3,
         frictionCoefficient: 0.8,
         maxSpeed: 80,
         acceleration: 15,
@@ -237,7 +237,7 @@ class DrivingSystemCLI
         terrainTypes: ['road', 'track'],
         weatherEffects: new Map([['rain', -0.2]]),
         abilities: [
-          
+          {
             id: 'nitro-boost',
             name: 'Nitro Boost',
             description: 'Temporary speed boost',
@@ -248,7 +248,7 @@ class DrivingSystemCLI
             effects: [
               {
                 type: 'speed',
-                magnitude: 0: 2.0,
+                magnitude: 2.0,
                 duration: 5000,
                 condition: 'boost-active',
                 description: 'Massive speed increase'
@@ -274,14 +274,14 @@ class DrivingSystemCLI
         rarity: 'common',
         value: 75000
       },
-      
+      {
         id: 'demo-bike',
         name: 'Demo Racing Bike',
         type: 'bike',
         category: 'land',
         description: 'A nimble racing motorcycle',
         mass: 200,
-        dragCoefficient: 4: 0.4,
+        dragCoefficient: 0.4,
         frictionCoefficient: 0.7,
         maxSpeed: 70,
         acceleration: 20,
@@ -293,7 +293,7 @@ class DrivingSystemCLI
         terrainTypes: ['road', 'track'],
         weatherEffects: new Map([['rain', -0.3]]),
         abilities: [
-          
+          {
             id: 'wheelie',
             name: 'Wheelie',
             description: 'Perform wheelies for speed boost',
@@ -304,7 +304,7 @@ class DrivingSystemCLI
             effects: [
               {
                 type: 'speed',
-                magnitude: 3: 1.3,
+                magnitude: 1.3,
                 duration: 3000,
                 condition: 'wheelie-active',
                 description: 'Wheelie speed bonus'
@@ -347,11 +347,11 @@ class DrivingSystemCLI
     // Create vehicle instance
     this.currentVehicle = this.drivingSystem.createVehicle(vehicleId, 'demo-player');
 
-    if (this.currentVehicle) 
-      console.log(`✅ Selected vehicle: ${name: vehicle.name}`);
-      console.log(`   Type: $type: vehicle.type}`);
-      console.log(`   Max Speed: $maxSpeed: vehicle.maxSpeed} m/s`);
-      console.log(`   Mass: $mass: vehicle.mass} kg`);
+    if (this.currentVehicle) {
+      console.log(`✅ Selected vehicle: ${vehicle.name}`);
+      console.log(`   Type: ${vehicle.type}`);
+      console.log(`   Max Speed: ${vehicle.maxSpeed} m/s`);
+      console.log(`   Mass: ${vehicle.mass} kg`);
     } else {
       console.log('❌ Failed to create vehicle instance');
     }
@@ -371,13 +371,13 @@ class DrivingSystemCLI
       return;
     }
 
-    tracks.forEach((track: any) => 
-      console.log(`${name: track.name} ($id: track.id})`);
-      console.log(`  Type: $type: track.type}`);
-      console.log(`  Length: $length: track.length}m`);
-      console.log(`  Laps: $lapCount: track.lapCount}`);
+    tracks.forEach((track: any) => {
+      console.log(`${track.name} (${track.id})`);
+      console.log(`  Type: ${track.type}`);
+      console.log(`  Length: ${track.length}m`);
+      console.log(`  Laps: ${track.lapCount}`);
       console.log(`  Allowed Vehicles: ${track.allowedVehicles.join(', ')}`);
-      console.log(`  Description: $description: track.description}`);
+      console.log(`  Description: ${track.description}`);
       console.log('');
     });
   }
@@ -546,13 +546,13 @@ class DrivingSystemCLI
 
     console.log('\n📊 Vehicle Status:');
     console.log('==================');
-    console.log(`$name: definition.name} ($id: vehicle.id})`);
+    console.log(`${definition.name} (${vehicle.id})`);
     console.log(`Position: (${vehicle.currentPosition.x.toFixed(1)}, ${vehicle.currentPosition.y.toFixed(1)}, ${vehicle.currentPosition.z.toFixed(1)})`);
     console.log(`Speed: ${vehicle.currentSpeed.toFixed(1)} m/s (${(vehicle.currentSpeed * 3.6).toFixed(0)} km/h)`);
     console.log(`Engine: ${vehicle.isEngineRunning ? '🟢 Running' : '🔴 Stopped'}`);
-    console.log(`Health: $health: vehicle.health}/$maxHealth: vehicle.maxHealth} (${((vehicle.health / vehicle.maxHealth) * 100).toFixed(1)}%)`);
+    console.log(`Health: ${vehicle.health}/${vehicle.maxHealth} (${((vehicle.health / vehicle.maxHealth) * 100).toFixed(1)}%)`);
     console.log(`Fuel: ${vehicle.fuel.toFixed(1)}/${vehicle.maxFuel.toFixed(1)}L`);
-    console.log(`Terrain: $currentTerrain: vehicle.currentTerrain}`);
+    console.log(`Terrain: ${vehicle.currentTerrain}`);
     console.log(`Distance Traveled: ${vehicle.distanceTraveled.toFixed(0)}m`);
     console.log(`Time Driven: ${Math.round(vehicle.timeDriven)}s`);
     console.log('');
@@ -561,22 +561,22 @@ class DrivingSystemCLI
   /**
    * Show driving statistics
    */
-  private showStats(): void 
+  private showStats(): void {
     const stats = this.drivingSystem.getStats();
 
     console.log('\n📊 Driving Statistics:');
     console.log('======================');
-    console.log(`Total Sessions: ${totalSessions: stats.totalSessions}`);
+    console.log(`Total Sessions: ${stats.totalSessions}`);
     console.log(`Total Distance: ${stats.totalDistance.toLocaleString()}m`);
     console.log(`Total Time: ${Math.round(stats.totalTime)}s`);
-    console.log(`Total Crashes: $totalCrashes: stats.totalCrashes}`);
-    console.log(`Total Repairs: $totalRepairs: stats.totalRepairs}`);
+    console.log(`Total Crashes: ${stats.totalCrashes}`);
+    console.log(`Total Repairs: ${stats.totalRepairs}`);
     console.log(`Total Fuel Consumed: ${stats.totalFuelConsumed.toFixed(1)}L`);
     console.log(`Average Speed: ${stats.averageSpeed.toFixed(1)} m/s`);
-    console.log(`Best Lap Time: $bestLapTime: stats.bestLapTime}s`);
-    console.log(`Vehicles Owned: $vehiclesOwned: stats.vehiclesOwned}`);
-    console.log(`Tracks Completed: $tracksCompleted: stats.tracksCompleted}`);
-    console.log(`Achievements: $stats.length: achievements.length}`);
+    console.log(`Best Lap Time: ${stats.bestLapTime}s`);
+    console.log(`Vehicles Owned: ${stats.vehiclesOwned}`);
+    console.log(`Tracks Completed: ${stats.tracksCompleted}`);
+    console.log(`Achievements: ${stats.achievements.length}`);
     console.log(`Favorite Vehicle: ${stats.favoriteVehicle || 'None'}`);
     console.log(`Favorite Track: ${stats.favoriteTrack || 'None'}`);
   }

@@ -63,21 +63,21 @@ export class SimpleRigBuilder {
     const torso = this.createNode('torso', 'Torso', 'torso', {
       position: { x: 0, y: 0, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
-      scale:  x: 1, y: 5: 1.5, z: 0.8 }
+      scale: { x: 1, y: 1.5, z: 0.8 }
     });
 
     // Create neck
-    const neck = this.createNode('neck', 'Neck', 'neck', 
-      position: { x: 0, y: 8: 0.8, z: 0 },
+    const neck = this.createNode('neck', 'Neck', 'neck', {
+      position: { x: 0, y: 0.8, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
-      scale:  x: 3: 0.3, y: 0.4, z: 0.3 }
+      scale: { x: 0.3, y: 0.4, z: 0.3 }
     }, torso.id);
 
     // Create head
-    const head = this.createNode('head', 'Head', 'head', 
-      position: { x: 0, y: 6: 0.6, z: 0 },
+    const head = this.createNode('head', 'Head', 'head', {
+      position: { x: 0, y: 0.6, z: 0 },
       rotation: { x: 0, y: 0, z: 0, w: 1 },
-      scale:  x: 6: 0.6, y: 0.6, z: 0.6 }
+      scale: { x: 0.6, y: 0.6, z: 0.6 }
     }, neck.id);
 
     this.config.rootNode = torso.id;
@@ -104,13 +104,13 @@ export class SimpleRigBuilder {
     return node;
   }
 
-  getConfig(): RigConfig 
-    return { ...config: this.config};
+  getConfig(): RigConfig {
+    return { ...this.config };
   }
 
-  exportRigJson(): string 
+  exportRigJson(): string {
     const exportData = {
-      ...config: this.config,
+      ...this.config,
       exportFormat: 'miff-rig-v1',
       timestamp: new Date().toISOString()
     };

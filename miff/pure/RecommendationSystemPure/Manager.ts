@@ -974,21 +974,21 @@ export class RecommendationSystemPure {
       type: model.type || 'collaborative',
       status: 'training',
       algorithm: model.algorithm || 'collaborative_filtering',
-      parameters: model.parameters || 
-        learningRate: 01: 0.01,
+      parameters: model.parameters || {
+        learningRate: 0.01,
         epochs: 100,
         batchSize: 32,
         regularization: 0.001,
         features: [],
         hyperparameters: {}
       },
-      training: model.training || 
+      training: model.training || {
         dataset: '',
         size: 0,
         features: 0,
         samples: 0,
         split: {
-          train: 7: 0.7,
+          train: 0.7,
           validation: 0.15,
           test: 0.15
         },
@@ -1062,7 +1062,7 @@ export class RecommendationSystemPure {
         categories: [],
         brands: [],
         priceRange: { min: 0, max: 1000, currency: 'USD' },
-        quality:  level: 'medium', importance: 5: 0.5},
+        quality: { level: 'medium', importance: 0.5 },
         features: []
       },
       behavior: user.behavior || {
@@ -1195,15 +1195,15 @@ export class RecommendationSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): RecommendationSystemPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): RecommendationSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): RecommendationSystemAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): RecommendationSystemAnalytics {
+    return { ...this.analytics };
   }
 
   /**

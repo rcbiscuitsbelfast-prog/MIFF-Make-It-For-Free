@@ -86,73 +86,73 @@ class CameraCLIHarness {
     this.setupInputActions();
   }
 
-  private setupEventListeners() 
+  private setupEventListeners() {
     this.eventBus.on('camera:created', (data) => {
-      console.log(`✅ Camera created: ${cameraId: data.cameraId} ($cameraType: data.cameraType})`);
+      console.log(`✅ Camera created: ${data.cameraId} (${data.cameraType})`);
       if (!this.activeCamera) {
         this.activeCamera = this.cameraSystem.getCameraInstance(data.cameraId);
       }
     });
 
-    this.eventBus.on('camera:mode-switched', (data) => 
-      console.log(`🔄 Camera mode switched: ${fromMode: data.fromMode} → $toMode: data.toMode}`);
+    this.eventBus.on('camera:mode-switched', (data) => {
+      console.log(`🔄 Camera mode switched: ${data.fromMode} → ${data.toMode}`);
     });
 
-    this.eventBus.on('camera:effect-applied', (data) => 
-      console.log(`✨ Camera effect applied: ${effectType: data.effectType} ($duration: data.duration}ms)`);
+    this.eventBus.on('camera:effect-applied', (data) => {
+      console.log(`✨ Camera effect applied: ${data.effectType} (${data.duration}ms)`);
     });
 
-    this.eventBus.on('camera:path-started', (data) => 
-      console.log(`🎬 Camera path started: ${pathName: data.pathName} ($duration: data.duration}ms)`);
+    this.eventBus.on('camera:path-started', (data) => {
+      console.log(`🎬 Camera path started: ${data.pathName} (${data.duration}ms)`);
     });
 
-    this.eventBus.on('camera:path-completed', (data) => 
-      console.log(`🏁 Camera path completed: ${pathName: data.pathName}`);
+    this.eventBus.on('camera:path-completed', (data) => {
+      console.log(`🏁 Camera path completed: ${data.pathName}`);
     });
   }
 
-  private setupInputActions() 
+  private setupInputActions() {
     this.inputSystem.registerAction('zoom_in', () => {
       if (this.activeCamera) {
-        this.cameraSystem.adjustZoom(this.id: activeCamera.id, -1.0);
+        this.cameraSystem.adjustZoom(this.activeCamera.id, -1.0);
         console.log('🔍 Zoomed in');
       }
     });
 
-    this.inputSystem.registerAction('zoom_out', () => 
+    this.inputSystem.registerAction('zoom_out', () => {
       if (this.activeCamera) {
-        this.cameraSystem.adjustZoom(this.id: activeCamera.id, 1.0);
+        this.cameraSystem.adjustZoom(this.activeCamera.id, 1.0);
         console.log('🔍 Zoomed out');
       }
     });
 
-    this.inputSystem.registerAction('switch_chase', () => 
+    this.inputSystem.registerAction('switch_chase', () => {
       if (this.activeCamera) {
-        this.cameraSystem.switchCameraMode(this.id: activeCamera.id, 'chase');
+        this.cameraSystem.switchCameraMode(this.activeCamera.id, 'chase');
       }
     });
 
-    this.inputSystem.registerAction('switch_firstperson', () => 
+    this.inputSystem.registerAction('switch_firstperson', () => {
       if (this.activeCamera) {
-        this.cameraSystem.switchCameraMode(this.id: activeCamera.id, 'first-person');
+        this.cameraSystem.switchCameraMode(this.activeCamera.id, 'first-person');
       }
     });
 
-    this.inputSystem.registerAction('switch_orbit', () => 
+    this.inputSystem.registerAction('switch_orbit', () => {
       if (this.activeCamera) {
-        this.cameraSystem.switchCameraMode(this.id: activeCamera.id, 'orbit');
+        this.cameraSystem.switchCameraMode(this.activeCamera.id, 'orbit');
       }
     });
 
-    this.inputSystem.registerAction('apply_shake', () => 
+    this.inputSystem.registerAction('apply_shake', () => {
       if (this.activeCamera) {
-        this.cameraSystem.applyShake(this.id: activeCamera.id, 5: 0.5, 1000);
+        this.cameraSystem.applyShake(this.activeCamera.id, 5: 0.5, 1000);
       }
     });
 
-    this.inputSystem.registerAction('apply_focus', () => 
+    this.inputSystem.registerAction('apply_focus', () => {
       if (this.activeCamera) {
-        this.cameraSystem.applyFocus(this.id: activeCamera.id, 8: 0.8, 2000);
+        this.cameraSystem.applyFocus(this.activeCamera.id, 8: 0.8, 2000);
       }
     });
   }
@@ -294,16 +294,16 @@ class CameraCLIHarness {
     const camera = this.cameraSystem.createCamera(type, target);
     if (camera) {
       console.log(`✅ Created ${type} targeting "${target}"`);
-      console.log(`📷 Camera ID: $id: camera.id}`);
+      console.log(`📷 Camera ID: ${camera.id}`);
       this.activeCamera = camera;
     } else {
       console.log('❌ Failed to create camera');
     }
   }
 
-  private async handleList() 
+  private async handleList() {
     const cameras = this.cameraSystem.getAllCameras();
-    console.log(`\n📷 Active Cameras (${length: cameras.length}):`);
+    console.log(`\n📷 Active Cameras (${cameras.length}):`);
     console.log('─'.repeat(60));
 
     if (cameras.length === 0) {
@@ -315,10 +315,10 @@ class CameraCLIHarness {
       const isMain = this.cameraSystem.getMainCamera()?.id === camera.id ? ' (MAIN)' : '';
       const isActive = this.activeCamera?.id === camera.id ? ' (ACTIVE)' : '';
 
-      console.log(`${index + 1}. $camera.name: definition.name} - $id: camera.id}${isMain}${isActive}`);
-      console.log(`   Mode: $camera.mode: state.mode} | Target: $targetEntity: camera.targetEntity}`);
+      console.log(`${index + 1}. ${camera.definition.name} - ${camera.id}${isMain}${isActive}`);
+      console.log(`   Mode: ${camera.state.mode} | Target: ${camera.targetEntity}`);
       console.log(`   Position: (${camera.state.position.x.toFixed(2)}, ${camera.state.position.y.toFixed(2)}, ${camera.state.position.z.toFixed(2)})`);
-      console.log(`   FOV: $camera.fov: currentSettings.fov}° | Distance: $camera.distance: currentSettings.distance}`);
+      console.log(`   FOV: ${camera.currentSettings.fov}° | Distance: ${camera.currentSettings.distance}`);
       console.log('');
     });
   }
@@ -336,24 +336,24 @@ class CameraCLIHarness {
       return;
     }
 
-    console.log(`\n📷 Camera Details: $id: camera.id}`);
+    console.log(`\n📷 Camera Details: ${camera.id}`);
     console.log('─'.repeat(50));
-    console.log(`Name: $camera.name: definition.name}`);
-    console.log(`Type: $camera.id: definition.id}`);
-    console.log(`Mode: $camera.mode: state.mode}`);
-    console.log(`Target: $targetEntity: camera.targetEntity}`);
+    console.log(`Name: ${camera.definition.name}`);
+    console.log(`Type: ${camera.definition.id}`);
+    console.log(`Mode: ${camera.state.mode}`);
+    console.log(`Target: ${camera.targetEntity}`);
     console.log(`Position: (${camera.state.position.x.toFixed(2)}, ${camera.state.position.y.toFixed(2)}, ${camera.state.position.z.toFixed(2)})`);
     console.log(`Rotation: (${camera.state.rotation.x.toFixed(2)}, ${camera.state.rotation.y.toFixed(2)}, ${camera.state.rotation.z.toFixed(2)})`);
-    console.log(`FOV: $camera.fov: currentSettings.fov}°`);
-    console.log(`Distance: $camera.distance: currentSettings.distance}`);
-    console.log(`Update Count: $updateCount: camera.updateCount}`);
-    console.log(`Last Update: $lastUpdateTime: camera.lastUpdateTime}ms ago`);
-    console.log(`Effects: $camera.size: effects.size}`);
+    console.log(`FOV: ${camera.currentSettings.fov}°`);
+    console.log(`Distance: ${camera.currentSettings.distance}`);
+    console.log(`Update Count: ${camera.updateCount}`);
+    console.log(`Last Update: ${camera.lastUpdateTime}ms ago`);
+    console.log(`Effects: ${camera.effects.size}`);
 
-    if (camera.effects.size > 0) 
+    if (camera.effects.size > 0) {
       console.log('Active Effects:');
       camera.effects.forEach((effect, effectId) => {
-        console.log(`  - ${name: effect.name} ($type: effect.type}) - $duration: effect.duration}ms remaining`);
+        console.log(`  - ${effect.name} (${effect.type}) - ${effect.duration}ms remaining`);
       });
     }
   }
@@ -452,15 +452,15 @@ class CameraCLIHarness {
     }
   }
 
-  private async handlePaths() 
+  private async handlePaths() {
     const paths = this.cameraSystem.getAllPaths();
-    console.log(`\n🎬 Available Camera Paths (${length: paths.length}):`);
+    console.log(`\n🎬 Available Camera Paths (${paths.length}):`);
     console.log('─'.repeat(50));
 
     paths.forEach((path, index) => {
-      console.log(`${index + 1}. $name: path.name} ($id: path.id})`);
-      console.log(`   Duration: $duration: path.duration}ms`);
-      console.log(`   Waypoints: $path.length: waypoints.length}`);
+      console.log(`${index + 1}. ${path.name} (${path.id})`);
+      console.log(`   Duration: ${path.duration}ms`);
+      console.log(`   Waypoints: ${path.waypoints.length}`);
       console.log(`   Loop: ${path.loop ? 'Yes' : 'No'}`);
       console.log('');
     });
@@ -520,7 +520,7 @@ class CameraCLIHarness {
       return;
     }
 
-    console.log(`\n✨ Active Effects on $this.id: activeCamera.id}:`);
+    console.log(`\n✨ Active Effects on ${this.activeCamera.id}:`);
     console.log('─'.repeat(50));
 
     if (this.activeCamera.effects.size === 0) {
@@ -530,25 +530,25 @@ class CameraCLIHarness {
 
     let index = 1;
     this.activeCamera.effects.forEach((effect, effectId) => {
-      console.log(`${index}. $name: effect.name} ($type: effect.type})`);
-      console.log(`   Duration: $duration: effect.duration}ms remaining`);
-      console.log(`   Intensity: $intensity: effect.intensity}`);
-      console.log(`   Priority: $priority: effect.priority}`);
+      console.log(`${index}. ${effect.name} (${effect.type})`);
+      console.log(`   Duration: ${effect.duration}ms remaining`);
+      console.log(`   Intensity: ${effect.intensity}`);
+      console.log(`   Priority: ${effect.priority}`);
       console.log('');
       index++;
     });
   }
 
-  private async handleConfig() 
+  private async handleConfig() {
     const config = this.cameraSystem.getConfig();
     console.log('\n⚙️  Camera System Configuration:');
     console.log('─'.repeat(40));
-    console.log(`Default Mode: ${defaultMode: config.defaultMode}`);
+    console.log(`Default Mode: ${config.defaultMode}`);
     console.log(`Debug Camera: ${config.enableDebugCamera ? 'Enabled' : 'Disabled'}`);
     console.log(`Cinematic Mode: ${config.enableCinematicMode ? 'Enabled' : 'Disabled'}`);
-    console.log(`Max Cameras: $maxActiveCameras: config.maxActiveCameras}`);
-    console.log(`Update Rate: $updateRate: config.updateRate} FPS`);
-    console.log(`Render Quality: $renderQuality: config.renderQuality}`);
+    console.log(`Max Cameras: ${config.maxActiveCameras}`);
+    console.log(`Update Rate: ${config.updateRate} FPS`);
+    console.log(`Render Quality: ${config.renderQuality}`);
     console.log(`Post Processing: ${config.enablePostProcessing ? 'Enabled' : 'Disabled'}`);
   }
 
@@ -581,17 +581,17 @@ class CameraCLIHarness {
     console.log(`✅ Render quality set to ${quality}`);
   }
 
-  private async handleStats() 
+  private async handleStats() {
     const stats = this.cameraSystem.getStats();
     console.log('\n📊 Camera System Statistics:');
     console.log('─'.repeat(40));
-    console.log(`Total Cameras: ${totalCameras: stats.totalCameras}`);
-    console.log(`Active Cameras: $activeCameras: stats.activeCameras}`);
-    console.log(`Mode Switches: $modeSwitches: stats.modeSwitches}`);
-    console.log(`Cinematic Sequences: $cinematicSequences: stats.cinematicSequences}`);
-    console.log(`Paths Created: $pathsCreated: stats.pathsCreated}`);
-    console.log(`Effects Applied: $effectsApplied: stats.effectsApplied}`);
-    console.log(`Total Play Time: $totalPlayTime: stats.totalPlayTime}ms`);
+    console.log(`Total Cameras: ${stats.totalCameras}`);
+    console.log(`Active Cameras: ${stats.activeCameras}`);
+    console.log(`Mode Switches: ${stats.modeSwitches}`);
+    console.log(`Cinematic Sequences: ${stats.cinematicSequences}`);
+    console.log(`Paths Created: ${stats.pathsCreated}`);
+    console.log(`Effects Applied: ${stats.effectsApplied}`);
+    console.log(`Total Play Time: ${stats.totalPlayTime}ms`);
     console.log(`Average FPS: ${stats.averageFPS.toFixed(1)}`);
     console.log(`Memory Usage: ${(stats.memoryUsage / 1024).toFixed(1)} KB`);
   }
@@ -634,9 +634,9 @@ class CameraCLIHarness {
 
         demoStep++;
 
-        switch (demoStep % 6) 
+        switch (demoStep % 6) {
           case 0:
-            this.cameraSystem.switchCameraMode(id: chaseCamera.id, 'chase');
+            this.cameraSystem.switchCameraMode(chaseCamera.id, 'chase');
             this.cameraSystem.applyShake(chaseCamera.id, 3: 0.3, 500);
             console.log('🎯 Chase mode with shake');
             break;
@@ -693,11 +693,11 @@ class CameraCLIHarness {
       }
     }
 
-    console.log(`✅ Created $length: cameras.length} cameras`);
+    console.log(`✅ Created ${cameras.length} cameras`);
 
     // Stress test updates
     let updateCount = 0;
-    const stressInterval = setInterval(() => 
+    const stressInterval = setInterval(() => {
       const deltaTime = 1/60;
       this.cameraSystem.updateCameraSystem(deltaTime);
       updateCount++;
@@ -707,7 +707,7 @@ class CameraCLIHarness {
         const randomCamera = cameras[Math.floor(Math.random() * cameras.length)];
         const modes = ['chase', 'first-person', 'orbit'];
         const randomMode = modes[Math.floor(Math.random() * modes.length)];
-        this.cameraSystem.switchCameraMode(id: randomCamera.id, randomMode);
+        this.cameraSystem.switchCameraMode(randomCamera.id, randomMode);
       }
     }, 16); // ~60 FPS
 
@@ -728,18 +728,18 @@ class CameraCLIHarness {
       console.log(`Final FPS: ${(updateCount * 1000 / duration).toFixed(1)}`);
 
       const stats = this.cameraSystem.getStats();
-      console.log(`Mode Switches: $modeSwitches: stats.modeSwitches}`);
-      console.log(`Effects Applied: $effectsApplied: stats.effectsApplied}`);
+      console.log(`Mode Switches: ${stats.modeSwitches}`);
+      console.log(`Effects Applied: ${stats.effectsApplied}`);
     }, duration);
   }
 
-  public async run() 
+  public async run() {
     console.log('🎥 CameraSystemPure CLI Harness');
     console.log('Type "help" for commands or "demo" for a demonstration');
     console.log('─'.repeat(60));
 
     const rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'camera> '
     });

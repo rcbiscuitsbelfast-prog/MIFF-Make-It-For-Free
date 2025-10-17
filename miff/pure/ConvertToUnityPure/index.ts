@@ -1342,9 +1342,9 @@ export class UnityConverter {
 
     console.log('[UnityConverter] Building Unity project...');
 
-    const report: UnityBuildReport = 
+    const report: UnityBuildReport = {
       summary: {
-        platform: this.target: exportConfiguration.target,
+        platform: this.exportConfiguration.target,
         platformGroup: this.getPlatformGroup(),
         options: JSON.stringify(this.buildOptions),
         outputPath: this.exportConfiguration.outputPath,
@@ -2058,25 +2058,25 @@ export class UnityConverter {
     return [...this.conversionReports];
   }
 
-  getProjectSettings(): UnityProjectSettings 
-    return { ...projectSettings: this.projectSettings};
+  getProjectSettings(): UnityProjectSettings {
+    return { ...this.projectSettings };
   }
 
-  updateProjectSettings(settings: Partial<UnityProjectSettings>): void 
-    Object.assign(projectSettings: this.projectSettings, settings);
+  updateProjectSettings(settings: Partial<UnityProjectSettings>): void {
+    Object.assign(this.projectSettings, settings);
   }
 
-  getExportConfiguration(): UnityExportConfiguration 
-    return { ...exportConfiguration: this.exportConfiguration};
+  getExportConfiguration(): UnityExportConfiguration {
+    return { ...this.exportConfiguration };
   }
 
-  updateExportConfiguration(configuration: Partial<UnityExportConfiguration>): void 
-    Object.assign(exportConfiguration: this.exportConfiguration, configuration);
+  updateExportConfiguration(configuration: Partial<UnityExportConfiguration>): void {
+    Object.assign(this.exportConfiguration, configuration);
   }
 
-  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string 
+  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      projectSettings: projectSettings: this.projectSettings,
+      projectSettings: this.projectSettings,
       exportConfiguration: this.exportConfiguration,
       buildOptions: this.buildOptions,
       conversionReports: this.conversionReports,

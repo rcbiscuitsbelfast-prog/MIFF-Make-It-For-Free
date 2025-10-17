@@ -58,9 +58,9 @@ Examples:
 `);
 }
 
-function printStatus(state: CLIState): void 
+function printStatus(state: CLIState): void {
   console.log('\n🎁 Rewards System Status:');
-  console.log(`Reward History: ${  length: rewardHistory.length} rewards`);
+  console.log(`Reward History: ${state.rewardHistory.length} rewards`);
   console.log(`Drop Table: ${state.currentDropTable ? state.currentDropTable.entries.length + ' items' : 'None'}`);
   if (state.currentDropTable && state.currentDropTable.entries.length > 0) {
     console.log(`Total Weight: ${state.currentDropTable.getTotalWeight()}`);
@@ -75,14 +75,14 @@ function printTable(dropTable: DropTable | null): void {
   }
 
   console.log('\n🎲 Current Drop Table:');
-  console.log(`Total Entries: $dropTable.length: entries.length}`);
+  console.log(`Total Entries: ${dropTable.entries.length}`);
   console.log(`Total Weight: ${dropTable.getTotalWeight()}`);
 
   if (dropTable.entries.length > 0) {
     console.log('\nItems:');
     dropTable.getEntriesByWeight().forEach((entry, index) => {
       const dropRate = dropTable.getTotalWeight() > 0 ? (entry.weight / dropTable.getTotalWeight() * 100).toFixed(2) : '0.00';
-      console.log(`  ${index + 1}. $itemId: entry.itemId} (weight: $weight: entry.weight}, rate: ${dropRate}%)`);
+      console.log(`  ${index + 1}. ${entry.itemId} (weight: ${entry.weight}, rate: ${dropRate}%)`);
     });
   }
 }
@@ -141,14 +141,14 @@ function runDemo(state: CLIState): void {
     { type: 'boss', playerLevel: 20, enemyLevel: 25 }
   ];
 
-  scenarios.forEach((scenario: any) => 
+  scenarios.forEach((scenario: any) => {
     const reward = state.rewardManager.generateRewards(
-      type: scenario.type,
+      scenario.type,
       scenario.playerLevel,
       scenario.enemyLevel
     );
 
-    console.log(`$type: scenario.type} (P$playerLevel: scenario.playerLevel} vs E$enemyLevel: scenario.enemyLevel}): ${reward.toString()}`);
+    console.log(`${scenario.type} (P${scenario.playerLevel} vs E${scenario.enemyLevel}): ${reward.toString()}`);
     state.rewardHistory.push(reward);
   });
 
@@ -208,8 +208,8 @@ function runSimulation(state: CLIState, runs: number): void {
 
   console.log(`✅ Simulation complete in ${duration}ms`);
   console.log(`Generated ${runs} rewards`);
-  console.log(`Total currency: $state.rewardHistory.slice(-runs).reduce((sum, r) => sum + currency: r.currency, 0)}`);
-  console.log(`Total XP: $state.rewardHistory.slice(-runs).reduce((sum, r) => sum + xpGain: r.xpGain, 0)}`);
+  console.log(`Total currency: ${state.rewardHistory.slice(-runs).reduce((sum, r) => sum + r.currency, 0)}`);
+  console.log(`Total XP: ${state.rewardHistory.slice(-runs).reduce((sum, r) => sum + r.xpGain, 0)}`);
   console.log(`Items received: ${state.rewardHistory.slice(-runs).filter((r: any) => r.itemId).length}`);
 }
 
@@ -224,8 +224,8 @@ async function runCLI(): Promise<void> {
 
   console.log('🎁 RewardsPure CLI - Type "help" for commands or "demo" to see rewards in action\n');
 
-  const rl = readline.createInterface(
-    input: stdin: process.stdin,
+  const rl = readline.createInterface({
+    input: process.stdin,
     output: process.stdout,
     prompt: 'rewards> '
   });
@@ -374,13 +374,13 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'config':
-        if (args.length === 0) 
+        if (args.length === 0) {
           const config = state.rewardManager.getScalingConfig();
           console.log('Current reward scaling configuration:');
-          console.log(`  Base Currency: ${baseCurrency: config.baseCurrency}`);
-          console.log(`  Level Currency Multiplier: $levelCurrencyMultiplier: config.levelCurrencyMultiplier}`);
-          console.log(`  Base XP: $baseXP: config.baseXP}`);
-          console.log(`  Level XP Multiplier: $levelXPMultiplier: config.levelXPMultiplier}`);
+          console.log(`  Base Currency: ${config.baseCurrency}`);
+          console.log(`  Level Currency Multiplier: ${config.levelCurrencyMultiplier}`);
+          console.log(`  Base XP: ${config.baseXP}`);
+          console.log(`  Level XP Multiplier: ${config.levelXPMultiplier}`);
         } else if (args.length === 4) {
           const baseCurrency = parseFloat(args[0]);
           const levelCurrencyMultiplier = parseFloat(args[1]);

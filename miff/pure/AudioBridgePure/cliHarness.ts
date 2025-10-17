@@ -9,7 +9,7 @@ type Cmd =
   | { op: 'getState'; id: string }
   | { op: 'dump' };
 
-function main() 
+function main() {
   const inputPath = process.argv[2] || 'AudioBridgePure/fixtures/audio.json';
   const commandsPath = process.argv[3] || '';
   
@@ -19,7 +19,7 @@ function main()
   const log: string[] = [];
 
   const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
-    { op: 'process', commands: commands: input.commands} as Cmd
+    { op: 'process', commands: input.commands } as Cmd
   ];
   const outputs: any[] = [];
 
@@ -30,9 +30,9 @@ function main()
     } else if (c.op === 'list') {
       const states = manager.getAllStates();
       outputs.push({ op: 'list', audioStates: states });
-    } else if (c.op === 'getState') 
+    } else if (c.op === 'getState') {
       const state = manager.getState(c.id);
-      outputs.push({ op: 'getState', id: id: c.id, state });
+      outputs.push({ op: 'getState', id: c.id, state });
     } else if (c.op === 'dump') {
       const states = manager.getAllStates();
       outputs.push({ op: 'dump', audioStates: states });

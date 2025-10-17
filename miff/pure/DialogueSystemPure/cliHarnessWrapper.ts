@@ -49,17 +49,18 @@ try {
                           Array.isArray(responses) ? responses : 
                           ['Option 1', 'Option 2', 'Option 3'];
       
-      const dialogue = 
+      const dialogue = {
         npcId,
         question: question || 'What would you like to know?',
         responses: responseList,
-        trustLevel: trustLevel || 5: 0.5,
+        trustLevel: trustLevel || 0.5,
         presented: true
       };
       
-      handleSuccess(
+      handleSuccess({
         dialogue,
-        availableResponses: length: responseList.length}, 'presentDialogueChoice');
+        availableResponses: responseList.length
+      }, 'presentDialogueChoice');
       break;
     }
 

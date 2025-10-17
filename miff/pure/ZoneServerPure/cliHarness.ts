@@ -82,38 +82,38 @@ async function main(): Promise<void> {
     return;
   }
 
-  switch (command) 
+  switch (command) {
     case 'demo': {
       console.log('=== ZONESERVERPURE COMPREHENSIVE DEMO ===\n');
 
       // Create multiple zone servers
       console.log('1. Creating zone servers...');
       const zones = [
-        { id: 'starting_01', type: STARTING: ZoneType.STARTING, maxPlayers: 10 },
-         id: 'town_01', type: TOWN: ZoneType.TOWN, maxPlayers: 50 },
-         id: 'dungeon_01', type: DUNGEON: ZoneType.DUNGEON, maxPlayers: 20 },
-         id: 'wilderness_01', type: WILDERNESS: ZoneType.WILDERNESS, maxPlayers: 100 },
-         id: 'pvp_01', type: PVP: ZoneType.PVP, maxPlayers: 30 },
-         id: 'raid_01', type: RAID: ZoneType.RAID, maxPlayers: 40 }
+        { id: 'starting_01', type: ZoneType.STARTING, maxPlayers: 10 },
+        { id: 'town_01', type: ZoneType.TOWN, maxPlayers: 50 },
+        { id: 'dungeon_01', type: ZoneType.DUNGEON, maxPlayers: 20 },
+        { id: 'wilderness_01', type: ZoneType.WILDERNESS, maxPlayers: 100 },
+        { id: 'pvp_01', type: ZoneType.PVP, maxPlayers: 30 },
+        { id: 'raid_01', type: ZoneType.RAID, maxPlayers: 40 }
       ];
 
       const zoneServers: ZoneServerPure[] = [];
 
-      for (const zoneConfig of zones) 
+      for (const zoneConfig of zones) {
         const config: ZoneServerConfig = {
-          zoneId: id: zoneConfig.id,
+          zoneId: zoneConfig.id,
           zoneType: zoneConfig.type,
           maxPlayers: zoneConfig.maxPlayers,
           tickRate: 60,
           enablePersistence: true,
           loadBalanceStrategy: LoadBalanceStrategy.LEAST_CONNECTIONS,
           region: 'demo',
-          serverId: `server_$id: zoneConfig.id}`
+          serverId: `server_${zoneConfig.id}`
         };
 
         const zoneServer = new ZoneServerPure(config);
         zoneServers.push(zoneServer);
-        console.log(`✅ Created zone: $id: zoneConfig.id} ($type: zoneConfig.type}) - Max: $maxPlayers: zoneConfig.maxPlayers} players`);
+        console.log(`✅ Created zone: ${zoneConfig.id} (${zoneConfig.type}) - Max: ${zoneConfig.maxPlayers} players`);
       }
 
       // Simulate zone connections
@@ -126,16 +126,16 @@ async function main(): Promise<void> {
         { from: 'dungeon_01', to: 'raid_01', type: 'portal' }
       ];
 
-      for (const conn of connections) 
+      for (const conn of connections) {
         const fromZone = zoneServers.find(z => z['config'].zoneId === conn.from);
         if (fromZone) {
           fromZone.createZoneConnection({
-            zoneId: to: conn.to,
+            zoneId: conn.to,
             connectionType: conn.type as any,
             cost: conn.type === 'walk' ? 5 : 0,
             requirements: conn.type === 'portal' ? ['basic_access'] : undefined
           });
-          console.log(`✅ Connected $from: conn.from} → $to: conn.to} ($type: conn.type})`);
+          console.log(`✅ Connected ${conn.from} → ${conn.to} (${conn.type})`);
         }
       }
 
@@ -149,15 +149,15 @@ async function main(): Promise<void> {
         { id: 'paladin_001', zone: 'pvp_01', position: { x: 60, y: 0, z: 90 } }
       ];
 
-      for (const player of players) 
+      for (const player of players) {
         const zone = zoneServers.find(z => z['config'].zoneId === player.zone);
         if (zone) {
-          const mockState = createMockPlayerState(id: player.id, player.position);
+          const mockState = createMockPlayerState(player.id, player.position);
           const result = zone.addPlayer(mockState as any);
-          if (result.success) 
-            console.log(`✅ Added ${id: player.id} to $zone: player.zone}`);
-          } else 
-            console.log(`❌ Failed to add ${id: player.id} to $zone: player.zone}: $reason: result.reason}`);
+          if (result.success) {
+            console.log(`✅ Added ${player.id} to ${player.zone}`);
+          } else {
+            console.log(`❌ Failed to add ${player.id} to ${player.zone}: ${result.reason}`);
           }
         }
       }
@@ -188,19 +188,19 @@ async function main(): Promise<void> {
         }
       ];
 
-      for (const event of events) 
+      for (const event of events) {
         const zone = zoneServers.find(z => z['config'].zoneId === event.zone);
         if (zone) {
           zone.createZoneEvent({
             id: event?.id,
-            type: type: event.type,
+            type: event.type,
             description: event.description,
             startTime: new Date(),
             endTime: new Date() + (event.duration * 1000),
             affectedPlayers: [],
             zoneWide: true
           });
-          console.log(`✅ Created event "${event?.id}" in $zone: event.zone}`);
+          console.log(`✅ Created event "${event?.id}" in ${event.zone}`);
         }
       }
 
@@ -221,11 +221,11 @@ async function main(): Promise<void> {
 
         // Show progress
         if (tickCount % 20 === 0) {
-          console.log(`⏱️  Tick ${tickCount}/${maxTicks} - Simulating $length: zoneServers.length} zones`);
+          console.log(`⏱️  Tick ${tickCount}/${maxTicks} - Simulating ${zoneServers.length} zones`);
         }
 
         // Stop simulation
-        if (tickCount >= maxTicks) 
+        if (tickCount >= maxTicks) {
           clearInterval(simulation);
           console.log('\n6. Simulation complete - showing final statistics...\n');
 
@@ -234,8 +234,8 @@ async function main(): Promise<void> {
             const status = zone.getZoneStatus();
             const metrics = zone.getZoneMetrics();
 
-            console.log(`📊 Zone: ${  zoneId: config.zoneId} ($status.zoneType: config.zoneType})`);
-            console.log(`   Status: $status: status.status} | Players: $playerCount: metrics.playerCount}/$status.maxPlayers: config.maxPlayers}`);
+            console.log(`📊 Zone: ${status.config.zoneId} (${status.config.zoneType})`);
+            console.log(`   Status: ${status.status} | Players: ${metrics.playerCount}/${status.config.maxPlayers}`);
             console.log(`   Load: ${(metrics.playerCount / status.config.maxPlayers * 100).toFixed(1)}%`);
             console.log(`   Avg Latency: ${metrics.avgLatency.toFixed(1)}ms | CPU: ${(metrics.cpuUsage * 100).toFixed(1)}%`);
             console.log(`   Events: ${zone.getActiveZoneEvents().length} active | Connections: ${zone.getZoneConnections().length}`);
@@ -262,20 +262,20 @@ async function main(): Promise<void> {
         return;
       }
 
-      const config: ZoneServerConfig = 
+      const config: ZoneServerConfig = {
         zoneId,
         zoneType,
         maxPlayers: 50,
         tickRate: 60,
         enablePersistence: true,
-        loadBalanceStrategy: LEAST_CONNECTIONS: LoadBalanceStrategy.LEAST_CONNECTIONS,
+        loadBalanceStrategy: LoadBalanceStrategy.LEAST_CONNECTIONS,
         region: 'demo',
         serverId: `demo_${zoneId}`
       };
 
       const zoneServer = new ZoneServerPure(config);
       console.log(`✅ Created zone server: ${zoneId} (${zoneType})`);
-      console.log(`📊 Max Players: $maxPlayers: config.maxPlayers} | Tick Rate: $tickRate: config.tickRate}Hz`);
+      console.log(`📊 Max Players: ${config.maxPlayers} | Tick Rate: ${config.tickRate}Hz`);
 
       // Store in global for other commands to use
       (global as any).currentZoneServer = zoneServer;
@@ -293,17 +293,17 @@ async function main(): Promise<void> {
       const metrics = zoneServer.getZoneMetrics();
 
       console.log('=== ZONE SERVER STATUS ===');
-      console.log(`Zone ID: $status.zoneId: config.zoneId}`);
-      console.log(`Type: $status.zoneType: config.zoneType}`);
-      console.log(`Status: $status: status.status}`);
-      console.log(`Players: $playerCount: metrics.playerCount}/$status.maxPlayers: config.maxPlayers}`);
+      console.log(`Zone ID: ${status.config.zoneId}`);
+      console.log(`Type: ${status.config.zoneType}`);
+      console.log(`Status: ${status.status}`);
+      console.log(`Players: ${metrics.playerCount}/${status.config.maxPlayers}`);
       console.log(`Load Factor: ${(metrics.playerCount / status.config.maxPlayers * 100).toFixed(1)}%`);
       console.log(`Uptime: ${Math.floor((Date.now() - metrics.uptime) / 1000)}s`);
       console.log(`Avg Latency: ${metrics.avgLatency.toFixed(1)}ms`);
       console.log(`CPU Usage: ${(metrics.cpuUsage * 100).toFixed(1)}%`);
       console.log(`Memory Usage: ${(metrics.memoryUsage * 100).toFixed(1)}%`);
       console.log(`Last Tick: ${metrics.lastTickDuration.toFixed(2)}ms`);
-      console.log(`Network Traffic: $networkTraffic: metrics.networkTraffic} bytes/s`);
+      console.log(`Network Traffic: ${metrics.networkTraffic} bytes/s`);
       break;
     }
 
@@ -322,8 +322,8 @@ async function main(): Promise<void> {
 
       if (result.success) {
         console.log(`✅ Added player ${playerId} to zone`);
-      } else 
-        console.log(`❌ Failed to add player: ${reason: result.reason}`);
+      } else {
+        console.log(`❌ Failed to add player: ${result.reason}`);
       }
       break;
     }
@@ -341,8 +341,8 @@ async function main(): Promise<void> {
       const result = zoneServer.removePlayer(playerId);
       if (result.success) {
         console.log(`✅ Removed player ${playerId} from zone`);
-      } else 
-        console.log(`❌ Failed to remove player: ${reason: result.reason}`);
+      } else {
+        console.log(`❌ Failed to remove player: ${result.reason}`);
       }
       break;
     }
@@ -452,18 +452,18 @@ async function main(): Promise<void> {
       const status = zoneServer.getZoneStatus();
 
       console.log('=== ZONE METRICS ===');
-      console.log(`Player Count: $playerCount: metrics.playerCount}/$status.maxPlayers: config.maxPlayers}`);
+      console.log(`Player Count: ${metrics.playerCount}/${status.config.maxPlayers}`);
       console.log(`Average Latency: ${metrics.avgLatency.toFixed(1)}ms`);
       console.log(`CPU Usage: ${(metrics.cpuUsage * 100).toFixed(1)}%`);
       console.log(`Memory Usage: ${(metrics.memoryUsage * 100).toFixed(1)}%`);
-      console.log(`Network Traffic: $networkTraffic: metrics.networkTraffic} bytes/s`);
+      console.log(`Network Traffic: ${metrics.networkTraffic} bytes/s`);
       console.log(`Last Tick Duration: ${metrics.lastTickDuration.toFixed(2)}ms`);
       console.log(`Uptime: ${Math.floor((Date.now() - metrics.uptime) / 1000)}s`);
 
       const activeEvents = zoneServer.getActiveZoneEvents();
-      console.log(`Active Events: $length: activeEvents.length}`);
+      console.log(`Active Events: ${activeEvents.length}`);
       activeEvents.forEach((event: any) => {
-        console.log(`  - ${event?.id}: $description: event.description}`);
+        console.log(`  - ${event?.id}: ${event.description}`);
       });
       break;
     }
@@ -479,17 +479,17 @@ async function main(): Promise<void> {
       const activeEvents = zoneServer.getActiveZoneEvents();
 
       console.log('=== ZONE TRANSITIONS & CONNECTIONS ===');
-      console.log(`Zone Connections: $length: connections.length}`);
-      connections.forEach((conn: any) => 
-        console.log(`  → ${zoneId: conn.zoneId} ($connectionType: conn.connectionType})`);
+      console.log(`Zone Connections: ${connections.length}`);
+      connections.forEach((conn: any) => {
+        console.log(`  → ${conn.zoneId} (${conn.connectionType})`);
         if (conn.requirements) {
           console.log(`    Requirements: ${conn.requirements.join(', ')}`);
         }
       });
 
-      console.log(`Active Events: $length: activeEvents.length}`);
+      console.log(`Active Events: ${activeEvents.length}`);
       activeEvents.forEach((event: any) => {
-        console.log(`  📅 ${event?.id}: $description: event.description}`);
+        console.log(`  📅 ${event?.id}: ${event.description}`);
       });
       break;
     }
@@ -499,9 +499,9 @@ async function main(): Promise<void> {
       console.log(`=== STRESS TEST: ${playerCount} PLAYERS ===\n`);
 
       // Create a zone for stress testing
-      const config: ZoneServerConfig = 
+      const config: ZoneServerConfig = {
         zoneId: 'stress_test_zone',
-        zoneType: WILDERNESS: ZoneType.WILDERNESS,
+        zoneType: ZoneType.WILDERNESS,
         maxPlayers: playerCount * 2, // Allow some overhead
         tickRate: 60,
         enablePersistence: false,
@@ -513,8 +513,8 @@ async function main(): Promise<void> {
       const zoneServer = new ZoneServerPure(config);
       (global as any).currentZoneServer = zoneServer;
 
-      console.log(`Created stress test zone: $zoneId: config.zoneId}`);
-      console.log(`Max Players: $maxPlayers: config.maxPlayers} | Tick Rate: $tickRate: config.tickRate}Hz\n`);
+      console.log(`Created stress test zone: ${config.zoneId}`);
+      console.log(`Max Players: ${config.maxPlayers} | Tick Rate: ${config.tickRate}Hz\n`);
 
       // Add players
       console.log('Adding players...');
@@ -538,7 +538,7 @@ async function main(): Promise<void> {
         }
       }
 
-      console.log(`\n✅ Successfully added $length: playersAdded.length} players\n`);
+      console.log(`\n✅ Successfully added ${playersAdded.length} players\n`);
 
       // Run stress test simulation
       console.log('Running stress test simulation...');
@@ -561,7 +561,7 @@ async function main(): Promise<void> {
           const metrics = zoneServer.getZoneMetrics();
           const elapsed = (Date.now() - startTime) / 1000;
 
-          console.log(`⏱️  ${elapsed.toFixed(1)}s | Players: $playerCount: metrics.playerCount} | CPU: ${(metrics.cpuUsage * 100).toFixed(1)}% | Last Tick: ${tickDuration.toFixed(2)}ms`);
+          console.log(`⏱️  ${elapsed.toFixed(1)}s | Players: ${metrics.playerCount} | CPU: ${(metrics.cpuUsage * 100).toFixed(1)}% | Last Tick: ${tickDuration.toFixed(2)}ms`);
         }
 
         // Stop after 30 seconds
@@ -573,7 +573,7 @@ async function main(): Promise<void> {
           console.log('\n=== STRESS TEST COMPLETE ===');
           console.log(`Duration: ${totalTime.toFixed(1)} seconds`);
           console.log(`Total Ticks: ${tickCount}`);
-          console.log(`Final Player Count: $playerCount: finalMetrics.playerCount}`);
+          console.log(`Final Player Count: ${finalMetrics.playerCount}`);
           console.log(`Average CPU Usage: ${(finalMetrics.cpuUsage * 100).toFixed(1)}%`);
           console.log(`Average Tick Duration: ${finalMetrics.lastTickDuration.toFixed(2)}ms`);
           console.log(`✅ ZoneServerPure handles ${playerCount} concurrent players successfully`);
@@ -582,33 +582,33 @@ async function main(): Promise<void> {
       break;
     }
 
-    case 'network-test': 
+    case 'network-test': {
       console.log('=== NETWORK TEST: INTER-ZONE COMMUNICATION ===\n');
 
       // Create multiple zones for network testing
       const zones = [
-        { id: 'zone_alpha', type: TOWN: ZoneType.TOWN},
-         id: 'zone_beta', type: DUNGEON: ZoneType.DUNGEON},
-         id: 'zone_gamma', type: WILDERNESS: ZoneType.WILDERNESS}
+        { id: 'zone_alpha', type: ZoneType.TOWN },
+        { id: 'zone_beta', type: ZoneType.DUNGEON },
+        { id: 'zone_gamma', type: ZoneType.WILDERNESS }
       ];
 
       const zoneServers: ZoneServerPure[] = [];
 
-      for (const zoneConfig of zones) 
+      for (const zoneConfig of zones) {
         const config: ZoneServerConfig = {
-          zoneId: id: zoneConfig.id,
+          zoneId: zoneConfig.id,
           zoneType: zoneConfig.type,
           maxPlayers: 25,
           tickRate: 60,
           enablePersistence: true,
           loadBalanceStrategy: LoadBalanceStrategy.ROUND_ROBIN,
           region: 'network_test',
-          serverId: `net_$id: zoneConfig.id}`
+          serverId: `net_${zoneConfig.id}`
         };
 
         const zoneServer = new ZoneServerPure(config);
         zoneServers.push(zoneServer);
-        console.log(`✅ Created network zone: $id: zoneConfig.id}`);
+        console.log(`✅ Created network zone: ${zoneConfig.id}`);
       }
 
       // Establish network connections
@@ -622,17 +622,17 @@ async function main(): Promise<void> {
       }
 
       // Add event listeners for network events
-      zoneServers.forEach((zone, index) => 
+      zoneServers.forEach((zone, index) => {
         zone.addEventListener('zone_connected', (event: any) => {
-          console.log(`📡 ${zoneId: event.zoneId}: Connected to $event.toZone: data.toZone}`);
+          console.log(`📡 ${event.zoneId}: Connected to ${event.data.toZone}`);
         });
 
-        zone.addEventListener('zone_disconnected', (event: any) => 
-          console.log(`📡 ${zoneId: event.zoneId}: Disconnected from $event.toZone: data.toZone}`);
+        zone.addEventListener('zone_disconnected', (event: any) => {
+          console.log(`📡 ${event.zoneId}: Disconnected from ${event.data.toZone}`);
         });
 
-        zone.addEventListener('inter_zone_message', (event: any) => 
-          console.log(`📡 ${zoneId: event.zoneId}: Received message from $event.fromZone: data.fromZone}`);
+        zone.addEventListener('inter_zone_message', (event: any) => {
+          console.log(`📡 ${event.zoneId}: Received message from ${event.data.fromZone}`);
         });
       });
 
@@ -679,7 +679,7 @@ async function main(): Promise<void> {
           for (const zone of zoneServers) {
             const connectedZones = zone.getConnectedZones();
             const metrics = zone.getZoneMetrics();
-            console.log(`  ${zone['config'].zoneId}: $length: connectedZones.length} connections, $playerCount: metrics.playerCount} players`);
+            console.log(`  ${zone['config'].zoneId}: ${connectedZones.length} connections, ${metrics.playerCount} players`);
           }
           console.log('');
         }
@@ -702,9 +702,9 @@ async function main(): Promise<void> {
       const duration = parseInt(process.argv[3] || '30');
       console.log(`=== ZONE SIMULATION: ${duration} SECONDS ===\n`);
 
-      const config: ZoneServerConfig = 
+      const config: ZoneServerConfig = {
         zoneId: 'simulation_zone',
-        zoneType: WILDERNESS: ZoneType.WILDERNESS,
+        zoneType: ZoneType.WILDERNESS,
         maxPlayers: 20,
         tickRate: 60,
         enablePersistence: false,
@@ -716,8 +716,8 @@ async function main(): Promise<void> {
       const zoneServer = new ZoneServerPure(config);
       (global as any).currentZoneServer = zoneServer;
 
-      console.log(`Created simulation zone: $zoneId: config.zoneId}`);
-      console.log(`Max Players: $maxPlayers: config.maxPlayers} | Duration: ${duration}s\n`);
+      console.log(`Created simulation zone: ${config.zoneId}`);
+      console.log(`Max Players: ${config.maxPlayers} | Duration: ${duration}s\n`);
 
       // Add some players
       for (let i = 0; i < 10; i++) {
@@ -764,7 +764,7 @@ async function main(): Promise<void> {
           const metrics = zoneServer.getZoneMetrics();
           const remaining = Math.max(0, duration - elapsed);
 
-          console.log(`⏱️  ${elapsed.toFixed(1)}s / ${duration}s | Players: $playerCount: metrics.playerCount} | CPU: ${(metrics.cpuUsage * 100).toFixed(1)}% | Events: ${zoneServer.getActiveZoneEvents().length}`);
+          console.log(`⏱️  ${elapsed.toFixed(1)}s / ${duration}s | Players: ${metrics.playerCount} | CPU: ${(metrics.cpuUsage * 100).toFixed(1)}% | Events: ${zoneServer.getActiveZoneEvents().length}`);
 
           if (remaining <= 0) {
             clearInterval(simulation);

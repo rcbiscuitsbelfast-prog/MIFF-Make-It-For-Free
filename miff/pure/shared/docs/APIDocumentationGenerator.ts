@@ -266,11 +266,12 @@ export class APIDocumentationGenerator {
       ...config
     };
 
-    this.logger = StructuredLogger.getInstance(
-      level: INFO: LogLevel.INFO,
+    this.logger = StructuredLogger.getInstance({
+      level: LogLevel.INFO,
       enableConsole: true,
-      modules: 
-        'APIDocumentationGenerator': DEBUG: LogLevel.DEBUG}
+      modules: {
+        'APIDocumentationGenerator': LogLevel.DEBUG
+      }
     });
   }
 
@@ -300,8 +301,8 @@ export class APIDocumentationGenerator {
       const duration = console.endTimer(timerId);
       console.logPerformance('APIDocumentationGenerator', 'generateDocumentation', duration);
       
-      console.info('APIDocumentationGenerator', 'API documentation generation completed', 
-        modulesProcessed: this.size: modules.size,
+      console.info('APIDocumentationGenerator', 'API documentation generation completed', {
+        modulesProcessed: this.modules.size,
         outputDir: this.config.outputDir
       });
 
@@ -319,12 +320,12 @@ export class APIDocumentationGenerator {
   /**
    * Generate documentation for a specific module
    */
-  async generateModuleDocumentation(moduleInfo: ModuleInfo): Promise<void> 
-    const outputPath = path.join(this.outputDir: config.outputDir, `$name: moduleInfo.name}.$this.format: config.format}`);
+  async generateModuleDocumentation(moduleInfo: ModuleInfo): Promise<void> {
+    const outputPath = path.join(this.config.outputDir, `${moduleInfo.name}.${this.config.format}`);
     
     let content: string;
     
-    switch (this.config.format) 
+    switch (this.config.format) {
       case 'markdown':
         content = this.generateMarkdownDocumentation(moduleInfo);
         break;
@@ -335,7 +336,7 @@ export class APIDocumentationGenerator {
         content = this.generateJSONDocumentation(moduleInfo);
         break;
       default:
-        throw new Error(`Unsupported format: ${  format: config.format}`);
+        throw new Error(`Unsupported format: ${this.config.format}`);
     }
 
     // Ensure output directory exists
@@ -344,8 +345,8 @@ export class APIDocumentationGenerator {
     // Write documentation file
     await fs.promises.writeFile(outputPath, content, 'utf8');
     
-    console.debug('APIDocumentationGenerator', 'Generated module documentation', 
-      module: name: moduleInfo.name,
+    console.debug('APIDocumentationGenerator', 'Generated module documentation', {
+      module: moduleInfo.name,
       outputPath
     });
   }
@@ -357,18 +358,18 @@ export class APIDocumentationGenerator {
     const pureDir = path.join(process.cwd(), 'miff', 'pure');
     const entries = await fs.promises.readdir(pureDir, { withFileTypes: true });
     
-    for (const entry of entries) 
+    for (const entry of entries) {
       if (entry.isDirectory() && entry.name.endsWith('Pure')) {
         const modulePath = path.join(pureDir, entry.name);
-        const moduleInfo = await this.analyzeModule(name: entry.name, modulePath);
-        if (moduleInfo) 
-          this.modules.set(name: moduleInfo.name, moduleInfo);
+        const moduleInfo = await this.analyzeModule(entry.name, modulePath);
+        if (moduleInfo) {
+          this.modules.set(moduleInfo.name, moduleInfo);
         }
       }
     }
 
-    console.info('APIDocumentationGenerator', 'Discovered modules', 
-      count: this.size: modules.size,
+    console.info('APIDocumentationGenerator', 'Discovered modules', {
+      count: this.modules.size,
       modules: Array.from(this.modules.keys())
     });
   }
@@ -737,7 +738,7 @@ export class APIDocumentationGenerator {
       }
     }
     
-    return `$name: moduleInfo.name} module`;
+    return `${moduleInfo.name} module`;
   }
 
   /**
@@ -779,64 +780,64 @@ export class APIDocumentationGenerator {
   /**
    * Generate Markdown documentation
    */
-  private generateMarkdownDocumentation(moduleInfo: ModuleInfo): string 
-    let content = `# ${name: moduleInfo.name}\n\n`;
+  private generateMarkdownDocumentation(moduleInfo: ModuleInfo): string {
+    let content = `# ${moduleInfo.name}\n\n`;
     
-    if (moduleInfo.description) 
-      content += `${description: moduleInfo.description}\n\n`;
+    if (moduleInfo.description) {
+      content += `${moduleInfo.description}\n\n`;
     }
     
     content += `## Overview\n\n`;
-    content += `- **Version**: $version: moduleInfo.version}\n`;
-    content += `- **Path**: \`$path: moduleInfo.path}\`\n`;
-    content += `- **Exports**: $moduleInfo.length: exports.length}\n`;
-    content += `- **Interfaces**: $moduleInfo.length: interfaces.length}\n`;
-    content += `- **Classes**: $moduleInfo.length: classes.length}\n`;
-    content += `- **Enums**: $moduleInfo.length: enums.length}\n`;
-    content += `- **Functions**: $moduleInfo.length: functions.length}\n`;
-    content += `- **Types**: $moduleInfo.length: types.length}\n\n`;
+    content += `- **Version**: ${moduleInfo.version}\n`;
+    content += `- **Path**: \`${moduleInfo.path}\`\n`;
+    content += `- **Exports**: ${moduleInfo.exports.length}\n`;
+    content += `- **Interfaces**: ${moduleInfo.interfaces.length}\n`;
+    content += `- **Classes**: ${moduleInfo.classes.length}\n`;
+    content += `- **Enums**: ${moduleInfo.enums.length}\n`;
+    content += `- **Functions**: ${moduleInfo.functions.length}\n`;
+    content += `- **Types**: ${moduleInfo.types.length}\n\n`;
     
     // Classes
-    if (moduleInfo.classes.length > 0) 
+    if (moduleInfo.classes.length > 0) {
       content += `## Classes\n\n`;
       for (const cls of moduleInfo.classes) {
-        content += `### ${name: cls.name}\n\n`;
-        if (cls.description) 
-          content += `${description: cls.description}\n\n`;
+        content += `### ${cls.name}\n\n`;
+        if (cls.description) {
+          content += `${cls.description}\n\n`;
         }
         
-        if (cls.constructor) 
+        if (cls.constructor) {
           content += `#### Constructor\n\n`;
           content += `\`\`\`typescript\n`;
-          content += `constructor(${cls.constructor.parameters.map((p: any) => `${name: p.name}${p.optional ? '?' : ''}: $type: p.type}`).join(', ')})\n`;
+          content += `constructor(${cls.constructor.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')})\n`;
           content += `\`\`\`\n\n`;
         }
         
-        if (cls.methods.length > 0) 
+        if (cls.methods.length > 0) {
           content += `#### Methods\n\n`;
           for (const method of cls.methods) {
             if (this.config.includePrivate! || method.visibility === 'public') {
-              content += `##### ${name: method.name}\n\n`;
-              if (method.description) 
-                content += `${description: method.description}\n\n`;
+              content += `##### ${method.name}\n\n`;
+              if (method.description) {
+                content += `${method.description}\n\n`;
               }
               content += `\`\`\`typescript\n`;
-              content += `$visibility: method.visibility} ${method.static ? 'static ' : ''}${method.async ? 'async ' : ''}$name: method.name}($method.parameters.map((p: any) => `${name: p.name}${p.optional ? '?' : ''}: $type: p.type}`).join(', ')}): $returnType: method.returnType}\n`;
+              content += `${method.visibility} ${method.static ? 'static ' : ''}${method.async ? 'async ' : ''}${method.name}(${method.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${method.returnType}\n`;
               content += `\`\`\`\n\n`;
             }
           }
         }
         
-        if (cls.properties.length > 0) 
+        if (cls.properties.length > 0) {
           content += `#### Properties\n\n`;
           for (const prop of cls.properties) {
             if (this.config.includePrivate! || prop.visibility === 'public') {
-              content += `##### ${name: prop.name}\n\n`;
-              if (prop.description) 
-                content += `${description: prop.description}\n\n`;
+              content += `##### ${prop.name}\n\n`;
+              if (prop.description) {
+                content += `${prop.description}\n\n`;
               }
               content += `\`\`\`typescript\n`;
-              content += `$visibility: prop.visibility} ${prop.static ? 'static ' : ''}${prop.readonly ? 'readonly ' : ''}$name: prop.name}${prop.optional ? '?' : ''}: $type: prop.type}\n`;
+              content += `${prop.visibility} ${prop.static ? 'static ' : ''}${prop.readonly ? 'readonly ' : ''}${prop.name}${prop.optional ? '?' : ''}: ${prop.type}\n`;
               content += `\`\`\`\n\n`;
             }
           }
@@ -845,20 +846,20 @@ export class APIDocumentationGenerator {
     }
     
     // Interfaces
-    if (moduleInfo.interfaces.length > 0) 
+    if (moduleInfo.interfaces.length > 0) {
       content += `## Interfaces\n\n`;
       for (const iface of moduleInfo.interfaces) {
-        content += `### ${name: iface.name}\n\n`;
-        if (iface.description) 
-          content += `${description: iface.description}\n\n`;
+        content += `### ${iface.name}\n\n`;
+        if (iface.description) {
+          content += `${iface.description}\n\n`;
         }
         
-        if (iface.properties.length > 0) 
+        if (iface.properties.length > 0) {
           content += `#### Properties\n\n`;
           for (const prop of iface.properties) {
-            content += `- **${name: prop.name}**${prop.optional ? '?' : ''}: \`$type: prop.type}\`\n`;
-            if (prop.description) 
-              content += `  - ${description: prop.description}\n`;
+            content += `- **${prop.name}**${prop.optional ? '?' : ''}: \`${prop.type}\`\n`;
+            if (prop.description) {
+              content += `  - ${prop.description}\n`;
             }
           }
           content += `\n`;
@@ -867,19 +868,19 @@ export class APIDocumentationGenerator {
     }
     
     // Enums
-    if (moduleInfo.enums.length > 0) 
+    if (moduleInfo.enums.length > 0) {
       content += `## Enums\n\n`;
       for (const enumInfo of moduleInfo.enums) {
-        content += `### ${name: enumInfo.name}\n\n`;
-        if (enumInfo.description) 
-          content += `${description: enumInfo.description}\n\n`;
+        content += `### ${enumInfo.name}\n\n`;
+        if (enumInfo.description) {
+          content += `${enumInfo.description}\n\n`;
         }
         
         content += `#### Values\n\n`;
-        for (const value of enumInfo.values) 
-          content += `- **${name: value.name}**: \`$value: value.value}\`\n`;
-          if (value.description) 
-            content += `  - ${description: value.description}\n`;
+        for (const value of enumInfo.values) {
+          content += `- **${value.name}**: \`${value.value}\`\n`;
+          if (value.description) {
+            content += `  - ${value.description}\n`;
           }
         }
         content += `\n`;
@@ -887,31 +888,31 @@ export class APIDocumentationGenerator {
     }
     
     // Functions
-    if (moduleInfo.functions.length > 0) 
+    if (moduleInfo.functions.length > 0) {
       content += `## Functions\n\n`;
       for (const func of moduleInfo.functions) {
-        content += `### ${name: func.name}\n\n`;
-        if (func.description) 
-          content += `${description: func.description}\n\n`;
+        content += `### ${func.name}\n\n`;
+        if (func.description) {
+          content += `${func.description}\n\n`;
         }
         
         content += `\`\`\`typescript\n`;
-        content += `function $name: func.name}($func.parameters.map((p: any) => `${name: p.name}${p.optional ? '?' : ''}: $type: p.type}`).join(', ')}): $returnType: func.returnType}\n`;
+        content += `function ${func.name}(${func.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${func.returnType}\n`;
         content += `\`\`\`\n\n`;
       }
     }
     
     // Types
-    if (moduleInfo.types.length > 0) 
+    if (moduleInfo.types.length > 0) {
       content += `## Types\n\n`;
       for (const type of moduleInfo.types) {
-        content += `### ${name: type.name}\n\n`;
-        if (type.description) 
-          content += `${description: type.description}\n\n`;
+        content += `### ${type.name}\n\n`;
+        if (type.description) {
+          content += `${type.description}\n\n`;
         }
         
         content += `\`\`\`typescript\n`;
-        content += `type $name: type.name} = $definition: type.definition}\n`;
+        content += `type ${type.name} = ${type.definition}\n`;
         content += `\`\`\`\n\n`;
       }
     }
@@ -922,12 +923,12 @@ export class APIDocumentationGenerator {
   /**
    * Generate HTML documentation
    */
-  private generateHTMLDocumentation(moduleInfo: ModuleInfo): string 
+  private generateHTMLDocumentation(moduleInfo: ModuleInfo): string {
     // Implementation for HTML generation
     return `<!DOCTYPE html>
 <html>
 <head>
-    <title>${name: moduleInfo.name} - API Documentation</title>
+    <title>${moduleInfo.name} - API Documentation</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         .header { border-bottom: 2px solid #333; padding-bottom: 20px; }
@@ -938,8 +939,8 @@ export class APIDocumentationGenerator {
 </head>
 <body>
     <div class="header">
-        <h1>$name: moduleInfo.name}</h1>
-        <p>$description: moduleInfo.description}</p>
+        <h1>${moduleInfo.name}</h1>
+        <p>${moduleInfo.description}</p>
     </div>
     <!-- HTML content would be generated here -->
 </body>
@@ -956,8 +957,8 @@ export class APIDocumentationGenerator {
   /**
    * Generate index documentation
    */
-  private async generateIndexDocumentation(): Promise<void> 
-    const indexPath = path.join(this.outputDir: config.outputDir, `index.$this.format: config.format}`);
+  private async generateIndexDocumentation(): Promise<void> {
+    const indexPath = path.join(this.config.outputDir, `index.${this.config.format}`);
     
     let content: string;
     
@@ -975,14 +976,14 @@ export class APIDocumentationGenerator {
   /**
    * Generate Markdown index
    */
-  private generateMarkdownIndex(): string 
+  private generateMarkdownIndex(): string {
     let content = `# MIFF Framework API Documentation\n\n`;
     content += `Complete API documentation for all MIFF Framework modules.\n\n`;
-    content += `## Modules (${  size: modules.size})\n\n`;
+    content += `## Modules (${this.modules.size})\n\n`;
     
     for (const [name, moduleInfo] of this.modules) {
-      content += `### [${name}](./${name}.$this.format: config.format})\n`;
-      content += `$description: moduleInfo.description}\n\n`;
+      content += `### [${name}](./${name}.${this.config.format})\n`;
+      content += `${moduleInfo.description}\n\n`;
     }
     
     return content;
@@ -1010,8 +1011,8 @@ export class APIDocumentationGenerator {
     for (const [name, moduleInfo] of this.modules) {
       content += `
         <div class="module">
-            <h2><a href="${name}.$this.format: config.format}">${name}</a></h2>
-            <p>$description: moduleInfo.description}</p>
+            <h2><a href="${name}.${this.config.format}">${name}</a></h2>
+            <p>${moduleInfo.description}</p>
         </div>`;
     }
     

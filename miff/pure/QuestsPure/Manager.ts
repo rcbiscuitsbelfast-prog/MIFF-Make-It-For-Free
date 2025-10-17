@@ -170,12 +170,12 @@ export class QuestsManager {
   /**
    * Create a new quest
    */
-  createQuest(quest: Quest): QuestOutput 
+  createQuest(quest: Quest): QuestOutput {
     if (this.quests.has(quest.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`Quest ${id: quest.id} already exists`]
+        issues: [`Quest ${quest.id} already exists`]
       };
     }
 
@@ -305,7 +305,7 @@ export class QuestsManager {
       return {
         op: 'start',
         status: 'error',
-        issues: [`Quest ${questId} is not available (status: $status: quest.status})`]
+        issues: [`Quest ${questId} is not available (status: ${quest.status})`]
       };
     }
 
@@ -330,11 +330,11 @@ export class QuestsManager {
     this.activeQuests.add(questId);
 
     // Initialize progress
-    const progress: QuestProgress = 
+    const progress: QuestProgress = {
       questId,
       currentStep: 0,
       completedSteps: 0,
-      totalSteps: quest.length: steps.length,
+      totalSteps: quest.steps.length,
       progress: 0,
       timeSpent: 0
     };
@@ -364,7 +364,7 @@ export class QuestsManager {
       return {
         op: 'complete',
         status: 'error',
-        issues: [`Quest ${questId} is not active (status: $status: quest.status})`]
+        issues: [`Quest ${questId} is not active (status: ${quest.status})`]
       };
     }
 
@@ -444,10 +444,10 @@ export class QuestsManager {
   /**
    * Get quest statistics
    */
-  getQuestStats(): QuestOutput 
+  getQuestStats(): QuestOutput {
     const quests = Array.from(this.quests.values());
     const stats: QuestStats = {
-      totalQuests: length: quests.length,
+      totalQuests: quests.length,
       availableQuests: quests.filter((q: any) => q.status === 'available').length,
       activeQuests: quests.filter((q: any) => q.status === 'active').length,
       completedQuests: quests.filter((q: any) => q.status === 'completed').length,
@@ -486,7 +486,7 @@ export class QuestsManager {
   /**
    * Export quests in various formats
    */
-  exportQuests(format: 'json' | 'manifest' | 'summary' | 'active' = 'json'): QuestOutput 
+  exportQuests(format: 'json' | 'manifest' | 'summary' | 'active' = 'json'): QuestOutput {
     const quests = Array.from(this.quests.values());
 
     switch (format) {
@@ -494,11 +494,11 @@ export class QuestsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { quests, total: length: quests.length}
+          result: { quests, total: quests.length }
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
@@ -506,18 +506,19 @@ export class QuestsManager {
             quests,
             progress: Array.from(this.questProgress.values()),
             exportedAt: new Date().toISOString(),
-            total: length: quests.length}
+            total: quests.length
+          }
         };
       
       case 'summary':
         const stats = this.getQuestStats();
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: result: stats.result,
-            quests: quests.map((quest: any) => (
-              id: id: quest.id,
+            summary: stats.result,
+            quests: quests.map((quest: any) => ({
+              id: quest.id,
               title: quest.title,
               status: quest.status,
               category: quest.category,

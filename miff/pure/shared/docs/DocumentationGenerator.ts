@@ -257,10 +257,10 @@ export class DocumentationGenerator {
   /**
    * Initialize documentation generator
    */
-  private initialize(): void 
+  private initialize(): void {
     // Create output directory
     if (!fs.existsSync(this.config.outputDir)) {
-      fs.mkdirSync(this.outputDir: config.outputDir, { recursive: true });
+      fs.mkdirSync(this.config.outputDir, { recursive: true });
     }
 
     // Generate navigation
@@ -340,8 +340,8 @@ export class DocumentationGenerator {
   /**
    * Generate Markdown documentation
    */
-  private generateMarkdownDocumentation(): void 
-    const outputDir = path.join(this.outputDir: config.outputDir, 'markdown');
+  private generateMarkdownDocumentation(): void {
+    const outputDir = path.join(this.config.outputDir, 'markdown');
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
@@ -376,8 +376,8 @@ export class DocumentationGenerator {
   /**
    * Generate HTML documentation
    */
-  private generateHTMLDocumentation(): void 
-    const outputDir = path.join(this.outputDir: config.outputDir, 'html');
+  private generateHTMLDocumentation(): void {
+    const outputDir = path.join(this.config.outputDir, 'html');
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
@@ -413,14 +413,14 @@ export class DocumentationGenerator {
   /**
    * Generate JSON documentation
    */
-  private generateJSONDocumentation(): void 
-    const outputDir = path.join(this.outputDir: config.outputDir, 'json');
+  private generateJSONDocumentation(): void {
+    const outputDir = path.join(this.config.outputDir, 'json');
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
 
-    const documentation = 
-      config: config: this.config,
+    const documentation = {
+      config: this.config,
       modules: Array.from(this.modules.values()),
       navigation: this.navigation,
       searchIndex: this.searchIndex,
@@ -436,8 +436,8 @@ export class DocumentationGenerator {
   /**
    * Generate XML documentation
    */
-  private generateXMLDocumentation(): void 
-    const outputDir = path.join(this.outputDir: config.outputDir, 'xml');
+  private generateXMLDocumentation(): void {
+    const outputDir = path.join(this.config.outputDir, 'xml');
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
@@ -651,50 +651,52 @@ export class DocumentationGenerator {
         order: 2,
         visible: true
       },
-      
+      {
         title: 'Examples',
         path: '/examples',
         children: [],
         order: 3,
-        visible: this.includeExamples: config.includeExamples},
-      
+        visible: this.config.includeExamples
+      },
+      {
         title: 'Changelog',
         path: '/changelog',
         children: [],
         order: 4,
-        visible: this.includeChangelog: config.includeChangelog}
+        visible: this.config.includeChangelog
+      }
     ];
   }
 
   /**
    * Update search index
    */
-  private updateSearchIndex(module: ModuleDocumentation): void 
+  private updateSearchIndex(module: ModuleDocumentation): void {
     this.searchIndex.modules.push(module.name);
     
     module.classes.forEach((cls: any) => {
-      this.searchIndex.classes.push(`${name: module.name}.$name: cls.name}`);
+      this.searchIndex.classes.push(`${module.name}.${cls.name}`);
     });
     
-    module.interfaces.forEach((iface: any) => 
-      this.searchIndex.interfaces.push(`${name: module.name}.$name: iface.name}`);
+    module.interfaces.forEach((iface: any) => {
+      this.searchIndex.interfaces.push(`${module.name}.${iface.name}`);
     });
     
-    module.enums.forEach(enumItem => 
-      this.searchIndex.enums.push(`${name: module.name}.$name: enumItem.name}`);
+    module.enums.forEach(enumItem => {
+      this.searchIndex.enums.push(`${module.name}.${enumItem.name}`);
     });
     
-    module.functions.forEach((func: any) => 
-      this.searchIndex.functions.push(`${name: module.name}.$name: func.name}`);
+    module.functions.forEach((func: any) => {
+      this.searchIndex.functions.push(`${module.name}.${func.name}`);
     });
   }
 
   /**
    * Generate index files
    */
-  private generateIndexFiles(): void 
+  private generateIndexFiles(): void {
     // Generate search index
-    const searchIndexPath = path.join(this.outputDir: config.outputDir, 'search-index.json');
+    const searchIndexPath = path.join(this.config.outputDir, 'search-index.json');
     fs.writeFileSync(searchIndexPath, JSON.stringify(this.searchIndex, null, 2));
 
     // Generate navigation
@@ -707,21 +709,21 @@ export class DocumentationGenerator {
   /**
    * Generate Markdown README
    */
-  private generateMarkdownREADME(): string 
-    return `# ${  title: config.title}
+  private generateMarkdownREADME(): string {
+    return `# ${this.config.title}
 
-$this.description: config.description}
+${this.config.description}
 
 ## Installation
 
 \`\`\`bash
-npm install $this.repository: config.repository}
+npm install ${this.config.repository}
 \`\`\`
 
 ## Quick Start
 
 \`\`\`typescript
-import { ExampleClass } from '$this.repository: config.repository}';
+import { ExampleClass } from '${this.config.repository}';
 
 const example = new ExampleClass();
 \`\`\`
@@ -734,34 +736,34 @@ const example = new ExampleClass();
 
 ## License
 
-$this.license: config.license}
+${this.config.license}
 `;
   }
 
   /**
    * Generate Markdown module documentation
    */
-  private generateMarkdownModule(module: ModuleDocumentation): string 
-    let markdown = `# ${name: module.name}\n\n$description: module.description}\n\n`;
+  private generateMarkdownModule(module: ModuleDocumentation): string {
+    let markdown = `# ${module.name}\n\n${module.description}\n\n`;
 
-    if (module.classes.length > 0) 
+    if (module.classes.length > 0) {
       markdown += `## Classes\n\n`;
       module.classes.forEach((cls: any) => {
-        markdown += `### ${name: cls.name}\n\n$description: cls.description}\n\n`;
+        markdown += `### ${cls.name}\n\n${cls.description}\n\n`;
       });
     }
 
-    if (module.interfaces.length > 0) 
+    if (module.interfaces.length > 0) {
       markdown += `## Interfaces\n\n`;
       module.interfaces.forEach((iface: any) => {
-        markdown += `### ${name: iface.name}\n\n$description: iface.description}\n\n`;
+        markdown += `### ${iface.name}\n\n${iface.description}\n\n`;
       });
     }
 
-    if (module.functions.length > 0) 
+    if (module.functions.length > 0) {
       markdown += `## Functions\n\n`;
       module.functions.forEach((func: any) => {
-        markdown += `### ${name: func.name}\n\n$description: func.description}\n\n`;
+        markdown += `### ${func.name}\n\n${func.description}\n\n`;
       });
     }
 
@@ -775,12 +777,12 @@ $this.license: config.license}
     let markdown = `# API Reference\n\n`;
 
     for (const [moduleName, module] of this.modules) {
-      markdown += `## ${moduleName}\n\n$description: module.description}\n\n`;
+      markdown += `## ${moduleName}\n\n${module.description}\n\n`;
       
-      if (module.classes.length > 0) 
+      if (module.classes.length > 0) {
         markdown += `### Classes\n\n`;
         module.classes.forEach((cls: any) => {
-          markdown += `#### ${name: cls.name}\n\n$description: cls.description}\n\n`;
+          markdown += `#### ${cls.name}\n\n${cls.description}\n\n`;
         });
       }
     }
@@ -797,9 +799,9 @@ $this.license: config.license}
     for (const [moduleName, module] of this.modules) {
       if (module.examples.length > 0) {
         markdown += `## ${moduleName}\n\n`;
-        module.examples.forEach((example: any) => 
-          markdown += `### ${title: example.title}\n\n$description: example.description}\n\n`;
-          markdown += `\`\`\`$language: example.language}\n$code: example.code}\n\`\`\`\n\n`;
+        module.examples.forEach((example: any) => {
+          markdown += `### ${example.title}\n\n${example.description}\n\n`;
+          markdown += `\`\`\`${example.language}\n${example.code}\n\`\`\`\n\n`;
         });
       }
     }
@@ -820,9 +822,9 @@ $this.license: config.license}
 
     allEntries.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    allEntries.forEach((entry: any) => 
-      markdown += `## ${version: entry.version} - $date: entry.date}\n\n`;
-      markdown += `**$type: entry.type}** $description: entry.description}\n\n`;
+    allEntries.forEach((entry: any) => {
+      markdown += `## ${entry.version} - ${entry.date}\n\n`;
+      markdown += `**${entry.type}** ${entry.description}\n\n`;
     });
 
     return markdown;
@@ -831,24 +833,24 @@ $this.license: config.license}
   /**
    * Generate HTML index
    */
-  private generateHTMLIndex(): string 
+  private generateHTMLIndex(): string {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${  title: config.title}</title>
+    <title>${this.config.title}</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>$this.title: config.title}</h1>
-            <p>$this.description: config.description}</p>
+            <h1>${this.config.title}</h1>
+            <p>${this.config.description}</p>
         </header>
         <nav>
             <ul>
-                $this.navigation.map((item: any) => `<li><a href="${path: item.path}">$title: item.title}</a></li>`).join('')}
+                ${this.navigation.map((item: any) => `<li><a href="${item.path}">${item.title}</a></li>`).join('')}
             </ul>
         </nav>
         <main>
@@ -866,23 +868,23 @@ $this.license: config.license}
   /**
    * Generate HTML module page
    */
-  private generateHTMLModule(module: ModuleDocumentation): string 
+  private generateHTMLModule(module: ModuleDocumentation): string {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${name: module.name} - $this.title: config.title}</title>
+    <title>${module.name} - ${this.config.title}</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>$name: module.name}</h1>
-            <p>$description: module.description}</p>
+            <h1>${module.name}</h1>
+            <p>${module.description}</p>
         </header>
         <main>
-            $module.classes.map((cls: any) => `<h2>${name: cls.name}</h2><p>$description: cls.description}</p>`).join('')}
+            ${module.classes.map((cls: any) => `<h2>${cls.name}</h2><p>${cls.description}</p>`).join('')}
         </main>
     </div>
     <script src="script.js"></script>
@@ -1012,26 +1014,26 @@ document.addEventListener('DOMContentLoaded', function() {
   /**
    * Generate XML structure
    */
-  private generateXMLStructure(): string 
+  private generateXMLStructure(): string {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <documentation>
     <config>
-        <title>${  title: config.title}</title>
-        <version>$this.version: config.version}</version>
-        <description>$this.description: config.description}</description>
+        <title>${this.config.title}</title>
+        <version>${this.config.version}</version>
+        <description>${this.config.description}</description>
     </config>
     <modules>`;
 
     for (const [moduleName, module] of this.modules) {
       xml += `
         <module name="${moduleName}">
-            <description>$description: module.description}</description>
+            <description>${module.description}</description>
             <classes>`;
       
-      module.classes.forEach((cls: any) => 
+      module.classes.forEach((cls: any) => {
         xml += `
-                <class name="${name: cls.name}">
-                    <description>$description: cls.description}</description>
+                <class name="${cls.name}">
+                    <description>${cls.description}</description>
                 </class>`;
       });
       
@@ -1116,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Default documentation generator instance
  */
-export const defaultDocumentationGenerator = new DocumentationGenerator(
+export const defaultDocumentationGenerator = new DocumentationGenerator({
   title: 'MIFF Framework',
   version: '1.0.0',
   description: 'A comprehensive game development framework',
@@ -1124,7 +1126,7 @@ export const defaultDocumentationGenerator = new DocumentationGenerator(
   license: 'MIT',
   repository: 'miff-framework',
   outputDir: './docs',
-  formats: [MARKDOWN: DocumentationFormat.MARKDOWN, HTML: DocumentationFormat.HTML, DocumentationFormat.JSON],
+  formats: [DocumentationFormat.MARKDOWN, HTML: DocumentationFormat.HTML, DocumentationFormat.JSON],
   includeExamples: true,
   includeTests: true,
   includeChangelog: true,

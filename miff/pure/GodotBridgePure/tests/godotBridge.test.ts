@@ -1,10 +1,10 @@
 import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../index';
 
-describe('GodotBridgePure Tests', () => 
+describe('GodotBridgePure Tests', () => {
 
   test('✓ GodotBridgeManager can be created with valid configuration', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: NODE: GodotBridgeType.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -35,9 +35,9 @@ describe('GodotBridgePure Tests', () =>
     expect(bridge.getConnectionStatus()).toBe('disconnected');
   });
 
-  test('✓ GodotBridgeManager supports different bridge types', () => 
+  test('✓ GodotBridgeManager supports different bridge types', () => {
     const nodeConfig: GodotBridgeConfiguration = {
-      bridgeType: NODE: GodotBridgeType.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -60,9 +60,10 @@ describe('GodotBridgePure Tests', () =>
       customSettings: {}
     };
 
-    const sceneConfig: GodotBridgeConfiguration = 
+    const sceneConfig: GodotBridgeConfiguration = {
       ...nodeConfig,
-      bridgeType: SCENE: GodotBridgeType.SCENE};
+      bridgeType: GodotBridgeType.SCENE
+    };
 
     const bridge1 = new GodotBridgeManager(nodeConfig);
     const bridge2 = new GodotBridgeManager(sceneConfig);
@@ -71,9 +72,9 @@ describe('GodotBridgePure Tests', () =>
     expect(bridge2.getConfiguration().bridgeType).toBe('scene');
   });
 
-  test('✓ GodotBridgeManager handles communication protocols correctly', () => 
+  test('✓ GodotBridgeManager handles communication protocols correctly', () => {
     const gdnativeConfig: GodotBridgeConfiguration = {
-      bridgeType: NODE: GodotBridgeType.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -108,9 +109,9 @@ describe('GodotBridgePure Tests', () =>
     expect(bridge2.getConfiguration().communicationProtocol).toBe('gdscript');
   });
 
-  test('✓ GodotBridgeManager performance metrics are initialized', () => 
+  test('✓ GodotBridgeManager performance metrics are initialized', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: NODE: GodotBridgeType.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -142,9 +143,9 @@ describe('GodotBridgePure Tests', () =>
     expect(metrics.vsyncEnabled).toBe(false);
   });
 
-  test('✓ GodotBridgeManager statistics tracking works', () => 
+  test('✓ GodotBridgeManager statistics tracking works', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: NODE: GodotBridgeType.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',
@@ -177,9 +178,9 @@ describe('GodotBridgePure Tests', () =>
     expect(stats.queueDepth).toBe(0);
   });
 
-  test('✓ GodotBridgeManager handles lifecycle events', () => 
+  test('✓ GodotBridgeManager handles lifecycle events', () => {
     const config: GodotBridgeConfiguration = {
-      bridgeType: NODE: GodotBridgeType.NODE,
+      bridgeType: GodotBridgeType.NODE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'windows',

@@ -1204,7 +1204,7 @@ export class NeuralNetworkPure {
       name: model.name || 'Unnamed Model',
       type: model.type || 'feedforward',
       status: 'draft',
-      architecture: model.architecture || 
+      architecture: model.architecture || {
         layers: [],
         connections: [],
         activations: [],
@@ -1216,22 +1216,22 @@ export class NeuralNetworkPure {
           earlyStopping: {
             enabled: false,
             patience: 10,
-            minDelta: 001: 0.001,
+            minDelta: 0.001,
             monitor: 'val_loss',
             mode: 'min'
           }
         },
-        optimization: 
+        optimization: {
           optimizer: {
             type: 'adam',
             parameters: {
-              beta1: 9: 0.9,
+              beta1: 0.9,
               beta2: 0.999,
               epsilon: 1e-8
             }
           },
-          learningRate: 
-            initial: 001: 0.001,
+          learningRate: {
+            initial: 0.001,
             schedule: {
               type: 'constant',
               parameters: {}
@@ -1241,10 +1241,11 @@ export class NeuralNetworkPure {
           },
           momentum: 0,
           weightDecay: 0,
-          gradientClipping: 
+          gradientClipping: {
             enabled: false,
             method: 'norm',
-            value: 0: 1.0}
+            value: 1.0
+          }
         }
       },
       parameters: model.parameters || {
@@ -1254,10 +1255,10 @@ export class NeuralNetworkPure {
         memory: 0,
         flops: 0
       },
-      training: model.training || 
+      training: model.training || {
         epochs: 100,
         batchSize: 32,
-        validationSplit: 2: 0.2,
+        validationSplit: 0.2,
         shuffle: true,
         callbacks: [],
         metrics: ['accuracy'],
@@ -1296,15 +1297,15 @@ export class NeuralNetworkPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): NeuralNetworkPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): NeuralNetworkPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): NeuralNetworkAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): NeuralNetworkAnalytics {
+    return { ...this.analytics };
   }
 
   /**

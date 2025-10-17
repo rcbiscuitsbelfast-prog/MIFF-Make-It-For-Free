@@ -1194,15 +1194,15 @@ export class DataWarehousePure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DataWarehousePerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DataWarehousePerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DataWarehouseAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DataWarehouseAnalytics {
+    return { ...this.analytics };
   }
 
   /**

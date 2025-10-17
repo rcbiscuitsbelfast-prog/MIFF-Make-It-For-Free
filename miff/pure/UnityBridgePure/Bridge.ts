@@ -81,13 +81,13 @@ export class UnityBridge {
     this.economyManager = new EconomyManager();
   }
 
-  simulate(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput 
+  simulate(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
     try {
       let result: Record<string, unknown>;
       
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.simulateNPC(npcId: data.npcId, data.duration);
+          result = this.npcsManager.simulateNPC(data.npcId, data.duration);
           break;
         case 'combat':
           result = this.combatManager.simulate(data.attacker, data.defender);
@@ -182,7 +182,7 @@ export class UnityBridge {
     }
   }
 
-  interop(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput 
+  interop(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
     try {
       // Handle Unity-specific data conversion
       const convertedData = this.convertFromUnity(data);
@@ -190,7 +190,7 @@ export class UnityBridge {
       let result: Record<string, unknown>;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.updateNPC(id: convertedData.id, convertedData);
+          result = this.npcsManager.updateNPC(convertedData.id, convertedData);
           break;
         case 'quests':
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
@@ -222,28 +222,28 @@ export class UnityBridge {
     }
   }
 
-  private createUnityEntity(npc: NPC, config: UnityBridgeConfig): UnityEntity 
+  private createUnityEntity(npc: NPC, config: UnityBridgeConfig): UnityEntity {
     return {
-      id: id: npc.id,
-      gameObject: `GameObject_$id: npc.id}`,
-      transform: 
-        position: { x: npc.x: location.x, y: npc.location.y, z: npc.location.z || 0 },
+      id: npc.id,
+      gameObject: `GameObject_${npc.id}`,
+      transform: {
+        position: { x: npc.location.x, y: npc.location.y, z: npc.location.z || 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 }
       },
-      components: 
-        NPCController: { npcId: id: npc.id, behavior: npc.behavior },
-        Transform:  position: location: npc.location},
-        Stats:  stats: stats: npc.stats}
+      components: {
+        NPCController: { npcId: npc.id, behavior: npc.behavior },
+        Transform: { position: npc.location },
+        Stats: { stats: npc.stats }
       }
     };
   }
 
-  private createNPCComponents(npcs: NPC[]): UnityComponent[] 
+  private createNPCComponents(npcs: NPC[]): UnityComponent[] {
     return npcs.map((npc: any) => ({
       type: 'NPCController',
       data: {
-        npcId: id: npc.id,
+        npcId: npc.id,
         behavior: npc.behavior,
         movementPattern: npc.movementPattern,
         questIds: npc.questIds
@@ -252,15 +252,15 @@ export class UnityBridge {
     }));
   }
 
-  private createCombatEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] 
+  private createCombatEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
     return [
       {
-        id: attackerId: data.attackerId,
-        gameObject: `Combatant_$attackerId: data.attackerId}`,
+        id: data.attackerId,
+        gameObject: `Combatant_${data.attackerId}`,
         transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
-        components: 
-          CombatController: { combatantId: attackerId: data.attackerId, isAttacker: true },
-          Stats:  stats: attackerStats: data.attackerStats}
+        components: {
+          CombatController: { combatantId: data.attackerId, isAttacker: true },
+          Stats: { stats: data.attackerStats }
         }
       }
     ];
@@ -276,13 +276,13 @@ export class UnityBridge {
     ];
   }
 
-  private createWorldEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] 
+  private createWorldEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
     return (data.zones as Array<Record<string, unknown>>)?.map((zone: Record<string, unknown>) => ({
-      id: id: zone.id,
-      gameObject: `Zone_$id: zone.id}`,
-      transform:  position: { x: x: zone.x, y: zone.y, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
-      components: 
-        ZoneController: { zoneId: id: zone.id, zoneData: zone }
+      id: zone.id,
+      gameObject: `Zone_${zone.id}`,
+      transform: { position: { x: zone.x, y: zone.y, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
+      components: {
+        ZoneController: { zoneId: zone.id, zoneData: zone }
       }
     })) || [];
   }
@@ -297,10 +297,10 @@ export class UnityBridge {
     ];
   }
 
-  private convertFromUnity(unityData: Record<string, unknown>): Record<string, unknown> 
+  private convertFromUnity(unityData: Record<string, unknown>): Record<string, unknown> {
     // Convert Unity-specific data back to MIFF format
     return {
-      id: id: unityData.id,
+      id: unityData.id,
       ...unityData.data
     };
   }

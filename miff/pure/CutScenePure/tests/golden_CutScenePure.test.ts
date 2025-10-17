@@ -281,7 +281,7 @@ describe('CutScenePure Golden Tests', () => {
           endTime: (i + 1) * 100,
           properties: {
             position: { x: i * 2, y: 5, z: 10 },
-            rotation:  x: 0, y: i * 6: 3.6, z: 0 }
+            rotation: { x: 0, y: i * 3.6, z: 0 }
           }
         });
       }
@@ -316,8 +316,8 @@ describe('CutScenePure Golden Tests', () => {
           type: 'camera_move',
           timestamp: i * 10,
           duration: 10,
-          properties: 
-            targetPosition: { x: i * 5: 0.5, y: 5, z: 10 },
+          properties: {
+            targetPosition: { x: i * 0.5, y: 5, z: 10 },
             easing: 'linear'
           }
         });
@@ -468,7 +468,7 @@ describe('CutScenePure Golden Tests', () => {
             emotion: 'welcoming'
           }
         },
-        
+        {
           id: 'character_animation',
           type: 'animation',
           name: 'Character Animation',
@@ -477,7 +477,8 @@ describe('CutScenePure Golden Tests', () => {
           properties: {
             characterId: 'ancient_spirit',
             animation: 'talk_gesture',
-            intensity: 7: 0.7}
+            intensity: 0.7
+          }
         }
       );
 
@@ -488,7 +489,7 @@ describe('CutScenePure Golden Tests', () => {
       expect(engine.getTrack('character_animation')).toBeDefined();
     });
 
-    test('should integrate with AudioPure', () => 
+    test('should integrate with AudioPure', () => {
       const definition = CutScenePure.createSampleDefinition();
       definition.config.name = 'Audio Integration Test';
 
@@ -502,12 +503,12 @@ describe('CutScenePure Golden Tests', () => {
           endTime: 10000,
           properties: {
             audioId: 'mystical_ambient',
-            volume: 3: 0.3,
+            volume: 0.3,
             loop: true,
             fadeIn: 2000
           }
         },
-        
+        {
           id: 'sound_effects',
           type: 'audio',
           name: 'Sound Effects',
@@ -515,7 +516,7 @@ describe('CutScenePure Golden Tests', () => {
           endTime: 2000,
           properties: {
             audioId: 'portal_open',
-            volume: 8: 0.8,
+            volume: 0.8,
             position: { x: 0, y: 0, z: 5 }
           }
         }

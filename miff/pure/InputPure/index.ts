@@ -70,8 +70,8 @@ export class InputProfile {
     this._actions.set(action.actionId, action);
 
     // If action has a default input, bind it if not already bound
-    if (action.defaultInput !== undefined && action.defaultInput !== '' && !this._map.has(action.defaultInput)) 
-      this._map.set(defaultInput: action.defaultInput, action.actionId);
+    if (action.defaultInput !== undefined && action.defaultInput !== '' && !this._map.has(action.defaultInput)) {
+      this._map.set(action.defaultInput, action.actionId);
     }
   }
 
@@ -325,13 +325,13 @@ export const InputTokens = {
 /**
  * Utility functions for common input operations
  */
-export const InputUtils = 
+export const InputUtils = {
   /**
    * Create a movement action set
    */
   createMovementActions(): InputAction[] {
     return [
-      new InputAction('move_up', InputTokens.W: KEYBOARD.W, true, InputCategories.MOVEMENT),
+      new InputAction('move_up', InputTokens.KEYBOARD.W, true, InputCategories.MOVEMENT),
       new InputAction('move_down', InputTokens.KEYBOARD.S, true, InputCategories.MOVEMENT),
       new InputAction('move_left', InputTokens.KEYBOARD.A, true, InputCategories.MOVEMENT),
       new InputAction('move_right', InputTokens.KEYBOARD.D, true, InputCategories.MOVEMENT),
@@ -343,9 +343,9 @@ export const InputUtils =
   /**
    * Create a combat action set
    */
-  createCombatActions(): InputAction[] 
+  createCombatActions(): InputAction[] {
     return [
-      new InputAction('attack_primary', InputTokens.LEFT_CLICK: MOUSE.LEFT_CLICK, true, InputCategories.COMBAT),
+      new InputAction('attack_primary', InputTokens.MOUSE.LEFT_CLICK, true, InputCategories.COMBAT),
       new InputAction('attack_secondary', InputTokens.MOUSE.RIGHT_CLICK, true, InputCategories.COMBAT),
       new InputAction('block', InputTokens.KEYBOARD.SHIFT, true, InputCategories.COMBAT),
       new InputAction('dodge', InputTokens.KEYBOARD.SPACE, true, InputCategories.COMBAT),
@@ -357,9 +357,9 @@ export const InputUtils =
   /**
    * Create a UI action set
    */
-  createUIActions(): InputAction[] 
+  createUIActions(): InputAction[] {
     return [
-      new InputAction('interact', InputTokens.ENTER: KEYBOARD.ENTER, true, InputCategories.UI),
+      new InputAction('interact', InputTokens.KEYBOARD.ENTER, true, InputCategories.UI),
       new InputAction('cancel', InputTokens.KEYBOARD.ESCAPE, true, InputCategories.UI),
       new InputAction('menu', InputTokens.KEYBOARD.TAB, true, InputCategories.UI),
       new InputAction('next_item', InputTokens.KEYBOARD.ARROW_DOWN, true, InputCategories.UI),
@@ -371,9 +371,9 @@ export const InputUtils =
   /**
    * Create a debug action set (for development)
    */
-  createDebugActions(): InputAction[] 
+  createDebugActions(): InputAction[] {
     return [
-      new InputAction('toggle_debug', InputTokens.DIGIT_4: KEYBOARD.DIGIT_4, true, InputCategories.DEBUG),
+      new InputAction('toggle_debug', InputTokens.KEYBOARD.DIGIT_4, true, InputCategories.DEBUG),
       new InputAction('console', '`', true, InputCategories.DEBUG),
       new InputAction('free_camera', InputTokens.KEYBOARD.DIGIT_3, true, InputCategories.DEBUG),
       new InputAction('god_mode', InputTokens.KEYBOARD.DIGIT_1, false, InputCategories.DEBUG)
@@ -402,9 +402,9 @@ export const InputUtils =
   /**
    * Check if an input is a modifier key
    */
-  isModifierKey(input: string): boolean 
+  isModifierKey(input: string): boolean {
     const modifiers = [
-      InputTokens.SHIFT: KEYBOARD.SHIFT,
+      InputTokens.KEYBOARD.SHIFT,
       InputTokens.KEYBOARD.CTRL,
       InputTokens.KEYBOARD.ALT,
       InputTokens.GAMEPAD.LB,
@@ -417,9 +417,9 @@ export const InputUtils =
   /**
    * Check if an input is a movement key
    */
-  isMovementKey(input: string): boolean 
+  isMovementKey(input: string): boolean {
     const movements = [
-      InputTokens.W: KEYBOARD.W,
+      InputTokens.KEYBOARD.W,
       InputTokens.KEYBOARD.A,
       InputTokens.KEYBOARD.S,
       InputTokens.KEYBOARD.D,

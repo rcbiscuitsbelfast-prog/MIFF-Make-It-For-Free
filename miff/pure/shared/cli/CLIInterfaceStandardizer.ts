@@ -167,8 +167,8 @@ export class CLIInterfaceStandardizer {
       
       // Validate command exists
       const command = this.config.commands.find(cmd => cmd.name === result.command);
-      if (!command) 
-        result.errors?.push(`Unknown command: ${command: result.command}`);
+      if (!command) {
+        result.errors?.push(`Unknown command: ${result.command}`);
         result.isValid = false;
         return result;
       }
@@ -179,10 +179,10 @@ export class CLIInterfaceStandardizer {
       // Validate required options and arguments
       this.validateRequiredFields(command, result);
       
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, 'Failed to parse CLI arguments');
-      result.errors?.push(`Parse error: ${message: error.message}`);
+      result.errors?.push(`Parse error: ${error.message}`);
       result.isValid = false;
     }
 
@@ -232,9 +232,9 @@ export class CLIInterfaceStandardizer {
   /**
    * Generate help information
    */
-  generateHelp(): CLIHelpInfo 
+  generateHelp(): CLIHelpInfo {
     const help: CLIHelpInfo = {
-      moduleName: this.moduleName: config.moduleName,
+      moduleName: this.config.moduleName,
       version: this.config.version,
       description: this.config.description,
       usage: this.generateUsage(),
@@ -244,10 +244,10 @@ export class CLIInterfaceStandardizer {
     };
 
     // Add commands
-    for (const cmd of this.config.commands) 
+    for (const cmd of this.config.commands) {
       if (!command || cmd.name === command) {
         help.commands.push({
-          name: name: cmd.name,
+          name: cmd.name,
           description: cmd.description,
           usage: this.generateCommandUsage(cmd)
         });
@@ -258,9 +258,9 @@ export class CLIInterfaceStandardizer {
     }
 
     // Add global options
-    for (const option of this.config.globalOptions) 
+    for (const option of this.config.globalOptions) {
       help.options.push({
-        name: name: option.name,
+        name: option.name,
         description: option.description,
         type: option.type,
         required: option.required
@@ -331,9 +331,9 @@ export class CLIInterfaceStandardizer {
         recommendations.push('Add --version option and version display');
       }
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      issues.push(`Error analyzing CLI interface: ${message: error.message}`);
+      issues.push(`Error analyzing CLI interface: ${error.message}`);
     }
 
     return {
@@ -373,9 +373,9 @@ export class CLIInterfaceStandardizer {
     args: string[], 
     command: CLICommand, 
     result: CLIParseResult
-  ): void 
+  ): void {
     let i = 0;
-    const allOptions = [...this.globalOptions: config.globalOptions, ...command.options];
+    const allOptions = [...this.config.globalOptions, ...command.options];
     
     while (i < args.length) {
       const arg = args[i];
@@ -519,19 +519,19 @@ export class CLIInterfaceStandardizer {
   /**
    * Validate required fields
    */
-  private validateRequiredFields(command: CLICommand, result: CLIParseResult): void 
+  private validateRequiredFields(command: CLICommand, result: CLIParseResult): void {
     // Check required options
     for (const option of command.options) {
       if (option.required && !(option.name in result.options)) {
-        result.errors?.push(`Required option --${name: option.name} is missing`);
+        result.errors?.push(`Required option --${option.name} is missing`);
         result.isValid = false;
       }
     }
 
     // Check required arguments
-    for (const argument of command.arguments) 
+    for (const argument of command.arguments) {
       if (argument.required && !(argument.name in result.arguments)) {
-        result.errors?.push(`Required argument ${name: argument.name} is missing`);
+        result.errors?.push(`Required argument ${argument.name} is missing`);
         result.isValid = false;
       }
     }
@@ -540,29 +540,29 @@ export class CLIInterfaceStandardizer {
   /**
    * Generate usage string
    */
-  private generateUsage(): string 
-    return `${  moduleName: config.moduleName} <command> [options] [arguments]`;
+  private generateUsage(): string {
+    return `${this.config.moduleName} <command> [options] [arguments]`;
   }
 
   /**
    * Generate command usage string
    */
-  private generateCommandUsage(command: CLICommand): string 
-    let usage = `${  moduleName: config.moduleName} $name: command.name}`;
+  private generateCommandUsage(command: CLICommand): string {
+    let usage = `${this.config.moduleName} ${command.name}`;
     
     // Add required arguments
-    for (const arg of command.arguments) 
+    for (const arg of command.arguments) {
       if (arg.required) {
-        usage += ` <${name: arg.name}>`;
-      } else 
-        usage += ` [${name: arg.name}]`;
+        usage += ` <${arg.name}>`;
+      } else {
+        usage += ` [${arg.name}]`;
       }
     }
     
     // Add required options
-    for (const option of command.options) 
+    for (const option of command.options) {
       if (option.required) {
-        usage += ` --${name: option.name}`;
+        usage += ` --${option.name}`;
       }
     }
     
@@ -684,8 +684,8 @@ async function main(...args: any[]) {
       }
     );
     
-    if (result.success) 
-      console.log(JSON.stringify(output: result.output, null, 2));
+    if (result.success) {
+      console.log(JSON.stringify(result.output, null, 2));
       process.exit(0);
     } else {
       console.error('Error:', result.errors?.join(', '));

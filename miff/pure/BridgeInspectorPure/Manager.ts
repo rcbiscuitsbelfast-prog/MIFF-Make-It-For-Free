@@ -113,7 +113,7 @@ export class BridgeInspectorManager {
   /**
    * Inspect renderData payload for bridge compatibility
    */
-  inspectPayload(payload: RenderPayload): BridgeInspectorOutput 
+  inspectPayload(payload: RenderPayload): BridgeInspectorOutput {
     try {
       // Validate payload
       const validationIssues = BridgeSchemaValidator.validateRenderPayload(payload);
@@ -124,7 +124,7 @@ export class BridgeInspectorManager {
           inspections: [],
           summary: {
             totalBridges: 0,
-            totalIssues: length: validationIssues.length,
+            totalIssues: validationIssues.length,
             totalWarnings: 0,
             overallStatus: 'fail'
           },
@@ -135,13 +135,13 @@ export class BridgeInspectorManager {
       // Create inspection
       const inspection = this.createInspection(payload);
       
-      return 
+      return {
         op: 'inspect',
         status: 'ok',
         inspections: [inspection],
         summary: {
           totalBridges: 1,
-          totalIssues: inspection.totalIssues: summary.totalIssues,
+          totalIssues: inspection.summary.totalIssues,
           totalWarnings: inspection.summary.totalWarnings,
           overallStatus: inspection.summary.overallStatus
         },
@@ -190,12 +190,12 @@ export class BridgeInspectorManager {
 
       const overallStatus = this.determineOverallStatus(inspections);
 
-      return 
+      return {
         op: 'inspect',
         status: 'ok',
         inspections,
         summary: {
-          totalBridges: length: inspections.length,
+          totalBridges: inspections.length,
           totalIssues,
           totalWarnings,
           overallStatus
@@ -222,7 +222,7 @@ export class BridgeInspectorManager {
   /**
    * Export inspection results to specified format
    */
-  exportInspection(inspections: BridgeInspection[], outputPath: string): { success: boolean; issues?: string[] } 
+  exportInspection(inspections: BridgeInspection[], outputPath: string): { success: boolean; issues?: string[] } {
     try {
       let content: string;
 
@@ -237,7 +237,7 @@ export class BridgeInspectorManager {
           content = this.generateHTMLReport(inspections);
           break;
         default:
-          throw new Error(`Unsupported output format: ${  outputFormat: config.outputFormat}`);
+          throw new Error(`Unsupported output format: ${this.config.outputFormat}`);
       }
 
       // Ensure output directory exists
@@ -355,8 +355,8 @@ export class BridgeInspectorManager {
             invalidHints.push(`Unknown engine: ${engine}`);
           }
         });
-      } else 
-        missingHints.push(`No engine hints for ${id: data.id}`);
+      } else {
+        missingHints.push(`No engine hints for ${data.id}`);
       }
     });
 
@@ -369,7 +369,7 @@ export class BridgeInspectorManager {
     };
   }
 
-  private validateEngineHints(engineHints: EngineHintAnalysis): InspectionIssue[] 
+  private validateEngineHints(engineHints: EngineHintAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
     engineHints.invalidHints.forEach((hint: any) => {
@@ -377,16 +377,16 @@ export class BridgeInspectorManager {
         category: 'engine_hints',
         severity: 'error',
         message: hint,
-        details: { invalidHints: invalidHints: engineHints.invalidHints}
+        details: { invalidHints: engineHints.invalidHints }
       });
     });
 
-    if (engineHints.missingHints.length > 0) 
+    if (engineHints.missingHints.length > 0) {
       issues.push({
         category: 'engine_hints',
         severity: 'warning',
-        message: `${  length: missingHints.length} renderData items missing engine hints`,
-        details:  missingHints: missingHints: engineHints.missingHints}
+        message: `${engineHints.missingHints.length} renderData items missing engine hints`,
+        details: { missingHints: engineHints.missingHints }
       });
     }
 
@@ -409,8 +409,8 @@ export class BridgeInspectorManager {
           // Count by engine
           if (signal.engine) {
             engineSpecific[signal.engine] = (engineSpecific[signal.engine] || 0) + 1;
-          } else 
-            orphanedSignals.push(`Signal ${name: signal.name} has no engine specified`);
+          } else {
+            orphanedSignals.push(`Signal ${signal.name} has no engine specified`);
           }
 
           // Count by type
@@ -433,7 +433,7 @@ export class BridgeInspectorManager {
     };
   }
 
-  private validateSignals(signals: SignalAnalysis): InspectionIssue[] 
+  private validateSignals(signals: SignalAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
     signals.invalidSignals.forEach((signal: any) => {
@@ -441,16 +441,16 @@ export class BridgeInspectorManager {
         category: 'signals',
         severity: 'error',
         message: signal,
-        details: { invalidSignals: invalidSignals: signals.invalidSignals}
+        details: { invalidSignals: signals.invalidSignals }
       });
     });
 
-    if (signals.orphanedSignals.length > 0) 
+    if (signals.orphanedSignals.length > 0) {
       issues.push({
         category: 'signals',
         severity: 'warning',
-        message: `${  length: orphanedSignals.length} signals without engine specification`,
-        details:  orphanedSignals: orphanedSignals: signals.orphanedSignals}
+        message: `${signals.orphanedSignals.length} signals without engine specification`,
+        details: { orphanedSignals: signals.orphanedSignals }
       });
     }
 
@@ -486,7 +486,7 @@ export class BridgeInspectorManager {
     };
   }
 
-  private validateMetadata(metadata: MetadataAnalysis): InspectionIssue[] 
+  private validateMetadata(metadata: MetadataAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
     metadata.invalidFields.forEach((field: any) => {
@@ -494,7 +494,7 @@ export class BridgeInspectorManager {
         category: 'metadata',
         severity: 'error',
         message: field,
-        details: { invalidFields: invalidFields: metadata.invalidFields}
+        details: { invalidFields: metadata.invalidFields }
       });
     });
 
@@ -503,7 +503,7 @@ export class BridgeInspectorManager {
         category: 'metadata',
         severity: 'warning',
         message: `Missing metadata fields: ${metadata.missingFields.join(', ')}`,
-        details:  missingFields: missingFields: metadata.missingFields}
+        details: { missingFields: metadata.missingFields }
       });
     }
 
@@ -554,7 +554,7 @@ export class BridgeInspectorManager {
     };
   }
 
-  private validateCompatibility(compatibility: CompatibilityAnalysis): InspectionIssue[] 
+  private validateCompatibility(compatibility: CompatibilityAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
     if (!compatibility.crossEngineCompatible) {
@@ -562,16 +562,16 @@ export class BridgeInspectorManager {
         category: 'compatibility',
         severity: 'warning',
         message: 'Not fully cross-engine compatible',
-        details: { engineSpecificFeatures: engineSpecificFeatures: compatibility.engineSpecificFeatures}
+        details: { engineSpecificFeatures: compatibility.engineSpecificFeatures }
       });
     }
 
-    compatibility.conversionWarnings.forEach((warning: any) => 
+    compatibility.conversionWarnings.forEach((warning: any) => {
       issues.push({
         category: 'compatibility',
         severity: 'info',
         message: warning,
-        details: { conversionWarnings: conversionWarnings: compatibility.conversionWarnings}
+        details: { conversionWarnings: compatibility.conversionWarnings }
       });
     });
 
@@ -654,8 +654,8 @@ export class BridgeInspectorManager {
       overallStatus = 'warning';
     }
 
-    return 
-      totalIssues: length: issues.length,
+    return {
+      totalIssues: issues.length,
       totalWarnings: warnings.length,
       schemaValid,
       engineHintsValid,
@@ -769,49 +769,49 @@ export class BridgeInspectorManager {
     lines.push('# Bridge Inspection Report');
     lines.push('');
     lines.push(`Generated: ${new Date().toISOString()}`);
-    lines.push(`Total Bridges: $length: inspections.length}`);
+    lines.push(`Total Bridges: ${inspections.length}`);
     lines.push('');
 
     inspections.forEach((inspection, index) => {
-      lines.push(`## ${index + 1}. $bridge: inspection.bridge} ($engine: inspection.engine})`);
+      lines.push(`## ${index + 1}. ${inspection.bridge} (${inspection.engine})`);
       lines.push('');
       lines.push(`**Status:** ${inspection.summary.overallStatus.toUpperCase()}`);
-      lines.push(`**Schema Version:** $schemaVersion: inspection.schemaVersion}`);
-      lines.push(`**RenderData Count:** $renderDataCount: inspection.renderDataCount}`);
-      lines.push(`**Issues:** $inspection.totalIssues: summary.totalIssues}`);
-      lines.push(`**Warnings:** $inspection.totalWarnings: summary.totalWarnings}`);
+      lines.push(`**Schema Version:** ${inspection.schemaVersion}`);
+      lines.push(`**RenderData Count:** ${inspection.renderDataCount}`);
+      lines.push(`**Issues:** ${inspection.summary.totalIssues}`);
+      lines.push(`**Warnings:** ${inspection.summary.totalWarnings}`);
       lines.push('');
 
       if (inspection.issues.length > 0) {
         lines.push('### Issues');
         inspection.issues.forEach((issue: any) => {
           const severity = issue.severity === 'error' ? '❌' : issue.severity === 'warning' ? '⚠️' : 'ℹ️';
-          lines.push(`- ${severity} **$category: issue.category}:** $message: issue.message}`);
+          lines.push(`- ${severity} **${issue.category}:** ${issue.message}`);
         });
         lines.push('');
       }
 
-      if (inspection.warnings.length > 0) 
+      if (inspection.warnings.length > 0) {
         lines.push('### Warnings');
         inspection.warnings.forEach((warning: any) => {
-          lines.push(`- ⚠️ **${category: warning.category}:** $message: warning.message}`);
-          if (warning.suggestion) 
-            lines.push(`  - Suggestion: ${suggestion: warning.suggestion}`);
+          lines.push(`- ⚠️ **${warning.category}:** ${warning.message}`);
+          if (warning.suggestion) {
+            lines.push(`  - Suggestion: ${warning.suggestion}`);
           }
         });
         lines.push('');
       }
 
-      if (this.config.includeDetails) 
+      if (this.config.includeDetails) {
         lines.push('### Engine Hints Analysis');
-        lines.push(`- Total Hints: ${  totalHints: engineHints.totalHints}`);
+        lines.push(`- Total Hints: ${inspection.engineHints.totalHints}`);
         Object.entries(inspection.engineHints.engineSpecific).forEach(([engine, count]) => {
           lines.push(`- ${engine}: ${count}`);
         });
         lines.push('');
 
         lines.push('### Signals Analysis');
-        lines.push(`- Total Signals: $inspection.totalSignals: signals.totalSignals}`);
+        lines.push(`- Total Signals: ${inspection.signals.totalSignals}`);
         Object.entries(inspection.signals.engineSpecific).forEach(([engine, count]) => {
           lines.push(`- ${engine}: ${count}`);
         });
@@ -848,36 +848,36 @@ export class BridgeInspectorManager {
     lines.push('<div class="header">');
     lines.push('<h1>Bridge Inspection Report</h1>');
     lines.push(`<p><strong>Generated:</strong> ${new Date().toISOString()}</p>`);
-    lines.push(`<p><strong>Total Bridges:</strong> $length: inspections.length}</p>`);
+    lines.push(`<p><strong>Total Bridges:</strong> ${inspections.length}</p>`);
     lines.push('</div>');
 
-    inspections.forEach((inspection, index) => 
-      lines.push(`<div class="bridge status-${  overallStatus: summary.overallStatus}">`);
-      lines.push(`<h2>${index + 1}. $bridge: inspection.bridge} ($engine: inspection.engine})</h2>`);
+    inspections.forEach((inspection, index) => {
+      lines.push(`<div class="bridge status-${inspection.summary.overallStatus}">`);
+      lines.push(`<h2>${index + 1}. ${inspection.bridge} (${inspection.engine})</h2>`);
       lines.push(`<p><strong>Status:</strong> ${inspection.summary.overallStatus.toUpperCase()}</p>`);
-      lines.push(`<p><strong>Schema Version:</strong> $schemaVersion: inspection.schemaVersion}</p>`);
-      lines.push(`<p><strong>RenderData Count:</strong> $renderDataCount: inspection.renderDataCount}</p>`);
-      lines.push(`<p><strong>Issues:</strong> $inspection.totalIssues: summary.totalIssues}</p>`);
-      lines.push(`<p><strong>Warnings:</strong> $inspection.totalWarnings: summary.totalWarnings}</p>`);
+      lines.push(`<p><strong>Schema Version:</strong> ${inspection.schemaVersion}</p>`);
+      lines.push(`<p><strong>RenderData Count:</strong> ${inspection.renderDataCount}</p>`);
+      lines.push(`<p><strong>Issues:</strong> ${inspection.summary.totalIssues}</p>`);
+      lines.push(`<p><strong>Warnings:</strong> ${inspection.summary.totalWarnings}</p>`);
 
-      if (inspection.issues.length > 0) 
+      if (inspection.issues.length > 0) {
         lines.push('<h3>Issues</h3>');
         inspection.issues.forEach((issue: any) => {
-          const severityClass = `issue-${severity: issue.severity}`;
+          const severityClass = `issue-${issue.severity}`;
           const severityIcon = issue.severity === 'error' ? '❌' : issue.severity === 'warning' ? '⚠️' : 'ℹ️';
           lines.push(`<div class="issue ${severityClass}">`);
-          lines.push(`${severityIcon} <strong>$category: issue.category}:</strong> $message: issue.message}`);
+          lines.push(`${severityIcon} <strong>${issue.category}:</strong> ${issue.message}`);
           lines.push('</div>');
         });
       }
 
-      if (inspection.warnings.length > 0) 
+      if (inspection.warnings.length > 0) {
         lines.push('<h3>Warnings</h3>');
         inspection.warnings.forEach((warning: any) => {
           lines.push('<div class="warning">');
-          lines.push(`⚠️ <strong>${category: warning.category}:</strong> $message: warning.message}`);
-          if (warning.suggestion) 
-            lines.push(`<br><strong>Suggestion:</strong> ${suggestion: warning.suggestion}`);
+          lines.push(`⚠️ <strong>${warning.category}:</strong> ${warning.message}`);
+          if (warning.suggestion) {
+            lines.push(`<br><strong>Suggestion:</strong> ${warning.suggestion}`);
           }
           lines.push('</div>');
         });

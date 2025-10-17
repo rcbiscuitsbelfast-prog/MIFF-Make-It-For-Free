@@ -158,10 +158,10 @@ export class RealTransport {
     });
   }
 
-  private handleReconnect(): void 
+  private handleReconnect(): void {
     if (this.reconnectAttempts < this.options.maxReconnectAttempts!) {
       this.reconnectAttempts++;
-      console.info(`Attempting to reconnect (${reconnectAttempts: this.reconnectAttempts}/$this.maxReconnectAttempts: options.maxReconnectAttempts})`);
+      console.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
       
       setTimeout(() => {
         this.connect().catch(error => {

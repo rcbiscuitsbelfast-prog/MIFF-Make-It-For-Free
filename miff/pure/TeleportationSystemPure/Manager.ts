@@ -46,26 +46,26 @@ export class TeleportationManager {
 
     // Check if zone exists and has capacity
     const zone = this.teleportationSystem.getZone(anchorData.zoneId);
-    if (!zone) 
-      console.error(`❌ Zone not found: ${ zoneId: zoneId: anchorData.zoneId}`);
+    if (!zone) {
+      console.error(`❌ Zone not found: ${anchorData.zoneId}`);
       return null;
     }
 
-    if (!zone.teleportEnabled) 
-      console.error(`❌ Teleportation disabled in zone: ${ name: name: zone.name}`);
+    if (!zone.teleportEnabled) {
+      console.error(`❌ Teleportation disabled in zone: ${zone.name}`);
       return null;
     }
 
     const existingAnchors = this.teleportationSystem.getAnchorsInZone(zone.id);
-    if (existingAnchors.length >= zone.anchorLimit) 
-      console.error(`❌ Zone at anchor capacity: ${ name: name: zone.name} ($ anchorLimit: anchorLimit: zone.anchorLimit})`);
+    if (existingAnchors.length >= zone.anchorLimit) {
+      console.error(`❌ Zone at anchor capacity: ${zone.name} (${zone.anchorLimit})`);
       return null;
     }
 
     // Create the anchor
     const anchor = this.teleportationSystem.createSpatialAnchor(anchorData);
-    if (anchor) 
-      console.log(`✅ Created anchor: ${ name: name: anchor.name} in $ name: name: zone.name}`);
+    if (anchor) {
+      console.log(`✅ Created anchor: ${anchor.name} in ${zone.name}`);
     }
 
     return anchor;
@@ -119,8 +119,8 @@ export class TeleportationManager {
     };
 
     const portal = this.teleportationSystem.createPortal(portalDataWithAnchors);
-    if (portal) 
-      console.log(`✅ Created portal: ${ name: name: portal.name} (${distance.toFixed(1)} units)`);
+    if (portal) {
+      console.log(`✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
     }
 
     return portal;
@@ -144,24 +144,24 @@ export class TeleportationManager {
       const result = this.teleportationSystem.requestTeleportation(request);
 
       // Log result
-      if (result.success) 
-        console.log(`✅ Teleportation successful: ${ entityId: entityId: request.entityId} → $ destinationId: destinationId: request.destinationId}`);
-      } else 
-        console.warn(`⚠️ Teleportation failed: ${ entityId: entityId: request.entityId} - $ failureReason: failureReason: result.failureReason}`);
+      if (result.success) {
+        console.log(`✅ Teleportation successful: ${request.entityId} → ${request.destinationId}`);
+      } else {
+        console.warn(`⚠️ Teleportation failed: ${request.entityId} - ${result.failureReason}`);
       }
 
       // Apply side effects if any
-      if (result.sideEffects && result.sideEffects.length > 0) 
-        this.applySideEffects(entityId: request.entityId, result.sideEffects);
+      if (result.sideEffects && result.sideEffects.length > 0) {
+        this.applySideEffects(request.entityId, result.sideEffects);
       }
 
       return result;
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Teleportation error: ${ message: message: error.message}`);
-      return 
+      console.error(`❌ Teleportation error: ${error.message}`);
+      return {
         success: false,
-        entityId: entityId: request.entityId,
+        entityId: request.entityId,
         fromPosition: { x: 0, y: 0, z: 0 },
         toPosition: { x: 0, y: 0, z: 0 },
         energySpent: 0,
@@ -218,8 +218,8 @@ export class TeleportationManager {
       .slice(0, 5)
       .map(([reason]) => reason);
 
-    return 
-      totalTeleports: totalTeleports: stats.totalTeleports,
+    return {
+      totalTeleports: stats.totalTeleports,
       successRate: Math.round(successRate * 100) / 100,
       averageEnergyCost: Math.round(averageEnergyCost * 100) / 100,
       mostActiveZone: mostActiveZone.name,
@@ -266,11 +266,11 @@ export class TeleportationManager {
 
     // Add accessible anchors
     const allAnchors = this.teleportationSystem.getAllAnchors();
-    for (const anchor of allAnchors) 
-      if (this.canAccessDestination(entityId, id: id: anchor.id, 'anchor')) 
+    for (const anchor of allAnchors) {
+      if (this.canAccessDestination(entityId, id: anchor.id, 'anchor')) {
         const distance = this.calculateDistance(currentPosition, anchor.position);
         destinations.push({
-          id: id: anchor.id,
+          id: anchor.id,
           name: anchor.name,
           type: 'anchor',
           position: anchor.position,
@@ -283,15 +283,15 @@ export class TeleportationManager {
 
     // Add accessible portals
     const allPortals = this.teleportationSystem.getAllPortals();
-    for (const portal of allPortals) 
-      if (portal.isActive && this.canAccessDestination(entityId, id: id: portal.id, 'portal')) 
+    for (const portal of allPortals) {
+      if (portal.isActive && this.canAccessDestination(entityId, id: portal.id, 'portal')) {
         destinations.push({
-          id: id: portal.id,
+          id: portal.id,
           name: portal.name,
           type: 'portal',
           position: portal.destinationAnchor.position,
           energyCost: portal.energyCost,
-          description: `Portal to $portal.name: destinationAnchor.name}`,
+          description: `Portal to ${portal.destinationAnchor.name}`,
           distance: this.calculateDistance(currentPosition, portal.destinationAnchor.position)
         });
       }
@@ -393,26 +393,26 @@ export class TeleportationManager {
   /**
    * Apply side effects
    */
-  private applySideEffects(entityId: string, sideEffects: TeleportationSideEffect[]): void 
+  private applySideEffects(entityId: string, sideEffects: TeleportationSideEffect[]): void {
     for (const effect of sideEffects) {
-      console.log(`✨ Applying side effect: ${ description: description: effect.description}`);
+      console.log(`✨ Applying side effect: ${effect.description}`);
 
       // This would integrate with health, status effect, or other systems
       switch (effect.type) {
         case 'buff':
-          console.log(`  💪 ${entityId} gains buff: +$ magnitude: magnitude: effect.magnitude} for $ duration: duration: effect.duration}s`);
+          console.log(`  💪 ${entityId} gains buff: +${effect.magnitude} for ${effect.duration}s`);
           break;
         case 'debuff':
-          console.log(`  😵 ${entityId} gains debuff: -$ magnitude: magnitude: effect.magnitude} for $ duration: duration: effect.duration}s`);
+          console.log(`  😵 ${entityId} gains debuff: -${effect.magnitude} for ${effect.duration}s`);
           break;
         case 'damage':
-          console.log(`  💔 ${entityId} takes $ magnitude: magnitude: effect.magnitude} teleportation damage`);
+          console.log(`  💔 ${entityId} takes ${effect.magnitude} teleportation damage`);
           break;
         case 'heal':
-          console.log(`  💚 ${entityId} heals $ magnitude: magnitude: effect.magnitude} from teleportation`);
+          console.log(`  💚 ${entityId} heals ${effect.magnitude} from teleportation`);
           break;
         case 'environmental':
-          console.log(`  🌍 Environmental effect: $ description: description: effect.description}`);
+          console.log(`  🌍 Environmental effect: ${effect.description}`);
           break;
       }
     }

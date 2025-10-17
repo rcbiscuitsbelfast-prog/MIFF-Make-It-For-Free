@@ -120,9 +120,9 @@ class SecurityCLI {
 
     // Display audit results
     console.info('\n📊 Security Audit Results:');
-    console.info(`Overall Score: $score: audit.score}/100`);
-    console.info(`Vulnerabilities: $audit.length: vulnerabilities.length}`);
-    console.info(`Recommendations: $audit.length: recommendations.length}`);
+    console.info(`Overall Score: ${audit.score}/100`);
+    console.info(`Vulnerabilities: ${audit.vulnerabilities.length}`);
+    console.info(`Recommendations: ${audit.recommendations.length}`);
     
     console.info('\n🔒 Compliance Status:');
     console.info(`GDPR: ${audit.compliance.gdpr ? '✅' : '❌'}`);
@@ -138,7 +138,7 @@ class SecurityCLI {
         const severityIcon = vuln.severity === 'critical' ? '🔴' : 
                             vuln.severity === 'high' ? '🟠' : 
                             vuln.severity === 'medium' ? '🟡' : '🟢';
-        console.info(`  ${severityIcon} $description: vuln.description} ($severity: vuln.severity})`);
+        console.info(`  ${severityIcon} ${vuln.description} (${vuln.severity})`);
       });
     }
     
@@ -274,8 +274,8 @@ class SecurityCLI {
       const severityIcon = event.severity === 'critical' ? '🔴' : 
                           event.severity === 'high' ? '🟠' : 
                           event.severity === 'medium' ? '🟡' : '🟢';
-      console.info(`  ${severityIcon} $type: event.type} ($severity: event.severity}) - ${event.timestamp.toISOString()}`);
-      console.info(`    Source: $source: event.source}`);
+      console.info(`  ${severityIcon} ${event.type} (${event.severity}) - ${event.timestamp.toISOString()}`);
+      console.info(`    Source: ${event.source}`);
       console.info(`    Details: ${JSON.stringify(event.details)}`);
     });
   }
@@ -295,9 +295,9 @@ class SecurityCLI {
 
     // Display stats
     console.info(`\n📊 Security Statistics:`);
-    console.info(`Total Events: $totalEvents: stats.totalEvents}`);
-    console.info(`Recent Events (24h): $recentEvents: stats.recentEvents}`);
-    console.info(`Blocked IPs: $blockedIPs: stats.blockedIPs}`);
+    console.info(`Total Events: ${stats.totalEvents}`);
+    console.info(`Recent Events (24h): ${stats.recentEvents}`);
+    console.info(`Blocked IPs: ${stats.blockedIPs}`);
     
     console.info('\nEvents by Type:');
     for (const [type, count] of stats.eventsByType.entries()) {

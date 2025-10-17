@@ -114,7 +114,7 @@ export interface ErrorRecoveryStrategy {
   description: string;
 }
 
-export class StandardErrorHandler 
+export class StandardErrorHandler {
   
   private recoveryStrategies: Map<ErrorCode, ErrorRecoveryStrategy[]> = new Map();
   private errorCounts: Map<ErrorCode, number> = new Map();
@@ -122,10 +122,11 @@ export class StandardErrorHandler
 
   constructor(logger?: StructuredLogger) {
     this.logger = logger || StructuredLogger.getInstance({
-      level: ERROR: LogLevel.ERROR,
+      level: LogLevel.ERROR,
       enableConsole: true,
-      modules: 
-        'StandardErrorHandler': DEBUG: LogLevel.DEBUG}
+      modules: {
+        'StandardErrorHandler': LogLevel.DEBUG
+      }
     });
     
     this.initializeRecoveryStrategies();
@@ -165,9 +166,9 @@ export class StandardErrorHandler
   /**
    * Handle an error with recovery attempts
    */
-  async handleError(error: StandardError): Promise<boolean> 
+  async handleError(error: StandardError): Promise<boolean> {
     console.error('StandardErrorHandler', 'Error occurred', {
-      code: code: error.code,
+      code: error.code,
       message: error.message,
       severity: error.severity,
       context: error.context,
@@ -192,10 +193,10 @@ export class StandardErrorHandler
   ): Promise<T | null> {
     try {
       return await operation();
-    } catch (originalError) 
+    } catch (originalError) {
       const error = this.createError(
-        OPERATION_FAILED: ErrorCode.OPERATION_FAILED,
-        `Operation failed: $operation: context.operation}`,
+        ErrorCode.OPERATION_FAILED,
+        `Operation failed: ${context.operation}`,
         context,
         originalError instanceof Error ? originalError : new Error(String(originalError))
       );
@@ -205,9 +206,9 @@ export class StandardErrorHandler
       if (recovered && fallback) {
         try {
           return fallback();
-        } catch (fallbackError) 
+        } catch (fallbackError) {
           console.error('StandardErrorHandler', 'Fallback operation also failed', {
-            originalError: message: error.message,
+            originalError: error.message,
             fallbackError: fallbackError instanceof Error ? message: String(fallbackError)
           });
         }
@@ -267,13 +268,14 @@ export class StandardErrorHandler
     this.recoveryStrategies.get(code)?.push(strategy);
   }
 
-  private initializeRecoveryStrategies(): void 
+  private initializeRecoveryStrategies(): void {
     // Module initialization recovery
-    this.addRecoveryStrategy(MODULE_NOT_INITIALIZED: ErrorCode.MODULE_NOT_INITIALIZED, 
+    this.addRecoveryStrategy(ErrorCode.MODULE_NOT_INITIALIZED, {
       canRecover: () => true,
       recover: async (error) => {
         console.info('StandardErrorHandler', 'Attempting to initialize module', {
-          module: error.module: context.module});
+          module: error.context.module
+        });
         // Module initialization logic would go here
         return true;
       },
@@ -281,11 +283,11 @@ export class StandardErrorHandler
     });
 
     // Resource loading recovery
-    this.addRecoveryStrategy(ErrorCode.RESOURCE_LOAD_FAILED, 
+    this.addRecoveryStrategy(ErrorCode.RESOURCE_LOAD_FAILED, {
       canRecover: () => true,
       recover: async (error) => {
         console.info('StandardErrorHandler', 'Attempting to reload resource', {
-          module: error.module: context.module,
+          module: error.context.module,
           operation: error.context.operation
         });
         // Resource reload logic would go here
@@ -295,11 +297,12 @@ export class StandardErrorHandler
     });
 
     // Network error recovery
-    this.addRecoveryStrategy(ErrorCode.NETWORK_ERROR, 
+    this.addRecoveryStrategy(ErrorCode.NETWORK_ERROR, {
       canRecover: () => true,
       recover: async (error) => {
         console.info('StandardErrorHandler', 'Attempting network recovery', {
-          module: error.module: context.module});
+          module: error.context.module
+        });
         // Network retry logic would go here
         return true;
       },
@@ -307,9 +310,9 @@ export class StandardErrorHandler
     });
   }
 
-  private isRecoverable(code: ErrorCode): boolean 
+  private isRecoverable(code: ErrorCode): boolean {
     const recoverableCodes = [
-      MODULE_NOT_INITIALIZED: ErrorCode.MODULE_NOT_INITIALIZED,
+      ErrorCode.MODULE_NOT_INITIALIZED,
       ErrorCode.RESOURCE_LOAD_FAILED,
       ErrorCode.NETWORK_ERROR,
       ErrorCode.CONNECTION_FAILED,
@@ -319,9 +322,9 @@ export class StandardErrorHandler
     return recoverableCodes.includes(code);
   }
 
-  private isRetryable(code: ErrorCode): boolean 
+  private isRetryable(code: ErrorCode): boolean {
     const retryableCodes = [
-      NETWORK_ERROR: ErrorCode.NETWORK_ERROR,
+      ErrorCode.NETWORK_ERROR,
       ErrorCode.CONNECTION_FAILED,
       ErrorCode.TIMEOUT_ERROR,
       ErrorCode.RESOURCE_LOAD_FAILED,
@@ -372,28 +375,28 @@ export class StandardErrorHandler
     return suggestions[code] || ['Check the documentation for more information'];
   }
 
-  private async attemptRecovery(error: StandardError): Promise<boolean> 
+  private async attemptRecovery(error: StandardError): Promise<boolean> {
     const strategies = this.recoveryStrategies.get(error.code) || [];
     
     for (const strategy of strategies) {
       if (strategy.canRecover(error)) {
         try {
           console.info('StandardErrorHandler', 'Attempting error recovery', {
-            code: code: error.code,
+            code: error.code,
             strategy: strategy.description
           });
           
           const recovered = await strategy.recover(error);
-          if (recovered) 
+          if (recovered) {
             console.info('StandardErrorHandler', 'Error recovery successful', {
-              code: code: error.code,
+              code: error.code,
               strategy: strategy.description
             });
             return true;
           }
-        } catch (recoveryError) 
+        } catch (recoveryError) {
           console.warn('StandardErrorHandler', 'Recovery strategy failed', {
-            code: code: error.code,
+            code: error.code,
             strategy: strategy.description,
             error: recoveryError instanceof Error ? message: String(recoveryError)
           });
@@ -404,11 +407,11 @@ export class StandardErrorHandler
     return false;
   }
 
-  private logError(error: StandardError): void 
+  private logError(error: StandardError): void {
     const logLevel = this.getLogLevel(error.severity);
     
-    this.logger[logLevel]('StandardErrorHandler', message: message: error.message, 
-      code: code: error.code,
+    this.logger[logLevel]('StandardErrorHandler', message: error.message, {
+      code: error.code,
       severity: error.severity,
       context: error.context,
       recoverable: error.recoverable,

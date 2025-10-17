@@ -36,7 +36,7 @@ class CombatCLI {
   }
 
   // Test method for module validation
-  public test(): CLIResult 
+  public test(): CLIResult {
     try {
       console.log('🧪 Testing CombatPure module...');
       
@@ -53,7 +53,7 @@ class CombatCLI {
       console.log('✅ Added combatants to battle');
       
       // Test 3: Create moves
-      const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', PHYSICAL: PHYSICAL: MoveCategory.PHYSICAL, 40, 'normal');
+      const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', PHYSICAL: MoveCategory.PHYSICAL, 40, 'normal');
       const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', SPECIAL: MoveCategory.SPECIAL, 60, 'fire');
       
       console.log('✅ Created moves');
@@ -62,12 +62,12 @@ class CombatCLI {
       const damageCalc = new DamageCalculator(this.typeChart);
       const damageResult = damageCalc.calculateDamage(basicAttack, player, enemy);
       
-      console.log(`✅ Damage calculation: $damage: damageResult.damage} damage`);
+      console.log(`✅ Damage calculation: ${damageResult.damage} damage`);
       
       // Test 5: Test battle actions
       this.battleEngine.startBattle();
-      this.battleEngine.enqueueAction(
-        actorId: id: player.id,
+      this.battleEngine.enqueueAction({
+        actorId: player.id,
         type: 'attack',
         targetId: enemy.id,
         moveId: 'basic_attack',
@@ -87,12 +87,12 @@ class CombatCLI {
         console.log('✅ Combatant validation passed');
       }
       
-      return 
+      return {
         op: 'test',
         status: 'ok',
         result: {
           combatants: this.battleEngine.getAllCombatants().length,
-          battlePhase: this.phase: battleEngine.phase,
+          battlePhase: this.battleEngine.phase,
           turnNumber: this.battleEngine.turnNumber,
           isBattleOver: this.battleEngine.isBattleOver,
           damageTest: damageResult.damage,
@@ -113,13 +113,13 @@ class CombatCLI {
   }
 
   // Create a new battle
-  public createBattle(combatants: any[]): CLIResult 
+  public createBattle(combatants: any[]): CLIResult {
     try {
       this.battleEngine = new BattleEngine(this.typeChart);
       
       for (const combatantData of combatants) {
         const combatant = new SpiritInstance(
-          id: combatantData.id,
+          combatantData.id,
           combatantData.name,
           combatantData.team || 'neutral',
           combatantData.stats,
@@ -132,12 +132,12 @@ class CombatCLI {
       
       this.battleEngine.startBattle();
       
-      return 
+      return {
         op: 'create_battle',
         status: 'ok',
         result: {
           combatants: this.battleEngine.getAllCombatants().length,
-          phase: this.phase: battleEngine.phase,
+          phase: this.battleEngine.phase,
           turnNumber: this.battleEngine.turnNumber
         },
         message: 'Battle created successfully'
@@ -154,10 +154,10 @@ class CombatCLI {
   }
 
   // Add a combatant to the current battle
-  public addCombatant(combatantData: any): CLIResult 
+  public addCombatant(combatantData: any): CLIResult {
     try {
       const combatant = new SpiritInstance(
-        id: combatantData.id,
+        combatantData.id,
         combatantData.name,
         combatantData.team || 'neutral',
         combatantData.stats,
@@ -189,7 +189,7 @@ class CombatCLI {
   }
 
   // Process a battle turn
-  public processTurn(): CLIResult 
+  public processTurn(): CLIResult {
     try {
       const result = this.battleEngine.processTurn();
       
@@ -197,7 +197,7 @@ class CombatCLI {
         op: 'process_turn',
         status: 'ok',
         result: {
-          completed: completed: result.completed,
+          completed: result.completed,
           results: result.results,
           battleStatus: this.battleEngine.getBattleStatus()
         },
@@ -215,7 +215,7 @@ class CombatCLI {
   }
 
   // Get battle status
-  public getStatus(): CLIResult 
+  public getStatus(): CLIResult {
     try {
       const status = this.battleEngine.getBattleStatus();
       const combatants = this.battleEngine.getAllCombatants();
@@ -226,7 +226,7 @@ class CombatCLI {
         result: {
           battleStatus: status,
           combatants: combatants.map((c: any) => ({
-            id: id: c.id,
+            id: c.id,
             name: c.name,
             team: c.team,
             hp: c.stats.hp,
@@ -250,10 +250,10 @@ class CombatCLI {
   }
 
   // Create a move
-  public createMove(moveData: any): CLIResult 
+  public createMove(moveData: any): CLIResult {
     try {
       const move = new MoveData(
-        id: moveData.id,
+        moveData.id,
         moveData.name,
         moveData.category || MoveCategory.PHYSICAL,
         moveData.power || 40,
@@ -289,12 +289,12 @@ class CombatCLI {
   }
 
   // Calculate damage
-  public calculateDamage(moveData: any, attackerData: any, defenderData: any): CLIResult 
+  public calculateDamage(moveData: any, attackerData: any, defenderData: any): CLIResult {
     try {
       const move = new MoveData(
         moveData.id || 'test_move',
         moveData.name || 'Test Move',
-        moveData.category || PHYSICAL: MoveCategory.PHYSICAL,
+        moveData.category || MoveCategory.PHYSICAL,
         moveData.power || 40,
         moveData.accuracy || 0.95,
         moveData.cost || 0,
@@ -322,11 +322,11 @@ class CombatCLI {
       const damageCalc = new DamageCalculator(this.typeChart);
       const result = damageCalc.calculateDamage(move, attacker, defender);
       
-      return 
+      return {
         op: 'calculate_damage',
         status: 'ok',
         result: {
-          damage: damage: result.damage,
+          damage: result.damage,
           isCritical: result.isCritical,
           effectiveness: result.effectiveness,
           messages: result.messages

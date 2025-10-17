@@ -91,14 +91,14 @@ describe('LorePure Golden Tests', () => {
       expect(entry.syncThreshold).toBe(0);
     });
 
-    test('should create entry with custom values', () => 
+    test('should create entry with custom values', () => {
       const condition = LoreUnlockCondition.spiritCaptured('fire_spirit');
       const entry = new LoreEntry(
         'test_002',
         'Fire Spirit Lore',
         'The fire spirit is known for its passionate nature.',
         condition,
-        CHARACTER: LoreCategory.CHARACTER,
+        LoreCategory.CHARACTER,
         8,
         ['fire', 'spirit', 'character'],
         'fire_spirit',
@@ -228,13 +228,13 @@ describe('LorePure Golden Tests', () => {
       expect(longEntry.getSummary()).toContain('Long Title Name');
     });
 
-    test('should manage tags correctly', () => 
+    test('should manage tags correctly', () => {
       const entry = new LoreEntry(
         'test_001',
         'Test',
         'Text',
         LoreUnlockCondition.alwaysTrue(),
-        MAIN_STORY: LoreCategory.MAIN_STORY,
+        LoreCategory.MAIN_STORY,
         1,
         ['tag1', 'tag2']
       );
@@ -283,13 +283,13 @@ describe('LorePure Golden Tests', () => {
       expect(entry.isRead()).toBe(true);
     });
 
-    test('should clone correctly', () => 
+    test('should clone correctly', () => {
       const original = new LoreEntry(
         'test_001',
         'Test',
         'Text',
         LoreUnlockCondition.spiritCaptured('spirit'),
-        CHARACTER: LoreCategory.CHARACTER,
+        LoreCategory.CHARACTER,
         5,
         ['tag1', 'tag2'],
         'spirit',
@@ -312,13 +312,13 @@ describe('LorePure Golden Tests', () => {
       expect(clone.tags).not.toBe(original.tags);
     });
 
-    test('should convert to/from JSON correctly', () => 
+    test('should convert to/from JSON correctly', () => {
       const original = new LoreEntry(
         'test_001',
         'Test Entry',
         'Test text content',
         LoreUnlockCondition.spiritCaptured('spirit'),
-        MAIN_STORY: LoreCategory.MAIN_STORY,
+        LoreCategory.MAIN_STORY,
         7,
         ['test', 'json'],
         'spirit',
@@ -341,13 +341,13 @@ describe('LorePure Golden Tests', () => {
       expect(reconstructed.readTime).toBe(67890);
     });
 
-    test('should validate correctly', () => 
+    test('should validate correctly', () => {
       const validEntry = new LoreEntry(
         'test_001',
         'Valid Title',
         'Valid text content',
         LoreUnlockCondition.alwaysTrue(),
-        MAIN_STORY: LoreCategory.MAIN_STORY,
+        LoreCategory.MAIN_STORY,
         5
       );
 
@@ -633,7 +633,7 @@ describe('LorePure Golden Tests', () => {
       expect(loreManager.getReadCount()).toBe(1);
     });
 
-    test('should get filtered entries correctly', () => 
+    test('should get filtered entries correctly', () => {
       const entry1 = LoreEntry.mainStory('story_001', 'Story 1', 'Text 1', LoreUnlockCondition.alwaysTrue());
       const entry2 = LoreEntry.character('char_001', 'Char 1', 'Text 2', LoreUnlockCondition.alwaysTrue());
       const entry3 = LoreEntry.world('world_001', 'World 1', 'Text 3', LoreUnlockCondition.alwaysTrue());
@@ -648,7 +648,7 @@ describe('LorePure Golden Tests', () => {
       loreManager.markLoreAsRead('story_001');
 
       const filter: ILoreFilter = {
-        category: MAIN_STORY: LoreCategory.MAIN_STORY,
+        category: LoreCategory.MAIN_STORY,
         unlockState: LoreUnlockState.UNLOCKED
       };
 
@@ -816,15 +816,15 @@ describe('LorePure Golden Tests', () => {
       expect(stats[LoreCategory.WORLD]).toBe(0);
     });
 
-    test('should filter entries correctly', () => 
+    test('should filter entries correctly', () => {
       const entries: ILoreEntry[] = [
-        new LoreEntry('1', 'T1', 'Text1', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: MAIN_STORY: LoreCategory.MAIN_STORY, 8, ['important']),
+        new LoreEntry('1', 'T1', 'Text1', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 8, ['important']),
         new LoreEntry('2', 'T2', 'Text2', LoreUnlockCondition.alwaysTrue(), CHARACTER: LoreCategory.CHARACTER, 3, ['character']),
         new LoreEntry('3', 'T3', 'Text3', LoreUnlockCondition.alwaysTrue(), WORLD: LoreCategory.WORLD, 6, ['world', 'important']),
       ];
 
-      const filtered = LoreUtils.filterEntries(entries, 
-        categories: [MAIN_STORY: LoreCategory.MAIN_STORY, LoreCategory.WORLD],
+      const filtered = LoreUtils.filterEntries(entries, {
+        categories: [LoreCategory.MAIN_STORY, LoreCategory.WORLD],
         minPriority: 5,
         tags: ['important']
       });
@@ -835,9 +835,9 @@ describe('LorePure Golden Tests', () => {
       expect(filtered.some(e => e.loreId === '2')).toBe(false);
     });
 
-    test('should sort entries correctly', () => 
+    test('should sort entries correctly', () => {
       const entries: ILoreEntry[] = [
-        new LoreEntry('2', 'B Title', 'Text2', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: MAIN_STORY: LoreCategory.MAIN_STORY, 3),
+        new LoreEntry('2', 'B Title', 'Text2', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 3),
         new LoreEntry('1', 'A Title', 'Text1', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 8),
         new LoreEntry('3', 'C Title', 'Text3', LoreUnlockCondition.alwaysTrue(), MAIN_STORY: LoreCategory.MAIN_STORY, 5),
       ];
@@ -939,7 +939,7 @@ describe('LorePure Golden Tests', () => {
       expect(stats.readEntries).toBe(1);
     });
 
-    test('should handle filtering and search', () => 
+    test('should handle filtering and search', () => {
       const loreManager = new LoreCodexManager();
 
       // Create diverse entries
@@ -954,7 +954,8 @@ describe('LorePure Golden Tests', () => {
 
       // Test category filtering
       const mainStoryEntries = loreManager.getFilteredLoreEntries({
-        category: MAIN_STORY: LoreCategory.MAIN_STORY});
+        category: LoreCategory.MAIN_STORY
+      });
       expect(mainStoryEntries).toHaveLength(2);
 
       // Test tag filtering
@@ -1071,16 +1072,16 @@ describe('LorePure Golden Tests', () => {
       const startTime = performance.now();
 
       // Perform various filtering operations
-      for (let i = 0; i < 100; i++) 
+      for (let i = 0; i < 100; i++) {
         loreManager.getFilteredLoreEntries({
-          category: MAIN_STORY: LoreCategory.MAIN_STORY,
+          category: LoreCategory.MAIN_STORY,
           minPriority: 5,
           tags: ['tag_0', 'tag_1'],
           searchText: 'Content'
         });
 
-        loreManager.getFilteredLoreEntries(
-          unlockState: LOCKED: LoreUnlockState.LOCKED,
+        loreManager.getFilteredLoreEntries({
+          unlockState: LoreUnlockState.LOCKED,
           limit: 50
         });
 

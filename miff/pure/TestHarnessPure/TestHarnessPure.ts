@@ -122,8 +122,8 @@ export class TestHarness {
   }
 
   // Test Suite Management
-  addSuite(suite: TestSuite): void 
-    this.suites.set(id: suite.id, suite);
+  addSuite(suite: TestSuite): void {
+    this.suites.set(suite.id, suite);
     this.notifyObservers('suiteAdded', suite);
   }
 
@@ -245,8 +245,8 @@ export class TestHarness {
         }
 
         const duration = performance.now() - startTime;
-        const testResult: TestResult = 
-          testId: id: testCase.id,
+        const testResult: TestResult = {
+          testId: testCase.id,
           name: testCase.name,
           category: testCase.category,
           status: 'passed',
@@ -259,14 +259,14 @@ export class TestHarness {
         this.notifyObservers('testPassed', testResult);
         return testResult;
 
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         retries++;
         
         if (retries > maxRetries) {
           const duration = performance.now() - startTime;
           const testResult: TestResult = {
-            testId: id: testCase.id,
+            testId: testCase.id,
             name: testCase.name,
             category: testCase.category,
             status: error instanceof Error && error.message === 'Test timeout' ? 'timeout' : 'failed',
@@ -290,8 +290,8 @@ export class TestHarness {
   }
 
   // Hot Reload Management
-  enableHotReload(config: HotReloadConfig): void 
-    this.hotReloadConfig = { ...hotReloadConfig: this.hotReloadConfig, ...config };
+  enableHotReload(config: HotReloadConfig): void {
+    this.hotReloadConfig = { ...this.hotReloadConfig, ...config };
     
     if (this.hotReloadConfig.enabled) {
       this.startFileWatcher();
@@ -313,8 +313,8 @@ export class TestHarness {
   }
 
   // Code Injection Management
-  injectCode(injection: CodeInjection): void 
-    this.codeInjections.set(id: injection.id, injection);
+  injectCode(injection: CodeInjection): void {
+    this.codeInjections.set(injection.id, injection);
     this.applyCodeInjection(injection);
     this.notifyObservers('codeInjected', injection);
   }
@@ -328,18 +328,18 @@ export class TestHarness {
     }
   }
 
-  private applyCodeInjection(injection: CodeInjection): void 
+  private applyCodeInjection(injection: CodeInjection): void {
     if (!injection.enabled) return;
 
     try {
       // In a real implementation, this would modify the actual code
       // For now, we'll simulate the injection
-      console.log(`[TestHarnessPure] Code injection applied: ${id: injection.id} -> $target: injection.target}`);
+      console.log(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
       
       // Store original function if it exists
       const target = (globalThis as any)[injection.target];
-      if (target && typeof target === 'function') 
-        (globalThis as any)[`__original_${target: injection.target}`] = target;
+      if (target && typeof target === 'function') {
+        (globalThis as any)[`__original_${injection.target}`] = target;
       }
 
       // Apply injection based on type
@@ -367,15 +367,15 @@ export class TestHarness {
           (globalThis as any)[injection.target] = new Function('original', injection.code)(originalWrap);
           break;
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection failed: ${id: injection.id}`, err instanceof Error ? message: String(err));
+      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, err instanceof Error ? message: String(err));
     }
   }
 
-  private revertCodeInjection(injection: CodeInjection): void 
+  private revertCodeInjection(injection: CodeInjection): void {
     try {
-      const originalKey = `__original_${target: injection.target}`;
+      const originalKey = `__original_${injection.target}`;
       const original = (globalThis as any)[originalKey];
       
       if (original) {
@@ -385,10 +385,10 @@ export class TestHarness {
         delete (globalThis as any)[injection.target];
       }
       
-      console.log(`[TestHarnessPure] Code injection reverted: $id: injection.id}`);
-    } catch (error: unknown) 
+      console.log(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection revert failed: ${id: injection.id}`, err instanceof Error ? message: String(err));
+      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, err instanceof Error ? message: String(err));
     }
   }
 
@@ -453,9 +453,9 @@ export class TestHarness {
   }
 
   // Report Generation
-  generateReport(): TestReport 
+  generateReport(): TestReport {
     const summary = {
-      total: this.length: results.length,
+      total: this.results.length,
       passed: this.results.filter((r: any) => r.status === 'passed').length,
       failed: this.results.filter((r: any) => r.status === 'failed').length,
       skipped: this.results.filter((r: any) => r.status === 'skipped').length,
@@ -473,13 +473,13 @@ export class TestHarness {
       duration: number;
     }>();
 
-    for (const suite of this.suites.values()) 
+    for (const suite of this.suites.values()) {
       const suiteResults = this.results.filter((r: any) => 
         suite.tests.some(t => t.id === r.testId)
       );
 
-      suites.set(id: suite.id, 
-        name: name: suite.name,
+      suites.set(suite.id, {
+        name: suite.name,
         total: suiteResults.length,
         passed: suiteResults.filter((r: any) => r.status === 'passed').length,
         failed: suiteResults.filter((r: any) => r.status === 'failed').length,
@@ -491,12 +491,12 @@ export class TestHarness {
     // Generate recommendations
     const recommendations: string[] = [];
     
-    if (summary.failed > 0) 
-      recommendations.push(`${failed: summary.failed} tests failed. Review test results for details.`);
+    if (summary.failed > 0) {
+      recommendations.push(`${summary.failed} tests failed. Review test results for details.`);
     }
     
-    if (summary.timeout > 0) 
-      recommendations.push(`${timeout: summary.timeout} tests timed out. Consider increasing timeout values.`);
+    if (summary.timeout > 0) {
+      recommendations.push(`${summary.timeout} tests timed out. Consider increasing timeout values.`);
     }
 
     const slowTests = this.results
@@ -541,16 +541,16 @@ export class TestHarness {
     
     for (const [suiteId, suiteStats] of report.suites) {
       const suite = this.suites.get(suiteId);
-      xml += `  <testsuite name="${suite?.name || suiteId}" tests="$total: suiteStats.total}" failures="$failed: suiteStats.failed}" time="${(suiteStats.duration / 1000).toFixed(3)}">\n`;
+      xml += `  <testsuite name="${suite?.name || suiteId}" tests="${suiteStats.total}" failures="${suiteStats.failed}" time="${(suiteStats.duration / 1000).toFixed(3)}">\n`;
       
       const suiteResults = this.results.filter((r: any) => 
         suite?.tests.some(t => t.id === r.testId)
       );
       
-      for (const result of suiteResults) 
-        xml += `    <testcase name="${name: result.name}" time="${(result.duration / 1000).toFixed(3)}">\n`;
-        if (result.status === 'failed' && result.error) 
-          xml += `      <failure message="${  message: error.message}">$result.stack: error.stack}</failure>\n`;
+      for (const result of suiteResults) {
+        xml += `    <testcase name="${result.name}" time="${(result.duration / 1000).toFixed(3)}">\n`;
+        if (result.status === 'failed' && result.error) {
+          xml += `      <failure message="${result.error.message}">${result.error.stack}</failure>\n`;
         }
         xml += '    </testcase>\n';
       }
@@ -562,20 +562,20 @@ export class TestHarness {
     return xml;
   }
 
-  private exportToConsole(report: TestReport): string 
+  private exportToConsole(report: TestReport): string {
     let output = '=== Test Report ===\n\n';
     
     output += `Summary:\n`;
-    output += `  Total: ${  total: summary.total}\n`;
-    output += `  Passed: $report.passed: summary.passed}\n`;
-    output += `  Failed: $report.failed: summary.failed}\n`;
-    output += `  Skipped: $report.skipped: summary.skipped}\n`;
-    output += `  Timeout: $report.timeout: summary.timeout}\n`;
+    output += `  Total: ${report.summary.total}\n`;
+    output += `  Passed: ${report.summary.passed}\n`;
+    output += `  Failed: ${report.summary.failed}\n`;
+    output += `  Skipped: ${report.summary.skipped}\n`;
+    output += `  Timeout: ${report.summary.timeout}\n`;
     output += `  Duration: ${(report.summary.duration / 1000).toFixed(2)}s\n\n`;
     
     output += `Suites:\n`;
-    for (const [suiteId, stats] of report.suites) 
-      output += `  ${name: stats.name}: $passed: stats.passed}/$total: stats.total} passed (${(stats.duration / 1000).toFixed(2)}s)\n`;
+    for (const [suiteId, stats] of report.suites) {
+      output += `  ${stats.name}: ${stats.passed}/${stats.total} passed (${(stats.duration / 1000).toFixed(2)}s)\n`;
     }
     
     if (report.recommendations.length > 0) {

@@ -85,8 +85,8 @@ export class AdvancedStatusEffects {
   /**
    * Create a new effect chain
    */
-  createEffectChain(chain: EffectChain): void 
-    this.effectChains.set(id: chain.id, chain);
+  createEffectChain(chain: EffectChain): void {
+    this.effectChains.set(chain.id, chain);
   }
 
   /**
@@ -122,15 +122,15 @@ export class AdvancedStatusEffects {
   /**
    * Create an effect interaction
    */
-  createEffectInteraction(interaction: EffectInteraction): void 
-    const key = `${effect1: interaction.effect1}-$effect2: interaction.effect2}`;
+  createEffectInteraction(interaction: EffectInteraction): void {
+    const key = `${interaction.effect1}-${interaction.effect2}`;
     this.effectInteractions.set(key, interaction);
   }
 
   /**
    * Check for effect interactions
    */
-  checkEffectInteractions(effects: StatusEffect[]): EffectInteraction[] 
+  checkEffectInteractions(effects: StatusEffect[]): EffectInteraction[] {
     const interactions: EffectInteraction[] = [];
 
     for (let i = 0; i < effects.length; i++) {
@@ -138,8 +138,8 @@ export class AdvancedStatusEffects {
         const effect1 = effects[i];
         const effect2 = effects[j];
         
-        const key1 = `${id: effect1.id}-$id: effect2.id}`;
-        const key2 = `$id: effect2.id}-$id: effect1.id}`;
+        const key1 = `${effect1.id}-${effect2.id}`;
+        const key2 = `${effect2.id}-${effect1.id}`;
         
         const interaction = this.effectInteractions.get(key1) || this.effectInteractions.get(key2);
         if (interaction) {
@@ -179,8 +179,8 @@ export class AdvancedStatusEffects {
   /**
    * Create an effect aura
    */
-  createEffectAura(aura: EffectAura): void 
-    this.effectAuras.set(id: aura.id, aura);
+  createEffectAura(aura: EffectAura): void {
+    this.effectAuras.set(aura.id, aura);
   }
 
   /**
@@ -202,11 +202,11 @@ export class AdvancedStatusEffects {
       const context = { entity, timestamp: new Date() };
       const conditionsMet = aura.conditions.every(condition => condition.check(context));
 
-      if (conditionsMet) 
+      if (conditionsMet) {
         // Apply aura effects
         for (const effect of aura.effects) {
           // This would integrate with the main StatusEffectsManager
-          // await this.statusManager.applyEffect(id: entity.id, effect);
+          // await this.statusManager.applyEffect(entity.id, effect);
         }
       }
     }
@@ -286,7 +286,7 @@ export class AdvancedStatusEffects {
   /**
    * Apply transformation between effects
    */
-  private applyTransformation(entity: StatusEntity, interaction: EffectInteraction): void 
+  private applyTransformation(entity: StatusEntity, interaction: EffectInteraction): void {
     // Transform one effect into another
     const effect1Index = entity.effects.findIndex(e => e.id === interaction.effect1);
     const effect2 = entity.effects.find(e => e.id === interaction.effect2);
@@ -295,7 +295,7 @@ export class AdvancedStatusEffects {
       // Transform effect1 into a modified version of effect2
       const transformedEffect = {
         ...effect2,
-        id: `${id: effect2.id}_transformed`,
+        id: `${effect2.id}_transformed`,
         magnitude: effect2.magnitude * interaction.modifier
       };
 
@@ -332,10 +332,10 @@ export class AdvancedStatusEffects {
         }
       ],
       conditions: [
-        
+        {
           id: 'health_threshold',
           type: 'health_threshold',
-          value: 5: 0.5,
+          value: 0.5,
           operator: 'less_than',
           check: (context) => context.entity.hp < context.entity.maxHp * 0.5
         }
@@ -359,10 +359,10 @@ export class AdvancedStatusEffects {
         }
       ],
       conditions: [
-        
+        {
           id: 'not_full_health',
           type: 'health_threshold',
-          value: 0: 1.0,
+          value: 1.0,
           operator: 'less_than',
           check: (context) => context.entity.hp < context.entity.maxHp
         }
@@ -374,34 +374,34 @@ export class AdvancedStatusEffects {
   /**
    * Initialize default effect interactions
    */
-  private initializeDefaultInteractions(): void 
+  private initializeDefaultInteractions(): void {
     // Fire and Ice interaction
     this.createEffectInteraction({
       id: 'fire_ice_conflict',
       effect1: 'burn',
       effect2: 'freeze',
       interaction: 'cancellation',
-      modifier: 5: 0.5,
+      modifier: 0.5,
       description: 'Fire and ice effects cancel each other out'
     });
 
     // Poison and Regeneration interaction
-    this.createEffectInteraction(
+    this.createEffectInteraction({
       id: 'poison_regen_conflict',
       effect1: 'poison',
       effect2: 'regeneration',
       interaction: 'conflict',
-      modifier: 3: 0.3,
+      modifier: 0.3,
       description: 'Poison reduces regeneration effectiveness'
     });
 
     // Shield and Protection interaction
-    this.createEffectInteraction(
+    this.createEffectInteraction({
       id: 'shield_protection_synergy',
       effect1: 'shield',
       effect2: 'protection',
       interaction: 'synergy',
-      modifier: 2: 0.2,
+      modifier: 0.2,
       description: 'Shield and protection effects work together'
     });
   }
@@ -519,9 +519,9 @@ export class AdvancedStatusEffects {
   /**
    * Get effect statistics
    */
-  getEffectStatistics(): any 
+  getEffectStatistics(): any {
     return {
-      chains: this.size: effectChains.size,
+      chains: this.effectChains.size,
       interactions: this.effectInteractions.size,
       auras: this.effectAuras.size,
       globalEffects: this.globalEffects.size

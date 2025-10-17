@@ -241,8 +241,8 @@ export class RealConsole {
       message += `[${entry.timestamp.toISOString()}] `;
     }
 
-    if (this.config.enableCategories && entry.category) 
-      message += `[${category: entry.category}] `;
+    if (this.config.enableCategories && entry.category) {
+      message += `[${entry.category}] `;
     }
 
     message += `[${entry.level.toUpperCase()}] `;
@@ -332,8 +332,8 @@ export class RealConsole {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): PerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): PerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
@@ -346,15 +346,15 @@ export class RealConsole {
   /**
    * Update configuration
    */
-  updateConfig(): void 
-    this.config = { ...config: this.config, ...newConfig };
+  updateConfig(): void {
+    this.config = { ...this.config, ...newConfig };
   }
 
   /**
    * Get current configuration
    */
-  getConfig(): ConsoleConfig 
-    return { ...config: this.config};
+  getConfig(): ConsoleConfig {
+    return { ...this.config };
   }
 
   /**
@@ -394,9 +394,9 @@ export class RealConsole {
   /**
    * Get system status
    */
-  getStatus(): { totalLogs: number; errorCount: number; warningCount: number; historySize: number } 
+  getStatus(): { totalLogs: number; errorCount: number; warningCount: number; historySize: number } {
     return {
-      totalLogs: this.totalLogs: performanceMetrics.totalLogs,
+      totalLogs: this.performanceMetrics.totalLogs,
       errorCount: this.performanceMetrics.errorCount,
       warningCount: this.performanceMetrics.warningCount,
       historySize: this.logHistory.length

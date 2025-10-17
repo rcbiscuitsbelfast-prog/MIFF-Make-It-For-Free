@@ -461,13 +461,13 @@ export class RealCanvas {
     activeCanvas: string | null;
     visibleCanvases: number;
     activeAnimations: number;
-  } 
+  } {
     const activeCanvas = this.getActiveCanvas();
     const visibleCanvases = this.getVisibleCanvases();
     const activeAnimations = Array.from(this.animations.values()).filter((a: any) => a.isActive).length;
     
     return {
-      isInitialized: isInitialized: this.isInitialized,
+      isInitialized: this.isInitialized,
       canvasCount: this.canvases.size,
       activeCanvas: activeCanvas?.id || null,
       visibleCanvases: visibleCanvases.length,

@@ -30,10 +30,10 @@ class MockSpiritInstance {
     this.experience = level * 100;
     this.name = name;
     this.type = type;
-    this.stats = 
+    this.stats = {
       hp: 100 + level * 2,
       attack: 50 + level,
-      defense: 40 + level * 5: 0.5,
+      defense: 40 + level * 0.5,
       speed: 60 + level * 0.5,
       specialAttack: 45 + level,
       specialDefense: 35 + level * 0.5
@@ -45,7 +45,7 @@ class MockSpiritInstance {
   canAct(): boolean { return this.isAlive(); }
   getEffectiveStats(): Record<string, number> { return this.stats; }
   getTypeEffectiveness(attackingType: string): number { return 1.0; }
-  clone(): MockSpiritInstance  return new MockSpiritInstance(name: this.name, type: this.type, this.level); }
+  clone(): MockSpiritInstance { return new MockSpiritInstance(this.name, type: this.type, this.level); }
   toJSON(): Record<string, any> { return {}; }
 }
 
@@ -74,8 +74,8 @@ class MockEntityContext implements IEntityContext {
   killEntity(entityId: string): void {}
   reviveEntity(entityId: string): void {}
 
-  setEntityHp(entityId: string, hp: number): void  this.setEntityStat(entityId, HP: HP: TargetStat.HP, hp); }
-  setEntityAtk(entityId: string, atk: number): void  this.setEntityStat(entityId, ATK: ATK: TargetStat.ATK, atk); }
+  setEntityHp(entityId: string, hp: number): void { this.setEntityStat(entityId, HP: TargetStat.HP, hp); }
+  setEntityAtk(entityId: string, atk: number): void { this.setEntityStat(entityId, ATK: TargetStat.ATK, atk); }
 }
 
 describe('Module Integration Tests', () => {
@@ -95,7 +95,7 @@ describe('Module Integration Tests', () => {
     eventBus.clearOldEvents();
   });
 
-  describe('Team and Effects Integration', () => 
+  describe('Team and Effects Integration', () => {
     test('should create team with spirits and apply effects', () => {
       // Create spirits
       const fireSpirit = new MockSpiritInstance('Fire Spirit', 'fire', 25);
@@ -103,7 +103,7 @@ describe('Module Integration Tests', () => {
 
       // Create team
       const team = teamManager.createTeam('Test Team');
-      expect(teamManager.addSpiritToTeam(teamId: team.teamId, fireSpirit)).toBe('success');
+      expect(teamManager.addSpiritToTeam(team.teamId, fireSpirit)).toBe('success');
       expect(teamManager.addSpiritToTeam(team.teamId, waterSpirit)).toBe('success');
 
       // Verify team has spirits
@@ -113,13 +113,13 @@ describe('Module Integration Tests', () => {
       expect(activeTeam[1].name).toBe('Water Spirit');
     });
 
-    test('should apply stat boosting effects to team members', () => 
+    test('should apply stat boosting effects to team members', () => {
       // Create spirit
       const spirit = new MockSpiritInstance('Test Spirit', 'normal', 25);
 
       // Create team
       const team = teamManager.createTeam('Effect Team');
-      teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
+      teamManager.addSpiritToTeam(team.teamId, spirit);
 
       // Create attack boost effect
       const attackEffect = BattleEffect.statModifier(
@@ -148,13 +148,13 @@ describe('Module Integration Tests', () => {
       expect(effect!.effect.value).toBe(20);
     });
 
-    test('should handle effect expiration and cleanup', () => 
+    test('should handle effect expiration and cleanup', () => {
       // Create spirit
       const spirit = new MockSpiritInstance('Test Spirit', 'normal', 25);
 
       // Create team
       const team = teamManager.createTeam('Cleanup Team');
-      teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
+      teamManager.addSpiritToTeam(team.teamId, spirit);
 
       // Create temporary effect
       const tempEffect = BattleEffect.statModifier(
@@ -185,7 +185,7 @@ describe('Module Integration Tests', () => {
     });
   });
 
-  describe('Effect System Integration', () => 
+  describe('Effect System Integration', () => {
     test('should handle multiple effects on single entity', () => {
       const spirit = new MockSpiritInstance('Multi-Effect Spirit', 'normal', 25);
 
@@ -194,7 +194,7 @@ describe('Module Integration Tests', () => {
         'attack_boost',
         'Attack Boost',
         'Increases attack',
-        ATK: TargetStat.ATK,
+        TargetStat.ATK,
         ModifierType.FLAT,
         15,
         60,
@@ -230,7 +230,7 @@ describe('Module Integration Tests', () => {
       expect(defenseEffectFound!.effect.value).toBe(10);
     });
 
-    test('should handle effect stacking correctly', () => 
+    test('should handle effect stacking correctly', () => {
       const spirit = new MockSpiritInstance('Stacking Spirit', 'normal', 25);
 
       // Create stackable effect
@@ -238,7 +238,7 @@ describe('Module Integration Tests', () => {
         'stack_boost',
         'Stack Boost',
         'Stackable boost',
-        ATK: TargetStat.ATK,
+        TargetStat.ATK,
         ModifierType.FLAT,
         5,
         30,
@@ -293,12 +293,12 @@ describe('Module Integration Tests', () => {
       effectManager.applyEffect('spirit_1', eventEffect);
     });
 
-    test('should handle team member removal with active effects', () => 
+    test('should handle team member removal with active effects', () => {
       const spirit = new MockSpiritInstance('Removal Spirit', 'normal', 25);
 
       // Create team
       const team = teamManager.createTeam('Removal Team');
-      teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
+      teamManager.addSpiritToTeam(team.teamId, spirit);
 
       // Apply effect
       const removalEffect = BattleEffect.statModifier(
@@ -328,7 +328,7 @@ describe('Module Integration Tests', () => {
     });
   });
 
-  describe('Complex Integration Scenarios', () => 
+  describe('Complex Integration Scenarios', () => {
     test('should handle complete battle scenario with teams and effects', () => {
       // Create two teams
       const playerTeam = teamManager.createTeam('Player Team');
@@ -339,7 +339,7 @@ describe('Module Integration Tests', () => {
       const enemySpirit = new MockSpiritInstance('Dark Spirit', 'dark', 28);
 
       // Add spirits to teams
-      teamManager.addSpiritToTeam(teamId: playerTeam.teamId, playerSpirit);
+      teamManager.addSpiritToTeam(playerTeam.teamId, playerSpirit);
       teamManager.addSpiritToTeam(enemyTeam.teamId, enemySpirit);
 
       // Apply effects to player spirit
@@ -348,8 +348,8 @@ describe('Module Integration Tests', () => {
         BattleEffect.statModifier('player_def', 'Player Defense', 'Defense boost', DEF: TargetStat.DEF, ModifierType.FLAT, 10, 60, 0)
       ];
 
-      playerEffects.forEach(effect => 
-        effectManager.applyEffect(instanceId: playerSpirit.instanceId, effect);
+      playerEffects.forEach(effect => {
+        effectManager.applyEffect(playerSpirit.instanceId, effect);
       });
 
       // Verify team setup
@@ -368,7 +368,7 @@ describe('Module Integration Tests', () => {
       expect(playerEffectsActive[1].effect.value).toBe(10);
     });
 
-    test('should handle effect interactions between team members', () => 
+    test('should handle effect interactions between team members', () => {
       const team = teamManager.createTeam('Interaction Team');
 
       // Create spirits
@@ -376,7 +376,7 @@ describe('Module Integration Tests', () => {
       const supportSpirit = new MockSpiritInstance('Support Spirit', 'light', 25);
 
       // Add to team
-      teamManager.addSpiritToTeam(teamId: team.teamId, leaderSpirit);
+      teamManager.addSpiritToTeam(team.teamId, leaderSpirit);
       teamManager.addSpiritToTeam(team.teamId, supportSpirit);
 
       // Create aura effect that affects team members
@@ -406,14 +406,14 @@ describe('Module Integration Tests', () => {
     });
   });
 
-  describe('Error Handling and Edge Cases', () => 
+  describe('Error Handling and Edge Cases', () => {
     test('should handle invalid entity operations gracefully', () => {
       // Try to apply effect to non-existent entity
       const invalidEffect = BattleEffect.statModifier(
         'invalid_test',
         'Invalid Test',
         'Test effect',
-        ATK: TargetStat.ATK,
+        TargetStat.ATK,
         ModifierType.FLAT,
         10,
         30,
@@ -426,12 +426,12 @@ describe('Module Integration Tests', () => {
       }).not.toThrow();
     });
 
-    test('should handle team operations with effects', () => 
+    test('should handle team operations with effects', () => {
       const spirit = new MockSpiritInstance('Team Op Spirit', 'normal', 25);
       const team = teamManager.createTeam('Team Op Team');
 
       // Add spirit to team
-      teamManager.addSpiritToTeam(teamId: team.teamId, spirit);
+      teamManager.addSpiritToTeam(team.teamId, spirit);
 
       // Apply effect
       const teamEffect = BattleEffect.statModifier(

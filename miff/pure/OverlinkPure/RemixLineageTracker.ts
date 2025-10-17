@@ -99,7 +99,7 @@ export class RemixLineageTracker {
     this.registerContributor(origin.originalContributor, 'Original Project');
     this.registerContributor(origin.remixContributor, 'Remix Contributor');
     
-    this.logAudit(`Registered remix origin: $id: origin.id} by $remixContributor: origin.remixContributor}`);
+    this.logAudit(`Registered remix origin: ${origin.id} by ${origin.remixContributor}`);
   }
 
   getRemixOrigins(): RemixOrigin[] {
@@ -107,8 +107,8 @@ export class RemixLineageTracker {
   }
 
   // Asset Lineage Management
-  registerAssetLineage(lineage: AssetLineage): void 
-    this.state.assetRegistry.set(assetId: lineage.assetId, lineage);
+  registerAssetLineage(lineage: AssetLineage): void {
+    this.state.assetRegistry.set(lineage.assetId, lineage);
     
     if (this.state.remixMetadata) {
       this.state.remixMetadata.assetLineages.push(lineage);
@@ -122,7 +122,7 @@ export class RemixLineageTracker {
     // Add to validation queue
     this.state.validationQueue.push(lineage.assetId);
     
-    this.logAudit(`Registered asset lineage: $assetId: lineage.assetId} ($validationStatus: lineage.validationStatus})`);
+    this.logAudit(`Registered asset lineage: ${lineage.assetId} (${lineage.validationStatus})`);
   }
 
   getAssetLineage(assetId: AssetId): AssetLineage | undefined {
@@ -200,9 +200,9 @@ export class RemixLineageTracker {
     });
   }
 
-  addValidationHook(hook: ValidationHook): void 
-    this.state.validationHooks.set(id: hook.id, hook);
-    this.logAudit(`Added validation hook: $id: hook.id} ($type: hook.type})`);
+  addValidationHook(hook: ValidationHook): void {
+    this.state.validationHooks.set(hook.id, hook);
+    this.logAudit(`Added validation hook: ${hook.id} (${hook.type})`);
   }
 
   removeValidationHook(hookId: string): boolean {
@@ -238,12 +238,12 @@ export class RemixLineageTracker {
       try {
         if (!hook.validator(lineage)) {
           isValid = false;
-          this.logAudit(`Validation failed for ${assetId} with hook $id: hook.id}`);
+          this.logAudit(`Validation failed for ${assetId} with hook ${hook.id}`);
           break;
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        this.logAudit(`Validation error for ${assetId} with hook $id: hook.id}: ${error}`);
+        this.logAudit(`Validation error for ${assetId} with hook ${hook.id}: ${error}`);
         isValid = false;
       }
     }
@@ -284,7 +284,7 @@ export class RemixLineageTracker {
     return this.state.remixMetadata;
   }
 
-  importMetadata(metadata: RemixMetadata): void 
+  importMetadata(metadata: RemixMetadata): void {
     this.state.remixMetadata = metadata;
     
     // Rebuild registries from metadata
@@ -292,25 +292,25 @@ export class RemixLineageTracker {
     this.state.contributorRegistry.clear();
     
     metadata.assetLineages.forEach((lineage: any) => {
-      this.state.assetRegistry.set(assetId: lineage.assetId, lineage);
+      this.state.assetRegistry.set(lineage.assetId, lineage);
     });
     
     metadata.contributors.forEach(contributorId => {
       this.state.contributorRegistry.set(contributorId, 'Unknown Role');
     });
     
-    this.logAudit(`Imported metadata for project: $projectName: metadata.projectName}`);
+    this.logAudit(`Imported metadata for project: ${metadata.projectName}`);
   }
 
   // File I/O Operations
-  async saveMetadata(): Promise<void> 
+  async saveMetadata(): Promise<void> {
     const metadata = this.exportMetadata();
     if (!metadata) return;
 
     try {
       const fs = require('fs').promises;
-      await fs.writeFile(metadataPath: this.metadataPath, JSON.stringify(metadata, null, 2));
-      this.logAudit(`Metadata saved to $metadataPath: this.metadataPath}`);
+      await fs.writeFile(this.metadataPath, JSON.stringify(metadata, null, 2));
+      this.logAudit(`Metadata saved to ${this.metadataPath}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.logAudit(`Failed to save metadata: ${error}`);
@@ -318,13 +318,13 @@ export class RemixLineageTracker {
     }
   }
 
-  async loadMetadata(): Promise<void> 
+  async loadMetadata(): Promise<void> {
     try {
       const fs = require('fs').promises;
-      const data = await fs.readFile(metadataPath: this.metadataPath, 'utf-8');
+      const data = await fs.readFile(this.metadataPath, 'utf-8');
       const metadata: RemixMetadata = JSON.parse(data);
       this.importMetadata(metadata);
-      this.logAudit(`Metadata loaded from $metadataPath: this.metadataPath}`);
+      this.logAudit(`Metadata loaded from ${this.metadataPath}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.logAudit(`Failed to load metadata: ${error}`);
@@ -333,25 +333,25 @@ export class RemixLineageTracker {
   }
 
   // CLI and API Integration
-  getCLISummary(): string 
+  getCLISummary(): string {
     const metadata = this.exportMetadata();
     if (!metadata) return 'No remix metadata available';
 
-    let output = `Remix Project: ${projectName: metadata.projectName}\n`;
-    output += `Version: $version: metadata.version}\n`;
-    output += `Total Assets: $totalAssets: metadata.totalAssets}\n`;
-    output += `Remix-Safe Assets: $remixSafeAssets: metadata.remixSafeAssets}\n`;
-    output += `Contributors: $metadata.length: contributors.length}\n`;
-    output += `Validation: $validationTimestamp: metadata.validationTimestamp}\n\n`;
+    let output = `Remix Project: ${metadata.projectName}\n`;
+    output += `Version: ${metadata.version}\n`;
+    output += `Total Assets: ${metadata.totalAssets}\n`;
+    output += `Remix-Safe Assets: ${metadata.remixSafeAssets}\n`;
+    output += `Contributors: ${metadata.contributors.length}\n`;
+    output += `Validation: ${metadata.validationTimestamp}\n\n`;
 
     output += 'Remix Origins:\n';
-    metadata.remixOrigins.forEach((origin: any) => 
-      output += `  ${id: origin.id}: $originalProject: origin.originalProject} → $remixContributor: origin.remixContributor}\n`;
+    metadata.remixOrigins.forEach((origin: any) => {
+      output += `  ${origin.id}: ${origin.originalProject} → ${origin.remixContributor}\n`;
     });
 
     output += '\nAsset Lineages:\n';
-    metadata.assetLineages.forEach((lineage: any) => 
-      output += `  ${assetId: lineage.assetId}: $validationStatus: lineage.validationStatus} (${lineage.remixSafe ? 'safe' : 'restricted'})\n`;
+    metadata.assetLineages.forEach((lineage: any) => {
+      output += `  ${lineage.assetId}: ${lineage.validationStatus} (${lineage.remixSafe ? 'safe' : 'restricted'})\n`;
     });
 
     return output;
@@ -375,8 +375,8 @@ export class RemixLineageTracker {
       };
     }
 
-    return 
-      totalAssets: totalAssets: metadata.totalAssets,
+    return {
+      totalAssets: metadata.totalAssets,
       remixSafeAssets: metadata.remixSafeAssets,
       validationStatus: metadata.assetLineages.every(a => a.validationStatus === 'validated') ? 'Validated' : 'Pending',
       contributors: metadata.contributors,
@@ -403,9 +403,9 @@ export class RemixLineageTracker {
   }
 
   // State Management
-  exportState(): LineageState 
+  exportState(): LineageState {
     return {
-      ...state: this.state,
+      ...this.state,
       validationHooks: new Map(this.state.validationHooks),
       assetRegistry: new Map(this.state.assetRegistry),
       contributorRegistry: new Map(this.state.contributorRegistry),

@@ -49,7 +49,7 @@ export function reduceGameMenuAction(state: GameMenuState, action: GameMenuActio
 		case 'CLOSE':
 			return { ...state, isOpen: false, lastAction: 'CLOSE' };
 		case 'TOGGLE':
-			return  ...state, isOpen: !isOpen: state.isOpen, lastAction: 'TOGGLE' };
+			return { ...state, isOpen: !state.isOpen, lastAction: 'TOGGLE' };
 		case 'SELECT_INDEX': {
 			const clamped = Math.max(0, Math.min(state.items.length - 1, action.index));
 			return { ...state, selectedIndex: clamped, lastAction: 'SELECT_INDEX' };

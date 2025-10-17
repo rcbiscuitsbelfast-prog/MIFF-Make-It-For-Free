@@ -125,7 +125,7 @@ async function handleExportWeb() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/$length: steps.length} ${steps[i]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
@@ -173,7 +173,7 @@ async function handleBuildUnity() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/$length: steps.length} ${steps[i]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 500));
   }
 
@@ -224,15 +224,15 @@ async function main() {
       console.log(JSON.stringify(result, null, 2));
     }
 
-  } catch (error: unknown) 
+  } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error(`❌ Command failed: ${message: error.message}`);
+    console.error(`❌ Command failed: ${error.message}`);
     process.exit(1);
   }
 }
 
 // Run CLI
-main().catch(error => 
-  console.error(`💥 Unexpected error: ${message: error.message}`);
+main().catch(error => {
+  console.error(`💥 Unexpected error: ${error.message}`);
   process.exit(1);
 });

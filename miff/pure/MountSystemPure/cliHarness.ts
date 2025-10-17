@@ -78,7 +78,7 @@ async function main() {
       break;
     }
 
-    case 'demo': 
+    case 'demo': {
       console.log('=== MOUNTSYSTEMPURE COMPREHENSIVE DEMO ===\n');
 
       // Create mount manager
@@ -89,7 +89,7 @@ async function main() {
       const horse1: MountInstance = {
         id: 'horse_001',
         name: 'Thunder',
-        type: LAND: MountType.LAND,
+        type: MountType.LAND,
         rarity: MountRarity.EPIC,
         species: 'horse',
         stats: {
@@ -137,10 +137,10 @@ async function main() {
         }
       };
 
-      const horse2: MountInstance = 
+      const horse2: MountInstance = {
         id: 'horse_002',
         name: 'Lightning',
-        type: LAND: MountType.LAND,
+        type: MountType.LAND,
         rarity: MountRarity.RARE,
         species: 'horse',
         stats: {
@@ -193,10 +193,10 @@ async function main() {
 
       // Setup market
       manager.state.market.availableMounts = [
-        
+        {
           id: 'market_horse_001',
           name: 'Market Stallion',
-          type: LAND: MountType.LAND,
+          type: MountType.LAND,
           rarity: MountRarity.UNCOMMON,
           price: 500,
           stats: {
@@ -218,15 +218,15 @@ async function main() {
       // Demonstrate mounting
       console.log('\n2. Testing mount/dismount...');
       const mountResult = manager.mount('player_001', 'horse_001');
-      console.log(`✅ $message: mountResult.message}`);
+      console.log(`✅ ${mountResult.message}`);
 
       const dismountResult = manager.dismount('player_001');
-      console.log(`✅ $message: dismountResult.message}`);
+      console.log(`✅ ${dismountResult.message}`);
 
       // Demonstrate training
       console.log('\n3. Training mounts...');
       const trainResult = manager.train('horse_001', 'advanced_speed_training');
-      console.log(`✅ $message: trainResult.message}`);
+      console.log(`✅ ${trainResult.message}`);
 
       // Demonstrate equipment
       console.log('\n4. Equipping mounts...');
@@ -234,30 +234,30 @@ async function main() {
         saddle: 'racing_saddle',
         armor: 'reinforced_armor'
       });
-      console.log(`✅ $message: equipResult.message}`);
+      console.log(`✅ ${equipResult.message}`);
 
       // Demonstrate breeding
       console.log('\n5. Breeding mounts...');
       const breedResult = manager.breed('horse_001', 'horse_002');
-      if (breedResult.status === 'ok') 
-        console.log(`✅ ${message: breedResult.message}`);
-        console.log(`✅ Offspring created: $breedResult.offspring?.name: offspring.name}`);
+      if (breedResult.status === 'ok') {
+        console.log(`✅ ${breedResult.message}`);
+        console.log(`✅ Offspring created: ${breedResult.offspring?.offspring.name}`);
       }
 
       // Demonstrate market
       console.log('\n6. Market system...');
       const marketResult = manager.purchaseMount('player_002', MountType.LAND);
-      if (marketResult.status === 'ok') 
-        console.log(`✅ ${message: marketResult.message}`);
-        console.log(`💰 Cost: $cost: marketResult.cost} gold`);
+      if (marketResult.status === 'ok') {
+        console.log(`✅ ${marketResult.message}`);
+        console.log(`💰 Cost: ${marketResult.cost} gold`);
       }
 
       // Show statistics
       console.log('\n7. Mount Statistics:');
       const stats = manager.getMountStatistics();
-      console.log(`📊 Total Mounts: $totalMounts: stats.totalMounts}`);
-      console.log(`🏇 Mounted: $mountedCount: stats.mountedCount}`);
-      console.log(`🎠 Available: $availableCount: stats.availableCount}`);
+      console.log(`📊 Total Mounts: ${stats.totalMounts}`);
+      console.log(`🏇 Mounted: ${stats.mountedCount}`);
+      console.log(`🎠 Available: ${stats.availableCount}`);
       console.log(`📈 Average Level: ${stats.averageLevel.toFixed(1)}`);
       console.log(`⚡ Average Stamina: ${stats.averageStamina.toFixed(1)}%`);
       console.log(`🏆 Type Distribution:`, JSON.stringify(stats.typeDistribution, null, 2));
@@ -305,7 +305,7 @@ async function main() {
 
       manager.state.mounts[id] = mount;
       console.log(`✅ Created mount: ${name} (${type} - ${rarity})`);
-      console.log(`📊 Stats: Level $mount.level: stats.level}, Health $mount.health: stats.health}/$mount.maxHealth: stats.maxHealth}`);
+      console.log(`📊 Stats: Level ${mount.stats.level}, Health ${mount.stats.health}/${mount.stats.maxHealth}`);
       break;
     }
 

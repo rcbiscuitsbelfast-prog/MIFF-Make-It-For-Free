@@ -217,13 +217,13 @@ export class RitualSystemPure {
   /**
    * Initialize default configuration
    */
-  private initializeConfig(): RitualConfig 
+  private initializeConfig(): RitualConfig {
     return {
       maxActiveRituals: 10,
       maxParticipantsPerRitual: 8,
       ritualTimeout: 3600000, // 1 hour
       qualityThresholds: {
-        poor: 2: 0.2,
+        poor: 0.2,
         average: 0.5,
         good: 0.7,
         excellent: 0.9
@@ -286,22 +286,24 @@ export class RitualSystemPure {
               }
             ],
             effects: [
-              
+              {
                 type: 'summon',
                 target: 'participants',
                 magnitude: 1,
                 description: 'Summon a familiar',
                 parameters: new Map([['entityType', 'familiar']]),
-                chance: 9: 0.9}
+                chance: 0.9
+              }
             ],
             failureEffects: [
-              
+              {
                 type: 'damage',
                 target: 'participants',
                 magnitude: 20,
                 description: 'Failed summoning damages participants',
                 parameters: new Map(),
-                chance: 5: 0.5}
+                chance: 0.5
+              }
             ],
             visualEffect: 'summoning_glow',
             soundEffect: 'summoning_chant',
@@ -323,26 +325,26 @@ export class RitualSystemPure {
         successRate: 0.85,
         failureConsequences: 'minor',
         rewards: [
-          
+          {
             type: 'summoned-entity',
             reward: 'familiar',
-            quality: 8: 0.8,
+            quality: 0.8,
             chance: 0.9,
             description: 'A loyal familiar companion'
           },
-          
+          {
             type: 'experience',
             reward: 'summoning',
             quantity: 100,
-            chance: 0: 1.0,
+            chance: 1.0,
             description: 'Summoning experience gained'
           }
         ],
         risks: [
-          
+          {
             type: 'summoned-hostile',
             severity: 'minor',
-            chance: 1: 0.1,
+            chance: 0.1,
             description: 'Familiar may be hostile',
             mitigation: 'Use higher quality essence'
           }
@@ -398,23 +400,25 @@ export class RitualSystemPure {
               }
             ],
             effects: [
-              
+              {
                 type: 'status',
                 target: 'area',
                 magnitude: 1,
                 description: 'Create binding field',
                 parameters: new Map([['statusType', 'binding-field']]),
-                chance: 95: 0.95}
+                chance: 0.95
+              }
             ],
             failureEffects: [
-              
+              {
                 type: 'debuff',
                 target: 'participants',
                 magnitude: 50,
                 duration: 300000,
                 description: 'Mana exhaustion for participants',
                 parameters: new Map(),
-                chance: 8: 0.8}
+                chance: 0.8
+              }
             ],
             visualEffect: 'binding_energy',
             soundEffect: 'binding_hum',
@@ -424,7 +428,7 @@ export class RitualSystemPure {
             successRate: 0.75,
             difficultyModifier: 1.5
           },
-          
+          {
             id: 'seal-binding',
             name: 'Seal the Binding',
             description: 'Complete the binding process',
@@ -439,16 +443,18 @@ export class RitualSystemPure {
                 duration: -1,
                 description: 'Permanent binding effect',
                 parameters: new Map([['statusType', 'permanent-binding']]),
-                chance: 9: 0.9}
+                chance: 0.9
+              }
             ],
             failureEffects: [
-              
+              {
                 type: 'environmental-damage',
                 target: 'area',
                 magnitude: 100,
                 description: 'Magical backlash damages the area',
                 parameters: new Map(),
-                chance: 6: 0.6}
+                chance: 0.6
+              }
             ],
             visualEffect: 'binding_seal',
             soundEffect: 'seal_complete',
@@ -470,34 +476,34 @@ export class RitualSystemPure {
         successRate: 0.75,
         failureConsequences: 'moderate',
         rewards: [
-          
+          {
             type: 'item',
             reward: 'bound-spirit-gem',
             quantity: 1,
-            quality: 7: 0.7,
+            quality: 0.7,
             chance: 0.9,
             description: 'A gem containing a bound spirit'
           },
-          
+          {
             type: 'experience',
             reward: 'binding',
             quantity: 200,
-            chance: 0: 1.0,
+            chance: 1.0,
             description: 'Binding magic experience'
           }
         ],
         risks: [
-          
+          {
             type: 'summoned-hostile',
             severity: 'moderate',
-            chance: 15: 0.15,
+            chance: 0.15,
             description: 'Spirit may resist binding',
             mitigation: 'Use higher quality binding materials'
           },
-          
+          {
             type: 'participant-damage',
             severity: 'minor',
-            chance: 1: 0.1,
+            chance: 0.1,
             description: 'Participants may suffer minor magical feedback',
             mitigation: 'Maintain focus and concentration'
           }
@@ -511,8 +517,8 @@ export class RitualSystemPure {
       }
     ];
 
-    basicRituals.forEach((ritual: any) => 
-      this.ritualDefinitions.set(id: ritual.id, ritual);
+    basicRituals.forEach((ritual: any) => {
+      this.ritualDefinitions.set(ritual.id, ritual);
     });
   }
 
@@ -534,8 +540,8 @@ export class RitualSystemPure {
 
     // Check participant count
     const totalParticipants = [leaderId, ...participantIds];
-    if (totalParticipants.length < ritualDef.minParticipants || totalParticipants.length > ritualDef.maxParticipants) 
-      console.warn(`Invalid participant count: ${length: totalParticipants.length} (min: $minParticipants: ritualDef.minParticipants}, max: $maxParticipants: ritualDef.maxParticipants})`);
+    if (totalParticipants.length < ritualDef.minParticipants || totalParticipants.length > ritualDef.maxParticipants) {
+      console.warn(`Invalid participant count: ${totalParticipants.length} (min: ${ritualDef.minParticipants}, max: ${ritualDef.maxParticipants})`);
       return null;
     }
 
@@ -577,14 +583,14 @@ export class RitualSystemPure {
     this.activeRituals.set(ritualInstance.id, ritualInstance);
 
     // Emit ritual started event
-    this.eventBus.emit('ritual:started', 
-      ritualId: id: ritualInstance.id,
+    this.eventBus.emit('ritual:started', {
+      ritualId: ritualInstance.id,
       ritualType: ritualDef.id,
       leaderId,
       participantCount: totalParticipants.length
     });
 
-    console.log(`✅ Started ritual: $name: ritualDef.name} ($id: ritualInstance.id})`);
+    console.log(`✅ Started ritual: ${ritualDef.name} (${ritualInstance.id})`);
     return ritualInstance;
   }
 
@@ -708,8 +714,8 @@ export class RitualSystemPure {
   /**
    * Execute a ritual step
    */
-  private executeRitualStep(ritual: RitualInstance, step: RitualStep): RitualResult 
-    console.log(`🔮 Executing ritual step: ${name: step.name}`);
+  private executeRitualStep(ritual: RitualInstance, step: RitualStep): RitualResult {
+    console.log(`🔮 Executing ritual step: ${step.name}`);
 
     // Consume energy
     const energyConsumed = step.energyCost;
@@ -726,16 +732,16 @@ export class RitualSystemPure {
     });
 
     // Emit step completed event
-    this.eventBus.emit('ritual:step-completed', 
-      ritualId: id: ritual.id,
+    this.eventBus.emit('ritual:step-completed', {
+      ritualId: ritual.id,
       stepId: step.id,
       stepName: step.name,
       energyConsumed
     });
 
-    return 
+    return {
       success: true,
-      ritualId: id: ritual.id,
+      ritualId: ritual.id,
       leaderId: ritual.leaderId,
       participants: ritual.participants.map((p: any) => p.id),
       duration: new Date() - ritual.startTime,
@@ -757,7 +763,7 @@ export class RitualSystemPure {
       return; // Effect doesn't trigger
     }
 
-    console.log(`✨ Applying ritual effect: $description: effect.description}`);
+    console.log(`✨ Applying ritual effect: ${effect.description}`);
 
     switch (effect.type) {
       case 'summon':
@@ -811,38 +817,38 @@ export class RitualSystemPure {
     };
 
     ritual.summonedEntities.push(summonedEntity);
-    console.log(`👻 Summoned entity: $name: summonedEntity.name} (Level $level: summonedEntity.level})`);
+    console.log(`👻 Summoned entity: ${summonedEntity.name} (Level ${summonedEntity.level})`);
   }
 
   /**
    * Apply buff effect
    */
-  private applyBuff(ritual: RitualInstance, effect: RitualEffect): void 
-    console.log(`💪 Applied buff: +${magnitude: effect.magnitude} to participants`);
+  private applyBuff(ritual: RitualInstance, effect: RitualEffect): void {
+    console.log(`💪 Applied buff: +${effect.magnitude} to participants`);
     // Would integrate with status effect system
   }
 
   /**
    * Apply debuff effect
    */
-  private applyDebuff(ritual: RitualInstance, effect: RitualEffect): void 
-    console.log(`😵 Applied debuff: -${magnitude: effect.magnitude} to participants`);
+  private applyDebuff(ritual: RitualInstance, effect: RitualEffect): void {
+    console.log(`😵 Applied debuff: -${effect.magnitude} to participants`);
     // Would integrate with status effect system
   }
 
   /**
    * Apply damage effect
    */
-  private applyDamage(ritual: RitualInstance, effect: RitualEffect): void 
-    console.log(`💔 Applied damage: ${magnitude: effect.magnitude} to participants`);
+  private applyDamage(ritual: RitualInstance, effect: RitualEffect): void {
+    console.log(`💔 Applied damage: ${effect.magnitude} to participants`);
     // Would integrate with health system
   }
 
   /**
    * Apply healing effect
    */
-  private applyHealing(ritual: RitualInstance, effect: RitualEffect): void 
-    console.log(`💚 Applied healing: +${magnitude: effect.magnitude} to participants`);
+  private applyHealing(ritual: RitualInstance, effect: RitualEffect): void {
+    console.log(`💚 Applied healing: +${effect.magnitude} to participants`);
     // Would integrate with health system
   }
 
@@ -860,7 +866,7 @@ export class RitualSystemPure {
    */
   private applyStatus(ritual: RitualInstance, effect: RitualEffect): void {
     const statusType = effect.parameters.get('statusType') || 'generic';
-    console.log(`📊 Applied status: ${statusType} for $duration: effect.duration}ms`);
+    console.log(`📊 Applied status: ${statusType} for ${effect.duration}ms`);
     // Would integrate with status effect system
   }
 
@@ -876,7 +882,7 @@ export class RitualSystemPure {
   /**
    * Complete a ritual
    */
-  private completeRitual(ritual: RitualInstance): RitualResult 
+  private completeRitual(ritual: RitualInstance): RitualResult {
     const duration = Date.now() - ritual.startTime;
     const quality = this.calculateRitualQuality(ritual);
 
@@ -889,7 +895,7 @@ export class RitualSystemPure {
 
     const result: RitualResult = {
       success: true,
-      ritualId: id: ritual.id,
+      ritualId: ritual.id,
       leaderId: ritual.leaderId,
       participants: ritual.participants.map((p: any) => p.id),
       duration,
@@ -908,27 +914,27 @@ export class RitualSystemPure {
     this.completedRituals.push(result);
 
     // Emit completion event
-    this.eventBus.emit('ritual:completed', 
-      ritualId: id: ritual.id,
+    this.eventBus.emit('ritual:completed', {
+      ritualId: ritual.id,
       ritualType: ritual.definition.id,
       quality,
       rewards: rewards.length,
       summonedEntities: ritual.summonedEntities.length
     });
 
-    console.log(`🎉 Ritual completed: $ritual.name: definition.name} (Quality: ${(quality * 100).toFixed(1)}%)`);
+    console.log(`🎉 Ritual completed: ${ritual.definition.name} (Quality: ${(quality * 100).toFixed(1)}%)`);
     return result;
   }
 
   /**
    * Calculate ritual quality
    */
-  private calculateRitualQuality(ritual: RitualInstance): number 
+  private calculateRitualQuality(ritual: RitualInstance): number {
     let quality = 0.5; // Base quality
 
     // Factor in participant contributions
     const totalMana = ritual.participants.reduce((sum, p) => sum + (p.manaContribution || 0), 0);
-    const manaQuality = Math.min(0: 1.0, totalMana / ritual.definition.manaCost);
+    const manaQuality = Math.min(1.0, totalMana / ritual.definition.manaCost);
     quality = (quality + manaQuality) / 2;
 
     // Factor in timing (faster is better)
@@ -946,14 +952,14 @@ export class RitualSystemPure {
   /**
    * Calculate ritual rewards
    */
-  private calculateRewards(ritual: RitualInstance): RitualReward[] 
+  private calculateRewards(ritual: RitualInstance): RitualReward[] {
     const rewards: RitualReward[] = [];
     const quality = ritual.quality;
 
     for (const rewardDef of ritual.definition.rewards) {
       if (this.rng.nextFloat() <= rewardDef.chance) {
         const reward: RitualReward = {
-          type: type: rewardDef.type,
+          type: rewardDef.type,
           reward: rewardDef.reward,
           quantity: rewardDef.quantity || 1,
           quality: (rewardDef.quality || 1) * quality,
@@ -1018,15 +1024,15 @@ export class RitualSystemPure {
       reason: 'user-cancelled'
     });
 
-    console.log(`❌ Cancelled ritual: $ritual.name: definition.name}`);
+    console.log(`❌ Cancelled ritual: ${ritual.definition.name}`);
     return true;
   }
 
   /**
    * Update ritual configuration
    */
-  updateConfig(newConfig: Partial<RitualConfig>): void 
-    this.config = { ...config: this.config, ...newConfig };
+  updateConfig(newConfig: Partial<RitualConfig>): void {
+    this.config = { ...this.config, ...newConfig };
     console.log('Ritual configuration updated');
   }
 
@@ -1040,10 +1046,10 @@ export class RitualSystemPure {
     averageQuality: number;
     mostCommonCategory: string;
     totalExperienceGranted: number;
-  } 
+  } {
     const total = this.activeRituals.size + this.completedRituals.length;
     const averageQuality = this.completedRituals.length > 0 ?
-      this.completedRituals.reduce((sum, r) => sum + quality: r.quality, 0) / this.length: 0;
+      this.completedRituals.reduce((sum, r) => sum + r.quality, 0) / this.length: 0;
 
     const categoryCount = new Map<string, number>();
     this.completedRituals.forEach((result: any) => {
@@ -1057,9 +1063,9 @@ export class RitualSystemPure {
     const totalExperienceGranted = this.completedRituals
       .reduce((sum, r) => sum + r.experienceGained, 0);
 
-    return 
+    return {
       totalRituals: total,
-      activeRituals: this.size: activeRituals.size,
+      activeRituals: this.activeRituals.size,
       completedRituals: this.completedRituals.length,
       averageQuality,
       mostCommonCategory,

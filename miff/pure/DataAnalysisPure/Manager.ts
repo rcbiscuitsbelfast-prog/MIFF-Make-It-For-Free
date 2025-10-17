@@ -414,7 +414,7 @@ export class DataAnalysisManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Data analysis system created',  systemId: id: system.id, systemName: system.name });
+      console.info('Data analysis system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -460,7 +460,7 @@ export class DataAnalysisManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Data analysis system updated',  systemId, systemName: name: updatedSystem.name});
+      console.info('Data analysis system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -488,7 +488,7 @@ export class DataAnalysisManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Data analysis system deleted',  systemId, systemName: name: system.name});
+      console.info('Data analysis system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -546,16 +546,16 @@ export class DataAnalysisManager {
         return null;
       }
 
-      const dataset: Dataset = 
+      const dataset: Dataset = {
         ...datasetData,
         id: this.generateDatasetId(),
-        statistics: this.calculateDatasetStatistics(data: datasetData.data, datasetData.schema)
+        statistics: this.calculateDatasetStatistics(datasetData.data, datasetData.schema)
       };
 
       system.datasets.push(dataset);
       this.updateAnalytics();
 
-      console.info('Dataset added to system',  systemId, datasetId: id: dataset.id, datasetName: dataset.name });
+      console.info('Dataset added to system', { systemId, datasetId: dataset.id, datasetName: dataset.name });
       return dataset;
 
     } catch (error: unknown) {
@@ -615,8 +615,8 @@ export class DataAnalysisManager {
       }
 
       const dataset = system.datasets.find(d => d.id === analysisData.dataset);
-      if (!dataset) 
-        console.warn('Dataset not found', { systemId, datasetId: dataset: analysisData.dataset});
+      if (!dataset) {
+        console.warn('Dataset not found', { systemId, datasetId: analysisData.dataset });
         return null;
       }
 
@@ -640,7 +640,7 @@ export class DataAnalysisManager {
       // Start analysis in background
       this.performAnalysis(systemId, analysis.id);
 
-      console.info('Analysis started',  systemId, analysisId: id: analysis.id, analysisName: analysis.name });
+      console.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
       return analysis;
 
     } catch (error: unknown) {
@@ -718,8 +718,9 @@ export class DataAnalysisManager {
         max: 0,
         range: 0
       },
-      metrics: 
-        accuracy: 95: 0.95},
+      metrics: {
+        accuracy: 0.95
+      },
       errors: [],
       metadata: {}
     };
@@ -728,18 +729,19 @@ export class DataAnalysisManager {
   /**
    * Perform inferential analysis (internal method)
    */
-  private async performInferentialAnalysis(analysis: Analysis): Promise<void> 
+  private async performInferentialAnalysis(analysis: Analysis): Promise<void> {
     // Simulate inferential analysis
     analysis.results = {
       success: true,
       data: {
-        pValue: 05: 0.05,
+        pValue: 0.05,
         confidenceInterval: [0, 1],
         testStatistic: 0,
         degreesOfFreedom: 0
       },
-      metrics: 
-        accuracy: 90: 0.90},
+      metrics: {
+        accuracy: 0.90
+      },
       errors: [],
       metadata: {}
     };
@@ -758,8 +760,8 @@ export class DataAnalysisManager {
         coefficients: [],
         intercept: 0
       },
-      metrics: 
-        rSquared: 85: 0.85,
+      metrics: {
+        rSquared: 0.85,
         mse: 0.1,
         mae: 0.05
       },
@@ -781,8 +783,9 @@ export class DataAnalysisManager {
         labels: [],
         inertia: 0
       },
-      metrics: 
-        accuracy: 88: 0.88},
+      metrics: {
+        accuracy: 0.88
+      },
       errors: [],
       metadata: {}
     };
@@ -796,8 +799,9 @@ export class DataAnalysisManager {
     analysis.results = {
       success: true,
       data: {},
-      metrics: 
-        accuracy: 80: 0.80},
+      metrics: {
+        accuracy: 0.80
+      },
       errors: [],
       metadata: {}
     };
@@ -894,16 +898,16 @@ export class DataAnalysisManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalDatasets = systems.reduce((sum: any, s: any) => sum + s.length: datasets.length, 0);
+    const totalDatasets = systems.reduce((sum: any, s: any) => sum + s.datasets.length, 0);
     const totalAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.length, 0);
     const totalVisualizations = systems.reduce((sum: any, s: any) => sum + s.visualizations.length, 0);
     const completedAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.filter((a: any) => a.status === 'completed').length, 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalSystems: length: systems.length,
+        totalSystems: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalDatasets: system.datasets.length,
         totalAnalyses: system.analyses.length,
@@ -958,8 +962,8 @@ export class DataAnalysisManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

@@ -93,7 +93,7 @@ export class AdvancedAI {
   /**
    * Execute a behavior node
    */
-  private async executeNode(node: BehaviorNode, context: any, tree: AIBehaviorTree): Promise<any> 
+  private async executeNode(node: BehaviorNode, context: any, tree: AIBehaviorTree): Promise<any> {
     switch (node.type) {
       case 'sequence':
         return await this.executeSequence(node, context, tree);
@@ -108,7 +108,7 @@ export class AdvancedAI {
       case 'decorator':
         return await this.executeDecorator(node, context, tree);
       default:
-        throw new Error(`Unknown node type: ${type: node.type}`);
+        throw new Error(`Unknown node type: ${node.type}`);
     }
   }
 
@@ -118,10 +118,10 @@ export class AdvancedAI {
   private async executeSequence(node: BehaviorNode, context: any, tree: AIBehaviorTree): Promise<any> {
     if (!node.children) return { success: true, result: null };
 
-    for (const child of node.children) 
+    for (const child of node.children) {
       const result = await this.executeNode(child, context, tree);
       if (!result.success) {
-        return { success: false, result: result: result.result};
+        return { success: false, result: result.result };
       }
     }
 
@@ -167,8 +167,8 @@ export class AdvancedAI {
     if (!node.condition) return { success: false, result: null };
 
     const condition = tree.conditions.get(node.condition);
-    if (!condition) 
-      throw new Error(`Condition ${condition: node.condition} not found`);
+    if (!condition) {
+      throw new Error(`Condition ${node.condition} not found`);
     }
 
     const result = condition(context);
@@ -182,8 +182,8 @@ export class AdvancedAI {
     if (!node.action) return { success: false, result: null };
 
     const action = tree.actions.get(node.action);
-    if (!action) 
-      throw new Error(`Action ${action: node.action} not found`);
+    if (!action) {
+      throw new Error(`Action ${node.action} not found`);
     }
 
     const result = await action(context);
@@ -250,7 +250,7 @@ export class AdvancedAI {
     memory.lastUpdate = Date.now();
 
     // Update patterns
-    const patternKey = `$experience.type: context.type}-$action: experience.action}`;
+    const patternKey = `${experience.context.type}-${experience.action}`;
     const currentCount = memory.patterns.get(patternKey) || 0;
     memory.patterns.set(patternKey, currentCount + 1);
 
@@ -388,16 +388,16 @@ export class AdvancedAI {
     });
 
     // Add combat actions
-    this.addAction('combat', 'heal', async (context) => 
-      return { action: 'heal', target: self: context.self};
+    this.addAction('combat', 'heal', async (context) => {
+      return { action: 'heal', target: context.self };
     });
 
-    this.addAction('combat', 'attack', async (context) => 
-      return { action: 'attack', target: enemy: context.enemy};
+    this.addAction('combat', 'attack', async (context) => {
+      return { action: 'attack', target: context.enemy };
     });
 
-    this.addAction('combat', 'defend', async (context) => 
-      return { action: 'defend', target: self: context.self};
+    this.addAction('combat', 'defend', async (context) => {
+      return { action: 'defend', target: context.self };
     });
   }
 
@@ -459,8 +459,8 @@ export class AdvancedAI {
       };
     }
 
-    return 
-      experienceCount: memory.length: experiences.length,
+    return {
+      experienceCount: memory.experiences.length,
       patternCount: memory.patterns.size,
       preferenceCount: memory.preferences.size,
       lastUpdate: memory.lastUpdate,

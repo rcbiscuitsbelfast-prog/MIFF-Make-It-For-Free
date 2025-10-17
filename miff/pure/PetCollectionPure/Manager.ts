@@ -197,13 +197,13 @@ export class PetCollectionManager {
     });
   }
 
-  public createEgg(ownerId: string, eggType: EggType, species: string): PetCollectionOutput 
+  public createEgg(ownerId: string, eggType: EggType, species: string): PetCollectionOutput {
     try {
       const eggs = this.petSystem.getEggsByOwner(ownerId);
       if (eggs.length >= this.config.maxEggsPerPlayer!) {
         return {
           success: false,
-          message: `Maximum eggs per player (${  maxEggsPerPlayer: config.maxEggsPerPlayer}) reached`,
+          message: `Maximum eggs per player (${this.config.maxEggsPerPlayer}) reached`,
           timestamp: new Date()
         };
       }
@@ -216,11 +216,11 @@ export class PetCollectionManager {
         data: { egg },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create egg: ${message: error.message}`,
+        message: `Failed to create egg: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -249,17 +249,17 @@ export class PetCollectionManager {
         };
       }
 
-      return 
+      return {
         success: true,
-        message: `Pet hatched successfully: ${name: pet.name}`,
+        message: `Pet hatched successfully: ${pet.name}`,
         data: { pet },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to hatch egg: ${message: error.message}`,
+        message: `Failed to hatch egg: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -337,37 +337,37 @@ export class PetCollectionManager {
         });
       }
 
-      return 
+      return {
         success: true,
-        message: `Found ${length: pets.length} pets`,
+        message: `Found ${pets.length} pets`,
         data: { pets },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to get pets: ${message: error.message}`,
+        message: `Failed to get pets: ${error.message}`,
         timestamp: new Date()
       };
     }
   }
 
-  public getEggsByOwner(ownerId: string): PetCollectionOutput 
+  public getEggsByOwner(ownerId: string): PetCollectionOutput {
     try {
       const eggs = this.petSystem.getEggsByOwner(ownerId);
 
       return {
         success: true,
-        message: `Found ${length: eggs.length} eggs`,
+        message: `Found ${eggs.length} eggs`,
         data: { eggs },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to get eggs: ${message: error.message}`,
+        message: `Failed to get eggs: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -383,11 +383,11 @@ export class PetCollectionManager {
         data: { stats },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to get collection stats: ${message: error.message}`,
+        message: `Failed to get collection stats: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -409,10 +409,10 @@ export class PetCollectionManager {
       const activeTrades = Array.from(this.petSystem['trades'].values())
         .filter((trade: any) => trade.ownerId === ownerId && trade.status === 'pending');
 
-      if (activeTrades.length >= this.config.maxActiveTradesPerPlayer!) 
+      if (activeTrades.length >= this.config.maxActiveTradesPerPlayer!) {
         return {
           success: false,
-          message: `Maximum active trades per player (${  maxActiveTradesPerPlayer: config.maxActiveTradesPerPlayer}) reached`,
+          message: `Maximum active trades per player (${this.config.maxActiveTradesPerPlayer}) reached`,
           timestamp: new Date()
         };
       }
@@ -433,11 +433,11 @@ export class PetCollectionManager {
         data: { tradeOffer },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create trade offer: ${message: error.message}`,
+        message: `Failed to create trade offer: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -461,11 +461,11 @@ export class PetCollectionManager {
         data: { tradeId, accepterId },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to accept trade offer: ${message: error.message}`,
+        message: `Failed to accept trade offer: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -489,11 +489,11 @@ export class PetCollectionManager {
         data: { petId, ownerId },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to feed pet: ${message: error.message}`,
+        message: `Failed to feed pet: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -517,11 +517,11 @@ export class PetCollectionManager {
         data: { petId, ownerId },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to toggle favorite: ${message: error.message}`,
+        message: `Failed to toggle favorite: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -579,7 +579,7 @@ export class PetCollectionManager {
     }, null, 2);
   }
 
-  public importCollection(ownerId: string, collectionData: string): boolean 
+  public importCollection(ownerId: string, collectionData: string): boolean {
     try {
       const data = JSON.parse(collectionData);
 
@@ -587,7 +587,7 @@ export class PetCollectionManager {
       if (data.pets && Array.isArray(data.pets)) {
         data.pets.forEach((petData: any) => {
           const pet: Pet = {
-            id: id: petData.id,
+            id: petData.id,
             name: petData.name,
             species: petData.species,
             type: petData.type,

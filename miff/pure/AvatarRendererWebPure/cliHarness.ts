@@ -34,12 +34,12 @@ import * as readline from 'readline';
 import { AvatarRendererWebPure } from './index';
 import { ResolvedAvatar, AvatarStyle } from '../AvatarSystemPure/schema';
 
-class AvatarRendererWebCLI 
+class AvatarRendererWebCLI {
   private rl: readline.Interface;
 
   constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'WebRenderer> '
     });
@@ -112,9 +112,9 @@ class AvatarRendererWebCLI
       // Test 3: Test avatar creation
       console.log('3. Testing test avatar creation...');
       const testAvatar = this.createTestAvatarData();
-      console.log(`   ✅ Test avatar created with $testAvatar.length: components.length} components`);
-      console.log(`   ✅ Test avatar has $testAvatar.assets.length: entries.length} asset entries`);
-      console.log(`   ✅ Test avatar style: $testAvatar.style: assets.style}`);
+      console.log(`   ✅ Test avatar created with ${testAvatar.components.length} components`);
+      console.log(`   ✅ Test avatar has ${testAvatar.assets.entries.length} asset entries`);
+      console.log(`   ✅ Test avatar style: ${testAvatar.assets.style}`);
 
       // Test 4: Canvas context simulation
       console.log('4. Testing canvas context simulation...');
@@ -152,7 +152,7 @@ class AvatarRendererWebCLI
     }
   }
 
-  private async renderSample(): Promise<void> 
+  private async renderSample(): Promise<void> {
     try {
       console.log('🎨 Rendering sample avatar...');
       
@@ -160,11 +160,11 @@ class AvatarRendererWebCLI
       const mockContext = this.createMockCanvasContext();
       
       console.log('   📊 Avatar data:');
-      console.log(`      Style: ${  style: assets.style}`);
-      console.log(`      Components: $testAvatar.length: components.length}`);
-      console.log(`      Asset Entries: $testAvatar.assets.length: entries.length}`);
-      console.log(`      Manifest Base: $testAvatar.base: manifest.base}`);
-      console.log(`      Manifest Style: $testAvatar.style: manifest.style}`);
+      console.log(`      Style: ${testAvatar.assets.style}`);
+      console.log(`      Components: ${testAvatar.components.length}`);
+      console.log(`      Asset Entries: ${testAvatar.assets.entries.length}`);
+      console.log(`      Manifest Base: ${testAvatar.manifest.base}`);
+      console.log(`      Manifest Style: ${testAvatar.manifest.style}`);
 
       console.log('   🎯 Rendering process:');
       this.simulateRenderingProcess(testAvatar, mockContext);
@@ -177,16 +177,16 @@ class AvatarRendererWebCLI
     }
   }
 
-  private async createTestAvatar(): Promise<void> 
+  private async createTestAvatar(): Promise<void> {
     try {
       const testAvatar = this.createTestAvatarData();
       
       console.log('✅ Test avatar created:');
-      console.log(`   Style: ${  style: assets.style}`);
-      console.log(`   Components: $testAvatar.length: components.length}`);
-      console.log(`   Asset Entries: $testAvatar.assets.length: entries.length}`);
-      console.log(`   Manifest Base: $testAvatar.base: manifest.base}`);
-      console.log(`   Manifest Style: $testAvatar.style: manifest.style}`);
+      console.log(`   Style: ${testAvatar.assets.style}`);
+      console.log(`   Components: ${testAvatar.components.length}`);
+      console.log(`   Asset Entries: ${testAvatar.assets.entries.length}`);
+      console.log(`   Manifest Base: ${testAvatar.manifest.base}`);
+      console.log(`   Manifest Style: ${testAvatar.manifest.style}`);
 
       // Save to file for reference
       const fs = await import('fs');
@@ -239,7 +239,7 @@ class AvatarRendererWebCLI
     }
   }
 
-  private async simulateRendering(): Promise<void> 
+  private async simulateRendering(): Promise<void> {
     console.log('🎭 Starting web avatar rendering simulation...');
     
     try {
@@ -250,7 +250,7 @@ class AvatarRendererWebCLI
         this.createTestAvatarData('avatar-2', '2d-side'),
         this.createTestAvatarData('avatar-3', 'overlay')
       ];
-      console.log(`   ✅ Created ${length: avatars.length} test avatars`);
+      console.log(`   ✅ Created ${avatars.length} test avatars`);
 
       // Simulate rendering each avatar
       console.log('2. Simulating rendering process...');
@@ -258,14 +258,14 @@ class AvatarRendererWebCLI
         const avatar = avatars[i];
         const mockContext = this.createMockCanvasContext();
         
-        console.log(`   🎨 Rendering avatar ${i + 1} ($avatar.style: assets.style})...`);
+        console.log(`   🎨 Rendering avatar ${i + 1} (${avatar.assets.style})...`);
         this.simulateRenderingProcess(avatar, mockContext);
         
         // Simulate different rendering scenarios
-        console.log(`      📊 Components: $avatar.length: components.length}`);
-        console.log(`      📦 Asset Entries: $avatar.assets.length: entries.length}`);
-        console.log(`      🎯 Manifest Base: $avatar.base: manifest.base}`);
-        console.log(`      🎨 Manifest Style: $avatar.style: manifest.style}`);
+        console.log(`      📊 Components: ${avatar.components.length}`);
+        console.log(`      📦 Asset Entries: ${avatar.assets.entries.length}`);
+        console.log(`      🎯 Manifest Base: ${avatar.manifest.base}`);
+        console.log(`      🎨 Manifest Style: ${avatar.manifest.style}`);
       }
 
       // Simulate performance testing
@@ -424,9 +424,9 @@ class AvatarRendererWebCLI
     for (const anchor of order) {
       const entry = avatar.assets.entries.find(e => e.anchor === anchor);
       if (entry) {
-        console.log(`      📦 Rendering ${anchor}: $url: entry.url}`);
+        console.log(`      📦 Rendering ${anchor}: ${entry.url}`);
         // Simulate image loading and drawing
-        mockContext.drawImage( src: url: entry.url}, 0, 0);
+        mockContext.drawImage({ src: entry.url }, 0, 0);
       } else {
         console.log(`      ⚠️  No asset found for anchor: ${anchor}`);
       }

@@ -49,7 +49,7 @@ try {
       break;
     }
 
-    case 'generateScripts': 
+    case 'generateScripts': {
       const scripts = [
         'GameManager.cs',
         'PlayerController.cs',
@@ -58,7 +58,7 @@ try {
       
       handleSuccess({
         scripts,
-        count: length: scripts.length,
+        count: scripts.length,
         generated: true
       }, 'generateScripts');
       break;

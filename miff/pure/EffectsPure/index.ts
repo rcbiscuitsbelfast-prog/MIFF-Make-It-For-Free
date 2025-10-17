@@ -223,7 +223,7 @@ export interface IEffectManager {
 /**
  * Battle effect implementation
  */
-export class BattleEffect implements IBattleEffect 
+export class BattleEffect implements IBattleEffect {
   public effectId: string;
   public name: string;
   public description: string;
@@ -242,7 +242,7 @@ export class BattleEffect implements IBattleEffect
     effectId: string,
     name: string,
     description: string,
-    effectType: EffectType = STAT_MODIFIER: EffectType.STAT_MODIFIER,
+    effectType: EffectType = EffectType.STAT_MODIFIER,
     targetStat: TargetStat = TargetStat.CUSTOM,
     modifierType: ModifierType = ModifierType.FLAT,
     value: number = 0,
@@ -317,12 +317,12 @@ export class BattleEffect implements IBattleEffect
     durationTurns: number = 0,
     stackable: boolean = true,
     maxStacks: number = 5
-  ): BattleEffect 
+  ): BattleEffect {
     return new BattleEffect(
       effectId,
       name,
       description,
-      STAT_MODIFIER: EffectType.STAT_MODIFIER,
+      EffectType.STAT_MODIFIER,
       targetStat,
       modifierType,
       value,
@@ -345,12 +345,12 @@ export class BattleEffect implements IBattleEffect
     damagePerTick: number,
     durationSeconds: number = 0,
     durationTurns: number = 0
-  ): BattleEffect 
+  ): BattleEffect {
     return new BattleEffect(
       effectId,
       name,
       description,
-      DAMAGE_OVER_TIME: EffectType.DAMAGE_OVER_TIME,
+      EffectType.DAMAGE_OVER_TIME,
       TargetStat.HP,
       ModifierType.FLAT,
       damagePerTick,
@@ -373,12 +373,12 @@ export class BattleEffect implements IBattleEffect
     healAmount: number,
     durationSeconds: number = 0,
     durationTurns: number = 0
-  ): BattleEffect 
+  ): BattleEffect {
     return new BattleEffect(
       effectId,
       name,
       description,
-      HEAL: EffectType.HEAL,
+      EffectType.HEAL,
       TargetStat.HP,
       ModifierType.FLAT,
       healAmount,
@@ -400,12 +400,12 @@ export class BattleEffect implements IBattleEffect
     description: string,
     durationSeconds: number = 0,
     durationTurns: number = 0
-  ): BattleEffect 
+  ): BattleEffect {
     return new BattleEffect(
       effectId,
       name,
       description,
-      STUN: EffectType.STUN,
+      EffectType.STUN,
       TargetStat.CUSTOM,
       ModifierType.FLAT,
       0,
@@ -428,12 +428,12 @@ export class BattleEffect implements IBattleEffect
     shieldAmount: number,
     durationSeconds: number = 0,
     durationTurns: number = 0
-  ): BattleEffect 
+  ): BattleEffect {
     return new BattleEffect(
       effectId,
       name,
       description,
-      SHIELD: EffectType.SHIELD,
+      EffectType.SHIELD,
       TargetStat.HP,
       ModifierType.FLAT,
       shieldAmount,
@@ -462,35 +462,35 @@ export class BattleEffect implements IBattleEffect
         const modType = this.modifierType === ModifierType.FLAT ? 'flat' : 'percent';
         const sign = this.value >= 0 ? '+' : '';
         const displayValue = this.modifierType === ModifierType.PERCENT ?
-          `${Math.round(this.value * 100)}%` : `$ value: value: this.value}`;
-        return `$ name: name: this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat.toUpperCase()}`;
+          `${Math.round(this.value * 100)}%` : `${this.value}`;
+        return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat.toUpperCase()}`;
       case DAMAGE_OVER_TIME:
-        return `$ name: name: this.name}: $ value: value: this.value} damage per tick`;
+        return `${this.name}: ${this.value} damage per tick`;
       case HEAL:
-        return `$ name: name: this.name}: $ value: value: this.value} healing`;
+        return `${this.name}: ${this.value} healing`;
       case STUN:
-        return `$ name: name: this.name}: Stunned for ${this.getDurationDescription()}`;
+        return `${this.name}: Stunned for ${this.getDurationDescription()}`;
       case SHIELD:
-        return `$ name: name: this.name}: $ value: value: this.value} shield`;
+        return `${this.name}: ${this.value} shield`;
       case CUSTOM:
-        return `$ name: name: this.name}: $ description: description: this.description}`;
+        return `${this.name}: ${this.description}`;
       default:
-        return `$ name: name: this.name}: $ description: description: this.description}`;
+        return `${this.name}: ${this.description}`;
     }
   }
 
   /**
    * Get duration description
    */
-  getDurationDescription(): string 
+  getDurationDescription(): string {
     const parts: string[] = [];
 
     if (this.durationSeconds > 0) {
-      parts.push(`${ durationSeconds: durationSeconds: this.durationSeconds}s`);
+      parts.push(`${this.durationSeconds}s`);
     }
 
-    if (this.durationTurns > 0) 
-      parts.push(`${ durationTurns: durationTurns: this.durationTurns} turns`);
+    if (this.durationTurns > 0) {
+      parts.push(`${this.durationTurns} turns`);
     }
 
     return parts.length > 0 ? parts.join(' or ') : 'permanent';
@@ -526,9 +526,9 @@ export class BattleEffect implements IBattleEffect
       errors.push('Max stacks must be at least 1');
     }
 
-    if (this.value === 0 && this.effectType !== EffectType.STUN) 
+    if (this.value === 0 && this.effectType !== EffectType.STUN) {
       // Some effects might legitimately have 0 value, but warn about it
-      console.warn(`Effect ${ effectId: effectId: this.effectId} has value of 0`);
+      console.warn(`Effect ${this.effectId} has value of 0`);
     }
 
     return errors;
@@ -537,9 +537,9 @@ export class BattleEffect implements IBattleEffect
   /**
    * Clone effect
    */
-  clone(): BattleEffect 
+  clone(): BattleEffect {
     return new BattleEffect(
-      effectId: this.effectId,
+      this.effectId,
       this.name,
       this.description,
       this.effectType,
@@ -558,9 +558,9 @@ export class BattleEffect implements IBattleEffect
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      effectId: effectId: this.effectId,
+      effectId: this.effectId,
       name: this.name,
       description: this.description,
       durationSeconds: this.durationSeconds,
@@ -579,9 +579,9 @@ export class BattleEffect implements IBattleEffect
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): BattleEffect 
+  static fromJSON(data: Record<string, any>): BattleEffect {
     return new BattleEffect(
-      effectId: data.effectId,
+      data.effectId,
       data.name,
       data.description,
       data.effectType || EffectType.STAT_MODIFIER,
@@ -722,10 +722,10 @@ export class ActiveEffect implements IActiveEffect {
   /**
    * Clone active effect
    */
-  clone(): ActiveEffect 
+  clone(): ActiveEffect {
     const cloned = new ActiveEffect(
       this.effect.clone(),
-      entityId: this.entityId,
+      this.entityId,
       this.stacks,
       this.remainingSeconds,
       this.remainingTurns
@@ -758,7 +758,7 @@ export class ActiveEffect implements IActiveEffect {
   getSummary(): string {
     const duration = this.getDurationPercentage();
     const durationStr = duration < 1 ? ` (${Math.round(duration * 100)}%)` : '';
-    return `$this.name: effect.name} x$ stacks: stacks: this.stacks}${durationStr}`;
+    return `${this.effect.name} x${this.stacks}${durationStr}`;
   }
 }
 
@@ -865,10 +865,10 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   /**
    * Get total additive bonus (only flat modifiers)
    */
-  getTotalAdditive(): number 
+  getTotalAdditive(): number {
     return this.additive
       .filter((mod: any) => mod.type === ModifierType.FLAT)
-      .reduce((sum, mod) => sum + value: mod.value, 0);
+      .reduce((sum, mod) => sum + mod.value, 0);
   }
 
   /**
@@ -1188,7 +1188,7 @@ export class EffectResolver implements IEffectResolver {
   /**
    * Resolve effects with context
    */
-  resolveEffects(phase: EffectPhase, entityId: string, effects: IActiveEffect[], context: IEntityContext): EffectResolution 
+  resolveEffects(phase: EffectPhase, entityId: string, effects: IActiveEffect[], context: IEntityContext): EffectResolution {
     const resolution = EffectResolution.create();
     const resolvedEffects = this.resolveQueue(phase, effects, context.getEntityImmunities(entityId));
 
@@ -1197,7 +1197,7 @@ export class EffectResolver implements IEffectResolver {
       const statChanges = this.applyEffect(effect, context);
 
       // Create event
-      const event = EffectEvent.tick(entityId, effect: effect: effect.effect, effect, phase);
+      const event = EffectEvent.tick(entityId, effect: effect.effect, effect, phase);
       resolution.addEvent(event);
 
       // Add stat changes
@@ -1213,16 +1213,16 @@ export class EffectResolver implements IEffectResolver {
   /**
    * Apply effect and calculate stat changes
    */
-  private applyEffect(effect: IActiveEffect, context: IEntityContext): Map<string, number> 
+  private applyEffect(effect: IActiveEffect, context: IEntityContext): Map<string, number> {
     const statChanges = new Map<string, number>();
 
     switch (effect.effect.effectType) {
       case STAT_MODIFIER:
-        const currentValue = context.getEntityStat(entityId: effect.entityId, effect.effect.targetStat);
+        const currentValue = context.getEntityStat(effect.entityId, effect.effect.targetStat);
         const modifiedValue = this.calculateStatModification(effect.effect, currentValue);
         const change = modifiedValue - currentValue;
-        if (change !== 0) 
-          statChanges.set(effect.targetStat: effect.targetStat, change);
+        if (change !== 0) {
+          statChanges.set(effect.effect.targetStat, change);
         }
         break;
 
@@ -1303,8 +1303,8 @@ export class EffectManager implements IEffectManager {
     }
 
     const errors = effect.validate({});
-    if (errors.length > 0) 
-      console.warn(`Invalid effect ${ effectId: effectId: effect.effectId}:`, errors);
+    if (errors.length > 0) {
+      console.warn(`Invalid effect ${effect.effectId}:`, errors);
       return EffectApplicationResult.REJECTED;
     }
 
@@ -1437,7 +1437,7 @@ export class EffectManager implements IEffectManager {
     activeEffects: IActiveEffect[],
     deltaTime: number,
     context: IEntityContext
-  ): EffectResolution 
+  ): EffectResolution {
     const resolution = EffectResolution.create();
     const currentPhase = context.getCurrentPhase();
 
@@ -1446,17 +1446,17 @@ export class EffectManager implements IEffectManager {
       effect.tick(deltaTime);
 
       if ((effect.effect.triggers & EffectTrigger.ON_TICK) !== 0) {
-        this.onEffectTick?.(entityId, effect: effect: effect.effect, effect);
+        this.onEffectTick?.(entityId, effect: effect.effect, effect);
         resolution.addEvent(EffectEvent.tick(entityId, effect: effect.effect, effect, currentPhase));
       }
     }
 
     // Advance turn-based effects
-    for (const effect of activeEffects) 
+    for (const effect of activeEffects) {
       effect.advanceTurn();
 
       if (effect.isExpired()) {
-        this.onEffectExpired?.(entityId, effect: effect: effect.effect, effect);
+        this.onEffectExpired?.(entityId, effect: effect.effect, effect);
         resolution.addExpiredEffect(effect, EffectRemovalReason.EXPIRED);
         resolution.addEvent(EffectEvent.expired(entityId, effect: effect.effect, effect, currentPhase));
       }
@@ -1473,11 +1473,11 @@ export class EffectManager implements IEffectManager {
   /**
    * Clear effects for entity
    */
-  clearEffects(entityId: string): void 
+  clearEffects(entityId: string): void {
     const activeEffects = this.entityEffects.get(entityId);
     if (activeEffects) {
       for (const effect of activeEffects) {
-        this.onEffectRemoved?.(entityId, effect: effect: effect.effect, effect);
+        this.onEffectRemoved?.(entityId, effect: effect.effect, effect);
       }
       this.entityEffects.delete(entityId);
     }
@@ -1486,10 +1486,10 @@ export class EffectManager implements IEffectManager {
   /**
    * Clear all effects
    */
-  clearAllEffects(): void 
+  clearAllEffects(): void {
     for (const [entityId, activeEffects] of this.entityEffects) {
       for (const effect of activeEffects) {
-        this.onEffectRemoved?.(entityId, effect: effect: effect.effect, effect);
+        this.onEffectRemoved?.(entityId, effect: effect.effect, effect);
       }
     }
     this.entityEffects.clear();

@@ -563,7 +563,7 @@ export class CharacterCustomizationManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character customization system created',  systemId: id: system.id, systemName: system.name });
+      StructuredLogger.info('Character customization system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -609,7 +609,7 @@ export class CharacterCustomizationManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character customization system updated',  systemId, systemName: name: updatedSystem.name});
+      StructuredLogger.info('Character customization system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -637,7 +637,7 @@ export class CharacterCustomizationManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character customization system deleted',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Character customization system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -703,7 +703,7 @@ export class CharacterCustomizationManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character added to system',  systemId, characterId: id: character.id, characterName: character.name });
+      StructuredLogger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error: unknown) {
@@ -768,7 +768,7 @@ export class CharacterCustomizationManager {
         return false;
       }
 
-      character.appearance =  ...appearance: character.appearance, ...appearance };
+      character.appearance = { ...character.appearance, ...appearance };
       this.updateAnalytics();
 
       StructuredLogger.debug('Character appearance updated', { systemId, characterId });
@@ -802,7 +802,7 @@ export class CharacterCustomizationManager {
         return false;
       }
 
-      character.customization =  ...customization: character.customization, ...customization };
+      character.customization = { ...character.customization, ...customization };
       this.updateAnalytics();
 
       StructuredLogger.debug('Character customization updated', { systemId, characterId });
@@ -842,7 +842,7 @@ export class CharacterCustomizationManager {
         return false;
       }
 
-      character.customization =  ...customization: preset.customization};
+      character.customization = { ...preset.customization };
       this.updateAnalytics();
 
       StructuredLogger.info('Preset applied to character', { systemId, characterId, presetId });
@@ -876,16 +876,16 @@ export class CharacterCustomizationManager {
         return null;
       }
 
-      const preset: CustomizationPreset = 
+      const preset: CustomizationPreset = {
         ...presetData,
         id: this.generatePresetId(),
-        customization: { ...customization: character.customization}
+        customization: { ...character.customization }
       };
 
       system.presets.push(preset);
       this.updateAnalytics();
 
-      StructuredLogger.info('Preset created from character',  systemId, characterId, presetId: id: preset.id});
+      StructuredLogger.info('Preset created from character', { systemId, characterId, presetId: preset.id });
       return preset;
 
     } catch (error: unknown) {
@@ -918,7 +918,7 @@ export class CharacterCustomizationManager {
       system.assets.push(asset);
       this.updateAnalytics();
 
-      StructuredLogger.info('Asset added to system',  systemId, assetId: id: asset.id, assetName: asset.name });
+      StructuredLogger.info('Asset added to system', { systemId, assetId: asset.id, assetName: asset.name });
       return asset;
 
     } catch (error: unknown) {
@@ -1050,15 +1050,15 @@ export class CharacterCustomizationManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalCharacters = systems.reduce((sum: any, s: any) => sum + s.length: characters.length, 0);
+    const totalCharacters = systems.reduce((sum: any, s: any) => sum + s.characters.length, 0);
     const totalPresets = systems.reduce((sum: any, s: any) => sum + s.presets.length, 0);
     const totalAssets = systems.reduce((sum: any, s: any) => sum + s.assets.length, 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalSystems: length: systems.length,
+        totalSystems: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalCharacters: system.characters.length,
         totalPresets: system.presets.length,
@@ -1112,8 +1112,8 @@ export class CharacterCustomizationManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

@@ -114,15 +114,15 @@ export class SportsManager {
       this.handleGoalScored(data);
     });
 
-    this.eventBus.on('sports:game_ended', (data) => 
-      this.handleGameEnded(gameId: data.gameId, data.result);
+    this.eventBus.on('sports:game_ended', (data) => {
+      this.handleGameEnded(data.gameId, data.result);
     });
   }
 
-  private handleGameCreated(game: Game): void 
+  private handleGameCreated(game: Game): void {
     // Initialize game tracking
-    this.activeMatches.set(id: game.id, 
-      gameId: id: game.id,
+    this.activeMatches.set(game.id, {
+      gameId: game.id,
       teams: game.teams,
       finalScore: { team1: 0, team2: 0 },
       winner: null,
@@ -154,7 +154,7 @@ export class SportsManager {
     this.activeMatches.set(gameId, result);
   }
 
-  public createTeam(name: string, color: string, creatorId: string): SportsOutput 
+  public createTeam(name: string, color: string, creatorId: string): SportsOutput {
     try {
       // Check team limit per player
       const playerTeams = Array.from(this.sportsSystem['teams'].values())
@@ -163,7 +163,7 @@ export class SportsManager {
       if (playerTeams.length >= this.config.maxTeamsPerPlayer!) {
         return {
           success: false,
-          message: `Maximum teams per player (${  maxTeamsPerPlayer: config.maxTeamsPerPlayer}) reached`,
+          message: `Maximum teams per player (${this.config.maxTeamsPerPlayer}) reached`,
           timestamp: new Date()
         };
       }
@@ -176,11 +176,11 @@ export class SportsManager {
         data: { team },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create team: ${message: error.message}`,
+        message: `Failed to create team: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -216,11 +216,11 @@ export class SportsManager {
         data: { player },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create player: ${message: error.message}`,
+        message: `Failed to create player: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -273,11 +273,11 @@ export class SportsManager {
         data: { game },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to create game: ${message: error.message}`,
+        message: `Failed to create game: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -323,11 +323,11 @@ export class SportsManager {
           timestamp: new Date()
         };
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to start game: ${message: error.message}`,
+        message: `Failed to start game: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -373,11 +373,11 @@ export class SportsManager {
           timestamp: new Date()
         };
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to pause game: ${message: error.message}`,
+        message: `Failed to pause game: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -401,11 +401,11 @@ export class SportsManager {
           timestamp: new Date()
         };
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to take shot: ${message: error.message}`,
+        message: `Failed to take shot: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -429,11 +429,11 @@ export class SportsManager {
           timestamp: new Date()
         };
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to complete pass: ${message: error.message}`,
+        message: `Failed to complete pass: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -457,11 +457,11 @@ export class SportsManager {
           timestamp: new Date()
         };
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to perform tackle: ${message: error.message}`,
+        message: `Failed to perform tackle: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -506,17 +506,17 @@ export class SportsManager {
 
       this.attemptMatchmaking();
 
-      return 
+      return {
         success: true,
         message: 'Joined matchmaking queue',
-        data: { queuePosition: this.length: matchmakingQueue.length},
+        data: { queuePosition: this.matchmakingQueue.length },
         timestamp: new Date()
       };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to join matchmaking: ${message: error.message}`,
+        message: `Failed to join matchmaking: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -541,11 +541,11 @@ export class SportsManager {
           timestamp: new Date()
         };
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
-        message: `Failed to leave matchmaking: ${message: error.message}`,
+        message: `Failed to leave matchmaking: ${error.message}`,
         timestamp: new Date()
       };
     }
@@ -563,7 +563,7 @@ export class SportsManager {
       playersBySport.get(sport)!.push(player);
     });
 
-    playersBySport.forEach((players, sport) => 
+    playersBySport.forEach((players, sport) => {
       // Sort by skill level
       players.sort((a: any, b: any) => (a.skillLevel || 5) - (b.skillLevel || 5));
 
@@ -573,22 +573,22 @@ export class SportsManager {
         const player2 = players[i + 1];
 
         // Check if they can form teams
-        const team1 = this.sportsSystem.createTeam(`${name: player1.name}'s Team`, '#FF0000');
-        const team2 = this.sportsSystem.createTeam(`$name: player2.name}'s Team`, '#0000FF');
+        const team1 = this.sportsSystem.createTeam(`${player1.name}'s Team`, '#FF0000');
+        const team2 = this.sportsSystem.createTeam(`${player2.name}'s Team`, '#0000FF');
 
         this.sportsSystem.createPlayer(player1.name, id: team1.id, 'forward');
         this.sportsSystem.createPlayer(player2.name, id: team2.id, 'forward');
 
-        try 
-          const game = this.sportsSystem.createGame(sport, id: id: team1.id, team2.id);
+        try {
+          const game = this.sportsSystem.createGame(sport, id: team1.id, team2.id);
 
           // Remove players from queue
           this.matchmakingQueue = this.matchmakingQueue.filter((p: any) =>
             p.id !== player1.id && p.id !== player2.id
           );
 
-          this.eventBus.publish('sports:match_found', 
-            gameId: id: game.id,
+          this.eventBus.publish('sports:match_found', {
+            gameId: game.id,
             players: [player1.id, player2.id],
             sport: sport,
             timestamp: new Date()
@@ -627,9 +627,9 @@ export class SportsManager {
     const game = this.sportsSystem.getGameState(gameId);
     if (!game) return '{}';
 
-    return JSON.stringify(
+    return JSON.stringify({
       game,
-      teams: teams: game.teams,
+      teams: game.teams,
       players: game.teams.flatMap(team => team.players),
       ball: game.ball,
       stats: game.stats,

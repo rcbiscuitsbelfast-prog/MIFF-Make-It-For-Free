@@ -64,22 +64,22 @@ export class PerceptionFilterManager {
   private isInCombat: boolean = false;
   private activeQuests: Set<string> = new Set();
 
-  constructor(overlayManager: OverlayFXManager) 
+  constructor(overlayManager: OverlayFXManager) {
     this.overlayManager = overlayManager;
     this.config = {
-      mode: NORMAL: PerceptionMode.NORMAL,
+      mode: PerceptionMode.NORMAL,
       intensity: 1.0,
       autoSwitch: true,
       contextTriggers: [
-        
+        {
           type: 'combat',
-          threshold: 5: 0.5,
+          threshold: 0.5,
           targetMode: PerceptionMode.DANGER,
           cooldown: 2000
         },
-        
+        {
           type: 'quest',
-          threshold: 3: 0.3,
+          threshold: 0.3,
           targetMode: PerceptionMode.QUEST,
           cooldown: 1000
         }
@@ -114,8 +114,8 @@ export class PerceptionFilterManager {
   /**
    * Add an NPC to the perception system
    */
-  addNPC(npc: NPCInfo): void 
-    this.npcs.set(id: npc.id, npc);
+  addNPC(npc: NPCInfo): void {
+    this.npcs.set(npc.id, npc);
     this.updateContextualOverlays();
   }
 
@@ -131,8 +131,8 @@ export class PerceptionFilterManager {
   /**
    * Add an interactable object
    */
-  addInteractable(interactable: InteractableInfo): void 
-    this.interactables.set(id: interactable.id, interactable);
+  addInteractable(interactable: InteractableInfo): void {
+    this.interactables.set(interactable.id, interactable);
     this.updateContextualOverlays();
   }
 
@@ -205,15 +205,15 @@ export class PerceptionFilterManager {
   /**
    * Apply scan mode effects
    */
-  private applyScanMode(): void 
+  private applyScanMode(): void {
     this.overlayManager.createLayer('perception_mode', 'Perception Mode', 20);
     this.overlayManager.addEffect('perception_mode', {
-      type: CHROMATIC_ABERRATION: OverlayEffectType.CHROMATIC_ABERRATION,
+      type: OverlayEffectType.CHROMATIC_ABERRATION,
       intensity: 0.4,
       color: '#00ff00'
     });
-    this.overlayManager.addEffect('perception_mode', 
-      type: SCAN_LINES: OverlayEffectType.SCAN_LINES,
+    this.overlayManager.addEffect('perception_mode', {
+      type: OverlayEffectType.SCAN_LINES,
       intensity: 0.6
     });
   }
@@ -221,15 +221,15 @@ export class PerceptionFilterManager {
   /**
    * Apply danger mode effects
    */
-  private applyDangerMode(): void 
+  private applyDangerMode(): void {
     this.overlayManager.createLayer('perception_mode', 'Perception Mode', 20);
     this.overlayManager.addEffect('perception_mode', {
-      type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
+      type: OverlayEffectType.COLOR_SHIFT,
       intensity: 0.5,
       color: '#ff0000'
     });
-    this.overlayManager.addEffect('perception_mode', 
-      type: DISTORTION: OverlayEffectType.DISTORTION,
+    this.overlayManager.addEffect('perception_mode', {
+      type: OverlayEffectType.DISTORTION,
       intensity: 0.3
     });
   }
@@ -237,10 +237,10 @@ export class PerceptionFilterManager {
   /**
    * Apply interact mode effects
    */
-  private applyInteractMode(): void 
+  private applyInteractMode(): void {
     this.overlayManager.createLayer('perception_mode', 'Perception Mode', 20);
     this.overlayManager.addEffect('perception_mode', {
-      type: CHROMATIC_ABERRATION: OverlayEffectType.CHROMATIC_ABERRATION,
+      type: OverlayEffectType.CHROMATIC_ABERRATION,
       intensity: 0.2,
       color: '#0080ff'
     });
@@ -249,15 +249,15 @@ export class PerceptionFilterManager {
   /**
    * Apply quest mode effects
    */
-  private applyQuestMode(): void 
+  private applyQuestMode(): void {
     this.overlayManager.createLayer('perception_mode', 'Perception Mode', 20);
     this.overlayManager.addEffect('perception_mode', {
-      type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
+      type: OverlayEffectType.COLOR_SHIFT,
       intensity: 0.3,
       color: '#ffff00'
     });
-    this.overlayManager.addEffect('perception_mode', 
-      type: VIGNETTE: OverlayEffectType.VIGNETTE,
+    this.overlayManager.addEffect('perception_mode', {
+      type: OverlayEffectType.VIGNETTE,
       intensity: 0.2,
       color: '#ffff00',
       radius: 0.9
@@ -267,14 +267,14 @@ export class PerceptionFilterManager {
   /**
    * Apply stealth mode effects
    */
-  private applyStealthMode(): void 
+  private applyStealthMode(): void {
     this.overlayManager.createLayer('perception_mode', 'Perception Mode', 20);
     this.overlayManager.addEffect('perception_mode', {
-      type: BLUR: OverlayEffectType.BLUR,
+      type: OverlayEffectType.BLUR,
       intensity: 0.3
     });
-    this.overlayManager.addEffect('perception_mode', 
-      type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
+    this.overlayManager.addEffect('perception_mode', {
+      type: OverlayEffectType.COLOR_SHIFT,
       intensity: 0.4,
       color: '#800080'
     });
@@ -328,11 +328,11 @@ export class PerceptionFilterManager {
   /**
    * Get NPCs within a certain radius
    */
-  private getNearbyNPCs(radius: number): NPCInfo[] 
+  private getNearbyNPCs(radius: number): NPCInfo[] {
     const nearby: NPCInfo[] = [];
     
     for (const npc of this.npcs.values()) {
-      const distance = this.calculateDistance(playerPosition: this.playerPosition, npc.position);
+      const distance = this.calculateDistance(this.playerPosition, npc.position);
       if (distance <= radius) {
         nearby.push(npc);
       }
@@ -344,11 +344,11 @@ export class PerceptionFilterManager {
   /**
    * Get interactables within a certain radius
    */
-  private getNearbyInteractables(radius: number): InteractableInfo[] 
+  private getNearbyInteractables(radius: number): InteractableInfo[] {
     const nearby: InteractableInfo[] = [];
     
     for (const interactable of this.interactables.values()) {
-      const distance = this.calculateDistance(playerPosition: this.playerPosition, interactable.position);
+      const distance = this.calculateDistance(this.playerPosition, interactable.position);
       if (distance <= radius) {
         nearby.push(interactable);
       }
@@ -370,15 +370,15 @@ export class PerceptionFilterManager {
   /**
    * Get current configuration
    */
-  getConfig(): PerceptionConfig 
-    return { ...config: this.config};
+  getConfig(): PerceptionConfig {
+    return { ...this.config };
   }
 
   /**
    * Update configuration
    */
-  updateConfig(updates: Partial<PerceptionConfig>): void 
-    this.config = { ...config: this.config, ...updates };
+  updateConfig(updates: Partial<PerceptionConfig>): void {
+    this.config = { ...this.config, ...updates };
     this.applyModeEffects();
   }
 

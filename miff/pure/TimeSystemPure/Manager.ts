@@ -123,12 +123,12 @@ export class TimeManager {
   /**
    * Set time scale
    */
-  setTimeScale(scale: number): TimeOutput 
+  setTimeScale(scale: number): TimeOutput {
     this.timeScale = Math.max(0, scale);
     return {
       op: 'set-scale',
       status: 'ok',
-      result: `Time scale set to ${timeScale: this.timeScale}`
+      result: `Time scale set to ${this.timeScale}`
     };
   }
 
@@ -159,10 +159,10 @@ export class TimeManager {
   /**
    * Add timer
    */
-  addTimer(timer: Timer): TimeOutput 
+  addTimer(timer: Timer): TimeOutput {
     const newTimer = {
       ...timer,
-      remaining: duration: timer.duration,
+      remaining: timer.duration,
       currentRepeats: 0
     };
     
@@ -224,8 +224,8 @@ export class TimeManager {
   /**
    * Add time scale
    */
-  addTimeScale(scale: TimeScale): TimeOutput 
-    this.timeScales.set(id: scale.id, scale);
+  addTimeScale(scale: TimeScale): TimeOutput {
+    this.timeScales.set(scale.id, scale);
     this.stats.timeScales++;
     
     return {
@@ -294,20 +294,21 @@ export class TimeManager {
       };
     }
     
-    return 
+    return {
       op: 'check-cooldown',
       status: 'ok',
       result: {
         id,
         ready: cooldown.remaining <= 0,
-        remaining: remaining: cooldown.remaining}
+        remaining: cooldown.remaining
+      }
     };
   }
 
   /**
    * Get remaining time for timer/cooldown
    */
-  getRemainingTime(id: string): TimeOutput 
+  getRemainingTime(id: string): TimeOutput {
     const timer = this.timers.get(id);
     const cooldown = this.cooldowns.get(id);
     
@@ -318,18 +319,20 @@ export class TimeManager {
         result: {
           id,
           type: 'timer',
-          remaining: remaining: timer.remaining}
+          remaining: timer.remaining
+        }
       };
     }
     
-    if (cooldown) 
+    if (cooldown) {
       return {
         op: 'get-remaining',
         status: 'ok',
         result: {
           id,
           type: 'cooldown',
-          remaining: remaining: cooldown.remaining}
+          remaining: cooldown.remaining
+        }
       };
     }
     
@@ -343,14 +346,14 @@ export class TimeManager {
   /**
    * Tick time forward
    */
-  tick(dt: number): TimeOutput 
+  tick(dt: number): TimeOutput {
     if (this.paused) {
       return {
         op: 'tick',
         status: 'ok',
         result: {
           dt: 0,
-          time: time: this.time,
+          time: this.time,
           fired: [],
           paused: true
         }
@@ -367,18 +370,18 @@ export class TimeManager {
     const allowLenientTimerFire = !willFireScheduledThisTick;
 
     // Update timers
-    for (const timer of this.timers.values()) 
+    for (const timer of this.timers.values()) {
       timer.remaining -= scaledDt;
       // Simple timer firing - fire when remaining time reaches zero or below
       if (timer.remaining <= 0) {
-        fired.push(`timer:${id: timer.id}`);
+        fired.push(`timer:${timer.id}`);
         
         if (timer.callback) {
           try {
             timer.callback();
-          } catch (error: unknown) 
+          } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            console.error(`Error in timer callback ${id: timer.id}:`, err instanceof Error ? message: String(err));
+            console.error(`Error in timer callback ${timer.id}:`, err instanceof Error ? message: String(err));
           }
         }
         
@@ -398,24 +401,24 @@ export class TimeManager {
     }
 
     // Update cooldowns
-    for (const cooldown of this.cooldowns.values()) 
+    for (const cooldown of this.cooldowns.values()) {
       cooldown.remaining = Math.max(0, cooldown.remaining - scaledDt);
       if (cooldown.remaining === 0) {
-        fired.push(`cooldown:${id: cooldown.id}`);
+        fired.push(`cooldown:${cooldown.id}`);
       }
     }
 
     // Fire scheduled events
-    while (this.scheduled.length && this.scheduled[0].at <= this.time) 
+    while (this.scheduled.length && this.scheduled[0].at <= this.time) {
       const scheduled = this.scheduled.shift()!;
-      fired.push(`scheduled:${id: scheduled.id}`);
+      fired.push(`scheduled:${scheduled.id}`);
       
       if (scheduled.callback) {
         try {
           scheduled.callback();
-        } catch (error: unknown) 
+        } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in scheduled event callback ${id: scheduled.id}:`, err instanceof Error ? message: String(err));
+          console.error(`Error in scheduled event callback ${scheduled.id}:`, err instanceof Error ? message: String(err));
         }
       }
       
@@ -496,14 +499,14 @@ export class TimeManager {
       }
     }
 
-    return 
+    return {
       op: 'list',
       status: 'ok',
       result: {
-        timers: timers.map((t: any) => ({ id: id: t.id, remaining: this.round(t.remaining), duration: t.duration })),
-        cooldowns: cooldowns.map((c: any) => ( id: id: c.id, remaining: this.round(c.remaining), duration: c.duration })),
-        scheduled: scheduled.map((s: any) => ( id: id: s.id, at: s.at })),
-        scales: scales.map((s: any) => ( id: id: s.id, factor: s.factor, startTime: s.startTime }))
+        timers: timers.map((t: any) => ({ id: t.id, remaining: this.round(t.remaining), duration: t.duration })),
+        cooldowns: cooldowns.map((c: any) => ({ id: c.id, remaining: this.round(c.remaining), duration: c.duration })),
+        scheduled: scheduled.map((s: any) => ({ id: s.id, at: s.at })),
+        scales: scales.map((s: any) => ({ id: s.id, factor: s.factor, startTime: s.startTime }))
       }
     };
   }
@@ -511,32 +514,32 @@ export class TimeManager {
   /**
    * Get time statistics
    */
-  getStats(): TimeOutput 
+  getStats(): TimeOutput {
     const managerData = this.getStats();
-    const totalTimerDuration = Array.from(this.timers.values()).reduce((sum, t) => sum + duration: t.duration, 0);
+    const totalTimerDuration = Array.from(this.timers.values()).reduce((sum, t) => sum + t.duration, 0);
     const totalCooldownDuration = Array.from(this.cooldowns.values()).reduce((sum, c) => sum + c.duration, 0);
 
     this.stats.averageTimerDuration = this.stats.totalTimers > 0 ? totalTimerDuration / this.totalTimers: 0;
     this.stats.averageCooldownDuration = this.stats.totalCooldowns > 0 ? totalCooldownDuration / this.totalCooldowns: 0;
 
-    return 
+    return {
       op: 'stats',
       status: 'ok',
-      result: { ...stats: this.stats}
+      result: { ...this.stats }
     };
   }
 
   /**
    * Export time data
    */
-  exportTime(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): TimeOutput 
+  exportTime(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): TimeOutput {
     switch (format) {
       case 'json':
         return {
           op: 'export',
           status: 'ok',
           result: {
-            time: time: this.time,
+            time: this.time,
             timers: Array.from(this.timers.values()),
             cooldowns: Array.from(this.cooldowns.values()),
             scheduled: this.scheduled,
@@ -546,12 +549,12 @@ export class TimeManager {
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.time.export.v1',
-            time: time: this.time,
+            time: this.time,
             timers: Array.from(this.timers.values()),
             cooldowns: Array.from(this.cooldowns.values()),
             scheduled: this.scheduled,
@@ -562,16 +565,16 @@ export class TimeManager {
         };
       
       case 'summary':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats: this.stats,
+            summary: this.stats,
             currentTime: this.time,
             paused: this.paused,
             timeScale: this.timeScale,
-            activeCounts: 
-              timers: this.activeTimers: stats.activeTimers,
+            activeCounts: {
+              timers: this.stats.activeTimers,
               cooldowns: this.stats.activeCooldowns,
               scheduled: this.stats.scheduledEvents,
               scales: this.stats.timeScales
@@ -580,11 +583,11 @@ export class TimeManager {
         };
       
       case 'events':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            scheduled: scheduled: this.scheduled,
+            scheduled: this.scheduled,
             total: this.scheduled.length
           }
         };

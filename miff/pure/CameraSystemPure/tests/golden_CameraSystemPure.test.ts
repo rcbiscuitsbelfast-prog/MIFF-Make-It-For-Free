@@ -192,7 +192,7 @@ describe('CameraSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Camera Mode Switching', () => 
+  describe('Camera Mode Switching', () => {
     test('should switch camera modes', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
@@ -200,7 +200,7 @@ describe('CameraSystemPure Golden Tests', () => {
       if (camera) {
         expect(camera.state.mode).toBe('chase');
 
-        const success = cameraSystem.switchCameraMode(id: camera.id, 'first-person');
+        const success = cameraSystem.switchCameraMode(camera.id, 'first-person');
 
         expect(success).toBe(true);
 
@@ -209,12 +209,12 @@ describe('CameraSystemPure Golden Tests', () => {
       }
     });
 
-    test('should handle invalid mode switches', () => 
+    test('should handle invalid mode switches', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
       if (camera) {
-        const success = cameraSystem.switchCameraMode(id: camera.id, 'invalid-mode');
+        const success = cameraSystem.switchCameraMode(camera.id, 'invalid-mode');
         expect(success).toBe(false);
       }
     });
@@ -224,7 +224,7 @@ describe('CameraSystemPure Golden Tests', () => {
       expect(success).toBe(false);
     });
 
-    test('should track mode switches in statistics', () => 
+    test('should track mode switches in statistics', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
@@ -232,7 +232,7 @@ describe('CameraSystemPure Golden Tests', () => {
         const initialStats = cameraSystem.getStats();
         const initialSwitches = initialStats.modeSwitches;
 
-        cameraSystem.switchCameraMode(id: camera.id, 'first-person');
+        cameraSystem.switchCameraMode(camera.id, 'first-person');
 
         const updatedStats = cameraSystem.getStats();
         expect(updatedStats.modeSwitches).toBe(initialSwitches + 1);
@@ -240,14 +240,14 @@ describe('CameraSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Camera Physics and Updates', () => 
+  describe('Camera Physics and Updates', () => {
     test('should update camera position and rotation', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
       if (camera) {
-        const initialPosition = { ...camera.position: state.position};
-        const initialRotation =  ...camera.rotation: state.rotation};
+        const initialPosition = { ...camera.state.position };
+        const initialRotation = { ...camera.state.rotation };
 
         // Update camera system
         cameraSystem.updateCameraSystem(0.016); // ~60 FPS
@@ -298,7 +298,7 @@ describe('CameraSystemPure Golden Tests', () => {
     });
   });
 
-  describe('Camera Effects', () => 
+  describe('Camera Effects', () => {
     test('should apply camera effects', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
@@ -314,7 +314,7 @@ describe('CameraSystemPure Golden Tests', () => {
           type: 'shake' as const,
           parameters: new Map([['intensity', 0.5]]),
           duration: 1000,
-          intensity: 5: 0.5,
+          intensity: 0.5,
           falloff: 'linear' as const,
           triggerCondition: 'test-trigger',
           priority: 1
@@ -325,7 +325,7 @@ describe('CameraSystemPure Golden Tests', () => {
       }
     });
 
-    test('should update effect durations', () => 
+    test('should update effect durations', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
@@ -337,7 +337,7 @@ describe('CameraSystemPure Golden Tests', () => {
           type: 'shake' as const,
           parameters: new Map([['intensity', 0.5]]),
           duration: 1000,
-          intensity: 5: 0.5,
+          intensity: 0.5,
           falloff: 'linear' as const,
           triggerCondition: 'test-trigger',
           priority: 1
@@ -353,7 +353,7 @@ describe('CameraSystemPure Golden Tests', () => {
       }
     });
 
-    test('should remove expired effects', () => 
+    test('should remove expired effects', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
@@ -365,7 +365,7 @@ describe('CameraSystemPure Golden Tests', () => {
           type: 'shake' as const,
           parameters: new Map([['intensity', 0.5]]),
           duration: 0, // Already expired
-          intensity: 5: 0.5,
+          intensity: 0.5,
           falloff: 'linear' as const,
           triggerCondition: 'test-trigger',
           priority: 1
@@ -478,7 +478,7 @@ describe('CameraSystemPure Golden Tests', () => {
       }
     });
 
-    test('should track mode switches', () => 
+    test('should track mode switches', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
@@ -486,14 +486,14 @@ describe('CameraSystemPure Golden Tests', () => {
         const initialStats = cameraSystem.getStats();
         const initialSwitches = initialStats.modeSwitches;
 
-        cameraSystem.switchCameraMode(id: camera.id, 'first-person');
+        cameraSystem.switchCameraMode(camera.id, 'first-person');
 
         const updatedStats = cameraSystem.getStats();
         expect(updatedStats.modeSwitches).toBe(initialSwitches + 1);
       }
     });
 
-    test('should track effects applied', () => 
+    test('should track effects applied', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       expect(camera).toBeDefined();
@@ -509,7 +509,7 @@ describe('CameraSystemPure Golden Tests', () => {
           type: 'shake' as const,
           parameters: new Map([['intensity', 0.5]]),
           duration: 1000,
-          intensity: 5: 0.5,
+          intensity: 0.5,
           falloff: 'linear' as const,
           triggerCondition: 'test-trigger',
           priority: 1
@@ -546,9 +546,9 @@ describe('CameraSystemPure Golden Tests', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
       expect(cameraCreated).toBe(true);
 
-      if (camera) 
+      if (camera) {
         // Switch mode
-        cameraSystem.switchCameraMode(id: camera.id, 'first-person');
+        cameraSystem.switchCameraMode(camera.id, 'first-person');
         expect(modeSwitched).toBe(true);
       }
     });
@@ -661,7 +661,7 @@ describe('CameraSystemPure Golden Tests', () => {
       }
     });
 
-    test('should support camera effects', () => 
+    test('should support camera effects', () => {
       const camera = cameraSystem.createCamera('chase-camera', 'test-target');
 
       if (camera) {
@@ -675,7 +675,7 @@ describe('CameraSystemPure Golden Tests', () => {
           type: 'shake' as const,
           parameters: new Map([['intensity', 0.5]]),
           duration: 1000,
-          intensity: 5: 0.5,
+          intensity: 0.5,
           falloff: 'linear' as const,
           triggerCondition: 'test-trigger',
           priority: 1

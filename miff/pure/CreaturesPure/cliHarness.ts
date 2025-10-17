@@ -18,10 +18,10 @@ class World {
     const data = JSON.parse(txt) as {species:Species[]};
     for(const s of data.species) this.species[s.id]=s;
   }
-  create(speciesId:string, level:number)
+  create(speciesId:string, level:number){
     const s = this.species[speciesId];
     const id = Math.random().toString(36).slice(2);
-    const c: Creature = { id, nameId:nameId: s.nameId, speciesId:s.id, isCaptured:false,
+    const c: Creature = { id, nameId:s.nameId, speciesId:s.id, isCaptured:false,
       stats:{level, hp:s.baseHp+level*2, attack:s.baseAttack+level, defense:s.baseDefense+level, speed:s.baseSpeed+level},
       moves:s.allowedMoves };
     this.creatures.push(c);
@@ -34,20 +34,20 @@ class World {
   swap(a:number,b:number){ if(a<0||b<0||a>=this.party.length||b>=this.party.length) return false; [this.party[a],this.party[b]]=[this.party[b],this.party[a]]; return true; }
   encounter(speciesId:string, level:number){ const c=this.create(speciesId, level); return c; }
   attemptCapture(id:string){ id=this.resolveId(id); const cr=this.creatures.find(x=>x.id===id)!; const s=this.species[cr.speciesId]; const ok = rand(100)<s.captureRate; if(ok){ cr.isCaptured=true; this.addToParty(cr.id);} return ok; }
-  dump() return { creatures:creatures: this.creatures, party:this.party }; }
+  dump(){ return { creatures:this.creatures, party:this.party }; }
 }
 
 type Cmd = { op:string; [k:string]:any };
 
-function run(speciesPath:string, cmds:Cmd[])
+function run(speciesPath:string, cmds:Cmd[]){
   const w = new World(speciesPath);
   const log:string[]=[];
   for(const c of cmds){
-    if(c.op==='create'){ const cr=w.create(speciesId: c.speciesId,c.level); log.push(`CREATE $id: cr.id} $speciesId: cr.speciesId} L$cr.level: stats.level}`); }
+    if(c.op==='create'){ const cr=w.create(c.speciesId,c.level); log.push(`CREATE ${cr.id} ${cr.speciesId} L${cr.stats.level}`); }
     else if(c.op==='party:add'){ const ok=w.addToParty(c.id); log.push(`PARTY ADD ${w.resolveId(c.id)} -> ${ok}`); }
     else if(c.op==='party:remove'){ const ok=w.removeFromParty(c.id); log.push(`PARTY REMOVE ${w.resolveId(c.id)} -> ${ok}`); }
-    else if(c.op==='party:swap') const ok=w.swap(a: c.a,c.b); log.push(`PARTY SWAP $a: c.a}<->$b: c.b} -> ${ok}`); }
-    else if(c.op==='encounter:start') const cr=w.encounter(speciesId: c.speciesId,c.level); log.push(`ENCOUNTER $id: cr.id} $speciesId: cr.speciesId}`); }
+    else if(c.op==='party:swap'){ const ok=w.swap(c.a,c.b); log.push(`PARTY SWAP ${c.a}<->${c.b} -> ${ok}`); }
+    else if(c.op==='encounter:start'){ const cr=w.encounter(c.speciesId,c.level); log.push(`ENCOUNTER ${cr.id} ${cr.speciesId}`); }
     else if(c.op==='encounter:capture'){ const ok=w.attemptCapture(c.id); log.push(`CAPTURE ${w.resolveId(c.id)} -> ${ok}`); }
     else if(c.op==='dump'){ /* no-op */ }
   }

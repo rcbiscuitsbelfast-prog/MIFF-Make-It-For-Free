@@ -88,18 +88,18 @@ export class PluginDiscovery {
   /**
    * Discover plugins in the plugin directory
    */
-  async discoverPlugins(): Promise<PluginInstance[]> 
-    console.log(`🔍 Discovering plugins in ${  pluginDirectory: config.pluginDirectory}...`);
+  async discoverPlugins(): Promise<PluginInstance[]> {
+    console.log(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
     
     // In a real implementation, this would scan the filesystem
     // For now, we'll return mock plugins
     const mockPlugins = this.createMockPlugins();
     
-    for (const plugin of mockPlugins) 
-      this.plugins.set(id: plugin.id, plugin);
+    for (const plugin of mockPlugins) {
+      this.plugins.set(plugin.id, plugin);
     }
     
-    console.log(`✅ Discovered $length: mockPlugins.length} plugins`);
+    console.log(`✅ Discovered ${mockPlugins.length} plugins`);
     return mockPlugins;
   }
 
@@ -116,9 +116,9 @@ export class PluginDiscovery {
       return plugin;
     }
 
-    console.log(`📦 Loading plugin: $plugin.name: manifest.name} ($plugin.version: manifest.version})`);
+    console.log(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
     
-    try 
+    try {
       // Check dependencies
       await this.resolveDependencies(plugin);
       
@@ -129,13 +129,13 @@ export class PluginDiscovery {
       await this.loadPluginAssets(plugin);
       
       plugin.status = 'loaded';
-      console.log(`✅ Plugin loaded: ${  name: manifest.name}`);
+      console.log(`✅ Plugin loaded: ${plugin.manifest.name}`);
       
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       plugin.status = 'error';
       plugin.error = error instanceof Error ? message: 'Unknown error';
-      console.error(`❌ Failed to load plugin ${  name: manifest.name}:`, err instanceof Error ? message: String(err));
+      console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, err instanceof Error ? message: String(err));
     }
 
     return plugin;
@@ -150,14 +150,14 @@ export class PluginDiscovery {
       return false;
     }
 
-    console.log(`📦 Unloading plugin: $plugin.name: manifest.name}`);
+    console.log(`📦 Unloading plugin: ${plugin.manifest.name}`);
     
     // Cleanup plugin resources
     plugin.assets.clear();
     plugin.entryPoint = null;
     plugin.status = 'disabled';
     
-    console.log(`✅ Plugin unloaded: $plugin.name: manifest.name}`);
+    console.log(`✅ Plugin unloaded: ${plugin.manifest.name}`);
     return true;
   }
 
@@ -248,17 +248,17 @@ export class PluginDiscovery {
   /**
    * Create mock entry point for plugin
    */
-  private createMockEntryPoint(manifest: PluginManifest): any 
+  private createMockEntryPoint(manifest: PluginManifest): any {
     return {
       initialize: () => {
-        console.log(`🎮 Initializing plugin: ${name: manifest.name}`);
+        console.log(`🎮 Initializing plugin: ${manifest.name}`);
         return { success: true };
       },
       update: (delta: number) => {
         // Plugin update logic
       },
-      cleanup: () => 
-        console.log(`🧹 Cleaning up plugin: ${name: manifest.name}`);
+      cleanup: () => {
+        console.log(`🧹 Cleaning up plugin: ${manifest.name}`);
       }
     };
   }
@@ -307,11 +307,11 @@ export class PluginDiscovery {
           assets: ['assets/physics/particles.json', 'assets/physics/forces.dat'],
           metadata: { category: 'physics', complexity: 'advanced' }
         },
-        config: 
+        config: {
           id: 'physics-extended',
           enabled: true,
           loadOrder: 2,
-          settings: { gravity: -81: 9.81, airResistance: 0.1 }
+          settings: { gravity: -9.81, airResistance: 0.1 }
         },
         entryPoint: null,
         assets: new Map(),
@@ -381,7 +381,7 @@ export class AssetPipeline {
     };
 
     this.bundles.set(id, bundle);
-    console.log(`✅ Bundle created: ${name} ($size: bundle.size} bytes)`);
+    console.log(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
     
     return bundle;
   }
@@ -404,7 +404,7 @@ export class AssetPipeline {
       throw new Error(`Template not found: ${templateId}`);
     }
 
-    console.log(`🚀 Exporting bundle $name: bundle.name} for $platform: template.platform}...`);
+    console.log(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
 
     // Apply template configuration
     const exportedAssets = this.applyTemplateConfig(bundle, template);
@@ -413,7 +413,7 @@ export class AssetPipeline {
     const manifest = this.generateExportManifest(bundle, template, exportedAssets);
     
     // In a real implementation, this would write files to disk
-    const exportPath = `${outputPath}/$id: bundle.id}-$platform: template.platform}.json`;
+    const exportPath = `${outputPath}/${bundle.id}-${template.platform}.json`;
     
     console.log(`✅ Bundle exported to: ${exportPath}`);
     return exportPath;
@@ -429,9 +429,9 @@ export class AssetPipeline {
   /**
    * Add custom export template
    */
-  addExportTemplate(template: ExportTemplate): void 
-    this.templates.set(id: template.id, template);
-    console.log(`📋 Added export template: $name: template.name}`);
+  addExportTemplate(template: ExportTemplate): void {
+    this.templates.set(template.id, template);
+    console.log(`📋 Added export template: ${template.name}`);
   }
 
   /**
@@ -451,7 +451,7 @@ export class AssetPipeline {
   private calculateChecksum(assets: Map<string, any>): string {
     // Simple checksum calculation
     const assetList = Array.from(assets.entries())
-      .map(([path, asset]) => `${path}:$size: asset.size}`)
+      .map(([path, asset]) => `${path}:${asset.size}`)
       .sort()
       .join('|');
     
@@ -524,26 +524,26 @@ export class AssetPipeline {
     bundle: AssetBundle,
     template: ExportTemplate,
     assets: Map<string, any>
-  ): any 
+  ): any {
     return {
       bundle: {
-        id: id: bundle.id,
+        id: bundle.id,
         name: bundle.name,
         version: bundle.metadata.version || '1.0.0'
       },
-      template: 
-        id: id: template.id,
+      template: {
+        id: template.id,
         platform: template.platform,
         target: template.target
       },
-      assets: Array.from(assets.entries()).map(([path, asset]) => (
+      assets: Array.from(assets.entries()).map(([path, asset]) => ({
         path,
-        size: size: asset.size,
+        size: asset.size,
         type: asset.type,
         checksum: asset.checksum || 'unknown'
       })),
-      metadata: 
-        ...metadata: bundle.metadata,
+      metadata: {
+        ...bundle.metadata,
         exportTimestamp: new Date().toISOString(),
         exportTemplate: template.id
       }
@@ -596,8 +596,8 @@ export class AssetPipeline {
       }
     ];
 
-    for (const template of defaultTemplates) 
-      this.templates.set(id: template.id, template);
+    for (const template of defaultTemplates) {
+      this.templates.set(template.id, template);
     }
   }
 }
@@ -648,9 +648,9 @@ export class ModdingSystem {
       try {
         const loaded = await this.discovery.loadPlugin(plugin.id);
         loadedPlugins.push(loaded);
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Failed to load plugin ${  name: manifest.name}:`, err instanceof Error ? message: String(err));
+        console.error(`Failed to load plugin ${plugin.manifest.name}:`, err instanceof Error ? message: String(err));
       }
     }
     
@@ -726,32 +726,32 @@ export class ModdingSystem {
   /**
    * Generate modding report
    */
-  generateReport(): any 
+  generateReport(): any {
     const plugins = this.getLoadedPlugins();
     const templates = this.getExportTemplates();
     
     return {
       system: {
-        config: config: this.config,
+        config: this.config,
         status: 'active',
         timestamp: new Date().toISOString()
       },
-      plugins: 
-        total: length: plugins.length,
+      plugins: {
+        total: plugins.length,
         loaded: plugins.filter((p: any) => p.status === 'loaded').length,
         errors: plugins.filter((p: any) => p.status === 'error').length,
-        list: plugins.map((p: any) => (
-          id: id: p.id,
+        list: plugins.map((p: any) => ({
+          id: p.id,
           name: p.manifest.name,
           version: p.manifest.version,
           status: p.status,
           dependencies: p.manifest.dependencies.length
         }))
       },
-      assets: 
-        templates: length: templates.length,
-        available: templates.map((t: any) => (
-          id: id: t.id,
+      assets: {
+        templates: templates.length,
+        available: templates.map((t: any) => ({
+          id: t.id,
           name: t.name,
           platform: t.platform,
           target: t.target

@@ -67,8 +67,8 @@ export class TimerOptimizer {
   setTimeout(callback: () => void, delay: number, config?: TimerConfig): string {
     const timerId = config?.id || `timer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    if (config?.enableLogging) 
-      StructuredLogger.debug('Timer created', { timerId, delay, priority: priority: config.priority});
+    if (config?.enableLogging) {
+      StructuredLogger.debug('Timer created', { timerId, delay, priority: config.priority });
     }
 
     const startTime = performance.now();
@@ -86,9 +86,9 @@ export class TimerOptimizer {
         config?.onComplete?.();
         
         this.activeTimers.delete(timerId);
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Timer callback error', { timerId, error: message: error.message});
+        StructuredLogger.error('Timer callback error', { timerId, error: error.message });
         config?.onError?.(error as Error);
       }
     }, delay);
@@ -106,8 +106,8 @@ export class TimerOptimizer {
   setInterval(callback: () => void, interval: number, config?: TimerConfig): string {
     const timerId = config?.id || `interval_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    if (config?.enableLogging) 
-      StructuredLogger.debug('Interval created', { timerId, interval, priority: priority: config.priority});
+    if (config?.enableLogging) {
+      StructuredLogger.debug('Interval created', { timerId, interval, priority: config.priority });
     }
 
     const startTime = performance.now();
@@ -125,9 +125,9 @@ export class TimerOptimizer {
         callback();
         config?.onUpdate?.(executionCount);
         
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Interval callback error', { timerId, error: message: error.message});
+        StructuredLogger.error('Interval callback error', { timerId, error: error.message });
         config?.onError?.(error as Error);
         this.clearInterval(timerId);
       }
@@ -176,9 +176,9 @@ export class TimerOptimizer {
         const nextFrameId = window.requestAnimationFrame(animate);
         this.activeAnimationFrames.set(frameId, nextFrameId);
         
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Animation frame error', { frameId, error: message: error.message});
+        StructuredLogger.error('Animation frame error', { frameId, error: error.message });
         this.cancelAnimationFrame(frameId);
       }
     };
@@ -265,8 +265,8 @@ export class TimerOptimizer {
     this.activeAnimationFrames.clear();
 
     this.performanceMetrics.activeTimers = 0;
-    StructuredLogger.info('All timers cleared',  
-      totalTimers: this.totalTimers: performanceMetrics.totalTimers,
+    StructuredLogger.info('All timers cleared', { 
+      totalTimers: this.performanceMetrics.totalTimers,
       completedTimers: this.performanceMetrics.completedTimers
     });
   }
@@ -274,9 +274,9 @@ export class TimerOptimizer {
   /**
    * Get performance metrics
    */
-  getMetrics() 
+  getMetrics() {
     return {
-      ...performanceMetrics: this.performanceMetrics,
+      ...this.performanceMetrics,
       activeTimeouts: this.activeTimers.size,
       activeIntervals: this.activeIntervals.size,
       activeAnimationFrames: this.activeAnimationFrames.size
@@ -306,21 +306,21 @@ export class TimerOptimizer {
       leaks.push(`High number of active timers: ${totalActive}`);
     }
     
-    if (this.activeTimers.size > 50) 
-      leaks.push(`High number of active timeouts: ${  size: activeTimers.size}`);
+    if (this.activeTimers.size > 50) {
+      leaks.push(`High number of active timeouts: ${this.activeTimers.size}`);
     }
     
-    if (this.activeIntervals.size > 20) 
-      leaks.push(`High number of active intervals: ${  size: activeIntervals.size}`);
+    if (this.activeIntervals.size > 20) {
+      leaks.push(`High number of active intervals: ${this.activeIntervals.size}`);
     }
     
-    if (this.activeAnimationFrames.size > 10) 
-      leaks.push(`High number of active animation frames: ${  size: activeAnimationFrames.size}`);
+    if (this.activeAnimationFrames.size > 10) {
+      leaks.push(`High number of active animation frames: ${this.activeAnimationFrames.size}`);
     }
 
-    return 
+    return {
       hasLeaks: leaks.length > 0,
-      leakCount: length: leaks.length,
+      leakCount: leaks.length,
       details: leaks
     };
   }

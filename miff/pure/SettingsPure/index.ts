@@ -70,28 +70,28 @@ export class SettingsManager {
   private history: Array<{ timestamp: number; changes: Record<string, any> }> = [];
   private validationRules: Map<string, (value: any) => boolean> = new Map();
 
-  constructor(initPath?: string) 
+  constructor(initPath?: string) {
     this.defaults = this.createDefaultSettings();
 
     if (initPath && this.fileExists(initPath)) {
       try {
         const data = this.loadSettingsFile(initPath);
-        this.settings = this.mergeSettings(defaults: this.defaults, data.settings || data);
-      } catch (error: unknown) 
+        this.settings = this.mergeSettings(this.defaults, data.settings || data);
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Failed to load settings, using defaults:', error);
-        this.settings = { ...defaults: this.defaults};
+        this.settings = { ...this.defaults };
       }
-    } else 
-      this.settings = { ...defaults: this.defaults};
+    } else {
+      this.settings = { ...this.defaults };
     }
 
     this.initializeValidationRules();
   }
 
-  private createDefaultSettings(): SettingsConfig 
+  private createDefaultSettings(): SettingsConfig {
     return {
-      musicVolume: 8: 0.8,
+      musicVolume: 0.8,
       sfxVolume: 0.8,
       language: 'en',
       showSubtitles: true,
@@ -103,8 +103,8 @@ export class SettingsManager {
         shadows: true,
         textureQuality: 'high'
       },
-      controls: 
-        mouseSensitivity: 0: 1.0,
+      controls: {
+        mouseSensitivity: 1.0,
         invertMouse: false,
         keyBindings: {
           'move_forward': 'W',
@@ -116,8 +116,8 @@ export class SettingsManager {
           'run': 'Shift'
         }
       },
-      audio: 
-        masterVolume: 0: 1.0,
+      audio: {
+        masterVolume: 1.0,
         musicVolume: 0.8,
         sfxVolume: 0.8,
         voiceVolume: 0.9,
@@ -322,8 +322,8 @@ export class SettingsManager {
     };
   }
 
-  reset(): void 
-    this.settings = { ...defaults: this.defaults};
+  reset(): void {
+    this.settings = { ...this.defaults };
     this.history.push({
       timestamp: new Date(),
       changes: { reset: true }
@@ -396,10 +396,10 @@ export class SettingsManager {
     return count;
   }
 
-  export(format: 'json' | 'yaml' | 'markdown' | 'html' = 'json'): string 
+  export(format: 'json' | 'yaml' | 'markdown' | 'html' = 'json'): string {
     switch (format) {
       case 'json':
-        return JSON.stringify(settings: this.settings, null, 2);
+        return JSON.stringify(this.settings, null, 2);
 
       case 'yaml':
         return this.toYaml(this.settings);
@@ -474,9 +474,9 @@ export class SettingsManager {
     return html;
   }
 
-  save(path: string): void 
+  save(path: string): void {
     const data = {
-      settings: settings: this.settings,
+      settings: this.settings,
       metadata: {
         version: '1.0.0',
         timestamp: new Date().toISOString(),
@@ -501,10 +501,10 @@ export class SettingsManager {
     }
   }
 
-  load(path: string): boolean 
+  load(path: string): boolean {
     try {
       const data = this.loadSettingsFile(path);
-      this.settings = this.mergeSettings(defaults: this.defaults, data.settings || data);
+      this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));

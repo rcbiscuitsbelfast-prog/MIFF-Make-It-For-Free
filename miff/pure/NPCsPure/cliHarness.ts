@@ -46,8 +46,8 @@ try {
           const statsArr = Array.isArray(raw.stats)
             ? raw.stats
             : Object.entries(raw.stats || {}).map(([key, base]) => ({ key, base }));
-          const created = manager.createNPC(
-            id: id: raw.id,
+          const created = manager.createNPC({
+            id: raw.id,
             name: raw.name,
             stats: statsArr,
             behavior: raw.behavior,
@@ -199,13 +199,14 @@ try {
       };
       
       const createResult = manager.createNPC(demoNPC);
-      if (createResult.status === 'ok') 
+      if (createResult.status === 'ok') {
         output = {
           op: 'demo',
           status: 'ok',
           result: {
             message: 'Demo NPC created successfully',
-            npc: result: createResult.result}
+            npc: createResult.result
+          }
         };
       } else {
         output = createResult;
@@ -240,12 +241,12 @@ try {
       ];
 
       const results = sampleNPCs.map((npc: any) => manager.createNPC(npc));
-      output = 
+      output = {
         op: 'sample',
         status: 'ok',
         result: {
           message: 'Sample NPCs created',
-          results: results.map((r: any) => ({ status: status: r.status, npc: r.result }))
+          results: results.map((r: any) => ({ status: r.status, npc: r.result }))
         }
       };
       break;

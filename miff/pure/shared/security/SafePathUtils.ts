@@ -99,21 +99,21 @@ export class SafePathUtils {
       }
 
       // Check path length limits
-      if (fullPath.length > this.MAX_PATH_LENGTH) 
+      if (fullPath.length > this.MAX_PATH_LENGTH) {
         return {
           isValid: false,
           normalizedPath: '',
-          error: `Path too long: ${length: fullPath.length} > $MAX_PATH_LENGTH: this.MAX_PATH_LENGTH}`
+          error: `Path too long: ${fullPath.length} > ${this.MAX_PATH_LENGTH}`
         };
       }
 
       // Check filename length
       const filename = path.basename(fullPath);
-      if (filename.length > this.MAX_FILENAME_LENGTH) 
+      if (filename.length > this.MAX_FILENAME_LENGTH) {
         return {
           isValid: false,
           normalizedPath: '',
-          error: `Filename too long: ${length: filename.length} > $MAX_FILENAME_LENGTH: this.MAX_FILENAME_LENGTH}`
+          error: `Filename too long: ${filename.length} > ${this.MAX_FILENAME_LENGTH}`
         };
       }
 
@@ -134,14 +134,15 @@ export class SafePathUtils {
   /**
    * Safely read a file with path validation
    */
-  static safeReadFile(filePath: string, basePath: string, allowedDirs?: string[]): { success: boolean; data?: string; error?: string } 
+  static safeReadFile(filePath: string, basePath: string, allowedDirs?: string[]): { success: boolean; data?: string; error?: string } {
     try {
       const validation = this.safeResolve(basePath, filePath, allowedDirs);
       
       if (!validation.isValid) {
         return {
           success: false,
-          error: error: validation.error};
+          error: validation.error
+        };
       }
 
       // Check if file exists
@@ -180,14 +181,15 @@ export class SafePathUtils {
   /**
    * Safely write a file with path validation
    */
-  static safeWriteFile(filePath: string, data: string, basePath: string, allowedDirs?: string[]): { success: boolean; error?: string } 
+  static safeWriteFile(filePath: string, data: string, basePath: string, allowedDirs?: string[]): { success: boolean; error?: string } {
     try {
       const validation = this.safeResolve(basePath, filePath, allowedDirs);
       
       if (!validation.isValid) {
         return {
           success: false,
-          error: error: validation.error};
+          error: validation.error
+        };
       }
 
       // Ensure directory exists

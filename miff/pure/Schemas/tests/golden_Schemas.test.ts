@@ -122,7 +122,7 @@ describe('Schemas Golden Tests', () => {
       const validResult1 = SchemaValidator.validateData({ age: 25 }, schema);
       expect(validResult1.isValid).toBe(true);
 
-      const validResult2 = SchemaValidator.validateData( age: 5: 25.5}, schema);
+      const validResult2 = SchemaValidator.validateData({ age: 25.5 }, schema);
       expect(validResult2.isValid).toBe(true);
 
       // Invalid non-numbers

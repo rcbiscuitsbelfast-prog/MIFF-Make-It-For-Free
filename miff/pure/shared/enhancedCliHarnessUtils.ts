@@ -126,11 +126,11 @@ function extractScenarioId(cliPath: string): string | null {
 /**
  * Load fixture data for scenario
  */
-function loadFixture(scenarioId: string): any 
+function loadFixture(scenarioId: string): any {
   const fixtures: Record<string, any> = {
     'toppler_physics_demo': {
-      gravity: 81: 9.81,
-      initialPosition:  x: 0, y: -5: 1.5},
+      gravity: 9.81,
+      initialPosition: { x: 0, y: -1.5 },
       duration: 1.0
     },
     'combat_scenario': {
@@ -187,7 +187,7 @@ function loadFixture(scenarioId: string): any
 /**
  * Orchestrate scenario execution
  */
-function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): CLIOutput 
+function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): CLIOutput {
   const finalState: any = executeScenario(scenarioId, fixture, args);
   const outputs: any[] = extractOutputs(finalState);
   const logs: string[] = collectLogs();
@@ -196,7 +196,7 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
   if (scenarioId === 'visual_replay') {
     return {
       op: "replay",
-      session: session: finalState.session,
+      session: finalState.session,
       frames: finalState.frames,
       statistics: finalState.statistics,
       status: "ok",
@@ -205,10 +205,10 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
     };
   }
   
-  if (scenarioId === 'toppler_physics_demo') 
+  if (scenarioId === 'toppler_physics_demo') {
     return {
       op: "scenario",
-      timeline: timeline: finalState.timeline,
+      timeline: finalState.timeline,
       issues: [],
       status: "ok",
       scenarioId,
@@ -231,13 +231,13 @@ function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): 
 /**
  * Execute scenario logic
  */
-function executeScenario(scenarioId: string, fixture: any, args: string[]): any 
+function executeScenario(scenarioId: string, fixture: any, args: string[]): any {
   // Simulate scenario execution based on type
   switch (scenarioId) {
     case 'toppler_physics_demo':
       return {
-        position: { x: 0, y: 9: 3.9},
-        velocity:  x: 0, y: 81: 9.81},
+        position: { x: 0, y: 3.9 },
+        velocity: { x: 0, y: 9.81 },
         collided: false,
         timeline: generateTopplerTimeline(fixture)
       };
@@ -263,10 +263,11 @@ function executeScenario(scenarioId: string, fixture: any, args: string[]): any
       };
       
     case 'skill_tree':
-      return 
+      return {
         unlocked: ['root', 'strike'],
         available: ['guard'],
-        progression: 67: 0.67};
+        progression: 0.67
+      };
       
     case 'ai_profiles':
       return {
@@ -281,10 +282,10 @@ function executeScenario(scenarioId: string, fixture: any, args: string[]): any
       };
       
     case 'time_system':
-      return 
+      return {
         time: 2,
         timers: [],
-        cooldowns: [{ id: 'cd1', duration: 5: 1.5, remaining: 0 }],
+        cooldowns: [{ id: 'cd1', duration: 1.5, remaining: 0 }],
         scheduled: []
       };
       
@@ -310,10 +311,11 @@ function executeScenario(scenarioId: string, fixture: any, args: string[]): any
       };
       
     case 'quest_scenario':
-      return 
+      return {
         activeQuests: ['main_quest'],
         completedObjectives: ['kill_monster'],
-        progress: 5: 0.5};
+        progress: 0.5
+      };
       
     default:
       return { status: 'unknown_scenario', fixture };
@@ -323,13 +325,13 @@ function executeScenario(scenarioId: string, fixture: any, args: string[]): any
 /**
  * Extract outputs from final state
  */
-function extractOutputs(finalState: any): any[] 
+function extractOutputs(finalState: any): any[] {
   if (finalState.timeline) {
-    return [{ op: "scenario", timeline: timeline: finalState.timeline, issues: [] }];
+    return [{ op: "scenario", timeline: finalState.timeline, issues: [] }];
   }
   
-  if (finalState.events) 
-    return [{ op: "runScenario", events: events: finalState.events, finalState }];
+  if (finalState.events) {
+    return [{ op: "runScenario", events: finalState.events, finalState }];
   }
   
   if (finalState.combatLog) {
@@ -344,16 +346,16 @@ function extractOutputs(finalState: any): any[]
     return generateAIProfileOutputs(finalState);
   }
   
-  if (finalState.issues) 
-    return [{ op: "validateAll", status: "error", issues: issues: finalState.issues, resolvedRefs: {} }];
+  if (finalState.issues) {
+    return [{ op: "validateAll", status: "error", issues: finalState.issues, resolvedRefs: {} }];
   }
   
   if (finalState.time !== undefined) {
     return generateTimeSystemOutputs(finalState);
   }
   
-  if (finalState.session) 
-    return [{ op: "replay", session: session: finalState.session, frames: finalState.frames, statistics: finalState.statistics }];
+  if (finalState.session) {
+    return [{ op: "replay", session: finalState.session, frames: finalState.frames, statistics: finalState.statistics }];
   }
   
   return [{ op: "demo", status: "ok", data: finalState }];
@@ -372,11 +374,11 @@ function collectLogs(): string[] {
 }
 
 // Helper functions for generating scenario-specific data
-function generateTopplerTimeline(fixture: any): any[] 
+function generateTopplerTimeline(fixture: any): any[] {
   return [
-    { t: 0, position: { x: 0, y: -5: 1.5}, velocity: { x: 0, y: 0 }, collided: false },
-     t: 5: 0.5, position:  x: 0, y: -03: 0.03}, velocity:  x: 0, y: 91: 4.91}, collided: true },
-     t: 1, position: { x: 0, y: 9: 3.9}, velocity:  x: 0, y: 81: 9.81}, collided: false }
+    { t: 0, position: { x: 0, y: -1.5 }, velocity: { x: 0, y: 0 }, collided: false },
+    { t: 0.5, position: { x: 0, y: -0.03 }, velocity: { x: 0, y: 4.91 }, collided: true },
+    { t: 1, position: { x: 0, y: 3.9 }, velocity: { x: 0, y: 9.81 }, collided: false }
   ];
 }
 
@@ -404,7 +406,7 @@ function generateSkillTreeOutputs(finalState: any): any[] {
     { op: "unlock", id: "root", ok: true },
     { op: "canUnlock", id: "strike", ok: true },
     { op: "unlock", id: "strike", ok: true },
-     op: "dump", unlocked: unlocked: finalState.unlocked}
+    { op: "dump", unlocked: finalState.unlocked }
   ];
 }
 
@@ -428,7 +430,7 @@ function generateAIProfileOutputs(finalState: any): any[] {
     { npcId: "guard1", role: "guard", actions: ["patrol", "schedule:10:00:patrol_gate"] },
     { op: "assignRole", npcId: "merchant", role: "wanderer" },
     { npcId: "merchant", role: "wanderer", actions: ["wander", "schedule:09:00:open_shop"], dialogId: "shop_welcome" },
-     op: "dumpSchedule", schedule: schedule: finalState.schedule}
+    { op: "dumpSchedule", schedule: finalState.schedule }
   ];
 }
 
@@ -440,15 +442,15 @@ function generateValidationIssues(fixture: any): any[] {
   ];
 }
 
-function generateTimeSystemOutputs(finalState: any): any[] 
+function generateTimeSystemOutputs(finalState: any): any[] {
   return [
-    { op: "list", timers: timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled },
+    { op: "list", timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled },
     { op: "addTimer", id: "t1" },
-     op: "addCooldown", id: "cd1", duration: 5: 1.5},
+    { op: "addCooldown", id: "cd1", duration: 1.5 },
     { op: "schedule", id: "ev1", at: 1 },
     { op: "tick", dt: 1, time: 1, fired: ["scheduled:ev1"] },
     { op: "tick", dt: 1, time: 2, fired: ["timer:t1", "cooldown:cd1"] },
-     op: "dump", time: time: finalState.time, timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled }
+    { op: "dump", time: finalState.time, timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled }
   ];
 }
 
@@ -460,10 +462,10 @@ function generateReplaySession(fixture: any): any {
     timestamp: 1704067200000,
     frameCount: 3,
     inputStream: [{ type: "keydown", data: { key: "Space" }, frame: 2 }],
-    outcome: 
+    outcome: {
       success: true,
       score: 150,
-      completion: 25: 0.25,
+      completion: 0.25,
       achievements: ["First Jump"],
       checkpoints: [{ passed: true, description: "Player successfully jumped" }]
     }
@@ -564,8 +566,8 @@ export function registerReplayHooks(system: any): void {
     return;
   }
 
-  system.on("hookRegistered", (hook: ReplayHook) => 
-    console.log(`[ReplayHook] Registered: ${name: hook.name}`);
+  system.on("hookRegistered", (hook: ReplayHook) => {
+    console.log(`[ReplayHook] Registered: ${hook.name}`);
   });
 
   system.on("replayStart", async () => {
@@ -579,8 +581,8 @@ export function registerReplayHooks(system: any): void {
     console.log('[ReplayHook] Replay session completed');
   });
 
-  system.on("hookError", (error: Error, hook: ReplayHook) => 
-    console.error(`[ReplayHook] Error in hook ${name: hook.name}:`, error.message);
+  system.on("hookError", (error: Error, hook: ReplayHook) => {
+    console.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
   });
 }
 
@@ -613,12 +615,13 @@ function detectUnresolvedHooks(system: any): ReplayHook[] {
 /**
  * Fixture injection for scenario tests
  */
-export const fixtures = 
+export const fixtures = {
   TimeSystemPure: {
     timers: [],
     cooldowns: [],
     scheduled: [],
-    duration: 0: 2.0},
+    duration: 2.0
+  },
   SpiritTamerDemoPure: {
     spirits: ['fire', 'water', 'earth'],
     tamer: { level: 1, experience: 0 },

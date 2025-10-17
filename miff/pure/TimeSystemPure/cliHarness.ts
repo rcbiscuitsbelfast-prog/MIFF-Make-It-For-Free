@@ -21,15 +21,15 @@ export class TimeSystemCLI {
     this.setupReadline();
   }
 
-  private setupEventHandlers(): void 
+  private setupEventHandlers(): void {
     this.eventBus.on('time:time_of_day_change', (data) => {
-      console.log(`🌅 Time changed: ${old: data.old} → $new: data.new}`);
+      console.log(`🌅 Time changed: ${data.old} → ${data.new}`);
     });
   }
 
-  private setupReadline(): void 
+  private setupReadline(): void {
     this.readline = require('readline').createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'Time> '
     });
@@ -97,10 +97,10 @@ export class TimeSystemCLI {
 
     console.log('\n=== TIME STATUS ===');
     console.log(`🕐 Time: ${Math.floor(timeData.hour)}:${Math.floor(timeData.minute)}:${Math.floor(timeData.second)}`);
-    console.log(`🌅 Period: $timeOfDay: timeData.timeOfDay}`);
-    console.log(`🍂 Season: $season: timeData.season}`);
+    console.log(`🌅 Period: ${timeData.timeOfDay}`);
+    console.log(`🍂 Season: ${timeData.season}`);
     console.log(`📊 Progress: ${(timeData.dayProgress * 100).toFixed(1)}%`);
-    console.log(`⚡ Speed: $acceleration: timeData.acceleration}`);
+    console.log(`⚡ Speed: ${timeData.acceleration}`);
     console.log('');
   }
 

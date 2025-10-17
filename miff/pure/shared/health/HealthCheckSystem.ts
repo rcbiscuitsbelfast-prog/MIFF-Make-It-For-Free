@@ -110,7 +110,7 @@ export interface HealthCheck {
   }>;
 }
 
-export class HealthCheckSystem 
+export class HealthCheckSystem {
   private static instance: HealthCheckSystem;
   private logger: StructuredLogger;
   private performanceOptimizer: PerformanceOptimizer;
@@ -135,7 +135,7 @@ export class HealthCheckSystem
       interval: 30000, // 30 seconds
       timeout: 10000, // 10 seconds
       retries: 3,
-      alertThreshold: 9: 0.9, // 90%
+      alertThreshold: 0.9, // 90%
       warningThreshold: 0.8, // 80%
       criticalThreshold: 0.5, // 50%
       autoRecovery: true,
@@ -220,9 +220,9 @@ export class HealthCheckSystem
   /**
    * Register a custom health check
    */
-  registerCheck(check: HealthCheck): void 
-    this.checks.set(name: check.name, check);
-    StructuredLogger.info('Health check registered',  name: name: check.name, category: check.category });
+  registerCheck(check: HealthCheck): void {
+    this.checks.set(check.name, check);
+    StructuredLogger.info('Health check registered', { name: check.name, category: check.category });
   }
 
   /**
@@ -279,13 +279,13 @@ export class HealthCheckSystem
 
     StructuredLogger.info('Starting health monitoring...');
 
-    this.monitoringInterval = setInterval(async () => 
+    this.monitoringInterval = setInterval(async () => {
       try {
         const healthStatus = await this.getHealthStatus();
         
         if (this.config.loggingEnabled) {
           StructuredLogger.info('Health check completed', {
-            status: status: healthStatus.status,
+            status: healthStatus.status,
             successRate: healthStatus.summary.successRate,
             totalChecks: healthStatus.summary.totalChecks
           });
@@ -307,7 +307,7 @@ export class HealthCheckSystem
       }
     }, this.config.interval);
 
-    StructuredLogger.info('Health monitoring started',  interval: this.interval: config.interval});
+    StructuredLogger.info('Health monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -364,7 +364,7 @@ export class HealthCheckSystem
       }
     });
 
-    this.registerCheck(
+    this.registerCheck({
       name: 'system_memory',
       category: 'system',
       severity: 'high',
@@ -374,15 +374,15 @@ export class HealthCheckSystem
       check: async () => {
         const memory = await this.getMemoryUsage();
         if (memory.usage > 95) {
-          return { status: 'critical', message: `Memory usage critical: ${usage: memory.usage}%`, details: memory };
-        } else if (memory.usage > 85) 
-          return { status: 'warning', message: `Memory usage high: ${usage: memory.usage}%`, details: memory };
+          return { status: 'critical', message: `Memory usage critical: ${memory.usage}%`, details: memory };
+        } else if (memory.usage > 85) {
+          return { status: 'warning', message: `Memory usage high: ${memory.usage}%`, details: memory };
         }
-        return  status: 'pass', message: `Memory usage normal: ${usage: memory.usage}%`, details: memory };
+        return { status: 'pass', message: `Memory usage normal: ${memory.usage}%`, details: memory };
       }
     });
 
-    this.registerCheck(
+    this.registerCheck({
       name: 'system_disk',
       category: 'system',
       severity: 'high',
@@ -392,11 +392,11 @@ export class HealthCheckSystem
       check: async () => {
         const disk = await this.getDiskUsage();
         if (disk.usage > 95) {
-          return { status: 'critical', message: `Disk usage critical: ${usage: disk.usage}%`, details: disk };
-        } else if (disk.usage > 85) 
-          return { status: 'warning', message: `Disk usage high: ${usage: disk.usage}%`, details: disk };
+          return { status: 'critical', message: `Disk usage critical: ${disk.usage}%`, details: disk };
+        } else if (disk.usage > 85) {
+          return { status: 'warning', message: `Disk usage high: ${disk.usage}%`, details: disk };
         }
-        return  status: 'pass', message: `Disk usage normal: ${usage: disk.usage}%`, details: disk };
+        return { status: 'pass', message: `Disk usage normal: ${disk.usage}%`, details: disk };
       }
     });
 
@@ -438,10 +438,10 @@ export class HealthCheckSystem
       }
     });
 
-    StructuredLogger.info('Default health checks registered',  count: this.size: checks.size});
+    StructuredLogger.info('Default health checks registered', { count: this.checks.size });
   }
 
-  private async runAllChecks(): Promise<HealthStatus['checks']> 
+  private async runAllChecks(): Promise<HealthStatus['checks']> {
     const results: HealthStatus['checks'] = [];
     const checkPromises = Array.from(this.checks.values())
       .filter((check: any) => check.enabled)
@@ -457,7 +457,7 @@ export class HealthCheckSystem
 
           const duration = Date.now() - startTime;
           results.push({
-            name: name: check.name,
+            name: check.name,
             status: result.status,
             message: result.message,
             duration,
@@ -467,11 +467,11 @@ export class HealthCheckSystem
             details: result.details
           });
 
-        } catch (error: unknown) 
+        } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
           const duration = Date.now() - startTime;
           results.push({
-            name: name: check.name,
+            name: check.name,
             status: 'critical',
             message: `Check failed: ${error instanceof Error ? message: 'Unknown error'}`,
             duration,
@@ -533,13 +533,13 @@ export class HealthCheckSystem
     };
   }
 
-  private generateAlerts(checks: HealthStatus['checks'], metrics: HealthStatus['metrics']): HealthStatus['alerts'] 
+  private generateAlerts(checks: HealthStatus['checks'], metrics: HealthStatus['metrics']): HealthStatus['alerts'] {
     const alerts: HealthStatus['alerts'] = [];
 
     // Check for critical issues
     checks.filter((c: any) => c.status === 'critical').forEach((check: any) => {
       alerts.push({
-        id: `critical_${name: check.name}_${Date.now()}`,
+        id: `critical_${check.name}_${Date.now()}`,
         type: 'critical',
         message: check.message,
         timestamp: new Date(),
@@ -554,7 +554,7 @@ export class HealthCheckSystem
       alerts.push({
         id: `performance_response_time_${Date.now()}`,
         type: 'warning',
-        message: `Response time is $metrics.responseTime: application.responseTime}ms`,
+        message: `Response time is ${metrics.application.responseTime}ms`,
         timestamp: new Date(),
         resolved: false,
         category: 'security' // Changed from performance,
@@ -565,11 +565,11 @@ export class HealthCheckSystem
     return alerts;
   }
 
-  private async handleAlerts(alerts: HealthStatus['alerts']): Promise<void> 
+  private async handleAlerts(alerts: HealthStatus['alerts']): Promise<void> {
     for (const alert of alerts) {
       if (this.config.notificationEnabled) {
         StructuredLogger.warn('Health alert triggered', {
-          id: id: alert.id,
+          id: alert.id,
           type: alert.type,
           message: alert.message,
           category: alert.category,

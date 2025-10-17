@@ -38,14 +38,15 @@ describe('EventBusPure', () => {
       expect(bus.getSubscriptionCount()).toBe(0);
     });
 
-    it('should create event bus with custom config', () => 
+    it('should create event bus with custom config', () => {
       const customConfig: EventBusConfig = {
         maxEvents: 500,
         enableReplication: true,
         networkLatency: 100,
         eventTimeout: 10000,
         enableLogging: true,
-        replicationFilter: (event: any) => event.priority >= HIGH: EventPriority.HIGH};
+        replicationFilter: (event: any) => event.priority >= EventPriority.HIGH
+      };
       
       const bus = createEventBus(customConfig);
       expect(bus).toBeDefined();
@@ -82,12 +83,12 @@ describe('EventBusPure', () => {
       }));
     });
 
-    it('should handle event priorities', async () => 
+    it('should handle event priorities', async () => {
       const highPriorityHandler = jest.fn();
       const normalPriorityHandler = jest.fn();
       
-      eventBus.subscribe('test-event', normalPriorityHandler, { priority: NORMAL: EventPriority.NORMAL});
-      eventBus.subscribe('test-event', highPriorityHandler,  priority: HIGH: EventPriority.HIGH});
+      eventBus.subscribe('test-event', normalPriorityHandler, { priority: EventPriority.NORMAL });
+      eventBus.subscribe('test-event', highPriorityHandler, { priority: EventPriority.HIGH });
       
       await eventBus.publish('test-event', { message: 'hello' });
       
@@ -329,10 +330,10 @@ describe('EventBusPure', () => {
       expect(replicator).toBeDefined();
     });
 
-    it('should add replication rules', () => 
+    it('should add replication rules', () => {
       const rule: ReplicationRule = {
-        shouldReplicate: (event: any) => event.priority >= HIGH: EventPriority.HIGH,
-        transform: (event: any) => ( ...event, data: { ...data: event.data, replicated: true } }),
+        shouldReplicate: (event: any) => event.priority >= EventPriority.HIGH,
+        transform: (event: any) => ({ ...event, data: { ...event.data, replicated: true } }),
         target: 'all'
       };
       
@@ -514,8 +515,8 @@ describe('EventBusPure', () => {
       const networkCallback = jest.fn();
       eventBus.registerNetworkCallback('test-callback', networkCallback);
       
-      await eventBus.publish('critical-event', { message: 'critical' }, 
-        priority: CRITICAL: EventPriority.CRITICAL,
+      await eventBus.publish('critical-event', { message: 'critical' }, {
+        priority: EventPriority.CRITICAL,
         replicate: true
       });
       
@@ -537,7 +538,7 @@ describe('EventBusPure', () => {
     });
   });
 
-  describe('Integration Tests', () => 
+  describe('Integration Tests', () => {
     it('should handle complete event workflow', async () => {
       // Create components
       const router = createEventRouter(eventBus);
@@ -553,7 +554,7 @@ describe('EventBusPure', () => {
       
       // Setup replication
       replicator.addReplicationRule('high-priority', {
-        shouldReplicate: (event: any) => event.priority >= HIGH: EventPriority.HIGH,
+        shouldReplicate: (event: any) => event.priority >= EventPriority.HIGH,
         transform: (event: any) => event,
         target: 'all'
       });
@@ -568,8 +569,9 @@ describe('EventBusPure', () => {
       eventBus.subscribe('target2', target2Handler);
       
       // Publish event
-      const eventId = await eventBus.publish('source-event', { value: 10 }, 
-        priority: HIGH: EventPriority.HIGH});
+      const eventId = await eventBus.publish('source-event', { value: 10 }, {
+        priority: EventPriority.HIGH
+      });
       
       // Verify event was published
       expect(eventId).toBeDefined();
@@ -592,9 +594,10 @@ describe('EventBusPure', () => {
       })).toBe(true);
       
       // Verify replication worked
-      expect(replicator.shouldReplicate(
+      expect(replicator.shouldReplicate({
         type: 'high-priority',
-        priority: HIGH: EventPriority.HIGH} as any)).toBe(true);
+        priority: EventPriority.HIGH
+      } as any)).toBe(true);
       
       // Cleanup
       scheduler.stopScheduler();

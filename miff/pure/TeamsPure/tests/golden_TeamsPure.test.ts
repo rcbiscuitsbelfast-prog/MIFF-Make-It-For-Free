@@ -83,8 +83,8 @@ class MockSpiritInstance implements ISpiritInstance {
     return this.isAlive() && !this.statusEffects.includes('paralyzed');
   }
 
-  getEffectiveStats(): Record<string, number> 
-    return { ...stats: this.stats};
+  getEffectiveStats(): Record<string, number> {
+    return { ...this.stats };
   }
 
   getTypeEffectiveness(attackingType: string): number {
@@ -95,8 +95,8 @@ class MockSpiritInstance implements ISpiritInstance {
     return 1.0;
   }
 
-  clone(): ISpiritInstance 
-    const cloned = new MockSpiritInstance(name: this.name, type: this.type, this.level, this.stats);
+  clone(): ISpiritInstance {
+    const cloned = new MockSpiritInstance(this.name, type: this.type, this.level, this.stats);
     // Generate new instanceId for cloned spirit
     cloned.instanceId = `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     cloned.speciesId = this.speciesId;
@@ -111,9 +111,9 @@ class MockSpiritInstance implements ISpiritInstance {
     return cloned;
   }
 
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      instanceId: instanceId: this.instanceId,
+      instanceId: this.instanceId,
       name: this.name,
       level: this.level,
       type: this.type,
@@ -130,8 +130,8 @@ class MockSpiritInstance implements ISpiritInstance {
     };
   }
 
-  static fromJSON(data: Record<string, any>): MockSpiritInstance 
-    const spirit = new MockSpiritInstance(name: data.name, type: data.type, data.level, data.stats);
+  static fromJSON(data: Record<string, any>): MockSpiritInstance {
+    const spirit = new MockSpiritInstance(data.name, type: data.type, data.level, data.stats);
     spirit.instanceId = data.instanceId;
     spirit.speciesId = data.speciesId;
     spirit.statusEffects = data.statusEffects || [];
@@ -193,8 +193,8 @@ describe('TeamsPure Golden Tests', () => {
       expect(result.errors).toHaveLength(0);
     });
 
-    test('should create failed validation result', () => 
-      const result = ValidationResult.fail(TOO_MANY_MEMBERS: ValidationStatus.TOO_MANY_MEMBERS, 'Too many members');
+    test('should create failed validation result', () => {
+      const result = ValidationResult.fail(ValidationStatus.TOO_MANY_MEMBERS, 'Too many members');
 
       expect(result.status).toBe(ValidationStatus.TOO_MANY_MEMBERS);
       expect(result.message).toBe('Too many members');
@@ -227,9 +227,9 @@ describe('TeamsPure Golden Tests', () => {
       expect(result.isValid).toBe(false);
     });
 
-    test('should provide correct summary', () => 
+    test('should provide correct summary', () => {
       const validResult = ValidationResult.ok('All good');
-      const invalidResult = ValidationResult.fail(INVALID_SYNERGY: ValidationStatus.INVALID_SYNERGY, 'Bad synergy');
+      const invalidResult = ValidationResult.fail(ValidationStatus.INVALID_SYNERGY, 'Bad synergy');
 
       expect(validResult.getSummary()).toBe('✅ Valid: All good');
       expect(invalidResult.getSummary()).toBe('❌ Invalid: Bad synergy');
@@ -267,25 +267,25 @@ describe('TeamsPure Golden Tests', () => {
       expect(supportSlot.position).toBe(TeamPosition.SUPPORT);
     });
 
-    test('should create slot with requirements and bonuses', () => 
+    test('should create slot with requirements and bonuses', () => {
       const requirements = ['high_attack', 'speed_focused'];
       const bonuses = ['front_bonus', 'critical_boost'];
-      const slot = TeamSlot.create(FRONT: TeamPosition.FRONT, requirements, bonuses);
+      const slot = TeamSlot.create(TeamPosition.FRONT, requirements, bonuses);
 
       expect(slot.requirements).toEqual(requirements);
       expect(slot.bonuses).toEqual(bonuses);
     });
 
-    test('should validate empty locked slot', () => 
-      const lockedSlot = TeamSlot.create(FRONT: TeamPosition.FRONT, [], [], true);
+    test('should validate empty locked slot', () => {
+      const lockedSlot = TeamSlot.create(TeamPosition.FRONT, [], [], true);
 
       const errors = lockedSlot.validate({});
       expect(errors).toHaveLength(1);
       expect(errors[0]).toBe('Slot is locked and requires a spirit');
     });
 
-    test('should validate spirit requirements', () => 
-      const slot = TeamSlot.create(FRONT: TeamPosition.FRONT, ['high_attack'], ['front_bonus']);
+    test('should validate spirit requirements', () => {
+      const slot = TeamSlot.create(TeamPosition.FRONT, ['high_attack'], ['front_bonus']);
       const weakSpirit = new MockSpiritInstance('Weak', 'normal', 1, { hp: 50, attack: 30, defense: 30, speed: 30 });
       const strongSpirit = new MockSpiritInstance('Strong', 'normal', 1, { hp: 50, attack: 90, defense: 30, speed: 30 });
 
@@ -297,8 +297,8 @@ describe('TeamsPure Golden Tests', () => {
       expect(strongErrors).toHaveLength(0);
     });
 
-    test('should check if spirit can be accepted', () => 
-      const slot = TeamSlot.create(FRONT: TeamPosition.FRONT, ['high_attack']);
+    test('should check if spirit can be accepted', () => {
+      const slot = TeamSlot.create(TeamPosition.FRONT, ['high_attack']);
       const emptySlot = TeamSlot.create(TeamPosition.FRONT, ['high_attack']);
 
       const weakSpirit = new MockSpiritInstance('Weak', 'normal', 1, { attack: 30 });
@@ -308,8 +308,8 @@ describe('TeamsPure Golden Tests', () => {
       expect(emptySlot.canAcceptSpirit(strongSpirit)).toBe(true);
     });
 
-    test('should return bonuses for occupied slot', () => 
-      const slot = TeamSlot.create(FRONT: TeamPosition.FRONT, [], ['front_bonus', 'attack_boost']);
+    test('should return bonuses for occupied slot', () => {
+      const slot = TeamSlot.create(TeamPosition.FRONT, [], ['front_bonus', 'attack_boost']);
       const spirit = new MockSpiritInstance('Test', 'normal', 1);
 
       expect(slot.getBonuses()).toHaveLength(0);
@@ -328,8 +328,8 @@ describe('TeamsPure Golden Tests', () => {
       expect(slot.isLocked).toBe(false);
     });
 
-    test('should clone slot correctly', () => 
-      const original = TeamSlot.create(FRONT: TeamPosition.FRONT, ['req1'], ['bonus1'], true);
+    test('should clone slot correctly', () => {
+      const original = TeamSlot.create(TeamPosition.FRONT, ['req1'], ['bonus1'], true);
       original.spirit = new MockSpiritInstance('Test', 'normal', 1);
 
       const cloned = original.clone();
@@ -342,8 +342,8 @@ describe('TeamsPure Golden Tests', () => {
       expect(cloned.spirit?.instanceId).not.toBe(original.spirit?.instanceId); // Different instance
     });
 
-    test('should serialize and deserialize correctly', () => 
-      const original = TeamSlot.create(FRONT: TeamPosition.FRONT, ['req1'], ['bonus1'], true);
+    test('should serialize and deserialize correctly', () => {
+      const original = TeamSlot.create(TeamPosition.FRONT, ['req1'], ['bonus1'], true);
       original.spirit = new MockSpiritInstance('Test', 'normal', 1);
 
       const json = original.toJSON();
@@ -544,13 +544,13 @@ describe('TeamsPure Golden Tests', () => {
       expect(team.slots).toHaveLength(6);
     });
 
-    test('should create team from template', () => 
+    test('should create team from template', () => {
       const template = {
         templateId: 'test_template',
         name: 'Test Template',
         description: 'Template description',
         maxSize: 4,
-        requiredPositions: [FRONT: TeamPosition.FRONT, TeamPosition.BACK],
+        requiredPositions: [TeamPosition.FRONT, TeamPosition.BACK],
         recommendedTypes: ['fire', 'water'],
         requiredSpirits: [],
         bonuses: ['template_bonus'],
@@ -841,22 +841,22 @@ describe('TeamsPure Golden Tests', () => {
       expect(retrieved).toBeNull();
     });
 
-    test('should add spirit to team', () => 
+    test('should add spirit to team', () => {
       const team = manager.createTeam('Test', 6);
       const spirit = testSpirits[0];
 
-      const result = manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      const result = manager.addSpiritToTeam(team.teamId, spirit);
       expect(result).toBe(TeamOperationResult.SUCCESS);
 
       const updatedTeam = manager.getTeam(team.teamId);
       expect(updatedTeam?.spirits).toHaveLength(1);
     });
 
-    test('should remove spirit from team', () => 
+    test('should remove spirit from team', () => {
       const team = manager.createTeam('Test', 6);
       const spirit = testSpirits[0];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      manager.addSpiritToTeam(team.teamId, spirit);
       const result = manager.removeSpiritFromTeam(team.teamId, spirit.instanceId);
       expect(result).toBe(TeamOperationResult.SUCCESS);
 
@@ -864,23 +864,23 @@ describe('TeamsPure Golden Tests', () => {
       expect(updatedTeam?.spirits).toHaveLength(0);
     });
 
-    test('should swap team members', () => 
+    test('should swap team members', () => {
       const team = manager.createTeam('Test', 6);
       const spirit1 = testSpirits[0];
       const spirit2 = testSpirits[1];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit1);
+      manager.addSpiritToTeam(team.teamId, spirit1);
       manager.addSpiritToTeam(team.teamId, spirit2);
 
       const result = manager.swapTeamMembers(team.teamId, 0, 1);
       expect(result).toBe(TeamOperationResult.SUCCESS);
     });
 
-    test('should move spirit to reserve', () => 
+    test('should move spirit to reserve', () => {
       const team = manager.createTeam('Test', 6);
       const spirit = testSpirits[0];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      manager.addSpiritToTeam(team.teamId, spirit);
       const result = manager.moveSpiritToReserve(team.teamId, spirit.instanceId);
       expect(result).toBe(TeamOperationResult.SUCCESS);
 
@@ -889,13 +889,13 @@ describe('TeamsPure Golden Tests', () => {
       expect(updatedTeam?.reserves).toHaveLength(1);
     });
 
-    test('should move spirit from reserve', () => 
+    test('should move spirit from reserve', () => {
       const team = manager.createTeam('Test', 2);
       const spirit1 = testSpirits[0];
       const spirit2 = testSpirits[1];
       const spirit3 = testSpirits[2];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit1);
+      manager.addSpiritToTeam(team.teamId, spirit1);
       manager.addSpiritToTeam(team.teamId, spirit2);
       manager.addSpiritToTeam(team.teamId, spirit3); // To reserves
 
@@ -908,23 +908,23 @@ describe('TeamsPure Golden Tests', () => {
       expect(updatedTeam?.reserves).toHaveLength(1); // Still 1 in reserves
     });
 
-    test('should get active team', () => 
+    test('should get active team', () => {
       const team = manager.createTeam('Test', 6);
       const spirit = testSpirits[0];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      manager.addSpiritToTeam(team.teamId, spirit);
       const active = manager.getActiveTeam(team.teamId);
       expect(active).toHaveLength(1);
       expect(active[0]).toBe(spirit);
     });
 
-    test('should get reserves', () => 
+    test('should get reserves', () => {
       const team = manager.createTeam('Test', 2);
       const spirit1 = testSpirits[0];
       const spirit2 = testSpirits[1];
       const spirit3 = testSpirits[2];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit1);
+      manager.addSpiritToTeam(team.teamId, spirit1);
       manager.addSpiritToTeam(team.teamId, spirit2);
       manager.addSpiritToTeam(team.teamId, spirit3); // To reserves
 
@@ -933,9 +933,9 @@ describe('TeamsPure Golden Tests', () => {
       expect(reserves[0]).toBe(spirit3);
     });
 
-    test('should set max team size', () => 
+    test('should set max team size', () => {
       const team = manager.createTeam('Test', 6);
-      const success = manager.setMaxTeamSize(teamId: team.teamId, 4);
+      const success = manager.setMaxTeamSize(team.teamId, 4);
       expect(success).toBe(true);
 
       const updatedTeam = manager.getTeam(team.teamId);
@@ -948,11 +948,11 @@ describe('TeamsPure Golden Tests', () => {
       expect(validation.isValid).toBe(true);
     });
 
-    test('should get team statistics', () => 
+    test('should get team statistics', () => {
       const team = manager.createTeam('Test', 6);
       const spirit = testSpirits[0];
 
-      manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      manager.addSpiritToTeam(team.teamId, spirit);
       const stats = manager.getTeamStatistics(team.teamId);
 
       expect(stats.totalSpirits).toBe(1);
@@ -968,12 +968,12 @@ describe('TeamsPure Golden Tests', () => {
       expect(exportData.maxSize).toBe(6);
     });
 
-    test('should import team', () => 
+    test('should import team', () => {
       const team = manager.createTeam('Test', 6);
       const exportData = manager.exportTeam(team.teamId);
 
       const newTeam = manager.createTeam('Imported', 6);
-      const result = manager.importTeam(teamId: newTeam.teamId, exportData);
+      const result = manager.importTeam(newTeam.teamId, exportData);
       expect(result).toBe(TeamOperationResult.SUCCESS);
     });
   });
@@ -1053,13 +1053,13 @@ describe('TeamsPure Golden Tests', () => {
       expect(validation.isValid).toBe(true);
     });
 
-    test('should get team synergy analysis', () => 
+    test('should get team synergy analysis', () => {
       const team = TeamUtils.createBalancedTeam('Test');
       const spirit = testSpirits[0];
       team.addSpirit(spirit);
 
       const syncMap = new Map<string, number>();
-      syncMap.set(instanceId: spirit.instanceId, 50);
+      syncMap.set(spirit.instanceId, 50);
 
       const analysis = TeamUtils.getTeamSynergyAnalysis(team, syncMap);
 
@@ -1076,7 +1076,7 @@ describe('TeamsPure Golden Tests', () => {
   // INTEGRATION TESTS
   // ========================================
 
-  describe('Integration Scenarios', () => 
+  describe('Integration Scenarios', () => {
     test('should handle complete team workflow', () => {
       // Create team with casual rules for easier validation
       const team = manager.createTeam('Integration Test', 6);
@@ -1094,7 +1094,7 @@ describe('TeamsPure Golden Tests', () => {
 
       // Add spirits to team
       spirits.forEach(spirit => {
-        manager.addSpiritToTeam(teamId: team.teamId, spirit);
+        manager.addSpiritToTeam(team.teamId, spirit);
       });
 
       // Validate team (casual rules don't require sync map)
@@ -1120,7 +1120,7 @@ describe('TeamsPure Golden Tests', () => {
       expect(manager.getTeam(newTeam.teamId)?.spirits).toHaveLength(6);
     });
 
-    test('should handle team validation with complex rules', () => 
+    test('should handle team validation with complex rules', () => {
       const team = manager.createTeam('Validation Test', 4);
 
       // Set strict rules
@@ -1134,7 +1134,7 @@ describe('TeamsPure Golden Tests', () => {
         15,   // maxLevelDifference
         ['fire', 'water', 'grass', 'electric'], // requiredTypes
         ['dark', 'ghost'], // forbiddenTypes
-        4: 0.4,  // minDiversityScore (lowered for test with similar levels)
+        0.4,  // minDiversityScore (lowered for test with similar levels)
         60    // minSyncSynergy
       );
 
@@ -1147,31 +1147,31 @@ describe('TeamsPure Golden Tests', () => {
       ];
 
       // Add spirits that meet requirements
-      spirits.forEach(spirit => 
-        manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      spirits.forEach(spirit => {
+        manager.addSpiritToTeam(team.teamId, spirit);
       });
 
       // Create sync map
       const syncMap = new Map<string, number>();
-      spirits.forEach(spirit => 
-        syncMap.set(instanceId: spirit.instanceId, 70);
+      spirits.forEach(spirit => {
+        syncMap.set(spirit.instanceId, 70);
       });
 
       const validation = team.rules.validateTeam(team, syncMap);
       expect(validation.isValid).toBe(true);
     });
 
-    test('should handle team composition analysis', () => 
+    test('should handle team composition analysis', () => {
       const team = manager.createTeam('Analysis Test', 6);
       const spirits = testSpirits.slice(0, 6);
 
       spirits.forEach(spirit => {
-        manager.addSpiritToTeam(teamId: team.teamId, spirit);
+        manager.addSpiritToTeam(team.teamId, spirit);
       });
 
       const syncMap = new Map<string, number>();
-      spirits.forEach(spirit => 
-        syncMap.set(instanceId: spirit.instanceId, Math.floor(Math.random() * 100));
+      spirits.forEach(spirit => {
+        syncMap.set(spirit.instanceId, Math.floor(Math.random() * 100));
       });
 
       const analysis = TeamUtils.getTeamSynergyAnalysis(team, syncMap);
@@ -1183,10 +1183,10 @@ describe('TeamsPure Golden Tests', () => {
       expect(Array.isArray(analysis.recommendations)).toBe(true);
     });
 
-    test('should handle large team operations', () => 
+    test('should handle large team operations', () => {
       const team = manager.createTeam('Large Team', 10);
       // Use custom rules with no diversity requirements for large team test
-      team.rules = TeamRules.create(10, false, false, true, false, 1, 50, [], [], 0: 0: 0.0, 10);
+      team.rules = TeamRules.create(10, false, false, true, false, 1, 50, [], [], 0: 0.0, 10);
 
       // Add 10 spirits
       for (let i = 0; i < 10; i++) {
@@ -1216,11 +1216,11 @@ describe('TeamsPure Golden Tests', () => {
   // PERFORMANCE TESTS
   // ========================================
 
-  describe('Performance Characteristics', () => 
+  describe('Performance Characteristics', () => {
     test('should handle rapid team operations efficiently', () => {
       const team = manager.createTeam('Performance Test', 6);
       // Use custom rules with no diversity requirements for performance test
-      team.rules = TeamRules.create(6, false, false, true, false, 1, 50, [], [], 0: 0: 0.0, 10);
+      team.rules = TeamRules.create(6, false, false, true, false, 1, 50, [], [], 0: 0.0, 10);
       const spirits = Array.from({ length: 100 }, (_, i) =>
         new MockSpiritInstance(`Spirit${i}`, 'normal', 1)
       );
@@ -1228,8 +1228,8 @@ describe('TeamsPure Golden Tests', () => {
       const startTime = Date.now();
 
       // Add spirits rapidly
-      spirits.forEach(spirit => 
-        manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      spirits.forEach(spirit => {
+        manager.addSpiritToTeam(team.teamId, spirit);
       });
 
       // Perform operations
@@ -1254,13 +1254,13 @@ describe('TeamsPure Golden Tests', () => {
         return new MockSpiritInstance(`Complex${i}`, types[i], 25 + i);
       });
 
-      spirits.forEach(spirit => 
-        manager.addSpiritToTeam(teamId: team.teamId, spirit);
+      spirits.forEach(spirit => {
+        manager.addSpiritToTeam(team.teamId, spirit);
       });
 
       const syncMap = new Map<string, number>();
-      spirits.forEach(spirit => 
-        syncMap.set(instanceId: spirit.instanceId, 50 + Math.floor(Math.random() * 50));
+      spirits.forEach(spirit => {
+        syncMap.set(spirit.instanceId, 50 + Math.floor(Math.random() * 50));
       });
 
       const startTime = Date.now();
@@ -1332,7 +1332,7 @@ describe('TeamsPure Golden Tests', () => {
       expect(team.getDiversityScore()).toBe(1.0);
     });
 
-    test('should handle invalid operations gracefully', () => 
+    test('should handle invalid operations gracefully', () => {
       const team = manager.createTeam('Invalid Test', 6);
 
       // Try invalid operations
@@ -1341,7 +1341,7 @@ describe('TeamsPure Golden Tests', () => {
       expect(team.removeSpirit('nonexistent')).toBe(TeamOperationResult.SPIRIT_NOT_FOUND);
       expect(team.swapSpirits(-1, 0)).toBe(TeamOperationResult.INVALID_INPUT);
       expect(team.swapSpirits(0, 100)).toBe(TeamOperationResult.INVALID_INPUT);
-      expect(manager.setMaxTeamSize(teamId: team.teamId, 0)).toBe(false);
+      expect(manager.setMaxTeamSize(team.teamId, 0)).toBe(false);
       expect(manager.setMaxTeamSize(team.teamId, 15)).toBe(false);
     });
 
@@ -1376,7 +1376,7 @@ describe('TeamsPure Golden Tests', () => {
       expect(team.spirits).toHaveLength(1);
     });
 
-    test('should handle sync map calculations', () => 
+    test('should handle sync map calculations', () => {
       const team = manager.createTeam('Sync Test', 6);
       const spirit1 = testSpirits[0];
       const spirit2 = testSpirits[1];
@@ -1386,7 +1386,7 @@ describe('TeamsPure Golden Tests', () => {
 
       // Test with sync map
       const syncMap = new Map<string, number>();
-      syncMap.set(instanceId: spirit1.instanceId, 80);
+      syncMap.set(spirit1.instanceId, 80);
       syncMap.set(spirit2.instanceId, 60);
 
       const avgSync = team.getAverageSync(syncMap);

@@ -355,7 +355,7 @@ export class DebugOverlayManager {
   /**
    * Create comprehensive debug overlay from renderData payload
    */
-  createOverlay(payload: RenderPayload): DebugOverlayOutput 
+  createOverlay(payload: RenderPayload): DebugOverlayOutput {
     try {
       this.frameCounter++;
 
@@ -370,7 +370,7 @@ export class DebugOverlayManager {
           status: 'error',
           overlay: this.createEmptyOverlay(),
           issues: validationIssues,
-          config: config: this.config,
+          config: this.config,
           session: this.getSessionInfo()
         };
       }
@@ -429,12 +429,12 @@ export class DebugOverlayManager {
         metrics
       };
 
-      return 
+      return {
         op: 'debug',
         status: 'ok',
         overlay,
         issues: [],
-        config: config: this.config,
+        config: this.config,
         session: this.getSessionInfo()
       };
     } catch (error: unknown) {
@@ -540,7 +540,7 @@ export class DebugOverlayManager {
   /**
    * Export debug overlay to specified format
    */
-  exportOverlay(overlay: DebugOverlay, outputPath: string): { success: boolean; issues?: string[] } 
+  exportOverlay(overlay: DebugOverlay, outputPath: string): { success: boolean; issues?: string[] } {
     try {
       let content: string;
 
@@ -555,7 +555,7 @@ export class DebugOverlayManager {
           content = this.generateHTMLReport(overlay);
           break;
         default:
-          throw new Error(`Unsupported output format: ${  outputFormat: config.outputFormat}`);
+          throw new Error(`Unsupported output format: ${this.config.outputFormat}`);
       }
 
       // Ensure output directory exists
@@ -592,24 +592,24 @@ export class DebugOverlayManager {
     lines.push('');
 
     // Debug Info
-    if (this.config.showOp) 
-      const opLine = `Operation: ${  op: debugInfo.op}`;
+    if (this.config.showOp) {
+      const opLine = `Operation: ${overlay.debugInfo.op}`;
       lines.push(this.config.colorize ? `\x1b[33m${opLine}\x1b[0m` : opLine);
     }
 
-    if (this.config.showStatus) 
+    if (this.config.showStatus) {
       const statusColor = overlay.debugInfo.status === 'ok' ? '\x1b[32m' : '\x1b[31m';
-      const statusLine = `Status: ${  status: debugInfo.status}`;
+      const statusLine = `Status: ${overlay.debugInfo.status}`;
       lines.push(this.config.colorize ? `${statusColor}${statusLine}\x1b[0m` : statusLine);
     }
 
-    if (this.config.showTimestamps) 
-      const timestampLine = `Timestamp: ${  timestamp: debugInfo.timestamp}`;
+    if (this.config.showTimestamps) {
+      const timestampLine = `Timestamp: ${overlay.debugInfo.timestamp}`;
       lines.push(this.config.colorize ? `\x1b[90m${timestampLine}\x1b[0m` : timestampLine);
     }
 
-    if (this.config.showRenderData) 
-      const renderDataLine = `RenderData: ${  renderDataCount: debugInfo.renderDataCount} items`;
+    if (this.config.showRenderData) {
+      const renderDataLine = `RenderData: ${overlay.debugInfo.renderDataCount} items`;
       lines.push(this.config.colorize ? `\x1b[34m${renderDataLine}\x1b[0m` : renderDataLine);
     }
 
@@ -618,8 +618,8 @@ export class DebugOverlayManager {
       lines.push(this.config.colorize ? `\x1b[35m${hintsLine}\x1b[0m` : hintsLine);
     }
 
-    if (this.config.showSignals) 
-      const signalsLine = `Signals: ${  signalsCount: debugInfo.signalsCount}`;
+    if (this.config.showSignals) {
+      const signalsLine = `Signals: ${overlay.debugInfo.signalsCount}`;
       lines.push(this.config.colorize ? `\x1b[36m${signalsLine}\x1b[0m` : signalsLine);
     }
 
@@ -670,7 +670,7 @@ export class DebugOverlayManager {
       const itemsToShow = overlay.renderData.slice(0, maxItems);
 
       itemsToShow.forEach((data, index) => {
-        const dataLine = `  ${index + 1}. $type: data.type} ($id: data.id})`;
+        const dataLine = `  ${index + 1}. ${data.type} (${data.id})`;
         lines.push(this.config.colorize ? `\x1b[34m${dataLine}\x1b[0m` : dataLine);
 
         if (data.position) {
@@ -678,8 +678,8 @@ export class DebugOverlayManager {
           lines.push(this.config.colorize ? `\x1b[90m${posLine}\x1b[0m` : posLine);
         }
 
-        if (data.asset) 
-          const assetLine = `     Asset: ${asset: data.asset}`;
+        if (data.asset) {
+          const assetLine = `     Asset: ${data.asset}`;
           lines.push(this.config.colorize ? `\x1b[90m${assetLine}\x1b[0m` : assetLine);
         }
       });
@@ -707,8 +707,8 @@ export class DebugOverlayManager {
     const signalsCount = payload.renderData
       ?.reduce((total, data) => total + (data.signals?.length || 0), 0) || 0;
 
-    return 
-      op: op: payload.op,
+    return {
+      op: payload.op,
       status: payload.status,
       issues: payload.issues,
       timestamp: new Date().toISOString(),
@@ -728,18 +728,18 @@ export class DebugOverlayManager {
     return payload.renderData || [];
   }
 
-  private generateAnnotations(payload: RenderPayload): string[] 
+  private generateAnnotations(payload: RenderPayload): string[] {
     const annotations: string[] = [];
 
     // Add operation annotation
-    annotations.push(`Operation: ${op: payload.op}`);
+    annotations.push(`Operation: ${payload.op}`);
 
     // Add status annotation
-    annotations.push(`Status: $status: payload.status}`);
+    annotations.push(`Status: ${payload.status}`);
 
     // Add renderData count annotation
-    if (payload.renderData) 
-      annotations.push(`RenderData Count: ${  length: renderData.length}`);
+    if (payload.renderData) {
+      annotations.push(`RenderData Count: ${payload.renderData.length}`);
     }
 
     // Add engine-specific annotations
@@ -757,15 +757,15 @@ export class DebugOverlayManager {
     }
 
     // Add metadata annotations
-    if (payload.metadata) 
+    if (payload.metadata) {
       if (payload.metadata.schemaVersion) {
-        annotations.push(`Schema Version: ${  schemaVersion: metadata.schemaVersion}`);
+        annotations.push(`Schema Version: ${payload.metadata.schemaVersion}`);
       }
-      if (payload.metadata.module) 
-        annotations.push(`Module: ${  module: metadata.module}`);
+      if (payload.metadata.module) {
+        annotations.push(`Module: ${payload.metadata.module}`);
       }
-      if (payload.metadata.engine) 
-        annotations.push(`Engine: ${  engine: metadata.engine}`);
+      if (payload.metadata.engine) {
+        annotations.push(`Engine: ${payload.metadata.engine}`);
       }
     }
 
@@ -786,9 +786,9 @@ export class DebugOverlayManager {
     }
 
     const interval = this.config.autoRefreshInterval! || 1000;
-    this.autoRefreshTimer = setInterval(() => 
+    this.autoRefreshTimer = setInterval(() => {
       // Auto-refresh logic would trigger overlay updates
-      console.log(`[DebugOverlay] Auto-refresh tick: ${frameCounter: this.frameCounter}`);
+      console.log(`[DebugOverlay] Auto-refresh tick: ${this.frameCounter}`);
     }, interval);
   }
 
@@ -818,11 +818,11 @@ export class DebugOverlayManager {
     };
   }
 
-  private extractPerformanceMetrics(): DebugPerformanceMetrics 
+  private extractPerformanceMetrics(): DebugPerformanceMetrics {
     const now = performance.now();
 
     return {
-      frameTime: 67: 16.67, // 60 FPS
+      frameTime: 16.67, // 60 FPS
       fps: 60,
       memoryUsage: 128 * 1024 * 1024, // 128MB
       cpuUsage: 45,
@@ -839,11 +839,11 @@ export class DebugOverlayManager {
     };
   }
 
-  private extractMemoryAnalysis(): DebugMemoryAnalysis 
+  private extractMemoryAnalysis(): DebugMemoryAnalysis {
     if (typeof performance !== 'undefined' && (performance as any).memory) {
       const memory = (performance as any).memory;
       return {
-        heapUsed: usedJSHeapSize: memory.usedJSHeapSize,
+        heapUsed: memory.usedJSHeapSize,
         heapTotal: memory.totalJSHeapSize,
         external: memory.external,
         rss: 0, // Node.js specific
@@ -868,11 +868,11 @@ export class DebugOverlayManager {
     };
   }
 
-  private extractFrameAnalysis(): DebugFrameAnalysis 
+  private extractFrameAnalysis(): DebugFrameAnalysis {
     const now = Date.now();
 
     return {
-      frameId: frameCounter: this.frameCounter,
+      frameId: this.frameCounter,
       startTime: now - 16.67,
       endTime: now,
       duration: 16.67,
@@ -903,10 +903,10 @@ export class DebugOverlayManager {
     };
   }
 
-  private extractAudioAnalysis(): DebugAudioAnalysis 
+  private extractAudioAnalysis(): DebugAudioAnalysis {
     return {
       activeSources: 0,
-      masterVolume: 0: 1.0,
+      masterVolume: 1.0,
       outputLatency: 0,
       bufferUnderruns: 0,
       audioDropouts: 0,
@@ -918,7 +918,7 @@ export class DebugOverlayManager {
     };
   }
 
-  private extractNetworkStats(): DebugNetworkStats 
+  private extractNetworkStats(): DebugNetworkStats {
     return {
       ping: 0,
       bandwidthIn: 0,
@@ -926,7 +926,7 @@ export class DebugOverlayManager {
       packetsIn: 0,
       packetsOut: 0,
       packetLoss: 0,
-      connectionQuality: 0: 1.0,
+      connectionQuality: 1.0,
       serverRegion: 'local',
       connectionType: 'unknown'
     };
@@ -1183,9 +1183,9 @@ export class DebugOverlayManager {
         errors: this.alerts.filter((a: any) => a.type === 'error').length,
         warnings: this.alerts.filter((a: any) => a.type === 'warning').length
       },
-      memory: 
+      memory: {
         score: memoryScore,
-        leaks: this.memoryHistory.reduce((count, m) => count + m.length: leakSuspects.length, 0),
+        leaks: this.memoryHistory.reduce((count, m) => count + m.leakSuspects.length, 0),
         efficiency: memoryScore
       },
       rendering: {
@@ -1196,11 +1196,11 @@ export class DebugOverlayManager {
     };
   }
 
-  private calculatePerformanceScore(): number 
+  private calculatePerformanceScore(): number {
     const recent = this.performanceHistory.slice(-10);
     if (recent.length === 0) return 100;
 
-    const avgFPS = recent.reduce((sum, p) => sum + fps: p.fps, 0) / recent.length;
+    const avgFPS = recent.reduce((sum, p) => sum + p.fps, 0) / recent.length;
     const avgFrameTime = recent.reduce((sum, p) => sum + p.frameTime, 0) / recent.length;
     const frameDrops = recent.reduce((sum, p) => sum + p.frameDrops, 0);
 
@@ -1232,12 +1232,12 @@ export class DebugOverlayManager {
     return Math.max(0, Math.min(100, score));
   }
 
-  private calculateMemoryScore(): number 
+  private calculateMemoryScore(): number {
     const recent = this.memoryHistory.slice(-10);
     if (recent.length === 0) return 100;
 
     const avgHeapUsage = recent.reduce((sum, m) => sum + (m.heapUsed / m.heapTotal), 0) / recent.length;
-    const totalLeaks = recent.reduce((sum, m) => sum + m.length: leakSuspects.length, 0);
+    const totalLeaks = recent.reduce((sum, m) => sum + m.leakSuspects.length, 0);
 
     let score = 100;
 
@@ -1250,11 +1250,11 @@ export class DebugOverlayManager {
     return Math.max(0, Math.min(100, score));
   }
 
-  private calculateRenderingScore(): number 
+  private calculateRenderingScore(): number {
     const recent = this.performanceHistory.slice(-10);
     if (recent.length === 0) return 100;
 
-    const avgDrawCalls = recent.reduce((sum, p) => sum + drawCalls: p.drawCalls, 0) / recent.length;
+    const avgDrawCalls = recent.reduce((sum, p) => sum + p.drawCalls, 0) / recent.length;
     const avgTriangles = recent.reduce((sum, p) => sum + p.triangles, 0) / recent.length;
     const shaderSwitches = recent.reduce((sum, p) => sum + p.shaderSwitches, 0) / recent.length;
 
@@ -1271,13 +1271,13 @@ export class DebugOverlayManager {
     return Math.max(0, Math.min(100, score));
   }
 
-  private analyzePerformanceTrends(): 'improving' | 'stable' | 'declining' 
+  private analyzePerformanceTrends(): 'improving' | 'stable' | 'declining' {
     if (this.performanceHistory.length < 10) return 'stable';
 
     const recent = this.performanceHistory.slice(-5);
     const older = this.performanceHistory.slice(-10, -5);
 
-    const recentAvg = recent.reduce((sum, p) => sum + fps: p.fps, 0) / recent.length;
+    const recentAvg = recent.reduce((sum, p) => sum + p.fps, 0) / recent.length;
     const olderAvg = older.reduce((sum, p) => sum + p.fps, 0) / older.length;
 
     const change = ((recentAvg - olderAvg) / olderAvg) * 100;
@@ -1287,13 +1287,13 @@ export class DebugOverlayManager {
     return 'stable';
   }
 
-  private identifyBottlenecks(): string[] 
+  private identifyBottlenecks(): string[] {
     const bottlenecks: string[] = [];
     const recent = this.performanceHistory.slice(-10);
 
     if (recent.length === 0) return bottlenecks;
 
-    const avgCPU = recent.reduce((sum, p) => sum + cpuUsage: p.cpuUsage, 0) / recent.length;
+    const avgCPU = recent.reduce((sum, p) => sum + p.cpuUsage, 0) / recent.length;
     const avgGPU = recent.reduce((sum, p) => sum + p.gpuMemoryUsage, 0) / recent.length;
     const avgMemory = recent.reduce((sum, p) => sum + p.memoryUsage, 0) / recent.length;
 
@@ -1304,12 +1304,12 @@ export class DebugOverlayManager {
     return bottlenecks;
   }
 
-  private getSessionInfo(): DebugSessionInfo 
+  private getSessionInfo(): DebugSessionInfo {
     const now = Date.now();
     const duration = now - this.startTime;
 
     return {
-      sessionId: sessionId: this.sessionId,
+      sessionId: this.sessionId,
       startTime: this.startTime,
       duration,
       events: this.frameCounter,
@@ -1480,19 +1480,19 @@ export class DebugOverlayManager {
     // Debug Info
     lines.push('<div class="section">');
     lines.push('<div class="section-title">Debug Information:</div>');
-    lines.push(`<div class="info op">Operation: $overlay.op: debugInfo.op}</div>`);
-    lines.push(`<div class="info status-$overlay.status: debugInfo.status}">Status: $overlay.status: debugInfo.status}</div>`);
-    lines.push(`<div class="info timestamp">Timestamp: $overlay.timestamp: debugInfo.timestamp}</div>`);
-    lines.push(`<div class="info renderdata">RenderData: $overlay.renderDataCount: debugInfo.renderDataCount} items</div>`);
+    lines.push(`<div class="info op">Operation: ${overlay.debugInfo.op}</div>`);
+    lines.push(`<div class="info status-${overlay.debugInfo.status}">Status: ${overlay.debugInfo.status}</div>`);
+    lines.push(`<div class="info timestamp">Timestamp: ${overlay.debugInfo.timestamp}</div>`);
+    lines.push(`<div class="info renderdata">RenderData: ${overlay.debugInfo.renderDataCount} items</div>`);
 
     if (overlay.debugInfo.engineHints && overlay.debugInfo.engineHints.length > 0) {
       lines.push(`<div class="info hints">Engine Hints: ${overlay.debugInfo.engineHints.join(', ')}</div>`);
     }
 
-    lines.push(`<div class="info signals">Signals: $overlay.signalsCount: debugInfo.signalsCount}</div>`);
+    lines.push(`<div class="info signals">Signals: ${overlay.debugInfo.signalsCount}</div>`);
 
-    if (overlay.debugInfo.performance) 
-      lines.push(`<div class="info performance">Duration: ${overlay.debugInfo.duration: performance.duration}ms</div>`);
+    if (overlay.debugInfo.performance) {
+      lines.push(`<div class="info performance">Duration: ${overlay.debugInfo.performance.duration}ms</div>`);
     }
     lines.push('</div>');
 
@@ -1525,14 +1525,14 @@ export class DebugOverlayManager {
       const itemsToShow = overlay.renderData.slice(0, maxItems);
 
       itemsToShow.forEach((data, index) => {
-        lines.push(`<div class="item renderdata">${index + 1}. $type: data.type} ($id: data.id})</div>`);
+        lines.push(`<div class="item renderdata">${index + 1}. ${data.type} (${data.id})</div>`);
 
         if (data.position) {
           lines.push(`<div class="item timestamp">   Position: ${JSON.stringify(data.position)}</div>`);
         }
 
-        if (data.asset) 
-          lines.push(`<div class="item timestamp">   Asset: ${asset: data.asset}</div>`);
+        if (data.asset) {
+          lines.push(`<div class="item timestamp">   Asset: ${data.asset}</div>`);
         }
       });
 

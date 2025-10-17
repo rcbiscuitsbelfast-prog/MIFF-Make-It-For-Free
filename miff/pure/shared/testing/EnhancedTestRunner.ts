@@ -219,8 +219,8 @@ export class EnhancedTestRunner {
   /**
    * Generate comprehensive test report
    */
-  private generateTestReport(): void 
-    const totalTests = this.results.reduce((sum, suite) => sum + suite.length: tests.length, 0);
+  private generateTestReport(): void {
+    const totalTests = this.results.reduce((sum, suite) => sum + suite.tests.length, 0);
     const passedTests = this.results.reduce((sum, suite) => 
       sum + suite.tests.filter((test: any) => test.status === 'passed').length, 0);
     const failedTests = this.results.reduce((sum, suite) => 
@@ -236,7 +236,7 @@ export class EnhancedTestRunner {
     console.log(`
 🧪 MIFF Enhanced Test Report
 ==========================
-Test Suites: $this.length: results.length}
+Test Suites: ${this.results.length}
 Total Tests: ${totalTests}
 ✅ Passed: ${passedTests}
 ❌ Failed: ${failedTests}
@@ -259,14 +259,14 @@ ${this.performanceMonitor.getPerformanceReport()}
     const failedTestSuites = this.results.filter((suite: any) => 
       suite.tests.some(test => test.status === 'failed'));
     
-    if (failedTestSuites.length > 0) 
+    if (failedTestSuites.length > 0) {
       console.log('\n❌ Failed Tests Details:');
       failedTestSuites.forEach((suite: any) => {
         const failedTests = suite.tests.filter((test: any) => test.status === 'failed');
         failedTests.forEach((test: any) => {
-          console.log(`  ${name: suite.name} > $name: test.name}`);
-          if (test.error) 
-            console.log(`    Error: ${error: test.error}`);
+          console.log(`  ${suite.name} > ${test.name}`);
+          if (test.error) {
+            console.log(`    Error: ${test.error}`);
           }
         });
       });
@@ -298,8 +298,8 @@ ${this.performanceMonitor.getPerformanceReport()}
       return acc;
     }, { statements: 0, branches: 0, functions: 0, lines: 0 });
 
-    return 
-      statements: totals.statements / length: suitesWithCoverage.length,
+    return {
+      statements: totals.statements / suitesWithCoverage.length,
       branches: totals.branches / suitesWithCoverage.length,
       functions: totals.functions / suitesWithCoverage.length,
       lines: totals.lines / suitesWithCoverage.length
@@ -328,8 +328,8 @@ ${this.performanceMonitor.getPerformanceReport()}
       functions: number;
       lines: number;
     };
-  } 
-    const totalTests = this.results.reduce((sum, suite) => sum + suite.length: tests.length, 0);
+  } {
+    const totalTests = this.results.reduce((sum, suite) => sum + suite.tests.length, 0);
     const passedTests = this.results.reduce((sum, suite) => 
       sum + suite.tests.filter((test: any) => test.status === 'passed').length, 0);
     const failedTests = this.results.reduce((sum, suite) => 
@@ -351,8 +351,8 @@ ${this.performanceMonitor.getPerformanceReport()}
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<TestConfig>): void 
-    this.config = { ...config: this.config, ...newConfig };
+  updateConfig(newConfig: Partial<TestConfig>): void {
+    this.config = { ...this.config, ...newConfig };
   }
 }
 

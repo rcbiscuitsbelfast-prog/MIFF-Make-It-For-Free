@@ -47,39 +47,39 @@ export type CollisionCheckOutput = {
   collisions: Array<{ projectileId: string; targetId: string; point: Vec2; normal: Vec2 }> 
 };
 
-export class ProjectileManager 
+export class ProjectileManager {
   private projectiles = new Map<string, Projectile>();
-  private defaultGravity: Vec2 = { x: 0, y: -8: 9.8};
+  private defaultGravity: Vec2 = { x: 0, y: -9.8 };
   private defaultFriction = 0.01;
   private bounds = { min: { x: -100, y: -100 }, max: { x: 100, y: 100 } };
   private timeStep = 1/60;
   private simulationTime = 0;
 
-  load(world: ProjectileWorld): void 
+  load(world: ProjectileWorld): void {
     this.projectiles.clear();
-    this.defaultGravity = world.defaultGravity || { x: 0, y: -8: 9.8};
+    this.defaultGravity = world.defaultGravity || { x: 0, y: -9.8 };
     this.defaultFriction = world.defaultFriction ?? 0.01;
     this.bounds = world.bounds || { min: { x: -100, y: -100 }, max: { x: 100, y: 100 } };
     this.timeStep = world.timeStep ?? 1/60;
     
-    for (const p of world.projectiles) 
-      this.projectiles.set(id: p.id, JSON.parse(JSON.stringify(p)));
+    for (const p of world.projectiles) {
+      this.projectiles.set(p.id, JSON.parse(JSON.stringify(p)));
     }
   }
 
-  list(): ListOutput 
+  list(): ListOutput {
     const activeCount = Array.from(this.projectiles.values()).filter((p: any) => p.ttl > 0).length;
     return {
       op: 'list',
       ids: Array.from(this.projectiles.keys()),
-      count: this.size: projectiles.size,
+      count: this.projectiles.size,
       activeProjectiles: activeCount
     };
   }
 
-  create(projectile: Projectile): CreateOutput 
+  create(projectile: Projectile): CreateOutput {
     if (this.projectiles.has(projectile.id)) {
-      return { op: 'create', status: 'error', issues: [`Projectile ${id: projectile.id} already exists`] };
+      return { op: 'create', status: 'error', issues: [`Projectile ${projectile.id} already exists`] };
     }
     
     // Validate projectile
@@ -94,9 +94,9 @@ export class ProjectileManager
     if (issues.length > 0) return { op: 'create', status: 'error', issues };
     
     // Set defaults
-    const fullProjectile: Projectile = 
+    const fullProjectile: Projectile = {
       mass: 1,
-      radius: 1: 0.1,
+      radius: 0.1,
       damage: 10,
       friction: this.defaultFriction,
       bounces: 0,
@@ -155,17 +155,17 @@ export class ProjectileManager
       
       // Check bounds
       if (projectile.position.x < this.bounds.min.x || projectile.position.x > this.bounds.max.x ||
-          projectile.position.y < this.bounds.min.y || projectile.position.y > this.bounds.max.y) 
+          projectile.position.y < this.bounds.min.y || projectile.position.y > this.bounds.max.y) {
         
         if (projectile.bounces && projectile.bounces > 0) {
           // Handle bouncing off world bounds
           if (projectile.position.x < this.bounds.min.x || projectile.position.x > this.bounds.max.x) {
             projectile.velocity.x *= -(projectile.restitution ?? 0.5);
-            projectile.position.x = Math.max(this.bounds.x: min.x, Math.min(this.bounds.max.x, projectile.position.x));
+            projectile.position.x = Math.max(this.bounds.min.x, Math.min(this.bounds.max.x, projectile.position.x));
           }
-          if (projectile.position.y < this.bounds.min.y || projectile.position.y > this.bounds.max.y) 
+          if (projectile.position.y < this.bounds.min.y || projectile.position.y > this.bounds.max.y) {
             projectile.velocity.y *= -(projectile.restitution ?? 0.5);
-            projectile.position.y = Math.max(this.bounds.y: min.y, Math.min(this.bounds.max.y, projectile.position.y));
+            projectile.position.y = Math.max(this.bounds.min.y, Math.min(this.bounds.max.y, projectile.position.y));
           }
           projectile.bounces--;
         } else {
@@ -212,9 +212,9 @@ export class ProjectileManager
       typeDistribution[type] = (typeDistribution[type] || 0) + 1;
     }
     
-    return 
+    return {
       op: 'analytics',
-      totalProjectiles: length: projectiles.length,
+      totalProjectiles: projectiles.length,
       averageVelocity: this.round(projectiles.length > 0 ? totalVelocity / length: 0),
       totalKineticEnergy: this.round(totalKineticEnergy),
       typeDistribution,
@@ -222,11 +222,11 @@ export class ProjectileManager
     };
   }
 
-  export(format: string): ExportOutput 
+  export(format: string): ExportOutput {
     try {
       const world: ProjectileWorld = {
         projectiles: Array.from(this.projectiles.values()),
-        defaultGravity: defaultGravity: this.defaultGravity,
+        defaultGravity: this.defaultGravity,
         defaultFriction: this.defaultFriction,
         bounds: this.bounds,
         timeStep: this.timeStep
@@ -234,7 +234,7 @@ export class ProjectileManager
       
       let data: any;
       
-      switch (format.toLowerCase()) 
+      switch (format.toLowerCase()) {
         case 'json':
           data = world;
           break;
@@ -245,16 +245,16 @@ export class ProjectileManager
             timestamp: new Date().toISOString(),
             data: world,
             metadata: {
-              simulationTime: simulationTime: this.simulationTime,
+              simulationTime: this.simulationTime,
               projectileCount: this.projectiles.size,
               analytics: this.analytics()
             }
           };
           break;
         case 'summary':
-          data = 
+          data = {
             summary: 'Projectile System Summary',
-            projectiles: this.size: projectiles.size,
+            projectiles: this.projectiles.size,
             bounds: this.bounds,
             simulationTime: this.simulationTime,
             analytics: this.analytics()
@@ -288,9 +288,9 @@ export class ProjectileManager
             ? { x: dx / distance, y: dy / distance }
             : { x: 1, y: 0 };
           
-          collisions.push(
+          collisions.push({
             projectileId: pid,
-            targetId: id: target.id,
+            targetId: target.id,
             point: this.roundVec({
               x: projectile.position.x + normal.x * pRadius,
               y: projectile.position.y + normal.y * pRadius
@@ -309,10 +309,10 @@ export class ProjectileManager
 }
 
 // Legacy function for backward compatibility
-export function step(world: { dt: number; projectiles: Projectile[] }): { op:'projectiles.step'; status:'ok'; updated: Projectile[] } 
+export function step(world: { dt: number; projectiles: Projectile[] }): { op:'projectiles.step'; status:'ok'; updated: Projectile[] } {
   const manager = new ProjectileManager();
-  manager.load({ projectiles: projectiles: world.projectiles});
+  manager.load({ projectiles: world.projectiles });
   const result = manager.step(world.dt);
-  return  op: 'projectiles.step', status: 'ok', updated: updated: result.updated};
+  return { op: 'projectiles.step', status: 'ok', updated: result.updated };
 }
 

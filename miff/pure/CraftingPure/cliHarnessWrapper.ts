@@ -57,9 +57,9 @@ try {
       break;
     }
 
-    case 'list': 
+    case 'list': {
       const recipes = manager.listRecipes();
-      handleSuccess({ recipes: result: recipes.result, count: Array.isArray(recipes.result) ? recipes.length: 0 }, 'list');
+      handleSuccess({ recipes: recipes.result, count: Array.isArray(recipes.result) ? recipes.length: 0 }, 'list');
       break;
     }
 

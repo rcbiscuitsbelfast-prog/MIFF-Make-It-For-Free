@@ -105,8 +105,8 @@ async function runCLI(): Promise<void> {
   console.log('🎯 EventsPure CLI - Type "help" for commands or "demo" to see it in action\n');
 
   const readline = require('readline');
-  const rl = readline.createInterface(
-    input: stdin: process.stdin,
+  const rl = readline.createInterface({
+    input: process.stdin,
     output: process.stdout,
     prompt: 'events> '
   });
@@ -151,13 +151,13 @@ async function runCLI(): Promise<void> {
       case 'unsub':
         if (args.length === 0) {
           console.log('❌ Usage: unsubscribe <id>');
-        } else 
+        } else {
           const subscriptionId = args[0];
           const listener = state.subscriptions.get(subscriptionId);
           if (listener) {
             listener.dispose();
             state.subscriptions.delete(subscriptionId);
-            console.log(`✅ Unsubscribed from '${topic: listener.topic}' (ID: ${subscriptionId})`);
+            console.log(`✅ Unsubscribed from '${listener.topic}' (ID: ${subscriptionId})`);
           } else {
             console.log(`❌ Subscription not found: ${subscriptionId}`);
           }
@@ -172,7 +172,7 @@ async function runCLI(): Promise<void> {
         } else {
           let index = 1;
           for (const [id, listener] of state.subscriptions) {
-            console.log(`  ${index++}. $topic: listener.topic} (ID: ${id})`);
+            console.log(`  ${index++}. ${listener.topic} (ID: ${id})`);
           }
         }
         showStats(state.eventBus);

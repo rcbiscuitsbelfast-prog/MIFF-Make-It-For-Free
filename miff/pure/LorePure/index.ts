@@ -41,8 +41,8 @@ export class LoreManager {
   /**
    * Add a lore entry
    */
-  addEntry(entry: LoreEntry): void 
-    this.collection.entries.set(id: entry.id, entry);
+  addEntry(entry: LoreEntry): void {
+    this.collection.entries.set(entry.id, entry);
     this.collection.totalCount++;
     
     const categoryCount = this.collection.categories.get(entry.category) || 0;
@@ -100,8 +100,8 @@ export class LoreManager {
   /**
    * Get collection statistics
    */
-  getStats(): LoreCollection 
-    return { ...collection: this.collection};
+  getStats(): LoreCollection {
+    return { ...this.collection };
   }
 
   /**

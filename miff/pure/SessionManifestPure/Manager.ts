@@ -49,15 +49,15 @@ export class SessionManifestManager {
       return { ok: false, errors: ['players missing'] };
     }
 
-    if (players.length > this.config.maxPlayers) 
-        return { ok: false, errors: [`Too many players: ${length: players.length}/$this.maxPlayers: config.maxPlayers}`] };
+    if (players.length > this.config.maxPlayers) {
+        return { ok: false, errors: [`Too many players: ${players.length}/${this.config.maxPlayers}`] };
       }
 
       const session = SessionManifestPure.create(id, zone, players, seed);
       const validation = SessionManifestPure.validate(session);
       
-      if (!validation.ok) 
-        return { ok: false, errors: errors: validation.errors};
+      if (!validation.ok) {
+        return { ok: false, errors: validation.errors };
       }
 
       this.sessions.set(id, session);
@@ -107,7 +107,7 @@ export class SessionManifestManager {
       });
     }
 
-    return  ok: true, sessions, total: length: sessions.length};
+    return { ok: true, sessions, total: sessions.length };
   }
 
   /**
@@ -120,13 +120,13 @@ export class SessionManifestManager {
     }
 
     // Check if player already in session
-    if (session.players.some(p => p.playerId === player.playerId)) 
-      return { ok: false, errors: [`Player ${playerId: player.playerId} already in session`] };
+    if (session.players.some(p => p.playerId === player.playerId)) {
+      return { ok: false, errors: [`Player ${player.playerId} already in session`] };
     }
 
     // Check max players
-    if (session.players.length >= this.config.maxPlayers) 
-      return { ok: false, errors: [`Session full: ${  length: players.length}/$this.maxPlayers: config.maxPlayers}`] };
+    if (session.players.length >= this.config.maxPlayers) {
+      return { ok: false, errors: [`Session full: ${session.players.length}/${this.config.maxPlayers}`] };
     }
 
     session.players.push(player);
@@ -256,13 +256,13 @@ export class SessionManifestManager {
     const startTime = Date.now();
     
     // Simulate player activities over duration (seconds)
-    for (let i = 0; i < duration; i += 5) 
+    for (let i = 0; i < duration; i += 5) {
       for (const player of session.players) {
         if (Math.random() < 0.3) { // 30% chance of activity
           const action = ['move', 'interact', 'chat', 'idle'][Math.floor(Math.random() * 4)];
           events.push({
             timestamp: startTime + (i * 1000),
-            playerId: playerId: player.playerId,
+            playerId: player.playerId,
             action,
             data: { x: Math.random() * 100, y: Math.random() * 100 }
           });
@@ -270,13 +270,13 @@ export class SessionManifestManager {
       }
     }
 
-    return 
+    return {
       ok: true,
       simulation: {
         sessionId,
         duration,
         events,
-        playerCount: session.length: players.length,
+        playerCount: session.players.length,
         totalEvents: events.length,
         eventsPerPlayer: events.length / session.players.length
       }
@@ -297,7 +297,7 @@ export class SessionManifestManager {
         return { ok: true, data: session };
       
       case 'manifest':
-        return 
+        return {
           ok: true,
           data: {
             schema: 'miff.session.manifest.v1',
@@ -305,19 +305,20 @@ export class SessionManifestManager {
             metadata: {
               exportedAt: new Date().toISOString(),
               startTime: this.sessionStartTimes.get(sessionId),
-              playerCount: session.length: players.length}
+              playerCount: session.players.length
+            }
           }
         };
       
       case 'summary':
-        return 
+        return {
           ok: true,
           data: {
-            id: id: session.id,
+            id: session.id,
             zone: session.zone,
             playerCount: session.players.length,
-            players: session.players.map((p: any) => (
-              id: playerId: p.playerId,
+            players: session.players.map((p: any) => ({
+              id: p.playerId,
               avatar: p.avatar,
               style: p.style,
               status: p.status || 'active'

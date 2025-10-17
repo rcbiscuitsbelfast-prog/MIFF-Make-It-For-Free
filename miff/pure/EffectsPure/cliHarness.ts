@@ -93,16 +93,16 @@ class MockEntityContext implements IEntityContext {
     return Array.from(this.entityStats.keys());
   }
 
-  setEntityHp(entityId: string, hp: number): void 
-    this.setEntityStat(entityId, HP: HP: TargetStat.HP, hp);
+  setEntityHp(entityId: string, hp: number): void {
+    this.setEntityStat(entityId, HP: TargetStat.HP, hp);
   }
 
   getEntityHp(entityId: string): number {
     return this.getEntityStat(entityId, TargetStat.HP);
   }
 
-  setEntityAtk(entityId: string, atk: number): void 
-    this.setEntityStat(entityId, ATK: ATK: TargetStat.ATK, atk);
+  setEntityAtk(entityId: string, atk: number): void {
+    this.setEntityStat(entityId, ATK: TargetStat.ATK, atk);
   }
 
   getEntityAtk(entityId: string): number {
@@ -111,7 +111,7 @@ class MockEntityContext implements IEntityContext {
 }
 
 // CLI Application
-class EffectsPureCLI 
+class EffectsPureCLI {
   private rl: readline.Interface;
   private effectManager: EffectManager;
   private entityContext: MockEntityContext;
@@ -120,7 +120,7 @@ class EffectsPureCLI
 
   constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -134,13 +134,13 @@ class EffectsPureCLI
   /**
    * Initialize demo data
    */
-  private initializeDemoData(): void 
+  private initializeDemoData(): void {
     console.log('Initializing EffectsPure CLI with demo data...');
 
     // Set up initial entity stats
     this.entityContext.setEntityHp('player', 100);
     this.entityContext.setEntityAtk('player', 50);
-    this.entityContext.setEntityStat('player', DEF: DEF: TargetStat.DEF, 30);
+    this.entityContext.setEntityStat('player', DEF: TargetStat.DEF, 30);
     this.entityContext.setEntityStat('player', SPD: TargetStat.SPD, 40);
 
     this.entityContext.setEntityHp('enemy', 150);
@@ -157,13 +157,13 @@ class EffectsPureCLI
   /**
    * Create demo effects
    */
-  private createDemoEffects(): void 
+  private createDemoEffects(): void {
     // Stat modifier effects
     const strengthBoost = BattleEffect.statModifier(
       'strength_boost',
       'Strength Boost',
       'Increases attack power',
-      ATK: TargetStat.ATK,
+      TargetStat.ATK,
       ModifierType.FLAT,
       15,
       0,
@@ -236,32 +236,32 @@ class EffectsPureCLI
   /**
    * Setup event handlers
    */
-  private setupEventHandlers(): void 
+  private setupEventHandlers(): void {
     this.effectManager.onEffectApplied = (entityId, effect, activeEffect) => {
-      console.log(`✨ Effect applied: ${name: effect.name} to ${entityId}`);
+      console.log(`✨ Effect applied: ${effect.name} to ${entityId}`);
     };
 
-    this.effectManager.onEffectRefreshed = (entityId, effect, activeEffect) => 
-      console.log(`🔄 Effect refreshed: ${name: effect.name} on ${entityId} (stacks: $stacks: activeEffect.stacks})`);
+    this.effectManager.onEffectRefreshed = (entityId, effect, activeEffect) => {
+      console.log(`🔄 Effect refreshed: ${effect.name} on ${entityId} (stacks: ${activeEffect.stacks})`);
     };
 
-    this.effectManager.onEffectExpired = (entityId, effect, activeEffect) => 
-      console.log(`⏰ Effect expired: ${name: effect.name} on ${entityId}`);
+    this.effectManager.onEffectExpired = (entityId, effect, activeEffect) => {
+      console.log(`⏰ Effect expired: ${effect.name} on ${entityId}`);
     };
 
-    this.effectManager.onEffectRemoved = (entityId, effect, activeEffect) => 
-      console.log(`🗑️ Effect removed: ${name: effect.name} from ${entityId}`);
+    this.effectManager.onEffectRemoved = (entityId, effect, activeEffect) => {
+      console.log(`🗑️ Effect removed: ${effect.name} from ${entityId}`);
     };
 
-    this.effectManager.onEffectTick = (entityId, effect, activeEffect) => 
-      console.log(`⏱️ Effect tick: ${name: effect.name} on ${entityId}`);
+    this.effectManager.onEffectTick = (entityId, effect, activeEffect) => {
+      console.log(`⏱️ Effect tick: ${effect.name} on ${entityId}`);
     };
   }
 
   /**
    * Start CLI application
    */
-  start(): void 
+  start(): void {
     console.log('='.repeat(70));
     console.log('✨ EffectsPure CLI - Effects Management System');
     console.log('='.repeat(70));
@@ -280,7 +280,7 @@ class EffectsPureCLI
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
     console.log('');
-    console.log(`Current entity: ${currentEntityId: this.currentEntityId}`);
+    console.log(`Current entity: ${this.currentEntityId}`);
     console.log(`Current phase: ${this.entityContext.getCurrentPhase()}`);
 
     this.showPrompt();
@@ -386,7 +386,7 @@ class EffectsPureCLI
     const effects = this.effectManager.getActiveEffects(targetEntity);
 
     console.log('='.repeat(70));
-    console.log(`⚡ Active Effects on ${targetEntity} ($length: effects.length} effects)`);
+    console.log(`⚡ Active Effects on ${targetEntity} (${effects.length} effects)`);
     console.log('='.repeat(70));
 
     if (effects.length === 0) {
@@ -399,9 +399,9 @@ class EffectsPureCLI
       const duration = effect.getDurationPercentage();
       const durationBar = this.createProgressBar(duration, 10);
 
-      console.log(`${index + 1}. ${typeIcon} $effect.name: effect.name} x$stacks: effect.stacks}`);
-      console.log(`   ID: $effect.effectId: effect.effectId} | Duration: ${durationBar} | Type: $effect.effectType: effect.effectType}`);
-      console.log(`   Description: $effect.description: effect.description}`);
+      console.log(`${index + 1}. ${typeIcon} ${effect.effect.name} x${effect.stacks}`);
+      console.log(`   ID: ${effect.effect.effectId} | Duration: ${durationBar} | Type: ${effect.effect.effectType}`);
+      console.log(`   Description: ${effect.effect.description}`);
       console.log('');
     });
 
@@ -427,15 +427,15 @@ class EffectsPureCLI
 
     const result = this.effectManager.applyEffect(this.currentEntityId, effect);
 
-    switch (result) 
+    switch (result) {
       case APPLIED:
-        console.log(`✅ Applied ${name: effect.name} to $currentEntityId: this.currentEntityId}`);
+        console.log(`✅ Applied ${effect.name} to ${this.currentEntityId}`);
         break;
       case REFRESHED:
-        console.log(`🔄 Refreshed $name: effect.name} on $currentEntityId: this.currentEntityId}`);
+        console.log(`🔄 Refreshed ${effect.name} on ${this.currentEntityId}`);
         break;
       case REJECTED:
-        console.log(`❌ Could not apply $name: effect.name} to $currentEntityId: this.currentEntityId}`);
+        console.log(`❌ Could not apply ${effect.name} to ${this.currentEntityId}`);
         break;
     }
   }
@@ -452,9 +452,9 @@ class EffectsPureCLI
     const success = this.effectManager.removeEffect(this.currentEntityId, effectId);
 
     if (success) {
-      console.log(`✅ Removed ${effectId} from $currentEntityId: this.currentEntityId}`);
+      console.log(`✅ Removed ${effectId} from ${this.currentEntityId}`);
     } else {
-      console.log(`❌ Effect ${effectId} not found on $currentEntityId: this.currentEntityId}`);
+      console.log(`❌ Effect ${effectId} not found on ${this.currentEntityId}`);
     }
   }
 
@@ -531,7 +531,7 @@ class EffectsPureCLI
     }
 
     const result = this.effectManager.applyEffect(this.currentEntityId, effect);
-    console.log(`✅ Created and applied $name: effect.name} (${result})`);
+    console.log(`✅ Created and applied ${effect.name} (${result})`);
   }
 
   /**
@@ -545,9 +545,9 @@ class EffectsPureCLI
   /**
    * Show entity stats helper
    */
-  private showEntityStats(entityId: string): void 
+  private showEntityStats(entityId: string): void {
     const stats = [
-      HP: TargetStat.HP,
+      TargetStat.HP,
       TargetStat.ATK,
       TargetStat.DEF,
       TargetStat.SPD,
@@ -585,8 +585,8 @@ class EffectsPureCLI
     this.lastResolution = resolution;
 
     console.log(`📊 Update Results:`);
-    console.log(`  - Effects processed: $resolution.length: resolvedEffects.length}`);
-    console.log(`  - Stat changes: $resolution.size: statChanges.size}`);
+    console.log(`  - Effects processed: ${resolution.resolvedEffects.length}`);
+    console.log(`  - Stat changes: ${resolution.statChanges.size}`);
 
     if (resolution.statChanges.size > 0) {
       console.log('  Stat Changes:');
@@ -596,13 +596,13 @@ class EffectsPureCLI
     }
 
     // Update entity stats based on resolution
-    resolution.statChanges.forEach((change, stat) => 
-      const currentValue = this.entityContext.getEntityStat(currentEntityId: this.currentEntityId, stat as TargetStat);
+    resolution.statChanges.forEach((change, stat) => {
+      const currentValue = this.entityContext.getEntityStat(this.currentEntityId, stat as TargetStat);
       this.entityContext.setEntityStat(this.currentEntityId, stat as TargetStat, currentValue + change);
     });
 
-    if (resolution.events.length > 0) 
-      console.log(`  Events triggered: ${  length: events.length}`);
+    if (resolution.events.length > 0) {
+      console.log(`  Events triggered: ${resolution.events.length}`);
     }
 
     console.log('✅ Effects updated successfully');
@@ -618,11 +618,11 @@ class EffectsPureCLI
       return;
     }
 
-    if (!this.entityContext.getEntityHp(entityId)) 
+    if (!this.entityContext.getEntityHp(entityId)) {
       // Entity doesn't exist, create it
       this.entityContext.setEntityHp(entityId, 100);
       this.entityContext.setEntityAtk(entityId, 50);
-      this.entityContext.setEntityStat(entityId, DEF: DEF: TargetStat.DEF, 30);
+      this.entityContext.setEntityStat(entityId, DEF: TargetStat.DEF, 30);
       this.entityContext.setEntityStat(entityId, SPD: TargetStat.SPD, 40);
     }
 
@@ -673,12 +673,12 @@ class EffectsPureCLI
 
     const hasImmunity = this.entityContext.hasImmunity(this.currentEntityId, immunityTag);
 
-    if (hasImmunity) 
-      this.entityContext.removeImmunity(currentEntityId: this.currentEntityId, immunityTag);
-      console.log(`✅ Removed immunity: ${immunityTag} from $currentEntityId: this.currentEntityId}`);
-    } else 
-      this.entityContext.addImmunity(currentEntityId: this.currentEntityId, immunityTag);
-      console.log(`✅ Added immunity: ${immunityTag} to $currentEntityId: this.currentEntityId}`);
+    if (hasImmunity) {
+      this.entityContext.removeImmunity(this.currentEntityId, immunityTag);
+      console.log(`✅ Removed immunity: ${immunityTag} from ${this.currentEntityId}`);
+    } else {
+      this.entityContext.addImmunity(this.currentEntityId, immunityTag);
+      console.log(`✅ Added immunity: ${immunityTag} to ${this.currentEntityId}`);
     }
 
     const immunities = this.entityContext.getEntityImmunities(this.currentEntityId);
@@ -697,14 +697,14 @@ class EffectsPureCLI
   /**
    * Create effect by ID for demo purposes
    */
-  private createEffectById(effectId: string): IBattleEffect | null 
+  private createEffectById(effectId: string): IBattleEffect | null {
     switch (effectId.toLowerCase()) {
       case 'strength_boost':
         return BattleEffect.statModifier(
           'strength_boost',
           'Strength Boost',
           'Increases attack power',
-          ATK: TargetStat.ATK,
+          TargetStat.ATK,
           ModifierType.FLAT,
           15,
           0,

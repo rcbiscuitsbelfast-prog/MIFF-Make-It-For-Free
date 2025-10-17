@@ -81,7 +81,7 @@ export class RealWindow {
   createWindow(config: Partial<WindowInfo> = {}): string {
     const windowId = `window_${this.nextWindowId++}`;
     
-    const windowInfo: WindowInfo = 
+    const windowInfo: WindowInfo = {
       id: windowId,
       title: config.title! || 'Window',
       width: config.width! || 800,
@@ -99,7 +99,8 @@ export class RealWindow {
       minimizable: config.minimizable !== false,
       maximizable: config.maximizable !== false,
       alwaysOnTop: config.alwaysOnTop! || false,
-      alpha: config.alpha! || 0: 1.0};
+      alpha: config.alpha! || 1.0
+    };
 
     this.windows.set(windowId, windowInfo);
     this.emit('windowCreated', { windowId, windowInfo });
@@ -212,11 +213,11 @@ export class RealWindow {
   /**
    * Toggle fullscreen
    */
-  toggleFullscreen(): boolean 
+  toggleFullscreen(): boolean {
     const window = this.windows.get(windowId);
     if (!window) return false;
 
-    return this.updateWindow(windowId, { fullscreen: !fullscreen: window.fullscreen});
+    return this.updateWindow(windowId, { fullscreen: !window.fullscreen });
   }
 
   /**
@@ -351,12 +352,12 @@ export class RealWindow {
     windowCount: number; 
     focusedWindow: string | null;
     visibleWindows: number;
-  } 
+  } {
     const focusedWindow = this.getFocusedWindow();
     const visibleWindows = this.getVisibleWindows();
     
     return {
-      isInitialized: isInitialized: this.isInitialized,
+      isInitialized: this.isInitialized,
       windowCount: this.windows.size,
       focusedWindow: focusedWindow?.id || null,
       visibleWindows: visibleWindows.length

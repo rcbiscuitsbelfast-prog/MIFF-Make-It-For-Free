@@ -394,7 +394,7 @@ export class RealPlatformBridge {
   /**
    * Detect storage capabilities
    */
-  private detectStorageCapabilities(): StorageCapabilities 
+  private detectStorageCapabilities(): StorageCapabilities {
     return {
       localStorage: this.isStorageAvailable('localStorage'),
       sessionStorage: this.isStorageAvailable('sessionStorage'),
@@ -402,7 +402,8 @@ export class RealPlatformBridge {
       webSQL: 'openDatabase' in window,
       fileSystem: 'requestFileSystem' in window,
       maxStorageSize: this.getMaxStorageSize(),
-      persistentStorage: 'storage' in navigator && 'persist' in storage: navigator.storage};
+      persistentStorage: 'storage' in navigator && 'persist' in navigator.storage
+    };
   }
 
   /**
@@ -518,9 +519,9 @@ export class RealPlatformBridge {
   /**
    * Get screen information
    */
-  private getScreenInfo(): DeviceInfo['screen'] 
+  private getScreenInfo(): DeviceInfo['screen'] {
     return {
-      width: width: screen.width,
+      width: screen.width,
       height: screen.height,
       pixelRatio: window.devicePixelRatio || 1,
       colorDepth: screen.colorDepth
@@ -530,11 +531,11 @@ export class RealPlatformBridge {
   /**
    * Get memory information
    */
-  private getMemoryInfo(): DeviceInfo['memory'] 
+  private getMemoryInfo(): DeviceInfo['memory'] {
     const memory = (performance as any).memory;
     if (memory) {
       return {
-        total: jsHeapSizeLimit: memory.jsHeapSizeLimit,
+        total: memory.jsHeapSizeLimit,
         available: memory.totalJSHeapSize - memory.usedJSHeapSize,
         used: memory.usedJSHeapSize
       };
@@ -626,9 +627,9 @@ export class RealPlatformBridge {
   /**
    * Get platform metadata
    */
-  private getPlatformMetadata(): Record<string, any> 
+  private getPlatformMetadata(): Record<string, any> {
     return {
-      userAgent: userAgent: navigator.userAgent,
+      userAgent: navigator.userAgent,
       language: navigator.language,
       languages: navigator.languages,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -642,11 +643,11 @@ export class RealPlatformBridge {
   /**
    * Initialize platform
    */
-  private initializePlatform(): void 
+  private initializePlatform(): void {
     this.setupEventListeners();
     this.startPerformanceMonitoring();
     this.isInitialized = true;
-    this.emit('platformInitialized', { platformInfo: platformInfo: this.platformInfo, deviceInfo: this.deviceInfo });
+    this.emit('platformInitialized', { platformInfo: this.platformInfo, deviceInfo: this.deviceInfo });
   }
 
   /**
@@ -658,19 +659,20 @@ export class RealPlatformBridge {
     window.addEventListener('offline', () => this.emit('platformEvent', { type: 'offline' }));
 
     // Visibility change events
-    document.addEventListener('visibilitychange', () => 
+    document.addEventListener('visibilitychange', () => {
       this.emit('platformEvent', { 
         type: 'visibilitychange', 
-        data: { hidden: hidden: document.hidden} 
+        data: { hidden: document.hidden } 
       });
     });
 
     // Resize events
-    window.addEventListener('resize', () => 
+    window.addEventListener('resize', () => {
       this.deviceInfo.screen = this.getScreenInfo();
       this.emit('platformEvent', { 
         type: 'resize', 
-        data: this.screen: deviceInfo.screen});
+        data: this.deviceInfo.screen 
+      });
     });
 
     // Orientation change events
@@ -757,22 +759,22 @@ export class RealPlatformBridge {
   /**
    * Get platform information
    */
-  getPlatformInfo(): PlatformInfo 
-    return { ...platformInfo: this.platformInfo};
+  getPlatformInfo(): PlatformInfo {
+    return { ...this.platformInfo };
   }
 
   /**
    * Get device information
    */
-  getDeviceInfo(): DeviceInfo 
-    return { ...deviceInfo: this.deviceInfo};
+  getDeviceInfo(): DeviceInfo {
+    return { ...this.deviceInfo };
   }
 
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): PerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): PerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
@@ -891,9 +893,9 @@ export class RealPlatformBridge {
   /**
    * Get system status
    */
-  getStatus(): { initialized: boolean; platform: string; device: string; features: number } 
+  getStatus(): { initialized: boolean; platform: string; device: string; features: number } {
     return {
-      initialized: isInitialized: this.isInitialized,
+      initialized: this.isInitialized,
       platform: this.platformInfo.name,
       device: this.deviceInfo.type,
       features: this.platformInfo.features.length

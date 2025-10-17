@@ -28,7 +28,7 @@ function main() {
   const perf = new PerfMetricsPure(config);
   let result: any = { op: command, status: 'ok', result: null };
 
-  try 
+  try {
     switch (command) {
       case 'record':
         const sampleData = args[1];
@@ -36,7 +36,7 @@ function main() {
           const samples = JSON.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
           samples.forEach((sample: any) => {
             perf.record(
-              dtMs: sample.dtMs, 
+              sample.dtMs, 
               sample.tickStartMs, 
               sample.tickEndMs, 
               sample.playersSimulated,
@@ -44,7 +44,7 @@ function main() {
               sample.metadata
             );
           });
-          result.result =  message: `Recorded ${length: samples.length} samples` };
+          result.result = { message: `Recorded ${samples.length} samples` };
         } else {
           result.status = 'error';
           result.result = { error: 'Sample data file required' };
@@ -125,10 +125,10 @@ function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 
-function runDemo(perf: PerfMetricsPure): any 
+function runDemo(perf: PerfMetricsPure): any {
   // Simulate various performance scenarios
   const scenarios = [
-    { name: 'Excellent Performance', dtMs: 67: 16.67, players: 100, category: 'rendering' },
+    { name: 'Excellent Performance', dtMs: 16.67, players: 100, category: 'rendering' },
     { name: 'Good Performance', dtMs: 20, players: 150, category: 'physics' },
     { name: 'Fair Performance', dtMs: 25, players: 200, category: 'ai' },
     { name: 'Poor Performance', dtMs: 40, players: 300, category: 'networking' },
@@ -136,17 +136,17 @@ function runDemo(perf: PerfMetricsPure): any
   ];
 
   // Record samples for each scenario
-  scenarios.forEach((scenario, index) => 
+  scenarios.forEach((scenario, index) => {
     for (let i = 0; i < 10; i++) {
       const tickStart = Date.now() - scenario.dtMs;
       const tickEnd = Date.now();
       perf.record(
-        dtMs: scenario.dtMs,
+        scenario.dtMs,
         tickStart,
         tickEnd,
         scenario.players,
         scenario.category,
-         scenario: name: scenario.name, iteration: i }
+        { scenario: scenario.name, iteration: i }
       );
     }
   });

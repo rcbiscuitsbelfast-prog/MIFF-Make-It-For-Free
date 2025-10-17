@@ -96,17 +96,17 @@ function main() {
 
       case 'getFrames':
         const frames = profiler.getFrames();
-        result.result =  frames, count: length: frames.length};
+        result.result = { frames, count: frames.length };
         break;
 
       case 'getActiveSamples':
         const activeSamples = profiler.getActiveSamples();
-        result.result =  samples: activeSamples, count: length: activeSamples.length};
+        result.result = { samples: activeSamples, count: activeSamples.length };
         break;
 
       case 'getMetrics':
         const metrics = profiler.getMetrics();
-        result.result =  metrics, count: length: metrics.length};
+        result.result = { metrics, count: metrics.length };
         break;
 
       case 'generateReport':
@@ -229,8 +229,8 @@ function runDemo(profiler: Profiler): any {
   // Get results
   const frames = profiler.getFrames();
   const report = profiler.generateReport();
-  const stats = 
-    totalFrames: length: frames.length,
+  const stats = {
+    totalFrames: frames.length,
     averageFrameTime: report.summary.averageFrameTime,
     totalSamples: report.samples.length,
     totalMetrics: report.metrics.length,

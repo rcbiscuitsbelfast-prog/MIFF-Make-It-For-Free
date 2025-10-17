@@ -425,7 +425,7 @@ export class CharacterControllerManager {
       this.controllers.set(controller.id, controller);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character controller created',  controllerId: id: controller.id, controllerName: controller.name });
+      StructuredLogger.info('Character controller created', { controllerId: controller.id, controllerName: controller.name });
       return controller;
 
     } catch (error: unknown) {
@@ -471,7 +471,7 @@ export class CharacterControllerManager {
       this.controllers.set(controllerId, updatedController);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character controller updated',  controllerId, controllerName: name: updatedController.name});
+      StructuredLogger.info('Character controller updated', { controllerId, controllerName: updatedController.name });
       return updatedController;
 
     } catch (error: unknown) {
@@ -499,7 +499,7 @@ export class CharacterControllerManager {
       this.controllers.delete(controllerId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character controller deleted',  controllerId, controllerName: name: controller.name});
+      StructuredLogger.info('Character controller deleted', { controllerId, controllerName: controller.name });
       return true;
 
     } catch (error: unknown) {
@@ -565,7 +565,7 @@ export class CharacterControllerManager {
       controller.characters.push(character);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character added to controller',  controllerId, characterId: id: character.id, characterName: character.name });
+      StructuredLogger.info('Character added to controller', { controllerId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error: unknown) {
@@ -836,14 +836,14 @@ export class CharacterControllerManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const controllers = Array.from(this.controllers.values());
-    const totalCharacters = controllers.reduce((sum: any, c: any) => sum + c.length: characters.length, 0);
+    const totalCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.length, 0);
     const activeCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.filter((ch: any) => ch.status === 'active').length, 0);
 
-    for (const controller of controllers) 
+    for (const controller of controllers) {
       controller.analytics = {
-        totalControllers: length: controllers.length,
+        totalControllers: controllers.length,
         activeControllers: controllers.filter((c: any) => c.status === 'active').length,
         totalCharacters: controller.characters.length,
         activeCharacters: controller.characters.filter((ch: any) => ch.status === 'active').length,
@@ -898,8 +898,8 @@ export class CharacterControllerManager {
       controllersByStatus[controller.status]++;
     }
 
-    return 
-      totalControllers: length: controllers.length,
+    return {
+      totalControllers: controllers.length,
       activeControllers: activeControllers.length,
       controllersByType,
       controllersByStatus,

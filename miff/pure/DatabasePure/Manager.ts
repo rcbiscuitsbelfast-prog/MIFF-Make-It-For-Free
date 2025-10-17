@@ -918,15 +918,15 @@ export class DatabasePure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DatabasePerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DatabasePerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DatabaseAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DatabaseAnalytics {
+    return { ...this.analytics };
   }
 
   /**

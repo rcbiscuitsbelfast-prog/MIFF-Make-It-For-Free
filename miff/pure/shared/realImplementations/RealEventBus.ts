@@ -75,9 +75,9 @@ export class RealEventBus extends EventEmitter {
       priority?: number;
       id?: string;
     } = {}
-  ): () => void 
+  ): () => void {
     const subscription: EventSubscription = {
-      id: options.id || `sub_${++subscriptionCounter: this.subscriptionCounter}`,
+      id: options.id || `sub_${++this.subscriptionCounter}`,
       event,
       handler,
       once: options.once || false,
@@ -172,8 +172,8 @@ export class RealEventBus extends EventEmitter {
   /**
    * Get event bus metrics
    */
-  public getMetrics(): EventMetrics 
-    return { ...metrics: this.metrics};
+  public getMetrics(): EventMetrics {
+    return { ...this.metrics };
   }
 
   /**
@@ -230,9 +230,9 @@ export class RealEventBus extends EventEmitter {
   /**
    * Update metrics
    */
-  private updateMetrics(): void 
+  private updateMetrics(): void {
     this.metrics.activeSubscriptions = Array.from(this.subscriptions.values())
-      .reduce((total, subs) => total + length: subs.length, 0);
+      .reduce((total, subs) => total + subs.length, 0);
   }
 
   /**

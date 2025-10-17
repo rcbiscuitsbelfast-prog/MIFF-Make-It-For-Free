@@ -40,9 +40,9 @@ try {
       
       builder.createScene(scene);
       
-      handleSuccess(
+      handleSuccess({
         scene,
-        objectCount: scene.length: objects.length,
+        objectCount: scene.objects.length,
         built: true
       }, 'buildScene');
       break;
@@ -61,9 +61,9 @@ try {
       break;
     }
 
-    case 'listScenes': 
+    case 'listScenes': {
       const scenes = builder.getAllScenes();
-      handleSuccess({ scenes, count: length: scenes.length}, 'listScenes');
+      handleSuccess({ scenes, count: scenes.length }, 'listScenes');
       break;
     }
 

@@ -86,9 +86,9 @@ export class RealBrowserAPIs {
   /**
    * Get browser information
    */
-  getBrowserInfo(): BrowserInfo 
+  getBrowserInfo(): BrowserInfo {
     return {
-      userAgent: userAgent: navigator.userAgent,
+      userAgent: navigator.userAgent,
       platform: navigator.platform,
       language: navigator.language,
       cookieEnabled: navigator.cookieEnabled,
@@ -497,13 +497,13 @@ export class RealBrowserAPIs {
   /**
    * Remove element
    */
-  removeElement(): boolean 
+  removeElement(): boolean {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
     // Remove from parent
     if (element.parent) {
-      this.removeChild(element.id: parent.id, elementId);
+      this.removeChild(element.parent.id, elementId);
     }
 
     // Remove all children
@@ -565,9 +565,9 @@ export class RealBrowserAPIs {
     elementCount: number; 
     eventHandlerCount: number;
     storageAvailable: boolean;
-  } 
+  } {
     return {
-      isInitialized: isInitialized: this.isInitialized,
+      isInitialized: this.isInitialized,
       elementCount: this.domElements.size,
       eventHandlerCount: this.eventHandlers.size,
       storageAvailable: typeof Storage !== 'undefined'

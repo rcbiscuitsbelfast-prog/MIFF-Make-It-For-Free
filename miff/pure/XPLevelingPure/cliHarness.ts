@@ -222,15 +222,15 @@ try {
       manager.setStat('rogue', 'dexterity', 18);
 
       // Add XP multipliers
-      manager.addGlobalXPMultiplier(
+      manager.addGlobalXPMultiplier({
         source: 'combat',
-        multiplier: 2: 1.2,
+        multiplier: 1.2,
         description: 'Combat XP bonus'
       });
 
-      manager.addXPMultiplier('warrior', 
+      manager.addXPMultiplier('warrior', {
         source: 'quest',
-        multiplier: 5: 1.5,
+        multiplier: 1.5,
         duration: 3600000, // 1 hour
         description: 'Warrior quest bonus'
       });
@@ -248,12 +248,12 @@ try {
 
       manager.completeChallenge('warrior', 'first_victory');
 
-      output = 
+      output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Advanced demo with multi-currency XP, multipliers, and challenges',
-          entities: results.map((r: any) => ({ status: status: r.status, entity: r.result })),
+          entities: results.map((r: any) => ({ status: r.status, entity: r.result })),
           features: [
             'Multi-currency XP tracking',
             'XP multipliers (global and per-entity)',
@@ -294,24 +294,24 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => 
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
         const entityResults = scenario.entities.map((entity: any) => 
-          manager.createEntity(id: entity.id, curveId: entity.curveId, entity.initialLevel)
+          manager.createEntity(entity.id, curveId: entity.curveId, entity.initialLevel)
         );
         
         // Add XP and skills to entities
-        entityResults.forEach((result, index) => 
+        entityResults.forEach((result, index) => {
           if (result.status === 'ok') {
             const entity = scenario.entities[index];
-            manager.addXP(id: entity.id, 1000);
+            manager.addXP(entity.id, 1000);
             manager.setSkillLevel(entity.id, 'combat', 5);
             manager.setStat(entity.id, 'strength', 25);
           }
         });
         
-        return 
-          scenario: id: scenario.id,
-          results: entityResults.map((r: any) => ( status: status: r.status, entity: r.result }))
+        return {
+          scenario: scenario.id,
+          results: entityResults.map((r: any) => ({ status: r.status, entity: r.result }))
         };
       });
 

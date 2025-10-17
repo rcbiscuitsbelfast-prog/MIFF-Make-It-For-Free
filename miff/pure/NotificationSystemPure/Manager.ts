@@ -1168,15 +1168,15 @@ export class NotificationSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): NotificationSystemPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): NotificationSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): NotificationSystemAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): NotificationSystemAnalytics {
+    return { ...this.analytics };
   }
 
   /**

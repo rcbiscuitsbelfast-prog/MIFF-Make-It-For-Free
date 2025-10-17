@@ -32,8 +32,8 @@ function main() {
     if (c.op === 'list') {
       const result = manager.getGrid();
       outputs.push({ op: 'list', grid: result.result?.grid || [] });
-    } else if (c.op === 'simulate') 
-      const result = manager.findPath(start: c.start, c.goal);
+    } else if (c.op === 'simulate') {
+      const result = manager.findPath(c.start, c.goal);
       outputs.push({ op: 'simulate', path: result.result?.path || [] });
     } else if (c.op === 'dump') {
       const result = manager.getGrid();

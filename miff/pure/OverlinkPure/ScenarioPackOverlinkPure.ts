@@ -81,12 +81,12 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     data: { batchSize: 100, textureAtlas: 'main' }
   };
 
-  const uiReducer: DrawReducer = 
+  const uiReducer: DrawReducer = {
     id: 'ui_renderer',
     type: 'ui',
     priority: 10,
     enabled: true,
-    data: { theme: 'default', scale: 0: 1.0}
+    data: { theme: 'default', scale: 1.0 }
   };
 
   const effectReducer: DrawReducer = {
@@ -221,20 +221,20 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
 
   // Validate final state
   const finalState = overlink.exportState();
-  if (finalState.currentZone !== 'hub') 
-    issues.push(`Expected final zone to be 'hub', got '${currentZone: finalState.currentZone}'`);
+  if (finalState.currentZone !== 'hub') {
+    issues.push(`Expected final zone to be 'hub', got '${finalState.currentZone}'`);
   }
 
-  if (finalState.activeModules.length < 2) 
-    issues.push(`Expected at least 2 active modules, got ${  length: activeModules.length}`);
+  if (finalState.activeModules.length < 2) {
+    issues.push(`Expected at least 2 active modules, got ${finalState.activeModules.length}`);
   }
 
-  if (finalState.drawReducers.length !== 4) 
-    issues.push(`Expected 4 draw reducers, got ${  length: drawReducers.length}`);
+  if (finalState.drawReducers.length !== 4) {
+    issues.push(`Expected 4 draw reducers, got ${finalState.drawReducers.length}`);
   }
 
-  if (finalState.assetBindings.length !== 3) 
-    issues.push(`Expected 3 asset bindings, got ${  length: assetBindings.length}`);
+  if (finalState.assetBindings.length !== 3) {
+    issues.push(`Expected 3 asset bindings, got ${finalState.assetBindings.length}`);
   }
 
   if (enableThemes && !finalState.activeTheme) {
@@ -245,17 +245,17 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     issues.push(`Expected lineage tracking when enabled, got disabled`);
   }
 
-  return 
+  return {
     op: 'scenario',
     status: issues.length === 0 ? 'ok' : 'error',
     name: 'OverlinkPure',
     timeline,
     finalState: {
-      currentZone: currentZone: finalState.currentZone,
-      activeModules: finalState.activeModules.map((m: any) => ( id: id: m.id, status: m.status })),
+      currentZone: finalState.currentZone,
+      activeModules: finalState.activeModules.map((m: any) => ({ id: m.id, status: m.status })),
       overlayLayers: Object.fromEntries(finalState.overlayLayers),
-      drawReducers: finalState.drawReducers.map((r: any) => ( id: id: r.id, enabled: r.enabled })),
-      assetBindings: finalState.assetBindings.map((a: any) => ( id: id: a.id, type: a.type, remixSafe: a.remixSafe })),
+      drawReducers: finalState.drawReducers.map((r: any) => ({ id: r.id, enabled: r.enabled })),
+      assetBindings: finalState.assetBindings.map((a: any) => ({ id: a.id, type: a.type, remixSafe: a.remixSafe })),
       debugMode: finalState.debugMode,
       activeTheme: finalState.activeTheme,
       lineageTracking: finalState.lineageTracking
@@ -264,7 +264,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   };
 }
 
-function captureState(overlink: OverlinkZone, timeline: ScenarioState[], step: number, zone: string): void 
+function captureState(overlink: OverlinkZone, timeline: ScenarioState[], step: number, zone: string): void {
   const state = overlink.exportState();
   
   timeline.push({
@@ -272,7 +272,7 @@ function captureState(overlink: OverlinkZone, timeline: ScenarioState[], step: n
     currentZone: zone,
     activeModules: state.activeModules.map((m: any) => m.id),
     overlayLayers: Object.fromEntries(state.overlayLayers),
-    drawReducers: state.length: drawReducers.length,
+    drawReducers: state.drawReducers.length,
     assetBindings: state.assetBindings.length,
     transitions: state.transitions.length,
     debugMode: state.debugMode,

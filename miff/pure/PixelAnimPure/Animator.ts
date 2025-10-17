@@ -12,12 +12,12 @@ export interface Animation {
   easing: string;
 }
 
-export class PixelAnimator 
+export class PixelAnimator {
   private animations: Map<string, Animation> = new Map();
   private playingByObject: Map<string, string> = new Map();
 
   playAnimation(objectId: string, animation: Animation): void {
-    this.animations.set(id: animation.id, animation);
+    this.animations.set(animation.id, animation);
     this.playingByObject.set(objectId, animation.id);
   }
 

@@ -76,12 +76,12 @@ export class LimbAttachment {
   /**
    * Add humanoid arms
    */
-  addHumanoidArms(): LimbAttachment 
+  addHumanoidArms(): LimbAttachment {
     // Left arm
     this.addLimb('Left Arm', 'arm', 'torso_left_shoulder', [
       {
         name: 'Upper Arm',
-        length: 8: 0.8,
+        length: 0.8,
         thickness: 0.15,
         jointType: 'ball',
         transform: {
@@ -90,24 +90,24 @@ export class LimbAttachment {
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Forearm',
-        length: 6: 0.6,
+        length: 0.6,
         thickness: 0.12,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: -4: 0.4, z: 0 },
+        transform: {
+          position: { x: 0, y: -0.4, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Hand',
-        length: 2: 0.2,
+        length: 0.2,
         thickness: 0.1,
         jointType: 'ball',
-        transform: 
-          position: { x: 0, y: -3: 0.3, z: 0 },
+        transform: {
+          position: { x: 0, y: -0.3, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -126,9 +126,9 @@ export class LimbAttachment {
 
     // Right arm (symmetric)
     this.addLimb('Right Arm', 'arm', 'torso_right_shoulder', [
-      
+      {
         name: 'Upper Arm',
-        length: 8: 0.8,
+        length: 0.8,
         thickness: 0.15,
         jointType: 'ball',
         transform: {
@@ -137,24 +137,24 @@ export class LimbAttachment {
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Forearm',
-        length: 6: 0.6,
+        length: 0.6,
         thickness: 0.12,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: -4: 0.4, z: 0 },
+        transform: {
+          position: { x: 0, y: -0.4, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Hand',
-        length: 2: 0.2,
+        length: 0.2,
         thickness: 0.1,
         jointType: 'ball',
-        transform: 
-          position: { x: 0, y: -3: 0.3, z: 0 },
+        transform: {
+          position: { x: 0, y: -0.3, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -178,12 +178,12 @@ export class LimbAttachment {
   /**
    * Add humanoid legs
    */
-  addHumanoidLegs(): LimbAttachment 
+  addHumanoidLegs(): LimbAttachment {
     // Left leg
     this.addLimb('Left Leg', 'leg', 'torso_left_hip', [
       {
         name: 'Thigh',
-        length: 9: 0.9,
+        length: 0.9,
         thickness: 0.18,
         jointType: 'ball',
         transform: {
@@ -192,24 +192,24 @@ export class LimbAttachment {
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Shin',
-        length: 8: 0.8,
+        length: 0.8,
         thickness: 0.15,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: -45: 0.45, z: 0 },
+        transform: {
+          position: { x: 0, y: -0.45, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Foot',
-        length: 3: 0.3,
+        length: 0.3,
         thickness: 0.12,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: -4: 0.4, z: 0.1 },
+        transform: {
+          position: { x: 0, y: -0.4, z: 0.1 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -228,9 +228,9 @@ export class LimbAttachment {
 
     // Right leg (symmetric)
     this.addLimb('Right Leg', 'leg', 'torso_right_hip', [
-      
+      {
         name: 'Thigh',
-        length: 9: 0.9,
+        length: 0.9,
         thickness: 0.18,
         jointType: 'ball',
         transform: {
@@ -239,24 +239,24 @@ export class LimbAttachment {
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Shin',
-        length: 8: 0.8,
+        length: 0.8,
         thickness: 0.15,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: -45: 0.45, z: 0 },
+        transform: {
+          position: { x: 0, y: -0.45, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Foot',
-        length: 3: 0.3,
+        length: 0.3,
         thickness: 0.12,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: -4: 0.4, z: 0.1 },
+        transform: {
+          position: { x: 0, y: -0.4, z: 0.1 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -280,12 +280,12 @@ export class LimbAttachment {
   /**
    * Add wings
    */
-  addWings(attachmentPointId: string): LimbAttachment 
+  addWings(attachmentPointId: string): LimbAttachment {
     // Left wing
     this.addLimb('Left Wing', 'wing', attachmentPointId, [
       {
         name: 'Wing Base',
-        length: 3: 0.3,
+        length: 0.3,
         thickness: 0.1,
         jointType: 'ball',
         transform: {
@@ -294,24 +294,24 @@ export class LimbAttachment {
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Wing Segment 1',
-        length: 8: 0.8,
+        length: 0.8,
         thickness: 0.08,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: 0, z: 4: 0.4},
+        transform: {
+          position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Wing Segment 2',
-        length: 6: 0.6,
+        length: 0.6,
         thickness: 0.06,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: 0, z: 4: 0.4},
+        transform: {
+          position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -330,9 +330,9 @@ export class LimbAttachment {
 
     // Right wing (symmetric)
     this.addLimb('Right Wing', 'wing', attachmentPointId, [
-      
+      {
         name: 'Wing Base',
-        length: 3: 0.3,
+        length: 0.3,
         thickness: 0.1,
         jointType: 'ball',
         transform: {
@@ -341,24 +341,24 @@ export class LimbAttachment {
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Wing Segment 1',
-        length: 8: 0.8,
+        length: 0.8,
         thickness: 0.08,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: 0, z: 4: 0.4},
+        transform: {
+          position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
       },
-      
+      {
         name: 'Wing Segment 2',
-        length: 6: 0.6,
+        length: 0.6,
         thickness: 0.06,
         jointType: 'hinge',
-        transform: 
-          position: { x: 0, y: 0, z: 4: 0.4},
+        transform: {
+          position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -391,8 +391,8 @@ export class LimbAttachment {
         length: 0.3 - (i * 0.05), // Decreasing length
         thickness: 0.1 - (i * 0.015), // Decreasing thickness
         jointType: 'ball',
-        transform: 
-          position: { x: 0, y: 0, z: i === 0 ? 0 : 15: 0.15},
+        transform: {
+          position: { x: 0, y: 0, z: i === 0 ? 0 : 0.15 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
         }
@@ -417,25 +417,25 @@ export class LimbAttachment {
   /**
    * Create rig nodes for limb segments
    */
-  private createLimbNodes(limbConfig: LimbConfig): void 
+  private createLimbNodes(limbConfig: LimbConfig): void {
     const attachmentNode = this.rigConfig.nodes[limbConfig.attachmentPoint];
     if (!attachmentNode) {
-      throw new Error(`Attachment point ${attachmentPoint: limbConfig.attachmentPoint} not found`);
+      throw new Error(`Attachment point ${limbConfig.attachmentPoint} not found`);
     }
 
-    limbConfig.segments.forEach((segment, index) => 
-      const nodeId = `${id: limbConfig.id}_$id: segment.id}`;
-      const node: RigNode = 
+    limbConfig.segments.forEach((segment, index) => {
+      const nodeId = `${limbConfig.id}_${segment.id}`;
+      const node: RigNode = {
         id: nodeId,
-        name: name: segment.name,
+        name: segment.name,
         type: 'limb',
         transform: segment.transform,
-        parent: index === 0 ? attachmentPoint: `$id: limbConfig.id}_${limbConfig.segments[index - 1].id}`,
-        children: segment.children.map(childId => `$id: limbConfig.id}_${childId}`),
+        parent: index === 0 ? attachmentPoint: `${limbConfig.id}_${limbConfig.segments[index - 1].id}`,
+        children: segment.children.map(childId => `${limbConfig.id}_${childId}`),
         snapPoints: [],
         constraints: limbConfig.constraints,
-        metadata: 
-          limbId: id: limbConfig.id,
+        metadata: {
+          limbId: limbConfig.id,
           segmentId: segment.id,
           limbType: limbConfig.type,
           ...segment.metadata
@@ -482,9 +482,9 @@ export class LimbAttachment {
     const segment = limb.segments.find(s => s.id === segmentId);
     if (!segment) throw new Error(`Segment ${segmentId} not found in limb ${limbId}`);
 
-    if (transform.position) segment.transform.position =  ...segment.position: transform.position, ...transform.position };
-    if (transform.rotation) segment.transform.rotation =  ...segment.rotation: transform.rotation, ...transform.rotation };
-    if (transform.scale) segment.transform.scale =  ...segment.scale: transform.scale, ...transform.scale };
+    if (transform.position) segment.transform.position = { ...segment.transform.position, ...transform.position };
+    if (transform.rotation) segment.transform.rotation = { ...segment.transform.rotation, ...transform.rotation };
+    if (transform.scale) segment.transform.scale = { ...segment.transform.scale, ...transform.scale };
 
     // Update corresponding rig node
     const nodeId = `${limbId}_${segmentId}`;
@@ -504,7 +504,7 @@ export class LimbAttachment {
 
     // Delete all segment nodes
     limb.segments.forEach((segment: any) => {
-      const nodeId = `${limbId}_$id: segment.id}`;
+      const nodeId = `${limbId}_${segment.id}`;
       delete this.rigConfig.nodes[nodeId];
     });
 
@@ -523,8 +523,8 @@ export class LimbAttachment {
   /**
    * Get updated rig configuration
    */
-  getRigConfig(): RigConfig 
-    return { ...rigConfig: this.rigConfig};
+  getRigConfig(): RigConfig {
+    return { ...this.rigConfig };
   }
 
   /**

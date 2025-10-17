@@ -25,7 +25,7 @@ interface CliCommand {
   handler: (args: string[]) => void;
 }
 
-class PetCollectionCli 
+class PetCollectionCli {
   private manager: PetCollectionManager;
   private eventBus: EventBus;
   private commands: Map<string, CliCommand> = new Map();
@@ -35,7 +35,7 @@ class PetCollectionCli
 
   constructor(config?: PetCollectionConfig) {
     this.eventBus = new EventBus();
-    this.manager = new PetCollectionManager(eventBus: this.eventBus, config);
+    this.manager = new PetCollectionManager(this.eventBus, config);
 
     this.setupCommands();
     this.setupEventListeners();
@@ -142,17 +142,17 @@ class PetCollectionCli
     });
   }
 
-  private setupEventListeners(): void 
+  private setupEventListeners(): void {
     this.eventBus.on('pet:egg_created', (data) => {
-      console.log(`🥚 Egg created: ${  species: egg.species} ($data.rarity: egg.rarity})`);
+      console.log(`🥚 Egg created: ${data.egg.species} (${data.egg.rarity})`);
     });
 
-    this.eventBus.on('pet:egg_hatched', (data) => 
-      console.log(`✨ Pet hatched: ${  name: pet.name} ($data.species: pet.species} - $data.rarity: pet.rarity})`);
+    this.eventBus.on('pet:egg_hatched', (data) => {
+      console.log(`✨ Pet hatched: ${data.pet.name} (${data.pet.species} - ${data.pet.rarity})`);
     });
 
-    this.eventBus.on('pet:trade_created', (data) => 
-      console.log(`🤝 Trade offer created for ${  petId: tradeOffer.petId}`);
+    this.eventBus.on('pet:trade_created', (data) => {
+      console.log(`🤝 Trade offer created for ${data.tradeOffer.petId}`);
     });
 
     this.eventBus.on('pet:trade_completed', (data) => {
@@ -178,7 +178,7 @@ class PetCollectionCli
     this.currentPlayerId = playerId;
 
     console.log(`👤 Player created: ${playerName} (${playerId})`);
-    console.log(`Current player set to: $currentPlayerId: this.currentPlayerId}`);
+    console.log(`Current player set to: ${this.currentPlayerId}`);
   }
 
   private handleCreateEgg(args: string[]): void {
@@ -196,13 +196,13 @@ class PetCollectionCli
 
     const result = this.manager.createEgg(this.currentPlayerId, eggType as EggType, species);
 
-    if (result.success) 
+    if (result.success) {
       console.log(result.message);
       if (result.data) {
         const egg = result.data.egg;
-        console.log(`   Species: ${species: egg.species}`);
-        console.log(`   Rarity: $rarity: egg.rarity}`);
-        console.log(`   Incubation: $incubationTime: egg.incubationTime}s`);
+        console.log(`   Species: ${egg.species}`);
+        console.log(`   Rarity: ${egg.rarity}`);
+        console.log(`   Incubation: ${egg.incubationTime}s`);
       }
     } else {
       console.log('❌', result.message);
@@ -224,14 +224,14 @@ class PetCollectionCli
 
     const result = this.manager.hatchEgg(eggId, this.currentPlayerId);
 
-    if (result.success) 
+    if (result.success) {
       console.log(result.message);
       if (result.data) {
         const pet = result.data.pet;
-        console.log(`   Name: ${name: pet.name}`);
-        console.log(`   Species: $species: pet.species}`);
-        console.log(`   Rarity: $rarity: pet.rarity}`);
-        console.log(`   Stats: H:$pet.health: stats.health} A:$pet.attack: stats.attack} D:$pet.defense: stats.defense}`);
+        console.log(`   Name: ${pet.name}`);
+        console.log(`   Species: ${pet.species}`);
+        console.log(`   Rarity: ${pet.rarity}`);
+        console.log(`   Stats: H:${pet.stats.health} A:${pet.stats.attack} D:${pet.stats.defense}`);
       }
     } else {
       console.log('❌', result.message);
@@ -253,7 +253,7 @@ class PetCollectionCli
         return;
       }
 
-      console.log(`\n🐾 Your Pets ($length: pets.length}):`);
+      console.log(`\n🐾 Your Pets (${pets.length}):`);
       console.log('─'.repeat(80));
       console.log('Name                    | Species    | Rarity    | Lvl | HP  | ATK | DEF | Fav');
       console.log('─'.repeat(80));
@@ -291,7 +291,7 @@ class PetCollectionCli
         return;
       }
 
-      console.log(`\n🥚 Your Eggs ($length: eggs.length}):`);
+      console.log(`\n🥚 Your Eggs (${eggs.length}):`);
       console.log('─'.repeat(60));
       console.log('Species    | Rarity    | Progress | Time Left');
       console.log('─'.repeat(60));
@@ -319,19 +319,19 @@ class PetCollectionCli
 
     const result = this.manager.getCollectionStats(this.currentPlayerId);
 
-    if (result.success && result.data) 
+    if (result.success && result.data) {
       const stats = result.data.stats;
 
-      console.log(`\n📊 Collection Stats for ${currentPlayerId: this.currentPlayerId}:`);
+      console.log(`\n📊 Collection Stats for ${this.currentPlayerId}:`);
       console.log('─'.repeat(40));
-      console.log(`Total Pets: $totalPets: stats.totalPets}`);
-      console.log(`Unique Species: $uniqueSpecies: stats.uniqueSpecies}`);
+      console.log(`Total Pets: ${stats.totalPets}`);
+      console.log(`Unique Species: ${stats.uniqueSpecies}`);
       console.log(`Average Rarity: ${(stats.averageRarity).toFixed(1)}`);
-      console.log(`Eggs Hatched: $eggsHatched: stats.eggsHatched}`);
-      console.log(`Favorite Pets: $favoritePets: stats.favoritePets}`);
-      console.log(`Max Level: $maxLevel: stats.maxLevel}`);
-      console.log(`Total Trades: $totalTrades: stats.totalTrades}`);
-      console.log(`Collection Value: $collectionValue: stats.collectionValue}`);
+      console.log(`Eggs Hatched: ${stats.eggsHatched}`);
+      console.log(`Favorite Pets: ${stats.favoritePets}`);
+      console.log(`Max Level: ${stats.maxLevel}`);
+      console.log(`Total Trades: ${stats.totalTrades}`);
+      console.log(`Collection Value: ${stats.collectionValue}`);
       console.log('─'.repeat(40));
     } else {
       console.log('❌ Failed to get stats');
@@ -471,9 +471,9 @@ class PetCollectionCli
     const eggTypes: EggType[] = ['basic', 'premium', 'golden'];
     const species = ['dragon', 'phoenix', 'unicorn'];
 
-    for (const eggType of eggTypes) 
+    for (const eggType of eggTypes) {
       for (const speciesType of species) {
-        this.manager.createEgg(currentPlayerId: this.currentPlayerId, eggType, speciesType);
+        this.manager.createEgg(this.currentPlayerId, eggType, speciesType);
         await this.sleep(100);
       }
     }
@@ -484,9 +484,9 @@ class PetCollectionCli
     await this.sleep(2000);
 
     const eggsResult = this.manager.getEggsByOwner(this.currentPlayerId);
-    if (eggsResult.success && eggsResult.data) 
+    if (eggsResult.success && eggsResult.data) {
       for (const egg of eggsResult.data.eggs) {
-        this.manager.hatchEgg(id: egg.id, this.currentPlayerId);
+        this.manager.hatchEgg(egg.id, this.currentPlayerId);
         await this.sleep(200);
       }
     }
@@ -504,11 +504,11 @@ class PetCollectionCli
 
     const species = ['dragon', 'phoenix', 'unicorn', 'griffin', 'cerberus', 'pegasus'];
 
-    for (let i = 0; i < 20; i++) 
+    for (let i = 0; i < 20; i++) {
       const speciesType = species[i % species.length];
       const eggType = ['basic', 'premium'][i % 2] as EggType;
 
-      this.manager.createEgg(currentPlayerId: this.currentPlayerId, eggType, speciesType);
+      this.manager.createEgg(this.currentPlayerId, eggType, speciesType);
       await this.sleep(50);
     }
 
@@ -516,9 +516,9 @@ class PetCollectionCli
     await this.sleep(1000);
 
     const eggsResult = this.manager.getEggsByOwner(this.currentPlayerId);
-    if (eggsResult.success && eggsResult.data) 
+    if (eggsResult.success && eggsResult.data) {
       for (const egg of eggsResult.data.eggs) {
-        this.manager.hatchEgg(id: egg.id, this.currentPlayerId);
+        this.manager.hatchEgg(egg.id, this.currentPlayerId);
         await this.sleep(100);
       }
     }
@@ -535,18 +535,18 @@ class PetCollectionCli
     // Create some pets for trading
     console.log('Creating pets for trading...');
 
-    for (let i = 0; i < 5; i++) 
+    for (let i = 0; i < 5; i++) {
       const species = ['dragon', 'phoenix', 'unicorn'][i % 3];
-      this.manager.createEgg(currentPlayerId: this.currentPlayerId, 'basic', species);
+      this.manager.createEgg(this.currentPlayerId, 'basic', species);
     }
 
     await this.sleep(1000);
 
     // Hatch pets
     const eggsResult = this.manager.getEggsByOwner(this.currentPlayerId);
-    if (eggsResult.success && eggsResult.data) 
+    if (eggsResult.success && eggsResult.data) {
       for (const egg of eggsResult.data.eggs) {
-        this.manager.hatchEgg(id: egg.id, this.currentPlayerId);
+        this.manager.hatchEgg(egg.id, this.currentPlayerId);
       }
     }
 
@@ -579,9 +579,9 @@ class PetCollectionCli
         const playerId = `player${i}_${j}`;
         const eggsResult = this.manager.getEggsByOwner(playerId);
 
-        if (eggsResult.success && eggsResult.data) 
+        if (eggsResult.success && eggsResult.data) {
           for (const egg of eggsResult.data.eggs) {
-            this.manager.hatchEgg(id: egg.id, playerId);
+            this.manager.hatchEgg(egg.id, playerId);
           }
         }
       }
@@ -641,7 +641,7 @@ class PetCollectionCli
     console.log('\n🛠️ Available Commands:');
     console.log('─'.repeat(50));
     this.commands.forEach((cmd, key) => {
-      console.log(`  ${cmd.command.padEnd(40)} | $description: cmd.description}`);
+      console.log(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
     });
     console.log('─'.repeat(50));
   }
@@ -661,10 +661,10 @@ class PetCollectionCli
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  public async run(): Promise<void> 
+  public async run(): Promise<void> {
     const readline = await import('readline');
     const rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'pet-collection> '
     });

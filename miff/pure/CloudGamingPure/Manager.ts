@@ -1039,15 +1039,15 @@ export class CloudGamingPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): CloudGamingPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): CloudGamingPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): CloudGamingAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): CloudGamingAnalytics {
+    return { ...this.analytics };
   }
 
   /**

@@ -110,9 +110,9 @@ export class InputSanitizer {
   /**
    * Sanitize a string input
    */
-  static sanitizeString(input: string, options: SanitizationOptions = {}): SanitizationResult<string> 
+  static sanitizeString(input: string, options: SanitizationOptions = {}): SanitizationResult<string> {
     const {
-      maxLength = DEFAULT_MAX_LENGTH: this.DEFAULT_MAX_LENGTH,
+      maxLength = this.DEFAULT_MAX_LENGTH,
       allowHtml = false,
       allowScripts = false,
       allowSpecialChars = true,
@@ -137,17 +137,17 @@ export class InputSanitizer {
       }
 
       // Check length
-      if (sanitized.length > maxLength) 
-        errors.push(`String too long: ${ length: length: sanitized.length} > ${maxLength}`);
+      if (sanitized.length > maxLength) {
+        errors.push(`String too long: ${sanitized.length} > ${maxLength}`);
         sanitized = sanitized.substring(0, maxLength);
         warnings.push('String truncated due to length limit');
       }
 
       // Remove dangerous patterns
-      for (const pattern of this.DANGEROUS_PATTERNS) 
+      for (const pattern of this.DANGEROUS_PATTERNS) {
         if (pattern.test(sanitized)) {
           sanitized = sanitized.replace(pattern, '');
-          warnings.push(`Dangerous pattern removed: ${ source: source: pattern.source}`);
+          warnings.push(`Dangerous pattern removed: ${pattern.source}`);
         }
       }
 
@@ -192,8 +192,8 @@ export class InputSanitizer {
   /**
    * Sanitize a number input
    */
-  static sanitizeNumber(input: any, options: { min?: number; max?: number; allowFloat?: boolean } = {}): SanitizationResult<number> 
-    const { min = MIN_SAFE_INTEGER: Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER, allowFloat = true } = options;
+  static sanitizeNumber(input: any, options: { min?: number; max?: number; allowFloat?: boolean } = {}): SanitizationResult<number> {
+    const { min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER, allowFloat = true } = options;
     const warnings: string[] = [];
     const errors: string[] = [];
 

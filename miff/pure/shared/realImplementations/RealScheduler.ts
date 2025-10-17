@@ -158,7 +158,7 @@ export class RealScheduler {
     const taskId = `task_${this.nextTaskId++}`;
     const now = new Date();
 
-    const task: Task = 
+    const task: Task = {
       id: taskId,
       name: taskName,
       priority: options?.priority || 0,
@@ -166,7 +166,7 @@ export class RealScheduler {
       createdAt: now,
       scheduledFor: options?.scheduledFor || now,
       retryCount: 0,
-      maxRetries: options?.maxRetries || this.defaultMaxRetries: config.defaultMaxRetries,
+      maxRetries: options?.maxRetries || this.config.defaultMaxRetries,
       timeout: options?.timeout || this.config.defaultTimeout,
       data,
       ...options
@@ -245,11 +245,11 @@ export class RealScheduler {
     const ruleId = `rule_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const now = new Date();
 
-    const scheduleRule: ScheduleRule = 
+    const scheduleRule: ScheduleRule = {
       ...rule,
       id: ruleId,
       lastRun: undefined,
-      nextRun: this.calculateNextRun(cronExpression: rule.cronExpression, now)
+      nextRun: this.calculateNextRun(rule.cronExpression, now)
     };
 
     this.scheduleRules.set(ruleId, scheduleRule);
@@ -295,14 +295,14 @@ export class RealScheduler {
   /**
    * Process scheduled tasks
    */
-  private processScheduledTasks(): void 
+  private processScheduledTasks(): void {
     const now = new Date();
 
     for (const rule of this.scheduleRules.values()) {
       if (!rule.enabled || !rule.nextRun || rule.nextRun > now) continue;
 
-      this.addTask(taskName: rule.taskName, data: rule.data, 
-        priority: priority: rule.priority,
+      this.addTask(rule.taskName, data: rule.data, {
+        priority: rule.priority,
         scheduledFor: now
       });
 
@@ -350,9 +350,9 @@ export class RealScheduler {
       }, task.timeout);
 
       // Simulate async work
-      setTimeout(() => 
+      setTimeout(() => {
         clearTimeout(timeout);
-        resolve({ taskId: id: task.id, result: 'Task completed successfully' });
+        resolve({ taskId: task.id, result: 'Task completed successfully' });
       }, Math.random() * 1000);
     });
   }
@@ -396,8 +396,8 @@ export class RealScheduler {
 
     const errorRate = tasks.length > 0 ? (failedTasks.length / tasks.length) * 100 : 0;
 
-    return 
-      totalTasks: length: tasks.length,
+    return {
+      totalTasks: tasks.length,
       pendingTasks: tasks.filter((t: any) => t.status === 'pending').length,
       runningTasks: this.runningTasks.size,
       completedTasks: completedTasks.length,
@@ -422,7 +422,7 @@ export class RealScheduler {
       this.removeTaskFromQueue(task.id);
     }
 
-    this.emit('cleanupCompleted',  removedCount: length: tasksToRemove.length});
+    this.emit('cleanupCompleted', { removedCount: tasksToRemove.length });
   }
 
   /**
@@ -468,9 +468,9 @@ export class RealScheduler {
     runningTasks: number;
     queueLength: number;
     scheduleRules: number;
-  } 
+  } {
     return {
-      isRunning: isRunning: this.isRunning,
+      isRunning: this.isRunning,
       taskCount: this.tasks.size,
       runningTasks: this.runningTasks.size,
       queueLength: this.taskQueue.length,

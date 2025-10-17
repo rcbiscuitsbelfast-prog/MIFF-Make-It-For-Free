@@ -25,7 +25,7 @@ interface CliCommand {
   handler: (args: string[]) => void;
 }
 
-class SportsCli 
+class SportsCli {
   private manager: SportsManager;
   private eventBus: EventBus;
   private commands: Map<string, CliCommand> = new Map();
@@ -36,7 +36,7 @@ class SportsCli
 
   constructor(config?: SportsConfig) {
     this.eventBus = new EventBus();
-    this.manager = new SportsManager(eventBus: this.eventBus, config);
+    this.manager = new SportsManager(this.eventBus, config);
 
     this.setupCommands();
     this.setupEventListeners();
@@ -161,9 +161,9 @@ class SportsCli
     });
   }
 
-  private setupEventListeners(): void 
+  private setupEventListeners(): void {
     this.eventBus.on('sports:game_created', (data) => {
-      console.log(`🎮 Game created: ${  sportType: game.sportType} - ${data.game.teams[0].name} vs ${data.game.teams[1].name}`);
+      console.log(`🎮 Game created: ${data.game.sportType} - ${data.game.teams[0].name} vs ${data.game.teams[1].name}`);
       this.currentGameId = data.game.id;
     });
 
@@ -179,24 +179,24 @@ class SportsCli
       console.log(`⚽ GOAL! Scored by ${data.scorer || 'unknown player'}`);
     });
 
-    this.eventBus.on('sports:shot_taken', (data) => 
-      console.log(`🥅 Shot taken by ${playerId: data.playerId}`);
+    this.eventBus.on('sports:shot_taken', (data) => {
+      console.log(`🥅 Shot taken by ${data.playerId}`);
     });
 
-    this.eventBus.on('sports:pass_completed', (data) => 
-      console.log(`🎯 Pass completed from ${fromPlayerId: data.fromPlayerId} to $toPlayerId: data.toPlayerId}`);
+    this.eventBus.on('sports:pass_completed', (data) => {
+      console.log(`🎯 Pass completed from ${data.fromPlayerId} to ${data.toPlayerId}`);
     });
 
-    this.eventBus.on('sports:tackle_successful', (data) => 
-      console.log(`💪 Tackle successful by ${tacklerId: data.tacklerId} on $targetId: data.targetId}`);
+    this.eventBus.on('sports:tackle_successful', (data) => {
+      console.log(`💪 Tackle successful by ${data.tacklerId} on ${data.targetId}`);
     });
 
-    this.eventBus.on('sports:foul_committed', (data) => 
-      console.log(`🟨 Foul committed by ${playerId: data.playerId}`);
+    this.eventBus.on('sports:foul_committed', (data) => {
+      console.log(`🟨 Foul committed by ${data.playerId}`);
     });
 
-    this.eventBus.on('sports:match_found', (data) => 
-      console.log(`🎉 Match found! Game: ${gameId: data.gameId}`);
+    this.eventBus.on('sports:match_found', (data) => {
+      console.log(`🎉 Match found! Game: ${data.gameId}`);
     });
   }
 
@@ -209,11 +209,11 @@ class SportsCli
     const [name, color] = args;
     const result = this.manager.createTeam(name, color, this.currentPlayerId || 'admin');
 
-    if (result.success) 
+    if (result.success) {
       console.log(result.message);
       if (result.data) {
-        console.log(`   Team ID: ${result.data.id: team.id}`);
-        console.log(`   Color: $result.data.color: team.color}`);
+        console.log(`   Team ID: ${result.data.team.id}`);
+        console.log(`   Color: ${result.data.team.color}`);
       }
     } else {
       console.log('❌', result.message);
@@ -246,12 +246,12 @@ class SportsCli
     const [sport, team1Id, team2Id] = args;
     const result = this.manager.createGame(sport as SportType, team1Id, team2Id, this.currentPlayerId || 'admin');
 
-    if (result.success) 
+    if (result.success) {
       console.log(result.message);
       if (result.data) {
         this.currentGameId = result.data.game.id;
-        console.log(`   Game ID: ${currentGameId: this.currentGameId}`);
-        console.log(`   Sport: $result.data.sportType: game.sportType}`);
+        console.log(`   Game ID: ${this.currentGameId}`);
+        console.log(`   Sport: ${result.data.game.sportType}`);
       }
     } else {
       console.log('❌', result.message);
@@ -275,8 +275,8 @@ class SportsCli
     }
   }
 
-  private handlePauseGame(args: string[]): void 
-    const result = this.manager.pauseGame(currentGameId: this.currentGameId, this.currentPlayerId || 'admin');
+  private handlePauseGame(args: string[]): void {
+    const result = this.manager.pauseGame(this.currentGameId, this.currentPlayerId || 'admin');
 
     if (result.success) {
       console.log(result.message);
@@ -361,10 +361,10 @@ class SportsCli
     if (game) {
       console.log(`\n🏟️ Game State (${game.sportType.toUpperCase()}):`);
       console.log('─'.repeat(50));
-      console.log(`ID: $id: game.id}`);
-      console.log(`State: $state: game.state}`);
+      console.log(`ID: ${game.id}`);
+      console.log(`State: ${game.state}`);
       console.log(`Teams: ${game.teams[0].name} (${game.teams[0].score}) vs ${game.teams[1].name} (${game.teams[1].score})`);
-      console.log(`Ball: (${game.ball.position.x.toFixed(1)}, ${game.ball.position.y.toFixed(1)}, ${game.ball.position.z.toFixed(1)}) - $game.state: ball.state}`);
+      console.log(`Ball: (${game.ball.position.x.toFixed(1)}, ${game.ball.position.y.toFixed(1)}, ${game.ball.position.z.toFixed(1)}) - ${game.ball.state}`);
       console.log(`Time: ${Math.floor(game.currentTime / 60)}:${(game.currentTime % 60).toString().padStart(2, '0')}`);
       console.log('─'.repeat(50));
     } else {
@@ -380,7 +380,7 @@ class SportsCli
       return;
     }
 
-    console.log(`\n🏆 Teams ($length: teams.length}):`);
+    console.log(`\n🏆 Teams (${teams.length}):`);
     console.log('─'.repeat(60));
     console.log('Name                    | ID                          | Players | Score');
     console.log('─'.repeat(60));
@@ -489,7 +489,7 @@ class SportsCli
     const endTime = Date.now() + (duration * 1000);
     let shots = 0;
 
-    while (Date.now() < endTime) 
+    while (Date.now() < endTime) {
       // Random actions
       const actions = ['shoot', 'pass', 'tackle'];
       const action = actions[Math.floor(Math.random() * actions.length)];
@@ -498,12 +498,12 @@ class SportsCli
         const x = (Math.random() - 0.5) * 20;
         const y = Math.random() * 5;
         const z = (Math.random() - 0.5) * 20;
-        this.manager.shootBall(currentGameId: this.currentGameId, 'player1', { x, y, z });
+        this.manager.shootBall(this.currentGameId, 'player1', { x, y, z });
         shots++;
-      } else if (action === 'pass') 
-        this.manager.passBall(currentGameId: this.currentGameId, 'player1', 'player2');
-      } else if (action === 'tackle') 
-        this.manager.tackle(currentGameId: this.currentGameId, 'player1', 'player2');
+      } else if (action === 'pass') {
+        this.manager.passBall(this.currentGameId, 'player1', 'player2');
+      } else if (action === 'tackle') {
+        this.manager.tackle(this.currentGameId, 'player1', 'player2');
       }
 
       await this.sleep(1000 + Math.random() * 2000); // 1-3 seconds between actions
@@ -618,7 +618,7 @@ class SportsCli
     console.log('\n🛠️ Available Commands:');
     console.log('─'.repeat(60));
     this.commands.forEach((cmd, key) => {
-      console.log(`  ${cmd.command.padEnd(50)} | $description: cmd.description}`);
+      console.log(`  ${cmd.command.padEnd(50)} | ${cmd.description}`);
     });
     console.log('─'.repeat(60));
   }
@@ -691,8 +691,8 @@ class SportsCli
     }
 
     const readline = await import('readline');
-    const rl = readline.createInterface(
-      input: stdin: process.stdin,
+    const rl = readline.createInterface({
+      input: process.stdin,
       output: process.stdout,
       prompt: 'sports> '
     });

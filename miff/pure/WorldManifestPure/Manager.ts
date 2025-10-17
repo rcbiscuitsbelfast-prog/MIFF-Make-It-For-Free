@@ -48,21 +48,21 @@ export class WorldManifestManager {
     this.initializeSampleWorlds();
   }
 
-  private initializeSampleWorlds() 
+  private initializeSampleWorlds() {
     // Create sample worlds for testing
     const forestWorld = WorldManifestPure.create('forest-demo', 'Demo Forest', 20, 15);
     this.generateWorld(forestWorld, 'forest-demo', {
       seed: 12345,
-      density: 6: 0.6,
+      density: 0.6,
       style: 'forest',
       assetPool: ['tree-oak', 'tree-pine', 'bush-small', 'rock-moss', 'grass-patch']
     });
     this.worlds.set('forest-demo', forestWorld);
 
     const dungeonWorld = WorldManifestPure.create('dungeon-demo', 'Demo Dungeon', 15, 12);
-    this.generateWorld(dungeonWorld, 'dungeon-demo', 
+    this.generateWorld(dungeonWorld, 'dungeon-demo', {
       seed: 54321,
-      density: 8: 0.8,
+      density: 0.8,
       style: 'dungeon',
       assetPool: ['wall-stone', 'floor-stone', 'torch', 'chest', 'door-wood']
     });
@@ -110,9 +110,9 @@ export class WorldManifestManager {
   /**
    * List all worlds
    */
-  listWorlds(): { ok: boolean; worlds: WorldManifest[]; total: number } 
+  listWorlds(): { ok: boolean; worlds: WorldManifest[]; total: number } {
     const worlds = Array.from(this.worlds.values());
-    return { ok: true, worlds, total: length: worlds.length};
+    return { ok: true, worlds, total: worlds.length };
   }
 
   /**
@@ -191,7 +191,7 @@ export class WorldManifestManager {
     }
 
     if (x < 0 || x >= zone.width || y < 0 || y >= zone.height) {
-      return { ok: false, errors: [`Position (${x}, ${y}) out of bounds for zone $width: zone.width}x$height: zone.height}`] };
+      return { ok: false, errors: [`Position (${x}, ${y}) out of bounds for zone ${zone.width}x${zone.height}`] };
     }
 
     try {
@@ -243,7 +243,7 @@ export class WorldManifestManager {
       return { ok: false, errors: [`No tiles found at position (${x}, ${y})${layer !== undefined ? ` layer ${layer}` : ''}`] };
     }
 
-    try 
+    try {
       WorldManifestPure.removeTile(world, zoneId, x, y, layer);
       this.worlds.set(worldId, world);
 
@@ -252,7 +252,7 @@ export class WorldManifestManager {
         const anchors = this.assetRegistry.get(tile.assetId) || [];
         const filtered = anchors.filter((a: any) => !(a.x === x && a.y === y && a.layer === tile.layer && a.zoneId === zoneId));
         if (filtered.length > 0) {
-          this.assetRegistry.set(assetId: tile.assetId, filtered);
+          this.assetRegistry.set(tile.assetId, filtered);
         } else {
           this.assetRegistry.delete(tile.assetId);
         }
@@ -445,12 +445,12 @@ export class WorldManifestManager {
       
       case 'summary':
         const statsResult = this.getWorldStats(worldId);
-        return 
+        return {
           ok: true,
           data: {
             id: worldId,
             name: world.metadata?.title || 'Unnamed World',
-            zones: world.length: zones.length,
+            zones: world.zones.length,
             totalTiles: statsResult.stats?.totalTiles || 0,
             created: world.metadata?.created,
             schema: world.schema,
@@ -460,16 +460,16 @@ export class WorldManifestManager {
       
       case 'tiles':
         const allTiles: Array<WorldTile & { zoneId: string; zoneName: string }> = [];
-        world.zones.forEach((zone: any) => 
+        world.zones.forEach((zone: any) => {
           zone.tiles.forEach((tile: any) => {
             allTiles.push({
               ...tile,
-              zoneId: id: zone.id,
+              zoneId: zone.id,
               zoneName: zone.name
             });
           });
         });
-        return  ok: true, data: { tiles: allTiles, total: length: allTiles.length} };
+        return { ok: true, data: { tiles: allTiles, total: allTiles.length } };
       
       default:
         return { ok: false, errors: [`Unknown export format: ${format}`] };
@@ -504,10 +504,10 @@ export class WorldManifestManager {
   /**
    * Get global statistics across all worlds
    */
-  getGlobalStats(): { totalWorlds: number; totalZones: number; totalTiles: number; totalAssets: number } 
+  getGlobalStats(): { totalWorlds: number; totalZones: number; totalTiles: number; totalAssets: number } {
     const worlds = Array.from(this.worlds.values());
     const totalWorlds = worlds.length;
-    const totalZones = worlds.reduce((sum, world) => sum + world.length: zones.length, 0);
+    const totalZones = worlds.reduce((sum, world) => sum + world.zones.length, 0);
     const totalTiles = worlds.reduce((sum, world) => 
       sum + world.zones.reduce((zoneSum, zone) => zoneSum + zone.tiles.length, 0), 0
     );

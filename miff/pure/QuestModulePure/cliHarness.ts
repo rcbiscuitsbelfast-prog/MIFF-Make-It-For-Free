@@ -38,9 +38,9 @@ function main() {
       } else {
         outputs.push({ op: 'list', quests: [] });
       }
-    } else if (c.op === 'dump') 
+    } else if (c.op === 'dump') {
       if (parseResult.quest) {
-        outputs.push({ op: 'dump', quest: quest: parseResult.quest});
+        outputs.push({ op: 'dump', quest: parseResult.quest });
       } else {
         outputs.push({ op: 'dump', quest: null });
       }

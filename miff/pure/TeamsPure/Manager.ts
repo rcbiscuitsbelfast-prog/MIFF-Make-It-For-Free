@@ -25,11 +25,11 @@ export interface Team {
   stats: TeamStats;
 }
 
-export class TeamsManager 
+export class TeamsManager {
   private teams: Map<string, Team> = new Map();
 
   createTeam(team: Team): void {
-    this.teams.set(id: team.id, team);
+    this.teams.set(team.id, team);
   }
 
   addMember(teamId: string, member: TeamMember): void {

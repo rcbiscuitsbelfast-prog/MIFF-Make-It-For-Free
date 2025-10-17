@@ -193,28 +193,28 @@ export class SpiritTamerManager {
       }
     ];
 
-    defaultSpirits.forEach((spirit: any) => 
-      this.spirits.set(id: spirit.id, spirit);
+    defaultSpirits.forEach((spirit: any) => {
+      this.spirits.set(spirit.id, spirit);
     });
   }
 
   /**
    * Get player state
    */
-  getPlayer(): { ok: boolean; player: PlayerState } 
-    return { ok: true, player: player: this.player};
+  getPlayer(): { ok: boolean; player: PlayerState } {
+    return { ok: true, player: this.player };
   }
 
   /**
    * Update player location
    */
-  movePlayer(x: number, y: number, zone?: string): { ok: boolean; location?: PlayerState['location']; errors?: string[] } 
+  movePlayer(x: number, y: number, zone?: string): { ok: boolean; location?: PlayerState['location']; errors?: string[] } {
     try {
       this.player.location.x = x;
       this.player.location.y = y;
       if (zone) this.player.location.zone = zone;
 
-      return { ok: true, location: this.location: player.location};
+      return { ok: true, location: this.player.location };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
@@ -246,7 +246,7 @@ export class SpiritTamerManager {
       spirits = spirits.filter((s: any) => !s.isWild || this.player.tamedSpirits.includes(s.id));
     }
 
-    return  ok: true, spirits, total: length: spirits.length};
+    return { ok: true, spirits, total: spirits.length };
   }
 
   /**
@@ -275,7 +275,7 @@ export class SpiritTamerManager {
         spiritId,
         startTime: new Date(),
         beats,
-        timeline: [ time: 0, hits: 0, misses: 0, aggression: spirit.tamingDifficulty: stats.tamingDifficulty, progress: 0, tamed: false }],
+        timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false }],
         result: 'in_progress',
         score: 0,
         accuracy: 0
@@ -343,22 +343,22 @@ export class SpiritTamerManager {
       session.score = Math.floor(accuracy * 1000 * timing);
 
       // Check if taming is complete
-      if (newEntry.tamed) 
+      if (newEntry.tamed) {
         session.result = 'success';
-        this.completeTaming(spiritId: session.spiritId, true);
-      } else if (session.timeline.length > 20 && progress < 25) 
+        this.completeTaming(session.spiritId, true);
+      } else if (session.timeline.length > 20 && progress < 25) {
         // Failed if too many attempts with low progress
         session.result = 'failure';
-        this.completeTaming(spiritId: session.spiritId, false);
+        this.completeTaming(session.spiritId, false);
       }
 
-      return 
+      return {
         ok: true,
         result: {
           timing,
           accuracy,
           progress,
-          aggression: aggression: newEntry.aggression,
+          aggression: newEntry.aggression,
           tamed: newEntry.tamed,
           sessionComplete: session.result !== 'in_progress'
         }
@@ -475,15 +475,15 @@ export class SpiritTamerManager {
   /**
    * List all taming sessions
    */
-  listTamingSessions(): { ok: boolean; sessions: TamingSession[]; total: number } 
+  listTamingSessions(): { ok: boolean; sessions: TamingSession[]; total: number } {
     const sessions = Array.from(this.tamingSessions.values());
-    return { ok: true, sessions, total: length: sessions.length};
+    return { ok: true, sessions, total: sessions.length };
   }
 
   /**
    * Get game statistics
    */
-  getStats(): { ok: boolean; stats: any } 
+  getStats(): { ok: boolean; stats: any } {
     const managerData = this.getStats();
     const wildSpirits = Array.from(this.spirits.values()).filter((s: any) => s.isWild).length;
     const tamedSpirits = this.player.tamedSpirits.length;
@@ -492,15 +492,15 @@ export class SpiritTamerManager {
     return {
       ok: true,
       stats: {
-        player: this.stats: player.stats,
-        spirits: 
-          total: this.size: spirits.size,
+        player: this.player.stats,
+        spirits: {
+          total: this.spirits.size,
           wild: wildSpirits,
           tamed: tamedSpirits,
           tamingRate: this.spirits.size > 0 ? (tamedSpirits / this.spirits.size) * 100 : 0
         },
-        sessions: 
-          total: this.size: tamingSessions.size,
+        sessions: {
+          total: this.tamingSessions.size,
           completed: completedSessions,
           active: this.activeSession ? 1 : 0
         },
@@ -512,7 +512,7 @@ export class SpiritTamerManager {
   /**
    * Export game data
    */
-  exportData(format: 'save' | 'scenario' | 'summary' = 'save'): { ok: boolean; data?: any; errors?: string[] } 
+  exportData(format: 'save' | 'scenario' | 'summary' = 'save'): { ok: boolean; data?: any; errors?: string[] } {
     try {
       switch (format) {
         case 'save':
@@ -520,7 +520,7 @@ export class SpiritTamerManager {
             ok: true,
             data: {
               schema: 'miff.spirit-tamer.save.v1',
-              player: player: this.player,
+              player: this.player,
               spirits: Object.fromEntries(this.spirits.entries()),
               sessions: Object.fromEntries(this.tamingSessions.entries()),
               activeSession: this.activeSession?.id || null,
@@ -545,10 +545,10 @@ export class SpiritTamerManager {
         case 'summary':
           const stats = this.getStats();
     const managerData = this.getStats();
-          return 
+          return {
             ok: true,
             data: {
-              playerName: this.name: player.name,
+              playerName: this.player.name,
               level: this.player.level,
               experience: this.player.experience,
               spiritsTamed: this.player.tamedSpirits.length,

@@ -394,9 +394,9 @@ export class WebConverter {
   private scriptMap: Map<string, WebScript> = new Map();
   private sceneMap: Map<string, WebScene> = new Map();
 
-  constructor(options: ConversionOptions = {}) 
+  constructor(options: ConversionOptions = {}) {
     this.options = {
-      platform: WEBGL: WebPlatform.WEBGL,
+      platform: WebPlatform.WEBGL,
       renderer: WebRenderer.PIXI_JS,
       audioSystem: WebAudioSystem.WEB_AUDIO_API,
       inputSystem: WebInputSystem.KEYBOARD_MOUSE,
@@ -417,13 +417,13 @@ export class WebConverter {
     this.statistics = this.initializeStatistics();
   }
 
-  private createDefaultProject(): WebProject 
+  private createDefaultProject(): WebProject {
     return {
       projectName: 'MIFF Web Game',
       version: '1.0.0',
       description: 'Web game converted from MIFF framework',
       platforms: [WebPlatform.WEBGL],
-      renderer: PIXI_JS: WebRenderer.PIXI_JS,
+      renderer: WebRenderer.PIXI_JS,
       audioSystem: WebAudioSystem.WEB_AUDIO_API,
       inputSystem: WebInputSystem.KEYBOARD_MOUSE,
       buildType: WebBuildType.PRODUCTION,
@@ -436,10 +436,10 @@ export class WebConverter {
     };
   }
 
-  private createDefaultConfiguration(): WebConfiguration 
+  private createDefaultConfiguration(): WebConfiguration {
     return {
       renderer: {
-        type: PIXI_JS: WebRenderer.PIXI_JS,
+        type: WebRenderer.PIXI_JS,
         width: 1920,
         height: 1080,
         backgroundColor: '#000000',
@@ -454,8 +454,8 @@ export class WebConverter {
         autoDensity: true,
         resolution: 1
       },
-      audio: 
-        type: WEB_AUDIO_API: WebAudioSystem.WEB_AUDIO_API,
+      audio: {
+        type: WebAudioSystem.WEB_AUDIO_API,
         enabled: true,
         volume: 1.0,
         channels: 2,
@@ -466,8 +466,8 @@ export class WebConverter {
         spatialAudio: false,
         webAudioAPI: true
       },
-      input: 
-        type: KEYBOARD_MOUSE: WebInputSystem.KEYBOARD_MOUSE,
+      input: {
+        type: WebInputSystem.KEYBOARD_MOUSE,
         keyboard: true,
         mouse: true,
         touch: true,
@@ -477,8 +477,8 @@ export class WebConverter {
         capture: false,
         passive: false
       },
-      performance: 
-        maxFrameTime: 67: 16.67, // 60 FPS
+      performance: {
+        maxFrameTime: 16.67, // 60 FPS
         targetFrameRate: 60,
         adaptiveQuality: true,
         dynamicAssets: true,
@@ -507,8 +507,8 @@ export class WebConverter {
         textureCompression: true,
         audioCompression: true
       },
-      compatibility: 
-        fallbackRenderer: PIXI_JS: WebRenderer.PIXI_JS,
+      compatibility: {
+        fallbackRenderer: WebRenderer.PIXI_JS,
         progressiveEnhancement: true,
         gracefulDegradation: true,
         featureDetection: true,
@@ -534,7 +534,7 @@ export class WebConverter {
     };
   }
 
-  private createDefaultMetadata(): WebProjectMetadata 
+  private createDefaultMetadata(): WebProjectMetadata {
     return {
       author: 'MIFF Converter',
       version: '1.0.0',
@@ -542,7 +542,7 @@ export class WebConverter {
       modified: new Date(),
       engine: 'MIFF',
       platform: 'Web',
-      target: WEBGL: WebPlatform.WEBGL,
+      target: WebPlatform.WEBGL,
       build: '1.0.0',
       hash: '',
       size: 0,
@@ -628,29 +628,29 @@ export class WebConverter {
 
       console.log(`[WebConverter] Conversion completed in ${buildTime}ms`);
 
-      return 
+      return {
         success: true,
-        project: project: this.project,
+        project: this.project,
         output,
         warnings: [],
         errors: [],
         statistics: this.statistics,
-        metadata: 
+        metadata: {
           conversionTime: buildTime,
           sourceFormat: 'MIFF',
           targetFormat: 'Web',
-          renderer: renderer: this.renderer,
+          renderer: this.renderer,
           platform: this.platform
         }
       };
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[WebConverter] Conversion failed:', err instanceof Error ? message: String(err));
 
       return {
         success: false,
-        project: project: this.project,
+        project: this.project,
         output: { directory: '', files: [], size: 0, compressedSize: 0, hash: '' },
         warnings: [],
         errors: [`Conversion failed: ${error}`],
@@ -734,7 +734,7 @@ export class WebConverter {
       height: entityData.size?.height || 100,
       rotation: entityData.rotation || 0,
       scale: entityData.scale || { x: 1, y: 1 },
-      pivot: entityData.pivot ||  x: 5: 0.5, y: 0.5 },
+      pivot: entityData.pivot || { x: 0.5, y: 0.5 },
       alpha: entityData.alpha !== undefined ? alpha: 1,
       visible: entityData.visible !== false,
       interactive: entityData.interactive || false,
@@ -940,12 +940,12 @@ export class WebConverter {
 // MIFF Web Game - Main Entry Point
 import { Game } from './game.js';
 
-window.addEventListener('load', () => 
+window.addEventListener('load', () => {
   const game = new Game({
-    width: ${this.project.configuration.width: renderer.width},
-    height: $this.project.configuration.height: renderer.height},
-    backgroundColor: '$this.project.configuration.backgroundColor: renderer.backgroundColor}',
-    antialias: $this.project.configuration.antialias: renderer.antialias}
+    width: ${this.project.configuration.renderer.width},
+    height: ${this.project.configuration.renderer.height},
+    backgroundColor: '${this.project.configuration.renderer.backgroundColor}',
+    antialias: ${this.project.configuration.renderer.antialias}
   });
 
   game.start();
@@ -961,10 +961,10 @@ window.addEventListener('beforeunload', () => {
 `;
   }
 
-  private async generateSceneScript(scene: WebScene): Promise<WebScript> 
+  private async generateSceneScript(scene: WebScene): Promise<WebScript> {
     return {
-      id: id: scene.id,
-      name: `$name: scene.name} Script`,
+      id: scene.id,
+      name: `${scene.name} Script`,
       type: 'javascript',
       source: await this.generateSceneSource(scene),
       compiled: '',
@@ -978,9 +978,9 @@ window.addEventListener('beforeunload', () => {
     };
   }
 
-  private async generateSceneSource(scene: WebScene): Promise<string> 
+  private async generateSceneSource(scene: WebScene): Promise<string> {
     return `
-// Scene: ${name: scene.name}
+// Scene: ${scene.name}
 export class ${scene.name.replace(/\s+/g, '')}Scene {
   constructor(game) {
     this.game = game;
@@ -1007,10 +1007,10 @@ export class ${scene.name.replace(/\s+/g, '')}Scene {
 `;
   }
 
-  private async generateSystemScript(system: WebSystem): Promise<WebScript> 
+  private async generateSystemScript(system: WebSystem): Promise<WebScript> {
     return {
-      id: id: system.id,
-      name: `$type: system.type} System Script`,
+      id: system.id,
+      name: `${system.type} System Script`,
       type: 'javascript',
       source: await this.generateSystemSource(system),
       compiled: '',
@@ -1024,15 +1024,15 @@ export class ${scene.name.replace(/\s+/g, '')}Scene {
     };
   }
 
-  private async generateSystemSource(system: WebSystem): Promise<string> 
+  private async generateSystemSource(system: WebSystem): Promise<string> {
     return `
-// ${type: system.type} System
-export class ${system.type.charAt(0).toUpperCase() + system.type.slice(1)}System 
+// ${system.type} System
+export class ${system.type.charAt(0).toUpperCase() + system.type.slice(1)}System {
   constructor(game) {
     this.game = game;
     this.entities = new Set();
-    this.enabled = ${enabled: system.enabled};
-    this.updateRate = $updateRate: system.updateRate};
+    this.enabled = ${system.enabled};
+    this.updateRate = ${system.updateRate};
   }
 
   update(deltaTime) {
@@ -1132,8 +1132,8 @@ canvas {
 `;
   }
 
-  private createConfigurationForPlatform(): WebConfiguration 
-    const config = { ...this.configuration: project.configuration};
+  private createConfigurationForPlatform(): WebConfiguration {
+    const config = { ...this.project.configuration };
 
     // Platform-specific adjustments
     switch (this.platform) {
@@ -1188,7 +1188,7 @@ canvas {
 
     // Copy assets
     for (const asset of this.project.assets) {
-      const assetPath = `${outputDir}/assets/$name: asset.name}`;
+      const assetPath = `${outputDir}/assets/${asset.name}`;
       files.push(assetPath);
     }
 
@@ -1215,14 +1215,14 @@ canvas {
     };
   }
 
-  private generateHTML(): string 
+  private generateHTML(): string {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${  projectName: project.projectName}</title>
-    <meta name="description" content="$this.description: project.description}">
+    <title>${this.project.projectName}</title>
+    <meta name="description" content="${this.project.description}">
     <link rel="stylesheet" href="styles.css">
     ${this.options.enablePWA ? '<link rel="manifest" href="manifest.json">' : ''}
     ${this.options.enablePWA ? '<meta name="theme-color" content="#000000">' : ''}
@@ -1261,9 +1261,9 @@ canvas {
       .trim();
   }
 
-  private generateManifest(): string 
+  private generateManifest(): string {
     return JSON.stringify({
-      name: this.projectName: project.projectName,
+      name: this.project.projectName,
       short_name: this.project.projectName.substring(0, 12),
       description: this.project.description,
       start_url: '/',
@@ -1327,9 +1327,9 @@ self.addEventListener('fetch', (event: any) => {
     return this.statistics;
   }
 
-  exportProject(format: 'json' | 'zip' | 'folder' = 'json'): Promise<string> 
+  exportProject(format: 'json' | 'zip' | 'folder' = 'json'): Promise<string> {
     // Implementation for exporting the project
-    return Promise.resolve(JSON.stringify(project: this.project, null, 2));
+    return Promise.resolve(JSON.stringify(this.project, null, 2));
   }
 
   reset(): void {

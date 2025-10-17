@@ -76,8 +76,8 @@ export class OverlinkThemes {
   }
 
   // Theme Management
-  registerTheme(config: ThemeConfig): void 
-    this.state.availableThemes.set(id: config.id, config);
+  registerTheme(config: ThemeConfig): void {
+    this.state.availableThemes.set(config.id, config);
     
     // Register theme assets
     const themeAssets = config.assets! || [];
@@ -88,11 +88,11 @@ export class OverlinkThemes {
     this.state.themeReducers.set(config.id, themeReducers);
     
     // Register audio and shader presets
-    if (config.audioPreset) 
-      this.state.audioPresets.set(id: config.id, config.audioPreset);
+    if (config.audioPreset) {
+      this.state.audioPresets.set(config.id, config.audioPreset);
     }
-    if (config.shaderPreset) 
-      this.state.shaderPresets.set(id: config.id, config.shaderPreset);
+    if (config.shaderPreset) {
+      this.state.shaderPresets.set(config.id, config.shaderPreset);
     }
 
     // Register individual assets and reducers
@@ -142,8 +142,8 @@ export class OverlinkThemes {
   }
 
   // Asset Management
-  private registerAsset(asset: ThemeAsset): void 
-    this.assetRegistry.set(`${themeId: asset.themeId}_$id: asset.id}`, asset);
+  private registerAsset(asset: ThemeAsset): void {
+    this.assetRegistry.set(`${asset.themeId}_${asset.id}`, asset);
   }
 
   getThemeAssets(themeId: ThemeId): ThemeAsset[] {
@@ -159,8 +159,8 @@ export class OverlinkThemes {
   }
 
   // Draw Reducer Management
-  private registerReducer(reducer: ThemeDrawReducer): void 
-    this.reducerRegistry.set(`${themeId: reducer.themeId}_$id: reducer.id}`, reducer);
+  private registerReducer(reducer: ThemeDrawReducer): void {
+    this.reducerRegistry.set(`${reducer.themeId}_${reducer.id}`, reducer);
   }
 
   getThemeReducers(themeId: ThemeId): ThemeDrawReducer[] {
@@ -224,23 +224,23 @@ export class OverlinkThemes {
 
     const { theme, assets, reducers, audioPreset, shaderPreset } = preview;
     
-    let output = `Theme: $name: theme.name}\n`;
-    output += `Description: $description: theme.description}\n`;
+    let output = `Theme: ${theme.name}\n`;
+    output += `Description: ${theme.description}\n`;
     output += `Layers: ${theme.layers.join(', ')}\n`;
-    output += `Assets: $length: assets.length}\n`;
-    output += `Draw Reducers: $length: reducers.length}\n`;
+    output += `Assets: ${assets.length}\n`;
+    output += `Draw Reducers: ${reducers.length}\n`;
     
     if (audioPreset) output += `Audio Preset: ${audioPreset}\n`;
     if (shaderPreset) output += `Shader Preset: ${shaderPreset}\n`;
     
     output += '\nAssets:\n';
-    assets.forEach((asset: any) => 
-      output += `  ${type: asset.type}: $id: asset.id} (${asset.remixSafe ? 'remix-safe' : 'remix-restricted'})\n`;
+    assets.forEach((asset: any) => {
+      output += `  ${asset.type}: ${asset.id} (${asset.remixSafe ? 'remix-safe' : 'remix-restricted'})\n`;
     });
     
     output += '\nDraw Reducers:\n';
-    reducers.forEach((reducer: any) => 
-      output += `  ${type: reducer.type}: $id: reducer.id} (priority: $priority: reducer.priority}, layer: $layer: reducer.layer})\n`;
+    reducers.forEach((reducer: any) => {
+      output += `  ${reducer.type}: ${reducer.id} (priority: ${reducer.priority}, layer: ${reducer.layer})\n`;
     });
     
     return output;
@@ -295,9 +295,9 @@ export class OverlinkThemes {
   }
 
   // State Management
-  exportState(): ThemeState 
+  exportState(): ThemeState {
     return {
-      ...state: this.state,
+      ...this.state,
       availableThemes: new Map(this.state.availableThemes),
       themeAssets: new Map(this.state.themeAssets),
       themeReducers: new Map(this.state.themeReducers),
@@ -366,12 +366,12 @@ export class OverlinkThemes {
           themeId: 'neonGrid',
           layer: 'background'
         },
-        
+        {
           id: 'neon_effects',
           type: 'effect',
           priority: 5,
           enabled: true,
-          data: { glowIntensity: 8: 0.8, pulseSpeed: 2.0 },
+          data: { glowIntensity: 0.8, pulseSpeed: 2.0 },
           themeId: 'neonGrid',
           layer: 'effects'
         }
@@ -418,21 +418,21 @@ export class OverlinkThemes {
         }
       ],
       drawReducers: [
-        
+        {
           id: 'forest_renderer',
           type: 'sprite',
           priority: 1,
           enabled: true,
-          data: { treeDensity: 7: 0.7, leafColor: '#228b22' },
+          data: { treeDensity: 0.7, leafColor: '#228b22' },
           themeId: 'forestGlade',
           layer: 'background'
         },
-        
+        {
           id: 'particle_effects',
           type: 'effect',
           priority: 3,
           enabled: true,
-          data: { particleCount: 100, windSpeed: 5: 0.5},
+          data: { particleCount: 100, windSpeed: 0.5 },
           themeId: 'forestGlade',
           layer: 'effects'
         }
@@ -479,21 +479,21 @@ export class OverlinkThemes {
         }
       ],
       drawReducers: [
-        
+        {
           id: 'starfield_renderer',
           type: 'sprite',
           priority: 1,
           enabled: true,
-          data: { starCount: 500, twinkleSpeed: 5: 1.5},
+          data: { starCount: 500, twinkleSpeed: 1.5 },
           themeId: 'cosmicVoid',
           layer: 'background'
         },
-        
+        {
           id: 'nebula_effects',
           type: 'effect',
           priority: 7,
           enabled: true,
-          data: { nebulaDensity: 3: 0.3, colorShift: true },
+          data: { nebulaDensity: 0.3, colorShift: true },
           themeId: 'cosmicVoid',
           layer: 'effects'
         }

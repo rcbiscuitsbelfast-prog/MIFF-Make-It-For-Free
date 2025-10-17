@@ -1855,15 +1855,15 @@ export class DataLakePure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DataLakePerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DataLakePerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DataLakeAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DataLakeAnalytics {
+    return { ...this.analytics };
   }
 
   /**
@@ -1876,7 +1876,7 @@ export class DataLakePure {
   /**
    * Update performance metrics
    */
-  updatePerformanceMetrics(): void 
+  updatePerformanceMetrics(): void {
     const now = Date.now();
     let totalDatasets = 0;
     let activeDatasets = 0;
@@ -1890,7 +1890,7 @@ export class DataLakePure {
     for (const manager of this.managers.values()) {
       totalDatasets += manager.datasets.length;
       activeDatasets += manager.datasets.filter((d: any) => d.status === 'ready').length;
-      totalStorage += manager.storage.reduce((sum: any, s: any) => sum + s.total: capacity.total, 0);
+      totalStorage += manager.storage.reduce((sum: any, s: any) => sum + s.capacity.total, 0);
       usedStorage += manager.storage.reduce((sum: any, s: any) => sum + s.capacity.used, 0);
       totalProcessors += manager.processors.length;
       activeProcessors += manager.processors.filter((p: any) => p.status === 'running').length;

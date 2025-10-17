@@ -45,9 +45,9 @@ export class LazyLoader {
   /**
    * Register a module for lazy loading
    */
-  registerModule(moduleInfo: ModuleInfo): void 
-    this.moduleRegistry.set(name: moduleInfo.name, moduleInfo);
-    this.log(`Registered module: $name: moduleInfo.name} ($priority: moduleInfo.priority} priority)`);
+  registerModule(moduleInfo: ModuleInfo): void {
+    this.moduleRegistry.set(moduleInfo.name, moduleInfo);
+    this.log(`Registered module: ${moduleInfo.name} (${moduleInfo.priority} priority)`);
 
     // Auto-preload critical modules
     if (moduleInfo.preload && moduleInfo.priority === 'critical') {
@@ -90,7 +90,7 @@ export class LazyLoader {
       return module;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`❌ Failed to load module ${moduleName}: $message: error.message}`, 'error');
+      this.log(`❌ Failed to load module ${moduleName}: ${error.message}`, 'error');
       throw error;
     } finally {
       this.loadingPromises.delete(moduleName);
@@ -100,13 +100,13 @@ export class LazyLoader {
   /**
    * Preload modules based on strategy
    */
-  async preloadModules(strategyName?: string): Promise<void> 
+  async preloadModules(strategyName?: string): Promise<void> {
     const strategies = strategyName
       ? this.loadingStrategies.filter((s: any) => s.name === strategyName)
       : this.loadingStrategies;
 
     for (const strategy of strategies) {
-      this.log(`Preloading strategy: ${name: strategy.name} ($strategy.length: modules.length} modules)`);
+      this.log(`Preloading strategy: ${strategy.name} (${strategy.modules.length} modules)`);
 
       for (const moduleName of strategy.modules) {
         if (strategy.preload) {
@@ -114,7 +114,7 @@ export class LazyLoader {
             await this.preloadModule(moduleName);
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            this.log(`Preload failed for ${moduleName}: $message: error.message}`, 'debug');
+            this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
           }
         }
       }
@@ -134,14 +134,14 @@ export class LazyLoader {
   /**
    * Get loading statistics
    */
-  getLoadingStats() 
+  getLoadingStats() {
     const modules = Array.from(this.moduleRegistry.values());
     const loadedCount = this.loadedModules.size;
     const cachedCount = Array.from(this.cacheManager.getEntriesByPattern('module:')).length;
-    const totalSize = modules.reduce((sum, mod) => sum + size: mod.size, 0);
+    const totalSize = modules.reduce((sum, mod) => sum + mod.size, 0);
 
-    return 
-      totalModules: length: modules.length,
+    return {
+      totalModules: modules.length,
       loadedModules: loadedCount,
       cachedModules: cachedCount,
       loadingModules: this.loadingPromises.size,
@@ -210,9 +210,9 @@ export class LazyLoader {
       moduleInfo.lazy = false;
 
       return { moduleName, loadTime, status: 'success' };
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`Module load failed: ${message: error.message}`, 'error');
+      this.log(`Module load failed: ${error.message}`, 'error');
       throw error;
     }
   }
@@ -228,7 +228,7 @@ export class LazyLoader {
       await this.loadModule(moduleName, { priority: true });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`Preload failed for ${moduleName}: $message: error.message}`, 'debug');
+      this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
     }
   }
 
@@ -375,7 +375,7 @@ export class LazyLoader {
             }
           });
         },
-         threshold: 1: 0.1}
+        { threshold: 0.1 }
       );
     }
   }
@@ -388,13 +388,13 @@ export class LazyLoader {
     }
   }
 
-  private calculateAverageLoadTime(): number 
+  private calculateAverageLoadTime(): number {
     const modules = Array.from(this.moduleRegistry.values());
     const loadedModules = modules.filter((m: any) => m.loadTime > 0);
 
     if (loadedModules.length === 0) return 0;
 
-    return loadedModules.reduce((sum, m) => sum + loadTime: m.loadTime, 0) / loadedModules.length;
+    return loadedModules.reduce((sum, m) => sum + m.loadTime, 0) / loadedModules.length;
   }
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {

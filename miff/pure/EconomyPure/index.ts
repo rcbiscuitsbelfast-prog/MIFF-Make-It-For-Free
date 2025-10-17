@@ -372,10 +372,10 @@ export class EconomicEngine {
     this.performanceMetrics = this.initializePerformanceMetrics();
   }
 
-  private initializeDefaultCurrencies(): void 
+  private initializeDefaultCurrencies(): void {
     const defaultCurrencies: Currency[] = [
       {
-        type: GOLD: CurrencyType.GOLD,
+        type: CurrencyType.GOLD,
         name: 'Gold',
         symbol: 'G',
         value: 1.0,
@@ -386,8 +386,8 @@ export class EconomicEngine {
         volatility: 0.1,
         description: 'Primary currency for trade and commerce'
       },
-      
-        type: SILVER: CurrencyType.SILVER,
+      {
+        type: CurrencyType.SILVER,
         name: 'Silver',
         symbol: 'S',
         value: 0.1,
@@ -398,8 +398,8 @@ export class EconomicEngine {
         volatility: 0.2,
         description: 'Secondary currency for everyday transactions'
       },
-      
-        type: COPPER: CurrencyType.COPPER,
+      {
+        type: CurrencyType.COPPER,
         name: 'Copper',
         symbol: 'C',
         value: 0.01,
@@ -409,8 +409,8 @@ export class EconomicEngine {
         volatility: 0.3,
         description: 'Basic currency for small transactions'
       },
-      
-        type: CRYSTALS: CurrencyType.CRYSTALS,
+      {
+        type: CurrencyType.CRYSTALS,
         name: 'Magic Crystals',
         symbol: 'MC',
         value: 10.0,
@@ -423,25 +423,25 @@ export class EconomicEngine {
       }
     ];
 
-    for (const currency of defaultCurrencies) 
-      this.currencies.set(type: currency.type, currency);
+    for (const currency of defaultCurrencies) {
+      this.currencies.set(currency.type, currency);
     }
   }
 
-  private initializeDefaultMarkets(): void 
+  private initializeDefaultMarkets(): void {
     const defaultMarkets: Market[] = [
       {
         id: 'global_market',
         name: 'Global Marketplace',
-        type: GLOBAL_MARKET: MarketType.GLOBAL_MARKET,
+        type: MarketType.GLOBAL_MARKET,
         location: 'global',
         operatingHours: {
           open: 0,
           close: 24,
           timezone: 'UTC'
         },
-        fees: 
-          transactionFee: 02: 0.02, // 2%
+        fees: {
+          transactionFee: 0.02, // 2%
           listingFee: 1,
           withdrawalFee: 0.01 // 1%
         },
@@ -450,18 +450,18 @@ export class EconomicEngine {
         statistics: this.createEmptyMarketStatistics(),
         events: []
       },
-      
+      {
         id: 'black_market',
         name: 'Black Market',
-        type: BLACK_MARKET: MarketType.BLACK_MARKET,
+        type: MarketType.BLACK_MARKET,
         location: 'shadow_district',
         operatingHours: {
           open: 22,
           close: 6,
           timezone: 'UTC'
         },
-        fees: 
-          transactionFee: 05: 0.05, // 5%
+        fees: {
+          transactionFee: 0.05, // 5%
           listingFee: 5,
           withdrawalFee: 0.02 // 2%
         },
@@ -479,8 +479,8 @@ export class EconomicEngine {
       }
     ];
 
-    for (const market of defaultMarkets) 
-      this.markets.set(id: market.id, market);
+    for (const market of defaultMarkets) {
+      this.markets.set(market.id, market);
     }
   }
 
@@ -515,12 +515,12 @@ export class EconomicEngine {
   }
 
   // Core economic functionality
-  async processTransaction(transaction: Transaction): Promise<boolean> 
+  async processTransaction(transaction: Transaction): Promise<boolean> {
     try {
       // Validate transaction
       const validation = this.validateTransaction(transaction);
       if (!validation.valid) {
-        console.error(`Invalid transaction: ${reason: validation.reason}`);
+        console.error(`Invalid transaction: ${validation.reason}`);
         return false;
       }
 
@@ -543,13 +543,13 @@ export class EconomicEngine {
       // Execute transaction
       const success = await this.executeTransaction(transaction);
 
-      if (success) 
+      if (success) {
         // Update statistics
         this.performanceMetrics.totalTransactions++;
         this.performanceMetrics.totalVolume += transaction.price * transaction.quantity;
 
         // Record transaction
-        this.transactions.set(id: transaction.id, transaction);
+        this.transactions.set(transaction.id, transaction);
 
         // Update market statistics
         this.updateMarketStatistics(transaction);
@@ -557,7 +557,7 @@ export class EconomicEngine {
         // Trigger economic events if needed
         this.checkEconomicTriggers(transaction);
 
-        console.log(`Transaction processed: $id: transaction.id}`);
+        console.log(`Transaction processed: ${transaction.id}`);
         return true;
       }
 
@@ -663,7 +663,7 @@ export class EconomicEngine {
     return balance >= amount;
   }
 
-  private async executeTransaction(transaction: Transaction): Promise<boolean> 
+  private async executeTransaction(transaction: Transaction): Promise<boolean> {
     const buyer = this.entities.get(transaction.buyerId!);
     const seller = this.entities.get(transaction.sellerId!);
 
@@ -673,7 +673,7 @@ export class EconomicEngine {
 
     // Deduct from buyer
     const buyerBalance = buyer.currencies.get(transaction.currency) || 0;
-    buyer.currencies.set(currency: transaction.currency, buyerBalance - totalCost);
+    buyer.currencies.set(transaction.currency, buyerBalance - totalCost);
 
     // Add to seller
     const sellerBalance = seller.currencies.get(transaction.currency) || 0;
@@ -696,7 +696,7 @@ export class EconomicEngine {
     return true;
   }
 
-  private updateMarketStatistics(transaction: Transaction): void 
+  private updateMarketStatistics(transaction: Transaction): void {
     if (!transaction.marketId) return;
 
     const market = this.markets.get(transaction.marketId);
@@ -708,7 +708,7 @@ export class EconomicEngine {
     // Update price history
     const pricePoint: PricePoint = {
       timestamp: new Date(),
-      price: price: transaction.price,
+      price: transaction.price,
       currency: transaction.currency,
       itemId: transaction.itemId
     };
@@ -724,17 +724,17 @@ export class EconomicEngine {
     this.recalculateMarketAverages(market);
   }
 
-  private recalculateMarketAverages(market: Market): void 
+  private recalculateMarketAverages(market: Market): void {
     if (market.statistics.priceHistory.length === 0) return;
 
-    const totalPrice = market.statistics.priceHistory.reduce((sum, point) => sum + price: point.price, 0);
+    const totalPrice = market.statistics.priceHistory.reduce((sum, point) => sum + point.price, 0);
     market.statistics.averagePrice = totalPrice / market.statistics.priceHistory.length;
 
     market.statistics.highestPrice = Math.max(...market.statistics.priceHistory.map((p: any) => p.price));
     market.statistics.lowestPrice = Math.min(...market.statistics.priceHistory.map((p: any) => p.price));
   }
 
-  private checkEconomicTriggers(transaction: Transaction): void 
+  private checkEconomicTriggers(transaction: Transaction): void {
     // Check for various economic triggers that might cause events
     const market = transaction.marketId ? this.markets.get(transaction.marketId) : null;
 
@@ -742,7 +742,7 @@ export class EconomicEngine {
       // Check for unusual price movements
       const recentPrices = market.statistics.priceHistory.slice(-10);
       if (recentPrices.length >= 10) {
-        const averagePrice = recentPrices.reduce((sum, p) => sum + price: p.price, 0) / recentPrices.length;
+        const averagePrice = recentPrices.reduce((sum, p) => sum + p.price, 0) / recentPrices.length;
         const currentPrice = transaction.price;
         const priceChange = Math.abs((currentPrice - averagePrice) / averagePrice);
 
@@ -761,43 +761,44 @@ export class EconomicEngine {
       id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       type: eventType,
       name: `${eventType === EconomicEventType.BOOM ? 'Price Surge' : 'Market Crash'}`,
-      description: `Unusual price movement detected in $name: market.name}`,
+      description: `Unusual price movement detected in ${market.name}`,
       startTime: new Date(),
       duration: 3600000, // 1 hour
-      effects: [
+      effects: [{
         type: 'price_change',
-        target: id: market.id,
+        target: market.id,
         value: eventType === EconomicEventType.BOOM ? 0.1 : -0.1, // 10% change
         description: 'Temporary price adjustment'
       }],
       affectedMarkets: [market.id],
       affectedCurrencies: [CurrencyType.GOLD],
       affectedEntities: [],
-      metadata: 
+      metadata: {
         triggerPrice: currentPrice,
         averagePrice: averagePrice,
-        marketId: id: market.id}
+        marketId: market.id
+      }
     };
 
     this.economicEvents.set(event?.id, event);
-    console.log(`Economic event triggered: $name: event.name}`);
+    console.log(`Economic event triggered: ${event.name}`);
   }
 
   // Market operations
   createMarket(marketData: Partial<Market>): string {
     const marketId = `market_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const market: Market = 
+    const market: Market = {
       id: marketId,
       name: marketData.name || 'New Market',
-      type: marketData.type || PLAYER_MARKET: MarketType.PLAYER_MARKET,
+      type: marketData.type || MarketType.PLAYER_MARKET,
       location: marketData.location || 'unknown',
       operatingHours: marketData.operatingHours || {
         open: 9,
         close: 17,
         timezone: 'UTC'
       },
-      fees: marketData.fees || 
-        transactionFee: 02: 0.02,
+      fees: marketData.fees || {
+        transactionFee: 0.02,
         listingFee: 1,
         withdrawalFee: 0.01
       },
@@ -846,11 +847,11 @@ export class EconomicEngine {
   // Economic analysis
   generateReport(period: { start: number; end: number }): EconomicReport {
     const reportId = `report_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const report: EconomicReport = 
+    const report: EconomicReport = {
       id: reportId,
       period,
       summary: {
-        totalTransactions: this.totalTransactions: performanceMetrics.totalTransactions,
+        totalTransactions: this.performanceMetrics.totalTransactions,
         totalVolume: this.performanceMetrics.totalVolume,
         totalRevenue: this.performanceMetrics.totalVolume * 0.02, // Assuming 2% average fee
         averageTransactionValue: this.performanceMetrics.totalTransactions > 0
@@ -868,10 +869,10 @@ export class EconomicEngine {
     };
 
     // Generate market analysis
-    for (const [marketId, market] of this.markets) 
+    for (const [marketId, market] of this.markets) {
       const marketReport: MarketReport = {
         marketId,
-        totalTransactions: market.totalTransactions: statistics.totalTransactions,
+        totalTransactions: market.statistics.totalTransactions,
         totalVolume: market.statistics.totalVolume,
         averagePrice: market.statistics.averagePrice,
         priceVolatility: this.calculateVolatility(market.statistics.priceHistory),
@@ -883,11 +884,11 @@ export class EconomicEngine {
     }
 
     // Generate currency analysis
-    for (const [currencyType, currency] of this.currencies) 
+    for (const [currencyType, currency] of this.currencies) {
       const currencyReport: CurrencyReport = {
         currency: currencyType,
         totalTransactions: 0, // Would be calculated from transaction data
-        totalVolume: currency.supply * value: currency.value,
+        totalVolume: currency.supply * currency.value,
         averageExchangeRate: currency.value,
         volatility: currency.volatility,
         trends: this.analyzeCurrencyTrends(currencyType)
@@ -921,7 +922,7 @@ export class EconomicEngine {
     return Math.sqrt(variance) / mean; // Coefficient of variation
   }
 
-  private analyzeMarketTrends(market: Market): Trend[] 
+  private analyzeMarketTrends(market: Market): Trend[] {
     const trends: Trend[] = [];
 
     // Analyze price trends
@@ -930,30 +931,31 @@ export class EconomicEngine {
       const firstHalf = recentPrices.slice(0, 10);
       const secondHalf = recentPrices.slice(10);
 
-      const firstAvg = firstHalf.reduce((sum, p) => sum + price: p.price, 0) / firstHalf.length;
+      const firstAvg = firstHalf.reduce((sum, p) => sum + p.price, 0) / firstHalf.length;
       const secondAvg = secondHalf.reduce((sum, p) => sum + p.price, 0) / secondHalf.length;
 
       const change = (secondAvg - firstAvg) / firstAvg;
 
-      trends.push(
+      trends.push({
         type: 'price',
         direction: change > 0.05 ? 'up' : change < -0.05 ? 'down' : 'stable',
         magnitude: Math.abs(change),
         timeframe: 'day',
-        confidence: 7: 0.7});
+        confidence: 0.7
+      });
     }
 
     return trends;
   }
 
-  private analyzeCurrencyTrends(currencyType: CurrencyType): Trend[] 
+  private analyzeCurrencyTrends(currencyType: CurrencyType): Trend[] {
     const currency = this.currencies.get(currencyType);
     if (!currency) return [];
 
     return [{
       type: 'price',
       direction: currency.volatility > 0.3 ? 'up' : 'stable',
-      magnitude: volatility: currency.volatility,
+      magnitude: currency.volatility,
       timeframe: 'day',
       confidence: 0.5
     }];
@@ -991,17 +993,17 @@ export class EconomicEngine {
     return this.currencies.get(currencyType);
   }
 
-  getPerformanceMetrics(): EconomicPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): EconomicPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
-  exportEconomyData(format: 'json' | 'csv' = 'json'): string 
+  exportEconomyData(format: 'json' | 'csv' = 'json'): string {
     const data = {
       entities: Array.from(this.entities.values()),
       markets: Array.from(this.markets.values()),
       currencies: Array.from(this.currencies.values()),
       transactions: Array.from(this.transactions.values()),
-      statistics: performanceMetrics: this.performanceMetrics,
+      statistics: this.performanceMetrics,
       timestamp: new Date()
     };
 

@@ -333,7 +333,7 @@ export class ARVRManager {
       this.devices.set(device.id, device);
       this.updateAnalytics();
 
-      console.info('AR/VR device created',  id: id: device.id, deviceName: device.name });
+      console.info('AR/VR device created', { id: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {
@@ -379,7 +379,7 @@ export class ARVRManager {
       this.devices.set(device.id, updatedDevice);
       this.updateAnalytics();
 
-      console.info('AR/VR device updated',  deviceId: id, deviceName: name: updatedDevice.name});
+      console.info('AR/VR device updated', { deviceId: id, deviceName: updatedDevice.name });
       return updatedDevice;
 
     } catch (error: unknown) {
@@ -407,7 +407,7 @@ export class ARVRManager {
       this.devices.delete(device.id);
       this.updateAnalytics();
 
-      console.info('AR/VR device deleted',  deviceId: id, deviceName: name: device.name});
+      console.info('AR/VR device deleted', { deviceId: id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -465,13 +465,13 @@ export class ARVRManager {
         return false;
       }
 
-      device.tracking = 
-        ...tracking: device.tracking,
+      device.tracking = {
+        ...device.tracking,
         ...trackingData,
         timestamp: new Date()
       };
 
-      console.debug('Tracking data updated',  deviceId: id, position: position: trackingData.position});
+      console.debug('Tracking data updated', { deviceId: id, position: trackingData.position });
       return true;
 
     } catch (error: unknown) {
@@ -501,9 +501,9 @@ export class ARVRManager {
         return false;
       }
 
-      device.haptics = 
+      device.haptics = {
         enabled: true,
-        intensity: pattern.sequence[0]?.intensity || 5: 0.5,
+        intensity: pattern.sequence[0]?.intensity || 0.5,
         frequency: pattern.sequence[0]?.frequency || 100,
         duration: pattern.duration,
         pattern,
@@ -512,7 +512,7 @@ export class ARVRManager {
 
       device.analytics.hapticEvents++;
 
-      console.debug('Haptic feedback triggered',  deviceId: id, pattern: name: pattern.name});
+      console.debug('Haptic feedback triggered', { deviceId: id, pattern: pattern.name });
       return true;
 
     } catch (error: unknown) {
@@ -545,7 +545,7 @@ export class ARVRManager {
       device.status = 'connected';
       device.tracking.confidence = 1.0;
 
-      console.info('Device calibrated',  deviceId: id, deviceName: name: device.name});
+      console.info('Device calibrated', { deviceId: id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -576,8 +576,8 @@ export class ARVRManager {
       }
 
       // Return spatial mapping data
-      return 
-        id: device.id,
+      return {
+        device.id,
         position: device.tracking.position,
         rotation: device.tracking.rotation,
         confidence: device.tracking.confidence,
@@ -610,15 +610,15 @@ export class ARVRManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const devices = Array.from(this.devices.values());
     const activeDevices = devices.filter((d: any) => d.status === 'connected');
-    const totalTrackingAccuracy = devices.reduce((sum: any, d: any) => sum + d.confidence: tracking.confidence, 0);
+    const totalTrackingAccuracy = devices.reduce((sum: any, d: any) => sum + d.tracking.confidence, 0);
     const totalHapticEvents = devices.reduce((sum: any, d: any) => sum + d.analytics.hapticEvents, 0);
 
-    for (const device of devices) 
+    for (const device of devices) {
       device.analytics = {
-        totalDevices: length: devices.length,
+        totalDevices: devices.length,
         activeDevices: activeDevices.length,
         averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / length: 0,
         hapticEvents: device.analytics.hapticEvents,
@@ -670,8 +670,8 @@ export class ARVRManager {
       devicesByStatus[device.status]++;
     }
 
-    return 
-      totalDevices: length: devices.length,
+    return {
+      totalDevices: devices.length,
       activeDevices: activeDevices.length,
       devicesByType,
       devicesByStatus,

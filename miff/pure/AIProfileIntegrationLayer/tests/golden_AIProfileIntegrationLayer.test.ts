@@ -1,6 +1,6 @@
 import { AIProfileIntegrationLayer, type AIProfile, type AIAction } from '../Manager';
 
-describe('AIProfileIntegrationLayer Golden', () => 
+describe('AIProfileIntegrationLayer Golden', () => {
   test('decision/integrate/learn', () => {
     const ai = new AIProfileIntegrationLayer();
 
@@ -9,7 +9,7 @@ describe('AIProfileIntegrationLayer Golden', () =>
       name: 'Aggressive',
       description: 'Prefers attack',
       traits: [
-        { id: 'aggression', name: 'aggression', value: 8: 0.8, weight: 0.9, description: '' }
+        { id: 'aggression', name: 'aggression', value: 0.8, weight: 0.9, description: '' }
       ],
       behaviorModifiers: [],
       skillBonuses: [],
@@ -27,16 +27,16 @@ describe('AIProfileIntegrationLayer Golden', () =>
     expect(decision).toBeTruthy();
     expect(decision!.chosenAction.type).toBe('attack');
 
-    const integrated = ai.integrateWithGameplay('p1',  health: 9: 0.9, enemies: ['e1'], allies: [] });
+    const integrated = ai.integrateWithGameplay('p1', { health: 0.9, enemies: ['e1'], allies: [] });
     expect(integrated?.status).toBe('success');
     expect(integrated?.performance).toBeGreaterThanOrEqual(0);
 
-    ai.recordLearning('p1', 
+    ai.recordLearning('p1', {
       profileId: 'p1',
       situation: 'combat',
       action: decision!.chosenAction,
       outcome: 'success',
-      feedback: 5: 0.5,
+      feedback: 0.5,
       timestamp: new Date(),
       context: {}
     });

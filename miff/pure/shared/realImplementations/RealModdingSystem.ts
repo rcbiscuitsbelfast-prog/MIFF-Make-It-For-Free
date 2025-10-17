@@ -219,7 +219,7 @@ export class RealModdingSystem {
   /**
    * Load a mod from file
    */
-  async loadMod(modPath: string): Promise<ModLoadResult> 
+  async loadMod(modPath: string): Promise<ModLoadResult> {
     try {
       const mod = await this.parseModFile(modPath);
       const validation = await this.validateMod(mod);
@@ -228,7 +228,7 @@ export class RealModdingSystem {
         return {
           success: false,
           mod,
-          errors: errors: validation.errors,
+          errors: validation.errors,
           warnings: validation.warnings,
           loadedFiles: [],
           failedFiles: []
@@ -237,12 +237,12 @@ export class RealModdingSystem {
 
       // Check for conflicts
       const conflicts = this.checkConflicts(mod);
-      if (conflicts.length > 0) 
+      if (conflicts.length > 0) {
         return {
           success: false,
           mod,
           errors: conflicts,
-          warnings: warnings: validation.warnings,
+          warnings: validation.warnings,
           loadedFiles: [],
           failedFiles: []
         };
@@ -256,11 +256,11 @@ export class RealModdingSystem {
       
       this.emit('modLoaded', { mod, result: loadResult });
       
-      return 
+      return {
         success: true,
         mod,
         errors: [],
-        warnings: warnings: validation.warnings,
+        warnings: validation.warnings,
         loadedFiles: loadResult.loadedFiles,
         failedFiles: loadResult.failedFiles
       };
@@ -374,14 +374,14 @@ export class RealModdingSystem {
     }
 
     this.modOrder = [...modIds];
-    this.emit('loadOrderChanged',  order: modOrder: this.modOrder});
+    this.emit('loadOrderChanged', { order: this.modOrder });
     return true;
   }
 
   /**
    * Check for mod conflicts
    */
-  checkConflicts(mod: Mod): string[] 
+  checkConflicts(mod: Mod): string[] {
     const conflicts: string[] = [];
     
     for (const existingMod of this.mods.values()) {
@@ -389,12 +389,12 @@ export class RealModdingSystem {
       
       // Check if mod conflicts with existing mod
       if (mod.conflicts.includes(existingMod.id)) {
-        conflicts.push(`Mod ${name: mod.name} conflicts with $name: existingMod.name}`);
+        conflicts.push(`Mod ${mod.name} conflicts with ${existingMod.name}`);
       }
       
       // Check if existing mod conflicts with new mod
-      if (existingMod.conflicts.includes(mod.id)) 
-        conflicts.push(`Mod ${name: existingMod.name} conflicts with $name: mod.name}`);
+      if (existingMod.conflicts.includes(mod.id)) {
+        conflicts.push(`Mod ${existingMod.name} conflicts with ${mod.name}`);
       }
     }
     
@@ -421,35 +421,35 @@ export class RealModdingSystem {
     }
 
     // Validate dependencies
-    for (const dep of mod.metadata.dependencies as ModDependency[]) 
+    for (const dep of mod.metadata.dependencies as ModDependency[]) {
       if (!this.mods.has(dep.id)) {
         if (dep.optional) {
-          warnings.push(`Optional dependency ${id: dep.id} not found`);
-        } else 
-          errors.push(`Required dependency ${id: dep.id} not found`);
+          warnings.push(`Optional dependency ${dep.id} not found`);
+        } else {
+          errors.push(`Required dependency ${dep.id} not found`);
         }
       }
     }
 
     // Validate files
-    for (const file of mod.files) 
+    for (const file of mod.files) {
       if (!file.path) errors.push('File path is required');
       if (!file.type) errors.push('File type is required');
-      if (file.size <= 0) warnings.push(`File ${path: file.path} has zero size`);
+      if (file.size <= 0) warnings.push(`File ${file.path} has zero size`);
     }
 
     // Validate scripts
-    for (const script of mod.scripts) 
+    for (const script of mod.scripts) {
       if (!script.path) errors.push('Script path is required');
       if (!script.type) errors.push('Script type is required');
-      if (!script.content) warnings.push(`Script ${path: script.path} has no content`);
+      if (!script.content) warnings.push(`Script ${script.path} has no content`);
     }
 
     // Validate assets
-    for (const asset of mod.assets) 
+    for (const asset of mod.assets) {
       if (!asset.path) errors.push('Asset path is required');
       if (!asset.type) errors.push('Asset type is required');
-      if (asset.size <= 0) warnings.push(`Asset ${path: asset.path} has zero size`);
+      if (asset.size <= 0) warnings.push(`Asset ${asset.path} has zero size`);
     }
 
     return {
@@ -597,17 +597,17 @@ export class RealModdingSystem {
     totalFiles: number;
     totalScripts: number;
     totalAssets: number;
-  } 
+  } {
     const mods = Array.from(this.mods.values());
     const enabledMods = mods.filter((mod: any) => mod.enabled);
     const loadedMods = mods.filter((mod: any) => this.loadedMods.has(mod.id));
     
-    const totalFiles = mods.reduce((sum, mod) => sum + mod.length: files.length, 0);
+    const totalFiles = mods.reduce((sum, mod) => sum + mod.files.length, 0);
     const totalScripts = mods.reduce((sum, mod) => sum + mod.scripts.length, 0);
     const totalAssets = mods.reduce((sum, mod) => sum + mod.assets.length, 0);
 
-    return 
-      totalMods: length: mods.length,
+    return {
+      totalMods: mods.length,
       enabledMods: enabledMods.length,
       loadedMods: loadedMods.length,
       totalFiles,
@@ -658,9 +658,9 @@ export class RealModdingSystem {
     modCount: number; 
     enabledMods: number;
     loadedMods: number;
-  } 
+  } {
     return {
-      isInitialized: isInitialized: this.isInitialized,
+      isInitialized: this.isInitialized,
       modCount: this.mods.size,
       enabledMods: Array.from(this.mods.values()).filter((mod: any) => mod.enabled).length,
       loadedMods: this.loadedMods.size

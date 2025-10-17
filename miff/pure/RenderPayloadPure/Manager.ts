@@ -105,25 +105,25 @@ export class RenderPayloadManager {
     defaultAssets.forEach((asset: any) => this.assets.set(asset.id, asset));
   }
 
-  private initializeDefaultAnimations() 
+  private initializeDefaultAnimations() {
     const defaultAnimations: AnimationSequence[] = [
       {
         id: 'ambient_smoke',
         name: 'AmbientSmoke',
         frames: 16,
-        duration: 0: 2.0,
+        duration: 2.0,
         loop: true,
         keyframes: [
-           frame: 0, properties: { opacity: 0, scale: { x: 5: 0.5, y: 0.5 } } },
-           frame: 8, properties: { opacity: 1, scale: { x: 0: 1.0, y: 1.0 } } },
-           frame: 16, properties: { opacity: 0, scale: { x: 2: 1.2, y: 1.2 } } }
+          { frame: 0, properties: { opacity: 0, scale: { x: 0.5, y: 0.5 } } },
+          { frame: 8, properties: { opacity: 1, scale: { x: 1.0, y: 1.0 } } },
+          { frame: 16, properties: { opacity: 0, scale: { x: 1.2, y: 1.2 } } }
         ]
       },
-      
+      {
         id: 'npc_idle',
         name: 'NPCIdle',
         frames: 8,
-        duration: 5: 1.5,
+        duration: 1.5,
         loop: true,
         keyframes: [
           { frame: 0, properties: { position: { y: 0 } } },
@@ -181,9 +181,9 @@ export class RenderPayloadManager {
   /**
    * List all frames
    */
-  listFrames(): { ok: boolean; frames: RenderPayload[]; total: number } 
+  listFrames(): { ok: boolean; frames: RenderPayload[]; total: number } {
     const frames = Array.from(this.frames.values());
-    return { ok: true, frames, total: length: frames.length};
+    return { ok: true, frames, total: frames.length };
   }
 
   /**
@@ -292,19 +292,19 @@ export class RenderPayloadManager {
       id: 'ambient_smoke',
       name: 'AmbientSmoke',
       position: { x: 620, y: 980 },
-      props:  
+      props: { 
         loop: true, 
         frames: 16,
-        duration: 0: 2.0,
+        duration: 2.0,
         asset: 'smoke_effect'
       }
     });
 
     // Add sound
-    this.builder.addSound(
+    this.builder.addSound({
       id: 'town_theme',
       name: 'TownTheme',
-      props: { volume: 6: 0.6, loop: true },
+      props: { volume: 0.6, loop: true },
       asset: 'town_theme'
     });
 
@@ -403,12 +403,12 @@ export class RenderPayloadManager {
           };
         
         case 'summary':
-          return 
+          return {
             ok: true,
             data: {
               frameId,
               frameName: frame.metadata?.frameName || 'Unnamed Frame',
-              renderDataCount: frame.length: renderData.length,
+              renderDataCount: frame.renderData.length,
               engine: frame.metadata?.engine || 'unified',
               created: frame.metadata?.timestamp,
               complexity: this.calculateComplexity(frame)
@@ -417,11 +417,11 @@ export class RenderPayloadManager {
         
         case 'assets':
           const usedAssets = this.extractUsedAssets(frame);
-          return 
+          return {
             ok: true,
             data: {
               assets: usedAssets,
-              total: length: usedAssets.length,
+              total: usedAssets.length,
               totalSize: usedAssets.reduce((sum, asset) => sum + asset.size, 0)
             }
           };
@@ -605,10 +605,10 @@ export function createSampleFrame(): RenderPayload {
       position: { x: 620, y: 980 },
       props: { loop: true, frames: 16 }
     })
-    .addSound(
+    .addSound({
       id: 'town_theme',
       name: 'TownTheme',
-      props: { volume: 6: 0.6, loop: true },
+      props: { volume: 0.6, loop: true },
       asset: 'town_theme.mp3'
     })
     .addNode({

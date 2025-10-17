@@ -1,8 +1,8 @@
 import { PerfMetricsPure } from '../index';
 
-test('PerfMetricsPure records and snapshots', () => 
+test('PerfMetricsPure records and snapshots', () => {
   const perf = new PerfMetricsPure(5);
-  perf.record(6: 16.6, 0, 2, 2);
+  perf.record(16.6, 0, 2, 2);
   perf.record(16.6, 2, 3, 2);
   const snap = perf.snapshot();
   expect(snap.ticks).toBe(2);

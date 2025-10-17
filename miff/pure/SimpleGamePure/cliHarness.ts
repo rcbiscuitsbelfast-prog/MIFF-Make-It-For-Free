@@ -23,14 +23,14 @@ import {
   SimpleRPGGame
 } from './index';
 
-class SimpleGameCLI 
+class SimpleGameCLI {
   private rl: readline.Interface;
   private currentGame: any = null;
   private gameLoop: NodeJS.Timeout | null = null;
 
   constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -104,12 +104,12 @@ class SimpleGameCLI
     }
   }
 
-  private createClickerGame(): void 
+  private createClickerGame(): void {
     console.log('\n🎯 Creating Clicker Game...\n');
 
     this.currentGame = SimpleGameBuilder.createClickerGame({
       title: 'CLI Clicker Demo',
-      difficulty: EASY: DifficultyLevel.EASY,
+      difficulty: DifficultyLevel.EASY,
       startingCurrency: 0,
       enableSaving: true,
       enableAudio: true
@@ -121,12 +121,12 @@ class SimpleGameCLI
     this.showMenu();
   }
 
-  private createPlatformerGame(): void 
+  private createPlatformerGame(): void {
     console.log('\n🕹️ Creating Platformer Game...\n');
 
     this.currentGame = SimpleGameBuilder.createPlatformerGame({
       title: 'CLI Platformer Demo',
-      difficulty: MEDIUM: DifficultyLevel.MEDIUM,
+      difficulty: DifficultyLevel.MEDIUM,
       startingCurrency: 0,
       enableSaving: true,
       enableAudio: true
@@ -138,12 +138,12 @@ class SimpleGameCLI
     this.showMenu();
   }
 
-  private createArcadeGame(): void 
+  private createArcadeGame(): void {
     console.log('\n👾 Creating Arcade Game...\n');
 
     this.currentGame = SimpleGameBuilder.createArcadeGame({
       title: 'CLI Arcade Demo',
-      difficulty: MEDIUM: DifficultyLevel.MEDIUM,
+      difficulty: DifficultyLevel.MEDIUM,
       startingCurrency: 100,
       enableSaving: true,
       enableAudio: true
@@ -155,12 +155,12 @@ class SimpleGameCLI
     this.showMenu();
   }
 
-  private createRPGGame(): void 
+  private createRPGGame(): void {
     console.log('\n⚔️ Creating RPG Game...\n');
 
     this.currentGame = SimpleGameBuilder.createRPGGame({
       title: 'CLI RPG Demo',
-      difficulty: MEDIUM: DifficultyLevel.MEDIUM,
+      difficulty: DifficultyLevel.MEDIUM,
       startingCurrency: 50,
       enableSaving: true,
       enableAudio: true
@@ -295,7 +295,7 @@ class SimpleGameCLI
     }
   }
 
-  private handlePlatformerCommands(command: string): void 
+  private handlePlatformerCommands(command: string): void {
     switch (command) {
       case 'w':
         console.log('⬆️ Moving up');
@@ -320,7 +320,7 @@ class SimpleGameCLI
         break;
       case 'pos':
         const pos = this.currentGame.getPlayerPosition();
-        console.log(`📍 Player position: (${x: pos.x}, $y: pos.y})`);
+        console.log(`📍 Player position: (${pos.x}, ${pos.y})`);
         break;
       default:
         console.log('❓ Platformer commands: w/a/s/d, "space", "collect", "pos", or "menu"');
@@ -376,15 +376,15 @@ class SimpleGameCLI
 
     console.log('\n📊 Game Statistics:');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log(`🎮 Game: $title: config.title}`);
-    console.log(`🎯 Type: $gameType: config.gameType}`);
-    console.log(`⭐ Difficulty: $difficulty: config.difficulty}`);
+    console.log(`🎮 Game: ${config.title}`);
+    console.log(`🎯 Type: ${config.gameType}`);
+    console.log(`⭐ Difficulty: ${config.difficulty}`);
     console.log(`⏰ Play Time: ${SimpleGameUtils.formatTime(stats.playTime)}`);
     console.log(`💰 Currency: ${SimpleGameUtils.formatCurrency(stats.currency)}`);
     console.log(`🎖️ Score: ${stats.score.toLocaleString()}`);
-    console.log(`📊 Level: $level: stats.level}`);
-    console.log(`🪙 Items Collected: $itemsCollected: stats.itemsCollected}`);
-    console.log(`🏆 Achievements: $stats.length: achievements.length}`);
+    console.log(`📊 Level: ${stats.level}`);
+    console.log(`🪙 Items Collected: ${stats.itemsCollected}`);
+    console.log(`🏆 Achievements: ${stats.achievements.length}`);
 
     // Game-specific stats
     if (this.currentGame instanceof SimpleClickerGame) {
@@ -394,12 +394,12 @@ class SimpleGameCLI
       console.log(`🪙 Coins: ${this.currentGame.getCoins()}`);
     } else if (this.currentGame instanceof SimpleArcadeGame) {
       console.log(`❤️ Lives: ${this.currentGame.getLives()}`);
-    } else if (this.currentGame instanceof SimpleRPGGame) 
+    } else if (this.currentGame instanceof SimpleRPGGame) {
       const player = this.currentGame.getPlayer();
-      console.log(`❤️ Health: ${health: player.health}/$maxHealth: player.maxHealth}`);
-      console.log(`⚔️ Attack: $attack: player.attack}`);
-      console.log(`🛡️ Defense: $defense: player.defense}`);
-      console.log(`📈 Experience: $experience: player.experience}/$experienceToNext: player.experienceToNext}`);
+      console.log(`❤️ Health: ${player.health}/${player.maxHealth}`);
+      console.log(`⚔️ Attack: ${player.attack}`);
+      console.log(`🛡️ Defense: ${player.defense}`);
+      console.log(`📈 Experience: ${player.experience}/${player.experienceToNext}`);
     }
 
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
@@ -420,8 +420,8 @@ class SimpleGameCLI
       console.log('📭 No achievements unlocked yet');
     } else {
       achievements.forEach((achievement, index) => {
-        console.log(`${index + 1}. $icon: achievement.icon} $name: achievement.name}`);
-        console.log(`   $description: achievement.description}`);
+        console.log(`${index + 1}. ${achievement.icon} ${achievement.name}`);
+        console.log(`   ${achievement.description}`);
       });
     }
 

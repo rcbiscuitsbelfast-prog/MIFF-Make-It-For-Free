@@ -66,11 +66,11 @@ export const PixelGenPure = {
 				style: p.style,
 				layer: pixelData, // Actual pixel data as base64
 				anchor: { x: p.width / 2, y: p.height - 2 },
-				metadata: 
+				metadata: {
 					seed: seed + i,
 					preset,
 					generated: true,
-					width: width: p.width,
+					width: p.width,
 					height: p.height
 				}
 			});

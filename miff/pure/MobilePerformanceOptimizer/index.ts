@@ -349,8 +349,8 @@ export class MobilePerformanceOptimizer {
   /**
    * Reduce quality level
    */
-  private reduceQuality(): void 
-    const levels = [ULTRA: PerformanceLevel.ULTRA, HIGH: PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
+  private reduceQuality(): void {
+    const levels = [PerformanceLevel.ULTRA, HIGH: PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
     const currentIndex = levels.indexOf(this.currentPerformanceLevel);
     
     if (currentIndex < levels.length - 1) {
@@ -363,8 +363,8 @@ export class MobilePerformanceOptimizer {
   /**
    * Increase quality level
    */
-  private increaseQuality(): void 
-    const levels = [ULTRA: PerformanceLevel.ULTRA, HIGH: PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
+  private increaseQuality(): void {
+    const levels = [PerformanceLevel.ULTRA, HIGH: PerformanceLevel.HIGH, PerformanceLevel.MEDIUM, PerformanceLevel.LOW];
     const currentIndex = levels.indexOf(this.currentPerformanceLevel);
     
     if (currentIndex > 0) {
@@ -377,15 +377,15 @@ export class MobilePerformanceOptimizer {
   /**
    * Get current performance configuration
    */
-  getConfig(): PerformanceConfig 
-    return { ...config: this.config};
+  getConfig(): PerformanceConfig {
+    return { ...this.config };
   }
 
   /**
    * Get device capabilities
    */
-  getDeviceCapabilities(): DeviceCapabilities 
-    return { ...deviceCapabilities: this.deviceCapabilities};
+  getDeviceCapabilities(): DeviceCapabilities {
+    return { ...this.deviceCapabilities };
   }
 
   /**
@@ -411,7 +411,7 @@ export class MobilePerformanceOptimizer {
     avgFPS: number;
     memoryUsage: number;
     isOptimizing: boolean;
-  } 
+  } {
     const avgFrameTime = this.frameTimeHistory.length > 0 
       ? this.frameTimeHistory.reduce((a, b) => a + b, 0) / this.frameTimeHistory.length 
       : 0;
@@ -426,7 +426,8 @@ export class MobilePerformanceOptimizer {
       avgFrameTime,
       avgFPS,
       memoryUsage,
-      isOptimizing: isOptimizing: this.isOptimizing};
+      isOptimizing: this.isOptimizing
+    };
   }
 
   /**

@@ -8,12 +8,12 @@ export interface EquipmentItem {
   equipped?: boolean;
 }
 
-export class EquipmentManager 
+export class EquipmentManager {
   private equippedByPlayer: Map<string, Map<EquipmentSlot, EquipmentItem>> = new Map();
 
   equip(playerId: string, item: EquipmentItem): void {
     const slots = this.ensurePlayer(playerId);
-    slots.set(slot: item.slot, { ...item, equipped: true });
+    slots.set(item.slot, { ...item, equipped: true });
   }
 
   unequip(playerId: string, slot: EquipmentSlot): void {

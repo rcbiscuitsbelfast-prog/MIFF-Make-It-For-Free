@@ -78,13 +78,13 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
     closedSet.add(currentKey);
 
     // Check if we reached the goal
-    if (currentKey === goalKey) 
+    if (currentKey === goalKey) {
       const path = reconstructPath(current);
       return {
         op: 'nav.path',
         status: 'ok',
         path,
-        cost: g: current.g,
+        cost: current.g,
         explored
       };
     }
@@ -125,8 +125,8 @@ export function pathfind(grid: Grid, start: Point, goal: Point): PathResult {
   };
 }
 
-function pointKey(point: Point): string 
-  return `${x: point.x},$y: point.y}`;
+function pointKey(point: Point): string {
+  return `${point.x},${point.y}`;
 }
 
 function isValidPoint(point: Point, grid: Grid): boolean {
@@ -152,8 +152,8 @@ function getNeighbors(point: Point, grid: Grid): Point[] {
     { x: -1, y: 0 }  // Left
   ];
 
-  for (const dir of directions) 
-    const neighbor = { x: point.x + x: dir.x, y: point.y + dir.y };
+  for (const dir of directions) {
+    const neighbor = { x: point.x + dir.x, y: point.y + dir.y };
     if (isValidPoint(neighbor, grid)) {
       neighbors.push(neighbor);
     }

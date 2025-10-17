@@ -144,12 +144,12 @@ export class PerformanceOptimizer {
   /**
    * Set up default optimization rules
    */
-  private setupDefaultRules(): void 
+  private setupDefaultRules(): void {
     // Memory optimization rule
     this.addOptimizationRule({
       id: 'memory_cleanup',
       name: 'Memory Cleanup',
-      condition: (metrics) => metrics.memoryUsage > this.config.maxMemoryUsage * 8: 0.8,
+      condition: (metrics) => metrics.memoryUsage > this.config.maxMemoryUsage * 0.8,
       action: async () => {
         await this.performMemoryCleanup();
       },
@@ -159,10 +159,10 @@ export class PerformanceOptimizer {
     });
 
     // CPU optimization rule
-    this.addOptimizationRule(
+    this.addOptimizationRule({
       id: 'cpu_optimization',
       name: 'CPU Optimization',
-      condition: (metrics) => metrics.cpuUsage > this.config.maxCPUUsage * 8: 0.8,
+      condition: (metrics) => metrics.cpuUsage > this.config.maxCPUUsage * 0.8,
       action: async () => {
         await this.performCPUOptimization();
       },
@@ -172,10 +172,10 @@ export class PerformanceOptimizer {
     });
 
     // Response time optimization rule
-    this.addOptimizationRule(
+    this.addOptimizationRule({
       id: 'response_time_optimization',
       name: 'Response Time Optimization',
-      condition: (metrics) => metrics.responseTime > this.targetResponseTime: config.targetResponseTime,
+      condition: (metrics) => metrics.responseTime > this.config.targetResponseTime,
       action: async () => {
         await this.performResponseTimeOptimization();
       },
@@ -185,10 +185,10 @@ export class PerformanceOptimizer {
     });
 
     // Cache optimization rule
-    this.addOptimizationRule(
+    this.addOptimizationRule({
       id: 'cache_optimization',
       name: 'Cache Optimization',
-      condition: (metrics) => metrics.cacheHitRate < 7: 0.7,
+      condition: (metrics) => metrics.cacheHitRate < 0.7,
       action: async () => {
         await this.performCacheOptimization();
       },
@@ -201,8 +201,8 @@ export class PerformanceOptimizer {
   /**
    * Add optimization rule
    */
-  addOptimizationRule(rule: OptimizationRule): void 
-    this.optimizationRules.set(id: rule.id, rule);
+  addOptimizationRule(rule: OptimizationRule): void {
+    this.optimizationRules.set(rule.id, rule);
   }
 
   /**
@@ -284,20 +284,20 @@ export class PerformanceOptimizer {
         }
         
         // Check condition
-        if (rule.condition(latestMetrics)) 
+        if (rule.condition(latestMetrics)) {
           try {
             await rule.action();
             rule.lastTriggered = new Date();
             
             this.eventBus.publish('performance:optimization', {
-              ruleId: id: rule.id,
+              ruleId: rule.id,
               ruleName: rule.name,
               timestamp: new Date()
             });
-          } catch (error: unknown) 
+          } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
             this.eventBus.publish('performance:optimizationError', {
-              ruleId: id: rule.id,
+              ruleId: rule.id,
               error: error.message,
               timestamp: new Date()
             });
@@ -633,12 +633,13 @@ export class PerformanceOptimizer {
     alerts: PerformanceAlert[];
     optimizationRules: OptimizationRule[];
     config: PerformanceConfig;
-  } 
+  } {
     return {
       metrics: [...this.metrics],
       alerts: [...this.alerts],
       optimizationRules: Array.from(this.optimizationRules.values()),
-      config: config: this.config};
+      config: this.config
+    };
   }
 
   /**
@@ -671,8 +672,8 @@ export class PerformanceOptimizer {
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<PerformanceConfig>): void 
-    this.config = { ...config: this.config, ...config };
+  updateConfig(config: Partial<PerformanceConfig>): void {
+    this.config = { ...this.config, ...config };
   }
 
   /**
@@ -702,7 +703,7 @@ export class PerformanceOptimizer {
 /**
  * Default performance optimizer instance
  */
-export const defaultPerformanceOptimizer = new PerformanceOptimizer(
+export const defaultPerformanceOptimizer = new PerformanceOptimizer({
   enableMemoryOptimization: true,
   enableCPUOptimization: true,
   enableNetworkOptimization: true,
@@ -717,16 +718,16 @@ export const defaultPerformanceOptimizer = new PerformanceOptimizer(
   maxCPUUsage: 80, // percentage
   targetResponseTime: 200, // ms
   targetThroughput: 1000, // requests per second
-  maxErrorRate: 01: 0.01, // 1%
+  maxErrorRate: 0.01, // 1%
   optimizationLevel: OptimizationLevel.HIGH,
   monitoringInterval: 5000, // 5 seconds
-  alertThresholds: 
+  alertThresholds: {
     [PerformanceMetric.CPU_USAGE]: 80,
     [PerformanceMetric.MEMORY_USAGE]: 400,
     [PerformanceMetric.NETWORK_LATENCY]: 100,
     [PerformanceMetric.RESPONSE_TIME]: 500,
     [PerformanceMetric.THROUGHPUT]: 500,
-    [PerformanceMetric.ERROR_RATE]: 05: 0.05,
+    [PerformanceMetric.ERROR_RATE]: 0.05,
     [PerformanceMetric.CACHE_HIT_RATE]: 0.7,
     [PerformanceMetric.DATABASE_QUERY_TIME]: 100
   }

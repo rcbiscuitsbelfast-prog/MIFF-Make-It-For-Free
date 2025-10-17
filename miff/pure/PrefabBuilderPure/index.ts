@@ -27,42 +27,42 @@ export type PrefabAction =
   | { type: 'tag'; tag: string }
   | { type: 'untag'; tag: string };
 
-export function createPrefabState(config: PrefabConfig): PrefabState 
+export function createPrefabState(config: PrefabConfig): PrefabState {
   return {
-    id: id: config.id,
+    id: config.id,
     name: config.name,
-    blocks: config.blocks.map((b, i) => ( id: `${id: config.id}_b${i}`, ...b })),
+    blocks: config.blocks.map((b, i) => ({ id: `${config.id}_b${i}`, ...b })),
     metadata: { tags: [...(config.tags! || [])], createdAt: new Date(), version: 1 }
   };
 }
 
-export function reducePrefabAction(state: PrefabState, action: PrefabAction): PrefabState 
+export function reducePrefabAction(state: PrefabState, action: PrefabAction): PrefabState {
   switch (action.type) {
     case 'add_block': {
-      const id = action.block.id || `${id: state.id}_b$state.length: blocks.length}`;
-      return 
+      const id = action.block.id || `${state.id}_b${state.blocks.length}`;
+      return {
         ...state,
-        blocks: [...blocks: state.blocks,  id, type: action.type: block.type, x: action.block.x, y: action.block.y, z: action.block.z }]
+        blocks: [...state.blocks, { id, type: action.block.type, x: action.block.x, y: action.block.y, z: action.block.z }]
       };
     }
     case 'remove_block': {
       return { ...state, blocks: state.blocks.filter((b: any) => b.id !== action.blockId) };
     }
-    case 'translate': 
+    case 'translate': {
       return {
         ...state,
-        blocks: state.blocks.map((b: any) => ({ ...b, x: b.x + dx: action.dx, y: b.y + action.dy, z: b.z + action.dz }))
+        blocks: state.blocks.map((b: any) => ({ ...b, x: b.x + action.dx, y: b.y + action.dy, z: b.z + action.dz }))
       };
     }
-    case 'rename': 
-      return { ...state, name: name: action.name};
+    case 'rename': {
+      return { ...state, name: action.name };
     }
-    case 'tag': 
+    case 'tag': {
       if (state.metadata.tags.includes(action.tag)) return state;
-      return { ...state, metadata: { ...metadata: state.metadata, tags: [...state.metadata.tags, action.tag] } };
+      return { ...state, metadata: { ...state.metadata, tags: [...state.metadata.tags, action.tag] } };
     }
-    case 'untag': 
-      return { ...state, metadata: { ...metadata: state.metadata, tags: state.metadata.tags.filter((t: any) => t !== action.tag) } };
+    case 'untag': {
+      return { ...state, metadata: { ...state.metadata, tags: state.metadata.tags.filter((t: any) => t !== action.tag) } };
     }
     default:
       return state;

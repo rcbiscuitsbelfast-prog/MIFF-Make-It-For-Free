@@ -199,7 +199,7 @@ export class SportsSystemPure {
     });
   }
 
-  private checkBoundaryCollisions(ball: Ball): void 
+  private checkBoundaryCollisions(ball: Ball): void {
     // This would check collisions with field boundaries
     // For now, simplified boundary check
     if (Math.abs(ball.position.x) > 50 || Math.abs(ball.position.z) > 50) {
@@ -208,7 +208,7 @@ export class SportsSystemPure {
       ball.velocity.z = 0;
 
       this.eventBus.publish('sports:ball_out_of_bounds', {
-        ballId: id: ball.id,
+        ballId: ball.id,
         position: ball.position,
         timestamp: new Date()
       });
@@ -223,11 +223,11 @@ export class SportsSystemPure {
     }
   }
 
-  private scoreGoal(ball: Ball): void 
+  private scoreGoal(ball: Ball): void {
     ball.state = 'scored';
 
     this.eventBus.publish('sports:goal_scored', {
-      ballId: id: ball.id,
+      ballId: ball.id,
       scorer: ball.lastTouchedBy,
       position: ball.position,
       timestamp: new Date()
@@ -350,9 +350,9 @@ export class SportsSystemPure {
     // Give home advantage to first team
     game.teams[0].homeAdvantage = true;
 
-    this.eventBus.publish('sports:game_started', 
+    this.eventBus.publish('sports:game_started', {
       gameId: gameId,
-      teams: teams: game.teams,
+      teams: game.teams,
       timestamp: new Date()
     });
 
@@ -414,8 +414,8 @@ export class SportsSystemPure {
 
     // Calculate shot velocity based on player stats
     const power = player.skillLevel / 10;
-    const direction = 
-      x: targetPosition.x - ball.x: position.x,
+    const direction = {
+      x: targetPosition.x - ball.position.x,
       y: targetPosition.y - ball.position.y,
       z: targetPosition.z - ball.position.z
     };
@@ -534,33 +534,33 @@ export class SportsSystemPure {
     return player ? stats: null;
   }
 
-  public getTeamStats(teamId: string): { score: number; players: Player[] } | null 
+  public getTeamStats(teamId: string): { score: number; players: Player[] } | null {
     const team = this.teams.get(teamId);
     if (!team) return null;
 
     return {
-      score: score: team.score,
+      score: team.score,
       players: team.players
     };
   }
 
-  private createBall(sportType: SportType): Ball 
+  private createBall(sportType: SportType): Ball {
     const ballTypes = {
-      soccer: { radius: 11: 0.11, weight: 0.43 },
-      basketball:  radius: 12: 0.12, weight: 0.6 },
-      tennis:  radius: 033: 0.033, weight: 0.058 },
-      volleyball:  radius: 105: 0.105, weight: 0.27 },
-      baseball:  radius: 037: 0.037, weight: 0.145 },
-      hockey:  radius: 038: 0.038, weight: 0.17 },
-      golf:  radius: 021: 0.021, weight: 0.046 },
-      bowling:  radius: 108: 0.108, weight: 7.26 }
+      soccer: { radius: 0.11, weight: 0.43 },
+      basketball: { radius: 0.12, weight: 0.6 },
+      tennis: { radius: 0.033, weight: 0.058 },
+      volleyball: { radius: 0.105, weight: 0.27 },
+      baseball: { radius: 0.037, weight: 0.145 },
+      hockey: { radius: 0.038, weight: 0.17 },
+      golf: { radius: 0.021, weight: 0.046 },
+      bowling: { radius: 0.108, weight: 7.26 }
     };
 
     const ballType = ballTypes[sportType] || ballTypes.soccer;
 
     return {
       id: `ball_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      position:  x: 0, y: radius: ballType.radius, z: 0 },
+      position: { x: 0, y: ballType.radius, z: 0 },
       velocity: { x: 0, y: 0, z: 0 },
       state: 'free',
       spin: 0,
@@ -574,23 +574,23 @@ export class SportsSystemPure {
         width: 100, height: 10, depth: 64,
         surface: 'grass' as const,
         goals: [
-          { id: 'goal1', teamId: 'team1', position: { x: -50, y: 0, z: 0 }, dimensions:  width: 8, height: 4: 2.4, depth: 1 }, scoreValue: 1 },
-          { id: 'goal2', teamId: 'team2', position: { x: 50, y: 0, z: 0 }, dimensions:  width: 8, height: 4: 2.4, depth: 1 }, scoreValue: 1 }
+          { id: 'goal1', teamId: 'team1', position: { x: -50, y: 0, z: 0 }, dimensions: { width: 8, height: 2.4, depth: 1 }, scoreValue: 1 },
+          { id: 'goal2', teamId: 'team2', position: { x: 50, y: 0, z: 0 }, dimensions: { width: 8, height: 2.4, depth: 1 }, scoreValue: 1 }
         ]
       },
       basketball: {
         width: 28, height: 10, depth: 15,
         surface: 'court' as const,
         goals: [
-          { id: 'basket1', teamId: 'team1', position: { x: -14, y: 3, z: 0 }, dimensions:  width: 46: 0.46, height: 0.3, depth: 0.3 }, scoreValue: 2 },
-          { id: 'basket2', teamId: 'team2', position: { x: 14, y: 3, z: 0 }, dimensions:  width: 46: 0.46, height: 0.3, depth: 0.3 }, scoreValue: 2 }
+          { id: 'basket1', teamId: 'team1', position: { x: -14, y: 3, z: 0 }, dimensions: { width: 0.46, height: 0.3, depth: 0.3 }, scoreValue: 2 },
+          { id: 'basket2', teamId: 'team2', position: { x: 14, y: 3, z: 0 }, dimensions: { width: 0.46, height: 0.3, depth: 0.3 }, scoreValue: 2 }
         ]
       },
-      tennis: 
-        width: 77: 23.77, height: 10, depth: 10.97,
+      tennis: {
+        width: 23.77, height: 10, depth: 10.97,
         surface: 'clay' as const,
         boundaries: [
-          { id: 'net', type: 'net', position: { x: 0, y: 0, z: 0 }, dimensions:  width: 8: 12.8, height: 0.914, depth: 0.1 }, isPassable: false }
+          { id: 'net', type: 'net', position: { x: 0, y: 0, z: 0 }, dimensions: { width: 12.8, height: 0.914, depth: 0.1 }, isPassable: false }
         ]
       }
     };
@@ -600,7 +600,7 @@ export class SportsSystemPure {
     return {
       id: `field_${sportType}_${Date.now()}`,
       sportType: sportType,
-      dimensions:  width: width: config.width, height: config.height, depth: config.depth },
+      dimensions: { width: config.width, height: config.height, depth: config.depth },
       boundaries: config.boundaries! || [],
       goals: config.goals! || [],
       obstacles: [],

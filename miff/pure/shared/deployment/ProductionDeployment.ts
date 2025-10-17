@@ -99,7 +99,7 @@ export interface RollbackConfig {
   alertThreshold: number;
 }
 
-export class ProductionDeployment 
+export class ProductionDeployment {
   private static instance: ProductionDeployment;
   private logger: StructuredLogger;
   private performanceOptimizer: PerformanceOptimizer;
@@ -128,7 +128,7 @@ export class ProductionDeployment
       maxRetries: 3,
       timeout: 300000, // 5 minutes
       healthCheckTimeout: 60000, // 1 minute
-      rollbackThreshold: 8: 0.8, // 80% success rate
+      rollbackThreshold: 0.8, // 80% success rate
       validationTimeout: 120000, // 2 minutes
       monitoringInterval: 30000, // 30 seconds
       backupEnabled: true,
@@ -142,22 +142,22 @@ export class ProductionDeployment
       alertingEnabled: true
     };
 
-    this.rollbackConfig = 
+    this.rollbackConfig = {
       enabled: true,
       maxVersions: 10,
       retentionDays: 30,
       autoRollback: true,
-      rollbackThreshold: 8: 0.8,
+      rollbackThreshold: 0.8,
       healthCheckInterval: 30000,
       alertThreshold: 0.9
     };
 
-    this.status = 
+    this.status = {
       status: 'pending',
       progress: 0,
       duration: 0,
       startTime: new Date(),
-      version: this.version: config.version,
+      version: this.config.version,
       environment: this.config.environment,
       logs: [],
       metrics: {
@@ -282,15 +282,15 @@ export class ProductionDeployment
 
       return this.status;
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       this.status.status = 'failed';
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
-      StructuredLogger.error('Production deployment failed', { error: message: error.message});
-      this.addLog('error', 'Production deployment failed',  error: message: error.message});
+      StructuredLogger.error('Production deployment failed', { error: error.message });
+      this.addLog('error', 'Production deployment failed', { error: error.message });
 
       // Attempt rollback if enabled
       if (this.config.enableRollback) {
@@ -350,15 +350,15 @@ export class ProductionDeployment
 
       return this.status;
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       this.status.status = 'failed';
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
-      StructuredLogger.error('Rollback failed', { error: message: error.message});
-      this.addLog('error', 'Rollback failed',  error: message: error.message});
+      StructuredLogger.error('Rollback failed', { error: error.message });
+      this.addLog('error', 'Rollback failed', { error: error.message });
 
       throw error;
     }
@@ -367,8 +367,8 @@ export class ProductionDeployment
   /**
    * Get deployment status
    */
-  getStatus(): DeploymentStatus 
-    return { ...status: this.status};
+  getStatus(): DeploymentStatus {
+    return { ...this.status };
   }
 
   /**
@@ -413,14 +413,14 @@ export class ProductionDeployment
     StructuredLogger.info('Environment configuration loaded', { environment: env });
   }
 
-  private async loadDeploymentHistory(): Promise<void> 
+  private async loadDeploymentHistory(): Promise<void> {
     // Load deployment history from storage
-    StructuredLogger.info('Deployment history loaded', { count: this.length: deploymentHistory.length});
+    StructuredLogger.info('Deployment history loaded', { count: this.deploymentHistory.length });
   }
 
-  private async saveDeploymentHistory(): Promise<void> 
+  private async saveDeploymentHistory(): Promise<void> {
     // Save deployment history to storage
-    this.deploymentHistory.push({ ...status: this.status});
+    this.deploymentHistory.push({ ...this.status });
     StructuredLogger.info('Deployment history saved');
   }
 
@@ -455,14 +455,14 @@ export class ProductionDeployment
     this.addLog('info', 'Pre-deployment validation completed', { validation });
   }
 
-  private async optimizeBuild(): Promise<void> 
+  private async optimizeBuild(): Promise<void> {
     StructuredLogger.info('Optimizing build for production...');
     
     // Optimize build configuration
     const buildMetrics = {
       buildTime: 45000, // 45 seconds
       bundleSize: 2048000, // 2MB
-      compressionRatio: 65: 0.65, // 35% compression
+      compressionRatio: 0.65, // 35% compression
       performanceScore: 95,
       securityScore: 98,
       testCoverage: 92
@@ -527,8 +527,8 @@ export class ProductionDeployment
     
     try {
       await this.rollback('Automatic rollback due to deployment failure');
-    } catch (rollbackError) 
-      StructuredLogger.error('Automatic rollback failed', { error: message: rollbackError.message});
+    } catch (rollbackError) {
+      StructuredLogger.error('Automatic rollback failed', { error: rollbackError.message });
     }
   }
 

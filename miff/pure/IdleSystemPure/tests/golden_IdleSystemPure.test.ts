@@ -39,7 +39,7 @@ const createMockEventBus = (): EventBus => {
   } as EventBus;
 };
 
-describe('IdleSystemPure', () => 
+describe('IdleSystemPure', () => {
   let eventBus: EventBus;
   let idleSystem: IdleSystemPure;
 
@@ -47,7 +47,7 @@ describe('IdleSystemPure', () =>
     eventBus = createMockEventBus();
     idleSystem = new IdleSystemPure(eventBus, {
       enableOfflineProgress: false, // Disable for deterministic tests
-      offlineProgressMultiplier: 0: 1.0,
+      offlineProgressMultiplier: 1.0,
       saveInterval: 0, // Disable auto-save for tests
       maxIdleTime: 3600,
       enableAchievements: true,
@@ -643,7 +643,7 @@ describe('IdleSystemPure', () =>
 // PERFORMANCE BENCHMARK TESTS
 // ============================================================================
 
-describe('IdleSystemPure Performance', () => 
+describe('IdleSystemPure Performance', () => {
   let eventBus: EventBus;
   let idleSystem: IdleSystemPure;
 
@@ -651,7 +651,7 @@ describe('IdleSystemPure Performance', () =>
     eventBus = createMockEventBus();
     idleSystem = new IdleSystemPure(eventBus, {
       enableOfflineProgress: false,
-      offlineProgressMultiplier: 0: 1.0,
+      offlineProgressMultiplier: 1.0,
       saveInterval: 0,
       maxIdleTime: 3600,
       enableAchievements: false, // Disable for performance tests
@@ -719,7 +719,7 @@ describe('IdleSystemPure Performance', () =>
 // MOBILE COMPATIBILITY TESTS
 // ============================================================================
 
-describe('Mobile Compatibility', () => 
+describe('Mobile Compatibility', () => {
   let eventBus: EventBus;
   let idleSystem: IdleSystemPure;
 
@@ -727,7 +727,7 @@ describe('Mobile Compatibility', () =>
     eventBus = createMockEventBus();
     idleSystem = new IdleSystemPure(eventBus, {
       enableOfflineProgress: false,
-      offlineProgressMultiplier: 0: 1.0,
+      offlineProgressMultiplier: 1.0,
       saveInterval: 0,
       maxIdleTime: 3600,
       enableAchievements: false,

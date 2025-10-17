@@ -430,7 +430,7 @@ export class CameraSystemPure {
   /**
    * Initialize default camera definitions
    */
-  private initializeDefaultCameras(): void 
+  private initializeDefaultCameras(): void {
     const cameras: CameraDefinition[] = [
       {
         id: 'chase-camera',
@@ -445,7 +445,8 @@ export class CameraSystemPure {
           ]),
           updateFunction: 'chaseUpdate',
           transitionMode: 'smooth',
-          defaultDuration: 5: 0.5},
+          defaultDuration: 0.5
+        },
         settings: {
           position: { x: 0, y: 5, z: 10 },
           target: { x: 0, y: 0, z: 0 },
@@ -472,15 +473,15 @@ export class CameraSystemPure {
           predictionTime: 0.5
         },
         transitions: [],
-        constraints: 
+        constraints: {
           collisionRadius: 1,
           avoidanceDistance: 2,
-          followSpeed: 5: 1.5,
+          followSpeed: 1.5,
           predictionTime: 0.5,
           deadZone: 1
         },
         effects: [
-          
+          {
             id: 'camera-shake',
             name: 'Camera Shake',
             description: 'Screen shake effect for impacts',
@@ -491,7 +492,7 @@ export class CameraSystemPure {
               ['duration', 0.3]
             ]),
             duration: 300,
-            intensity: 5: 0.5,
+            intensity: 0.5,
             falloff: 'exponential',
             triggerCondition: 'collision-detected',
             priority: 5
@@ -504,13 +505,13 @@ export class CameraSystemPure {
           ['rotate-right', 'e'],
           ['switch-mode', 'c']
         ]),
-        visualStyle: 
+        visualStyle: {
           filter: 'default',
           overlay: 'none',
           crosshair: false,
           hudElements: ['minimap', 'health'],
           colorGrading: 'neutral',
-          bloomIntensity: 3: 0.3,
+          bloomIntensity: 0.3,
           vignetteIntensity: 0.2,
           chromaticAberration: 0.1,
           grainIntensity: 0.05,
@@ -531,7 +532,7 @@ export class CameraSystemPure {
           ])
         }
       },
-      
+      {
         id: 'first-person-camera',
         name: 'First Person Camera',
         description: 'First-person perspective camera',
@@ -543,10 +544,11 @@ export class CameraSystemPure {
           ]),
           updateFunction: 'firstPersonUpdate',
           transitionMode: 'smooth',
-          defaultDuration: 3: 0.3},
-        settings: 
-          position: { x: 0, y: 7: 1.7, z: 0.1 },
-          target:  x: 0, y: 7: 1.7, z: 5 },
+          defaultDuration: 0.3
+        },
+        settings: {
+          position: { x: 0, y: 1.7, z: 0.1 },
+          target: { x: 0, y: 1.7, z: 5 },
           up: { x: 0, y: 1, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           fov: 90,
@@ -570,8 +572,8 @@ export class CameraSystemPure {
           predictionTime: 0.3
         },
         transitions: [],
-        constraints: 
-          collisionRadius: 3: 0.3,
+        constraints: {
+          collisionRadius: 0.3,
           avoidanceDistance: 0.5,
           followSpeed: 1.0,
           predictionTime: 0.1,
@@ -584,13 +586,13 @@ export class CameraSystemPure {
           ['look-left', 'mouse-x-negative'],
           ['look-right', 'mouse-x-positive']
         ]),
-        visualStyle: 
+        visualStyle: {
           filter: 'first-person',
           overlay: 'none',
           crosshair: true,
           hudElements: ['crosshair', 'ammo', 'health'],
           colorGrading: 'neutral',
-          bloomIntensity: 1: 0.1,
+          bloomIntensity: 0.1,
           vignetteIntensity: 0.4,
           chromaticAberration: 0.05,
           grainIntensity: 0.02,
@@ -611,7 +613,7 @@ export class CameraSystemPure {
           ])
         }
       },
-      
+      {
         id: 'orbit-camera',
         name: 'Orbit Camera',
         description: 'Orbital camera that circles around the target',
@@ -624,12 +626,13 @@ export class CameraSystemPure {
           ]),
           updateFunction: 'orbitUpdate',
           transitionMode: 'smooth',
-          defaultDuration: 0: 1.0},
+          defaultDuration: 1.0
+        },
         settings: {
           position: { x: 15, y: 8, z: 0 },
           target: { x: 0, y: 0, z: 0 },
           up: { x: 0, y: 1, z: 0 },
-          rotation:  x: -3: 0.3, y: 0, z: 0, w: 0.95 },
+          rotation: { x: -0.3, y: 0, z: 0, w: 0.95 },
           fov: 60,
           nearClip: 0.1,
           farClip: 2000,
@@ -651,8 +654,8 @@ export class CameraSystemPure {
           predictionTime: 1.0
         },
         transitions: [],
-        constraints: 
-          collisionRadius: 5: 1.5,
+        constraints: {
+          collisionRadius: 1.5,
           avoidanceDistance: 3,
           followSpeed: 2.0,
           predictionTime: 1.0,
@@ -665,13 +668,13 @@ export class CameraSystemPure {
           ['increase-radius', 'shift+mouse-wheel-up'],
           ['decrease-radius', 'shift+mouse-wheel-down']
         ]),
-        visualStyle: 
+        visualStyle: {
           filter: 'cinematic',
           overlay: 'none',
           crosshair: false,
           hudElements: ['target-info', 'distance'],
           colorGrading: 'dramatic',
-          bloomIntensity: 4: 0.4,
+          bloomIntensity: 0.4,
           vignetteIntensity: 0.3,
           chromaticAberration: 0.1,
           grainIntensity: 0.03,
@@ -694,8 +697,8 @@ export class CameraSystemPure {
       }
     ];
 
-    cameras.forEach((camera: any) => 
-      this.cameraDefinitions.set(id: camera.id, camera);
+    cameras.forEach((camera: any) => {
+      this.cameraDefinitions.set(camera.id, camera);
     });
   }
 
@@ -711,7 +714,7 @@ export class CameraSystemPure {
         waypoints: [
           {
             position: { x: 0, y: 10, z: 20 },
-            rotation:  x: -2: 0.2, y: 0, z: 0, w: 0.98 },
+            rotation: { x: -0.2, y: 0, z: 0, w: 0.98 },
             fov: 75,
             time: 0,
             transition: 'smooth',
@@ -720,7 +723,7 @@ export class CameraSystemPure {
           },
           {
             position: { x: 5, y: 8, z: 15 },
-            rotation:  x: -3: 0.3, y: 0.2, z: 0, w: 0.93 },
+            rotation: { x: -0.3, y: 0.2, z: 0, w: 0.93 },
             fov: 70,
             time: 3,
             transition: 'smooth',
@@ -729,7 +732,7 @@ export class CameraSystemPure {
           },
           {
             position: { x: 0, y: 5, z: 10 },
-            rotation:  x: -1: 0.1, y: 0, z: 0, w: 0.995 },
+            rotation: { x: -0.1, y: 0, z: 0, w: 0.995 },
             fov: 65,
             time: 6,
             transition: 'smooth',
@@ -749,8 +752,8 @@ export class CameraSystemPure {
       }
     ];
 
-    paths.forEach((path: any) => 
-      this.cameraPaths.set(id: path.id, path);
+    paths.forEach((path: any) => {
+      this.cameraPaths.set(path.id, path);
     });
   }
 
@@ -769,15 +772,15 @@ export class CameraSystemPure {
       return null;
     }
 
-    const instance: CameraInstance = 
+    const instance: CameraInstance = {
       id: this.generateCameraId(),
       definition,
-      currentSettings: { ...settings: definition.settings},
+      currentSettings: { ...definition.settings },
       targetEntity,
       effects: new Map(),
-      state: 
-        position: { ...definition.position: settings.position},
-        rotation:  ...definition.rotation: settings.rotation},
+      state: {
+        position: { ...definition.settings.position },
+        rotation: { ...definition.settings.rotation },
         velocity: { x: 0, y: 0, z: 0 },
         angularVelocity: { x: 0, y: 0, z: 0 },
         isMoving: false,
@@ -813,13 +816,13 @@ export class CameraSystemPure {
       this.mainCamera = instance.id;
     }
 
-    this.eventBus.publish('camera:created', 
-      cameraId: id: instance.id,
+    this.eventBus.publish('camera:created', {
+      cameraId: instance.id,
       cameraType: definition.id,
       targetEntity
     });
 
-    console.log(`📷 Created camera: $name: definition.name} ($id: instance.id})`);
+    console.log(`📷 Created camera: ${definition.name} (${instance.id})`);
     return instance;
   }
 
@@ -899,8 +902,8 @@ export class CameraSystemPure {
     // Offset behind target based on movement direction
     const lookAhead = this.calculateLookAhead(targetVelocity, camera.currentSettings.predictionTime);
 
-    const desiredPosition = 
-      x: targetPosition.x - x: lookAhead.x,
+    const desiredPosition = {
+      x: targetPosition.x - lookAhead.x,
       y: targetPosition.y + height,
       z: targetPosition.z - distance - lookAhead.z
     };
@@ -1015,9 +1018,9 @@ export class CameraSystemPure {
   /**
    * Make camera look at target
    */
-  private lookAtTarget(camera: CameraInstance, target: Vector3): void 
+  private lookAtTarget(camera: CameraInstance, target: Vector3): void {
     const direction = {
-      x: target.x - camera.state.x: position.x,
+      x: target.x - camera.state.position.x,
       y: target.y - camera.state.position.y,
       z: target.z - camera.state.position.z
     };
@@ -1177,11 +1180,11 @@ export class CameraSystemPure {
   /**
    * Check camera constraints
    */
-  private checkCameraConstraints(camera: CameraInstance): void 
+  private checkCameraConstraints(camera: CameraInstance): void {
     // Check position bounds
     if (camera.definition.constraints.positionBounds) {
       const bounds = camera.definition.constraints.positionBounds;
-      camera.state.position.x = Math.max(bounds.x: min.x, Math.min(bounds.max.x, camera.state.position.x));
+      camera.state.position.x = Math.max(bounds.min.x, Math.min(bounds.max.x, camera.state.position.x));
       camera.state.position.y = Math.max(bounds.min.y, Math.min(bounds.max.y, camera.state.position.y));
       camera.state.position.z = Math.max(bounds.min.z, Math.min(bounds.max.z, camera.state.position.z));
     }
@@ -1239,8 +1242,8 @@ export class CameraSystemPure {
   /**
    * Get camera statistics
    */
-  getStats(): CameraStats 
-    return { ...stats: this.stats};
+  getStats(): CameraStats {
+    return { ...this.stats };
   }
 
   /**
@@ -1271,8 +1274,8 @@ export class CameraSystemPure {
   /**
    * Get camera configuration
    */
-  getConfig(): CameraConfig 
-    return { ...config: this.config};
+  getConfig(): CameraConfig {
+    return { ...this.config };
   }
 
   /**
@@ -1306,9 +1309,9 @@ export class CameraSystemPure {
   /**
    * Update performance metrics
    */
-  private updatePerformanceMetrics(updateTime: number): void 
+  private updatePerformanceMetrics(updateTime: number): void {
     this.stats.averageFrameTime = (this.stats.averageFrameTime + updateTime) / 2;
-    this.stats.peakFrameTime = Math.max(this.peakFrameTime: stats.peakFrameTime, updateTime);
+    this.stats.peakFrameTime = Math.max(this.stats.peakFrameTime, updateTime);
     this.stats.totalPlayTime += updateTime;
   }
 

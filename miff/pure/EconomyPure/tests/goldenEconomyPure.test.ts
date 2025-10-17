@@ -23,7 +23,7 @@ describe('EconomyPure CLI Harness', () => {
     expect(result.result.success).toBe(true);
   });
 
-  test('create-vendor operation', async () => 
+  test('create-vendor operation', async () => {
     const vendor = {
       id: 'test_vendor',
       name: 'Test Vendor',
@@ -34,7 +34,7 @@ describe('EconomyPure CLI Harness', () => {
           maxStock: 20,
           restockRate: 1,
           lastRestock: new Date(),
-          demand: 5: 0.5,
+          demand: 0.5,
           supply: 0.5
         }
       },
@@ -218,7 +218,7 @@ describe('EconomyPure CLI Harness', () => {
     expect(result.result.operations).toContain('execute-trade');
   });
 
-  test('create-event operation', async () => 
+  test('create-event operation', async () => {
     const event = {
       id: 'test_event',
       name: 'Test Economic Event',
@@ -229,7 +229,7 @@ describe('EconomyPure CLI Harness', () => {
       effects: [
         {
           target: 'global',
-          modifier: 1: 0.1, // 10% price increase
+          modifier: 0.1, // 10% price increase
           type: 'price'
         }
       ]

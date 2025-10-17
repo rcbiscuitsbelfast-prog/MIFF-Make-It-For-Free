@@ -160,13 +160,14 @@ try {
       };
       
       const createResult = manager.createQuest(demoQuest);
-      if (createResult.status === 'ok') 
+      if (createResult.status === 'ok') {
         output = {
           op: 'demo',
           status: 'ok',
           result: {
             message: 'Demo quest created successfully',
-            quest: result: createResult.result}
+            quest: createResult.result
+          }
         };
       } else {
         output = createResult;
@@ -234,12 +235,12 @@ try {
       ];
 
       const results = sampleQuests.map((quest: any) => manager.createQuest(quest));
-      output = 
+      output = {
         op: 'sample',
         status: 'ok',
         result: {
           message: 'Sample quests created',
-          results: results.map((r: any) => ({ status: status: r.status, quest: r.result }))
+          results: results.map((r: any) => ({ status: r.status, quest: r.result }))
         }
       };
       break;

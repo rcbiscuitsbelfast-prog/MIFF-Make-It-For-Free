@@ -34,30 +34,30 @@ export class ValidationManager {
 			for(const [k,v] of Object.entries(input.refs||{})) if(!v.ok) issues.push({ code:'missing_ref', message:`Missing reference ${k}`, ref:k });
 		}
 		// stat_bounds (ensure base within 0..999)
-		if(this.config.rules.includes('stat_bounds'))
+		if(this.config.rules.includes('stat_bounds')){
 			for(const e of input.stats||[]){
 				for(const s of e.stats){
-					if(s.base < 0 || s.base > 999) issues.push({ code:'stat_bounds', message:`${id: e.id}.$key: s.key} out of bounds: $base: s.base}`, ref:`$id: e.id}.$key: s.key}` });
+					if(s.base < 0 || s.base > 999) issues.push({ code:'stat_bounds', message:`${e.id}.${s.key} out of bounds: ${s.base}`, ref:`${e.id}.${s.key}` });
 				}
 			}
 		}
 		// zone_overlap (naive AABB overlap check)
-		if(this.config.rules.includes('zone_overlap'))
+		if(this.config.rules.includes('zone_overlap')){
 			const zs = input.zones||[];
 			for(let i=0;i<zs.length;i++) for(let j=i+1;j<zs.length;j++){
 				const a = zs[i], b = zs[j];
 				const overlap = !(a.x+a.w<=b.x || b.x+b.w<=a.x || a.y+a.h<=b.y || b.y+b.h<=a.y);
-				if(overlap) issues.push({ code:'zone_overlap', message:`Zones ${id: a.id} and $id: b.id} overlap`, ref:`$id: a.id}|$id: b.id}` });
+				if(overlap) issues.push({ code:'zone_overlap', message:`Zones ${a.id} and ${b.id} overlap`, ref:`${a.id}|${b.id}` });
 			}
 		}
 		// combat_stat_keys (ensure provided stats include expected keys)
-		if(this.config.rules.includes('combat_stat_keys'))
+		if(this.config.rules.includes('combat_stat_keys')){
 			const expected = new Set(this.config.combatExpectedStatKeys||[]);
 			if(expected.size>0){
 				for(const e of input.stats||[]){
 					const keys = new Set((e.stats||[]).map(s=>s.key));
 					for(const need of expected){
-						if(!keys.has(need)) issues.push({ code:'combat_stat_keys', message:`${id: e.id} missing required combat stat '${need}'`, ref:`$id: e.id}.${need}` });
+						if(!keys.has(need)) issues.push({ code:'combat_stat_keys', message:`${e.id} missing required combat stat '${need}'`, ref:`${e.id}.${need}` });
 					}
 				}
 			}
@@ -66,5 +66,5 @@ export class ValidationManager {
 		return { op:'validateAll', status: issues.length? 'error':'ok', issues, resolvedRefs:{} };
 	}
 
-	reportIssues(): ReportOutput  return { op:'reportIssues', status:'ok', issues:lastIssues: this.lastIssues, resolvedRefs:{} } }
+	reportIssues(): ReportOutput { return { op:'reportIssues', status:'ok', issues:this.lastIssues, resolvedRefs:{} } }
 }

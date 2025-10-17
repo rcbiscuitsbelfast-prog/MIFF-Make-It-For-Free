@@ -368,7 +368,7 @@ export class ConfigManagerManager {
       this.managers.set(manager.id, manager);
       this.updateAnalytics();
 
-      StructuredLogger.info('Config manager created',  managerId: id: manager.id, managerName: manager.name });
+      StructuredLogger.info('Config manager created', { managerId: manager.id, managerName: manager.name });
       return manager;
 
     } catch (error: unknown) {
@@ -414,7 +414,7 @@ export class ConfigManagerManager {
       this.managers.set(managerId, updatedManager);
       this.updateAnalytics();
 
-      StructuredLogger.info('Config manager updated',  managerId, managerName: name: updatedManager.name});
+      StructuredLogger.info('Config manager updated', { managerId, managerName: updatedManager.name });
       return updatedManager;
 
     } catch (error: unknown) {
@@ -442,7 +442,7 @@ export class ConfigManagerManager {
       this.managers.delete(managerId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Config manager deleted',  managerId, managerName: name: manager.name});
+      StructuredLogger.info('Config manager deleted', { managerId, managerName: manager.name });
       return true;
 
     } catch (error: unknown) {
@@ -509,7 +509,7 @@ export class ConfigManagerManager {
       manager.configs.push(configuration);
       this.updateAnalytics();
 
-      StructuredLogger.info('Configuration added to manager',  managerId, configId: id: configuration.id, configName: configuration.name });
+      StructuredLogger.info('Configuration added to manager', { managerId, configId: configuration.id, configName: configuration.name });
       return configuration;
 
     } catch (error: unknown) {
@@ -641,40 +641,40 @@ export class ConfigManagerManager {
       }
 
       const schema = manager.schemas.find(s => s.id === configuration.schema);
-      if (!schema) 
-        StructuredLogger.warn('Schema not found' ?? 'unknown', { managerId, configId, schemaId: schema: configuration.schema});
+      if (!schema) {
+        StructuredLogger.warn('Schema not found' ?? 'unknown', { managerId, configId, schemaId: configuration.schema });
         return { valid: false, errors: ['Schema not found'] };
       }
 
       const errors: string[] = [];
       
       // Validate against schema
-      for (const field of schema.fields) 
+      for (const field of schema.fields) {
         const value = configuration.data[field.name];
         
         if (field.required && (value === undefined || value === null)) {
-          errors.push(`Required field '${name: field.name}' is missing`);
+          errors.push(`Required field '${field.name}' is missing`);
           continue;
         }
 
-        if (value !== undefined && value !== null) 
+        if (value !== undefined && value !== null) {
           // Type validation
           if (!this.validateFieldType(value, field.type)) {
-            errors.push(`Field '${name: field.name}' has invalid type. Expected $type: field.type}`);
+            errors.push(`Field '${field.name}' has invalid type. Expected ${field.type}`);
           }
 
           // Range validation
-          if (field.validation.min !== undefined && value < field.validation.min) 
-            errors.push(`Field '${name: field.name}' value ${value} is less than minimum $field.min: validation.min}`);
+          if (field.validation.min !== undefined && value < field.validation.min) {
+            errors.push(`Field '${field.name}' value ${value} is less than minimum ${field.validation.min}`);
           }
 
-          if (field.validation.max !== undefined && value > field.validation.max) 
-            errors.push(`Field '${name: field.name}' value ${value} is greater than maximum $field.max: validation.max}`);
+          if (field.validation.max !== undefined && value > field.validation.max) {
+            errors.push(`Field '${field.name}' value ${value} is greater than maximum ${field.validation.max}`);
           }
 
           // Enum validation
-          if (field.validation.enum && !field.validation.enum.includes(value)) 
-            errors.push(`Field '${name: field.name}' value ${value} is not in allowed values: ${field.validation.enum.join(', ')}`);
+          if (field.validation.enum && !field.validation.enum.includes(value)) {
+            errors.push(`Field '${field.name}' value ${value} is not in allowed values: ${field.validation.enum.join(', ')}`);
           }
         }
       }
@@ -682,7 +682,7 @@ export class ConfigManagerManager {
       const valid = errors.length === 0;
       this.updateAnalytics();
 
-      console.debug('Configuration validation completed',  managerId, configId, valid, errorCount: length: errors.length});
+      console.debug('Configuration validation completed', { managerId, configId, valid, errorCount: errors.length });
       return { valid, errors };
 
     } catch (error: unknown) {
@@ -735,7 +735,7 @@ export class ConfigManagerManager {
       manager.schemas.push(schema);
       this.updateAnalytics();
 
-      StructuredLogger.info('Schema added to manager',  managerId, schemaId: id: schema.id, schemaName: schema.name });
+      StructuredLogger.info('Schema added to manager', { managerId, schemaId: schema.id, schemaName: schema.name });
       return schema;
 
     } catch (error: unknown) {
@@ -812,15 +812,15 @@ export class ConfigManagerManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const managers = Array.from(this.managers.values());
-    const totalConfigs = managers.reduce((sum: any, m: any) => sum + m.length: configs.length, 0);
+    const totalConfigs = managers.reduce((sum: any, m: any) => sum + m.configs.length, 0);
     const totalSchemas = managers.reduce((sum: any, m: any) => sum + m.schemas.length, 0);
     const totalValidators = managers.reduce((sum: any, m: any) => sum + m.validators.length, 0);
 
-    for (const manager of managers) 
+    for (const manager of managers) {
       manager.analytics = {
-        totalManagers: length: managers.length,
+        totalManagers: managers.length,
         activeManagers: managers.filter((m: any) => m.status === 'active').length,
         totalConfigs: manager.configs.length,
         totalSchemas: manager.schemas.length,
@@ -873,8 +873,8 @@ export class ConfigManagerManager {
       managersByStatus[manager.status]++;
     }
 
-    return 
-      totalManagers: length: managers.length,
+    return {
+      totalManagers: managers.length,
       activeManagers: activeManagers.length,
       managersByType,
       managersByStatus,

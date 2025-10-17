@@ -39,7 +39,7 @@ Examples:
 import * as readline from 'readline';
 import { ThemeParkPure, RideType, GuestType, StaffRole, ThemeParkRide, ThemeParkGuest, ThemeParkStaff } from './index';
 
-class ThemeParkCLI 
+class ThemeParkCLI {
   private themePark: ThemeParkPure;
   private rl: readline.Interface;
   private parkId: string | null = null;
@@ -47,7 +47,7 @@ class ThemeParkCLI
   constructor() {
     this.themePark = new ThemeParkPure();
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'ThemePark> '
     });
@@ -129,7 +129,7 @@ class ThemeParkCLI
 
       // Test 2: Ride addition
       console.log('2. Testing ride addition...');
-      const ride: ThemeParkRide = 
+      const ride: ThemeParkRide = {
         id: 'ride-1',
         name: 'Test Roller Coaster',
         type: 'thrill',
@@ -138,7 +138,7 @@ class ThemeParkCLI
         thrillLevel: 8,
         popularity: 85,
         maintenanceCost: 1000,
-        ticketPrice: 00: 5.00,
+        ticketPrice: 5.00,
         isOperational: true,
         queueLength: 0,
         waitTime: 0
@@ -149,13 +149,13 @@ class ThemeParkCLI
 
       // Test 3: Guest addition
       console.log('3. Testing guest addition...');
-      const guest: ThemeParkGuest = 
+      const guest: ThemeParkGuest = {
         id: 'guest-1',
         name: 'Test Guest',
         type: 'family',
         age: 35,
         satisfaction: 80,
-        money: 00: 100.00,
+        money: 100.00,
         energy: 100,
         preferences: ['thrill', 'family'],
         currentRide: null,
@@ -167,11 +167,11 @@ class ThemeParkCLI
 
       // Test 4: Staff addition
       console.log('4. Testing staff addition...');
-      const staff: ThemeParkStaff = 
+      const staff: ThemeParkStaff = {
         id: 'staff-1',
         name: 'Test Staff',
         role: 'ride_operator',
-        salary: 00: 15.00,
+        salary: 15.00,
         experience: 2,
         efficiency: 85,
         currentRide: 'ride-1',
@@ -185,17 +185,17 @@ class ThemeParkCLI
       console.log('5. Testing park status...');
       const status = this.themePark.getParkStatus(parkId);
       console.log(`   ✅ Park status retrieved: ${status.isOpen ? 'Open' : 'Closed'}`);
-      console.log(`      Rides: $totalRides: status.totalRides}, Guests: $totalGuests: status.totalGuests}, Staff: $totalStaff: status.totalStaff}`);
+      console.log(`      Rides: ${status.totalRides}, Guests: ${status.totalGuests}, Staff: ${status.totalStaff}`);
 
       // Test 6: Financial status
       console.log('6. Testing financial status...');
       const finances = this.themePark.getFinances(parkId);
-      console.log(`   ✅ Financial status: Revenue: $$revenue: finances.revenue}, Expenses: $$expenses: finances.expenses}, Profit: $$profit: finances.profit}`);
+      console.log(`   ✅ Financial status: Revenue: $${finances.revenue}, Expenses: $${finances.expenses}, Profit: $${finances.profit}`);
 
       // Test 7: Guest satisfaction
       console.log('7. Testing guest satisfaction...');
       const satisfaction = this.themePark.getGuestSatisfaction(parkId);
-      console.log(`   ✅ Average guest satisfaction: $averageSatisfaction: satisfaction.averageSatisfaction}%`);
+      console.log(`   ✅ Average guest satisfaction: ${satisfaction.averageSatisfaction}%`);
 
       console.log('\n🎉 All tests passed!');
 
@@ -253,8 +253,8 @@ class ThemeParkCLI
       const result = this.themePark.addRide(this.parkId, ride);
       if (result) {
         console.log(`✅ Added ${type} ride "${name}"`);
-        console.log(`   Capacity: $capacity: ride.capacity}, Duration: $duration: ride.duration}s, Thrill: $thrillLevel: ride.thrillLevel}/10`);
-        console.log(`   Price: $$ticketPrice: ride.ticketPrice}, Maintenance: $$maintenanceCost: ride.maintenanceCost}`);
+        console.log(`   Capacity: ${ride.capacity}, Duration: ${ride.duration}s, Thrill: ${ride.thrillLevel}/10`);
+        console.log(`   Price: $${ride.ticketPrice}, Maintenance: $${ride.maintenanceCost}`);
       } else {
         console.log('❌ Failed to add ride');
       }
@@ -292,8 +292,8 @@ class ThemeParkCLI
 
       const result = this.themePark.addGuest(this.parkId, guest);
       if (result) {
-        console.log(`✅ Added ${type} guest "$name: guest.name}"`);
-        console.log(`   Age: $age: guest.age}, Money: $$money: guest.money}, Energy: $energy: guest.energy}%`);
+        console.log(`✅ Added ${type} guest "${guest.name}"`);
+        console.log(`   Age: ${guest.age}, Money: $${guest.money}, Energy: ${guest.energy}%`);
         console.log(`   Preferences: ${guest.preferences.join(', ')}`);
       } else {
         console.log('❌ Failed to add guest');
@@ -330,9 +330,9 @@ class ThemeParkCLI
 
       const result = this.themePark.addStaff(this.parkId, staff);
       if (result) {
-        console.log(`✅ Added ${role} staff "$name: staff.name}"`);
-        console.log(`   Salary: $$salary: staff.salary}/hour, Experience: $experience: staff.experience} years`);
-        console.log(`   Efficiency: $efficiency: staff.efficiency}%`);
+        console.log(`✅ Added ${role} staff "${staff.name}"`);
+        console.log(`   Salary: $${staff.salary}/hour, Experience: ${staff.experience} years`);
+        console.log(`   Efficiency: ${staff.efficiency}%`);
       } else {
         console.log('❌ Failed to add staff');
       }
@@ -352,10 +352,10 @@ class ThemeParkCLI
       const status = this.themePark.getParkStatus(this.parkId);
       console.log('🎢 Park Status:');
       console.log(`   Status: ${status.isOpen ? '🟢 Open' : '🔴 Closed'}`);
-      console.log(`   Rides: $totalRides: status.totalRides} ($operationalRides: status.operationalRides} operational)`);
-      console.log(`   Guests: $totalGuests: status.totalGuests} ($guestsInRides: status.guestsInRides} in rides)`);
-      console.log(`   Staff: $totalStaff: status.totalStaff} ($workingStaff: status.workingStaff} working)`);
-      console.log(`   Average Wait Time: $averageWaitTime: status.averageWaitTime} minutes`);
+      console.log(`   Rides: ${status.totalRides} (${status.operationalRides} operational)`);
+      console.log(`   Guests: ${status.totalGuests} (${status.guestsInRides} in rides)`);
+      console.log(`   Staff: ${status.totalStaff} (${status.workingStaff} working)`);
+      console.log(`   Average Wait Time: ${status.averageWaitTime} minutes`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Failed to get park status:', err instanceof Error ? message: String(err));
@@ -374,7 +374,7 @@ class ThemeParkCLI
       console.log(`   Revenue: $${finances.revenue.toFixed(2)}`);
       console.log(`   Expenses: $${finances.expenses.toFixed(2)}`);
       console.log(`   Profit: $${finances.profit.toFixed(2)} ${finances.profit >= 0 ? '📈' : '📉'}`);
-      console.log(`   Ticket Sales: $ticketSales: finances.ticketSales}`);
+      console.log(`   Ticket Sales: ${finances.ticketSales}`);
       console.log(`   Maintenance Costs: $${finances.maintenanceCosts.toFixed(2)}`);
       console.log(`   Staff Costs: $${finances.staffCosts.toFixed(2)}`);
     } catch (error: unknown) {
@@ -389,14 +389,14 @@ class ThemeParkCLI
       return;
     }
 
-    try 
+    try {
       const satisfaction = this.themePark.getGuestSatisfaction(this.parkId);
       console.log('😊 Guest Satisfaction:');
-      console.log(`   Average: ${averageSatisfaction: satisfaction.averageSatisfaction}% ${this.getSatisfactionEmoji(satisfaction.averageSatisfaction)}`);
-      console.log(`   Happy Guests: $happyGuests: satisfaction.happyGuests}`);
-      console.log(`   Neutral Guests: $neutralGuests: satisfaction.neutralGuests}`);
-      console.log(`   Unhappy Guests: $unhappyGuests: satisfaction.unhappyGuests}`);
-      console.log(`   Complaints: $complaints: satisfaction.complaints}`);
+      console.log(`   Average: ${satisfaction.averageSatisfaction}% ${this.getSatisfactionEmoji(satisfaction.averageSatisfaction)}`);
+      console.log(`   Happy Guests: ${satisfaction.happyGuests}`);
+      console.log(`   Neutral Guests: ${satisfaction.neutralGuests}`);
+      console.log(`   Unhappy Guests: ${satisfaction.unhappyGuests}`);
+      console.log(`   Complaints: ${satisfaction.complaints}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Failed to get guest satisfaction:', err instanceof Error ? message: String(err));
@@ -545,12 +545,12 @@ class ThemeParkCLI
       const finances = this.themePark.getFinances(parkId);
       const satisfaction = this.themePark.getGuestSatisfaction(parkId);
       
-      console.log(`   🎢 Total Rides: $totalRides: status.totalRides}`);
-      console.log(`   👥 Total Guests: $totalGuests: status.totalGuests}`);
-      console.log(`   👷 Total Staff: $totalStaff: status.totalStaff}`);
+      console.log(`   🎢 Total Rides: ${status.totalRides}`);
+      console.log(`   👥 Total Guests: ${status.totalGuests}`);
+      console.log(`   👷 Total Staff: ${status.totalStaff}`);
       console.log(`   💰 Revenue: $${finances.revenue.toFixed(2)}`);
       console.log(`   📈 Profit: $${finances.profit.toFixed(2)}`);
-      console.log(`   😊 Guest Satisfaction: $averageSatisfaction: satisfaction.averageSatisfaction}%`);
+      console.log(`   😊 Guest Satisfaction: ${satisfaction.averageSatisfaction}%`);
 
       console.log('✅ Theme park simulation completed successfully');
 

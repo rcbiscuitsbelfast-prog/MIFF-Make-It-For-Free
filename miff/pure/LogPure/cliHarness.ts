@@ -27,7 +27,7 @@ import {
 } from './index';
 
 // CLI Application
-class LogPureCLI 
+class LogPureCLI {
   private rl: readline.Interface;
   private logger: BattleLogger;
   private logFile: string | null = null;
@@ -36,7 +36,7 @@ class LogPureCLI
 
   constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -57,12 +57,12 @@ class LogPureCLI
   /**
    * Simulate battle log for demo
    */
-  private simulateBattleLog(): void 
+  private simulateBattleLog(): void {
     // Log battle start
     this.logger.logPhaseChange(BattlePhase.PRE_TURN);
 
     // Simulate turn 1
-    this.logger.logSystem('Battle started between Fire Spirit and Water Spirit', BATTLE: BATTLE: LogCategory.BATTLE, LogLevel.INFO);
+    this.logger.logSystem('Battle started between Fire Spirit and Water Spirit', BATTLE: LogCategory.BATTLE, LogLevel.INFO);
 
     const action1: IBattleAction = {
       actorId: 1,
@@ -373,7 +373,7 @@ class LogPureCLI
     const entries = this.logger.getFilteredEntries(filter);
 
     console.log('='.repeat(60));
-    console.log(`📋 Log Entries ($length: entries.length} found)`);
+    console.log(`📋 Log Entries (${entries.length} found)`);
     console.log('='.repeat(60));
 
     if (entries.length === 0) {
@@ -386,21 +386,21 @@ class LogPureCLI
     });
 
     console.log('');
-    console.log(`Total: $length: entries.length} entries`);
+    console.log(`Total: ${entries.length} entries`);
   }
 
   /**
    * Show log statistics
    */
-  private showStatistics(): void 
+  private showStatistics(): void {
     const stats = this.logger.getStatistics();
 
     console.log('='.repeat(60));
     console.log('📊 Log Statistics');
     console.log('='.repeat(60));
 
-    console.log(`Total Entries: ${totalEntries: stats.totalEntries}`);
-    console.log(`Time Span: $timeSpan: stats.timeSpan}ms`);
+    console.log(`Total Entries: ${stats.totalEntries}`);
+    console.log(`Time Span: ${stats.timeSpan}ms`);
     console.log(`Current Turn: ${this.logger.getCurrentTurn()}`);
     console.log(`Average Entries/Turn: ${stats.averageEntriesPerTurn.toFixed(1)}`);
     console.log('');
@@ -487,7 +487,7 @@ class LogPureCLI
 
     try {
       fs.writeFileSync(filename, exportData);
-      console.log(`✅ Log exported to ${filename} ($length: exportData.length} bytes)`);
+      console.log(`✅ Log exported to ${filename} (${exportData.length} bytes)`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Failed to export log: ${error}`);
@@ -572,7 +572,7 @@ class LogPureCLI
 
     console.log(`Valid Entries: ${validCount}`);
     console.log(`Invalid Entries: ${invalidCount}`);
-    console.log(`Total Entries: $length: entries.length}`);
+    console.log(`Total Entries: ${entries.length}`);
     console.log('');
 
     if (errors.length > 0) {

@@ -370,7 +370,7 @@ export class BlockchainManager {
       this.blockchains.set(blockchain.id, blockchain);
       this.updateAnalytics();
 
-      console.info('Blockchain created',  blockchainId: id: blockchain.id, blockchainName: blockchain.name });
+      console.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
       return blockchain;
 
     } catch (error: unknown) {
@@ -416,7 +416,7 @@ export class BlockchainManager {
       this.blockchains.set(blockchainId, updatedBlockchain);
       this.updateAnalytics();
 
-      console.info('Blockchain updated',  blockchainId, blockchainName: name: updatedBlockchain.name});
+      console.info('Blockchain updated', { blockchainId, blockchainName: updatedBlockchain.name });
       return updatedBlockchain;
 
     } catch (error: unknown) {
@@ -444,7 +444,7 @@ export class BlockchainManager {
       this.blockchains.delete(blockchainId);
       this.updateAnalytics();
 
-      console.info('Blockchain deleted',  blockchainId, blockchainName: name: blockchain.name});
+      console.info('Blockchain deleted', { blockchainId, blockchainName: blockchain.name });
       return true;
 
     } catch (error: unknown) {
@@ -511,7 +511,7 @@ export class BlockchainManager {
       blockchain.blocks.push(block);
       this.updateAnalytics();
 
-      console.info('Block created',  blockchainId, blockId: id: block.id, blockIndex: block.index });
+      console.info('Block created', { blockchainId, blockId: block.id, blockIndex: block.index });
       return block;
 
     } catch (error: unknown) {
@@ -545,7 +545,7 @@ export class BlockchainManager {
       blockchain.transactions.push(transaction);
       this.updateAnalytics();
 
-      console.info('Transaction created',  blockchainId, transactionId: id: transaction.id, transactionType: transaction.type });
+      console.info('Transaction created', { blockchainId, transactionId: transaction.id, transactionType: transaction.type });
       return transaction;
 
     } catch (error: unknown) {
@@ -579,7 +579,7 @@ export class BlockchainManager {
       blockchain.contracts.push(contract);
       this.updateAnalytics();
 
-      console.info('Smart contract deployed',  blockchainId, contractId: id: contract.id, contractName: contract.name });
+      console.info('Smart contract deployed', { blockchainId, contractId: contract.id, contractName: contract.name });
       return contract;
 
     } catch (error: unknown) {
@@ -645,12 +645,12 @@ export class BlockchainManager {
         return false;
       }
 
-      console.info('Mining block',  blockchainId, blockId, blockIndex: index: block.index});
+      console.info('Mining block', { blockchainId, blockId, blockIndex: block.index });
       
       // Simulate mining process
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      console.info('Block mined successfully',  blockchainId, blockId, blockIndex: index: block.index});
+      console.info('Block mined successfully', { blockchainId, blockId, blockIndex: block.index });
       return true;
 
     } catch (error: unknown) {
@@ -735,17 +735,17 @@ export class BlockchainManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const blockchains = Array.from(this.blockchains.values());
-    const totalBlocks = blockchains.reduce((sum: any, b: any) => sum + b.length: blocks.length, 0);
+    const totalBlocks = blockchains.reduce((sum: any, b: any) => sum + b.blocks.length, 0);
     const totalTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.length, 0);
     const pendingTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.filter((t: any) => t.status === 'pending').length, 0);
     const totalContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.length, 0);
     const activeContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.filter((c: any) => c.status === 'active').length, 0);
 
-    for (const blockchain of blockchains) 
+    for (const blockchain of blockchains) {
       blockchain.analytics = {
-        totalBlocks: blockchain.length: blocks.length,
+        totalBlocks: blockchain.blocks.length,
         totalTransactions: blockchain.transactions.length,
         pendingTransactions: blockchain.transactions.filter((t: any) => t.status === 'pending').length,
         totalContracts: blockchain.contracts.length,
@@ -801,8 +801,8 @@ export class BlockchainManager {
       blockchainsByStatus[blockchain.status]++;
     }
 
-    return 
-      totalBlockchains: length: blockchains.length,
+    return {
+      totalBlockchains: blockchains.length,
       activeBlockchains: activeBlockchains.length,
       blockchainsByType,
       blockchainsByStatus,

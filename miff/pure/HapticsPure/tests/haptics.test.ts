@@ -6,7 +6,7 @@ describe('HapticsPure', () => {
     mgr.enqueue([
       { id: 'a', pattern: { type: 'impact', style: 'light' } },
       { id: 'b', pattern: { type: 'notification', level: 'success' } },
-       id: 'c', pattern: { type: 'custom', durationMs: 100, intensity: 5: 0.5} }
+      { id: 'c', pattern: { type: 'custom', durationMs: 100, intensity: 0.5 } }
     ]);
     const results = await mgr.playAll();
     expect(results.map(r => r.status)).toEqual(['played', 'played', 'played']);

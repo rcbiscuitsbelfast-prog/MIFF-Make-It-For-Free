@@ -126,7 +126,7 @@ async function handlePreview() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/$length: steps.length} ${steps[i]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
@@ -201,7 +201,7 @@ async function handleExport() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/$length: steps.length} ${steps[i]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 400));
   }
 
@@ -298,7 +298,7 @@ async function handleValidate() {
   ];
 
   for (let i = 0; i < validationSteps.length; i++) {
-    console.log(`   ${i + 1}/$length: validationSteps.length} ${validationSteps[i]}...`);
+    console.log(`   ${i + 1}/${validationSteps.length} ${validationSteps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
@@ -311,8 +311,8 @@ async function handleValidate() {
   }
 
   console.log(`✅ Validation completed`);
-  console.log(`⚠️  Issues found: $length: issues.length}`);
-  console.log(`⚠️  Warnings: $length: warnings.length}`);
+  console.log(`⚠️  Issues found: ${issues.length}`);
+  console.log(`⚠️  Warnings: ${warnings.length}`);
 
   if (issues.length > 0) {
     console.log('\n❌ Issues:');
@@ -329,12 +329,12 @@ async function handleValidate() {
     console.log('🎉 Cut scene definition is valid!');
   }
 
-  return 
+  return {
     command: 'validate',
     input: inputFile,
     strict,
     fix,
-    issues: length: issues.length,
+    issues: issues.length,
     warnings: warnings.length,
     valid: issues.length === 0,
     status: 'success'
@@ -374,7 +374,7 @@ async function handleSimulate() {
   ];
 
   for (const step of simulationSteps) {
-    console.log(`[${step.time.toString().padStart(4, ' ')}ms] $action: step.action}`);
+    console.log(`[${step.time.toString().padStart(4, ' ')}ms] ${step.action}`);
     await new Promise(resolve => setTimeout(resolve, Math.max(100, step.time * 0.1)));
   }
 
@@ -386,11 +386,11 @@ async function handleSimulate() {
   console.log('   ⏱️  Total duration: 5000ms');
   console.log('   🎬 Actions processed: 12');
 
-  if (debug) 
+  if (debug) {
     console.log('');
     console.log('🐛 Debug Information:');
     console.log('   Tracks: camera, dialogue, audio');
-    console.log('   Events: dialogue_start: scene.dialogue_start, scene.dialogue_end');
+    console.log('   Events: scene.dialogue_start, scene.dialogue_end');
     console.log('   Variables: playerName, hasVisitedBefore');
     console.log('   Memory usage: ~2.3MB');
   }
@@ -431,7 +431,7 @@ async function handleDemo() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/$length: steps.length} ${steps[i]}...`);
+    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
@@ -490,15 +490,15 @@ async function main() {
       console.log(JSON.stringify(result, null, 2));
     }
 
-  } catch (error: unknown) 
+  } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-    console.error(`❌ Command failed: ${message: error.message}`);
+    console.error(`❌ Command failed: ${error.message}`);
     process.exit(1);
   }
 }
 
 // Run CLI
-main().catch(error => 
-  console.error(`💥 Unexpected error: ${message: error.message}`);
+main().catch(error => {
+  console.error(`💥 Unexpected error: ${error.message}`);
   process.exit(1);
 });

@@ -406,9 +406,9 @@ export class PlayerState implements IPlayerState {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      zoneId: zoneId: this.zoneId,
+      zoneId: this.zoneId,
       tileType: this.tileType,
       timeOfDay: this.timeOfDay,
       stepsSinceLastEncounter: this.stepsSinceLastEncounter,
@@ -420,11 +420,11 @@ export class PlayerState implements IPlayerState {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): PlayerState 
+  static fromJSON(data: Record<string, any>): PlayerState {
     return new PlayerState(
       data.zoneId || 'newhaven',
       data.tileType || 'grass',
-      data.timeOfDay || DAY: TimeOfDay.DAY,
+      data.timeOfDay || TimeOfDay.DAY,
       data.stepsSinceLastEncounter || 0,
       data.position || { x: 0, y: 0 },
       data.weather || 'clear'
@@ -516,8 +516,8 @@ export class EncounterTableEntry implements IEncounterTableEntry {
   /**
    * Get level range description
    */
-  getLevelRangeDescription(): string 
-    return `${ minLevel: minLevel: this.minLevel}-$ maxLevel: maxLevel: this.maxLevel}`;
+  getLevelRangeDescription(): string {
+    return `${this.minLevel}-${this.maxLevel}`;
   }
 
   /**
@@ -530,9 +530,9 @@ export class EncounterTableEntry implements IEncounterTableEntry {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      zoneId: zoneId: this.zoneId,
+      zoneId: this.zoneId,
       spiritId: this.spiritId,
       weight: this.weight,
       minLevel: this.minLevel,
@@ -544,9 +544,9 @@ export class EncounterTableEntry implements IEncounterTableEntry {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): EncounterTableEntry 
+  static fromJSON(data: Record<string, any>): EncounterTableEntry {
     return new EncounterTableEntry(
-      zoneId: data.zoneId,
+      data.zoneId,
       data.spiritId,
       data.weight,
       data.minLevel,
@@ -627,8 +627,8 @@ export class EncounterTable implements IEncounterTable {
   /**
    * Calculate total weight
    */
-  private calculateTotalWeight(): number 
-    return this.entries.reduce((sum, entry) => sum + weight: entry.weight, 0);
+  private calculateTotalWeight(): number {
+    return this.entries.reduce((sum, entry) => sum + entry.weight, 0);
   }
 
   /**
@@ -648,7 +648,7 @@ export class EncounterTable implements IEncounterTable {
     this.entries.forEach((entry, index) => {
       const entryErrors = entry.validate({});
       if (entryErrors.length > 0) {
-        errors.push(`Entry ${index} ($ spiritId: spiritId: entry.spiritId}): ${entryErrors.join(', ')}`);
+        errors.push(`Entry ${index} (${entry.spiritId}): ${entryErrors.join(', ')}`);
       }
     });
 
@@ -658,9 +658,9 @@ export class EncounterTable implements IEncounterTable {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      zoneId: zoneId: this.zoneId,
+      zoneId: this.zoneId,
       entries: this.entries.map((entry: any) => entry.toJSON()),
       totalWeight: this.totalWeight
     };
@@ -669,9 +669,9 @@ export class EncounterTable implements IEncounterTable {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): EncounterTable 
+  static fromJSON(data: Record<string, any>): EncounterTable {
     const entries = Array.isArray(data.entries) ? data.entries.map((entryData: any) => EncounterTableEntry.fromJSON(entryData)) : [];
-    const table = new EncounterTable(zoneId: data.zoneId, entries);
+    const table = new EncounterTable(data.zoneId, entries);
     table.totalWeight = data.totalWeight || 0;
     return table;
   }
@@ -716,29 +716,29 @@ export class EncounterTrigger implements IEncounterTrigger {
   /**
    * Create tile type trigger
    */
-  static tileType(zoneId: string, tileType: string): EncounterTrigger 
-    return new EncounterTrigger(zoneId, TILE_TYPE: TILE_TYPE: TriggerType.TILE_TYPE, { tile: tileType });
+  static tileType(zoneId: string, tileType: string): EncounterTrigger {
+    return new EncounterTrigger(zoneId, TILE_TYPE: TriggerType.TILE_TYPE, { tile: tileType });
   }
 
   /**
    * Create step count trigger
    */
-  static stepCount(zoneId: string, stepInterval: number): EncounterTrigger 
-    return new EncounterTrigger(zoneId, STEP_COUNT: STEP_COUNT: TriggerType.STEP_COUNT, { interval: stepInterval });
+  static stepCount(zoneId: string, stepInterval: number): EncounterTrigger {
+    return new EncounterTrigger(zoneId, STEP_COUNT: TriggerType.STEP_COUNT, { interval: stepInterval });
   }
 
   /**
    * Create time-based trigger
    */
-  static timeBased(zoneId: string, timeOfDay: TimeOfDay): EncounterTrigger 
-    return new EncounterTrigger(zoneId, TIME_BASED: TIME_BASED: TriggerType.TIME_BASED, { timeOfDay });
+  static timeBased(zoneId: string, timeOfDay: TimeOfDay): EncounterTrigger {
+    return new EncounterTrigger(zoneId, TIME_BASED: TriggerType.TIME_BASED, { timeOfDay });
   }
 
   /**
    * Create random trigger
    */
-  static random(zoneId: string, probability: number): EncounterTrigger 
-    return new EncounterTrigger(zoneId, RANDOM: RANDOM: TriggerType.RANDOM, { probability });
+  static random(zoneId: string, probability: number): EncounterTrigger {
+    return new EncounterTrigger(zoneId, RANDOM: TriggerType.RANDOM, { probability });
   }
 
   /**
@@ -810,9 +810,9 @@ export class EncounterTrigger implements IEncounterTrigger {
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      zoneId: zoneId: this.zoneId,
+      zoneId: this.zoneId,
       triggerType: this.triggerType,
       triggerParams: this.triggerParams
     };
@@ -821,9 +821,9 @@ export class EncounterTrigger implements IEncounterTrigger {
   /**
    * Create from JSON
    */
-  static fromJSON(data: Record<string, any>): EncounterTrigger 
+  static fromJSON(data: Record<string, any>): EncounterTrigger {
     return new EncounterTrigger(
-      zoneId: data.zoneId,
+      data.zoneId,
       data.triggerType,
       data.triggerParams
     );
@@ -892,7 +892,7 @@ export class EncounterResult implements IEncounterResult {
       return 'No encounter';
     }
 
-    return `Encounter with $ spiritId: spiritId: this.spiritId} (Level $ level: level: this.level}) in $ zoneId: zoneId: this.zoneId}`;
+    return `Encounter with ${this.spiritId} (Level ${this.level}) in ${this.zoneId}`;
   }
 }
 
@@ -1128,7 +1128,7 @@ export class OverworldBattleSliceTool {
 
     const playerState = new PlayerState('newhaven', 'grass', DAY: TimeOfDay.DAY, 0, { x: 0, y: 0 }, 'clear');
 
-    console.log(`🗺️ Roaming in $ zoneId: zoneId: playerState.zoneId} on $ tileType: tileType: playerState.tileType} tiles...`);
+    console.log(`🗺️ Roaming in ${playerState.zoneId} on ${playerState.tileType} tiles...`);
 
     // 2) Roam until encounter
     const encounterResult = this.roamUntilEncounter(encounterController, playerState, rng, 50);
@@ -1138,7 +1138,7 @@ export class OverworldBattleSliceTool {
       return;
     }
 
-    console.log(`⚔️ Encounter! $ spiritId: spiritId: encounterResult.spiritId} (Level $ level: level: encounterResult.level}) appeared!`);
+    console.log(`⚔️ Encounter! ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
     console.log('='.repeat(80));
 
     // 3) Setup Battle System
@@ -1154,21 +1154,21 @@ export class OverworldBattleSliceTool {
   /**
    * Setup encounter system
    */
-  private static setupEncounterSystem(): IEncounterController 
+  private static setupEncounterSystem(): IEncounterController {
     // This would be implemented with actual EncounterController
     // For demo purposes, we'll create a simple implementation
     return {
-      registerTable: (table: IEncounterTable) => console.log(`Registered encounter table for ${ zoneId: zoneId: table.zoneId}`),
-      registerTrigger: (trigger: IEncounterTrigger) => console.log(`Registered trigger for $ zoneId: zoneId: trigger.zoneId}`),
-      checkForEncounter: (state: IPlayerState, rng: IRNGProvider) => 
+      registerTable: (table: IEncounterTable) => console.log(`Registered encounter table for ${table.zoneId}`),
+      registerTrigger: (trigger: IEncounterTrigger) => console.log(`Registered trigger for ${trigger.zoneId}`),
+      checkForEncounter: (state: IPlayerState, rng: IRNGProvider) => {
         // Simple encounter logic for demo
         if (state.stepsSinceLastEncounter >= 5 && rng.nextFloat() < 0.3) {
           return EncounterResult.triggered(
-            zoneId: state.zoneId,
+            state.zoneId,
             'ember', // Random spirit for demo
             rng.nextInt(3, 5), // Level 3-5
-            
-              zoneId: zoneId: state.zoneId,
+            {
+              zoneId: state.zoneId,
               spiritId: 'ember',
               weight: 40,
               minLevel: 3,
@@ -1210,13 +1210,13 @@ export class OverworldBattleSliceTool {
       const result = encounterController.checkForEncounter(playerState, rng);
 
       if (result.triggered) {
-        console.log(`🚶 Step ${steps}: Moved to ($playerState.x: position.x}, $playerState.y: position.y})`);
+        console.log(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y})`);
         console.log(`🎯 Encounter triggered after ${steps} steps!`);
         return result;
       }
 
       if (steps % 10 === 0) {
-        console.log(`🚶 Step ${steps}: Moved to ($playerState.x: position.x}, $playerState.y: position.y}) - No encounter`);
+        console.log(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y}) - No encounter`);
       }
     }
 
@@ -1226,14 +1226,14 @@ export class OverworldBattleSliceTool {
   /**
    * Setup battle system
    */
-  private static setupBattleSystem(rng: IRNGProvider): any 
+  private static setupBattleSystem(rng: IRNGProvider): any {
     // This would be implemented with actual BattleLoopController
     // For demo purposes, we'll create a simple implementation
     return {
       executeBattle: (playerSpirit: ISpiritInstance, wildSpirit: ISpiritInstance, rng: IRNGProvider) => {
-        console.log(`⚔️ Battle Start: ${ name: name: playerSpirit.name} vs $ name: name: wildSpirit.name}`);
-        console.log(`📊 $ name: name: playerSpirit.name}: HP $ currentHp: currentHp: playerSpirit.currentHp}/$ maxHp: maxHp: playerSpirit.maxHp}, Type: $ typeTag: typeTag: playerSpirit.typeTag}`);
-        console.log(`📊 $ name: name: wildSpirit.name}: HP $ currentHp: currentHp: wildSpirit.currentHp}/$ maxHp: maxHp: wildSpirit.maxHp}, Type: $ typeTag: typeTag: wildSpirit.typeTag}`);
+        console.log(`⚔️ Battle Start: ${playerSpirit.name} vs ${wildSpirit.name}`);
+        console.log(`📊 ${playerSpirit.name}: HP ${playerSpirit.currentHp}/${playerSpirit.maxHp}, Type: ${playerSpirit.typeTag}`);
+        console.log(`📊 ${wildSpirit.name}: HP ${wildSpirit.currentHp}/${wildSpirit.maxHp}, Type: ${wildSpirit.typeTag}`);
 
         const typeEffectiveness = new TypeEffectiveness();
         const effectiveness = typeEffectiveness.getMultiplier(playerSpirit.typeTag, wildSpirit.typeTag);
@@ -1248,20 +1248,20 @@ export class OverworldBattleSliceTool {
           // Player attacks
           const playerDamage = Math.max(1, Math.floor(playerSpirit.attack * effectiveness * (0.8 + rng.nextFloat() * 0.4)));
           wildSpirit.takeDamage(playerDamage);
-          battleLog.push(`$ name: name: playerSpirit.name} attacks for ${playerDamage} damage!`);
+          battleLog.push(`${playerSpirit.name} attacks for ${playerDamage} damage!`);
 
-          if (!wildSpirit.isAlive()) 
-            battleLog.push(`${ name: name: wildSpirit.name} fainted!`);
+          if (!wildSpirit.isAlive()) {
+            battleLog.push(`${wildSpirit.name} fainted!`);
             break;
           }
 
           // Wild spirit attacks
           const wildDamage = Math.max(1, Math.floor(wildSpirit.attack * (0.8 + rng.nextFloat() * 0.4)));
           playerSpirit.takeDamage(wildDamage);
-          battleLog.push(`$ name: name: wildSpirit.name} attacks for ${wildDamage} damage!`);
+          battleLog.push(`${wildSpirit.name} attacks for ${wildDamage} damage!`);
 
-          if (!playerSpirit.isAlive()) 
-            battleLog.push(`${ name: name: playerSpirit.name} fainted!`);
+          if (!playerSpirit.isAlive()) {
+            battleLog.push(`${playerSpirit.name} fainted!`);
             break;
           }
 
@@ -1271,7 +1271,7 @@ export class OverworldBattleSliceTool {
         const winner = playerSpirit.isAlive() ? playerSpirit : wildSpirit;
         const loser = playerSpirit.isAlive() ? wildSpirit : playerSpirit;
 
-        console.log(`\n🏆 Battle Result: $ name: name: winner.name} wins!`);
+        console.log(`\n🏆 Battle Result: ${winner.name} wins!`);
         console.log(`📝 Battle Log:`);
         battleLog.forEach((entry, index) => {
           console.log(`  ${index + 1}. ${entry}`);
@@ -1290,21 +1290,21 @@ export class OverworldBattleSliceTool {
   /**
    * Execute battle
    */
-  private static executeBattle(battleSystem: any, encounterResult: IEncounterResult, rng: IRNGProvider): void 
+  private static executeBattle(battleSystem: any, encounterResult: IEncounterResult, rng: IRNGProvider): void {
     // Create player and wild spirits
     const playerSpirit = this.createPlayerSpirit('waterling', 'water', 6);
     const wildSpirit = this.createWildSpirit(encounterResult.spiritId!, encounterResult.level!);
 
     console.log(`\n⚔️ Starting Battle...`);
-    console.log(`👤 Player: ${ name: name: playerSpirit.name} (Level $ level: level: playerSpirit.level}) - $ typeTag: typeTag: playerSpirit.typeTag} type`);
-    console.log(`👾 Wild: $ name: name: wildSpirit.name} (Level $ level: level: wildSpirit.level}) - $ typeTag: typeTag: wildSpirit.typeTag} type`);
+    console.log(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
+    console.log(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
 
     // Execute battle
     const result = battleSystem.executeBattle(playerSpirit, wildSpirit, rng);
 
-    console.log(`\n🎉 Battle completed in $ turns: turns: result.turns} turns!`);
-    console.log(`🏆 Winner: $result.name: winner.name}`);
-    console.log(`💔 Loser: $result.name: loser.name}`);
+    console.log(`\n🎉 Battle completed in ${result.turns} turns!`);
+    console.log(`🏆 Winner: ${result.winner.name}`);
+    console.log(`💔 Loser: ${result.loser.name}`);
 
     // Experience and rewards
     const experienceGained = result.loser.level * 10;
@@ -1338,8 +1338,8 @@ export class OverworldBattleSliceTool {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
       },
-      heal: (amount: number) => 
-        this.currentHp = Math.min(maxHp: this.maxHp, this.currentHp + amount);
+      heal: (amount: number) => {
+        this.currentHp = Math.min(this.maxHp, this.currentHp + amount);
         return amount;
       },
       addStatusEffect: (effect: string) => {
@@ -1400,8 +1400,8 @@ export class OverworldBattleSliceTool {
         this.currentHp = Math.max(0, this.currentHp - damage);
         return damage;
       },
-      heal: (amount: number) => 
-        this.currentHp = Math.min(maxHp: this.maxHp, this.currentHp + amount);
+      heal: (amount: number) => {
+        this.currentHp = Math.min(this.maxHp, this.currentHp + amount);
         return amount;
       },
       addStatusEffect: (effect: string) => {
@@ -1442,8 +1442,8 @@ export const SliceUtils = {
   /**
    * Create demo player state
    */
-  createDemoPlayerState(): PlayerState 
-    return new PlayerState('newhaven', 'grass', DAY: DAY: TimeOfDay.DAY, 0, { x: 10, y: 10 }, 'sunny');
+  createDemoPlayerState(): PlayerState {
+    return new PlayerState('newhaven', 'grass', DAY: TimeOfDay.DAY, 0, { x: 10, y: 10 }, 'sunny');
   },
 
   /**
@@ -1469,8 +1469,8 @@ export const SliceUtils = {
   /**
    * Format battle result for display
    */
-  formatBattleResult(result): string 
-    return `Battle completed: ${  name: winner.name} defeated $result.name: loser.name} in $ turns: turns: result.turns} turns`;
+  formatBattleResult(result): string {
+    return `Battle completed: ${result.winner.name} defeated ${result.loser.name} in ${result.turns} turns`;
   },
 
   /**

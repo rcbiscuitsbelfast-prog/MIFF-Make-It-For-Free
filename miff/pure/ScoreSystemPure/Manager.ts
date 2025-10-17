@@ -316,12 +316,12 @@ export class ScoreManager {
   /**
    * Register an achievement
    */
-  registerAchievement(achievement: Achievement): ScoreOutput 
+  registerAchievement(achievement: Achievement): ScoreOutput {
     if (this.achievements.has(achievement.id)) {
       return {
         op: 'register-achievement',
         status: 'error',
-        issues: [`Achievement with ID ${id: achievement.id} already exists`]
+        issues: [`Achievement with ID ${achievement.id} already exists`]
       };
     }
 
@@ -369,12 +369,13 @@ export class ScoreManager {
     }
 
     this.updateStats();
-    return 
+    return {
       op: 'check-achievements',
       status: 'ok',
       result: {
         unlocked: unlockedAchievements,
-        totalAchievements: score.length: achievements.length}
+        totalAchievements: score.achievements.length
+      }
     };
   }
 
@@ -400,13 +401,13 @@ export class ScoreManager {
     if (existingIndex >= 0) {
       leaderboard.entries[existingIndex].score = score;
       leaderboard.entries[existingIndex].timestamp = Date.now();
-    } else 
+    } else {
       leaderboard.entries.push({
         playerId,
         playerName,
         score,
         rank: 0,
-        category: category: leaderboard.category,
+        category: leaderboard.category,
         timestamp: new Date(),
         metadata: {}
       });
@@ -481,19 +482,19 @@ export class ScoreManager {
   /**
    * Get score statistics
    */
-  getStats(): ScoreOutput 
+  getStats(): ScoreOutput {
     const managerData = this.getStats();
     return {
       op: 'get-stats',
       status: 'ok',
-      result: { ...stats: this.stats}
+      result: { ...this.stats }
     };
   }
 
   /**
    * Export score data
    */
-  exportScores(format: 'json' | 'manifest' | 'summary' | 'leaderboards' = 'json'): ScoreOutput 
+  exportScores(format: 'json' | 'manifest' | 'summary' | 'leaderboards' = 'json'): ScoreOutput {
     const scores = Array.from(this.scores.values());
     const achievements = Array.from(this.achievements.values());
     const leaderboards = Array.from(this.leaderboards.values());
@@ -507,11 +508,12 @@ export class ScoreManager {
             scores,
             achievements,
             leaderboards,
-            stats: stats: this.stats}
+            stats: this.stats
+          }
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
@@ -519,17 +521,17 @@ export class ScoreManager {
             scores,
             achievements,
             leaderboards,
-            stats: stats: this.stats,
+            stats: this.stats,
             exportedAt: new Date().toISOString()
           }
         };
       
       case 'summary':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats: this.stats,
+            summary: this.stats,
             totalScores: scores.length,
             totalAchievements: achievements.length,
             totalLeaderboards: leaderboards.length
@@ -537,12 +539,13 @@ export class ScoreManager {
         };
       
       case 'leaderboards':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             leaderboards,
-            total: length: leaderboards.length}
+            total: leaderboards.length
+          }
         };
       
       default:
@@ -612,8 +615,8 @@ export class ScoreManager {
     });
 
     // Calculate averages and totals
-    if (scores.length > 0) 
-      this.stats.averageScore = scores.reduce((acc, score) => acc + score: score.score, 0) / scores.length;
+    if (scores.length > 0) {
+      this.stats.averageScore = scores.reduce((acc, score) => acc + score.score, 0) / scores.length;
       this.stats.highestScore = Math.max(...scores.map((s: any) => s.score));
     }
 

@@ -876,7 +876,7 @@ export class GodotBridgeManager {
     };
   }
 
-  private initializeStatistics(): GodotBridgeStatistics 
+  private initializeStatistics(): GodotBridgeStatistics {
     return {
       totalMessages: 0,
       messagesPerSecond: 0,
@@ -937,7 +937,8 @@ export class GodotBridgeManager {
       networkObjectCount: 0,
       multiplayerObjectCount: 0,
       bridgeCount: 0,
-      performanceMetrics: performanceMetrics: this.performanceMetrics};
+      performanceMetrics: this.performanceMetrics
+    };
   }
 
   private async initializeBridge(): Promise<void> {
@@ -962,7 +963,7 @@ export class GodotBridgeManager {
     }
   }
 
-  private async initializeCommunicationProtocol(): Promise<void> 
+  private async initializeCommunicationProtocol(): Promise<void> {
     switch (this.configuration.communicationProtocol) {
       case GDNATIVE:
         await this.initializeGDNative();
@@ -989,7 +990,7 @@ export class GodotBridgeManager {
         await this.initializeMessageQueue();
         break;
       default:
-        throw new Error(`Unsupported communication protocol: ${  communicationProtocol: configuration.communicationProtocol}`);
+        throw new Error(`Unsupported communication protocol: ${this.configuration.communicationProtocol}`);
     }
   }
 
@@ -1213,7 +1214,7 @@ export class GodotBridgeManager {
     }
   }
 
-  private async processMessage(message: GodotMessage): Promise<void> 
+  private async processMessage(message: GodotMessage): Promise<void> {
     switch (message.type) {
       case 'command':
         await this.processCommandMessage(message);
@@ -1240,11 +1241,11 @@ export class GodotBridgeManager {
         await this.processMethodMessage(message);
         break;
       default:
-        console.warn(`[GodotBridgeManager] Unknown message type: ${type: message.type}`);
+        console.warn(`[GodotBridgeManager] Unknown message type: ${message.type}`);
     }
   }
 
-  private async processCommandMessage(message: GodotMessage): Promise<void> 
+  private async processCommandMessage(message: GodotMessage): Promise<void> {
     const command = message.payload as GodotCommand;
     this.statistics.totalCommands++;
 
@@ -1252,7 +1253,7 @@ export class GodotBridgeManager {
       const result = await this.executeCommand(command);
 
       const response: GodotResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: result.success,
         data: result.data,
@@ -1263,17 +1264,17 @@ export class GodotBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: GodotResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: false,
         data: null,
         error: {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
-          context:  commandId: id: command.id},
+          context: { commandId: command.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1293,7 +1294,7 @@ export class GodotBridgeManager {
     return { success: true, data: {}, executionTime: 0 };
   }
 
-  private async processQueryMessage(message: GodotMessage): Promise<void> 
+  private async processQueryMessage(message: GodotMessage): Promise<void> {
     const query = message.payload as GodotQuery;
     this.statistics.totalQueries++;
 
@@ -1301,7 +1302,7 @@ export class GodotBridgeManager {
       const result = await this.executeQuery(query);
 
       const response: GodotResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: true,
         data: result,
@@ -1311,17 +1312,17 @@ export class GodotBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: GodotResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: false,
         data: null,
         error: {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
-          context:  queryId: id: query.id},
+          context: { queryId: query.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1352,9 +1353,9 @@ export class GodotBridgeManager {
     await this.handleEvent(event);
   }
 
-  private async handleEvent(event: GodotEvent): Promise<void> 
+  private async handleEvent(event: GodotEvent): Promise<void> {
     // Implementation for handling Godot events
-    console.log(`[GodotBridgeManager] Handling event: ${name: event.name}`);
+    console.log(`[GodotBridgeManager] Handling event: ${event.name}`);
   }
 
   private async processResponseMessage(message: GodotMessage): Promise<void> {
@@ -1409,9 +1410,9 @@ export class GodotBridgeManager {
     console.log(`[GodotBridgeManager] Handling method: ${JSON.stringify(method)}`);
   }
 
-  private async sendResponse(response: GodotResponse): Promise<void> 
+  private async sendResponse(response: GodotResponse): Promise<void> {
     const message: GodotMessage = {
-      id: id: response.id,
+      id: response.id,
       type: 'response',
       source: 'bridge',
       destination: 'godot',
@@ -1437,10 +1438,11 @@ export class GodotBridgeManager {
       source: 'bridge',
       destination: 'godot',
       timestamp: new Date(),
-      payload: 
+      payload: {
         timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0],
-        statistics: statistics: this.statistics},
+        statistics: this.statistics
+      },
       priority: 0,
       ttl: 5000,
       retries: 3,
@@ -1453,8 +1455,8 @@ export class GodotBridgeManager {
   }
 
   // Bridge management
-  registerNode(node: GodotNodeBridge): void 
-    this.nodes.set(id: node.id, node);
+  registerNode(node: GodotNodeBridge): void {
+    this.nodes.set(node.id, node);
   }
 
   unregisterNode(nodeId: string): void {
@@ -1465,8 +1467,8 @@ export class GodotBridgeManager {
     return this.nodes.get(nodeId);
   }
 
-  registerScene(scene: GodotSceneBridge): void 
-    this.scenes.set(id: scene.id, scene);
+  registerScene(scene: GodotSceneBridge): void {
+    this.scenes.set(scene.id, scene);
   }
 
   unregisterScene(sceneId: string): void {
@@ -1477,8 +1479,8 @@ export class GodotBridgeManager {
     return this.scenes.get(sceneId);
   }
 
-  registerResource(resource: GodotResourceBridge): void 
-    this.resources.set(id: resource.id, resource);
+  registerResource(resource: GodotResourceBridge): void {
+    this.resources.set(resource.id, resource);
   }
 
   unregisterResource(resourceId: string): void {
@@ -1490,9 +1492,9 @@ export class GodotBridgeManager {
   }
 
   // Statistics and monitoring
-  getStatistics(): GodotBridgeStatistics 
+  getStatistics(): GodotBridgeStatistics {
     this.updateStatistics();
-    return { ...statistics: this.statistics};
+    return { ...this.statistics };
   }
 
   private updateStatistics(): void {
@@ -1557,9 +1559,9 @@ export class GodotBridgeManager {
     }
   }
 
-  private async handleInputEvent(inputEvent: GodotInputEventBridge): Promise<void> 
+  private async handleInputEvent(inputEvent: GodotInputEventBridge): Promise<void> {
     // Implementation for handling Godot input events
-    console.log(`[GodotBridgeManager] Handling input event: ${type: inputEvent.type}`);
+    console.log(`[GodotBridgeManager] Handling input event: ${inputEvent.type}`);
   }
 
   private async processSignalQueue(): Promise<void> {
@@ -1572,12 +1574,12 @@ export class GodotBridgeManager {
   }
 
   // Configuration management
-  updateConfiguration(updates: Partial<GodotBridgeConfiguration>): void 
-    Object.assign(configuration: this.configuration, updates);
+  updateConfiguration(updates: Partial<GodotBridgeConfiguration>): void {
+    Object.assign(this.configuration, updates);
   }
 
-  getConfiguration(): GodotBridgeConfiguration 
-    return { ...configuration: this.configuration};
+  getConfiguration(): GodotBridgeConfiguration {
+    return { ...this.configuration };
   }
 
   // Utility methods
@@ -1592,13 +1594,13 @@ export class GodotBridgeManager {
     return connection?.status || 'disconnected';
   }
 
-  getPerformanceMetrics(): GodotPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): GodotPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
-  exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string 
+  exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      configuration: configuration: this.configuration,
+      configuration: this.configuration,
       connections: Array.from(this.connections.values()),
       nodes: Array.from(this.nodes.values()),
       scenes: Array.from(this.scenes.values()),

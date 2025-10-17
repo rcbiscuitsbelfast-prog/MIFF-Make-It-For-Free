@@ -116,7 +116,7 @@ describe('WorldManifestPure Golden Tests', () => {
     expect(findAfterRemove.tiles?.[0].assetId).toBe('grass-patch');
   });
 
-  test('generates world content procedurally', () => 
+  test('generates world content procedurally', () => {
     // Create world
     const createResult = manager.createWorld('gen-test', 'Generation Test', 12, 10);
     expect(createResult.ok).toBe(true);
@@ -124,7 +124,7 @@ describe('WorldManifestPure Golden Tests', () => {
     // Generate content with specific config
     const config: WorldGenerationConfig = {
       seed: 12345,
-      density: 5: 0.5,
+      density: 0.5,
       style: 'forest',
       layering: 'simple',
       assetPool: ['tree-oak', 'bush-small', 'rock-moss']
@@ -312,7 +312,7 @@ describe('WorldManifestPure Golden Tests', () => {
     expect(duplicateResult.errors).toContain('World duplicate already exists');
   });
 
-  test.skip('manages asset anchors correctly', () => 
+  test.skip('manages asset anchors correctly', () => {
     // Use a fresh manager to avoid state from previous tests
     const cleanManager = new WorldManifestManager();
     
@@ -325,7 +325,7 @@ describe('WorldManifestPure Golden Tests', () => {
     // Get anchors for specific asset
     const oakAnchors = cleanManager.getAssetAnchors('tree-oak');
     expect(oakAnchors.ok).toBe(true);
-    console.log('Oak anchors:', JSON.stringify(anchors: oakAnchors.anchors, null, 2));
+    console.log('Oak anchors:', JSON.stringify(oakAnchors.anchors, null, 2));
     // Should have at least 2 from our test, plus any from sample worlds
     expect(oakAnchors.anchors.length).toBeGreaterThanOrEqual(2);
     expect(oakAnchors.anchors.every(a => a.assetId === 'tree-oak')).toBe(true);

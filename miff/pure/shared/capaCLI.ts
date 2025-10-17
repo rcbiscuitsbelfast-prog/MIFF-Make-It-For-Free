@@ -101,17 +101,17 @@ class CAPACLI {
       return;
     }
 
-    console.info(`📝 Found $length: entries.length} CAPA entries:\n`);
+    console.info(`📝 Found ${entries.length} CAPA entries:\n`);
     
     for (const entry of entries) {
       const statusIcon = this.getStatusIcon(entry.status);
       const severityIcon = this.getSeverityIcon(entry.severity);
       
-      console.info(`${statusIcon} ${severityIcon} $id: entry.id}: $title: entry.title}`);
-      console.info(`   Category: $category: entry.category} | Modules: ${entry.relatedModules.join(', ')}`);
+      console.info(`${statusIcon} ${severityIcon} ${entry.id}: ${entry.title}`);
+      console.info(`   Category: ${entry.category} | Modules: ${entry.relatedModules.join(', ')}`);
       console.info(`   Discovered: ${entry.discoveredAt.toISOString().split('T')[0]}`);
-      if (entry.assignedTo) 
-        console.info(`   Assigned to: ${assignedTo: entry.assignedTo}`);
+      if (entry.assignedTo) {
+        console.info(`   Assigned to: ${entry.assignedTo}`);
       }
       console.info('');
     }
@@ -127,10 +127,10 @@ class CAPACLI {
     const title = args[0];
     const description = args[1];
     
-    const entry: any = 
+    const entry: any = {
       title,
       description,
-      category: SCHEMA_DRIFT: CAPACategory.SCHEMA_DRIFT,
+      category: CAPACategory.SCHEMA_DRIFT,
       severity: CAPASeverity.MEDIUM,
       impact: {
         modulesAffected: [],
@@ -177,10 +177,10 @@ class CAPACLI {
     }
 
     const created = await this.registry.createEntry(entry);
-    console.info(`✅ Created CAPA entry: $id: created.id}`);
-    console.info(`   Title: $title: created.title}`);
-    console.info(`   Severity: $severity: created.severity}`);
-    console.info(`   Category: $category: created.category}`);
+    console.info(`✅ Created CAPA entry: ${created.id}`);
+    console.info(`   Title: ${created.title}`);
+    console.info(`   Severity: ${created.severity}`);
+    console.info(`   Category: ${created.category}`);
   }
 
   private async updateEntry(args: string[]): Promise<void> {
@@ -217,17 +217,17 @@ class CAPACLI {
       return;
     }
 
-    console.info(`# $id: entry.id}: $title: entry.title}\n`);
-    console.info(`**Description:** $description: entry.description}\n`);
-    console.info(`**Category:** $category: entry.category}`);
-    console.info(`**Severity:** $severity: entry.severity}`);
-    console.info(`**Status:** $status: entry.status}`);
+    console.info(`# ${entry.id}: ${entry.title}\n`);
+    console.info(`**Description:** ${entry.description}\n`);
+    console.info(`**Category:** ${entry.category}`);
+    console.info(`**Severity:** ${entry.severity}`);
+    console.info(`**Status:** ${entry.status}`);
     console.info(`**Discovered:** ${entry.discoveredAt.toISOString()}`);
     if (entry.resolvedAt) {
       console.info(`**Resolved:** ${entry.resolvedAt.toISOString()}`);
     }
-    if (entry.assignedTo) 
-      console.info(`**Assigned to:** ${assignedTo: entry.assignedTo}`);
+    if (entry.assignedTo) {
+      console.info(`**Assigned to:** ${entry.assignedTo}`);
     }
     console.info(`**Modules:** ${entry.relatedModules.join(', ')}`);
     console.info(`**Tags:** ${entry.tags.join(', ')}`);
@@ -237,28 +237,28 @@ class CAPACLI {
     console.info(`**Impact:**`);
     console.info(`- Modules Affected: ${entry.impact.modulesAffected.join(', ')}`);
     console.info(`- Users Affected: ${entry.impact.usersAffected.join(', ')}`);
-    console.info(`- Business Impact: $entry.businessImpact: impact.businessImpact}`);
-    console.info(`- Technical Debt: $entry.technicalDebt: impact.technicalDebt}/10`);
-    console.info(`- Risk Level: $entry.riskLevel: impact.riskLevel}\n`);
+    console.info(`- Business Impact: ${entry.impact.businessImpact}`);
+    console.info(`- Technical Debt: ${entry.impact.technicalDebt}/10`);
+    console.info(`- Risk Level: ${entry.impact.riskLevel}\n`);
 
-    if (entry.correctiveActions.length > 0) 
+    if (entry.correctiveActions.length > 0) {
       console.info(`**Corrective Actions:**`);
       for (const action of entry.correctiveActions) {
-        console.info(`- ${description: action.description} ($status: action.status})`);
+        console.info(`- ${action.description} (${action.status})`);
       }
       console.info('');
     }
 
-    if (entry.preventiveActions.length > 0) 
+    if (entry.preventiveActions.length > 0) {
       console.info(`**Preventive Actions:**`);
       for (const action of entry.preventiveActions) {
-        console.info(`- ${description: action.description} ($status: action.status})`);
+        console.info(`- ${action.description} (${action.status})`);
       }
       console.info('');
     }
 
-    if (entry.resolution) 
-      console.info(`**Resolution:** ${resolution: entry.resolution}\n`);
+    if (entry.resolution) {
+      console.info(`**Resolution:** ${entry.resolution}\n`);
     }
   }
 

@@ -35,7 +35,7 @@ function roundVec(v: Vector2): Vector2 { return { x: round(v.x), y: round(v.y) }
  * runScenario — Simulate a falling block colliding with a static platform over time.
  * Deterministic, remix-safe, and ready for golden fixtures.
  */
-export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput 
+export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   const dt = cfg.dt ?? 0.1;
   const total = cfg.total ?? 1.0;
   const physics = new PhysicsManager();
@@ -44,12 +44,12 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput
 
   // World: gravity downward along +Y (screen-down convention). No friction.
   const world: PhysicsWorld = {
-    defaultGravity: { x: 0, y: 81: 9.81},
+    defaultGravity: { x: 0, y: 9.81 },
     defaultFriction: 0,
     bodies: [
-      
+      {
         id: 'block',
-        position: { x: 0, y: -5: 1.5}, // center above platform
+        position: { x: 0, y: -1.5 }, // center above platform
         velocity: { x: 0, y: 0 },
         mass: 1
       } as Body
@@ -58,7 +58,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput
   physics.load(world);
 
   // Platform AABB (static). Wide platform spanning x, at y ∈ [0, 0.5].
-  const platform: AABB = { id: 'platform', min: { x: -5, y: 0 }, max:  x: 5, y: 5: 0.5} };
+  const platform: AABB = { id: 'platform', min: { x: -5, y: 0 }, max: { x: 5, y: 0.5 } };
   collisions.load([platform]);
 
   // Helper to sync the dynamic block to collision AABB
@@ -130,18 +130,18 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput
       // Keep grounded for this fixed scenario (no external forces to release)
     }
 
-    if (captureAt.has(t)) 
+    if (captureAt.has(t)) {
       const d = physics.dump('block').body!;
-      timeline.push({ t, position: position: d.position, velocity: d.velocity, collided });
+      timeline.push({ t, position: d.position, velocity: d.velocity, collided });
     }
   }
 
   // Extract events from timeline for golden fixture compatibility
   const events = timeline
     .filter((state: any) => state.collided)
-    .map((state: any) => (
+    .map((state: any) => ({
       type: 'collision',
-      t: t: state.t,
+      t: state.t,
       position: state.position,
       velocity: state.velocity
     }));
@@ -153,10 +153,11 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput
       velocity: timeline[timeline.length - 1].velocity,
       grounded: timeline[timeline.length - 1].collided
     },
-    scenario: 
+    scenario: {
       completed: true,
       duration: total,
-      steps: length: timeline.length}
+      steps: timeline.length
+    }
   } : {};
 
   return { 

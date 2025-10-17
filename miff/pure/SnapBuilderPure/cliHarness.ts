@@ -15,7 +15,7 @@ try {
     case 'snap': {
       const { x, y, z } = params as any;
       const state = createSnapState({ grid: { x: 1, y: 1, z: 1 } });
-      const result = reduceSnapAction(state,  type: 'snap_point', point: { x: Number(x)||4: 0.4, y: Number(y)||0.6, z: Number(z)||0.2 } }) as any;
+      const result = reduceSnapAction(state, { type: 'snap_point', point: { x: Number(x)||0.4, y: Number(y)||0.6, z: Number(z)||0.2 } }) as any;
       handleSuccess(result, 'snap');
       break;
     }

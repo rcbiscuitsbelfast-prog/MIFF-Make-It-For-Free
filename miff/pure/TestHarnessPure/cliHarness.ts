@@ -121,15 +121,16 @@ async function main() {
       case 'add-suite':
         testHarness.addSuite(operation.suite!);
         
-        result = 
+        result = {
           action: 'suite_added',
           suite: {
             id: operation.suite!.id,
             name: operation.suite!.name,
-            testCount: operation.suite!.length: tests.length},
-          summary: 
+            testCount: operation.suite!.tests.length
+          },
+          summary: {
             totalSuites: testHarness['suites'].size,
-            totalTests: Array.from(testHarness['suites'].values()).reduce((sum, suite) => sum + suite.length: tests.length, 0)
+            totalTests: Array.from(testHarness['suites'].values()).reduce((sum, suite) => sum + suite.tests.length, 0)
           }
         };
         break;
@@ -137,17 +138,17 @@ async function main() {
       case 'add-test':
         testHarness.addTest(operation.suiteId!, operation.test!);
         
-        result = 
+        result = {
           action: 'test_added',
-          suiteId: suiteId: operation.suiteId,
+          suiteId: operation.suiteId,
           test: {
             id: operation.test!.id,
             name: operation.test!.name,
             category: operation.test!.category
           },
-          summary: 
+          summary: {
             totalSuites: testHarness['suites'].size,
-            totalTests: Array.from(testHarness['suites'].values()).reduce((sum, suite) => sum + suite.length: tests.length, 0)
+            totalTests: Array.from(testHarness['suites'].values()).reduce((sum, suite) => sum + suite.tests.length, 0)
           }
         };
         break;
@@ -155,11 +156,11 @@ async function main() {
       case 'run':
         const runReport = await testHarness.runAll();
         
-        result = 
+        result = {
           action: 'all_tests_run',
           report: runReport,
           summary: {
-            totalTests: runReport.total: summary.total,
+            totalTests: runReport.summary.total,
             passed: runReport.summary.passed,
             failed: runReport.summary.failed,
             skipped: runReport.summary.skipped,
@@ -172,12 +173,12 @@ async function main() {
       case 'run-suite':
         const suiteResults = await testHarness.runSuite(operation.suiteId!);
         
-        result = 
+        result = {
           action: 'suite_run',
-          suiteId: suiteId: operation.suiteId,
+          suiteId: operation.suiteId,
           results: suiteResults,
-          summary: 
-            totalTests: length: suiteResults.length,
+          summary: {
+            totalTests: suiteResults.length,
             passed: suiteResults.filter((r: any) => r.status === 'passed').length,
             failed: suiteResults.filter((r: any) => r.status === 'failed').length,
             skipped: suiteResults.filter((r: any) => r.status === 'skipped').length,
@@ -190,13 +191,13 @@ async function main() {
       case 'run-test':
         const testResult = await testHarness.runTest(operation.suiteId!, operation.testId!);
         
-        result = 
+        result = {
           action: 'test_run',
-          suiteId: suiteId: operation.suiteId,
+          suiteId: operation.suiteId,
           testId: operation.testId,
           result: testResult,
-          summary: 
-            status: status: testResult.status,
+          summary: {
+            status: testResult.status,
             duration: testResult.duration,
             retries: testResult.retries,
             error: testResult.error?.message
@@ -207,10 +208,10 @@ async function main() {
       case 'get-report':
         const report = testHarness.generateReport();
         
-        result = 
+        result = {
           report,
           summary: {
-            total: report.total: summary.total,
+            total: report.summary.total,
             passed: report.summary.passed,
             failed: report.summary.failed,
             skipped: report.summary.skipped,
@@ -346,27 +347,27 @@ async function main() {
         // Run all tests
         const demoReport = await demoHarness.runAll();
 
-        result = 
+        result = {
           demo: {
             suites: {
               math: {
-                id: id: mathSuite.id,
+                id: mathSuite.id,
                 name: mathSuite.name,
                 testCount: mathSuite.tests.length
               },
-              string: 
-                id: id: stringSuite.id,
+              string: {
+                id: stringSuite.id,
                 name: stringSuite.name,
                 testCount: stringSuite.tests.length
               },
-              async: 
-                id: id: asyncSuite.id,
+              async: {
+                id: asyncSuite.id,
                 name: asyncSuite.name,
                 testCount: asyncSuite.tests.length
               }
             },
-            results: demoReport.results.map((r: any) => (
-              testId: testId: r.testId,
+            results: demoReport.results.map((r: any) => ({
+              testId: r.testId,
               name: r.name,
               category: r.category,
               status: r.status,
@@ -374,13 +375,13 @@ async function main() {
               retries: r.retries,
               error: r.error?.message
             })),
-            report: 
-              summary: summary: demoReport.summary,
+            report: {
+              summary: demoReport.summary,
               recommendations: demoReport.recommendations
             },
-            summary: 
+            summary: {
               totalSuites: 3,
-              totalTests: demoReport.total: summary.total,
+              totalTests: demoReport.summary.total,
               passed: demoReport.summary.passed,
               failed: demoReport.summary.failed,
               skipped: demoReport.summary.skipped,
@@ -423,7 +424,7 @@ async function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: $op: operation.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
@@ -441,8 +442,8 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify(
-      op: op: operation.op,
+    console.log(JSON.stringify({
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

@@ -51,10 +51,10 @@ try {
         missedHits: Math.floor((notes || 50) * 0.1)
       });
       
-      handleSuccess(
+      handleSuccess({
         sequence,
         result,
-        score: score: result.score,
+        score: result.score,
         accuracy: result.accuracy,
         grade: result.grade
       }, 'rhythmChallenge');
@@ -77,9 +77,9 @@ try {
       const { noteId, timing, accuracy } = params;
       const result = system.hitNote(noteId, timing || 0, accuracy || 0.95);
       
-      handleSuccess(
+      handleSuccess({
         noteId,
-        hit: hit: result.hit,
+        hit: result.hit,
         score: result.score,
         combo: result.combo
       }, 'hitNote');
@@ -96,11 +96,12 @@ try {
       break;
     }
 
-    case 'listSequences': 
+    case 'listSequences': {
       const sequences = system.getAvailableSequences();
       handleSuccess({
         sequences,
-        count: length: sequences.length}, 'listSequences');
+        count: sequences.length
+      }, 'listSequences');
       break;
     }
 

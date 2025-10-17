@@ -176,9 +176,9 @@ export class CapabilitySystem {
       this.isInitialized = true;
       console.info('Capability system initialized successfully');
       
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to initialize capability system', { error: message: error.message});
+      console.error('Failed to initialize capability system', { error: error.message });
       throw error;
     }
   }
@@ -186,7 +186,7 @@ export class CapabilitySystem {
   /**
    * Discover capabilities from all modules
    */
-  private async discoverCapabilities(): Promise<void> 
+  private async discoverCapabilities(): Promise<void> {
     console.info('Discovering capabilities from modules...');
     
     // This would typically scan the filesystem for capability files
@@ -205,22 +205,22 @@ export class CapabilitySystem {
     ];
     
     for (const capability of allCapabilities) {
-      this.registry.capabilities.set(id: capability.id, capability);
+      this.registry.capabilities.set(capability.id, capability);
     }
     
-    console.info(`Discovered $length: allCapabilities.length} capabilities`);
+    console.info(`Discovered ${allCapabilities.length} capabilities`);
   }
 
   /**
    * Build the capability registry
    */
-  private async buildRegistry(): Promise<void> 
+  private async buildRegistry(): Promise<void> {
     console.info('Building capability registry...');
     
     // Build categories
     for (const capability of this.registry.capabilities.values()) {
       if (!this.registry.categories.has(capability.category)) {
-        this.registry.categories.set(category: capability.category, []);
+        this.registry.categories.set(capability.category, []);
       }
       this.registry.categories.get(capability.category)?.push(capability.id);
       
@@ -560,8 +560,8 @@ export class CapabilitySystem {
       return acc;
     }, {} as Record<string, number>);
     
-    return 
-      total: length: capabilities.length,
+    return {
+      total: capabilities.length,
       byType,
       byCategory,
       byStatus

@@ -92,28 +92,30 @@ export class PathfindingManager {
   /**
    * Load a new grid
    */
-  loadGrid(grid: Grid): PathfindingOutput 
+  loadGrid(grid: Grid): PathfindingOutput {
     this.grid = {
-      width: width: grid.width,
+      width: grid.width,
       height: grid.height,
       blocks: [...grid.blocks],
       costs: grid.costs ? [...grid.costs] : undefined,
       dynamic: grid.dynamic ? [...grid.dynamic] : undefined
     };
-    return 
+    return {
       op: 'load',
       status: 'ok',
-      result: grid: this.grid};
+      result: this.grid
+    };
   }
 
   /**
    * Get current grid
    */
-  getGrid(): PathfindingOutput 
+  getGrid(): PathfindingOutput {
     return {
       op: 'get',
       status: 'ok',
-      result: grid: this.grid};
+      result: this.grid
+    };
   }
 
   /**
@@ -218,7 +220,7 @@ export class PathfindingManager {
     const closedSet = new Set<string>();
     const cameFrom = new Map<string, Node>();
 
-    const key = (node: Node) => `$x: node.x},$y: node.y}`;
+    const key = (node: Node) => `${node.x},${node.y}`;
     const getNeighbors = (node: Node): Node[] => {
       const neighbors: Node[] = [];
       const directions = allowDiagonal 
@@ -269,11 +271,11 @@ export class PathfindingManager {
       closedSet.add(key(current));
 
       // Check if we reached the goal
-      if (current.x === goal.x && current.y === goal.y) 
+      if (current.x === goal.x && current.y === goal.y) {
         const path: Node[] = [];
         let node: Node | undefined = current;
         while (node) {
-          path.unshift({ x: x: node.x, y: node.y });
+          path.unshift({ x: node.x, y: node.y });
           node = cameFrom.get(key(node));
         }
 
@@ -293,11 +295,11 @@ export class PathfindingManager {
       }
 
       // Explore neighbors
-      for (const neighbor of getNeighbors(current)) 
+      for (const neighbor of getNeighbors(current)) {
         const neighborKey = key(neighbor);
         if (closedSet.has(neighborKey)) continue;
 
-        const tentativeG = current.g! + this.getCost(x: neighbor.x, neighbor.y);
+        const tentativeG = current.g! + this.getCost(neighbor.x, neighbor.y);
         const existingNode = openSet.find(n => n.x === neighbor.x && n.y === neighbor.y);
         
         if (!existingNode) {
@@ -347,7 +349,7 @@ export class PathfindingManager {
     const maxIterations = options.maxIterations || 10000;
     const allowDiagonal = options.allowDiagonal || false;
 
-    const key = (n: Node) => `$x: n.x},$y: n.y}`;
+    const key = (n: Node) => `${n.x},${n.y}`;
     const getNeighbors = (node: Node): Node[] => {
       const dirs = allowDiagonal
         ? [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
@@ -403,8 +405,8 @@ export class PathfindingManager {
       if (current.key === goalKey) {
         const path: Node[] = [];
         let node: Node | undefined = { x: cx, y: cy };
-        while (node) 
-          path.unshift({ x: x: node.x, y: node.y });
+        while (node) {
+          path.unshift({ x: node.x, y: node.y });
           node = prev.get(key(node));
         }
         const result: PathfindingResult = { requestId, path, cost: dist.get(goalKey) || 0, iterations, success: true, algorithm: 'dijkstra', timestamp: new Date() };
@@ -412,9 +414,9 @@ export class PathfindingManager {
         return result;
       }
       const currentNode = { x: cx, y: cy };
-      for (const n of getNeighbors(currentNode)) 
+      for (const n of getNeighbors(currentNode)) {
         const nk = key(n);
-        const alt = (dist.get(current.key) || Infinity) + this.getCost(x: n.x, n.y);
+        const alt = (dist.get(current.key) || Infinity) + this.getCost(n.x, n.y);
         if (alt < (dist.get(nk) || Infinity)) {
           dist.set(nk, alt);
           prev.set(nk, currentNode);
@@ -452,7 +454,7 @@ export class PathfindingManager {
     const visited = new Set<string>();
     const cameFrom = new Map<string, Node>();
 
-    const key = (node: Node) => `$x: node.x},$y: node.y}`;
+    const key = (node: Node) => `${node.x},${node.y}`;
     const getNeighbors = (node: Node): Node[] => {
       const neighbors: Node[] = [];
       const directions = allowDiagonal 
@@ -472,7 +474,7 @@ export class PathfindingManager {
     visited.add(key(start));
     let iterations = 0;
 
-    while (queue.length > 0 && iterations < maxIterations) 
+    while (queue.length > 0 && iterations < maxIterations) {
       iterations++;
       const current = queue.shift()!;
 
@@ -481,7 +483,7 @@ export class PathfindingManager {
         const path: Node[] = [];
         let node: Node | undefined = current;
         while (node) {
-          path.unshift({ x: x: node.x, y: node.y });
+          path.unshift({ x: node.x, y: node.y });
           node = cameFrom.get(key(node));
         }
 
@@ -547,13 +549,13 @@ export class PathfindingManager {
   /**
    * Get pathfinding statistics
    */
-  getPathfindingStats(): PathfindingOutput 
+  getPathfindingStats(): PathfindingOutput {
     const totalRequests = this.results.length;
     const successfulPaths = this.results.filter((r: any) => r.success).length;
     const failedPaths = totalRequests - successfulPaths;
     
     const averagePathLength = successfulPaths > 0 
-      ? this.results.filter((r: any) => r.success).reduce((sum, r) => sum + r.length: path.length, 0) / successfulPaths
+      ? this.results.filter((r: any) => r.success).reduce((sum, r) => sum + r.path.length, 0) / successfulPaths
       : 0;
     
     const averageCost = successfulPaths > 0
@@ -603,22 +605,22 @@ export class PathfindingManager {
   /**
    * Export pathfinding data
    */
-  exportPathfinding(format: 'json' | 'manifest' | 'summary' | 'results' = 'json'): PathfindingOutput 
+  exportPathfinding(format: 'json' | 'manifest' | 'summary' | 'results' = 'json'): PathfindingOutput {
     switch (format) {
       case 'json':
         return {
           op: 'export',
           status: 'ok',
-          result: { grid: grid: this.grid, results: this.results, total: this.results.length }
+          result: { grid: this.grid, results: this.results, total: this.results.length }
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.pathfinding.export.v1',
-            grid: grid: this.grid,
+            grid: this.grid,
             results: this.results.slice(-100), // Last 100 results
             exportedAt: new Date().toISOString(),
             total: this.results.length
@@ -627,13 +629,13 @@ export class PathfindingManager {
       
       case 'summary':
         const stats = this.getPathfindingStats();
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: result: stats.result,
-            grid: 
-              width: this.width: grid.width,
+            summary: stats.result,
+            grid: {
+              width: this.grid.width,
               height: this.grid.height,
               totalBlocks: this.grid.blocks.length,
               dynamicObstacles: this.grid.dynamic?.length || 0
@@ -642,11 +644,11 @@ export class PathfindingManager {
         };
       
       case 'results':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            results: results: this.results,
+            results: this.results,
             total: this.results.length
           }
         };

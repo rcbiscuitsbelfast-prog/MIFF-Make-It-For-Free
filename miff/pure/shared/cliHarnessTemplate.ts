@@ -138,15 +138,15 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
   }
 
   // Load data from file if specified
-  if (result.inputFile && fs.existsSync(result.inputFile)) 
+  if (result.inputFile && fs.existsSync(result.inputFile)) {
     try {
-      const fileContent = fs.readFileSync(inputFile: result.inputFile, 'utf-8');
+      const fileContent = fs.readFileSync(result.inputFile, 'utf-8');
       result.data = SafeJSONParser.parse(fileContent);
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       throw new CLIError(
-        INVALID_JSON: CLIErrorCode.INVALID_JSON,
-        `Failed to parse JSON file: $inputFile: result.inputFile}`,
+        CLIErrorCode.INVALID_JSON,
+        `Failed to parse JSON file: ${result.inputFile}`,
         error
       );
     }
@@ -156,28 +156,28 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
 }
 
 // Standard output formatter
-export function formatOutput(result: CLIResult, format: OutputFormat = 'json'): string 
+export function formatOutput(result: CLIResult, format: OutputFormat = 'json'): string {
   switch (format) {
     case 'json':
       return JSON.stringify(result, null, 2);
     case 'yaml':
       // Simple YAML formatting (would need yaml library for full support)
-      return `op: ${op: result.op}\nstatus: $status: result.status}\nmodule: $module: result.module}\ntimestamp: $timestamp: result.timestamp}\nexecutionTime: $executionTime: result.executionTime}`;
+      return `op: ${result.op}\nstatus: ${result.status}\nmodule: ${result.module}\ntimestamp: ${result.timestamp}\nexecutionTime: ${result.executionTime}`;
     case 'csv':
-      return `op,status,module,timestamp,executionTime\n$op: result.op},$status: result.status},$module: result.module},$timestamp: result.timestamp},$executionTime: result.executionTime}`;
+      return `op,status,module,timestamp,executionTime\n${result.op},${result.status},${result.module},${result.timestamp},${result.executionTime}`;
     case 'markdown':
-      return `# CLI Result\n\n- **Operation:** $op: result.op}\n- **Status:** $status: result.status}\n- **Module:** $module: result.module}\n- **Timestamp:** $timestamp: result.timestamp}\n- **Execution Time:** $executionTime: result.executionTime}ms`;
+      return `# CLI Result\n\n- **Operation:** ${result.op}\n- **Status:** ${result.status}\n- **Module:** ${result.module}\n- **Timestamp:** ${result.timestamp}\n- **Execution Time:** ${result.executionTime}ms`;
     case 'html':
-      return `<html><body><h1>CLI Result</h1><ul><li><strong>Operation:</strong> $op: result.op}</li><li><strong>Status:</strong> $status: result.status}</li><li><strong>Module:</strong> $module: result.module}</li><li><strong>Timestamp:</strong> $timestamp: result.timestamp}</li><li><strong>Execution Time:</strong> $executionTime: result.executionTime}ms</li></ul></body></html>`;
+      return `<html><body><h1>CLI Result</h1><ul><li><strong>Operation:</strong> ${result.op}</li><li><strong>Status:</strong> ${result.status}</li><li><strong>Module:</strong> ${result.module}</li><li><strong>Timestamp:</strong> ${result.timestamp}</li><li><strong>Execution Time:</strong> ${result.executionTime}ms</li></ul></body></html>`;
     case 'text':
-      return `$op: result.op}: $status: result.status} ($executionTime: result.executionTime}ms)`;
+      return `${result.op}: ${result.status} (${result.executionTime}ms)`;
     default:
       return JSON.stringify(result, null, 2);
   }
 }
 
 // Standard error handler
-export function handleCLIError(error: unknown, operation: string, module: string): CLIResult 
+export function handleCLIError(error: unknown, operation: string, module: string): CLIResult {
   const timestamp = new Date().toISOString();
   
   if (error instanceof CLIError) {
@@ -187,19 +187,19 @@ export function handleCLIError(error: unknown, operation: string, module: string
       module,
       timestamp,
       executionTime: 0,
-      error: message: error.message,
-      message: `CLI Error: $code: error.code}`
+      error: error.message,
+      message: `CLI Error: ${error.code}`
     };
   }
   
-  if (error instanceof Error) 
+  if (error instanceof Error) {
     return {
       op: operation,
       status: 'error',
       module,
       timestamp,
       executionTime: 0,
-      error: message: error.message,
+      error: error.message,
       message: 'Unexpected error occurred'
     };
   }
@@ -260,7 +260,7 @@ Examples:
 }
 
 // Standard CLI harness base class
-export abstract class BaseCLIHarness 
+export abstract class BaseCLIHarness {
   protected abstract moduleName: string;
   protected abstract supportedOperations: CLIOperation[];
   
@@ -271,14 +271,14 @@ export abstract class BaseCLIHarness
       const args = parseCLIArgs(process.argv);
       
       if (args.help) {
-        console.info(generateHelpText(moduleName: this.moduleName, this.supportedOperations));
+        console.info(generateHelpText(this.moduleName, this.supportedOperations));
         return;
       }
       
-      if (!this.supportedOperations.includes(args.operation)) 
+      if (!this.supportedOperations.includes(args.operation)) {
         throw new CLIError(
-          INVALID_OPERATION: CLIErrorCode.INVALID_OPERATION,
-          `Unsupported operation: $operation: args.operation}. Supported: ${this.supportedOperations.join(', ')}`
+          CLIErrorCode.INVALID_OPERATION,
+          `Unsupported operation: ${args.operation}. Supported: ${this.supportedOperations.join(', ')}`
         );
       }
       
@@ -290,10 +290,10 @@ export abstract class BaseCLIHarness
       
       const output = formatOutput(result, args.format);
       
-      if (args.outputFile) 
-        fs.writeFileSync(outputFile: args.outputFile, output);
-        if (args.verbose) 
-          console.info(`Output written to: ${outputFile: args.outputFile}`);
+      if (args.outputFile) {
+        fs.writeFileSync(args.outputFile, output);
+        if (args.verbose) {
+          console.info(`Output written to: ${args.outputFile}`);
         }
       } else {
         console.info(output);

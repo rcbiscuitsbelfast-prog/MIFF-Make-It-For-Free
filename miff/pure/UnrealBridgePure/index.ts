@@ -1069,11 +1069,11 @@ export class UnrealBridgeManager {
     if (!config.unrealVersion! || config.unrealVersion.trim() === '') {
       throw new Error('UnrealBridgeConfiguration: unrealVersion cannot be empty.');
     }
-    if (!Object.values(UnrealBridgeType).includes(config.bridgeType)) 
-      throw new Error(`UnrealBridgeConfiguration: Invalid bridgeType '${bridgeType: config.bridgeType}'.`);
+    if (!Object.values(UnrealBridgeType).includes(config.bridgeType)) {
+      throw new Error(`UnrealBridgeConfiguration: Invalid bridgeType '${config.bridgeType}'.`);
     }
-    if (!Object.values(UnrealCommunicationProtocol).includes(config.communicationProtocol)) 
-      throw new Error(`UnrealBridgeConfiguration: Invalid communicationProtocol '${communicationProtocol: config.communicationProtocol}'.`);
+    if (!Object.values(UnrealCommunicationProtocol).includes(config.communicationProtocol)) {
+      throw new Error(`UnrealBridgeConfiguration: Invalid communicationProtocol '${config.communicationProtocol}'.`);
     }
     // Add more validation rules as needed
   }
@@ -1148,7 +1148,7 @@ export class UnrealBridgeManager {
     };
   }
 
-  private initializeStatistics(): UnrealBridgeStatistics 
+  private initializeStatistics(): UnrealBridgeStatistics {
     return {
       totalMessages: 0,
       messagesPerSecond: 0,
@@ -1201,7 +1201,8 @@ export class UnrealBridgeManager {
       aiControllerCount: 0,
       pawnCount: 0,
       characterCount: 0,
-      performanceMetrics: performanceMetrics: this.performanceMetrics};
+      performanceMetrics: this.performanceMetrics
+    };
   }
 
   private async initializeBridge(): Promise<void> {
@@ -1229,7 +1230,7 @@ export class UnrealBridgeManager {
     }
   }
 
-  private async initializeCommunicationProtocol(): Promise<void> 
+  private async initializeCommunicationProtocol(): Promise<void> {
     switch (this.configuration.communicationProtocol) {
       case MESSAGE_PASSING:
         await this.initializeMessagePassing();
@@ -1277,7 +1278,7 @@ export class UnrealBridgeManager {
         await this.initializeFunctionLibrary();
         break;
       default:
-        throw new Error(`Unsupported communication protocol: ${  communicationProtocol: configuration.communicationProtocol}`);
+        throw new Error(`Unsupported communication protocol: ${this.configuration.communicationProtocol}`);
     }
   }
 
@@ -1378,13 +1379,13 @@ export class UnrealBridgeManager {
     this.systems.set('engine_subsystem', engineSubsystem);
 
     // Initialize editor subsystem
-    const editorSubsystem: UnrealSystemBridge = 
+    const editorSubsystem: UnrealSystemBridge = {
       id: 'editor_subsystem',
       type: 'editor_subsystem',
       subsystemName: 'MIFFBridgeEditorSubsystem',
       moduleName: 'MIFFBridgeEditor',
       priority: 500,
-      enabled: this.enableLiveReload: configuration.enableLiveReload,
+      enabled: this.configuration.enableLiveReload,
       updateRate: 30,
       executionOrder: 0,
       dependencies: ['engine_subsystem'],
@@ -1587,7 +1588,7 @@ export class UnrealBridgeManager {
     }
   }
 
-  private async processMessage(message: UnrealMessage): Promise<void> 
+  private async processMessage(message: UnrealMessage): Promise<void> {
     switch (message.type) {
       case 'command':
         await this.processCommandMessage(message);
@@ -1614,11 +1615,11 @@ export class UnrealBridgeManager {
         await this.processPropertySyncMessage(message);
         break;
       default:
-        console.warn(`[UnrealBridgeManager] Unknown message type: ${type: message.type}`);
+        console.warn(`[UnrealBridgeManager] Unknown message type: ${message.type}`);
     }
   }
 
-  private async processCommandMessage(message: UnrealMessage): Promise<void> 
+  private async processCommandMessage(message: UnrealMessage): Promise<void> {
     const command = message.payload as UnrealCommand;
     this.statistics.totalCommands++;
 
@@ -1626,7 +1627,7 @@ export class UnrealBridgeManager {
       const result = await this.executeCommand(command);
 
       const response: UnrealResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: result.success,
         data: result.data,
@@ -1637,17 +1638,17 @@ export class UnrealBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: UnrealResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: false,
         data: null,
         error: {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
-          context:  commandId: id: command.id},
+          context: { commandId: command.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1668,7 +1669,7 @@ export class UnrealBridgeManager {
     return { success: true, data: {}, executionTime: 0 };
   }
 
-  private async processQueryMessage(message: UnrealMessage): Promise<void> 
+  private async processQueryMessage(message: UnrealMessage): Promise<void> {
     const query = message.payload as UnrealQuery;
     this.statistics.totalQueries++;
 
@@ -1676,7 +1677,7 @@ export class UnrealBridgeManager {
       const result = await this.executeQuery(query);
 
       const response: UnrealResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: true,
         data: result,
@@ -1686,17 +1687,17 @@ export class UnrealBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const response: UnrealResponse = {
-        id: `response_${id: message.id}`,
+        id: `response_${message.id}`,
         correlationId: message.id,
         success: false,
         data: null,
         error: {
           code: 'QUERY_EXECUTION_FAILED',
           message: `Query execution failed: ${error}`,
-          context:  queryId: id: query.id},
+          context: { queryId: query.id },
           timestamp: new Date(),
           severity: 'high',
           category: 'execution',
@@ -1728,9 +1729,9 @@ export class UnrealBridgeManager {
     await this.handleEvent(event);
   }
 
-  private async handleEvent(event: UnrealEvent): Promise<void> 
+  private async handleEvent(event: UnrealEvent): Promise<void> {
     // Implementation for handling Unreal events
-    console.log(`[UnrealBridgeManager] Handling event: ${name: event.name}`);
+    console.log(`[UnrealBridgeManager] Handling event: ${event.name}`);
   }
 
   private async processResponseMessage(message: UnrealMessage): Promise<void> {
@@ -1746,24 +1747,24 @@ export class UnrealBridgeManager {
     this.reconnectAttempts = 0;
   }
 
-  private async processBroadcastMessage(message: UnrealMessage): Promise<void> 
+  private async processBroadcastMessage(message: UnrealMessage): Promise<void> {
     // Implementation for processing broadcast messages
-    console.log(`[UnrealBridgeManager] Processing broadcast: ${id: message.id}`);
+    console.log(`[UnrealBridgeManager] Processing broadcast: ${message.id}`);
   }
 
-  private async processRPCMessage(message: UnrealMessage): Promise<void> 
+  private async processRPCMessage(message: UnrealMessage): Promise<void> {
     // Implementation for processing RPC messages
-    console.log(`[UnrealBridgeManager] Processing RPC: ${id: message.id}`);
+    console.log(`[UnrealBridgeManager] Processing RPC: ${message.id}`);
   }
 
-  private async processPropertySyncMessage(message: UnrealMessage): Promise<void> 
+  private async processPropertySyncMessage(message: UnrealMessage): Promise<void> {
     // Implementation for processing property sync messages
-    console.log(`[UnrealBridgeManager] Processing property sync: ${id: message.id}`);
+    console.log(`[UnrealBridgeManager] Processing property sync: ${message.id}`);
   }
 
-  private async sendResponse(response: UnrealResponse): Promise<void> 
+  private async sendResponse(response: UnrealResponse): Promise<void> {
     const message: UnrealMessage = {
-      id: id: response.id,
+      id: response.id,
       type: 'response',
       source: 'bridge',
       destination: 'unreal',
@@ -1789,10 +1790,11 @@ export class UnrealBridgeManager {
       source: 'bridge',
       destination: 'unreal',
       timestamp: new Date(),
-      payload: 
+      payload: {
         timestamp: new Date(),
         connectionId: Array.from(this.connections.keys())[0],
-        statistics: statistics: this.statistics},
+        statistics: this.statistics
+      },
       priority: 0,
       ttl: 5000,
       retries: 3,
@@ -1805,8 +1807,8 @@ export class UnrealBridgeManager {
   }
 
   // Bridge management
-  registerActor(actor: UnrealActorBridge): void 
-    this.actors.set(id: actor.id, actor);
+  registerActor(actor: UnrealActorBridge): void {
+    this.actors.set(actor.id, actor);
   }
 
   unregisterActor(actorId: string): void {
@@ -1817,8 +1819,8 @@ export class UnrealBridgeManager {
     return this.actors.get(actorId);
   }
 
-  registerComponent(component: UnrealComponentBridge): void 
-    this.components.set(id: component.id, component);
+  registerComponent(component: UnrealComponentBridge): void {
+    this.components.set(component.id, component);
   }
 
   unregisterComponent(componentId: string): void {
@@ -1829,8 +1831,8 @@ export class UnrealBridgeManager {
     return this.components.get(componentId);
   }
 
-  registerAsset(asset: UnrealAssetBridge): void 
-    this.assets.set(id: asset.id, asset);
+  registerAsset(asset: UnrealAssetBridge): void {
+    this.assets.set(asset.id, asset);
   }
 
   unregisterAsset(assetId: string): void {
@@ -1841,8 +1843,8 @@ export class UnrealBridgeManager {
     return this.assets.get(assetId);
   }
 
-  registerScene(scene: UnrealSceneBridge): void 
-    this.scenes.set(id: scene.id, scene);
+  registerScene(scene: UnrealSceneBridge): void {
+    this.scenes.set(scene.id, scene);
   }
 
   unregisterScene(sceneId: string): void {
@@ -1853,8 +1855,8 @@ export class UnrealBridgeManager {
     return this.scenes.get(sceneId);
   }
 
-  registerSystem(system: UnrealSystemBridge): void 
-    this.systems.set(id: system.id, system);
+  registerSystem(system: UnrealSystemBridge): void {
+    this.systems.set(system.id, system);
   }
 
   unregisterSystem(systemId: string): void {
@@ -1865,8 +1867,8 @@ export class UnrealBridgeManager {
     return this.systems.get(systemId);
   }
 
-  registerService(service: UnrealServiceBridge): void 
-    this.services.set(id: service.id, service);
+  registerService(service: UnrealServiceBridge): void {
+    this.services.set(service.id, service);
   }
 
   unregisterService(serviceId: string): void {
@@ -1877,8 +1879,8 @@ export class UnrealBridgeManager {
     return this.services.get(serviceId);
   }
 
-  registerBlueprint(blueprint: UnrealBlueprintBridge): void 
-    this.blueprints.set(id: blueprint.id, blueprint);
+  registerBlueprint(blueprint: UnrealBlueprintBridge): void {
+    this.blueprints.set(blueprint.id, blueprint);
   }
 
   unregisterBlueprint(blueprintId: string): void {
@@ -1889,8 +1891,8 @@ export class UnrealBridgeManager {
     return this.blueprints.get(blueprintId);
   }
 
-  registerLevel(level: UnrealLevelBridge): void 
-    this.levels.set(id: level.id, level);
+  registerLevel(level: UnrealLevelBridge): void {
+    this.levels.set(level.id, level);
   }
 
   unregisterLevel(levelId: string): void {
@@ -1901,8 +1903,8 @@ export class UnrealBridgeManager {
     return this.levels.get(levelId);
   }
 
-  registerWorld(world: UnrealWorldBridge): void 
-    this.worlds.set(id: world.id, world);
+  registerWorld(world: UnrealWorldBridge): void {
+    this.worlds.set(world.id, world);
   }
 
   unregisterWorld(worldId: string): void {
@@ -1913,8 +1915,8 @@ export class UnrealBridgeManager {
     return this.worlds.get(worldId);
   }
 
-  registerGameMode(gameMode: UnrealGameModeBridge): void 
-    this.gameModes.set(id: gameMode.id, gameMode);
+  registerGameMode(gameMode: UnrealGameModeBridge): void {
+    this.gameModes.set(gameMode.id, gameMode);
   }
 
   unregisterGameMode(gameModeId: string): void {
@@ -1925,8 +1927,8 @@ export class UnrealBridgeManager {
     return this.gameModes.get(gameModeId);
   }
 
-  registerGameState(gameState: UnrealGameStateBridge): void 
-    this.gameStates.set(id: gameState.id, gameState);
+  registerGameState(gameState: UnrealGameStateBridge): void {
+    this.gameStates.set(gameState.id, gameState);
   }
 
   unregisterGameState(gameStateId: string): void {
@@ -1937,8 +1939,8 @@ export class UnrealBridgeManager {
     return this.gameStates.get(gameStateId);
   }
 
-  registerPlayerController(playerController: UnrealPlayerControllerBridge): void 
-    this.playerControllers.set(id: playerController.id, playerController);
+  registerPlayerController(playerController: UnrealPlayerControllerBridge): void {
+    this.playerControllers.set(playerController.id, playerController);
   }
 
   unregisterPlayerController(playerControllerId: string): void {
@@ -1949,8 +1951,8 @@ export class UnrealBridgeManager {
     return this.playerControllers.get(playerControllerId);
   }
 
-  registerAIController(aiController: UnrealAIControllerBridge): void 
-    this.aiControllers.set(id: aiController.id, aiController);
+  registerAIController(aiController: UnrealAIControllerBridge): void {
+    this.aiControllers.set(aiController.id, aiController);
   }
 
   unregisterAIController(aiControllerId: string): void {
@@ -1961,8 +1963,8 @@ export class UnrealBridgeManager {
     return this.aiControllers.get(aiControllerId);
   }
 
-  registerPawn(pawn: UnrealPawnBridge): void 
-    this.pawns.set(id: pawn.id, pawn);
+  registerPawn(pawn: UnrealPawnBridge): void {
+    this.pawns.set(pawn.id, pawn);
   }
 
   unregisterPawn(pawnId: string): void {
@@ -1973,8 +1975,8 @@ export class UnrealBridgeManager {
     return this.pawns.get(pawnId);
   }
 
-  registerCharacter(character: UnrealCharacterBridge): void 
-    this.characters.set(id: character.id, character);
+  registerCharacter(character: UnrealCharacterBridge): void {
+    this.characters.set(character.id, character);
   }
 
   unregisterCharacter(characterId: string): void {
@@ -1986,9 +1988,9 @@ export class UnrealBridgeManager {
   }
 
   // Statistics and monitoring
-  getStatistics(): UnrealBridgeStatistics 
+  getStatistics(): UnrealBridgeStatistics {
     this.updateStatistics();
-    return { ...statistics: this.statistics};
+    return { ...this.statistics };
   }
 
   private updateStatistics(): void {
@@ -2051,12 +2053,12 @@ export class UnrealBridgeManager {
   }
 
   // Configuration management
-  updateConfiguration(updates: Partial<UnrealBridgeConfiguration>): void 
-    Object.assign(configuration: this.configuration, updates);
+  updateConfiguration(updates: Partial<UnrealBridgeConfiguration>): void {
+    Object.assign(this.configuration, updates);
   }
 
-  getConfiguration(): UnrealBridgeConfiguration 
-    return { ...configuration: this.configuration};
+  getConfiguration(): UnrealBridgeConfiguration {
+    return { ...this.configuration };
   }
 
   // Utility methods
@@ -2071,13 +2073,13 @@ export class UnrealBridgeManager {
     return connection?.status || 'disconnected';
   }
 
-  getPerformanceMetrics(): UnrealPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): UnrealPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
-  exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string 
+  exportBridgeData(format: 'json' | 'xml' | 'binary' = 'json'): string {
     const data = {
-      configuration: configuration: this.configuration,
+      configuration: this.configuration,
       connections: Array.from(this.connections.values()),
       actors: Array.from(this.actors.values()),
       components: Array.from(this.components.values()),

@@ -7,7 +7,7 @@
 
 import { RigConfig, SkinConfig, MeshData, MaterialConfig, TextureConfig, MorphTarget, Vec3 } from './types';
 
-export class SkinMeshGenerator 
+export class SkinMeshGenerator {
   private rigConfig: RigConfig;
   private skinConfig: SkinConfig;
   private nextId: number = 0;
@@ -17,7 +17,7 @@ export class SkinMeshGenerator
     this.skinConfig = {
       id: initialSkinConfig?.id || this.generateId(),
       name: initialSkinConfig?.name || 'Generated Skin',
-      rigId: id: rigConfig.id,
+      rigId: rigConfig.id,
       meshData: initialSkinConfig?.meshData || this.generateBaseMesh(),
       materials: initialSkinConfig?.materials || this.createDefaultMaterials(),
       morphTargets: initialSkinConfig?.morphTargets || [],
@@ -28,7 +28,7 @@ export class SkinMeshGenerator
   /**
    * Generate base mesh from rig configuration
    */
-  generateBaseMesh(): MeshData 
+  generateBaseMesh(): MeshData {
     const vertices: number[] = [];
     const normals: number[] = [];
     const uvs: number[] = [];
@@ -57,7 +57,7 @@ export class SkinMeshGenerator
       
       // Add group
       groups.push({
-        name: name: node.name,
+        name: node.name,
         start: indexOffset,
         count: mesh.indices.length,
         materialIndex: this.getMaterialIndexForNodeType(node.type)
@@ -149,7 +149,7 @@ export class SkinMeshGenerator
   /**
    * Generate torso mesh (box-like with rounded edges)
    */
-  private generateTorsoMesh(position: Vec3, scale: Vec3, vertices: number[], normals: number[], uvs: number[], indices: number[]): void 
+  private generateTorsoMesh(position: Vec3, scale: Vec3, vertices: number[], normals: number[], uvs: number[], indices: number[]): void {
     const width = scale.x;
     const height = scale.y;
     const depth = scale.z;
@@ -172,7 +172,7 @@ export class SkinMeshGenerator
 
     // Add vertices with position offset
     boxVertices.forEach((vertex: any) => {
-      vertices.push(vertex[0] + x: position.x, vertex[1] + position.y, vertex[2] + position.z);
+      vertices.push(vertex[0] + position.x, vertex[1] + position.y, vertex[2] + position.z);
     });
 
     // Add normals for each face
@@ -212,8 +212,8 @@ export class SkinMeshGenerator
   /**
    * Generate cylinder mesh for limbs
    */
-  private generateCylinderMesh(position: Vec3, scale: Vec3, segments: number, vertices: number[], normals: number[], uvs: number[], indices: number[]): void 
-    const radius = Math.min(x: scale.x, scale.z) / 2;
+  private generateCylinderMesh(position: Vec3, scale: Vec3, segments: number, vertices: number[], normals: number[], uvs: number[], indices: number[]): void {
+    const radius = Math.min(scale.x, scale.z) / 2;
     const height = scale.y;
 
     // Generate vertices
@@ -262,25 +262,25 @@ export class SkinMeshGenerator
   /**
    * Create default materials
    */
-  private createDefaultMaterials(): MaterialConfig[] 
+  private createDefaultMaterials(): MaterialConfig[] {
     return [
       {
         id: 'skin_material',
         name: 'Skin Material',
         type: 'standard',
         properties: {
-          color: { r: 9: 0.9, g: 0.7, b: 0.6 },
+          color: { r: 0.9, g: 0.7, b: 0.6 },
           roughness: 0.8,
           metallic: 0.0
         },
         textures: []
       },
-      
+      {
         id: 'clothing_material',
         name: 'Clothing Material',
         type: 'standard',
         properties: {
-          color: { r: 2: 0.2, g: 0.4, b: 0.8 },
+          color: { r: 0.2, g: 0.4, b: 0.8 },
           roughness: 0.6,
           metallic: 0.0
         },
@@ -361,23 +361,23 @@ export class SkinMeshGenerator
     const material = this.skinConfig.materials.find(m => m.id === materialId);
     if (!material) throw new Error(`Material ${materialId} not found`);
 
-    material.properties =  ...properties: material.properties, ...properties };
+    material.properties = { ...material.properties, ...properties };
     return this;
   }
 
   /**
    * Get skin configuration
    */
-  getSkinConfig(): SkinConfig 
-    return { ...skinConfig: this.skinConfig};
+  getSkinConfig(): SkinConfig {
+    return { ...this.skinConfig };
   }
 
   /**
    * Export skin as JSON
    */
-  exportSkinJson(): string 
+  exportSkinJson(): string {
     const exportData = {
-      ...skinConfig: this.skinConfig,
+      ...this.skinConfig,
       exportFormat: 'miff-skin-v1',
       timestamp: new Date().toISOString(),
       checksum: this.calculateChecksum()
@@ -415,9 +415,9 @@ export class SkinMeshGenerator
     });
 
     // Check morph targets
-    this.skinConfig.morphTargets.forEach(morphTarget => 
+    this.skinConfig.morphTargets.forEach(morphTarget => {
       if (morphTarget.vertices.length !== vertices.length) {
-        errors.push(`Morph target ${name: morphTarget.name} has incorrect vertex count`);
+        errors.push(`Morph target ${morphTarget.name} has incorrect vertex count`);
       }
     });
 

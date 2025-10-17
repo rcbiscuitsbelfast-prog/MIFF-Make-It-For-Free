@@ -237,7 +237,7 @@ export type AirQualityLevel = 'good' | 'moderate' | 'unhealthy_sensitive' | 'unh
 export type EffectType = 'rain' | 'snow' | 'fog' | 'wind' | 'lightning' | 'rainbow' | 'aurora' | 'sandstorm';
 export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bounce' | 'elastic';
 
-export class WeatherSystemManager 
+export class WeatherSystemManager {
   private config: WeatherSystemConfig;
   
   private memoryId: string;
@@ -259,16 +259,18 @@ export class WeatherSystemManager
     transitionDuration: 5000, // 5 seconds
     enableDebugging: false,
     enableLogging: true,
-    logLevel: INFO: LogLevel.INFO}) 
+    logLevel: LogLevel.INFO
+  }) {
     this.config = config;
 
     // Initialize structured logging
     this.logger = new StructuredLogger({
-      level: logLevel: config.logLevel,
+      level: config.logLevel,
       enableConsole: config.enableLogging,
       performanceMonitoring: true,
-      modules: 
-        'WeatherSystemManager': DEBUG: LogLevel.DEBUG}
+      modules: {
+        'WeatherSystemManager': LogLevel.DEBUG
+      }
     });
 
     // Initialize performance optimizer
@@ -284,8 +286,8 @@ export class WeatherSystemManager
     this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'WeatherSystemManager');
 
-    console.info('WeatherSystemManager initialized', 
-      config: config: this.config,
+    console.info('WeatherSystemManager initialized', {
+      config: this.config,
       memoryId: this.memoryId
     });
   }
@@ -368,7 +370,7 @@ export class WeatherSystemManager
     };
 
     this.zones.set(zoneId, zone);
-    console.info('Weather zone created',  zoneId, name: name: zone.name});
+    console.info('Weather zone created', { zoneId, name: zone.name });
 
     return zone;
   }
@@ -408,7 +410,7 @@ export class WeatherSystemManager
     }
 
     this.zones.delete(zoneId);
-    console.info('Weather zone deleted',  zoneId, name: name: zone.name});
+    console.info('Weather zone deleted', { zoneId, name: zone.name });
     return true;
   }
 
@@ -438,14 +440,14 @@ export class WeatherSystemManager
       return false;
     }
 
-    if (transition && this.config.enableDynamicTransitions) 
-      this.createWeatherTransition(zoneId, weather: weather: zone.weather, weather);
+    if (transition && this.config.enableDynamicTransitions) {
+      this.createWeatherTransition(zoneId, weather: zone.weather, weather);
     } else {
       zone.weather = weather;
       zone.lastUpdate = Date.now();
     }
 
-    console.info('Weather set for zone',  zoneId, weather: temperature: weather.temperature});
+    console.info('Weather set for zone', { zoneId, weather: weather.temperature });
     return true;
   }
 
@@ -456,11 +458,11 @@ export class WeatherSystemManager
     const transitionId = `transition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    const transition: WeatherTransition = 
+    const transition: WeatherTransition = {
       id: transitionId,
       fromWeather,
       toWeather,
-      duration: this.transitionDuration: config.transitionDuration,
+      duration: this.config.transitionDuration,
       startTime,
       endTime: startTime + this.config.transitionDuration,
       progress: 0,
@@ -487,7 +489,7 @@ export class WeatherSystemManager
     zone.effects.push(effect);
     this.effects.set(effect.id, effect);
 
-    console.info('Weather effect added',  zoneId, effectId: id: effect.id, type: effect.type });
+    console.info('Weather effect added', { zoneId, effectId: effect.id, type: effect.type });
     return true;
   }
 
@@ -535,9 +537,9 @@ export class WeatherSystemManager
   /**
    * Update weather forecast
    */
-  public updateWeatherForecast(zoneId: string, forecast: WeatherForecast): void 
+  public updateWeatherForecast(zoneId: string, forecast: WeatherForecast): void {
     this.forecasts.set(zoneId, forecast);
-    console.info('Weather forecast updated', { zoneId, hours: forecast.length: forecasts.length});
+    console.info('Weather forecast updated', { zoneId, hours: forecast.forecasts.length });
   }
 
   /**
@@ -556,7 +558,7 @@ export class WeatherSystemManager
       zone.lastUpdate = Date.now();
     }
 
-    console.debug('Weather system updated',  zones: this.size: zones.size});
+    console.debug('Weather system updated', { zones: this.zones.size });
   }
 
   /**
@@ -586,7 +588,7 @@ export class WeatherSystemManager
   /**
    * Update zone effects
    */
-  private updateZoneEffects(zone: WeatherZone): void 
+  private updateZoneEffects(zone: WeatherZone): void {
     const currentTime = Date.now();
 
     for (let i = zone.effects.length - 1; i >= 0; i--) {
@@ -596,7 +598,7 @@ export class WeatherSystemManager
       if (effect.endTime > 0 && currentTime > effect.endTime) {
         zone.effects.splice(i, 1);
         this.effects.delete(effect.id);
-        console.debug('Weather effect expired', { effectId: id: effect.id, type: effect.type });
+        console.debug('Weather effect expired', { effectId: effect.id, type: effect.type });
         continue;
       }
 
@@ -613,20 +615,20 @@ export class WeatherSystemManager
   /**
    * Update transitions
    */
-  private updateTransitions(): void 
+  private updateTransitions(): void {
     const currentTime = Date.now();
 
     for (const transition of this.transitions.values()) {
       if (transition.completed) continue;
 
       const elapsed = currentTime - transition.startTime;
-      const progress = Math.min(elapsed / duration: transition.duration, 1);
+      const progress = Math.min(elapsed / transition.duration, 1);
 
       transition.progress = this.applyEasing(progress, transition.easing);
 
-      if (progress >= 1) 
+      if (progress >= 1) {
         transition.completed = true;
-        console.info('Weather transition completed', { transitionId: id: transition.id});
+        console.info('Weather transition completed', { transitionId: transition.id });
       }
     }
 
@@ -745,16 +747,16 @@ export class WeatherSystemManager
   /**
    * Get manager configuration
    */
-  public getConfig(): WeatherSystemConfig 
-    return { ...config: this.config};
+  public getConfig(): WeatherSystemConfig {
+    return { ...this.config };
   }
 
   /**
    * Update manager configuration
    */
-  public updateConfig(newConfig: Partial<WeatherSystemConfig>): void 
-    this.config = { ...config: this.config, ...newConfig };
-    console.info('WeatherSystemManager configuration updated',  config: config: this.config});
+  public updateConfig(newConfig: Partial<WeatherSystemConfig>): void {
+    this.config = { ...this.config, ...newConfig };
+    console.info('WeatherSystemManager configuration updated', { config: this.config });
   }
 
   /**

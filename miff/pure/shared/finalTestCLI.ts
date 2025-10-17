@@ -81,11 +81,11 @@ class FinalTestCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
-    if (e2eSuite) 
+    if (e2eSuite) {
       console.info('\n📊 End-to-End Testing Summary:');
-      console.info(`Status: ${status: e2eSuite.status}`);
-      console.info(`Duration: $duration: e2eSuite.duration}ms`);
-      console.info(`Test Cases: $e2eSuite.length: testCases.length}`);
+      console.info(`Status: ${e2eSuite.status}`);
+      console.info(`Duration: ${e2eSuite.duration}ms`);
+      console.info(`Test Cases: ${e2eSuite.testCases.length}`);
       console.info(`Passed: ${e2eSuite.testCases.filter((tc: any) => tc.status === 'passed').length}`);
       console.info(`Failed: ${e2eSuite.testCases.filter((tc: any) => tc.status === 'failed').length}`);
     }
@@ -106,16 +106,16 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Integration Testing Summary:');
-    console.info(`Total Tests: $length: integrationTests.length}`);
+    console.info(`Total Tests: ${integrationTests.length}`);
     console.info(`Passed: ${integrationTests.filter((it: any) => it.status === 'passed').length}`);
     console.info(`Failed: ${integrationTests.filter((it: any) => it.status === 'failed').length}`);
     
     // Show failed tests
     const failedTests = integrationTests.filter((it: any) => it.status === 'failed');
-    if (failedTests.length > 0) 
+    if (failedTests.length > 0) {
       console.info('\n❌ Failed Integration Tests:');
       failedTests.forEach((test: any) => {
-        console.info(`  - ${name: test.name}: ${test.errorMessage || 'Unknown error'}`);
+        console.info(`  - ${test.name}: ${test.errorMessage || 'Unknown error'}`);
       });
     }
   }
@@ -135,14 +135,14 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Performance Testing Summary:');
-    performanceTests.forEach((test: any) => 
-      console.info(`\n${name: test.name} ($type: test.type}):`);
-      console.info(`  Status: $status: test.status}`);
-      console.info(`  Duration: $duration: test.duration}ms`);
-      if (test.results) 
-        console.info(`  Total Requests: ${  totalRequests: results.totalRequests}`);
-        console.info(`  Successful: $test.successfulRequests: results.successfulRequests}`);
-        console.info(`  Failed: $test.failedRequests: results.failedRequests}`);
+    performanceTests.forEach((test: any) => {
+      console.info(`\n${test.name} (${test.type}):`);
+      console.info(`  Status: ${test.status}`);
+      console.info(`  Duration: ${test.duration}ms`);
+      if (test.results) {
+        console.info(`  Total Requests: ${test.results.totalRequests}`);
+        console.info(`  Successful: ${test.results.successfulRequests}`);
+        console.info(`  Failed: ${test.results.failedRequests}`);
         console.info(`  Avg Response Time: ${test.results.averageResponseTime.toFixed(2)}ms`);
         console.info(`  Throughput: ${test.results.throughput.toFixed(2)} req/s`);
         console.info(`  Error Rate: ${test.results.errorRate.toFixed(2)}%`);
@@ -165,11 +165,11 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Security Testing Summary:');
-    securityTests.forEach((test: any) => 
-      console.info(`\n${name: test.name} ($type: test.type}):`);
-      console.info(`  Status: $status: test.status}`);
-      console.info(`  Duration: $duration: test.duration}ms`);
-      console.info(`  Findings: $test.length: findings.length}`);
+    securityTests.forEach((test: any) => {
+      console.info(`\n${test.name} (${test.type}):`);
+      console.info(`  Status: ${test.status}`);
+      console.info(`  Duration: ${test.duration}ms`);
+      console.info(`  Findings: ${test.findings.length}`);
       
       if (test.findings.length > 0) {
         console.info('  Security Findings:');
@@ -177,7 +177,7 @@ class FinalTestCLI {
           const severityColor = finding.severity === 'critical' ? '🔴' : 
                                finding.severity === 'high' ? '🟠' : 
                                finding.severity === 'medium' ? '🟡' : '🟢';
-          console.info(`    ${severityColor} $title: finding.title} ($severity: finding.severity})`);
+          console.info(`    ${severityColor} ${finding.title} (${finding.severity})`);
         });
       }
     });
@@ -198,19 +198,19 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 User Acceptance Testing Summary:');
-    console.info(`Total Tests: $length: uatTests.length}`);
+    console.info(`Total Tests: ${uatTests.length}`);
     console.info(`Passed: ${uatTests.filter((uat: any) => uat.status === 'passed').length}`);
     console.info(`Failed: ${uatTests.filter((uat: any) => uat.status === 'failed').length}`);
     
     // Show test details
-    uatTests.forEach((test: any) => 
-      console.info(`\n${name: test.name}:`);
-      console.info(`  Status: $status: test.status}`);
-      console.info(`  User Story: $userStory: test.userStory}`);
-      console.info(`  Expected: $expectedOutcome: test.expectedOutcome}`);
-      console.info(`  Actual: $actualOutcome: test.actualOutcome}`);
-      if (test.userFeedback) 
-        console.info(`  Feedback: ${userFeedback: test.userFeedback}`);
+    uatTests.forEach((test: any) => {
+      console.info(`\n${test.name}:`);
+      console.info(`  Status: ${test.status}`);
+      console.info(`  User Story: ${test.userStory}`);
+      console.info(`  Expected: ${test.expectedOutcome}`);
+      console.info(`  Actual: ${test.actualOutcome}`);
+      if (test.userFeedback) {
+        console.info(`  Feedback: ${test.userFeedback}`);
       }
     });
   }
@@ -239,11 +239,11 @@ class FinalTestCLI {
 
       // Display summary
       console.info('\n📊 Final Testing Summary:');
-      console.info(`Overall Status: $overallStatus: report.overallStatus}`);
-      console.info(`Readiness Score: $readinessScore: report.readinessScore}/100`);
+      console.info(`Overall Status: ${report.overallStatus}`);
+      console.info(`Readiness Score: ${report.readinessScore}/100`);
       console.info(`Release Ready: ${report.releaseReadiness ? 'Yes' : 'No'}`);
-      console.info(`Critical Issues: $report.length: criticalIssues.length}`);
-      console.info(`Recommendations: $report.length: recommendations.length}`);
+      console.info(`Critical Issues: ${report.criticalIssues.length}`);
+      console.info(`Recommendations: ${report.recommendations.length}`);
       
       if (report.criticalIssues.length > 0) {
         console.info('\n🚨 Critical Issues:');
@@ -289,17 +289,17 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Final Validation Report Summary:');
-    console.info(`Overall Status: $overallStatus: report.overallStatus}`);
-    console.info(`Readiness Score: $readinessScore: report.readinessScore}/100`);
+    console.info(`Overall Status: ${report.overallStatus}`);
+    console.info(`Readiness Score: ${report.readinessScore}/100`);
     console.info(`Release Ready: ${report.releaseReadiness ? 'Yes' : 'No'}`);
-    console.info(`Test Suites: $report.length: testSuites.length}`);
-    console.info(`Integration Tests: $report.length: integrationTests.length}`);
-    console.info(`Performance Tests: $report.length: performanceTests.length}`);
-    console.info(`Security Tests: $report.length: securityTests.length}`);
-    console.info(`User Acceptance Tests: $report.length: userAcceptanceTests.length}`);
+    console.info(`Test Suites: ${report.testSuites.length}`);
+    console.info(`Integration Tests: ${report.integrationTests.length}`);
+    console.info(`Performance Tests: ${report.performanceTests.length}`);
+    console.info(`Security Tests: ${report.securityTests.length}`);
+    console.info(`User Acceptance Tests: ${report.userAcceptanceTests.length}`);
   }
 
-  private async showStatus(args: string[]): Promise<void> 
+  private async showStatus(args: string[]): Promise<void> {
     console.info('📊 Showing test status...');
     
     const testSuites = this.tester.getTestSuites();
@@ -309,11 +309,11 @@ class FinalTestCLI {
     const uatTests = this.tester.getUserAcceptanceTests();
     
     console.info('\n📊 Test Status Overview:');
-    console.info(`Test Suites: ${length: testSuites.length}`);
-    console.info(`Integration Tests: $length: integrationTests.length}`);
-    console.info(`Performance Tests: $length: performanceTests.length}`);
-    console.info(`Security Tests: $length: securityTests.length}`);
-    console.info(`User Acceptance Tests: $length: uatTests.length}`);
+    console.info(`Test Suites: ${testSuites.length}`);
+    console.info(`Integration Tests: ${integrationTests.length}`);
+    console.info(`Performance Tests: ${performanceTests.length}`);
+    console.info(`Security Tests: ${securityTests.length}`);
+    console.info(`User Acceptance Tests: ${uatTests.length}`);
     
     // Show test suite status
     console.info('\n📋 Test Suite Status:');
@@ -321,7 +321,7 @@ class FinalTestCLI {
       const statusIcon = suite.status === 'passed' ? '✅' : 
                         suite.status === 'failed' ? '❌' : 
                         suite.status === 'running' ? '🔄' : '⏳';
-      console.info(`  ${statusIcon} $name: suite.name}: $status: suite.status}`);
+      console.info(`  ${statusIcon} ${suite.name}: ${suite.status}`);
     });
     
     // Show integration test status
@@ -330,7 +330,7 @@ class FinalTestCLI {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.info(`  ${statusIcon} $name: test.name}: $status: test.status}`);
+      console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show performance test status
@@ -339,7 +339,7 @@ class FinalTestCLI {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.info(`  ${statusIcon} $name: test.name}: $status: test.status}`);
+      console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show security test status
@@ -348,7 +348,7 @@ class FinalTestCLI {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.info(`  ${statusIcon} $name: test.name}: $status: test.status}`);
+      console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show UAT status
@@ -357,7 +357,7 @@ class FinalTestCLI {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.info(`  ${statusIcon} $name: test.name}: $status: test.status}`);
+      console.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
   }
 
@@ -403,33 +403,33 @@ class FinalTestCLI {
     </div>
 
     <div class="score">
-        <div class="score-value">$readinessScore: report.readinessScore}</div>
+        <div class="score-value">${report.readinessScore}</div>
         <div class="score-label">Readiness Score / 100</div>
     </div>
 
     <div class="tests">
-        <h3>Test Suite Results ($report.length: testSuites.length})</h3>
-        $report.testSuites.map((suite: any) => `
-            <div class="test-item test-${status: suite.status}">
-                <div style="font-weight: bold;">$name: suite.name}</div>
-                <div style="color: #666; margin: 5px 0;">$description: suite.description}</div>
+        <h3>Test Suite Results (${report.testSuites.length})</h3>
+        ${report.testSuites.map((suite: any) => `
+            <div class="test-item test-${suite.status}">
+                <div style="font-weight: bold;">${suite.name}</div>
+                <div style="color: #666; margin: 5px 0;">${suite.description}</div>
                 <div style="margin: 5px 0;">
                     <span style="background: ${suite.status === 'passed' ? '#28a745' : suite.status === 'failed' ? '#dc3545' : suite.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
                         ${suite.status.toUpperCase()}
                     </span>
-                    <span style="margin-left: 10px;">Duration: $duration: suite.duration}ms</span>
-                    <span style="margin-left: 10px;">Test Cases: $suite.length: testCases.length}</span>
+                    <span style="margin-left: 10px;">Duration: ${suite.duration}ms</span>
+                    <span style="margin-left: 10px;">Test Cases: ${suite.testCases.length}</span>
                 </div>
             </div>
         `).join('')}
     </div>
 
     <div class="test-section">
-        <h3>Integration Tests ($report.length: integrationTests.length})</h3>
-        $report.integrationTests.map((test: any) => `
-            <div class="test-item test-${status: test.status}">
-                <div style="font-weight: bold;">$name: test.name}</div>
-                <div style="color: #666; margin: 5px 0;">$description: test.description}</div>
+        <h3>Integration Tests (${report.integrationTests.length})</h3>
+        ${report.integrationTests.map((test: any) => `
+            <div class="test-item test-${test.status}">
+                <div style="font-weight: bold;">${test.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test.description}</div>
                 <div style="margin: 5px 0;">Modules: ${test.modules.join(', ')}</div>
                 <div style="margin: 5px 0;">
                     <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
@@ -441,20 +441,20 @@ class FinalTestCLI {
     </div>
 
     <div class="test-section">
-        <h3>Performance Tests ($report.length: performanceTests.length})</h3>
-        $report.performanceTests.map((test: any) => `
-            <div class="test-item test-${status: test.status}">
-                <div style="font-weight: bold;">$name: test.name}</div>
-                <div style="color: #666; margin: 5px 0;">$description: test.description}</div>
-                <div style="margin: 5px 0;">Type: $type: test.type}</div>
+        <h3>Performance Tests (${report.performanceTests.length})</h3>
+        ${report.performanceTests.map((test: any) => `
+            <div class="test-item test-${test.status}">
+                <div style="font-weight: bold;">${test.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test.description}</div>
+                <div style="margin: 5px 0;">Type: ${test.type}</div>
                 <div style="margin: 5px 0;">
                     <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
                         ${test.status.toUpperCase()}
                     </span>
                 </div>
-                $test.results ? `
+                ${test.results ? `
                     <div style="margin: 5px 0;">
-                        <strong>Results:</strong> ${  totalRequests: results.totalRequests} requests, 
+                        <strong>Results:</strong> ${test.results.totalRequests} requests, 
                         ${test.results.averageResponseTime.toFixed(2)}ms avg response time,
                         ${test.results.throughput.toFixed(2)} req/s throughput
                     </div>
@@ -464,28 +464,28 @@ class FinalTestCLI {
     </div>
 
     <div class="test-section">
-        <h3>Security Tests ($report.length: securityTests.length})</h3>
-        $report.securityTests.map((test: any) => `
-            <div class="test-item test-${status: test.status}">
-                <div style="font-weight: bold;">$name: test.name}</div>
-                <div style="color: #666; margin: 5px 0;">$description: test.description}</div>
-                <div style="margin: 5px 0;">Type: $type: test.type}</div>
+        <h3>Security Tests (${report.securityTests.length})</h3>
+        ${report.securityTests.map((test: any) => `
+            <div class="test-item test-${test.status}">
+                <div style="font-weight: bold;">${test.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test.description}</div>
+                <div style="margin: 5px 0;">Type: ${test.type}</div>
                 <div style="margin: 5px 0;">
                     <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
                         ${test.status.toUpperCase()}
                     </span>
                 </div>
-                <div style="margin: 5px 0;">Findings: $test.length: findings.length}</div>
+                <div style="margin: 5px 0;">Findings: ${test.findings.length}</div>
             </div>
         `).join('')}
     </div>
 
     <div class="test-section">
-        <h3>User Acceptance Tests ($report.length: userAcceptanceTests.length})</h3>
-        $report.userAcceptanceTests.map((test: any) => `
-            <div class="test-item test-${status: test.status}">
-                <div style="font-weight: bold;">$name: test.name}</div>
-                <div style="color: #666; margin: 5px 0;">$userStory: test.userStory}</div>
+        <h3>User Acceptance Tests (${report.userAcceptanceTests.length})</h3>
+        ${report.userAcceptanceTests.map((test: any) => `
+            <div class="test-item test-${test.status}">
+                <div style="font-weight: bold;">${test.name}</div>
+                <div style="color: #666; margin: 5px 0;">${test.userStory}</div>
                 <div style="margin: 5px 0;">
                     <span style="background: ${test.status === 'passed' ? '#28a745' : test.status === 'failed' ? '#dc3545' : test.status === 'running' ? '#ffc107' : '#6c757d'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">
                         ${test.status.toUpperCase()}
@@ -495,18 +495,18 @@ class FinalTestCLI {
         `).join('')}
     </div>
 
-    $report.criticalIssues.length > 0 ? `
+    ${report.criticalIssues.length > 0 ? `
         <div class="critical-issues">
-            <h3>🚨 Critical Issues (${  length: criticalIssues.length})</h3>
+            <h3>🚨 Critical Issues (${report.criticalIssues.length})</h3>
             <ul>
                 ${report.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
 
-    $report.recommendations.length > 0 ? `
+    ${report.recommendations.length > 0 ? `
         <div class="recommendations">
-            <h3>💡 Recommendations (${  length: recommendations.length})</h3>
+            <h3>💡 Recommendations (${report.recommendations.length})</h3>
             <ul>
                 ${report.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
             </ul>

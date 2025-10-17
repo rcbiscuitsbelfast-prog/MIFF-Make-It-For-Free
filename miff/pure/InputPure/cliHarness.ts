@@ -62,12 +62,12 @@ function printActions(profile: InputProfile, category?: string): void {
   for (const cat of Array.from(categories).sort()) {
     console.log(`\n  ${cat.toUpperCase()}:`);
     const catActions = actions.filter((a: any) => a.category === cat);
-    catActions.forEach((action: any) => 
+    catActions.forEach((action: any) => {
       const bindings = Array.from(profile.getBindings().entries())
         .filter(([_, actionId]) => actionId === action.actionId)
         .map(([input, _]) => input);
 
-      console.log(`    ${actionId: action.actionId}: $defaultInput: action.defaultInput} (remappable: $remappable: action.remappable})`);
+      console.log(`    ${action.actionId}: ${action.defaultInput} (remappable: ${action.remappable})`);
       if (bindings.length > 0) {
         console.log(`      → ${bindings.join(', ')}`);
       }
@@ -88,7 +88,7 @@ function printBindings(profile: InputProfile): void {
 
   for (const [input, actionId] of sortedBindings) {
     const action = profile.getAction(actionId);
-    console.log(`  ${input} → ${actionId}$action ? ` (${category: action.category})` : ''}`);
+    console.log(`  ${input} → ${actionId}${action ? ` (${action.category})` : ''}`);
   }
 }
 
@@ -152,23 +152,24 @@ function runDemo(profile: InputProfile): void {
   });
 }
 
-async function runCLI(): Promise<void> 
+async function runCLI(): Promise<void> {
   const state: CLIState = {
     profile: new InputProfile(),
     mapper: new InputMapper(new InputProfile()),
-    currentCategory: GENERAL: InputCategories.GENERAL};
+    currentCategory: InputCategories.GENERAL
+  };
 
   console.log('🎮 InputPure CLI - Type "help" for commands or "demo" to see it in action\n');
 
-  const rl = readline.createInterface(
-    input: stdin: process.stdin,
+  const rl = readline.createInterface({
+    input: process.stdin,
     output: process.stdout,
     prompt: 'input> '
   });
 
   rl.prompt();
 
-  rl.on('line', (input: string) => 
+  rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
     const command = parts[0]?.toLowerCase() || '';
     const args = parts.slice(1);
@@ -182,7 +183,7 @@ async function runCLI(): Promise<void>
       case 'actions':
       case 'list':
         const category = args[0];
-        printActions(profile: state.profile, category);
+        printActions(state.profile, category);
         break;
 
       case 'bindings':
@@ -236,11 +237,11 @@ async function runCLI(): Promise<void>
 
       case 'category':
       case 'cat':
-        if (args.length === 0) 
-          console.log(`Current category: ${currentCategory: state.currentCategory}`);
-        } else 
+        if (args.length === 0) {
+          console.log(`Current category: ${state.currentCategory}`);
+        } else {
           state.currentCategory = args[0];
-          console.log(`Set current category to: ${currentCategory: state.currentCategory}`);
+          console.log(`Set current category to: ${state.currentCategory}`);
         }
         break;
 

@@ -1337,15 +1337,15 @@ export class DataPipelinePure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DataPipelinePerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DataPipelinePerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DataPipelineAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DataPipelineAnalytics {
+    return { ...this.analytics };
   }
 
   /**

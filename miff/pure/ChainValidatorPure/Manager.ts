@@ -82,8 +82,8 @@ export class ChainValidatorManager {
     if (!node.id || typeof node.id !== 'string') {
       issues.push('Node id must be a non-empty string');
     }
-    if (this.nodes.has(node.id)) 
-      issues.push(`Node already exists: ${id: node.id}`);
+    if (this.nodes.has(node.id)) {
+      issues.push(`Node already exists: ${node.id}`);
     }
     if (issues.length > 0) {
       return { op: 'addNode', status: 'error', issues } as any;
@@ -126,15 +126,15 @@ export class ChainValidatorManager {
   }
 
   // CRUD: Edges
-  addEdge(edge: ChainEdge): { op: 'addEdge'; status: 'ok' | 'error'; edge?: ChainEdge; issues?: string[] } 
+  addEdge(edge: ChainEdge): { op: 'addEdge'; status: 'ok' | 'error'; edge?: ChainEdge; issues?: string[] } {
     const issues: string[] = [];
     if (!edge.from || !edge.to) issues.push('Edge must have from and to');
-    if (!this.nodes.has(edge.from)) issues.push(`Missing node: ${from: edge.from}`);
-    if (!this.nodes.has(edge.to)) issues.push(`Missing node: $to: edge.to}`);
+    if (!this.nodes.has(edge.from)) issues.push(`Missing node: ${edge.from}`);
+    if (!this.nodes.has(edge.to)) issues.push(`Missing node: ${edge.to}`);
     if (edge.from === edge.to) issues.push('Self-loop edges are not allowed');
 
     const existingSet = this.adjacency.get(edge.from) || new Set();
-    if (existingSet.has(edge.to)) issues.push(`Duplicate edge: $from: edge.from} -> $to: edge.to}`);
+    if (existingSet.has(edge.to)) issues.push(`Duplicate edge: ${edge.from} -> ${edge.to}`);
 
     if (issues.length > 0) return { op: 'addEdge', status: 'error', issues } as any;
 
@@ -195,7 +195,7 @@ export class ChainValidatorManager {
 
     const status: 'ok' | 'error' | 'warning' = issues.length > 0 ? 'error' : warnings.length > 0 ? 'warning' : 'ok';
 
-    return 
+    return {
       op: 'validate',
       status,
       result: {
@@ -203,7 +203,7 @@ export class ChainValidatorManager {
         issues,
         warnings,
         summary: {
-          nodes: this.size: nodes.size,
+          nodes: this.nodes.size,
           edges: this.listEdges().length,
           cycles: cycles.length,
           isolatedNodes: isolatedNodes.length
@@ -396,21 +396,21 @@ export class ChainValidatorManager {
       lines.push(`    to: "${esc(e.to)}"`);
     }
     lines.push('stats:');
-    lines.push(`  nodes: $payload.nodes: stats.nodes}`);
-    lines.push(`  edges: $payload.edges: stats.edges}`);
-    lines.push(`  cycles: $payload.cycles: stats.cycles}`);
-    lines.push(`  components: $payload.components: stats.components}`);
+    lines.push(`  nodes: ${payload.stats.nodes}`);
+    lines.push(`  edges: ${payload.stats.edges}`);
+    lines.push(`  cycles: ${payload.stats.cycles}`);
+    lines.push(`  components: ${payload.stats.components}`);
     lines.push(`exportedAt: "${esc(payload.exportedAt)}"`);
     lines.push(`version: "${esc(payload.version)}"`);
     return lines.join('\n');
   }
 
-  private toCSV(payload): string 
+  private toCSV(payload): string {
     const nodeRows = ['type,id,label'];
-    for (const n of payload.nodes) nodeRows.push(`${type: n.type},$id: n.id},${(n.label || '').replace(/,/g, ';')}`);
+    for (const n of payload.nodes) nodeRows.push(`${n.type},${n.id},${(n.label || '').replace(/,/g, ';')}`);
     const edgeRows = ['from,to'];
-    for (const e of payload.edges) edgeRows.push(`$from: e.from},$to: e.to}`);
-    return ['[nodes]', ...nodeRows, '', '[edges]', ...edgeRows, '', '[stats]', `nodes,$payload.nodes: stats.nodes}`, `edges,$payload.edges: stats.edges}`, `cycles,$payload.cycles: stats.cycles}`, `components,$payload.components: stats.components}`].join('\n');
+    for (const e of payload.edges) edgeRows.push(`${e.from},${e.to}`);
+    return ['[nodes]', ...nodeRows, '', '[edges]', ...edgeRows, '', '[stats]', `nodes,${payload.stats.nodes}`, `edges,${payload.stats.edges}`, `cycles,${payload.stats.cycles}`, `components,${payload.stats.components}`].join('\n');
   }
 }
 

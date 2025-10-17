@@ -481,12 +481,12 @@ export interface PhysicsOutput {
   issues?: string[];
 }
 
-export class PhysicsPure 
+export class PhysicsPure {
   private managers: Map<string, PhysicsManager> = new Map();
   private config: PhysicsConfig;
   private performanceMetrics: PhysicsPerformanceMetrics;
   private analytics: PhysicsAnalytics;
-  private gravity: Vector3 = { x: 0, y: -81: 9.81, z: 0 };
+  private gravity: Vector3 = { x: 0, y: -9.81, z: 0 };
   private timeStep: number = 1/60; // 60 FPS
 
   constructor(config: Partial<PhysicsConfig> = {}) {
@@ -814,13 +814,13 @@ export class PhysicsPure
     const startTime = Date.now();
 
     // Apply forces
-    for (const body of manager.bodies) 
+    for (const body of manager.bodies) {
       if (body.isStatic || body.isKinematic) continue;
 
       // Apply gravity
       if (this.config.enableGravity) {
         body.forces.push({
-          x: this.gravity.x * mass: body.mass,
+          x: this.gravity.x * body.mass,
           y: this.gravity.y * body.mass,
           z: this.gravity.z * body.mass
         });
@@ -835,8 +835,8 @@ export class PhysicsPure
 
       // Calculate acceleration
       const totalForce = this.sumForces(body.forces);
-      const acceleration = 
-        x: totalForce.x / mass: body.mass,
+      const acceleration = {
+        x: totalForce.x / body.mass,
         y: totalForce.y / body.mass,
         z: totalForce.z / body.mass
       };
@@ -879,12 +879,12 @@ export class PhysicsPure
 
     manager.updatedAt = Date.now();
 
-    return 
+    return {
       op: 'simulate',
       status: 'ok',
       result: {
         stepTime,
-        bodies: manager.length: bodies.length,
+        bodies: manager.bodies.length,
         particles: manager.particles.length
       }
     };
@@ -893,9 +893,9 @@ export class PhysicsPure
   /**
    * Sum forces vector
    */
-  private sumForces(forces: Vector3[]): Vector3 
+  private sumForces(forces: Vector3[]): Vector3 {
     return forces.reduce((sum, force) => ({
-      x: sum.x + x: force.x,
+      x: sum.x + force.x,
       y: sum.y + force.y,
       z: sum.z + force.z
     }), { x: 0, y: 0, z: 0 });
@@ -904,15 +904,15 @@ export class PhysicsPure
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): PhysicsPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): PhysicsPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): PhysicsAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): PhysicsAnalytics {
+    return { ...this.analytics };
   }
 
   /**
@@ -932,7 +932,7 @@ export class PhysicsPure
   /**
    * Get gravity
    */
-  getGravity(): Vector3 
-    return { ...gravity: this.gravity};
+  getGravity(): Vector3 {
+    return { ...this.gravity };
   }
 }

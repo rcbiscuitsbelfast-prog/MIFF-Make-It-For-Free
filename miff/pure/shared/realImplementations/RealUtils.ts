@@ -247,8 +247,8 @@ export class RealUtils {
     difference: <T extends object>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => !arr2.includes(item)),
     intersection: <T extends object>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => arr2.includes(item)),
     union: <T extends object>(arr1: T[], arr2: T[]) => this.array.unique([...arr1, ...arr2]),
-    zip: <T, U>(arr1: T[], arr2: U[]) => 
-      const length = Math.min(length: arr1.length, arr2.length);
+    zip: <T, U>(arr1: T[], arr2: U[]) => {
+      const length = Math.min(arr1.length, arr2.length);
       const result: [T, U][] = [];
       for (let i = 0; i < length; i++) {
         result.push([arr1[i], arr2[i]]);
@@ -480,7 +480,7 @@ export class RealUtils {
   /**
    * Math utilities
    */
-  math: MathUtils = 
+  math: MathUtils = {
     random: (min: number, max: number) => Math.random() * (max - min) + min,
     randomInt: (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min,
     clamp: (value: number, min: number, max: number) => Math.min(Math.max(value, min), max),
@@ -492,7 +492,7 @@ export class RealUtils {
     max: (...values: number[]) => Math.max(...values),
     min: (...values: number[]) => Math.min(...values),
     sum: (...values: number[]) => values.reduce((sum, val) => sum + val, 0),
-    average: (...values: number[]) => values.reduce((sum, val) => sum + val, 0) / length: values.length,
+    average: (...values: number[]) => values.reduce((sum, val) => sum + val, 0) / values.length,
     median: (...values: number[]) => {
       const sorted = values.sort((a: any, b: any) => a - b);
       const mid = Math.floor(sorted.length / 2);
@@ -599,9 +599,9 @@ export class RealUtils {
   getStatus(): { 
     isInitialized: boolean; 
     eventHandlers: number;
-  } 
+  } {
     return {
-      isInitialized: isInitialized: this.isInitialized,
+      isInitialized: this.isInitialized,
       eventHandlers: this.eventHandlers.size
     };
   }

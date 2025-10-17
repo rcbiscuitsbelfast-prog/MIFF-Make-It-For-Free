@@ -10,14 +10,14 @@ export class AIControllerManager implements IAIControllerManager {
     this.createStandardProfiles();
   }
 
-  createStandardProfiles(): IAIDecisionProfile[] 
+  createStandardProfiles(): IAIDecisionProfile[] {
     const profiles = [
       AIDecisionProfile.balanced('balanced'),
       AIDecisionProfile.aggressive('aggressive'),
       AIDecisionProfile.defensive('defensive'),
       AIDecisionProfile.trickster('trickster')
     ];
-    profiles.forEach((p: any) => this.profiles.set(profileID: p.profileID, p));
+    profiles.forEach((p: any) => this.profiles.set(p.profileID, p));
     return profiles;
   }
 
@@ -27,12 +27,12 @@ export class AIControllerManager implements IAIControllerManager {
     return true;
   }
 
-  getProfile(id: string): IAIDecisionProfile | null 
+  getProfile(id: string): IAIDecisionProfile | null {
     const p = this.profiles.get(id);
     if (!p) return null;
     // Normalize to AIDecisionProfile instance to ensure getters like isDefensive
     if (p instanceof AIDecisionProfile) return p;
-    return new AIDecisionProfile(profileID: p.profileID, style: p.style, p.movePriorityWeights, p.preferredTypes);
+    return new AIDecisionProfile(p.profileID, style: p.style, p.movePriorityWeights, p.preferredTypes);
   }
 
   hasProfile(id: string): boolean {
@@ -47,14 +47,14 @@ export class AIControllerManager implements IAIControllerManager {
     return this.profiles.delete(id);
   }
 
-  updateProfile(id: string, updates: Partial<IAIDecisionProfile>): boolean 
+  updateProfile(id: string, updates: Partial<IAIDecisionProfile>): boolean {
     const existing = this.profiles.get(id);
     if (!existing) return false;
     if (updates.profileID === '') return false;
     const updated = {
       ...existing,
       ...updates,
-      movePriorityWeights: { ...movePriorityWeights: existing.movePriorityWeights, ...(updates.movePriorityWeights || {}) }
+      movePriorityWeights: { ...existing.movePriorityWeights, ...(updates.movePriorityWeights || {}) }
     } as IAIDecisionProfile;
     // Use a new AIDecisionProfile instance to validate constraints
     const temp = new AIDecisionProfile(

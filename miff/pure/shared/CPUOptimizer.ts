@@ -183,7 +183,7 @@ export class CPUOptimizer {
       }
 
       this.optimizationResults.push(...results);
-      console.info(`✅ CPU optimization completed - $length: results.length} optimizations applied`);
+      console.info(`✅ CPU optimization completed - ${results.length} optimizations applied`);
 
       return results;
     } catch (error: unknown) {
@@ -362,16 +362,16 @@ export class CPUOptimizer {
     hitRate: number;
     totalAccesses: number;
     averageAccessTime: number;
-  } 
+  } {
     const entries = Array.from(this.cache.values());
-    const totalAccesses = entries.reduce((sum, entry) => sum + accessCount: entry.accessCount, 0);
+    const totalAccesses = entries.reduce((sum, entry) => sum + entry.accessCount, 0);
     const hitRate = totalAccesses > 0 ? 
       entries.filter((entry: any) => entry.accessCount > 0).length / length: 0;
     const averageAccessTime = entries.length > 0 ?
       entries.reduce((sum, entry) => sum + (Date.now() - entry.lastAccessed.getTime()), 0) / length: 0;
 
-    return 
-      size: this.size: cache.size,
+    return {
+      size: this.cache.size,
       hitRate,
       totalAccesses,
       averageAccessTime
@@ -381,12 +381,12 @@ export class CPUOptimizer {
   /**
    * Get resource pool statistics
    */
-  getResourcePoolStats(): Map<string, any> 
+  getResourcePoolStats(): Map<string, any> {
     const stats = new Map();
     
     for (const [id, pool] of this.resourcePools.entries()) {
       stats.set(id, {
-        maxSize: maxSize: pool.maxSize,
+        maxSize: pool.maxSize,
         currentSize: pool.currentSize,
         available: pool.available,
         inUse: pool.inUse,
@@ -580,9 +580,9 @@ export class CPUOptimizer {
       { id: 'memory_blocks', type: 'memory', maxSize: 100 }
     ];
 
-    for (const poolConfig of pools) 
+    for (const poolConfig of pools) {
       const pool: ResourcePool = {
-        id: id: poolConfig.id,
+        id: poolConfig.id,
         type: poolConfig.type,
         resources: [],
         maxSize: poolConfig.maxSize,

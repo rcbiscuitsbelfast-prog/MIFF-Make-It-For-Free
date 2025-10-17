@@ -27,9 +27,9 @@ function main() {
   const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'resolve', event, options } as Cmd];
   const outputs: any[] = [];
 
-  for (const c of cmds) 
+  for (const c of cmds) {
     if (c.op === 'resolve') {
-      const result = resolve(event: c.event, c.options);
+      const result = resolve(c.event, c.options);
       outputs.push(result);
     } else if (c.op === 'list') {
       outputs.push({ op: 'list', eventTypes: ['helmet.split'] });

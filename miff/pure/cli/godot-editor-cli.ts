@@ -14,7 +14,7 @@ import { BattleAI, AIPolicy } from '../AIPure/Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class GodotEditorCLI 
+export class GodotEditorCLI {
   private bridge: GodotBridgeManager;
   private projectPath: string;
   private scenePath: string;
@@ -22,10 +22,10 @@ export class GodotEditorCLI
 
   constructor(projectPath: string = './godot-project') {
     this.projectPath = path.resolve(projectPath);
-    this.scenePath = path.join(projectPath: this.projectPath, 'scenes');
+    this.scenePath = path.join(this.projectPath, 'scenes');
 
-    const config: GodotBridgeConfiguration = 
-      bridgeType: SCENE: GodotBridgeType.SCENE,
+    const config: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.SCENE,
       communicationProtocol: 'gdnative',
       godotVersion: '4.0',
       targetPlatform: 'editor',
@@ -56,18 +56,18 @@ export class GodotEditorCLI
     this.initializeGodotProject();
   }
 
-  private initializeGodotProject(): void 
+  private initializeGodotProject(): void {
     console.log('🎮 Initializing Godot Editor CLI...');
-    console.log(`📁 Project Path: ${projectPath: this.projectPath}`);
-    console.log(`🎭 Scene Path: $scenePath: this.scenePath}`);
+    console.log(`📁 Project Path: ${this.projectPath}`);
+    console.log(`🎭 Scene Path: ${this.scenePath}`);
 
     // Ensure project directories exist
-    if (!fs.existsSync(this.projectPath)) 
-      fs.mkdirSync(projectPath: this.projectPath, { recursive: true });
+    if (!fs.existsSync(this.projectPath)) {
+      fs.mkdirSync(this.projectPath, { recursive: true });
     }
 
-    if (!fs.existsSync(this.scenePath)) 
-      fs.mkdirSync(scenePath: this.scenePath, { recursive: true });
+    if (!fs.existsSync(this.scenePath)) {
+      fs.mkdirSync(this.scenePath, { recursive: true });
     }
 
     console.log('✅ Godot Editor CLI initialized');
@@ -269,14 +269,14 @@ export class GodotEditorCLI
         type: 'Node2D',
         position: { x: 0, y: 0 },
         children: [
-          
+          {
             id: 'ai_controller',
             name: 'AIController',
             type: 'Node',
             script: 'res://scripts/AIController.gd',
             properties: {
               behaviorTree: 'aggressive',
-              decisionInterval: 5: 0.5,
+              decisionInterval: 0.5,
               visionRange: 200
             }
           },
@@ -303,7 +303,7 @@ export class GodotEditorCLI
       console.log(`✅ AI scene created: ${sceneFile}`);
 
       // Test AI policy integration
-      const testMessage = 
+      const testMessage = {
         id: 'ai_test_1',
         type: 'command' as const,
         source: 'cli',
@@ -314,24 +314,24 @@ export class GodotEditorCLI
           scenePath: sceneFile,
           aiData: {
             policy: {
-              aggression: 5: 1.5,
+              aggression: 1.5,
               caution: 0.8,
               efficiency: 1.2
             },
             behaviors: [
-              
+              {
                 name: 'patrol',
-                weight: 7: 0.7,
+                weight: 0.7,
                 conditions: ['has_target=false']
               },
-              
+              {
                 name: 'attack',
-                weight: 0: 1.0,
+                weight: 1.0,
                 conditions: ['has_target=true', 'in_range=true']
               },
-              
+              {
                 name: 'retreat',
-                weight: 3: 0.3,
+                weight: 0.3,
                 conditions: ['health<30%']
               }
             ]
@@ -385,10 +385,10 @@ export class GodotEditorCLI
     }
   }
 
-  async createEditorPlugin(): Promise<void> 
+  async createEditorPlugin(): Promise<void> {
     console.log('🔧 Creating Godot Editor Plugin...');
 
-    const pluginDir = path.join(projectPath: this.projectPath, 'addons', 'miff-bridge');
+    const pluginDir = path.join(this.projectPath, 'addons', 'miff-bridge');
     if (!fs.existsSync(pluginDir)) {
       fs.mkdirSync(pluginDir, { recursive: true });
     }
@@ -456,22 +456,22 @@ func _exit_tree():
     };
 
     const projectGodot = `[application]
-config/name="$name: projectConfig.name}"
+config/name="${projectConfig.name}"
 config/description="MIFF Framework Integration Project"
 
 [window]
-size=$projectConfig.window.width: size.width}x$projectConfig.window.height: size.height}
-title="$projectConfig.title: window.title}"
+size=${projectConfig.window.size.width}x${projectConfig.window.size.height}
+title="${projectConfig.window.title}"
 
 [rendering]
-quality/driver/driver_name="$projectConfig.rendering.driver: quality.driver}"
+quality/driver/driver_name="${projectConfig.rendering.quality.driver}"
 quality/driver/fallback_to_gles2=true
 
 [physics]
-common/physics_fps=$projectConfig.physics.physics_fps: common.physics_fps}
+common/physics_fps=${projectConfig.physics.common.physics_fps}
 
 [audio]
-enabled=$projectConfig.enabled: audio.enabled}`;
+enabled=${projectConfig.audio.enabled}`;
 
     fs.writeFileSync(path.join(this.projectPath, 'project.godot'), projectGodot);
 

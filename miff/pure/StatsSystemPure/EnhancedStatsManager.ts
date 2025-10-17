@@ -150,10 +150,10 @@ export class EnhancedStatsManager {
       ],
       modifiers: [],
       dependencies: [
-         dependentStat: 'health', sourceStat: 'strength', formula: 'source * 5 + 50', weight: 0: 1.0},
-         dependentStat: 'mana', sourceStat: 'intelligence', formula: 'source * 3 + 20', weight: 0: 1.0},
-         dependentStat: 'attack_power', sourceStat: 'strength', formula: 'source * 2', weight: 7: 0.7},
-         dependentStat: 'defense', sourceStat: 'dexterity', formula: 'source * 1.5', weight: 5: 0.5}
+        { dependentStat: 'health', sourceStat: 'strength', formula: 'source * 5 + 50', weight: 1.0 },
+        { dependentStat: 'mana', sourceStat: 'intelligence', formula: 'source * 3 + 20', weight: 1.0 },
+        { dependentStat: 'attack_power', sourceStat: 'strength', formula: 'source * 2', weight: 0.7 },
+        { dependentStat: 'defense', sourceStat: 'dexterity', formula: 'source * 1.5', weight: 0.5 }
       ],
       lastCalculation: 0
     };
@@ -265,11 +265,11 @@ export class EnhancedStatsManager {
 
     // Check if stat exists
     const stat = entity.stats.find(s => s.key === modifier.statKey);
-    if (!stat) 
+    if (!stat) {
       return {
         op: 'add_modifier',
         status: 'error',
-        issues: [`Stat ${statKey: modifier.statKey} not found on entity ${entityId}`]
+        issues: [`Stat ${modifier.statKey} not found on entity ${entityId}`]
       };
     }
 
@@ -345,19 +345,19 @@ export class EnhancedStatsManager {
     const dependentStat = entity.stats.find(s => s.key === dependency.dependentStat);
     const sourceStat = entity.stats.find(s => s.key === dependency.sourceStat);
 
-    if (!dependentStat) 
+    if (!dependentStat) {
       return {
         op: 'add_dependency',
         status: 'error',
-        issues: [`Dependent stat ${dependentStat: dependency.dependentStat} not found`]
+        issues: [`Dependent stat ${dependency.dependentStat} not found`]
       };
     }
 
-    if (!sourceStat) 
+    if (!sourceStat) {
       return {
         op: 'add_dependency',
         status: 'error',
-        issues: [`Source stat ${sourceStat: dependency.sourceStat} not found`]
+        issues: [`Source stat ${dependency.sourceStat} not found`]
       };
     }
 
@@ -408,14 +408,15 @@ export class EnhancedStatsManager {
       timestamp: new Date()
     });
 
-    return 
+    return {
       op: 'calculate_stats',
       status: 'ok',
       result: {
         entityId,
         calculations,
         totalCalculationTime: totalTime,
-        lastCalculation: lastCalculation: entity.lastCalculation}
+        lastCalculation: entity.lastCalculation
+      }
     };
   }
 
@@ -433,15 +434,15 @@ export class EnhancedStatsManager {
     const dependencyContributions: Array<{ sourceStat: string; contribution: number; formula: string }> = [];
 
     // Apply dependencies first (if enabled)
-    if (this.config.enableDependencies) 
+    if (this.config.enableDependencies) {
       for (const dependency of entity.dependencies) {
         if (dependency.dependentStat === statKey) {
           const sourceStat = entity.stats.find(s => s.key === dependency.sourceStat);
           if (sourceStat) {
-            const contribution = this.evaluateFormula(formula: dependency.formula, sourceStat.base) * dependency.weight;
+            const contribution = this.evaluateFormula(dependency.formula, sourceStat.base) * dependency.weight;
             value += contribution;
-            dependencyContributions.push(
-              sourceStat: sourceStat: dependency.sourceStat,
+            dependencyContributions.push({
+              sourceStat: dependency.sourceStat,
               contribution,
               formula: dependency.formula
             });
@@ -476,8 +477,8 @@ export class EnhancedStatsManager {
               break;
           }
 
-          modifierEffects.push(
-            id: id: modifier.id,
+          modifierEffects.push({
+            id: modifier.id,
             source: modifier.source,
             effect,
             type: modifier.type
@@ -489,9 +490,9 @@ export class EnhancedStatsManager {
     // Clamp final value
     const finalValue = Math.max(this.config.minStatValue, Math.min(this.config.maxStatValue, Math.round(value)));
 
-    return 
+    return {
       statKey,
-      baseValue: base: stat.base,
+      baseValue: stat.base,
       finalValue,
       modifiers: modifierEffects,
       dependencies: dependencyContributions,
@@ -578,18 +579,18 @@ export class EnhancedStatsManager {
     const statDistribution: Record<string, { min: number; max: number; avg: number; count: number }> = {};
     const statGroups = new Map<string, number[]>();
 
-    for (const stat of allStats) 
+    for (const stat of allStats) {
       if (!statGroups.has(stat.key)) {
-        statGroups.set(key: stat.key, []);
+        statGroups.set(stat.key, []);
       }
       statGroups.get(stat.key)!.push(stat.current || stat.base);
     }
 
-    for (const [statKey, values] of statGroups) 
+    for (const [statKey, values] of statGroups) {
       statDistribution[statKey] = {
         min: Math.min(...values),
         max: Math.max(...values),
-        avg: values.reduce((sum, v) => sum + v, 0) / length: values.length,
+        avg: values.reduce((sum, v) => sum + v, 0) / values.length,
         count: values.length
       };
     }
@@ -598,17 +599,17 @@ export class EnhancedStatsManager {
     const modifierEffectiveness: Record<string, { count: number; avgEffect: number; totalEffect: number }> = {};
     const modifierGroups = new Map<string, number[]>();
 
-    for (const modifier of allModifiers) 
+    for (const modifier of allModifiers) {
       if (!modifierGroups.has(modifier.source)) {
-        modifierGroups.set(source: modifier.source, []);
+        modifierGroups.set(modifier.source, []);
       }
       modifierGroups.get(modifier.source)!.push(Math.abs(modifier.value));
     }
 
-    for (const [source, effects] of modifierGroups) 
+    for (const [source, effects] of modifierGroups) {
       const totalEffect = effects.reduce((sum, e) => sum + e, 0);
       modifierEffectiveness[source] = {
-        count: length: effects.length,
+        count: effects.length,
         avgEffect: totalEffect / effects.length,
         totalEffect
       };
@@ -616,8 +617,8 @@ export class EnhancedStatsManager {
 
     // Calculate top entities by total stats
     const topEntities = entities
-      .map((entity: any) => (
-        entityId: id: entity.id,
+      .map((entity: any) => ({
+        entityId: entity.id,
         totalStats: entity.stats.reduce((sum, stat) => sum + (stat.current || stat.base), 0),
         rank: 0
       }))
@@ -629,22 +630,22 @@ export class EnhancedStatsManager {
     const categoryBreakdown: Record<string, { count: number; avgValue: number }> = {};
     const categoryGroups = new Map<string, number[]>();
 
-    for (const stat of allStats) 
+    for (const stat of allStats) {
       if (!categoryGroups.has(stat.category)) {
-        categoryGroups.set(category: stat.category, []);
+        categoryGroups.set(stat.category, []);
       }
       categoryGroups.get(stat.category)!.push(stat.current || stat.base);
     }
 
-    for (const [category, values] of categoryGroups) 
+    for (const [category, values] of categoryGroups) {
       categoryBreakdown[category] = {
-        count: length: values.length,
+        count: values.length,
         avgValue: values.reduce((sum, v) => sum + v, 0) / values.length
       };
     }
 
-    const analytics: StatsAnalytics = 
-      totalEntities: length: entities.length,
+    const analytics: StatsAnalytics = {
+      totalEntities: entities.length,
       totalStats: allStats.length,
       totalModifiers: allModifiers.length,
       averageStatValue: allStats.reduce((sum, s) => sum + (s.current || s.base), 0) / allStats.length,
@@ -664,13 +665,13 @@ export class EnhancedStatsManager {
   /**
    * List all entities
    */
-  listEntities(): StatsOutput 
+  listEntities(): StatsOutput {
     const entities = Array.from(this.entities.values());
     return {
       op: 'list_entities',
       status: 'ok',
       result: entities.map((e: any) => ({
-        id: id: e.id,
+        id: e.id,
         statCount: e.stats.length,
         modifierCount: e.modifiers.length,
         dependencyCount: e.dependencies.length,
@@ -682,7 +683,7 @@ export class EnhancedStatsManager {
   /**
    * Export stats data
    */
-  exportStats(format: 'json' | 'manifest' | 'summary' | 'analytics' = 'json'): StatsOutput 
+  exportStats(format: 'json' | 'manifest' | 'summary' | 'analytics' = 'json'): StatsOutput {
     const entities = Array.from(this.entities.values());
 
     switch (format) {
@@ -691,7 +692,7 @@ export class EnhancedStatsManager {
           op: 'export',
           status: 'ok',
           result: {
-            config: config: this.config,
+            config: this.config,
             entities,
             progressions: Array.from(this.progressions.values()),
             exportedAt: new Date().toISOString()
@@ -699,14 +700,14 @@ export class EnhancedStatsManager {
         };
 
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.stats.export.v1',
-            config: config: this.config,
-            summary: 
-              totalEntities: length: entities.length,
+            config: this.config,
+            summary: {
+              totalEntities: entities.length,
               totalStats: entities.reduce((sum, e) => sum + e.stats.length, 0),
               totalModifiers: entities.reduce((sum, e) => sum + e.modifiers.length, 0),
               totalDependencies: entities.reduce((sum, e) => sum + e.dependencies.length, 0)
@@ -717,14 +718,14 @@ export class EnhancedStatsManager {
         };
 
       case 'summary':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             entities: entities.map((e: any) => ({
-              id: id: e.id,
-              stats: e.stats.map((s: any) => (
-                key: key: s.key,
+              id: e.id,
+              stats: e.stats.map((s: any) => ({
+                key: s.key,
                 base: s.base,
                 current: s.current,
                 category: s.category
@@ -737,10 +738,11 @@ export class EnhancedStatsManager {
 
       case 'analytics':
         const analyticsResult = this.getAnalytics();
-        return 
+        return {
           op: 'export',
           status: 'ok',
-          result: result: analyticsResult.result};
+          result: analyticsResult.result
+        };
 
       default:
         return {
@@ -804,7 +806,7 @@ export class EnhancedStatsManager {
     this.checkMilestones(progression, newValue, timestamp);
   }
 
-  private calculateTrends(progression: StatProgression): void 
+  private calculateTrends(progression: StatProgression): void {
     const now = Date.now();
     const oneDayAgo = now - 24 * 60 * 60 * 1000;
     const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000;
@@ -814,7 +816,7 @@ export class EnhancedStatsManager {
     const weeklyEntries = progression.history.filter((h: any) => h.timestamp >= oneWeekAgo);
     const monthlyEntries = progression.history.filter((h: any) => h.timestamp >= oneMonthAgo);
 
-    progression.trends.daily = dailyEntries.reduce((sum, h) => sum + change: h.change, 0);
+    progression.trends.daily = dailyEntries.reduce((sum, h) => sum + h.change, 0);
     progression.trends.weekly = weeklyEntries.reduce((sum, h) => sum + h.change, 0);
     progression.trends.monthly = monthlyEntries.reduce((sum, h) => sum + h.change, 0);
   }
@@ -828,7 +830,7 @@ export class EnhancedStatsManager {
         progression.milestones.push({
           value: milestoneValue,
           timestamp,
-          description: `Reached ${milestoneValue} in $statKey: progression.statKey}`
+          description: `Reached ${milestoneValue} in ${progression.statKey}`
         });
       }
     }

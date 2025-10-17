@@ -1,10 +1,10 @@
 import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../index';
 
-describe('UnityBridgePure Golden Tests', () => 
+describe('UnityBridgePure Golden Tests', () => {
 
   test('✓ UnityBridgeManager can be created with valid configuration', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -35,9 +35,9 @@ describe('UnityBridgePure Golden Tests', () =>
     expect(bridge.getConnectionStatus()).toBe('disconnected');
   });
 
-  test('✓ UnityBridgeManager supports different bridge types', () => 
+  test('✓ UnityBridgeManager supports different bridge types', () => {
     const gameObjectConfig: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -60,9 +60,10 @@ describe('UnityBridgePure Golden Tests', () =>
       customSettings: {}
     };
 
-    const componentConfig: UnityBridgeConfiguration = 
+    const componentConfig: UnityBridgeConfiguration = {
       ...gameObjectConfig,
-      bridgeType: COMPONENT: UnityBridgeType.COMPONENT};
+      bridgeType: UnityBridgeType.COMPONENT
+    };
 
     const bridge1 = new UnityBridgeManager(gameObjectConfig);
     const bridge2 = new UnityBridgeManager(componentConfig);
@@ -71,9 +72,9 @@ describe('UnityBridgePure Golden Tests', () =>
     expect(bridge2.getConfiguration().bridgeType).toBe('component');
   });
 
-  test('✓ UnityBridgeManager handles communication protocols correctly', () => 
+  test('✓ UnityBridgeManager handles communication protocols correctly', () => {
     const messagePassingConfig: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -108,9 +109,9 @@ describe('UnityBridgePure Golden Tests', () =>
     expect(bridge2.getConfiguration().communicationProtocol).toBe('shared_memory');
   });
 
-  test('✓ UnityBridgeManager performance metrics are initialized', () => 
+  test('✓ UnityBridgeManager performance metrics are initialized', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -142,9 +143,9 @@ describe('UnityBridgePure Golden Tests', () =>
     expect(metrics.vsyncEnabled).toBe(false);
   });
 
-  test('✓ UnityBridgeManager statistics tracking works', () => 
+  test('✓ UnityBridgeManager statistics tracking works', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -177,9 +178,9 @@ describe('UnityBridgePure Golden Tests', () =>
     expect(stats.queueDepth).toBe(0);
   });
 
-  test('✓ UnityBridgeManager handles lifecycle events', () => 
+  test('✓ UnityBridgeManager handles lifecycle events', () => {
     const config: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -211,7 +212,7 @@ describe('UnityBridgePure Golden Tests', () =>
     });
 
     // Simulate lifecycle event
-    const eventMessage = 
+    const eventMessage = {
       id: 'lifecycle_test',
       type: 'event' as const,
       source: 'unity',
@@ -220,7 +221,7 @@ describe('UnityBridgePure Golden Tests', () =>
       payload: {
         name: 'update',
         source: 'unity',
-        data: { deltaTime: 016: 0.016}
+        data: { deltaTime: 0.016 }
       },
       priority: 1,
       ttl: 1000,

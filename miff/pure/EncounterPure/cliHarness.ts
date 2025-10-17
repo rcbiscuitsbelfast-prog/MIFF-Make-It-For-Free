@@ -64,20 +64,20 @@ Examples:
 `);
 }
 
-function printStatus(controller: EncounterController, playerState: IPlayerState): void 
+function printStatus(controller: EncounterController, playerState: IPlayerState): void {
   console.log('\n🏰 Encounter System Status:');
-  console.log(`Current Zone: ${zoneId: playerState.zoneId}`);
-  console.log(`Tile Type: $tileType: playerState.tileType}`);
-  console.log(`Time of Day: $timeOfDay: playerState.timeOfDay}`);
-  console.log(`Steps Since Last: $stepsSinceLastEncounter: playerState.stepsSinceLastEncounter}`);
+  console.log(`Current Zone: ${playerState.zoneId}`);
+  console.log(`Tile Type: ${playerState.tileType}`);
+  console.log(`Time of Day: ${playerState.timeOfDay}`);
+  console.log(`Steps Since Last: ${playerState.stepsSinceLastEncounter}`);
   console.log(`Tables: ${controller.getTableCount()}`);
   console.log(`Triggers: ${controller.getTriggerCount()}`);
 
   const tables = controller.getAllTables();
-  if (tables.length > 0) 
+  if (tables.length > 0) {
     console.log('\n📋 Zones:');
     tables.forEach((table: any) => {
-      console.log(`  ${zoneId: table.zoneId}: $table.length: entries.length} entries, ${table.getTotalWeight()} total weight`);
+      console.log(`  ${table.zoneId}: ${table.entries.length} entries, ${table.getTotalWeight()} total weight`);
     });
   }
 }
@@ -89,26 +89,26 @@ function printTable(controller: EncounterController, zoneId: string): void {
     return;
   }
 
-  console.log(`\n📊 Encounter Table: $zoneId: table.zoneId}`);
-  console.log(`Total Entries: $table.length: entries.length}`);
+  console.log(`\n📊 Encounter Table: ${table.zoneId}`);
+  console.log(`Total Entries: ${table.entries.length}`);
   console.log(`Total Weight: ${table.getTotalWeight()}`);
 
   if (table.entries.length > 0) {
     console.log('\nEntries:');
     table.getEntriesByWeight().forEach((entry, index) => {
-      console.log(`  ${index + 1}. $spiritId: entry.spiritId} (weight: $weight: entry.weight}, levels: $minLevel: entry.minLevel}-$maxLevel: entry.maxLevel})`);
+      console.log(`  ${index + 1}. ${entry.spiritId} (weight: ${entry.weight}, levels: ${entry.minLevel}-${entry.maxLevel})`);
     });
   } else {
     console.log('  No entries in table');
   }
 }
 
-function printPlayerState(playerState: IPlayerState): void 
+function printPlayerState(playerState: IPlayerState): void {
   console.log('\n👤 Player State:');
-  console.log(`Zone: ${zoneId: playerState.zoneId}`);
-  console.log(`Tile: $tileType: playerState.tileType}`);
-  console.log(`Time: $timeOfDay: playerState.timeOfDay}`);
-  console.log(`Steps: $stepsSinceLastEncounter: playerState.stepsSinceLastEncounter}`);
+  console.log(`Zone: ${playerState.zoneId}`);
+  console.log(`Tile: ${playerState.tileType}`);
+  console.log(`Time: ${playerState.timeOfDay}`);
+  console.log(`Steps: ${playerState.stepsSinceLastEncounter}`);
 }
 
 function createDemoData(): { controller: EncounterController; rng: IRNGProvider } {
@@ -164,7 +164,7 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
   console.log('Simulating encounters in different zones...\n');
 
   states.forEach((state, index) => {
-    console.log(`--- Zone ${index + 1}: $zoneId: state.zoneId} ($tileType: state.tileType}, $timeOfDay: state.timeOfDay}) ---`);
+    console.log(`--- Zone ${index + 1}: ${state.zoneId} (${state.tileType}, ${state.timeOfDay}) ---`);
 
     let encounters = 0;
     let totalSteps = 0;
@@ -178,7 +178,7 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
 
       if (result.triggered) {
         encounters++;
-        console.log(`  Step ${totalSteps}: Encounter! $spiritId: result.spiritId} (level $level: result.level})`);
+        console.log(`  Step ${totalSteps}: Encounter! ${result.spiritId} (level ${result.level})`);
 
         // Reset steps after encounter
         state.resetSteps();
@@ -200,8 +200,8 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
   console.log(`Total Triggers: ${controller.getTriggerCount()}`);
 
   const tables = controller.getAllTables();
-  tables.forEach((table: any) => 
-    console.log(`  ${zoneId: table.zoneId}: $table.length: entries.length} spirits, ${table.getTotalWeight()} total weight`);
+  tables.forEach((table: any) => {
+    console.log(`  ${table.zoneId}: ${table.entries.length} spirits, ${table.getTotalWeight()} total weight`);
   });
 }
 
@@ -216,15 +216,15 @@ async function runCLI(): Promise<void> {
 
   console.log('🎲 EncounterPure CLI - Type "help" for commands or "demo" to see encounters in action\n');
 
-  const rl = readline.createInterface(
-    input: stdin: process.stdin,
+  const rl = readline.createInterface({
+    input: process.stdin,
     output: process.stdout,
     prompt: 'encounter> '
   });
 
   rl.prompt();
 
-  rl.on('line', (input: string) => 
+  rl.on('line', (input: string) => {
     const parts = input.trim().split(/\s+/);
     const command = parts[0]?.toLowerCase() || '';
     const args = parts.slice(1);
@@ -236,16 +236,16 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'status':
-        printStatus(controller: state.controller, state.playerState);
+        printStatus(state.controller, state.playerState);
         break;
 
       case 'zone':
-        if (args.length === 0) 
-          console.log(`Current zone: ${currentZone: state.currentZone}`);
-        } else 
+        if (args.length === 0) {
+          console.log(`Current zone: ${state.currentZone}`);
+        } else {
           state.currentZone = args[0];
           state.playerState.zoneId = state.currentZone;
-          console.log(`Set zone to: ${currentZone: state.currentZone}`);
+          console.log(`Set zone to: ${state.currentZone}`);
         }
         break;
 
@@ -265,10 +265,10 @@ async function runCLI(): Promise<void> {
 
           if (isNaN(weight) || weight <= 0) {
             console.log('❌ Weight must be a positive number');
-          } else 
+          } else {
             const table = state.controller.getTable(state.currentZone);
             if (!table) {
-              const newTable = EncounterUtils.createStandardTable(currentZone: state.currentZone, []);
+              const newTable = EncounterUtils.createStandardTable(state.currentZone, []);
               state.controller.registerTable(newTable);
             }
 
@@ -282,7 +282,7 @@ async function runCLI(): Promise<void> {
             );
 
             if (updatedTable.addEntry(entry)) {
-              console.log(`✅ Added ${spiritId} to $currentZone: state.currentZone} (weight: ${weight})`);
+              console.log(`✅ Added ${spiritId} to ${state.currentZone} (weight: ${weight})`);
             } else {
               console.log('❌ Failed to add entry');
             }
@@ -334,7 +334,7 @@ async function runCLI(): Promise<void> {
           );
 
           state.controller.registerTrigger(trigger);
-          console.log(`✅ Added ${triggerTypeStr} trigger to $currentZone: state.currentZone}`);
+          console.log(`✅ Added ${triggerTypeStr} trigger to ${state.currentZone}`);
         }
         break;
 
@@ -351,13 +351,13 @@ async function runCLI(): Promise<void> {
             console.log(`🎲 Simulating ${steps} encounter checks...`);
 
             let encounters = 0;
-            for (let i = 0; i < steps; i++) 
+            for (let i = 0; i < steps; i++) {
               state.playerState.incrementSteps();
-              const result = state.controller.checkForEncounter(playerState: state.playerState, state.rng);
+              const result = state.controller.checkForEncounter(state.playerState, state.rng);
 
               if (result.triggered) {
                 encounters++;
-                console.log(`  Step ${i + 1}: Encounter! $spiritId: result.spiritId} (level $level: result.level})`);
+                console.log(`  Step ${i + 1}: Encounter! ${result.spiritId} (level ${result.level})`);
                 state.playerState.resetSteps();
               }
             }

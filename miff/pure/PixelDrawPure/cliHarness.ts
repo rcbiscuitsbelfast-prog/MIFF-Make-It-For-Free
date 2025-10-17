@@ -145,7 +145,7 @@ function main() {
 
     let result: any;
 
-    switch (operation.op) 
+    switch (operation.op) {
       case 'create':
         const grid = PixelDrawPure.create(
           operation.width!,
@@ -157,7 +157,7 @@ function main() {
           created: {
             grid,
             summary: {
-              width: grid.width: meta.width,
+              width: grid.meta.width,
               height: grid.meta.height,
               cellSize: grid.meta.cellSize,
               totalCells: grid.cells.length,
@@ -171,13 +171,13 @@ function main() {
         const setGrid = operation.grid!;
         PixelDrawPure.setColor(setGrid, operation.x!, operation.y!, operation.color!);
         
-        result = 
+        result = {
           action: 'color_set',
-          x: x: operation.x,
+          x: operation.x,
           y: operation.y,
           color: operation.color,
-          summary: 
-            width: setGrid.width: meta.width,
+          summary: {
+            width: setGrid.meta.width,
             height: setGrid.meta.height,
             filledCells: setGrid.cells.filter((c: any) => c !== null).length,
             totalCells: setGrid.cells.length
@@ -189,13 +189,13 @@ function main() {
         const getGrid = operation.grid!;
         const color = PixelDrawPure.getColor(getGrid, operation.x!, operation.y!);
         
-        result = 
+        result = {
           action: 'color_retrieved',
-          x: x: operation.x,
+          x: operation.x,
           y: operation.y,
           color,
-          summary: 
-            width: getGrid.width: meta.width,
+          summary: {
+            width: getGrid.meta.width,
             height: getGrid.meta.height,
             filledCells: getGrid.cells.filter((c: any) => c !== null).length
           }
@@ -215,18 +215,18 @@ function main() {
           }
         }
         
-        result = 
+        result = {
           action: 'rectangle_drawn',
           rectangle: {
-            x: x: operation.x,
+            x: operation.x,
             y: operation.y,
             width: operation.width,
             height: operation.height,
             color: operation.color,
             cellsDrawn: rectCells.length
           },
-          summary: 
-            width: rectGrid.width: meta.width,
+          summary: {
+            width: rectGrid.meta.width,
             height: rectGrid.meta.height,
             filledCells: rectGrid.cells.filter((c: any) => c !== null).length,
             totalCells: rectGrid.cells.length
@@ -251,17 +251,17 @@ function main() {
           }
         }
         
-        result = 
+        result = {
           action: 'circle_drawn',
           circle: {
             x: centerX,
             y: centerY,
             radius,
-            color: color: operation.color,
+            color: operation.color,
             cellsDrawn: circleCells.length
           },
-          summary: 
-            width: circleGrid.width: meta.width,
+          summary: {
+            width: circleGrid.meta.width,
             height: circleGrid.meta.height,
             filledCells: circleGrid.cells.filter((c: any) => c !== null).length,
             totalCells: circleGrid.cells.length
@@ -306,15 +306,15 @@ function main() {
           }
         }
         
-        result = 
+        result = {
           action: 'line_drawn',
           line: {
             x1, y1, x2, y2,
-            color: color: operation.color,
+            color: operation.color,
             cellsDrawn: lineCells.length
           },
-          summary: 
-            width: lineGrid.width: meta.width,
+          summary: {
+            width: lineGrid.meta.width,
             height: lineGrid.meta.height,
             filledCells: lineGrid.cells.filter((c: any) => c !== null).length,
             totalCells: lineGrid.cells.length
@@ -330,11 +330,11 @@ function main() {
           fillGrid.cells[i] = operation.color!;
         }
         
-        result = 
+        result = {
           action: 'grid_filled',
-          color: color: operation.color,
-          summary: 
-            width: fillGrid.width: meta.width,
+          color: operation.color,
+          summary: {
+            width: fillGrid.meta.width,
             height: fillGrid.meta.height,
             cellsFilled: fillGrid.cells.length,
             originalFilled,
@@ -351,10 +351,10 @@ function main() {
           clearGrid.cells[i] = null;
         }
         
-        result = 
+        result = {
           action: 'grid_cleared',
           summary: {
-            width: clearGrid.width: meta.width,
+            width: clearGrid.meta.width,
             height: clearGrid.meta.height,
             cellsCleared: originalFilledClear,
             totalCells: clearGrid.cells.length
@@ -366,10 +366,10 @@ function main() {
         const exportGrid = operation.grid!;
         const exported = PixelDrawPure.exportJSON(exportGrid);
         
-        result = 
+        result = {
           exported,
           summary: {
-            width: exportGrid.width: meta.width,
+            width: exportGrid.meta.width,
             height: exportGrid.meta.height,
             cellSize: exportGrid.meta.cellSize,
             filledCells: exportGrid.cells.filter((c: any) => c !== null).length,
@@ -435,16 +435,16 @@ function main() {
         
         const exportedDemo = PixelDrawPure.exportJSON(demoGrid);
         
-        result = 
+        result = {
           demo: {
             grid: {
-              width: demoGrid.width: meta.width,
+              width: demoGrid.meta.width,
               height: demoGrid.meta.height,
               cellSize: demoGrid.meta.cellSize,
               totalCells: demoGrid.cells.length
             },
-            operations: 
-              houseOperations: length: houseOperations.length,
+            operations: {
+              houseOperations: houseOperations.length,
               sunCells: sunCells.length,
               groundCells: 32
             },
@@ -482,7 +482,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: $op: operation.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
@@ -500,8 +500,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify(
-      op: op: operation.op,
+    console.log(JSON.stringify({
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

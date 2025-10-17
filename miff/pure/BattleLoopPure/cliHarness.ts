@@ -57,9 +57,9 @@ class BattleLoopPureCLI {
   private battleHistory: BattleState[] = [];
   private currentTurn: number = 0;
 
-  constructor() 
+  constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -109,7 +109,7 @@ class BattleLoopPureCLI {
       this.battleHistory.push(state);
       this.currentTurn = state.currentTurn;
 
-      console.log(`Demo Turn $currentTurn: state.currentTurn} completed. Active: $isActive: state.isActive}`);
+      console.log(`Demo Turn ${state.currentTurn} completed. Active: ${state.isActive}`);
     }
 
     console.log('Demo completed. Use "battle" command to run custom battles.');
@@ -295,12 +295,12 @@ class BattleLoopPureCLI {
       this.battleHistory.push(state);
       this.currentTurn = state.currentTurn;
 
-      console.log(`   Turn: $currentTurn: state.currentTurn}`);
-      console.log(`   Active: $isActive: state.isActive}`);
-      console.log(`   Paused: $isPaused: state.isPaused}`);
+      console.log(`   Turn: ${state.currentTurn}`);
+      console.log(`   Active: ${state.isActive}`);
+      console.log(`   Paused: ${state.isPaused}`);
 
-      if (state.winner) 
-        console.log(`🏁 Battle ended: Winner ${winner: state.winner} ($reason: state.reason})`);
+      if (state.winner) {
+        console.log(`🏁 Battle ended: Winner ${state.winner} (${state.reason})`);
         break;
       }
 
@@ -314,40 +314,40 @@ class BattleLoopPureCLI {
   /**
    * Show current phase
    */
-  private showCurrentPhase(): void 
+  private showCurrentPhase(): void {
     const state = this.controller.getState();
     console.log('='.repeat(60));
     console.log('📍 Current Battle State');
     console.log('='.repeat(60));
 
-    console.log(`Current Turn: ${currentTurn: state.currentTurn}`);
-    console.log(`Active: $isActive: state.isActive}`);
-    console.log(`Paused: $isPaused: state.isPaused}`);
-    if (state.winner) 
-      console.log(`Winner: ${winner: state.winner} ($reason: state.reason})`);
+    console.log(`Current Turn: ${state.currentTurn}`);
+    console.log(`Active: ${state.isActive}`);
+    console.log(`Paused: ${state.isPaused}`);
+    if (state.winner) {
+      console.log(`Winner: ${state.winner} (${state.reason})`);
     }
   }
 
   /**
    * Show current battle state
    */
-  private showBattleState(): void 
+  private showBattleState(): void {
     const state = this.controller.getState();
 
     console.log('='.repeat(60));
     console.log('📊 Current Battle State');
     console.log('='.repeat(60));
 
-    console.log(`Current Turn: ${currentTurn: state.currentTurn}`);
-    console.log(`Active: $isActive: state.isActive}`);
-    console.log(`Paused: $isPaused: state.isPaused}`);
-    if (state.winner) 
-      console.log(`Winner: ${winner: state.winner} ($reason: state.reason})`);
+    console.log(`Current Turn: ${state.currentTurn}`);
+    console.log(`Active: ${state.isActive}`);
+    console.log(`Paused: ${state.isPaused}`);
+    if (state.winner) {
+      console.log(`Winner: ${state.winner} (${state.reason})`);
     }
 
     console.log('Battle History:');
     this.battleHistory.slice(-3).forEach((historyState, index) => {
-      console.log(`  ${index + 1}. Turn $currentTurn: historyState.currentTurn} - Active: $isActive: historyState.isActive}`);
+      console.log(`  ${index + 1}. Turn ${historyState.currentTurn} - Active: ${historyState.isActive}`);
     });
   }
 
@@ -364,24 +364,24 @@ class BattleLoopPureCLI {
       return;
     }
 
-    this.battleHistory.forEach((state, index) => 
-      console.log(`Turn ${currentTurn: state.currentTurn}:`);
-      console.log(`  Active: $isActive: state.isActive}`);
-      console.log(`  Paused: $isPaused: state.isPaused}`);
-      if (state.winner) 
-        console.log(`  Winner: ${winner: state.winner} ($reason: state.reason})`);
+    this.battleHistory.forEach((state, index) => {
+      console.log(`Turn ${state.currentTurn}:`);
+      console.log(`  Active: ${state.isActive}`);
+      console.log(`  Paused: ${state.isPaused}`);
+      if (state.winner) {
+        console.log(`  Winner: ${state.winner} (${state.reason})`);
       }
       console.log('');
     });
 
-    console.log(`Total Turns: $this.length: battleHistory.length}`);
-    console.log(`Current Turn: $currentTurn: this.currentTurn}`);
+    console.log(`Total Turns: ${this.battleHistory.length}`);
+    console.log(`Current Turn: ${this.currentTurn}`);
   }
 
   /**
    * Show battle statistics
    */
-  private showStatistics(): void 
+  private showStatistics(): void {
     const state = this.controller.getState();
     const config = this.controller.getConfig();
 
@@ -389,23 +389,23 @@ class BattleLoopPureCLI {
     console.log('📈 Battle Statistics');
     console.log('='.repeat(60));
 
-    console.log(`Current Turn: ${currentTurn: state.currentTurn}`);
-    console.log(`Max Turns: $maxTurns: config.maxTurns}`);
-    console.log(`Timeout: $timeoutMs: config.timeoutMs}ms`);
-    console.log(`Auto Resolve: $enableAutoResolve: config.enableAutoResolve}`);
-    console.log(`Replay Enabled: $enableReplay: config.enableReplay}`);
-    console.log(`Battle History: $this.length: battleHistory.length} turns`);
+    console.log(`Current Turn: ${state.currentTurn}`);
+    console.log(`Max Turns: ${config.maxTurns}`);
+    console.log(`Timeout: ${config.timeoutMs}ms`);
+    console.log(`Auto Resolve: ${config.enableAutoResolve}`);
+    console.log(`Replay Enabled: ${config.enableReplay}`);
+    console.log(`Battle History: ${this.battleHistory.length} turns`);
   }
 
   /**
    * Show available actors
    */
-  private showActors(): void 
+  private showActors(): void {
     console.log('='.repeat(60));
     console.log('👥 Available Actors');
     console.log('='.repeat(60));
 
-    console.log(`Total Actors: ${  length: availableActors.length}`);
+    console.log(`Total Actors: ${this.availableActors.length}`);
     this.availableActors.forEach((actorId, index) => {
       const moves = this.availableMoves[actorId] || [];
       console.log(`${index + 1}. Actor ${actorId} - Moves: ${moves.join(', ')}`);

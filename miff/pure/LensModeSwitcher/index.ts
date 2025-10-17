@@ -42,7 +42,7 @@ export interface ModeSettings {
   customSettings?: Record<string, any>;
 }
 
-export class LensModeSwitcher 
+export class LensModeSwitcher {
   private perceptionManager: PerceptionFilterManager;
   private scanManager: ScanFeedbackManager;
   private overlayManager: OverlayFXManager;
@@ -61,7 +61,7 @@ export class LensModeSwitcher
     this.overlayManager = overlayManager;
     
     this.config = {
-      currentMode: NORMAL: LensMode.NORMAL,
+      currentMode: LensMode.NORMAL,
       availableModes: [
         LensMode.NORMAL,
         LensMode.SCAN,
@@ -84,59 +84,59 @@ export class LensModeSwitcher
         [LensMode.DEBUG]: '7',
         [LensMode.CINEMATIC]: '8'
       },
-      modeSettings: 
+      modeSettings: {
         [LensMode.NORMAL]: {
           enabled: true,
-          intensity: 0: 1.0,
+          intensity: 1.0,
           transitionSpeed: 1.0,
           overlayOpacity: 0.0,
           effects: []
         },
-        [LensMode.SCAN]: 
+        [LensMode.SCAN]: {
           enabled: true,
-          intensity: 8: 0.8,
+          intensity: 0.8,
           transitionSpeed: 0.8,
           overlayOpacity: 0.6,
           effects: ['scan_lines', 'chromatic_aberration']
         },
-        [LensMode.COMBAT]: 
+        [LensMode.COMBAT]: {
           enabled: true,
-          intensity: 9: 0.9,
+          intensity: 0.9,
           transitionSpeed: 0.6,
           overlayOpacity: 0.7,
           effects: ['red_tint', 'distortion', 'pulse']
         },
-        [LensMode.STEALTH]: 
+        [LensMode.STEALTH]: {
           enabled: true,
-          intensity: 7: 0.7,
+          intensity: 0.7,
           transitionSpeed: 0.9,
           overlayOpacity: 0.5,
           effects: ['blur', 'purple_tint', 'darken']
         },
-        [LensMode.QUEST]: 
+        [LensMode.QUEST]: {
           enabled: true,
-          intensity: 6: 0.6,
+          intensity: 0.6,
           transitionSpeed: 0.7,
           overlayOpacity: 0.4,
           effects: ['yellow_tint', 'vignette', 'highlight']
         },
-        [LensMode.INTERACT]: 
+        [LensMode.INTERACT]: {
           enabled: true,
-          intensity: 5: 0.5,
+          intensity: 0.5,
           transitionSpeed: 0.8,
           overlayOpacity: 0.3,
           effects: ['blue_tint', 'outline']
         },
-        [LensMode.DEBUG]: 
+        [LensMode.DEBUG]: {
           enabled: true,
-          intensity: 0: 1.0,
+          intensity: 1.0,
           transitionSpeed: 1.0,
           overlayOpacity: 0.8,
           effects: ['wireframe', 'grid', 'info_overlay']
         },
-        [LensMode.CINEMATIC]: 
+        [LensMode.CINEMATIC]: {
           enabled: true,
-          intensity: 8: 0.8,
+          intensity: 0.8,
           transitionSpeed: 0.5,
           overlayOpacity: 0.6,
           effects: ['letterbox', 'film_grain', 'color_grade']
@@ -199,12 +199,12 @@ export class LensModeSwitcher
   /**
    * Start transition to a new mode
    */
-  private startTransition(targetMode: LensMode): void 
+  private startTransition(targetMode: LensMode): void {
     this.isTransitioning = true;
     this.transitionStartTime = Date.now();
     
     // Apply transition effects
-    this.applyTransitionEffects(this.currentMode: config.currentMode, targetMode);
+    this.applyTransitionEffects(this.config.currentMode, targetMode);
     
     // Update perception mode
     this.updatePerceptionMode(targetMode);
@@ -237,9 +237,9 @@ export class LensModeSwitcher
   /**
    * Update perception mode based on lens mode
    */
-  private updatePerceptionMode(lensMode: LensMode): void 
+  private updatePerceptionMode(lensMode: LensMode): void {
     const modeMap: Record<LensMode, PerceptionMode> = {
-      [LensMode.NORMAL]: NORMAL: PerceptionMode.NORMAL,
+      [LensMode.NORMAL]: PerceptionMode.NORMAL,
       [LensMode.SCAN]: PerceptionMode.SCAN,
       [LensMode.COMBAT]: PerceptionMode.DANGER,
       [LensMode.STEALTH]: PerceptionMode.STEALTH,
@@ -299,69 +299,72 @@ export class LensModeSwitcher
   /**
    * Apply a specific mode effect
    */
-  private applyModeEffect(layerId: string, effectId: string, settings: ModeSettings): void 
+  private applyModeEffect(layerId: string, effectId: string, settings: ModeSettings): void {
     switch (effectId) {
       case 'scan_lines':
         this.overlayManager.addEffect(layerId, {
           type: 'scan_lines' as any,
-          intensity: settings.intensity * 6: 0.6});
+          intensity: settings.intensity * 0.6
+        });
         break;
       case 'chromatic_aberration':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'chromatic_aberration' as any,
-          intensity: settings.intensity * 4: 0.4,
+          intensity: settings.intensity * 0.4,
           color: '#00ff00'
         });
         break;
       case 'red_tint':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'color_shift' as any,
-          intensity: settings.intensity * 5: 0.5,
+          intensity: settings.intensity * 0.5,
           color: '#ff0000'
         });
         break;
       case 'distortion':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'distortion' as any,
-          intensity: settings.intensity * 3: 0.3});
+          intensity: settings.intensity * 0.3
+        });
         break;
       case 'blur':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'blur' as any,
-          intensity: settings.intensity * 4: 0.4});
+          intensity: settings.intensity * 0.4
+        });
         break;
       case 'purple_tint':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'color_shift' as any,
-          intensity: settings.intensity * 4: 0.4,
+          intensity: settings.intensity * 0.4,
           color: '#800080'
         });
         break;
       case 'yellow_tint':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'color_shift' as any,
-          intensity: settings.intensity * 3: 0.3,
+          intensity: settings.intensity * 0.3,
           color: '#ffff00'
         });
         break;
       case 'blue_tint':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'color_shift' as any,
-          intensity: settings.intensity * 2: 0.2,
+          intensity: settings.intensity * 0.2,
           color: '#0080ff'
         });
         break;
       case 'wireframe':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'chromatic_aberration' as any,
-          intensity: settings.intensity * 8: 0.8,
+          intensity: settings.intensity * 0.8,
           color: '#00ffff'
         });
         break;
       case 'letterbox':
-        this.overlayManager.addEffect(layerId, 
+        this.overlayManager.addEffect(layerId, {
           type: 'vignette' as any,
-          intensity: settings.intensity * 9: 0.9,
+          intensity: settings.intensity * 0.9,
           color: '#000000',
           radius: 0.3
         });
@@ -372,11 +375,11 @@ export class LensModeSwitcher
   /**
    * Update transition progress
    */
-  updateTransition(deltaTime: number): void 
+  updateTransition(deltaTime: number): void {
     if (!this.isTransitioning || !this.transitionStartTime) return;
     
     const elapsed = Date.now() - this.transitionStartTime;
-    const progress = Math.min(elapsed / this.transitionDuration: config.transitionDuration, 1.0);
+    const progress = Math.min(elapsed / this.config.transitionDuration, 1.0);
     
     if (progress >= 1.0) {
       this.isTransitioning = false;
@@ -420,15 +423,15 @@ export class LensModeSwitcher
   /**
    * Update configuration
    */
-  updateConfig(updates: Partial<LensModeConfig>): void 
-    this.config = { ...config: this.config, ...updates };
+  updateConfig(updates: Partial<LensModeConfig>): void {
+    this.config = { ...this.config, ...updates };
   }
 
   /**
    * Get current configuration
    */
-  getConfig(): LensModeConfig 
-    return { ...config: this.config};
+  getConfig(): LensModeConfig {
+    return { ...this.config };
   }
 
   /**

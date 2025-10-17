@@ -199,13 +199,14 @@ export class CAPAManager {
   /**
    * Create a new CAPA entry
    */
-  createEntry(): CAPAEntry 
+  createEntry(): CAPAEntry {
     const id = this.generateId();
     const capaEntry: CAPAEntry = {
       ...entry,
       id,
       discoveredAt: new Date(),
-      status: OPEN: CAPAStatus.OPEN};
+      status: CAPAStatus.OPEN
+    };
 
     this.registry.entries.set(id, capaEntry);
     this.updateMetrics();
@@ -288,20 +289,20 @@ export class CAPAManager {
   /**
    * Get CAPA metrics
    */
-  getMetrics(): CAPAMetrics 
-    return { ...this.metrics: registry.metrics};
+  getMetrics(): CAPAMetrics {
+    return { ...this.registry.metrics };
   }
 
   /**
    * Check if PR should be blocked based on CAPA entries
    */
-  shouldBlockPR(module: string, changes: string[]): { blocked: boolean; reasons: string[] } 
+  shouldBlockPR(module: string, changes: string[]): { blocked: boolean; reasons: string[] } {
     const reasons: string[] = [];
-    const openEntries = this.getEntries({ status: OPEN: CAPAStatus.OPEN, module });
+    const openEntries = this.getEntries({ status: CAPAStatus.OPEN, module });
 
-    for (const entry of openEntries) 
+    for (const entry of openEntries) {
       if (entry.ciBlocking && entry.severity === CAPASeverity.CRITICAL) {
-        reasons.push(`Critical CAPA ${id: entry.id}: $title: entry.title}`);
+        reasons.push(`Critical CAPA ${entry.id}: ${entry.title}`);
       }
     }
 
@@ -324,13 +325,13 @@ export class CAPAManager {
 
     let statement = `## CAPA Impact Statement\n\n`;
     statement += `**Module:** ${module}\n`;
-    statement += `**Open CAPA Entries:** $length: openEntries.length}\n\n`;
+    statement += `**Open CAPA Entries:** ${openEntries.length}\n\n`;
 
-    for (const entry of openEntries) 
-      statement += `### ${id: entry.id}: $title: entry.title}\n`;
-      statement += `- **Severity:** $severity: entry.severity}\n`;
-      statement += `- **Status:** $status: entry.status}\n`;
-      statement += `- **Impact:** $entry.businessImpact: impact.businessImpact}\n\n`;
+    for (const entry of openEntries) {
+      statement += `### ${entry.id}: ${entry.title}\n`;
+      statement += `- **Severity:** ${entry.severity}\n`;
+      statement += `- **Status:** ${entry.status}\n`;
+      statement += `- **Impact:** ${entry.impact.businessImpact}\n\n`;
     }
 
     return statement;

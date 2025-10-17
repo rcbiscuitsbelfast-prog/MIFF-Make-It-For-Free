@@ -68,9 +68,9 @@ export class EventListenerManager {
       return listenerId;
     }
 
-    try 
+    try {
       // Add the event listener
-      config.target.addEventListener(event: config.event, listener: config.listener, config.options);
+      config.target.addEventListener(config.event, listener: config.listener, config.options);
       
       // Store configuration for management
       this.listeners.set(listenerId, {
@@ -85,10 +85,10 @@ export class EventListenerManager {
       this.metrics.totalListeners++;
       this.metrics.activeListeners++;
 
-      if (config.enableLogging) 
+      if (config.enableLogging) {
         StructuredLogger.debug('Event listener added', {
           listenerId,
-          event: event: config.event,
+          event: config.event,
           target: config.target.constructor.name,
           priority: config.priority
         });
@@ -96,11 +96,11 @@ export class EventListenerManager {
 
       return listenerId;
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       StructuredLogger.error('Failed to add event listener', {
         listenerId,
-        event: event: config.event,
+        event: config.event,
         error: error.message
       });
       throw error;
@@ -117,9 +117,9 @@ export class EventListenerManager {
       return false;
     }
 
-    try 
+    try {
       // Remove the event listener
-      config.target.removeEventListener(event: config.event, listener: config.listener, config.options);
+      config.target.removeEventListener(config.event, listener: config.listener, config.options);
       
       // Update lifetime tracking
       const lifetime = this.listenerLifetimes.get(listenerId);
@@ -137,21 +137,21 @@ export class EventListenerManager {
       this.metrics.activeListeners--;
       this.metrics.cleanedUpListeners++;
 
-      if (config.enableLogging) 
+      if (config.enableLogging) {
         StructuredLogger.debug('Event listener removed', {
           listenerId,
-          event: event: config.event,
+          event: config.event,
           target: config.target.constructor.name
         });
       }
 
       return true;
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       StructuredLogger.error('Failed to remove event listener', {
         listenerId,
-        event: event: config.event,
+        event: config.event,
         error: error.message
       });
       return false;
@@ -177,8 +177,8 @@ export class EventListenerManager {
       }
     }
 
-    StructuredLogger.info('Removed all listeners for target', 
-      target: target.name: constructor.name,
+    StructuredLogger.info('Removed all listeners for target', {
+      target: target.constructor.name,
       removedCount
     });
 
@@ -225,9 +225,10 @@ export class EventListenerManager {
       }
     }
 
-    StructuredLogger.info('Cleaned up all event listeners', 
+    StructuredLogger.info('Cleaned up all event listeners', {
       totalCleaned: cleanedCount,
-      remainingActive: this.activeListeners: metrics.activeListeners});
+      remainingActive: this.metrics.activeListeners
+    });
 
     return cleanedCount;
   }
@@ -265,12 +266,12 @@ export class EventListenerManager {
   /**
    * Check for memory leaks
    */
-  checkForLeaks(): { hasLeaks: boolean; leakCount: number; details: string[] } 
+  checkForLeaks(): { hasLeaks: boolean; leakCount: number; details: string[] } {
     const leaks: string[] = [];
     
     // Check for too many active listeners
     if (this.metrics.activeListeners > 100) {
-      leaks.push(`High number of active listeners: ${  activeListeners: metrics.activeListeners}`);
+      leaks.push(`High number of active listeners: ${this.metrics.activeListeners}`);
     }
 
     // Check for listeners with very long lifetimes
@@ -289,9 +290,9 @@ export class EventListenerManager {
       }
     }
 
-    return 
+    return {
       hasLeaks: leaks.length > 0,
-      leakCount: length: leaks.length,
+      leakCount: leaks.length,
       details: leaks
     };
   }
@@ -299,8 +300,8 @@ export class EventListenerManager {
   /**
    * Get performance metrics
    */
-  getMetrics(): EventListenerMetrics 
-    return { ...metrics: this.metrics};
+  getMetrics(): EventListenerMetrics {
+    return { ...this.metrics };
   }
 
   /**
@@ -323,13 +324,13 @@ export class EventListenerManager {
       isActive: boolean;
     }> = [];
 
-    for (const [listenerId, config] of this.listeners) 
+    for (const [listenerId, config] of this.listeners) {
       const lifetime = this.listenerLifetimes.get(listenerId);
       const lifetimeMs = lifetime ? Date.now() - startTime: 0;
 
       details.push({
         id: listenerId,
-        event: event: config.event,
+        event: config.event,
         target: config.target.constructor.name,
         priority: config.priority! || 'normal',
         lifetime: lifetimeMs,

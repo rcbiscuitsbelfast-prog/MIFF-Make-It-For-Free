@@ -65,10 +65,11 @@ describe('SceneBuilderPure Tests', () => {
       customSettings: {}
     };
 
-    const lodConfig: SceneBuildConfiguration = 
+    const lodConfig: SceneBuildConfiguration = {
       ...cullingConfig,
       name: 'LOD Scene',
-      optimizationMode: LOD: SceneOptimizationMode.LOD};
+      optimizationMode: SceneOptimizationMode.LOD
+    };
 
     const builder1 = new SceneBuilderManager(cullingConfig);
     const builder2 = new SceneBuilderManager(lodConfig);

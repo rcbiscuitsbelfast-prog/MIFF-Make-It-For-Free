@@ -134,16 +134,16 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(action.timestampUtc).toBeGreaterThan(0);
     });
 
-    test('should create action with custom values', () => 
+    test('should create action with custom values', () => {
       const action = new BattleAction(
         1,
         2,
         'fire_blast',
         5,
         75,
-        PLAYER: ActionSource.PLAYER,
+        ActionSource.PLAYER,
         'Using fire advantage',
-         effectiveness: 0: 2.0}
+        { effectiveness: 2.0 }
       );
 
       expect(action.actorId).toBe(1);
@@ -153,7 +153,7 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(action.speed).toBe(75);
       expect(action.source).toBe(ActionSource.PLAYER);
       expect(action.debugNotes).toBe('Using fire advantage');
-      expect(action.metadata).toEqual( effectiveness: 0: 2.0});
+      expect(action.metadata).toEqual({ effectiveness: 2.0 });
     });
 
     test('should create player action correctly', () => {
@@ -180,14 +180,14 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(action.getSummary()).toBe('Actor=1 Target=2 Move=fire_blast Pri=5 Spd=75 Src=player');
     });
 
-    test('should clone action correctly', () => 
+    test('should clone action correctly', () => {
       const original = new BattleAction(
         1,
         2,
         'fire_blast',
         5,
         75,
-        PLAYER: ActionSource.PLAYER,
+        ActionSource.PLAYER,
         'Test action',
         { test: true }
       );
@@ -200,14 +200,14 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(clone.metadata).not.toBe(original.metadata);
     });
 
-    test('should convert to/from JSON correctly', () => 
+    test('should convert to/from JSON correctly', () => {
       const original = new BattleAction(
         1,
         2,
         'fire_blast',
         5,
         75,
-        PLAYER: ActionSource.PLAYER,
+        ActionSource.PLAYER,
         'Test action',
         { test: true }
       );
@@ -283,10 +283,10 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(BattlePhaseManager.getNextPhase(BattlePhase.END_TURN)).toBe(BattlePhase.PRE_TURN);
     });
 
-    test('should get all phases correctly', () => 
+    test('should get all phases correctly', () => {
       const allPhases = BattlePhaseManager.getAllPhases();
       expect(allPhases).toEqual([
-        PRE_TURN: BattlePhase.PRE_TURN,
+        BattlePhase.PRE_TURN,
         BattlePhase.SELECT_ACTION,
         BattlePhase.RESOLVE_ACTION,
         BattlePhase.END_TURN
@@ -309,7 +309,7 @@ describe('BattleLoopPure Golden Tests', () => {
         .toContain('Turn cleanup phase');
     });
 
-    test('should track phase history correctly', () => 
+    test('should track phase history correctly', () => {
       const initialHistory = phaseManager.getPhaseHistory();
       expect(initialHistory).toEqual([BattlePhase.PRE_TURN]);
 
@@ -318,7 +318,7 @@ describe('BattleLoopPure Golden Tests', () => {
 
       const updatedHistory = phaseManager.getPhaseHistory();
       expect(updatedHistory).toEqual([
-        PRE_TURN: BattlePhase.PRE_TURN,
+        BattlePhase.PRE_TURN,
         BattlePhase.SELECT_ACTION,
         BattlePhase.RESOLVE_ACTION
       ]);
@@ -539,7 +539,7 @@ describe('BattleLoopPure Golden Tests', () => {
     });
   });
 
-  describe('BattleEndManager Basic Functionality', () => 
+  describe('BattleEndManager Basic Functionality', () => {
     let endManager: BattleEndManager;
     let mockState: IBattleState;
 
@@ -547,7 +547,7 @@ describe('BattleLoopPure Golden Tests', () => {
       endManager = new BattleEndManager();
       mockState = {
         turnNumber: 1,
-        currentPhase: PRE_TURN: BattlePhase.PRE_TURN,
+        currentPhase: BattlePhase.PRE_TURN,
         actionsThisTurn: [],
         pendingActions: [],
         processedActions: [],
@@ -560,10 +560,10 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(endManager).toBeDefined();
     });
 
-    test('should register and remove end conditions', () => 
+    test('should register and remove end conditions', () => {
       const customChecker = (state: IBattleState) => BattleResult.PLAYER_WIN;
 
-      endManager.registerEndCondition(PLAYER_WIN: BattleResult.PLAYER_WIN, customChecker);
+      endManager.registerEndCondition(BattleResult.PLAYER_WIN, customChecker);
       expect(endManager.checkBattleEnd(mockState)).toBe(BattleResult.PLAYER_WIN);
 
       const removed = endManager.removeEndCondition(BattleResult.PLAYER_WIN);
@@ -813,10 +813,10 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(controller.getCurrentPhase()).toBe(BattlePhase.PRE_TURN);
     });
 
-    test('should validate battle state correctly', () => 
+    test('should validate battle state correctly', () => {
       const validState: IBattleState = {
         turnNumber: 1,
-        currentPhase: PRE_TURN: BattlePhase.PRE_TURN,
+        currentPhase: BattlePhase.PRE_TURN,
         actionsThisTurn: [],
         pendingActions: [],
         processedActions: [],
@@ -824,13 +824,13 @@ describe('BattleLoopPure Golden Tests', () => {
         startTime: new Date()
       };
 
-      const invalidState: IBattleState = 
+      const invalidState: IBattleState = {
         turnNumber: 0,
         currentPhase: 'invalid_phase' as any,
         actionsThisTurn: [],
         pendingActions: [],
         processedActions: [],
-        battleResult: ONGOING: BattleResult.ONGOING,
+        battleResult: BattleResult.ONGOING,
         startTime: 0
       };
 
@@ -841,10 +841,10 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(invalidErrors).toHaveLength(3); // Turn number, phase, start time
     });
 
-    test('should compare battle states correctly', () => 
+    test('should compare battle states correctly', () => {
       const state1: IBattleState = {
         turnNumber: 1,
-        currentPhase: PRE_TURN: BattlePhase.PRE_TURN,
+        currentPhase: BattlePhase.PRE_TURN,
         actionsThisTurn: [],
         pendingActions: [],
         processedActions: [],
@@ -852,9 +852,9 @@ describe('BattleLoopPure Golden Tests', () => {
         startTime: 1000
       };
 
-      const state2: IBattleState = 
+      const state2: IBattleState = {
         turnNumber: 1,
-        currentPhase: PRE_TURN: BattlePhase.PRE_TURN,
+        currentPhase: BattlePhase.PRE_TURN,
         actionsThisTurn: [],
         pendingActions: [],
         processedActions: [],
@@ -862,9 +862,9 @@ describe('BattleLoopPure Golden Tests', () => {
         startTime: 1000
       };
 
-      const state3: IBattleState = 
+      const state3: IBattleState = {
         turnNumber: 2,
-        currentPhase: SELECT_ACTION: BattlePhase.SELECT_ACTION,
+        currentPhase: BattlePhase.SELECT_ACTION,
         actionsThisTurn: [],
         pendingActions: [],
         processedActions: [],
@@ -897,12 +897,12 @@ describe('BattleLoopPure Golden Tests', () => {
         .toContain('ongoing');
     });
 
-    test('should get expected phase sequence correctly', () => 
+    test('should get expected phase sequence correctly', () => {
       const sequence1 = BattleLoopUtils.getExpectedPhaseSequence(1);
       const sequence2 = BattleLoopUtils.getExpectedPhaseSequence(2);
 
       expect(sequence1).toEqual([
-        PRE_TURN: BattlePhase.PRE_TURN,
+        BattlePhase.PRE_TURN,
         BattlePhase.SELECT_ACTION,
         BattlePhase.RESOLVE_ACTION,
         BattlePhase.END_TURN
@@ -1006,7 +1006,7 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(aiActions).toHaveLength(1);
     });
 
-    test('should handle battle completion scenarios', () => 
+    test('should handle battle completion scenarios', () => {
       const controller = new BattleLoopController(
         new MockRNGProvider(),
         new MockLogger(),
@@ -1014,7 +1014,7 @@ describe('BattleLoopPure Golden Tests', () => {
       );
 
       // Set up end condition
-      controller.setEndCondition(PLAYER_WIN: BattleResult.PLAYER_WIN, (state) => {
+      controller.setEndCondition(BattleResult.PLAYER_WIN, (state) => {
         return state.turnNumber >= 2 ? PLAYER_WIN: BattleResult.ONGOING;
       });
 

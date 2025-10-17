@@ -55,7 +55,7 @@ export function resolve(event: VisualItemEvent, opts: ResolveOptions = {}): Visu
 	}
 
 	// Unknown visual event: auto-resolve to avoid freeze
-	frameLog.push( frame: 0, note: `Unknown visual event: ${type: event.type} - auto-resolve` });
+	frameLog.push({ frame: 0, note: `Unknown visual event: ${event.type} - auto-resolve` });
 	return {
 		op: 'visual.item',
 		status: 'ok',

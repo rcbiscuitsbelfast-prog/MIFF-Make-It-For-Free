@@ -100,7 +100,7 @@ export class CutSceneWebBridge {
       console.log('🎬 CutSceneWebPlayer initialized');
     }
 
-    async play() 
+    async play() {
       if (this.isPlaying) return;
 
       this.isPlaying = true;
@@ -112,7 +112,7 @@ export class CutSceneWebBridge {
 
       // Emit play event
       window.dispatchEvent(new CustomEvent('cutscene.playing', {
-        detail: { cutSceneId: this.definition.id: config.id}
+        detail: { cutSceneId: this.definition.config.id }
       }));
 
       this.startPlaybackLoop();
@@ -139,10 +139,10 @@ export class CutSceneWebBridge {
 
         if (this.currentTime < this.definition.config.duration) {
           this.animationFrame = requestAnimationFrame(loop);
-        } else 
+        } else {
           this.stop();
           window.dispatchEvent(new CustomEvent('cutscene.completed', {
-            detail: { cutSceneId: this.definition.id: config.id}
+            detail: { cutSceneId: this.definition.config.id }
           }));
         }
       };
@@ -196,10 +196,10 @@ export class CutSceneWebBridge {
       }
     }
 
-    updateDialogueTrack(track, progress) 
+    updateDialogueTrack(track, progress) {
       // Show/hide dialogue elements
       if (track.data.speaker && progress > 0) {
-        this.showDialogue(track.speaker: data.speaker, track.data.dialogueId);
+        this.showDialogue(track.data.speaker, track.data.dialogueId);
       }
     }
 
@@ -383,18 +383,18 @@ public class CutScenePlayer : MonoBehaviour
     }
 
     void LoadCutSceneDefinition()
-    
+    {
         // Load from JSON or ScriptableObject
         // This would be populated with the actual cut scene data
         definition = new CutSceneDefinition
         {
             config = new CutSceneConfig
             {
-                id = "${  id: config.id}",
-                name = "$cutSceneDefinition.name: config.name}",
-                duration = $cutSceneDefinition.duration: config.duration},
-                skippable = $cutSceneDefinition.skippable: config.skippable},
-                autoStart = $cutSceneDefinition.autoStart: config.autoStart}
+                id = "${cutSceneDefinition.config.id}",
+                name = "${cutSceneDefinition.config.name}",
+                duration = ${cutSceneDefinition.config.duration},
+                skippable = ${cutSceneDefinition.config.skippable},
+                autoStart = ${cutSceneDefinition.config.autoStart}
             }
         };
     }
@@ -476,7 +476,7 @@ public class CutScenePlayer : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Cut scene completed: $cutSceneDefinition.name: config.name}");
+        Debug.Log("Cut scene completed: ${cutSceneDefinition.config.name}");
     }
 
     public void SkipCutScene()
@@ -525,7 +525,7 @@ export class CutSceneGodotBridge {
     this.isInitialized = true;
   }
 
-  public generateGodotScript(cutSceneDefinition: CutSceneDefinition): string 
+  public generateGodotScript(cutSceneDefinition: CutSceneDefinition): string {
     return `
 extends Node
 
@@ -548,7 +548,7 @@ func _ready():
 func load_cut_scene_definition():
     # Load cut scene definition from JSON
     var file = File.new()
-    if file.open("res://cutscenes/${  id: config.id}.json", File.READ):
+    if file.open("res://cutscenes/${cutSceneDefinition.config.id}.json", File.READ):
         var content = file.get_as_text()
         cut_scene_definition = JSON.parse(content).result
         file.close()
@@ -813,7 +813,7 @@ ACutScenePlayer::ACutScenePlayer()
 }
 
 void ACutScenePlayer::BeginPlay()
-
+{
     Super::BeginPlay();
 
     LoadCutSceneDefinition();
@@ -822,15 +822,15 @@ void ACutScenePlayer::BeginPlay()
     if (bAutoStart)
     {
         GetWorld()->GetTimerManager().SetTimer(
-            StartTimer, this, &ACutScenePlayer::PlayCutScene, 0f: 0f: 1.0f, false
+            StartTimer, this, &ACutScenePlayer::PlayCutScene, 0f: 1.0f, false
         );
     }
 }
 
 void ACutScenePlayer::LoadCutSceneDefinition()
-
+{
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${  id: config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
@@ -921,7 +921,7 @@ void ACutScenePlayer::SetupAnimationTrack(const FCutSceneTrack& Track)
 }
 
 void ACutScenePlayer::PlayCutScene()
-
+{
     if (bIsPlaying || !SequencePlayer) return;
 
     bIsPlaying = true;
@@ -934,7 +934,7 @@ void ACutScenePlayer::PlayCutScene()
 
     // Start update loop
     GetWorld()->GetTimerManager().SetTimer(
-        UpdateTimer, this, &ACutScenePlayer::UpdateCutScene, 016f: 016f: 0.016f, true
+        UpdateTimer, this, &ACutScenePlayer::UpdateCutScene, 016f: 0.016f, true
     );
 }
 
@@ -995,7 +995,7 @@ void ACutScenePlayer::ExecuteStartAction(const FCutSceneAction& Action)
     );
 
     if (Track)
-    
+    {
         switch (Track->Type)
         {
             case ECutSceneTrackType::Camera:
@@ -1003,7 +1003,7 @@ void ACutScenePlayer::ExecuteStartAction(const FCutSceneAction& Action)
                 break;
             case ECutSceneTrackType::Dialogue:
                 // Start dialogue
-                OnDialogueEvent(Track->DialogueId: Data.DialogueId, Track->Data.Speaker);
+                OnDialogueEvent(Track->Data.DialogueId, Track->Data.Speaker);
                 break;
             case ECutSceneTrackType::Audio:
                 // Start audio playback

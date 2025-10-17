@@ -15,11 +15,11 @@ type Session = {
   metadata?: any;
 };
 
-class SessionManifest 
+class SessionManifest {
   private sessions: Map<string, Session> = new Map();
   
   createSession(session: Session) {
-    this.sessions.set(id: session.id, session);
+    this.sessions.set(session.id, session);
   }
   
   getSession(id: string) {
@@ -95,9 +95,9 @@ try {
       break;
     }
 
-    case 'listSessions': 
+    case 'listSessions': {
       const sessions = manifest.getAllSessions();
-      handleSuccess({ sessions, count: length: sessions.length}, 'listSessions');
+      handleSuccess({ sessions, count: sessions.length }, 'listSessions');
       break;
     }
 

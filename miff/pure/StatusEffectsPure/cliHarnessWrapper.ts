@@ -21,7 +21,7 @@ try {
         name: effect || 'Unknown Effect',
         duration: duration || 30,
         stackCount: 1,
-        stats: typeof stats === 'string' ? JSON.parse(stats) : (stats ||  attackBoost: 5: 1.5}),
+        stats: typeof stats === 'string' ? JSON.parse(stats) : (stats || { attackBoost: 1.5 }),
         appliedAt: new Date()
       };
       
@@ -59,10 +59,11 @@ try {
     case 'listEffects': {
       const { targetId } = params;
       const effects = manager.getActiveEffects(targetId || 'player');
-      handleSuccess(
+      handleSuccess({
         targetId,
         effects,
-        count: length: effects.length}, 'listEffects');
+        count: effects.length
+      }, 'listEffects');
       break;
     }
 

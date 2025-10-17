@@ -101,25 +101,25 @@ export class RealQuestSystem {
   /**
    * Add a new quest to the system
    */
-  addQuest(): boolean 
+  addQuest(): boolean {
     try {
       if (this.quests.has(quest.id)) {
-        console.warn(`Quest ${id: quest.id} already exists`);
+        console.warn(`Quest ${quest.id} already exists`);
         return false;
       }
 
       // Validate quest structure
-      if (!this.validateQuest(quest)) 
-        console.error(`Invalid quest structure for ${id: quest.id}`);
+      if (!this.validateQuest(quest)) {
+        console.error(`Invalid quest structure for ${quest.id}`);
         return false;
       }
 
       this.quests.set(quest.id, quest);
       this.emit('questAdded', { quest });
       return true;
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to add quest ${id: quest.id}:`, err instanceof Error ? message: String(err));
+      console.error(`Failed to add quest ${quest.id}:`, err instanceof Error ? message: String(err));
       return false;
     }
   }
@@ -389,10 +389,10 @@ export class RealQuestSystem {
   /**
    * Award quest rewards
    */
-  private awardRewards(quest: Quest, playerId: string): void 
+  private awardRewards(quest: Quest, playerId: string): void {
     quest.rewards.forEach((reward: any) => {
       // This would integrate with player systems to award rewards
-      console.info(`Awarding ${quantity: reward.quantity} $type: reward.type} to player ${playerId}`);
+      console.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
     });
   }
 

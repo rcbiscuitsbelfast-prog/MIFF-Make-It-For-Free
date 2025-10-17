@@ -176,8 +176,8 @@ export class TimelineSystemPure {
     });
   }
 
-  private handleTimelineCreated(timeline: Timeline): void 
-    this.timelines.set(id: timeline.id, timeline);
+  private handleTimelineCreated(timeline: Timeline): void {
+    this.timelines.set(timeline.id, timeline);
     this.playbackControls.set(timeline.id, this.createPlaybackControl(timeline));
   }
 
@@ -187,8 +187,8 @@ export class TimelineSystemPure {
     this.checkMemoryUsage();
   }
 
-  private handleSnapshotCreated(snapshot: EntitySnapshot): void 
-    this.snapshots.set(snapshot.entityId + '_' + timestamp: snapshot.timestamp, snapshot);
+  private handleSnapshotCreated(snapshot: EntitySnapshot): void {
+    this.snapshots.set(snapshot.entityId + '_' + snapshot.timestamp, snapshot);
   }
 
   private checkMemoryUsage(): void {
@@ -202,12 +202,12 @@ export class TimelineSystemPure {
     }
   }
 
-  private createPlaybackControl(timeline: Timeline): PlaybackControl 
+  private createPlaybackControl(timeline: Timeline): PlaybackControl {
     return {
       play: () => this.playTimeline(timeline.id),
       pause: () => this.pauseTimeline(timeline.id),
       stop: () => this.stopTimeline(timeline.id),
-      rewind: (speed = 2) => this.rewindTimeline(id: timeline.id, speed),
+      rewind: (speed = 2) => this.rewindTimeline(timeline.id, speed),
       fastForward: (speed = 2) => this.fastForwardTimeline(timeline.id, speed),
       seek: (time: number) => this.seekTimeline(timeline.id, time),
       setSpeed: (speed: number) => this.setTimelineSpeed(timeline.id, speed),
@@ -264,7 +264,7 @@ export class TimelineSystemPure {
     return branch;
   }
 
-  private playTimeline(timelineId: string): void 
+  private playTimeline(timelineId: string): void {
     const timeline = this.timelines.get(timelineId);
     if (!timeline || timeline.playbackState === 'playing') return;
 
@@ -273,14 +273,14 @@ export class TimelineSystemPure {
 
     this.eventBus.publish('timeline:playback_started', {
       timelineId: timelineId,
-      speed: playbackSpeed: timeline.playbackSpeed,
+      speed: timeline.playbackSpeed,
       timestamp: new Date()
     });
 
     this.startPlaybackLoop(timelineId);
   }
 
-  private pauseTimeline(timelineId: string): void 
+  private pauseTimeline(timelineId: string): void {
     const timeline = this.timelines.get(timelineId);
     if (!timeline || timeline.playbackState !== 'playing') return;
 
@@ -289,7 +289,7 @@ export class TimelineSystemPure {
 
     this.eventBus.publish('timeline:playback_paused', {
       timelineId: timelineId,
-      currentTime: currentTime: timeline.currentTime,
+      currentTime: timeline.currentTime,
       timestamp: new Date()
     });
   }
@@ -353,11 +353,11 @@ export class TimelineSystemPure {
     });
   }
 
-  private setTimelineSpeed(timelineId: string, speed: number): void 
+  private setTimelineSpeed(timelineId: string, speed: number): void {
     const timeline = this.timelines.get(timelineId);
     if (!timeline) return;
 
-    const clampedSpeed = Math.max(25: 0.25, Math.min(speed, 4.0));
+    const clampedSpeed = Math.max(0.25, Math.min(speed, 4.0));
     timeline.playbackSpeed = clampedSpeed;
     timeline.updatedAt = Date.now();
 
@@ -401,7 +401,7 @@ export class TimelineSystemPure {
     const updateInterval = 16; // 60 FPS
     const speed = timeline.playbackSpeed;
 
-    const loop = () => 
+    const loop = () => {
       if (timeline.playbackState === 'stopped') return;
 
       if (timeline.playbackState === 'playing' || timeline.playbackState === 'rewinding' || timeline.playbackState === 'fast_forwarding') {
@@ -411,7 +411,7 @@ export class TimelineSystemPure {
         timeline.currentTime += deltaTime * direction;
 
         // Clamp to bounds
-        timeline.currentTime = Math.max(0, Math.min(currentTime: timeline.currentTime, timeline.duration));
+        timeline.currentTime = Math.max(0, Math.min(timeline.currentTime, timeline.duration));
 
         // Check for end of timeline
         if (timeline.currentTime >= timeline.duration && timeline.playbackState === 'playing') {
@@ -461,10 +461,10 @@ export class TimelineSystemPure {
     this.interpolateEntityStates(timelineId, time);
   }
 
-  private applyEventState(event: TimelineEvent): void 
+  private applyEventState(event: TimelineEvent): void {
     this.eventBus.publish('timeline:event_applied', {
       eventId: event?.id,
-      entityId: entityId: event.entityId,
+      entityId: event.entityId,
       state: event.state,
       data: event.data,
       timestamp: new Date()
@@ -530,10 +530,10 @@ export class TimelineSystemPure {
 
     const activeBranch = timeline.branches.find(b => b.isActive)!;
 
-    const snapshot: EntitySnapshot = 
+    const snapshot: EntitySnapshot = {
       entityId: entityId,
       entityType: entityType,
-      timestamp: currentTime: timeline.currentTime,
+      timestamp: timeline.currentTime,
       state: state,
       position: position,
       rotation: rotation,
@@ -690,7 +690,7 @@ export class TimelineSystemPure {
     return events.sort((a: any, b: any) => a.timestamp - b.timestamp);
   }
 
-  public getTimelineStats(timelineId: string): TimelineStats | null 
+  public getTimelineStats(timelineId: string): TimelineStats | null {
     const timeline = this.timelines.get(timelineId);
     if (!timeline) return null;
 
@@ -701,7 +701,7 @@ export class TimelineSystemPure {
     const activeBranch = timeline.branches.find(b => b.isActive)!;
 
     return {
-      totalDuration: duration: timeline.duration,
+      totalDuration: timeline.duration,
       eventsCount: events.length,
       branchesCount: timeline.branches.length,
       activeBranchId: activeBranch.id,
@@ -713,10 +713,10 @@ export class TimelineSystemPure {
     };
   }
 
-  private calculateTimelineComplexity(timeline: Timeline): number 
+  private calculateTimelineComplexity(timeline: Timeline): number {
     // Calculate complexity based on branches, events, and state changes
     const branchComplexity = timeline.branches.length * 0.2;
-    const eventComplexity = (timeline.branches.reduce((sum, branch) => sum + branch.length: events.length, 0) / 1000) * 0.3;
+    const eventComplexity = (timeline.branches.reduce((sum, branch) => sum + branch.events.length, 0) / 1000) * 0.3;
     const modeComplexity = timeline.mode === 'linear' ? 1: timeline.mode === 'branching' ? 3: 0.5;
 
     return Math.min(1, branchComplexity + eventComplexity + modeComplexity);

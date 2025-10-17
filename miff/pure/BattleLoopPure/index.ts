@@ -58,24 +58,24 @@ export class BattleAction {
     return new BattleAction({ actorId, targetId, moveId, priority, type: 'system' });
   }
 
-  generateSummary(): string 
-    return `${type: this.type} action: $actorId: this.actorId} -> $targetId: this.targetId} ($moveId: this.moveId})`;
+  generateSummary(): string {
+    return `${this.type} action: ${this.actorId} -> ${this.targetId} (${this.moveId})`;
   }
 
-  clone(): BattleAction 
+  clone(): BattleAction {
     return new BattleAction({
-      actorId: actorId: this.actorId,
+      actorId: this.actorId,
       targetId: this.targetId,
       moveId: this.moveId,
       priority: this.priority,
       type: this.type,
-      data:  ...data: this.data}
+      data: { ...this.data }
     });
   }
 
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      actorId: actorId: this.actorId,
+      actorId: this.actorId,
       targetId: this.targetId,
       moveId: this.moveId,
       priority: this.priority,
@@ -269,22 +269,22 @@ export class BattleLoopManager {
   /**
    * Get current battle state
    */
-  getState(): BattleState 
-    return { ...state: this.state};
+  getState(): BattleState {
+    return { ...this.state };
   }
 
   /**
    * Get battle configuration
    */
-  getConfig(): BattleLoopConfig 
-    return { ...config: this.config};
+  getConfig(): BattleLoopConfig {
+    return { ...this.config };
   }
 
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<BattleLoopConfig>): void 
-    this.config = { ...config: this.config, ...config };
+  updateConfig(config: Partial<BattleLoopConfig>): void {
+    this.config = { ...this.config, ...config };
   }
 }
 

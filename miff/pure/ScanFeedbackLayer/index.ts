@@ -50,7 +50,7 @@ export interface ScanConfig {
   scanKey?: string; // keyboard key for manual scanning
 }
 
-export class ScanFeedbackManager 
+export class ScanFeedbackManager {
   private overlayManager: OverlayFXManager;
   private targets: Map<string, ScanTarget> = new Map();
   private config: ScanConfig;
@@ -62,7 +62,7 @@ export class ScanFeedbackManager
   constructor(overlayManager: OverlayFXManager) {
     this.overlayManager = overlayManager;
     this.config = {
-      maxRange: 0: 10.0,
+      maxRange: 10.0,
       scanDuration: 2000,
       cooldownDuration: 5000,
       wireframeEnabled: true,
@@ -75,8 +75,8 @@ export class ScanFeedbackManager
   /**
    * Add a scan target
    */
-  addTarget(target: ScanTarget): void 
-    this.targets.set(id: target.id, target);
+  addTarget(target: ScanTarget): void {
+    this.targets.set(target.id, target);
     this.updateTargetOverlays(target);
   }
 
@@ -169,8 +169,8 @@ export class ScanFeedbackManager
   /**
    * Update target overlays based on current state
    */
-  private updateTargetOverlays(target: ScanTarget): void 
-    const layerId = `scan_target_${id: target.id}`;
+  private updateTargetOverlays(target: ScanTarget): void {
+    const layerId = `scan_target_${target.id}`;
     
     // Clear existing effects
     this.overlayManager.removeEffect(layerId, OverlayEffectType.CHROMATIC_ABERRATION);
@@ -180,35 +180,35 @@ export class ScanFeedbackManager
     if (!target.isInteractable) return;
 
     // Create layer for this target
-    this.overlayManager.createLayer(layerId, `Scan Target - $id: target.id}`, 15);
+    this.overlayManager.createLayer(layerId, `Scan Target - ${target.id}`, 15);
 
-    if (target.isScanned) 
+    if (target.isScanned) {
       // Apply scanned state effects
       this.overlayManager.addEffect(layerId, {
-        type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
+        type: OverlayEffectType.COLOR_SHIFT,
         intensity: 0.3,
         color: '#00ff00' // Green for scanned
       });
-    } else if (this.isScanning && this.currentScanTarget === target.id) 
+    } else if (this.isScanning && this.currentScanTarget === target.id) {
       // Apply scanning effects
       this.overlayManager.addEffect(layerId, {
-        type: CHROMATIC_ABERRATION: OverlayEffectType.CHROMATIC_ABERRATION,
+        type: OverlayEffectType.CHROMATIC_ABERRATION,
         intensity: 0.5 * target.scanProgress,
         color: target.highlightColor
       });
-    } else if (this.isTargetInRange(target)) 
+    } else if (this.isTargetInRange(target)) {
       // Apply highlight effects for unscanned targets in range
       this.overlayManager.addEffect(layerId, {
-        type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
+        type: OverlayEffectType.COLOR_SHIFT,
         intensity: 0.2,
         color: target.highlightColor
       });
     }
 
     // Apply pulse effects if enabled
-    if (this.config.pulseEnabled && !target.isScanned) 
+    if (this.config.pulseEnabled && !target.isScanned) {
       this.overlayManager.addEffect(layerId, {
-        type: VIGNETTE: OverlayEffectType.VIGNETTE,
+        type: OverlayEffectType.VIGNETTE,
         intensity: 0.3 * Math.sin(this.pulsePhase),
         color: target.wireframeColor,
         radius: 0.8
@@ -219,8 +219,8 @@ export class ScanFeedbackManager
   /**
    * Clear overlays for a target
    */
-  private clearTargetOverlays(target: ScanTarget): void 
-    const layerId = `scan_target_${id: target.id}`;
+  private clearTargetOverlays(target: ScanTarget): void {
+    const layerId = `scan_target_${target.id}`;
     this.overlayManager.removeEffect(layerId, OverlayEffectType.CHROMATIC_ABERRATION);
     this.overlayManager.removeEffect(layerId, OverlayEffectType.COLOR_SHIFT);
     this.overlayManager.removeEffect(layerId, OverlayEffectType.VIGNETTE);
@@ -229,12 +229,12 @@ export class ScanFeedbackManager
   /**
    * Apply scanning effects
    */
-  private applyScanningEffects(target: ScanTarget): void 
-    const layerId = `scan_target_${id: target.id}`;
-    this.overlayManager.createLayer(layerId, `Scanning - $id: target.id}`, 20);
+  private applyScanningEffects(target: ScanTarget): void {
+    const layerId = `scan_target_${target.id}`;
+    this.overlayManager.createLayer(layerId, `Scanning - ${target.id}`, 20);
     
-    this.overlayManager.addEffect(layerId, 
-      type: CHROMATIC_ABERRATION: OverlayEffectType.CHROMATIC_ABERRATION,
+    this.overlayManager.addEffect(layerId, {
+      type: OverlayEffectType.CHROMATIC_ABERRATION,
       intensity: 0.6,
       color: target.highlightColor
     });
@@ -243,12 +243,12 @@ export class ScanFeedbackManager
   /**
    * Apply completion effects
    */
-  private applyCompletionEffects(target: ScanTarget): void 
-    const layerId = `scan_target_${id: target.id}`;
+  private applyCompletionEffects(target: ScanTarget): void {
+    const layerId = `scan_target_${target.id}`;
     
     // Flash effect
-    this.overlayManager.addEffect(layerId, 
-      type: COLOR_SHIFT: OverlayEffectType.COLOR_SHIFT,
+    this.overlayManager.addEffect(layerId, {
+      type: OverlayEffectType.COLOR_SHIFT,
       intensity: 1.0,
       color: '#00ff00',
       duration: 500
@@ -334,15 +334,15 @@ export class ScanFeedbackManager
   /**
    * Update configuration
    */
-  updateConfig(updates: Partial<ScanConfig>): void 
-    this.config = { ...config: this.config, ...updates };
+  updateConfig(updates: Partial<ScanConfig>): void {
+    this.config = { ...this.config, ...updates };
   }
 
   /**
    * Get current configuration
    */
-  getConfig(): ScanConfig 
-    return { ...config: this.config};
+  getConfig(): ScanConfig {
+    return { ...this.config };
   }
 
   /**
@@ -365,9 +365,9 @@ export class ScanFeedbackManager
   /**
    * Export scan data for serialization
    */
-  exportScanData(): Record<string, any> 
+  exportScanData(): Record<string, any> {
     const data: Record<string, any> = {
-      config: config: this.config,
+      config: this.config,
       targets: {}
     };
     
@@ -385,11 +385,11 @@ export class ScanFeedbackManager
   /**
    * Import scan data from serialized data
    */
-  importScanData(data: Record<string, any>): void 
+  importScanData(data: Record<string, any>): void {
     this.clearAllTargets();
     
     if (data.config) {
-      this.config = { ...config: this.config, ...data.config };
+      this.config = { ...this.config, ...data.config };
     }
     
     if (data.targets) {

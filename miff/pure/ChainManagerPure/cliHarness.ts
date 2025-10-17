@@ -105,13 +105,13 @@ function main() {
     const chainManager = new ChainManager();
     let result: any;
 
-    switch (operation.op) 
+    switch (operation.op) {
       case 'createChain':
         result = chainManager.createChain(operation.chain);
         break;
 
       case 'updateProgress':
-        const progress = chainManager.updateProgress(chainId: operation.chainId, questId: operation.questId, operation.completed);
+        const progress = chainManager.updateProgress(operation.chainId, questId: operation.questId, operation.completed);
         result = {
           updated: progress !== null,
           progress: progress || null
@@ -149,9 +149,10 @@ function main() {
         break;
 
       case 'getChainsByQuest':
-        result = 
+        result = {
           chains: chainManager.getChainsByQuest(operation.questId),
-          questId: questId: operation.questId};
+          questId: operation.questId
+        };
         break;
 
       case 'validateAllChains':
@@ -207,7 +208,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: $op: operation.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
@@ -225,8 +226,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify(
-      op: op: operation.op,
+    console.log(JSON.stringify({
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

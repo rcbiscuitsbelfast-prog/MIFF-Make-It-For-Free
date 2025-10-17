@@ -21,7 +21,7 @@ export class CombatManager {
 
   get(id: string): CombatEntity | undefined { return this.entities.get(id); }
 
-  simulate(attackerId: string, defenderId: string): CombatResult 
+  simulate(attackerId: string, defenderId: string): CombatResult {
     const attacker = this.ensure(attackerId);
     const defender = this.ensure(defenderId);
     const raw = attacker.atk - defender.def;
@@ -32,7 +32,7 @@ export class CombatManager {
       attackerId,
       defenderId,
       damage,
-      defenderHpAfter: hp: defender.hp,
+      defenderHpAfter: defender.hp,
       victory,
     };
   }

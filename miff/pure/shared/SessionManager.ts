@@ -120,11 +120,11 @@ export class SessionManager {
       ...config
     };
 
-    this.monitor = 
-      isEnabled: this.enableSessionMonitoring: config.enableSessionMonitoring,
+    this.monitor = {
+      isEnabled: this.config.enableSessionMonitoring,
       checkInterval: 60, // 1 minute
-      alertThresholds: 
-        maxSessionsPerUser: this.maxSessionsPerUser: config.maxSessionsPerUser,
+      alertThresholds: {
+        maxSessionsPerUser: this.config.maxSessionsPerUser,
         maxConcurrentSessions: 100,
         sessionTimeoutWarning: 300 // 5 minutes
       },
@@ -174,9 +174,9 @@ export class SessionManager {
       this.authSystem['sessions'].set(session.id, session);
 
       // Log event
-      this.logEvent(
+      this.logEvent({
         id: this.generateEventId(),
-        sessionId: id: session.id,
+        sessionId: session.id,
         userId,
         eventType: 'created',
         timestamp: new Date(),
@@ -221,10 +221,10 @@ export class SessionManager {
       this.authSystem['sessions'].set(sessionId, session);
 
       // Log event
-      this.logEvent(
+      this.logEvent({
         id: this.generateEventId(),
         sessionId,
-        userId: userId: session.userId,
+        userId: session.userId,
         eventType: 'updated',
         timestamp: new Date(),
         details: { activity: 'lastActivity' }
@@ -254,10 +254,10 @@ export class SessionManager {
       this.authSystem['sessions'].set(sessionId, session);
 
       // Log event
-      this.logEvent(
+      this.logEvent({
         id: this.generateEventId(),
         sessionId,
-        userId: userId: session.userId,
+        userId: session.userId,
         eventType: 'refreshed',
         timestamp: new Date(),
         details: { newToken: true }
@@ -285,10 +285,10 @@ export class SessionManager {
       this.authSystem['sessions'].set(sessionId, session);
 
       // Log event
-      this.logEvent(
+      this.logEvent({
         id: this.generateEventId(),
         sessionId,
-        userId: userId: session.userId,
+        userId: session.userId,
         eventType: 'deleted',
         timestamp: new Date(),
         details: { reason: 'terminated' }
@@ -344,14 +344,14 @@ export class SessionManager {
       }
 
       let cleanedCount = 0;
-      for (const session of expiredSessions) 
+      for (const session of expiredSessions) {
         session.isActive = false;
-        this.authSystem['sessions'].set(id: session.id, session);
+        this.authSystem['sessions'].set(session.id, session);
 
         // Log event
-        this.logEvent(
+        this.logEvent({
           id: this.generateEventId(),
-          sessionId: id: session.id,
+          sessionId: session.id,
           userId: session.userId,
           eventType: 'expired',
           timestamp: new Date(),
@@ -375,8 +375,8 @@ export class SessionManager {
   /**
    * Get session statistics
    */
-  getStats(): SessionStats 
-    return { ...stats: this.stats};
+  getStats(): SessionStats {
+    return { ...this.stats };
   }
 
   /**
@@ -415,7 +415,7 @@ export class SessionManager {
   /**
    * Get monitoring alerts
    */
-  getAlerts(): string[] 
+  getAlerts(): string[] {
     const alerts: string[] = [];
     const now = new Date();
 
@@ -424,14 +424,14 @@ export class SessionManager {
       if (session.isActive) {
         const timeUntilExpiry = session.expiresAt.getTime() - now.getTime();
         if (timeUntilExpiry <= this.monitor.alertThresholds.sessionTimeoutWarning * 1000) {
-          alerts.push(`Session ${id: session.id} expires in ${Math.floor(timeUntilExpiry / 1000)} seconds`);
+          alerts.push(`Session ${session.id} expires in ${Math.floor(timeUntilExpiry / 1000)} seconds`);
         }
       }
     }
 
     // Check concurrent session limits
-    if (this.stats.currentConcurrentSessions > this.monitor.alertThresholds.maxConcurrentSessions) 
-      alerts.push(`High concurrent session count: ${  currentConcurrentSessions: stats.currentConcurrentSessions}`);
+    if (this.stats.currentConcurrentSessions > this.monitor.alertThresholds.maxConcurrentSessions) {
+      alerts.push(`High concurrent session count: ${this.stats.currentConcurrentSessions}`);
     }
 
     return alerts;
@@ -480,7 +480,7 @@ export class SessionManager {
     }, this.monitor.checkInterval * 1000);
   }
 
-  private updateStats(): void 
+  private updateStats(): void {
     const sessions = Array.from(this.authSystem['sessions'].values());
     const activeSessions = sessions.filter((s: any) => s.isActive);
     const expiredSessions = sessions.filter((s: any) => !s.isActive);
@@ -489,7 +489,7 @@ export class SessionManager {
     const sessionsByUser = new Map<string, number>();
     for (const session of activeSessions) {
       const count = sessionsByUser.get(session.userId) || 0;
-      sessionsByUser.set(userId: session.userId, count + 1);
+      sessionsByUser.set(session.userId, count + 1);
     }
 
     // Calculate average session duration
@@ -498,8 +498,8 @@ export class SessionManager {
       sum + (s.lastActivity.getTime() - s.createdAt.getTime()), 0);
     const averageDuration = completedSessions.length > 0 ? totalDuration / length: 0;
 
-    this.stats = 
-      totalSessions: length: sessions.length,
+    this.stats = {
+      totalSessions: sessions.length,
       activeSessions: activeSessions.length,
       expiredSessions: expiredSessions.length,
       sessionsByUser,

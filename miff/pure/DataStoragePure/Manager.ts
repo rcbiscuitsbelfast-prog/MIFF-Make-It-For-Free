@@ -432,7 +432,7 @@ export class DataStorageManager {
       this.storages.set(storage.id, storage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data storage system created',  storageId: id: storage.id, storageName: storage.name });
+      StructuredLogger.info('Data storage system created', { storageId: storage.id, storageName: storage.name });
       return storage;
 
     } catch (error: unknown) {
@@ -478,7 +478,7 @@ export class DataStorageManager {
       this.storages.set(storageId, updatedStorage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data storage system updated',  storageId, storageName: name: updatedStorage.name});
+      StructuredLogger.info('Data storage system updated', { storageId, storageName: updatedStorage.name });
       return updatedStorage;
 
     } catch (error: unknown) {
@@ -506,7 +506,7 @@ export class DataStorageManager {
       this.storages.delete(storageId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data storage system deleted',  storageId, storageName: name: storage.name});
+      StructuredLogger.info('Data storage system deleted', { storageId, storageName: storage.name });
       return true;
 
     } catch (error: unknown) {
@@ -572,7 +572,7 @@ export class DataStorageManager {
       storage.databases.push(database);
       this.updateAnalytics();
 
-      StructuredLogger.info('Database added to storage',  storageId, databaseId: id: database.id, databaseName: database.name });
+      StructuredLogger.info('Database added to storage', { storageId, databaseId: database.id, databaseName: database.name });
       return database;
 
     } catch (error: unknown) {
@@ -639,7 +639,7 @@ export class DataStorageManager {
       storage.connections.push(connection);
       this.updateAnalytics();
 
-      StructuredLogger.info('Connection added to storage',  storageId, connectionId: id: connection.id, connectionName: connection.name });
+      StructuredLogger.info('Connection added to storage', { storageId, connectionId: connection.id, connectionName: connection.name });
       return connection;
 
     } catch (error: unknown) {
@@ -704,8 +704,8 @@ export class DataStorageManager {
         return { success: false, error: 'Database not found' };
       }
 
-      if (database.status !== 'connected') 
-        StructuredLogger.warn('Database not connected' ?? 'unknown', { storageId, databaseId, status: status: database.status});
+      if (database.status !== 'connected') {
+        StructuredLogger.warn('Database not connected' ?? 'unknown', { storageId, databaseId, status: database.status });
         return { success: false, error: 'Database not connected' };
       }
 
@@ -716,19 +716,20 @@ export class DataStorageManager {
 
       this.updateAnalytics();
 
-      StructuredLogger.info('Query executed',  
+      StructuredLogger.info('Query executed', { 
         storageId, 
         databaseId, 
         query: query.substring(0, 100) + '...', 
         duration: endTime - startTime,
-        resultCount: length: result.length});
+        resultCount: result.length
+      });
 
       return { success: true, data: result };
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError();
-      return { success: false, error: message: error.message};
+      return { success: false, error: error.message };
     }
   }
 
@@ -788,7 +789,7 @@ export class DataStorageManager {
       database.tables.push(table);
       this.updateAnalytics();
 
-      StructuredLogger.info('Table created',  storageId, databaseId, tableId: id: table.id, tableName: table.name });
+      StructuredLogger.info('Table created', { storageId, databaseId, tableId: table.id, tableName: table.name });
       return table;
 
     } catch (error: unknown) {
@@ -878,15 +879,15 @@ export class DataStorageManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const storages = Array.from(this.storages.values());
-    const totalDatabases = storages.reduce((sum: any, s: any) => sum + s.length: databases.length, 0);
+    const totalDatabases = storages.reduce((sum: any, s: any) => sum + s.databases.length, 0);
     const totalConnections = storages.reduce((sum: any, s: any) => sum + s.connections.length, 0);
     const totalTables = storages.reduce((sum: any, s: any) => sum + s.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0), 0);
 
-    for (const storage of storages) 
+    for (const storage of storages) {
       storage.analytics = {
-        totalStorages: length: storages.length,
+        totalStorages: storages.length,
         activeStorages: storages.filter((s: any) => s.status === 'active').length,
         totalDatabases: storage.databases.length,
         totalConnections: storage.connections.length,
@@ -941,8 +942,8 @@ export class DataStorageManager {
       storagesByStatus[storage.status]++;
     }
 
-    return 
-      totalStorages: length: storages.length,
+    return {
+      totalStorages: storages.length,
       activeStorages: activeStorages.length,
       storagesByType,
       storagesByStatus,

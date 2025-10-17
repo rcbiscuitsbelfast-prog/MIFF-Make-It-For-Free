@@ -37,14 +37,14 @@ import * as readline from 'readline';
 import { AvatarAssetRegistryPure, AvatarAssetRegistry, VariantMap } from './index';
 import { AvatarStyle } from '../AvatarSystemPure/schema';
 
-class AvatarAssetRegistryCLI 
+class AvatarAssetRegistryCLI {
   private registry: AvatarAssetRegistry;
   private rl: readline.Interface;
 
   constructor() {
     this.registry = this.createSampleRegistryInternal();
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'AssetRegistry> '
     });
@@ -125,15 +125,15 @@ class AvatarAssetRegistryCLI
         { id: 'nonexistent', style: '3d' as AvatarStyle }
       ];
 
-      for (const test of testAssets) 
-        const resolved = AvatarAssetRegistryPure.resolveVariant(id: test.id, style: test.style, this.registry);
-        console.log(`   ${resolved ? '✅' : '❌'} $id: test.id} ($style: test.style}): ${resolved || 'Not found'}`);
+      for (const test of testAssets) {
+        const resolved = AvatarAssetRegistryPure.resolveVariant(test.id, style: test.style, this.registry);
+        console.log(`   ${resolved ? '✅' : '❌'} ${test.id} (${test.style}): ${resolved || 'Not found'}`);
       }
 
       // Test 3: Registry statistics
       console.log('3. Testing registry statistics...');
-      console.log(`   ✅ Total assets: $this.registry.length: items.length}`);
-      console.log(`   ✅ Registry version: $this.version: registry.version}`);
+      console.log(`   ✅ Total assets: ${this.registry.items.length}`);
+      console.log(`   ✅ Registry version: ${this.registry.version}`);
 
       // Test 4: Asset coverage
       console.log('4. Testing asset coverage...');
@@ -166,8 +166,8 @@ class AvatarAssetRegistryCLI
       } else {
         console.log(`❌ Asset not found: ${id} (${style})`);
         console.log('   Available assets:');
-        this.registry.items.forEach((item: any) => 
-          console.log(`   - ${id: item.id}`);
+        this.registry.items.forEach((item: any) => {
+          console.log(`   - ${item.id}`);
         });
       }
     } catch (error: unknown) {
@@ -176,14 +176,14 @@ class AvatarAssetRegistryCLI
     }
   }
 
-  private listAssets(): void 
+  private listAssets(): void {
     console.log('📦 Available Assets:');
-    console.log(`   Registry Version: ${  version: registry.version}`);
-    console.log(`   Total Assets: $this.registry.length: items.length}\n`);
+    console.log(`   Registry Version: ${this.registry.version}`);
+    console.log(`   Total Assets: ${this.registry.items.length}\n`);
 
     this.registry.items.forEach((item, index) => {
-      console.log(`${index + 1}. $id: item.id}`);
-      console.log(`   Remix Safety: $remixSafety: item.remixSafety}`);
+      console.log(`${index + 1}. ${item.id}`);
+      console.log(`   Remix Safety: ${item.remixSafety}`);
       console.log(`   Variants:`);
       
       Object.entries(item.variants).forEach(([style, url]) => {
@@ -229,19 +229,19 @@ class AvatarAssetRegistryCLI
       this.registry.items.push(newAsset);
       console.log(`✅ Asset "${id}" added to registry`);
       console.log(`   Variants: ${Object.keys(newAsset.variants).join(', ')}`);
-      console.log(`   Remix Safety: $remixSafety: newAsset.remixSafety}`);
+      console.log(`   Remix Safety: ${newAsset.remixSafety}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Asset addition failed:', err instanceof Error ? message: String(err));
     }
   }
 
-  private async createSampleRegistry(): Promise<void> 
+  private async createSampleRegistry(): Promise<void> {
     try {
       this.registry = this.createSampleRegistryInternal();
       console.log('✅ Sample registry created');
-      console.log(`   Assets: ${this.registry.length: items.length}`);
-      console.log(`   Version: $this.version: registry.version}`);
+      console.log(`   Assets: ${this.registry.items.length}`);
+      console.log(`   Version: ${this.registry.version}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Sample registry creation failed:', err instanceof Error ? message: String(err));
@@ -301,14 +301,14 @@ class AvatarAssetRegistryCLI
     return Math.round((assetsWithStyle / totalAssets) * 100);
   }
 
-  private async simulate(): Promise<void> 
+  private async simulate(): Promise<void> {
     console.log('🎭 Starting asset registry simulation...');
     
     try {
       // Show initial state
       console.log('1. Initial registry state...');
-      console.log(`   Assets: ${this.registry.length: items.length}`);
-      console.log(`   Version: $this.version: registry.version}`);
+      console.log(`   Assets: ${this.registry.items.length}`);
+      console.log(`   Version: ${this.registry.version}`);
 
       // Simulate asset resolution requests
       console.log('2. Simulating asset resolution requests...');
@@ -320,9 +320,9 @@ class AvatarAssetRegistryCLI
         { id: 'nonexistent', style: '3d' as AvatarStyle }
       ];
 
-      for (const testCase of testCases) 
-        const resolved = AvatarAssetRegistryPure.resolveVariant(id: testCase.id, style: testCase.style, this.registry);
-        console.log(`   ${resolved ? '✅' : '❌'} $id: testCase.id} ($style: testCase.style}): ${resolved || 'Not found'}`);
+      for (const testCase of testCases) {
+        const resolved = AvatarAssetRegistryPure.resolveVariant(testCase.id, style: testCase.style, this.registry);
+        console.log(`   ${resolved ? '✅' : '❌'} ${testCase.id} (${testCase.style}): ${resolved || 'Not found'}`);
       }
 
       // Simulate adding new assets
@@ -350,7 +350,7 @@ class AvatarAssetRegistryCLI
 
       // Show final state
       console.log('4. Final registry state...');
-      console.log(`   Assets: $this.registry.length: items.length}`);
+      console.log(`   Assets: ${this.registry.items.length}`);
       
       const styleCoverage = ['3d', '2d-side', 'overlay'].map((style: any) => 
         `${style}: ${this.getStyleCoverage(style as AvatarStyle)}%`

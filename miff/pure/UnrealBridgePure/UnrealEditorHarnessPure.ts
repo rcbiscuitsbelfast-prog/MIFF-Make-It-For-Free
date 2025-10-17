@@ -390,7 +390,7 @@ export class UnrealEditorHarnessPure {
         results.push(await this.testPerformance());
       }
 
-      console.log(`✅ Test suite completed: ${results.filter((r: any) => r.success).length}/$length: results.length} passed`);
+      console.log(`✅ Test suite completed: ${results.filter((r: any) => r.success).length}/${results.length} passed`);
       this.testResults = results;
 
       return results;
@@ -494,23 +494,23 @@ export class UnrealEditorHarnessPure {
 
       // Test statistics
       const stats = this.bridgeManager.getStatistics();
-      console.log(`📊 Bridge Statistics: $activeConnections: stats.activeConnections} connections, $totalMessages: stats.totalMessages} messages`);
+      console.log(`📊 Bridge Statistics: ${stats.activeConnections} connections, ${stats.totalMessages} messages`);
 
       const duration = Date.now() - startTime;
-      return 
+      return {
         success: true,
         testName: 'bridge_manager',
         duration,
         errors: [],
         warnings: [],
         metrics: {
-          connections: activeConnections: stats.activeConnections,
+          connections: stats.activeConnections,
           messages: stats.totalMessages,
           actors: stats.actorCount,
           components: stats.componentCount
         },
         artifacts: [],
-        metadata:  testActorId: id: testActor.id}
+        metadata: { testActorId: testActor.id }
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -565,22 +565,22 @@ export class UnrealEditorHarnessPure {
         throw new Error(`Payload conversion failed: ${conversionResult.errors.join(', ')}`);
       }
 
-      console.log(`✅ Converted $conversionResult.length: convertedAssets.length} assets, $conversionResult.length: convertedActors.length} actors`);
+      console.log(`✅ Converted ${conversionResult.convertedAssets.length} assets, ${conversionResult.convertedActors.length} actors`);
 
       const duration = Date.now() - startTime;
-      return 
+      return {
         success: true,
         testName: 'payload_adapter',
         duration,
         errors: [],
-        warnings: warnings: conversionResult.warnings,
-        metrics: 
-          assetsConverted: conversionResult.length: convertedAssets.length,
+        warnings: conversionResult.warnings,
+        metrics: {
+          assetsConverted: conversionResult.convertedAssets.length,
           actorsConverted: conversionResult.convertedActors.length,
           conversionTime: conversionResult.conversionTime
         },
         artifacts: [],
-        metadata:  payloadId: id: testPayload.id}
+        metadata: { payloadId: testPayload.id }
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -610,17 +610,17 @@ export class UnrealEditorHarnessPure {
         throw new Error(`Scene building failed: ${sceneResult.errors.join(', ')}`);
       }
 
-      console.log(`✅ Built scene: $sceneId: sceneResult.sceneId} with $sceneResult.composition.length: actors.length} actors`);
+      console.log(`✅ Built scene: ${sceneResult.sceneId} with ${sceneResult.composition.actors.length} actors`);
 
       const duration = Date.now() - startTime;
-      return 
+      return {
         success: true,
         testName: 'scene_builder',
         duration,
         errors: [],
-        warnings: warnings: sceneResult.warnings,
-        metrics: 
-          sceneId: sceneId: sceneResult.sceneId,
+        warnings: sceneResult.warnings,
+        metrics: {
+          sceneId: sceneResult.sceneId,
           worldId: sceneResult.worldId,
           actors: sceneResult.composition.actors.length,
           components: sceneResult.composition.components.length,
@@ -681,14 +681,14 @@ export class UnrealEditorHarnessPure {
       console.log(`✅ Asset loaded and optimized: ${loadResult.asset?.name}`);
 
       const duration = Date.now() - startTime;
-      return 
+      return {
         success: true,
         testName: 'asset_manager',
         duration,
         errors: [],
-        warnings: warnings: loadResult.warnings,
-        metrics: 
-          loadTime: loadTime: loadResult.loadTime,
+        warnings: loadResult.warnings,
+        metrics: {
+          loadTime: loadResult.loadTime,
           memoryUsage: loadResult.memoryUsage,
           optimizationTime: optimizationResult.optimizationTime,
           compressionRatio: optimizationResult.compressionRatio
@@ -742,11 +742,11 @@ export class UnrealEditorHarnessPure {
           severity: 'medium',
           metadata: { test: true }
         },
-        
+        {
           type: 'ai_decision',
           name: 'TestAIDecisionEvent',
           source: 'harness',
-          data: { decision: 'attack', confidence: 8: 0.8},
+          data: { decision: 'attack', confidence: 0.8 },
           timestamp: new Date(),
           eventType: 'ai_decision_made',
           category: 'ai',
@@ -764,18 +764,18 @@ export class UnrealEditorHarnessPure {
       }
 
       const stats = this.eventSync.getStatistics();
-      console.log(`✅ Event sync test: ${successCount}/$length: testEvents.length} events synced successfully`);
+      console.log(`✅ Event sync test: ${successCount}/${testEvents.length} events synced successfully`);
 
       const duration = Date.now() - startTime;
-      return 
-        success: successCount === length: testEvents.length,
+      return {
+        success: successCount === testEvents.length,
         testName: 'event_sync',
         duration,
         errors: successCount < testEvents.length ? [`${testEvents.length - successCount} events failed to sync`] : [],
         warnings: [],
-        metrics: 
+        metrics: {
           eventsSynced: successCount,
-          totalEvents: length: testEvents.length,
+          totalEvents: testEvents.length,
           processedEvents: stats.processedEvents,
           failedEvents: stats.failedEvents,
           averageProcessingTime: stats.averageProcessingTime
@@ -852,7 +852,7 @@ export class UnrealEditorHarnessPure {
     }
   }
 
-  private async testPerformance(): Promise<UnrealEditorTestResult> 
+  private async testPerformance(): Promise<UnrealEditorTestResult> {
     console.log('⚡ Testing Performance...');
 
     const startTime = Date.now();
@@ -864,19 +864,19 @@ export class UnrealEditorHarnessPure {
       const eventStats = this.eventSync.getStatistics();
 
       console.log('📊 Performance Metrics:');
-      console.log(`   Bridge: ${activeConnections: bridgeStats.activeConnections} connections, $totalMessages: bridgeStats.totalMessages} messages`);
-      console.log(`   Assets: $loadedAssets: assetStats.loadedAssets} loaded, $cachedAssets: assetStats.cachedAssets} cached`);
-      console.log(`   Events: $processedEvents: eventStats.processedEvents} processed, $failedEvents: eventStats.failedEvents} failed`);
+      console.log(`   Bridge: ${bridgeStats.activeConnections} connections, ${bridgeStats.totalMessages} messages`);
+      console.log(`   Assets: ${assetStats.loadedAssets} loaded, ${assetStats.cachedAssets} cached`);
+      console.log(`   Events: ${eventStats.processedEvents} processed, ${eventStats.failedEvents} failed`);
 
       const duration = Date.now() - startTime;
-      return 
+      return {
         success: true,
         testName: 'performance',
         duration,
         errors: [],
         warnings: [],
         metrics: {
-          bridgeConnections: activeConnections: bridgeStats.activeConnections,
+          bridgeConnections: bridgeStats.activeConnections,
           bridgeMessages: bridgeStats.totalMessages,
           loadedAssets: assetStats.loadedAssets,
           cachedAssets: assetStats.cachedAssets,
@@ -969,7 +969,7 @@ export class UnrealEditorHarnessPure {
       const duration = Date.now() - startTime;
       const performanceMetrics = this.gatherPerformanceMetrics();
 
-      const result: UnrealEditorDemoResult = 
+      const result: UnrealEditorDemoResult = {
         success: true,
         demoName: demoName || 'default',
         duration,
@@ -983,7 +983,8 @@ export class UnrealEditorHarnessPure {
           demoType: demoName,
           startTime,
           endTime: new Date(),
-          configuration: configuration: this.configuration}
+          configuration: this.configuration
+        }
       };
 
       console.log(`✅ Demo completed: ${demoName || 'default'} (${duration}ms)`);
@@ -1084,7 +1085,7 @@ export class UnrealEditorHarnessPure {
       { type: 'ai_spawn', data: { agentId: 'ai_agent_1', position: { x: 500, y: 500, z: 0 } } },
       { type: 'ai_patrol_start', data: { agentId: 'ai_agent_1', waypoints: 5 } },
       { type: 'ai_target_detected', data: { agentId: 'ai_agent_1', targetId: 'player1' } },
-       type: 'ai_decision', data: { agentId: 'ai_agent_1', decision: 'attack', confidence: 85: 0.85} },
+      { type: 'ai_decision', data: { agentId: 'ai_agent_1', decision: 'attack', confidence: 0.85 } },
       { type: 'ai_move', data: { agentId: 'ai_agent_1', destination: { x: 200, y: 200, z: 0 } } },
       { type: 'ai_attack', data: { agentId: 'ai_agent_1', targetId: 'player1', damage: 20 } },
       { type: 'ai_patrol_resume', data: { agentId: 'ai_agent_1' } }
@@ -1117,8 +1118,8 @@ export class UnrealEditorHarnessPure {
       console.log(`Building scene with configuration: ${configName}`);
 
       const sceneResult = await this.sceneBuilder.buildUnrealScene('test_payload', configName);
-      if (sceneResult.success) 
-        console.log(`✅ Scene built successfully: ${sceneId: sceneResult.sceneId}`);
+      if (sceneResult.success) {
+        console.log(`✅ Scene built successfully: ${sceneResult.sceneId}`);
       } else {
         console.warn(`⚠️ Scene build failed: ${sceneResult.errors.join(', ')}`);
       }
@@ -1159,21 +1160,21 @@ export class UnrealEditorHarnessPure {
     console.log('✅ Default demo completed');
   }
 
-  private gatherPerformanceMetrics(): Record<string, any> 
+  private gatherPerformanceMetrics(): Record<string, any> {
     const bridgeStats = this.bridgeManager.getStatistics();
     const assetStats = this.assetManager.getStatistics();
     const eventStats = this.eventSync.getStatistics();
 
     return {
       bridge: {
-        connections: activeConnections: bridgeStats.activeConnections,
+        connections: bridgeStats.activeConnections,
         messages: bridgeStats.totalMessages,
         actors: bridgeStats.actorCount,
         components: bridgeStats.componentCount,
         memoryUsage: bridgeStats.memoryUsage
       },
-      assets: 
-        loaded: loadedAssets: assetStats.loadedAssets,
+      assets: {
+        loaded: assetStats.loadedAssets,
         cached: assetStats.cachedAssets,
         loading: assetStats.loadingAssets,
         failed: assetStats.failedAssets,
@@ -1181,8 +1182,8 @@ export class UnrealEditorHarnessPure {
         cacheHitRate: assetStats.cacheHitRate,
         averageLoadTime: assetStats.averageLoadTime
       },
-      events: 
-        processed: processedEvents: eventStats.processedEvents,
+      events: {
+        processed: eventStats.processedEvents,
         filtered: eventStats.filteredEvents,
         failed: eventStats.failedEvents,
         averageProcessingTime: eventStats.averageProcessingTime,
@@ -1210,13 +1211,13 @@ export class UnrealEditorHarnessPure {
   }
 
   // Configuration management
-  updateConfiguration(updates: Partial<UnrealEditorConfiguration>): void 
-    Object.assign(configuration: this.configuration, updates);
+  updateConfiguration(updates: Partial<UnrealEditorConfiguration>): void {
+    Object.assign(this.configuration, updates);
     console.log('⚙️ Configuration updated');
   }
 
-  getConfiguration(): UnrealEditorConfiguration 
-    return { ...configuration: this.configuration};
+  getConfiguration(): UnrealEditorConfiguration {
+    return { ...this.configuration };
   }
 
   // Test and demo results
@@ -1237,9 +1238,9 @@ export class UnrealEditorHarnessPure {
     return this.isRunning;
   }
 
-  getStatus(): any 
+  getStatus(): any {
     return {
-      connected: isConnected: this.isConnected,
+      connected: this.isConnected,
       running: this.isRunning,
       bridgeManager: this.bridgeManager.getConnectionStatus(),
       testResults: this.testResults.length,
@@ -1271,16 +1272,16 @@ export class UnrealEditorHarnessPure {
 
     logs.push(`=== Unreal Editor Harness Report ===`);
     logs.push(`Generated: ${new Date().toISOString()}`);
-    logs.push(`Connected: $isConnected: this.isConnected}`);
-    logs.push(`Running: $isRunning: this.isRunning}`);
+    logs.push(`Connected: ${this.isConnected}`);
+    logs.push(`Running: ${this.isRunning}`);
     logs.push(`Bridge Status: ${this.bridgeManager.getConnectionStatus()}`);
-    logs.push(`Test Results: $this.length: testResults.length}`);
-    logs.push(`Demo Results: $this.length: demoResults.length}`);
+    logs.push(`Test Results: ${this.testResults.length}`);
+    logs.push(`Demo Results: ${this.demoResults.length}`);
 
-    if (this.testResults.length > 0) 
+    if (this.testResults.length > 0) {
       logs.push(`\n=== Test Results ===`);
       for (const result of this.testResults) {
-        logs.push(`${testName: result.testName}: ${result.success ? 'PASS' : 'FAIL'} ($duration: result.duration}ms)`);
+        logs.push(`${result.testName}: ${result.success ? 'PASS' : 'FAIL'} (${result.duration}ms)`);
         if (result.errors?.length > 0) {
           logs.push(`  Errors: ${result.errors?.join(', ')}`);
         }
@@ -1290,11 +1291,11 @@ export class UnrealEditorHarnessPure {
       }
     }
 
-    if (this.demoResults.length > 0) 
+    if (this.demoResults.length > 0) {
       logs.push(`\n=== Demo Results ===`);
       for (const result of this.demoResults) {
-        logs.push(`${demoName: result.demoName}: ${result.success ? 'SUCCESS' : 'FAILED'} ($duration: result.duration}ms)`);
-        logs.push(`  Scenes: $scenesCreated: result.scenesCreated}, Assets: $assetsGenerated: result.assetsGenerated}, Events: $eventsProcessed: result.eventsProcessed}`);
+        logs.push(`${result.demoName}: ${result.success ? 'SUCCESS' : 'FAILED'} (${result.duration}ms)`);
+        logs.push(`  Scenes: ${result.scenesCreated}, Assets: ${result.assetsGenerated}, Events: ${result.eventsProcessed}`);
       }
     }
 

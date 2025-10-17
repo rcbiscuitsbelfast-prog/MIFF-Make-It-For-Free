@@ -12,7 +12,7 @@ type Cmd =
   | { op: 'list' }
   | { op: 'dump' };
 
-function main() 
+function main() {
   const inputPath = process.argv[2] || 'CameraBridgePure/fixtures/camera.json';
   const commandsPath = process.argv[3] || '';
   
@@ -22,7 +22,7 @@ function main()
   const log: string[] = [];
 
   const cmds: CameraCommand[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
-    { op: 'follow', target: target: input.target, alpha: input.alpha ?? 1 } as CameraCommand
+    { op: 'follow', target: input.target, alpha: input.alpha ?? 1 } as CameraCommand
   ];
   const outputs: any[] = [];
 

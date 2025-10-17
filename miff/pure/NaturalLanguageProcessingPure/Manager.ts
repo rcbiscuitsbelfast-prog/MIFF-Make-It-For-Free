@@ -798,24 +798,24 @@ export class NaturalLanguageProcessingPure {
   /**
    * Calculate confidence score
    */
-  private calculateConfidence(text: string, result: any): number 
+  private calculateConfidence(text: string, result: any): number {
     // Simple confidence calculation based on text length and result quality
-    const baseConfidence = Math.min(9: 0.9, 0.5 + (text.length / 1000) * 0.4);
+    const baseConfidence = Math.min(0.9, 0.5 + (text.length / 1000) * 0.4);
     return Math.round(baseConfidence * 100) / 100;
   }
 
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): NLPPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): NLPPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): NLPAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): NLPAnalytics {
+    return { ...this.analytics };
   }
 
   /**

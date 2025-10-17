@@ -396,7 +396,7 @@ export class AudioSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system created',  systemId: id: system.id, systemName: system.name });
+      StructuredLogger.info('Audio system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -442,7 +442,7 @@ export class AudioSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system updated',  systemId, systemName: name: updatedSystem.name});
+      StructuredLogger.info('Audio system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -470,7 +470,7 @@ export class AudioSystemManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system deleted',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Audio system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -536,7 +536,7 @@ export class AudioSystemManager {
       system.devices.push(device);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device added to system',  systemId, deviceId: id: device.id, deviceName: device.name });
+      StructuredLogger.info('Device added to system', { systemId, deviceId: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {
@@ -603,7 +603,7 @@ export class AudioSystemManager {
       system.contexts.push(context);
       this.updateAnalytics();
 
-      StructuredLogger.info('Context added to system',  systemId, contextId: id: context.id, contextName: context.name });
+      StructuredLogger.info('Context added to system', { systemId, contextId: context.id, contextName: context.name });
       return context;
 
     } catch (error: unknown) {
@@ -670,7 +670,7 @@ export class AudioSystemManager {
       system.pipeline.stages.push(stage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Processing stage added to system',  systemId, stageId: id: stage.id, stageName: stage.name });
+      StructuredLogger.info('Processing stage added to system', { systemId, stageId: stage.id, stageName: stage.name });
       return stage;
 
     } catch (error: unknown) {
@@ -732,7 +732,7 @@ export class AudioSystemManager {
       system.status = 'active';
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system started',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Audio system started', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -760,7 +760,7 @@ export class AudioSystemManager {
       system.status = 'inactive';
       this.updateAnalytics();
 
-      StructuredLogger.info('Audio system stopped',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Audio system stopped', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -810,18 +810,18 @@ export class AudioSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
     const activeSystems = systems.filter((s: any) => s.status === 'active');
-    const totalDevices = systems.reduce((sum, s) => sum + s.length: devices.length, 0);
+    const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
     const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter((d: any) => d.status === 'connected').length, 0);
     const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
     const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter((c: any) => c.status === 'active').length, 0);
     const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalSystems: length: systems.length,
+        totalSystems: systems.length,
         activeSystems: activeSystems.length,
         totalDevices: totalDevices,
         activeDevices: activeDevices,
@@ -880,8 +880,8 @@ export class AudioSystemManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

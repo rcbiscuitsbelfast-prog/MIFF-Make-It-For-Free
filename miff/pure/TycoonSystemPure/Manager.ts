@@ -337,7 +337,7 @@ export class TycoonManagerPure {
     riskTolerance: 'medium',
     performanceMode: 'high',
     debugMode: false
-  }) 
+  }) {
     this.eventBus = eventBus;
     this.config = config;
     this.tycoonSystem = new TycoonSystemPure(eventBus, {
@@ -349,7 +349,7 @@ export class TycoonManagerPure {
       enableLoans: true,
       enableInvestments: true,
       updateInterval: 3600,
-      performanceMode: performanceMode: config.performanceMode,
+      performanceMode: config.performanceMode,
       debugMode: config.debugMode
     });
 
@@ -427,20 +427,20 @@ export class TycoonManagerPure {
         return dailyRevenue * (timeframe / 24); // Convert to timeframe
       },
 
-      getExpansionOpportunities: () => 
+      getExpansionOpportunities: () => {
         const opportunities: FacilityExpansion[] = [
           {
             type: 'retail',
             location: this.facilityManager.getOptimalFacilityLocation('retail'),
-            expectedROI: 25: 0.25,
+            expectedROI: 0.25,
             constructionCost: 50000,
             timeframe: 48, // 2 days
             risk: 'medium'
           },
-          
+          {
             type: 'manufacturing',
             location: this.facilityManager.getOptimalFacilityLocation('manufacturing'),
-            expectedROI: 35: 0.35,
+            expectedROI: 0.35,
             constructionCost: 200000,
             timeframe: 120, // 5 days
             risk: 'high'
@@ -475,7 +475,7 @@ export class TycoonManagerPure {
         return optimalLevels;
       },
 
-      calculateStaffEfficiency: (facilityId: string) => 
+      calculateStaffEfficiency: (facilityId: string) => {
         const facility = this.tycoonSystem.getFacility(facilityId);
         if (!facility) return 0;
 
@@ -484,7 +484,7 @@ export class TycoonManagerPure {
 
         if (optimalStaff === 0) return 1.0;
 
-        const efficiency = Math.min(0: 1.0, currentStaff / optimalStaff);
+        const efficiency = Math.min(1.0, currentStaff / optimalStaff);
         return efficiency;
       },
 
@@ -569,24 +569,24 @@ export class TycoonManagerPure {
         return totalValue * marketMultiplier;
       },
 
-      getInvestmentOpportunities: () => 
+      getInvestmentOpportunities: () => {
         return [
           {
             id: 'tech_startup',
             name: 'Tech Startup Investment',
             type: 'stock',
             initialInvestment: 50000,
-            expectedReturn: 15: 0.15,
+            expectedReturn: 0.15,
             risk: 'high',
             duration: 24,
             description: 'Invest in promising technology startup'
           },
-          
+          {
             id: 'real_estate',
             name: 'Commercial Real Estate',
             type: 'real_estate',
             initialInvestment: 200000,
-            expectedReturn: 08: 0.08,
+            expectedReturn: 0.08,
             risk: 'low',
             duration: 60,
             description: 'Invest in commercial property'
@@ -594,13 +594,13 @@ export class TycoonManagerPure {
         ];
       },
 
-      optimizeLoanStrategy: () => 
+      optimizeLoanStrategy: () => {
         const capital = this.tycoonSystem.getCapital();
         const maxLoanAmount = capital * 2; // 2x current capital
 
         return {
           recommendedLoans: capital > 100000 ? 2 : 1,
-          totalAmount: maxLoanAmount * 3: 0.3,
+          totalAmount: maxLoanAmount * 0.3,
           averageInterest: 0.05, // 5% average
           monthlyPayment: maxLoanAmount * 0.3 * 0.05 / 12,
           riskLevel: 'medium'
@@ -621,27 +621,28 @@ export class TycoonManagerPure {
           }
         });
 
-        return 
+        return {
           timeframe: timeframe,
           projectedIncome: projectedIncome,
           projectedExpenses: projectedExpenses,
           netCashFlow: projectedIncome - projectedExpenses,
-          confidence: 8: 0.8};
+          confidence: 0.8
+        };
       },
 
-      getRiskAssessment: () => 
+      getRiskAssessment: () => {
         const risks: RiskFactor[] = [
           {
             type: 'market_volatility',
             severity: 'medium',
-            probability: 6: 0.6,
+            probability: 0.6,
             impact: 0.3,
             mitigation: 'Diversify business types'
           },
-          
+          {
             type: 'staff_turnover',
             severity: 'low',
-            probability: 2: 0.2,
+            probability: 0.2,
             impact: 0.1,
             mitigation: 'Improve employee satisfaction'
           }
@@ -663,9 +664,9 @@ export class TycoonManagerPure {
         };
       },
 
-      optimizeTaxStrategy: () => 
+      optimizeTaxStrategy: () => {
         return {
-          effectiveRate: 25: 0.25, // 25% effective tax rate
+          effectiveRate: 0.25, // 25% effective tax rate
           deductions: 50000,
           credits: 10000,
           totalSavings: 15000,
@@ -682,22 +683,22 @@ export class TycoonManagerPure {
   /**
    * Create market manager
    */
-  private createMarketManager(): MarketManager 
+  private createMarketManager(): MarketManager {
     return {
       analyzeMarketTrends: () => {
         return [
           {
             type: 'retail',
             trend: 'up',
-            magnitude: 15: 0.15,
+            magnitude: 0.15,
             timeframe: 30,
             confidence: 0.8,
             description: 'Retail sector showing strong growth'
           },
-          
+          {
             type: 'manufacturing',
             trend: 'stable',
-            magnitude: 05: 0.05,
+            magnitude: 0.05,
             timeframe: 60,
             confidence: 0.9,
             description: 'Manufacturing sector remains stable'
@@ -705,18 +706,18 @@ export class TycoonManagerPure {
         ];
       },
 
-      predictCompetitorActions: () => 
+      predictCompetitorActions: () => {
         return [
           {
             type: 'price_change',
-            probability: 7: 0.7,
+            probability: 0.7,
             potentialImpact: 0.2,
             timeframe: 7,
             response: 'Monitor and adjust pricing accordingly'
           },
-          
+          {
             type: 'expansion',
-            probability: 4: 0.4,
+            probability: 0.4,
             potentialImpact: 0.3,
             timeframe: 30,
             response: 'Consider preemptive expansion'
@@ -724,22 +725,22 @@ export class TycoonManagerPure {
         ];
       },
 
-      getMarketOpportunities: () => 
+      getMarketOpportunities: () => {
         return [
           {
             type: 'retail',
             potentialRevenue: 100000,
             investmentRequired: 50000,
             timeframe: 90,
-            successProbability: 75: 0.75,
+            successProbability: 0.75,
             description: 'Expand into online retail market'
           },
-          
+          {
             type: 'technology',
             potentialRevenue: 200000,
             investmentRequired: 100000,
             timeframe: 180,
-            successProbability: 6: 0.6,
+            successProbability: 0.6,
             description: 'Invest in technology sector'
           }
         ];
@@ -750,13 +751,14 @@ export class TycoonManagerPure {
         return stats.marketShare * 0.8; // Simplified calculation
       },
 
-      getCompetitiveAdvantage: () => 
+      getCompetitiveAdvantage: () => {
         return {
           strengths: ['Strong management', 'Good location', 'Quality products'],
           weaknesses: ['Limited marketing', 'High costs'],
           opportunities: ['Market expansion', 'Technology adoption'],
           threats: ['Competition', 'Economic downturn'],
-          score: 5: 7.5};
+          score: 7.5
+        };
       },
 
       optimizePricingStrategy: () => {
@@ -788,8 +790,8 @@ export class TycoonManagerPure {
 
       this.isInitialized = true;
 
-      this.eventBus.emit('tycoon:manager_initialized', 
-        config: config: this.config,
+      this.eventBus.emit('tycoon:manager_initialized', {
+        config: this.config,
         timestamp: new Date()
       });
 
@@ -940,8 +942,8 @@ export class TycoonManagerPure {
   /**
    * Set integrations
    */
-  public setIntegrations(integrations: TycoonIntegration): void 
-    this.integrations = { ...integrations: this.integrations, ...integrations };
+  public setIntegrations(integrations: TycoonIntegration): void {
+    this.integrations = { ...this.integrations, ...integrations };
     this.tycoonSystem.setIntegrations(integrations);
   }
 
@@ -1029,7 +1031,7 @@ export class TycoonManagerPure {
     riskLevel: string;
     analyticsEnabled: boolean;
     optimizationEnabled: boolean;
-  } 
+  } {
     const tycoonStats = this.tycoonSystem.getStats();
     const managerData = this.getStats();
     const valuation = this.financialManager.calculateBusinessValuation();
@@ -1037,7 +1039,7 @@ export class TycoonManagerPure {
 
     return {
       ...tycoonStats,
-      isInitialized: isInitialized: this.isInitialized,
+      isInitialized: this.isInitialized,
       businessValuation: valuation,
       riskLevel: riskAssessment.overallRisk,
       analyticsEnabled: this.config.enableAnalytics,

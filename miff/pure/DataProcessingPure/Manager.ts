@@ -546,7 +546,7 @@ export class DataProcessingManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data processing system created',  systemId: id: system.id, systemName: system.name });
+      StructuredLogger.info('Data processing system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -592,7 +592,7 @@ export class DataProcessingManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data processing system updated',  systemId, systemName: name: updatedSystem.name});
+      StructuredLogger.info('Data processing system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -620,7 +620,7 @@ export class DataProcessingManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Data processing system deleted',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Data processing system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -686,7 +686,7 @@ export class DataProcessingManager {
       system.pipelines.push(pipeline);
       this.updateAnalytics();
 
-      StructuredLogger.info('Pipeline added to system',  systemId, pipelineId: id: pipeline.id, pipelineName: pipeline.name });
+      StructuredLogger.info('Pipeline added to system', { systemId, pipelineId: pipeline.id, pipelineName: pipeline.name });
       return pipeline;
 
     } catch (error: unknown) {
@@ -793,8 +793,8 @@ export class DataProcessingManager {
         return false;
       }
 
-      if (pipeline.status !== 'running') 
-        StructuredLogger.warn('Pipeline not running' ?? 'unknown', { systemId, pipelineId, status: status: pipeline.status});
+      if (pipeline.status !== 'running') {
+        StructuredLogger.warn('Pipeline not running' ?? 'unknown', { systemId, pipelineId, status: pipeline.status });
         return false;
       }
 
@@ -850,14 +850,14 @@ export class DataProcessingManager {
   /**
    * Execute pipeline step (internal method)
    */
-  private async executeStep(systemId: string, pipelineId: string, step: PipelineStep): Promise<void> 
+  private async executeStep(systemId: string, pipelineId: string, step: PipelineStep): Promise<void> {
     try {
       const system = this.systems.get(systemId);
       if (!system) return;
 
       const processor = system.processors.find(p => p.id === step.processor);
       if (!processor) {
-        throw new Error(`Processor not found: ${processor: step.processor}`);
+        throw new Error(`Processor not found: ${step.processor}`);
       }
 
       // Simulate step execution based on type
@@ -881,7 +881,7 @@ export class DataProcessingManager {
           await this.executeCustomStep(step, processor);
       }
 
-      StructuredLogger.debug('Pipeline step executed',  systemId, pipelineId, stepId: id: step.id, stepType: step.type });
+      StructuredLogger.debug('Pipeline step executed', { systemId, pipelineId, stepId: step.id, stepType: step.type });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -893,49 +893,49 @@ export class DataProcessingManager {
   /**
    * Execute input step (internal method)
    */
-  private async executeInputStep(step: PipelineStep, processor: DataProcessor): Promise<void> 
+  private async executeInputStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate input processing
-    StructuredLogger.debug('Executing input step', { stepId: id: step.id, processorId: processor.id });
+    StructuredLogger.debug('Executing input step', { stepId: step.id, processorId: processor.id });
   }
 
   /**
    * Execute transform step (internal method)
    */
-  private async executeTransformStep(step: PipelineStep, processor: DataProcessor): Promise<void> 
+  private async executeTransformStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate transformation processing
-    StructuredLogger.debug('Executing transform step', { stepId: id: step.id, processorId: processor.id });
+    StructuredLogger.debug('Executing transform step', { stepId: step.id, processorId: processor.id });
   }
 
   /**
    * Execute filter step (internal method)
    */
-  private async executeFilterStep(step: PipelineStep, processor: DataProcessor): Promise<void> 
+  private async executeFilterStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate filtering processing
-    StructuredLogger.debug('Executing filter step', { stepId: id: step.id, processorId: processor.id });
+    StructuredLogger.debug('Executing filter step', { stepId: step.id, processorId: processor.id });
   }
 
   /**
    * Execute aggregate step (internal method)
    */
-  private async executeAggregateStep(step: PipelineStep, processor: DataProcessor): Promise<void> 
+  private async executeAggregateStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate aggregation processing
-    StructuredLogger.debug('Executing aggregate step', { stepId: id: step.id, processorId: processor.id });
+    StructuredLogger.debug('Executing aggregate step', { stepId: step.id, processorId: processor.id });
   }
 
   /**
    * Execute output step (internal method)
    */
-  private async executeOutputStep(step: PipelineStep, processor: DataProcessor): Promise<void> 
+  private async executeOutputStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate output processing
-    StructuredLogger.debug('Executing output step', { stepId: id: step.id, processorId: processor.id });
+    StructuredLogger.debug('Executing output step', { stepId: step.id, processorId: processor.id });
   }
 
   /**
    * Execute custom step (internal method)
    */
-  private async executeCustomStep(step: PipelineStep, processor: DataProcessor): Promise<void> 
+  private async executeCustomStep(step: PipelineStep, processor: DataProcessor): Promise<void> {
     // Simulate custom processing
-    StructuredLogger.debug('Executing custom step', { stepId: id: step.id, processorId: processor.id });
+    StructuredLogger.debug('Executing custom step', { stepId: step.id, processorId: processor.id });
   }
 
   /**
@@ -961,7 +961,7 @@ export class DataProcessingManager {
       system.processors.push(processor);
       this.updateAnalytics();
 
-      StructuredLogger.info('Processor added to system',  systemId, processorId: id: processor.id, processorName: processor.name });
+      StructuredLogger.info('Processor added to system', { systemId, processorId: processor.id, processorName: processor.name });
       return processor;
 
     } catch (error: unknown) {
@@ -994,7 +994,7 @@ export class DataProcessingManager {
       system.transformers.push(transformer);
       this.updateAnalytics();
 
-      StructuredLogger.info('Transformer added to system',  systemId, transformerId: id: transformer.id, transformerName: transformer.name });
+      StructuredLogger.info('Transformer added to system', { systemId, transformerId: transformer.id, transformerName: transformer.name });
       return transformer;
 
     } catch (error: unknown) {
@@ -1044,15 +1044,15 @@ export class DataProcessingManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalPipelines = systems.reduce((sum: any, s: any) => sum + s.length: pipelines.length, 0);
+    const totalPipelines = systems.reduce((sum: any, s: any) => sum + s.pipelines.length, 0);
     const totalProcessors = systems.reduce((sum: any, s: any) => sum + s.processors.length, 0);
     const totalTransformers = systems.reduce((sum: any, s: any) => sum + s.transformers.length, 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalSystems: length: systems.length,
+        totalSystems: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalPipelines: system.pipelines.length,
         totalProcessors: system.processors.length,
@@ -1106,8 +1106,8 @@ export class DataProcessingManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

@@ -23,12 +23,12 @@ function main() {
   const mgr = new CraftingManager();
 
   // Load recipes from recipes file
-  for (const recipe of obj.recipes) 
+  for (const recipe of obj.recipes) {
     // Convert simplified recipe to full Recipe object
     const fullRecipe: Recipe = {
-      id: id: recipe.id,
+      id: recipe.id,
       name: recipe.id.charAt(0).toUpperCase() + recipe.id.slice(1),
-      description: `A $id: recipe.id}`,
+      description: `A ${recipe.id}`,
       category: 'consumable' as any,
       inputs: recipe.inputs,
       outputs: recipe.outputs,
@@ -51,26 +51,26 @@ function main() {
     if (c.op === 'list') {
       const recipes = mgr.listRecipes({});
       outputs.push({ op: 'list', result: recipes.result?.map((r: any) => r.id) || [] });
-    } else if (c.op === 'simulate') 
-      const result = mgr.startCrafting(recipeId: c.recipeId, 'test_crafter', c.inventory);
-      if (result.status === 'ok' && result.result) 
-        const completeResult = mgr.completeCrafting(result.id: result.id, c.inventory);
-        outputs.push( op: 'simulate', result: { crafted: result: completeResult.result} });
+    } else if (c.op === 'simulate') {
+      const result = mgr.startCrafting(c.recipeId, 'test_crafter', c.inventory);
+      if (result.status === 'ok' && result.result) {
+        const completeResult = mgr.completeCrafting(result.result.id, c.inventory);
+        outputs.push({ op: 'simulate', result: { crafted: completeResult.result } });
       }
-    } else if (c.op === 'dump') 
+    } else if (c.op === 'dump') {
       const result = mgr.getRecipe(c.id);
       if (result.status === 'ok' && result.result) {
-        outputs.push({ op: 'dump', result: result: result.result});
+        outputs.push({ op: 'dump', result: result.result });
       }
-    } else if (c.op === 'create') 
+    } else if (c.op === 'create') {
       const result = mgr.createRecipe(c.recipe);
-      outputs.push({ op: 'create', id: c.id: recipe.id, status: result.status });
-    } else if (c.op === 'get') 
+      outputs.push({ op: 'create', id: c.recipe.id, status: result.status });
+    } else if (c.op === 'get') {
       const result = mgr.getRecipe(c.id);
-      outputs.push({ op: 'get', id: id: c.id, result: result.result });
-    } else if (c.op === 'start') 
-      const result = mgr.startCrafting(recipeId: c.recipeId, crafterId: c.crafterId, c.inventory);
-      outputs.push( op: 'start', recipeId: recipeId: c.recipeId, sessionId: result.result?.id, status: result.status });
+      outputs.push({ op: 'get', id: c.id, result: result.result });
+    } else if (c.op === 'start') {
+      const result = mgr.startCrafting(c.recipeId, crafterId: c.crafterId, c.inventory);
+      outputs.push({ op: 'start', recipeId: c.recipeId, sessionId: result.result?.id, status: result.status });
     }
   }
 

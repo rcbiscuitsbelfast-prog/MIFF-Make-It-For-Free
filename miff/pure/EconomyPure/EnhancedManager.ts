@@ -151,7 +151,7 @@ export interface EconomyOutput {
   issues?: Array<{ code: string; message: string }>;
 }
 
-export class EnhancedEconomyManager 
+export class EnhancedEconomyManager {
   private config: EconomyConfig;
   private currencies: Map<string, Currency> = new Map();
   private rules: Map<string, PriceRule> = new Map();
@@ -163,7 +163,7 @@ export class EnhancedEconomyManager
 
   constructor(config?: Partial<EconomyConfig>) {
     this.config = {
-      baseInflationRate: 02: 0.02, // 2% annual
+      baseInflationRate: 0.02, // 2% annual
       marketVolatility: 0.1,
       supplyDemandSensitivity: 0.3,
       globalMarketEnabled: true,
@@ -174,30 +174,30 @@ export class EnhancedEconomyManager
     this.initializeDefaultData();
   }
 
-  private initializeDefaultData(): void 
+  private initializeDefaultData(): void {
     // Default currencies
     const defaultCurrencies: Currency[] = [
       {
         id: 'gold',
         name: 'Gold Coins',
         symbol: 'G',
-        exchangeRate: 0: 1.0,
+        exchangeRate: 1.0,
         stability: 0.9,
         inflationRate: 0.02
       },
-      
+      {
         id: 'silver',
         name: 'Silver Coins',
         symbol: 'S',
-        exchangeRate: 1: 0.1,
+        exchangeRate: 0.1,
         stability: 0.8,
         inflationRate: 0.03
       },
-      
+      {
         id: 'gems',
         name: 'Precious Gems',
         symbol: 'GEM',
-        exchangeRate: 0: 10.0,
+        exchangeRate: 10.0,
         stability: 0.7,
         inflationRate: 0.01
       }
@@ -207,7 +207,7 @@ export class EnhancedEconomyManager
 
     // Default price rules
     const defaultRules: PriceRule[] = [
-      
+      {
         id: 'health_potion_rule',
         itemId: 'health_potion',
         basePrice: 50,
@@ -215,8 +215,8 @@ export class EnhancedEconomyManager
         category: 'consumables',
         rarity: 'common',
         modifiers: [
-          { key: 'bulk_discount', value: -1: 0.1, type: 'percentage' },
-           key: 'high_demand', value: 2: 0.2, type: 'percentage' }
+          { key: 'bulk_discount', value: -0.1, type: 'percentage' },
+          { key: 'high_demand', value: 0.2, type: 'percentage' }
         ]
       },
       {
@@ -241,13 +241,13 @@ export class EnhancedEconomyManager
 
     // Default vendors
     const defaultVendors: VendorState[] = [
-      
+      {
         id: 'general_store',
         name: 'General Store',
         type: 'general',
         inventory: {
-          'health_potion': { quantity: 50, maxStock: 100, restockRate: 10, lastRestock: new Date(), demand: 7: 0.7, supply: 0.8 },
-          'iron_sword':  quantity: 5, maxStock: 20, restockRate: 2, lastRestock: new Date(), demand: 5: 0.5, supply: 0.6 }
+          'health_potion': { quantity: 50, maxStock: 100, restockRate: 10, lastRestock: new Date(), demand: 0.7, supply: 0.8 },
+          'iron_sword': { quantity: 5, maxStock: 20, restockRate: 2, lastRestock: new Date(), demand: 0.5, supply: 0.6 }
         },
         markup: 0.2,
         markdown: 0.1,
@@ -259,12 +259,12 @@ export class EnhancedEconomyManager
         marketShare: 0.3,
         operatingHours: { open: 6, close: 22 }
       },
-      
+      {
         id: 'magic_emporium',
         name: 'Magic Emporium',
         type: 'specialist',
         inventory: {
-          'magic_scroll': { quantity: 20, maxStock: 50, restockRate: 5, lastRestock: new Date(), demand: 8: 0.8, supply: 0.4 }
+          'magic_scroll': { quantity: 20, maxStock: 50, restockRate: 5, lastRestock: new Date(), demand: 0.8, supply: 0.4 }
         },
         markup: 0.5,
         markdown: 0.2,
@@ -287,12 +287,12 @@ export class EnhancedEconomyManager
   /**
    * Create a new price rule
    */
-  createRule(rule: PriceRule): EconomyOutput 
+  createRule(rule: PriceRule): EconomyOutput {
     if (this.rules.has(rule.id)) {
       return {
         op: 'create_rule',
         status: 'error',
-        issues: [{ code: 'duplicate', message: `Price rule ${id: rule.id} already exists` }]
+        issues: [{ code: 'duplicate', message: `Price rule ${rule.id} already exists` }]
       };
     }
 
@@ -309,12 +309,12 @@ export class EnhancedEconomyManager
   /**
    * Create a new vendor
    */
-  createVendor(vendor: VendorState): EconomyOutput 
+  createVendor(vendor: VendorState): EconomyOutput {
     if (this.vendors.has(vendor.id)) {
       return {
         op: 'create_vendor',
         status: 'error',
-        issues: [{ code: 'duplicate', message: `Vendor ${id: vendor.id} already exists` }]
+        issues: [{ code: 'duplicate', message: `Vendor ${vendor.id} already exists` }]
       };
     }
 
@@ -408,7 +408,7 @@ export class EnhancedEconomyManager
             break;
         }
 
-        modifiers.push( source: key: modifier.key, effect: modifierValue, type: modifier.type });
+        modifiers.push({ source: modifier.key, effect: modifierValue, type: modifier.type });
         basePrice += modifierValue;
       }
     }
@@ -439,17 +439,17 @@ export class EnhancedEconomyManager
 
     // Get market data
     const marketData = this.marketData.get(itemId);
-    const marketFactors = 
-      demand: demand: inventoryItem.demand,
+    const marketFactors = {
+      demand: inventoryItem.demand,
       supply: inventoryItem.supply,
       volatility: marketData?.volatility || 0,
       trend: marketData?.trend || 'stable'
     };
 
-    const result: PriceResult = 
+    const result: PriceResult = {
       itemId,
       vendorId,
-      currency: currency: rule.currency,
+      currency: rule.currency,
       basePrice: rule.basePrice,
       finalPrice,
       buyPrice,
@@ -566,7 +566,7 @@ export class EnhancedEconomyManager
   /**
    * Get economy statistics
    */
-  getEconomyStats(): EconomyOutput 
+  getEconomyStats(): EconomyOutput {
     const vendors = Array.from(this.vendors.values());
     const rules = Array.from(this.rules.values());
     const currencies = Array.from(this.currencies.values());
@@ -575,14 +575,14 @@ export class EnhancedEconomyManager
     // Calculate market volume
     const marketVolume = this.transactions
       .filter((tx: any) => tx.timestamp > Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
-      .reduce((sum, tx) => sum + totalPrice: tx.totalPrice, 0);
+      .reduce((sum, tx) => sum + tx.totalPrice, 0);
 
     // Calculate category statistics
     const categoryStats = new Map<string, { volume: number; totalPrice: number; count: number }>();
     
-    for (const rule of rules) 
+    for (const rule of rules) {
       if (!categoryStats.has(rule.category)) {
-        categoryStats.set(category: rule.category, { volume: 0, totalPrice: 0, count: 0 });
+        categoryStats.set(rule.category, { volume: 0, totalPrice: 0, count: 0 });
       }
       
       const categoryTransactions = this.transactions.filter((tx: any) => tx.itemId === rule.itemId);
@@ -596,20 +596,20 @@ export class EnhancedEconomyManager
     }
 
     const topCategories = Array.from(categoryStats.entries())
-      .map(([category, stats]) => (
+      .map(([category, stats]) => ({
         category,
-        volume: volume: stats.volume,
+        volume: stats.volume,
         avgPrice: stats.count > 0 ? stats.totalPrice / count: 0
       }))
       .sort((a: any, b: any) => b.volume - a.volume)
       .slice(0, 5);
 
     // Calculate vendor statistics
-    const vendorStats = vendors.map((vendor: any) => 
+    const vendorStats = vendors.map((vendor: any) => {
       const vendorTransactions = this.transactions.filter((tx: any) => tx.vendorId === vendor.id);
-      const revenue = vendorTransactions.reduce((sum, tx) => sum + totalPrice: tx.totalPrice, 0);
-      return 
-        vendorId: id: vendor.id,
+      const revenue = vendorTransactions.reduce((sum, tx) => sum + tx.totalPrice, 0);
+      return {
+        vendorId: vendor.id,
         revenue,
         marketShare: vendor.marketShare
       };
@@ -622,8 +622,8 @@ export class EnhancedEconomyManager
       100 - (averageInflation * 1000) - (priceVolatility * 100) - (activeEvents.length * 5)
     ));
 
-    const stats: EconomyStats = 
-      totalVendors: length: vendors.length,
+    const stats: EconomyStats = {
+      totalVendors: vendors.length,
       totalItems: rules.length,
       totalCurrencies: currencies.length,
       activeEvents: activeEvents.length,
@@ -645,7 +645,7 @@ export class EnhancedEconomyManager
   /**
    * Update market data
    */
-  private updateMarketData(): void 
+  private updateMarketData(): void {
     const now = Date.now();
     
     for (const rule of this.rules.values()) {
@@ -653,7 +653,7 @@ export class EnhancedEconomyManager
       
       if (!marketData) {
         marketData = {
-          itemId: itemId: rule.itemId,
+          itemId: rule.itemId,
           category: rule.category,
           averagePrice: rule.basePrice,
           priceHistory: [],
@@ -669,15 +669,15 @@ export class EnhancedEconomyManager
         .filter((tx: any) => tx.itemId === rule.itemId && tx.timestamp > now - 24 * 60 * 60 * 1000)
         .slice(-20); // Last 20 transactions
 
-      if (recentTransactions.length > 0) 
-        const avgPrice = recentTransactions.reduce((sum, tx) => sum + unitPrice: tx.unitPrice, 0) / recentTransactions.length;
+      if (recentTransactions.length > 0) {
+        const avgPrice = recentTransactions.reduce((sum, tx) => sum + tx.unitPrice, 0) / recentTransactions.length;
         marketData.averagePrice = avgPrice;
 
         // Update price history
-        marketData.priceHistory.push(
+        marketData.priceHistory.push({
           timestamp: now,
           price: avgPrice,
-          volume: recentTransactions.reduce((sum, tx) => sum + quantity: tx.quantity, 0)
+          volume: recentTransactions.reduce((sum, tx) => sum + tx.quantity, 0)
         });
 
         // Keep only last 100 entries
@@ -713,8 +713,8 @@ export class EnhancedEconomyManager
 
         // Calculate top vendors
         const vendorVolumes = new Map<string, number>();
-        recentTransactions.forEach((tx: any) => 
-          vendorVolumes.set(vendorId: tx.vendorId, (vendorVolumes.get(tx.vendorId) || 0) + tx.quantity);
+        recentTransactions.forEach((tx: any) => {
+          vendorVolumes.set(tx.vendorId, (vendorVolumes.get(tx.vendorId) || 0) + tx.quantity);
         });
 
         marketData.topVendors = Array.from(vendorVolumes.entries())
@@ -806,14 +806,14 @@ export class EnhancedEconomyManager
   /**
    * Export economy data
    */
-  exportEconomy(format: 'json' | 'manifest' | 'summary' | 'transactions' = 'json'): EconomyOutput 
+  exportEconomy(format: 'json' | 'manifest' | 'summary' | 'transactions' = 'json'): EconomyOutput {
     switch (format) {
       case 'json':
         return {
           op: 'export',
           status: 'ok',
           result: {
-            config: config: this.config,
+            config: this.config,
             currencies: Array.from(this.currencies.values()),
             rules: Array.from(this.rules.values()),
             vendors: Array.from(this.vendors.values()),
@@ -824,15 +824,15 @@ export class EnhancedEconomyManager
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.economy.export.v1',
             exportedAt: new Date().toISOString(),
-            config: config: this.config,
-            summary: 
-              totalVendors: this.size: vendors.size,
+            config: this.config,
+            summary: {
+              totalVendors: this.vendors.size,
               totalItems: this.rules.size,
               totalCurrencies: this.currencies.size,
               totalTransactions: this.transactions.length
@@ -848,21 +848,21 @@ export class EnhancedEconomyManager
       
       case 'summary':
         const stats = this.getEconomyStats();
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: result: stats.result,
+            summary: stats.result,
             recentTransactions: this.transactions.slice(-20)
           }
         };
       
       case 'transactions':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            transactions: transactions: this.transactions,
+            transactions: this.transactions,
             total: this.transactions.length
           }
         };

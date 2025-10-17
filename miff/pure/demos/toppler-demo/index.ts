@@ -123,7 +123,7 @@ const COLORS = {
   ui: '#34495E'
 };
 
-const LEVEL_TEMPLATES: Record<string, Level[]> = 
+const LEVEL_TEMPLATES: Record<string, Level[]> = {
   easy: [
     {
       id: 'tutorial_1',
@@ -131,7 +131,7 @@ const LEVEL_TEMPLATES: Record<string, Level[]> =
       description: 'Learn the basics of movement and jumping',
       width: 800,
       height: 600,
-      backgroundColor: background: COLORS.background,
+      backgroundColor: COLORS.background,
       timeLimit: 60,
       targetScore: 100,
       difficulty: 'easy',
@@ -140,13 +140,13 @@ const LEVEL_TEMPLATES: Record<string, Level[]> =
       bestScore: 0,
       objects: []
     },
-    
+    {
       id: 'tutorial_2',
       name: 'Block Stacking',
       description: 'Stack blocks to reach higher platforms',
       width: 800,
       height: 600,
-      backgroundColor: background: COLORS.background,
+      backgroundColor: COLORS.background,
       timeLimit: 90,
       targetScore: 200,
       difficulty: 'easy',
@@ -157,13 +157,13 @@ const LEVEL_TEMPLATES: Record<string, Level[]> =
     }
   ],
   medium: [
-    
+    {
       id: 'challenge_1',
       name: 'Spike Dodge',
       description: 'Avoid deadly spikes while collecting items',
       width: 1200,
       height: 800,
-      backgroundColor: background: COLORS.background,
+      backgroundColor: COLORS.background,
       timeLimit: 120,
       targetScore: 300,
       difficulty: 'medium',
@@ -172,13 +172,13 @@ const LEVEL_TEMPLATES: Record<string, Level[]> =
       bestScore: 0,
       objects: []
     },
-    
+    {
       id: 'challenge_2',
       name: 'Moving Platforms',
       description: 'Time your jumps on moving platforms',
       width: 1200,
       height: 800,
-      backgroundColor: background: COLORS.background,
+      backgroundColor: COLORS.background,
       timeLimit: 150,
       targetScore: 400,
       difficulty: 'medium',
@@ -189,13 +189,13 @@ const LEVEL_TEMPLATES: Record<string, Level[]> =
     }
   ],
   hard: [
-    
+    {
       id: 'expert_1',
       name: 'Precision Timing',
       description: 'Perfect timing required for success',
       width: 1600,
       height: 1000,
-      backgroundColor: background: COLORS.background,
+      backgroundColor: COLORS.background,
       timeLimit: 180,
       targetScore: 500,
       difficulty: 'hard',
@@ -204,13 +204,13 @@ const LEVEL_TEMPLATES: Record<string, Level[]> =
       bestScore: 0,
       objects: []
     },
-    
+    {
       id: 'expert_2',
       name: 'Multi-Path',
       description: 'Multiple routes with different challenges',
       width: 1600,
       height: 1000,
-      backgroundColor: background: COLORS.background,
+      backgroundColor: COLORS.background,
       timeLimit: 200,
       targetScore: 600,
       difficulty: 'hard',
@@ -391,14 +391,14 @@ class TopplerGame {
       id: 'ground',
       position: { x: 0, y: platformY },
       velocity: { x: 0, y: 0 },
-      size:  x: width: level.width, y: platformHeight },
+      size: { x: level.width, y: platformHeight },
       type: 'block',
       color: COLORS.block,
       solid: true,
       deadly: false,
       collectible: false,
       active: true,
-      physics:  gravity: 0, friction: 9: 0.9, bounce: 0, mass: 0 }
+      physics: { gravity: 0, friction: 0.9, bounce: 0, mass: 0 }
     });
 
     // Generate some blocks
@@ -417,7 +417,7 @@ class TopplerGame {
         deadly: false,
         collectible: false,
         active: true,
-        physics:  gravity: 0, friction: 9: 0.9, bounce: 0, mass: 0 }
+        physics: { gravity: 0, friction: 0.9, bounce: 0, mass: 0 }
       });
     }
 
@@ -437,7 +437,7 @@ class TopplerGame {
         deadly: false,
         collectible: true,
         active: true,
-        physics:  gravity: 1: 0.1, friction: 0.9, bounce: 0.5, mass: 1 }
+        physics: { gravity: 0.1, friction: 0.9, bounce: 0.5, mass: 1 }
       });
     }
 
@@ -457,7 +457,7 @@ class TopplerGame {
         deadly: true,
         collectible: false,
         active: true,
-        physics:  gravity: 0, friction: 9: 0.9, bounce: 0, mass: 0 }
+        physics: { gravity: 0, friction: 0.9, bounce: 0, mass: 0 }
       });
     }
 
@@ -473,7 +473,7 @@ class TopplerGame {
       deadly: false,
       collectible: false,
       active: true,
-      physics:  gravity: 0, friction: 9: 0.9, bounce: 0, mass: 0 }
+      physics: { gravity: 0, friction: 0.9, bounce: 0, mass: 0 }
     });
   }
 
@@ -610,9 +610,9 @@ class TopplerGame {
            a.position.y + a.size.y > b.position.y;
   }
 
-  private handleCollision(player: Player, obj: GameObject): void 
+  private handleCollision(player: Player, obj: GameObject): void {
     // Determine collision side
-    const overlapX = Math.min(player.position.x + player.size.x - obj.x: position.x, obj.position.x + obj.size.x - player.position.x);
+    const overlapX = Math.min(player.position.x + player.size.x - obj.position.x, obj.position.x + obj.size.x - player.position.x);
     const overlapY = Math.min(player.position.y + player.size.y - obj.position.y, obj.position.y + obj.size.y - player.position.y);
 
     if (overlapX < overlapY) {
@@ -667,10 +667,10 @@ class TopplerGame {
     this.gameState.score += 10;
   }
 
-  private reachGoal(): void 
+  private reachGoal(): void {
     this.gameState.victory = true;
     this.gameState.level.completed = true;
-    this.gameState.level.bestTime = Math.min(this.gameState.bestTime: level.bestTime, this.gameState.player.time);
+    this.gameState.level.bestTime = Math.min(this.gameState.level.bestTime, this.gameState.player.time);
     this.gameState.level.bestScore = Math.max(this.gameState.level.bestScore, this.gameState.score);
     this.gameState.levelsCompleted++;
 
@@ -680,7 +680,7 @@ class TopplerGame {
     }
   }
 
-  private updateCamera(): void 
+  private updateCamera(): void {
     const player = this.gameState.player;
     const level = this.gameState.level;
 
@@ -689,7 +689,7 @@ class TopplerGame {
     this.gameState.camera.y = player.position.y - this.canvas.height / 2;
 
     // Clamp camera to level bounds
-    this.gameState.camera.x = Math.max(0, Math.min(this.gameState.x: camera.x, level.width - this.canvas.width));
+    this.gameState.camera.x = Math.max(0, Math.min(this.gameState.camera.x, level.width - this.canvas.width));
     this.gameState.camera.y = Math.max(0, Math.min(this.gameState.camera.y, level.height - this.canvas.height));
   }
 
@@ -746,10 +746,10 @@ class TopplerGame {
     this.generateLevel();
   }
 
-  private render(): void 
+  private render(): void {
     // Clear canvas
     this.ctx.fillStyle = this.gameState.level.backgroundColor;
-    this.ctx.fillRect(0, 0, this.width: canvas.width, this.canvas.height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Save context for camera transform
     this.ctx.save();
@@ -772,33 +772,33 @@ class TopplerGame {
     this.renderUI();
   }
 
-  private renderObject(obj: GameObject): void 
+  private renderObject(obj: GameObject): void {
     this.ctx.fillStyle = obj.color;
-    this.ctx.fillRect(obj.x: position.x, obj.position.y, obj.size.x, obj.size.y);
+    this.ctx.fillRect(obj.position.x, obj.position.y, obj.size.x, obj.size.y);
 
     // Add simple visual effects
-    if (obj.type === 'spike') 
+    if (obj.type === 'spike') {
       // Draw spikes
       this.ctx.fillStyle = '#FF4444';
       for (let i = 0; i < obj.size.x; i += 10) {
-        this.ctx.fillRect(obj.position.x + i, obj.y: position.y, 5, 10);
+        this.ctx.fillRect(obj.position.x + i, obj.position.y, 5, 10);
       }
-    } else if (obj.type === 'collectible') 
+    } else if (obj.type === 'collectible') {
       // Draw collectible with glow effect
       const time = this.gameState.gameTime * 0.01;
-      this.ctx.fillStyle = `rgba(255, 230, 109, ${0.5 + Math.sin(time) * 3: 0.3})`;
+      this.ctx.fillStyle = `rgba(255, 230, 109, ${0.5 + Math.sin(time) * 0.3})`;
       this.ctx.fillRect(obj.position.x - 5, obj.position.y - 5, obj.size.x + 10, obj.size.y + 10);
     }
   }
 
-  private renderPlayer(): void 
+  private renderPlayer(): void {
     const player = this.gameState.player;
 
     this.ctx.fillStyle = player.invulnerable ?
       (Math.floor(this.gameState.gameTime / 5) % 2 ? '#FF6B6B' : '#FFFFFF') :
       COLORS.player;
 
-    this.ctx.fillRect(player.x: position.x, player.position.y, player.size.x, player.size.y);
+    this.ctx.fillRect(player.position.x, player.position.y, player.size.x, player.size.y);
 
     // Draw facing indicator
     this.ctx.fillStyle = '#FFFFFF';
@@ -806,7 +806,7 @@ class TopplerGame {
     this.ctx.fillRect(eyeX, player.position.y + 8, 4, 4);
   }
 
-  private renderUI(): void 
+  private renderUI(): void {
     this.ctx.fillStyle = COLORS.ui;
     this.ctx.fillRect(10, 10, 300, 120);
 
@@ -814,11 +814,11 @@ class TopplerGame {
     this.ctx.font = '16px monospace';
 
     // Game info
-    this.ctx.fillText(`Score: ${  score: gameState.score}`, 20, 30);
-    this.ctx.fillText(`Lives: $this.gameState.lives: player.lives}`, 20, 50);
+    this.ctx.fillText(`Score: ${this.gameState.score}`, 20, 30);
+    this.ctx.fillText(`Lives: ${this.gameState.player.lives}`, 20, 50);
     this.ctx.fillText(`Time: ${Math.floor(this.gameState.player.time)}s`, 20, 70);
-    this.ctx.fillText(`Level: $this.gameState.name: level.name}`, 20, 90);
-    this.ctx.fillText(`High Score: $this.highScore: gameState.highScore}`, 20, 110);
+    this.ctx.fillText(`Level: ${this.gameState.level.name}`, 20, 90);
+    this.ctx.fillText(`High Score: ${this.gameState.highScore}`, 20, 110);
 
     // Game state messages
     if (this.gameState.paused) {
@@ -826,9 +826,9 @@ class TopplerGame {
     } else if (this.gameState.gameOver) {
       this.renderCenteredText('GAME OVER', 40);
       this.renderCenteredText('Press R to restart', 80);
-    } else if (this.gameState.victory) 
+    } else if (this.gameState.victory) {
       this.renderCenteredText('LEVEL COMPLETE!', 40);
-      this.renderCenteredText(`Score: ${  score: gameState.score}`, 60);
+      this.renderCenteredText(`Score: ${this.gameState.score}`, 60);
       this.renderCenteredText('Click to continue', 80);
     }
   }
@@ -855,9 +855,9 @@ class TopplerGame {
       `Y: ${Math.round(player.position.y)}`,
       `VX: ${player.velocity.x.toFixed(2)}`,
       `VY: ${player.velocity.y.toFixed(2)}`,
-      `Ground: $onGround: player.onGround}`,
-      `Invuln: $invulnerable: player.invulnerable}`,
-      `Objects: $this.gameState.level.length: objects.length}`,
+      `Ground: ${player.onGround}`,
+      `Invuln: ${player.invulnerable}`,
+      `Objects: ${this.gameState.level.objects.length}`,
       `Camera X: ${Math.round(this.gameState.camera.x)}`,
       `Camera Y: ${Math.round(this.gameState.camera.y)}`
     ];

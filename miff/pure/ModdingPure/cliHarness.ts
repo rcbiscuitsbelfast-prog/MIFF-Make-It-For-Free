@@ -44,18 +44,18 @@ async function main() {
 
       case 'discoverPlugins':
         const plugins = await system.discovery.discoverPlugins();
-        result.result =  plugins, count: length: plugins.length};
+        result.result = { plugins, count: plugins.length };
         break;
 
       case 'loadPlugin':
         const pluginId = args[1];
-        if (pluginId) 
+        if (pluginId) {
           try {
             // Ensure discovery has run
             await system.discovery.discoverPlugins();
             const plugin = await system.discovery.loadPlugin(pluginId);
             if (plugin && plugin.status === 'loaded') {
-              result.result = { plugin, message: `Plugin loaded: ${  name: manifest.name}` };
+              result.result = { plugin, message: `Plugin loaded: ${plugin.manifest.name}` };
             } else {
               result.status = 'error';
               result.result = { error: `Failed to load plugin: ${pluginId}` };
@@ -83,7 +83,7 @@ async function main() {
 
       case 'getLoadedPlugins':
         const loadedPlugins = system.getLoadedPlugins();
-        result.result =  plugins: loadedPlugins, count: length: loadedPlugins.length};
+        result.result = { plugins: loadedPlugins, count: loadedPlugins.length };
         break;
 
       case 'getPlugin':
@@ -101,9 +101,9 @@ async function main() {
         const bundleId = args[1];
         const bundleName = args[2];
         const pluginIds = args[3] ? args[3].split(',') : [];
-        if (bundleId && bundleName) 
+        if (bundleId && bundleName) {
           const bundle = await system.createPluginBundle(pluginIds, bundleId, bundleName);
-          result.result = { bundle, message: `Bundle created: ${name: bundle.name}` };
+          result.result = { bundle, message: `Bundle created: ${bundle.name}` };
         } else {
           result.status = 'error';
           result.result = { error: 'Bundle ID and Name required' };
@@ -138,7 +138,7 @@ async function main() {
 
       case 'getExportTemplates':
         const templates = system.getExportTemplates();
-        result.result =  templates, count: length: templates.length};
+        result.result = { templates, count: templates.length };
         break;
 
       case 'generateReport':
@@ -191,7 +191,7 @@ async function main() {
   console.log = originalLog;
 }
 
-async function runDemo(system: ModdingSystem): Promise<any> 
+async function runDemo(system: ModdingSystem): Promise<any> {
   // Initialize the system
   await system.initialize();
   
@@ -216,7 +216,7 @@ async function runDemo(system: ModdingSystem): Promise<any>
       'Export template management',
       'System reporting and statistics'
     ],
-    plugins: length: plugins.length,
+    plugins: plugins.length,
     loadedPlugins: loadedPlugins.length,
     bundle,
     templates: templates.length,

@@ -49,7 +49,7 @@ interface SimulationConfig {
  * WeatherSystemPure CLI Harness
  * Provides comprehensive testing and interaction capabilities
  */
-export class WeatherSystemCLI 
+export class WeatherSystemCLI {
   private weatherSystem: WeatherSystemPure;
   private weatherManager: WeatherManagerPure;
   private eventBus: EventBus;
@@ -67,7 +67,7 @@ export class WeatherSystemCLI
   constructor(options: CLIOptions) {
     this.options = options;
     this.eventBus = new EventBus();
-    this.weatherSystem = new WeatherSystemPure(eventBus: this.eventBus, options.seed);
+    this.weatherSystem = new WeatherSystemPure(this.eventBus, options.seed);
     this.weatherManager = new WeatherManagerPure(this.eventBus, {
       performanceMode: options.performanceMode || 'high'
     });
@@ -87,10 +87,10 @@ export class WeatherSystemCLI
   /**
    * Setup event handlers for weather system
    */
-  private setupEventHandlers(): void 
+  private setupEventHandlers(): void {
     this.eventBus.on('weather:changed', (data) => {
       this.weatherChanges++;
-      this.log(`🌤️  Weather changed: ${  type: newWeather.type} ($data.intensity: newWeather.intensity})`);
+      this.log(`🌤️  Weather changed: ${data.newWeather.type} (${data.newWeather.intensity})`);
 
       if (this.options.verbose) {
         this.logDetailedWeather(data.newWeather);
@@ -103,8 +103,8 @@ export class WeatherSystemCLI
         ...data
       });
 
-      if (this.options.verbose) 
-        this.log(`📊 Performance: Cache=${cacheSize: data.cacheSize}, Mode=$performanceMode: data.performanceMode}`);
+      if (this.options.verbose) {
+        this.log(`📊 Performance: Cache=${data.cacheSize}, Mode=${data.performanceMode}`);
       }
     });
   }
@@ -126,9 +126,9 @@ export class WeatherSystemCLI
   /**
    * Setup readline interface for interactive mode
    */
-  private setupReadline(): void 
+  private setupReadline(): void {
     const rl = this.readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'Weather> '
     });
@@ -238,13 +238,13 @@ export class WeatherSystemCLI
   /**
    * Show current weather status
    */
-  private showStatus(): void 
+  private showStatus(): void {
     const weather = this.weatherSystem.getCurrentWeather();
     const effects = this.weatherSystem.getCurrentWeatherEffects();
     const stats = this.weatherSystem.getStats();
 
     this.log('\n=== WEATHER STATUS ===');
-    this.log(`🌤️  Current: ${type: weather.type} ($intensity: weather.intensity})`);
+    this.log(`🌤️  Current: ${weather.type} (${weather.intensity})`);
     this.log(`⏱️  Duration: ${Math.floor(weather.duration / 60)} minutes`);
     this.log(`📊 Effects:`);
     this.log(`   - Visibility: ${(effects.visibility * 100).toFixed(1)}%`);
@@ -254,9 +254,9 @@ export class WeatherSystemCLI
     this.log(`   - Wind Speed: ${effects.windSpeed.toFixed(1)} m/s`);
     this.log(`   - Precipitation: ${(effects.precipitation * 100).toFixed(1)}%`);
     this.log(`📈 Stats:`);
-    this.log(`   - Patterns: $activePatterns: stats.activePatterns}`);
-    this.log(`   - Performance: $performanceMode: stats.performanceMode}`);
-    this.log(`   - Cache Size: $cacheSize: stats.cacheSize}`);
+    this.log(`   - Patterns: ${stats.activePatterns}`);
+    this.log(`   - Performance: ${stats.performanceMode}`);
+    this.log(`   - Cache Size: ${stats.cacheSize}`);
     this.log('');
   }
 
@@ -269,7 +269,7 @@ export class WeatherSystemCLI
     this.log('\n=== 24-HOUR WEATHER FORECAST ===');
     forecast.slice(0, 8).forEach((weather, index) => { // Show next 8 hours
       const time = new Date(Date.now() + index * 3600000).toLocaleTimeString();
-      this.log(`${time}: $type: weather.type} ($intensity: weather.intensity}) - ${(weather.effects.visibility * 100).toFixed(0)}% visibility`);
+      this.log(`${time}: ${weather.type} (${weather.intensity}) - ${(weather.effects.visibility * 100).toFixed(0)}% visibility`);
     });
     this.log('');
   }
@@ -277,14 +277,14 @@ export class WeatherSystemCLI
   /**
    * List available weather patterns
    */
-  private listPatterns(): void 
+  private listPatterns(): void {
     const patterns = this.weatherSystem.getAllWeatherPatterns();
 
     this.log('\n=== AVAILABLE WEATHER PATTERNS ===');
     patterns.forEach((pattern: any) => {
-      this.log(`🌤️  ${name: pattern.name} ($id: pattern.id})`);
-      this.log(`   Description: $description: pattern.description}`);
-      this.log(`   Type: $baseType: pattern.baseType}`);
+      this.log(`🌤️  ${pattern.name} (${pattern.id})`);
+      this.log(`   Description: ${pattern.description}`);
+      this.log(`   Type: ${pattern.baseType}`);
       this.log(`   Intensities: ${pattern.possibleIntensities.join(', ')}`);
       this.log(`   Average Duration: ${Math.floor(pattern.averageDuration / 60)} minutes`);
       this.log('');
@@ -294,8 +294,8 @@ export class WeatherSystemCLI
   /**
    * Run simulation
    */
-  private runSimulation(): void 
-    this.log(`🚀 Starting weather simulation (${  duration: simulationConfig.duration}s)...`);
+  private runSimulation(): void {
+    this.log(`🚀 Starting weather simulation (${this.simulationConfig.duration}s)...`);
 
     this.startTime = Date.now();
     this.isRunning = true;
@@ -308,8 +308,8 @@ export class WeatherSystemCLI
       }
 
       const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
-      if (elapsed >= this.simulationConfig.duration) 
-        this.log(`✅ Simulation complete! ${weatherChanges: this.weatherChanges} weather changes observed.`);
+      if (elapsed >= this.simulationConfig.duration) {
+        this.log(`✅ Simulation complete! ${this.weatherChanges} weather changes observed.`);
         this.isRunning = false;
         clearInterval(interval);
         this.showStats();
@@ -335,32 +335,32 @@ export class WeatherSystemCLI
   /**
    * Show system statistics
    */
-  private showStats(): void 
+  private showStats(): void {
     const weather = this.weatherSystem.getCurrentWeather();
     const effects = this.weatherSystem.getCurrentWeatherEffects();
     const stats = this.weatherSystem.getStats();
     const managerStats = this.weatherManager.getStats();
 
     this.log('\n=== WEATHER SYSTEM STATISTICS ===');
-    this.log(`🌤️  Current Weather: ${type: weather.type} ($intensity: weather.intensity})`);
-    this.log(`📊 Performance Mode: $performanceMode: stats.performanceMode}`);
-    this.log(`🔄 Weather Changes: $weatherChanges: this.weatherChanges}`);
+    this.log(`🌤️  Current Weather: ${weather.type} (${weather.intensity})`);
+    this.log(`📊 Performance Mode: ${stats.performanceMode}`);
+    this.log(`🔄 Weather Changes: ${this.weatherChanges}`);
     this.log(`⏱️  System Uptime: ${Math.floor((Date.now() - this.startTime) / 1000)}s`);
-    this.log(`📈 Cache Efficiency: $cacheSize: stats.cacheSize} cached effects`);
+    this.log(`📈 Cache Efficiency: ${stats.cacheSize} cached effects`);
     this.log(`🎯 Manager Status: ${managerStats.isInitialized ? 'Initialized' : 'Not initialized'}`);
-    this.log(`📡 Event Listeners: $activeListeners: managerStats.activeListeners}`);
-    this.log(`🔮 Forecast Enabled: $forecastEnabled: managerStats.forecastEnabled}`);
-    this.log(`⚡ Effects Enabled: $effectsEnabled: managerStats.effectsEnabled}`);
+    this.log(`📡 Event Listeners: ${managerStats.activeListeners}`);
+    this.log(`🔮 Forecast Enabled: ${managerStats.forecastEnabled}`);
+    this.log(`⚡ Effects Enabled: ${managerStats.effectsEnabled}`);
     this.log('');
   }
 
   /**
    * Export simulation data
    */
-  private exportData(filename?: string): void 
+  private exportData(filename?: string): void {
     const data = {
       simulation: {
-        startTime: startTime: this.startTime,
+        startTime: this.startTime,
         duration: new Date() - this.startTime,
         weatherChanges: this.weatherChanges,
         config: this.simulationConfig
@@ -479,27 +479,27 @@ export class WeatherSystemCLI
   /**
    * Run automated tests
    */
-  private async runTests(): Promise<void> 
+  private async runTests(): Promise<void> {
     this.log('🧪 Running WeatherSystemPure tests...');
 
     const tests = [
-      { name: 'Basic Weather Change', test: testBasicWeatherChange: this.testBasicWeatherChange},
-       name: 'Weather Patterns', test: testWeatherPatterns: this.testWeatherPatterns},
-       name: 'Performance Metrics', test: testPerformanceMetrics: this.testPerformanceMetrics},
-       name: 'Forecast Accuracy', test: testForecastAccuracy: this.testForecastAccuracy}
+      { name: 'Basic Weather Change', test: this.testBasicWeatherChange },
+      { name: 'Weather Patterns', test: this.testWeatherPatterns },
+      { name: 'Performance Metrics', test: this.testPerformanceMetrics },
+      { name: 'Forecast Accuracy', test: this.testForecastAccuracy }
     ];
 
     let passed = 0;
     let failed = 0;
 
-    for (const test of tests) 
+    for (const test of tests) {
       try {
         await test.test();
-        this.log(`✅ ${name: test.name} - PASSED`);
+        this.log(`✅ ${test.name} - PASSED`);
         passed++;
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        this.log(`❌ ${name: test.name} - FAILED: ${error}`);
+        this.log(`❌ ${test.name} - FAILED: ${error}`);
         failed++;
       }
     }

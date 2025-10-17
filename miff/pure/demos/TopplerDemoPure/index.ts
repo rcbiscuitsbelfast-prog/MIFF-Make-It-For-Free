@@ -211,8 +211,8 @@ export class TopplerDemo {
         this.updatePhysics(deltaTime);
       },
 
-      addObject: (obj: PhysicsObject) => 
-        this.physicsEngine.objects.set(id: obj.id, obj);
+      addObject: (obj: PhysicsObject) => {
+        this.physicsEngine.objects.set(obj.id, obj);
       },
 
       removeObject: (id: string) => {
@@ -281,9 +281,9 @@ export class TopplerDemo {
       }
     ];
 
-    levels.forEach(levelData => 
+    levels.forEach(levelData => {
       const level = this.createLevelFromData(levelData);
-      this.state.world.levels.set(id: levelData.id, level);
+      this.state.world.levels.set(levelData.id, level);
     });
   }
 
@@ -453,9 +453,9 @@ export class TopplerDemo {
     ];
   }
 
-  private createLevelFromData(levelData: any): LevelData 
+  private createLevelFromData(levelData: any): LevelData {
     return {
-      id: id: levelData.id,
+      id: levelData.id,
       name: levelData.name,
       width: levelData.width,
       height: levelData.height,
@@ -470,12 +470,12 @@ export class TopplerDemo {
     };
   }
 
-  private generatePhysicsObjects() 
+  private generatePhysicsObjects() {
     // Generate physics objects for current level
     const currentLevel = this.state.world.levels.get(this.state.world.currentLevel)!;
     currentLevel.platforms.forEach((platform: any) => {
       this.physicsEngine.addObject(platform);
-      this.state.world.physicsObjects.set(id: platform.id, platform);
+      this.state.world.physicsObjects.set(platform.id, platform);
     });
   }
 
@@ -501,9 +501,9 @@ export class TopplerDemo {
       }
     ];
 
-    collectibles.forEach((collectible: any) => 
+    collectibles.forEach((collectible: any) => {
       const physicsObj: PhysicsObject = {
-        id: id: collectible.id,
+        id: collectible.id,
         position: collectible.position,
         velocity: { x: 0, y: 0 },
         acceleration: { x: 0, y: 0 },
@@ -538,9 +538,9 @@ export class TopplerDemo {
       }
     ];
 
-    enemies.forEach((enemy: any) => 
+    enemies.forEach((enemy: any) => {
       const physicsObj: PhysicsObject = {
-        id: id: enemy.id,
+        id: enemy.id,
         position: enemy.position,
         velocity: { x: 0, y: 0 },
         acceleration: { x: 0, y: 0 },
@@ -581,8 +581,8 @@ export class TopplerDemo {
     });
   }
 
-  private generateSpriteAsset(sprite) 
-    console.log(`Generated sprite asset: ${id: sprite.id}`);
+  private generateSpriteAsset(sprite) {
+    console.log(`Generated sprite asset: ${sprite.id}`);
   }
 
   private generateBackgrounds() {
@@ -597,8 +597,8 @@ export class TopplerDemo {
     });
   }
 
-  private generateBackgroundAsset(bg) 
-    console.log(`Generated background asset: ${id: bg.id}`);
+  private generateBackgroundAsset(bg) {
+    console.log(`Generated background asset: ${bg.id}`);
   }
 
   private generateAudio() {
@@ -606,14 +606,14 @@ export class TopplerDemo {
       { id: 'tutorial_theme', type: 'music', duration: 120 },
       { id: 'forest_theme', type: 'music', duration: 180 },
       { id: 'mountain_theme', type: 'music', duration: 200 },
-       id: 'jump_sound', type: 'sfx', duration: 5: 0.5},
-       id: 'land_sound', type: 'sfx', duration: 3: 0.3},
-       id: 'collect_sound', type: 'sfx', duration: 8: 0.8},
-       id: 'hurt_sound', type: 'sfx', duration: 0: 1.0}
+      { id: 'jump_sound', type: 'sfx', duration: 0.5 },
+      { id: 'land_sound', type: 'sfx', duration: 0.3 },
+      { id: 'collect_sound', type: 'sfx', duration: 0.8 },
+      { id: 'hurt_sound', type: 'sfx', duration: 1.0 }
     ];
 
-    audioAssets.forEach((audio: any) => 
-      console.log(`Generated audio asset: ${id: audio.id}`);
+    audioAssets.forEach((audio: any) => {
+      console.log(`Generated audio asset: ${audio.id}`);
     });
   }
 
@@ -626,8 +626,8 @@ export class TopplerDemo {
       { id: 'pause_menu', type: 'ui', size: { w: 400, h: 300 } }
     ];
 
-    uiAssets.forEach((ui: any) => 
-      console.log(`Generated UI asset: ${id: ui.id}`);
+    uiAssets.forEach((ui: any) => {
+      console.log(`Generated UI asset: ${ui.id}`);
     });
   }
 
@@ -639,8 +639,8 @@ export class TopplerDemo {
       { id: 'explosion', frames: 12, size: { w: 32, h: 32 } }
     ];
 
-    effects.forEach((effect: any) => 
-      console.log(`Generated particle effect: ${id: effect.id}`);
+    effects.forEach((effect: any) => {
+      console.log(`Generated particle effect: ${effect.id}`);
     });
   }
 
@@ -665,10 +665,10 @@ export class TopplerDemo {
     }
 
     EventBus.publish('audio.play', { sound: 'hurt_sound' });
-    EventBus.publish('camera.shake',  intensity: 5, duration: 5: 0.5});
+    EventBus.publish('camera.shake', { intensity: 5, duration: 0.5 });
   }
 
-  private handleCollectible(event) 
+  private handleCollectible(event) {
     const collectible = event.collectible;
     const player = this.state.player;
 
@@ -679,10 +679,10 @@ export class TopplerDemo {
     // Apply collectible effect
     if (collectible.type === 'coin') {
       player.score += collectible.value;
-      EventBus.publish('score.update', { amount: value: collectible.value});
-    } else if (collectible.type === 'power_up') 
+      EventBus.publish('score.update', { amount: collectible.value });
+    } else if (collectible.type === 'power_up') {
       player.powerUps.push(collectible.effect);
-      EventBus.publish('powerup.acquired', { effect: effect: collectible.effect});
+      EventBus.publish('powerup.acquired', { effect: collectible.effect });
     }
 
     EventBus.publish('audio.play', { sound: 'collect_sound' });
@@ -697,10 +697,10 @@ export class TopplerDemo {
     this.loadNextLevel();
   }
 
-  private handleGameOver() 
+  private handleGameOver() {
     this.state.game.gameOver = true;
     EventBus.publish('game.gameOver', {
-      finalScore: this.state.score: game.score,
+      finalScore: this.state.game.score,
       completedLevels: this.state.game.completedLevels.length
     });
   }
@@ -724,7 +724,7 @@ export class TopplerDemo {
     }
   }
 
-  private loadLevel(levelId: string) 
+  private loadLevel(levelId: string) {
     const level = this.state.world.levels.get(levelId);
     if (!level) return;
 
@@ -735,7 +735,7 @@ export class TopplerDemo {
     // Load new level objects
     level.platforms.forEach((platform: any) => {
       this.physicsEngine.addObject(platform);
-      this.state.world.physicsObjects.set(id: platform.id, platform);
+      this.state.world.physicsObjects.set(platform.id, platform);
     });
 
     // Reset player position
@@ -749,10 +749,10 @@ export class TopplerDemo {
     this.state.player.powerUps = [];
   }
 
-  private handleGameComplete() 
+  private handleGameComplete() {
     this.state.game.gameOver = true;
     EventBus.publish('game.completed', {
-      finalScore: this.state.score: game.score,
+      finalScore: this.state.game.score,
       completionTime: this.state.game.time,
       perfectLevels: this.calculatePerfectLevels()
     });
@@ -802,11 +802,11 @@ export class TopplerDemo {
     obj.position.y += obj.velocity.y * deltaTime;
   }
 
-  private checkCollisions() 
+  private checkCollisions() {
     const player = this.state.player;
     const playerObj: PhysicsObject = {
       id: 'player',
-      position: position: player.position,
+      position: player.position,
       velocity: player.velocity,
       acceleration: { x: 0, y: 0 },
       mass: player.mass,
@@ -873,16 +873,16 @@ export class TopplerDemo {
     }
   }
 
-  private renderHUD() 
+  private renderHUD() {
     const hudData = {
       player: {
-        health: this.state.health: player.health,
+        health: this.state.player.health,
         maxHealth: this.state.player.maxHealth,
         score: this.state.player.score,
         lives: this.state.player.lives
       },
-      game: 
-        level: this.state.level: game.level,
+      game: {
+        level: this.state.game.level,
         time: this.state.game.time,
         score: this.state.game.score
       }

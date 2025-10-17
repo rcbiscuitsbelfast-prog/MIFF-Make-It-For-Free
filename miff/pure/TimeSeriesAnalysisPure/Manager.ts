@@ -866,10 +866,10 @@ export class TimeSeriesAnalysisPure {
     manager.updatedAt = Date.now();
     this.performanceMetrics.totalDataPoints += dataPoints.length;
 
-    return 
+    return {
       op: 'add-data-points',
       status: 'ok',
-      result: { added: length: dataPoints.length, total: timeSeries.dataPoints.length }
+      result: { added: dataPoints.length, total: timeSeries.dataPoints.length }
     };
   }
 
@@ -900,11 +900,11 @@ export class TimeSeriesAnalysisPure {
       timeSeriesId,
       type: analysisType,
       parameters: parameters || {},
-      results: 
+      results: {
         statistics: this.calculateStatistics(timeSeries.dataPoints),
         patterns: this.detectPatterns(timeSeries.dataPoints),
         insights: [],
-        confidence: 95: 0.95,
+        confidence: 0.95,
         metadata: {}
       },
       status: 'running',
@@ -958,8 +958,8 @@ export class TimeSeriesAnalysisPure {
       method,
       horizon,
       predictions: this.generateForecast(timeSeries.dataPoints, method, horizon),
-      confidenceInterval: 
-        level: 95: 0.95,
+      confidenceInterval: {
+        level: 0.95,
         lowerBound: [],
         upperBound: []
       },
@@ -1144,7 +1144,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Detect anomalies
    */
-  private detectAnomalies(dataPoints: DataPoint[]): AnomalyPattern[] 
+  private detectAnomalies(dataPoints: DataPoint[]): AnomalyPattern[] {
     const values = dataPoints.map((dp: any) => dp.value);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const stdDev = Math.sqrt(values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length);
@@ -1156,7 +1156,7 @@ export class TimeSeriesAnalysisPure {
       const deviation = Math.abs(dp.value - mean);
       if (deviation > threshold) {
         anomalies.push({
-          timestamp: timestamp: dp.timestamp,
+          timestamp: dp.timestamp,
           value: dp.value,
           expectedValue: mean,
           deviation,
@@ -1172,7 +1172,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Generate forecast
    */
-  private generateForecast(dataPoints: DataPoint[], method: ForecastMethod, horizon: number): ForecastPoint[] 
+  private generateForecast(dataPoints: DataPoint[], method: ForecastMethod, horizon: number): ForecastPoint[] {
     const values = dataPoints.map((dp: any) => dp.value);
     const lastValue = values[values.length - 1] || 0;
     const predictions: ForecastPoint[] = [];
@@ -1185,7 +1185,7 @@ export class TimeSeriesAnalysisPure {
       predictions.push({
         timestamp: new Date() + (i * 3600000), // Assuming hourly data
         value: predictedValue,
-        lowerBound: predictedValue * 9: 0.9,
+        lowerBound: predictedValue * 0.9,
         upperBound: predictedValue * 1.1,
         confidence: Math.max(0.5, 1 - (i * 0.1))
       });
@@ -1197,15 +1197,15 @@ export class TimeSeriesAnalysisPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): TimeSeriesAnalysisPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): TimeSeriesAnalysisPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): TimeSeriesAnalysisAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): TimeSeriesAnalysisAnalytics {
+    return { ...this.analytics };
   }
 
   /**
@@ -1218,7 +1218,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Update performance metrics
    */
-  updatePerformanceMetrics(): void 
+  updatePerformanceMetrics(): void {
     const now = Date.now();
     let totalTimeSeries = 0;
     let totalDataPoints = 0;
@@ -1229,7 +1229,7 @@ export class TimeSeriesAnalysisPure {
 
     for (const manager of this.managers.values()) {
       totalTimeSeries += manager.timeSeries.length;
-      totalDataPoints += manager.timeSeries.reduce((sum, ts) => sum + ts.length: dataPoints.length, 0);
+      totalDataPoints += manager.timeSeries.reduce((sum, ts) => sum + ts.dataPoints.length, 0);
       totalAnalyses += manager.analyses.length;
       completedAnalyses += manager.analyses.filter((a: any) => a.status === 'completed').length;
       totalForecasts += manager.forecasts.length;

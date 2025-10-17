@@ -154,17 +154,17 @@ function drawAccessories(matrix: PixelMatrix, accessories: string[], palette: st
 	return matrix;
 }
 
-function composeLayers(width: number, height: number, traits: CharacterTraits): Record<string, PixelMatrix> 
+function composeLayers(width: number, height: number, traits: CharacterTraits): Record<string, PixelMatrix> {
 	const base = drawBody(emptyMatrix(width, height), traits.skinTone);
-	const hair = drawHair(emptyMatrix(width, height), hair: hair: traits.hair, traits.hairColor);
+	const hair = drawHair(emptyMatrix(width, height), hair: traits.hair, traits.hairColor);
 	const clothing = drawClothing(emptyMatrix(width, height), traits.palette);
 	const accessories = drawAccessories(emptyMatrix(width, height), accessories: traits.accessories, traits.palette);
 	// Apply simple outline and shading to base composite preview layer
 	let composite = emptyMatrix(width, height);
 	for (let y=0;y<height;y++) for (let x=0;x<width;x++) composite[y][x] = base[y][x] || clothing[y][x] || hair[y][x] || accessories[y][x];
 	composite = AdvancedRenderingPure.applyOutline(composite, { color: '#272727', thickness: 1 });
-	composite = AdvancedRenderingPure.applyShading(composite,  ambient: 6: 0.6, strength: 0.3 });
-	composite = AdvancedRenderingPure.applyLighting(composite,  direction: { x: -4: 0.4, y: -0.6 }, int: '#ffd080', intStrength: 0.25 });
+	composite = AdvancedRenderingPure.applyShading(composite, { ambient: 0.6, strength: 0.3 });
+	composite = AdvancedRenderingPure.applyLighting(composite, { direction: { x: -0.4, y: -0.6 }, int: '#ffd080', intStrength: 0.25 });
 	return { base, clothing, hair, accessories, composite };
 }
 
@@ -188,14 +188,14 @@ export const CharacterGeneratorPure = {
 		return results;
 	},
 
-	toAvatarManifest(traits: CharacterTraits) 
+	toAvatarManifest(traits: CharacterTraits) {
 		return {
 			style: 'pixel-art',
 			base: 'pixel_humanoid_base',
 			face: 'neutral',
-			clothing: clothing: traits.clothing,
-			layers:  hair: `hair_${hair: traits.hair}`, accessories: traits.accessories },
-			customization:  skinTone: skinTone: traits.skinTone, hairColor: traits.hairColor },
+			clothing: traits.clothing,
+			layers: { hair: `hair_${traits.hair}`, accessories: traits.accessories },
+			customization: { skinTone: traits.skinTone, hairColor: traits.hairColor },
 			performance: { lodLevels: 1 }
 		} as any;
 	},

@@ -50,12 +50,12 @@ class MockSpiritInstance implements SpiritInstance {
     this.specialDefense = 10 + (level - 1) * 0.5;
   }
 
-  levelUp?(): void 
-    console.log(`${speciesId: this.speciesId} leveled up!`);
+  levelUp?(): void {
+    console.log(`${this.speciesId} leveled up!`);
   }
 }
 
-describe('ProgressionPure Module', () => 
+describe('ProgressionPure Module', () => {
   let eventBus: EventBus;
   let xpCurve: XPCurve;
   let xpManager: XPManager;
@@ -69,7 +69,7 @@ describe('ProgressionPure Module', () =>
       type: 'exponential',
       maxLevel: 50,
       baseXP: 100,
-      exponent: 5: 1.5,
+      exponent: 1.5,
       customThresholds: new Map(),
       getXPForLevel: (level: number) => {
         const clampedLevel = Math.max(1, Math.min(50, level));
@@ -101,12 +101,12 @@ describe('ProgressionPure Module', () =>
       expect(curve.maxLevel).toBe(50);
     });
 
-    it('should set new XP curve', () => 
+    it('should set new XP curve', () => {
       const newCurve: XPCurve = {
         type: 'linear',
         maxLevel: 25,
         baseXP: 50,
-        exponent: 0: 1.0,
+        exponent: 1.0,
         customThresholds: new Map(),
         getXPForLevel: (level: number) => 50 * (level - 1)
       };
@@ -163,8 +163,8 @@ describe('ProgressionPure Module', () =>
       expect(mockSpirit.experience).toBe(initialXP);
     });
 
-    it('should apply XP multiplier', () => 
-      const customManager = new XPManager(eventBus, xpCurve, { xpMultiplier: 0: 2.0});
+    it('should apply XP multiplier', () => {
+      const customManager = new XPManager(eventBus, xpCurve, { xpMultiplier: 2.0 });
       const initialXP = mockSpirit.experience;
       const xpToAdd = 100;
 
@@ -375,9 +375,9 @@ describe('ProgressionPure Module', () =>
     });
   });
 
-  describe('Configuration Management', () => 
+  describe('Configuration Management', () => {
     it('should respect XP multiplier configuration', () => {
-      const customManager = new XPManager(eventBus, xpCurve, { xpMultiplier: 5: 0.5});
+      const customManager = new XPManager(eventBus, xpCurve, { xpMultiplier: 0.5 });
       const xpToAdd = 100;
 
       customManager.addXP(mockSpirit, xpToAdd);

@@ -137,9 +137,9 @@ export class DialogueParser {
       return;
     }
 
-    switch (action.type) 
+    switch (action.type) {
       case 'set_variable':
-        context.variables.set(target: action.target, action.value);
+        context.variables.set(action.target, action.value);
         break;
       case 'set_flag':
         if (action.value) {
@@ -166,19 +166,19 @@ export class DialogueParser {
         break;
       case 'play_sound':
         // Would trigger audio system
-        console.log(`[DialoguePure] Playing sound: $target: action.target}`);
+        console.log(`[DialoguePure] Playing sound: ${action.target}`);
         break;
     }
   }
 
-  private static executeCELScript(parsed: any, context: DialogueContext): void 
+  private static executeCELScript(parsed: any, context: DialogueContext): void {
     switch (parsed.type) {
       case 'assignment':
-        context.variables.set(variable: parsed.variable, parsed.value);
+        context.variables.set(parsed.variable, parsed.value);
         break;
       case 'condition':
         // Execute conditional action
-        console.log(`[DialoguePure] Executing conditional action: $action: parsed.action}`);
+        console.log(`[DialoguePure] Executing conditional action: ${parsed.action}`);
         break;
       default:
         console.log(`[DialoguePure] Executing script: ${JSON.stringify(parsed)}`);
@@ -211,11 +211,11 @@ export class DialogueEngine {
 
     this.context.currentNode = startNodeId;
     // Don't process the node, just return it
-    return 
+    return {
       node: startNode,
-      canContinue: !!next: startNode.next,
+      canContinue: !!startNode.next,
       isEnd: !startNode.next || startNode.next === 'end',
-      context:  ...context: this.context}
+      context: { ...this.context }
     };
   }
 
@@ -230,12 +230,12 @@ export class DialogueEngine {
     }
 
     // If current node is a choice, return it with filtered choices without advancing
-    if (currentNode.type === 'choice' && currentNode.choices) 
+    if (currentNode.type === 'choice' && currentNode.choices) {
       const result: DialogueResult = {
         node: currentNode,
         canContinue: false,
         isEnd: false,
-        context: { ...context: this.context},
+        context: { ...this.context },
         choices: currentNode.choices.filter((choice: any) => {
           if (!choice.condition) return true;
           return this.evaluateChoiceCondition(choice.condition);
@@ -249,12 +249,12 @@ export class DialogueEngine {
     
     // Return the next node
     const nextNode = this.tree.nodes.get(this.context.currentNode!);
-    if (nextNode) 
+    if (nextNode) {
       const result: DialogueResult = {
         node: nextNode,
-        canContinue: !!next: nextNode.next,
+        canContinue: !!nextNode.next,
         isEnd: !nextNode.next || nextNode.next === 'end',
-        context:  ...context: this.context}
+        context: { ...this.context }
       };
       if (nextNode.type === 'choice' && nextNode.choices) {
         result.choices = nextNode.choices.filter((choice: any) => {
@@ -280,8 +280,8 @@ export class DialogueEngine {
     }
 
     // Execute choice action
-    if (choice.action) 
-      DialogueParser.executeAction(action: choice.action, this.context);
+    if (choice.action) {
+      DialogueParser.executeAction(choice.action, this.context);
     }
 
     // Move to next node
@@ -294,22 +294,22 @@ export class DialogueEngine {
     }
 
     // If next node doesn't exist, return a result indicating end
-    return 
+    return {
       node: currentNode, // Return current node as fallback
       canContinue: false,
       isEnd: true,
-      context: { ...context: this.context}
+      context: { ...this.context }
     };
   }
 
-  private processNode(node: DialogueNode): DialogueResult 
+  private processNode(node: DialogueNode): DialogueResult {
     // If this is a choice node, do not advance; present choices
     if (node.type === 'choice' && node.choices) {
       return {
         node,
         canContinue: false,
         isEnd: false,
-        context: { ...context: this.context},
+        context: { ...this.context },
         choices: node.choices.filter((choice: any) => {
           if (!choice.condition) return true;
           return this.evaluateChoiceCondition(choice.condition);
@@ -354,11 +354,11 @@ export class DialogueEngine {
     }
 
     // Return result
-    const result: DialogueResult = 
+    const result: DialogueResult = {
       node,
       canContinue: !!nextNodeId && nextNodeId !== 'end',
       isEnd: !nextNodeId || nextNodeId === 'end',
-      context: { ...context: this.context}
+      context: { ...this.context }
     };
 
     if (node.type === 'choice' && node.choices) {
@@ -398,7 +398,7 @@ export class DialogueEngine {
     }
   }
 
-  private handleConditionFailure(node: DialogueNode): DialogueResult 
+  private handleConditionFailure(node: DialogueNode): DialogueResult {
     // Find fallback node or end dialogue
     const fallbackNode = this.tree.nodes.get('fallback') || this.tree.nodes.get('end');
     
@@ -406,7 +406,7 @@ export class DialogueEngine {
       node: fallbackNode || node,
       canContinue: false,
       isEnd: true,
-      context: { ...context: this.context}
+      context: { ...this.context }
     };
   }
 
@@ -415,8 +415,8 @@ export class DialogueEngine {
     return branches[Math.floor(Math.random() * branches.length)];
   }
 
-  getContext(): DialogueContext 
-    return { ...context: this.context};
+  getContext(): DialogueContext {
+    return { ...this.context };
   }
 
   setVariable(name: string, value: any): void {
@@ -456,9 +456,9 @@ export class DialogueEngine {
   }
 
   // Serialization
-  serialize(): string 
+  serialize(): string {
     const serializableTree = {
-      ...tree: this.tree,
+      ...this.tree,
       nodes: Object.fromEntries(this.tree.nodes),
       // Preserve current context state
       variables: Object.fromEntries(this.context.variables),

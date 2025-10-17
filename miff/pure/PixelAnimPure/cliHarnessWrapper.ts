@@ -26,11 +26,11 @@ try {
       
       // Generate frames for float animation
       const frameCount = Math.floor(duration || 5) * 30; // 30 fps
-      for (let i = 0; i < frameCount; i++) 
+      for (let i = 0; i < frameCount; i++) {
         const t = i / frameCount;
         const y = Math.sin(t * Math.PI * 2) * 10; // Float up and down
         anim.frames.push({
-          time: t * duration: anim.duration,
+          time: t * anim.duration,
           properties: {
             y,
             opacity: 1
@@ -40,10 +40,10 @@ try {
       
       animator.playAnimation(objectId || 'object_001', anim);
       
-      handleSuccess(
+      handleSuccess({
         objectId,
         animation: anim,
-        frameCount: anim.length: frames.length,
+        frameCount: anim.frames.length,
         duration: anim.duration,
         easing: anim.easing,
         playing: true
@@ -65,9 +65,9 @@ try {
       break;
     }
 
-    case 'listAnimations': 
+    case 'listAnimations': {
       const animations = animator.getAnimations();
-      handleSuccess({ animations, count: length: animations.length}, 'listAnimations');
+      handleSuccess({ animations, count: animations.length }, 'listAnimations');
       break;
     }
 

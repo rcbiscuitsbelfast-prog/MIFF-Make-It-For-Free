@@ -41,9 +41,9 @@ try {
       
       manager.createTeam(team);
       
-      handleSuccess(
+      handleSuccess({
         team,
-        memberCount: length: membersList.length,
+        memberCount: membersList.length,
         formation: formation || '4-4-2',
         created: true
       }, 'createTeam');
@@ -63,9 +63,9 @@ try {
       break;
     }
 
-    case 'listTeams': 
+    case 'listTeams': {
       const teams = manager.getAllTeams();
-      handleSuccess({ teams, count: length: teams.length}, 'listTeams');
+      handleSuccess({ teams, count: teams.length }, 'listTeams');
       break;
     }
 

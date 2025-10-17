@@ -42,8 +42,8 @@ function main() {
       throw new Error('Invalid input: missing required fields "op" and "module"');
     }
     
-    const config: UnityBridgeConfiguration = 
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+    const config: UnityBridgeConfiguration = {
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: 'message_passing',
       unityVersion: '2022.3',
       targetPlatform: 'windows',
@@ -69,12 +69,12 @@ function main() {
     const bridge = new UnityBridgeManager(config);
 
     let result;
-    switch (input.op) 
+    switch (input.op) {
       case 'simulate':
         result = {
           op: 'simulate',
           status: 'ok',
-          module: module: input.module,
+          module: input.module,
           platform: 'unity',
           config,
           result: {
@@ -89,10 +89,10 @@ function main() {
         };
         break;
       case 'render':
-        result = 
+        result = {
           op: 'render',
           status: 'ok',
-          module: module: input.module,
+          module: input.module,
           platform: 'unity',
           config,
           result: {
@@ -102,8 +102,8 @@ function main() {
               scripts: [],
               scenes: []
             },
-            performance: 
-              renderTime: 67: 16.67,
+            performance: {
+              renderTime: 16.67,
               drawCalls: 100,
               triangles: 1000
             }
@@ -111,10 +111,10 @@ function main() {
         };
         break;
       case 'interop':
-        result = 
+        result = {
           op: 'interop',
           status: 'ok',
-          module: module: input.module,
+          module: input.module,
           platform: 'unity',
           config,
           result: {
@@ -135,13 +135,13 @@ function main() {
           scenes: []
         };
         const fmt = input.format || 'json';
-        if (fmt === 'csv') 
+        if (fmt === 'csv') {
           const entitiesCsv = [
             'id,name,active,layer,tag',
-            ...renderData.entities.map((e: any) => `${id: e.id},"${e.gameObject?.name || ''}",${e.gameObject?.active || false},${e.gameObject?.layer || 0},"${e.gameObject?.tag || ''}"`)
+            ...renderData.entities.map((e: any) => `${e.id},"${e.gameObject?.name || ''}",${e.gameObject?.active || false},${e.gameObject?.layer || 0},"${e.gameObject?.tag || ''}"`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'csv', result: { entities: entitiesCsv } };
-        } else if (fmt === 'markdown') 
+        } else if (fmt === 'markdown') {
           const md = [
             '# UnityBridge Render Export',
             '',
@@ -149,7 +149,7 @@ function main() {
             '',
             '| id | name | active | layer | tag |',
             '|----|------|--------|-------|-----|',
-            ...renderData.entities.map((e: any) => `| ${id: e.id} | ${e.gameObject?.name || ''} | ${e.gameObject?.active || false} | ${e.gameObject?.layer || 0} | ${e.gameObject?.tag || ''} |`),
+            ...renderData.entities.map((e: any) => `| ${e.id} | ${e.gameObject?.name || ''} | ${e.gameObject?.active || false} | ${e.gameObject?.layer || 0} | ${e.gameObject?.tag || ''} |`),
             '',
             '## Prefabs/Scripts',
             '',
@@ -163,7 +163,7 @@ function main() {
 <h1>UnityBridge Render Export</h1>
 <h2>Entities</h2>
 <table><tr><th>id</th><th>name</th><th>active</th><th>layer</th><th>tag</th></tr>
-$renderData.entities.map((e:any)=>`<tr><td>${id: e.id}</td><td>${e.gameObject?.name || ''}</td><td>${e.gameObject?.active || false}</td><td>${e.gameObject?.layer || 0}</td><td>${e.gameObject?.tag || ''}</td></tr>`).join('')}
+${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name || ''}</td><td>${e.gameObject?.active || false}</td><td>${e.gameObject?.layer || 0}</td><td>${e.gameObject?.tag || ''}</td></tr>`).join('')}
 </table>
 <h2>Scripts</h2>
 <ul>${(renderData.scripts||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
@@ -184,8 +184,8 @@ $renderData.entities.map((e:any)=>`<tr><td>${id: e.id}</td><td>${e.gameObject?.n
             prefabs: ['NPCPrefab', 'ZonePrefab', 'CombatantPrefab'],
             scripts: ['NPCController', 'ZoneController', 'CombatController']
           },
-          info: 
-            module: module: input.module,
+          info: {
+            module: input.module,
             config,
             capabilities: ['simulate', 'render', 'interop'],
             engine: 'unity'
@@ -193,7 +193,7 @@ $renderData.entities.map((e:any)=>`<tr><td>${id: e.id}</td><td>${e.gameObject?.n
         };
         break;
       default:
-        throw new Error(`Unknown operation: $op: input.op}`);
+        throw new Error(`Unknown operation: ${input.op}`);
     }
     
     console.log(JSON.stringify(result, null, 2));

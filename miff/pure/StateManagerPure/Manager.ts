@@ -1028,15 +1028,15 @@ export class StateManagerPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): StateManagerPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): StateManagerPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): StateManagerAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): StateManagerAnalytics {
+    return { ...this.analytics };
   }
 
   /**
@@ -1049,7 +1049,7 @@ export class StateManagerPure {
   /**
    * Update performance metrics
    */
-  updatePerformanceMetrics(): void 
+  updatePerformanceMetrics(): void {
     const now = Date.now();
     let totalStates = 0;
     let activeStates = 0;
@@ -1064,7 +1064,7 @@ export class StateManagerPure {
       totalTransitions += manager.transitions.length;
       totalValidators += manager.validators.length;
       totalSubscriptions += manager.subscriptions.length;
-      totalHistoryEntries += manager.history.reduce((sum, h) => sum + h.length: entries.length, 0);
+      totalHistoryEntries += manager.history.reduce((sum, h) => sum + h.entries.length, 0);
     }
 
     this.performanceMetrics.totalStates = totalStates;

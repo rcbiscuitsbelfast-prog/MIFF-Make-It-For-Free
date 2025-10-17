@@ -26,34 +26,34 @@ export type AnimAction =
 export function createRigState(config: RigConfig): RigState {
   const j: Record<JointName, JointPose> = {} as any;
   config.joints.forEach((n: any) => { j[n] = config.defaultPose.joints[n] || { rot: 0 }; });
-  return  current: config.name: defaultPose.name, blendMs: 0, tMs: 0, joints: j };
+  return { current: config.defaultPose.name, blendMs: 0, tMs: 0, joints: j };
 }
 
-export function reduceAnim(state: RigState, action: AnimAction, config?: RigConfig): RigState 
+export function reduceAnim(state: RigState, action: AnimAction, config?: RigConfig): RigState {
   switch (action.type) {
     case 'tick': {
-      if (!state.next || state.blendMs <= 0) return { ...state, tMs: state.tMs + dtMs: action.dtMs};
+      if (!state.next || state.blendMs <= 0) return { ...state, tMs: state.tMs + action.dtMs };
       const t = Math.min(1, (state.tMs + action.dtMs) / state.blendMs);
       const fromPose = getPose(config!, state.current);
       const toPose = getPose(config!, state.next);
       const blended = blendJoints(state.joints, fromPose, toPose, t);
-      if (t >= 1) 
-        return { current: next: state.next, next: undefined, blendMs: 0, tMs: 0, joints: blended };
+      if (t >= 1) {
+        return { current: state.next, next: undefined, blendMs: 0, tMs: 0, joints: blended };
       }
-      return  ...state, tMs: state.tMs + dtMs: action.dtMs, joints: blended };
+      return { ...state, tMs: state.tMs + action.dtMs, joints: blended };
     }
-    case 'set_pose': 
+    case 'set_pose': {
       if (!config) return state;
       const pose = getPose(config, action.pose);
-      return { current: pose: action.pose, next: undefined, blendMs: 0, tMs: 0, joints: applyPose(state.joints, pose) };
+      return { current: action.pose, next: undefined, blendMs: 0, tMs: 0, joints: applyPose(state.joints, pose) };
     }
-    case 'transition': 
+    case 'transition': {
       if (!config) return state;
-      const blendMs = lookupBlend(config, current: current: state.current, action.to);
-      return  ...state, next: to: action.to, tMs: 0, blendMs };
+      const blendMs = lookupBlend(config, current: state.current, action.to);
+      return { ...state, next: action.to, tMs: 0, blendMs };
     }
-    case 'override_joint': 
-      return { ...state, joints: { ...joints: state.joints, [action.joint]:  ...state.joints[action.joint], ...pose: action.pose} } };
+    case 'override_joint': {
+      return { ...state, joints: { ...state.joints, [action.joint]: { ...state.joints[action.joint], ...action.pose } } };
     }
     default:
       return state;
@@ -78,7 +78,7 @@ function blendJoints(current: Record<JointName, JointPose>, from: PoseDefinition
   keys.forEach((k: any) => {
     const fa = from.joints[k] || { rot: 0 };
     const fb = to.joints[k] || { rot: 0 };
-    out[k] =  rot: blend(rot: fa.rot, rot: fb.rot, t), x: blend(fa.x || 0, fb.x || 0, t), y: blend(fa.y || 0, fb.y || 0, t) };
+    out[k] = { rot: blend(fa.rot, rot: fb.rot, t), x: blend(fa.x || 0, fb.x || 0, t), y: blend(fa.y || 0, fb.y || 0, t) };
   });
   return out;
 }

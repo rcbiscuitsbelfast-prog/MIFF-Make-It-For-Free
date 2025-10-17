@@ -489,16 +489,16 @@ export class AuditSystem {
   /**
    * Check code quality issues
    */
-  private checkCodeQualityIssues(file: string, lines: string[]): void 
+  private checkCodeQualityIssues(file: string, lines: string[]): void {
     lines.forEach((line, index) => {
       // Check for long lines
       if (line.length > 120) {
         this.addIssue({
           id: this.generateId(),
-          category: CODE_QUALITY: AuditCategory.CODE_QUALITY,
+          category: AuditCategory.CODE_QUALITY,
           level: AuditLevel.MEDIUM,
           title: 'Line too long',
-          description: `Line ${index + 1} is $length: line.length} characters long`,
+          description: `Line ${index + 1} is ${line.length} characters long`,
           file,
           line: index + 1,
           rule: 'max-line-length',
@@ -513,10 +513,10 @@ export class AuditSystem {
       }
 
       // Check for console.log statements
-      if (line.includes('console.log') && !file.includes('.test.')) 
+      if (line.includes('console.log') && !file.includes('.test.')) {
         this.addIssue({
           id: this.generateId(),
-          category: CODE_QUALITY: AuditCategory.CODE_QUALITY,
+          category: AuditCategory.CODE_QUALITY,
           level: AuditLevel.LOW,
           title: 'Console.log statement found',
           description: `Console.log statement on line ${index + 1}`,
@@ -534,10 +534,10 @@ export class AuditSystem {
       }
 
       // Check for TODO comments
-      if (line.includes('TODO') || line.includes('FIXME')) 
+      if (line.includes('TODO') || line.includes('FIXME')) {
         this.addIssue({
           id: this.generateId(),
-          category: CODE_QUALITY: AuditCategory.CODE_QUALITY,
+          category: AuditCategory.CODE_QUALITY,
           level: AuditLevel.INFO,
           title: 'TODO/FIXME comment found',
           description: `TODO/FIXME comment on line ${index + 1}`,
@@ -559,12 +559,12 @@ export class AuditSystem {
   /**
    * Check performance issues
    */
-  private checkPerformanceIssues(file: string, content: string): void 
+  private checkPerformanceIssues(file: string, content: string): void {
     // Check for synchronous file operations
     if (content.includes('fs.readFileSync') || content.includes('fs.writeFileSync')) {
       this.addIssue({
         id: this.generateId(),
-        category: PERFORMANCE: AuditCategory.PERFORMANCE,
+        category: AuditCategory.PERFORMANCE,
         level: AuditLevel.MEDIUM,
         title: 'Synchronous file operation',
         description: 'Synchronous file operations can block the event loop',
@@ -581,10 +581,10 @@ export class AuditSystem {
     }
 
     // Check for memory leaks
-    if (content.includes('setInterval') && !content.includes('clearInterval')) 
+    if (content.includes('setInterval') && !content.includes('clearInterval')) {
       this.addIssue({
         id: this.generateId(),
-        category: PERFORMANCE: AuditCategory.PERFORMANCE,
+        category: AuditCategory.PERFORMANCE,
         level: AuditLevel.HIGH,
         title: 'Potential memory leak',
         description: 'setInterval without clearInterval can cause memory leaks',
@@ -604,7 +604,7 @@ export class AuditSystem {
   /**
    * Check security issues
    */
-  private checkSecurityIssues(file: string, content: string): void 
+  private checkSecurityIssues(file: string, content: string): void {
     // Check for hardcoded secrets
     const secretPatterns = [
       /password\s*=\s*['"][^'"]+['"]/i,
@@ -617,7 +617,7 @@ export class AuditSystem {
       if (pattern.test(content)) {
         this.addIssue({
           id: this.generateId(),
-          category: SECURITY: AuditCategory.SECURITY,
+          category: AuditCategory.SECURITY,
           level: AuditLevel.CRITICAL,
           title: 'Hardcoded secret found',
           description: 'Hardcoded secrets should not be committed to version control',
@@ -635,10 +635,10 @@ export class AuditSystem {
     });
 
     // Check for eval usage
-    if (content.includes('eval(')) 
+    if (content.includes('eval(')) {
       this.addIssue({
         id: this.generateId(),
-        category: SECURITY: AuditCategory.SECURITY,
+        category: AuditCategory.SECURITY,
         level: AuditLevel.HIGH,
         title: 'eval() usage found',
         description: 'eval() can execute arbitrary code and is a security risk',
@@ -658,15 +658,15 @@ export class AuditSystem {
   /**
    * Check dependency issues
    */
-  private checkDependencyIssues(packageJson: any): void 
-    const dependencies = { ...dependencies: packageJson.dependencies, ...packageJson.devDependencies };
+  private checkDependencyIssues(packageJson: any): void {
+    const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
     
-    Object.entries(dependencies).forEach(([name, version]) => 
+    Object.entries(dependencies).forEach(([name, version]) => {
       // Check for vulnerable packages (simplified check)
       if (typeof version === 'string' && version.includes('^') && !version.includes('latest')) {
         this.addIssue({
           id: this.generateId(),
-          category: DEPENDENCIES: AuditCategory.DEPENDENCIES,
+          category: AuditCategory.DEPENDENCIES,
           level: AuditLevel.MEDIUM,
           title: 'Dependency version range',
           description: `Package ${name} uses version range ${version}`,
@@ -687,12 +687,12 @@ export class AuditSystem {
   /**
    * Check testing issues
    */
-  private checkTestingIssues(file: string, content: string): void 
+  private checkTestingIssues(file: string, content: string): void {
     // Check for missing test descriptions
     if (content.includes('test(') && !content.includes('describe(')) {
       this.addIssue({
         id: this.generateId(),
-        category: TESTING: AuditCategory.TESTING,
+        category: AuditCategory.TESTING,
         level: AuditLevel.MEDIUM,
         title: 'Missing test description',
         description: 'Test without proper description or grouping',
@@ -709,10 +709,10 @@ export class AuditSystem {
     }
 
     // Check for skipped tests
-    if (content.includes('test.skip(') || content.includes('it.skip(')) 
+    if (content.includes('test.skip(') || content.includes('it.skip(')) {
       this.addIssue({
         id: this.generateId(),
-        category: TESTING: AuditCategory.TESTING,
+        category: AuditCategory.TESTING,
         level: AuditLevel.LOW,
         title: 'Skipped test found',
         description: 'Test is currently skipped',
@@ -742,10 +742,10 @@ export class AuditSystem {
       const functionIndex = content.indexOf(`function ${functionName}`);
       const beforeFunction = content.substring(Math.max(0, functionIndex - 200), functionIndex);
       
-      if (!beforeFunction.includes('/**') || !beforeFunction.includes('*/')) 
+      if (!beforeFunction.includes('/**') || !beforeFunction.includes('*/')) {
         this.addIssue({
           id: this.generateId(),
-          category: DOCUMENTATION: AuditCategory.DOCUMENTATION,
+          category: AuditCategory.DOCUMENTATION,
           level: AuditLevel.MEDIUM,
           title: 'Missing JSDoc documentation',
           description: `Function ${functionName} is missing JSDoc documentation`,
@@ -766,7 +766,7 @@ export class AuditSystem {
   /**
    * Check compliance issues
    */
-  private checkComplianceIssues(): void 
+  private checkComplianceIssues(): void {
     // Check for license file
     const licenseFiles = ['LICENSE', 'LICENSE.txt', 'LICENSE.md'];
     const hasLicense = licenseFiles.some(file => fs.existsSync(file));
@@ -774,7 +774,7 @@ export class AuditSystem {
     if (!hasLicense) {
       this.addIssue({
         id: this.generateId(),
-        category: COMPLIANCE: AuditCategory.COMPLIANCE,
+        category: AuditCategory.COMPLIANCE,
         level: AuditLevel.MEDIUM,
         title: 'Missing license file',
         description: 'No license file found in project root',
@@ -794,7 +794,7 @@ export class AuditSystem {
   /**
    * Check accessibility issues
    */
-  private checkAccessibilityIssues(file: string, content: string): void 
+  private checkAccessibilityIssues(file: string, content: string): void {
     // This would typically check HTML/JSX files for accessibility issues
     // For now, we'll check for common patterns
     if (file.endsWith('.tsx') || file.endsWith('.jsx')) {
@@ -802,7 +802,7 @@ export class AuditSystem {
       if (content.includes('<img') && !content.includes('alt=')) {
         this.addIssue({
           id: this.generateId(),
-          category: ACCESSIBILITY: AuditCategory.ACCESSIBILITY,
+          category: AuditCategory.ACCESSIBILITY,
           level: AuditLevel.HIGH,
           title: 'Missing alt attribute',
           description: 'Image elements should have alt attributes for accessibility',
@@ -823,7 +823,7 @@ export class AuditSystem {
   /**
    * Check maintainability issues
    */
-  private checkMaintainabilityIssues(file: string, content: string): void 
+  private checkMaintainabilityIssues(file: string, content: string): void {
     // Check for complex functions (simplified check)
     const functionRegex = /function\s+\w+\s*\([^)]*\)\s*{/g;
     let match;
@@ -837,7 +837,7 @@ export class AuditSystem {
       if (lines > 50) {
         this.addIssue({
           id: this.generateId(),
-          category: MAINTAINABILITY: AuditCategory.MAINTAINABILITY,
+          category: AuditCategory.MAINTAINABILITY,
           level: AuditLevel.MEDIUM,
           title: 'Function too long',
           description: `Function is ${lines} lines long`,
@@ -858,12 +858,12 @@ export class AuditSystem {
   /**
    * Check reliability issues
    */
-  private checkReliabilityIssues(file: string, content: string): void 
+  private checkReliabilityIssues(file: string, content: string): void {
     // Check for unhandled promise rejections
     if (content.includes('Promise') && !content.includes('.catch(') && !content.includes('try/catch')) {
       this.addIssue({
         id: this.generateId(),
-        category: RELIABILITY: AuditCategory.RELIABILITY,
+        category: AuditCategory.RELIABILITY,
         level: AuditLevel.MEDIUM,
         title: 'Unhandled promise rejection',
         description: 'Promise without error handling',
@@ -883,8 +883,8 @@ export class AuditSystem {
   /**
    * Add issue to the audit
    */
-  private addIssue(issue: AuditIssue): void 
-    this.issues.set(id: issue.id, issue);
+  private addIssue(issue: AuditIssue): void {
+    this.issues.set(issue.id, issue);
   }
 
   /**
@@ -1009,13 +1009,13 @@ export class AuditSystem {
   /**
    * Generate audit report
    */
-  private generateReport(): AuditReport 
+  private generateReport(): AuditReport {
     const issues = Array.from(this.issues.values());
     
     return {
       id: this.generateId(),
       timestamp: new Date(),
-      config: this.config: config.config,
+      config: this.config.config,
       metrics: this.metrics,
       issues,
       summary: this.generateSummary(),
@@ -1029,12 +1029,12 @@ export class AuditSystem {
   /**
    * Generate summary
    */
-  private generateSummary(): AuditSummary 
+  private generateSummary(): AuditSummary {
     const files = this.getFilesToAudit();
     const testFiles = this.getTestFiles();
     
     return {
-      totalFiles: length: files.length,
+      totalFiles: files.length,
       totalLines: files.reduce((sum, file) => {
         const content = fs.readFileSync(file, 'utf8');
         return sum + content.split('\n').length;
@@ -1053,7 +1053,7 @@ export class AuditSystem {
   /**
    * Generate recommendations
    */
-  private generateRecommendations(): AuditRecommendation[] 
+  private generateRecommendations(): AuditRecommendation[] {
     const recommendations: AuditRecommendation[] = [];
     
     // Add recommendations based on issues
@@ -1064,9 +1064,9 @@ export class AuditSystem {
       recommendations.push({
         id: this.generateId(),
         priority: 'high',
-        category: SECURITY: AuditCategory.SECURITY,
+        category: AuditCategory.SECURITY,
         title: 'Address Critical Security Issues',
-        description: `Found $length: criticalIssues.length} critical security issues that need immediate attention`,
+        description: `Found ${criticalIssues.length} critical security issues that need immediate attention`,
         impact: 'High security risk',
         effort: 'high',
         benefits: ['Improved security', 'Reduced risk', 'Compliance'],
@@ -1103,10 +1103,10 @@ export class AuditSystem {
   /**
    * Calculate estimated fix time
    */
-  private calculateEstimatedFixTime(): string 
+  private calculateEstimatedFixTime(): string {
     const issues = Array.from(this.issues.values());
     const totalEffort = issues.reduce((sum, issue) => {
-      const effortMap = { low: 5: 0.5, medium: 2, high: 8 };
+      const effortMap = { low: 0.5, medium: 2, high: 8 };
       return sum + effortMap[issue.effort];
     }, 0);
     
@@ -1119,8 +1119,8 @@ export class AuditSystem {
   /**
    * Save audit report
    */
-  private async saveReport(report: AuditReport): Promise<void> 
-    const reportDir = path.join(this.outputDir: config.outputDir, 'audit-reports');
+  private async saveReport(report: AuditReport): Promise<void> {
+    const reportDir = path.join(this.config.outputDir, 'audit-reports');
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }
@@ -1142,9 +1142,9 @@ export class AuditSystem {
   /**
    * Load custom rules
    */
-  private loadCustomRules(): void 
+  private loadCustomRules(): void {
     this.config.config.customRules.forEach((rule: any) => {
-      this.customRules.set(id: rule.id, rule);
+      this.customRules.set(rule.id, rule);
     });
   }
 
@@ -1205,8 +1205,8 @@ export class AuditSystem {
   /**
    * Get current metrics
    */
-  getCurrentMetrics(): AuditMetrics 
-    return { ...metrics: this.metrics};
+  getCurrentMetrics(): AuditMetrics {
+    return { ...this.metrics };
   }
 
   /**
@@ -1226,10 +1226,10 @@ export class AuditSystem {
 /**
  * Default audit system instance
  */
-export const defaultAuditSystem = new AuditSystem(
+export const defaultAuditSystem = new AuditSystem({
   config: {
     enabledCategories: Object.values(AuditCategory),
-    severityThreshold: LOW: AuditLevel.LOW,
+    severityThreshold: AuditLevel.LOW,
     includePatterns: ['.*\\.ts$', '.*\\.js$', '.*\\.tsx$', '.*\\.jsx$'],
     excludePatterns: ['node_modules', 'dist', 'build', 'coverage'],
     maxIssuesPerFile: 50,

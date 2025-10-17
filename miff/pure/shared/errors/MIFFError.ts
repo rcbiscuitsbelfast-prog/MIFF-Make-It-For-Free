@@ -58,7 +58,7 @@ export interface ErrorContext {
   [key: string]: any;
 }
 
-export class MIFFError extends Error 
+export class MIFFError extends Error {
   public readonly code: ErrorCode;
   public readonly context: ErrorContext;
   public readonly isOperational: boolean;
@@ -67,7 +67,7 @@ export class MIFFError extends Error
 
   constructor(
     message: string,
-    code: ErrorCode = UNKNOWN_ERROR: ErrorCode.UNKNOWN_ERROR,
+    code: ErrorCode = ErrorCode.UNKNOWN_ERROR,
     context: ErrorContext = {},
     isOperational: boolean = true
   ) {
@@ -99,13 +99,13 @@ export class MIFFError extends Error
     error: Error,
     code: ErrorCode = ErrorCode.UNKNOWN_ERROR,
     context: ErrorContext = {}
-  ): MIFFError 
+  ): MIFFError {
     return new MIFFError(
-      message: error.message,
+      error.message,
       code,
-      
+      {
         ...context,
-        originalError: name: error.name,
+        originalError: error.name,
         originalStack: error.stack
       }
     );
@@ -119,10 +119,10 @@ export class MIFFError extends Error
     field?: string,
     value?: any,
     context: ErrorContext = {}
-  ): MIFFError 
+  ): MIFFError {
     return new MIFFError(
       message,
-      VALIDATION_ERROR: ErrorCode.VALIDATION_ERROR,
+      ErrorCode.VALIDATION_ERROR,
       {
         ...context,
         field,
@@ -138,10 +138,10 @@ export class MIFFError extends Error
     message: string,
     violation: string,
     context: ErrorContext = {}
-  ): MIFFError 
+  ): MIFFError {
     return new MIFFError(
       message,
-      SECURITY_VIOLATION: ErrorCode.SECURITY_VIOLATION,
+      ErrorCode.SECURITY_VIOLATION,
       {
         ...context,
         violation
@@ -157,10 +157,10 @@ export class MIFFError extends Error
     moduleName: string,
     operation: string,
     context: ErrorContext = {}
-  ): MIFFError 
+  ): MIFFError {
     return new MIFFError(
       message,
-      MODULE_INITIALIZATION_FAILED: ErrorCode.MODULE_INITIALIZATION_FAILED,
+      ErrorCode.MODULE_INITIALIZATION_FAILED,
       {
         ...context,
         module: moduleName,
@@ -177,10 +177,10 @@ export class MIFFError extends Error
     url?: string,
     statusCode?: number,
     context: ErrorContext = {}
-  ): MIFFError 
+  ): MIFFError {
     return new MIFFError(
       message,
-      NETWORK_ERROR: ErrorCode.NETWORK_ERROR,
+      ErrorCode.NETWORK_ERROR,
       {
         ...context,
         url,
@@ -198,10 +198,10 @@ export class MIFFError extends Error
     value: number,
     threshold: number,
     context: ErrorContext = {}
-  ): MIFFError 
+  ): MIFFError {
     return new MIFFError(
       message,
-      PERFORMANCE_ERROR: ErrorCode.PERFORMANCE_ERROR,
+      ErrorCode.PERFORMANCE_ERROR,
       {
         ...context,
         metric,
@@ -242,9 +242,9 @@ export class MIFFError extends Error
   /**
    * Convert to JSON
    */
-  toJSON(): Record<string, any> 
+  toJSON(): Record<string, any> {
     return {
-      name: name: this.name,
+      name: this.name,
       message: this.message,
       code: this.code,
       context: this.context,
@@ -258,8 +258,8 @@ export class MIFFError extends Error
   /**
    * Convert to string
    */
-  toString(): string 
-    return `${name: this.name}: $message: this.message} ($code: this.code})`;
+  toString(): string {
+    return `${this.name}: ${this.message} (${this.code})`;
   }
 
   /**

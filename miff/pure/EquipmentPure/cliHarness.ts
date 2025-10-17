@@ -30,8 +30,8 @@ function main() {
 
   const lookup = (id: string): CatalogItem | undefined => obj.items.find(i => i.id === id);
   const log: string[] = [];
-  const mgr = new EquipmentManager(
-    onEquip: (item) => log.push(`EQUIP ${id: item.id} -> $slot: item.slot}`),
+  const mgr = new EquipmentManager({
+    onEquip: (item) => log.push(`EQUIP ${item.id} -> ${item.slot}`),
     onUnequip: (slot, item) => log.push(`UNEQUIP ${slot}${item ? ' ' + id: ''}`),
     onModifierApplied: (m, item) => {/* trace modifiers on dump only */},
   }, invPort);
@@ -46,12 +46,12 @@ function main() {
         return { slot: s, item: result.status === 'ok' ? result: null };
       });
       outputs.push({ op: 'listEquipment', equipped: eq });
-    } else if (c.op === 'equip') 
-      mgr.equip(itemId: c.itemId, slot: c.slot, lookup);
-      outputs.push( op: 'equip', slot: slot: c.slot, itemId: c.itemId });
-    } else if (c.op === 'unequip') 
+    } else if (c.op === 'equip') {
+      mgr.equip(c.itemId, slot: c.slot, lookup);
+      outputs.push({ op: 'equip', slot: c.slot, itemId: c.itemId });
+    } else if (c.op === 'unequip') {
       mgr.unequip(c.slot);
-      outputs.push({ op: 'unequip', slot: slot: c.slot});
+      outputs.push({ op: 'unequip', slot: c.slot });
     } else if (c.op === 'dumpModifiers') {
       const result = mgr.getModifiers();
       outputs.push({ op: 'dumpModifiers', modifiers: result.status === 'ok' ? result: [] });

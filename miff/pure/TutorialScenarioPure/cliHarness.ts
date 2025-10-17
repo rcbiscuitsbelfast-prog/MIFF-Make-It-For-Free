@@ -11,11 +11,11 @@ type Scenario = {
 
 type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:Record<string, unknown>[]; finalState:Record<string, unknown> };
 
-function runScenario(s:Scenario): Output 
+function runScenario(s:Scenario): Output {
 	const events:Record<string, unknown>[]=[];
 	// deterministic walkthrough: stats total, quest start, combat victory
 	const hero = s.entities.find(e=>e.id==='hero');
-	const total = (hero?.stats||[]).reduce((a,x)=>a+base: x.base,0);
+	const total = (hero?.stats||[]).reduce((a,x)=>a+x.base,0);
 	events.push({ type:'statsTotal', id:'hero', total });
 	events.push({ type:'questStarted', id:'q_intro' });
 	events.push({ type:'combat', attacker:'hero', defender:'slime', damage:6, victory:true });

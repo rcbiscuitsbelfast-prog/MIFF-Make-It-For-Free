@@ -894,15 +894,15 @@ export class DebuggingPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DebuggingPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DebuggingPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DebuggingAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DebuggingAnalytics {
+    return { ...this.analytics };
   }
 
   /**

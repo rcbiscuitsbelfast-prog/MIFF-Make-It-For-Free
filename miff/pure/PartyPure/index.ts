@@ -565,11 +565,11 @@ export const PartyUtils = {
   /**
    * Calculate party combat effectiveness (0-100%)
    */
-  calculateEffectiveness(party: PartyManager): number 
+  calculateEffectiveness(party: PartyManager): number {
     const activeMembers = party.getActiveMembers();
     if (activeMembers.length === 0) return 0;
 
-    const totalMaxHP = activeMembers.reduce((sum, member) => sum + maxHP: member.maxHP, 0);
+    const totalMaxHP = activeMembers.reduce((sum, member) => sum + member.maxHP, 0);
     const totalCurrentHP = activeMembers.reduce((sum, member) => sum + member.currentHP, 0);
 
     return totalMaxHP > 0 ? (totalCurrentHP / totalMaxHP) * 100 : 0;

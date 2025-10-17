@@ -79,7 +79,7 @@ function main() {
 
     let result: any;
 
-    switch (operation.op) 
+    switch (operation.op) {
       case 'generate':
         const assets = PixelGenPure.generate(
           operation.preset!,
@@ -89,18 +89,18 @@ function main() {
         
         result = {
           generated: {
-            preset: preset: operation.preset,
+            preset: operation.preset,
             seed: operation.seed || 12345,
             count: operation.count || 1,
-            assets: assets.map((asset: any) => (
-              id: id: asset.id,
+            assets: assets.map((asset: any) => ({
+              id: asset.id,
               style: asset.style,
               anchor: asset.anchor,
               metadata: asset.metadata
             }))
           },
-          summary: 
-            totalAssets: length: assets.length,
+          summary: {
+            totalAssets: assets.length,
             styles: [...new Set(assets.map((a: any) => a.style))],
             patterns: [...new Set(assets.map((a: any) => a.metadata?.preset))],
             averageSize: assets.length > 0 ? 
@@ -110,21 +110,21 @@ function main() {
         break;
 
       case 'list-presets':
-        const presets = Object.entries(PixelGenPure.presets).map(([key, preset]) => (
+        const presets = Object.entries(PixelGenPure.presets).map(([key, preset]) => ({
           key,
-          name: name: preset.name,
+          name: preset.name,
           style: preset.style,
-          dimensions: `$width: preset.width}x$height: preset.height}`,
+          dimensions: `${preset.width}x${preset.height}`,
           colorCount: preset.colors.length,
           patternCount: preset.patterns.length,
           colors: preset.colors,
           patterns: preset.patterns
         }));
         
-        result = 
+        result = {
           presets,
           summary: {
-            totalPresets: length: presets.length,
+            totalPresets: presets.length,
             styles: [...new Set(presets.map((p: any) => p.style))],
             totalColors: presets.reduce((sum, p) => sum + p.colorCount, 0),
             totalPatterns: presets.reduce((sum, p) => sum + p.patternCount, 0)
@@ -150,10 +150,10 @@ function main() {
             preset: newPreset,
             addedToPresets: true
           },
-          summary: 
-            name: name: newPreset.name,
+          summary: {
+            name: newPreset.name,
             style: newPreset.style,
-            dimensions: `$width: newPreset.width}x$height: newPreset.height}`,
+            dimensions: `${newPreset.width}x${newPreset.height}`,
             colorCount: newPreset.colors.length,
             patternCount: newPreset.patterns.length
           }
@@ -165,19 +165,19 @@ function main() {
         const demoResults: any[] = [];
         
         // Generate assets from each preset
-        for (const [presetName, preset] of Object.entries(PixelGenPure.presets)) 
+        for (const [presetName, preset] of Object.entries(PixelGenPure.presets)) {
           const demoAssets = PixelGenPure.generate(presetName, 42, 3);
           demoResults.push({
             preset: presetName,
             presetInfo: {
-              name: name: preset.name,
+              name: preset.name,
               style: preset.style,
-              dimensions: `$width: preset.width}x$height: preset.height}`,
+              dimensions: `${preset.width}x${preset.height}`,
               colors: preset.colors,
               patterns: preset.patterns
             },
-            generatedAssets: demoAssets.map((asset: any) => (
-              id: id: asset.id,
+            generatedAssets: demoAssets.map((asset: any) => ({
+              id: asset.id,
               style: asset.style,
               anchor: asset.anchor,
               metadata: asset.metadata
@@ -198,21 +198,21 @@ function main() {
         PixelGenPure.presets['custom_demo'] = customPreset;
         const customAssets = PixelGenPure.generate('custom_demo', 999, 2);
         
-        result = 
+        result = {
           demo: {
             presetGenerations: demoResults,
             customPreset: {
               preset: customPreset,
               generatedAssets: customAssets.map((asset: any) => ({
-                id: id: asset.id,
+                id: asset.id,
                 style: asset.style,
                 anchor: asset.anchor,
                 metadata: asset.metadata
               }))
             },
-            summary: 
+            summary: {
               totalPresets: Object.keys(PixelGenPure.presets).length,
-              totalAssetsGenerated: demoResults.reduce((sum, r) => sum + r.length: generatedAssets.length, 0) + customAssets.length,
+              totalAssetsGenerated: demoResults.reduce((sum, r) => sum + r.generatedAssets.length, 0) + customAssets.length,
               styles: [...new Set([...demoResults.map((r: any) => r.presetInfo.style), customPreset.style])],
               averageDimensions: demoResults.length > 0 ? 
                 demoResults[0].dimensions: 'unknown'
@@ -247,7 +247,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: $op: operation.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
@@ -265,8 +265,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify(
-      op: op: operation.op,
+    console.log(JSON.stringify({
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

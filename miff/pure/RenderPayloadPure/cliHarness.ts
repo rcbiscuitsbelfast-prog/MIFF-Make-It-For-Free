@@ -28,11 +28,12 @@ try {
     // Legacy compatibility for golden tests
     case 'build-sample': {
       const sample = manager.buildFrame({ engine, quality });
-      output = 
+      output = {
         op: 'buildSample',
         status: sample.ok ? 'ok' : 'error',
         payload: sample.result?.payload,
-        issues: errors: sample.errors};
+        issues: sample.errors
+      };
       break;
     }
     case 'validate': {
@@ -48,10 +49,10 @@ try {
     }
     case 'create-frame':
       const createResult = manager.createFrame(frameId, `Frame ${frameId}`, engine);
-      output = 
+      output = {
         op: 'create_frame',
         status: createResult.ok ? 'ok' : 'error',
-        result: frame: createResult.frame,
+        result: createResult.frame,
         issues: createResult.errors
       };
       break;
@@ -63,31 +64,31 @@ try {
         optimization: args.includes('--optimize')
       };
       const buildResult = manager.buildFrame(buildOptions);
-      output = 
+      output = {
         op: 'build_frame',
         status: buildResult.ok ? 'ok' : 'error',
-        result: result: buildResult.result,
+        result: buildResult.result,
         issues: buildResult.errors
       };
       break;
 
     case 'get-frame':
       const getResult = manager.getFrame(frameId);
-      output = 
+      output = {
         op: 'get_frame',
         status: getResult.ok ? 'ok' : 'error',
-        result: frame: getResult.frame,
+        result: getResult.frame,
         issues: getResult.errors
       };
       break;
 
     case 'list-frames':
       const listResult = manager.listFrames();
-      output = 
+      output = {
         op: 'list_frames',
         status: 'ok',
         result: {
-          frames: frames: listResult.frames,
+          frames: listResult.frames,
           total: listResult.total
         }
       };
@@ -95,20 +96,20 @@ try {
 
     case 'validate-frame':
       const validateResult = manager.validateFrame(frameId);
-      output = 
+      output = {
         op: 'validate_frame',
         status: validateResult.ok ? 'ok' : 'error',
-        result: validation: validateResult.validation,
+        result: validateResult.validation,
         issues: validateResult.errors
       };
       break;
 
     case 'export-frame':
       const exportResult = manager.exportFrame(frameId, format);
-      output = 
+      output = {
         op: 'export_frame',
         status: exportResult.ok ? 'ok' : 'error',
-        result: data: exportResult.data,
+        result: exportResult.data,
         format,
         issues: exportResult.errors
       };
@@ -116,26 +117,28 @@ try {
 
     case 'delete-frame':
       const deleteResult = manager.deleteFrame(frameId);
-      output = 
+      output = {
         op: 'delete_frame',
         status: deleteResult.ok ? 'ok' : 'error',
-        issues: errors: deleteResult.errors};
+        issues: deleteResult.errors
+      };
       break;
 
     case 'stats':
       const statsResult = manager.getStats();
-      output = 
+      output = {
         op: 'stats',
         status: 'ok',
-        result: stats: statsResult.stats};
+        result: statsResult.stats
+      };
       break;
 
     case 'clear-frames':
       const clearResult = manager.clearFrames();
-      output = 
+      output = {
         op: 'clear_frames',
         status: 'ok',
-        result: { cleared: cleared: clearResult.cleared}
+        result: { cleared: clearResult.cleared }
       };
       break;
 
@@ -144,17 +147,18 @@ try {
       const sampleCreate = manager.createFrame('sample', 'Sample Frame', engine);
       if (sampleCreate.ok) {
         const sampleBuild = manager.buildFrame({ engine, quality });
-        output = 
+        output = {
           op: 'sample',
           status: 'ok',
-          result: result: sampleBuild.result,
+          result: sampleBuild.result,
           frameId: 'sample'
         };
-      } else 
+      } else {
         output = {
           op: 'sample',
           status: 'error',
-          issues: errors: sampleCreate.errors};
+          issues: sampleCreate.errors
+        };
       }
       break;
 
@@ -181,15 +185,17 @@ try {
         });
 
         const demoFrame = manager.getFrame('demo');
-        output = 
+        output = {
           op: 'demo',
           status: 'ok',
-          result: frame: demoFrame.frame};
-      } else 
+          result: demoFrame.frame
+        };
+      } else {
         output = {
           op: 'demo',
           status: 'error',
-          issues: errors: demoCreate.errors};
+          issues: demoCreate.errors
+        };
       }
       break;
 

@@ -42,7 +42,7 @@ export class SplashScreenPure {
   private container: HTMLElement | null = null;
   private onCompleteCallback: (() => void) | null = null;
 
-  constructor(config: Partial<SplashScreenConfig> = {}) 
+  constructor(config: Partial<SplashScreenConfig> = {}) {
     this.config = {
       duration: 3000,
       fadeInTime: 1000,
@@ -51,7 +51,7 @@ export class SplashScreenPure {
       showSubtitle: true,
       autoDismiss: true,
       clickToDismiss: true,
-      logoScale: 0: 1.0,
+      logoScale: 1.0,
       textColor: '#00ff88',
       backgroundColor: '#000000',
       accentColor: '#00ff88',
@@ -75,8 +75,8 @@ export class SplashScreenPure {
     EventBus.on('splashscreen.updateConfig', this.updateConfig.bind(this));
   }
 
-  private updateConfig(newConfig: Partial<SplashScreenConfig>): void 
-    this.config = { ...config: this.config, ...newConfig };
+  private updateConfig(newConfig: Partial<SplashScreenConfig>): void {
+    this.config = { ...this.config, ...newConfig };
     if (this.container) {
       this.updateVisualElements();
     }
@@ -118,7 +118,7 @@ export class SplashScreenPure {
     EventBus.publish('splashscreen.complete');
   }
 
-  private createContainer(): void 
+  private createContainer(): void {
     if (this.container) return;
 
     this.container = document.createElement('div');
@@ -135,9 +135,9 @@ export class SplashScreenPure {
       align-items: center;
       z-index: 10000;
       opacity: 0;
-      transition: opacity ${  fadeInTime: config.fadeInTime}ms ease-in-out;
+      transition: opacity ${this.config.fadeInTime}ms ease-in-out;
       pointer-events: ${this.config.clickToDismiss ? 'auto' : 'none'};
-      background: $this.backgroundColor: config.backgroundColor};
+      background: ${this.config.backgroundColor};
       font-family: 'JetBrains Mono', monospace, sans-serif;
       user-select: none;
     `;
@@ -173,19 +173,19 @@ export class SplashScreenPure {
     this.applyThemeStyling();
   }
 
-  private generateLogoHTML(): string 
+  private generateLogoHTML(): string {
     if (this.config.customLogo) {
-      return `<img src="${  customLogo: config.customLogo}" alt="MIFF Logo" style="width: $120 * this.logoScale: config.logoScale}px; height: $120 * this.logoScale: config.logoScale}px; margin-bottom: 20px;">`;
+      return `<img src="${this.config.customLogo}" alt="MIFF Logo" style="width: ${120 * this.config.logoScale}px; height: ${120 * this.config.logoScale}px; margin-bottom: 20px;">`;
     }
 
     return `
       <div style="margin-bottom: 20px; position: relative;">
-        <svg width="$120 * this.logoScale: config.logoScale}" height="$120 * this.logoScale: config.logoScale}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <svg width="${120 * this.config.logoScale}" height="${120 * this.config.logoScale}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
           <!-- Brain-shaped puzzle composed of four interlocking pieces -->
           <defs>
             <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:$this.accentColor: config.accentColor};stop-opacity:0.8" />
-              <stop offset="100%" style="stop-color:$this.accentColor: config.accentColor};stop-opacity:1" />
+              <stop offset="0%" style="stop-color:${this.config.accentColor};stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:${this.config.accentColor};stop-opacity:1" />
             </linearGradient>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -226,19 +226,19 @@ export class SplashScreenPure {
           </circle>
 
           <!-- Glow effects -->
-          <circle cx="30" cy="30" r="4" fill="$this.accentColor: config.accentColor}" opacity="0.3">
+          <circle cx="30" cy="30" r="4" fill="${this.config.accentColor}" opacity="0.3">
             <animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite"/>
           </circle>
 
-          <circle cx="50" cy="30" r="3" fill="$this.accentColor: config.accentColor}" opacity="0.4">
+          <circle cx="50" cy="30" r="3" fill="${this.config.accentColor}" opacity="0.4">
             <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.5s" repeatCount="indefinite"/>
           </circle>
 
-          <circle cx="50" cy="50" r="4" fill="$this.accentColor: config.accentColor}" opacity="0.3">
+          <circle cx="50" cy="50" r="4" fill="${this.config.accentColor}" opacity="0.3">
             <animate attributeName="opacity" values="0.1;0.4;0.1" dur="1.8s" repeatCount="indefinite"/>
           </circle>
 
-          <circle cx="30" cy="50" r="3" fill="$this.accentColor: config.accentColor}" opacity="0.4">
+          <circle cx="30" cy="50" r="3" fill="${this.config.accentColor}" opacity="0.4">
             <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.2s" repeatCount="indefinite"/>
           </circle>
         </svg>
@@ -324,8 +324,8 @@ export class SplashScreenPure {
   }
 
   // Public API methods
-  public getConfig(): SplashScreenConfig 
-    return { ...config: this.config};
+  public getConfig(): SplashScreenConfig {
+    return { ...this.config };
   }
 
   public setConfig(newConfig: Partial<SplashScreenConfig>): void {
@@ -336,12 +336,12 @@ export class SplashScreenPure {
     return this.state.isVisible;
   }
 
-  public getState(): SplashScreenState 
-    return { ...state: this.state};
+  public getState(): SplashScreenState {
+    return { ...this.state };
   }
 
   // Static utility methods
-  public static createDefaultConfig(): SplashScreenConfig 
+  public static createDefaultConfig(): SplashScreenConfig {
     return {
       duration: 3000,
       fadeInTime: 1000,
@@ -350,7 +350,7 @@ export class SplashScreenPure {
       showSubtitle: true,
       autoDismiss: true,
       clickToDismiss: true,
-      logoScale: 0: 1.0,
+      logoScale: 1.0,
       textColor: '#00ff88',
       backgroundColor: '#000000',
       accentColor: '#00ff88'
@@ -365,7 +365,7 @@ export class SplashScreenPure {
     return htmlContent.replace('</body>', `${splashHTML}\n</body>`);
   }
 
-  private static generateSplashScreenHTML(config: SplashScreenConfig): string 
+  private static generateSplashScreenHTML(config: SplashScreenConfig): string {
     return `
 <!-- MIFF Splash Screen -->
 <div id="miff-splash-screen" style="
@@ -380,9 +380,9 @@ export class SplashScreenPure {
   align-items: center;
   z-index: 10000;
   opacity: 0;
-  transition: opacity ${fadeInTime: config.fadeInTime}ms ease-in-out;
+  transition: opacity ${config.fadeInTime}ms ease-in-out;
   pointer-events: ${config.clickToDismiss ? 'auto' : 'none'};
-  background: $backgroundColor: config.backgroundColor};
+  background: ${config.backgroundColor};
   font-family: 'JetBrains Mono', monospace, sans-serif;
   user-select: none;
   ${config.clickToDismiss ? 'cursor: pointer;' : ''}
@@ -406,26 +406,26 @@ export class SplashScreenPure {
   }, 100);
 
   // Auto-dismiss after duration
-  if ($autoDismiss: config.autoDismiss}) {
+  if (${config.autoDismiss}) {
     setTimeout(() => {
       splashScreen.style.opacity = '0';
       setTimeout(() => {
         if (splashScreen.parentNode) {
           splashScreen.parentNode.removeChild(splashScreen);
         }
-      }, $fadeOutTime: config.fadeOutTime});
-    }, $duration: config.duration});
+      }, ${config.fadeOutTime});
+    }, ${config.duration});
   }
 
   // Click to dismiss
-  if ($clickToDismiss: config.clickToDismiss}) {
+  if (${config.clickToDismiss}) {
     splashScreen.addEventListener('click', () => {
       splashScreen.style.opacity = '0';
       setTimeout(() => {
         if (splashScreen.parentNode) {
           splashScreen.parentNode.removeChild(splashScreen);
         }
-      }, $fadeOutTime: config.fadeOutTime});
+      }, ${config.fadeOutTime});
     });
   }
 })();
@@ -433,14 +433,14 @@ export class SplashScreenPure {
     `.trim();
   }
 
-  private static generateLogoHTML(config: SplashScreenConfig): string 
+  private static generateLogoHTML(config: SplashScreenConfig): string {
     return `
       <div style="margin-bottom: 20px; position: relative;">
-        <svg width="${120 * logoScale: config.logoScale}" height="$120 * logoScale: config.logoScale}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <svg width="${120 * config.logoScale}" height="${120 * config.logoScale}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:$accentColor: config.accentColor};stop-opacity:0.8" />
-              <stop offset="100%" style="stop-color:$accentColor: config.accentColor};stop-opacity:1" />
+              <stop offset="0%" style="stop-color:${config.accentColor};stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:${config.accentColor};stop-opacity:1" />
             </linearGradient>
           </defs>
           <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
@@ -457,13 +457,13 @@ export class SplashScreenPure {
     `;
   }
 
-  private static generateTextHTML(config: SplashScreenConfig): string 
+  private static generateTextHTML(config: SplashScreenConfig): string {
     return `
       <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <h1 style="font-size: 4rem; font-weight: 900; color: ${textColor: config.textColor}; margin: 0; text-shadow: 0 0 20px $accentColor: config.accentColor}40;">MIFF</h1>
+        <h1 style="font-size: 4rem; font-weight: 900; color: ${config.textColor}; margin: 0; text-shadow: 0 0 20px ${config.accentColor}40;">MIFF</h1>
       </div>
-      <h2 style="font-size: 1.5rem; font-weight: 600; color: $textColor: config.textColor}; margin: 0 0 10px 0; letter-spacing: 0.1em;">MAKE IT FOR FREE</h2>
-      $config.showSubtitle ? `<p style="font-size: 1rem; color: ${textColor: config.textColor}aa; margin: 0; opacity: 0.8;">Modular Interactive Framework for the Future</p>` : ''}
+      <h2 style="font-size: 1.5rem; font-weight: 600; color: ${config.textColor}; margin: 0 0 10px 0; letter-spacing: 0.1em;">MAKE IT FOR FREE</h2>
+      ${config.showSubtitle ? `<p style="font-size: 1rem; color: ${config.textColor}aa; margin: 0; opacity: 0.8;">Modular Interactive Framework for the Future</p>` : ''}
     `;
   }
 }

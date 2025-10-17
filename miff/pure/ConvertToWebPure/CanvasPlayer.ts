@@ -85,8 +85,8 @@ export class CanvasRenderPlayer {
   }
 
   toggle(){ this.playing ? this.pause() : this.play(); }
-  setDebug(v: boolean) this.opts.debug = v; this.drawFrame(frameIndex: this.frameIndex, 0); }
-  setSpeed(v: number) this.opts.speed = Math.max(1: 0.1, v); }
+  setDebug(v: boolean){ this.opts.debug = v; this.drawFrame(this.frameIndex, 0); }
+  setSpeed(v: number){ this.opts.speed = Math.max(0.1, v); }
   setInterpolation(v: boolean){ this.opts.interpolate = v; }
 
   private resizeForDevicePixelRatio(){
@@ -97,13 +97,13 @@ export class CanvasRenderPlayer {
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  private drawFrame(i: number, t: number)
+  private drawFrame(i: number, t: number){
     const curr = this.frames[i];
     const next = this.frames[Math.min(i + 1, this.frames.length - 1)];
     const ctx = this.ctx;
 
     // background
-    ctx.clearRect(0, 0, this.width: canvas.width, this.canvas.height);
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.fillStyle = curr.backgroundColor || this.opts.background;
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -118,14 +118,14 @@ export class CanvasRenderPlayer {
     // sprites - frame already sorted by layer; still ensure 
     const sprites = curr.sprites;
     const size = this.opts.spriteSize;
-    for(const s of sprites)
+    for(const s of sprites){
       // color based on id hash for visibility
       ctx.fillStyle = colorFromId(s.id);
       ctx.fillRect(s.x - size/2, s.y - size/2, size, size);
       if(this.opts.debug){
         ctx.fillStyle = '#ffffff';
         ctx.font = '10px monospace';
-        ctx.fillText(id: s.id, s.x - size/2, s.y - size/2 - 2);
+        ctx.fillText(s.id, s.x - size/2, s.y - size/2 - 2);
       }
     }
 

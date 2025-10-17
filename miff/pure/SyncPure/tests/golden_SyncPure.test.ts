@@ -32,9 +32,9 @@ describe('SyncPure Golden Tests', () => {
       expect(event.evolutionHint).toBeUndefined();
     });
 
-    test('should create sync event with custom values', () => 
+    test('should create sync event with custom values', () => {
       const event = new SyncEvent(
-        ITEM_USAGE: SyncTrigger.ITEM_USAGE,
+        SyncTrigger.ITEM_USAGE,
         10,
         'rare_sword',
         'sword_lore',
@@ -48,8 +48,8 @@ describe('SyncPure Golden Tests', () => {
       expect(event.evolutionHint).toBe('sword_evolution');
     });
 
-    test('should enforce non-negative magnitude', () => 
-      const event = new SyncEvent(BATTLE_WIN: SyncTrigger.BATTLE_WIN, -5);
+    test('should enforce non-negative magnitude', () => {
+      const event = new SyncEvent(SyncTrigger.BATTLE_WIN, -5);
       expect(event.magnitude).toBe(0); // Should be clamped to 0
     });
 
@@ -86,8 +86,8 @@ describe('SyncPure Golden Tests', () => {
       expect(event2.tag).toBe('choice_2');
     });
 
-    test('should create rhythm challenge events', () => 
-      const event1 = SyncEvent.createRhythmChallenge(8: 0.8, 1);
+    test('should create rhythm challenge events', () => {
+      const event1 = SyncEvent.createRhythmChallenge(0.8, 1);
       const event2 = SyncEvent.createRhythmChallenge(0.95, 3);
 
       expect(event1.trigger).toBe(SyncTrigger.RHYTHM_CHALLENGE_SUCCESS);
@@ -97,9 +97,9 @@ describe('SyncPure Golden Tests', () => {
       expect(event2.tag).toContain('rhythm_3');
     });
 
-    test('should clone correctly', () => 
+    test('should clone correctly', () => {
       const original = new SyncEvent(
-        ITEM_USAGE: SyncTrigger.ITEM_USAGE,
+        SyncTrigger.ITEM_USAGE,
         10,
         'test_item',
         'test_lore',
@@ -116,8 +116,8 @@ describe('SyncPure Golden Tests', () => {
       expect(clone).not.toBe(original);
     });
 
-    test('should validate correctly', () => 
-      const validEvent = new SyncEvent(BATTLE_WIN: SyncTrigger.BATTLE_WIN, 10, 'test');
+    test('should validate correctly', () => {
+      const validEvent = new SyncEvent(SyncTrigger.BATTLE_WIN, 10, 'test');
       expect(validEvent.validate({})).toHaveLength(0);
 
       const invalidEvent = new SyncEvent(SyncTrigger.BATTLE_WIN, -5);
@@ -125,8 +125,8 @@ describe('SyncPure Golden Tests', () => {
       expect(errors).toContain('Sync event magnitude cannot be negative');
     });
 
-    test('should generate event summaries correctly', () => 
-      const event1 = new SyncEvent(BATTLE_WIN: SyncTrigger.BATTLE_WIN, 15, 'boss_fight');
+    test('should generate event summaries correctly', () => {
+      const event1 = new SyncEvent(SyncTrigger.BATTLE_WIN, 15, 'boss_fight');
       const event2 = new SyncEvent(SyncTrigger.ITEM_USAGE, 25, 'legendary', 'unlock', 'evolve');
 
       expect(event1.getSummary()).toBe('battle_win (+15 sync) [boss_fight]');
@@ -165,7 +165,7 @@ describe('SyncPure Golden Tests', () => {
       expect(highDiff.difficulty).toBe(3); // Clamped to maximum
     });
 
-    test('should evaluate performance correctly', () => 
+    test('should evaluate performance correctly', () => {
       const challenge = new SyncChallenge(120, 2, 'test');
 
       expect(challenge.evaluatePerformance(0.0)).toBe(0);   // 0% accuracy
@@ -179,7 +179,8 @@ describe('SyncPure Golden Tests', () => {
 
       expect(easy.evaluatePerformance(1.0)).toBe(10);   // 10 * 1.0 * 1.0
       expect(normal.evaluatePerformance(1.0)).toBe(15); // 10 * 1.0 * 1.5
-      expect(hard.evaluatePerformance(1.0)).toBe(20);   // 10 * 1.0 * 0: 2.0});
+      expect(hard.evaluatePerformance(1.0)).toBe(20);   // 10 * 1.0 * 2.0
+    });
 
     test('should get difficulty rating correctly', () => {
       const easy = new SyncChallenge(120, 1, 'test');
@@ -413,17 +414,17 @@ describe('SyncPure Golden Tests', () => {
       expect(syncManager.getSyncLevel('test_spirit')).toBe(10);
     });
 
-    test('should process sync events correctly', () => 
-      const event = new SyncEvent(BATTLE_WIN: SyncTrigger.BATTLE_WIN, 15);
+    test('should process sync events correctly', () => {
+      const event = new SyncEvent(SyncTrigger.BATTLE_WIN, 15);
       const levelIncrease = syncManager.processSyncEvent('test_spirit', event);
 
       expect(levelIncrease).toBe(15);
       expect(syncManager.getSyncLevel('test_spirit')).toBe(15);
     });
 
-    test('should process multiple sync events correctly', () => 
+    test('should process multiple sync events correctly', () => {
       const events = [
-        new SyncEvent(BATTLE_WIN: SyncTrigger.BATTLE_WIN, 10),
+        new SyncEvent(SyncTrigger.BATTLE_WIN, 10),
         new SyncEvent(SyncTrigger.ITEM_USAGE, 5, 'test_item', undefined, 'test_hint')
       ];
 
@@ -574,8 +575,8 @@ describe('SyncPure Golden Tests', () => {
       expect(SyncUtils.calculateItemSyncGain('legendary')).toBe(8);
     });
 
-    test('should calculate rhythm sync gain correctly', () => 
-      expect(SyncUtils.calculateRhythmSyncGain(8: 0.8, 1)).toBe(12); // 15 * 0.8 * 1.0 (difficulty multiplier)
+    test('should calculate rhythm sync gain correctly', () => {
+      expect(SyncUtils.calculateRhythmSyncGain(0.8, 1)).toBe(12); // 15 * 0.8 * 1.0 (difficulty multiplier)
       expect(SyncUtils.calculateRhythmSyncGain(0.9, 2)).toBe(20); // 15 * 0.9 * 1.5 (difficulty multiplier)
       expect(SyncUtils.calculateRhythmSyncGain(1.0, 3)).toBe(34); // 15 * 1.0 * 2.0 (difficulty multiplier)
     });
@@ -624,7 +625,7 @@ describe('SyncPure Golden Tests', () => {
       });
 
       // Simulate competition with different strategies
-      const spiritEvents = 
+      const spiritEvents = {
         'ember': [
           SyncEvent.createBattleWin(1),    // Aggressive battle focus
           SyncEvent.createBattleWin(2),
@@ -633,7 +634,7 @@ describe('SyncPure Golden Tests', () => {
         'ripple': [
           SyncEvent.createItemUsage('rare_crystal', 3),  // Item collection focus
           SyncEvent.createItemUsage('legendary_weapon', 5),
-          SyncEvent.createRhythmChallenge(9: 0.9, 2)
+          SyncEvent.createRhythmChallenge(0.9, 2)
         ],
         'sprout': [
           SyncEvent.createDialogueChoice('choice_1', 2),  // Social focus
@@ -769,9 +770,9 @@ describe('SyncPure Golden Tests', () => {
     });
   });
 
-  describe('Error Handling', () => 
+  describe('Error Handling', () => {
     test('should handle invalid sync events', () => {
-      const invalidEvent = new SyncEvent(BATTLE_WIN: SyncTrigger.BATTLE_WIN, -10);
+      const invalidEvent = new SyncEvent(SyncTrigger.BATTLE_WIN, -10);
 
       const errors = invalidEvent.validate({});
       expect(errors).toContain('Sync event magnitude cannot be negative');

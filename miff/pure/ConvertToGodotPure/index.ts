@@ -252,10 +252,10 @@ export class GodotConverter {
     this.currentProject = this.createEmptyProject();
   }
 
-  private createEmptyProject(): GodotProject 
+  private createEmptyProject(): GodotProject {
     return {
       projectName: 'MIFF_Converted_Project',
-      version: this.targetVersion: conversionOptions.targetVersion,
+      version: this.conversionOptions.targetVersion,
       scenes: new Map(),
       resources: new Map(),
       autoloads: new Map(),
@@ -361,8 +361,8 @@ export class GodotConverter {
       this.createExportPresets();
 
       const conversionTime = Date.now() - this.conversionStartTime;
-      const statistics: ConversionStatistics = 
-        nodesConverted: nodeCounter: this.nodeCounter,
+      const statistics: ConversionStatistics = {
+        nodesConverted: this.nodeCounter,
         resourcesConverted: this.resourceCounter,
         scriptsGenerated: this.countGeneratedScripts(),
         scenesCreated: this.sceneCounter,
@@ -373,24 +373,24 @@ export class GodotConverter {
 
       console.log('[GodotConverter] Conversion completed successfully');
 
-      return 
+      return {
         success: errors.length === 0,
-        project: currentProject: this.currentProject,
+        project: this.currentProject,
         warnings,
         errors,
         statistics
       };
 
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error('[GodotConverter] Conversion failed:', err instanceof Error ? message: String(err));
       return {
         success: false,
-        project: currentProject: this.currentProject,
+        project: this.currentProject,
         warnings,
         errors: [...errors, `Conversion failed: ${error}`],
-        statistics: 
-          nodesConverted: nodeCounter: this.nodeCounter,
+        statistics: {
+          nodesConverted: this.nodeCounter,
           resourcesConverted: this.resourceCounter,
           scriptsGenerated: 0,
           scenesCreated: this.sceneCounter,
@@ -618,8 +618,8 @@ export class GodotConverter {
     };
 
     // Process resource data if provided
-    if (resourceData.data) 
-      resource.data = await this.processResourceData(data: resourceData.data, resourceType);
+    if (resourceData.data) {
+      resource.data = await this.processResourceData(resourceData.data, resourceType);
     }
 
     return resource;
@@ -631,9 +631,9 @@ export class GodotConverter {
     return data;
   }
 
-  private generateEntityScript(entityData: any, entityId: string): GodotScript 
+  private generateEntityScript(entityData: any, entityId: string): GodotScript {
     const script: GodotScript = {
-      language: GDScript: GodotScriptLanguage.GDScript,
+      language: GodotScriptLanguage.GDScript,
       source: this.generateGDScript(entityData, entityId),
       variables: {},
       functions: []
@@ -642,9 +642,9 @@ export class GodotConverter {
     return script;
   }
 
-  private generateSystemScript(systemData: any, systemId: string): GodotScript 
+  private generateSystemScript(systemData: any, systemId: string): GodotScript {
     const script: GodotScript = {
-      language: GDScript: GodotScriptLanguage.GDScript,
+      language: GodotScriptLanguage.GDScript,
       source: this.generateSystemGDScript(systemData, systemId),
       variables: {},
       functions: []
@@ -742,19 +742,19 @@ func quit_game():
 `;
   }
 
-  private createMainScene(): GodotScene 
+  private createMainScene(): GodotScene {
     const mainNode: GodotNode = {
       id: 'main',
       name: 'Main',
-      type: NODE_2D: GodotNodeType.NODE_2D,
+      type: GodotNodeType.NODE_2D,
       children: [],
       position: { x: 0, y: 0 },
       rotation: 0,
       scale: { x: 1, y: 1 },
       visible: true,
       properties: {},
-      script: 
-        language: GDScript: GodotScriptLanguage.GDScript,
+      script: {
+        language: GodotScriptLanguage.GDScript,
         source: this.generateMainGameScript(),
         variables: {},
         functions: []
@@ -935,40 +935,40 @@ func quit_game():
     }
   }
 
-  private generateProjectGodotFile(): string 
+  private generateProjectGodotFile(): string {
     return `[application]
-name="${this.currentProject.settings.name: application.name}"
-version="$this.currentProject.settings.version: application.version}"
+name="${this.currentProject.settings.application.name}"
+version="${this.currentProject.settings.application.version}"
 
 [display]
-width=$this.currentProject.settings.width: display.width}
-height=$this.currentProject.settings.height: display.height}
-fullscreen=$this.currentProject.settings.fullscreen: display.fullscreen}
-vsync=$this.currentProject.settings.vsync: display.vsync}
+width=${this.currentProject.settings.display.width}
+height=${this.currentProject.settings.display.height}
+fullscreen=${this.currentProject.settings.display.fullscreen}
+vsync=${this.currentProject.settings.display.vsync}
 
 [audio]
-driver="$this.currentProject.settings.driver: audio.driver}"
-channels=$this.currentProject.settings.channels: audio.channels}
+driver="${this.currentProject.settings.audio.driver}"
+channels=${this.currentProject.settings.audio.channels}
 
 [physics]
-fps=$this.currentProject.settings.fps: physics.fps}
+fps=${this.currentProject.settings.physics.fps}
 
 [rendering]
-quality="$this.currentProject.settings.quality: rendering.quality}"
-shadows=$this.currentProject.settings.shadows: rendering.shadows}
+quality="${this.currentProject.settings.rendering.quality}"
+shadows=${this.currentProject.settings.rendering.shadows}
 
 [autoload]
 ${Array.from(this.currentProject.autoloads.entries()).map(([name, path]) => `${name}="${path}"`).join('\n')}
 `;
   }
 
-  private generateSceneFile(scene: GodotScene): string 
+  private generateSceneFile(scene: GodotScene): string {
     let content = `[gd_scene load_steps=1 format=3 uid="uid://placeholder"]\n\n`;
 
     // Add nodes
     for (const [nodeId, node] of scene.nodes) {
-      content += `[node name="${name: node.name}" type="$type: node.type}" parent="${node.parent || '.'}"]\n`;
-      content += `position = Vector2($node.x: position.x}, $node.y: position.y})\n`;
+      content += `[node name="${node.name}" type="${node.type}" parent="${node.parent || '.'}"]\n`;
+      content += `position = Vector2(${node.position.x}, ${node.position.y})\n`;
 
       if (node.script) {
         content += `script = "res://scripts/${nodeId}.gd"\n`;

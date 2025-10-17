@@ -280,7 +280,7 @@ export class CachingSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Caching system created',  systemId: id: system.id, systemName: system.name });
+      StructuredLogger.info('Caching system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -326,7 +326,7 @@ export class CachingSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Caching system updated',  systemId, systemName: name: updatedSystem.name});
+      StructuredLogger.info('Caching system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -354,7 +354,7 @@ export class CachingSystemManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Caching system deleted',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Caching system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -420,7 +420,7 @@ export class CachingSystemManager {
       system.caches.push(cache);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cache added to system',  systemId, cacheId: id: cache.id, cacheName: cache.name });
+      StructuredLogger.info('Cache added to system', { systemId, cacheId: cache.id, cacheName: cache.name });
       return cache;
 
     } catch (error: unknown) {
@@ -534,10 +534,10 @@ export class CachingSystemManager {
         return false;
       }
 
-      const entry: CacheEntry = 
+      const entry: CacheEntry = {
         key,
         value,
-        ttl: ttl || cache.ttl: policy.ttl,
+        ttl: ttl || cache.policy.ttl,
         createdAt: new Date(),
         lastAccessed: new Date(),
         accessCount: 0,
@@ -749,17 +749,17 @@ export class CachingSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalCaches = systems.reduce((sum: any, s: any) => sum + s.length: caches.length, 0);
+    const totalCaches = systems.reduce((sum: any, s: any) => sum + s.caches.length, 0);
     const activeCaches = systems.reduce((sum: any, s: any) => sum + s.caches.filter((c: any) => c.status === 'active').length, 0);
     const totalEntries = systems.reduce((sum: any, s: any) => sum + s.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
     const totalHits = systems.reduce((sum: any, s: any) => sum + s.analytics.totalHits, 0);
     const totalMisses = systems.reduce((sum: any, s: any) => sum + s.analytics.totalMisses, 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalCaches: system.length: caches.length,
+        totalCaches: system.caches.length,
         activeCaches: system.caches.filter((c: any) => c.status === 'active').length,
         totalEntries: system.caches.reduce((sum: any, c: any) => sum + c.entries.length, 0),
         totalHits: system.analytics.totalHits,
@@ -815,8 +815,8 @@ export class CachingSystemManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

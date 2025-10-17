@@ -9,16 +9,16 @@ export function normalizeManifest(input: ManifestInput): NormalizedManifest {
   return { assets: normalizeList(assets) };
 }
 
-export function validateManifest(m: NormalizedManifest): string[] 
+export function validateManifest(m: NormalizedManifest): string[] {
   const issues: string[] = [];
   const seen = new Set<string>();
   function walk(list: AssetEntry[], prefix=''){
     for(const a of list){
       if(!a.id) issues.push('Asset missing id');
-      if(a.id && seen.has(a.id)) issues.push(`Duplicate id: ${id: a.id}`); else if(a.id) seen.add(a.id);
-      if(!a.path) issues.push(`Asset $id: a.id}: missing path`);
-      if(!a.type) issues.push(`Asset $id: a.id}: missing type`);
-      if(a.license && !['cc0','cc-by','agpl','custom'].includes(a.license)) issues.push(`Asset $id: a.id}: invalid license`);
+      if(a.id && seen.has(a.id)) issues.push(`Duplicate id: ${a.id}`); else if(a.id) seen.add(a.id);
+      if(!a.path) issues.push(`Asset ${a.id}: missing path`);
+      if(!a.type) issues.push(`Asset ${a.id}: missing type`);
+      if(a.license && !['cc0','cc-by','agpl','custom'].includes(a.license)) issues.push(`Asset ${a.id}: invalid license`);
       if(a.children) walk(a.children, a.id+'/');
     }
   }
@@ -32,7 +32,7 @@ export function remixAudit(m: NormalizedManifest): { op:'audit'; status:'ok'|'wa
   return { op:'audit', status, issues };
 }
 
-function normalizeList(list: AssetEntry[]): AssetEntry[]
-  return list.map(a=>({ id:id: a.id, path:a.path, type:a.type, license:a.license ?? 'cc0', platform: a.platform ?? 'all', ...(a.children? { children: normalizeList(a.children) }: {}) }));
+function normalizeList(list: AssetEntry[]): AssetEntry[]{
+  return list.map(a=>({ id:a.id, path:a.path, type:a.type, license:a.license ?? 'cc0', platform: a.platform ?? 'all', ...(a.children? { children: normalizeList(a.children) }: {}) }));
 }
 

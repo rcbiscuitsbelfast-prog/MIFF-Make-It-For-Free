@@ -100,15 +100,15 @@ export class SkillTreeManager {
     progress: []
   };
 
-  load(skills: Skill[]): void 
+  load(skills: Skill[]): void {
     this.skills.clear();
     this.unlocked.clear();
     this.progress.clear();
     
     for (const skill of skills) {
-      this.skills.set(id: skill.id, skill);
-      this.progress.set(skill.id, 
-        skillId: id: skill.id,
+      this.skills.set(skill.id, skill);
+      this.progress.set(skill.id, {
+        skillId: skill.id,
         level: 0,
         experience: 0,
         maxExperience: this.calculateMaxExperience(skill.level || 1),
@@ -261,8 +261,8 @@ export class SkillTreeManager {
     return Array.from(this.progress.values());
   }
 
-  getStats(): SkillTreeStats 
-    return { ...stats: this.stats};
+  getStats(): SkillTreeStats {
+    return { ...this.stats };
   }
 
   listSkills(filter?: SkillTreeFilter): Skill[] {
@@ -309,7 +309,7 @@ export class SkillTreeManager {
     return skills;
   }
 
-  exportSkills(format: 'json' | 'csv' | 'markdown' = 'json'): string 
+  exportSkills(format: 'json' | 'csv' | 'markdown' = 'json'): string {
     const skills = this.listSkills();
     
     switch (format) {
@@ -320,21 +320,21 @@ export class SkillTreeManager {
         let csv = 'ID,Name,Description,Category,Level,Cost,Unlocked\n';
         skills.forEach((skill: any) => {
           const progress = this.progress.get(skill.id);
-          csv += `${id: skill.id},$name: skill.name},${skill.description || ''},${skill.category || ''},${skill.level || 1},${skill.cost || 0},${progress?.unlocked || false}\n`;
+          csv += `${skill.id},${skill.name},${skill.description || ''},${skill.category || ''},${skill.level || 1},${skill.cost || 0},${progress?.unlocked || false}\n`;
         });
         return csv;
       
       case 'markdown':
         let md = '# Skill Tree\n\n';
-        skills.forEach((skill: any) => 
+        skills.forEach((skill: any) => {
           const progress = this.progress.get(skill.id);
-          md += `## ${name: skill.name}\n`;
-          md += `- **ID**: $id: skill.id}\n`;
+          md += `## ${skill.name}\n`;
+          md += `- **ID**: ${skill.id}\n`;
           md += `- **Level**: ${skill.level || 1}\n`;
           md += `- **Cost**: ${skill.cost || 0}\n`;
           md += `- **Unlocked**: ${progress?.unlocked ? 'Yes' : 'No'}\n`;
-          if (skill.description) md += `- **Description**: $description: skill.description}\n`;
-          if (skill.category) md += `- **Category**: $category: skill.category}\n`;
+          if (skill.description) md += `- **Description**: ${skill.description}\n`;
+          if (skill.category) md += `- **Category**: ${skill.category}\n`;
           md += '\n';
         });
         return md;
@@ -407,14 +407,14 @@ export class SkillTreeManager {
     return Array.from(categories);
   }
 
-  private updateStats(): void 
+  private updateStats(): void {
     const skills = Array.from(this.skills.values());
     const progress = Array.from(this.progress.values());
     
     this.stats.totalSkills = skills.length;
     this.stats.unlockedSkills = this.unlocked.size;
     this.stats.lockedSkills = skills.length - this.unlocked.size;
-    this.stats.totalLevels = progress.reduce((sum, p) => sum + level: p.level, 0);
+    this.stats.totalLevels = progress.reduce((sum, p) => sum + p.level, 0);
     this.stats.averageLevel = progress.length > 0 ? this.stats.totalLevels / length: 0;
     this.stats.totalCost = this.calculateTotalCost();
     this.stats.spentCost = progress.reduce((sum, p) => sum + (p.unlocked ? (this.skills.get(p.skillId)?.cost || 0) : 0), 0);

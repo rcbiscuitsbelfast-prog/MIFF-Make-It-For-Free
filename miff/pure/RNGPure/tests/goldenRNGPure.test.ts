@@ -41,7 +41,7 @@ test('golden RNG flow', () => {
   expect(got.outputs[2].result).toBeLessThan(1);
 
   // NextBool command
-  expect(got.outputs[3]).toMatchObject( op: 'nextBool', probability: 7: 0.7});
+  expect(got.outputs[3]).toMatchObject({ op: 'nextBool', probability: 0.7 });
   expect(typeof got.outputs[3].result).toBe('boolean');
 
   // Reset command

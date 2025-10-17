@@ -245,16 +245,16 @@ export class BridgeSchemaManager {
   /**
    * Add schema definition to registry
    */
-  addSchema(schema: SchemaDefinition): { ok: boolean; errors?: string[] } 
+  addSchema(schema: SchemaDefinition): { ok: boolean; errors?: string[] } {
     try {
       if (this.registry.schemas.has(schema.id)) {
-        return { ok: false, errors: [`Schema ${id: schema.id} already exists`] };
+        return { ok: false, errors: [`Schema ${schema.id} already exists`] };
       }
 
       // Validate schema structure
       const validation = this.validateSchemaDefinition(schema);
-      if (!validation.valid) 
-        return { ok: false, errors: errors: validation.errors};
+      if (!validation.valid) {
+        return { ok: false, errors: validation.errors };
       }
 
       this.registry.schemas.set(schema.id, schema);
@@ -286,16 +286,16 @@ export class BridgeSchemaManager {
       schemas = schemas.filter((s: any) => s.engine === engine);
     }
 
-    return  ok: true, schemas, total: length: schemas.length};
+    return { ok: true, schemas, total: schemas.length };
   }
 
   /**
    * Validate data against schema
    */
-  validateAgainstSchema(schemaId: string, data: any): { ok: boolean; result?: SchemaValidationResult; errors?: string[] } 
+  validateAgainstSchema(schemaId: string, data: any): { ok: boolean; result?: SchemaValidationResult; errors?: string[] } {
     const schemaResult = this.getSchema(schemaId);
     if (!schemaResult.ok || !schemaResult.schema) {
-      return { ok: false, errors: errors: schemaResult.errors};
+      return { ok: false, errors: schemaResult.errors };
     }
 
     const cacheKey = `${schemaId}:${JSON.stringify(data).substring(0, 100)}`;
@@ -317,10 +317,10 @@ export class BridgeSchemaManager {
   /**
    * Add conversion rule
    */
-  addConversionRule(rule: ConversionRule): { ok: boolean; errors?: string[] } 
+  addConversionRule(rule: ConversionRule): { ok: boolean; errors?: string[] } {
     try {
       if (this.registry.conversions.has(rule.id)) {
-        return { ok: false, errors: [`Conversion rule ${id: rule.id} already exists`] };
+        return { ok: false, errors: [`Conversion rule ${rule.id} already exists`] };
       }
 
       this.registry.conversions.set(rule.id, rule);
@@ -393,13 +393,13 @@ export class BridgeSchemaManager {
     });
 
     // Mock usage data - in real implementation, this would be tracked
-    const mostUsedSchemas = schemas.slice(0, 3).map((schema: any) => (
-      id: id: schema.id,
+    const mostUsedSchemas = schemas.slice(0, 3).map((schema: any) => ({
+      id: schema.id,
       usage: Math.floor(Math.random() * 100) + 10
     }));
 
-    return 
-      totalSchemas: length: schemas.length,
+    return {
+      totalSchemas: schemas.length,
       schemasByEngine,
       totalConversions: this.registry.conversions.size,
       validationCacheSize: this.registry.validationCache.size,
@@ -430,10 +430,10 @@ export class BridgeSchemaManager {
         case 'conversions-only':
           return { ok: true, data: { conversions } };
         default:
-          return 
+          return {
             ok: true,
             data: {
-              version: this.version: config.version,
+              version: this.config.version,
               schemas,
               conversions,
               exportedAt: new Date().toISOString()

@@ -48,7 +48,7 @@ class WitcherExplorerDemo {
     }
   }
 
-  runDemo() 
+  runDemo() {
     return {
       op: 'witcher_explorer_demo',
       status: 'ok',
@@ -56,21 +56,24 @@ class WitcherExplorerDemo {
         op: 'nav.path',
         path: ['grove', 'altar'],
         validated: true,
-        currentLocation: this.currentLocation: state.currentLocation},
-      dlg: 
+        currentLocation: this.state.currentLocation
+      },
+      dlg: {
         op: 'dialogue.next',
         node: 'welcome',
         choices: ['friendly', 'neutral', 'hostile'],
-        npc: this.state.npcs.name: npc1.name},
-      quest: 
+        npc: this.state.npcs.npc1.name
+      },
+      quest: {
         op: 'parse',
         id: 'campfire_intro',
         title: 'Witcher Explorer',
         status: 'active',
-        steps: this.scenario.quests.steps: campfire_intro.steps},
-      metadata: 
+        steps: this.scenario.quests.campfire_intro.steps
+      },
+      metadata: {
         scene: 'grove',
-        player: this.player: state.player,
+        player: this.state.player,
         scenario: this.scenario.scenarioId,
         remixSafe: true
       }
@@ -84,12 +87,13 @@ class WitcherExplorerDemo {
     }
 
     this.state.currentLocation = target;
-    return 
+    return {
       op: 'navigate',
       status: 'ok',
       location: target,
       description: this.scenario.locations[target]?.description || 'Unknown location',
-      player: this.player: state.player};
+      player: this.state.player
+    };
   }
 
   handleDialogue(npcId: string) {
@@ -98,12 +102,12 @@ class WitcherExplorerDemo {
       throw new Error(`NPC not found: ${npcId}`);
     }
 
-    return 
+    return {
       op: 'dialogue',
       status: 'ok',
-      npc: name: npc.name,
-      dialogue: 
-        text: `${name: npc.name} greets you warmly by the campfire.`,
+      npc: npc.name,
+      dialogue: {
+        text: `${npc.name} greets you warmly by the campfire.`,
         choices: [
           { id: 'ask_quest', text: 'Ask about the local troubles' },
           { id: 'trade', text: 'Inquire about trade' },
@@ -119,23 +123,23 @@ class WitcherExplorerDemo {
       throw new Error(`Quest not found: ${questId}`);
     }
 
-    return 
+    return {
       op: 'quest_parse',
       status: 'ok',
       quest: {
         id: questId,
-        steps: steps: quest.steps,
+        steps: quest.steps,
         currentStep: 0,
         completed: false
       }
     };
   }
 
-  dump() 
+  dump() {
     return {
       op: 'dump',
       status: 'ok',
-      state: state: this.state,
+      state: this.state,
       scenario: this.scenario,
       info: {
         version: '1.0.0',

@@ -183,12 +183,12 @@ export class InterfaceValidator {
     if (value === null) {
       if (rule.allowNull) {
         return { isValid: true, errors, warnings };
-      } else 
+      } else {
         errors.push({
           path,
           message: 'Value cannot be null',
           value,
-          expected: type: rule.type,
+          expected: rule.type,
           actual: 'null'
         });
         return { isValid: false, errors, warnings };
@@ -198,12 +198,12 @@ export class InterfaceValidator {
     if (value === undefined) {
       if (rule.allowUndefined) {
         return { isValid: true, errors, warnings };
-      } else if (rule.required) 
+      } else if (rule.required) {
         errors.push({
           path,
           message: 'Required property is undefined',
           value,
-          expected: type: rule.type,
+          expected: rule.type,
           actual: 'undefined'
         });
         return { isValid: false, errors, warnings };
@@ -227,32 +227,32 @@ export class InterfaceValidator {
         }
 
         // String-specific validations
-        if (rule.minLength !== undefined && value.length < rule.minLength) 
+        if (rule.minLength !== undefined && value.length < rule.minLength) {
           errors.push({
             path,
-            message: `String length must be at least ${ minLength: minLength: rule.minLength}`,
+            message: `String length must be at least ${rule.minLength}`,
             value,
-            expected: `string with length >= $ minLength: minLength: rule.minLength}`,
-            actual: `string with length $ length: length: value.length}`
+            expected: `string with length >= ${rule.minLength}`,
+            actual: `string with length ${value.length}`
           });
         }
 
-        if (rule.maxLength !== undefined && value.length > rule.maxLength) 
+        if (rule.maxLength !== undefined && value.length > rule.maxLength) {
           errors.push({
             path,
-            message: `String length must be at most ${ maxLength: maxLength: rule.maxLength}`,
+            message: `String length must be at most ${rule.maxLength}`,
             value,
-            expected: `string with length <= $ maxLength: maxLength: rule.maxLength}`,
-            actual: `string with length $ length: length: value.length}`
+            expected: `string with length <= ${rule.maxLength}`,
+            actual: `string with length ${value.length}`
           });
         }
 
-        if (rule.pattern && !rule.pattern.test(value: any)) 
+        if (rule.pattern && !rule.pattern.test(value: any)) {
           errors.push({
             path,
             message: `String does not match required pattern`,
             value,
-            expected: `string matching ${ pattern: pattern: rule.pattern}`,
+            expected: `string matching ${rule.pattern}`,
             actual: value
           });
         }
@@ -281,22 +281,22 @@ export class InterfaceValidator {
         }
 
         // Number-specific validations
-        if (rule.min !== undefined && value < rule.min) 
+        if (rule.min !== undefined && value < rule.min) {
           errors.push({
             path,
-            message: `Number must be at least ${ min: min: rule.min}`,
+            message: `Number must be at least ${rule.min}`,
             value,
-            expected: `number >= $ min: min: rule.min}`,
+            expected: `number >= ${rule.min}`,
             actual: value
           });
         }
 
-        if (rule.max !== undefined && value > rule.max) 
+        if (rule.max !== undefined && value > rule.max) {
           errors.push({
             path,
-            message: `Number must be at most ${ max: max: rule.max}`,
+            message: `Number must be at most ${rule.max}`,
             value,
-            expected: `number <= $ max: max: rule.max}`,
+            expected: `number <= ${rule.max}`,
             actual: value
           });
         }
@@ -338,23 +338,23 @@ export class InterfaceValidator {
         }
 
         // Array-specific validations
-        if (rule.minLength !== undefined && value.length < rule.minLength) 
+        if (rule.minLength !== undefined && value.length < rule.minLength) {
           errors.push({
             path,
-            message: `Array length must be at least ${ minLength: minLength: rule.minLength}`,
+            message: `Array length must be at least ${rule.minLength}`,
             value,
-            expected: `array with length >= $ minLength: minLength: rule.minLength}`,
-            actual: `array with length $ length: length: value.length}`
+            expected: `array with length >= ${rule.minLength}`,
+            actual: `array with length ${value.length}`
           });
         }
 
-        if (rule.maxLength !== undefined && value.length > rule.maxLength) 
+        if (rule.maxLength !== undefined && value.length > rule.maxLength) {
           errors.push({
             path,
-            message: `Array length must be at most ${ maxLength: maxLength: rule.maxLength}`,
+            message: `Array length must be at most ${rule.maxLength}`,
             value,
-            expected: `array with length <= $ maxLength: maxLength: rule.maxLength}`,
-            actual: `array with length $ length: length: value.length}`
+            expected: `array with length <= ${rule.maxLength}`,
+            actual: `array with length ${value.length}`
           });
         }
         break;

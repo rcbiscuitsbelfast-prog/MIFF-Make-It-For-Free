@@ -168,12 +168,12 @@ export class NPCsManager {
     defaultNPCs.forEach((npc: any) => this.npcs.set(npc.id, npc));
   }
 
-  createNPC(npc: NPC): NPCOutput 
+  createNPC(npc: NPC): NPCOutput {
     if (this.npcs.has(npc.id)) {
       return {
         op: 'create',
         status: 'error',
-        issues: [`NPC with ID ${id: npc.id} already exists`]
+        issues: [`NPC with ID ${npc.id} already exists`]
       };
     }
     // Validate minimal fields
@@ -296,44 +296,44 @@ export class NPCsManager {
     // Simulate NPC behavior based on their type and schedule
     const currentHour = Math.floor((Date.now() % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
     
-    if (npc.behavior.schedule) 
+    if (npc.behavior.schedule) {
       const currentActivity = npc.behavior.schedule.activities.find(
         activity => parseInt(activity.time.split(':')[0]) === currentHour
       );
       
       if (currentActivity) {
-        simulation.events.push(`${name: npc.name} is $activity: currentActivity.activity}`);
+        simulation.events.push(`${npc.name} is ${currentActivity.activity}`);
       }
     }
 
     // Simulate interactions based on behavior type
-    switch (npc.behavior.type) 
+    switch (npc.behavior.type) {
       case 'quest_giver':
-        simulation.events.push(`${name: npc.name} is available for quests`);
+        simulation.events.push(`${npc.name} is available for quests`);
         break;
       case 'merchant':
-        simulation.events.push(`$name: npc.name} is open for business`);
+        simulation.events.push(`${npc.name} is open for business`);
         break;
       case 'aggressive':
-        simulation.events.push(`$name: npc.name} is patrolling aggressively`);
+        simulation.events.push(`${npc.name} is patrolling aggressively`);
         break;
       default:
-        simulation.events.push(`$name: npc.name} is going about their day`);
+        simulation.events.push(`${npc.name} is going about their day`);
     }
 
     // Simulate movement based on pattern
-    switch (npc.movementPattern.type) 
+    switch (npc.movementPattern.type) {
       case 'patrol':
-        simulation.events.push(`${name: npc.name} is patrolling their area`);
+        simulation.events.push(`${npc.name} is patrolling their area`);
         break;
       case 'wander':
-        simulation.events.push(`$name: npc.name} is wandering around`);
+        simulation.events.push(`${npc.name} is wandering around`);
         break;
       case 'follow':
-        simulation.events.push(`$name: npc.name} is following their target`);
+        simulation.events.push(`${npc.name} is following their target`);
         break;
       default:
-        simulation.events.push(`$name: npc.name} is staying in place`);
+        simulation.events.push(`${npc.name} is staying in place`);
     }
 
     return {
@@ -442,7 +442,7 @@ export class NPCsManager {
       };
     }
 
-    npc.behavior =  ...behavior: npc.behavior, ...behavior };
+    npc.behavior = { ...npc.behavior, ...behavior };
     this.npcs.set(npcId, npc);
     return {
       op: 'update_behavior',
@@ -503,10 +503,10 @@ export class NPCsManager {
   /**
    * Get NPC statistics
    */
-  getNPCStats(): NPCOutput 
+  getNPCStats(): NPCOutput {
     const npcs = Array.from(this.npcs.values());
     const stats = {
-      total: length: npcs.length,
+      total: npcs.length,
       byBehavior: {} as Record<string, number>,
       byFaction: {} as Record<string, number>,
       withQuests: npcs.filter((npc: any) => npc.questIds.length > 0).length,
@@ -531,7 +531,7 @@ export class NPCsManager {
   /**
    * Export NPCs in various formats
    */
-  exportNPCs(format: 'json' | 'manifest' | 'summary' | 'quests' = 'json'): NPCOutput 
+  exportNPCs(format: 'json' | 'manifest' | 'summary' | 'quests' = 'json'): NPCOutput {
     const npcs = Array.from(this.npcs.values());
 
     switch (format) {
@@ -539,29 +539,30 @@ export class NPCsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { npcs, total: length: npcs.length}
+          result: { npcs, total: npcs.length }
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.npcs.export.v1',
             npcs,
             exportedAt: new Date().toISOString(),
-            total: length: npcs.length}
+            total: npcs.length
+          }
         };
       
       case 'summary':
         const stats = this.getNPCStats();
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: result: stats.result,
-            npcs: npcs.map((npc: any) => (
-              id: id: npc.id,
+            summary: stats.result,
+            npcs: npcs.map((npc: any) => ({
+              id: npc.id,
               name: npc.name,
               behavior: npc.behavior.type,
               faction: npc.faction,
@@ -573,12 +574,12 @@ export class NPCsManager {
       
       case 'quests':
         const questNPCs = npcs.filter((npc: any) => npc.questIds.length > 0);
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             questNPCs: questNPCs.map((npc: any) => ({
-              id: id: npc.id,
+              id: npc.id,
               name: npc.name,
               questIds: npc.questIds,
               location: npc.location

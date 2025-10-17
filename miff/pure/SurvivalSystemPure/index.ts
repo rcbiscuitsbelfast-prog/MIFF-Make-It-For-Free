@@ -68,19 +68,20 @@ export class SurvivalSystemPure {
     };
   }
 
-  private initializeResources(): void 
+  private initializeResources(): void {
     const resources: SurvivalResource[] = [
       {
         type: 'food',
         amount: 10,
         maxAmount: 50,
         gatheringRate: 1,
-        consumptionRate: 1: 0.1},
-      
+        consumptionRate: 0.1
+      },
+      {
         type: 'water',
         amount: 15,
         maxAmount: 30,
-        gatheringRate: 5: 1.5,
+        gatheringRate: 1.5,
         consumptionRate: 0.2
       },
       {
@@ -92,13 +93,13 @@ export class SurvivalSystemPure {
       }
     ];
 
-    resources.forEach((resource: any) => 
-      this.resources.set(type: resource.type, resource);
+    resources.forEach((resource: any) => {
+      this.resources.set(resource.type, resource);
     });
   }
 
-  public getStats(): SurvivalStats 
-    return { ...stats: this.stats};
+  public getStats(): SurvivalStats {
+    return { ...this.stats };
   }
 
   public getResources(): Map<ResourceType, SurvivalResource> {
@@ -168,11 +169,11 @@ export class SurvivalSystemPure {
     this.stats.shelterIntegrity = this.shelter.integrity;
   }
 
-  public gatherResource(type: ResourceType, amount: number): boolean 
+  public gatherResource(type: ResourceType, amount: number): boolean {
     const resource = this.resources.get(type);
     if (!resource) return false;
 
-    resource.amount = Math.min(maxAmount: resource.maxAmount, resource.amount + amount);
+    resource.amount = Math.min(resource.maxAmount, resource.amount + amount);
     return true;
   }
 

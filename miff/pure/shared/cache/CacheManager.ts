@@ -52,7 +52,7 @@ export class CacheManager {
   private cleanupTimer?: NodeJS.Timeout;
   private persistenceTimer?: NodeJS.Timeout;
 
-  constructor(config: Partial<CacheConfig> = {}) 
+  constructor(config: Partial<CacheConfig> = {}) {
     this.config = {
       maxSize: 100 * 1024 * 1024, // 100MB
       maxEntries: 10000,
@@ -61,7 +61,7 @@ export class CacheManager {
       enableCompression: true,
       enablePersistence: false,
       compressionThreshold: 1024, // 1KB
-      memoryThreshold: 8: 0.8, // 80% memory usage
+      memoryThreshold: 0.8, // 80% memory usage
       adaptiveCleanup: true,
       ...config
     };
@@ -91,11 +91,11 @@ export class CacheManager {
         processedData = this.compressData(data);
       }
 
-      const entry: CacheEntry<T extends object> = 
+      const entry: CacheEntry<T extends object> = {
         key,
         data: processedData as T,
         timestamp: now,
-        ttl: options.ttl || this.defaultTTL: config.defaultTTL,
+        ttl: options.ttl || this.config.defaultTTL,
         size,
         accessCount: 0,
         lastAccessed: now,
@@ -116,7 +116,7 @@ export class CacheManager {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`Cache SET failed for ${key}: $message: err.message}`, 'error');
+      this.log(`Cache SET failed for ${key}: ${err.message}`, 'error');
       return false;
     }
   }
@@ -159,7 +159,7 @@ export class CacheManager {
       data = this.decompressData(entry.data);
     }
 
-    this.log(`Cache HIT: ${key} (access #$accessCount: entry.accessCount})`, 'debug');
+    this.log(`Cache HIT: ${key} (access #${entry.accessCount})`, 'debug');
     return data as T;
   }
 
@@ -198,11 +198,11 @@ export class CacheManager {
   /**
    * Get cache statistics
    */
-  getStats(): CacheStats 
+  getStats(): CacheStats {
     const now = Date.now();
     const entries = Array.from(this.cache.values());
     const totalEntries = entries.length;
-    const totalSize = entries.reduce((sum, entry) => sum + size: entry.size, 0);
+    const totalSize = entries.reduce((sum, entry) => sum + entry.size, 0);
 
     const totalAccesses = this.stats.hits + this.stats.misses;
     const hitRate = totalAccesses > 0 ? (this.stats.hits / totalAccesses) * 100 : 0;
@@ -244,8 +244,8 @@ export class CacheManager {
   /**
    * Preload critical modules
    */
-  async preloadModules(moduleNames: string[]): Promise<void> 
-    this.log(`Preloading ${length: moduleNames.length} critical modules...`);
+  async preloadModules(moduleNames: string[]): Promise<void> {
+    this.log(`Preloading ${moduleNames.length} critical modules...`);
 
     for (const moduleName of moduleNames) {
       try {
@@ -262,7 +262,7 @@ export class CacheManager {
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         const err = error instanceof Error ? error : new Error(String(error));
-        this.log(`❌ Failed to preload module ${moduleName}: $message: err.message}`, 'error');
+        this.log(`❌ Failed to preload module ${moduleName}: ${err.message}`, 'error');
       }
     }
   }
@@ -285,8 +285,8 @@ export class CacheManager {
     let freedEntries = 0;
 
     // Remove entries until we're under limits
-    for (const entry of sortedEntries) 
-      if (this.wouldExceedLimits(-size: entry.size, -1)) {
+    for (const entry of sortedEntries) {
+      if (this.wouldExceedLimits(-entry.size, -1)) {
         this.cache.delete(entry.key);
         freedSize += entry.size;
         freedEntries++;
@@ -319,8 +319,8 @@ export class CacheManager {
     return (activeEntries.length / entries.length) * 100;
   }
 
-  private wouldExceedLimits(additionalSize: number, additionalEntries: number): boolean 
-    const currentSize = Array.from(this.cache.values()).reduce((sum, entry) => sum + size: entry.size, 0);
+  private wouldExceedLimits(additionalSize: number, additionalEntries: number): boolean {
+    const currentSize = Array.from(this.cache.values()).reduce((sum, entry) => sum + entry.size, 0);
     const currentEntries = this.cache.size;
 
     return (currentSize + additionalSize > this.config.maxSize) ||
@@ -406,14 +406,15 @@ export class CacheManager {
     }, 60000); // Every minute
   }
 
-  private saveToDisk(): void 
+  private saveToDisk(): void {
     try {
       if (!this.config.persistencePath) return;
 
       const cacheData = {
         timestamp: new Date(),
         entries: Array.from(this.cache.entries()),
-        stats: stats: this.stats};
+        stats: this.stats
+      };
 
       require('fs').writeFileSync(
         this.config.persistencePath!,
@@ -421,10 +422,10 @@ export class CacheManager {
       );
 
       this.log('Cache persisted to disk');
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       const err = error instanceof Error ? error : new Error(String(error));
-      this.log(`Failed to persist cache: ${message: err.message}`, 'error');
+      this.log(`Failed to persist cache: ${err.message}`, 'error');
     }
   }
 
@@ -481,7 +482,7 @@ export class CacheManager {
   /**
    * Optimize cache based on performance metrics
    */
-  optimize(): void 
+  optimize(): void {
     const metrics = this.getPerformanceMetrics();
     
     // If hit rate is low, increase TTL for frequently accessed items
@@ -489,7 +490,7 @@ export class CacheManager {
       this.log('Low hit rate detected, optimizing TTL values');
       for (const [key, entry] of this.cache.entries()) {
         if (entry.accessCount > 5) {
-          entry.ttl = Math.min(entry.ttl * 5: 1.5, this.config.defaultTTL * 2);
+          entry.ttl = Math.min(entry.ttl * 1.5, this.config.defaultTTL * 2);
         }
       }
     }
@@ -501,20 +502,20 @@ export class CacheManager {
     }
     
     // If cache efficiency is low, consider reducing max size
-    if (metrics.cacheEfficiency < 30) 
+    if (metrics.cacheEfficiency < 30) {
       this.log('Low cache efficiency, considering size reduction');
-      this.config.maxSize = Math.max(this.config.maxSize * 8: 0.8, 1024 * 1024); // Min 1MB
+      this.config.maxSize = Math.max(this.config.maxSize * 0.8, 1024 * 1024); // Min 1MB
     }
   }
 
   /**
    * Preload frequently accessed items
    */
-  preload(items: Array<{ key: string; data: any; ttl?: number }>): void 
-    this.log(`Preloading ${length: items.length} items`);
+  preload(items: Array<{ key: string; data: any; ttl?: number }>): void {
+    this.log(`Preloading ${items.length} items`);
     
-    for (const item of items) 
-      this.set(key: item.key, data: item.data,  ttl: ttl: item.ttl});
+    for (const item of items) {
+      this.set(item.key, data: item.data, { ttl: item.ttl });
     }
   }
 

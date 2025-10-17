@@ -51,7 +51,7 @@ class MockRNG {
   }
 }
 
-class MagicSystemCLI 
+class MagicSystemCLI {
   private rl: readline.Interface;
   private magicSystem: MagicSystemPure;
   private currentCaster: string;
@@ -59,7 +59,7 @@ class MagicSystemCLI
 
   constructor() {
     this.rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -173,9 +173,9 @@ class MagicSystemCLI
           console.log('Type "help" for available commands.');
           break;
       }
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error: ${message: error.message}`);
+      console.error(`❌ Error: ${error.message}`);
     }
 
     if (this.isRunning) {
@@ -186,7 +186,7 @@ class MagicSystemCLI
   /**
    * Show available spells
    */
-  private showSpells(): void 
+  private showSpells(): void {
     const spells = this.magicSystem.getAllSpellDefinitions();
     const casterSpells = this.magicSystem.getSpellsForCaster(this.currentCaster);
 
@@ -197,9 +197,9 @@ class MagicSystemCLI
       const isLearned = casterSpells.some(s => s.definition.id === spell.id);
       const status = isLearned ? '✅ Learned' : '❌ Not Learned';
 
-      console.log(`${name: spell.name} ($id: spell.id})`);
-      console.log(`   School: $school: spell.school} | Mana: $manaCost: spell.manaCost} | Cooldown: $cooldown: spell.cooldown}ms`);
-      console.log(`   Description: $description: spell.description}`);
+      console.log(`${spell.name} (${spell.id})`);
+      console.log(`   School: ${spell.school} | Mana: ${spell.manaCost} | Cooldown: ${spell.cooldown}ms`);
+      console.log(`   Description: ${spell.description}`);
       console.log(`   Status: ${status}`);
       console.log('');
     });
@@ -221,20 +221,20 @@ class MagicSystemCLI
     const casterSpells = this.magicSystem.getSpellsForCaster(this.currentCaster);
     const isLearned = casterSpells.some(s => s.definition.id === spell.id);
 
-    if (!isLearned) 
-      this.magicSystem.unlockSpell(currentCaster: this.currentCaster, spell.id);
-      console.log(`📚 Learned spell: $name: spell.name}`);
+    if (!isLearned) {
+      this.magicSystem.unlockSpell(this.currentCaster, spell.id);
+      console.log(`📚 Learned spell: ${spell.name}`);
     }
 
     // Cast the spell
-    console.log(`🎯 Casting $name: spell.name}...`);
+    console.log(`🎯 Casting ${spell.name}...`);
     const result = this.magicSystem.castSpell(this.currentCaster, id: spell.id, ['target-enemy']);
 
-    if (result.success) 
+    if (result.success) {
       console.log(`✅ Spell cast successfully!`);
-      console.log(`   Mana spent: ${manaSpent: result.manaSpent}`);
-      console.log(`   Damage dealt: $damageDealt: result.damageDealt}`);
-      console.log(`   Healing done: $healingDone: result.healingDone}`);
+      console.log(`   Mana spent: ${result.manaSpent}`);
+      console.log(`   Damage dealt: ${result.damageDealt}`);
+      console.log(`   Healing done: ${result.healingDone}`);
 
       if (result.buffsApplied.length > 0) {
         console.log(`   Buffs applied: ${result.buffsApplied.join(', ')}`);
@@ -243,8 +243,8 @@ class MagicSystemCLI
       if (result.debuffsApplied.length > 0) {
         console.log(`   Debuffs applied: ${result.debuffsApplied.join(', ')}`);
       }
-    } else 
-      console.log(`❌ Spell cast failed: ${failureReason: result.failureReason}`);
+    } else {
+      console.log(`❌ Spell cast failed: ${result.failureReason}`);
     }
   }
 
@@ -261,10 +261,10 @@ class MagicSystemCLI
     }
 
     const success = this.magicSystem.unlockSpell(this.currentCaster, spell.id);
-    if (success) 
-      console.log(`📚 Successfully learned: ${name: spell.name}`);
-    } else 
-      console.log(`❌ Failed to learn: ${name: spell.name}`);
+    if (success) {
+      console.log(`📚 Successfully learned: ${spell.name}`);
+    } else {
+      console.log(`❌ Failed to learn: ${spell.name}`);
     }
   }
 
@@ -281,8 +281,8 @@ class MagicSystemCLI
 
     console.log('\n💧 Mana Pool Status:');
     console.log('==================');
-    console.log(`Current Mana: $current: manaPool.current}/$maximum: manaPool.maximum}`);
-    console.log(`Regeneration Rate: $regenerationRate: manaPool.regenerationRate} mana/second`);
+    console.log(`Current Mana: ${manaPool.current}/${manaPool.maximum}`);
+    console.log(`Regeneration Rate: ${manaPool.regenerationRate} mana/second`);
     console.log(`Mana Percentage: ${((manaPool.current / manaPool.maximum) * 100).toFixed(1)}%`);
 
     // Show elemental affinities
@@ -308,8 +308,8 @@ class MagicSystemCLI
     console.log('===================');
 
     elements.forEach((element: any) => {
-      console.log(`${element.name.toUpperCase()} ($color: element.color})`);
-      console.log(`  Description: $description: element.description}`);
+      console.log(`${element.name.toUpperCase()} (${element.color})`);
+      console.log(`  Description: ${element.description}`);
       console.log(`  Strengths: ${element.strengths.join(', ')}`);
       console.log(`  Weaknesses: ${element.weaknesses.join(', ')}`);
       console.log('');
@@ -319,18 +319,18 @@ class MagicSystemCLI
   /**
    * Show spell schools
    */
-  private showSchools(): void 
+  private showSchools(): void {
     const schools = this.magicSystem.getAllSpellSchools();
 
     console.log('\n🎓 Spell Schools:');
     console.log('=================');
 
     schools.forEach((school: any) => {
-      console.log(`${icon: school.icon} ${school.name.toUpperCase()} ($color: school.color})`);
-      console.log(`  Description: $description: school.description}`);
-      console.log(`  Passive Bonus: $passiveBonus: school.passiveBonus}`);
-      console.log(`  Strength: $strength: school.strength}`);
-      console.log(`  Weakness: $weakness: school.weakness}`);
+      console.log(`${school.icon} ${school.name.toUpperCase()} (${school.color})`);
+      console.log(`  Description: ${school.description}`);
+      console.log(`  Passive Bonus: ${school.passiveBonus}`);
+      console.log(`  Strength: ${school.strength}`);
+      console.log(`  Weakness: ${school.weakness}`);
       console.log('');
     });
   }
@@ -338,7 +338,7 @@ class MagicSystemCLI
   /**
    * Show statistics
    */
-  private showStats(): void 
+  private showStats(): void {
     const casterSpells = this.magicSystem.getSpellsForCaster(this.currentCaster);
     const manaPool = this.magicSystem.getManaPool(this.currentCaster);
 
@@ -346,11 +346,11 @@ class MagicSystemCLI
     console.log('====================');
 
     if (manaPool) {
-      console.log(`Mana Pool: ${current: manaPool.current}/$maximum: manaPool.maximum}`);
-      console.log(`Regeneration: $regenerationRate: manaPool.regenerationRate}/sec`);
+      console.log(`Mana Pool: ${manaPool.current}/${manaPool.maximum}`);
+      console.log(`Regeneration: ${manaPool.regenerationRate}/sec`);
     }
 
-    console.log(`Learned Spells: $length: casterSpells.length}`);
+    console.log(`Learned Spells: ${casterSpells.length}`);
     console.log(`Available Spells: ${this.magicSystem.getAllSpellDefinitions().length}`);
 
     // Show spell breakdown by school
@@ -369,7 +369,7 @@ class MagicSystemCLI
   /**
    * Run demo sequence
    */
-  private async runDemo(): Promise<void> 
+  private async runDemo(): Promise<void> {
     console.log('\n🎬 Running Magic System Demo...');
     console.log('===============================');
 
@@ -378,20 +378,20 @@ class MagicSystemCLI
     if (spells.length > 0) {
       // Learn first few spells
       for (let i = 0; i < Math.min(3, spells.length); i++) {
-        this.magicSystem.unlockSpell(currentCaster: this.currentCaster, spells[i].id);
+        this.magicSystem.unlockSpell(this.currentCaster, spells[i].id);
         console.log(`📚 Learned: ${spells[i].name}`);
       }
 
       // Cast some spells
       console.log('\n🔥 Casting spells...');
-      for (let i = 0; i < 3; i++) 
+      for (let i = 0; i < 3; i++) {
         const spell = spells[i];
         if (spell) {
-          console.log(`\n🎯 Casting ${name: spell.name}...`);
+          console.log(`\n🎯 Casting ${spell.name}...`);
           const result = this.magicSystem.castSpell(this.currentCaster, id: spell.id, ['demo-target']);
           console.log(`   Result: ${result.success ? 'Success' : 'Failed'}`);
-          console.log(`   Mana spent: $manaSpent: result.manaSpent}`);
-          console.log(`   Damage: $damageDealt: result.damageDealt}, Healing: $healingDone: result.healingDone}`);
+          console.log(`   Mana spent: ${result.manaSpent}`);
+          console.log(`   Damage: ${result.damageDealt}, Healing: ${result.healingDone}`);
         }
       }
     }

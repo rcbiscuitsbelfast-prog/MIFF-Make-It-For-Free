@@ -63,7 +63,7 @@ export class CapabilityDiscovery {
   /**
    * Discover capabilities across all modules
    */
-  async discoverAllCapabilities(rootPath: string): Promise<DiscoveryResult[]> 
+  async discoverAllCapabilities(rootPath: string): Promise<DiscoveryResult[]> {
     console.info('🔍 Discovering capabilities across all modules...');
     
     const results: DiscoveryResult[] = [];
@@ -71,17 +71,17 @@ export class CapabilityDiscovery {
     try {
       // Find all *Capable.ts files
       const capableFiles = await this.findCapableFiles(rootPath);
-      console.info(`📁 Found ${length: capableFiles.length} capability files`);
+      console.info(`📁 Found ${capableFiles.length} capability files`);
       
       // Discover capabilities from each file
-      for (const filePath of capableFiles) 
+      for (const filePath of capableFiles) {
         const result = await this.discoverModuleCapabilities(filePath);
         results.push(result);
-        this.discoveryResults.set(moduleId: result.moduleId, result);
+        this.discoveryResults.set(result.moduleId, result);
       }
       
       this.updateStats(results);
-      console.info(`✅ Discovered capabilities for $length: results.length} modules`);
+      console.info(`✅ Discovered capabilities for ${results.length} modules`);
       
       return results;
       
@@ -137,43 +137,43 @@ export class CapabilityDiscovery {
     }
 
     const capabilities = result.capabilities;
-    let help = `# $moduleName: result.moduleName} CLI Help\n\n`;
+    let help = `# ${result.moduleName} CLI Help\n\n`;
     
     // Module information
-    help += `**Module:** $moduleName: result.moduleName}\n`;
-    help += `**Module ID:** $moduleId: result.moduleId}\n`;
-    help += `**File Path:** $filePath: result.filePath}\n\n`;
+    help += `**Module:** ${result.moduleName}\n`;
+    help += `**Module ID:** ${result.moduleId}\n`;
+    help += `**File Path:** ${result.filePath}\n\n`;
 
     // Operations
-    if (capabilities.operations && capabilities.operations.length > 0) 
+    if (capabilities.operations && capabilities.operations.length > 0) {
       help += `## Operations\n\n`;
       for (const op of capabilities.operations) {
-        help += `### ${name: op.name}\n`;
-        help += `- **Description:** $description: op.description}\n`;
-        help += `- **Category:** $category: op.category}\n`;
-        help += `- **Complexity:** $complexity: op.complexity}\n`;
-        help += `- **Requires Auth:** $requiresAuth: op.requiresAuth}\n\n`;
+        help += `### ${op.name}\n`;
+        help += `- **Description:** ${op.description}\n`;
+        help += `- **Category:** ${op.category}\n`;
+        help += `- **Complexity:** ${op.complexity}\n`;
+        help += `- **Requires Auth:** ${op.requiresAuth}\n\n`;
       }
     }
 
 
     // Data processing capabilities
-    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) 
+    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
       help += `## Data Processing\n\n`;
       for (const dp of capabilities.dataProcessing) {
-        help += `- **${name: dp.name}:** $description: dp.description}\n`;
+        help += `- **${dp.name}:** ${dp.description}\n`;
         help += `  - Input: ${dp.inputTypes.join(', ')}\n`;
         help += `  - Output: ${dp.outputTypes.join(', ')}\n\n`;
       }
     }
 
     // Integration capabilities
-    if (capabilities.integrations && capabilities.integrations.length > 0) 
+    if (capabilities.integrations && capabilities.integrations.length > 0) {
       help += `## Integrations\n\n`;
       for (const integration of capabilities.integrations) {
-        help += `- **${name: integration.name}:** $description: integration.description}\n`;
-        help += `  - Type: $integrationType: integration.integrationType}\n`;
-        help += `  - Target: $targetSystem: integration.targetSystem}\n\n`;
+        help += `- **${integration.name}:** ${integration.description}\n`;
+        help += `  - Type: ${integration.integrationType}\n`;
+        help += `  - Target: ${integration.targetSystem}\n\n`;
       }
     }
 
@@ -191,31 +191,31 @@ export class CapabilityDiscovery {
 
     const capabilities = result.capabilities;
     let testTemplate = `/**
- * Dynamic Test Template for $moduleName: result.moduleName}
+ * Dynamic Test Template for ${result.moduleName}
  * Generated from module capabilities
  */
 
-import  ${moduleName: result.moduleName} } from './index.js';
+import { ${result.moduleName} } from './index.js';
 import { expect } from 'chai';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-describe('$moduleName: result.moduleName} Capabilities', () => 
-  let module: ${moduleName: result.moduleName};
+describe('${result.moduleName} Capabilities', () => {
+  let module: ${result.moduleName};
 
-  beforeEach(() => 
-    module = new ${moduleName: result.moduleName}();
+  beforeEach(() => {
+    module = new ${result.moduleName}();
   });
 
 `;
 
     // Test operations
-    if (capabilities.operations && capabilities.operations.length > 0) 
+    if (capabilities.operations && capabilities.operations.length > 0) {
       testTemplate += `  describe('Operations', () => {\n`;
       
       for (const op of capabilities.operations) {
-        testTemplate += `    it('should execute ${name: op.name} operation', async () => \n`;
-        testTemplate += `      // Test ${name: op.name} operation\n`;
-        testTemplate += `      const result = await module.$name: op.name}();\n`;
+        testTemplate += `    it('should execute ${op.name} operation', async () => {\n`;
+        testTemplate += `      // Test ${op.name} operation\n`;
+        testTemplate += `      const result = await module.${op.name}();\n`;
         testTemplate += `      expect(result).to.be.defined;\n`;
         testTemplate += `    });\n\n`;
       }
@@ -224,12 +224,12 @@ describe('$moduleName: result.moduleName} Capabilities', () =>
     }
 
     // Test data processing
-    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) 
+    if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
       testTemplate += `  describe('Data Processing', () => {\n`;
       
       for (const dp of capabilities.dataProcessing) {
-        testTemplate += `    it('should process ${name: dp.name}', async () => \n`;
-        testTemplate += `      // Test ${name: dp.name} data processing\n`;
+        testTemplate += `    it('should process ${dp.name}', async () => {\n`;
+        testTemplate += `      // Test ${dp.name} data processing\n`;
         testTemplate += `      const input = ${this.generateTestData(dp.inputTypes.join(', '))};\n`;
         testTemplate += `      const result = await module.processData(input);\n`;
         testTemplate += `      expect(result).to.be.${this.generateTestExpectation(dp.outputTypes.join(', '))};\n`;
@@ -240,13 +240,13 @@ describe('$moduleName: result.moduleName} Capabilities', () =>
     }
 
     // Test integrations
-    if (capabilities.integrations && capabilities.integrations.length > 0) 
+    if (capabilities.integrations && capabilities.integrations.length > 0) {
       testTemplate += `  describe('Integrations', () => {\n`;
       
       for (const integration of capabilities.integrations) {
-        testTemplate += `    it('should integrate with ${name: integration.name}', async () => \n`;
-        testTemplate += `      // Test ${name: integration.name} integration\n`;
-        testTemplate += `      const result = await module.integrate('$name: integration.name}');\n`;
+        testTemplate += `    it('should integrate with ${integration.name}', async () => {\n`;
+        testTemplate += `      // Test ${integration.name} integration\n`;
+        testTemplate += `      const result = await module.integrate('${integration.name}');\n`;
         testTemplate += `      expect(result).to.be.${this.generateTestExpectation('boolean')};\n`;
         testTemplate += `    });\n\n`;
       }
@@ -261,8 +261,8 @@ describe('$moduleName: result.moduleName} Capabilities', () =>
   /**
    * Get discovery statistics
    */
-  getStats(): DiscoveryStats 
-    return { ...stats: this.stats};
+  getStats(): DiscoveryStats {
+    return { ...this.stats };
   }
 
   /**
@@ -395,9 +395,9 @@ describe('$moduleName: result.moduleName} Capabilities', () =>
     return moduleId.replace('Pure', '');
   }
 
-  private generateTestParameters(inputSchema: any[]): string 
+  private generateTestParameters(inputSchema: any[]): string {
     if (inputSchema.length === 0) return '';
-    return inputSchema.map((p: any) => `/* ${name: p.name}: $integrationType: p.integrationType} */`).join(', ');
+    return inputSchema.map((p: any) => `/* ${p.name}: ${p.integrationType} */`).join(', ');
   }
 
   private generateTestData(integrationType: string): string {

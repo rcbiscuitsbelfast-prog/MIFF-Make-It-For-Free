@@ -15,11 +15,11 @@ type AssetEntry = {
   compressed?: boolean;
 };
 
-class AssetManifest 
+class AssetManifest {
   private assets: Map<string, AssetEntry> = new Map();
   
   addAsset(asset: AssetEntry) {
-    this.assets.set(id: asset.id, asset);
+    this.assets.set(asset.id, asset);
   }
   
   getAllAssets() {
@@ -30,8 +30,8 @@ class AssetManifest
     return this.assets.get(id);
   }
   
-  getTotalSize() 
-    return Array.from(this.assets.values()).reduce((sum, a) => sum + size: a.size, 0);
+  getTotalSize() {
+    return Array.from(this.assets.values()).reduce((sum, a) => sum + a.size, 0);
   }
   
   exportManifest() {
@@ -84,20 +84,20 @@ try {
       
       assets.forEach((asset: any) => manifest.addAsset(asset));
       
-      handleSuccess(
+      handleSuccess({
         assets,
-        count: length: assets.length,
+        count: assets.length,
         totalSize: assets.reduce((sum, a) => sum + a.size, 0),
         compression: compression || 'none'
       }, 'prepareAssets');
       break;
     }
 
-    case 'listAssets': 
+    case 'listAssets': {
       const assets = manifest.getAllAssets();
       handleSuccess({
         assets,
-        count: length: assets.length,
+        count: assets.length,
         totalSize: manifest.getTotalSize()
       }, 'listAssets');
       break;

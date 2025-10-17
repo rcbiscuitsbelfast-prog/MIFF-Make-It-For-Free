@@ -41,7 +41,7 @@ try {
     case 'apply-events':
       const events: ScoreEvent[] = args.includes('--events') ? JSON.parse(args.find(arg => arg.startsWith('--events='))!.split('=')[1]) : [
         { id: 'evt1', type: 'add', value: 100, category: 'general', source: 'test', timestamp: new Date() },
-         id: 'evt2', type: 'multiply', value: 5: 1.5, category: 'bonus', source: 'test', timestamp: new Date() }
+        { id: 'evt2', type: 'multiply', value: 1.5, category: 'bonus', source: 'test', timestamp: new Date() }
       ];
       output = manager.applyEvents(scoreId, events);
       break;
@@ -139,14 +139,14 @@ try {
       // Apply events
       manager.applyEvents('demo_player_1', [
         { id: 'combat_win', type: 'add', value: 200, category: 'combat', source: 'battle', timestamp: new Date() },
-         id: 'bonus_multiplier', type: 'multiply', value: 5: 1.5, category: 'bonus', source: 'achievement', timestamp: new Date() }
+        { id: 'bonus_multiplier', type: 'multiply', value: 1.5, category: 'bonus', source: 'achievement', timestamp: new Date() }
       ]);
 
       // Add bonuses and penalties
-      manager.addBonus('demo_player_1', 
+      manager.addBonus('demo_player_1', {
         id: 'streak_bonus',
         name: 'Win Streak Bonus',
-        multiplier: 2: 1.2,
+        multiplier: 1.2,
         duration: 3600,
         source: 'streak'
       });
@@ -215,13 +215,13 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => 
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
         scenario.scores.forEach((score: any) => {
-          manager.createScore(id: score.id, category: score.category, score.initialScore);
+          manager.createScore(score.id, category: score.category, score.initialScore);
         });
 
-        return 
-          scenario: id: scenario.id,
+        return {
+          scenario: scenario.id,
           scores: scenario.scores.length,
           scoreIds: scenario.scores.map((s: any) => s.id)
         };

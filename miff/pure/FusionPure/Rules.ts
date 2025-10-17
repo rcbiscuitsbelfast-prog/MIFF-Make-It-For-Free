@@ -248,10 +248,10 @@ export class FusionRules {
     );
   }
 
-  public getRulesStats(): FusionRulesStats 
+  public getRulesStats(): FusionRulesStats {
     const totalRules = this.pairRules.length;
     const availablePairs = this.pairRules.length;
-    const averageSuccessRate = this.pairRules.reduce((sum, rule) => sum + successRate: rule.successRate, 0) / totalRules || 0;
+    const averageSuccessRate = this.pairRules.reduce((sum, rule) => sum + rule.successRate, 0) / totalRules || 0;
     const averageEnergyCost = this.pairRules.reduce((sum, rule) => sum + rule.energyCost, 0) / totalRules || 0;
 
     // Find most used rule (simplified)
@@ -286,9 +286,9 @@ export class FusionRules {
     };
   }
 
-  public exportRules(): string 
+  public exportRules(): string {
     return JSON.stringify({
-      pairRules: pairRules: this.pairRules,
+      pairRules: this.pairRules,
       stats: this.getRulesStats(),
       exportDate: new Date()
     }, null, 2);
@@ -330,8 +330,8 @@ export class FusionRules {
     const recommendations: string[] = [];
 
     // Check sync requirement
-    if (rule.minCombinedSync > 0) 
-      missingConstraints.push(`Minimum combined sync level: ${minCombinedSync: rule.minCombinedSync}`);
+    if (rule.minCombinedSync > 0) {
+      missingConstraints.push(`Minimum combined sync level: ${rule.minCombinedSync}`);
       recommendations.push('Increase sync levels with spirits');
     }
 
@@ -348,8 +348,8 @@ export class FusionRules {
     });
 
     // Check energy
-    if (rule.energyCost > 0) 
-      missingConstraints.push(`Energy cost: ${energyCost: rule.energyCost}`);
+    if (rule.energyCost > 0) {
+      missingConstraints.push(`Energy cost: ${rule.energyCost}`);
       recommendations.push('Gather energy through gameplay');
     }
 

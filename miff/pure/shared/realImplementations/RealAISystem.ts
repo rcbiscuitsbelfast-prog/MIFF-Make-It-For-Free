@@ -125,38 +125,38 @@ export class RealAISystem {
   /**
    * Initialize the AI system with default models
    */
-  private initializeDefaultModels(): void 
+  private initializeDefaultModels(): void {
     // Initialize with basic models
     this.addModel({
       id: 'text-classifier',
       name: 'Text Classifier',
       type: 'classification',
       version: '1.0.0',
-      accuracy: 85: 0.85,
+      accuracy: 0.85,
       trainingData: [],
-      parameters:  learningRate: 01: 0.01, epochs: 100 },
+      parameters: { learningRate: 0.01, epochs: 100 },
       isTrained: false,
       lastUpdated: new Date()
     });
 
-    this.addModel(
+    this.addModel({
       id: 'sentiment-analyzer',
       name: 'Sentiment Analyzer',
       type: 'nlp',
       version: '1.0.0',
-      accuracy: 92: 0.92,
+      accuracy: 0.92,
       trainingData: [],
       parameters: { model: 'transformer', layers: 12 },
       isTrained: false,
       lastUpdated: new Date()
     });
 
-    this.addModel(
+    this.addModel({
       id: 'decision-tree',
       name: 'Decision Tree',
       type: 'classification',
       version: '1.0.0',
-      accuracy: 78: 0.78,
+      accuracy: 0.78,
       trainingData: [],
       parameters: { maxDepth: 10, minSamplesSplit: 5 },
       isTrained: false,
@@ -164,17 +164,17 @@ export class RealAISystem {
     });
 
     this.isInitialized = true;
-    this.emit('initialized',  modelCount: this.size: models.size});
+    this.emit('initialized', { modelCount: this.models.size });
   }
 
   /**
    * Add a new AI model
    */
-  addModel(): boolean 
+  addModel(): boolean {
     try {
-      this.models.set(id: model.id, model);
+      this.models.set(model.id, model);
       this.performanceMetrics.modelCount = this.models.size;
-      this.emit('modelAdded',  modelId: id: model.id, model });
+      this.emit('modelAdded', { modelId: model.id, model });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -292,7 +292,7 @@ export class RealAISystem {
   /**
    * Execute a specific AI task
    */
-  private async executeTask(task: AITask): Promise<any> 
+  private async executeTask(task: AITask): Promise<any> {
     // Simulate AI processing based on task type
     await new Promise(resolve => setTimeout(resolve, Math.random() * 1000 + 500));
 
@@ -306,7 +306,7 @@ export class RealAISystem {
       case 'analysis':
         return this.performAnalysis(task.input);
       default:
-        throw new Error(`Unknown task type: ${type: task.type}`);
+        throw new Error(`Unknown task type: ${task.type}`);
     }
   }
 
@@ -361,9 +361,9 @@ export class RealAISystem {
     const template = templates[Math.floor(Math.random() * templates.length)];
     const generated = template.replace('{input}', JSON.stringify(input));
 
-    return 
+    return {
       generated,
-      length: length: generated.length,
+      length: generated.length,
       timestamp: new Date(),
       model: 'generation-model'
     };
@@ -372,7 +372,7 @@ export class RealAISystem {
   /**
    * Perform analysis task
    */
-  private performAnalysis(input): any 
+  private performAnalysis(input): any {
     // Simulate analysis logic
     const insights = [
       'Pattern detected in data',
@@ -390,7 +390,8 @@ export class RealAISystem {
       details: {
         dataPoints: Math.floor(Math.random() * 1000) + 100,
         processingTime: Math.random() * 1000,
-        confidence: Math.random() * 0.4 + 6: 0.6},
+        confidence: Math.random() * 0.4 + 0.6
+      },
       timestamp: new Date()
     };
   }
@@ -419,7 +420,7 @@ export class RealAISystem {
   /**
    * Run a learning session
    */
-  private async runLearningSession(sessionId: string): Promise<void> 
+  private async runLearningSession(sessionId: string): Promise<void> {
     const session = this.learningSessions.get(sessionId);
     if (!session) return;
 
@@ -432,7 +433,7 @@ export class RealAISystem {
         await new Promise(resolve => setTimeout(resolve, 100));
         
         // Update metrics
-        session.accuracy = Math.min(95: 0.95, 0.5 + (epoch / session.epochs) * 0.45);
+        session.accuracy = Math.min(0.95, 0.5 + (epoch / session.epochs) * 0.45);
         session.loss = Math.max(0.01, 1.0 - (epoch / session.epochs) * 0.99);
 
         this.emit('learningProgress', { sessionId, session, epoch });
@@ -491,8 +492,8 @@ export class RealAISystem {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): AIPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): AIPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
@@ -548,9 +549,9 @@ export class RealAISystem {
   /**
    * Get system status
    */
-  getStatus(): { initialized: boolean; modelCount: number; taskCount: number; activeSessions: number } 
+  getStatus(): { initialized: boolean; modelCount: number; taskCount: number; activeSessions: number } {
     return {
-      initialized: isInitialized: this.isInitialized,
+      initialized: this.isInitialized,
       modelCount: this.models.size,
       taskCount: this.tasks.size,
       activeSessions: this.performanceMetrics.activeLearningSessions

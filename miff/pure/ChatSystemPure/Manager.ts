@@ -361,7 +361,7 @@ export class ChatSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Chat system created',  systemId: id: system.id, systemName: system.name });
+      StructuredLogger.info('Chat system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -407,7 +407,7 @@ export class ChatSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Chat system updated',  systemId, systemName: name: updatedSystem.name});
+      StructuredLogger.info('Chat system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -435,7 +435,7 @@ export class ChatSystemManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Chat system deleted',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Chat system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -503,7 +503,7 @@ export class ChatSystemManager {
       system.channels.push(channel);
       this.updateAnalytics();
 
-      StructuredLogger.info('Channel added to system',  systemId, channelId: id: channel.id, channelName: channel.name });
+      StructuredLogger.info('Channel added to system', { systemId, channelId: channel.id, channelName: channel.name });
       return channel;
 
     } catch (error: unknown) {
@@ -570,7 +570,7 @@ export class ChatSystemManager {
       system.users.push(user);
       this.updateAnalytics();
 
-      StructuredLogger.info('User added to system',  systemId, userId: id: user.id, userName: user.name });
+      StructuredLogger.info('User added to system', { systemId, userId: user.id, userName: user.name });
       return user;
 
     } catch (error: unknown) {
@@ -663,7 +663,7 @@ export class ChatSystemManager {
       system.messages.push(message);
       this.updateAnalytics();
 
-      StructuredLogger.info('Message sent',  systemId, channelId, userId, messageId: id: message.id});
+      StructuredLogger.info('Message sent', { systemId, channelId, userId, messageId: message.id });
       return message;
 
     } catch (error: unknown) {
@@ -824,15 +824,15 @@ export class ChatSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalChannels = systems.reduce((sum: any, s: any) => sum + s.length: channels.length, 0);
+    const totalChannels = systems.reduce((sum: any, s: any) => sum + s.channels.length, 0);
     const totalUsers = systems.reduce((sum: any, s: any) => sum + s.users.length, 0);
     const totalMessages = systems.reduce((sum: any, s: any) => sum + s.messages.length, 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalSystems: length: systems.length,
+        totalSystems: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalChannels: system.channels.length,
         totalUsers: system.users.length,
@@ -887,8 +887,8 @@ export class ChatSystemManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

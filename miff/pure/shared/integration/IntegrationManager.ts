@@ -175,24 +175,24 @@ export class IntegrationManager {
   /**
    * Register integration
    */
-  registerIntegration(config: IntegrationConfig): boolean 
+  registerIntegration(config: IntegrationConfig): boolean {
     try {
       // Validate configuration
       if (!this.validateConfig(config)) {
-        throw new Error(`Invalid configuration for integration ${id: config.id}`);
+        throw new Error(`Invalid configuration for integration ${config.id}`);
       }
 
       // Check dependencies
-      if (!this.checkDependencies(config.dependencies)) 
-        throw new Error(`Missing dependencies for integration ${id: config.id}`);
+      if (!this.checkDependencies(config.dependencies)) {
+        throw new Error(`Missing dependencies for integration ${config.id}`);
       }
 
       // Store configuration
       this.integrations.set(config.id, config);
       
       // Initialize health status
-      this.healthStatus.set(config.id, 
-        status: INITIALIZING: IntegrationStatus.INITIALIZING,
+      this.healthStatus.set(config.id, {
+        status: IntegrationStatus.INITIALIZING,
         lastCheck: new Date(),
         uptime: 0,
         memoryUsage: 0,
@@ -221,11 +221,11 @@ export class IntegrationManager {
         this.startIntegration(config.id);
       }
 
-      this.eventBus.publish('integration:registered',  id: id: config.id, config });
+      this.eventBus.publish('integration:registered', { id: config.id, config });
       return true;
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.eventBus.publish('integration:error', { id: id: config.id, error });
+      this.eventBus.publish('integration:error', { id: config.id, error });
       return false;
     }
   }
@@ -300,11 +300,11 @@ export class IntegrationManager {
   /**
    * Add integration hook
    */
-  addHook(hook: IntegrationHook): boolean 
+  addHook(hook: IntegrationHook): boolean {
     const hooks = this.hooks.get(hook.integrationId) || [];
     hooks.push(hook);
     hooks.sort((a: any, b: any) => b.priority - a.priority);
-    this.hooks.set(integrationId: hook.integrationId, hooks);
+    this.hooks.set(hook.integrationId, hooks);
     return true;
   }
 
@@ -486,21 +486,21 @@ export class IntegrationManager {
     health.lastCheck = now;
 
     // Check memory usage
-    if (process.memoryUsage) 
+    if (process.memoryUsage) {
       const memUsage = process.memoryUsage();
       health.memoryUsage = memUsage.heapUsed / 1024 / 1024; // MB
       
       if (health.memoryUsage > config.maxMemoryUsage) {
         health.status = IntegrationStatus.ERROR;
-        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: memoryUsage: health.memoryUsage});
+        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health.memoryUsage });
       }
     }
 
     // Check error rate
     const metrics = this.metrics.get(integrationId);
-    if (metrics && metrics.errorRate > 50) 
+    if (metrics && metrics.errorRate > 50) {
       health.status = IntegrationStatus.ERROR;
-      this.eventBus.publish('integration:errorRateWarning', { id: integrationId, rate: errorRate: metrics.errorRate});
+      this.eventBus.publish('integration:errorRateWarning', { id: integrationId, rate: metrics.errorRate });
     }
 
     // Auto-recovery
@@ -528,7 +528,7 @@ export class IntegrationManager {
         this.startIntegration(integrationId);
       }, config.retryDelay);
       
-      this.eventBus.publish('integration:recoveryAttempted',  id: integrationId, attempt: errorCount: health.errorCount});
+      this.eventBus.publish('integration:recoveryAttempted', { id: integrationId, attempt: health.errorCount });
     } else {
       health.status = IntegrationStatus.DISABLED;
       this.eventBus.publish('integration:recoveryFailed', { id: integrationId });
@@ -642,13 +642,13 @@ export class IntegrationManager {
     totalEvents: number;
     averageProcessingTime: number;
     systemUptime: number;
-  } 
+  } {
     const integrations = this.getAllIntegrations();
     const activeIntegrations = this.getActiveIntegrations();
     const allMetrics = Array.from(this.metrics.values());
     
     return {
-      totalIntegrations: length: integrations.length,
+      totalIntegrations: integrations.length,
       activeIntegrations: activeIntegrations.length,
       totalEvents: allMetrics.reduce((sum, m) => sum + m.totalEvents, 0),
       averageProcessingTime: allMetrics.reduce((sum, m) => sum + m.averageProcessingTime, 0) / allMetrics.length || 0,

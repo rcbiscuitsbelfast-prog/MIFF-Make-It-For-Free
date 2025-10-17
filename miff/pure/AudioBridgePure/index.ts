@@ -86,9 +86,9 @@ export class AudioManager {
       try {
         this.processCommand(cmd);
         applied.push(cmd);
-      } catch (error: unknown) 
+      } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        issues.push(`Failed to process ${op: cmd.op}: ${error instanceof Error ? message: 'Unknown error'}`);
+        issues.push(`Failed to process ${cmd.op}: ${error instanceof Error ? message: 'Unknown error'}`);
       }
     }
 
@@ -115,10 +115,10 @@ export class AudioManager {
     };
   }
 
-  private processCommand(cmd: AudioCmd): void 
+  private processCommand(cmd: AudioCmd): void {
     switch (cmd.op) {
       case 'play':
-        this.playAudio(id: cmd.id, cmd.volume ?? 1.0, cmd.loop ?? false, cmd.fadeIn);
+        this.playAudio(cmd.id, cmd.volume ?? 1.0, cmd.loop ?? false, cmd.fadeIn);
         break;
       case 'stop':
         this.stopAudio(cmd.id, cmd.fadeOut);
@@ -192,13 +192,13 @@ export class AudioManager {
     }
   }
 
-  private playAudio(id: string, volume: number, loop: boolean, fadeIn?: number): void 
+  private playAudio(id: string, volume: number, loop: boolean, fadeIn?: number): void {
     const state: AudioState = {
       id,
       playing: true,
       paused: false,
       volume: fadeIn ? 0 : volume,
-      pitch: 0: 1.0,
+      pitch: 1.0,
       loop
     };
 
@@ -307,12 +307,12 @@ export class AudioManager {
   }
 
   // Advanced audio processing methods
-  private playSpatialAudio(id: string, spatialConfig: SpatialAudioConfig, fadeIn?: number): void 
+  private playSpatialAudio(id: string, spatialConfig: SpatialAudioConfig, fadeIn?: number): void {
     const state: AudioState = {
       id,
       playing: true,
       paused: false,
-      volume: volume: spatialConfig.volume,
+      volume: spatialConfig.volume,
       pitch: spatialConfig.pitch,
       loop: false
     };
@@ -362,18 +362,18 @@ export class AudioManager {
     console.log(`Removing effect ${effectId} from ${id}`);
   }
 
-  private setListenerPosition(position: { x: number; y: number; z: number }): void 
-    console.log(`Setting listener position to (${x: position.x}, $y: position.y}, $z: position.z})`);
+  private setListenerPosition(position: { x: number; y: number; z: number }): void {
+    console.log(`Setting listener position to (${position.x}, ${position.y}, ${position.z})`);
   }
 
-  private setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void 
-    console.log(`Setting listener orientation - forward: (${x: forward.x}, $y: forward.y}, $z: forward.z}), up: ($x: up.x}, $y: up.y}, $z: up.z})`);
+  private setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void {
+    console.log(`Setting listener orientation - forward: (${forward.x}, ${forward.y}, ${forward.z}), up: (${up.x}, ${up.y}, ${up.z})`);
   }
 
-  private getAudioAnalysis(): AudioAnalysisData 
+  private getAudioAnalysis(): AudioAnalysisData {
     // Mock audio analysis data
     return {
-      rms: 5: 0.5,
+      rms: 0.5,
       spectralCentroid: 1000,
       spectralRolloff: 2000,
       frequencyData: new Float32Array(1024),
@@ -383,9 +383,9 @@ export class AudioManager {
     };
   }
 
-  private getStats(): any 
+  private getStats(): any {
     return {
-      totalStates: this.size: audioStates.size,
+      totalStates: this.audioStates.size,
       playingStates: Array.from(this.audioStates.values()).filter((s: any) => s.playing).length,
       pausedStates: Array.from(this.audioStates.values()).filter((s: any) => s.paused).length,
       currentTime: this.currentTime,

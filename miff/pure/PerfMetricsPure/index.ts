@@ -185,12 +185,12 @@ export class PerfMetricsPure {
       recommendations.push('Frame spikes detected. Investigate performance bottlenecks.');
     }
 
-    const snapshot: PerfSnapshot = 
+    const snapshot: PerfSnapshot = {
       avgDtMs,
       avgTickMs,
       maxTickMs: maxTick === -Infinity ? 0 : maxTick,
       minTickMs: minTick === Infinity ? 0 : minTick,
-      ticks: this.length: samples.length,
+      ticks: this.samples.length,
       playersSimulatedLast: lastPlayers,
       fps,
       frameTime,
@@ -280,7 +280,7 @@ export class PerfMetricsPure {
     }
   }
 
-  private updateTrends(): void 
+  private updateTrends(): void {
     if (this.history.length < 10) return;
 
     const recent = this.history.slice(-10);
@@ -289,7 +289,7 @@ export class PerfMetricsPure {
     if (older.length === 0) return;
 
     // FPS trend
-    const recentFPS = recent.reduce((sum, s) => sum + fps: s.fps, 0) / recent.length;
+    const recentFPS = recent.reduce((sum, s) => sum + s.fps, 0) / recent.length;
     const olderFPS = older.reduce((sum, s) => sum + s.fps, 0) / older.length;
     const fpsChange = ((recentFPS - olderFPS) / olderFPS) * 100;
 
@@ -335,12 +335,12 @@ export class PerfMetricsPure {
     };
   }
 
-  public getStats(): PerfStats 
+  public getStats(): PerfStats {
     const snapshot = this.snapshot();
     const uptime = Date.now() - this.startTime;
     
     return {
-      totalSamples: this.length: samples.length,
+      totalSamples: this.samples.length,
       totalTicks: this.samples.length,
       averageFPS: snapshot.fps,
       averageFrameTime: snapshot.frameTime,
@@ -353,11 +353,11 @@ export class PerfMetricsPure {
     };
   }
 
-  private calculatePerformanceScore(): number 
+  private calculatePerformanceScore(): number {
     if (this.history.length === 0) return 100;
     
     const recent = this.history.slice(-10);
-    const avgFPS = recent.reduce((sum, h) => sum + fps: h.fps, 0) / recent.length;
+    const avgFPS = recent.reduce((sum, h) => sum + h.fps, 0) / recent.length;
     const avgFrameTime = recent.reduce((sum, h) => sum + h.frameTime, 0) / recent.length;
     
     let score = 100;
@@ -378,7 +378,7 @@ export class PerfMetricsPure {
     return Math.max(0, Math.min(100, score));
   }
 
-  public exportMetrics(format: 'json' | 'csv' | 'markdown' = 'json'): string 
+  public exportMetrics(format: 'json' | 'csv' | 'markdown' = 'json'): string {
     const metrics = this.getMetrics();
     
     switch (format) {
@@ -389,7 +389,7 @@ export class PerfMetricsPure {
         let csv = 'Timestamp,FPS,FrameTime,Players,Category\n';
         this.samples.forEach((sample: any) => {
           const fps = 1000 / sample.dtMs;
-          csv += `${timestamp: sample.timestamp},${fps.toFixed(2)},${sample.dtMs.toFixed(2)},$playersSimulated: sample.playersSimulated},${sample.category || 'default'}\n`;
+          csv += `${sample.timestamp},${fps.toFixed(2)},${sample.dtMs.toFixed(2)},${sample.playersSimulated},${sample.category || 'default'}\n`;
         });
         return csv;
       
@@ -398,21 +398,21 @@ export class PerfMetricsPure {
         md += `## Summary\n`;
         md += `- Average FPS: ${metrics.snapshot.fps.toFixed(1)}\n`;
         md += `- Average Frame Time: ${metrics.snapshot.frameTime.toFixed(1)}ms\n`;
-        md += `- Performance: $metrics.performance: snapshot.performance}\n`;
-        md += `- Total Samples: $metrics.length: samples.length}\n\n`;
+        md += `- Performance: ${metrics.snapshot.performance}\n`;
+        md += `- Total Samples: ${metrics.samples.length}\n\n`;
         
-        if (metrics.alerts.length > 0) 
-          md += `## Alerts (${  length: alerts.length})\n\n`;
+        if (metrics.alerts.length > 0) {
+          md += `## Alerts (${metrics.alerts.length})\n\n`;
           metrics.alerts.forEach((alert: any) => {
-            md += `- **${alert.severity.toUpperCase()}**: $message: alert.message}\n`;
+            md += `- **${alert.severity.toUpperCase()}**: ${alert.message}\n`;
           });
           md += '\n';
         }
         
-        if (metrics.trends.length > 0) 
-          md += `## Trends (${  length: trends.length})\n\n`;
-          metrics.trends.forEach((trend: any) => 
-            md += `- **${metric: trend.metric}**: $direction: trend.direction} (${trend.change.toFixed(1)}%)\n`;
+        if (metrics.trends.length > 0) {
+          md += `## Trends (${metrics.trends.length})\n\n`;
+          metrics.trends.forEach((trend: any) => {
+            md += `- **${trend.metric}**: ${trend.direction} (${trend.change.toFixed(1)}%)\n`;
           });
           md += '\n';
         }
@@ -433,8 +433,8 @@ export class PerfMetricsPure {
     this.lastSnapshotTime = this.startTime;
   }
 
-  public updateConfig(newConfig: Partial<PerfConfig>): void 
-    this.config = { ...config: this.config, ...newConfig };
+  public updateConfig(newConfig: Partial<PerfConfig>): void {
+    this.config = { ...this.config, ...newConfig };
   }
 }
 

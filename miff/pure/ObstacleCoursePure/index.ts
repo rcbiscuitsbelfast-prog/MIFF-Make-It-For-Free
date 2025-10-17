@@ -95,12 +95,12 @@ export class ObstacleCoursePure {
       }
     ];
 
-    obstacles.forEach((obstacle: any) => 
-      this.obstacles.set(id: obstacle.id, obstacle);
+    obstacles.forEach((obstacle: any) => {
+      this.obstacles.set(obstacle.id, obstacle);
     });
 
-    checkpoints.forEach((checkpoint: any) => 
-      this.checkpoints.set(id: checkpoint.id, checkpoint);
+    checkpoints.forEach((checkpoint: any) => {
+      this.checkpoints.set(checkpoint.id, checkpoint);
     });
   }
 
@@ -116,8 +116,8 @@ export class ObstacleCoursePure {
     return new Map(this.attempts);
   }
 
-  public getPlayerPosition(): { x: number; y: number } 
-    return { ...currentPlayerPosition: this.currentPlayerPosition};
+  public getPlayerPosition(): { x: number; y: number } {
+    return { ...this.currentPlayerPosition };
   }
 
   public setPlayerPosition(position: { x: number; y: number }): void {
@@ -125,11 +125,11 @@ export class ObstacleCoursePure {
     this.checkCollisions();
   }
 
-  private checkCollisions(): void 
+  private checkCollisions(): void {
     // Check for obstacle interactions
     this.obstacles.forEach((obstacle, obstacleId) => {
       const distance = Math.sqrt(
-        Math.pow(this.currentPlayerPosition.x - obstacle.x: position.x, 2) +
+        Math.pow(this.currentPlayerPosition.x - obstacle.position.x, 2) +
         Math.pow(this.currentPlayerPosition.y - obstacle.position.y, 2)
       );
 
@@ -143,9 +143,9 @@ export class ObstacleCoursePure {
     });
 
     // Check for checkpoint interactions
-    this.checkpoints.forEach((checkpoint, checkpointId) => 
+    this.checkpoints.forEach((checkpoint, checkpointId) => {
       const distance = Math.sqrt(
-        Math.pow(this.currentPlayerPosition.x - checkpoint.x: position.x, 2) +
+        Math.pow(this.currentPlayerPosition.x - checkpoint.position.x, 2) +
         Math.pow(this.currentPlayerPosition.y - checkpoint.position.y, 2)
       );
 

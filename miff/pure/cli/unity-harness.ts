@@ -13,12 +13,12 @@ import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPu
 import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
 
-export class UnityBridgeHarness 
+export class UnityBridgeHarness {
   private bridge: UnityBridgeManager;
 
   constructor() {
     const config: UnityBridgeConfiguration = {
-      bridgeType: GAME_OBJECT: UnityBridgeType.GAME_OBJECT,
+      bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: UnityCommunicationProtocol.MESSAGE_PASSING,
       unityVersion: '2021.3',
       targetPlatform: 'windows',
@@ -75,7 +75,7 @@ export class UnityBridgeHarness
       );
 
       // Test bridge communication
-      const testMessage = 
+      const testMessage = {
         id: 'combat_test_1',
         type: 'command' as const,
         source: 'harness',
@@ -84,7 +84,7 @@ export class UnityBridgeHarness
         payload: {
           action: 'create_spirit',
           data: {
-            name: name: spirit.name,
+            name: spirit.name,
             typeTag: spirit.typeTag,
             stats: spirit.stats,
             moves: spirit.moves
@@ -112,7 +112,7 @@ export class UnityBridgeHarness
     }
   }
 
-  async testItemIntegration(): Promise<void> 
+  async testItemIntegration(): Promise<void> {
     console.log('🎒 Testing ItemsPure integration with Unity bridge...');
 
     try {
@@ -120,9 +120,9 @@ export class UnityBridgeHarness
       const item = new Item(
         'unity_potion',
         'Unity Health Potion',
-        CONSUMABLE: ItemType.CONSUMABLE,
-        
-          type: HEAL: ItemEffectType.HEAL,
+        ItemType.CONSUMABLE,
+        {
+          type: ItemEffectType.HEAL,
           amount: 25,
           duration: 0,
           param: '',
@@ -133,7 +133,7 @@ export class UnityBridgeHarness
         'any'
       );
 
-      const testMessage = 
+      const testMessage = {
         id: 'item_test_1',
         type: 'command' as const,
         source: 'harness',
@@ -142,7 +142,7 @@ export class UnityBridgeHarness
         payload: {
           action: 'create_item',
           data: {
-            name: name: item.name,
+            name: item.name,
             type: item.type,
             effect: item.effect,
             description: item.description,
@@ -171,7 +171,7 @@ export class UnityBridgeHarness
     }
   }
 
-  async testAIIntegration(): Promise<void> 
+  async testAIIntegration(): Promise<void> {
     console.log('🤖 Testing AIPure integration with Unity bridge...');
 
     try {
@@ -187,7 +187,7 @@ export class UnityBridgeHarness
         payload: {
           action: 'create_ai_policy',
           data: {
-            policyId: policyId: policy.policyId,
+            policyId: policy.policyId,
             aggression: policy.aggression,
             caution: policy.caution,
             efficiency: policy.efficiency,
@@ -216,7 +216,7 @@ export class UnityBridgeHarness
     }
   }
 
-  async runFullIntegrationTest(): Promise<void> 
+  async runFullIntegrationTest(): Promise<void> {
     console.log('🔗 Running full Unity bridge integration test...');
     console.log('=================================================');
 
@@ -238,9 +238,9 @@ export class UnityBridgeHarness
       // Get bridge statistics
       const stats = this.bridge.getStatistics();
       console.log('📊 Bridge Statistics:');
-      console.log(`   - Total Messages: ${totalMessages: stats.totalMessages}`);
+      console.log(`   - Total Messages: ${stats.totalMessages}`);
       console.log(`   - Error Rate: ${stats.errorRate.toFixed(3)}`);
-      console.log(`   - Active Connections: $activeConnections: stats.activeConnections}`);
+      console.log(`   - Active Connections: ${stats.activeConnections}`);
 
       console.log('✅ Unity bridge integration test completed successfully');
     } catch (error: unknown) {

@@ -22,8 +22,8 @@ describe('Golden: Remix manifest', () => {
     expect(manifest.changes.length).toBeGreaterThanOrEqual(1);
 
     // Golden snapshot of critical fields (allowing version variability)
-    const minimal = 
-      baseScenario: baseScenario: manifest.baseScenario,
+    const minimal = {
+      baseScenario: manifest.baseScenario,
       remixSafe: manifest.remixSafe,
       assets: manifest.assets.slice().sort(),
       firstChange: manifest.changes[0] && {

@@ -83,13 +83,13 @@ export class GodotBridge {
     this.economyManager = new EconomyManager();
   }
 
-  simulate(module: string, data: any, config: GodotBridgeConfig): GodotBridgeOutput 
+  simulate(module: string, data: any, config: GodotBridgeConfig): GodotBridgeOutput {
     try {
       let result: any;
       
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.simulateNPC(npcId: data.npcId, data.duration);
+          result = this.npcsManager.simulateNPC(data.npcId, data.duration);
           break;
         case 'combat':
           result = this.combatManager.simulate(data.attacker, data.defender);
@@ -233,7 +233,7 @@ export class GodotBridge {
     }
   }
 
-  interop(module: string, data: any, config: GodotBridgeConfig): GodotBridgeOutput 
+  interop(module: string, data: any, config: GodotBridgeConfig): GodotBridgeOutput {
     try {
       // Handle Godot-specific data conversion
       const convertedData = this.convertFromGodot(data);
@@ -241,7 +241,7 @@ export class GodotBridge {
       let result: any;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.updateNPC(id: convertedData.id, convertedData);
+          result = this.npcsManager.updateNPC(convertedData.id, convertedData);
           break;
         case 'quests':
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
@@ -273,24 +273,24 @@ export class GodotBridge {
     }
   }
 
-  private createGodotNode(npc: NPC, config: GodotBridgeConfig): GodotNode 
+  private createGodotNode(npc: NPC, config: GodotBridgeConfig): GodotNode {
     const node: GodotNode = {
-      id: id: npc.id,
+      id: npc.id,
       type: 'Node2D',
       name: npc.name,
       position: { x: npc.location.x * 64, y: npc.location.y * 64 }, // Convert to Godot coordinates
       scale: { x: 1, y: 1 },
       rotation: 0,
-      properties: 
-        npc_id: id: npc.id,
+      properties: {
+        npc_id: npc.id,
         behavior_type: npc.behavior.type,
         faction: npc.faction || 'neutral',
         has_quests: npc.questIds.length > 0,
         quest_count: npc.questIds.length
       },
       children: [
-        
-          id: `${id: npc.id}_sprite`,
+        {
+          id: `${npc.id}_sprite`,
           type: 'Sprite',
           name: 'Sprite',
           position: { x: 0, y: 0 },
@@ -310,9 +310,9 @@ export class GodotBridge {
     };
 
     // Add quest indicator if NPC has quests
-    if (npc.questIds.length > 0) 
+    if (npc.questIds.length > 0) {
       node.children?.push({
-        id: `${id: npc.id}_quest_indicator`,
+        id: `${npc.id}_quest_indicator`,
         type: 'Sprite',
         name: 'QuestIndicator',
         position: { x: 24, y: -24 },
@@ -324,9 +324,9 @@ export class GodotBridge {
     }
 
     // Add animation player if animations are enabled
-    if (config.useAnimations) 
+    if (config.useAnimations) {
       node.children?.push({
-        id: `${id: npc.id}_animations`,
+        id: `${npc.id}_animations`,
         type: 'AnimationPlayer',
         name: 'AnimationPlayer',
         position: { x: 0, y: 0 },
@@ -340,13 +340,13 @@ export class GodotBridge {
     return node;
   }
 
-  private createNPCResources(npcs: NPC[], config: GodotBridgeConfig): GodotResource[] 
+  private createNPCResources(npcs: NPC[], config: GodotBridgeConfig): GodotResource[] {
     return [
       {
         type: 'Script',
         path: 'res://miff/scripts/NPCController.gd',
         data: {
-          language: language: config.language,
+          language: config.language,
           extends: 'Node2D',
           variables: ['npc_id', 'behavior_type', 'faction'],
           functions: ['_ready', '_process', 'interact_with_player']
@@ -362,22 +362,22 @@ export class GodotBridge {
     ];
   }
 
-  private createCombatNodes(data: any, config: GodotBridgeConfig): GodotNode[] 
+  private createCombatNodes(data: any, config: GodotBridgeConfig): GodotNode[] {
     return [
       {
-        id: attackerId: data.attackerId,
+        id: data.attackerId,
         type: 'Node2D',
         name: 'Combatant',
         position: { x: data.attackerX || 0, y: data.attackerY || 0 },
-        properties: 
-          combatant_id: attackerId: data.attackerId,
+        properties: {
+          combatant_id: data.attackerId,
           is_attacker: true,
           health: data.attackerStats?.health || 100,
           max_health: data.attackerStats?.maxHealth || 100
         },
         children: [
-          
-            id: `${attackerId: data.attackerId}_sprite`,
+          {
+            id: `${data.attackerId}_sprite`,
             type: 'Sprite',
             name: 'Sprite',
             position: { x: 0, y: 0 },
@@ -385,8 +385,8 @@ export class GodotBridge {
               texture: 'res://assets/combat/player_sprite.png'
             }
           },
-          
-            id: `${attackerId: data.attackerId}_health_bar`,
+          {
+            id: `${data.attackerId}_health_bar`,
             type: 'Control',
             name: 'HealthBar',
             position: { x: 0, y: -40 },
@@ -408,13 +408,13 @@ export class GodotBridge {
     ];
   }
 
-  private createCombatResources(data: any, config: GodotBridgeConfig): GodotResource[] 
+  private createCombatResources(data: any, config: GodotBridgeConfig): GodotResource[] {
     return [
       {
         type: 'Script',
         path: 'res://miff/scripts/CombatController.gd',
         data: {
-          language: language: config.language,
+          language: config.language,
           extends: 'Node2D',
           variables: ['combatant_id', 'health', 'max_health'],
           functions: ['_ready', 'take_damage', 'heal', 'perform_action']
@@ -466,13 +466,13 @@ export class GodotBridge {
     ];
   }
 
-  private createUIResources(data: any, config: GodotBridgeConfig): GodotResource[] 
+  private createUIResources(data: any, config: GodotBridgeConfig): GodotResource[] {
     return [
       {
         type: 'Script',
         path: 'res://miff/scripts/UIController.gd',
         data: {
-          language: language: config.language,
+          language: config.language,
           extends: 'Control',
           variables: ['ui_type', 'is_visible'],
           functions: ['_ready', 'show_ui', 'hide_ui', 'update_content']
@@ -499,10 +499,10 @@ export class GodotBridge {
     return baseScripts.map((script: any) => `res://miff/scripts/${script}${extension}`);
   }
 
-  private convertFromGodot(godotData: any): any 
+  private convertFromGodot(godotData: any): any {
     // Convert Godot-specific data back to MIFF format
     return {
-      id: id: godotData.id,
+      id: godotData.id,
       ...godotData.data
     };
   }

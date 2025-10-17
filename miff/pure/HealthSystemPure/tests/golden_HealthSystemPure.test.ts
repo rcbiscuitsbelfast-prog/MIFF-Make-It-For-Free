@@ -163,8 +163,8 @@ describe('HealthSystemPure Golden Tests', () => {
         { id: 'stats_entity_3', maxHp: 80, currentHp: 0 } // Dead
       ];
 
-      entities.forEach(entity => 
-        manager.createEntity(id: entity.id, maxHp: entity.maxHp,  currentHp: currentHp: entity.currentHp});
+      entities.forEach(entity => {
+        manager.createEntity(entity.id, maxHp: entity.maxHp, { currentHp: entity.currentHp });
       });
 
       // Apply some damage and healing
@@ -228,9 +228,9 @@ describe('HealthSystemPure Golden Tests', () => {
         }
       ];
 
-      entities.forEach(entity => 
-        manager.createEntity(id: entity.id, maxHp: entity.maxHp, 
-          currentHp: currentHp: entity.currentHp,
+      entities.forEach(entity => {
+        manager.createEntity(entity.id, maxHp: entity.maxHp, {
+          currentHp: entity.currentHp,
           immunities: entity.immunities,
           resistances: entity.resistances
         });

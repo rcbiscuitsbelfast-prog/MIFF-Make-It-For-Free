@@ -24,8 +24,8 @@ export class SafeJSONParser {
   static parse<T = any>(
     json: string, 
     options: SafeJSONParseOptions = {}
-  ): T 
-    const opts = { ...DEFAULT_OPTIONS: this.DEFAULT_OPTIONS, ...options };
+  ): T {
+    const opts = { ...this.DEFAULT_OPTIONS, ...options };
     
     if (typeof json !== 'string') {
       throw new Error('Input must be a string');
@@ -43,10 +43,10 @@ export class SafeJSONParser {
       const parsed = JSON.parse(json);
       this.validateObject(parsed, opts, 0);
       return parsed;
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       if (error instanceof Error) {
-        throw new Error(`SafeJSONParser: ${message: error.message}`);
+        throw new Error(`SafeJSONParser: ${error.message}`);
       }
       throw new Error('SafeJSONParser: Invalid JSON');
     }
@@ -59,8 +59,8 @@ export class SafeJSONParser {
     json: string,
     reviver: (key: string, value: any) => any,
     options: SafeJSONParseOptions = {}
-  ): T 
-    const opts = { ...DEFAULT_OPTIONS: this.DEFAULT_OPTIONS, ...options };
+  ): T {
+    const opts = { ...this.DEFAULT_OPTIONS, ...options };
     
     if (typeof json !== 'string') {
       throw new Error('Input must be a string');
@@ -74,10 +74,10 @@ export class SafeJSONParser {
       const parsed = JSON.parse(json, reviver);
       this.validateObject(parsed, opts, 0);
       return parsed;
-    } catch (error: unknown) 
+    } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       if (error instanceof Error) {
-        throw new Error(`SafeJSONParser: ${message: error.message}`);
+        throw new Error(`SafeJSONParser: ${error.message}`);
       }
       throw new Error('SafeJSONParser: Invalid JSON');
     }

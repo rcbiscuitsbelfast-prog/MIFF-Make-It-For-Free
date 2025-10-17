@@ -722,16 +722,16 @@ describe('PartyPure Golden Tests', () => {
       expect(party.hasKOMembers()).toBe(false);
     });
 
-    test('should handle multiple revival listeners', () => 
+    test('should handle multiple revival listeners', () => {
       const revivalLog: string[] = [];
 
       // Add multiple listeners
       party.addRevivedListener((member) => {
-        revivalLog.push(`Listener1: ${name: member.name}`);
+        revivalLog.push(`Listener1: ${member.name}`);
       });
 
-      party.addRevivedListener((member) => 
-        revivalLog.push(`Listener2: ${name: member.name}`);
+      party.addRevivedListener((member) => {
+        revivalLog.push(`Listener2: ${member.name}`);
       });
 
       const member: IPartyMember = {

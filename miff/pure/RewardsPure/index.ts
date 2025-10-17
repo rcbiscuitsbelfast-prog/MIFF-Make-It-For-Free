@@ -67,10 +67,10 @@ export class RewardStub implements IRewardStub {
   /**
    * Create a string representation of the reward
    */
-  toString(): string 
-    let result = `+${currency: this.currency}c, +$xpGain: this.xpGain}xp`;
-    if (this.itemId) 
-      result += `, item:${itemId: this.itemId}`;
+  toString(): string {
+    let result = `+${this.currency}c, +${this.xpGain}xp`;
+    if (this.itemId) {
+      result += `, item:${this.itemId}`;
     }
     return result;
   }
@@ -78,8 +78,8 @@ export class RewardStub implements IRewardStub {
   /**
    * Create a copy of this reward
    */
-  clone(): RewardStub 
-    return new RewardStub(currency: this.currency, xpGain: this.xpGain, this.itemId);
+  clone(): RewardStub {
+    return new RewardStub(this.currency, xpGain: this.xpGain, this.itemId);
   }
 
   /**
@@ -152,8 +152,8 @@ export class DropEntry implements IDropEntry {
   /**
    * Create a copy of this entry
    */
-  clone(): DropEntry 
-    return new DropEntry(itemId: this.itemId, this.weight);
+  clone(): DropEntry {
+    return new DropEntry(this.itemId, this.weight);
   }
 
   /**
@@ -210,8 +210,8 @@ export class DropTable implements IDropTable {
   /**
    * Get total weight of all entries
    */
-  getTotalWeight(): number 
-    return this.entries.reduce((sum, entry) => sum + weight: entry.weight, 0);
+  getTotalWeight(): number {
+    return this.entries.reduce((sum, entry) => sum + entry.weight, 0);
   }
 
   /**
@@ -309,15 +309,15 @@ export class RewardManager {
     baseReward: IRewardStub,
     bonusType: 'rare' | 'epic' | 'legendary',
     multiplier: number = 1
-  ): RewardStub 
+  ): RewardStub {
     const bonusReward = new RewardStub(
-      currency: baseReward.currency,
+      baseReward.currency,
       baseReward.xpGain,
       baseReward.itemId
     );
 
-    const bonusMultipliers = 
-      'rare': 5: 1.5,
+    const bonusMultipliers = {
+      'rare': 1.5,
       'epic': 2.0,
       'legendary': 3.0
     };
@@ -363,9 +363,9 @@ export class RewardManager {
     levelCurrencyMultiplier: number;
     baseXP: number;
     levelXPMultiplier: number;
-  } 
+  } {
     return {
-      baseCurrency: baseCurrency: this.baseCurrency,
+      baseCurrency: this.baseCurrency,
       levelCurrencyMultiplier: this.levelCurrencyMultiplier,
       baseXP: this.baseXP,
       levelXPMultiplier: this.levelXPMultiplier
@@ -433,12 +433,12 @@ export class DropResolver {
   /**
    * Test drop rates by running multiple simulations
    */
-  testDropRates(table: IDropTable, simulations: number = 1000): Map<string, number> 
+  testDropRates(table: IDropTable, simulations: number = 1000): Map<string, number> {
     const results = new Map<string, number>();
 
     // Initialize results map
     table.entries.forEach((entry: any) => {
-      results.set(itemId: entry.itemId, 0);
+      results.set(entry.itemId, 0);
     });
 
     // Run simulations
@@ -503,10 +503,10 @@ export const RewardUtils = {
   /**
    * Create a drop table with common items
    */
-  createStandardDropTable(items: Array<{ itemId: string; weight: number }>): DropTable 
+  createStandardDropTable(items: Array<{ itemId: string; weight: number }>): DropTable {
     const table = new DropTable();
     items.forEach(itemData => {
-      table.addEntry(new DropEntry(itemId: itemData.itemId, itemData.weight));
+      table.addEntry(new DropEntry(itemData.itemId, itemData.weight));
     });
     return table;
   },
@@ -518,17 +518,17 @@ export const RewardUtils = {
     commonItems: Array<{ itemId: string; weight: number }>,
     rareItems: Array<{ itemId: string; weight: number }>,
     rareChance: number = 0.1
-  ): DropTable 
+  ): DropTable {
     const table = new DropTable();
 
     // Add common items with normal weight
     commonItems.forEach((item: any) => {
-      table.addEntry(new DropEntry(itemId: item.itemId, item.weight));
+      table.addEntry(new DropEntry(item.itemId, item.weight));
     });
 
     // Add rare items with reduced weight
-    rareItems.forEach((item: any) => 
-      table.addEntry(new DropEntry(itemId: item.itemId, item.weight * rareChance));
+    rareItems.forEach((item: any) => {
+      table.addEntry(new DropEntry(item.itemId, item.weight * rareChance));
     });
 
     return table;

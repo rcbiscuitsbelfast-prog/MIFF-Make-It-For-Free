@@ -2027,15 +2027,15 @@ export class ServiceDiscoveryPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): ServiceDiscoveryPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): ServiceDiscoveryPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): ServiceDiscoveryAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): ServiceDiscoveryAnalytics {
+    return { ...this.analytics };
   }
 
   /**

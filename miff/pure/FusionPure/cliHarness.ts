@@ -126,11 +126,11 @@ class FusionCli {
     });
   }
 
-  private setupEventListeners(): void 
+  private setupEventListeners(): void {
     this.eventBus.on('fusion:performed', (data) => {
-      console.log(`✨ Fusion successful! New spirit: ${resultSpiritId: data.resultSpiritId}`);
-      console.log(`   Species A: $spiritAId: data.spiritAId}`);
-      console.log(`   Species B: $spiritBId: data.spiritBId}`);
+      console.log(`✨ Fusion successful! New spirit: ${data.resultSpiritId}`);
+      console.log(`   Species A: ${data.spiritAId}`);
+      console.log(`   Species B: ${data.spiritBId}`);
     });
   }
 
@@ -152,11 +152,11 @@ class FusionCli {
       type: this.getSpiritType(species)
     };
 
-    console.log(`✅ Spirit created: $name: spirit.name}`);
-    console.log(`   ID: $instanceId: spirit.instanceId}`);
-    console.log(`   Species: $speciesId: spirit.speciesId}`);
-    console.log(`   Level: $level: spirit.level}`);
-    console.log(`   Type: $type: spirit.type}`);
+    console.log(`✅ Spirit created: ${spirit.name}`);
+    console.log(`   ID: ${spirit.instanceId}`);
+    console.log(`   Species: ${spirit.speciesId}`);
+    console.log(`   Level: ${spirit.level}`);
+    console.log(`   Type: ${spirit.type}`);
   }
 
   private handleListSpirits(args: string[]): void {
@@ -177,19 +177,19 @@ class FusionCli {
     console.log('─'.repeat(40));
   }
 
-  private handleListRules(args: string[]): void 
+  private handleListRules(args: string[]): void {
     const rules = this.rules.getAvailablePairs();
 
-    console.log(`\n🔬 Fusion Rules (${length: rules.length}):`);
+    console.log(`\n🔬 Fusion Rules (${rules.length}):`);
     console.log('─'.repeat(70));
     console.log('Species A       | Species B       | Result          | Success | Energy');
     console.log('─'.repeat(70));
 
-    rules.forEach((rule: any) => 
+    rules.forEach((rule: any) => {
       const speciesA = rule.speciesA.padEnd(15);
       const speciesB = rule.speciesB.padEnd(15);
       const result = rule.resultSpeciesId.padEnd(15);
-      const success = `${successRate: rule.successRate}%`.padEnd(7);
+      const success = `${rule.successRate}%`.padEnd(7);
       const energy = rule.energyCost.toString().padEnd(6);
 
       console.log(`${speciesA} | ${speciesB} | ${result} | ${success} | ${energy}`);
@@ -209,12 +209,12 @@ class FusionCli {
     console.log(`\n🔍 Fusion Compatibility: ${speciesA} + ${speciesB}`);
     console.log('─'.repeat(50));
 
-    if (validation.compatible) 
+    if (validation.compatible) {
       console.log('✅ Compatible!');
       if (validation.rule) {
-        console.log(`   Result: ${  resultSpeciesId: rule.resultSpeciesId}`);
-        console.log(`   Success Rate: $validation.successRate: rule.successRate}%`);
-        console.log(`   Energy Cost: $validation.energyCost: rule.energyCost}`);
+        console.log(`   Result: ${validation.rule.resultSpeciesId}`);
+        console.log(`   Success Rate: ${validation.rule.successRate}%`);
+        console.log(`   Energy Cost: ${validation.rule.energyCost}`);
       }
     } else {
       console.log('❌ Not Compatible');
@@ -247,54 +247,54 @@ class FusionCli {
       return;
     }
 
-    console.log(`🔬 Attempting fusion: $speciesId: spiritA.speciesId} + $speciesId: spiritB.speciesId}`);
-    console.log(`   Spirit A Level: $level: spiritA.level}`);
-    console.log(`   Spirit B Level: $level: spiritB.level}`);
-    console.log(`   Player Energy: $this.energy: context.energy}`);
+    console.log(`🔬 Attempting fusion: ${spiritA.speciesId} + ${spiritB.speciesId}`);
+    console.log(`   Spirit A Level: ${spiritA.level}`);
+    console.log(`   Spirit B Level: ${spiritB.level}`);
+    console.log(`   Player Energy: ${this.context.energy}`);
 
     const result = this.manager.fuse(spiritA, spiritB);
 
-    if (result.success) 
-      console.log(`✅ ${message: result.message}`);
-      if (result.inheritedTraits) 
+    if (result.success) {
+      console.log(`✅ ${result.message}`);
+      if (result.inheritedTraits) {
         console.log('   Inherited Traits:');
         result.inheritedTraits.forEach((trait: any) => {
-          console.log(`   - ${name: trait.name}: $description: trait.description}`);
+          console.log(`   - ${trait.name}: ${trait.description}`);
         });
       }
-    } else 
-      console.log(`❌ ${message: result.message}`);
+    } else {
+      console.log(`❌ ${result.message}`);
     }
   }
 
-  private handleShowStats(args: string[]): void 
+  private handleShowStats(args: string[]): void {
     const stats = this.manager.getFusionStats();
 
     console.log('\n📊 Fusion Statistics:');
     console.log('─'.repeat(30));
-    console.log(`Total Fusions: ${totalFusions: stats.totalFusions}`);
-    console.log(`Successful: $successfulFusions: stats.successfulFusions}`);
-    console.log(`Failed: $failedFusions: stats.failedFusions}`);
+    console.log(`Total Fusions: ${stats.totalFusions}`);
+    console.log(`Successful: ${stats.successfulFusions}`);
+    console.log(`Failed: ${stats.failedFusions}`);
     console.log(`Average Success Rate: ${stats.averageSuccessRate.toFixed(1)}%`);
-    console.log(`Unique Combinations: $uniqueCombinations: stats.uniqueCombinations}`);
-    console.log(`Fusion Streak: $fusionStreak: stats.fusionStreak}`);
-    console.log(`Best Streak: $bestStreak: stats.bestStreak}`);
-    console.log(`Rare Traits Obtained: $rareTraitsObtained: stats.rareTraitsObtained}`);
-    console.log(`Favorite Rule: $favoriteFusionRule: stats.favoriteFusionRule}`);
+    console.log(`Unique Combinations: ${stats.uniqueCombinations}`);
+    console.log(`Fusion Streak: ${stats.fusionStreak}`);
+    console.log(`Best Streak: ${stats.bestStreak}`);
+    console.log(`Rare Traits Obtained: ${stats.rareTraitsObtained}`);
+    console.log(`Favorite Rule: ${stats.favoriteFusionRule}`);
     console.log('─'.repeat(30));
   }
 
-  private handleShowRulesStats(args: string[]): void 
+  private handleShowRulesStats(args: string[]): void {
     const stats = this.rules.getRulesStats();
 
     console.log('\n🔬 Fusion Rules Statistics:');
     console.log('─'.repeat(35));
-    console.log(`Total Rules: ${totalRules: stats.totalRules}`);
-    console.log(`Available Pairs: $availablePairs: stats.availablePairs}`);
+    console.log(`Total Rules: ${stats.totalRules}`);
+    console.log(`Available Pairs: ${stats.availablePairs}`);
     console.log(`Average Success Rate: ${stats.averageSuccessRate.toFixed(1)}%`);
     console.log(`Average Energy Cost: ${stats.averageEnergyCost.toFixed(1)}`);
-    console.log(`Most Used Rule: $mostUsedRule: stats.mostUsedRule}`);
-    console.log(`Rarest Combination: $rarestCombination: stats.rarestCombination}`);
+    console.log(`Most Used Rule: ${stats.mostUsedRule}`);
+    console.log(`Rarest Combination: ${stats.rarestCombination}`);
     console.log('\nConstraint Types:');
     Object.entries(stats.constraintTypes).forEach(([type, count]) => {
       console.log(`  ${type}: ${count}`);
@@ -338,7 +338,7 @@ class FusionCli {
     console.log(`Successful Fusions: ${successCount}/${attempts}`);
     console.log(`Success Rate: ${(successCount / attempts * 100).toFixed(1)}%`);
     console.log(`Energy Spent: ${energySpent}`);
-    console.log(`Remaining Energy: $this.energy: context.energy}`);
+    console.log(`Remaining Energy: ${this.context.energy}`);
 
     this.showStats([]);
   }
@@ -378,18 +378,18 @@ class FusionCli {
     this.context.fusionHistory = [];
   }
 
-  private handleEnergy(args: string[]): void 
+  private handleEnergy(args: string[]): void {
     const amount = args[0] ? parseInt(args[0]) : 100;
     this.context.energy = Math.max(0, Math.min(100, amount));
 
-    console.log(`⚡ Energy set to: ${  energy: context.energy}`);
+    console.log(`⚡ Energy set to: ${this.context.energy}`);
   }
 
   private handleHelp(args: string[]): void {
     console.log('\n🛠️ Available Commands:');
     console.log('─'.repeat(50));
     this.commands.forEach((cmd, key) => {
-      console.log(`  ${cmd.command.padEnd(40)} | $description: cmd.description}`);
+      console.log(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
     });
     console.log('─'.repeat(50));
   }
@@ -438,10 +438,10 @@ class FusionCli {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  public async run(): Promise<void> 
+  public async run(): Promise<void> {
     const readline = await import('readline');
     const rl = readline.createInterface({
-      input: stdin: process.stdin,
+      input: process.stdin,
       output: process.stdout,
       prompt: 'fusion> '
     });

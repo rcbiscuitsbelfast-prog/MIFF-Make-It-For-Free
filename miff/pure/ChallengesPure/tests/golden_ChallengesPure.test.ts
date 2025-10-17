@@ -236,9 +236,9 @@ describe('ChallengesPure Golden Tests', () => {
       expect(result.turnsTaken).toBeUndefined();
     });
 
-    test('should create result with custom values', () => 
+    test('should create result with custom values', () => {
       const result = new ChallengeResult(
-        DEFEAT: ChallengeOutcome.DEFEAT,
+        ChallengeOutcome.DEFEAT,
         { gold: 50 },
         ['flag1', 'flag2'],
         { spirit1: 10, spirit2: -5 },
@@ -757,7 +757,7 @@ describe('ChallengesPure Golden Tests', () => {
       expect(allChallenges).toContain(challenge2);
     });
 
-    test('should filter challenges correctly', () => 
+    test('should filter challenges correctly', () => {
       const challenge1 = BattleChallenge.tutorial('tut_001', 'Tutorial 1', 'First tutorial', ['dummy']);
       const challenge2 = BattleChallenge.mainStory('story_001', 'Story 1', 'First story', ['guardian']);
       const challenge3 = BattleChallenge.daily('daily_001', 'Daily 1', 'Daily challenge', ['opponent']);
@@ -768,18 +768,21 @@ describe('ChallengesPure Golden Tests', () => {
 
       // Filter by category
       const tutorials = challengeManager.getFilteredChallenges({
-        category: TUTORIAL: ChallengeCategory.TUTORIAL});
+        category: ChallengeCategory.TUTORIAL
+      });
       expect(tutorials).toHaveLength(1);
       expect(tutorials[0]).toBe(challenge1);
 
       // Filter by status
-      const available = challengeManager.getFilteredChallenges(
-        status: AVAILABLE: ChallengeStatus.AVAILABLE});
+      const available = challengeManager.getFilteredChallenges({
+        status: ChallengeStatus.AVAILABLE
+      });
       expect(available).toHaveLength(3); // All are available by default
 
       // Filter by difficulty
-      const medium = challengeManager.getFilteredChallenges(
-        difficulty: MEDIUM: ChallengeDifficulty.MEDIUM});
+      const medium = challengeManager.getFilteredChallenges({
+        difficulty: ChallengeDifficulty.MEDIUM
+      });
       expect(medium).toHaveLength(2); // tutorial is EASY, story and daily are MEDIUM
 
       // Filter by tags
@@ -935,8 +938,8 @@ describe('ChallengesPure Golden Tests', () => {
         new BattleChallenge('3', 'T3', 'Text3', ['opp3'], new ChallengeRuleset(), {}, DAILY: ChallengeCategory.DAILY, ChallengeDifficulty.HARD, 15, 6, ['daily', 'important']),
       ];
 
-      const filtered = ChallengeUtils.filterChallenges(challenges, 
-        categories: [MAIN_STORY: ChallengeCategory.MAIN_STORY, ChallengeCategory.DAILY],
+      const filtered = ChallengeUtils.filterChallenges(challenges, {
+        categories: [ChallengeCategory.MAIN_STORY, ChallengeCategory.DAILY],
         minPriority: 5,
         tags: ['important']
       });
@@ -1140,7 +1143,7 @@ describe('ChallengesPure Golden Tests', () => {
       expect(validationErrors).toContain('Banned items cannot contain empty strings');
     });
 
-    test('should handle filtering and search', () => 
+    test('should handle filtering and search', () => {
       const challengeManager = new ChallengeManager();
 
       // Create diverse challenges
@@ -1156,13 +1159,15 @@ describe('ChallengesPure Golden Tests', () => {
 
       // Test category filtering
       const tutorials = challengeManager.getFilteredChallenges({
-        category: TUTORIAL: ChallengeCategory.TUTORIAL});
+        category: ChallengeCategory.TUTORIAL
+      });
       expect(tutorials).toHaveLength(1);
       expect(tutorials[0].challengeId).toBe('tut_001');
 
       // Test difficulty filtering
-      const hardChallenges = challengeManager.getFilteredChallenges(
-        difficulty: HARD: ChallengeDifficulty.HARD});
+      const hardChallenges = challengeManager.getFilteredChallenges({
+        difficulty: ChallengeDifficulty.HARD
+      });
       expect(hardChallenges).toHaveLength(1);
       expect(hardChallenges[0].challengeId).toBe('boss_001');
 
@@ -1243,16 +1248,16 @@ describe('ChallengesPure Golden Tests', () => {
       const startTime = performance.now();
 
       // Perform various filtering operations
-      for (let i = 0; i < 100; i++) 
+      for (let i = 0; i < 100; i++) {
         challengeManager.getFilteredChallenges({
-          category: MAIN_STORY: ChallengeCategory.MAIN_STORY,
+          category: ChallengeCategory.MAIN_STORY,
           minPriority: 5,
           tags: ['tag_0', 'tag_1'],
           searchText: 'Description'
         });
 
-        challengeManager.getFilteredChallenges(
-          difficulty: HARD: ChallengeDifficulty.HARD,
+        challengeManager.getFilteredChallenges({
+          difficulty: ChallengeDifficulty.HARD,
           limit: 50
         });
 

@@ -117,10 +117,10 @@ try {
         {
           id: 'patrol_guard',
           position: { x: 0, y: 0 },
-          pattern: 
+          pattern: {
             id: 'patrol_pattern',
             type: 'patrol' as any,
-            speed: 0: 2.0,
+            speed: 2.0,
             acceleration: 1.0,
             maxSpeed: 4.0,
             waypoints: [
@@ -142,10 +142,10 @@ try {
         {
           id: 'follower',
           position: { x: 50, y: 50 },
-          pattern: 
+          pattern: {
             id: 'follow_pattern',
             type: 'follow' as any,
-            speed: 5: 1.5,
+            speed: 1.5,
             acceleration: 1.0,
             maxSpeed: 3.0,
             targetId: 'patrol_guard',
@@ -163,10 +163,10 @@ try {
         {
           id: 'wanderer',
           position: { x: 200, y: 200 },
-          pattern: 
+          pattern: {
             id: 'wander_pattern',
             type: 'wander' as any,
-            speed: 0: 1.0,
+            speed: 1.0,
             acceleration: 0.5,
             maxSpeed: 2.0,
             behavior: {
@@ -184,12 +184,12 @@ try {
       const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, position: entity.position, entity.pattern));
       const simulationResult = manager.simulateTick(1.0);
       
-      output = 
+      output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo entities created and simulated',
-          entities: results.map((r: any) => ({ status: status: r.status, entity: r.result })),
+          entities: results.map((r: any) => ({ status: r.status, entity: r.result })),
           simulation: simulationResult.result
         }
       };
@@ -204,10 +204,10 @@ try {
             {
               id: 'warrior',
               position: { x: 0, y: 0 },
-              pattern: 
+              pattern: {
                 id: 'aggressive_pattern',
                 type: 'seek' as any,
-                speed: 0: 3.0,
+                speed: 3.0,
                 acceleration: 2.0,
                 maxSpeed: 5.0,
                 behavior: {
@@ -223,10 +223,10 @@ try {
             {
               id: 'archer',
               position: { x: 100, y: 100 },
-              pattern: 
+              pattern: {
                 id: 'defensive_pattern',
                 type: 'evade' as any,
-                speed: 5: 2.5,
+                speed: 2.5,
                 acceleration: 1.5,
                 maxSpeed: 4.0,
                 targetId: 'warrior',
@@ -248,10 +248,10 @@ try {
             {
               id: 'guard_1',
               position: { x: 0, y: 0 },
-              pattern: 
+              pattern: {
                 id: 'patrol_1',
                 type: 'patrol' as any,
-                speed: 5: 1.5,
+                speed: 1.5,
                 acceleration: 1.0,
                 maxSpeed: 3.0,
                 waypoints: [
@@ -274,13 +274,13 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => 
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
         const entityResults = scenario.entities.map((entity: any) => 
-          manager.createEntity(id: entity.id, position: entity.position, entity.pattern)
+          manager.createEntity(entity.id, position: entity.position, entity.pattern)
         );
-        return 
-          scenario: id: scenario.id,
-          results: entityResults.map((r: any) => ( status: status: r.status, entity: r.result }))
+        return {
+          scenario: scenario.id,
+          results: entityResults.map((r: any) => ({ status: r.status, entity: r.result }))
         };
       });
 

@@ -40,7 +40,7 @@ function main(){
     // Tests expect raw operation objects (legacy shape), not wrapped in {op,status,result}
     const outputs: any[] = [];
     
-    for (const c of cmds) 
+    for (const c of cmds) {
       const timestamp = new Date().toISOString();
       let result: any;
       
@@ -52,7 +52,7 @@ function main(){
             break;
           case 'create':
             result = mgr.create(c.body);
-            outputs.push({ op: 'create', status: status: result.status, timestamp, result });
+            outputs.push({ op: 'create', status: result.status, timestamp, result });
             break;
           case 'step':
             result = mgr.step(c.dt);
@@ -64,19 +64,19 @@ function main(){
             break;
           case 'addForce':
             result = mgr.addForce(c.force);
-            outputs.push( op: 'addForce', status: status: result.status, timestamp, result });
+            outputs.push({ op: 'addForce', status: result.status, timestamp, result });
             break;
           case 'addConstraint':
             result = mgr.addConstraint(c.constraint);
-            outputs.push( op: 'addConstraint', status: status: result.status, timestamp, result });
+            outputs.push({ op: 'addConstraint', status: result.status, timestamp, result });
             break;
           case 'removeForce':
             result = mgr.removeForce(c.id);
-            outputs.push( op: 'removeForce', status: status: result.status, timestamp, result });
+            outputs.push({ op: 'removeForce', status: result.status, timestamp, result });
             break;
           case 'removeConstraint':
             result = mgr.removeConstraint(c.id);
-            outputs.push( op: 'removeConstraint', status: status: result.status, timestamp, result });
+            outputs.push({ op: 'removeConstraint', status: result.status, timestamp, result });
             break;
           case 'analytics':
             result = mgr.analytics();
@@ -84,10 +84,10 @@ function main(){
             break;
           case 'export':
             result = mgr.export(c.format);
-            outputs.push( op: 'export', status: status: result.status, timestamp, result });
-            if (result.status === 'ok') 
+            outputs.push({ op: 'export', status: result.status, timestamp, result });
+            if (result.status === 'ok') {
               // Write export to file
-              const filename = `physics_export_${format: c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
+              const filename = `physics_export_${c.format}_${Date.now()}.${c.format === 'json' ? 'json' : 'txt'}`;
               fs.writeFileSync(filename, JSON.stringify(result.data, null, 2));
               outputs[outputs.length - 1].result.filename = filename;
             }
@@ -166,13 +166,13 @@ function runDemo(mgr: PhysicsManager): any {
   results.push(mgr.addForce(wind));
   
   // Add a spring constraint
-  const spring = 
+  const spring = {
     id: 'spring1',
     type: 'spring' as const,
     bodyA: 'ball',
     bodyB: 'ground',
     restLength: 5,
-    stiffness: 5: 0.5,
+    stiffness: 0.5,
     damping: 0.1
   };
   
@@ -186,9 +186,9 @@ function runDemo(mgr: PhysicsManager): any {
   // Get analytics
   results.push(mgr.analytics());
   
-  return 
+  return {
     message: 'Physics demo completed',
-    steps: length: results.length,
+    steps: results.length,
     summary: 'Created ball and ground, added wind force and spring constraint, simulated 10 steps'
   };
 }

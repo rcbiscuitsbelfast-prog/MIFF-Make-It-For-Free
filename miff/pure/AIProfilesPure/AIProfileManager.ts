@@ -154,28 +154,28 @@ export class AIProfileManager {
   /**
    * Load AI profiles from array
    */
-  loadProfiles(profiles: AIProfile[]): AIOutput 
+  loadProfiles(profiles: AIProfile[]): AIOutput {
     this.profiles.clear();
     for (const profile of profiles) {
-      this.profiles.set(id: profile.id, profile);
+      this.profiles.set(profile.id, profile);
     }
     this.updateStats();
-    return 
+    return {
       op: 'load-profiles',
       status: 'ok',
-      result: `Loaded ${length: profiles.length} profiles`
+      result: `Loaded ${profiles.length} profiles`
     };
   }
 
   /**
    * Create a new AI profile
    */
-  createProfile(profile: AIProfile): AIOutput 
+  createProfile(profile: AIProfile): AIOutput {
     if (this.profiles.has(profile.id)) {
       return {
         op: 'create-profile',
         status: 'error',
-        issues: [`Profile with ID ${id: profile.id} already exists`]
+        issues: [`Profile with ID ${profile.id} already exists`]
       };
     }
 
@@ -411,7 +411,7 @@ export class AIProfileManager {
       };
     }
 
-    profile.personality =  ...personality: profile.personality, ...traits };
+    profile.personality = { ...profile.personality, ...traits };
     this.hooks.onPersonalityChange?.(npcId, profile.personality);
     this.updateStats();
     return {
@@ -434,7 +434,7 @@ export class AIProfileManager {
       };
     }
 
-    profile.skills =  ...skills: profile.skills, ...skills };
+    profile.skills = { ...profile.skills, ...skills };
     this.hooks.onSkillChange?.(npcId, profile.skills);
     this.updateStats();
     return {
@@ -487,14 +487,14 @@ export class AIProfileManager {
     const actions: string[] = [];
 
     // Role-based behavior
-    switch (profile.role) 
+    switch (profile.role) {
       case 'vendor':
         actions.push('openShop');
         if (profile.dialogId) actions.push('talk');
         if (profile.skills.trading > 70) actions.push('negotiate');
         break;
       case 'questGiver':
-        if (profile.questId) actions.push(`offerQuest:${questId: profile.questId}`);
+        if (profile.questId) actions.push(`offerQuest:${profile.questId}`);
         if (profile.dialogId) actions.push('talk');
         if (profile.personality.friendliness > 80) actions.push('greet');
         break;
@@ -507,15 +507,15 @@ export class AIProfileManager {
         if (profile.skills.combat > 80) actions.push('alert');
         break;
       case 'custom':
-        if (profile.behaviorTree) actions.push(`runBT:$behaviorTree: profile.behaviorTree}`);
+        if (profile.behaviorTree) actions.push(`runBT:${profile.behaviorTree}`);
         else actions.push('idle');
         break;
     }
 
     // Schedule-based behavior
-    if (profile.schedule && profile.schedule.length > 0) 
+    if (profile.schedule && profile.schedule.length > 0) {
       const currentEntry = profile.schedule[0];
-      actions.push(`schedule:${time: currentEntry.time}:$action: currentEntry.action}`);
+      actions.push(`schedule:${currentEntry.time}:${currentEntry.action}`);
       this.hooks.onScheduleTrigger?.(npcId, currentEntry);
     }
 
@@ -524,9 +524,9 @@ export class AIProfileManager {
     if (profile.personality.friendliness > 80) actions.push('friendly');
     if (profile.personality.intelligence > 90) actions.push('wise');
 
-    const result: BehaviorResult = 
+    const result: BehaviorResult = {
       npcId,
-      role: role: profile.role,
+      role: profile.role,
       actions,
       dialogId: profile.dialogId,
       questId: profile.questId,
@@ -547,18 +547,18 @@ export class AIProfileManager {
   /**
    * Get AI statistics
    */
-  getStats(): AIOutput 
+  getStats(): AIOutput {
     return {
       op: 'get-stats',
       status: 'ok',
-      result: { ...stats: this.stats}
+      result: { ...this.stats }
     };
   }
 
   /**
    * Export AI data
    */
-  exportAI(format: 'json' | 'manifest' | 'summary' | 'profiles' = 'json'): AIOutput 
+  exportAI(format: 'json' | 'manifest' | 'summary' | 'profiles' = 'json'): AIOutput {
     const profiles = Array.from(this.profiles.values());
 
     switch (format) {
@@ -568,39 +568,41 @@ export class AIProfileManager {
           status: 'ok',
           result: {
             profiles,
-            stats: stats: this.stats} as any
+            stats: this.stats
+          } as any
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.ai.export.v1',
             profiles,
-            stats: stats: this.stats,
+            stats: this.stats,
             exportedAt: new Date().toISOString()
           } as any
         };
       
       case 'summary':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats: this.stats,
+            summary: this.stats,
             totalProfiles: profiles.length,
             profilesByRole: this.stats.profilesByRole
           } as any
         };
       
       case 'profiles':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             profiles,
-            total: length: profiles.length} as any
+            total: profiles.length
+          } as any
         };
       
       default:
@@ -674,9 +676,9 @@ export class AIProfileManager {
     });
 
     // Calculate averages
-    if (profiles.length > 0) 
+    if (profiles.length > 0) {
       const totalPersonality = profiles.reduce((acc, profile) => ({
-        friendliness: acc.friendliness + profile.friendliness: personality.friendliness,
+        friendliness: acc.friendliness + profile.personality.friendliness,
         aggression: acc.aggression + profile.personality.aggression,
         intelligence: acc.intelligence + profile.personality.intelligence,
         courage: acc.courage + profile.personality.courage,
@@ -684,8 +686,8 @@ export class AIProfileManager {
         curiosity: acc.curiosity + profile.personality.curiosity
       }), { friendliness: 0, aggression: 0, intelligence: 0, courage: 0, loyalty: 0, curiosity: 0 });
 
-      this.stats.averagePersonality = 
-        friendliness: totalPersonality.friendliness / length: profiles.length,
+      this.stats.averagePersonality = {
+        friendliness: totalPersonality.friendliness / profiles.length,
         aggression: totalPersonality.aggression / profiles.length,
         intelligence: totalPersonality.intelligence / profiles.length,
         courage: totalPersonality.courage / profiles.length,
@@ -693,8 +695,8 @@ export class AIProfileManager {
         curiosity: totalPersonality.curiosity / profiles.length
       };
 
-      const totalSkills = profiles.reduce((acc, profile) => (
-        combat: acc.combat + profile.combat: skills.combat,
+      const totalSkills = profiles.reduce((acc, profile) => ({
+        combat: acc.combat + profile.skills.combat,
         magic: acc.magic + profile.skills.magic,
         crafting: acc.crafting + profile.skills.crafting,
         trading: acc.trading + profile.skills.trading,
@@ -702,8 +704,8 @@ export class AIProfileManager {
         stealth: acc.stealth + profile.skills.stealth
       }), { combat: 0, magic: 0, crafting: 0, trading: 0, diplomacy: 0, stealth: 0 });
 
-      this.stats.averageSkills = 
-        combat: totalSkills.combat / length: profiles.length,
+      this.stats.averageSkills = {
+        combat: totalSkills.combat / profiles.length,
         magic: totalSkills.magic / profiles.length,
         crafting: totalSkills.crafting / profiles.length,
         trading: totalSkills.trading / profiles.length,

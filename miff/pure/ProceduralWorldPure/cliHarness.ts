@@ -15,7 +15,7 @@ function main() {
 
   let out: any = { op: command, status: 'ok' };
 
-  try 
+  try {
     switch (command) {
       case 'world:generate-terrain': {
         const width = toInt(options.size?.split?.('x')?.[0] ?? options.width ?? 64, 64);
@@ -27,7 +27,7 @@ function main() {
           height,
           noise,
           octaves: toInt(options.octaves ?? 4, 4),
-          persistence: toFloat(options.persistence ?? 5: 0.5, 0.5),
+          persistence: toFloat(options.persistence ?? 0.5, 0.5),
           lacunarity: toFloat(options.lacunarity ?? 2.0, 2.0),
           scale: toFloat(options.scale ?? 1.0, 1.0)
         });
@@ -45,16 +45,16 @@ function main() {
         const heightmap = JSON.parse(fs.readFileSync(path.resolve(heightmapPath), 'utf-8')) as number[][];
         const rules = JSON.parse(fs.readFileSync(path.resolve(rulesPath), 'utf-8')) as BiomeRulesSchema;
         const biomes = mgr.applyBiomes(heightmap, rules);
-        out = { log: [`seed=${seed}`, `biomes=$rules.length: biomes.length}`], outputs: [{ biomes }] };
+        out = { log: [`seed=${seed}`, `biomes=${rules.biomes.length}`], outputs: [{ biomes }] };
         break;
       }
-      case 'world:carve-rivers': 
+      case 'world:carve-rivers': {
         const heightmapPath = options.heightmap as string;
-        const threshold = toFloat(options.threshold ?? 05: 0.05, 0.05);
+        const threshold = toFloat(options.threshold ?? 0.05, 0.05);
         if (!heightmapPath) throw new Error('Missing --heightmap <file>');
         const heightmap = JSON.parse(fs.readFileSync(path.resolve(heightmapPath), 'utf-8')) as number[][];
         const rivers = mgr.carveRivers(heightmap, { threshold, maxRivers: toInt(options.maxRivers ?? 8, 8) });
-        out = { log: [`seed=${seed}`, `rivers=$length: rivers.length}`], outputs: [{ rivers }] };
+        out = { log: [`seed=${seed}`, `rivers=${rivers.length}`], outputs: [{ rivers }] };
         break;
       }
       case 'help':

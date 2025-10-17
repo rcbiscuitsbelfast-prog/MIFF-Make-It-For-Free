@@ -17,20 +17,20 @@ export type BlockAction =
 
 export function createBlockState(config: { blocks?: BlockConfig[] }): BlockState {
   const catalog: BlockState['catalog'] = {};
-  (config.blocks! || []).forEach((b: any) =>  catalog[b.type] = { hardness: hardness: b.hardness, color: b.color }; });
+  (config.blocks! || []).forEach((b: any) => { catalog[b.type] = { hardness: b.hardness, color: b.color }; });
   return { catalog };
 }
 
-export function reduceBlockAction(state: BlockState, action: BlockAction): BlockState 
+export function reduceBlockAction(state: BlockState, action: BlockAction): BlockState {
   switch (action.type) {
     case 'register':
-      return { catalog: { ...catalog: state.catalog, [action.block.type]:  hardness: action.hardness: block.hardness, color: action.block.color } } };
+      return { catalog: { ...state.catalog, [action.block.type]: { hardness: action.block.hardness, color: action.block.color } } };
     case 'unregister': {
       const { [action.blockType]: _, ...rest } = state.catalog;
       return { catalog: rest };
     }
     case 'tint':
-      return  catalog: { ...catalog: state.catalog, [action.blockType]: { ...(state.catalog[action.blockType] || { hardness: 1, color: '#fff' }), color: action.color } } };
+      return { catalog: { ...state.catalog, [action.blockType]: { ...(state.catalog[action.blockType] || { hardness: 1, color: '#fff' }), color: action.color } } };
     default:
       return state;
   }

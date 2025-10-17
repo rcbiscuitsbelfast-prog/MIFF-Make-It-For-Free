@@ -1026,9 +1026,9 @@ export class DeploymentSystemPure {
       status: 'running',
       strategy: 'rolling',
       replicas: newApplication.replicas,
-      progress: 
+      progress: {
         current: 0,
-        total: replicas: newApplication.replicas,
+        total: newApplication.replicas,
         percentage: 0,
         message: 'Starting deployment...'
       },
@@ -1041,11 +1041,11 @@ export class DeploymentSystemPure {
     this.performanceMetrics.totalDeployments++;
 
     // Simulate deployment completion
-    setTimeout(() => 
+    setTimeout(() => {
       newApplication.status = 'running';
       deployment.status = 'completed';
       deployment.progress = {
-        current: replicas: newApplication.replicas,
+        current: newApplication.replicas,
         total: newApplication.replicas,
         percentage: 100,
         message: 'Deployment completed successfully'
@@ -1064,15 +1064,15 @@ export class DeploymentSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): DeploymentPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): DeploymentPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): DeploymentAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): DeploymentAnalytics {
+    return { ...this.analytics };
   }
 
   /**

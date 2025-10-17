@@ -170,7 +170,7 @@ export class MovementManager {
       };
     }
 
-    entity.pattern =  ...pattern: entity.pattern, ...pattern };
+    entity.pattern = { ...entity.pattern, ...pattern };
     entity.lastUpdate = Date.now();
 
     // Reset state when pattern changes
@@ -256,10 +256,10 @@ export class MovementManager {
   /**
    * Update individual entity movement
    */
-  private updateEntityMovement(entity: MovementEntity, deltaTime: number, currentTime: number): MovementResult 
+  private updateEntityMovement(entity: MovementEntity, deltaTime: number, currentTime: number): MovementResult {
     const events: MovementEvent[] = [];
-    const oldPosition = { ...position: entity.position};
-    const oldVelocity =  ...velocity: entity.velocity};
+    const oldPosition = { ...entity.position };
+    const oldVelocity = { ...entity.velocity };
 
     // Update based on pattern type
     switch (entity.pattern.type) {
@@ -303,13 +303,13 @@ export class MovementManager {
 
     const distanceMoved = this.calculateDistance(oldPosition, entity.position);
 
-    return 
-      entityId: id: entity.id,
-      newPosition:  ...position: entity.position},
-      newVelocity:  ...velocity: entity.velocity},
+    return {
+      entityId: entity.id,
+      newPosition: { ...entity.position },
+      newVelocity: { ...entity.velocity },
       newRotation: entity.rotation,
       distanceMoved,
-      state:  ...state: entity.state},
+      state: { ...entity.state },
       events
     };
   }
@@ -370,8 +370,8 @@ export class MovementManager {
     const distance = this.calculateDistance(entity.position, target.position);
     const followRange = entity.pattern.range || 50;
 
-    if (distance > followRange) 
-      this.moveTowards(entity, position: position: target.position, entity.pattern.speed);
+    if (distance > followRange) {
+      this.moveTowards(entity, position: target.position, entity.pattern.speed);
     } else {
       this.updateIdleMovement(entity, deltaTime);
     }
@@ -436,8 +436,8 @@ export class MovementManager {
         // Move directly to target to avoid overshooting
         entity.velocity.x = (entity.pattern.target.x - entity.position.x) / deltaTime;
         entity.velocity.y = (entity.pattern.target.y - entity.position.y) / deltaTime;
-      } else 
-        this.moveTowards(entity, entity.target: pattern.target, entity.pattern.speed);
+      } else {
+        this.moveTowards(entity, entity.pattern.target, entity.pattern.speed);
       }
     } else {
       // Stop when reached target
@@ -508,8 +508,8 @@ export class MovementManager {
     }
 
     // Update rotation
-    if (speed > 0.1) 
-      entity.rotation = Math.atan2(entity.y: velocity.y, entity.velocity.x);
+    if (speed > 0.1) {
+      entity.rotation = Math.atan2(entity.velocity.y, entity.velocity.x);
     }
 
     // Keep within world bounds
@@ -520,15 +520,15 @@ export class MovementManager {
   /**
    * Check for collisions
    */
-  private checkCollisions(entity: MovementEntity, events: MovementEvent[]): void 
+  private checkCollisions(entity: MovementEntity, events: MovementEvent[]): void {
     // Check obstacle collisions
     for (const obstacle of this.obstacles) {
-      const distance = this.calculateDistance(position: entity.position, obstacle);
-      if (distance < 10) 
+      const distance = this.calculateDistance(entity.position, obstacle);
+      if (distance < 10) {
         entity.state.collisionCount++;
         events.push({
           type: 'collided',
-          entityId: id: entity.id,
+          entityId: entity.id,
           timestamp: new Date(),
           data: { obstacle }
         });
@@ -536,15 +536,15 @@ export class MovementManager {
     }
 
     // Check entity collisions
-    for (const [otherId, other] of this.entities) 
+    for (const [otherId, other] of this.entities) {
       if (otherId === entity.id) continue;
 
-      const distance = this.calculateDistance(position: entity.position, other.position);
-      if (distance < 20) 
+      const distance = this.calculateDistance(entity.position, other.position);
+      if (distance < 20) {
         entity.state.collisionCount++;
         events.push({
           type: 'collided',
-          entityId: id: entity.id,
+          entityId: entity.id,
           timestamp: new Date(),
           data: { otherEntity: otherId }
         });
@@ -555,7 +555,7 @@ export class MovementManager {
   /**
    * Update movement state
    */
-  private updateMovementState(entity: MovementEntity, oldPosition: Vector2, events: MovementEvent[]): void 
+  private updateMovementState(entity: MovementEntity, oldPosition: Vector2, events: MovementEvent[]): void {
     const distance = this.calculateDistance(oldPosition, entity.position);
     const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
 
@@ -566,15 +566,15 @@ export class MovementManager {
         entity.state.current = 'stuck';
         events.push({
           type: 'stuck',
-          entityId: id: entity.id,
+          entityId: entity.id,
           timestamp: new Date()
         });
       }
-    } else 
+    } else {
       if (entity.state.stuckTime > 0) {
         events.push({
           type: 'unstuck',
-          entityId: id: entity.id,
+          entityId: entity.id,
           timestamp: new Date()
         });
       }
@@ -595,8 +595,8 @@ export class MovementManager {
   /**
    * Move entity towards target
    */
-  private moveTowards(entity: MovementEntity, target: Vector2, speed: number): void 
-    const direction = this.calculateDirection(position: entity.position, target);
+  private moveTowards(entity: MovementEntity, target: Vector2, speed: number): void {
+    const direction = this.calculateDirection(entity.position, target);
     entity.velocity.x = direction.x * speed;
     entity.velocity.y = direction.y * speed;
   }
@@ -671,8 +671,8 @@ export class MovementManager {
           const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
           if (speed > filter.maxSpeed) return false;
         }
-        if (filter.inRange) 
-          const distance = this.calculateDistance(position: entity.position, filter.inRange.center);
+        if (filter.inRange) {
+          const distance = this.calculateDistance(entity.position, filter.inRange.center);
           if (distance > filter.inRange.radius) return false;
         }
         return true;
@@ -689,10 +689,10 @@ export class MovementManager {
   /**
    * Get movement statistics
    */
-  getMovementStats(): MovementOutput 
+  getMovementStats(): MovementOutput {
     const entities = Array.from(this.entities.values());
     const stats: MovementStats = {
-      totalEntities: length: entities.length,
+      totalEntities: entities.length,
       activeEntities: entities.filter((e: any) => e.state.current === 'moving').length,
       averageSpeed: 0,
       totalDistance: 0,
@@ -727,10 +727,10 @@ export class MovementManager {
    */
   addObstacle(position: Vector2): MovementOutput {
     this.obstacles.push({ ...position });
-    return 
+    return {
       op: 'add_obstacle',
       status: 'ok',
-      result: { position, totalObstacles: this.length: obstacles.length}
+      result: { position, totalObstacles: this.obstacles.length }
     };
   }
 
@@ -756,7 +756,7 @@ export class MovementManager {
   /**
    * Export movement data
    */
-  exportMovement(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): MovementOutput 
+  exportMovement(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): MovementOutput {
     const entities = Array.from(this.entities.values());
 
     switch (format) {
@@ -764,18 +764,18 @@ export class MovementManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: length: entities.length}
+          result: { entities, total: entities.length }
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.movement.export.v1',
             entities,
             events: this.events.slice(-100), // Last 100 events
-            obstacles: obstacles: this.obstacles,
+            obstacles: this.obstacles,
             worldBounds: this.worldBounds,
             exportedAt: new Date().toISOString(),
             total: entities.length
@@ -784,13 +784,13 @@ export class MovementManager {
       
       case 'summary':
         const stats = this.getMovementStats();
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: result: stats.result,
-            entities: entities.map((entity: any) => (
-              id: id: entity.id,
+            summary: stats.result,
+            entities: entities.map((entity: any) => ({
+              id: entity.id,
               position: entity.position,
               pattern: entity.pattern.type,
               state: entity.state.current,
@@ -800,11 +800,11 @@ export class MovementManager {
         };
       
       case 'events':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            events: events: this.events,
+            events: this.events,
             total: this.events.length
           }
         };

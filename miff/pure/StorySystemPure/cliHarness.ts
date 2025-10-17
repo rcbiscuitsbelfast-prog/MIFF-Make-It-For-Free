@@ -156,9 +156,9 @@ function main() {
 
       case 'setFlag':
         storyManager.setFlag(operation.flagId, value: operation.value, operation.type as any, operation.description);
-        result = 
+        result = {
           set: true,
-          flagId: flagId: operation.flagId,
+          flagId: operation.flagId,
           value: operation.value
         };
         break;
@@ -173,24 +173,25 @@ function main() {
 
       case 'hasFlag':
         const hasFlag = storyManager.hasFlag(operation.flagId);
-        result = 
+        result = {
           hasFlag,
-          flagId: flagId: operation.flagId};
+          flagId: operation.flagId
+        };
         break;
 
       case 'setStat':
         storyManager.setStat(operation.statId, operation.value);
-        result = 
+        result = {
           set: true,
-          statId: statId: operation.statId,
+          statId: operation.statId,
           value: operation.value
         };
         break;
 
       case 'getStat':
         const statValue = storyManager.getStat(operation.statId);
-        result = 
-          statId: statId: operation.statId,
+        result = {
+          statId: operation.statId,
           value: statValue
         };
         break;
@@ -212,8 +213,8 @@ function main() {
 
       case 'getArcProgress':
         const progress = storyManager.getArcProgress(operation.arcId);
-        result = 
-          arcId: arcId: operation.arcId,
+        result = {
+          arcId: operation.arcId,
           progress
         };
         break;
@@ -298,7 +299,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: $op: operation.op}`);
+        throw new Error(`Unknown operation: ${operation.op}`);
     }
 
     // Check for export format option
@@ -316,8 +317,8 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify(
-      op: op: operation.op,
+    console.log(JSON.stringify({
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

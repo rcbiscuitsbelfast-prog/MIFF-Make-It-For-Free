@@ -47,7 +47,7 @@ function main() {
               break;
             }
             mgr.load(skills);
-            result.result =  message: `Loaded ${length: skills.length} skills` };
+            result.result = { message: `Loaded ${skills.length} skills` };
           } else {
             result.status = 'error';
             result.result = { error: `Skills file not found: ${skillsFile}` };

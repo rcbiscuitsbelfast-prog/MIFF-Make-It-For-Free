@@ -320,9 +320,9 @@ export class LoopOptimizer {
   /**
    * Get performance metrics
    */
-  getMetrics() 
+  getMetrics() {
     return {
-      ...performanceMetrics: this.performanceMetrics,
+      ...this.performanceMetrics,
       averageIterationsPerOptimization: this.performanceMetrics.totalIterations / Math.max(1, this.performanceMetrics.totalOptimizations)
     };
   }

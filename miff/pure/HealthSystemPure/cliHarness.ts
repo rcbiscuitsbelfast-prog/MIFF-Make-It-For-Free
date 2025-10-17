@@ -150,8 +150,8 @@ try {
       ];
 
       const results = demoEntities.map((entity: any) => 
-        manager.createEntity(entity.id, maxHp: entity.maxHp, 
-          currentHp: currentHp: entity.currentHp,
+        manager.createEntity(entity.id, maxHp: entity.maxHp, {
+          currentHp: entity.currentHp,
           immunities: entity.immunities,
           resistances: entity.resistances
         })
@@ -186,12 +186,12 @@ try {
       manager.simulateTick();
       manager.simulateTick();
 
-      output = 
+      output = {
         op: 'demo',
         status: 'ok',
         result: {
           message: 'Demo health scenarios completed',
-          entities: results.map((r: any) => ({ status: status: r.status, entity: r.result })),
+          entities: results.map((r: any) => ({ status: r.status, entity: r.result })),
           finalState: manager.listEntities().result
         }
       };
@@ -233,10 +233,10 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map((scenario: any) => 
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
         const entityResults = scenario.entities.map((entity: any) => 
-          manager.createEntity(id: entity.id, maxHp: entity.maxHp, 
-            currentHp: currentHp: entity.currentHp,
+          manager.createEntity(entity.id, maxHp: entity.maxHp, {
+            currentHp: entity.currentHp,
             immunities: entity.immunities,
             resistances: entity.resistances
           })
@@ -259,9 +259,9 @@ try {
           });
         }
 
-        return 
-          scenario: id: scenario.id,
-          results: entityResults.map((r: any) => ( status: status: r.status, entity: r.result }))
+        return {
+          scenario: scenario.id,
+          results: entityResults.map((r: any) => ({ status: r.status, entity: r.result }))
         };
       });
 

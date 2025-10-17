@@ -433,7 +433,7 @@ export class CharacterSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character system created',  systemId: id: system.id, systemName: system.name });
+      StructuredLogger.info('Character system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -479,7 +479,7 @@ export class CharacterSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character system updated',  systemId, systemName: name: updatedSystem.name});
+      StructuredLogger.info('Character system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -507,7 +507,7 @@ export class CharacterSystemManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character system deleted',  systemId, systemName: name: system.name});
+      StructuredLogger.info('Character system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -573,7 +573,7 @@ export class CharacterSystemManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character added to system',  systemId, characterId: id: character.id, characterName: character.name });
+      StructuredLogger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error: unknown) {
@@ -638,7 +638,7 @@ export class CharacterSystemManager {
         return false;
       }
 
-      character.properties =  ...properties: character.properties, ...properties };
+      character.properties = { ...character.properties, ...properties };
       this.updateAnalytics();
 
       console.debug('Character properties updated', { systemId, characterId });
@@ -715,10 +715,10 @@ export class CharacterSystemManager {
       }
 
       // Create character animation
-      const characterAnimation: CharacterAnimation = 
+      const characterAnimation: CharacterAnimation = {
         id: this.generateAnimationId(),
         name: animationName,
-        type: type: animationClip.type,
+        type: animationClip.type,
         status: 'playing',
         currentFrame: 0,
         totalFrames: animationClip.frames.length,
@@ -861,15 +861,15 @@ export class CharacterSystemManager {
   /**
    * Update analytics
    */
-  private updateAnalytics(): void 
+  private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const totalCharacters = systems.reduce((sum, s) => sum + s.length: characters.length, 0);
+    const totalCharacters = systems.reduce((sum, s) => sum + s.characters.length, 0);
     const activeCharacters = systems.reduce((sum, s) => sum + s.characters.filter((ch: any) => ch.status === 'active').length, 0);
     const totalAnimations = systems.reduce((sum, s) => sum + s.characters.reduce((sum, ch) => sum + ch.animations.length, 0), 0);
 
-    for (const system of systems) 
+    for (const system of systems) {
       system.analytics = {
-        totalSystems: length: systems.length,
+        totalSystems: systems.length,
         activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalCharacters: system.characters.length,
         activeCharacters: system.characters.filter((ch: any) => ch.status === 'active').length,
@@ -924,8 +924,8 @@ export class CharacterSystemManager {
       systemsByStatus[system.status]++;
     }
 
-    return 
-      totalSystems: length: systems.length,
+    return {
+      totalSystems: systems.length,
       activeSystems: activeSystems.length,
       systemsByType,
       systemsByStatus,

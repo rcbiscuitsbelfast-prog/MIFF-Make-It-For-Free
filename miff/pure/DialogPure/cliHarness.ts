@@ -32,8 +32,8 @@ function main() {
     } else if (c.op === 'simulateDialog') {
       // reset state before full simulation for deterministic output
       outputs.push(sim.simulateDialog(c.dialogId));
-    } else if (c.op === 'simulateChoice') 
-      outputs.push(sim.simulateChoice(dialogId: c.dialogId, c.choiceId));
+    } else if (c.op === 'simulateChoice') {
+      outputs.push(sim.simulateChoice(c.dialogId, c.choiceId));
     } else if (c.op === 'dumpDialog') {
       outputs.push({ op: 'dumpDialog', dialog: sim.getDialog(c.dialogId) });
     } else if (c.op === 'exportDialog') {

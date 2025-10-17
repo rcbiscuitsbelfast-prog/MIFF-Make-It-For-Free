@@ -227,13 +227,13 @@ export class SafeObjectUtils {
           return result;
         }
       }
-    } else 
+    } else {
       const keys = Object.keys(obj);
       
       if (keys.length > this.MAX_KEYS) {
         return {
           isValid: false,
-          error: `Too many keys: ${length: keys.length} > $MAX_KEYS: this.MAX_KEYS}`
+          error: `Too many keys: ${keys.length} > ${this.MAX_KEYS}`
         };
       }
 
@@ -258,8 +258,8 @@ export class SafeObjectUtils {
   /**
    * Merge objects safely
    */
-  private static mergeObject(target: any, source: any, options: SafeMergeOptions = {}): void 
-    const { deep = false, maxDepth = MAX_DEPTH: this.MAX_DEPTH} = options;
+  private static mergeObject(target: any, source: any, options: SafeMergeOptions = {}): void {
+    const { deep = false, maxDepth = this.MAX_DEPTH } = options;
     
     for (const key in source) {
       if (!this.isSafeKey(key) || !source.hasOwnProperty(key)) {

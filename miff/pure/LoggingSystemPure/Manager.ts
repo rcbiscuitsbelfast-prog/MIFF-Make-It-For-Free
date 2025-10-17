@@ -987,15 +987,15 @@ export class LoggingSystemPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): LoggingSystemPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): LoggingSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): LoggingSystemAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): LoggingSystemAnalytics {
+    return { ...this.analytics };
   }
 
   /**

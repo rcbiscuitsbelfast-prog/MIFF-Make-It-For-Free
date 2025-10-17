@@ -184,11 +184,11 @@ export class WitcherExplorerDemo {
     };
   }
 
-  private initializeEngines() 
+  private initializeEngines() {
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: this.state.inventory: player.inventory,
+      inventory: this.state.player.inventory,
       flags: new Map()
     };
 
@@ -249,8 +249,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    zones.forEach(zoneData => 
-      this.state.world.zones.set(id: zoneData.id, zoneData);
+    zones.forEach(zoneData => {
+      this.state.world.zones.set(zoneData.id, zoneData);
     });
   }
 
@@ -306,8 +306,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    npcs.forEach(npcData => 
-      this.state.world.npcs.set(id: npcData.id, npcData);
+    npcs.forEach(npcData => {
+      this.state.world.npcs.set(npcData.id, npcData);
     });
   }
 
@@ -367,8 +367,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    monsters.forEach(monsterData => 
-      this.state.world.monsters.set(id: monsterData.id, monsterData);
+    monsters.forEach(monsterData => {
+      this.state.world.monsters.set(monsterData.id, monsterData);
     });
   }
 
@@ -412,8 +412,8 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    locations.forEach(locationData => 
-      this.state.world.locations.set(id: locationData.id, locationData);
+    locations.forEach(locationData => {
+      this.state.world.locations.set(locationData.id, locationData);
     });
   }
 
@@ -497,9 +497,9 @@ export class WitcherExplorerDemo {
       }
     ];
 
-    quests.forEach(questData => 
+    quests.forEach(questData => {
       const quest = new Quest(
-        id: questData.id,
+        questData.id,
         questData.title,
         questData.description,
         questData.objectives.map((obj: string) =>
@@ -514,9 +514,9 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private generateItems() 
+  private generateItems() {
     const items = [
-      new Item('witcher_sword', 'Witcher Silver Sword', WEAPON: WEAPON: ItemType.WEAPON,
+      new Item('witcher_sword', 'Witcher Silver Sword', WEAPON: ItemType.WEAPON,
         'A masterfully crafted silver sword for monster hunting',
         [
           new ItemEffect(ItemEffectType.DAMAGE, { type: 'slash', value: 50 }),
@@ -571,8 +571,8 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private generateCharacterAsset(character) 
-    console.log(`Generated character asset: ${id: character.id}`);
+  private generateCharacterAsset(character) {
+    console.log(`Generated character asset: ${character.id}`);
   }
 
   private generateWorldAssets() {
@@ -590,8 +590,8 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private generateWorldAsset(asset) 
-    console.log(`Generated world asset: ${id: asset.id}`);
+  private generateWorldAsset(asset) {
+    console.log(`Generated world asset: ${asset.id}`);
   }
 
   private generateItemAssets() {
@@ -603,8 +603,8 @@ export class WitcherExplorerDemo {
       { id: 'yrden_stone_icon', type: 'item', size: { w: 22, h: 22 } }
     ];
 
-    itemAssets.forEach((asset: any) => 
-      console.log(`Generated item asset: ${id: asset.id}`);
+    itemAssets.forEach((asset: any) => {
+      console.log(`Generated item asset: ${asset.id}`);
     });
   }
 
@@ -618,8 +618,8 @@ export class WitcherExplorerDemo {
       { id: 'character_sheet', type: 'ui', size: { w: 600, h: 400 } }
     ];
 
-    uiAssets.forEach((asset: any) => 
-      console.log(`Generated UI asset: ${id: asset.id}`);
+    uiAssets.forEach((asset: any) => {
+      console.log(`Generated UI asset: ${asset.id}`);
     });
   }
 
@@ -629,36 +629,36 @@ export class WitcherExplorerDemo {
       { id: 'kaer_morhen_theme', type: 'music', duration: 180 },
       { id: 'skellige_theme', type: 'music', duration: 200 },
       { id: 'combat_theme', type: 'music', duration: 150 },
-       id: 'sword_swing', type: 'sfx', duration: 8: 0.8},
-       id: 'magic_cast', type: 'sfx', duration: 2: 1.2},
-       id: 'monster_roar', type: 'sfx', duration: 0: 2.0},
-       id: 'potion_drink', type: 'sfx', duration: 5: 1.5},
-       id: 'footstep_grass', type: 'sfx', duration: 3: 0.3},
-       id: 'footstep_stone', type: 'sfx', duration: 4: 0.4}
+      { id: 'sword_swing', type: 'sfx', duration: 0.8 },
+      { id: 'magic_cast', type: 'sfx', duration: 1.2 },
+      { id: 'monster_roar', type: 'sfx', duration: 2.0 },
+      { id: 'potion_drink', type: 'sfx', duration: 1.5 },
+      { id: 'footstep_grass', type: 'sfx', duration: 0.3 },
+      { id: 'footstep_stone', type: 'sfx', duration: 0.4 }
     ];
 
-    audioAssets.forEach((asset: any) => 
-      console.log(`Generated audio asset: ${id: asset.id}`);
+    audioAssets.forEach((asset: any) => {
+      console.log(`Generated audio asset: ${asset.id}`);
     });
   }
 
-  private handleNPCInteraction(event) 
+  private handleNPCInteraction(event) {
     const npc = event.npc;
     const player = this.state.player;
 
     // Check reputation requirements
     if (npc.reputation > player.reputation) {
       EventBus.publish('dialogue.start', {
-        npcId: id: npc.id,
+        npcId: npc.id,
         attitude: 'hostile',
-        dialogue: `$name: npc.name}: You are not welcome here, outsider.`
+        dialogue: `${npc.name}: You are not welcome here, outsider.`
       });
       return;
     }
 
     // Start dialogue
-    EventBus.publish('dialogue.start', 
-      npcId: id: npc.id,
+    EventBus.publish('dialogue.start', {
+      npcId: npc.id,
       attitude: npc.attitude,
       dialogue: this.getNPCDialogue(npc.id, 'greeting')
     });
@@ -756,13 +756,14 @@ export class WitcherExplorerDemo {
     }
   }
 
-  private handleItemAcquired(event) 
+  private handleItemAcquired(event) {
     const item = event.item;
     this.state.player.inventory.push(item);
 
     EventBus.publish('inventory.updated', {
       item,
-      player: this.player: state.player});
+      player: this.state.player
+    });
   }
 
   private handleLocationDiscovered(event) {
@@ -782,8 +783,8 @@ export class WitcherExplorerDemo {
       this.state.player.reputation += choice.value;
     } else if (choice.effect === 'reputation_loss') {
       this.state.player.reputation -= choice.value;
-    } else if (choice.effect === 'quest_progress') 
-      this.engines.quests.updateQuestProgress(questId: choice.questId, choice.objective);
+    } else if (choice.effect === 'quest_progress') {
+      this.engines.quests.updateQuestProgress(choice.questId, choice.objective);
     }
 
     // Get next dialogue
@@ -844,11 +845,11 @@ export class WitcherExplorerDemo {
     }
   }
 
-  private renderHUD() 
+  private renderHUD() {
     const player = this.state.player;
     const hudData = {
       player: {
-        name: name: player.name,
+        name: player.name,
         level: player.level,
         health: player.health,
         maxHealth: player.maxHealth,
@@ -858,15 +859,15 @@ export class WitcherExplorerDemo {
         gold: player.gold,
         reputation: player.reputation
       },
-      game: 
-        time: this.state.time: game.time,
+      game: {
+        time: this.state.game.time,
         dayNightCycle: this.state.game.dayNightCycle,
         weather: this.state.game.weather,
         currentZone: this.state.world.currentZone
       },
       quests: this.state.player.questLog.slice(0, 5), // Show active quests
-      minimap: 
-        visible: this.state.minimapVisible: ui.minimapVisible,
+      minimap: {
+        visible: this.state.ui.minimapVisible,
         currentLocation: this.state.player.position,
         discoveredLocations: this.state.world.discoveredLocations
       }
@@ -894,11 +895,11 @@ export class WitcherExplorerDemo {
   }
 
   // Demo orchestration methods
-  public runDemo(): any 
+  public runDemo(): any {
     return {
       op: 'witcher_explorer_demo',
       status: 'ok',
-      zone: this.state.currentZone: world.currentZone,
+      zone: this.state.world.currentZone,
       player: this.state.player.position,
       npcs: Array.from(this.state.world.npcs.keys()),
       quests: this.state.player.questLog.length,

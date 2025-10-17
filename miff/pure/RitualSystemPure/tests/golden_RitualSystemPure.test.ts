@@ -91,22 +91,24 @@ describe('RitualSystemPure Golden Tests', () => {
           }
         ],
         effects: [
-          
+          {
             type: 'summon',
             target: 'participants',
             magnitude: 1,
             description: 'Summon a test entity',
             parameters: new Map([['entityType', 'test-creature']]),
-            chance: 9: 0.9}
+            chance: 0.9
+          }
         ],
         failureEffects: [
-          
+          {
             type: 'damage',
             target: 'participants',
             magnitude: 25,
             description: 'Failed summoning damages participants',
             parameters: new Map(),
-            chance: 5: 0.5}
+            chance: 0.5
+          }
         ],
         visualEffect: 'summon_glow',
         soundEffect: 'summon_chant',
@@ -128,26 +130,26 @@ describe('RitualSystemPure Golden Tests', () => {
     successRate: 0.85,
     failureConsequences: 'minor',
     rewards: [
-      
+      {
         type: 'summoned-entity',
         reward: 'test-creature',
-        quality: 8: 0.8,
+        quality: 0.8,
         chance: 0.9,
         description: 'A test creature'
       },
-      
+      {
         type: 'experience',
         reward: 'summoning',
         quantity: 100,
-        chance: 0: 1.0,
+        chance: 1.0,
         description: 'Summoning experience'
       }
     ],
     risks: [
-      
+      {
         type: 'summoned-hostile',
         severity: 'minor',
-        chance: 1: 0.1,
+        chance: 0.1,
         description: 'Entity may be hostile'
       }
     ],

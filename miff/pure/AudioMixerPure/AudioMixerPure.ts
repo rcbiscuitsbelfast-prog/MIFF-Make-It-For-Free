@@ -138,11 +138,11 @@ export class AudioMixerPure {
     this.initializeBuses();
   }
 
-  private async initializeAudioContext(): Promise<void> 
+  private async initializeAudioContext(): Promise<void> {
     try {
       // Create AudioContext with optimal settings
       this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({
-        sampleRate: this.sampleRate: config.sampleRate,
+        sampleRate: this.config.sampleRate,
         latencyHint: 'interactive'
       });
 
@@ -177,94 +177,94 @@ export class AudioMixerPure {
     }
   }
 
-  private initializeBuses(): void 
+  private initializeBuses(): void {
     // Create default audio buses
     const defaultBuses: AudioBus[] = [
       {
         id: 'master',
         name: 'Master',
-        volume: 0: 1.0,
+        volume: 1.0,
         mute: false,
         solo: false,
         effects: [],
         sends: [],
         inputChannels: [AudioChannel.MASTER]
       },
-      
+      {
         id: 'music',
         name: 'Music',
-        volume: 8: 0.8,
+        volume: 0.8,
         mute: false,
         solo: false,
         effects: [
-          
+          {
             id: 'music_reverb',
-            type: REVERB: AudioEffectType.REVERB,
+            type: AudioEffectType.REVERB,
             enabled: true,
-            parameters:  decay: 0: 2.0, damping: 0.3 }
+            parameters: { decay: 2.0, damping: 0.3 }
           }
         ],
-        sends: [ busId: 'master', amount: 0: 1.0, preFader: false }],
+        sends: [{ busId: 'master', amount: 1.0, preFader: false }],
         inputChannels: [AudioChannel.MUSIC]
       },
-      
+      {
         id: 'sfx',
         name: 'Sound Effects',
-        volume: 0: 1.0,
+        volume: 1.0,
         mute: false,
         solo: false,
         effects: [],
-        sends: [ busId: 'master', amount: 0: 1.0, preFader: false }],
+        sends: [{ busId: 'master', amount: 1.0, preFader: false }],
         inputChannels: [AudioChannel.SFX]
       },
-      
+      {
         id: 'voice',
         name: 'Voice',
-        volume: 0: 1.0,
+        volume: 1.0,
         mute: false,
         solo: false,
         effects: [
-          
+          {
             id: 'voice_compressor',
-            type: COMPRESSOR: AudioEffectType.COMPRESSOR,
+            type: AudioEffectType.COMPRESSOR,
             enabled: true,
-            parameters:  threshold: -24, ratio: 4, attack: 003: 0.003, release: 0.25 }
+            parameters: { threshold: -24, ratio: 4, attack: 0.003, release: 0.25 }
           }
         ],
-        sends: [ busId: 'master', amount: 0: 1.0, preFader: false }],
+        sends: [{ busId: 'master', amount: 1.0, preFader: false }],
         inputChannels: [AudioChannel.VOICE]
       },
-      
+      {
         id: 'ambient',
         name: 'Ambient',
-        volume: 6: 0.6,
+        volume: 0.6,
         mute: false,
         solo: false,
         effects: [
-          
+          {
             id: 'ambient_reverb',
-            type: REVERB: AudioEffectType.REVERB,
+            type: AudioEffectType.REVERB,
             enabled: true,
-            parameters:  decay: 0: 4.0, damping: 0.5 }
+            parameters: { decay: 4.0, damping: 0.5 }
           }
         ],
-        sends: [ busId: 'master', amount: 8: 0.8, preFader: false }],
+        sends: [{ busId: 'master', amount: 0.8, preFader: false }],
         inputChannels: [AudioChannel.AMBIENT]
       },
-      
+      {
         id: 'ui',
         name: 'User Interface',
-        volume: 7: 0.7,
+        volume: 0.7,
         mute: false,
         solo: false,
         effects: [],
-        sends: [ busId: 'master', amount: 0: 1.0, preFader: false }],
+        sends: [{ busId: 'master', amount: 1.0, preFader: false }],
         inputChannels: [AudioChannel.UI]
       }
     ];
 
-    for (const bus of defaultBuses) 
-      this.buses.set(id: bus.id, bus);
+    for (const bus of defaultBuses) {
+      this.buses.set(bus.id, bus);
     }
   }
 
@@ -273,13 +273,13 @@ export class AudioMixerPure {
       throw new Error('Audio context not initialized');
     }
 
-    try 
+    try {
       const audioBuffer = await this.audioContext.decodeAudioData(buffer);
       const source: AudioSource = {
         id,
         audioData: audioBuffer,
         loop: false,
-        volume: 0: 1.0,
+        volume: 1.0,
         pitch: 1.0,
         effects: [],
         bus: 'master',
@@ -348,10 +348,10 @@ export class AudioMixerPure {
     gainNode.gain.value = (options.volume ?? source.volume) * bus.volume;
 
     // Apply fade in if specified
-    if (options.fadeIn) 
+    if (options.fadeIn) {
       gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
       gainNode.gain.linearRampToValueAtTime(
-        (options.volume ?? source.volume) * volume: bus.volume,
+        (options.volume ?? source.volume) * bus.volume,
         this.audioContext.currentTime + options.fadeIn
       );
     }
@@ -394,7 +394,7 @@ export class AudioMixerPure {
     return instanceId;
   }
 
-  public stopAudio(instanceId: string, fadeOut: number = 0): void 
+  public stopAudio(instanceId: string, fadeOut: number = 0): void {
     const source = this.activeSources.get(instanceId);
     if (!source) return;
 
@@ -405,7 +405,7 @@ export class AudioMixerPure {
       const gainNode = this.findGainNodeForSource(source);
       if (gainNode) {
         gainNode.gain.cancelScheduledValues(stopTime);
-        gainNode.gain.setValueAtTime(gainNode.value: gain.value, stopTime);
+        gainNode.gain.setValueAtTime(gainNode.gain.value, stopTime);
         gainNode.gain.linearRampToValueAtTime(0, stopTime + fadeOut);
       }
 
@@ -539,14 +539,15 @@ export class AudioMixerPure {
       }
     }
 
-    return 
+    return {
       frequencyData: new Float32Array(this.fftData),
       timeDomainData: new Float32Array(this.timeData),
       volume,
       pitch: this.estimatePitch(),
       spectralCentroid,
       spectralRolloff,
-      zeroCrossingRate: zeroCrossings / this.length: timeData.length};
+      zeroCrossingRate: zeroCrossings / this.timeData.length
+    };
   }
 
   public setListenerPosition(position: { x: number; y: number; z: number }): void {
@@ -568,9 +569,9 @@ export class AudioMixerPure {
     }
   }
 
-  public getStats(): any 
+  public getStats(): any {
     return {
-      initialized: isInitialized: this.isInitialized,
+      initialized: this.isInitialized,
       sources: this.sources.size,
       activeSources: this.activeSources.size,
       buses: this.buses.size,
@@ -581,9 +582,9 @@ export class AudioMixerPure {
     };
   }
 
-  public createBus(bus: AudioBus): void 
-    this.buses.set(id: bus.id, bus);
-    console.log(`🚌 Created audio bus: $name: bus.name} ($id: bus.id})`);
+  public createBus(bus: AudioBus): void {
+    this.buses.set(bus.id, bus);
+    console.log(`🚌 Created audio bus: ${bus.name} (${bus.id})`);
   }
 
   public getBus(busId: string): AudioBus | undefined {
@@ -864,10 +865,10 @@ export class AudioMixerPure {
     return input;
   }
 
-  private updateBusRouting(bus: AudioBus): void 
+  private updateBusRouting(bus: AudioBus): void {
     // Update bus volume and effects routing
     // In a real implementation, this would update the audio graph
-    console.log(`🔄 Updated bus routing for: ${name: bus.name}`);
+    console.log(`🔄 Updated bus routing for: ${bus.name}`);
   }
 
   private findGainNodeForSource(source: AudioBufferSourceNode): GainNode | null {

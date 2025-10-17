@@ -72,7 +72,7 @@ class CPUOptimizerCLI {
 
     // Display summary
     console.info('\n📊 CPU Optimization Summary:');
-    console.info(`Optimizations Applied: $length: results.length}`);
+    console.info(`Optimizations Applied: ${results.length}`);
     
     const totalImprovement = results.reduce((sum, result) => sum + result.improvement, 0);
     const averageImprovement = totalImprovement / results.length;
@@ -82,7 +82,7 @@ class CPUOptimizerCLI {
     results.forEach((result: any) => {
       const statusIcon = result.status === 'applied' ? '✅' : 
                         result.status === 'failed' ? '❌' : '⏳';
-      console.info(`  ${statusIcon} $description: result.description}: ${result.improvement.toFixed(2)}% improvement`);
+      console.info(`  ${statusIcon} ${result.description}: ${result.improvement.toFixed(2)}% improvement`);
     });
   }
 
@@ -103,7 +103,7 @@ class CPUOptimizerCLI {
     console.info('\n📊 Current CPU Metrics:');
     console.info(`CPU Usage: ${metrics.usage.toFixed(2)}%`);
     console.info(`Load Average: ${metrics.loadAverage.map((avg: any) => avg.toFixed(2)).join(', ')}`);
-    console.info(`Process Count: $processCount: metrics.processCount}`);
+    console.info(`Process Count: ${metrics.processCount}`);
     console.info(`Memory Usage: ${metrics.memory.toFixed(2)} MB`);
     console.info(`Response Time: ${metrics.responseTime.toFixed(2)} ms`);
     console.info(`Throughput: ${metrics.throughput.toFixed(2)} ops/sec`);
@@ -135,14 +135,14 @@ class CPUOptimizerCLI {
     }
   }
 
-  private async showCacheStats(): Promise<void> 
+  private async showCacheStats(): Promise<void> {
     console.info('📊 Cache Statistics:');
     
     const stats = this.optimizer.getCacheStats();
     
-    console.info(`Cache Size: ${size: stats.size} entries`);
+    console.info(`Cache Size: ${stats.size} entries`);
     console.info(`Hit Rate: ${(stats.hitRate * 100).toFixed(2)}%`);
-    console.info(`Total Accesses: $totalAccesses: stats.totalAccesses}`);
+    console.info(`Total Accesses: ${stats.totalAccesses}`);
     console.info(`Average Access Time: ${stats.averageAccessTime.toFixed(2)} ms`);
   }
 
@@ -207,10 +207,10 @@ class CPUOptimizerCLI {
     
     for (const [id, poolStats] of stats.entries()) {
       console.info(`\n${id}:`);
-      console.info(`  Max Size: $maxSize: poolStats.maxSize}`);
-      console.info(`  Current Size: $currentSize: poolStats.currentSize}`);
-      console.info(`  Available: $available: poolStats.available}`);
-      console.info(`  In Use: $inUse: poolStats.inUse}`);
+      console.info(`  Max Size: ${poolStats.maxSize}`);
+      console.info(`  Current Size: ${poolStats.currentSize}`);
+      console.info(`  Available: ${poolStats.available}`);
+      console.info(`  In Use: ${poolStats.inUse}`);
       console.info(`  Utilization: ${poolStats.utilization.toFixed(2)}%`);
     }
   }
@@ -247,10 +247,10 @@ class CPUOptimizerCLI {
     results.forEach((result: any) => {
       const statusIcon = result.status === 'applied' ? '✅' : 
                         result.status === 'failed' ? '❌' : '⏳';
-      console.info(`\n${statusIcon} $description: result.description}`);
-      console.info(`  Type: $type: result.type}`);
+      console.info(`\n${statusIcon} ${result.description}`);
+      console.info(`  Type: ${result.type}`);
       console.info(`  Improvement: ${result.improvement.toFixed(2)}%`);
-      console.info(`  Status: $status: result.status}`);
+      console.info(`  Status: ${result.status}`);
       console.info(`  Timestamp: ${result.timestamp.toISOString()}`);
     });
   }

@@ -217,8 +217,8 @@ export class EquipmentManager {
 
     // Unequip existing in slot (return to inventory)
     const prev = this.equipped.get(slot);
-    if (prev && this.inventory) 
-      this.inventory.addItem(id: prev.id, 1);
+    if (prev && this.inventory) {
+      this.inventory.addItem(prev.id, 1);
     }
 
     const item: EquippedItem = { ...def, source: 'inventory' };
@@ -245,8 +245,8 @@ export class EquipmentManager {
       };
     }
 
-    if (this.inventory) 
-      this.inventory.addItem(id: prev.id, 1);
+    if (this.inventory) {
+      this.inventory.addItem(prev.id, 1);
     }
     this.equipped.delete(slot);
     this.hooks.onUnequip?.(slot, prev);
@@ -377,9 +377,9 @@ export class EquipmentManager {
       item.modifiers = modifications.modifiers;
     }
 
-    if (modifications.durability !== undefined) 
+    if (modifications.durability !== undefined) {
       const oldDurability = item.durability || 0;
-      item.durability = Math.max(0, Math.min(durability: modifications.durability, item.maxDurability || 100));
+      item.durability = Math.max(0, Math.min(modifications.durability, item.maxDurability || 100));
       this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
     }
 
@@ -406,12 +406,12 @@ export class EquipmentManager {
   /**
    * Add equipment set
    */
-  addEquipmentSet(set: EquipmentSet): EquipmentOutput 
+  addEquipmentSet(set: EquipmentSet): EquipmentOutput {
     if (this.equipmentSets.has(set.id)) {
       return {
         op: 'add-equipment-set',
         status: 'error',
-        issues: [`Equipment set ${id: set.id} already exists`]
+        issues: [`Equipment set ${set.id} already exists`]
       };
     }
 
@@ -537,12 +537,12 @@ export class EquipmentManager {
     const currentModifiers = currentItem?.modifiers || [];
     const newModifiers = newItem.modifiers;
 
-    for (const newMod of newModifiers) 
+    for (const newMod of newModifiers) {
       const currentMod = currentModifiers.find(m => m.stat === newMod.stat);
       if (!currentMod || currentMod.value !== newMod.value) {
         comparison.differences[newMod.stat] = {
           current: currentMod?.value || 0,
-          new: value: newMod.value,
+          new: newMod.value,
           change: !currentMod ? 'new' : (newMod.value > currentMod.value ? 'upgrade' : 'downgrade')
         };
       }
@@ -583,9 +583,9 @@ export class EquipmentManager {
       originalStats: EquipmentStats;
       previewStats: EquipmentStats;
       changes: Record<string, number>;
-    } = 
-      originalStats: { ...stats: this.stats},
-      previewStats:  ...stats: this.stats},
+    } = {
+      originalStats: { ...this.stats },
+      previewStats: { ...this.stats },
       changes: {}
     };
 
@@ -637,11 +637,11 @@ export class EquipmentManager {
   /**
    * Get equipment statistics
    */
-  getStats(): EquipmentOutput 
+  getStats(): EquipmentOutput {
     return {
       op: 'get-stats',
       status: 'ok',
-      result: { ...stats: this.stats}
+      result: { ...this.stats }
     };
   }
 
@@ -680,7 +680,7 @@ export class EquipmentManager {
   /**
    * Export equipment data
    */
-  exportEquipment(format: 'json' | 'manifest' | 'summary' | 'items' = 'json'): EquipmentOutput 
+  exportEquipment(format: 'json' | 'manifest' | 'summary' | 'items' = 'json'): EquipmentOutput {
     const items = Array.from(this.equipped.values());
 
     switch (format) {
@@ -690,27 +690,28 @@ export class EquipmentManager {
           status: 'ok',
           result: {
             items,
-            stats: stats: this.stats}
+            stats: this.stats
+          }
         };
       
       case 'manifest':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             schema: 'miff.equipment.export.v1',
             items,
-            stats: stats: this.stats,
+            stats: this.stats,
             exportedAt: new Date().toISOString()
           }
         };
       
       case 'summary':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
-            summary: stats: this.stats,
+            summary: this.stats,
             totalItems: items.length,
             itemsBySlot: this.stats.itemsBySlot,
             itemsByRarity: this.stats.itemsByRarity
@@ -718,12 +719,13 @@ export class EquipmentManager {
         };
       
       case 'items':
-        return 
+        return {
           op: 'export',
           status: 'ok',
           result: {
             items,
-            total: length: items.length}
+            total: items.length
+          }
         };
       
       default:

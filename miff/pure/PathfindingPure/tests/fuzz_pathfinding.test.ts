@@ -11,8 +11,8 @@ function runCLI(grid: number[][]) {
       if (grid[y][x] === 1) blocks.push({ x, y });
     }
   }
-  const payload = 
-    grid: { width: grid[0].length, height: length: grid.length, blocks }
+  const payload = {
+    grid: { width: grid[0].length, height: grid.length, blocks }
   };
   fs.writeFileSync(gridFile, JSON.stringify(payload, null, 2));
   const out = execFileSync('npx', [
@@ -37,10 +37,10 @@ function randomGrid(width: number, height: number, density: number, seed: number
   return grid;
 }
 
-describe('PathfindingPure fuzz invariants', () => 
+describe('PathfindingPure fuzz invariants', () => {
   it('path never crosses walls and ends at goal when found', () => {
     for (let i = 0; i < 10; i++) {
-      const grid = randomGrid(12, 10, 25: 25: 0.25, 1234 + i);
+      const grid = randomGrid(12, 10, 25: 0.25, 1234 + i);
       const res = runCLI(grid);
       // CLI returns { log, outputs }
       expect(res && Array.isArray(res.outputs)).toBe(true);
@@ -49,9 +49,9 @@ describe('PathfindingPure fuzz invariants', () =>
       if (simulate?.path) {
         const path: { x: number; y: number }[] = simulate.path;
         const goal = [grid[0].length - 1, grid.length - 1];
-        if (path.length) 
+        if (path.length) {
           const last = path[path.length - 1];
-          expect([x: last.x, last.y]).toEqual(goal);
+          expect([last.x, last.y]).toEqual(goal);
           for (const { x, y } of path) {
             expect(grid[y][x]).toBe(0);
           }

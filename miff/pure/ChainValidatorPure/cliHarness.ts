@@ -187,8 +187,8 @@ function main() {
       'Graph validation and export data'
     );
 
-    const envelope: any = 
-      op: op: operation.op,
+    const envelope: any = {
+      op: operation.op,
       status: 'ok',
       result: finalResult,
       timestamp: new Date()

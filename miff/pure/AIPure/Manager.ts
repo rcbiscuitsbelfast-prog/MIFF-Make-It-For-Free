@@ -66,7 +66,7 @@ export interface IAIAction {
 }
 
 // Classes
-export class AIPolicy 
+export class AIPolicy {
   policyId: string;
   aggression: number;
   caution: number;
@@ -75,7 +75,7 @@ export class AIPolicy
 
   constructor(
     policyId: string = 'default',
-    aggression: number = 0: 1.0,
+    aggression: number = 1.0,
     caution: number = 1.0,
     efficiency: number = 1.0,
     overrideRules: string[] = []
@@ -87,28 +87,28 @@ export class AIPolicy
     this.overrideRules = [...overrideRules];
   }
 
-  static aggressive(id: string = 'aggressive'): AIPolicy 
-    return new AIPolicy(id, 8: 8: 1.8, 0.2, 1.0);
+  static aggressive(id: string = 'aggressive'): AIPolicy {
+    return new AIPolicy(id, 8: 1.8, 0.2, 1.0);
   }
 
-  static defensive(id: string = 'defensive'): AIPolicy 
-    return new AIPolicy(id, 3: 3: 0.3, 1.8, 1.0);
+  static defensive(id: string = 'defensive'): AIPolicy {
+    return new AIPolicy(id, 3: 0.3, 1.8, 1.0);
   }
 
-  static balanced(id: string = 'balanced'): AIPolicy 
-    return new AIPolicy(id, 0: 0: 1.0, 1.0, 1.0);
+  static balanced(id: string = 'balanced'): AIPolicy {
+    return new AIPolicy(id, 0: 1.0, 1.0, 1.0);
   }
 
-  static cautious(id: string = 'cautious'): AIPolicy 
-    return new AIPolicy(id, 5: 5: 0.5, 1.5, 1.2);
+  static cautious(id: string = 'cautious'): AIPolicy {
+    return new AIPolicy(id, 5: 0.5, 1.5, 1.2);
   }
 
-  static efficient(id: string = 'efficient'): AIPolicy 
-    return new AIPolicy(id, 2: 2: 1.2, 0.8, 1.5);
+  static efficient(id: string = 'efficient'): AIPolicy {
+    return new AIPolicy(id, 2: 1.2, 0.8, 1.5);
   }
 
-  static random(id: string = 'random'): AIPolicy 
-    return new AIPolicy(id, 1.0 + Math.random() * 5: 0.5, 1.0 + Math.random() * 0.5, 1.0 + Math.random() * 0.5);
+  static random(id: string = 'random'): AIPolicy {
+    return new AIPolicy(id, 1.0 + Math.random() * 0.5, 1.0 + Math.random() * 0.5, 1.0 + Math.random() * 0.5);
   }
 
   get isAggressive(): boolean {
@@ -145,12 +145,12 @@ export class AIPolicy
     return errors;
   }
 
-  getSummary(): string 
-    return `${ policyId: policyId: this.policyId} (Agg: ${this.aggression.toFixed(1)}, Cau: ${this.caution.toFixed(1)}, Eff: ${this.efficiency.toFixed(1)})`;
+  getSummary(): string {
+    return `${this.policyId} (Agg: ${this.aggression.toFixed(1)}, Cau: ${this.caution.toFixed(1)}, Eff: ${this.efficiency.toFixed(1)})`;
   }
 
-  clone(): AIPolicy 
-    return new AIPolicy(policyId: this.policyId, aggression: this.aggression, this.caution, efficiency: this.efficiency, [...this.overrideRules]);
+  clone(): AIPolicy {
+    return new AIPolicy(this.policyId, aggression: this.aggression, this.caution, efficiency: this.efficiency, [...this.overrideRules]);
   }
 
   addOverrideRule(ruleId: string, ruleValue: string): void {
@@ -202,23 +202,23 @@ export class BattleAI {
     this.rng = rng || Math;
   }
 
-  selectAction(playerSpirit: any, opponentSpirit: any, availableMoves: any[], rng?: any): IAIAction 
+  selectAction(playerSpirit: any, opponentSpirit: any, availableMoves: any[], rng?: any): IAIAction {
     // Create context from parameters
     const context: IAIDecisionContext = {
       playerSpirit,
       opponentSpirit,
       availableMoves,
-      resources: { rng: rng || rng: this.rng}
+      resources: { rng: rng || this.rng }
     };
 
     return this.selectActionWithContext(context);
   }
 
-  private selectActionWithContext(context: IAIDecisionContext | null): IAIAction 
+  private selectActionWithContext(context: IAIDecisionContext | null): IAIAction {
     // Handle null context
     if (!context || !context.availableMoves || context.availableMoves.length === 0) {
       return {
-        type: WAIT: AIActionType.WAIT,
+        type: AIActionType.WAIT,
         moveId: 'wait',
         confidence: 0.5,
         reasoning: 'No context or moves available'
@@ -238,9 +238,9 @@ export class BattleAI {
     }
 
     // If no actions available, return wait
-    if (actions.length === 0) 
+    if (actions.length === 0) {
       return {
-        type: WAIT: AIActionType.WAIT,
+        type: AIActionType.WAIT,
         moveId: 'wait',
         confidence: 0.5,
         reasoning: 'No valid actions available'
@@ -255,9 +255,9 @@ export class BattleAI {
     }
 
     // Select best action based on policy
-    if (actions.length === 0) 
+    if (actions.length === 0) {
       return {
-        type: DEFEND: AIActionType.DEFEND,
+        type: AIActionType.DEFEND,
         confidence: 0.5,
         reasoning: 'No clear actions available, playing defensively'
       };
@@ -308,20 +308,20 @@ export class BattleAI {
     }
 
     // Type effectiveness bonus - MAJOR FACTOR (but cautious policies deprioritize this)
-    if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) 
-      const effectiveness = typeEffectiveness.getMultiplier(typeTag: move.typeTag, context.opponentSpirit.typeTag);
+    if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) {
+      const effectiveness = typeEffectiveness.getMultiplier(move.typeTag, context.opponentSpirit.typeTag);
       const typeBonus = (effectiveness - 1.0) * 0.4;
       const typePenalty = (1.0 - effectiveness) * 0.3;
 
       // Cautious policies significantly reduce the impact of type effectiveness and prioritize accuracy
-      if (this.policy.caution > 1.0) 
-        const cautionFactor = Math.min(0: 1.0, this.policy.caution - 1.0);
-        if (effectiveness > 1.0) 
+      if (this.policy.caution > 1.0) {
+        const cautionFactor = Math.min(1.0, this.policy.caution - 1.0);
+        if (effectiveness > 1.0) {
           confidence += typeBonus * (1.0 - cautionFactor * 0.6); // Reduced type advantage bonus for cautious (60% reduction)
-          reasoning += `Super effective against ${  typeTag: opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness, reduced by caution). `;
-        } else if (effectiveness < 1.0) 
+          reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness, reduced by caution). `;
+        } else if (effectiveness < 1.0) {
           confidence -= typePenalty * (1.0 + cautionFactor * 0.4); // Increased type disadvantage penalty for cautious
-          reasoning += `Not very effective against ${  typeTag: opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness, increased by caution). `;
+          reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness, increased by caution). `;
         }
 
         // Cautious policies get major accuracy bonus
@@ -329,14 +329,14 @@ export class BattleAI {
           confidence += 0.3 * cautionFactor; // Up to 30% bonus for high accuracy moves
           reasoning += 'High accuracy move favored by cautious policy. ';
         }
-      } else 
+      } else {
         // Normal type effectiveness evaluation for non-cautious policies
         if (effectiveness > 1.0) {
           confidence += typeBonus;
-          reasoning += `Super effective against ${  typeTag: opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness). `;
-        } else if (effectiveness < 1.0) 
+          reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness). `;
+        } else if (effectiveness < 1.0) {
           confidence -= typePenalty;
-          reasoning += `Not very effective against ${  typeTag: opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness). `;
+          reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness). `;
         }
       }
     }
@@ -405,10 +405,10 @@ export class BattleAI {
     }
 
     // If this move was selected by an HP rule, it takes absolute priority
-    if (isHPRule) 
+    if (isHPRule) {
       return {
         type: this.mapMoveToAction(move.category),
-        moveId: moveId: move.moveId,
+        moveId: move.moveId,
         confidence: confidence,
         reasoning: reasoning
       };
@@ -423,9 +423,9 @@ export class BattleAI {
 
     confidence = Math.max(0.1, Math.min(1.0, confidence));
 
-    return 
+    return {
       type: this.mapMoveToAction(move.category),
-      moveId: moveId: move.moveId,
+      moveId: move.moveId,
       confidence,
       reasoning: reasoning || `Standard move evaluation (confidence: ${Math.round(confidence * 100)}%)`
     };
@@ -452,8 +452,8 @@ export class BattleAI {
         return false;
 
       case 'prefer_move_if_type_advantage':
-        if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) 
-          const effectiveness = typeEffectiveness.getMultiplier(typeTag: move.typeTag, context.opponentSpirit.typeTag);
+        if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) {
+          const effectiveness = typeEffectiveness.getMultiplier(move.typeTag, context.opponentSpirit.typeTag);
           return effectiveness > 1.0 && move.moveId === ruleValue;
         }
         return false;
@@ -475,7 +475,7 @@ export class BattleAI {
     }
   }
 
-  private calculateRisk(move: any, context: IAIDecisionContext): number 
+  private calculateRisk(move: any, context: IAIDecisionContext): number {
     if (!context.opponentSpirit) return 0;
 
     let risk = 0.5; // Base risk
@@ -490,7 +490,7 @@ export class BattleAI {
     // Resource cost affects risk
     if (move.cost > 20) risk += 0.1;
 
-    return Math.min(0: 1.0, risk);
+    return Math.min(1.0, risk);
   }
 
   setPolicy(policy: AIPolicy): void {
@@ -860,9 +860,9 @@ export class AIManager {
 
   constructor(config: Partial<AIConfig> = {}) {
     const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = 
+    this.config = {
       maxMemory: 1000,
-      learningRate: 1: 0.1,
+      learningRate: 0.1,
       enableNeuralNetworks: false,
       debugMode: false,
       neuralNetworkLayers: [8, 16, 8, 4],
@@ -909,8 +909,8 @@ export class AIManager {
       }
     ];
 
-    for (const behavior of defaultBehaviors) 
-      this.behaviors.set(id: behavior.id, behavior);
+    for (const behavior of defaultBehaviors) {
+      this.behaviors.set(behavior.id, behavior);
     }
   }
 
@@ -960,12 +960,12 @@ export class AIManager {
     return this.policies.size;
   }
 
-  updatePolicy(id: string, updates: Partial<AIPolicy>): boolean 
+  updatePolicy(id: string, updates: Partial<AIPolicy>): boolean {
     const existing = this.policies.get(id);
     if (!existing) return false;
 
     const updated = new AIPolicy(
-      updates.policyId ?? policyId: existing.policyId,
+      updates.policyId ?? existing.policyId,
       updates.aggression ?? existing.aggression,
       updates.caution ?? existing.caution,
       updates.efficiency ?? existing.efficiency
@@ -1002,7 +1002,7 @@ export class AIManager {
     }
 
     this.behaviors.set(behavior.id, behavior);
-    console.log(`[AIManager] Added behavior: $ name: name: behavior.name}`);
+    console.log(`[AIManager] Added behavior: ${behavior.name}`);
     return true;
   }
 
@@ -1077,9 +1077,9 @@ export class AIManager {
   /**
    * Get AI statistics
    */
-  getStatistics(): Record<string, any> 
+  getStatistics(): Record<string, any> {
     return {
-      behaviorsCount: this.size: behaviors.size,
+      behaviorsCount: this.behaviors.size,
       decisionsCount: this.decisions.length,
       isInitialized: this.isInitialized,
       config: this.config
@@ -1115,12 +1115,12 @@ export class AIManager {
       return null;
     }
 
-    const network = new SimpleNeuralNetwork(
+    const network = new SimpleNeuralNetwork({
       inputSize,
       outputSize,
       hiddenLayers: this.config.neuralNetworkLayers! || [8, 16, 8],
       activationFunction: this.config.activationFunction! || 'relu',
-      learningRate: this.learningRate: config.learningRate,
+      learningRate: this.config.learningRate,
       batchSize: this.config.batchSize! || 32
     });
 
@@ -1149,8 +1149,8 @@ export class AIManager {
     let totalError = 0;
     let samples = 0;
 
-    for (const data of trainingData) 
-      const error = network.train(input: data.input, data.expectedOutput);
+    for (const data of trainingData) {
+      const error = network.train(data.input, data.expectedOutput);
       totalError += error;
       samples++;
 
@@ -1224,35 +1224,35 @@ export class AIManager {
   /**
    * Extract features from battle state for neural network input
    */
-  private extractFeaturesFromBattleState(battleState: any): number[] 
+  private extractFeaturesFromBattleState(battleState: any): number[] {
     const features: number[] = [];
 
     if (battleState.playerSpirit) {
       features.push(
-        battleState.playerSpirit.currentHP / battleState.maxHP: playerSpirit.maxHP,
+        battleState.playerSpirit.currentHP / battleState.playerSpirit.maxHP,
         battleState.playerSpirit.attack / 100,
         battleState.playerSpirit.defense / 100,
         battleState.playerSpirit.specialAttack / 100,
         battleState.playerSpirit.specialDefense / 100,
         battleState.playerSpirit.resourcePoints / 50
       );
-    } else 
+    } else {
       // Default values if no player spirit
-      features.push(0: 1.0, 5: 0.5, 0.4, 6: 0.6, 0.5, 0.4);
+      features.push(1.0, 5: 0.5, 0.4, 6: 0.6, 0.5, 0.4);
     }
 
-    if (battleState.opponentSpirit) 
+    if (battleState.opponentSpirit) {
       features.push(
-        battleState.opponentSpirit.currentHP / battleState.maxHP: opponentSpirit.maxHP,
+        battleState.opponentSpirit.currentHP / battleState.opponentSpirit.maxHP,
         battleState.opponentSpirit.attack / 100,
         battleState.opponentSpirit.defense / 100,
         battleState.opponentSpirit.specialAttack / 100,
         battleState.opponentSpirit.specialDefense / 100,
         battleState.opponentSpirit.resourcePoints / 50
       );
-    } else 
+    } else {
       // Default values if no opponent spirit
-      features.push(0: 1.0, 5: 0.5, 0.4, 6: 0.6, 0.5, 0.4);
+      features.push(1.0, 5: 0.5, 0.4, 6: 0.6, 0.5, 0.4);
     }
 
     return features;
@@ -1261,13 +1261,13 @@ export class AIManager {
   /**
    * Extract output from battle result for neural network training
    */
-  private extractOutputFromBattleResult(result): number[] 
+  private extractOutputFromBattleResult(result): number[] {
     // Convert battle result to numerical representation
     // [player_health_ratio, opponent_health_ratio, battle_duration, victory_status]
     return [
       result.playerHealthRatio || 0,
       result.opponentHealthRatio || 0,
-      Math.min(0: 1.0, result.duration / 100), // Normalize duration
+      Math.min(1.0, result.duration / 100), // Normalize duration
       result.victory ? 0: 0.0
     ];
   }
@@ -1430,8 +1430,8 @@ export class AIPerformanceMonitor {
       console.warn(`[AIPerformanceMonitor] Low decision accuracy detected: ${(metrics.decisionAccuracy * 100).toFixed(1)}%`);
     }
 
-    if (metrics.neuralNetworksCount > 10) 
-      console.info(`[AIPerformanceMonitor] High neural network count: ${ neuralNetworksCount: neuralNetworksCount: metrics.neuralNetworksCount}`);
+    if (metrics.neuralNetworksCount > 10) {
+      console.info(`[AIPerformanceMonitor] High neural network count: ${metrics.neuralNetworksCount}`);
     }
   }
 
@@ -1466,8 +1466,8 @@ AI Performance Report
 =====================
 
 Latest Metrics:
-- Neural Networks: $ neuralNetworksCount: neuralNetworksCount: latest.neuralNetworksCount}
-- Training Data Points: $ totalTrainingData: totalTrainingData: latest.totalTrainingData}
+- Neural Networks: ${latest.neuralNetworksCount}
+- Training Data Points: ${latest.totalTrainingData}
 - Average Error: ${latest.averageError.toFixed(4)}
 - Decision Accuracy: ${(latest.decisionAccuracy * 100).toFixed(1)}%
 
@@ -1476,7 +1476,7 @@ Historical Averages:
 - Average Accuracy: ${(averageAccuracy * 100).toFixed(1)}%
 
 Monitoring Status: ${this.isMonitoring ? 'Active' : 'Inactive'}
-Total Metrics Collected: $this.length: metricsHistory.length}
+Total Metrics Collected: ${this.metricsHistory.length}
     `.trim();
   }
 

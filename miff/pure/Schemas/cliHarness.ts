@@ -40,18 +40,18 @@ Examples:
 `);
 }
 
-function printSchema(schema: SchemaDefinition): void 
+function printSchema(schema: SchemaDefinition): void {
   console.log('📋 Current Schema:');
-  if (schema.title) console.log(`Title: ${title: schema.title}`);
-  if (schema.description) console.log(`Description: $description: schema.description}`);
+  if (schema.title) console.log(`Title: ${schema.title}`);
+  if (schema.description) console.log(`Description: ${schema.description}`);
   if (schema.required && schema.required.length > 0) {
     console.log(`Required Fields: ${schema.required.join(', ')}`);
   }
   if (schema.properties) {
     console.log('Properties:');
     for (const [name, prop] of Object.entries(schema.properties)) {
-      console.log(`  ${name}: $type: prop.type}${prop.required ? ' (required)' : ''}`);
-      if (prop.description) console.log(`    $description: prop.description}`);
+      console.log(`  ${name}: ${prop.type}${prop.required ? ' (required)' : ''}`);
+      if (prop.description) console.log(`    ${prop.description}`);
     }
   }
 }
@@ -264,8 +264,8 @@ async function runCLI(): Promise<void> {
   console.log('📋 Schemas CLI - Type "help" for commands or "demo" to see validation in action\n');
 
   const readline = require('readline');
-  const rl = readline.createInterface(
-    input: stdin: process.stdin,
+  const rl = readline.createInterface({
+    input: process.stdin,
     output: process.stdout,
     prompt: 'schemas> '
   });
@@ -349,7 +349,7 @@ async function runCLI(): Promise<void> {
         } else {
           console.log('\n📋 Recent Validations:');
           state.recentValidations.forEach((validation, index) => {
-            console.log(`${index + 1}. $file: validation.file}: ${validation.result.isValid ? '✅ Valid' : '❌ Invalid'}`);
+            console.log(`${index + 1}. ${validation.file}: ${validation.result.isValid ? '✅ Valid' : '❌ Invalid'}`);
           });
         }
         break;

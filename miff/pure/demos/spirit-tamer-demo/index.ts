@@ -214,8 +214,8 @@ class SpiritTamerGame {
     this.logSystem = new (LogPure as any).BattleLogger();
     this.saveSystem = new (SavePure as any).SaveManager();
 
-    this.rl = readline.createInterface(
-      input: stdin: process.stdin,
+    this.rl = readline.createInterface({
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -270,7 +270,7 @@ class SpiritTamerGame {
       experience: 0,
       currentHp: species.baseStats.hp,
       maxHp: species.baseStats.hp,
-      stats:  ...baseStats: species.baseStats},
+      stats: { ...species.baseStats },
       abilities: species.abilities,
       status: 'normal',
       type: species.type,
@@ -307,10 +307,10 @@ class SpiritTamerGame {
     });
   }
 
-  private startGame(): void 
-    console.log(`\n🎉 Welcome, ${  name: player.name}!`);
+  private startGame(): void {
+    console.log(`\n🎉 Welcome, ${this.player.name}!`);
     console.log('Your adventure begins in Pallet Town.');
-    console.log(`You have $this.player.length: spirits.length} spirits in your collection.`);
+    console.log(`You have ${this.player.spirits.length} spirits in your collection.`);
 
     this.showMainMenu();
   }
@@ -378,9 +378,9 @@ class SpiritTamerGame {
     console.log(`You are now in ${randomLocation.replace('_', ' ').toUpperCase()}!`);
 
     const encounters = this.getRandomEncounters(randomLocation);
-    if (encounters.length > 0 && Math.random() < 0.3) 
+    if (encounters.length > 0 && Math.random() < 0.3) {
       const enemy = this.generateWildSpirit(encounters);
-      console.log(`\n⚔️  A wild ${name: enemy.name} appeared!`);
+      console.log(`\n⚔️  A wild ${enemy.name} appeared!`);
 
       this.startWildBattle(enemy);
     } else {
@@ -408,12 +408,12 @@ class SpiritTamerGame {
     return encounters[location] || ['pikachu'];
   }
 
-  private generateWildSpirit(speciesIds: string[]): PlayerSpirit 
+  private generateWildSpirit(speciesIds: string[]): PlayerSpirit {
     const speciesId = speciesIds[Math.floor(Math.random() * speciesIds.length)];
     const species = SPIRIT_SPECIES[speciesId];
 
     const level = Math.floor(Math.random() * 10) + 3; // Levels 3-12
-    const stats = { ...baseStats: species.baseStats};
+    const stats = { ...species.baseStats };
 
     // Scale stats with level
     Object.keys(stats).forEach((key: any) => {
@@ -447,10 +447,10 @@ class SpiritTamerGame {
     }
 
     const playerSpirit = this.player.activeTeam[0];
-    this.battleState = 
+    this.battleState = {
       playerSpirit,
       enemySpirit: enemy,
-      playerMoves: moves: playerSpirit.moves,
+      playerMoves: playerSpirit.moves,
       enemyMoves: enemy.moves,
       turn: 1,
       battleLog: [],
@@ -458,8 +458,8 @@ class SpiritTamerGame {
       terrain: 'normal'
     };
 
-    console.log(`\n⚔️  $this.name: player.name}'s $name: playerSpirit.name} vs Wild $name: enemy.name}!`);
-    console.log(`Level $level: playerSpirit.level} vs Level $level: enemy.level}`);
+    console.log(`\n⚔️  ${this.player.name}'s ${playerSpirit.name} vs Wild ${enemy.name}!`);
+    console.log(`Level ${playerSpirit.level} vs Level ${enemy.level}`);
 
     this.battleLoop();
   }
@@ -469,9 +469,9 @@ class SpiritTamerGame {
 
     const { playerSpirit, enemySpirit } = this.battleState;
 
-    console.log(`\n🔄 Turn $this.turn: battleState.turn}`);
-    console.log(`$name: playerSpirit.name} ($currentHp: playerSpirit.currentHp}/$maxHp: playerSpirit.maxHp} HP)`);
-    console.log(`$name: enemySpirit.name} ($currentHp: enemySpirit.currentHp}/$maxHp: enemySpirit.maxHp} HP)`);
+    console.log(`\n🔄 Turn ${this.battleState.turn}`);
+    console.log(`${playerSpirit.name} (${playerSpirit.currentHp}/${playerSpirit.maxHp} HP)`);
+    console.log(`${enemySpirit.name} (${enemySpirit.currentHp}/${enemySpirit.maxHp} HP)`);
 
     this.askQuestion('Choose your action (attack, item, switch, run): ')
       .then((action: string) => {
@@ -507,7 +507,7 @@ class SpiritTamerGame {
     console.log('\n⚔️  Available Moves:');
     this.battleState.playerMoves.forEach((move, index) => {
       const moveData = MOVES[move];
-      console.log(`${index + 1}. $name: moveData.name} ($type: moveData.type}, $category: moveData.category})`);
+      console.log(`${index + 1}. ${moveData.name} (${moveData.type}, ${moveData.category})`);
     });
 
     this.askQuestion('Choose a move (1-4): ')
@@ -529,7 +529,7 @@ class SpiritTamerGame {
     const moveData = MOVES[moveName];
     const { playerSpirit, enemySpirit } = this.battleState;
 
-    console.log(`\n$name: playerSpirit.name} used $name: moveData.name}!`);
+    console.log(`\n${playerSpirit.name} used ${moveData.name}!`);
 
     // Calculate damage
     let damage = Math.floor(moveData.power * (playerSpirit.stats.attack / enemySpirit.stats.defense));
@@ -546,8 +546,8 @@ class SpiritTamerGame {
     if (effectiveness < 1) console.log('💨 It\'s not very effective...');
 
     // Check if enemy fainted
-    if (enemySpirit.currentHp <= 0) 
-      console.log(`${name: enemySpirit.name} fainted!`);
+    if (enemySpirit.currentHp <= 0) {
+      console.log(`${enemySpirit.name} fainted!`);
       this.gainExperience(enemySpirit);
       this.endBattle();
       return;
@@ -563,15 +563,15 @@ class SpiritTamerGame {
     const { enemySpirit, playerSpirit } = this.battleState;
     const availableMoves = enemySpirit.moves.filter((move: any) => MOVES[move]);
 
-    if (availableMoves.length === 0) 
-      console.log(`${name: enemySpirit.name} struggles!`);
+    if (availableMoves.length === 0) {
+      console.log(`${enemySpirit.name} struggles!`);
       return;
     }
 
     const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     const moveData = MOVES[randomMove];
 
-    console.log(`\n$name: enemySpirit.name} used $name: moveData.name}!`);
+    console.log(`\n${enemySpirit.name} used ${moveData.name}!`);
 
     let damage = Math.floor(moveData.power * (enemySpirit.stats.attack / playerSpirit.stats.defense));
     const effectiveness = this.getTypeEffectiveness(moveData.type, playerSpirit.type);
@@ -582,8 +582,8 @@ class SpiritTamerGame {
     console.log(`It dealt ${damage} damage!`);
 
     // Check if player fainted
-    if (playerSpirit.currentHp <= 0) 
-      console.log(`${name: playerSpirit.name} fainted!`);
+    if (playerSpirit.currentHp <= 0) {
+      console.log(`${playerSpirit.name} fainted!`);
       this.endBattle();
       return;
     }
@@ -617,14 +617,14 @@ class SpiritTamerGame {
     });
   }
 
-  private checkLevelUp(spirit: PlayerSpirit): void 
+  private checkLevelUp(spirit: PlayerSpirit): void {
     const expNeeded = spirit.level * 100;
 
     if (spirit.experience >= expNeeded) {
       spirit.level++;
       spirit.experience -= expNeeded;
 
-      console.log(`🎉 ${name: spirit.name} reached level $level: spirit.level}!`);
+      console.log(`🎉 ${spirit.name} reached level ${spirit.level}!`);
 
       // Update stats
       const species = SPIRIT_SPECIES[spirit.speciesId];
@@ -642,10 +642,10 @@ class SpiritTamerGame {
 
       // Learn new moves
       const newMoves = this.getMovesForLevel(spirit.speciesId, spirit.level);
-      newMoves.forEach((move: any) => 
+      newMoves.forEach((move: any) => {
         if (!spirit.moves.includes(move)) {
           spirit.moves.push(move);
-          console.log(`📚 ${name: spirit.name} learned ${MOVES[move].name}!`);
+          console.log(`📚 ${spirit.name} learned ${MOVES[move].name}!`);
         }
       });
 
@@ -668,14 +668,14 @@ class SpiritTamerGame {
     };
 
     const evolution = evolutions[spirit.speciesId];
-    if (evolution) 
-      console.log(`\n✨ ${name: spirit.name} is evolving!`);
+    if (evolution) {
+      console.log(`\n✨ ${spirit.name} is evolving!`);
 
       spirit.speciesId = evolution;
       spirit.name = SPIRIT_SPECIES[evolution]?.name || spirit.name;
       spirit.canEvolve = false;
 
-      console.log(`🎉 $name: spirit.name} evolved!`);
+      console.log(`🎉 ${spirit.name} evolved!`);
     }
   }
 
@@ -694,7 +694,7 @@ class SpiritTamerGame {
 
     this.player.spirits.forEach((spirit, index) => {
       if (index < this.player.activeTeam.length) {
-        console.log(`${index + 1}. $name: spirit.name} (Level $level: spirit.level})`);
+        console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level})`);
       }
     });
 
@@ -711,12 +711,12 @@ class SpiritTamerGame {
       });
   }
 
-  private startTrainingBattle(enemy: PlayerSpirit): void 
+  private startTrainingBattle(enemy: PlayerSpirit): void {
     const playerSpirit = this.player.activeTeam[0];
     this.battleState = {
       playerSpirit,
       enemySpirit: enemy,
-      playerMoves: moves: playerSpirit.moves,
+      playerMoves: playerSpirit.moves,
       enemyMoves: enemy.moves,
       turn: 1,
       battleLog: [],
@@ -724,13 +724,13 @@ class SpiritTamerGame {
       terrain: 'normal'
     };
 
-    console.log(`\n⚔️  Training Battle: $name: playerSpirit.name} vs $name: enemy.name}!`);
+    console.log(`\n⚔️  Training Battle: ${playerSpirit.name} vs ${enemy.name}!`);
     this.battleLoop();
   }
 
-  private showInventory(): void 
+  private showInventory(): void {
     console.log('\n🎒 Inventory:');
-    console.log(`💰 Money: $${  money: player.money}`);
+    console.log(`💰 Money: $${this.player.money}`);
 
     this.player.inventory.forEach((quantity, item) => {
       console.log(`${item}: ${quantity}`);
@@ -805,7 +805,7 @@ class SpiritTamerGame {
     console.log('Current Team:');
 
     this.player.activeTeam.forEach((spirit, index) => {
-      console.log(`${index + 1}. $name: spirit.name} (Level $level: spirit.level}, $currentHp: spirit.currentHp}/$maxHp: spirit.maxHp} HP)`);
+      console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level}, ${spirit.currentHp}/${spirit.maxHp} HP)`);
     });
 
     this.askQuestion('Switch spirits? (y/n): ')
@@ -824,11 +824,11 @@ class SpiritTamerGame {
 
     this.player.spirits.forEach((spirit, index) => {
       const inTeam = this.player.activeTeam.some(teamSpirit => teamSpirit.id === spirit.id);
-      console.log(`${index + 1}. $name: spirit.name} (Level $level: spirit.level}) ${inTeam ? '[IN TEAM]' : ''}`);
+      console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level}) ${inTeam ? '[IN TEAM]' : ''}`);
     });
 
     this.askQuestion('Choose spirits to switch (format: 1 2): ')
-      .then((choice: string) => 
+      .then((choice: string) => {
         const indices = choice.trim().split(' ').map((n: any) => parseInt(n) - 1);
 
         if (indices.length === 2 && indices.every(i => i >= 0 && i < this.player.spirits.length)) {
@@ -836,7 +836,7 @@ class SpiritTamerGame {
           const spirit2 = this.player.spirits[indices[1]];
 
           if (spirit1 && spirit2) {
-            console.log(`🔄 Switching ${name: spirit1.name} and $name: spirit2.name}...`);
+            console.log(`🔄 Switching ${spirit1.name} and ${spirit2.name}...`);
 
             // Simple switch logic
             const temp = spirit1;
@@ -854,12 +854,12 @@ class SpiritTamerGame {
       });
   }
 
-  private saveGame(): void 
+  private saveGame(): void {
     console.log('\n💾 Saving Game...');
 
     try {
       const saveData = {
-        player: player: this.player,
+        player: this.player,
         timestamp: new Date(),
         version: '1.0.0'
       };
@@ -877,18 +877,18 @@ class SpiritTamerGame {
     }
   }
 
-  private showStatistics(): void 
+  private showStatistics(): void {
     console.log('\n📊 Player Statistics');
-    console.log(`👤 Name: ${  name: player.name}`);
+    console.log(`👤 Name: ${this.player.name}`);
     console.log(`📍 Location: ${this.player.location.replace('_', ' ').toUpperCase()}`);
-    console.log(`💰 Money: $$this.money: player.money}`);
-    console.log(`🎒 Spirits Owned: $this.player.length: spirits.length}`);
-    console.log(`🏆 Badges: $this.player.length: badges.length}`);
+    console.log(`💰 Money: $${this.player.money}`);
+    console.log(`🎒 Spirits Owned: ${this.player.spirits.length}`);
+    console.log(`🏆 Badges: ${this.player.badges.length}`);
     console.log(`⏱️  Play Time: ${Math.floor(this.player.playTime / 60)}m ${this.player.playTime % 60}s`);
 
     console.log('\n👥 Team:');
     this.player.activeTeam.forEach((spirit, index) => {
-      console.log(`  ${index + 1}. $name: spirit.name} (Lv.$level: spirit.level}) - $type: spirit.type}`);
+      console.log(`  ${index + 1}. ${spirit.name} (Lv.${spirit.level}) - ${spirit.type}`);
     });
 
     this.showMainMenu();

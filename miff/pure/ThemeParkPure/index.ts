@@ -101,8 +101,8 @@ export class ThemeParkPure {
       }
     ];
 
-    rides.forEach((ride: any) => 
-      this.rides.set(id: ride.id, ride);
+    rides.forEach((ride: any) => {
+      this.rides.set(ride.id, ride);
     });
   }
 

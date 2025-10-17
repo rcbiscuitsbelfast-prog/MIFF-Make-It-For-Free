@@ -58,16 +58,16 @@ Examples:
 `);
 }
 
-function printStatus(state: CLIState): void 
+function printStatus(state: CLIState): void {
   const allSpirits = state.syncManager.getAllSpirits();
   const stats = state.syncManager.getStatistics();
 
   console.log('\n🎵 Sync System Status:');
-  console.log(`Total Spirits: ${length: allSpirits.length}`);
-  console.log(`Total Events: $totalSyncEvents: stats.totalSyncEvents}`);
-  console.log(`Total Sync Gained: $totalSyncGained: stats.totalSyncGained}`);
+  console.log(`Total Spirits: ${allSpirits.length}`);
+  console.log(`Total Events: ${stats.totalSyncEvents}`);
+  console.log(`Total Sync Gained: ${stats.totalSyncGained}`);
   console.log(`Average per Event: ${stats.averageSyncPerEvent.toFixed(1)}`);
-  console.log(`Highest Level: $highestSyncLevel: stats.highestSyncLevel}`);
+  console.log(`Highest Level: ${stats.highestSyncLevel}`);
   console.log(`Current Challenge: ${state.currentChallenge ? 'Active' : 'None'}`);
 }
 
@@ -80,7 +80,7 @@ function printSpiritInfo(state: CLIState, spiritId: string): void {
   }
 
   console.log(`\n👤 Spirit: ${spiritId}`);
-  console.log(`Current Level: $currentLevel: entry.currentLevel}`);
+  console.log(`Current Level: ${entry.currentLevel}`);
   console.log(`Thresholds: ${entry.thresholds.length > 0 ? entry.thresholds.join(', ') : 'None'}`);
   console.log(`Can Level Up: ${entry.canLevelUp ? 'Yes' : 'No'}`);
   console.log(`Progress: ${Math.round(entry.levelProgress * 100)}%`);
@@ -152,8 +152,8 @@ async function runCLI(): Promise<void> {
 
   console.log('🎵 SyncPure CLI - Type "help" for commands or "demo" to see sync system in action\n');
 
-  const rl = readline.createInterface(
-    input: stdin: process.stdin,
+  const rl = readline.createInterface({
+    input: process.stdin,
     output: process.stdout,
     prompt: 'sync> '
   });
@@ -364,10 +364,10 @@ async function runCLI(): Promise<void> {
       case 'stats':
         const stats = state.syncManager.getStatistics();
         console.log('\n📊 Sync Statistics:');
-        console.log(`Total Events: $totalSyncEvents: stats.totalSyncEvents}`);
-        console.log(`Total Sync Gained: $totalSyncGained: stats.totalSyncGained}`);
+        console.log(`Total Events: ${stats.totalSyncEvents}`);
+        console.log(`Total Sync Gained: ${stats.totalSyncGained}`);
         console.log(`Average per Event: ${stats.averageSyncPerEvent.toFixed(1)}`);
-        console.log(`Highest Level: $highestSyncLevel: stats.highestSyncLevel}`);
+        console.log(`Highest Level: ${stats.highestSyncLevel}`);
         console.log(`Most Active Spirit: ${stats.mostActiveSpirit || 'None'}`);
         break;
 

@@ -1408,15 +1408,15 @@ export class GraphicsPure {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): GraphicsPerformanceMetrics 
-    return { ...performanceMetrics: this.performanceMetrics};
+  getPerformanceMetrics(): GraphicsPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
    * Get analytics
    */
-  getAnalytics(): GraphicsAnalytics 
-    return { ...analytics: this.analytics};
+  getAnalytics(): GraphicsAnalytics {
+    return { ...this.analytics };
   }
 
   /**

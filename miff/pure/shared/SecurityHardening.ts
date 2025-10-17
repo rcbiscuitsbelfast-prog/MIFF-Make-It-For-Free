@@ -271,12 +271,12 @@ export class SecurityHardening {
       return true;
     }
 
-    if (current.count >= maxRequests) 
+    if (current.count >= maxRequests) {
       this.recordSecurityEvent({
         type: 'rate_limit_exceeded',
         severity: 'medium',
         source: identifier,
-        details: { count: count: current.count, maxRequests, windowMs }
+        details: { count: current.count, maxRequests, windowMs }
       });
       return false;
     }
@@ -353,12 +353,12 @@ export class SecurityHardening {
   /**
    * Validate password
    */
-  validatePassword(password: string): { valid: boolean; errors: string[] } 
+  validatePassword(password: string): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
     const policy = this.config.passwordPolicy;
 
     if (password.length < policy.minLength) {
-      errors.push(`Password must be at least ${minLength: policy.minLength} characters long`);
+      errors.push(`Password must be at least ${policy.minLength} characters long`);
     }
 
     if (policy.requireUppercase && !/[A-Z]/.test(password)) {
@@ -383,9 +383,9 @@ export class SecurityHardening {
   /**
    * Encrypt sensitive data
    */
-  encrypt(): string 
+  encrypt(): string {
     const algorithm = 'aes-256-gcm';
-    const key = Buffer.from(this.encryptionKey: config.encryptionKey, 'hex');
+    const key = Buffer.from(this.config.encryptionKey, 'hex');
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(algorithm, key, iv);
     
@@ -399,9 +399,9 @@ export class SecurityHardening {
   /**
    * Decrypt sensitive data
    */
-  decrypt(): string 
+  decrypt(): string {
     const algorithm = 'aes-256-gcm';
-    const key = Buffer.from(this.encryptionKey: config.encryptionKey, 'hex');
+    const key = Buffer.from(this.config.encryptionKey, 'hex');
     const [ivHex, authTagHex, encrypted] = encryptedData.split(':');
     
     const iv = Buffer.from(ivHex, 'hex');
@@ -487,8 +487,8 @@ export class SecurityHardening {
     }
 
     // Log critical events
-    if (event.severity === 'critical') 
-      console.error(`🚨 CRITICAL SECURITY EVENT: ${type: event.type} from $source: event.source}`);
+    if (event.severity === 'critical') {
+      console.error(`🚨 CRITICAL SECURITY EVENT: ${event.type} from ${event.source}`);
     }
   }
 
@@ -633,7 +633,7 @@ export class SecurityHardening {
     eventsBySeverity: Map<string, number>;
     blockedIPs: number;
     recentEvents: number;
-  } 
+  } {
     const eventsByType = new Map<string, number>();
     const eventsBySeverity = new Map<string, number>();
     const recentEvents = this.securityEvents.filter(
@@ -641,12 +641,12 @@ export class SecurityHardening {
     ).length;
 
     for (const event of this.securityEvents) {
-      eventsByType.set(type: event.type, (eventsByType.get(event.type) || 0) + 1);
+      eventsByType.set(event.type, (eventsByType.get(event.type) || 0) + 1);
       eventsBySeverity.set(event.severity, (eventsBySeverity.get(event.severity) || 0) + 1);
     }
 
-    return 
-      totalEvents: this.length: securityEvents.length,
+    return {
+      totalEvents: this.securityEvents.length,
       eventsByType,
       eventsBySeverity,
       blockedIPs: this.blockedIPs.size,

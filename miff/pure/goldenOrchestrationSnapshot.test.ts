@@ -185,10 +185,10 @@ describe('Golden Orchestration Fidelity Tests', () => {
       const result = runCLI(cliHarness);
       
       // Convert to golden fixture format
-      const goldenFormat = 
+      const goldenFormat = {
         outputs: [
           {
-            op: op: result.op,
+            op: result.op,
             status: result.status,
             events: result.events,
             finalState: result.finalState

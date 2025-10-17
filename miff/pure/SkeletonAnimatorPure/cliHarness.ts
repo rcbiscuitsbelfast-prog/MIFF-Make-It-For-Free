@@ -279,8 +279,8 @@ export class SkeletonAnimatorCLI {
   /**
    * Register a command
    */
-  private registerCommand(command: CLICommand): void 
-    this.commands.set(name: command.name, command);
+  private registerCommand(command: CLICommand): void {
+    this.commands.set(command.name, command);
   }
 
   /**
@@ -546,13 +546,13 @@ export class SkeletonAnimatorCLI {
     return `Scenario test '${scenario}' completed.`;
   }
 
-  private async showHelp(args: string[]): Promise<string> 
+  private async showHelp(args: string[]): Promise<string> {
     const commandName = args[0];
     
     if (commandName) {
       const command = this.commands.get(commandName);
       if (command) {
-        return `Command: ${name: command.name}\nDescription: $description: command.description}\nUsage: $name: command.name} ${command.args.join(' ')}`;
+        return `Command: ${command.name}\nDescription: ${command.description}\nUsage: ${command.name} ${command.args.join(' ')}`;
       } else {
         return `Command '${commandName}' not found.`;
       }
@@ -560,7 +560,7 @@ export class SkeletonAnimatorCLI {
 
     const helpText = ['Available commands:', ''];
     this.commands.forEach((command: any) => {
-      helpText.push(`${command.name.padEnd(20)} - $description: command.description}`);
+      helpText.push(`${command.name.padEnd(20)} - ${command.description}`);
     });
     helpText.push('', 'Use "help <command>" for detailed information about a specific command.');
 
