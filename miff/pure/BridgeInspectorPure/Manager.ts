@@ -589,7 +589,7 @@ export class BridgeInspectorManager {
     // Performance warnings
     if (payload.renderData && payload.renderData.length > 100) {
       warnings.push({
-        category: 'security' // Changed from performance,
+        category: 'security', // Changed from performance
         message: 'Large number of renderData items may impact performance',
         suggestion: 'Consider batching or optimization',
         impact: 'High'
