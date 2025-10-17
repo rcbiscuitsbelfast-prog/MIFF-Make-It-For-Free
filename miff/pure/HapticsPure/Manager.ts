@@ -347,7 +347,7 @@ export class HapticsManager {
     return Array.from(this.devices.values());
   }
 
-  getDevice(device.id: string): HapticDevice | undefined {
+  getDevice(id: string): HapticDevice | undefined {
     return this.devices.get(device.id);
   }
 
@@ -355,7 +355,7 @@ export class HapticsManager {
     this.devices.set(device.id, device);
   }
 
-  removeDevice(device.id: string): boolean {
+  removeDevice(id: string): boolean {
     return this.devices.delete(device.id);
   }
 

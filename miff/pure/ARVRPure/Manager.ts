@@ -346,7 +346,7 @@ export class ARVRManager {
   /**
    * Get an AR/VR device by ID
    */
-  getDevice(device.id: string): ARVRDevice | null {
+  getDevice(id: string): ARVRDevice | null {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
@@ -392,7 +392,7 @@ export class ARVRManager {
   /**
    * Delete an AR/VR device
    */
-  async deleteDevice(device.id: string): Promise<boolean> {
+  async deleteDevice(id: string): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
@@ -525,7 +525,7 @@ export class ARVRManager {
   /**
    * Calibrate device
    */
-  async calibrateDevice(device.id: string): Promise<boolean> {
+  async calibrateDevice(id: string): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }

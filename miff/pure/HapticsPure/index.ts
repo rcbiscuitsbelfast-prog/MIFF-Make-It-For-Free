@@ -986,7 +986,7 @@ export class HapticEngine {
   }
 
   // Device management
-  connectDevice(device.id: string): boolean {
+  connectDevice(id: string): boolean {
     const device = this.devices.get(device.id);
     if (!device) return false;
 
@@ -996,7 +996,7 @@ export class HapticEngine {
     return true;
   }
 
-  disconnectDevice(device.id: string): boolean {
+  disconnectDevice(id: string): boolean {
     const device = this.devices.get(device.id);
     if (!device) return false;
 
@@ -1050,7 +1050,7 @@ export class HapticEngine {
     return Array.from(this.activeEffects.values());
   }
 
-  getDevice(device.id: string): HapticDevice | undefined {
+  getDevice(id: string): HapticDevice | undefined {
     return this.devices.get(device.id);
   }
 
