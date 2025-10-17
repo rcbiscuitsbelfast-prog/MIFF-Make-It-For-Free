@@ -423,7 +423,7 @@ export class AudioMixerPure {
   }
 
   public stopAllAudio(fadeOut: number = 0): void {
-    for (const [instanceId!] of this.activeSources) {
+    for (const [instanceId] of this.activeSources) {
       this.stopAudio(instanceId, fadeOut);
     }
   }
