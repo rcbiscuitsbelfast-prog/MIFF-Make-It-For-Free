@@ -164,7 +164,7 @@ export class SyncManager {
       timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      device.id,
+      deviceId: device.id,
       userId,
       isDeleted: false
     };

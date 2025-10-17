@@ -622,7 +622,7 @@ export class HapticEngine {
   }
 
   // Core haptic functionality
-  async playPattern(patternId: string, device.id?: string, options?: PlayOptions): Promise<string> {
+  async playPattern(patternId: string, deviceId?: string, options?: PlayOptions): Promise<string> {
     if (!this.isInitialized) {
       throw new Error('HapticEngine not initialized');
     }
