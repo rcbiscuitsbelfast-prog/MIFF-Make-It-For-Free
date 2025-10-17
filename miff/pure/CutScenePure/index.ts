@@ -13,10 +13,36 @@
 import { createEventBus } from '../EventBusPure';
 
 const EventBus = createEventBus();
+export { EventBus };
 
 import { DialogueSystemPure } from '../DialogueSystemPure';
 import { CameraSystemPure } from '../CameraSystemPure';
 import { AudioPure } from '../AudioPure';
+
+// Public definition shape for bridges/exporters
+export interface CutSceneDefinition {
+  config: {
+    id: string;
+    name: string;
+    description?: string;
+    version?: string;
+  };
+  tracks: Array<{
+    id: string;
+    type: 'camera' | 'dialogue' | 'audio' | 'effect' | 'custom';
+    actions: Array<{
+      id: string;
+      time: number;
+      duration?: number;
+      params?: Record<string, any>;
+    }>;
+  }>;
+  actions?: Array<{
+    id: string;
+    type: string;
+    params?: Record<string, any>;
+  }>;
+}
 import { AvatarSystemPure } from '../AvatarSystemPure';
 import { PixelAnimPure } from '../PixelAnimPure';
 
