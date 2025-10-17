@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ProjectileManager, Projectile, ProjectileWorld } from './index';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'list' }
@@ -18,13 +19,26 @@ type Cmd =
 
 function main(){
   try {
-    const sample = process.argv[2!] || 'ProjectileSystemPure/fixtures/projectiles.json';
-    const commands = process.argv[3!] || '';
-    
+    // Handle help command
     if (process.argv[2] === 'help' || process.argv[2] === '--help') {
       showHelp();
       return;
     }
+    
+    // SECURITY: Validate all inputs
+    const sample = InputSanitizer.getSafeArg(2, {
+      type: 'path',
+      required: false,
+      pattern: /\.json$/i,
+      maxLength: 500
+    }, 'ProjectileSystemPure/fixtures/projectiles.json');
+    
+    const commands = InputSanitizer.getSafeArg(3, {
+      type: 'path',
+      required: false,
+      pattern: /\.json$/i,
+      maxLength: 500
+    }, '');
     
     const mgr = new ProjectileManager();
     if (fs.existsSync(sample)){
