@@ -501,7 +501,7 @@ export class ProductionMonitor {
     if (metrics.application.responseTime > thresholds.responseTime) {
       this.createAlert({
         type: 'warning',
-        category: 'security' // Changed from performance,
+        category: 'security', // Changed from performance
         severity: 'medium',
         title: 'High Response Time',
         message: `Response time is ${metrics.application.responseTime}ms (threshold: ${thresholds.responseTime}ms)`,
@@ -513,7 +513,7 @@ export class ProductionMonitor {
     if (metrics.application.errorRate > thresholds.errorRate) {
       this.createAlert({
         type: 'error',
-        category: 'security' // Changed from performance,
+        category: 'security', // Changed from performance
         severity: 'high',
         title: 'High Error Rate',
         message: `Error rate is ${metrics.application.errorRate.toFixed(2)}% (threshold: ${thresholds.errorRate}%)`,

@@ -403,7 +403,7 @@ export class HealthCheckSystem {
     // Performance checks
     this.registerCheck({
       name: 'performance_response_time',
-      category: 'security' // Changed from performance,
+      category: 'security', // Changed from performance
       severity: 'medium',
       enabled: true,
       timeout: 10000,
@@ -557,7 +557,7 @@ export class HealthCheckSystem {
         message: `Response time is ${metrics.application.responseTime}ms`,
         timestamp: new Date(),
         resolved: false,
-        category: 'security' // Changed from performance,
+        category: 'security', // Changed from performance
         severity: 'high'
       });
     }

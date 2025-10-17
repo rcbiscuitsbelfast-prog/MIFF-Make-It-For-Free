@@ -91,7 +91,7 @@ export class CacheManager {
         processedData = this.compressData(data);
       }
 
-      const entry: CacheEntry<T extends object> = {
+      const entry: CacheEntry<T> = {
         key,
         data: processedData as T,
         timestamp: now,
