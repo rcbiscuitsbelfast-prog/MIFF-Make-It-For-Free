@@ -233,7 +233,7 @@ export class GenericUtils {
   /**
    * Deep merge with type safety
    */
-  static deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
+  static deepMerge<T extends Record<string, any>>(target: T, source: Partial<T extends object>): T {
     const result = { ...target };
     
     for (const key in source) {
@@ -242,12 +242,7 @@ export class GenericUtils {
         const targetValue = result[key];
 
         if (TypeGuards.isObject(sourceValue) && TypeGuards.isObject(targetValue)) {
-          // For recursive merge, we need to treat property values as Record types
-          // Use type assertion since we've already verified both are objects
-          result[key] = this.deepMerge(
-            targetValue as Record<string, any>,
-            sourceValue as Record<string, any>
-          ) as any;
+          result[key] = this.deepMerge(targetValue, sourceValue);
         } else {
           result[key] = sourceValue as T[Extract<keyof T, string>];
         }
