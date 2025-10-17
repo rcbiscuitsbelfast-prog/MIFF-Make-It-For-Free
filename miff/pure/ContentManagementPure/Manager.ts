@@ -220,10 +220,10 @@ export class ContentManagementManager {
 
   constructor(config?: Partial<ContentManagementConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('ContentManagementManager');
+    this.logger = StructuredLogger.getInstance('ContentManagementManager');
     this.startTime = Date.now();
 
     this.config = {

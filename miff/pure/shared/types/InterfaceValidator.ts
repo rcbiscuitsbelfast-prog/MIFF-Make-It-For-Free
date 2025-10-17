@@ -58,7 +58,7 @@ export class InterfaceValidator {
   private schemas: Map<string, InterfaceSchema> = new Map();
 
   constructor() {
-    this.logger = new StructuredLogger('InterfaceValidator');
+    this.logger = StructuredLogger.getInstance('InterfaceValidator');
   }
 
   static getInstance(): InterfaceValidator {

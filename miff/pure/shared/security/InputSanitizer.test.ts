@@ -9,7 +9,7 @@ describe('InputSanitizer', () => {
   let instance: InputSanitizer;
 
   beforeEach(() => {
-    instance = new InputSanitizer();
+    instance = new InputSanitizer({});
   });
 
   describe('constructor', () => {

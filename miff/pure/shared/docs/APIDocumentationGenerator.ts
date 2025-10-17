@@ -266,7 +266,7 @@ export class APIDocumentationGenerator {
       ...config
     };
 
-    this.logger = new StructuredLogger({
+    this.logger = StructuredLogger.getInstance({
       level: LogLevel.INFO,
       enableConsole: true,
       modules: {

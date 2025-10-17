@@ -462,10 +462,10 @@ export class DataProcessingManager {
 
   constructor(config?: Partial<DataProcessingConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('DataProcessingManager');
+    this.logger = StructuredLogger.getInstance('DataProcessingManager');
     this.startTime = Date.now();
 
     this.config = {

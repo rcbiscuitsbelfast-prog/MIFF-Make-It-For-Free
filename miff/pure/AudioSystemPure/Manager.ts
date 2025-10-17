@@ -311,10 +311,10 @@ export class AudioSystemManager {
 
   constructor(config?: Partial<AudioSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('AudioSystemManager');
+    this.logger = StructuredLogger.getInstance('AudioSystemManager');
     this.startTime = Date.now();
 
     this.config = {

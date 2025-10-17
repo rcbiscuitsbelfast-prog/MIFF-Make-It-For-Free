@@ -341,10 +341,10 @@ export class CharacterControllerManager {
 
   constructor(config?: Partial<CharacterControllerConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('CharacterControllerManager');
+    this.logger = StructuredLogger.getInstance('CharacterControllerManager');
     this.startTime = Date.now();
 
     this.config = {

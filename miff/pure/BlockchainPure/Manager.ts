@@ -286,7 +286,7 @@ export class BlockchainManager {
 
   constructor(config?: Partial<BlockchainConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.startTime = Date.now();

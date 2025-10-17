@@ -348,10 +348,10 @@ export class DataStorageManager {
 
   constructor(config?: Partial<DataStorageConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('DataStorageManager');
+    this.logger = StructuredLogger.getInstance('DataStorageManager');
     this.startTime = Date.now();
 
     this.config = {

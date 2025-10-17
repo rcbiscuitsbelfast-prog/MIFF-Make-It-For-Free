@@ -9,7 +9,7 @@ describe('PerformanceOptimizer', () => {
   let instance: PerformanceOptimizer;
 
   beforeEach(() => {
-    instance = new PerformanceOptimizer();
+    instance = new PerformanceOptimizer({}, {});
   });
 
   describe('constructor', () => {

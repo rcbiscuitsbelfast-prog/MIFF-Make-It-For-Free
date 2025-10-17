@@ -249,7 +249,7 @@ export class ARVRManager {
 
   constructor(config?: Partial<ARVRConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.startTime = Date.now();

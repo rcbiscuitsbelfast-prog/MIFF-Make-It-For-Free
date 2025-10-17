@@ -183,7 +183,7 @@ export class AnimationSystemManager {
 
   constructor(config?: Partial<AnimationSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.startTime = Date.now();

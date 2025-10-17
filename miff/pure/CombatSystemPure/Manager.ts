@@ -326,10 +326,10 @@ export class CombatSystemManager {
 
   constructor(config?: Partial<CombatSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('CombatSystemManager');
+    this.logger = StructuredLogger.getInstance('CombatSystemManager');
     this.startTime = Date.now();
 
     this.config = {

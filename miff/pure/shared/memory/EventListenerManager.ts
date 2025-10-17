@@ -46,7 +46,7 @@ export class EventListenerManager {
   private listenerLifetimes: Map<string, { startTime: number; endTime?: number }> = new Map();
 
   constructor() {
-    this.logger = new StructuredLogger('EventListenerManager');
+    this.logger = StructuredLogger.getInstance('EventListenerManager');
     this.setupGlobalCleanup();
   }
 

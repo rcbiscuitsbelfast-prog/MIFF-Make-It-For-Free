@@ -71,7 +71,7 @@ export class RealBrowserAPIs {
   private isInitialized: boolean = false;
 
   constructor() {
-    this.logger = new StructuredLogger({ module: 'RealBrowserAPIs' });
+    this.logger = StructuredLogger.getInstance({ module: 'RealBrowserAPIs' });
     this.initialize();
   }
 

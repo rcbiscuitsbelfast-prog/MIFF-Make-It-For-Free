@@ -197,10 +197,10 @@ export class CachingSystemManager {
 
   constructor(config?: Partial<CachingSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('CachingSystemManager');
+    this.logger = StructuredLogger.getInstance('CachingSystemManager');
     this.startTime = Date.now();
 
     this.config = {

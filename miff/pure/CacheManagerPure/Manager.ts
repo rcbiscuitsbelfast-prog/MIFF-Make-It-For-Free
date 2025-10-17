@@ -197,10 +197,10 @@ export class CacheManagerManager {
 
   constructor(config?: Partial<CacheManagerConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('CacheManagerManager');
+    this.logger = StructuredLogger.getInstance('CacheManagerManager');
     this.startTime = Date.now();
 
     this.config = {

@@ -286,10 +286,10 @@ export class CloudStorageManager {
 
   constructor(config?: Partial<CloudStorageConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('CloudStorageManager');
+    this.logger = StructuredLogger.getInstance('CloudStorageManager');
     this.startTime = Date.now();
 
     this.config = {

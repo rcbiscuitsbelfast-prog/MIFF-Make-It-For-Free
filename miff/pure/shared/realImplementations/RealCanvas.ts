@@ -55,7 +55,7 @@ export class RealCanvas {
   private isInitialized: boolean = false;
 
   constructor() {
-    this.logger = new StructuredLogger({ module: 'RealCanvas' });
+    this.logger = StructuredLogger.getInstance({ module: 'RealCanvas' });
     this.initialize();
   }
 

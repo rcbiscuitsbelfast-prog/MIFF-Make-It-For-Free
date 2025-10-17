@@ -63,7 +63,7 @@ export class RealWindow {
   private isInitialized: boolean = false;
 
   constructor() {
-    this.logger = new StructuredLogger({ module: 'RealWindow' });
+    this.logger = StructuredLogger.getInstance({ module: 'RealWindow' });
     this.initialize();
   }
 

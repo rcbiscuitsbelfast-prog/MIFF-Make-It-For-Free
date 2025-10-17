@@ -65,7 +65,7 @@ export class StructuredLogger {
    */
   static getInstance(config?: Partial<LoggerConfig>): StructuredLogger {
     if (!StructuredLogger.instance) {
-      StructuredLogger.instance = new StructuredLogger(config);
+      StructuredLogger.instance = StructuredLogger.getInstance(config);
     }
     return StructuredLogger.instance;
   }

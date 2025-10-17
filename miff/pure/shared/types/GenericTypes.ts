@@ -130,7 +130,7 @@ export class GenericTypeFactory<T> implements TypeFactory<T> {
     cloner: (instance: T) => T = (instance: T) => ({ ...instance } as T),
     equalizer: (a: T, b: T) => boolean = (a: T, b: T) => JSON.stringify(a) === JSON.stringify(b)
   ) {
-    this.logger = new StructuredLogger('GenericTypeFactory');
+    this.logger = StructuredLogger.getInstance('GenericTypeFactory');
     this.validator = validator;
     this.cloner = cloner;
     this.equalizer = equalizer;
@@ -172,7 +172,7 @@ export class GenericUtils {
   private logger: StructuredLogger;
 
   constructor() {
-    this.logger = new StructuredLogger('GenericUtils');
+    this.logger = StructuredLogger.getInstance('GenericUtils');
   }
 
   static getInstance(): GenericUtils {

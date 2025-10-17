@@ -17,7 +17,7 @@ class PerformanceCLI {
 
   constructor(...args: any[]) {
     
-    this.optimizer = new PerformanceOptimizer();
+    this.optimizer = new PerformanceOptimizer({}, {});
   }
 
   async run(): Promise<void> {

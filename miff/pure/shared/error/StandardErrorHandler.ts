@@ -121,7 +121,7 @@ export class StandardErrorHandler {
   private maxRetries: number = 3;
 
   constructor(logger?: StructuredLogger) {
-    this.logger = logger || new StructuredLogger({
+    this.logger = logger || StructuredLogger.getInstance({
       level: LogLevel.ERROR,
       enableConsole: true,
       modules: {

@@ -285,10 +285,10 @@ export class ConfigManagerManager {
 
   constructor(config?: Partial<ConfigManagerConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('ConfigManagerManager');
+    this.logger = StructuredLogger.getInstance('ConfigManagerManager');
     this.startTime = Date.now();
 
     this.config = {

@@ -277,10 +277,10 @@ export class ChatSystemManager {
 
   constructor(config?: Partial<ChatSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('ChatSystemManager');
+    this.logger = StructuredLogger.getInstance('ChatSystemManager');
     this.startTime = Date.now();
 
     this.config = {

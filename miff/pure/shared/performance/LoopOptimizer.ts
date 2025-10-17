@@ -43,7 +43,7 @@ export class LoopOptimizer {
   };
 
   constructor() {
-    this.logger = new StructuredLogger('LoopOptimizer');
+    this.logger = StructuredLogger.getInstance('LoopOptimizer');
   }
 
   static getInstance(): LoopOptimizer {

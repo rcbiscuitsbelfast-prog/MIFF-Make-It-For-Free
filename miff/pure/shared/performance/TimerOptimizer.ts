@@ -51,7 +51,7 @@ export class TimerOptimizer {
   };
 
   constructor() {
-    this.logger = new StructuredLogger('TimerOptimizer');
+    this.logger = StructuredLogger.getInstance('TimerOptimizer');
   }
 
   static getInstance(): TimerOptimizer {

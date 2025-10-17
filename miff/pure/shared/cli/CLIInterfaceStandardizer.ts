@@ -645,7 +645,7 @@ const cliConfig = {
 };
 
 async function main(...args: any[]) {
-  const logger = new StructuredLogger({ module: '${moduleName}CLI' });
+  const logger = StructuredLogger.getInstance({ module: '${moduleName}CLI' });
   const errorHandler = new StandardErrorHandler();
   
   try {
