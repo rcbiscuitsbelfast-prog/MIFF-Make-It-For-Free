@@ -1392,8 +1392,8 @@ export class UnityConverter {
         buildDependencies: [],
       } as UnityBuildSummary;
 
-      // attach optional build stripping info on instance (not part of summary type)
-      (this as any).buildStrippingInfo = {
+      // attach optional build stripping info on instance metadata
+      (summary as any).buildStrippingInfo = {
           enabled: false,
           strippingLevel: 'disabled',
           stripAssemblies: false,
