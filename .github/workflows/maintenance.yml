@@ -16,6 +16,7 @@ jobs:
   cleanup:
     name: Automated Cleanup
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code
@@ -70,6 +71,7 @@ jobs:
   dependency-cleanup:
     name: Dependency Maintenance
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code
@@ -125,6 +127,7 @@ jobs:
   repository-organization:
     name: Repository Organization
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code
@@ -215,6 +218,7 @@ jobs:
   cache-management:
     name: Cache and Artifact Management
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code

@@ -17,6 +17,7 @@ jobs:
   test-coverage-regression:
     name: Test Coverage Regression Detection
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code

@@ -17,6 +17,7 @@ jobs:
   schema-drift-detection:
     name: Schema Drift Detection
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code

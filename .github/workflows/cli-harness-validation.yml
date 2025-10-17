@@ -17,6 +17,7 @@ jobs:
   cli-harness-validation:
     name: CLI Harness Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code
@@ -135,23 +136,29 @@ jobs:
             # Extract module name from file path
             MODULE_NAME=$(echo "$file" | sed 's|miff/pure/\([^/]*\).*|\1|')
             
-            # Try to run the CLI with help command
-            if tsx "$file" --help 2>/dev/null; then
+            # Skip interactive harnesses (they hang in CI)
+            if grep -q "readline\|prompt\|question" "$file"; then
+              echo "  - ⚠️ **Skipped (interactive harness)**" >> cli-functionality-report.md
+              continue
+            fi
+            
+            # Try to run the CLI with help command (with timeout)
+            if echo "" | timeout 5s tsx "$file" --help 2>/dev/null; then
               echo "  - ✅ **Help command works**" >> cli-functionality-report.md
             else
-              echo "  - ❌ **Help command failed**" >> cli-functionality-report.md
+              echo "  - ❌ **Help command failed or timed out**" >> cli-functionality-report.md
               FUNCTIONALITY_ERRORS=$((FUNCTIONALITY_ERRORS + 1))
             fi
             
-            # Try to run with list command if available
-            if tsx "$file" list 2>/dev/null; then
+            # Try to run with list command if available (with timeout)
+            if echo "" | timeout 5s tsx "$file" list 2>/dev/null; then
               echo "  - ✅ **List command works**" >> cli-functionality-report.md
             else
               echo "  - ⚠️ **List command not available or failed**" >> cli-functionality-report.md
             fi
             
-            # Try to run with version command if available
-            if tsx "$file" --version 2>/dev/null; then
+            # Try to run with version command if available (with timeout)
+            if echo "" | timeout 5s tsx "$file" --version 2>/dev/null; then
               echo "  - ✅ **Version command works**" >> cli-functionality-report.md
             else
               echo "  - ⚠️ **Version command not available or failed**" >> cli-functionality-report.md

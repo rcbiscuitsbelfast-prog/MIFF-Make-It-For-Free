@@ -28,6 +28,7 @@ jobs:
   prepare-release:
     name: Prepare Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     outputs:
       version: ${{ steps.version.outputs.version }}
 
@@ -102,6 +103,7 @@ jobs:
   create-github-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: prepare-release
 
     steps:
@@ -127,6 +129,7 @@ jobs:
   publish-npm:
     name: Publish to NPM
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: prepare-release
     if: startsWith(needs.prepare-release.outputs.version, 'v')
 
@@ -154,6 +157,7 @@ jobs:
   notify-release:
     name: Release Notification
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: [prepare-release, create-github-release, publish-npm]
     if: success()
 
@@ -173,6 +177,7 @@ jobs:
   rollback:
     name: Rollback on Failure
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: [prepare-release, create-github-release, publish-npm]
     if: failure()
 

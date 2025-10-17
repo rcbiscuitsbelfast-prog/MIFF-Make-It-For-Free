@@ -18,6 +18,7 @@ jobs:
   build:
     name: Build Documentation Site
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
     - name: Checkout
