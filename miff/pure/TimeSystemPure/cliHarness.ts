@@ -18,7 +18,7 @@ export class TimeSystemCLI {
     this.eventBus = new EventBus();
     this.timeSystem = new TimeSystemPure(this.eventBus);
     this.setupEventHandlers();
-    this.setupReadline();
+    this.setupReadline().catch(console.error);
   }
 
   private setupEventHandlers(): void {
@@ -27,8 +27,9 @@ export class TimeSystemCLI {
     });
   }
 
-  private setupReadline(): void {
-    this.readline = require('readline').createInterface({
+  private async setupReadline(): Promise<void> {
+    const readline = await import('readline');
+    this.readline = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
       prompt: 'Time> '

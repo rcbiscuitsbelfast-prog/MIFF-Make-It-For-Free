@@ -160,6 +160,28 @@ export class EventBus {
   }
 
   /**
+   * Convenience alias for subscribe() - for backward compatibility
+   */
+  on(
+    eventType: string,
+    handler: (event: Event) => void | Promise<void>,
+    options?: {
+      priority?: EventPriority;
+      filter?: (event: Event) => boolean;
+      once?: boolean;
+    }
+  ): string {
+    return this.subscribe(eventType, handler, options);
+  }
+
+  /**
+   * Convenience alias for unsubscribe() - for backward compatibility
+   */
+  off(subscriptionId: string): boolean {
+    return this.unsubscribe(subscriptionId);
+  }
+
+  /**
    * Unsubscribe from an event type
    */
   unsubscribe(subscriptionId: string): boolean {
