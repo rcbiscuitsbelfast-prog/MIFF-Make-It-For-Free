@@ -262,8 +262,8 @@ export class CachingSystemManager {
       const system: CachingSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalCaches: 0,
@@ -318,7 +318,7 @@ export class CachingSystemManager {
       const updatedSystem: CachingSystem = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 
@@ -537,7 +537,7 @@ export class CachingSystemManager {
         key,
         value,
         ttl: ttl || cache.policy.ttl,
-        createdAt: Date.now(),
+        createdAt: new Date(),
         lastAccessed: Date.now(),
         accessCount: 0,
         size: this.calculateSize(value),

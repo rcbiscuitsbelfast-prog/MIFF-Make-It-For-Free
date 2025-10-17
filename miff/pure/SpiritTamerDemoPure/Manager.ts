@@ -272,7 +272,7 @@ export class SpiritTamerManager {
       const session: TamingSession = {
         id: `taming-${spiritId}-${Date.now()}`,
         spiritId,
-        startTime: Date.now(),
+        startTime: new Date(),
         beats,
         timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false }],
         result: 'in_progress',

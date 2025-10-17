@@ -316,8 +316,8 @@ export class ARVRManager {
       const device: ARVRDevice = {
         ...deviceData,
         id: this.generateDeviceId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalDevices: 0,
@@ -371,7 +371,7 @@ export class ARVRManager {
       const updatedDevice: ARVRDevice = {
         ...device,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(device.version)
       };
 

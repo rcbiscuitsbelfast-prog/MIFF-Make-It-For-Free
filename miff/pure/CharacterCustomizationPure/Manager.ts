@@ -544,8 +544,8 @@ export class CharacterCustomizationManager {
       const system: CharacterCustomization = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -601,7 +601,7 @@ export class CharacterCustomizationManager {
       const updatedSystem: CharacterCustomization = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 

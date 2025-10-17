@@ -117,8 +117,8 @@ export class QuestsManager {
         level: 1,
         category: 'tutorial',
         giver: 'npc_001',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'main_quest_1',
@@ -158,8 +158,8 @@ export class QuestsManager {
         level: 5,
         category: 'main',
         giver: 'npc_001',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ];
 
@@ -180,8 +180,8 @@ export class QuestsManager {
 
     const newQuest: Quest = {
       ...quest,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     this.quests.set(quest.id, newQuest);
@@ -208,7 +208,7 @@ export class QuestsManager {
     const updatedQuest = {
       ...quest,
       ...updates,
-      updatedAt: Date.now()
+      updatedAt: new Date()
     };
 
     this.quests.set(questId, updatedQuest);

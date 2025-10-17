@@ -351,8 +351,8 @@ export class BlockchainManager {
       const blockchain: Blockchain = {
         ...blockchainData,
         id: this.generateBlockchainId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalBlocks: 0,
@@ -407,7 +407,7 @@ export class BlockchainManager {
       const updatedBlockchain: Blockchain = {
         ...blockchain,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(blockchain.version)
       };
 

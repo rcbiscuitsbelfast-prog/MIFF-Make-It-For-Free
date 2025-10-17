@@ -351,8 +351,8 @@ export class CloudStorageManager {
       const storage: CloudStorage = {
         ...storageData,
         id: this.generateStorageId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalStorages: 0,
@@ -409,7 +409,7 @@ export class CloudStorageManager {
       const updatedStorage: CloudStorage = {
         ...storage,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(storage.version)
       };
 

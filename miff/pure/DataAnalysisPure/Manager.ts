@@ -395,8 +395,8 @@ export class DataAnalysisManager {
       const system: DataAnalysis = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -452,7 +452,7 @@ export class DataAnalysisManager {
       const updatedSystem: DataAnalysis = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 

@@ -251,8 +251,8 @@ export class HUDManager {
         fontSize: 'medium',
         colorBlindFriendly: false
       },
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...elementData
     };
 
@@ -280,7 +280,7 @@ export class HUDManager {
     const updatedElement = {
       ...element,
       ...updates,
-      updatedAt: Date.now()
+      updatedAt: new Date()
     };
 
     this.elements.set(elementId, updatedElement);
@@ -431,8 +431,8 @@ export class HUDManager {
       theme: layoutData.theme || this.currentTheme,
       customCSS: layoutData.customCSS,
       isActive: layoutData.isActive ?? false,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...layoutData
     };
 

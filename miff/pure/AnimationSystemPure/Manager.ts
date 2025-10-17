@@ -250,8 +250,8 @@ export class AnimationSystemManager {
       const animation: Animation = {
         ...animationData,
         id: this.generateAnimationId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalAnimations: 0,
@@ -305,7 +305,7 @@ export class AnimationSystemManager {
       const updatedAnimation: Animation = {
         ...animation,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(animation.version)
       };
 

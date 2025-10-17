@@ -377,8 +377,8 @@ export class AudioSystemManager {
       const system: AudioSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -434,7 +434,7 @@ export class AudioSystemManager {
       const updatedSystem: AudioSystem = {
         ...system,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(system.version)
       };
 

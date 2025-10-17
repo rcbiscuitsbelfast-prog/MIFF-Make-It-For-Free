@@ -406,8 +406,8 @@ export class CharacterControllerManager {
       const controller: CharacterController = {
         ...controllerData,
         id: this.generateControllerId(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
         analytics: {
           totalControllers: 0,
@@ -463,7 +463,7 @@ export class CharacterControllerManager {
       const updatedController: CharacterController = {
         ...controller,
         ...updates,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
         version: this.incrementVersion(controller.version)
       };
 

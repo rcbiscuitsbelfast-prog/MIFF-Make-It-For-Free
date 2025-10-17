@@ -511,8 +511,8 @@ export class NaturalLanguageProcessingPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...managerData
     };
 
