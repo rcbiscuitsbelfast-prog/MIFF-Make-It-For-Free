@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { CameraManager, CameraCommand } from './index';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'process'; commands: CameraCommand[] }
@@ -13,8 +14,20 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const inputPath = process.argv[2!] || 'CameraBridgePure/fixtures/camera.json';
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const inputPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'CameraBridgePure/fixtures/camera.json');
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
 

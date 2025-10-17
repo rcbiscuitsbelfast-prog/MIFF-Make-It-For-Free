@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { AudioManager, AudioCmd } from './index';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'process'; commands: AudioCmd[] }
@@ -10,8 +11,20 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const inputPath = process.argv[2!] || 'AudioBridgePure/fixtures/audio.json';
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const inputPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'AudioBridgePure/fixtures/audio.json');
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
 
