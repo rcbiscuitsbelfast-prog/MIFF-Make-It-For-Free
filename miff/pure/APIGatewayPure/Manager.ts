@@ -241,10 +241,10 @@ export class APIGatewayManager {
 
   constructor(config?: Partial<APIGatewayConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer();
-    this.memoryManager = new MemoryManager();
+    this.performanceOptimizer = new PerformanceOptimizer({}, {});
+    this.memoryManager = new MemoryManager({});
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = Date.now();
+    this.startTime = new Date();
 
     this.config = {
       enableRouting: true,
