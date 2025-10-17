@@ -1,9 +1,0 @@
-{
-  "summary": "Physics World Summary",
-  "bodies": 4,
-  "forces": 1,
-  "constraints": 2,
-  "totalEnergy": 13.62,
-  "averageVelocity": null,
-  "simulationTime": 0.08
-}

@@ -1,9 +1,0 @@
-{
-  "version": 1,
-  "zone": "grove",
-  "entities": [
-    { "id": "tree1", "name": "Tree", "type": "tile", "src": "../../assets/Isometric Blocks/isometric_0075.png", "x": 120, "y": 160, "w": 64, "h": 32 },
-    { "id": "stone", "name": "Stone", "type": "tile", "src": "../../assets/Isometric Blocks/isometric_0091.png", "x": 220, "y": 200, "w": 64, "h": 32 },
-    { "id": "hero_barbarian", "name": "Hero Barbarian", "type": "sprite", "src": "../../assets/KayKitAssets/barbarian_texture.png", "x": 180, "y": 120, "w": 64, "h": 64 }
-  ]
-}
