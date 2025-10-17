@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { DialogSim } from './DialogSim';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'listDialogs' }
@@ -11,8 +12,20 @@ type Cmd =
   | { op: 'exportDialog'; dialogId: string };
 
 function main() {
-  const dialogsPath = process.argv[2!] || path.resolve('DialogPure/sample_dialog.json');
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const dialogsPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, path.resolve('DialogPure/sample_dialog.json'));
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   const obj = JSON.parse(fs.readFileSync(path.resolve(dialogsPath), 'utf-8'));
   const sim = new DialogSim({
     onDialogChoiceMade: (d, c) => {/* hook for remix */},

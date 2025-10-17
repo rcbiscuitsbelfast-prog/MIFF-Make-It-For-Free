@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { runTimeline, QuestTimeline } from './index';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'run' }
@@ -10,8 +11,20 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
-  const timelinePath = process.argv[2!] || 'QuestTimelinePure/fixtures/helmet_of_fate.timeline.json';
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const timelinePath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'QuestTimelinePure/fixtures/helmet_of_fate.timeline.json');
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   
   const timeline: QuestTimeline = JSON.parse(fs.readFileSync(path.resolve(timelinePath), 'utf-8'));
 

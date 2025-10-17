@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { EquipmentManager, EquippedItem, StatModifier } from './EquipmentManager';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type CatalogItem = Omit<EquippedItem, 'source'>;
 
@@ -13,8 +14,20 @@ type Cmd =
   | { op: 'syncInventory' };
 
 function main() {
-  const catalogPath = process.argv[2!] || 'EquipmentPure/sample_equipment.json';
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const catalogPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'EquipmentPure/sample_equipment.json');
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   const obj = JSON.parse(fs.readFileSync(path.resolve(catalogPath), 'utf-8')) as { items: CatalogItem[], inventory?: { id: string, quantity: number }[] };
 
   const inventory = new Map<string, number>();

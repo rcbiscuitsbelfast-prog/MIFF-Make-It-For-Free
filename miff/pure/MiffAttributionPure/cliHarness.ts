@@ -2,12 +2,25 @@ import fs from 'fs';
 import path from 'path';
 import { MiffAttributionManager } from './Manager';
 import { getOverride } from './override';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd = { op: 'showAttribution' };
 
 function main(){
-  const cfgPath = process.argv[2!] || 'MiffAttributionPure/sample_config.json';
-  const cmdsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const cfgPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'MiffAttributionPure/sample_config.json');
+  
+  const cmdsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   const mgr = new MiffAttributionManager();
   const ovr = getOverride?.();
   if(ovr) mgr.setOverride(ovr);

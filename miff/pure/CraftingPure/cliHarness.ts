@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { CraftingManager, Recipe, Inventory } from './Manager';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'list' }
@@ -12,8 +13,20 @@ type Cmd =
   | { op: 'start'; recipeId: string; crafterId: string; inventory: Inventory };
 
 function main() {
-  const recipesPath = process.argv[2!] || 'CraftingPure/sample_recipes.json';
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const recipesPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'CraftingPure/sample_recipes.json');
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   
   const obj = JSON.parse(fs.readFileSync(path.resolve(recipesPath), 'utf-8')) as { 
     recipes: Array<{ id: string; inputs: Record<string, number>; outputs: Record<string, number>; statMods?: any[] }> 

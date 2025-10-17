@@ -2,6 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { StatsManager, Stat } from './StatsManager';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
   | { op: 'list' }
@@ -13,8 +14,20 @@ type Cmd =
   | { op: 'export'; id: string; format?: 'json'|'markdown'|'html' };
 
 function main(){
-  const sample = process.argv[2!] || 'StatsSystemPure/sample_stats.json';
-  const commands = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const sample = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'StatsSystemPure/sample_stats.json');
+  
+  const commands = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   const mgr = new StatsManager();
   // Do not preload sample; tests drive creation deterministically
   // if (fs.existsSync(sample)) { /* intentionally unused */ }

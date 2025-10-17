@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { StatusEffectsManager, StatusEffect } from './StatusEffectsManager';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
