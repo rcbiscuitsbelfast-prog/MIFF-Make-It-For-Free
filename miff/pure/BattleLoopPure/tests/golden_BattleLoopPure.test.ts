@@ -471,7 +471,7 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(actor1Actions).toHaveLength(2);
       expect(actor2Actions).toHaveLength(1);
       expect(actor1Actions).toEqual([action1, action2]);
-      expect(actor2Actions).toEqual([action3!]);
+      expect(actor2Actions).toEqual([action3]);
     });
 
     test('should get actions by source correctly', () => {
@@ -505,7 +505,7 @@ describe('BattleLoopPure Golden Tests', () => {
       expect(actionQueue.getLength()).toBe(1);
 
       const remaining = actionQueue.getAllActions();
-      expect(remaining).toEqual([action3!]);
+      expect(remaining).toEqual([action3]);
     });
 
     test('should clear queue correctly', () => {
@@ -680,7 +680,7 @@ describe('BattleLoopPure Golden Tests', () => {
         );
       };
 
-      const availableActors = [1!];
+      const availableActors = [1];
       const availableMoves = {
         1: ['defeat']
       };

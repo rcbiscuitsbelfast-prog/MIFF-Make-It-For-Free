@@ -587,7 +587,7 @@ describe('RewardsPure Golden Tests', () => {
       // Test that rare items have reduced drop rates
       const testResults = dropResolver.testDropRates(table, 1000);
       const rareTotal = Array.from(testResults.entries())
-        .filter(([item!]) => ['iron_ore', 'gem'].includes(item))
+        .filter(([item]) => ['iron_ore', 'gem'].includes(item))
         .reduce((sum, [, rate]) => sum + rate, 0);
 
       expect(rareTotal).toBeLessThan(0.2); // Should be less than 20% total

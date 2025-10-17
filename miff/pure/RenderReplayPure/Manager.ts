@@ -147,7 +147,7 @@ export class RenderReplayManager {
       const issues = BridgeSchemaValidator.validateRenderPayload(payload);
       if (issues.length > 0) {
         // still construct session so downstream export works
-        const session = this.createReplaySession([payload!]);
+        const session = this.createReplaySession([payload]);
         // Ensure compatibility with tests expecting an invalid type message
         if (!issues.some(msg => msg.includes('Invalid render type'))) {
           issues.push('Invalid render type: invalid_type');
@@ -161,7 +161,7 @@ export class RenderReplayManager {
       }
 
       // Create replay session
-      const session = this.createReplaySession([payload!]);
+      const session = this.createReplaySession([payload]);
       
       return {
         op: 'replay',

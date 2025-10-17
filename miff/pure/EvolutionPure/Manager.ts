@@ -472,7 +472,7 @@ export class EvolutionManager {
     const data = this.speciesData.get(speciesId);
     if (!data) return [];
 
-    const chain = [speciesId!];
+    const chain = [speciesId];
     let currentSpecies = data.evolutionTargetId;
 
     while (currentSpecies) {

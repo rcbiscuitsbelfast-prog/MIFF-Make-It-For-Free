@@ -112,7 +112,7 @@ try {
         shield: 0
       };
       
-      core.initCombat([player!], [enemy!]);
+      core.initCombat([player], [enemy!]);
       
       // Execute combat turns
       const turns = maxTurns || 20;

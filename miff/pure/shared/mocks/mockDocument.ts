@@ -23,7 +23,7 @@ const mockHTMLElements = {
     };
   }),
   querySelector: jest.fn().mockReturnValue(mockCanvas),
-  querySelectorAll: jest.fn().mockReturnValue([mockCanvas!])
+  querySelectorAll: jest.fn().mockReturnValue([mockCanvas])
 };
 
 export const mockDocument = {

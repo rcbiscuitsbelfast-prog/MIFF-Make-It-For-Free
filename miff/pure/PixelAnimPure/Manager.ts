@@ -432,7 +432,7 @@ export class PixelAnimManager {
         };
       
       case 'spritesheet':
-        const spriteSheet = PixelAnimPure.createSpriteSheet([animation!], 32, 32);
+        const spriteSheet = PixelAnimPure.createSpriteSheet([animation], 32, 32);
         return {
           ok: true,
           data: {

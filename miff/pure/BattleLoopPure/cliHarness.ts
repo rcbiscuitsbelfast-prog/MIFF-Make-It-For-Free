@@ -433,7 +433,7 @@ class BattleLoopPureCLI {
     allMoves.forEach((move, index) => {
       const actors = Object.entries(this.availableMoves)
         .filter(([, moves]) => moves.includes(move))
-        .map(([actorId!]) => actorId);
+        .map(([actorId]) => actorId);
 
       console.log(`${index + 1}. ${move} (Actors: ${actors.join(', ')})`);
     });

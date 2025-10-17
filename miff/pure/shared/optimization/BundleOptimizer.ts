@@ -354,7 +354,7 @@ export class BundleOptimizer {
   }
 
   private getChunkForModule(modulePath: string): string[] {
-    const chunk = [modulePath!];
+    const chunk = [modulePath];
     const dependencies = this.dependencyGraph.get(modulePath) || new Set();
 
     // Add direct dependencies to same chunk for better caching

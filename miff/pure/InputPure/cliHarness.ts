@@ -84,7 +84,7 @@ function printBindings(profile: InputProfile): void {
     return;
   }
 
-  const sortedBindings = Array.from(bindings.entries()).sort(([a!], [b!]) => a.localeCompare(b));
+  const sortedBindings = Array.from(bindings.entries()).sort(([a], [b!]) => a.localeCompare(b));
 
   for (const [input, actionId] of sortedBindings) {
     const action = profile.getAction(actionId);

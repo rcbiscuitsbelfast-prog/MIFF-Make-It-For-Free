@@ -384,7 +384,7 @@ export class FusionRules {
   }
 
   private buildFusionChain(startRule: FusionPairRule, usedRules: Set<string>): FusionPairRule[] {
-    const chain = [startRule!];
+    const chain = [startRule];
     usedRules.add(startRule.id);
 
     let currentSpecies = startRule.resultSpeciesId;

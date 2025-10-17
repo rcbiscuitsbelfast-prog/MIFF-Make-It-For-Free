@@ -291,7 +291,7 @@ export class ChainValidatorManager {
           dfs(v);
         } else if (color.get(v) === 1) {
           // found back edge, reconstruct cycle
-          const cycle: string[] = [v!];
+          const cycle: string[] = [v];
           let x: string | null = u;
           while (x && x !== v) {
             cycle.push(x);
@@ -334,7 +334,7 @@ export class ChainValidatorManager {
     const indeg = new Map<string, number>();
     for (const id of this.nodes.keys()) indeg.set(id, 0);
     for (const [u, vs] of this.adjacency.entries()) for (const v of vs) indeg.set(v, (indeg.get(v) || 0) + 1);
-    const queue: string[] = Array.from(indeg.entries()).filter(([, d]) => d === 0).map(([id!]) => id);
+    const queue: string[] = Array.from(indeg.entries()).filter(([, d]) => d === 0).map(([id]) => id);
     const order: string[] = [];
     const indegMutable = new Map(indeg);
     while (queue.length > 0) {

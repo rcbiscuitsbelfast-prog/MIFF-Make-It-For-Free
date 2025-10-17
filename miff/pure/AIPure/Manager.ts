@@ -737,7 +737,7 @@ export class SimpleNeuralNetwork {
   }
 
   predict(input: number[]): number[] {
-    this.activations = [input!];
+    this.activations = [input];
 
     for (let layer = 0; layer < this.weights.length; layer++) {
       const layerActivations: number[] = [];

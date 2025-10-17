@@ -878,7 +878,7 @@ export class SaveMigrator implements ISaveMigrator {
    * Get migration path
    */
   getMigrationPath(fromVersion: string, toVersion: string): string[] {
-    const path: string[] = [fromVersion!];
+    const path: string[] = [fromVersion];
 
     if (fromVersion === toVersion) {
       return path;
@@ -992,7 +992,7 @@ export class SaveManager implements ISaveManager {
       // Write to file (in browser environment, this would use different APIs)
       if (typeof window !== 'undefined') {
         // Browser implementation
-        const blob = new Blob([jsonData!], { type: 'application/json' });
+        const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;

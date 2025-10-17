@@ -92,8 +92,8 @@ describe('ModdingPure', () => {
       };
 
       // Mock the discoverPlugins method to return our broken plugin
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([mockPlugin!]);
-      jest.spyOn(discovery as any, 'createMockPlugins').mockReturnValue([mockPlugin!]);
+      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([mockPlugin]);
+      jest.spyOn(discovery as any, 'createMockPlugins').mockReturnValue([mockPlugin]);
 
       await discovery.discoverPlugins();
       
@@ -435,7 +435,7 @@ describe('ModdingPure', () => {
         status: 'loading' as const
       };
 
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([errorPlugin!]);
+      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([errorPlugin]);
       jest.spyOn(discovery as any, 'createMockEntryPoint').mockImplementation(() => {
         throw new Error('Plugin initialization failed');
       });
@@ -477,7 +477,7 @@ describe('ModdingPure', () => {
         status: 'loading' as const
       };
 
-      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([invalidPlugin!]);
+      jest.spyOn(discovery as any, 'discoverPlugins').mockResolvedValue([invalidPlugin]);
 
       await discovery.discoverPlugins();
       

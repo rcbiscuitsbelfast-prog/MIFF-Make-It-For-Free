@@ -450,7 +450,7 @@ export class PathfindingManager {
     const maxIterations = options.maxIterations || 10000;
     const allowDiagonal = options.allowDiagonal || false;
 
-    const queue: Node[] = [start!];
+    const queue: Node[] = [start];
     const visited = new Set<string>();
     const cameFrom = new Map<string, Node>();
 
