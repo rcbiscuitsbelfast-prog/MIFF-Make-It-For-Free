@@ -1,58 +1,167 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>MIFF Gallery Submission</title>
-<style>
- body { font-family: system-ui, sans-serif; background: #0f1116; color: #e6edf3; margin: 0; }
- .wrap { max-width: 900px; margin: 0 auto; padding: 16px; }
- .card { background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
- h1 { color: #58a6ff; font-size: 20px; }
- label { display:block; margin: 8px 0 4px; }
- input, textarea { width: 100%; background: #0f1116; border: 1px solid #30363d; color: #e6edf3; padding: 8px; border-radius: 8px; }
- .btn { background: #1f6feb; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MIFF Gallery - Showcase of projects built with the MIFF game framework">
+  <title>MIFF Gallery | Project Showcase</title>
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<div class="wrap">
-  <h1>Remix Gallery Submission</h1>
-  <div class="card">
-    <p>Share your remixed zone! Submit screenshots, orchestration JSON, and credits.</p>
-    <label>Zone Name</label>
-    <input id="zoneName" placeholder="My Awesome Remix" />
-    <label>Credits & Asset Sources</label>
-    <textarea id="credits" rows="4" placeholder="List contributors and asset attributions (CC0/GPL/etc.)"></textarea>
-    <label>Upload Screenshots</label>
-    <input id="shots" type="file" accept="image/png" multiple />
-    <label>Paste Orchestration JSON</label>
-    <textarea id="orchestration" rows="6" placeholder="{ \"zone\": \"...\", ... }"></textarea>
-    <div style="margin-top:10px">
-      <button class="btn" id="btnSubmit">Submit (Local Preview)</button>
+  <!-- Header -->
+  <header>
+    <nav class="container">
+      <div class="logo"><a href="../index.html" style="text-decoration: none;">⛶ MIFF</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../sampler/index.html">Sampler</a></li>
+        <li><a href="../studio/index.html">Studio</a></li>
+        <li><a href="../docs/index.html">Docs</a></li>
+        <li><a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>🎨 MIFF Gallery</h1>
+      <p>Showcase of games and projects built with MIFF's modular framework</p>
     </div>
-  </div>
-  <div id="preview" class="card" style="display:none">
-    <h2>Preview</h2>
-    <div id="meta"></div>
-    <div id="shotsPreview" style="display:flex;gap:8px;flex-wrap:wrap"></div>
-    <pre id="orchPreview" style="white-space:pre-wrap"></pre>
-  </div>
-</div>
-<script>
-(function(){
-  const shots = document.getElementById('shots');
-  const btn = document.getElementById('btnSubmit');
-  btn.onclick = ()=>{
-    const name = document.getElementById('zoneName').value.trim();
-    const credits = document.getElementById('credits').value.trim();
-    const orch = document.getElementById('orchestration').value.trim();
-    document.getElementById('preview').style.display='block';
-    document.getElementById('meta').textContent = `${name} — Credits: ${credits}`;
-    document.getElementById('orchPreview').textContent = orch;
-    const wrap = document.getElementById('shotsPreview'); wrap.innerHTML='';
-    Array.from(shots.files||[]).forEach(f=>{ const img=document.createElement('img'); img.style.width='240px'; img.style.border='1px solid #30363d'; img.style.borderRadius='6px'; img.src = URL.createObjectURL(f); wrap.appendChild(img); });
-  };
-})();
-</script>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="features">
+    <div class="container">
+      <h2 class="text-center mb-3">Featured Demo Projects</h2>
+      <div class="grid grid-2">
+        
+        <div class="card">
+          <h3>🦋 Spirit Tamer</h3>
+          <p>A creature collection RPG featuring turn-based combat, spirit management, and team building.</p>
+          <div style="background: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm); margin: 1rem 0;">
+            <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;"><strong>Built with MIFF modules:</strong></p>
+            <ul style="margin: 0.5rem 0; color: var(--text-gray); font-size: 0.9rem;">
+              <li>CombatPure - Turn-based battle system</li>
+              <li>TeamsPure - 6-spirit team management</li>
+              <li>AIProfilesPure - Enemy AI behaviors</li>
+              <li>StatusEffectsPure - Abilities and effects</li>
+            </ul>
+          </div>
+          <a href="../zones/spirit_tamer/index.html" class="btn btn-primary">Play Demo →</a>
+        </div>
+
+        <div class="card">
+          <h3>🏰 Toppler</h3>
+          <p>Fast-paced platformer with precise physics and real-time rendering at 60fps.</p>
+          <div style="background: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm); margin: 1rem 0;">
+            <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;"><strong>Built with MIFF modules:</strong></p>
+            <ul style="margin: 0.5rem 0; color: var(--text-gray); font-size: 0.9rem;">
+              <li>PhysicsSystemPure - 2D physics simulation</li>
+              <li>CollisionSystemPure - Precise collision detection</li>
+              <li>InputPure - Responsive controls</li>
+              <li>RenderWorld - 60fps rendering</li>
+            </ul>
+          </div>
+          <a href="../zones/toppler/index.html" class="btn btn-primary">Play Demo →</a>
+        </div>
+
+        <div class="card">
+          <h3>🌲 Witcher Grove</h3>
+          <p>Exploration-focused adventure in a mysterious 3D forest with dynamic quest system.</p>
+          <div style="background: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm); margin: 1rem 0;">
+            <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;"><strong>Built with MIFF modules:</strong></p>
+            <ul style="margin: 0.5rem 0; color: var(--text-gray); font-size: 0.9rem;">
+              <li>NavigationSystemPure - 3D pathfinding</li>
+              <li>QuestScenarioPure - Dynamic quests</li>
+              <li>DialoguePure - NPC conversations</li>
+              <li>InventoryPure - Item collection</li>
+            </ul>
+          </div>
+          <a href="../zones/witcher_grove/index.html" class="btn btn-primary">Play Demo →</a>
+        </div>
+
+        <div class="card">
+          <h3>🧪 Remix Lab</h3>
+          <p>Experimental sandbox for testing and composing MIFF modules in real-time.</p>
+          <div style="background: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm); margin: 1rem 0;">
+            <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;"><strong>Built with MIFF modules:</strong></p>
+            <ul style="margin: 0.5rem 0; color: var(--text-gray); font-size: 0.9rem;">
+              <li>EventBusPure - System communication</li>
+              <li>Multiple modules - Mix and match</li>
+              <li>Live editing - Real-time preview</li>
+              <li>Export tools - Save your creations</li>
+            </ul>
+          </div>
+          <a href="../zones/remix_lab/index.html" class="btn btn-primary">Open Lab →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Built with MIFF Badge -->
+  <section class="features" style="background: var(--bg-white);">
+    <div class="container text-center">
+      <h2 class="mb-3">Built with MIFF</h2>
+      <p style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-gray);">
+        Every project in this gallery uses real MIFF modules - the same systems available to you. 
+        Create your own game and showcase it here!
+      </p>
+      <div class="card" style="max-width: 400px; margin: 0 auto; background: var(--gradient); color: white;">
+        <h3 style="color: white; margin-bottom: 1rem;">⛶ Built with MIFF</h3>
+        <p style="opacity: 0.9; margin-bottom: 1rem;">Modular • TypeScript • Open Source</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">
+          Add this badge to your MIFF-powered project!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Submit Your Project -->
+  <section class="stats">
+    <div class="container text-center">
+      <h2>Submit Your Project</h2>
+      <p style="margin: 1rem 0 2rem; opacity: 0.9;">Built something with MIFF? Share it with the community!</p>
+      <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/issues/new?title=Gallery%20Submission" class="btn btn-primary btn-large" target="_blank">Submit to Gallery →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>MIFF Framework</h4>
+          <p>Make It For Free</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../sampler/index.html">Sampler</a></li>
+            <li><a href="../studio/index.html">Studio</a></li>
+            <li><a href="../docs/index.html">Documentation</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Projects</h4>
+          <ul>
+            <li><a href="../zones/spirit_tamer/index.html">Spirit Tamer</a></li>
+            <li><a href="../zones/toppler/index.html">Toppler</a></li>
+            <li><a href="../zones/witcher_grove/index.html">Witcher Grove</a></li>
+            <li><a href="../zones/remix_lab/index.html">Remix Lab</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>License</h4>
+          <p>AGPL-3.0 • Open Source</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 MIFF Framework
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
