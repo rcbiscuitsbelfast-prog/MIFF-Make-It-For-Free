@@ -1347,10 +1347,10 @@ export class GodotBridgeManager {
     this.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event: any);
+    this.eventQueue.push(event);
 
     // Process immediately
-    await this.handleEvent(event: any);
+    await this.handleEvent(event);
   }
 
   private async handleEvent(event: GodotEvent): Promise<void> {
@@ -1381,7 +1381,7 @@ export class GodotBridgeManager {
     await this.handleSignal(message.payload);
   }
 
-  private async handleSignal(signal: any): Promise<void> {
+  private async handleSignal(signal): Promise<void> {
     // Implementation for handling Godot signals
     console.log(`[GodotBridgeManager!] Handling signal: ${JSON.stringify(signal)}`);
   }
@@ -1393,7 +1393,7 @@ export class GodotBridgeManager {
     await this.handleProperty(message.payload);
   }
 
-  private async handleProperty(property: any): Promise<void> {
+  private async handleProperty(property): Promise<void> {
     // Implementation for handling Godot properties
     console.log(`[GodotBridgeManager!] Handling property: ${JSON.stringify(property)}`);
   }
@@ -1405,7 +1405,7 @@ export class GodotBridgeManager {
     await this.handleMethod(message.payload);
   }
 
-  private async handleMethod(method: any): Promise<void> {
+  private async handleMethod(method): Promise<void> {
     // Implementation for handling Godot method calls
     console.log(`[GodotBridgeManager!] Handling method: ${JSON.stringify(method)}`);
   }
@@ -1528,7 +1528,7 @@ export class GodotBridgeManager {
 
     const batch = this.eventQueue.splice(0, this.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event: any);
+      await this.handleEvent(event);
     }
   }
 
@@ -1619,12 +1619,12 @@ export class GodotBridgeManager {
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     // Simple XML conversion - in production this would be more robust
     return '<godot_bridge_data><!-- XML export not fully implemented --></godot_bridge_data>';
   }
 
-  private convertToBinary(data: any): string {
+  private convertToBinary(data): string {
     // Simple binary conversion - in production this would use proper serialization
     return JSON.stringify(data);
   }

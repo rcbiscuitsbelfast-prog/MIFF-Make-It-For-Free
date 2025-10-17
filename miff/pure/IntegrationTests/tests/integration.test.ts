@@ -68,7 +68,7 @@ class MockEntityContext implements IEntityContext {
   getEntityImmunities(entityId: string): string[] { return []; }
   isEntityAlive(entityId: string): boolean { return true; }
   getCurrentPhase(): any { return 'pre_turn'; }
-  setCurrentPhase(phase: any): void {}
+  setCurrentPhase(phase): void {}
   addImmunity(entityId: string, immunityTag: string): void {}
   removeImmunity(entityId: string, immunityTag: string): void {}
   killEntity(entityId: string): void {}

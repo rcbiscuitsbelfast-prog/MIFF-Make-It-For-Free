@@ -349,9 +349,9 @@ describe('EventBusPure', () => {
         metadata: {}
       };
       
-      expect(replicator.shouldReplicate(event: any)).toBe(true);
+      expect(replicator.shouldReplicate(event)).toBe(true);
       
-      const transformed = replicator.transformForReplication(event: any);
+      const transformed = replicator.transformForReplication(event);
       expect(transformed.data.replicated).toBe(true);
     });
 
@@ -377,7 +377,7 @@ describe('EventBusPure', () => {
         metadata: {}
       };
       
-      expect(replicator.shouldReplicate(event: any)).toBe(false);
+      expect(replicator.shouldReplicate(event)).toBe(false);
     });
   });
 

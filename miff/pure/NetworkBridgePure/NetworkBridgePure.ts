@@ -192,7 +192,7 @@ export class NetworkBridge {
     return success;
   }
 
-  submitLocalInput(input: any): void {
+  submitLocalInput(input): void {
     const currentFrame = this.scheduler['currentFrame'];
     this.scheduler.submitInput(this.localPeerId, currentFrame, input);
     

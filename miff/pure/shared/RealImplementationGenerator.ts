@@ -328,17 +328,17 @@ export class {{moduleName}}Manager {
     console.info('{{moduleName}}Manager initialized');
   }
 
-  async process(data: any): Promise<any> {
+  async process(data): Promise<any> {
     // Real processing logic
     return { processed: true, data };
   }
 
-  async validate(data: any): Promise<boolean> {
+  async validate(data): Promise<boolean> {
     // Real validation logic
     return data && typeof data === 'object';
   }
 
-  async save(data: any): Promise<void> {
+  async save(data): Promise<void> {
     // Real save logic
     this.data.set('lastSave', data);
   }
@@ -379,7 +379,7 @@ export class {{moduleName}}Processor {
     };
   }
 
-  async process(data: any): Promise<any> {
+  async process(data): Promise<any> {
     // Real processing logic
     return { processed: true, data, timestamp: new Date() };
   }
@@ -417,7 +417,7 @@ export class {{moduleName}}Validator {
     this.schema = schema;
   }
 
-  async validate(data: any): Promise<{valid: boolean, errors: string[]}> {
+  async validate(data): Promise<{valid: boolean, errors: string[]}> {
     const errors: string[] = [];
     
     // Real validation logic
@@ -435,7 +435,7 @@ export class {{moduleName}}Validator {
     };
   }
 
-  async validateSchema(data: any): Promise<boolean> {
+  async validateSchema(data): Promise<boolean> {
     // Real schema validation logic
     return true;
   }

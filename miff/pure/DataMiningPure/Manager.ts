@@ -1021,7 +1021,7 @@ export class DataMiningPure {
   /**
    * Generate pattern description
    */
-  private generatePatternDescription(pattern: any): string {
+  private generatePatternDescription(pattern): string {
     const items = pattern.items.map((item: any) => `${item.field}=${item.value}`).join(' AND ');
     return `Pattern: ${items} (Support: ${(pattern.support * 100).toFixed(1)}%, Confidence: ${(pattern.confidence * 100).toFixed(1)}%)`;
   }

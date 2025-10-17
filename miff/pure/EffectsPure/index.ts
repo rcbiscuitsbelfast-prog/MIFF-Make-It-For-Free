@@ -1050,7 +1050,7 @@ export class EffectResolution implements IEffectResolution {
    * Add event
    */
   addEvent(event: EffectEvent): void {
-    this.events.push(event: any);
+    this.events.push(event);
   }
 
   /**
@@ -1198,7 +1198,7 @@ export class EffectResolver implements IEffectResolver {
 
       // Create event
       const event = EffectEvent.tick(entityId, effect.effect, effect, phase);
-      resolution.addEvent(event: any);
+      resolution.addEvent(event);
 
       // Add stat changes
       statChanges.forEach((change, stat) => {

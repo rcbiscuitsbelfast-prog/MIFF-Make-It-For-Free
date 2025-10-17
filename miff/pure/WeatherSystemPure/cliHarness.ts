@@ -416,7 +416,7 @@ export class WeatherSystemCLI {
   /**
    * Log detailed weather information
    */
-  private logDetailedWeather(weather: any): void {
+  private logDetailedWeather(weather): void {
     const effects = weather.effects;
     this.log(`   Visibility: ${(effects.visibility * 100).toFixed(1)}%`);
     this.log(`   Movement: ${(effects.movementSpeed * 100).toFixed(1)}%`);

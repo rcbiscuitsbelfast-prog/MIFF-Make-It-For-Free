@@ -222,7 +222,7 @@ class InterfaceCLI {
     console.info(`\n📄 Fix suggestions saved to ${fixFile}`);
   }
 
-  private generateFixSuggestions(result: any): string[] {
+  private generateFixSuggestions(result): string[] {
     const fixes: string[] = [];
     
     if (result.missingMethods.length > 0) {

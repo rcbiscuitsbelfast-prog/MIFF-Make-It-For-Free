@@ -255,7 +255,7 @@ export class Profiler {
   private notifyObservers(event: string, data: any): void {
     this.observers.forEach((observer: any) => {
       try {
-        switch (event: any) {
+        switch (event) {
           case 'frameEnd':
             observer.onFrameEnd?.(data);
             break;

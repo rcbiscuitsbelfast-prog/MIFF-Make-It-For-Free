@@ -108,7 +108,7 @@ export class RealTransport {
     });
   }
 
-  async send(data: any): Promise<void> {
+  async send(data): Promise<void> {
     if (!this.isConnected || !this.ws) {
       throw new Error('Transport not connected');
     }
@@ -124,25 +124,25 @@ export class RealTransport {
   }
 
   on(event: string, handler: Function): void {
-    if (!this.messageHandlers.has(event: any)) {
+    if (!this.messageHandlers.has(event)) {
       this.messageHandlers.set(event, []);
     }
-    this.messageHandlers.get(event: any)?.push(handler);
+    this.messageHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler?: Function): void {
-    if (!this.messageHandlers.has(event: any)) {
+    if (!this.messageHandlers.has(event)) {
       return;
     }
 
     if (handler) {
-      const handlers = this.messageHandlers.get(event: any)!;
+      const handlers = this.messageHandlers.get(event)!;
       const index = handlers.indexOf(handler);
       if (index > -1) {
         handlers.splice(index, 1);
       }
     } else {
-      this.messageHandlers.delete(event: any);
+      this.messageHandlers.delete(event);
     }
   }
 

@@ -714,7 +714,7 @@ export class ClueSystemPure {
       type: eventData.type
     };
 
-    investigation.timeline.push(event: any);
+    investigation.timeline.push(event);
     investigation.timeline.sort((a: any, b: any) => a.timestamp - b.timestamp);
 
     this.eventBus.publish('clue:timeline_event_added', {

@@ -527,7 +527,7 @@ describe('HUDPure Golden Tests', () => {
       updateHistory = [];
 
       hudManager.onUpdate((event: any) => {
-        updateHistory.push(event: any);
+        updateHistory.push(event);
       });
     });
 
@@ -570,7 +570,7 @@ describe('HUDPure Golden Tests', () => {
 
     test('should remove update callbacks', () => {
       const callback = (event: IHUDUpdateEvent) => {
-        updateHistory.push(event: any);
+        updateHistory.push(event);
       };
 
       hudManager.onUpdate(callback);

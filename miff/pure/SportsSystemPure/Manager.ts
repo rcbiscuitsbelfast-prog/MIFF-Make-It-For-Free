@@ -131,7 +131,7 @@ export class SportsManager {
     });
   }
 
-  private handleGoalScored(data: any): void {
+  private handleGoalScored(data): void {
     const game = this.sportsSystem.getGameState(data.gameId);
     if (!game) return;
 

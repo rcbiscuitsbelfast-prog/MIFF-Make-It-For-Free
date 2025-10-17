@@ -350,7 +350,7 @@ export class OverlinkZone {
     });
   }
 
-  assignBadge(assignment: any): any {
+  assignBadge(assignment): any {
     return this.badgeSystem.assignBadge(assignment);
   }
 
@@ -367,23 +367,23 @@ export class OverlinkZone {
   }
 
   // Credits and Badge Display
-  renderCredits(options: any): any {
+  renderCredits(options): any {
     return this.creditsRenderer.renderCreditsWithBadges(options);
   }
 
-  renderCompactCredits(options: any): any {
+  renderCompactCredits(options): any {
     return this.creditsRenderer.renderCompactCredits(options);
   }
 
-  renderDetailedCredits(options: any): any {
+  renderDetailedCredits(options): any {
     return this.creditsRenderer.renderDetailedCredits(options);
   }
 
-  renderBadgeFocusedCredits(options: any): any {
+  renderBadgeFocusedCredits(options): any {
     return this.creditsRenderer.renderBadgeFocusedCredits(options);
   }
 
-  getCreditsPreview(options: any): string {
+  getCreditsPreview(options): string {
     return this.creditsRenderer.getCLIPreview(options);
   }
 

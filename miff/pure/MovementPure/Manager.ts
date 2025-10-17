@@ -298,7 +298,7 @@ export class MovementManager {
     this.updateMovementState(entity, oldPosition, events);
 
     // Record events
-    events.forEach((event: any) => this.events.push(event: any));
+    events.forEach((event: any) => this.events.push(event));
 
     const distanceMoved = this.calculateDistance(oldPosition, entity.position);
 

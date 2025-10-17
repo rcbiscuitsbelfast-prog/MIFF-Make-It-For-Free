@@ -217,7 +217,7 @@ export class HUDManager {
     // Keyboard navigation
     if (this.config.enableKeyboardNavigation) {
       document.addEventListener('keydown', (event: any) => {
-        this.handleKeyboardNavigation(event: any);
+        this.handleKeyboardNavigation(event);
       });
     }
 
@@ -709,7 +709,7 @@ export class HUDManager {
   /**
    * Import HUD state
    */
-  importState(state: any): void {
+  importState(state): void {
     if (state.elements) {
       this.elements = new Map(state.elements.map((e: HUDElement) => [e.id, e]));
     }

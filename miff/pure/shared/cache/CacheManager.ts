@@ -327,7 +327,7 @@ export class CacheManager {
            (currentEntries + additionalEntries > this.config.maxEntries);
   }
 
-  private estimateSize(data: any): number {
+  private estimateSize(data): number {
     if (data === null || data === undefined) return 0;
 
     if (typeof data === 'string') return data.length * 2; // UTF-16
@@ -348,7 +348,7 @@ export class CacheManager {
     return 1024; // Default estimate for complex objects
   }
 
-  private compressData(data: any): any {
+  private compressData(data): any {
     // Simple compression simulation
     if (typeof data === 'string') {
       return `COMPRESSED:${data}`;
@@ -356,7 +356,7 @@ export class CacheManager {
     return data;
   }
 
-  private decompressData(data: any): any {
+  private decompressData(data): any {
     // Simple decompression simulation
     if (typeof data === 'string' && data.startsWith('COMPRESSED:')) {
       return data.substring(11);

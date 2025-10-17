@@ -687,7 +687,7 @@ export class HapticEngine {
     };
 
     // Priority-based insertion
-    const insertIndex = this.findEventInsertPosition(event: any);
+    const insertIndex = this.findEventInsertPosition(event);
     this.eventQueue.splice(insertIndex, 0, event);
 
     // Limit queue size
@@ -720,7 +720,7 @@ export class HapticEngine {
     for (let i = this.eventQueue.length - 1; i >= 0; i--) {
       const event = this.eventQueue[i!];
       if (event.type === 'effect' && !event.processed) {
-        eventsToProcess.push(event: any);
+        eventsToProcess.push(event);
         this.eventQueue.splice(i, 1);
       }
     }
@@ -1030,7 +1030,7 @@ export class HapticEngine {
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     // Simple XML conversion
     return '<haptic_config><!-- XML export not fully implemented --></haptic_config>';
   }

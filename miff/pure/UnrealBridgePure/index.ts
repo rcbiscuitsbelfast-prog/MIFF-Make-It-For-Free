@@ -1723,10 +1723,10 @@ export class UnrealBridgeManager {
     this.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event: any);
+    this.eventQueue.push(event);
 
     // Process immediately
-    await this.handleEvent(event: any);
+    await this.handleEvent(event);
   }
 
   private async handleEvent(event: UnrealEvent): Promise<void> {
@@ -2030,7 +2030,7 @@ export class UnrealBridgeManager {
 
     const batch = this.eventQueue.splice(0, this.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event: any);
+      await this.handleEvent(event);
     }
   }
 
@@ -2110,12 +2110,12 @@ export class UnrealBridgeManager {
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     // Simple XML conversion - in production this would be more robust
     return '<unreal_bridge_data><!-- XML export not fully implemented --></unreal_bridge_data>';
   }
 
-  private convertToBinary(data: any): string {
+  private convertToBinary(data): string {
     // Simple binary conversion - in production this would use proper serialization
     return JSON.stringify(data);
   }

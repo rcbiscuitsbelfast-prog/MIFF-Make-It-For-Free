@@ -241,7 +241,7 @@ function main() {
         // Add callback to track events
         const events: AudioEvent[] = [];
         demoAudio.addCallback((event: any) => {
-          events.push(event: any);
+          events.push(event);
         });
 
         // Register various sounds

@@ -79,7 +79,7 @@ export class SkinMeshGenerator {
   /**
    * Generate mesh for a specific rig node
    */
-  private generateNodeMesh(node: any): { vertices: number[]; normals: number[]; uvs: number[]; indices: number[] } {
+  private generateNodeMesh(node): { vertices: number[]; normals: number[]; uvs: number[]; indices: number[] } {
     const { position, scale } = node.transform;
     const vertices: number[] = [];
     const normals: number[] = [];

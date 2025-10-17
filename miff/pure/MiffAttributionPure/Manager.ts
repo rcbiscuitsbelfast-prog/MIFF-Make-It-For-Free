@@ -128,7 +128,7 @@ export class MiffAttributionManager {
         resolvedRefs: {}, 
         rendered 
       };
-    } catch (e: any) { 
+    } catch (e) { 
       issues.push({ code: 'render_error', message: String(e?.message || e) }); 
       return { 
         op: 'showAttribution', 

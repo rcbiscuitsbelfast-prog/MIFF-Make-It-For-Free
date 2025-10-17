@@ -147,7 +147,7 @@ class MutationCLI {
     console.info(`📄 HTML report generated: ${outputFile}`);
   }
 
-  private generateMutationReport(stats: any): any {
+  private generateMutationReport(stats): any {
     return {
       timestamp: new Date().toISOString(),
       stats,
@@ -163,7 +163,7 @@ class MutationCLI {
     };
   }
 
-  private generateHTMLReport(report: any): string {
+  private generateHTMLReport(report): string {
     const { stats, summary, recommendations } = report;
     
     return `

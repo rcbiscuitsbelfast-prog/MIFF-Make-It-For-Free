@@ -49,7 +49,7 @@ export class SaveLoadManager {
   }
 
   // Migration: if input lacks `saves`, wrap legacy data into a migrated slot
-  static migrateToV11(input: any): GameDataV11 {
+  static migrateToV11(input): GameDataV11 {
     // New blank
     const newBlank = (): GameDataV11 => ({ schemaVersion: 11 as const, currentSlot: '', saves: {} });
 

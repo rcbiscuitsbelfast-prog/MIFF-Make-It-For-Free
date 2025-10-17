@@ -116,8 +116,8 @@ export interface StandardizedBridgeInterface {
   pause?(): Promise<void>;
   resume?(): Promise<void>;
   update?(deltaTime: number): void;
-  process?(data: any): Promise<any>;
-  send?(data: any): Promise<boolean>;
+  process?(data): Promise<any>;
+  send?(data): Promise<boolean>;
   receive?(): Promise<any>;
 }
 

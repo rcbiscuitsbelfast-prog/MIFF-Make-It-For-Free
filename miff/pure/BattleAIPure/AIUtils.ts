@@ -11,7 +11,7 @@ export const BattleAIUtils = {
     ];
   },
 
-  createAdaptiveProfile(spirit: any): IAIDecisionProfile {
+  createAdaptiveProfile(spirit): IAIDecisionProfile {
     const hpRatio = (spirit.currentHP ?? 1) / Math.max(1, spirit.maxHP ?? 1);
     // Heuristic and hint-based classification
     const idName = `${spirit.id || ''} ${spirit.name || ''}`.toLowerCase();

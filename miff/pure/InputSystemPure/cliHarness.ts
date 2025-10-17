@@ -80,7 +80,7 @@ try {
         timestamp: Date.now(),
         source: args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'cli'
       };
-      output = manager.processInputEvent(event: any);
+      output = manager.processInputEvent(event);
       break;
 
     case 'recognize-gesture':
@@ -209,7 +209,7 @@ try {
           timestamp: Date.now(),
           source: 'demo'
         };
-        return manager.processInputEvent(event: any);
+        return manager.processInputEvent(event);
       });
 
       // Recognize demo gestures

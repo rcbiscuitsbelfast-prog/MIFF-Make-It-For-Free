@@ -357,7 +357,7 @@ export class EvolutionManager {
     return chain;
   }
 
-  getAvailableEvolutions(spirit: any): SpeciesEvolutionData[] {
+  getAvailableEvolutions(spirit): SpeciesEvolutionData[] {
     return Array.from(this.speciesData.values())
       .filter((evolution: any) => evolution.speciesId === spirit.speciesId)
       .filter((evolution: any) => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
@@ -416,11 +416,11 @@ export class EvolutionManager {
     }
   }
 
-  public canEvolve(spirit: any): boolean {
+  public canEvolve(spirit): boolean {
     return this.getEvolutionTarget(spirit) !== null;
   }
 
-  public getEvolutionTarget(spirit: any): string | null {
+  public getEvolutionTarget(spirit): string | null {
     if (!spirit || !spirit.canEvolve) return null;
 
     const data = this.speciesData.get(spirit.speciesId);
@@ -437,7 +437,7 @@ export class EvolutionManager {
     return allConditionsMet ? data.evolutionTargetId : null;
   }
 
-  public evolveSpirit(spirit: any): EvolutionResult {
+  public evolveSpirit(spirit): EvolutionResult {
     if (!spirit) {
       return this.createFailure('conditions_not_met', 'No spirit provided');
     }
@@ -485,7 +485,7 @@ export class EvolutionManager {
     return chain;
   }
 
-  public getEvolutionProgress(spirit: any): {
+  public getEvolutionProgress(spirit): {
     canEvolve: boolean;
     targetSpecies?: string;
     missingConditions: string[];

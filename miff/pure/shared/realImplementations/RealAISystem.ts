@@ -313,7 +313,7 @@ export class RealAISystem {
   /**
    * Perform prediction task
    */
-  private performPrediction(input: any): any {
+  private performPrediction(input): any {
     // Simulate prediction logic
     const prediction = Math.random() * 100;
     const confidence = Math.random() * 0.4 + 0.6; // 60-100% confidence
@@ -329,7 +329,7 @@ export class RealAISystem {
   /**
    * Perform classification task
    */
-  private performClassification(input: any): any {
+  private performClassification(input): any {
     // Simulate classification logic
     const categories = ['positive', 'negative', 'neutral'];
     const category = categories[Math.floor(Math.random() * categories.length)];
@@ -350,7 +350,7 @@ export class RealAISystem {
   /**
    * Perform generation task
    */
-  private performGeneration(input: any): any {
+  private performGeneration(input): any {
     // Simulate text generation
     const templates = [
       'Generated content based on input: {input}',
@@ -372,7 +372,7 @@ export class RealAISystem {
   /**
    * Perform analysis task
    */
-  private performAnalysis(input: any): any {
+  private performAnalysis(input): any {
     // Simulate analysis logic
     const insights = [
       'Pattern detected in data',
@@ -509,14 +509,14 @@ export class RealAISystem {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event: any)) {
+    if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event: any)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event: any);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
       const index = handlers.indexOf(handler);
       if (index > -1) {
@@ -526,7 +526,7 @@ export class RealAISystem {
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event: any);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
       handlers.forEach((handler: any) => {
         try {

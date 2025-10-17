@@ -1110,7 +1110,7 @@ export class BattleLogEntry implements IBattleLogEntry {
   /**
    * Check if entry matches filter
    */
-  matchesFilter(filter: any): boolean {
+  matchesFilter(filter): boolean {
     if (filter.levels && !filter.levels.includes(this.level)) return false;
     if (filter.categories && !filter.categories.includes(this.category)) return false;
     if (filter.phases && !filter.phases.includes(this.phase)) return false;

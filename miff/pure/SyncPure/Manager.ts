@@ -451,7 +451,7 @@ export class SyncManager {
   /**
    * Calculate data checksum
    */
-  private calculateChecksum(data: any): string {
+  private calculateChecksum(data): string {
     // Simple checksum calculation
     return JSON.stringify(data).length.toString();
   }

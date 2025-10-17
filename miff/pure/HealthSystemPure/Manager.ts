@@ -176,7 +176,7 @@ export class HealthSystemManager {
         element: options.element,
         timestamp: Date.now()
       };
-      this.events.push(event: any);
+      this.events.push(event);
       return {
         op: 'damage',
         status: 'ok',
@@ -221,7 +221,7 @@ export class HealthSystemManager {
       element: options.element,
       timestamp: Date.now()
     };
-    this.events.push(event: any);
+    this.events.push(event);
 
     return {
       op: 'damage',
@@ -258,7 +258,7 @@ export class HealthSystemManager {
       target: entityId,
       timestamp: Date.now()
     };
-    this.events.push(event: any);
+    this.events.push(event);
 
     return {
       op: 'heal',
@@ -291,7 +291,7 @@ export class HealthSystemManager {
       target: entityId,
       timestamp: Date.now()
     };
-    this.events.push(event: any);
+    this.events.push(event);
 
     return {
       op: 'add-shield',
@@ -324,7 +324,7 @@ export class HealthSystemManager {
       target: entityId,
       timestamp: Date.now()
     };
-    this.events.push(event: any);
+    this.events.push(event);
 
     return {
       op: 'add-regeneration',

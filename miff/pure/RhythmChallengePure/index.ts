@@ -235,7 +235,7 @@ export class RhythmChallengePure {
   }
 
   // Shim methods referenced by CLI wrapper
-  public loadSequence(sequence: any): void {
+  public loadSequence(sequence): void {
     // Map to a BeatMap and store it
     const mapId = sequence?.id || `seq_${Date.now()}`;
     const beatMap: BeatMap = {

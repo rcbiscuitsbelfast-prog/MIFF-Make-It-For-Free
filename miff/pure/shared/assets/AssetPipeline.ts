@@ -642,7 +642,7 @@ export class AssetPipeline {
     };
   }
 
-  private estimateSize(data: any): number {
+  private estimateSize(data): number {
     if (typeof data === 'string') return data.length * 2;
     if (typeof data === 'object' && data.size) return data.size;
     if (typeof data === 'object') {

@@ -1416,12 +1416,12 @@ export class AndroidExporter {
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     // Simple XML conversion - in production this would be more robust
     return '<android_exporter_data><!-- XML export not fully implemented --></android_exporter_data>';
   }
 
-  private convertToBinary(data: any): string {
+  private convertToBinary(data): string {
     // Simple binary conversion - in production this would use proper serialization
     return JSON.stringify(data);
   }

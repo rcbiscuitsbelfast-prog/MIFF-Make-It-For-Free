@@ -557,7 +557,7 @@ class DialogueCLI {
     }
   }
 
-  private exportCSV(data: any): any {
+  private exportCSV(data): any {
     const csv = [
       'Node ID,Text,Choices Count,Choices',
       ...Object.entries(data.dialogue.nodes).map(([id, node]: [string, any]) => {
@@ -575,7 +575,7 @@ class DialogueCLI {
     };
   }
 
-  private exportMarkdown(data: any): any {
+  private exportMarkdown(data): any {
     const md = [
       '# Dialogue System Report',
       '',
@@ -610,7 +610,7 @@ class DialogueCLI {
     };
   }
 
-  private exportHTML(data: any): any {
+  private exportHTML(data): any {
     const html = `
 <!DOCTYPE html>
 <html>

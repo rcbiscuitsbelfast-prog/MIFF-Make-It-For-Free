@@ -635,19 +635,19 @@ export class BridgeSchemaValidator {
   return this.manager.validate(data, schemaId);
   }
 
-  validateRenderData(data: any): ValidationResult {
+  validateRenderData(data): ValidationResult {
   return this.manager.validate(data, 'RenderData');
   }
 
-  validateRenderPayload(data: any): ValidationResult {
+  validateRenderPayload(data): ValidationResult {
   return this.manager.validate(data, 'RenderPayload');
   }
 
-  validateEntity(data: any): ValidationResult {
+  validateEntity(data): ValidationResult {
   return this.manager.validate(data, 'Entity');
   }
 
-  validateStatBlock(data: any): ValidationResult {
+  validateStatBlock(data): ValidationResult {
   return this.manager.validate(data, 'StatBlock');
   }
 }

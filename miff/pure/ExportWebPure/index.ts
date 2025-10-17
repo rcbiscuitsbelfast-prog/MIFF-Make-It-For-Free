@@ -692,11 +692,11 @@ export class WebExporter {
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     return '<web_exporter_data><!-- XML export not fully implemented --></web_exporter_data>';
   }
 
-  private convertToBinary(data: any): string {
+  private convertToBinary(data): string {
     return JSON.stringify(data);
   }
 

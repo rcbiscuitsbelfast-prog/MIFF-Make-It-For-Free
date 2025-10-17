@@ -288,7 +288,7 @@ export class SecurityManager {
   /**
    * Handle login attempt
    */
-  private handleLoginAttempt(data: any): void {
+  private handleLoginAttempt(data): void {
     const { userId, ipAddress, success, failureReason } = data;
     
     // Log the attempt
@@ -326,7 +326,7 @@ export class SecurityManager {
   /**
    * Handle logout
    */
-  private handleLogout(data: any): void {
+  private handleLogout(data): void {
     const { userId, ipAddress } = data;
     
     this.logAudit({
@@ -342,7 +342,7 @@ export class SecurityManager {
   /**
    * Handle API request
    */
-  private handleApiRequest(data: any): void {
+  private handleApiRequest(data): void {
     const { method, path, ipAddress, userId, headers } = data;
     
     // Check rate limiting
@@ -390,7 +390,7 @@ export class SecurityManager {
   /**
    * Handle data access
    */
-  private handleDataAccess(data: any): void {
+  private handleDataAccess(data): void {
     const { userId, resource, action, ipAddress } = data;
     
     // Check authorization
@@ -502,7 +502,7 @@ export class SecurityManager {
   /**
    * Validate input
    */
-  private validateInput(data: any): { valid: boolean; errors: string[] } {
+  private validateInput(data): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
     
     // Check for SQL injection patterns
@@ -578,7 +578,7 @@ export class SecurityManager {
       if (!acc[event.source]) {
         acc[event.source] = [];
       }
-      acc[event.source].push(event: any);
+      acc[event.source].push(event);
       return acc;
     }, {} as Record<string, SecurityEvent[]>);
     
@@ -684,11 +684,11 @@ export class SecurityManager {
       resolved: false
     };
     
-    this.events.push(event: any);
+    this.events.push(event);
     
     // Create alert if severity is high enough
     if (event.level === SecurityLevel.HIGH || event.level === SecurityLevel.CRITICAL) {
-      this.createSecurityAlert(event: any);
+      this.createSecurityAlert(event);
     }
     
     this.eventBus.publish('security:event', event);
@@ -890,7 +890,7 @@ export class SecurityManager {
    */
   resolveSecurityEvent(eventId: string, resolvedBy: string): boolean {
     const event = this.events.find(e => e.id === eventId);
-    if (event: any) {
+    if (event) {
       event.resolved = true;
       event.resolvedAt = new Date();
       event.resolvedBy = resolvedBy;

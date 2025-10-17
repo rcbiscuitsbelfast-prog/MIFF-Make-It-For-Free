@@ -213,7 +213,7 @@ export class EventBus {
     };
 
     // Add to events list
-    this.events.push(event: any);
+    this.events.push(event);
     if (this.events.length > this.config.maxEvents) {
       this.events.shift();
       this.stats.droppedEvents++;
@@ -229,13 +229,13 @@ export class EventBus {
 
     // Handle replication
     if (this.config.enableReplication && options.replicate !== false) {
-      if (this.config.replicationFilter(event: any)) {
-        await this.replicateEvent(event: any);
+      if (this.config.replicationFilter(event)) {
+        await this.replicateEvent(event);
       }
     }
 
     // Process event handlers
-    await this.processEvent(event: any);
+    await this.processEvent(event);
 
     return eventId;
   }
@@ -252,9 +252,9 @@ export class EventBus {
     const handlersToRemove: string[] = [];
 
     for (const handler of handlers) {
-      if (!handler.filter || handler.filter(event: any)) {
+      if (!handler.filter || handler.filter(event)) {
         try {
-          await handler.handler(event: any);
+          await handler.handler(event);
           
           if (handler.once) {
             handlersToRemove.push(handler.id);
@@ -324,7 +324,7 @@ export class EventBus {
     }
 
     // Process the event
-    await this.processEvent(event: any);
+    await this.processEvent(event);
   }
 
   /**
@@ -488,7 +488,7 @@ export class EventFilter {
    */
   passesFilters(event: Event): boolean {
     for (const filter of Array.from(this.filters.values())) {
-      if (!filter(event: any)) {
+      if (!filter(event)) {
         return false;
       }
     }
@@ -539,7 +539,7 @@ export class EventReplicator {
       return false;
     }
 
-    return rule.shouldReplicate(event: any);
+    return rule.shouldReplicate(event);
   }
 
   /**
@@ -551,7 +551,7 @@ export class EventReplicator {
       return event;
     }
 
-    return rule.transform(event: any);
+    return rule.transform(event);
   }
 }
 
@@ -686,12 +686,12 @@ export class EventScheduler {
 
     for (const event of Array.from(this.scheduledEvents.values())) {
       if (event.executeAt <= now) {
-        eventsToExecute.push(event: any);
+        eventsToExecute.push(event);
       }
     }
 
     for (const event of eventsToExecute) {
-      this.executeScheduledEvent(event: any);
+      this.executeScheduledEvent(event);
     }
   }
 

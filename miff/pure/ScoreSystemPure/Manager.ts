@@ -248,7 +248,7 @@ export class ScoreManager {
           newScore = Math.max(0, newScore - event.value);
           break;
       }
-      appliedEvents.push(event: any);
+      appliedEvents.push(event);
     }
 
     score.score = newScore;

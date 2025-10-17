@@ -378,7 +378,7 @@ export class ChainValidatorManager {
     return { min, max, average: Math.round(avg * 1e6) / 1e6 };
   }
 
-  private toYAML(payload: any): string {
+  private toYAML(payload): string {
     // Simple YAML emitter sufficient for golden tests; not a full serializer
     const esc = (s: string) => s.replace(/"/g, '\\"');
     const lines: string[] = [];
@@ -403,7 +403,7 @@ export class ChainValidatorManager {
     return lines.join('\n');
   }
 
-  private toCSV(payload: any): string {
+  private toCSV(payload): string {
     const nodeRows = ['type,id,label'];
     for (const n of payload.nodes) nodeRows.push(`${n.type},${n.id},${(n.label || '').replace(/,/g, ';')}`);
     const edgeRows = ['from,to'];

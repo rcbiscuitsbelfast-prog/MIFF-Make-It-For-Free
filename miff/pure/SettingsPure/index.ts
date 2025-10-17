@@ -372,7 +372,7 @@ export class SettingsManager {
     };
   }
 
-  private countTotalSettings(obj: any): number {
+  private countTotalSettings(obj): number {
     let count = 0;
     for (const value of Object.values(obj)) {
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {

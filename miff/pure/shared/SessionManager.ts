@@ -522,7 +522,7 @@ export class SessionManager {
   }
 
   private logEvent(event: SessionEvent): void {
-    this.events.push(event: any);
+    this.events.push(event);
     
     // Keep only last 1000 events
     if (this.events.length > 1000) {

@@ -571,7 +571,7 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private generateCharacterAsset(character: any) {
+  private generateCharacterAsset(character) {
     console.log(`Generated character asset: ${character.id}`);
   }
 
@@ -590,7 +590,7 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private generateWorldAsset(asset: any) {
+  private generateWorldAsset(asset) {
     console.log(`Generated world asset: ${asset.id}`);
   }
 
@@ -642,7 +642,7 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private handleNPCInteraction(event: any) {
+  private handleNPCInteraction(event) {
     const npc = event.npc;
     const player = this.state.player;
 
@@ -699,7 +699,7 @@ export class WitcherExplorerDemo {
     return dialogues[npcId!]?.[dialogueKey!] || "Greetings, Witcher.";
   }
 
-  private handleMonsterEncounter(event: any) {
+  private handleMonsterEncounter(event) {
     const monster = event.monster;
     const player = this.state.player;
 
@@ -728,7 +728,7 @@ export class WitcherExplorerDemo {
     return Math.round(baseLevel * (healthFactor + damageFactor) / 2);
   }
 
-  private handleQuestUpdate(event: any) {
+  private handleQuestUpdate(event) {
     const quest = event.quest;
     const player = this.state.player;
 
@@ -756,7 +756,7 @@ export class WitcherExplorerDemo {
     }
   }
 
-  private handleItemAcquired(event: any) {
+  private handleItemAcquired(event) {
     const item = event.item;
     this.state.player.inventory.push(item);
 
@@ -766,7 +766,7 @@ export class WitcherExplorerDemo {
     });
   }
 
-  private handleLocationDiscovered(event: any) {
+  private handleLocationDiscovered(event) {
     const location = event.location;
     if (!this.state.world.discoveredLocations.includes(location.id)) {
       this.state.world.discoveredLocations.push(location.id);
@@ -774,7 +774,7 @@ export class WitcherExplorerDemo {
     }
   }
 
-  private handleDialogueChoice(event: any) {
+  private handleDialogueChoice(event) {
     const choice = event.choice;
     const npcId = event.npcId;
 

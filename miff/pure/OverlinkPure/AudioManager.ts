@@ -584,7 +584,7 @@ export class AudioManager {
     };
   }
 
-  importState(state: any): void {
+  importState(state): void {
     if (state.config) this.config = state.config;
     if (state.playbackState) {
       // Deep copy the playback state to ensure proper restoration

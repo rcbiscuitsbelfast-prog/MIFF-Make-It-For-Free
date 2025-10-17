@@ -517,27 +517,27 @@ export class BundleOptimizer {
     return { type: 'Module', body: [] };
   }
 
-  private extractExports(ast: any): string[] {
+  private extractExports(ast): string[] {
     // Simulate export extraction
     return ['default', 'namedExport'];
   }
 
-  private extractImports(ast: any): string[] {
+  private extractImports(ast): string[] {
     // Simulate import extraction
     return ['dependency1', 'dependency2'];
   }
 
-  private extractDependencies(ast: any): string[] {
+  private extractDependencies(ast): string[] {
     // Simulate dependency extraction
     return ['module1', 'module2'];
   }
 
-  private detectSideEffects(ast: any): boolean {
+  private detectSideEffects(ast): boolean {
     // Simulate side effect detection
     return false;
   }
 
-  private calculateComplexity(ast: any): number {
+  private calculateComplexity(ast): number {
     // Simulate complexity calculation
     return 1;
   }

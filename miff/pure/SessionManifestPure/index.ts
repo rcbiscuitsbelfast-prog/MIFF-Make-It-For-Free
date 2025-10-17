@@ -19,7 +19,7 @@ export class SessionManifestPure {
     return { id, zone, players, seed, createdAt: new Date().toISOString() };
   }
 
-  public static validate(manifest: any): { ok: boolean; errors: string[] } {
+  public static validate(manifest): { ok: boolean; errors: string[] } {
     const errors: string[] = [];
     if (!manifest || typeof manifest !== 'object') errors.push('manifest missing');
     if (!manifest.id) errors.push('id missing');

@@ -230,7 +230,7 @@ export class RaidManager {
 
     // Process events
     for (const event of events) {
-      encounter.events.push(event: any);
+      encounter.events.push(event);
       
       switch (event.type) {
         case 'damage':

@@ -24,7 +24,7 @@ type ValidationRule = {
 class AssetValidator {
   private rules: ValidationRule[] = [];
   
-  validate(asset: any): ValidationResult {
+  validate(asset): ValidationResult {
     return {
       assetId: asset.id,
       path: asset.path,

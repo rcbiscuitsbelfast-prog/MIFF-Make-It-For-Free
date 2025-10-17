@@ -475,7 +475,7 @@ class AvatarRendererGodotCLI {
     };
   }
 
-  private validateGodotScene(scene: any): boolean {
+  private validateGodotScene(scene): boolean {
     if (!scene) return false;
     if (!scene.type || scene.type !== 'GodotScene') return false;
     if (!Array.isArray(scene.nodes)) return false;
@@ -483,7 +483,7 @@ class AvatarRendererGodotCLI {
     return true;
   }
 
-  private validateGodotNodes(nodes: any): boolean {
+  private validateGodotNodes(nodes): boolean {
     if (!Array.isArray(nodes)) return false;
     return nodes.every(node => 
       node && 

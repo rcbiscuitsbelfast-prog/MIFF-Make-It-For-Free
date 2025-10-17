@@ -720,7 +720,7 @@ export class BattleAIManager {
   /**
    * Import AI state
    */
-  importState(state: any): void {
+  importState(state): void {
     if (state.strategies) {
       this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [s.id, s]));
     }

@@ -1014,7 +1014,7 @@ export class EconomicEngine {
     }
   }
 
-  private convertToCSV(data: any): string {
+  private convertToCSV(data): string {
     // Simple CSV conversion
     return 'type,id,name,value\n';
   }

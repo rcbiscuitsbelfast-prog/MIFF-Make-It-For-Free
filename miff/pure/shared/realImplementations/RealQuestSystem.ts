@@ -316,17 +316,17 @@ export class RealQuestSystem {
    * Event system for quest events
    */
   on(): void {
-    if (!this.questEvents.has(event: any)) {
+    if (!this.questEvents.has(event)) {
       this.questEvents.set(event, []);
     }
-    this.questEvents.get(event: any)?.push(handler);
+    this.questEvents.get(event)?.push(handler);
   }
 
   /**
    * Remove event handler
    */
   off(): void {
-    const handlers = this.questEvents.get(event: any);
+    const handlers = this.questEvents.get(event);
     if (handlers) {
       const index = handlers.indexOf(handler);
       if (index > -1) {
@@ -339,7 +339,7 @@ export class RealQuestSystem {
    * Emit quest events
    */
   private emit(event: string, data: any): void {
-    const handlers = this.questEvents.get(event: any);
+    const handlers = this.questEvents.get(event);
     if (handlers) {
       handlers.forEach((handler: any) => {
         try {

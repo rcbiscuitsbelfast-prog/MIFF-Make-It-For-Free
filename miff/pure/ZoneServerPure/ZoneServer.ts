@@ -4,13 +4,13 @@ import { PerfMetricsPure } from '../PerfMetricsPure';
 // Mock WebSocketBridgePure interface for ZoneServerPure
 interface WebSocketBridgePure {
   addMessageHandler(type: string, handler: (data: any) => void): void;
-  send(data: any): void;
+  send(data): void;
 }
 
 // Mock NetworkBridgePure interface for ZoneServerPure
 interface NetworkBridgePure {
   addMessageHandler(type: string, handler: (data: any) => void): void;
-  send(data: any): void;
+  send(data): void;
 }
 
 export enum ZoneType {
@@ -422,7 +422,7 @@ export class ZoneServerPure {
   }
 
   public createZoneEvent(event: ZoneEvent): void {
-    this.zoneEvents.push(event: any);
+    this.zoneEvents.push(event);
     this.emitEvent('zone_event_created', { event, zoneId: this.config.zoneId });
 
     // Broadcast event to players
@@ -617,21 +617,21 @@ export class ZoneServerPure {
     return true;
   }
 
-  private handlePlayerJoin(data: any): void {
+  private handlePlayerJoin(data): void {
     // Handle player joining the zone
     if (data.playerState) {
       this.addPlayer(data.playerState);
     }
   }
 
-  private handlePlayerLeave(data: any): void {
+  private handlePlayerLeave(data): void {
     // Handle player leaving the zone
     if (data.playerId) {
       this.removePlayer(data.playerId);
     }
   }
 
-  private handleHeartbeat(data: any): void {
+  private handleHeartbeat(data): void {
     // Handle heartbeat from clients
     if (data.playerId && data.latency !== undefined) {
       // Update latency metrics
@@ -641,12 +641,12 @@ export class ZoneServerPure {
     }
   }
 
-  private handleInterZoneMessage(data: any): void {
+  private handleInterZoneMessage(data): void {
     // Handle messages from other zones
     this.emitEvent('inter_zone_message', data);
   }
 
-  private handleLoadBalanceRequest(data: any): void {
+  private handleLoadBalanceRequest(data): void {
     // Handle load balancing requests
     const canAccept = this.canAcceptPlayer();
     const loadFactor = this.getLoadFactor();
@@ -663,7 +663,7 @@ export class ZoneServerPure {
     }
   }
 
-  private handleZoneStatusUpdate(data: any): void {
+  private handleZoneStatusUpdate(data): void {
     // Handle zone status updates from other zones
     if (data.zoneId && data.status) {
       if (data.status === ZoneStatus.OFFLINE) {

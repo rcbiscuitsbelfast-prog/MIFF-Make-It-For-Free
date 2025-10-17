@@ -183,7 +183,7 @@ export class TimelineSystemPure {
 
   private handleEventRecorded(event: TimelineEvent): void {
     this.events.set(event?.id, event);
-    this.memoryManager.trackEvent(event: any);
+    this.memoryManager.trackEvent(event);
     this.checkMemoryUsage();
   }
 
@@ -454,7 +454,7 @@ export class TimelineSystemPure {
     );
 
     relevantEvents.forEach((event: any) => {
-      this.applyEventState(event: any);
+      this.applyEventState(event);
     });
 
     // Update entity positions based on snapshots
@@ -507,7 +507,7 @@ export class TimelineSystemPure {
       branchId: activeBranch.id
     };
 
-    activeBranch.events.push(event: any);
+    activeBranch.events.push(event);
     this.events.set(event?.id, event);
 
     this.eventBus.publish('timeline:event_recorded', {
@@ -780,7 +780,7 @@ class MemoryManager {
   }
 
   trackEvent(event: TimelineEvent): void {
-    this.usage += JSON.stringify(event: any).length;
+    this.usage += JSON.stringify(event).length;
   }
 
   getUsage(): number {
@@ -793,7 +793,7 @@ class MemoryManager {
 }
 
 class CompressionEngine {
-  compress(data: any): string {
+  compress(data): string {
     // Implement compression logic
     return JSON.stringify(data);
   }

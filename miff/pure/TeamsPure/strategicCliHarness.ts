@@ -621,7 +621,7 @@ export class TeamsPureStrategicCLI {
   }
 
   // Helper methods
-  private getTeamStrategy(team: any): string {
+  private getTeamStrategy(team): string {
     const spirits = team.spirits;
     if (spirits.length === 0) return 'No spirits';
 

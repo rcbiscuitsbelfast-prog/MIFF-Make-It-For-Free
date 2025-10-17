@@ -540,7 +540,7 @@ export class BridgeSchemaManager {
     target[lastKey!] = value;
   }
 
-  private inferSchemaFromData(data: any): any {
+  private inferSchemaFromData(data): any {
     if (data === null || data === undefined) {
       return { type: 'null' };
     }

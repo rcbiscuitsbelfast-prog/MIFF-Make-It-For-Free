@@ -779,7 +779,7 @@ export class TestRunner {
   /**
    * Generate summary
    */
-  private generateSummary(stats: any): string {
+  private generateSummary(stats): string {
     const { totalSuites, totalTests, passedSuites, passedTests, failedSuites, failedTests, skippedSuites, skippedTests, duration } = stats;
     
     let summary = `Test Run Summary:\n`;
@@ -915,21 +915,21 @@ export class TestRunner {
   /**
    * Handle test start event
    */
-  private handleTestStart(data: any): void {
+  private handleTestStart(data): void {
     // Implementation for handling test start events
   }
 
   /**
    * Handle test end event
    */
-  private handleTestEnd(data: any): void {
+  private handleTestEnd(data): void {
     // Implementation for handling test end events
   }
 
   /**
    * Handle test error event
    */
-  private handleTestError(data: any): void {
+  private handleTestError(data): void {
     // Implementation for handling test error events
   }
 

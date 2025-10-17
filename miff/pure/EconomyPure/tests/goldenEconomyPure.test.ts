@@ -235,7 +235,7 @@ describe('EconomyPure CLI Harness', () => {
       ]
     };
 
-    const result = await runCLICommand(CLI_PATH, ['create-event', JSON.stringify(event: any)]);
+    const result = await runCLICommand(CLI_PATH, ['create-event', JSON.stringify(event)]);
     
     expect(result.op).toBe('create-event');
     expect(result.status).toBe('ok');

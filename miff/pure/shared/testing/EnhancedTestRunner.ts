@@ -155,7 +155,7 @@ export class EnhancedTestRunner {
   /**
    * Execute Jest with enhanced monitoring
    */
-  private async executeJest(config: any): Promise<TestSuite[]> {
+  private async executeJest(config): Promise<TestSuite[]> {
     // This would integrate with Jest programmatically in a real implementation
     // For now, we'll simulate the execution
     

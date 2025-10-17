@@ -482,7 +482,7 @@ export class PermissionsManager {
   }
 
   private logAuditEvent(event: SecurityAuditLog): void {
-    this.auditLog.push(event: any);
+    this.auditLog.push(event);
 
     // Keep only recent entries based on retention policy
     const retentionTime = this.securityConfig.auditLogRetention;
@@ -647,12 +647,12 @@ export class PermissionsManager {
     }
   }
 
-  private toXml(data: any): string {
+  private toXml(data): string {
     // Simple XML conversion - in a real implementation this would be more robust
     return '<permissions><!-- XML export not fully implemented --></permissions>';
   }
 
-  private toCsv(data: any): string {
+  private toCsv(data): string {
     // Simple CSV conversion
     return 'type,id,name,description,enabled\n';
   }

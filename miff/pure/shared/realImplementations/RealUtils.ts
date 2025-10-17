@@ -83,7 +83,7 @@ export interface ObjectUtils {
   deepMerge<T>(target: T, source: Partial<T>): T;
   pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
   omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>;
-  isEmpty(obj: any): boolean;
+  isEmpty(obj): boolean;
   isEqual(obj1: any, obj2: any): boolean;
   keys<T extends object>(obj: T): (keyof T)[];
   values<T extends object>(obj: T): T[keyof T][];
@@ -563,14 +563,14 @@ export class RealUtils {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event: any)) {
+    if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event: any)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event: any);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
       const index = handlers.indexOf(handler);
       if (index > -1) {
@@ -580,7 +580,7 @@ export class RealUtils {
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event: any);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
       handlers.forEach((handler: any) => {
         try {

@@ -412,22 +412,22 @@ export class RenderWorldWebBridge {
     }
   }
 
-  private handleInputEvent(event: any): void {
+  private handleInputEvent(event): void {
     // Convert web input events to RenderWorld input
     switch (event.type) {
       case 'keydown':
-        this.handleKeyboardInput(event: any);
+        this.handleKeyboardInput(event);
         break;
       case 'mousemove':
-        this.handleMouseInput(event: any);
+        this.handleMouseInput(event);
         break;
       case 'mousedown':
-        this.handleMouseClick(event: any);
+        this.handleMouseClick(event);
         break;
     }
   }
 
-  private handleKeyboardInput(event: any): void {
+  private handleKeyboardInput(event): void {
     const playerVelocity = { x: 0, y: 0, z: 0 };
 
     switch (event.key.toLowerCase()) {
@@ -469,7 +469,7 @@ export class RenderWorldWebBridge {
     }
   }
 
-  private handleMouseInput(event: any): void {
+  private handleMouseInput(event): void {
     // Handle mouse look
     const sensitivity = 0.002;
     const deltaX = event.canvasX - this.config.width / 2;
@@ -483,7 +483,7 @@ export class RenderWorldWebBridge {
     this.config.canvas.style.cursor = 'none';
   }
 
-  private handleMouseClick(event: any): void {
+  private handleMouseClick(event): void {
     // Handle mouse interactions
     if (event.button === 0) { // Left click
       EventBus.publish('player.interact', { position: event });

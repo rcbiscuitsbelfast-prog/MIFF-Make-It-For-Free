@@ -14,15 +14,15 @@ class MockEventBus {
   private events: Map<string, Function[]> = new Map();
 
   emit(event: string, data: any) {
-    const handlers = this.events.get(event: any) || [];
+    const handlers = this.events.get(event) || [];
     handlers.forEach(handler => handler(data));
   }
 
   on(event: string, handler: Function) {
-    if (!this.events.has(event: any)) {
+    if (!this.events.has(event)) {
       this.events.set(event, []);
     }
-    this.events.get(event: any)!.push(handler);
+    this.events.get(event)!.push(handler);
   }
 }
 

@@ -311,7 +311,7 @@ export class ConvertToGodotManager {
     };
   }
 
-  private convertRotation(rotation: any): number[][] | null {
+  private convertRotation(rotation): number[][] | null {
     if (!rotation) return null;
 
     // Convert Euler angles to rotation matrix
@@ -342,7 +342,7 @@ export class ConvertToGodotManager {
     ];
   }
 
-  private convertMeshToNode(mesh: any): GodotSceneNode | null {
+  private convertMeshToNode(mesh): GodotSceneNode | null {
     return {
       type: 'MeshInstance3D',
       name: mesh.id || 'mesh',
@@ -358,7 +358,7 @@ export class ConvertToGodotManager {
     };
   }
 
-  private convertLightToNode(light: any): GodotSceneNode | null {
+  private convertLightToNode(light): GodotSceneNode | null {
     return {
       type: 'Node3D',
       name: light.id || 'light',
@@ -375,7 +375,7 @@ export class ConvertToGodotManager {
     };
   }
 
-  private convertCameraToNode(camera: any): GodotSceneNode | null {
+  private convertCameraToNode(camera): GodotSceneNode | null {
     return {
       type: 'Node3D',
       name: camera.id || 'camera',
@@ -392,7 +392,7 @@ export class ConvertToGodotManager {
     };
   }
 
-  private convertPhysicsToNode(physics: any): GodotSceneNode | null {
+  private convertPhysicsToNode(physics): GodotSceneNode | null {
     return {
       type: 'Node3D',
       name: physics.id || 'physics_body',
@@ -419,7 +419,7 @@ export class ConvertToGodotManager {
     };
   }
 
-  private generateMeshResource(mesh: any): string {
+  private generateMeshResource(mesh): string {
     const resourceId = `mesh_${this.resourceCounter++}`;
     const resource: GodotResource = {
       type: 'Mesh',
@@ -437,7 +437,7 @@ export class ConvertToGodotManager {
     return resource.path;
   }
 
-  private convertMaterialToResource(material: any): GodotResource | null {
+  private convertMaterialToResource(material): GodotResource | null {
     const resourceId = `material_${this.resourceCounter++}`;
     const resource: GodotResource = {
       type: 'Material',
@@ -457,7 +457,7 @@ export class ConvertToGodotManager {
     return resource;
   }
 
-  private generateCollisionShape(collider: any): string {
+  private generateCollisionShape(collider): string {
     const resourceId = `shape_${this.resourceCounter++}`;
     const resource: GodotResource = {
       type: 'Mesh',

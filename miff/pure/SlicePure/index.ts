@@ -1469,7 +1469,7 @@ export const SliceUtils = {
   /**
    * Format battle result for display
    */
-  formatBattleResult(result: any): string {
+  formatBattleResult(result): string {
     return `Battle completed: ${result.winner.name} defeated ${result.loser.name} in ${result.turns} turns`;
   },
 

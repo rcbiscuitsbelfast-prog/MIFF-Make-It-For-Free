@@ -581,7 +581,7 @@ export class TopplerDemo {
     });
   }
 
-  private generateSpriteAsset(sprite: any) {
+  private generateSpriteAsset(sprite) {
     console.log(`Generated sprite asset: ${sprite.id}`);
   }
 
@@ -597,7 +597,7 @@ export class TopplerDemo {
     });
   }
 
-  private generateBackgroundAsset(bg: any) {
+  private generateBackgroundAsset(bg) {
     console.log(`Generated background asset: ${bg.id}`);
   }
 
@@ -644,13 +644,13 @@ export class TopplerDemo {
     });
   }
 
-  private handlePlayerLanded(event: any) {
+  private handlePlayerLanded(event) {
     // Player landed on a platform
     this.state.player.velocity.y = 0;
     EventBus.publish('audio.play', { sound: 'land_sound' });
   }
 
-  private handlePlayerHit(event: any) {
+  private handlePlayerHit(event) {
     // Player took damage
     this.state.player.health -= event.damage;
     this.state.player.velocity.y = -200; // Bounce up
@@ -668,7 +668,7 @@ export class TopplerDemo {
     EventBus.publish('camera.shake', { intensity: 5, duration: 0.5 });
   }
 
-  private handleCollectible(event: any) {
+  private handleCollectible(event) {
     const collectible = event.collectible;
     const player = this.state.player;
 
@@ -688,7 +688,7 @@ export class TopplerDemo {
     EventBus.publish('audio.play', { sound: 'collect_sound' });
   }
 
-  private handleLevelComplete(event: any) {
+  private handleLevelComplete(event) {
     const currentLevel = this.state.world.levels.get(this.state.world.currentLevel)!;
     this.state.game.completedLevels.push(currentLevel.id);
     this.state.game.score += this.calculateLevelScore();

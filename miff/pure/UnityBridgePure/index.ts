@@ -1119,10 +1119,10 @@ export class UnityBridgeManager {
     this.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event: any);
+    this.eventQueue.push(event);
 
     // Process immediately
-    await this.handleEvent(event: any);
+    await this.handleEvent(event);
   }
 
   private async handleEvent(event: UnityEvent): Promise<void> {
@@ -1272,13 +1272,13 @@ export class UnityBridgeManager {
 
   // Event handling
   addLifecycleEventHandler(event: UnityLifecycleEvent, handler: Function): void {
-    const handlers = this.lifecycleEventHandlers.get(event: any) || [];
+    const handlers = this.lifecycleEventHandlers.get(event) || [];
     handlers.push(handler);
     this.lifecycleEventHandlers.set(event, handlers);
   }
 
   removeLifecycleEventHandler(event: UnityLifecycleEvent, handler: Function): void {
-    const handlers = this.lifecycleEventHandlers.get(event: any) || [];
+    const handlers = this.lifecycleEventHandlers.get(event) || [];
     const index = handlers.indexOf(handler);
 
     if (index !== -1) {
@@ -1329,7 +1329,7 @@ export class UnityBridgeManager {
 
     const batch = this.eventQueue.splice(0, this.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event: any);
+      await this.handleEvent(event);
     }
   }
 
@@ -1401,12 +1401,12 @@ export class UnityBridgeManager {
     }
   }
 
-  private convertToXML(data: any): string {
+  private convertToXML(data): string {
     // Simple XML conversion - in production this would be more robust
     return '<unity_bridge_data><!-- XML export not fully implemented --></unity_bridge_data>';
   }
 
-  private convertToBinary(data: any): string {
+  private convertToBinary(data): string {
     // Simple binary conversion - in production this would use proper serialization
     return JSON.stringify(data);
   }

@@ -620,14 +620,14 @@ export class RealModdingSystem {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event: any)) {
+    if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event: any)?.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event: any);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
       const index = handlers.indexOf(handler);
       if (index > -1) {
@@ -637,7 +637,7 @@ export class RealModdingSystem {
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event: any);
+    const handlers = this.eventHandlers.get(event);
     if (handlers) {
       handlers.forEach((handler: any) => {
         try {

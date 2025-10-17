@@ -649,6 +649,6 @@ export class StatusEffectsManager {
       timestamp: Date.now(),
       data
     };
-    this.events.push(event: any);
+    this.events.push(event);
   }
 }

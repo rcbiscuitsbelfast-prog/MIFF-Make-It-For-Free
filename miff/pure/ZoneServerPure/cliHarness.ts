@@ -410,7 +410,7 @@ async function main(): Promise<void> {
         zoneWide: true
       };
 
-      zoneServer.createZoneEvent(event: any);
+      zoneServer.createZoneEvent(event);
       console.log(`✅ Created zone event "${eventId}" for ${duration} seconds`);
       break;
     }

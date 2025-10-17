@@ -185,7 +185,7 @@ class DialogueSystemPureStub {
 class CameraSystemPureStub {
   private activeTransitions: Map<string, any> = new Map();
 
-  async startTransition(payload: any): Promise<void> {
+  async startTransition(payload): Promise<void> {
     try {
       const transitionId = payload.id || `transition_${Date.now()}`;
       
@@ -220,7 +220,7 @@ class CameraSystemPureStub {
     }
   }
 
-  updateTransition(payload: any): void {
+  updateTransition(payload): void {
     const transitionId = payload.id;
     const transition = this.activeTransitions.get(transitionId);
     
@@ -1118,50 +1118,50 @@ export class CutScenePure {
   }
 
   // Event handlers
-  private handleStart(event: any): void {
+  private handleStart(event): void {
     if (event.cutSceneId === this.config.id) {
       this.play();
     }
   }
 
-  private handleStop(event: any): void {
+  private handleStop(event): void {
     if (event.cutSceneId === this.config.id) {
       this.stop();
     }
   }
 
-  private handlePause(event: any): void {
+  private handlePause(event): void {
     if (event.cutSceneId === this.config.id) {
       this.pause();
     }
   }
 
-  private handleResume(event: any): void {
+  private handleResume(event): void {
     if (event.cutSceneId === this.config.id) {
       this.resume();
     }
   }
 
-  private handleSkip(event: any): void {
+  private handleSkip(event): void {
     if (event.cutSceneId === this.config.id) {
       this.skip();
     }
   }
 
-  private handleBranch(event: any): void {
+  private handleBranch(event): void {
     if (event.cutSceneId === this.config.id) {
       // Force evaluation of branches
       this.evaluateBranches(this.state.currentTime);
     }
   }
 
-  private handleVariableSet(event: any): void {
+  private handleVariableSet(event): void {
     if (event.cutSceneId === this.config.id) {
       this.state.variables[event.variable] = event.value;
     }
   }
 
-  private handleEngineReady(event: any): void {
+  private handleEngineReady(event): void {
     this.state.engineContext = event.engineType;
     console.log(`🔧 Cut scene engine ready: ${event.engineType}`);
   }

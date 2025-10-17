@@ -415,7 +415,7 @@ export class EnhancedEconomyManager {
 
     // Apply economic events
     for (const event of this.economicEvents.values()) {
-      if (this.isEventActive(event: any)) {
+      if (this.isEventActive(event)) {
         for (const effect of event.effects) {
           if (this.eventAffectsItem(effect, rule, vendor)) {
             const eventEffect = basePrice * effect.modifier;

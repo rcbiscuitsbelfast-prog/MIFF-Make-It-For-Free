@@ -147,7 +147,7 @@ export class SplashScreenIntegration {
     });
   }
 
-  private async injectIntoWebExport(event: any): Promise<void> {
+  private async injectIntoWebExport(event): Promise<void> {
     const { htmlContent, config } = event;
 
     if (!this.config.enableSplashScreen) {
@@ -173,7 +173,7 @@ export class SplashScreenIntegration {
     }
   }
 
-  private async injectIntoUnityScene(event: any): Promise<void> {
+  private async injectIntoUnityScene(event): Promise<void> {
     const { sceneContent, config } = event;
 
     if (!this.config.enableSplashScreen) {
@@ -312,7 +312,7 @@ public class MIFFSplashScreen : MonoBehaviour
     return sceneContent + '\n' + splashScript;
   }
 
-  private async handleCLICommand(event: any): Promise<void> {
+  private async handleCLICommand(event): Promise<void> {
     const { command, flags } = event;
 
     const cliCommand = this.cliCommands.get(command);

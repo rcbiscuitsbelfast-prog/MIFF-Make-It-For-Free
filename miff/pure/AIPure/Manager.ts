@@ -512,7 +512,7 @@ export class AIUtils {
     ];
   }
 
-  static createAdaptivePolicy(spirit: any): AIPolicy {
+  static createAdaptivePolicy(spirit): AIPolicy {
     const hpRatio = (spirit.currentHP || 1) / Math.max(1, spirit.maxHP || 1);
     const attack = spirit.attack || 0;
     const defense = spirit.defense || 0;
@@ -1258,7 +1258,7 @@ export class AIManager {
   /**
    * Extract output from battle result for neural network training
    */
-  private extractOutputFromBattleResult(result: any): number[] {
+  private extractOutputFromBattleResult(result): number[] {
     // Convert battle result to numerical representation
     // [player_health_ratio, opponent_health_ratio, battle_duration, victory_status]
     return [
@@ -1417,7 +1417,7 @@ export class AIPerformanceMonitor {
   /**
    * Log metrics if thresholds are exceeded
    */
-  private logMetricsIfNeeded(metrics: any): void {
+  private logMetricsIfNeeded(metrics): void {
     if (metrics.averageError > 0.5) {
       console.warn(`[AIPerformanceMonitor!] High average error detected: ${metrics.averageError.toFixed(4)}`);
     }

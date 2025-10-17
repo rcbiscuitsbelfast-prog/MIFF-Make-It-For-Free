@@ -855,7 +855,7 @@ export class WebConverter {
     };
   }
 
-  private async convertAnimation(animation: any): Promise<WebAnimation> {
+  private async convertAnimation(animation): Promise<WebAnimation> {
     return {
       id: animation.id || `animation_${Math.random().toString(36).substr(2, 9)}`,
       name: animation.name || 'Animation',

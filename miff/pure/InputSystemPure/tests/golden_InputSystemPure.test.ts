@@ -130,7 +130,7 @@ describe('InputSystemPure Golden Tests', () => {
         source: 'test'
       };
 
-      const processResult = manager.processInputEvent(event: any);
+      const processResult = manager.processInputEvent(event);
       expect(processResult.status).toBe('ok');
       expect(processResult.result?.event).toBeDefined();
     });
@@ -146,7 +146,7 @@ describe('InputSystemPure Golden Tests', () => {
         source: 'test'
       };
 
-      const processResult = manager.processInputEvent(event: any);
+      const processResult = manager.processInputEvent(event);
       expect(processResult.status).toBe('error');
       expect(processResult.issues).toContain('No active profile set');
     });
@@ -224,7 +224,7 @@ describe('InputSystemPure Golden Tests', () => {
           timestamp: Date.now(),
           source: 'test'
         };
-        manager.processInputEvent(event: any);
+        manager.processInputEvent(event);
       });
 
       const statsResult = manager.getInputStats();
@@ -246,7 +246,7 @@ describe('InputSystemPure Golden Tests', () => {
           timestamp: Date.now(),
           source: 'test'
         };
-        manager.processInputEvent(event: any);
+        manager.processInputEvent(event);
       }
 
       const recentResult = manager.getRecentEvents(3);
@@ -264,7 +264,7 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: Date.now(),
         source: 'test'
       };
-      manager.processInputEvent(event: any);
+      manager.processInputEvent(event);
 
       const clearResult = manager.clearHistory();
       expect(clearResult.status).toBe('ok');
@@ -285,7 +285,7 @@ describe('InputSystemPure Golden Tests', () => {
         timestamp: Date.now(),
         source: 'test'
       };
-      manager.processInputEvent(event: any);
+      manager.processInputEvent(event);
 
       // JSON export
       const jsonResult = manager.exportInput('json');
@@ -389,7 +389,7 @@ describe('InputSystemPure Golden Tests', () => {
           timestamp: Date.now(),
           source: 'workflow'
         };
-        return manager.processInputEvent(event: any);
+        return manager.processInputEvent(event);
       });
 
       // Recognize gestures

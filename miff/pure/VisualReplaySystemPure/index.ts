@@ -352,7 +352,7 @@ export function recordInputEvent(
     data
   };
   
-  session.inputStream.push(event: any);
+  session.inputStream.push(event);
   return event;
 }
 
@@ -532,7 +532,7 @@ function analyzeInputPatterns(inputEvents: InputEvent[]): InputPattern[] {
     if (!eventTypes.has(event.type)) {
       eventTypes.set(event.type, []);
     }
-    eventTypes.get(event.type)!.push(event: any);
+    eventTypes.get(event.type)!.push(event);
   });
   
   // Analyze each event type

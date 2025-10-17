@@ -280,7 +280,7 @@ export class InputSystemManager {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     // Add to event history
-    this.eventHistory.push(event: any);
+    this.eventHistory.push(event);
     if (this.eventHistory.length > 1000) {
       this.eventHistory.shift();
     }
@@ -300,12 +300,12 @@ export class InputSystemManager {
 
     // Process gestures
     if (this.settings.enableGestures) {
-      this.processGestures(event: any);
+      this.processGestures(event);
     }
 
     // Process buffering
     if (this.settings.enableBuffering) {
-      this.processBuffering(event: any);
+      this.processBuffering(event);
     }
 
     return {

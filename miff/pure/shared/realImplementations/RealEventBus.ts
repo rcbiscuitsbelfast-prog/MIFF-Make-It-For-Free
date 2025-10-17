@@ -86,10 +86,10 @@ export class RealEventBus extends EventEmitter {
     };
 
     // Add to subscriptions map
-    if (!this.subscriptions.has(event: any)) {
+    if (!this.subscriptions.has(event)) {
       this.subscriptions.set(event, []);
     }
-    const eventSubs = this.subscriptions.get(event: any)!;
+    const eventSubs = this.subscriptions.get(event)!;
     eventSubs.push(subscription);
     
     // Sort by priority (higher priority first)
@@ -123,7 +123,7 @@ export class RealEventBus extends EventEmitter {
         
         // Clean up empty event arrays
         if (subs.length === 0) {
-          this.subscriptions.delete(event: any);
+          this.subscriptions.delete(event);
         }
         
         this.updateMetrics();
@@ -158,8 +158,8 @@ export class RealEventBus extends EventEmitter {
    * Get all subscriptions for an event
    */
   public getSubscriptions(event?: string): EventSubscription[] {
-    if (event: any) {
-      return this.subscriptions.get(event: any) || [];
+    if (event) {
+      return this.subscriptions.get(event) || [];
     }
     
     const allSubs: EventSubscription[] = [];
@@ -189,8 +189,8 @@ export class RealEventBus extends EventEmitter {
    * Clear subscriptions for a specific event
    */
   public clearEvent(event: string): void {
-    this.removeAllListeners(event: any);
-    this.subscriptions.delete(event: any);
+    this.removeAllListeners(event);
+    this.subscriptions.delete(event);
     this.updateMetrics();
   }
 
@@ -198,7 +198,7 @@ export class RealEventBus extends EventEmitter {
    * Check if an event has any subscribers
    */
   public hasSubscribers(event: string): boolean {
-    return this.listenerCount(event: any) > 0;
+    return this.listenerCount(event) > 0;
   }
 
   /**

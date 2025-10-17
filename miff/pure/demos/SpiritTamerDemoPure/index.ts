@@ -415,7 +415,7 @@ export class SpiritTamerDemo {
     });
   }
 
-  private generateSpriteAsset(sprite: any) {
+  private generateSpriteAsset(sprite) {
     // Generate sprite asset using PixelGenPure or similar
     console.log(`Generated sprite asset: ${sprite.id}`);
   }
@@ -432,7 +432,7 @@ export class SpiritTamerDemo {
     });
   }
 
-  private generateBackgroundAsset(bg: any) {
+  private generateBackgroundAsset(bg) {
     // Generate background using SceneBuilderPure
     console.log(`Generated background asset: ${bg.id}`);
   }
@@ -465,7 +465,7 @@ export class SpiritTamerDemo {
     });
   }
 
-  private handleSpiritEncounter(event: any) {
+  private handleSpiritEncounter(event) {
     const spirit = event.spirit;
     const player = this.state.player;
 
@@ -492,7 +492,7 @@ export class SpiritTamerDemo {
     return Math.random() < successRate;
   }
 
-  private handleCombatStart(event: any) {
+  private handleCombatStart(event) {
     this.state.combat = {
       active: true,
       enemySpirit: event.enemySpirit,
@@ -500,14 +500,14 @@ export class SpiritTamerDemo {
     };
   }
 
-  private handleCombatEnd(event: any) {
+  private handleCombatEnd(event) {
     this.state.combat = undefined;
     if (event.victory) {
       EventBus.publish('experience.gained', { amount: event.experience });
     }
   }
 
-  private handleQuestComplete(event: any) {
+  private handleQuestComplete(event) {
     const quest = event.quest;
     const player = this.state.player;
 
@@ -527,7 +527,7 @@ export class SpiritTamerDemo {
     }
   }
 
-  private handleItemCollect(event: any) {
+  private handleItemCollect(event) {
     const item = event.item;
     this.state.player.inventory.push(item);
   }

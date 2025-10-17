@@ -230,7 +230,7 @@ export class UIBuilder {
   /**
    * Create rig node
    */
-  private createRigNode(data: any): void {
+  private createRigNode(data): void {
     // This would integrate with RigBuilder
     console.log('Creating rig node:', data);
   }
@@ -238,7 +238,7 @@ export class UIBuilder {
   /**
    * Create limb node
    */
-  private createLimbNode(data: any): void {
+  private createLimbNode(data): void {
     // This would integrate with LimbAttachment
     console.log('Creating limb node:', data);
   }
@@ -246,7 +246,7 @@ export class UIBuilder {
   /**
    * Create face feature
    */
-  private createFaceFeature(data: any): void {
+  private createFaceFeature(data): void {
     // This would integrate with FacialDetailBuilder
     console.log('Creating face feature:', data);
   }
@@ -254,7 +254,7 @@ export class UIBuilder {
   /**
    * Create morph target
    */
-  private createMorphTarget(data: any): void {
+  private createMorphTarget(data): void {
     // This would integrate with SkinMeshGenerator
     console.log('Creating morph target:', data);
   }
@@ -262,7 +262,7 @@ export class UIBuilder {
   /**
    * Create keyframe
    */
-  private createKeyframe(data: any): void {
+  private createKeyframe(data): void {
     // This would integrate with AnimationSequencer
     console.log('Creating keyframe:', data);
   }

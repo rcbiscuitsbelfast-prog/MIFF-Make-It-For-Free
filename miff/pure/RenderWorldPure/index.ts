@@ -717,7 +717,7 @@ export class RenderWorldPure {
     });
   }
 
-  private handleSpiritLensPickup(event: any) {
+  private handleSpiritLensPickup(event) {
     this.state.player.holdingSpiritLens = true;
     this.state.world.spiritLens.active = false;
 
@@ -729,7 +729,7 @@ export class RenderWorldPure {
     });
   }
 
-  private handleSpiritLensUse(event: any) {
+  private handleSpiritLensUse(event) {
     if (!this.state.player.holdingSpiritLens) return;
 
     const scanResult = this.performSpiritLensScan();
@@ -802,7 +802,7 @@ export class RenderWorldPure {
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
-  private triggerNPCDialogue(npc: any) {
+  private triggerNPCDialogue(npc) {
     if (Date.now() - npc.lastDialogueTime < 10000) return; // Cooldown
 
     npc.lastDialogueTime = Date.now();
@@ -822,7 +822,7 @@ export class RenderWorldPure {
     }, 5000);
   }
 
-  private handlePortalActivation(event: any) {
+  private handlePortalActivation(event) {
     const portalId = event.portalId;
     const portal = Object.values(this.state.world.portals).find(p => p.destination.toLowerCase() === portalId);
 
@@ -842,7 +842,7 @@ export class RenderWorldPure {
     });
   }
 
-  private handleNPCInteraction(event: any) {
+  private handleNPCInteraction(event) {
     const npc = event.npc;
     const player = this.state.player;
 
@@ -852,14 +852,14 @@ export class RenderWorldPure {
     this.triggerNPCDialogue(npc);
   }
 
-  private handleDialogueTrigger(event: any) {
+  private handleDialogueTrigger(event) {
     // Handle dialogue system interactions
     this.state.ui.dialogueVisible = true;
 
     EventBus.publish('ui.dialogue', event.dialogue);
   }
 
-  private handlePlayerMovement(event: any) {
+  private handlePlayerMovement(event) {
     // Update player position and handle physics
     const newPosition = {
       x: this.state.player.position.x + event.velocity.x,
@@ -895,7 +895,7 @@ export class RenderWorldPure {
     });
   }
 
-  private handleWorldScan(event: any) {
+  private handleWorldScan(event) {
     // Process scan results and update world state
     if (event.portals && event.portals.length > 0) {
       EventBus.publish('ui.notification', {
@@ -978,7 +978,7 @@ export class RenderWorldPure {
     });
   }
 
-  private updateNPCBehavior(npc: any) {
+  private updateNPCBehavior(npc) {
     const behaviors = ['idle', 'wandering', 'inspecting'];
     const currentBehavior = behaviors[Math.floor(Math.random() * behaviors.length)];
 
@@ -1118,7 +1118,7 @@ export class RenderWorldPure {
     });
   }
 
-  private renderPortal(portal: any) {
+  private renderPortal(portal) {
     // Portal-specific rendering with emissive effects
     const emissiveColor = portal.aura || portal.shimmer || portal.glow;
 
@@ -1139,7 +1139,7 @@ export class RenderWorldPure {
     });
   }
 
-  private renderNPC(npc: any) {
+  private renderNPC(npc) {
     EventBus.publish('render.npc', {
       npc: npc,
       state: npc.state,

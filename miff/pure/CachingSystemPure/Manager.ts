@@ -650,7 +650,7 @@ export class CachingSystemManager {
   /**
    * Calculate size of a value
    */
-  private calculateSize(value: any): number {
+  private calculateSize(value): number {
     try {
       return JSON.stringify(value).length * 2; // Rough estimate
     } catch {

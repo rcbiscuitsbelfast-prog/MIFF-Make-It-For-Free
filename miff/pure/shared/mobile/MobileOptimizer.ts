@@ -223,7 +223,7 @@ export class MobileOptimizer {
    */
   addTouchEventListener(event: string, handler: Function): void {
     if (typeof window !== 'undefined') {
-      const listeners = this.touchEventListeners.get(event: any) || [];
+      const listeners = this.touchEventListeners.get(event) || [];
       listeners.push(handler);
 
       window.addEventListener(event, handler as EventListener, {
@@ -240,7 +240,7 @@ export class MobileOptimizer {
    */
   removeTouchEventListener(event: string, handler: Function): void {
     if (typeof window !== 'undefined') {
-      const listeners = this.touchEventListeners.get(event: any) || [];
+      const listeners = this.touchEventListeners.get(event) || [];
       const index = listeners.indexOf(handler);
 
       if (index !== -1) {

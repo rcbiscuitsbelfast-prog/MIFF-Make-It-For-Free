@@ -770,10 +770,10 @@ describe('EffectsPure Golden Tests', () => {
       const activeEffect = new ActiveEffect(effect, 'player');
       const event = EffectEvent.applied('player', effect, activeEffect, EffectPhase.PRE_TURN);
 
-      resolution.addEvent(event: any);
+      resolution.addEvent(event);
 
       expect(resolution.events).toHaveLength(1);
-      expect(resolution.events[0]).toBe(event: any);
+      expect(resolution.events[0]).toBe(event);
     });
 
     test('should get total stat changes', () => {
