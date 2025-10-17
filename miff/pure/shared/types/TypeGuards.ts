@@ -10,7 +10,7 @@
 
 import { StructuredLogger } from '../logging/StructuredLogger';
 
-export interface TypeGuardResult<T extends object> {
+export interface TypeGuardResult<T> {
   isValid: boolean;
   value: T | null;
   error?: string;
@@ -48,7 +48,7 @@ export class TypeGuards {
   }
 
   static isNumber(value: any): value is number {
-    return typeof value === 'number' && !isNaN(value: any);
+    return typeof value === 'number' && !isNaN(value);
   }
 
   static isBoolean(value: any): value is boolean {
@@ -56,11 +56,11 @@ export class TypeGuards {
   }
 
   static isObject(value: any): value is Record<string, any> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value: any);
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
   }
 
   static isArray(value: any): value is any[] {
-    return Array.isArray(value: any);
+    return Array.isArray(value);
   }
 
   static isFunction(value: any): value is Function {
@@ -87,73 +87,73 @@ export class TypeGuards {
    * Advanced type guards with validation
    */
   static isNonEmptyString(value: any): value is string {
-    return TypeGuards.isString(value: any) && value.length > 0;
+    return TypeGuards.isString(value) && value.length > 0;
   }
 
   static isPositiveNumber(value: any): value is number {
-    return TypeGuards.isNumber(value: any) && value > 0;
+    return TypeGuards.isNumber(value) && value > 0;
   }
 
   static isNonNegativeNumber(value: any): value is number {
-    return TypeGuards.isNumber(value: any) && value >= 0;
+    return TypeGuards.isNumber(value) && value >= 0;
   }
 
   static isInteger(value: any): value is number {
-    return TypeGuards.isNumber(value: any) && Number.isInteger(value: any);
+    return TypeGuards.isNumber(value) && Number.isInteger(value);
   }
 
   static isPositiveInteger(value: any): value is number {
-    return TypeGuards.isInteger(value: any) && value > 0;
+    return TypeGuards.isInteger(value) && value > 0;
   }
 
   static isNonEmptyArray(value: any): value is any[] {
-    return TypeGuards.isArray(value: any) && value.length > 0;
+    return TypeGuards.isArray(value) && value.length > 0;
   }
 
   static isNonEmptyObject(value: any): value is object {
-    return TypeGuards.isObject(value: any) && Object.keys(value: any).length > 0;
+    return TypeGuards.isObject(value) && Object.keys(value).length > 0;
   }
 
   /**
    * Union type guards
    */
   static isStringOrNumber(value: any): value is string | number {
-    return TypeGuards.isString(value: any) || TypeGuards.isNumber(value: any);
+    return TypeGuards.isString(value) || TypeGuards.isNumber(value);
   }
 
   static isStringOrNull(value: any): value is string | null {
-    return TypeGuards.isString(value: any) || value === null;
+    return TypeGuards.isString(value) || value === null;
   }
 
   static isNumberOrNull(value: any): value is number | null {
-    return TypeGuards.isNumber(value: any) || value === null;
+    return TypeGuards.isNumber(value) || value === null;
   }
 
   static isStringOrUndefined(value: any): value is string | undefined {
-    return TypeGuards.isString(value: any) || value === undefined;
+    return TypeGuards.isString(value) || value === undefined;
   }
 
   static isNumberOrUndefined(value: any): value is number | undefined {
-    return TypeGuards.isNumber(value: any) || value === undefined;
+    return TypeGuards.isNumber(value) || value === undefined;
   }
 
   /**
    * Array type guards
    */
   static isStringArray(value: any): value is string[] {
-    return TypeGuards.isArray(value: any) && value.every(item => TypeGuards.isString(item));
+    return TypeGuards.isArray(value) && value.every(item => TypeGuards.isString(item));
   }
 
   static isNumberArray(value: any): value is number[] {
-    return TypeGuards.isArray(value: any) && value.every(item => TypeGuards.isNumber(item));
+    return TypeGuards.isArray(value) && value.every(item => TypeGuards.isNumber(item));
   }
 
   static isBooleanArray(value: any): value is boolean[] {
-    return TypeGuards.isArray(value: any) && value.every(item => TypeGuards.isBoolean(item));
+    return TypeGuards.isArray(value) && value.every(item => TypeGuards.isBoolean(item));
   }
 
   static isObjectArray(value: any): value is object[] {
-    return TypeGuards.isArray(value: any) && value.every(item => TypeGuards.isObject(item));
+    return TypeGuards.isArray(value) && value.every(item => TypeGuards.isObject(item));
   }
 
   /**
@@ -197,7 +197,7 @@ export class TypeGuards {
       return { isValid: true, value: undefined as any, type: 'string | undefined' };
     }
 
-    if (!TypeGuards.isString(value: any)) {
+    if (!TypeGuards.isString(value)) {
       return {
         isValid: false,
         value: null,
@@ -206,7 +206,7 @@ export class TypeGuards {
       };
     }
 
-    if (strict && !TypeGuards.isNonEmptyString(value: any)) {
+    if (strict && !TypeGuards.isNonEmptyString(value)) {
       return {
         isValid: false,
         value: null,
@@ -215,7 +215,7 @@ export class TypeGuards {
       };
     }
 
-    if (customValidator && !customValidator(value: any)) {
+    if (customValidator && !customValidator(value)) {
       return {
         isValid: false,
         value: null,
@@ -238,7 +238,7 @@ export class TypeGuards {
       return { isValid: true, value: undefined as any, type: 'number | undefined' };
     }
 
-    if (!TypeGuards.isNumber(value: any)) {
+    if (!TypeGuards.isNumber(value)) {
       return {
         isValid: false,
         value: null,
@@ -247,7 +247,7 @@ export class TypeGuards {
       };
     }
 
-    if (customValidator && !customValidator(value: any)) {
+    if (customValidator && !customValidator(value)) {
       return {
         isValid: false,
         value: null,
@@ -270,7 +270,7 @@ export class TypeGuards {
       return { isValid: true, value: undefined as any, type: 'boolean | undefined' };
     }
 
-    if (!TypeGuards.isBoolean(value: any)) {
+    if (!TypeGuards.isBoolean(value)) {
       return {
         isValid: false,
         value: null,
@@ -279,7 +279,7 @@ export class TypeGuards {
       };
     }
 
-    if (customValidator && !customValidator(value: any)) {
+    if (customValidator && !customValidator(value)) {
       return {
         isValid: false,
         value: null,
@@ -291,7 +291,7 @@ export class TypeGuards {
     return { isValid: true, value, type: 'boolean' };
   }
 
-  static validateArray<T extends object>(value: any, options: TypeValidationOptions = {}): TypeGuardResult<T[]> {
+  static validateArray<T>(value: any, options: TypeValidationOptions = {}): TypeGuardResult<T[]> {
     const { strict = true, allowNull = false, allowUndefined = false, customValidator, errorMessage } = options;
 
     if (value === null && allowNull) {
@@ -302,7 +302,7 @@ export class TypeGuards {
       return { isValid: true, value: undefined as any, type: 'array | undefined' };
     }
 
-    if (!TypeGuards.isArray(value: any)) {
+    if (!TypeGuards.isArray(value)) {
       return {
         isValid: false,
         value: null,
@@ -311,7 +311,7 @@ export class TypeGuards {
       };
     }
 
-    if (strict && !TypeGuards.isNonEmptyArray(value: any)) {
+    if (strict && !TypeGuards.isNonEmptyArray(value)) {
       return {
         isValid: false,
         value: null,
@@ -320,7 +320,7 @@ export class TypeGuards {
       };
     }
 
-    if (customValidator && !customValidator(value: any)) {
+    if (customValidator && !customValidator(value)) {
       return {
         isValid: false,
         value: null,
@@ -343,7 +343,7 @@ export class TypeGuards {
       return { isValid: true, value: undefined as any, type: 'object | undefined' };
     }
 
-    if (!TypeGuards.isObject(value: any)) {
+    if (!TypeGuards.isObject(value)) {
       return {
         isValid: false,
         value: null,
@@ -352,7 +352,7 @@ export class TypeGuards {
       };
     }
 
-    if (strict && !TypeGuards.isNonEmptyObject(value: any)) {
+    if (strict && !TypeGuards.isNonEmptyObject(value)) {
       return {
         isValid: false,
         value: null,
@@ -361,7 +361,7 @@ export class TypeGuards {
       };
     }
 
-    if (customValidator && !customValidator(value: any)) {
+    if (customValidator && !customValidator(value)) {
       return {
         isValid: false,
         value: null,
@@ -376,8 +376,8 @@ export class TypeGuards {
   /**
    * Complex type validation
    */
-  static validateInterface<T extends object>(value: any, requiredKeys: (keyof T)[], optionalKeys: (keyof T)[] = []): TypeGuardResult<T extends object> {
-    if (!TypeGuards.isObject(value: any)) {
+  static validateInterface<T>(value: any, requiredKeys: (keyof T)[], optionalKeys: (keyof T)[] = []): TypeGuardResult<T> {
+    if (!TypeGuards.isObject(value)) {
       return {
         isValid: false,
         value: null,
@@ -386,7 +386,7 @@ export class TypeGuards {
       };
     }
 
-    const missingKeys = requiredKeys.filter((key: any) => !(key in value));
+    const missingKeys = requiredKeys.filter(key => !(key in value));
     if (missingKeys.length > 0) {
       return {
         isValid: false,
@@ -396,7 +396,7 @@ export class TypeGuards {
       };
     }
 
-    const extraKeys = Object.keys(value: any).filter((key: any) => 
+    const extraKeys = Object.keys(value).filter(key => 
       !requiredKeys.includes(key as keyof T) && !optionalKeys.includes(key as keyof T)
     );
 
@@ -415,15 +415,15 @@ export class TypeGuards {
   /**
    * Type narrowing utilities
    */
-  static narrowToDefined<T extends object>(value: T | null | undefined): value is T {
+  static narrowToDefined<T>(value: T | null | undefined): value is T {
     return value !== null && value !== undefined;
   }
 
-  static narrowToNonNull<T extends object>(value: T | null): value is T {
+  static narrowToNonNull<T>(value: T | null): value is T {
     return value !== null;
   }
 
-  static narrowToNonUndefined<T extends object>(value: T | undefined): value is T {
+  static narrowToNonUndefined<T>(value: T | undefined): value is T {
     return value !== undefined;
   }
 
@@ -442,31 +442,31 @@ export class TypeGuards {
    * Type assertion with validation
    */
   static assertString(value: any, errorMessage?: string): asserts value is string {
-    if (!TypeGuards.isString(value: any)) {
+    if (!TypeGuards.isString(value)) {
       throw new Error(errorMessage || `Expected string, got ${typeof value}`);
     }
   }
 
   static assertNumber(value: any, errorMessage?: string): asserts value is number {
-    if (!TypeGuards.isNumber(value: any)) {
+    if (!TypeGuards.isNumber(value)) {
       throw new Error(errorMessage || `Expected number, got ${typeof value}`);
     }
   }
 
   static assertBoolean(value: any, errorMessage?: string): asserts value is boolean {
-    if (!TypeGuards.isBoolean(value: any)) {
+    if (!TypeGuards.isBoolean(value)) {
       throw new Error(errorMessage || `Expected boolean, got ${typeof value}`);
     }
   }
 
   static assertArray(value: any, errorMessage?: string): asserts value is any[] {
-    if (!TypeGuards.isArray(value: any)) {
+    if (!TypeGuards.isArray(value)) {
       throw new Error(errorMessage || `Expected array, got ${typeof value}`);
     }
   }
 
   static assertObject(value: any, errorMessage?: string): asserts value is object {
-    if (!TypeGuards.isObject(value: any)) {
+    if (!TypeGuards.isObject(value)) {
       throw new Error(errorMessage || `Expected object, got ${typeof value}`);
     }
   }
