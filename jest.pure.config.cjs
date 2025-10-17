@@ -13,7 +13,11 @@ module.exports = {
     'miff/pure/**/*.ts',
     '!miff/pure/**/*.d.ts',
     '!miff/pure/**/tests/**',
-    '!miff/pure/**/test/**'
+    '!miff/pure/**/test/**',
+    // Exclude CLI harnesses and wrappers from coverage to avoid TS transform issues
+    '!miff/pure/**/cliHarness.ts',
+    '!miff/pure/**/cliHarnessWrapper.ts',
+    '!miff/pure/**/cli.ts'
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html', 'json-summary'],

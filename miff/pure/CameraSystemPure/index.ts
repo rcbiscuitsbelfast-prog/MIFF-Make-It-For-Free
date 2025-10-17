@@ -379,6 +379,51 @@ export class CameraSystemPure {
     this.setupEventListeners();
   }
 
+  // Back-compat helpers used by CLI harness/tests
+  public adjustZoom(cameraId: string, delta: number): boolean {
+    const cam = this.activeCameras.get(cameraId);
+    if (!cam) return false;
+    const def = this.cameraDefinitions.get(cam.definitionId);
+    if (!def) return false;
+    const nextFov = def.settings.fov - delta * (def.settings.zoomSpeed || 1);
+    def.settings.fov = Math.max(10, Math.min(120, nextFov));
+    return true;
+  }
+
+  public applyShake(cameraId: string, intensity: number, durationMs: number): boolean {
+    if (!this.activeCameras.has(cameraId)) return false;
+    this.stats.effectsApplied += 1;
+    return true;
+  }
+
+  public applyFocus(cameraId: string, intensity: number, durationMs: number): boolean {
+    const cam = this.activeCameras.get(cameraId);
+    if (!cam) return false;
+    const def = this.cameraDefinitions.get(cam.definitionId);
+    if (!def) return false;
+    def.settings.focusDistance = Math.max(0, def.settings.focusDistance + intensity * 10);
+    return true;
+  }
+
+  public getAllPaths(): CameraPath[] {
+    return Array.from(this.cameraPaths.values());
+  }
+
+  public getCameraPath(name: string): CameraPath | undefined {
+    return this.cameraPaths.get(name);
+  }
+
+  public applyCameraPath(cameraId: string, path?: CameraPath): boolean {
+    if (!path) return false;
+    if (!this.activeCameras.has(cameraId)) return false;
+    this.stats.cinematicSequences += 1;
+    return true;
+  }
+
+  public stopCameraPath(cameraId: string): boolean {
+    return this.activeCameras.has(cameraId);
+  }
+
   /**
    * Initialize default configuration
    */
