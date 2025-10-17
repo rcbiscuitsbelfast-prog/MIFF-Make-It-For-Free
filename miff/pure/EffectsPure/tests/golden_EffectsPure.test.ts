@@ -107,6 +107,10 @@ class MockEntityContext implements IEntityContext {
   setEntityAtk(entityId: string, atk: number): void {
     this.setEntityStat(entityId, TargetStat.ATK, atk);
   }
+
+  getEntityAtk(entityId: string): number {
+    return this.getEntityStat(entityId, TargetStat.ATK);
+  }
 }
 
 describe('EffectsPure Golden Tests', () => {

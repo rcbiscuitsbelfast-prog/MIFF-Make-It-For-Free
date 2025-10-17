@@ -673,8 +673,11 @@ describe('EventBusPure', () => {
       const scheduler = createEventScheduler(eventBus);
       scheduler.scheduleDelayed('error-event', { data: 'test' }, 50);
       
+      // Ensure fake timers for this test
+      jest.useFakeTimers();
       // Advance past scheduled time
       jest.advanceTimersByTime(100);
+      jest.useRealTimers();
       
       // Should not throw error
       expect(errorHandler).toHaveBeenCalled();

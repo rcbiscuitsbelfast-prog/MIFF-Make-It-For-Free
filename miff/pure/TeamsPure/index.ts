@@ -576,18 +576,29 @@ export class TeamSlot implements ITeamSlot {
     );
 
     if (data.spirit) {
-      // Create a proper spirit instance from the serialized data
-      slot.spirit = {
-        name: data.spirit.name || 'Unknown',
-        typeTag: data.spirit.typeTag || 'normal',
-        level: data.spirit.level || 1,
-        stats: data.spirit.stats || { hp: 100, maxHp: 100, atk: 50, def: 50, spd: 50 },
-        currentHP: data.spirit.currentHP || data.spirit.stats?.hp || 100,
-        moves: data.spirit.moves || [],
+      // Map incoming data to the strict ISpiritInstance interface
+      const mapped: ISpiritInstance = {
         instanceId: data.spirit.instanceId || `spirit_${Date.now()}`,
-        toJSON: () => data.spirit,
-        clone: () => ({ ...slot.spirit } as ISpiritInstance)
-      } as ISpiritInstance;
+        name: data.spirit.name || 'Unknown',
+        level: data.spirit.level || 1,
+        type: data.spirit.type || data.spirit.typeTag || 'normal',
+        speciesId: data.spirit.speciesId || 'unknown',
+        stats: data.spirit.stats || { hp: 100, attack: 50, defense: 50, speed: 50 },
+        statusEffects: data.spirit.statusEffects || [],
+        abilities: data.spirit.abilities || [],
+        experience: data.spirit.experience ?? 0,
+        loyalty: data.spirit.loyalty ?? 50,
+        validate: () => [],
+        isAlive: () => (data.spirit.currentHP ?? data.spirit.stats?.hp ?? 100) > 0,
+        canAct: () => true,
+        getEffectiveStats: () => (data.spirit.stats || { hp: 100, attack: 50, defense: 50, speed: 50 }),
+        getTypeEffectiveness: () => 1.0,
+        toJSON: () => ({ ...data.spirit }),
+        clone: () => ({ ...(data.spirit || {}), instanceId: data.spirit.instanceId || `spirit_${Date.now()}` }) as ISpiritInstance
+      };
+
+      // Assign to slot
+      slot.spirit = mapped as unknown as ISpiritInstance;
     }
 
     return slot;

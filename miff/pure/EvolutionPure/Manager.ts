@@ -663,6 +663,31 @@ export class EvolutionManager {
   }
 }
 
+// Back-compat: value-like helpers expected by tests
+export const EvolutionResult = {
+  success: (speciesId: string, message: string) => ({ status: 'success' as EvolutionStatus, speciesId, message }),
+  failure: (status: EvolutionStatus, message: string) => ({ status, message })
+};
+
+// Back-compat: expose interfaces expected by tests via index barrel
+export interface IEvolutionSpiritInstance {
+  instanceId: string;
+  speciesId: string;
+  level: number;
+  syncLevel: number;
+  friendshipLevel: number;
+  battleCount: number;
+  canEvolve: boolean;
+  evolve(newSpeciesId: string): void;
+  getSyncPercentage(): number;
+}
+
+export interface IPlayerContext {
+  timeOfDay?: TimeOfDay;
+  location?: string;
+  flags?: Record<string, boolean>;
+}
+
 // EvolutionUtils class
 export class EvolutionUtils {
   static createLevelEvolutionChain(speciesId: string, levels: number[]): SpeciesEvolutionData[] {

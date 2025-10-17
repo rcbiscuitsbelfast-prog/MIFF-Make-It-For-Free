@@ -313,11 +313,20 @@ export class BattleEffect implements IBattleEffect {
     targetStat: TargetStat,
     modifierType: ModifierType,
     value: number,
-    durationSeconds: number = 0,
-    durationTurns: number = 0,
-    stackable: boolean = true,
-    maxStacks: number = 5
+    durationSeconds?: number,
+    durationTurns?: number,
+    stackable?: boolean,
+    maxStacks?: number,
+    refreshOnStack?: boolean,
+    triggers?: EffectTrigger
   ): BattleEffect {
+    const _durationSeconds = durationSeconds ?? 0;
+    const _durationTurns = durationTurns ?? 0;
+    const _stackable = stackable ?? true;
+    const _maxStacks = maxStacks ?? 5;
+    const _refreshOnStack = refreshOnStack ?? true;
+    const _triggers = triggers ?? (EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE);
+
     return new BattleEffect(
       effectId,
       name,
@@ -326,12 +335,12 @@ export class BattleEffect implements IBattleEffect {
       targetStat,
       modifierType,
       value,
-      durationSeconds,
-      durationTurns,
-      stackable,
-      maxStacks,
-      true,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
+      _durationSeconds,
+      _durationTurns,
+      _stackable,
+      _maxStacks,
+      _refreshOnStack,
+      _triggers
     );
   }
 
@@ -342,10 +351,22 @@ export class BattleEffect implements IBattleEffect {
     effectId: string,
     name: string,
     description: string,
-    damagePerTick: number,
-    durationSeconds: number = 0,
-    durationTurns: number = 0
+    damagePerTick?: number,
+    durationSeconds?: number,
+    durationTurns?: number,
+    stackable?: boolean,
+    maxStacks?: number,
+    refreshOnStack?: boolean,
+    triggers?: EffectTrigger
   ): BattleEffect {
+    const _damagePerTick = damagePerTick ?? 5;
+    const _durationSeconds = durationSeconds ?? 0;
+    const _durationTurns = durationTurns ?? 0;
+    const _stackable = stackable ?? false;
+    const _maxStacks = maxStacks ?? 1;
+    const _refreshOnStack = refreshOnStack ?? false;
+    const _triggers = triggers ?? (EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE);
+
     return new BattleEffect(
       effectId,
       name,
@@ -353,13 +374,13 @@ export class BattleEffect implements IBattleEffect {
       EffectType.DAMAGE_OVER_TIME,
       TargetStat.HP,
       ModifierType.FLAT,
-      damagePerTick,
-      durationSeconds,
-      durationTurns,
-      false,
-      1,
-      false,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
+      _damagePerTick,
+      _durationSeconds,
+      _durationTurns,
+      _stackable,
+      _maxStacks,
+      _refreshOnStack,
+      _triggers
     );
   }
 
@@ -371,9 +392,20 @@ export class BattleEffect implements IBattleEffect {
     name: string,
     description: string,
     healAmount: number,
-    durationSeconds: number = 0,
-    durationTurns: number = 0
+    durationSeconds?: number,
+    durationTurns?: number,
+    stackable?: boolean,
+    maxStacks?: number,
+    refreshOnStack?: boolean,
+    triggers?: EffectTrigger
   ): BattleEffect {
+    const _durationSeconds = durationSeconds ?? 0;
+    const _durationTurns = durationTurns ?? 0;
+    const _stackable = stackable ?? false;
+    const _maxStacks = maxStacks ?? 1;
+    const _refreshOnStack = refreshOnStack ?? false;
+    const _triggers = triggers ?? (EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE);
+
     return new BattleEffect(
       effectId,
       name,
@@ -382,12 +414,12 @@ export class BattleEffect implements IBattleEffect {
       TargetStat.HP,
       ModifierType.FLAT,
       healAmount,
-      durationSeconds,
-      durationTurns,
-      false,
-      1,
-      false,
-      EffectTrigger.ON_APPLY | EffectTrigger.ON_REMOVE
+      _durationSeconds,
+      _durationTurns,
+      _stackable,
+      _maxStacks,
+      _refreshOnStack,
+      _triggers
     );
   }
 

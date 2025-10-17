@@ -210,7 +210,21 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Support both ESM and CommonJS/node runtimes for test coverage collection
+const isDirectRun = (() => {
+  try {
+    // ESM path
+    // @ts-ignore
+    if (typeof import !== 'undefined' && typeof (import.meta as any)?.url === 'string') {
+      // @ts-ignore
+      return (import.meta as any).url === `file://${process.argv[1]}`;
+    }
+  } catch {}
+  // CommonJS path
+  return require.main === module;
+})();
+
+if (isDirectRun) {
   main();
 }
 
