@@ -51,7 +51,6 @@ export class SpeciesEvolutionData {
   description: string;
 
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     speciesId: string,
     evolutionTargetId: string,
     conditions: EvolutionCondition[] = [],

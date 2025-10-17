@@ -74,7 +74,6 @@ export class AIPolicy {
   overrideRules: string[];
 
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     policyId: string = 'default',
     aggression: number = 1.0,
     caution: number = 1.0,

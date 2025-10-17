@@ -192,7 +192,6 @@ export class BattleResult implements IBattleResult {
   public metadata: Record<string, any>;
 
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     success: boolean = false,
     message: string = '',
     damage?: number,
@@ -259,7 +258,6 @@ export class BattleEffect implements IBattleEffect {
   public parameters: Record<string, any>;
 
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     effectType: string = '',
     targetId: string = '',
     duration: number = 0,
@@ -815,7 +813,6 @@ export class BattleLogEntry implements IBattleLogEntry {
   public timestampUtc: number;
 
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     actorId: number = 0,
     actionType: string = '',
     targetId: number = 0,

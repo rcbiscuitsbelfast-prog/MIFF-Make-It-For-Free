@@ -333,7 +333,7 @@ export class ARVRManager {
       this.devices.set(device.id, device);
       this.updateAnalytics();
 
-      console.info('AR/VR device created', { device.id: device.id, deviceName: device.name });
+      console.info('AR/VR device created', { id: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {

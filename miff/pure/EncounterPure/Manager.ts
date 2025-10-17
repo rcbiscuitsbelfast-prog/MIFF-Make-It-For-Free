@@ -392,7 +392,6 @@ export class EncounterController {
  */
 export class EncounterTable {
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     public tableId: string = '',
     public name: string = '',
     public entries: EncounterTableEntry[] = []
@@ -473,7 +472,6 @@ export class EncounterTable {
  */
 export class EncounterTrigger {
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     public triggerId: string = '',
     public name: string = '',
     public type: TriggerType = TriggerType.ZONE_ENTRY,
@@ -555,7 +553,6 @@ export class EncounterTrigger {
  */
 export class PlayerState {
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     public currentZone: string = 'default',
     public currentTileType: string = 'grass',
     public stepsSinceLastEncounter: number = 0,
@@ -597,7 +594,6 @@ export class PlayerState {
  */
 export class EncounterResult {
   constructor(
-    const managerId = this.id ?? `manager_${Date.now()}`;
     public success: boolean = false,
     public encounterId?: string,
     public spiritId?: string,
