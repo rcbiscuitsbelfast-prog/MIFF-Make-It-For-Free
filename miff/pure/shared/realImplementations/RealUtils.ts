@@ -80,7 +80,7 @@ export interface ObjectUtils {
   updatedAt?: number;
   metadata?: Record<string, any>;
   deepClone<T extends object>(obj: T): T;
-  deepMerge<T extends object>(target: T, source: Partial<T extends object>): T;
+  deepMerge<T extends object>(target: T, source: Partial<T>): T;
   pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
   omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>;
   isEmpty(obj): boolean;
@@ -285,7 +285,7 @@ export class RealUtils {
       }
       return obj;
     },
-    deepMerge: <T extends object>(target: T, source: Partial<T extends object>): T => {
+    deepMerge: <T extends object>(target: T, source: Partial<T>): T => {
       const result = { ...target };
       for (const key in source) {
         if (source.hasOwnProperty(key)) {
