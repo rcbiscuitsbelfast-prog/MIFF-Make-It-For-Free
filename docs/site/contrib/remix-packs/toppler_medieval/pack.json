@@ -1,6 +1,0 @@
-{
-  "zone": "toppler_medieval",
-  "orchestration": ["../../zones/toppler/orchestration.medieval.json"],
-  "tiles": ["grass_01","path_stone","chest_red"],
-  "docs": ["../../../docs/TOPPLER_CONTRIBUTING.md"]
-}
