@@ -141,7 +141,7 @@ export class GenericTypeFactory<T extends object> implements TypeFactory<T> {
     return {} as T;
   }
 
-  createFrom(data: Partial<T extends object>): T {
+  createFrom(data: Partial<T>): T {
     StructuredLogger.debug('Creating instance from partial data', { data });
     return { ...data } as T;
   }
