@@ -238,7 +238,6 @@ async function main() {
 
 async function runDemo(storage: StorageAdapter): Promise<any> {
   // Create manager
-  const manager = await SaveLoadManager.create(storage);
   
   // Create some demo save slots
   manager.save('demo_slot_1');

@@ -8,7 +8,6 @@ import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarn
 import { StatusEffectsManager, StatusEffect, StatusEffectType } from './StatusEffectsManager';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
-const manager = new StatusEffectsManager();
 
 try {
   switch (mode) {

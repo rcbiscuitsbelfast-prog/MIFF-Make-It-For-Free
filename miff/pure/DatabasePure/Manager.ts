@@ -898,7 +898,6 @@ export class DatabasePure {
    * Get manager by ID
    */
   getManager(): DatabaseOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

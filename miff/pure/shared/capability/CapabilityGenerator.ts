@@ -102,10 +102,8 @@ export class CapabilityGenerator {
 
     try {
       // Check for Manager.ts
-      const managerPath = path.join(modulePath, 'Manager.ts');
       if (fs.existsSync(managerPath)) {
         moduleInfo.hasManager = true;
-        const managerContent = fs.readFileSync(managerPath, 'utf8');
         this.extractModuleInfo(managerContent, moduleInfo);
       }
 

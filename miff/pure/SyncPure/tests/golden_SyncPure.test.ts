@@ -376,12 +376,10 @@ describe('SyncPure Golden Tests', () => {
 
   describe('SyncManager Basic Functionality', () => {
     test('should create manager with default configuration', () => {
-      const manager = new SyncManager();
       expect(manager.getAllSpirits()).toHaveLength(0);
     });
 
     test('should create manager with custom configuration', () => {
-      const manager = new SyncManager({
         defaultMaxLevel: 200,
         enableEvents: true,
         autoSave: true

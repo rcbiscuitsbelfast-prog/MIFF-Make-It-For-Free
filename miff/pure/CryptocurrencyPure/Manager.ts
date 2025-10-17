@@ -590,7 +590,6 @@ export class CryptocurrencyPure {
    * Get manager by ID
    */
   getManager(): CryptocurrencyOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -610,7 +609,6 @@ export class CryptocurrencyPure {
    * Create wallet
    */
   createWallet(): CryptocurrencyOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-wallet',
@@ -657,7 +655,6 @@ export class CryptocurrencyPure {
    * Send transaction
    */
   sendTransaction(): CryptocurrencyOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'send-transaction',
@@ -728,7 +725,6 @@ export class CryptocurrencyPure {
    * Create portfolio
    */
   createPortfolio(): CryptocurrencyOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-portfolio',

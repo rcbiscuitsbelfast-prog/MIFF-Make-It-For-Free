@@ -10,7 +10,6 @@ async function main() {
   }
   const file = argv[0!];
   const reqs = JSON.parse(fs.readFileSync(file, 'utf-8')) as HapticRequest[];
-  const manager = new HapticsManager();
   manager.enqueue(reqs);
   const results = await manager.playAll();
   console.log(JSON.stringify({ op: 'haptics:play', status: 'ok', result: results }, null, 2));

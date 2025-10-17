@@ -751,7 +751,6 @@ export class DataMiningPure {
    * Get manager by ID
    */
   getManager(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -771,7 +770,6 @@ export class DataMiningPure {
    * Create dataset
    */
   createDataset(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-dataset',
@@ -828,7 +826,6 @@ export class DataMiningPure {
    * Train model
    */
   trainModel(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'train-model',
@@ -922,7 +919,6 @@ export class DataMiningPure {
    * Discover patterns
    */
   discoverPatterns(): DataMiningOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'discover-patterns',

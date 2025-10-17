@@ -310,7 +310,6 @@ export class ProjectileManager {
 
 // Legacy function for backward compatibility
 export function step(world: { dt: number; projectiles: Projectile[] }): { op:'projectiles.step'; status:'ok'; updated: Projectile[] } {
-  const manager = new ProjectileManager();
   manager.load({ projectiles: world.projectiles });
   const result = manager.step(world.dt);
   return { op: 'projectiles.step', status: 'ok', updated: result.updated };

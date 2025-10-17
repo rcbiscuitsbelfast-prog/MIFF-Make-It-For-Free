@@ -893,7 +893,6 @@ export class EventSystemPure {
    * Get manager by ID
    */
   getManager(): EventSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -913,7 +912,6 @@ export class EventSystemPure {
    * Create event
    */
   createEvent(): EventSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-event',

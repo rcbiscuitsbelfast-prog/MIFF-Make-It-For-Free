@@ -620,7 +620,6 @@ export class Web3Pure {
    * Get manager by ID
    */
   getManager(): Web3Output {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -640,7 +639,6 @@ export class Web3Pure {
    * Add blockchain to manager
    */
   addBlockchain(): Web3Output {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-blockchain',
@@ -681,7 +679,6 @@ export class Web3Pure {
    * Add wallet to manager
    */
   addWallet(): Web3Output {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-wallet',
@@ -726,7 +723,6 @@ export class Web3Pure {
    * Deploy smart contract
    */
   deployContract(): Web3Output {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'deploy-contract',
@@ -771,7 +767,6 @@ export class Web3Pure {
    * Send transaction
    */
   sendTransaction(): Web3Output {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'send-transaction',

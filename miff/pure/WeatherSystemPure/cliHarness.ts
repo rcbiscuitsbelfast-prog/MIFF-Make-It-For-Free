@@ -339,7 +339,6 @@ export class WeatherSystemCLI {
     const weather = this.weatherSystem.getCurrentWeather();
     const effects = this.weatherSystem.getCurrentWeatherEffects();
     const stats = this.weatherSystem.getStats();
-    const managerStats = this.weatherManager.getStats();
 
     this.log('\n=== WEATHER SYSTEM STATISTICS ===');
     this.log(`🌤️  Current Weather: ${weather.type} (${weather.intensity})`);

@@ -1008,7 +1008,6 @@ export class StateManagerPure {
    * Get manager by ID
    */
   getManager(): StateManagerOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

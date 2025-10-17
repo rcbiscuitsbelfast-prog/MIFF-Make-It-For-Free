@@ -1008,7 +1008,6 @@ export class ResourceManagerPure {
    * Get manager by ID
    */
   getManager(): ResourceManagerOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

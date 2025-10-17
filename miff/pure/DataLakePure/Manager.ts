@@ -1835,7 +1835,6 @@ export class DataLakePure {
    * Get manager by ID
    */
   getManager(): DataLakeOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

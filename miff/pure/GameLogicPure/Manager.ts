@@ -1250,7 +1250,6 @@ export class GameLogicPure {
    * Get manager by ID
    */
   getManager(): GameLogicOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

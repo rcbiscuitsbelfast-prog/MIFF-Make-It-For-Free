@@ -17,7 +17,6 @@ import fs from 'fs';
 import path from 'path';
 
 const { mode, args } = parseCLIArgs(process.argv);
-const manager = new NPCsManager();
 
 // Parse additional arguments
 const npcId = args.find(arg => arg.startsWith('--npc-id='))?.split('=')[1!] || 'npc_001';

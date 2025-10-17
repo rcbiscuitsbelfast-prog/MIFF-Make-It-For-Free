@@ -1137,7 +1137,6 @@ export class NetworkPure {
    * Get manager by ID
    */
   getManager(): NetworkOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

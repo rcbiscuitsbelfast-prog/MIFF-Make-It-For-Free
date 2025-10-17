@@ -1328,7 +1328,6 @@ export class DataVisualizationPure {
    * Get manager by ID
    */
   getManager(): DataVisualizationOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1348,7 +1347,6 @@ export class DataVisualizationPure {
    * Create chart
    */
   createChart(): DataVisualizationOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-chart',

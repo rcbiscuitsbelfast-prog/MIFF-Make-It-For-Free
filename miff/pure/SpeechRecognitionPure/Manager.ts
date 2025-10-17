@@ -661,7 +661,6 @@ export class SpeechRecognitionPure {
    * Get manager by ID
    */
   getManager(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -681,7 +680,6 @@ export class SpeechRecognitionPure {
    * Start recognition session
    */
   startSession(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'start-session',
@@ -743,7 +741,6 @@ export class SpeechRecognitionPure {
    * Process audio
    */
   processAudio(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'process-audio',
@@ -807,7 +804,6 @@ export class SpeechRecognitionPure {
    * Add voice command
    */
   addVoiceCommand(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-voice-command',
@@ -851,7 +847,6 @@ export class SpeechRecognitionPure {
    * Process voice command
    */
   processVoiceCommand(): SpeechRecognitionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'process-voice-command',

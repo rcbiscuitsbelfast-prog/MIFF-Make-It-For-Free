@@ -309,7 +309,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -344,7 +343,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -405,7 +403,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -438,7 +435,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -472,7 +468,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -521,7 +516,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -574,7 +568,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -610,7 +603,6 @@ export class CacheManagerManager {
     }
 
     try {
-      const manager = this.managers.get(managerId);
       if (!manager) {
         StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -749,7 +741,6 @@ export class CacheManagerManager {
    * Update analytics
    */
   private updateAnalytics(): void {
-    const managers = Array.from(this.managers.values());
     const totalCaches = managers.reduce((sum: any, m: any) => sum + m.caches.length, 0);
     const activeCaches = managers.reduce((sum: any, m: any) => sum + m.caches.filter((c: any) => c.status === 'active').length, 0);
     const totalEntries = managers.reduce((sum: any, m: any) => sum + m.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
@@ -787,7 +778,6 @@ export class CacheManagerManager {
       throw new Error('Cache Manager not initialized');
     }
 
-    const managers = Array.from(this.managers.values());
     const activeManagers = managers.filter((m: any) => m.status === 'active');
     const totalCaches = managers.reduce((sum: any, m: any) => sum + m.caches.length, 0);
     const totalEntries = managers.reduce((sum: any, m: any) => sum + m.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);

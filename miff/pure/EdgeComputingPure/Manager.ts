@@ -1073,7 +1073,6 @@ export class EdgeComputingPure {
    * Get manager by ID
    */
   getManager(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1093,7 +1092,6 @@ export class EdgeComputingPure {
    * Add edge node
    */
   addNode(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-node',
@@ -1183,7 +1181,6 @@ export class EdgeComputingPure {
    * Create edge task
    */
   createTask(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-task',
@@ -1251,7 +1248,6 @@ export class EdgeComputingPure {
    * Execute task
    */
   executeTask(): EdgeComputingOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'execute-task',

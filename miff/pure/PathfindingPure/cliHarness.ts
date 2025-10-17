@@ -11,7 +11,6 @@ type Cmd =
 function main() {
   const gridPath = process.argv[2!] || '';
   const commandsPath = process.argv[3!] || '';
-  const manager = new PathfindingManager();
 
   // Load grid if provided
   let gridData: any = null;

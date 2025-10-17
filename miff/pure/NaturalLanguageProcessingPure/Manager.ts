@@ -529,7 +529,6 @@ export class NaturalLanguageProcessingPure {
    * Get manager by ID
    */
   getManager(): NLPOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -549,7 +548,6 @@ export class NaturalLanguageProcessingPure {
    * Analyze text sentiment
    */
   analyzeSentiment(): NLPOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'analyze-sentiment',
@@ -613,7 +611,6 @@ export class NaturalLanguageProcessingPure {
    * Detect language
    */
   detectLanguage(): NLPOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'detect-language',
@@ -671,7 +668,6 @@ export class NaturalLanguageProcessingPure {
    * Translate text
    */
   translateText(): NLPOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'translate-text',

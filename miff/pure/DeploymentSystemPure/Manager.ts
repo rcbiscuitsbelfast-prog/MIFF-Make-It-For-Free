@@ -936,7 +936,6 @@ export class DeploymentSystemPure {
    * Get manager by ID
    */
   getManager(): DeploymentOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -956,7 +955,6 @@ export class DeploymentSystemPure {
    * Deploy application
    */
   deployApplication(): DeploymentOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'deploy-application',

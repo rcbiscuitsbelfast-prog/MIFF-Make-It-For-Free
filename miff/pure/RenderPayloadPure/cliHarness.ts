@@ -13,7 +13,6 @@ import { RenderPayloadManager, FrameBuildOptions } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
-const manager = new RenderPayloadManager();
 
 // Parse additional arguments
 const frameId = args.find(arg => arg.startsWith('--frame-id='))?.split('=')[1!] || 'default';

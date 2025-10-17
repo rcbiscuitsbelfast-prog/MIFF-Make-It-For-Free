@@ -15,7 +15,6 @@ import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
-const manager = new QuestsManager();
 
 // Parse additional arguments
 const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1!] || 'quest_001';

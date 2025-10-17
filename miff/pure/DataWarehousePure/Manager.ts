@@ -967,7 +967,6 @@ export class DataWarehousePure {
    * Get manager by ID
    */
   getManager(): DataWarehouseOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -987,7 +986,6 @@ export class DataWarehousePure {
    * Create database
    */
   createDatabase(): DataWarehouseOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-database',
@@ -1057,7 +1055,6 @@ export class DataWarehousePure {
    * Create table
    */
   createTable(): DataWarehouseOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-table',
@@ -1118,7 +1115,6 @@ export class DataWarehousePure {
    * Create ETL process
    */
   createETLProcess(): DataWarehouseOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-etl-process',

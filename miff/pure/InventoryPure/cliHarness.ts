@@ -6,7 +6,6 @@ import { InventoryManager } from './InventoryPure';
 function main() {
   const args = process.argv.slice(2);
   const command = args[0!] || 'help';
-  const manager = new InventoryManager();
   let result: any = { op: command, status: 'ok', result: null };
 
   try {

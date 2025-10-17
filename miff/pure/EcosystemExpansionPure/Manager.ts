@@ -1014,7 +1014,6 @@ export class EcosystemExpansionPure {
    * Get manager by ID
    */
   getManager(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1034,7 +1033,6 @@ export class EcosystemExpansionPure {
    * Create partnership
    */
   createPartnership(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-partnership',
@@ -1117,7 +1115,6 @@ export class EcosystemExpansionPure {
    * Create integration
    */
   createIntegration(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-integration',
@@ -1196,7 +1193,6 @@ export class EcosystemExpansionPure {
    * Create community
    */
   createCommunity(): EcosystemExpansionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-community',

@@ -13,7 +13,6 @@ import { InputSystemManager, InputEvent, InputAction, InputBinding, InputGesture
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
-const manager = new InputSystemManager();
 
 // Parse additional arguments
 const profileId = args.find(arg => arg.startsWith('--profile-id='))?.split('=')[1!] || 'default';

@@ -488,7 +488,6 @@ describe('UnrealBridgePure Golden Tests', () => {
     };
 
     const bridge = new UnrealBridgeManager(config);
-    const manager = new UnrealAssetManagerPure(bridge);
 
     expect(manager).toBeDefined();
   });

@@ -238,7 +238,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const result = manager.replayFromGoldenTest('BridgeSchemaPure/sample_render.json');
 
       expect(result.op).toBe('replay');
@@ -260,7 +259,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: false
       };
 
-      const manager = new RenderReplayManager(config);
       const cliOutput = JSON.stringify({
         op: 'render',
         status: 'ok',
@@ -297,7 +295,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
@@ -332,7 +329,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const result = manager.replayFromGoldenTest('nonexistent_file.json');
 
       expect(result.op).toBe('replay');
@@ -352,7 +348,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const result = manager.replayFromCLIOutput('invalid json content');
 
       expect(result.op).toBe('replay');
@@ -372,7 +367,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const invalidPayload: RenderPayload = {
         op: 'render',
         status: 'error',
@@ -405,7 +399,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
@@ -446,7 +439,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
@@ -488,7 +480,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
@@ -530,7 +521,6 @@ describe('RenderReplayPure Golden Tests', () => {
         timestamp: true
       };
 
-      const manager = new RenderReplayManager(config);
       const payload: RenderPayload = {
         op: 'render',
         status: 'ok',

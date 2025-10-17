@@ -8,7 +8,6 @@ import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarn
 import { EquipmentManager, EquipmentSlot } from './Manager';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
-const manager = new EquipmentManager();
 
 try {
   switch (mode) {

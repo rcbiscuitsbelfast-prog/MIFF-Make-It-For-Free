@@ -1491,7 +1491,6 @@ export class ComputerVisionPure {
    * Get manager by ID
    */
   getManager(): ComputerVisionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1511,7 +1510,6 @@ export class ComputerVisionPure {
    * Create vision model
    */
   createModel(): ComputerVisionOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-model',

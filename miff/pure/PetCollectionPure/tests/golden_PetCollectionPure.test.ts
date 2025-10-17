@@ -34,7 +34,6 @@ interface GoldenTestSuite {
 // Jest test suite
 describe('PetCollectionPure Golden Tests', () => {
   test('should create PetCollectionManager', () => {
-    const manager = new PetCollectionManager({
       eventBus: {} as EventBus,
       config: {
         maxPetsPerPlayer: 100,
@@ -118,7 +117,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Egg Creation Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxEggsPerPlayer: 10 });
 
         const result = manager.createEgg('player1', 'basic', 'dragon');
 
@@ -144,7 +142,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Egg Hatching Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxEggsPerPlayer: 10 });
 
         // Create egg
         const createResult = manager.createEgg('player1', 'basic', 'dragon');
@@ -183,7 +180,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Pet Management Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxPetsPerPlayer: 5 });
 
         // Create and hatch multiple eggs
         const pets: any[] = [];
@@ -221,7 +217,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Trading Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxPetsPerPlayer: 5 });
 
         // Create pets for both players
         for (let i = 0; i < 2; i++) {
@@ -270,7 +265,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Collection Stats Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxPetsPerPlayer: 10 });
 
         // Create and hatch multiple eggs of different species
         const species = ['dragon', 'phoenix', 'unicorn'];
@@ -316,7 +310,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Maximum Limits Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, {
           maxEggsPerPlayer: 3,
           maxPetsPerPlayer: 5
         });
@@ -348,7 +341,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Invalid Operations Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus);
 
         const invalidEgg = manager.createEgg('nonexistent', 'basic', 'dragon');
         const invalidHatch = manager.hatchEgg('invalid_egg', 'player1');
@@ -372,7 +364,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Rarity Distribution Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus);
 
         const rarities: PetRarity[] = [];
         const testCount = 50;
@@ -417,7 +408,6 @@ function createPerformanceSuite(): GoldenTestSuite {
       // High Load Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxPetsPerPlayer: 1000 });
 
         const startTime = performance.now();
 
@@ -460,7 +450,6 @@ function createPerformanceSuite(): GoldenTestSuite {
       // Concurrent Operations Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { maxPetsPerPlayer: 50 });
 
         // Create some initial pets
         for (let i = 0; i < 10; i++) {
@@ -510,7 +499,6 @@ function createMobileCompatibilitySuite(): GoldenTestSuite {
       // Touch Optimization Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, {
           mobileOptimized: true,
           maxPetsPerPlayer: 20
         });
@@ -556,7 +544,6 @@ function createIntegrationSuite(): GoldenTestSuite {
       // Event System Integration Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus);
 
         let eventsReceived = 0;
         const expectedEvents = 2;
@@ -592,7 +579,6 @@ function createIntegrationSuite(): GoldenTestSuite {
       // Data Export/Import Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new PetCollectionManager(eventBus, { enablePersistence: true });
 
         // Create collection
         manager.createEgg('export_player', 'basic', 'dragon');

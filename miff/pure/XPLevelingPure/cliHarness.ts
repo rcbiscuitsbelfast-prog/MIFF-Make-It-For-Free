@@ -13,7 +13,6 @@ import { XPLevelingManager, XPCurve } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
-const manager = new XPLevelingManager();
 
 // Parse additional arguments
 const entityId = args.find(arg => arg.startsWith('--entity-id='))?.split('=')[1!] || 'entity_001';

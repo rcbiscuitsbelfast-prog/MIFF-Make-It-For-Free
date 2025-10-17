@@ -1161,7 +1161,6 @@ export class NeuralNetworkPure {
    * Get manager by ID
    */
   getManager(): NeuralNetworkOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1181,7 +1180,6 @@ export class NeuralNetworkPure {
    * Create neural network model
    */
   createModel(): NeuralNetworkOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-model',

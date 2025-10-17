@@ -807,7 +807,6 @@ describe('TeamsPure Golden Tests', () => {
 
   describe('TeamManager Basic Functionality', () => {
     test('should create team manager', () => {
-      const manager = TeamManager.create();
       expect(manager).toBeDefined();
     });
 

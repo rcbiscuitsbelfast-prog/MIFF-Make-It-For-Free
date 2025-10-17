@@ -1317,7 +1317,6 @@ export class DataPipelinePure {
    * Get manager by ID
    */
   getManager(): DataPipelineOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

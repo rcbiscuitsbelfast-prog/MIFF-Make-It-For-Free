@@ -8,7 +8,6 @@ import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarn
 import { AudioManager, AudioClip } from './Manager';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
-const manager = new AudioManager();
 
 try {
   switch (mode) {

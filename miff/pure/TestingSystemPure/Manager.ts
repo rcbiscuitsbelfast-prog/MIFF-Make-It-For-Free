@@ -1105,7 +1105,6 @@ export class TestingSystemPure {
    * Get manager by ID
    */
   getManager(): TestingSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

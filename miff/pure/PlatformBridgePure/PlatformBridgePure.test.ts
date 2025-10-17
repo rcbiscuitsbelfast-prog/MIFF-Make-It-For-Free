@@ -266,12 +266,10 @@ describe('PlatformBridgePure', () => {
 
   describe('PlatformManager', () => {
     it('should create platform manager', () => {
-      const manager = createPlatformManager(config);
       expect(manager).toBeDefined();
     });
 
     it('should get current platform bridge', () => {
-      const manager = createPlatformManager(config);
       const bridge = manager.getCurrentBridge();
       
       expect(bridge).toBeDefined();
@@ -279,22 +277,18 @@ describe('PlatformBridgePure', () => {
     });
 
     it('should get current platform', () => {
-      const manager = createPlatformManager(config);
       const platform = manager.getCurrentPlatform();
       
       expect(platform).toBe(Platform.WEB);
     });
 
     it('should get platform configuration', () => {
-      const manager = createPlatformManager(config);
-      const managerConfig = manager.getConfig();
       
       expect(managerConfig.platform).toBe(config.platform);
       expect(managerConfig.renderBackend).toBe(config.renderBackend);
     });
 
     it('should get available platforms', () => {
-      const manager = createPlatformManager(config);
       const platforms = manager.getAvailablePlatforms();
       
       expect(platforms).toContain(Platform.WEB);
@@ -302,7 +296,6 @@ describe('PlatformBridgePure', () => {
     });
 
     it('should get bridge by platform', () => {
-      const manager = createPlatformManager(config);
       const bridge = manager.getBridge(Platform.WEB);
       
       expect(bridge).toBeDefined();
@@ -310,7 +303,6 @@ describe('PlatformBridgePure', () => {
     });
 
     it('should return undefined for non-existent platform bridge', () => {
-      const manager = createPlatformManager(config);
       const bridge = manager.getBridge(Platform.MOBILE);
       
       expect(bridge).toBeUndefined();
@@ -520,7 +512,6 @@ describe('PlatformBridgePure', () => {
     });
 
     it('should handle platform switching', async () => {
-      const manager = createPlatformManager(config);
       
       // Switch to mobile platform
       await manager.switchPlatform(Platform.MOBILE, {
@@ -598,7 +589,6 @@ describe('PlatformBridgePure', () => {
     });
 
     it('should handle platform manager errors', () => {
-      const manager = createPlatformManager(config);
       
       // Try to get non-existent platform bridge
       const bridge = manager.getBridge(Platform.MOBILE);

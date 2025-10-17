@@ -14,7 +14,6 @@ function main() {
   const commandsPath = process.argv[3!] || '';
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
-  const manager = new AudioManager();
 
   const log: string[] = [];
 

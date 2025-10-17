@@ -2,7 +2,6 @@ import { StoryManager, type StoryArc, type StoryNode } from '../Manager';
 
 describe('StorySystemPure Golden', () => {
   test('arc create/start/progress/export basics', () => {
-    const manager = new StoryManager();
 
     const nodes = new Map<string, StoryNode>();
     nodes.set('start', {

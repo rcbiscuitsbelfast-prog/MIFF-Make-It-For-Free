@@ -9,7 +9,6 @@ import { CraftingManager, Recipe, Inventory } from './Manager';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 
-const manager = new CraftingManager();
 
 try {
   switch (mode) {

@@ -380,7 +380,6 @@ export class APIDocumentationGenerator {
   private async analyzeModule(name: string, modulePath: string): Promise<ModuleInfo | null> {
     try {
       const indexPath = path.join(modulePath, 'index.ts');
-      const managerPath = path.join(modulePath, 'Manager.ts');
       
       // Check if module has required files
       if (!fs.existsSync(indexPath) && !fs.existsSync(managerPath)) {
@@ -408,7 +407,6 @@ export class APIDocumentationGenerator {
 
       // Analyze Manager.ts if it exists
       if (fs.existsSync(managerPath)) {
-        const managerContent = await fs.promises.readFile(managerPath, 'utf8');
         this.parseFileContent(managerContent, moduleInfo, managerPath);
       }
 

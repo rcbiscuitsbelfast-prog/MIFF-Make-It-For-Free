@@ -1149,7 +1149,6 @@ export class SecuritySystemPure {
    * Get manager by ID
    */
   getManager(): SecuritySystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

@@ -13,7 +13,6 @@ import { ScoreManager, ScoreEvent, ScoreBonus, ScorePenalty, Achievement } from 
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
-const manager = new ScoreManager();
 
 // Parse additional arguments
 const scoreId = args.find(arg => arg.startsWith('--score-id='))?.split('=')[1!] || 'test_score';

@@ -34,7 +34,6 @@ interface GoldenTestSuite {
 // Jest test suite
 describe('SocialDeductionPure Golden Tests', () => {
   test('should create SocialDeductionManager', () => {
-    const manager = new SocialDeductionManager({
       eventBus: {} as EventBus,
       config: {
         maxPlayers: 8,
@@ -112,7 +111,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Player Management Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { maxPlayers: 5 });
 
         const result1 = manager.addPlayer('player1', 'Alice');
         const result2 = manager.addPlayer('player2', 'Bob');
@@ -137,7 +135,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Role Assignment Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, {
           maxPlayers: 6,
           traitorCount: 1,
           detectiveCount: 1
@@ -188,7 +185,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Game Flow Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { minPlayers: 4 });
 
         // Add players
         for (let i = 1; i <= 4; i++) {
@@ -217,7 +213,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Voting Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { minPlayers: 4 });
 
         // Add players
         for (let i = 1; i <= 4; i++) {
@@ -247,7 +242,6 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
       // Ability Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, {
           minPlayers: 4,
           traitorCount: 1,
           detectiveCount: 1
@@ -293,7 +287,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Minimum Players Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { minPlayers: 4 });
 
         // Try to start with insufficient players
         for (let i = 1; i <= 3; i++) {
@@ -319,7 +312,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Maximum Players Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { maxPlayers: 3 });
 
         // Try to add too many players
         for (let i = 1; i <= 4; i++) {
@@ -345,7 +337,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Invalid Operations Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus);
 
         const invalidVote = manager.castVote('nonexistent', 'target', 'accuse');
         const invalidAbility = manager.useAbility('nonexistent', 'invalid_ability');
@@ -366,7 +357,6 @@ function createEdgeCaseSuite(): GoldenTestSuite {
       // Win Condition Tests
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, {
           minPlayers: 4,
           traitorCount: 1,
           detectiveCount: 1
@@ -418,7 +408,6 @@ function createPerformanceSuite(): GoldenTestSuite {
       // High Load Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { maxPlayers: 100 });
 
         const startTime = performance.now();
 
@@ -466,7 +455,6 @@ function createPerformanceSuite(): GoldenTestSuite {
       // Concurrent Operations Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { maxPlayers: 20 });
 
         // Add players
         for (let i = 1; i <= 20; i++) {
@@ -514,7 +502,6 @@ function createMobileCompatibilitySuite(): GoldenTestSuite {
       // Touch Optimization Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, {
           mobileOptimized: true,
           maxPlayers: 10
         });
@@ -563,7 +550,6 @@ function createIntegrationSuite(): GoldenTestSuite {
       // Event System Integration Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus);
 
         let eventsReceived = 0;
         const expectedEvents = 3;
@@ -597,7 +583,6 @@ function createIntegrationSuite(): GoldenTestSuite {
       // State Persistence Test
       async (): Promise<TestResult> => {
         const eventBus = new EventBus();
-        const manager = new SocialDeductionManager(eventBus, { enablePersistence: true });
 
         // Setup initial state
         manager.addPlayer('persist1', 'Persistent Player 1');

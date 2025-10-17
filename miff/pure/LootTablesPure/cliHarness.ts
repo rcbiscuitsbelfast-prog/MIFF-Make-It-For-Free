@@ -24,7 +24,6 @@ function main() {
   const tablesData = JSON.parse(fs.readFileSync(tablesPath, 'utf-8'));
   const commands: Cmd[] = JSON.parse(fs.readFileSync(commandsPath, 'utf-8'));
   
-  const manager = new LootTablesManager();
   const outputs: any[] = [];
   const log: string[] = [];
 

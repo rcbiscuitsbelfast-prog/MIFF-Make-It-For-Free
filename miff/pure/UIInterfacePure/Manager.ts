@@ -1295,7 +1295,6 @@ export class UIInterfacePure {
    * Get manager by ID
    */
   getManager(): UIInterfaceOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1315,7 +1314,6 @@ export class UIInterfacePure {
    * Create UI component
    */
   createComponent(): UIInterfaceOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-component',
@@ -1471,7 +1469,6 @@ export class UIInterfacePure {
    * Create UI layout
    */
   createLayout(): UIInterfaceOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-layout',

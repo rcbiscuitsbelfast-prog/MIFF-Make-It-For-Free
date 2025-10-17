@@ -930,7 +930,6 @@ export class RecommendationSystemPure {
    * Get manager by ID
    */
   getManager(): RecommendationSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -950,7 +949,6 @@ export class RecommendationSystemPure {
    * Create recommendation model
    */
   createModel(): RecommendationSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-model',
@@ -1028,7 +1026,6 @@ export class RecommendationSystemPure {
    * Create user
    */
   createUser(): RecommendationSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-user',
@@ -1103,7 +1100,6 @@ export class RecommendationSystemPure {
    * Create item
    */
   createItem(): RecommendationSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-item',
@@ -1152,7 +1148,6 @@ export class RecommendationSystemPure {
    * Record interaction
    */
   recordInteraction(): RecommendationSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'record-interaction',

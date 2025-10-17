@@ -1478,7 +1478,6 @@ export class QuantumComputingPure {
    * Get manager by ID
    */
   getManager(): QuantumComputingOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

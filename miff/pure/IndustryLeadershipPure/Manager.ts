@@ -848,7 +848,6 @@ export class IndustryLeadershipPure {
    * Get manager by ID
    */
   getManager(managerId: string): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -868,7 +867,6 @@ export class IndustryLeadershipPure {
    * Add industry
    */
   addIndustry(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-industry',
@@ -926,7 +924,6 @@ export class IndustryLeadershipPure {
    * Add competitor
    */
   addCompetitor(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-competitor',
@@ -979,7 +976,6 @@ export class IndustryLeadershipPure {
    * Create strategy
    */
   createStrategy(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-strategy',
@@ -1018,7 +1014,6 @@ export class IndustryLeadershipPure {
    * Create content
    */
   createContent(): IndustryLeadershipOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-content',

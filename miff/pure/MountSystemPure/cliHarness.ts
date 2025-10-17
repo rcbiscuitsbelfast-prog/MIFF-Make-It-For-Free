@@ -82,7 +82,6 @@ async function main() {
       console.log('=== MOUNTSYSTEMPURE COMPREHENSIVE DEMO ===\n');
 
       // Create mount manager
-      const manager = new MountManager();
 
       // Create some sample mounts
       console.log('1. Creating sample mounts...');
@@ -278,7 +277,6 @@ async function main() {
         process.exit(1);
       }
 
-      const manager = new MountManager();
       const mount: MountInstance = {
         id,
         name,
@@ -317,7 +315,6 @@ async function main() {
         process.exit(1);
       }
 
-      const manager = new MountManager();
       // Load existing mount data here in real implementation
       const result = manager.train(mountId, activity);
       console.log(result.status === 'ok' ? '✅' : '❌', result.message);
@@ -332,7 +329,6 @@ async function main() {
         process.exit(1);
       }
 
-      const manager = new MountManager();
       // Load existing mount data here in real implementation
       const result = manager.breed(mount1Id, mount2Id);
       console.log(result.status === 'ok' ? '✅' : '❌', result.message);
@@ -349,7 +345,6 @@ async function main() {
 
       try {
         const equipment = JSON.parse(equipmentJson);
-        const manager = new MountManager();
         // Load existing mount data here in real implementation
         const result = manager.equip(mountId, equipment);
         console.log(result.status === 'ok' ? '✅' : '❌', result.message);
@@ -369,7 +364,6 @@ async function main() {
         process.exit(1);
       }
 
-      const manager = new MountManager();
       // Setup market data here in real implementation
       const result = manager.purchaseMount('player', type as MountType);
       console.log(result.status === 'ok' ? '✅' : '❌', result.message);
@@ -377,7 +371,6 @@ async function main() {
     }
 
     case 'stats': {
-      const manager = new MountManager();
       // Load existing mount data here in real implementation
       const stats = manager.getMountStatistics();
       console.log('=== MOUNT STATISTICS ===');

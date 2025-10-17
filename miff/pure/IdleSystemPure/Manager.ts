@@ -781,7 +781,6 @@ export class IdleSystemPure {
    * Get manager by ID
    */
   getManager(): IdleSystemOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

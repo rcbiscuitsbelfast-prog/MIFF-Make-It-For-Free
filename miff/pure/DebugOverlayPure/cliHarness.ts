@@ -20,7 +20,6 @@ import {
   parseComplexCLIArgs 
 } from '../shared/cliHarnessUtils';
 
-const manager = new DebugOverlayManager({
   showOp: true,
   showStatus: true,
   showIssues: true,

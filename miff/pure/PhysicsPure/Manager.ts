@@ -630,7 +630,6 @@ export class PhysicsPure {
    * Get manager by ID
    */
   getManager(managerId: string): PhysicsOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -650,7 +649,6 @@ export class PhysicsPure {
    * Add rigid body to manager
    */
   addBody(): PhysicsOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-body',
@@ -712,7 +710,6 @@ export class PhysicsPure {
    * Add constraint to manager
    */
   addConstraint(): PhysicsOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-constraint',
@@ -765,7 +762,6 @@ export class PhysicsPure {
    * Add force to body
    */
   addForce(): PhysicsOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-force',
@@ -801,7 +797,6 @@ export class PhysicsPure {
    * Simulate physics step
    */
   simulate(): PhysicsOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'simulate',

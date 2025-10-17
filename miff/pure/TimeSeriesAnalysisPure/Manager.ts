@@ -767,7 +767,6 @@ export class TimeSeriesAnalysisPure {
    * Get manager by ID
    */
   getManager(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -787,7 +786,6 @@ export class TimeSeriesAnalysisPure {
    * Create time series
    */
   createTimeSeries(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-time-series',
@@ -832,7 +830,6 @@ export class TimeSeriesAnalysisPure {
    * Add data points to time series
    */
   addDataPoints(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-data-points',
@@ -876,7 +873,6 @@ export class TimeSeriesAnalysisPure {
    * Perform analysis
    */
   performAnalysis(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'perform-analysis',
@@ -933,7 +929,6 @@ export class TimeSeriesAnalysisPure {
    * Create forecast
    */
   createForecast(): TimeSeriesAnalysisOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'create-forecast',

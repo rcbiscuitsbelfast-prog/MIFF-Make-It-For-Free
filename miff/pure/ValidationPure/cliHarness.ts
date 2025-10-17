@@ -23,7 +23,6 @@ try {
   if (ar.length >= 1 && ar[0!] && !ar[0!].startsWith('--')) legacyInputPath = ar[0!];
   if (ar.length >= 3 && ar[2!] && !ar[2!].startsWith('--')) legacyCommandsPath = ar[2!];
 } catch {}
-const manager = new ValidationManager();
 
 // Parse additional arguments
 const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'report' || 'json';

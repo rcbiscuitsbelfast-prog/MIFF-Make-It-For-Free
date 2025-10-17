@@ -644,7 +644,6 @@ describe('EvolutionPure Golden Tests', () => {
 
   describe('EvolutionManager Basic Functionality', () => {
     test('should create evolution manager correctly', () => {
-      const manager = EvolutionManager.create(context);
 
       expect(manager).toBeDefined();
       expect(manager.getEvolutionStatistics().totalSpecies).toBe(0);

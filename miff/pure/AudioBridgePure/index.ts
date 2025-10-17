@@ -402,7 +402,6 @@ export class AudioManager {
 
 // Legacy function for backward compatibility
 export function process(cmds: AudioCmd[]): AudioResult {
-  const manager = new AudioManager();
   return manager.process(cmds);
 }
 

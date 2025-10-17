@@ -874,7 +874,6 @@ export class DebuggingPure {
    * Get manager by ID
    */
   getManager(): DebuggingOutput {
-    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',

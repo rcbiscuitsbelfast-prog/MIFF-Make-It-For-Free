@@ -776,7 +776,6 @@ describe('ItemsPure Golden Tests', () => {
         { 'quest_started': true }
       );
 
-      const manager = new ItemUsageManager(context);
 
       // Register items
       const healPotion = ItemUtils.createHealItem('health_potion', 'Health Potion', 50);
@@ -816,7 +815,6 @@ describe('ItemsPure Golden Tests', () => {
         {}
       );
 
-      const manager = new ItemUsageManager(context);
 
       // Register multiple items
       const items = ItemUtils.createStandardItemSet();
@@ -844,7 +842,6 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle item searching and filtering', () => {
-      const manager = new ItemUsageManager(createMockContext());
       const items = ItemUtils.createStandardItemSet();
 
       items.forEach(item => manager.registerItem(item));
@@ -876,7 +873,6 @@ describe('ItemsPure Golden Tests', () => {
 
     test('should handle evolution and flag systems', () => {
       const context = createMockContext({ 'fire_stone': 1 }, { 'evolution_available': false });
-      const manager = new ItemUsageManager(context);
 
       // Register evolution item
       const evolutionStone = ItemUtils.createEvolutionItem('fire_stone', 'Fire Stone', 'fire_spirit');
@@ -903,7 +899,6 @@ describe('ItemsPure Golden Tests', () => {
 
   describe('Performance Characteristics', () => {
     test('should handle many items efficiently', () => {
-      const manager = new ItemUsageManager(createMockContext());
       const startTime = performance.now();
 
       // Create and register many items
@@ -924,7 +919,6 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle rapid item operations efficiently', () => {
-      const manager = new ItemUsageManager(createMockContext());
       const spirit = new MockSpiritInstance('test', 'Test Spirit', 100, 50);
 
       // Register many items
@@ -953,7 +947,6 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle complex filtering efficiently', () => {
-      const manager = new ItemUsageManager(createMockContext());
 
       // Create diverse item set
       const itemTypes = Object.values(ItemType);
