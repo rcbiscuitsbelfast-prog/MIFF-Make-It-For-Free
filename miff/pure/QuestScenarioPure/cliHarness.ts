@@ -1,6 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Scenario = {
 	schema: 'v13';
@@ -18,21 +19,35 @@ function runScenario(s:Scenario): Output {
 	const first = s.branches[0!];
 	events.push({ type:'npcDialog', id:s.npcs[0!]?.id||'npc', choice:first.choice });
 	const inv = { ...s.inventory };
-	for(const [k,v] of Object.entries(first.effect.inventory||{})) inv[k] = (inv[k]||0)+v;
-	if(first.effect.statusEffect) events.push({ type:'statusApplied', to:'hero', effect:first.effect.statusEffect });
-	const finalState = { inventory: inv, statuses: first.effect.statusEffect?[first.effect.statusEffect]:[] };
-	return { op:'runScenario', status:'ok', events, finalState };
+	if(first.effect.inventory){ for(const k in first.effect.inventory) inv[k] = (inv[k]||0) + first.effect.inventory[k]! ; }
+	const status = first.effect.statusEffect || null;
+	return { op:'runScenario', status:'ok', events, finalState:{ inventory:inv, statusEffect:status } };
 }
 
 function main(){
-	const scenarioPath = process.argv[2!] || 'QuestScenarioPure/scenario.json';
-	const cmd = process.argv[3!] || 'run';
-	const s = JSON.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
-	if(cmd==='dump'){
-		console.log(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
-		return;
+	// SECURITY: Validate all inputs
+	const scenarioPath = InputSanitizer.getSafeArg(2, {
+		type: 'path',
+		required: false,
+		pattern: /\.json$/i,
+		maxLength: 500
+	}, 'QuestScenarioPure/sample_quest.json');
+	
+	const commandsPath = InputSanitizer.getSafeArg(3, {
+		type: 'path',
+		required: false,
+		pattern: /\.json$/i,
+		maxLength: 500
+	}, '');
+	
+	const scenario: Scenario = JSON.parse(fs.readFileSync(path.resolve(scenarioPath), 'utf-8'));
+	type Cmd = {op:'runScenario'}|{op:'dumpScenario'};
+	const cmds:Cmd[] = commandsPath? JSON.parse(fs.readFileSync(path.resolve(commandsPath),'utf-8')) : [{op:'runScenario'}];
+	const outputs: Output[]=[];
+	for(const c of cmds){
+		if(c.op==='runScenario') outputs.push(runScenario(scenario));
+		else if(c.op==='dumpScenario') outputs.push({op:'dumpScenario', status:'ok', events:[], finalState:scenario});
 	}
-	const out = runScenario(s);
-	console.log(JSON.stringify({ outputs:[out] }, null, 2));
+	console.log(JSON.stringify({outputs},null,2));
 }
-if(import.meta.url === `file://${process.argv[1!]}`) main();
+if(import.meta.url===`file://${process.argv[1!]}`) main();

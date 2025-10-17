@@ -39,8 +39,20 @@ type Cmd =
   | { op: 'remove'; id: string; effectId: string };
 
 function main() {
-  const statusPath = process.argv[2!] || 'StatusEffectsPure/sample_status.json';
-  const commandsPath = process.argv[3!] || '';
+  // SECURITY: Validate all inputs
+  const statusPath = InputSanitizer.getSafeArg(2, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, 'StatusEffectsPure/sample_status.json');
+  
+  const commandsPath = InputSanitizer.getSafeArg(3, {
+    type: 'path',
+    required: false,
+    pattern: /\.json$/i,
+    maxLength: 500
+  }, '');
   
   const obj = JSON.parse(fs.readFileSync(path.resolve(statusPath), 'utf-8')) as { 
     entities: Array<{ id: string; hp: number; effects: Array<{ id: string; type: string; magnitude: number; duration: number }> }> 
