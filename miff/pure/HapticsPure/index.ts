@@ -110,7 +110,7 @@ export interface HapticEffect {
   id: string;
   patternId: string;
   instanceId: string;
-  device.id: string;
+  deviceId: string;
   startTime: number;
   endTime?: number;
   duration: number;
@@ -251,7 +251,7 @@ export interface HapticGlobalSettings {
 export interface HapticResponse {
   id: string;
   effectId: string;
-  device.id: string;
+  deviceId: string;
   timestamp: number;
   success: boolean;
   error?: string;
@@ -642,7 +642,7 @@ export class HapticEngine {
       id: effectId,
       patternId,
       instanceId: effectId,
-      device.id: device.id,
+      deviceId: device.id,
       startTime: new Date(),
       duration: pattern.duration,
       amplitude: options?.amplitude || pattern.amplitude,

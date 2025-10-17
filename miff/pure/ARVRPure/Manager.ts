@@ -357,7 +357,7 @@ export class ARVRManager {
   /**
    * Update an AR/VR device
    */
-  async updateDevice(device.id: string, updates: Partial<ARVRDevice>): Promise<ARVRDevice | null> {
+  async updateDevice(deviceId: string, updates: Partial<ARVRDevice>): Promise<ARVRDevice | null> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
@@ -453,7 +453,7 @@ export class ARVRManager {
   /**
    * Update device tracking data
    */
-  async updateTracking(device.id: string, trackingData: Partial<TrackingData>): Promise<boolean> {
+  async updateTracking(deviceId: string, trackingData: Partial<TrackingData>): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
@@ -484,7 +484,7 @@ export class ARVRManager {
   /**
    * Trigger haptic feedback
    */
-  async triggerHaptic(device.id: string, pattern: HapticPattern): Promise<boolean> {
+  async triggerHaptic(deviceId: string, pattern: HapticPattern): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }

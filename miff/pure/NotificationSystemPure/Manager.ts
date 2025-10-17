@@ -110,7 +110,7 @@ export interface NotificationRecipient {
   userId: string;
   email: string;
   phone: string;
-  device.id: string;
+  deviceId: string;
   preferences: UserPreferences;
 }
 

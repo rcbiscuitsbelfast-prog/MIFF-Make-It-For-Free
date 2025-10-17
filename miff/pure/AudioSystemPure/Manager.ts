@@ -536,7 +536,7 @@ export class AudioSystemManager {
       system.devices.push(device);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device added to system', { systemId, device.id: device.id, deviceName: device.name });
+      StructuredLogger.info('Device added to system', { systemId, deviceId: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {
@@ -549,7 +549,7 @@ export class AudioSystemManager {
   /**
    * Remove a device from a system
    */
-  async removeDevice(systemId: string, device.id: string): Promise<boolean> {
+  async removeDevice(systemId: string, deviceId: string): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('Audio System Manager not initialized');
     }

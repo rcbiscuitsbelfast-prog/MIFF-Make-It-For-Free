@@ -41,7 +41,7 @@ export interface SyncData {
   timestamp: Date;
   data: any;
   checksum: string;
-  device.id: string;
+  deviceId: string;
   userId: string;
   isDeleted: boolean;
 }
@@ -157,7 +157,7 @@ export class SyncManager {
   /**
    * Add data to sync
    */
-  addData(data: any, device.id: string, userId: string): string {
+  addData(data: any, deviceId: string, userId: string): string {
     const id = this.generateId();
     const syncData: SyncData = {
       id,
@@ -184,7 +184,7 @@ export class SyncManager {
   /**
    * Update existing data
    */
-  updateData(id: string, data: any, device.id: string): boolean {
+  updateData(id: string, data: any, deviceId: string): boolean {
     const existingData = this.data.get(id);
     if (!existingData) {
       return false;
@@ -213,7 +213,7 @@ export class SyncManager {
   /**
    * Delete data
    */
-  deleteData(id: string, device.id: string): boolean {
+  deleteData(id: string, deviceId: string): boolean {
     const existingData = this.data.get(id);
     if (!existingData) {
       return false;
