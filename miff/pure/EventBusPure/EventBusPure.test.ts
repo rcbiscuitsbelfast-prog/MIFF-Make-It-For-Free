@@ -256,7 +256,7 @@ describe('EventBusPure', () => {
         id: 'test-id',
         type: 'source-event',
         data: { message: 'hello' },
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test',
         priority: EventPriority.NORMAL,
         metadata: {}
@@ -343,7 +343,7 @@ describe('EventBusPure', () => {
         id: 'test',
         type: 'high-priority-event',
         data: { message: 'test' },
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test',
         priority: EventPriority.HIGH,
         metadata: {}
@@ -371,7 +371,7 @@ describe('EventBusPure', () => {
         id: 'test',
         type: 'test-event',
         data: {},
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test',
         priority: EventPriority.NORMAL,
         metadata: {}
@@ -492,14 +492,14 @@ describe('EventBusPure', () => {
           id: 'test-event',
           type: 'network-event',
           data: { message: 'from network' },
-          timestamp: new Date(),
+          timestamp: Date.now(),
           source: 'remote',
           priority: EventPriority.NORMAL,
           metadata: {}
         },
         target: 'broadcast',
         reliable: false,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
       
       await eventBus.receiveNetworkEvent(networkMessage);
@@ -586,7 +586,7 @@ describe('EventBusPure', () => {
       expect(filter.passesFilters({
         id: 'test',
         type: 'test-event',
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test',
         data: { value: 10 },
         priority: EventPriority.NORMAL,
