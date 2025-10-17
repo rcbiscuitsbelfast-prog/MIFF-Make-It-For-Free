@@ -20,29 +20,7 @@ import { CameraSystemPure } from '../CameraSystemPure';
 // Audio system stub implemented below
 
 // Public definition shape for bridges/exporters
-export interface CutSceneDefinition {
-  config: {
-    id: string;
-    name: string;
-    description?: string;
-    version?: string;
-  };
-  tracks: Array<{
-    id: string;
-    type: 'camera' | 'dialogue' | 'audio' | 'effect' | 'custom';
-    actions: Array<{
-      id: string;
-      time: number;
-      duration?: number;
-      params?: Record<string, any>;
-    }>;
-  }>;
-  actions?: Array<{
-    id: string;
-    type: string;
-    params?: Record<string, any>;
-  }>;
-}
+// keep existing public shape minimal; detailed engine types follow below
 import { AvatarSystemPure } from '../AvatarSystemPure';
 import { PixelAnimPure } from '../PixelAnimPure';
 

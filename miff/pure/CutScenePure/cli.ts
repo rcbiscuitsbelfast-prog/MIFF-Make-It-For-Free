@@ -44,7 +44,7 @@ const args: string[] = process.argv.slice(2);
 const command: string | undefined = args[0];
 const flags: FlagMap = parseFlags(args.slice(1));
 
-function showHelp() {
+function showHelp(): void {
   console.log(`
 🎬 MIFF CLI - CutScene Commands
 
@@ -315,8 +315,8 @@ async function handleValidate() {
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
-  const issues = [];
-  const warnings = [];
+  const issues: string[] = [];
+  const warnings: string[] = [];
 
   // Simulate validation results
   if (strict) {
@@ -504,13 +504,15 @@ async function main() {
     }
 
   } catch (error) {
-    console.error(`❌ Command failed: ${error.message}`);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Command failed: ${message}`);
     process.exit(1);
   }
 }
 
 // Run CLI
 main().catch(error => {
-  console.error(`💥 Unexpected error: ${error.message}`);
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`💥 Unexpected error: ${message}`);
   process.exit(1);
 });
