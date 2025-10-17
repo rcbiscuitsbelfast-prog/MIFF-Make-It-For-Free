@@ -151,7 +151,7 @@ export class RenderPayloadManager {
         metadata: {
           schemaVersion: 'v1',
           engine,
-          timestamp: new Date().toISOString(),
+          timestamp: Date.now().toISOString(),
           module: 'render_payload_pure',
           frameId: id,
           frameName: name
@@ -397,7 +397,7 @@ export class RenderPayloadManager {
               frame,
               assets: Array.from(this.assets.values()),
               animations: Array.from(this.animations.values()),
-              exportedAt: new Date().toISOString()
+              exportedAt: Date.now().toISOString()
             }
           };
         

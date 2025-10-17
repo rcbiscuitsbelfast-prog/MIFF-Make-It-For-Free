@@ -111,7 +111,7 @@ export class BridgeSchemaManager {
       metadata: {
         description: 'Standard Unity bridge schema for game objects',
         author: 'MIFF Framework',
-        created: new Date().toISOString(),
+        created: Date.now().toISOString(),
         tags: ['unity', 'bridge', 'gameobject'],
         compatibility: ['unity-2021.3', 'unity-2022.3', 'unity-2023.3']
       }
@@ -158,7 +158,7 @@ export class BridgeSchemaManager {
       metadata: {
         description: 'Standard Web/HTML bridge schema for DOM elements',
         author: 'MIFF Framework',
-        created: new Date().toISOString(),
+        created: Date.now().toISOString(),
         tags: ['web', 'bridge', 'dom', 'html'],
         compatibility: ['chrome', 'firefox', 'safari', 'edge']
       }
@@ -196,7 +196,7 @@ export class BridgeSchemaManager {
       metadata: {
         description: 'Standard Godot bridge schema for nodes',
         author: 'MIFF Framework',
-        created: new Date().toISOString(),
+        created: Date.now().toISOString(),
         tags: ['godot', 'bridge', 'node'],
         compatibility: ['godot-4.0', 'godot-4.1', 'godot-4.2']
       }
@@ -367,7 +367,7 @@ export class BridgeSchemaManager {
         metadata: {
           description: `Generated schema for ${name}`,
           author: 'MIFF Bridge Schema Generator',
-          created: new Date().toISOString(),
+          created: Date.now().toISOString(),
           tags: ['generated', engine]
         }
       };
@@ -434,7 +434,7 @@ export class BridgeSchemaManager {
               version: this.config.version,
               schemas,
               conversions,
-              exportedAt: new Date().toISOString()
+              exportedAt: Date.now().toISOString()
             }
           };
       }

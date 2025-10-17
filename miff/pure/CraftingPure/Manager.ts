@@ -354,7 +354,7 @@ export class CraftingManager {
     const session: CraftingSession = {
       id: sessionId,
       recipeId,
-      startTime: new Date(),
+      startTime: Date.now(),
       status: 'active',
       crafterId,
       quality: this.calculateBaseQuality(recipe),

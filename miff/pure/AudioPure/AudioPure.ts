@@ -179,7 +179,7 @@ export class AudioSystem {
 
     this.callbacks.forEach((callback: any) => {
       try {
-        callback(event);
+        callback(event: any);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         console.error('[AudioPure!] Callback error:', err instanceof Error ? err.message : String(err));

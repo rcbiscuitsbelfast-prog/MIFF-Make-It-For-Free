@@ -330,7 +330,7 @@ export class IntegrationManager {
    * Process integration event
    */
   processEvent(event: IntegrationEvent): void {
-    this.eventQueue.push(event);
+    this.eventQueue.push(event: any);
     
     if (!this.isProcessing) {
       this.processEventQueue();
@@ -347,7 +347,7 @@ export class IntegrationManager {
       const event = this.eventQueue.shift();
       if (!event) continue;
 
-      await this.handleEvent(event);
+      await this.handleEvent(event: any);
     }
     
     this.isProcessing = false;
@@ -397,7 +397,7 @@ export class IntegrationManager {
    */
   private executeHook(hook: IntegrationHook, event: IntegrationEvent): void {
     try {
-      hook.handler(event);
+      hook.handler(event: any);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       this.eventBus.publish('integration:hookError', { hook, event, error });
@@ -410,7 +410,7 @@ export class IntegrationManager {
   private async executeHookAsync(hook: IntegrationHook, event: IntegrationEvent): Promise<void> {
     try {
       await Promise.race([
-        hook.handler(event),
+        hook.handler(event: any),
         new Promise((_, reject) => 
           setTimeout(() => reject(new Error('Hook timeout')), hook.timeout)
         )

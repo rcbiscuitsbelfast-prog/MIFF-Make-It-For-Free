@@ -310,8 +310,8 @@ export class APIGatewayManager {
       const gateway: APIGateway = {
         ...gatewayData,
         id: this.generateGatewayId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalRequests: 0,
@@ -365,7 +365,7 @@ export class APIGatewayManager {
       const updatedGateway: APIGateway = {
         ...gateway,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(gateway.version)
       };
 

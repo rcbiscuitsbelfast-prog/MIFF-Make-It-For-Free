@@ -459,7 +459,7 @@ export class SettingsManager {
       settings: this.settings,
       metadata: {
         version: '1.0.0',
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now().toISOString(),
         stats: this.getStats()
       }
     };

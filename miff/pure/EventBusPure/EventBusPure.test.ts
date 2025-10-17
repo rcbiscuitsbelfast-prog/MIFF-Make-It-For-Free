@@ -45,7 +45,7 @@ describe('EventBusPure', () => {
         networkLatency: 100,
         eventTimeout: 10000,
         enableLogging: true,
-        replicationFilter: (event) => event.priority >= EventPriority.HIGH
+        replicationFilter: (event: any) => event.priority >= EventPriority.HIGH
       };
       
       const bus = createEventBus(customConfig);
@@ -332,8 +332,8 @@ describe('EventBusPure', () => {
 
     it('should add replication rules', () => {
       const rule: ReplicationRule = {
-        shouldReplicate: (event) => event.priority >= EventPriority.HIGH,
-        transform: (event) => ({ ...event, data: { ...event.data, replicated: true } }),
+        shouldReplicate: (event: any) => event.priority >= EventPriority.HIGH,
+        transform: (event: any) => ({ ...event, data: { ...event.data, replicated: true } }),
         target: 'all'
       };
       
@@ -349,16 +349,16 @@ describe('EventBusPure', () => {
         metadata: {}
       };
       
-      expect(replicator.shouldReplicate(event)).toBe(true);
+      expect(replicator.shouldReplicate(event: any)).toBe(true);
       
-      const transformed = replicator.transformForReplication(event);
+      const transformed = replicator.transformForReplication(event: any);
       expect(transformed.data.replicated).toBe(true);
     });
 
     it('should remove replication rules', () => {
       const rule: ReplicationRule = {
         shouldReplicate: () => true,
-        transform: (event) => event,
+        transform: (event: any) => event,
         target: 'all'
       };
       
@@ -377,7 +377,7 @@ describe('EventBusPure', () => {
         metadata: {}
       };
       
-      expect(replicator.shouldReplicate(event)).toBe(false);
+      expect(replicator.shouldReplicate(event: any)).toBe(false);
     });
   });
 
@@ -554,8 +554,8 @@ describe('EventBusPure', () => {
       
       // Setup replication
       replicator.addReplicationRule('high-priority', {
-        shouldReplicate: (event) => event.priority >= EventPriority.HIGH,
-        transform: (event) => event,
+        shouldReplicate: (event: any) => event.priority >= EventPriority.HIGH,
+        transform: (event: any) => event,
         target: 'all'
       });
       

@@ -722,7 +722,7 @@ export class LogManager {
         timestamp: entry.timestamp.toISOString()
       })),
       stats: this.getStats(),
-      exportTime: new Date().toISOString()
+      exportTime: Date.now().toISOString()
     };
   }
 

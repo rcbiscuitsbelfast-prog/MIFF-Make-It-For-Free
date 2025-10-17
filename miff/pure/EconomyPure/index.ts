@@ -780,7 +780,7 @@ export class EconomicEngine {
       }
     };
 
-    this.economicEvents.set(event.id, event);
+    this.economicEvents.set(event?.id, event);
     console.log(`Economic event triggered: ${event.name}`);
   }
 

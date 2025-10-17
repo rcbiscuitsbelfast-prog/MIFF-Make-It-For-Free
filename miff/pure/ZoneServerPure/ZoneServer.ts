@@ -422,14 +422,14 @@ export class ZoneServerPure {
   }
 
   public createZoneEvent(event: ZoneEvent): void {
-    this.zoneEvents.push(event);
+    this.zoneEvents.push(event: any);
     this.emitEvent('zone_event_created', { event, zoneId: this.config.zoneId });
 
     // Broadcast event to players
     if (this.bridge && event.zoneWide) {
       this.bridge.send({
         type: 'zone_event',
-        eventId: event.id,
+        eventId: event?.id,
         eventType: event.type,
         description: event.description,
         startTime: event.startTime,
@@ -439,7 +439,7 @@ export class ZoneServerPure {
   }
 
   public cancelZoneEvent(eventId: string): boolean {
-    const index = this.zoneEvents.findIndex(event => event.id === eventId);
+    const index = this.zoneEvents.findIndex(event => event?.id === eventId);
     if (index === -1) return false;
 
     const cancelledEvent = this.zoneEvents.splice(index, 1)[0];

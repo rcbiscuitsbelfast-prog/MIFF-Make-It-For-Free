@@ -413,8 +413,8 @@ export class DataStorageManager {
       const storage: DataStorage = {
         ...storageData,
         id: this.generateStorageId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalStorages: 0,
@@ -470,7 +470,7 @@ export class DataStorageManager {
       const updatedStorage: DataStorage = {
         ...storage,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(storage.version)
       };
 

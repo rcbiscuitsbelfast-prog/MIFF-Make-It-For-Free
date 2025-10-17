@@ -924,7 +924,7 @@ export class UnrealEventSyncPure {
   private async queueEvent(event: UnrealEvent): Promise<boolean> {
     if (this.configuration.enableEventBuffering) {
       // Add to buffer
-      this.eventBuffer.push(event);
+      this.eventBuffer.push(event: any);
 
       if (this.eventBuffer.length >= this.configuration?.maxBufferSize || 1000) {
         await this.processEventBuffer();
@@ -933,7 +933,7 @@ export class UnrealEventSyncPure {
       return true;
     } else {
       // Process immediately
-      return await this.processEventImmediately(event);
+      return await this.processEventImmediately(event: any);
     }
   }
 
@@ -941,7 +941,7 @@ export class UnrealEventSyncPure {
     try {
       // Send to Unreal via bridge manager
       const message: UnrealMessage = {
-        id: `event_message_${event.id}`,
+        id: `event_message_${event?.id}`,
         type: 'event',
         source: 'miff_bridge',
         destination: 'unreal',
@@ -965,7 +965,7 @@ export class UnrealEventSyncPure {
 
       // Add to dead letter queue if enabled
       if (this.configuration.enableDeadLetterQueue) {
-        this.deadLetterQueue.push(event);
+        this.deadLetterQueue.push(event: any);
         this.statistics.deadLetterCount++;
 
         if (this.deadLetterQueue.length > this.configuration.deadLetterQueueSize) {
@@ -1001,7 +1001,7 @@ export class UnrealEventSyncPure {
       if (!priorityGroups[priority!]) {
         priorityGroups[priority!] = [];
       }
-      priorityGroups[priority!].push(event);
+      priorityGroups[priority!].push(event: any);
     }
 
     // Process each priority group
@@ -1024,7 +1024,7 @@ export class UnrealEventSyncPure {
     } else {
       // Process individually
       for (const event of events) {
-        await this.processEventImmediately(event);
+        await this.processEventImmediately(event: any);
       }
     }
   }
@@ -1069,7 +1069,7 @@ export class UnrealEventSyncPure {
     const eventsToProcess = queue.events.splice(0, queue.batchSize);
 
     for (const event of eventsToProcess) {
-      await this.processEventImmediately(event);
+      await this.processEventImmediately(event: any);
     }
 
     // Update queue statistics
@@ -1093,7 +1093,7 @@ export class UnrealEventSyncPure {
       this.statistics.timeoutCount++;
 
       if (this.configuration.enableDeadLetterQueue) {
-        this.deadLetterQueue.push(event);
+        this.deadLetterQueue.push(event: any);
         this.statistics.deadLetterCount++;
       }
     }
@@ -1112,7 +1112,7 @@ export class UnrealEventSyncPure {
         this.statistics.timeoutCount++;
 
         if (this.configuration.enableDeadLetterQueue) {
-          this.deadLetterQueue.push(event);
+          this.deadLetterQueue.push(event: any);
           this.statistics.deadLetterCount++;
         }
       }

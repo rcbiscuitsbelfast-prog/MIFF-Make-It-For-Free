@@ -135,7 +135,7 @@ async function main() {
       case 'subscribe':
         const handlerId = eventBus.subscribe(
           operation.eventType!,
-          (event) => {
+          (event: any) => {
             console.log(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
           },
           {
@@ -219,16 +219,16 @@ async function main() {
         const demoScheduler = createEventScheduler(demoBus);
 
         // Add some subscriptions
-        const sub1 = demoBus.subscribe('player.move', (event) => {
+        const sub1 = demoBus.subscribe('player.move', (event: any) => {
           console.log(`Player moved: ${event.data.x}, ${event.data.y}`);
         }, { id: 'player-move-handler' });
 
-        const sub2 = demoBus.subscribe('player.action', (event) => {
+        const sub2 = demoBus.subscribe('player.action', (event: any) => {
           console.log(`Player action: ${event.data.action}`);
         }, { id: 'player-action-handler' });
 
         // Add a filter
-        demoFilter.addFilter('high-priority-only', (event) => event.priority >= EventPriority.HIGH);
+        demoFilter.addFilter('high-priority-only', (event: any) => event.priority >= EventPriority.HIGH);
 
         // Add a route
         demoRouter.addRoute('player.move', ['world.update', 'camera.follow']);

@@ -148,8 +148,8 @@ function createDemoData(): { hudManager: HUDManager; updateHistory: IHUDUpdateEv
   const updateHistory: IHUDUpdateEvent[] = [];
 
   // Add update listener
-  hudManager.onUpdate((event) => {
-    updateHistory.push(event);
+  hudManager.onUpdate((event: any) => {
+    updateHistory.push(event: any);
   });
 
   console.log('✅ Demo data created with battle in progress');
@@ -264,8 +264,8 @@ async function runCLI(): Promise<void> {
   };
 
   // Add update listener
-  hudManager.onUpdate((event) => {
-    state.updateHistory.push(event);
+  hudManager.onUpdate((event: any) => {
+    state.updateHistory.push(event: any);
   });
 
   console.log('🎮 HUDPure CLI - Type "help" for commands or "demo" to see battle HUD in action\n');

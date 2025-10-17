@@ -100,7 +100,7 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
           quest.timed.startTime = event.timestamp;
         }
         newState.activeQuests.push(event.questId);
-        newEvents.push(event);
+        newEvents.push(event: any);
       }
       break;
 
@@ -135,14 +135,14 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
             }
           }
         }
-        newEvents.push(event);
+        newEvents.push(event: any);
       }
       break;
 
     case 'complete':
       if (quest.status === 'active') {
         completeQuest(quest, newState, completedQuests, rewardsGranted);
-        newEvents.push(event);
+        newEvents.push(event: any);
       }
       break;
 
@@ -155,13 +155,13 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
           newState.activeQuests.splice(index, 1);
         }
         failedQuests.push(event.questId);
-        newEvents.push(event);
+        newEvents.push(event: any);
       }
       break;
 
     case 'reset':
       resetQuest(quest);
-      newEvents.push(event);
+      newEvents.push(event: any);
       break;
   }
 

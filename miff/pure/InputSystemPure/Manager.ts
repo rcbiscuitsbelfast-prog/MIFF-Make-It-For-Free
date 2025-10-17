@@ -280,7 +280,7 @@ export class InputSystemManager {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     // Add to event history
-    this.eventHistory.push(event);
+    this.eventHistory.push(event: any);
     if (this.eventHistory.length > 1000) {
       this.eventHistory.shift();
     }
@@ -300,12 +300,12 @@ export class InputSystemManager {
 
     // Process gestures
     if (this.settings.enableGestures) {
-      this.processGestures(event);
+      this.processGestures(event: any);
     }
 
     // Process buffering
     if (this.settings.enableBuffering) {
-      this.processBuffering(event);
+      this.processBuffering(event: any);
     }
 
     return {
@@ -417,7 +417,7 @@ export class InputSystemManager {
             schema: 'miff.input.export.v1',
             profiles: Array.from(this.profiles.values()),
             activeProfile,
-            exportedAt: new Date().toISOString(),
+            exportedAt: Date.now().toISOString(),
             total: this.profiles.size
           }
         };

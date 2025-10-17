@@ -56,7 +56,7 @@ export class WebSocketBridgePure {
             resolve();
           };
 
-          this.ws.onmessage = (event) => {
+          this.ws.onmessage = (event: any) => {
             try {
               const message = JSON.parse(event.data);
               if (message.type === 'broadcast' && message.channel === this.channel) {

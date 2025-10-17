@@ -578,7 +578,7 @@ export class SecurityManager {
       if (!acc[event.source]) {
         acc[event.source] = [];
       }
-      acc[event.source].push(event);
+      acc[event.source].push(event: any);
       return acc;
     }, {} as Record<string, SecurityEvent[]>);
     
@@ -684,11 +684,11 @@ export class SecurityManager {
       resolved: false
     };
     
-    this.events.push(event);
+    this.events.push(event: any);
     
     // Create alert if severity is high enough
     if (event.level === SecurityLevel.HIGH || event.level === SecurityLevel.CRITICAL) {
-      this.createSecurityAlert(event);
+      this.createSecurityAlert(event: any);
     }
     
     this.eventBus.publish('security:event', event);
@@ -700,7 +700,7 @@ export class SecurityManager {
   private createSecurityAlert(event: SecurityEvent): void {
     const alert: SecurityAlert = {
       id: this.generateId(),
-      eventId: event.id,
+      eventId: event?.id,
       timestamp: new Date(),
       level: event.level,
       message: event.description,
@@ -890,7 +890,7 @@ export class SecurityManager {
    */
   resolveSecurityEvent(eventId: string, resolvedBy: string): boolean {
     const event = this.events.find(e => e.id === eventId);
-    if (event) {
+    if (event: any) {
       event.resolved = true;
       event.resolvedAt = new Date();
       event.resolvedBy = resolvedBy;

@@ -415,11 +415,11 @@ export class EnhancedEconomyManager {
 
     // Apply economic events
     for (const event of this.economicEvents.values()) {
-      if (this.isEventActive(event)) {
+      if (this.isEventActive(event: any)) {
         for (const effect of event.effects) {
           if (this.eventAffectsItem(effect, rule, vendor)) {
             const eventEffect = basePrice * effect.modifier;
-            modifiers.push({ source: `event_${event.id}`, effect: eventEffect, type: 'percentage' });
+            modifiers.push({ source: `event_${event?.id}`, effect: eventEffect, type: 'percentage' });
             basePrice += eventEffect;
           }
         }
@@ -527,15 +527,15 @@ export class EnhancedEconomyManager {
    * Create economic event
    */
   createEconomicEvent(event: EconomicEvent): EconomyOutput {
-    if (this.economicEvents.has(event.id)) {
+    if (this.economicEvents.has(event?.id)) {
       return {
         op: 'create_event',
         status: 'error',
-        issues: [{ code: 'duplicate', message: `Economic event ${event.id} already exists` }]
+        issues: [{ code: 'duplicate', message: `Economic event ${event?.id} already exists` }]
       };
     }
 
-    this.economicEvents.set(event.id, event);
+    this.economicEvents.set(event?.id, event);
     return {
       op: 'create_event',
       status: 'ok',

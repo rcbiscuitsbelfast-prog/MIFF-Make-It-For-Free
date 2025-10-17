@@ -1119,10 +1119,10 @@ export class UnityBridgeManager {
     this.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event);
+    this.eventQueue.push(event: any);
 
     // Process immediately
-    await this.handleEvent(event);
+    await this.handleEvent(event: any);
   }
 
   private async handleEvent(event: UnityEvent): Promise<void> {
@@ -1272,13 +1272,13 @@ export class UnityBridgeManager {
 
   // Event handling
   addLifecycleEventHandler(event: UnityLifecycleEvent, handler: Function): void {
-    const handlers = this.lifecycleEventHandlers.get(event) || [];
+    const handlers = this.lifecycleEventHandlers.get(event: any) || [];
     handlers.push(handler);
     this.lifecycleEventHandlers.set(event, handlers);
   }
 
   removeLifecycleEventHandler(event: UnityLifecycleEvent, handler: Function): void {
-    const handlers = this.lifecycleEventHandlers.get(event) || [];
+    const handlers = this.lifecycleEventHandlers.get(event: any) || [];
     const index = handlers.indexOf(handler);
 
     if (index !== -1) {
@@ -1329,7 +1329,7 @@ export class UnityBridgeManager {
 
     const batch = this.eventQueue.splice(0, this.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event);
+      await this.handleEvent(event: any);
     }
   }
 

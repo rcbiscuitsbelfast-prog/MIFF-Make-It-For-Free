@@ -210,7 +210,7 @@ export class RaidManager {
       bossId,
       partyId,
       difficulty,
-      startTime: new Date(),
+      startTime: Date.now(),
       status: 'active',
       currentPhase: 1,
       totalPhases: this.calculatePhases(boss, party),
@@ -230,7 +230,7 @@ export class RaidManager {
 
     // Process events
     for (const event of events) {
-      encounter.events.push(event);
+      encounter.events.push(event: any);
       
       switch (event.type) {
         case 'damage':

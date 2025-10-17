@@ -875,8 +875,8 @@ export class EventSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...managerData
     };
 
@@ -931,7 +931,7 @@ export class EventSystemPure {
     }
 
     const newEvent: Event = {
-      id: event.id || `event-${Date.now()}`,
+      id: event?.id || `event-${Date.now()}`,
       name: event.name || 'Unnamed Event',
       type: event.type || 'user',
       status: 'pending',

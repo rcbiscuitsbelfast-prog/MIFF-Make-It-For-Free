@@ -757,7 +757,7 @@ export class UnrealEditorHarnessPure {
 
       let successCount = 0;
       for (const event of testEvents) {
-        const synced = await this.eventSync.syncEvent(event);
+        const synced = await this.eventSync.syncEvent(event: any);
         if (synced) {
           successCount++;
         }

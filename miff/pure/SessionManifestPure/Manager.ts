@@ -301,7 +301,7 @@ export class SessionManifestManager {
             schema: 'miff.session.manifest.v1',
             session,
             metadata: {
-              exportedAt: new Date().toISOString(),
+              exportedAt: Date.now().toISOString(),
               startTime: this.sessionStartTimes.get(sessionId),
               playerCount: session.players.length
             }

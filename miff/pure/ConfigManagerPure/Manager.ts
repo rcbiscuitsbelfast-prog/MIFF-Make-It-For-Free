@@ -350,8 +350,8 @@ export class ConfigManagerManager {
       const manager: ConfigManager = {
         ...managerData,
         id: this.generateManagerId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalManagers: 0,
@@ -406,7 +406,7 @@ export class ConfigManagerManager {
       const updatedManager: ConfigManager = {
         ...manager,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(manager.version)
       };
 

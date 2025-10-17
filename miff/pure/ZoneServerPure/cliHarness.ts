@@ -192,7 +192,7 @@ async function main(): Promise<void> {
         const zone = zoneServers.find(z => z['config'].zoneId === event.zone);
         if (zone) {
           zone.createZoneEvent({
-            id: event.id,
+            id: event?.id,
             type: event.type,
             description: event.description,
             startTime: Date.now(),
@@ -200,7 +200,7 @@ async function main(): Promise<void> {
             affectedPlayers: [],
             zoneWide: true
           });
-          console.log(`✅ Created event "${event.id}" in ${event.zone}`);
+          console.log(`✅ Created event "${event?.id}" in ${event.zone}`);
         }
       }
 
@@ -410,7 +410,7 @@ async function main(): Promise<void> {
         zoneWide: true
       };
 
-      zoneServer.createZoneEvent(event);
+      zoneServer.createZoneEvent(event: any);
       console.log(`✅ Created zone event "${eventId}" for ${duration} seconds`);
       break;
     }
@@ -463,7 +463,7 @@ async function main(): Promise<void> {
       const activeEvents = zoneServer.getActiveZoneEvents();
       console.log(`Active Events: ${activeEvents.length}`);
       activeEvents.forEach((event: any) => {
-        console.log(`  - ${event.id}: ${event.description}`);
+        console.log(`  - ${event?.id}: ${event.description}`);
       });
       break;
     }
@@ -489,7 +489,7 @@ async function main(): Promise<void> {
 
       console.log(`Active Events: ${activeEvents.length}`);
       activeEvents.forEach((event: any) => {
-        console.log(`  📅 ${event.id}: ${event.description}`);
+        console.log(`  📅 ${event?.id}: ${event.description}`);
       });
       break;
     }
@@ -623,15 +623,15 @@ async function main(): Promise<void> {
 
       // Add event listeners for network events
       zoneServers.forEach((zone, index) => {
-        zone.addEventListener('zone_connected', (event) => {
+        zone.addEventListener('zone_connected', (event: any) => {
           console.log(`📡 ${event.zoneId}: Connected to ${event.data.toZone}`);
         });
 
-        zone.addEventListener('zone_disconnected', (event) => {
+        zone.addEventListener('zone_disconnected', (event: any) => {
           console.log(`📡 ${event.zoneId}: Disconnected from ${event.data.toZone}`);
         });
 
-        zone.addEventListener('inter_zone_message', (event) => {
+        zone.addEventListener('inter_zone_message', (event: any) => {
           console.log(`📡 ${event.zoneId}: Received message from ${event.data.fromZone}`);
         });
       });

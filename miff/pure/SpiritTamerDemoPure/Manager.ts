@@ -272,7 +272,7 @@ export class SpiritTamerManager {
       const session: TamingSession = {
         id: `taming-${spiritId}-${Date.now()}`,
         spiritId,
-        startTime: new Date(),
+        startTime: Date.now(),
         beats,
         timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false }],
         result: 'in_progress',
@@ -522,7 +522,7 @@ export class SpiritTamerManager {
               spirits: Object.fromEntries(this.spirits.entries()),
               sessions: Object.fromEntries(this.tamingSessions.entries()),
               activeSession: this.activeSession?.id || null,
-              exportedAt: new Date().toISOString()
+              exportedAt: Date.now().toISOString()
             }
           };
 

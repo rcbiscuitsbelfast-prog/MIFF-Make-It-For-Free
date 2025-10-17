@@ -216,8 +216,8 @@ export class HUDManager {
 
     // Keyboard navigation
     if (this.config.enableKeyboardNavigation) {
-      document.addEventListener('keydown', (event) => {
-        this.handleKeyboardNavigation(event);
+      document.addEventListener('keydown', (event: any) => {
+        this.handleKeyboardNavigation(event: any);
       });
     }
 
@@ -251,8 +251,8 @@ export class HUDManager {
         fontSize: 'medium',
         colorBlindFriendly: false
       },
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...elementData
     };
 
@@ -280,7 +280,7 @@ export class HUDManager {
     const updatedElement = {
       ...element,
       ...updates,
-      updatedAt: new Date()
+      updatedAt: Date.now()
     };
 
     this.elements.set(elementId, updatedElement);
@@ -431,8 +431,8 @@ export class HUDManager {
       theme: layoutData.theme || this.currentTheme,
       customCSS: layoutData.customCSS,
       isActive: layoutData.isActive ?? false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...layoutData
     };
 
@@ -544,13 +544,13 @@ export class HUDManager {
     let startX = 0;
     let startY = 0;
 
-    document.addEventListener('touchstart', (event) => {
+    document.addEventListener('touchstart', (event: any) => {
       const touch = event.touches[0];
       startX = touch.clientX;
       startY = touch.clientY;
     });
 
-    document.addEventListener('touchend', (event) => {
+    document.addEventListener('touchend', (event: any) => {
       const touch = event.changedTouches[0];
       const deltaX = touch.clientX - startX;
       const deltaY = touch.clientY - startY;

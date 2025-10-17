@@ -918,8 +918,8 @@ export class DeploymentSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...managerData
     };
 
@@ -1007,8 +1007,8 @@ export class DeploymentSystemPure {
         scaleDownCooldown: 300
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...application
     };
 
@@ -1032,8 +1032,8 @@ export class DeploymentSystemPure {
         message: 'Starting deployment...'
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: Date.now(),
+      updatedAt: Date.now()
     };
 
     manager.deployments.push(deployment);

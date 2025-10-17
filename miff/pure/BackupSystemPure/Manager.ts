@@ -498,8 +498,8 @@ export class BackupSystemManager {
       const system: BackupSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalBackups: 0,
@@ -554,7 +554,7 @@ export class BackupSystemManager {
       const updatedSystem: BackupSystem = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -650,7 +650,7 @@ export class BackupSystemManager {
       const backup: Backup = {
         ...backupData,
         id: this.generateBackupId(),
-        createdAt: new Date()
+        createdAt: Date.now()
       };
 
       system.backups.push(backup);

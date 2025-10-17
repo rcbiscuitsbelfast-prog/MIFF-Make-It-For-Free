@@ -248,7 +248,7 @@ export class ScoreManager {
           newScore = Math.max(0, newScore - event.value);
           break;
       }
-      appliedEvents.push(event);
+      appliedEvents.push(event: any);
     }
 
     score.score = newScore;
@@ -520,7 +520,7 @@ export class ScoreManager {
             achievements,
             leaderboards,
             stats: this.stats,
-            exportedAt: new Date().toISOString()
+            exportedAt: Date.now().toISOString()
           }
         };
       

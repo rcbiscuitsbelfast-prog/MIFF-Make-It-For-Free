@@ -666,7 +666,7 @@ export class UnrealAssetManagerPure {
 
         const response: AssetLoadingResponse = {
           id: `response_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          requestId: request.id,
+          requestId: request?.id,
           success: true,
           asset: cachedAsset.asset,
           loadTime: Date.now() - startTime,
@@ -734,7 +734,7 @@ export class UnrealAssetManagerPure {
 
       const response: AssetLoadingResponse = {
         id: `response_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        requestId: request.id,
+        requestId: request?.id,
         success: asset !== null,
         asset,
         loadTime,
@@ -765,7 +765,7 @@ export class UnrealAssetManagerPure {
 
       const response: AssetLoadingResponse = {
         id: `response_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        requestId: request.id,
+        requestId: request?.id,
         success: false,
         asset: null,
         loadTime,
@@ -968,7 +968,7 @@ export class UnrealAssetManagerPure {
 
       const response: AssetStreamingResponse = {
         id: `streaming_response_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        requestId: request.id,
+        requestId: request?.id,
         success: true,
         qualityLevel: actualQualityLevel as any,
         loadedMipmaps,
@@ -998,7 +998,7 @@ export class UnrealAssetManagerPure {
 
       const response: AssetStreamingResponse = {
         id: `streaming_response_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        requestId: request.id,
+        requestId: request?.id,
         success: false,
         qualityLevel: request.qualityLevel,
         loadedMipmaps: 0,

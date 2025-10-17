@@ -213,7 +213,7 @@ export class EventBus {
     };
 
     // Add to events list
-    this.events.push(event);
+    this.events.push(event: any);
     if (this.events.length > this.config.maxEvents) {
       this.events.shift();
       this.stats.droppedEvents++;
@@ -229,13 +229,13 @@ export class EventBus {
 
     // Handle replication
     if (this.config.enableReplication && options.replicate !== false) {
-      if (this.config.replicationFilter(event)) {
-        await this.replicateEvent(event);
+      if (this.config.replicationFilter(event: any)) {
+        await this.replicateEvent(event: any);
       }
     }
 
     // Process event handlers
-    await this.processEvent(event);
+    await this.processEvent(event: any);
 
     return eventId;
   }
@@ -252,9 +252,9 @@ export class EventBus {
     const handlersToRemove: string[] = [];
 
     for (const handler of handlers) {
-      if (!handler.filter || handler.filter(event)) {
+      if (!handler.filter || handler.filter(event: any)) {
         try {
-          await handler.handler(event);
+          await handler.handler(event: any);
           
           if (handler.once) {
             handlersToRemove.push(handler.id);
@@ -277,7 +277,7 @@ export class EventBus {
    */
   private async replicateEvent(event: Event): Promise<void> {
     const message: NetworkMessage = {
-      id: `net_${event.id}`,
+      id: `net_${event?.id}`,
       event,
       target: 'broadcast',
       reliable: event.priority >= EventPriority.HIGH,
@@ -302,7 +302,7 @@ export class EventBus {
     }
 
     if (this.config.enableLogging) {
-      console.log(`🌐 Event replicated: ${event.type} (${event.id})`);
+      console.log(`🌐 Event replicated: ${event.type} (${event?.id})`);
     }
   }
 
@@ -320,11 +320,11 @@ export class EventBus {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     if (this.config.enableLogging) {
-      console.log(`📡 Network event received: ${event.type} (${event.id}) from ${event.source}`);
+      console.log(`📡 Network event received: ${event.type} (${event?.id}) from ${event.source}`);
     }
 
     // Process the event
-    await this.processEvent(event);
+    await this.processEvent(event: any);
   }
 
   /**
@@ -488,7 +488,7 @@ export class EventFilter {
    */
   passesFilters(event: Event): boolean {
     for (const filter of Array.from(this.filters.values())) {
-      if (!filter(event)) {
+      if (!filter(event: any)) {
         return false;
       }
     }
@@ -539,7 +539,7 @@ export class EventReplicator {
       return false;
     }
 
-    return rule.shouldReplicate(event);
+    return rule.shouldReplicate(event: any);
   }
 
   /**
@@ -551,7 +551,7 @@ export class EventReplicator {
       return event;
     }
 
-    return rule.transform(event);
+    return rule.transform(event: any);
   }
 }
 
@@ -686,12 +686,12 @@ export class EventScheduler {
 
     for (const event of Array.from(this.scheduledEvents.values())) {
       if (event.executeAt <= now) {
-        eventsToExecute.push(event);
+        eventsToExecute.push(event: any);
       }
     }
 
     for (const event of eventsToExecute) {
-      this.executeScheduledEvent(event);
+      this.executeScheduledEvent(event: any);
     }
   }
 

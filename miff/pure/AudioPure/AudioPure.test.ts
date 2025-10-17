@@ -284,7 +284,7 @@ describe('AudioPure', () => {
     it('should register and call event callbacks', () => {
       const events: AudioEvent[] = [];
       const callback = (event: AudioEvent) => {
-        events.push(event);
+        events.push(event: any);
       };
 
       audioSystem.addCallback(callback);
@@ -311,7 +311,7 @@ describe('AudioPure', () => {
     it('should remove callbacks correctly', () => {
       const events: AudioEvent[] = [];
       const callback = (event: AudioEvent) => {
-        events.push(event);
+        events.push(event: any);
       };
 
       audioSystem.addCallback(callback);

@@ -482,7 +482,7 @@ export class PermissionsManager {
   }
 
   private logAuditEvent(event: SecurityAuditLog): void {
-    this.auditLog.push(event);
+    this.auditLog.push(event: any);
 
     // Keep only recent entries based on retention policy
     const retentionTime = this.securityConfig.auditLogRetention;

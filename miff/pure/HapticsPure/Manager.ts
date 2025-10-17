@@ -267,8 +267,8 @@ export class HapticsManager {
     for (const request of list) {
       // Validate request
       if (!this.validateRequest(request)) {
-        this.activeRequests.set(request.id, {
-          id: request.id,
+        this.activeRequests.set(request?.id, {
+          id: request?.id,
           status: 'error',
           reason: 'Invalid request'
         });
@@ -283,8 +283,8 @@ export class HapticsManager {
       this.priorityQueue.get(priority)!.push(request);
       added++;
 
-      this.activeRequests.set(request.id, {
-        id: request.id,
+      this.activeRequests.set(request?.id, {
+        id: request?.id,
         status: 'scheduled'
       });
     }
@@ -293,7 +293,7 @@ export class HapticsManager {
   }
 
   private validateRequest(request: HapticRequest): boolean {
-    if (!request.id || !request.pattern) return false;
+    if (!request?.id || !request.pattern) return false;
 
     // Validate pattern structure
     if (!this.validatePattern(request.pattern)) return false;
@@ -488,16 +488,16 @@ export class HapticsManager {
   async playImmediate(request: HapticRequest): Promise<HapticResult | undefined> {
     try {
       const result = await this.play(request);
-      this.activeRequests.set(request.id, result);
+      this.activeRequests.set(request?.id, result);
       return result;
     } catch (err) {
       const result: HapticResult = {
-        id: request.id,
+        id: request?.id,
         status: 'error',
         reason: String(err),
         timestamp: this.now()
       };
-      this.activeRequests.set(request.id, result);
+      this.activeRequests.set(request?.id, result);
       return result;
     }
   }

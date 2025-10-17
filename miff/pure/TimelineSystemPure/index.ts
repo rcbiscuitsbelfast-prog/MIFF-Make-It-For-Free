@@ -182,8 +182,8 @@ export class TimelineSystemPure {
   }
 
   private handleEventRecorded(event: TimelineEvent): void {
-    this.events.set(event.id, event);
-    this.memoryManager.trackEvent(event);
+    this.events.set(event?.id, event);
+    this.memoryManager.trackEvent(event: any);
     this.checkMemoryUsage();
   }
 
@@ -454,7 +454,7 @@ export class TimelineSystemPure {
     );
 
     relevantEvents.forEach((event: any) => {
-      this.applyEventState(event);
+      this.applyEventState(event: any);
     });
 
     // Update entity positions based on snapshots
@@ -463,7 +463,7 @@ export class TimelineSystemPure {
 
   private applyEventState(event: TimelineEvent): void {
     this.eventBus.publish('timeline:event_applied', {
-      eventId: event.id,
+      eventId: event?.id,
       entityId: event.entityId,
       state: event.state,
       data: event.data,
@@ -507,8 +507,8 @@ export class TimelineSystemPure {
       branchId: activeBranch.id
     };
 
-    activeBranch.events.push(event);
-    this.events.set(event.id, event);
+    activeBranch.events.push(event: any);
+    this.events.set(event?.id, event);
 
     this.eventBus.publish('timeline:event_recorded', {
       timelineId: timelineId,
@@ -780,7 +780,7 @@ class MemoryManager {
   }
 
   trackEvent(event: TimelineEvent): void {
-    this.usage += JSON.stringify(event).length;
+    this.usage += JSON.stringify(event: any).length;
   }
 
   getUsage(): number {

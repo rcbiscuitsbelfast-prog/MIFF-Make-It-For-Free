@@ -22,16 +22,16 @@ const createMockEventBus = (): EventBus => {
 
   return {
     emit: (event: string, data: any) => {
-      const listeners = events.get(event) || [];
+      const listeners = events.get(event: any) || [];
       listeners.forEach(listener => listener(data));
     },
     on: (event: string, listener: Function) => {
-      const listeners = events.get(event) || [];
+      const listeners = events.get(event: any) || [];
       listeners.push(listener);
       events.set(event, listeners);
     },
     off: (event: string, listener: Function) => {
-      const listeners = events.get(event) || [];
+      const listeners = events.get(event: any) || [];
       const filtered = listeners.filter(l => l !== listener);
       events.set(event, filtered);
     }

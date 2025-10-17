@@ -440,7 +440,7 @@ export class RenderReplayManager {
     payloads.forEach((payload, index) => {
       const step: ReplayStep = {
         step: index + 1,
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now().toISOString(),
         renderData: payload.renderData || [],
         issues: payload.issues ?? [],
         annotations: this.generateAnnotations(payload, index)

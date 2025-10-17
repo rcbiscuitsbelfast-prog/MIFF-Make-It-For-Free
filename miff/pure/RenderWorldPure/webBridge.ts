@@ -416,13 +416,13 @@ export class RenderWorldWebBridge {
     // Convert web input events to RenderWorld input
     switch (event.type) {
       case 'keydown':
-        this.handleKeyboardInput(event);
+        this.handleKeyboardInput(event: any);
         break;
       case 'mousemove':
-        this.handleMouseInput(event);
+        this.handleMouseInput(event: any);
         break;
       case 'mousedown':
-        this.handleMouseClick(event);
+        this.handleMouseClick(event: any);
         break;
     }
   }

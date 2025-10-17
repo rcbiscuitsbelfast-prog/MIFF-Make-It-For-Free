@@ -298,7 +298,7 @@ export class MovementManager {
     this.updateMovementState(entity, oldPosition, events);
 
     // Record events
-    events.forEach((event: any) => this.events.push(event));
+    events.forEach((event: any) => this.events.push(event: any));
 
     const distanceMoved = this.calculateDistance(oldPosition, entity.position);
 
@@ -776,7 +776,7 @@ export class MovementManager {
             events: this.events.slice(-100), // Last 100 events
             obstacles: this.obstacles,
             worldBounds: this.worldBounds,
-            exportedAt: new Date().toISOString(),
+            exportedAt: Date.now().toISOString(),
             total: entities.length
           }
         };

@@ -361,14 +361,14 @@ export class RealConsole {
    * Event handling
    */
   on(): void {
-    if (!this.eventHandlers.has(event)) {
+    if (!this.eventHandlers.has(event: any)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)?.push(handler);
+    this.eventHandlers.get(event: any)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event: any);
     if (handlers) {
       const index = handlers.indexOf(handler);
       if (index > -1) {
@@ -378,7 +378,7 @@ export class RealConsole {
   }
 
   private emit(event: string, data: any): void {
-    const handlers = this.eventHandlers.get(event);
+    const handlers = this.eventHandlers.get(event: any);
     if (handlers) {
       handlers.forEach((handler: any) => {
         try {

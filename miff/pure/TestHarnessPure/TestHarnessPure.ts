@@ -407,7 +407,7 @@ export class TestHarness {
   private notifyObservers(event: string, data: any): void {
     this.observers.forEach((observer: any) => {
       try {
-        switch (event) {
+        switch (event: any) {
           case 'testRunStarted':
             observer.onTestRunStarted?.();
             break;

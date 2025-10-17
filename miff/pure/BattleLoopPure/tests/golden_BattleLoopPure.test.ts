@@ -89,21 +89,21 @@ class MockEventBus implements IEventBus {
   private subscriptions: Map<string, ((data?: any) => void)[]> = new Map();
 
   publish(event: string, data?: any): void {
-    if (!this.events.has(event)) {
+    if (!this.events.has(event: any)) {
       this.events.set(event, []);
     }
-    this.events.get(event)!.push(data);
+    this.events.get(event: any)!.push(data);
   }
 
   subscribe(event: string, handler: (data?: any) => void): () => void {
-    if (!this.subscriptions.has(event)) {
+    if (!this.subscriptions.has(event: any)) {
       this.subscriptions.set(event, []);
     }
-    this.subscriptions.get(event)!.push(handler);
+    this.subscriptions.get(event: any)!.push(handler);
 
     // Return unsubscribe function
     return () => {
-      const handlers = this.subscriptions.get(event) || [];
+      const handlers = this.subscriptions.get(event: any) || [];
       const index = handlers.indexOf(handler);
       if (index >= 0) {
         handlers.splice(index, 1);
@@ -112,7 +112,7 @@ class MockEventBus implements IEventBus {
   }
 
   getEvents(event: string): any[] {
-    return this.events.get(event) || [];
+    return this.events.get(event: any) || [];
   }
 
   clearHistory(): void {

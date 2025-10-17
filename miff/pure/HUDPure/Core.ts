@@ -369,7 +369,7 @@ export class HUDManager {
   }
 
   private emit(event: IHUDUpdateEvent): void {
-    this.callbacks.forEach((cb: any) => cb(event));
+    this.callbacks.forEach((cb: any) => cb(event: any));
   }
 
   updateModel(partial: Partial<BattleHUDModel>): void {

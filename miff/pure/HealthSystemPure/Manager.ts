@@ -176,7 +176,7 @@ export class HealthSystemManager {
         element: options.element,
         timestamp: Date.now()
       };
-      this.events.push(event);
+      this.events.push(event: any);
       return {
         op: 'damage',
         status: 'ok',
@@ -221,7 +221,7 @@ export class HealthSystemManager {
       element: options.element,
       timestamp: Date.now()
     };
-    this.events.push(event);
+    this.events.push(event: any);
 
     return {
       op: 'damage',
@@ -258,7 +258,7 @@ export class HealthSystemManager {
       target: entityId,
       timestamp: Date.now()
     };
-    this.events.push(event);
+    this.events.push(event: any);
 
     return {
       op: 'heal',
@@ -291,7 +291,7 @@ export class HealthSystemManager {
       target: entityId,
       timestamp: Date.now()
     };
-    this.events.push(event);
+    this.events.push(event: any);
 
     return {
       op: 'add-shield',
@@ -324,7 +324,7 @@ export class HealthSystemManager {
       target: entityId,
       timestamp: Date.now()
     };
-    this.events.push(event);
+    this.events.push(event: any);
 
     return {
       op: 'add-regeneration',
@@ -493,7 +493,7 @@ export class HealthSystemManager {
             schema: 'miff.health.export.v1',
             entities,
             events: this.events.slice(-100), // Last 100 events
-            exportedAt: new Date().toISOString(),
+            exportedAt: Date.now().toISOString(),
             total: entities.length
           }
         };

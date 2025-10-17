@@ -1347,10 +1347,10 @@ export class GodotBridgeManager {
     this.statistics.totalEvents++;
 
     // Add to event queue
-    this.eventQueue.push(event);
+    this.eventQueue.push(event: any);
 
     // Process immediately
-    await this.handleEvent(event);
+    await this.handleEvent(event: any);
   }
 
   private async handleEvent(event: GodotEvent): Promise<void> {
@@ -1528,7 +1528,7 @@ export class GodotBridgeManager {
 
     const batch = this.eventQueue.splice(0, this.configuration.batchSize);
     for (const event of batch) {
-      await this.handleEvent(event);
+      await this.handleEvent(event: any);
     }
   }
 

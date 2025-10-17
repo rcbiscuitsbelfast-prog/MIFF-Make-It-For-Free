@@ -262,8 +262,8 @@ export class CacheManagerManager {
       const manager: CacheManager = {
         ...managerData,
         id: this.generateManagerId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalCaches: 0,
@@ -318,7 +318,7 @@ export class CacheManagerManager {
       const updatedManager: CacheManager = {
         ...manager,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(manager.version)
       };
 
@@ -537,7 +537,7 @@ export class CacheManagerManager {
         key,
         value,
         ttl: ttl || cache.policy.ttl,
-        createdAt: new Date(),
+        createdAt: Date.now(),
         lastAccessed: Date.now(),
         accessCount: 0,
         size: this.calculateSize(value),

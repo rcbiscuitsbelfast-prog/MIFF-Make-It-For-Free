@@ -71,7 +71,7 @@ export class RealTransport {
           resolve();
         };
 
-        this.ws.onmessage = (event) => {
+        this.ws.onmessage = (event: any) => {
           try {
             const message: TransportMessage = SafeJSONParser.parse(event.data);
             this.handleMessage(message);
@@ -124,25 +124,25 @@ export class RealTransport {
   }
 
   on(event: string, handler: Function): void {
-    if (!this.messageHandlers.has(event)) {
+    if (!this.messageHandlers.has(event: any)) {
       this.messageHandlers.set(event, []);
     }
-    this.messageHandlers.get(event)?.push(handler);
+    this.messageHandlers.get(event: any)?.push(handler);
   }
 
   off(event: string, handler?: Function): void {
-    if (!this.messageHandlers.has(event)) {
+    if (!this.messageHandlers.has(event: any)) {
       return;
     }
 
     if (handler) {
-      const handlers = this.messageHandlers.get(event)!;
+      const handlers = this.messageHandlers.get(event: any)!;
       const index = handlers.indexOf(handler);
       if (index > -1) {
         handlers.splice(index, 1);
       }
     } else {
-      this.messageHandlers.delete(event);
+      this.messageHandlers.delete(event: any);
     }
   }
 
