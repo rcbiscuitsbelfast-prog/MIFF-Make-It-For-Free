@@ -16,6 +16,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CachingSystemManager');
 
 export interface CachingSystemConfig {
   id?: string;
@@ -555,7 +558,7 @@ export class CachingSystemManager {
 
       this.updateAnalytics();
 
-      console.debug('Cache entry set', { systemId, cacheId, key });
+      logger.debug('Cache entry set', { systemId, cacheId, key });
       return true;
 
     } catch (error: unknown) {
@@ -589,7 +592,7 @@ export class CachingSystemManager {
       const removed = this.removeEntry(cache, key);
       if (removed) {
         this.updateAnalytics();
-        console.debug('Cache entry removed', { systemId, cacheId, key });
+        logger.debug('Cache entry removed', { systemId, cacheId, key });
       }
 
       return removed;

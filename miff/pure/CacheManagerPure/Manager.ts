@@ -16,6 +16,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CacheManager');
 
 export interface CacheManagerConfig {
   id?: string;
@@ -549,7 +552,7 @@ export class CacheManagerManager {
 
       this.updateAnalytics();
 
-      console.debug('Cache entry set', { managerId, cacheId, key });
+      logger.debug('Cache entry set', { managerId, cacheId, key });
       return true;
 
     } catch (error: unknown) {
@@ -582,7 +585,7 @@ export class CacheManagerManager {
       const removed = this.removeEntry(cache, key);
       if (removed) {
         this.updateAnalytics();
-        console.debug('Cache entry removed', { managerId, cacheId, key });
+        logger.debug('Cache entry removed', { managerId, cacheId, key });
       }
 
       return removed;
