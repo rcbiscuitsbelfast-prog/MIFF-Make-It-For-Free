@@ -336,7 +336,7 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handlePreviewCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
       this.config.enableSplashScreen = false;
-      console.log('ℹ️ Splash screen disabled for preview');
+      logger.info('Splash screen disabled for preview');
     } else {
       this.config.enableSplashScreen = true;
 
@@ -366,7 +366,7 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handleExportWebCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
       this.config.enableSplashScreen = false;
-      console.log('ℹ️ Splash screen disabled for web export');
+      logger.info('Splash screen disabled for web export');
     } else {
       this.config.enableSplashScreen = true;
 
@@ -393,7 +393,7 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handleBuildUnityCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
       this.config.enableSplashScreen = false;
-      console.log('ℹ️ Splash screen disabled for Unity build');
+      logger.info('Splash screen disabled for Unity build');
     } else {
       this.config.enableSplashScreen = true;
 
