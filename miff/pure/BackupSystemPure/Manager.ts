@@ -967,12 +967,12 @@ export class BackupSystemManager {
    * Destroy the Backup System Manager
    */
   async destroy(): Promise<void> {
-    console.info('BackupSystemPure', 'Destroying Backup System Manager...');
+    logger.info('Destroying Backup System Manager');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    console.info('BackupSystemPure', 'Backup System Manager destroyed');
+    logger.info('Backup System Manager destroyed');
   }
 }
 
