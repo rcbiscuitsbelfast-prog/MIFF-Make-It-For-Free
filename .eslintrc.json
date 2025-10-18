@@ -16,7 +16,7 @@
     "jest": true
   },
   "rules": {
-    "no-console": ["error", { "allow": ["error", "warn"] }],
+    "no-console": "error",
     "max-lines": ["error", 500],
     "max-lines-per-function": ["warn", { "max": 100 }],
     "complexity": ["warn", 15],
@@ -26,5 +26,13 @@
     "prefer-const": "error",
     "no-var": "error"
   },
+  "overrides": [
+    {
+      "files": ["**/cliHarness.ts", "**/cli.ts", "**/*.test.ts"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["node_modules/", "dist/", "*.config.js", "*.config.cjs"]
 }

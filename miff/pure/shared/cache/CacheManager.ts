@@ -4,6 +4,10 @@
  * Intelligent caching system for MIFF framework modules and assets
  */
 
+import { Logger } from '../logging';
+
+const logger = Logger.create('CacheManager');
+
 export interface CacheEntry<T = any> {
   key: string;
   data: T;
@@ -430,8 +434,14 @@ export class CacheManager {
   }
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
-    const timestamp = new Date().toISOString();
-    console.log(`[CACHE:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    // Use structured logger instead of console.log
+    if (level === 'debug') {
+      logger.debug(message);
+    } else if (level === 'error') {
+      logger.error(message);
+    } else {
+      logger.info(message);
+    }
   }
 
   /**
