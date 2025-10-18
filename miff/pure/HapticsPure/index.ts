@@ -358,10 +358,10 @@ export class HapticEngine {
       this.startEventProcessing();
 
       this.isInitialized = true;
-      console.log('[HapticEngine] Haptic system initialized successfully');
+      logger.info('Haptic system initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[HapticEngine] Failed to initialize haptic system:', err instanceof Error ? message: String(err));
+      logger.error('Failed to initialize haptic system', { error: err });
       throw new Error(`Haptic initialization failed: ${error}`);
     }
   }
