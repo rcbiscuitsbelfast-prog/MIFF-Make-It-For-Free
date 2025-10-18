@@ -1429,7 +1429,7 @@ export class AIPerformanceMonitor {
     }
 
     if (metrics.neuralNetworksCount > 10) {
-      console.info(`[AIPerformanceMonitor] High neural network count: ${metrics.neuralNetworksCount}`);
+      logger.info('High neural network count detected', { count: metrics.neuralNetworksCount });
     }
   }
 

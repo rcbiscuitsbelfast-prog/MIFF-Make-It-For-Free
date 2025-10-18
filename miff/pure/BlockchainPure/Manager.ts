@@ -320,7 +320,7 @@ export class BlockchainManager {
     }
 
     try {
-      console.info('BlockchainPure', 'Initializing Blockchain Manager...');
+      logger.info('Initializing Blockchain Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {

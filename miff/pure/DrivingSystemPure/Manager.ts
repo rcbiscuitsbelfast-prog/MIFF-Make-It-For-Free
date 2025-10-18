@@ -455,7 +455,7 @@ export class DrivingManager {
    */
   applyPenalty(sessionId: string, penalty: DrivingPenalty): void {
     // This would apply penalty to a driving session
-    console.log(`⚠️ Applied penalty: ${penalty.type} (${penalty.timePenalty}s)`);
+    logger.warn('Driving penalty applied', { sessionId, penaltyType: penalty.type, timePenalty: penalty.timePenalty });
   }
 
   /**
@@ -463,7 +463,7 @@ export class DrivingManager {
    */
   updateStats(updates: Partial<DrivingStats>): void {
     // This would update the player's driving statistics
-    console.log('Updated driving statistics');
+    logger.info('Driving statistics updated', { updates: Object.keys(updates) });
   }
 
   /**

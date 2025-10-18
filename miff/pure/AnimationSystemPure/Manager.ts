@@ -404,7 +404,7 @@ export class AnimationSystemManager {
       animation.status = 'playing';
       animation.timeline.currentTime = 0;
 
-      console.debug('Animation started', { animationId, animationName: animation.name });
+      logger.debug('Animation started', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
@@ -431,7 +431,7 @@ export class AnimationSystemManager {
 
       if (animation.status === 'playing') {
         animation.status = 'paused';
-        console.debug('Animation paused', { animationId, animationName: animation.name });
+        logger.debug('Animation paused', { animationId, animationName: animation.name });
       }
 
       return true;
@@ -461,7 +461,7 @@ export class AnimationSystemManager {
       animation.status = 'stopped';
       animation.timeline.currentTime = 0;
 
-      console.debug('Animation stopped', { animationId, animationName: animation.name });
+      logger.debug('Animation stopped', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {

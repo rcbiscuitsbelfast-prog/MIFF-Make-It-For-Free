@@ -271,12 +271,12 @@ export class APIGatewayManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('APIGatewayPure', 'API Gateway Manager already initialized');
+      logger.warn('API Gateway Manager already initialized');
       return;
     }
 
     try {
-      console.info('APIGatewayPure', 'Initializing API Gateway Manager...');
+      logger.info('Initializing API Gateway Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -289,7 +289,7 @@ export class APIGatewayManager {
       }
 
       this.isInitialized = true;
-      console.info('APIGatewayPure', 'API Gateway Manager initialized successfully');
+      logger.info('API Gateway Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
