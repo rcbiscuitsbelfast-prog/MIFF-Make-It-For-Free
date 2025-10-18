@@ -18,6 +18,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ARVRManager');
 
 export interface ARVRConfig {
   id?: string;
@@ -277,12 +280,12 @@ export class ARVRManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('ARVRPure', 'AR/VR Manager already initialized');
+      logger.warn('AR/VR Manager already initialized');
       return;
     }
 
     try {
-      console.info('ARVRPure', 'Initializing AR/VR Manager...');
+      logger.info('Initializing AR/VR Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -295,7 +298,7 @@ export class ARVRManager {
       }
 
       this.isInitialized = true;
-      console.info('ARVRPure', 'AR/VR Manager initialized successfully');
+      logger.info('AR/VR Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
