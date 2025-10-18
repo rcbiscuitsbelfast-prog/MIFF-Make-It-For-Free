@@ -10,10 +10,10 @@
 
 /* Root Variables - MIFF Brand Colors */
 :root {
-  --primary: #667eea;
-  --primary-dark: #5568d3;
-  --secondary: #764ba2;
-  --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --secondary: #34d399;
+  --gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
   --bg-light: #f9f9f9;
   --bg-white: #ffffff;
   --text-dark: #333;
