@@ -512,7 +512,7 @@ export class AuditSystem {
         });
       }
 
-      // Check for console.log statements
+      // Check for console.log statements (note: this is checking OTHER files, not this one)
       if (line.includes('console.log') && !file.includes('.test.')) {
         this.addIssue({
           id: this.generateId(),
@@ -523,7 +523,7 @@ export class AuditSystem {
           file,
           line: index + 1,
           rule: 'no-console',
-          suggestion: 'Remove console.log statements or use proper logging',
+          suggestion: 'Use structured logging with Logger instead',
           impact: 'May affect performance in production',
           effort: 'low',
           tags: ['debugging', 'performance'],
