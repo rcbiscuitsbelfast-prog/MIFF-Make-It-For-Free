@@ -217,19 +217,19 @@ export class RealConsole {
     
     switch (entry.level) {
       case 'debug':
-        console.debug(formattedMessage);
+        logger.debug(formattedMessage);
         break;
       case 'info':
-        console.info(formattedMessage);
+        logger.info(formattedMessage);
         break;
       case 'warn':
-        console.warn(formattedMessage);
+        logger.warn(formattedMessage);
         break;
       case 'error':
-        console.error(formattedMessage);
+        logger.error(formattedMessage);
         break;
       case 'fatal':
-        console.error(formattedMessage);
+        logger.error(formattedMessage);
         break;
     }
   }
