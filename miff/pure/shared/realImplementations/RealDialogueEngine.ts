@@ -287,7 +287,7 @@ export class RealDialogueEngine {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error adding dialogue tree:', err instanceof Error ? message: String(err));
+      logger.error('Error adding dialogue tree', { treeId: tree.id, error: err });
       return false;
     }
   }
@@ -309,7 +309,7 @@ export class RealDialogueEngine {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error adding character:', err instanceof Error ? message: String(err));
+      logger.error('Error adding dialogue character', { characterId: character.id, error: err });
       return false;
     }
   }
@@ -694,7 +694,7 @@ export class RealDialogueEngine {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in dialogue engine event handler', { event, error: err });
         }
       });
     }

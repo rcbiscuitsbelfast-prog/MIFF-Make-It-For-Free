@@ -395,7 +395,7 @@ export class RealProcess {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in process event handler', { event, error: err });
         }
       });
     }
